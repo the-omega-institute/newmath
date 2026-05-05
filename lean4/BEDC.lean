@@ -62,6 +62,7 @@ import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.UnitUp
+import BEDC.Derived.GraphUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate

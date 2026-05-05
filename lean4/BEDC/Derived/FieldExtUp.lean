@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.Derived.FieldUp
+import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
 
 namespace BEDC.Derived.FieldExtUp
@@ -8,6 +9,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Cont
 open BEDC.Derived.FieldUp
+open BEDC.Derived.RatUp
 open BEDC.Derived.VecSpaceUp
 
 def FieldExtSingletonCarrier (h : BHist) : Prop :=
@@ -73,6 +75,33 @@ theorem FieldExtSingleton_embedding_obligations :
 
 def FieldExtSingletonEmbedding (h : BHist) : BHist :=
   append BHist.Empty h
+
+theorem FieldExtRatReflexiveEmbedding_transport_fields :
+    (forall {h : BHist}, RatHistoryCarrier h ->
+      RatHistoryCarrier (append BHist.Empty h)) ∧
+    (forall {h : BHist}, RatHistoryCarrier (append BHist.Empty h) ->
+      RatHistoryCarrier h) ∧
+    (forall {h k : BHist}, RatHistoryClassifier h k ↔
+      RatHistoryClassifier (append BHist.Empty h) (append BHist.Empty k)) ∧
+    (forall {h k r : BHist}, Cont h k r -> Cont (append BHist.Empty h) k r) := by
+  constructor
+  · intro h carrier
+    exact RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left h)) carrier
+  · constructor
+    · intro h carrier
+      exact RatHistoryCarrier_hsame_transport (append_empty_left h) carrier
+    · constructor
+      · intro h k
+        constructor
+        · intro classified
+          exact RatHistoryClassifier_hsame_transport
+            (hsame_symm (append_empty_left h)) (hsame_symm (append_empty_left k)) classified
+        · intro classified
+          exact RatHistoryClassifier_hsame_transport
+            (append_empty_left h) (append_empty_left k) classified
+      · intro h k r continuation
+        exact cont_intro
+          (continuation.trans (congrArg (fun left => append left k) (append_empty_left h).symm))
 
 theorem FieldExtSingletonVectorSpace_smul_mul_compatible {r m : BHist} :
     FieldSingletonCarrier r -> VecSpaceSingletonCarrier m ->
