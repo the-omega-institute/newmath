@@ -72,6 +72,48 @@ theorem TotallyBoundedProbeBundleNet_name_certificate {X : BHist -> Prop} {eps :
       exact source
   }
 
+theorem TotallyBoundedProbeBundleNet_finite_union {X Y : BHist -> Prop} {eps : BHist}
+    {left right : ProbeBundle BHist} :
+    TotallyBoundedProbeBundleNet X eps left ->
+      TotallyBoundedProbeBundleNet Y eps right ->
+        TotallyBoundedProbeBundleNet (fun z : BHist => X z ∨ Y z) eps
+          (bundleAppend left right) := by
+  intro leftNet rightNet
+  cases leftNet with
+  | intro epsCarrier leftRest =>
+      cases rightNet with
+      | intro _epsCarrierRight rightRest =>
+          constructor
+          · exact epsCarrier
+          · constructor
+            · intro p inAppended
+              cases (inBundle_bundleAppend_iff (p := p) (left := left) (right := right)).mp
+                  inAppended with
+              | inl inLeft =>
+                  exact Or.inl (leftRest.left inLeft)
+              | inr inRight =>
+                  exact Or.inr (rightRest.left inRight)
+            · intro x unionSource
+              cases unionSource with
+              | inl sourceX =>
+                  cases leftRest.right sourceX with
+                  | intro p pData =>
+                      cases pData.right with
+                      | intro d distanceData =>
+                          exact ⟨p,
+                            (inBundle_bundleAppend_iff (p := p) (left := left)
+                              (right := right)).mpr (Or.inl pData.left),
+                            d, distanceData.left, distanceData.right⟩
+              | inr sourceY =>
+                  cases rightRest.right sourceY with
+                  | intro p pData =>
+                      cases pData.right with
+                      | intro d distanceData =>
+                          exact ⟨p,
+                            (inBundle_bundleAppend_iff (p := p) (left := left)
+                              (right := right)).mpr (Or.inr pData.left),
+                            d, distanceData.left, distanceData.right⟩
+
 theorem SingletonMetricTotallyBounded_laws :
     hsame BHist.Empty BHist.Empty ∧
       InBundle BHist.Empty (ProbeBundle.Bcons BHist.Empty ProbeBundle.Bnil) ∧
