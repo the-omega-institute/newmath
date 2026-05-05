@@ -477,4 +477,20 @@ theorem MetricDistanceWitness_triangle_nonempty_spine_iff_nonempty_distance
                 | inr nonemptyDyz =>
                     exact nonemptyDyz emptySpine.right.right.right.right
 
+theorem MetricDistanceWitness_visible_context_triangle_nonempty_spine_iff_nonempty_distance
+    {p q x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        ((hsame dxyz BHist.Empty -> False) ↔
+          (hsame x BHist.Empty -> False) ∨ (hsame y BHist.Empty -> False) ∨
+            (hsame z BHist.Empty -> False) ∨ (hsame dxy BHist.Empty -> False) ∨
+              (hsame dyz BHist.Empty -> False)) := by
+  intro visible yz xyz
+  have visibleData :
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y dxy :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp visible
+  exact MetricDistanceWitness_triangle_nonempty_spine_iff_nonempty_distance
+    visibleData.right.right yz xyz
+
 end BEDC.Derived.MetricUp

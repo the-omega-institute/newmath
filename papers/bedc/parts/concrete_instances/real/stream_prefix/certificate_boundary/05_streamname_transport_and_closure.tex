@@ -109,6 +109,54 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_transport}
 
+\begin{theorem}[RegSeqRat stream-name scoped interface]
+\label{thm:regseqrat-streamname-scoped-interface}
+For rational-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameCarrier}(u),
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t),\quad
+\mathsf{RealUnaryStreamClassifier}(t,u),
+$$
+and suppose the endpoint transports are pointwise over unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then these rows determine a scoped $\RegSeqRat$ interface package containing:
+\begin{enumerate}
+  \item $\mathsf{RatStreamNameClassifier}(s,t)$.
+  \item $\mathsf{RealUnaryStreamClassifier}(s,s)$,
+  $\mathsf{RealUnaryStreamClassifier}(t,s)$, and
+  $\mathsf{RealUnaryStreamClassifier}(s,u)$.
+  \item For every certified unary observation $n$, endpoint $\RatUp$
+  carrier rows for $s(n)$ and $t(n)$.
+  \item $\mathsf{RealUnaryStreamClassifier}(s',t')$.
+  \item $\mathsf{RatStreamNameClassifier}(s',t')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:real-unary-stream-classifier-stability-package} to
+the three stream-name carrier rows, the two RealUp unary classifier rows, and
+the two pointwise $\hsame$ transport rows. Its conclusions supply the
+StreamNameUp classifier for $(s,t)$, the reflexive, reversed, and composed
+RealUp unary classifier rows, the endpoint $\RatUp$ carrier rows at every
+certified unary observation, and the transported RealUp unary classifier
+for $(s',t')$.
+
+It remains to obtain the transported StreamNameUp classifier. Apply
+Theorem~\ref{thm:real-unary-streamname-transported-classifier} with the same
+carrier rows for $s$ and $t$, the same
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row, and the same pointwise
+$\hsame$ transports from $s,t$ to $s',t'$. This yields
+$\mathsf{RatStreamNameClassifier}(s',t')$, which is the final row of the
+scoped $\RegSeqRat$ interface package.
+\end{proof}
+
 The ten-field fit is: traditional target transport of a unary real stream-name
 classifier; BEDC source StreamNameUp read through the RealUp unary classifier;
 carrier the transported RatUp endpoint carrier rows for $s'$ and $t'$;
