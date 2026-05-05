@@ -33,3 +33,11 @@ $\Pkg(\Pi,v,q)$, and $\hsame(u,v)$.
 The first direction is the extensionality field. The second direction is the
 grounding field.
 \end{proof}
+
+\begin{theorem}[Package representative for generated answer-history]
+\label{thm:package-representative-for-generated-answer-history}
+Assume $\PkgPol(\Pi)$. For every generated answer-history $s$, there exists a package token $p$ such that $\Pkg(\Pi,s,p)$ and, for every answer-history $t$ and package token $q$, if $\hsame(s,t)$ and $\Pkg(\Pi,t,q)$, then $\psame(p,q)$.
+\end{theorem}
+\begin{proof}
+Let $s$ be a generated answer-history. The existence field of $\PkgPol(\Pi)$ supplies a package token $p$ with $\Pkg(\Pi,s,p)$. It remains to verify the displayed universal property. Let $t$ and $q$ be such that $\hsame(s,t)$ and $\Pkg(\Pi,t,q)$. Applying the first direction of \autoref{thm:packages-classify-signatures-core} to $\Pkg(\Pi,s,p)$, $\Pkg(\Pi,t,q)$, and $\hsame(s,t)$ gives $\psame(p,q)$.
+\end{proof}
