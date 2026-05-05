@@ -6,6 +6,24 @@ For every unary history $d$, if $\mathsf{NatMul}(d,\Eone(\emp),n)$, then $\hsame
 Apply \autoref{lem:nat-mul-succ-inversion} to the multiplication witness. This gives a history $m$ with $\mathsf{NatMul}(d,\emp,m)$ and $\Cont(m,d,n)$. Inverting the zero-multiplier multiplication witness leaves only the zero constructor, so $m$ is identified with $\emp$, and the displayed continuation becomes $\Cont(\emp,d,n)$. The left-unit existence part of \autoref{thm:continuation-unit-laws-spine} gives $\Cont(\emp,d,d)$, and continuation determinacy from \autoref{thm:continuation-determinacy-up-to-history-sameness} identifies $n$ with $d$.
 \end{proof}
 
+\begin{lemma}[Unit left multiplication is closed]
+\label{lem:nat-mul-unit-left-closed}
+For every unary history $q$,
+\[
+\mathsf{NatMul}(\Eone(\emp),q,q).
+\]
+\end{lemma}
+\begin{proof}
+Induct on the unary generation of $q$. The empty case is the zero
+multiplication constructor with the unary unit multiplicand. The zero-headed
+case is impossible by unary-history inversion. In the one-headed case, the
+induction hypothesis gives the predecessor product
+$\mathsf{NatMul}(\Eone(\emp),q_0,q_0)$, and the successor constructor appends
+one unit copy by the definitional continuation
+$\Cont(q_0,\Eone(\emp),\Eone(q_0))$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_left\_closed}
+
 \begin{lemma}[Unary division by a nonempty divisor]
 \label{lem:unary-division-by-nonempty-divisor}
 Let $t$ and $x$ be unary histories with $t\not\hsame\emp$. Then there are unary histories $q$, $r$, and $w$ such that $\mathsf{NatMul}(t,q,w)$, $\Cont(w,r,x)$, and either $r\hsame\emp$ or $\mathsf{NatUnaryStrictPrefix}(r,t)$.
