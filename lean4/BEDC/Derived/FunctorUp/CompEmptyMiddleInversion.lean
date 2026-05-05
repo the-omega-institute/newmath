@@ -1,9 +1,11 @@
 import BEDC.Derived.FunctorUp
+import BEDC.Derived.FunctorUp.PrefixCarrier
 
 namespace BEDC.Derived.FunctorUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.Derived.CategoryUp
 
 theorem FunctorPrefixHomCarrier_comp_empty_middle_inversion {p a c f g fg : BHist} :
@@ -86,5 +88,26 @@ theorem FunctorPrefixHomCarrier_comp_empty_middle_source_deterministic
     FunctorPrefixHomCarrier_comp_empty_middle_inversion
       (p := p) (a := a) (c := c) (f := f) (g := g) (fg := fg) left right comp
   exact CategoryHomCarrier_source_deterministic displayed inverted.right.right.right.right.left
+
+theorem PrefixFunctorCarrier_comp_empty_middle_empty_result_readback {p q a c f g fg : BHist} :
+    PrefixFunctorCarrier p -> CategoryHomCarrier (append p a) BHist.Empty f ->
+      CategoryHomCarrier BHist.Empty (append q c) g -> Cont f g fg ->
+        hsame fg BHist.Empty ->
+          PrefixFunctorCarrier q ∧ hsame p BHist.Empty ∧ hsame q BHist.Empty ∧
+            hsame a BHist.Empty ∧ hsame c BHist.Empty ∧ hsame f BHist.Empty ∧
+              hsame g BHist.Empty := by
+  intro _prefixCarrier left right comp resultEmpty
+  have emptyData := (CategoryHomCarrier_comp_result_empty_iff left right comp).mp resultEmpty
+  have sourceParts := append_eq_empty_iff.mp emptyData.right.right.left
+  have targetParts := append_eq_empty_iff.mp (hsame_symm emptyData.right.right.right)
+  have qCarrier : PrefixFunctorCarrier q := by
+    cases targetParts.left
+    exact BEDC.Derived.FunctorUp.PrefixFunctorCarrier_from_unary_prefix unary_empty
+  exact And.intro qCarrier
+    (And.intro sourceParts.left
+      (And.intro targetParts.left
+        (And.intro sourceParts.right
+          (And.intro targetParts.right
+            (And.intro emptyData.left emptyData.right.left)))))
 
 end BEDC.Derived.FunctorUp

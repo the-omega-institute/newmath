@@ -26,3 +26,30 @@ result and applying empty-result inversion splits the prefixed evaluator and
 the continuation input, yielding carrier witnesses for \(p\) and \(y\).
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_append\_target\_carrier\_iff}
+
+\begin{theorem}[Singleton evaluation context append-input/result carrier exactness]
+\label{thm:linearmap-singleton-eval-context-append-input-result-carrier-iff}
+For histories \(p,f,x,y,z,q,r:\mathsf{BHist}\), if
+$$
+\ContR(\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),
+  \mathsf{append}(y,z),\mathsf{append}(q,r)),
+$$
+then the prefixed singleton evaluator and both exposed input factors lie in
+the singleton carrier exactly when both exposed result factors do:
+$$
+\mathsf{LinearMapSingletonCarrier}(p)\land
+\mathsf{LinearMapSingletonCarrier}(y)\land
+\mathsf{LinearMapSingletonCarrier}(z)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(q)\land
+\mathsf{LinearMapSingletonCarrier}(r).
+$$
+\end{theorem}
+\begin{proof}
+Apply append-target carrier exactness with continuation input
+\(\mathsf{append}(y,z)\). The forward direction combines carrier witnesses for
+\(y\) and \(z\) into a carrier witness for the appended input. The reverse
+direction splits the recovered appended-input carrier by empty-append
+inversion.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_append\_input\_result\_carrier\_iff}
