@@ -39,4 +39,27 @@ theorem AffineFiniteFamilyZeroLocus_intersection_concat {AffPoint : BHist -> Pro
         | inr memberG =>
             exact loci.right.right memberG)
 
+theorem AffineFiniteFamilyZeroLocus_duplicate_head_insert {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {F : ProbeBundle BHist} {p x : BHist} :
+    InBundle p F ->
+      (AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero (ProbeBundle.Bcons p F) x <->
+        AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x) := by
+  intro memberP
+  constructor
+  · intro locus
+    exact And.intro locus.left
+      (by
+        intro q memberQ
+        exact locus.right (Or.inr memberQ))
+  · intro locus
+    exact And.intro locus.left
+      (by
+        intro q member
+        cases member with
+        | inl sameHead =>
+            cases sameHead
+            exact locus.right memberP
+        | inr memberTail =>
+            exact locus.right memberTail)
+
 end BEDC.Derived.AffineVarUp
