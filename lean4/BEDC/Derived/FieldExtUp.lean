@@ -2,6 +2,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Cont.Units
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.RatContinuation
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
 
@@ -291,6 +292,73 @@ theorem FieldExtSingletonEmbedding_laws :
           exact And.intro emptyCarrier
             (And.intro emptyCarrier (hsame_refl BHist.Empty))
 
+theorem FieldExtSingletonEmbedding_exactness {h k : BHist} :
+    FieldSingletonCarrier h -> FieldSingletonCarrier k ->
+      (FieldSingletonClassifier h k <->
+          FieldSingletonClassifier (append BHist.Empty h) (append BHist.Empty k)) ∧
+        FieldSingletonClassifier (append BHist.Empty FieldSingletonZero) FieldSingletonZero ∧
+          FieldSingletonClassifier (append BHist.Empty FieldSingletonOne) FieldSingletonOne ∧
+            FieldSingletonClassifier (append BHist.Empty (FieldSingletonAdd h k))
+              (FieldSingletonAdd h k) ∧
+              FieldSingletonClassifier (append BHist.Empty (FieldSingletonNeg h))
+                (FieldSingletonNeg h) ∧
+                FieldSingletonClassifier (append BHist.Empty (FieldSingletonMul h k))
+                  (FieldSingletonMul h k) := by
+  intro _carrierH _carrierK
+  have embeddingIff :
+      FieldSingletonClassifier h k <->
+        FieldSingletonClassifier (append BHist.Empty h) (append BHist.Empty k) := by
+    constructor
+    · intro classified
+      have embeddedH : FieldSingletonCarrier (append BHist.Empty h) :=
+        hsame_trans (append_empty_left h) classified.left
+      have embeddedK : FieldSingletonCarrier (append BHist.Empty k) :=
+        hsame_trans (append_empty_left k) classified.right.left
+      have embeddedSame : hsame (append BHist.Empty h) (append BHist.Empty k) :=
+        hsame_trans (append_empty_left h)
+          (hsame_trans classified.right.right (hsame_symm (append_empty_left k)))
+      exact And.intro embeddedH (And.intro embeddedK embeddedSame)
+    · intro classified
+      have carrierH : FieldSingletonCarrier h :=
+        hsame_trans (hsame_symm (append_empty_left h)) classified.left
+      have carrierK : FieldSingletonCarrier k :=
+        hsame_trans (hsame_symm (append_empty_left k)) classified.right.left
+      have sameHK : hsame h k :=
+        hsame_trans (hsame_symm (append_empty_left h))
+          (hsame_trans classified.right.right (append_empty_left k))
+      exact And.intro carrierH (And.intro carrierK sameHK)
+  have exactRow (x : BHist) :
+      FieldSingletonCarrier x ->
+        FieldSingletonClassifier (append BHist.Empty x) x := by
+    intro carrierX
+    have embeddedCarrier : FieldSingletonCarrier (append BHist.Empty x) :=
+      hsame_trans (append_empty_left x) carrierX
+    exact And.intro embeddedCarrier (And.intro carrierX (append_empty_left x))
+  have emptyCarrier : FieldSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have zeroRow :
+      FieldSingletonClassifier (append BHist.Empty FieldSingletonZero) FieldSingletonZero := by
+    exact exactRow FieldSingletonZero emptyCarrier
+  have oneRow :
+      FieldSingletonClassifier (append BHist.Empty FieldSingletonOne) FieldSingletonOne := by
+    exact exactRow FieldSingletonOne emptyCarrier
+  have addRow :
+      FieldSingletonClassifier (append BHist.Empty (FieldSingletonAdd h k))
+        (FieldSingletonAdd h k) := by
+    exact exactRow (FieldSingletonAdd h k) emptyCarrier
+  have negRow :
+      FieldSingletonClassifier (append BHist.Empty (FieldSingletonNeg h))
+        (FieldSingletonNeg h) := by
+    exact exactRow (FieldSingletonNeg h) emptyCarrier
+  have mulRow :
+      FieldSingletonClassifier (append BHist.Empty (FieldSingletonMul h k))
+        (FieldSingletonMul h k) := by
+    exact exactRow (FieldSingletonMul h k) emptyCarrier
+  exact And.intro embeddingIff
+    (And.intro zeroRow
+      (And.intro oneRow
+        (And.intro addRow
+          (And.intro negRow mulRow))))
+
 theorem FieldExtRatReflexiveEmbedding_denominator_package {h k : BHist} :
     RatHistoryClassifier h k ->
       PositiveUnaryDenominator (FieldExtSingletonEmbedding h) ∧
@@ -316,6 +384,79 @@ theorem FieldExtRatReflexiveEmbedding_denominator_package {h k : BHist} :
     (And.intro positives.right
       (And.intro embeddedClassifier
         (And.intro nonempty.left nonempty.right)))
+
+theorem FieldExtRatReflexiveEmbedding_classifier_endpoint_package {h k : BHist} :
+    RatHistoryClassifier h k ->
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) h ∧
+        RatHistoryClassifier (FieldExtSingletonEmbedding k) k ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+  intro classified
+  have sameH : hsame (FieldExtSingletonEmbedding h) h := by
+    unfold FieldExtSingletonEmbedding
+    exact append_empty_left h
+  have sameK : hsame (FieldExtSingletonEmbedding k) k := by
+    unfold FieldExtSingletonEmbedding
+    exact append_empty_left k
+  have embeddedH :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) h :=
+    RatHistoryClassifier_hsame_transport (hsame_symm sameH) (hsame_symm classified.right.right)
+      classified
+  have embeddedK :
+      RatHistoryClassifier (FieldExtSingletonEmbedding k) k :=
+    RatHistoryClassifier_hsame_transport
+      (hsame_trans classified.right.right (hsame_symm sameK)) (hsame_refl k) classified
+  have embeddedPair :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) :=
+    RatHistoryClassifier_hsame_transport (hsame_symm sameH) (hsame_symm sameK) classified
+  exact And.intro embeddedH (And.intro embeddedK embeddedPair)
+
+theorem FieldExtRatReflexiveVectorSpace_scalar_action_congruence
+    {h h' k k' r r' : BHist} :
+    RatHistoryClassifier h h' -> RatHistoryClassifier k k' ->
+      Cont (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) r ->
+        Cont h' k' r' -> RatHistoryClassifier r r' := by
+  intro classifiedH classifiedK leftContinuation rightContinuation
+  have sameH : hsame h (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact hsame_symm (append_empty_left h)
+  have sameK : hsame k (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact hsame_symm (append_empty_left k)
+  have embeddedH :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) h' :=
+    RatHistoryClassifier_hsame_transport sameH (hsame_refl h') classifiedH
+  have embeddedK :
+      RatHistoryClassifier (FieldExtSingletonEmbedding k) k' :=
+    RatHistoryClassifier_hsame_transport sameK (hsame_refl k') classifiedK
+  exact field_rat_denominator_continuation_binary_classifier_congruence
+    embeddedH embeddedK leftContinuation rightContinuation
+
+theorem FieldExtRatReflexive_exact_endpoint_classification {h k : BHist} :
+    RatHistoryClassifier h k ->
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) h ∧
+        RatHistoryClassifier (FieldExtSingletonEmbedding k) k ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+  intro classified
+  have carrierH : RatHistoryCarrier h := classified.left
+  have carrierK : RatHistoryCarrier k := classified.right.left
+  have embeddedH :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) h := by
+    unfold FieldExtSingletonEmbedding
+    exact And.intro
+      (RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left h)) carrierH)
+      (And.intro carrierH (append_empty_left h))
+  have embeddedK :
+      RatHistoryClassifier (FieldExtSingletonEmbedding k) k := by
+    unfold FieldExtSingletonEmbedding
+    exact And.intro
+      (RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left k)) carrierK)
+      (And.intro carrierK (append_empty_left k))
+  have embeddedHK :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact RatHistoryClassifier_hsame_transport
+      (hsame_symm (append_empty_left h)) (hsame_symm (append_empty_left k)) classified
+  exact And.intro embeddedH (And.intro embeddedK embeddedHK)
 
 theorem FieldExtRatReflexive_source_pattern_lock {h k : BHist} :
     RatHistoryClassifier h k ->
@@ -372,6 +513,26 @@ theorem FieldExtSingletonEmbedding_identity_tower_package {h : BHist} :
   exact And.intro
     (And.intro doubleCarrier (And.intro embeddedCarrier doubleSameEmbedded))
     (And.intro towerCont doubleSameH)
+
+theorem FieldExtRatReflexive_tower_composition :
+    SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
+        RatHistoryClassifier ∧
+      (forall {h k : BHist}, RatHistoryClassifier h k ->
+        RatHistoryClassifier (FieldExtSingletonEmbedding h)
+          (FieldExtSingletonEmbedding k)) ∧
+      (forall {h : BHist}, RatHistoryCarrier h ->
+        exists out : BHist, Cont BHist.Empty h out ∧ RatHistoryClassifier out h) := by
+  constructor
+  · exact rat_history_semantic_name_certificate
+  · constructor
+    · intro h k classified
+      unfold FieldExtSingletonEmbedding
+      exact RatHistoryClassifier_hsame_transport
+        (hsame_symm (append_empty_left h)) (hsame_symm (append_empty_left k)) classified
+    · intro h carrier
+      exact Exists.intro h
+        (And.intro (cont_left_unit h)
+          (And.intro carrier (And.intro carrier (hsame_refl h))))
 
 theorem FieldExtRatReflexiveTower_scalar_action {r m out : BHist} :
     RatHistoryCarrier r -> RatHistoryCarrier m -> Cont r m out ->
@@ -450,5 +611,108 @@ theorem FieldExtSingleton_inverse_ledger_coverage {a : BHist} (p : FieldSingleto
       (by
         intro _sameEmpty _sameE0
         exact field_singleton_nonzero_absurd carrier p.right))
+
+theorem FieldExtSingleton_exact_endpoint_classification {h r m : BHist} :
+    FieldSingletonCarrier h -> FieldSingletonCarrier r -> VecSpaceSingletonCarrier m ->
+      FieldSingletonClassifier (FieldExtSingletonEmbedding h) BHist.Empty ∧
+        FieldSingletonClassifier FieldSingletonZero BHist.Empty ∧
+          FieldSingletonClassifier FieldSingletonOne BHist.Empty ∧
+            FieldSingletonClassifier (FieldSingletonAdd r m) BHist.Empty ∧
+              FieldSingletonClassifier (FieldSingletonNeg r) BHist.Empty ∧
+                FieldSingletonClassifier (FieldSingletonMul r m) BHist.Empty ∧
+                  VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) BHist.Empty := by
+  intro carrierH carrierR carrierM
+  have operationRows := FieldExtSingletonOperation_readback_exactness carrierR carrierM
+  have embeddedCarrier : FieldSingletonCarrier (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact hsame_trans (append_empty_left h) carrierH
+  have embeddedRow : FieldSingletonClassifier (FieldExtSingletonEmbedding h) BHist.Empty :=
+    And.intro embeddedCarrier
+      (And.intro (hsame_refl BHist.Empty) embeddedCarrier)
+  exact And.intro embeddedRow
+    (And.intro operationRows.left
+      (And.intro operationRows.right.left
+        (And.intro operationRows.right.right.left
+          (And.intro operationRows.right.right.right.left
+            (And.intro operationRows.right.right.right.right.left
+              operationRows.right.right.right.right.right.left)))))
+
+theorem FieldExtRatReflexive_vector_space_package :
+    SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
+        RatHistoryClassifier ∧
+      (forall {r r' m m' out out' : BHist}, RatHistoryClassifier r r' ->
+        RatHistoryClassifier m m' -> Cont r m out -> Cont r' m' out' ->
+          RatHistoryClassifier out out') ∧
+      (forall {r m out : BHist}, RatHistoryCarrier r -> RatHistoryCarrier m ->
+        Cont r m out -> RatHistoryCarrier out) := by
+  constructor
+  · exact rat_history_semantic_name_certificate
+  · constructor
+    · intro r r' m m' out out' classifiedR classifiedM leftContinuation rightContinuation
+      exact field_rat_denominator_continuation_binary_classifier_congruence
+        classifiedR classifiedM leftContinuation rightContinuation
+    · intro r m out carrierR carrierM continuation
+      exact RatHistoryCarrier_continuation_closed carrierR carrierM continuation
+
+theorem FieldExtRatReflexiveEmbedding_ledger_source_lock {h k : BHist} :
+    RatHistoryClassifier h k ->
+      RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+        RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) ∧
+            Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
+              Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+  intro classified
+  have hEmbedded : hsame h (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact (append_empty_left h).symm
+  have kEmbedded : hsame k (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact (append_empty_left k).symm
+  have hLedger : RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) :=
+    And.intro classified.left hEmbedded
+  have kLedger : RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) :=
+    And.intro classified.right.left kEmbedded
+  have embeddedClassifier :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) :=
+    RatHistoryClassifier_hsame_transport hEmbedded kEmbedded classified
+  have hCont : Cont BHist.Empty h (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  have kCont : Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  exact And.intro hLedger
+    (And.intro kLedger
+      (And.intro embeddedClassifier (And.intro hCont kCont)))
+
+theorem FieldExtRatReflexive_scalar_action_readback {r m out product : BHist} :
+    RatHistoryCarrier r -> RatHistoryCarrier m -> Cont (FieldExtSingletonEmbedding r) m out ->
+      Cont r m product ->
+        RatHistoryClassifier out product ∧ PositiveUnaryDenominator out ∧
+          PositiveUnaryDenominator product := by
+  intro carrierR carrierM actionCont productCont
+  have positiveM : PositiveUnaryDenominator m :=
+    RatHistoryCarrier_iff_positive_denominator.mp carrierM
+  have unaryM : UnaryHistory m :=
+    (PositiveUnaryDenominator_unary_and_nonempty positiveM).left
+  have embeddedCarrier : RatHistoryCarrier (FieldExtSingletonEmbedding r) := by
+    unfold FieldExtSingletonEmbedding
+    exact RatHistoryCarrier_hsame_transport (append_empty_left r).symm carrierR
+  have embeddedClassifier : RatHistoryClassifier (FieldExtSingletonEmbedding r) r := by
+    unfold FieldExtSingletonEmbedding
+    exact ⟨embeddedCarrier, carrierR, append_empty_left r⟩
+  have appendedClassifier :
+      RatHistoryClassifier (append (FieldExtSingletonEmbedding r) m) (append r m) :=
+    RatHistoryClassifier_append_unary_denominator_closed embeddedClassifier unaryM (hsame_refl m)
+  have actionSame : hsame (append (FieldExtSingletonEmbedding r) m) out :=
+    actionCont.symm
+  have productSame : hsame (append r m) product :=
+    productCont.symm
+  have readbackClassifier : RatHistoryClassifier out product :=
+    RatHistoryClassifier_hsame_transport actionSame productSame appendedClassifier
+  have positives :
+      PositiveUnaryDenominator out ∧ PositiveUnaryDenominator product :=
+    RatHistoryClassifier_positive_denominators readbackClassifier
+  exact And.intro readbackClassifier (And.intro positives.left positives.right)
 
 end BEDC.Derived.FieldExtUp

@@ -62,7 +62,6 @@ import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.UnitUp
-import BEDC.Derived.GraphUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -194,6 +193,7 @@ import BEDC.Derived.HolomorphicUp.OpenDiskZeroHeaded
 import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.HolomorphicUp.SeedSpecs
+import BEDC.Derived.TopologyUp
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -207,6 +207,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
+import BEDC.Derived.HashUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
@@ -246,6 +247,7 @@ import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
+import BEDC.Derived.GraphUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
