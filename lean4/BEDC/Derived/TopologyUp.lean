@@ -226,6 +226,18 @@ def TopologySingletonCarrier (h : BHist) : Prop :=
 def TopologySingletonOpenAt (i h : BHist) : Prop :=
   hsame i BHist.Empty ∧ TopologySingletonCarrier h
 
+def TopologySingletonMeet (i j : BHist) : BHist :=
+  match i, j with
+  | BHist.Empty, BHist.Empty => BHist.Empty
+  | BHist.Empty, BHist.e0 _ => BHist.e0 BHist.Empty
+  | BHist.Empty, BHist.e1 _ => BHist.e0 BHist.Empty
+  | BHist.e0 _, BHist.Empty => BHist.e0 BHist.Empty
+  | BHist.e0 _, BHist.e0 _ => BHist.e0 BHist.Empty
+  | BHist.e0 _, BHist.e1 _ => BHist.e0 BHist.Empty
+  | BHist.e1 _, BHist.Empty => BHist.e0 BHist.Empty
+  | BHist.e1 _, BHist.e0 _ => BHist.e0 BHist.Empty
+  | BHist.e1 _, BHist.e1 _ => BHist.e0 BHist.Empty
+
 theorem TopologySingleton_boundary_open_laws :
     (forall h : BHist, TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <-> False) ∧
       (forall h : BHist,
@@ -243,6 +255,74 @@ theorem TopologySingleton_boundary_open_laws :
       exact openH.right
     · intro carrierH
       exact And.intro (hsame_refl BHist.Empty) carrierH
+
+theorem TopologySingleton_finite_intersection_laws
+    {i j h : BHist}
+    (_validI : hsame i BHist.Empty ∨ hsame i (BHist.e0 BHist.Empty))
+    (_validJ : hsame j BHist.Empty ∨ hsame j (BHist.e0 BHist.Empty)) :
+    TopologySingletonOpenAt (TopologySingletonMeet i j) h <->
+      TopologySingletonOpenAt i h ∧ TopologySingletonOpenAt j h := by
+  cases i with
+  | Empty =>
+      cases j with
+      | Empty =>
+          constructor
+          · intro openMeet
+            exact And.intro openMeet openMeet
+          · intro openBoth
+            exact openBoth.left
+      | e0 t =>
+          constructor
+          · intro openMeet
+            exact False.elim (not_hsame_e0_empty openMeet.left)
+          · intro openBoth
+            exact False.elim (not_hsame_e0_empty openBoth.right.left)
+      | e1 t =>
+          constructor
+          · intro openMeet
+            exact False.elim (not_hsame_e0_empty openMeet.left)
+          · intro openBoth
+            exact False.elim (not_hsame_e1_empty openBoth.right.left)
+  | e0 t =>
+      cases j with
+      | Empty =>
+          constructor
+          · intro openMeet
+            exact False.elim (not_hsame_e0_empty openMeet.left)
+          · intro openBoth
+            exact False.elim (not_hsame_e0_empty openBoth.left.left)
+      | e0 u =>
+          constructor
+          · intro openMeet
+            exact False.elim (not_hsame_e0_empty openMeet.left)
+          · intro openBoth
+            exact False.elim (not_hsame_e0_empty openBoth.left.left)
+      | e1 u =>
+          constructor
+          · intro openMeet
+            exact False.elim (not_hsame_e0_empty openMeet.left)
+          · intro openBoth
+            exact False.elim (not_hsame_e0_empty openBoth.left.left)
+  | e1 t =>
+      cases j with
+      | Empty =>
+          constructor
+          · intro openMeet
+            exact False.elim (not_hsame_e0_empty openMeet.left)
+          · intro openBoth
+            exact False.elim (not_hsame_e1_empty openBoth.left.left)
+      | e0 u =>
+          constructor
+          · intro openMeet
+            exact False.elim (not_hsame_e0_empty openMeet.left)
+          · intro openBoth
+            exact False.elim (not_hsame_e1_empty openBoth.left.left)
+      | e1 u =>
+          constructor
+          · intro openMeet
+            exact False.elim (not_hsame_e0_empty openMeet.left)
+          · intro openBoth
+            exact False.elim (not_hsame_e1_empty openBoth.left.left)
 
 theorem TopologySingleton_union_bottom_exactness {A : Type} (ι : A -> BHist)
     (allBottom : forall a : A, hsame (ι a) (BHist.e0 BHist.Empty)) :
