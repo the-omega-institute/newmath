@@ -438,8 +438,8 @@ embedding endpoint sanity; status $\mathsf{ProofTarget}$.
 \label{def:real-constant-malformed-sealed-denominator-display}
 For a history $h:\mathsf{BHist}$, the predicate
 $\mathsf{MalformedRealSealedDenom}(h)$ records exactly the three sealed
-denominator displays excluded by the complete transported RealUp denominator
-sanity ledger:
+denominator displays excluded by the transported RealUp denominator sanity
+ledger: empty, inner e-zero, and appended e-zero denominators.
 $$
 \mathsf{MalformedRealSealedDenom}(h)
 :=
@@ -467,28 +467,24 @@ $$
 \end{theorem}
 \begin{proof}
 Unfold $\mathsf{MalformedRealSealedDenom}$ on the left endpoint. In the
-empty-display case, apply the first row of
+empty-display case, apply the first clause of
 \autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
 
-In the inner e-zero-display case, use the displayed witness $t$ and apply the
-third row of
-\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
+In the inner e-zero-display case on the left endpoint, use the displayed
+witness $t$ and apply the third clause of the same theorem.
 
-In the appended e-zero-display case, use the displayed witnesses $p,z$ and
-apply the fifth row of
-\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
+In the appended e-zero-display case on the left endpoint, use the displayed
+witnesses $p,z$ and apply the fifth clause of the same theorem.
 
 Unfold $\mathsf{MalformedRealSealedDenom}$ on the right endpoint. In the
-empty-display case, apply the second row of
+empty-display case, apply the second clause of
 \autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
 
-In the inner e-zero-display case, use the displayed witness $t$ and apply the
-fourth row of
-\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
+In the inner e-zero-display case on the right endpoint, use the displayed
+witness $t$ and apply the fourth clause of the same theorem.
 
-In the appended e-zero-display case, use the displayed witnesses $p,z$ and
-apply the sixth row of
-\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
+In the appended e-zero-display case on the right endpoint, use the displayed
+witnesses $p,z$ and apply the sixth clause of the same theorem.
 \end{proof}
 
 The ten-field fit is: traditional target reusable transported RealUp
@@ -497,9 +493,10 @@ sealed-endpoint exclusions; carrier $\mathsf{BHist}$; classifier
 $\mathsf{RealConstantHistoryClassifier}$; stability row endpoint transport
 already concentrated in
 \autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd};
-ledger exactly transported empty, e-zero, and appended e-zero denominator
-displays on sealed endpoints; core theorem
+ledger exactly transported empty endpoints, inner e-zero endpoints, and
+appended e-zero denominator displays; core theorem
 \autoref{thm:real-constant-classifier-no-malformed-sealed-denominator-displays};
-exactness one predicate forbidding every malformed sealed denominator display
-on either endpoint; downstream bridge RealUp NameCert and dyadic-embedding
-denominator sanity; status $\mathsf{ProofTarget}$.
+exactness one predicate forbids empty, inner e-zero, and appended e-zero
+sealed denominator displays on either endpoint; downstream bridge RealUp
+NameCert and dyadic-embedding denominator sanity; status
+$\mathsf{ProofTarget}$.
