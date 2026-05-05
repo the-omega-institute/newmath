@@ -147,6 +147,22 @@ theorem MetricDistanceWitness_right_boundary_visible_context_distance_source {p 
   · cases boundary.right.right.right
     rfl
 
+theorem MetricDistanceWitness_right_boundary_visible_context_positive_depth_source_e1_shape
+    {p q x d : BHist} :
+    MetricDistanceWitness (append p x) (append BHist.Empty q) (append (append p d) q) ->
+      (MetricDistanceDepth d = 0 -> False) ->
+        ∃ x0 : BHist, x = BHist.e1 x0 ∧ UnaryHistory x0 := by
+  intro visible positiveDepth
+  have boundary :=
+    (MetricDistanceWitness_right_boundary_visible_context_iff
+      (p := p) (q := q) (x := x) (d := d)).mp visible
+  have sourceNonempty : hsame x BHist.Empty -> False := by
+    intro sourceEmpty
+    exact positiveDepth
+      (MetricDistanceDepth_zero_iff_empty.mpr
+        (hsame_trans boundary.right.right.right sourceEmpty))
+  exact unary_history_nonempty_e1_tail boundary.right.right.left sourceNonempty
+
 theorem MetricDistanceWitness_left_boundary_visible_context_distance_target {p q y d : BHist} :
     MetricDistanceWitness (append p BHist.Empty) (append y q) (append (append p d) q) ->
       hsame d y ∧ MetricDistanceDepth d = MetricDistanceDepth y := by

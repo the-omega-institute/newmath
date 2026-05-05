@@ -476,4 +476,54 @@ theorem RealUnaryStreamWindowClassifier_selected_tail_class_exactness
                     hsame_trans data.right.left
                       (hsame_e1_congr selected.right.right.right)⟩)⟩
 
+protected theorem RealUnaryStreamWindowClassifier_selected_tail_class_exactness_from_window
+    {s t : BHist -> BHist} {a w k : BHist} :
+    RealUnaryStreamWindowClassifier s t a w -> UnaryOffsetLe k w ->
+      exists u : BHist, exists v : BHist,
+        hsame (s (append a k)) (BHist.e1 u) ∧
+          hsame (t (append a k)) (BHist.e1 v) ∧
+            UnaryHistory u ∧ UnaryHistory v ∧ hsame u v ∧
+              (forall u' v' : BHist,
+                (hsame (s (append a k)) (BHist.e1 u') ∧
+                  hsame (t (append a k)) (BHist.e1 v')) ↔
+                    (UnaryHistory u' ∧ UnaryHistory v' ∧ hsame u u' ∧ hsame v v')) := by
+  intro window offset
+  have selected : RatHistoryClassifier (s (append a k)) (t (append a k)) :=
+    window.right.right k offset
+  have positives :
+      PositiveUnaryDenominator (s (append a k)) ∧
+        PositiveUnaryDenominator (t (append a k)) :=
+    RatHistoryClassifier_positive_denominators selected
+  cases positives.left with
+  | intro u leftPositive =>
+      cases positives.right with
+      | intro v rightPositive =>
+          have sameS : hsame (s (append a k)) (BHist.e1 u) := leftPositive.left
+          have sameT : hsame (t (append a k)) (BHist.e1 v) := rightPositive.left
+          have displayed : RatHistoryClassifier (BHist.e1 u) (BHist.e1 v) :=
+            RatHistoryClassifier_hsame_transport sameS sameT selected
+          have readback : UnaryHistory u ∧ UnaryHistory v ∧ hsame u v :=
+            RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+          exact ⟨u, v, sameS, sameT, readback.left, readback.right.left,
+            readback.right.right, fun u' v' =>
+              Iff.intro
+                (fun displayedPair =>
+                  have displayedClassifier :
+                      RatHistoryClassifier (BHist.e1 u') (BHist.e1 v') :=
+                    RatHistoryClassifier_hsame_transport displayedPair.left displayedPair.right
+                      selected
+                  have displayedReadback :
+                      UnaryHistory u' ∧ UnaryHistory v' ∧ hsame u' v' :=
+                    RatHistoryClassifier_e1_tail_unary_iff.mp displayedClassifier
+                  have sameUU' : hsame u u' :=
+                    hsame_e1_iff.mp (hsame_trans (hsame_symm sameS) displayedPair.left)
+                  have sameVV' : hsame v v' :=
+                    hsame_e1_iff.mp (hsame_trans (hsame_symm sameT) displayedPair.right)
+                  ⟨displayedReadback.left, displayedReadback.right.left, sameUU',
+                    sameVV'⟩)
+                (fun selectedPair =>
+                  ⟨hsame_trans sameS (hsame_e1_congr selectedPair.right.right.left),
+                    hsame_trans sameT
+                      (hsame_e1_congr selectedPair.right.right.right)⟩)⟩
+
 end BEDC.Derived.RealUp
