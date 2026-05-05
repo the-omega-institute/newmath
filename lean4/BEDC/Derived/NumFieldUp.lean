@@ -18,6 +18,26 @@ def NumFieldRatReflexiveCarrier (h : BHist) : Prop :=
     Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
       RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h)
 
+theorem NumFieldReflexiveRational_fieldext_scope {h r m action : BHist} :
+    NumFieldRatReflexiveCarrier h -> RatHistoryCarrier r -> RatHistoryCarrier m ->
+      Cont (FieldExtSingletonEmbedding r) m action ->
+        RatHistoryCarrier (FieldExtSingletonEmbedding h) ∧
+          RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+            RatHistoryCarrier action ∧ RatHistoryClassifier (FieldExtSingletonEmbedding r) r := by
+  intro carrierH carrierR carrierM actionCont
+  have productCont : Cont r m (append r m) :=
+    cont_intro rfl
+  have operationRows :
+      RatHistoryClassifier (append r m) action ∧ RatHistoryCarrier (append r m) ∧
+        RatHistoryCarrier action ∧ RatHistoryClassifier (FieldExtSingletonEmbedding r) r :=
+    FieldExtRatReflexive_operation_table_source_coverage
+      (And.intro carrierR (And.intro carrierR (hsame_refl r)))
+      (And.intro carrierM (And.intro carrierM (hsame_refl m)))
+      productCont actionCont
+  exact And.intro carrierH.right.left
+    (And.intro carrierH.right.right.right
+      (And.intro operationRows.right.right.left operationRows.right.right.right))
+
 theorem NumFieldRatReflexive_finite_basis_witness {h : BHist} :
     NumFieldRatReflexiveCarrier h ->
       RatHistoryCarrier (BHist.e1 BHist.Empty) ∧
