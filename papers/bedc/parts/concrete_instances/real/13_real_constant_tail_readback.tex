@@ -643,6 +643,48 @@ These two endpoint exclusions are exactly $M(D,E)$ for each of the four
 bridge-row implications.
 \end{proof}
 
+\begin{theorem}[Real constant appended-tail bridge full denominator sanity exactness]
+\label{thm:real-constant-appended-tail-bridge-full-denominator-sanity-exactness}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, use the same definitions of $D$, $E$, the bridge rows
+$A,B,U,C$, the full denominator-tail package $Q(D,E,u_D,u_E,z_D,z_E)$, and
+the malformed sealed denominator exclusion $M(D,E)$ as in
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness}
+and
+\autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}.
+Let $S(D,E,u_D,u_E,z_D,z_E)$ denote the combined denominator-sanity package
+$$
+S(D,E,u_D,u_E,z_D,z_E)\mathrel{:=}Q(D,E,u_D,u_E,z_D,z_E)\land M(D,E).
+$$
+If $\hsame(tail_D,tail_E)$, then the combined package is exact for the bridge
+rows:
+$$
+S(D,E,u_D,u_E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\hsame(tail_D,tail_E)$.
+
+For the forward direction, assume $S(D,E,u_D,u_E,z_D,z_E)$. Project its
+$Q(D,E,u_D,u_E,z_D,z_E)$ component and apply
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness}
+under the tail agreement. This gives $A\land B\land U\land C$.
+
+For the reverse direction, assume $A\land B\land U\land C$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness}
+under the same tail agreement to recover
+$Q(D,E,u_D,u_E,z_D,z_E)$.
+
+It remains to build $M(D,E)$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}
+to the displayed data. The first projected implication has type
+$A\Longrightarrow M(D,E)$, and the $A$ row supplied by the row conjunction gives
+$M(D,E)$.
+
+Conjoining the recovered $Q(D,E,u_D,u_E,z_D,z_E)$ with $M(D,E)$ is exactly
+$S(D,E,u_D,u_E,z_D,z_E)$.
+\end{proof}
+
 The malformed sealed bridge denominator certificate fit has ten fields:
 traditional target constant rational bridge denominator sanity; BEDC source
 RatUp plus StreamNameUp plus RealUp over $\mathsf{BHist}$; carrier the
@@ -650,9 +692,10 @@ appended-tail rational histories $D,E$; classifiers the four concrete rows
 $A,B,U,C$; stability from denominator package readback, e-one inversion, and
 positive-denominator transport; ledger malformed sealed empty and appended
 e-zero displays; core theorem
-\autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion};
-exactness the common exclusion predicate for all bridge rows; standard bridge
-RegSeqRat constant embedding denominator sanity; status $\mathsf{ProofTarget}$.
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-sanity-exactness};
+exactness the combined predicate $S(D,E,u_D,u_E,z_D,z_E)$ for all bridge rows;
+standard bridge RegSeqRat constant embedding denominator sanity; status
+$\mathsf{ProofTarget}$.
 
 The bridge-readback certificate fit has ten fields: traditional target faithful
 constant rational embedding into RealUp; BEDC source RatUp plus StreamNameUp
