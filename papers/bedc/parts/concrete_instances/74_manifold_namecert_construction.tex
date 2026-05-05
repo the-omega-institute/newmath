@@ -300,15 +300,131 @@ constructively smooth transition certificate on the displayed overlap. Project
 these two ledger components to obtain the claimed coverage row.
 \end{proof}
 
+\begin{definition}[Manifold transition coherence ledger]
+\label{def:manifold-transition-coherence-ledger}
+For a carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$, the transition
+coherence ledger is the sub-ledger of $\mathsf{ManAtlasPkg}(P)$ whose rows are
+indexed by one, two, and three chart names in the finite chart-index history.
+It contains the following displayed entries.
+\begin{enumerate}
+\item For every chart $i$, the row $\mathsf{IdTrans}_i$ is carried on the
+self-overlap $\mathsf{Overlap}_{ii}$ supplied by $\TopologyUp$ and classifies
+the transition $\mathsf{Trans}_{ii}$ by the identity coordinate history row on
+$\varphi_i$.
+\item For every chart pair $i,j$, the row $\mathsf{InvTrans}_{ij}$ is carried
+on the overlap transported between $\mathsf{Overlap}_{ij}$ and
+$\mathsf{Overlap}_{ji}$ by the $\TopologyUp$ overlap rows, and classifies the
+two composites $\mathsf{Trans}_{ji}\circ\mathsf{Trans}_{ij}$ and
+$\mathsf{Trans}_{ij}\circ\mathsf{Trans}_{ji}$ by the corresponding
+$\mathsf{IdTrans}$ rows.
+\item For every chart triple $i,j,k$, the row $\mathsf{Cocycle}_{ijk}$ is
+carried on the triple-overlap predicate
+$$
+\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)\wedge\mathsf{Dom}_k(x),
+$$
+and classifies $\mathsf{Trans}_{jk}\circ\mathsf{Trans}_{ij}$ and
+$\mathsf{Trans}_{ik}$ by the same real-analytic transition row from
+$\varphi_i$-coordinates to $\varphi_k$-coordinates.
+\end{enumerate}
+Each entry is a visible ledger row over $\TopologyUp$ carried-overlap
+transport, $\RealUp$ coordinate histories, and the real-analytic classifier
+rows already exposed by the atlas package.
+\end{definition}
+
+\begin{theorem}[Manifold overlap identity transition]
+\label{thm:manifold-overlap-identity-transition}
+Every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$ exposes, for
+each chart $i$, a self-overlap transition row $\mathsf{Trans}_{ii}$ on
+$\mathsf{Overlap}_{ii}$. This row is classified by $\mathsf{IdTrans}_i$ in the
+transition coherence ledger, so its coordinate action is the identity
+real-coordinate row on $\varphi_i$ over the carried self-overlap.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{ManAtlasPkg}(P)$ by
+\autoref{def:manifold-chart-atlas-carrier}. The finite chart-index row admits
+the pair $(i,i)$, and \autoref{thm:manifold-atlas-overlap-coverage} identifies
+the carried domain as $\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_i(x)$ on the
+underlying $\TopologyUp$ carrier.
+
+Project the self row from
+\autoref{def:manifold-transition-coherence-ledger}. Its source and target
+coordinate histories are both the displayed list $\varphi_i(x)$, transported
+through the same carried-overlap row.
+
+The real-analytic classifier component of $\mathsf{IdTrans}_i$ is the identity
+coordinate row. Repacking that classifier with the self-overlap transport gives
+the displayed $\mathsf{Trans}_{ii}$ transition classified as the identity on
+$\varphi_i$.
+\end{proof}
+
+\begin{theorem}[Manifold overlap inverse transition]
+\label{thm:manifold-overlap-inverse-transition}
+Every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$ exposes, for
+each chart pair $i,j$, inverse transition rows on the carried overlap. The
+composite $\mathsf{Trans}_{ji}\circ\mathsf{Trans}_{ij}$ is classified by
+$\mathsf{IdTrans}_i$ on the $i$-coordinate overlap, and the composite
+$\mathsf{Trans}_{ij}\circ\mathsf{Trans}_{ji}$ is classified by
+$\mathsf{IdTrans}_j$ on the $j$-coordinate overlap.
+\end{theorem}
+\begin{proof}
+Unpack the two pairwise overlap rows using
+\autoref{thm:manifold-atlas-overlap-coverage}. The row for $(i,j)$ carries
+$\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)$, while the row for $(j,i)$ carries
+the same two domain memberships in the reversed order.
+
+Use the $\TopologyUp$ carried-overlap transport to identify those two overlap
+readbacks. This gives a common domain on which both transition ledgers can be
+composed without changing the carried point or the chart-domain witnesses.
+
+Project $\mathsf{InvTrans}_{ij}$ from
+\autoref{def:manifold-transition-coherence-ledger}. Its real-analytic
+classifier rows state exactly that the two displayed composites classify to
+the relevant identity rows. Together with
+\autoref{thm:manifold-overlap-identity-transition}, these projected rows give
+the two claimed inverse identities on the carried overlap.
+\end{proof}
+
+\begin{theorem}[Manifold triple-overlap cocycle]
+\label{thm:manifold-triple-overlap-cocycle}
+Every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$ exposes, for
+each chart triple $i,j,k$, a cocycle row on the carried triple overlap. On that
+overlap, $\mathsf{Trans}_{jk}\circ\mathsf{Trans}_{ij}$ and
+$\mathsf{Trans}_{ik}$ are classified by the same real-analytic transition row
+from $\varphi_i$-coordinates to $\varphi_k$-coordinates.
+\end{theorem}
+\begin{proof}
+Start from the three pairwise overlap rows supplied by
+\autoref{thm:manifold-atlas-overlap-coverage}. Their $\TopologyUp$ domain
+components restrict to the same carried triple-overlap predicate
+$\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)\wedge\mathsf{Dom}_k(x)$.
+
+Transport the pairwise transition ledgers to this common triple-overlap
+domain. The source of $\mathsf{Trans}_{ij}$ is the $\varphi_i$ coordinate row,
+its target is the $\varphi_j$ row, and the source of $\mathsf{Trans}_{jk}$ is
+the same $\varphi_j$ row after $\RealUp$ coordinate-history transport.
+
+Project $\mathsf{Cocycle}_{ijk}$ from
+\autoref{def:manifold-transition-coherence-ledger}. Its real-analytic
+classifier component identifies the composite
+$\mathsf{Trans}_{jk}\circ\mathsf{Trans}_{ij}$ with the direct transition
+$\mathsf{Trans}_{ik}$ as the same transition row from $\varphi_i$ to
+$\varphi_k$. Repacking that classifier with the common carried-overlap domain
+gives the displayed cocycle obligation.
+\end{proof}
+
 \begin{theorem}[Manifold name-certificate obligation surface]
 \label{thm:manifold-namecert-obligation-surface}
 The carrier definition of
 \autoref{def:manifold-chart-atlas-carrier}, together with
 \autoref{thm:manifold-chart-transition-classifier-stability} and
-\autoref{thm:manifold-atlas-overlap-coverage}, assembles the paper-side
+\autoref{thm:manifold-atlas-overlap-coverage},
+\autoref{thm:manifold-overlap-identity-transition},
+\autoref{thm:manifold-overlap-inverse-transition}, and
+\autoref{thm:manifold-triple-overlap-cocycle}, assembles the paper-side
 $\ManifoldUp$ obligation surface. The surface consists of a topological carrier,
-a finite chart atlas, chart classifier stability, overlap coverage, the
-transition-smoothness ledger, and no standard bridge row.
+a finite chart atlas, chart classifier stability, overlap coverage,
+transition-smoothness rows, identity transitions, inverse transition
+composites, triple-overlap cocycles, and no standard bridge row.
 \end{theorem}
 \begin{proof}
 The carrier definition supplies the named source object:
@@ -323,8 +439,21 @@ carrier definition.
 
 \autoref{thm:manifold-atlas-overlap-coverage} supplies the overlap and
 transition-smoothness obligations. The absence of a standard bridge is already
-part of the carrier definition, so the assembled object is exactly the
-$\ManifoldUp$ paper obligation surface listed in the theorem statement.
+part of the carrier definition.
+
+It remains to account for atlas compatibility. The coherence ledger of
+\autoref{def:manifold-transition-coherence-ledger} records the self,
+reversed-pair, and triple-overlap rows. The identity row is exposed by
+\autoref{thm:manifold-overlap-identity-transition}; the inverse composite rows
+are exposed by \autoref{thm:manifold-overlap-inverse-transition}; and the
+triple-overlap cocycle row is exposed by
+\autoref{thm:manifold-triple-overlap-cocycle}.
+
+These rows use the same $\TopologyUp$ carried-overlap transport, the same
+$\RealUp$ coordinate histories, and the same real-analytic classifier ledger as
+the pairwise transition rows. Repacking them with the carrier, classifier, and
+stability fields gives exactly the $\ManifoldUp$ paper obligation surface
+listed in the theorem statement.
 \end{proof}
 
 \begin{theorem}[Singleton manifold carrier topology scope]
