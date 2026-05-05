@@ -118,3 +118,42 @@ continuation $x\cdot\emp=x$. Transporting the result field along
 $d_{xyz}\hsame x$ gives the displayed witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_right\_empty\_boundary\_witness}
+
+\begin{theorem}[Metric triangle two-sided empty boundary package]
+\label{thm:metric-distance-witness-two-sided-empty-triangle-boundary-package}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the two edge distances in a
+metric triangle are both history-same to $\emp$, then every displayed endpoint
+and the outer displayed distance collapse to the empty boundary, and the outer
+result is itself an empty-to-empty distance witness:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow\\
+\hsame(d_{xy},\emp)\Longrightarrow\hsame(d_{yz},\emp)\Longrightarrow\\
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xyz},\emp)\land
+\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:metric-distance-witness-triangle-left-distance-empty-collapse}
+to the same triangle and the hypothesis $d_{xy}\hsame\emp$. This gives
+$x\hsame\emp$, $y\hsame\emp$, $d_{xyz}\hsame z$, and $d_{yz}\hsame z$.
+
+Apply
+\autoref{thm:metric-distance-witness-triangle-right-distance-empty-collapse}
+to the same triangle and the hypothesis $d_{yz}\hsame\emp$. This gives
+$y\hsame\emp$, $z\hsame\emp$, $d_{xy}\hsame x$, and $d_{xyz}\hsame x$.
+
+The endpoint conclusions package the three empty endpoint readbacks. Symmetry
+and transitivity of $\hsame$ compose $d_{xyz}\hsame z$ with $z\hsame\emp$, so
+$d_{xyz}\hsame\emp$.
+
+Finally, the empty-boundary metric witness
+$\mathsf{MetricDistanceWitness}(\emp,\emp,\emp)$ is the exact empty-distance
+case. Transporting its result field along $d_{xyz}\hsame\emp$ yields
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})$.
+\end{proof}
