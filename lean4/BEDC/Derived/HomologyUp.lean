@@ -452,6 +452,12 @@ theorem HomologyBoundaryCarrier_cycle_of_d_squared_zero {d : BHist -> BHist}
   | intro u witness =>
       exact hsame_trans (dCongr witness) (dSquaredZero u)
 
+theorem HomologyCycleCarrier_hsame_transport {d : BHist -> BHist} {h k : BHist} :
+    (forall {u v : BHist}, hsame u v -> hsame (d u) (d v)) ->
+      hsame (d h) BHist.Empty -> hsame h k -> HomologyCycleCarrier d k := by
+  intro dCongr cycleH sameHK
+  exact hsame_trans (hsame_symm (dCongr sameHK)) cycleH
+
 theorem HomologyCycleCarrier_append_hsame_transport {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b))
