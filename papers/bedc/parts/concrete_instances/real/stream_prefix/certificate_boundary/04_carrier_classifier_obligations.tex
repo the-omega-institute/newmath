@@ -66,6 +66,52 @@ $\mathsf{RatHistoryClassifier}$, together with $\hsame$ transport of the
 positive-denominator row.
 \end{definition}
 
+\begin{theorem}[DyadicRatCore observation-row classifier transport]
+\label{thm:dyadic-rat-core-observation-row-classifier-transport}
+Let $d,e,d',e':\Hist$. Suppose $d$ and $e$ carry
+$\mathsf{DyadicRatCoreObservationRow}$ packages, suppose
+$\mathsf{RatHistoryClassifier}(d,e)$ holds, and suppose
+$\hsame(d,d')$ and $\hsame(e,e')$ hold. If the dyadic-radius tokens for
+$d'$ and $e'$ are the same certified unary-observation requests as the
+tokens for $d$ and $e$, transported along those two $\hsame$ rows inside the
+$\RegSeqRat$ ledger, then $d'$ and $e'$ carry
+$\mathsf{DyadicRatCoreObservationRow}$ packages and
+$\mathsf{RatHistoryClassifier}(d',e')$ holds.
+\end{theorem}
+\begin{proof}
+Unpack Definition~\ref{def:dyadic-rat-core-observation-row}. The source rows
+at $d$ and $e$ consist of rational-history carriers, positive unary
+denominator rows, and dyadic-radius tokens attached to certified
+$\RegSeqRat$ unary observations.
+
+Apply the RatUp classifier transport to
+$\mathsf{RatHistoryClassifier}(d,e)$ along $\hsame(d,d')$ and
+$\hsame(e,e')$. This gives the transported classifier
+$\mathsf{RatHistoryClassifier}(d',e')$, and the transported carrier rows are
+read from the same rational-history endpoint spine.
+
+The denominator component follows by positive-denominator transport. Applying
+\autoref{thm:rat-positive-unary-denominator-hsame-transport} to the two
+$\hsame$ rows carries the positive unary denominator rows from $d$ to $d'$
+and from $e$ to $e'$.
+
+Finally, the dyadic-radius component is ledger-attached to the same certified
+unary-observation requests in the $\RegSeqRat$ spine. Transporting the
+endpoint rows changes neither the request names nor the recorded
+dyadic-tolerance tokens, so no completion or quotient datum is introduced.
+Repacking the transported carrier, denominator, token, and classifier rows
+gives the stated DyadicRatCore observation-row transport.
+\end{proof}
+
+The fit is as follows: traditional target dyadic rational observation
+transport; BEDC source RatUp plus RegSeqRat unary requests over
+$\mathsf{BHist}$; carrier $\mathsf{DyadicRatCoreObservationRow}$; classifier
+$\mathsf{RatHistoryClassifier}$; stability transported denominator rows;
+ledger unchanged dyadic-radius request; core theorem
+\autoref{thm:dyadic-rat-core-observation-row-classifier-transport};
+exactness transported row plus classifier; standard bridge finite RealUp
+windows; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[DyadicRatCore scoped source package]
 \label{thm:dyadic-rat-core-scoped-source-package}
 The DyadicRatCore source used by $\RegSeqRat$ is the concrete BEDC scoped
