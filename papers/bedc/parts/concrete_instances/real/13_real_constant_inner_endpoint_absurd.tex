@@ -103,6 +103,41 @@ rational classifier in the corresponding orientation. The relevant endpoint
 nonemptiness clause contradicts $\hsame(\emp,\emp)$ by reflexivity.
 \end{proof}
 
+\begin{theorem}[Real constant classifier transported inner empty endpoint absurd]
+\label{thm:real-constant-history-classifier-transported-inner-empty-endpoint-absurd}
+For histories $h,k:\mathsf{BHist}$, any constant real-history classifier
+excludes an $\Eone(\emp)$ display on either classified endpoint:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Eone(\emp))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(k,\Eone(\emp))\Longrightarrow\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the left endpoint, unpack the constant real classifier only far enough to
+recover the opposite endpoint display $k\hsame\Eone(d)$ for some $d$. Combine
+that display with the assumed $h\hsame\Eone(\emp)$ and apply
+\autoref{thm:real-constant-history-classifier-endpoint-transport}. This gives
+the exact transported classifier
+$\mathsf{RealConstantHistoryClassifier}(\Eone(\emp),\Eone(d))$.
+
+The left orientation of
+\autoref{thm:real-constant-history-classifier-e1-empty-endpoint-absurd}
+contradicts that transported classifier.
+
+For the right endpoint, unpack the classifier to recover
+$h\hsame\Eone(d)$ for some $d$. Combine it with the assumed
+$k\hsame\Eone(\emp)$, transport to
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))$, and apply the
+right orientation of
+\autoref{thm:real-constant-history-classifier-e1-empty-endpoint-absurd}.
+\end{proof}
+
 \begin{theorem}[Real constant classifier appended e-zero tail absurd]
 \label{thm:real-constant-history-classifier-e1-append-e0-tail-absurd}
 For histories $d,e,tail:\mathsf{BHist}$, the constant real-history classifier
