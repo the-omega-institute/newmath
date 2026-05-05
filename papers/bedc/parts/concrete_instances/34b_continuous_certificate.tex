@@ -10,25 +10,18 @@ The source is a pair of certified metric spaces and the totally bounded subset d
 \label{def:continuous-pattern-specification}
 The pattern is graph-with-modulus formation over certified metric spaces and totally bounded source witnesses. A witness supplies the graph relation, the domain and codomain classifier ledgers, and the unary modulus relation that converts a target precision request into the source precision obligation needed for the graph.
 \end{definition}
+\leandef{BEDC.Derived.ContinuousUp.ContinuousPatternSpec}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousPatternSpec\_comp\_carrier}
 
 \begin{definition}[ContinuousMap classifier specification]
 \label{def:continuous-classifier-specification}
 The classifier relates two continuous-map witnesses when their graph outputs agree under the codomain classifier on every pair of source histories related by the source classifier, and when their unary modulus ledgers mutually refine each other for every precision history admitted by the precision classifier.
 \end{definition}
+\leandef{BEDC.Derived.ContinuousUp.ContinuousClassifierSpec}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousClassifierSpec\_target\_cert\_readback}
 
-\begin{definition}[ContinuousMap stability certificate]
-\label{def:continuous-stability-certificate}
-The stability certificate consists of:
-\begin{enumerate}
-  \item continuous-map classifier reflexivity
-  \item continuous-map classifier symmetry
-  \item continuous-map classifier transitivity
-  \item modulus validity for uniform continuity
-  \item graph and modulus replacement under the continuous-map classifier
-  \item closure under identity
-  \item closure under composition by composing moduli
-\end{enumerate}
-\end{definition}\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_stability\_certificate\_fields}
+\input{parts/concrete_instances/34b_continuous_stability_definition}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_stability\_certificate\_fields}
 
 \begin{theorem}[Continuous modulus chain factorization]
 \label{thm:continuous-modulus-chain-factorizes}
