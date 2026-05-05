@@ -202,6 +202,45 @@ endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_empty\_append\_hsame}
 
+\begin{theorem}[Singleton additive fold reverse carrier readback]
+\label{thm:matrix-singleton-add-fold-reverse-carrier-iff}
+For every finite singleton-matrix spine \(xs\), reversing the spine preserves
+the empty-carrier readback of its singleton additive fold:
+$$
+\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(xs))\hsame\emp
+\Longleftrightarrow
+\mathsf{MatrixSingletonAddFold}(xs)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Prove an auxiliary statement for \(\mathsf{reverseAux}(tail,acc)\): its spine
+carrier is equivalent to the carrier of \(tail\) together with the carrier of
+\(acc\). The nil case projects the accumulator carrier, and the cons case
+moves the head into the accumulator before applying the induction hypothesis.
+Specializing to the empty accumulator gives reverse preservation of the spine
+carrier, and the fold carrier readback converts both sides.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_carrier\_iff}
+
+\begin{theorem}[Singleton additive fold reverse continuation result readback]
+\label{thm:matrix-singleton-add-fold-reverse-continuation-result-iff}
+If \(\ContR(h,\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(xs)),r)\), then
+the result is singleton-carried exactly when \(h\) is singleton-carried and
+the unreversed fold is empty-carried:
+$$
+A_{\emp}(r)\Longleftrightarrow
+A_{\emp}(h)\land
+\mathsf{MatrixSingletonAddFold}(xs)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply the continuation result readback to the reversed spine. Its right-hand
+side contains the reversed spine carrier. Convert that carrier to the
+reversed fold carrier, use reverse carrier readback to pass to the unreversed
+fold, and repack the two implication directions.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_continuation\_result\_iff}
+
 \begin{theorem}[Singleton additive fold append display classifier]
 \label{thm:matrix-singleton-add-fold-append-display-classifier-iff}
 For finite singleton-matrix spines \(xs\) and \(ys\), the classifier between
