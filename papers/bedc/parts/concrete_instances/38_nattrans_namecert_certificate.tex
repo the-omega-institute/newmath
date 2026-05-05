@@ -158,6 +158,24 @@ $\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(c,c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_congr}
 
+\begin{theorem}[NatTrans prefix component classifier right-identity closure]
+\label{thm:nattrans-prefix-component-classifier-right-identity-closure}
+For histories $p,q,a,\eta,\eta',r,r'$, suppose
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$ holds and
+suppose $\ContR(\eta,\emp,r)$ and $\ContR(\eta',\emp,r')$. Then
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(r,r')
+\land r\hsame r'.
+$$
+\end{theorem}
+\begin{proof}
+Right-unit determinacy identifies $r$ with $\eta$ and $r'$ with $\eta'$.
+Transport the prefix component classifier along these endpoint equalities,
+with the prefix and object histories fixed. The transported classifier
+contains the required endpoint comparison $r\hsame r'$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_right\_identity\_closed}
+
 \begin{theorem}[NatTrans prefix component classifier empty composite readback]
 \label{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-readback}
 For histories $p,q,r,a,\eta,\eta',\theta,\theta'$, suppose

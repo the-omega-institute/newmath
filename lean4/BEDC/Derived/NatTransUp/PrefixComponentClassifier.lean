@@ -165,6 +165,24 @@ theorem NatTransPrefixComponentClassifier_hsame_transport
           (And.intro etaCarrier (And.intro thetaCarrier etaThetaSame)))))
       (And.intro etaCarrier thetaCarrier)
 
+theorem NatTransPrefixComponentClassifier_vert_comp_right_identity_closed
+    {p q a eta eta' right right' : BHist} :
+    NatTransPrefixComponentClassifier p q a eta eta' ->
+      Cont eta BHist.Empty right -> Cont eta' BHist.Empty right' ->
+        NatTransPrefixComponentClassifier p q a right right' ∧ hsame right right' := by
+  intro classified rightRel rightRel'
+  have rightSame : hsame right eta :=
+    cont_deterministic rightRel (cont_right_unit eta)
+  have rightSame' : hsame right' eta' :=
+    cont_deterministic rightRel' (cont_right_unit eta')
+  have transported :=
+    NatTransPrefixComponentClassifier_hsame_transport
+      (p := p) (p' := p) (q := q) (q' := q) (a := a) (a' := a)
+      (eta := eta) (eta' := right) (theta := eta') (theta' := right')
+      (hsame_refl p) (hsame_refl q) (hsame_refl a)
+      (hsame_symm rightSame) (hsame_symm rightSame') classified
+  exact And.intro transported.left transported.left.right.right.right.right.right
+
 theorem NatTransPrefixComponentClassifier_zero_headed_component_absurd
     {p q a eta theta : BHist} :
     NatTransPrefixComponentClassifier p q a eta theta ->
