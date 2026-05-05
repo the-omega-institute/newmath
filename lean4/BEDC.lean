@@ -555,6 +555,7 @@ import BEDC.Derived.ContinuousUp.VisibleModulusContextComposition
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.VisibleEndpointCycle
 import BEDC.Derived.ContinuousUp.SemanticCertificate
+import BEDC.Derived.ContinuousUp.CertificateFields
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousUp.VisibleGraphModulusDeterminism
 import BEDC.Derived.ContinuousUp.VisibleSourceRestriction
