@@ -449,6 +449,7 @@ If \(\mathsf{CplxDiffAt}(f, z, f')\) with modulus \(\delta_f\) and \(\mathsf{Cpl
 \begin{proof}
 The difference quotient of \(f + g\) decomposes into the sum of the two individual difference quotients. The pasted modulus halves each error budget at precision \(k+1\), giving total error below \(2^{-k}\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_sum\_append\_derivative\_carrier}
 
 \begin{lemma}[Scalar rule]
 \label{lem:cplx-diff-scalar}
@@ -549,6 +550,8 @@ The source specification carries a complex function-history \(f\), a complex his
 \label{def:cplx-diff-pattern-specification}
 The pattern of \(\ComplexDiffUp\) is the explicit difference-quotient witness of \autoref{def:cplx-diff-quot}: for an input \((f, z, h)\) with \(\mathsf{CplxNonZero}(h)\), the pattern is the unique \(q\) with \(\mathsf{CplxDiffQuot}(f, z, h, q)\), parametrically in the precision \(k\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffPatternSpec}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffPatternSpec\_witness\_readback}
 
 \begin{definition}[Complex-differentiability classifier specification]
 \label{def:cplx-diff-classifier-specification}
@@ -577,6 +580,8 @@ The ledger policy records:
   \item explicit modulus pasting laws so that any finite combination of differentiable pieces yields an explicit composite modulus.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffLedgerPolicy}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffLedgerPolicy\_of\_diff}
 
 \begin{theorem}[Concrete \(\ComplexDiffUp\) naming certificate]
 \label{thm:complex-diff-namecert}
