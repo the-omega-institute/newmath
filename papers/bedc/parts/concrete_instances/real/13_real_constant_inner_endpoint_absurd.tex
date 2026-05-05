@@ -43,3 +43,62 @@ appended endpoint. That contradicts
 corresponding orientation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_append\_e0\_endpoint\_absurd}
+
+\begin{theorem}[Real constant classifier transported inner e-zero endpoint absurd]
+\label{thm:real-constant-history-classifier-transported-inner-e0-endpoint-absurd}
+For histories $h,k,tail:\mathsf{BHist}$, any constant real-history classifier
+excludes an $\Eone(\Ezero(tail))$ display on either classified endpoint:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Eone(\Ezero(tail)))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(k,\Eone(\Ezero(tail)))\Longrightarrow\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the left endpoint, unpack the constant real classifier only far enough to
+recover the opposite endpoint display $k\hsame\Eone(d)$. Together with the
+assumed display $h\hsame\Eone(\Ezero(tail))$,
+\autoref{thm:real-constant-history-classifier-endpoint-transport} transports
+the classifier to the exact pair
+$\mathsf{RealConstantHistoryClassifier}(\Eone(\Ezero(tail)),\Eone(d))$.
+Then \autoref{thm:real-constant-history-classifier-e1-e0-endpoint-absurd}
+contradicts this exact sealed-zero shape.
+
+The right endpoint is symmetric. Unpack the classifier to recover
+$h\hsame\Eone(d)$, combine it with the assumed
+$k\hsame\Eone(\Ezero(tail))$, transport to
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\Ezero(tail)))$, and
+apply the opposite orientation of
+\autoref{thm:real-constant-history-classifier-e1-e0-endpoint-absurd}.
+\end{proof}
+
+\begin{theorem}[Real constant classifier inner empty endpoint absurd]
+\label{thm:real-constant-history-classifier-e1-empty-endpoint-absurd}
+For histories $d:\mathsf{BHist}$, the constant real-history classifier excludes
+an empty rational endpoint even when it is sealed by the outer constant-real
+$\Eone$ constructor:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(\Eone(\emp),\Eone(d))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))
+\Longrightarrow\mathsf{False}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Expose the sealed constant-real classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. In the first
+orientation this gives a rational classifier
+$\mathsf{RatHistoryClassifier}(\emp,d)$; in the second orientation it gives
+$\mathsf{RatHistoryClassifier}(d,\emp)$.
+
+Apply \autoref{thm:rat-history-classifier-endpoints-not-empty} to the exposed
+rational classifier in the corresponding orientation. The relevant endpoint
+nonemptiness clause contradicts $\hsame(\emp,\emp)$ by reflexivity.
+\end{proof}
