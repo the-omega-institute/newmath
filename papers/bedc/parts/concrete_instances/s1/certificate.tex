@@ -24,18 +24,18 @@ transported by \autoref{thm:s1-equation-witness-transport} and
 \begin{definition}[SOne component classifier relation]
 \label{def:sone-component-classifier-relation}
 For histories $x,y,e,p,x',y',e',p'$, the concrete relation
-$\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))$ is defined only
-between displayed $\mathsf{SOneHistoryCarrier}$ witnesses. Its data are:
+$\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))$ means the
+conjunction:
 $$
 \mathsf{SOneHistoryCarrier}(x,y,e,p)
-\Longrightarrow
+\wedge
 \mathsf{SOneHistoryCarrier}(x',y',e',p')
-\Longrightarrow
+\wedge
 \hsame(x,x') \wedge \hsame(y,y').
 $$
-Thus the classifier exposes exactly the two real component comparisons; the
-equation witness and the point witness stay hidden until determinacy and
-transport supply their ledgers.
+Thus the classifier exposes exactly the two real component comparisons. The
+equation ledger and the point ledger are not classifier fields; they are
+recovered by \autoref{thm:s1-component-classifier-ledger-determinacy}.
 \end{definition}
 
 \begin{theorem}[SOne component classifier stability]
