@@ -45,6 +45,24 @@ theorem ContinuousFunctionCarrier_empty_source_restriction_public_readback
       chain compositeRel).left
   exact ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed
 
+theorem ContinuousFunctionCarrier_empty_source_restriction_public_package
+    {restricted source map target target' oldMod oldCert delta1 delta2 delta cert cert' : BHist} :
+    Cont restricted BHist.Empty source ->
+      ContinuousFunctionCarrier source map target oldMod oldCert ->
+        ContinuousModulusChain target delta1 delta2 cert ->
+          Cont delta1 delta2 delta ->
+            ContinuousFunctionCarrier restricted map target' delta cert' ->
+              ContinuousFunctionCarrier restricted map target delta cert ∧
+                ContinuousModulusWitness target delta cert ∧
+                  hsame target target' ∧ hsame cert cert' := by
+  intro sourceRestriction carrier chain compositeRel displayed
+  have packaged :=
+    ContinuousFunctionCarrier_empty_source_restriction_modulus_chain sourceRestriction carrier
+      chain compositeRel
+  have readback : hsame target target' ∧ hsame cert cert' :=
+    ContinuousFunctionCarrier_target_cert_deterministic packaged.left displayed
+  exact And.intro packaged.left (And.intro packaged.right readback)
+
 theorem ContinuousFunctionCarrier_empty_source_restriction_transitive_package
     {v u source map target oldMod oldCert delta1 delta2 delta cert displayedTarget
       displayedCert : BHist} :
