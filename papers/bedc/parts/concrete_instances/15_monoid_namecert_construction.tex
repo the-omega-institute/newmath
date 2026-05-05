@@ -596,3 +596,69 @@ The classifier row of \autoref{def:monoid-classifier-specification} is unchanged
 
 These carrier, source, pattern, classifier, stability, and ledger rows are precisely the five-field naming-certificate data required by \autoref{def:typed-naming-certificate} and the monoid obligations of \autoref{def:monoid-certificate-obligations}. Therefore $C^{\mathrm{op}}$ carries a $\MonoidUp$ certificate.
 \end{proof}
+
+\begin{theorem}[Double opposite monoid certificate data identity]
+\label{thm:double-opposite-monoid-certificate-data-identity}
+Let $D$ be a $\MonoidUp$ certificate satisfying the obligations of
+\autoref{def:monoid-certificate-obligations}. Present its monoid data by a
+carrier predicate $\mathcal C$, classifier $\sim_C$, multiplication $\cdot_C$,
+and identity element $e_C$ as in \autoref{def:opposite-monoid-certificate-data}.
+Let
+$$
+D^{\mathrm{opop}}=(D^{\mathrm{op}})^{\mathrm{op}}
+$$
+be obtained by applying \autoref{def:opposite-monoid-certificate-data} twice.
+Then $D^{\mathrm{opop}}$ is a $\MonoidUp$ certificate, and its carrier
+predicate, classifier, multiplication, and identity element are componentwise
+identical to those of $D$:
+$$
+\begin{aligned}
+\mathcal C^{\mathrm{opop}}(a)&=\mathcal C(a),&
+ a\sim_C^{\mathrm{opop}} b&=a\sim_C b,\\
+a\cdot_C^{\mathrm{opop}} b&=a\cdot_C b,&
+ e_C^{\mathrm{opop}}&=e_C.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Because $D$ satisfies the $\MonoidUp$ obligations,
+\autoref{thm:opposite-monoid-certificate} makes $D^{\mathrm{op}}$ a certified
+$\MonoidUp$ instance. Applying the same theorem to that certified opposite data
+makes $D^{\mathrm{opop}}$ a certified $\MonoidUp$ instance.
+
+It remains to compare the displayed data. The carrier predicate, classifier,
+and identity element are fixed by one use of
+\autoref{def:opposite-monoid-certificate-data}. Hence two unfoldings give
+$$
+\mathcal C^{\mathrm{opop}}(a)=\mathcal C^{\mathrm{op}}(a)=\mathcal C(a),
+$$
+$$
+a\sim_C^{\mathrm{opop}} b=a\sim_C^{\mathrm{op}} b=a\sim_C b,
+$$
+and
+$$
+e_C^{\mathrm{opop}}=e_C^{\mathrm{op}}=e_C.
+$$
+
+For multiplication, the first opposite exchanges the two inputs and the second
+opposite exchanges them back:
+$$
+a\cdot_C^{\mathrm{opop}} b
+=b\cdot_C^{\mathrm{op}} a
+=a\cdot_C b.
+$$
+Thus the raw multiplication field of the double opposite certificate is exactly
+the original multiplication field.
+
+The source row of \autoref{def:monoid-source-specification} uses only the
+carrier, classifier, and multiplication just identified. The pattern row of
+\autoref{def:monoid-pattern-specification} forms expressions from the same
+identity element and the same restored multiplication. The classifier row of
+\autoref{def:monoid-classifier-specification} is the same endpoint relation,
+and multiplication respect is typed over the restored multiplication. The
+ledger policy of \autoref{def:monoid-ledger-policy} records operation trees;
+one opposite reading swaps the two children at each multiplication node, and
+the second reading swaps the same children back. Therefore the displayed
+component identities identify the double opposite monoid certificate data with
+the monoid data of $D$.
+\end{proof}
