@@ -544,6 +544,53 @@ $\mathsf{RatHistoryClassifier}(d,e)$. Repacking these carrier, classifier, and
 exactness witnesses gives $\mathsf{K}_{\mathrm{ind}}(d,e,r,q)$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name independently scheduled constant bridge package transitivity]
+\label{thm:rat-stream-name-independent-constant-bridge-package-transitivity}
+For histories $d,e,f:\Hist$ and arbitrary observation schedules
+$r,q,p:\Hist\to\Hist$, if
+$\mathsf{K}_{\mathrm{ind}}(d,e,r,q)$ and
+$\mathsf{K}_{\mathrm{ind}}(e,f,q,p)$ hold in the sense of
+\autoref{thm:rat-stream-name-independent-constant-bridge-package-exactness},
+then $\mathsf{K}_{\mathrm{ind}}(d,f,r,p)$ holds.
+
+The compact ten-field fit is:
+\begin{enumerate}
+  \item the traditional target is independently scheduled constant rational
+  stream-name composition;
+  \item the BEDC source is $\RatUp$ plus $\StreamNameUp$;
+  \item the carrier row is the endpoint pair inside the
+  $\mathsf{K}_{\mathrm{ind}}$ package;
+  \item the classifier row is the independently scheduled
+  $\mathsf{K}_{\mathrm{ind}}$ classifier row;
+  \item the stability row is transitivity of the package relation;
+  \item the ledger is the sextuple $(d,e,f,r,q,p)$;
+  \item the core theorem is this package transitivity;
+  \item exactness is reduction through $\mathsf{RatHistoryClassifier}$;
+  \item the standard bridge is composition of constant rational streams;
+  \item the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Let $\kappa_{de}$ witness
+$\mathsf{K}_{\mathrm{ind}}(d,e,r,q)$, and let $\kappa_{ef}$ witness
+$\mathsf{K}_{\mathrm{ind}}(e,f,q,p)$. Apply the forward direction of
+\autoref{thm:rat-stream-name-independent-constant-bridge-package-exactness}
+to $\kappa_{de}$ and $\kappa_{ef}$, obtaining
+$\mathsf{RatHistoryClassifier}(d,e)$ and
+$\mathsf{RatHistoryClassifier}(e,f)$.
+
+Next apply
+\autoref{thm:rat-history-classifier-trans} to these two classifier witnesses.
+This composes the RatUp source data and yields
+$\mathsf{RatHistoryClassifier}(d,f)$.
+
+Finally apply the reverse direction of
+\autoref{thm:rat-stream-name-independent-constant-bridge-package-exactness}
+with endpoints $d,f$ and schedules $r,p$. The result repacks the two constant
+carrier rows, the independently scheduled classifier row, and the exactness row
+into $\mathsf{K}_{\mathrm{ind}}(d,f,r,p)$.
+\end{proof}
+
 \begin{theorem}[Rational stream-name public certificate]
 \label{thm:rat-stream-name-public-certificate}
 The carrier $\mathsf{RatStreamNameCarrier}$ and classifier
