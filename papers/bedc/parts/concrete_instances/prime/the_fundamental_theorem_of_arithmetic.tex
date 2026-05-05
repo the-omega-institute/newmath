@@ -93,6 +93,20 @@ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrimeProduct\_result\_not\_empty}
 
+\begin{theorem}[Natural prime factorizations have nonempty result]
+\label{thm:nat-prime-factorization-result-not-empty}
+If \(\mathsf{NatPrimeFactorization}(ps,n)\), then \(n\) is not history-same
+to \(\emp\).
+\end{theorem}
+\begin{proof}
+Induct on the concrete factorization witness. The unit factorization has
+result \(\Eone(\emp)\), separated from \(\emp\) by constructor no-confusion.
+The singleton case is prime nonemptiness. In the cons case, primality makes
+the head factor nonempty, the induction hypothesis makes the tail product
+nonempty, and nonempty-factor multiplication excludes an empty result.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrimeFactorization\_result\_not\_empty}
+
 \begin{theorem}[Natural prime products have unary result]
 \label{thm:nat-prime-product-result-unary}
 If \(\mathsf{NatPrimeProduct}(ps,n)\), then \(n\) is a unary history.
@@ -120,6 +134,21 @@ and the multiplication closure theorem turns the displayed
 \(\mathsf{NatMul}(p,m,n)\) witness into \(\mathsf{NatDivides}(m,n)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrimeProduct\_cons\_tail\_divides}
+
+\begin{theorem}[Natural prime product member factor divides result]
+\label{thm:nat-prime-product-factor-mem-unary-divides-result}
+If \(p\in ps\) and \(\mathsf{NatPrimeProduct}(ps,n)\), then \(p\) is unary
+and \(\mathsf{NatDivides}(p,n)\).
+\end{theorem}
+\begin{proof}
+Induct on the \(\mathsf{NatPrimeProduct}\) witness. The empty product has no
+list member. In the cons case, head membership is witnessed directly by the
+displayed \(\mathsf{NatMul}(p,m,n)\) relation and the unary carrier of the
+tail product. Tail membership applies the induction hypothesis to the tail
+product and composes the resulting divisibility through the head
+multiplication closure theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrimeProduct\_factor\_mem\_unary\_divides\_result}
 
 \begin{theorem}[Existence of prime factorization]
 \label{thm:ftoa-existence}

@@ -39,6 +39,16 @@ theorem NatMul_nonempty_multiplier_result_positive_shape {d q n : BHist} :
   | e1 qTail =>
       exact NatMul_succ_result_positive_shape mul dNonempty
 
+theorem NatMul_successor_result_multiplier_positive_shape {d q n : BHist} :
+    NatMul d q (BHist.e1 n) -> exists tail : BHist, hsame q (BHist.e1 tail) ∧
+      UnaryHistory tail := by
+  intro mul
+  have qUnary : UnaryHistory q := NatMul_right_unary mul
+  cases q with
+  | Empty => cases mul
+  | e0 _tail => cases qUnary
+  | e1 tail => exact ⟨tail, hsame_refl (BHist.e1 tail), unary_e1_inversion qUnary⟩
+
 theorem NatFact_successor_result_positive_shape {n m : BHist} :
     NatFact (BHist.e1 n) m -> exists tail : BHist, hsame m (BHist.e1 tail) ∧
       UnaryHistory tail := by

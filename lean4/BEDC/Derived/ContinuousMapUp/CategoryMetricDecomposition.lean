@@ -55,4 +55,27 @@ theorem ContinuousMapCarrier_category_metric_decomposition
             (And.intro modulusWitness.right.left (And.intro graphRel certRel))))
     exact And.intro functionCarrier distanceWitness
 
+theorem ContinuousMapCarrier_categorical_canonical_distance_exactness
+    {source map target modulus cert distance : BHist} :
+    ContinuousMapCarrier source map target modulus cert distance ↔
+      CategoryHomCarrier source target map ∧ ContinuousModulusWitness target modulus cert ∧
+        hsame distance (append source target) := by
+  constructor
+  · intro carrier
+    have decomposed := ContinuousMapCarrier_category_metric_decomposition.mp carrier
+    have exactDistance := ContinuousMapCarrier_canonical_distance_exactness.mp carrier
+    exact And.intro decomposed.left
+      (And.intro decomposed.right.left exactDistance.right)
+  · intro data
+    have homCarrier := data.left
+    have modulusWitness := data.right.left
+    have functionCarrier : ContinuousFunctionCarrier source map target modulus cert :=
+      And.intro homCarrier.left
+        (And.intro homCarrier.right.left
+          (And.intro homCarrier.right.right.left
+            (And.intro modulusWitness.right.left
+              (And.intro homCarrier.right.right.right modulusWitness.right.right.right))))
+    exact ContinuousMapCarrier_canonical_distance_exactness.mpr
+      (And.intro functionCarrier data.right.right)
+
 end BEDC.Derived.ContinuousMapUp

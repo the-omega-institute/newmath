@@ -529,6 +529,159 @@ $\hsame(certFG,certFG_2)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_certificate\_deterministic}
 
+\begin{theorem}[ContinuousMap composite target, certificate, and distance determinacy]
+\label{thm:continuousmap-carrier-comp-target-cert-distance-deterministic}
+For histories
+$source,mid,target,target_2,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,certFG_2,distF,distG,displayed:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),
+\qquad
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+$$
+and the composition ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+If a displayed composite carrier uses the same source, composite map, and
+modulus but displays target $target_2$, certificate $certFG_2$, and distance
+$displayed$, then the displayed rows agree with the canonical composite:
+$$
+\begin{array}{l}
+\hsame(target,target_2)\land \hsame(certFG,certFG_2)\land
+\hsame(displayed,\mathsf{append}(source,target))\\
+\qquad{}\land\ContR(source,target,\mathsf{append}(source,target)).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First close the canonical composite carrier from the two input carriers and
+the three continuation ledgers. Its target is $target$, its certificate is
+$certFG$, and its distance ledger is $\mathsf{append}(source,target)$. Compare
+this canonical carrier with the displayed composite carrier by
+\autoref{thm:continuousmap-target-cert-distance-deterministic}. The comparison
+gives target and certificate determinacy, identifies the canonical distance
+with $displayed$, and exposes the canonical endpoint continuation. Symmetry of
+$\hsame$ orients the displayed distance as
+$\hsame(displayed,\mathsf{append}(source,target))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_target\_cert\_distance\_deterministic}
+
+\begin{theorem}[ContinuousMap category-metric terminal extension bridge]
+\label{thm:continuousmap-category-metric-terminal-extension-bridge}
+For histories
+$source,map,target,modulus,cert,extra,modulus',cert',distance:\mathsf{BHist}$,
+assume the category, continuity, and metric rows
+$$
+\begin{array}{l}
+\mathsf{CategoryHomCarrier}(source,target,map),\\
+\mathsf{ContinuousModulusWitness}(target,modulus,cert),\\
+\mathsf{MetricDistanceWitness}(source,target,distance),
+\end{array}
+$$
+and assume the terminal modulus-extension data
+$$
+\mathsf{ContinuousModulusWitness}(cert,extra,cert')
+\qquad\text{and}\qquad
+\ContR(modulus,extra,modulus').
+$$
+Then these three sources assemble the extended continuous-map carrier
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus',cert',distance).
+$$
+\end{theorem}
+\begin{proof}
+Use the reverse direction of
+Theorem~\ref{thm:continuousmap-carrier-category-metric-decomposition} on the
+displayed category, continuity, and metric rows. This gives the base carrier
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$.
+
+Unpack this base carrier by Definition~\ref{def:continuousmap-carrier}. The
+continuous-function half is
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$, while the
+metric half remains the supplied
+$\mathsf{MetricDistanceWitness}(source,target,distance)$.
+
+Apply
+Theorem~\ref{thm:continuous-function-carrier-terminal-modulus-extension} to
+the continuous-function half, the witness
+$\mathsf{ContinuousModulusWitness}(cert,extra,cert')$, and the ledger
+$\ContR(modulus,extra,modulus')$. This yields
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus',cert')$.
+
+Pair that extended continuous-function carrier with the unchanged metric
+witness by Definition~\ref{def:continuousmap-carrier}. The result is the
+displayed
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus',cert',distance)$.
+
+The ten-field fit is: traditional target a continuous map whose modulus
+certificate is extended at the terminal end; BEDC source
+$\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuousModulusWitness}$,
+$\mathsf{MetricDistanceWitness}$, and $\ContR$; carrier
+$\mathsf{ContinuousMapCarrier}$; classifier $\hsame$ on the preserved visible
+rows; stability from the category-metric decomposition and terminal
+modulus-extension closure; ledger source, map, target, modulus, certificate,
+extra modulus, extended modulus, extended certificate, and distance histories;
+core theorem this bridge; exactness the displayed carrier conclusion; standard
+bridge deferred; status $\mathsf{ProofTarget}$.
+\end{proof}
+
+\begin{theorem}[ContinuousMap prefixed categorical canonical distance exactness]
+\label{thm:continuousmap-prefixed-categorical-canonical-distance-exactness}
+For histories
+$p,source,map,target,modulus,cert,distance,displayed:\mathsf{BHist}$, assume
+$\mathsf{UnaryHistory}(p)$, the categorical and continuity rows
+$$
+\begin{array}{l}
+\mathsf{CategoryHomCarrier}(source,target,map),\\
+\mathsf{ContinuousModulusWitness}(target,modulus,cert),
+\end{array}
+$$
+and the canonical source-target distance classifier
+$$
+\hsame(distance,\mathsf{append}(source,target)).
+$$
+Then the prefixed continuous-map carrier is exactly the prefixed canonical
+distance classifier:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),displayed)\\
+\Longleftrightarrow
+\hsame(displayed,
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First assemble the unprefixed central carrier. Apply
+Theorem~\ref{thm:continuousmap-carrier-categorical-canonical-distance-exactness}
+in the reverse direction to the categorical hom row, the
+target-side modulus witness, and
+$\hsame(distance,\mathsf{append}(source,target))$. This gives
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$.
+
+With that carrier in hand, apply
+Theorem~\ref{thm:continuousmap-prefix-canonical-distance-exactness} to the
+unary prefix $p$ and the central carrier. Its conclusion is exactly the
+displayed equivalence between the prefixed carrier and the canonical prefixed
+source-target distance classifier.
+
+The ten-field fit is: traditional target continuous maps read as categorical
+arrows with visible modulus data under a unary prefix; BEDC source
+$\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuousModulusWitness}$, $\hsame$,
+and $\mathsf{UnaryHistory}$; carrier $\mathsf{ContinuousMapCarrier}$;
+classifier $\hsame$ on the displayed prefixed distance; stability from
+categorical canonical-distance exactness and prefix canonical-distance
+exactness; ledger prefix, source, map, target, modulus, certificate, and
+displayed distance histories; core theorem this iff; exactness the displayed
+prefixed classifier; downstream use compact-continuous and category-bridge
+normalization; status $\mathsf{ProofTarget}$.
+\end{proof}
+
 \input{parts/concrete_instances/continuousmap/associative_composition_canonical_package}
 
 \begin{theorem}[ContinuousMap identity sandwich coherence]
