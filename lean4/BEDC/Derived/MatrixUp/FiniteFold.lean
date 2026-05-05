@@ -1,4 +1,5 @@
 import BEDC.Derived.MatrixUp
+import BEDC.Derived.ListUp
 
 namespace BEDC.Derived.MatrixUp
 
@@ -392,5 +393,60 @@ theorem MatrixSingletonAddFold_zero_prefix_absorption {xs ys : List BHist} :
       (append_empty_left (MatrixSingletonAddFold ys))
   exact And.intro combinedCarrier
     (And.intro suffixCarrier (hsame_trans displayedSame displayedSuffixSame))
+
+theorem MatrixSingletonAddFold_respects_classifier {xs ys : List BHist} :
+    BEDC.Derived.ListUp.ListClassifierSpec MatrixSingletonClassifier xs ys ->
+      MatrixSingletonAddFoldSpineCarrier xs ->
+        MatrixSingletonAddFoldSpineCarrier ys ∧
+          MatrixSingletonClassifier (append (MatrixSingletonAddFold xs) BHist.Empty)
+            (append (MatrixSingletonAddFold ys) BHist.Empty) := by
+  intro classified
+  induction xs generalizing ys with
+  | nil =>
+      cases ys with
+      | nil =>
+          intro _spine
+          have emptySpine : MatrixSingletonAddFoldSpineCarrier ([] : List BHist) := by
+            constructor
+          have leftCarrier :
+              MatrixSingletonCarrier (append (MatrixSingletonAddFold []) BHist.Empty) :=
+            append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty)
+              (hsame_refl BHist.Empty))
+          exact And.intro emptySpine
+            (And.intro leftCarrier (And.intro leftCarrier (hsame_refl _)))
+      | cons y ys =>
+          cases classified
+  | cons x xs ih =>
+      cases ys with
+      | nil =>
+          cases classified
+      | cons y ys =>
+          intro spine
+          have tailData :=
+            ih classified.right spine.right
+          have targetSpine : MatrixSingletonAddFoldSpineCarrier (y :: ys) :=
+            And.intro classified.left.right.left tailData.left
+          have leftFoldCarrier :
+              MatrixSingletonCarrier (MatrixSingletonAddFold (x :: xs)) :=
+            Iff.mpr MatrixSingletonAddFold_carrier_iff spine
+          have rightFoldCarrier :
+              MatrixSingletonCarrier (MatrixSingletonAddFold (y :: ys)) :=
+            Iff.mpr MatrixSingletonAddFold_carrier_iff targetSpine
+          have leftDisplayCarrier :
+              MatrixSingletonCarrier
+                (append (MatrixSingletonAddFold (x :: xs)) BHist.Empty) :=
+            append_eq_empty_iff.mpr
+              (And.intro leftFoldCarrier (hsame_refl BHist.Empty))
+          have rightDisplayCarrier :
+              MatrixSingletonCarrier
+                (append (MatrixSingletonAddFold (y :: ys)) BHist.Empty) :=
+            append_eq_empty_iff.mpr
+              (And.intro rightFoldCarrier (hsame_refl BHist.Empty))
+          have displaySame :
+              hsame (append (MatrixSingletonAddFold (x :: xs)) BHist.Empty)
+                (append (MatrixSingletonAddFold (y :: ys)) BHist.Empty) :=
+            hsame_trans leftDisplayCarrier (hsame_symm rightDisplayCarrier)
+          exact And.intro targetSpine
+            (And.intro leftDisplayCarrier (And.intro rightDisplayCarrier displaySame))
 
 end BEDC.Derived.MatrixUp
