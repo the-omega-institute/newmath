@@ -362,6 +362,29 @@ theorem RealAnalyticExp_local_witness_unary {x bound modulus y : BHist} :
                     (And.intro sumUnary
                       (And.intro data.right.left data.right.right))))))
 
+theorem RealAnalyticExp_product_witness_unary {x y bx bynd mx my ex ey prod : BHist} :
+    RealAnalyticExp x bx mx ex -> RealAnalyticExp y bynd my ey -> Cont ex ey prod ->
+      UnaryHistory ex ∧ UnaryHistory ey ∧ UnaryHistory prod := by
+  intro expX expY product
+  have xWitness := RealAnalyticExp_local_witness_unary expX
+  have yWitness := RealAnalyticExp_local_witness_unary expY
+  cases xWitness.right.right with
+  | intro nx xData =>
+      cases xData with
+      | intro sx xLocal =>
+          cases yWitness.right.right with
+          | intro ny yData =>
+              cases yData with
+              | intro sy yLocal =>
+                  have exUnary : UnaryHistory ex :=
+                    unary_cont_closed xLocal.right.left xWitness.right.left
+                      xLocal.right.right.right
+                  have eyUnary : UnaryHistory ey :=
+                    unary_cont_closed yLocal.right.left yWitness.right.left
+                      yLocal.right.right.right
+                  exact And.intro exUnary (And.intro eyUnary
+                    (unary_cont_closed exUnary eyUnary product))
+
 theorem real_analytic_certificate_boundary {zero : BHist} {c modulus : BHist -> BHist} :
     SemanticNameCert
       (fun result : BHist =>
