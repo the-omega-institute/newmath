@@ -154,6 +154,26 @@ any displayed endomorphism at the same endpoint with that empty identity.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_identity\_public\_readback}
 
+\begin{theorem}[Prefix functor carrier preserves split-mono witnesses]
+\label{thm:prefix-functor-carrier-split-mono-witness-preserves}
+For histories $p,a,b,f,g,i,c$, suppose $p$ carries a prefix functor carrier,
+$f:a\to b$ and $g:b\to a$ are category hom-carriers, $i:a\to a$ is an
+identity hom-carrier, $\ContR(f,g,c)$ displays the composite, $c:a\to a$ is
+also a category hom-carrier, and $c\hsame i$. Then the prefixed endpoints carry
+a split-monomorphism witness: $g:\mathsf{append}(p,b)\to\mathsf{append}(p,a)$,
+the identity carrier over $\mathsf{append}(p,a)$, the same composite ledger,
+the prefixed composite carrier, and the same classifier comparison.
+\end{theorem}
+\begin{proof}
+Use the hom-preservation field of the prefix functor carrier on the inverse
+hom-carrier $g$ and on the identity hom-carrier $i$. Use its composition
+preservation field on $f$, $g$, and the displayed continuation for $c$. Taking
+the displayed prefixed identity to be $i$ and the displayed prefixed composite
+to be $c$ gives the required witness package, with the original comparison
+$c\hsame i$ as the classifier component.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_split\_mono\_witness\_preserves}
+
 \begin{theorem}[Prefix functor empty morphism source exactness]
 \label{thm:functor-prefix-empty-morphism-source}
 For histories $p,a,source$, the empty history is a category hom-carrier from

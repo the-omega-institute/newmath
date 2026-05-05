@@ -66,6 +66,32 @@ is impossible.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_empty\_absurd}
 
+\begin{theorem}[Prime nonunit factor has unit multiplier]
+\label{thm:natprime-natmul-nonunit-factor-multiplier-unit}
+Let $p,d,q$ be histories. If $p$ is prime, $d$ and $q$ are unary histories,
+$\mathsf{NatMul}(d,q,p)$ holds, and $d$ is not history-same to the unit, then
+$d$ is the prime factor and $q$ is the unit multiplier:
+$$
+\hsame(d,p)\wedge\hsame(q,\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Package the multiplication witness as a divisibility witness
+$\mathsf{NatDivides}(d,p)$. The prime divisor alternative says that $d$ is
+either the unit or $p$; the displayed nonunit hypothesis eliminates the unit
+case, so $d\hsame p$.
+
+It remains to identify the multiplier. The empty multiplier case would make
+the prime result empty, contradicting the strict-prefix field of the prime
+predicate; the zero-headed case contradicts unary history. In the successor
+case, successor-result exactness for multiplication applied to
+$\mathsf{NatMul}(d,\Eone(q_0),p)$ and $p\hsame d$ says that either $d$ is
+empty or $q_0$ is empty. The empty factor case again contradicts primality
+through $d\hsame p$, hence $q_0\hsame\emp$, so
+$q\hsame\Eone(\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_nonunit\_factor\_multiplier\_unit}
+
 \begin{lemma}[Non-primality of the unit]
 \label{lem:unit-not-prime}
 \(\neg \mathsf{NatPrime}(\Eone(\emp))\).
