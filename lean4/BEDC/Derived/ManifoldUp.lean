@@ -85,6 +85,21 @@ theorem ManifoldSingleton_chart_value_transport {h k : BHist} :
       (And.intro kRows.right.left
         (And.intro hRows.right.right kRows.right.right)))
 
+structure ManifoldChartCoordinateTransportRow where
+  package : BHist
+  chartIndex : BHist
+  source : BHist
+  target : BHist
+  sourceCarrier : ManifoldSingletonCarrier source
+  targetCarrier : ManifoldSingletonCarrier target
+  sourceValue : BHist
+  targetValue : BHist
+  sourceReadback : Cont BHist.Empty source sourceValue
+  targetReadback : Cont BHist.Empty target targetValue
+  coordinateClassified : hsame sourceValue targetValue
+  sourceUnary : UnaryHistory sourceValue
+  targetUnary : UnaryHistory targetValue
+
 theorem ManifoldSingleton_atlas_index_exhaustion {chart overlap domain : BHist} :
     ManifoldSingletonCarrier chart -> Cont BHist.Empty chart domain -> Cont chart chart overlap ->
       hsame chart BHist.Empty ∧ hsame domain BHist.Empty ∧ hsame overlap BHist.Empty ∧
