@@ -6,6 +6,33 @@ The measure interface $\MeasureUp$ packages a carrier with a constructive $\sigm
 \section{Carrier definition}
 \label{sec:measure-carrier}
 
+\begin{definition}[MeasureUp carrier obligation inventory]
+\label{def:measureup-carrier-obligation-inventory}
+A $\MeasureUp$ carrier is a $\mathsf{BHist}$ package whose rows expose the
+constructive measure-space data needed by the certificate. Its ten-field
+inventory is:
+\begin{enumerate}
+  \item traditional target: a constructive measure space;
+  \item BEDC source: $\RealUp$, the additive $\AbGroupUp$ row for $\RealUp$
+  addition, and countable StreamName-style measurable families;
+  \item carrier choice: a $\mathsf{BHist}$ package containing a sample/event
+  carrier, a $\sigma$-algebra predicate $\mathcal{A}$, a $\RealUp$-valued map
+  $\mu$, and rows for the empty event, binary union, and countable union;
+  \item classifier choice: componentwise $\hsame$ on the carrier package,
+  together with the $\RealUp$ classifier on measure values;
+  \item stability obligations: carrier transport, measurable-set transport,
+  $\mu$-congruence, $\sigma$-additivity, and head-tail readback for countable
+  sums;
+  \item ledger: event rows, measurable sequence rows, and countable-sum rows;
+  \item core theorem list: empty set zero, finite disjoint-union additivity,
+  and countable disjoint additivity;
+  \item exactness predicate: measurable package coverage, soundness, and
+  completeness;
+  \item standard bridge: absent at this paper site;
+  \item status: paper obligation surface.
+\end{enumerate}
+\end{definition}
+
 \begin{definition}[MeasureUp certificate surface]
 \label{def:measure-certificate-surface}
 A $\MeasureUp$ certificate surface over the BEDC history substrate consists of the following data.
@@ -67,6 +94,73 @@ Thus both downstream arguments may replace a syntactically shifted empty countab
 
 \section{The certificate}
 \label{sec:measure-certificate}
+
+\begin{theorem}[MeasureUp classifier stability obligations]
+\label{thm:measureup-classifier-stability-obligations}
+For a $\MeasureUp$ carrier with inventory
+\autoref{def:measureup-carrier-obligation-inventory}, componentwise $\hsame$
+of carrier packages transports every row named by the inventory. In particular,
+if two packages are componentwise $\hsame$, then measurable membership in
+$\mathcal{A}$, the $\RealUp$-valued measure rows for $\mu$, the
+$\sigma$-algebra closure rows, and the $\RealUp$ classifier on $\mu$-values are
+preserved across the transport.
+\end{theorem}
+\begin{proof}
+Unpack the carrier inventory. The event carrier, the measurable predicate, the
+measure map, and the empty, binary-union, and countable-union rows are separate
+components of the same $\mathsf{BHist}$ package.
+
+Componentwise $\hsame$ supplies a transport witness for each component. Applying
+the measurable-set component transports membership in $\mathcal{A}$, and
+applying the closure-row components transports the empty, binary-union, and
+countable-union witnesses.
+
+It remains to identify the value rows. The $\mu$-congruence component sends
+transported measurable events to transported $\RealUp$ values, and the
+$\RealUp$ classifier of \autoref{def:real-classifier-specification} composes
+those comparisons inside the codomain. Hence the classifier on $\mu$-values is
+stable under the same componentwise carrier transport.
+\end{proof}
+
+\begin{theorem}[MeasureUp sigma-additive certificate obligations]
+\label{thm:measureup-sigma-additive-certificate-obligations}
+For a $\MeasureUp$ carrier with inventory
+\autoref{def:measureup-carrier-obligation-inventory}, a $\MeasureUp$
+certificate consists of the following rows:
+\begin{enumerate}
+  \item empty-event membership $\varnothing\in\mathcal{A}$;
+  \item binary disjoint-union closure in $\mathcal{A}$;
+  \item countable disjoint-union closure in $\mathcal{A}$ for
+  StreamName-style measurable families;
+  \item $\sigma$-additivity into the $\RealUp$ countable-sum classifier;
+  \item classifier-stable head-tail readback for those countable sums.
+\end{enumerate}
+With these rows, \autoref{thm:measure-empty-set-zero-from-sigma-additivity} and
+\autoref{thm:measure-finite-disjoint-union-additivity} are consequences of the
+certificate package.
+\end{theorem}
+\begin{proof}
+The first row gives the all-empty measurable sequence used for the zero law.
+The countable disjoint-union row identifies its union as the empty event, and
+the $\sigma$-additivity row compares $\mu(\varnothing)$ with the associated
+$\RealUp$ countable sum.
+
+Head-tail readback splits that sum into its head and tail. The classifier
+stability theorem transports the tail back to the original all-empty sum, and
+the additive $\AbGroupUp$ row then cancels the repeated summand exactly as in
+\autoref{thm:measure-empty-set-zero-from-sigma-additivity}.
+
+For the finite disjoint-union law, use the measurable sequence whose first two
+terms are the given disjoint events and whose remaining terms are empty. Binary
+closure supplies measurability of $A\cup B$, countable closure supplies the same
+event as the countable union, and $\sigma$-additivity compares its measure with
+the corresponding countable sum.
+
+Two applications of head-tail readback expose the first two summands. The empty
+tail is classified as $0_R$ by the zero law, and the additive $\AbGroupUp$ row
+removes that unit. The resulting comparison is the statement of
+\autoref{thm:measure-finite-disjoint-union-additivity}.
+\end{proof}
 
 \begin{theorem}[Measure empty set is zero]
 \label{thm:measure-empty-set-zero-from-sigma-additivity}
