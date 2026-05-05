@@ -246,4 +246,35 @@ theorem LFunctionDirichletPartSum_result_hsame_transport
       cases sameResult
       exact sum
 
+theorem LFunctionDirichletPartSum_finite_zero_tail_stability
+    {term : BHist -> BHist -> BHist} {s n k S : BHist} :
+    DirichletPartSum term s n S ->
+      LFunctionDirichletFiniteZeroTail term s n k ->
+        DirichletPartSum term s (append n k) S := by
+  intro sum zeroTail
+  induction zeroTail with
+  | empty =>
+      exact sum
+  | step previous tailEmpty ih =>
+      exact LFunctionDirichletPartSum_zero_term_successor_stable ih tailEmpty
+
+inductive DirichletFiniteZeroTail (term : BHist -> BHist -> BHist) (s n : BHist) :
+    BHist -> Prop where
+  | zero : DirichletFiniteZeroTail term s n BHist.Empty
+  | step {k : BHist} :
+      DirichletFiniteZeroTail term s n k ->
+        hsame (term (append n k) s) BHist.Empty ->
+          DirichletFiniteZeroTail term s n (BHist.e1 k)
+
+theorem DirichletFiniteZeroTail_stability
+    {term : BHist -> BHist -> BHist} {s n k S : BHist} :
+    DirichletPartSum term s n S -> DirichletFiniteZeroTail term s n k ->
+      DirichletPartSum term s (append n k) S := by
+  intro sum tail
+  induction tail with
+  | zero =>
+      exact sum
+  | step previous zeroTerm ih =>
+      exact LFunctionDirichletPartSum_zero_term_successor_stable ih zeroTerm
+
 end BEDC.Derived.LFunctionUp

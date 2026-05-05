@@ -123,6 +123,18 @@ theorem additive_pattern_result_unary_iff_inputs {h k r : BHist} :
 def AddClassifierSpec (r r' : BHist) : Prop :=
   hsame r r'
 
+theorem AddSourceSpec_same_source_classifier {h k r r' : BHist} :
+    AddSourceSpec h k r -> AddSourceSpec h k r' ->
+      AddClassifierSpec r r' ∧ Cont h k r ∧ Cont h k r' ∧
+        UnaryHistory r ∧ UnaryHistory r' := by
+  intro left right
+  have sameRR' : AddClassifierSpec r r' :=
+    cont_deterministic left.right.right right.right.right
+  exact And.intro sameRR'
+    (And.intro left.right.right
+      (And.intro right.right.right
+        (And.intro (AddSourceSpec_result_unary left) (AddSourceSpec_result_unary right))))
+
 theorem add_up_name_certificate :
     NameCert UnaryHistory AddClassifierSpec := by
   constructor

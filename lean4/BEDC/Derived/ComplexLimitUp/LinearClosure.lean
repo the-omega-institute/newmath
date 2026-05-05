@@ -7,6 +7,10 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 
+def ComplexPointwiseBinaryAffineCombination (a b : BHist) (s t : BHist -> BHist)
+    (n : BHist) : BHist :=
+  append (append a (s n)) (append b (t n))
+
 theorem ComplexLimit_prepend_constant_closed {s N M : BHist -> BHist} {z q : BHist} :
     UnaryHistory q -> ComplexLimit s N z M ->
       ComplexLimit (fun n : BHist => append q (s n)) N (append q z) M := by
