@@ -132,6 +132,28 @@ By induction on the second argument \(q\), using the determinacy of \(\Cont\) at
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_functional}
 
+\begin{theorem}[Nonempty multiplicand result cancellation]
+\label{thm:natmul-nonempty-multiplicand-result-cancel}
+Let $d$ be a unary history with $d\not\hsame\emp$. If
+$\mathsf{NatMul}(d,q,n)$ and $\mathsf{NatMul}(d,r,m)$ have history-same
+results, then the multipliers are history-same:
+$$
+\mathsf{NatMul}(d,q,n)\land\mathsf{NatMul}(d,r,m)\land n\hsame m
+\Longrightarrow q\hsame r.
+$$
+\end{theorem}
+\begin{proof}
+Induct on the first multiplication witness. In the zero case, the common result
+is empty, and empty-result exactness for a nonempty multiplicand forces the
+second multiplier to be empty. In the successor case, a zero witness on the
+right would make the appended nonempty multiplicand empty, contradicting the
+hypothesis on $d$. The successor--successor branch cancels the common
+continuation suffix $d$ from the two result rows and applies the induction
+hypothesis to the predecessor products, then rebuilds the one-headed
+multiplier equality.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_multiplicand\_result\_cancel}
+
 \begin{theorem}[Unary multiplication commutes up to history sameness]
 \label{thm:natmul-comm-hsame}
 For unary histories \(d\) and \(q\), if \(\mathsf{NatMul}(d,q,n)\) and
@@ -515,6 +537,21 @@ case is excluded by unary-history inversion. Hence \(d\) is \(e1\)-headed, and
 the unary tail is obtained by unary inversion.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_successor\_result\_divisor\_positive\_shape}
+
+\begin{theorem}[Nonempty-result divisors have positive shape]
+\label{thm:nat-divides-nonempty-result-divisor-positive-shape}
+If \(\mathsf{NatDivides}(d,n)\), \(n\) is unary, and
+\(n\not\hsame\emp\), then \(d\) has positive unary shape: there is a unary
+history \(t\) with \(d\hsame\Eone(t)\).
+\end{theorem}
+\begin{proof}
+Unpack the quotient witness in \(\mathsf{NatDivides}(d,n)\) and read the
+unaryness of \(d\) from its multiplication field. If \(d\hsame\emp\), then
+empty-left divisibility forces \(n\hsame\emp\), contradicting the displayed
+nonempty result. The \(e0\)-headed case is excluded by unary-history inversion,
+so the divisor is \(e1\)-headed and unary inversion supplies the tail carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_nonempty\_result\_divisor\_positive\_shape}
 
 \begin{theorem}[Empty-left divisibility exactness]
 \label{thm:nat-divides-empty-left-iff}

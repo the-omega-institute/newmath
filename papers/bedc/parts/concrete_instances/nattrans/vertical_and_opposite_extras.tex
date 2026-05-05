@@ -1,3 +1,24 @@
+\begin{theorem}[NatTrans prefix component vertical composite endpoint cycle boundary]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-endpoint-cycle-boundary}
+For prefix components over a common object $a$, if $\eta$ goes from $p$ to
+$q$, $\theta$ goes from $q$ to $r$, their vertical composite displays
+$composite$, and $\hsame(p,r)$, then the two components and their composite
+are empty and the intermediate prefixes collapse:
+$$
+\hsame(\eta,\emp)\land \hsame(\theta,\emp)\land
+\hsame(composite,\emp)\land \hsame(p,q)\land\hsame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two prefix components to category hom-carriers between
+$\mathsf{append}(p,a)$, $\mathsf{append}(q,a)$, and $\mathsf{append}(r,a)$.
+The endpoint equality $\hsame(p,r)$ extends across the shared suffix $a$.
+The category endpoint-cycle boundary theorem then gives empty component and
+composite histories plus endpoint equalities; cancelling the common suffix
+$a$ gives $\hsame(p,q)$ and $\hsame(q,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_endpoint\_cycle\_boundary}
+
 \begin{theorem}[NatTrans prefix component vertical composite nonempty source visibility]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-nonempty-result-source-visible}
 For prefix components over a common object $a$, if $\eta$ goes from $p$ to

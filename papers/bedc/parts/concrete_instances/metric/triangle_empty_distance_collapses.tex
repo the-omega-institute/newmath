@@ -119,6 +119,59 @@ $d_{xyz}\hsame x$ gives the displayed witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_right\_empty\_boundary\_witness}
 
+\begin{theorem}[Metric triangle bilateral empty edge collapse]
+\label{thm:metric-distance-witness-triangle-bilateral-empty-edge-collapse}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if both displayed edge distances
+in a metric triangle are history-same to $\emp$, then all three endpoints, the
+outer displayed distance, the final structural depth, and the empty-to-empty
+outer witness collapse to the empty case:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow\\
+\hsame(d_{xy},\emp)\Longrightarrow
+\hsame(d_{yz},\emp)\Longrightarrow\\
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xyz},\emp)\land
+\mathsf{MetricDistanceDepth}(d_{xyz})=0\land
+\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:metric-distance-witness-triangle-left-distance-empty-collapse} to
+the three triangle witnesses and the classifier $\hsame(d_{xy},\emp)$. This
+gives the empty classifiers for $x$ and $y$, and reads $d_{xyz}$ and
+$d_{yz}$ back to the right endpoint $z$.
+
+Apply
+\autoref{thm:metric-distance-witness-triangle-right-distance-empty-collapse} to
+the same three witnesses and the classifier $\hsame(d_{yz},\emp)$. This gives
+the empty classifiers for $y$ and $z$, and reads $d_{xy}$ and $d_{xyz}$ back to
+the left endpoint $x$.
+
+The endpoint classifiers give the first three conjuncts. For the outer
+distance, compose the left-collapse readback $\hsame(d_{xyz},z)$ with
+$\hsame(z,\emp)$ by transitivity of $\hsame$. Apply
+\autoref{thm:metric-distance-depth-zero-iff-empty} to this empty final-distance
+classifier to obtain $\mathsf{MetricDistanceDepth}(d_{xyz})=0$.
+
+The empty-boundary metric witness
+$\mathsf{MetricDistanceWitness}(\emp,\emp,\emp)$ is the exact empty-distance
+case. Transporting its result field along $d_{xyz}\hsame\emp$ yields
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})$. Conjoining these rows
+gives the displayed package.
+\end{proof}
+
+Fit: traditional target degenerate triangle normalization; BEDC source $BHist$
+metric distance witnesses; carrier the three witnessed edges; classifier
+$\hsame$; stability from the two empty-edge collapse lemmas and depth-zero
+readback; ledger the two displayed edge distances; core theorem this block;
+exactness the endpoint and final-distance collapse; standard bridge none
+claimed; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Metric triangle two-sided empty boundary package]
 \label{thm:metric-distance-witness-two-sided-empty-triangle-boundary-package}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the two edge distances in a
@@ -178,4 +231,46 @@ The second edge supplies the unary carrier for $z$. Apply
 \autoref{thm:metric-distance-witness-empty-left-iff} with this carrier and the
 displayed classifier $d_{xyz}\hsame z$ to package the canonical witness from
 $\emp$ to $z$ with displayed distance $d_{xyz}$.
+\end{proof}
+
+\begin{theorem}[Metric triangle two-sided empty witness exactness]
+\label{thm:metric-distance-witness-two-sided-empty-triangle-witness-exactness}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$,
+$\mathsf{MetricDistanceWitness}(y,z,d_{yz})$, and
+$\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$ form a metric triangle and
+both displayed edge distances are history-same to $\emp$, then the outer result
+simultaneously carries every empty-boundary witness row needed by the triangle:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow\\
+\hsame(d_{xy},\emp)\Longrightarrow
+\hsame(d_{yz},\emp)\Longrightarrow\\
+\hsame(d_{xyz},\emp)\land
+\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})\land
+\mathsf{MetricDistanceWitness}(\emp,z,d_{xyz})\land
+\mathsf{MetricDistanceWitness}(x,\emp,d_{xyz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:metric-distance-witness-triangle-bilateral-empty-edge-collapse} to
+the three triangle witnesses and the two classifiers
+$\hsame(d_{xy},\emp)$ and $\hsame(d_{yz},\emp)$. This gives
+$\hsame(d_{xyz},\emp)$ together with the empty-to-empty witness
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})$.
+
+Next apply
+\autoref{thm:metric-distance-witness-triangle-left-empty-boundary-witness} to
+the same triangle and $\hsame(d_{xy},\emp)$. This supplies the boundary row
+$\mathsf{MetricDistanceWitness}(\emp,z,d_{xyz})$.
+
+Finally apply
+\autoref{thm:metric-distance-witness-triangle-right-empty-boundary-witness} to
+the same triangle and $\hsame(d_{yz},\emp)$. This supplies
+$\mathsf{MetricDistanceWitness}(x,\emp,d_{xyz})$, and the four rows assemble
+into the displayed conjunction.
 \end{proof}
