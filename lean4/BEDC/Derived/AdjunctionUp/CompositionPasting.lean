@@ -58,7 +58,6 @@ theorem AdjunctionCompositionPasting_triangle_determinacy
                   Cont c21 u21 r21 ->
                     Cont u21 c21 l21' ->
                       Cont c21 u21 r21' ->
-                      Cont c21 u21 r21' ->
                         hsame l21 l21' ∧ hsame r21 r21' := by
   intro _unitLeft _unitRight _counitLeft _counitRight _unitRel _counitRel leftTriangle
     rightTriangle displayedLeft displayedRight
