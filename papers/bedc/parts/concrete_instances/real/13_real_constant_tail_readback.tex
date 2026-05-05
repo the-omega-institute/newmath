@@ -445,6 +445,38 @@ $A\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E)$, and the projected row $A$ supplies
 its premise. Hence the full package $Q(D,E,u_D,u_E,z_D,z_E)$ holds.
 \end{proof}
 
+\begin{theorem}[Real constant appended-tail bridge single-row full denominator-tail exactness]
+\label{thm:real-constant-appended-tail-bridge-single-row-full-denominator-tail-exactness}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, use the same definitions of $D$, $E$, the bridge rows
+$A,B,U,C$, and the full package $Q(D,E,u_D,u_E,z_D,z_E)$ as in
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}.
+If $\hsame(tail_D,tail_E)$, then each concrete bridge row is exact for the
+full denominator-tail package:
+$$
+(A\Longleftrightarrow Q(D,E,u_D,u_E,z_D,z_E))\land
+(B\Longleftrightarrow Q(D,E,u_D,u_E,z_D,z_E))\land
+(U\Longleftrightarrow Q(D,E,u_D,u_E,z_D,z_E))\land
+(C\Longleftrightarrow Q(D,E,u_D,u_E,z_D,z_E)).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\hsame(tail_D,tail_E)$. The row-to-package directions are the four
+projections of
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}
+under this tail agreement.
+
+For the package-to-row directions, assume
+$Q(D,E,u_D,u_E,z_D,z_E)$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness}
+under the same tail agreement. The resulting conjunction
+$A\land B\land U\land C$ supplies the corresponding row by projection.
+
+Combining the four row-to-package projections with these four projections from
+the exactness conjunction gives the stated rowwise equivalences for
+$A,B,U,C$.
+\end{proof}
+
 The bridge-readback certificate fit has ten fields: traditional target faithful
 constant rational embedding into RealUp; BEDC source RatUp plus StreamNameUp
 plus RealUp; carrier the appended-tail rational histories $D,E$ and the
