@@ -340,6 +340,32 @@ associativity.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_nested\_common\_context\_classifier\_iff}
 
+\begin{theorem}[Concrete unary-history magma nested left-unit classifier]
+\label{thm:concrete-unary-history-magma-cont-nested-left-unit-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $l,m,r,lm,a:\mathsf{BHist}$, if
+$\ContR(l,m,lm)$ and $\ContR(lm,r,a)$, then classifying the nested result
+against the right endpoint is equivalent to the right endpoint being unary and
+both visible left factors being empty:
+$$
+R_U(a,r)
+\Longleftrightarrow
+U(r)\land\hsame(l,\emp)\land\hsame(m,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-step left-unit classifier to the second continuation. The
+forward direction gives $U(r)$ and $lm\hsame\emp$; decomposing the first
+continuation then splits $lm\hsame\emp$ into $l\hsame\emp$ and
+$m\hsame\emp$. Conversely, the two empty-factor equalities compose through
+the first continuation to give $lm\hsame\emp$, and the one-step left-unit
+classifier rebuilds $R_U(a,r)$ for the second continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_nested\_left\_unit\_classifier\_iff}
+
 The ten-field per-object fit is: traditional target magma; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
 classifier carrier-aware $\hsame$ on unary endpoints; stability closure and
