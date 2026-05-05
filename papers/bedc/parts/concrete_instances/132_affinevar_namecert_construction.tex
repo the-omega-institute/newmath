@@ -42,6 +42,7 @@ $$
 $$
 In particular, if $x$ is classified in both zero-loci $\mathsf{V}_{R,n}(F)$ and $\mathsf{V}_{R,n}(G)$, then $x$ is classified in the zero-locus of the concatenated polynomial family $F{++}G$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_intersection\_concat}
 \begin{proof}
 Unfold \autoref{def:affine-finite-family-zero-locus}. The finite-spine append split is the positional form underlying \autoref{lem:finset-enummem-append-split}: a position of $F{++}G$ is either a left position coming from $F$ or a right position coming from $G$, and the corresponding readback is respectively $\mathsf{entry}_{F}$ or $\mathsf{entry}_{G}$.
 
@@ -54,4 +55,25 @@ and the left-readback clause identifies this entry with $\mathsf{entry}_{F}(i)$.
 For the reverse implication, assume $\mathsf{V}_{R,n}(F)(x)\land\mathsf{V}_{R,n}(G)(x)$. The affine-point component for the concatenated zero-locus is the one supplied by the $F$ component. Now fix a position $k:\mathsf{Pos}(F{++}G)$. By the same finite-spine append split, $k$ is either a left position $\iota_F(i)$ or a right position $\iota_G(j)$. In the left case, the equation row of $\mathsf{V}_{R,n}(F)(x)$ gives $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x)$, which is the required row for $\mathsf{entry}_{F{++}G}(k)$. In the right case, the equation row of $\mathsf{V}_{R,n}(G)(x)$ gives $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{G}(j),x)$, again with the required readback equality for the appended spine.
 
 The affine-point witness and this case analysis over every position of $F{++}G$ repack as $\mathsf{V}_{R,n}(F{++}G)(x)$, giving the displayed equivalence and the stated intersection implication.
+\end{proof}
+
+\begin{theorem}[Affine empty-family zero-locus is the ambient affine space]
+\label{thm:affine-empty-family-zero-locus-full-space}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $\mathsf{nil}:\mathsf{HistSpine}$ denote the empty finite polynomial-family spine. For every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(\mathsf{nil})(x)
+\Longleftrightarrow
+\mathsf{AffPoint}_{R,n}(x).
+$$
+In particular, $\mathsf{AffPoint}_{R,n}(x)$ implies $\mathsf{V}_{R,n}(\mathsf{nil})(x)$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:affine-finite-family-zero-locus}. The forward implication is projection from the defining conjunction, since every zero-locus point carries its ambient affine-point witness.
+
+For the reverse implication, assume $\mathsf{AffPoint}_{R,n}(x)$. It remains only to supply the equation row
+$$
+\forall i:\mathsf{Pos}(\mathsf{nil}).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{\mathsf{nil}}(i),x).
+$$
+The nil finite spine has no positions, by the finite-spine nil clause of \autoref{def:list-spine-representation} and the empty-position reading used in \autoref{lem:finset-enummem-append-split}. Hence this universal row has no instances to check. Pairing the given affine-point witness with the empty equation row gives $\mathsf{V}_{R,n}(\mathsf{nil})(x)$.
 \end{proof}
