@@ -91,4 +91,18 @@ theorem FinsetEnumerationClassifier_duplicate_insert
           (FinsetEnumerationCarrier_membership_exactness cert consCarrier)
           (Exists.intro w (And.intro (Or.inr memberAndSame.left) memberAndSame.right))
 
+theorem FinsetEnumerationClassifier_trans
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {xs ys zs : ProbeBundle BHist} :
+    FinsetEnumerationClassifier A Rel xs ys ->
+      FinsetEnumerationClassifier A Rel ys zs ->
+        FinsetEnumerationClassifier A Rel xs zs := by
+  intro xy yz z
+  change FinsetEnumerationCarrier A Rel xs z <-> FinsetEnumerationCarrier A Rel zs z
+  constructor
+  · intro carried
+    exact Iff.mp (yz z) (Iff.mp (xy z) carried)
+  · intro carried
+    exact Iff.mpr (xy z) (Iff.mpr (yz z) carried)
+
 end BEDC.Derived.FinsetUp

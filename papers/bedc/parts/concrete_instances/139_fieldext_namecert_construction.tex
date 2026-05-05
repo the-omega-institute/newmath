@@ -6,5 +6,142 @@ The field-extension interface $\FieldExtUp$ packages an embedding of one field c
 \section{Carrier definition}
 \label{sec:fieldext-carrier}
 
+\begin{definition}[Concrete singleton field-extension carrier]
+\label{def:fieldext-singleton-embedding-carrier}
+Let the base field carrier, extension field carrier, and extension vector
+carrier all be the singleton empty-history carrier $A_{\emp}$ over
+$\mathsf{BHist}$, with shared classifier
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Use the singleton $\FieldUp$ operations of
+Definition~\ref{def:singleton-empty-history-field-schema-instance} for both
+the base and extension fields. Define the embedding by
+$\iota_{\emp}(h):=h$. Give the extension field its vector-space-over-base
+structure by the scalar action from
+Definition~\ref{def:singleton-empty-history-vecspace-instance} over the
+singleton $\FieldUp$ source.
+
+The certificate fit has ten fields:
+\begin{enumerate}
+  \item Traditional target: the terminal field extension.
+  \item BEDC source: $\mathsf{BHist}$.
+  \item Carrier choice: $A_{\emp}$ for the base field, extension field, and
+  vector carrier.
+  \item Classifier choice: $\rho_{\emp}$ on all displayed endpoints.
+  \item Stability obligations: the singleton field laws together with the
+  singleton vector-space laws.
+  \item Ledger: the identity embedding and vector-space provenance over the
+  same empty-history endpoint.
+  \item Core theorem list:
+  Theorems~\ref{thm:fieldext-singleton-embedding-laws},
+  \ref{thm:fieldext-singleton-vector-space-compatibility}, and
+  \ref{thm:fieldext-singleton-namecert-obligations}.
+  \item Exactness predicate: singleton endpoint collapse.
+  \item Standard bridge: the terminal field extension.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Singleton field-extension embedding laws]
+\label{thm:fieldext-singleton-embedding-laws}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier}, let
+$h,k:\mathsf{BHist}$ be carried by $A_{\emp}$. Then
+$\iota_{\emp}(h)$ is carried by the extension field,
+$$
+\rho_{\emp}(h,k)\quad\text{if and only if}\quad
+\rho_{\emp}(\iota_{\emp}(h),\iota_{\emp}(k)),
+$$
+and the embedding preserves the concrete singleton zero, one, addition,
+negation, multiplication, and proof-indexed inverse up to $\rho_{\emp}$.
+Thus the base endpoint and its embedded extension endpoint have the same
+singleton classification for each displayed field operation.
+\end{theorem}
+\begin{proof}
+Unfold $\iota_{\emp}$. The carrier statement is immediate from the assumption
+$A_{\emp}(h)$, because the base and extension field carriers are the same
+singleton carrier $A_{\emp}$.
+
+The classifier comparison has the same two directions. After unfolding the
+identity embedding, both sides are the identical classifier assertion
+$\rho_{\emp}(h,k)$.
+
+For zero, one, addition, negation, and multiplication, apply
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws} to obtain the
+field-law rows over $A_{\emp}$ and $\rho_{\emp}$. Then use
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse} to read
+each concrete operation endpoint as the singleton empty-history endpoint.
+
+For the inverse rows, fix a proof-indexed witness in the singleton nonzero
+domain. The same operation-table collapse theorem gives the inverse endpoint
+row for $\mathsf{FieldSingletonInv}(h,p)$, and the law package uses that same
+proof-indexed domain. Hence base inverse and embedded extension inverse are
+classified by $\rho_{\emp}$ at the same singleton endpoint.
+\end{proof}
+
 \section{The certificate}
 \label{sec:fieldext-certificate}
+
+\begin{theorem}[Singleton field-extension vector-space compatibility]
+\label{thm:fieldext-singleton-vector-space-compatibility}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier}, the extension
+carrier $A_{\emp}$ with scalar action from
+Definition~\ref{def:singleton-empty-history-vecspace-instance} is a vector
+space over the base singleton field. Moreover, for every base scalar
+$r:\mathsf{BHist}$ and extension vector endpoint $m:\mathsf{BHist}$ carried by
+$A_{\emp}$, scalar multiplication by the embedded scalar agrees, up to
+$\rho_{\emp}$, with singleton field multiplication in the extension field.
+\end{theorem}
+\begin{proof}
+The vector-space rows are exactly
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws}, applied to the same
+scalar carrier, vector carrier, and classifier displayed in
+Definition~\ref{def:fieldext-singleton-embedding-carrier}.
+
+The scalar-action endpoint collapses to $\emp$ by
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}. The
+extension-field multiplication endpoint also collapses to $\emp$ by
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}.
+
+Since both endpoints are carried by $A_{\emp}$ and identified with the same
+empty-history endpoint, the classifier $\rho_{\emp}$ relates the scalar-action
+endpoint to the extension-field multiplication endpoint. This gives the
+compatibility of embedded scalar multiplication with the singleton extension
+field product.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension NameCert obligations]
+\label{thm:fieldext-singleton-namecert-obligations}
+The concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier} satisfy the
+paper-side $\FieldExtUp$ $\NameCert$ obligation set: source field certificate,
+extension field certificate, embedding stability, vector-space-over-base
+compatibility, exact endpoint classification, and ledger provenance.
+\end{theorem}
+\begin{proof}
+The source field certificate and extension field certificate are both supplied
+by Theorem~\ref{thm:singleton-empty-history-field-schema-certificate}, because
+the base and extension field carriers are the same singleton field package.
+
+Embedding stability is supplied by
+Theorem~\ref{thm:fieldext-singleton-embedding-laws}. It records carrier
+preservation, classifier preservation, and preservation of the singleton field
+operations up to $\rho_{\emp}$.
+
+Vector-space-over-base compatibility is supplied by
+Theorem~\ref{thm:fieldext-singleton-vector-space-compatibility}, whose
+vector-space component is the law package of
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws}. Its paper-side
+semantic packaging is recorded by
+Theorem~\ref{thm:singleton-empty-history-vecspace-semantic-certificate}.
+
+Exactness and ledger provenance are the singleton endpoint facts already used
+in the two compatibility theorems: every operation endpoint is classified with
+$\emp$, the embedding is the identity on histories, and the vector-space
+action has the same empty-history provenance. These clauses assemble the
+listed $\FieldExtUp$ $\NameCert$ obligations for the concrete singleton
+field-extension carrier.
+\end{proof}
