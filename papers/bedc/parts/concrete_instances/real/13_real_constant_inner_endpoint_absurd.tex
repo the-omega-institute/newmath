@@ -20,6 +20,30 @@ exclusion applies in the corresponding orientation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_e0\_endpoint\_absurd}
 
+\begin{theorem}[Real constant classifier appended e-zero endpoint absurd]
+\label{thm:real-constant-history-classifier-e1-append-e0-endpoint-absurd}
+For histories $head,tail,d:\mathsf{BHist}$, the constant real-history
+classifier excludes an appended denominator whose visible tail is headed by
+$\Ezero$, even under the outer constant-real $\Eone$ seal:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(\Eone(head\cdot\Ezero(tail)),\Eone(d))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(head\cdot\Ezero(tail)))
+\Longrightarrow\mathsf{False}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Expose the sealed constant-real classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. The resulting
+rational classifier supplies a positive unary denominator witness for the
+appended endpoint. That contradicts
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd} in the
+corresponding orientation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_append\_e0\_endpoint\_absurd}
+
 \begin{theorem}[Real constant classifier transported inner e-zero endpoint absurd]
 \label{thm:real-constant-history-classifier-transported-inner-e0-endpoint-absurd}
 For histories $h,k,tail:\mathsf{BHist}$, any constant real-history classifier
