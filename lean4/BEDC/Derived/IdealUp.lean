@@ -1,7 +1,9 @@
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.IdealUp
 
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 
@@ -64,5 +66,101 @@ theorem IdealIntersection_closure_rows
                 J_absorb carrierR intersection.right
               exact And.intro (And.intro iAbsorb.left jAbsorb.left)
                 (And.intro iAbsorb.right jAbsorb.right)
+
+def FiniteIdealMeet
+    (Carrier : BHist -> Prop) (indices : ProbeBundle BHist)
+    (Family : BHist -> BHist -> Prop) (x : BHist) : Prop :=
+  Carrier x ∧ forall i : BHist, InBundle i indices -> Family i x
+
+theorem FiniteIdealMeet_closure_rows
+    {Carrier : BHist -> Prop} {indices : ProbeBundle BHist}
+    {Classifier : BHist -> BHist -> Prop}
+    {zero : BHist}
+    {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    {Family : BHist -> BHist -> Prop}
+    (carrierZero : Carrier zero)
+    (carrierAdd : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y))
+    (carrierNeg : forall {x : BHist}, Carrier x -> Carrier (neg x))
+    (carrierMul : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y))
+    (carrierTransport : forall {x y : BHist}, Carrier x -> Classifier x y -> Carrier y)
+    (familyZero : forall {i : BHist}, InBundle i indices -> Family i zero)
+    (familyAdd :
+      forall {i x y : BHist},
+        InBundle i indices -> Family i x -> Family i y -> Family i (add x y))
+    (familyNeg :
+      forall {i x : BHist}, InBundle i indices -> Family i x -> Family i (neg x))
+    (familyMul :
+      forall {i x y : BHist},
+        InBundle i indices -> Family i x -> Family i y -> Family i (mul x y))
+    (familyTransport :
+      forall {i x y : BHist},
+        InBundle i indices -> Family i x -> Classifier x y -> Family i y)
+    (familyAbsorb :
+      forall {i r x : BHist},
+        InBundle i indices -> Carrier r -> Family i x ->
+          Family i (mul r x) ∧ Family i (mul x r)) :
+    (forall {x : BHist}, FiniteIdealMeet Carrier indices Family x -> Carrier x) ∧
+      FiniteIdealMeet Carrier indices Family zero ∧
+      (forall {x y : BHist},
+        FiniteIdealMeet Carrier indices Family x ->
+          FiniteIdealMeet Carrier indices Family y ->
+            FiniteIdealMeet Carrier indices Family (add x y)) ∧
+      (forall {x : BHist},
+        FiniteIdealMeet Carrier indices Family x ->
+          FiniteIdealMeet Carrier indices Family (neg x)) ∧
+      (forall {x y : BHist},
+        FiniteIdealMeet Carrier indices Family x ->
+          FiniteIdealMeet Carrier indices Family y ->
+            FiniteIdealMeet Carrier indices Family (mul x y)) ∧
+      (forall {x y : BHist},
+        FiniteIdealMeet Carrier indices Family x ->
+          Classifier x y -> FiniteIdealMeet Carrier indices Family y) ∧
+      (forall {r x : BHist},
+        Carrier r -> FiniteIdealMeet Carrier indices Family x ->
+          FiniteIdealMeet Carrier indices Family (mul r x) ∧
+            FiniteIdealMeet Carrier indices Family (mul x r)) := by
+  constructor
+  · intro x meetX
+    exact meetX.left
+  · constructor
+    · constructor
+      · exact carrierZero
+      · intro i memberI
+        exact familyZero memberI
+    · constructor
+      · intro x y meetX meetY
+        constructor
+        · exact carrierAdd meetX.left meetY.left
+        · intro i memberI
+          exact familyAdd memberI (meetX.right i memberI) (meetY.right i memberI)
+      · constructor
+        · intro x meetX
+          constructor
+          · exact carrierNeg meetX.left
+          · intro i memberI
+            exact familyNeg memberI (meetX.right i memberI)
+        · constructor
+          · intro x y meetX meetY
+            constructor
+            · exact carrierMul meetX.left meetY.left
+            · intro i memberI
+              exact familyMul memberI (meetX.right i memberI) (meetY.right i memberI)
+          · constructor
+            · intro x y meetX classified
+              constructor
+              · exact carrierTransport meetX.left classified
+              · intro i memberI
+                exact familyTransport memberI (meetX.right i memberI) classified
+            · intro r x carrierR meetX
+              constructor
+              · constructor
+                · exact carrierMul carrierR meetX.left
+                · intro i memberI
+                  exact (familyAbsorb memberI carrierR (meetX.right i memberI)).left
+              · constructor
+                · exact carrierMul meetX.left carrierR
+                · intro i memberI
+                  exact (familyAbsorb memberI carrierR (meetX.right i memberI)).right
 
 end BEDC.Derived.IdealUp
