@@ -356,6 +356,51 @@ recovers every row of $P(D,E,z_D,z_E)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstant\_appended\_tail\_bridge\_denominator\_package\_exactness}
 
+\begin{theorem}[Real constant appended-tail bridge single-row denominator package exactness]
+\label{thm:real-constant-appended-tail-bridge-single-row-denominator-package-exactness}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, use the same definitions of $D$, $E$, the bridge rows
+$A,B,U,C$, and the appended-tail denominator package
+$P(D,E,z_D,z_E)$ as in
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness}.
+If $D=d\cdot\Eone(tail_D)$ and $E=e\cdot\Eone(tail_E)$, then each concrete
+bridge row is exact for the denominator package:
+$$
+(A\Longleftrightarrow P(D,E,z_D,z_E))\land
+(B\Longleftrightarrow P(D,E,z_D,z_E))\land
+(U\Longleftrightarrow P(D,E,z_D,z_E))\land
+(C\Longleftrightarrow P(D,E,z_D,z_E)).
+$$
+\end{theorem}
+\begin{proof}
+The row-to-package directions are the four projections of
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package} under the
+displayed appended-tail decompositions.
+
+For the package-to-row directions, assume $P(D,E,z_D,z_E)$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness}
+under the same decompositions. The resulting conjunction
+$A\land B\land U\land C$ supplies the corresponding row by projection.
+
+Combining the four row-to-package projections with these four projections from
+the exactness conjunction gives the stated rowwise equivalences for
+$A,B,U,C$.
+\end{proof}
+
+The single-row denominator bridge fit has ten fields: traditional target
+faithful constant rational embedding into RealUp; BEDC source RatUp plus
+StreamNameUp plus RealUp; carrier the appended-tail rational histories $D,E$
+and the independently reindexed constant streams; classifier rows $A,B,U,C$;
+stability from constant streams ignoring $r$ and $q$; ledger the e-one
+denominator tails $tail_D,tail_E$ with heads $d,e$ and zero witnesses
+$z_D,z_E$; core theorem
+\autoref{thm:real-constant-appended-tail-rational-stream-bridge-readback}
+together with
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package};
+exactness predicate $P(D,E,z_D,z_E)$ supplied by
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness};
+downstream bridge the dyadic RealUp embedding; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real constant appended-tail bridge appended e-zero exclusion without tail agreement]
 \label{thm:real-constant-appended-tail-bridge-appended-ezero-exclusion}
 For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
@@ -408,6 +453,7 @@ $\mathsf{PositiveUnaryDenominator}(E)$ witness across
 $\hsame(E,u_E\cdot\Ezero(z_E))$ and gives the second contradiction. These two
 contradictions are exactly $R(D,E,u_D,u_E,z_D,z_E)$ for each bridge row.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstant\_appended\_tail\_bridge\_appended\_e0\_tail\_absurd}
 
 \begin{theorem}[Real constant appended-tail bridge full denominator-tail package]
 \label{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}
@@ -528,6 +574,85 @@ Combining the four row-to-package projections with these four projections from
 the exactness conjunction gives the stated rowwise equivalences for
 $A,B,U,C$.
 \end{proof}
+
+\begin{theorem}[Real constant appended-tail bridge malformed sealed denominator exclusion]
+\label{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Let $M(D,E)$ denote the paired malformed sealed denominator exclusion
+$$
+\bigl(\mathsf{MalformedRealSealedDenom}(\Eone(D))
+\Longrightarrow\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{MalformedRealSealedDenom}(\Eone(E))
+\Longrightarrow\mathsf{False}\bigr).
+$$
+Then every bridge row entails the same exclusion predicate:
+$$
+(A\Longrightarrow M(D,E))\land
+(B\Longrightarrow M(D,E))\land
+(U\Longrightarrow M(D,E))\land
+(C\Longrightarrow M(D,E)).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package} to the
+displayed data. For any chosen bridge row among $A,B,U,C$, this recovers the
+package $P(D,E,z_D,z_E)$, including the positive-denominator rows and the
+nonempty rows for $D$ and $E$.
+
+Unfold
+\autoref{def:real-constant-malformed-sealed-denominator-display} at
+$\Eone(D)$. In the sealed-empty branch, e-one constructor inversion turns
+$\hsame(\Eone(D),\Eone(\emp))$ into $D\hsame\emp$, contradicting the nonempty
+row for $D$ from the package.
+
+In the sealed appended e-zero branch, use the displayed witnesses $p,z$.
+E-one constructor inversion turns
+$\hsame(\Eone(D),\Eone(p\cdot\Ezero(z)))$ into
+$D\hsame p\cdot\Ezero(z)$. Transport the positive-denominator witness for
+$D$ across this sameness by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}; the transported
+witness contradicts
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+
+The endpoint $E$ is identical. The sealed-empty branch contradicts the
+nonempty row $E\hsame\emp\Longrightarrow\bot$, and the sealed appended
+e-zero branch transports the positive-denominator witness for $E$ to
+$p\cdot\Ezero(z)$ before applying the same appended e-zero absurdity theorem.
+These two endpoint exclusions are exactly $M(D,E)$ for each of the four
+bridge-row implications.
+\end{proof}
+
+The malformed sealed bridge denominator certificate fit has ten fields:
+traditional target constant rational bridge denominator sanity; BEDC source
+RatUp plus StreamNameUp plus RealUp over $\mathsf{BHist}$; carrier the
+appended-tail rational histories $D,E$; classifiers the four concrete rows
+$A,B,U,C$; stability from denominator package readback, e-one inversion, and
+positive-denominator transport; ledger malformed sealed empty and appended
+e-zero displays; core theorem
+\autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion};
+exactness the common exclusion predicate for all bridge rows; standard bridge
+RegSeqRat constant embedding denominator sanity; status $\mathsf{ProofTarget}$.
 
 The bridge-readback certificate fit has ten fields: traditional target faithful
 constant rational embedding into RealUp; BEDC source RatUp plus StreamNameUp
