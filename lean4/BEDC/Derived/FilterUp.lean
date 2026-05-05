@@ -218,6 +218,32 @@ theorem FilterPrincipalVisibleCarrier_semanticNameCert_absurd {tail : BHist} :
   | intro _h carrier =>
       exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier.right.left) carrier.right.right)
 
+theorem ContinuousMap_image_principal_suffix_point_determinacy
+    {base map target modulus cert distance suffix sourcePoint targetPoint target0 target1
+      modulus0 modulus1 cert0 cert1 distance0 distance1 : BHist} :
+    ContinuousMapCarrier base map target modulus cert distance -> UnaryHistory suffix ->
+      Cont base suffix sourcePoint -> Cont target suffix targetPoint ->
+        ContinuousMapCarrier sourcePoint map target0 modulus0 cert0 distance0 ->
+          ContinuousMapCarrier sourcePoint map target1 modulus1 cert1 distance1 ->
+            hsame target0 target1 ∧ hsame targetPoint target0 ∧ hsame targetPoint target1 := by
+  intro baseCarrier suffixCarrier baseSuffix targetSuffix displayed0 displayed1
+  have mapCarrier : UnaryHistory map :=
+    baseCarrier.left.right.right.left
+  have baseGraph : Cont base map target :=
+    baseCarrier.left.right.right.right.right.left
+  have displayedGraph0 : Cont sourcePoint map target0 :=
+    displayed0.left.right.right.right.right.left
+  have displayedGraph1 : Cont sourcePoint map target1 :=
+    displayed1.left.right.right.right.right.left
+  have targetPointTarget0 : hsame targetPoint target0 :=
+    FilterPrincipalSuffix_unary_commuting_square mapCarrier suffixCarrier baseGraph baseSuffix
+      targetSuffix displayedGraph0
+  have targetPointTarget1 : hsame targetPoint target1 :=
+    FilterPrincipalSuffix_unary_commuting_square mapCarrier suffixCarrier baseGraph baseSuffix
+      targetSuffix displayedGraph1
+  exact And.intro (hsame_trans (hsame_symm targetPointTarget0) targetPointTarget1)
+    (And.intro targetPointTarget0 targetPointTarget1)
+
 theorem FilterPrincipalSuffix_continuousMap_image_package
     {base map target modulus cert distance left right meet leftPoint rightPoint meetPoint : BHist} :
     ContinuousMapCarrier base map target modulus cert distance -> UnaryHistory left ->
