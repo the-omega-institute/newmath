@@ -38,6 +38,7 @@ def PolynomialSingletonEval (alpha : BHist) : List BHist -> BHist
 def PolynomialSingletonRawAddEmptyLeft : List BHist -> List BHist
   | [] => []
   | b :: ys => append BHist.Empty b :: PolynomialSingletonRawAddEmptyLeft ys
+
 def PolynomialSingletonRawAdd : List BHist -> List BHist -> List BHist
   | [], ys => PolynomialSingletonRawAddEmptyLeft ys
   | a :: xs, [] => append a BHist.Empty :: PolynomialSingletonRawAdd xs []
