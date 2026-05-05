@@ -35,6 +35,66 @@ def Gamma (s z : BHist) : Prop :=
     GammaDomainCore s apart ∧ UnaryHistory apart ∧
       GammaWeierstrassCauchyModulus s apart P N ∧ ComplexLimit P N z M
 
+theorem Gamma_recurrence_limit_pair_carriers {s z w : BHist} :
+    Gamma s z -> Gamma (append s (BHist.e1 BHist.Empty)) w ->
+      (exists apart : BHist,
+        GammaDomainCore s apart ∧ UnaryHistory apart ∧ ComplexHistoryCarrier z) ∧
+        (exists apartShift : BHist,
+          GammaDomainCore (append s (BHist.e1 BHist.Empty)) apartShift ∧
+            UnaryHistory apartShift ∧ ComplexHistoryCarrier w) := by
+  intro gammaS gammaShift
+  cases gammaS with
+  | intro apart gammaRest =>
+      cases gammaRest with
+      | intro P gammaRest =>
+          cases gammaRest with
+          | intro N gammaRest =>
+              cases gammaRest with
+              | intro M gammaData =>
+                  cases gammaShift with
+                  | intro apartShift shiftedRest =>
+                      cases shiftedRest with
+                      | intro PShift shiftedRest =>
+                          cases shiftedRest with
+                          | intro NShift shiftedRest =>
+                              cases shiftedRest with
+                              | intro MShift shiftedData =>
+                                  exact And.intro
+                                    (Exists.intro apart
+                                      (And.intro gammaData.left
+                                        (And.intro gammaData.right.left
+                                          gammaData.right.right.right.right.left)))
+                                    (Exists.intro apartShift
+                                      (And.intro shiftedData.left
+                                        (And.intro shiftedData.right.left
+                                          shiftedData.right.right.right.right.left)))
+
+theorem Gamma_holomorphic_limit_certificate_readback {s z : BHist} :
+    Gamma s z ->
+      ∃ apart : BHist, ∃ P : BHist -> BHist, ∃ N : BHist -> BHist,
+        ∃ M : BHist -> BHist,
+          GammaDomainCore s apart ∧ UnaryHistory apart ∧
+            GammaWeierstrassCauchyModulus s apart P N ∧ ComplexLimit P N z M ∧
+              ComplexHistoryCarrier z := by
+  intro gamma
+  cases gamma with
+  | intro apart gammaData =>
+      cases gammaData with
+      | intro P gammaData =>
+          cases gammaData with
+          | intro N gammaData =>
+              cases gammaData with
+              | intro M rows =>
+                  exact Exists.intro apart
+                    (Exists.intro P
+                      (Exists.intro N
+                        (Exists.intro M
+                          (And.intro rows.left
+                            (And.intro rows.right.left
+                              (And.intro rows.right.right.left
+                                (And.intro rows.right.right.right
+                                  rows.right.right.right.right.left)))))))
+
 theorem GammaWeierstrassCauchyModulus_hsame_transport
     {s t apart : BHist} {P Q N : BHist -> BHist}
     (sameST : hsame s t)
