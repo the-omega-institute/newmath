@@ -6687,3 +6687,136 @@ Chapters 107 and 108 advertise CatLimit↑/CatColimit↑ as dual interfaces; the
 
 ---
 
+### B-258 - AdjunctionUp-Induced MonadUp Ledger Certification
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | AdjunctionUp-Induced MonadUp Ledger Certification |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under certified Cat↑, Functor↑, NatTrans↑, and AdjunctionUnitCounitCarrier data for F ⊣ G, the induced endofunctor G ∘ F with unit η and multiplication G ε F satisfies the Monad↑ carrier laws with multiplication ledger obtained by whiskering the counit ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Sits naturally on the categorical track that B-11/B-14/B-17 ... B-228 are building (Cat↑ → Functor↑ → NatTrans↑ → Adjunction↑). No existing BOARD entry or paper label introduces a Monad↑ certificate, and the claim is fully concrete: certified adjunction data plus whiskering ledger transport ⇒ Monad↑ carrier laws hold with an explicit multiplication ledger. Distinct from adjunction composition because the construction object (an endofunctor with unit/multiplication) and the obligation set (monad triangle/associator coherence) are different from triangle determinacy.
+
+---
+
+
+### B-259 - NatTransUp Whiskering Interchange Ledger Exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | NatTransUp Whiskering Interchange Ledger Exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under certified Functor↑ and NatTrans↑ data, vertical-then-horizontal composition of natural transformations equals horizontal-then-vertical composition with the two BEDC ledgers classifier-same.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+The interchange law is a 2-dimensional coherence statement that B-14 (component-wise naturality of the composite) does not address: B-14 fixes a single direction of composition, while interchange forces equality between two distinct nesting orders of horizontal and vertical pasting plus equal ledger transport. Required as a prerequisite by any later monad/adjunction whiskering result, and no `\label{thm:nattrans-interchange...}` exists in current paper coverage.
+
+---
+
+
+### B-260 - Composite Gap Associativity for Three-Stage Compression
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Composite Gap Associativity for Three-Stage Compression |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under three composable GapPolicy interfaces with layered coverage and separation hypotheses, the left-nested and right-nested CompGap judgments yield the same final token classifier relation and equivalent intermediate witness ledgers.
+
+Local inputs:
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+
+Rationale:
+Sharpens cor:ledger-composition-principle (which is a 2-stage statement) to a 3-stage associativity theorem with explicit witness-ledger equivalence between the two parenthesizations. Lives in the core CompGap layer and is reusable downstream wherever ledger composition needs to be reassociated (e.g., the AdjunctionUp/MonadUp candidates above). Concrete implication form, no paper label currently asserts associativity of CompGap.
+
+---
+
+
+### B-261 - NameCert Composition for Stable Transformations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | NameCert Composition for Stable Transformations |
+| Layer | hardening |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under SemanticNameCert carriers for source, intermediate, and target classifiers, if two StableTransformation witnesses satisfy descent and ledger soundness, then their composite transformation satisfies a SemanticNameCert-style stability certificate with composite ledger policy.
+
+Local inputs:
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/hardening/composite_gap_ledger.tex`
+- `papers/bedc/parts/proof_obligations/descent_certificate.tex`
+
+Rationale:
+Distinct from B-17 (presentation weakening of a single SemanticNameCert) because it is a binary composition closure result for stable transformations along three classifiers. Provides the missing compositional closure on the hardening layer parallel to what category-theoretic composition theorems give in the concrete_instances layer. The implication form is precise and the local inputs already exist.
+
+---
+
+
+### B-262 - FunctorUp Composition Obstruction Without Classifier Replacement
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | FunctorUp Composition Obstruction Without Classifier Replacement |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under raw object and morphism maps preserving identities and raw composition but lacking classifier-replacement stability, there exists a NatTrans↑ whiskering obligation whose naturality classifier cannot be transported, hence Functor↑ composition certification does not follow.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex`
+
+Rationale:
+Negative counterpart to B-11 (positive functor composition closure): explicitly isolates classifier-replacement stability as a non-redundant field by exhibiting a finite obstruction. Belongs cleanly in proof_obligations alongside B-18 / B-20 / B-24-style independence theorems for additive and module certificates. The candidate is concrete (whiskering obligation as the witness of failure) and not paraphrased by any existing BOARD entry or paper label.
+
+---
+
