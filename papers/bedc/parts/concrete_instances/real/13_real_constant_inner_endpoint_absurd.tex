@@ -500,3 +500,59 @@ exactness one predicate forbids empty, inner e-zero, and appended e-zero
 sealed denominator displays on either endpoint; downstream bridge RealUp
 NameCert and dyadic-embedding denominator sanity; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real constant classifier no transported malformed sealed denominator displays]
+\label{thm:real-constant-classifier-no-transported-malformed-sealed-denominator-displays}
+For histories $h,k,h',k':\mathsf{BHist}$, classifier exclusion of malformed
+sealed real denominators survives endpoint $\hsame$ transport:
+$$
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\hsame(h,h')
+\Longrightarrow
+\hsame(k,k')
+\Longrightarrow
+\bigl(\mathsf{MalformedRealSealedDenom}(h')\Longrightarrow\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{MalformedRealSealedDenom}(k')\Longrightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{MalformedRealSealedDenom}$ at the transported left endpoint.
+For each displayed malformed shape of $h'$, compose the endpoint row
+$\hsame(h,h')$ with that display by $\hsame$ transitivity.
+
+In the empty case this gives $\hsame(h,\Eone(\emp))$. In the inner e-zero
+case, for the displayed witness $t$, it gives $\hsame(h,\Eone(\Ezero(t)))$.
+In the appended e-zero case, for displayed witnesses $p,z$, it gives
+$\hsame(h,\Eone(p\cdot\Ezero(z)))$.
+
+These three alternatives are exactly the three clauses of
+$\mathsf{MalformedRealSealedDenom}(h)$. Apply the left projection of
+\autoref{thm:real-constant-classifier-no-malformed-sealed-denominator-displays}
+to the original classifier and the transported malformed display.
+
+Unfold $\mathsf{MalformedRealSealedDenom}$ at the transported right endpoint.
+For each displayed malformed shape of $k'$, compose the endpoint row
+$\hsame(k,k')$ with that display by $\hsame$ transitivity.
+
+In the empty case this gives $\hsame(k,\Eone(\emp))$. In the inner e-zero
+case, for the displayed witness $t$, it gives $\hsame(k,\Eone(\Ezero(t)))$.
+In the appended e-zero case, for displayed witnesses $p,z$, it gives
+$\hsame(k,\Eone(p\cdot\Ezero(z)))$.
+
+These three alternatives are exactly the three clauses of
+$\mathsf{MalformedRealSealedDenom}(k)$. Apply the right projection of
+\autoref{thm:real-constant-classifier-no-malformed-sealed-denominator-displays}
+to the original classifier and the transported malformed display.
+\end{proof}
+
+The ten-field fit is: traditional target transported constant-real
+denominator sanity; BEDC source $\mathsf{BHist}$, $\hsame$, the RealUp
+constant classifier, and the malformed sealed denominator predicate; carrier
+$\mathsf{BHist}$; classifier $\mathsf{RealConstantHistoryClassifier}$;
+stability row endpoint $\hsame$ transport; ledger transported empty, inner
+e-zero, and appended e-zero sealed denominators; core theorem
+\autoref{thm:real-constant-classifier-no-transported-malformed-sealed-denominator-displays};
+exactness exclusion of malformed transported endpoints; standard bridge
+constant rational real names; status $\mathsf{ProofTarget}$.

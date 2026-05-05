@@ -61,6 +61,27 @@ $\hsame(o,o')$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_splice\_hsame}
 
+\begin{theorem}[Metric visible-context empty-distance continuation result determinacy]
+\label{thm:metric-distance-witness-visible-context-empty-distance-continuation-results-hsame}
+For histories $p,q,x,y,l,m,n$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and continuations $\ContR(l,x,m)$ and $\ContR(l,y,n)$ hold. Then the two
+continuation results are classified together:
+$$
+\hsame(m,n).
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context empty-distance exactness to the metric witness. This
+identifies both central endpoints $x$ and $y$ with $\emp$. After substituting
+these endpoint classifiers, the two displayed continuations have the same
+left source and the same empty right endpoint. BEDC continuation determinacy
+therefore compares their results and gives $\hsame(m,n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_results\_hsame}
+
 \begin{theorem}[Metric visible-context empty-distance append unit laws]
 \label{thm:metric-distance-witness-visible-context-empty-distance-append-unit-laws}
 For histories $p,q,x,y,l,r$, suppose
@@ -79,6 +100,27 @@ the two displayed append equations into the BEDC left and right append unit
 laws.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_append\_unit\_laws}
+
+\begin{theorem}[Metric visible-context empty-distance endpoint continuation units]
+\label{thm:metric-visible-context-empty-distance-endpoint-continuation-units}
+For histories $p,q,x,y,l,r,o_L,o_R$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and continuations $\ContR(l,x,o_L)$ and $\ContR(y,r,o_R)$ hold. Then both
+displayed endpoint continuations reduce to unit continuations:
+$$
+\hsame(o_L,l)\wedge\hsame(o_R,r).
+$$
+\end{theorem}
+\begin{proof}
+Visible-context empty-distance exactness exposes
+$\hsame(x,\emp)$ and $\hsame(y,\emp)$. After substituting these central
+endpoints, $\ContR(l,x,o_L)$ is a right-unit continuation and
+$\ContR(y,r,o_R)$ is a left-unit continuation. The BEDC continuation unit laws
+therefore give $\hsame(o_L,l)$ and $\hsame(o_R,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_endpoint\_continuation\_units}
 
 \begin{theorem}[Metric visible-context empty-distance witness splice]
 \label{thm:metric-distance-witness-visible-context-empty-distance-witness-splice}
