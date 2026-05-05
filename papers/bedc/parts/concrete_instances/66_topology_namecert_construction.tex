@@ -83,3 +83,125 @@ which is precisely the pointwise carrying equation for $U\cap V$ after reversing
 
 For classifier transport, assume $\mathsf{same}_X(x,y)$. Convert $U(x)\wedge V(x)$ to $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)$ by the carrying equation just proved. The membership-stability field of \autoref{def:topology-indexed-open-carrier} transports this to $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,y)$, and the carrying equation at $y$ converts back to $U(y)\wedge V(y)$. The reverse implication is identical with the same stability equivalence read in the opposite direction.
 \end{proof}
+
+\begin{definition}[Indexed arbitrary-union open witness]
+\label{def:topology-indexed-arbitrary-union-witness}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$, and let $A$ be an indexing type. For a family of open indices $\iota:A\to\mathsf{OpenIx}$, an index $u:\mathsf{OpenIx}$ is an indexed arbitrary-union witness for $\iota$, written $\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)$, when it carries exactly the pointwise union of the indexed open memberships:
+$$
+\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)
+:\Longleftrightarrow
+\forall x:X,\quad
+\mathsf{OpenAt}(u,x)
+\Longleftrightarrow
+\exists a:A,\ \mathsf{OpenAt}(\iota(a),x).
+$$
+This is the arbitrary-union counterpart to the finite-intersection operation in \autoref{def:topology-indexed-open-carrier}.
+\end{definition}
+
+\begin{theorem}[Topology indexed open arbitrary-union closure]
+\label{thm:topology-indexed-open-arbitrary-union}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. Let $A$ be an indexing type, let $\iota:A\to\mathsf{OpenIx}$ be a family of open indices, and let $U_a:X\to\mathsf{Prop}$ be predicates indexed by $a:A$. Put $U_{\cup}:X\to\mathsf{Prop}$ for the predicate
+$$
+U_{\cup}(x):\Longleftrightarrow \exists a:A,\ U_a(x).
+$$
+If $u:\mathsf{OpenIx}$ is an indexed arbitrary-union witness for $\iota$ and each $\iota(a)$ carries $U_a$, then $u$ carries $U_{\cup}$:
+$$
+\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)
+\Longrightarrow
+\bigl(\forall a:A,\ \mathsf{CarriesOpen}_{\mathcal{T}}(\iota(a),U_a)\bigr)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}}(u,U_{\cup}).
+$$
+Equivalently, for every point $x:X$ the supplied union index has the introduction and inversion form
+$$
+\mathsf{OpenAt}(u,x)
+\Longleftrightarrow
+\exists a:A,\ U_a(x),
+$$
+and the union predicate transports under the carrier classifier:
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl((\exists a:A,\ U_a(x))\Longleftrightarrow(\exists a:A,\ U_a(y))\bigr).
+$$
+This is the generic $\TopologyUp$ indexed-family closure law whose concrete complex instance appears in \autoref{thm:cplx-topo-union}.
+\end{theorem}
+\begin{proof}
+Assume $h_{\cup}:\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)$ and $h_{\mathrm{car}}:\forall a:A,\ \mathsf{CarriesOpen}_{\mathcal{T}}(\iota(a),U_a)$. Fix $x:X$. If $U_{\cup}(x)$ holds, choose $a:A$ with $U_a(x)$. The carry witness $h_{\mathrm{car}}(a)$ gives $\mathsf{OpenAt}(\iota(a),x)$, hence $\exists a:A,\ \mathsf{OpenAt}(\iota(a),x)$. The arbitrary-union witness $h_{\cup}$ converts this existential open membership into $\mathsf{OpenAt}(u,x)$.
+
+Conversely, if $\mathsf{OpenAt}(u,x)$ holds, then $h_{\cup}$ gives some $a:A$ with $\mathsf{OpenAt}(\iota(a),x)$. The carry witness $h_{\mathrm{car}}(a)$ converts this membership back into $U_a(x)$, hence $U_{\cup}(x)$. Since $x$ was arbitrary, this proves $\mathsf{CarriesOpen}_{\mathcal{T}}(u,U_{\cup})$, and reversing the displayed equivalence gives the pointwise introduction and inversion form.
+
+For classifier transport, assume $\mathsf{same}_X(x,y)$. The carrying equation just proved converts $\exists a:A,\ U_a(x)$ to $\mathsf{OpenAt}(u,x)$. The membership-stability field of \autoref{def:topology-indexed-open-carrier}, applied to the index $u$, transports this to $\mathsf{OpenAt}(u,y)$, and the carrying equation at $y$ converts it to $\exists a:A,\ U_a(y)$. The reverse implication uses the same stability equivalence in the opposite direction.
+\end{proof}
+
+\begin{definition}[Metric finite-ball indexed topology]
+\label{def:metric-finite-ball-indexed-topology}
+Let $C$ be a carrier equipped with the $\MetricSpaceUp$ carrier data of \autoref{def:metric-carrier}, with classifier $\mathsf{same}_C$ and distance $d:C\times C\to\RealUp$. Fix a strict ordered-real comparison $<_{\mathsf R}$ on $\RealUp$ and a positive-radius predicate $\mathsf{PosRadius}_{\mathsf R}$. A metric ball datum is a triple $b=(c_b,r_b,\rho_b)$ with $c_b:C$, $r_b:\RealUp$, and $\rho_b:\mathsf{PosRadius}_{\mathsf R}(r_b)$. Its open-ball predicate is
+$$
+\mathsf{MetricOpenBall}_d(b)(x)
+:\Longleftrightarrow
+ d(c_b,x)<_{\mathsf R}r_b.
+$$
+The metric finite-ball index object is $\mathsf{FinList}(\mathsf{BallData}_d)$. For a finite list $I$ of ball data, set
+$$
+\mathsf{OpenAt}_{d,\mathsf{ball}}(I,x)
+:\Longleftrightarrow
+\forall b\in I,\ \mathsf{MetricOpenBall}_d(b)(x).
+$$
+The index operation $I\wedge_{\TopologyUp}J$ is finite-list concatenation $I\mathbin{+\!\!+}J$. Together with the carrier $C$ and classifier $\mathsf{same}_C$, these data are denoted $\mathcal{T}_{d,\mathsf{ball}}$.
+\end{definition}
+
+\begin{theorem}[Metric balls instantiate indexed topology opens]
+\label{thm:metric-balls-instantiate-indexed-topology-opens}
+Let $C$, $\mathsf{same}_C$, $d$, $<_{\mathsf R}$, and $\mathsf{PosRadius}_{\mathsf R}$ be as in \autoref{def:metric-finite-ball-indexed-topology}. Assume the classifier field of \autoref{def:metric-classifier-specification}: if $\mathsf{same}_C(x,y)$, then $d(c,x)$ and $d(c,y)$ have the same real classifier for every fixed center $c:C$. Assume also that $<_{\mathsf R}$ is stable under that real classifier in its left argument. Then the finite-ball data of \autoref{def:metric-finite-ball-indexed-topology} form an indexed open topology carrier for $\TopologyUp$ in the sense of \autoref{def:topology-indexed-open-carrier}. For every ball datum $b=(c,r,\rho)$, the singleton index $\mathsf{single}(b)$ carries the metric ball:
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}
+(\mathsf{single}(b),\mathsf{MetricOpenBall}_d(b)).
+$$
+Equivalently, for all $x:C$,
+$$
+\mathsf{MetricOpenBall}_d(b)(x)
+\Longleftrightarrow
+\mathsf{OpenAt}_{d,\mathsf{ball}}(\mathsf{single}(b),x),
+$$
+and this ball membership transports under the metric carrier classifier:
+$$
+\mathsf{same}_C(x,y)
+\Longrightarrow
+(\mathsf{MetricOpenBall}_d(b)(x)\Longleftrightarrow\mathsf{MetricOpenBall}_d(b)(y)).
+$$
+\end{theorem}
+\begin{proof}
+First prove classifier transport for one ball datum $b=(c,r,\rho)$. If $\mathsf{same}_C(x,y)$ holds, the metric classifier field gives a real classifier witness between $d(c,x)$ and $d(c,y)$. Stability of $<_{\mathsf R}$ under that real classifier gives
+$$
+d(c,x)<_{\mathsf R}r
+\Longleftrightarrow
+ d(c,y)<_{\mathsf R}r.
+$$
+Unfolding the definition of $\mathsf{MetricOpenBall}_d(b)$ gives the displayed transport equivalence.
+
+For a finite list $I$, apply the one-ball transport equivalence to each ball datum in $I$. Thus the predicate $\mathsf{OpenAt}_{d,\mathsf{ball}}(I,-)$ transports under $\mathsf{same}_C$, which is the membership-stability field required in \autoref{def:topology-indexed-open-carrier}.
+
+The finite-intersection law is the finite-list membership split:
+$$
+\forall b\in I\mathbin{+\!\!+}J,\ \mathsf{MetricOpenBall}_d(b)(x)
+\Longleftrightarrow
+\bigl((\forall b\in I,\ \mathsf{MetricOpenBall}_d(b)(x))\wedge
+(\forall b\in J,\ \mathsf{MetricOpenBall}_d(b)(x))\bigr).
+$$
+After refolding $\mathsf{OpenAt}_{d,\mathsf{ball}}$, this is exactly
+$$
+\mathsf{OpenAt}_{d,\mathsf{ball}}(I\wedge_{\TopologyUp}J,x)
+\Longleftrightarrow
+(\mathsf{OpenAt}_{d,\mathsf{ball}}(I,x)\wedge
+\mathsf{OpenAt}_{d,\mathsf{ball}}(J,x)).
+$$
+
+For the singleton index, finite-list membership has exactly one component, so
+$$
+\mathsf{MetricOpenBall}_d(b)(x)
+\Longleftrightarrow
+\mathsf{OpenAt}_{d,\mathsf{ball}}(\mathsf{single}(b),x).
+$$
+This is the carrying equation of \autoref{def:topology-indexed-open-carried-predicate}. The final classifier-transport statement is the one-ball transport equivalence already proved.
+\end{proof}
