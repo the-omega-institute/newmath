@@ -334,4 +334,14 @@ theorem ResiduePoleData_integral_prefix_empty_function_endpoints
           (And.intro closedData.right.left
             (And.intro endpoints.left endpoints.right)))
 
+theorem ResiduePoleData_result_determinism_with_continuations
+    {f f' center radius pole gap integral residue : BHist} :
+    ResiduePoleData f center radius pole gap integral residue ->
+      ResiduePoleData f' center radius pole gap integral residue ->
+        Cont integral residue f ∧ Cont integral residue f' ∧ hsame f f' := by
+  intro leftData rightData
+  have leftCont : Cont integral residue f := leftData.right.right.right.right
+  have rightCont : Cont integral residue f' := rightData.right.right.right.right
+  exact And.intro leftCont (And.intro rightCont (cont_deterministic leftCont rightCont))
+
 end BEDC.Derived.ResidueUp
