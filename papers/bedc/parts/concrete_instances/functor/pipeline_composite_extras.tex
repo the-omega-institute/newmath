@@ -431,3 +431,92 @@ Both functor-indexed hom-carrier predicates therefore reduce to the same
 codomain hom-carrier classifier, and transitivity of the biconditional gives
 the pointwise equivalence.
 \end{proof}
+
+\begin{theorem}[Functor composition classifier category package]
+\label{thm:functor-composition-classifier-category-package}
+Let $\mathcal C,\mathcal D,\mathcal E,\mathcal L$ be certified
+$\CategoryUp$ packages satisfying \autoref{def:category-certificate-obligations}.
+Let $F:\mathcal C\to\mathcal D$, $G:\mathcal D\to\mathcal E$, and
+$H:\mathcal E\to\mathcal L$ be certified $\FunctorUp$ carriers satisfying
+\autoref{def:functor-certificate-obligations}, with object maps
+$F_0,G_0,H_0$ and morphism maps $F_1,G_1,H_1$. Then the certified
+functor carriers form a classifier-respected composition package with the
+following fields.
+\begin{enumerate}
+\item For every composable pair $F:\mathcal C\to\mathcal D$ and
+$G:\mathcal D\to\mathcal E$, the composite $G\circ F$ is a certified
+$\FunctorUp$ carrier from $\mathcal C$ to $\mathcal E$, and its
+$\mathsf{FunctorHomCarrier}$ is the codomain hom-carrier classifier at
+$G_0(F_0(-))$.
+\item For every certified $\CategoryUp$ package $\mathcal A$, the identity
+carrier $1_{\mathcal A}$ is a certified $\FunctorUp$ carrier on
+$\mathcal A$.
+\item For every certified $K:\mathcal A\to\mathcal B$, the composites
+$K\circ 1_{\mathcal A}$ and $1_{\mathcal B}\circ K$ are classified with
+$K$ by the $\FunctorUp$ classifier, and the three
+$\mathsf{FunctorHomCarrier}$ predicates are pointwise the same.
+\item For every certified triple $F,G,H$ as above, the two triple composites
+$A=(H\circ G)\circ F$ and $B=H\circ(G\circ F)$ are classified together by
+the $\FunctorUp$ classifier, and for every pair of source objects $a,b$ and
+every codomain morphism candidate $m$,
+$$
+\mathsf{FunctorHomCarrier}_{A}(a,b,m)
+\Longleftrightarrow
+\mathsf{FunctorHomCarrier}_{B}(a,b,m).
+$$
+\end{enumerate}
+This is the composition structure used by the $\NatTransUp$ and $\YonedaUp$
+interfaces whenever their source functors are composed.
+\end{theorem}
+\begin{proof}
+The proof uses the following ten-field roadmap.
+\begin{enumerate}
+\item traditional target = category-style composition of certified functors;
+\item BEDC source = $\CategoryUp$ and $\FunctorUp$;
+\item carrier = certified functor carriers;
+\item classifier = pointwise $\FunctorUp$ classifier;
+\item stability = closure, unit, associativity, and hom-carrier transport;
+\item ledger = source and codomain category ledgers plus preservation witnesses;
+\item core theorem list = \autoref{thm:functor-composite-preservation-witnesses},
+\autoref{thm:functor-composite-hom-carrier-classifier},
+\autoref{thm:identity-functor-namecert},
+\autoref{thm:functor-composition-identity-unit-laws}, and
+\autoref{thm:functor-composition-associativity-classifier-law};
+\item exactness = hom-carrier pointwise classifier agreement;
+\item standard bridge = ordinary functor-category laws;
+\item status = paper proof target.
+\end{enumerate}
+
+For closure under composition, apply
+\autoref{thm:functor-composite-preservation-witnesses} to a composable pair
+of certified functors. It supplies the identity and composition preservation
+witnesses for the composite carrier. Applying
+\autoref{thm:functor-composite-hom-carrier-classifier} reads the resulting
+$\mathsf{FunctorHomCarrier}$ pointwise as the codomain hom-carrier classifier
+at the composed image endpoints.
+
+For identities, \autoref{thm:identity-functor-namecert} supplies the certified
+identity functor on each certified $\CategoryUp$ package. The carrier,
+classifier, stability, and ledger rows named in
+\autoref{def:functor-certificate-obligations} are therefore available for
+$1_{\mathcal A}$ without adding any extra source data.
+
+For the unit laws, apply
+\autoref{thm:functor-composition-identity-unit-laws}. It identifies
+$K\circ 1_{\mathcal A}$ and $1_{\mathcal B}\circ K$ with $K$ under the
+object and morphism components of the $\FunctorUp$ classifier, and it gives
+the same pointwise $\mathsf{FunctorHomCarrier}$ predicate for all three
+functors.
+
+For associativity, apply
+\autoref{thm:functor-composition-associativity-classifier-law}. It certifies
+both triple composites, gives the pointwise object and morphism classifier
+witnesses between them, and gives the displayed agreement of their
+functor-indexed hom-carrier classifiers.
+
+The four fields are exactly the composition data demanded downstream: closed
+composition, certified identities, unit classifiers, associativity
+classifiers, and exact hom-carrier transport. Repacking those fields gives the
+claimed classifier-respected composition package for certified $\FunctorUp$
+carriers.
+\end{proof}
