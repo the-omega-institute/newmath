@@ -1,0 +1,73 @@
+\begin{theorem}[RealUp stream-prefix scoped obligation package]
+\label{thm:realup-stream-prefix-scoped-obligation-package}
+The four stream-prefix obligation faces in
+\autoref{thm:real-stream-prefix-carrier-obligation},
+\autoref{thm:real-stream-prefix-classifier-obligation},
+\autoref{thm:real-stream-prefix-stability-obligation}, and
+\autoref{thm:real-stream-prefix-ledger-seal-obligation} form the scoped
+RealUp stream-prefix package. Its source is bound to $\RealUp$ finite
+stream-prefix observations over the $\RegSeqRat$ spine, $\StreamNameUp$ unary
+observation names, $\RatUp$ endpoint rows, histories in $\mathsf{BHist}$,
+$\hsame$ transport rows, selected $\mathsf{Cont}$ continuation rows, unary
+observations, finite-window classifiers, dyadic endpoint ledger rows, and the
+displayed $\RealUp$ seal. The package consumes no quotient, completion object,
+host function, external metric primitive, or standard bridge.
+\end{theorem}
+\begin{proof}
+Read the four named obligation theorems field by field and compare them with
+the ten-field roadmap template.
+
+\begin{enumerate}
+\item Traditional target: the target is $\RealUp$ finite stream-prefix
+observations. The carrier, classifier, stability, and ledger-seal faces all
+refer to selected rational-observation prefixes rather than to an ambient
+completion object.
+
+\item BEDC source: the source is the $\RegSeqRat$ spine over $\StreamNameUp$
+unary observations and $\RatUp$ endpoint histories in $\mathsf{BHist}$.
+\autoref{thm:real-stream-prefix-carrier-obligation} reads those rows from the
+certified unary-observation spine.
+
+\item Carrier choice: the carrier face is the visible endpoint carrier data.
+Apply \autoref{thm:real-stream-prefix-carrier-obligation}; it identifies the
+selected prefix endpoints with the $\mathsf{RatHistoryCarrier}$ rows supplied
+by the $\RegSeqRat$ spine.
+
+\item Classifier choice: the classifier face is the pair
+$\mathsf{RealStreamClassifier}$ and
+$\mathsf{RealStreamPrefixClassifier}$. Apply
+\autoref{thm:real-stream-prefix-classifier-obligation}; it relates global
+stream rows, finite-prefix classifiers, and selected $\RatUp$ endpoint
+classifier rows.
+
+\item Stability obligations: the stability face is transport along $\hsame$,
+unary-context closure, and selected continuation stability. Apply
+\autoref{thm:real-stream-prefix-stability-obligation}; it preserves the
+finite-prefix classifier rows and repacks them as global stream classifier
+rows when all finite prefixes are present.
+
+\item Ledger: the ledger face is the finite observation ledger together with
+dyadic endpoint ledger rows. Apply
+\autoref{thm:real-stream-prefix-ledger-seal-obligation}; it reads finite
+windows, dyadic comparisons, regularity certificates, and the $\RealUp$ seal
+from the same scoped stream-name interface.
+
+\item Core theorem list: the package core is exactly the four obligation
+faces cited in the statement. No fifth obligation theorem is required, because
+the displayed carrier, classifier, stability, ledger, and seal fields exhaust
+the stream-prefix boundary.
+
+\item Exactness predicate: exactness is finite-window stream-prefix readback.
+It is supplied by the classifier face through finite-prefix exactness and by
+the ledger-seal face through finite-window dyadic source exhaustion.
+
+\item Standard bridge: no standard bridge is claimed. The theorem records a
+paper-side scoped package over BEDC rows only, not a bridge to classical real
+analysis or to an external metric construction.
+
+\item Status: the result is the scoped paper package for the RealUp
+stream-prefix site. It collects the four local obligation faces into one
+scope without adding a Lean marker or consuming data outside the displayed
+BEDC source.
+\end{enumerate}
+\end{proof}
