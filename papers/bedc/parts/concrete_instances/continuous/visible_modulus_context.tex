@@ -289,3 +289,61 @@ map, target, modulus, certificate, prefix, and suffix; core theorem this
 statement; exactness the displayed pair of $\hsame$ conclusions; standard
 bridge deferred; status $\mathsf{ProofTarget}$.
 \end{proof}
+
+\begin{theorem}[Continuous function carrier visible-context composition closure]
+\label{thm:continuous-function-carrier-visible-modulus-context-comp-closed}
+For histories $p,q,source,middle,target,f,g,fg,modF,modG,modFG,certF,certG,cert$,
+suppose the two contextualized carriers
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,f,p\cdot middle,
+modF\cdot q,(p\cdot certF)\cdot q)
+$$
+and
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot middle,g,p\cdot target,
+modG\cdot q,(p\cdot certG)\cdot q)
+$$
+hold. If the graph, modulus, and target-certificate ledgers
+$$
+\mathsf{Cont}(f,g,fg),\quad
+\mathsf{Cont}(modF,modG,modFG),\quad
+\mathsf{Cont}(target,modFG,cert)
+$$
+hold, then the composite carrier remains inside the same visible context:
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,fg,p\cdot target,
+modFG\cdot q,(p\cdot cert)\cdot q).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff}
+to the first contextualized carrier. This recovers unary witnesses for the
+visible prefix $p$ and suffix $q$, together with the central carrier
+$\mathsf{ContinuousFunctionCarrier}(source,f,middle,modF,certF)$.
+
+Apply the same visible-context exactness theorem to the second contextualized
+carrier. The common contexts are peeled away, exposing
+$\mathsf{ContinuousFunctionCarrier}(middle,g,target,modG,certG)$ over the same
+central middle and target histories.
+
+Apply Theorem~\ref{thm:continuous-function-carrier-comp-closed} to these two
+central carriers with the displayed graph, modulus, and target-certificate
+ledgers. The result is the central composite carrier
+$\mathsf{ContinuousFunctionCarrier}(source,fg,target,modFG,cert)$.
+
+Finally use Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff}
+in the reverse direction, with the recovered unary witnesses for $p$ and $q$,
+to reattach the visible prefix and suffix. This yields the displayed composite
+carrier in the same visible context.
+
+The ten-field certificate fit is the following. The traditional target is
+composition closure for contextual continuous-function carriers. The BEDC
+source is $\mathsf{BHist}$ equipped with $\mathsf{Cont}$. The carrier is
+$\mathsf{ContinuousFunctionCarrier}$ and the classifier is $\hsame$. The
+stability obligation is contextual composition closure with fixed visible
+prefix and suffix. The ledger consists of source, middle, target, graph map,
+modulus, certificate, visible prefix, and visible suffix histories. The core
+theorem is this visible-context closure statement. The exactness claim is the
+reverse use of visible-context exactness after central composition closure. The
+standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
