@@ -110,6 +110,28 @@ $\Ezero(m)$ or $\Eone(m)$ with $\emp$. Both alternatives contradict constructor
 separation in $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_visible\_head\_absurd}
+
+\begin{theorem}[Singleton additive fold visible head continuation result is nonempty]
+\label{thm:matrix-singleton-add-fold-cont-visible-head-result-nonempty}
+For every history $m$, finite spine $xs$, and continuation
+$\ContR(h,\mathsf{MatrixSingletonAddFold}(\Ezero(m)::xs),r)$ or
+$\ContR(h,\mathsf{MatrixSingletonAddFold}(\Eone(m)::xs),r)$, the result $r$
+cannot be history-same as $\emp$:
+$$
+(\ContR(h,\mathsf{MatrixSingletonAddFold}(\Ezero(m)::xs),r)
+\to \hsame(r,\emp)\to\bot)
+\land
+(\ContR(h,\mathsf{MatrixSingletonAddFold}(\Eone(m)::xs),r)
+\to \hsame(r,\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed continuation result to $\emp$. Empty-result inversion
+then identifies the folded right input with $\emp$, contradicting the visible
+head exclusion for $\Ezero(m)$ and $\Eone(m)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_cont\_visible\_head\_result\_nonempty}
+
 \begin{theorem}[Singleton additive fold append carrier readback]
 \label{thm:matrix-singleton-add-fold-append-carrier-iff}
 For finite singleton-matrix spines $xs$ and $ys$,

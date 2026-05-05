@@ -59,6 +59,22 @@ theorem MatrixSingletonAddFold_visible_head_absurd {m : BHist} {xs : List BHist}
   · intro foldEmpty
     exact not_hsame_e1_empty (append_eq_empty_iff.mp foldEmpty).left
 
+theorem MatrixSingletonAddFold_cont_visible_head_result_nonempty {m : BHist} {xs : List BHist}
+    {h r : BHist} :
+    (Cont h (MatrixSingletonAddFold (BHist.e0 m :: xs)) r ->
+      hsame r BHist.Empty -> False) ∧
+      (Cont h (MatrixSingletonAddFold (BHist.e1 m :: xs)) r ->
+        hsame r BHist.Empty -> False) := by
+  constructor
+  · intro continuation resultEmpty
+    have endpoints :=
+      cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)
+    exact MatrixSingletonAddFold_visible_head_absurd.left endpoints.right
+  · intro continuation resultEmpty
+    have endpoints :=
+      cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)
+    exact MatrixSingletonAddFold_visible_head_absurd.right endpoints.right
+
 theorem MatrixSingletonAddFold_append_carrier_iff {xs ys : List BHist} :
     hsame (MatrixSingletonAddFold (xs ++ ys)) BHist.Empty ↔
       MatrixSingletonAddFoldSpineCarrier xs ∧ MatrixSingletonAddFoldSpineCarrier ys := by
