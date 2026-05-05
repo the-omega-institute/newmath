@@ -258,6 +258,26 @@ theorem FieldExtSingletonEmbedding_identity_tower_package {h : BHist} :
     (And.intro doubleCarrier (And.intro embeddedCarrier doubleSameEmbedded))
     (And.intro towerCont doubleSameH)
 
+theorem FieldExtRatReflexive_tower_composition :
+    SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
+        RatHistoryClassifier ∧
+      (forall {h k : BHist}, RatHistoryClassifier h k ->
+        RatHistoryClassifier (FieldExtSingletonEmbedding h)
+          (FieldExtSingletonEmbedding k)) ∧
+      (forall {h : BHist}, RatHistoryCarrier h ->
+        exists out : BHist, Cont BHist.Empty h out ∧ RatHistoryClassifier out h) := by
+  constructor
+  · exact rat_history_semantic_name_certificate
+  · constructor
+    · intro h k classified
+      unfold FieldExtSingletonEmbedding
+      exact RatHistoryClassifier_hsame_transport
+        (hsame_symm (append_empty_left h)) (hsame_symm (append_empty_left k)) classified
+    · intro h carrier
+      exact Exists.intro h
+        (And.intro (cont_left_unit h)
+          (And.intro carrier (And.intro carrier (hsame_refl h))))
+
 theorem FieldExtSingletonCarrier_coincidence {h : BHist} :
     FieldSingletonCarrier h ->
       FieldSingletonCarrier h ∧ VecSpaceSingletonCarrier h ∧
