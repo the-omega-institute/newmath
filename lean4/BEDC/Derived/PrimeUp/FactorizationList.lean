@@ -45,6 +45,19 @@ theorem PrimeFactorizationProduct_result_hsame_transport {ps : List BHist} {n n'
                   (And.intro tailData.left
                     (NatMul_result_hsame_transport tailData.right sameResult).right))
 
+theorem PrimeFactorizationProduct_result_unary {ps : List BHist} {n : BHist} :
+    PrimeFactorizationProduct ps n -> UnaryHistory n := by
+  intro product
+  induction ps generalizing n with
+  | nil =>
+      exact unary_transport (unary_e1_closed unary_empty) (hsame_symm product)
+  | cons _p _ps _ih =>
+      cases product with
+      | intro pPrime productTail =>
+          cases productTail with
+          | intro _tailProduct tailData =>
+              exact NatMul_result_unary pPrime.left tailData.right
+
 theorem PrimeFactorizationProduct_result_not_empty {ps : List BHist} {n : BHist} :
     PrimeFactorizationProduct ps n -> hsame n BHist.Empty -> False := by
   intro product
