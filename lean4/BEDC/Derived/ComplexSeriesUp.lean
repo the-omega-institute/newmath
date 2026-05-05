@@ -529,6 +529,11 @@ theorem ComplexAbsPartSum_modulus_hsame_successor_result {zero zero' : BHist}
 def ComplexTermSeqCarrier (c : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> ComplexHistoryCarrier (c n)
 
+def ComplexSeriesConvWitness (zero : BHist) (c s N M : BHist -> BHist) (limit : BHist) : Prop :=
+  ComplexTermSeqCarrier c ∧
+    (forall n : BHist, UnaryHistory n -> ComplexPartSum zero c n (s n)) ∧
+      ComplexLimit s N limit M
+
 theorem ComplexTermSeqCarrier_hsame_transport {c d : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (c n) (d n)) ->
       ComplexTermSeqCarrier c -> ComplexTermSeqCarrier d := by
