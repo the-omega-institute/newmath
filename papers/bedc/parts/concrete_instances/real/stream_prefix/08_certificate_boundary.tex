@@ -144,6 +144,63 @@ by \autoref{def:real-classifier-specification}; no quotient or completion
 principle is used.
 \end{proof}
 
+\begin{theorem}[RegSeqRat stream spine scoped package]
+\label{thm:regseqrat-stream-spine-scoped-package}
+Let $s,t,u,s',t':\Hist\to\Hist$ be rational-observation maps carrying
+$\mathsf{RatStreamNameCarrier}(s)$, $\mathsf{RatStreamNameCarrier}(t)$, and
+$\mathsf{RatStreamNameCarrier}(u)$. Suppose the stream comparison rows
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ and
+$\mathsf{RealUnaryStreamClassifier}(t,u)$ are recorded, and suppose the endpoint
+transports are pointwise over unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then the $\RegSeqRat$ stream certificate spine supplies the following scoped
+package.
+\begin{enumerate}
+  \item For any $d:\Hist$ with $\mathsf{RatHistoryCarrier}(d)$, the constant
+  stream $\mathsf{RatConstStream}_d$ inhabits the $\RegSeqRat$ stream spine.
+  \item The classifier rows
+  $\mathsf{RealUnaryStreamClassifier}(s,s)$,
+  $\mathsf{RealUnaryStreamClassifier}(t,s)$, and
+  $\mathsf{RealUnaryStreamClassifier}(s,u)$ are available.
+  \item At every certified unary observation $n$, the endpoint carrier rows
+  $\mathsf{RatHistoryCarrier}(s(n))$ and
+  $\mathsf{RatHistoryCarrier}(t(n))$ are available.
+  \item The transported stream-name classifier
+  $\mathsf{RatStreamNameClassifier}(s',t')$ is available.
+  \item For sealed $\RealUp$ candidates exposing $s$ and $t$, whose seal records
+  $\mathsf{RealUnaryStreamClassifier}(s,t)$ as the stream comparison row, the
+  RealUp seal exports the row required by
+  \autoref{def:real-classifier-specification}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The constant-stream clause is exactly
+\autoref{thm:regseqrat-constant-stream-spine}. It turns any
+$\mathsf{RatHistoryCarrier}(d)$ into the carried constant stream, its reflexive
+unary stream classifier, and the constant regularity ledger.
+
+For the stability clauses, apply
+\autoref{thm:regseqrat-stream-classifier-stability-spine} to $s,t,u,s',t'$,
+the three carried-stream rows, the two displayed classifier rows, and the two
+pointwise $\hsame$ transports. This gives the reflexive, symmetric, and
+transitive $\mathsf{RealUnaryStreamClassifier}$ rows, the endpoint
+$\RatUp$ carrier rows at every certified unary observation, and the transported
+$\mathsf{RatStreamNameClassifier}(s',t')$ row.
+
+Finally, apply
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine} to any sealed
+$\RealUp$ candidates exposing $s$ and $t$ with the recorded stream comparison.
+The seal consumer repacks that same comparison as the RealUp classifier export.
+
+All rows are obtained by projection, pointwise $\hsame$ transport, and repacking
+of the listed certificate data. No quotient, completion, or host equality
+principle is used.
+\end{proof}
+
 \begin{theorem}[Real unary stream classifier stability package]
 \label{thm:real-unary-stream-classifier-stability-package}
 For rational-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose
@@ -282,3 +339,13 @@ $\RealUp$ is not a BEDC primitive. It is admitted only when those obligations ar
 \label{rem:real-zero-axiom-note}
 The interface avoids quotient machinery. It does not use $\mathsf{Quot.sound}$; sameness is carried by dyadic comparison certificates and the $\RegSeqRat$ classifier.
 \end{remark}
+
+\begin{closurestatus}{\RegSeqRat}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The rational-stream certificate spine binds $\RatUp$, $\StreamNameUp$, $\mathsf{RealUnaryStreamClassifier}$, finite observations, and dyadic-tolerance ledgers as the visible $\RegSeqRat$ interface.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_stability\_package}
+  \bridgestatus{none}
+  \notclaimed{Full $\DyadicRatCore$ arithmetic, regular Cauchy completeness, $\RealUp$ arithmetic or order, metric completeness, and standard bridges are outside this certificate spine.}
+  \upgradepath{$\obligationClosure$ requires the explicit $\RegSeqRat$ obligation list for carrier, classifier, constant stream, transport, dyadic-tolerance ledger, and $\RealUp$ seal interface.}
+\end{closurestatus}
