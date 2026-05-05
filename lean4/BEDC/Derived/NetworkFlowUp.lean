@@ -1,3 +1,4 @@
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Unary.Commutativity
@@ -8,7 +9,58 @@ namespace BEDC.Derived.NetworkFlowUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.FKernel.Bundle
 open BEDC.Derived.PreorderUp
+
+def NetworkFlowUProbeBundleSum (a : BHist -> BHist) : ProbeBundle BHist -> BHist
+  | ProbeBundle.Bnil => BHist.Empty
+  | ProbeBundle.Bcons e xs => append (a e) (NetworkFlowUProbeBundleSum a xs)
+
+def NetworkFlowUProbeBundleSumSpineUnary (a : BHist -> BHist) : ProbeBundle BHist -> Prop
+  | ProbeBundle.Bnil => UnaryHistory BHist.Empty
+  | ProbeBundle.Bcons e xs => UnaryHistory (a e) ∧ NetworkFlowUProbeBundleSumSpineUnary a xs
+
+theorem NetworkFlow_unary_finite_fold_monotonicity {a b : BHist -> BHist}
+    {xs : ProbeBundle BHist} :
+    NetworkFlowUProbeBundleSumSpineUnary a xs ->
+      NetworkFlowUProbeBundleSumSpineUnary b xs ->
+        (forall e : BHist, InBundle e xs -> PreorderPrefixLE (a e) (b e)) ->
+          PreorderPrefixLE (NetworkFlowUProbeBundleSum a xs)
+            (NetworkFlowUProbeBundleSum b xs) := by
+  have foldUnary :
+      forall {f : BHist -> BHist} {bundle : ProbeBundle BHist},
+        NetworkFlowUProbeBundleSumSpineUnary f bundle ->
+          UnaryHistory (NetworkFlowUProbeBundleSum f bundle) := by
+    intro f bundle spine
+    induction bundle with
+    | Bnil =>
+        exact unary_empty
+    | Bcons e tail ih =>
+        exact unary_append_closed spine.left (ih spine.right)
+  intro spineA spineB pointwise
+  induction xs with
+  | Bnil =>
+      exact PreorderPrefixLE_of_hsame (hsame_refl BHist.Empty)
+  | Bcons e tail ih =>
+      have headLE : PreorderPrefixLE (a e) (b e) :=
+        pointwise e (Or.inl rfl)
+      have tailPointwise :
+          forall q : BHist, InBundle q tail -> PreorderPrefixLE (a q) (b q) := by
+        intro q member
+        exact pointwise q (Or.inr member)
+      have tailLE :
+          PreorderPrefixLE (NetworkFlowUProbeBundleSum a tail)
+            (NetworkFlowUProbeBundleSum b tail) :=
+        ih spineA.right spineB.right tailPointwise
+      have rightContext :
+          PreorderPrefixLE (append (a e) (NetworkFlowUProbeBundleSum a tail))
+            (append (b e) (NetworkFlowUProbeBundleSum a tail)) :=
+        PreorderPrefixLE_append_right_context (foldUnary spineA.right) headLE
+      have leftContext :
+          PreorderPrefixLE (append (b e) (NetworkFlowUProbeBundleSum a tail))
+            (append (b e) (NetworkFlowUProbeBundleSum b tail)) :=
+        PreorderPrefixLE_append_left_context tailLE
+      exact PreorderPrefixLE_trans rightContext leftContext
 
 def NetworkFlowUSum (a : BHist → BHist) : List BHist → BHist
   | [] => BHist.Empty
@@ -213,6 +265,41 @@ theorem NetworkFlow_empty_backward_accounting_cut_flow_below_value {V B X : BHis
   cases backwardEmpty
   have sameXV : hsame X V := cont_deterministic accounting (cont_right_unit V)
   exact PreorderPrefixLE_of_hsame sameXV
+
+theorem NetworkFlow_weak_duality_cuts {V B X U : BHist} :
+    UnaryHistory B -> Cont V B X -> PreorderPrefixLE X U -> PreorderPrefixLE V U := by
+  intro backwardUnary accounting cutBound
+  have accountingBound : PreorderPrefixLE V X := ⟨B, backwardUnary, accounting⟩
+  exact PreorderPrefixLE_trans accountingBound cutBound
+
+protected theorem NetworkFlow_maxflow_mincut_equality_from_residual_exhaustion {V K X B : BHist}
+    (weakDuality : PreorderPrefixLE V K) (forwardSaturation : PreorderPrefixLE K X)
+    (backwardUnary : UnaryHistory B) (backwardEmpty : hsame B BHist.Empty)
+    (accounting : Cont V B X) :
+    hsame V K ∧ PreorderPrefixLE K V := by
+  have cutFlowBelowValue : PreorderPrefixLE X V :=
+    NetworkFlow_empty_backward_accounting_cut_flow_below_value
+      backwardUnary backwardEmpty accounting
+  have cutBelowValue : PreorderPrefixLE K V :=
+    PreorderPrefixLE_trans forwardSaturation cutFlowBelowValue
+  exact And.intro (PreorderPrefixLE_antisymm_hsame weakDuality cutBelowValue) cutBelowValue
+
+theorem NetworkFlow_residual_exhaustion_value_capacity_hsame
+    {V backward cutFlow cutCapacity : BHist} :
+    UnaryHistory backward -> hsame backward BHist.Empty -> Cont V backward cutFlow ->
+      PreorderPrefixLE V cutCapacity -> PreorderPrefixLE cutCapacity cutFlow ->
+        hsame V cutCapacity ∧ PreorderPrefixLE V cutCapacity ∧
+          PreorderPrefixLE cutCapacity V := by
+  intro backwardUnary backwardEmpty accounting valueBelowCapacity capacityBelowCutFlow
+  have cutFlowBelowValue : PreorderPrefixLE cutFlow V :=
+    NetworkFlow_empty_backward_accounting_cut_flow_below_value
+      backwardUnary backwardEmpty accounting
+  have capacityBelowValue : PreorderPrefixLE cutCapacity V :=
+    PreorderPrefixLE_trans capacityBelowCutFlow cutFlowBelowValue
+  have sameValueCapacity : hsame V cutCapacity :=
+    PreorderPrefixLE_antisymm_hsame valueBelowCapacity capacityBelowValue
+  exact And.intro sameValueCapacity
+    (And.intro valueBelowCapacity capacityBelowValue)
 
 theorem NetworkFlow_cut_accounting_suffix_cancellation
     {V cutBack cutForw internal left right : BHist} :
