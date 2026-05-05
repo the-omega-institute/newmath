@@ -8787,3 +8787,30 @@ This is a concrete bridge between the metric and topology certificate layers, ma
 
 ---
 
+### B-337 - Measure finite disjoint-union additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Measure finite disjoint-union additivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If A and B are disjoint measurable subsets in a MeasureUp carrier whose certificate supplies sigma-additivity and countable-sum head-tail readback, then μ(A ∪ B) is RealUp-classified with μ(A) + μ(B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/101_integral_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+
+Rationale:
+MeasureUp is still very lightly populated: papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex:4 states only the sigma-additive nonnegative real-valued measure interface, and the current theorem at 70_measure_namecert_construction.tex:12-18 proves only the empty-set consequence. IntegralUp immediately depends on this layer at papers/bedc/parts/concrete_instances/101_integral_namecert_construction.tex:4. Focused grep for finite additivity, disjoint union, and measure-union found no labeled theorem beyond the empty-set proof and BOARD B-334 at tools/bedc-deep/BOARD.md:8714-8736. The proposed theorem is the next concrete implication from the same certificate data: specialize sigma-additivity to the sequence A, B, empty, empty, ... and use the existing empty-set-zero theorem plus RealUp additive-group cancellation/readback.
+
+---
+

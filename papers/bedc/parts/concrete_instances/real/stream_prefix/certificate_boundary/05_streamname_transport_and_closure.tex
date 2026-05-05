@@ -185,6 +185,120 @@ $\RealUp$ is not a BEDC primitive. It is admitted only when those obligations ar
 The interface avoids quotient machinery. It does not use $\mathsf{Quot.sound}$; sameness is carried by dyadic comparison certificates and the $\RegSeqRat$ classifier.
 \end{remark}
 
+\begin{theorem}[RealUp carrier and classifier obligations]
+\label{thm:realup-obligation-carrier-classifier}
+The $\RealUp$ carrier and classifier obligation set consists exactly of the
+sealed $\RegSeqRat$ stream spine, the constant-history carrier
+$\mathsf{RealConstantHistoryCarrier}$, the endpoint $\RatUp$ carrier rows, and
+the classifier row
+$\mathsf{RealConstantHistoryClassifier}$ or
+$\mathsf{RealUnaryStreamClassifier}$ read through
+\autoref{def:real-carrier},
+\autoref{def:real-constant-history-carrier},
+\autoref{def:real-classifier-specification}, and
+\autoref{def:regseqrat-stream-certificate-spine}. This is the carrier and
+classifier part of the $\RealUp$ obligation boundary.
+\end{theorem}
+\begin{proof}
+Use the roadmap ten-field template with traditional target $\RealUp$. The
+BEDC source is the DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, and $\RatUp$
+interface over $\Hist$; no quotient carrier is introduced outside those
+named interfaces.
+
+The carrier choice is the sealed $\RegSeqRat$ stream spine together with
+$\mathsf{RealConstantHistoryCarrier}$ and the endpoint $\RatUp$ carrier rows.
+Definitions~\ref{def:real-carrier} and
+\ref{def:real-constant-history-carrier} name the constant-history side, while
+Definition~\ref{def:regseqrat-stream-certificate-spine} names the stream
+spine being sealed.
+
+The classifier choice is read from
+Definition~\ref{def:real-classifier-specification}: constants use
+$\mathsf{RealConstantHistoryClassifier}$ and unary stream observations use
+$\mathsf{RealUnaryStreamClassifier}$. Stability obligations, ledger rows,
+core theorem list, and exactness predicate are not supplied by this block;
+they are the remaining $\RealUp$ obligations. No standard bridge is claimed,
+and the status of this theorem is the paper-side carrier and classifier
+obligation inventory.
+\end{proof}
+
+\begin{theorem}[RealUp stability and transport obligations]
+\label{thm:realup-obligation-stability-transport}
+The $\RealUp$ stability obligation set is supplied by the
+constant-history classifier equivalence fields, endpoint transport, unary
+stream classifier stability, the stream-name transported classifier, and
+$\RegSeqRat$ transport. Concretely, the required rows are those supplied by
+\autoref{thm:real-constant-history-classifier-equivalence-fields},
+\autoref{thm:real-constant-history-classifier-endpoint-transport},
+\autoref{thm:real-unary-stream-classifier-stability-package}, and
+\autoref{thm:real-unary-streamname-transported-classifier}, read over the
+same $\Hist$-indexed DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, and
+$\RatUp$ sources.
+\end{theorem}
+\begin{proof}
+The traditional target is again $\RealUp$, with BEDC source
+DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, and $\RatUp$ over $\Hist$.
+The carrier choice and classifier choice are the rows fixed in
+\autoref{thm:realup-obligation-carrier-classifier}; this proof names the
+stability and transport rows attached to them.
+
+For the constant-history face, apply
+\autoref{thm:real-constant-history-classifier-equivalence-fields} to obtain
+the reflexive, symmetric, and transitive classifier fields, and apply
+\autoref{thm:real-constant-history-classifier-endpoint-transport} to move the
+endpoint classifier along $\hsame$ rows.
+
+For the unary stream face, apply
+\autoref{thm:real-unary-stream-classifier-stability-package}. It gives the
+StreamNameUp classifier, the reflexive, reversed, and composed
+$\RealUp$ unary classifier rows, endpoint $\RatUp$ carrier rows, and
+transport of $\mathsf{RealUnaryStreamClassifier}$ along pointwise $\hsame$.
+
+Finally, apply
+\autoref{thm:real-unary-streamname-transported-classifier} to read the
+transported RealUp unary classifier as the transported StreamNameUp
+classifier. The ledger and seal are left to the ledger theorem below, the
+exactness predicate is classifier preservation along the displayed
+transports, no standard bridge is claimed, and the status is the paper-side
+stability and transport obligation inventory.
+\end{proof}
+
+\begin{theorem}[RealUp ledger and seal obligations]
+\label{thm:realup-obligation-seal-ledger}
+The $\RealUp$ ledger obligation is exactly the finite unary-observation
+ledger together with the dyadic-tolerance requests consumed by the
+$\RealUp$ seal. The ledger rows are those named in
+\autoref{def:real-ledger-policy}, and the seal consumes precisely the scoped
+$\RegSeqRat$ spine supplied by
+\autoref{thm:regseqrat-stream-spine-scoped-package} through
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine}.
+\end{theorem}
+\begin{proof}
+Use the same roadmap template. The traditional target is $\RealUp$; the BEDC
+source is the DyadicRatCore and $\RegSeqRat$ stream data over $\Hist$, read
+through $\StreamNameUp$ names and endpoint $\RatUp$ rows. The carrier and
+classifier choices are the rows fixed by
+\autoref{thm:realup-obligation-carrier-classifier}.
+
+The ledger is the finite policy of
+\autoref{def:real-ledger-policy}: stream observations, dyadic comparison
+witnesses, regularity certificates, and classifier comparison certificates.
+These are the only ledger rows available to the seal.
+
+Apply \autoref{thm:regseqrat-stream-spine-scoped-package} to collect the
+scoped $\RegSeqRat$ carrier, classifier, stability, and finite ledger faces.
+Then apply \autoref{thm:regseqrat-realup-seal-consumes-stream-spine}; the
+seal reads that scoped spine and its dyadic-tolerance requests without adding
+another source of data.
+
+The core theorem list is the scoped spine theorem followed by the seal
+consumption theorem. The exactness predicate is equality of consumed data:
+the $\RealUp$ seal consumes the finite unary-observation ledger and the
+dyadic-tolerance requests displayed by the spine. No standard bridge is
+claimed, and the status is the paper-side ledger, seal, and
+$\RegSeqRat$-consumption obligation inventory.
+\end{proof}
+
 \begin{closurestatus}{\RegSeqRat}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The rational-stream certificate spine binds $\RatUp$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealUnaryStreamClassifier}$, the dyadic-tolerance ledger, and the $\RealUp$ seal as the visible $\RegSeqRat$ scope.}
@@ -197,10 +311,10 @@ The interface avoids quotient machinery. It does not use $\mathsf{Quot.sound}$; 
 
 \begin{closurestatus}{\RealUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The current $\RealUp$ scope binds the sealed $\RegSeqRat$ interface over $\DyadicRatCore$ observations, $\StreamNameUp$ pointwise carriers and classifiers, $\RatUp$ endpoint classifiers, selected $\hsame$ transport, $\mathsf{RealConstantHistoryCarrier}$, $\mathsf{RealConstantHistoryClassifier}$, and $\mathsf{RealLedgerPolicy}$.}
+  \scopeclosed{The $\RealUp$ obligation scope is the six-field boundary of \autoref{def:realup-obligation-boundary}, with carrier/classifier, stability/ledger, and seal/$\RegSeqRat$-consumption faces supplied by \autoref{thm:realup-carrier-classifier-obligations}, \autoref{thm:realup-stability-ledger-obligations}, and \autoref{thm:realup-seal-and-regseqrat-consumption-obligations}.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.RealUp.RealConstantHistory\_semanticNameCert}
   \bridgestatus{none}
   \notclaimed{This block does not close $\RealUp$ completeness, arithmetic or order closure, metric completeness, or any standard bridge.}
-  \upgradepath{$\scopedClosure$ requires binding \autoref{thm:real-selected-transport-fit-carrier-obligation}, \autoref{thm:real-selected-transport-fit-classifier-obligation}, \autoref{thm:real-selected-transport-fit-ledger-obligation}, and \autoref{thm:real-selected-transport-fit-stability-seal-obligation} to exact BEDC primitives and Lean-side targets.}
+  \upgradepath{$\scopedClosure$ next requires binding each $\RealUp$ obligation face to its primitive dependency chain.}
 \end{closurestatus}
