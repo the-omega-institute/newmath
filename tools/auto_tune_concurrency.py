@@ -36,7 +36,16 @@ CONFIG = REPO_ROOT / ".pipeline_parallel.json"
 
 # Tuning constants. Adjust here if the cluster's resource profile
 # changes (e.g. moving from 16GB → 32GB RAM allows higher LEAN_MAX).
-LEAN_BUFFER = 3
+#
+# LEAN_BUFFER reduced from 3 → 0 after observing chapter-dogpile
+# lake-build failures: when top_size=7 and lean=11, 4+ extra workers
+# necessarily picked overlapping chapters (NumFieldUp / FieldExtUp),
+# producing duplicate-declaration build errors at merge. With
+# lean = top_size, each worker has its own sibling front and the
+# sibling claim mechanism inside critical_path keeps them
+# non-overlapping. As top grows (paper unlocks new chapters),
+# lean grows to match.
+LEAN_BUFFER = 0
 LEAN_MIN = 3
 LEAN_MAX = 15
 
