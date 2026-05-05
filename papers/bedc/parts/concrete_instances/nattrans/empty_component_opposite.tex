@@ -37,6 +37,28 @@ reflexive $\hsame(\emp,\emp)$, which reverses the endpoint prefixes.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_opposite\_closed}
 
+\begin{theorem}[NatTrans vertical empty result componentwise opposite closure]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-empty-result-components-opposite-closed}
+For histories $p,q,r,a,\eta,\theta:\mathsf{BHist}$, if components
+$p\to q$ and $q\to r$ over $a$ vertically compose with empty result, then
+each displayed component also carries its opposite endpoint direction:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\theta)\land
+\ContR(\eta,\theta,\emp)
+\Longrightarrow
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\eta)\land
+\mathsf{NatTransPrefixComponentCarrier}(r,q,a,\theta).
+$$
+\end{theorem}
+\begin{proof}
+Apply vertical empty-result exactness to the two component carriers. It
+identifies both component histories with $\emp$. Empty-component opposite
+closure then reverses the endpoints of the first component and of the second
+component separately, preserving the displayed component histories.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_components\_opposite\_closed}
+
 \begin{theorem}[NatTrans vertical empty result prefix readback]
 \label{thm:nattrans-prefix-component-vert-comp-empty-result-prefixes-hsame}
 For histories $p,q,r,a,\eta,\theta:\mathsf{BHist}$, if components

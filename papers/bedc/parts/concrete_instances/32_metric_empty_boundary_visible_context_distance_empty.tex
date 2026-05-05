@@ -170,6 +170,37 @@ Metric distance depth additivity then gives the displayed equation.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_depth\_add}
 
+\begin{theorem}[Metric empty-boundary visible context continuation witness depth package]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-continuation-witness-depth}
+For histories $p,q,d,l,r,mid,out$, an empty-boundary visible-context distance
+witness, unary visible endpoints, and the two-step continuation through $d$
+determine both the visible-endpoint metric witness and its depth ledger:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{UnaryHistory}(l)\Longrightarrow\mathsf{UnaryHistory}(r)\Longrightarrow\\
+\qquad
+\ContR(l,d,mid)\Longrightarrow\ContR(mid,r,out)\Longrightarrow\\
+\qquad
+\mathsf{MetricDistanceWitness}(l,r,out)\wedge
+\mathsf{MetricDistanceDepth}(out)=
+\mathsf{MetricDistanceDepth}(l)+\mathsf{MetricDistanceDepth}(r).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The witness conjunct is supplied by
+\autoref{thm:metric-distance-witness-empty-boundary-visible-context-witness-splice}
+from the empty-boundary witness, the endpoint unary histories, and the two
+continuation rows.
+
+The depth conjunct is supplied by
+\autoref{thm:metric-distance-witness-empty-boundary-visible-context-continuation-depth-add}
+from the same hypotheses. Conjoining the two conclusions gives the displayed
+package.
+\end{proof}
+
 \begin{theorem}[Metric empty-boundary visible context canonical splice package]
 \label{thm:metric-empty-boundary-visible-context-canonical-splice-package}
 For histories $p,q,d,l,r,mid,out,out'$, an empty-boundary visible-context
@@ -208,3 +239,5 @@ The depth row is supplied by
 Theorem~\ref{thm:metric-distance-witness-empty-boundary-visible-context-continuation-depth-add}.
 Conjoining these three rows gives the displayed certificate package.
 \end{proof}
+
+\closureat{\MetricUp}{\checkedCertStr}[BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert]

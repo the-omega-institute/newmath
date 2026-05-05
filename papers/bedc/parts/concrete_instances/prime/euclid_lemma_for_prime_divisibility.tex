@@ -66,6 +66,37 @@ factor $y$ from the divisible result $z$, leaving divisibility of $x$ by $d$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_cont\_left\_factor}
 
+\begin{theorem}[Prime divisor dichotomy]
+\label{thm:prime-divisor-dichotomy}
+For unary histories $p$ and $a$, if $\mathsf{NatPrime}(p)$, then
+$$
+  \mathsf{NatDivides}(p,a) \vee \neg\mathsf{NatDivides}(p,a).
+$$
+\end{theorem}
+\begin{proof}[Sketch]
+Use the $\PrimeUp$ template with traditional target divisibility
+decidability by a fixed prime. The BEDC source data are the unary histories
+together with $\mathsf{NatMul}$, $\mathsf{NatDivides}$, and
+$\mathsf{NatPrime}$.
+
+The carrier is the bounded unary-prefix search over quotient candidates up to
+$a$. For each candidate $q$, \autoref{lem:nat-mul-total} supplies a product
+$m_q$ for $\mathsf{NatMul}(p,q,m_q)$, and the classifier compares $m_q$ with
+$a$ by $\hsame$.
+
+Stability follows from \autoref{lem:nat-mul-total},
+\autoref{lem:nat-mul-functional}, \autoref{thm:nat-unary-prefix-total}, and
+endpoint transport. Thus the bounded quotient scan is a ledger whose entries
+are stable under history-sameness of the multiplication result.
+
+Exactness is immediate from the scan. If some candidate has product
+history-same to $a$, endpoint transport packages that quotient as
+$\mathsf{NatDivides}(p,a)$. If the scan exhausts every unary prefix up to $a$
+without such an endpoint, then every possible quotient is rejected, which is
+the negated divisor predicate. This supplies the displayed disjunction as a
+paper certificate.
+\end{proof}
+
 \begin{lemma}[Least prime multiple period]
 \label{lem:prime-least-multiple-period}
 Let $p$ and $a$ be unary histories with $\mathsf{NatPrime}(p)$ and $\neg\mathsf{NatDivides}(p,a)$. Among the nonempty unary histories $t$ for which there is a product $m_t$ with $\mathsf{NatMul}(a,t,m_t)$ and $\mathsf{NatDivides}(p,m_t)$, a strict-prefix least such $t$ exists, and every such least $t$ satisfies $t\hsame p$.
@@ -86,7 +117,11 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-If $\mathsf{NatDivides}(p,a)$, take the left disjunct. Assume instead $\neg\mathsf{NatDivides}(p,a)$, and let $t$ be the least prime multiple period supplied by \autoref{lem:prime-least-multiple-period}; then $t\hsame p$.
+Apply \autoref{thm:prime-divisor-dichotomy} to $p$, $a$, and the prime
+hypothesis. In the left branch, take the left disjunct.
+
+In the negated branch, let $t$ be the least prime multiple period supplied by
+\autoref{lem:prime-least-multiple-period}; then $t\hsame p$.
 
 Use \autoref{lem:unary-division-by-nonempty-divisor} to divide $b$ by $p$. Write $b$ as the continuation of a $p$-multiple part by a remainder $r$, where $r\hsame\emp$ or $r$ is a strict unary prefix of $p$. The product of $a$ with the $p$-multiple part is divisible by $p$, because the product of $a$ with one copy of $p$ is divisible by $p$ by \autoref{lem:nat-mul-commutative-hsame}, and repeated copies compose by \autoref{lem:divides-transitive}. The given product $n$ is obtained from this divisible prefix by appending the product of $a$ with $r$, using the successor clauses of \autoref{def:nat-multiplication} and continuation associativity. Since $p$ divides $n$, \autoref{lem:nat-divides-prefix-cancellation} gives that $p$ divides the product of $a$ with $r$.
 
