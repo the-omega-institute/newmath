@@ -495,6 +495,7 @@ import BEDC.Derived.MatrixUp.SemanticCertificate
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
+import BEDC.Derived.PolynomialUp.Evaluation
 import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
