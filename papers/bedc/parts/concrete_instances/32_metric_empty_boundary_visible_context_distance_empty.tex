@@ -81,6 +81,28 @@ identifications reduces the displayed splice comparison to reflexivity.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_unit\_splice\_commute}
 
+\begin{theorem}[Metric visible-context empty-distance unit splice commute]
+\label{thm:metric-distance-witness-visible-context-empty-distance-unit-splice-commute}
+For histories $p,q,x,y,l,r,out_L,out_R$, a visible-context empty-distance
+witness makes left continuation through $x$ and right continuation through $y$
+commute after one ordinary append splice:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+\Longrightarrow
+\ContR(l,x,out_L)\Longrightarrow
+\ContR(y,r,out_R)\Longrightarrow
+\hsame(out_L\cdot r,l\cdot out_R).
+$$
+\end{theorem}
+\begin{proof}
+The visible-context empty-distance exactness theorem identifies both central
+endpoints $x$ and $y$ with $\emp$. The left continuation then has right-unit
+result $out_L\hsame l$, and the right continuation has left-unit result
+$out_R\hsame r$. Substituting these unit identifications reduces the splice
+comparison to reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_unit\_splice\_commute}
+
 \begin{theorem}[Metric empty-boundary visible context left-unit witness]
 \label{thm:metric-distance-witness-empty-boundary-visible-context-left-unit-witness}
 For histories $p,q,d,r,out$, an empty-boundary visible-context distance witness
