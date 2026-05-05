@@ -7,6 +7,7 @@ namespace BEDC.Derived.ComplexAnalyticUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.ProdUp
@@ -86,6 +87,25 @@ theorem CplxPureImaginary_hsame_transport_witness {theta z z' : BHist} :
       have sameZ' : hsame z' (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) :=
         hsame_trans (hsame_symm sameZZ') sameZ
       exact And.intro (And.intro thetaUnary sameZ') sameZ'
+
+theorem CplxPureImaginary_name_certificate :
+    NameCert (fun z : BHist => exists theta : BHist, CplxPureImaginary theta z)
+      hsame := by
+  constructor
+  · exact Exists.intro (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+      (Exists.intro BHist.Empty
+        (And.intro unary_empty (hsame_refl _)))
+  · intro z _source
+    exact hsame_refl z
+  · intro z z' sameZZ'
+    exact hsame_symm sameZZ'
+  · intro z z' z'' sameZZ' sameZ'Z''
+    exact hsame_trans sameZZ' sameZ'Z''
+  · intro z z' sameZZ' source
+    cases source with
+    | intro theta pureImaginary =>
+        exact Exists.intro theta
+          (CplxPureImaginary_hsame_transport_witness sameZZ' pureImaginary).left
 
 theorem CplxPureImaginary_phase_stability_witness {theta phi z : BHist} :
     CplxPureImaginary theta z -> hsame theta phi ->
