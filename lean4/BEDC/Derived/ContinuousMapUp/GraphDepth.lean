@@ -1,4 +1,6 @@
 import BEDC.Derived.ContinuousMapUp
+import BEDC.Derived.ContinuousMapUp.CategoryMetricDecomposition
+import BEDC.Derived.ContinuousMapUp.EmptyIdentityDistance
 
 namespace BEDC.Derived.ContinuousMapUp
 
