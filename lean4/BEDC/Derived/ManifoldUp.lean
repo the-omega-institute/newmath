@@ -277,4 +277,18 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
 
+structure ManifoldTransitionCoherenceLedger where
+  chart : BHist
+  domain : BHist
+  value : BHist
+  selfTransition : BHist
+  inverseRound : BHist
+  cocycle : BHist
+  chartCarrier : ManifoldSingletonCarrier chart
+  domainReadback : Cont BHist.Empty chart domain
+  valueReadback : Cont chart BHist.Empty value
+  identityRow : Cont value value selfTransition
+  inverseRoundRow : Cont selfTransition selfTransition inverseRound
+  cocycleRow : Cont inverseRound value cocycle
+
 end BEDC.Derived.ManifoldUp
