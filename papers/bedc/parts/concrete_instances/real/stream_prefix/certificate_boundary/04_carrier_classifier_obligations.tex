@@ -203,6 +203,65 @@ The intended Lean target shape for this boundary is
   \upgradepath{$\obligationClosure$ requires explicit carrier, classifier, arithmetic-stability, monotone-radius, distance, and absolute-value obligation theorem blocks for DyadicRatCore.}
 \end{closurestatus}
 
+\begin{theorem}[DyadicRatCore distance obligation]
+\label{thm:dyadic-rat-core-distance-obligation}
+For endpoints $d,e:\Hist$, the DyadicRatCore distance obligation is the finite
+certificate package consisting of two
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses, the displayed
+$\mathsf{RatHistoryClassifier}(d,e)$ face, the positive-denominator transports
+for both endpoints, and the dyadic-radius ledger token used by the $\RegSeqRat$
+regularity request. Under $\hsame$ transport of both endpoints, the same
+package transports endpointwise to the corresponding target endpoints.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:dyadic-rat-core-observation-row}. Each endpoint row gives
+the rational-history carrier, the positive unary denominator, and the
+dyadic-radius token attached to a certified unary observation ledger entry.
+
+The finite source of these rows is the scoped package of
+\autoref{thm:dyadic-rat-core-scoped-source-package}. Its classifier face is the
+displayed $\mathsf{RatHistoryClassifier}(d,e)$ row, and its endpoint rows are
+exactly the two observation-row witnesses used by the distance request.
+
+Transport the classifier face with
+\autoref{thm:dyadic-rat-core-observation-row-classifier-transport}. Transport
+each endpoint row with
+\autoref{thm:dyadic-rat-core-observation-row-hsame-transport}; the
+positive-denominator components are carried endpointwise by the same rows.
+
+The dyadic-radius ledger token remains the certified token already recorded by
+the $\RegSeqRat$ regularity request. Thus the transported endpoint rows,
+transported classifier face, positive-denominator transports, and unchanged
+ledger token repack as the transported distance-obligation package, with no
+quotient or completion datum read.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore absolute-value obligation]
+\label{thm:dyadic-rat-core-absolute-value-obligation}
+For an endpoint $d:\Hist$, the DyadicRatCore absolute-value obligation is the
+unary-radius face obtained from a single
+$\mathsf{DyadicRatCoreObservationRow}(d)$. It preserves the
+$\mathsf{PositiveUnaryDenominator}(d)$ component, records the same
+dyadic-radius request, and is stable under the $\hsame$ transport supplied by
+the scoped source package.
+\end{theorem}
+\begin{proof}
+Project the carrier, positive-denominator, and dyadic-radius components from
+\autoref{def:dyadic-rat-core-observation-row}. These three projections are the
+unary-radius face consumed by the absolute-value request.
+
+The positive-denominator component transports along
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}. The whole
+observation row transports along
+\autoref{thm:dyadic-rat-core-observation-row-hsame-transport}, so the carrier
+and dyadic-radius components remain aligned with the transported endpoint.
+
+Repack the transported row as the absolute-value obligation face. The scoped
+source package of \autoref{thm:dyadic-rat-core-scoped-source-package} supplies
+the $\hsame$ transport used here, and no additional arithmetic, quotient, or
+completion datum is introduced.
+\end{proof}
+
 \begin{theorem}[RegSeqRat dyadic observation coverage]
 \label{thm:regseqrat-dyadic-observation-coverage}
 Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ stream certificate spine, and let
