@@ -10275,3 +10275,30 @@ The paper has a concrete density-matrix carrier definition and a general ConvexS
 
 ---
 
+### B-393 - Public-key decryption output determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Public-key decryption output determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a PublicKeyUp certificate with a decrypt-output determinacy row, PKKeyGen_P(pk,sk), PKDecrypt_P(sk,c,d1), and PKDecrypt_P(sk,c,d2) imply mu_P(d1,d2).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/146_numfield_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+This is a concrete determinacy target for the existing PublicKeyUp surface: the paper already has a transcript interface and decrypt-encrypt correctness, but not a theorem saying two decryption endpoints for the same secret key and ciphertext are message-classifier equal. It is not a BOARD duplicate, not a marker or closure-status item, and lands safely in the existing public-key concrete-instance file.
+
+---
+
