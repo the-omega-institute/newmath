@@ -142,4 +142,23 @@ theorem BanachSingleton_limit_classifier_uniqueness
       (And.intro banachClassified
         (And.intro (cont_right_unit l0) (cont_right_unit l1))))
 
+theorem BanachSingleton_limit_classifier_unique
+    {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
+    CompleteMetricLimitWitness BanachSingletonCarrier s M0 l0 ->
+      CompleteMetricLimitWitness BanachSingletonCarrier s M1 l1 ->
+        BanachSingletonClassifier l0 l1 ∧
+          MetricDistanceWitness l0 l1 BHist.Empty := by
+  intro witness0 witness1
+  have carrier0 : BanachSingletonCarrier l0 := witness0.left
+  have carrier1 : BanachSingletonCarrier l1 := witness1.left
+  have sameL0 : hsame l0 BHist.Empty := carrier0.left
+  have sameL1 : hsame l1 BHist.Empty := carrier1.left
+  have sameLimits : hsame l0 l1 := hsame_trans sameL0 (hsame_symm sameL1)
+  have distance :
+      MetricDistanceWitness l0 l1 BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr (And.intro sameL0 sameL1)
+  exact And.intro
+    (And.intro carrier0 (And.intro carrier1 sameLimits))
+    distance
+
 end BEDC.Derived.BanachUp

@@ -9530,3 +9530,348 @@ This is a concrete theorem-level bridge in the existing NetworkFlowUp surface: t
 
 ---
 
+### B-365 - Sheaf global restrictions form compatible local family
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Sheaf global restrictions form compatible local family |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an indexed SheafUp carrier S over T has a cover U=(A,iota,h,gamma) of i and g is a section of Sec(i), then the family a |-> rho_{i,iota(a)}(g) is compatible over U under the presheaf restriction-composition and topology finite-intersection fields.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/129_sheaf_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex`
+
+Rationale:
+The indexed presheaf carrier defines restriction maps, identity, and composition at papers/bedc/parts/concrete_instances/129_sheaf_namecert_construction.tex:12-32; the sheaf cover definition gives compatibility over pairwise intersections and says the needed inclusions come from the finite-intersection law at 129_sheaf_namecert_construction.tex:35-59, with that topology law labeled at papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex:46. The only theorem in the sheaf file is gluing uniqueness from locality at 129_sheaf_namecert_construction.tex:62-96. Focused rg for global/restrict/compatible local family/global section terms under parts found 0 theorem labels for global restrictions forming a compatible local family; hits were the definition and the uniqueness theorem context, not this closure claim. The target file is 96 lines and has 0 Lean marker macros.
+
+---
+
+
+### B-366 - Computable bounded graph certificate is functional
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Computable bounded graph certificate is functional |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a partial graph F carries a bounded ComputableUp graph certificate and F(n,m) and F(n,m') both hold, then m and m' are hsame-classified NatUp outputs.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/98_seq_namecert_construction.tex`
+
+Rationale:
+The bounded simulation witness is defined at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:12-24, and the bounded graph certificate states both F(n,m) iff BoundedSim(P_F,n,beta_F(n),m) and same-input output determinacy for bounded simulations at 177_computable_namecert_construction.tex:27-33. The only theorem in the file is composition by bounded simulation at 177_computable_namecert_construction.tex:36-65, with its Lean marker at line 56. Focused rg for computable determinacy, bounded same input, output determinacy, and graph functional terms found 0 computable theorem labels; the only hits in this file were definition prose at lines 29 and 33, while other hits were unrelated module or continuous determinacy theorems.
+
+---
+
+
+### B-367 - Hash collision success is symmetric
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Hash collision success is symmetric |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If HashCollisionSuccess_H(x,x') holds and the message and digest classifiers are symmetric in the HashUp certificate, then HashCollisionSuccess_H(x',x) holds over the same evaluation row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/110_funcobj_namecert_construction.tex`
+
+Rationale:
+Hash evaluation, second-preimage success, and ordered collision success are defined at papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex:12-40; the existing theorem only proves second-preimage success induces collision for the same ordered pair at 220_hash_namecert_construction.tex:43-64. Focused rg for hash collision symmetry, collision reverse, HashCollisionSuccess, and second-preimage/collision terms returned only the definition at line 32 and the second-preimage theorem at lines 43-49, with 0 theorem labels for reversing a collision transcript. The file is 64 lines and has 0 Lean marker macros.
+
+---
+
+
+### B-368 - Convex affine-combination row is order symmetric
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Convex affine-combination row is order symmetric |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a ConvexSetUp binary affine-combination row holds, x and y are carried, a and b are nonnegative, and a+_F b is classifier-equal to 1_F with scalar-addition commutativity, then the swapped endpoint (b odot y)+_V(a odot x) is carried by the same convex carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex`
+
+Rationale:
+The binary affine-combination row is defined at papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex:12-30 and already gives closure for ordered coefficients and ordered endpoints. The only theorem in the file is the midpoint specialization at 186_convexset_namecert_construction.tex:32-57. Focused rg for convex symmetry, affine swap, affine symmetry, midpoint, and ConvexSet terms found 0 theorem labels for a swapped affine-combination closure; hits were the definition, the midpoint theorem, and unrelated affine uses in field files. The target file is only 57 lines and has 0 Lean marker macros.
+
+---
+
+### B-369 - Module action annihilator is an IdealUp predicate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module action annihilator is an IdealUp predicate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a ModuleUp(R,M) certificate, if Ann_M(r) and Ann_M(s) hold then Ann_M(r+_R s) and Ann_M(-_R r) hold, and if a is carried by R then Ann_M(a dot_R r) and Ann_M(r dot_R a) hold, so Ann_M is an IdealUp predicate over R.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/module/action_faithfulness_annihilator.tex`
+- `papers/bedc/parts/concrete_instances/module/21_module_namecert_construction_core.tex`
+- `papers/bedc/parts/concrete_instances/59_ideal_namecert_construction.tex`
+- `lean4/BEDC/Derived/ModuleUp.lean`
+- `lean4/BEDC/Derived/RingUp.lean`
+
+Rationale:
+This belongs in the module action-faithfulness child file. The object is already introduced at papers/bedc/parts/concrete_instances/module/action_faithfulness_annihilator.tex:1-20, and line 20 explicitly says no ideal carrier is introduced. Existing results only prove the difference-annihilator lemma and the faithful-action iff zero-annihilator theorem at lines 23-104. The missing theorem is the standard module-theory fact that the annihilator of a module is an ideal, found in any introductory algebra text after modules are introduced. It should close in 1-3 rounds because the proof only uses scalar distributivity, zero action, ring additive inverse/addition, and two-sided absorption-style scalar multiplication rows already present in the module and ring chapters.
+
+---
+
+
+### B-370 - Ring-map preimage of an ideal is an IdealUp predicate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ring-map preimage of an ideal is an IdealUp predicate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under RingUp certificates S and T, a ring map f:S to T, and an IdealUp predicate J on T, if K(x) is the carried preimage condition C_S(x) and J(f(x)), then K satisfies the IdealUp rows on S.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/59_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `lean4/BEDC/Derived/RingUp.lean`
+
+Rationale:
+This belongs in the IdealUp chapter. The file already proves the special zero-fiber case at papers/bedc/parts/concrete_instances/59_ideal_namecert_construction.tex:55-148, but focused grep found no preimage or inverse-image ideal theorem. The theorem is the standard preimage-of-an-ideal result from introductory ring theory, and it is a direct generalization of the existing zero-fiber proof. It should close quickly because the zero-fiber proof already exhibits the carrier, classifier-transport, addition, inverse, multiplication, and absorption proof pattern; replacing the target zero predicate by an arbitrary target ideal predicate reuses the same ring-map preservation rows plus the IdealUp rows for J.
+
+---
+
+
+### B-371 - Subgroup one-step criterion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Subgroup one-step criterion |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a GroupUp carrier and predicate P, if P is inhabited, classifier-stable, and closed under x dot inv(y) for any two P-elements, then P satisfies the SubgroupUp identity, product, inverse, and transport rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `lean4/BEDC/Derived/SubgroupUp.lean`
+- `lean4/BEDC/Derived/GroupUp.lean`
+
+Rationale:
+This belongs in the SubgroupUp chapter. The chapter proves centralizer, intersection, trivial subgroup, and subgroup-chain certificates, for example papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction_core.tex:27-66, 86-138, and papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction.tex:550-685, but focused searches for one-step, subgroup test, and inverse-product closure found no theorem. The one-step subgroup criterion is a standard theorem in introductory group theory. It should close in 1-3 rounds from existing group identity, inverse, associativity, multiplication congruence, and classifier transport rows: use an inhabitant a to get e from a dot inv(a), get inv(x) from e dot inv(x), and get xy from x dot inv(inv(y)).
+
+---
+
+### B-372 - Computable bounded graph single-valuedness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Computable bounded graph single-valuedness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a bounded ComputableUp graph certificate, if F(n,m) and F(n,m') are accepted for the same unary input n, then m hsame m'.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex`
+
+Rationale:
+This is a concrete determinacy theorem for the ComputableUp graph surface. The certificate already records bounded-simulation output uniqueness, but the paper only exposes it as a definition field and currently has composition as the standalone theorem; making graph single-valuedness explicit would fill a small, closeable theorem slot without duplicating an existing BOARD item.
+
+---
+
+
+### B-373 - Hash collision transcript symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Hash collision transcript symmetry |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If HashCollisionSuccess_H(x,x') holds and the message and digest classifiers are symmetric, then HashCollisionSuccess_H(x',x) holds over the same HashEval rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+This is a concrete bridge theorem for the HashUp transcript predicates. The paper proves that second-preimage success induces collision, but it does not separately state collision symmetry; the result is local, uses the same evaluation rows, and turns classifier symmetry into an explicit transcript-level operation.
+
+---
+
+
+### B-374 - Network-flow equality implies optimality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Network-flow equality implies optimality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a feasible flow F and finite cut C satisfy FlowValue(F) hsame CutCap(C), then every feasible flow has value below FlowValue(F) and every finite cut has capacity above CutCap(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+This directly fills a standard readback gap in the NetworkFlowUp chapter. Weak duality and residual-exhaustion equality are already present, but the optimality consequence from equality is not separately labeled; it is concrete, local, and distinct from the existing equality theorem.
+
+---
+
+
+### B-375 - Banach bounded operator composition closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Banach bounded operator composition closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If BanachBLOp(C,D,T,K,Lambda) and BanachBLOp(D,E,S,L,Mu), then the composite endpoint map S o T is a BanachBLOp(C,E,S o T,L*K,Nu) with the composed ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
+- `papers/bedc/parts/concrete_instances/banach/norm_completion_certificate.tex`
+
+Rationale:
+This is a natural closure theorem for the Banach bounded-linear-operator carrier. The chapter already proves Lipschitz use, Cauchy-stream transport, and NameCert obligations, but not carrier closure under composition; the target is concrete and has an appropriate child-file landing path.
+
+---
+
+
+### B-376 - ConvexSet finite affine-spine closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ConvexSet finite affine-spine closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a ConvexSetUp binary affine-combination row, any finite carried point spine with nonnegative scalar weights whose finite scalar sum is classified as 1_F has its recursively bracketed affine endpoint carried by C.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+This upgrades the binary ConvexSetUp row to the finite-spine closure that the chapter description advertises. The paper currently proves midpoint closure only, so the finite affine-spine result is a distinct concrete closure theorem rather than a duplicate of existing coverage.
+
+---
+
+
+### B-377 - Analytic continuation identity law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Analytic continuation identity law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If f is holomorphic on D and DomCompat(D,D,U) is witnessed by a nontrivial overlap inside D, then AnaCont(f,D,f,D,f) holds and any h with AnaCont(f,D,f,D,h) is pointwise hsame to f.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/50_analytic_continuation_operation.tex`
+
+Rationale:
+This is a missing operation-law companion for the AnalyticContUp chapter. Uniqueness, symmetry, functoriality, and triple-chain associativity are already labeled, but the identity law is not; the claim is concrete and local to the existing continuation predicate.
+
+---
+
