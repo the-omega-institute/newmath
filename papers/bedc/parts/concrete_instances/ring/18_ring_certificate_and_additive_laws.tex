@@ -320,3 +320,101 @@ Conversely, assume $x\hsame y$. The additive inverse congruence field
 transports this classifier witness directly across negation, giving
 $-x\hsame -y$.
 \end{proof}
+
+\begin{theorem}[Double-opposite ring certificate data identity]
+\label{thm:double-opposite-ring-certificate-data-identity}
+Let $R$ carry a $\RingUp(R)$ certificate satisfying the obligations of
+\autoref{def:ring-certificate-obligations}. Present its data by a carrier
+predicate $\mathcal C$, classifier $\sim_R$, addition $+_R$, zero $0_R$,
+additive inverse operation $-_R$, multiplication $\cdot_R$, multiplicative
+identity $1_R$, stability table $\mathcal S_R$ as in
+\autoref{def:ring-stability-certificate}, and ledger table $\mathcal L_R$ as in
+\autoref{def:ring-ledger-policy}. Let
+$R^{\mathrm{opop}}=(R^{\mathrm{op}})^{\mathrm{op}}$ be obtained by applying
+\autoref{def:opposite-ring-certificate-data} twice. Then
+$R^{\mathrm{opop}}$ is a $\RingUp(R)$ certificate, and its carrier,
+classifier, additive data, multiplicative identity, multiplication, stability
+rows, and ledger rows are componentwise identical to those of $R$: for carried
+endpoints $a,b$,
+$$
+\begin{aligned}
+\mathcal C^{\mathrm{opop}}(a)&=\mathcal C(a),&
+a\sim_R^{\mathrm{opop}} b&=a\sim_R b,\\
+a+_R^{\mathrm{opop}} b&=a+_R b,&
+0_R^{\mathrm{opop}}&=0_R,\\
+(-_R)^{\mathrm{opop}}(a)&=-_R a,&
+1_R^{\mathrm{opop}}&=1_R,\\
+a\cdot_R^{\mathrm{opop}} b&=a\cdot_R b,&
+\mathcal S_R^{\mathrm{opop}}&=\mathcal S_R,\\
+\mathcal L_R^{\mathrm{opop}}&=\mathcal L_R.
+\end{aligned}
+$$
+The equalities involving $\mathcal S_R$ and $\mathcal L_R$ mean equality of the
+named rows and their displayed endpoint data.
+\end{theorem}
+\begin{proof}
+Because $R$ satisfies the $\RingUp(R)$ obligations,
+\autoref{thm:opposite-ring-certificate} makes $R^{\mathrm{op}}$ a certified
+$\RingUp(R)$ instance. Applying the same theorem to that certified opposite
+data makes $R^{\mathrm{opop}}$ a certified $\RingUp(R)$ instance.
+
+It remains to compare the displayed fields. By
+\autoref{def:opposite-ring-certificate-data}, one opposite keeps the carrier,
+classifier, addition, zero endpoint, additive inverse operation, and
+multiplicative identity fixed. Two unfoldings therefore give
+$$
+\mathcal C^{\mathrm{opop}}(a)=\mathcal C(a),
+\qquad
+ a\sim_R^{\mathrm{opop}} b=a\sim_R b,
+$$
+$$
+a+_R^{\mathrm{opop}} b=a+_R b,
+\qquad
+0_R^{\mathrm{opop}}=0_R,
+\qquad
+(-_R)^{\mathrm{opop}}(a)=-_R a,
+\qquad
+1_R^{\mathrm{opop}}=1_R.
+$$
+For multiplication, the first opposite reverses the two inputs and the second
+opposite reverses them back:
+$$
+a\cdot_R^{\mathrm{opop}} b
+=b\cdot_R^{\mathrm{op}} a
+=a\cdot_R b.
+$$
+Thus the raw ring data of the double opposite certificate are the raw ring data
+of $R$.
+
+The source row of \autoref{def:ring-source-specification} is restored from
+these identities: the additive $\AbGroupUp$ source is fixed in each opposite,
+and the multiplicative $\MonoidUp$ source is typed over the restored
+multiplication and the same identity. The pattern row of
+\autoref{def:ring-pattern-specification} forms expressions from the same
+$0_R$, $1_R$, $+_R$, $-_R$, and restored multiplication. The classifier row of
+\autoref{def:ring-classifier-specification} is the same relation $\sim_R$, with
+addition congruence fixed and multiplication congruence read over the restored
+multiplication.
+
+For the stability table, \autoref{def:ring-stability-certificate} lists the
+additive abelian-group laws, multiplicative monoid laws, operation congruence,
+left distributivity, right distributivity, and zero multiplication laws. The
+additive rows and addition congruence are fixed by each opposite construction.
+In the multiplicative part, one opposite exchanges the two unit rows, reads
+associativity with the triple reversed, and exchanges the two congruence inputs;
+the second opposite performs the same exchanges again, restoring the unit,
+associativity, and multiplication-congruence rows for $\cdot_R$. The left and
+right distributivity rows are exchanged once and then restored, and the two
+zero multiplication rows are exchanged in the same way. Hence
+$\mathcal S_R^{\mathrm{opop}}=\mathcal S_R$ row by row.
+
+Finally, \autoref{def:ring-ledger-policy} records the shared carrier ledger and
+the operation tree for ring expressions. Carrier, additive, zero, inverse, and
+unit entries are fixed by each opposite. A multiplication node records the same
+two operands with their child order exchanged in one opposite reading; the
+second opposite exchanges that child order again. Therefore every ledger entry
+of $R^{\mathrm{opop}}$ is the corresponding ledger entry of $R$, so
+$\mathcal L_R^{\mathrm{opop}}=\mathcal L_R$. Together with the certified status
+above, these identities identify the double-opposite ring certificate data with
+the original ring certificate data.
+\end{proof}
