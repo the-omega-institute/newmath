@@ -10513,3 +10513,58 @@ This is a concrete LieAlgebraUp theorem in the existing concrete_instances surfa
 
 ---
 
+### B-402 - QuantumChannel finite convex-mixture closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | QuantumChannel finite convex-mixture closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under QuantumChannelUp(H,K), if a finite affine spine of maps Phi_i are carried by QChan_{H,K} and the weights are nonnegative with total weight one, then the pointwise affine mixture Phi_mix is carried by QuantumChannelUp(H,K).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+
+Rationale:
+This is a concrete closure theorem for the existing quantum-channel carrier, distinct from the current composition and density-image theorems. It lands directly in the QuantumChannelUp chapter and uses the existing linear-map and convex finite-affine-spine surfaces rather than adding a marker or verification-axis item.
+
+---
+
+
+### B-403 - QuantumChannel preserves density finite mixtures
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | QuantumChannel preserves density finite mixtures |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If QChan_{H,K}(Phi) and DensAffSpine_H(xs,lambda,rho_mix), then applying Phi entrywise gives the matching finite affine spine over K, with endpoint Phi(rho_mix) carried by DensityMatrixUp(K).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+
+Rationale:
+This is not just the single-input density-image lemma: it records finite affine-mixture compatibility of a carried CPTP linear map. The target is concrete, local to the quantum-channel and density-matrix chapters, and distinct from channel composition closure and channel convex-mixture closure.
+
+---
+
