@@ -184,6 +184,41 @@ theorem ManifoldAtlasPackage_transition_closure {base index domain chart transit
   exact And.intro package.right.right.right.right.left
     package.right.right.right.right.right.right
 
+theorem ManifoldAtlasPackage_transition_append_readback {base index domain chart transition : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      hsame transition (append base (append index chart)) ∧
+        Cont (append base index) chart transition ∧ UnaryHistory transition := by
+  intro package
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  have domainRow : Cont base index domain := package.right.right.right.right.right.left
+  have transitionRow : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have appendTransition : hsame transition (append base (append index chart)) := by
+    cases domainRow
+    cases transitionRow
+    exact append_assoc base index chart
+  have composedRow : Cont (append base index) chart transition := by
+    cases domainRow
+    exact transitionRow
+  exact And.intro appendTransition (And.intro composedRow transitionUnary)
+
+theorem ManifoldAtlasPackage_transition_composition_readback
+    {base index domain chart transition : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      hsame transition (append base (append index chart)) ∧
+        hsame transition (append (append base index) chart) ∧ UnaryHistory transition := by
+  intro package
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  have domainRow : Cont base index domain := package.right.right.right.right.right.left
+  have transitionRow : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have sameTransitionLeft : hsame transition (append (append base index) chart) := by
+    cases domainRow
+    exact transitionRow
+  have sameTransitionNested : hsame transition (append base (append index chart)) :=
+    hsame_trans sameTransitionLeft (append_assoc base index chart)
+  exact And.intro sameTransitionNested (And.intro sameTransitionLeft transitionUnary)
+
 def ManifoldScopedBoundaryPackage (carrier i j k pair triple : BHist) : Prop :=
   UnaryHistory carrier ∧ UnaryHistory i ∧ UnaryHistory j ∧ UnaryHistory k ∧
     Cont i j pair ∧ Cont pair k triple
