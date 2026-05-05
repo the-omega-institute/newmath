@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v5.1 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.2 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -123,7 +123,7 @@ git fetch origin lean4-codex-auto-dev
 git merge --no-ff --no-edit origin/lean4-codex-auto-dev
 ```
 
-Rationale: the outer `codex_formalize.py` process owns the merge → push sequence under `_git_lock`. If Phase C does NOT pre-sync, every `_codex_resolve_post_rebase_audit` invocation later holds `_git_lock` for up to 1200s while resolving label collisions reactively. Pre-syncing in Step 5 (before commit, where you have full context) eliminates that reactive 1200s lock-and-codex-call. This is the v5.1 architectural fix — earlier prompt versions forbade ALL remote sync inside Phase C, which produced the audit-recovery wave the outer pipeline could never fully avoid.
+Rationale: the outer `codex_formalize.py` process owns the merge → push sequence under `_git_lock`. If Phase C does NOT pre-sync, every `_codex_resolve_post_rebase_audit` invocation later holds `_git_lock` for up to 1200s while resolving label collisions reactively. Pre-syncing in Step 5 (before commit, where you have full context) eliminates that reactive 1200s lock-and-codex-call. This is the v5.2 architectural fix — earlier prompt versions forbade ALL remote sync inside Phase C, which produced the audit-recovery wave the outer pipeline could never fully avoid.
 
 ## Hard Constraints
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
