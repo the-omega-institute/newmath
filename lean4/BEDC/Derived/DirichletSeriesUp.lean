@@ -434,6 +434,11 @@ def AbsConvAbscissa (term : BHist -> BHist -> BHist) (sigma : BHist) : Prop :=
     forall {s S : BHist}, ComplexHistoryCarrier s -> DirichletSeriesConv term s S ->
       Cont sigma witness S -> ComplexHistoryCarrier S
 
+def DirichletSourceSpec
+    (term : BHist -> BHist -> BHist) (s sigma witness S : BHist) : Prop :=
+  AbsConvAbscissa term sigma ∧ ComplexHistoryCarrier s ∧ DirichletSeriesConv term s S ∧
+    UnaryHistory witness ∧ Cont sigma witness S
+
 theorem AbsConvAbscissa_witness_result_carrier
     {term : BHist -> BHist -> BHist} {sigma s S : BHist} :
     AbsConvAbscissa term sigma -> ComplexHistoryCarrier s -> DirichletSeriesConv term s S ->
@@ -450,6 +455,18 @@ theorem AbsConvAbscissa_witness_result_carrier
                 have resultCarrier : ComplexHistoryCarrier S :=
                   witnessData.right sourceCarrier convergence continuation
                 resultCarrier))
+
+theorem DirichletSourceSpec_result_carrier
+    {term : BHist -> BHist -> BHist} {s sigma witness S : BHist} :
+    DirichletSourceSpec term s sigma witness S -> ComplexHistoryCarrier S := by
+  intro source
+  cases source.right.right.left with
+  | intro ps convRest =>
+      cases convRest with
+      | intro N convRest =>
+          cases convRest with
+          | intro M convData =>
+              exact convData.right.right.left
 
 theorem dirichlet_semantic_name_certificate {term : BHist -> BHist -> BHist}
     {s S : BHist} :
