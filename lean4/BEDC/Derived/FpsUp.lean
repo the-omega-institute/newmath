@@ -144,6 +144,16 @@ theorem FpsSingletonCauchyProduct_constant_coefficient {F G : BHist} :
     (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
     (cont_right_unit BHist.Empty)
 
+theorem FpsSingletonCauchyProduct_left_distrib_classifier {F G H : BHist} :
+    FpsSingletonClassifier (FpsSingletonMul F (FpsSingletonAdd G H))
+        (FpsSingletonAdd (FpsSingletonMul F G) (FpsSingletonMul F H)) ∧
+      Cont (FpsSingletonMul F G) (FpsSingletonMul F H)
+        (FpsSingletonAdd (FpsSingletonMul F G) (FpsSingletonMul F H)) := by
+  have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro
+    (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+    (cont_right_unit BHist.Empty)
+
 theorem FpsSingletonEmptyHistoryClassifier_append_split_empty_iff {p q h : BHist} :
     FpsSingletonEmptyHistoryClassifier (BEDC.FKernel.Cont.append p q) h ↔
       hsame p BHist.Empty ∧ hsame q BHist.Empty ∧ FpsSingletonEmptyHistoryCarrier h := by
