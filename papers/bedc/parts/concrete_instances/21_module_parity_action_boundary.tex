@@ -40,6 +40,40 @@ constructor disjointness gives the nonempty premise of the right side.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_result\_partition}
 
+\begin{theorem}[Module parity epsilon visible-one iff empty]
+\label{thm:module-parity-smul-epsilon-visible-one-iff-empty}
+For every history $m:\mathsf{BHist}$,
+$$
+\hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m),
+  \mathsf{ModuleParityOne})
+\Longleftrightarrow
+\hsame(m,\emp).
+$$
+Its ten-field fit is: traditional target, deterministic parity-action branch
+readback; BEDC source, $\mathsf{BHist}$ with
+$\mathsf{ModuleParitySmul}$; carrier, all histories; classifier, $\hsame$;
+ledger, the epsilon scalar and the input constructor case; core theorem, this
+block; exactness, visible-one output iff empty input; standard bridge, the
+two-point parity toggle; status, $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$.
+
+For $m=\emp$, scalar action by $\mathsf{ModuleParityEps}$ reduces to
+$\mathsf{ModuleParityOne}$. The forward direction and the reverse direction
+are therefore both reflexive after the reduction.
+
+For a zero-headed visible history, the action reduces to $\emp$. The forward
+direction would identify $\emp$ with $\mathsf{ModuleParityOne}$, contradicting
+empty-vs-visible-one no-confusion. The reverse direction starts from an
+impossible visible-vs-empty premise, so it follows by eliminating that premise.
+
+For a one-headed visible history, the action again reduces to $\emp$. The same
+empty-vs-visible-one no-confusion rejects the forward direction, and the
+reverse direction follows by eliminating the impossible visible-vs-empty
+premise.
+\end{proof}
+
 \begin{theorem}[Module parity epsilon boolean orbit involution]
 \label{thm:module-parity-smul-epsilon-boolean-orbit-involutive}
 For every history $m:\mathsf{BHist}$, if $m$ is history-same to either

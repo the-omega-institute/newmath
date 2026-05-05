@@ -380,6 +380,26 @@ theorem ContinuousMapCarrier_prefix_canonical_distance_deterministic
   exact
     (ContinuousMapCarrier_target_cert_distance_deterministic displayed canonical).right.right.left
 
+theorem ContinuousMapCarrier_prefix_canonical_distance_exactness
+    {p source map target modulus cert distance distance' : BHist} :
+    UnaryHistory p -> ContinuousMapCarrier source map target modulus cert distance ->
+      (ContinuousMapCarrier (append p source) map (append p target) modulus (append p cert)
+          distance' ↔
+        hsame distance' (append (append p source) (append p target))) := by
+  intro prefixCarrier carrier
+  constructor
+  · intro displayed
+    exact ContinuousMapCarrier_prefix_canonical_distance_deterministic prefixCarrier carrier
+      displayed
+  · intro sameDistance
+    have canonical :
+        ContinuousMapCarrier (append p source) map (append p target) modulus (append p cert)
+          (append (append p source) (append p target)) :=
+      ContinuousMapCarrier_prefix_canonical_distance_closed prefixCarrier carrier
+    exact
+      ContinuousMapCarrier_canonical_distance_exactness.mpr
+        (And.intro canonical.left sameDistance)
+
 theorem ContinuousMapFunctionCarrier_metric_graph_exactness
     {source map target modulus cert dist : BHist} :
     ContinuousFunctionCarrier source map target modulus cert ->
