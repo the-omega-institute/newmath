@@ -27,4 +27,13 @@ theorem MetricDistanceWitness_hsame_fields_transport {x x' y y' d d' : BHist} :
       (And.intro witness.right.left
         (And.intro witness.right.right.left witness.right.right.right))
 
+theorem MetricDistanceWitness_hsame_transport_cont_depth_add {x x' y y' d d' : BHist} :
+    hsame x x' -> hsame y y' -> hsame d d' -> MetricDistanceWitness x y d ->
+      Cont x' y' d' ∧ MetricDistanceDepth d' = MetricDistanceDepth x' + MetricDistanceDepth y' := by
+  intro sameX sameY sameD witness
+  cases sameX
+  cases sameY
+  cases sameD
+  exact And.intro witness.right.right.right (MetricDistanceWitness_depth_add witness)
+
 end BEDC.Derived.MetricUp
