@@ -188,6 +188,61 @@ $\hsame(displayed,\mathsf{append}(source,target))$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_distance\_deterministic}
 
+\begin{theorem}[ContinuousMap composite canonical distance exactness]
+\label{thm:continuousmap-composite-canonical-distance-exactness}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,distF,distG,displayed:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+\end{array}
+$$
+and the continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+Then the displayed composite carrier predicate is exactly the canonical
+source-target distance classifier:
+$$
+\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG,displayed)
+\Longleftrightarrow
+\hsame(displayed,\mathsf{append}(source,target)).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, suppose the displayed composite carrier is given.
+Apply
+Theorem~\ref{thm:continuousmap-carrier-comp-distance-deterministic} to the two
+input carriers, the three continuation ledgers, and the displayed composite
+carrier. This gives $\hsame(displayed,\mathsf{append}(source,target))$.
+
+Conversely, suppose the displayed distance satisfies
+$\hsame(displayed,\mathsf{append}(source,target))$.
+Theorem~\ref{thm:continuousmap-carrier-comp-closed} applied to the two input
+carriers and the three continuation ledgers builds the canonical composite
+carrier with distance $\mathsf{append}(source,target)$. Project its
+continuous-function half.
+
+Now apply
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-exactness} in the
+reverse direction to that continuous-function half and the displayed
+$\hsame$ row. The result is the composite
+$\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG,displayed)$.
+
+The ten-field fit is: traditional target composition of uniformly continuous
+maps with exact hidden distance ledger; BEDC source two
+$\mathsf{ContinuousMapCarrier}$ hypotheses plus three continuation ledgers;
+carrier $\mathsf{ContinuousMapCarrier}$; classifier $\hsame$ on the displayed
+distance; stability from composition closure and canonical-distance exactness;
+ledger the hidden source-target distance; core theorem this iff; exactness the
+displayed equivalence; standard bridge ordinary composition distance
+bookkeeping; status $\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{theorem}[ContinuousMap composition canonical certificate package]
 \label{thm:continuousmap-composition-canonical-certificate-package}
 For histories

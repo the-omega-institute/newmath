@@ -253,4 +253,70 @@ theorem RealUnaryStreamWindowClassifier_restriction_with_offset_witness
         exact window.right.right k lifted
   · exact offset.right
 
+theorem RealUnaryStreamWindowClassifier_selected_e1_tail_coverage_package
+    {s t : BHist -> BHist} {a w k zS zT dS dT : BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameClassifier s t ->
+      UnaryHistory a -> UnaryHistory w -> UnaryOffsetLe k w ->
+        exists u : BHist, exists v : BHist,
+          hsame (s (append a k)) (BHist.e1 u) ∧
+            hsame (t (append a k)) (BHist.e1 v) ∧
+              RealUnaryStreamWindowClassifier s t a w ∧
+                RatHistoryClassifier (s (append a k)) (t (append a k)) ∧
+                  RatHistoryClassifier (BHist.e1 u) (BHist.e1 v) ∧
+                    UnaryHistory u ∧ UnaryHistory v ∧ hsame u v ∧
+                      PositiveUnaryDenominator (s (append a k)) ∧
+                        PositiveUnaryDenominator (t (append a k)) ∧
+                          UnaryHistory (s (append a k)) ∧
+                            UnaryHistory (t (append a k)) ∧
+                              (hsame (s (append a k)) BHist.Empty -> False) ∧
+                                (hsame (t (append a k)) BHist.Empty -> False) ∧
+                                  (hsame (s (append a k)) (BHist.e0 zS) -> False) ∧
+                                    (hsame (t (append a k)) (BHist.e0 zT) -> False) ∧
+                                      (hsame (s (append a k))
+                                          (append dS (BHist.e0 zS)) -> False) ∧
+                                        (hsame (t (append a k))
+                                          (append dT (BHist.e0 zT)) -> False) := by
+  intro carrierS carrierT classified aUnary wUnary offset
+  have windowed : RealUnaryStreamWindowClassifier s t a w :=
+    RatStreamNameClassifier_real_unary_window_coverage carrierS carrierT classified aUnary wUnary
+  have selected : RatHistoryClassifier (s (append a k)) (t (append a k)) :=
+    windowed.right.right k offset
+  have positives :
+      PositiveUnaryDenominator (s (append a k)) ∧
+        PositiveUnaryDenominator (t (append a k)) :=
+    RatHistoryClassifier_positive_denominators selected
+  cases positives.left with
+  | intro u leftPositive =>
+      cases positives.right with
+      | intro v rightPositive =>
+          have sameS : hsame (s (append a k)) (BHist.e1 u) := leftPositive.left
+          have sameT : hsame (t (append a k)) (BHist.e1 v) := rightPositive.left
+          have displayed : RatHistoryClassifier (BHist.e1 u) (BHist.e1 v) :=
+            RatHistoryClassifier_hsame_transport sameS sameT selected
+          have readback : UnaryHistory u ∧ UnaryHistory v ∧ hsame u v :=
+            RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+          have leftRows :
+              UnaryHistory (s (append a k)) ∧
+                (hsame (s (append a k)) BHist.Empty -> False) :=
+            PositiveUnaryDenominator_unary_and_nonempty positives.left
+          have rightRows :
+              UnaryHistory (t (append a k)) ∧
+                (hsame (t (append a k)) BHist.Empty -> False) :=
+            PositiveUnaryDenominator_unary_and_nonempty positives.right
+          exact ⟨u, v, sameS, sameT, windowed, selected, displayed, readback.left,
+            readback.right.left, readback.right.right, positives.left, positives.right,
+            leftRows.left, rightRows.left, leftRows.right, rightRows.right,
+            (fun sameZero =>
+              PositiveUnaryDenominator_e0_absurd
+                (PositiveUnaryDenominator_hsame_transport sameZero positives.left)),
+            (fun sameZero =>
+              PositiveUnaryDenominator_e0_absurd
+                (PositiveUnaryDenominator_hsame_transport sameZero positives.right)),
+            (fun sameAppendedZero =>
+              PositiveUnaryDenominator_append_e0_tail_absurd
+                (PositiveUnaryDenominator_hsame_transport sameAppendedZero positives.left)),
+            (fun sameAppendedZero =>
+              PositiveUnaryDenominator_append_e0_tail_absurd
+                (PositiveUnaryDenominator_hsame_transport sameAppendedZero positives.right))⟩
+
 end BEDC.Derived.RealUp
