@@ -39,6 +39,33 @@ Apply compactness to the located positive-radius family whose member at $x$ is t
 The located half-radius clause is the cover witness used by the kernel construction below: for each input point $x$, it chooses one of the named centers with $d_X(x,x_i) < \rho_i/2$. No scale depending on $\delta_f^{\mathrm{u}}(\varepsilon)$ is used to obtain this family.
 \end{proof}
 
+\begin{theorem}[Capstone: finite BEDC minimum supports compact uniform modulus]
+\label{thm:compact-uniform-finite-minimum-certificate}
+Let $X$ and $Y$ be metric BEDC carriers whose distance rows are supplied by $\mathsf{MetricDistanceWitness}$, and let a BEDC history carry
+$$
+\mathsf{CompactWitnessCarrier}(\mathsf{subset},\mathsf{located},\mathsf{finite},\mathsf{intermediate},\mathsf{compact})
+$$
+for $X$. Let another history carry
+$$
+\mathsf{ContinuousFunctionCarrier}(\mathsf{source},\mathsf{map},\mathsf{target},\mathsf{modulus},\mathsf{cert})
+$$
+for a graph $f \colon X \to Y$ over the same source metric. For each rational $\varepsilon>0$, suppose \autoref{lem:compact-uniform-subordinate-modulus-cover} returns a nonempty $\mathsf{ListCarrier}$ spine
+$$
+R_\varepsilon=[\rho_1,\ldots,\rho_n]
+$$
+of positive $\RatUp$ radius histories, together with centers $x_i$ and the subordinate half-radius cover rows. Then the finite-minimum selector of \autoref{thm:totalorder-prefix-finite-minimum-selector}, applied to the $\RatUp$ order readback of $R_\varepsilon$, produces a unary history $\mu_\varepsilon$ such that $\mu_\varepsilon$ is the classifier-stable minimum of the radius ledger and the function $\varepsilon\mapsto \mu_\varepsilon/2$ satisfies \autoref{def:compact-uniform-uniform-modulus} for the same continuous graph.
+\end{theorem}
+
+\begin{proof}[Certificate assembly]
+Read the finite family from the compact witness: the $\mathsf{finite}$ and $\mathsf{located}$ rows give a nonempty list of centers, positive $\RatUp$ radius histories, and for every point of $X$ a ledger position whose center lies within the displayed half-radius.
+
+Transport the radius histories through the $\RatUp$ total-order readback. Since the list is nonempty and every entry is carried by the rational positive-radius certificate, \autoref{thm:totalorder-prefix-finite-minimum-selector} selects a ledger entry $\mu_\varepsilon$ below every radius entry. The minimum-uniqueness row of \autoref{def:totalorder-prefix-finite-minimum-witness} makes this selection stable under the classifier, so the selected lower bound is a BEDC history rather than a host-level choice.
+
+At each selected center, the $\mathsf{ContinuousFunctionCarrier}$ modulus row reads back the local implication from the graph certificate: radius below $\delta_f(x_i,\varepsilon/3)$ gives output distance below $\varepsilon/3$. The subordinate-cover rows guarantee that the same center can be used for any input point, and the selected minimum guarantees that the proposed uniform radius is below the chosen local radius.
+
+Finally apply the metric semantic certificate: symmetry converts $d_X(x,x')$ to the orientation needed at the center, and the triangle row combines $d_X(x,x_i)$ with $d_X(x,x')$ to put $x'$ inside the same local ball. Applying the target-metric triangle row to $f(x)$, $f(x_i)$, and $f(x')$ yields the displayed uniform estimate. Thus the map $\varepsilon\mapsto\mu_\varepsilon/2$ is the uniform modulus certified by the finite BEDC minimum ledger.
+\end{proof}
+
 \begin{theorem}[Continuous on compact yields uniform modulus]
 \label{thm:compact-uniform-continuity}
 Let $X$ be a metric carrier with a compact naming certificate $\NameCert_X$ and let $f \colon X \to Y$ be witnessed by a continuous naming certificate $\NameCert_f$ over $X$. Then the kernel produces a uniform modulus $\delta_f^{\mathrm{u}}$ for $f$, expressible as
@@ -49,7 +76,7 @@ where $(x_1,\rho_1), \ldots, (x_n,\rho_n)$ is the finite subordinate family supp
 \end{theorem}
 
 \begin{proof}[Sketch]
-Fix $\varepsilon > 0$. Invoke \autoref{lem:compact-uniform-subordinate-modulus-cover} to obtain a finite nonempty family $(x_i,\rho_i)_{i=1}^n$ with $\rho_i \le \delta_f(x_i,\varepsilon/3)$ and the half-radius covering property. Since the list is finite and all $\rho_i$ are positive, primitive recursion computes the positive rational
+Fix $\varepsilon > 0$. Invoke \autoref{lem:compact-uniform-subordinate-modulus-cover} to obtain a finite nonempty family $(x_i,\rho_i)_{i=1}^n$ with $\rho_i \le \delta_f(x_i,\varepsilon/3)$ and the half-radius covering property. Then \autoref{thm:compact-uniform-finite-minimum-certificate} supplies the classifier-stable finite minimum ledger whose readback is the positive rational
 $$
 \delta_f^{\mathrm{u}}(\varepsilon)=\min_i \rho_i/2.
 $$
@@ -60,7 +87,7 @@ d_X(x',x_i) \le d_X(x',x)+d_X(x,x_i) < \rho_i.
 $$
 Also $d_X(x,x_i) < \rho_i/2 < \rho_i$.
 
-The bound $\rho_i \le \delta_f(x_i,\varepsilon/3)$ lets the pointwise modulus at $x_i$ apply to both $x$ and $x'$. Hence $d_Y(f\,x_i,f\,x) < \varepsilon/3$ and $d_Y(f\,x_i,f\,x') < \varepsilon/3$. The triangle inequality on $Y$ gives $d_Y(f\,x,f\,x') < \varepsilon$. The construction uses only the finite subordinate cover, primitive recursion on its length, and rational arithmetic.
+The bound $\rho_i \le \delta_f(x_i,\varepsilon/3)$ lets the pointwise modulus at $x_i$ apply to both $x$ and $x'$. Hence $d_Y(f\,x_i,f\,x) < \varepsilon/3$ and $d_Y(f\,x_i,f\,x') < \varepsilon/3$. The triangle inequality on $Y$ gives $d_Y(f\,x,f\,x') < \varepsilon$. The construction uses only the finite subordinate cover, the finite BEDC minimum certificate, and rational arithmetic.
 \end{proof}
 
 \section{Axiom-purity of the uniform-modulus construction}
