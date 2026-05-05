@@ -444,6 +444,22 @@ theorem SOneHistoryCarrier_component_classifier_ledger_determinacy
                             (hsame_trans leftEquationUnit (hsame_symm rightEquationUnit))
                             (cont_respects_hsame sameX sameY leftPoint rightPoint)
 
+def SOneLedgerPolicy (x y e p x' y' e' p' : BHist) : Prop :=
+  SOneComponentClassifier x y e p x' y' e' p' ∧ hsame e e' ∧ hsame p p' ∧
+    Cont x y p ∧ Cont x' y' p'
+
+theorem SOneLedgerPolicy_component_readback {x y e p x' y' e' p' : BHist} :
+    SOneComponentClassifier x y e p x' y' e' p' ->
+      SOneLedgerPolicy x y e p x' y' e' p' := by
+  intro classifier
+  have ledger :=
+    SOneHistoryCarrier_component_classifier_ledger_determinacy classifier.left
+      classifier.right.left classifier.right.right.left classifier.right.right.right
+  exact And.intro classifier
+    (And.intro ledger.left
+      (And.intro ledger.right
+        (And.intro classifier.left.right.right.right classifier.right.left.right.right.right)))
+
 theorem SOneComponentClassifier_full_readback_package {x y e p x' y' e' p' : BHist} :
     SOneComponentClassifier x y e p x' y' e' p' ->
       (SOneProductHistoryCarrier p ∧ hsame e SOneUnitHistory ∧

@@ -202,6 +202,7 @@ import BEDC.Derived.ComplexTopologyUp.CertifiedSubradius
 import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
@@ -576,6 +577,7 @@ import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.Evaluation
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
+import BEDC.Derived.PolynomialUp.NormalFormBoundary
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
