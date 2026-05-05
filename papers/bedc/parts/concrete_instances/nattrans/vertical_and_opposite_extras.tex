@@ -1,3 +1,28 @@
+\begin{theorem}[NatTrans prefix vertical composite prefix closure]
+\label{thm:nattrans-prefix-component-carrier-prefix-vert-comp-closed}
+For unary histories \(u,p,q,r,a\), if \(\eta\) is a prefix component from
+\(p\) to \(q\) over \(a\), \(\theta\) is a prefix component from \(q\) to
+\(r\) over \(a\), and \(\ContR(\eta,\theta,composite)\), then the displayed
+composite is also a prefix component after prefixing both endpoint prefixes by
+\(u\):
+$$
+\mathsf{NatTransPrefixComponentCarrier}(\mathsf{append}(u,p),
+\mathsf{append}(u,r),a,composite).
+$$
+\end{theorem}
+\begin{proof}
+The vertical composite first closes as a category hom-carrier from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(r,a)\). Prefix functoriality by
+\(u\) carries that hom-carrier to endpoints
+\(\mathsf{append}(u,\mathsf{append}(p,a))\) and
+\(\mathsf{append}(u,\mathsf{append}(r,a))\). Associativity of BEDC append
+transports those endpoints to
+\(\mathsf{append}(\mathsf{append}(u,p),a)\) and
+\(\mathsf{append}(\mathsf{append}(u,r),a)\), which are exactly the component
+carrier endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_prefix\_vert\_comp\_closed}
+
 \begin{theorem}[NatTrans prefix component vertical composite endpoint cycle boundary]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-endpoint-cycle-boundary}
 For prefix components over a common object $a$, if $\eta$ goes from $p$ to
