@@ -231,11 +231,13 @@ import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
 import BEDC.Derived.PrimeUp.DivisorPositiveShape
 import BEDC.Derived.PrimeUp.FactorialShape
+import BEDC.Derived.PrimeUp.FactorialAbsorption
 import BEDC.Derived.PrimeUp.Factorization
 import BEDC.Derived.PrimeUp.DivisionWithRemainder
 import BEDC.Derived.PrimeUp.FactorizationList
 import BEDC.Derived.PrimeUp.PrimeShape
 import BEDC.Derived.PrimeUp.TrialDivShape
+import BEDC.Derived.PrimeUp.TrialDivTerminal
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.EndpointAbsurd
@@ -639,6 +641,7 @@ import BEDC.Derived.AdjunctionUp.AlternatingSuffix
 import BEDC.Derived.AdjunctionUp.AlternatingZeroHeaded
 import BEDC.Derived.AdjunctionUp.CarrierSwapInvolution
 import BEDC.Derived.AdjunctionUp.TriangleTotalCollapse
+import BEDC.Derived.AdjunctionUp.TriangleResults
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp

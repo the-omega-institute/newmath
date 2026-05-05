@@ -169,6 +169,27 @@ determinism separately to the left and right triangle rows.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_triangle\_results\_deterministic}
 
+\begin{theorem}[Adjunction unit-counit triangle results coincide]
+\label{thm:adjunction-unit-counit-triangle-results-hsame}
+Let \(unit:p\Rightarrow q\) and \(counit:q\Rightarrow p\) be prefix
+natural-transformation components at \(a\). If the two triangle ledgers are
+displayed by
+$$
+\Cont(unit,counit,left)
+\qquad\text{and}\qquad
+\Cont(counit,unit,right),
+$$
+then \(left\hsame right\).
+\end{theorem}
+\begin{proof}
+The first continuation is a vertical composite prefix component from \(p\) to
+\(p\), hence the endomorphism component exactness identifies \(left\) with
+\(\emp\). The second continuation is the symmetric composite from \(q\) to
+\(q\), so the same exactness identifies \(right\) with \(\emp\). Transitivity of
+\(\hsame\) gives \(left\hsame right\).
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitTriangle\_results\_hsame}
+
 \begin{theorem}[Adjunction unit-counit endomorphism boundary emptiness]
 \label{thm:adjunction-unit-counit-carrier-endomorphism-unit-counit-empty}
 For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, if
@@ -480,4 +501,3 @@ The five witnesses assemble the displayed conjunction, giving the total
 endomorphism collapse including the alternating ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_total\_alternating\_collapse}
-
