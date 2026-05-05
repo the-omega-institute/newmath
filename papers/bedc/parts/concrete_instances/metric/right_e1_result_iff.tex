@@ -23,6 +23,23 @@ ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_shape}
 
+\begin{theorem}[Metric distance witness right e1 result not empty]
+\label{thm:metric-distance-witness-right-e1-result-not-empty}
+For histories $x,y,d$, no concrete metric distance witness whose right endpoint
+is visibly one-headed can have a distance result history-same to $\emp$:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),d)
+\Longrightarrow
+\hsame(d,\emp)\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply the right e-one result shape theorem to expose a tail $k$ with
+$\hsame(d,\Eone(k))$. Composing this with $\hsame(d,\emp)$ gives
+$\hsame(\Eone(k),\emp)$, contradicting constructor disjointness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_not\_empty}
+
 \begin{theorem}[Metric distance witness right e1 result e0 absurd]
 \label{thm:metric-distance-witness-right-e1-result-e0-absurd}
 For histories $x,y,d$, no concrete metric distance witness can have a visibly
