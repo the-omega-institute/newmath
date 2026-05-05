@@ -205,3 +205,76 @@ $$
 $$
 This is the carrying equation of \autoref{def:topology-indexed-open-carried-predicate}. The final classifier-transport statement is the one-ball transport equivalence already proved.
 \end{proof}
+
+\begin{definition}[Indexed boundary open witnesses]
+\label{def:topology-indexed-boundary-open-witnesses}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. Indexed boundary open witnesses are distinguished indices
+$\bot_{\TopologyUp},\top_{\TopologyUp}:\mathsf{OpenIx}$ satisfying the pointwise laws
+$$
+\mathsf{OpenAt}(\bot_{\TopologyUp},x)
+\Longleftrightarrow
+\mathsf{False}
+$$
+and
+$$
+\mathsf{OpenAt}(\top_{\TopologyUp},x)
+\Longleftrightarrow
+\mathsf{True}
+$$
+for every $x:X$. They are part of the displayed topology certificate data whenever the interface is used as a $\NameCert_{\TopologyUp}$ source rather than merely as a finite-intersection and arbitrary-union closure spine.
+\end{definition}
+
+\begin{theorem}[Topology indexed open boundary closure]
+\label{thm:topology-indexed-open-boundary-closure}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$, equipped with indexed boundary open witnesses $\bot_{\TopologyUp}$ and $\top_{\TopologyUp}$ as in \autoref{def:topology-indexed-boundary-open-witnesses}. Let $\varnothing_X:X\to\mathsf{Prop}$ and $\mathsf{Whole}_X:X\to\mathsf{Prop}$ be the predicates
+$$
+\varnothing_X(x):\Longleftrightarrow\mathsf{False}
+$$
+and
+$$
+\mathsf{Whole}_X(x):\Longleftrightarrow\mathsf{True}.
+$$
+Then the boundary indices carry the empty and whole predicates:
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}}(\bot_{\TopologyUp},\varnothing_X)
+$$
+and
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}}(\top_{\TopologyUp},\mathsf{Whole}_X).
+$$
+Moreover both carried predicates transport under the carrier classifier:
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl(\varnothing_X(x)\Longleftrightarrow\varnothing_X(y)\bigr)
+$$
+and
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl(\mathsf{Whole}_X(x)\Longleftrightarrow\mathsf{Whole}_X(y)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the empty predicate, unfold $\mathsf{CarriesOpen}_{\mathcal{T}}$ from \autoref{def:topology-indexed-open-carried-predicate}. The boundary law of \autoref{def:topology-indexed-boundary-open-witnesses} identifies $\mathsf{OpenAt}(\bot_{\TopologyUp},x)$ with $\mathsf{False}$ at each point, which is exactly the carrying equation for $\varnothing_X$.
+
+For the whole predicate, the same unfolding uses the top boundary law. It identifies $\mathsf{OpenAt}(\top_{\TopologyUp},x)$ with $\mathsf{True}$ at each point, giving the carrying equation for $\mathsf{Whole}_X$.
+
+The transport claims can be read either from the two carrying equations and the membership-stability field of \autoref{def:topology-indexed-open-carrier}, or directly from the fact that $\mathsf{False}$ and $\mathsf{True}$ do not depend on the point. In both directions the supplied $\mathsf{same}_X(x,y)$ witness is the certificate route allowed by the topology carrier.
+\end{proof}
+
+\begin{theorem}[Topology NameCert obligation package]
+\label{thm:topology-namecert-obligation-package}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$, equipped with indexed arbitrary-union witnesses for every indexed family of opens and indexed boundary open witnesses $\bot_{\TopologyUp}$ and $\top_{\TopologyUp}$. Then the following data assemble the paper-side $\NameCert_{\TopologyUp}$ obligation package: the carrier and membership-stability classifier of \autoref{def:topology-indexed-open-carrier}, the carried-predicate interface of \autoref{def:topology-indexed-open-carried-predicate}, the finite-intersection closure of \autoref{thm:topology-indexed-open-finite-intersection}, the arbitrary-union closure of \autoref{thm:topology-indexed-open-arbitrary-union}, the boundary-open closure of \autoref{thm:topology-indexed-open-boundary-closure}, and the visible ledger policy recording the chosen open index, its carrying equation, and the constructor row used to obtain it.
+\end{theorem}
+\begin{proof}
+The carrier row is $\mathcal{T}$ itself: it supplies $X$, $\mathsf{same}_X$, $\mathsf{OpenIx}$, $\mathsf{OpenAt}$, finite-intersection indexing, and pointwise membership stability. The carried-predicate row is exactly \autoref{def:topology-indexed-open-carried-predicate}, so every public open is represented by an index together with its pointwise carrying equation.
+
+Finite intersections are supplied by \autoref{thm:topology-indexed-open-finite-intersection}. Given two carried opens, the certificate index $i\wedge_{\TopologyUp}j$ carries their pointwise intersection and the resulting predicate transports along $\mathsf{same}_X$.
+
+Arbitrary unions are supplied by \autoref{thm:topology-indexed-open-arbitrary-union}. The assumed union witness chooses the index for a family, while the theorem repacks the family of carried predicates into a carried union and transports that union through the same classifier.
+
+Boundary opens are supplied by \autoref{thm:topology-indexed-open-boundary-closure}. The distinguished indices $\bot_{\TopologyUp}$ and $\top_{\TopologyUp}$ carry the empty and whole predicates, so the certificate has both boundary rows without choosing them from an external powerset.
+
+The ledger policy records only displayed certificate provenance: an open predicate is accepted when it is carried by an explicit index, and composite opens retain the constructor row that produced the finite intersection, arbitrary union, empty open, or whole open. These rows account for the carrier, classifier transport, closure, boundary, and ledger fields of the paper-side $\NameCert_{\TopologyUp}$ obligation package.
+\end{proof}
