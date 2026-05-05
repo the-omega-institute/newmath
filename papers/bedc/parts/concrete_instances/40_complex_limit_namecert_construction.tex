@@ -534,6 +534,7 @@ If \(\mathsf{CplxRegSeq}(s, N_s)\) and \(\mathsf{CplxRegSeq}(t, N_t)\), then \(\
 \begin{proof}
 Applying the triangle inequality to \(\mathsf{CplxDist}((s \oplus t)(n), (s \oplus t)(m), D)\) decomposes the bound into the sum of the \(s\)- and \(t\)-bounds, each at level \(k+1\), giving total \(2^{-k}\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_pointwise\_append\_same\_modulus\_closed}
 
 \begin{theorem}[Limit respects pointwise sum]
 \label{thm:cplx-lim-sum}
@@ -542,6 +543,7 @@ If \(\mathsf{CplxLim}(s, N_s, z_s, M_s)\) and \(\mathsf{CplxLim}(t, N_t, z_t, M_
 \begin{proof}[Sketch]
 Triangle inequality on \(\mathsf{CplxDist}((s \oplus t)(n), z_s + z_t, D)\): bound by the sum of the two component distances, each at level \(k+1\) by the hypothesis on \(M_s\) and \(M_t\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_pointwise\_append\_same\_modulus\_closed}
 
 \begin{theorem}[Limit respects scalar multiplication by a fixed complex history]
 \label{thm:cplx-lim-scalar}
@@ -636,6 +638,7 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:complex-limit-semantic-namecert}
 The concrete certificate of \autoref{thm:complex-limit-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier is a \(\Hist\)-predicate, the classifier is a restriction of \(\hsame\) to complex-history components, and every closure law is given by an explicit constructive proof with explicit modulus pasting.
 \end{theorem}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_semanticNameCert}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}

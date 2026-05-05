@@ -170,6 +170,27 @@ theorem TensorProductSingletonFactor_hsame_transport
       (And.intro rightCarrier' (And.intro tensorCarrier' tensorCont')))
     tensorCont'
 
+theorem TensorProductSingletonFactor_associator {l r s t u : BHist} :
+    TensorProductSingletonFactor l r t -> TensorProductSingletonFactor t s u ->
+      exists m : BHist, TensorProductSingletonFactor r s m ∧
+        TensorProductSingletonFactor l m u ∧ Cont r s m ∧ Cont l m u := by
+  intro leftFactor rightFactor
+  have assoc := cont_assoc_left_exists leftFactor.right.right.right rightFactor.right.right.right
+  cases assoc with
+  | intro m conts =>
+      have mCarrier : ModuleSingletonCarrier m :=
+        @cont_left_unit_result BHist.Empty m
+          (@cont_hsame_transport r BHist.Empty s BHist.Empty m m
+            leftFactor.right.left rightFactor.right.left (hsame_refl m) conts.left)
+      exact Exists.intro m
+        (And.intro
+          (And.intro leftFactor.right.left
+            (And.intro rightFactor.right.left (And.intro mCarrier conts.left)))
+          (And.intro
+            (And.intro leftFactor.left
+              (And.intro mCarrier (And.intro rightFactor.right.right.left conts.right)))
+            (And.intro conts.left conts.right)))
+
 theorem TensorProductSingletonFactor_tensor_semanticNameCert {left right tensor : BHist} :
     TensorProductSingletonFactor left right tensor ->
       SemanticNameCert (fun t : BHist => TensorProductSingletonFactor left right t)
