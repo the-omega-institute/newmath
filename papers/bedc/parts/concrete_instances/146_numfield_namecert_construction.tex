@@ -6,5 +6,132 @@ The number-field interface $\NumFieldUp$ packages a finite field extension of th
 \section{Carrier definition}
 \label{sec:numfield-carrier}
 
+\begin{definition}[Reflexive rational field-extension carrier for NumFieldUp]
+\label{def:numfield-reflexive-rational-field-extension-carrier}
+The concrete $\NumFieldUp$ carrier is the RatUp reflexive field-extension
+carrier of \autoref{def:fieldext-reflexive-extension-carrier}, read as a
+number-field certificate surface. Its base carrier and ambient carrier are
+both $\mathsf{RatHistoryCarrier}$, its base and ambient classifiers are both
+$\mathsf{RatHistoryClassifier}$, and its field-operation table is the concrete
+$\FieldUp(\RatUp)$ operation table recorded in the RatUp certificate chapter.
+
+The embedding row is the identity embedding
+$$
+\iota_{\mathsf{Rat}}:\RatUp\hookrightarrow\RatUp ,
+$$
+and the finite-degree row is the singleton unary basis row. Thus the displayed
+module basis has one vector, the coordinate readback is the RatUp endpoint
+itself, and the scalar-action row is RatUp multiplication. The carrier has no
+separate algebraic endpoint outside the $\mathsf{BHist}$ rows already used by
+the RatUp and FieldExtUp certificates.
+\end{definition}
+
 \section{The certificate}
 \label{sec:numfield-certificate}
+
+\begin{theorem}[NumFieldUp reflexive rational source scope]
+\label{thm:numfield-reflexive-rational-source-scope}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, every
+source, carrier, classifier, stability, ledger, exactness, and absent standard
+bridge field of the paper-side $\NumFieldUp$ surface is fixed by the displayed
+RatUp and FieldExtUp rows. The source is the concrete RatUp $\FieldUp$ table,
+the carrier is $\mathsf{RatHistoryCarrier}$, the classifier is
+$\mathsf{RatHistoryClassifier}$, stability is the identity-embedding and
+self-vector-space stability of the reflexive FieldExtUp row, exactness is
+endpoint classification by $\mathsf{RatHistoryClassifier}$, the ledger is the
+RatUp operation-table ledger, and no standard bridge to host number fields is
+claimed.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:numfield-reflexive-rational-field-extension-carrier}. The
+carrier is just the reflexive field-extension carrier of
+\autoref{def:fieldext-reflexive-extension-carrier}, so the base and ambient
+history predicates, classifiers, and embedding row are the RatUp rows already
+used by FieldExtUp.
+
+Use
+\autoref{thm:fieldext-ratup-reflexive-operation-table-coverage} to account for
+the field operations. It says that the base-field operations, ambient-field
+operations, vector addition, vector zero, vector negation, and scalar action
+are all read from the single RatUp $\FieldUp$ operation table.
+
+Next apply
+\autoref{thm:fieldext-reflexive-exact-endpoint-classification} and
+\autoref{thm:fieldext-reflexive-ledger-provenance}. These identify every
+displayed endpoint with the RatUp classifier class named by the row and record
+the ledger provenance inside the RatUp operation table.
+
+Finally use
+\autoref{thm:fieldext-reflexive-public-namecert-interface} together with the
+RatUp certificate chapter. The public FieldExtUp interface supplies the
+visible extension surface, and the RatUp certificate supplies the rational
+source rows. Since the NumFieldUp carrier only re-reads these rows and adds no
+bridge tuple, the standard bridge field remains absent.
+\end{proof}
+
+\begin{theorem}[NumFieldUp reflexive rational finite-extension witness]
+\label{thm:numfield-reflexive-rational-finite-extension-witness}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the
+finite-extension witness data are the singleton basis data over the reflexive
+FieldExtUp vector-space row. The basis list is the one-row unary basis
+$[\mathbf{1}_{\mathsf{Rat}}]$, every carried ambient endpoint $m$ has the
+coordinate row $m\cdot\mathbf{1}_{\mathsf{Rat}}$, and coordinate equality is
+classified by $\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+Read the vector-space part of the reflexive FieldExtUp package from
+\autoref{def:fieldext-reflexive-extension-carrier}. Its ambient vector carrier
+is $\mathsf{RatHistoryCarrier}$, its scalar carrier is the same RatUp carrier,
+and its scalar action is RatUp multiplication.
+
+The singleton basis row chooses the RatUp unit endpoint as the only basis
+vector. For a carried ambient endpoint $m$, use the scalar $m$ and the basis
+vector $\mathbf{1}_{\mathsf{Rat}}$; the multiplication row in the RatUp
+$\FieldUp$ table classifies the product with $m$.
+
+Apply
+\autoref{thm:fieldext-ratup-reflexive-operation-table-coverage} for coverage of
+the multiplication and scalar-action rows. Then apply
+\autoref{thm:fieldext-reflexive-exact-endpoint-classification} to read the
+coordinate endpoint in the same $\mathsf{RatHistoryClassifier}$ class. Thus
+the degree witness is the displayed singleton basis over the reflexive
+FieldExtUp vector-space row.
+\end{proof}
+
+\begin{theorem}[NumFieldUp reflexive rational NameCert obligation package]
+\label{thm:numfield-reflexive-rational-namecert-obligation-package}
+The carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the source
+scope of \autoref{thm:numfield-reflexive-rational-source-scope}, and the
+finite-extension witness of
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness} assemble the
+paper-side $\NameCert_{\NumFieldUp}$ obligation package. The package consists
+of the RatUp rational source, the reflexive FieldExtUp extension carrier, the
+identity embedding, the singleton finite basis, the RatUp classifier exactness
+row, the RatUp operation-table ledger, and an absent standard-bridge field.
+\end{theorem}
+\begin{proof}
+Use
+\autoref{def:numfield-reflexive-rational-field-extension-carrier} for the
+public carrier field. It names the same $\mathsf{BHist}$ carrier and
+classifier as RatUp and imports the reflexive FieldExtUp embedding and
+vector-space rows.
+
+Use \autoref{thm:numfield-reflexive-rational-source-scope} for source,
+classifier, stability, exactness, ledger, and standard-bridge status. Its rows
+are precisely the RatUp and FieldExtUp rows cited there.
+
+Use
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness} for the
+finite-extension field. The singleton basis supplies a concrete degree witness
+and the coordinate exactness remains RatUp classifier exactness.
+
+The public NameCert interface of
+\autoref{thm:fieldext-reflexive-public-namecert-interface} packages the
+underlying extension surface, while the RatUp certificate chapter supplies the
+rational source certificate. Repacking those rows with the singleton basis
+gives the displayed paper-side $\NameCert_{\NumFieldUp}$ obligation package
+and introduces no parameter-transport schema.
+\end{proof}
