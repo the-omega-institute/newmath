@@ -532,3 +532,102 @@ composition synchronization result. The exactness predicate is the displayed
 pair of carriers together with the three $\hsame$ conclusions. The standard
 bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
+
+\begin{theorem}[Continuous function carrier fourfold left-right synchronization]
+\label{thm:continuous-function-carrier-fourfold-left-right-synchronization}
+For BHist histories
+$source,mid_1,mid_2,mid_3,target,f,g,h,k,fg,fgh,hk,ghk,map_L,map_R,
+mod_F,mod_G,mod_H,mod_K,mod_{FG},mod_{FGH},mod_{HK},mod_{GHK},
+mod_L,mod_R,cert_F,cert_G,cert_H,cert_K,cert_{FG},cert_{FGH},
+cert_{HK},cert_{GHK},cert_L,cert_R$, suppose the four one-step carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,f,mid_1,mod_F,cert_F),\\
+\mathsf{ContinuousFunctionCarrier}(mid_1,g,mid_2,mod_G,cert_G),\\
+\mathsf{ContinuousFunctionCarrier}(mid_2,h,mid_3,mod_H,cert_H),\\
+\mathsf{ContinuousFunctionCarrier}(mid_3,k,target,mod_K,cert_K)
+\end{array}
+$$
+hold. Suppose also that the left-deep ledgers
+$$
+\begin{array}{lll}
+\mathsf{Cont}(f,g,fg),&
+\mathsf{Cont}(mod_F,mod_G,mod_{FG}),&
+\mathsf{Cont}(mid_2,mod_{FG},cert_{FG}),\\
+\mathsf{Cont}(fg,h,fgh),&
+\mathsf{Cont}(mod_{FG},mod_H,mod_{FGH}),&
+\mathsf{Cont}(mid_3,mod_{FGH},cert_{FGH}),\\
+\mathsf{Cont}(fgh,k,map_L),&
+\mathsf{Cont}(mod_{FGH},mod_K,mod_L),&
+\mathsf{Cont}(target,mod_L,cert_L)
+\end{array}
+$$
+hold, and that the right-deep ledgers
+$$
+\begin{array}{lll}
+\mathsf{Cont}(h,k,hk),&
+\mathsf{Cont}(mod_H,mod_K,mod_{HK}),&
+\mathsf{Cont}(target,mod_{HK},cert_{HK}),\\
+\mathsf{Cont}(g,hk,ghk),&
+\mathsf{Cont}(mod_G,mod_{HK},mod_{GHK}),&
+\mathsf{Cont}(target,mod_{GHK},cert_{GHK}),\\
+\mathsf{Cont}(f,ghk,map_R),&
+\mathsf{Cont}(mod_F,mod_{GHK},mod_R),&
+\mathsf{Cont}(target,mod_R,cert_R)
+\end{array}
+$$
+hold. Then the left-deep and right-deep composite carriers agree at the
+public graph, modulus, and certificate histories:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,map_L,target,mod_L,cert_L)\land\\
+\mathsf{ContinuousFunctionCarrier}(source,map_R,target,mod_R,cert_R)\land\\
+\hsame(map_L,map_R)\land\hsame(mod_L,mod_R)\land\hsame(cert_L,cert_R).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First build the left-deep carrier. Apply
+Theorem~\ref{thm:continuous-function-carrier-comp-closed} to the $f$ and $g$
+carriers with the displayed $fg$, $mod_{FG}$, and $cert_{FG}$ ledgers. Apply
+the same closure theorem to compose that result with the $h$ carrier, then
+again with the $k$ carrier. This gives
+$\mathsf{ContinuousFunctionCarrier}(source,map_L,target,mod_L,cert_L)$.
+
+The right-deep carrier is obtained by the symmetric closure chain. Compose the
+$h$ and $k$ carriers through $hk$, $mod_{HK}$, and $cert_{HK}$; compose the
+$g$ carrier with that composite through $ghk$, $mod_{GHK}$, and $cert_{GHK}$;
+then compose the $f$ carrier with the resulting carrier to obtain
+$\mathsf{ContinuousFunctionCarrier}(source,map_R,target,mod_R,cert_R)$.
+
+For graph synchronization, apply the BEDC fourfold continuation associativity
+theorem $\mathsf{cont\_assoc\_four}$ to the common graph spine
+$f,g,h,k$. The left spine is presented by
+$\mathsf{Cont}(f,g,fg)$, $\mathsf{Cont}(fg,h,fgh)$, and
+$\mathsf{Cont}(fgh,k,map_L)$, while the right spine is presented by
+$\mathsf{Cont}(h,k,hk)$, $\mathsf{Cont}(g,hk,ghk)$, and
+$\mathsf{Cont}(f,ghk,map_R)$. The underlying append-associativity spine
+$\mathsf{append\_assoc}$ yields $\hsame(map_L,map_R)$.
+
+For modulus synchronization, apply the same fourfold continuation
+associativity theorem to $mod_F,mod_G,mod_H,mod_K$. The left modulus ledger
+ends at $mod_L$ and the right modulus ledger ends at $mod_R$, so the common
+append spine yields $\hsame(mod_L,mod_R)$.
+
+It remains to compare certificates. The ledgers
+$\mathsf{Cont}(target,mod_L,cert_L)$ and
+$\mathsf{Cont}(target,mod_R,cert_R)$ have the same target source. Continuation
+respect for $\hsame$, using reflexivity on $target$ and the recovered modulus
+synchronization, transports the certificate ledger to give
+$\hsame(cert_L,cert_R)$.
+
+The ten-field certificate fit is the following. The traditional target is
+fourfold continuous composition coherence. The BEDC source is $BHist$ with
+$\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and the
+classifier is $\hsame$. The ledger data are the graph, modulus, and
+certificate histories displayed above. The stability field is fourfold
+left-right bracketing synchronization. The exactness field is the pair of
+constructed carriers together with the three $\hsame$ conclusions. The
+downstream use is ContinuousMapUp associativity coherence and the later
+category bridge.
+\end{proof}
