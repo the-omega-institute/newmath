@@ -427,6 +427,24 @@ theorem FpsSingletonCauchyProduct_distributes_over_addition_classifier {F G H : 
     (And.intro emptyClassifier
       (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
 
+theorem FpsSingletonPointwiseAdditionCoeff_comm_classifier {F G n : BHist} :
+    FpsSingletonClassifier (FpsSingletonPointwiseAdditionCoeff F G n)
+        (FpsSingletonPointwiseAdditionCoeff G F n) ∧
+      hsame (FpsSingletonPointwiseAdditionCoeff F G n) BHist.Empty ∧
+        hsame (FpsSingletonPointwiseAdditionCoeff G F n) BHist.Empty := by
+  have leftEmpty :
+      hsame (FpsSingletonPointwiseAdditionCoeff F G n) BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have rightEmpty :
+      hsame (FpsSingletonPointwiseAdditionCoeff G F n) BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  exact And.intro
+    (And.intro leftEmpty
+      (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty))))
+    (And.intro leftEmpty rightEmpty)
+
 def FpsSingletonThreefoldCauchySplitSpines (xs ys zs : List BHist) : BHist × BHist :=
   (append (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys)) (FpsSingletonAddFold zs),
     append (FpsSingletonAddFold xs) (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs)))

@@ -24,6 +24,11 @@ inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist ->
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
 
+def RealAnalyticPiBoundary (term : BHist -> BHist) (candidate : BHist) : Prop :=
+  exists n S : BHist,
+    RealAnalyticLeibnizPartSum term n S ∧ Cont S BHist.Empty candidate ∧
+      UnaryHistory candidate
+
 def RealAnalyticExpPart (x n S : BHist) : Prop :=
   ComplexHistoryCarrier x ∧
     ComplexPartSum x (fun m : BHist => append x m) n S ∧ UnaryHistory n
@@ -125,6 +130,35 @@ theorem RealAnalyticComplexAbsPartSum_closed_pointwise_index_result_unary_transp
     RealAnalyticComplexAbsPartSum_pointwise_result_unary_transport zeroUnary sameZero
       modulusUnary modulusSame unaryN source target
   exact And.intro unaryN unaryT
+
+theorem RealAnalyticPiBoundary_leibniz_index_result_unary {term : BHist -> BHist}
+    {candidate : BHist}
+    (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (term m)) :
+    RealAnalyticPiBoundary term candidate ->
+      exists n S : BHist, UnaryHistory n ∧ UnaryHistory S ∧ Cont S BHist.Empty candidate := by
+  intro boundary
+  have leibnizUnary :
+      forall {n S : BHist}, RealAnalyticLeibnizPartSum term n S ->
+        UnaryHistory n ∧ UnaryHistory S := by
+    intro n S leibniz
+    induction leibniz with
+    | zero =>
+        exact And.intro unary_empty unary_empty
+    | step previous stepCont ih =>
+        exact And.intro (unary_e1_closed ih.left)
+          (unary_cont_closed ih.right (termUnary ih.left) stepCont)
+  cases boundary with
+  | intro n boundaryN =>
+      cases boundaryN with
+      | intro S data =>
+          cases data with
+          | intro leibniz rest =>
+              have unaryPair : UnaryHistory n ∧ UnaryHistory S :=
+                leibnizUnary leibniz
+              exact Exists.intro n
+                (Exists.intro S
+                  (And.intro unaryPair.left
+                    (And.intro unaryPair.right rest.left)))
 
 theorem RealAnalyticLocalStream_obligations_package {zero zero' : BHist}
     {c d modulus modulus' : BHist -> BHist} :
