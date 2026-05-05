@@ -598,3 +598,57 @@ Using symmetry and composition congruence for the morphism classifier of $\mathc
 
 Since \autoref{def:nattrans-classifier-specification} relates natural transformations componentwise by the target category morphism classifier, these component comparisons are exactly the $\NatTransUp$ classifier comparison between the vertical composite of horizontal composites and the horizontal composite of vertical composites.
 \end{proof}
+
+\begin{theorem}[Functor whiskering preserves vertical composition]
+\label{thm:functor-whiskering-preserves-vertical-composition}
+Let $\mathcal C$, $\mathcal D$, and $\mathcal E$ be $\CategoryUp$ certificates satisfying \autoref{def:category-certificate-obligations}. Let $F,G,H:\mathcal C\to\mathcal D$ and $K:\mathcal D\to\mathcal E$ be $\FunctorUp$ certificates satisfying \autoref{def:functor-certificate-obligations}, with object maps $F_0,G_0,H_0,K_0$ and morphism maps $F_1,G_1,H_1,K_1$. Let $\alpha:F\Rightarrow G$ and $\beta:G\Rightarrow H$ satisfy the $\NatTransUp$ certificate obligations of \autoref{def:nattrans-certificate-obligations}, and let $\beta\circ\alpha$ be the vertical composite carrier supplied by \autoref{def:nattrans-stability-certificate}. Then the two natural transformation carriers
+$$
+K_{\ast}(\beta\circ\alpha):K\circ F\Rightarrow K\circ H
+\qquad\text{and}\qquad
+(K_{\ast}\beta)\circ(K_{\ast}\alpha):K\circ F\Rightarrow K\circ H
+$$
+are classified together componentwise by the $\mathcal E$-morphism classifier. For every object $X$ of $\mathcal C$,
+$$
+(K_{\ast}(\beta\circ\alpha))_X
+\sim_{\mathcal E}
+((K_{\ast}\beta)\circ(K_{\ast}\alpha))_X
+$$
+at the endpoint pair $K_0(F_0(X)),K_0(H_0(X))$. Equivalently, after unfolding the component clauses,
+$$
+K_1(\beta_X\circ_{\mathcal D}\alpha_X)
+\sim_{\mathcal E}
+K_1(\beta_X)\circ_{\mathcal E}K_1(\alpha_X).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:functor-composite-preservation-witnesses} to the pairs $(F,K)$, $(G,K)$, and $(H,K)$. This reads $K\circ F$, $K\circ G$, and $K\circ H$ as certified $\FunctorUp$ carriers from $\mathcal C$ to $\mathcal E$, with object maps $K_0(F_0(-))$, $K_0(G_0(-))$, and $K_0(H_0(-))$ and morphism maps $K_1(F_1(-))$, $K_1(G_1(-))$, and $K_1(H_1(-))$.
+
+The vertical-composition row of \autoref{def:nattrans-stability-certificate}, in the form used by \autoref{thm:nattrans-vertical-composition-naturality}, supplies a carrier $\gamma=\beta\circ\alpha:F\Rightarrow H$ with component
+$$
+\gamma_X=\beta_X\circ_{\mathcal D}\alpha_X.
+$$
+Applying \autoref{thm:functor-whiskering-nattrans-certificate} to $K$ and $\gamma$ gives a carrier $K_{\ast}(\beta\circ\alpha):K\circ F\Rightarrow K\circ H$ whose component at $X$ is
+$$
+(K_{\ast}(\beta\circ\alpha))_X=K_1(\gamma_X)=K_1(\beta_X\circ_{\mathcal D}\alpha_X).
+$$
+
+Apply the same whiskering theorem separately to $\alpha$ and $\beta$. The resulting carriers have components
+$$
+(K_{\ast}\alpha)_X=K_1(\alpha_X),
+\qquad
+(K_{\ast}\beta)_X=K_1(\beta_X).
+$$
+Since their middle functor is $K\circ G$, vertical composition closure gives a carrier $(K_{\ast}\beta)\circ(K_{\ast}\alpha):K\circ F\Rightarrow K\circ H$ with component
+$$
+((K_{\ast}\beta)\circ(K_{\ast}\alpha))_X
+=K_1(\beta_X)\circ_{\mathcal E}K_1(\alpha_X).
+$$
+
+Fix an object $X$ of $\mathcal C$. By \autoref{def:nattrans-carrier}, $\alpha_X:F_0(X)\to G_0(X)$ and $\beta_X:G_0(X)\to H_0(X)$ are composable displayed morphisms of $\mathcal D$. The composition-preservation field of $K$, listed in \autoref{def:functor-stability-certificate}, applies to this component pair and gives
+$$
+K_1(\beta_X\circ_{\mathcal D}\alpha_X)
+\sim_{\mathcal E}
+K_1(\beta_X)\circ_{\mathcal E}K_1(\alpha_X).
+$$
+Substituting the two component formulas above gives the displayed comparison between $(K_{\ast}(\beta\circ\alpha))_X$ and $((K_{\ast}\beta)\circ(K_{\ast}\alpha))_X$. The classifier specification of \autoref{def:nattrans-classifier-specification} compares natural transformations componentwise by the target morphism classifier, so these objectwise comparisons are exactly the componentwise classifier identity of the two carriers.
+\end{proof}

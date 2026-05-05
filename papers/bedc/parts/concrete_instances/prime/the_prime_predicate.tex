@@ -164,3 +164,15 @@ therefore writes \(t_0\) as \(\Eone(t)\) with unary tail \(t\), giving the
 displayed strict unit-successor shape.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_strict\_unit\_successor\_shape}
+
+\begin{theorem}[Prime predicate respects history-sameness]
+\label{thm:natprime-hsame-transport}
+For histories $p$ and $p'$, if $\mathsf{NatPrime}(p)$ and $p\hsame p'$, then $\mathsf{NatPrime}(p')$.
+\end{theorem}
+\begin{proof}
+Unpack the prime witness for $p$ from \autoref{def:nat-prime}. Its carrier field gives $\Unary(p)$, its strict field gives $\mathsf{NatGT}(p,\Eone(\emp))$, and its divisor field classifies every unary divisor of $p$ as either the unit or $p$ itself.
+
+By \autoref{lem:unary-transport}, the carrier field and $p\hsame p'$ give $\Unary(p')$. For the strict greater-than field, unfold \autoref{def:nat-strict-greater}: the given field is a strict unary prefix from $\Eone(\emp)$ to $p$. Apply \autoref{thm:nat-unary-strict-prefix-cont-hsame-transport} with the reflexive endpoint $\Eone(\emp)\hsame\Eone(\emp)$ from \autoref{thm:history-sameness-equivalence} and the displayed endpoint witness $p\hsame p'$. This gives $\mathsf{NatGT}(p',\Eone(\emp))$.
+
+It remains to verify the divisor field for $p'$. Fix a unary history $d$ with $\mathsf{NatDivides}(d,p')$. Symmetry in \autoref{thm:history-sameness-equivalence} gives $p'\hsame p$, and reflexivity gives $d\hsame d$. Therefore \autoref{cor:nat-divides-endpoint-hsame-transport} transports the displayed divisor witness to $\mathsf{NatDivides}(d,p)$. Applying the divisor field of $\mathsf{NatPrime}(p)$ gives either $d\hsame\Eone(\emp)$ or $d\hsame p$. In the first case the required unit alternative for $p'$ is already present. In the second case, transitivity in \autoref{thm:history-sameness-equivalence} composes $d\hsame p$ with $p\hsame p'$ and gives $d\hsame p'$. These are exactly the two alternatives required by \autoref{def:nat-prime} for $p'$.
+\end{proof}
