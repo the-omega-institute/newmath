@@ -271,3 +271,21 @@ $A_{\emp}(m)$, and $\Cont(r,s,m)$. Package the second from $A_{\emp}(l)$,
 $A_{\emp}(m)$, $A_{\emp}(u)$, and $\Cont(l,m,u)$.
 \end{proof}
 \leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_associator}
+
+\begin{theorem}[Tensor product singleton factor classifier uniqueness]
+\label{thm:tensorproduct-singleton-factor-classifier-uniqueness}
+For histories $l,r,t,t':\mathsf{BHist}$, if
+$$
+\mathsf{TensorProductSingletonFactor}(l,r,t)
+\quad\text{and}\quad
+\mathsf{TensorProductSingletonFactor}(l,r,t')
+$$
+hold, then
+$$
+t\hsame t'.
+$$
+Thus any two tensor endpoints obtained from the same singleton module factor pair are classifier-equal in the tensor endpoint certificate of \autoref{thm:tensorproduct-singleton-factor-tensor-semantic-namecert}.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:tensorproduct-singleton-factor} for both factor witnesses. The first witness supplies $\Cont(l,r,t)$; the second supplies $\Cont(l,r,t')$. These two continuation ledgers have the same source history $l$ and the same right history $r$. Applying \autoref{thm:continuation-determinacy-up-to-history-sameness} to the two ledgers identifies their outputs, giving $t\hsame t'$. The classifier in \autoref{thm:tensorproduct-singleton-factor-tensor-semantic-namecert} is $\hsame$ on this endpoint carrier, so this output identification is exactly tensor classifier equality.
+\end{proof}

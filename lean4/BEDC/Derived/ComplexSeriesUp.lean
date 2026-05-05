@@ -9,7 +9,6 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexLimitUp
 open BEDC.Derived.ComplexUp
-open BEDC.Derived.ComplexLimitUp
 
 inductive ComplexPartSum (zero : BHist) (c : BHist -> BHist) : BHist -> BHist -> Prop where
   | zero : ComplexPartSum zero c BHist.Empty zero
@@ -530,7 +529,7 @@ theorem ComplexAbsPartSum_modulus_hsame_successor_result {zero zero' : BHist}
 def ComplexTermSeqCarrier (c : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> ComplexHistoryCarrier (c n)
 
-def ComplexSeriesConv (zero : BHist) (c s N M : BHist -> BHist) (limit : BHist) : Prop :=
+def ComplexSeriesConvWitness (zero : BHist) (c s N M : BHist -> BHist) (limit : BHist) : Prop :=
   ComplexTermSeqCarrier c ∧
     (forall n : BHist, UnaryHistory n -> ComplexPartSum zero c n (s n)) ∧
       ComplexLimit s N limit M
