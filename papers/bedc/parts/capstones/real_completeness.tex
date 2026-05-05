@@ -215,6 +215,99 @@ with the original RatUp seed-tail class. Standard bridge: constant rational
 RealUp observation windows. Downstream use: RegSeqRat stationary observation
 canonicalization. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Stationary rational finite-window concatenation]
+\label{thm:real-completeness-stationary-rational-window-concatenation}
+For histories $d,e,a_L,w_L,a_R,w_R,d_0,e_0:\Hist$, indices $n,m,r$, and a
+unary observation schedule $\eta:\mathbb{N}\to\Hist$, define the stationary
+rational RealUp observation streams
+$$
+C_d(i)=\mathsf{RatConstStream}_d(\eta(i)),
+\quad
+C_e(i)=\mathsf{RatConstStream}_e(\eta(i)).
+$$
+Assume
+$$
+\mathsf{RatHistoryClassifier}(d,e),\quad
+\mathsf{UnaryHistory}(a_L),\quad
+\mathsf{UnaryHistory}(w_L),\quad
+\mathsf{UnaryHistory}(a_R),\quad
+\mathsf{UnaryHistory}(w_R),
+$$
+and the seed-tail displays
+$$
+\hsame(d,\Eone(d_0)),\quad
+\hsame(e,\Eone(e_0)).
+$$
+If the left block $[n,n+m]$ is named by unary offsets below $w_L$ from anchor
+$a_L$, and the right adjacent block $[n+(m+1),n+(m+1)+r]$ is named by unary
+offsets below $w_R$ from anchor $a_R$, then the joined natural-indexed finite
+window is classified:
+$$
+\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,m+1+r).
+$$
+Moreover, for every selected offset $k\le m+1+r$, the constructive split
+$k\le m$ or $k=m+1+j$ with $j\le r$ selects the corresponding left or right
+unary source offset, and the selected endpoint in the joined window has exactly
+the original RatUp seed-tail class:
+$$
+\begin{array}{l}
+\forall u,v:\Hist,\,
+\bigl(\hsame(C_d(n+k),\Eone(u))\land
+\hsame(C_e(n+k),\Eone(v))\bigr)\\
+\quad\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(d_0,u)\land
+\hsame(e_0,v)\bigr).
+\end{array}
+$$
+\end{theorem}
+
+\begin{proof}[Sketch]
+Apply \autoref{thm:real-completeness-stationary-rational-finite-window-bridge}
+with the common $\mathsf{RatHistoryClassifier}(d,e)$, first at
+$(a_L,w_L)$ and then at $(a_R,w_R)$. This gives the two stationary
+$\mathsf{RealUnaryStreamWindowClassifier}$ rows for the left and right unary
+source windows.
+
+Unfold the scheduled constant streams $C_d$ and $C_e$. On the left block, each
+endpoint $C_d(n+k),C_e(n+k)$ is the same pair of hidden seeds $d,e$ read through
+$\mathsf{RatConstStream}$; the left unary window therefore supplies the natural
+window $\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,m)$. The same argument
+on the right block gives
+$\mathsf{RealStreamWindowClassifier}(C_d,C_e,n+(m+1),r)$.
+
+Apply \autoref{thm:real-stream-window-adjacent-concatenation} to these two
+adjacent natural-indexed windows. The result is the joined classifier
+$\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,m+1+r)$.
+
+For a selected offset $k\le m+1+r$, split constructively between $k\le m$ and
+$k=m+1+j$ with $j\le r$. In the left case, use the corresponding unary source
+offset below $w_L$ and apply
+\autoref{thm:real-completeness-stationary-rational-selected-tail-seed-exactness}
+at $(a_L,w_L)$. In the right case, apply the same theorem at $(a_R,w_R)$ with
+the right source offset.
+
+In both cases the stationary streams erase the selected observation schedule,
+so the endpoint displays are the same seed displays
+$\hsame(d,\Eone(d_0))$ and $\hsame(e,\Eone(e_0))$. The two cases therefore
+return the same displayed tail-class equivalence, and the offset split covers
+the whole joined window.
+\end{proof}
+
+The ten-field fit is: traditional target finite stationary rational window
+pasting; BEDC source RatUp plus StreamNameUp plus RealUp plus Real stream
+window concatenation; carrier stationary constant streams; classifier joined
+RealUp finite-window classifier; stability by stationary bridge exactness,
+bounded-offset splitting, and adjacent window concatenation; ledger hidden
+rational seed, two bounds, join index, and selected offset; core theorem
+\autoref{thm:real-completeness-stationary-rational-window-concatenation};
+exactness selected endpoint tails remain the RatUp seed class; standard bridge
+RegSeqRat finite observation window pasting; downstream use RegSeqRat
+stationary observation canonicalization and the Phase Real and Completion
+diagonal-limit capstone. Status: $\mathsf{ProofTarget}$.
+
 \section{Constructive content and axiom purity}
 \label{sec:real-completeness-axiom-purity}
 
