@@ -6081,3 +6081,29 @@ The complex-limit certificate has pointwise sum and scalar-multiplication carrie
 
 ---
 
+### B-235 - Lattice operation monotonicity from directional bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Lattice operation monotonicity from directional bounds |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the LatticeUp directional bound setup, if $a\le_C a'$ then $a\wedge c\le_C a'\wedge c$ and $c\wedge a\le_C c\wedge a'$, and if $b\le_C b'$ then $b\vee c\le_C b'\vee c$ and $c\vee b\le_C c\vee b'$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Monotonicity is the missing structural law in the lattice directional-bound family on BOARD. Existing entries cover idempotence/absorption (B-07), commutativity (B-25), associativity (B-26), opposite absorption (B-27), and bound uniqueness (B-29), but none state that meet and join are order-preserving in their arguments. Following the BOARD precedent set by B-25/B-26/B-27 (one entry per law family, covering both meet and join), the two codex sub-claims are consolidated into a single monotonicity entry covering all four argument slots. The proof reuses the same directional GLB/LUB and inherited preorder transitivity ingredients already invoked by B-26, so it lands cleanly in chapter 30.
+
+---
+
