@@ -63,6 +63,38 @@ tail-fold carrier with the tail spine carrier.
 \leandef{BEDC.Derived.MatrixUp.MatrixSingletonAddFoldSpineCarrier}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold continuation result readback]
+\label{thm:matrix-singleton-add-fold-continuation-result-iff}
+For every finite spine $xs$ and histories $h,r:\mathsf{BHist}$, if
+$$
+\mathsf{Cont}\bigl(h,\mathsf{MatrixSingletonAddFold}(xs),r\bigr),
+$$
+then the result is carried by the singleton matrix carrier exactly when the
+left input is carried and every entry of the fold spine is carried:
+$$
+\mathsf{MatrixSingletonCarrier}(r)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the displayed continuation along
+$\mathsf{MatrixSingletonCarrier}(r)$ to a continuation ending at $\emp$.
+Kernel empty-result inversion for $\mathsf{Cont}$ forces both $h$ and
+$\mathsf{MatrixSingletonAddFold}(xs)$ to be empty. The first equality is the
+left carrier, and the second is read through
+\autoref{thm:matrix-singleton-add-fold-carrier-iff} to obtain the spine
+carrier.
+
+Conversely, the left carrier identifies $h$ with $\emp$, while
+\autoref{thm:matrix-singleton-add-fold-carrier-iff} turns the spine carrier
+into $\hsame(\mathsf{MatrixSingletonAddFold}(xs),\emp)$. Continuation respect
+for $\hsame$, compared against the empty right-unit continuation, forces $r$
+to be carried by the singleton matrix carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_continuation\_result\_iff}
+
 \begin{theorem}[Singleton additive fold visible head exclusion]
 \label{thm:matrix-singleton-add-fold-visible-head-absurd}
 For every history $m$ and finite spine $xs$, folding a singleton additive spine
@@ -101,6 +133,24 @@ carrier into the tail spine carrier and the carrier of $ys$, and the reverse
 direction repacks those two splits through the same empty-append constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
+
+\begin{theorem}[Singleton additive fold appended visible tail exclusion]
+\label{thm:matrix-singleton-add-fold-append-visible-tail-absurd}
+For every history $m$ and finite spine $xs$, appending a visible singleton
+tail before folding cannot read back to the empty carrier:
+$$
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(xs{++}[\Ezero(m)]),\emp)
+\quad\wedge\quad
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(xs{++}[\Eone(m)]),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the appended-spine carrier readback to split the fold over $xs$ and
+the one-element visible tail. The tail carrier would identify either
+$\Ezero(m)$ or $\Eone(m)$ with $\emp$, contradicting constructor
+separation in $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_visible\_tail\_absurd}
 
 \begin{theorem}[Singleton additive fold append visible middle exclusion]
 \label{thm:matrix-singleton-add-fold-append-visible-middle-absurd}
@@ -163,6 +213,29 @@ of the displayed append, while fold append readback supplies the classifier
 comparison between the appended fold and the displayed append endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_display\_classifier\_iff}
+
+\begin{theorem}[Singleton additive fold append continuation classifier]
+\label{thm:matrix-singleton-add-fold-append-continuation-classifier}
+If two finite singleton-matrix spines are carried and a continuation ledger
+composes their individual additive folds to an endpoint $r$, then the
+appended fold classifies $r$:
+$$
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(ys)\land
+\Cont(\mathsf{MatrixSingletonAddFold}(xs),
+      \mathsf{MatrixSingletonAddFold}(ys),r)
+\Longrightarrow
+\mathsf{MatrixSingletonClassifier}
+  (\mathsf{MatrixSingletonAddFold}(xs\mathbin{+\!\!+}ys),r).
+$$
+\end{theorem}
+\begin{proof}
+The display classifier identifies the appended fold with the canonical append
+of the two individual folds. The continuation ledger has the same left and
+right factors as that canonical append, so continuation determinacy transports
+the classifier endpoint from the canonical append to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_continuation\_classifier}
 
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
