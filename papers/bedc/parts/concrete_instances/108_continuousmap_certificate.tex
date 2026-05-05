@@ -62,6 +62,47 @@ $map$ to $target$, then apply metric-distance depth addition.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_graph\_cont\_depth\_add}
 
+\begin{theorem}[ContinuousMap carrier distance empty iff]
+\label{thm:continuousmap-carrier-distance-empty-iff}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, every
+continuous-map carrier satisfies
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+\Longrightarrow
+\bigl(\hsame(distance,\emp)\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(target,\emp)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Project the metric-distance witness from the displayed
+$\mathsf{ContinuousMapCarrier}$. If the displayed distance is $\hsame$ to
+$\emp$, transport it to the empty distance ledger and apply metric
+empty-distance readback to identify both endpoints with $\emp$. Conversely,
+empty endpoint classifiers build the metric-distance witness with empty
+distance ledger; metric result determinacy compares this witness with the
+carrier's displayed distance.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_distance\_empty\_iff}
+
+\begin{theorem}[ContinuousMap carrier zero distance iff empty endpoints]
+\label{thm:continuousmap-carrier-distance-zero-iff-empty-endpoints}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, every
+continuous-map carrier satisfies
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+\Longrightarrow
+\bigl(\mathsf{MetricDistanceDepth}(distance)=0\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(target,\emp)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Metric depth zero is equivalent to the distance history being $\hsame$ to
+$\emp$. Apply the preceding continuous-map carrier distance boundary theorem
+to translate that empty distance classifier exactly into empty source and
+target endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_distance\_zero\_iff\_empty\_endpoints}
+
 \begin{theorem}[ContinuousMap carrier composition closure]
 \label{thm:continuousmap-carrier-comp-closed}
 For histories

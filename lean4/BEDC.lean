@@ -512,6 +512,7 @@ import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.GraphDepth
 import BEDC.Derived.ContinuousMapUp.IdentityUnits
 import BEDC.Derived.ContinuousMapUp.CompositionCertificate
+import BEDC.Derived.ContinuousMapUp.DistanceBoundary
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
 import BEDC.Derived.CompactUp.Suffix
