@@ -24,18 +24,18 @@ transported by \autoref{thm:s1-equation-witness-transport} and
 \begin{definition}[SOne component classifier relation]
 \label{def:sone-component-classifier-relation}
 For histories $x,y,e,p,x',y',e',p'$, the concrete relation
-$\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))$ is defined only
-between displayed $\mathsf{SOneHistoryCarrier}$ witnesses. Its data are:
+$\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))$ means the
+conjunction:
 $$
 \mathsf{SOneHistoryCarrier}(x,y,e,p)
-\Longrightarrow
+\wedge
 \mathsf{SOneHistoryCarrier}(x',y',e',p')
-\Longrightarrow
+\wedge
 \hsame(x,x') \wedge \hsame(y,y').
 $$
-Thus the classifier exposes exactly the two real component comparisons; the
-equation witness and the point witness stay hidden until determinacy and
-transport supply their ledgers.
+Thus the classifier exposes exactly the two real component comparisons. The
+equation ledger and the point ledger are not classifier fields; they are
+recovered by \autoref{thm:s1-component-classifier-ledger-determinacy}.
 \end{definition}
 
 \begin{theorem}[SOne component classifier stability]
@@ -46,10 +46,8 @@ semantic $\NameCert$ for $\SOneUp$. Concretely:
 \begin{enumerate}
   \item it is reflexive, symmetric, and transitive by the equivalence theorem
   for $\hsame$ on the two exposed real components;
-  \item any classifier witness between
-  $\mathsf{SOneHistoryCarrier}(x,y,e,p)$ and
-  $\mathsf{SOneHistoryCarrier}(x',y',e',p')$ determines
-  $\hsame(e,e')$ and $\hsame(p,p')$;
+  \item any classifier witness projects the two carrier rows and determines
+  $\hsame(e,e')$ and $\hsame(p,p')$ from its exposed component comparisons;
   \item the carrier transports from $(x,y,e,p)$ to $(x',y',e',p')$ along the
   resulting four coordinate $\hsame$ witnesses.
 \end{enumerate}
@@ -60,11 +58,13 @@ Reflexivity, symmetry, and transitivity are inherited componentwise from
 component witnesses; symmetry reverses both exposed witnesses; transitivity
 composes the two exposed witnesses through the middle carrier.
 
-For the hidden ledgers, keep both
-$\mathsf{SOneHistoryCarrier}$ witnesses in scope and unpack the classifier as
-the exposed pair $\hsame(x,x')$ and $\hsame(y,y')$. Apply
-\autoref{thm:s1-component-classifier-ledger-determinacy}; it returns exactly
-the equation witness $\hsame(e,e')$ and the point witness $\hsame(p,p')$.
+For the hidden ledgers, unpack the classifier witness into four fields: the
+source carrier row $\mathsf{SOneHistoryCarrier}(x,y,e,p)$, the target carrier row
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$, and the exposed component witnesses
+$\hsame(x,x')$ and $\hsame(y,y')$. Apply
+\autoref{thm:s1-component-classifier-ledger-determinacy} to these four fields;
+it returns exactly the equation witness $\hsame(e,e')$ and the point witness
+$\hsame(p,p')$.
 
 The equation ledger is stable by
 \autoref{thm:s1-equation-witness-transport}. With the component ledgers and the
@@ -233,14 +233,10 @@ unit-equation exposure; standard bridge deferred; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[SOne component classifier public readback]
 \label{thm:sone-component-classifier-public-readback}
-For histories $x,y,e,p,x',y',e',p'$, a component-classifier witness between
-two concrete $\SOneUp$ history carriers exposes the public readback at the
-transported tuple:
+For histories $x,y,e,p,x',y',e',p'$, a component-classifier witness carries the
+two concrete $\SOneUp$ history carrier rows and exposes the public readback at
+the transported tuple:
 $$
-\mathsf{SOneHistoryCarrier}(x,y,e,p)
-\Longrightarrow
-\mathsf{SOneHistoryCarrier}(x',y',e',p')
-\Longrightarrow
 \mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))
 \Longrightarrow
 \mathsf{SOneProductHistoryCarrier}(p')\land
@@ -254,14 +250,15 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-Unpack the component classifier under the two displayed
-$\mathsf{SOneHistoryCarrier}$ witnesses. By
-\autoref{def:sone-component-classifier-relation}, its public data are exactly
-the component witnesses $\hsame(x,x')$ and $\hsame(y,y')$.
+Unpack the component classifier. By
+\autoref{def:sone-component-classifier-relation}, its data are the source
+carrier row $\mathsf{SOneHistoryCarrier}(x,y,e,p)$, the target carrier row
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$, and the component witnesses
+$\hsame(x,x')$ and $\hsame(y,y')$.
 
 Apply \autoref{thm:s1-component-classifier-ledger-determinacy} to the two
-carriers and those component witnesses. This determines the hidden equation
-ledger $\hsame(e,e')$ and the hidden point ledger $\hsame(p,p')$.
+projected carriers and the two component witnesses. This determines the hidden
+equation ledger $\hsame(e,e')$ and the hidden point ledger $\hsame(p,p')$.
 
 With the two public component witnesses and the two determined hidden ledgers,
 \autoref{thm:s1-carrier-hsame-transport} transports
@@ -303,11 +300,11 @@ unit-equation history, rational witnesses for $x$ and $y$, and the continuation
 ledger at $p$.
 
 For the classifier row, unpack
-\autoref{def:sone-component-classifier-relation}. Its public fields are the two
-component witnesses $\hsame(x,x')$ and $\hsame(y,y')$. Applying
-\autoref{thm:s1-component-classifier-ledger-determinacy} to these fields and to
-the two carrier witnesses determines the hidden ledgers $\hsame(e,e')$ and
-$\hsame(p,p')$.
+\autoref{def:sone-component-classifier-relation}. A classifier witness supplies
+the source carrier row, the target carrier row, and the two component witnesses
+$\hsame(x,x')$ and $\hsame(y,y')$. Applying
+\autoref{thm:s1-component-classifier-ledger-determinacy} to these four projected
+fields determines the hidden ledgers $\hsame(e,e')$ and $\hsame(p,p')$.
 
 The stability row first replaces the equation witness through
 \autoref{thm:s1-equation-witness-transport}. With the two public component

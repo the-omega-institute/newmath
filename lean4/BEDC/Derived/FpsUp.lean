@@ -268,4 +268,44 @@ theorem FpsSingletonEmptyHistoryClassifier_continuation_comm_closed
     (And.intro emptyCarrier
       (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
 
+def FpsSingletonAddFold : List BHist -> BHist
+  | [] => FpsSingletonZero
+  | x :: xs => FpsSingletonAdd x (FpsSingletonAddFold xs)
+
+def FpsSingletonAddFoldSpineCarrier : List BHist -> Prop
+  | [] => hsame BHist.Empty BHist.Empty
+  | x :: xs => FpsSingletonCarrier x ∧ FpsSingletonAddFoldSpineCarrier xs
+
+theorem FpsSingletonAddFold_spine_carrier_empty
+    {xs : List BHist} :
+    FpsSingletonAddFoldSpineCarrier xs ->
+      hsame (FpsSingletonAddFold xs) BHist.Empty := by
+  intro spine
+  induction xs with
+  | nil =>
+      exact hsame_refl BHist.Empty
+  | cons x xs ih =>
+      cases spine with
+      | intro _headCarrier _tailCarrier =>
+          exact hsame_refl BHist.Empty
+
+theorem FpsSingletonAddFold_reverse_empty_append_hsame
+    {xs : List BHist} :
+    FpsSingletonAddFoldSpineCarrier xs ->
+      hsame (append (FpsSingletonAddFold xs) BHist.Empty)
+        (append (FpsSingletonAddFold xs.reverse) BHist.Empty) := by
+  intro spine
+  have leftEmpty : hsame (FpsSingletonAddFold xs) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty spine
+  have rightEmpty : hsame (FpsSingletonAddFold xs.reverse) BHist.Empty := by
+    induction xs.reverse with
+    | nil =>
+        exact hsame_refl BHist.Empty
+    | cons x tail ih =>
+        exact hsame_refl BHist.Empty
+  exact hsame_trans (append_empty_right (FpsSingletonAddFold xs))
+    (hsame_trans leftEmpty
+      (hsame_symm
+        (hsame_trans (append_empty_right (FpsSingletonAddFold xs.reverse)) rightEmpty)))
+
 end BEDC.Derived.FpsUp
