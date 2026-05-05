@@ -5,6 +5,11 @@ namespace BEDC.Derived.FpsUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+private theorem FpsSingletonEmpty_classified :
+    FpsSingletonClassifier BHist.Empty BHist.Empty := by
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
 theorem FpsSingletonPointwiseAdditionCoeff_zero_laws {F n : BHist} :
     FpsSingletonCarrier F ->
       FpsSingletonClassifier (FpsSingletonPointwiseAdditionCoeff F FpsSingletonZero n) F ∧
@@ -33,6 +38,7 @@ theorem FpsSingletonPointwiseAdditionCoeff_zero_laws {F n : BHist} :
 
 theorem FpsSingletonPointwiseAdditiveMonoid_laws :
     hsame FpsSingletonZero BHist.Empty ∧
+      FpsSingletonCarrier FpsSingletonZero ∧
       (forall {F G : BHist}, FpsSingletonCarrier F -> FpsSingletonCarrier G ->
         FpsSingletonCarrier (FpsSingletonAdd F G) ∧
           FpsSingletonClassifier (FpsSingletonAdd F G) BHist.Empty) ∧
@@ -53,17 +59,19 @@ theorem FpsSingletonPointwiseAdditiveMonoid_laws :
   constructor
   · exact hsame_refl BHist.Empty
   · constructor
-    · intro F G _carrierF _carrierG
-      exact And.intro emptyCarrier emptyClassifier
+    · exact hsame_refl BHist.Empty
     · constructor
-      · intro F G F' G' _sameF _sameG
-        exact emptyClassifier
+      · intro F G _carrierF _carrierG
+        exact And.intro emptyCarrier emptyClassifier
       · constructor
-        · intro F G H _carrierF _carrierG _carrierH
+        · intro F G F' G' _sameF _sameG
           exact emptyClassifier
-        · intro F carrierF
-          have zeroLeft : FpsSingletonClassifier BHist.Empty F :=
-            And.intro emptyCarrier (And.intro carrierF (hsame_symm carrierF))
-          exact And.intro zeroLeft zeroLeft
+        · constructor
+          · intro F G H _carrierF _carrierG _carrierH
+            exact emptyClassifier
+          · intro F carrierF
+            have zeroLeft : FpsSingletonClassifier BHist.Empty F :=
+              And.intro emptyCarrier (And.intro carrierF (hsame_symm carrierF))
+            exact And.intro zeroLeft zeroLeft
 
 end BEDC.Derived.FpsUp
