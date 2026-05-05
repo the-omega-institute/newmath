@@ -84,6 +84,25 @@ direction repacks those two splits through the same empty-append constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold append readback]
+\label{thm:matrix-singleton-add-fold-append-hsame}
+For finite singleton-matrix spines \(xs\) and \(ys\), folding their appended
+spine by concrete singleton addition is history-same as appending the two
+individual singleton additive folds:
+$$
+\mathsf{MatrixSingletonAddFold}(xs\mathbin{+\!\!+}ys)\hsame
+\mathsf{append}(\mathsf{MatrixSingletonAddFold}(xs),
+\mathsf{MatrixSingletonAddFold}(ys)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on \(xs\). The nil case is the left-unit law for kernel append. In the
+cons case, unfold singleton addition as kernel append, apply the induction
+hypothesis under the common head, and reassociate by the kernel append
+associativity law.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_hsame}
+
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
 Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$

@@ -5,3 +5,19 @@
 Use functions \(\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R\) with \(n,m:\NatUp\) and scalar ring \(R\).
 \end{definition}
 
+\begin{theorem}[Matrix singleton carrier visible exclusion]
+\label{thm:matrix-singleton-carrier-visible-absurd}
+For every history \(p:\mathsf{BHist}\), neither visible-headed history lies in
+the singleton matrix carrier:
+$$
+A_{\emp}(\Ezero(p))\to\bot
+\qquad\text{and}\qquad
+A_{\emp}(\Eone(p))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton matrix carrier as history-sameness to \(\emp\). The two
+displayed histories have visible BEDC constructors, and constructor separation
+rules out history-sameness between either visible endpoint and \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_visible\_absurd}

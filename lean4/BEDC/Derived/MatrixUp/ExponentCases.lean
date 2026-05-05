@@ -23,6 +23,24 @@ theorem MatrixSingletonPow_unary_exponent_cases {M exponent : BHist} :
       exact Or.inr
         (Exists.intro tail (And.intro (unary_e1_inversion exponentUnary) (cont_intro rfl)))
 
+theorem MatrixSingletonPow_empty_exponent_classifier_iff {M h : BHist} :
+    MatrixSingletonClassifier (MatrixSingletonPow M BHist.Empty) h ↔
+      MatrixSingletonCarrier h := by
+  constructor
+  · intro classified
+    exact classified.right.left
+  · intro carrier
+    exact And.intro (hsame_refl BHist.Empty) (And.intro carrier (hsame_symm carrier))
+
+theorem MatrixSingletonPow_zero_head_exponent_classifier_iff {M e h : BHist} :
+    MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e0 e)) h ↔
+      MatrixSingletonCarrier h := by
+  constructor
+  · intro classified
+    exact classified.right.left
+  · intro carrier
+    exact And.intro (hsame_refl BHist.Empty) (And.intro carrier (hsame_symm carrier))
+
 theorem MatrixSingletonPow_unary_exponent_carrier_or_base_carrier {M exponent : BHist} :
     UnaryHistory exponent -> MatrixSingletonCarrier (MatrixSingletonPow M exponent) ->
       hsame exponent BHist.Empty ∨ MatrixSingletonCarrier M := by
