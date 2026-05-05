@@ -318,3 +318,92 @@ $$
 \operatorname{MorEq}_{\mathcal C}(C,C';u_1,u_2).
 $$
 \end{proof}
+
+\begin{theorem}[CatColimit transport along pointwise certified diagram equivalence]
+\label{thm:catcolimit-transport-pointwise-certified-diagram-equivalence}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations, and let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams. Suppose $(\alpha,\beta)$ is a pointwise certified diagram equivalence between $D$ and $E$ in the sense of \autoref{def:catlimit-pointwise-certified-diagram-equivalence}. If
+$$
+\operatorname{ColimCocone}_{D}(K,\kappa)
+$$
+holds, and if $\kappa^E$ is the component family obtained by certified composition
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),K;\beta_j,\kappa_j,\kappa^E_j)
+$$
+for every object $j$ of $\mathcal J$, with endpoints read through the certified source-target replacement fields, then
+$$
+\operatorname{ColimCocone}_{E}(K,\kappa^E).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:catlimit-pointwise-certified-diagram-equivalence}, the components $\alpha_j:D(j)\to E(j)$ and $\beta_j:E(j)\to D(j)$ are certified $\NatTransUp$ component morphisms, and their pointwise composites are classified with the corresponding identities. Thus for every object $j$ there are composites
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),E(j),D(j);\alpha_j,\beta_j,d_j)
+\quad\text{and}\quad
+\operatorname{MorEq}_{\mathcal C}(D(j),D(j);d_j,1_{D(j)}),
+$$
+and
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),E(j);\beta_j,\alpha_j,e_j)
+\quad\text{and}\quad
+\operatorname{MorEq}_{\mathcal C}(E(j),E(j);e_j,1_{E(j)}).
+$$
+The component-carrier and endpoint replacement rows are those of \autoref{def:nattrans-carrier}, \autoref{def:functor-stability-certificate}, and \autoref{def:category-stability-certificate}.
+
+First verify that $\kappa^E$ is an $E$-cocone. For a displayed morphism $u:j\to k$ of $\mathcal J$, the $E$-cocone law compares the composite of $E(u)$ followed by $\kappa^E_k$ with $\kappa^E_j$. The defining composite for $\kappa^E_k$ and associativity identify the first bracketing with the chain
+$$
+E(j)\xrightarrow{E(u)}E(k)\xrightarrow{\beta_k}D(k)\xrightarrow{\kappa_k}K.
+$$
+Naturality of $\beta$ compares $E(u)$ followed by $\beta_k$ with $\beta_j$ followed by $D(u)$. Composition congruence with the fixed right factor $\kappa_k$, followed by the $D$-cocone law for $\kappa$, compares this chain with
+$$
+E(j)\xrightarrow{\beta_j}D(j)\xrightarrow{\kappa_j}K,
+$$
+which is $\kappa^E_j$ by definition. Transitivity of the morphism classifier gives the $E$-cocone component row for $\kappa^E$.
+
+Let $\chi$ be any $E$-cocone with vertex $X$. Define a $D$-component family $\chi^D$ by
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),E(j),X;\alpha_j,\chi_j,\chi^D_j)
+$$
+for every object $j$. Naturality of $\alpha$, the $E$-cocone law for $\chi$, associativity, and composition congruence show that $\chi^D$ is a $D$-cocone with vertex $X$: for $u:j\to k$, the composite of $D(u)$ followed by $\alpha_k$ followed by $\chi_k$ is classified with the composite of $\alpha_j$ followed by $E(u)$ followed by $\chi_k$, and then with $\alpha_j$ followed by $\chi_j$.
+
+The universal existence field of $\operatorname{ColimCocone}_{D}(K,\kappa)$ applied to this $D$-cocone supplies a morphism $m:K\to X$ such that
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\chi^D;m).
+$$
+Unpacking \autoref{def:catcolimit-fixed-diagram-cocone-comparison-data}, for each object $j$ there is a composite $r_j:D(j)\to X$ with
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),K,X;\kappa_j,m,r_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),X;r_j,\chi^D_j).
+$$
+Let $s_j:E(j)\to X$ be a composite of $\kappa^E_j$ followed by $m$. Associativity compares $s_j$ with the composite of $\beta_j$ followed by $r_j$. Composition congruence with the fixed left factor $\beta_j$ transports $r_j\sim\chi^D_j$ to a comparison between $\beta_j$ followed by $r_j$ and $\beta_j$ followed by $\chi^D_j$. Since $\chi^D_j$ is the composite of $\alpha_j$ followed by $\chi_j$, associativity rewrites the latter as $(\beta_j;\alpha_j);\chi_j$. The $E(j)$ identity row of the pointwise equivalence, composed with the fixed right factor $\chi_j$, and the left identity row of the $\CategoryUp$ certificate classify this composite with $\chi_j$. Transitivity gives
+$$
+\operatorname{MorEq}_{\mathcal C}(E(j),X;s_j,\chi_j).
+$$
+The vertex morphism field for $m$ is already present in $\operatorname{CoconeMor}_{D}(\kappa,\chi^D;m)$. Hence
+$$
+\operatorname{CoconeMor}_{E}(\kappa^E,\chi;m),
+$$
+which is the universal existence field required for the $E$-cocone $\kappa^E$.
+
+It remains to verify universal uniqueness. Let $m,n:K\to X$ both satisfy
+$$
+\operatorname{CoconeMor}_{E}(\kappa^E,\chi;m)
+\quad\text{and}\quad
+\operatorname{CoconeMor}_{E}(\kappa^E,\chi;n).
+$$
+For $m$, unpack the first $E$-cocone-morphism ledger. For each object $j$ there is a composite $a_j:E(j)\to X$ of $\kappa^E_j$ followed by $m$ classified with $\chi_j$. Composition congruence with the fixed left factor $\alpha_j$ gives a comparison between $\alpha_j$ followed by $a_j$ and $\alpha_j$ followed by $\chi_j$. Using the defining composite $\kappa^E_j=\beta_j;\kappa_j$ and associativity, the left side is classified with $(\alpha_j;\beta_j);\kappa_j;m$. The $D(j)$ identity row of the pointwise equivalence, composed first with $\kappa_j$ and then with $m$, and the left identity rows of $\mathcal C$, classify this with $\kappa_j;m$. The right side is $\chi^D_j$ by definition. Thus the component rows assemble with the vertex morphism field from the $E$-cocone morphism to give
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\chi^D;m).
+$$
+The same construction applied to the ledger for $n$ gives
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\chi^D;n).
+$$
+The universal uniqueness field of $\operatorname{ColimCocone}_{D}(K,\kappa)$, applied to the $D$-cocone $\chi^D$ and these two cocone morphisms, yields
+$$
+\operatorname{MorEq}_{\mathcal C}(K,X;m,n).
+$$
+This is exactly the uniqueness field for $\operatorname{ColimCocone}_{E}(K,\kappa^E)$.
+\end{proof}
