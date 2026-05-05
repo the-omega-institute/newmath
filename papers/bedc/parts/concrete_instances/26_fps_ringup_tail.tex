@@ -34,3 +34,51 @@ Put $x:=F_0\cdot_R G_0$. Since $F$ and $G$ are carried coefficient sequences, th
 The finite fold clauses displayed in \autoref{thm:finite-additive-fold-congruence-coefficient-lists} identify this endpoint with $x+_R0_R$. The additive right-zero theorem \autoref{thm:ring-add-right-zero}, applied in the scalar ring to $x$, gives $x+_R0_R\sim_R x$. Substituting $x=F_0\cdot_R G_0$ gives the scalar classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyProduct\_constant\_coefficient}
+
+\begin{definition}[FPS pointwise additive monoid instance]
+\label{def:fps-pointwise-additive-monoid-instance}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and the scalar stability rows retained in \autoref{def:ring-stability-certificate}. Using the coefficientwise carrier of \autoref{def:fps-carrier}, the additive carrier for the formal-power-series layer is
+$$
+\mathsf{FPSCarrier}_R:=\{F:\NatUp\to R\mid F\text{ is carried coefficientwise}\}.
+$$
+Its classifier is the pointwise classifier $\sim_{\mathrm{fps}}$ of \autoref{def:fps-classifier-specification}. Its binary operation is the pointwise operation $\oplus_{\mathrm{fps}}$ of \autoref{def:fps-pointwise-addition-coefficient}:
+$$
+(F\oplus_{\mathrm{fps}}G)_n:=F_n+_R G_n.
+$$
+Its zero endpoint is the zero series $0_{\mathrm{fps}}$ with coefficient rule $(0_{\mathrm{fps}})_n:=0_R$ for every unary index $n:\NatUp$.
+\end{definition}
+
+\begin{theorem}[FPS pointwise additive monoid laws]
+\label{thm:fps-pointwise-additive-monoid-laws}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and the scalar classifier equivalence, zero self-classification, addition closure, addition congruence, additive associativity, and additive zero rows retained in \autoref{def:ring-stability-certificate}. For the concrete data of \autoref{def:fps-pointwise-additive-monoid-instance}, the following laws hold for carried coefficient sequences:
+\begin{enumerate}
+  \item $0_{\mathrm{fps}}$ is carried, and $F\oplus_{\mathrm{fps}}G$ is carried whenever $F$ and $G$ are carried.
+  \item If $F\sim_{\mathrm{fps}}F'$ and $G\sim_{\mathrm{fps}}G'$, then $F\oplus_{\mathrm{fps}}G\sim_{\mathrm{fps}}F'\oplus_{\mathrm{fps}}G'$.
+  \item $(F\oplus_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}H\sim_{\mathrm{fps}}F\oplus_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)$.
+  \item $0_{\mathrm{fps}}\oplus_{\mathrm{fps}}F\sim_{\mathrm{fps}}F$ and $F\oplus_{\mathrm{fps}}0_{\mathrm{fps}}\sim_{\mathrm{fps}}F$.
+\end{enumerate}
+Thus $\mathsf{FPSCarrier}_R$ with $\sim_{\mathrm{fps}}$, $\oplus_{\mathrm{fps}}$, and $0_{\mathrm{fps}}$ is the concrete additive monoid interface consumed by the formal-power-series algebra layer.
+\end{theorem}
+\begin{proof}
+The carrier clause follows coefficientwise from \autoref{def:fps-carrier}. The zero series is carried because each coefficient is $0_R$, and the scalar zero self-classification row in \autoref{def:ring-stability-certificate} supplies the carried scalar endpoint. If $F$ and $G$ are carried, then each coefficient $F_n+_R G_n$ is carried by scalar addition closure. By \autoref{def:fps-pointwise-addition-coefficient}, these coefficients are exactly the coefficients of $F\oplus_{\mathrm{fps}}G$.
+
+For congruence, fix $n:\NatUp$. The hypotheses $F\sim_{\mathrm{fps}}F'$ and $G\sim_{\mathrm{fps}}G'$ become scalar comparisons $F_n\sim_R F'_n$ and $G_n\sim_R G'_n$ by \autoref{def:fps-classifier-specification}. Scalar addition congruence from \autoref{def:ring-stability-certificate} gives
+$$
+F_n+_R G_n\sim_R F'_n+_R G'_n.
+$$
+Using \autoref{def:fps-pointwise-addition-coefficient} on both sides and then \autoref{def:fps-classifier-specification} packages the coefficientwise comparisons as $F\oplus_{\mathrm{fps}}G\sim_{\mathrm{fps}}F'\oplus_{\mathrm{fps}}G'$.
+
+Associativity is the existing pointwise associativity theorem \autoref{thm:fps-pointwise-addition-associativity}, read with the same carrier, classifier, operation, and scalar associativity row.
+
+It remains to check the zero laws. For the left zero law, fix $n:\NatUp$. The definitions give
+$$
+(0_{\mathrm{fps}}\oplus_{\mathrm{fps}}F)_n=0_R+_R F_n.
+$$
+The scalar additive left-zero row retained in \autoref{def:ring-stability-certificate} classifies this endpoint with $F_n$. Since $n$ was arbitrary, \autoref{def:fps-classifier-specification} yields $0_{\mathrm{fps}}\oplus_{\mathrm{fps}}F\sim_{\mathrm{fps}}F$.
+
+For the right zero law, fix $n:\NatUp$. The definitions give
+$$
+(F\oplus_{\mathrm{fps}}0_{\mathrm{fps}})_n=F_n+_R0_R.
+$$
+The scalar right-zero theorem \autoref{thm:ring-add-right-zero}, applied in the scalar ring to $F_n$, classifies this endpoint with $F_n$. Again \autoref{def:fps-classifier-specification} packages the coefficientwise comparisons as $F\oplus_{\mathrm{fps}}0_{\mathrm{fps}}\sim_{\mathrm{fps}}F$.
+\end{proof}
