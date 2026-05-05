@@ -33,6 +33,27 @@ data repack as $\mathsf{UnaryOffsetLe}(k,u)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.UnaryOffsetLe\_cont\_trans}
 
+\begin{theorem}[Unary offset append-tail closure]
+\label{thm:unary-offset-le-append-tail-closed}
+For histories $k,w,\tau:\Hist$,
+$$
+\mathsf{UnaryOffsetLe}(k,w)\land \mathsf{UnaryHistory}(\tau)
+\Longrightarrow
+\mathsf{UnaryOffsetLe}(k,\mathsf{append}(w,\tau)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the offset witness for $\mathsf{UnaryOffsetLe}(k,w)$. It supplies
+$\mathsf{UnaryHistory}(k)$ and a unary tail $\sigma$ with
+$\ContR(k,\sigma,w)$. Appending the displayed unary history $\tau$ to this
+tail gives $\mathsf{append}(\sigma,\tau)$, whose unary row follows from unary
+append closure. Continuation associativity turns
+$\ContR(k,\sigma,w)$ into a continuation from $k$ through
+$\mathsf{append}(\sigma,\tau)$ to $\mathsf{append}(w,\tau)$, so the same
+left endpoint repacks as the displayed offset witness.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.UnaryOffsetLe\_append\_tail\_closed}
+
 \begin{definition}[Real unary stream finite window classifier]
 \label{def:real-unary-stream-window-classifier}
 For observation maps $s,t:\Hist\to\Hist$ and histories $a,w:\Hist$, read $a$

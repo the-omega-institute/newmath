@@ -37,6 +37,31 @@ Metric-distance depth addition for that witness gives the displayed equality.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_comp\_graph\_depth\_add}
 
+\begin{theorem}[ContinuousMap carrier graph depth addition]
+\label{thm:continuousmap-carrier-graph-cont-depth-add}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, every
+continuous-map carrier
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+$$
+exposes its graph continuation and the corresponding metric depth identity:
+$$
+\ContR(source,map,target)
+\quad\land\quad
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+\mathsf{MetricDistanceDepth}(map).
+$$
+\end{theorem}
+\begin{proof}
+Project the continuous-function carrier from the displayed
+$\mathsf{ContinuousMapCarrier}$. Its graph field is exactly the continuation
+$\ContR(source,map,target)$. Repackage the source, map, and target unary rows
+with this graph continuation as a metric-distance witness from $source$ and
+$map$ to $target$, then apply metric-distance depth addition.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_graph\_cont\_depth\_add}
+
 \begin{theorem}[ContinuousMap carrier composition closure]
 \label{thm:continuousmap-carrier-comp-closed}
 For histories

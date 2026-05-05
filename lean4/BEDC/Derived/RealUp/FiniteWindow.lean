@@ -24,6 +24,19 @@ theorem UnaryOffsetLe_cont_trans {k w u tau sigma : BHist} :
     cases rightCont
     exact append_assoc k tau sigma⟩⟩
 
+theorem UnaryOffsetLe_append_tail_closed {k w tail : BHist} :
+    UnaryOffsetLe k w -> UnaryHistory tail -> UnaryOffsetLe k (append w tail) := by
+  intro offset tailUnary
+  cases offset with
+  | intro kUnary tailData =>
+      cases tailData with
+      | intro tau tauData =>
+          cases tauData with
+          | intro tauUnary leftCont =>
+              exact ⟨kUnary, ⟨append tau tail, unary_append_closed tauUnary tailUnary, by
+                cases leftCont
+                exact append_assoc k tau tail⟩⟩
+
 def RealUnaryStreamWindowClassifier (s t : BHist -> BHist) (a w : BHist) : Prop :=
   UnaryHistory a ∧ UnaryHistory w ∧
     forall k : BHist, UnaryOffsetLe k w ->
@@ -516,5 +529,40 @@ theorem RealUnaryStreamWindowClassifier_empty_bound_iff {s t : BHist -> BHist}
                 have emptyParts := cont_empty_result_inversion tauData.right
                 cases emptyParts.left
                 exact data.right
+
+theorem RealUnaryStreamWindowClassifier_selected_tail_class_restricted_exactness
+    {s t : BHist -> BHist} {a w wPrime k : BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameClassifier s t ->
+      UnaryHistory a -> UnaryOffsetLe wPrime w -> UnaryOffsetLe k wPrime ->
+        exists u : BHist, exists v : BHist,
+          hsame (s (append a k)) (BHist.e1 u) ∧
+            hsame (t (append a k)) (BHist.e1 v) ∧
+              UnaryHistory u ∧ UnaryHistory v ∧ hsame u v ∧
+                (forall uOther vOther : BHist,
+                  (hsame (s (append a k)) (BHist.e1 uOther) ∧
+                    hsame (t (append a k)) (BHist.e1 vOther)) ↔
+                      (UnaryHistory uOther ∧ UnaryHistory vOther ∧ hsame u uOther ∧
+                        hsame v vOther)) := by
+  intro carrierS carrierT classified aUnary wPrimeOffset kOffset
+  cases wPrimeOffset with
+  | intro wPrimeUnary wPrimeTail =>
+      cases wPrimeTail with
+      | intro sigma sigmaData =>
+          cases sigmaData with
+          | intro sigmaUnary wPrimeSigmaCont =>
+              cases kOffset with
+              | intro kUnary kTail =>
+                  cases kTail with
+                  | intro tau tauData =>
+                      cases tauData with
+                      | intro tauUnary kTauCont =>
+                          have wUnary : UnaryHistory w :=
+                            unary_cont_closed wPrimeUnary sigmaUnary wPrimeSigmaCont
+                          have kToW : UnaryOffsetLe k w :=
+                            UnaryOffsetLe_cont_trans kUnary tauUnary sigmaUnary kTauCont
+                              wPrimeSigmaCont
+                          exact
+                            RealUnaryStreamWindowClassifier_selected_tail_class_exactness
+                              carrierS carrierT classified aUnary wUnary kToW
 
 end BEDC.Derived.RealUp

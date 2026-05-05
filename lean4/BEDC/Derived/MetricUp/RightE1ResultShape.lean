@@ -24,6 +24,14 @@ theorem MetricDistanceWitness_right_e1_result_shape {x y d : BHist} :
                     (And.intro yTailCarrier
                       (And.intro (unary_append_closed xCarrier yTailCarrier) (cont_intro rfl)))))
 
+theorem MetricDistanceWitness_right_e1_result_not_empty {x y d : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) d -> hsame d BHist.Empty -> False := by
+  intro witness sameEmpty
+  have shape := MetricDistanceWitness_right_e1_result_shape witness
+  cases shape with
+  | intro k data =>
+      exact not_hsame_e1_empty (hsame_trans (hsame_symm data.left) sameEmpty)
+
 theorem MetricDistanceWitness_right_e1_result_tail_hsame_exact
     {x y d k : BHist} :
     MetricDistanceWitness x (BHist.e1 y) d -> hsame d (BHist.e1 k) ->
