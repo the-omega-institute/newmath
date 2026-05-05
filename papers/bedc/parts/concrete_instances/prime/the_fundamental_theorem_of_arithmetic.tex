@@ -26,6 +26,20 @@ that witness supplies the quotient carrier required by \(\mathsf{NatDivides}\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.PrimeFactorization\_cons\_head\_divides}
 
+\begin{theorem}[Prime factorization products have nonempty result]
+\label{thm:prime-factorization-product-result-not-empty}
+If \(\mathsf{PrimeFactorizationProduct}(ps,n)\), then \(n\) is not
+history-same to \(\emp\).
+\end{theorem}
+\begin{proof}
+Induct on the list \(ps\). The empty product is \(\Eone(\emp)\), which is
+separated from \(\emp\) by constructor no-confusion. In the cons case, the
+head prime is nonempty, the induction hypothesis makes the tail product
+nonempty, and the nonempty-factor multiplication theorem applies to the
+displayed \(\mathsf{NatMul}\) witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.PrimeFactorizationProduct\_result\_not\_empty}
+
 \begin{definition}[Natural prime product relation]
 \label{def:nat-prime-product-relation}
 The relation \(\mathsf{NatPrimeProduct}(ps,n)\) is the closed list product

@@ -628,3 +628,31 @@ $$
 $$
 Right-cons expansion applied to $q,a,x$ gives the same middle endpoint classified with $\mathsf{rmul}_R(q,\mathsf{cons}(a,x))$. Symmetry and transitivity of $\mathsf{PolySame}_R$ compose the two comparisons, completing the induction.
 \end{proof}
+
+\begin{theorem}[Polynomial multiplication has left zero absorption]
+\label{thm:polynomial-multiplication-left-zero-absorption}
+Let $R$ carry a $\CommRingUp(R)$ certificate with classifier $\sim_R$ and zero endpoint $0_R$. Let $\mathsf{trim}_R$ be the canonical polynomial trim from \autoref{def:polynomial-pattern-specification} and \autoref{def:polynomial-stability-certificate}, and let $\mathsf{PolySame}_R$, $\mathsf{rmul}_R$, and $\mathsf{PolyMul}_R$ be as in \autoref{def:polynomial-raw-add-comparison-data} and \autoref{def:polynomial-raw-cauchy-product}. For every finite coefficient spine $q:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R(\mathsf{PolyMul}_R(\mathsf{nil},q),\mathsf{nil}).
+$$
+Consequently the same conclusion holds for every normalized polynomial representative $q$ from \autoref{def:polynomial-carrier}.
+\end{theorem}
+\begin{proof}
+Set $q_0=\mathsf{trim}_R(q)$. The empty zero-polynomial clause in \autoref{def:polynomial-stability-certificate} gives $\mathsf{trim}_R(\mathsf{nil})=\mathsf{nil}$. Hence \autoref{def:polynomial-raw-cauchy-product} gives
+$$
+\begin{aligned}
+\mathsf{PolyMul}_R(\mathsf{nil},q)
+&=\mathsf{trim}_R(\mathsf{rmul}_R(\mathsf{trim}_R(\mathsf{nil}),q_0))\\
+&=\mathsf{trim}_R(\mathsf{rmul}_R(\mathsf{nil},q_0))\\
+&=\mathsf{trim}_R(\mathsf{nil})\\
+&=\mathsf{nil}.
+\end{aligned}
+$$
+The third equality is the nil clause for $\mathsf{rmul}_R$ in \autoref{def:polynomial-raw-cauchy-product}.
+
+Unfolding $\mathsf{PolySame}_R$ by \autoref{def:polynomial-raw-add-comparison-data}, the classifier goal is
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,\mathsf{trim}_R(\mathsf{PolyMul}_R(\mathsf{nil},q)),\mathsf{trim}_R(\mathsf{nil})\bigr).
+$$
+The displayed computation and the empty zero-polynomial clause reduce both displayed representatives to $\mathsf{nil}$. The nil-nil clause of \autoref{def:list-classifier-specification} supplies the structural classifier witness.
+\end{proof}

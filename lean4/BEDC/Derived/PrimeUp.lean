@@ -1,18 +1,14 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Unary
 import BEDC.Derived.NatUp
-
 namespace BEDC.Derived.PrimeUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
-
 inductive NatMul (d : BHist) : BHist -> BHist -> Prop where
   | zero (hd : UnaryHistory d) : NatMul d BHist.Empty BHist.Empty
   | succ {q n n' : BHist} : NatMul d q n -> Cont n d n' -> NatMul d (BHist.e1 q) n'
-
 theorem NatMul_total {d q : BHist} :
     UnaryHistory d -> UnaryHistory q -> exists n : BHist, UnaryHistory n /\ NatMul d q n := by
   intro hd hq
@@ -187,6 +183,10 @@ theorem NatMul_succ_result_empty_left_empty {d q n : BHist} :
 
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
+
+theorem NatDivides_divisor_unary {d n : BHist} : NatDivides d n -> UnaryHistory d := by
+  intro divides
+  cases divides with | intro _ qData => exact NatMul_left_unary qData.right
 
 theorem NatDivides_result_unary {d n : BHist} : NatDivides d n -> UnaryHistory n := by
   intro divides

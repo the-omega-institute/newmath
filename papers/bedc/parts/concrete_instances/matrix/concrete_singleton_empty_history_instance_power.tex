@@ -214,6 +214,28 @@ the carriedness of the base matrix \(M\) back from the carried power ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_empty\_continuation\_base\_carrier}
 
+\begin{theorem}[Matrix singleton positive-tail empty continuation factors]
+\label{thm:matrix-singleton-pow-positive-tail-empty-continuation-factors}
+Suppose $depth$ is unary and $depth=\Eone(tail)$. If a continuation from
+$\mathsf{MatrixSingletonPow}(M,depth)$ has result history-same as $\emp$, then
+the predecessor power, the base matrix, and the continuation argument are all
+singleton-carried:
+$$
+\ContR(\mathsf{MatrixSingletonPow}(M,depth),y,r)\land r\hsame\emp
+\Longrightarrow
+A_{\emp}(\mathsf{MatrixSingletonPow}(M,tail))\land A_{\emp}(M)\land
+A_{\emp}(y).
+$$
+\end{theorem}
+\begin{proof}
+Transport the continuation result to $\emp$ and invert the empty-result
+continuation. The source is the one-headed power branch, hence the append of
+$\mathsf{MatrixSingletonPow}(M,tail)$ with $M$. Empty append inversion gives
+the predecessor carrier and the base carrier, while continuation inversion
+also gives the carriedness of $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_tail\_empty\_continuation\_factors}
+
 \begin{theorem}[Matrix singleton power append positive suffix continuation readback]
 \label{thm:matrix-singleton-pow-append-positive-suffix-cont-readback}
 If $suffix$ is unary and not history-same as $\emp$, then the power ledger
@@ -253,6 +275,26 @@ and append empty-result exactness carries the displayed multiplication endpoint.
 The continuation equation gives the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_positive\_suffix\_classifier\_readback}
+
+\begin{theorem}[Matrix singleton power append positive suffix classifier exact carrier criterion]
+\label{thm:matrix-singleton-pow-append-positive-suffix-classifier-iff}
+If $pref$ and $suffix$ are unary histories and $suffix$ is not history-same as
+$\emp$, then the singleton classifier of the append-positive power ledger
+against $h$ is exactly the pair of singleton carrier facts for $M$ and $h$:
+$$
+\rho_{\emp}\bigl(\mathsf{MatrixSingletonPow}(M,\mathsf{append}(pref,suffix)),h\bigr)
+\Longleftrightarrow
+A_{\emp}(M)\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the carriedness of $h$ from the classifier and
+applies nonempty unary suffix base-carrier readback to the carried power
+ledger. Conversely, unary append closure carries the appended power from
+$A_{\emp}(M)$, and the two singleton carrier witnesses compare the endpoints
+through $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_positive\_suffix\_classifier\_iff}
 
 \begin{theorem}[Matrix singleton power successor classifier]
 \label{thm:matrix-singleton-pow-succ-classifier}

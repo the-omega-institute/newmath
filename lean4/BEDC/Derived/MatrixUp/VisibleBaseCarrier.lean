@@ -4,6 +4,7 @@ namespace BEDC.Derived.MatrixUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 
 theorem MatrixSingletonPow_visible_base_carrier_iff {m exponent : BHist} :
     (MatrixSingletonCarrier (MatrixSingletonPow (BHist.e0 m) exponent) ↔
@@ -59,5 +60,77 @@ theorem MatrixSingletonPow_visible_base_carrier_iff {m exponent : BHist} :
               cases witness with
               | intro visibleTail visibleEq =>
                   cases visibleEq
+
+theorem MatrixSingletonPow_positive_exponent_visible_base_classifier_absurd {m exponent h : BHist} :
+    UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
+      (MatrixSingletonClassifier (MatrixSingletonPow (BHist.e0 m) exponent) h -> False) ∧
+      (MatrixSingletonClassifier (MatrixSingletonPow (BHist.e1 m) exponent) h -> False) := by
+  intro exponentUnary exponentNonempty
+  constructor
+  · intro classified
+    have exponentShape :=
+      Iff.mp (MatrixSingletonPow_visible_base_carrier_iff (m := m) (exponent := exponent)).left
+        classified.left
+    cases exponent with
+    | Empty =>
+        exact exponentNonempty (hsame_refl BHist.Empty)
+    | e0 tail =>
+        cases exponentUnary
+    | e1 tail =>
+        cases exponentShape with
+        | inl exponentEmpty =>
+            cases exponentEmpty
+        | inr witness =>
+            cases witness with
+            | intro visibleTail visibleEq =>
+                cases visibleEq
+  · intro classified
+    have exponentShape :=
+      Iff.mp (MatrixSingletonPow_visible_base_carrier_iff (m := m) (exponent := exponent)).right
+        classified.left
+    cases exponent with
+    | Empty =>
+        exact exponentNonempty (hsame_refl BHist.Empty)
+    | e0 tail =>
+        cases exponentUnary
+    | e1 tail =>
+        cases exponentShape with
+        | inl exponentEmpty =>
+            cases exponentEmpty
+        | inr witness =>
+            cases witness with
+            | intro visibleTail visibleEq =>
+                cases visibleEq
+
+theorem MatrixSingletonPow_visible_base_positive_exponent_carrier_absurd {m exponent : BHist} :
+    UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
+      ((MatrixSingletonCarrier (MatrixSingletonPow (BHist.e0 m) exponent) -> False) ∧
+        (MatrixSingletonCarrier (MatrixSingletonPow (BHist.e1 m) exponent) -> False)) := by
+  intro exponentUnary exponentNonempty
+  constructor
+  · intro carrier
+    have exponentShape :=
+      (MatrixSingletonPow_visible_base_carrier_iff (m := m) (exponent := exponent)).left.mp
+        carrier
+    cases exponentShape with
+    | inl exponentEmpty =>
+        exact exponentNonempty exponentEmpty
+    | inr visibleTail =>
+        cases visibleTail with
+        | intro tail exponentEq =>
+            cases exponentEq
+            cases exponentUnary
+  · intro carrier
+    have exponentShape :=
+      (MatrixSingletonPow_visible_base_carrier_iff (m := m) (exponent := exponent)).right.mp
+        carrier
+    cases exponentShape with
+    | inl exponentEmpty =>
+        exact exponentNonempty exponentEmpty
+    | inr visibleTail =>
+        cases visibleTail with
+        | intro tail exponentEq =>
+            cases exponentEq
+            cases exponentUnary
 
 end BEDC.Derived.MatrixUp
