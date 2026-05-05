@@ -1,0 +1,72 @@
+\begin{theorem}[Real stream classifier transported selected tail-class exactness]
+\label{thm:real-stream-classifier-transported-selected-tail-class-exactness}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, an index
+$n$, and chosen tails $a,b:\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),
+$$
+and the transported selected e-one displays
+$$
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(y'(n),\Eone(b)).
+$$
+Then the chosen transported selected e-one tail class satisfies
+$$
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b),
+$$
+and for all histories $a',b':\Hist$,
+$$
+\begin{array}{l}
+\bigl(\hsame(x'(n),\Eone(a'))\land\hsame(y'(n),\Eone(b'))\bigr)
+\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(a')\land
+\mathsf{UnaryHistory}(b')\land
+\hsame(a,a')\land
+\hsame(b,b')\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-e1-pair-readback}
+to the two pointwise representative-transport rows, the source stream
+classifier, and the chosen displays. This gives the selected readback triple
+$\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b)$.
+
+For the forward direction of the displayed if-and-only-if, fix histories
+$a',b'$ with displays $\hsame(x'(n),\Eone(a'))$ and
+$\hsame(y'(n),\Eone(b'))$. Apply
+\autoref{thm:real-stream-classifier-transported-selected-e1-tail-determinacy}
+to the chosen displays and the two new displays. The determinacy theorem gives
+$\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, $\hsame(a,a')$, and
+$\hsame(b,b')$ among its returned rows.
+
+For the reverse direction, assume $\mathsf{UnaryHistory}(a')$,
+$\mathsf{UnaryHistory}(b')$, $\hsame(a,a')$, and $\hsame(b,b')$. Apply
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_congr}$ to $\hsame(a,a')$ and compose the
+result with $\hsame(x'(n),\Eone(a))$ by
+$\mathsf{BEDC.FKernel.Hist.hsame\_trans}$. This transports the chosen left
+display to $\hsame(x'(n),\Eone(a'))$.
+
+Apply the same e-one congruence and transitivity chain to $\hsame(b,b')$ and
+$\hsame(y'(n),\Eone(b))$. This transports the chosen right display to
+$\hsame(y'(n),\Eone(b'))$, so the two transported displays give the reverse
+membership implication.
+\end{proof}
+
+Fit: traditional target transported selected rational endpoint tail classes;
+BEDC source RealUp stream classifier, StreamName-style pointwise representative
+transport, RatUp selected endpoint readback, and FKernel e-one congruence;
+carrier rational-observation streams; classifier
+$\mathsf{RealStreamClassifier}$; stability selected e-one determinacy, e-one
+congruence, and $\hsame$ transitivity; ledger selected index, two pointwise
+transport rows, source stream classifier, chosen transported e-one displays,
+and arbitrary candidate transported e-one displays; core theorem
+\autoref{thm:real-stream-classifier-transported-selected-tail-class-exactness};
+exactness the displayed selected tail class is precisely the pair of
+$\hsame$ classes of $a$ and $b$; standard bridge and downstream consumer
+RegSeqRat selected observation canonicalization; status
+$\mathsf{ProofTarget}$.
