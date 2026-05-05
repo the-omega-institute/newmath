@@ -1,13 +1,13 @@
 \begin{lemma}[Finite additive fold separates pointwise scalar sums]
 \label{lem:finite-additive-fold-separates-pointwise-scalar-sums}
-Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{def:finite-additive-scalar-fold}. Assume the additive abelian-group laws and additive congruence fields retained in \autoref{def:ring-stability-certificate}. For any two finite carried scalar spines $xs$ and $ys$ over the same finite enumeration, write $xs+_Rys$ for the spine obtained by adding matching entries. Then
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Assume the additive abelian-group laws and additive congruence fields retained in \autoref{def:ring-stability-certificate}. For any two finite carried scalar spines $xs$ and $ys$ over the same finite enumeration, write $xs+_Rys$ for the spine obtained by adding matching entries. Then
 $$
 \mathsf{fold}_{+,R}(xs+_Rys)\sim_R
 \mathsf{fold}_{+,R}(xs)+_R\mathsf{fold}_{+,R}(ys).
 $$
 \end{lemma}
 \begin{proof}
-Induct on the shared finite enumeration. In the nil case, all three spines are $\mathsf{nil}$. The left endpoint reduces by \autoref{def:finite-additive-scalar-fold} to $0_R$, while the right endpoint reduces to $0_R+_R0_R$. The additive left-zero law in \autoref{def:ring-stability-certificate}, with classifier symmetry from the additive abelian-group laws, gives $0_R\sim_R0_R+_R0_R$.
+Induct on the shared finite enumeration. In the nil case, all three spines are $\mathsf{nil}$. The left endpoint reduces by \autoref{thm:finite-additive-fold-congruence-coefficient-lists} to $0_R$, while the right endpoint reduces to $0_R+_R0_R$. The additive left-zero law in \autoref{def:ring-stability-certificate}, with classifier symmetry from the additive abelian-group laws, gives $0_R\sim_R0_R+_R0_R$.
 
 In the cons case, write $xs=\mathsf{cons}(a,xs')$ and $ys=\mathsf{cons}(b,ys')$. The induction hypothesis gives
 $$
@@ -24,7 +24,7 @@ Apply \autoref{thm:abgroup-middle-four-interchange}, read for the additive abeli
 $$
 (a+_R\mathsf{fold}_{+,R}(xs'))+_R(b+_R\mathsf{fold}_{+,R}(ys')).
 $$
-The cons clauses of \autoref{def:finite-additive-scalar-fold} identify this last endpoint with
+The cons clauses of \autoref{thm:finite-additive-fold-congruence-coefficient-lists} identify this last endpoint with
 $$
 \mathsf{fold}_{+,R}(xs)+_R\mathsf{fold}_{+,R}(ys),
 $$
@@ -33,7 +33,7 @@ and identify the first endpoint with $\mathsf{fold}_{+,R}(xs+_Rys)$. Classifier 
 
 \begin{theorem}[Matrix multiplication right-distributes over matrix addition]
 \label{thm:matrix-multiplication-right-distributes-over-addition}
-Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive folds over finite index spines as in \autoref{def:finite-additive-scalar-fold}. Let $n,m,p:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. Let
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive folds over finite index spines as in \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Let $n,m,p:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. Let
 $$
 A,B:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
 \qquad
@@ -67,7 +67,7 @@ $$
 \sim_R
 (A_{i,j}\cdot_RC_{j,k})+_R(B_{i,j}\cdot_RC_{j,k}).
 $$
-These pointwise comparisons form a finite-spine classifier witness. Applying \autoref{thm:finite-additive-fold-respects-scalar-classifier} gives
+These pointwise comparisons form a finite-spine classifier witness. Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} gives
 $$
 \Sigma_{\mathsf{Fin}(m)}(j\mapsto (A+B)_{i,j}\cdot_RC_{j,k})
 \sim_R

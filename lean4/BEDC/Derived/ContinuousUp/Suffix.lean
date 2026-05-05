@@ -489,7 +489,7 @@ theorem ContinuousFunctionCarrier_visible_modulus_context_composite_ledger_deter
         Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
           Cont f g fg' -> Cont modF modG modFG' -> Cont target modFG' cert' ->
             hsame fg fg' ∧ hsame modFG modFG' ∧ hsame cert cert' := by
-  intro first second fgRel modRel certRel fgRel' modRel' certRel'
+  intro _first _second fgRel modRel certRel fgRel' modRel' certRel'
   have sameGraph : hsame fg fg' :=
     cont_deterministic fgRel fgRel'
   have sameModulus : hsame modFG modFG' :=
@@ -497,5 +497,20 @@ theorem ContinuousFunctionCarrier_visible_modulus_context_composite_ledger_deter
   have sameCert : hsame cert cert' :=
     cont_respects_hsame (hsame_refl target) sameModulus certRel certRel'
   exact And.intro sameGraph (And.intro sameModulus sameCert)
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_composite_ledger_determinacy
+    {p q source middle target f g fg fg' modF modG modFG modFG' certF certG cert cert' :
+      BHist} :
+    ContinuousFunctionCarrier (append p source) f (append p middle) (append modF q)
+        (append (append p certF) q) ->
+      ContinuousFunctionCarrier (append p middle) g (append p target) (append modG q)
+        (append (append p certG) q) ->
+        Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
+          Cont f g fg' -> Cont modF modG modFG' -> Cont target modFG' cert' ->
+            hsame fg fg' ∧ hsame modFG modFG' ∧ hsame cert cert' := by
+  intro first second fgRel modRel certRel fgRel' modRel' certRel'
+  exact
+    ContinuousFunctionCarrier_visible_modulus_context_composite_ledger_deterministic
+      first second fgRel modRel certRel fgRel' modRel' certRel'
 
 end BEDC.Derived.ContinuousUp
