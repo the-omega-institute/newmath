@@ -226,3 +226,24 @@ $$
 
 Thus output closure, source-classifier descent, additive preservation, scalar compatibility, zero preservation, and ledger data are all available: the ledger records the identifier $\mathsf{adEnd}^{L}_{x}$, the fixed carried input $x$, the bracket-closure and bracket-congruence witnesses, and the two second-argument bilinearity rows. By \autoref{def:module-linearmap-certificate-package}, these rows form $\mathsf{LinearMapCert}_{F_{L,\mathsf{Ring}}}(C_L,C_L;\mathsf{adEnd}^{L}_{x})$. Since \autoref{def:linearmap-source-specification}, \autoref{def:linearmap-pattern-specification}, \autoref{def:linearmap-classifier-specification}, \autoref{def:linearmap-stability-certificate}, and \autoref{def:linearmap-certificate-obligations} read the vector-space endomap package as precisely this function-with-law formation over a common scalar source, the same rows carry the $\LinearMapUp$ endomap package on $C_L$.
 \end{proof}
+
+\begin{theorem}[Adjoint action acting-endpoint additive linearity]
+\label{thm:liealgebra-adjoint-action-acting-endpoint-additive-linearity}
+Let $L$ carry a $\LieAlgebraUp$ certificate. Write $C_L$ for its vector carrier, $\sim_{L}$ for its vector carrier classifier, $+_{L}$ for vector addition in the vector-space reduct, and $[-,-]_L$ for the Lie bracket. If $x,z,y$ are carried by $C_L$, then $\operatorname{ad}^{L}_{x+_{L}z}(y)$ and $\operatorname{ad}^{L}_{x}(y)+_{L}\operatorname{ad}^{L}_{z}(y)$ are carried by $C_L$, and
+$$
+\operatorname{ad}^{L}_{x+_{L}z}(y)
+\sim_{L}
+\operatorname{ad}^{L}_{x}(y)+_{L}\operatorname{ad}^{L}_{z}(y).
+$$
+\end{theorem}
+\begin{proof}
+The additive vector law retained in the $\VecSpaceUp$ reduct, read through \autoref{def:vecspace-stability-certificate} and \autoref{def:module-stability-certificate}, carries $x+_{L}z$. Bracket closure in the $\LieAlgebraUp$ certificate therefore carries $[x+_{L}z,y]_L$. The same bracket-closure row carries $[x,y]_L$ and $[z,y]_L$, and additive vector closure carries $[x,y]_L+_{L}[z,y]_L$.
+
+The first-input additivity row of the bilinear bracket, applied to the carried endpoints $x,z,y$, gives
+$$
+[x+_{L}z,y]_L
+\sim_{L}
+[x,y]_L+_{L}[z,y]_L.
+$$
+Unfolding the adjoint action from \autoref{def:liealgebra-adjoint-action-from-bracket} at the three bracket endpoints turns this comparison into the displayed acting-endpoint additive-linearity law, and the carrier statements above identify both sides as endpoints carried by $C_L$.
+\end{proof}
