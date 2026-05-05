@@ -15,6 +15,38 @@ The pattern is finite table formation assigning a scalar witness to each index p
 The classifier relates matrices pointwise by scalar classifier at every index pair.
 \end{definition}
 
+\begin{lemma}[Matrix singleton classifier append visible-factor exclusion]
+\label{lem:matrix-singleton-classifier-append-visible-factor-exclusion}
+For histories $h,p,q:\mathsf{BHist}$, the singleton matrix classifier admits
+no witness whose source or target endpoint is an append with a visible factor:
+\begin{enumerate}
+  \item $\rho_{\emp}(\mathsf{append}(\Ezero(p),q),h)\to\bot$ and
+        $\rho_{\emp}(h,\mathsf{append}(\Ezero(p),q))\to\bot$;
+  \item $\rho_{\emp}(\mathsf{append}(\Eone(p),q),h)\to\bot$ and
+        $\rho_{\emp}(h,\mathsf{append}(\Eone(p),q))\to\bot$;
+  \item $\rho_{\emp}(\mathsf{append}(p,\Ezero(q)),h)\to\bot$ and
+        $\rho_{\emp}(h,\mathsf{append}(p,\Ezero(q)))\to\bot$;
+  \item $\rho_{\emp}(\mathsf{append}(p,\Eone(q)),h)\to\bot$ and
+        $\rho_{\emp}(h,\mathsf{append}(p,\Eone(q)))\to\bot$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+Unfold the singleton matrix classifier. Any displayed classifier witness
+projects to the singleton carrier endpoint on its source and to the singleton
+carrier endpoint on its target.
+
+For an endpoint $\mathsf{append}(\Ezero(p),q)$ or
+$\mathsf{append}(\Eone(p),q)$, append empty-result inversion forces the left
+visible factor to be empty. Constructor separation contradicts the resulting
+$\Ezero(p)\hsame\emp$ or $\Eone(p)\hsame\emp$ endpoint.
+
+For an endpoint $\mathsf{append}(p,\Ezero(q))$ or
+$\mathsf{append}(p,\Eone(q))$, the same inversion forces the right visible
+factor to be empty. Constructor separation gives the source-side contradiction,
+and the target-side pair is exactly
+\autoref{thm:matrix-singleton-classifier-append-visible-right-absurd}.
+\end{proof}
+
 \begin{definition}[Matrix stability certificate]
 \label{def:matrix-stability-certificate}
 The stability certificate consists of:
@@ -55,43 +87,41 @@ singleton carrier, the two semantic soundness maps are identity projections.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_semanticNameCert}
 
-\begin{theorem}[Terminal matrix certificate boundary]
-\label{thm:matrix-terminal-certificate-boundary}
-For the singleton empty-history matrix instance of
-\autoref{def:singleton-empty-history-matrix-instance},
-\autoref{thm:matrix-singleton-carrier-semantic-namecert} supplies the
-inhabited carrier, source, pattern, and ledger rows, while
-\autoref{thm:singleton-empty-history-matrix-laws} supplies the concrete
-classifier $\rho_{\emp}$, operation closure, zero and identity laws,
-associativity, and classifier congruence. Consequently, the terminal matrix
-object realizes the $\MatrixUp$ certificate obligations of
-\autoref{def:matrix-certificate-obligations} with carrier $A_{\emp}$,
-classifier $\rho_{\emp}$, zero and identity $\emp$, and both displayed
-operations given by append:
-$$
-M\oplus N:=\mathsf{append}(M,N),\qquad
-M\odot N:=\mathsf{append}(M,N).
-$$
+\begin{theorem}[Singleton empty-history MatrixUp certificate obligations]
+\label{thm:matrix-singleton-empty-history-certificate-obligations}
+For the singleton empty-history matrix data of
+\autoref{def:singleton-empty-history-matrix-instance}, the $\MatrixUp$
+obligations of \autoref{def:matrix-certificate-obligations} are instantiated
+as follows:
+\begin{enumerate}
+  \item the source, pattern, and ledger carriers are the singleton carrier
+  $A_{\emp}$ on $\mathsf{BHist}$;
+  \item the classifier is $\rho_{\emp}$;
+  \item the semantic $\NameCert$ rows are supplied by
+  \autoref{thm:matrix-singleton-carrier-semantic-namecert};
+  \item the zero, identity, operation-closure, unit, associativity, and
+  congruence rows are supplied by
+  \autoref{thm:singleton-empty-history-matrix-laws}.
+\end{enumerate}
 \end{theorem}
 \begin{proof}
-Unpack \autoref{thm:matrix-singleton-carrier-semantic-namecert}. It gives
-the inhabited singleton carrier $A_{\emp}$ and uses that same singleton row
-as source, pattern, and ledger policy. Its semantic transport and soundness
-maps are the $A_{\emp}$ projections over the ambient classifier $\hsame$,
-so this cited result fixes the non-operational rows of
-\autoref{def:matrix-certificate-obligations}.
+Unpack \autoref{def:matrix-certificate-obligations}. The source, pattern, and
+ledger slots are all the displayed singleton history carrier $A_{\emp}$ from
+\autoref{def:singleton-empty-history-matrix-instance}, and the classifier slot
+is the displayed relation $\rho_{\emp}$. The ledger is the same singleton
+dimension/source ledger, with row and column witnesses represented by $\emp$.
 
-Unpack \autoref{thm:singleton-empty-history-matrix-laws}. It supplies the
-classifier $\rho_{\emp}$ for the concrete singleton instance, closure of
-$A_{\emp}$ under both displayed append operations, the zero and identity laws
-for $\emp$, associativity for the two operation symbols, and congruence of
-$\rho_{\emp}$ under both operations.
+The carrier transport and semantic soundness rows are exactly
+\autoref{thm:matrix-singleton-carrier-semantic-namecert}. That theorem uses
+the same carrier in the source, pattern, and ledger positions, so its semantic
+$\NameCert$ data supplies the certificate-level carrier and classifier core.
 
-Combining these two checked results gives the public certificate boundary.
-The first result supplies the singleton NameCert carrier data; the second
-supplies the finite-table $\MatrixUp$ law package. The conclusion is therefore
-a composite boundary for the terminal matrix object, not a duplicate of either
-constituent theorem.
+It remains to fill the stability rows. The law package of
+\autoref{thm:singleton-empty-history-matrix-laws} carries $0_M$ and $I_M$,
+closes $A_{\emp}$ under $\oplus$ and $\odot$, supplies the unit and identity
+laws, proves associativity under $\rho_{\emp}$, and gives classifier
+congruence for both operations. These rows exhaust the stability portion of
+the displayed $\MatrixUp$ obligations.
 \end{proof}
 
 \paragraph{Primitive boundary.}
