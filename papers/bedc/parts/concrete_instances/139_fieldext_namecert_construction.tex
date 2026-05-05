@@ -614,6 +614,85 @@ that scalar-action endpoint with the matching extension-field multiplication
 endpoint up to $\rho_{\emp}$.
 \end{proof}
 
+\begin{theorem}[Singleton field-extension nonzero domain absurdity]
+\label{thm:fieldext-singleton-nonzero-domain-absurd}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, no base-field
+or extension-field proof-indexed inverse domain is inhabited. Equivalently,
+if $a:\mathsf{BHist}$ is carried by the singleton field carrier and
+$\mathsf{FieldSingletonNonZero}(a)$ is the displayed nonzero premise used by
+the base or extension field inverse row, then contradiction follows from the
+singleton carrier collapse of $a$ to $\emp$.
+\end{theorem}
+\begin{proof}
+Unfold the concrete singleton nonzero predicate. Its witness simultaneously
+places $a$ at the empty history endpoint and at the endpoint
+$\mathsf{e0}(\emp)$.
+
+The singleton carrier clause supplies the collapse of the same history to
+$\emp$. Composing the two endpoint identifications gives
+$\emp \sim \mathsf{e0}(\emp)$ in the history classifier.
+
+This is impossible by the constructor no-confusion principle for $\mathsf{BHist}$:
+the empty history constructor and the one-step empty-marker constructor are
+distinct. Hence the assumed nonzero proof parameter has no inhabitant, both
+for the source field and for the extension field, because those two projected
+fields use the same singleton carrier and the same singleton nonzero
+predicate.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension inverse-row vacuous exactness]
+\label{thm:fieldext-singleton-inverse-row-vacuous-exactness}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, every
+proof-indexed inverse obligation in the source field and in the extension
+field is exact. The exactness is vacuous: before any inverse endpoint can be
+chosen, its nonzero proof parameter belongs to the empty domain identified in
+Theorem~\ref{thm:fieldext-singleton-nonzero-domain-absurd}.
+\end{theorem}
+\begin{proof}
+Fix any displayed inverse obligation in either projected singleton field. Its
+input consists of a history $a$ together with a proof that
+$\mathsf{FieldSingletonNonZero}(a)$ holds.
+
+Apply Theorem~\ref{thm:fieldext-singleton-nonzero-domain-absurd} to that proof
+parameter. The resulting contradiction closes the obligation immediately, so
+no separate endpoint case for inverse evaluation remains.
+
+The same argument covers the base and extension projections because
+Definition~\ref{def:fieldext-singleton-empty-history-instance} gives them the
+same singleton field data. Thus every proof-indexed inverse source,
+stability, and exactness row is exact over an empty domain.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension inverse ledger coverage]
+\label{thm:fieldext-singleton-inverse-ledger-coverage}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, the inverse
+rows in the $\FieldExtUp$ source, stability, exactness, and ledger fields are
+covered by the same empty-domain class. They introduce no endpoint beyond the
+singleton field operation table already used for the zero, one, addition,
+negation, and multiplication rows.
+\end{theorem}
+\begin{proof}
+The source and extension inverse rows first reduce to their proof-indexed
+nonzero premises. By
+Theorem~\ref{thm:fieldext-singleton-inverse-row-vacuous-exactness}, those
+premises are uninhabited, so the corresponding inverse obligations are exact
+without selecting a new endpoint.
+
+For the remaining operation rows, apply
+Theorem~\ref{thm:fieldext-singleton-operation-readback-exactness}. It assigns
+all displayed field endpoints to the singleton empty-history operation table
+and compares them by $\rho_{\emp}$.
+
+Finally combine this empty-domain inverse class with
+Theorem~\ref{thm:fieldext-singleton-exactness-ledger-coverage}. The ledger
+coverage therefore contains the identity embedding row, the singleton field
+operation table row, the singleton vector-space scalar-action row, and no
+additional inverse endpoint class.
+\end{proof}
+
 \begin{theorem}[Singleton field-extension exactness and ledger coverage]
 \label{thm:fieldext-singleton-exactness-ledger-coverage}
 For the concrete data of
