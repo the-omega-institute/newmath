@@ -273,6 +273,22 @@ theorem ConvRad_prepend_unary_coeff_closed {a : Nat -> BHist} {R q : BHist} :
               (fun {r : BHist} rUnary continuation =>
                 GeomBound_prepend_unary_coeff_closed qUnary (boundAt rUnary continuation)))
 
+theorem ConvRad_coefficient_tail_closed {a : Nat -> BHist} {R : BHist} :
+    ConvRad a R -> UnaryHistory R ∧ ConvRad (fun n : Nat => a (Nat.succ n)) R := by
+  intro radius
+  cases radius with
+  | intro radiusUnary witness =>
+      cases witness with
+      | intro K boundAt =>
+          exact And.intro radiusUnary
+            (And.intro radiusUnary
+              (Exists.intro K
+                (fun {r : BHist} rUnary continuation =>
+                  let sourceBound := boundAt rUnary continuation
+                  And.intro sourceBound.left
+                    (And.intro sourceBound.right.left
+                      (fun n : Nat => sourceBound.right.right (Nat.succ n))))))
+
 theorem ConvRad_powerSeriesCarrier_witness {a : Nat -> BHist} {R z0 : BHist} :
     ConvRad a R -> ComplexHistoryCarrier z0 ->
       ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
