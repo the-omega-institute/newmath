@@ -81,6 +81,24 @@ separation for \(\mathsf{BHist}\).
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_visible\_right\_result\_nonempty}
 
+\begin{theorem}[Concrete unary-history magma visible-left continuation result nonempty]
+\label{thm:concrete-unary-history-magma-cont-visible-left-result-nonempty}
+For histories \(h,t,r:\mathsf{BHist}\), a continuation whose left input is
+\(\Ezero(t)\) or \(\Eone(t)\) cannot have an empty result:
+$$
+(\ContR(\Ezero(t),h,r)\Rightarrow\neg\hsame(r,\emp))
+\quad\wedge\quad
+(\ContR(\Eone(t),h,r)\Rightarrow\neg\hsame(r,\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed continuation result along \(r\hsame\emp\). Empty-result
+continuation inversion would then force the visible left input itself to be
+\(\emp\). The zero- and one-headed cases are both excluded by constructor
+separation for \(\mathsf{BHist}\).
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_visible\_left\_result\_nonempty}
+
 \begin{theorem}[Concrete unary-history magma classifier append factors]
 \label{thm:concrete-unary-history-magma-classifier-append-factors}
 For histories $h,h',k,k':\mathsf{BHist}$, the concrete unary-history magma
