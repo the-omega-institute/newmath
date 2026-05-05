@@ -157,6 +157,7 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
+import BEDC.Derived.ComplexLimitUp.Constant
 import BEDC.Derived.ComplexLimitUp.Difference
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.Modulus
@@ -268,6 +269,7 @@ import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
+import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -551,6 +553,7 @@ import BEDC.Derived.LinearMapUp.EvalContextPair
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.ModuleUp.ActionBoundary
 import BEDC.Derived.ModuleUp.KernelExactness
+import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
@@ -577,6 +580,7 @@ import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.Evaluation
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
+import BEDC.Derived.PolynomialUp.NormalFormBoundary
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
