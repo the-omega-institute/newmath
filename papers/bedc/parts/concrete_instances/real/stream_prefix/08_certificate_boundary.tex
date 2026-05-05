@@ -33,6 +33,92 @@ stream classification; standard bridge RealUp seal; status
 $\mathsf{ProofTarget}$.
 \end{definition}
 
+\begin{theorem}[RegSeqRat carrier obligation package]
+\label{thm:regseqrat-carrier-obligation-package}
+For a rational-observation stream $s:\Hist\to\Hist$, the carrier obligation
+for the $\RegSeqRat$ stream certificate spine is exactly a
+$\mathsf{RatStreamNameCarrier}(s)$ row together with a regularity ledger over
+certified $\mathsf{UnaryHistory}$ observations. Each ledger row exposes the
+endpoint $\mathsf{RatHistoryCarrier}(s(n))$ at the certified observation $n$
+and records the dyadic-tolerance request used by the regularity witness.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:regseqrat-stream-certificate-spine}. The carrier
+field is the displayed $\mathsf{RatStreamNameCarrier}(s)$ row, so projecting
+the spine gives the stream-name carrier without adding any separate carrier
+principle.
+
+For a certified unary observation $n$, read the corresponding ledger row. That
+row contains the exposed $\RatUp$ endpoint carrier
+$\mathsf{RatHistoryCarrier}(s(n))$ and the dyadic-tolerance request attached to
+the regularity witness at that observation.
+
+Conversely, a stream-name carrier together with these certified ledger rows is
+precisely the data named by the spine definition. Repacking the carrier row and
+the ledger rows gives the carrier side of the $\RegSeqRat$ obligation package.
+\end{proof}
+
+\begin{theorem}[RegSeqRat classifier obligation package]
+\label{thm:regseqrat-classifier-obligation-package}
+For rational-observation maps $s,t,u,s',t':\Hist\to\Hist$, the
+$\RegSeqRat$ classifier obligation package consists of the reflexive,
+symmetric, transitive, endpoint-carrier, and pointwise $\hsame$ transport rows
+of $\mathsf{RealUnaryStreamClassifier}$. These rows are supplied by combining
+\autoref{thm:real-unary-stream-classifier-stability-package} with
+\autoref{thm:real-unary-streamname-transported-classifier} and then repacking
+the pointwise $\RatUp$ classifier rows.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-unary-stream-classifier-stability-package} to the carried
+streams, the two displayed unary stream classifier rows, and the endpoint
+$\hsame$ transports. Its package gives the reflexive, symmetric, and
+transitive $\mathsf{RealUnaryStreamClassifier}$ rows, and it also exposes the
+endpoint $\mathsf{RatHistoryCarrier}$ rows at every certified unary
+observation.
+
+Next apply
+\autoref{thm:real-unary-streamname-transported-classifier} to the same
+stream-name carriers, classifier row, and pointwise transports. This gives the
+transported $\mathsf{RatStreamNameClassifier}(s',t')$ row.
+
+Both cited theorems unfold the same pointwise RatUp classifier over certified
+unary observations. Repacking those pointwise rows under
+Definition~\ref{def:regseqrat-stream-certificate-spine} gives exactly the
+classifier obligation package.
+\end{proof}
+
+\begin{theorem}[RegSeqRat seal ledger obligation package]
+\label{thm:regseqrat-seal-ledger-obligation-package}
+The constant-stream witness, stream classifier stability spine, and
+$\RealUp$ seal consumer jointly provide the remaining $\RegSeqRat$ obligation
+list: constant stream, transport, dyadic-tolerance ledger, and $\RealUp$
+seal-interface obligations. Concretely, the package is obtained from
+\autoref{thm:regseqrat-constant-stream-spine},
+\autoref{thm:regseqrat-stream-classifier-stability-spine}, and
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine}.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regseqrat-constant-stream-spine} for the constant-stream
+obligation. It supplies the carried constant stream, the reflexive unary stream
+classifier, and the constant dyadic-tolerance ledger from a single
+$\mathsf{RatHistoryCarrier}(d)$ row.
+
+Use \autoref{thm:regseqrat-stream-classifier-stability-spine} for the
+transport obligation. It provides reflexivity, symmetry, transitivity,
+endpoint carrier exposure, and the transported stream-name classifier after
+pointwise $\hsame$ transport.
+
+Finally use \autoref{thm:regseqrat-realup-seal-consumes-stream-spine} for the
+$\RealUp$ seal interface. The seal consumer projects the exposed streams and
+repackages the recorded stream comparison as the RealUp observation classifier
+required by \autoref{def:real-classifier-specification}.
+
+Together these three spines account for the constant stream, transport,
+dyadic-tolerance ledger, and seal-interface entries of the paper-side
+$\RegSeqRat$ obligation list.
+\end{proof}
+
 \begin{theorem}[RegSeqRat carrier and regularity obligations]
 \label{thm:regseqrat-obligation-carrier}
 A $\RegSeqRat$ stream certificate spine consists of a
