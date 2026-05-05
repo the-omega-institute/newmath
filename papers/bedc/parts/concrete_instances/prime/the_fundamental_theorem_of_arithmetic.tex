@@ -107,6 +107,21 @@ and the multiplication closure theorem turns the displayed
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrimeProduct\_cons\_tail\_divides}
 
+\begin{theorem}[Natural prime product member factor divides result]
+\label{thm:nat-prime-product-factor-mem-unary-divides-result}
+If \(p\in ps\) and \(\mathsf{NatPrimeProduct}(ps,n)\), then \(p\) is unary
+and \(\mathsf{NatDivides}(p,n)\).
+\end{theorem}
+\begin{proof}
+Induct on the \(\mathsf{NatPrimeProduct}\) witness. The empty product has no
+list member. In the cons case, head membership is witnessed directly by the
+displayed \(\mathsf{NatMul}(p,m,n)\) relation and the unary carrier of the
+tail product. Tail membership applies the induction hypothesis to the tail
+product and composes the resulting divisibility through the head
+multiplication closure theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrimeProduct\_factor\_mem\_unary\_divides\_result}
+
 \begin{theorem}[Existence of prime factorization]
 \label{thm:ftoa-existence}
 For every unary history \(n\) with \(\mathsf{NatGT}(n, \emp)\), there exists a prime factorization list of \(n\). The list is constructed explicitly by repeated trial division using \autoref{thm:prime-decidable}.

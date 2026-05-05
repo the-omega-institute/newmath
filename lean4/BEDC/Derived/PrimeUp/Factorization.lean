@@ -59,4 +59,20 @@ theorem NatPrimeProduct_cons_tail_divides {p n : BHist} {ps : List BHist} :
           (And.intro tailProductProof
             (NatDivides_mul_right_closed prime.left tailUnary mul)))
 
+theorem NatPrimeProduct_factor_mem_unary_divides_result {p n : BHist} {ps : List BHist} :
+    p ∈ ps -> NatPrimeProduct ps n -> UnaryHistory p ∧ NatDivides p n := by
+  intro member product
+  induction product with
+  | nil =>
+      cases member
+  | cons prime tailProductProof mul ih =>
+      cases member with
+      | head =>
+          have tailUnary : UnaryHistory _ := NatPrimeProduct_result_unary tailProductProof
+          exact And.intro prime.left (Exists.intro _ (And.intro tailUnary mul))
+      | tail _ tailMember =>
+          have tailData := ih tailMember
+          exact And.intro tailData.left
+            (NatDivides_mul_left_closed prime.left tailData.right mul)
+
 end BEDC.Derived.PrimeUp

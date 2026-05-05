@@ -234,6 +234,32 @@ theorem concrete_unary_history_magma_cont_right_unit_classifier_iff {h k r : BHi
       exact (cont_right_unit_iff (h := h) (r := r)).mp rel
     exact And.intro resultCarrier (And.intro data.left sameResult)
 
+theorem concrete_unary_history_magma_cont_result_both_inputs_classifier_empty_iff {h k r : BHist} :
+    Cont h k r ->
+      (let Carrier : BHist -> Prop := UnaryHistory
+       let Classifier : BHist -> BHist -> Prop :=
+        fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+       (Classifier r h ∧ Classifier r k) ↔
+        Carrier h ∧ Carrier k ∧ hsame h BHist.Empty ∧ hsame k BHist.Empty) := by
+  intro rel
+  dsimp
+  constructor
+  · intro classified
+    have rightUnitData :=
+      Iff.mp (concrete_unary_history_magma_cont_right_unit_classifier_iff rel)
+        classified.left
+    have leftUnitData :=
+      Iff.mp (concrete_unary_history_magma_cont_left_unit_classifier_iff rel)
+        classified.right
+    exact And.intro rightUnitData.left
+      (And.intro leftUnitData.left (And.intro leftUnitData.right rightUnitData.right))
+  · intro data
+    constructor
+    · exact Iff.mpr (concrete_unary_history_magma_cont_right_unit_classifier_iff rel)
+        (And.intro data.left data.right.right.right)
+    · exact Iff.mpr (concrete_unary_history_magma_cont_left_unit_classifier_iff rel)
+        (And.intro data.right.left data.right.right.left)
+
 theorem concrete_unary_history_magma_cont_right_context_classifier_iff
     {left left' right right' out out' : BHist} :
     let Carrier : BHist -> Prop := UnaryHistory

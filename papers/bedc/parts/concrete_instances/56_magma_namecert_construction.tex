@@ -206,6 +206,29 @@ the result carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_right\_unit\_classifier\_iff}
 
+\begin{theorem}[Concrete unary-history magma continuation result both-input classifiers]
+\label{thm:concrete-unary-history-magma-cont-result-both-inputs-classifier-empty}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $\ContR(h,k,r)$, then the result is classified with both inputs exactly
+when both inputs are unary and both are history-same to \(\emp\):
+$$
+R_U(r,h)\land R_U(r,k)
+\Longleftrightarrow
+U(h)\land U(k)\land \hsame(h,\emp)\land \hsame(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the right-unit classifier characterization to the \(R_U(r,h)\) side and
+the left-unit classifier characterization to the \(R_U(r,k)\) side. These two
+readbacks give the two carriers and the two empty-endpoint equations. The
+reverse direction repacks the same data through the two unit classifier
+characterizations.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_result\_both\_inputs\_classifier\_empty\_iff}
+
 \begin{theorem}[Concrete unary-history magma continuation right-context classifier]
 \label{thm:concrete-unary-history-magma-right-context-classifier}
 Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
