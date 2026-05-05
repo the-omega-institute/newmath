@@ -1,9 +1,14 @@
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont
 
 namespace BEDC.Derived.HashUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
+
+def HashEvalTranscript (MsgCarrier DigCarrier : BHist -> Prop) (m d row : BHist) : Prop :=
+  MsgCarrier m ∧ DigCarrier d ∧ Cont m d row
 
 def HashSecondPreimageSuccess
     (HashEval : BHist -> BHist -> Prop)
