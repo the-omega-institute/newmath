@@ -70,4 +70,23 @@ theorem MatroidFinSetIntersection_left_subset {E : BHist -> Prop}
             intro z memberJ
             exact (Iff.mp (data.right z) memberJ).left))
 
+theorem MatroidFinSetIntersection_preserves_independence {E : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} {I K J : BHist -> Prop}
+    {Ind : (BHist -> Prop) -> Prop}
+    (hereditary : forall {U V : BHist -> Prop},
+      (exists xs : ProbeBundle BHist,
+        MatroidFinSetSpineEnumerates E Rel xs U ∧ forall z : BHist, U z -> V z) ->
+        Ind V -> Ind U) :
+    Ind I -> MatroidFinSetIntersection E Rel J I K ->
+      exists xs : ProbeBundle BHist, MatroidFinSetSpineEnumerates E Rel xs J ∧ Ind J := by
+  intro independentI intersection
+  have leftSubset := MatroidFinSetIntersection_left_subset intersection
+  cases leftSubset with
+  | intro xs data =>
+      have finiteSubset :
+          exists xs : ProbeBundle BHist,
+            MatroidFinSetSpineEnumerates E Rel xs J ∧ forall z : BHist, J z -> I z :=
+        Exists.intro xs data
+      exact Exists.intro xs (And.intro data.left (hereditary finiteSubset independentI))
+
 end BEDC.Derived.MatroidUp

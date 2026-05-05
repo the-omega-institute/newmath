@@ -223,4 +223,18 @@ theorem TopologySingleton_boundary_open_laws :
     · intro carrierH
       exact And.intro (hsame_refl BHist.Empty) carrierH
 
+theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 : A) :
+    hsame (ι a0) BHist.Empty ->
+      forall h : BHist,
+        TopologySingletonOpenAt BHist.Empty h <->
+          exists a : A, TopologySingletonOpenAt (ι a) h := by
+  intro displayedTop h
+  constructor
+  · intro topOpen
+    exact Exists.intro a0 (And.intro displayedTop topOpen.right)
+  · intro indexedOpen
+    cases indexedOpen with
+    | intro a openA =>
+        exact And.intro (hsame_refl BHist.Empty) openA.right
+
 end BEDC.Derived.TopologyUp
