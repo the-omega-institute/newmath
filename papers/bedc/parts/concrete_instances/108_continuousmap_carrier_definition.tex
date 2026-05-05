@@ -100,6 +100,41 @@ held fixed.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_witness\_reflects}
 
+\begin{theorem}[Empty identity maps transport metric witnesses exactly]
+\label{thm:continuousmap-empty-identity-metric-witness-iff}
+For histories $x,y,x',y',d,m_x,m_y,c_x,c_y:\mathsf{BHist}$, if
+$\mathsf{ContinuousFunctionCarrier}(x,\emp,x',m_x,c_x)$ and
+$\mathsf{ContinuousFunctionCarrier}(y,\emp,y',m_y,c_y)$ are empty-map
+continuous carriers, then the image-side and source-side metric witnesses are
+equivalent:
+$$
+\mathsf{MetricDistanceWitness}(x',y',d)\Longleftrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:continuousmap-empty-identity-metric-witness-reflects} to the
+two empty-map continuous carriers and the displayed image-side metric witness.
+
+For the reverse direction, apply
+Theorem~\ref{thm:continuous-function-carrier-empty-map-iff} to the two
+carriers. It reads back $x'\hsame x$ and $y'\hsame y$; symmetry orients these
+witnesses as $x\hsame x'$ and $y\hsame y'$. Combine them with reflexivity
+$d\hsame d$ and apply
+Theorem~\ref{thm:metric-distance-witness-hsame-fields-transport} to transport
+the source-side metric fields. Repacking those transported unary fields and
+the transported continuation ledger gives
+$\mathsf{MetricDistanceWitness}(x',y',d)$.
+\end{proof}
+
+The ten-field fit is: traditional target empty continuous-map metric readback,
+BEDC source ContinuousMapUp, carrier $\mathsf{ContinuousFunctionCarrier}$,
+classifier $\hsame$, empty-map graph ledger $\emp$, distance ledger $d$,
+metric certificate $\mathsf{MetricDistanceWitness}$, core theorem
+Theorem~\ref{thm:continuousmap-empty-identity-metric-witness-iff}, exactness
+the displayed iff, and downstream consumer compact-continuous metric readback.
+
 \begin{theorem}[Empty identity maps preserve metric result determinacy]
 \label{thm:continuousmap-empty-identity-metric-result-deterministic}
 For histories $x,y,x',y',d,d',m_x,m_y,c_x,c_y:\mathsf{BHist}$, if the two
