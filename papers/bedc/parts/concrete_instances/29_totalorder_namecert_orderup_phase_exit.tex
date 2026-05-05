@@ -389,6 +389,62 @@ no additional host Nat order, quotient order, or classical trichotomy row to
 export.
 \end{proof}
 
+\begin{theorem}[Unary prefix OrderUp scoped dependency package]
+\label{thm:unary-prefix-orderup-scoped-dependency-package}
+The Full Nat Arithmetic $\OrderUp$ package is scoped over the concrete tuple
+$(\mathsf{BHist},\mathsf{UnaryHistory},\rho_{\mathsf{u}},\le_{\mathsf{u}})$.
+Its endpoint objects are $\mathsf{BHist}$ histories compared through $\hsame$;
+its carrier row is exactly $\mathsf{UnaryHistory}$; its order row is exactly
+the unary-prefix relation $\le_{\mathsf{u}}$; its finite carried spines are
+the $\mathsf{ListCarrier}$ spines; and $\Cont$ is used only for the
+finite-spine ledger rows that record the carried membership, selected endpoint,
+and bounding-comparison witnesses.
+
+The ten-field fit is carrier $\mathsf{UnaryHistory}$, classifier
+$\rho_{\mathsf{u}}$, relation $\le_{\mathsf{u}}$, preorder, antisymmetry,
+constructive comparison, finite interval coverage, endpoint uniqueness,
+exactness, and ledger scope. These ten rows are exactly the obligations
+packaged by
+\autoref{thm:orderup-carrier-classifier-obligation},
+\autoref{thm:orderup-preorder-antisymmetry-obligation},
+\autoref{thm:orderup-constructive-comparison-obligation},
+\autoref{thm:orderup-finite-interval-endpoint-obligation}, and
+\autoref{thm:unary-prefix-orderup-exactness-obligation}, with the ledger
+boundary stated by \autoref{thm:orderup-exactness-ledger-scope}. Therefore the
+package has a single scoped dependency boundary and introduces no host Nat
+order, quotient order, second classifier, or classical trichotomy row.
+\end{theorem}
+\begin{proof}
+First project the carrier, classifier, and relation from
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. This supplies the
+concrete tuple
+$(\mathsf{BHist},\mathsf{UnaryHistory},\rho_{\mathsf{u}},\le_{\mathsf{u}})$
+and fixes endpoint comparison at the $\mathsf{BHist}$ and $\hsame$ boundary.
+
+Next read the order-law rows from the inherited unary-prefix total-order
+surface. The preorder, antisymmetry, and constructive comparison data are
+provided by
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup} and are
+summarized for the $\OrderUp$ consumer by
+\autoref{thm:orderup-preorder-antisymmetry-obligation} and
+\autoref{thm:orderup-constructive-comparison-obligation}.
+
+For finite carried spines, apply
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}. It supplies the
+finite interval coverage over $\mathsf{ListCarrier}$ data, and
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} supplies the
+endpoint uniqueness readback for competing lower and upper endpoint records.
+
+It remains to identify the exactness and ledger boundary. Apply
+\autoref{thm:poset-prefix-classifier-exactness} for the two-sided
+$\le_{\mathsf{u}}$ exactness of $\rho_{\mathsf{u}}$, and use
+\autoref{thm:orderup-exactness-ledger-scope} to keep $\Cont$ confined to the
+finite-spine ledger rows. The listed projections are precisely the carrier,
+classifier, relation, preorder, antisymmetry, comparison, interval coverage,
+endpoint uniqueness, exactness, and ledger obligations, so they form one
+scoped dependency package.
+\end{proof}
+
 \begin{closurestatus}{\OrderUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation frontier is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-carrier-obligation}, \autoref{thm:unary-prefix-orderup-classifier-obligation}, \autoref{thm:unary-prefix-orderup-relation-obligation}, \autoref{thm:unary-prefix-orderup-preorder-obligation}, \autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, \autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}, \autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation}, \autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}, \autoref{thm:unary-prefix-orderup-exactness-obligation}, \autoref{thm:unary-prefix-orderup-ledger-obligation}, \autoref{thm:orderup-carrier-classifier-obligation}, \autoref{thm:orderup-preorder-antisymmetry-obligation}, \autoref{thm:orderup-constructive-comparison-obligation}, and \autoref{thm:orderup-finite-interval-endpoint-obligation} spelling out the carrier, classifier, relation, preorder, antisymmetry, constructive comparison, finite interval coverage, endpoint uniqueness, exactness, and ledger rows.}

@@ -99,6 +99,7 @@ import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
 import BEDC.Derived.OptionUp.PayloadDescentCommonTarget
 import BEDC.Derived.OptionUp.PayloadDescentImageOccupancy
 import BEDC.Derived.OptionUp.PayloadDescentImageVisible
+import BEDC.Derived.OptionUp.PayloadDescentImageCarrierEndpoint
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierSelectedVisible
@@ -183,6 +184,7 @@ import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
 import BEDC.Derived.ComplexTopologyUp.CertifiedSubradius
+import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
@@ -529,6 +531,7 @@ import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.MetricUp.HsameDeterminism
 import BEDC.Derived.MetricUp.AppendCommPackage
 import BEDC.Derived.MetricUp.CompositeEndpointCollapse
+import BEDC.Derived.MetricUp.BallBudget
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.TotallyBoundedUp
