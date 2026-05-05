@@ -1,6 +1,7 @@
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.RatUp
+import BEDC.FKernel.Cont.Units
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.FKernel.NameCert
 
@@ -73,6 +74,58 @@ theorem CompleteMetricLimitWitness_hsame_transport {X : BHist -> Prop}
           RatHistoryClassifier_hsame_transport (hsame_refl d) (modulusTransport nUnary)
             distanceData.right.right⟩
 
+theorem CompleteMetricLimitWitness_distance_modulus_positive_denominators
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      exists d : BHist,
+        MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+          PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) ∧
+            RatHistoryClassifier d (M n) := by
+  intro witness nUnary source
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have positives :
+          PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) :=
+        RatHistoryClassifier_positive_denominators distanceData.right.right
+      exact Exists.intro d
+        (And.intro distanceData.left
+          (And.intro distanceData.right.left
+            (And.intro positives.left
+              (And.intro positives.right distanceData.right.right))))
+
+theorem CompleteMetricLimitWitness_modulus_not_empty
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      hsame (M n) BHist.Empty -> False := by
+  intro witness nUnary source sameEmpty
+  cases witness.right nUnary source with
+  | intro _d distanceData =>
+      have positives :
+          PositiveUnaryDenominator _d ∧ PositiveUnaryDenominator (M n) :=
+        RatHistoryClassifier_positive_denominators distanceData.right.right
+      exact PositiveUnaryDenominator_not_empty positives.right sameEmpty
+
+theorem CompleteMetricLimitWitness_observation_bound_transport {X : BHist -> Prop}
+    (carrierTransport : forall {h k : BHist}, hsame h k -> X h -> X k)
+    {s s' M M' : BHist -> BHist} {limit limit' n : BHist} :
+    UnaryHistory n -> CompleteMetricLimitWitness X s M limit -> X (s' n) ->
+      hsame (s n) (s' n) -> hsame limit limit' -> hsame (M n) (M' n) ->
+        exists d : BHist,
+          MetricDistanceWitness (s' n) limit' d ∧
+            Cont (s' n) limit' d ∧ RatHistoryClassifier d (M' n) := by
+  intro nUnary witness source sameSource sameLimit sameModulus
+  have sourceOld : X (s n) :=
+    carrierTransport (hsame_symm sameSource) source
+  cases witness.right nUnary sourceOld with
+  | intro d distanceData =>
+      exact ⟨d,
+        MetricDistanceWitness_hsame_fields_transport sameSource sameLimit
+          (hsame_refl d) distanceData.left,
+        MetricDistanceWitness_cont_hsame_transport sameSource sameLimit
+          (hsame_refl d) distanceData.left,
+        RatHistoryClassifier_hsame_transport (hsame_refl d) sameModulus
+          distanceData.right.right⟩
+
 theorem CompleteMetricLimitWitness_name_certificate {X : BHist -> Prop}
     (carrierTransport : ∀ {h k : BHist}, hsame h k -> X h -> X k)
     {s M : BHist -> BHist} {limit : BHist}
@@ -97,6 +150,34 @@ theorem CompleteMetricLimitWitness_name_certificate {X : BHist -> Prop}
   · intro _h source
     exact source
 
+theorem CompleteMetricLimitWitness_observation_distance_package
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      exists d : BHist,
+        MetricDistanceWitness (s n) limit d ∧
+          Cont (s n) limit d ∧ RatHistoryCarrier d ∧ RatHistoryCarrier (M n) ∧
+            PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) := by
+  intro witness nUnary source
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have positives :
+          PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) :=
+        RatHistoryClassifier_positive_denominators distanceData.right.right
+      exact ⟨d, distanceData.left, distanceData.right.left, distanceData.right.right.left,
+        distanceData.right.right.right.left, positives.left, positives.right⟩
+
+theorem CompleteMetricLimitWitness_observation_distance_deterministic
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n d' : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      MetricDistanceWitness (s n) limit d' ->
+        exists d : BHist,
+          MetricDistanceWitness (s n) limit d ∧ RatHistoryClassifier d (M n) ∧ hsame d d' := by
+  intro witness nUnary source externalDistance
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      exact ⟨d, distanceData.left, distanceData.right.right,
+        cont_deterministic distanceData.right.left externalDistance.right.right.right⟩
+
 theorem SingletonCompleteMetric_laws :
     hsame BHist.Empty BHist.Empty ∧
       (forall {x : BHist}, hsame x BHist.Empty ->
@@ -111,6 +192,28 @@ theorem SingletonCompleteMetric_laws :
         (And.intro sameX (hsame_refl BHist.Empty))
   · intro x y sameX sameY
     exact hsame_trans sameX (hsame_symm sameY)
+
+theorem CompleteMetricLimitWitness_empty_modulus_observation_metric_row
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      hsame (M n) BHist.Empty -> MetricDistanceWitness (s n) limit BHist.Empty := by
+  intro witness nUnary source sameModulus
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have sameDistance : hsame d BHist.Empty :=
+        hsame_trans distanceData.right.right.right.right sameModulus
+      exact MetricDistanceWitness_hsame_fields_transport
+        (hsame_refl (s n)) (hsame_refl limit) sameDistance distanceData.left
+
+theorem CompleteMetricLimitWitness_empty_modulus_observation_endpoint
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      hsame (M n) BHist.Empty -> hsame (s n) BHist.Empty ∧ hsame limit BHist.Empty := by
+  intro witness nUnary source sameModulus
+  exact
+    (MetricDistanceWitness_empty_distance_iff (x := s n) (y := limit)).mp
+      (CompleteMetricLimitWitness_empty_modulus_observation_metric_row
+        witness nUnary source sameModulus)
 
 theorem CompleteMetricLimitWitness_singleton_stream_witness {s M : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (s n) BHist.Empty) ->
@@ -154,6 +257,22 @@ theorem CompleteMetricLimitWitness_singleton_uniqueness
         hsame l0 l1 := by
   intro witness0 witness1
   exact hsame_trans witness0.left (hsame_symm witness1.left)
+
+theorem CompleteMetricLimitWitness_singleton_observation_empty_distance
+    {s M : BHist -> BHist} {n : BHist} :
+    CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M BHist.Empty ->
+      UnaryHistory n -> hsame (s n) BHist.Empty ->
+        exists d : BHist,
+          MetricDistanceWitness (s n) BHist.Empty d ∧ Cont (s n) BHist.Empty d ∧
+            RatHistoryClassifier d (M n) ∧ hsame d BHist.Empty := by
+  intro witness nUnary sourceEmpty
+  cases witness.right nUnary sourceEmpty with
+  | intro d distanceData =>
+      have distanceEmpty : hsame d (s n) :=
+        cont_right_unit_result distanceData.right.left
+      have dEmpty : hsame d BHist.Empty :=
+        hsame_trans distanceEmpty sourceEmpty
+      exact ⟨d, distanceData.left, distanceData.right.left, distanceData.right.right, dEmpty⟩
 
 theorem CompleteMetricSingletonLimitSelector_visible_context_metric {s : BHist -> BHist}
     {p q n : BHist} :
