@@ -1,11 +1,13 @@
 import BEDC.Derived.FinsetUp
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.MatroidUp
 
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.Derived.FinsetUp
 
 namespace Hsame
@@ -153,5 +155,57 @@ theorem MatroidFinSetIntersection_preserves_independence {E : BHist -> Prop}
             MatroidFinSetSpineEnumerates E Rel xs J ∧ forall z : BHist, J z -> I z :=
         Exists.intro xs data
       exact Exists.intro xs (And.intro data.left (hereditary finiteSubset independentI))
+
+theorem MatroidRestrictionRows_exchange_support_boundary {E K I J : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} {Ind : (BHist -> Prop) -> Prop}
+    {CardLt : (BHist -> Prop) -> (BHist -> Prop) -> Prop} :
+    NameCert E Rel -> (exists ks : ProbeBundle BHist, MatroidFinSetSpineEnumerates E Rel ks K) ->
+      (forall {A B : BHist -> Prop}, Ind A -> Ind B -> CardLt A B -> exists x : BHist,
+        exists Aplus : BHist -> Prop, B x ∧ (A x -> False) ∧
+          (exists xs : ProbeBundle BHist,
+            MatroidFinSetSpineEnumerates E Rel xs Aplus ∧
+              forall z : BHist, Aplus z <-> A z ∨ (E z ∧ Rel z x)) ∧
+            Ind Aplus) ->
+        Ind I ∧ MatroidFinsetSubset E Rel I K -> Ind J ∧ MatroidFinsetSubset E Rel J K ->
+          CardLt I J -> exists x : BHist, exists Iplus : BHist -> Prop,
+            J x ∧ (I x -> False) ∧ K x ∧
+              (exists xs : ProbeBundle BHist,
+                MatroidFinSetSpineEnumerates E Rel xs Iplus ∧
+                  forall z : BHist, Iplus z -> K z) ∧ Ind Iplus := by
+  intro cert finiteK exchange rowsI rowsJ smaller
+  cases finiteK with
+  | intro ks kSpine =>
+      have exchangeRows := exchange rowsI.left rowsJ.left smaller
+      cases exchangeRows with
+      | intro x exchangeTail =>
+          cases exchangeTail with
+          | intro Iplus xRows =>
+              cases xRows.right.right.left with
+              | intro xs insertRows =>
+              have xInK : K x := rowsJ.right.right x xRows.left
+              have supportInsideK : forall z : BHist, Iplus z -> K z := by
+                intro z memberPlus
+                have plusSplit : I z ∨ (E z ∧ Rel z x) :=
+                  Iff.mp (insertRows.right z) memberPlus
+                cases plusSplit with
+                | inl memberI =>
+                    exact rowsI.right.right z memberI
+                | inr relZX =>
+                    have xWitness : exists y : BHist, InBundle y ks ∧ Rel x y :=
+                      Iff.mp (kSpine.right x) xInK
+                    cases xWitness with
+                    | intro y yRows =>
+                        have relZY : Rel z y :=
+                          NameCert.equiv_trans cert relZX.right yRows.right
+                        exact Iff.mpr (kSpine.right z)
+                          (Exists.intro y (And.intro yRows.left relZY))
+              exact Exists.intro x
+                (Exists.intro Iplus
+                  (And.intro xRows.left
+                    (And.intro xRows.right.left
+                      (And.intro xInK
+                        (And.intro
+                          (Exists.intro xs (And.intro insertRows.left supportInsideK))
+                          xRows.right.right.right)))))
 
 end BEDC.Derived.MatroidUp
