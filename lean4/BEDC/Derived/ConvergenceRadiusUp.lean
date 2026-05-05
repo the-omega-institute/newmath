@@ -455,6 +455,15 @@ theorem PowerSeriesCarrier_constant_coeff_partSum_exists_unique {a : Nat -> BHis
 def ConvRadSourceSpec (a : Nat -> BHist) (z0 R : BHist) : Prop :=
   PowerSeriesCarrier a z0 ∧ ConvRad a R
 
+theorem ConvRadSourceSpec_powerSeries_append_prepend_closed {a : Nat -> BHist} {z0 R q : BHist} :
+    ConvRadSourceSpec a z0 R -> UnaryHistory q ->
+      PowerSeriesCarrier (fun n : Nat => append (a n) q) (append z0 q) ∧
+        PowerSeriesCarrier (fun n : Nat => append q (a n)) (append q z0) := by
+  intro source qUnary
+  exact And.intro
+    (PowerSeriesCarrier_append_unary_closed source.left qUnary)
+    (PowerSeriesCarrier_prepend_unary_closed source.left qUnary)
+
 theorem ConvRadSourceSpec_powerSeries_geomBound_readback {a : Nat -> BHist} {z0 R : BHist} :
     ConvRadSourceSpec a z0 R ->
       ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
