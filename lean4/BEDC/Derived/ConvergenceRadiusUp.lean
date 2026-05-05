@@ -428,4 +428,14 @@ theorem ConvRadSourceSpec_powerSeries_geomBound_readback {a : Nat -> BHist} {z0 
             have row := readback radiusUnary continuation
             exact And.intro row.left (And.intro row.right radius.left))
 
+def ConvRadCheckedRowReduct (a : Nat -> BHist) (z0 R : BHist) : Prop :=
+  ConvRadSourceSpec a z0 R ∧
+    ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
+      PowerSeriesCarrier a z0 ∧ GeomBound a r (K r) ∧ UnaryHistory R
+
+theorem ConvRadSourceSpec_checkedRowReduct_readback {a : Nat -> BHist} {z0 R : BHist} :
+    ConvRadSourceSpec a z0 R -> ConvRadCheckedRowReduct a z0 R := by
+  intro source
+  exact And.intro source (ConvRadSourceSpec_powerSeries_geomBound_readback source)
+
 end BEDC.Derived.ConvergenceRadiusUp
