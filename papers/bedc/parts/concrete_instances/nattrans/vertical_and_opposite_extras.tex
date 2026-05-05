@@ -522,3 +522,79 @@ K_1(\alpha_X)\circ_{\mathcal E}\beta_{F_0(X)}
 $$
 Symmetry of the $\mathcal E$ morphism classifier, recorded in \autoref{def:category-stability-certificate}, reverses this comparison, and the right-hand side is the horizontal component by definition.
 \end{proof}
+
+\begin{theorem}[NatTrans Godement interchange component classifier law]
+\label{thm:nattrans-godement-interchange-component-classifier-law}
+Let $\mathcal C$, $\mathcal D$, and $\mathcal E$ be $\CategoryUp$ certificates satisfying $\CategoryUp$ certificate obligations. Let $F,G,H:\mathcal C\to\mathcal D$ and $P,Q,R:\mathcal D\to\mathcal E$ be certified $\FunctorUp$ carriers satisfying \autoref{def:functor-certificate-obligations}, with object maps $F_0,G_0,H_0,P_0,Q_0,R_0$ and morphism maps $F_1,G_1,H_1,P_1,Q_1,R_1$. Let $\alpha:F\Rightarrow G$, $\beta:G\Rightarrow H$, $\alpha':P\Rightarrow Q$, and $\beta':Q\Rightarrow R$ be $\NatTransUp$ carriers satisfying \autoref{def:nattrans-certificate-obligations}. For each object $X$ of $\mathcal C$, form the component of the vertical composite of the two horizontal composites,
+$$
+L_X:=((\beta'\diamond\beta)\circ(\alpha'\diamond\alpha))_X,
+$$
+and the component of the horizontal composite of the two vertical composites,
+$$
+R_X:=((\beta'\circ\alpha')\diamond(\beta\circ\alpha))_X.
+$$
+Then $L_X$ and $R_X$ are target hom-carriers from $P_0(F_0(X))$ to $R_0(H_0(X))$ and are classified together by the morphism classifier of $\mathcal E$:
+$$
+L_X\sim_{\mathcal E}R_X.
+$$
+Equivalently, after unfolding the component formulas, the Godement interchange comparison is
+$$
+(\beta'_{H_0(X)}\circ_{\mathcal E}Q_1(\beta_X))\circ_{\mathcal E}(\alpha'_{G_0(X)}\circ_{\mathcal E}P_1(\alpha_X))
+\sim_{\mathcal E}
+(\beta'_{H_0(X)}\circ_{\mathcal E}\alpha'_{H_0(X)})\circ_{\mathcal E}P_1(\beta_X\circ_{\mathcal D}\alpha_X).
+$$
+Consequently the two construction routes determine the same $\NatTransUp$ classifier class componentwise.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:nattrans-horizontal-composition-certificate} and \autoref{def:nattrans-horizontal-composition-certificate-data}, the horizontal composites have components
+$$
+(\alpha'\diamond\alpha)_X=\alpha'_{G_0(X)}\circ_{\mathcal E}P_1(\alpha_X)
+$$
+and
+$$
+(\beta'\diamond\beta)_X=\beta'_{H_0(X)}\circ_{\mathcal E}Q_1(\beta_X).
+$$
+The vertical-composition row of \autoref{def:nattrans-stability-certificate}, in the form used in \autoref{thm:nattrans-vertical-composition-naturality}, therefore reads the component $L_X$ as the left displayed expression.
+
+The same vertical-composition row gives
+$$
+(\beta\circ\alpha)_X=\beta_X\circ_{\mathcal D}\alpha_X
+$$
+and, at the object $H_0(X)$ of $\mathcal D$,
+$$
+(\beta'\circ\alpha')_{H_0(X)}=\beta'_{H_0(X)}\circ_{\mathcal E}\alpha'_{H_0(X)}.
+$$
+Applying the horizontal component formula to these two vertical composites reads $R_X$ as the right displayed expression.
+
+It remains to compare the two target morphisms. The carrier field of $\beta$, from \autoref{def:nattrans-carrier}, makes $\beta_X:G_0(X)\to H_0(X)$ a displayed morphism of $\mathcal D$. Naturality of $\alpha':P\Rightarrow Q$ at this displayed morphism gives
+$$
+Q_1(\beta_X)\circ_{\mathcal E}\alpha'_{G_0(X)}
+\sim_{\mathcal E}
+\alpha'_{H_0(X)}\circ_{\mathcal E}P_1(\beta_X).
+$$
+Associativity under the morphism classifier of $\mathcal E$, listed in \autoref{def:category-stability-certificate}, classifies
+$$
+(\beta'_{H_0(X)}\circ_{\mathcal E}Q_1(\beta_X))\circ_{\mathcal E}(\alpha'_{G_0(X)}\circ_{\mathcal E}P_1(\alpha_X))
+$$
+with
+$$
+\beta'_{H_0(X)}\circ_{\mathcal E}((Q_1(\beta_X)\circ_{\mathcal E}\alpha'_{G_0(X)})\circ_{\mathcal E}P_1(\alpha_X)).
+$$
+Composition congruence in the same stability certificate transports the naturality comparison of $\alpha'$ inside this outer composite, giving a classifier comparison with
+$$
+\beta'_{H_0(X)}\circ_{\mathcal E}((\alpha'_{H_0(X)}\circ_{\mathcal E}P_1(\beta_X))\circ_{\mathcal E}P_1(\alpha_X)).
+$$
+Associativity in $\mathcal E$ then classifies this expression with
+$$
+(\beta'_{H_0(X)}\circ_{\mathcal E}\alpha'_{H_0(X)})\circ_{\mathcal E}(P_1(\beta_X)\circ_{\mathcal E}P_1(\alpha_X)).
+$$
+The composition-preservation field of the functor $P$, recorded in \autoref{def:functor-stability-certificate} and used by \autoref{thm:functor-composite-preservation-witnesses}, gives
+$$
+P_1(\beta_X\circ_{\mathcal D}\alpha_X)
+\sim_{\mathcal E}
+P_1(\beta_X)\circ_{\mathcal E}P_1(\alpha_X).
+$$
+Using symmetry and composition congruence for the morphism classifier of $\mathcal E$, this replaces the final factor by $P_1(\beta_X\circ_{\mathcal D}\alpha_X)$. Transitivity of the same classifier composes the displayed comparisons and yields $L_X\sim_{\mathcal E}R_X$.
+
+Since \autoref{def:nattrans-classifier-specification} relates natural transformations componentwise by the target category morphism classifier, these component comparisons are exactly the $\NatTransUp$ classifier comparison between the vertical composite of horizontal composites and the horizontal composite of vertical composites.
+\end{proof}

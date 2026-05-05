@@ -189,6 +189,67 @@ unary inductive result, so unary closure under $\Cont$ applies.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_result\_unary}
 
+\begin{theorem}[Append-continuation multiplication closure]
+\label{thm:natmul-append-continuation-closure}
+Let $d$, $w$, $q$, $n$, $e$, and $r$ be histories. If the two displayed
+products share the same multiplicand and the two product results concatenate,
+then the appended multiplier has the concatenated result:
+$$
+\mathsf{NatMul}(d,w,n)\land
+\mathsf{NatMul}(d,q,e)\land
+\Cont(n,e,r)
+\Longrightarrow
+\mathsf{NatMul}(d,\mathsf{append}(w,q),r).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the left product. The zero case reduces the appended multiplier to
+$q$ and the displayed continuation to the left-empty continuation for $e$.
+
+In the successor case, the inductive product composes the predecessor product
+with the right product along the predecessor continuation. One further
+successor multiplication step appends the common multiplicand $d$ to that
+intermediate result, and associativity of continuation concatenation identifies
+the displayed result $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_cont}
+
+\begin{theorem}[Concrete unary multiplication MulUp certificate spine]
+\label{thm:unary-multiplication-mulup-certificate}
+The concrete unary multiplication candidate for $\mathsf{MulUp}$ uses carrier
+$\mathsf{UnaryHistory}$ over $\mathsf{BHist}$, classifier $\hsame$, operation
+relation $\mathsf{NatMul}$, and unit $\Eone(\emp)$. Its certificate spine is the
+following finite law package.
+\begin{enumerate}
+\item Totality: for unary histories $d$ and $q$, there is a unary $n$ with
+$\mathsf{NatMul}(d,q,n)$.
+\item Result closure: every $\mathsf{NatMul}(d,q,n)$ with unary $d$ has unary
+result $n$.
+\item Functionality: any two results of $\mathsf{NatMul}(d,q,-)$ for unary
+inputs are $\hsame$.
+\item Unit laws: $\mathsf{NatMul}(\Eone(\emp),q,n)$ gives $n\hsame q$, and
+$\mathsf{NatMul}(d,\Eone(\emp),n)$ gives $n\hsame d$.
+\item Commutativity: products $\mathsf{NatMul}(d,q,n)$ and
+$\mathsf{NatMul}(q,d,m)$ over unary inputs have $n\hsame m$.
+\item Associativity: for unary $a$, $b$, and $c$, products
+$\mathsf{NatMul}(a,b,ab)$, $\mathsf{NatMul}(ab,c,\ell)$,
+$\mathsf{NatMul}(b,c,bc)$, and $\mathsf{NatMul}(a,bc,r)$ have
+$\ell\hsame r$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier, classifier, operation, and unit are the concrete objects already
+used by $\mathsf{NatMul}$. Totality, result closure, functionality, the two unit
+laws, and commutativity are exactly the checked unary multiplication laws in
+this section.
+
+For associativity, induct on the middle multiplication spine. The base case is
+the zero multiplier. The successor case rewrites the right-associated product
+as an appended multiplier product, applies
+\autoref{thm:natmul-append-continuation-closure}, and then uses functionality
+to compare it with the displayed left-associated result.
+\end{proof}
+
 \begin{lemma}[Unit left multiplication reads back the multiplier]
 \label{lem:nat-mul-unit-left-hsame}
 For every unary history $q$, if $\mathsf{NatMul}(\Eone(\emp), q, n)$, then $\hsame(n,q)$.
@@ -513,6 +574,19 @@ multiplication witness repackages as \(\mathsf{NatDivides}(d,n_0)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_result\_cases}
 
+\begin{theorem}[Divisibility zero-headed component impossibility]
+\label{thm:nat-divides-zero-headed-component-absurd}
+If \(\mathsf{NatDivides}(d,n)\) holds, then neither the divisor \(d\) nor the
+dividend \(n\) can be a zero-headed history.
+\end{theorem}
+\begin{proof}
+Unpack the explicit quotient \(q\) in the divisibility witness. The underlying
+\(\mathsf{NatMul}(d,q,n)\) witness rules out zero-headed multiplicand,
+multiplier, and result components. Applying that impossibility to the divisor
+or dividend component gives the claim.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_zero\_headed\_component\_absurd}
+
 \begin{lemma}[Empty left divisibility has empty result]
 \label{lem:natdivides-empty-left-result-empty}
 If \(\mathsf{NatDivides}(\emp,n)\), then \(n\hsame\emp\).
@@ -626,6 +700,27 @@ From the witnessing quotients \(q_1\) with \(\mathsf{NatMul}(d, q_1, e)\) and \(
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_transitive}
 
+\begin{theorem}[Unary divisibility partial-order certificate]
+\label{thm:nat-divides-partial-order-certificate}
+On unary histories, $\mathsf{NatDivides}$ is reflexive and transitive, and it is
+antisymmetric modulo $\hsame$: for unary histories $d$, $e$, and $n$,
+$\mathsf{NatDivides}(d,d)$,
+$\mathsf{NatDivides}(d,e) \wedge \mathsf{NatDivides}(e,n) \Rightarrow
+\mathsf{NatDivides}(d,n)$, and
+$\mathsf{NatDivides}(d,e) \wedge \mathsf{NatDivides}(e,d) \Rightarrow
+d\hsame e$.
+\end{theorem}
+\begin{proof}
+The reflexive clause is \autoref{lem:divides-reflexive}, and the transitive
+clause is \autoref{lem:divides-transitive}. The antisymmetric clause is
+\autoref{thm:nat-divides-antisymmetry-hsame}.
+
+This is a paper-level bundled certificate rather than a distinct Lean marker
+site: the three checked laws are consumed together by bounded divisor search,
+Euclid's lemma, and factorization uniqueness as the order-like interface for
+unary divisibility.
+\end{proof}
+
 \begin{lemma}[Divisibility is closed under displayed continuation]
 \label{thm:nat-divides-cont-closed}
 If $\mathsf{NatDivides}(d,x)$ and $\mathsf{NatDivides}(d,y)$ hold, and
@@ -697,16 +792,4 @@ $\mathsf{NatUnaryStrictPrefix}(d,n)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_nonempty\_result\_boundary}
 
-\begin{theorem}[Prime divisor of a unary product exposes a factor]
-\label{thm:prime-divides-product-factor}
-For histories \(p,a,b,n\), if \(\mathsf{NatPrime}(p)\), \(\mathsf{NatMul}(a,b,n)\), and \(\mathsf{NatDivides}(p,n)\), then \(\mathsf{NatDivides}(p,a)\) or \(\mathsf{NatDivides}(p,b)\).
-\end{theorem}
-\begin{proof}[Sketch]
-Induct on the concrete unary multiplication witness \(\mathsf{NatMul}(a,b,n)\), viewing the right factor \(b\) as the induction spine.
-
-In the zero-product case, the result is \(\emp\). A divisor witness for \(p\) into \(\emp\) would make \(\emp\) a multiple of the prime \(p\). The non-empty condition in \(\mathsf{NatPrime}(p)\), together with the empty-result inversion for \(\mathsf{NatMul}\), rules this case out, so the conclusion follows vacuously.
-
-In the successor case, the product is obtained by appending one more copy of \(a\) to the previous product. If \(p\) already divides the previous product, the induction hypothesis gives \(\mathsf{NatDivides}(p,a)\) or divisibility into the predecessor of \(b\); in the latter subcase, the successor multiplication constructor and \autoref{lem:divides-transitive} transport the divisor to \(\mathsf{NatDivides}(p,b)\).
-
-It remains when the final appended copy is the first place where the divisor can occur. The \(\mathsf{NatMul}\) result and functionality facts identify the last continuation with the factor \(a\) up to \(\hsame\). Applying the defining divisor alternative in \(\mathsf{NatPrime}(p)\) to this non-trivial divisor yields either the unit case, which is incompatible with the prime's strict-greater field, or \(\hsame\)-equality with \(a\). This gives \(\mathsf{NatDivides}(p,a)\), completing the induction.
-\end{proof}
+\input{parts/concrete_instances/prime/prime_product_factor}

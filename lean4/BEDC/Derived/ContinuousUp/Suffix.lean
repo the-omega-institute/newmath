@@ -214,6 +214,52 @@ theorem ContinuousModulusChain_suffix_iff {p source first second target : BHist}
                                                         (And.intro firstRel
                                                           suffixedSecondRel)))))
 
+theorem ContinuousModulusChain_visible_context_iff
+    {p q source first second target : BHist} :
+    ContinuousModulusChain (append p source) first (append second q)
+        (append (append p target) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧
+        ContinuousModulusChain source first second target := by
+  constructor
+  · intro chain
+    have suffixData :=
+      (ContinuousModulusChain_suffix_iff (p := q) (source := append p source)
+        (first := first) (second := second) (target := append p target)).mp chain
+    have prefixData :=
+      (ContinuousModulusChain_prefix_iff (p := p) (source := source)
+        (first := first) (second := second) (target := target)).mp suffixData.right
+    exact And.intro prefixData.left (And.intro suffixData.left prefixData.right)
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro suffixCarrier chain =>
+            have prefixedChain :
+                ContinuousModulusChain (append p source) first second (append p target) :=
+              (ContinuousModulusChain_prefix_iff (p := p) (source := source)
+                (first := first) (second := second) (target := target)).mpr
+                (And.intro prefixCarrier chain)
+            exact
+              (ContinuousModulusChain_suffix_iff (p := q) (source := append p source)
+                (first := first) (second := second) (target := append p target)).mpr
+                (And.intro suffixCarrier prefixedChain)
+
+theorem ContinuousModulusChain_visible_context_second_deterministic
+    {p q source first second second' target : BHist} :
+    ContinuousModulusChain (append p source) first (append second q)
+        (append (append p target) q) ->
+      ContinuousModulusChain (append p source) first (append second' q)
+        (append (append p target) q) ->
+        hsame second second' := by
+  intro left right
+  have leftData :=
+    (ContinuousModulusChain_visible_context_iff (p := p) (q := q) (source := source)
+      (first := first) (second := second) (target := target)).mp left
+  have rightData :=
+    (ContinuousModulusChain_visible_context_iff (p := p) (q := q) (source := source)
+      (first := first) (second := second') (target := target)).mp right
+  exact ContinuousModulusChain_second_deterministic leftData.right.right rightData.right.right
+
 theorem ContinuousFunctionCarrier_modulus_suffix_iff {p source map target modulus cert : BHist} :
     ContinuousFunctionCarrier source map target (append modulus p) (append cert p) <->
       UnaryHistory p ∧ ContinuousFunctionCarrier source map target modulus cert := by

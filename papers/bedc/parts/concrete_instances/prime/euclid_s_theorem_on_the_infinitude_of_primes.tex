@@ -125,6 +125,19 @@ Induct on the factorial witness. The base constructor yields \(\Eone(\emp)\), wh
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatFact\_result\_unary}
 
+\begin{theorem}[Unary factorial zero-headed component impossibility]
+\label{thm:natfact-zero-headed-component-absurd}
+For histories \(n,m\), a closed witness of \(\mathsf{NatFact}(n,m)\) cannot
+have either its input or result displayed as a zero-headed history.
+\end{theorem}
+\begin{proof}
+Factorial input readback gives \(\mathsf{UnaryHistory}(n)\), and factorial
+result readback gives \(\mathsf{UnaryHistory}(m)\). In either displayed
+zero-headed branch, substituting the equality turns a zero-headed history into
+a unary history, contradicting unary zero-extension separation.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_zero\_headed\_component\_absurd}
+
 \begin{theorem}[Factorial results have positive shape]
 \label{thm:natfact-result-positive-shape}
 If \(\mathsf{NatFact}(n,m)\), then there is a unary tail \(t\) such that

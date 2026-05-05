@@ -367,8 +367,11 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             task_id = parsed.path[len("/result/"):]
             with _lock:
                 rec = results.get(task_id)
+                cancelled = task_id in cancelled_tasks
             if rec:
                 self._send_json(rec)
+            elif cancelled:
+                self._send_json({"status": "cancelled", "task_id": task_id})
             else:
                 self._send_json({"status": "not_found"}, 404)
             return

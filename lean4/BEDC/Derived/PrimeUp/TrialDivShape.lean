@@ -40,4 +40,19 @@ theorem TrialDiv_bound_unit_strict_prefix_after_cont {b n b' : BHist} :
       exact NatUnaryStrictPrefix_cont_hsame_transport (unary_e1_closed unary_empty)
         (fun empty => by cases empty) stepCont sameUnit (hsame_refl _)
 
+theorem TrialDiv_target_unary_and_bound_trichotomy {b n : BHist} :
+    TrialDiv b n ->
+      UnaryHistory n ∧
+        (hsame b n ∨ NatUnaryStrictPrefix b n ∨ NatUnaryStrictPrefix n b) := by
+  intro trial
+  have boundUnary : UnaryHistory b := TrialDiv_bound_unary trial
+  have targetUnary : UnaryHistory n := by
+    induction trial with
+    | unit hn =>
+        exact hn
+    | step previous _screen _stepCont ih =>
+        exact ih (TrialDiv_bound_unary previous)
+  exact And.intro targetUnary
+    (NatUnaryPrefix_trichotomy_hsame_strict boundUnary targetUnary)
+
 end BEDC.Derived.PrimeUp
