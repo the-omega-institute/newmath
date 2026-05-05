@@ -6,139 +6,133 @@ The graph interface $\GraphUp$ packages a vertex carrier from $\NameCert_{\SetUp
 \section{Carrier definition}
 \label{sec:graph-carrier}
 
-\begin{definition}[Concrete graph edge interface]
-\label{def:graph-concrete-edge-interface}
-A concrete $\GraphUp$ datum starts with a $\SetUp$ source carrier
-$V:\mathsf{BHist}\to\mathsf{Prop}$, a vertex classifier $\sim_V$, and a
-certificate $\mathsf{cert}:\NameCert(V,\sim_V)$. A graph edge row for this
-source is a predicate
+\begin{definition}[Cont adjacency graph carrier]
+\label{def:graph-cont-adjacency-carrier}
+The concrete $\GraphUp$ source is the BEDC history carrier
+$\mathsf{BHist}$ restricted to $\mathsf{UnaryHistory}$, with vertex classifier
+$\hsame$ on unary histories. For histories $h,k,g:\mathsf{BHist}$ define
 $$
-\mathsf{GraphEdgeRow}_G(u,v,e)
+\mathsf{GraphEdge}(h,k,g)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(h)\land
+\mathsf{UnaryHistory}(k)\land
+\Cont(h,k,g).
 $$
-on endpoint histories $u,v:\mathsf{BHist}$ and an edge history
-$e:\mathsf{BHist}$ such that the accepted row stores $V(u)$ and $V(v)$, the
-displayed endpoint ledger rows for $u$ and $v$, and the displayed edge-ledger
-row for $e$. The induced edge classifier is the componentwise relation
+This predicate reads a BEDC continuation row as a directed adjacency edge from
+source vertex $h$ to target vertex $k$, with visible edge-result history $g$.
+The graph carrier template fields are:
+\begin{enumerate}
+\item the traditional target is a directed graph;
+\item the BEDC source is $\mathsf{BHist}$ with
+$\mathsf{UnaryHistory}$ vertices and $\Cont$ rows;
+\item the vertex carrier is $\mathsf{UnaryHistory}$;
+\item the vertex classifier is $\hsame$ restricted to unary histories;
+\item the stability obligations are unary transport along $\hsame$ and
+$\Cont$ transport along $\hsame$ in all three displayed histories;
+\item the ledger is the visible triple $(h,k,g)$ together with the two unary
+endpoint witnesses and the $\Cont(h,k,g)$ row;
+\item the core theorem list is endpoint coverage, edge classifier transport,
+and the assembled $\GraphUp$ obligation surface;
+\item the exactness predicate is row inversion for $\mathsf{GraphEdge}$;
+\item the standard bridge is absent;
+\item the status is paper proof target.
+\end{enumerate}
+The edge classifier between two rows is the componentwise relation
 $$
-(u,v,e)\sim_G(u',v',e')
+(h,k,g)\sim_{\mathsf{Graph}}(h',k',g')
 :\Longleftrightarrow
-\bigl(u\sim_V u'\bigr)\wedge
-\bigl(v\sim_V v'\bigr)\wedge
-\hsame(e,e').
+\hsame(h,h')\wedge
+\hsame(k,k')\wedge
+\hsame(g,g').
 $$
-Thus edge sameness never compares hidden graph structure. It compares only the
-two source-certified endpoints through $\sim_V$ and the visible edge history
-through $\hsame$.
+Thus edge sameness is entirely visible in the BEDC ledger; no hidden graph
+structure participates in classification.
 \end{definition}
 
 \section{The certificate}
 \label{sec:graph-certificate}
 
-\begin{theorem}[Graph vertex carrier and classifier obligation]
-\label{thm:graph-obligation-vertex-carrier-classifier}
-Let $G$ be a concrete $\GraphUp$ datum in the sense of
-\autoref{def:graph-concrete-edge-interface}, with source carrier $V$, vertex
-classifier $\sim_V$, and source certificate $\mathsf{cert}$. If
-$\mathsf{GraphEdgeRow}_G(u,v,e)$ is accepted, then both displayed endpoints are
-source-carried:
+\begin{theorem}[Graph edge endpoint coverage]
+\label{thm:graph-cont-edge-endpoint-coverage}
+For histories $h,k,g:\mathsf{BHist}$, every row
+$\mathsf{GraphEdge}(h,k,g)$ exposes its carried source vertex, carried target
+vertex, and continuation witness:
 $$
-V(u)\wedge V(v).
+\mathsf{GraphEdge}(h,k,g)
+\Longrightarrow
+\mathsf{UnaryHistory}(h)\land
+\mathsf{UnaryHistory}(k)\land
+\Cont(h,k,g).
 $$
-Moreover the vertex classifier used by the graph row is exactly the source
-classifier $\sim_V$ supplied by $\mathsf{cert}$; no separate vertex equality is
-introduced by $\GraphUp$.
 \end{theorem}
 \begin{proof}
-Unpack the accepted edge row. By
-\autoref{def:graph-concrete-edge-interface}, the row contains the two carrier
-witnesses $V(u)$ and $V(v)$ together with their visible endpoint ledger rows.
-This gives the displayed conjunction.
-
-The classifier claim is also an unfolding. The graph datum imports its vertex
-classifier from the $\SetUp$ name certificate and stores no competing vertex
-comparison field. Therefore every endpoint comparison occurring in a graph row
-is routed through the same $\sim_V$ field of $\mathsf{cert}$.
+Unfold \autoref{def:graph-cont-adjacency-carrier}. The graph edge predicate is
+defined as exactly the conjunction of the source unary witness, the target
+unary witness, and the continuation row. Projection from that conjunction gives
+the three displayed fields.
 \end{proof}
 
-\begin{theorem}[Graph edge relation transport]
-\label{thm:graph-obligation-edge-relation-transport}
-Let $G$ be a concrete $\GraphUp$ datum with source carrier $V$, classifier
-$\sim_V$, and certificate $\mathsf{cert}$. Suppose
-$\mathsf{GraphEdgeRow}_G(u,v,e)$ is accepted, and suppose
+\begin{theorem}[Graph edge classifier transport]
+\label{thm:graph-cont-edge-classifier-transport}
+Let $h,k,g,h',k',g':\mathsf{BHist}$. If
+$\mathsf{GraphEdge}(h,k,g)$ holds and
 $$
-u\sim_V u',
-\qquad
-v\sim_V v',
-\qquad
-\hsame(e,e').
+\hsame(h,h')\land
+\hsame(k,k')\land
+\hsame(g,g')
 $$
-Then the transported row $\mathsf{GraphEdgeRow}_G(u',v',e')$ is accepted
-whenever the visible ledger rows are transported along those three witnesses,
-and the original and transported rows are related by the graph edge classifier:
+holds, then unary-history transport on the endpoints and
+$\mathsf{cont\_hsame\_transport}$ on the continuation row give
 $$
-(u,v,e)\sim_G(u',v',e').
+\mathsf{GraphEdge}(h',k',g').
 $$
-Transport composes componentwise: a second transport from
-$(u',v',e')$ to $(u'',v'',e'')$ combines by the transitivity fields of
-$\mathsf{cert}$ on the endpoint components and by transitivity of $\hsame$ on
-the edge-ledger component.
+The original and transported rows are classified by
+$(h,k,g)\sim_{\mathsf{Graph}}(h',k',g')$.
 \end{theorem}
 \begin{proof}
-First transport the endpoints. The source $\NameCert_{\SetUp}$ certificate
-states that $V$ is stable under the classifier $\sim_V$, so the witnesses
-$u\sim_V u'$ and $v\sim_V v'$ carry the endpoint carrier witnesses and their
-displayed ledger rows from $u,v$ to $u',v'$.
+Unpack $\mathsf{GraphEdge}(h,k,g)$ by
+\autoref{def:graph-cont-adjacency-carrier}. This yields
+$\mathsf{UnaryHistory}(h)$, $\mathsf{UnaryHistory}(k)$, and $\Cont(h,k,g)$.
 
-Next transport the edge ledger. The row records the edge only as a displayed
-$\mathsf{BHist}$ component, and the supplied $\hsame(e,e')$ witness is exactly
-the permitted history transport for that component. Repacking the transported
-endpoint rows and transported edge row gives
-$\mathsf{GraphEdgeRow}_G(u',v',e')$.
+Unpack the classifier witnesses. Unary-history transport along $\hsame(h,h')$
+and $\hsame(k,k')$ carries the two endpoint witnesses to
+$\mathsf{UnaryHistory}(h')$ and $\mathsf{UnaryHistory}(k')$.
 
-Finally unfold the classifier in
-\autoref{def:graph-concrete-edge-interface}. The three transport witnesses are
-precisely the three components of $(u,v,e)\sim_G(u',v',e')$. For a composite
-transport, compose the two endpoint classifier witnesses with the transitivity
-field of $\mathsf{cert}$ and compose the edge histories with the transitivity
-of $\hsame$.
+Apply $\mathsf{cont\_hsame\_transport}$ to the three $\hsame$ witnesses and the
+row $\Cont(h,k,g)$. This produces $\Cont(h',k',g')$.
+
+Repack the two transported unary witnesses and the transported continuation
+row by \autoref{def:graph-cont-adjacency-carrier}. The final classifier claim
+is just the same three $\hsame$ witnesses read through the componentwise edge
+classifier.
 \end{proof}
 
-\begin{theorem}[GraphUp NameCert obligation package]
-\label{thm:graph-obligation-namecert-package}
-Let $G$ be a concrete $\GraphUp$ datum built from a $\SetUp$ source
-$\NameCert(V,\sim_V)$ as in \autoref{def:graph-concrete-edge-interface}. Then
-the following data assemble the local $\GraphUp$ naming-certificate obligation
-set: the BEDC source $\NameCert_{\SetUp}$, the carrier predicate
-$\mathsf{GraphEdgeRow}_G$ over $\mathsf{BHist}$ endpoint and edge histories,
-the classifier $\sim_G$ given endpointwise by $\sim_V$ and on the edge
-component by $\hsame$, the stability certificate of
-\autoref{thm:graph-obligation-edge-relation-transport}, the visible ledger of
-endpoint rows and edge-history rows, exactness by unpacking edge-row coverage,
-the standard bridge to finite directed graphs with certified vertices, and
-status $\mathsf{ProofTarget}$.
+\begin{theorem}[GraphUp NameCert surface]
+\label{thm:graph-cont-namecert-surface}
+The carrier definition in \autoref{def:graph-cont-adjacency-carrier}, together
+with \autoref{thm:graph-cont-edge-endpoint-coverage} and
+\autoref{thm:graph-cont-edge-classifier-transport}, assembles the paper-side
+$\GraphUp$ obligation surface: vertex carrier $\mathsf{UnaryHistory}$, vertex
+classifier $\hsame$ restricted to unary histories, edge relation
+$\mathsf{GraphEdge}$, endpoint coverage, edge transport, and the visible
+$\Cont$ ledger. The standard bridge field is absent from this surface.
 \end{theorem}
 \begin{proof}
-The source row is the supplied $\NameCert_{\SetUp}$ certificate. It provides
-the vertex carrier $V$, the classifier $\sim_V$, and the endpoint transport
-fields used by \autoref{thm:graph-obligation-vertex-carrier-classifier}.
+The definition supplies the concrete BEDC source, the vertex carrier, the
+restricted vertex classifier, the edge relation, the visible ledger, and the
+declared absence of a standard bridge. It also names the exactness predicate as
+row inversion for $\mathsf{GraphEdge}$.
 
-The graph carrier row is $\mathsf{GraphEdgeRow}_G$. Its accepted rows are
-exactly triples of endpoint histories and an edge history with the two
-source-carried endpoint witnesses and the visible ledger rows named in
-\autoref{def:graph-concrete-edge-interface}. The classifier row is $\sim_G$,
-so every edge comparison decomposes into two endpoint comparisons and one
-history comparison.
+\autoref{thm:graph-cont-edge-endpoint-coverage} gives that inversion principle
+in the direction used by downstream graph certificates: every edge row exposes
+both carried endpoints and its $\Cont$ witness.
 
-Stability is supplied by
-\autoref{thm:graph-obligation-edge-relation-transport}. It transports accepted
-rows componentwise and composes transported rows by the source certificate
-transitivity on vertices and $\hsame$ transitivity on edge histories.
+\autoref{thm:graph-cont-edge-classifier-transport} supplies the stability
+surface. It transports the two endpoint carrier witnesses along $\hsame$ and
+transports the continuation row along $\mathsf{cont\_hsame\_transport}$, then
+repackages the transported row as another $\mathsf{GraphEdge}$ witness.
 
-Exactness is the row inversion principle: an accepted edge row exposes only
-the two certified endpoints, the edge history, and the displayed ledger rows
-that cover them. The standard bridge reads such rows as finite directed graph
-edges whose endpoints are vertices certified by $V$; conversely, each certified
-finite directed edge supplies exactly one displayed endpoint pair and edge
-history row. These clauses account for the local $\NameCert_{\GraphUp}$
-obligation package.
+These clauses are precisely the listed $\GraphUp$ paper obligations, so the
+chapter exposes the carrier, classifier, edge, coverage, transport, and ledger
+surface required by $\TreeUp$ and downstream combinatorial certificates.
 \end{proof}
