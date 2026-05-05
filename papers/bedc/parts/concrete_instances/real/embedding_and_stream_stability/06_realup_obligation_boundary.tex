@@ -114,3 +114,42 @@ rows at the two endpoints. Therefore the seal consumes the displayed
 $\RegSeqRat$ spine and no additional BEDC data, which is the last field of
 \autoref{def:realup-obligation-boundary}.
 \end{proof}
+
+\begin{theorem}[RealUp obligation boundary package]
+\label{thm:realup-obligation-boundary-package}
+The six fields of \autoref{def:realup-obligation-boundary} are exhausted by
+\autoref{thm:realup-carrier-classifier-obligations},
+\autoref{thm:realup-stability-ledger-obligations}, and
+\autoref{thm:realup-seal-and-regseqrat-consumption-obligations}. The package
+reads only the displayed $\RealUp$, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$,
+unary-observation, $\hsame$, and finite-ledger rows, with no quotient,
+completion object, Classical datum, or external metric primitive.
+\end{theorem}
+\begin{proof}
+Read \autoref{def:realup-obligation-boundary} field by field.
+
+Fields one and two are the carrier and classifier faces. They are exactly the
+content of \autoref{thm:realup-carrier-classifier-obligations}: the
+constant-history carrier, stream-name carrier, $\RegSeqRat$ spine carrier,
+constant-history classifier, unary stream classifier, and stream-name
+classifier are supplied by the displayed RealUp, StreamNameUp, RegSeqRat, and
+RatUp rows.
+
+Fields three and four are the stability and ledger faces. They are exactly the
+content of \autoref{thm:realup-stability-ledger-obligations}: pointwise
+$\hsame$ transport, classifier transport, positive-denominator rows,
+finite-window rows, and dyadic ledger rows are read from the unary-observation
+and finite-ledger packages.
+
+Fields five and six are the seal and RegSeqRat-consumption faces. They are
+exactly the content of
+\autoref{thm:realup-seal-and-regseqrat-consumption-obligations}: the
+$\RealUp$ seal is attached to the rational stream certificate spine and
+consumes only the scoped $\RegSeqRat$ spine, dyadic ledger rows,
+finite-window source rows, and displayed seal.
+
+No remaining field is present in the definition. Hence the three named
+theorems exhaust the boundary package, and the read surface is precisely the
+listed BEDC data, not quotient representatives, completion objects,
+Classical data, or an external metric primitive.
+\end{proof}
