@@ -277,6 +277,32 @@ theorem MetricDistanceWitness_triangle_right_distance_empty_visible_context_clos
       (y := BHist.Empty) (d := dxyz)).mpr
       (And.intro pCarrier (And.intro qCarrier central))
 
+theorem MetricDistanceWitness_triangle_right_distance_empty_spine_witness
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dyz BHist.Empty ->
+        MetricDistanceWitness x BHist.Empty dxyz := by
+  intro xy yz xyz dyzEmpty
+  have collapse :=
+    MetricDistanceWitness_triangle_right_distance_empty_collapse xy yz xyz dyzEmpty
+  exact (MetricDistanceWitness_empty_right_iff (x := x) (d := dxyz)).mpr
+    (And.intro xy.left collapse.right.right.right)
+
+theorem MetricDistanceWitness_triangle_right_empty_boundary_witness {x y z dxy dyz dxyz :
+    BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dyz BHist.Empty ->
+        MetricDistanceWitness x BHist.Empty dxyz := by
+  intro xy yz xyz dyzEmpty
+  have collapsed :
+      hsame y BHist.Empty ∧ hsame z BHist.Empty ∧ hsame dxy x ∧ hsame dxyz x :=
+    MetricDistanceWitness_triangle_right_distance_empty_collapse xy yz xyz dyzEmpty
+  have canonical : MetricDistanceWitness x BHist.Empty x :=
+    And.intro xy.left
+      (And.intro unary_empty (And.intro xy.left (cont_right_unit x)))
+  exact MetricDistanceWitness_hsame_fields_transport (hsame_refl x) (hsame_refl BHist.Empty)
+    (hsame_symm collapsed.right.right.right) canonical
+
 theorem MetricDistanceWitness_visible_context_triangle_depth_zero_collapse
     {p q x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->

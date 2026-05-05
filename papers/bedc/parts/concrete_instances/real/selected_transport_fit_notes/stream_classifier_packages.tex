@@ -1,284 +1,3 @@
-Fit: traditional target transported contextual endpoint readback for RealUp;
-BEDC source RealUp stream hsame transport plus RatUp contextual endpoint
-readback; carrier rational-observation streams; classifiers RealStreamClassifier
-and selected RatHistoryClassifier; stability pointwise hsame transport, Cont
-context closure, and endpoint readback; ledger selected index, pointwise
-transport rows, contextual continuation outputs, one-headed and zero-headed
-tests; core theorem
-\autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package};
-exactness the six-row endpoint package; standard bridge transported RegSeqRat
-selected contextual observation readback; status $\mathsf{ProofTarget}$.
-
-Fit: traditional target transported contextual RealUp selected-tail
-determinacy; BEDC source RealUp streams, RatUp point classifiers,
-$\mathsf{Cont}$, and FKernel history sameness; carrier rational-observation
-streams; classifier $\mathsf{RealStreamClassifier}$ with selected contextual
-endpoint displays; stability pointwise representative transport and context
-closure; ledger selected index, two transport rows, context continuations, and
-four e-one displays; core theorem
-\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy};
-exactness canonical e-one tails under transported contexts; standard bridge
-RegSeqRat and dyadic selected endpoint readback; status
-$\mathsf{ProofTarget}$.
-
-Fit: traditional target finite-prefix transported selected endpoint-shape
-readback package for RealUp; BEDC source RatUp plus RealUp stream prefixes;
-carrier rational-observation streams; classifiers RealStreamPrefixClassifier
-and RatHistoryClassifier; stability prefix truncation, prefix hsame transport,
-endpoint projection, positive-denominator hsame transport, and zero-extension
-exclusion; ledger selected observation index, prefix surplus index, two
-transport rows, two e-one seals, and two zero-extension tests; core theorem
-\autoref{thm:real-stream-prefix-transported-selected-full-shape-readback-package};
-exactness the displayed classifier, tail, positive-denominator, unary, nonempty,
-and zero-extension package; standard bridge finite-prefix selected endpoint
-readback for transported RealUp rational observations; status
-$\mathsf{ProofTarget}$.
-
-\begin{theorem}[Real selected transport fit certificate]
-\label{thm:real-selected-transport-fit-certificate}
-For rational-observation streams
-$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
-indices $m,n$, and histories $a,a',b,b',z_X,z_Y:\Hist$, assume the pointwise
-transport rows and the two source classifier rows
-$$
-\forall i,\ \hsame(x(i),x'(i)),\quad
-\forall i,\ \hsame(y(i),y'(i)),\quad
-\mathsf{RealStreamClassifier}(x,y),\quad
-\mathsf{RealStreamPrefixClassifier}(x,y,m+n).
-$$
-Assume also the selected transported context rows
-$$
-\mathsf{UnaryHistory}(p_X(n)),\quad
-\mathsf{UnaryHistory}(t_X(n)),\quad
-\hsame(p_X(n),p_Y(n)),\quad
-\hsame(t_X(n),t_Y(n)),
-$$
-the selected continuation rows
-$$
-\mathsf{Cont}(p_X(n),x'(n),m_X(n)),\quad
-\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
-\quad\mathsf{Cont}(p_Y(n),y'(n),m_Y(n)),\quad
-\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
-$$
-and the selected e-one displays
-$$
-\hsame(o_X(n),\Eone(a)),\quad
-\hsame(o_X(n),\Eone(a')),\quad
-\hsame(o_Y(n),\Eone(b)),\quad
-\hsame(o_Y(n),\Eone(b')),\quad
-\hsame(x'(n),\Eone(a)),\quad
-\hsame(y'(n),\Eone(b)).
-$$
-Then the selected-transport fit carries the displayed package
-$$
-\begin{array}{l}
-\Bigl(
-\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))\land
-\mathsf{PositiveUnaryDenominator}(o_X(n))\land
-\mathsf{PositiveUnaryDenominator}(o_Y(n))\land\\
-\mathsf{UnaryHistory}(o_X(n))\land
-\mathsf{UnaryHistory}(o_Y(n))\land
-(\hsame(o_X(n),\emp)\to\mathsf{False})\land
-(\hsame(o_Y(n),\emp)\to\mathsf{False})\land\\
-(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})\land
-(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False})\land
-\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land
-\hsame(a,b)
-\Bigr)\\
-{}\land
-\Bigl(
-\mathsf{UnaryHistory}(a)\land
-\mathsf{UnaryHistory}(a')\land
-\mathsf{UnaryHistory}(b)\land
-\mathsf{UnaryHistory}(b')\land\\
-\hsame(a,a')\land
-\hsame(b,b')\land
-\hsame(a,b)\land
-\hsame(a',b')
-\Bigr)\\
-{}\land
-\Bigl(
-\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
-\mathsf{UnaryHistory}(a)\land
-\mathsf{UnaryHistory}(b)\land
-\hsame(a,b)\land\\
-\mathsf{PositiveUnaryDenominator}(x'(n))\land
-\mathsf{PositiveUnaryDenominator}(y'(n))\land
-\mathsf{UnaryHistory}(x'(n))\land
-\mathsf{UnaryHistory}(y'(n))\land\\
-(\hsame(x'(n),\emp)\to\mathsf{False})\land
-(\hsame(y'(n),\emp)\to\mathsf{False})\land\\
-(\hsame(x'(n),\Ezero(z_X))\to\mathsf{False})\land
-(\hsame(y'(n),\Ezero(z_Y))\to\mathsf{False})
-\Bigr).
-\end{array}
-$$
-\end{theorem}
-\begin{proof}
-We build the three displayed conjuncts separately and then conjoin them.
-
-For the first conjunct, apply
-\autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package}
-to the two pointwise transport rows, the stream classifier row, the displayed
-context rows, the four continuation rows, and the endpoint displays
-$\hsame(o_X(n),\Eone(a))$ and $\hsame(o_Y(n),\Eone(b))$. Its six enumerated
-rows project to the classifier row, the two positive-denominator rows, the two
-endpoint-unary rows, the two empty exclusions, the two zero-headed exclusions
-using $z_X$ and $z_Y$, and the tail rows
-$\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
-
-For the second conjunct, apply
-\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}
-to the same transport, classifier, context, and continuation rows, now using
-all four displayed e-one endpoints. The eight displayed rows of that theorem
-project directly to the four unary tail rows and the four hsame tail rows.
-
-For the third conjunct, apply
-\autoref{thm:real-stream-prefix-transported-selected-full-shape-readback-package}
-to the prefix classifier row, the two pointwise transport rows, and the selected
-endpoint displays $\hsame(x'(n),\Eone(a))$ and
-$\hsame(y'(n),\Eone(b))$. Its displayed readback package projects to the
-e-one classifier, tail, positive-denominator, endpoint-unary, empty-exclusion,
-and zero-headed exclusion rows for $x'(n)$ and $y'(n)$.
-
-The three row packages just obtained are exactly the three displayed
-conjuncts, and their conjunction is the stated selected-transport fit
-certificate.
-\end{proof}
-
-\begin{theorem}[Real selected transport fit appended-tail certificate]
-\label{thm:real-selected-transport-fit-appended-tail-certificate}
-For rational-observation streams
-$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
-indices $m,n$, and histories
-$a,a',b,b',d_X,d_Y,e_X,e_Y,w_X,w_Y,z_X,z_Y:\Hist$, assume the pointwise
-transport rows and the two source classifier rows
-$$
-\forall i,\ \hsame(x(i),x'(i)),\quad
-\forall i,\ \hsame(y(i),y'(i)),\quad
-\mathsf{RealStreamClassifier}(x,y),\quad
-\mathsf{RealStreamPrefixClassifier}(x,y,m+n).
-$$
-Assume also the selected transported context rows
-$$
-\mathsf{UnaryHistory}(p_X(n)),\quad
-\mathsf{UnaryHistory}(t_X(n)),\quad
-\hsame(p_X(n),p_Y(n)),\quad
-\hsame(t_X(n),t_Y(n)),
-$$
-the selected continuation rows
-$$
-\mathsf{Cont}(p_X(n),x'(n),m_X(n)),\quad
-\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
-\quad\mathsf{Cont}(p_Y(n),y'(n),m_Y(n)),\quad
-\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
-$$
-and the selected e-one displays
-$$
-\hsame(o_X(n),\Eone(a)),\quad
-\hsame(o_X(n),\Eone(a')),\quad
-\hsame(o_Y(n),\Eone(b)),\quad
-\hsame(o_Y(n),\Eone(b')),\quad
-\hsame(x'(n),\Eone(a)),\quad
-\hsame(y'(n),\Eone(b)).
-$$
-Then the three displayed conjuncts of
-\autoref{thm:real-selected-transport-fit-certificate} hold, and the same
-selected-transport fit carries the appended e-zero-tail exclusions
-$$
-\begin{array}{l}
-\Bigl(
-\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))\land
-\mathsf{PositiveUnaryDenominator}(o_X(n))\land
-\mathsf{PositiveUnaryDenominator}(o_Y(n))\land\\
-\mathsf{UnaryHistory}(o_X(n))\land
-\mathsf{UnaryHistory}(o_Y(n))\land
-(\hsame(o_X(n),\emp)\to\mathsf{False})\land
-(\hsame(o_Y(n),\emp)\to\mathsf{False})\land\\
-(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})\land
-(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False})\land
-\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land
-\hsame(a,b)
-\Bigr)\\
-{}\land
-\Bigl(
-\mathsf{UnaryHistory}(a)\land
-\mathsf{UnaryHistory}(a')\land
-\mathsf{UnaryHistory}(b)\land
-\mathsf{UnaryHistory}(b')\land\\
-\hsame(a,a')\land
-\hsame(b,b')\land
-\hsame(a,b)\land
-\hsame(a',b')
-\Bigr)\\
-{}\land
-\Bigl(
-\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
-\mathsf{UnaryHistory}(a)\land
-\mathsf{UnaryHistory}(b)\land
-\hsame(a,b)\land\\
-\mathsf{PositiveUnaryDenominator}(x'(n))\land
-\mathsf{PositiveUnaryDenominator}(y'(n))\land
-\mathsf{UnaryHistory}(x'(n))\land
-\mathsf{UnaryHistory}(y'(n))\land\\
-(\hsame(x'(n),\emp)\to\mathsf{False})\land
-(\hsame(y'(n),\emp)\to\mathsf{False})\land\\
-(\hsame(x'(n),\Ezero(z_X))\to\mathsf{False})\land
-(\hsame(y'(n),\Ezero(z_Y))\to\mathsf{False})
-\Bigr)\\
-{}\land
-(\hsame(o_X(n),d_X\cdot\Ezero(z_X))\to\mathsf{False})\land
-(\hsame(o_Y(n),d_Y\cdot\Ezero(z_Y))\to\mathsf{False})\land\\
-(\hsame(x'(n),e_X\cdot\Ezero(w_X))\to\mathsf{False})\land
-(\hsame(y'(n),e_Y\cdot\Ezero(w_Y))\to\mathsf{False}).
-\end{array}
-$$
-\end{theorem}
-\begin{proof}
-First invoke
-\autoref{thm:real-selected-transport-fit-certificate} with the displayed
-transport, classifier, context, continuation, and e-one rows. This gives the
-contextual endpoint package, contextual e-one determinacy package, and
-finite-prefix selected endpoint-shape package used below.
-
-Next invoke
-\autoref{thm:real-stream-classifier-transported-contextual-displayed-e1-appended-tail-exclusion-package}
-on the same pointwise transport rows, source stream classifier, selected context
-rows, continuation rows, and contextual displays $\hsame(o_X(n),\Eone(a))$ and
-$\hsame(o_Y(n),\Eone(b))$. Its appended-tail clause gives the two contextual
-output exclusions for $o_X(n)$ and $o_Y(n)$ with prefixes $d_X$ and $d_Y$.
-
-It remains to exclude appended e-zero tails for the selected endpoints. Project
-$\mathsf{PositiveUnaryDenominator}(x'(n))$ and
-$\mathsf{PositiveUnaryDenominator}(y'(n))$ from the finite-prefix conjunct
-already supplied by \autoref{thm:real-selected-transport-fit-certificate}.
-
-For $x'(n)$, suppose $\hsame(x'(n),e_X\cdot\Ezero(w_X))$. Transport the
-positive-denominator row across this history sameness by
-\autoref{thm:rat-positive-unary-denominator-hsame-transport}; the resulting
-positive denominator for $e_X\cdot\Ezero(w_X)$ contradicts
-\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
-
-For $y'(n)$, the same argument applied to
-$\hsame(y'(n),e_Y\cdot\Ezero(w_Y))$ transports the positive-denominator row to
-$e_Y\cdot\Ezero(w_Y)$ and contradicts the appended e-zero-tail obstruction.
-Combining the three fit conjuncts with these four exclusions gives the displayed
-certificate.
-\end{proof}
-
-Fit: traditional target selected RealUp transport certificate with appended-tail
-endpoint exclusion; BEDC source RealUp streams, RatUp contextual readback, and
-finite-prefix selected endpoint shape; carrier rational-observation streams;
-classifiers RealStreamClassifier, RealStreamPrefixClassifier, and selected
-RatHistoryClassifier; stability pointwise hsame transport, contextual
-continuation, e-one display transport, positive-denominator hsame transport, and
-appended e-zero-tail obstruction; ledger selected index, transport rows,
-contextual output tails, selected endpoint tails, and denominator tests; core
-theorem \autoref{thm:real-selected-transport-fit-appended-tail-certificate};
-exactness original fit package plus four appended-tail exclusions; standard
-bridge RealUp dyadic/RegSeqRat selected endpoint normalization row; status
-$\mathsf{ProofTarget}$.
-
 \begin{theorem}[Real selected transport fit from stream classifier]
 \label{thm:real-selected-transport-fit-from-stream-classifier}
 For rational-observation streams
@@ -418,7 +137,8 @@ $$
 \mathsf{UnaryHistory}(a')\land
 \mathsf{UnaryHistory}(b)\land
 \mathsf{UnaryHistory}(b')\land\\
-\hsame(a,a')\land \hsame(b,b')\land \hsame(a,b)\land \hsame(a',b').
+\hsame(a,a')\land \hsame(b,b')\land \hsame(a,b)\land\\
+\hsame(a',b')\land \hsame(a,b')\land \hsame(a',b).
 \end{array}
 $$
 \end{theorem}
@@ -440,6 +160,10 @@ This supplies $\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$,
 $\hsame(a,a')$, $\hsame(b,b')$, and $\hsame(a',b')$, while retaining the
 $a,b$ tail rows already identified above.
 
+The off-diagonal tail rows are constructive consequences of these rows. Compose
+$\hsame(a,b)$ with $\hsame(b,b')$ to obtain $\hsame(a,b')$; compose the
+symmetry of $\hsame(a,a')$ with $\hsame(a,b)$ to obtain $\hsame(a',b)$.
+
 Apply \autoref{thm:real-stream-classifier-prefix} to
 $\mathsf{RealStreamClassifier}(x,y)$ at the finite length $m+n$. This gives the
 derived row $\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ used by the selected
@@ -457,7 +181,8 @@ Finally use the reverse direction of
 $\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
 $\hsame(a',b')$. It gives
 $\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))$, which combines with the
-first displayed classifier and the eight synchronized tail rows.
+first displayed classifier, the four unary tail rows, and the six pairwise
+synchronized tail rows.
 \end{proof}
 
 Fit: traditional target synchronized selected RealUp observation readback; BEDC
@@ -466,10 +191,11 @@ $\hsame$; carrier rational-observation streams; classifiers
 RealStreamClassifier plus RatHistoryClassifier on displayed e-one endpoints;
 stability pointwise transport, stream-classifier finite-prefix closure,
 contextual continuation, and e-one tail inversion/congruence; ledger selected
-index, prefix surplus, four endpoint tails, two contextual outputs, and prefix
+index, prefix surplus, four endpoint histories, two contextual outputs, and prefix
 endpoint rows; core theorem
 \autoref{thm:real-selected-transport-synchronized-e1-endpoints}; exactness the
-two displayed RatHistoryClassifier rows and all four synchronized tails;
+two displayed RatHistoryClassifier rows and all six pairwise synchronized tail
+rows;
 standard bridge selected RegSeqRat dyadic observation readback; status
 $\mathsf{ProofTarget}$.
 
@@ -526,7 +252,9 @@ $$
 \end{array}
 $$
 \item The contextual e-one tail determinacy package of
-\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}:
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}
+together with the off-diagonal rows of
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-cross-hsame}:
 $$
 \begin{array}{l}
 \mathsf{UnaryHistory}(a)\land
@@ -536,7 +264,9 @@ $$
 \hsame(a,a')\land
 \hsame(b,b')\land
 \hsame(a,b)\land
-\hsame(a',b').
+\hsame(a',b')\land
+\hsame(a,b')\land
+\hsame(a',b).
 \end{array}
 $$
 \item The finite-prefix selected full-shape readback package of
@@ -567,7 +297,9 @@ $$
 \hsame(a,a')\land
 \hsame(b,b')\land
 \hsame(a,b)\land
-\hsame(a',b').
+\hsame(a',b')\land
+\hsame(a,b')\land
+\hsame(a',b).
 \end{array}
 $$
 \end{enumerate}
@@ -584,6 +316,10 @@ Next apply
 to the same transported contextual data and all four displayed e-one endpoints.
 This gives the contextual e-one tail determinacy package, including the primed
 tail rows used below.
+
+The two off-diagonal rows are the same constructive consequences: compose
+$\hsame(a,b)$ with $\hsame(b,b')$ for $\hsame(a,b')$, and compose the symmetry
+of $\hsame(a,a')$ with $\hsame(a,b)$ for $\hsame(a',b)$.
 
 Apply \autoref{thm:real-stream-classifier-prefix} to
 $\mathsf{RealStreamClassifier}(x,y)$ at the finite length $m+n$. This gives the
@@ -603,8 +339,8 @@ Finally use the reverse direction of
 $\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
 $\hsame(a',b')$. It gives
 $\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))$, and the remaining
-synchronized rows are exactly the tail rows already supplied by the
-determinacy package.
+synchronized rows are exactly the six pairwise tail rows supplied by the
+determinacy package and its off-diagonal consequences.
 \end{proof}
 
 \begin{theorem}[Real selected transport synchronized package from stream classifier]
@@ -660,7 +396,9 @@ $$
 \end{array}
 $$
 \item The contextual e-one tail determinacy package of
-\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}:
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}
+together with the off-diagonal rows of
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-cross-hsame}:
 $$
 \begin{array}{l}
 \mathsf{UnaryHistory}(a)\land
@@ -670,7 +408,9 @@ $$
 \hsame(a,a')\land
 \hsame(b,b')\land
 \hsame(a,b)\land
-\hsame(a',b').
+\hsame(a',b')\land
+\hsame(a,b')\land
+\hsame(a',b).
 \end{array}
 $$
 \item The finite-prefix selected full-shape readback package of
@@ -701,7 +441,9 @@ $$
 \hsame(a,a')\land
 \hsame(b,b')\land
 \hsame(a,b)\land
-\hsame(a',b').
+\hsame(a',b')\land
+\hsame(a,b')\land
+\hsame(a',b).
 \end{array}
 $$
 \end{enumerate}
@@ -715,7 +457,8 @@ Apply \autoref{thm:real-selected-transport-fit-synchronized-package} with the
 derived prefix row, the source stream classifier row, the two pointwise
 transport rows, and the remaining context, continuation, and displayed e-one
 hypotheses. The four returned packages are exactly the four packages displayed
-above.
+above, with six pairwise synchronized tail rows in the displayed synchronized
+package.
 \end{proof}
 
 Fit: traditional target selected RealUp observation synchronization from a
@@ -724,22 +467,70 @@ StreamNameUp, and $\mathsf{Cont}$; carrier rational-observation streams;
 classifier $\mathsf{RealStreamClassifier}$ with derived finite-prefix row;
 stability pointwise $\hsame$ transport, contextual continuation, and e-one
 inversion; ledger selected index, prefix length, transport rows, contexts, and
-four tails; core theorem
+four tail histories; core theorem
 \autoref{thm:real-selected-transport-synchronized-package-from-stream-classifier};
-exactness the four synchronized packages; standard bridge selected RegSeqRat
-dyadic observation readback; status $\mathsf{ProofTarget}$.
+exactness the four synchronized packages, including six pairwise synchronized
+tail rows; standard bridge selected RegSeqRat dyadic observation readback;
+status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real selected transport synchronized appended-tail package from stream classifier]
+\label{thm:real-selected-transport-synchronized-appended-tail-package-from-stream-classifier}
+For rational-observation streams $x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
+indices $m,n$, and histories $a,a',b,b',d_X,d_Y,e_X,e_Y,w_X,w_Y,z_X,z_Y:\Hist$, assume the pointwise transport rows and the source stream classifier row
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad \forall i,\ \hsame(y(i),y'(i)),\quad \mathsf{RealStreamClassifier}(x,y).
+$$
+Assume also the selected transported context rows
+$$
+\mathsf{UnaryHistory}(p_X(n)),\quad \mathsf{UnaryHistory}(t_X(n)),\quad \hsame(p_X(n),p_Y(n)),\quad \hsame(t_X(n),t_Y(n)),
+$$
+the selected continuation rows
+$$
+\mathsf{Cont}(p_X(n),x'(n),m_X(n)),\quad \mathsf{Cont}(m_X(n),t_X(n),o_X(n)),\quad
+\mathsf{Cont}(p_Y(n),y'(n),m_Y(n)),\quad \mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
+$$
+and the selected e-one displays
+$$
+\hsame(o_X(n),\Eone(a)),\quad \hsame(o_X(n),\Eone(a')),\quad \hsame(o_Y(n),\Eone(b)),\quad \hsame(o_Y(n),\Eone(b')),\quad
+\hsame(x'(n),\Eone(a)),\quad \hsame(y'(n),\Eone(b)).
+$$
+Then the four synchronized packages of \autoref{thm:real-selected-transport-synchronized-package-from-stream-classifier} hold together with the appended e-zero-tail exclusions
+$$
+\begin{array}{l}
+(\hsame(o_X(n),d_X\cdot\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),d_Y\cdot\Ezero(z_Y))\to\mathsf{False})\land\\
+(\hsame(x'(n),e_X\cdot\Ezero(w_X))\to\mathsf{False})\land
+(\hsame(y'(n),e_Y\cdot\Ezero(w_Y))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-classifier-prefix} to
+$\mathsf{RealStreamClassifier}(x,y)$ at the finite length $m+n$. This produces
+the derived row $\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$.
+
+Invoke \autoref{thm:real-selected-transport-synchronized-package-from-stream-classifier}
+with the source stream classifier row and all displayed transport, context, continuation, and e-one rows. This gives the four synchronized packages.
+
+Invoke \autoref{thm:real-selected-transport-fit-appended-tail-certificate} with
+the derived prefix row and the same displayed hypotheses. Its appended-tail
+conjunct gives exactly the four displayed exclusions.
+
+Conjoin these outputs.
+\end{proof}
+
+Fit: traditional target RealUp selected-transport synchronized appended-tail package from stream classifier; BEDC source RealUp stream classifier plus RatUp
+denominator obstruction; carrier rational-observation streams; classifier $\mathsf{RealStreamClassifier}$; stability pointwise $\hsame$, $\Cont$, prefix
+closure, positive-denominator transport; ledger selected index and appended-tail probes; exactness synchronized package plus four exclusions; downstream
+RegSeqRat/dyadic endpoint normalization; status $\mathsf{ProofTarget}$.
 
 Fit: traditional target synchronized transported RealUp selected-observation
 certificate; BEDC source RealUp stream transport plus RatUp and FKernel
 $\Cont$; carrier rational-observation streams; classifier RealStreamClassifier
 plus displayed RatHistoryClassifier rows; stability pointwise $\hsame$, context
 closure, stream-classifier finite-prefix closure, e-one inversion; ledger
-selected index, prefix surplus, four tails, contexts; core theorem
+selected index, prefix surplus, four tail histories, contexts; core theorem
 \autoref{thm:real-selected-transport-fit-synchronized-package}; exactness
-package plus synchronized classifiers; standard bridge selected RegSeqRat
-dyadic observation readback; status $\mathsf{ProofTarget}$.
-
-\input{parts/concrete_instances/real/selected_transport_fit_synchronized_from_stream_classifier}
-\input{parts/concrete_instances/real/selected_transport_fit_notes/fit_certificates.tex}
-\input{parts/concrete_instances/real/selected_transport_fit_notes/stream_classifier_packages.tex}
-\input{parts/concrete_instances/real/13_real_selected_transport_synchronization_fit_notes.tex}
+package plus synchronized classifiers and six pairwise synchronized tail rows;
+standard bridge selected RegSeqRat dyadic observation readback; status
+$\mathsf{ProofTarget}$.

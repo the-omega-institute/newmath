@@ -73,3 +73,48 @@ The visible-context iff then appends the certified unary ledgers $p$ and $q$
 around this central witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_right\_distance\_empty\_visible\_context\_closed}
+
+\begin{theorem}[Metric triangle right distance empty spine witness]
+\label{thm:metric-distance-witness-triangle-right-distance-empty-spine-witness}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the right distance in a
+metric triangle is history-same to $\emp$, then the outer displayed distance
+itself is a metric witness from $x$ to the empty endpoint:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow\\
+\hsame(d_{yz},\emp)\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,\emp,d_{xyz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The right-distance empty collapse identifies $d_{xyz}$ with $x$ and the first
+metric witness supplies unary membership of $x$. Empty-right metric exactness
+then packages this endpoint readback as a metric witness from $x$ to $\emp$
+with displayed distance $d_{xyz}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_right\_distance\_empty\_spine\_witness}
+
+\begin{theorem}[Metric triangle right empty boundary witness]
+\label{thm:metric-distance-witness-triangle-right-empty-boundary-witness}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$,
+$\mathsf{MetricDistanceWitness}(y,z,d_{yz})$, and
+$\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$ form a metric triangle and
+$d_{yz}\hsame\emp$, then the outer result is itself a distance witness from
+$x$ to the empty boundary:
+$$
+\mathsf{MetricDistanceWitness}(x,\emp,d_{xyz}).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{thm:metric-distance-witness-triangle-right-distance-empty-collapse},
+the right empty distance identifies $d_{xyz}$ with $x$. The canonical
+right-empty witness $\mathsf{MetricDistanceWitness}(x,\emp,x)$ uses the source
+carrier of the first edge, the empty unary carrier, and the right unit
+continuation $x\cdot\emp=x$. Transporting the result field along
+$d_{xyz}\hsame x$ gives the displayed witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_right\_empty\_boundary\_witness}

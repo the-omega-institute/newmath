@@ -586,6 +586,41 @@ witnesses over the displayed $\Cont(x,y,z)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_cont\_closed}
 
+\begin{lemma}[Right factor divisibility of a displayed product]
+\label{thm:nat-divides-mul-right-closed}
+If $d$ and $q$ are unary histories and $\mathsf{NatMul}(d,q,n)$ displays
+$n$ as their product, then $q$ divides $n$:
+$$
+\mathsf{UnaryHistory}(d)\Longrightarrow
+\mathsf{UnaryHistory}(q)\Longrightarrow
+\mathsf{NatMul}(d,q,n)\Longrightarrow
+\mathsf{NatDivides}(q,n).
+$$
+\end{lemma}
+\begin{proof}
+Totality of multiplication gives a displayed product for $q$ by $d$.
+Commutativity up to $\hsame$ compares that product with the given display
+of $d$ by $q$. The commuted display is a divisibility witness for $q$, and
+dividend transport across the result comparison carries it back to $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_mul\_right\_closed}
+
+\begin{theorem}[Nat divisibility is closed under left multiplication]
+\label{thm:nat-divides-mul-left-closed}
+For histories $d,x,q,z:\Hist$, if $x$ is unary,
+$\mathsf{NatDivides}(d,q)$, and $\mathsf{NatMul}(x,q,z)$, then
+$\mathsf{NatDivides}(d,z)$.
+\end{theorem}
+\begin{proof}
+Choose the quotient witness for $\mathsf{NatDivides}(d,q)$. Since $q$ is a
+unary result of that divisor witness, total multiplication gives a product of
+$q$ with $x$. Multiplicative commutativity identifies this product with the
+given product $z$ up to $\hsame$. Thus $q$ divides $z$ after dividend
+transport, and transitivity of $\mathsf{NatDivides}$ carries the original
+divisor $d$ through $q$ into $z$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_mul\_left\_closed}
+
 \begin{lemma}[Divisors of a nonempty unary product are bounded by the result]
 \label{lem:natdivides-result-boundary}
 If $\mathsf{NatDivides}(d,n)$, $n$ is unary, and $n\not\hsame\emp$, then
