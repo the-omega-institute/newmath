@@ -12,6 +12,21 @@ open BEDC.Derived.VecSpaceUp
 def FieldExtSingletonEmbedding (h : BHist) : BHist :=
   append BHist.Empty h
 
+def FieldExtSingletonLedgerPolicy (h : BHist) : Prop :=
+  FieldSingletonCarrier h ∧ VecSpaceSingletonCarrier h ∧
+    FieldSingletonClassifier (FieldExtSingletonEmbedding h) (append BHist.Empty h)
+
+theorem FieldExtSingletonLedgerPolicy_carrier_coincidence {h : BHist} :
+    FieldExtSingletonLedgerPolicy h ->
+      FieldSingletonCarrier h ∧ VecSpaceSingletonCarrier h ∧
+        FieldSingletonClassifier (FieldExtSingletonEmbedding h) (append BHist.Empty h) := by
+  intro policy
+  cases policy with
+  | intro fieldCarrier rest =>
+      cases rest with
+      | intro vecCarrier embeddedClassifier =>
+          exact And.intro fieldCarrier (And.intro vecCarrier embeddedClassifier)
+
 theorem FieldExtSingletonVectorSpace_smul_mul_compatible {r m : BHist} :
     FieldSingletonCarrier r -> VecSpaceSingletonCarrier m ->
       VecSpaceSingletonCarrier (VecSpaceSingletonSmul (FieldExtSingletonEmbedding r) m) ∧

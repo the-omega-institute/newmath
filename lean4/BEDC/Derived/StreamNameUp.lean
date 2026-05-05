@@ -5,6 +5,7 @@ namespace BEDC.Derived.StreamNameUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
 
@@ -17,6 +18,10 @@ def RatStreamNameCarrier (s : BHist -> BHist) : Prop :=
 def RatStreamNameClassifier (s t : BHist -> BHist) : Prop :=
   RatStreamNameCarrier s ∧ RatStreamNameCarrier t ∧
     forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n)
+
+def RatStreamNameFiniteWindowClassifier (s t : BHist -> BHist)
+    (bundle : ProbeBundle BHist) : Prop :=
+  forall n : BHist, InBundle n bundle -> UnaryHistory n -> RatHistoryClassifier (s n) (t n)
 
 def RatStreamName_constant (d : BHist) (_n : BHist) : BHist :=
   append BHist.Empty d
@@ -156,6 +161,27 @@ theorem RatStreamName_constant_witness {d e : BHist} :
           | e0 _ => exact ratClassifier
           | e1 _ => exact ratClassifier))
   exact And.intro pointSame (And.intro carrierSelf classifierLift)
+
+theorem RatStreamNameFiniteWindowClassifier_constant_exactness {h k : BHist}
+    {bundle : ProbeBundle BHist} :
+    (exists n : BHist, InBundle n bundle ∧ UnaryHistory n) ->
+      (RatStreamNameFiniteWindowClassifier (RatConstStream h) (RatConstStream k) bundle ↔
+        RatHistoryClassifier h k) := by
+  intro bundleWitness
+  constructor
+  · intro windowClassified
+    cases bundleWitness with
+    | intro n memberData =>
+        exact windowClassified n memberData.left memberData.right
+  · intro ratClassified
+    intro n _member _nUnary
+    cases n with
+    | Empty =>
+        exact ratClassified
+    | e0 _ =>
+        exact ratClassified
+    | e1 _ =>
+        exact ratClassified
 
 theorem RatStreamName_constant_reindexing_classifier {d e : BHist} {r : BHist -> BHist}
     (preservesUnary : forall n : BHist, UnaryHistory n -> UnaryHistory (r n)) :
