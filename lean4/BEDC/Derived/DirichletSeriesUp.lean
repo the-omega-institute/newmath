@@ -8,9 +8,18 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexLimitUp
+open BEDC.Derived.ComplexUp
 
 def DirichletTerm (coeff : BHist -> BHist) (n s : BHist) : BHist :=
   append (coeff n) s
+
+theorem DirichletTerm_complex_carrier_well_defined {coeff : BHist -> BHist} {n s : BHist} :
+    UnaryHistory n -> ComplexHistoryCarrier (coeff n) -> ComplexHistoryCarrier s ->
+      ComplexHistoryCarrier (DirichletTerm coeff n s) := by
+  intro _unaryN coeffCarrier sCarrier
+  unfold DirichletTerm
+  exact ComplexHistoryCarrier_append_unary_closed coeffCarrier
+    (ComplexHistoryCarrier_unary sCarrier)
 
 inductive DirichletPartSum (term : BHist -> BHist -> BHist) (s : BHist) :
     BHist -> BHist -> Prop where
