@@ -358,68 +358,6 @@ For the reverse implication, assume $U(z)\vee V(z)$. In the $U(z)$ case, the rev
 Thus for every $z$ the appended enumeration predicate is equivalent to $U(z)\vee V(z)$, which is exactly the displayed enumeration claim.
 \end{proof}
 
-\begin{lemma}[Certified finite-position bijections invert]
-\label{lem:finset-enum-position-bijection-inversion}
-For finite BEDC-history spines $xs$ and $ys$, any certified finite-position bijection
-$$
-\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)
-$$
-has an inverse certified finite-position bijection
-$$
-\pi^{-1}:\mathsf{Pos}(ys)\cong\mathsf{Pos}(xs),
-$$
-whose inverse position map is $\pi$.
-\end{lemma}
-\begin{proof}
-By the certified-bijection clause recalled in \autoref{def:finset-classifier-preserving-enumeration-permutation}, the datum for $\pi$ consists of the forward position map $\pi$, the inverse position map $\pi^{-1}$, and the two inverse identities
-$$
-\pi^{-1}(\pi(i))=i
-\qquad\text{and}\qquad
-\pi(\pi^{-1}(j))=j.
-$$
-For the reversed bijection, take forward map $\pi^{-1}$ and inverse map $\pi$. Its two identities are exactly the same two identities with the source and target position carriers exchanged.
-\end{proof}
-
-\begin{theorem}[EnumPerm inverse symmetry]
-\label{thm:enumperm-inverse-symmetry}
-Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For finite BEDC-history spines $xs$ and $ys$, if
-$$
-\mathsf{EnumPerm}_{A,\sim_A}(xs,ys)
-$$
-holds, then
-$$
-\mathsf{EnumPerm}_{A,\sim_A}(ys,xs)
-$$
-holds.
-\end{theorem}
-\begin{proof}
-Unfold \autoref{def:finset-classifier-preserving-enumeration-permutation}. Choose the certified bijection
-$$
-\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)
-$$
-and its pointwise preservation field $P_\pi$. By \autoref{lem:finset-enum-position-bijection-inversion}, $\pi^{-1}$ is a certified bijection from $\mathsf{Pos}(ys)$ to $\mathsf{Pos}(xs)$.
-
-It remains to verify the pointwise preservation field for this inverse bijection. Fix $j:\mathsf{Pos}(ys)$ and put $i=\pi^{-1}(j)$. The inverse identity gives $\pi(i)=j$. The field $P_\pi(i)$ gives
-$$
-A(\mathsf{entry}_{xs}(i))
-\qquad\text{and}\qquad
-A(\mathsf{entry}_{ys}(\pi(i)))
-$$
-and also
-$$
-\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
-$$
-Using $\pi(i)=j$, these become the carrier witnesses $A(\mathsf{entry}_{xs}(i))$ and $A(\mathsf{entry}_{ys}(j))$, together with the classifier comparison
-$$
-\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(j).
-$$
-The symmetry field of $\mathsf{cert}$, supplied by \autoref{def:lean-carrier-naming-certificate}, reverses this comparison to
-$$
-\mathsf{entry}_{ys}(j)\sim_A\mathsf{entry}_{xs}(i).
-$$
-Thus $j$ satisfies the pointwise carrier-and-classifier clause required for the inverse map $\pi^{-1}$. Since $j$ was arbitrary, the inverse certified bijection and this pointwise field repack as $\mathsf{EnumPerm}_{A,\sim_A}(ys,xs)$.
-\end{proof}
-
 \begin{lemma}[Certified finite-position identity bijection]
 \label{lem:finset-enum-position-identity-bijection}
 For every finite BEDC-history spine $xs:\mathsf{HistSpine}$, the identity map on $\mathsf{Pos}(xs)$ is a certified finite-position bijection
@@ -511,4 +449,98 @@ $$
 \mathsf{EnumMem}_{A,\sim_A}(q,xs).
 $$
 Applying the same classifier clause in \autoref{def:finset-enumeration-membership} repacks this pointwise statement as $\mathsf{FinSetEnumClassifier}_{A,\sim_A}(ys,xs)$.
+\end{proof}
+
+\begin{lemma}[Certified finite-position bijections invert]
+\label{lem:finset-enum-position-bijection-inversion}
+For finite BEDC-history spines $xs$ and $ys$, any certified finite-position bijection
+$$
+\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)
+$$
+has an inverse certified finite-position bijection
+$$
+\pi^{-1}:\mathsf{Pos}(ys)\cong\mathsf{Pos}(xs),
+$$
+whose inverse position map is $\pi$.
+\end{lemma}
+\begin{proof}
+By the certified-bijection clause recalled in \autoref{def:finset-classifier-preserving-enumeration-permutation}, the datum for $\pi$ consists of the forward position map $\pi$, the inverse position map $\pi^{-1}$, and the two inverse identities
+$$
+\pi^{-1}(\pi(i))=i
+\qquad\text{and}\qquad
+\pi(\pi^{-1}(j))=j.
+$$
+For the reversed bijection, take forward map $\pi^{-1}$ and inverse map $\pi$. Its two identities are exactly the same two identities with the source and target position carriers exchanged.
+\end{proof}
+
+\begin{theorem}[EnumPerm inverse symmetry]
+\label{thm:enumperm-inverse-symmetry}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For finite BEDC-history spines $xs$ and $ys$, if
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(xs,ys)
+$$
+holds, then
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(ys,xs)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:finset-classifier-preserving-enumeration-permutation}. Choose the certified bijection
+$$
+\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)
+$$
+and its pointwise preservation field $P_\pi$. By \autoref{lem:finset-enum-position-bijection-inversion}, $\pi^{-1}$ is a certified bijection from $\mathsf{Pos}(ys)$ to $\mathsf{Pos}(xs)$.
+
+It remains to verify the pointwise preservation field for this inverse bijection. Fix $j:\mathsf{Pos}(ys)$ and put $i=\pi^{-1}(j)$. The inverse identity gives $\pi(i)=j$. The field $P_\pi(i)$ gives
+$$
+A(\mathsf{entry}_{xs}(i))
+\qquad\text{and}\qquad
+A(\mathsf{entry}_{ys}(\pi(i)))
+$$
+and also
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+Using $\pi(i)=j$, these become the carrier witnesses $A(\mathsf{entry}_{xs}(i))$ and $A(\mathsf{entry}_{ys}(j))$, together with the classifier comparison
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(j).
+$$
+The symmetry field of $\mathsf{cert}$, supplied by \autoref{def:lean-carrier-naming-certificate}, reverses this comparison to
+$$
+\mathsf{entry}_{ys}(j)\sim_A\mathsf{entry}_{xs}(i).
+$$
+Thus $j$ satisfies the pointwise carrier-and-classifier clause required for the inverse map $\pi^{-1}$. Since $j$ was arbitrary, the inverse certified bijection and this pointwise field repack as $\mathsf{EnumPerm}_{A,\sim_A}(ys,xs)$.
+\end{proof}
+
+\begin{theorem}[EnumPerm identity reflexivity]
+\label{thm:enumperm-identity-reflexivity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For every finite BEDC-history spine $xs:\mathsf{HistSpine}$, if every position entry is carried by $A$,
+$$
+\forall i:\mathsf{Pos}(xs).\;A(\mathsf{entry}_{xs}(i)),
+$$
+then
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(xs,xs)
+$$
+holds, witnessed by the identity bijection on $\mathsf{Pos}(xs)$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:finset-classifier-preserving-enumeration-permutation}. Supply the certified finite-position bijection whose forward map and inverse map are both the identity function on $\mathsf{Pos}(xs)$. The two inverse identities are the pointwise equalities $i=i$ and $j=j$, so this is a certified bijection from $\mathsf{Pos}(xs)$ to itself.
+
+It remains to verify the pointwise carrier-and-classifier field. Fix a position $i:\mathsf{Pos}(xs)$. The hypothesis gives
+$$
+A(\mathsf{entry}_{xs}(i)).
+$$
+Under the identity position map, the matched source and target entries are both $\mathsf{entry}_{xs}(i)$. The reflexivity field of $\mathsf{cert}$, supplied by \autoref{def:lean-carrier-naming-certificate}, gives
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{xs}(i).
+$$
+Therefore the matched pair at $i$ satisfies
+$$
+A(\mathsf{entry}_{xs}(i))\land
+A(\mathsf{entry}_{xs}(i))\land
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{xs}(i).
+$$
+Since $i$ was arbitrary, the identity certified bijection has the required pointwise preservation field. Repacking these data proves $\mathsf{EnumPerm}_{A,\sim_A}(xs,xs)$.
 \end{proof}
