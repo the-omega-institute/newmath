@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.18
+// @version      1.19
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -43,7 +43,7 @@
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
   const NO_OUTPUT_IDLE_TIMEOUT = 420000;
-  const SCRIPT_VERSION = "bedc-1.18";
+  const SCRIPT_VERSION = "bedc-1.19";
   const BEDC_PROJECT_PREFIX = "/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc";
   const BEDC_PROJECT_HOME = `https://chatgpt.com${BEDC_PROJECT_PREFIX}/project`;
 
@@ -1122,6 +1122,18 @@
     busy = true;
     updatePanel();
 
+    if (!isInsideBedcProject()) {
+      if (ensureInProject()) {
+        busy = false;
+        updatePanel();
+        return;
+      }
+      log(`Outside BEDC Project; refusing task on ${window.location.href.slice(-60)}`);
+      busy = false;
+      updatePanel();
+      return;
+    }
+
     // BEDC ADD: re_extract mode. Server says "this conversation already
     // has the response we want — just navigate there and extract the latest
     // assistant message, do not enter or send anything". Used to recover
@@ -1543,6 +1555,10 @@
     const urlHasFlag = window.location.search.includes("bedc=");
     const inFlightId = getInFlightTaskId();
     const inFlightAgeMin = Math.floor(getInFlightAgeMs() / 60000);
+    const storedActive = (() => {
+      try { return sessionStorage.getItem("bedc_active") === "1"; }
+      catch { return false; }
+    })();
 
     if (urlHasFlag && !isInsideBedcProject()) {
       const target = projectEntryUrl();
@@ -1550,6 +1566,8 @@
       window.location.href = target;
       return;
     }
+
+    if ((inFlightId || storedActive) && ensureInProject()) return;
 
     // BEDC ADD: if we have an in-flight task that's clearly stuck (>3h),
     // give up — server's task_timeout (4h) hasn't kicked in yet but we don't
@@ -1570,7 +1588,7 @@
       try {
         await serverPost("/pin-conv-url", {
           task_id: inFlightId,
-          chatgpt_url: window.location.href.split("?")[0],
+          chatgpt_url: currentChatUrl(),
           agent_id: agentId(),
         });
       } catch {}
