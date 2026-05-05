@@ -562,4 +562,25 @@ theorem SOneHistoryCarrier_e1_components_unit_equation_classifier
     (And.intro readback.right.left
       (And.intro equationClassifier readback.right.right.right))
 
+theorem SOneComponentClassifier_visible_source_unit_equation_package
+    {dx dy et t x' y' e' p' : BHist} :
+    SOneComponentClassifier (BHist.e1 dx) (BHist.e1 dy) (BHist.e1 et) (BHist.e1 t)
+      x' y' e' p' ->
+      (RatHistoryCarrier dx ∧ RatHistoryCarrier dy ∧
+        RatHistoryClassifier et (BHist.e1 BHist.Empty) ∧ Cont (BHist.e1 dx) dy t) ∧
+      (hsame (BHist.e1 et) e' ∧ hsame (BHist.e1 t) p') ∧
+      (SOneProductHistoryCarrier p' ∧ hsame e' SOneUnitHistory ∧
+        exists dx' dy' : BHist,
+          hsame x' (BHist.e1 dx') ∧ RatHistoryCarrier dx' ∧
+            hsame y' (BHist.e1 dy') ∧ RatHistoryCarrier dy' ∧ Cont x' y' p') := by
+  intro classifier
+  have sourceReadback :=
+    SOneHistoryCarrier_e1_components_unit_equation_classifier classifier.left
+  have ledger :=
+    SOneHistoryCarrier_component_classifier_ledger_determinacy classifier.left
+      classifier.right.left classifier.right.right.left classifier.right.right.right
+  have targetReadback :=
+    SOneComponentClassifier_public_readback classifier
+  exact And.intro sourceReadback (And.intro ledger targetReadback)
+
 end BEDC.Derived.S1Up

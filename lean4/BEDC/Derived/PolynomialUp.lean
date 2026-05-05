@@ -455,6 +455,26 @@ theorem PolynomialSingletonAddFold_zero_remainder_empty {xs : List BHist} :
   | cons xEmpty tailZero ih =>
       exact append_eq_empty_iff.mpr (And.intro xEmpty ih)
 
+theorem PolynomialSingletonRawAdd_singleton_normal_form_boundary {a b : BHist} :
+    (hsame a BHist.Empty -> False) -> (hsame b BHist.Empty -> False) ->
+      hsame (PolynomialSingletonAdd a b) BHist.Empty ->
+        (hsame a BHist.Empty -> False) ∧ (hsame b BHist.Empty -> False) ∧
+          ((hsame (PolynomialSingletonAdd a b) BHist.Empty -> False) -> False) ∧
+          PolynomialZeroRemainder ((PolynomialSingletonAdd a b) :: []) ∧
+          PolynomialSingletonClassifier (PolynomialSingletonAddFold (a :: b :: [])) BHist.Empty := by
+  intro aNonempty bNonempty sumEmpty
+  have remainder : PolynomialZeroRemainder ((PolynomialSingletonAdd a b) :: []) :=
+    PolynomialZeroRemainder.cons sumEmpty PolynomialZeroRemainder.nil
+  have foldEmpty : hsame (PolynomialSingletonAddFold (a :: b :: [])) BHist.Empty := by
+    exact sumEmpty
+  have foldClassified :
+      PolynomialSingletonClassifier (PolynomialSingletonAddFold (a :: b :: [])) BHist.Empty :=
+    And.intro foldEmpty (And.intro (hsame_refl BHist.Empty) foldEmpty)
+  exact And.intro aNonempty
+    (And.intro bNonempty
+      (And.intro (fun sumNonempty => sumNonempty sumEmpty)
+        (And.intro remainder foldClassified)))
+
 theorem PolynomialSingletonEval_zero_point_zero_tail_invariance {xs t : List BHist} :
     PolynomialZeroRemainder t ->
       hsame (PolynomialSingletonEval PolynomialSingletonZero (xs ++ t))

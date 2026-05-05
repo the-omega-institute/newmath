@@ -556,6 +556,7 @@ import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CompactUp.EmptyFinalReflection
 import BEDC.Derived.CompactUp.NonemptyForward
+import BEDC.Derived.CompactUp.CompletePackage
 import BEDC.Derived.CompactUp.EmptyNet
 import BEDC.Derived.CompactUp.EmptyCenter
 import BEDC.Derived.CompactUp.LeftE1ResultCases
