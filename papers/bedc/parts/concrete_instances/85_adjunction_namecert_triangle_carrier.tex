@@ -74,6 +74,42 @@ unit law.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_iff\_components\_empty}
 
+\begin{theorem}[Adjunction triangle single-boundary total collapse]
+\label{thm:adjunction-triangle-single-boundary-total-collapse}
+For histories $left,right,object,unit,counit,leftLeg,rightLeg:\mathsf{BHist}$,
+a single empty boundary component in an adjunction triangle carrier forces
+the whole displayed triangle to collapse to the empty endpoint package:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+(\hsame(unit,\emp)\lor\hsame(counit,\emp))
+\Longrightarrow
+\hsame(unit,\emp)\land\hsame(counit,\emp)
+\land\hsame(leftLeg,\emp)\land\hsame(rightLeg,\emp)\land\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+Case on the displayed boundary disjunction. In the $unit$-empty case, the
+natural-transformation empty-identity exactness theorem applied to the unit
+component reads the two endpoint prefixes as $\hsame(left,right)$. Transport
+the counit component row across this endpoint equality; after transport, the
+counit row is an endomorphism component, and endomorphism-component empty
+exactness gives $\hsame(counit,\emp)$.
+
+Now the two component witnesses satisfy the right side of
+Theorem~\ref{thm:adjunction-triangle-roundtrip-empty-iff-components-empty}.
+The reverse direction of that theorem gives empty $leftLeg$ and $rightLeg$
+witnesses. The prefix equality is also recovered from
+Theorem~\ref{thm:adjunction-triangle-components-empty-prefix-deterministic},
+so the five displayed conclusions pack together.
+
+In the $counit$-empty case, exchange the two component rows and the two
+continuation ledgers. The same endpoint readback, transport to an endomorphism
+component, roundtrip-empty exactness, and component-empty prefix determinacy
+produce the corresponding $unit$ witness, both empty triangle legs, and
+$\hsame(left,right)$.
+\end{proof}
+
 \begin{theorem}[Adjunction triangle single-leg empty equivalence]
 \label{thm:adjunction-triangle-single-leg-empty-iff}
 For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
