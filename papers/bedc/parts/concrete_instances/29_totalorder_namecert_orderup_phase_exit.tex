@@ -88,6 +88,26 @@ Thus the $\OrderUp$ consumer reads endpoint sameness through the already exposed
 unary classifier rather than through a separate phase-specific classifier.
 \end{proof}
 
+\begin{theorem}[Unary prefix OrderUp relation obligation]
+\label{thm:unary-prefix-orderup-relation-obligation}
+The order-relation row of the Full Nat Arithmetic $\OrderUp$ phase package is
+the same concrete unary-prefix relation $\le_{\mathsf{u}}$ exposed by the
+unary-prefix $\TotalOrderUp$ surface on $\mathsf{UnaryHistory}$ endpoints. It
+introduces no second comparison relation, no host Nat order, and no quotient
+order.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-prefix-orderup-phase-exit-package}. The package
+statement explicitly names $\le_{\mathsf{u}}$ as the order relation consumed by
+the Full Nat Arithmetic $\OrderUp$ phase.
+
+The source of that row is
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. The phase
+package projects the relation from this unary-prefix $\TotalOrderUp$
+certificate, so the consumer receives the exposed relation itself and no
+additional comparison relation.
+\end{proof}
+
 \begin{theorem}[Unary prefix OrderUp preorder obligation]
 \label{thm:unary-prefix-orderup-preorder-obligation}
 On carried endpoints, reflexivity and transitivity of $\le_{\mathsf{u}}$ are
@@ -176,12 +196,93 @@ only up to the declared unary-prefix classifier, which is the phase classifier
 of \autoref{thm:unary-prefix-orderup-phase-exit-package}.
 \end{proof}
 
+\begin{theorem}[OrderUp carrier and classifier obligation]
+\label{thm:orderup-carrier-classifier-obligation}
+The concrete carrier for the unary-prefix $\OrderUp$ phase object is
+$\mathsf{UnaryHistory}$. Its classifier is $\rho_{\mathsf{u}}$, and its order
+relation is $\le_{\mathsf{u}}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-prefix-orderup-phase-exit-package}. The phase-exit
+package exposes the same carried objects as
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}: unary
+histories are the carrier, $\rho_{\mathsf{u}}$ is the classifier used to read
+them, and $\le_{\mathsf{u}}$ is the only order relation exported to
+$\OrderUp$.
+\end{proof}
+
+\begin{theorem}[OrderUp preorder and antisymmetry obligation]
+\label{thm:orderup-preorder-antisymmetry-obligation}
+On carried unary histories, $\le_{\mathsf{u}}$ is reflexive and transitive.
+If two carried unary histories lie below each other under $\le_{\mathsf{u}}$,
+then their endpoints land in the same $\rho_{\mathsf{u}}$ classifier class.
+\end{theorem}
+\begin{proof}
+First project the order rows from the concrete unary-prefix total-order
+certificate through
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. The
+$\OrderUp$ phase package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package} exports those rows
+without introducing another relation.
+
+Reflexivity and transitivity are the preorder rows of the inherited
+$\le_{\mathsf{u}}$ surface. Antisymmetry is read in the classifier used by the
+same package: mutual $\le_{\mathsf{u}}$ comparison identifies the carried
+unary histories up to $\rho_{\mathsf{u}}$, which is the equality notion exposed
+to the phase consumer.
+\end{proof}
+
+\begin{theorem}[OrderUp constructive comparison obligation]
+\label{thm:orderup-constructive-comparison-obligation}
+For any two carried unary histories, the $\OrderUp$ comparison data gives one
+of the strict-left, same, or strict-right branches from the unary-prefix
+total-order package. The phase object exports this constructive branch data
+and exports no classical trichotomy principle.
+\end{theorem}
+\begin{proof}
+Use the comparison row supplied by
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup} and
+projected into $\OrderUp$ by
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. The branch names and
+their witnesses are the concrete unary-prefix strict-left, same, and
+strict-right alternatives.
+
+Because the exported row is this constructive package row, the consumer
+receives only the witnessed branch split. No additional excluded-middle or
+classical trichotomy statement is part of the $\OrderUp$ phase object.
+\end{proof}
+
+\begin{theorem}[OrderUp finite-interval and endpoint obligation]
+\label{thm:orderup-finite-interval-endpoint-obligation}
+Every nonempty finite carried unary spine has lower and upper bounds under
+$\le_{\mathsf{u}}$. Moreover, for any two endpoint-witness records for the
+same carried spine, their lower endpoints are $\rho_{\mathsf{u}}$-equivalent
+and their upper endpoints are $\rho_{\mathsf{u}}$-equivalent.
+\end{theorem}
+\begin{proof}
+First obtain finite interval coverage from
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}. For a nonempty
+finite carried spine, it supplies selected lower and upper unary endpoints
+with every carried member lying between them under $\le_{\mathsf{u}}$.
+
+Next apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} to two
+endpoint-witness records over the same carried spine. The theorem identifies
+the selected lower endpoints through $\rho_{\mathsf{u}}$ and likewise
+identifies the selected upper endpoints through $\rho_{\mathsf{u}}$.
+
+Together with the phase package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}, these are precisely the
+finite-interval and endpoint-uniqueness obligations exported by the concrete
+unary-prefix $\OrderUp$ object.
+\end{proof}
+
 \begin{closurestatus}{\OrderUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-phase-exit-package} packaging inherited preorder, antisymmetry, constructive comparison, finite interval coverage, and endpoint uniqueness.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation frontier is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-carrier-obligation}, \autoref{thm:unary-prefix-orderup-classifier-obligation}, \autoref{thm:unary-prefix-orderup-relation-obligation}, \autoref{thm:unary-prefix-orderup-preorder-obligation}, \autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, \autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}, \autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation}, \autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}, \autoref{thm:orderup-carrier-classifier-obligation}, \autoref{thm:orderup-preorder-antisymmetry-obligation}, \autoref{thm:orderup-constructive-comparison-obligation}, and \autoref{thm:orderup-finite-interval-endpoint-obligation} spelling out the carrier, classifier, relation, preorder, antisymmetry, constructive comparison, finite interval coverage, and endpoint uniqueness rows.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.PreorderUp.preorder\_prefix\_stability\_certificate\_fields}
   \bridgestatus{none}
   \notclaimed{The chapter does not claim a checked Lean OrderUp namespace, an audit-clean formal target, classical trichotomy, or full traditional order theory.}
-  \upgradepath{$\obligationClosure$ requires explicit OrderUp rows for carrier, classifier, preorder, antisymmetry, constructive comparison, finite interval coverage, endpoint uniqueness, exactness, and ledger.}
+  \upgradepath{$\scopedClosure$ requires exactness and ledger rows for the concrete OrderUp package, together with a Lean target when the formalization is supplied.}
 \end{closurestatus}
