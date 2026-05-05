@@ -15,6 +15,15 @@ def RealUnaryOffsetLe (k w : BHist) : Prop :=
 def UnaryOffsetLe (k w : BHist) : Prop :=
   RealUnaryOffsetLe k w
 
+theorem UnaryOffsetLe_cont_trans {k w u tau sigma : BHist} :
+    UnaryHistory k -> UnaryHistory tau -> UnaryHistory sigma -> Cont k tau w ->
+      Cont w sigma u -> UnaryOffsetLe k u := by
+  intro kUnary tauUnary sigmaUnary leftCont rightCont
+  exact ⟨kUnary, ⟨append tau sigma, unary_append_closed tauUnary sigmaUnary, by
+    cases leftCont
+    cases rightCont
+    exact append_assoc k tau sigma⟩⟩
+
 def RealUnaryStreamWindowClassifier (s t : BHist -> BHist) (a w : BHist) : Prop :=
   UnaryHistory a ∧ UnaryHistory w ∧
     forall k : BHist, UnaryOffsetLe k w ->
