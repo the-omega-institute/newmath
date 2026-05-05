@@ -1,8 +1,37 @@
+\input{parts/concrete_instances/matrix/finite_fold_multiplication_right_distribution}
+
+\begin{lemma}[Finite additive fold splits pointwise sums]
+\label{lem:finite-additive-fold-splits-pointwise-sums}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{def:finite-additive-scalar-fold}. Assume the scalar classifier equivalence fields and the additive abelian-group, additive congruence, and zero rows of \autoref{def:ring-stability-certificate}. For same-indexed finite carried scalar spines $xs$ and $ys$, write $xs+_R ys$ for the pointwise sum spine. Then
+$$
+\mathsf{fold}_{+,R}(xs+_R ys)
+\sim_R
+\mathsf{fold}_{+,R}(xs)+_R\mathsf{fold}_{+,R}(ys).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the common finite spine carrying $xs$ and $ys$. In the nil case, all three folds reduce by \autoref{def:finite-additive-scalar-fold} to $0_R$. The additive zero rows classify $0_R$ with $0_R+_R0_R$, giving the displayed comparison.
+
+In the cons case, write $xs=x::xs'$ and $ys=y::ys'$. The fold equation reduces the left endpoint to
+$$
+(x+_Ry)+_R\mathsf{fold}_{+,R}(xs'+_Rys').
+$$
+The induction hypothesis and additive congruence replace the tail fold by $\mathsf{fold}_{+,R}(xs')+_R\mathsf{fold}_{+,R}(ys')$. The additive associativity and commutativity fields in \autoref{def:ring-stability-certificate} rebracket and exchange the middle summands, classifying
+$$
+(x+_Ry)+_R(\mathsf{fold}_{+,R}(xs')+_R\mathsf{fold}_{+,R}(ys'))
+$$
+with
+$$
+(x+_R\mathsf{fold}_{+,R}(xs'))+_R(y+_R\mathsf{fold}_{+,R}(ys')).
+$$
+By \autoref{def:finite-additive-scalar-fold}, the latter endpoint is $\mathsf{fold}_{+,R}(xs)+_R\mathsf{fold}_{+,R}(ys)$. Classifier transitivity composes the displayed comparisons.
+\end{proof}
+
 \begin{theorem}[Matrix multiplication left-distributes over matrix addition]
 \label{thm:matrix-multiplication-left-distributes-over-addition}
 Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint
 $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive folds over
-finite index spines as in \autoref{def:finite-additive-scalar-fold}. Let
+finite index spines as in \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Let
 $n,m,p:\NatUp$, and consider the $\MatrixUp$ carriers of
 \autoref{def:matrix-carrier} with pointwise classifier from
 \autoref{def:matrix-classifier-specification}. Let
