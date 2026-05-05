@@ -334,6 +334,53 @@ theorem RatHistoryLedgerPolicy_one_tail_classifier_saturation {rho v t : BHist} 
   intro ledger
   exact RatHistoryLedgerPolicy_e1_tail_classifier_saturation ledger
 
+theorem RatHistoryLedgerPolicy_one_tail_denominator_shape_readback
+    {rho v t zRho zV zT : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho (BHist.e1 t) ∨
+        RatHistoryClassifier v (BHist.e1 t) ∨
+          RatHistoryClassifier (BHist.e1 t) rho ∨
+            RatHistoryClassifier (BHist.e1 t) v) ->
+        UnaryHistory rho ∧ UnaryHistory v ∧ UnaryHistory (BHist.e1 t) ∧
+          UnaryHistory t ∧
+            (hsame rho BHist.Empty -> False) ∧
+              (hsame v BHist.Empty -> False) ∧
+                (hsame (BHist.e1 t) BHist.Empty -> False) ∧
+                  (hsame rho (BHist.e0 zRho) -> False) ∧
+                    (hsame v (BHist.e0 zV) -> False) ∧
+                      (hsame (BHist.e1 t) (BHist.e0 zT) -> False) := by
+  intro ledger linked
+  have shape :=
+    RatHistoryLedgerPolicy_saturated_denominator_shape_package
+      (rho := rho) (v := v) (w := BHist.e1 t)
+      (zrho := zRho) (zv := zV) (zw := zT) ledger linked
+  have saturation := RatHistoryLedgerPolicy_one_tail_classifier_saturation (t := t) ledger
+  have tailUnary : UnaryHistory t := by
+    cases linked with
+    | inl rhoTail =>
+        exact saturation.right.right.right.right.left (saturation.left.mp rhoTail)
+    | inr rest =>
+        cases rest with
+        | inl vTail =>
+            exact saturation.right.right.right.right.left vTail
+        | inr rest' =>
+            cases rest' with
+            | inl tailRho =>
+                exact saturation.right.right.right.right.right
+                  (saturation.right.left.mp tailRho)
+            | inr tailV =>
+                exact saturation.right.right.right.right.right tailV
+  exact And.intro shape.left
+    (And.intro shape.right.left
+      (And.intro shape.right.right.left
+        (And.intro tailUnary
+          (And.intro shape.right.right.right.left
+            (And.intro shape.right.right.right.right.left
+              (And.intro shape.right.right.right.right.right.left
+                (And.intro shape.right.right.right.right.right.right.left
+                  (And.intro shape.right.right.right.right.right.right.right.left
+                    shape.right.right.right.right.right.right.right.right))))))))
+
 theorem RatHistoryLedgerPolicy_classifier_saturation_unary_package {rho v w : BHist} :
     RatHistoryLedgerPolicy rho v ->
       (RatHistoryClassifier rho w ∨ RatHistoryClassifier v w ∨
