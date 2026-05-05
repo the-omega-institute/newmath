@@ -12,6 +12,9 @@ that landed on the base branch concurrently — typical causes:
     round already registered at a different paper site;
   - an `\leanchecked` / `\leanstmt` / `\leandef` referencing a
     Lean name that no longer exists after the merge.
+  - a `closurestatus` block whose `\leantarget` no longer resolves,
+    or whose theoryclosure × formalstatus axes contradict the live
+    paper and Lean witnesses after the merge.
 
 ## Audit output (last lines)
 {audit_msg}
@@ -32,12 +35,16 @@ Remove ONLY this round's offending additions to make audit pass:
    only because of this round.
 3. For each unresolved marker added by this round: delete the
    offending `\leanchecked` / `\leanstmt` / `\leandef` line.
-4. Do NOT introduce iteration-narrative words.
-5. Do NOT touch lean4/BEDC/.
-6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
+4. For each offending `closurestatus` block added by this round:
+   either repair the seven-field block so its `\leantarget` resolves
+   and its theoryclosure × formalstatus axes remain independent, or
+   delete the whole block if this round cannot justify it.
+5. Do NOT introduce iteration-narrative words.
+6. Do NOT touch lean4/BEDC/.
+7. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
    until both exit 0. If the round becomes empty after removing the
    collisions, that is acceptable.
-7. After audit passes, `git add papers/bedc` and create a small
+8. After audit passes, `git add papers/bedc` and create a small
    follow-up commit on the round branch (or amend the merge commit
    with `git commit --amend --no-edit`) so the strip-out is
    recorded without breaking the merge. Do NOT git push.
