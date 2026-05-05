@@ -74,10 +74,10 @@ theorem ContinuousFunctionCarrier_visible_terminal_modulus_reassociation
               Cont extra1 extra2 extra12 ->
                 Cont modulus0 extra12 modulus12 ->
                   ContinuousFunctionCarrier (append p source) map (append p target)
-                      (append modulus2 q) (append (append p cert2) q) ∧
+                    (append modulus2 q) (append (append p cert2) q) ∧
                     ContinuousFunctionCarrier (append p source) map (append p target)
                       (append modulus12 q) (append (append p cert2) q) ∧
-                    hsame modulus2 modulus12 := by
+                      hsame modulus2 modulus12 := by
   intro carrier witness1 witness2 rel1 rel2 relExtra relComposite
   have sequential :
       ContinuousFunctionCarrier (append p source) map (append p target)
