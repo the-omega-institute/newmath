@@ -89,6 +89,24 @@ strict prefix across the displayed endpoint classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unit\_strict\_prefix\_after\_cont}
 
+\begin{theorem}[Trial-division target and bound trichotomy]
+\label{thm:trialdiv-target-unary-bound-trichotomy}
+If \(\mathsf{TrialDiv}(b,n)\), then the target \(n\) is unary and the current
+bound \(b\) is comparable with \(n\) by endpoint equality or by one of the two
+strict unary-prefix directions:
+$$
+\mathsf{UnaryHistory}(n)\land
+\bigl(b\hsame n\lor \mathsf{NatUnaryStrictPrefix}(b,n)\lor
+\mathsf{NatUnaryStrictPrefix}(n,b)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the trial-division witness to recover unaryness of the fixed target.
+The bound is unary by \autoref{thm:trial-div-bound-unary}. Applying unary-prefix
+trichotomy to these two unary histories gives the displayed comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_target\_unary\_and\_bound\_trichotomy}
+
 \begin{theorem}[Trial-division bounds are not empty]
 \label{thm:trial-div-bound-not-empty}
 If \(\mathsf{TrialDiv}(b,n)\), then \(b\) is not \(\emp\).
