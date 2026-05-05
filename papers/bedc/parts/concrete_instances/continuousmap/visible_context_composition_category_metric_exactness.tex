@@ -1,0 +1,105 @@
+\begin{theorem}[ContinuousMap visible-context composition category-metric exactness]
+\label{thm:continuousmap-visible-context-composition-category-metric-exactness}
+For histories
+$p,q,source,middle,target,f,g,fg,modF,modG,modFG,certF,certG,cert,distF,distG,displayed:\mathsf{BHist}$,
+assume the two visible-context carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(p\cdot source,f,p\cdot middle,modF\cdot q,
+(p\cdot certF)\cdot q,p\cdot distF),\\
+\mathsf{ContinuousMapCarrier}(p\cdot middle,g,p\cdot target,modG\cdot q,
+(p\cdot certG)\cdot q,p\cdot distG),
+\end{array}
+$$
+and assume the graph, modulus, and target-certificate ledgers
+$$
+\ContR(f,g,fg),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,cert).
+$$
+Then visible-context composition exposes the full category-metric package:
+\begin{enumerate}
+\item the composite categorical hom row,
+$$
+\mathsf{CategoryHomCarrier}(source,target,fg);
+$$
+
+\item the composite target-side modulus row,
+$$
+\mathsf{ContinuousModulusWitness}(target,modFG,cert);
+$$
+
+\item the canonical source-target metric distance row,
+$$
+\mathsf{MetricDistanceWitness}(source,target,\mathsf{append}(source,target));
+$$
+
+\item the visible composite carrier has exactly the canonical distance
+classifier,
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(p\cdot source,fg,p\cdot target,modFG\cdot q,
+(p\cdot cert)\cdot q,p\cdot displayed)
+\\[2pt]
+\quad\Longleftrightarrow\quad
+\hsame(displayed,\mathsf{append}(source,target)).
+\end{array}
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:continuousmap-carrier-visible-context-category-metric-decomposition}
+to the first visible carrier. This recovers unary evidence for $p$ and $q$,
+the central categorical row
+$\mathsf{CategoryHomCarrier}(source,middle,f)$, the central modulus row
+$\mathsf{ContinuousModulusWitness}(middle,modF,certF)$, and the metric row
+$\mathsf{MetricDistanceWitness}(source,middle,distF)$.
+
+Apply the same decomposition theorem to the second visible carrier. The result
+has the same visible contexts and exposes
+$\mathsf{CategoryHomCarrier}(middle,target,g)$,
+$\mathsf{ContinuousModulusWitness}(target,modG,certG)$, and
+$\mathsf{MetricDistanceWitness}(middle,target,distG)$.
+
+The two category and modulus rows repack as the two central
+$\mathsf{ContinuousFunctionCarrier}$ hypotheses. Apply
+Theorem~\ref{thm:continuous-function-carrier-comp-closed} with the three
+displayed continuation ledgers. The composite central carrier
+$\mathsf{ContinuousFunctionCarrier}(source,fg,target,modFG,cert)$ follows.
+
+Apply
+Theorem~\ref{thm:continuous-function-carrier-graph-modulus-cont-readback} to
+this composite central carrier. Its graph projection is exactly
+$\mathsf{CategoryHomCarrier}(source,target,fg)$, and its target-modulus
+projection is exactly
+$\mathsf{ContinuousModulusWitness}(target,modFG,cert)$.
+
+Use Theorem~\ref{thm:continuousmap-carrier-canonical-distance-iff} from right
+to left on the composite central carrier. Decomposing the resulting canonical
+$\mathsf{ContinuousMapCarrier}$ by
+Theorem~\ref{thm:continuousmap-carrier-category-metric-decomposition} gives
+the canonical row
+$\mathsf{MetricDistanceWitness}(source,target,\mathsf{append}(source,target))$.
+
+It remains to classify visible displayed distances. The unary witnesses for
+$p$ and $q$ are already available, and the composite central
+$\mathsf{ContinuousFunctionCarrier}$ has been constructed. Therefore
+Theorem~\ref{thm:continuousmap-visible-context-canonical-distance-exactness}
+specializes the displayed visible carrier exactly to
+$\hsame(displayed,\mathsf{append}(source,target))$.
+\end{proof}
+
+The ten-field fit is: traditional uniformly continuous maps with visible
+source and target context under composition; BEDC source
+$\mathsf{CategoryUp}/\mathsf{ContinuousUp}/\mathsf{MetricUp}/
+\mathsf{ContinuousMapUp}$; carrier $\mathsf{ContinuousMapCarrier}$;
+classifier $\hsame$; stability from visible carrier decomposition, central
+continuous-function composition, graph and modulus readback, canonical metric
+packaging, and visible canonical-distance exactness; ledger visible contexts,
+source, middle, target, graph maps, moduli, certificates, and metric-distance
+histories; core theorem
+Theorem~\ref{thm:continuousmap-visible-context-composition-category-metric-exactness};
+exactness the displayed category hom row, target-side modulus row, canonical
+metric row, and visible distance classifier; standard bridge is deferred;
+status $\mathsf{ProofTarget}$.

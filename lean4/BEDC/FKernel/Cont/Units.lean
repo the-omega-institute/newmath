@@ -139,4 +139,22 @@ theorem cont_e1_right_unit_probe_forces_empty {u : BHist} :
     cont_result_hsame_transport canonicalContinuation (rightProbe canonicalContinuation)
   exact cont_right_unit_unique collapsedContinuation
 
+theorem cont_fixed_right_unit_probe_empty_tail {p u : BHist} :
+    (forall r : BHist, Cont p u r -> hsame r p) -> hsame u BHist.Empty := by
+  intro fixedProbe
+  have canonicalContinuation : Cont p u (append p u) := cont_intro rfl
+  have collapsedContinuation : Cont p u p :=
+    cont_result_hsame_transport canonicalContinuation
+      (fixedProbe (append p u) canonicalContinuation)
+  exact cont_right_unit_unique collapsedContinuation
+
+theorem cont_fixed_left_unit_probe_empty_source {u p : BHist} :
+    (forall r : BHist, Cont u p r -> hsame r p) -> hsame u BHist.Empty := by
+  intro fixedProbe
+  have canonicalContinuation : Cont u p (append u p) := cont_intro rfl
+  have collapsedContinuation : Cont u p p :=
+    cont_result_hsame_transport canonicalContinuation
+      (fixedProbe (append u p) canonicalContinuation)
+  exact cont_left_unit_unique collapsedContinuation
+
 end BEDC.FKernel.Cont
