@@ -138,6 +138,17 @@ theorem CplxPower_dirichlet_factor_witness {n s : BHist} :
       (And.intro sCarrier (And.intro resultCarrier (hsame_refl _))))
     resultCarrier
 
+theorem CplxPower_dirichlet_factor_classifier {a s w : BHist} :
+    CplxPower a s w -> ComplexHistoryClassifier w (append s a) ∧ hsame w (append s a) := by
+  intro power
+  have aUnary : UnaryHistory a := ComplexHistoryCarrier_unary power.left
+  have targetCarrier : ComplexHistoryCarrier (append s a) :=
+    ComplexHistoryCarrier_append_unary_closed power.right.left aUnary
+  exact And.intro
+    (And.intro power.right.right.left
+      (And.intro targetCarrier power.right.right.right))
+    power.right.right.right
+
 def CplxModArg (z r theta : BHist) : Prop :=
   ComplexHistoryCarrier z ∧ CplxNonZero z ∧ UnaryHistory r ∧ UnaryHistory theta ∧
     ComplexHistoryClassifier z (append (BHist.e1 r) (BHist.e1 theta))

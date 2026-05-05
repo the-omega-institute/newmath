@@ -10,6 +10,17 @@ open BEDC.Derived.ComplexUp
 def ComplexPointwiseNegation (s : BHist -> BHist) (n : BHist) : BHist :=
   append BHist.Empty (s n)
 
+theorem ComplexDistance_simultaneous_negation {a b d : BHist} :
+    ComplexDistance a b d ->
+      ComplexDistance (append BHist.Empty a) (append BHist.Empty b) d := by
+  intro distance
+  have sameA : hsame a (append BHist.Empty a) := by
+    exact (append_empty_left a).symm
+  have sameB : hsame b (append BHist.Empty b) := by
+    exact (append_empty_left b).symm
+  exact (ComplexDistance_hsame_transport_with_relation
+    sameA sameB (hsame_refl d) distance).left
+
 theorem ComplexLimit_pointwise_negation {s N M : BHist -> BHist} {z : BHist} :
     ComplexLimit s N z M ->
       ComplexLimit (fun n : BHist => append BHist.Empty (s n)) N

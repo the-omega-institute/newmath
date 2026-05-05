@@ -43,7 +43,8 @@ def ZetaVal (s z : BHist) : Prop :=
 def ZetaZero (s : BHist) : Prop :=
   exists z : BHist,
     ZetaVal s z ∧
-      ComplexHistoryClassifier z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+      ComplexHistoryClassifier z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+        hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
 
 def NontrivialZero (s : BHist) : Prop :=
   ZetaZero s ∧ InCritStrip s

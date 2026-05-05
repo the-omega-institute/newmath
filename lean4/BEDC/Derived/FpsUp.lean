@@ -495,6 +495,29 @@ theorem FpsSingletonPointwiseAdditionCoeff_associativity {F G H n : BHist} :
       (And.intro rightCoeffEmpty (hsame_trans leftCoeffEmpty (hsame_symm rightCoeffEmpty))))
     displayedSame
 
+theorem FpsSingletonPointwiseAdditionCoeff_assoc_classifier {F G H n : BHist} :
+    FpsSingletonClassifier
+        (FpsSingletonPointwiseAdditionCoeff (FpsSingletonAdd F G) H n)
+        (FpsSingletonPointwiseAdditionCoeff F (FpsSingletonAdd G H) n) ∧
+      hsame (FpsSingletonPointwiseAdditionCoeff (FpsSingletonAdd F G) H n)
+        BHist.Empty ∧
+        hsame (FpsSingletonPointwiseAdditionCoeff F (FpsSingletonAdd G H) n)
+          BHist.Empty := by
+  have leftEmpty :
+      hsame (FpsSingletonPointwiseAdditionCoeff (FpsSingletonAdd F G) H n)
+        BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have rightEmpty :
+      hsame (FpsSingletonPointwiseAdditionCoeff F (FpsSingletonAdd G H) n)
+        BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  exact And.intro
+    (And.intro leftEmpty
+      (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty))))
+    (And.intro leftEmpty rightEmpty)
+
 theorem FpsSingletonCauchyProduct_zero_index_spine {F G : BHist} :
     FpsSingletonAddFoldSpineCarrier
         [FpsSingletonMul (FpsSingletonCoeff F BHist.Empty) (FpsSingletonCoeff G BHist.Empty)] ∧
