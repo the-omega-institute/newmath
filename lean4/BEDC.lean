@@ -156,6 +156,7 @@ import BEDC.Derived.ComplexLimitUp.NameCertificate
 import BEDC.Derived.ComplexLimitUp.PointwiseDifference
 import BEDC.Derived.ComplexLimitUp.PointwiseNegation
 import BEDC.Derived.ComplexSeriesUp
+import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
 import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.RealAnalyticUp
@@ -177,6 +178,7 @@ import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.ComplexTopologyUp
+import BEDC.Derived.ComplexTopologyUp.VisibleRadius
 import BEDC.Derived.ComplexTopologyUp.CertifiedSubradius
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
@@ -548,6 +550,7 @@ import BEDC.Derived.ContinuousUp.PublicReadback
 import BEDC.Derived.ContinuousUp.CompositionAssociativity
 import BEDC.Derived.ContinuousUp.TerminalModulusExtension
 import BEDC.Derived.ContinuousUp.VisibleTerminalModulusExtension
+import BEDC.Derived.ContinuousUp.VisibleModulusContextComposition
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.VisibleEndpointCycle
 import BEDC.Derived.ContinuousUp.SemanticCertificate
@@ -600,6 +603,7 @@ import BEDC.Derived.CategoryUp.ContinuationTailIdentitySquare
 import BEDC.Derived.CategoryUp.SemanticCertificate
 import BEDC.Derived.CategoryUp.IdentityLaw
 import BEDC.Derived.CategoryUp.Cycle
+import BEDC.Derived.CategoryUp.OppositeCompAssoc
 import BEDC.Derived.CategoryUp.PrefixCycle
 import BEDC.Derived.CategoryUp.SourceEmpty
 import BEDC.Derived.CategoryUp.Prefix

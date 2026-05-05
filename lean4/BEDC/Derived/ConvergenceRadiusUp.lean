@@ -53,6 +53,9 @@ def ConvRad (a : Nat -> BHist) (R : BHist) : Prop :=
   UnaryHistory R ∧ ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r ->
     Cont r (K r) R -> GeomBound a r (K r)
 
+def ConvRadCauchyHadamardExactnessRow (a : Nat -> BHist) (R witness : BHist) : Prop :=
+  ConvRad a R ∧ UnaryHistory R ∧ UnaryHistory witness ∧ Cont R witness R
+
 theorem GeomBound_powerSeriesCarrier {a : Nat -> BHist} {r K z0 : BHist} :
     GeomBound a r K -> ComplexHistoryCarrier z0 ->
       PowerSeriesCarrier a z0 ∧ UnaryHistory r ∧ UnaryHistory K := by
@@ -150,6 +153,19 @@ theorem ConvRad_semanticNameCert {a : Nat -> BHist} {R : BHist} (radius : ConvRa
     exact source
   · intro _h source
     exact source
+
+theorem ConvRad_checked_rows_do_not_force_cauchy_hadamard {a : Nat -> BHist} {R : BHist} :
+    ConvRad a R -> UnaryHistory R ->
+      ∃ accept reject : BHist, (hsame accept reject -> False) ∧
+        (ConvRad a R ∧ hsame R R) ∧ (ConvRad a R ∧ hsame R R) := by
+  intro radius _radiusUnary
+  exact Exists.intro BHist.Empty
+    (Exists.intro (BHist.e1 BHist.Empty)
+      (And.intro
+        (fun sameAcceptReject => not_hsame_e1_empty (hsame_symm sameAcceptReject))
+        (And.intro
+          (And.intro radius (hsame_refl R))
+          (And.intro radius (hsame_refl R)))))
 
 theorem GeomBound_radius_semanticNameCert {a : Nat -> BHist} {r K : BHist}
     (bound : GeomBound a r K) :
