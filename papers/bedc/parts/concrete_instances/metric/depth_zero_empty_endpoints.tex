@@ -146,6 +146,31 @@ depth-add equation reduces the claim to left cancellation for addition in
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_left\_cancel}
 
+\begin{theorem}[Metric strict prefix depth decomposition]
+\label{thm:metric-distance-depth-strict-prefix-decomposes}
+For histories $h,k:\mathsf{BHist}$, a strict unary prefix witness from $h$ to
+$k$ exposes a nonempty unary tail whose continuation reconstructs $k$, and the
+metric depth of $k$ splits as the depth of $h$ plus the depth of that tail:
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k)
+\Longrightarrow
+\exists tail:\mathsf{BHist}.\;
+\mathsf{UnaryHistory}(tail)\land (tail=\emp\to\mathsf{False})\land
+\ContR(h,tail,k)\land
+\mathsf{MetricDistanceDepth}(k)
+=
+\mathsf{MetricDistanceDepth}(h)+\mathsf{MetricDistanceDepth}(tail).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the strict-prefix witness. It already supplies a unary nonempty tail
+and a continuation ledger from $h$ through that tail to $k$. Inverting the
+continuation identifies $k$ with $h\cdot tail$. Induction on the concrete tail
+then proves the structural depth equation for append, giving the displayed
+sum formula.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_strict\_prefix\_decomposes}
+
 \begin{theorem}[Metric distance depth visible-context cancellation]
 \label{thm:metric-distance-depth-visible-context-cancel}
 For histories $p,q,d,e:\mathsf{BHist}$, equality of structural depths after a
@@ -167,6 +192,26 @@ hypothesis cancels the remaining visible context.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_visible\_context\_cancel}
 
+\begin{theorem}[Metric distance depth append-right cancellation iff]
+\label{thm:metric-distance-depth-append-right-cancel-iff}
+For histories $p,d,e:\mathsf{BHist}$, appending the same right suffix preserves
+and reflects equality of structural metric distance depth:
+$$
+\mathsf{MetricDistanceDepth}(d\cdot p)
+=
+\mathsf{MetricDistanceDepth}(e\cdot p)
+\Longleftrightarrow
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the common suffix $p$. The empty suffix is immediate. In the two
+visible constructor cases, both appended depths carry the same successor head;
+successor injectivity gives the forward implication, and congruence of
+successor rebuilds the appended equality in the reverse implication.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_right\_cancel\_iff}
+
 \begin{theorem}[Metric distance depth append-right equality emptiness]
 \label{thm:metric-distance-depth-append-right-eq-iff-empty}
 For histories $p$ and $d$, appending $p$ on the right preserves structural
@@ -186,6 +231,27 @@ $\emp$. Conversely, substituting $p=\emp$ makes the right append definitionally
 equal to $d$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_right\_eq\_iff\_empty}
+
+\begin{theorem}[Metric distance same-source continuation result cancellation]
+\label{thm:metric-distance-depth-same-source-cont-result-cancel}
+For unary histories $x,y,z$ and continuation rows
+$\ContR(x,y,d)$ and $\ContR(x,z,e)$, equality of the two result depths cancels
+the common source depth:
+$$
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(y)=\mathsf{MetricDistanceDepth}(z).
+$$
+\end{theorem}
+\begin{proof}
+Package the two continuation rows as metric-distance witnesses. Depth
+additivity gives
+$\mathsf{depth}(d)=\mathsf{depth}(x)+\mathsf{depth}(y)$ and
+$\mathsf{depth}(e)=\mathsf{depth}(x)+\mathsf{depth}(z)$. The displayed result
+depth equality therefore has a common left summand, and natural-number
+cancellation identifies the two target depths.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_same\_source\_cont\_result\_cancel}
 
 \begin{theorem}[Metric distance depth visible-context equality emptiness]
 \label{thm:metric-distance-depth-visible-context-eq-iff-empty}
