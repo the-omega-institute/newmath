@@ -307,3 +307,64 @@ These are precisely the fields listed in
 \autoref{def:compact-image-located-refinement-ledger}, so they assemble the
 claimed image located-refinement ledger.
 \end{proof}
+
+\begin{theorem}[Image located-refinement ledger compact carrier]
+\label{thm:image-located-refinement-ledger-compact-carrier}
+Let $source$ and $target$ be metric BEDC carriers, and let
+$$
+\mathsf{ContinuousMapCarrier}(source,\mathsf{map},target,\mathsf{modulus},
+\mathsf{cert},\mathsf{distance})
+$$
+be a $\ContinuousMapUp$ carrier with graph totality, graph single-valuedness,
+modulus validity, and metric-distance classifier transport. Fix target and
+source precision histories $\varepsilon$ and $\delta$, source and target
+bundles $\mathcal{A}$ and $\mathcal{B}$, and image histories
+$imageSubset$, $imageLocated$, $imageFinite$, $imageIntermediate$,
+$imageCompact$, $finalImageLocated$, $finalImageIntermediate$, and
+$finalImageCompact$. Assume that $imageSubset$, $imageLocated$, and
+$imageFinite$ are unary histories, and that
+$$
+\Cont(imageSubset,imageLocated,imageIntermediate)
+\quad\hbox{and}\quad
+\Cont(imageIntermediate,imageFinite,imageCompact)
+$$
+hold. If
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},imageSubset,imageLocated,imageFinite,\\
+\qquad imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+finalImageCompact)
+\end{array}
+$$
+supplies the compact located-refinement chain to $finalImageLocated$,
+$finalImageIntermediate$, and $finalImageCompact$, then
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,finalImageLocated,imageFinite,
+finalImageIntermediate,finalImageCompact).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the image located-refinement ledger. Its accepted row contains the compact
+located-refinement chain
+$$
+\mathsf{CompactLocatedRefinementChain}(imageFinite,imageLocated,
+imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+finalImageCompact).
+$$
+
+The unary histories $imageSubset$, $imageLocated$, and $imageFinite$, together
+with the two displayed continuations, assemble the initial compact witness
+carrier
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,imageLocated,imageFinite,
+imageIntermediate,imageCompact).
+$$
+
+Apply \autoref{thm:compact-witness-carrier-located-refinement-chain-closed} to
+this carrier and the located-refinement chain extracted from the ledger. The
+result replaces the located, intermediate, and compact fields by
+$finalImageLocated$, $finalImageIntermediate$, and $finalImageCompact$ while
+leaving the subset and finite-net fields fixed, which is exactly the claimed
+compact witness carrier.
+\end{proof}
