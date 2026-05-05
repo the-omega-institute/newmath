@@ -277,16 +277,16 @@ def main() -> int:
                 flush=True,
             )
             return 0
-        if not status.get("active_recent_agents"):
+        if not status.get("project_active_poll_agents"):
             if not args.allow_queue_without_tabs:
                 print(
-                    "[board_refill] no active BEDC ChatGPT tabs polling; "
+                    "[board_refill] no compatible BEDC Project tabs polling; "
                     "skipping submit instead of queueing.",
                     flush=True,
                 )
                 return 0
             print(
-                f"[board_refill] WARN: no active ChatGPT tabs polling. "
+                f"[board_refill] WARN: no compatible BEDC Project tabs polling. "
                 f"Submit will queue but won't dispatch. Open the BEDC Project "
                 f"tabs first.",
                 flush=True,
