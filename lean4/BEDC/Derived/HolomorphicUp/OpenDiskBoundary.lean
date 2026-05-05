@@ -27,4 +27,12 @@ theorem OpenDisk_empty_radius_boundary {z0 z : BHist} :
                         (Exists.intro gap
                           (And.intro gapUnary (And.intro endpoints.left gapCont)))
 
+theorem HolomorphicOpenDisk_empty_radius_boundary {center radius point gap : BHist} :
+    HolomorphicOpenDisk center radius point gap -> hsame radius BHist.Empty ->
+      hsame point BHist.Empty ∧ hsame gap BHist.Empty := by
+  intro disk radiusEmpty
+  have emptyBoundary : Cont point gap BHist.Empty :=
+    cont_result_hsame_transport disk.right.right.right.right radiusEmpty
+  exact cont_empty_result_inversion emptyBoundary
+
 end BEDC.Derived.HolomorphicUp

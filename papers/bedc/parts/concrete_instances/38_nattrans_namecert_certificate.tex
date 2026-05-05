@@ -228,6 +228,46 @@ supplies emptiness of $\eta'$ and $\theta'$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_components}
 
+\begin{theorem}[NatTrans classifier empty-result opposite package]
+\label{thm:nattrans-prefix-component-classifier-empty-result-opposite-package}
+For histories
+$p,q,r,a,\eta,\eta',\theta,\theta',c,c':\mathsf{BHist}$, suppose
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$ and
+$\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')$ hold.
+If $\ContR(\eta,\theta,c)$, $\ContR(\eta',\theta',c')$,
+$c\hsame\emp$, and $c'\hsame\emp$, then both classified components admit the
+opposite prefix direction and the adjacent prefixes agree:
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{q,p,a}(\eta,\eta')\wedge
+\mathsf{NatTransPrefixComponentClassifier}_{r,q,a}(\theta,\theta')\wedge
+\hsame(p,q)\wedge\hsame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. They provide carrier witnesses for
+$\eta,\eta'$ from prefix $p$ to prefix $q$ over $a$ and for
+$\theta,\theta'$ from prefix $q$ to prefix $r$ over $a$, together with
+$\eta\hsame\eta'$ and $\theta\hsame\theta'$.
+
+Apply
+Theorem~\ref{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-components}
+to the two classifiers, the two continuation witnesses, and the two empty
+result identifications. This identifies all four displayed component
+histories with $\emp$ and supplies $\hsame(p,q)$ and $\hsame(q,r)$.
+
+Now apply
+Theorem~\ref{thm:nattrans-prefix-component-empty-component-opposite-closed}
+separately to the carrier witnesses for $\eta$, $\eta'$, $\theta$, and
+$\theta'$. The four emptiness witnesses reverse the first classified pair
+from $p\to q$ to $q\to p$ and the second classified pair from $q\to r$ to
+$r\to q$.
+
+Repack the reversed carrier witnesses with the original
+$\eta\hsame\eta'$ and $\theta\hsame\theta'$ witnesses. The two rebuilt
+classifiers, together with the prefix agreements produced by readback, give
+the claimed package.
+\end{proof}
+
 \begin{theorem}[NatTrans vertical composite zero-headed component impossibility]
 \label{thm:nattrans-prefix-component-classifier-vert-comp-zero-headed-component-absurd}
 For vertically composable prefix component classifiers, none of the three
