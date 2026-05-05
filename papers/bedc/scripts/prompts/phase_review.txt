@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v2.7 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v3.0 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -21,7 +21,7 @@ You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touc
 Before scanning for review targets, READ `papers/bedc/parts/project_governance/roadmap.tex` in full. It defines:
 
 - the layered dependency order L0→L14;
-- the four-strength gradient (naming seed → paper certificate → machine-checked certificate → standard bridge);
+- the two-axis discipline of \autoref{ch:closure-and-verification-discipline}: a closure axis (seed/obligation/scopedClosed/publicClosed/bridgedClosed/maturePackageClosed) read entirely from paper-side witnesses, and a verification axis (unformalized/.../bridgeChecked) read entirely from Lean-side audit. Neither axis is a function of the other; reading paper closure as evidence for verification, or vice versa, is a discipline violation.
 - the near-term phase bundle that pins the current advancement direction (e.g. Phase Kernel-Checked Baseline, Phase Finite Data, Phase Real and Completion, etc.);
 - the per-object research template;
 - the explicit list of claims that are off the table.
@@ -158,9 +158,21 @@ Run before target selection:
 python3 lean4/scripts/critical_path.py
 ```
 
-The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker) after excluding nodes that carry `\closureat{<X>Up}{\checkedCertStr|\bridgeCertStr}` (= binarily closed) or whose dependencies are not yet ready. **At least 1 candidate's `paper_files[0]` MUST correspond to a chapter from `top[0..2]`** of that JSON output (e.g. `top[0].file_paper` → `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`). Prefer `kind="theory_extension"` or `kind="missing_companion"` in those chapters — those are the kinds that grow the chapter.
+The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker) after excluding nodes that carry a closurestatus block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, or whose dependencies are not yet ready. **At least 1 candidate's `paper_files[0]` MUST correspond to a chapter from `top[0..2]`** of that JSON output (e.g. `top[0].file_paper` → `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`). Prefer `kind="theory_extension"` or `kind="missing_companion"` in those chapters — those are the kinds that grow the chapter.
 
-**Closure proposals (`kind = "closure_mark"`)**. If a horizon `<X>Up` chapter has every NameCert clause (carrier / classifier / stability / exactness / ledger / standard bridge if applicable) `\leanchecked` to a Lean target that resolves under `lean4/BEDC/`, AND the chapter does NOT yet carry `\closureat{<X>Up}{\checkedCertStr}`, propose a `closure_mark` target. This is a one-line revise round that adds the closure marker at the end of the chapter's last sub-file. The proposal MUST include the canonical Lean theorem grounding the closure as the 3rd argument: `\closureat{\<X>Up}{\checkedCertStr}[BEDC.<...>.<theorem>]`. Pick the grounding from the chapter's existing `\leanchecked` set in priority order: (1) `*semanticNameCert` / `*_semantic_name_certificate`, (2) `*_name_certificate`, (3) `*_stability_certificate_fields`, (4) `*_laws`. `bedc_ci.py audit` rejects a `closure_mark` whose grounding doesn't resolve to a real Lean declaration. Closure proposals always rank ahead of new theory_extensions for the same chapter — closing a chapter retires it from `critical_path.top` and frees Phase B to attack new fronts. To detect closure-eligible chapters: from the critical_path output, check chapters with `thms >= 10` that are still in `top` (i.e. open per `\closureat` but `\leanchecked`-rich); their NameCert is likely complete and just needs the explicit closure marker with grounding.
+**Closure proposals (`kind = "closure_mark"`)**. If a horizon `<X>Up` chapter has every NameCert clause (carrier / classifier / stability / exactness / ledger / standard bridge if applicable) with a `\leanchecked` to a Lean target that resolves under `lean4/BEDC/`, AND the chapter does NOT yet carry a closurestatus block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, propose a `closure_mark` target. The proposal MUST specify both axes explicitly, plus scope / not-claimed / upgrade-path text, and MUST NOT make either axis a function of the other. The block template is:
+
+  \begin{closurestatus}{\<X>Up}
+    \theoryclosure{\scopedClosure}      % paper-side closure grade
+    \scopeclosed{<one-sentence binding scope>}
+    \formalstatus{\theoremCheckedV}     % Lean-side verification grade
+    \leantarget{BEDC.<...>.<theorem>}  % must resolve under lean4/BEDC/
+    \bridgestatus{none}
+    \notclaimed{<one-sentence list of what the chapter does NOT close>}
+    \upgradepath{<one-sentence next-grade obligation>}
+  \end{closurestatus}
+
+Pick `<theorem>` from the chapter's already-`\leanchecked` set, in priority order: (1) `*semanticNameCert` / `*_semantic_name_certificate`, (2) `*_name_certificate`, (3) `*_stability_certificate_fields`, (4) `*_laws`. `bedc_ci.py audit` rejects a `closure_mark` whose `\leantarget` doesn't resolve to a real Lean declaration. Closure proposals always rank ahead of new theory_extensions for the same chapter — adding the closurestatus block retires the chapter from `critical_path.top` and frees Phase B to attack new fronts. To detect closure-eligible chapters: from the critical_path output, check chapters with `thms >= 10` that are still in `top`; their NameCert is likely complete and just needs the explicit closurestatus block.
 
 If a top-3 chapter is technically blocked (its schema explicitly notes infrastructure not yet in BEDC), record the blocker in `evidence` and use `top[3..]` instead. Do NOT silently fall back to depth-refinement of saturated horizons (Bool / Option / Sum / Prod / List / Rat / Tagged Option / Framed List).
 
