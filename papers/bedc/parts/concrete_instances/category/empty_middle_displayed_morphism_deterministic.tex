@@ -14,3 +14,22 @@ over the composite morphism $fg$. Hom-carrier morphism determinacy compares
 that canonical carrier with the displayed carrier over the same endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_empty\_middle\_displayed\_morphism\_deterministic}
+
+\begin{theorem}[Category empty-middle empty-result component readback]
+\label{thm:category-hom-carrier-comp-empty-middle-empty-result-components}
+For histories $a,c,f,g,fg$, if $f$ is a hom-carrier from $a$ to $\emp$,
+$g$ is a hom-carrier from $\emp$ to $c$, $\ContR(f,g,fg)$, and
+$fg\hsame\emp$, then both endpoints and both factor morphisms are empty:
+$$
+\hsame(a,\emp)\wedge\hsame(c,\emp)\wedge
+\hsame(f,\emp)\wedge\hsame(g,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply category composite-result empty exactness to the two hom-carriers and
+the displayed continuation. The middle endpoint is already $\emp$, so the
+endpoint equalities read back $a\hsame\emp$ and $\emp\hsame c$; symmetry gives
+$c\hsame\emp$. The same exactness row supplies emptiness of both factor
+morphisms.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_empty\_middle\_empty\_result\_components}
