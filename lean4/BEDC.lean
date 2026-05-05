@@ -207,10 +207,14 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
+import BEDC.Derived.FieldExtUp.RatReflexive
+import BEDC.Derived.FieldExtUp.ScalarActionSourceReadback
+import BEDC.Derived.FieldExtUp.ScalarActionContReadback
 import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.SingletonLedger
 import BEDC.Derived.FieldExtUp.SingletonInverse
 import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
+import BEDC.Derived.FieldExtUp.RatReflexiveSemanticCertificate
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.GammaUp
@@ -252,12 +256,12 @@ import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
-import BEDC.Derived.GraphUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
+import BEDC.Derived.ManifoldUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.RatUp
@@ -538,6 +542,7 @@ import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.NormUp
+import BEDC.Derived.HilbertUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
 import BEDC.Derived.MatrixUp.AppendVisibleFactorExclusion

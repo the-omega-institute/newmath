@@ -150,6 +150,26 @@ theorem CompleteMetricLimitWitness_name_certificate {X : BHist -> Prop}
   · intro _h source
     exact source
 
+theorem CompleteMetricLimitWitness_metric_budget_shape_lock {X : BHist -> Prop}
+    {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      exists d : BHist,
+        MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+          RatHistoryClassifier d (M n) ∧ (hsame d BHist.Empty -> False) ∧
+            (forall z : BHist, hsame d (BHist.e0 z) -> False) := by
+  intro witness nUnary source
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have endpointNonempty := RatHistoryClassifier_endpoints_not_empty distanceData.right.right
+      have endpointZeroExcluded :
+          forall z : BHist, hsame d (BHist.e0 z) -> False := by
+        intro z sameZero
+        exact (RatHistoryClassifier_e0_endpoint_absurd (tail := z) (d := M n)).left
+          (RatHistoryClassifier_hsame_transport sameZero (hsame_refl (M n))
+            distanceData.right.right)
+      exact ⟨d, distanceData.left, distanceData.right.left, distanceData.right.right,
+        endpointNonempty.left, endpointZeroExcluded⟩
+
 theorem CompleteMetricLimitWitness_observation_distance_package
     {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
     CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
@@ -193,6 +213,28 @@ theorem SingletonCompleteMetric_laws :
   · intro x y sameX sameY
     exact hsame_trans sameX (hsame_symm sameY)
 
+theorem CompleteMetricLimitWitness_empty_modulus_observation_metric_row
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      hsame (M n) BHist.Empty -> MetricDistanceWitness (s n) limit BHist.Empty := by
+  intro witness nUnary source sameModulus
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have sameDistance : hsame d BHist.Empty :=
+        hsame_trans distanceData.right.right.right.right sameModulus
+      exact MetricDistanceWitness_hsame_fields_transport
+        (hsame_refl (s n)) (hsame_refl limit) sameDistance distanceData.left
+
+theorem CompleteMetricLimitWitness_empty_modulus_observation_endpoint
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      hsame (M n) BHist.Empty -> hsame (s n) BHist.Empty ∧ hsame limit BHist.Empty := by
+  intro witness nUnary source sameModulus
+  exact
+    (MetricDistanceWitness_empty_distance_iff (x := s n) (y := limit)).mp
+      (CompleteMetricLimitWitness_empty_modulus_observation_metric_row
+        witness nUnary source sameModulus)
+
 theorem CompleteMetricLimitWitness_singleton_stream_witness {s M : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (s n) BHist.Empty) ->
       (forall {n : BHist}, UnaryHistory n -> RatHistoryClassifier (s n) (M n)) ->
@@ -235,6 +277,27 @@ theorem CompleteMetricLimitWitness_singleton_uniqueness
         hsame l0 l1 := by
   intro witness0 witness1
   exact hsame_trans witness0.left (hsame_symm witness1.left)
+
+theorem CompleteMetricLimitWitness_singleton_observation_package
+    {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M limit ->
+      UnaryHistory n -> hsame (s n) BHist.Empty ->
+        exists d : BHist,
+          hsame d BHist.Empty ∧ MetricDistanceWitness (s n) limit d ∧
+            Cont (s n) limit d ∧ RatHistoryClassifier d (M n) := by
+  intro witness nUnary sourceEmpty
+  cases witness.right nUnary sourceEmpty with
+  | intro d observation =>
+      have limitEmpty : hsame limit BHist.Empty := witness.left
+      have sourceLimitEmpty : hsame (append (s n) limit) BHist.Empty := by
+        exact hsame_trans (congrArg (fun source => append source limit) sourceEmpty)
+          (hsame_trans (append_empty_left limit) limitEmpty)
+      have distanceEmpty : hsame d BHist.Empty :=
+        hsame_trans observation.right.left sourceLimitEmpty
+      exact Exists.intro d
+        (And.intro distanceEmpty
+          (And.intro observation.left
+            (And.intro observation.right.left observation.right.right)))
 
 theorem CompleteMetricLimitWitness_singleton_observation_empty_distance
     {s M : BHist -> BHist} {n : BHist} :
