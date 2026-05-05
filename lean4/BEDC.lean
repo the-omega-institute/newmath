@@ -207,6 +207,12 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
+import BEDC.Derived.FieldExtUp.ScalarActionContReadback
+import BEDC.Derived.FieldExtUp.ExactEndpointLedger
+import BEDC.Derived.FieldExtUp.SingletonLedger
+import BEDC.Derived.FieldExtUp.SingletonInverse
+import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
+import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
@@ -252,6 +258,7 @@ import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
+import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.RatUp
