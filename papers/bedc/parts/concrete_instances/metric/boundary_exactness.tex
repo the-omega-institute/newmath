@@ -359,6 +359,29 @@ and the metric-depth equality follows by reflexivity.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_boundary\_visible\_context\_distance\_source}
 
+\begin{theorem}[Metric right-boundary visible context positive-depth source shape]
+\label{thm:metric-distance-witness-right-boundary-visible-context-positive-depth-source-e1-shape}
+For histories $p,q,x,d:\mathsf{BHist}$, a visible-context distance witness with
+empty central right endpoint and positive central distance depth forces the
+central source to be visibly one-headed with a unary tail:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\bigl(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False}\bigr)
+\Longrightarrow
+\exists x_0:\mathsf{BHist},\;
+x=\Eone(x_0)\land\mathsf{UnaryHistory}(x_0).
+$$
+\end{theorem}
+\begin{proof}
+Apply right-boundary visible-context exactness. It exposes unary evidence for
+the central source and the classifier $\hsame(d,x)$. If $x$ classified as
+$\emp$, transitivity would classify $d$ as $\emp$, and the zero-depth classifier
+would contradict the positive-depth hypothesis. Thus $x$ is a nonempty unary
+history, so unary nonempty e-one tail readback supplies the required $x_0$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_boundary\_visible\_context\_positive\_depth\_source\_e1\_shape}
+
 \begin{theorem}[Metric left-boundary visible-context distance target]
 \label{thm:metric-distance-witness-left-boundary-visible-context-distance-target}
 For histories $p,q,y,d$, a visible-context distance witness whose central left
