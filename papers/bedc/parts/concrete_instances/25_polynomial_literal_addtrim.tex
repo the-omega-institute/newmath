@@ -355,6 +355,30 @@ The right endpoint is $\mathsf{Eval}_{\alpha,R}(p)\cdot\mathsf{Eval}_{\alpha,R}(
 If $p$ and $q$ are already normalized polynomial-carrier representatives, trim idempotence gives $p_0=p$ and $q_0=q$. The product endpoint is normalized by its defining trim, so normalized evaluation on $\mathsf{PolyMul}_R(p,q)$ is the unnormalized Horner evaluation of that product. Substituting these equalities gives the carrier formula.
 \end{proof}
 
+\begin{theorem}[Polynomial evaluation is a semiring morphism through classification]
+\label{thm:polynomial-evaluation-semiring-morphism}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $p,q,p',q':\mathsf{ListCarrier}(R)$, if $\mathsf{PolySame}_R(p,p')$ and $\mathsf{PolySame}_R(q,q')$, then
+$$
+\mathsf{Eval}_{\alpha,R}(p)\sim_R\mathsf{Eval}_{\alpha,R}(p'),
+$$
+$$
+\mathsf{Eval}_{\alpha,R}(\mathsf{PolyAdd}_R(p,q))\sim_R
+\mathsf{Eval}_{\alpha,R}(p)+\mathsf{Eval}_{\alpha,R}(q),
+$$
+and
+$$
+\mathsf{Eval}_{\alpha,R}(\mathsf{PolyMul}_R(p,q))\sim_R
+\mathsf{Eval}_{\alpha,R}(p)\cdot\mathsf{Eval}_{\alpha,R}(q).
+$$
+\end{theorem}
+\begin{proof}
+The first clause is exactly \autoref{thm:polynomial-evaluation-respects-polynomial-classifier} applied to the classifier witness between $p$ and $p'$.
+
+The second and third clauses are the normalized-operation laws from \autoref{thm:polynomial-evaluation-additive-homomorphism} and \autoref{thm:polynomial-evaluation-multiplicative-homomorphism}. They apply to the original representatives $p$ and $q$, so the operation endpoints are already the canonical normalized polynomial operations.
+
+When a later scalar comparison is written with $p'$ or $q'$ instead, apply \autoref{thm:polynomial-evaluation-respects-polynomial-classifier} to the appropriate classifier witness and compose by transitivity of $\sim_R$. Thus the descended endpoints may be substituted in the additive and multiplicative scalar comparisons without reassembling the three facts.
+\end{proof}
+
 \begin{lemma}[Zero-point Horner cons evaluation]
 \label{lem:horner-evaluation-zero-cons-constant}
 Let $R$ carry a $\RingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, multiplication $\cdot$, and Horner evaluation as in \autoref{def:polynomial-horner-evaluation}. For every carried scalar coefficient $a$ and every finite coefficient spine $t:\mathsf{ListCarrier}(R)$,
