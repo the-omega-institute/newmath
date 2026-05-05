@@ -255,4 +255,58 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
 
+theorem ManifoldSingleton_overlap_inverse_transition {i j ij ji left right : BHist} :
+    ManifoldSingletonCarrier i -> ManifoldSingletonCarrier j -> Cont i j ij -> Cont j i ji ->
+      Cont ij ji left -> Cont ji ij right ->
+        hsame ij BHist.Empty ∧ hsame ji BHist.Empty ∧ hsame left BHist.Empty ∧
+          hsame right BHist.Empty ∧ UnaryHistory left ∧ UnaryHistory right := by
+  intro carrierI carrierJ transitionIJ transitionJI compositeLeft compositeRight
+  have emptyTransition : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  have ijEmpty : hsame ij BHist.Empty :=
+    cont_respects_hsame carrierI carrierJ transitionIJ emptyTransition
+  have jiEmpty : hsame ji BHist.Empty :=
+    cont_respects_hsame carrierJ carrierI transitionJI emptyTransition
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame ijEmpty jiEmpty compositeLeft emptyTransition
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame jiEmpty ijEmpty compositeRight emptyTransition
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right :=
+    unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro ijEmpty
+    (And.intro jiEmpty
+      (And.intro leftEmpty (And.intro rightEmpty (And.intro leftUnary rightUnary))))
+
+theorem ManifoldSingleton_chart_coordinate_classifier_determinacy
+    {source target source0 source1 target0 target1 : BHist} :
+    ManifoldSingletonCarrier source -> ManifoldSingletonCarrier target ->
+      Cont BHist.Empty source source0 -> Cont BHist.Empty source source1 ->
+        Cont BHist.Empty target target0 -> Cont BHist.Empty target target1 ->
+          hsame source0 source1 ∧ hsame target0 target1 ∧ hsame source0 target0 ∧
+            hsame source1 target1 := by
+  intro sourceCarrier targetCarrier sourceReadback0 sourceReadback1 targetReadback0
+    targetReadback1
+  have sameSource0Source : hsame source0 source :=
+    cont_left_unit_result sourceReadback0
+  have sameSource1Source : hsame source1 source :=
+    cont_left_unit_result sourceReadback1
+  have sameTarget0Target : hsame target0 target :=
+    cont_left_unit_result targetReadback0
+  have sameTarget1Target : hsame target1 target :=
+    cont_left_unit_result targetReadback1
+  have source0Empty : hsame source0 BHist.Empty :=
+    hsame_trans sameSource0Source sourceCarrier
+  have source1Empty : hsame source1 BHist.Empty :=
+    hsame_trans sameSource1Source sourceCarrier
+  have target0Empty : hsame target0 BHist.Empty :=
+    hsame_trans sameTarget0Target targetCarrier
+  have target1Empty : hsame target1 BHist.Empty :=
+    hsame_trans sameTarget1Target targetCarrier
+  exact And.intro (hsame_trans source0Empty (hsame_symm source1Empty))
+    (And.intro (hsame_trans target0Empty (hsame_symm target1Empty))
+      (And.intro (hsame_trans source0Empty (hsame_symm target0Empty))
+        (hsame_trans source1Empty (hsame_symm target1Empty))))
+
 end BEDC.Derived.ManifoldUp
