@@ -1,4 +1,6 @@
 import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.NatMulComm
+import BEDC.Derived.PrimeUp.NatMulTransport
 
 namespace BEDC.Derived.PrimeUp
 
@@ -33,5 +35,20 @@ theorem NatMul_append_multiplier_total {d w n q : BHist} :
       exact Exists.intro (append n e)
         (And.intro (unary_cont_closed nUnary eData.left (cont_intro rfl))
           (NatMul_append_cont mul eData.right (cont_intro rfl)))
+
+theorem NatDivides_mul_left_closed {d x q z : BHist} :
+    UnaryHistory x -> NatDivides d q -> NatMul x q z -> NatDivides d z := by
+  intro xUnary divides mul
+  have qUnary : UnaryHistory q := NatDivides_result_unary divides
+  have qProduct := NatMul_total qUnary xUnary
+  cases qProduct with
+  | intro z' zData =>
+      have sameProduct : hsame z z' :=
+        NatMul_comm_hsame xUnary qUnary mul zData.right
+      have qDividesProduct : NatDivides q z' :=
+        Exists.intro x (And.intro xUnary zData.right)
+      have qDividesZ : NatDivides q z :=
+        (NatDivides_dividend_hsame_transport qDividesProduct (hsame_symm sameProduct)).right
+      exact NatDivides_transitive divides qDividesZ
 
 end BEDC.Derived.PrimeUp
