@@ -1,7 +1,7 @@
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.StreamNameUp
-import BEDC.Derived.RealUp.Core
+import BEDC.Derived.RealUp.MalformedSealedDenom
 import BEDC.Derived.RealUp.ConstantCarrierContext
 import BEDC.Derived.RealUp.CommonHeadCancel
 import BEDC.Derived.RealUp.PrefixTruncation
