@@ -71,3 +71,73 @@ $$
 $$
 by \autoref{def:quotientring-ideal-coset-relation}.
 \end{proof}
+
+\begin{theorem}[QuotientRing additive descent to ideal cosets]
+\label{thm:quotientring-additive-descent}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ object over $R$, written as a carried predicate $I(x)$. Assume the ideal certificate supplies additive closure, additive inverse closure, and classifier transport for $I$, as specified in \autoref{sec:ideal-certificate}. If
+$$
+a\equiv_I a' \qquad \text{and} \qquad b\equiv_I b',
+$$
+then the additive and inverse operations respect ideal cosets:
+$$
+(a+_R b)\equiv_I(a'+_R b')
+$$
+and
+$$
+(-_R a)\equiv_I(-_R a').
+$$
+Thus the additive part of the $\QuotientRingUp$ coset carrier is representative-independent.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:quotientring-ideal-coset-relation}. Set
+$$
+d_a:=a-_R a', \qquad d_b:=b-_R b'.
+$$
+The two coset hypotheses give $C(a)$, $C(a')$, $C(b)$, $C(b')$, together with $I(d_a)$ and $I(d_b)$.
+
+For addition, ideal additive closure gives
+$$
+I(d_a+_R d_b).
+$$
+The additive abelian-group component of the ring certificate, using \autoref{thm:abgroup-middle-four-interchange} for the operation $+_R$, identifies
+$$
+(a+_R(-_R a'))+_R(b+_R(-_R b'))
+\sim_R
+(a+_R b)+_R((-_R a')+_R(-_R b')).
+$$
+By \autoref{thm:ring-neg-add}, read in the additive component of $R$,
+$$
+-_R(a'+_R b')\sim_R(-_R a')+_R(-_R b').
+$$
+Addition congruence, symmetry, and transitivity of $\sim_R$ therefore give
+$$
+d_a+_R d_b\sim_R(a+_R b)-_R(a'+_R b').
+$$
+Classifier transport for the ideal moves the displayed membership across this classifier edge, so
+$$
+I((a+_R b)-_R(a'+_R b')).
+$$
+Ring additive closure supplies $C(a+_R b)$ and $C(a'+_R b')$. These carrier witnesses and the displayed ideal-membership statement are exactly
+$$
+(a+_R b)\equiv_I(a'+_R b')
+$$
+by \autoref{def:quotientring-ideal-coset-relation}.
+
+For additive inverse, ideal inverse closure applied to $I(d_a)$ gives
+$$
+I(-_R d_a).
+$$
+Since $d_a=a+_R(-_R a')$, \autoref{thm:ring-neg-add} gives the classifier comparison
+$$
+-_R d_a\sim_R(-_R a)+_R(-_R(-_R a')),
+$$
+and the right-hand side is $(-_R a)-_R(-_R a')$ by the notation of \autoref{def:quotientring-ideal-coset-relation}. Classifier transport for the ideal yields
+$$
+I((-_R a)-_R(-_R a')).
+$$
+Ring additive inverse closure supplies $C(-_R a)$ and $C(-_R a')$. Repacking these two carrier witnesses with the displayed ideal-membership statement gives
+$$
+(-_R a)\equiv_I(-_R a')
+$$
+by \autoref{def:quotientring-ideal-coset-relation}.
+\end{proof}
