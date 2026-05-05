@@ -217,6 +217,8 @@ import BEDC.Derived.FieldExtUp.SingletonInverse
 import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
 import BEDC.Derived.FieldExtUp.StabilityExactness
 import BEDC.Derived.FieldExtUp.RatReflexiveSemanticCertificate
+import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
+import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.GammaUp
