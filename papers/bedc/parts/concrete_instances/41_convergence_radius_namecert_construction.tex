@@ -64,6 +64,7 @@ to the origin.
 \label{def:part-sum-power-series}
 For a power series \((a, z_0)\) and a complex history \(z\), the partial sum predicate \(\mathsf{PartSum}(a, z_0, z, n, S_n)\) is the unary-indexed family of complex histories obtained by summing the first \(n\) terms \(a_k (z - z_0)^k\) via explicit unary recursion, using the complex multiplication and addition of \autoref{ch:concrete-instances-complex-namecert}.
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesPartSum}
 
 \begin{lemma}[Partial sums are complex histories]
 \label{lem:part-sum-complex}
@@ -72,7 +73,7 @@ For every power series \((a, z_0)\), every complex history \(z\), and every unar
 \begin{proof}
 By unary induction on \(n\), using totality and functionality of complex multiplication and addition.
 \end{proof}
-\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesComplexPartSum\_exists\_unique}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_constant\_coeff\_partSum\_exists\_unique}
 
 \section{Geometric bound predicate}
 
@@ -539,6 +540,7 @@ Two convergence radii are classified together when they agree under \(\hsame\) o
 \label{def:conv-rad-stability-cert}
 The stability certificate consists of \(\hsame\)-respect of \(\mathsf{ConvRad}\) on coefficient input, transport of constant-witness functions, and compatibility with the geometric-bound predicate under \(\hsame\) on radii.
 \end{definition}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_stability\_certificate\_fields}
 
 \begin{definition}[Convergence radius ledger policy]
 \label{def:conv-rad-ledger-policy}
@@ -698,6 +700,7 @@ constrained only on $\mathcal Q_{\mathrm{chk}}$; analytic ledger rows such as
 $\mathsf{CHExact}(a,R)$ are not constrained unless the ledger policy of
 \autoref{def:conv-rad-ledger-policy} is also supplied.
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct}
 
 \begin{theorem}[Checked convergence-radius rows do not force Cauchy--Hadamard]
 \label{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}
@@ -747,3 +750,4 @@ checked rows alone forced $\mathsf{CHExact}(a,R)$, any two interpretations that
 agree on all rows used by the derivation would agree on that conclusion.
 Applying this to $\Pi_{+}$ and $\Pi_{-}$ gives the displayed contradiction.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_checked\_rows\_do\_not\_force\_cauchy\_hadamard}
