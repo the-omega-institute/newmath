@@ -70,6 +70,37 @@ theorem AddUpTwoPoint_unital_graph_swapped_commutative :
                 cases yUnit
                 rfl
 
+theorem AddUpTwoPoint_unital_continuation_commutativity :
+    let e : BHist := BHist.Empty
+    let u : BHist := BHist.e1 BHist.Empty
+    AddUpTwoPointCarrier e ∧ AddUpTwoPointCarrier u ∧
+      (forall {h k r r' : BHist}, AddUpTwoPointCarrier h -> AddUpTwoPointCarrier k ->
+        hsame r (AddUpTwoPointMul h k) -> hsame r' (AddUpTwoPointMul k h) -> hsame r r') := by
+  constructor
+  · exact Or.inl rfl
+  · constructor
+    · exact Or.inr rfl
+    · intro h k r r' carrierH carrierK sameR sameR'
+      cases carrierH with
+      | inl hEmpty =>
+          cases hEmpty
+          cases carrierK with
+          | inl kEmpty =>
+              cases kEmpty
+              exact hsame_trans sameR (hsame_symm sameR')
+          | inr kUnit =>
+              cases kUnit
+              exact hsame_trans sameR (hsame_symm sameR')
+      | inr hUnit =>
+          cases hUnit
+          cases carrierK with
+          | inl kEmpty =>
+              cases kEmpty
+              exact hsame_trans sameR (hsame_symm sameR')
+          | inr kUnit =>
+              cases kUnit
+              exact hsame_trans sameR (hsame_symm sameR')
+
 inductive AddUpThreePointCarrier : BHist → Prop where
   | empty : AddUpThreePointCarrier BHist.Empty
   | point0 : AddUpThreePointCarrier (BHist.e0 BHist.Empty)
