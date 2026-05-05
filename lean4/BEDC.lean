@@ -227,6 +227,7 @@ import BEDC.Derived.PrimeUp.SuccResultContTransport
 import BEDC.Derived.PrimeUp.ResultBoundary
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
+import BEDC.Derived.PrimeUp.DivisorPositiveShape
 import BEDC.Derived.PrimeUp.FactorialShape
 import BEDC.Derived.PrimeUp.PrimeShape
 import BEDC.Derived.PrimeUp.TrialDivShape
