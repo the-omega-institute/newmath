@@ -6,5 +6,126 @@ The Hilbert-space interface $\HilbertUp$ packages a Banach space whose norm is i
 \section{Carrier definition}
 \label{sec:hilbert-carrier}
 
+\begin{definition}[Compatible inner-product Banach carrier]
+\label{def:hilbert-compatible-inner-product-banach-carrier}
+A compatible inner-product Banach carrier for $\HilbertUp$ is a history
+predicate $X:\mathsf{BHist}\to\mathsf{Prop}$ with point classifier
+$\sim_X$ together with three displayed rows over the same carried histories.
+The first row is a concrete $\BanachUp$ candidate of
+\autoref{def:banach-concrete-carrier}. The second row is an
+$\InnerProductUp$ carrier on $X$, including the vector-space structure,
+sesquilinear form, conjugate symmetry, linearity, positivity, and
+inner-product classifier transport. The third row is a norm-induction ledger
+recording that the Banach norm and Banach metric rows are exactly the rows
+displayed by the inner-product norm:
+$$
+\|x\|_{\BanachUp}=\sqrt{\langle x,x\rangle_{\InnerProductUp}}
+$$
+and
+$$
+d_{\BanachUp}(x,y)=\|x-y\|_{\BanachUp}
+$$
+for carried histories $x,y:X$.
+
+The compatibility requirement is literal row sharing, not an isomorphism
+postulate: the Banach carrier, the inner-product carrier, and the
+norm-induced metric ledger expose the same point carrier $X$ and the same
+classifier $\sim_X$. Every accepted Hilbert row therefore carries a visible
+Banach surface, a visible inner-product surface, and a ledger explaining why
+the Banach metric is the metric induced by the inner-product norm.
+\end{definition}
+
 \section{The certificate}
 \label{sec:hilbert-certificate}
+
+\begin{theorem}[Hilbert induced norm Banach compatibility]
+\label{thm:hilbert-induced-norm-banach-compatibility}
+Every accepted compatible inner-product Banach carrier exposes the same point
+carrier and classifier to its $\BanachUp$ and $\InnerProductUp$ surfaces.
+Moreover, $\hsame$ transport preserves the norm-induced Banach metric witness:
+if $x\sim_X x'$ and $y\sim_X y'$, then a displayed
+$\mathsf{BanachMetricWitness}_X(x,y,d)$ row transports to the corresponding
+$\mathsf{BanachMetricWitness}_X(x',y',d')$ row classified by the same
+inner-product norm ledger.
+\end{theorem}
+\begin{proof}
+Unpack the compatible carrier of
+\autoref{def:hilbert-compatible-inner-product-banach-carrier}. The Banach row
+and inner-product row have the same endpoint predicate $X$ and classifier
+$\sim_X$ by definition, so no change of carrier or classifier is introduced.
+
+Apply \autoref{thm:banach-norm-induced-metric-compatibility} to read the
+Banach metric through the displayed norm row. The Hilbert ledger identifies
+that norm row with the inner-product norm row, so the metric witness remains
+the norm-induced Banach witness after this reading.
+
+Finally use the componentwise $\hsame$ transport rows supplied by the Banach
+surface and the inner-product surface. They move the vector representative,
+difference row, inner-product norm row, and RealUp distance endpoint together,
+and repack the transported rows as
+$\mathsf{BanachMetricWitness}_X(x',y',d')$ over the same classifier
+$\sim_X$.
+\end{proof}
+
+\begin{theorem}[Hilbert complete inner-product limit stability]
+\label{thm:hilbert-complete-inner-product-limit-stability}
+Let $H$ be a compatible inner-product Banach carrier. For any regular Cauchy
+stream $s$ over the Banach metric, any displayed
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)$ supplied by the Banach
+row, and any proof that the stream observations remain in the inner-product
+carrier, there is a Hilbert limit witness with the same selected limit
+$\ell$, the same limit name $L$, and the same classifier $\sim_X$.
+\end{theorem}
+\begin{proof}
+Start from the Banach row contained in $H$. Its completeness field supplies
+the displayed $\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)$ and its
+carrier endpoint data through \autoref{def:banach-concrete-carrier}.
+
+The observation-stability hypothesis says that the same stream is carried by
+the inner-product surface of $H$. Use the inner-product carrier stability row
+to transport all observation representatives through $\sim_X$ while retaining
+the displayed inner-product norm rows named by the Hilbert ledger.
+
+Apply \autoref{thm:hilbert-induced-norm-banach-compatibility} to identify the
+transported Banach distance witnesses with the inner-product norm-induced
+ones. The selected limit endpoint $\ell$ and limit name $L$ are therefore not
+changed; they are merely read as Hilbert rows over the same carrier,
+classifier, and visible metric ledger.
+\end{proof}
+
+\begin{theorem}[Hilbert NameCert obligation surface]
+\label{thm:hilbert-namecert-obligation-surface}
+The compatible carrier of
+\autoref{def:hilbert-compatible-inner-product-banach-carrier}, its induced
+classifier $\sim_X$, the norm-metric compatibility of
+\autoref{thm:hilbert-induced-norm-banach-compatibility}, the complete-limit
+stability of \autoref{thm:hilbert-complete-inner-product-limit-stability}, and
+the visible ledger joining the Banach and inner-product rows assemble the
+paper-side $\NameCert_{\HilbertUp}$ obligation surface. This surface records
+the Hilbert carrier, classifier, norm-induced Banach metric, complete-limit
+stability, and ledger provenance; it does not assert a standard
+Hilbert-space bridge.
+\end{theorem}
+\begin{proof}
+Use the compatible carrier definition for the public carrier field. It
+already contains the Banach row, the inner-product row, and the row-sharing
+ledger binding both surfaces to the same $X$ and $\sim_X$.
+
+Use \autoref{thm:hilbert-induced-norm-banach-compatibility} for the
+norm-metric field. It identifies the Banach metric witness as the metric
+induced by the inner-product norm and records that $\hsame$ transport
+preserves that witness componentwise.
+
+Use \autoref{thm:hilbert-complete-inner-product-limit-stability} for the
+limit-stability field. It consumes the Banach
+$\mathsf{CompleteMetricLimitWitness}$ row together with the inner-product
+observation-stability row and returns the same selected limit as a Hilbert
+limit witness.
+
+The remaining fields are inherited from the source rows: the Banach surface
+provides the complete normed metric obligations, the inner-product surface
+provides the sesquilinear, symmetry, positivity, and classifier-stability
+obligations, and the ledger records exactly which displayed rows are shared.
+Thus the paper-side $\NameCert_{\HilbertUp}$ obligation surface is assembled
+without adding any standard bridge claim.
+\end{proof}
