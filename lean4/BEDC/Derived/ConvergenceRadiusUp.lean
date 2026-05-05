@@ -59,6 +59,9 @@ def ConvRad (a : Nat -> BHist) (R : BHist) : Prop :=
 def ConvRadCauchyHadamardExactnessRow (a : Nat -> BHist) (R witness : BHist) : Prop :=
   ConvRad a R ∧ UnaryHistory R ∧ UnaryHistory witness ∧ Cont R witness R
 
+def ConvRadClassifierSpec (R R' : BHist) : Prop :=
+  UnaryHistory R ∧ UnaryHistory R' ∧ hsame R R'
+
 theorem GeomBound_powerSeriesCarrier {a : Nat -> BHist} {r K z0 : BHist} :
     GeomBound a r K -> ComplexHistoryCarrier z0 ->
       PowerSeriesCarrier a z0 ∧ UnaryHistory r ∧ UnaryHistory K := by
@@ -79,6 +82,13 @@ theorem ConvRad_radius_transport {a : Nat -> BHist} {R R' : BHist} :
   cases radius with
   | intro _ witness =>
       exact And.intro targetUnary witness
+
+theorem ConvRadClassifierSpec_radius_transport {a : Nat -> BHist} {R R' : BHist} :
+    ConvRadClassifierSpec R R' -> ConvRad a R -> ConvRad a R' ∧ UnaryHistory R' := by
+  intro classifier radius
+  exact And.intro
+    (ConvRad_radius_transport classifier.right.right radius classifier.right.left)
+    classifier.right.left
 
 theorem ConvRad_radius_coefficient_classifier_transport {a b : Nat -> BHist} {R R' : BHist} :
     hsame R R' -> UnaryHistory R' -> (forall n : Nat, ComplexHistoryClassifier (a n) (b n)) ->
@@ -229,6 +239,16 @@ theorem GeomBound_radius_shrink_closed {a : Nat -> BHist} {r' r K : BHist} :
         unary_cont_left_factor data.right.right bound.left
       exact And.intro radiusUnary
         (And.intro radiusUnary (And.intro bound.right.left bound.right.right))
+
+def ConvRadPatternSpec (a : Nat -> BHist) (R r K : BHist) : Prop :=
+  ConvRad a R ∧ GeomBound a r K
+
+theorem ConvRadPatternSpec_radius_shrink_closed {a : Nat -> BHist} {R r' r K : BHist} :
+    NatUnaryStrictPrefix r' r -> ConvRadPatternSpec a R r K ->
+      UnaryHistory r' ∧ ConvRadPatternSpec a R r' K := by
+  intro strict pattern
+  have shrink := GeomBound_radius_shrink_closed strict pattern.right
+  exact And.intro shrink.left (And.intro pattern.left shrink.right)
 
 theorem GeomBound_coeff_classifier_append_unary_closed {a b : Nat -> BHist} {r K q : BHist} :
     (forall n : Nat, ComplexHistoryClassifier (a n) (b n)) -> GeomBound a r K ->
@@ -454,6 +474,15 @@ theorem PowerSeriesCarrier_constant_coeff_partSum_exists_unique {a : Nat -> BHis
 
 def ConvRadSourceSpec (a : Nat -> BHist) (z0 R : BHist) : Prop :=
   PowerSeriesCarrier a z0 ∧ ConvRad a R
+
+theorem ConvRadSourceSpec_powerSeries_append_prepend_closed {a : Nat -> BHist} {z0 R q : BHist} :
+    ConvRadSourceSpec a z0 R -> UnaryHistory q ->
+      PowerSeriesCarrier (fun n : Nat => append (a n) q) (append z0 q) ∧
+        PowerSeriesCarrier (fun n : Nat => append q (a n)) (append q z0) := by
+  intro source qUnary
+  exact And.intro
+    (PowerSeriesCarrier_append_unary_closed source.left qUnary)
+    (PowerSeriesCarrier_prepend_unary_closed source.left qUnary)
 
 theorem ConvRadSourceSpec_powerSeries_geomBound_readback {a : Nat -> BHist} {z0 R : BHist} :
     ConvRadSourceSpec a z0 R ->

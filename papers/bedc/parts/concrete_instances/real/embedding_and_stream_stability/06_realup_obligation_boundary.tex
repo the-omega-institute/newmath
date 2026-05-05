@@ -1,0 +1,155 @@
+\begin{definition}[RealUp obligation boundary]
+\label{def:realup-obligation-boundary}
+The RealUp obligation boundary is the package of six fields that must be
+present before the interface name $\RealUp$ is used as a closed BEDC
+obligation scope:
+\begin{enumerate}
+\item carrier data for $\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RatStreamNameCarrier}$, and the $\RegSeqRat$ spine;
+\item classifier data for $\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and
+$\mathsf{RatStreamNameClassifier}$;
+\item pointwise $\hsame$ stability and classifier transport along selected
+stream observations;
+\item the $\mathsf{RealLedgerPolicy}$ finite observation ledger and the
+dyadic endpoint ledger rows;
+\item the $\RealUp$ seal attached to the rational stream certificate spine;
+\item consumption of the $\RegSeqRat$ certificate spine by the $\RealUp$ seal
+without reading any data outside the displayed carriers, classifiers,
+stability rows, and ledger rows.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[RealUp carrier and classifier obligations]
+\label{thm:realup-carrier-classifier-obligations}
+At the RealUp obligation boundary, the carrier and classifier fields are
+supplied by the already stated constant-history and stream-name packages:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryCarrier}\quad
+\mathsf{RatStreamNameCarrier}\quad
+\mathsf{RegSeqRat\ spine\ carrier}\\
+\mathsf{RealConstantHistoryClassifier}\quad
+\mathsf{RealUnaryStreamClassifier}\quad
+\mathsf{RatStreamNameClassifier}.
+\end{array}
+$$
+These are exactly the carrier and classifier entries of
+\autoref{def:realup-obligation-boundary}.
+\end{theorem}
+\begin{proof}
+First build the carrier face. Apply
+\autoref{thm:real-constant-stream-carrier-reindexed-streamname-bridge} to
+transport the constant real stream carrier into the stream-name carrier
+presentation. This supplies the $\mathsf{RealConstantHistoryCarrier}$ and
+$\mathsf{RatStreamNameCarrier}$ rows used by the boundary.
+
+Next build the stream classifier face. Apply
+\autoref{thm:real-unary-streamname-classifier-exactness}; under the two
+stream-name carrier rows it identifies the pointwise
+$\mathsf{RatStreamNameClassifier}$ and the Real unary stream classifier.
+
+Finally build the constant-history classifier face. Apply
+\autoref{thm:real-constant-history-classifier-e1-iff-rat} to read the
+$\mathsf{RealConstantHistoryClassifier}$ row through the rational endpoint
+classifier at the e-one observation. The three displayed applications are
+precisely the carrier and classifier fields named in
+\autoref{def:realup-obligation-boundary}.
+\end{proof}
+
+\begin{theorem}[RealUp stability and ledger obligations]
+\label{thm:realup-stability-ledger-obligations}
+At the RealUp obligation boundary, the stability and ledger fields are
+supplied by the stream-name denominator packages, the pointwise Real unary
+denominator coverage, and the finite Real ledger policy. In particular, every
+certified unary observation carries the pointwise $\hsame$ transport,
+classifier transport, positive denominator rows, finite-window denominator
+rows, and dyadic ledger rows required by
+\autoref{def:realup-obligation-boundary}.
+\end{theorem}
+\begin{proof}
+Begin with the pointwise stream-name stability. Apply
+\autoref{thm:real-unary-streamname-pointwise-denominator-coverage}; it turns
+the Real unary stream classifier and the stream-name carriers into the
+selected denominator row at each certified unary observation. That row includes
+the pointwise RatUp classifier and the denominator witnesses needed for
+$\hsame$ transport.
+
+Next restrict to a selected finite window. Apply
+\autoref{thm:real-unary-streamname-finite-window-coverage} and then the
+selected endpoint denominator packages in this sibling group. The selected
+endpoint package supplies the bounded denominator rows, and the finite-window
+dyadic observation coverage supplies the dyadic endpoint rows.
+
+It remains to name the ledger face. The finite observations, dyadic comparison
+witnesses, regularity certificates, and classifier comparison certificates are
+the fields of \autoref{def:real-ledger-policy}. Combining that policy with the
+pointwise and finite-window packages gives exactly the stability and ledger
+entries named in \autoref{def:realup-obligation-boundary}.
+\end{proof}
+
+\begin{theorem}[RealUp seal and RegSeqRat consumption obligations]
+\label{thm:realup-seal-and-regseqrat-consumption-obligations}
+At the RealUp obligation boundary, the seal field and the RegSeqRat-consumption
+field are supplied by the rational stream certificate spine. The resulting
+package consumes only the scoped $\RegSeqRat$ spine, the dyadic ledger rows,
+the finite-window dyadic source rows, and the displayed $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+First attach the seal to the rational stream spine. Apply
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine}; this is the seal
+entry of the RealUp obligation boundary and records that the stream spine is
+read through the $\RealUp$ interface.
+
+Next identify the scope being consumed. Apply
+\autoref{thm:regseqrat-stream-spine-scoped-package} to collect the carrier,
+classifier, stability, and finite ledger faces of the $\RegSeqRat$ spine.
+Apply \autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation} to attach
+the dyadic ledger and the RealUp seal to that same scoped package.
+
+Finally exhaust the selected endpoint source data. Apply
+\autoref{thm:regseqrat-finite-window-dyadic-source-exhaustion}; it states that
+the selected finite-window observations read exactly the DyadicRatCore source
+rows at the two endpoints. Therefore the seal consumes the displayed
+$\RegSeqRat$ spine and no additional BEDC data, which is the last field of
+\autoref{def:realup-obligation-boundary}.
+\end{proof}
+
+\begin{theorem}[RealUp obligation boundary package]
+\label{thm:realup-obligation-boundary-package}
+The six fields of \autoref{def:realup-obligation-boundary} are exhausted by
+\autoref{thm:realup-carrier-classifier-obligations},
+\autoref{thm:realup-stability-ledger-obligations}, and
+\autoref{thm:realup-seal-and-regseqrat-consumption-obligations}. The package
+reads only the displayed $\RealUp$, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$,
+unary-observation, $\hsame$, and finite-ledger rows, with no quotient,
+completion object, Classical datum, or external metric primitive.
+\end{theorem}
+\begin{proof}
+Read \autoref{def:realup-obligation-boundary} field by field.
+
+Fields one and two are the carrier and classifier faces. They are exactly the
+content of \autoref{thm:realup-carrier-classifier-obligations}: the
+constant-history carrier, stream-name carrier, $\RegSeqRat$ spine carrier,
+constant-history classifier, unary stream classifier, and stream-name
+classifier are supplied by the displayed RealUp, StreamNameUp, RegSeqRat, and
+RatUp rows.
+
+Fields three and four are the stability and ledger faces. They are exactly the
+content of \autoref{thm:realup-stability-ledger-obligations}: pointwise
+$\hsame$ transport, classifier transport, positive-denominator rows,
+finite-window rows, and dyadic ledger rows are read from the unary-observation
+and finite-ledger packages.
+
+Fields five and six are the seal and RegSeqRat-consumption faces. They are
+exactly the content of
+\autoref{thm:realup-seal-and-regseqrat-consumption-obligations}: the
+$\RealUp$ seal is attached to the rational stream certificate spine and
+consumes only the scoped $\RegSeqRat$ spine, dyadic ledger rows,
+finite-window source rows, and displayed seal.
+
+No remaining field is present in the definition. Hence the three named
+theorems exhaust the boundary package, and the read surface is precisely the
+listed BEDC data, not quotient representatives, completion objects,
+Classical data, or an external metric primitive.
+\end{proof}
