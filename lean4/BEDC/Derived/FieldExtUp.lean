@@ -290,6 +290,33 @@ theorem FieldExtRatReflexiveEmbedding_denominator_package {h k : BHist} :
       (And.intro embeddedClassifier
         (And.intro nonempty.left nonempty.right)))
 
+theorem FieldExtRatReflexive_exact_endpoint_classification {h k : BHist} :
+    RatHistoryClassifier h k ->
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) h ∧
+        RatHistoryClassifier (FieldExtSingletonEmbedding k) k ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+  intro classified
+  have carrierH : RatHistoryCarrier h := classified.left
+  have carrierK : RatHistoryCarrier k := classified.right.left
+  have embeddedH :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) h := by
+    unfold FieldExtSingletonEmbedding
+    exact And.intro
+      (RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left h)) carrierH)
+      (And.intro carrierH (append_empty_left h))
+  have embeddedK :
+      RatHistoryClassifier (FieldExtSingletonEmbedding k) k := by
+    unfold FieldExtSingletonEmbedding
+    exact And.intro
+      (RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left k)) carrierK)
+      (And.intro carrierK (append_empty_left k))
+  have embeddedHK :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact RatHistoryClassifier_hsame_transport
+      (hsame_symm (append_empty_left h)) (hsame_symm (append_empty_left k)) classified
+  exact And.intro embeddedH (And.intro embeddedK embeddedHK)
+
 theorem FieldExtSingletonEmbedding_identity_tower_package {h : BHist} :
     FieldSingletonCarrier h ->
       FieldSingletonClassifier (FieldExtSingletonEmbedding (FieldExtSingletonEmbedding h))
