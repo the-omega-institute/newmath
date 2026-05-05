@@ -587,6 +587,92 @@ constant RealUp zero row supplied by
 \autoref{thm:hilbert-singleton-endpoint-readback}.
 \end{proof}
 
+\begin{theorem}[Hilbert singleton limit inner-product carrier]
+\label{thm:hilbert-singleton-limit-inner-product-carrier}
+Let $s$ be an accepted regular Cauchy stream in the Hilbert singleton carrier,
+and let $\ell:\mathsf{BHist}$ be the selected complete-limit witness exposed by
+the Hilbert singleton package. Then $\ell$ is carried by $A_{\emp}$, the
+classifier $\rho_{\emp}$ classifies $\ell$ with $\emp$, and the inner-product
+row of the limit is the constant RealUp zero endpoint:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle \ell,\ell\rangle_{\emp},0_{\mathsf{Real}}^{c}).
+$$
+\end{theorem}
+\begin{proof}
+First use the complete normed field of
+\autoref{thm:hilbert-singleton-complete-normed-certificate}. It reads the
+accepted Hilbert Cauchy stream as the Banach singleton completion problem and
+places its selected limit witness on the Banach limit row.
+
+Apply \autoref{thm:banach-singleton-limit-namecert-uniqueness} to the selected
+Banach limit row. Since the Banach singleton carrier and classifier are
+$A_{\emp}$ and $\rho_{\emp}$, the selected witness is classified with $\emp$
+by $\rho_{\emp}$.
+
+Finally transport the same witness back through
+\autoref{thm:hilbert-singleton-source-compatibility}. The Hilbert and Banach
+surfaces share the carrier and classifier, while
+\autoref{thm:hilbert-singleton-endpoint-readback} reads the diagonal
+inner-product value as the constant RealUp zero endpoint.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton norm-induced metric classifier]
+\label{thm:hilbert-singleton-norm-induced-metric-classifier}
+For carried histories $m,n:\mathsf{BHist}$ on the Hilbert singleton carrier,
+the Banach metric endpoint $d_{\emp}(m,n)$, the induced-norm endpoint
+$\|m-n\|_{\langle,\rangle_{\emp}}$, and the constant endpoint
+$0_{\mathsf{Real}}^{c}$ are classified by
+$\mathsf{RealConstantHistoryClassifier}$. Consequently the metric classifier
+on the singleton Hilbert carrier is exactly the norm-induced classifier
+obtained from the constant inner product.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:hilbert-singleton-inner-product-norm-compatibility}. It identifies
+the norm induced by the constant inner product with the singleton norm
+$\nu_{\emp}$ on every carried history.
+
+Next apply
+\autoref{thm:hilbert-induced-norm-banach-compatibility}. The Banach distance
+row attached to the singleton Hilbert package is the distance induced by that
+same norm, so $d_{\emp}(m,n)$ and
+$\|m-n\|_{\langle,\rangle_{\emp}}$ name the same endpoint surface for the
+classifier.
+
+It remains to read the endpoint. By
+\autoref{thm:hilbert-singleton-endpoint-readback}, the norm endpoint, the
+inner-product endpoint, and the Banach metric endpoint are all classified by
+$\mathsf{RealConstantHistoryClassifier}$ at $0_{\mathsf{Real}}^{c}$.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton semantic NameCert surface]
+\label{thm:hilbert-singleton-semantic-namecert-surface}
+The singleton carrier $A_{\emp}$, classifier $\rho_{\emp}$, constant
+inner-product row, induced norm row, complete-limit row, norm-induced metric
+classifier, projection uniqueness row, and ledger exhaustion row together form
+the concrete paper-side SemanticNameCert surface for $\HilbertUp$. This surface
+does not assert a standard bridge; it records the singleton Hilbert certificate
+inside the BEDC BHist and NameCert interfaces.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:hilbert-namecert-obligation-package}. It assembles the
+carrier, classifier, vector source, scalar source, norm source, Banach source,
+and Hilbert inner-product source into the Hilbert singleton obligation package.
+
+The complete-limit carrier row is supplied by
+\autoref{thm:hilbert-singleton-limit-inner-product-carrier}. The metric row is
+the norm-induced classifier of
+\autoref{thm:hilbert-singleton-norm-induced-metric-classifier}.
+
+Projection determinacy is exactly
+\autoref{thm:hilbert-singleton-projection-uniqueness}, and the remaining
+certificate ledger is exhausted by
+\autoref{thm:hilbert-singleton-ledger-exhaustion}. These rows give the
+paper-side SemanticNameCert surface for $\HilbertUp$ while leaving any
+standard bridge claim outside the singleton certificate.
+\end{proof}
+
 \begin{theorem}[Hilbert singleton universal orthogonality]
 \label{thm:hilbert-singleton-universal-orthogonality}
 For any carried histories $m,n:\mathsf{BHist}$ in the singleton Hilbert
