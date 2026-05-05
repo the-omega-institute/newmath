@@ -29,6 +29,23 @@ inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist ->
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
 
+def RealAnalyticPiLocalData (leibnizTerm : BHist -> BHist) (n sum pi : BHist) : Prop :=
+  UnaryHistory n ∧ RealAnalyticLeibnizPartSum leibnizTerm n sum ∧ UnaryHistory sum ∧
+    Cont sum sum pi
+
+def RealAnalyticPiCandidate (leibnizTerm : BHist -> BHist) (limit : BHist) : Prop :=
+  exists n S : BHist, RealAnalyticLeibnizPartSum leibnizTerm n S ∧ Cont S BHist.Empty limit
+
+theorem RealAnalyticPiCandidate_empty_cont_readback {leibnizTerm : BHist -> BHist}
+    {n S limit : BHist} :
+    RealAnalyticLeibnizPartSum leibnizTerm n S -> Cont S BHist.Empty limit ->
+      RealAnalyticPiCandidate leibnizTerm limit ∧ hsame S limit := by
+  intro partSum limitCont
+  exact
+    And.intro
+      (Exists.intro n (Exists.intro S (And.intro partSum limitCont)))
+      (hsame_symm (cont_right_unit_iff.mp limitCont))
+
 theorem RealAnalyticLeibnizPartSum_pointwise_hsame_deterministic
     {term term' : BHist -> BHist} {n S T : BHist} :
     (forall {m : BHist}, UnaryHistory m -> hsame (term m) (term' m)) ->
