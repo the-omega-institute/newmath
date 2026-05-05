@@ -246,3 +246,66 @@ $$
 $$
 This is exactly the uniqueness field required for $\operatorname{LimCone}_{E}(L,\lambda^E)$.
 \end{proof}
+
+\begin{theorem}[Cone morphism classifier descent through natural-transformation whiskering]
+\label{thm:catlimit-cone-morphism-nattrans-whiskering-descent}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations. Let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams, and let $\alpha:D\Rightarrow E$ be a certified $\NatTransUp$ carrier with components $\alpha_j:D(j)\to E(j)$. Let $\lambda$ and $\mu$ be $D$-cones with apexes $L$ and $M$, and let $\lambda^\alpha$ and $\mu^\alpha$ be the corresponding $E$-cones obtained by composing each cone leg with the component of $\alpha$:
+$$
+\operatorname{Comp}_{\mathcal C}(L,D(j),E(j);\lambda_j,\alpha_j,\lambda^\alpha_j)
+\qquad\text{and}\qquad
+\operatorname{Comp}_{\mathcal C}(M,D(j),E(j);\mu_j,\alpha_j,\mu^\alpha_j)
+$$
+for every object $j$ of $\mathcal J$, with image endpoints read through the certified endpoint-transport fields. If
+$$
+\operatorname{ConeMor}_{D}(\lambda,\mu;f),
+$$
+then
+$$
+\operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:nattrans-carrier}, each $\alpha_j$ is a displayed morphism $D(j)\to E(j)$ in $\mathcal C$, and the naturality row is the cone-whiskering ledger that makes the displayed component families $\lambda^\alpha$ and $\mu^\alpha$ into $E$-cones. If any object image is represented by a classified endpoint rather than by a literal endpoint, the source-target replacement row of \autoref{def:functor-stability-certificate} and the endpoint-indexed transport fields of \autoref{def:category-stability-certificate} reindex the component morphisms before the following composition ledgers are formed.
+
+Unpack $\operatorname{ConeMor}_{D}(\lambda,\mu;f)$ using \autoref{def:catlimit-fixed-diagram-comparison-data}. It gives the apex morphism field $\operatorname{Mor}_{\mathcal C}(L,M;f)$ and, for each object $j$ of $\mathcal J$, a displayed composite $d_j:L\to D(j)$ such that
+$$
+\operatorname{Comp}_{\mathcal C}(L,M,D(j);f,\mu_j,d_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(L,D(j);d_j,\lambda_j).
+$$
+The same apex morphism field is the apex morphism required for $\operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f)$.
+
+Fix $j$. The postwhiskered target leg is displayed by
+$$
+\operatorname{Comp}_{\mathcal C}(M,D(j),E(j);\mu_j,\alpha_j,\mu^\alpha_j).
+$$
+Composition closure in \autoref{def:category-stability-certificate} supplies a composite $s_j:L\to E(j)$ of $f$ followed by $\mu^\alpha_j$:
+$$
+\operatorname{Comp}_{\mathcal C}(L,M,E(j);f,\mu^\alpha_j,s_j).
+$$
+It also supplies a composite $t_j:L\to E(j)$ of $d_j$ followed by $\alpha_j$:
+$$
+\operatorname{Comp}_{\mathcal C}(L,D(j),E(j);d_j,\alpha_j,t_j).
+$$
+Associativity in the same category certificate, applied to
+$$
+L\xrightarrow{f}M\xrightarrow{\mu_j}D(j)\xrightarrow{\alpha_j}E(j),
+$$
+compares the two bracketings and gives
+$$
+\operatorname{MorEq}_{\mathcal C}(L,E(j);s_j,t_j).
+$$
+
+The component classifier from the original cone morphism gives $d_j\sim\lambda_j$ at the endpoint pair $(L,D(j))$. Composition congruence with the fixed right factor $\alpha_j$, together with the displayed definition of $\lambda^\alpha_j$, transports this comparison to
+$$
+\operatorname{MorEq}_{\mathcal C}(L,E(j);t_j,\lambda^\alpha_j).
+$$
+Transitivity of the morphism classifier in \autoref{def:category-stability-certificate} composes the last two comparisons and yields
+$$
+\operatorname{MorEq}_{\mathcal C}(L,E(j);s_j,\lambda^\alpha_j).
+$$
+
+Thus, for the fixed object $j$, the composite $s_j$ supplies the required $E$-cone-morphism component ledger for $f$ from $\lambda^\alpha$ to $\mu^\alpha$. Since $j$ was arbitrary, these ledgers assemble with the already supplied apex morphism field into $\operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f)$.
+\end{proof}
