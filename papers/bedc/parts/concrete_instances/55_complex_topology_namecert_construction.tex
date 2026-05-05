@@ -413,3 +413,36 @@ Define the restricted modulus by $\delta_{r'}(k,g')=\delta_r(k,g'\cdot e)$. The 
 
 All remaining fields are inherited by narrowing the domain of quantification. The function history and center history are unchanged. Disk-gap ledgers are sent to the parent disk by $g'\mapsto g'\cdot e$. Any ledger entry indexed by a further subradius of $r'$ is read in the parent ledger by composing that subradius with $e$ using \autoref{lem:holo-certified-subdisk-radius-compose}. The pointwise classifier clause of \autoref{def:holo-classifier-spec} is therefore exactly the parent pointwise classifier after the open-disk inclusion, while the restricted radius data are compared by reflexivity inside the smaller carrier and related to the parent carrier by the retained subradius ledger. These data satisfy the source, classifier, and ledger fields of \autoref{def:holo-source-spec}, \autoref{def:holo-classifier-spec}, and \autoref{def:holo-ledger-policy} for radius $r'$.
 \end{proof}
+
+\begin{theorem}[HoloOnDisk additive closure]
+\label{thm:holo-on-disk-additive-closure}
+In the $\HolomorphicUp$ seed setup, let $f,g:\ComplexUp\to\ComplexUp$, let $z_0$ be a complex history, and let $r$ be a unary radius. Suppose $\mathsf{HoloOnDisk}(f,z_0,r)$ and $\mathsf{HoloOnDisk}(g,z_0,r)$ are witnessed by uniform modulus data
+$$
+(\delta_f,D_f,L_f)\qquad\text{and}\qquad(\delta_g,D_g,L_g),
+$$
+where $D_f(z)$ and $D_g(z)$ are the derivative histories selected at a point $z$ and $L_f,L_g$ are the corresponding disk-gap ledgers. Assume the witnesses are compatible in the following sense: for every boundary witness $\mathsf{OpenDisk}(z_0,r,z,gap)$, both $L_f$ and $L_g$ read the displayed $gap$ up to $\hsame$ and use it as the second input of their uniform moduli. Define
+$$
+D_{f+g}(z):=D_f(z)+D_g(z),
+\qquad
+\delta_{f+g}(k,gap):=\max(\delta_f(k+1,gap),\delta_g(k+1,gap)).
+$$
+Then the pointwise complex sum satisfies
+$$
+\mathsf{HoloOnDisk}(f+g,z_0,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two $\mathsf{HoloOnDisk}$ witnesses using \autoref{def:holo-on-disk}. Fix a point $z$ and a boundary witness $\mathsf{OpenDisk}(z_0,r,z,gap)$. The $f$-witness supplies $\mathsf{CplxDiffAt}(f,z,D_f(z))$ with the one-variable modulus $k\mapsto\delta_f(k,gap)$, and the $g$-witness supplies $\mathsf{CplxDiffAt}(g,z,D_g(z))$ with the one-variable modulus $k\mapsto\delta_g(k,gap)$.
+
+If either source witness presents an $\hsame$-equivalent boundary gap rather than the displayed $gap$, compatibility identifies it with $gap$. The open-disk transport theorem \autoref{lem:holomorphic-open-disk-hsame-transport} keeps the same disk membership, and full pointwise differentiability transport \autoref{lem:cplx-diff-at-full-hsame-transport} moves the corresponding differentiability witness to the displayed point and displayed gap representative.
+
+Apply the complex differentiability sum rule \autoref{lem:cplx-diff-sum} at this fixed point. It gives
+$$
+\mathsf{CplxDiffAt}(f+g,z,D_f(z)+D_g(z))
+$$
+with modulus $k\mapsto\max(\delta_f(k+1,gap),\delta_g(k+1,gap))$, which is exactly $k\mapsto\delta_{f+g}(k,gap)$. The proof of \autoref{lem:cplx-diff-sum} decomposes the difference quotient of $f+g$ into the sum of the two source quotients and uses the shifted precision $k+1$ on each side, so the pasted error is below the requested precision $k$.
+
+The construction is uniform in $z$ and in the displayed boundary gap. The center $z_0$, the radius $r$, and the open-disk witness are unchanged, while the output ledger records the two source ledgers, the common gap ledger, the pointwise complex-sum quotient ledger, and the pasted unary modulus $\delta_{f+g}$. The stability seed field of \autoref{def:holo-stability-cert} transports these ledgers along $\hsame$, and the ledger composition principle \autoref{cor:ledger-composition-principle} supplies the composite ledger for the sum witness.
+
+Thus every point of the disk carries complex differentiability of $f+g$ with the displayed uniform modulus and derivative selector $D_{f+g}$. By \autoref{def:holo-on-disk}, this is precisely $\mathsf{HoloOnDisk}(f+g,z_0,r)$.
+\end{proof}
