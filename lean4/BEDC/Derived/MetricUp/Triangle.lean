@@ -222,6 +222,24 @@ theorem MetricDistanceWitness_triangle_left_distance_empty_collapse {x y z dxy d
   exact And.intro xyEndpoints.left
     (And.intro xyEndpoints.right (And.intro dxyzExact dyzExact))
 
+theorem MetricDistanceWitness_triangle_left_distance_empty_visible_context_closed
+    {p q x y z dxy dyz dxyz : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        hsame dxy BHist.Empty ->
+          MetricDistanceWitness (append p BHist.Empty) (append z q)
+            (append (append p dxyz) q) := by
+  intro pCarrier qCarrier xy yz xyz dxyEmpty
+  have collapse :=
+    MetricDistanceWitness_triangle_left_distance_empty_collapse xy yz xyz dxyEmpty
+  have central : MetricDistanceWitness BHist.Empty z dxyz :=
+    (MetricDistanceWitness_empty_left_iff (y := z) (d := dxyz)).mpr
+      (And.intro yz.right.left collapse.right.right.left)
+  exact
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := BHist.Empty)
+      (y := z) (d := dxyz)).mpr
+      (And.intro pCarrier (And.intro qCarrier central))
+
 theorem MetricDistanceWitness_triangle_right_distance_empty_collapse {x y z dxy dyz dxyz :
     BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
@@ -240,6 +258,35 @@ theorem MetricDistanceWitness_triangle_right_distance_empty_collapse {x y z dxy 
   exact And.intro yzEndpoints.left
     (And.intro yzEndpoints.right
       (And.intro dxyExact (hsame_trans dxyzExactDxy dxyExact)))
+
+theorem MetricDistanceWitness_triangle_right_distance_empty_visible_context_closed
+    {p q x y z dxy dyz dxyz : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        hsame dyz BHist.Empty ->
+          MetricDistanceWitness (append p x) (append BHist.Empty q)
+            (append (append p dxyz) q) := by
+  intro pCarrier qCarrier xy yz xyz dyzEmpty
+  have collapse :=
+    MetricDistanceWitness_triangle_right_distance_empty_collapse xy yz xyz dyzEmpty
+  have central : MetricDistanceWitness x BHist.Empty dxyz :=
+    (MetricDistanceWitness_empty_right_iff (x := x) (d := dxyz)).mpr
+      (And.intro xy.left collapse.right.right.right)
+  exact
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x)
+      (y := BHist.Empty) (d := dxyz)).mpr
+      (And.intro pCarrier (And.intro qCarrier central))
+
+theorem MetricDistanceWitness_triangle_right_distance_empty_spine_witness
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dyz BHist.Empty ->
+        MetricDistanceWitness x BHist.Empty dxyz := by
+  intro xy yz xyz dyzEmpty
+  have collapse :=
+    MetricDistanceWitness_triangle_right_distance_empty_collapse xy yz xyz dyzEmpty
+  exact (MetricDistanceWitness_empty_right_iff (x := x) (d := dxyz)).mpr
+    (And.intro xy.left collapse.right.right.right)
 
 theorem MetricDistanceWitness_triangle_right_empty_boundary_witness {x y z dxy dyz dxyz :
     BHist} :

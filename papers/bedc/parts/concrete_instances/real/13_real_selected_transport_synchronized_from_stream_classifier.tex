@@ -1,8 +1,59 @@
-\begin{theorem}[Real selected transport synchronized fit from stream classifier]
-\label{thm:real-selected-transport-fit-synchronized-from-stream-classifier}
+\begin{theorem}[Real selected transport synchronized e-one classifier clique]
+\label{thm:real-selected-transport-synchronized-e1-classifier-clique}
+Under the hypotheses of
+\autoref{thm:real-selected-transport-fit-synchronized-from-stream-classifier},
+the four displayed tails $a,a',b,b'$ form a complete displayed
+rational-classifier clique:
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(a'))\land
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b'))\land
+\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))\land
+\mathsf{RatHistoryClassifier}(\Eone(b),\Eone(b')).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-selected-transport-fit-synchronized-from-stream-classifier}
+to the displayed hypotheses and project the synchronized displayed rows. This
+gives unary rows for $a,a',b,b'$ and the four tail rows
+$\hsame(a,a')$, $\hsame(b,b')$, $\hsame(a,b)$, and $\hsame(a',b')$.
+
+The two remaining tail rows come from
+\autoref{thm:history-sameness-equivalence}. Compose $\hsame(a,b)$ with
+$\hsame(b,b')$ to obtain $\hsame(a,b')$. Compose the symmetry of
+$\hsame(a,a')$ with $\hsame(a,b)$ to obtain $\hsame(a',b)$.
+
+For each displayed pair among
+$(a,a')$, $(a,b)$, $(a,b')$, $(a',b)$, $(a',b')$, and $(b,b')$, use the
+corresponding two unary rows and tail $\hsame$ row. The reverse direction of
+\autoref{thm:rat-history-classifier-e1-tail-unary-iff} lifts that data to the
+six displayed $\mathsf{RatHistoryClassifier}$ rows, which are exactly the
+complete clique.
+\end{proof}
+
+Fit: traditional target synchronized RegSeqRat selected-observation classifier
+completion; BEDC source RealUp stream classifier plus RatUp e-one classifier
+exactness plus FKernel hsame; carrier rational-observation streams with
+selected displayed e-one tails; classifier $\mathsf{RealStreamClassifier}$
+feeding $\mathsf{RatHistoryClassifier}$ through $\Eone$ displays; stability
+pointwise $\hsame$ and tail-level symmetry and transitivity; ledger selected
+index, contexts, transported endpoints, unary tails, and six pairwise
+classifier rows; core theorem
+\autoref{thm:real-selected-transport-synchronized-e1-classifier-clique} in
+future Lean namespace \texttt{BEDC.Derived.RealUp}; exactness predicate
+complete displayed e-one rational-classifier clique; downstream use RealUp
+dyadic endpoint normalization; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real selected transport synchronized appended-tail classifier clique]
+\label{thm:real-selected-transport-synchronized-appended-tail-classifier-clique}
 For rational-observation streams
 $x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
-indices $m,n$, and histories $a,a',b,b',z_X,z_Y:\Hist$, assume the pointwise
+indices $m,n$, and histories
+$a,a',b,b',d_X,d_Y,e_X,e_Y,w_X,w_Y,z_X,z_Y:\Hist$, assume the pointwise
 transport rows and the source stream classifier row
 $$
 \forall i,\ \hsame(x(i),x'(i)),\quad
@@ -32,93 +83,112 @@ $$
 \hsame(x'(n),\Eone(a)),\quad
 \hsame(y'(n),\Eone(b)).
 $$
-Then the selected transport carries the following packages simultaneously.
-\begin{enumerate}
-\item The contextual endpoint package of
-\autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package}:
+Then the selected transport supplies the displayed classifier clique together
+with the appended-tail exclusions:
 $$
 \begin{array}{l}
-\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n)),\\
-\mathsf{PositiveUnaryDenominator}(o_X(n))\land
-\mathsf{PositiveUnaryDenominator}(o_Y(n)),\\
-\mathsf{UnaryHistory}(o_X(n))\land
-\mathsf{UnaryHistory}(o_Y(n)),\\
-(\hsame(o_X(n),\emp)\to\mathsf{False})\land
-(\hsame(o_Y(n),\emp)\to\mathsf{False}),\\
-(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})\land
-(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False}),\\
-\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b).
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(a'))\land
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b'))\land
+\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))\land
+\mathsf{RatHistoryClassifier}(\Eone(b),\Eone(b'))\land\\
+(\hsame(o_X(n),d_X\cdot\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),d_Y\cdot\Ezero(z_Y))\to\mathsf{False})\land\\
+(\hsame(x'(n),e_X\cdot\Ezero(w_X))\to\mathsf{False})\land
+(\hsame(y'(n),e_Y\cdot\Ezero(w_Y))\to\mathsf{False}).
 \end{array}
 $$
-\item The contextual e-one tail determinacy package of
-\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}:
-$$
-\begin{array}{l}
-\mathsf{UnaryHistory}(a)\land
-\mathsf{UnaryHistory}(a')\land
-\mathsf{UnaryHistory}(b)\land
-\mathsf{UnaryHistory}(b')\land\\
-\hsame(a,a')\land
-\hsame(b,b')\land
-\hsame(a,b)\land
-\hsame(a',b').
-\end{array}
-$$
-\item The finite-prefix selected full-shape readback package of
-\autoref{thm:real-stream-prefix-transported-selected-full-shape-readback-package}:
-$$
-\begin{array}{l}
-\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
-\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)\land\\
-\mathsf{PositiveUnaryDenominator}(x'(n))\land
-\mathsf{PositiveUnaryDenominator}(y'(n))\land
-\mathsf{UnaryHistory}(x'(n))\land
-\mathsf{UnaryHistory}(y'(n))\land\\
-(\hsame(x'(n),\emp)\to\mathsf{False})\land
-(\hsame(y'(n),\emp)\to\mathsf{False})\land\\
-(\hsame(x'(n),\Ezero(z_X))\to\mathsf{False})\land
-(\hsame(y'(n),\Ezero(z_Y))\to\mathsf{False}).
-\end{array}
-$$
-\item The synchronized displayed rows
-$$
-\begin{array}{l}
-\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
-\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))\land\\
-\mathsf{UnaryHistory}(a)\land
-\mathsf{UnaryHistory}(a')\land
-\mathsf{UnaryHistory}(b)\land
-\mathsf{UnaryHistory}(b')\land\\
-\hsame(a,a')\land
-\hsame(b,b')\land
-\hsame(a,b)\land
-\hsame(a',b').
-\end{array}
-$$
-\end{enumerate}
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:real-stream-classifier-prefix} to
-$\mathsf{RealStreamClassifier}(x,y)$ at the finite length $m+n$. This gives the
-prefix row $\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$.
+Apply
+\autoref{thm:real-selected-transport-synchronized-e1-classifier-clique}
+to the selected-transport hypotheses. This yields the six displayed
+$\mathsf{RatHistoryClassifier}$ rows as a single clique package.
 
-Apply \autoref{thm:real-selected-transport-fit-synchronized-package} to the two
-pointwise transport rows, the source stream classifier row, the derived prefix
-row, the selected context rows, the selected continuation rows, and the six
-selected e-one display rows. Its conclusion is exactly the four packages listed
-above.
+Apply
+\autoref{thm:real-selected-transport-synchronized-appended-tail-package-from-stream-classifier}
+to the same selected-transport hypotheses. Project its appended-tail component
+to obtain the four exclusions for $o_X(n)$, $o_Y(n)$, $x'(n)$, and $y'(n)$.
+
+Conjoin the six classifier projections with the four appended-tail projections.
+The resulting ten conjuncts are exactly the displayed conclusion.
 \end{proof}
 
-Fit: traditional target stream-classifier-closed synchronized transported
-RealUp selected-observation certificate; BEDC source
-\autoref{thm:real-stream-classifier-prefix} plus
-\autoref{thm:real-selected-transport-fit-synchronized-package}; carrier
-rational-observation streams; classifier $\mathsf{RealStreamClassifier}$ with
-the finite-prefix row derived internally; stability pointwise $\hsame$,
-context closure, e-one inversion, and selected full-shape readback; ledger
-selected index, prefix surplus, four tails, contexts, and derived prefix row;
-core theorem
+Fit: traditional target selected $\mathsf{RegSeqRat}$ endpoint normalization;
+BEDC source $\mathsf{RealStreamClassifier}$,
+$\mathsf{RatHistoryClassifier}$, $\mathsf{Cont}$, and $\hsame$; carrier
+rational-observation streams; classifier $\mathsf{RealStreamClassifier}$
+feeding displayed $\mathsf{RatHistoryClassifier}$ rows; stability pointwise
+transport, context closure, e-one inversion, and positive-denominator
+obstruction; ledger selected index, four displayed tails, context outputs, and
+appended-tail probes; core theorem
+\autoref{thm:real-selected-transport-synchronized-appended-tail-classifier-clique};
+exactness classifier clique plus malformed-tail exclusion; standard bridge
+dyadic selected endpoint normalization; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real selected transport common rational classifier class]
+\label{thm:real-selected-transport-common-rational-classifier-class}
+Under the hypotheses of
+\autoref{thm:real-selected-transport-fit-synchronized-from-stream-classifier},
+the displayed selected representative $\Eone(a)$ is a RatUp classifier hub for
+the contextual outputs and the transported selected source endpoints:
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(o_X(n),\Eone(a))\land
+\mathsf{RatHistoryClassifier}(o_Y(n),\Eone(a))\land\\
+\mathsf{RatHistoryClassifier}(x'(n),\Eone(a))\land
+\mathsf{RatHistoryClassifier}(y'(n),\Eone(a))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(a))\land
+\mathsf{RatHistoryClassifier}(\Eone(b),\Eone(a))\land
+\mathsf{RatHistoryClassifier}(\Eone(b'),\Eone(a)).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
 \autoref{thm:real-selected-transport-fit-synchronized-from-stream-classifier}
-in future Lean namespace \texttt{BEDC.Derived.RealUp}; exactness predicate the
-four synchronized selected-transport packages; standard bridge RealUp selected
-RegSeqRat endpoint synchronization; status $\mathsf{ProofTarget}$.
+to the displayed hypotheses. Project the displayed endpoint rows
+$\hsame(o_X(n),\Eone(a))$, $\hsame(o_Y(n),\Eone(b))$,
+$\hsame(x'(n),\Eone(a))$, and $\hsame(y'(n),\Eone(b))$, together with the
+selected displayed classifier row
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+
+Apply
+\autoref{thm:real-selected-transport-synchronized-e1-classifier-clique} under
+the same hypotheses. This supplies the complete displayed e-one classifier
+clique. Use \autoref{thm:rat-history-classifier-symmetry} to orient the rows
+through the chosen center, giving
+$\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(a))$,
+$\mathsf{RatHistoryClassifier}(\Eone(b),\Eone(a))$, and
+$\mathsf{RatHistoryClassifier}(\Eone(b'),\Eone(a))$.
+
+The self-row
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(a))$ follows by composing
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$ with its symmetric row using
+\autoref{thm:rat-history-classifier-trans}. Transport this self-row along
+$\hsame(o_X(n),\Eone(a))$ and $\hsame(x'(n),\Eone(a))$ by
+\autoref{thm:rat-history-classifier-hsame-transport}, with FKernel $\hsame$
+symmetry and reflexivity supplying the needed endpoint orientations. This gives
+the $o_X(n)$ and $x'(n)$ classifier rows centered at $\Eone(a)$.
+
+Finally transport
+$\mathsf{RatHistoryClassifier}(\Eone(b),\Eone(a))$ along
+$\hsame(o_Y(n),\Eone(b))$ and $\hsame(y'(n),\Eone(b))$, again using
+\autoref{thm:rat-history-classifier-hsame-transport} with the appropriate
+FKernel $\hsame$ orientations. The four transported endpoint rows together with
+the three oriented displayed-tail rows are exactly the stated common
+classifier class.
+\end{proof}
+
+Fit: traditional target common selected rational observation representative;
+BEDC source RealUp selected transport plus RatUp classifier transport plus
+FKernel $\hsame$; carrier rational-observation streams; classifier
+$\mathsf{RatHistoryClassifier}$ centered at $\Eone(a)$; stability selected
+endpoint $\hsame$ transport and classifier symmetry; ledger selected index,
+contextual outputs, transported source endpoints, and displayed e-one tails;
+core theorem
+\autoref{thm:real-selected-transport-common-rational-classifier-class};
+exactness all selected endpoints read through the same rational classifier
+class; standard bridge RegSeqRat selected dyadic representative; status
+$\mathsf{ProofTarget}$.
