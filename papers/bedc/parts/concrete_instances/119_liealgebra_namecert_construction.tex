@@ -8,3 +8,100 @@ The Lie-algebra interface $\LieAlgebraUp$ packages a vector-space carrier endowe
 
 \section{The certificate}
 \label{sec:liealgebra-certificate}
+
+\begin{definition}[Lie-algebra adjoint action]
+\label{def:liealgebra-adjoint-action-from-bracket}
+Let $L$ carry a $\LieAlgebraUp$ certificate. Write $C_L$ for its vector carrier, $\sim_{L}$ for its carrier classifier, and $[-,-]_L$ for its bilinear bracket. For each carried endpoint $x:C_L$, define the adjoint action determined by $x$ on carried endpoints by
+$$
+\operatorname{ad}^{L}_{x}(t):=[x,t]_L.
+$$
+Bracket closure makes $\operatorname{ad}^{L}_{x}(t)$ carried, and bracket classifier congruence makes this a classifier-respecting endomap of the vector carrier. This is the Lie-algebra side of the $\operatorname{ad}$ coordinate named in \autoref{ch:concrete-instances-adjointrep-namecert}.
+\end{definition}
+
+\begin{theorem}[Adjoint action derivation from Jacobi]
+\label{thm:liealgebra-adjoint-action-derivation-from-jacobi}
+Let $L$ carry a $\LieAlgebraUp$ certificate as in \autoref{ch:concrete-instances-liealgebra-namecert}. Write $+_{L}$, $0_{L}$, and $-_{L}$ for the additive vector-space operations inherited from \autoref{ch:concrete-instances-vecspace-namecert}. If $x,y,z$ are carried by $C_L$, then
+$$
+\operatorname{ad}^{L}_{x}([y,z]_L)
+\sim_{L}
+[\operatorname{ad}^{L}_{x}(y),z]_L+_{L}[y,\operatorname{ad}^{L}_{x}(z)]_L.
+$$
+\end{theorem}
+\begin{proof}
+All bracketed endpoints below are carried by the bracket-closure field, and all displayed sums and negatives are carried by the vector-space reduct. Set
+$$
+A:=[x,[y,z]_L]_L,
+\qquad
+B:=[[x,y]_L,z]_L,
+\qquad
+C:=[y,[x,z]_L]_L.
+$$
+The Jacobi field of the $\LieAlgebraUp$ certificate gives
+$$
+(A+_{L}[y,[z,x]_L]_L)+_{L}[z,[x,y]_L]_L\sim_{L}0_{L}.
+$$
+Antisymmetry gives $[z,x]_L\sim_{L}-_{L}[x,z]_L$ and $[z,[x,y]_L]_L\sim_{L}-_{L}B$. By bracket congruence and linearity in the second argument, the first comparison transports through $[y,-]_L$ and gives
+$$
+[y,[z,x]_L]_L\sim_{L}-_{L}C.
+$$
+Transporting the Jacobi comparison along these two classifier equalities yields
+$$
+(A+_{L}(-_{L}C))+_{L}(-_{L}B)\sim_{L}0_{L}.
+$$
+Using associativity and commutativity of the additive vector-space law, this is the same classifier comparison as
+$$
+A+_{L}(-_{L}(B+_{L}C))\sim_{L}0_{L}.
+$$
+Add $B+_{L}C$ to both sides and use additive congruence:
+$$
+(A+_{L}(-_{L}(B+_{L}C)))+_{L}(B+_{L}C)
+\sim_{L}
+0_{L}+_{L}(B+_{L}C).
+$$
+The additive inverse and unit laws reduce the left endpoint to $A$ and the right endpoint to $B+_{L}C$, all inside the classifier $\sim_{L}$. Substituting the definitions of $A$, $B$, and $C$, and unfolding \autoref{def:liealgebra-adjoint-action-from-bracket}, gives the displayed adjoint derivation law.
+\end{proof}
+
+\begin{theorem}[Inner derivation commutator identity]
+\label{thm:liealgebra-inner-derivation-commutator-identity}
+Let $L$ carry a $\LieAlgebraUp$ certificate as in \autoref{ch:concrete-instances-liealgebra-namecert}. Write $+_{L}$, $0_{L}$, and $-_{L}$ for the additive vector-space operations inherited from \autoref{ch:concrete-instances-vecspace-namecert}, write $\sim_{L}$ for the carrier classifier, and write $[-,-]_L$ for the Lie bracket. For carried endpoints $x,y,z$ of $C_L$, read the bracket of adjoint endomaps pointwise as
+$$
+[\operatorname{ad}^{L}_{x},\operatorname{ad}^{L}_{y}](t)
+:=
+\operatorname{ad}^{L}_{x}(\operatorname{ad}^{L}_{y}(t))
++_{L}
+(-_{L}\operatorname{ad}^{L}_{y}(\operatorname{ad}^{L}_{x}(t))).
+$$
+Then $[\operatorname{ad}^{L}_{x},\operatorname{ad}^{L}_{y}](z)$ and $\operatorname{ad}^{L}_{[x,y]_L}(z)$ are carried by $C_L$, and
+$$
+[\operatorname{ad}^{L}_{x},\operatorname{ad}^{L}_{y}](z)
+\sim_{L}
+\operatorname{ad}^{L}_{[x,y]_L}(z).
+$$
+\end{theorem}
+\begin{proof}
+Bracket closure carries $[x,y]_L$, $\operatorname{ad}^{L}_{y}(z)$, $\operatorname{ad}^{L}_{x}(z)$, $\operatorname{ad}^{L}_{x}(\operatorname{ad}^{L}_{y}(z))$, $\operatorname{ad}^{L}_{y}(\operatorname{ad}^{L}_{x}(z))$, and $\operatorname{ad}^{L}_{[x,y]_L}(z)$. The additive closure and negation closure of the vector-space reduct therefore carry the displayed endomap commutator endpoint.
+
+Set
+$$
+P:=\operatorname{ad}^{L}_{x}(\operatorname{ad}^{L}_{y}(z)),
+\qquad
+Q:=\operatorname{ad}^{L}_{y}(\operatorname{ad}^{L}_{x}(z)),
+\qquad
+R:=\operatorname{ad}^{L}_{[x,y]_L}(z).
+$$
+Unfolding \autoref{def:liealgebra-adjoint-action-from-bracket}, the comparison in \autoref{thm:liealgebra-adjoint-action-derivation-from-jacobi} applied to $x,y,z$ gives
+$$
+P\sim_{L}R+_{L}Q.
+$$
+Add $-_{L}Q$ on the right by additive congruence:
+$$
+P+_{L}(-_{L}Q)
+\sim_{L}
+(R+_{L}Q)+_{L}(-_{L}Q).
+$$
+Associativity in the additive vector-space law rewrites the right endpoint as $R+_{L}(Q+_{L}(-_{L}Q))$. The inverse law and the additive unit law classify this endpoint with $R$. By transitivity of $\sim_{L}$,
+$$
+P+_{L}(-_{L}Q)\sim_{L}R.
+$$
+Substituting the definitions of $P$, $Q$, and $R$, and using the pointwise endomap-commutator reading above, gives the displayed identity.
+\end{proof}

@@ -10065,3 +10065,265 @@ Cryptographic BEDC content has concentrated on HashUp, where concrete transcript
 
 ---
 
+### B-385 - Affine empty family full-space zero-locus
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Affine empty family full-space zero-locus |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under the affine finite-family zero-locus setup, AffPoint_R,n(x) implies V_R,n(empty)(x).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+
+Rationale:
+This is a concrete base-case theorem for the existing AffineVarUp zero-locus definition. It is not a BOARD duplicate and is not already present as a theorem or corollary; the current paper has the zero-locus definition and a concatenation/intersection theorem, but no empty-family full-space statement. The landing file is short and directly suitable.
+
+---
+
+
+### B-386 - Affine duplicate equation insertion invariance
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Affine duplicate equation insertion invariance |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under the affine finite-family zero-locus setup, if a polynomial equation already occurs in F, then V_R,n(insert(p,F))(x) implies and is implied by V_R,n(F)(x).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+This is a concrete invariance property for affine zero-loci under redundant finite-spine equations. It is adjacent to the existing FinSet duplicate insertion theorem, but that theorem concerns finite-set enumeration classifiers rather than affine polynomial-equation zero-loci, so this is not already proven at the affine-variety surface.
+
+---
+
+
+### B-387 - Affine finite-family inclusion reverses zero-loci
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Affine finite-family inclusion reverses zero-loci |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the affine finite-family zero-locus setup, if every equation occurring in F also occurs in G, then V_R,n(G)(x) implies V_R,n(F)(x).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+This is the natural contravariance theorem for finite polynomial-family zero-loci and is broader than the existing concatenation/intersection result. It is concrete, lands in the current AffineVarUp chapter, and would give a reusable inclusion principle for later affine-variety arguments without duplicating an existing BOARD target.
+
+---
+
+### B-388 - Inner derivation commutator identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Inner derivation commutator identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If L carries a \LieAlgebraUp certificate and x,y,z are carried endpoints, then [\operatorname{ad}^{L}_{x},\operatorname{ad}^{L}_{y}](z) \sim_{L} \operatorname{ad}^{L}_{[x,y]_{L}}(z).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/121_adjointrep_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete Lie-algebra theorem landing in the existing \LieAlgebraUp and \AdjointRepUp surface. The paper already has the adjoint-action definition and the derivation law from Jacobi, but no labeled theorem for the inner-derivation commutator identity. It is not a marker, closurestatus change, or mere classifier-field echo; it packages a standard Jacobi consequence that supports the adjoint-representation certificate surface without duplicating any current BOARD entry.
+
+---
+
+### B-389 - Distribution empty target event has zero mass
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Distribution empty target event has zero mass |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a DistributionUp pushforward for a RandomVarUp map, if the empty target event is measurable, its preimage is identified with the source empty event, and the source MeasureUp empty-set-zero theorem applies, then the pushforward mass of the target empty event is RealUp-classified as zero.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex`
+
+Rationale:
+This is a concrete distribution-level coverage theorem that lands naturally beside the existing total-mass theorem. It is not already proved by the MeasureUp empty-set theorem alone, because it explicitly composes the RandomVarUp preimage row with the DistributionUp pushforward row.
+
+---
+
+
+### B-390 - Distribution finite disjoint-union additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Distribution finite disjoint-union additivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DistributionUp pushforward for a RandomVarUp map, if target events are measurable and disjoint, preimages preserve the measurable union and disjointness, and the source MeasureUp finite disjoint-union theorem applies, then the pushforward mass of the union is RealUp-classified as the sum of the pushforward masses.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex`
+
+Rationale:
+This fills a real structural gap: the paper has MeasureUp finite disjoint-union additivity and a DistributionUp total-mass theorem, but not the inherited finite additivity law for pushforward distributions. It is concrete, local, and distinct from the existing BOARD targets.
+
+---
+
+### B-391 - Quantum channel identity closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Quantum channel identity closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a fixed Hilbert carrier H, the identity trace-class map id_TC(H) is carried by QuantumChannelUp(H,H), and every DensityMatrixUp(H) input is fixed as a DensityMatrixUp(H) output.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+Rationale:
+The quantum-channel surface already has density-matrix image closure and binary composition closure, but it does not state the identity-channel unit law. This is a concrete closure target, not a marker or parameter echo, and it safely lands beside the existing QuantumChannel carrier and composition theorem while using the existing LinearMap identity certificate as local support.
+
+---
+
+
+### B-392 - Density matrix convex mixture closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Density matrix convex mixture closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a fixed Hilbert carrier H, if a finite spine of trace-class operators are DensityMatrixUp(H) carriers and the weights are nonnegative with total weight one, then the finite affine mixture is again a DensityMatrixUp(H) carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+
+Rationale:
+The paper has a concrete density-matrix carrier definition and a general ConvexSet finite affine-spine closure theorem, but no density-matrix-specific convexity theorem. This is a concrete closure result for an existing BEDC object, distinct from existing quantum-channel and convex-set entries, and it would make the mixed-state interface materially stronger.
+
+---
+
+### B-393 - Public-key decryption output determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Public-key decryption output determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a PublicKeyUp certificate with a decrypt-output determinacy row, PKKeyGen_P(pk,sk), PKDecrypt_P(sk,c,d1), and PKDecrypt_P(sk,c,d2) imply mu_P(d1,d2).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/146_numfield_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+This is a concrete determinacy target for the existing PublicKeyUp surface: the paper already has a transcript interface and decrypt-encrypt correctness, but not a theorem saying two decryption endpoints for the same secret key and ciphertext are message-classifier equal. It is not a BOARD duplicate, not a marker or closure-status item, and lands safely in the existing public-key concrete-instance file.
+
+---
+
+### B-394 - Matroid restriction certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Matroid restriction certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a MatroidUp independent-set certificate over ground E and a FinSetUp subset K of E, the family of independent predicates contained in K satisfies the MatroidUp certificate rows over K.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+The claim is a concrete certificate-construction implication inside the existing MatroidUp and FinSetUp surface. It is not covered by existing BOARD targets, and the current matroid paper content only gives intersection preservation of independence rather than the full restricted-certificate construction with inherited empty, hereditary, ground, finite, and exchange rows.
+
+---
+
