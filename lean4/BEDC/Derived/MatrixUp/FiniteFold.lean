@@ -32,4 +32,14 @@ theorem MatrixSingletonAddFold_carrier_iff {xs : List BHist} :
         exact append_eq_empty_iff.mpr
           (And.intro spineCarrier.left (Iff.mpr ih spineCarrier.right))
 
+theorem MatrixSingletonAddFold_append_hsame {xs ys : List BHist} :
+    hsame (MatrixSingletonAddFold (xs ++ ys))
+      (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) := by
+  induction xs with
+  | nil =>
+      exact (append_empty_left (MatrixSingletonAddFold ys)).symm
+  | cons x xs ih =>
+      exact (congrArg (append x) ih).trans
+        (append_assoc x (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)).symm
+
 end BEDC.Derived.MatrixUp
