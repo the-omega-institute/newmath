@@ -455,4 +455,38 @@ theorem PolynomialSingletonAddFold_zero_remainder_empty {xs : List BHist} :
   | cons xEmpty tailZero ih =>
       exact append_eq_empty_iff.mpr (And.intro xEmpty ih)
 
+theorem PolynomialSingletonEval_zero_point_zero_tail_invariance {xs t : List BHist} :
+    PolynomialZeroRemainder t ->
+      hsame (PolynomialSingletonEval PolynomialSingletonZero (xs ++ t))
+        (PolynomialSingletonEval PolynomialSingletonZero xs) := by
+  intro zeroTail
+  have tailEvalEmpty :
+      hsame (PolynomialSingletonEval PolynomialSingletonZero t) BHist.Empty := by
+    induction zeroTail with
+    | nil =>
+        exact hsame_refl BHist.Empty
+    | cons headEmpty _tailZero tailEvalEmpty =>
+        exact append_eq_empty_iff.mpr
+          (And.intro headEmpty
+            (append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty) tailEvalEmpty)))
+  induction xs with
+  | nil =>
+      exact tailEvalEmpty
+  | cons x xs ih =>
+      have sameTail :
+          hsame (append PolynomialSingletonZero
+              (PolynomialSingletonEval PolynomialSingletonZero (xs ++ t)))
+            (append PolynomialSingletonZero
+              (PolynomialSingletonEval PolynomialSingletonZero xs)) := by
+        exact congrArg (fun u : BHist => append PolynomialSingletonZero u) ih
+      have sameEval :
+          hsame (append x
+              (append PolynomialSingletonZero
+                (PolynomialSingletonEval PolynomialSingletonZero (xs ++ t))))
+            (append x
+              (append PolynomialSingletonZero
+                (PolynomialSingletonEval PolynomialSingletonZero xs))) := by
+        exact congrArg (fun u : BHist => append x u) sameTail
+      exact sameEval
+
 end BEDC.Derived.PolynomialUp

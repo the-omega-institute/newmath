@@ -86,10 +86,26 @@ theorem ConvRad_radius_coefficient_classifier_transport {a b : Nat -> BHist} {R 
             (And.intro targetUnary
               (Exists.intro K
                 (fun {r : BHist} rUnary continuation =>
-                  let sourceBound := bound rUnary continuation
-                  And.intro sourceBound.left
-                    (And.intro sourceBound.right.left
-                      (fun n => (coeffClassified n).right.left)))))
+                let sourceBound := bound rUnary continuation
+                And.intro sourceBound.left
+                  (And.intro sourceBound.right.left
+                    (fun n => (coeffClassified n).right.left)))))
+
+theorem ConvRad_coefficient_ring_inclusion_monotone {a a' : Nat -> BHist} {rho : BHist} :
+    UnaryHistory rho -> (forall n : Nat, ComplexHistoryClassifier (a n) (a' n)) ->
+      ConvRad a rho -> ConvRad a' rho := by
+  intro rhoUnary coeffClassified radius
+  cases radius with
+  | intro _radiusUnary witness =>
+      cases witness with
+      | intro K boundAt =>
+          exact And.intro rhoUnary
+            (Exists.intro K
+              (fun {r : BHist} rUnary continuation =>
+                let sourceBound := boundAt rUnary continuation
+                And.intro sourceBound.left
+                  (And.intro sourceBound.right.left
+                    (fun n : Nat => (coeffClassified n).right.left))))
 
 theorem GeomBound_visible_radius_endpoint_package {a : Nat -> BHist} {K R tail : BHist} :
     GeomBound a (BHist.e1 tail) K -> Cont (BHist.e1 tail) K R ->
