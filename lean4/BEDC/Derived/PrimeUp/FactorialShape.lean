@@ -1,4 +1,5 @@
 import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.DividesClosure
 
 namespace BEDC.Derived.PrimeUp
 
@@ -24,5 +25,11 @@ theorem NatFact_successor_input_divides_result {n m : BHist} :
   cases NatFact_successor_inversion fact with
   | intro previous data =>
       exact Exists.intro previous (And.intro (NatFact_result_unary data.left) data.right)
+
+theorem NatFact_successor_step_predecessor_divides {n m m' : BHist} :
+    NatFact n m -> NatMul (BHist.e1 n) m m' -> NatDivides m m' := by
+  intro fact step
+  exact NatDivides_mul_right_closed (unary_e1_closed (NatFact_input_unary fact))
+    (NatFact_result_unary fact) step
 
 end BEDC.Derived.PrimeUp

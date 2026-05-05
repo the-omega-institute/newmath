@@ -49,4 +49,21 @@ theorem MatrixSingletonPow_append_positive_suffix_classifier_readback {M pref su
         (And.intro data.left
           (And.intro compositeCarrier (And.intro productCarrier sameResult)))
 
+theorem MatrixSingletonPow_append_positive_suffix_classifier_iff {M pref suffix h : BHist} :
+    UnaryHistory pref -> UnaryHistory suffix -> (hsame suffix BHist.Empty -> False) ->
+      (MatrixSingletonClassifier (MatrixSingletonPow M (append pref suffix)) h ↔
+        MatrixSingletonCarrier M ∧ MatrixSingletonCarrier h) := by
+  intro unaryPref unarySuffix suffixNonempty
+  constructor
+  · intro classified
+    exact And.intro
+      (MatrixSingletonPow_nonempty_unary_suffix_base_carrier unarySuffix suffixNonempty
+        classified.left)
+      classified.right.left
+  · intro carriers
+    have powCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (append pref suffix)) :=
+      MatrixSingletonPow_carrier_closed carriers.left (unary_append_closed unaryPref unarySuffix)
+    exact And.intro powCarrier
+      (And.intro carriers.right (hsame_trans powCarrier (hsame_symm carriers.right)))
+
 end BEDC.Derived.MatrixUp
