@@ -62,6 +62,7 @@ import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.UnitUp
+import BEDC.Derived.GraphUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -204,7 +205,6 @@ import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.BanachUp
-import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
@@ -218,6 +218,7 @@ import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.EmptyBoundedSource
+import BEDC.Derived.ListUp.HistoryCarrier
 import BEDC.Derived.ListUp.SpineRep
 import BEDC.Derived.ListUp.SpineCoherence
 import BEDC.Derived.ListUp.SpineBridge
@@ -314,7 +315,6 @@ import BEDC.Derived.RealUp.MalformedSealedDenominator
 import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.SelectedTransportFit
 import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
-import BEDC.Derived.BanachUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
@@ -398,7 +398,6 @@ import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.Derived.FieldUp
-import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.EmptyUnitConjugation
 import BEDC.Derived.FieldUp.EmptyUnitConjugationFixedPoint
@@ -504,9 +503,7 @@ import BEDC.Derived.FieldUp.RatHistoryClassifierContinuationResultSingletonAbsur
 import BEDC.Derived.FieldUp.RatClassifiedFactors
 import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
-import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldUp.TailFactor
-import BEDC.Derived.FieldExtUp
 import BEDC.Derived.RatUp.HistoryLedgerContextEndpoint
 import BEDC.Derived.FieldUp.RatDenomUnitContextEndpoint
 import BEDC.Derived.EquivCatUp
@@ -576,7 +573,6 @@ import BEDC.Derived.MetricUp.CompositeEndpointCollapse
 import BEDC.Derived.MetricUp.BallBudget
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompleteMetricUp
-import BEDC.Derived.BanachUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
