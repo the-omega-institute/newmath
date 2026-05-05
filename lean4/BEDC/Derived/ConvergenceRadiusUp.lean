@@ -1,4 +1,5 @@
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.NatUp
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
@@ -9,6 +10,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
+open BEDC.Derived.NatUp
 
 def GeomBound (a : Nat -> BHist) (r K : BHist) : Prop :=
   UnaryHistory r ∧ UnaryHistory K ∧ ∀ n : Nat, ComplexHistoryCarrier (a n)
@@ -180,6 +182,16 @@ theorem GeomBound_semanticNameCert {a : Nat -> BHist} {r K : BHist}
       intro _h source
       exact source
   }
+
+theorem GeomBound_radius_shrink_closed {a : Nat -> BHist} {r' r K : BHist} :
+    NatUnaryStrictPrefix r' r -> GeomBound a r K -> UnaryHistory r' ∧ GeomBound a r' K := by
+  intro strict bound
+  cases strict with
+  | intro tail data =>
+      have radiusUnary : UnaryHistory r' :=
+        unary_cont_left_factor data.right.right bound.left
+      exact And.intro radiusUnary
+        (And.intro radiusUnary (And.intro bound.right.left bound.right.right))
 
 theorem GeomBound_coeff_classifier_append_unary_closed {a b : Nat -> BHist} {r K q : BHist} :
     (forall n : Nat, ComplexHistoryClassifier (a n) (b n)) -> GeomBound a r K ->
