@@ -7394,3 +7394,29 @@ Rationale:
 
 ---
 
+### B-285 - Finite image nets produce image locatedness ledgers
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Finite image nets produce image locatedness ledgers |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a compact-source / metric-target continuous-image setup, ImageFiniteNetLedger together with target metric-distance finite comparison data implies ImageLocatedRefinementLedger for the graph image predicate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/33_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+Connects two already-named compact-image predicates (def:compact-image-finite-net-ledger and def:compact-image-located-refinement-ledger) with an explicit implication. Both endpoints exist in the paper as definitions, but no theorem currently bridges them — the compact chapter exposes finite-net and located-refinement as parallel obligations without a derivation showing that the finite-net version plus metric-distance comparison data is sufficient to recover the located-refinement version. The claim is single-implication, scoped to existing concrete_instances setups (compact + metric), and does not overlap any existing BOARD entry (B-06..B-31 cover naming, lattices, modules, polynomials, functors/nattrans, intervals, continuous-modulus composition — none touch image-locatedness). It is a clean prerequisite-style lemma rather than a broad survey item, so the loop can converge on a finite proof using already-formalized compact / metric scaffolding.
+
+---
+
