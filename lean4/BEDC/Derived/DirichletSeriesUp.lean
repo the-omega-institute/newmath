@@ -217,6 +217,36 @@ theorem DirichletPartSum_result_unary {term : BHist -> BHist -> BHist} {s n S : 
       have unaryPreviousIndex : UnaryHistory _ := DirichletPartSum_index_unary previous
       exact unary_cont_closed ih (termUnary unaryPreviousIndex) stepContinuation
 
+theorem DirichletPartSum_semanticNameCert {term : BHist -> BHist -> BHist} {s n S : BHist}
+    (sum : DirichletPartSum term s n S) :
+    SemanticNameCert (fun result : BHist => DirichletPartSum term s n result)
+      (fun result : BHist => DirichletPartSum term s n result)
+      (fun result : BHist => DirichletPartSum term s n result) hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro S sum
+      equiv_refl := by
+        intro result _source
+        exact hsame_refl result
+      equiv_symm := by
+        intro result result' sameResult
+        exact hsame_symm sameResult
+      equiv_trans := by
+        intro result result' result'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro result result' sameResult source
+        cases sameResult
+        exact source
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
+
 theorem DirichletSeriesIndex_e1_tail_nonempty {n : BHist} :
     UnaryHistory n ->
       UnaryHistory (BHist.e1 n) ∧ (hsame (BHist.e1 n) BHist.Empty -> False) := by

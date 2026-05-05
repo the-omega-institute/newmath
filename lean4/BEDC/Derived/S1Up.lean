@@ -6,6 +6,7 @@ namespace BEDC.Derived.S1Up
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.Derived.ProdUp
 open BEDC.Derived.RatUp
 open BEDC.Derived.RealUp
@@ -18,6 +19,10 @@ def SOneProductHistoryCarrier (h : BHist) : Prop :=
 def SOneHistoryCarrier (x y equation point : BHist) : Prop :=
   RealConstantHistoryCarrier x ∧ RealConstantHistoryCarrier y ∧
     RealConstantHistoryClassifier equation SOneUnitHistory ∧ Cont x y point
+
+def SOneComponentClassifier (x y e p x' y' e' p' : BHist) : Prop :=
+  SOneHistoryCarrier x y e p ∧ SOneHistoryCarrier x' y' e' p' ∧ hsame x x' ∧
+    hsame y y'
 
 theorem SOneHistoryCarrier_rational_components {h : BHist} :
     SOneProductHistoryCarrier h →
@@ -260,11 +265,20 @@ theorem SOneHistoryCarrier_public_readback {x y equation point : BHist} :
                               exact And.intro pointCarrier
                                 (And.intro equationSame
                                   (Exists.intro dx
-                                    (Exists.intro dy
-                                      (And.intro sameX
-                                        (And.intro dxCarrier
-                                          (And.intro sameY
-                                            (And.intro dyCarrier pointCont)))))))
+                                  (Exists.intro dy
+                                    (And.intro sameX
+                                      (And.intro dxCarrier
+                                        (And.intro sameY
+                                          (And.intro dyCarrier pointCont)))))))
+
+theorem SOneComponentClassifier_public_readback {x y e p x' y' e' p' : BHist} :
+    SOneComponentClassifier x y e p x' y' e' p' ->
+      SOneProductHistoryCarrier p' ∧ hsame e' SOneUnitHistory ∧
+        ∃ dx dy : BHist,
+          hsame x' (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧
+            hsame y' (BHist.e1 dy) ∧ RatHistoryCarrier dy ∧ Cont x' y' p' := by
+  intro classifier
+  exact SOneHistoryCarrier_public_readback classifier.right.left
 
 theorem SOneHistoryCarrier_equation_witness_transport
     {x y equation equation' point : BHist} :
@@ -313,6 +327,64 @@ theorem SOneHistoryCarrier_coordinate_transport
                 exact cont_result_hsame_transport pointCont samePoint
               exact And.intro xCarrier'
                 (And.intro yCarrier' (And.intro equationCarrier' pointCont'))
+
+theorem sone_history_semantic_name_certificate {x y e p : BHist} :
+    SOneHistoryCarrier x y e p ->
+      SemanticNameCert (fun point : BHist =>
+          exists x y e : BHist, SOneHistoryCarrier x y e point)
+        (fun point : BHist => exists x y e : BHist, SOneHistoryCarrier x y e point)
+        (fun point : BHist => exists x y e : BHist, SOneHistoryCarrier x y e point)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro p
+        (Exists.intro x (Exists.intro y (Exists.intro e carrier)))
+      equiv_refl := by
+        intro point _carrier
+        exact hsame_refl point
+      equiv_symm := by
+        intro point point' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro point point' point'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro point point' same source
+        cases source with
+        | intro sourceX restX =>
+            cases restX with
+            | intro sourceY restY =>
+                cases restY with
+                | intro sourceE sourceCarrier =>
+                    exact Exists.intro sourceX
+                      (Exists.intro sourceY
+                        (Exists.intro sourceE
+                          (SOneHistoryCarrier_coordinate_transport sourceCarrier
+                            (hsame_refl sourceX) (hsame_refl sourceY)
+                            (hsame_refl sourceE) same)))
+    }
+    pattern_sound := by
+      intro _point source
+      exact source
+    ledger_sound := by
+      intro _point source
+      exact source
+  }
+
+theorem SOneHistoryCarrier_public_readback_transport
+    {x y equation point x' y' equation' point' : BHist} :
+    SOneHistoryCarrier x y equation point -> hsame x x' -> hsame y y' ->
+      hsame equation equation' -> hsame point point' ->
+        SOneProductHistoryCarrier point' ∧ hsame equation' SOneUnitHistory ∧
+          ∃ dx dy : BHist,
+            hsame x' (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧
+              hsame y' (BHist.e1 dy) ∧ RatHistoryCarrier dy ∧ Cont x' y' point' := by
+  intro carrier sameX sameY sameEquation samePoint
+  have transported :
+      SOneHistoryCarrier x' y' equation' point' :=
+    SOneHistoryCarrier_coordinate_transport carrier sameX sameY sameEquation samePoint
+  exact SOneHistoryCarrier_public_readback transported
 
 theorem SOneHistoryCarrier_component_classifier_ledger_determinacy
     {x y e p x' y' e' p' : BHist} :

@@ -463,6 +463,87 @@ and the constant-point exactness row listed in
 $\mathsf{K}(d,e,r)$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name independently scheduled constant bridge package exactness]
+\label{thm:rat-stream-name-independent-constant-bridge-package-exactness}
+For histories $d,e:\Hist$ and arbitrary observation schedules
+$r,q:\Hist\to\Hist$, write $\mathsf{K}_{\mathrm{ind}}(d,e,r,q)$ for the
+conjunction of the following independently scheduled constant stream-name
+bridge rows:
+\begin{enumerate}
+  \item $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$;
+  \item $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_e\circ q)$;
+  \item $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+  \mathsf{RatConstStream}_e\circ q)$;
+  \item the exactness row
+
+  $$
+  \mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+  \mathsf{RatConstStream}_e\circ q)
+  \Longleftrightarrow
+  \mathsf{RatHistoryClassifier}(d,e).
+  $$
+
+\end{enumerate}
+Then the independently scheduled package is exact over the underlying RatUp
+classifier:
+$$
+\mathsf{K}_{\mathrm{ind}}(d,e,r,q)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+
+The compact ten-field fit is:
+\begin{enumerate}
+  \item the traditional target is independently scheduled constant rational
+  stream names;
+  \item the BEDC source is $\RatUp$ plus $\StreamNameUp$ over
+  $\mathsf{BHist}$;
+  \item the carrier row is the pair
+  $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$ and
+  $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_e\circ q)$;
+  \item the classifier row is
+  $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+  \mathsf{RatConstStream}_e\circ q)$;
+  \item the schedule row is the independent pair of observation schedules
+  $r$ and $q$;
+  \item the ledger is the quadruple $(d,e,r,q)$;
+  \item the core theorem is independently scheduled constant bridge package
+  exactness;
+  \item exactness is the displayed iff between
+  $\mathsf{K}_{\mathrm{ind}}(d,e,r,q)$ and
+  $\mathsf{RatHistoryClassifier}(d,e)$;
+  \item the downstream consumer is the $\RealUp$ independent reindexed
+  constant rational embedding;
+  \item the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+In the forward direction, assume a witness of
+$\mathsf{K}_{\mathrm{ind}}(d,e,r,q)$. Project its independently scheduled
+classifier row and its exactness row. Applying the forward half of that row
+gives $\mathsf{RatHistoryClassifier}(d,e)$.
+
+In the reverse direction, assume
+$\rho:\mathsf{RatHistoryClassifier}(d,e)$. First apply
+\autoref{thm:rat-stream-name-independent-reindexed-constant-classifier} with
+the endpoint $d$ and schedule $r$ to the left carrier contained in $\rho$.
+Apply the same theorem with endpoint $e$ and schedule $q$ to the right carrier
+contained in $\rho$. These two applications supply the carrier rows of
+$\mathsf{K}_{\mathrm{ind}}(d,e,r,q)$.
+
+Next apply
+\autoref{thm:rat-stream-name-independent-reindexed-constant-classifier} to
+$\rho$ with the schedules $r$ and $q$. This supplies the independently
+scheduled classifier row.
+
+Finally apply
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness}.
+Its classifier clause is exactly the displayed equivalence between the
+independently scheduled stream-name classifier and
+$\mathsf{RatHistoryClassifier}(d,e)$. Repacking these carrier, classifier, and
+exactness witnesses gives $\mathsf{K}_{\mathrm{ind}}(d,e,r,q)$.
+\end{proof}
+
 \begin{theorem}[Rational stream-name public certificate]
 \label{thm:rat-stream-name-public-certificate}
 The carrier $\mathsf{RatStreamNameCarrier}$ and classifier
