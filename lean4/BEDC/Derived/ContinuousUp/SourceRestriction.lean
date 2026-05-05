@@ -86,4 +86,30 @@ theorem ContinuousFunctionCarrier_empty_source_restriction_terminal_modulus_comm
       (hsame_refl modulus') (hsame_refl cert') extended
   exact ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed
 
+theorem ContinuousFunctionCarrier_empty_source_restriction_iterated_terminal_modulus_commutes
+    {restricted source map target modulus cert extra0 modulus0 cert0 extra1 modulus1 cert1
+      displayedTarget displayedCert : BHist} :
+    Cont restricted BHist.Empty source ->
+      ContinuousFunctionCarrier source map target modulus cert ->
+        ContinuousModulusWitness cert extra0 cert0 ->
+          Cont modulus extra0 modulus0 ->
+            ContinuousModulusWitness cert0 extra1 cert1 ->
+              Cont modulus0 extra1 modulus1 ->
+                ContinuousFunctionCarrier restricted map displayedTarget modulus1 displayedCert ->
+                  hsame target displayedTarget ∧ hsame cert1 displayedCert := by
+  intro sourceRestriction carrier firstWitness firstRel secondWitness secondRel displayed
+  have firstExtended :
+      ContinuousFunctionCarrier source map target modulus0 cert0 :=
+    ContinuousFunctionCarrier_terminal_modulus_extension carrier firstWitness firstRel
+  have secondExtended :
+      ContinuousFunctionCarrier source map target modulus1 cert1 :=
+    ContinuousFunctionCarrier_terminal_modulus_extension firstExtended secondWitness secondRel
+  have sameSource : hsame source restricted :=
+    sourceRestriction
+  have restrictedCarrier :
+      ContinuousFunctionCarrier restricted map target modulus1 cert1 :=
+    ContinuousFunctionCarrier_hsame_transport sameSource (hsame_refl map) (hsame_refl target)
+      (hsame_refl modulus1) (hsame_refl cert1) secondExtended
+  exact ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed
+
 end BEDC.Derived.ContinuousUp
