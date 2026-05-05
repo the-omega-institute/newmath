@@ -588,5 +588,13 @@ theorem PadicPrimeScale_append_unit_exponents_result_square_hsame {p result : BH
         (append p p) :=
     PadicPrimeScale_append_cont_closure unitScale unitScale (cont_intro rfl)
   exact NatMul_functional scale.left.left scale.right squareScale.right
-
+theorem PadicPrimeScale_append_unit_exponents_result_not_empty {p result : BHist} :
+    PadicPrimeScale p (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) result ->
+      hsame result BHist.Empty -> False := by
+  intro scale resultEmpty
+  have pEmpty := (append_eq_empty_iff.mp (hsame_trans (hsame_symm
+    (PadicPrimeScale_append_unit_exponents_result_square_hsame scale)) resultEmpty)).left
+  cases scale.left.right.left with
+  | intro tail data => exact data.right.left (cont_empty_result_inversion
+      (cont_result_hsame_transport data.right.right pEmpty)).right
 end BEDC.Derived.PadicUp

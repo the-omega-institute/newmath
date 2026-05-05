@@ -372,4 +372,38 @@ theorem ContinuousFunctionCarrier_visible_modulus_context_iff
                 (modulus := modulus) (cert := append p cert)).mpr
                 (And.intro suffixCarrier prefixedCarrier)
 
+theorem ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic
+    {p q source map target target' modulus cert cert' : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+        (append (append p cert) q) ->
+      ContinuousFunctionCarrier (append p source) map (append p target') (append modulus q)
+        (append (append p cert') q) ->
+        hsame target target' ∧ hsame cert cert' := by
+  intro left right
+  have leftData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target) (modulus := modulus)
+      (cert := cert)).mp left
+  have rightData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target') (modulus := modulus)
+      (cert := cert')).mp right
+  exact
+    ContinuousFunctionCarrier_target_cert_deterministic
+      leftData.right.right rightData.right.right
+
+theorem ContinuousFunctionCarrier_modulus_suffix_target_cert_deterministic
+    {q source map target target' modulus cert cert' : BHist} :
+    ContinuousFunctionCarrier source map target (append modulus q) (append cert q) ->
+      ContinuousFunctionCarrier source map target' (append modulus q) (append cert' q) ->
+        hsame target target' ∧ hsame cert cert' := by
+  intro left right
+  have leftData :=
+    (ContinuousFunctionCarrier_modulus_suffix_iff (p := q) (source := source)
+      (map := map) (target := target) (modulus := modulus) (cert := cert)).mp left
+  have rightData :=
+    (ContinuousFunctionCarrier_modulus_suffix_iff (p := q) (source := source)
+      (map := map) (target := target') (modulus := modulus) (cert := cert')).mp right
+  exact ContinuousFunctionCarrier_target_cert_deterministic leftData.right rightData.right
+
 end BEDC.Derived.ContinuousUp
