@@ -55,3 +55,44 @@ $(h+_F h)\sim_F 1_F$. The row therefore returns
 $C\bigl((h\odot x)+_V(h\odot y)\bigr)$, which is the claimed midpoint carrier
 closure.
 \end{proof}
+
+\begin{theorem}[ConvexSet affine-combination row order symmetry]
+\label{thm:convexset-affine-combination-row-order-symmetric}
+Let a $\ConvexSetUp$ certificate be given over a scalar $\FieldUp(F)$ and a
+vector carrier from $\VecSpaceUp(F,V)$, with notation as in
+\autoref{def:convexset-binary-affine-combination-row}. For scalars $a,b:F$
+and points $x,y:V$, assume the scalar additive commutativity row inherited from
+the scalar field certificate supplies the comparison
+$$
+(b+_F a)\sim_F(a+_F b).
+$$
+If
+$$
+C(x)\land C(y)\land \mathsf{NonNeg}_F(a)\land \mathsf{NonNeg}_F(b)
+\land (a+_F b)\sim_F 1_F,
+$$
+then the swapped affine endpoint is carried by the same convex carrier:
+$$
+C\bigl((b\odot y)+_V(a\odot x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The scalar part of the field certificate retains the additive abelian-group
+rows listed through \autoref{def:ring-stability-certificate} and
+\autoref{def:abgroup-stability-certificate}, so the displayed scalar additive
+commutativity comparison is an available classifier edge for these two
+coefficients. The scalar classifier is a naming-certificate classifier, and
+\autoref{thm:namecert-equivalence-transitivity} composes this comparison with
+the coefficient-sum hypothesis $(a+_F b)\sim_F1_F$. Hence
+$$
+(b+_F a)\sim_F1_F.
+$$
+Apply the binary affine-combination row of
+\autoref{def:convexset-binary-affine-combination-row} with left coefficient
+$b$, right coefficient $a$, left point $y$, and right point $x$. The carrier
+hypotheses provide $C(y)$ and $C(x)$ in the required order. The nonnegativity
+hypotheses provide $\mathsf{NonNeg}_F(b)$ and $\mathsf{NonNeg}_F(a)$ in the
+required order. The transitive scalar comparison above is exactly the reversed
+coefficient-sum premise. The row therefore returns
+$C\bigl((b\odot y)+_V(a\odot x)\bigr)$.
+\end{proof}
