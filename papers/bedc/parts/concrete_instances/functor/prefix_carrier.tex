@@ -105,6 +105,26 @@ determinacy at the same prefixed endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_public\_readback}
 
+\begin{theorem}[Prefix functor carrier right-factor endpoint determinacy]
+\label{thm:prefix-functor-carrier-comp-right-factor-endpoint-deterministic}
+For a prefix functor carrier \(p\), suppose \(f\) is a hom-carrier from \(a\)
+to \(b\), \(fg\) is displayed as \(\ContR(f,g,fg)\), and the prefixed
+composite \(fg\) is a hom-carrier from \(\mathsf{append}(p,a)\) to
+\(\mathsf{append}(p,c)\). If the same composite is also displayed as
+\(\ContR(f,g',fg)\) and \(g'\) is a hom-carrier from \(b'\) to \(c\), then
+\[
+\HSame(b,b')\wedge\HSame(g,g').
+\]
+\end{theorem}
+\begin{proof}
+The hom-reflection field of the prefix functor carrier reflects the displayed
+prefixed composite back to a hom-carrier from \(a\) to \(c\). Category
+right-factor endpoint determinacy compares this reflected composite against
+the displayed \(b'\to c\) right factor, and continuation left cancellation
+identifies the two right-factor histories.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_right\_factor\_endpoint\_deterministic}
+
 \begin{theorem}[Prefix functor carrier hom public readback]
 \label{thm:prefix-functor-carrier-hom-public-readback}
 For a prefix functor carrier \(p\), if \(f\) is a hom-carrier from \(a\) to
