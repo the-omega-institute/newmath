@@ -433,6 +433,43 @@ theorem SOneHistoryCarrier_component_classifier_ledger_determinacy
                             (hsame_trans leftEquationUnit (hsame_symm rightEquationUnit))
                             (cont_respects_hsame sameX sameY leftPoint rightPoint)
 
+theorem SOneComponentClassifier_stability :
+    (∀ {x y e p : BHist}, SOneHistoryCarrier x y e p ->
+      SOneComponentClassifier x y e p x y e p) ∧
+    (∀ {x y e p x' y' e' p' : BHist},
+      SOneComponentClassifier x y e p x' y' e' p' ->
+        SOneComponentClassifier x' y' e' p' x y e p) ∧
+    (∀ {x y e p x' y' e' p' x'' y'' e'' p'' : BHist},
+      SOneComponentClassifier x y e p x' y' e' p' ->
+        SOneComponentClassifier x' y' e' p' x'' y'' e'' p'' ->
+          SOneComponentClassifier x y e p x'' y'' e'' p'') ∧
+    (∀ {x y e p x' y' e' p' : BHist},
+      SOneComponentClassifier x y e p x' y' e' p' -> hsame e e' ∧ hsame p p') ∧
+    (∀ {x y e p x' y' e' p' : BHist},
+      SOneComponentClassifier x y e p x' y' e' p' -> SOneHistoryCarrier x' y' e' p') := by
+  constructor
+  · intro x y e p carrier
+    exact And.intro carrier
+      (And.intro carrier (And.intro (hsame_refl x) (hsame_refl y)))
+  · constructor
+    · intro x y e p x' y' e' p' classified
+      exact And.intro classified.right.left
+        (And.intro classified.left
+          (And.intro (hsame_symm classified.right.right.left)
+            (hsame_symm classified.right.right.right)))
+    · constructor
+      · intro x y e p x' y' e' p' x'' y'' e'' p'' left right
+        exact And.intro left.left
+          (And.intro right.right.left
+            (And.intro (hsame_trans left.right.right.left right.right.right.left)
+              (hsame_trans left.right.right.right right.right.right.right)))
+      · constructor
+        · intro x y e p x' y' e' p' classified
+          exact SOneHistoryCarrier_component_classifier_ledger_determinacy classified.left
+            classified.right.left classified.right.right.left classified.right.right.right
+        · intro x y e p x' y' e' p' classified
+          exact classified.right.left
+
 theorem SOneHistoryCarrier_coordinate_pair_deterministic {x x' y y' e e' p : BHist} :
     SOneHistoryCarrier x y e p -> SOneHistoryCarrier x' y' e' p -> hsame y y' ->
       hsame x x' /\ hsame e e' := by
