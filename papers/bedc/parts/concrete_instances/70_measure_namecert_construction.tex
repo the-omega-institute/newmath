@@ -43,3 +43,53 @@ By symmetry, $\mu(\varnothing)+\mu(\varnothing)\sim_R\mu(\varnothing)$.
 
 The additive $\AbGroupUp$ row described in \autoref{def:abgroup-carrier} gives the group hypotheses for $+$ and $0_R$. Applying \autoref{thm:group-left-absorb-right-factor-unit} with $a=\mu(\varnothing)$ and $b=\mu(\varnothing)$ forces the right summand to the additive unit, yielding $\mu(\varnothing)\sim_R0_R$.
 \end{proof}
+
+\begin{theorem}[Measure finite disjoint-union additivity]
+\label{thm:measure-finite-disjoint-union-additivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A,B\in\mathcal{A}$ be disjoint, and let $A\cup B$ be the measurable binary union supplied by the $\sigma$-algebra row. Suppose $\varnothing\in\mathcal{A}$, and suppose the $\MeasureUp$ certificate supplies $\sigma$-additivity for every pairwise-disjoint measurable sequence, together with classifier-stable head-tail readback and pointwise classifier stability for the resulting countable $\RealUp$ sums. If the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row with zero $0_R$, then
+$$
+\mu(A\cup B)\sim_R\mu(A)+\mu(B).
+$$
+\end{theorem}
+\begin{proof}
+Define a measurable sequence by $E_0:=A$, $E_1:=B$, and $E_n:=\varnothing$ for every $n\geq2$. Each term is measurable because $A,B,\varnothing\in\mathcal{A}$. The sequence is pairwise disjoint: the only nonempty pair to check is $A$ against $B$, and this is the displayed disjointness hypothesis. Its countable union is exactly $A\cup B$.
+
+Let
+$$
+S:=\sum_{n=0}^{\infty}\mu(E_n),\qquad
+T:=\sum_{n=0}^{\infty}\mu(E_{n+1}),\qquad
+U:=\sum_{n=0}^{\infty}\mu(E_{n+2}).
+$$
+The $\sigma$-additivity row gives
+$$
+\mu(A\cup B)\sim_R S.
+$$
+The first head-tail readback gives
+$$
+S\sim_R\mu(E_0)+T,
+$$
+hence $S\sim_R\mu(A)+T$. The second head-tail readback gives
+$$
+T\sim_R\mu(E_1)+U,
+$$
+hence $T\sim_R\mu(B)+U$.
+
+It remains to identify the empty tail. Let $F_n:=\varnothing$ for every $n$, and let $S_{\varnothing}:=\sum_{n=0}^{\infty}\mu(F_n)$. Since $E_{n+2}=F_n$ for every $n$, pointwise classifier stability of the countable sum gives
+$$
+U\sim_R S_{\varnothing}.
+$$
+Applying $\sigma$-additivity to the all-empty sequence gives $\mu(\varnothing)\sim_R S_{\varnothing}$, while \autoref{thm:measure-empty-set-zero-from-sigma-additivity} gives $\mu(\varnothing)\sim_R0_R$. By symmetry and transitivity of the $\RealUp$ classifier, $S_{\varnothing}\sim_R0_R$, and therefore
+$$
+U\sim_R0_R.
+$$
+
+The additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} supplies addition congruence and the right-unit law. Transporting $U\sim_R0_R$ through addition gives
+$$
+\mu(B)+U\sim_R\mu(B)+0_R\sim_R\mu(B),
+$$
+so $T\sim_R\mu(B)$. Transporting this comparison through addition with the fixed left summand $\mu(A)$ gives
+$$
+\mu(A)+T\sim_R\mu(A)+\mu(B).
+$$
+Composing this with $S\sim_R\mu(A)+T$ and with $\mu(A\cup B)\sim_R S$ yields the displayed classification.
+\end{proof}

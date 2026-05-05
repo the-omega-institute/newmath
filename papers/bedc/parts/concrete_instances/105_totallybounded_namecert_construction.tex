@@ -229,3 +229,105 @@ $\varepsilon$ to $\varepsilon'$. All fields required by the totally bounded
 ProbeBundle net carrier are therefore present for
 $\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon',\mathcal{P},net_{\varepsilon'})$.
 \end{proof}
+
+\begin{definition}[Subcarrier-restricted TotallyBounded ProbeBundle net]
+\label{def:totallybounded-probebundle-net-subcarrier-restriction}
+Let $X:\mathsf{BHist}\to\mathsf{Prop}$ be a metric BEDC carrier with
+$\mathsf{MetricDistanceWitness}$ rows, and let
+$Y:\mathsf{BHist}\to\mathsf{Prop}$ be a subcarrier of $X$ with inclusion
+$$
+\iota_Y:\forall y:\mathsf{BHist}.\;Y(y)\to X(y).
+$$
+Given a row
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)
+$$
+in the sense of \autoref{def:totallybounded-probebundle-net-carrier}, the
+subcarrier-restricted row
+$$
+\mathsf{TotallyBoundedProbeBundleNet}_{X\downarrow Y}(\varepsilon,\mathcal{P},net|_Y)
+$$
+keeps the positive tolerance history, the closed $\mathsf{ProbeBundle}$
+$\mathcal{P}$, every bundled center history $c_p$ carried by $X$, every
+positive radius history $r_p$, and every $\mathsf{InBundle}(p,\mathcal{P})$
+row from $net$, while replacing the source-point coverage clause by the same
+clause quantified only over histories carried by $Y$.
+\end{definition}
+
+\begin{theorem}[Totally bounded ProbeBundle net subcarrier restriction]
+\label{thm:totallybounded-probebundle-net-subcarrier-restriction}
+Let $X$ be a metric BEDC carrier whose distance rows are encoded by
+$\mathsf{MetricDistanceWitness}$, and let $Y$ be a classifier-stable subcarrier
+of $X$. Thus there are rows
+$$
+\iota_Y:\forall y:\mathsf{BHist}.\;Y(y)\to X(y)
+$$
+and
+$$
+\sigma_Y:\forall y y':\mathsf{BHist}.\;Y(y)\to y\sim_X y'\to Y(y'),
+$$
+where $\sim_X$ is the metric classifier of \autoref{def:metric-classifier-specification}.
+If
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)
+$$
+holds, then the row obtained by restricting only the source-point coverage
+quantifier satisfies
+$$
+\mathsf{TotallyBoundedProbeBundleNet}_{X\downarrow Y}(\varepsilon,\mathcal{P},net|_Y).
+$$
+Moreover, if every bundled center is also carried by $Y$,
+$$
+\forall p:\mathsf{BHist}.\;\mathsf{InBundle}(p,\mathcal{P})\to Y(c_p),
+$$
+then the same restricted row is an ordinary
+$\mathsf{TotallyBoundedProbeBundleNet}(Y,\varepsilon,\mathcal{P},net|_Y)$ for
+the induced metric subcarrier.
+\end{theorem}
+\begin{proof}
+Unpack the accepted row for
+$\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)$ using
+\autoref{def:totallybounded-probebundle-net-carrier}. It supplies the positive
+$\NameCert_{\RatUp}$ tolerance history $\varepsilon$, the closed
+$\mathsf{ProbeBundle}$ spine $\mathcal{P}$, the bundled center histories
+$c_p$ carried by $X$, the positive radius histories $r_p$, and the coverage row
+for every source-point history carried by $X$.
+
+The subcarrier-restricted row keeps all bundle-indexed data unchanged. The
+positive tolerance row, the closed bundle spine, the
+$\mathsf{InBundle}(p,\mathcal{P})$ witnesses, the ambient center rows
+$X(c_p)$, and the radius rows are exactly the rows already present in $net$.
+These clauses do not inspect whether the covered source point is taken from
+$X$ or from the subcarrier $Y$.
+
+It remains to verify coverage for a carried point of $Y$. Fix
+$y:\mathsf{BHist}$ with $Y(y)$. The inclusion row gives $X(y)$. Applying the
+coverage clause of $net$ to this ambient source point gives a bundled probe
+$p$, a membership row $\mathsf{InBundle}(p,\mathcal{P})$, a distance history
+$d_p$, a metric row
+$$
+\mathsf{MetricDistanceWitness}(y,c_p,d_p),
+$$
+and a rational comparison ledger
+$$
+d_p\leq_{\RatUp}\varepsilon.
+$$
+The restricted row uses precisely these witnesses for the same point $y$.
+Thus every $Y$-carried point is covered by the same closed bundle
+$\mathcal{P}$ with the same distance and bound ledgers.
+
+The classifier-stability row $\sigma_Y$ records that the induced carrier is a
+legitimate classifier-stable subcarrier: replacing a $Y$-carried endpoint by an
+ambient-classified endpoint keeps it in $Y$. No center or distance ledger is
+altered by this restriction step.
+
+If the additional center-carrier rows
+$\forall p.\;\mathsf{InBundle}(p,\mathcal{P})\to Y(c_p)$ are supplied, then the
+only remaining difference between the relative row and the ordinary
+$\mathsf{TotallyBoundedProbeBundleNet}$ row over $Y$ disappears. Replace each
+ambient center clause $X(c_p)$ by the supplied subcarrier center clause
+$Y(c_p)$, and keep the same positive tolerance, bundle spine, radius rows,
+coverage witnesses, metric-distance rows, and rational bound ledgers. These are
+exactly the fields required for
+$\mathsf{TotallyBoundedProbeBundleNet}(Y,\varepsilon,\mathcal{P},net|_Y)$.
+\end{proof}

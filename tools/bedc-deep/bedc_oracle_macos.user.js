@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.19
+// @version      1.20
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -43,7 +43,8 @@
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
   const NO_OUTPUT_IDLE_TIMEOUT = 420000;
-  const SCRIPT_VERSION = "bedc-1.19";
+  const REFILL_NO_OUTPUT_IDLE_TIMEOUT = 1800000;
+  const SCRIPT_VERSION = "bedc-1.20";
   const BEDC_PROJECT_PREFIX = "/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc";
   const BEDC_PROJECT_HOME = `https://chatgpt.com${BEDC_PROJECT_PREFIX}/project`;
 
@@ -1017,7 +1018,7 @@
     return false;
   }
 
-  async function waitForResponse(task_id) {
+  async function waitForResponse(task_id, noOutputIdleTimeout = NO_OUTPUT_IDLE_TIMEOUT) {
     log(`Waiting for ChatGPT response (pre-send assistant count was ${preSubmitAssistantCount})...`);
     const startTime = Date.now();
     let lastResponseText = "";
@@ -1073,10 +1074,10 @@
       if (
         !generating &&
         responseText.length < 5 &&
-        Date.now() - startTime >= NO_OUTPUT_IDLE_TIMEOUT
+        Date.now() - startTime >= noOutputIdleTimeout
       ) {
         throw new Error(
-          `No assistant output after ${Math.floor(NO_OUTPUT_IDLE_TIMEOUT / 1000)}s ` +
+          `No assistant output after ${Math.floor(noOutputIdleTimeout / 1000)}s ` +
           `(page=${mainLen}, url=${window.location.href.slice(-60)})`
         );
       }
@@ -1118,7 +1119,10 @@
 
   // ── Process a task (BEDC ADD: multi-turn navigation + reload-safe) ─
   async function processTask(task) {
-    const { task_id, prompt, conversation_url, is_followup, conversation_id, re_extract, pdf_base64, pdf_name } = task;
+    const { task_id, prompt, conversation_url, is_followup, conversation_id, re_extract, pdf_base64, pdf_name, tag } = task;
+    const noOutputIdleTimeout = (tag === "bedc-deep-board-refill")
+      ? REFILL_NO_OUTPUT_IDLE_TIMEOUT
+      : NO_OUTPUT_IDLE_TIMEOUT;
     busy = true;
     updatePanel();
 
@@ -1209,7 +1213,7 @@
       setSentPrompt(prompt);
       capturePostSendState();
       try {
-        const response = await waitForResponse(task_id);
+        const response = await waitForResponse(task_id, noOutputIdleTimeout);
         if (!response || response.length < 5) {
           throw new Error(`Resumed wait got no response (${response?.length || 0} chars)`);
         }
@@ -1402,7 +1406,7 @@
 
       await sleep(5000); // settle DOM
       capturePostSendState();
-      const response = await waitForResponse(task_id);
+      const response = await waitForResponse(task_id, noOutputIdleTimeout);
 
       if (!response || response.length < 5) {
         throw new Error(`Response too short or empty (${response?.length || 0} chars)`);
