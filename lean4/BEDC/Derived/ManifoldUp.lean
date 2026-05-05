@@ -123,6 +123,69 @@ theorem ManifoldSingleton_atlas_index_exhaustion {chart overlap domain : BHist} 
   exact And.intro chartEmpty
     (And.intro domainEmpty (And.intro overlapEmpty (And.intro domainUnary overlapUnary)))
 
+theorem ManifoldSingleton_scoped_boundary_instance {chart domain value transition : BHist} :
+    ManifoldSingletonCarrier chart -> Cont BHist.Empty chart domain ->
+      Cont chart BHist.Empty value -> Cont domain value transition ->
+        hsame chart BHist.Empty ∧ hsame domain BHist.Empty ∧ hsame value BHist.Empty ∧
+          hsame transition BHist.Empty ∧ UnaryHistory chart ∧ UnaryHistory domain ∧
+            UnaryHistory value ∧ UnaryHistory transition := by
+  intro carrier domainReadback valueReadback transitionReadback
+  have chartEmpty : hsame chart BHist.Empty := carrier
+  have sameDomainChart : hsame domain chart :=
+    cont_left_unit_result domainReadback
+  have domainEmpty : hsame domain BHist.Empty :=
+    hsame_trans sameDomainChart chartEmpty
+  have sameValueChart : hsame value chart :=
+    cont_right_unit_result valueReadback
+  have valueEmpty : hsame value BHist.Empty :=
+    hsame_trans sameValueChart chartEmpty
+  have transitionEmpty : hsame transition BHist.Empty :=
+    cont_respects_hsame domainEmpty valueEmpty transitionReadback (cont_left_unit BHist.Empty)
+  have chartUnary : UnaryHistory chart :=
+    unary_transport unary_empty (hsame_symm chartEmpty)
+  have domainUnary : UnaryHistory domain :=
+    unary_transport unary_empty (hsame_symm domainEmpty)
+  have valueUnary : UnaryHistory value :=
+    unary_transport unary_empty (hsame_symm valueEmpty)
+  have transitionUnary : UnaryHistory transition :=
+    unary_transport unary_empty (hsame_symm transitionEmpty)
+  exact And.intro chartEmpty
+    (And.intro domainEmpty
+      (And.intro valueEmpty
+        (And.intro transitionEmpty
+          (And.intro chartUnary
+            (And.intro domainUnary (And.intro valueUnary transitionUnary))))))
+
+theorem ManifoldSingleton_domain_exactness {h domain top bottom value : BHist} :
+    ManifoldSingletonCarrier h -> Cont BHist.Empty h domain -> Cont h BHist.Empty value ->
+      hsame top BHist.Empty -> hsame bottom (BHist.e0 BHist.Empty) ->
+        hsame domain top ∧ (hsame domain bottom -> False) ∧ hsame value BHist.Empty ∧
+          UnaryHistory h ∧ UnaryHistory domain ∧ UnaryHistory value := by
+  intro carrier domainReadback valueReadback topEmpty bottomZero
+  have hEmpty : hsame h BHist.Empty := carrier
+  have sameDomainH : hsame domain h :=
+    cont_left_unit_result domainReadback
+  have domainEmpty : hsame domain BHist.Empty :=
+    hsame_trans sameDomainH hEmpty
+  have domainTop : hsame domain top :=
+    hsame_trans domainEmpty (hsame_symm topEmpty)
+  have valueH : hsame value h :=
+    cont_right_unit_result valueReadback
+  have valueEmpty : hsame value BHist.Empty :=
+    hsame_trans valueH hEmpty
+  have hUnary : UnaryHistory h :=
+    unary_transport unary_empty (hsame_symm hEmpty)
+  have domainUnary : UnaryHistory domain :=
+    unary_transport unary_empty (hsame_symm domainEmpty)
+  have valueUnary : UnaryHistory value :=
+    unary_transport unary_empty (hsame_symm valueEmpty)
+  have bottomAbsurd : hsame domain bottom -> False := by
+    intro domainBottom
+    exact unary_history_hsame_zero_absurd domainUnary (hsame_trans domainBottom bottomZero)
+  exact And.intro domainTop
+    (And.intro bottomAbsurd
+      (And.intro valueEmpty (And.intro hUnary (And.intro domainUnary valueUnary))))
+
 theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
     ManifoldSingletonCarrier source -> ManifoldSingletonCarrier target -> Cont source target result ->
       hsame result BHist.Empty ∧ hsame result source ∧ hsame result target ∧
