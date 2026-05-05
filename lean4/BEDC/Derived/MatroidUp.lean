@@ -94,6 +94,21 @@ def MatroidFinSetSpineEnumerates (E : BHist -> Prop) (Rel : BHist -> BHist -> Pr
   (forall x : BHist, InBundle x xs -> E x) ∧
     (forall z : BHist, S z <-> exists x : BHist, InBundle x xs ∧ Rel z x)
 
+theorem MatroidFinSetSpineEnumerates_classifier_saturation {E K : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : BEDC.FKernel.NameCert.NameCert E Rel)
+    {ks : ProbeBundle BHist} :
+    MatroidFinSetSpineEnumerates E Rel ks K -> forall {x y : BHist}, K x -> E y ->
+      Rel y x -> K y := by
+  intro enumerates x y memberX _carrierY relYX
+  have memberWitness : exists k : BHist, InBundle k ks ∧ Rel x k :=
+    Iff.mp (enumerates.right x) memberX
+  cases memberWitness with
+  | intro k witness =>
+      have relXK : Rel x k := witness.right
+      have relYK : Rel y k :=
+        BEDC.FKernel.NameCert.NameCert.equiv_trans cert relYX relXK
+      exact Iff.mpr (enumerates.right y) (Exists.intro k (And.intro witness.left relYK))
+
 def MatroidFinSetIntersection (E : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
     (J I K : BHist -> Prop) : Prop :=
   exists xs : ProbeBundle BHist,
