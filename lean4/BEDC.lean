@@ -300,7 +300,6 @@ import BEDC.Derived.RealUp.MalformedSealedDenominator
 import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.SelectedTransportFit
 import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
-import BEDC.Derived.RealUp.MalformedSealedDenom
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
