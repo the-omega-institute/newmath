@@ -103,4 +103,11 @@ theorem RawFunctorTargetHom_reverse_arrow_endpoint_readback {s t : BHist} :
   cases targetHom
   exact And.intro (hsame_refl (BHist.e1 BHist.Empty)) (hsame_refl BHist.Empty)
 
+theorem RawFunctorSourceTargetHom_forward_overlap_absurd {s t : BHist} :
+    RawFunctorSourceHom s t (BHist.e1 (BHist.e1 BHist.Empty)) ->
+      RawFunctorTargetHom s t (BHist.e1 (BHist.e1 BHist.Empty)) -> False := by
+  intro sourceHom targetHom
+  cases sourceHom
+  cases targetHom
+
 end BEDC.Derived.FunctorUp
