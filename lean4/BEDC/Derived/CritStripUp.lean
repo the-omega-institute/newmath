@@ -58,6 +58,17 @@ def InCritStrip (sigma : BHist) : Prop :=
   NatUnaryStrictPrefix BHist.Empty sigma ∧
     NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty)
 
+def CritStripSourceSpec (h : BHist) : Prop :=
+  hsame h BHist.Empty ∧ (InCritStrip h -> False)
+
+def CompactSubStrip (epsilon T s : BHist) : Prop :=
+  InCritStrip s ∧ UnaryHistory epsilon ∧ UnaryHistory T
+
+theorem CompactSubStrip_empty_unit_obstruction_decidable (epsilon T s : BHist) :
+    CompactSubStrip epsilon T s -> False := by
+  intro compact
+  exact CritStripOpenInterval_empty_unit_absurd compact.left.left compact.left.right
+
 def InCritStrip_open_interval_decidable (sigma : BHist) :
     Decidable
       (NatUnaryStrictPrefix BHist.Empty sigma ∧
@@ -84,6 +95,10 @@ theorem InCritStrip_boundary_excluded {sigma : BHist} :
   · intro sameUnit
     cases sameUnit
     exact NatUnaryStrictPrefix_asymm strip.right strip.right
+
+theorem CritStripSourceSpec_empty_boundary : CritStripSourceSpec BHist.Empty := by
+  exact And.intro (hsame_refl BHist.Empty)
+    (fun strip => (InCritStrip_boundary_excluded strip).left (hsame_refl BHist.Empty))
 
 theorem InCritStrip_hsame_transport_boundary_exclusion {sigma sigma' : BHist} :
     InCritStrip sigma -> hsame sigma sigma' ->
@@ -188,6 +203,15 @@ theorem CritStripEmptyBoundary_semanticNameCert :
     exact source
   · intro _h source
     exact source
+
+theorem crit_strip_name_certificate :
+    NameCert (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+        (fun h k : BHist => hsame h k) ∧
+      (forall {s sigma tau : BHist}, CritStripComplexCarrier s sigma tau -> False) := by
+  constructor
+  · exact CritStripEmptyBoundary_semanticNameCert.core
+  · intro s sigma tau carrier
+    exact (CritStripComplexCarrier_strict_interval_absurd carrier).right
 
 theorem crit_strip_semantic_name_certificate :
     SemanticNameCert

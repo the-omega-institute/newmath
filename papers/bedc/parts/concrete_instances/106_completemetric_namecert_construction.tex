@@ -72,6 +72,7 @@ from \autoref{thm:metric-distance-witness-empty-distance-iff}. This
 construction is the $\CompleteMetricUp$ companion to
 \autoref{thm:singleton-metric-totally-bounded-laws}.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompleteMetricUp.SingletonCompleteMetric\_laws}
 \begin{proof}
 Unfold $C_{\emp}$. Each observed history $\gamma_n$ of a regular Cauchy name
 comes with a carried endpoint row $\hsame(\gamma_n,\emp)$. The selected limit
@@ -117,6 +118,7 @@ $$
 for the transported regular Cauchy stream name $s'$ and transported limit
 history $\ell'$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_hsame\_transport}
 \begin{proof}
 Unpack the witness row. The stream component is pointwise: for each certified
 observation history, $\StreamNameUp$ transport carries the observed history
@@ -143,4 +145,121 @@ $d'_{n',\varepsilon'}\leq\varepsilon'$. Since every field of the carrier row
 has been transported and the quantification over late observations is
 preserved pointwise, the transported package is again a complete metric limit
 witness.
+\end{proof}
+
+\begin{theorem}[CompleteMetricUp limit witness NameCert target]
+\label{thm:completemetric-limit-witness-namecert-target}
+Let $X$ be a certified $\MetricSpaceUp$ carrier over $\mathsf{BHist}$. The
+carrier of \autoref{def:completemetric-limit-witness}, the classifier given
+by transported stream observations, modulus histories, limit histories,
+threshold ledgers, distance histories, and $\RatUp$ comparison rows, the
+stability theorem
+\autoref{thm:completemetric-limit-witness-stability}, and the ledger policy
+recording $\StreamNameUp$ observations, $\mathsf{MetricDistanceWitness}$ rows,
+and $\RatUp$ bounds form the paper-level $\NameCert$ target for
+$\CompleteMetricUp$ over $X$.
+\end{theorem}
+\begin{proof}
+The source object is the certified metric carrier $X$ together with its
+$\MetricSpaceUp$ point classifier and distance-row interface. The BEDC pattern
+is the regular Cauchy stream name $s$, the modulus history $\mu$, the carried
+limit history $\ell$, and the family $L$ of late-observation bound ledgers in
+\autoref{def:completemetric-limit-witness}.
+
+The classifier is the componentwise transport relation on this package. It
+requires transported $\StreamNameUp$ observations, transported modulus and
+limit histories, transported threshold histories for each positive tolerance,
+transported distance histories, and transported $\RatUp$ positivity and
+comparison rows. These are exactly the histories named in the public
+complete-metric witness.
+
+For the stability field, apply
+\autoref{thm:completemetric-limit-witness-stability}. It takes a displayed
+complete metric limit witness and the componentwise classifier data just
+listed, then repacks them as a complete metric limit witness for the
+transported stream and transported limit.
+
+The ledger policy is therefore visible and finite-schema: it records
+$\StreamNameUp$ observation rows, $\mathsf{MetricDistanceWitness}$ rows from
+late observations to the selected limit, and $\RatUp$ comparison rows showing
+that each displayed distance is below the requested positive tolerance. The
+remaining entries of the ten-field template are inherited from the same
+metric carrier: target name $\CompleteMetricUp$, carrier $X$, exactness by
+metric endpoint transport, and no separate standard bridge. Thus the listed
+fields assemble the paper-level $\NameCert$ target for $\CompleteMetricUp$.
+\end{proof}
+
+\begin{theorem}[Complete metric limit witness uniqueness]
+\label{thm:completemetric-limit-witness-uniqueness}
+Let $X$ be a separated certified $\MetricSpaceUp$ carrier over $\mathsf{BHist}$
+with point classifier $\sim_X$. Assume the metric certificate supplies symmetry,
+the triangle comparison row, the positive-half $\RatUp$ comparison ledger, and
+zero-distance exactness in the following ledger form: if carried histories $a,b$
+have, for every positive $\RatUp$ tolerance $\varepsilon$, a distance history
+$e_{\varepsilon}$ with
+$$
+\mathsf{MetricDistanceWitness}(a,b,e_{\varepsilon})
+\quad\text{and}\quad
+ e_{\varepsilon}\leq\varepsilon,
+$$
+then $a\sim_X b$. If two displayed complete-metric limit witnesses converge the
+same regular Cauchy stream name $s$,
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_0,\ell_0,L_0)
+\quad\text{and}\quad
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_1,\ell_1,L_1),
+$$
+then their limit histories are point-classifier equal:
+$$
+\ell_0\sim_X\ell_1.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two rows of \autoref{def:completemetric-limit-witness}. The rows
+state that $\ell_0$ and $\ell_1$ are carried by $X$, and that each positive
+$\RatUp$ tolerance supplies a threshold after which the observations of the
+same stream $s$ are within that tolerance of the displayed limit.
+
+Fix a positive tolerance $\varepsilon$. Choose its positive half
+$\rho_{\varepsilon}$ together with the comparison ledger
+$\rho_{\varepsilon}+\rho_{\varepsilon}\leq\varepsilon$. The first limit witness
+supplies a threshold $N^0_{\rho}$ such that every observation $n$ beyond it has
+a distance row
+$$
+\mathsf{MetricDistanceWitness}(s(n),\ell_0,d^0_{n,\rho})
+\quad\text{with}\quad
+d^0_{n,\rho}\leq\rho_{\varepsilon}.
+$$
+The second witness supplies a threshold $N^1_{\rho}$ such that every observation
+$n$ beyond it has a distance row
+$$
+\mathsf{MetricDistanceWitness}(s(n),\ell_1,d^1_{n,\rho})
+\quad\text{with}\quad
+d^1_{n,\rho}\leq\rho_{\varepsilon}.
+$$
+The common-tail ledger of the regular $\StreamNameUp$ component gives an
+observation $n_{\varepsilon}$ beyond both thresholds.
+
+Apply metric symmetry to the first displayed distance row at
+$n_{\varepsilon}$, obtaining the same bound for a row from $\ell_0$ to
+$s(n_{\varepsilon})$. Apply the triangle comparison row to this symmetric row
+and to the second displayed row from $s(n_{\varepsilon})$ to $\ell_1$. This
+produces a distance history $e_{\varepsilon}$ with
+$$
+\mathsf{MetricDistanceWitness}(\ell_0,\ell_1,e_{\varepsilon})
+$$
+and a comparison ledger
+$$
+e_{\varepsilon}\leq d^0_{n_{\varepsilon},\rho}+d^1_{n_{\varepsilon},\rho}.
+$$
+The two convergence bounds and the half-tolerance comparison compose in
+$\RatUp$ to give
+$$
+e_{\varepsilon}\leq\varepsilon.
+$$
+
+Since $\varepsilon$ was an arbitrary positive $\RatUp$ tolerance, the pair
+$\ell_0,\ell_1$ has displayed distance below every positive tolerance. The
+zero-distance exactness field of the separated metric carrier therefore returns
+$\ell_0\sim_X\ell_1$.
 \end{proof}

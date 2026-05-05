@@ -201,4 +201,28 @@ theorem MetricDistanceWitness_e1_endpoints_distance_e1_shape {x y d : BHist} :
   | e1 d0 =>
       exact Exists.intro d0 (And.intro rfl (unary_e1_inversion witness.right.right.left))
 
+theorem MetricDistanceWitness_empty_boundary_nonempty_distance_positive_endpoint_depth
+    {source target dist : BHist} :
+    (MetricDistanceWitness BHist.Empty target dist ->
+      (hsame dist BHist.Empty -> False) -> 0 < MetricDistanceDepth target) ∧
+      (MetricDistanceWitness source BHist.Empty dist ->
+        (hsame dist BHist.Empty -> False) -> 0 < MetricDistanceDepth source) := by
+  constructor
+  · intro witness nonemptyDistance
+    have targetShape :=
+      MetricDistanceWitness_empty_source_nonempty_distance_target_e1_cases
+        witness nonemptyDistance
+    cases targetShape with
+    | intro targetTail targetData =>
+        cases targetData.left
+        exact Nat.succ_pos (MetricDistanceDepth targetTail)
+  · intro witness nonemptyDistance
+    have sourceShape :=
+      MetricDistanceWitness_empty_target_nonempty_distance_source_e1_cases
+        witness nonemptyDistance
+    cases sourceShape with
+    | intro sourceTail sourceData =>
+        cases sourceData.left
+        exact Nat.succ_pos (MetricDistanceDepth sourceTail)
+
 end BEDC.Derived.MetricUp

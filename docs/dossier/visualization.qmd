@@ -80,6 +80,27 @@ format:
 
   #cy-wrap { grid-area: graph; position: relative; height: 100%; background: #fbfbfa; }
   #cy { width: 100%; height: 100%; }
+  .zoom-controls {
+    position: absolute;
+    top: 12px; left: 12px;
+    display: flex; flex-direction: column; gap: 4px;
+    z-index: 10;
+  }
+  .zoom-controls button {
+    width: 32px; height: 32px;
+    border: 1px solid #d0d0d0;
+    background: rgba(255, 255, 255, 0.94);
+    border-radius: 4px;
+    font-size: 1.05rem; line-height: 1;
+    cursor: pointer; padding: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit; color: #333;
+    transition: background 0.12s;
+  }
+  .zoom-controls button:hover { background: #f4f4f4; }
+  .zoom-controls button:active { background: #e8e8e8; }
+  .zoom-controls button:focus { outline: 2px solid #2c3e50; outline-offset: 1px; }
   .map-filters {
     position: absolute;
     top: 12px; right: 12px;
@@ -271,6 +292,11 @@ format:
 
   <div id="cy-wrap">
     <div id="cy"></div>
+    <div class="zoom-controls" id="zoom-controls">
+      <button type="button" id="zoom-in" data-i18n-title="zoom_in" title="Zoom in" aria-label="Zoom in">+</button>
+      <button type="button" id="zoom-out" data-i18n-title="zoom_out" title="Zoom out" aria-label="Zoom out">&#8722;</button>
+      <button type="button" id="zoom-reset" data-i18n-title="zoom_reset" title="Fit to view" aria-label="Fit to view"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9"/></svg></button>
+    </div>
     <div class="map-filters" id="map-filters">
       <div class="ftitle" data-i18n="filter_title">Filters</div>
       <label class="stub-row">
@@ -383,6 +409,9 @@ const I18N = {
     grp_other: "Other",
     glossary_btn: "📖 Browse all bilingual terms",
     glossary_title: "Bilingual Glossary",
+    zoom_in: "Zoom in",
+    zoom_out: "Zoom out",
+    zoom_reset: "Fit to view",
   },
   zh: {
     title: "BEDC 项目地图",
@@ -438,6 +467,9 @@ const I18N = {
     grp_other: "其他",
     glossary_btn: "📖 浏览全部双语术语",
     glossary_title: "双语术语表",
+    zoom_in: "放大",
+    zoom_out: "缩小",
+    zoom_reset: "适应窗口",
   },
 };
 
@@ -462,6 +494,14 @@ function applyStaticI18n() {
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
     if (I18N[LANG][key] !== undefined) el.innerHTML = I18N[LANG][key];
+  });
+  document.querySelectorAll("[data-i18n-title]").forEach(el => {
+    const key = el.getAttribute("data-i18n-title");
+    const val = I18N[LANG][key];
+    if (val !== undefined) {
+      el.setAttribute("title", val);
+      el.setAttribute("aria-label", val);
+    }
   });
   document.getElementById("btn-en").classList.toggle("active", LANG === "en");
   document.getElementById("btn-zh").classList.toggle("active", LANG === "zh");
@@ -887,13 +927,17 @@ function renderCy() {
     },
     // Disable wheel/pinch zoom (per request); pan-drag remains for nudging
     // so the dropdown's centered jump can be fine-tuned without the user
-    // ever needing to scroll-zoom.
+    // ever needing to scroll-zoom. The +/-/fit buttons drive zoom
+    // programmatically — bounds keep them sane.
     userZoomingEnabled: false,
     userPanningEnabled: true,
     boxSelectionEnabled: false,
     wheelSensitivity: 0,
     autoungrabify: true,
+    minZoom: 0.05,
+    maxZoom: 4,
   });
+  setupZoomControls();
 
   CY.on("tap", "node", evt => showNodeDetail(evt.target.id()));
   CY.on("tap", evt => {
@@ -913,6 +957,26 @@ function renderCy() {
   // outline below, labels stay legible even when fit-zoomed. The dropdown
   // is the primary nav for jumping between specific regions.
   CY.fit(undefined, 16);
+}
+
+function setupZoomControls() {
+  if (!CY) return;
+  const stepZoom = factor => {
+    const w = CY.width(), h = CY.height();
+    const next = CY.zoom() * factor;
+    CY.zoom({ level: next, renderedPosition: { x: w / 2, y: h / 2 } });
+  };
+  const bind = (id, fn) => {
+    const el = document.getElementById(id);
+    if (el) el.onclick = fn;
+  };
+  bind("zoom-in",  () => stepZoom(1.25));
+  bind("zoom-out", () => stepZoom(0.8));
+  bind("zoom-reset", () => {
+    const visible = CY.elements(":visible");
+    const eles = visible.length ? visible : CY.elements();
+    CY.animate({ fit: { eles, padding: 16 } }, { duration: 300, easing: "ease-out" });
+  });
 }
 
 function showNodeDetail(id) {
