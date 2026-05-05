@@ -10327,3 +10327,297 @@ The claim is a concrete certificate-construction implication inside the existing
 
 ---
 
+### B-395 - LieAlgebra adjoint additive linearity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LieAlgebra adjoint additive linearity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If L is a LieAlgebraUp carrier and x, y, z are carried, then ad_x(y +_L z) is classifier-equal to ad_x(y) +_L ad_x(z).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+The Lie algebra chapter states that LieAlgebraUp packages a vector-space carrier with an antisymmetric bilinear bracket satisfying Jacobi at papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex:4, then defines the adjoint action ad_x(t) = [x,t]_L at papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex:12-18. Existing labeled theorems are the derivation identity at papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex:21-62 and the inner-derivation commutator identity at papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex:64-107. Focused grep for theorem labels matching `adjoint.*linear|adjoint.*additive|linear.*adjoint|ad.*scalar` produced no candidate label; broader hits were only definition/proof prose inside those two existing theorems, so the basic additive linearity of each adjoint map is still absent.
+
+---
+
+
+### B-396 - Computable identity bounded graph certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Computable identity bounded graph certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If Id(n,m) is unary classifier equality on NatUp histories, then a deterministic halted identity machine with its displayed bound supplies a bounded ComputableUp graph certificate for Id.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/98_seq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+The computable chapter defines BoundedSim by a trace, initial configuration, transition rows, halted endpoint, and output readout at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:12-25, then defines a bounded graph certificate by a deterministic code, unary bound, graph equivalence, and output determinacy at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:27-35. It proves composition at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:37-56 and graph single-valuedness at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:87-116. Focused grep for `computable.*identity|identity.*computable|bounded.*identity|id.*BoundedSim` found no identity theorem; the only nearby hit was unrelated composition prose at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:65.
+
+---
+
+
+### B-397 - PublicKey arbitrary decryption of certified encryption
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PublicKey arbitrary decryption of certified encryption |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If PKDecryptEncryptExact, decrypt-output determinacy, PKKeyGen(pk,sk), PKCertifiedEnc(pk,m,c), and PKDecrypt(sk,c,d) hold, then d is message-classifier equal to m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex`
+
+Rationale:
+The public-key chapter defines certified encryption and decrypt-encrypt exactness at papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex:30-50. It proves decrypt-encrypt correctness only as an existential decryption endpoint at papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex:53-68, and separately defines and proves decrypt-output determinacy at papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex:83-116. Focused grep for `publickey.*any.*decrypt|decrypt.*certified.*encrypt|decrypt.*encrypt.*determin|decryption.*certified|decrypt.*returns.*original` found only the existing correctness and determinacy lines, with no theorem composing them into the arbitrary-output correctness implication.
+
+---
+
+### B-398 - Split isomorphism inverse witnesses coincide
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Split isomorphism inverse witnesses coincide |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a CategoryUp certificate, if f:a->b carries a split-isomorphism witness pair with left inverse g_L and right inverse g_R, then g_L and g_R are classifier-equal in the hom carrier from b to a.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `lean4/BEDC/Derived/CategoryUp.lean`
+- `lean4/BEDC/Derived/FunctorUp.lean`
+
+Rationale:
+Belongs to the category/functor certificate cluster. This is the standard category-theory lemma that a left inverse and a right inverse of the same morphism coincide, found in any introductory category text around isomorphisms. The split-isomorphism witness pair is defined at papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex:527, and lines 531-541 explicitly store left and right inverse witnesses while saying no equality between them is required. Focused searches for split inverse uniqueness, left-right inverse equality, g_L/g_R equality, and inverse uniqueness found no labeled theorem or BOARD entry. The proof is a one-page associativity/unit calculation: g_L = g_L id_b = g_L (f g_R) = (g_L f) g_R = id_a g_R = g_R. It should land in the shorter category body surface rather than appending to certificate_obligations.tex, which is already 783 lines.
+
+---
+
+
+### B-399 - Split monomorphisms are left-cancellative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Split monomorphisms are left-cancellative |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a CategoryUp certificate, if f:a->b has a split-monomorphism witness and the composites f after u and f after v are hom-classifier equal for u,v:x->a, then u and v are hom-classifier equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `lean4/BEDC/Derived/CategoryUp.lean`
+- `lean4/BEDC/Derived/FunctorUp.lean`
+
+Rationale:
+Belongs to the category/functor certificate cluster. The textbook theorem is 'every split monomorphism is monic' (Mac Lane CWM I.5 / Riehl 1.2). The split-monomorphism definition is present at papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex:421 and composition of split monomorphisms is already a theorem at :727, but focused searches for split mono cancellation or split monomorphism implies monomorphism found no labeled theorem and no BOARD entry. The proof uses only the stored left inverse, composition congruence, associativity, and identity laws: precompose the displayed equality by the left inverse and reduce both sides. This is a concrete cancellation theorem, not a field repackaging.
+
+---
+
+
+### B-400 - ProbSpace complement mass as one minus event mass
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ProbSpace complement mass as one minus event mass |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a ProbSpaceUp carrier with complement additivity for A and Ac and an additive RealUp inverse, if mu(A)+mu(Ac) is RealUp-classified as 1_R, then mu(Ac) is RealUp-classified as 1_R + (-mu(A)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/group/namecert_construction_core/02_certificate.tex`
+- `lean4/BEDC/Derived/AbGroupUp.lean`
+
+Rationale:
+Belongs to the probability-space chapter. The theorem P(A^c)=1-P(A) is a first-page result in introductory probability texts after finite additivity. The chapter currently proves only complement additivity at papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex:13, using measure finite disjoint-union additivity from papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex:48. Focused search for one-minus, complement subtraction, or probability complement subtraction found no labeled theorem and BOARD has only B-358 for additivity. The file is 44 lines, so the target is safe to append. The proof closes by adding the additive inverse of mu(A), using RealUp/AbGroup cancellation or inverse uniqueness from the group certificate, and the additive unit law.
+
+---
+
+### B-401 - LieAlgebra adjoint scalar linearity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LieAlgebra adjoint scalar linearity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If L carries LieAlgebraUp and r, x, y are carried scalar/vector endpoints, then ad_x(r smul y) is classifier-equal to r smul ad_x(y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete LieAlgebraUp theorem in the existing concrete_instances surface: the paper already has adjoint-action definition, Jacobi derivation, commutator identity, and additive linearity, but not the scalar-linearity half of the bracket bilinearity consequence. It is distinct from existing BOARD entries and from the present LieAlgebra labels, while still landing safely in the current LieAlgebra chapter as a focused theorem target.
+
+---
+
+### B-402 - QuantumChannel finite convex-mixture closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | QuantumChannel finite convex-mixture closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under QuantumChannelUp(H,K), if a finite affine spine of maps Phi_i are carried by QChan_{H,K} and the weights are nonnegative with total weight one, then the pointwise affine mixture Phi_mix is carried by QuantumChannelUp(H,K).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+
+Rationale:
+This is a concrete closure theorem for the existing quantum-channel carrier, distinct from the current composition and density-image theorems. It lands directly in the QuantumChannelUp chapter and uses the existing linear-map and convex finite-affine-spine surfaces rather than adding a marker or verification-axis item.
+
+---
+
+
+### B-403 - QuantumChannel preserves density finite mixtures
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | QuantumChannel preserves density finite mixtures |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If QChan_{H,K}(Phi) and DensAffSpine_H(xs,lambda,rho_mix), then applying Phi entrywise gives the matching finite affine spine over K, with endpoint Phi(rho_mix) carried by DensityMatrixUp(K).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+
+Rationale:
+This is not just the single-input density-image lemma: it records finite affine-mixture compatibility of a carried CPTP linear map. The target is concrete, local to the quantum-channel and density-matrix chapters, and distinct from channel composition closure and channel convex-mixture closure.
+
+---
+
+### B-404 - LieAlgebra adjoint acting-endpoint scalar linearity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LieAlgebra adjoint acting-endpoint scalar linearity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a \(\LieAlgebraUp\) certificate, if \(r\) is carried by the scalar-field carrier and \(x,y\) are carried by the vector carrier, then \(\operatorname{ad}^{L}_{r\odot_L x}(y)\sim_L r\odot_L\operatorname{ad}^{L}_{x}(y)\).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete Lie-algebra certificate law in the existing concrete_instances surface. The paper already has the acted-on endpoint scalar-linearity theorem for \(\operatorname{ad}^{L}_{x}(r\odot_L y)\), but the acting-endpoint scalar-linearity direction is semantically different and has no matching BOARD entry or paper theorem label. It should land safely in the existing Lie-algebra chapter and clarifies the bilateral bracket linearity exposed by the adjoint notation.
+
+---
+
+
+### B-405 - LieAlgebra adjoint linear endomap package
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LieAlgebra adjoint linear endomap package |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a \(\LieAlgebraUp\) certificate, if \(x\) is carried by the Lie-algebra vector carrier, then \(t\mapsto \operatorname{ad}^{L}_{x}(t)\) carries the \(\LinearMapUp\) endomap package on that vector carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+Rationale:
+This is a concrete bridge target from the Lie-algebra certificate to the existing LinearMap certificate surface. It is not a new abstract linear-map theory item: it packages the adjoint definition, classifier descent, additive preservation, scalar compatibility, and zero row into a named endomap certificate. Existing paper theorems supply component rows, but no current BOARD entry or paper label states the assembled certificate target.
+
+---
+
