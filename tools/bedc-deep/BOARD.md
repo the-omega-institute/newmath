@@ -8814,3 +8814,338 @@ MeasureUp is still very lightly populated: papers/bedc/parts/concrete_instances/
 
 ---
 
+### B-338 - Totally bounded subcarrier inherits the same net
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Totally bounded subcarrier inherits the same net |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the TotallyBoundedProbeBundleNet setup, if Y is a classifier-stable subcarrier of X and X has an epsilon-net bundle P at tolerance epsilon, then restricting the coverage rows to Y makes the same P an epsilon-net for Y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+Belongs in concrete_instances/105_totallybounded_namecert_construction.tex. This is the standard metric-space theorem that every subset of a totally bounded set is totally bounded. The chapter defines TotallyBoundedProbeBundleNet at papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex:75 and proves coverage stability and tolerance weakening at lines 102 and 183, but focused search found no subset/subcarrier theorem. It closes in 1 round: for y in Y, use the inclusion Y -> X, apply the existing X coverage row, and reuse the same probe bundle.
+
+---
+
+
+### B-339 - Finite union of totally bounded ProbeBundle nets
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Finite union of totally bounded ProbeBundle nets |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If X and Y each carry a TotallyBoundedProbeBundleNet at the same tolerance epsilon, then the union carrier X union Y carries a TotallyBoundedProbeBundleNet whose probe bundle is bundleAppend of the two nets.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `lean4/BEDC/FKernel/Bundle.lean`
+
+Rationale:
+Belongs in concrete_instances/105_totallybounded_namecert_construction.tex. Finite unions of totally bounded metric subspaces are a standard introductory metric theorem. The net object is already explicit at papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex:75, and the Lean bundle side already has bundleAppend and append membership support in lean4/BEDC/FKernel/Bundle.lean:12 and lean4/BEDC/FKernel/Bundle.lean:174. Focused search found no totally bounded union theorem. It closes in 1-3 rounds by case-splitting on union membership and injecting the selected center through the left or right side of bundleAppend.
+
+---
+
+
+### B-340 - Finite-spine concatenation enumerates finite-set union
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Finite-spine concatenation enumerates finite-set union |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If finite spines xs and ys enumerate finite predicates U and V over the same SetUp classifier, then the concatenated spine enumerates the union predicate z such that U(z) or V(z).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Belongs in concrete_instances/90_finset_namecert_construction.tex. Closure of finite sets under union is a first textbook theorem about finite sets. The chapter introduces enumeration membership at papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex:12 and the FinSet enumeration carrier at line 104, then proves duplicate and permutation invariance at lines 150 and 192, but focused search found no union or concatenation enumeration theorem. It should close in 1-3 rounds from the existing finite-spine and ListUp infrastructure by the usual append-membership split.
+
+---
+
+### B-341 - CatColimit transport along pointwise diagram equivalence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | CatColimit transport along pointwise diagram equivalence |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If D and E are pointwise certified equivalent diagrams and ColimCocone_D(K,kappa) holds, then the E-cocone obtained by composing each E-leg through the inverse component is ColimCocone_E(K,kappa^E) under the CategoryUp/FunctorUp/NatTransUp setup.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/84_catcolimit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/83_catlimit_namecert_construction.tex`
+
+Rationale:
+CatColimit has the needed local definitions: fixed-diagram cocone comparison data at papers/bedc/parts/concrete_instances/84_catcolimit_namecert_construction.tex:12 and ColimCocone couniversality at 84:27-31, plus cocone morphism descent through natural-transformation prewhiskering at 84:226-244. The dual CatLimit chapter already defines pointwise certified diagram equivalence at papers/bedc/parts/concrete_instances/83_catlimit_namecert_construction.tex:176-194 and proves CatLimit transport at 83:197-210, so the missing dual theorem is sharply delimited. Focused grep for `CatColimit transport|pointwise certified diagram equivalence|ColimCocone_{E}|transport.*colimit` in the CatColimit file returned 0 hits; theorem inventory in that file has only labels at 84:34, 84:90, 84:108, 84:133, and 84:226, none a pointwise-diagram transport theorem. Marker grep for Lean status macros in the CatColimit file returned 0 hits, and the target file is 283 lines.
+
+---
+
+
+### B-342 - CatColimit cocone comparison-fiber collapse
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | CatColimit cocone comparison-fiber collapse |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If ColimCocone_D(C,kappa) holds and u1,u2:C->C' both satisfy CoconeMor_D(kappa,kappa';-), then MorEq_C(C,C';u1,u2) under the fixed certified diagram setup.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/84_catcolimit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/83_catlimit_namecert_construction.tex`
+
+Rationale:
+The CatColimit definition explicitly includes the uniqueness field: any two morphisms out of a colimiting cocone into the same target cocone are classified by MorEq_C at papers/bedc/parts/concrete_instances/84_catcolimit_namecert_construction.tex:27-31. The file proves endomorphism rigidity at 84:108-129 and vertex co-uniqueness at 84:133-174, but it does not extract the arbitrary comparison-fiber corollary. The dual CatLimit file already has exactly this extraction as Comparison-fiber collapse at papers/bedc/parts/concrete_instances/83_catlimit_namecert_construction.tex:134-153. Focused grep for `comparison-fiber|fiber collapse|CoconeMor_D.*u_1|CoconeMor_D.*u_2` in the CatColimit file found no labelled theorem or corollary; the only relevant uniqueness evidence is the definition line 84:31.
+
+---
+
+
+### B-343 - EnumPerm inverse symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EnumPerm inverse symmetry |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If EnumPerm_{A,sim_A}(xs,ys) holds under NameCert(A,sim_A), then EnumPerm_{A,sim_A}(ys,xs) holds using the certified inverse finite-position bijection and classifier symmetry.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+EnumPerm is defined as a classifier-preserving finite-position bijection at papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex:33-46, and line 90:46 states that the inverse position map is part of the certified bijection. Existing positive coverage proves only classifier invariance under an EnumPerm at 90:49-59 and EnumPerm transitivity at 90:192-240. The NameCert core supplies classifier symmetry at papers/bedc/parts/core/08_typed_naming_certificates.tex:49-52. Focused grep for `EnumPerm.*sym|symmetry.*EnumPerm|EnumPerm.*inverse|inverse.*EnumPerm|EnumPerm.*reflex|identity.*EnumPerm` in the FinSet file returned 0 hits; Lean marker grep in that file returned only the unrelated marker at 90:122 for FinsetEnumerationBundle_member_source_carried.
+
+---
+
+
+### B-344 - EnumPerm identity closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EnumPerm identity closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If every entry of a finite spine xs is carried by A under NameCert(A,sim_A), then EnumPerm_{A,sim_A}(xs,xs) holds by the identity finite-position bijection and classifier reflexivity.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/95_symgroup_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+The EnumPerm definition at papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex:33-46 is the finite-enumeration datum later used by PermutationUp, and 90:46 explicitly links it to the permutation interface; papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex:4 says PermutationUp packages bijections of FinSetUp onto itself, while papers/bedc/parts/concrete_instances/95_symgroup_namecert_construction.tex:4 packages group structure on those permutations. FinSet currently proves bijection composition at 90:174-190 and EnumPerm transitivity at 90:192-240, but no identity/reflexivity theorem. Focused grep for `EnumPerm.*reflex|reflex.*EnumPerm|identity.*EnumPerm|EnumPerm.*identity` returned 0 hits, and the NameCert reflexivity field is available from papers/bedc/parts/core/08_typed_naming_certificates.tex:49-52.
+
+---
+
+
+### B-345 - FinSetEnumClassifier symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FinSetEnumClassifier symmetry |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If FinSetEnumClassifier_{A,sim_A}(xs,ys) holds, then FinSetEnumClassifier_{A,sim_A}(ys,xs) holds under the finite-spine enumeration membership definition.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+FinSetEnumClassifier is defined extensionally as pointwise equivalence of EnumMem predicates at papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex:12-30. Existing theorems include EnumPerm implies FinSetEnumClassifier at 90:49-59 and FinSet enumeration classifier transitivity at 90:269-294, but there is no standalone symmetry theorem for the classifier. Focused grep for `FinSetEnumClassifier.*sym|sym.*FinSetEnumClassifier|finset-enumeration-classifier.*sym|FinSetEnumClassifier.*reflex|reflex.*FinSetEnumClassifier` returned 0 hits. This is a concrete inversion law for the FinSet enumeration classifier, not a parameter-transport echo.
+
+---
+
+### B-346 - EnumPerm symmetry from inverse bijection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | EnumPerm symmetry from inverse bijection |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a fixed SetUp carrier A with classifier sim_A, EnumPerm_{A,sim_A}(xs,ys) implies EnumPerm_{A,sim_A}(ys,xs) by using the certified inverse position map and source-classifier symmetry.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+This is a concrete missing equivalence-relation law for the FinSet enumeration-permutation datum. The current FinSet chapter defines EnumPerm and proves invariant and transitivity results, but does not state the inverse-bijection symmetry theorem; it is not covered by existing BOARD targets or paper labels, and it lands safely in the existing FinSet concrete-instance file.
+
+---
+
+
+### B-347 - FinSet enum classifier symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FinSet enum classifier symmetry |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a fixed SetUp carrier A with classifier sim_A, FinSetEnumClassifier_{A,sim_A}(xs,ys) implies FinSetEnumClassifier_{A,sim_A}(ys,xs) by reversing the pointwise membership equivalence for every query history.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+This is a small but concrete certificate-completeness theorem for the finite-set enumeration classifier. The paper defines the classifier and proves transitivity, but no labeled theorem records symmetry; the target is distinct from EnumPerm symmetry because it applies directly to extensional enumeration classifiers rather than certified position bijections.
+
+---
+
+
+### B-348 - UnitUp terminal map uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | UnitUp terminal map uniqueness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For any source naming certificate, if f and g send every carried source endpoint into UnitHistoryCarrier, then UnitHistoryClassifier(f(a),g(a)) holds for every carried input a.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/93_unit_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+The UnitUp chapter states the terminal-object role in prose and proves the empty-endpoint classifier facts, but it does not give the promised terminal uniqueness theorem as a labeled result. This is a concrete uniqueness target, not a marker or verification-axis item, and it cleanly belongs in the existing UnitUp concrete-instance surface.
+
+---
+
+
+### B-349 - Complex partial sums commute with pointwise addition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Complex partial sums commute with pointwise addition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If c and d have closed partial sums S_c(n) and S_d(n) at a unary index n, then the pointwise-sum sequence has a closed partial sum at n hsame to the complex sum of S_c(n) and S_d(n).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/44_complex_series_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/14_complex_namecert_construction.tex`
+
+Rationale:
+This fills a paper-internal algebra gap between the complex partial-sum recursion and the later convergence-linearity statement. Existing labels cover partial-sum existence, determinacy, hsame transport, and convergence linearity, but not the finite partial-sum compatibility with pointwise addition; it is concrete, scoped, and distinct from current BOARD entries.
+
+---
+
+### B-350 - EnumPerm identity reflexivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | EnumPerm identity reflexivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If A(entry_xs(i)) holds for every position i under a fixed SetUp/NameCert, then the identity position bijection witnesses EnumPerm_A(xs,xs).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/89_set_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+This is a concrete finite-spine permutation closure fact in the existing FinSet certificate surface. The paper already has EnumPerm inverse symmetry and transitivity, but not the identity/reflexivity witness; adding this target would close the missing basic relation law without duplicating an existing BOARD entry or paper theorem.
+
+---
+

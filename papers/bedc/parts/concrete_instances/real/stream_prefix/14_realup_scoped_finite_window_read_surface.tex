@@ -1,0 +1,33 @@
+\begin{theorem}[RealUp scoped finite-window read surface]
+\label{thm:realup-scoped-finite-window-read-surface}
+The selected finite $\RealUp$ observation windows read exactly the
+carrier/classifier, stability/transport, finite ledger, dyadic source,
+$\RegSeqRat$ spine, $\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$,
+$\hsame$, and $\mathsf{RealLedgerPolicy}$ rows named by
+\autoref{def:realup-obligation-boundary}. They read no quotient datum,
+completion datum, metric-completeness certificate, arithmetic or order
+operation, Classical datum, or standard-bridge datum.
+\end{theorem}
+\begin{proof}
+First collect the finite-window observation face. Apply
+\autoref{thm:realup-finite-window-exhaustion-obligation}: every selected finite
+$\RealUp$ window exposes the endpoint $\RatUp$ classifiers, unary denominator
+rows, common e-one tail readback, and dyadic source rows consumed by the
+$\RealUp$ seal.
+
+Next identify the structural rows read by that observation field. Apply
+\autoref{thm:real-stream-prefix-carrier-obligation} for the DyadicRatCore,
+$\RegSeqRat$, $\StreamNameUp$, and $\RatUp$ carrier source. Apply
+\autoref{thm:real-stream-prefix-classifier-obligation} for the constant-history
+and unary stream classifier source. Apply
+\autoref{thm:real-stream-prefix-stability-obligation} for pointwise $\hsame$
+transport and selected-continuation stability.
+
+Finally attach the ledger and certificate boundary. Apply
+\autoref{thm:real-stream-prefix-ledger-seal-obligation} for the finite
+$\mathsf{RealLedgerPolicy}$ rows and seal consumption. Then apply
+\autoref{thm:realup-scoped-certificate-boundary}, which states that these rows
+are exactly the scoped $\RealUp$ certificate boundary and excludes quotient,
+completion, arithmetic, order, metric-completeness, Classical, and
+standard-bridge data.
+\end{proof}
