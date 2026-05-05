@@ -148,6 +148,54 @@ By unary induction on \(n\), using the totality and functionality of \(\mathsf{N
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatFact\_total\_functional}
 
+\begin{lemma}[Bounded unary divisor divides factorial result]
+\label{lem:natfact-bounded-divisor-divides-result}
+Let $n$, $m$, and $d$ be histories. If $\mathsf{NatFact}(n,m)$,
+$\mathsf{UnaryHistory}(d)$, $\neg\hsame(d,\Eone(\emp))$, and
+$\mathsf{NatGT}(n,d)\vee\hsame(d,n)$, then $\mathsf{NatDivides}(d,m)$.
+\end{lemma}
+\begin{proof}[Sketch]
+Induct on the factorial witness. In the base case, the bound by $\emp$ gives
+no nonunit unary divisor, so the hypotheses cannot all hold.
+
+For a successor factorial witness, use \autoref{lem:natfact-successor-inversion}
+to expose the predecessor factorial and the displayed multiplication step. If
+$d\hsame n$ at the successor endpoint, endpoint transport and
+\autoref{thm:natfact-successor-input-divides-result} give
+$\mathsf{NatDivides}(d,m)$.
+
+If $d$ is strictly below the successor endpoint, successor inversion of the
+bound either identifies the endpoint case above or produces a predecessor
+bound. The induction hypothesis gives divisibility into the predecessor
+factorial result. Then \autoref{lem:nat-mul-total},
+\autoref{lem:nat-mul-functional}, and the displayed product divisibility
+closures \autoref{thm:nat-divides-mul-right-closed} and
+\autoref{thm:nat-divides-mul-left-closed} carry the inherited divisor through
+the successor multiplication display.
+\end{proof}
+
+\begin{lemma}[Factorial successor has no bounded nonunit divisor]
+\label{lem:natfact-successor-no-bounded-nonunit-divisor}
+Let $n$, $m$, and $d$ be histories. If $\mathsf{NatFact}(n,m)$,
+$\mathsf{UnaryHistory}(d)$, $\neg\hsame(d,\Eone(\emp))$, and
+$\mathsf{NatGT}(n,d)\vee\hsame(d,n)$, then
+$\neg\mathsf{NatDivides}(d,\Eone(m))$.
+\end{lemma}
+\begin{proof}[Sketch]
+Assume toward contradiction that $d$ divides $\Eone(m)$. By
+\autoref{lem:natfact-bounded-divisor-divides-result}, the same bounded
+nonunit divisor also divides the factorial result $m$.
+
+The continuation $\Cont(m,\Eone(\emp),\Eone(m))$ displays the successor as the
+factorial result followed by the unit. Divisible prefix cancellation
+\autoref{lem:nat-divides-prefix-cancellation} removes the common divisible
+prefix and forces $\mathsf{NatDivides}(d,\Eone(\emp))$.
+
+Finally, unit-right divisibility exactness
+\autoref{thm:nat-divides-unit-right-iff} identifies $d$ with
+$\Eone(\emp)$, contradicting the nonunit hypothesis.
+\end{proof}
+
 \begin{lemma}[Successor of factorial is coprime to all bounded predecessors]
 \label{lem:fact-plus-one-coprime}
 Let \(m\) be the unary factorial of \(n\), and let \(m'\) be the successor \(\Eone(m)\) (i.e., \(n! + 1\)). Then for every unary \(d\) with \(\Eone(\emp) \neq d\) and \(\mathsf{NatGT}(\Eone(n), d) \vee \hsame(d, \Eone(n)) \vee \mathsf{NatGT}(d, \Eone(n)) \wedge \mathsf{NatDivides}(d, n)\), we have \(\neg \mathsf{NatDivides}(d, m')\).
