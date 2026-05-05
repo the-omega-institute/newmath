@@ -210,4 +210,21 @@ theorem LFunctionDirichletPartSum_zero_terms_positive_previous_readback
                 (And.intro data.right.left
                   (And.intro samePS uniqueP))))
 
+theorem LFunctionDirichletPartSum_result_hsame_transport
+    {term : BHist -> BHist -> BHist} {s n S S' : BHist} :
+    hsame S S' ->
+      (DirichletPartSum term s n S -> UnaryHistory n) ∧
+        (DirichletPartSum term s n S ↔ DirichletPartSum term s n S') := by
+  intro sameResult
+  constructor
+  · intro sum
+    exact DirichletPartSum_index_unary sum
+  · constructor
+    · intro sum
+      cases sameResult
+      exact sum
+    · intro sum
+      cases sameResult
+      exact sum
+
 end BEDC.Derived.LFunctionUp
