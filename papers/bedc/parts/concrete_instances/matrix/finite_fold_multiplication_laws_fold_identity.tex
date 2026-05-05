@@ -63,6 +63,38 @@ tail-fold carrier with the tail spine carrier.
 \leandef{BEDC.Derived.MatrixUp.MatrixSingletonAddFoldSpineCarrier}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold continuation result readback]
+\label{thm:matrix-singleton-add-fold-continuation-result-iff}
+For every finite spine \(xs\) and histories \(h,r:\mathsf{BHist}\), if
+\[
+\mathsf{Cont}\bigl(h,\mathsf{MatrixSingletonAddFold}(xs),r\bigr),
+\]
+then the result is carried by the singleton matrix carrier exactly when the
+left input is carried and every entry of the fold spine is carried:
+\[
+\mathsf{MatrixSingletonCarrier}(r)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs).
+\]
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the displayed continuation along
+\(\mathsf{MatrixSingletonCarrier}(r)\) to a continuation ending at \(\emp\).
+Kernel empty-result inversion for \(\mathsf{Cont}\) forces both \(h\) and
+\(\mathsf{MatrixSingletonAddFold}(xs)\) to be empty. The first equality is the
+left carrier, and the second is read through
+\autoref{thm:matrix-singleton-add-fold-carrier-iff} to obtain the spine
+carrier.
+
+Conversely, the left carrier identifies \(h\) with \(\emp\), while
+\autoref{thm:matrix-singleton-add-fold-carrier-iff} turns the spine carrier
+into \(\hsame(\mathsf{MatrixSingletonAddFold}(xs),\emp)\). Continuation
+respect for \(\hsame\), compared against the empty right-unit continuation,
+forces \(r\) to be carried by the singleton matrix carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_continuation\_result\_iff}
+
 \begin{theorem}[Singleton additive fold visible head exclusion]
 \label{thm:matrix-singleton-add-fold-visible-head-absurd}
 For every history $m$ and finite spine $xs$, folding a singleton additive spine
