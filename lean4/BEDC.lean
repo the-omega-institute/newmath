@@ -137,10 +137,10 @@ import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
-import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.ComponentwiseRefinement
 import BEDC.Derived.ProdUp.PairRepresentation
+import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ProdUp.EmptySourceExclusion
