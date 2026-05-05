@@ -1,0 +1,45 @@
+\begin{theorem}[Continuous function carrier terminal modulus extension]
+\label{thm:continuous-function-carrier-terminal-modulus-extension}
+For histories
+$source,map,target,modulus,cert,extra,modulus',cert'$, a continuous-function
+carrier remains a continuous-function carrier after the terminal certificate
+is extended by one more modulus witness and the modulus ledger is composed:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(cert,extra,cert')
+\Longrightarrow
+\ContR(modulus,extra,modulus')
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus',cert').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the given carrier. This exposes the graph ledger
+$\ContR(source,map,target)$ and the terminal modulus-certificate ledger
+$\ContR(target,modulus,cert)$, together with the unary carrier data for the
+displayed histories.
+
+Unpack the additional modulus witness
+$\mathsf{ContinuousModulusWitness}(cert,extra,cert')$. It supplies
+$\ContR(cert,extra,cert')$, so the two ledgers
+$\ContR(target,modulus,cert)$ and $\ContR(cert,extra,cert')$ assemble the chain
+$\mathsf{ContinuousModulusChain}(target,modulus,extra,cert')$ with middle
+history $cert$.
+
+Apply Theorem~\ref{thm:continuous-function-carrier-modulus-chain-replacement}
+to the original carrier, this chain, and the displayed composition ledger
+$\ContR(modulus,extra,modulus')$. The replacement theorem repacks the preserved
+graph data with the composite terminal modulus certificate, giving the displayed
+carrier conclusion.
+
+The ten-field certificate fit is the following. The traditional target is
+terminal modulus extension for continuous maps. The BEDC source is
+$\mathsf{BHist}$ with $\ContR$. The carrier is
+$\mathsf{ContinuousFunctionCarrier}$ and the classifier is $\hsame$. The
+stability obligation is preservation under one terminal modulus extension. The
+ledger is source, map, target, original modulus and certificate, extra modulus,
+composite modulus, and terminal certificate. The core theorem is this closure,
+exactness is the displayed carrier conclusion, the standard bridge is deferred,
+and the status is $\mathsf{ProofTarget}$.
+\end{proof}

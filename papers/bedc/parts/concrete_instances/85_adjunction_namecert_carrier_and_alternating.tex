@@ -306,6 +306,45 @@ displayed continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_append\_positive\_suffix\_cont\_readback}
 
+\begin{theorem}[Adjunction append-positive suffix empty result forces empty unit]
+\label{thm:adjunction-alternating-append-positive-suffix-result-empty-unit-empty}
+If \(suffix\) is unary and not history-same as \(\emp\), then an empty result
+for the alternating unit-counit ledger over \(\mathsf{append}(pref,suffix)\)
+forces the visible unit component to be empty:
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}
+  (unit,counit,\mathsf{append}(pref,suffix)),\emp)
+\Longrightarrow \hsame(unit,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The append-positive suffix readback writes the displayed alternating ledger as
+a continuation whose left endpoint is \(unit\). Transporting that continuation
+to the empty result and applying empty-result inversion for continuation
+forces the left endpoint \(unit\) to be empty.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_append\_positive\_suffix\_result\_empty\_unit\_empty}
+
+\begin{theorem}[Adjunction positive-tail empty result forces empty components]
+\label{thm:adjunction-unit-counit-alternating-positive-tail-result-empty-components-empty}
+Suppose $depth$ is unary, $depth=\Eone(tail)$, $tail$ is unary, and
+$tail$ is not history-same as $\emp$. If the alternating unit-counit ledger at
+$depth$ is history-same as $\emp$, then both displayed components are empty:
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)
+\Longrightarrow
+\hsame(unit,\emp)\land\hsame(counit,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Substitute $depth=\Eone(tail)$ and unfold the positive branch of the
+alternating ledger. Empty append inversion gives $unit\hsame\emp$ and an
+empty result for the exchanged alternating ledger over $tail$. Since $tail$ is
+unary and nonempty, the positive-depth empty-result readback applied to that
+exchanged ledger gives $counit\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_tail\_result\_empty\_components\_empty}
+
 \begin{theorem}[Adjunction positive-depth empty result forces empty unit]
 \label{thm:adjunction-alternating-positive-depth-result-empty-unit-empty}
 For unary nonempty $depth$, if the alternating unit-counit ledger is
