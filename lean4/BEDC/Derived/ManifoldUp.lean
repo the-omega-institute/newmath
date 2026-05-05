@@ -177,6 +177,24 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_chart_domain_intersection_open
+    {base indexI indexJ domainI domainJ chart transitionI transitionJ overlap : BHist} :
+    ManifoldAtlasPackage base indexI domainI chart transitionI ->
+      ManifoldAtlasPackage base indexJ domainJ chart transitionJ ->
+        Cont domainI domainJ overlap ->
+          UnaryHistory overlap ∧ hsame overlap (append (append base indexI) (append base indexJ)) := by
+  intro packageI packageJ overlapRow
+  have domainIUnary : UnaryHistory domainI := packageI.right.right.left
+  have domainJUnary : UnaryHistory domainJ := packageJ.right.right.left
+  have domainIRow : Cont base indexI domainI := packageI.right.right.right.right.right.left
+  have domainJRow : Cont base indexJ domainJ := packageJ.right.right.right.right.right.left
+  have overlapUnary : UnaryHistory overlap :=
+    unary_cont_closed domainIUnary domainJUnary overlapRow
+  cases domainIRow
+  cases domainJRow
+  cases overlapRow
+  exact And.intro overlapUnary (hsame_refl (append (append base indexI) (append base indexJ)))
+
 theorem ManifoldAtlasPackage_transition_composition_scope
     {base index domain chart transition next composed direct : BHist} :
     ManifoldAtlasPackage base index domain chart transition -> UnaryHistory next ->
@@ -395,6 +413,69 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
   have resultUnary : UnaryHistory result :=
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
+
+theorem ManifoldSingleton_transition_inverse_boundary {source target forward backward left right : BHist} :
+    ManifoldSingletonCarrier source -> ManifoldSingletonCarrier target -> Cont source target forward ->
+      Cont target source backward -> Cont forward backward left -> Cont backward forward right ->
+        hsame forward BHist.Empty ∧ hsame backward BHist.Empty ∧ hsame left BHist.Empty ∧
+          hsame right BHist.Empty ∧ UnaryHistory forward ∧ UnaryHistory backward ∧
+            UnaryHistory left ∧ UnaryHistory right := by
+  intro sourceCarrier targetCarrier forwardCont backwardCont leftCont rightCont
+  have forwardRows :=
+    ManifoldSingleton_transition_smoothness sourceCarrier targetCarrier forwardCont
+  have backwardRows :=
+    ManifoldSingleton_transition_smoothness targetCarrier sourceCarrier backwardCont
+  have forwardEmpty : hsame forward BHist.Empty := forwardRows.left
+  have backwardEmpty : hsame backward BHist.Empty := backwardRows.left
+  have emptyCont : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame forwardEmpty backwardEmpty leftCont emptyCont
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame backwardEmpty forwardEmpty rightCont emptyCont
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right :=
+    unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro forwardEmpty
+    (And.intro backwardEmpty
+      (And.intro leftEmpty
+        (And.intro rightEmpty
+          (And.intro forwardRows.right.right.right
+            (And.intro backwardRows.right.right.right (And.intro leftUnary rightUnary))))))
+
+theorem ManifoldSingleton_transition_classifier_stability
+    {x y xa xb ya yb source target : BHist} :
+    ManifoldSingletonCarrier x -> ManifoldSingletonCarrier y -> hsame x y ->
+      Cont BHist.Empty x xa -> Cont BHist.Empty y ya -> Cont BHist.Empty x xb ->
+        Cont BHist.Empty y yb -> Cont xa xb source -> Cont ya yb target ->
+          hsame xa ya ∧ hsame xb yb ∧ hsame source target ∧ UnaryHistory source ∧
+            UnaryHistory target := by
+  intro carrierX carrierY sameXY xToXa yToYa xToXb yToYb sourceRow targetRow
+  have xUnary : UnaryHistory x :=
+    unary_transport unary_empty (hsame_symm carrierX)
+  have yUnary : UnaryHistory y :=
+    unary_transport unary_empty (hsame_symm carrierY)
+  have coordinateSame :=
+    ManifoldSingleton_chart_coordinate_carrier_transport xUnary yUnary sameXY xToXa yToYa
+      xToXb yToYb
+  have xaUnary : UnaryHistory xa :=
+    unary_transport xUnary (hsame_symm (cont_left_unit_result xToXa))
+  have xbUnary : UnaryHistory xb :=
+    unary_transport xUnary (hsame_symm (cont_left_unit_result xToXb))
+  have yaUnary : UnaryHistory ya :=
+    unary_transport yUnary (hsame_symm (cont_left_unit_result yToYa))
+  have ybUnary : UnaryHistory yb :=
+    unary_transport yUnary (hsame_symm (cont_left_unit_result yToYb))
+  have sourceTarget : hsame source target :=
+    cont_respects_hsame coordinateSame.left coordinateSame.right sourceRow targetRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed xaUnary xbUnary sourceRow
+  have targetUnary : UnaryHistory target :=
+    unary_cont_closed yaUnary ybUnary targetRow
+  exact And.intro coordinateSame.left
+    (And.intro coordinateSame.right
+      (And.intro sourceTarget (And.intro sourceUnary targetUnary)))
 
 theorem ManifoldChartCoordinateTransportRow_coordinate_determinacy
     (left right : ManifoldChartCoordinateTransportRow) (sameSource : hsame left.source right.source)
