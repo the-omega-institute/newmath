@@ -7790,3 +7790,220 @@ Sibling but distinct from B-17 (presentation weakening on P,L with C fixed): thi
 
 ---
 
+### B-300 - Subtype classifier reflects parent classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Subtype classifier reflects parent classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Set↑ parent S, stable predicate P, and Subtype↑ setup, x ∼S y with P(x), P(y) implies (x,Px) ∼Sub (y,Py), and (x,Px) ∼Sub (y,Py) implies x ∼S y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/115_subtype_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Chapter 115 introduces Subtype↑ as the kernel-licit refinement type built from a parent Set↑ carrier with a decidable stable predicate, but no theorem in the existing paper or BOARD pins down that the subtype classifier is exactly the parent classifier restricted to predicate-witnesses. This biconditional is the canonical representation theorem for Subtype↑ and is a prerequisite for downstream subring/submodule/kernel constructions. It is not subsumed by B-17 (a generic SemanticNameCert presentation weakening), since this is concrete and bidirectional rather than a one-way pointwise weakening.
+
+---
+
+
+### B-301 - FinSet enumeration membership exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | FinSet enumeration membership exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under FinSet↑ given by Set↑ carrier and enumeration list xs, a is a FinSet member iff there exists x ∈ xs with a ∼A x.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/114_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35_list_namecert_construction.tex`
+
+Rationale:
+Chapter 114 stipulates FinSet↑ as NameCertSet↑ plus a finite enumeration witness via NameCertList↑, but the paper currently only carries the carrier definition and certificate entry; no theorem ties FinSet membership to existence of a classifier-equal enumeration point. This is the central representation theorem for FinSet↑ and is a prerequisite for Permutation↑, Graph↑, and combinatorial certificate work. It is orthogonal to BOARD's polynomial/list zero-tail normalization targets, which concern raw operation invariance rather than membership classification.
+
+---
+
+
+### B-302 - FinSet classifier invariant under enumeration permutation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | FinSet classifier invariant under enumeration permutation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a fixed Set↑ classifier, if FinSet↑ enumeration lists xs, ys are connected by a certified permutation preserving ∼A pointwise, then they induce the same FinSet classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/114_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/118_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35_list_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+
+Rationale:
+FinSet↑ enumeration is presentation data, so the classifier should not depend on the order of the enumeration witness; without this theorem the same finite set has multiple non-canonical FinSet classifiers. The claim is concrete and uses only certified permutation plus pointwise classifier preservation, distinct from BOARD's categorical composition targets (B-11/B-14) and from polynomial/list zero-tail rewrites. It also serves as a downstream substrate for Permutation↑ presentation independence.
+
+---
+
+
+### B-303 - Permutation composition closure for FinSet bijections
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Permutation composition closure for FinSet bijections |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Permutation↑ over FinSet↑, if σ and τ are FinSet-classified self-bijections then τ∘σ is a carried permutation and preserves both forward and inverse bijection classifiers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/118_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/114_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+
+Rationale:
+Chapter 118 presents Permutation↑ as the carrier of FinSet↑ self-bijections supplying the underlying carrier and action data for SymGroup↑, but no theorem currently records that bijection composition stays inside the certificate. This closure is the prerequisite for SymGroup↑ structure work and is structurally distinct from B-11 functor composition (different objects, different inputs: FinSet classifier transport plus inverse witness composition).
+
+---
+
+
+### B-304 - SymGroup forgets to Group certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | SymGroup forgets to Group certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under SymGroup↑ setup, forgetting the FinSet action presentation while keeping composition, identity, inverse, and classifier yields a Group↑ name certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_symgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/118_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/40_group_namecert_construction.tex`
+
+Rationale:
+Chapter 119 declares SymGroup↑ as the canonical instance packaging Permutation↑ under composition into NameCertGroup↑, but no forgetful Group↑ projection theorem exists. This is a direct sibling to B-28 (CommRing forgets to Ring) and follows the same forgetful-projection pattern, so novelty is moderate; the chapter and underlying objects (Permutation↑ vs. ring multiplication) are entirely different, justifying a separate slot rather than absorbing into B-28.
+
+---
+
+
+### B-305 - Graph edge transport along vertex classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Graph edge transport along vertex classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Graph↑ over Set↑, if u ∼V u′ and v ∼V v′ then Edge(u,v) implies Edge(u′,v′), so the edge classifier is invariant under vertex representative replacement.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/120_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Chapter 120 defines Graph↑ as a Set↑ vertex carrier with a binary edge relation, used as the substrate for Tree↑ and poset-as-DAG, but no theorem proves that the edge relation transports under vertex classifier equivalence. This is the basic soundness theorem for Graph↑ and prerequisite for Tree↑; it is unrelated to the automorphic-adele-graph carrier already in the paper, which concerns visible-context readback rather than basic combinatorial transport.
+
+---
+
+
+### B-306 - Seq classifier equivalent to pointwise classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Seq classifier equivalent to pointwise classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Seq↑(A), two sequences f, g are Seq-classified equal iff for every Nat↑ index n, f(n) ∼A g(n).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/122_seq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_nat_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Chapter 122 introduces Seq↑ as Nat↑→A naming-certificate functions with regularity/boundedness moduli, used as the substrate for Series↑ and ConvRad↑, but no theorem makes the Seq classifier exactly pointwise. This is the canonical representation theorem for Seq↑ and a prerequisite for downstream series and analytic-limit certificates, orthogonal to B-12 (continuous modulus composition) and B-15 (Bishop real limit transport).
+
+---
+
+
+### B-307 - Series partial sums respect Seq equality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Series partial sums respect Seq equality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Series↑ over an additive carrier, if term sequences f, g are pointwise ∼A equal then their certified partial-sum sequences are pointwise classifier-equal and induce the same Series↑ classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/123_series_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/122_seq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_nat_namecert_construction.tex`
+
+Rationale:
+Chapter 123 presents Series↑ as NameCertSeq↑ plus partial-sum sequence with explicit convergence moduli, but no theorem packages the finite-induction step that term-level Seq equality lifts to partial-sum equality and Series↑ classifier equality. This is the functoriality of the Series construction over its underlying sequence classifier and a prerequisite for convergence-modulus soundness work; it does not duplicate polynomial-normalization or FPS-Cauchy-product targets on the BOARD.
+
+---
+
