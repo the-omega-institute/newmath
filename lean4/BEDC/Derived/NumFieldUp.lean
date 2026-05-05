@@ -100,7 +100,7 @@ theorem NumFieldReflexiveRational_fieldext_scope {h r m action : BHist} :
       (And.intro carrierM (And.intro carrierM (hsame_refl m)))
       productCont actionCont
   exact And.intro carrierH.right.left
-    (And.intro carrierH.right.right.right
+    (And.intro carrierH.right.right.left
       (And.intro operationRows.right.right.left operationRows.right.right.right))
 
 theorem NumFieldRatReflexive_finite_basis_witness {h : BHist} :
