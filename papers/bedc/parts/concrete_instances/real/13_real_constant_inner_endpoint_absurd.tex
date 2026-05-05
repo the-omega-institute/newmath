@@ -19,3 +19,153 @@ rational classifier has an $\Ezero$ endpoint on one side, so the RatUp endpoint
 exclusion applies in the corresponding orientation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_e0\_endpoint\_absurd}
+
+\begin{theorem}[Real constant classifier transported inner e-zero endpoint absurd]
+\label{thm:real-constant-history-classifier-transported-inner-e0-endpoint-absurd}
+For histories $h,k,tail:\mathsf{BHist}$, any constant real-history classifier
+excludes an $\Eone(\Ezero(tail))$ display on either classified endpoint:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Eone(\Ezero(tail)))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(k,\Eone(\Ezero(tail)))\Longrightarrow\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the left endpoint, unpack the constant real classifier only far enough to
+recover the opposite endpoint display $k\hsame\Eone(d)$ for some $d$. Together
+with the assumed display $h\hsame\Eone(\Ezero(tail))$,
+\autoref{thm:real-constant-history-classifier-endpoint-transport} transports
+the classifier to the exact pair
+$\mathsf{RealConstantHistoryClassifier}(\Eone(\Ezero(tail)),\Eone(d))$.
+Then \autoref{thm:real-constant-history-classifier-e1-e0-endpoint-absurd}
+contradicts this exact sealed-zero shape.
+
+The right endpoint is symmetric. Unpack the classifier to recover
+$h\hsame\Eone(d)$ for some $d$, combine it with the assumed
+$k\hsame\Eone(\Ezero(tail))$, transport to
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\Ezero(tail)))$, and
+apply the opposite orientation of
+\autoref{thm:real-constant-history-classifier-e1-e0-endpoint-absurd}.
+\end{proof}
+
+\begin{theorem}[Real constant classifier inner empty endpoint absurd]
+\label{thm:real-constant-history-classifier-e1-empty-endpoint-absurd}
+For histories $d:\mathsf{BHist}$, the constant real-history classifier excludes
+an empty rational endpoint even when it is sealed by the outer constant-real
+$\Eone$ constructor:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(\Eone(\emp),\Eone(d))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))
+\Longrightarrow\mathsf{False}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Expose the sealed constant-real classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. In the first
+orientation this gives a rational classifier
+$\mathsf{RatHistoryClassifier}(\emp,d)$; in the second orientation it gives
+$\mathsf{RatHistoryClassifier}(d,\emp)$.
+
+Apply \autoref{thm:rat-history-classifier-endpoints-not-empty} to the exposed
+rational classifier in the corresponding orientation. The relevant endpoint
+nonemptiness clause contradicts $\hsame(\emp,\emp)$ by reflexivity.
+\end{proof}
+
+\begin{theorem}[Real constant classifier appended e-zero tail absurd]
+\label{thm:real-constant-history-classifier-e1-append-e0-tail-absurd}
+For histories $d,e,tail:\mathsf{BHist}$, the constant real-history classifier
+excludes a sealed rational denominator whose visible denominator ends in an
+appended zero-headed tail:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot\Ezero(tail)),\Eone(e))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(e),\Eone(d\cdot\Ezero(tail)))
+\Longrightarrow\mathsf{False}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the left orientation, expose the constant RealUp classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. The resulting
+RatUp classifier relates $d\cdot\Ezero(tail)$ to $e$, so
+\autoref{thm:rat-history-classifier-positive-denominators} gives the left
+positive-denominator row. This contradicts
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+
+For the right orientation, expose the same constant RealUp classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. The resulting
+RatUp classifier relates $e$ to $d\cdot\Ezero(tail)$, so
+\autoref{thm:rat-history-classifier-positive-denominators} gives the right
+positive-denominator row. This again contradicts
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+\end{proof}
+
+The ten-field fit is: traditional target constant RealUp denominator endpoint
+exclusion; BEDC source RealUp constant classifiers plus RatUp denominator
+shape; carrier $\mathsf{BHist}$; classifier
+$\mathsf{RealConstantHistoryClassifier}$; stability by e-one exposure and
+positive-denominator transport; ledger visible append head and zero-headed
+tail; core theorem
+\autoref{thm:real-constant-history-classifier-e1-append-e0-tail-absurd};
+exactness impossibility of appended zero-headed denominators; standard bridge
+finite rational denominator sanity; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real constant classifier malformed inner denominator exclusions]
+\label{thm:real-constant-history-classifier-malformed-inner-denominator-absurd}
+For histories $d,p,z:\mathsf{BHist}$, the constant real-history classifier
+excludes every exposed rational denominator that is internally empty or ends
+with an appended e-zero tail:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(\Eone(\emp),\Eone(d))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(p\cdot\Ezero(z)),\Eone(d))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(p\cdot\Ezero(z)))
+\Longrightarrow\mathsf{False}.
+\end{array}
+$$
+In the ten-field fit, the traditional target is constant-real malformed
+denominator exclusion; the BEDC source is $\mathsf{BHist}$ e-one rational seals
+and RatUp positive-denominator shape; the carrier is
+$\mathsf{RealConstantHistoryCarrier}$; the classifier is
+$\mathsf{RealConstantHistoryClassifier}$; the stability obligations are e-one
+exposure, $\hsame$ reflexivity, and RatUp denominator projection; the ledger is
+empty and appended e-zero denominator shapes; the core theorem is this four-way
+exclusion; the exactness predicate is impossibility of nonpositive exposed
+denominator tails; the standard bridge is constant rational real names; and the
+status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For each clause, first expose the sealed constant-real classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. The displayed
+assumption becomes a RatUp classifier on the two inner histories.
+
+For the two inner-empty clauses, apply
+\autoref{thm:rat-history-classifier-endpoints-not-empty} to the exposed RatUp
+classifier. In the left orientation the first nonemptiness row contradicts
+$\hsame(\emp,\emp)$ by reflexivity; in the right orientation the second
+nonemptiness row gives the same contradiction.
+
+For the left appended e-zero-tail clause, apply
+\autoref{thm:rat-history-classifier-positive-denominators} to the exposed RatUp
+classifier. The left projection gives a positive unary denominator witness for
+$p\cdot\Ezero(z)$, contradicting
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+
+For the right appended e-zero-tail clause, the same positive-denominator
+projection gives the witness on the right endpoint $p\cdot\Ezero(z)$. This is
+again impossible by
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+\end{proof}

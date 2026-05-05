@@ -355,17 +355,84 @@ $E=e\cdot\Eone(tail_E)$, with the zero witnesses $z_D$ and $z_E$. This
 recovers every row of $P(D,E,z_D,z_E)$.
 \end{proof}
 
+\begin{theorem}[Real constant appended-tail bridge full denominator-tail package]
+\label{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Let $P(D,E,z_D,z_E)$ be the appended-tail denominator package of
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package}. Let
+$Q(D,E,u_D,u_E,z_D,z_E)$ denote $P(D,E,z_D,z_E)$ together with
+\begin{enumerate}
+  \item $\hsame(D,u_D\cdot\Ezero(z_D))\Longrightarrow\bot$;
+  \item $\hsame(E,u_E\cdot\Ezero(z_E))\Longrightarrow\bot$;
+  \item $\hsame(d,e)$.
+\end{enumerate}
+If $\hsame(tail_D,tail_E)$, then every bridge row entails this full
+denominator-tail package:
+$$
+(A\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E))\land
+(B\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E))\land
+(U\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E))\land
+(C\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E)).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\hsame(tail_D,tail_E)$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package}. For each
+of the four bridge rows $A,B,U,C$, this supplies the package
+$P(D,E,z_D,z_E)$.
+
+The positive-denominator rows of $P$ give
+$\mathsf{PositiveUnaryDenominator}(D)$ and
+$\mathsf{PositiveUnaryDenominator}(E)$. If $D$ were displayed as
+$u_D\cdot\Ezero(z_D)$, transport the positive-denominator witness along this
+$\hsame$ and contradict
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}. The same
+argument applied to $E$ excludes the display $u_E\cdot\Ezero(z_E)$.
+
+It remains to determine the matched heads. The final row of $P$ gives
+$D\hsame E$. The tail hypothesis transports through the $\Eone$ constructor,
+and append congruence rewrites $e\cdot\Eone(tail_E)$ as
+$e\cdot\Eone(tail_D)$. Thus the endpoint comparison has a common right suffix
+$\Eone(tail_D)$, so BEDC append right cancellation yields $\hsame(d,e)$.
+
+These three consequences together with the already recovered package $P$ are
+exactly $Q(D,E,u_D,u_E,z_D,z_E)$ for each bridge row.
+\end{proof}
+
 The bridge-readback certificate fit has ten fields: traditional target faithful
 constant rational embedding into RealUp; BEDC source RatUp plus StreamNameUp
 plus RealUp; carrier the appended-tail rational histories $D,E$ and the
 independently reindexed constant streams; classifier rows $A,B,U,C$; stability
 from constant streams ignoring $r$ and $q$; ledger the appended e-one
-denominator tails $tail_D,tail_E$ together with heads $d,e$; core theorem
+denominator tails $tail_D,tail_E$ together with heads $d,e$ and the appended
+e-zero-tail exclusions; core theorem
 \autoref{thm:real-constant-appended-tail-rational-stream-bridge-readback}
 together with
-\autoref{thm:real-constant-appended-tail-bridge-denominator-package} and
-\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness};
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package},
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness},
+and
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package};
 exactness the equivalence
 $P(D,E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C$, hence recovery of
-$R$ and of $P(D,E,z_D,z_E)$ from any bridge classifier row; standard bridge the
-usual faithful rational embedding into real names; status $\mathsf{ProofTarget}$.
+$R$, of $P(D,E,z_D,z_E)$, of the appended e-zero-tail exclusions, and of matched
+denominator heads from any bridge classifier row; standard bridge RegSeqRat
+denominator-tail canonicalization; status $\mathsf{ProofTarget}$.

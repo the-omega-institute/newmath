@@ -25,4 +25,16 @@ theorem RealUnaryStreamClassifier_streamName_transport {s t s' t' : BHist -> BHi
         RatHistoryClassifier_hsame_transport (sameS n nUnary) (sameT n nUnary)
           (classified n nUnary)))
 
+theorem RealUnaryStreamClassifier_ratStreamName_pointwise_iff {s t : BHist -> BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t ->
+      (RealUnaryStreamClassifier s t ↔
+        (RatStreamNameCarrier s ∧ RatStreamNameCarrier t ∧
+          forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n))) := by
+  intro carrierS carrierT
+  constructor
+  · intro classified
+    exact And.intro carrierS (And.intro carrierT classified)
+  · intro classified
+    exact classified.right.right
+
 end BEDC.Derived.RealUp
