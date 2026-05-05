@@ -142,6 +142,25 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
 
+theorem NumFieldReflexiveRational_source_scope :
+    SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier RatHistoryClassifier ∧
+      (forall {h k : BHist}, RatHistoryClassifier h k ->
+        RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+          RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+            RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k)) ∧
+        (forall {r m out : BHist}, RatHistoryCarrier r -> RatHistoryCarrier m ->
+          Cont r m out -> RatHistoryCarrier out) := by
+  have vectorPackage := FieldExtRatReflexive_vector_space_package
+  constructor
+  · exact vectorPackage.left
+  · constructor
+    · intro h k classified
+      have locked := FieldExtRatReflexiveEmbedding_ledger_source_lock classified
+      exact And.intro locked.left
+        (And.intro locked.right.left locked.right.right.left)
+    · intro r m out carrierR carrierM continuation
+      exact vectorPackage.right.right carrierR carrierM continuation
+
 theorem NumFieldReflexiveRational_fieldext_source_pattern_consumption {h k r m out : BHist} :
     RatHistoryClassifier h k -> NumFieldRatReflexiveCarrier r -> RatHistoryCarrier m ->
       Cont (FieldExtSingletonEmbedding r) m out ->
@@ -392,5 +411,23 @@ theorem NumFieldRatReflexive_ledger_exactness
           (And.intro fieldRows.right.right.right.right.left
             (And.intro fieldRows.right.right.right.right.right.left
               (And.intro fieldRows.right.right.right.right.right.right coordClassifier))))))
+
+theorem NumFieldRatReflexive_fieldext_scope {h k r m product action : BHist} :
+    RatHistoryClassifier h k -> RatHistoryCarrier r -> RatHistoryCarrier m ->
+      Cont r m product -> Cont (FieldExtSingletonEmbedding r) m action ->
+        SemanticNameCert RatHistoryCarrier
+            (fun z : BHist => RatHistoryCarrier (FieldExtSingletonEmbedding z))
+            (fun z : BHist => RatHistoryLedgerPolicy z (FieldExtSingletonEmbedding z))
+            RatHistoryClassifier ∧
+          RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+            RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+              RatHistoryClassifier product action ∧
+                RatHistoryCarrier product ∧
+                  RatHistoryCarrier action ∧ RatHistoryClassifier (FieldExtSingletonEmbedding r) r := by
+  intro classifiedHK carrierR carrierM productCont actionCont
+  have certRows := FieldExtRatReflexive_public_name_certificate
+  have ledgerRows :=
+    FieldExtRatReflexive_ledger_coverage classifiedHK carrierR carrierM productCont actionCont
+  exact And.intro certRows.left ledgerRows
 
 end BEDC.Derived.NumFieldUp
