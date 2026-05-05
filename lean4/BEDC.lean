@@ -193,6 +193,7 @@ import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.SumUp
+import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
@@ -273,6 +274,7 @@ import BEDC.Derived.RealUp.EndpointAbsurd
 import BEDC.Derived.RealUp.ConstantCarrierContext
 import BEDC.Derived.RealUp.SelectedEndpointShape
 import BEDC.Derived.RealUp.FiniteWindow
+import BEDC.Derived.RealUp.FiniteWindowEndpoint
 import BEDC.Derived.RealUp.FiniteWindowFullPackage
 import BEDC.Derived.RealUp.UnarySelectedEndpointShape
 import BEDC.Derived.RealUp.FinitePrefixStability
