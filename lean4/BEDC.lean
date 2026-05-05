@@ -390,6 +390,7 @@ import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.EmptyUnitConjugation
 import BEDC.Derived.FieldUp.EmptyUnitConjugationFixedPoint
@@ -566,6 +567,7 @@ import BEDC.Derived.MetricUp.AppendCommPackage
 import BEDC.Derived.MetricUp.CompositeEndpointCollapse
 import BEDC.Derived.MetricUp.BallBudget
 import BEDC.Derived.CompleteMetricUp
+import BEDC.Derived.BanachUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompleteMetricUp
