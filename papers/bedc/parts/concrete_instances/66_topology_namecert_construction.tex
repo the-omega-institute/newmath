@@ -308,6 +308,82 @@ Arbitrary unions are supplied by the indexed union witnesses of the source and r
 The remaining obligation is provenance. The source ledger records one BHist row for each accepted open predicate: singleton metric ball, finite-list intersection, arbitrary union, empty open, or whole open. These rows account for the carrier, classifier, base coverage, closure, boundary, and ledger fields of the concrete $\NameCert_{\TopologyUp}$ surface.
 \end{proof}
 
+\begin{definition}[Generated-open exactness package]
+\label{def:topology-generated-open-exactness}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}, with carrier $C$, classifier $\mathsf{same}_C$, indexed topology carrier $\mathcal{T}_{d,\mathsf{ball}}$, indexed arbitrary-union witnesses, and indexed boundary open witnesses. A predicate $U:C\to\mathsf{Prop}$ is admitted by the generated-open exactness package, written $\mathsf{GenOpenExact}_{\mathcal{G}}(U)$, exactly when there is a visible BHist ledger row $r$ carrying $U$ and $r$ is one of the five constructor rows:
+$$
+\begin{gathered}
+\mathsf{singleton\ metric\ ball},\qquad
+\mathsf{finite\mbox{-}list\ intersection},\qquad
+\mathsf{arbitrary\ union},\\
+\mathsf{empty\ open},\qquad
+\mathsf{whole\ open}.
+\end{gathered}
+$$
+Equivalently, $U$ is admitted iff some row $r$ of these five forms supplies an index $i_r:\mathsf{OpenIx}$ and a carrying equation
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}(i_r,U).
+$$
+
+The package has the following ten fields. The traditional target is the indexed family of topology opens. The BEDC source is $\MetricSpaceUp$ together with $\RealUp$ and $\RatUp$ positive-radius ledgers and the BHist ledger rows. The carrier is $C$. The classifier is $\mathsf{same}_C$. Stability is indexed-open membership transport along $\mathsf{same}_C$. The ledger is exactly the five displayed row constructors. The core theorem list is \autoref{thm:topology-generated-open-row-coverage}, \autoref{thm:topology-generated-open-classification-soundness}, and \autoref{thm:topology-generated-open-classification-completeness}. The exactness predicate is the conjunction of row coverage, classification soundness, and classification completeness. The standard bridge is the usual metric-generated topology obtained from open balls, finite intersections, arbitrary unions, and boundary opens. The status is a paper proof target for the $\TopologyUp$ exactness contract.
+\end{definition}
+
+\begin{theorem}[Generated-open row coverage]
+\label{thm:topology-generated-open-row-coverage}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. If $U:C\to\mathsf{Prop}$ satisfies $\mathsf{GenOpenExact}_{\mathcal{G}}(U)$, then $U$ has a visible ledger witness of one of the five displayed row forms: singleton metric ball, finite-list intersection, arbitrary union, empty open, or whole open. In particular, no external powerset row and no unindexed open predicate is admitted by the exactness package.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{GenOpenExact}_{\mathcal{G}}(U)$ from \autoref{def:topology-generated-open-exactness}. The definition admits $U$ only by exhibiting a BHist row $r$, an index $i_r$, and a carrying equation for $U$.
+
+The same definition restricts $r$ to the five constructor rows listed in the metric-generated ledger. Therefore the witness is a singleton metric-ball row, a finite-list intersection row, an arbitrary-union row, an empty-open row, or a whole-open row.
+
+An external powerset row is not among these constructors. Since admission is by one of the displayed rows together with a carried index, an unindexed predicate has no route into $\mathsf{GenOpenExact}_{\mathcal{G}}$.
+\end{proof}
+
+\begin{theorem}[Generated-open classification soundness]
+\label{thm:topology-generated-open-classification-soundness}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. If a visible generated-open row $r$ carries $U:C\to\mathsf{Prop}$, then $U$ transports under the metric carrier classifier:
+$$
+\mathsf{same}_C(x,y)
+\Longrightarrow
+\bigl(U(x)\Longleftrightarrow U(y)\bigr).
+$$
+The transport is obtained by cases on the row constructor named by $r$.
+\end{theorem}
+\begin{proof}
+Fix a carried row $r$ and assume $\mathsf{same}_C(x,y)$. We distinguish the five possible constructors supplied by \autoref{def:topology-generated-open-exactness}.
+
+\begin{enumerate}
+\item If $r$ is a singleton metric-ball row, use \autoref{thm:topology-metric-base-open-transport}. Its transport clause moves the metric-ball inequality along $\mathsf{same}_C$, and its carrying equation identifies that ball predicate with $U$.
+
+\item If $r$ is a finite-list intersection row, use \autoref{thm:topology-metric-base-intersection}. The theorem supplies the concatenated finite-list carrier for the intersection and gives classifier transport for the carried intersection predicate.
+
+\item If $r$ is an arbitrary-union row, use \autoref{thm:topology-indexed-open-arbitrary-union}. The union index carries the supplied family union, and the theorem transports the existential membership predicate through the same carrier classifier.
+
+\item If $r$ is the empty-open row, use \autoref{thm:topology-indexed-open-boundary-closure}. The bottom boundary index carries the empty predicate, so both directions of the displayed equivalence are vacuous after transport.
+
+\item If $r$ is the whole-open row, again use \autoref{thm:topology-indexed-open-boundary-closure}. The top boundary index carries the whole carrier predicate, and the theorem gives classifier transport for that carried predicate.
+\end{enumerate}
+
+These cases exhaust the generated-open ledger by \autoref{thm:topology-generated-open-row-coverage}, hence every row witness carrying $U$ is classifier-stable.
+\end{proof}
+
+\begin{theorem}[Generated-open classification completeness]
+\label{thm:topology-generated-open-classification-completeness}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. Singleton metric balls, finite intersections of carried generated opens, supplied arbitrary unions of carried generated opens, the empty open, and the whole open are all admitted by $\mathsf{GenOpenExact}_{\mathcal{G}}$. In each case, the admission witness is the corresponding visible BHist ledger row.
+\end{theorem}
+\begin{proof}
+For a singleton metric ball, choose the singleton metric-ball row. Its index is $\mathsf{single}(b)$, and the carrying equation is supplied by \autoref{thm:topology-metric-base-open-transport}.
+
+For a finite intersection of carried generated opens, choose the finite-list intersection row. The row records the two source witnesses and the concatenated finite-list index, and \autoref{thm:topology-metric-base-intersection} supplies the carrying equation for the intersection predicate.
+
+For a supplied arbitrary union, choose the arbitrary-union row. The supplied union index and the family of carried generated opens are repacked by \autoref{thm:topology-indexed-open-arbitrary-union}, giving the carrying equation required by \autoref{def:topology-generated-open-exactness}.
+
+For the empty open and the whole open, choose the two boundary rows. The bottom and top indices carry these predicates by \autoref{thm:topology-indexed-open-boundary-closure}.
+
+Each chosen row is one of the five visible constructors in the exactness package, so each listed predicate satisfies $\mathsf{GenOpenExact}_{\mathcal{G}}$.
+\end{proof}
+
 \begin{definition}[Indexed boundary open witnesses]
 \label{def:topology-indexed-boundary-open-witnesses}
 Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. Indexed boundary open witnesses are distinguished indices
