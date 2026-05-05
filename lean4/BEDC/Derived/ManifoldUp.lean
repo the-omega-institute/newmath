@@ -277,4 +277,37 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
 
+theorem ManifoldSingleton_transition_classifier_stability
+    {x y xa xb ya yb source target : BHist} :
+    ManifoldSingletonCarrier x -> ManifoldSingletonCarrier y -> hsame x y ->
+      Cont BHist.Empty x xa -> Cont BHist.Empty y ya -> Cont BHist.Empty x xb ->
+        Cont BHist.Empty y yb -> Cont xa xb source -> Cont ya yb target ->
+          hsame xa ya ∧ hsame xb yb ∧ hsame source target ∧ UnaryHistory source ∧
+            UnaryHistory target := by
+  intro carrierX carrierY sameXY xToXa yToYa xToXb yToYb sourceRow targetRow
+  have xUnary : UnaryHistory x :=
+    unary_transport unary_empty (hsame_symm carrierX)
+  have yUnary : UnaryHistory y :=
+    unary_transport unary_empty (hsame_symm carrierY)
+  have coordinateSame :=
+    ManifoldSingleton_chart_coordinate_carrier_transport xUnary yUnary sameXY xToXa yToYa
+      xToXb yToYb
+  have xaUnary : UnaryHistory xa :=
+    unary_transport xUnary (hsame_symm (cont_left_unit_result xToXa))
+  have xbUnary : UnaryHistory xb :=
+    unary_transport xUnary (hsame_symm (cont_left_unit_result xToXb))
+  have yaUnary : UnaryHistory ya :=
+    unary_transport yUnary (hsame_symm (cont_left_unit_result yToYa))
+  have ybUnary : UnaryHistory yb :=
+    unary_transport yUnary (hsame_symm (cont_left_unit_result yToYb))
+  have sourceTarget : hsame source target :=
+    cont_respects_hsame coordinateSame.left coordinateSame.right sourceRow targetRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed xaUnary xbUnary sourceRow
+  have targetUnary : UnaryHistory target :=
+    unary_cont_closed yaUnary ybUnary targetRow
+  exact And.intro coordinateSame.left
+    (And.intro coordinateSame.right
+      (And.intro sourceTarget (And.intro sourceUnary targetUnary)))
+
 end BEDC.Derived.ManifoldUp

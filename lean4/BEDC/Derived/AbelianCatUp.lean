@@ -143,4 +143,26 @@ theorem AbelianCatKernelCokernel_visible_factorization
                   (And.intro coimageUnary
                       (And.intro comparisonUnary recomposedUnary))))))))))
 
+theorem AbelianCatKernelCokernelCarrier_classifier_transport
+    {obj hom zero biprod add kernel cokernel factor obj' hom' zero' biprod' add' kernel'
+      cokernel' factor' : BHist} :
+    AbelianCatKernelCokernelCarrier obj hom zero biprod add kernel cokernel factor ->
+      hsame obj obj' -> hsame hom hom' -> hsame zero zero' -> hsame biprod biprod' ->
+        hsame add add' -> hsame kernel kernel' -> hsame cokernel cokernel' ->
+          hsame factor factor' ->
+            AbelianCatKernelCokernelCarrier obj' hom' zero' biprod' add' kernel' cokernel'
+                factor' ∧
+              CategoryHomCarrier obj' obj' hom' ∧ Cont kernel' cokernel' factor' := by
+  intro carrier sameObj sameHom sameZero sameBiprod sameAdd sameKernel sameCokernel sameFactor
+  cases sameObj
+  cases sameHom
+  cases sameZero
+  cases sameBiprod
+  cases sameAdd
+  cases sameKernel
+  cases sameCokernel
+  cases sameFactor
+  exact And.intro carrier
+    (And.intro carrier.right.right.left carrier.right.right.right.right.right.right.right.right)
+
 end BEDC.Derived.AbelianCatUp
