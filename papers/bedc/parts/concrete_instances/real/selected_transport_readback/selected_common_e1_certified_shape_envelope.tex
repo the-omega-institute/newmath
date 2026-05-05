@@ -1,0 +1,45 @@
+\begin{theorem}[Real stream classifier transported selected common e-one certified shape envelope]
+\label{thm:real-stream-classifier-transport-selected-common-e1-certified-shape-envelope}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, an index
+$n$, and histories $z_X,z_Y:\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y).
+$$
+Then there exist histories $a,b:\Hist$ such that
+$$
+\begin{array}{l}
+\hsame(x'(n),\Eone(a))\land \hsame(y'(n),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)\\
+{}\land\ \mathsf{RatHistoryClassifier}(x'(n),y'(n))\\
+{}\land\ \mathsf{PositiveUnaryDenominator}(x'(n))\land
+\mathsf{PositiveUnaryDenominator}(y'(n))\\
+{}\land\ \mathsf{UnaryHistory}(x'(n))\land
+\mathsf{UnaryHistory}(y'(n))\\
+{}\land\ (\hsame(x'(n),\emp)\to\mathsf{False})\land
+(\hsame(y'(n),\emp)\to\mathsf{False})\\
+{}\land\ (\hsame(x'(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y'(n),\Ezero(z_Y))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transport-selected-endpoint-common-e1-tail-readback}
+under the pointwise transport rows and the stream classifier. This supplies
+histories $a$ and $b$, the two displayed e-one endpoint rows, the two unary tail
+rows, and the common tail comparison $\hsame(a,b)$.
+
+Next apply
+\autoref{thm:real-stream-classifier-transport-selected-positive-unary-nonempty-package}
+under the same hypotheses. This gives the transported RatUp classifier, the two
+positive unary denominator rows, the unary endpoint rows, and the two nonempty
+endpoint exclusions.
+
+Finally apply
+\autoref{thm:real-stream-classifier-transport-selected-e0-endpoint-absurd}
+with the displayed histories $z_X$ and $z_Y$. Repack the tail readback, endpoint
+classifier, denominator rows, nonempty exclusions, and zero-headed exclusions
+into the displayed existential envelope.
+\end{proof}
