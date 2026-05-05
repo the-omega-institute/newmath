@@ -123,6 +123,16 @@ theorem NumFieldRatReflexive_finite_basis_witness {h : BHist} :
       (unary_e1_closed unary_empty) (hsame_refl (BHist.e1 BHist.Empty))
   exact And.intro basisCarrier (And.intro basisContinuation appendedClassified)
 
+theorem NumFieldRatReflexive_basis_support_boundary :
+    BEDC.Derived.VecSpaceUp.VecSpaceSingletonCarrier BHist.Empty ∧
+      BEDC.Derived.FieldUp.FieldSingletonCarrier BHist.Empty ∧
+        (RatHistoryCarrier BHist.Empty -> False) := by
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro (hsame_refl BHist.Empty)
+      (by
+        intro ratEmpty
+        exact RatHistoryCarrier_not_empty ratEmpty (hsame_refl BHist.Empty)))
+
 theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     RatHistoryCarrier m -> Cont m BHist.Empty coord ->
       RatHistoryClassifier coord m ∧ RatHistoryCarrier (FieldExtSingletonEmbedding m) ∧
