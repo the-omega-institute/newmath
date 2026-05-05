@@ -28,4 +28,20 @@ theorem FunctorPrefixHomCarrier_empty_morphism_source_iff {p a source : BHist} :
           (unary_transport targetCarrier (hsame_symm data.right.right))
           (And.intro targetCarrier data.right.right))
 
+theorem FunctorPrefixHomCarrier_e1_prefix_empty_morphism_source_iff {p a source : BHist} :
+    CategoryHomCarrier source (append (BHist.e1 p) a) BHist.Empty ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ hsame source (append (BHist.e1 p) a) := by
+  constructor
+  · intro homCarrier
+    have data :=
+      (FunctorPrefixHomCarrier_empty_morphism_source_iff
+        (p := BHist.e1 p) (a := a) (source := source)).mp homCarrier
+    exact And.intro (unary_e1_inversion data.left)
+      (And.intro data.right.left data.right.right)
+  · intro data
+    exact
+      (FunctorPrefixHomCarrier_empty_morphism_source_iff
+        (p := BHist.e1 p) (a := a) (source := source)).mpr
+        (And.intro (unary_e1_closed data.left) (And.intro data.right.left data.right.right))
+
 end BEDC.Derived.FunctorUp

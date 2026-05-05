@@ -442,4 +442,38 @@ theorem RealUnaryStreamWindowClassifier_selected_e1_tail_pairwise_coherence
     second.right.right.right.left, sameUUPrime, sameVVPrime, sameUV, sameUPrimeVPrime,
     sameUVPrime, sameUPrimeV⟩
 
+theorem RealUnaryStreamWindowClassifier_selected_tail_class_exactness
+    {s t : BHist -> BHist} {a w k : BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameClassifier s t ->
+      UnaryHistory a -> UnaryHistory w -> UnaryOffsetLe k w ->
+        exists u : BHist, exists v : BHist,
+          hsame (s (append a k)) (BHist.e1 u) ∧
+            hsame (t (append a k)) (BHist.e1 v) ∧
+              UnaryHistory u ∧ UnaryHistory v ∧ hsame u v ∧
+                (forall u' v' : BHist,
+                  (hsame (s (append a k)) (BHist.e1 u') ∧
+                    hsame (t (append a k)) (BHist.e1 v')) ↔
+                      (UnaryHistory u' ∧ UnaryHistory v' ∧ hsame u u' ∧ hsame v v')) := by
+  intro carrierS carrierT classified aUnary wUnary offset
+  have witness :=
+    RealUnaryStreamWindowClassifier_selected_canonical_e1_tail_witness
+      (s := s) (t := t) (a := a) (w := w) (k := k)
+      carrierS carrierT classified aUnary wUnary offset
+  cases witness with
+  | intro u witnessU =>
+      cases witnessU with
+      | intro v data =>
+          exact ⟨u, v, data.left, data.right.left, data.right.right.left,
+            data.right.right.right.left, data.right.right.right.right.left,
+            fun u' v' =>
+              Iff.intro
+                (fun displayed =>
+                  have coherence := data.right.right.right.right.right u' v' displayed
+                  ⟨coherence.left, coherence.right.left, coherence.right.right.left,
+                    coherence.right.right.right.left⟩)
+                (fun selected =>
+                  ⟨hsame_trans data.left (hsame_e1_congr selected.right.right.left),
+                    hsame_trans data.right.left
+                      (hsame_e1_congr selected.right.right.right)⟩)⟩
+
 end BEDC.Derived.RealUp
