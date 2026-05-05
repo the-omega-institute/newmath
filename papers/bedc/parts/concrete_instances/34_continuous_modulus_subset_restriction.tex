@@ -46,6 +46,34 @@ It remains to compare the direct and successive restrictions. By \autoref{def:co
 Ten-field fit: traditional target functorial restriction of uniformly continuous maps; BEDC source BHist with certified source predicates and ContinuousFunctionCarrier; carrier restricted graph witness; classifier ContinuousMap classifier; stability nested source-admission transport; ledger unchanged graph/modulus ledgers; core theorem this block; exactness direct-versus-successive restriction agreement; standard bridge restriction functoriality for uniformly continuous maps; status ProofTarget.
 \end{proof}
 
+\begin{theorem}[Uniform continuity restriction functorial action]
+\label{thm:uniform-continuity-restriction-functorial-action}
+Let $Y$ and $Z$ be certified $\MetricSpaceUp$ objects with the metric data of \autoref{def:metric-carrier}. Let $T$, $U$, and $V$ be certified source-subset witnesses in the totally bounded domain discipline of \autoref{def:continuous-source-specification}. Let
+$$
+e_T:T\subseteq T
+$$
+be the identity inclusion, and let
+$$
+i:U\subseteq T
+$$
+and
+$$
+j:V\subseteq U
+$$
+be certified inclusions. Let $f:T\to Z$ be a certified graph witness whose unary precision ledger $\delta$ satisfies the modulus-validity field of \autoref{def:continuous-stability-certificate} over $T$. Then restriction along $e_T$ preserves $\delta$ and is related to $f$ by the $\ContinuousMapUp$ classifier of \autoref{def:continuous-classifier-specification}. Moreover, the successive restriction $(f\!\restriction_U)\!\restriction_V$ and the direct restriction along the certified composite inclusion $i\circ j:V\subseteq T$ are related by the same classifier and preserve the same graph relation, codomain classifier ledger, unary precision ledger, and modulus ledger.
+\end{theorem}
+\begin{proof}
+For the identity clause, apply Proposition~\ref{prop:uniform-continuity-modulus-restricts-along-subset-inclusion} to the certified inclusion $e_T:T\subseteq T$. The source-admission transport is the identity transport on the $T$ ledger, so the restricted witness reads the same histories as $f$.
+
+The unchanged ledger clauses of \autoref{def:continuous-pattern-specification} and \autoref{def:continuous-ledger-policy} keep the graph relation, codomain classifier ledger, unary precision ledger $\delta$, and modulus ledger fixed. Hence the two witnesses present the same carrier data, and \autoref{def:continuous-classifier-specification} relates the identity restriction to $f$ as $\ContinuousMapUp$ representatives.
+
+For the composition clause, apply Theorem~\ref{thm:uniform-continuity-modulus-restriction-transitive} to the inclusions $j:V\subseteq U$ and $i:U\subseteq T$. It gives the modulus-validity field for both the successive and direct restrictions with the same unary precision ledger $\delta$.
+
+The same theorem also identifies the direct and successive restrictions at the level of the $\ContinuousMapUp$ classifier. Its comparison uses exactly the shared graph relation, codomain classifier ledger, unary precision ledger, and modulus ledger supplied by the restriction policy.
+
+Ten-field fit: traditional target restriction action of uniformly continuous maps; BEDC source BHist source predicates plus ContinuousFunctionCarrier; carrier restricted graph witness; classifier ContinuousMapUp; stability identity and composite source-admission transport; ledger unchanged graph/modulus data; core theorem this action law; exactness identity and composition agreement; standard bridge restriction of uniformly continuous maps; status ProofTarget.
+\end{proof}
+
 \begin{theorem}[Uniform continuity restriction commutes with terminal modulus extension]
 \label{thm:uniform-continuity-restriction-terminal-modulus-commutes}
 Let $Y$ and $Z$ be certified $\MetricSpaceUp$ objects with the metric data of \autoref{def:metric-carrier}. Let $T$ and $U$ be certified source-subset witnesses in the totally bounded domain discipline of \autoref{def:continuous-source-specification}, with certified inclusion $i:U\subseteq T$. Let $f:T\to Z$ be a certified graph witness, and let
