@@ -126,3 +126,45 @@ $$
 $$
 Unfolding the adjoint action from \autoref{def:liealgebra-adjoint-action-from-bracket} on the three bracket endpoints identifies this comparison with the displayed adjoint additive-linearity law, and the closure statements above identify both sides as carried endpoints of $C_L$.
 \end{proof}
+
+\begin{theorem}[Adjoint action preserves scalar multiplication]
+\label{thm:liealgebra-adjoint-action-scalar-linearity}
+Let $L$ carry a $\LieAlgebraUp$ certificate. Write $S_L$ for its scalar-field carrier, $C_L$ for its vector carrier, $\sim_{L}$ for its vector carrier classifier, $\odot_L$ for the scalar action in the vector-space reduct, and $[-,-]_L$ for the Lie bracket. If $r$ is carried by $S_L$ and $x,y$ are carried by $C_L$, then $\operatorname{ad}^{L}_{x}(r\odot_L y)$ and $r\odot_L\operatorname{ad}^{L}_{x}(y)$ are carried by $C_L$, and
+$$
+\operatorname{ad}^{L}_{x}(r\odot_L y)
+\sim_{L}
+r\odot_L\operatorname{ad}^{L}_{x}(y).
+$$
+\end{theorem}
+\begin{proof}
+Scalar-action closure in the $\VecSpaceUp$ reduct carries $r\odot_L y$. Bracket closure in the $\LieAlgebraUp$ certificate therefore carries $[x,r\odot_L y]_L$. The same bracket-closure field carries $[x,y]_L$, and scalar-action closure carries $r\odot_L[x,y]_L$.
+
+The second-argument scalar-linearity field in the bilinear bracket, applied to the carried scalar endpoint $r$ and carried vector endpoints $x,y$, gives
+$$
+[x,r\odot_L y]_L
+\sim_{L}
+r\odot_L[x,y]_L.
+$$
+Unfolding the adjoint action from \autoref{def:liealgebra-adjoint-action-from-bracket} on both bracket endpoints identifies this comparison with the displayed scalar-linearity law for $\operatorname{ad}^{L}_{x}$, and the closure statements above identify both sides as carried endpoints of $C_L$.
+\end{proof}
+
+\begin{theorem}[Adjoint action acting-endpoint scalar linearity]
+\label{thm:liealgebra-adjoint-action-acting-endpoint-scalar-linearity}
+Let $L$ carry a $\LieAlgebraUp$ certificate. Write $S_L$ for its scalar-field carrier, $C_L$ for its vector carrier, $\sim_{L}$ for its vector carrier classifier, $\odot_L$ for the scalar action in the vector-space reduct, and $[-,-]_L$ for the Lie bracket. If $r$ is carried by $S_L$ and $x,y$ are carried by $C_L$, then $\operatorname{ad}^{L}_{r\odot_L x}(y)$ and $r\odot_L\operatorname{ad}^{L}_{x}(y)$ are carried by $C_L$, and
+$$
+\operatorname{ad}^{L}_{r\odot_L x}(y)
+\sim_{L}
+r\odot_L\operatorname{ad}^{L}_{x}(y).
+$$
+\end{theorem}
+\begin{proof}
+Scalar-action closure in the $\VecSpaceUp$ reduct carries $r\odot_L x$. Bracket closure in the $\LieAlgebraUp$ certificate therefore carries $[r\odot_L x,y]_L$. The same bracket-closure field carries $[x,y]_L$, and scalar-action closure carries $r\odot_L[x,y]_L$.
+
+The first-argument scalar-linearity field in the bilinear bracket, applied to the carried scalar endpoint $r$ and carried vector endpoints $x,y$, gives
+$$
+[r\odot_L x,y]_L
+\sim_{L}
+r\odot_L[x,y]_L.
+$$
+Unfolding the adjoint action from \autoref{def:liealgebra-adjoint-action-from-bracket} on both bracket endpoints identifies this comparison with the displayed scalar-linearity law for the acting endpoint of $\operatorname{ad}^{L}$, and the closure statements above identify both sides as carried endpoints of $C_L$.
+\end{proof}
