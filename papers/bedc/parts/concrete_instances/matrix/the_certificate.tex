@@ -37,6 +37,23 @@ Record the dimension witnesses, index discipline, and scalar ledger for each ent
 \label{def:matrix-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MatrixUp\).
 \end{definition}
+\begin{theorem}[Matrix singleton carrier semantic name certificate]
+\label{thm:matrix-singleton-carrier-semantic-namecert}
+The singleton matrix carrier \(A_{\emp}(h)\equiv h\hsame\emp\), used as
+source, pattern, and ledger policy, together with the ambient classifier
+\(\hsame\), forms a semantic name certificate:
+$$
+\mathsf{SemanticNameCert}(A_{\emp},A_{\emp},A_{\emp},\hsame).
+$$
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by \(\emp\). The classifier rows are the reflexive,
+symmetric, and transitive laws for \(\hsame\). Carrier transport sends
+\(h\hsame k\) and \(h\hsame\emp\) to \(k\hsame\emp\) by symmetry followed by
+transitivity. Since source, pattern, and ledger policy are the same concrete
+singleton carrier, the two semantic soundness maps are identity projections.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_semanticNameCert}
 
 \paragraph{Primitive boundary.}
 \(\MatrixUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

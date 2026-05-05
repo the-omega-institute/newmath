@@ -135,6 +135,30 @@ power ledger from $A_{\emp}(M)$ and $\Unary(e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_nonempty\_unary\_input\_iff}
 
+\begin{theorem}[Matrix singleton positive power continuation result carrier iff]
+\label{thm:matrix-singleton-pow-positive-exponent-continuation-result-carrier-iff}
+Let \(M,e,y,r:\mathsf{BHist}\). If \(e\) is unary and not history-same to
+\(\emp\), and if
+\(\ContR(\mathsf{MatrixSingletonPow}(M,e),y,r)\), then the displayed
+continuation result is carried exactly when both the base matrix and the right
+continuation input are carried:
+$$
+A_{\emp}(r)
+\Longleftrightarrow
+A_{\emp}(M)\land A_{\emp}(y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the continuation result to \(\emp\) and
+invert empty continuation results. This gives carrier witnesses for the power
+source and for \(y\); positive-exponent power carrier exactness recovers
+\(A_{\emp}(M)\) from the power source carrier. Conversely,
+\(A_{\emp}(M)\) carries the positive power source, and together with
+\(A_{\emp}(y)\) append empty-result exactness identifies the displayed
+continuation result with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_continuation\_result\_carrier\_iff}
+
 \begin{theorem}[Matrix singleton power positive exponent classifier iff]
 \label{thm:matrix-singleton-pow-positive-exponent-classifier-iff}
 Let $M,e,h:\mathsf{BHist}$. If $e$ is unary and not history-same to $\emp$,
