@@ -46,4 +46,19 @@ theorem NatDivides_mul_right_closed {d q n : BHist} :
       have dividesM : NatDivides q m := Exists.intro d (And.intro dUnary mData.right)
       exact (NatDivides_dividend_hsame_transport dividesM (hsame_symm sameResult)).right
 
+theorem NatDivides_mul_left_closed {d x q z : BHist} :
+    UnaryHistory x -> NatDivides d q -> NatMul x q z -> NatDivides d z := by
+  intro xUnary divides mul
+  have qUnary : UnaryHistory q := NatDivides_result_unary divides
+  have qProduct := NatMul_total qUnary xUnary
+  cases qProduct with
+  | intro z' zData =>
+      have sameProduct : hsame z z' :=
+        NatMul_comm_hsame xUnary qUnary mul zData.right
+      have qDividesProduct : NatDivides q z' :=
+        Exists.intro x (And.intro xUnary zData.right)
+      have qDividesZ : NatDivides q z :=
+        (NatDivides_dividend_hsame_transport qDividesProduct (hsame_symm sameProduct)).right
+      exact NatDivides_transitive divides qDividesZ
+
 end BEDC.Derived.PrimeUp
