@@ -1,16 +1,24 @@
 import BEDC.Derived.GammaUp
 import BEDC.Derived.ComplexLimitUp
+import BEDC.Derived.ComplexSeriesUp
 
 namespace BEDC.Derived.GammaFunctionUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.GammaUp
+open BEDC.Derived.ComplexUp
 open BEDC.Derived.ComplexLimitUp
+open BEDC.Derived.ComplexSeriesUp
 
 def GammaWeierstrassCauchyModulus
     (s apart : BHist) (P N : BHist -> BHist) : Prop :=
   GammaDomainCore s apart ∧ ComplexRegularSequence P N
+
+def GammaWeierstrassPart (s apart n p : BHist) : Prop :=
+  GammaDomainCore s apart ∧ UnaryHistory n ∧ ComplexHistoryCarrier p ∧
+    ComplexPartSum BHist.Empty (fun k : BHist => append s k) n p
 
 def Gamma (s z : BHist) : Prop :=
   ∃ apart : BHist, ∃ P N M : BHist -> BHist,
