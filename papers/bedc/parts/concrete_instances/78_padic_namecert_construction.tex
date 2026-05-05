@@ -413,6 +413,29 @@ underlying natural multiplication field of $\mathsf{PadicPrimeScale}(p,q,e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_predecessor\_unique}
 
+\begin{theorem}[Prime scale append unit left result readback]
+\label{thm:padic-prime-scale-append-unit-left-result-hsame}
+For unary $q$, if $\mathsf{PadicPrimeScale}(p,q,e)$ and
+$\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)$ hold, then the
+appended-exponent result reads back to the continuation result
+$\mathsf{append}(p,e)$:
+$$
+\mathsf{PadicPrimeScale}(p,q,e)\land
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)
+\Rightarrow
+r\hsame\mathsf{append}(p,e).
+$$
+\end{theorem}
+\begin{proof}
+The append-unit-left predecessor theorem extracts a right-factor result
+$pred$ with $\mathsf{PadicPrimeScale}(p,q,pred)$ and continuation
+$\ContR(p,pred,r)$. The uniqueness clause identifies $pred$ with the displayed
+scale result $e$. Continuation respect for $\hsame$ compares the extracted
+continuation with the canonical continuation
+$\ContR(p,e,\mathsf{append}(p,e))$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_result\_hsame}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of
