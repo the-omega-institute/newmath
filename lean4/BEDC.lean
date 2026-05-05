@@ -566,6 +566,7 @@ import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.LatticeUp
+import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.PositiveDistanceShape
