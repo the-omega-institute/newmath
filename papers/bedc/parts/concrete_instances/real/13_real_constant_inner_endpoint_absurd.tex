@@ -76,6 +76,7 @@ $\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\Ezero(tail)))$, and
 apply the opposite orientation of
 \autoref{thm:real-constant-history-classifier-e1-e0-endpoint-absurd}.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_transported\_inner\_e0\_endpoint\_absurd}
 
 \begin{theorem}[Real constant classifier inner empty endpoint absurd]
 \label{thm:real-constant-history-classifier-e1-empty-endpoint-absurd}
@@ -137,6 +138,46 @@ $\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))$, and apply the
 right orientation of
 \autoref{thm:real-constant-history-classifier-e1-empty-endpoint-absurd}.
 \end{proof}
+
+\begin{theorem}[Real constant classifier appended e-zero tail absurd]
+\label{thm:real-constant-history-classifier-e1-append-e0-tail-absurd}
+For histories $d,e,tail:\mathsf{BHist}$, the constant real-history classifier
+excludes a sealed rational denominator whose visible denominator ends in an
+appended zero-headed tail:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot\Ezero(tail)),\Eone(e))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(e),\Eone(d\cdot\Ezero(tail)))
+\Longrightarrow\mathsf{False}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the left orientation, expose the constant RealUp classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. The resulting
+RatUp classifier relates $d\cdot\Ezero(tail)$ to $e$, so
+\autoref{thm:rat-history-classifier-positive-denominators} gives the left
+positive-denominator row. This contradicts
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+
+For the right orientation, expose the same constant RealUp classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. The resulting
+RatUp classifier relates $e$ to $d\cdot\Ezero(tail)$, so
+\autoref{thm:rat-history-classifier-positive-denominators} gives the right
+positive-denominator row. This again contradicts
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+\end{proof}
+
+The ten-field fit is: traditional target constant RealUp denominator endpoint
+exclusion; BEDC source RealUp constant classifiers plus RatUp denominator
+shape; carrier $\mathsf{BHist}$; classifier
+$\mathsf{RealConstantHistoryClassifier}$; stability by e-one exposure and
+positive-denominator transport; ledger visible append head and zero-headed
+tail; core theorem
+\autoref{thm:real-constant-history-classifier-e1-append-e0-tail-absurd};
+exactness impossibility of appended zero-headed denominators; standard bridge
+finite rational denominator sanity; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real constant classifier malformed inner denominator exclusions]
 \label{thm:real-constant-history-classifier-malformed-inner-denominator-absurd}
