@@ -490,11 +490,13 @@ For a complex-valued function-history \(f\), write \(f = u + i \cdot v\) where t
 \label{def:partial-real}
 For a real-valued function-history \(u\) on the complex carrier and a complex history \(z = (x, y)\), the partial derivative with respect to the real coordinate, \(\mathsf{PartialReal}(u, z, p)\), is the data of an explicit modulus \(\delta : \mathsf{Unary} \to \mathsf{Unary}\) such that for every unary precision \(k\) and every real history \(t\) with \(0 < |t| < 2^{-\delta(k)}\), the difference \(\bigl(u(x + t, y) - u(x, y)\bigr)/t\) is within \(2^{-k}\) of \(p\) as a real-modulus comparison.
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.PartialReal}
 
 \begin{definition}[One-variable imaginary partial derivative]
 \label{def:partial-imag}
 \(\mathsf{PartialImag}(u, z, q)\) is defined analogously with respect to the imaginary coordinate: the difference \(\bigl(u(x, y + s) - u(x, y)\bigr)/s\) approaches \(q\) under the modulus \(\delta\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.PartialImag}
 
 \begin{lemma}[Uniqueness of real-coordinate partials]
 \label{lem:partial-unique}
@@ -503,6 +505,7 @@ The real and imaginary partial derivatives of \autoref{def:partial-real} and \au
 \begin{proof}
 The argument is the one-variable specialization of \autoref{lem:cplx-diff-at-unique}: triangle-inequality combination of the two moduli halves the precision budget.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.PartialDerivative\_hsame\_input\_unique}
 
 \section{Cauchy--Riemann equations, constructive form}
 

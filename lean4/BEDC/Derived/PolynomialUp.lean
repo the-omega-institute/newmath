@@ -43,6 +43,10 @@ def PolynomialSingletonRawAdd : List BHist -> List BHist -> List BHist
   | a :: xs, [] => append a BHist.Empty :: PolynomialSingletonRawAdd xs []
   | a :: xs, b :: ys => append a b :: PolynomialSingletonRawAdd xs ys
 
+def PolynomialSingletonRawScale (a : BHist) : List BHist -> List BHist
+  | [] => []
+  | y :: ys => PolynomialSingletonMul a y :: PolynomialSingletonRawScale a ys
+
 inductive PolynomialZeroRemainder : List BHist -> Prop where
   | nil : PolynomialZeroRemainder []
   | cons {x : BHist} {xs : List BHist} :
@@ -343,6 +347,30 @@ theorem PolynomialSingletonEval_singleton {alpha c : BHist} :
       (And.intro carrierC (hsame_trans evalCarrier (hsame_symm carrierC))))
     (append_empty_right c)
 
+theorem PolynomialSingletonEval_zero_cons_constant {a : BHist} {xs : List BHist} :
+    PolynomialSingletonCarrier a -> PolynomialZeroRemainder xs ->
+      PolynomialSingletonClassifier (PolynomialSingletonEval BHist.Empty (a :: xs)) a := by
+  intro carrierA zeroTail
+  have tailEmpty : hsame (PolynomialSingletonEval BHist.Empty xs) BHist.Empty := by
+    induction zeroTail with
+    | nil =>
+        exact hsame_refl BHist.Empty
+    | cons headEmpty _tailZero ih =>
+        have mulEmpty :
+            hsame (PolynomialSingletonMul BHist.Empty
+              (PolynomialSingletonEval BHist.Empty _)) BHist.Empty :=
+          append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty) ih)
+        exact append_eq_empty_iff.mpr (And.intro headEmpty mulEmpty)
+  have tailProductEmpty :
+      hsame (PolynomialSingletonMul BHist.Empty (PolynomialSingletonEval BHist.Empty xs))
+        BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty) tailEmpty)
+  have evalEmpty :
+      hsame (PolynomialSingletonEval BHist.Empty (a :: xs)) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro carrierA tailProductEmpty)
+  exact And.intro evalEmpty
+    (And.intro carrierA (hsame_trans evalEmpty (hsame_symm carrierA)))
+
 theorem PolynomialSingletonEval_list_classifier_classified {alpha : BHist} {xs ys : List BHist} :
     PolynomialSingletonCarrier alpha ->
       BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs ys ->
@@ -391,6 +419,55 @@ theorem PolynomialSingletonEval_list_classifier_classified {alpha : BHist} {xs y
                 (PolynomialSingletonClassifier_continuation_closed headClassified tailMulClassified
                   leftTailCont rightTailCont)
                 (cont_right_unit (PolynomialSingletonEval alpha (x :: xs)))
+
+theorem PolynomialSingletonEval_rawScale_classified {alpha a : BHist} :
+    PolynomialSingletonCarrier alpha -> PolynomialSingletonCarrier a -> forall ys : List BHist,
+      BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier ys ys ->
+        PolynomialSingletonClassifier
+          (PolynomialSingletonEval alpha (PolynomialSingletonRawScale a ys))
+          (append a (PolynomialSingletonEval alpha ys)) := by
+  intro carrierAlpha carrierA ys classified
+  induction ys with
+  | nil =>
+      have rightCarrier :
+          PolynomialSingletonCarrier (append a (PolynomialSingletonEval alpha [])) :=
+        append_eq_empty_iff.mpr (And.intro carrierA (hsame_refl BHist.Empty))
+      exact And.intro (hsame_refl BHist.Empty)
+        (And.intro rightCarrier (hsame_symm rightCarrier))
+  | cons y ys ih =>
+      cases classified with
+      | intro headClassified tailClassified =>
+          have scaledHeadCarrier : PolynomialSingletonCarrier (PolynomialSingletonMul a y) :=
+            append_eq_empty_iff.mpr (And.intro carrierA headClassified.left)
+          have tailClassifiedResult := ih tailClassified
+          have alphaClassified : PolynomialSingletonClassifier alpha alpha :=
+            And.intro carrierAlpha (And.intro carrierAlpha (hsame_refl alpha))
+          have scaledTailMulClassified :
+              PolynomialSingletonClassifier
+                (PolynomialSingletonMul alpha
+                  (PolynomialSingletonEval alpha (PolynomialSingletonRawScale a ys)))
+                (PolynomialSingletonMul alpha (append a (PolynomialSingletonEval alpha ys))) :=
+            PolynomialSingletonClassifier_continuation_closed alphaClassified tailClassifiedResult
+              (cont_intro rfl) (cont_intro rfl)
+          have leftEvalClassified :
+              PolynomialSingletonClassifier
+                (PolynomialSingletonEval alpha (PolynomialSingletonRawScale a (y :: ys)))
+                (append (PolynomialSingletonMul a y)
+                  (PolynomialSingletonMul alpha (append a (PolynomialSingletonEval alpha ys)))) :=
+            PolynomialSingletonClassifier_continuation_closed
+              (And.intro scaledHeadCarrier
+                (And.intro scaledHeadCarrier (hsame_refl (PolynomialSingletonMul a y))))
+              scaledTailMulClassified (cont_intro rfl) (cont_intro rfl)
+          have targetCarrier : PolynomialSingletonCarrier
+              (append a (PolynomialSingletonEval alpha (y :: ys))) :=
+            have consClassified : BEDC.Derived.ListUp.ListClassifierSpec
+                PolynomialSingletonClassifier (y :: ys) (y :: ys) :=
+              And.intro headClassified tailClassified
+            append_eq_empty_iff.mpr (And.intro carrierA
+              (PolynomialSingletonEval_list_classifier_classified carrierAlpha
+                consClassified).left.left)
+          exact And.intro leftEvalClassified.left
+            (And.intro targetCarrier (hsame_trans leftEvalClassified.left (hsame_symm targetCarrier)))
 
 theorem PolynomialSingletonClassifier_cont_result_empty_classified {P Q r : BHist} :
     PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> Cont P Q r ->
@@ -521,6 +598,26 @@ theorem PolynomialSingletonAddFold_zero_remainder_empty {xs : List BHist} :
       exact hsame_refl BHist.Empty
   | cons xEmpty tailZero ih =>
       exact append_eq_empty_iff.mpr (And.intro xEmpty ih)
+
+theorem PolynomialSingletonRawAdd_singleton_normal_form_boundary {a b : BHist} :
+    (hsame a BHist.Empty -> False) -> (hsame b BHist.Empty -> False) ->
+      hsame (PolynomialSingletonAdd a b) BHist.Empty ->
+        (hsame a BHist.Empty -> False) ∧ (hsame b BHist.Empty -> False) ∧
+          ((hsame (PolynomialSingletonAdd a b) BHist.Empty -> False) -> False) ∧
+          PolynomialZeroRemainder ((PolynomialSingletonAdd a b) :: []) ∧
+          PolynomialSingletonClassifier (PolynomialSingletonAddFold (a :: b :: [])) BHist.Empty := by
+  intro aNonempty bNonempty sumEmpty
+  have remainder : PolynomialZeroRemainder ((PolynomialSingletonAdd a b) :: []) :=
+    PolynomialZeroRemainder.cons sumEmpty PolynomialZeroRemainder.nil
+  have foldEmpty : hsame (PolynomialSingletonAddFold (a :: b :: [])) BHist.Empty := by
+    exact sumEmpty
+  have foldClassified :
+      PolynomialSingletonClassifier (PolynomialSingletonAddFold (a :: b :: [])) BHist.Empty :=
+    And.intro foldEmpty (And.intro (hsame_refl BHist.Empty) foldEmpty)
+  exact And.intro aNonempty
+    (And.intro bNonempty
+      (And.intro (fun sumNonempty => sumNonempty sumEmpty)
+        (And.intro remainder foldClassified)))
 
 theorem PolynomialSingletonEval_zero_point_zero_tail_invariance {xs t : List BHist} :
     PolynomialZeroRemainder t ->

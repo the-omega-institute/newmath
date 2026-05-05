@@ -7790,3 +7790,408 @@ Sibling but distinct from B-17 (presentation weakening on P,L with C fixed): thi
 
 ---
 
+### B-300 - Subtype classifier reflects parent classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Subtype classifier reflects parent classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Set↑ parent S, stable predicate P, and Subtype↑ setup, x ∼S y with P(x), P(y) implies (x,Px) ∼Sub (y,Py), and (x,Px) ∼Sub (y,Py) implies x ∼S y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/115_subtype_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Chapter 115 introduces Subtype↑ as the kernel-licit refinement type built from a parent Set↑ carrier with a decidable stable predicate, but no theorem in the existing paper or BOARD pins down that the subtype classifier is exactly the parent classifier restricted to predicate-witnesses. This biconditional is the canonical representation theorem for Subtype↑ and is a prerequisite for downstream subring/submodule/kernel constructions. It is not subsumed by B-17 (a generic SemanticNameCert presentation weakening), since this is concrete and bidirectional rather than a one-way pointwise weakening.
+
+---
+
+
+### B-301 - FinSet enumeration membership exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | FinSet enumeration membership exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under FinSet↑ given by Set↑ carrier and enumeration list xs, a is a FinSet member iff there exists x ∈ xs with a ∼A x.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/114_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35_list_namecert_construction.tex`
+
+Rationale:
+Chapter 114 stipulates FinSet↑ as NameCertSet↑ plus a finite enumeration witness via NameCertList↑, but the paper currently only carries the carrier definition and certificate entry; no theorem ties FinSet membership to existence of a classifier-equal enumeration point. This is the central representation theorem for FinSet↑ and is a prerequisite for Permutation↑, Graph↑, and combinatorial certificate work. It is orthogonal to BOARD's polynomial/list zero-tail normalization targets, which concern raw operation invariance rather than membership classification.
+
+---
+
+
+### B-302 - FinSet classifier invariant under enumeration permutation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | FinSet classifier invariant under enumeration permutation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a fixed Set↑ classifier, if FinSet↑ enumeration lists xs, ys are connected by a certified permutation preserving ∼A pointwise, then they induce the same FinSet classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/114_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/118_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35_list_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+
+Rationale:
+FinSet↑ enumeration is presentation data, so the classifier should not depend on the order of the enumeration witness; without this theorem the same finite set has multiple non-canonical FinSet classifiers. The claim is concrete and uses only certified permutation plus pointwise classifier preservation, distinct from BOARD's categorical composition targets (B-11/B-14) and from polynomial/list zero-tail rewrites. It also serves as a downstream substrate for Permutation↑ presentation independence.
+
+---
+
+
+### B-303 - Permutation composition closure for FinSet bijections
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Permutation composition closure for FinSet bijections |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Permutation↑ over FinSet↑, if σ and τ are FinSet-classified self-bijections then τ∘σ is a carried permutation and preserves both forward and inverse bijection classifiers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/118_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/114_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+
+Rationale:
+Chapter 118 presents Permutation↑ as the carrier of FinSet↑ self-bijections supplying the underlying carrier and action data for SymGroup↑, but no theorem currently records that bijection composition stays inside the certificate. This closure is the prerequisite for SymGroup↑ structure work and is structurally distinct from B-11 functor composition (different objects, different inputs: FinSet classifier transport plus inverse witness composition).
+
+---
+
+
+### B-304 - SymGroup forgets to Group certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | SymGroup forgets to Group certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under SymGroup↑ setup, forgetting the FinSet action presentation while keeping composition, identity, inverse, and classifier yields a Group↑ name certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_symgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/118_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/40_group_namecert_construction.tex`
+
+Rationale:
+Chapter 119 declares SymGroup↑ as the canonical instance packaging Permutation↑ under composition into NameCertGroup↑, but no forgetful Group↑ projection theorem exists. This is a direct sibling to B-28 (CommRing forgets to Ring) and follows the same forgetful-projection pattern, so novelty is moderate; the chapter and underlying objects (Permutation↑ vs. ring multiplication) are entirely different, justifying a separate slot rather than absorbing into B-28.
+
+---
+
+
+### B-305 - Graph edge transport along vertex classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Graph edge transport along vertex classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Graph↑ over Set↑, if u ∼V u′ and v ∼V v′ then Edge(u,v) implies Edge(u′,v′), so the edge classifier is invariant under vertex representative replacement.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/120_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Chapter 120 defines Graph↑ as a Set↑ vertex carrier with a binary edge relation, used as the substrate for Tree↑ and poset-as-DAG, but no theorem proves that the edge relation transports under vertex classifier equivalence. This is the basic soundness theorem for Graph↑ and prerequisite for Tree↑; it is unrelated to the automorphic-adele-graph carrier already in the paper, which concerns visible-context readback rather than basic combinatorial transport.
+
+---
+
+
+### B-306 - Seq classifier equivalent to pointwise classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Seq classifier equivalent to pointwise classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Seq↑(A), two sequences f, g are Seq-classified equal iff for every Nat↑ index n, f(n) ∼A g(n).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/122_seq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_nat_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Chapter 122 introduces Seq↑ as Nat↑→A naming-certificate functions with regularity/boundedness moduli, used as the substrate for Series↑ and ConvRad↑, but no theorem makes the Seq classifier exactly pointwise. This is the canonical representation theorem for Seq↑ and a prerequisite for downstream series and analytic-limit certificates, orthogonal to B-12 (continuous modulus composition) and B-15 (Bishop real limit transport).
+
+---
+
+
+### B-307 - Series partial sums respect Seq equality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Series partial sums respect Seq equality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Series↑ over an additive carrier, if term sequences f, g are pointwise ∼A equal then their certified partial-sum sequences are pointwise classifier-equal and induce the same Series↑ classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/123_series_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/122_seq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_nat_namecert_construction.tex`
+
+Rationale:
+Chapter 123 presents Series↑ as NameCertSeq↑ plus partial-sum sequence with explicit convergence moduli, but no theorem packages the finite-induction step that term-level Seq equality lifts to partial-sum equality and Series↑ classifier equality. This is the functoriality of the Series construction over its underlying sequence classifier and a prerequisite for convergence-modulus soundness work; it does not duplicate polynomial-normalization or FPS-Cauchy-product targets on the BOARD.
+
+---
+
+### B-308 - QuotientRing zero coset classification
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | QuotientRing zero coset classification |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under Ring↑ and Ideal↑ setup, a ≡I 0R if and only if a is R-carried and I(a) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/85_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/83_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/42_ring_namecert_construction.tex`
+
+Rationale:
+QuotientRing↑ chapter already lifts addition and multiplication descent to ideal cosets but does not isolate the zero-coset classification as a theorem. This is the natural classifier counterpart to the descent theorems and a direct prerequisite for ModN-style zero classification. The proof unfolds a ≡I 0R using a − 0R ∼R a and the ideal classifier transport, so it is short and does not invoke any new structure beyond existing Ring↑ and Ideal↑ fields. No BOARD entry covers ideal-coset zero classification, and no paper label matches.
+
+---
+
+
+### B-309 - ModN as the nZ quotient certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | ModN as the nZ quotient certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under Int↑ and positive n : Nat↑, if nZ is certified as an Int↑ ideal, then QuotientRing↑(Int↑, nZ) yields a ModN↑ NameCert with the same classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/104_modn_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/83_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/30_int_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_nat_namecert_construction.tex`
+
+Rationale:
+ModN↑ chapter currently asserts in prose that ModN is the canonical QuotientRing↑ instance over nZ but does not provide a theorem specializing the QuotientRing certificate to the ModN certificate. This bridge theorem upgrades a header-level interface to a scannable certificate target and unblocks downstream formalization that wants to reuse ModN classifier laws. It is distinct from quotient-ring descent theorems already on the books because it is the specialization step, not the closure step.
+
+---
+
+
+### B-310 - HoloOnDisk subdisk restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | HoloOnDisk subdisk restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Holo↑ seed setup, HoloOnDisk(f, z0, r) and a certified r' ≤ r imply HoloOnDisk(f, z0, r') with a compatible classifier and ledger witness.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/67_holomorphic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/79_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/78_complex_analytic_namecert_construction.tex`
+
+Rationale:
+Holo↑ chapter is currently Seed and lists composition image-containment and identity-on-smaller-disk obligations but provides no theorem that the holomorphic carrier restricts to a smaller concentric disk. This monotonicity is a structural prerequisite for both closure obligations and any disk-shrinking identity argument. The proof mostly uses OpenDisk gap and refinement infrastructure already present in CplxTopo↑ plus existing hsame transport, so it sits cleanly inside the BEDC certificate scope without invoking external complex analysis.
+
+---
+
+
+### B-311 - HoloOnDisk additive closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | HoloOnDisk additive closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Holo↑ seed setup, HoloOnDisk(f, z0, r) and HoloOnDisk(g, z0, r) with compatible uniform-modulus witnesses imply HoloOnDisk(f + g, z0, r).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/67_holomorphic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_complex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/78_complex_analytic_namecert_construction.tex`
+
+Rationale:
+Holo↑ core obligations explicitly list sum, product, and composition closure but the existing PDF-side Holo theorems concentrate on open-disk boundary and iterated differentiability readback, not additive closure. Additive closure is the smallest of the three closure theorems and a natural sibling of the product and composition closure targets, with a self-contained proof using complex pointwise sum and modulus pasting plus hsame-stable ledger composition. No BOARD entry currently covers this closure direction.
+
+---
+
+
+### B-312 - Holo dense-sequence identity classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Holo dense-sequence identity classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Holo↑ seed setup, if f and g are holomorphic on the same disk and classifier-equal on a certified quantitatively dense sequence, then f and g are identified by the Holo classifier on any certified smaller disk.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/67_holomorphic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/79_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/74_analytic_continuation_namecert_construction.tex`
+
+Rationale:
+Holo↑ obligations explicitly list a dense-sequence identity obligation but currently leave it as a Seed field rather than a paper theorem. The proposed claim is the BEDC certificate counterpart of the classical identity theorem, expressed entirely through CplxTopo↑ DomCompat and density witnesses already certified in the chapter. It is the highest-leverage upgrade from Holo seed status to scannable certificate, and it is genuinely new relative to the BOARD which contains no analogous identity-classifier targets. Complexity is real but bounded by the existing density and DomCompat scaffolding.
+
+---
+
+
+### B-313 - LFunction finite zero-tail stability
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LFunction finite zero-tail stability |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under LFunction↑ Dirichlet partial-sum setup, DirichletPartSum(term, s, n, S) together with term(i, s) ∼ e for all i in [n, n+k) implies DirichletPartSum(term, s, n + k, S).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/105_lfunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/69_dirichlet_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/68_complex_series_namecert_construction.tex`
+
+Rationale:
+LFunction↑ already proves successor positivity, previous uniqueness, successor determinacy, and one-step zero-term stability, but lacks the multi-step finite-fold version. The proposed theorem is the natural Nat-induction extension of the one-step theorem and is needed for any later truncation argument on Dirichlet partial sums. It stays strictly inside BEDC certificate framework about partial-sum stability and does not introduce analytic L-function content. Short complexity, clear induction skeleton, no BOARD overlap.
+
+---
+
+### B-314 - HoloOnDisk nested subdisk functoriality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | HoloOnDisk nested subdisk functoriality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under HolomorphicUp, given Subradius(r2,r1;e1) and Subradius(r1,r0;e0) over a HoloOnDisk(f,z0,r0) parent witness, the iterated subdisk witness W↾e1∘(W↾e0) is classifier-equivalent to the direct subdisk witness W↾(e0·e1) of HoloOnDisk(f,z0,r2) along the composed ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/55_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/43_holomorphic_namecert_construction.tex`
+
+Rationale:
+This is the natural functoriality completion of the two existing items in 55_complex_topology_namecert_construction.tex: lem:holo-certified-subdisk-radius-compose composes Subradius witnesses at the LEDGER level only, and thm:holo-on-disk-subdisk-restriction restricts along a SINGLE Subradius. Neither states that two successive HoloOnDisk restrictions yield the classifier-equivalent witness as one direct restriction along the composed ledger e0·e1. This functoriality square is a concrete coherence theorem on the modulus ledger δ_r2(k,g'')=δ_r1(k,g''·e1)=δ_r0(k,g''·e1·e0)=δ_r0(k,g''·(e0·e1)) and on the inherited stability/classifier fields. It is distinct from B-10 (interval nested bounds, different carrier), B-11 (categorical functor composition over hom-carriers), and B-29 (lattice bound uniqueness). It does not duplicate any \label{*:holo-*} or \label{*:cplx-topo-*} entry in the paper. Landing in 55_complex_topology_namecert_construction.tex (415 lines) is safe and natural — the proof reuses lem:holo-certified-subdisk-radius-compose plus the parent restriction theorem twice. Risk: medium (witness-level coherence over already-proven ledger-level coherence).
+
+---
+
