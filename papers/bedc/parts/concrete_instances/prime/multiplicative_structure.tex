@@ -388,6 +388,24 @@ functionality to identify the continuation result with \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_cont\_empty\_result\_empty\_factors\_iff}
 
+\begin{theorem}[Successor multiplicand appends the multiplier]
+\label{thm:natmul-succ-multiplicand-append-multiplier-total}
+If $\mathsf{NatMul}(d,q,n)$, then there is a unary history $r$ such that
+$\ContR(n,q,r)$ and
+$\mathsf{NatMul}(\Eone(d),q,r)$.
+\end{theorem}
+\begin{proof}
+Induct on the concrete multiplication witness. The empty multiplier case
+chooses $r=\emp$. In the successor case, the induction hypothesis displays
+the predecessor result as the continuation of the old product by the
+predecessor multiplier. The final multiplication step appends $d$, while the
+successor multiplicand step appends $\Eone(d)$. Associativity of
+continuation and commutativity of unary append exchange the predecessor
+multiplier with $d$, giving the displayed continuation by $\Eone(q)$ and the
+successor-multiplicand multiplication witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_multiplicand\_append\_multiplier\_total}
+
 \begin{lemma}[Append multiplier right factor readback]
 \label{lem:nat-mul-append-multiplier-right-factor}
 Let $d$ and $q$ be unary histories. If $\mathsf{NatMul}(d,w,n)$ and
