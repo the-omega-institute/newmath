@@ -230,6 +230,49 @@ $\hsame$; stability coordinate transport; ledger transported equation and point
 witnesses; core theorem this readback; exactness public carrier and
 unit-equation exposure; standard bridge deferred; status $\mathsf{ProofTarget}$.
 \end{proof}
+
+\begin{theorem}[SOne component classifier public readback]
+\label{thm:sone-component-classifier-public-readback}
+For histories $x,y,e,p,x',y',e',p'$, a component-classifier witness between
+two concrete $\SOneUp$ history carriers exposes the public readback at the
+transported tuple:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p')
+\Longrightarrow
+\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))
+\Longrightarrow
+\mathsf{SOneProductHistoryCarrier}(p')\land
+\hsame(e',\mathsf{SOneUnitHistory})\land
+\exists d_x,d_y.\;
+\hsame(x',\Eone(d_x))\land
+\mathsf{RatHistoryCarrier}(d_x)\land
+\hsame(y',\Eone(d_y))\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\ContR(x',y',p').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the component classifier under the two displayed
+$\mathsf{SOneHistoryCarrier}$ witnesses. By
+\autoref{def:sone-component-classifier-relation}, its public data are exactly
+the component witnesses $\hsame(x,x')$ and $\hsame(y,y')$.
+
+Apply \autoref{thm:s1-component-classifier-ledger-determinacy} to the two
+carriers and those component witnesses. This determines the hidden equation
+ledger $\hsame(e,e')$ and the hidden point ledger $\hsame(p,p')$.
+
+With the two public component witnesses and the two determined hidden ledgers,
+\autoref{thm:s1-carrier-hsame-transport} transports
+$\mathsf{SOneHistoryCarrier}(x,y,e,p)$ to
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$.
+
+Finally apply \autoref{thm:sone-history-carrier-public-readback} to the
+transported carrier. The conclusion is precisely the product carrier at $p'$,
+the unit-equation readback for $e'$, the rational component witnesses for
+$x'$ and $y'$, and the continuation ledger $\ContR(x',y',p')$.
+\end{proof}
 \begin{definition}[SOne ledger policy]
 \label{def:s1-ledger-policy}
 Record both real witnesses, the componentwise real-classifier witnesses used in classifier derivations, and the transported unit equation proof.
