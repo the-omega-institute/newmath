@@ -214,6 +214,26 @@ reflexivity supplies the two history classifiers.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.RawFunctorTargetHom\_reverse\_arrow\_endpoint\_readback}
 
+\begin{theorem}[Raw functor source-target forward overlap is absurd]
+\label{thm:raw-functor-source-target-forward-overlap-absurd}
+No raw hom table can classify the forward-arrow code simultaneously as a
+source hom and as a target hom at the same endpoints:
+$$
+\mathsf{RawFunctorSourceHom}(s,t,\Eone(\Eone(\emp)))\Longrightarrow
+\mathsf{RawFunctorTargetHom}(s,t,\Eone(\Eone(\emp)))\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+The source hom table has the forward-arrow constructor only at endpoints
+\((\emp,\Eone(\emp))\). The target hom table has the same displayed code only
+as the reverse arrow at endpoints \((\Eone(\emp),\emp)\). Constructor
+inversion on the closed-generated source and target witnesses therefore
+requires the same endpoint pair to be both ordered ways, which no constructor
+case can inhabit.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorSourceTargetHom\_forward\_overlap\_absurd}
+
 \begin{theorem}[Raw functor target hom empty morphism endpoint readback]
 \label{thm:raw-functor-target-hom-empty-morphism-endpoint-readback}
 For histories $s,t$, any raw target hom witness whose displayed morphism is the
