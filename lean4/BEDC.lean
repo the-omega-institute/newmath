@@ -285,6 +285,7 @@ import BEDC.Derived.RealUp.SemanticCertificate
 import BEDC.Derived.RealUp.ReindexedStreamName
 import BEDC.Derived.RealUp.EquivalenceFields
 import BEDC.Derived.RealUp.PairReadback
+import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
@@ -493,6 +494,7 @@ import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
+import BEDC.Derived.MatrixUp.AppendVisibleFactorExclusion
 import BEDC.Derived.MatrixUp.MulContinuation
 import BEDC.Derived.MatrixUp.ContinuationResult
 import BEDC.Derived.MatrixUp.ExponentCases
