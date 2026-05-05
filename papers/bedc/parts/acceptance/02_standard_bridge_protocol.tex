@@ -1,7 +1,9 @@
 \chapter{Standard Bridge Protocol}
 \label{ch:acceptance-bridge}
 
-The acceptance gate of \autoref{ch:acceptance-gate} ends at strength $\checkedCertStr$ unless a standard bridge to a host mathematical formalism is exhibited. This chapter records the shape such a bridge must take, the discipline that prevents it from leaking host-language structure into the BEDC kernel, and the quotient and closure obligations that several downstream objects ($\IntUp$, $\RatUp$, real-valued completions, set-like and type-like reflections) must discharge before they can present themselves as bridge-strength exports. The bridge is a conservative extension, not a fusion: it lets a host reader recognise the BEDC object, and it lets BEDC accept host theorems via a typed translation, without admitting host primitives as BEDC inputs.
+The closure-and-verification discipline of \autoref{ch:closure-and-verification-discipline} ends, on the closure axis, at $\publicClosure$ unless a standard bridge to a host mathematical formalism is exhibited at the paper level. This chapter records the shape such a bridge must take, the discipline that prevents it from leaking host-language structure into the BEDC kernel, and the quotient and closure obligations several downstream objects ($\IntUp$, $\RatUp$, real-valued completions, set-like and type-like reflections) must discharge before they can present themselves at $\bridgedClosure$. The bridge is a conservative extension, not a fusion: it lets a host reader recognise the BEDC object, and it lets BEDC accept host theorems via a typed translation, without admitting host primitives as BEDC inputs.
+
+The bridge is a paper-level construction: exhibiting all six fields advances the closure axis from $\publicClosure$ to $\bridgedClosure$. Machine verification of the bridge's no-host-leak field is the independent $\bridgeCheckedV$ point on the verification axis; a paper bridge can stand at $\bridgedClosure$ before its no-host-leak field is machine-checked, and a machine-checked no-host-leak field cannot retroactively close a chapter that does not exhibit the bridge in writing.
 
 \section{The six fields of a standard bridge}
 \label{sec:acceptance-bridge-six-fields}
@@ -9,9 +11,9 @@ The acceptance gate of \autoref{ch:acceptance-gate} ends at strength $\checkedCe
 \begin{definition}[Standard bridge to a host theory]
 \label{def:acceptance-standard-bridge}
 A \emph{standard bridge} for an accepted BEDC object $N$ to a host formal theory $T$ is a tuple
-\[
+$$
   \StdBridge(N,T) \;=\; (\encodeN_{N,T},\ \decodeN_{N,T},\ \decodeEncode_{N,T},\ \encodeDecode_{N,T},\ \theoremPreservation_{N,T},\ \noHostLeak_{N,T}).
-\]
+$$
 The six fields are described in \autoref{def:acceptance-bridge-encode}, \autoref{def:acceptance-bridge-decode}, \autoref{def:acceptance-bridge-roundtrips}, \autoref{def:acceptance-bridge-theorem-preservation}, and \autoref{def:acceptance-bridge-no-host-leak} below.
 \end{definition}
 
@@ -28,7 +30,7 @@ The \emph{decode-encode field} is a witness $\decodeEncode_{N,T} \colon \forall 
 
 \begin{definition}[Theorem-preservation field]
 \label{def:acceptance-bridge-theorem-preservation}
-The \emph{theorem-preservation field} is a finite list of host-side basic theorems together with their BEDC-side counterparts and a translation: each host theorem in the list is asserted to follow, under encode and decode, from a corresponding BEDC theorem already accepted at $\paperCertStr$ or above. The list is finite and explicit; absence of a host theorem from the list means it is not claimed to be preserved.
+The \emph{theorem-preservation field} is a finite list of host-side basic theorems together with their BEDC-side counterparts and a translation: each host theorem in the list is asserted to follow, under encode and decode, from a corresponding BEDC theorem already accepted at $\TheoryGate(N, c)$ for some $c \ge \scopedClosure$. The list is finite and explicit; absence of a host theorem from the list means it is not claimed to be preserved.
 \end{definition}
 
 \begin{definition}[No-host-leak field]
@@ -54,7 +56,7 @@ Host $\mathsf{Nat}$ is included in \autoref{def:acceptance-bridge-no-host-leak} 
 
 \begin{theorem}[Bridge with no-host-leak is conservative over BEDC]
 \label{thm:acceptance-bridge-conservative}
-If $\StdBridge(N,T)$ is provided with the no-host-leak field discharged, then no theorem about $N$'s BEDC export becomes provable through the bridge that was not already provable in BEDC at strength $\paperCertStr$ or above.
+If $\StdBridge(N,T)$ is provided with the no-host-leak field discharged, then no theorem about $N$'s BEDC export becomes provable through the bridge that was not already provable in BEDC at $\TheoryGate(N, c)$ for some $c \ge \scopedClosure$.
 \end{theorem}
 \begin{proof}[Sketch]
 The no-host-leak field excludes the four host primitives from the public surface for $N$. The remaining bridge content factors through the encode and decode functions, whose round-trip witnesses identify $T(N)$ and $\mathrm{Carrier}(N)$ up to the chosen classifier. A new theorem about $N$ that the bridge supports must be the encode-decode image of a host theorem; the theorem-preservation field of \autoref{def:acceptance-bridge-theorem-preservation} requires such an image to be paired with an existing BEDC-side counterpart. Hence no truly new BEDC theorem about $N$ is added.
@@ -75,7 +77,7 @@ For a closure relation $\widehat{R}$ over a base relation $R$, the \emph{closure
 
 \begin{remark}[Closure-level exactness gating]
 \label{rem:acceptance-closure-exactness-gating}
-The exactness field of $\DerivCert(N, s)$ in \autoref{def:acceptance-derivation-certificate} demands a classifier-respecting transport at the layer the certificate is stated on. When the classifier is a closure relation, the transport must be supplied at the closure layer: a base-level transport does not suffice. Until the closure-level reflection obligation of \autoref{def:acceptance-closure-reflection-obligation} is discharged, the certificate is admitted at most at strength $\paperCertStr$ on the base layer; closure-strength exactness is not exported.
+The exactness field of $\ClosureCert(N, c)$ in \autoref{def:closure-cert-fields} demands a classifier-respecting transport at the layer the certificate is stated on. When the classifier is a closure relation, the transport must be supplied at the closure layer: a base-level transport does not suffice. Until the closure-level reflection obligation of \autoref{def:acceptance-closure-reflection-obligation} is discharged, the certificate is admitted at most at $\TheoryGate(N, \scopedClosure)$ on the base layer; closure-grade exactness above $\scopedClosure$ is not exported.
 \end{remark}
 
 \begin{theorem}[Closure transport composes with base transport]
@@ -88,7 +90,7 @@ The closure-level induction of \autoref{def:acceptance-closure-reflection-obliga
 
 \begin{remark}[Bridge prerequisites for downstream objects]
 \label{rem:acceptance-bridge-downstream}
-The integers, the rationals, real-valued completions, set-like reflections, and type-like reflections all rest on closure relations: integer equivalence over $\mathbb{N}^2$, rational equivalence over $\mathbb{Z} \times \mathbb{Z}_{\ne 0}$, Cauchy equivalence over rational sequences, set extensionality at the type level, and type identifications respectively. Each of these requires the closure-level reflection obligation of \autoref{def:acceptance-closure-reflection-obligation} discharged before a standard bridge to its host counterpart can be admitted. Until then the bridge is presented at $\paperCertStr$ on the base relation, with closure-level export deferred.
+The integers, the rationals, real-valued completions, set-like reflections, and type-like reflections all rest on closure relations: integer equivalence over $\mathbb{N}^2$, rational equivalence over $\mathbb{Z} \times \mathbb{Z}_{\ne 0}$, Cauchy equivalence over rational sequences, set extensionality at the type level, and type identifications respectively. Each of these requires the closure-level reflection obligation of \autoref{def:acceptance-closure-reflection-obligation} discharged before a standard bridge to its host counterpart can be admitted. Until then the bridge is presented at $\TheoryGate(N, \scopedClosure)$ on the base relation, with closure-grade upgrade above $\scopedClosure$ deferred.
 \end{remark}
 
 \section{Conservativity in the presence of theorem preservation}
@@ -99,7 +101,7 @@ The integers, the rationals, real-valued completions, set-like reflections, and 
 A finite theorem-preservation list as in \autoref{def:acceptance-bridge-theorem-preservation} preserves \autoref{thm:acceptance-bridge-conservative}: every host theorem in the list translates, under encode and decode, to an existing BEDC theorem about $N$.
 \end{theorem}
 \begin{proof}[Sketch]
-The list's defining condition is that each host entry is paired with an accepted BEDC counterpart at $\paperCertStr$ or above. The translation under encode and decode is the round-trip witness. A bridge user who reads off a host theorem from the list and translates back to BEDC obtains a theorem already in BEDC.
+The list's defining condition is that each host entry is paired with an accepted BEDC counterpart at $\TheoryGate(N, c)$ for $c \ge \scopedClosure$. The translation under encode and decode is the round-trip witness. A bridge user who reads off a host theorem from the list and translates back to BEDC obtains a theorem already in BEDC.
 \end{proof}
 
 \begin{remark}[The list is finite by design]
@@ -112,12 +114,12 @@ The theorem-preservation list of \autoref{def:acceptance-bridge-theorem-preserva
 
 \begin{remark}[Integers as the canonical bridge example]
 \label{rem:acceptance-bridge-integers}
-The integer object $\IntUp$ illustrates the six fields. The host $T$ is the type-theoretic integer type with its standard interface. The encode field maps a host integer to its $\IntUp$ carrier representative built from a pair of unary histories; the decode field reads a $\IntUp$ carrier representative back to the host integer by collapsing the pair via host subtraction. The decode-encode round trip is host-side equality of integers, which holds by the host's own reflection theorem; the encode-decode round trip is $\IntUp$'s classifier on $\mathbb{N}^2$ pairs, which holds because $\IntUp$'s classifier identifies pairs differing by an additive cancellation. Theorem preservation lists the host's basic identities of integer addition and multiplication paired with their $\IntUp$ counterparts already at $\paperCertStr$. The no-host-leak field forbids host $\mathsf{Quot}$ from appearing inside any $\IntUp$-naming function: the integer object's classifier is a closure relation, but its closure-level reflection is supplied by \autoref{def:acceptance-closure-reflection-obligation}'s induction, not by host $\mathsf{Quot.sound}$.
+The integer object $\IntUp$ illustrates the six fields. The host $T$ is the type-theoretic integer type with its standard interface. The encode field maps a host integer to its $\IntUp$ carrier representative built from a pair of unary histories; the decode field reads a $\IntUp$ carrier representative back to the host integer by collapsing the pair via host subtraction. The decode-encode round trip is host-side equality of integers, which holds by the host's own reflection theorem; the encode-decode round trip is $\IntUp$'s classifier on $\mathbb{N}^2$ pairs, which holds because $\IntUp$'s classifier identifies pairs differing by an additive cancellation. Theorem preservation lists the host's basic identities of integer addition and multiplication paired with their $\IntUp$ counterparts already at $\TheoryGate(\IntUp, \scopedClosure)$. The no-host-leak field forbids host $\mathsf{Quot}$ from appearing inside any $\IntUp$-naming function: the integer object's classifier is a closure relation, but its closure-level reflection is supplied by \autoref{def:acceptance-closure-reflection-obligation}'s induction, not by host $\mathsf{Quot.sound}$.
 \end{remark}
 
 \begin{remark}[The sketch is not a proof]
 \label{rem:acceptance-bridge-integers-sketch-disclaimer}
-\autoref{rem:acceptance-bridge-integers} is a paper-level sketch that records the shape of $\StdBridge(\IntUp, T_{\mathbb{Z}})$ for orientation. Its admission as a bridge-strength export of $\IntUp$ requires the closure-level reflection obligation discharged, all six fields machine-checked, and the no-host-leak field machine-checked against the chosen host. None of these clauses is asserted to be discharged by this chapter.
+\autoref{rem:acceptance-bridge-integers} is a paper-level sketch that records the shape of $\StdBridge(\IntUp, T_{\mathbb{Z}})$ for orientation. Its admission as a $\bridgedClosure$ export of $\IntUp$ requires the closure-level reflection obligation discharged at the paper level; subsequent machine verification of the bridge fields lifts the verification axis to $\bridgeCheckedV$ but is independent of the $\bridgedClosure$ closure grade. None of these clauses is asserted to be discharged by this chapter.
 \end{remark}
 
 \section{Bridge prerequisites table}
@@ -125,7 +127,7 @@ The integer object $\IntUp$ illustrates the six fields. The host $T$ is the type
 
 \begin{remark}[Common prerequisites for bridge-strength export]
 \label{rem:acceptance-bridge-common-prereqs}
-Five downstream object families share the prerequisites recorded in this chapter. For each family, the bridge-strength export requires: the acceptance gate at $\checkedCertStr$, the closure-level reflection obligation of \autoref{def:acceptance-closure-reflection-obligation}, the six fields of \autoref{def:acceptance-standard-bridge}, and the no-host-leak field of \autoref{def:acceptance-bridge-no-host-leak} machine-checked.
+Five downstream object families share the prerequisites recorded in this chapter. For each family, the bridge-strength export requires: the closure gate at $\TheoryGate(N, \publicClosure)$, the closure-level reflection obligation of \autoref{def:acceptance-closure-reflection-obligation}, the six fields of \autoref{def:acceptance-standard-bridge}, and (on the independent verification axis) the no-host-leak field at $\bridgeCheckedV$ if the bridge's host translation is to be machine-audited.
 \begin{itemize}
   \item Integer family: $\IntUp$ with $T_{\mathbb{Z}}$ over the host's integer type.
   \item Rational family: $\RatUp$ with $T_{\mathbb{Q}}$ over the host's rational type.
@@ -133,7 +135,7 @@ Five downstream object families share the prerequisites recorded in this chapter
   \item Set-like reflections: a set object with the host's $\mathsf{Set}$ type, conditional on a closure-level reflection over set extensionality.
   \item Type-like reflections: a type object with the host's universe, conditional on a closure-level reflection over type identifications.
 \end{itemize}
-The current manuscript admits none of these as $\bridgeCertStr$ exports; the prerequisites are recorded here to make the upgrade obligation explicit.
+The current manuscript admits none of these at $\bridgedClosure$; the prerequisites are recorded here to make the upgrade obligation on the closure axis explicit, separate from any verification-axis upgrade to $\bridgeCheckedV$.
 \end{remark}
 
 \begin{remark}[Standard bridge is per host, not absolute]

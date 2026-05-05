@@ -4,6 +4,7 @@ namespace BEDC.Derived.ZetaBasicUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.DirichletSeriesUp
 
@@ -42,6 +43,25 @@ theorem ZetaBasicPartSum_successor_result_nonempty {s n z : BHist} :
         cont_result_hsame_transport stepCont sameEmpty
       have endpoints := cont_empty_result_inversion emptyStep
       exact not_hsame_e1_empty endpoints.right
+
+theorem ZetaBasicPartSum_successor_nonempty_name_certificate {s n z : BHist}
+    (sum : ZetaBasicPartSum s (BHist.e1 n) z) :
+    NameCert
+      (fun result : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧ (hsame result BHist.Empty -> False))
+      hsame := by
+  constructor
+  · exact Exists.intro z
+      (And.intro sum (ZetaBasicPartSum_successor_result_nonempty sum))
+  · intro result _source
+    exact hsame_refl result
+  · intro result result' sameResult
+    exact hsame_symm sameResult
+  · intro result result' result'' sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro result result' sameResult source
+    cases sameResult
+    exact source
 
 theorem ZetaBasicPartSum_positive_index_result_nonempty {s n z : BHist} :
     DirichletPositiveIndex n -> ZetaBasicPartSum s n z ->

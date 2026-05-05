@@ -4,7 +4,9 @@ namespace BEDC.Derived.ZetaZerosUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.FKernel.NameCert
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.ProdUp
 open BEDC.Derived.RatUp
@@ -65,6 +67,20 @@ theorem ZetaZeroSourceSpec_hsame_transport_classifier {s t : BHist} :
     And.intro carrierT sameTZero
   exact And.intro sourceT (ZetaZeroSourceSpec_zero_classifier sourceT)
 
+theorem ZetaZeroSourceSpec_name_certificate :
+    NameCert ZetaZeroSourceSpec ComplexHistoryClassifier := by
+  constructor
+  · exact Exists.intro (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+      (And.intro ZetaZeroComplexHistory_carrier (hsame_refl _))
+  · intro s source
+    exact And.intro source.left (And.intro source.left (hsame_refl s))
+  · intro s t classified
+    exact ComplexHistoryClassifier_symm classified
+  · intro s t u classifiedST classifiedTU
+    exact ComplexHistoryClassifier_trans classifiedST classifiedTU
+  · intro s t classified source
+    exact (ZetaZeroSourceSpec_hsame_transport_classifier classified.right.right source).left
+
 theorem ZetaZeroPatternSpec_hsame_transport_classifier {s t z w : BHist} :
     hsame s t -> hsame z w -> ZetaZeroPatternSpec s z ->
       ZetaZeroPatternSpec t w ∧
@@ -116,5 +132,30 @@ theorem ZetaZeroPatternSpec_pair_classifier {s t z w : BHist} :
       (And.intro sourcePair.right.left
         (And.intro sourcePair.right.right
           (And.intro patternSZ.right patternTW.right))))
+
+theorem ZetaZeros_semanticNameCert :
+    SemanticNameCert ZetaZeroSourceSpec
+      (fun h : BHist => exists z : BHist, ZetaZeroPatternSpec h z)
+      ZetaZeroSourceSpec ComplexHistoryClassifier := by
+  constructor
+  · constructor
+    · exact Exists.intro (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+        (And.intro ZetaZeroComplexHistory_carrier
+          (hsame_refl (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))))
+    · intro h source
+      exact And.intro source.left (And.intro source.left (hsame_refl h))
+    · intro h k classified
+      exact ComplexHistoryClassifier_symm classified
+    · intro h k r classifiedHK classifiedKR
+      exact ComplexHistoryClassifier_trans classifiedHK classifiedKR
+    · intro h k classified source
+      exact And.intro classified.right.left
+        (hsame_trans (hsame_symm classified.right.right) source.right)
+  · intro h source
+    exact Exists.intro (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+      (And.intro source
+        (hsame_refl (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))))
+  · intro h source
+    exact source
 
 end BEDC.Derived.ZetaZerosUp

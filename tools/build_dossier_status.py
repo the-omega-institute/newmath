@@ -14,6 +14,7 @@ stdlib only (project rule: no third-party deps in tools).
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import subprocess
@@ -105,20 +106,32 @@ NAMECERT_TARGET_RE = re.compile(
     # theorems count as object-completion proofs. Other completion-
     # related naming (*_laws, *_certificate_fields, *_stability_*) is
     # NOT folded in here; the detail panel adds an explicit fallback
-    # message when a \closureat-closed region has no canonical namecert
+    # message when a closurestatus block has no canonical namecert
     # to surface.
     r"[Nn]ame[A-Za-z0-9_\\]{0,3}[Cc]ert(?:ificate)?[A-Za-z0-9_\\]*)"
     r"\}"
 )
 
-# Author-declared chapter closure: `\closureat{<X>Up}{\<strength>Str}[<lean.target>]`
-# preamble macro. Same source-of-truth used by critical_path.py. The optional
-# third argument names the canonical Lean theorem grounding the closure —
-# tools read it directly instead of regex-guessing the closure-shape.
-CLOSUREAT_RE = re.compile(
-    r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}"
-    r"(?:\[\s*([^\]]+?)\s*\])?"
+# Author-declared chapter closure block. Same source-of-truth used by
+# critical_path.py and bedc_ci.py.
+CLOSURESTATUS_BEGIN_RE = re.compile(
+    r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
+CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
+THEORYCLOSURE_RE = re.compile(r"\\theoryclosure\{\\(\w+)\}")
+FORMALSTATUS_RE = re.compile(r"\\formalstatus\{\\(\w+)\}")
+LEANTARGET_RE = re.compile(r"\\leantarget\{([^}]+)\}")
+BRIDGESTATUS_RE = re.compile(r"\\bridgestatus\{([^}]+)\}")
+
+CLOSURE_GRADE_ORDER = [
+    "seedClosure", "obligationClosure", "scopedClosure",
+    "publicClosure", "bridgedClosure", "matureClosure",
+]
+FORMAL_GRADE_ORDER = [
+    "unformalizedV", "formalTargetV", "encodedDefV",
+    "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
+    "axiomCleanV", "bridgeCheckedV",
+]
 
 # FKernel namespaces that own a region's namecert (the region lives in
 # `Derived/` conceptually but its proof tree is in the kernel).
@@ -560,11 +573,21 @@ def compute_levels(deps: dict[str, set[str]]) -> dict[str, int]:
     return level
 
 
+def _grade_index(grade: str | None, order: list[str]) -> int:
+    if grade in order:
+        return order.index(grade)
+    return -1
+
+
 def collect_closure_per_region() -> dict[str, dict]:
-    """Scan paper for `\\closureat{<X>Up}{\\<strength>Str}[<grounding>]`
-    macros — the same author-declared closure signal used by
-    `lean4/scripts/critical_path.py`. Returns
-    {region_id: {'strength': str, 'grounding': str|None}}.
+    """Scan paper for closurestatus blocks.
+
+    Returns {region_id: {
+        'theory_closure': str|None,
+        'formal_status': str|None,
+        'lean_target': str|None,
+        'bridge_status': str|None,
+    }}.
     """
     out: dict[str, dict] = {}
     paper_root = ROOT / "papers" / "bedc" / "parts"
@@ -573,22 +596,53 @@ def collect_closure_per_region() -> dict[str, dict]:
             text = tex.read_text(encoding="utf-8", errors="ignore")
         except Exception:
             continue
-        for m in CLOSUREAT_RE.finditer(text):
+        for m in CLOSURESTATUS_BEGIN_RE.finditer(text):
             region = canonical(m.group(1).lower())
-            strength = m.group(2)
-            grounding = m.group(3)
-            if grounding:
-                grounding = grounding.replace("\\_", "_").strip()
-            if region:
-                prev = out.get(region)
-                # Promote checkedCert over bridgeCert; keep first grounding seen.
-                if prev is None:
-                    out[region] = {"strength": strength, "grounding": grounding}
-                else:
-                    if prev["strength"] != "checkedCert" and strength == "checkedCert":
-                        prev["strength"] = strength
-                    if prev.get("grounding") is None and grounding:
-                        prev["grounding"] = grounding
+            if not region:
+                continue
+
+            tail = text[m.end():]
+            end_match = CLOSURESTATUS_END_RE.search(tail)
+            body = tail[:end_match.start()] if end_match else tail
+
+            tc_match = THEORYCLOSURE_RE.search(body)
+            fs_match = FORMALSTATUS_RE.search(body)
+            lt_match = LEANTARGET_RE.search(body)
+            bs_match = BRIDGESTATUS_RE.search(body)
+            theory_closure = tc_match.group(1) if tc_match else None
+            formal_status = fs_match.group(1) if fs_match else None
+            lean_target = (
+                lt_match.group(1).replace("\\_", "_").strip()
+                if lt_match else None
+            )
+            bridge_status = bs_match.group(1).strip() if bs_match else None
+
+            current = {
+                "theory_closure": theory_closure,
+                "formal_status": formal_status,
+                "lean_target": lean_target,
+                "bridge_status": bridge_status,
+            }
+            prev = out.get(region)
+            if prev is None:
+                out[region] = current
+                continue
+
+            prev_theory = _grade_index(prev.get("theory_closure"), CLOSURE_GRADE_ORDER)
+            cur_theory = _grade_index(theory_closure, CLOSURE_GRADE_ORDER)
+            if cur_theory > prev_theory:
+                out[region] = current
+                continue
+
+            if cur_theory == prev_theory:
+                prev_formal = _grade_index(prev.get("formal_status"), FORMAL_GRADE_ORDER)
+                cur_formal = _grade_index(formal_status, FORMAL_GRADE_ORDER)
+                if cur_formal > prev_formal:
+                    prev["formal_status"] = formal_status
+                if prev.get("lean_target") is None and lean_target:
+                    prev["lean_target"] = lean_target
+                if prev.get("bridge_status") is None and bridge_status:
+                    prev["bridge_status"] = bridge_status
     return out
 
 
@@ -640,11 +694,20 @@ def build_dependency_graph() -> dict:
             "stmt": markers["stmt"],
             "defs": markers["def"],
             "schema_only": nid in schema_set,
-            # Author-declared chapter closure (the single source-of-truth
-            # shared with critical_path.py). null until the author writes
-            # \closureat{<X>Up}{checkedCert|bridgeCert}[grounding] in the chapter.
-            "closed_strength": (closure_per_region.get(nid) or {}).get("strength"),
-            "closure_grounding": (closure_per_region.get(nid) or {}).get("grounding"),
+            # Author-declared chapter closure block, shared with critical_path.py.
+            # null until the author writes both axes in a closurestatus block.
+            "closed_theoryclosure": (
+                closure_per_region.get(nid) or {}
+            ).get("theory_closure"),
+            "closed_formalstatus": (
+                closure_per_region.get(nid) or {}
+            ).get("formal_status"),
+            "closure_grounding": (
+                closure_per_region.get(nid) or {}
+            ).get("lean_target"),
+            "closed_bridge_status": (
+                closure_per_region.get(nid) or {}
+            ).get("bridge_status"),
             # Namecert-theorem-grounded data (kept for the detail panel,
             # NOT used for proven/progress classification; closure is).
             "namecert_theorems": namecerts,
@@ -681,6 +744,14 @@ def build_glossary() -> dict:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="write dependency graph JSON to this path",
+    )
+    args = parser.parse_args()
+
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     print("[build-dossier-status] scanning Lean theorem counts...", file=sys.stderr)
@@ -728,6 +799,8 @@ def main() -> int:
     (DATA_DIR / "status.json").write_text(json.dumps(status, indent=2), encoding="utf-8")
     (DATA_DIR / "glossary.json").write_text(json.dumps(glossary, indent=2, ensure_ascii=False), encoding="utf-8")
     (DATA_DIR / "dependency.json").write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
+    if args.output:
+        args.output.write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print(
         f"[build-dossier-status] wrote {DATA_DIR.relative_to(ROOT)}/{{status,glossary,dependency}}.json "
