@@ -613,6 +613,7 @@ import BEDC.Derived.FunctorUp.AssocReflects
 import BEDC.Derived.FunctorUp.CompEndpointCycleBoundaryComponents
 import BEDC.Derived.FunctorUp.CompositionSamenessRespect
 import BEDC.Derived.FunctorUp.SplitMono
+import BEDC.Derived.FunctorUp.SplitIso
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyComponentPrefix
 import BEDC.Derived.NatTransUp.EmptyVertComp
