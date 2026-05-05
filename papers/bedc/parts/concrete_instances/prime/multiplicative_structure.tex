@@ -132,6 +132,28 @@ By induction on the second argument \(q\), using the determinacy of \(\Cont\) at
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_functional}
 
+\begin{theorem}[Nonempty multiplicand result cancellation]
+\label{thm:natmul-nonempty-multiplicand-result-cancel}
+Let $d$ be a unary history with $d\not\hsame\emp$. If
+$\mathsf{NatMul}(d,q,n)$ and $\mathsf{NatMul}(d,r,m)$ have history-same
+results, then the multipliers are history-same:
+$$
+\mathsf{NatMul}(d,q,n)\land\mathsf{NatMul}(d,r,m)\land n\hsame m
+\Longrightarrow q\hsame r.
+$$
+\end{theorem}
+\begin{proof}
+Induct on the first multiplication witness. In the zero case, the common result
+is empty, and empty-result exactness for a nonempty multiplicand forces the
+second multiplier to be empty. In the successor case, a zero witness on the
+right would make the appended nonempty multiplicand empty, contradicting the
+hypothesis on $d$. The successor--successor branch cancels the common
+continuation suffix $d$ from the two result rows and applies the induction
+hypothesis to the predecessor products, then rebuilds the one-headed
+multiplier equality.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_multiplicand\_result\_cancel}
+
 \begin{theorem}[Unary multiplication commutes up to history sameness]
 \label{thm:natmul-comm-hsame}
 For unary histories \(d\) and \(q\), if \(\mathsf{NatMul}(d,q,n)\) and
