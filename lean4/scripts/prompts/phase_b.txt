@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.5 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.6 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -73,18 +73,18 @@ A target is INVALID if its main contribution is any of these shapes:
    proof works for arbitrary uninterpreted predicates supplied by parameters and
    does not prove any object-specific closure from a BEDC construction.
 
-   When proving a chapter's *grounding* theorem (the one cited by
-   `\closureat{<X>Up}{...}[BEDC.<...>.<theorem>]` in the paper), prefer one
-   of these standard names so paper-side closure proposals can pick it up:
+   When proving a chapter's canonical Lean witness for a paper-side
+   `closurestatus` block, prefer one of these standard names so paper-side
+   closure proposals can cite it as `\leantarget{BEDC.<...>.<theorem>}`:
      1. `<region>_semantic_name_certificate` (or `<X>_semanticNameCert` —
          CamelCase variant) — the canonical object-completion proof
      2. `<region>_name_certificate` — older convention, still acceptable
      3. `<region>_stability_certificate_fields` — when the closure is a
          field-aggregate proof rather than a single object certificate
      4. `<region>_laws` — when the closure bundles laws into one theorem
-   `bedc_ci.py audit` rejects a paper `\closureat[grounding]` whose target
-   doesn't exist in lean4/BEDC, so pick the canonical form once and reuse
-   it as the chapter's closure citation.
+   `bedc_ci.py audit` rejects a paper `closurestatus` block whose
+   `\leantarget` doesn't exist in lean4/BEDC, so pick the canonical form
+   once and reuse it as the chapter's verification-axis citation.
 
 Prefer targets that close a concrete block:
 - Define a carrier over existing BEDC constructors, then prove its transport or
@@ -187,7 +187,7 @@ Run before target selection:
 python3 lean4/scripts/critical_path.py
 ```
 
-The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker), excluding chapters that carry `\closureat{<X>Up}{\checkedCertStr|\bridgeCertStr}` (= binarily closed per `papers/bedc/preamble.tex`'s `\closureat` macro) or whose declared dependencies are not yet ready (`deps_thms < deps_ready_threshold`, default 5, tunable via `.pipeline_parallel.json` key `deps_ready_threshold`; auto-relaxes 5→1 if strict yields empty top). The output's `top` array is the next set of fronts the library should attack. Each entry's `closed: false` (always, since closed chapters are filtered out before ranking) and `closed_at: null` for open chapters; the JSON also reports `closed_horizons` and `open_horizons` aggregates so phase_review on the paper side can see the closure progress.
+The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker), excluding chapters that carry a `closurestatus` block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, or whose declared dependencies are not yet ready (`deps_thms < deps_ready_threshold`, default 5, tunable via `.pipeline_parallel.json` key `deps_ready_threshold`; auto-relaxes 5→1 if strict yields empty top). The output's `top` array is the next set of fronts the library should attack. Each entry's `closed: false` (always, since retired chapters are filtered out before ranking) and `closed_at: null` for open chapters; the JSON also reports `closed_horizons` and `open_horizons` aggregates so phase_review on the paper side can see closurestatus progress.
 
 **At least 1 of your 3 selected targets SHOULD belong to `top[0..2]`** of that JSON output, IF top[0..2] contains paper labels with `exists_without_marker` status (i.e. paper has the theorem block but no `\leanchecked` registered). The target's `target_file` should be the listed `file_lean` (creating it if it does not exist), and the paper site should be a missing-marker location in the listed `file_paper`.
 

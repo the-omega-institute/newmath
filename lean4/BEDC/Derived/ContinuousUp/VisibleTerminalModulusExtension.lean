@@ -114,4 +114,28 @@ theorem ContinuousFunctionCarrier_visible_terminal_modulus_reassociation
     cont_assoc_hsame rel1 rel2 extraRel compositeRel
   exact And.intro sequential (And.intro composite sameModulus)
 
+theorem ContinuousFunctionCarrier_visible_terminal_modulus_reassociation_output_determinacy
+    {p q source map target target' modulus0 cert0 extra1 modulus1 cert1 extra2 extra12
+      modulus2 modulus12 cert2 cert'' : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus0 q)
+        (append (append p cert0) q) ->
+      ContinuousModulusWitness cert0 extra1 cert1 ->
+        ContinuousModulusWitness cert1 extra2 cert2 ->
+          Cont modulus0 extra1 modulus1 ->
+            Cont modulus1 extra2 modulus2 ->
+              Cont extra1 extra2 extra12 ->
+                Cont modulus0 extra12 modulus12 ->
+                  ContinuousFunctionCarrier (append p source) map (append p target')
+                      (append modulus12 q) (append (append p cert'') q) ->
+                    hsame target target' ∧ hsame cert2 cert'' ∧
+                      hsame modulus2 modulus12 := by
+  intro carrier witness1 witness2 rel1 rel2 relExtra relComposite displayed
+  have canonical :=
+    ContinuousFunctionCarrier_visible_terminal_modulus_reassociation
+      carrier witness1 witness2 rel1 rel2 relExtra relComposite
+  have targetCert :=
+    ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic
+      canonical.right.left displayed
+  exact And.intro targetCert.left (And.intro targetCert.right canonical.right.right)
+
 end BEDC.Derived.ContinuousUp
