@@ -7106,3 +7106,343 @@ Hungerford 'Algebra' ch.I §5 (Theorem 5.1 corollary) records subgroup chain tra
 
 ---
 
+### B-274 - Categorical equivalence is closed under composition (transitivity of equivalences)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Categorical equivalence is closed under composition (transitivity of equivalences) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If `AdjunctionUnitCounitCarrier(p,q,a,u_1,c_1,l_1,r_1)` and `AdjunctionUnitCounitCarrier(q,r,a,u_2,c_2,l_2,r_2)` both satisfy the empty-roundtrip condition (l_i,r_i hsame to ε), then there exist `u_3,c_3,l_3,r_3` such that `AdjunctionUnitCounitCarrier(p,r,a,u_3,c_3,l_3,r_3)` holds and l_3,r_3 are hsame to ε.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/88_equivcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_certificate.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_triangle_carrier.tex`
+
+Rationale:
+Chapter 88 contains 11 theorems (88_equivcat_namecert_construction.tex lines 10, 30, 64, 85, 107, 130, 148, 171, 192, 212, 234) and ALL labels begin `thm:equivcat-adjunction-empty-roundtrip-...`; every existing theorem decomposes or characterizes a SINGLE equivalence's empty-roundtrip witness. None compose two equivalences. Grep for `equivcat.*compos|equivcat.*transit|equiv.*pr.serv.*lim|equivcat-transitive` across papers/bedc/parts returns 0 hits. The chapter intro at line 4 explicitly calls $\EquivCatUp$ 'the structural notion of sameness for $\NameCert_{\CategoryUp}$ instances' — sameness should be transitive but that property is unproven. Infrastructure is in place: chapter 85 supplies AdjunctionUnitCounitCarrier across general (p,q) prefix pairs (85_adjunction_namecert_triangle_carrier.tex lines 16-186 give component-empty / collapse / prefix-deterministic theorems that suffice as building blocks).
+
+---
+
+
+### B-275 - Continuous-map image of a principal-suffix filter is a principal-suffix filter on the target
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Continuous-map image of a principal-suffix filter is a principal-suffix filter on the target |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If `FilterPrincipalSuffix(base,left,right,...)` (chapter 71) and `ContinuousMapCarrier(base,map,target,modulus,cert,distance)` (chapter 34), then there exist target histories carrying a `FilterPrincipalSuffix` witness on `target` whose intersection-closure and unary-commuting-square fields are determined by the source filter and the continuous-map graph.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/71_filter_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_function_carrier.tex`
+
+Rationale:
+Chapter 71 has 15 theorems all labeled `thm:filter-principal-suffix-...` (71_filter_namecert_construction.tex lines 10, 32, 53, 71, 93, 114, 132, 146, 166, 188, 208, 236, 259, 281, 300). Every existing theorem is INTERNAL to a single filter (intersection closure, commuting square, point determinism, semantic name-cert). Grep `filter.*continu|continuous.*filter|filter.*image|filter.*map|filter.*pushforward` across papers/bedc/parts returns 0 file matches. Chapter intro line 4 declares the filter is 'the constructive analogue of mathlib-style \texttt{Filter} for the BEDC topology and analysis layers' — pushforward under continuous maps is the canonical first interaction with the topology layer (mathlib's `Filter.map`), and it is absent.
+
+---
+
+
+### B-276 - Continuous image of a compact source is compact, not merely totally bounded
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Continuous image of a compact source is compact, not merely totally bounded |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If `ContinuousMapCarrier(source,map,target,modulus,cert,distance)` and the source carries a full `CompactWitnessCarrier` (totally-bounded plus located refinement chain), then the target image bundle inherits a CompactWitness with both the totally-bounded image fields AND a located refinement chain transported through the modulus, not merely the totally-bounded image proved in proposition 35b.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/35_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35b_compact_image_total_bounded.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+`35b_compact_image_total_bounded.tex` lines 41-125 prove `prop:uniformly-continuous-image-totally-bounded-source` ONLY for the totally-bounded fragment (it produces an `ImageFiniteNetLedger` but no located refinement). Chapter 35 has 19+ refinement-chain theorems (lines 15-553 including `thm:compact-witness-carrier-located-extension-closed` and `thm:compact-located-refinement-chain-transitivity`) for the located component of the compact carrier on a single source, but no theorem lifts the totally-bounded image proof to a full compact image. Grep `image.*compact|compact-image|continuous.*compact` across papers/bedc/parts returns only the existing totally-bounded variant and a roadmap mention. In BEDC, `compact = totally-bounded + located + Cauchy-completeness`; the located component's preservation under continuous maps is the missing piece that distinguishes the claim from what is already proved.
+
+---
+
+
+### B-277 - EqType class membership is transitive at the class-carrier layer
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EqType class membership is transitive at the class-carrier layer |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a history h belongs to the equality-type class anchored at `anchor` (i.e., `EqtypeClassCarrier(anchor,h)`) and h' belongs to the equality-type class anchored at h (`EqtypeClassCarrier(h,h')`), then h' belongs to the equality-type class anchored at `anchor`.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/109_eqtype_namecert_construction.tex`
+
+Rationale:
+Chapter 109 has 13 theorems all labeled `thm:eqtype-class-carrier-...` or `thm:eqtype-class-carrier-anchor-hsame-transport` (109_eqtype_namecert_construction.tex lines 10, 23, 37, 50, 64, 78, 93, 107, 128, 142, 156, 177, 194). Every theorem treats specific anchor patterns (`e1-anchor`, `e0-anchor`, `visible-context`) with READBACK / DETERMINISTIC / ABSURD / SEMANTIC-NAMECERT patterns. The chapter intro at line 4 calls $\EqUp$ 'the foundational equality layer underlying every $\psame$ classifier' — classical equality is reflexive/symmetric/transitive, but the only equivalence-relation property proved is HSAME transport (`thm:eqtype-class-carrier-anchor-hsame-transport` line 194), not class-carrier transitivity (chained anchor relation). Grep `eqtype.*reflex|eqtype.*sym|eqtype.*trans|reflex.*eqtype` returns only the unrelated anchor-transport theorem. The chain transitivity is a single-implication structural fact that fits the chapter's style and infrastructure.
+
+---
+
+
+### B-278 - Derivative metric quotients compose: chain rule on metric quotient witnesses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Derivative metric quotients compose: chain rule on metric quotient witnesses |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 9/10 |
+
+Problem:
+If `DerivativeMetricQuotient(f,z,h_f,q_f,d_f)` holds and `DerivativeMetricQuotient(g,q_f,h_g,q_g,d_g)` also holds (the inner derivative is taken at the outer quotient endpoint), and continuations chain via `Cont(f,append(h_f,h_g),q_g)`, then a composite metric-quotient witness exists for the chain f→g whose distance history is classifier-equal to the continuation product of d_f and d_g.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/100_derivative_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/42_complex_differentiability_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+Chapter 100 has 19 theorems (100_derivative_namecert_construction.tex lines 28, 55, 80, 99, 117, 131, 146, 161, 176, 192, 207, 222, 242, 267, 289, 307, 327, 342, 356) all labeled `thm:derivative-metric-quotient-...` or `thm:derivative-cplx-diff-at-...`. Every theorem is about TRANSPORT (`hsame-transport` line 28), DETERMINACY (`result-deterministic` line 222, `hsame-step-result-deterministic` line 242), READBACK (`visible-context-readback` line 131-192), or NEGATIVE shape (`visible-step-same-quotient-absurd` line 289). Grep `chain.*rule|chainrule|derivative-chain|derivative.*compos|derivative.*product-rule|derivative.*linearity|derivative-leibniz|derivative-sum` returns 0 hits in the derivative chapter (only roadmap and complex-differentiability mentions of `composite modulus` in unrelated contexts). The chain rule is the canonical compositional theorem (foundational for any analytic chapter built on derivatives) and is genuinely absent.
+
+---
+
+
+### B-279 - Tensor product factorization is unique up to the tensor classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Tensor product factorization is unique up to the tensor classifier |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If `TensorProductSingletonFactor(l,r,t)` and `TensorProductSingletonFactor(l,r,t')` both hold for the same factor pair (l,r) with the same singleton-carrier source and target modules, then the two factorization endpoints t and t' are classifier-equal under the tensor classifier (hsame on the tensor carrier).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/65_tensorproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+Chapter 65 has 12 theorems (65_tensorproduct_namecert_construction.tex lines 18, 36, 49, 67, 82, 97, 125, 139, 156, 172, 202, 230) covering EXISTENCE (`factor-witness` line 125), TRANSPORT (`factor-hsame-transport` line 139), SYMMETRY (`factor-source-target-swap` line 172, `factor-swap-symmetry` line 202), and ASSOCIATIVITY (`factor-associator` line 230). The chapter intro at line 4 says 'packages the universal bilinear factorization' — the universal property has both an EXISTENCE clause (proved via `factor-witness`) and a UNIQUENESS clause (any two factorizations agree). Grep `tensorproduct.*univers|tensor.*univers.*property|tensorproduct-uniqueness` returns 0 hits. The uniqueness clause as a single-implication theorem t hsame t' from two factor witnesses is missing and is a clean, single-step extension building only on `hsame-transport` and `factor-witness`.
+
+---
+
+### B-280 - Derivative empty-function quotient step zero result is absurd
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Derivative empty-function quotient step zero result is absurd |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If DerivativeMetricQuotient(∅, z, h, q, dist) holds and the witness step displays as Ezero(s) for some s, then ⊥.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/100_derivative_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+100_derivative_namecert_construction.tex has 19 theorems and 0 completed-target hits. thm:derivative-metric-quotient-empty-function-step-readback (line 100) handles the empty-function step but only proves q hsame h for a generic step. The exclusion of an Ezero-displayed step under the empty-function quotient regime is structurally analogous to thm:filter-principal-suffix-unary-intersection-zero-result-absurd (71_filter line 146) and thm:derivative-metric-quotient-distance-result-nonempty (line 118), but the empty-function-specific Ezero exclusion does not exist. Concrete single-implication, opens analysis chapter.
+
+---
+
+
+### B-281 - Residue pole data integral suffix closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Residue pole data integral suffix closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If ResiduePoleData(f, z₀, r, p, g, I, ρ) holds, q is unary, and ContR(f, q, fq), then there exists Iq with ResiduePoleData(fq, z₀, r, p, g, Iq, ρ), ContR(I, q, Iq), and ContR(Iq, ρ, fq).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/103_residue_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/49_contour_integral_operation.tex`
+
+Rationale:
+103_residue_namecert_construction.tex has 10 theorems and 0 completed-target hits. thm:residue-pole-data-residue-suffix-closure (line 56) proves residue suffix closure and thm:residue-pole-data-integral-prefix-closure (line 142) proves the integral prefix closure, but the integral SUFFIX closure (the obvious dual where q is appended after f rather than prefixed) is missing — there is no thm:residue-pole-data-integral-suffix-closure label. Single-implication concrete claim, structurally identical to the existing prefix variant. Opens an untouched complex-analysis chapter.
+
+---
+
+
+### B-282 - EquivCat empty-roundtrip identity carrier hsame transport in target prefix
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EquivCat empty-roundtrip identity carrier hsame transport in target prefix |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If the empty-roundtrip identity carrier exists for prefixes (p, q) and HSame(q, q'), then the empty-roundtrip identity carrier exists for (p, q').
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/88_equivcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_construction.tex`
+
+Rationale:
+88_equivcat_namecert_construction.tex has 11 theorems and 0 completed-target hits. The chapter has determinacy theorems for source-prefix (line 212) and target-prefix (line 148) but NO hsame-transport theorem for the identity carrier under target prefix — labels at lines 10, 30, 64, 85, 107, 130, 148, 171, 192, 212, 234 are exclusively about determinacy/exclusion/exactness rather than transport. This is the basic stability claim required before composition of equivalences can ever be opened, and it follows directly from unary transport plus determinacy. Opens an untouched CT chapter.
+
+---
+
+
+### B-283 - Gamma Weierstrass Cauchy modulus stable under domain-core hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Gamma Weierstrass Cauchy modulus stable under domain-core hsame transport |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If GammaDom(s) holds at apartness precision k₀ with Weierstrass modulus N(k) for the partial products P_N(s), and s hsame s', then GammaDom(s') holds at precision k₀ and the partial products P_N(s') admit the same modulus N(k).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/53_gamma_function_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/40_complex_limit_namecert_construction.tex`
+
+Rationale:
+53_gamma_function_namecert_construction.tex has 19 theorems and 0 completed-target hits. thm:gamma-domain-core-hsame-transport (line 128) transports GammaDom membership under hsame and lem:gamma-weierstrass-cauchy (line 196) gives the explicit modulus, but the COMPOSITE — that the modulus itself is hsame-invariant on the GammaDom — is the natural missing stability claim. It is the classifier-level prerequisite for both thm:gamma-recurrence (line 220) and thm:gamma-reflection (line 239) to lift to representative-stable form. Opens special-functions chapter the loop has never touched.
+
+---
+
+
+### B-284 - Adele history-carrier visible-scale append result hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Adele history-carrier visible-scale append result hsame transport |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If the visible-scale append result is nonempty for adele history a and scale s, and a hsame a', then the visible-scale append result is nonempty for a' at the same scale s.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/79_adele_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/78_padic_namecert_construction.tex`
+
+Rationale:
+79_adele_namecert_construction.tex has 30 theorems and 0 completed-target hits. The chapter has thm:adele-constant-slice-carrier-hsame-transport (line 572) for the constant slice and thm:adele-visible-scale-append-not-empty (line 242) for nonempty results, but there is no hsame-transport for the visible-scale append result itself — labels at lines 122, 143, 185, 204, 242, 464-538 cover the carrier nonempty / readback structure without relating different histories under hsame. A single-implication transport theorem is the missing structural prerequisite for adele-level carrier reasoning. Opens number-theory chapter the loop has never touched.
+
+---
+
+### B-285 - Finite image nets produce image locatedness ledgers
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Finite image nets produce image locatedness ledgers |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a compact-source / metric-target continuous-image setup, ImageFiniteNetLedger together with target metric-distance finite comparison data implies ImageLocatedRefinementLedger for the graph image predicate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/33_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+Connects two already-named compact-image predicates (def:compact-image-finite-net-ledger and def:compact-image-located-refinement-ledger) with an explicit implication. Both endpoints exist in the paper as definitions, but no theorem currently bridges them — the compact chapter exposes finite-net and located-refinement as parallel obligations without a derivation showing that the finite-net version plus metric-distance comparison data is sufficient to recover the located-refinement version. The claim is single-implication, scoped to existing concrete_instances setups (compact + metric), and does not overlap any existing BOARD entry (B-06..B-31 cover naming, lattices, modules, polynomials, functors/nattrans, intervals, continuous-modulus composition — none touch image-locatedness). It is a clean prerequisite-style lemma rather than a broad survey item, so the loop can converge on a finite proof using already-formalized compact / metric scaffolding.
+
+---
+
+### B-286 - Continuous-map image determinacy for principal-suffix points
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Continuous-map image determinacy for principal-suffix points |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two displayed image rows are induced by the same continuous-map graph from the same principal-suffix source point, then their target histories are history-same.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+This is a foundational image-determinacy / graph-functionality claim about ContinuousMap carriers, formulated as a single implication on principal-suffix points. It is distinct from B-12 (which is about uniform-continuity modulus composition) and from the existing continuous-map definitions (def:continuousmap-carrier, def:continuousmapup-metric-*), which specify carrier and stability fields but do not separately project image determinacy as a labeled theorem. Filling this gap clarifies the function-likeness of continuous-map graphs at the certificate level and gives downstream chapters a citable handle for source-target consistency.
+
+---
+

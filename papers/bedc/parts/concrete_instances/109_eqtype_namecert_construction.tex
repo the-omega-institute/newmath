@@ -210,3 +210,24 @@ comparison with the displayed anchor comparison $anchor\hsame anchor'$ by
 transitivity of $\hsame$, obtaining $h\hsame anchor'$. This is exactly the
 carrier witness for the equality-type class anchored at $anchor'$.
 \end{proof}
+
+\begin{theorem}[EqType class carrier transitivity]
+\label{thm:eqtype-class-carrier-transitive}
+For BEDC histories $anchor$, $h$, and $h'$, equality-type class membership is
+transitive along class anchors:
+$$
+\mathsf{EqtypeClassCarrier}(anchor,h)
+\Longrightarrow
+\mathsf{EqtypeClassCarrier}(h,h')
+\Longrightarrow
+\mathsf{EqtypeClassCarrier}(anchor,h').
+$$
+\end{theorem}
+\begin{proof}
+By the carrier definition in \autoref{sec:eqtype-carrier}, the first hypothesis
+is the comparison $h\hsame anchor$. Apply
+\autoref{thm:eqtype-class-carrier-anchor-hsame-transport} to the second
+hypothesis, viewed as membership of $h'$ in the class anchored at $h$, and to
+this anchor comparison $h\hsame anchor$. The result is exactly membership of
+$h'$ in the class anchored at $anchor$.
+\end{proof}
