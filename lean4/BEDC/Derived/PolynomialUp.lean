@@ -30,6 +30,11 @@ def PolynomialSingletonAdd (P Q : BHist) : BHist :=
 def PolynomialSingletonMul (P Q : BHist) : BHist :=
   append P Q
 
+def PolynomialSingletonEval (alpha : BHist) : List BHist -> BHist
+  | [] => BHist.Empty
+  | c :: cs =>
+      PolynomialSingletonAdd c (PolynomialSingletonMul alpha (PolynomialSingletonEval alpha cs))
+
 inductive PolynomialZeroRemainder : List BHist -> Prop where
   | nil : PolynomialZeroRemainder []
   | cons {x : BHist} {xs : List BHist} :
@@ -315,6 +320,20 @@ theorem PolynomialSingletonClassifier_continuation_closed {P P' Q Q' left right 
       (cont_right_unit BHist.Empty)
   exact And.intro leftEmpty
     (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
+theorem PolynomialSingletonEval_singleton {alpha c : BHist} :
+    PolynomialSingletonCarrier alpha -> PolynomialSingletonCarrier c ->
+      PolynomialSingletonClassifier (PolynomialSingletonEval alpha (c :: [])) c ∧
+        hsame (append c BHist.Empty) c := by
+  intro carrierAlpha carrierC
+  have tailCarrier : PolynomialSingletonCarrier (PolynomialSingletonMul alpha BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro carrierAlpha (hsame_refl BHist.Empty))
+  have evalCarrier : PolynomialSingletonCarrier (PolynomialSingletonEval alpha (c :: [])) :=
+    append_eq_empty_iff.mpr (And.intro carrierC tailCarrier)
+  exact And.intro
+    (And.intro evalCarrier
+      (And.intro carrierC (hsame_trans evalCarrier (hsame_symm carrierC))))
+    (append_empty_right c)
 
 theorem PolynomialSingletonClassifier_cont_result_empty_classified {P Q r : BHist} :
     PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> Cont P Q r ->

@@ -7685,3 +7685,108 @@ ConvRad chapter explicitly separates checked NameCert rows from analytic ledger 
 
 ---
 
+### B-296 - CatLimit transport along pointwise certified diagram equivalence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CatLimit transport along pointwise certified diagram equivalence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under NameCertCat↑, if Functor↑ diagrams D,E:J→C admit a pointwise two-sided classifier-equivalent NatTrans↑, then any CatLimit↑(D,L,λ) transports componentwise to a CatLimit↑(E,L,λ_E).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Lifts B-256's vertex uniqueness (already in BOARD context) to diagram-level invariance under NatTrans equivalence — a strictly stronger transport statement that has no analog in current BOARD or paper labels. Binds Functor↑/NatTrans↑/CatLimit↑ certificate fields together, and provides the natural stability lemma needed before any further CatLimit construction targets land. Single-implication form, lands cleanly in concrete_instances next to chapters 36-38.
+
+---
+
+
+### B-297 - Cone morphism classifier descent through NatTrans whiskering
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Cone morphism classifier descent through NatTrans whiskering |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under certified Cat↑/Functor↑ composition and endpoint transport, if α:D⇒E is a NatTrans↑ and f is a ConeMor_D between D-cones, then post-whiskering f by α yields a ConeMor_E between the corresponding E-cones.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Distinct from B-14 (vertical NatTrans composition naturality square): this is whiskering descent on cone morphism ledger, not on nattrans composition itself. Acts as the foundational lemma underneath the diagram-transport target above; isolating it prevents repeated ad hoc reproof in CatLimit/CatColimit follow-ups. Concrete single-implication form, anchored on the cone morphism ledger fields already in functor/nattrans chapters.
+
+---
+
+
+### B-298 - CatColimit vertex co-uniqueness from universal cocones
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CatColimit vertex co-uniqueness from universal cocones |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+For a fixed Functor↑ diagram D, if both C and C′ are CatColimit↑-certified universal cocone vertices, there exist comparison morphisms u:C→C′ and v:C′→C with u∘v and v∘u classified as the corresponding identity morphisms by the Cat↑ morphism classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+True dual of the existing CatLimit vertex uniqueness work — exercises the colimit direction of BEDC's classifier language, which is currently uncovered by both BOARD and paper labels. Tests symmetry/completeness of the universal property formulation under classifier-only equality. Single implication, no overlap with B-11/B-14/B-17 which all live on the limit/functor side.
+
+---
+
+
+### B-299 - SemanticNameCert stability under equivalence-refining classifier replacement
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | SemanticNameCert stability under equivalence-refining classifier replacement |
+| Layer | hardening |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If SemanticNameCert(S,P,L,C) holds and C′ is a classifier on S that mutually implies C while preserving P- and L-transport, then SemanticNameCert(S,P,L,C′) holds.
+
+Local inputs:
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+
+Rationale:
+Sibling but distinct from B-17 (presentation weakening on P,L with C fixed): this fixes S,P,L and replaces the classifier C, isolating which record fields are invariant under classifier swaps. Closes the symmetric half of the SemanticNameCert stability picture and prevents per-instance reproofs of isomorphic-classifier replacement downstream. Concrete one-line implication on a single record.
+
+---
+

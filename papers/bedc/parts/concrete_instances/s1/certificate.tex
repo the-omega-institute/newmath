@@ -53,6 +53,7 @@ semantic $\NameCert$ for $\SOneUp$. Concretely:
   resulting four coordinate $\hsame$ witnesses.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOneComponentClassifier\_stability}
 \begin{proof}
 Reflexivity, symmetry, and transitivity are inherited componentwise from
 \autoref{thm:history-sameness-equivalence}. Reflexivity uses the two diagonal
@@ -330,6 +331,62 @@ classifier witness, or apply
 The resulting fields are exactly the product carrier at $p'$, the
 unit-equation readback at $e'$, the rational component witnesses for $x'$ and
 $y'$, and the continuation ledger $\ContR(x',y',p')$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneComponentClassifier\_full\_readback\_package}
+
+\begin{theorem}[SOne component classifier visible source unit-equation package]
+\label{thm:sone-component-classifier-visible-source-unit-equation-package}
+For histories $d_x,d_y,e_t,t,x',y',e',p'$, a component-classifier witness whose
+source tuple is visibly one-headed packages the rational source data, the
+hidden ledger transport, and the public target readback:
+$$
+\mathsf{SOneComponentClassifier}
+\bigl((\Eone(d_x),\Eone(d_y),\Eone(e_t),\Eone(t)),(x',y',e',p')\bigr)
+\Longrightarrow
+\Bigl(
+\mathsf{RatHistoryCarrier}(d_x)\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\mathsf{RatHistoryClassifier}(e_t,\Eone(\emp))\land
+\ContR(\Eone(d_x),d_y,t)
+\Bigr)
+\land
+\bigl(\hsame(\Eone(e_t),e')\land\hsame(\Eone(t),p')\bigr)
+\land
+\Bigl(
+\mathsf{SOneProductHistoryCarrier}(p')\land
+\hsame(e',\mathsf{SOneUnitHistory})\land
+\exists d'_x,d'_y.\;
+\hsame(x',\Eone(d'_x))\land
+\mathsf{RatHistoryCarrier}(d'_x)\land
+\hsame(y',\Eone(d'_y))\land
+\mathsf{RatHistoryCarrier}(d'_y)\land
+\ContR(x',y',p')
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the component classifier through
+\autoref{def:sone-component-classifier-relation}. Its source row is
+$\mathsf{SOneHistoryCarrier}(\Eone(d_x),\Eone(d_y),\Eone(e_t),\Eone(t))$,
+with a target carrier row at $(x',y',e',p')$ and exposed component witnesses
+from $\Eone(d_x)$ to $x'$ and from $\Eone(d_y)$ to $y'$.
+
+Apply \autoref{thm:s1-e1-components-unit-equation-classifier} to the visible
+source row. This gives the two rational coordinate carriers, the rational
+unit-equation classifier
+$\mathsf{RatHistoryClassifier}(e_t,\Eone(\emp))$, and the source continuation
+ledger $\ContR(\Eone(d_x),d_y,t)$.
+
+Next apply \autoref{thm:s1-component-classifier-ledger-determinacy} to the
+source and target carrier rows together with the exposed component witnesses.
+The hidden equation and point ledgers are exactly
+$\hsame(\Eone(e_t),e')$ and $\hsame(\Eone(t),p')$.
+
+Finally apply \autoref{thm:sone-component-classifier-public-readback} to the
+original classifier witness. Its conclusion is the target public readback
+package: the product carrier at $p'$, the unit-equation readback at $e'$, two
+rational witnesses for $x'$ and $y'$, and the continuation ledger
+$\ContR(x',y',p')$. Repack these three packages in the displayed order.
 \end{proof}
 \begin{definition}[SOne ledger policy]
 \label{def:s1-ledger-policy}

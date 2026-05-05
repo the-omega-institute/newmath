@@ -159,6 +159,115 @@ whose accepted row contains:
 The subset history $imageSubset$ is the graph image of the source subset: a target history is admitted exactly when it is related by a displayed continuous-map row to a source history admitted by the source compact carrier. No external set of target points or host-level function is a field of the ledger.
 \end{definition}
 
+\begin{theorem}[Compact image ledger classifier stability]
+\label{thm:compact-image-ledger-classifier-stability}
+Let $source$, $\mathsf{map}$, $target$, $\mathsf{modulus}$, $\varepsilon$,
+$\delta$, $\mathcal{A}$, and $\mathcal{B}$ be the source and target histories,
+precision histories, and probe bundles of the compact image construction. Assume
+the finite-net image row
+$$
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},imageFinite)
+$$
+and the located-refinement image row
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},\\
+\qquad imageSubset,imageLocated,imageFinite,imageIntermediate,imageCompact,
+finalImageLocated,finalImageIntermediate,finalImageCompact)
+\end{array}
+$$
+hold. Suppose the same image witness is presented through transported histories:
+an $\hsame$ image point, an $\hsame$ graph row, an $\hsame$ target finite-net
+center, $\hsame$ target metric-distance histories, and $\hsame$ transports for
+the five image carrier ledgers
+$$
+\begin{array}{c}
+imageSubset \hsame imageSubset',
+\qquad finalImageLocated \hsame finalImageLocated',
+\qquad imageFinite \hsame imageFinite',\\
+finalImageIntermediate \hsame finalImageIntermediate',
+\qquad finalImageCompact \hsame finalImageCompact'.
+\end{array}
+$$
+Then the unchanged source bundle $\mathcal{A}$ and target bundle $\mathcal{B}$
+repack the transported rows
+$$
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},imageFinite')
+$$
+and
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},\\
+\qquad imageSubset',imageLocated',imageFinite',imageIntermediate',imageCompact',
+finalImageLocated',finalImageIntermediate',finalImageCompact')
+\end{array}
+$$
+for the transported image rows. Moreover, whenever
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,finalImageLocated,imageFinite,
+finalImageIntermediate,finalImageCompact)
+$$
+holds, the transported compact witness carrier
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset',finalImageLocated',imageFinite',
+finalImageIntermediate',finalImageCompact')
+$$
+also holds.
+
+The ten-field certificate fit is as follows.
+\begin{enumerate}
+  \item traditional target: uniformly continuous images preserve compact witness
+  data under classifier-stable target coverage;
+  \item BEDC source: $\MetricSpaceUp$, $\ContinuousMapUp$, and $\CompactUp$
+  histories over $\mathsf{BHist}$;
+  \item carrier: the image finite-net ledger and the image located-refinement
+  ledger;
+  \item classifier: $\hsame$ on image points, graph rows, bundled target centers,
+  metric-distance histories, and image carrier ledgers;
+  \item stability obligations: graph single-valuedness together with
+  $\mathsf{MetricDistanceWitness}$ classifier transport;
+  \item ledger: the source and target $\mathsf{ProbeBundle}$ data, the graph rows
+  at source centers, the target distance rows, and the compact image continuation
+  rows;
+  \item core theorem list: this theorem;
+  \item exactness predicate: transported classifier-stable target coverage;
+  \item standard bridge: uniformly continuous images preserve compact witness
+  data;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unpack the finite-net image ledger. For a transported image witness, source
+coverage stability transports the chosen source center and its source
+$\mathsf{MetricDistanceWitness}$ row along the displayed $\hsame$ source and
+distance data.
+
+The graph row at that source center is stable because graph single-valuedness
+identifies the transported target output with the original bundled target
+history. Apply $\mathsf{MetricDistanceWitness}$ classifier transport to the
+target output, bundled center, and displayed target distance history. The same
+target bundle $\mathcal{B}$ therefore gives the transported coverage row, and
+the finite-net ledger repacks with $imageFinite'$.
+
+Next unpack the image located-refinement ledger. Its continuation rows and
+located-refinement chain are classifier data over the same graph image and the
+same target finite-net ledger; the supplied $\hsame$ transports for
+$imageSubset$, $imageFinite$, $finalImageLocated$, $finalImageIntermediate$, and
+$finalImageCompact$ carry those rows to the primed histories. Repacking these
+transported rows gives the stated
+$\mathsf{ImageLocatedRefinementLedger}$ with the same source and target bundles.
+
+Finally unpack the original compact witness carrier. Its fields are exactly the
+subset ledger, final located ledger, finite-net ledger, final intermediate
+ledger, and final compact ledger. Applying the carrier classifier transport to
+the five displayed $\hsame$ rows repacks the compact witness carrier over the
+primed image histories.
+\end{proof}
+
 \begin{theorem}[Uniformly continuous image of a BEDC compact source]
 \label{thm:uniformly-continuous-image-compact-source}
 Let $source$ and $target$ be metric BEDC carriers, and let
@@ -306,4 +415,65 @@ distance histories.
 These are precisely the fields listed in
 \autoref{def:compact-image-located-refinement-ledger}, so they assemble the
 claimed image located-refinement ledger.
+\end{proof}
+
+\begin{theorem}[Image located-refinement ledger compact carrier]
+\label{thm:image-located-refinement-ledger-compact-carrier}
+Let $source$ and $target$ be metric BEDC carriers, and let
+$$
+\mathsf{ContinuousMapCarrier}(source,\mathsf{map},target,\mathsf{modulus},
+\mathsf{cert},\mathsf{distance})
+$$
+be a $\ContinuousMapUp$ carrier with graph totality, graph single-valuedness,
+modulus validity, and metric-distance classifier transport. Fix target and
+source precision histories $\varepsilon$ and $\delta$, source and target
+bundles $\mathcal{A}$ and $\mathcal{B}$, and image histories
+$imageSubset$, $imageLocated$, $imageFinite$, $imageIntermediate$,
+$imageCompact$, $finalImageLocated$, $finalImageIntermediate$, and
+$finalImageCompact$. Assume that $imageSubset$, $imageLocated$, and
+$imageFinite$ are unary histories, and that
+$$
+\Cont(imageSubset,imageLocated,imageIntermediate)
+\quad\hbox{and}\quad
+\Cont(imageIntermediate,imageFinite,imageCompact)
+$$
+hold. If
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},imageSubset,imageLocated,imageFinite,\\
+\qquad imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+finalImageCompact)
+\end{array}
+$$
+supplies the compact located-refinement chain to $finalImageLocated$,
+$finalImageIntermediate$, and $finalImageCompact$, then
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,finalImageLocated,imageFinite,
+finalImageIntermediate,finalImageCompact).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the image located-refinement ledger. Its accepted row contains the compact
+located-refinement chain
+$$
+\mathsf{CompactLocatedRefinementChain}(imageFinite,imageLocated,
+imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+finalImageCompact).
+$$
+
+The unary histories $imageSubset$, $imageLocated$, and $imageFinite$, together
+with the two displayed continuations, assemble the initial compact witness
+carrier
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,imageLocated,imageFinite,
+imageIntermediate,imageCompact).
+$$
+
+Apply \autoref{thm:compact-witness-carrier-located-refinement-chain-closed} to
+this carrier and the located-refinement chain extracted from the ledger. The
+result replaces the located, intermediate, and compact fields by
+$finalImageLocated$, $finalImageIntermediate$, and $finalImageCompact$ while
+leaving the subset and finite-net fields fixed, which is exactly the claimed
+compact witness carrier.
 \end{proof}
