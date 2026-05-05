@@ -16,6 +16,19 @@ theorem ManifoldSingletonCarrier_topology_scope {h : BHist} :
   exact And.intro carrier
     (And.intro (unary_transport unary_empty (hsame_symm carrier)) (cont_left_unit h))
 
+theorem ManifoldSingleton_chart_value_transport {h k : BHist} :
+    ManifoldSingletonCarrier h -> ManifoldSingletonCarrier k ->
+      hsame h k ∧ UnaryHistory h ∧ UnaryHistory k ∧ Cont BHist.Empty h h ∧
+        Cont BHist.Empty k k := by
+  intro carrierH carrierK
+  have hRows := ManifoldSingletonCarrier_topology_scope carrierH
+  have kRows := ManifoldSingletonCarrier_topology_scope carrierK
+  have sameHK : hsame h k := hsame_trans hRows.left (hsame_symm kRows.left)
+  exact And.intro sameHK
+    (And.intro hRows.right.left
+      (And.intro kRows.right.left
+        (And.intro hRows.right.right kRows.right.right)))
+
 theorem ManifoldSingleton_atlas_index_exhaustion {chart overlap domain : BHist} :
     ManifoldSingletonCarrier chart -> Cont BHist.Empty chart domain -> Cont chart chart overlap ->
       hsame chart BHist.Empty ∧ hsame domain BHist.Empty ∧ hsame overlap BHist.Empty ∧

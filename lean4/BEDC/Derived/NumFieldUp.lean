@@ -122,6 +122,24 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
 
+theorem NumFieldRatReflexive_fieldext_consumption {h r m product action : BHist} :
+    NumFieldRatReflexiveCarrier h -> RatHistoryCarrier r -> RatHistoryCarrier m ->
+      Cont r m product -> Cont (FieldExtSingletonEmbedding r) m action ->
+        RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+          RatHistoryClassifier product action ∧ RatHistoryCarrier product ∧
+            RatHistoryCarrier action := by
+  intro carrierH carrierR carrierM productCont actionCont
+  have operationRows :
+      RatHistoryClassifier product action ∧ RatHistoryCarrier product ∧
+        RatHistoryCarrier action ∧ RatHistoryClassifier (FieldExtSingletonEmbedding r) r :=
+    FieldExtRatReflexive_operation_table_source_coverage
+      (And.intro carrierR (And.intro carrierR (hsame_refl r)))
+      (And.intro carrierM (And.intro carrierM (hsame_refl m)))
+      productCont actionCont
+  exact And.intro carrierH.right.right.left
+    (And.intro operationRows.left
+      (And.intro operationRows.right.left operationRows.right.right.left))
+
 theorem NumFieldRatReflexive_carrier_classifier {h k : BHist} :
     RatHistoryClassifier h k ->
       NumFieldRatReflexiveCarrier h ∧ NumFieldRatReflexiveCarrier k ∧
