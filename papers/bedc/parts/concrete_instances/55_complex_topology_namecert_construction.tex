@@ -358,6 +358,7 @@ For every \(z_0\) and unary \(r > 0\), the open disk \(\mathsf{OpenDisk}(z_0, r)
 \begin{proof}
 Construct the sequence by explicit unary recursion. The membership condition holds because the point lies at distance \(2^{-n} r / 2 < r\) from \(z_0\); distinctness holds because the offset is non-empty unary for each \(n\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_density\_witness\_with\_boundary}
 \leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_constant\_density\_witness}
 
 \begin{remark}[Clustering for the constructive identity theorem]
@@ -371,6 +372,7 @@ The quantitative density witness of \autoref{def:cplx-topo-density} is the preci
 \label{def:cplx-topo-domain-compat}
 For two open sets \(D_1, D_2\) and an overlap region \(U\), \(\mathsf{DomCompat}(D_1, D_2, U)\) holds when \(\mathsf{IsOpen}(U)\), \(U \subseteq D_1 \cap D_2\) with explicit intersection-membership witness, and \(U\) contains an open disk \(\mathsf{OpenDisk}(z_c, r_c)\) with quantitative density witness \(\mathsf{Cluster}(z_c, U)\) of \autoref{def:cplx-topo-density}.
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyDomainCompat}
 
 \begin{remark}[Domain compatibility consumed by analytic continuation]
 \autoref{ch:concrete-instances-analytic-continuation} requires exactly this data to invoke the constructive identity theorem when extending a holomorphic function across overlapping domains; the present definition fixes the schema so the analytic-continuation chapter cites a single canonical interface.
@@ -595,3 +597,4 @@ The same comparison controls disk admission. Given $z$ with a displayed $r_2$-ga
 
 All remaining ledger fields are inherited from the same parent witness $W$: the function history, center history, derivative-recursion data, Taylor data, Cauchy-bound data, and identity data are unchanged. Their disk-local indices are related exactly by the two gap maps just compared. Hence the pointwise-function clause and the compatible disk-data clause of \autoref{def:holo-classifier-spec} hold for $W_{21}$ and $W_{20}$ over the radius $r_2$, with the inherited ledger policy of \autoref{def:holo-ledger-policy}. If the composed tail is displayed as $e_0\cdot e_1$, unary append commutativity supplies the classifier from $e_1\cdot e_0$ to that public display; applying \autoref{thm:add-unary-continuation-hsame-transport} and \autoref{thm:cont-hsame-transport} carries the relevant continuation ledgers to that display before the same argument is applied.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCertifiedSubradius\_nested\_gap\_readback}

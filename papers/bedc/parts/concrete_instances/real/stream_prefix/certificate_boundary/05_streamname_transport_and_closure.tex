@@ -299,6 +299,56 @@ claimed, and the status is the paper-side ledger, seal, and
 $\RegSeqRat$-consumption obligation inventory.
 \end{proof}
 
+\begin{theorem}[RealUp scoped certificate boundary]
+\label{thm:realup-scoped-certificate-boundary}
+The scoped $\RealUp$ certificate boundary is exactly the package formed from
+\autoref{thm:realup-obligation-carrier-classifier},
+\autoref{thm:realup-obligation-stability-transport},
+\autoref{thm:realup-obligation-seal-ledger},
+\autoref{thm:real-stream-prefix-carrier-obligation},
+\autoref{thm:real-stream-prefix-classifier-obligation},
+\autoref{thm:real-stream-prefix-stability-obligation}, and
+\autoref{thm:real-stream-prefix-ledger-seal-obligation}. Its primitives are
+DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$,
+$\mathsf{UnaryHistory}$, $\hsame$ transport,
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.
+Within this boundary every carrier, classifier, stability, transport, ledger,
+and seal face is read from the same $\Hist$-indexed stream spine and finite
+ledger. The boundary contains no quotient data, completion data, arithmetic or
+order closure, metric-completeness certificate, or standard-bridge data.
+\end{theorem}
+\begin{proof}
+We first collect the direct $\RealUp$ obligation faces. Apply
+\autoref{thm:realup-obligation-carrier-classifier} for the sealed
+$\RegSeqRat$ carrier and the constant-history and unary stream classifiers.
+Apply \autoref{thm:realup-obligation-stability-transport} for $\hsame$
+transport, endpoint transport, and unary stream classifier stability. Apply
+\autoref{thm:realup-obligation-seal-ledger} for the finite ledger and the seal
+that consumes the scoped stream spine.
+
+We then identify those faces with the stream-prefix obligation inventory.
+Apply \autoref{thm:real-stream-prefix-carrier-obligation} for the
+DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, and $\RatUp$ carrier source.
+Apply \autoref{thm:real-stream-prefix-classifier-obligation} for the
+constant-history and unary stream classifier source. Apply
+\autoref{thm:real-stream-prefix-stability-obligation} for the pointwise
+$\hsame$ stability rows. Apply
+\autoref{thm:real-stream-prefix-ledger-seal-obligation} for the finite
+ledger policy and seal rows.
+
+The two collections name the same data, because every row is indexed by the
+same $\Hist$ stream spine and every ledger entry is one of the finite
+$\mathsf{RealLedgerPolicy}$ entries consumed by the seal. Thus the package is
+scoped over the displayed BEDC primitives rather than over an external real
+object.
+
+Nothing in the construction supplies quotient representatives, a completion
+object, arithmetic or order laws, metric completeness, or a standard bridge.
+Those data are outside the scoped certificate boundary claimed here.
+\end{proof}
+
 \begin{closurestatus}{\RegSeqRat}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The rational-stream certificate spine binds $\RatUp$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealUnaryStreamClassifier}$, the dyadic-tolerance ledger, and the $\RealUp$ seal as the visible $\RegSeqRat$ scope.}
@@ -310,11 +360,11 @@ $\RegSeqRat$-consumption obligation inventory.
 \end{closurestatus}
 
 \begin{closurestatus}{\RealUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The $\RealUp$ obligation scope is the six-field boundary of \autoref{def:realup-obligation-boundary}, with carrier/classifier, stability/ledger, and seal/$\RegSeqRat$-consumption faces supplied by \autoref{thm:realup-carrier-classifier-obligations}, \autoref{thm:realup-stability-ledger-obligations}, and \autoref{thm:realup-seal-and-regseqrat-consumption-obligations}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:realup-scoped-certificate-boundary} witnesses the scoped $\RealUp$ boundary over DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealConstantHistoryCarrier}$, $\mathsf{RealConstantHistoryClassifier}$, $\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.RealUp.RealConstantHistory\_semanticNameCert}
   \bridgestatus{none}
   \notclaimed{This block does not close $\RealUp$ completeness, arithmetic or order closure, metric completeness, or any standard bridge.}
-  \upgradepath{$\scopedClosure$ next requires binding each $\RealUp$ obligation face to its primitive dependency chain.}
+  \upgradepath{The next paper grade is $\publicClosure$, requiring a public $\RealUp$ export theorem consumed by downstream certificates rather than additional scoped binding.}
 \end{closurestatus}
