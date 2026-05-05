@@ -7001,3 +7001,108 @@ Chapter 06 has only one labeled theorem (thm:packages-classify-signatures-core),
 
 ---
 
+### B-270 - QuotientRing ideal-coset equivalence relation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | QuotientRing ideal-coset equivalence relation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If the ideal certificate supplies zero closure, additive-inverse closure, additive closure, and classifier transport, then the ideal-coset relation $\equiv_I$ on a $\RingUp$ carrier is reflexive, symmetric, and transitive.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/61_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ideal/`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+
+Rationale:
+Foundational gap directly upstream of the existing QuotientRing descent theorems. The paper defines $\equiv_I$ in `def:quotientring-ideal-coset-relation` and proves operation descent in `thm:quotientring-multiplication-descends-to-cosets` and `thm:quotientring-additive-descent`, but never proves the relation is an equivalence relation. Without that, the descent results cannot license a well-defined coset quotient. The claim is a single concrete implication, ideal-closure-fields imply equivalence-relation laws, and lives squarely in concrete_instances next to the existing quotient-ring chapter. Distinct from B-25..B-29 (lattice) and B-19..B-24 (module/commring structure) since none touch quotient construction. Required as a prerequisite before any further QuotientRing certificate-field work.
+
+---
+
+### B-271 - AbGroup additive negation is involutive: -(-a) ~ a
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AbGroup additive negation is involutive: -(-a) ~ a |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under an AbGroupUp(M) certificate, for every carried element x of M, the additive negation satisfies -(-x) ~_M x.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/abgroup/17_abgroup_torsion_subgroup_closure.tex`
+- `papers/bedc/parts/concrete_instances/group/namecert_construction_core/02_certificate.tex`
+
+Rationale:
+Hungerford 'Algebra' ch.I §1 includes (-(-a)) = a as an immediate textbook consequence of additive group axioms. Chapter 17_abgroup has 23 theorems (centralizer/normalizer-flavored, double cancel, mul-balanced, etc.) and a forgetful prop:abgroup-forgets-group-certificate (B-53), but `grep -E 'abgroup.*neg.*involu|neg.{0,5}neg|negation.{0,30}involu'` against papers/bedc/parts/ returns 0 labeled theorems for AbGroup negation involutive. All prereqs already exist: (i) thm:group-left-inverse-involutive and thm:group-right-inverse-involutive in group/namecert_construction_core/02_certificate.tex provide inv(inv(x)) ~ x in multiplicative form; (ii) prop:abgroup-forgets-group-certificate (B-53) provides the forgetful that turns AbGroup additive structure into Group multiplicative structure. The proof is a one-line transport of group inverse-involutivity along the forgetful, so the theorem closes in 1 codex round.
+
+---
+
+
+### B-272 - Polynomial singleton evaluation: eval at any alpha of [c] returns c
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial singleton evaluation: eval at any alpha of [c] returns c |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a RingUp(R) certificate with Horner evaluation as in def:polynomial-horner-evaluation, for every carried scalar c and every carried evaluation point alpha, Eval_{alpha,R}(cons(c, nil)) ~_R c.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim.tex`
+
+Rationale:
+Hungerford 'Algebra' ch.III §5 records as a routine textbook fact that the constant polynomial [c] evaluates to c independent of the evaluation point. Chapter 25 has 22 theorems and an existing thm:polynomial-evaluation-at-zero-constant-term at line 406 of 25_polynomial_literal_addtrim.tex, but that theorem is the special case alpha=0 with arbitrary spine cons(a,t); it is NOT the singleton [c] evaluated at arbitrary alpha. Grep for 'eval.{0,5}singleton|singleton.{0,5}eval|polynomial.{0,30}cons.{0,5}nil' returns 0 labeled theorems. The Horner unfolding of cons(c, nil) is c +_R alpha *_R Eval(nil); Eval(nil) ~_R 0_R is a definitional row, alpha *_R 0_R ~_R 0_R is RingUp's right-zero absorption (already used in 18_ring_zero_product_and_signed_square.tex), and c +_R 0_R ~_R c is the additive zero unit. All three prereqs are present, so the proof is three classifier-rewrites and closes in 1 codex round.
+
+---
+
+
+### B-273 - Subgroup chain composition: K subgroup of G and H subgroup of K implies H subgroup of G
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Subgroup chain composition: K subgroup of G and H subgroup of K implies H subgroup of G |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Given carrier predicates P_K and P_H over the carrier of G with SubgroupUp(G)(P_K) and the conjunction predicate P_H_in_G(x) := P_K(x) and P_H(x), if P_H satisfies the SubgroupUp closure rows internally to the P_K-restricted carrier (containment of e_G, closure under mul, closure under inv, hsame transport, restricted-classifier compatibility), then P_H_in_G satisfies SubgroupUp(G).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction_core.tex`
+- `papers/bedc/parts/concrete_instances/group/namecert_construction_core/02_certificate.tex`
+
+Rationale:
+Hungerford 'Algebra' ch.I §5 (Theorem 5.1 corollary) records subgroup chain transitivity as standard textbook fact. Chapter 58 has 18+16 theorems concentrated on centralizer/normalizer/quotient-classifier and B-127 (Subgroup intersection is a subgroup) and B-246 (Trivial subgroup carries SubgroupUp). Grep for 'subgroup.{0,5}of.{0,5}subgroup|nested.{0,5}subgroup|subgroup.{0,5}transit|chain.{0,5}subgroup' across papers/bedc/parts/ returns only one specific instance ratup-fieldup-affine-normalizer-subgroupup-inclusion-action at 58_subgroup_namecert_construction_core.tex line 351, not the general transitivity. All prereqs exist: (i) thm:subgroup-trivial-certificate at 58_subgroup_namecert_construction.tex line 542 enumerates the SubgroupUp row format (identity, product, inverse, transport, restricted-classifier); (ii) thm:subgroup-centralizer-intersection-classifier-mul-closed-from-empty-unit and the four sibling lemmas in 58_subgroup_namecert_construction_core.tex prove closure of conjunction predicates under each row; (iii) Group multiplication and inverse congruence are in group/namecert_construction_core/02_certificate.tex. The proof is row-by-row conjunction lifting and closes in 1-2 codex rounds. This is a stepping-stone toward Lagrange's theorem (B-141) — Lagrange currently cannot decompose the iterated coset structure without subgroup chain transitivity.
+
+---
+
