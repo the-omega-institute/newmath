@@ -232,4 +232,12 @@ theorem HilbertSingleton_projection_residual_decomposition {h p : BHist} :
       exact innerRows.left
   exact And.intro hP (And.intro smulEmpty innerNorm)
 
+def HilbertSingletonProjectionWitness (m p : BHist) : Prop :=
+  VecSpaceSingletonCarrier m ∧
+    VecSpaceSingletonCarrier p ∧
+      VecSpaceSingletonClassifier p BHist.Empty ∧
+        RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          RealConstantHistoryClassifier (HilbertSingletonInnerProduct m p)
+            (BHist.e1 (BHist.e1 BHist.Empty))
+
 end BEDC.Derived.HilbertUp

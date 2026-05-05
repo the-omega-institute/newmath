@@ -49,6 +49,8 @@ $$
 \mu_{\mathcal P}(d,m).
 $$
 \end{definition}
+\leandef{BEDC.Derived.PublicKeyUp.PKCertifiedEnc}
+\leandef{BEDC.Derived.PublicKeyUp.PKDecryptEncryptExact}
 
 \begin{theorem}[PublicKey decrypt-encrypt correctness]
 \label{thm:publickey-decrypt-encrypt-correctness}
@@ -80,6 +82,7 @@ The plaintext classifier is supplied by a carrier naming certificate. Its symmet
 
 Using the same witness $d$, the carried plaintext fact, the decryption row, and the classifier comparison prove the displayed existential statement.
 \end{proof}
+\leanchecked{BEDC.Derived.PublicKeyUp.PublicKey\_decrypt\_encrypt\_correctness}
 
 \begin{definition}[PublicKey decryption output determinacy row]
 \label{def:publickey-decrypt-output-determinacy-row}
@@ -114,4 +117,37 @@ $$
 \end{theorem}
 \begin{proof}
 By \autoref{def:publickey-decrypt-output-determinacy-row}, the row $\mathsf{PKDecryptOutputDet}_{\mathcal P}$ is the universal BEDC-history statement that any two decryption endpoints for the same generated keypair row and ciphertext are related by $\mu_{\mathcal P}$. Instantiate that universal statement at the displayed histories $pk$, $sk$, $c$, $d_1$, and $d_2$. The three hypotheses are exactly its antecedent, so the instantiated implication gives $\mu_{\mathcal P}(d_1,d_2)$.
+\end{proof}
+
+\begin{theorem}[PublicKey certified encryption arbitrary decryption]
+\label{thm:publickey-certified-encryption-arbitrary-decryption}
+Let $\mathcal P$ be a $\PublicKeyUp$ certificate with transcript rows as in \autoref{def:publickey-decrypt-encrypt-transcript-interface}. Assume $\mathsf{PKDecryptEncryptExact}_{\mathcal P}$ and $\mathsf{PKDecryptOutputDet}_{\mathcal P}$. For histories $pk$, $sk$, $m$, $c$, and $d$, if
+$$
+\mathsf{PKKeyGen}_{\mathcal P}(pk,sk)
+\qquad\text{and}\qquad
+\mathsf{PKCertifiedEnc}_{\mathcal P}(pk,m,c)
+\qquad\text{and}\qquad
+\mathsf{PKDecrypt}_{\mathcal P}(sk,c,d),
+$$
+then the displayed decryption endpoint is carried by the plaintext carrier and lies in the message-classifier class of $m$:
+$$
+\mathsf{Msg}_{\mathcal P}(d)\land\mu_{\mathcal P}(d,m).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:publickey-decrypt-encrypt-correctness} to $\mathsf{PKDecryptEncryptExact}_{\mathcal P}$, the generated keypair row, and the certified encryption transcript. This gives a history $e:\mathsf{BHist}$ with
+$$
+\mathsf{Msg}_{\mathcal P}(e)\land
+\mathsf{PKDecrypt}_{\mathcal P}(sk,c,e)\land
+\mu_{\mathcal P}(e,m).
+$$
+Apply \autoref{thm:publickey-decrypt-output-determinacy} to $\mathsf{PKDecryptOutputDet}_{\mathcal P}$, the same generated keypair row, the displayed decryption row for $d$, and the decryption row for $e$. This yields
+$$
+\mu_{\mathcal P}(d,e).
+$$
+The plaintext classifier of $\mathcal P$ is supplied by a carrier naming certificate in the sense of \autoref{def:lean-carrier-naming-certificate}; in the concrete rational number-field surface this is the certificate cited in \autoref{thm:numfield-reflexive-namecert-obligation-surface}. Its transitivity field, equivalently \autoref{thm:namecert-equivalence-transitivity}, composes $\mu_{\mathcal P}(d,e)$ with $\mu_{\mathcal P}(e,m)$ and gives
+$$
+\mu_{\mathcal P}(d,m).
+$$
+It remains only to record carrier membership for the arbitrary endpoint. Unfolding $\mathsf{PKCertifiedEnc}_{\mathcal P}(pk,m,c)$ through \autoref{def:publickey-decrypt-encrypt-transcript-interface} gives $\mathsf{Msg}_{\mathcal P}(m)$. The classifier symmetry field from the same carrier naming certificate reverses $\mu_{\mathcal P}(d,m)$ to $\mu_{\mathcal P}(m,d)$, and its carrier-transport field carries $\mathsf{Msg}_{\mathcal P}(m)$ along that comparison to obtain $\mathsf{Msg}_{\mathcal P}(d)$. Pairing this carrier fact with $\mu_{\mathcal P}(d,m)$ proves the claim.
 \end{proof}
