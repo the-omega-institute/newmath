@@ -55,4 +55,11 @@ theorem NetworkFlowUSum_monotonicity {xs : List BHist} {a b : BHist → BHist} :
         (PreorderPrefixLE_append_right_context tailAUnary headStep)
         (PreorderPrefixLE_append_left_context tailStep)
 
+theorem NetworkFlow_empty_backward_accounting_cut_flow_below_value {V B X : BHist} :
+    UnaryHistory B -> hsame B BHist.Empty -> Cont V B X -> PreorderPrefixLE X V := by
+  intro _backwardUnary backwardEmpty accounting
+  cases backwardEmpty
+  have sameXV : hsame X V := cont_deterministic accounting (cont_right_unit V)
+  exact PreorderPrefixLE_of_hsame sameXV
+
 end BEDC.Derived.NetworkFlowUp
