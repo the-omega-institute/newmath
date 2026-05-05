@@ -489,4 +489,49 @@ theorem concrete_unary_history_magma_cont_nested_left_unit_classifier_iff
         (concrete_unary_history_magma_cont_left_unit_classifier_iff leftResult)
         (And.intro data.left leftMiddleEmpty)
 
+theorem concrete_unary_history_magma_cont_nested_right_unit_classifier_iff
+    {left middle right lm out : BHist} :
+    Cont left middle lm -> Cont lm right out ->
+      (let Carrier : BHist -> Prop := UnaryHistory
+       let Classifier : BHist -> BHist -> Prop :=
+        fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+       Classifier out left ↔
+        Carrier left ∧ hsame middle BHist.Empty ∧ hsame right BHist.Empty) := by
+  intro leftMiddle leftResult
+  dsimp
+  constructor
+  · intro classified
+    have middleRight : Cont middle right (append middle right) := by
+      rfl
+    have leftMiddleRight : Cont left (append middle right) out := by
+      have same :=
+        cont_assoc_relational leftMiddle leftResult middleRight
+          (cont_intro (h := left) (k := append middle right) (r := append left (append middle right))
+            rfl)
+      exact cont_result_hsame_transport
+        (cont_intro (h := left) (k := append middle right)
+          (r := append left (append middle right)) rfl)
+        (hsame_symm same)
+    have rightEmpty : hsame (append middle right) BHist.Empty :=
+      cont_right_unit_unique
+        (cont_result_hsame_transport leftMiddleRight classified.right.right)
+    have emptyFactors := append_eq_empty_iff.mp rightEmpty
+    exact And.intro classified.right.left
+      (And.intro emptyFactors.left emptyFactors.right)
+  · intro data
+    have middleCarrier : UnaryHistory middle := by
+      cases data.right.left
+      exact unary_empty
+    have lmCarrier : UnaryHistory lm :=
+      unary_cont_closed data.left middleCarrier leftMiddle
+    have sameLmLeft : hsame lm left := by
+      cases data.right.left
+      exact (cont_right_unit_iff (h := left) (r := lm)).mp leftMiddle
+    have outLmClassified :=
+      Iff.mpr
+        (concrete_unary_history_magma_cont_right_unit_classifier_iff leftResult)
+        (And.intro lmCarrier data.right.right)
+    exact And.intro outLmClassified.left
+      (And.intro data.left (hsame_trans outLmClassified.right.right sameLmLeft))
+
 end BEDC.Derived.MagmaUp

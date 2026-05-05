@@ -226,6 +226,29 @@ comparison between the appended fold and the displayed append endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_display\_classifier\_iff}
 
+\begin{theorem}[Singleton additive fold append continuation result]
+\label{thm:matrix-singleton-add-fold-append-continuation-result}
+For finite singleton-matrix spines \(xs\) and \(ys\), a continuation from
+\(h\) through the fold of \(xs{++}ys\) reads singleton carriedness of its
+result exactly as carriedness of \(h\) and of both appended spine segments:
+$$
+\ContR(h,\mathsf{MatrixSingletonAddFold}(xs{++}ys),r)
+\Longrightarrow
+\bigl(\mathsf{MatrixSingletonCarrier}(r)\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(ys)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply the finite-fold continuation result exactness to recover the carrier of
+\(h\) and the spine carrier for the appended list. The append-spine carrier
+equivalence splits that appended carrier into the two segment carriers. The
+reverse direction repacks the segment carriers by the same append equivalence
+and then uses finite-fold continuation result exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_continuation\_result\_iff}
+
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
 Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$
