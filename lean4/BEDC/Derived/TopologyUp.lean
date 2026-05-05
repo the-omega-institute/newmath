@@ -21,6 +21,12 @@ def BHistCarriesOpen (T : BHistIndexedOpenCarrier) (i : T.OpenIx)
     (U : BHist -> Prop) : Prop :=
   forall {x : BHist}, UnaryHistory x -> (U x <-> T.OpenAt i x)
 
+structure BHistIndexedBoundaryOpen (T : BHistIndexedOpenCarrier) where
+  bottom : T.OpenIx
+  top : T.OpenIx
+  bottom_law : forall {x : BHist}, UnaryHistory x -> (T.OpenAt bottom x <-> False)
+  top_law : forall {x : BHist}, UnaryHistory x -> (T.OpenAt top x <-> True)
+
 theorem BHistIndexedOpen_finite_intersection_closure (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} :
     BHistCarriesOpen T i U -> BHistCarriesOpen T j V ->
@@ -103,5 +109,69 @@ theorem BHistIndexedOpen_arbitrary_union_closure (T : BHistIndexedOpenCarrier)
       have openY : T.OpenAt u y := Iff.mp carryY existsY
       have openX : T.OpenAt u x := Iff.mpr stable openY
       exact Iff.mpr carryX openX
+
+theorem BHistIndexedOpen_boundary_closure (T : BHistIndexedOpenCarrier)
+    (boundary : BHistIndexedBoundaryOpen T) :
+    BHistCarriesOpen T boundary.bottom (fun _ : BHist => False) ∧
+      BHistCarriesOpen T boundary.top (fun _ : BHist => True) ∧
+        (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+          ((False : Prop) <-> False)) ∧
+          (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+            ((True : Prop) <-> True)) := by
+  have bottomCarries :
+      BHistCarriesOpen T boundary.bottom (fun _ : BHist => False) := by
+    intro x unaryX
+    have bottomAt : T.OpenAt boundary.bottom x <-> False := boundary.bottom_law unaryX
+    constructor
+    · intro falseValue
+      cases falseValue
+    · intro openBottom
+      exact Iff.mp bottomAt openBottom
+  have topCarries :
+      BHistCarriesOpen T boundary.top (fun _ : BHist => True) := by
+    intro x unaryX
+    have topAt : T.OpenAt boundary.top x <-> True := boundary.top_law unaryX
+    constructor
+    · intro trueValue
+      exact Iff.mpr topAt trueValue
+    · intro openTop
+      exact Iff.mp topAt openTop
+  have falseStable :
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        ((False : Prop) <-> False) := by
+    intro x y unaryX unaryY sameXY
+    have stable :
+        T.OpenAt boundary.bottom x <-> T.OpenAt boundary.bottom y :=
+      T.membership_stable unaryX unaryY sameXY
+    have bottomX : False <-> T.OpenAt boundary.bottom x := bottomCarries unaryX
+    have bottomY : False <-> T.OpenAt boundary.bottom y := bottomCarries unaryY
+    constructor
+    · intro falseX
+      have openX : T.OpenAt boundary.bottom x := Iff.mp bottomX falseX
+      have openY : T.OpenAt boundary.bottom y := Iff.mp stable openX
+      exact Iff.mpr bottomY openY
+    · intro falseY
+      have openY : T.OpenAt boundary.bottom y := Iff.mp bottomY falseY
+      have openX : T.OpenAt boundary.bottom x := Iff.mpr stable openY
+      exact Iff.mpr bottomX openX
+  have trueStable :
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        ((True : Prop) <-> True) := by
+    intro x y unaryX unaryY sameXY
+    have stable :
+        T.OpenAt boundary.top x <-> T.OpenAt boundary.top y :=
+      T.membership_stable unaryX unaryY sameXY
+    have topX : True <-> T.OpenAt boundary.top x := topCarries unaryX
+    have topY : True <-> T.OpenAt boundary.top y := topCarries unaryY
+    constructor
+    · intro trueX
+      have openX : T.OpenAt boundary.top x := Iff.mp topX trueX
+      have openY : T.OpenAt boundary.top y := Iff.mp stable openX
+      exact Iff.mpr topY openY
+    · intro trueY
+      have openY : T.OpenAt boundary.top y := Iff.mp topY trueY
+      have openX : T.OpenAt boundary.top x := Iff.mpr stable openY
+      exact Iff.mpr topX openX
+  exact And.intro bottomCarries (And.intro topCarries (And.intro falseStable trueStable))
 
 end BEDC.Derived.TopologyUp

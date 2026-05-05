@@ -268,6 +268,7 @@ import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
+import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
