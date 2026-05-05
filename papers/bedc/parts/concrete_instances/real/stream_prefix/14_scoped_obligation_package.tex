@@ -71,3 +71,63 @@ scope without adding a Lean marker or consuming data outside the displayed
 BEDC source.
 \end{enumerate}
 \end{proof}
+
+\begin{theorem}[RealUp scoped window tail-transport package]
+\label{thm:realup-scoped-window-tail-transport-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices $n,m$, and
+transported endpoint histories $u,v:\Hist$, assume the Real stream-prefix
+classifier through $n$,
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n),
+$$
+a classified finite $\RatUp$ tail of length $m$,
+$$
+\forall k<m,\ \mathsf{RatHistoryClassifier}(x(n+k+1),y(n+k+1)),
+$$
+pointwise unary anchors,
+$$
+\forall i,\ \mathsf{UnaryHistory}(x(i)),
+$$
+and transported endpoint rows
+$$
+\hsame(x(n+m),u),\quad \hsame(y(n+m),v).
+$$
+Then the transported tail window remains inside the scoped $\RealUp$
+stream-prefix package. It exposes the transported endpoint $\RatUp$ classifier,
+positive unary denominator rows for $u$ and $v$, unary endpoint rows, nonempty
+endpoint exclusions, common e-one tail readback whenever the transported
+endpoints are displayed as one-headed, finite $\mathsf{RealLedgerPolicy}$ rows,
+and the dyadic endpoint source rows consumed by the $\RealUp$ seal. It consumes
+no quotient, completion object, metric-completeness certificate, host function,
+Classical datum, arithmetic or order primitive outside the listed rows, or
+standard-bridge datum.
+\end{theorem}
+\begin{proof}
+First package the ambient scoped source. Apply
+\autoref{thm:realup-stream-prefix-scoped-obligation-package}. This fixes the
+carrier, classifier, stability, ledger, and seal faces of the $\RealUp$
+stream-prefix site, and it records that those faces do not read quotient,
+completion, metric, host-function, or standard-bridge data.
+
+Next transport the finite tail to the displayed endpoint boundary. Apply
+\autoref{thm:real-stream-prefix-tail-extension-with-unary-anchor} to extend the
+prefix classifier from $n$ to $n+m$ using the classified finite $\RatUp$ tail and
+the pointwise unary anchors. Then apply
+\autoref{thm:real-stream-prefix-finite-tail-transported-endpoint-denominator-package}
+to the extended boundary and the two endpoint $\hsame$ rows. The result supplies
+the transported endpoint $\RatUp$ classifier, the positive unary denominators,
+the unary endpoint rows, and the nonempty endpoint exclusions.
+
+Now read the window face through the scoped boundary. Apply
+\autoref{thm:realup-scoped-finite-window-read-surface}. Its finite-window
+readback contains the endpoint classifier rows, positive unary denominator rows,
+common e-one tail readback, the finite ledger, and the dyadic source rows used by
+the $\RealUp$ seal.
+
+The rows just obtained are all rows named by the scoped stream-prefix package,
+and the finite-window read surface explicitly excludes quotient, completion,
+metric-completeness, Classical, arithmetic, order, and standard-bridge data
+outside that boundary. Repacking these two scoped statements with the
+transported finite-tail endpoint package gives the claimed transported tail
+window package.
+\end{proof}
