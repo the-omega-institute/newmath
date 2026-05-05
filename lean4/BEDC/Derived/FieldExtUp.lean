@@ -1,4 +1,6 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont.Units
 import BEDC.Derived.FieldUp
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
@@ -12,6 +14,77 @@ open BEDC.FKernel.NameCert
 open BEDC.Derived.FieldUp
 open BEDC.Derived.RatUp
 open BEDC.Derived.VecSpaceUp
+
+theorem FieldExtSingleton_vector_space_over_base :
+    SemanticNameCert VecSpaceSingletonCarrier VecSpaceSingletonCarrier VecSpaceSingletonCarrier
+        VecSpaceSingletonClassifier ∧
+      (forall {r m : BHist}, FieldSingletonCarrier r -> VecSpaceSingletonCarrier m ->
+        VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) BHist.Empty ∧
+          FieldSingletonClassifier (FieldSingletonMul r m) BHist.Empty ∧
+            FieldSingletonClassifier (VecSpaceSingletonSmul r m) (FieldSingletonMul r m)) := by
+  constructor
+  · exact VecSpaceSingleton_semanticNameCert
+  · intro r m _carrierR _carrierM
+    have vecActionEmpty :
+        VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) BHist.Empty :=
+      And.intro (hsame_refl BHist.Empty)
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+    have fieldMulEmpty :
+        FieldSingletonClassifier (FieldSingletonMul r m) BHist.Empty :=
+      And.intro (hsame_refl BHist.Empty)
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+    have actionMulCompatible :
+        FieldSingletonClassifier (VecSpaceSingletonSmul r m) (FieldSingletonMul r m) :=
+      And.intro (hsame_refl BHist.Empty)
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+    exact And.intro vecActionEmpty (And.intro fieldMulEmpty actionMulCompatible)
+
+theorem FieldExtSingleton_certificate_obligation_package :
+    SemanticNameCert FieldSingletonCarrier FieldSingletonCarrier FieldSingletonCarrier
+        FieldSingletonClassifier ∧
+      SemanticNameCert VecSpaceSingletonCarrier VecSpaceSingletonCarrier VecSpaceSingletonCarrier
+        VecSpaceSingletonClassifier ∧
+      NameCert FieldSingletonCarrier FieldSingletonClassifier ∧
+      NameCert VecSpaceSingletonCarrier VecSpaceSingletonClassifier ∧
+      (forall {h : BHist}, FieldSingletonCarrier h -> Cont BHist.Empty h h) := by
+  have fieldCert :
+      SemanticNameCert FieldSingletonCarrier FieldSingletonCarrier FieldSingletonCarrier
+        FieldSingletonClassifier :=
+    singleton_empty_history_field_schema_laws.left
+  have vecCert :
+      SemanticNameCert VecSpaceSingletonCarrier VecSpaceSingletonCarrier VecSpaceSingletonCarrier
+        VecSpaceSingletonClassifier :=
+    VecSpaceSingleton_semanticNameCert
+  exact And.intro fieldCert
+    (And.intro vecCert
+      (And.intro fieldCert.core
+        (And.intro vecCert.core
+          (by
+            intro h _carrierH
+            exact cont_intro (append_empty_left h).symm))))
+
+theorem FieldExtSingleton_identity_tower_continuation_classified {h middle top : BHist} :
+    FieldSingletonCarrier h -> Cont h BHist.Empty middle -> Cont middle BHist.Empty top ->
+      FieldSingletonClassifier top h ∧ hsame middle top := by
+  intro carrierH first second
+  have sameMiddleH : hsame middle h := cont_right_unit_result first
+  have sameTopMiddle : hsame top middle := cont_right_unit_result second
+  have carrierMiddle : FieldSingletonCarrier middle := hsame_trans sameMiddleH carrierH
+  have carrierTop : FieldSingletonCarrier top := hsame_trans sameTopMiddle carrierMiddle
+  have sameTopH : hsame top h := hsame_trans sameTopMiddle sameMiddleH
+  exact And.intro
+    (And.intro carrierTop (And.intro carrierH sameTopH))
+    (hsame_symm sameTopMiddle)
+
+theorem FieldExtSingleton_scalar_action_mul_endpoint_classified {r m : BHist} :
+    FieldSingletonCarrier r -> FieldSingletonCarrier m ->
+      VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) (FieldSingletonMul r m) ∧
+        FieldSingletonClassifier (FieldSingletonMul r m) BHist.Empty := by
+  intro _carrierR _carrierM
+  have emptyCarrier : hsame BHist.Empty BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro
+    (And.intro emptyCarrier (And.intro emptyCarrier emptyCarrier))
+    (And.intro emptyCarrier (And.intro emptyCarrier emptyCarrier))
 
 theorem FieldExtSingleton_semantic_name_certificate :
     SemanticNameCert FieldSingletonCarrier
@@ -105,6 +178,21 @@ theorem FieldExtSingleton_embedding_obligations :
 
 def FieldExtSingletonEmbedding (h : BHist) : BHist :=
   append BHist.Empty h
+
+def FieldExtSingletonLedgerPolicy (h : BHist) : Prop :=
+  FieldSingletonCarrier h ∧ VecSpaceSingletonCarrier h ∧
+    FieldSingletonClassifier (FieldExtSingletonEmbedding h) (append BHist.Empty h)
+
+theorem FieldExtSingletonLedgerPolicy_carrier_coincidence {h : BHist} :
+    FieldExtSingletonLedgerPolicy h ->
+      FieldSingletonCarrier h ∧ VecSpaceSingletonCarrier h ∧
+        FieldSingletonClassifier (FieldExtSingletonEmbedding h) (append BHist.Empty h) := by
+  intro policy
+  cases policy with
+  | intro fieldCarrier rest =>
+      cases rest with
+      | intro vecCarrier embeddedClassifier =>
+          exact And.intro fieldCarrier (And.intro vecCarrier embeddedClassifier)
 
 theorem FieldExtSingletonVectorSpace_smul_mul_compatible {r m : BHist} :
     FieldSingletonCarrier r -> VecSpaceSingletonCarrier m ->
