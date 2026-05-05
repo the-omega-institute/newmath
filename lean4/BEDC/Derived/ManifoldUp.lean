@@ -177,6 +177,27 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_transition_composition_scope
+    {base index domain chart transition next composed direct : BHist} :
+    ManifoldAtlasPackage base index domain chart transition -> UnaryHistory next ->
+      Cont transition next composed -> Cont domain (append chart next) direct ->
+        hsame composed direct ∧ UnaryHistory composed ∧ UnaryHistory direct := by
+  intro package nextUnary transitionNext domainChartNext
+  have domainUnary : UnaryHistory domain := package.right.right.left
+  have chartUnary : UnaryHistory chart := package.right.right.right.left
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  have domainChart : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have chartNextUnary : UnaryHistory (append chart next) :=
+    unary_cont_closed chartUnary nextUnary (cont_intro rfl)
+  have composedDirect : hsame composed direct :=
+    cont_assoc_hsame domainChart transitionNext (cont_intro rfl) domainChartNext
+  have composedUnary : UnaryHistory composed :=
+    unary_cont_closed transitionUnary nextUnary transitionNext
+  have directUnary : UnaryHistory direct :=
+    unary_cont_closed domainUnary chartNextUnary domainChartNext
+  exact And.intro composedDirect (And.intro composedUnary directUnary)
+
 theorem ManifoldAtlasPackage_transition_source_readback
     {base index domain chart transition : BHist} :
     ManifoldAtlasPackage base index domain chart transition ->
@@ -374,6 +395,108 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
   have resultUnary : UnaryHistory result :=
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
+
+theorem ManifoldSingleton_transition_classifier_stability
+    {x y xa xb ya yb source target : BHist} :
+    ManifoldSingletonCarrier x -> ManifoldSingletonCarrier y -> hsame x y ->
+      Cont BHist.Empty x xa -> Cont BHist.Empty y ya -> Cont BHist.Empty x xb ->
+        Cont BHist.Empty y yb -> Cont xa xb source -> Cont ya yb target ->
+          hsame xa ya ∧ hsame xb yb ∧ hsame source target ∧ UnaryHistory source ∧
+            UnaryHistory target := by
+  intro carrierX carrierY sameXY xToXa yToYa xToXb yToYb sourceRow targetRow
+  have xUnary : UnaryHistory x :=
+    unary_transport unary_empty (hsame_symm carrierX)
+  have yUnary : UnaryHistory y :=
+    unary_transport unary_empty (hsame_symm carrierY)
+  have coordinateSame :=
+    ManifoldSingleton_chart_coordinate_carrier_transport xUnary yUnary sameXY xToXa yToYa
+      xToXb yToYb
+  have xaUnary : UnaryHistory xa :=
+    unary_transport xUnary (hsame_symm (cont_left_unit_result xToXa))
+  have xbUnary : UnaryHistory xb :=
+    unary_transport xUnary (hsame_symm (cont_left_unit_result xToXb))
+  have yaUnary : UnaryHistory ya :=
+    unary_transport yUnary (hsame_symm (cont_left_unit_result yToYa))
+  have ybUnary : UnaryHistory yb :=
+    unary_transport yUnary (hsame_symm (cont_left_unit_result yToYb))
+  have sourceTarget : hsame source target :=
+    cont_respects_hsame coordinateSame.left coordinateSame.right sourceRow targetRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed xaUnary xbUnary sourceRow
+  have targetUnary : UnaryHistory target :=
+    unary_cont_closed yaUnary ybUnary targetRow
+  exact And.intro coordinateSame.left
+    (And.intro coordinateSame.right
+      (And.intro sourceTarget (And.intro sourceUnary targetUnary)))
+
+theorem ManifoldChartCoordinateTransportRow_coordinate_determinacy
+    (left right : ManifoldChartCoordinateTransportRow) (sameSource : hsame left.source right.source)
+    (sameTarget : hsame left.target right.target) :
+    hsame left.sourceValue right.sourceValue ∧ hsame left.targetValue right.targetValue ∧
+      UnaryHistory left.sourceValue ∧ UnaryHistory right.sourceValue ∧
+        UnaryHistory left.targetValue ∧ UnaryHistory right.targetValue := by
+  have sourceSame : hsame left.sourceValue right.sourceValue :=
+    cont_respects_hsame (hsame_refl BHist.Empty) sameSource left.sourceReadback right.sourceReadback
+  have targetSame : hsame left.targetValue right.targetValue :=
+    cont_respects_hsame (hsame_refl BHist.Empty) sameTarget left.targetReadback right.targetReadback
+  exact And.intro sourceSame
+    (And.intro targetSame
+      (And.intro left.sourceUnary
+        (And.intro right.sourceUnary (And.intro left.targetUnary right.targetUnary))))
+
+theorem ManifoldSingleton_overlap_inverse_transition {i j ij ji left right : BHist} :
+    ManifoldSingletonCarrier i -> ManifoldSingletonCarrier j -> Cont i j ij -> Cont j i ji ->
+      Cont ij ji left -> Cont ji ij right ->
+        hsame ij BHist.Empty ∧ hsame ji BHist.Empty ∧ hsame left BHist.Empty ∧
+          hsame right BHist.Empty ∧ UnaryHistory left ∧ UnaryHistory right := by
+  intro carrierI carrierJ transitionIJ transitionJI compositeLeft compositeRight
+  have emptyTransition : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  have ijEmpty : hsame ij BHist.Empty :=
+    cont_respects_hsame carrierI carrierJ transitionIJ emptyTransition
+  have jiEmpty : hsame ji BHist.Empty :=
+    cont_respects_hsame carrierJ carrierI transitionJI emptyTransition
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame ijEmpty jiEmpty compositeLeft emptyTransition
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame jiEmpty ijEmpty compositeRight emptyTransition
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right :=
+    unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro ijEmpty
+    (And.intro jiEmpty
+      (And.intro leftEmpty (And.intro rightEmpty (And.intro leftUnary rightUnary))))
+
+theorem ManifoldSingleton_chart_coordinate_classifier_determinacy
+    {source target source0 source1 target0 target1 : BHist} :
+    ManifoldSingletonCarrier source -> ManifoldSingletonCarrier target ->
+      Cont BHist.Empty source source0 -> Cont BHist.Empty source source1 ->
+        Cont BHist.Empty target target0 -> Cont BHist.Empty target target1 ->
+          hsame source0 source1 ∧ hsame target0 target1 ∧ hsame source0 target0 ∧
+            hsame source1 target1 := by
+  intro sourceCarrier targetCarrier sourceReadback0 sourceReadback1 targetReadback0
+    targetReadback1
+  have sameSource0Source : hsame source0 source :=
+    cont_left_unit_result sourceReadback0
+  have sameSource1Source : hsame source1 source :=
+    cont_left_unit_result sourceReadback1
+  have sameTarget0Target : hsame target0 target :=
+    cont_left_unit_result targetReadback0
+  have sameTarget1Target : hsame target1 target :=
+    cont_left_unit_result targetReadback1
+  have source0Empty : hsame source0 BHist.Empty :=
+    hsame_trans sameSource0Source sourceCarrier
+  have source1Empty : hsame source1 BHist.Empty :=
+    hsame_trans sameSource1Source sourceCarrier
+  have target0Empty : hsame target0 BHist.Empty :=
+    hsame_trans sameTarget0Target targetCarrier
+  have target1Empty : hsame target1 BHist.Empty :=
+    hsame_trans sameTarget1Target targetCarrier
+  exact And.intro (hsame_trans source0Empty (hsame_symm source1Empty))
+    (And.intro (hsame_trans target0Empty (hsame_symm target1Empty))
+      (And.intro (hsame_trans source0Empty (hsame_symm target0Empty))
+        (hsame_trans source1Empty (hsame_symm target1Empty))))
 
 theorem ManifoldSingleton_coherence_rows_empty {i j k self pair triple inverse cocycle : BHist} :
     ManifoldSingletonCarrier i -> ManifoldSingletonCarrier j -> ManifoldSingletonCarrier k ->
