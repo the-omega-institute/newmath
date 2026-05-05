@@ -317,3 +317,100 @@ give $\emp\hsame\Eone(tail)$, which is excluded by BEDC history constructor
 separation.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalVisibleCarrier\_semanticNameCert\_absurd}
+
+\begin{theorem}[ContinuousMap image of a principal suffix filter]
+\label{thm:continuousmap-image-principal-suffix-filter}
+Let $base,map,target,modulus,cert,distance,left,right,meet,leftPoint,rightPoint,meetPoint:\mathsf{BHist}$.
+Assume
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(base,map,target,modulus,cert,distance),\\
+\UnaryHistory(left),\quad \UnaryHistory(right),\\
+\ContR(left,right,meet),\quad
+\ContR(base,left,leftPoint),\quad
+\ContR(base,right,rightPoint),\quad
+\ContR(base,meet,meetPoint).
+\end{array}
+$$
+Then there exist histories
+$targetLeft,targetRight,targetMeet,imageLeft,imageRight,imageMeet:\mathsf{BHist}$
+for which
+$$
+\begin{array}{l}
+\ContR(target,left,targetLeft)\land
+\ContR(target,right,targetRight)\land
+\ContR(target,meet,targetMeet),\\
+\UnaryHistory(targetMeet)\land
+\ContR(targetLeft,right,targetMeet)\land
+\ContR(targetRight,left,targetMeet),\\
+\ContR(leftPoint,map,imageLeft)\land
+\ContR(rightPoint,map,imageRight)\land
+\ContR(meetPoint,map,imageMeet),\\
+\hsame(targetLeft,imageLeft)\land
+\hsame(targetRight,imageRight)\land
+\hsame(targetMeet,imageMeet).
+\end{array}
+$$
+Moreover, these target-side witnesses determine the intersection projections,
+the target commuting square, and the graph-image displays:
+$$
+\begin{array}{l}
+\forall z:\mathsf{BHist}.\;
+\ContR(targetLeft,right,z)\Longrightarrow \hsame(targetMeet,z),\\
+\forall z:\mathsf{BHist}.\;
+\ContR(targetRight,left,z)\Longrightarrow \hsame(targetMeet,z),\\
+\forall lr,rl:\mathsf{BHist}.\;
+\ContR(targetLeft,right,lr)\Longrightarrow
+\ContR(targetRight,left,rl)\Longrightarrow \hsame(lr,rl),\\
+\forall z:\mathsf{BHist}.\;
+\ContR(leftPoint,map,z)\Longrightarrow \hsame(targetLeft,z),\\
+\forall z:\mathsf{BHist}.\;
+\ContR(rightPoint,map,z)\Longrightarrow \hsame(targetRight,z),\\
+\forall z:\mathsf{BHist}.\;
+\ContR(meetPoint,map,z)\Longrightarrow \hsame(targetMeet,z).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:continuousmap-carrier}, the continuous-map carrier contains a
+continuous-function carrier. Applying
+\autoref{thm:continuous-function-carrier-graph-modulus-cont-readback} to that
+component gives unary histories for $base$, $map$, and $target$, together with
+the graph continuation $\ContR(base,map,target)$. The source hypotheses and
+unary continuation closure give unary evidence for $meet$.
+
+Choose $targetLeft$, $targetRight$, and $targetMeet$ from the generated
+continuations of $target$ by $left$, $right$, and $meet$. Choose $imageLeft$,
+$imageRight$, and $imageMeet$ from the generated continuations of $leftPoint$,
+$rightPoint$, and $meetPoint$ by $map$.
+
+Apply \autoref{thm:filter-principal-suffix-unary-intersection-closed} with
+base $target$. Its inputs are the unary target history, the unary suffixes
+$left$ and $right$, the source meet ledger $\ContR(left,right,meet)$, and the
+three chosen target continuations. This gives $\UnaryHistory(targetMeet)$ and
+the two projection continuations
+$\ContR(targetLeft,right,targetMeet)$ and
+$\ContR(targetRight,left,targetMeet)$.
+
+For the image readback of $left$, apply
+\autoref{thm:filter-principal-suffix-unary-commuting-square} to the square with
+base $base$, suffixes $left$ and $map$, base legs
+$\ContR(base,left,leftPoint)$ and $\ContR(base,map,target)$, and upper legs
+$\ContR(leftPoint,map,imageLeft)$ and $\ContR(target,left,targetLeft)$. The
+result identifies $imageLeft$ with $targetLeft$, and symmetry gives the stated
+orientation. The same argument with $right$ gives
+$\hsame(targetRight,imageRight)$. The meet case uses the unary meet evidence,
+the base leg $\ContR(base,meet,meetPoint)$, and the same graph leg to obtain
+$\hsame(targetMeet,imageMeet)$.
+
+The two projection-determinacy clauses follow by comparing the canonical target
+projection continuations with any displayed projection through
+\autoref{thm:continuation-determinacy-up-to-history-sameness}. The universal
+target commuting square is exactly
+\autoref{thm:filter-principal-suffix-unary-commuting-square} applied at base
+$target$ to arbitrary displayed upper legs. Finally, each graph-image
+determinacy clause compares the chosen image continuation with an arbitrary
+image continuation by continuation determinacy, and then composes that
+comparison with the corresponding target-image equality using the equivalence
+laws for $\hsame$ from \autoref{thm:history-sameness-equivalence}.
+\end{proof}
