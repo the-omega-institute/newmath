@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
@@ -125,6 +126,23 @@ theorem GraphContEdge_row_inversion :
   · intro h k g g' left right
     exact And.intro left.right.right
       (And.intro right.right.right (cont_deterministic left.right.right right.right.right))
+
+theorem GraphContEdge_unit_loop {h gL gR : BHist} :
+    UnaryHistory h -> GraphContEdge BHist.Empty h h ∧ GraphContEdge h BHist.Empty h ∧
+      (GraphContEdge BHist.Empty h gL -> hsame gL h) ∧
+        (GraphContEdge h BHist.Empty gR -> hsame gR h) := by
+  intro unaryH
+  exact And.intro
+    (And.intro unary_empty (And.intro unaryH (cont_left_unit h)))
+    (And.intro
+      (And.intro unaryH (And.intro unary_empty (cont_right_unit h)))
+      (And.intro
+        (by
+          intro edge
+          exact cont_left_unit_result edge.right.right)
+        (by
+          intro edge
+          exact cont_right_unit_result edge.right.right)))
 
 theorem GraphCont_namecert_surface :
     SemanticNameCert UnaryHistory UnaryHistory UnaryHistory hsame ∧

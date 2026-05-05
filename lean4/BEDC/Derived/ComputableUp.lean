@@ -41,6 +41,14 @@ theorem ComputableBoundedGraphCertificate_single_valuedness
   have readback := ComputableBoundedSim_same_bound_output_hsame leftRun rightRun
   exact And.intro leftRun (And.intro rightRun readback)
 
+theorem ComputableBoundedSim_same_bound_output_deterministic {P n B m m' : BHist} :
+    ComputableBoundedSim P n B m -> ComputableBoundedSim P n B m' ->
+      hsame m m' ∧ UnaryHistory m ∧ UnaryHistory m' := by
+  intro leftRun rightRun
+  exact And.intro
+    (cont_deterministic leftRun.right.right.right.right rightRun.right.right.right.right)
+    (And.intro leftRun.right.right.right.left rightRun.right.right.right.left)
+
 theorem ComputableBoundedSim_composition {PF PG n bF m bG k : BHist} :
     ComputableBoundedSim PF n bF m -> ComputableBoundedSim PG m bG k ->
       exists B : BHist, UnaryHistory B ∧ Cont bF bG B ∧
