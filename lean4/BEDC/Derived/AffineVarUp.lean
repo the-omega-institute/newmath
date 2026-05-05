@@ -62,4 +62,16 @@ theorem AffineFiniteFamilyZeroLocus_duplicate_head_insert {AffPoint : BHist -> P
         | inr memberTail =>
             exact locus.right memberTail)
 
+theorem AffineFiniteFamilyZeroLocus_empty_family_iff {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {x : BHist} :
+    AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero ProbeBundle.Bnil x <-> AffPoint x := by
+  constructor
+  · intro locus
+    exact locus.left
+  · intro point
+    exact And.intro point
+      (by
+        intro p member
+        exact False.elim (inBundle_nil_elim member))
+
 end BEDC.Derived.AffineVarUp
