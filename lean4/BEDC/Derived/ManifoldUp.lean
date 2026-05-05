@@ -177,6 +177,26 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_pairwise_overlap_readback
+    {base index domain chart transition pair : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      Cont base index pair ->
+        hsame pair domain ∧ Cont pair chart transition ∧ hsame transition (append pair chart) ∧
+          UnaryHistory pair ∧ UnaryHistory transition := by
+  intro package pairRow
+  have baseUnary : UnaryHistory base := package.left
+  have indexUnary : UnaryHistory index := package.right.left
+  have domainRow : Cont base index domain := package.right.right.right.right.right.left
+  have transitionRow : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have samePairDomain : hsame pair domain := cont_deterministic pairRow domainRow
+  have pairUnary : UnaryHistory pair := unary_cont_closed baseUnary indexUnary pairRow
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  cases samePairDomain
+  exact And.intro (hsame_refl domain)
+    (And.intro transitionRow
+      (And.intro transitionRow (And.intro pairUnary transitionUnary)))
+
 theorem ManifoldAtlasPackage_chart_domain_intersection_open
     {base indexI indexJ domainI domainJ chart transitionI transitionJ overlap : BHist} :
     ManifoldAtlasPackage base indexI domainI chart transitionI ->
@@ -413,6 +433,50 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
   have resultUnary : UnaryHistory result :=
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
+
+structure ManifoldTransitionCoherenceLedger where
+  chart : BHist
+  domain : BHist
+  value : BHist
+  selfTransition : BHist
+  inverseRound : BHist
+  cocycle : BHist
+  chartCarrier : ManifoldSingletonCarrier chart
+  domainReadback : Cont BHist.Empty chart domain
+  valueReadback : Cont chart BHist.Empty value
+  identityRow : Cont value value selfTransition
+  inverseRoundRow : Cont selfTransition selfTransition inverseRound
+  cocycleRow : Cont inverseRound value cocycle
+
+theorem ManifoldSingleton_transition_inverse_boundary {source target forward backward left right : BHist} :
+    ManifoldSingletonCarrier source -> ManifoldSingletonCarrier target -> Cont source target forward ->
+      Cont target source backward -> Cont forward backward left -> Cont backward forward right ->
+        hsame forward BHist.Empty ∧ hsame backward BHist.Empty ∧ hsame left BHist.Empty ∧
+          hsame right BHist.Empty ∧ UnaryHistory forward ∧ UnaryHistory backward ∧
+            UnaryHistory left ∧ UnaryHistory right := by
+  intro sourceCarrier targetCarrier forwardCont backwardCont leftCont rightCont
+  have forwardRows :=
+    ManifoldSingleton_transition_smoothness sourceCarrier targetCarrier forwardCont
+  have backwardRows :=
+    ManifoldSingleton_transition_smoothness targetCarrier sourceCarrier backwardCont
+  have forwardEmpty : hsame forward BHist.Empty := forwardRows.left
+  have backwardEmpty : hsame backward BHist.Empty := backwardRows.left
+  have emptyCont : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame forwardEmpty backwardEmpty leftCont emptyCont
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame backwardEmpty forwardEmpty rightCont emptyCont
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right :=
+    unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro forwardEmpty
+    (And.intro backwardEmpty
+      (And.intro leftEmpty
+        (And.intro rightEmpty
+          (And.intro forwardRows.right.right.right
+            (And.intro backwardRows.right.right.right (And.intro leftUnary rightUnary))))))
 
 theorem ManifoldSingleton_transition_classifier_stability
     {x y xa xb ya yb source target : BHist} :
