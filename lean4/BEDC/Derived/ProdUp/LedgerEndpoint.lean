@@ -1,9 +1,10 @@
-import BEDC.Derived.ProdUp.PairRepresentation
+import BEDC.Derived.ProdUp.ComponentwiseRefinement
 
 namespace BEDC.Derived.ProdUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 inductive ProdHistoryLedgerChain (Left Right : BHist -> Prop) : BHist -> BHist -> Prop where
   | step {rho z : BHist} :
@@ -259,5 +260,25 @@ theorem ProdHistoryLedgerChain_componentwise_classifier_endpoint_equivalence
     · intro classifier
       exact ProdComponentHistoryClassifier_hsame_transport
         (hsame_refl w) (hsame_symm sameRhoZ) classifier
+
+theorem ProdHistoryLedgerChain_public_certificate_component_readback
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) {rho z l r : BHist} :
+    ProdHistoryLedgerChain Left Right rho z ->
+      ProdPairRep Left Right rho l r ->
+        SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)
+            (ProdHistoryCarrier Left Right)
+            (ProdComponentHistoryClassifier Left Right LeftEq RightEq) ∧
+          ProdHistoryClassifier Left Right rho z ∧
+            ∃ l' r' : BHist,
+              ProdPairRep Left Right z l' r' ∧ LeftEq l l' ∧ RightEq r r' := by
+  intro chain repRho
+  have certificate :=
+    ProdComponentHistoryClassifier_semantic_name_certificate leftCert rightCert coherent
+  have envelope := ProdHistoryLedgerChain_envelope_closure chain
+  have readback :=
+    ProdHistoryLedgerChain_displayed_component_readback coherent chain repRho
+  exact And.intro certificate (And.intro envelope.right.left readback)
 
 end BEDC.Derived.ProdUp
