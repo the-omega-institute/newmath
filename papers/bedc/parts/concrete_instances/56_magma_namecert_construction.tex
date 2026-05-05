@@ -425,6 +425,32 @@ classifier rebuilds $R_U(a,r)$ for the second continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_nested\_left\_unit\_classifier\_iff}
 
+\begin{theorem}[Concrete unary-history magma nested right-unit classifier]
+\label{thm:concrete-unary-history-magma-cont-nested-right-unit-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $l,m,r,lm,a:\mathsf{BHist}$, if
+$\ContR(l,m,lm)$ and $\ContR(lm,r,a)$, then classifying the nested result
+against the left endpoint is equivalent to the left endpoint being unary and
+both visible right factors being empty:
+$$
+R_U(a,l)
+\Longleftrightarrow
+U(l)\land\hsame(m,\emp)\land\hsame(r,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Compose the two continuation ledgers by associativity into a continuation from
+\(l\) through \(\mathsf{append}(m,r)\) to \(a\). If \(R_U(a,l)\) holds, right
+unit uniqueness forces \(\mathsf{append}(m,r)\) to be empty, and append-empty
+inversion splits this into empty \(m\) and empty \(r\). Conversely, empty \(m\)
+makes \(lm\) agree with \(l\), and empty \(r\) lets the one-step right-unit
+classifier for the second continuation rebuild \(R_U(a,l)\).
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_nested\_right\_unit\_classifier\_iff}
+
 The ten-field per-object fit is: traditional target magma; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
 classifier carrier-aware $\hsame$ on unary endpoints; stability closure and
