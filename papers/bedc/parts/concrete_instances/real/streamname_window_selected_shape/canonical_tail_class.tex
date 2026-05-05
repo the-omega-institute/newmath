@@ -1,0 +1,395 @@
+\begin{theorem}[Real unary StreamNameUp finite-window selected e-one tail pairwise coherence]
+\label{thm:real-unary-streamname-finite-window-selected-e1-tail-pairwise-coherence}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k,a,a',b,b':\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega),
+$$
+and the four displayed selected e-one endpoint comparisons
+$$
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(a)),\quad
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(a')),
+$$
+$$
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(b)),\quad
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(b')).
+$$
+Then the displayed tails form one pairwise selected-tail class:
+\begin{enumerate}
+\item $\mathsf{UnaryHistory}(a)$.
+\item $\mathsf{UnaryHistory}(a')$.
+\item $\mathsf{UnaryHistory}(b)$.
+\item $\mathsf{UnaryHistory}(b')$.
+\item $\hsame(a,a')$.
+\item $\hsame(b,b')$.
+\item $\hsame(a,b)$.
+\item $\hsame(a',b')$.
+\item $\hsame(a,b')$.
+\item $\hsame(a',b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-shape-package} to the
+first left and right endpoint displays, together with the StreamNameUp classifier,
+the unary anchor and bound, and the selected offset. This gives
+$\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
+
+Apply the same selected shape package to the primed left and right endpoint
+displays. This gives $\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$,
+and $\hsame(a',b')$.
+
+For the left selected endpoint, compose the symmetry of
+$\hsame(s(\mathsf{append}(\alpha,k)),\Eone(a))$ with
+$\hsame(s(\mathsf{append}(\alpha,k)),\Eone(a'))$. The kernel transitivity theorem
+$\mathsf{BEDC.FKernel.Hist.hsame\_trans}$ gives
+$\hsame(\Eone(a),\Eone(a'))$, and
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_iff}$ inverts the common e-one head to give
+$\hsame(a,a')$.
+
+The right selected endpoint is identical. Compose the symmetry of the displayed
+comparison with $\Eone(b)$ and the displayed comparison with $\Eone(b')$, then
+invert the common e-one head by
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_iff}$ to get $\hsame(b,b')$.
+
+It remains to fill the two off-diagonal rows. Transitivity sends
+$\hsame(a,a')$ and $\hsame(a',b')$ to $\hsame(a,b')$, while symmetry of
+$\hsame(a,a')$ followed by $\hsame(a,b)$ gives $\hsame(a',b)$. Together with the
+four unary rows and the two direct cross rows, these are exactly the ten displayed
+claims.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_e1\_tail\_pairwise\_coherence}
+
+\begin{theorem}[Real unary StreamNameUp finite-window selected canonical e-one tail witness]
+\label{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-witness}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega).
+$$
+Then there exist histories $u,v:\Hist$ such that the selected endpoints have
+canonical e-one tail displays and every other selected e-one display is coherent
+with them:
+$$
+\begin{array}{l}
+\exists u,v:\Hist,
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(u,v)\land\\
+\forall u',v':\Hist,\,
+\bigl(\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u'))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v'))\bigr)\to\\
+\qquad
+\mathsf{UnaryHistory}(u')\land
+\mathsf{UnaryHistory}(v')\land
+\hsame(u,u')\land
+\hsame(v,v')\land\\
+\qquad
+\hsame(u',v)\land
+\hsame(u,v').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Instantiate
+\autoref{thm:real-unary-streamname-finite-window-selected-e1-tail-coverage-package}
+with the harmless choices $z_s=z_t=d_s=d_t=\emp$. The returned witnesses
+$u$ and $v$ carry the two selected endpoint displays,
+$\mathsf{UnaryHistory}(u)$, $\mathsf{UnaryHistory}(v)$, and $\hsame(u,v)$.
+
+Now fix arbitrary histories $u',v'$ with the same selected endpoint displays.
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-e1-tail-pairwise-coherence}
+with $a=u$, $a'=u'$, $b=v$, and $b'=v'$. The hypotheses are the carrier,
+classifier, unary anchor, unary bound, selected offset, the chosen endpoint
+displays, and the arbitrary endpoint displays.
+
+Project the ten rows returned by pairwise coherence. They give
+$\mathsf{UnaryHistory}(u')$, $\mathsf{UnaryHistory}(v')$, $\hsame(u,u')$,
+$\hsame(v,v')$, $\hsame(u',v)$, and $\hsame(u,v')$. Repack these rows under the
+universal clause and then package the chosen $u$ and $v$ as the displayed
+canonical selected-tail witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_canonical\_e1\_tail\_witness}
+
+Fit. Traditional target: canonical finite rational observation tail. BEDC
+source: $\StreamNameUp$ plus $\RealUp$ plus $\RatUp$ plus $\mathsf{FKernel}$
+e-one inversion. Carrier: $\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$ through
+$\mathsf{RealUnaryStreamWindowClassifier}$. Stability: endpoint $\hsame$ and
+pairwise tail coherence. Ledger: anchor, bound, offset, and selected endpoint
+displays. Core
+theorem:
+\autoref{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-witness}.
+Exactness: existence plus uniqueness up to $\hsame$. Standard bridge: finite
+rational observation windows for RegSeqRat. Status: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real unary StreamNameUp finite-window selected canonical e-one tail full package]
+\label{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-full-package}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k,z_s,z_t,d_s,d_t:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega).
+$$
+Then there exist histories $u,v:\Hist$ such that the selected endpoints carry
+the complete displayed e-one certificate and every other selected e-one display
+is coherent with those witnesses:
+$$
+\begin{array}{l}
+\exists u,v:\Hist,
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))\land\\
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)\land\\
+\mathsf{RatHistoryClassifier}(s(\mathsf{append}(\alpha,k)),t(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land\mathsf{UnaryHistory}(v)\land\hsame(u,v)\land\\
+\mathsf{PositiveUnaryDenominator}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{PositiveUnaryDenominator}(t(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{UnaryHistory}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{UnaryHistory}(t(\mathsf{append}(\alpha,k)))\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land
+(\hsame(t(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t(\mathsf{append}(\alpha,k)),\Ezero(z_t))\to\mathsf{False})\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),d_s\cdot\Ezero(z_s))\to
+\mathsf{False})\land\\
+(\hsame(t(\mathsf{append}(\alpha,k)),d_t\cdot\Ezero(z_t))\to
+\mathsf{False})\land\\
+\forall u',v':\Hist,\,
+\bigl(\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u'))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v'))\bigr)\to\\
+\qquad
+\mathsf{UnaryHistory}(u')\land
+\mathsf{UnaryHistory}(v')\land
+\hsame(u,u')\land
+\hsame(v,v')\land\\
+\qquad
+\hsame(u',v)\land
+\hsame(u,v').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-e1-tail-coverage-package}
+with the displayed histories $z_s,z_t,d_s,d_t$. The resulting witnesses $u$ and
+$v$ carry the two selected endpoint displays, the RealUp window classifier row,
+the selected RatHistoryClassifier rows, the unary tail rows, the denominator
+rows, the endpoint unary rows, the nonempty exclusions, the zero-head
+exclusions, and the appended e-zero-tail exclusions.
+
+Now fix arbitrary histories $u',v'$ with the same selected e-one endpoint
+displays. Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-e1-tail-pairwise-coherence}
+with $a=u$, $a'=u'$, $b=v$, and $b'=v'$. The required displayed endpoint
+comparisons are exactly the two chosen displays and the two arbitrary displays.
+
+Project the rows supplied by pairwise coherence. They give
+$\mathsf{UnaryHistory}(u')$, $\mathsf{UnaryHistory}(v')$, $\hsame(u,u')$,
+$\hsame(v,v')$, $\hsame(u',v)$, and $\hsame(u,v')$. Repack this universal
+coherence clause after the full coverage rows and package $u,v$ as the displayed
+canonical full witnesses.
+\end{proof}
+
+Fit. Traditional target: canonical finite-window selected rational endpoint
+certificate for RealUp StreamNameUp classifiers. BEDC source:
+$\StreamNameUp+\RealUp+\RatUp$ over $\mathsf{BHist}$. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$ through
+$\mathsf{RealUnaryStreamWindowClassifier}$. Stability: selected endpoint
+$\hsame$ transport plus pairwise e-one tail coherence. Ledger: carrier,
+classifier, unary anchor, unary bound, selected offset, selected endpoint
+displays, RatHistoryClassifier rows, positive denominator rows, endpoint
+unary rows, and endpoint exclusion rows. Core theorem:
+\autoref{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-full-package}.
+Exactness: existence, selected endpoint exactness, denominator exclusions,
+appended-tail exclusions, and uniqueness up to $\hsame$. Standard bridge: finite
+RegSeqRat observation windows. Status: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real unary StreamNameUp finite-window selected tail-class exactness]
+\label{thm:real-unary-streamname-finite-window-selected-tail-class-exactness}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega).
+$$
+Then the selected finite-window tail class is exact:
+$$
+\begin{array}{l}
+\exists u,v:\Hist,
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(u,v)\land\\
+\forall u',v':\Hist,\,
+\bigl(\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u'))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v'))\bigr)
+\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u')\land
+\mathsf{UnaryHistory}(v')\land
+\hsame(u,u')\land
+\hsame(v,v')\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-witness}
+to the carrier rows, the StreamNameUp classifier, the unary anchor and bound,
+and the selected offset. This gives witnesses $u$ and $v$ with the two selected
+endpoint displays, their unary rows, $\hsame(u,v)$, and the universal coherence
+package for every displayed selected e-one tail pair.
+
+For the forward direction of the displayed if-and-only-if, fix $u'$ and $v'$
+with the two selected endpoint displays. The universal coherence clause of the
+canonical witness theorem gives $\mathsf{UnaryHistory}(u')$,
+$\mathsf{UnaryHistory}(v')$, $\hsame(u,u')$, and $\hsame(v,v')$.
+
+For the reverse direction, assume $\mathsf{UnaryHistory}(u')$,
+$\mathsf{UnaryHistory}(v')$, $\hsame(u,u')$, and $\hsame(v,v')$. Apply
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_congr}$ to the two tail comparisons to
+obtain $\hsame(\Eone(u),\Eone(u'))$ and
+$\hsame(\Eone(v),\Eone(v'))$.
+
+Compose the selected display
+$\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))$ with
+$\hsame(\Eone(u),\Eone(u'))$ by
+$\mathsf{BEDC.FKernel.Hist.hsame\_trans}$, and do the same for the right
+endpoint. The two composed comparisons are exactly the selected endpoint
+displays for $u'$ and $v'$, completing the reverse direction and the exact
+tail-class package.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_tail\_class\_exactness}
+
+Fit. Traditional target: exact selected finite rational observation tails. BEDC
+source: $\StreamNameUp$ plus $\RealUp$ plus $\RatUp$ plus $\mathsf{FKernel}$
+e-one congruence and transitivity. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$ through
+$\mathsf{RealUnaryStreamWindowClassifier}$. Stability: endpoint $\hsame$
+transport inside the selected e-one tail class. Ledger: anchor, bound, offset,
+selected endpoint displays, and canonical tail witnesses. Core theorem:
+\autoref{thm:real-unary-streamname-finite-window-selected-tail-class-exactness}.
+Exactness: displayed selected e-one tails are exactly the canonical $\hsame$
+classes of $u$ and $v$. Downstream consumer: RegSeqRat finite observation
+canonicalization. Status: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real unary StreamNameUp finite-window selected full tail-class certificate]
+\label{thm:real-unary-streamname-finite-window-selected-full-tail-class-certificate}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k,z_s,z_t,d_s,d_t:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega).
+$$
+Then there exist histories $u,v:\Hist$ such that the selected endpoints carry
+the full endpoint certificate and the selected tail class is exact:
+$$
+\begin{array}{l}
+\exists u,v:\Hist,
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))\land\\
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)\land\\
+\mathsf{RatHistoryClassifier}(s(\mathsf{append}(\alpha,k)),t(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land\mathsf{UnaryHistory}(v)\land\hsame(u,v)\land\\
+\mathsf{PositiveUnaryDenominator}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{PositiveUnaryDenominator}(t(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{UnaryHistory}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{UnaryHistory}(t(\mathsf{append}(\alpha,k)))\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land
+(\hsame(t(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t(\mathsf{append}(\alpha,k)),\Ezero(z_t))\to\mathsf{False})\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),d_s\cdot\Ezero(z_s))\to
+\mathsf{False})\land\\
+(\hsame(t(\mathsf{append}(\alpha,k)),d_t\cdot\Ezero(z_t))\to
+\mathsf{False})\land\\
+\forall u',v':\Hist,\,
+\bigl(\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u'))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v'))\bigr)
+\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u')\land
+\mathsf{UnaryHistory}(v')\land
+\hsame(u,u')\land
+\hsame(v,v')\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-tail-class-exactness}
+to the carrier rows, the StreamNameUp classifier, the unary anchor and bound,
+and the selected offset. This chooses witnesses $u$ and $v$ with the two selected
+e-one endpoint displays, the two unary tail rows, $\hsame(u,v)$, and the exact
+if-and-only-if clause for every displayed selected e-one tail pair.
+
+Apply \autoref{thm:real-unary-streamname-finite-window-coverage} to the same
+carrier rows, classifier, unary anchor, and unary bound. This supplies the
+finite-window row $\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)$.
+
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-classifier-appended-tail-package}
+to the chosen selected endpoint displays, the carrier rows, the classifier, the
+unary anchor and bound, the selected offset, and the displayed histories
+$z_s,z_t,d_s,d_t$. The package returns the selected source classifier, the
+displayed $\Eone$ classifier, the unary tail and common-tail rows, the
+positive-denominator rows, the endpoint unary rows, the nonempty exclusions, the
+zero-head exclusions, and the two appended e-zero-tail exclusions.
+
+Repack the chosen endpoint displays, the finite-window row, the selected
+classifier appended-tail package, and the universal if-and-only-if clause from
+tail-class exactness. These rows are exactly the displayed full tail-class
+certificate.
+\end{proof}
+
+Fit. Traditional target: selected finite-window full tail-class certificate;
+BEDC source: $\StreamNameUp+\RealUp+\RatUp$ over $\mathsf{BHist}$; Carrier:
+$\mathsf{RatStreamNameCarrier}$; Classifier: $\mathsf{RatStreamNameClassifier}$
+through $\mathsf{RealUnaryStreamWindowClassifier}$; Stability: endpoint $\hsame$
+transport and positive-denominator transport; Ledger: carrier, classifier,
+anchor, bound, offset, endpoint displays, denominator rows, endpoint exclusions,
+appended-tail exclusions, and tail-class quantification; Core theorem:
+\autoref{thm:real-unary-streamname-finite-window-selected-full-tail-class-certificate};
+Exactness: full selected endpoint certificate plus exact canonical tail class;
+Standard bridge: RegSeqRat finite observation canonicalization; Status:
+$\mathsf{ProofTarget}$.
