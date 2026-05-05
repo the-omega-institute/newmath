@@ -106,6 +106,29 @@ law.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_right\_iff}
 
+\begin{theorem}[Unary multiplication two-sided unit exactness]
+\label{thm:natmul-two-sided-unit-exactness}
+For unary histories $q$ and $d$, left and right multiplication by the unit
+history $\Eone(\emp)$ are exact up to history-sameness:
+$$
+\mathsf{NatMul}(\Eone(\emp),q,n)\Longleftrightarrow \hsame(n,q)
+$$
+and
+$$
+\mathsf{NatMul}(d,\Eone(\emp),n)\Longleftrightarrow \hsame(n,d).
+$$
+\end{theorem}
+\begin{proof}
+For the left-hand equivalence, the forward direction is
+\autoref{lem:nat-mul-unit-left-hsame}. For the reverse direction, transport
+along the displayed $\hsame(n,q)$ identification and apply the closed unit-left
+multiplication theorem $\mathsf{NatMul\_unit\_left\_closed}$.
+
+For the right-hand equivalence, apply
+\autoref{lem:nat-mul-unit-right-iff}. Its statement is exactly the right unit
+exactness claim for unary multiplicands.
+\end{proof}
+
 \begin{theorem}[Unit multiplication result forces unit factors]
 \label{thm:natmul-unit-result-factors-unit}
 If a unary multiplication witness returns the unit history, then both the
