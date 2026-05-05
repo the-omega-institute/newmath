@@ -144,3 +144,45 @@ has been transported and the quantification over late observations is
 preserved pointwise, the transported package is again a complete metric limit
 witness.
 \end{proof}
+
+\begin{theorem}[CompleteMetricUp limit witness NameCert target]
+\label{thm:completemetric-limit-witness-namecert-target}
+Let $X$ be a certified $\MetricSpaceUp$ carrier over $\mathsf{BHist}$. The
+carrier of \autoref{def:completemetric-limit-witness}, the classifier given
+by transported stream observations, modulus histories, limit histories,
+threshold ledgers, distance histories, and $\RatUp$ comparison rows, the
+stability theorem
+\autoref{thm:completemetric-limit-witness-stability}, and the ledger policy
+recording $\StreamNameUp$ observations, $\mathsf{MetricDistanceWitness}$ rows,
+and $\RatUp$ bounds form the paper-level $\NameCert$ target for
+$\CompleteMetricUp$ over $X$.
+\end{theorem}
+\begin{proof}
+The source object is the certified metric carrier $X$ together with its
+$\MetricSpaceUp$ point classifier and distance-row interface. The BEDC pattern
+is the regular Cauchy stream name $s$, the modulus history $\mu$, the carried
+limit history $\ell$, and the family $L$ of late-observation bound ledgers in
+\autoref{def:completemetric-limit-witness}.
+
+The classifier is the componentwise transport relation on this package. It
+requires transported $\StreamNameUp$ observations, transported modulus and
+limit histories, transported threshold histories for each positive tolerance,
+transported distance histories, and transported $\RatUp$ positivity and
+comparison rows. These are exactly the histories named in the public
+complete-metric witness.
+
+For the stability field, apply
+\autoref{thm:completemetric-limit-witness-stability}. It takes a displayed
+complete metric limit witness and the componentwise classifier data just
+listed, then repacks them as a complete metric limit witness for the
+transported stream and transported limit.
+
+The ledger policy is therefore visible and finite-schema: it records
+$\StreamNameUp$ observation rows, $\mathsf{MetricDistanceWitness}$ rows from
+late observations to the selected limit, and $\RatUp$ comparison rows showing
+that each displayed distance is below the requested positive tolerance. The
+remaining entries of the ten-field template are inherited from the same
+metric carrier: target name $\CompleteMetricUp$, carrier $X$, exactness by
+metric endpoint transport, and no separate standard bridge. Thus the listed
+fields assemble the paper-level $\NameCert$ target for $\CompleteMetricUp$.
+\end{proof}
