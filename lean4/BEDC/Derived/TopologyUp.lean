@@ -104,4 +104,28 @@ theorem BHistIndexedOpen_arbitrary_union_closure (T : BHistIndexedOpenCarrier)
       have openX : T.OpenAt u x := Iff.mpr stable openY
       exact Iff.mpr carryX openX
 
+def TopologySingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def TopologySingletonOpenAt (i h : BHist) : Prop :=
+  hsame i BHist.Empty ∧ TopologySingletonCarrier h
+
+theorem TopologySingleton_boundary_open_laws :
+    (forall h : BHist, TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <-> False) ∧
+      (forall h : BHist,
+        TopologySingletonOpenAt BHist.Empty h <-> TopologySingletonCarrier h) := by
+  constructor
+  · intro h
+    constructor
+    · intro openH
+      exact not_hsame_e0_empty openH.left
+    · intro impossible
+      exact False.elim impossible
+  · intro h
+    constructor
+    · intro openH
+      exact openH.right
+    · intro carrierH
+      exact And.intro (hsame_refl BHist.Empty) carrierH
+
 end BEDC.Derived.TopologyUp
