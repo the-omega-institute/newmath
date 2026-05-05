@@ -27,6 +27,13 @@ def ComplexTopologyOpenSet (U : BHist -> Prop) : Prop :=
     exists center radius gap : BHist,
       ComplexTopologyOpenDiskGap center radius z gap ∧ Cont z gap radius
 
+def ComplexTopologyDyadicNet (K : BHist -> Prop) (precision : BHist)
+    (net : List BHist) : Prop :=
+  UnaryHistory precision ∧
+    forall z : BHist, K z ->
+      exists center gap : BHist, List.Mem center net ∧
+        ComplexTopologyOpenDiskGap center precision z gap
+
 theorem ComplexTopologyOpenDiskGap_gap_deterministic
     {center radius point gap gap' : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap -> Cont point gap' radius ->
