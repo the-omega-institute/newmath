@@ -1,0 +1,25 @@
+\begin{theorem}[Metric triangle right distance empty collapse]
+\label{thm:metric-distance-witness-triangle-right-distance-empty-collapse}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the right distance in a
+metric triangle is history-same to $\emp$, then the shared endpoint and right
+endpoint collapse and the remaining displayed distances read back to the left
+endpoint:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow\\
+\hsame(d_{yz},\emp)\Longrightarrow
+\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xy},x)\land\hsame(d_{xyz},x).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Empty-distance exactness for the witness from $y$ to $z$ gives
+$y\hsame\emp$ and $z\hsame\emp$. Collapsing $y$ in the first witness and using
+empty-right exactness identifies $d_{xy}$ with $x$. Collapsing $z$ in the outer
+witness identifies $d_{xyz}$ with $d_{xy}$, and transitivity composes this with
+the previous readback to obtain $d_{xyz}\hsame x$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_right\_distance\_empty\_collapse}
