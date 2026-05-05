@@ -33,6 +33,30 @@ theorem ComplexAnalytic_component_continuation_complex_carrier {real imag z : BH
   intro realCarrier imagCarrier realImag
   exact ProdHistoryCarrier_cont_intro realCarrier imagCarrier realImag
 
+def CplxExp (z w : BHist) : Prop :=
+  ∃ real imag realOut imagOut : BHist,
+    RatHistoryCarrier real ∧ RatHistoryCarrier imag ∧ Cont real imag z ∧
+      RatHistoryCarrier realOut ∧ RatHistoryCarrier imagOut ∧ Cont realOut imagOut w ∧
+        hsame realOut (append real imag) ∧ hsame imagOut (append imag real)
+
+theorem CplxExp_component_carrier_witness {z w : BHist} :
+    CplxExp z w -> ComplexHistoryCarrier z ∧ ComplexHistoryCarrier w := by
+  intro expWitness
+  cases expWitness with
+  | intro real realData =>
+      cases realData with
+      | intro imag imagData =>
+          cases imagData with
+          | intro realOut realOutData =>
+              cases realOutData with
+              | intro imagOut componentData =>
+                  exact And.intro
+                    (ProdHistoryCarrier_cont_intro componentData.left
+                      componentData.right.left componentData.right.right.left)
+                    (ProdHistoryCarrier_cont_intro componentData.right.right.right.left
+                      componentData.right.right.right.right.left
+                      componentData.right.right.right.right.right.left)
+
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
 
