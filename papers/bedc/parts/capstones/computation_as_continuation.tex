@@ -370,6 +370,28 @@ identity carrier at $a$, and the reverse carrier becomes the empty-tail
 identity carrier at $b$.
 \end{proof}
 
+\begin{theorem}[Split-mono witnesses have empty cyclic boundary]
+\label{thm:category-hom-carrier-split-mono-witness-empty-boundary}
+If $f:a\to b$ and $g:b\to a$ are category hom-carriers, $i:a\to a$ is an
+identity hom-carrier, $\ContR(f,g,c)$ displays the composite, and $c:a\to a$
+is also a category hom-carrier, then the whole cyclic boundary collapses:
+$$
+f\hsame\emp\land g\hsame\emp\land i\hsame\emp\land c\hsame\emp
+\land a\hsame b.
+$$
+\end{theorem}
+\begin{proof}
+The two opposite hom-carriers give the cyclic tail theorem, so $a\hsame b$ and
+both displayed tails are empty. Transport the forward hom-carrier across the
+endpoint and tail comparisons to obtain the empty identity carrier at $a$.
+Category hom-carrier determinacy compares the displayed identity with that
+empty carrier. The composite continuation transports across the empty tail
+comparisons to a continuation from $\emp$ by $\emp$, while the supplied
+endomorphism carrier identifies this composite with the category composition
+carrier; continuation determinacy reads the composite as empty.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_split\_mono\_witness\_empty\_boundary}
+
 \begin{theorem}[Triangular cyclic hom-carriers have empty tails]
 \label{thm:category-hom-carrier-triangle-cycle-tails-empty}
 If the hom-carrier ledgers

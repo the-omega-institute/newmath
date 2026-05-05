@@ -223,13 +223,17 @@ import BEDC.Derived.PrimeUp.EmptyResult
 import BEDC.Derived.PrimeUp.NatMulCases
 import BEDC.Derived.PrimeUp.NatMulComm
 import BEDC.Derived.PrimeUp.NatMulTransport
+import BEDC.Derived.PrimeUp.SuccMultiplicand
+import BEDC.Derived.PrimeUp.ResultCancel
 import BEDC.Derived.PrimeUp.SuccResultContTransport
 import BEDC.Derived.PrimeUp.ResultBoundary
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
+import BEDC.Derived.PrimeUp.DivisorPositiveShape
 import BEDC.Derived.PrimeUp.FactorialShape
 import BEDC.Derived.PrimeUp.FactorizationList
 import BEDC.Derived.PrimeUp.PrimeShape
+import BEDC.Derived.PrimeUp.Factorization
 import BEDC.Derived.PrimeUp.TrialDivShape
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
@@ -610,6 +614,7 @@ import BEDC.Derived.FunctorUp.AssocReflects
 import BEDC.Derived.FunctorUp.CompEndpointCycleBoundaryComponents
 import BEDC.Derived.FunctorUp.CompositionSamenessRespect
 import BEDC.Derived.FunctorUp.SplitMono
+import BEDC.Derived.FunctorUp.SplitIso
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyComponentPrefix
 import BEDC.Derived.NatTransUp.EmptyVertComp

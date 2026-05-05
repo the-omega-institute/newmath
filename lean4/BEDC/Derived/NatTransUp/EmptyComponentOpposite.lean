@@ -1,4 +1,5 @@
 import BEDC.Derived.NatTransUp
+import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.CategoryUp.EmptyComposite
 
 namespace BEDC.Derived.NatTransUp
@@ -46,5 +47,18 @@ theorem NatTransPrefixComponentCarrier_vert_comp_empty_result_prefixes_hsame
     And.intro
       (append_right_cancel (k := a) base.right.right.left)
       (append_right_cancel (k := a) base.right.right.right)
+
+theorem NatTransPrefixComponentCarrier_vert_comp_empty_result_components_opposite_closed
+    {p q r a eta theta : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta -> Cont eta theta BHist.Empty ->
+        NatTransPrefixComponentCarrier q p a eta ∧
+          NatTransPrefixComponentCarrier r q a theta := by
+  intro left right comp
+  have emptyData := Iff.mp (NatTransPrefixComponentCarrier_vert_comp_empty_iff left right) comp
+  exact
+    And.intro
+      (NatTransPrefixComponentCarrier_empty_component_opposite_closed left emptyData.left)
+      (NatTransPrefixComponentCarrier_empty_component_opposite_closed right emptyData.right.left)
 
 end BEDC.Derived.NatTransUp

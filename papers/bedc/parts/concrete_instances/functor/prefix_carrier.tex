@@ -105,6 +105,26 @@ determinacy at the same prefixed endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_public\_readback}
 
+\begin{theorem}[Prefix functor carrier right-factor endpoint determinacy]
+\label{thm:prefix-functor-carrier-comp-right-factor-endpoint-deterministic}
+For a prefix functor carrier \(p\), suppose \(f\) is a hom-carrier from \(a\)
+to \(b\), \(fg\) is displayed as \(\ContR(f,g,fg)\), and the prefixed
+composite \(fg\) is a hom-carrier from \(\mathsf{append}(p,a)\) to
+\(\mathsf{append}(p,c)\). If the same composite is also displayed as
+\(\ContR(f,g',fg)\) and \(g'\) is a hom-carrier from \(b'\) to \(c\), then
+\[
+\HSame(b,b')\wedge\HSame(g,g').
+\]
+\end{theorem}
+\begin{proof}
+The hom-reflection field of the prefix functor carrier reflects the displayed
+prefixed composite back to a hom-carrier from \(a\) to \(c\). Category
+right-factor endpoint determinacy compares this reflected composite against
+the displayed \(b'\to c\) right factor, and continuation left cancellation
+identifies the two right-factor histories.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_right\_factor\_endpoint\_deterministic}
+
 \begin{theorem}[Prefix functor carrier hom public readback]
 \label{thm:prefix-functor-carrier-hom-public-readback}
 For a prefix functor carrier \(p\), if \(f\) is a hom-carrier from \(a\) to
@@ -193,6 +213,46 @@ to be $c$ gives the required witness package, with the original comparison
 $c\hsame i$ as the classifier component.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_split\_mono\_witness\_preserves}
+
+\begin{theorem}[Prefix functor carrier preserves split-epi witnesses]
+\label{thm:prefix-functor-carrier-split-epi-witness-preserves}
+For histories $p,a,b,f,g,i,c$, suppose $p$ carries a prefix functor carrier,
+$f:a\to b$ and $g:b\to a$ are category hom-carriers, $i:b\to b$ is an
+identity hom-carrier, $\ContR(g,f,c)$ displays the composite, $c:b\to b$ is
+also a category hom-carrier, and $c\hsame i$. Then the prefixed endpoints carry
+a split-epimorphism witness: $g:\mathsf{append}(p,b)\to\mathsf{append}(p,a)$,
+the identity carrier over $\mathsf{append}(p,b)$, the same composite ledger,
+the prefixed composite carrier, and the same classifier comparison.
+\end{theorem}
+\begin{proof}
+Use the hom-preservation field of the prefix functor carrier on the displayed
+reverse hom-carrier $g$ and on the identity hom-carrier $i$. Use its
+composition preservation field on $g$, $f$, and the displayed continuation for
+$c$. Taking the displayed prefixed identity to be $i$ and the displayed
+prefixed composite to be $c$ gives the required witness package, with the
+original comparison $c\hsame i$ as the classifier component.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_split\_epi\_witness\_preserves}
+
+\begin{theorem}[Prefix functor carrier preserves split-isomorphism witness pairs]
+\label{thm:prefix-functor-carrier-split-iso-witness-pair-preserves}
+For histories $p,a,b,f,g_L,i_A,c_A,g_R,i_B,c_B$, suppose $p$ carries a
+prefix functor carrier, $f:a\to b$ is a category hom-carrier, $g_L:b\to a$
+and $g_R:b\to a$ are the two displayed inverse-side hom-carriers, $i_A:a\to a$
+and $i_B:b\to b$ are identity hom-carriers, and the continuations
+$\ContR(f,g_L,c_A)$ and $\ContR(g_R,f,c_B)$ display composites classified by
+$i_A$ and $i_B$. Then the prefixed endpoints carry the corresponding
+split-isomorphism witness pair with the same morphism histories and
+classifier comparisons.
+\end{theorem}
+\begin{proof}
+Use the hom-preservation field of the prefix functor carrier on $f$, both
+inverse-side hom-carriers, and both identity hom-carriers. Use its
+composition-preservation field on the two displayed continuation ledgers. The
+four displayed witnesses are the original identity and composite histories,
+and the two classifier components are the original comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_split\_iso\_witness\_pair\_preserves}
 
 \begin{theorem}[Prefix functor empty morphism source exactness]
 \label{thm:functor-prefix-empty-morphism-source}
@@ -352,3 +412,27 @@ compares the displayed carrier with this canonical carrier and identifies the
 displayed source with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_source\_deterministic}
+
+\begin{theorem}[Prefix functor carrier empty-middle empty-result readback]
+\label{thm:prefix-functor-carrier-comp-empty-middle-empty-result-readback}
+For histories $p,q,a,c,f,g,fg$, suppose $p$ carries a prefix functor carrier,
+$f$ is a hom-carrier from $\mathsf{append}(p,a)$ to $\emp$, $g$ is a
+hom-carrier from $\emp$ to $\mathsf{append}(q,c)$, $\ContR(f,g,fg)$, and
+$fg\hsame\emp$. Then $q$ carries a prefix functor carrier, and all displayed
+components are empty:
+$$
+\mathsf{PrefixFunctorCarrier}(q)\wedge\hsame(p,\emp)\wedge\hsame(q,\emp)
+\wedge\hsame(a,\emp)\wedge\hsame(c,\emp)\wedge
+\hsame(f,\emp)\wedge\hsame(g,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply category composite-result empty exactness to the displayed hom-carriers.
+The left endpoint equality splits
+$\mathsf{append}(p,a)\hsame\emp$ into $p\hsame\emp$ and $a\hsame\emp$, and the
+right endpoint equality splits $\mathsf{append}(q,c)\hsame\emp$ into
+$q\hsame\emp$ and $c\hsame\emp$. The factor morphism equalities give
+$f\hsame\emp$ and $g\hsame\emp$. Since $q$ is history-same to $\emp$, the
+unary-prefix constructor supplies the prefix functor carrier at $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_empty\_middle\_empty\_result\_readback}
