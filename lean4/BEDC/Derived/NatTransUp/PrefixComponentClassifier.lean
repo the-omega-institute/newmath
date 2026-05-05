@@ -216,6 +216,24 @@ theorem NatTransPrefixComponentClassifier_hsame_transport
           (And.intro etaCarrier (And.intro thetaCarrier etaThetaSame)))))
       (And.intro etaCarrier thetaCarrier)
 
+theorem NatTransPrefixComponentClassifier_vert_comp_right_identity_closed
+    {p q a eta eta' right right' : BHist} :
+    NatTransPrefixComponentClassifier p q a eta eta' ->
+      Cont eta BHist.Empty right -> Cont eta' BHist.Empty right' ->
+        NatTransPrefixComponentClassifier p q a right right' ∧ hsame right right' := by
+  intro classified rightRel rightRel'
+  have rightSame : hsame right eta :=
+    cont_deterministic rightRel (cont_right_unit eta)
+  have rightSame' : hsame right' eta' :=
+    cont_deterministic rightRel' (cont_right_unit eta')
+  have transported :=
+    NatTransPrefixComponentClassifier_hsame_transport
+      (p := p) (p' := p) (q := q) (q' := q) (a := a) (a' := a)
+      (eta := eta) (eta' := right) (theta := eta') (theta' := right')
+      (hsame_refl p) (hsame_refl q) (hsame_refl a)
+      (hsame_symm rightSame) (hsame_symm rightSame') classified
+  exact And.intro transported.left transported.left.right.right.right.right.right
+
 theorem NatTransPrefixComponentClassifier_zero_headed_component_absurd
     {p q a eta theta : BHist} :
     NatTransPrefixComponentClassifier p q a eta theta ->
@@ -430,5 +448,31 @@ theorem NatTransPrefixComponentClassifier_vert_comp_empty_result_components
       (And.intro primaryData.right.left
         (And.intro secondaryData.right.left
           (And.intro primaryData.right.right.left primaryData.right.right.right))))
+
+theorem NatTransPrefixComponentClassifier_vert_comp_empty_result_cycle_closed
+    {p q r a eta eta' theta theta' : BHist} :
+    NatTransPrefixComponentClassifier p q a eta eta' ->
+      NatTransPrefixComponentClassifier q r a theta theta' ->
+        Cont eta theta BHist.Empty -> Cont eta' theta' BHist.Empty ->
+          NatTransPrefixComponentClassifier p r a BHist.Empty BHist.Empty ∧
+            NatTransPrefixComponentClassifier r p a BHist.Empty BHist.Empty ∧
+              hsame p q ∧ hsame q r ∧ hsame p r := by
+  intro left right comp comp'
+  have componentData :
+      hsame eta BHist.Empty ∧ hsame eta' BHist.Empty ∧ hsame theta BHist.Empty ∧
+        hsame theta' BHist.Empty ∧ hsame p q ∧ hsame q r :=
+    NatTransPrefixComponentClassifier_vert_comp_empty_result_components left right comp comp'
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  have forward : NatTransPrefixComponentClassifier p r a BHist.Empty BHist.Empty :=
+    NatTransPrefixComponentClassifier_vert_comp_congr left right comp comp'
+  have backward : NatTransPrefixComponentClassifier r p a BHist.Empty BHist.Empty :=
+    NatTransPrefixComponentClassifier_empty_component_opposite_closed forward
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  exact And.intro forward
+    (And.intro backward
+      (And.intro componentData.right.right.right.right.left
+        (And.intro componentData.right.right.right.right.right
+          (hsame_trans componentData.right.right.right.right.left
+            componentData.right.right.right.right.right))))
 
 end BEDC.Derived.NatTransUp
