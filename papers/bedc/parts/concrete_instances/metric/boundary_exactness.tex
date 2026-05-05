@@ -145,6 +145,26 @@ target e-one readback.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_source\_nonempty\_distance\_target\_e1\_cases}
 
+\begin{theorem}[Metric empty-target nonempty distance source e-one cases]
+\label{thm:metric-distance-witness-empty-target-nonempty-distance-source-e1-cases}
+For histories $source,dist:\mathsf{BHist}$, if a concrete metric distance
+witness ends at the empty target and its distance endpoint is not history-same
+as $\emp$, then the source endpoint is visibly one-headed with a unary tail:
+$$
+\mathsf{MetricDistanceWitness}(source,\emp,dist)\to
+(dist\hsame\emp\to\mathsf{False})\to
+\exists sourceTail,\ source=\Eone(sourceTail)\land
+\mathsf{UnaryHistory}(sourceTail).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty-distance endpoint e-one cases theorem. The target-side
+visible branch would identify $\emp$ with a one-headed history, which is
+impossible by constructor disjointness. The remaining branch is exactly the
+source e-one readback.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_target\_nonempty\_distance\_source\_e1\_cases}
+
 \begin{theorem}[Metric distance witness zero-headed component impossibility]
 \label{thm:metric-distance-witness-e0-component-absurd}
 For histories $x,y,d:\mathsf{BHist}$, no concrete metric distance witness has
