@@ -112,3 +112,50 @@ with the visible prefix and suffix contexts. The core theorem is this result.
 The exactness predicate is the displayed pair of $\hsame$ conclusions. The
 standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
+
+\begin{theorem}[Continuous function carrier visible-context graph-modulus determinacy]
+\label{thm:continuous-function-carrier-visible-modulus-context-graph-modulus-deterministic}
+For histories $p,q,source,map,map',target,modulus,modulus',cert$, if both
+visible-modulus-context carrier presentations
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
+modulus\cdot q,(p\cdot cert)\cdot q)
+$$
+and
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map',p\cdot target,
+modulus'\cdot q,(p\cdot cert)\cdot q)
+$$
+hold, then the public graph and modulus ledgers are simultaneously determined:
+$$
+\hsame(map,map')\land\hsame(modulus,modulus').
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff}
+to both visible carrier hypotheses. The common displayed prefix and suffix are
+peeled away, leaving central carriers over
+$(source,map,target,modulus,cert)$ and
+$(source,map',target,modulus',cert)$.
+
+Apply
+Theorem~\ref{thm:continuous-function-carrier-graph-modulus-cont-readback} to
+the two central carriers. This exposes graph ledgers
+$\mathsf{Cont}(source,map,target)$ and
+$\mathsf{Cont}(source,map',target)$, and certificate ledgers
+$\mathsf{Cont}(target,modulus,cert)$ and
+$\mathsf{Cont}(target,modulus',cert)$.
+
+Continuation left cancellation on the two graph ledgers gives
+$\hsame(map,map')$. The same cancellation principle on the two
+target-certificate ledgers gives $\hsame(modulus,modulus')$, and the two
+comparisons are paired as the displayed conclusion.
+
+The ten-field certificate fit is: traditional target visible
+continuous-function determinacy; BEDC source $\mathsf{BHist}$ with
+$\mathsf{Cont}$; carrier $\mathsf{ContinuousFunctionCarrier}$; classifier
+$\hsame$; stability obligation visible-context public readback; ledger source,
+map, target, modulus, certificate, prefix, and suffix; core theorem this
+statement; exactness the displayed pair of $\hsame$ conclusions; standard
+bridge deferred; status $\mathsf{ProofTarget}$.
+\end{proof}
