@@ -10327,3 +10327,80 @@ The claim is a concrete certificate-construction implication inside the existing
 
 ---
 
+### B-395 - LieAlgebra adjoint additive linearity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LieAlgebra adjoint additive linearity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If L is a LieAlgebraUp carrier and x, y, z are carried, then ad_x(y +_L z) is classifier-equal to ad_x(y) +_L ad_x(z).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+The Lie algebra chapter states that LieAlgebraUp packages a vector-space carrier with an antisymmetric bilinear bracket satisfying Jacobi at papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex:4, then defines the adjoint action ad_x(t) = [x,t]_L at papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex:12-18. Existing labeled theorems are the derivation identity at papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex:21-62 and the inner-derivation commutator identity at papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex:64-107. Focused grep for theorem labels matching `adjoint.*linear|adjoint.*additive|linear.*adjoint|ad.*scalar` produced no candidate label; broader hits were only definition/proof prose inside those two existing theorems, so the basic additive linearity of each adjoint map is still absent.
+
+---
+
+
+### B-396 - Computable identity bounded graph certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Computable identity bounded graph certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If Id(n,m) is unary classifier equality on NatUp histories, then a deterministic halted identity machine with its displayed bound supplies a bounded ComputableUp graph certificate for Id.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/98_seq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+The computable chapter defines BoundedSim by a trace, initial configuration, transition rows, halted endpoint, and output readout at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:12-25, then defines a bounded graph certificate by a deterministic code, unary bound, graph equivalence, and output determinacy at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:27-35. It proves composition at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:37-56 and graph single-valuedness at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:87-116. Focused grep for `computable.*identity|identity.*computable|bounded.*identity|id.*BoundedSim` found no identity theorem; the only nearby hit was unrelated composition prose at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:65.
+
+---
+
+
+### B-397 - PublicKey arbitrary decryption of certified encryption
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PublicKey arbitrary decryption of certified encryption |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If PKDecryptEncryptExact, decrypt-output determinacy, PKKeyGen(pk,sk), PKCertifiedEnc(pk,m,c), and PKDecrypt(sk,c,d) hold, then d is message-classifier equal to m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex`
+
+Rationale:
+The public-key chapter defines certified encryption and decrypt-encrypt exactness at papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex:30-50. It proves decrypt-encrypt correctness only as an existential decryption endpoint at papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex:53-68, and separately defines and proves decrypt-output determinacy at papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex:83-116. Focused grep for `publickey.*any.*decrypt|decrypt.*certified.*encrypt|decrypt.*encrypt.*determin|decryption.*certified|decrypt.*returns.*original` found only the existing correctness and determinacy lines, with no theorem composing them into the arbitrary-output correctness implication.
+
+---
+
