@@ -32,7 +32,7 @@ format:
 
   .map-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 180px;
+    grid-template-columns: minmax(0, 1fr) 240px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas: "header header" "graph detail" "footer footer";
     /* Parent (#quarto-content) is locked to viewport-minus-navbar, so
@@ -65,15 +65,6 @@ format:
   .map-header .summary { font-size: 0.86rem; color: #666; }
   .map-header .summary strong { color: #222; }
   .map-controls { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end; }
-  .axis-toggle { display: inline-flex; align-items: center; gap: 0; font-size: 0.82rem; }
-  .axis-toggle .axis-label { margin-right: 0.35rem; color: #666; }
-  .axis-toggle button {
-    border: 1px solid #ccc; border-left-width: 0; background: white; padding: 0.2rem 0.55rem;
-    cursor: pointer; font-family: inherit; font-size: 0.82rem; white-space: nowrap;
-  }
-  .axis-toggle button:first-of-type { border-left-width: 1px; border-radius: 3px 0 0 3px; }
-  .axis-toggle button:last-of-type { border-radius: 0 3px 3px 0; }
-  .axis-toggle button.active { background: #2c3e50; color: white; border-color: #2c3e50; }
   .lang-toggle { font-size: 0.85rem; }
   .lang-toggle button {
     border: 1px solid #ccc; background: white; padding: 0.2rem 0.6rem;
@@ -121,32 +112,40 @@ format:
     font-size: 0.78rem; color: #2c3e50; background: transparent;
   }
   #detail .legend { margin-top: 1.5rem; padding-top: 0.9rem; border-top: 1px solid #eee; font-size: 0.82rem; color: #666; }
-  #detail .legend .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: middle; margin-right: 0.3rem; border: 1px solid rgba(0,0,0,0.2); }
-  #detail .axis-grid-wrap { margin: 0.55rem 0 0.75rem 0; overflow-x: auto; }
-  #detail .axis-grid {
-    display: grid; grid-template-columns: 70px repeat(6, 18px); gap: 4px;
-    align-items: center; width: max-content;
+  #detail .legend .swatch {
+    display: inline-block; width: 14px; height: 14px; vertical-align: middle;
+    margin-right: 0.3rem;
   }
-  #detail .axis-grid .axis-head, #detail .axis-grid .axis-row-label {
-    font-size: 0.68rem; color: #777; line-height: 1.1;
+  #detail .legend .swatch.circle {
+    border-radius: 50%; border: 1px solid rgba(0,0,0,0.2);
   }
-  #detail .axis-grid .axis-row-label { text-align: right; padding-right: 2px; }
-  #detail .axis-grid .axis-swatch {
-    width: 18px; height: 18px; border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.2); box-sizing: border-box;
+  #detail .legend .swatch.hex {
+    /* Cytoscape's hexagon shape, mirrored as a CSS clip-path so the legend
+       matches the on-graph node silhouette exactly. */
+    clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  }
+  #detail .legend > div { padding: 0.12rem 0; }
+  #detail .legend .legend-note {
+    margin-top: 0.45rem; font-size: 0.78rem; color: #888; line-height: 1.45;
   }
   #detail .closure-table {
     margin-top: 0.8rem; padding-top: 0.7rem; border-top: 1px dashed #ddd;
-    font-size: 0.82rem; line-height: 1.35;
+    font-size: 0.82rem; line-height: 1.4;
   }
   #detail .closure-row {
-    display: grid; grid-template-columns: minmax(92px, 0.42fr) minmax(0, 1fr);
-    gap: 0.45rem; padding: 0.18rem 0; border-bottom: 1px solid #f3f3f3;
+    padding: 0.3rem 0; border-bottom: 1px solid #f3f3f3;
   }
   #detail .closure-row:last-child { border-bottom: none; }
-  #detail .closure-label { color: #666; font-weight: 600; }
-  #detail .closure-value { color: #333; word-break: break-word; }
-  #detail .closure-value code { font-size: 0.76rem; color: #2c3e50; background: transparent; }
+  #detail .closure-label {
+    color: #888; font-weight: 600;
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 0.15rem;
+  }
+  #detail .closure-value { color: #333; overflow-wrap: anywhere; }
+  #detail .closure-value code {
+    font-size: 0.78rem; color: #2c3e50; background: transparent;
+    white-space: normal; overflow-wrap: anywhere;
+  }
   #detail .crit-list { margin-top: 0.7rem; }
   #detail .crit-list a {
     display: block; padding: 0.25rem 0.5rem; margin-bottom: 0.2rem;
@@ -224,12 +223,6 @@ format:
       <option value="" data-i18n="picker_default">-- jump to region --</option>
     </select>
     <div class="map-controls">
-      <div class="axis-toggle">
-        <span class="axis-label" data-i18n="axis_label">View:</span>
-        <button id="axis-conjunction" class="active" onclick="setAxisView('conjunction')" data-i18n="axis_conjunction">Conjunction</button>
-        <button id="axis-theory" onclick="setAxisView('theory')" data-i18n="axis_theory">Theory</button>
-        <button id="axis-formal" onclick="setAxisView('formal')" data-i18n="axis_formal">Verification</button>
-      </div>
       <div class="lang-toggle">
         <span data-i18n="lang_label" style="margin-right:0.4rem;">Language:</span>
         <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
@@ -246,21 +239,19 @@ format:
     </div>
 
     <div class="legend">
-      <div data-i18n="legend_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Legend</div>
-      <div><span class="swatch" style="background:#c0392b;"></span><span data-i18n="legend_crit">Frontline (AI's current target)</span></div>
-      <div id="axis-legend">
-        <div style="margin-top:0.45rem;" data-i18n="legend_axes">Closurestatus axes: hue = theory closure; saturation = formal verification.</div>
-        <div class="axis-grid-wrap"><div id="axis-legend-grid" class="axis-grid"></div></div>
-      </div>
-      <div><span class="swatch" style="background:#3498db;"></span><span data-i18n="legend_prog">In progress (theorems landing, completion theorem pending)</span></div>
-      <div><span class="swatch" style="background:#bdc3c7;"></span><span data-i18n="legend_scaf">Scaffold (paper only, Lean pending)</span></div>
-      <div><span class="swatch" style="background:#8e44ad;"></span><span data-i18n="legend_schema">Schema-only horizon (intentional)</span></div>
-      <div style="margin-top:0.4rem; color:#888;" data-i18n="legend_size">Size = total paper obligations (checked + stated).</div>
+      <div data-i18n="crit_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Where AI is attacking now</div>
+      <div id="crit-list" class="crit-list"></div>
     </div>
 
     <div class="legend">
-      <div data-i18n="crit_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Where AI is attacking now</div>
-      <div id="crit-list" class="crit-list"></div>
+      <div data-i18n="legend_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Legend</div>
+      <div><span class="swatch circle" style="background:#c0392b;"></span><span data-i18n="legend_crit">Frontline (AI's current target)</span></div>
+      <div><span class="swatch hex" style="background:#27ae60;"></span><span data-i18n="legend_closed">Closed (closurestatus declared)</span></div>
+      <div><span class="swatch circle" style="background:#3498db;"></span><span data-i18n="legend_prog">In progress (theorems landing, no closurestatus yet)</span></div>
+      <div><span class="swatch circle" style="background:#bdc3c7;"></span><span data-i18n="legend_scaf">Scaffold (paper only, Lean pending)</span></div>
+      <div><span class="swatch circle" style="background:#8e44ad;"></span><span data-i18n="legend_schema">Schema-only horizon (intentional)</span></div>
+      <div class="legend-note" data-i18n="legend_shape">Shape encodes theory-closure tier: ⬡ scoped, octagon public/bridged, ★ mature. Border encodes verification: dark = audit/axiom-clean, yellow halo = bridge-checked.</div>
+      <div class="legend-note" data-i18n="legend_size">Size = total paper obligations (checked + stated).</div>
     </div>
 
     <button class="glossary-toggle" onclick="toggleGlossary()">
@@ -292,28 +283,15 @@ const I18N = {
   en: {
     title: "BEDC Project Map",
     lang_label: "Language:",
-    axis_label: "View:",
-    axis_conjunction: "Conjunction",
-    axis_theory: "Theory",
-    axis_formal: "Verification",
     hint: "Click a node to see its bilingual entry, stats, and dependencies.",
     legend_title: "Legend",
     legend_crit: "Frontline (AI's current target)",
-    legend_axes: "Closurestatus axes: hue = theory closure; saturation = formal verification.",
-    legend_prog: "In progress (theorems landing, completion theorem pending)",
+    legend_closed: "Closed (closurestatus declared)",
+    legend_prog: "In progress (theorems landing, no closurestatus yet)",
     legend_scaf: "Scaffold (paper only, Lean pending)",
     legend_schema: "Schema-only horizon (intentional)",
+    legend_shape: "Shape = theory-closure tier: ⬡ scoped, octagon public/bridged, ★ mature. Border = verification: dark for audit/axiom-clean, yellow halo for bridge-checked.",
     legend_size: "Size = total paper obligations (checked + stated).",
-    legend_axis_seed: "seed",
-    legend_axis_obligation: "obligation",
-    legend_axis_scoped: "scoped",
-    legend_axis_public: "public",
-    legend_axis_bridged: "bridged",
-    legend_axis_mature: "mature",
-    legend_axis_target: "target",
-    legend_axis_scaffold: "encoded/scaffold",
-    legend_axis_theorem: "theorem/audit",
-    legend_axis_bridge: "axiom/bridge",
     crit_title: "Where AI is attacking now",
     footer_activity: "Monthly commits",
     sum_theorems: "theorems",
@@ -358,28 +336,15 @@ const I18N = {
   zh: {
     title: "BEDC 项目地图",
     lang_label: "语言:",
-    axis_label: "视图:",
-    axis_conjunction: "合取",
-    axis_theory: "理论轴",
-    axis_formal: "验证轴",
     hint: "点击节点查看双语词条, 统计和依赖关系.",
     legend_title: "图例",
     legend_crit: "前线 (AI 当前攻坚)",
-    legend_axes: "Closurestatus 双轴: 色相 = 理论闭合; 饱和度 = 形式化验证.",
-    legend_prog: "进行中 (有定理在落, 主完成性定理还差)",
+    legend_closed: "已闭合 (声明 closurestatus)",
+    legend_prog: "进行中 (有定理在落, 尚未声明 closurestatus)",
     legend_scaf: "脚架 (仅论文, Lean 待补)",
     legend_schema: "Schema-only 视界 (有意为之)",
+    legend_shape: "形状 = 理论闭合等级: ⬡ scoped, 八边形 public/bridged, ★ mature. 边框 = 形式化验证: 深色 = audit/axiom-clean, 黄色光环 = bridge-checked.",
     legend_size: "节点大小 = 论文 obligation 总数 (checked + stated).",
-    legend_axis_seed: "seed",
-    legend_axis_obligation: "obligation",
-    legend_axis_scoped: "scoped",
-    legend_axis_public: "public",
-    legend_axis_bridged: "bridged",
-    legend_axis_mature: "mature",
-    legend_axis_target: "目标",
-    legend_axis_scaffold: "编码/脚架",
-    legend_axis_theorem: "定理/audit",
-    legend_axis_bridge: "axiom/bridge",
     crit_title: "AI 当前攻坚位置",
     footer_activity: "每月提交数",
     sum_theorems: "定理",
@@ -426,16 +391,6 @@ const I18N = {
 let LANG = "en";
 let STATUS = null, GLOSSARY = null, DEPS = null, CY = null;
 let CRIT_SET = new Set();
-let AXIS_VIEW = storedAxisView() || "conjunction";
-if (!["conjunction", "theory", "formal"].includes(AXIS_VIEW)) AXIS_VIEW = "conjunction";
-
-function storedAxisView() {
-  try {
-    return localStorage.getItem("dossierAxisView");
-  } catch {
-    return null;
-  }
-}
 
 async function loadData() {
   const v = "?v=" + Date.now();
@@ -457,13 +412,11 @@ function applyStaticI18n() {
   });
   document.getElementById("btn-en").classList.toggle("active", LANG === "en");
   document.getElementById("btn-zh").classList.toggle("active", LANG === "zh");
-  updateAxisButtons();
   document.getElementById("summary").innerHTML =
     `<strong>${STATUS.total_theorems}</strong> ${t("sum_theorems")} · ` +
     `<strong>${DEPS.nodes.length}</strong> ${t("sum_regions")} · ` +
     `<strong>${DEPS.edges.length}</strong> ${t("sum_edges")}`;
   populatePicker();
-  renderAxisLegend();
 }
 
 // Group regions into mathematical areas for the dropdown picker.
@@ -603,118 +556,26 @@ function toggleGlossary() {
   if (pane.classList.contains("open")) renderGlossary();
 }
 
-const THEORY_CLOSURE_ORDER = [
-  "seedClosure", "obligationClosure", "scopedClosure",
-  "publicClosure", "bridgedClosure", "matureClosure",
-];
-const FORMAL_STATUS_ORDER = [
-  "unformalizedV", "formalTargetV", "encodedDefV",
-  "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
-  "axiomCleanV", "bridgeCheckedV",
-];
-
-const THEORY_HUE_MAP = {
-  seedClosure:       { h: 214, s: 14, l: 66 },
-  obligationClosure: { h: 214, s: 14, l: 66 },
-  scopedClosure:     { h: 138, s: 62, l: 68 },
-  publicClosure:     { h: 145, s: 66, l: 48 },
-  bridgedClosure:    { h: 186, s: 74, l: 48 },
-  matureClosure:     { h: 258, s: 70, l: 58 },
+// Two visual channels for the two-axis closurestatus framework:
+//   color = work state  (categorical: schema / crit / closed / progress / scaffold)
+//   shape = theory closure tier  (ellipse < hexagon < octagon < star)
+//   border = formal verification tier  (white < dark < yellow halo)
+// Today every closed region sits at scopedClosure × theoremCheckedV, so only
+// hexagons + white borders show up; the higher-tier shapes/borders are
+// reserved for when the data populates them.
+const NODE_PALETTE = {
+  schema:   "#8e44ad",  // purple  — intentional schema-only horizon
+  crit:     "#c0392b",  // red     — AI's current target
+  closed:   "#27ae60",  // green   — closurestatus declared (incl. kernel)
+  progress: "#3498db",  // blue    — has theorems, no closurestatus yet
+  scaffold: "#bdc3c7",  // gray    — paper-only, Lean pending
 };
-
-const FORMAL_TONE_MAP = {
-  unformalizedV:     { s: 18, l: 88 },
-  formalTargetV:     { s: 18, l: 88 },
-  encodedDefV:       { s: 50, l: 74 },
-  scaffoldCheckedV:  { s: 50, l: 74 },
-  theoremCheckedV:   { s: 70, l: 58 },
-  auditCleanV:       { s: 85, l: 49 },
-  axiomCleanV:       { s: 100, l: 43 },
-  bridgeCheckedV:    { s: 100, l: 43 },
-};
-
-const FORMAL_HUE_MAP = {
-  unformalizedV:     { h: 51, s: 24, l: 88 },
-  formalTargetV:     { h: 51, s: 24, l: 88 },
-  encodedDefV:       { h: 42, s: 64, l: 71 },
-  scaffoldCheckedV:  { h: 42, s: 64, l: 71 },
-  theoremCheckedV:   { h: 31, s: 78, l: 55 },
-  auditCleanV:       { h: 20, s: 86, l: 49 },
-  axiomCleanV:       { h: 8, s: 92, l: 43 },
-  bridgeCheckedV:    { h: 352, s: 86, l: 44 },
-};
-
-const AXIS_LEGEND_THEORY = [
-  ["legend_axis_seed", "seedClosure"],
-  ["legend_axis_obligation", "obligationClosure"],
-  ["legend_axis_scoped", "scopedClosure"],
-  ["legend_axis_public", "publicClosure"],
-  ["legend_axis_bridged", "bridgedClosure"],
-  ["legend_axis_mature", "matureClosure"],
-];
-
-const AXIS_LEGEND_FORMAL = [
-  ["legend_axis_target", "formalTargetV"],
-  ["legend_axis_scaffold", "scaffoldCheckedV"],
-  ["legend_axis_theorem", "auditCleanV"],
-  ["legend_axis_bridge", "bridgeCheckedV"],
-];
-
-function gradeAtOrAbove(value, threshold, order) {
-  const i = order.indexOf(value);
-  const j = order.indexOf(threshold);
-  return i >= 0 && j >= 0 && i >= j;
-}
-
-function hsl({ h, s, l }) {
-  return `hsl(${h}, ${s}%, ${l}%)`;
-}
-
-function colorFromAxes(theory, formal, mode = AXIS_VIEW) {
-  if (mode === "formal") {
-    const tone = FORMAL_HUE_MAP[formal] || FORMAL_HUE_MAP.formalTargetV;
-    return {
-      fill: hsl(tone),
-      stroke: formal === "axiomCleanV" ? "#111111" : "#ffffff",
-      borderWidth: formal === "axiomCleanV" ? 1.5 : 2,
-      haloColor: formal === "bridgeCheckedV" ? "#f1c40f" : "#ffffff",
-      haloOpacity: formal === "bridgeCheckedV" ? 1 : 0,
-      haloPadding: formal === "bridgeCheckedV" ? 3 : 0,
-    };
-  }
-
-  const hue = THEORY_HUE_MAP[theory] || THEORY_HUE_MAP.seedClosure;
-  if (mode === "theory") {
-    return {
-      fill: hsl({ h: hue.h, s: theory ? Math.max(hue.s, 78) : hue.s, l: theory ? 48 : hue.l }),
-      stroke: "#ffffff",
-      borderWidth: 2,
-      haloColor: "#ffffff",
-      haloOpacity: 0,
-      haloPadding: 0,
-    };
-  }
-
-  const tone = FORMAL_TONE_MAP[formal] || FORMAL_TONE_MAP.formalTargetV;
-  return {
-    fill: hsl({ h: hue.h, s: theory ? tone.s : Math.min(tone.s, 20), l: tone.l }),
-    stroke: formal === "axiomCleanV" ? "#111111" : "#ffffff",
-    borderWidth: formal === "axiomCleanV" ? 1.5 : 2,
-    haloColor: formal === "bridgeCheckedV" ? "#f1c40f" : "#ffffff",
-    haloOpacity: formal === "bridgeCheckedV" ? 1 : 0,
-    haloPadding: formal === "bridgeCheckedV" ? 3 : 0,
-  };
-}
 
 function statusClass(node) {
-  // Single source-of-truth: closurestatus block declared by the author.
-  // Same signal used by lean4/scripts/critical_path.py to decide which
-  // horizons are excluded from the attack queue. Dossier and critical_path
-  // share one judgment; no other heuristic derives a closed region.
   if (node.schema_only) return "schema";
-  if (node.id === "kernel") return "kernel";       // FKernel is closed by construction
-  if (CRIT_SET.has(node.id)) return "crit";        // open horizon AI is attacking
-  if (node.closed_theoryclosure || node.closed_formalstatus) return "axis";
+  if (node.id === "kernel") return "closed";       // FKernel is closed by construction
+  if (CRIT_SET.has(node.id)) return "crit";
+  if (node.closed_theoryclosure || node.closed_formalstatus) return "closed";
   if ((node.checked || 0) > 0 || (node.stmt || 0) > 0 ||
       (node.namecert_checked || 0) > 0 || (node.thms || 0) > 0) {
     return "progress";
@@ -722,28 +583,28 @@ function statusClass(node) {
   return "scaffold";
 }
 
+function nodeShape(node) {
+  if (node.id === "kernel") return "hexagon";
+  const tc = node.closed_theoryclosure;
+  if (tc === "matureClosure") return "star";
+  if (tc === "publicClosure" || tc === "bridgedClosure") return "octagon";
+  if (tc) return "hexagon";  // seed / obligation / scoped
+  return "ellipse";
+}
+
+function nodeBorder(node, cls) {
+  if (cls === "crit") return { stroke: "#7e1810", borderWidth: 3 };
+  const fs = node.closed_formalstatus;
+  if (fs === "bridgeCheckedV") return { stroke: "#f1c40f", borderWidth: 3 };
+  if (fs === "axiomCleanV" || fs === "auditCleanV") return { stroke: "#1c2833", borderWidth: 2 };
+  return { stroke: "#ffffff", borderWidth: 2 };
+}
+
 function nodeVisual(node) {
   const cls = statusClass(node);
-  const categorical = {
-    schema:   "#8e44ad",  // purple — intentional horizon
-    crit:     "#c0392b",  // red — frontline / AI's current target
-    kernel:   "#27ae60",  // green — FKernel pseudo-node
-    progress: "#3498db",  // blue — partially proven (checked + stmt mixed)
-    scaffold: "#bdc3c7",  // gray — paper-only, Lean pending
-  };
-  if (cls === "axis") {
-    const axes = colorFromAxes(node.closed_theoryclosure, node.closed_formalstatus);
-    return { cls, ...axes };
-  }
-  const fill = categorical[cls] || categorical.scaffold;
-  return {
-    cls, fill,
-    stroke: cls === "crit" ? "#7e1810" : "#ffffff",
-    borderWidth: cls === "crit" ? 3 : 2,
-    haloColor: "#ffffff",
-    haloOpacity: 0,
-    haloPadding: 0,
-  };
+  const fill = NODE_PALETTE[cls] || NODE_PALETTE.scaffold;
+  const shape = nodeShape(node);
+  return { cls, fill, shape, ...nodeBorder(node, cls) };
 }
 
 function nodeSizeMetric(node) {
@@ -769,31 +630,9 @@ function refreshNodeVisuals() {
     n.data("color", visual.fill);
     n.data("stroke", visual.stroke);
     n.data("borderWidth", visual.borderWidth);
-    n.data("haloColor", visual.haloColor);
-    n.data("haloOpacity", visual.haloOpacity);
-    n.data("haloPadding", visual.haloPadding);
+    n.data("shape", visual.shape);
   });
   CY.style().update();
-}
-
-function setAxisView(view) {
-  if (!["conjunction", "theory", "formal"].includes(view)) return;
-  AXIS_VIEW = view;
-  try {
-    localStorage.setItem("dossierAxisView", view);
-  } catch {
-    // The view still changes for this session when browser storage is blocked.
-  }
-  refreshNodeVisuals();
-  renderAxisLegend();
-  updateAxisButtons();
-}
-
-function updateAxisButtons() {
-  ["conjunction", "theory", "formal"].forEach(view => {
-    const el = document.getElementById("axis-" + view);
-    if (el) el.classList.toggle("active", AXIS_VIEW === view);
-  });
 }
 
 function escapeHtml(value) {
@@ -811,28 +650,6 @@ function detailValue(value, code = false) {
   return code ? `<code>${safe}</code>` : safe;
 }
 
-function renderAxisLegend() {
-  const legend = document.getElementById("axis-legend");
-  const grid = document.getElementById("axis-legend-grid");
-  if (!legend || !grid) return;
-  legend.style.display = AXIS_VIEW === "conjunction" ? "block" : "none";
-  if (AXIS_VIEW !== "conjunction") return;
-
-  let html = `<div></div>`;
-  for (const [labelKey] of AXIS_LEGEND_THEORY) {
-    html += `<div class="axis-head">${t(labelKey)}</div>`;
-  }
-  for (const [rowKey, formal] of AXIS_LEGEND_FORMAL) {
-    html += `<div class="axis-row-label">${t(rowKey)}</div>`;
-    for (const [colKey, theory] of AXIS_LEGEND_THEORY) {
-      const visual = colorFromAxes(theory, formal, "conjunction");
-      const title = `${t(colKey)} / ${t(rowKey)}`;
-      html += `<div class="axis-swatch" title="${escapeHtml(title)}" style="background:${visual.fill};border-color:${visual.stroke};box-shadow:${visual.haloOpacity ? "0 0 0 3px #f1c40f" : "none"};"></div>`;
-    }
-  }
-  grid.innerHTML = html;
-}
-
 function renderCy() {
   const nodes = DEPS.nodes.map(n => {
     const visual = nodeVisual(n);
@@ -844,9 +661,7 @@ function renderCy() {
         color: visual.fill,
         stroke: visual.stroke,
         borderWidth: visual.borderWidth,
-        haloColor: visual.haloColor,
-        haloOpacity: visual.haloOpacity,
-        haloPadding: visual.haloPadding,
+        shape: visual.shape,
         size: nodeSizeMetric(n),
         checked: n.checked || 0, stmt: n.stmt || 0,
         schema_only: !!n.schema_only,
@@ -864,6 +679,7 @@ function renderCy() {
       {
         selector: "node",
         style: {
+          "shape": "data(shape)",
           "background-color": "data(color)",
           "label": "data(label)",
           "font-size": "45px",
@@ -882,9 +698,6 @@ function renderCy() {
           "height": "mapData(size, 0, 30, 24, 60)",
           "border-width": "data(borderWidth)",
           "border-color": "data(stroke)",
-          "underlay-color": "data(haloColor)",
-          "underlay-opacity": "data(haloOpacity)",
-          "underlay-padding": "data(haloPadding)",
           "overlay-padding": 4,
         },
       },
@@ -1113,7 +926,15 @@ function showNodeDetail(id) {
 }
 
 function renderCritList() {
-  const cp = (STATUS.critical_path || []).slice(0, 7);
+  // critical_path has one entry per sibling sub-section, so the same region
+  // can appear multiple times. Dedupe by name and keep the first (highest
+  // tiebreak) occurrence — that's the entry critical_path.py sorted to top.
+  const seen = new Set();
+  const cp = (STATUS.critical_path || []).filter(c => {
+    if (seen.has(c.name)) return false;
+    seen.add(c.name);
+    return true;
+  }).slice(0, 7);
   const el = document.getElementById("crit-list");
   el.innerHTML = cp.map(c => {
     const g = GLOSSARY[c.name];
