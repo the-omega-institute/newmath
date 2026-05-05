@@ -7,6 +7,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
+open BEDC.Derived.ComplexLimitUp
 open BEDC.Derived.ComplexSeriesUp
 
 def RealAnalyticTrigPart (zero : BHist) (sinTerm cosTerm : BHist -> BHist)
@@ -39,6 +40,11 @@ theorem RealAnalyticLeibnizPartSum_index_result_unary {term : BHist -> BHist}
 def RealAnalyticExpPart (x n S : BHist) : Prop :=
   ComplexHistoryCarrier x ∧
     ComplexPartSum x (fun m : BHist => append x m) n S ∧ UnaryHistory n
+
+def RealAnalyticLog (x logValue : BHist) (bisect M : BHist -> BHist) : Prop :=
+  ComplexHistoryCarrier x ∧
+    ComplexLimit bisect (fun _ : BHist => BHist.Empty) logValue M ∧
+      forall {n : BHist}, UnaryHistory n -> UnaryHistory (bisect n)
 
 theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist} :

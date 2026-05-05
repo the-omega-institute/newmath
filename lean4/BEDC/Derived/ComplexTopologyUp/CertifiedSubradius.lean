@@ -31,4 +31,18 @@ theorem ComplexTopologyCertifiedSubradius_comp {r0 r1 r2 e0 e1 e01 : BHist} :
           (And.intro e01Carrier radiusRel)))
       radiusRel
 
+theorem ComplexTopologyOpenDiskGap_certified_subradius_public_readback
+    {center inner outer point gap tail displayedGap : BHist} :
+    ComplexTopologyCertifiedSubradius inner outer tail ->
+      ComplexTopologyOpenDiskGap center inner point gap ->
+        ComplexTopologyOpenDiskGap center outer point displayedGap ->
+          hsame displayedGap (append gap tail) := by
+  intro subradius smaller displayedOuter
+  have extended :
+      ComplexTopologyOpenDiskGap center outer point (append gap tail) ∧
+        Cont point (append gap tail) outer :=
+    ComplexTopologyOpenDiskGap_radius_extension_closed smaller subradius.right.right.left
+      subradius.right.right.right (cont_intro rfl)
+  exact ComplexTopologyOpenDiskGap_gap_deterministic displayedOuter extended.right
+
 end BEDC.Derived.ComplexTopologyUp
