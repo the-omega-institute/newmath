@@ -6238,3 +6238,28 @@ Rationale:
 
 ---
 
+### B-241 - Continuation Ezero right-unit probe forces source emptiness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Continuation Ezero right-unit probe forces source emptiness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 7/10 |
+
+Problem:
+For every generated history u, if for all r:BHist, ContR(Ezero(emp), u, r) implies hsame(r, Ezero(emp)), then hsame(u, emp).
+
+Local inputs:
+- `papers/bedc/parts/proof_standing/02_ext_cont_proof_spine.tex`
+- `lean4/BEDC/FKernel/Cont.lean`
+
+Rationale:
+papers/bedc/parts/proof_standing/02_ext_cont_proof_spine.tex:197-212 proves thm:cont-e1-right-unit-probe-forces-empty for the Eone(emp) probe. There is no companion theorem for the symmetric Ezero(emp) probe, even though the kernel logic is symmetric in e0/e1. Grep for cont_e0_right_unit|e0_right_unit_probe|Ezero.*right.*unit returns zero matches across papers/bedc/parts and lean4/BEDC. Review category 4 (missing companion result; sibling of an existing checked theorem). Closeable in 1-3 rounds: the proof is a verbatim mirror of the Eone case at line 207-211 - apply the probe law to canonical continuation ContR(Ezero(emp), u, append(Ezero(emp), u)); continuation result transport gives ContR(Ezero(emp), u, Ezero(emp)); right-unit uniqueness then forces u hsame emp. All cited ingredients (canonical continuation, cont right-unit uniqueness, append lemmas) are already checked at lean4/BEDC/FKernel/Cont.
+
+---
+
