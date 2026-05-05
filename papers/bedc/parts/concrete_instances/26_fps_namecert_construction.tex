@@ -639,3 +639,54 @@ Since $n$ was arbitrary in both calculations, \autoref{def:fps-classifier-specif
 \input{parts/concrete_instances/26_fps_threefold_cauchy_split}
 
 \input{parts/concrete_instances/26_fps_ringup_tail.tex}
+
+\begin{theorem}[FPS pointwise addition associativity]
+\label{thm:fps-pointwise-addition-associativity}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$ and addition $+_R$. Assume the scalar additive associativity row retained in \autoref{def:ring-stability-certificate}: for all carried scalar endpoints $a,b,c$,
+$$
+(a+_R b)+_R c\sim_R a+_R(b+_R c).
+$$
+In the $\FormalPowerSeriesUp(R)$ interface, let $\sim_{\mathrm{fps}}$ be the pointwise classifier of \autoref{def:fps-classifier-specification}, and let pointwise addition be the operation of \autoref{def:fps-pointwise-addition-coefficient}. For carried coefficient sequences $F,G,H:\NatUp\to R$, the two iterated pointwise sums are carried by the $\FormalPowerSeriesUp(R)$ carrier and
+$$
+(F\oplus_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}H
+\sim_{\mathrm{fps}}
+F\oplus_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H).
+$$
+Equivalently, for every unary coefficient index $n:\NatUp$,
+$$
+\bigl((F\oplus_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}H\bigr)_n
+\sim_R
+\bigl(F\oplus_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)\bigr)_n.
+$$
+\end{theorem}
+\begin{proof}
+The pointwise addition closure row in \autoref{def:fps-stability-certificate} applies twice. Applied first to $F,G$ and then to $F\oplus_{\mathrm{fps}}G,H$, it carries the left-associated sum. Applied first to $G,H$ and then to $F,G\oplus_{\mathrm{fps}}H$, it carries the right-associated sum.
+
+Fix $n:\NatUp$. By \autoref{def:fps-pointwise-addition-coefficient}, the left-associated coefficient unfolds in two steps as
+$$
+\bigl((F\oplus_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}H\bigr)_n
+=
+(F_n+_R G_n)+_R H_n.
+$$
+The same rule unfolds the right-associated coefficient as
+$$
+\bigl(F\oplus_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)\bigr)_n
+=
+F_n+_R(G_n+_R H_n).
+$$
+The carried-coefficient hypotheses ensure that $F_n$, $G_n$, and $H_n$ are carried scalar endpoints. The scalar additive associativity row from \autoref{def:ring-stability-certificate} therefore gives
+$$
+(F_n+_R G_n)+_R H_n
+\sim_R
+F_n+_R(G_n+_R H_n).
+$$
+Substituting the two coefficient unfoldings gives the displayed scalar classifier comparison at index $n$.
+
+Since $n$ was arbitrary, the pointwise classifier specification in \autoref{def:fps-classifier-specification} packages these coefficientwise scalar comparisons as
+$$
+(F\oplus_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}H
+\sim_{\mathrm{fps}}
+F\oplus_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H).
+$$
+No convergence or finite-support premise is used.
+\end{proof}

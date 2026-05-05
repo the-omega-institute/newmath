@@ -5,7 +5,7 @@ namespace BEDC.Derived.ComplexTopologyUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
-def ComplexTopologyCompact (K : BHist -> Prop) (bound : BHist)
+def ComplexTopologyCompactNetFunction (K : BHist -> Prop) (bound : BHist)
     (net : BHist -> List BHist) : Prop :=
   UnaryHistory bound ∧
     forall {precision : BHist}, UnaryHistory precision ->
@@ -13,7 +13,7 @@ def ComplexTopologyCompact (K : BHist -> Prop) (bound : BHist)
 
 theorem ComplexTopologyCompact_precision_radius_not_empty
     {K : BHist -> Prop} {bound precision z : BHist} {net : BHist -> List BHist} :
-    ComplexTopologyCompact K bound net -> UnaryHistory precision -> K z ->
+    ComplexTopologyCompactNetFunction K bound net -> UnaryHistory precision -> K z ->
       exists center gap : BHist,
         List.Mem center (net precision) ∧
           ComplexTopologyOpenDiskGap center precision z gap ∧
@@ -30,5 +30,21 @@ theorem ComplexTopologyCompact_precision_radius_not_empty
               (And.intro witnessData.left
                 (And.intro witnessData.right
                   (ComplexTopologyOpenDiskGap_radius_not_empty witnessData.right))))
+
+def ComplexTopologyCompact (K : BHist -> Prop) : Prop :=
+  ∃ bound : BHist,
+    UnaryHistory bound ∧
+      (∀ {z : BHist}, K z ->
+        ∃ gap : BHist, ComplexTopologyClosedDiskGap BHist.Empty bound z gap) ∧
+        (∀ precision : BHist, UnaryHistory precision ->
+          ∃ net : List BHist, ComplexTopologyDyadicNet K precision net)
+
+theorem ComplexTopologyCompact_net_witness {K : BHist -> Prop} {precision : BHist} :
+    ComplexTopologyCompact K -> UnaryHistory precision ->
+      ∃ net : List BHist, ComplexTopologyDyadicNet K precision net := by
+  intro compact precisionCarrier
+  cases compact with
+  | intro _bound compactData =>
+      exact compactData.right.right precision precisionCarrier
 
 end BEDC.Derived.ComplexTopologyUp
