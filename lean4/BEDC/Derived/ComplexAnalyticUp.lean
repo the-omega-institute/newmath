@@ -230,6 +230,45 @@ theorem CplxPureImaginary_complex_carrier_witness {theta z : BHist} :
         (And.intro sameZ
           (ProdHistoryCarrier_hsame_transport (hsame_symm sameZ) pureCarrier))
 
+theorem CplxExp_pure_imaginary_source_witness {theta : BHist} :
+    UnaryHistory theta ->
+      CplxExp (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+          (append (BHist.e1 theta) (BHist.e1 BHist.Empty))) ∧
+        CplxPureImaginary theta (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) := by
+  intro thetaUnary
+  have realCarrier : RatHistoryCarrier (BHist.e1 BHist.Empty) := by
+    exact RatHistoryCarrier_iff_positive_denominator.mpr
+      (PositiveUnaryDenominator_e1_iff_unary.mpr unary_empty)
+  have imagCarrier : RatHistoryCarrier (BHist.e1 theta) := by
+    exact RatHistoryCarrier_iff_positive_denominator.mpr
+      (PositiveUnaryDenominator_e1_iff_unary.mpr thetaUnary)
+  have realOutCarrier :
+      RatHistoryCarrier (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) := by
+    exact RatHistoryCarrier_append_unary_denominator_closed realCarrier
+      (unary_e1_closed thetaUnary)
+  have imagOutCarrier :
+      RatHistoryCarrier (append (BHist.e1 theta) (BHist.e1 BHist.Empty)) := by
+    exact RatHistoryCarrier_append_unary_denominator_closed imagCarrier
+      (unary_e1_closed unary_empty)
+  have expWitness :
+      CplxExp (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+          (append (BHist.e1 theta) (BHist.e1 BHist.Empty))) :=
+    Exists.intro (BHist.e1 BHist.Empty)
+      (Exists.intro (BHist.e1 theta)
+        (Exists.intro (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+          (Exists.intro (append (BHist.e1 theta) (BHist.e1 BHist.Empty))
+            (And.intro realCarrier
+              (And.intro imagCarrier
+                (And.intro (cont_intro rfl)
+                  (And.intro realOutCarrier
+                    (And.intro imagOutCarrier
+                      (And.intro (cont_intro rfl)
+                        (And.intro (hsame_refl _)
+                          (hsame_refl _)))))))))))
+  exact And.intro expWitness (And.intro thetaUnary (hsame_refl _))
+
 theorem CplxPureImaginary_hsame_transport_witness {theta z z' : BHist} :
     hsame z z' -> CplxPureImaginary theta z ->
       CplxPureImaginary theta z' ∧ hsame z' (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) := by
