@@ -709,6 +709,118 @@ the exactness conjunction gives the stated rowwise equivalences for
 $A,B,U,C$.
 \end{proof}
 
+\begin{theorem}[Real constant appended-tail bridge malformed sealed denominator exclusion]
+\label{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Let $M(D,E)$ denote the paired malformed sealed denominator exclusion
+$$
+\bigl(\mathsf{MalformedRealSealedDenom}(\Eone(D))
+\Longrightarrow\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{MalformedRealSealedDenom}(\Eone(E))
+\Longrightarrow\mathsf{False}\bigr).
+$$
+Then every bridge row entails the same exclusion predicate:
+$$
+(A\Longrightarrow M(D,E))\land
+(B\Longrightarrow M(D,E))\land
+(U\Longrightarrow M(D,E))\land
+(C\Longrightarrow M(D,E)).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package} to the
+displayed data. For any chosen bridge row among $A,B,U,C$, this recovers the
+package $P(D,E,z_D,z_E)$, including the positive-denominator rows and the
+nonempty rows for $D$ and $E$.
+
+Unfold
+\autoref{def:real-constant-malformed-sealed-denominator-display} at
+$\Eone(D)$. The endpoint $D$ has three branches.
+\begin{enumerate}
+  \item In the sealed-empty branch, e-one constructor inversion turns
+  $\hsame(\Eone(D),\Eone(\emp))$ into $D\hsame\emp$, contradicting the
+  nonempty row for $D$ from the package.
+
+  \item In the sealed inner e-zero branch, use the displayed witness $t$.
+  E-one constructor inversion turns
+  $\hsame(\Eone(D),\Eone(\Ezero(t)))$ into $D\hsame\Ezero(t)$. Transport the
+  positive-denominator witness for $D$ across this sameness by
+  \autoref{thm:rat-positive-unary-denominator-hsame-transport}; the
+  transported witness contradicts
+  \autoref{thm:rat-positive-denominator-e0-absurd}.
+
+  \item In the sealed appended e-zero branch, use the displayed witnesses
+  $p,z$. E-one constructor inversion turns
+  $\hsame(\Eone(D),\Eone(p\cdot\Ezero(z)))$ into
+  $D\hsame p\cdot\Ezero(z)$. Transport the positive-denominator witness for
+  $D$ across this sameness by
+  \autoref{thm:rat-positive-unary-denominator-hsame-transport}; the
+  transported witness contradicts
+  \autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+\end{enumerate}
+
+Unfold
+\autoref{def:real-constant-malformed-sealed-denominator-display} at
+$\Eone(E)$. The endpoint $E$ has the same three branches.
+\begin{enumerate}
+  \item In the sealed-empty branch, e-one constructor inversion turns
+  $\hsame(\Eone(E),\Eone(\emp))$ into $E\hsame\emp$, contradicting the
+  nonempty row for $E$ from the package.
+
+  \item In the sealed inner e-zero branch, use the displayed witness $t$.
+  E-one constructor inversion turns
+  $\hsame(\Eone(E),\Eone(\Ezero(t)))$ into $E\hsame\Ezero(t)$. Transport the
+  positive-denominator witness for $E$ across this sameness by
+  \autoref{thm:rat-positive-unary-denominator-hsame-transport}; the
+  transported witness contradicts
+  \autoref{thm:rat-positive-denominator-e0-absurd}.
+
+  \item In the sealed appended e-zero branch, use the displayed witnesses
+  $p,z$. E-one constructor inversion turns
+  $\hsame(\Eone(E),\Eone(p\cdot\Ezero(z)))$ into
+  $E\hsame p\cdot\Ezero(z)$. Transport the positive-denominator witness for
+  $E$ across this sameness by
+  \autoref{thm:rat-positive-unary-denominator-hsame-transport}; the
+  transported witness contradicts
+  \autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+\end{enumerate}
+
+These two endpoint exclusions are exactly $M(D,E)$ for each of the four
+bridge-row implications.
+\end{proof}
+
+The malformed sealed bridge denominator certificate fit has ten fields:
+traditional target constant rational bridge denominator sanity; BEDC source
+RatUp plus StreamNameUp plus RealUp over $\mathsf{BHist}$; carrier the
+appended-tail rational histories $D,E$; classifiers the four concrete rows
+$A,B,U,C$; stability from denominator package readback, e-one inversion, and
+positive-denominator transport; ledger malformed sealed empty, inner e-zero,
+and appended e-zero displays; core theorem
+\autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion};
+exactness the common exclusion predicate for all bridge rows; standard bridge
+RegSeqRat constant embedding denominator sanity; status $\mathsf{ProofTarget}$.
+
 The bridge-readback certificate fit has ten fields: traditional target faithful
 constant rational embedding into RealUp; BEDC source RatUp plus StreamNameUp
 plus RealUp; carrier the appended-tail rational histories $D,E$ and the
