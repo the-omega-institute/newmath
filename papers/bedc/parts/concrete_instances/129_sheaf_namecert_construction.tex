@@ -144,3 +144,30 @@ $$
 $$
 Since $a$ and $b$ were arbitrary, this is exactly compatibility of the family $a\mapsto\rho_{i,\iota(a)}(g)$ over $\mathcal{U}$ as defined in \autoref{def:sheaf-indexed-cover-compatibility-locality}.
 \end{proof}
+
+\begin{corollary}[Sheaf gluing of global restrictions is idempotent]
+\label{cor:sheaf-gluing-global-restrictions-idempotent}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,\eta,\gamma)$ be an indexed open cover of an open index $i:\mathsf{OpenIx}$, and let $g:\mathsf{Sec}(i)$. Define the local family $s_a:\mathsf{Sec}(\iota(a))$ by
+$$
+s_a=\rho_{i,\iota(a)}(g).
+$$
+If $h:\mathsf{Sec}(i)$ is a gluing of this family, in the sense that
+$$
+\forall a:A,\quad \rho_{i,\iota(a)}(h)\sim_{\iota(a)}s_a,
+$$
+then
+$$
+h\sim_i g.
+$$
+\end{corollary}
+\begin{proof}
+By \autoref{thm:sheaf-global-restrictions-compatible-local-family}, the family $s_a$ is compatible over $\mathcal{U}$. For each $a:A$, the displayed definition of $s_a$ and reflexivity of the classifier on $\mathsf{Sec}(\iota(a))$, supplied by \autoref{def:sheaf-indexed-section-presheaf-carrier}, give
+$$
+\rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a.
+$$
+The gluing hypothesis gives
+$$
+\rho_{i,\iota(a)}(h)\sim_{\iota(a)}s_a
+$$
+for the same $a$. Since $a$ was arbitrary, both cover-global sections $h$ and $g$ restrict to the compatible local family $s_a$ on every member of $\mathcal{U}$. Applying \autoref{thm:sheaf-gluing-uniqueness-from-locality} with $h$ as the first cover-global section and $g$ as the second gives $h\sim_i g$.
+\end{proof}

@@ -270,6 +270,7 @@ import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
+import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MatroidUp
 import BEDC.Derived.MagmaUp
@@ -277,6 +278,7 @@ import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
+import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
