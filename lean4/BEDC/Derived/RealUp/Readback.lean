@@ -495,4 +495,55 @@ theorem RealStreamClassifier_selected_append_e1_tail_hsame_cancel
   cases sameTail
   exact append_right_cancel (k := BHist.e1 tailD) readback.right.right
 
+theorem RealConstant_appended_tail_bridge_head_tail_agreement_iff
+    {d e tailD tailE zD zE : BHist} {r q : BHist -> BHist} :
+    let D := append d (BHist.e1 tailD)
+    let E := append e (BHist.e1 tailE)
+    (RatHistoryClassifier D E -> (hsame d e ↔ hsame tailD tailE)) ∧
+      (RatStreamNameClassifier (fun n : BHist => RatConstStream D (r n))
+          (fun n : BHist => RatConstStream E (q n)) ->
+        (hsame d e ↔ hsame tailD tailE)) ∧
+      (RealUnaryStreamClassifier (fun n : BHist => RatConstStream D (r n))
+          (fun n : BHist => RatConstStream E (q n)) ->
+        (hsame d e ↔ hsame tailD tailE)) ∧
+      (RealConstantHistoryClassifier (BHist.e1 D) (BHist.e1 E) ->
+        (hsame d e ↔ hsame tailD tailE)) := by
+  dsimp
+  let D := append d (BHist.e1 tailD)
+  let E := append e (BHist.e1 tailE)
+  have rows :=
+    RealConstant_appended_tail_bridge_denominator_package
+      (d := d) (e := e) (tailD := tailD) (tailE := tailE) (zD := zD) (zE := zE)
+      (r := r) (q := q)
+  dsimp at rows
+  have packageSame :
+      RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧ PositiveUnaryDenominator E ∧
+        UnaryHistory d ∧ UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailE ∧
+          (hsame D BHist.Empty -> False) ∧ (hsame E BHist.Empty -> False) ∧
+            (hsame D (BHist.e0 zD) -> False) ∧ (hsame E (BHist.e0 zE) -> False) ∧
+              hsame D E ->
+        hsame D E := by
+    intro package
+    exact package.right.right.right.right.right.right.right.right.right.right.right
+  have fromSameDEFull : hsame D E -> (hsame d e ↔ hsame tailD tailE) := by
+    intro sameFull
+    constructor
+    · intro sameHead
+      cases sameHead
+      exact hsame_e1_iff.mp (append_left_cancel (h := d) sameFull)
+    · intro sameTail
+      cases sameTail
+      exact append_right_cancel (k := BHist.e1 tailD) sameFull
+  constructor
+  · intro classified
+    exact fromSameDEFull (packageSame (rows.left classified))
+  · constructor
+    · intro classified
+      exact fromSameDEFull (packageSame (rows.right.left classified))
+    · constructor
+      · intro classified
+        exact fromSameDEFull (packageSame (rows.right.right.left classified))
+      · intro classified
+        exact fromSameDEFull (packageSame (rows.right.right.right classified))
+
 end BEDC.Derived.RealUp

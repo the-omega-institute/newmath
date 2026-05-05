@@ -18,6 +18,14 @@ def GammaWeierstrassCauchyModulus
     (s apart : BHist) (P N : BHist -> BHist) : Prop :=
   GammaDomainCore s apart ∧ ComplexRegularSequence P N
 
+theorem GammaWeierstrassCauchyModulus_constant {s apart z : BHist} :
+    GammaDomainCore s apart -> ComplexHistoryCarrier z ->
+      GammaWeierstrassCauchyModulus s apart (fun _ : BHist => z)
+        (fun _ : BHist => BHist.Empty) := by
+  intro domain carrierZ
+  have zUnary : UnaryHistory z := ComplexHistoryCarrier_unary carrierZ
+  exact And.intro domain (ComplexRegularSequence_constant zUnary)
+
 def GammaWeierstrassPart (s apart n p : BHist) : Prop :=
   GammaDomainCore s apart ∧ UnaryHistory n ∧ ComplexHistoryCarrier p ∧
     ComplexPartSum BHist.Empty (fun k : BHist => append s k) n p
