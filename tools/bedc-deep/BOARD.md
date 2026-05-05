@@ -8737,3 +8737,53 @@ MeasureUp appears as a definition-only substrate: papers/bedc/parts/concrete_ins
 
 ---
 
+### B-335 - Topology arbitrary-union closure from indexed families
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Topology arbitrary-union closure from indexed families |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under an indexed TopologyUp carrier with a supplied union index for a family of open indices carrying predicates U_a, pointwise carriedness implies the union index carries the predicate x | exists a, U_a(x), and that union membership transports under the carrier classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex`
+
+Rationale:
+This fills a direct gap in the generic TopologyUp surface: the topology chapter states closure under arbitrary unions but currently only exposes and proves finite-intersection closure. The existing complex-topology union theorem is a concrete instance, not the generic indexed TopologyUp closure law, so this deserves its own target slot.
+
+---
+
+
+### B-336 - Metric balls instantiate indexed TopologyUp opens
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Metric balls instantiate indexed TopologyUp opens |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a MetricSpaceUp carrier with explicit positive-radius ball witnesses, each metric ball predicate supplies a TopologyUp open index carrying that ball and transporting membership under the metric carrier classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex`
+
+Rationale:
+This is a concrete bridge between the metric and topology certificate layers, matching the paper surface where TopologyUp is described as generalising MetricSpaceUp. It is not just a verification marker or source-equivalence restatement; it would add a reusable open-ball construction needed by later topological instances.
+
+---
+

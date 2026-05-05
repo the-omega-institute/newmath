@@ -18,6 +18,11 @@ def RealAnalyticLeibnizPartialSum (leibnizTerm : BHist -> BHist) (n S : BHist) :
     Prop :=
   UnaryHistory n ∧ ComplexPartSum BHist.Empty leibnizTerm n S ∧ UnaryHistory S
 
+def RealAnalyticPi (leibnizTerm : BHist -> BHist) (pi : BHist) : Prop :=
+  ∃ S : BHist,
+    RealAnalyticLeibnizPartialSum leibnizTerm (BHist.e1 (BHist.e1 BHist.Empty)) S ∧
+      hsame pi (append S S) ∧ UnaryHistory pi
+
 inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist -> Prop where
   | zero : RealAnalyticLeibnizPartSum term BHist.Empty BHist.Empty
   | step {n S T : BHist} :
