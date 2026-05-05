@@ -165,6 +165,46 @@ source e-one readback.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_target\_nonempty\_distance\_source\_e1\_cases}
 
+\begin{theorem}[Metric empty-boundary nonempty distance positive endpoint depth]
+\label{thm:metric-distance-witness-empty-boundary-nonempty-distance-positive-endpoint-depth}
+For histories $source,target,dist:\mathsf{BHist}$, a concrete metric distance
+witness with exactly one empty boundary and a nonempty distance endpoint forces
+positive structural depth on the other endpoint:
+$$
+\begin{array}{l}
+\bigl(\mathsf{MetricDistanceWitness}(\emp,target,dist)\to
+(dist\hsame\emp\to\mathsf{False})\to
+0<\mathsf{MetricDistanceDepth}(target)\bigr)
+\land\\
+\bigl(\mathsf{MetricDistanceWitness}(source,\emp,dist)\to
+(dist\hsame\emp\to\mathsf{False})\to
+0<\mathsf{MetricDistanceDepth}(source)\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the empty-source implication, apply
+Theorem~\ref{thm:metric-distance-witness-empty-source-nonempty-distance-target-e1-cases}
+to the displayed witness and the nonempty distance hypothesis. The result
+expresses $target$ as $\Eone(targetTail)$ with a unary tail, so the structural
+metric depth of $target$ is a successor and is therefore positive.
+
+For the empty-target implication, apply
+Theorem~\ref{thm:metric-distance-witness-empty-target-nonempty-distance-source-e1-cases}
+in the same way. The source endpoint is read back as $\Eone(sourceTail)$ with a
+unary tail, and the one-headed shape gives positive structural metric depth for
+$source$.
+\end{proof}
+
+The ten-field fit is: traditional target paired empty-boundary nonzero-distance
+endpoint depth; BEDC source $\mathsf{MetricDistanceWitness}$ over
+$\mathsf{BHist}$; carrier the surviving boundary endpoint; classifier
+$\hsame$; stability unary one-headed readback and depth positivity; ledger the
+nonempty distance endpoint; core theorem
+Theorem~\ref{thm:metric-distance-witness-empty-boundary-nonempty-distance-positive-endpoint-depth};
+exactness positive depth on the nonempty boundary endpoint; standard bridge
+finite unary metric boundary readback; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Metric distance witness zero-headed component impossibility]
 \label{thm:metric-distance-witness-e0-component-absurd}
 For histories $x,y,d:\mathsf{BHist}$, no concrete metric distance witness has
