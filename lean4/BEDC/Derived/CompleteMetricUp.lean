@@ -111,6 +111,12 @@ theorem CompleteMetricLimitWitness_singleton_distance_rat_readback
         (MetricDistanceWitness_empty_right_iff (x := s n) (d := d)).mp distanceRow.left
       exact Exists.intro d (And.intro boundary.right distanceRow.right.right)
 
+def CompleteMetricSingletonInstance (s M : BHist -> BHist) : Prop :=
+  hsame BHist.Empty BHist.Empty ∧
+    (forall {n : BHist}, UnaryHistory n -> hsame (s n) BHist.Empty ->
+      MetricDistanceWitness (s n) BHist.Empty BHist.Empty ∧
+        Cont (s n) BHist.Empty BHist.Empty ∧ RatHistoryClassifier BHist.Empty (M n))
+
 theorem CompleteMetricLimitWitness_singleton_uniqueness
     {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
     CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M0 l0 ->
@@ -118,5 +124,96 @@ theorem CompleteMetricLimitWitness_singleton_uniqueness
         hsame l0 l1 := by
   intro witness0 witness1
   exact hsame_trans witness0.left (hsame_symm witness1.left)
+
+theorem CompleteMetricSingletonLimitSelector_visible_context_metric {s : BHist -> BHist}
+    {p q n : BHist} :
+    UnaryHistory p -> UnaryHistory q -> UnaryHistory n -> hsame (s n) BHist.Empty ->
+      MetricDistanceWitness (append p (s n)) (append BHist.Empty q)
+          (append (append p BHist.Empty) q) ∧
+        Cont (append p (s n)) q (append (append p BHist.Empty) q) := by
+  intro pUnary qUnary _nUnary sourceEmpty
+  constructor
+  · exact
+      (MetricDistanceWitness_visible_context_empty_distance_iff (p := p) (q := q)
+        (x := s n) (y := BHist.Empty)).mpr
+        ⟨pUnary, qUnary, sourceEmpty, hsame_refl BHist.Empty⟩
+  · exact
+      cont_intro (congrArg (fun x : BHist => append (append p x) q)
+        (hsame_symm sourceEmpty))
+
+theorem CompleteMetricLimitWitness_row_result_alignment {X : BHist -> Prop}
+    {s M : BHist -> BHist} {limit n d e : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      MetricDistanceWitness (s n) limit e -> Cont (s n) limit d ->
+        RatHistoryClassifier d (M n) ->
+          hsame d e ∧ RatHistoryClassifier e (M n) := by
+  intro witness nUnary source rowMetric rowCont rowRat
+  cases witness.right nUnary source with
+  | intro witnessDistance witnessData =>
+      have sameMetric : hsame witnessDistance e :=
+        MetricDistanceWitness_hsame_result_deterministic (hsame_refl (s n))
+          (hsame_refl limit) witnessData.left rowMetric
+      have sameCont : hsame d witnessDistance :=
+        cont_deterministic rowCont witnessData.right.left
+      have sameDE : hsame d e := hsame_trans sameCont sameMetric
+      exact ⟨sameDE,
+        RatHistoryClassifier_hsame_transport sameDE (hsame_refl (M n)) rowRat⟩
+
+theorem CompleteMetricLimitWitness_singleton_classifier_distance
+    {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
+    CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M0 l0 ->
+      CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M1 l1 ->
+        hsame l0 l1 ∧ MetricDistanceWitness l0 l1 BHist.Empty := by
+  intro witness0 witness1
+  have sameLimits : hsame l0 l1 :=
+    CompleteMetricLimitWitness_singleton_uniqueness witness0 witness1
+  have distance : MetricDistanceWitness l0 l1 BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := l0) (y := l1)).mpr
+      (And.intro witness0.left witness1.left)
+  exact And.intro sameLimits distance
+
+def CompleteMetricSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+theorem CompleteMetricSingletonCarrier_empty_distance {x : BHist} :
+    CompleteMetricSingletonCarrier x -> MetricDistanceWitness x BHist.Empty BHist.Empty := by
+  intro carrier
+  exact
+    (MetricDistanceWitness_empty_distance_iff (x := x) (y := BHist.Empty)).mpr
+      (And.intro carrier (hsame_refl BHist.Empty))
+
+def CompleteMetricSingletonClassifier (h k : BHist) : Prop :=
+  CompleteMetricSingletonCarrier h ∧ CompleteMetricSingletonCarrier k ∧ hsame h k
+
+theorem CompleteMetricSingleton_semantic_name_certificate :
+    SemanticNameCert CompleteMetricSingletonCarrier CompleteMetricSingletonCarrier
+      CompleteMetricSingletonCarrier CompleteMetricSingletonClassifier := by
+  have emptyCarrier : CompleteMetricSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+      equiv_refl := by
+        intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _carrier
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 end BEDC.Derived.CompleteMetricUp

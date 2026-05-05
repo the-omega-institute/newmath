@@ -265,6 +265,7 @@ X_C
 V_F.
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.NetworkFlowUp.NetworkFlow\_empty\_backward\_accounting\_cut\_flow\_below\_value}
 \begin{proof}
 Unpack \autoref{def:networkflow-finite-flow-cut-data} for the chosen cut $C$. The feasibility data supply histories $B_{F,C}$ and $X_{F,C}$ with
 $$
@@ -354,4 +355,57 @@ $$
 V_F\hsame K_\Xi.
 $$
 Both endpoints are unary: the source is the flow-value witness of feasibility, and the target is the finite unary fold defining cut capacity. Therefore \autoref{def:unary-classifier-specification} reads this history-sameness as the claimed $\NatUp$ classification equality.
+\end{proof}
+
+\begin{theorem}[Network-flow equality implies optimality]
+\label{thm:networkflow-equality-implies-optimality}
+Let $G$ be a directed $\GraphUp$ carrier, let $u$ be a unary capacity assignment, and let $s,t$ be carried vertices. Let $F$ be a feasible finite $\NetworkFlowUp$ $s$-$t$ flow over $u$, and let $C$ be a finite $s$-$t$ cut record in $G$. If
+$$
+\mathsf{FlowValue}(F)\hsame\mathsf{CutCap}_{G,u}(C),
+$$
+then $F$ is maximal among feasible finite $s$-$t$ flows and $C$ is minimal among finite $s$-$t$ cuts: for every feasible finite $\NetworkFlowUp$ $s$-$t$ flow $F'$ over $u$ and every finite $s$-$t$ cut record $D$ in $G$,
+$$
+\mathsf{FlowValue}(F')
+\preceq_{\NatUp}
+\mathsf{FlowValue}(F)
+\qquad\text{and}\qquad
+\mathsf{CutCap}_{G,u}(C)
+\preceq_{\NatUp}
+\mathsf{CutCap}_{G,u}(D).
+$$
+\end{theorem}
+\begin{proof}
+Write
+$$
+V:=\mathsf{FlowValue}(F),
+\qquad
+K:=\mathsf{CutCap}_{G,u}(C).
+$$
+The displayed equality gives $V\hsame K$. By symmetry of history-sameness from \autoref{thm:history-sameness-equivalence}, this also gives $K\hsame V$. Applying \autoref{thm:preorder-prefix-le-of-hsame} yields
+$$
+K\preceq_{\NatUp}V.
+$$
+
+Let $F'$ be any feasible finite $\NetworkFlowUp$ $s$-$t$ flow over $u$. Applying weak duality, \autoref{thm:networkflow-weak-duality-cuts}, to $F'$ and the fixed cut $C$ gives
+$$
+\mathsf{FlowValue}(F')\preceq_{\NatUp}K.
+$$
+Compose this comparison with $K\preceq_{\NatUp}V$ by \autoref{thm:preorder-prefix-transitivity}. Since $V=\mathsf{FlowValue}(F)$, the result is
+$$
+\mathsf{FlowValue}(F')
+\preceq_{\NatUp}
+\mathsf{FlowValue}(F).
+$$
+
+Let $D$ be any finite $s$-$t$ cut record in $G$. Applying weak duality to the fixed feasible flow $F$ and the cut $D$ gives
+$$
+V\preceq_{\NatUp}\mathsf{CutCap}_{G,u}(D).
+$$
+Compose $K\preceq_{\NatUp}V$ with this comparison by \autoref{thm:preorder-prefix-transitivity}. Since $K=\mathsf{CutCap}_{G,u}(C)$, the result is
+$$
+\mathsf{CutCap}_{G,u}(C)
+\preceq_{\NatUp}
+\mathsf{CutCap}_{G,u}(D).
+$$
+The two comparisons are exactly the displayed maximality and minimality clauses.
 \end{proof}
