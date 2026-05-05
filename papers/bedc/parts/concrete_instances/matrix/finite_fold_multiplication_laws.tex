@@ -102,6 +102,24 @@ direction repacks those two splits through the same empty-append constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold appended visible tail exclusion]
+\label{thm:matrix-singleton-add-fold-append-visible-tail-absurd}
+For every history \(m\) and finite spine \(xs\), appending a visible singleton
+tail before folding cannot read back to the empty carrier:
+$$
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(xs{++}[\Ezero(m)]),\emp)
+\quad\wedge\quad
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(xs{++}[\Eone(m)]),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the appended-spine carrier readback to split the fold over \(xs\) and
+the one-element visible tail. The tail carrier would identify either
+\(\Ezero(m)\) or \(\Eone(m)\) with \(\emp\), contradicting constructor
+separation in \(\mathsf{BHist}\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_visible\_tail\_absurd}
+
 \begin{theorem}[Singleton additive fold append visible middle exclusion]
 \label{thm:matrix-singleton-add-fold-append-visible-middle-absurd}
 For finite singleton-matrix spines \(pref\) and \(suffix\), a visible middle
@@ -139,6 +157,23 @@ hypothesis under the common head, and reassociate by the kernel append
 associativity law.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_hsame}
+
+\begin{theorem}[Singleton additive fold reverse empty append readback]
+\label{thm:matrix-singleton-add-fold-reverse-empty-append-hsame}
+If \(xs\) is carried by \(\mathsf{MatrixSingletonAddFoldSpineCarrier}\), then
+appending the singleton additive fold of \(xs\) to \(\emp\) is history-same to
+appending the singleton additive fold of \(\mathsf{reverse}(xs)\) to \(\emp\).
+\end{theorem}
+\begin{proof}
+First prove by induction on the spine that the carrier is preserved by list
+reversal. The nil case is the empty carrier. In the cons case, the induction
+hypothesis carries the reversed tail, the head supplies the singleton suffix
+carrier, and append closure for spine carriers carries the reversed cons
+spine. The fold carrier equivalence then makes both folds empty-carried, and
+the right-unit law for append identifies the two displayed empty-appended
+endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_empty\_append\_hsame}
 
 \begin{theorem}[Singleton additive fold append display classifier]
 \label{thm:matrix-singleton-add-fold-append-display-classifier-iff}
