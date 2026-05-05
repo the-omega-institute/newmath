@@ -55,6 +55,24 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
 
+theorem NumFieldReflexiveRational_singleton_basis_transport {h basis coord : BHist} :
+    NumFieldRatReflexiveCarrier h -> RatHistoryCarrier basis ->
+      hsame basis (BHist.e1 BHist.Empty) -> Cont h basis coord ->
+        RatHistoryClassifier coord (append (FieldExtSingletonEmbedding h) (BHist.e1 BHist.Empty)) := by
+  intro carrier basisCarrier sameBasis coordinateContinuation
+  have sourceClassified : RatHistoryClassifier h (FieldExtSingletonEmbedding h) :=
+    RatHistoryLedgerPolicy_raw_visible_classifier carrier.right.right.right
+  have basisUnary : UnaryHistory basis :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp basisCarrier)).left
+  have appendedClassified :
+      RatHistoryClassifier (append h basis)
+        (append (FieldExtSingletonEmbedding h) (BHist.e1 BHist.Empty)) :=
+    RatHistoryClassifier_append_unary_denominator_closed sourceClassified basisUnary sameBasis
+  exact RatHistoryClassifier_hsame_transport (hsame_symm coordinateContinuation)
+    (hsame_refl (append (FieldExtSingletonEmbedding h) (BHist.e1 BHist.Empty)))
+    appendedClassified
+
 theorem NumFieldRatReflexive_classifier_transport {h k r m out coord : BHist} :
     RatHistoryClassifier h k -> RatHistoryCarrier r -> RatHistoryCarrier m ->
       Cont (FieldExtSingletonEmbedding r) m out -> Cont m BHist.Empty coord ->
