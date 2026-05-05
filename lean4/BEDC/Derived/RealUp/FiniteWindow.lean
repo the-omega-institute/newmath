@@ -75,6 +75,50 @@ theorem RealUnaryStreamWindowClassifier_selected_shape_package
       PositiveUnaryDenominator_e0_absurd
         (PositiveUnaryDenominator_hsame_transport sameZero positives.right))⟩
 
+theorem RealUnaryStreamWindowClassifier_selected_classifier_appended_tail_package
+    {s t : BHist -> BHist} {a w k u v zS zT dS dT : BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameClassifier s t ->
+      UnaryHistory a -> UnaryHistory w -> UnaryOffsetLe k w ->
+        hsame (s (append a k)) (BHist.e1 u) ->
+          hsame (t (append a k)) (BHist.e1 v) ->
+            RatHistoryClassifier (s (append a k)) (t (append a k)) ∧
+              RatHistoryClassifier (BHist.e1 u) (BHist.e1 v) ∧ UnaryHistory u ∧
+                UnaryHistory v ∧ hsame u v ∧
+                  PositiveUnaryDenominator (s (append a k)) ∧
+                    PositiveUnaryDenominator (t (append a k)) ∧
+                      UnaryHistory (s (append a k)) ∧
+                        UnaryHistory (t (append a k)) ∧
+                          (hsame (s (append a k)) BHist.Empty -> False) ∧
+                            (hsame (t (append a k)) BHist.Empty -> False) ∧
+                              (hsame (s (append a k)) (BHist.e0 zS) -> False) ∧
+                                (hsame (t (append a k)) (BHist.e0 zT) -> False) ∧
+                                  (hsame (s (append a k)) (append dS (BHist.e0 zS)) ->
+                                    False) ∧
+                                    (hsame (t (append a k)) (append dT (BHist.e0 zT)) ->
+                                      False) := by
+  intro carrierS carrierT classified aUnary wUnary offset sameS sameT
+  have package :=
+    RealUnaryStreamWindowClassifier_selected_shape_package
+      (s := s) (t := t) (a := a) (w := w) (k := k) (u := u) (v := v)
+      (zS := zS) (zT := zT) carrierS carrierT classified aUnary wUnary offset sameS sameT
+  exact ⟨package.left, package.right.left, package.right.right.left,
+    package.right.right.right.left, package.right.right.right.right.left,
+    package.right.right.right.right.right.left, package.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.right.right.right.right,
+    (fun sameAppend =>
+      PositiveUnaryDenominator_append_e0_tail_absurd
+        (PositiveUnaryDenominator_hsame_transport sameAppend
+          package.right.right.right.right.right.left)),
+    (fun sameAppend =>
+      PositiveUnaryDenominator_append_e0_tail_absurd
+        (PositiveUnaryDenominator_hsame_transport sameAppend
+          package.right.right.right.right.right.right.left))⟩
+
 def RealStreamWindowClassifier (x y : Nat -> BHist) (n m : Nat) : Prop :=
   forall k : Nat, k <= m -> RatHistoryClassifier (x (n + k)) (y (n + k))
 

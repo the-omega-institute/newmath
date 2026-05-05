@@ -170,6 +170,23 @@ theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_depth_
       (And.intro rCarrier (And.intro (unary_cont_closed lCarrier rCarrier spliced) spliced))
   exact MetricDistanceWitness_depth_add witness
 
+theorem MetricDistanceWitness_empty_boundary_visible_context_unit_splice_commute
+    {p q d l r outL outR : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) ->
+      Cont l d outL -> Cont d r outR -> hsame (append outL r) (append l outR) := by
+  intro visible leftCont rightCont
+  have distanceEmpty :
+      hsame d BHist.Empty :=
+    (MetricDistanceWitness_empty_boundary_visible_context_distance_empty
+      (p := p) (q := q) (d := d) visible).left
+  cases distanceEmpty
+  have sameLeft : hsame outL l := Iff.mp cont_right_unit_iff leftCont
+  have sameRight : hsame outR r := cont_left_unit_result rightCont
+  cases sameLeft
+  cases sameRight
+  rfl
+
 theorem MetricDistanceWitness_empty_boundary_visible_context_witness_splice
     {p q d l r mid out : BHist} :
     MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
