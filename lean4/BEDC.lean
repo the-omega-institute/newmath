@@ -207,6 +207,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
+import BEDC.Derived.FieldExtUp.OperationTableSourceCoverage
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.GammaUp
@@ -558,6 +559,7 @@ import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
+import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.PositiveDistanceShape
