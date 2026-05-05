@@ -573,3 +573,79 @@ theorem:
 \autoref{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-witness}.
 Exactness: existence plus uniqueness up to $\hsame$. Standard bridge: finite
 rational observation windows for RegSeqRat. Status: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real unary StreamNameUp finite-window selected tail-class exactness]
+\label{thm:real-unary-streamname-finite-window-selected-tail-class-exactness}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega).
+$$
+Then the selected finite-window tail class is exact:
+$$
+\begin{array}{l}
+\exists u,v:\Hist,
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(u,v)\land\\
+\forall u',v':\Hist,\,
+\bigl(\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u'))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v'))\bigr)
+\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u')\land
+\mathsf{UnaryHistory}(v')\land
+\hsame(u,u')\land
+\hsame(v,v')\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-witness}
+to the carrier rows, the StreamNameUp classifier, the unary anchor and bound,
+and the selected offset. This gives witnesses $u$ and $v$ with the two selected
+endpoint displays, their unary rows, $\hsame(u,v)$, and the universal coherence
+package for every displayed selected e-one tail pair.
+
+For the forward direction of the displayed if-and-only-if, fix $u'$ and $v'$
+with the two selected endpoint displays. The universal coherence clause of the
+canonical witness theorem gives $\mathsf{UnaryHistory}(u')$,
+$\mathsf{UnaryHistory}(v')$, $\hsame(u,u')$, and $\hsame(v,v')$.
+
+For the reverse direction, assume $\mathsf{UnaryHistory}(u')$,
+$\mathsf{UnaryHistory}(v')$, $\hsame(u,u')$, and $\hsame(v,v')$. Apply
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_congr}$ to the two tail comparisons to
+obtain $\hsame(\Eone(u),\Eone(u'))$ and
+$\hsame(\Eone(v),\Eone(v'))$.
+
+Compose the selected display
+$\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))$ with
+$\hsame(\Eone(u),\Eone(u'))$ by
+$\mathsf{BEDC.FKernel.Hist.hsame\_trans}$, and do the same for the right
+endpoint. The two composed comparisons are exactly the selected endpoint
+displays for $u'$ and $v'$, completing the reverse direction and the exact
+tail-class package.
+\end{proof}
+
+Fit. Traditional target: exact selected finite rational observation tails. BEDC
+source: $\StreamNameUp$ plus $\RealUp$ plus $\RatUp$ plus $\mathsf{FKernel}$
+e-one congruence and transitivity. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$ through
+$\mathsf{RealUnaryStreamWindowClassifier}$. Stability: endpoint $\hsame$
+transport inside the selected e-one tail class. Ledger: anchor, bound, offset,
+selected endpoint displays, and canonical tail witnesses. Core theorem:
+\autoref{thm:real-unary-streamname-finite-window-selected-tail-class-exactness}.
+Exactness: displayed selected e-one tails are exactly the canonical $\hsame$
+classes of $u$ and $v$. Downstream consumer: RegSeqRat finite observation
+canonicalization. Status: $\mathsf{ProofTarget}$.
