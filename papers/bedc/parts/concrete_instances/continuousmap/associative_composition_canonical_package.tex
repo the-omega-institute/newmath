@@ -113,6 +113,27 @@ distance-determinacy clauses.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_composition\_associative\_canonical\_package}
 
+\begin{theorem}[ContinuousMap associative composition certificate determinacy]
+\label{thm:continuousmap-composition-associative-certificate-deterministic}
+Under the hypotheses of
+\autoref{thm:continuousmap-carrier-composition-associative-canonical-package},
+the two target-modulus certificate ledgers selected by the two bracketings
+determine the same certificate history:
+$$
+\hsame(certL,certR).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:continuousmap-carrier-composition-associative-canonical-package}
+to the three input carriers and the two displayed continuation spines. Its
+modulus row gives $\hsame(modL,modR)$. Combine this modulus sameness with
+reflexivity of the target history and the two target-modulus continuation
+ledgers $\ContR(target,modL,certL)$ and $\ContR(target,modR,certR)$. The
+continuation respect theorem for $\hsame$ then gives $\hsame(certL,certR)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_composition\_associative\_certificate\_deterministic}
+
 \begin{theorem}[ContinuousMap associative composition depth synchronization]
 \label{thm:continuousmap-associative-composition-depth-synchronization}
 For histories
