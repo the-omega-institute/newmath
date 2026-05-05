@@ -148,4 +148,32 @@ theorem descentCertificate_respects_pair_with_map
   · exact descentCertificate_respects cert same
   · exact Exists.intro cert.map rfl
 
+theorem StableTransformation_descentCertificate_composition
+    {LedgerT LedgerU : Type}
+    {sameS sameR sameQ : BHist -> BHist -> Prop}
+    (left : StableTransformation BHist BHist LedgerT sameS sameR)
+    (right : StableTransformation BHist BHist LedgerU sameR sameQ) :
+    Nonempty (DescentCertificate BHist BHist sameS sameQ) ∧
+      Nonempty (StableTransformation BHist BHist (LedgerT × LedgerU) sameS sameQ) := by
+  cases left with
+  | mk leftMap leftRespects leftLedger =>
+      cases right with
+      | mk rightMap rightRespects rightLedger =>
+          constructor
+          · exact Nonempty.intro
+              { map := fun h => rightMap (leftMap h),
+                respects := by
+                  intro a b same
+                  exact rightRespects (leftRespects same) }
+          · cases leftLedger with
+            | intro ledgerT =>
+                cases rightLedger with
+                | intro ledgerU =>
+                    exact Nonempty.intro
+                      { map := fun h => rightMap (leftMap h),
+                        respects := by
+                          intro a b same
+                          exact rightRespects (leftRespects same),
+                        ledger := Nonempty.intro (ledgerT, ledgerU) }
+
 end BEDC.FKernel.NameCert

@@ -8,7 +8,9 @@ observation history $n$.
 
 \begin{theorem}[Constant rational stream-name witness]
 \label{thm:rat-stream-name-constant-witness}
-For histories $d,e:\Hist$, if $\mathsf{RatHistoryCarrier}(d)$, then
+For histories $d,e:\Hist$, every certified unary observation $n:\Hist$
+satisfies $\hsame(\mathsf{RatConstStream}_d(n),d)$. If
+$\mathsf{RatHistoryCarrier}(d)$, then
 $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$ and
 $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
 \mathsf{RatConstStream}_d)$. If $\mathsf{RatHistoryClassifier}(d,e)$, then
@@ -16,6 +18,11 @@ $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
 \mathsf{RatConstStream}_e)$.
 \end{theorem}
 \begin{proof}
+Unfold $\mathsf{RatConstStream}$. For any certified unary observation history
+$n$ with witness $\nu:\mathsf{UnaryHistory}(n)$, the selected observation is
+definitionally the hidden seed $d$. History reflexivity gives
+$\hsame(\mathsf{RatConstStream}_d(n),d)$ at that point.
+
 Unfold $\mathsf{RatConstStream}$ and
 $\mathsf{RatStreamNameCarrier}$. For any certified observation history $n$ with
 witness $\nu:\mathsf{UnaryHistory}(n)$, the stream value is $d$, so the supplied
@@ -33,6 +40,44 @@ the supplied $\mathsf{RatHistoryClassifier}(d,e)$ is already the required
 pointwise classifier witness.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_constant\_witness}
+
+\begin{theorem}[Constant rational stream certified-observation determinacy]
+\label{thm:rat-const-stream-certified-observation-determinacy}
+For a history $d:\Hist$ and certified unary observations $m,n:\Hist$, the
+constant rational stream reads the same history at both observation sites:
+$$
+\hsame(\mathsf{RatConstStream}_d(m),\mathsf{RatConstStream}_d(n)).
+$$
+
+The ten-field fit is:
+\begin{enumerate}
+  \item the traditional target is constant rational observation-name coherence;
+  \item the BEDC source is $\RatUp+\StreamNameUp$;
+  \item the carrier is $\mathsf{RatConstStream}$ over certified unary
+  observations;
+  \item the classifier/history relation is $\hsame$;
+  \item stability is certified-observation invariance;
+  \item the ledger is the hidden rational seed plus two unary observation
+  witnesses;
+  \item the core theorem is this determinacy statement;
+  \item exactness says both observations read back to the same seed;
+  \item the standard bridge is ordinary constant stream extensionality;
+  \item the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply the point-sameness row of
+\autoref{thm:rat-stream-name-constant-witness} to the certified observation
+$m$. This gives $\hsame(\mathsf{RatConstStream}_d(m),d)$.
+
+Apply the same row to the certified observation $n$, obtaining
+$\hsame(\mathsf{RatConstStream}_d(n),d)$. By symmetry, this gives
+$\hsame(d,\mathsf{RatConstStream}_d(n))$.
+
+Compose the two history-sameness witnesses by transitivity through the hidden
+seed $d$. The result is
+$\hsame(\mathsf{RatConstStream}_d(m),\mathsf{RatConstStream}_d(n))$.
+\end{proof}
 
 \begin{theorem}[Rational stream-name constant reindexing classifier]
 \label{thm:rat-stream-name-constant-reindexing-classifier}
@@ -270,13 +315,10 @@ required pointwise classifier at that observation.
 
 \begin{theorem}[Rational stream-name constant bridge package]
 \label{thm:rat-stream-name-constant-bridge-package}
-For histories $d,e:\Hist$ and an observation reindexer $r:\Hist\to\Hist$,
-suppose $r$ preserves certified unary observations:
-$$
-\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(r(n)).
-$$
-Every witness $\rho:\mathsf{RatHistoryClassifier}(d,e)$ determines the concrete
-constant stream-name bridge package consisting of:
+For histories $d,e:\Hist$ and an arbitrary observation reindexer
+$r:\Hist\to\Hist$, every witness
+$\rho:\mathsf{RatHistoryClassifier}(d,e)$ determines the concrete constant
+stream-name bridge package consisting of:
 \begin{enumerate}
   \item the carrier rows
   $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$ and
@@ -308,10 +350,10 @@ The compact ten-field fit is:
   stream and its certified observation reindexing;
   \item the classifier row is $\mathsf{RatStreamNameClassifier}$ on constant
   rational stream names;
-  \item the stability rows are constant observation reindexing and same-seed
-  comparison against the unreindexed constant stream;
-  \item the ledger is the rational seed pair $(d,e)$ together with the unary
-  preserving reindexer $r$;
+  \item the stability rows are arbitrary observation scheduling for constant
+  streams and same-seed comparison against the unreindexed constant stream;
+  \item the ledger is the rational seed pair $(d,e)$ together with the hidden
+  observation schedule $r$;
   \item the core theorem is this constant bridge package;
   \item exactness is the reduction of constant stream-name classification to
   $\mathsf{RatHistoryClassifier}(d,e)$;
@@ -328,12 +370,18 @@ the unreindexed carrier row, and apply the same theorem to $\rho$ to obtain the
 unreindexed classifier between $\mathsf{RatConstStream}_d$ and
 $\mathsf{RatConstStream}_e$.
 
-Next apply \autoref{thm:rat-stream-name-constant-reindexing-classifier} with the
-unary-preservation row for $r$. Its carrier clause supplies
-$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$, its same-seed
-clause supplies the classifier from $\mathsf{RatConstStream}_d\circ r$ to
-$\mathsf{RatConstStream}_d$, and its endpoint clause supplies the classifier
-from $\mathsf{RatConstStream}_d\circ r$ to
+Next apply
+\autoref{thm:rat-stream-name-independent-reindexed-constant-classifier} with
+the schedules $r$ and the identity schedule. Its carrier clause supplies
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$. RatUp
+carrier-reflexivity turns the carrier witness for $d$ into
+$\mathsf{RatHistoryClassifier}(d,d)$, and the classifier clause with endpoints
+$d,d$ supplies the same-seed classifier from
+$\mathsf{RatConstStream}_d\circ r$ to $\mathsf{RatConstStream}_d$.
+
+Apply the same independent reindexing theorem with schedules $r$ and $r$ to the
+endpoint classifier $\rho$. This supplies the classifier from
+$\mathsf{RatConstStream}_d\circ r$ to
 $\mathsf{RatConstStream}_e\circ r$.
 
 The exactness row is precisely
@@ -342,18 +390,15 @@ constant streams, stream-name classification is equivalent to the RatUp
 classifier on the two hidden histories $d$ and $e$.
 
 Repack these carrier, classifier, reindexing, and exactness witnesses with the
-ledger $(d,e,r)$. The resulting object is the named bridge package for constant
-rational observation names.
+ledger $(d,e,r)$. The observation schedule is hidden ledger data for constant
+streams, because the stream value ignores the chosen schedule. The resulting
+object is the named bridge package for constant rational observation names.
 \end{proof}
 
 \begin{theorem}[Rational stream-name constant bridge package exactness]
 \label{thm:rat-stream-name-constant-bridge-package-exactness}
-For histories $d,e:\Hist$ and an observation reindexer $r:\Hist\to\Hist$,
-suppose $r$ preserves certified unary observations:
-$$
-\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(r(n)).
-$$
-Write $\mathsf{K}(d,e,r)$ for the conjunction of the following concrete
+For histories $d,e:\Hist$ and an arbitrary observation reindexer
+$r:\Hist\to\Hist$, write $\mathsf{K}(d,e,r)$ for the conjunction of the following concrete
 constant stream-name bridge rows:
 \begin{enumerate}
   \item $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$;
@@ -390,10 +435,10 @@ The compact ten-field fit is:
   $\mathsf{K}(d,e,r)$;
   \item the classifier row is the three classifier conjuncts in
   $\mathsf{K}(d,e,r)$;
-  \item the stability rows are the unary-preservation premise and the two
-  reindexed constant classifier rows;
-  \item the ledger is the triple $(d,e,r)$ together with the unary-preservation
-  witness for $r$;
+  \item the stability rows are arbitrary observation scheduling for constant
+  streams and the two reindexed constant classifier rows;
+  \item the ledger is the triple $(d,e,r)$, with $r$ retained only as hidden
+  observation schedule data;
   \item the core theorem is package-level exactness for constant rational
   stream names;
   \item exactness is the displayed iff between $\mathsf{K}(d,e,r)$ and
@@ -411,10 +456,10 @@ that row gives $\mathsf{RatHistoryClassifier}(d,e)$.
 
 In the reverse direction, assume
 $\rho:\mathsf{RatHistoryClassifier}(d,e)$. Apply
-\autoref{thm:rat-stream-name-constant-bridge-package} to $\rho$ and to the
-displayed unary-preservation row for $r$. The resulting bridge package supplies
-exactly the two carrier rows, the unreindexed classifier row, the two reindexed
-classifier rows, and the constant-point exactness row listed in
+\autoref{thm:rat-stream-name-constant-bridge-package} to $\rho$ and the
+arbitrary schedule $r$. The resulting bridge package supplies exactly the two
+carrier rows, the unreindexed classifier row, the two reindexed classifier rows,
+and the constant-point exactness row listed in
 $\mathsf{K}(d,e,r)$.
 \end{proof}
 
