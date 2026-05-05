@@ -236,6 +236,7 @@ import BEDC.Derived.PrimeUp.DivisionWithRemainder
 import BEDC.Derived.PrimeUp.FactorizationList
 import BEDC.Derived.PrimeUp.PrimeShape
 import BEDC.Derived.PrimeUp.TrialDivShape
+import BEDC.Derived.PrimeUp.TrialDivStep
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.EndpointAbsurd
@@ -500,6 +501,8 @@ import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.GraphDepth
+import BEDC.Derived.ContinuousMapUp.IdentityUnits
+import BEDC.Derived.ContinuousMapUp.CompositionCertificate
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
 import BEDC.Derived.CompactUp.Suffix

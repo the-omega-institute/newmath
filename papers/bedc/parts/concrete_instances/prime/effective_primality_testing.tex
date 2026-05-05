@@ -101,6 +101,21 @@ history no-confusion principle.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_not\_empty}
 
+\begin{theorem}[Trial-division unit step result is not unit]
+\label{thm:trialdiv-unit-step-result-not-unit}
+If $\mathsf{TrialDiv}(b,n)$ and $\Cont(b,\Eone(\emp),b')$, then
+$b'$ cannot be equal to the unit history $\Eone(\emp)$.
+\end{theorem}
+\begin{proof}
+Transport the displayed continuation result across
+$b'\hsame\Eone(\emp)$, obtaining a continuation
+$\Cont(b,\Eone(\emp),\Eone(\emp))$. Compare it with the left-unit
+continuation $\Cont(\emp,\Eone(\emp),\Eone(\emp))$ and cancel the common
+right unit history. This gives $b\hsame\emp$, contradicting
+\autoref{thm:trial-div-bound-not-empty}.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_unit\_step\_result\_not\_unit}
+
 \begin{theorem}[Terminal trial division excludes non-trivial divisors]
 \label{thm:trialdiv-terminal-excludes-nontrivial-divisors}
 Let $n$ be unary with $\mathsf{NatGT}(n,\Eone(\emp))$. If
