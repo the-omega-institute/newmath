@@ -1,4 +1,5 @@
 import BEDC.Derived.MetricUp
+import BEDC.Derived.MetricUp.Transport
 
 namespace BEDC.Derived.MetricUp
 
@@ -253,6 +254,26 @@ theorem MetricDistanceWitness_visible_context_empty_distance_endpoint_continuati
   cases endpoints.right.right.left
   cases endpoints.right.right.right
   exact And.intro (Iff.mp cont_right_unit_iff leftCont) (cont_left_unit_result rightCont)
+
+theorem MetricDistanceWitness_visible_context_empty_distance_two_sided_endpoint_witness_transport
+    {p q x y l r m n o : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ->
+      UnaryHistory l -> UnaryHistory r -> Cont l x m -> Cont y r n -> Cont l r o ->
+        MetricDistanceWitness m n o := by
+  intro visible lCarrier rCarrier leftCont rightCont directCont
+  have endpointUnits :
+      hsame m l ∧ hsame n r :=
+    MetricDistanceWitness_visible_context_empty_distance_endpoint_continuation_units visible
+      leftCont rightCont
+  have directWitness : MetricDistanceWitness l r o :=
+    And.intro lCarrier
+      (And.intro rCarrier (And.intro (unary_cont_closed lCarrier rCarrier directCont) directCont))
+  have transported :=
+    MetricDistanceWitness_hsame_fields_transport (hsame_symm endpointUnits.left)
+      (hsame_symm endpointUnits.right) (hsame_refl o) directWitness
+  exact And.intro transported.left
+    (And.intro transported.right.left
+      (And.intro transported.right.right.left transported.right.right.right))
 
 theorem MetricDistanceWitness_empty_boundary_visible_context_witness_splice
     {p q d l r mid out : BHist} :
