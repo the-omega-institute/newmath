@@ -15,6 +15,38 @@ The pattern is finite table formation assigning a scalar witness to each index p
 The classifier relates matrices pointwise by scalar classifier at every index pair.
 \end{definition}
 
+\begin{lemma}[Matrix singleton classifier append visible-factor exclusion]
+\label{lem:matrix-singleton-classifier-append-visible-factor-exclusion}
+For histories $h,p,q:\mathsf{BHist}$, the singleton matrix classifier admits
+no witness whose source or target endpoint is an append with a visible factor:
+\begin{enumerate}
+  \item $\rho_{\emp}(\mathsf{append}(\Ezero(p),q),h)\to\bot$ and
+        $\rho_{\emp}(h,\mathsf{append}(\Ezero(p),q))\to\bot$;
+  \item $\rho_{\emp}(\mathsf{append}(\Eone(p),q),h)\to\bot$ and
+        $\rho_{\emp}(h,\mathsf{append}(\Eone(p),q))\to\bot$;
+  \item $\rho_{\emp}(\mathsf{append}(p,\Ezero(q)),h)\to\bot$ and
+        $\rho_{\emp}(h,\mathsf{append}(p,\Ezero(q)))\to\bot$;
+  \item $\rho_{\emp}(\mathsf{append}(p,\Eone(q)),h)\to\bot$ and
+        $\rho_{\emp}(h,\mathsf{append}(p,\Eone(q)))\to\bot$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+Unfold the singleton matrix classifier. Any displayed classifier witness
+projects to the singleton carrier endpoint on its source and to the singleton
+carrier endpoint on its target.
+
+For an endpoint $\mathsf{append}(\Ezero(p),q)$ or
+$\mathsf{append}(\Eone(p),q)$, append empty-result inversion forces the left
+visible factor to be empty. Constructor separation contradicts the resulting
+$\Ezero(p)\hsame\emp$ or $\Eone(p)\hsame\emp$ endpoint.
+
+For an endpoint $\mathsf{append}(p,\Ezero(q))$ or
+$\mathsf{append}(p,\Eone(q))$, the same inversion forces the right visible
+factor to be empty. Constructor separation gives the source-side contradiction,
+and the target-side pair is exactly
+\autoref{thm:matrix-singleton-classifier-append-visible-right-absurd}.
+\end{proof}
+
 \begin{definition}[Matrix stability certificate]
 \label{def:matrix-stability-certificate}
 The stability certificate consists of:
