@@ -141,6 +141,25 @@ one-headed case exposes the requested tail by unary inversion.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_positive\_shape}
 
+\begin{theorem}[Prime divisor strict interval exclusion]
+\label{thm:natprime-natdivides-strict-between-absurd}
+Let $p,d:\mathsf{BHist}$. If $\mathsf{NatPrime}(p)$, $\Unary(d)$, and
+$\mathsf{NatDivides}(d,p)$ hold, then $d$ cannot lie strictly between the
+unit and $p$ in unary prefix order:
+$$
+\mathsf{NatUnaryStrictPrefix}(\Eone(\emp),d)\Longrightarrow
+\mathsf{NatUnaryStrictPrefix}(d,p)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply the divisor classifier field in $\mathsf{NatPrime}(p)$ to the displayed
+unary divisor $d$. The unit branch identifies the endpoint of the strict
+prefix from $\Eone(\emp)$ to $d$, contradicting strict endpoint separation.
+The prime branch identifies the endpoint of the strict prefix from $d$ to
+$p$, giving the same endpoint contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatDivides\_strict\_between\_absurd}
+
 \begin{lemma}[Non-primality of the unit]
 \label{lem:unit-not-prime}
 \(\neg \mathsf{NatPrime}(\Eone(\emp))\).

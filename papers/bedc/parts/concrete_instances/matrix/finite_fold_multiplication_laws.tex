@@ -746,3 +746,72 @@ $$
 $$
 Classifier transitivity composes the left expansion, this rectangular fold reindexing, and the symmetry of the right expansion. Thus every entry of $(A\cdot_{\mathrm{Mat}}B)\cdot_{\mathrm{Mat}}C$ is scalar-classified with the corresponding entry of $A\cdot_{\mathrm{Mat}}(B\cdot_{\mathrm{Mat}}C)$. The pointwise classifier of \autoref{def:matrix-classifier-specification} packages these entrywise comparisons as the displayed matrix classifier, and \autoref{def:matrix-ledger-policy} records that the dimension witnesses are unchanged.
 \end{proof}
+
+\begin{definition}[Matrix transpose over a certified scalar carrier]
+\label{def:matrix-transpose-certified-scalar-carrier}
+Let $R$ be a scalar $\RingUp$ carrier and let $n,m:\NatUp$. For a carried matrix $X:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R$ from \autoref{def:matrix-carrier}, define its transpose by
+$$
+(X^{\mathsf{T}})_{j,i}:=X_{i,j}
+$$
+for $j:\mathsf{Fin}(m)$ and $i:\mathsf{Fin}(n)$. The carriedness witness at the transposed index $(j,i)$ is the scalar witness already assigned to the original entry $X_{i,j}$ by the matrix pattern of \autoref{def:matrix-pattern-specification}.
+\end{definition}
+
+\begin{theorem}[Matrix transpose reverses product over the opposite ring]
+\label{thm:matrix-transpose-reverses-product-over-opposite-ring}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive fold $\Sigma_{\mathsf{Fin}(m)}$ as in \autoref{def:finite-additive-scalar-fold}. Let $R^{\mathrm{op}}$ be the opposite ring data of \autoref{def:opposite-ring-certificate-data}, certified by \autoref{thm:opposite-ring-certificate}; thus $R^{\mathrm{op}}$ has the same carrier, classifier, zero endpoint, and addition as $R$, and multiplication
+$$
+x\cdot_{R^{\mathrm{op}}}y:=y\cdot_Rx.
+$$
+Let $n,m,p:\NatUp$ and let
+$$
+A:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
+\qquad
+B:\mathsf{Fin}(m)\times\mathsf{Fin}(p)\to R
+$$
+be carried matrices. Consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}, and write $\sim_{\mathrm{Mat},R^{\mathrm{op}}}$ for that classifier over the opposite scalar source. Assume matrix multiplication over any certified scalar ring is the finite-fold operation
+$$
+(X\cdot_S Y)_{u,w}:=\Sigma_V(v\mapsto X_{u,v}\cdot_SY_{v,w})
+$$
+for the matching inner finite index carrier $V$, using the multiplication closure field of \autoref{def:matrix-stability-certificate}. Then $(A\cdot_RB)^{\mathsf{T}}$ and $B^{\mathsf{T}}\cdot_{R^{\mathrm{op}}}A^{\mathsf{T}}$ are carried $\MatrixUp$ matrices over $R^{\mathrm{op}}$, and
+$$
+(A\cdot_RB)^{\mathsf{T}}
+\sim_{\mathrm{Mat},R^{\mathrm{op}}}
+B^{\mathsf{T}}\cdot_{R^{\mathrm{op}}}A^{\mathsf{T}}.
+$$
+\end{theorem}
+\begin{proof}
+The product $A\cdot_RB$ is carried by the multiplication closure row of \autoref{def:matrix-stability-certificate}. Since the opposite ring has the same scalar carrier and classifier by \autoref{def:opposite-ring-certificate-data}, \autoref{def:matrix-transpose-certified-scalar-carrier} carries $(A\cdot_RB)^{\mathsf{T}}$ over $R^{\mathrm{op}}$. The same transpose definition carries $B^{\mathsf{T}}$ and $A^{\mathsf{T}}$ over $R^{\mathrm{op}}$, and the multiplication closure row over the certified opposite ring carries $B^{\mathsf{T}}\cdot_{R^{\mathrm{op}}}A^{\mathsf{T}}$.
+
+It remains to compare entries. Fix $k:\mathsf{Fin}(p)$ and $i:\mathsf{Fin}(n)$. Expanding the left endpoint gives
+$$
+\begin{aligned}
+((A\cdot_RB)^{\mathsf{T}})_{k,i}
+&=(A\cdot_RB)_{i,k} \\
+&\sim_R
+\Sigma_{\mathsf{Fin}(m)}(j\mapsto A_{i,j}\cdot_RB_{j,k}).
+\end{aligned}
+$$
+Expanding the product over the opposite ring gives
+$$
+\begin{aligned}
+(B^{\mathsf{T}}\cdot_{R^{\mathrm{op}}}A^{\mathsf{T}})_{k,i}
+&\sim_R
+\Sigma_{\mathsf{Fin}(m)}(j\mapsto (B^{\mathsf{T}})_{k,j}\cdot_{R^{\mathrm{op}}}(A^{\mathsf{T}})_{j,i}) \\
+&=
+\Sigma_{\mathsf{Fin}(m)}(j\mapsto B_{j,k}\cdot_{R^{\mathrm{op}}}A_{i,j}) \\
+&=
+\Sigma_{\mathsf{Fin}(m)}(j\mapsto A_{i,j}\cdot_RB_{j,k}).
+\end{aligned}
+$$
+The two displayed expansions end at the same finite scalar spine. The finite additive fold over $R^{\mathrm{op}}$ uses the same zero endpoint and the same addition as the fold over $R$, so the pointwise reflexive scalar classifier witness, lifted through \autoref{thm:finite-additive-fold-congruence-coefficient-lists}, compares the folded endpoints. Classifier transitivity composes the left expansion with this fold comparison and the symmetry of the right expansion.
+
+Thus for every $k$ and $i$,
+$$
+((A\cdot_RB)^{\mathsf{T}})_{k,i}
+\sim_R
+(B^{\mathsf{T}}\cdot_{R^{\mathrm{op}}}A^{\mathsf{T}})_{k,i}.
+$$
+The pointwise matrix classifier of \autoref{def:matrix-classifier-specification} packages these scalar comparisons as the displayed $\MatrixUp$ classification over $R^{\mathrm{op}}$. The row-column swap and the unchanged scalar source are recorded by the dimension and scalar ledger of \autoref{def:matrix-ledger-policy}.
+\end{proof}
+
+\input{parts/concrete_instances/matrix/two_index_fold_swap_from_finite_permutation_invariance}
