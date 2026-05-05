@@ -1,6 +1,7 @@
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CompleteMetricUp
@@ -42,6 +43,37 @@ theorem CompleteMetricLimitWitness_hsame_transport {X : BHist -> Prop}
             (hsame_refl d) distanceData.left,
           RatHistoryClassifier_hsame_transport (hsame_refl d) (modulusTransport nUnary)
             distanceData.right.right⟩
+
+theorem CompleteMetricLimitWitness_distance_modulus_positive_denominators
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      exists d : BHist,
+        MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+          PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) ∧
+            RatHistoryClassifier d (M n) := by
+  intro witness nUnary source
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have positives :
+          PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) :=
+        RatHistoryClassifier_positive_denominators distanceData.right.right
+      exact Exists.intro d
+        (And.intro distanceData.left
+          (And.intro distanceData.right.left
+            (And.intro positives.left
+              (And.intro positives.right distanceData.right.right))))
+
+theorem CompleteMetricLimitWitness_modulus_not_empty
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      hsame (M n) BHist.Empty -> False := by
+  intro witness nUnary source sameEmpty
+  cases witness.right nUnary source with
+  | intro _d distanceData =>
+      have positives :
+          PositiveUnaryDenominator _d ∧ PositiveUnaryDenominator (M n) :=
+        RatHistoryClassifier_positive_denominators distanceData.right.right
+      exact PositiveUnaryDenominator_not_empty positives.right sameEmpty
 
 theorem CompleteMetricLimitWitness_name_certificate {X : BHist -> Prop}
     (carrierTransport : ∀ {h k : BHist}, hsame h k -> X h -> X k)
