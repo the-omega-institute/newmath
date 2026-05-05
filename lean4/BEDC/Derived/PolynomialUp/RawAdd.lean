@@ -144,4 +144,58 @@ theorem PolynomialSingletonRawAdd_commutative_classified {xs ys : List BHist} :
                       (PolynomialSingletonAddFold
                         (PolynomialSingletonRawAdd (x :: xs) (y :: ys)))
 
+private theorem PolynomialSingletonRawAdd_right_zero_tail_addFold_context_invariance
+    {xs ys t : List BHist} :
+    PolynomialZeroRemainder t ->
+      hsame (PolynomialSingletonAddFold (PolynomialSingletonRawAdd xs (ys ++ t)))
+        (PolynomialSingletonAddFold (PolynomialSingletonRawAdd xs ys)) := by
+  intro zeroTail
+  induction xs generalizing ys t with
+  | nil =>
+      induction ys with
+      | nil =>
+          exact PolynomialSingletonRawAddEmptyLeft_zero_tail_addFold_empty zeroTail
+      | cons y ys ih =>
+          unfold PolynomialSingletonRawAdd PolynomialSingletonRawAddEmptyLeft PolynomialSingletonAddFold
+            PolynomialSingletonAdd
+          exact congrArg (fun u : BHist => append (append BHist.Empty y) u) ih
+  | cons x xs ih =>
+      cases ys with
+      | nil =>
+          cases t with
+          | nil =>
+              exact hsame_refl
+                (PolynomialSingletonAddFold (PolynomialSingletonRawAdd (x :: xs) []))
+          | cons y t =>
+              cases zeroTail with
+              | cons headEmpty tailZero =>
+                  unfold PolynomialSingletonRawAdd PolynomialSingletonAddFold PolynomialSingletonAdd
+                  exact hsame_trans
+                    (congrArg
+                      (fun h : BHist =>
+                        append h (PolynomialSingletonAddFold (PolynomialSingletonRawAdd xs t)))
+                      (congrArg (append x) headEmpty))
+                    (congrArg (fun u : BHist => append (append x BHist.Empty) u)
+                      (ih (ys := []) tailZero))
+      | cons y ys =>
+          unfold PolynomialSingletonRawAdd PolynomialSingletonAddFold PolynomialSingletonAdd
+          exact congrArg (fun u : BHist => append (append x y) u) (ih zeroTail)
+
+theorem PolynomialSingletonRawAdd_two_sided_trim_compatibility {xs ys tx ty : List BHist} :
+    PolynomialZeroRemainder tx -> PolynomialZeroRemainder ty ->
+      hsame (PolynomialSingletonAddFold (PolynomialSingletonRawAdd (xs ++ tx) (ys ++ ty)))
+        (PolynomialSingletonAddFold (PolynomialSingletonRawAdd xs ys)) ∧
+        Cont (PolynomialSingletonAddFold (PolynomialSingletonRawAdd xs ys)) BHist.Empty
+          (PolynomialSingletonAddFold (PolynomialSingletonRawAdd xs ys)) := by
+  intro zeroLeft zeroRight
+  have leftData :=
+    PolynomialSingletonRawAdd_left_zero_tail_addFold_invariance
+      (xs := xs) (ys := ys ++ ty) zeroLeft
+  have rightData :=
+    PolynomialSingletonRawAdd_right_zero_tail_addFold_context_invariance
+      (xs := xs) (ys := ys) zeroRight
+  exact And.intro
+    (hsame_trans leftData.left rightData)
+    (cont_right_unit (PolynomialSingletonAddFold (PolynomialSingletonRawAdd xs ys)))
+
 end BEDC.Derived.PolynomialUp
