@@ -234,6 +234,37 @@ theorem MatrixSingletonAddFold_append_display_classifier_iff {xs ys : List BHist
     exact And.intro foldedCarrier
       (And.intro displayedCarrier MatrixSingletonAddFold_append_hsame)
 
+theorem MatrixSingletonAddFold_continuation_append_display_classifier_iff
+    {xs ys : List BHist} {h r : BHist} :
+    Cont h (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) r ->
+      (MatrixSingletonCarrier r ↔
+        MatrixSingletonCarrier h ∧ MatrixSingletonAddFoldSpineCarrier xs ∧
+          MatrixSingletonAddFoldSpineCarrier ys) := by
+  intro continuation
+  constructor
+  · intro resultCarrier
+    have emptyContinuation :
+        Cont h (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys))
+          BHist.Empty :=
+      cont_result_hsame_transport continuation resultCarrier
+    have endpoints := cont_empty_result_inversion emptyContinuation
+    have foldEndpoints :=
+      append_eq_empty_iff.mp endpoints.right
+    exact And.intro endpoints.left
+      (And.intro
+        (Iff.mp MatrixSingletonAddFold_carrier_iff foldEndpoints.left)
+        (Iff.mp MatrixSingletonAddFold_carrier_iff foldEndpoints.right))
+  · intro carriers
+    have leftFoldCarrier : MatrixSingletonCarrier (MatrixSingletonAddFold xs) :=
+      Iff.mpr MatrixSingletonAddFold_carrier_iff carriers.right.left
+    have rightFoldCarrier : MatrixSingletonCarrier (MatrixSingletonAddFold ys) :=
+      Iff.mpr MatrixSingletonAddFold_carrier_iff carriers.right.right
+    have appendCarrier :
+        MatrixSingletonCarrier (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) :=
+      append_eq_empty_iff.mpr (And.intro leftFoldCarrier rightFoldCarrier)
+    exact
+      cont_respects_hsame carriers.left appendCarrier continuation (cont_right_unit BHist.Empty)
+
 theorem MatrixSingletonAddFold_append_continuation_result_iff {xs ys : List BHist} {h r : BHist} :
     Cont h (MatrixSingletonAddFold (xs ++ ys)) r ->
       (MatrixSingletonCarrier r ↔
