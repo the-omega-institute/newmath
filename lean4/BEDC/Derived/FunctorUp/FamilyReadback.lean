@@ -110,6 +110,12 @@ theorem RawFunctorTargetHom_reverse_arrow_endpoint_readback {s t : BHist} :
   cases targetHom
   exact And.intro (hsame_refl (BHist.e1 BHist.Empty)) (hsame_refl BHist.Empty)
 
+theorem RawFunctorSourceHom_empty_morphism_endpoint_readback {s t : BHist} :
+    RawFunctorSourceHom s t BHist.Empty -> hsame s BHist.Empty ∧ hsame t BHist.Empty := by
+  intro sourceHom
+  cases sourceHom
+  exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+
 theorem RawFunctorTargetHom_empty_morphism_endpoint_readback {s t : BHist} :
     RawFunctorTargetHom s t BHist.Empty -> hsame s BHist.Empty ∧ hsame t BHist.Empty := by
   intro targetHom
