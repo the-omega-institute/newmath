@@ -9530,3 +9530,110 @@ This is a concrete theorem-level bridge in the existing NetworkFlowUp surface: t
 
 ---
 
+### B-365 - Sheaf global restrictions form compatible local family
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Sheaf global restrictions form compatible local family |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an indexed SheafUp carrier S over T has a cover U=(A,iota,h,gamma) of i and g is a section of Sec(i), then the family a |-> rho_{i,iota(a)}(g) is compatible over U under the presheaf restriction-composition and topology finite-intersection fields.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/129_sheaf_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex`
+
+Rationale:
+The indexed presheaf carrier defines restriction maps, identity, and composition at papers/bedc/parts/concrete_instances/129_sheaf_namecert_construction.tex:12-32; the sheaf cover definition gives compatibility over pairwise intersections and says the needed inclusions come from the finite-intersection law at 129_sheaf_namecert_construction.tex:35-59, with that topology law labeled at papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex:46. The only theorem in the sheaf file is gluing uniqueness from locality at 129_sheaf_namecert_construction.tex:62-96. Focused rg for global/restrict/compatible local family/global section terms under parts found 0 theorem labels for global restrictions forming a compatible local family; hits were the definition and the uniqueness theorem context, not this closure claim. The target file is 96 lines and has 0 Lean marker macros.
+
+---
+
+
+### B-366 - Computable bounded graph certificate is functional
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Computable bounded graph certificate is functional |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a partial graph F carries a bounded ComputableUp graph certificate and F(n,m) and F(n,m') both hold, then m and m' are hsame-classified NatUp outputs.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/98_seq_namecert_construction.tex`
+
+Rationale:
+The bounded simulation witness is defined at papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:12-24, and the bounded graph certificate states both F(n,m) iff BoundedSim(P_F,n,beta_F(n),m) and same-input output determinacy for bounded simulations at 177_computable_namecert_construction.tex:27-33. The only theorem in the file is composition by bounded simulation at 177_computable_namecert_construction.tex:36-65, with its Lean marker at line 56. Focused rg for computable determinacy, bounded same input, output determinacy, and graph functional terms found 0 computable theorem labels; the only hits in this file were definition prose at lines 29 and 33, while other hits were unrelated module or continuous determinacy theorems.
+
+---
+
+
+### B-367 - Hash collision success is symmetric
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Hash collision success is symmetric |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If HashCollisionSuccess_H(x,x') holds and the message and digest classifiers are symmetric in the HashUp certificate, then HashCollisionSuccess_H(x',x) holds over the same evaluation row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/110_funcobj_namecert_construction.tex`
+
+Rationale:
+Hash evaluation, second-preimage success, and ordered collision success are defined at papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex:12-40; the existing theorem only proves second-preimage success induces collision for the same ordered pair at 220_hash_namecert_construction.tex:43-64. Focused rg for hash collision symmetry, collision reverse, HashCollisionSuccess, and second-preimage/collision terms returned only the definition at line 32 and the second-preimage theorem at lines 43-49, with 0 theorem labels for reversing a collision transcript. The file is 64 lines and has 0 Lean marker macros.
+
+---
+
+
+### B-368 - Convex affine-combination row is order symmetric
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Convex affine-combination row is order symmetric |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a ConvexSetUp binary affine-combination row holds, x and y are carried, a and b are nonnegative, and a+_F b is classifier-equal to 1_F with scalar-addition commutativity, then the swapped endpoint (b odot y)+_V(a odot x) is carried by the same convex carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex`
+
+Rationale:
+The binary affine-combination row is defined at papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex:12-30 and already gives closure for ordered coefficients and ordered endpoints. The only theorem in the file is the midpoint specialization at 186_convexset_namecert_construction.tex:32-57. Focused rg for convex symmetry, affine swap, affine symmetry, midpoint, and ConvexSet terms found 0 theorem labels for a swapped affine-combination closure; hits were the definition, the midpoint theorem, and unrelated affine uses in field files. The target file is only 57 lines and has 0 Lean marker macros.
+
+---
+
