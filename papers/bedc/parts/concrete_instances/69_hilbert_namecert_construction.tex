@@ -174,6 +174,7 @@ $$
 \rho_{\emp}(m,\emp).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingleton\_inner\_product\_norm\_compatibility}
 \begin{proof}
 The induced norm and $\nu_{\emp}$ are both the constant endpoint
 $0_{\mathsf{Real}}^{c}$. The carrier and classifier rows of
@@ -224,10 +225,115 @@ certificate is the Banach singleton certificate read through the Hilbert
 carrier.
 \end{proof}
 
+\begin{theorem}[Hilbert singleton classifier source boundary]
+\label{thm:hilbert-singleton-classifier-source-boundary}
+The carrier of
+\autoref{def:hilbert-singleton-empty-history-carrier} exposes exactly the
+singleton vector-space carrier $A_{\emp}$ and classifier $\rho_{\emp}$. The
+Banach row, the singleton $\NormUp$ row, the inner-product row, and the
+Hilbert row all read their vector endpoints from the same
+$\mathsf{BHist}$ source; no carrier endpoint and no vector classifier outside
+the singleton empty-history source is used.
+\end{theorem}
+\begin{proof}
+Unfold the Hilbert singleton carrier of
+\autoref{def:hilbert-singleton-empty-history-carrier}. Its first displayed
+source is the singleton vector-space instance of
+\autoref{def:singleton-empty-history-vecspace-instance}, so the visible vector
+carrier is $A_{\emp}$ and the visible classifier is $\rho_{\emp}$.
+
+The normed row is the singleton norm instance of
+\autoref{def:singleton-empty-history-norm-instance}, and the Banach row is the
+singleton Banach instance of
+\autoref{def:banach-singleton-empty-history-instance}. Both rows are stated
+over the same singleton vector carrier and therefore project the same
+$A_{\emp}$ and $\rho_{\emp}$ fields.
+
+The Hilbert row adds only the constant inner-product display over those
+carried histories. Since that display takes arguments
+$m,n:\mathsf{BHist}$ from the already fixed singleton carrier, the Hilbert
+surface has the same endpoint source as the vector-space, norm, and Banach
+surfaces.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton constant inner-product transport]
+\label{thm:hilbert-singleton-constant-inner-product-transport}
+For the carrier of
+\autoref{def:hilbert-singleton-empty-history-carrier}, if
+$\rho_{\emp}(m,m')$ and $\rho_{\emp}(n,n')$, then the corresponding
+inner-product endpoints are related by the constant-real classifier:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle m,n\rangle_{\emp},\langle m',n'\rangle_{\emp}).
+$$
+The induced norm endpoints are transported along the same scalar classifier,
+so
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\|\!m\!\|_{\langle,\rangle_{\emp}},\|\!m'\!\|_{\langle,\rangle_{\emp}})
+$$
+holds over the singleton vector classifier.
+\end{theorem}
+\begin{proof}
+The inner-product operation in
+\autoref{def:hilbert-singleton-empty-history-carrier} is constant: every
+ordered pair of carried histories is sent to the endpoint
+$0_{\mathsf{Real}}^{c}$. Thus the two endpoints
+$\langle m,n\rangle_{\emp}$ and $\langle m',n'\rangle_{\emp}$ are the same
+constant RealUp zero endpoint.
+
+The singleton norm carrier supplies the scalar-side classifier
+$\mathsf{RealConstantHistoryClassifier}$ for this constant endpoint. Applying
+that classifier to the two constant zero presentations gives the displayed
+inner-product transport row.
+
+For the induced norm, use
+\autoref{thm:hilbert-singleton-inner-product-norm-compatibility}. It reads
+the induced norm as the singleton norm $\nu_{\emp}$, whose endpoint is again
+the same constant RealUp zero row. The norm transport conclusion is therefore
+the same constant-real classifier row read through the induced norm display.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton ledger exhaustion]
+\label{thm:hilbert-singleton-ledger-exhaustion}
+Every row consumed by the singleton $\HilbertUp$ package is one of the
+singleton vector-space source row, the singleton $\NormUp$ row, the singleton
+Banach completion row, or the constant RealUp zero inner-product row. The
+package introduces no $\StdBridge$ row, no second vector carrier, and no
+carrier source beyond the $\mathsf{BHist}$ singleton ledger recorded in
+\autoref{def:hilbert-singleton-empty-history-carrier}.
+\end{theorem}
+\begin{proof}
+The carrier and classifier accounting is fixed by
+\autoref{thm:hilbert-singleton-classifier-source-boundary}. It leaves only
+the singleton vector-space source $A_{\emp}$, $\rho_{\emp}$, and the
+$\mathsf{BHist}$ endpoint source available to the Hilbert package.
+
+The scalar stability accounting is fixed by
+\autoref{thm:hilbert-singleton-constant-inner-product-transport}. It says
+that both the inner-product endpoint and the induced norm endpoint are
+transported by $\mathsf{RealConstantHistoryClassifier}$ at the constant
+RealUp zero row.
+
+The completeness accounting is exactly
+\autoref{thm:hilbert-singleton-complete-normed-certificate}, which reads the
+singleton Banach completion row through the Hilbert carrier. Together with
+the ledger sentence in
+\autoref{def:hilbert-singleton-empty-history-carrier}, these rows exhaust the
+package: vector source, norm source, Banach completion source, and constant
+inner-product zero source are all named, and no standard bridge or outside
+carrier source remains.
+\end{proof}
+
 \begin{theorem}[Hilbert NameCert obligation package]
 \label{thm:hilbert-namecert-obligation-package}
 The carrier of
-\autoref{def:hilbert-singleton-empty-history-carrier}, together with the two
+\autoref{def:hilbert-singleton-empty-history-carrier}, together with the
+classifier-source boundary
+\autoref{thm:hilbert-singleton-classifier-source-boundary}, the
+constant-inner-product transport row
+\autoref{thm:hilbert-singleton-constant-inner-product-transport}, the ledger
+exhaustion row \autoref{thm:hilbert-singleton-ledger-exhaustion}, and the
 certificate rows
 \autoref{thm:hilbert-singleton-inner-product-norm-compatibility} and
 \autoref{thm:hilbert-singleton-complete-normed-certificate}, assembles the
@@ -239,25 +345,140 @@ singleton vector-space, norm, inner-product zero-row, and Banach-completion
 ledgers, and its bridge status is none.
 \end{theorem}
 \begin{proof}
-The carrier and classifier fields are copied from the singleton empty-history
-vector-space certificate. The Banach source is exactly
-\autoref{def:banach-singleton-empty-history-instance}, so the normed carrier
-and metric rows are already present before the Hilbert row is attached.
+The carrier and classifier fields are supplied by
+\autoref{thm:hilbert-singleton-classifier-source-boundary}. The Banach source
+is exactly \autoref{def:banach-singleton-empty-history-instance}, so the
+normed carrier and metric rows are already present before the Hilbert row is
+attached.
 
 The inner-product compatibility field is
 \autoref{thm:hilbert-singleton-inner-product-norm-compatibility}. It identifies
 the induced norm with $\nu_{\emp}$ and reflects positive definiteness back to
 the singleton classifier against $\emp$.
 
+The transport field is
+\autoref{thm:hilbert-singleton-constant-inner-product-transport}. It records
+that replacing either input by a $\rho_{\emp}$-classified endpoint leaves the
+inner-product endpoint and the induced norm endpoint inside the same
+$\mathsf{RealConstantHistoryClassifier}$ row.
+
 The completeness field is
 \autoref{thm:hilbert-singleton-complete-normed-certificate}. It supplies the
 selected limit, the convergence ledgers, and classifier uniqueness for
 regular Cauchy streams in the norm induced by the inner product.
 
+\autoref{thm:hilbert-singleton-ledger-exhaustion} supplies the ledger field.
 Combining these rows gives the local $\HilbertUp$ naming certificate: the
 traditional target is the one-point Hilbert space, the BEDC source is
 $\mathsf{BHist}$, the carrier and classifier are $A_{\emp}$ and
 $\rho_{\emp}$, the stability rows are constant-zero classifier transport, the
 exactness row is positive definiteness against $\emp$, the ledger records the
 shared singleton provenance, and no standard bridge is claimed here.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton source compatibility]
+\label{thm:hilbert-singleton-source-compatibility}
+For the carrier of
+\autoref{def:hilbert-singleton-empty-history-carrier}, the singleton
+$\VecSpaceUp$, $\NormUp$, and $\BanachUp$ sources read one carried predicate
+and one classifier:
+$$
+A_{\mathsf{Hilbert},\emp}=A_{\emp}
+\quad\text{and}\quad
+\rho_{\mathsf{Hilbert},\emp}=\rho_{\emp}.
+$$
+The norm row is the singleton norm endpoint $\nu_{\emp}$, the Banach metric
+row is the norm-induced constant RealUp zero distance, and the inner-product
+row returns $0_{\mathsf{Real}}^{c}$ under
+$\mathsf{RealConstantHistoryClassifier}$ for every displayed pair
+$m,n:\mathsf{BHist}$.
+\end{theorem}
+\begin{proof}
+Unfold the Hilbert carrier of
+\autoref{def:hilbert-singleton-empty-history-carrier}. Its vector source is
+the singleton empty-history vector space, so the displayed carrier and
+classifier are $A_{\emp}$ and $\rho_{\emp}$ before the norm or inner-product
+rows are attached.
+
+For the norm source, apply
+\autoref{thm:singleton-empty-history-norm-carrier-classifier}. It reads every
+carried norm endpoint as $\nu_{\emp}$ and classifies all displayed singleton
+norm values through $\mathsf{RealConstantHistoryClassifier}$ at
+$0_{\mathsf{Real}}^{c}$.
+
+For the Banach source, the carrier is
+\autoref{def:banach-singleton-empty-history-instance}. Its metric is induced
+from the same singleton norm and therefore exposes the same carried predicate,
+the same classifier, and the same constant RealUp zero endpoint surface.
+
+The inner-product row is defined separately but uses no additional carrier
+data. It returns $0_{\mathsf{Real}}^{c}$ for every pair
+$m,n:\mathsf{BHist}$, and
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse} supplies the
+underlying vector endpoint collapse used by all three sources.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton endpoint readback]
+\label{thm:hilbert-singleton-endpoint-readback}
+Every norm endpoint, inner-product self-value, and Banach distance endpoint
+exposed by the Hilbert singleton package is classified with
+$0_{\mathsf{Real}}^{c}$ by
+$\mathsf{RealConstantHistoryClassifier}$. Concretely, for carried histories
+$m,n:\mathsf{BHist}$,
+$$
+\mathsf{RealConstantHistoryClassifier}(\nu_{\emp}(m),0_{\mathsf{Real}}^{c}),
+\quad
+\mathsf{RealConstantHistoryClassifier}
+  (\langle m,m\rangle_{\emp},0_{\mathsf{Real}}^{c}),
+\quad
+\mathsf{RealConstantHistoryClassifier}(d_{\emp}(m,n),0_{\mathsf{Real}}^{c})
+$$
+are the public endpoint rows of the package.
+\end{theorem}
+\begin{proof}
+The norm endpoint row is the zero-exactness surface of
+\autoref{thm:singleton-empty-history-norm-zero-exactness}. On the singleton
+carrier, the only accepted vector endpoint is classified with $\emp$, so the
+norm value is read as $0_{\mathsf{Real}}^{c}$ by the constant-real
+classifier.
+
+The inner-product self-value is handled by
+\autoref{thm:hilbert-singleton-inner-product-norm-compatibility}. It identifies
+the induced norm with $\nu_{\emp}$ and states that the diagonal
+inner-product row is classified with the constant RealUp zero endpoint
+exactly at the singleton vector classifier boundary.
+
+The Banach distance endpoint comes from
+\autoref{def:banach-singleton-empty-history-instance}. Its metric row is the
+norm-induced singleton distance, and
+\autoref{thm:banach-singleton-empty-history-carrier-classifier} reads every
+displayed distance as the same constant RealUp zero endpoint.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton projection uniqueness]
+\label{thm:hilbert-singleton-projection-uniqueness}
+Let $s$ be an accepted regular Cauchy stream in the Hilbert singleton carrier.
+Any two Hilbert singleton limit or projection witnesses for $s$ are identified
+by $\rho_{\emp}$. Consequently they project to the same Banach limit, the same
+singleton $\NormUp$ zero endpoint, and the same inner-product zero row.
+\end{theorem}
+\begin{proof}
+First read each Hilbert limit or projection witness through the complete
+normed field of
+\autoref{thm:hilbert-singleton-complete-normed-certificate}. This places the
+witnesses on the Banach singleton surface for the same accepted regular Cauchy
+stream.
+
+Apply \autoref{thm:banach-singleton-limit-namecert-uniqueness} to the two
+Banach-surface rows. It identifies their displayed limits first by $\hsame$
+and then by the singleton vector classifier $\rho_{\emp}$.
+
+Finally use
+\autoref{thm:hilbert-singleton-source-compatibility}. The Hilbert carrier,
+the normed carrier, and the Banach carrier all expose the same classifier
+surface, so the $\rho_{\emp}$ comparison just obtained is simultaneously the
+Banach limit comparison, the NormUp zero-endpoint comparison, and the
+inner-product row comparison. The endpoint readback is the constant RealUp
+zero row supplied by
+\autoref{thm:hilbert-singleton-endpoint-readback}.
 \end{proof}

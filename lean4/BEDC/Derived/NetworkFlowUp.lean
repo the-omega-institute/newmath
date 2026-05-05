@@ -1,3 +1,5 @@
+import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Unary.Commutativity
 import BEDC.Derived.PreorderUp
 
@@ -7,6 +9,114 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.PreorderUp
+
+def NetworkFlowUSum (a : BHist → BHist) : List BHist → BHist
+  | [] => BHist.Empty
+  | e :: xs => append (a e) (NetworkFlowUSum a xs)
+
+theorem NetworkFlowUSum_unary_closed {xs : List BHist} {a : BHist → BHist} :
+    (∀ {e : BHist}, List.Mem e xs → UnaryHistory (a e)) →
+      UnaryHistory (NetworkFlowUSum a xs) := by
+  intro unaryA
+  induction xs with
+  | nil =>
+      exact unary_empty
+  | cons e xs ih =>
+      exact unary_append_closed (unaryA (List.Mem.head xs))
+        (ih (by
+          intro z memZ
+          exact unaryA (List.Mem.tail e memZ)))
+
+theorem NetworkFlowUSum_unary {xs : List BHist} {a : BHist -> BHist} :
+    (forall e : BHist, List.Mem e xs -> UnaryHistory (a e)) ->
+      UnaryHistory (NetworkFlowUSum a xs) := by
+  intro unaryA
+  exact NetworkFlowUSum_unary_closed (xs := xs) (a := a) (by
+    intro e memE
+    exact unaryA e memE)
+
+theorem NetworkFlowUSum_prefix_monotone {xs : List BHist} {a b : BHist -> BHist} :
+    (forall e : BHist, List.Mem e xs -> UnaryHistory (a e)) ->
+      (forall e : BHist, List.Mem e xs -> PreorderPrefixLE (a e) (b e)) ->
+        PreorderPrefixLE (NetworkFlowUSum a xs) (NetworkFlowUSum b xs) := by
+  intro unaryA pointwise
+  induction xs with
+  | nil =>
+      exact PreorderPrefixLE_of_hsame (hsame_refl BHist.Empty)
+  | cons e xs ih =>
+      have tailUnary : UnaryHistory (NetworkFlowUSum a xs) :=
+        NetworkFlowUSum_unary (xs := xs) (a := a)
+          (fun t mem => unaryA t (List.Mem.tail e mem))
+      have headStep :
+          PreorderPrefixLE (append (a e) (NetworkFlowUSum a xs))
+            (append (b e) (NetworkFlowUSum a xs)) :=
+        PreorderPrefixLE_append_right_context tailUnary
+          (pointwise e (List.Mem.head xs))
+      have tailStep :
+          PreorderPrefixLE (append (b e) (NetworkFlowUSum a xs))
+            (append (b e) (NetworkFlowUSum b xs)) :=
+        PreorderPrefixLE_append_left_context
+          (ih (fun t mem => unaryA t (List.Mem.tail e mem))
+            (fun t mem => pointwise t (List.Mem.tail e mem)))
+      exact PreorderPrefixLE_trans headStep tailStep
+
+theorem NetworkFlowUSum_monotonicity {xs : List BHist} {a b : BHist → BHist} :
+    (∀ {e : BHist}, List.Mem e xs → UnaryHistory (a e)) →
+      (∀ {e : BHist}, List.Mem e xs → UnaryHistory (b e)) →
+        (∀ {e : BHist}, List.Mem e xs → PreorderPrefixLE (a e) (b e)) →
+          PreorderPrefixLE (NetworkFlowUSum a xs) (NetworkFlowUSum b xs) := by
+  intro unaryA _unaryB pointwise
+  exact NetworkFlowUSum_prefix_monotone (xs := xs) (a := a) (b := b)
+    (fun e memE => unaryA memE)
+    (fun e memE => pointwise memE)
+
+theorem NetworkFlowUSum_monotone {xs : List BHist} {a b : BHist -> BHist} :
+    (forall e : BHist, e ∈ xs -> UnaryHistory (a e)) ->
+    (forall e : BHist, e ∈ xs -> UnaryHistory (b e)) ->
+    (forall e : BHist, e ∈ xs -> PreorderPrefixLE (a e) (b e)) ->
+      PreorderPrefixLE (NetworkFlowUSum a xs) (NetworkFlowUSum b xs) := by
+  intro unaryA unaryB pointwise
+  exact NetworkFlowUSum_monotonicity (xs := xs) (a := a) (b := b)
+    (by
+      intro e memE
+      exact unaryA e memE)
+    (by
+      intro e memE
+      exact unaryB e memE)
+    (by
+      intro e memE
+      exact pointwise e memE)
+
+theorem NetworkFlowUSum_monotonicity_direct {xs : List BHist} {a b : BHist → BHist} :
+    (∀ {e : BHist}, List.Mem e xs → UnaryHistory (a e)) →
+      (∀ {e : BHist}, List.Mem e xs → UnaryHistory (b e)) →
+        (∀ {e : BHist}, List.Mem e xs → PreorderPrefixLE (a e) (b e)) →
+          PreorderPrefixLE (NetworkFlowUSum a xs) (NetworkFlowUSum b xs) := by
+  intro unaryA unaryB pointwise
+  induction xs with
+  | nil =>
+      exact PreorderPrefixLE_of_hsame (hsame_refl BHist.Empty)
+  | cons e xs ih =>
+      have tailAUnary : UnaryHistory (NetworkFlowUSum a xs) :=
+        NetworkFlowUSum_unary_closed (xs := xs) (a := a) (by
+          intro z memZ
+          exact unaryA (List.Mem.tail e memZ))
+      have headStep : PreorderPrefixLE (a e) (b e) :=
+        pointwise (List.Mem.head xs)
+      have tailStep : PreorderPrefixLE (NetworkFlowUSum a xs) (NetworkFlowUSum b xs) :=
+        ih
+          (by
+            intro z memZ
+            exact unaryA (List.Mem.tail e memZ))
+          (by
+            intro z memZ
+            exact unaryB (List.Mem.tail e memZ))
+          (by
+            intro z memZ
+            exact pointwise (List.Mem.tail e memZ))
+      exact PreorderPrefixLE_trans
+        (PreorderPrefixLE_append_right_context tailAUnary headStep)
+        (PreorderPrefixLE_append_left_context tailStep)
 
 def NetworkFlowUnaryFold (weight : BHist -> BHist) : List BHist -> BHist
   | [] => BHist.Empty
@@ -102,6 +212,36 @@ theorem NetworkFlow_empty_backward_accounting_cut_flow_below_value {V B X : BHis
   intro _backwardUnary backwardEmpty accounting
   cases backwardEmpty
   have sameXV : hsame X V := cont_deterministic accounting (cont_right_unit V)
+  exact PreorderPrefixLE_of_hsame sameXV
+
+theorem NetworkFlow_cut_accounting_suffix_cancellation
+    {V cutBack cutForw internal left right : BHist} :
+    hsame left (append cutBack internal) -> hsame right (append cutForw internal) ->
+      Cont V left right -> Cont V cutBack cutForw := by
+  intro sameLeft sameRight accounting
+  have transported :
+      Cont V (append cutBack internal) (append cutForw internal) :=
+    cont_hsame_transport (hsame_refl V) sameLeft sameRight accounting
+  exact cont_suffix_iff.mp transported
+
+theorem NetworkFlow_residual_exhaustion_cut_value_hsame {V B X K : BHist} :
+    UnaryHistory B -> hsame B BHist.Empty -> Cont V B X -> PreorderPrefixLE V K ->
+      PreorderPrefixLE K X -> hsame V K ∧ PreorderPrefixLE V K ∧ PreorderPrefixLE K V := by
+  intro backwardUnary backwardEmpty accounting valueBelowCut cutBelowExhausted
+  have exhaustedBelowValue : PreorderPrefixLE X V :=
+    NetworkFlow_empty_backward_accounting_cut_flow_below_value backwardUnary backwardEmpty accounting
+  have cutBelowValue : PreorderPrefixLE K V :=
+    PreorderPrefixLE_trans cutBelowExhausted exhaustedBelowValue
+  exact And.intro (PreorderPrefixLE_antisymm_hsame valueBelowCut cutBelowValue)
+    (And.intro valueBelowCut cutBelowValue)
+
+theorem NetworkFlowEmptyBackwardAccounting_cut_flow_below_value {V B X : BHist} :
+    Cont V B X -> hsame B BHist.Empty -> PreorderPrefixLE X V := by
+  intro accounting backwardEmpty
+  have transported : Cont V BHist.Empty X :=
+    cont_hsame_transport (hsame_refl V) backwardEmpty (hsame_refl X) accounting
+  have sameXV : hsame X V :=
+    cont_right_unit_result transported
   exact PreorderPrefixLE_of_hsame sameXV
 
 end BEDC.Derived.NetworkFlowUp
