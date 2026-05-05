@@ -8,3 +8,217 @@ The categorical-colimit interface $\CatColimitUp$ packages a cocone over a diagr
 
 \section{The certificate}
 \label{sec:catcolimit-certificate}
+
+\begin{definition}[Fixed-diagram cocone comparison data]\label{def:catcolimit-fixed-diagram-cocone-comparison-data}
+Fix a $\CategoryUp$ certificate $\mathcal C$, an indexing category $\mathcal J$, and a certified $\FunctorUp$ diagram $D:\mathcal J\to\mathcal C$. Write $\operatorname{Mor}_{\mathcal C}(A,B;f)$ for the certified assertion that $f$ is a morphism $A\to B$, $\operatorname{MorEq}_{\mathcal C}(A,B;f,g)$ for the morphism classifier between parallel morphisms $f,g:A\to B$, and $\operatorname{Comp}_{\mathcal C}(A,B,C;f,g,h)$ for the certified composition witness saying that $h:A\to C$ classifies the composite of $f:A\to B$ followed by $g:B\to C$.
+
+For a $D$-cocone $\kappa$ with vertex $K$, write its component at $j$ as $\kappa_j:D(j)\to K$. For $D$-cocones $\kappa$ and $\mu$ with vertices $K$ and $M$, the predicate
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\mu;f)
+$$
+means that $\operatorname{Mor}_{\mathcal C}(K,M;f)$ holds and, for every object $j$ of $\mathcal J$, there is a component composite $c_j:D(j)\to M$ such that
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),K,M;\kappa_j,f,c_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),M;c_j,\mu_j).
+$$
+A certified colimiting cocone is written
+$$
+\operatorname{ColimCocone}_{D}(K,\kappa).
+$$
+It consists of a $D$-cocone $\kappa$ with vertex $K$ and the couniversal field that every $D$-cocone $\chi$ with vertex $X$ admits a morphism $m:K\to X$ satisfying $\operatorname{CoconeMor}_{D}(\kappa,\chi;m)$, with any two such morphisms classified by $\operatorname{MorEq}_{\mathcal C}(K,X;-,-)$.
+\end{definition}
+
+\begin{lemma}[Composition closure for cocone morphisms]\label{lem:catcolimit-cocone-morphism-composite-closure}
+Let $\kappa,\mu,\nu$ be $D$-cocones with vertices $K,M,N$. Suppose
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\mu;f)
+$$
+for $f:K\to M$, and
+$$
+\operatorname{CoconeMor}_{D}(\mu,\nu;g)
+$$
+for $g:M\to N$. If
+$$
+\operatorname{Comp}_{\mathcal C}(K,M,N;f,g,h),
+$$
+then
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\nu;h).
+$$
+\end{lemma}
+\begin{proof}
+The composition field of the $\CategoryUp$ certificate gives $\operatorname{Mor}_{\mathcal C}(K,N;h)$ from the displayed composition witness and the morphism fields of $f$ and $g$.
+
+Fix an object $j$ of $\mathcal J$. From $\operatorname{CoconeMor}_{D}(\kappa,\mu;f)$, obtain a composite $e_j:D(j)\to M$ with
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),K,M;\kappa_j,f,e_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),M;e_j,\mu_j).
+$$
+From $\operatorname{CoconeMor}_{D}(\mu,\nu;g)$, obtain a composite $d_j:D(j)\to N$ with
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),M,N;\mu_j,g,d_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),N;d_j,\nu_j).
+$$
+The associativity field of the $\CategoryUp$ certificate applies to
+$$
+D(j)\xrightarrow{\kappa_j}K\xrightarrow{f}M\xrightarrow{g}N.
+$$
+Together with the witnesses for $h$ as $f$ followed by $g$ and for $e_j$ as $\kappa_j$ followed by $f$, it supplies a composite $r_j:D(j)\to N$ with
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),K,N;\kappa_j,h,r_j)
+$$
+and a classifier comparison between $r_j$ and the composite of $e_j$ followed by $g$. The morphism-classifier congruence field transports
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),M;e_j,\mu_j)
+$$
+across right composition by $g$, giving a classifier comparison between the composite of $e_j$ followed by $g$ and $d_j$. Transitivity of $\operatorname{MorEq}_{\mathcal C}$ then yields
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),N;r_j,\nu_j).
+$$
+Since $j$ was arbitrary, the component witnesses $r_j$ assemble the component ledger for $\operatorname{CoconeMor}_{D}(\kappa,\nu;h)$.
+\end{proof}
+
+\begin{lemma}[Identity cocone morphism]\label{lem:catcolimit-cocone-identity-comparison}
+If $\kappa$ is a $D$-cocone with vertex $K$, then
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa;1_K).
+$$
+\end{lemma}
+\begin{proof}
+The identity field of the $\CategoryUp$ certificate gives $\operatorname{Mor}_{\mathcal C}(K,K;1_K)$. Fix an object $j$ of $\mathcal J$. The unit field for the component $\kappa_j:D(j)\to K$ supplies a composite $c_j:D(j)\to K$ with
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),K,K;\kappa_j,1_K,c_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),K;c_j,\kappa_j).
+$$
+These witnesses, indexed by the objects of $\mathcal J$, give the cocone-morphism ledger for $\operatorname{CoconeMor}_{D}(\kappa,\kappa;1_K)$.
+\end{proof}
+
+\begin{proposition}[Colimiting-cocone endomorphism rigidity]\label{prop:catcolimit-colimiting-cocone-endomorphism-rigidity}
+If
+$$
+\operatorname{ColimCocone}_{D}(K,\kappa)
+$$
+and
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa;a),
+$$
+then
+$$
+\operatorname{MorEq}_{\mathcal C}(K,K;a,1_K).
+$$
+\end{proposition}
+\begin{proof}
+By \autoref{lem:catcolimit-cocone-identity-comparison}, the identity morphism satisfies
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa;1_K).
+$$
+The universal uniqueness field of $\operatorname{ColimCocone}_{D}(K,\kappa)$ applies to the target cocone $\kappa$ and to the two cocone morphisms $a,1_K:K\to K$. It gives
+$$
+\operatorname{MorEq}_{\mathcal C}(K,K;a,1_K).
+$$
+\end{proof}
+
+\begin{theorem}[CatColimit vertex co-uniqueness from universal cocones]\label{thm:catcolimit-universal-cocones-comparison-identities}
+Let $D:\mathcal J\to\mathcal C$ be a fixed certified $\FunctorUp$ diagram in a $\CategoryUp$ certificate $\mathcal C$. If
+$$
+\operatorname{ColimCocone}_{D}(C,\kappa)
+$$
+and
+$$
+\operatorname{ColimCocone}_{D}(C',\kappa')
+$$
+are two certified colimiting cocones over $D$, then there exist comparison morphisms
+$$
+u:C\to C'
+$$
+and
+$$
+v:C'\to C
+$$
+such that
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa';u)
+$$
+and
+$$
+\operatorname{CoconeMor}_{D}(\kappa',\kappa;v).
+$$
+Moreover, there are composite results $c_C:C\to C$ and $c_{C'}:C'\to C'$ satisfying
+$$
+\operatorname{Comp}_{\mathcal C}(C,C',C;u,v,c_C)
+$$
+and
+$$
+\operatorname{Comp}_{\mathcal C}(C',C,C';v,u,c_{C'})
+$$
+with
+$$
+\operatorname{MorEq}_{\mathcal C}(C,C;c_C,1_C)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(C',C';c_{C'},1_{C'}).
+$$
+\end{theorem}
+\begin{proof}
+Apply the universal existence field of $\operatorname{ColimCocone}_{D}(C,\kappa)$ to the $D$-cocone $\kappa'$ with vertex $C'$. This supplies a morphism $u:C\to C'$ and a cocone-morphism ledger
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa';u).
+$$
+Apply the universal existence field of $\operatorname{ColimCocone}_{D}(C',\kappa')$ to the $D$-cocone $\kappa$ with vertex $C$. This supplies a morphism $v:C'\to C$ and a cocone-morphism ledger
+$$
+\operatorname{CoconeMor}_{D}(\kappa',\kappa;v).
+$$
+The composition field of $\mathcal C$ supplies a composite result $c_C:C\to C$ with
+$$
+\operatorname{Comp}_{\mathcal C}(C,C',C;u,v,c_C).
+$$
+Using \autoref{lem:catcolimit-cocone-morphism-composite-closure} with the two cocone morphisms
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa';u)
+$$
+and
+$$
+\operatorname{CoconeMor}_{D}(\kappa',\kappa;v),
+$$
+one obtains
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa;c_C).
+$$
+Now \autoref{prop:catcolimit-colimiting-cocone-endomorphism-rigidity}, applied to $\operatorname{ColimCocone}_{D}(C,\kappa)$ and this cocone endomorphism, gives
+$$
+\operatorname{MorEq}_{\mathcal C}(C,C;c_C,1_C).
+$$
+The composition field of $\mathcal C$ also supplies a composite result $c_{C'}:C'\to C'$ with
+$$
+\operatorname{Comp}_{\mathcal C}(C',C,C';v,u,c_{C'}).
+$$
+Using \autoref{lem:catcolimit-cocone-morphism-composite-closure} with the two cocone morphisms
+$$
+\operatorname{CoconeMor}_{D}(\kappa',\kappa;v)
+$$
+and
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa';u),
+$$
+one obtains
+$$
+\operatorname{CoconeMor}_{D}(\kappa',\kappa';c_{C'}).
+$$
+Now \autoref{prop:catcolimit-colimiting-cocone-endomorphism-rigidity}, applied to $\operatorname{ColimCocone}_{D}(C',\kappa')$ and this cocone endomorphism, gives
+$$
+\operatorname{MorEq}_{\mathcal C}(C',C';c_{C'},1_{C'}).
+$$
+\end{proof}
