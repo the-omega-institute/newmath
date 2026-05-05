@@ -404,3 +404,48 @@ and $t$ be read at $q(r(n))$, yielding the point classifier between
 $(s\circ q\circ r)(n)$ and $(t\circ q\circ r)(n)$.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_reindexing\_composition\_law}
+
+\begin{definition}[Rational stream-name finite probe window]
+\label{def:rat-stream-name-finite-window-classifier}
+For certified observation maps $s,t:\Hist\to\Hist$ and a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, define
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ to mean that
+every bundled certified unary observation is classified pointwise:
+$$
+\forall n:\Hist,
+\mathsf{InBundle}(n,\mathcal{P})\to
+\mathsf{UnaryHistory}(n)\to
+\mathsf{RatHistoryClassifier}(s(n),t(n)).
+$$
+\end{definition}
+
+\begin{theorem}[Rational stream-name classifier covers finite probe windows]
+\label{thm:rat-stream-name-finite-window-from-classifier}
+For certified observation maps $s,t:\Hist\to\Hist$ and every probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$,
+$$
+\mathsf{RatStreamNameClassifier}(s,t)
+\Longrightarrow
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-classifier} and fix a history $n$
+with evidence $\mathsf{InBundle}(n,\mathcal{P})$ and
+$\mathsf{UnaryHistory}(n)$. The stream-name classifier is pointwise on every
+certified unary observation, so its row at $n$ gives
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Since the bundled history and unary witness were arbitrary, these pointwise
+RatUp classifier rows repack exactly as
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$.
+\end{proof}
+
+The ten-field fit is: traditional target finite certified observation windows;
+BEDC source $\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$; carrier observation
+maps; classifier finite probe-window restriction of the stream classifier;
+stability pointwise classifier projection; ledger the bundle and selected
+observation; core theorem
+\autoref{thm:rat-stream-name-finite-window-from-classifier}; exactness
+pointwise RatUp classification on bundled unary observations; standard bridge
+finite prefixes of rational streams; status $\mathsf{ProofTarget}$.

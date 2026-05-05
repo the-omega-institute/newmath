@@ -7420,3 +7420,55 @@ Connects two already-named compact-image predicates (def:compact-image-finite-ne
 
 ---
 
+### B-286 - Continuous-map image determinacy for principal-suffix points
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Continuous-map image determinacy for principal-suffix points |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two displayed image rows are induced by the same continuous-map graph from the same principal-suffix source point, then their target histories are history-same.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+This is a foundational image-determinacy / graph-functionality claim about ContinuousMap carriers, formulated as a single implication on principal-suffix points. It is distinct from B-12 (which is about uniform-continuity modulus composition) and from the existing continuous-map definitions (def:continuousmap-carrier, def:continuousmapup-metric-*), which specify carrier and stability fields but do not separately project image determinacy as a labeled theorem. Filling this gap clarifies the function-likeness of continuous-map graphs at the certificate level and gives downstream chapters a citable handle for source-target consistency.
+
+---
+
+### B-287 - EquivCat empty-roundtrip identity carrier source-prefix hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | EquivCat empty-roundtrip identity carrier source-prefix hsame transport |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under AdjunctionUnitCounitCarrier(p,q,a,unit,counit,left,right) with left ~ emp, right ~ emp, and p hsame p', the empty roundtrip identity carrier transports to AdjunctionUnitCounitCarrier(p',q,a,emp,emp,emp,emp) with empty identity components on (p',q,a) and (q,p',a).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/88_equivcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/86_adjunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_nattrans_namecert_construction.tex`
+
+Rationale:
+Direct symmetric counterpart of the existing target-prefix transport theorem (thm:equivcat-empty-roundtrip-identity-carrier-target-prefix-hsame-transport, line 257). The paper currently proves transport along q hsame q' but not along p hsame p'; without it the EquivCat empty-roundtrip identity carrier behaves asymmetrically under classifier transport, which is a real gap given that the underlying Adjunction carrier is symmetric in its source and target prefixes. The proof should mirror the existing one: apply equivcat-empty-roundtrip-prefix-determinacy, transport unary membership along p hsame p', then re-apply adjunction-unit-counit-empty-components-exactness with both triangle results emp. Distinct from any current BOARD entry.
+
+---
+
