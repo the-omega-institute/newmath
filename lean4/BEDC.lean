@@ -495,6 +495,7 @@ import BEDC.Derived.MatrixUp.SemanticCertificate
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
+import BEDC.Derived.PolynomialUp.Evaluation
 import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
@@ -517,6 +518,8 @@ import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.MetricUp.HsameDeterminism
 import BEDC.Derived.MetricUp.AppendCommPackage
 import BEDC.Derived.MetricUp.CompositeEndpointCollapse
+import BEDC.Derived.CompleteMetricUp
+import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
