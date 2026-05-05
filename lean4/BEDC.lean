@@ -137,10 +137,10 @@ import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
-import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.ComponentwiseRefinement
 import BEDC.Derived.ProdUp.PairRepresentation
+import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ProdUp.EmptySourceExclusion
@@ -214,6 +214,7 @@ import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.SingletonLedger
 import BEDC.Derived.FieldExtUp.SingletonInverse
 import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
+import BEDC.Derived.FieldExtUp.RatReflexiveSemanticCertificate
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.GammaUp
@@ -255,7 +256,6 @@ import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
-import BEDC.Derived.GraphUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -566,9 +566,7 @@ import BEDC.Derived.PolynomialUp.Evaluation
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PreorderUp
-import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.LatticeUp
-import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.PositiveDistanceShape
