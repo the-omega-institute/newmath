@@ -103,6 +103,26 @@ $q\hsame\Eone(\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_nonunit\_factor\_multiplier\_unit}
 
+\begin{theorem}[Prime product factor is unit or prime]
+\label{thm:prime-natmul-factor-unit-or-prime}
+Let $p,d,q$ be histories. If $p$ is prime, $d$ and $q$ are unary histories, and
+$\mathsf{NatMul}(d,q,p)$ holds, then either $d$ is the unit factor and $q$
+reads back to $p$, or $d$ reads back to $p$ and $q$ is the unit multiplier:
+$$
+\bigl(\hsame(d,\Eone(\emp))\wedge\hsame(q,p)\bigr)\vee
+\bigl(\hsame(d,p)\wedge\hsame(q,\Eone(\emp))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Package the multiplication witness as $\mathsf{NatDivides}(d,p)$ and apply the
+divisor classifier field of $\mathsf{NatPrime}(p)$. In the unit branch,
+unit-left multiplication identifies the result $p$ with the multiplier $q$. In
+the prime-factor branch, the unit case would identify $p$ with the unit and
+contradict primality, so the nonunit-factor theorem identifies $q$ with the
+unit.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_factor\_unit\_or\_prime}
+
 \begin{theorem}[Prime divisor positive shape]
 \label{thm:natprime-divisor-positive-shape}
 If $p$ is prime and $d$ divides $p$, then $d$ has a one-step successor shape:

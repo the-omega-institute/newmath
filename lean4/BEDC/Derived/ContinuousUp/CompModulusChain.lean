@@ -1,4 +1,5 @@
 import BEDC.Derived.ContinuousUp
+import BEDC.Derived.ContinuousUp.SourceRestriction
 
 namespace BEDC.Derived.ContinuousUp
 
