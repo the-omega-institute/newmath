@@ -704,3 +704,55 @@ By \autoref{def:concrete-unary-prefix-totalorder-instance}, these comparisons ar
 
 The strict-left and strict-right branches of the total comparison ledger are therefore excluded by the incompatibility clauses of \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. Together with the existence selector of \autoref{thm:totalorder-prefix-finite-maximum-index-selector}, this gives a classifier-stable finite maximum readback for every nonempty finite carried spine.
 \end{proof}
+
+\begin{theorem}[Concrete unary prefix finite extrema certificate]
+\label{thm:totalorder-prefix-finite-extrema-certificate}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite BEDC-history
+spine in the helper of \autoref{def:list-carrier}. Assume every entry of $L$ is
+carried by $\mathsf{Carrier}_{\mathsf{u}}$ for the concrete $\TotalOrderUp$
+certificate of \autoref{thm:concrete-unary-prefix-totalorder-namecert}:
+$$
+\forall x.\; x\in L\to \mathsf{Carrier}_{\mathsf{u}}(x).
+$$
+Then there are histories $m$ and $M$ such that
+$$
+\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m)
+\land
+\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M)
+$$
+and the selected readbacks are classifier-stable: every other minimum witness
+$m'$ satisfying $\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m')$ obeys
+$\rho_{\mathsf{u}}(m,m')$, and every other maximum witness $M'$ satisfying
+$\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M')$ obeys
+$\rho_{\mathsf{u}}(M,M')$.
+
+The per-object fields are: traditional target finite extrema in a constructive
+total order; BEDC source finite $\mathsf{ListCarrier}$ spines and unary
+$\TotalOrderUp$; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier
+$\rho_{\mathsf{u}}$; stability selector existence plus classifier uniqueness;
+ledger the selected minimum and maximum witnesses; core theorem this finite
+extrema certificate; exactness classifier uniqueness of extrema; standard
+bridge finite unary-word extrema; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:totalorder-prefix-finite-minimum-selector} to the nonempty
+carried spine $L$. This gives an entry $m\in L$ whose lower-bound row is exactly
+$\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m)$ after repacking through
+\autoref{def:totalorder-prefix-finite-minimum-witness}.
+
+Apply \autoref{thm:totalorder-prefix-finite-maximum-index-selector} to the same
+carried spine. Its membership index and selected entry give a history $M\in L$
+whose upper-bound row is exactly
+$\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M)$ after repacking through
+\autoref{def:totalorder-prefix-finite-maximum-witness}.
+
+For any competing minimum witness $m'$, apply
+\autoref{thm:totalorder-prefix-finite-minimum-classifier-unique} to the two
+minimum witness records for $m$ and $m'$. The result is the displayed classifier
+agreement $\rho_{\mathsf{u}}(m,m')$.
+
+For any competing maximum witness $M'$, apply
+\autoref{thm:totalorder-prefix-finite-maximum-classifier-unique} to the two
+maximum witness records for $M$ and $M'$. This gives
+$\rho_{\mathsf{u}}(M,M')$, completing the paired finite-extrema certificate.
+\end{proof}
