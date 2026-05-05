@@ -202,6 +202,49 @@ endpoints fixed.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_hsame\_target}
 
+\begin{theorem}[Metric right e-one result two-sided endpoint transport]
+\label{thm:metric-distance-witness-right-e1-result-two-sided-endpoint-transport}
+For histories $x,x',y,y',d$, simultaneous source and target-tail transport
+preserves the empty-or-visible readback of a right e-one metric result:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))\land
+\hsame(x,x')\land\hsame(y,y')
+\Longrightarrow
+\bigl(x'=\emp\land\mathsf{UnaryHistory}(y')\land\hsame(d,y')\bigr)
+$$
+or there exists $x_1:\mathsf{BHist}$ such that
+$$
+x'=\Eone(x_1)\land\mathsf{MetricDistanceWitness}(\Eone(x_1),y',d).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:metric-distance-witness-right-e1-result-hsame-source} to the
+displayed witness and the supplied $\hsame(x,x')$. This gives the transported
+source readback with target tail $y$ still fixed.
+
+In the empty-source branch, keep $x'=\emp$. Transport the unary carrier from
+$y$ to $y'$ along $\hsame(y,y')$, and compose the displayed comparison
+$\hsame(d,y)$ with $\hsame(y,y')$ to obtain $\hsame(d,y')$.
+
+In the visible-source branch, keep the exposed $x_1$ and the equality
+$x'=\Eone(x_1)$. The descended witness
+$\mathsf{MetricDistanceWitness}(\Eone(x_1),y,d)$ supplies the source, target,
+and result carriers; unary transport moves the target carrier from $y$ to
+$y'$, while metric continuation transport carries the continuation ledger
+across the same target-tail classifier with source and result fixed. Repacking
+these fields gives
+$\mathsf{MetricDistanceWitness}(\Eone(x_1),y',d)$.
+
+Ten-field fit: traditional target two-sided visible endpoint transport; BEDC
+source $\mathsf{BHist}$, $\hsame$, and $\mathsf{MetricDistanceWitness}$;
+carrier unary metric endpoints; classifier $\hsame$; stability source and
+target-tail transport; ledger exposed right e-one distance tail; core theorem
+\autoref{thm:metric-distance-witness-right-e1-result-two-sided-endpoint-transport};
+exactness simultaneous transported source readback; standard bridge finite
+unary metric endpoint transport; status $\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{theorem}[Metric e-one pair result tail readback]
 \label{thm:metric-distance-witness-e1-pair-result-tail-readback}
 For histories $x,y,d$, a metric distance witness whose source, target, and
