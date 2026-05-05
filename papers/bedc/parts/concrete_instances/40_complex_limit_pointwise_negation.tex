@@ -1,0 +1,42 @@
+\begin{definition}[Pointwise additive inverse of complex sequences]
+\label{def:cplx-pointwise-negation}
+For a complex sequence $s:\Unary\to\ComplexUp$, the pointwise additive inverse $-s$ is the sequence
+$$
+(-s)(n):=-(s(n)),
+$$
+where the endpoint inverse is formed componentwise on the real and imaginary rational-history components of the complex carrier from \autoref{def:complex-carrier}.
+\end{definition}
+\leandef{BEDC.Derived.ComplexLimitUp.ComplexPointwiseNegation}
+
+\begin{lemma}[Complex distance is invariant under simultaneous negation]
+\label{lem:cplx-distance-simultaneous-negation}
+For complex histories $a,b$ and a distance history $D$,
+$$
+\mathsf{CplxDist}(a,b,D)\Longrightarrow \mathsf{CplxDist}(-a,-b,D).
+$$
+\end{lemma}
+\begin{proof}
+By \autoref{def:cplx-distance}, the hypothesis is a complex-modulus witness for the componentwise difference $a-b$. The componentwise additive-inverse ledger gives
+$$
+(-a)-(-b)=-(a-b)
+$$
+on both rational-history components. In \autoref{def:cplx-modulus}, replacing both components of a difference by their additive inverses does not change the displayed square terms, since rational-history squaring is invariant under additive inverse. The same modulus witness $D$ therefore certifies the distance from $-a$ to $-b$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_simultaneous\_negation}
+
+\begin{theorem}[Complex limit respects pointwise negation]
+\label{thm:cplx-lim-pointwise-negation}
+If $\mathsf{CplxLim}(s,N,z,M)$ holds, then the pointwise additive-inverse sequence has complex limit $-z$ with the same regularity modulus and the same limit modulus:
+$$
+\mathsf{CplxLim}(-s,N,-z,M).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the limit hypothesis using \autoref{def:cplx-lim}. Its regularity field is a witness for $\mathsf{CplxRegSeq}(s,N)$, its target field carries the complex history $z$, and its modulus field gives the distance estimates from $s(n)$ to $z$ above $M$.
+
+First verify regularity for $-s$ with the unchanged modulus $N$. For a unary precision $k$ and accepted unary indices $n,m$ in the sense of \autoref{def:cplx-regseq}, regularity of $s$ gives a distance witness $D$ from $s(n)$ to $s(m)$ with the required dyadic bound. Applying \autoref{lem:cplx-distance-simultaneous-negation} gives a distance witness with the same $D$ from $(-s)(n)$ to $(-s)(m)$; the numerical bound is unchanged because the distance history has not changed. Thus $\mathsf{CplxRegSeq}(-s,N)$ holds.
+
+The target carrier for $-z$ is supplied by the componentwise additive-inverse closure of the $\ComplexUp$ carrier from \autoref{def:complex-carrier}. Now fix a unary precision $k$ and an accepted unary index $n$ above $M(k)$ as in \autoref{def:cplx-lim}. The original limit witness supplies a distance history $E$ from $s(n)$ to $z$ satisfying the $2^{-k}$ bound. Applying \autoref{lem:cplx-distance-simultaneous-negation} gives the same distance history $E$ from $(-s)(n)$ to $-z$, and the same dyadic estimate remains valid. Since $k$ and $n$ were arbitrary among the accepted indices, $M$ is a limit modulus for $-s$ at $-z$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_pointwise\_negation\_closed}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_pointwise\_negation}
