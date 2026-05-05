@@ -164,4 +164,31 @@ theorem ComplexTopologyOpenDiskGap_subradius_extension_public_readback
             (And.intro largeGapCarrier pointLarge))))
       (And.intro pointLarge gapTail)
 
+theorem ComplexTopologyCertifiedSubradius_nested_gap_readback
+    {inner middle outer gap tail01 tail12 gapMiddle gapOuter composedTail directGap : BHist} :
+    ComplexTopologyCertifiedSubradius inner middle tail01 ->
+      ComplexTopologyCertifiedSubradius middle outer tail12 ->
+        Cont tail01 tail12 composedTail ->
+          Cont gap tail01 gapMiddle ->
+            Cont gapMiddle tail12 gapOuter ->
+              Cont gap composedTail directGap ->
+                hsame gapOuter directGap ∧
+                  hsame gapOuter (append gap (append tail01 tail12)) := by
+  intro sub01 sub12 tailComp gapStep outerStep directStep
+  have composedSubradius := ComplexTopologyCertifiedSubradius_comp sub01 sub12 tailComp
+  have composedRadius : Cont inner composedTail outer := composedSubradius.right
+  have composedCanonical : hsame composedTail (append tail01 tail12) :=
+    cont_deterministic tailComp rfl
+  have _outerReadback : hsame outer (append inner (append tail01 tail12)) :=
+    hsame_trans (cont_deterministic composedRadius rfl)
+      (congrArg (append inner) composedCanonical)
+  have directCanonical : hsame directGap (append gap (append tail01 tail12)) :=
+    hsame_trans (cont_deterministic directStep rfl)
+      (congrArg (append gap) composedCanonical)
+  have assocReadback : hsame gapOuter (append gap (append tail01 tail12)) := by
+    cases gapStep
+    cases outerStep
+    exact append_assoc gap tail01 tail12
+  exact And.intro (hsame_trans assocReadback (hsame_symm directCanonical)) assocReadback
+
 end BEDC.Derived.ComplexTopologyUp
