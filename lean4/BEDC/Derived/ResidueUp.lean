@@ -53,6 +53,32 @@ theorem ResiduePoleData_hsame_transport
                           (And.intro productCarrier' integralResidue'))))
                     integralResidue'
 
+theorem ResiduePoleData_result_determinism
+    {f f' center radius pole gap integral residue : BHist} :
+    ResiduePoleData f center radius pole gap integral residue ->
+      ResiduePoleData f' center radius pole gap integral residue ->
+        hsame f f' ∧ Cont integral residue f ∧ Cont integral residue f' := by
+  intro leftData rightData
+  cases leftData with
+  | intro _leftDisk leftRest =>
+      cases leftRest with
+      | intro _leftIntegralCarrier leftRest =>
+          cases leftRest with
+          | intro _leftResidueCarrier leftRest =>
+              cases leftRest with
+              | intro _leftProductCarrier leftLedger =>
+                  cases rightData with
+                  | intro _rightDisk rightRest =>
+                      cases rightRest with
+                      | intro _rightIntegralCarrier rightRest =>
+                          cases rightRest with
+                          | intro _rightResidueCarrier rightRest =>
+                              cases rightRest with
+                              | intro _rightProductCarrier rightLedger =>
+                                  exact And.intro
+                                    (cont_deterministic leftLedger rightLedger)
+                                    (And.intro leftLedger rightLedger)
+
 theorem ResiduePoleData_empty_function_endpoints
     {f center radius pole gap integral residue : BHist} :
     ResiduePoleData f center radius pole gap integral residue -> hsame f BHist.Empty ->
