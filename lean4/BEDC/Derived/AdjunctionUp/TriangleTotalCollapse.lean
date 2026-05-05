@@ -1,4 +1,5 @@
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.AdjunctionUp.CarrierSwapInvolution
 
 namespace BEDC.Derived.AdjunctionUp
 
@@ -26,5 +27,20 @@ theorem AdjunctionTriangleCarrier_roundtrip_total_collapse
       (And.intro readback.right.left
         (And.intro leftCollapse.right
           (And.intro rightCollapse.right readback.right.right)))
+
+theorem AdjunctionTriangleCarrier_display_empty_normal_form
+    {left right object unit counit leftLeg rightLeg : BHist} :
+    AdjunctionTriangleCarrier left right object unit counit leftLeg rightLeg ->
+      AdjunctionUnitCounitDisplaySame left right object unit counit leftLeg rightLeg
+        left left object BHist.Empty BHist.Empty BHist.Empty BHist.Empty := by
+  intro carrier
+  have collapse := AdjunctionTriangleCarrier_roundtrip_total_collapse carrier
+  exact
+    And.intro (hsame_refl left)
+      (And.intro (hsame_symm collapse.right.right.right.right)
+        (And.intro (hsame_refl object)
+          (And.intro collapse.left
+            (And.intro collapse.right.left
+              (And.intro collapse.right.right.left collapse.right.right.right.left)))))
 
 end BEDC.Derived.AdjunctionUp
