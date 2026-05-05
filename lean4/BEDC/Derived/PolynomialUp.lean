@@ -402,6 +402,16 @@ theorem PolynomialSingletonAddFold_list_classifier_hsame
                 (cont_respects_hsame headSame tailData.left leftCont rightCont)
                 (cont_right_unit (PolynomialSingletonAddFold (x :: xs)))
 
+theorem PolynomialSingletonAddFold_append_hsame {xs ys : List BHist} :
+    hsame (PolynomialSingletonAddFold (xs ++ ys))
+      (append (PolynomialSingletonAddFold xs) (PolynomialSingletonAddFold ys)) := by
+  induction xs with
+  | nil =>
+      exact (append_empty_left (PolynomialSingletonAddFold ys)).symm
+  | cons x xs ih =>
+      exact (congrArg (append x) ih).trans
+        (append_assoc x (PolynomialSingletonAddFold xs) (PolynomialSingletonAddFold ys)).symm
+
 theorem PolynomialZeroRemainder_addFold_empty_classified {xs : List BHist} :
     PolynomialZeroRemainder xs ->
       PolynomialSingletonClassifier (PolynomialSingletonAddFold xs) BHist.Empty := by
