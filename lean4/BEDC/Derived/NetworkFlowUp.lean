@@ -214,6 +214,27 @@ theorem NetworkFlow_empty_backward_accounting_cut_flow_below_value {V B X : BHis
   have sameXV : hsame X V := cont_deterministic accounting (cont_right_unit V)
   exact PreorderPrefixLE_of_hsame sameXV
 
+theorem NetworkFlow_cut_accounting_suffix_cancellation
+    {V cutBack cutForw internal left right : BHist} :
+    hsame left (append cutBack internal) -> hsame right (append cutForw internal) ->
+      Cont V left right -> Cont V cutBack cutForw := by
+  intro sameLeft sameRight accounting
+  have transported :
+      Cont V (append cutBack internal) (append cutForw internal) :=
+    cont_hsame_transport (hsame_refl V) sameLeft sameRight accounting
+  exact cont_suffix_iff.mp transported
+
+theorem NetworkFlow_residual_exhaustion_cut_value_hsame {V B X K : BHist} :
+    UnaryHistory B -> hsame B BHist.Empty -> Cont V B X -> PreorderPrefixLE V K ->
+      PreorderPrefixLE K X -> hsame V K ∧ PreorderPrefixLE V K ∧ PreorderPrefixLE K V := by
+  intro backwardUnary backwardEmpty accounting valueBelowCut cutBelowExhausted
+  have exhaustedBelowValue : PreorderPrefixLE X V :=
+    NetworkFlow_empty_backward_accounting_cut_flow_below_value backwardUnary backwardEmpty accounting
+  have cutBelowValue : PreorderPrefixLE K V :=
+    PreorderPrefixLE_trans cutBelowExhausted exhaustedBelowValue
+  exact And.intro (PreorderPrefixLE_antisymm_hsame valueBelowCut cutBelowValue)
+    (And.intro valueBelowCut cutBelowValue)
+
 theorem NetworkFlowEmptyBackwardAccounting_cut_flow_below_value {V B X : BHist} :
     Cont V B X -> hsame B BHist.Empty -> PreorderPrefixLE X V := by
   intro accounting backwardEmpty
