@@ -158,6 +158,30 @@ $\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(c,c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_congr}
 
+\begin{theorem}[NatTrans classifier vertical empty-result component readback]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-components}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta',c,c'$, suppose
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$ and
+$\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')$ hold.
+If $\ContR(\eta,\theta,c)$, $\ContR(\eta',\theta',c')$,
+$c\hsame\emp$, and $c'\hsame\emp$, then the four component histories are
+empty and the adjacent prefixes agree:
+$$
+\hsame(\eta,\emp)\wedge\hsame(\eta',\emp)\wedge
+\hsame(\theta,\emp)\wedge\hsame(\theta',\emp)\wedge
+\hsame(p,q)\wedge\hsame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier fields for $\eta,\eta',\theta,\theta'$ from the two
+classifier witnesses. Apply vertical composite result-empty exactness to the
+primary components $\eta,\theta$ and to the secondary components
+$\eta',\theta'$. The primary readback supplies emptiness of $\eta$ and
+$\theta$ together with $p\hsame q$ and $q\hsame r$; the secondary readback
+supplies emptiness of $\eta'$ and $\theta'$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_components}
+
 \begin{theorem}[NatTrans vertical composite zero-headed component impossibility]
 \label{thm:nattrans-prefix-component-classifier-vert-comp-zero-headed-component-absurd}
 For vertically composable prefix component classifiers, none of the three
