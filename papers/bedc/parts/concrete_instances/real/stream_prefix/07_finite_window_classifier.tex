@@ -190,6 +190,32 @@ exactness endpoint projection
 \autoref{lem:real-unary-stream-window-endpoint-projection}; standard bridge
 finite rational observation windows; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real unary stream finite-window empty bound exactness]
+\label{thm:real-unary-stream-window-empty-bound-iff}
+For observation maps $s,t:\Hist\to\Hist$ and an anchor history $a:\Hist$,
+the empty finite-window bound is exactly the anchor row:
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,\emp)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\land \mathsf{RatHistoryClassifier}(s(a),t(a)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, the window classifier already stores the unary anchor
+row. The empty history is below the empty bound using the empty unary tail and
+the continuation identity $\ContR(\emp,\emp,\emp)$. Projecting the endpoint row
+at this offset gives
+$\mathsf{RatHistoryClassifier}(s(\mathsf{append}(a,\emp)),
+t(\mathsf{append}(a,\emp)))$, which is the displayed anchor classifier.
+
+For the reverse direction, assume the anchor unary row and the anchor
+classifier. The bound field is certified by unary emptiness. For any offset
+$k$ below $\emp$, the continuation witness into the empty result forces
+$k=\emp$. The endpoint demanded by the window classifier is therefore the
+stored anchor classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_empty\_bound\_iff}
+
 \begin{lemma}[Unary offset bound transitivity]
 \label{lem:real-unary-offset-bound-transitivity}
 For histories $k,w,u:\Hist$,
