@@ -90,6 +90,27 @@ theorem CompleteMetricLimitWitness_singleton_uniqueness
   intro witness0 witness1
   exact hsame_trans witness0.left (hsame_symm witness1.left)
 
+theorem CompleteMetricLimitWitness_singleton_observation_package
+    {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M limit ->
+      UnaryHistory n -> hsame (s n) BHist.Empty ->
+        exists d : BHist,
+          hsame d BHist.Empty ∧ MetricDistanceWitness (s n) limit d ∧
+            Cont (s n) limit d ∧ RatHistoryClassifier d (M n) := by
+  intro witness nUnary sourceEmpty
+  cases witness.right nUnary sourceEmpty with
+  | intro d observation =>
+      have limitEmpty : hsame limit BHist.Empty := witness.left
+      have sourceLimitEmpty : hsame (append (s n) limit) BHist.Empty := by
+        exact hsame_trans (congrArg (fun source => append source limit) sourceEmpty)
+          (hsame_trans (append_empty_left limit) limitEmpty)
+      have distanceEmpty : hsame d BHist.Empty :=
+        hsame_trans observation.right.left sourceLimitEmpty
+      exact Exists.intro d
+        (And.intro distanceEmpty
+          (And.intro observation.left
+            (And.intro observation.right.left observation.right.right)))
+
 def CompleteMetricSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
 
