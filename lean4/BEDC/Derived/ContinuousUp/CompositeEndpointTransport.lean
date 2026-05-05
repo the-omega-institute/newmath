@@ -1,4 +1,5 @@
 import BEDC.Derived.ContinuousUp
+import BEDC.Derived.ContinuousUp.EndpointCycle
 
 namespace BEDC.Derived.ContinuousUp
 
@@ -31,5 +32,22 @@ theorem ContinuousFunctionCarrier_comp_endpoint_hsame_transport
   cases sameModulus
   cases sameCert
   exact ContinuousFunctionCarrier_comp_closed first second fgRel modRel certRel
+
+theorem ContinuousFunctionCarrier_composite_endpoint_cycle_exactness
+    {source middle target f g fg modF modG modFG certF certG cert : BHist} :
+    ContinuousFunctionCarrier source f middle modF certF ->
+      ContinuousFunctionCarrier middle g target modG certG ->
+        Cont f g fg ->
+          Cont modF modG modFG ->
+            Cont target modFG cert ->
+              hsame source cert ->
+                ContinuousFunctionCarrier source fg target modFG cert ∧ hsame fg BHist.Empty ∧
+                  hsame modFG BHist.Empty ∧ hsame target source ∧ hsame cert source := by
+  intro first second fgRel modRel certRel sameEndpoint
+  have composite : ContinuousFunctionCarrier source fg target modFG cert :=
+    ContinuousFunctionCarrier_comp_closed first second fgRel modRel certRel
+  have exactness :=
+    ContinuousFunctionCarrier_endpoint_cert_cycle_exactness composite sameEndpoint
+  exact And.intro composite exactness
 
 end BEDC.Derived.ContinuousUp
