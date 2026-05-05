@@ -10,6 +10,7 @@ This chapter records the proof obligations for the constructive transcendental p
 \label{def:real-analytic-leibniz-partial-sum}
 For unary index \(n\), the Leibniz partial sum predicate \(\mathsf{LeibPart}(n, S_n)\) holds when \(S_n\) is the explicit \(\RatUp\)-history obtained by summing the first \(n\) terms of \(\sum_{k \geq 0} (-1)^k / (2k+1)\) via unary recursion using \(\RatUp\) addition and signed-fraction subtraction.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticLeibnizPartialSum}
 \leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticLeibnizPartSum}
 
 \begin{lemma}[Leibniz alternating-series Cauchy modulus]
@@ -312,6 +313,7 @@ The supplied limit witness and uniqueness rows turn the bisection stream into th
 \label{def:real-analytic-trig-part}
 For \(\RealUp\)-history \(x\) and unary index \(n\), \(\mathsf{SinPart}(x, n, S_n)\) and \(\mathsf{CosPart}(x, n, C_n)\) are the partial sums \(\sum_{k=0}^{n} (-1)^k x^{2k+1}/(2k+1)!\) and \(\sum_{k=0}^{n} (-1)^k x^{2k}/(2k)!\) respectively, computed by unary recursion as in \autoref{def:real-analytic-exp-part}.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticTrigPart}
 
 \begin{lemma}[Trigonometric Cauchy modulus]
 \label{lem:real-analytic-trig-cauchy}
@@ -358,6 +360,7 @@ Suppose the following machine-checked rows are supplied for the analytic constru
 \end{enumerate}
 Under these supplied rows, the tuple $(\mathsf{Pi}, \mathsf{Exp}, \mathsf{Log}, \mathsf{Sin}, \mathsf{Cos})$, with sources, classifiers, stability obligations, ledgers, and standard bridges, is a $\NameCert(\RealAnalyticUp)$ candidate over $\RealUp$. Without those supplied rows, this chapter exports only the displayed proof obligations and explicit-modulus scaffolds.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealAnalyticUp.real\_analytic\_certificate\_boundary}
 \begin{proof}
 The local constructions provide regular rational stream data: the Leibniz rescaling for $\pi$, the exponential power-series family, the bisection presentation of $\log$, and the sine and cosine power-series families. Their moduli are explicit unary functions, so they can be passed to the $\StreamNameUp$ and $\RegSeqRat$ rows once those rows are available.
 
