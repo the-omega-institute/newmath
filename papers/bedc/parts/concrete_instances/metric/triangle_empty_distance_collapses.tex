@@ -119,14 +119,12 @@ $d_{xyz}\hsame x$ gives the displayed witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_right\_empty\_boundary\_witness}
 
-\begin{theorem}[Metric triangle two-sided empty boundary package]
+\begin{theorem}[Metric triangle bilateral empty edge collapse]
 \label{thm:metric-distance-witness-triangle-bilateral-empty-edge-collapse}
-\label{thm:metric-distance-witness-two-sided-empty-triangle-boundary-package}
-For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the two edge distances in a
-metric triangle are both history-same to $\emp$, then every displayed endpoint
-and the outer displayed distance collapse to the empty boundary, the final
-structural depth collapses to zero, and the outer result is itself an
-empty-to-empty distance witness:
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if both displayed edge distances
+in a metric triangle are history-same to $\emp$, then all three endpoints, the
+outer displayed distance, the final structural depth, and the empty-to-empty
+outer witness collapse to the empty case:
 $$
 \begin{array}{l}
 \mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
@@ -156,14 +154,15 @@ the left endpoint $x$.
 
 The endpoint classifiers give the first three conjuncts. For the outer
 distance, compose the left-collapse readback $\hsame(d_{xyz},z)$ with
-$\hsame(z,\emp)$ by transitivity of $\hsame$. Finally apply
+$\hsame(z,\emp)$ by transitivity of $\hsame$. Apply
 \autoref{thm:metric-distance-depth-zero-iff-empty} to this empty final-distance
 classifier to obtain $\mathsf{MetricDistanceDepth}(d_{xyz})=0$.
 
 The empty-boundary metric witness
 $\mathsf{MetricDistanceWitness}(\emp,\emp,\emp)$ is the exact empty-distance
 case. Transporting its result field along $d_{xyz}\hsame\emp$ yields
-$\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})$.
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})$. Conjoining these rows
+gives the displayed package.
 \end{proof}
 
 Fit: traditional target degenerate triangle normalization; BEDC source $BHist$
@@ -172,6 +171,45 @@ $\hsame$; stability from the two empty-edge collapse lemmas and depth-zero
 readback; ledger the two displayed edge distances; core theorem this block;
 exactness the endpoint and final-distance collapse; standard bridge none
 claimed; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Metric triangle two-sided empty boundary package]
+\label{thm:metric-distance-witness-two-sided-empty-triangle-boundary-package}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the two edge distances in a
+metric triangle are both history-same to $\emp$, then every displayed endpoint
+and the outer displayed distance collapse to the empty boundary, and the outer
+result is itself an empty-to-empty distance witness:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow\\
+\hsame(d_{xy},\emp)\Longrightarrow\hsame(d_{yz},\emp)\Longrightarrow\\
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xyz},\emp)\land
+\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:metric-distance-witness-triangle-left-distance-empty-collapse}
+to the same triangle and the hypothesis $d_{xy}\hsame\emp$. This gives
+$x\hsame\emp$, $y\hsame\emp$, $d_{xyz}\hsame z$, and $d_{yz}\hsame z$.
+
+Apply
+\autoref{thm:metric-distance-witness-triangle-right-distance-empty-collapse}
+to the same triangle and the hypothesis $d_{yz}\hsame\emp$. This gives
+$y\hsame\emp$, $z\hsame\emp$, $d_{xy}\hsame x$, and $d_{xyz}\hsame x$.
+
+The endpoint conclusions package the three empty endpoint readbacks. Symmetry
+and transitivity of $\hsame$ compose $d_{xyz}\hsame z$ with $z\hsame\emp$, so
+$d_{xyz}\hsame\emp$.
+
+Finally, the empty-boundary metric witness
+$\mathsf{MetricDistanceWitness}(\emp,\emp,\emp)$ is the exact empty-distance
+case. Transporting its result field along $d_{xyz}\hsame\emp$ yields
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})$.
+\end{proof}
 
 \begin{theorem}[Metric triangle left empty boundary witness]
 \label{thm:metric-distance-witness-triangle-left-empty-boundary-witness}
