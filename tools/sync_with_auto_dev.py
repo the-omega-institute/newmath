@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-"""Bidirectional sync between two integration branches: `codex-auto-dev`
-(pipeline output, codex worker commits land here) and `auto-dev` (the
-stable mirror users / external tooling watch). Run periodically by the
-sync daemon (every 600s by default) so the two branches converge.
+"""Three-branch sync between `dev` (external upstream), `auto-dev`
+(stable mirror) and `codex-auto-dev` (pipeline integration). Run
+periodically by the sync daemon (every 600s by default) so the three
+branches converge.
 
 Flow:
-  1. fetch origin (both branches)
-  2. ensure local `codex-auto-dev` and `auto-dev` exist; create-from-origin
-     if missing
-  3. on `codex-auto-dev`: ff-pull from origin, then merge `auto-dev` in →
-     push origin codex-auto-dev
-  4. on `auto-dev`: ff-pull from origin, then merge `codex-auto-dev` in →
-     push origin auto-dev
-  5. checkout back to the branch the user started on
+  1. fetch origin (all branches)
+  2. on `auto-dev`: merge `origin/dev` (NEW — pulls external user /
+     supervisor commits into the mirror; codex resolves on conflict)
+  3. on `codex-auto-dev`: merge `origin/auto-dev` (now contains dev's
+     content); codex resolves on conflict
+  4. on `auto-dev` (again): merge `codex-auto-dev` (mirror pipeline
+     output); codex resolves on conflict
+  5. push all three branches that received commits
+  6. checkout back to the branch the user started on
 
 Both merges use `git merge --no-ff --no-edit` (no rebase). On conflict,
 codex is invoked inside the worktree with a generic resolve prompt;
@@ -36,6 +37,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SOURCE_BRANCH = "codex-auto-dev"   # pipeline output (codex workers)
 MIRROR_BRANCH = "auto-dev"          # stable mirror
+UPSTREAM_BRANCH = "dev"             # external main branch (user / external commits)
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 CONFLICT_PROMPT = """You are resolving git merge conflicts in the BEDC mathematics project.
 
@@ -264,19 +266,34 @@ def main():
 
     success = True
     try:
+        # Step 0: auto-dev <- origin/dev
+        # Pull external user / supervisor commits from `dev` (the main
+        # upstream branch) into the stable mirror. On conflict, codex
+        # resolves inside auto-dev (no need to involve codex-auto-dev
+        # yet — the pipeline branch picks up the merged content via the
+        # subsequent steps). If origin/dev doesn't exist (e.g. fresh
+        # repo), this step is a no-op.
+        if has_remote_branch(UPSTREAM_BRANCH):
+            if not sync_one_direction(MIRROR_BRANCH, f"origin/{UPSTREAM_BRANCH}",
+                                      no_push=args.no_push):
+                success = False
+                return
+        else:
+            print(f"[sync] origin/{UPSTREAM_BRANCH} missing; skipping dev → auto-dev step")
+
         # Step 1: codex-auto-dev <- auto-dev
-        # Pulls any auto-dev hand-edits into the pipeline integration
-        # branch so codex workers see them on next round dispatch.
+        # Pulls auto-dev (now containing dev's content + any hand-edits)
+        # into the pipeline integration branch so codex workers see them
+        # on next round dispatch.
         if not sync_one_direction(SOURCE_BRANCH, f"origin/{MIRROR_BRANCH}",
                                   no_push=args.no_push):
             success = False
             return
 
         # Step 2: auto-dev <- codex-auto-dev
-        # Mirrors the codex pipeline output to the stable branch users
-        # / external tooling watch. After this completes both branches
-        # point at the same commit (or differ only by the merge commit
-        # direction).
+        # Mirrors the codex pipeline output back to the stable branch.
+        # After this completes both branches point at the same commit
+        # (or differ only by the merge commit direction).
         if not sync_one_direction(MIRROR_BRANCH, SOURCE_BRANCH,
                                   no_push=args.no_push):
             success = False
