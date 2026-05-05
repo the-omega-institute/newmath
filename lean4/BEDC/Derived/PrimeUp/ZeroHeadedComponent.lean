@@ -32,4 +32,23 @@ theorem NatMul_zero_headed_component_absurd {d q n : BHist} :
               cases nEq
               exact unary_no_zero_extension nUnary
 
+theorem NatFact_zero_headed_component_absurd {n m : BHist} :
+    NatFact n m ->
+      ((∃ z : BHist, n = BHist.e0 z) ∨ (∃ z : BHist, m = BHist.e0 z)) ->
+        False := by
+  intro fact zeroComponent
+  have nUnary : UnaryHistory n := NatFact_input_unary fact
+  have mUnary : UnaryHistory m := NatFact_result_unary fact
+  cases zeroComponent with
+  | inl nZero =>
+      cases nZero with
+      | intro z nEq =>
+          cases nEq
+          exact unary_no_zero_extension nUnary
+  | inr mZero =>
+      cases mZero with
+      | intro z mEq =>
+          cases mEq
+          exact unary_no_zero_extension mUnary
+
 end BEDC.Derived.PrimeUp

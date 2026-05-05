@@ -3,6 +3,7 @@ import BEDC.Derived.HolomorphicUp
 namespace BEDC.Derived.HolomorphicUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
 
@@ -50,5 +51,18 @@ theorem IteratedStrictCplxDiff_endpoint_hsame_absurd {seed h : BHist} {n : Nat} 
       exact
         NatUnaryStrictPrefix_tail_endpoint_hsame_absurd
           data.left data.right.left data.right.right sameEndpoint
+
+theorem IteratedStrictCplxDiff_result_not_empty {seed h : BHist} {n : Nat} :
+    IteratedStrictCplxDiff seed (Nat.succ n) h -> hsame h BHist.Empty -> False := by
+  intro diff resultEmpty
+  cases diff with
+  | intro _previous rest =>
+      cases rest with
+      | intro step data =>
+          have emptyStep :
+              step = BHist.Empty :=
+            (cont_empty_result_inversion
+              (cont_result_hsame_transport data.right.right.right resultEmpty)).right
+          exact data.right.right.left emptyStep
 
 end BEDC.Derived.HolomorphicUp
