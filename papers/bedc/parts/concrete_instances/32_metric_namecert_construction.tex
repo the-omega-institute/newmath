@@ -202,26 +202,7 @@ $\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_iff}
 
-\begin{theorem}[Metric distance witness visible-context empty distance exactness]
-\label{thm:metric-distance-witness-visible-context-empty-distance-iff}
-For histories $p,q,x,y$, a visible-context distance witness whose central
-distance ledger is empty is exactly unary evidence for the visible prefix and
-suffix together with empty classification of both central endpoints:
-$$
-\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
-\Longleftrightarrow
-\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
-\hsame(x,\emp)\ \wedge\ \hsame(y,\emp).
-$$
-\end{theorem}
-\begin{proof}
-Apply visible-context exactness to peel off the prefix and suffix. The central
-witness is then $\mathsf{MetricDistanceWitness}(x,y,\emp)$, which empty-distance
-exactness identifies with $\hsame(x,\emp)$ and $\hsame(y,\emp)$. Conversely,
-the two empty endpoint classifiers build the central empty-distance witness,
-and visible-context exactness reattaches the same prefix and suffix.
-\end{proof}
-\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_iff}
+\input{parts/concrete_instances/metric/visible_context_empty_distance}
 
 \begin{theorem}[Metric distance witness visible-context depth additivity]
 \label{thm:metric-distance-witness-visible-context-depth-add}
@@ -507,7 +488,7 @@ the $\Eone$ constructor from that presentation and transport the recovered tail
 witness along the resulting $\hsame$ equality.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_exactness}
-
+\input{parts/concrete_instances/metric/left_e1_visible_target_step}
 \begin{theorem}[Metric distance witness right e1 result exactness]
 \label{thm:metric-distance-witness-right-e1-result-exactness}
 For histories $x,y,d$, a distance witness with right endpoint and result both
@@ -763,38 +744,5 @@ continuation determinacy, Theorem~\ref{thm:continuation-determinacy}, yields
 $\hsame(d,e)$.
 \end{proof}
 \input{parts/concrete_instances/metric/triangle_append_closed}
-
-\begin{theorem}[Metric distance witness semantic name certificate]
-\label{thm:metric-distance-witness-semantic-namecert}
-For unary endpoint histories $x,y$, the concrete distance-witness predicate
-$d\mapsto\mathsf{MetricDistanceWitness}(x,y,d)$ carries a semantic naming
-certificate whose source, pattern, and ledger predicates are the same concrete
-witness predicate and whose classifier is $\hsame$.
-\end{theorem}
-\begin{proof}
-The carrier witness is the concrete distance history $x\cdot y$. Unary append
-closure supplies its unary carrier witness, and the continuation field is the
-reflexive ledger $\ContR(x,y,x\cdot y)$. The classifier fields are the
-reflexive, symmetric, and transitive laws for $\hsame$. Carrier transport is
-history-sameness transport of the concrete distance witness.
-\end{proof}
-\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert}
-
-\begin{definition}[MetricSpace ledger policy]
-\label{def:metric-ledger-policy}
-Record carrier witnesses and the real ledger of each distance value.
-\end{definition}
-
-\begin{definition}[\(\MetricSpaceUp\) certificate obligations]
-\label{def:metric-certificate-obligations}
-The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MetricSpaceUp\).
-\end{definition}
-
-\paragraph{Primitive boundary.}
-\(\MetricSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
-\input{parts/concrete_instances/32_metric_empty_boundary_visible_context_distance_empty}
-
-\begin{remark}[Zero-axiom encoding note]
-\label{rem:metric-zero-axiom-note}
-Replaces decidable equality with apartness and explicit real-modulus inequalities.
-\end{remark}
+\input{parts/concrete_instances/metric/triangle_empty_distance_collapses}
+\input{parts/concrete_instances/metric/closure_marker}

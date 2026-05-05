@@ -6,12 +6,15 @@ fails `python3 lean4/scripts/bedc_ci.py audit`. The audit failure
 comes from this round's additions colliding with a sibling round
 that landed on the base branch concurrently — typical causes:
 
-  - duplicate `\label{{thm:...}}` (you added the same label name
+  - duplicate `\label{{{{thm:...}}}}` (you added the same label name
     that a sibling round just merged);
-  - duplicate `\leanchecked{{X}}` for a Lean target that a sibling
+  - duplicate `\leanchecked{{{{X}}}}` for a Lean target that a sibling
     round already registered at a different paper site;
   - an `\leanchecked` / `\leanstmt` / `\leandef` referencing a
     Lean name that no longer exists after the merge.
+  - a `closurestatus` block whose `\leantarget` no longer resolves,
+    or whose theoryclosure × formalstatus axes contradict the live
+    paper and Lean witnesses after the merge.
 
 ## Audit output (last lines)
 {audit_msg}
@@ -21,23 +24,30 @@ Remove ONLY this round's offending additions to make audit pass:
 
 1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
    failure list.
-2. For each duplicate label: identify which `\label{{...}}`
+2. For each duplicate label: identify which `\label{{{{...}}}}`
    occurrence is the one this round added. The round's own commit
    (titled `P<round>: …`) is one parent of the most recent merge
    commit; the OTHER parent is the base branch's tip, so anything
    from there is a sibling, not yours — do NOT delete it. Use
-   `git diff HEAD@{{1}}` or `git show <round-commit>` to identify
+   `git diff HEAD@{{{{1}}}}` or `git show <round-commit>` to identify
    your delta. Delete the occurrence and the surrounding
-   `\begin{{theorem}} … \end{{theorem}}` block if the block exists
+   `\begin{{{{theorem}}}} … \end{{{{theorem}}}}` block if the block exists
    only because of this round.
 3. For each unresolved marker added by this round: delete the
    offending `\leanchecked` / `\leanstmt` / `\leandef` line.
-4. Do NOT introduce iteration-narrative words.
-5. Do NOT touch lean4/BEDC/.
-6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
+4. For each offending `closurestatus` block added by this round:
+   either repair the seven-field block so its `\leantarget` resolves
+   and its theoryclosure × formalstatus axes remain independent, or
+   delete the whole block if this round cannot justify it.
+5. Do NOT introduce iteration-narrative words.
+6. Do NOT touch lean4/BEDC/.
+7. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
    until both exit 0. If the round becomes empty after removing the
-   collisions, that is acceptable.
-7. After audit passes, `git add papers/bedc` and create a small
+   collisions, that is acceptable. While iterating on the strip-out
+   you may use `make check` (single -draftmode pass, ~half the time)
+   to confirm syntax; the FINAL verification before commit must be
+   the full `make` so cross-references and the audit still line up.
+8. After audit passes, `git add papers/bedc` and create a small
    follow-up commit on the round branch (or amend the merge commit
    with `git commit --amend --no-edit`) so the strip-out is
    recorded without breaking the merge. Do NOT git push.

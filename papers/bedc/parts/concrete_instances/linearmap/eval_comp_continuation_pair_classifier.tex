@@ -1,0 +1,61 @@
+\begin{theorem}[Singleton evaluation composition continuation pair classifier]
+\label{thm:linearmap-singleton-eval-comp-continuation-pair-classifier}
+If \(g\) lies in the singleton linear-map carrier and
+\(\ContR(\mathsf{LinearMapSingletonEval}(f,x),g,r)\), while the composed
+evaluation endpoint continues through \(\emp\) to \(s\), then the two
+continuation results are classified by the singleton linear-map classifier:
+$$
+\mathsf{LinearMapSingletonClassifier}(r,s).
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator and singleton composition evaluator both expose
+\(\emp\) as their source endpoint. Transporting the first continuation along
+the carrier witness for \(g\) carries \(r\) by the singleton carrier.
+Transporting the second continuation along the empty endpoint carries \(s\).
+The two empty endpoint readbacks compose to the displayed singleton
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_comp\_continuation\_pair\_classifier}
+
+\begin{theorem}[Singleton evaluation context composition continuation pair classifier]
+\label{thm:linearmap-singleton-eval-context-comp-continuation-pair-classifier}
+If \(p\) and \(y\) lie in the singleton linear-map carrier, the contextual
+evaluation endpoint
+\(\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x))\) continues through
+\(y\) to \(r\), and the composed evaluation endpoint continues through
+\(\emp\) to \(s\), then the two continuation results are classified:
+$$
+\mathsf{LinearMapSingletonClassifier}(r,s).
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator has empty carrier. Combining it with the carrier of
+\(p\) carries the contextual source endpoint. Transporting the first
+continuation against the empty right unit therefore carries \(r\). The composed
+evaluation source and empty continuation input similarly carry \(s\). These two
+empty endpoint readbacks compose to the singleton classifier relation.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_comp\_continuation\_pair\_classifier}
+
+\begin{theorem}[Singleton composition continuation pair classifier]
+\label{thm:linearmap-singleton-comp-continuation-pair-classifier}
+If two continuations start from the concrete singleton composition endpoint
+\(\mathsf{LinearMapSingletonComp}(g,f)\) and continue through carried histories
+\(y\) and \(z\) to \(r\) and \(s\), then the two results are classified:
+$$
+\ContR(\mathsf{LinearMapSingletonComp}(g,f),y,r)\land
+\ContR(\mathsf{LinearMapSingletonComp}(g,f),z,s)\land
+L_{\emp}(y)\land L_{\emp}(z)
+\Longrightarrow
+\mathsf{LinearMapSingletonClassifier}(r,s).
+$$
+\end{theorem}
+\begin{proof}
+The concrete singleton composition endpoint is \(\emp\). Transport the first
+continuation along the carrier witness for \(y\) to carry \(r\), and transport
+the second along the carrier witness for \(z\) to carry \(s\). The two empty
+endpoint readbacks compose by symmetry and transitivity into the singleton
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonComp\_continuation\_pair\_classifier}

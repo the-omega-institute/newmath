@@ -37,13 +37,18 @@ The first command that errors is what you need to fix.
   usually right.
 
 ### `bedc_ci.py audit` failure (drift / label / marker)
-- "duplicate paper labels" — a `\label{thm:...}` you added now collides
+- "duplicate paper labels" — a `\label{{thm:...}}` you added now collides
   with a sibling-merged label. Delete this round's `\label` occurrence
-  and the surrounding `\begin{theorem}…\end{theorem}` block if the block
+  and the surrounding `\begin{{theorem}}…\end{{theorem}}` block if the block
   exists only because of this round.
-- "unresolved Lean markers" — a `\leanchecked{X}` (or stmt/def variant)
+- "unresolved Lean markers" — a `\leanchecked{{X}}` (or stmt/def variant)
   references a Lean name that doesn't exist anywhere under
   `lean4/BEDC/`. Either implement the Lean side or drop the marker line.
+- "closurestatus audit failure" — a `closurestatus` block has a
+  `\leantarget` that does not resolve, is missing one of its seven
+  fields, or conflates theoryclosure × formalstatus. Repair the block
+  only when this round can justify both axes; otherwise delete this
+  round's whole block.
 - "case-collision" — git index has two paths differing only by case. Run
   `git update-index --force-remove <wrong-case-path>` then commit.
 

@@ -1,0 +1,567 @@
+\begin{definition}[CommRing left zero-divisor data]
+\label{def:commring-left-zero-divisor-data}
+For a BEDC history-level $\CommRingUp$ operation tuple with multiplication
+$\cdot$ and zero $0$, write
+$$
+\mathsf{ApartZero}_R(x):=(x\hsame0\to\bot).
+$$
+The strict left zero-divisor predicate is
+$$
+\mathsf{LeftZD}_R(x):=
+\mathsf{ApartZero}_R(x)\land
+\exists c : \mathsf{BHist},\
+\mathsf{ApartZero}_R(c)\land x\cdot c\hsame0.
+$$
+\end{definition}
+\leandef{BEDC.Derived.CommRingUp.CommRingApartZero}
+\leandef{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor}
+
+\begin{theorem}[CommRing apart-zero visible pair]
+\label{thm:commring-apartzero-visible-pair}
+For every history $h:\mathsf{BHist}$, both visible constructors are apart from
+the empty zero history:
+$$
+\mathsf{ApartZero}_R(\Ezero(h))\land
+\mathsf{ApartZero}_R(\Eone(h)).
+$$
+\end{theorem}
+\begin{proof}
+Each conjunct is the corresponding BEDC history no-confusion law: neither an
+$\Ezero$-headed history nor an $\Eone$-headed history can be history-same as
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingApartZero\_visible\_pair}
+
+\begin{definition}[CommRing strict two-sided zero-divisor data]
+\label{def:commring-strict-zero-divisor-data}
+For the same BEDC history-level $\CommRingUp$ operation tuple, the strict
+two-sided zero-divisor predicate is
+$$
+\mathsf{StrictZD}_R(x):=
+\mathsf{ApartZero}_R(x)\land
+\exists c:\mathsf{BHist},\
+\mathsf{ApartZero}_R(c)\land x\cdot c\hsame0\land c\cdot x\hsame0.
+$$
+\end{definition}
+\leandef{BEDC.Derived.CommRingUp.CommRingStrictZeroDivisor}
+
+\begin{theorem}[CommRing singleton multiplication visible strict zero-divisors]
+\label{thm:commring-singleton-mul-visible-strict-zero-divisor}
+For every BEDC history $h$, both visible singleton histories
+$\Ezero(h)$ and $\Eone(h)$ are strict two-sided zero-divisors for the singleton
+commutative-ring multiplication:
+$$
+\mathsf{StrictZD}_{\mathsf{singleton}}(\Ezero(h))
+\land
+\mathsf{StrictZD}_{\mathsf{singleton}}(\Eone(h)).
+$$
+\end{theorem}
+\begin{proof}
+The singleton multiplication sends every pair of histories to $\emp$. For
+$\Ezero(h)$ use $\Eone(h)$ as the displayed annihilator, and for $\Eone(h)$ use
+$\Ezero(h)$. Constructor disjointness gives the apart-from-zero clauses for
+both visible histories, while both ordered products reduce to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonMul\_visible\_strictZeroDivisor}
+
+\begin{theorem}[CommRing left zero-divisor strictness from commutativity]
+\label{thm:commring-left-zero-divisor-strict-of-mul-comm}
+For any BEDC history multiplication $mul$ satisfying multiplicative
+commutativity under $\hsame$, every left zero-divisor carries a two-sided
+annihilator witness:
+$$
+\mathsf{LeftZD}_R(x)
+\Longrightarrow
+\mathsf{ApartZero}_R(x)\land
+\exists c:\mathsf{BHist},\
+\mathsf{ApartZero}_R(c)\land x\cdot c\hsame0\land c\cdot x\hsame0.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the left zero-divisor data. It gives the apartness of $x$ and a witness
+$c$ with $\mathsf{ApartZero}_R(c)$ and $x\cdot c\hsame0$. Apply multiplicative
+commutativity to obtain $c\cdot x\hsame x\cdot c$, then compose by transitivity
+with the displayed left annihilation row. The same witness $c$ therefore supplies
+both annihilator orientations.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_strict\_of\_mul\_comm}
+
+\begin{theorem}[CommRing left zero-divisor strictness iff under commutativity]
+\label{thm:commring-left-zero-divisor-strict-iff-of-mul-comm}
+For any BEDC history multiplication $mul$, written as $\cdot$, satisfying
+multiplicative commutativity under $\hsame$, every $x:\mathsf{BHist}$
+satisfies
+$$
+(\forall u v:\mathsf{BHist},\,u\cdot v\hsame v\cdot u)
+\Longrightarrow
+\bigl(\mathsf{LeftZD}_R(x)\Longleftrightarrow\mathsf{StrictZD}_R(x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, assume $\mathsf{LeftZD}_R(x)$ and the displayed
+multiplicative commutativity row. Apply
+\autoref{thm:commring-left-zero-divisor-strict-of-mul-comm}. Its conclusion is
+the apartness of $x$ together with an apart annihilator $c$ satisfying both
+$x\cdot c\hsame0$ and $c\cdot x\hsame0$, which is exactly
+$\mathsf{StrictZD}_R(x)$ by
+\autoref{def:commring-strict-zero-divisor-data}.
+
+For the reverse implication, unfold $\mathsf{StrictZD}_R(x)$. The strict
+two-sided data gives $\mathsf{ApartZero}_R(x)$ and a witness
+$c:\mathsf{BHist}$ with $\mathsf{ApartZero}_R(c)$, $x\cdot c\hsame0$, and
+$c\cdot x\hsame0$. Dropping the right-annihilation conjunct leaves precisely
+the apartness of $x$, the same witness $c$, its apartness, and
+$x\cdot c\hsame0$, hence $\mathsf{LeftZD}_R(x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_strictZeroDivisor\_of\_mul\_comm\_iff}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_strict\_iff\_of\_mul\_comm}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_strict\_expansion\_iff\_of\_mul\_comm}
+Ten-field fit: traditional target left and two-sided zero-divisor collapse in
+commutative rings; BEDC source $\CommRingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability multiplicative commutativity
+and transitivity; ledger selected annihilator witness; core theorem
+\autoref{thm:commring-left-zero-divisor-strict-iff-of-mul-comm}; exactness
+equivalence of one-sided and two-sided annihilator data; standard bridge
+ordinary commutative-ring zero divisors; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero-divisor product closure]
+\label{thm:commring-zero-divisor-product-closure}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, multiplicative associativity, addition
+and multiplication congruence, left distributivity, and the $\CommRingUp$
+multiplicative commutativity field, every $a,b:\mathsf{BHist}$ satisfies
+$$
+\mathsf{LeftZD}_R(a)
+\Longrightarrow
+\bigl((a\cdot b)\hsame0\to\bot\bigr)
+\Longrightarrow
+\mathsf{LeftZD}_R(a\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+First derive right distributivity from the supplied left distributivity by
+\autoref{thm:commring-right-distrib-from-left}. With this row, the additive
+group laws, and multiplication congruence, the hypotheses of
+\autoref{thm:ring-zero-classifier-factor-absorption} are available.
+
+Unpack $\mathsf{LeftZD}_R(a)$. Its right component gives a history
+$c:\mathsf{BHist}$ with $\mathsf{ApartZero}_R(c)$ and $a\cdot c\hsame0$. Let
+$P$ be the displayed proof that $a\cdot b$ is apart from zero.
+
+The same $c$ annihilates $a\cdot b$. Multiplicative associativity gives
+$(a\cdot b)\cdot c\hsame a\cdot(b\cdot c)$. Multiplicative commutativity gives
+$b\cdot c\hsame c\cdot b$, and multiplication congruence transports this inside
+left multiplication by $a$. Symmetry of associativity then identifies
+$a\cdot(c\cdot b)$ with $(a\cdot c)\cdot b$.
+
+Apply \autoref{thm:ring-zero-classifier-factor-absorption} to the zero
+classifier $a\cdot c\hsame0$ and multiplier $b$. Its left product component
+gives $(a\cdot c)\cdot b\hsame0$. Transitivity through the associativity and
+commutativity rows yields
+$$
+(a\cdot b)\cdot c\hsame0.
+$$
+
+The strict left zero-divisor data for $a\cdot b$ is therefore the pair
+consisting of $P$ and the same annihilator witness $c$ with its apart-zero proof
+and the displayed product-zero classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_product\_closed}
+
+\begin{theorem}[CommRing annihilator product left zero-divisor]
+\label{thm:commring-annihilator-product-left-zero-divisor}
+Under the same hypotheses as
+\autoref{thm:commring-zero-divisor-product-closure}, every
+$a,b,c:\mathsf{BHist}$ satisfies
+$$
+\mathsf{ApartZero}_R(c)
+\Longrightarrow
+\bigl(a\cdot c\hsame0\bigr)
+\Longrightarrow
+\bigl((a\cdot b)\hsame0\to\bot\bigr)
+\Longrightarrow
+\mathsf{LeftZD}_R(a\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{ApartZero}_R(c)$, $a\cdot c\hsame0$, and
+$P:(a\cdot b)\hsame0\to\bot$. We reuse the displayed $c$ as the annihilator
+witness and show that it annihilates $a\cdot b$.
+
+Multiplicative associativity gives
+$(a\cdot b)\cdot c\hsame a\cdot(b\cdot c)$. Multiplicative commutativity gives
+$b\cdot c\hsame c\cdot b$, and multiplication congruence transports this
+comparison inside left multiplication by $a$. Symmetry of associativity then
+identifies $a\cdot(c\cdot b)$ with $(a\cdot c)\cdot b$.
+
+As in \autoref{thm:commring-zero-divisor-product-closure}, derive right
+distributivity from \autoref{thm:commring-right-distrib-from-left} and use the
+zero-classifier factor absorption theorem. Applied to $a\cdot c\hsame0$ and
+the multiplier $b$, it yields $(a\cdot c)\cdot b\hsame0$. Transitivity through
+the associativity, commutativity, and congruence chain gives
+$$
+(a\cdot b)\cdot c\hsame0.
+$$
+
+The strict left zero-divisor data for $a\cdot b$ is the apart-zero component
+$P$ together with the same witness $c$, its apart-zero proof, and the displayed
+product-zero classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_annihilator\_product\_closed}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingAnnihilatorProduct\_leftZeroDivisor}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_product\_closed\_from\_annihilator}
+Ten-field fit: traditional target nonzero multiple of an element with a
+nonzero annihilator; BEDC source $\CommRingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability associativity,
+commutativity, congruence, and zero absorption; ledger selected annihilator
+witness; core theorem \autoref{thm:commring-annihilator-product-left-zero-divisor};
+exactness explicit witness preservation; standard bridge ordinary
+commutative-ring zero-divisor propagation; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing strict zero-divisor product closure]
+\label{thm:commring-strict-zero-divisor-product-closure}
+Under the same operation hypotheses as
+\autoref{thm:commring-zero-divisor-product-closure}, every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\mathsf{StrictZD}_R(a)
+\Longrightarrow
+\bigl((a\cdot b)\hsame0\to\bot\bigr)
+\Longrightarrow
+\mathsf{StrictZD}_R(a\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{StrictZD}_R(a)$. The strict witness supplies
+$c:\mathsf{BHist}$ together with $\mathsf{ApartZero}_R(c)$,
+$a\cdot c\hsame0$, and $c\cdot a\hsame0$. Let $P$ be the given proof that
+$a\cdot b$ is apart from zero.
+
+The left annihilation row for the product is the same chain as in
+\autoref{thm:commring-zero-divisor-product-closure}. Multiplicative
+associativity rewrites $(a\cdot b)\cdot c$ to $a\cdot(b\cdot c)$,
+commutativity rewrites $b\cdot c$ to $c\cdot b$, and congruence transports the
+comparison under left multiplication by $a$.
+
+Associativity in the other direction identifies $a\cdot(c\cdot b)$ with
+$(a\cdot c)\cdot b$. The zero-classifier factor absorption theorem then sends
+$a\cdot c\hsame0$ to $(a\cdot c)\cdot b\hsame0$, so transitivity gives
+$$
+(a\cdot b)\cdot c\hsame0.
+$$
+
+For the right annihilation row, apply the $\CommRingUp$ multiplicative
+commutativity field to the two histories $(a\cdot b)\cdot c$ and
+$c\cdot(a\cdot b)$. Transport the displayed zero classifier across this
+comparison to obtain
+$$
+c\cdot(a\cdot b)\hsame0.
+$$
+
+Package $P$, the same apart-zero witness $c$, its apartness proof, and the two
+displayed annihilation rows. These are exactly the components of
+$\mathsf{StrictZD}_R(a\cdot b)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_strict\_zero\_divisor\_empty\_product\_closed}
+
+\begin{theorem}[CommRing left zero-divisor product strict closure]
+\label{thm:commring-left-zero-divisor-product-strict-closure}
+Under the same operation hypotheses as
+\autoref{thm:commring-zero-divisor-product-closure}, together with the
+multiplicative commutativity row used in
+\autoref{thm:commring-left-zero-divisor-strict-of-mul-comm}, every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\mathsf{LeftZD}_R(a)
+\Longrightarrow
+\bigl((a\cdot b)\hsame0\to\bot\bigr)
+\Longrightarrow
+\mathsf{StrictZD}_R(a\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{LeftZD}_R(a)$ and let $P:(a\cdot b)\hsame0\to\bot$ be the
+displayed apartness proof for the product. Apply
+\autoref{thm:commring-zero-divisor-product-closure} to $a$, $b$, the left
+zero-divisor witness for $a$, and $P$. This gives
+$\mathsf{LeftZD}_R(a\cdot b)$ with the preserved annihilator.
+
+Next apply \autoref{thm:commring-left-zero-divisor-strict-of-mul-comm} to the
+product $a\cdot b$, using the same multiplicative commutativity row. The result
+unpacks into the apartness of $a\cdot b$ and a history
+$c:\mathsf{BHist}$ with $\mathsf{ApartZero}_R(c)$,
+$(a\cdot b)\cdot c\hsame0$, and $c\cdot(a\cdot b)\hsame0$.
+
+These are precisely the fields of $\mathsf{StrictZD}_R(a\cdot b)$. Repack the
+apartness component and the two-sided annihilator witness $c$ to obtain the
+claimed strict product closure.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_product\_strict\_closed}
+The ten-field fit for
+\autoref{thm:commring-left-zero-divisor-product-strict-closure} is:
+traditional target nonzero multiple of a left zero-divisor; BEDC source
+$\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from associativity, commutativity, congruence, and zero
+absorption; ledger the preserved annihilator and product apartness; core theorem
+\autoref{thm:commring-left-zero-divisor-product-strict-closure}; exactness the
+two-sided strict witness recovered from the left witness; downstream consumer
+the $\FieldUp$ zero-product obstruction and commutative-ring localization
+boundary; status $\mathsf{ProofTarget}$.
+
+The ten-field fit for
+\autoref{thm:commring-strict-zero-divisor-product-closure} is: traditional
+target strict zero-divisor closure in a
+commutative ring; BEDC source $\CommRingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from associativity,
+commutativity, congruence, and zero absorption; ledger the apartness witness
+plus both annihilator orientations; core theorem
+\autoref{thm:commring-strict-zero-divisor-product-closure}; exactness the
+two-sided annihilator witness; standard bridge ordinary commutative-ring
+zero-divisor closure; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing left zero-divisor two-step product strict closure]
+\label{thm:commring-left-zero-divisor-two-step-product-strict-closure}
+Under the same operation hypotheses as
+\autoref{thm:commring-left-zero-divisor-product-strict-closure}, every
+$a,b,c:\mathsf{BHist}$ satisfies
+$$
+\mathsf{LeftZD}_R(a)
+\Longrightarrow
+\bigl((a\cdot b)\hsame0\to\bot\bigr)
+\Longrightarrow
+\bigl(((a\cdot b)\cdot c)\hsame0\to\bot\bigr)
+\Longrightarrow
+\mathsf{StrictZD}_R((a\cdot b)\cdot c).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{LeftZD}_R(a)$ and let
+$P:(a\cdot b)\hsame0\to\bot$ be the apartness proof for the first product.
+Apply \autoref{thm:commring-left-zero-divisor-product-strict-closure} to
+$a$, $b$, the left zero-divisor witness for $a$, and $P$. This gives
+$\mathsf{StrictZD}_R(a\cdot b)$.
+
+Let $Q:((a\cdot b)\cdot c)\hsame0\to\bot$ be the apartness proof for the
+second product. Apply
+\autoref{thm:commring-strict-zero-divisor-product-closure} to the strict
+zero-divisor $a\cdot b$, the factor $c$, and $Q$.
+
+The resulting package is exactly
+$\mathsf{StrictZD}_R((a\cdot b)\cdot c)$: its apartness component is $Q$, and
+its two-sided annihilator witness is the one transported by the cited strict
+product-closure theorem.
+\end{proof}
+
+The ten-field fit for
+\autoref{thm:commring-left-zero-divisor-two-step-product-strict-closure} is:
+traditional target iterated nonzero multiple of a zero divisor; BEDC source
+$\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from the two cited product-closure theorems; ledger the two
+apartness hypotheses and preserved annihilator; core theorem
+\autoref{thm:commring-left-zero-divisor-two-step-product-strict-closure};
+exactness the strict two-sided witness for the second product; standard bridge
+ordinary commutative-ring zero-divisor propagation; status
+$\mathsf{ProofTarget}$.
+
+\begin{definition}[CommRing subring-inclusion name certificate]
+\label{def:commring-subring-inclusion-name-certificate}
+Let $S$ and $T$ be history-level $\CommRingUp$ packages as in \autoref{def:commring-certificate-obligations}. Write their carriers and classifiers as $C_S,\sim_S$ and $C_T,\sim_T$, and write their operations as $0_S,1_S,+_S,-_S,\cdot_S$ and $0_T,1_T,+_T,-_T,\cdot_T$. For a history map $\iota:\mathsf{BHist}\to\mathsf{BHist}$, define the target image carrier
+$$
+\mathsf{Im}_{\iota}(y)\Longleftrightarrow \exists x:\mathsf{BHist},\ C_S(x)\land \iota(x)\sim_T y.
+$$
+Define the target-image classifier by
+$$
+y\sim_{\iota} z\Longleftrightarrow \mathsf{Im}_{\iota}(y)\land\mathsf{Im}_{\iota}(z)\land y\sim_T z.
+$$
+A subring-inclusion name certificate for $\iota$ over $T$ is the naming certificate of \autoref{def:typed-naming-certificate} with source $\mathsf{Im}_{\iota}$, classifier $\sim_{\iota}$, stability rows inherited from the target $\CommRingUp$ package, and ledger rows recording the carrier reflection, classifier reflection, and operation-preservation data for $0$, $1$, $+$, and $\cdot$. Its stability component includes target-carrier inclusion, classifier transport, closure under $0_T$, $1_T$, $+_T$, $-_T$, and $\cdot_T$, and the inherited additive, multiplicative, distributive, congruence, and commutativity laws under $\sim_{\iota}$.
+\end{definition}
+
+\begin{theorem}[CommRing subring inclusion inverse closure]
+\label{thm:commring-subring-inclusion-inverse-closure}
+Let $S$ and $T$ be history-level $\CommRingUp$ packages as in \autoref{def:commring-certificate-obligations}, with notation as in \autoref{def:commring-subring-inclusion-name-certificate}. Let $\iota:\mathsf{BHist}\to\mathsf{BHist}$ satisfy carrier reflection, classifier reflection on carried source endpoints, zero preservation $\iota(0_S)\sim_T0_T$, and addition preservation on carried inputs:
+$$
+\iota(x+_S u)\sim_T\iota(x)+_T\iota(u).
+$$
+If $\mathsf{Im}_{\iota}(y)$, then $\mathsf{Im}_{\iota}(-_T y)$.
+\end{theorem}
+\begin{proof}
+Choose a source witness $x$ for $\mathsf{Im}_{\iota}(y)$, so $C_S(x)$ and $\iota(x)\sim_T y$. Source inverse closure gives $C_S(-_S x)$. The source left-inverse row gives $(-_S x)+_S x\sim_S0_S$, and classifier reflection on carried source endpoints transports it to
+$$
+\iota((-_S x)+_S x)\sim_T\iota(0_S).
+$$
+
+Addition preservation and zero preservation turn this comparison into
+$$
+\iota(-_S x)+_T\iota(x)\sim_T0_T.
+$$
+Target additive congruence with $\iota(x)\sim_T y$ gives
+$$
+\iota(-_S x)+_T y\sim_T0_T.
+$$
+
+The target right-inverse row from \autoref{thm:ring-add-right-inverse} gives $y+_T(-_T y)\sim_T0_T$. Together with target additive associativity, the target left-zero law, \autoref{thm:ring-add-right-zero}, and target addition congruence, \autoref{thm:group-left-right-inverse-uniqueness} identifies the two inverse witnesses:
+$$
+\iota(-_S x)\sim_T -_T y.
+$$
+
+Thus the carried source endpoint $-_S x$ witnesses $\mathsf{Im}_{\iota}(-_T y)$. The additive inverse row follows from $+$ and $0$ preservation, so no separate preservation assumption for $-_S$ is required.
+\end{proof}
+
+\begin{theorem}[CommRing carrier reflection gives subring inclusion]
+\label{thm:commring-carrier-reflection-subring-inclusion-certificate}
+Let $S$ and $T$ be history-level $\CommRingUp$ packages as in \autoref{def:commring-certificate-obligations}, with notation as in \autoref{def:commring-subring-inclusion-name-certificate}. Let $\iota:\mathsf{BHist}\to\mathsf{BHist}$ satisfy the following rows:
+\begin{enumerate}
+  \item Carrier reflection: $C_S(x)\Longrightarrow C_T(\iota(x))$ and $C_T(\iota(x))\Longrightarrow C_S(x)$ for every $x$.
+  \item Classifier reflection on carried source endpoints:
+$$
+C_S(x)\land C_S(y)\Longrightarrow \bigl(x\sim_S y\Longleftrightarrow \iota(x)\sim_T\iota(y)\bigr).
+$$
+  \item Constant preservation: $\iota(0_S)\sim_T0_T$ and $\iota(1_S)\sim_T1_T$.
+  \item Operation preservation for carried inputs:
+$$
+\iota(x+_S y)\sim_T\iota(x)+_T\iota(y)\qquad\text{and}\qquad \iota(x\cdot_S y)\sim_T\iota(x)\cdot_T\iota(y).
+$$
+\end{enumerate}
+Then the image carrier $\mathsf{Im}_{\iota}$ and classifier $\sim_{\iota}$ of \autoref{def:commring-subring-inclusion-name-certificate} form a subring-inclusion name certificate over the target package $T$.
+\end{theorem}
+\begin{proof}
+The target classifier is a carrier naming certificate by \autoref{def:lean-carrier-naming-certificate}. Hence it supplies reflexivity, symmetry, transitivity, and carrier transport for $\sim_T$. If $\mathsf{Im}_{\iota}(y)$ is witnessed by a carried source endpoint $x$ with $\iota(x)\sim_T y$, carrier preservation gives $C_T(\iota(x))$, and target carrier transport gives $C_T(y)$. If also $y\sim_T y'$, transitivity gives $\iota(x)\sim_T y'$, so the same source witness proves $\mathsf{Im}_{\iota}(y')$.
+The restricted classifier $\sim_{\iota}$ is a $\NameCert$ on $\mathsf{Im}_{\iota}$. Inhabitedness is witnessed by $0_T$: the source certificate carries $0_S$, and the constant row gives $\iota(0_S)\sim_T0_T$. Reflexivity, symmetry, and transitivity are the corresponding target classifier fields, with the image endpoints retained in the first two components of the definition of $\sim_{\iota}$. Carrier transport for $\mathsf{Im}_{\iota}$ is immediate from the right image component of a $\sim_{\iota}$ witness.
+The constants are carried by the image for the same reason. The zero row uses $0_S$ and $\iota(0_S)\sim_T0_T$; the unit row uses $1_S$ and $\iota(1_S)\sim_T1_T$.
+For addition closure, choose image witnesses $x,u$ for $y,z$, so $C_S(x)$, $C_S(u)$, $\iota(x)\sim_T y$, and $\iota(u)\sim_T z$. Source additive closure, part of the $\RingUp$ component in \autoref{def:ring-stability-certificate}, gives $C_S(x+_S u)$. Operation preservation gives
+$$
+\iota(x+_S u)\sim_T\iota(x)+_T\iota(u).
+$$
+Target additive congruence transports the two image comparisons to
+$$
+\iota(x)+_T\iota(u)\sim_T y+_T z.
+$$
+Transitivity gives $\iota(x+_S u)\sim_T y+_T z$, so $x+_S u$ witnesses $\mathsf{Im}_{\iota}(y+_T z)$. Multiplication closure is identical, using source multiplicative closure, target multiplication congruence, and the product-preservation row.
+
+Closure under target additive inverse is \autoref{thm:commring-subring-inclusion-inverse-closure}, applied to the carrier reflection, classifier reflection, zero-preservation, and addition-preservation rows already listed.
+All remaining $\CommRingUp$ laws restrict from $T$. Associativity, commutativity of addition, additive inverse laws, multiplicative unit and associativity, distributivity, multiplication congruence, and multiplicative commutativity are target stability rows from \autoref{def:commring-stability-certificate}; their endpoints stay inside $\mathsf{Im}_{\iota}$ by the closure rows just proved, and their classifier comparisons are exactly the third component of $\sim_{\iota}$. The reverse carrier and classifier reflection implications are recorded as the exactness part of the inclusion ledger, showing that the target image does not identify carried source endpoints beyond $\sim_S$.
+These rows supply the source, classifier, stability, and ledger components required by \autoref{def:commring-subring-inclusion-name-certificate}, hence they induce the advertised subring-inclusion name certificate over $T$.
+\end{proof}
+
+\begin{theorem}[CommRing subring inclusion transitivity]
+\label{thm:commring-subring-inclusion-transitivity}
+Let $A$, $B$, and $C$ be history-level $\CommRingUp$ packages as in \autoref{def:commring-certificate-obligations}. Write their carriers and classifiers as $D_A,\sim_A$, $D_B,\sim_B$, and $D_C,\sim_C$, and write their operations as $0_A,1_A,+_A,-_A,\cdot_A$, $0_B,1_B,+_B,-_B,\cdot_B$, and $0_C,1_C,+_C,-_C,\cdot_C$. Let $\iota:\mathsf{BHist}\to\mathsf{BHist}$ carry a subring-inclusion name certificate from $A$ to $B$, and let $\kappa:\mathsf{BHist}\to\mathsf{BHist}$ carry a subring-inclusion name certificate from $B$ to $C$, both in the sense of \autoref{def:commring-subring-inclusion-name-certificate}. Then the composite history map $\kappa\circ\iota$ carries a subring-inclusion name certificate from $A$ to $C$ of the same form. Its target image carrier is
+$$
+\mathsf{Im}_{\kappa\circ\iota}(z)\Longleftrightarrow \exists x:\mathsf{BHist},\ D_A(x)\land \kappa(\iota(x))\sim_C z,
+$$
+and its target-image classifier is
+$$
+z\sim_{\kappa\circ\iota}w\Longleftrightarrow \mathsf{Im}_{\kappa\circ\iota}(z)\land\mathsf{Im}_{\kappa\circ\iota}(w)\land z\sim_C w.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two input inclusion certificates using \autoref{def:commring-subring-inclusion-name-certificate}. Each one supplies carrier reflection in both directions, classifier reflection on carried source endpoints, preservation of $0$ and $1$, and preservation of addition and multiplication on carried inputs. By \autoref{thm:commring-carrier-reflection-subring-inclusion-certificate}, it is enough to verify these rows for $\kappa\circ\iota$.
+
+For carrier reflection, if $D_A(x)$ then the carrier-preservation row for $\iota$ gives $D_B(\iota(x))$, and the carrier-preservation row for $\kappa$ gives $D_C(\kappa(\iota(x)))$. Conversely, if $D_C(\kappa(\iota(x)))$, the reverse carrier-reflection row for $\kappa$ gives $D_B(\iota(x))$, and the reverse row for $\iota$ gives $D_A(x)$.
+
+For classifier reflection, fix carried $x,y$ in $A$. Carrier preservation for $\iota$ makes $\iota(x)$ and $\iota(y)$ carried in $B$. The classifier-reflection row for $\iota$ gives
+$$
+x\sim_A y\Longleftrightarrow \iota(x)\sim_B\iota(y),
+$$
+and the classifier-reflection row for $\kappa$ gives
+$$
+\iota(x)\sim_B\iota(y)\Longleftrightarrow \kappa(\iota(x))\sim_C\kappa(\iota(y)).
+$$
+Composing these two equivalences gives the classifier-reflection row for the composite.
+
+For zero preservation, the $A$-certificate carries $0_A$, so carrier preservation for $\iota$ makes $\iota(0_A)$ carried in $B$. The $B$-certificate carries $0_B$. The zero row for $\iota$ gives $\iota(0_A)\sim_B0_B$; applying the classifier-preservation direction for $\kappa$ gives
+$$
+\kappa(\iota(0_A))\sim_C\kappa(0_B).
+$$
+The zero row for $\kappa$ gives $\kappa(0_B)\sim_C0_C$, and classifier transitivity from \autoref{thm:namecert-equivalence-transitivity} yields $\kappa(\iota(0_A))\sim_C0_C$. The same argument with the unit rows gives $\kappa(\iota(1_A))\sim_C1_C$.
+
+For addition preservation, let $x,u$ be carried in $A$. Source additive closure in the $A$ package gives $D_A(x+_Au)$, hence $D_B(\iota(x+_Au))$. The first inclusion certificate gives
+$$
+\iota(x+_Au)\sim_B\iota(x)+_B\iota(u).
+$$
+The endpoints $\iota(x)$ and $\iota(u)$ are carried in $B$, so $B$-addition closure carries $\iota(x)+_B\iota(u)$. Applying classifier preservation for $\kappa$ gives
+$$
+\kappa(\iota(x+_Au))\sim_C\kappa(\iota(x)+_B\iota(u)).
+$$
+The addition-preservation row for $\kappa$ on the carried inputs $\iota(x)$ and $\iota(u)$ gives
+$$
+\kappa(\iota(x)+_B\iota(u))\sim_C\kappa(\iota(x))+_C\kappa(\iota(u)).
+$$
+Classifier transitivity composes these two comparisons, giving the addition-preservation row for $\kappa\circ\iota$.
+
+The multiplication row is identical, using multiplicative closure in the $A$ and $B$ packages and the two multiplication-preservation rows:
+$$
+\kappa(\iota(x\cdot_Au))\sim_C\kappa(\iota(x))\cdot_C\kappa(\iota(u)).
+$$
+Thus the composite supplies carrier reflection, classifier reflection, constant preservation, and operation preservation in the exact format required by \autoref{thm:commring-carrier-reflection-subring-inclusion-certificate}. Applying that theorem to $\kappa\circ\iota$ gives the displayed image carrier, target-image classifier, stability rows inherited from the $C$-package, and the composite inclusion ledger. Therefore $\kappa\circ\iota$ carries the required subring-inclusion name certificate over $C$.
+\end{proof}
+
+\begin{theorem}[CommRing singleton empty identity subring inclusion]
+\label{thm:commring-singleton-empty-identity-subring-inclusion}
+For the singleton empty-history CommRing tuple of
+Definition~\ref{def:singleton-empty-history-commring-instance}, let
+$\iota:\mathsf{BHist}\to\mathsf{BHist}$ be the identity history map
+$\iota(h):=h$. Form the image carrier and target-image classifier of
+Definition~\ref{def:commring-subring-inclusion-name-certificate} with source
+and target both this singleton package. Then, for every $y,z:\mathsf{BHist}$,
+the image carrier is exactly the singleton carrier:
+$$
+\mathsf{Im}_{\iota}(y)\Longleftrightarrow A_{\emp}(y).
+$$
+The target-image classifier is exactly the singleton classifier:
+$$
+y\sim_{\iota}z\Longleftrightarrow \rho_{\emp}(y,z).
+$$
+Moreover, the identity map carries a subring-inclusion name certificate from
+the singleton empty-history CommRing package to itself.
+\end{theorem}
+\begin{proof}
+Unfold the identity map and the image carrier. If
+$\mathsf{Im}_{\iota}(y)$ is witnessed by $x$, then the classifier component is
+$\rho_{\emp}(x,y)$, and its target carrier field gives $A_{\emp}(y)$.
+
+Conversely, assume $A_{\emp}(y)$. Choose $x=y$. The reflexive singleton
+classifier $\rho_{\emp}(y,y)$ is assembled from the two copies of
+$A_{\emp}(y)$ and the reflexive history comparison, so $y$ witnesses
+$\mathsf{Im}_{\iota}(y)$.
+
+For the classifier row, the forward direction of $y\sim_{\iota}z$ projects the
+third component, namely $\rho_{\emp}(y,z)$. In the reverse direction, a
+classifier witness $\rho_{\emp}(y,z)$ supplies the two singleton carrier
+fields; the image-carrier equivalence just proved turns them into
+$\mathsf{Im}_{\iota}(y)$ and $\mathsf{Im}_{\iota}(z)$, and repacking gives
+$y\sim_{\iota}z$.
+
+It remains to verify the rows required by
+\autoref{thm:commring-carrier-reflection-subring-inclusion-certificate}. Since
+source and target are the same singleton tuple and $\iota$ is the identity map,
+carrier reflection and classifier reflection are reflexive. Zero preservation,
+unit preservation, addition preservation, and multiplication preservation are
+the same singleton endpoint rows from
+\autoref{thm:singleton-empty-history-commring-laws}.
+
+Applying
+\autoref{thm:commring-carrier-reflection-subring-inclusion-certificate} gives
+the subring-inclusion name certificate for the identity map over the singleton
+target package. The displayed carrier and classifier rows are the exactness
+part of that certificate.
+\end{proof}
+
+The ten-field fit is: traditional target terminal commutative-ring
+self-inclusion; BEDC source singleton empty-history $\CommRingUp$; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; stability from
+\autoref{thm:singleton-empty-history-commring-laws}; ledger identity-map
+provenance; core theorem
+\autoref{thm:commring-singleton-empty-identity-subring-inclusion}; exactness
+the two displayed iff rows; standard bridge terminal ring identity inclusion;
+status $\mathsf{ProofTarget}$.
+
+\begin{closurestatus}{\CommRingUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The singleton empty-history commutative-ring law package, including the displayed zero-divisor boundary and identity subring inclusion rows over the singleton classifier.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
+  \bridgestatus{none}
+  \notclaimed{General commutative ring theory: arbitrary commutative rings, ideals, quotient rings, localization, polynomial rings, domains, Noetherian results, or algebraic geometry interfaces.}
+  \upgradepath{$\publicClosure$ requires public ring operations with commutative-ring laws, expression readback, ideal and subring surfaces where used, endpoint exactness, and no-hidden-leakage.}
+\end{closurestatus}

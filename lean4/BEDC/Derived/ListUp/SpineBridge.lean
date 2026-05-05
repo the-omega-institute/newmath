@@ -1,0 +1,145 @@
+import BEDC.Derived.ListUp.AppendContext
+import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.SpineCoherence
+
+namespace BEDC.Derived.ListUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+
+def ListSpineBridgeClassifier (A : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
+    (h k : BHist) : Prop :=
+  exists xs ys : ListCarrier BHist,
+    ListSpineRep A h xs ∧ ListSpineRep A k ys ∧ ListClassifierSpec Rel xs ys
+
+def ListSpineHistoryCarrier (A : BHist -> Prop) (h : BHist) : Prop :=
+  exists xs : ListCarrier BHist, ListSpineRep A h xs
+
+protected theorem ListSpineBridgeClassifier_stability_from_cons_boundary {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (boundary :
+      forall {m a a' t t' p p' : BHist} {xs xs' : ListCarrier BHist},
+        A a -> A a' -> ListSpineRep A t xs -> ListSpineRep A t' xs' ->
+          Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+            hsame m (BHist.e1 p') -> Rel a a' ∧ ListClassifierSpec Rel xs xs') :
+    (forall {h : BHist},
+      ListSpineHistoryCarrier A h -> ListSpineBridgeClassifier A Rel h h) ∧
+      (forall {h k : BHist},
+        ListSpineBridgeClassifier A Rel h k -> ListSpineBridgeClassifier A Rel k h) ∧
+        (forall {h k u : BHist},
+          ListSpineBridgeClassifier A Rel h k -> ListSpineBridgeClassifier A Rel k u ->
+            ListSpineBridgeClassifier A Rel h u) ∧
+          (forall {h k : BHist},
+            ListSpineBridgeClassifier A Rel h k -> ListSpineHistoryCarrier A k) := by
+  have coherent :
+      forall {h : BHist} {xs ys : ListCarrier BHist},
+        ListSpineRep A h xs -> ListSpineRep A h ys -> ListClassifierSpec Rel xs ys :=
+    BEDC.Derived.ListUp.ListSpineRep_coherent_from_cons_boundary boundary
+  constructor
+  · intro h carrierH
+    cases carrierH with
+    | intro xs repH =>
+        exact Exists.intro xs
+          (Exists.intro xs (And.intro repH (And.intro repH (coherent repH repH))))
+  · constructor
+    · intro h k bridge
+      cases bridge with
+      | intro xs bridgeTail =>
+          cases bridgeTail with
+          | intro ys bridgeData =>
+              cases bridgeData with
+              | intro repH bridgeRest =>
+                  cases bridgeRest with
+                  | intro repK classified =>
+                      exact Exists.intro ys
+                        (Exists.intro xs
+                          (And.intro repK
+                            (And.intro repH
+                              (ListClassifierSpec_symm_from_nameCert cert classified))))
+    · constructor
+      · intro h k u bridgeHK bridgeKU
+        cases bridgeHK with
+        | intro xs bridgeHKTail =>
+            cases bridgeHKTail with
+            | intro ys bridgeHKData =>
+                cases bridgeHKData with
+                | intro repH bridgeHKRest =>
+                    cases bridgeHKRest with
+                    | intro repKLeft classifiedHK =>
+                        cases bridgeKU with
+                        | intro ys' bridgeKUTail =>
+                            cases bridgeKUTail with
+                            | intro zs bridgeKUData =>
+                                cases bridgeKUData with
+                                | intro repKRight bridgeKURest =>
+                                    cases bridgeKURest with
+                                    | intro repU classifiedKU =>
+                                        have middle : ListClassifierSpec Rel ys ys' :=
+                                          coherent repKLeft repKRight
+                                        have classifiedHYs' : ListClassifierSpec Rel xs ys' :=
+                                          ListClassifierSpec_trans_from_nameCert cert
+                                            classifiedHK middle
+                                        exact Exists.intro xs
+                                          (Exists.intro zs
+                                            (And.intro repH
+                                              (And.intro repU
+                                                (ListClassifierSpec_trans_from_nameCert
+                                                  cert classifiedHYs' classifiedKU))))
+      · intro h k bridge
+        cases bridge with
+        | intro xs bridgeTail =>
+            cases bridgeTail with
+            | intro ys bridgeData =>
+                cases bridgeData with
+                | intro _repH bridgeRest =>
+                    cases bridgeRest with
+                    | intro repK _classified =>
+                        exact Exists.intro ys repK
+
+theorem ListSpineBridgeClassifier_public_prefix_append_left_cancel {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (boundary :
+      forall {m a a' t t' p p' : BHist} {xs xs' : ListCarrier BHist},
+        A a -> A a' -> ListSpineRep A t xs -> ListSpineRep A t' xs' ->
+          Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+            hsame m (BHist.e1 p') -> Rel a a' ∧ ListClassifierSpec Rel xs xs')
+    {p h k t u : BHist} {xs ys zs : ListCarrier BHist} :
+    ListSpineRep A p xs -> ListSpineRep A h (xs ++ ys) ->
+      ListSpineRep A k (xs ++ zs) -> ListSpineBridgeClassifier A Rel h k ->
+        ListClassifierSpec Rel ys zs ∧
+          (ListSpineRep A t ys -> ListSpineRep A u zs ->
+            ListSpineBridgeClassifier A Rel t u) := by
+  intro prefixRep leftRep rightRep bridge
+  have coherent :
+      forall {h : BHist} {xs ys : ListCarrier BHist},
+        ListSpineRep A h xs -> ListSpineRep A h ys -> ListClassifierSpec Rel xs ys :=
+    BEDC.Derived.ListUp.ListSpineRep_coherent_from_cons_boundary boundary
+  have prefixClass : ListClassifierSpec Rel xs xs :=
+    coherent prefixRep prefixRep
+  cases bridge with
+  | intro bridgeLeft bridgeTail =>
+      cases bridgeTail with
+      | intro bridgeRight bridgeData =>
+          cases bridgeData with
+          | intro bridgeLeftRep bridgeRest =>
+              cases bridgeRest with
+              | intro bridgeRightRep bridgeClass =>
+                  have leftAlign : ListClassifierSpec Rel (xs ++ ys) bridgeLeft :=
+                    coherent leftRep bridgeLeftRep
+                  have rightAlign : ListClassifierSpec Rel bridgeRight (xs ++ zs) :=
+                    coherent bridgeRightRep rightRep
+                  have toBridgeRight : ListClassifierSpec Rel (xs ++ ys) bridgeRight :=
+                    ListClassifierSpec_trans_from_nameCert cert leftAlign bridgeClass
+                  have appended : ListClassifierSpec Rel (xs ++ ys) (xs ++ zs) :=
+                    ListClassifierSpec_trans_from_nameCert cert toBridgeRight rightAlign
+                  have tails : ListClassifierSpec Rel ys zs :=
+                    ListClassifierSpec_BHist_append_left_cancel_classified prefixClass appended
+                  constructor
+                  · exact tails
+                  · intro tailLeftRep tailRightRep
+                    exact Exists.intro ys
+                      (Exists.intro zs
+                        (And.intro tailLeftRep (And.intro tailRightRep tails)))
+
+end BEDC.Derived.ListUp

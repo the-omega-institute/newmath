@@ -280,6 +280,23 @@ hypothesis.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_result\_nonempty\_of\_nonempty\_terms}
 
+\begin{theorem}[Absolute partial-sum empty result boundary]
+\label{thm:complex-abs-part-sum-empty-result-boundary}
+If a closed $\mathsf{ComplexAbsPartSum}(zero,\mathsf{modulus},n,M)$ witness
+has result $M\hsame\emp$, then either the chosen zero history is
+history-same to $\emp$, or some unary predecessor index $m$ has
+$\mathsf{modulus}(m)\hsame\emp$.
+\end{theorem}
+\begin{proof}
+Induct on the absolute partial-sum witness. The base constructor reads the
+empty result directly as $zero\hsame\emp$. In the successor constructor,
+transport the final continuation result to $\emp$ and apply continuation
+empty-result inversion; the right endpoint of that continuation is the current
+modulus term, while a local index induction supplies unaryness of the
+predecessor index.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_empty\_result\_boundary}
+
 \begin{lemma}[Absolute partial-sum successor modulus hsame determinacy]
 \label{lem:complex-abs-part-sum-successor-modulus-hsame-deterministic}
 If two chosen zero histories agree under $\hsame$, and two modulus families
@@ -389,6 +406,7 @@ A complex series \(c\) converges absolutely with bound \(M\) and modulus \(N : \
   \item for every unary precision \(k\) and unary \(n, m \geq N(k)\), \(|M_n - M_m| < 2^{-k}\).
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexAbsConv}
 
 \begin{lemma}[Absolute convergence implies convergence]
 \label{lem:abs-conv-implies-conv}
@@ -404,6 +422,7 @@ The triangle inequality on each segment of consecutive partial sums bounds \(|S_
 \label{def:complex-series-conv}
 \(\mathsf{ComplexSeriesConv}(c, S)\) holds when the complex partial-sum sequence \((S_n)_n\) is a regular complex Cauchy sequence (in the sense of \autoref{ch:concrete-instances-complex-limit-namecert}) with explicit limit \(S\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexSeriesConv}
 
 \begin{theorem}[Sum is unique]
 \label{thm:complex-series-sum-unique}
@@ -445,6 +464,7 @@ The hypothesis gives \(|c_n| \leq r^n\); apply comparison with the geometric ser
 \label{def:cauchy-product}
 For complex term sequences \(a, b\), the Cauchy product \(c = a \star b\) is the term sequence \(c_n = \sum_{k = 0}^{n} a_k \cdot b_{n-k}\) defined by an explicit unary recursion using complex multiplication.
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.CauchyProduct}
 
 \begin{theorem}[Cauchy product preserves absolute convergence]
 \label{thm:cauchy-product-conv}
@@ -522,6 +542,8 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:complex-series-semantic-namecert}
 The concrete certificate of \autoref{thm:complex-series-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier is the complex partial-sum predicate, the classifier is \(\hsame\) on the limit, and every closure law is given by an explicit constructive proof.
 \end{theorem}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_semanticNameCert}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.complex\_series\_semantic\_name\_certificate}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}

@@ -66,6 +66,115 @@ is impossible.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_empty\_absurd}
 
+\begin{theorem}[Prime product factors are nonempty]
+\label{thm:nat-prime-natmul-factors-not-empty}
+Let $p,d,q$ be histories. If $p$ is prime, $d$ and $q$ are unary histories,
+and $\mathsf{NatMul}(d,q,p)$ holds, then neither factor is history-same to
+$\emp$.
+\end{theorem}
+\begin{proof}
+Package the displayed multiplication witness directly as
+$\mathsf{NatDivides}(d,p)$ to exclude $d\hsame\emp$ by the prime no-empty-divisor
+theorem. For the multiplier, multiplication closure gives
+$\mathsf{NatDivides}(q,p)$ from the same $\mathsf{NatMul}(d,q,p)$ witness,
+and the same no-empty-divisor theorem excludes $q\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_factors\_not\_empty}
+
+\begin{theorem}[Prime is not empty]
+\label{thm:natprime-empty-absurd}
+If $p$ is prime, then $p$ is not history-same to $\emp$.
+\end{theorem}
+\begin{proof}
+If $p\hsame\emp$, the strict greater-than field in the prime predicate becomes
+a strict unary prefix into $\emp$. This contradicts the empty-target exclusion
+for strict unary prefixes.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_empty\_absurd}
+
+\begin{theorem}[Prime nonunit factor has unit multiplier]
+\label{thm:natprime-natmul-nonunit-factor-multiplier-unit}
+Let $p,d,q$ be histories. If $p$ is prime, $d$ and $q$ are unary histories,
+$\mathsf{NatMul}(d,q,p)$ holds, and $d$ is not history-same to the unit, then
+$d$ is the prime factor and $q$ is the unit multiplier:
+$$
+\hsame(d,p)\wedge\hsame(q,\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Package the multiplication witness as a divisibility witness
+$\mathsf{NatDivides}(d,p)$. The prime divisor alternative says that $d$ is
+either the unit or $p$; the displayed nonunit hypothesis eliminates the unit
+case, so $d\hsame p$.
+
+It remains to identify the multiplier. The empty multiplier case would make
+the prime result empty, contradicting the strict-prefix field of the prime
+predicate; the zero-headed case contradicts unary history. In the successor
+case, successor-result exactness for multiplication applied to
+$\mathsf{NatMul}(d,\Eone(q_0),p)$ and $p\hsame d$ says that either $d$ is
+empty or $q_0$ is empty. The empty factor case again contradicts primality
+through $d\hsame p$, hence $q_0\hsame\emp$, so
+$q\hsame\Eone(\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_nonunit\_factor\_multiplier\_unit}
+
+\begin{theorem}[Prime product factor is unit or prime]
+\label{thm:prime-natmul-factor-unit-or-prime}
+Let $p,d,q$ be histories. If $p$ is prime, $d$ and $q$ are unary histories, and
+$\mathsf{NatMul}(d,q,p)$ holds, then either $d$ is the unit factor and $q$
+reads back to $p$, or $d$ reads back to $p$ and $q$ is the unit multiplier:
+$$
+\bigl(\hsame(d,\Eone(\emp))\wedge\hsame(q,p)\bigr)\vee
+\bigl(\hsame(d,p)\wedge\hsame(q,\Eone(\emp))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Package the multiplication witness as $\mathsf{NatDivides}(d,p)$ and apply the
+divisor classifier field of $\mathsf{NatPrime}(p)$. In the unit branch,
+unit-left multiplication identifies the result $p$ with the multiplier $q$. In
+the prime-factor branch, the unit case would identify $p$ with the unit and
+contradict primality, so the nonunit-factor theorem identifies $q$ with the
+unit.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_factor\_unit\_or\_prime}
+
+\begin{theorem}[Prime divisor positive shape]
+\label{thm:natprime-divisor-positive-shape}
+If $p$ is prime and $d$ divides $p$, then $d$ has a one-step successor shape:
+$$
+\mathsf{NatPrime}(p)\Longrightarrow
+\mathsf{NatDivides}(d,p)\Longrightarrow
+\exists t:\mathsf{BHist}.\;
+\hsame(d,\Eone(t))\wedge\mathsf{UnaryHistory}(t).
+$$
+\end{theorem}
+\begin{proof}
+Read the divisor witness as a unary multiplication witness, which gives
+$\mathsf{UnaryHistory}(d)$. The empty case contradicts the prime no-empty-divisor
+theorem, and the zero-headed case contradicts unary history. The remaining
+one-headed case exposes the requested tail by unary inversion.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_positive\_shape}
+
+\begin{theorem}[Prime divisor strict interval exclusion]
+\label{thm:natprime-natdivides-strict-between-absurd}
+Let $p,d:\mathsf{BHist}$. If $\mathsf{NatPrime}(p)$, $\Unary(d)$, and
+$\mathsf{NatDivides}(d,p)$ hold, then $d$ cannot lie strictly between the
+unit and $p$ in unary prefix order:
+$$
+\mathsf{NatUnaryStrictPrefix}(\Eone(\emp),d)\Longrightarrow
+\mathsf{NatUnaryStrictPrefix}(d,p)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply the divisor classifier field in $\mathsf{NatPrime}(p)$ to the displayed
+unary divisor $d$. The unit branch identifies the endpoint of the strict
+prefix from $\Eone(\emp)$ to $d$, contradicting strict endpoint separation.
+The prime branch identifies the endpoint of the strict prefix from $d$ to
+$p$, giving the same endpoint contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatDivides\_strict\_between\_absurd}
+
 \begin{lemma}[Non-primality of the unit]
 \label{lem:unit-not-prime}
 \(\neg \mathsf{NatPrime}(\Eone(\emp))\).
@@ -75,3 +184,49 @@ The unit fails the strict greater-than condition \(\mathsf{NatGT}(\Eone(\emp), \
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_unit\_absurd}
 
+\begin{theorem}[Prime successor tail is nonempty]
+\label{thm:nat-prime-successor-tail-nonempty}
+If $\mathsf{NatPrime}(p)$ holds, then $p$ has a one-step successor shape with a
+unary nonempty tail:
+$$
+\exists t:\mathsf{BHist}.\;
+\hsame(p,\Eone(t))\ \wedge\ \mathsf{UnaryHistory}(t)\ \wedge\
+(\hsame(t,\emp)\Rightarrow\bot).
+$$
+\end{theorem}
+\begin{proof}
+Analyze the carrier field of the prime witness. The empty case contradicts the
+strict-greater-than field, and the $\Ezero$ case contradicts unary history. In
+the $\Eone(t)$ case, unary inversion gives $\mathsf{UnaryHistory}(t)$. If
+$t\hsame\emp$, the original prime witness becomes a prime witness for the unit,
+contradicting the unit non-primality theorem above.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_successor\_tail\_nonempty}
+
+\begin{theorem}[Prime strict unit successor shape]
+\label{thm:nat-prime-strict-unit-successor-shape}
+If $\mathsf{NatPrime}(p)$ holds, then $p$ has a two-step successor shape:
+$$
+\exists t:\mathsf{BHist}.\;
+\hsame(p,\Eone(\Eone(t)))\ \wedge\ \mathsf{UnaryHistory}(t).
+$$
+\end{theorem}
+\begin{proof}
+The prime successor-tail theorem writes \(p\) as \(\Eone(t_0)\) with a unary
+tail \(t_0\) that is not classified as empty. Unary nonempty shape inversion
+therefore writes \(t_0\) as \(\Eone(t)\) with unary tail \(t\), giving the
+displayed strict unit-successor shape.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_strict\_unit\_successor\_shape}
+
+\begin{theorem}[Prime predicate respects history-sameness]
+\label{thm:natprime-hsame-transport}
+For histories $p$ and $p'$, if $\mathsf{NatPrime}(p)$ and $p\hsame p'$, then $\mathsf{NatPrime}(p')$.
+\end{theorem}
+\begin{proof}
+Unpack the prime witness for $p$ from \autoref{def:nat-prime}. Its carrier field gives $\Unary(p)$, its strict field gives $\mathsf{NatGT}(p,\Eone(\emp))$, and its divisor field classifies every unary divisor of $p$ as either the unit or $p$ itself.
+
+By \autoref{lem:unary-transport}, the carrier field and $p\hsame p'$ give $\Unary(p')$. For the strict greater-than field, unfold \autoref{def:nat-strict-greater}: the given field is a strict unary prefix from $\Eone(\emp)$ to $p$. Apply \autoref{thm:nat-unary-strict-prefix-cont-hsame-transport} with the reflexive endpoint $\Eone(\emp)\hsame\Eone(\emp)$ from \autoref{thm:history-sameness-equivalence} and the displayed endpoint witness $p\hsame p'$. This gives $\mathsf{NatGT}(p',\Eone(\emp))$.
+
+It remains to verify the divisor field for $p'$. Fix a unary history $d$ with $\mathsf{NatDivides}(d,p')$. Symmetry in \autoref{thm:history-sameness-equivalence} gives $p'\hsame p$, and reflexivity gives $d\hsame d$. Therefore \autoref{cor:nat-divides-endpoint-hsame-transport} transports the displayed divisor witness to $\mathsf{NatDivides}(d,p)$. Applying the divisor field of $\mathsf{NatPrime}(p)$ gives either $d\hsame\Eone(\emp)$ or $d\hsame p$. In the first case the required unit alternative for $p'$ is already present. In the second case, transitivity in \autoref{thm:history-sameness-equivalence} composes $d\hsame p$ with $p\hsame p'$ and gives $d\hsame p'$. These are exactly the two alternatives required by \autoref{def:nat-prime} for $p'$.
+\end{proof}

@@ -103,6 +103,27 @@ with the carrier comparison $h\hsame anchor$, so $core\hsame anchor$.
 \end{proof}
 \leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_anchor\_readback}
 
+\begin{theorem}[EqType visible-context e0 anchor e1 tail absurdity]
+\label{thm:eqtype-class-carrier-visible-context-e0-anchor-e1-tail-absurd}
+For BEDC histories $p$, $r$, $anchor$, $h$, and $tail$, if $h$ belongs to the
+equality-type class anchored at $\Ezero(anchor)$, then the display of $h$ inside
+a common visible context cannot agree with the corresponding display of
+$\Eone(tail)$:
+$$
+\mathsf{EqtypeClassCarrier}(\Ezero(anchor),h)
+\Longrightarrow
+\hsame((p\cdot h)\cdot r,(p\cdot\Eone(tail))\cdot r)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Visible-context anchor readback identifies the displayed core
+$\Eone(tail)$ with the zero-headed anchor $\Ezero(anchor)$. BEDC history
+constructor separation rules out this $\Eone/\Ezero$ comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_e0\_anchor\_e1\_tail\_absurd}
+
 \begin{theorem}[EqType visible-context empty anchor visible core absurdity]
 \label{thm:eqtype-visible-context-empty-anchor-visible-core-absurd}
 For BEDC histories $p$, $r$, $h$, $core$, and $tail$, if $h$ belongs to the
@@ -168,3 +189,45 @@ The pattern and ledger maps are the identity maps on the self-identity
 predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.EqtypeUp.EqtypeIdentity\_semanticNameCert}
+
+\begin{theorem}[EqType class carrier anchor transport]
+\label{thm:eqtype-class-carrier-anchor-hsame-transport}
+For BEDC histories $anchor$, $anchor'$, and $h$, if $h$ belongs to the
+ equality-type class anchored at $anchor$ and $anchor\hsame anchor'$, then $h$
+ belongs to the equality-type class anchored at $anchor'$:
+$$
+\mathsf{EqtypeClassCarrier}(anchor,h)
+\Longrightarrow
+anchor\hsame anchor'
+\Longrightarrow
+\mathsf{EqtypeClassCarrier}(anchor',h).
+$$
+\end{theorem}
+\begin{proof}
+By the carrier definition in \autoref{sec:eqtype-carrier}, membership in the
+class anchored at $anchor$ is the comparison $h\hsame anchor$. Compose this
+comparison with the displayed anchor comparison $anchor\hsame anchor'$ by
+transitivity of $\hsame$, obtaining $h\hsame anchor'$. This is exactly the
+carrier witness for the equality-type class anchored at $anchor'$.
+\end{proof}
+
+\begin{theorem}[EqType class carrier transitivity]
+\label{thm:eqtype-class-carrier-transitive}
+For BEDC histories $anchor$, $h$, and $h'$, equality-type class membership is
+transitive along class anchors:
+$$
+\mathsf{EqtypeClassCarrier}(anchor,h)
+\Longrightarrow
+\mathsf{EqtypeClassCarrier}(h,h')
+\Longrightarrow
+\mathsf{EqtypeClassCarrier}(anchor,h').
+$$
+\end{theorem}
+\begin{proof}
+By the carrier definition in \autoref{sec:eqtype-carrier}, the first hypothesis
+is the comparison $h\hsame anchor$. Apply
+\autoref{thm:eqtype-class-carrier-anchor-hsame-transport} to the second
+hypothesis, viewed as membership of $h'$ in the class anchored at $h$, and to
+this anchor comparison $h\hsame anchor$. The result is exactly membership of
+$h'$ in the class anchored at $anchor$.
+\end{proof}

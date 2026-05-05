@@ -1,0 +1,90 @@
+\begin{lemma}[Real stream prefix successor inversion]
+\label{lem:real-stream-prefix-successor-inversion}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and every prefix
+length $n$:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n+1)
+\Longleftrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\land
+\mathsf{RatHistoryClassifier}(x(n+1),y(n+1)).
+$$
+Ten-field fit: traditional target finite prefix successor inversion; BEDC source
+RealUp prefix classifier over RatUp point classifiers; carrier
+rational-observation streams; classifier $\mathsf{RealStreamPrefixClassifier}$;
+stability inherited from hsame transport and endpoint projection; ledger prefix
+length and endpoint observation; core theorem this lemma; exactness the
+displayed iff; standard bridge finite prefix recursion; status
+$\mathsf{ProofTarget}$.
+\end{lemma}
+\begin{proof}
+Unfold the recursive definition of
+$\mathsf{RealStreamPrefixClassifier}(x,y,n+1)$. In the forward direction, the
+successor prefix witness is a pair; project its left component to obtain
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ and its right component to obtain
+the endpoint classifier
+$\mathsf{RatHistoryClassifier}(x(n+1),y(n+1))$.
+
+Conversely, assume the previous prefix witness and the endpoint rational-history
+classifier. Pair these two witnesses by the successor constructor of the
+recursive prefix display, obtaining
+$\mathsf{RealStreamPrefixClassifier}(x,y,n+1)$.
+\end{proof}
+
+\begin{lemma}[Real stream prefix successor e1 endpoint package]
+\label{lem:real-stream-prefix-successor-e1-endpoint-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamPrefixClassifier}(x,y,n+1)$ and the successor endpoint
+histories have displays $x(n+1)\hsame\Eone(a)$ and
+$y(n+1)\hsame\Eone(b)$, then
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land a\hsame b .
+$$
+\end{lemma}
+\begin{proof}
+The successor prefix witness splits into the predecessor prefix and the
+successor endpoint classifier. Apply the e1 endpoint readback theorem at
+index $n+1$ to the endpoint classifier and the two displayed e1 histories;
+this yields the unary tail witnesses and their history-sameness. Pair that
+endpoint package with the predecessor prefix.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_successor\_e1\_endpoint\_package}
+
+\begin{theorem}[Real stream prefix classifier tail extension]
+\label{thm:real-stream-prefix-classifier-tail-extension}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
+an already classified prefix through $n$ extends across any finite tail whose
+endpoints are classified:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\land
+\bigl(\forall k,\ 1\le k\le m\Longrightarrow
+\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))\bigr)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n+m).
+$$
+Ten-field fit: traditional target finite prefix continuation from certified
+endpoints; BEDC source RealUp stream prefixes over RatUp history classifiers;
+carrier rational-observation streams; classifier
+$\mathsf{RealStreamPrefixClassifier}$; stability inherited from each endpoint
+classifier and recursive prefix pairing; ledger initial prefix length, tail
+length, and endpoint offsets; core theorem this tail continuation principle;
+exactness the displayed implication; standard bridge finite prefix recursion;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on $m$. At $m=0$, the target prefix is the given prefix through $n$,
+since $n+0=n$, and no tail endpoint is required.
+
+For the successor step, assume the principle for tail length $m$ and suppose
+the prefix through $n$ is classified together with endpoint classifiers for
+all offsets $1\le k\le m+1$. Restrict the endpoint assumption to offsets
+$1\le k\le m$ and apply the induction hypothesis. This gives
+$\mathsf{RealStreamPrefixClassifier}(x,y,n+m)$.
+
+It remains to add the final endpoint. Taking $k=m+1$ in the endpoint assumption
+gives $\mathsf{RatHistoryClassifier}(x(n+m+1),y(n+m+1))$ after the usual
+successor arithmetic. Apply the reverse direction of
+\autoref{lem:real-stream-prefix-successor-inversion} to the classified prefix
+through $n+m$ and this endpoint classifier, obtaining the classified prefix
+through $n+m+1$, which is the prefix through $n+(m+1)$.
+\end{proof}

@@ -16,9 +16,19 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntCarrier}
 \leanchecked{BEDC.Derived.IntUp.IntCarrier\_sign\_cases}
-\leanvariant{BEDC.Derived.IntUp.IntCarrier\_continuation\_closed\_same\_sign}
 \begin{proof}
-This is a definitional clause over the finite-kernel mark constructors and the unary-history predicate. With the sign fixed, continuation of two carrier magnitudes remains inside the same signed carrier.
+This is a definitional clause over the finite-kernel mark constructors and the unary-history predicate.
+\end{proof}
+
+\begin{theorem}[Signed carrier is closed under same-sign continuation]
+\label{thm:int-carrier-continuation-closed-same-sign}
+For a fixed sign $s:\mathsf{BMark}$, if $\mathsf{IntCarrier}(s,h)$, $\mathsf{IntCarrier}(s,k)$, and $\Cont(h,k,r)$, then $\mathsf{IntCarrier}(s,r)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_continuation\_closed\_same\_sign}
+\begin{proof}
+Keep the sign disjunction supplied by the first carrier witness.
+
+The two carrier witnesses also provide unary magnitude witnesses for $h$ and $k$. Apply unary continuation closure to those two magnitude witnesses and the displayed continuation ledger $\Cont(h,k,r)$, then pair the resulting unary witness for $r$ with the retained sign clause.
 \end{proof}
 
 \begin{theorem}[Signed carrier transports along mark sameness]
@@ -105,6 +115,42 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntPairCarrier}
 
+\begin{theorem}[Integer difference-pair carrier magnitude-pair induction]
+\label{thm:int-pair-carrier-magnitude-pair-induction}
+Let \(P\) be a predicate on two history magnitudes. If \(P(\emp,\emp)\)
+holds, if \(P(p,n)\) is preserved by replacing the positive component with
+\(\Eone(p)\) whenever both components are unary, and if \(P(p,n)\) is preserved
+by replacing the negative component with \(\Eone(n)\) whenever both components
+are unary, then every carried integer difference-pair satisfies \(P\):
+$$
+\mathsf{IntPairCarrier}(p,n)\Longrightarrow P(p,n).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntPairCarrier\_magnitude\_pair\_induction}
+\begin{proof}
+Unpack \(\mathsf{IntPairCarrier}(p,n)\) into unary witnesses for both
+components. First apply unary-history induction to the negative component to
+derive \(P(\emp,n)\) from the base case and the negative-component step. Then
+apply unary-history induction to the positive component. At each positive
+successor, use the positive-component step with the current positive unary
+witness, the fixed negative unary witness, and the induction hypothesis.
+\end{proof}
+
+\begin{theorem}[Integer pair carrier pair induction]
+\label{thm:int-pair-carrier-pair-induction}
+For any predicate \(P\) on two histories, if \(P(\emp,\emp)\) holds and
+\(P\) is preserved by one-step unary extension of either counter while the
+other counter remains unary, then \(P(p,n)\) holds for every carried integer
+difference pair \(\mathsf{IntPairCarrier}(p,n)\).
+\end{theorem}
+\begin{proof}
+Unfold \(\mathsf{IntPairCarrier}\) into its positive and negative unary
+counter witnesses. Run unary-history induction over the positive counter; its
+base case is unary-history induction over the negative counter, and the two
+step cases are exactly the two supplied one-step closure rules.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntPairCarrier\_pair\_induction}
+
 \begin{definition}[Integer difference-pair classifier]
 \label{def:intup-difference-pair-classifier}
 Two carried unary pairs classify together when their cross-additions are
@@ -118,6 +164,56 @@ $$
 $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntPairClassifier}
+
+\begin{theorem}[Integer pair classifier zero representative criterion]
+\label{thm:int-pair-classifier-zero-representative-criterion}
+For all $p,n:\mathsf{BHist}$, if $\mathsf{Unary}(p)$ and
+$\mathsf{Unary}(n)$, then the ordinary zero representative detects exactly the
+zero class of the carried signed pair:
+\begin{enumerate}
+\item
+$$
+\mathsf{IntPairClassifier}((p,n),(\emp,\emp))
+\Longleftrightarrow
+\hsame(p,n);
+$$
+\item
+$$
+\mathsf{IntPairClassifier}((\emp,\emp),(p,n))
+\Longleftrightarrow
+\hsame(p,n).
+$$
+\end{enumerate}
+The ten-field fit is: target ordinary zero class of signed difference pairs;
+BEDC source $\mathsf{IntPairCarrier}$, $\mathsf{IntPairClassifier}$,
+$\mathsf{Unary}$, $\mathsf{append}$, $\emp$, and $\hsame$; carrier carried
+unary pairs; classifier cross-addition sameness; stability append unit
+transport; ledger hidden empty counter pair; exactness zero representative iff;
+downstream consumer $\mathsf{RatUp}$ numerator-zero and $\mathsf{IntUp}$
+closure; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{IntPairClassifier}$. In the first forward direction, the
+cross-addition field reads
+$\hsame(\mathsf{append}(p,\emp),\mathsf{append}(\emp,n))$; the right and left
+unit laws for $\mathsf{append}$ reduce this comparison to $\hsame(p,n)$.
+
+For the first reverse direction, the unary hypotheses give
+$\mathsf{IntPairCarrier}(p,n)$, and the empty unary witness gives
+$\mathsf{IntPairCarrier}(\emp,\emp)$. Transport the assumed $\hsame(p,n)$
+through the same two unit identifications to obtain the required
+cross-addition field.
+
+For the second orientation, unfold the classifier for
+$((\emp,\emp),(p,n))$. The cross-addition field is
+$\hsame(\mathsf{append}(\emp,n),\mathsf{append}(p,\emp))$, so the unit laws and
+symmetry of $\hsame$ identify it with $\hsame(p,n)$.
+
+The reverse direction again packages the two carrier witnesses and transports
+$\hsame(p,n)$ across the unit laws, reversing the comparison by symmetry when
+the displayed orientation requires it.
+\end{proof}
 
 \begin{theorem}[Integer pair classifier positive append context]
 \label{thm:int-pair-classifier-append-positive-context}
@@ -136,6 +232,48 @@ cross-addition comparison
 positive counters. Prefix the cross-addition comparison by \(a\) and reassociate
 both sides by \(\mathsf{append\_assoc}\), yielding the displayed contextual
 classifier.
+\end{proof}
+
+\begin{theorem}[Integer pair classifier signed-context invariance]
+\label{thm:int-pair-classifier-signed-context-invariance}
+Let $a,b,p,n,q,m:\mathsf{BHist}$. If $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(b)$, and
+$\mathsf{IntPairClassifier}((p,n),(q,m))$, then
+$$
+\mathsf{IntPairClassifier}
+((\mathsf{append}(a,p),\mathsf{append}(b,n)),
+(\mathsf{append}(a,q),\mathsf{append}(b,m))).
+$$
+The ten-field fit is: target simultaneous signed-context transport for
+integer difference pairs; BEDC source $\mathsf{IntPairCarrier}$,
+$\mathsf{IntPairClassifier}$, $\mathsf{Unary}$, $\mathsf{append}$, and
+$\hsame$; carrier carried unary positive and negative counters; classifier
+cross-addition sameness; stability four unary append-closed endpoints;
+ledger common signed context $\mathsf{append}(a,b)$; exactness preservation of
+the cross-addition witness; downstream consumer $\mathsf{RatUp}$
+numerator/denominator context transport and the $\mathsf{IntUp}$ signed-pair
+arithmetic certificate; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{IntPairClassifier}((p,n),(q,m))$ into the carried endpoints
+and the cross-addition witness
+$\mathsf{append}(p,m)\hsame\mathsf{append}(q,n)$. Unary append closure applied
+to the two positive counters and to the two negative counters gives the four
+carried endpoints required for the displayed classifier.
+
+It remains to transport the cross-addition field. The left target comparison
+has source
+$\mathsf{append}(\mathsf{append}(a,p),\mathsf{append}(b,m))$, and the right
+target comparison has source
+$\mathsf{append}(\mathsf{append}(a,q),\mathsf{append}(b,n))$.
+Associativity rewrites these as signed-context words containing the same
+unary prefix. Commuting unary factors brings the common signed context
+$\mathsf{append}(a,b)$ to the front on both sides.
+
+After this normalization, the remaining suffixes are exactly
+$\mathsf{append}(p,m)$ and $\mathsf{append}(q,n)$. Prefix the original
+$\hsame$ comparison by the common context $\mathsf{append}(a,b)$, then
+reassociate in the reverse direction to obtain the required classifier field.
 \end{proof}
 
 \begin{theorem}[Integer difference-pair classifier equivalence fields]
@@ -454,3 +592,36 @@ $a\hsame b$, together with the supplied endpoint carriers and reflexivity of
 $\msame(s,s)$, gives the integer classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_cancel\_append\_context\_same\_sign}
+
+\begin{theorem}[Integer classifier same-sign common context iff]
+\label{thm:int-classifier-same-sign-common-context-iff}
+For a fixed sign $s:\mathsf{BMark}$, suppose that $left$, $right$,
+$a$, and $b$ are all carried by $\mathsf{IntCarrier}(s,-)$. Then common
+same-sign append context is exact for the integer classifier:
+$$
+\mathsf{IntClassifierSpec}
+\bigl((s,\mathsf{append}(left,\mathsf{append}(a,right))),
+(s,\mathsf{append}(left,\mathsf{append}(b,right)))\bigr)
+\Longleftrightarrow
+\mathsf{IntClassifierSpec}((s,a),(s,b)).
+$$
+The ten-field fit is: traditional target common-context exactness for signed
+unary integers; BEDC source $\mathsf{IntCarrier}$,
+$\mathsf{IntClassifierSpec}$, and $\mathsf{append}$; carrier same-sign unary
+representatives; classifier $\mathsf{IntClassifierSpec}$;
+stability/common-context exactness; ledger left and right context histories;
+core theorem this iff; exactness preservation plus reflection; standard
+bridge ordinary cancellation under equal integer context; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the contextual classifier. Apply
+Theorem~\ref{thm:int-classifier-cancel-append-context-same-sign} with the
+given endpoint carrier witnesses for $a$ and $b$ to cancel the common left
+and right unary histories.
+
+For the reverse direction, assume $\mathsf{IntClassifierSpec}((s,a),(s,b))$.
+Apply Theorem~\ref{thm:int-classifier-append-context-same-sign} with the
+given carrier witnesses for $left$ and $right$ to append the same unary
+context on both sides.
+\end{proof}

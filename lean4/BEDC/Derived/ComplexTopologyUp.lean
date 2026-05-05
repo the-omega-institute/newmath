@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.HolomorphicUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.ComplexTopologyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.HolomorphicUp
@@ -19,6 +21,18 @@ def ComplexTopologyOpenDiskGap (center radius point gap : BHist) : Prop :=
 def ComplexTopologyClosedDiskGap (center radius point gap : BHist) : Prop :=
   ComplexHistoryCarrier center ∧ UnaryHistory radius ∧ ComplexHistoryCarrier point ∧
     UnaryHistory gap ∧ (Cont point gap radius ∨ hsame point radius)
+
+def ComplexTopologyOpenSet (U : BHist -> Prop) : Prop :=
+  forall {z : BHist}, U z ->
+    exists center radius gap : BHist,
+      ComplexTopologyOpenDiskGap center radius z gap ∧ Cont z gap radius
+
+def ComplexTopologyDyadicNet (K : BHist -> Prop) (precision : BHist)
+    (net : List BHist) : Prop :=
+  UnaryHistory precision ∧
+    forall z : BHist, K z ->
+      exists center gap : BHist, List.Mem center net ∧
+        ComplexTopologyOpenDiskGap center precision z gap
 
 theorem ComplexTopologyOpenDiskGap_gap_deterministic
     {center radius point gap gap' : BHist} :
@@ -109,6 +123,64 @@ theorem ComplexTopologyClosedDiskGap_hsame_transport
                                           (And.intro gapCarrier' boundary'))))
                                     boundary'
 
+theorem ComplexTopologyOpenSet_union_closed {I : Type} {U : I -> BHist -> Prop} :
+    (forall i : I, ComplexTopologyOpenSet (U i)) ->
+      ComplexTopologyOpenSet (fun z : BHist => exists i : I, U i z) := by
+  intro branchOpen _z unionMember
+  cases unionMember with
+  | intro i member =>
+      exact branchOpen i member
+
+theorem ComplexTopologyOpenSet_intersection_witness_closed {U V : BHist -> Prop} :
+    ComplexTopologyOpenSet U -> ComplexTopologyOpenSet V ->
+      ComplexTopologyOpenSet (fun z : BHist => U z ∧ V z) ∧
+        forall {z : BHist}, U z ∧ V z ->
+          exists centerU radiusU gapU centerV radiusV gapV : BHist,
+            ComplexTopologyOpenDiskGap centerU radiusU z gapU ∧ Cont z gapU radiusU ∧
+              ComplexTopologyOpenDiskGap centerV radiusV z gapV ∧ Cont z gapV radiusV := by
+  intro openU openV
+  constructor
+  · intro z member
+    exact openU member.left
+  · intro z member
+    cases openU member.left with
+    | intro centerU leftRest =>
+        cases leftRest with
+        | intro radiusU leftRest =>
+            cases leftRest with
+            | intro gapU leftWitness =>
+                cases openV member.right with
+                | intro centerV rightRest =>
+                    cases rightRest with
+                    | intro radiusV rightRest =>
+                        cases rightRest with
+                        | intro gapV rightWitness =>
+                            exact Exists.intro centerU
+                              (Exists.intro radiusU
+                                (Exists.intro gapU
+                                  (Exists.intro centerV
+                                    (Exists.intro radiusV
+                                      (Exists.intro gapV
+                                        (And.intro leftWitness.left
+                                          (And.intro leftWitness.right
+                                            (And.intro rightWitness.left
+                                              rightWitness.right))))))))
+
+theorem ComplexTopologyOpenSet_intersection_witnesses {U V : BHist -> Prop} :
+    ComplexTopologyOpenSet U -> ComplexTopologyOpenSet V ->
+      ComplexTopologyOpenSet (fun z : BHist => U z ∧ V z) ∧
+        (forall {z : BHist}, U z ∧ V z ->
+          (exists center radius gap : BHist,
+            ComplexTopologyOpenDiskGap center radius z gap ∧ Cont z gap radius) ∧
+          (exists center radius gap : BHist,
+            ComplexTopologyOpenDiskGap center radius z gap ∧ Cont z gap radius)) := by
+  intro openU openV
+  constructor
+  · intro z both
+    exact openU both.left
+  · intro z both
+    exact And.intro (openU both.left) (openV both.right)
+
 theorem ComplexTopologyClosedDiskGap_strict_radius_not_empty
     {center radius point gap : BHist} :
     ComplexTopologyClosedDiskGap center radius point gap -> Cont point gap radius ->
@@ -125,6 +197,27 @@ theorem ComplexTopologyClosedDiskGap_strict_radius_not_empty
                 cont_result_hsame_transport strictBoundary radiusEmpty
               have emptyParts := cont_empty_result_inversion emptyBoundary
               exact ComplexHistoryCarrier_not_empty pointCarrier emptyParts.left
+
+theorem ComplexTopologyClosedDiskGap_radius_not_empty {center radius point gap : BHist} :
+    ComplexTopologyClosedDiskGap center radius point gap -> hsame radius BHist.Empty -> False := by
+  intro disk radiusEmpty
+  cases disk with
+  | intro _centerCarrier rest =>
+      cases rest with
+      | intro _radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier rest =>
+              cases rest with
+              | intro _gapCarrier boundary =>
+                  cases boundary with
+                  | inl pointGap =>
+                      have emptyBoundary : Cont point gap BHist.Empty :=
+                        cont_result_hsame_transport pointGap radiusEmpty
+                      have emptyParts := cont_empty_result_inversion emptyBoundary
+                      exact ComplexHistoryCarrier_not_empty pointCarrier emptyParts.left
+                  | inr pointRadius =>
+                      exact ComplexHistoryCarrier_not_empty pointCarrier
+                        (hsame_trans pointRadius radiusEmpty)
 
 theorem ComplexTopologyClosedDiskGap_empty_gap_radius_point {center radius point gap : BHist} :
     ComplexTopologyClosedDiskGap center radius point gap -> hsame gap BHist.Empty ->
@@ -247,6 +340,48 @@ theorem ComplexTopologyOpenDiskGap_radius_not_empty {center radius point gap : B
                   have emptyParts :=
                     cont_empty_result_inversion (cont_result_hsame_transport pointGap sameRadius)
                   exact ComplexHistoryCarrier_not_empty pointCarrier emptyParts.left
+
+theorem ComplexTopologyOpenSet_intersection_radius_witnesses_nonempty
+    {U V : BHist -> Prop} {z : BHist} :
+    ComplexTopologyOpenSet U -> ComplexTopologyOpenSet V -> U z -> V z ->
+      exists cU rU gU cV rV gV : BHist,
+        ComplexTopologyOpenDiskGap cU rU z gU ∧ Cont z gU rU ∧
+          (hsame rU BHist.Empty -> False) ∧
+            ComplexTopologyOpenDiskGap cV rV z gV ∧ Cont z gV rV ∧
+              (hsame rV BHist.Empty -> False) := by
+  intro openU openV memberU memberV
+  cases openU memberU with
+  | intro cU witnessU =>
+      cases witnessU with
+      | intro rU witnessU =>
+          cases witnessU with
+          | intro gU witnessU =>
+              cases witnessU with
+              | intro diskU boundaryU =>
+                  cases openV memberV with
+                  | intro cV witnessV =>
+                      cases witnessV with
+                      | intro rV witnessV =>
+                          cases witnessV with
+                          | intro gV witnessV =>
+                              cases witnessV with
+                              | intro diskV boundaryV =>
+                                  exact
+                                    Exists.intro cU
+                                      (Exists.intro rU
+                                        (Exists.intro gU
+                                          (Exists.intro cV
+                                            (Exists.intro rV
+                                              (Exists.intro gV
+                                                (And.intro diskU
+                                                  (And.intro boundaryU
+                                                    (And.intro
+                                                      (ComplexTopologyOpenDiskGap_radius_not_empty
+                                                        diskU)
+                                                      (And.intro diskV
+                                                        (And.intro boundaryV
+                                                          (ComplexTopologyOpenDiskGap_radius_not_empty
+                                                            diskV)))))))))))
 
 theorem ComplexTopologyOpenDiskGap_empty_gap_radius_point {center radius point gap : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap -> hsame gap BHist.Empty ->
@@ -427,5 +562,33 @@ theorem ComplexTopologyOpenDiskGap_center_point_unary_suffix_transport
                 (And.intro shiftedDisk.right.right.left
                   (And.intro shiftedDisk.right.right.right.left shiftedBoundary))))
             shiftedBoundary
+
+theorem ComplexTopologyOpenDiskGap_semanticNameCert {center radius point gap : BHist}
+    (witness : ComplexTopologyOpenDiskGap center radius point gap) :
+    SemanticNameCert (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g)
+      (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g)
+      (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro gap witness
+    · intro g _carrier
+      exact hsame_refl g
+    · intro g g' same
+      exact hsame_symm same
+    · intro g g' g'' sameGG' sameG'G''
+      exact hsame_trans sameGG' sameG'G''
+    · intro g g' same carrier
+      have centerClass : ComplexHistoryClassifier center center :=
+        And.intro carrier.left (And.intro carrier.left (hsame_refl center))
+      have pointClass : ComplexHistoryClassifier point point :=
+        And.intro carrier.right.right.left
+          (And.intro carrier.right.right.left (hsame_refl point))
+      exact
+        (ComplexTopologyOpenDiskGap_hsame_transport carrier centerClass
+          (hsame_refl radius) pointClass same).left
+  · intro g source
+    exact source
+  · intro g source
+    exact source
 
 end BEDC.Derived.ComplexTopologyUp

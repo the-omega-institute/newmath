@@ -1,0 +1,77 @@
+\begin{theorem}[Rat StreamName unary-context e-one tail coverage package]
+\label{thm:rat-streamname-unary-context-e1-tail-coverage-package}
+For observation maps $s,t:\Hist\to\Hist$, a selected observation $n:\Hist$,
+prefix and tail histories $p_s,p_t,q_s,q_t:\Hist$, middle histories
+$m_s,m_t:\Hist$, output histories $o_s,o_t:\Hist$, and zero-head tests
+$z_s,z_t:\Hist$, assume
+$$
+\begin{array}{l}
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{UnaryHistory}(n),\quad
+\mathsf{UnaryHistory}(p_s),\quad
+\hsame(p_s,p_t),\\
+\mathsf{UnaryHistory}(q_s),\quad
+\hsame(q_s,q_t),\quad
+\mathsf{Cont}(p_s,s(n),m_s),\quad
+\mathsf{Cont}(m_s,q_s,o_s),\\
+\mathsf{Cont}(p_t,t(n),m_t),\quad
+\mathsf{Cont}(m_t,q_t,o_t).
+\end{array}
+$$
+Then the local unary-context hypotheses construct displayed one-extension tails
+for the contextual outputs and carry the full RatUp endpoint package:
+$$
+\begin{array}{l}
+\exists a,b:\Hist,\ 
+\hsame(o_s,\Eone(a))\land
+\hsame(o_t,\Eone(b))\land\\
+\mathsf{RatHistoryClassifier}(o_s,o_t)\land
+\mathsf{PositiveUnaryDenominator}(o_s)\land
+\mathsf{PositiveUnaryDenominator}(o_t)\land\\
+\mathsf{UnaryHistory}(o_s)\land
+\mathsf{UnaryHistory}(o_t)\land
+(\hsame(o_s,\emp)\to\mathsf{False})\land
+(\hsame(o_t,\emp)\to\mathsf{False})\land\\
+(\hsame(o_s,\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(o_t,\Ezero(z_t))\to\mathsf{False})\land\\
+\mathsf{UnaryHistory}(a)\land
+\mathsf{UnaryHistory}(b)\land
+\hsame(a,b).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Project the point classifier from
+$\mathsf{RatStreamNameClassifier}(s,t)$ at the certified unary observation $n$.
+This gives $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Apply
+\autoref{thm:rat-history-classifier-cont-unary-context-positive-denominators}
+to that point classifier, the two matching unary contexts, and the four
+continuation rows. This supplies
+$\mathsf{PositiveUnaryDenominator}(o_s)$ and
+$\mathsf{PositiveUnaryDenominator}(o_t)$.
+
+Unfold the two positive unary denominator witnesses. Choose tails $a$ and $b$
+together with the displayed one-extension rows
+$\hsame(o_s,\Eone(a))$ and $\hsame(o_t,\Eone(b))$.
+
+With those displayed tails, apply
+\autoref{thm:rat-streamname-unary-context-full-endpoint-package} to the original
+StreamNameUp classifier, the certified observation, the matching context rows,
+the four continuation rows, and the two selected one-extension displays. The
+returned classifier, denominator, unary, exclusion, and tail readback rows
+combine with the two displays under $\exists a,b$.
+\end{proof}
+
+Fit. Traditional target: unary-context one-tail coverage for certified rational
+stream names. BEDC source: $\StreamNameUp+\RatUp$ over $\mathsf{BHist}$.
+Carrier: observation maps with unary BEDC observations. Classifier:
+$\mathsf{RatStreamNameClassifier}$. Stability: point projection, positive
+denominator extraction, and full contextual endpoint packaging. Ledger: selected
+observation, matching prefix and tail contexts, continuation rows, and zero-head
+tests. Core theorem:
+\autoref{thm:rat-streamname-unary-context-e1-tail-coverage-package}. Exactness:
+existential one-extension tails with the displayed contextual endpoint package.
+Standard bridge: RegSeqRat/RealUp selected contextual observation readback.
+Status: $\mathsf{ProofTarget}$.

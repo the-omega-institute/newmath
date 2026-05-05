@@ -253,4 +253,77 @@ $\mathsf{CommRingSingletonMul}$ on the three determinant readbacks and
 classifies the left- and right-bracketed scalar products by commutative-ring
 associativity.
 \end{proof}
-\closureat{\DeterminantUp}{\checkedCertStr}
+\begin{closurestatus}{\DeterminantUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{Singleton determinant semantic certificate over MatrixSingletonCarrier and CommRingSingletonClassifier, including constant determinant readback, endpoint correspondence, classifier transport, and singleton multiplicativity.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DeterminantUp.DeterminantSingleton\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General $n \times n$ determinant, Leibniz formula, alternating multilinear uniqueness, row operations, characteristic polynomial, or determinant theory over arbitrary fields.}
+  \upgradepath{$\publicClosure$ requires public matrix carrier, $n \times n$ determinant construction, and standard determinant theorems (multiplicativity, Laplace expansion, Cramer's rule).}
+\end{closurestatus}
+
+\begin{definition}[Determinant singleton row-swap endpoint certificate]
+\label{def:determinant-singleton-row-swap-endpoint-certificate}
+For histories $M,S:\mathsf{BHist}$, write
+$$
+\mathsf{DetSwap}_{\emp}(M,S)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(M)\land
+\mathsf{MatrixSingletonClassifier}(S,M).
+$$
+This is the row-swap endpoint certificate at the singleton determinant surface:
+the endpoint $S$ is read through the same singleton matrix classifier as the
+source matrix $M$.
+\end{definition}
+
+\begin{theorem}[Determinant singleton row-swap sign collapse]
+\label{thm:determinant-singleton-row-swap-sign-collapse}
+For histories $M,S:\mathsf{BHist}$, every singleton row-swap endpoint
+certificate
+$$
+\mathsf{DetSwap}_{\emp}(M,S)
+$$
+supplies the signed determinant classifier
+$$
+\mathsf{CommRingSingletonClassifier}
+(\det_{\emp}(S),\mathsf{CommRingSingletonNeg}(\det_{\emp}(M)))
+$$
+and hence the unsigned determinant classifier
+$$
+\mathsf{CommRingSingletonClassifier}(\det_{\emp}(S),\det_{\emp}(M)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{DetSwap}_{\emp}(M,S)$. Its second component is the matrix
+classifier $\mathsf{MatrixSingletonClassifier}(S,M)$, and its first component
+keeps $M$ in the singleton matrix carrier. Applying the classifier-transport
+clause in \autoref{thm:singleton-matrix-determinant-endpoint-correspondence}
+to $S$ and $M$ gives
+$$
+\mathsf{CommRingSingletonClassifier}(\det_{\emp}(S),\det_{\emp}(M)).
+$$
+Thus both determinant readbacks are singleton scalar endpoints.
+
+Apply \autoref{thm:commring-singleton-neg-empty-endpoint} with
+$h=\det_{\emp}(M)$ and $t=\det_{\emp}(S)$. Since $\det_{\emp}(S)$ is a
+singleton scalar endpoint and $\mathsf{CommRingSingletonNeg}(\det_{\emp}(M))$
+is the empty singleton scalar endpoint, the singleton commutative-ring
+classifier relates $\mathsf{CommRingSingletonNeg}(\det_{\emp}(M))$ to
+$\det_{\emp}(S)$. Symmetry of the scalar classifier, supplied by
+\autoref{thm:singleton-empty-history-commring-laws}, gives the displayed
+signed orientation
+$$
+\mathsf{CommRingSingletonClassifier}
+(\det_{\emp}(S),\mathsf{CommRingSingletonNeg}(\det_{\emp}(M))).
+$$
+
+Apply the same negation endpoint theorem with $t=\det_{\emp}(M)$ to classify
+$\mathsf{CommRingSingletonNeg}(\det_{\emp}(M))$ with $\det_{\emp}(M)$.
+Transitivity of the singleton scalar classifier from
+\autoref{thm:singleton-empty-history-commring-laws} composes this comparison
+with the signed classifier above, yielding
+$$
+\mathsf{CommRingSingletonClassifier}(\det_{\emp}(S),\det_{\emp}(M)).
+$$
+\end{proof}

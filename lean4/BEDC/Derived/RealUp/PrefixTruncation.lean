@@ -62,6 +62,33 @@ theorem RealStreamPrefixClassifier_truncated_endpoint_denominator_package
         (And.intro leftRows.left
           (And.intro rightRows.left (And.intro leftRows.right rightRows.right)))))
 
+theorem RealStreamPrefixClassifier_truncated_endpoint_common_e1_tail_readback
+    {x y : Nat -> BHist} {m n : Nat} :
+    RealStreamPrefixClassifier x y (m + n) ->
+      exists a b : BHist, hsame (x n) (BHist.e1 a) ∧ hsame (y n) (BHist.e1 b) ∧
+        UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  intro classified
+  have package :=
+    RealStreamPrefixClassifier_truncated_endpoint_denominator_package classified
+  have leftShape :=
+    unary_history_nonempty_e1_tail package.right.right.right.left
+      package.right.right.right.right.right.left
+  have rightShape :=
+    unary_history_nonempty_e1_tail package.right.right.right.right.left
+      package.right.right.right.right.right.right
+  cases leftShape with
+  | intro a aShape =>
+      cases rightShape with
+      | intro b bShape =>
+          have tails :=
+            RealStreamPrefixClassifier_truncated_e1_pair_readback classified aShape.left
+              bShape.left
+          exact Exists.intro a
+            (Exists.intro b
+              (And.intro aShape.left
+                (And.intro bShape.left
+                  (And.intro tails.left (And.intro tails.right.left tails.right.right)))))
+
 theorem RealStreamPrefixClassifier_truncated_cont_endpoint_context_closed
     {x y prefX prefY tailX tailY midX midY outX outY : Nat -> BHist} {m n : Nat} :
     RealStreamPrefixClassifier x y (m + n) -> UnaryHistory (prefX n) ->
@@ -146,5 +173,64 @@ theorem RealStreamPrefixClassifier_contextual_e1_denominator_package
           (And.intro rightRows.left
             (And.intro leftRows.right
               (And.intro rightRows.right tailReadback))))))
+
+theorem RealStreamPrefixClassifier_contextual_e0_endpoint_absurd
+    {x y prefX prefY tailX tailY midX midY outX outY : Nat -> BHist} {m n : Nat}
+    {zX zY : BHist} :
+    RealStreamPrefixClassifier x y (m + n) -> UnaryHistory (prefX n) ->
+      UnaryHistory (tailX n) -> hsame (prefX n) (prefY n) ->
+        hsame (tailX n) (tailY n) -> Cont (prefX n) (x n) (midX n) ->
+          Cont (midX n) (tailX n) (outX n) -> Cont (prefY n) (y n) (midY n) ->
+            Cont (midY n) (tailY n) (outY n) ->
+              (hsame (outX n) (BHist.e0 zX) -> False) ∧
+                (hsame (outY n) (BHist.e0 zY) -> False) := by
+  intro classified prefUnary tailUnary prefSame tailSame prefCont outXCont prefYCont
+    outYCont
+  have package := RealStreamPrefixClassifier_contextual_e1_denominator_package
+    (leftTail := zX) (rightTail := zY) classified prefUnary tailUnary prefSame tailSame
+    prefCont outXCont prefYCont outYCont
+  exact ⟨fun sameZero => PositiveUnaryDenominator_e0_absurd
+    (PositiveUnaryDenominator_hsame_transport sameZero package.right.left),
+    fun sameZero => PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameZero package.right.right.left)⟩
+
+theorem RealStreamPrefixClassifier_contextual_full_endpoint_package
+    {x y prefX prefY tailX tailY midX midY outX outY : Nat -> BHist} {m n : Nat}
+    {leftTail rightTail zX zY : BHist} :
+    RealStreamPrefixClassifier x y (m + n) -> UnaryHistory (prefX n) ->
+      UnaryHistory (tailX n) -> hsame (prefX n) (prefY n) ->
+        hsame (tailX n) (tailY n) -> Cont (prefX n) (x n) (midX n) ->
+          Cont (midX n) (tailX n) (outX n) -> Cont (prefY n) (y n) (midY n) ->
+            Cont (midY n) (tailY n) (outY n) ->
+              hsame (outX n) (BHist.e1 leftTail) ->
+                hsame (outY n) (BHist.e1 rightTail) ->
+                  RatHistoryClassifier (outX n) (outY n) ∧
+                    PositiveUnaryDenominator (outX n) ∧ PositiveUnaryDenominator (outY n) ∧
+                      UnaryHistory (outX n) ∧ UnaryHistory (outY n) ∧
+                        (hsame (outX n) BHist.Empty -> False) ∧
+                          (hsame (outY n) BHist.Empty -> False) ∧
+                            (hsame (outX n) (BHist.e0 zX) -> False) ∧
+                              (hsame (outY n) (BHist.e0 zY) -> False) ∧
+                                UnaryHistory leftTail ∧ UnaryHistory rightTail ∧
+                                  hsame leftTail rightTail := by
+  intro classified prefUnary tailUnary prefSame tailSame prefCont outXCont prefYCont
+    outYCont outXOne outYOne
+  have e1Package := RealStreamPrefixClassifier_contextual_e1_denominator_package
+    (leftTail := leftTail) (rightTail := rightTail) classified prefUnary tailUnary prefSame
+    tailSame prefCont outXCont prefYCont outYCont
+  have e0Absurd := RealStreamPrefixClassifier_contextual_e0_endpoint_absurd
+    (zX := zX) (zY := zY) classified prefUnary tailUnary prefSame tailSame prefCont
+    outXCont prefYCont outYCont
+  have tailPackage : UnaryHistory leftTail ∧ UnaryHistory rightTail ∧ hsame leftTail rightTail :=
+    e1Package.right.right.right.right.right.right.right outXOne outYOne
+  exact And.intro e1Package.left
+    (And.intro e1Package.right.left
+      (And.intro e1Package.right.right.left
+        (And.intro e1Package.right.right.right.left
+          (And.intro e1Package.right.right.right.right.left
+            (And.intro e1Package.right.right.right.right.right.left
+              (And.intro e1Package.right.right.right.right.right.right.left
+                (And.intro e0Absurd.left
+                  (And.intro e0Absurd.right tailPackage))))))))
 
 end BEDC.Derived.RealUp

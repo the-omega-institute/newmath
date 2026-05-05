@@ -1,7 +1,9 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
+Lean rounds primarily advance the verification axis: a new theorem registered with `\leanchecked` is evidence for `\theoremCheckedV`, but it does not by itself raise the paper-side theoryclosure grade. Any `closurestatus` block belongs to the paper discipline and must keep theoryclosure × formalstatus independent.
+
 ## Prompts version
-v4.7 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.7 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -105,20 +107,25 @@ new targets rather than committing shallow growth.
 <TARGETS>
 
 ## Step 0: Local worktree boundary
-This phase runs inside a disposable round worktree whose branch was already created from the pipeline's local base branch. Do not perform any remote-branch synchronization in this phase.
+This phase runs inside a disposable round worktree whose branch was already created from the pipeline's local base branch. The implementation work in Steps 1-4 must NOT touch any remote ref. Step 5 below explicitly authorizes one specific `git fetch origin <BASE> && git merge --no-ff origin/<BASE>` immediately before commit; that is the ONLY sync point in Phase C.
 
-Forbidden in Phase C:
+Forbidden during Steps 1-4 (implementation):
 ```bash
-git fetch origin lean4-codex-auto-dev
-git pull
-git rebase origin/lean4-codex-auto-dev
-git merge origin/lean4-codex-auto-dev
-git checkout lean4-codex-auto-dev
-git switch lean4-codex-auto-dev
-git push
+git fetch origin               # only allowed inside Step 5
+git pull                       # forbidden — Step 5 uses fetch + merge, not pull
+git rebase origin/<base>       # forbidden — only merge, never rebase
+git checkout <base>            # forbidden — stay on the round branch
+git switch <base>              # forbidden — stay on the round branch
+git push                       # forbidden — outer pipeline owns all pushes
 ```
 
-If you believe the base is stale, stop and leave the round uncommitted. The outer `codex_formalize.py` process owns all base-branch synchronization, merge, and push operations. Phase C only edits files in the current worktree, verifies them, stages the intended files, and creates one local commit on the current round branch.
+Allowed at Step 5 (pre-commit sync only):
+```bash
+git fetch origin lean4-codex-auto-dev
+git merge --no-ff --no-edit origin/lean4-codex-auto-dev
+```
+
+Rationale: the outer `codex_formalize.py` process owns the merge → push sequence under `_git_lock`. If Phase C does NOT pre-sync, every `_codex_resolve_post_rebase_audit` invocation later holds `_git_lock` for up to 1200s while resolving label collisions reactively. Pre-syncing in Step 5 (before commit, where you have full context) eliminates that reactive 1200s lock-and-codex-call. This is the v5.5 architectural fix — earlier prompt versions forbade ALL remote sync inside Phase C, which produced the audit-recovery wave the outer pipeline could never fully avoid.
 
 ## Hard Constraints
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
@@ -156,6 +163,32 @@ Use `lake_gate.py` for ALL `lake` calls in this round. Do NOT invoke `lake` dire
 
 If errors occur, fix them before continuing. If a target is stuck, choose a different one rather than leaving partial code behind.
 
+### HARD GATE — every new `.lean` file MUST be imported into `BEDC.lean`
+
+If this round CREATES a new file under `lean4/BEDC/` (i.e. `git status --porcelain lean4/BEDC/ | grep '^A'` lists it), you MUST add a corresponding `import BEDC.<dotted.module.path>` line to `lean4/BEDC.lean` in the same round. Failure to do so produces an "orphan module" — `lake build` from `BEDC.lean` won't build it, and downstream `bedc_ci.py axiom-purity --strict` invocations will report `"no parsed #print axioms result"` for every theorem in the orphan, failing the audit gate and triggering recovery.
+
+Run this check after Step 2 build succeeds, before proceeding to Step 3:
+
+```bash
+# List newly-added .lean files under lean4/BEDC/
+new_lean=$(git -C "${REPO_ROOT:-$(git rev-parse --show-toplevel)}" status --porcelain lean4/BEDC/ \
+  | awk '/^\?\?|^A / {print $2}' \
+  | grep '\.lean$' \
+  | grep -v 'BEDC\.lean$')
+
+# For each, derive the dotted module path and check BEDC.lean has the import
+for f in $new_lean; do
+  mod=$(echo "$f" | sed 's|/|.|g; s|\.lean$||; s|^lean4\.||')
+  if ! grep -qF "import $mod" lean4/BEDC.lean; then
+    echo "ORPHAN: $f → missing 'import $mod' in lean4/BEDC.lean"
+  fi
+done
+```
+
+If the script prints any `ORPHAN:` line, append the corresponding `import BEDC.<module>` line to `lean4/BEDC.lean` BEFORE Step 3. Place the new line near the existing imports for the same `BEDC.Derived.<X>Up.*` namespace (alphabetic ordering preferred but not strictly enforced — just keep related imports clustered). Re-run `lake_gate.py build` after the edit to confirm the import compiles cleanly. The build verifies the new file's transitive deps; the orphan check verifies the new file is reachable from the toplevel module.
+
+This gate catches the failure mode where a Lean round adds new theorems that build standalone but don't enter the main `#print axioms` graph — a salvage-merge or solo-run gap that produces transient `axiom-purity` failures across downstream rounds until manually fixed.
+
 ## Step 3: Paper marker registration
 After `lake build` passes:
 1. For each new Lean target, find the relevant paper theorem/definition site in `papers/bedc/parts/`. Decide which marker macro to use:
@@ -171,7 +204,16 @@ After `lake build` passes:
    - If the paper site already has `\leanchecked` and your new target would only be a variant of it → do not register it; pick another target.
 3. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
 
-4. For targets with `paper_block_status: "discovery"`: the paper does not yet have a block for this claim, so you must INSERT a new block into the existing chapter file given by `paper_target_chapter`. Insert a `\begin{theorem}[<short title>]\label{thm:<concept>}` (or `\begin{definition}` / `\begin{lemma}` / `\begin{corollary}` as appropriate) at a thematically correct location within an existing section of that chapter, write a brief `\begin{proof}...\end{proof}` sketch, and place the marker on the next line after `\end{...}`. Do NOT create a new chapter file. Do NOT modify any other chapter's existing content.
+4. **Pure-formalization mode (HARD GATE)**: every target has `paper_block_status: "exists_without_marker"` (Phase B v5.5+ rejects `discovery`). The paper site for each target ALREADY EXISTS — there is a `\begin{theorem}…\label{thm:<X>}…\end{theorem}` (or `\begin{definition}` / `\begin{lemma}` / `\begin{corollary}`) somewhere in `papers/bedc/parts/`. Phase C's only paper-side action is to APPEND the marker line `\leanchecked{<X>}` (or `\leanstmt` / `\leandef` per the decision rule above) immediately after the existing `\end{...}` of that block. Do NOT:
+   - insert a NEW `\begin{...}` / `\label{...}` block (paper rounds + bedc-deep own theorem proposal);
+   - create a new sibling `.tex` file under any chapter directory;
+   - copy / paraphrase the existing theorem into a different file with a renamed label.
+
+   To find the existing block:
+   ```bash
+   git grep -n -E "\\\\label\\{thm:<concept>\\}" -- 'papers/bedc/parts/'
+   ```
+   The grep MUST return exactly 1 hit. If 0 hits: paper hasn't captured this claim yet — drop the target and let a paper round propose it first. If ≥2 hits: paper has a duplicate that recovery will catch — drop and pick a different target. Same rule applies to `\label{def:...}` / `\label{lem:...}` / `\label{prop:...}` / `\label{cor:...}` insertions.
 
 The `bedc_ci.py audit` will fail if any `\leanchecked{X}` / `\leanvariant{X}` / `\leanstmt{X}` / `\leandef{X}` references X not present in `lean4/BEDC/`.
 
@@ -183,10 +225,29 @@ cd papers/bedc && make
 python3 tools/check-axioms.py
 ```
 
-## Step 5: Do not sync remote before commit
-Do not fetch, pull, merge against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
+While iterating on a paper edit, `cd papers/bedc && make check` (single `pdflatex -draftmode` pass, ~40 s vs ~75 s) is enough to confirm syntax / undefined macros / unresolved `\input`. **The pre-commit verification above must use the full `make`**: only the second pass resolves `\autoref` and TOC, and the drift audit / `\leanchecked` resolution that follows depend on a clean two-pass build.
 
-If verification fails because the worktree appears stale or conflicts with upstream work, do not resolve that by syncing with `origin/lean4-codex-auto-dev`. Either adjust the local proof against the current worktree or leave the round uncommitted so the outer pipeline can discard/retry it.
+## Step 5: Pre-commit sync with origin BASE (proactive label-collision resolution)
+
+Before staging and committing, fetch the latest BASE and merge it into the worktree. This catches concurrent rounds' commits that landed during your Phase C session, and lets you resolve any label / declaration collision INLINE while you still have full context — much cheaper than the outer pipeline's reactive `_codex_resolve_post_rebase_audit` flow which runs after the audit gate already failed.
+
+```bash
+BASE=lean4-codex-auto-dev
+git fetch origin "$BASE"
+git merge --no-ff --no-edit "origin/$BASE"
+```
+
+If `git merge` reports conflicts:
+
+1. List the conflicted files: `git diff --name-only --diff-filter=U`.
+2. For each `.tex` conflict: keep BOTH sides' additions when they are independent. When two sides added the SAME `\label{thm:<X>}` (`bedc_ci.py audit` would catch this as `duplicate paper labels`), drop YOUR side's `\label{thm:<X>}` block and ALL of its content (the `\begin{...}...\end{...}` block plus any marker line on the next non-blank line). The other side's claim is canonical because they got there first. The Lean side of your target still proceeds — only the paper marker registration is dropped.
+3. For each `.lean` conflict in `lean4/BEDC/`: if both sides added the same `theorem` / `def` name, drop yours and use the other side's. If both added different names but same conclusion shape, drop yours per "duplicate theorem" discipline of Step 5.6.
+4. After resolution: `git add <each-file>`, then `git commit --no-edit` to finalize the merge. The merge commit is fine — Step 6's own-round commit is separate.
+5. After the merge commit, re-run Step 4's full verification (`lake_gate.py build` + `make` + `check-axioms.py`). The merge introduced new content that could break compilation. If verification fails on the merged state, fix the proof against the merged BASE; do not `git merge --abort`.
+
+If `git merge` reports "Already up to date", proceed straight to Step 6.
+
+Do NOT push any branch. The outer pipeline owns push.
 
 ## Step 5.2: NAMING.md compliance pre-commit lint (HARD GATE)
 

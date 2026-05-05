@@ -1,0 +1,215 @@
+\begin{theorem}[Metric distance witness visible-context empty distance exactness]
+\label{thm:metric-distance-witness-visible-context-empty-distance-iff}
+For histories $p,q,x,y$, a visible-context distance witness whose central
+distance ledger is empty is exactly unary evidence for the visible prefix and
+suffix together with empty classification of both central endpoints:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\hsame(x,\emp)\ \wedge\ \hsame(y,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to peel off the prefix and suffix. The central
+witness is then $\mathsf{MetricDistanceWitness}(x,y,\emp)$, which empty-distance
+exactness identifies with $\hsame(x,\emp)$ and $\hsame(y,\emp)$. Conversely,
+the two empty endpoint classifiers build the central empty-distance witness,
+and visible-context exactness reattaches the same prefix and suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_iff}
+
+\begin{theorem}[Metric visible-context empty-distance continuation splice]
+\label{thm:metric-distance-witness-visible-context-empty-distance-continuation-splice}
+For histories $p,q,x,y,l,r,m,o$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and continuations $\ContR(l,x,m)$ and $\ContR(m,r,o)$ hold. Then the empty
+central endpoint exposed by the witness splices the continuation directly:
+$$
+\ContR(l,r,o).
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context empty-distance exactness to the witness. This gives
+$\hsame(x,\emp)$. Substitute the empty central endpoint into
+$\ContR(l,x,m)$, so the first continuation identifies $m$ with $l$. The second
+continuation $\ContR(m,r,o)$ is therefore the desired direct continuation
+$\ContR(l,r,o)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_splice}
+
+\begin{theorem}[Metric visible-context empty-distance continuation splice determinacy]
+\label{thm:metric-distance-witness-visible-context-empty-distance-continuation-splice-hsame}
+For histories $p,q,x,y,l,r,m,o,o'$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and continuations $\ContR(l,x,m)$, $\ContR(m,r,o)$, and $\ContR(l,r,o')$
+hold. Then the spliced result is determined by the displayed direct
+continuation:
+$$
+\hsame(o,o').
+$$
+\end{theorem}
+\begin{proof}
+The visible-context empty-distance continuation splice turns the first two
+continuations into $\ContR(l,r,o)$. BEDC continuation determinacy compares this
+spliced continuation with the displayed continuation $\ContR(l,r,o')$, giving
+$\hsame(o,o')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_splice\_hsame}
+
+\begin{theorem}[Metric visible-context empty-distance continuation result determinacy]
+\label{thm:metric-distance-witness-visible-context-empty-distance-continuation-results-hsame}
+For histories $p,q,x,y,l,m,n$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and continuations $\ContR(l,x,m)$ and $\ContR(l,y,n)$ hold. Then the two
+continuation results are classified together:
+$$
+\hsame(m,n).
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context empty-distance exactness to the metric witness. This
+identifies both central endpoints $x$ and $y$ with $\emp$. After substituting
+these endpoint classifiers, the two displayed continuations have the same
+left source and the same empty right endpoint. BEDC continuation determinacy
+therefore compares their results and gives $\hsame(m,n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_results\_hsame}
+
+\begin{theorem}[Metric visible-context empty-distance append unit laws]
+\label{thm:metric-distance-witness-visible-context-empty-distance-append-unit-laws}
+For histories $p,q,x,y,l,r$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q).
+$$
+Then the central endpoints act as append units:
+$$
+x\cdot r=r\quad\wedge\quad l\cdot y=l.
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context empty-distance exactness to the witness. This exposes
+$\hsame(x,\emp)$ and $\hsame(y,\emp)$. Substituting these empty endpoints turns
+the two displayed append equations into the BEDC left and right append unit
+laws.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_append\_unit\_laws}
+
+\begin{theorem}[Metric visible-context empty-distance endpoint continuation units]
+\label{thm:metric-visible-context-empty-distance-endpoint-continuation-units}
+For histories $p,q,x,y,l,r,o_L,o_R$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and continuations $\ContR(l,x,o_L)$ and $\ContR(y,r,o_R)$ hold. Then both
+displayed endpoint continuations reduce to unit continuations:
+$$
+\hsame(o_L,l)\wedge\hsame(o_R,r).
+$$
+\end{theorem}
+\begin{proof}
+Visible-context empty-distance exactness exposes
+$\hsame(x,\emp)$ and $\hsame(y,\emp)$. After substituting these central
+endpoints, $\ContR(l,x,o_L)$ is a right-unit continuation and
+$\ContR(y,r,o_R)$ is a left-unit continuation. The BEDC continuation unit laws
+therefore give $\hsame(o_L,l)$ and $\hsame(o_R,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_endpoint\_continuation\_units}
+
+\begin{theorem}[Metric visible-context empty-distance witness splice]
+\label{thm:metric-distance-witness-visible-context-empty-distance-witness-splice}
+For histories $p,q,x,y,l,r,m,o$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and unary endpoint evidence for $l$ and $r$ hold. If
+$\ContR(l,x,m)$ and $\ContR(m,r,o)$ hold, then the spliced continuation is a
+metric distance witness:
+$$
+\mathsf{MetricDistanceWitness}(l,r,o).
+$$
+\end{theorem}
+\begin{proof}
+The visible-context empty-distance continuation splice supplies
+$\ContR(l,r,o)$. Together with the unary endpoint hypotheses, unary
+continuation closure gives the unary carrier for $o$. These three fields are
+exactly the concrete metric distance witness from $l$ to $r$ with output $o$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_witness\_splice}
+
+\begin{theorem}[Metric visible-context empty-distance continuation witness depth package]
+\label{thm:metric-distance-witness-visible-context-empty-distance-continuation-witness-depth}
+For histories $p,q,x,y,l,r,m,o:\mathsf{BHist}$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+holds together with $\mathsf{UnaryHistory}(l)$, $\mathsf{UnaryHistory}(r)$,
+$\ContR(l,x,m)$, and $\ContR(m,r,o)$. Then the direct continuation carries a
+metric witness whose depth is induced by the two visible endpoints:
+$$
+\mathsf{MetricDistanceWitness}(l,r,o)\wedge
+\mathsf{MetricDistanceDepth}(o)=
+\mathsf{MetricDistanceDepth}(l)+\mathsf{MetricDistanceDepth}(r).
+$$
+\end{theorem}
+\begin{proof}
+Apply the visible-context empty-distance continuation splice to the distance
+witness and the two continuation ledgers. This gives the direct continuation
+$\ContR(l,r,o)$.
+
+The unary carriers for $l$ and $r$ then close the continuation under the metric
+distance witness constructor, so the direct continuation packages as
+$\mathsf{MetricDistanceWitness}(l,r,o)$.
+
+Finally, metric witness depth additivity applied to this witness gives
+$\mathsf{MetricDistanceDepth}(o)=
+\mathsf{MetricDistanceDepth}(l)+\mathsf{MetricDistanceDepth}(r)$. Pairing the
+witness with that displayed equation is the required conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_witness\_depth}
+
+\begin{theorem}[Metric visible-context empty-distance two-sided endpoint witness transport]
+\label{thm:metric-visible-context-empty-distance-two-sided-endpoint-witness-transport}
+For histories $p,q,x,y,l,r,m,n,o:\mathsf{BHist}$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+holds together with $\mathsf{UnaryHistory}(l)$, $\mathsf{UnaryHistory}(r)$,
+$\ContR(l,x,m)$, $\ContR(y,r,n)$, and $\ContR(l,r,o)$. Then the two reduced
+endpoint continuations carry the same metric distance witness:
+$$
+\mathsf{MetricDistanceWitness}(m,n,o).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-visible-context-empty-distance-endpoint-continuation-units}
+to the visible-context empty-distance witness and the two endpoint continuation
+ledgers. This gives $\hsame(m,l)$ and $\hsame(n,r)$.
+
+The unary endpoint hypotheses for $l$ and $r$, together with the direct
+continuation ledger $\ContR(l,r,o)$, build the concrete direct metric witness
+$\mathsf{MetricDistanceWitness}(l,r,o)$.
+
+Now use
+\autoref{thm:metric-distance-witness-hsame-fields-transport}. Transport the
+first endpoint along the symmetry of $\hsame(m,l)$, the second endpoint along
+the symmetry of $\hsame(n,r)$, and the result endpoint along reflexivity of
+$\hsame(o,o)$. The continuation ledger transports with the same three
+relations, so the transported fields package as
+$\mathsf{MetricDistanceWitness}(m,n,o)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_two\_sided\_endpoint\_witness\_transport}
+
+The ten-field fit is: traditional target visible-context zero-distance splice;
+BEDC source $\mathsf{MetricDistanceWitness}$ plus $\ContR$; carrier
+$\mathsf{MetricDistanceWitness}$; classifier $\hsame$; stability obligations
+the two unary carriers and the two continuation ledgers; ledger the hidden
+empty central distance; core theorem this package; exactness the displayed
+witness-plus-depth conjunction; standard bridge deferred; and status
+$\mathsf{ProofTarget}$.

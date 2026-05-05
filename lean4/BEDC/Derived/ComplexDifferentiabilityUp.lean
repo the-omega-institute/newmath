@@ -4,9 +4,19 @@ namespace BEDC.Derived.ComplexDifferentiabilityUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.ComplexDiffUp
+
+def CplxRealProj (f u v : BHist) : Prop :=
+  UnaryHistory u ∧ UnaryHistory v ∧ Cont u v f
+
+def PartialReal (u z p : BHist) : Prop :=
+  UnaryHistory u ∧ UnaryHistory z ∧ CplxDiffAt u z p
+
+def PartialImag (u z q : BHist) : Prop :=
+  UnaryHistory u ∧ UnaryHistory z ∧ CplxDiffAt u z q
 
 theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
     CplxDiffAt f z fp ->
@@ -126,6 +136,45 @@ theorem CplxDiffAt_derivative_visible_context_readback {p r f z fp core : BHist}
   exact And.intro sameCore
     (BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport sameCore diff.right.right.left)
 
+theorem CplxDiffAt_derivative_visible_context_nonempty_readback {p r f z fp core : BHist} :
+    CplxDiffAt f z fp ->
+      hsame (append (append p fp) r) (append (append p core) r) ->
+        hsame fp core ∧ ComplexHistoryCarrier core ∧ (hsame core BHist.Empty -> False) := by
+  intro diff sameVisible
+  have readback := CplxDiffAt_derivative_visible_context_readback diff sameVisible
+  cases CplxDiffAt_witness_nonzero_result diff with
+  | intro h witness =>
+      cases witness with
+      | intro q data =>
+          cases data with
+          | intro _quotient rest =>
+              cases rest with
+              | intro _ledger rest =>
+                  cases rest with
+                  | intro _stepNonzero rest =>
+                      cases rest with
+                      | intro quotientNonzero sameQFp =>
+                          exact And.intro readback.left
+                            (And.intro readback.right
+                              (fun coreEmpty =>
+                                quotientNonzero
+                                  (hsame_trans sameQFp
+                                    (hsame_trans readback.left coreEmpty))))
+
+theorem CplxDiffAt_quotient_result_visible_context_derivative_readback
+    {p r f z fp h q core : BHist} :
+    CplxDiffAt f z fp -> CplxDiffQuot f z h q ->
+      hsame (append (append p q) r) (append (append p core) r) ->
+        hsame fp core ∧ ComplexHistoryCarrier core ∧ (hsame core BHist.Empty -> False) := by
+  intro diff quotient sameVisible
+  have quotientReadback := CplxDiffQuot_result_visible_context_readback quotient sameVisible
+  have sameQFp : hsame q fp := diff.right.right.right.right quotient
+  have sameFpCore : hsame fp core :=
+    hsame_trans (hsame_symm sameQFp) quotientReadback.left
+  have coreCarrier : ComplexHistoryCarrier core :=
+    BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport sameFpCore diff.right.right.left
+  exact And.intro sameFpCore (And.intro coreCarrier quotientReadback.right)
+
 theorem CplxDiffAt_empty_function_derivative_nonzero {z fp : BHist} :
     CplxDiffAt BHist.Empty z fp -> CplxNonZero fp := by
   intro diff quotientEmpty
@@ -190,8 +239,79 @@ theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
                                         (classifier quotientAtSource) sameFpGp))))
                           exact And.intro diff'
                             (Exists.intro h
-                              (Exists.intro gp
-                                (And.intro quotient'
-                                  (And.intro continuation' (hsame_refl gp)))))
+                            (Exists.intro gp
+                              (And.intro quotient'
+                                (And.intro continuation' (hsame_refl gp)))))
+
+theorem PartialDerivative_hsame_input_unique {u z z' p q : BHist} :
+    ((PartialReal u z p -> PartialReal u z' q -> hsame z z' ->
+        hsame p q ∧ PartialReal u z q ∧ PartialReal u z' p ∧
+          ∃ h : BHist, ∃ r : BHist, CplxDiffQuot u z h r ∧ Cont u h r) ∧
+      (PartialImag u z p -> PartialImag u z' q -> hsame z z' ->
+        hsame p q ∧ PartialImag u z q ∧ PartialImag u z' p ∧
+          ∃ h : BHist, ∃ r : BHist, CplxDiffQuot u z h r ∧ Cont u h r)) := by
+  constructor
+  · intro partialSource partialTarget sameInput
+    have targetAtSource : CplxDiffAt u z q :=
+      (CplxDiffAt_hsame_transport_witness partialTarget.right.right
+        (hsame_symm sameInput) (hsame_refl q)).left
+    have unique := CplxDiffAt_derivative_unique partialSource.right.right targetAtSource
+    have sourceAtTarget : CplxDiffAt u z' p :=
+      (CplxDiffAt_hsame_transport_witness partialSource.right.right sameInput
+        (hsame_refl p)).left
+    exact And.intro unique.left
+      (And.intro
+        (And.intro partialSource.left
+          (And.intro (unary_transport partialTarget.right.left (hsame_symm sameInput))
+            targetAtSource))
+        (And.intro
+          (And.intro partialTarget.left
+            (And.intro (unary_transport partialSource.right.left sameInput) sourceAtTarget))
+          unique.right))
+  · intro partialSource partialTarget sameInput
+    have targetAtSource : CplxDiffAt u z q :=
+      (CplxDiffAt_hsame_transport_witness partialTarget.right.right
+        (hsame_symm sameInput) (hsame_refl q)).left
+    have unique := CplxDiffAt_derivative_unique partialSource.right.right targetAtSource
+    have sourceAtTarget : CplxDiffAt u z' p :=
+      (CplxDiffAt_hsame_transport_witness partialSource.right.right sameInput
+        (hsame_refl p)).left
+    exact And.intro unique.left
+      (And.intro
+        (And.intro partialSource.left
+          (And.intro (unary_transport partialTarget.right.left (hsame_symm sameInput))
+            targetAtSource))
+        (And.intro
+          (And.intro partialTarget.left
+            (And.intro (unary_transport partialSource.right.left sameInput) sourceAtTarget))
+          unique.right))
+
+theorem complex_diff_semantic_name_certificate {f z fp : BHist} :
+    CplxDiffAt f z fp ->
+      SemanticNameCert (CplxDiffAt f z) (CplxDiffAt f z) (CplxDiffAt f z) hsame := by
+  intro diff
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro fp diff
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same carrier
+        exact (CplxDiffAt_hsame_transport_witness carrier (hsame_refl z) same).left
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 end BEDC.Derived.ComplexDifferentiabilityUp

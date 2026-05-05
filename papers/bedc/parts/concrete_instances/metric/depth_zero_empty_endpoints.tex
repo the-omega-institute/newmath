@@ -52,6 +52,276 @@ equation to the empty reflexive case.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_zero\_iff\_empty}
 
+\begin{theorem}[Metric distance positive depth iff nonempty]
+\label{thm:metric-distance-depth-positive-iff-nonempty}
+For a history $d$, positive structural metric distance depth is equivalent to
+not being history-same as $\emp$:
+$$
+0<\mathsf{MetricDistanceDepth}(d)
+\Longleftrightarrow
+(d\hsame\emp\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze $d$. The empty case has depth zero and cannot satisfy the
+nonempty predicate. A zero-headed or one-headed history has successor depth,
+and constructor separation rules out history-sameness with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_positive\_iff\_nonempty}
+
+\begin{theorem}[Metric distance append positive depth iff]
+\label{thm:metric-distance-depth-append-positive-iff}
+For histories $p$ and $d$, an appended distance ledger has positive structural
+depth exactly when one of its two factors has positive structural depth:
+$$
+0<\mathsf{MetricDistanceDepth}(p\cdot d)
+\Longleftrightarrow
+0<\mathsf{MetricDistanceDepth}(p)\vee
+0<\mathsf{MetricDistanceDepth}(d).
+$$
+\end{theorem}
+\begin{proof}
+Use the positive-depth classifier to replace positive depth by internal
+nonemptiness. Kernel append nonemptiness then splits the appended history into
+the left or right nonempty factor. The converse applies the same two
+classifiers in reverse and rebuilds nonemptiness of the appended history from
+the displayed nonempty factor.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_positive\_iff}
+
+\begin{theorem}[Metric distance positive depth shape cases]
+\label{thm:metric-distance-depth-positive-shape-cases}
+For a history $d$, positive structural metric distance depth exposes one of
+the two visible history constructors:
+$$
+\bigl(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False}\bigr)
+\Longrightarrow
+\bigl(\exists z:\mathsf{BHist}.\;d=\Ezero(z)\bigr)\vee
+\bigl(\exists z:\mathsf{BHist}.\;d=\Eone(z)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze $d$. The empty branch contradicts the displayed positive-depth
+hypothesis because the structural depth of $\emp$ is zero. The two visible
+branches return the exposed payload under $\Ezero$ or $\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_positive\_shape\_cases}
+
+\begin{theorem}[Metric distance depth append-left equality emptiness]
+\label{thm:metric-distance-depth-append-left-eq-iff-empty}
+For histories $p$ and $d$, appending $p$ on the left preserves structural
+metric distance depth exactly when $p$ is the empty history:
+$$
+\mathsf{MetricDistanceDepth}(p\cdot d)=\mathsf{MetricDistanceDepth}(d)
+\Longleftrightarrow
+\hsame(p,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the displayed tail $d$. The empty tail is precisely
+\autoref{thm:metric-distance-depth-zero-iff-empty}. A zero-headed or one-headed
+tail reduces the equality through successor injectivity, and the reverse
+direction rebuilds the same successor equality after the left prefix is
+identified with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_left\_eq\_iff\_empty}
+
+\begin{theorem}[Metric distance depth append-left cancellation]
+\label{thm:metric-distance-depth-append-left-cancel}
+For histories $p,d,e:\mathsf{BHist}$, equality of structural metric distance
+depths after appending the same left prefix cancels that prefix:
+$$
+\mathsf{MetricDistanceDepth}(p\cdot d)
+=
+\mathsf{MetricDistanceDepth}(p\cdot e)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e).
+$$
+\end{theorem}
+\begin{proof}
+The structural depth of a left append decomposes as the depth of the common
+prefix plus the depth of the tail. Rewriting both displayed sides by this
+depth-add equation reduces the claim to left cancellation for addition in
+\(\mathbb{N}\), yielding equality of the two tail depths.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_left\_cancel}
+
+\begin{theorem}[Metric strict prefix depth decomposition]
+\label{thm:metric-distance-depth-strict-prefix-decomposes}
+For histories $h,k:\mathsf{BHist}$, a strict unary prefix witness from $h$ to
+$k$ exposes a nonempty unary tail whose continuation reconstructs $k$, and the
+metric depth of $k$ splits as the depth of $h$ plus the depth of that tail:
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k)
+\Longrightarrow
+\exists tail:\mathsf{BHist}.\;
+\mathsf{UnaryHistory}(tail)\land (tail=\emp\to\mathsf{False})\land
+\ContR(h,tail,k)\land
+\mathsf{MetricDistanceDepth}(k)
+=
+\mathsf{MetricDistanceDepth}(h)+\mathsf{MetricDistanceDepth}(tail).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the strict-prefix witness. It already supplies a unary nonempty tail
+and a continuation ledger from $h$ through that tail to $k$. Inverting the
+continuation identifies $k$ with $h\cdot tail$. Induction on the concrete tail
+then proves the structural depth equation for append, giving the displayed
+sum formula.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_strict\_prefix\_decomposes}
+
+\begin{theorem}[Metric distance depth visible-context cancellation]
+\label{thm:metric-distance-depth-visible-context-cancel}
+For histories $p,q,d,e:\mathsf{BHist}$, equality of structural depths after a
+common visible prefix and suffix cancels both contexts:
+$$
+\mathsf{MetricDistanceDepth}((p\cdot d)\cdot q)
+=
+\mathsf{MetricDistanceDepth}((p\cdot e)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the visible suffix $q$. The empty suffix is exactly
+\autoref{thm:metric-distance-depth-append-left-cancel}. In the two visible
+constructor cases, both displayed depths have a common successor head, so
+successor injectivity removes the suffix constructor and the induction
+hypothesis cancels the remaining visible context.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_visible\_context\_cancel}
+
+\begin{theorem}[Metric distance depth append-right cancellation iff]
+\label{thm:metric-distance-depth-append-right-cancel-iff}
+For histories $p,d,e:\mathsf{BHist}$, appending the same right suffix preserves
+and reflects equality of structural metric distance depth:
+$$
+\mathsf{MetricDistanceDepth}(d\cdot p)
+=
+\mathsf{MetricDistanceDepth}(e\cdot p)
+\Longleftrightarrow
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the common suffix $p$. The empty suffix is immediate. In the two
+visible constructor cases, both appended depths carry the same successor head;
+successor injectivity gives the forward implication, and congruence of
+successor rebuilds the appended equality in the reverse implication.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_right\_cancel\_iff}
+
+\begin{theorem}[Metric distance depth append-right equality emptiness]
+\label{thm:metric-distance-depth-append-right-eq-iff-empty}
+For histories $p$ and $d$, appending $p$ on the right preserves structural
+metric distance depth exactly when $p$ is the empty history:
+$$
+\mathsf{MetricDistanceDepth}(d\cdot p)=\mathsf{MetricDistanceDepth}(d)
+\Longleftrightarrow
+\hsame(p,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The structural depth of a right append decomposes as the depth of $d$ plus the
+depth of $p$. If the appended depth equals the original depth, cancellation by
+\(\mathbb{N}\)-addition forces the depth of $p$ to be zero, hence
+\autoref{thm:metric-distance-depth-zero-iff-empty} identifies $p$ with
+$\emp$. Conversely, substituting $p=\emp$ makes the right append definitionally
+equal to $d$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_right\_eq\_iff\_empty}
+
+\begin{theorem}[Metric distance same-source continuation result cancellation]
+\label{thm:metric-distance-depth-same-source-cont-result-cancel}
+For unary histories $x,y,z$ and continuation rows
+$\ContR(x,y,d)$ and $\ContR(x,z,e)$, equality of the two result depths cancels
+the common source depth:
+$$
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(y)=\mathsf{MetricDistanceDepth}(z).
+$$
+\end{theorem}
+\begin{proof}
+Package the two continuation rows as metric-distance witnesses. Depth
+additivity gives
+$\mathsf{depth}(d)=\mathsf{depth}(x)+\mathsf{depth}(y)$ and
+$\mathsf{depth}(e)=\mathsf{depth}(x)+\mathsf{depth}(z)$. The displayed result
+depth equality therefore has a common left summand, and natural-number
+cancellation identifies the two target depths.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_same\_source\_cont\_result\_cancel}
+
+\begin{theorem}[Metric distance depth visible-context equality emptiness]
+\label{thm:metric-distance-depth-visible-context-eq-iff-empty}
+For histories $p,q,d$, adding visible context on both sides preserves the
+central structural metric distance depth exactly when both visible contexts are
+empty:
+$$
+\mathsf{MetricDistanceDepth}((p\cdot d)\cdot q)
+=\mathsf{MetricDistanceDepth}(d)
+\Longleftrightarrow
+\hsame(p,\emp)\land\hsame(q,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Expand structural depth over the two append contexts. The resulting natural
+number equation has the form
+$\bigl(\mathsf{depth}(p)+\mathsf{depth}(d)\bigr)+\mathsf{depth}(q)
+=\mathsf{depth}(d)$, so associativity and commutativity of addition reduce it
+to a zero-sum constraint on the two context depths. Then
+\autoref{thm:metric-distance-depth-zero-iff-empty} identifies both contexts
+with $\emp$. The reverse direction substitutes the two empty-context
+identifications and applies the one-sided append equality theorems above.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_visible\_context\_eq\_iff\_empty}
+
+\begin{theorem}[Metric visible-context zero depth iff empty components]
+\label{thm:metric-distance-depth-visible-context-zero-iff}
+For histories $p,q,d$, the full visible-context ledger has structural metric
+depth zero exactly when the prefix, central distance, and suffix are all empty:
+$$
+\mathsf{MetricDistanceDepth}((p\cdot d)\cdot q)=0
+\Longleftrightarrow
+\hsame(p,\emp)\land\hsame(d,\emp)\land\hsame(q,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The zero-depth classifier first identifies the whole visible ledger with
+$\emp$. BEDC append-empty inversion splits the outer append into
+$(p\cdot d)\hsame\emp$ and $q\hsame\emp$, and a second inversion splits
+$p\cdot d$. Conversely, substituting the three empty components makes the
+displayed depth definition evaluate to zero.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_visible\_context\_zero\_iff}
+
+\begin{theorem}[Metric visible-context total zero components]
+\label{thm:metric-distance-witness-visible-context-total-zero-components}
+For histories $p,q,x,y,d$, a visible-context distance witness whose full result
+ledger has structural depth zero exposes empty prefix, source, target, suffix,
+and central distance components:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)\to\\
+\qquad
+\mathsf{MetricDistanceDepth}((p\cdot d)\cdot q)=0\to\\
+\qquad
+\hsame(p,\emp)\land\hsame(x,\emp)\land\hsame(y,\emp)\land
+\hsame(q,\emp)\land\hsame(d,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Zero depth classifies the full result ledger with $\emp$, and two
+append-empty inversions expose the empty prefix, central distance, and suffix.
+Transport the witness continuation along the same empty result classifier.
+The empty-result continuation inversion then classifies the visible source
+$p\cdot x$ and target $y\cdot q$ with $\emp$, and append-empty inversion splits
+these endpoint histories into their displayed components.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_total\_zero\_components}
+
 \begin{theorem}[Metric visible-context depth-zero collapse]
 \label{thm:metric-distance-witness-visible-context-depth-zero-collapse}
 For histories $p,q,x,y,d$, a visible-context distance witness whose central
@@ -72,3 +342,200 @@ depth-zero endpoint theorem gives $\hsame(x,\emp)$ and $\hsame(y,\emp)$, while
 the depth-zero classifier theorem gives $\hsame(d,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_depth\_zero\_collapse}
+
+\begin{theorem}[Metric empty-boundary visible-context continuation left unit]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-continuation-left-unit-result}
+For histories $p,q,d,r,out$, an empty-boundary visible-context distance witness
+and a continuation out of the central distance identify the continuation result
+with its right input:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\ContR(d,r,out)
+\to
+\hsame(out,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-boundary visible-context exactness to read back
+$\hsame(d,\emp)$. Case analysis on this classifier reduces the continuation to
+an empty-left continuation, whose result is the right input by the left-unit
+law for $\ContR$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_left\_unit\_result}
+
+\begin{theorem}[Metric empty-boundary visible-context continuation left unit iff]
+\label{thm:metric-empty-boundary-continuation-left-unit-iff}
+For histories $p,q,d,r,out$, an empty-boundary visible-context distance witness
+turns continuation from the central distance into exactly the left-unit
+continuation classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\bigl(\ContR(d,r,out)\leftrightarrow\hsame(out,r)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The visible-context empty-boundary theorem gives $\hsame(d,\emp)$. Case analysis
+on this classifier reduces the displayed continuation predicate to
+$\ContR(\emp,r,out)$, which is characterized by the BEDC left-unit equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_left\_unit\_iff}
+
+\begin{theorem}[Metric empty-boundary visible-context continuation right unit iff]
+\label{thm:metric-empty-boundary-continuation-right-unit-iff}
+For histories $p,q,d,l,out$, an empty-boundary visible-context distance witness
+turns continuation into the central distance into exactly the right-unit
+continuation classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\bigl(\ContR(l,d,out)\leftrightarrow\hsame(out,l)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Again the visible-context empty-boundary theorem gives $\hsame(d,\emp)$. After
+case analysis, the displayed continuation predicate is $\ContR(l,\emp,out)$,
+which is characterized by the BEDC right-unit equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_right\_unit\_iff}
+
+\begin{theorem}[Metric empty-boundary continuation splice]
+\label{thm:metric-empty-boundary-continuation-splice}
+For histories $p,q,d,l,r,mid,out$, an empty-boundary visible-context distance
+witness makes a continuation through the central distance splice to the
+continuation that skips that empty central boundary:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\ContR(l,d,mid)\to
+\ContR(mid,r,out)\to
+\ContR(l,r,out).
+$$
+\end{theorem}
+\begin{proof}
+The empty-boundary visible-context theorem gives $\hsame(d,\emp)$. After case
+analysis on this classifier, the left continuation is $\ContR(l,\emp,mid)$,
+so its unit law identifies $mid$ with $l$. The right continuation is therefore
+the desired $\ContR(l,r,out)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_splice}
+
+\begin{theorem}[Metric empty-boundary visible-context witness splice]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-witness-splice}
+For histories $p,q,d,l,r,mid,out$, an empty-boundary visible-context distance
+witness upgrades a two-step continuation through the central distance into a
+metric distance witness for the visible endpoints:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\mathsf{UnaryHistory}(l)\to
+\mathsf{UnaryHistory}(r)\to\\
+\qquad
+\ContR(l,d,mid)\to
+\ContR(mid,r,out)\to
+\mathsf{MetricDistanceWitness}(l,r,out).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The empty-boundary continuation-splice theorem gives the concrete continuation
+$\ContR(l,r,out)$ from the visible-context witness and the two displayed
+continuation rows. Together with the displayed unary carriers for $l$ and $r$,
+the BEDC unary-continuation closure theorem supplies $\mathsf{UnaryHistory}(out)$.
+These four rows are precisely the fields of
+$\mathsf{MetricDistanceWitness}(l,r,out)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_witness\_splice}
+
+\begin{theorem}[Metric empty-boundary continuation splice determinacy]
+\label{thm:metric-empty-boundary-visible-context-continuation-splice-hsame}
+For histories $p,q,d,l,r,mid,out,out'$, an empty-boundary visible-context
+distance witness makes the spliced continuation result match any displayed
+direct continuation result:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\ContR(l,d,mid)\to
+\ContR(mid,r,out)\to
+\ContR(l,r,out')\to
+\hsame(out,out').
+$$
+\end{theorem}
+\begin{proof}
+The continuation-splice theorem supplies \(\ContR(l,r,out)\) from the
+empty-boundary visible-context witness and the two displayed continuation
+rows. BEDC continuation determinacy compares this spliced continuation with
+the displayed \(\ContR(l,r,out')\), giving \(\hsame(out,out')\).
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_splice\_hsame}
+
+\begin{theorem}[Metric visible-context positive central depth has a nonempty endpoint]
+\label{thm:metric-distance-witness-visible-context-positive-depth-nonempty-endpoint}
+For histories $p,q,x,y,d$, a visible-context distance witness whose central
+distance has positive structural depth exposes a nonempty central endpoint:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\to
+\bigl(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False}\bigr)
+\to
+\bigl((\hsame(x,\emp)\to\mathsf{False})
+\vee(\hsame(y,\emp)\to\mathsf{False})\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to peel away the displayed prefix $p$ and
+suffix $q$, obtaining the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+
+It remains to convert positive structural depth into nonempty-distance input.
+If $\hsame(d,\emp)$ held, the depth-zero classifier theorem would give
+$\mathsf{MetricDistanceDepth}(d)=0$, contradicting the positive-depth
+hypothesis.
+
+Apply the nonempty-distance endpoint theorem to the central witness and this
+derived nonempty-distance contradiction. The result is exactly the displayed
+disjunction: either the left central endpoint is not history-same to $\emp$, or
+the right central endpoint is not history-same to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_positive\_depth\_nonempty\_endpoint}
+
+\begin{theorem}[Metric visible-context positive central depth e-one endpoint cases]
+\label{thm:metric-distance-witness-visible-context-positive-depth-e1-endpoint-cases}
+For histories $p,q,x,y,d:\mathsf{BHist}$, positive central distance depth in a
+visible MetricUp ledger exposes an e-one constructor at one central endpoint
+with a unary tail:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)\to\\
+\qquad
+\bigl(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False}\bigr)\to\\
+\qquad
+\bigl(\exists x_0,\ x=\Eone(x_0)\land\mathsf{UnaryHistory}(x_0)\bigr)
+\vee
+\bigl(\exists y_0,\ y=\Eone(y_0)\land\mathsf{UnaryHistory}(y_0)\bigr).
+\end{array}
+$$
+Here the BEDC source is $\mathsf{MetricDistanceWitness}$, the carrier objects
+are $\mathsf{UnaryHistory}$ histories, the classifier is $\hsame$, and the
+obligation is constructor readback under visible prefix and suffix ledgers.
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to remove the prefix $p$ and suffix $q$ from
+the displayed ledger. This recovers the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+
+Next convert positive central depth into the nonempty-distance input required
+by the constructor readback theorem. If $d\hsame\emp$ held, then
+\autoref{thm:metric-distance-depth-zero-iff-empty} would give
+$\mathsf{MetricDistanceDepth}(d)=0$, contradicting the positive-depth
+hypothesis.
+
+Apply
+\autoref{thm:metric-distance-witness-nonempty-distance-endpoint-e1-cases} to
+the recovered central witness and this nonempty-distance contradiction. The
+result is exactly the displayed disjunction of e-one endpoint witnesses with
+unary tails.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_positive\_depth\_e1\_endpoint\_cases}

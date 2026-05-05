@@ -1,9 +1,10 @@
 \chapter{Verification Reporting Policy}
 \label{app:build-log}
 
-This appendix records the reporting policy that a checked BEDC formalization report should follow. It is project-management material, not part of the BEDC object theory, and there is no claim of machine verification here.
+This appendix records the reporting policy that a checked BEDC formalization report should follow. It is project-management material on the verification axis only, not part of the BEDC object theory; nothing in this appendix assigns a closure grade.
 
 \section{Required fields for a checked report}
+\label{sec:checked-report-fields}
 
 A checked report should record:
 \begin{enumerate}
@@ -16,5 +17,11 @@ A checked report should record:
 \end{enumerate}
 
 \section{Verification status}
+\label{sec:appendix-verification-status}
 
 The Lean library accompanying the paper contains the mathlib-free BEDC formalization; inline markers record whether each cited object is a checked theorem, a definition, or a structure-field reference. Lean target status, theorem-by-theorem, is rendered inline at each primary site via the \texttt{\textbackslash leanchecked}, \texttt{\textbackslash leansorryd}, \texttt{\textbackslash leanstmt}, and \texttt{\textbackslash leandef} markers. The summary block in the Lean Scaffold Contract chapter aggregates the five base-reflection targets at-a-glance. The audit \texttt{python3 lean4/scripts/bedc\_ci.py audit} enforces that every \texttt{\textbackslash leanchecked\{X\}} target X resolves to a real declaration in \texttt{lean4/BEDC/}. The axiom audit reports zero \texttt{axiom} declarations in \texttt{lean4/BEDC/}.
+
+\section{Relation to theoretical closure}
+\label{sec:appendix-relation-to-closure}
+
+A checked report does not assign theoretical closure. It reports the formal verification grade of claims whose closure grade is supplied by the chapter's \texttt{closurestatus} block (\autoref{ch:closure-and-verification-discipline}). A closurestatus block at $\TheoryGate(N, \scopedClosure)$ does not require any verification report; conversely, a clean verification report cannot raise a closure grade. The two artefacts compose only via $\VerifiedGate$ of \autoref{def:verified-gate}, and their contents are interrogated separately.

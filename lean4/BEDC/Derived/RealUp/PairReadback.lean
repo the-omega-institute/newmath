@@ -16,6 +16,17 @@ theorem RealStreamPrefixClassifier_hsame_e1_pair_readback {x x' y y' : Nat -> BH
     RealStreamPrefixClassifier_hsame_transport sameX sameY n hPrefix
   exact RealStreamPrefixClassifier_e1_pair_readback transported sameLeft sameRight
 
+theorem RealStreamPrefixClassifier_successor_e1_endpoint_package {x y : Nat -> BHist}
+    {n : Nat} {a b : BHist} :
+    RealStreamPrefixClassifier x y (Nat.succ n) ->
+      hsame (x (Nat.succ n)) (BHist.e1 a) ->
+        hsame (y (Nat.succ n)) (BHist.e1 b) ->
+          RealStreamPrefixClassifier x y n ∧ UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  intro classified sameLeft sameRight
+  have endpointPackage :=
+    RealStreamPrefixClassifier_e1_pair_readback (n := Nat.succ n) classified sameLeft sameRight
+  exact And.intro classified.left endpointPackage
+
 theorem RealStreamClassifier_hsame_e1_pair_readback {x x' y y' : Nat -> BHist}
     (sameX : forall n : Nat, hsame (x n) (x' n))
     (sameY : forall n : Nat, hsame (y n) (y' n)) {n : Nat} {a b : BHist} :

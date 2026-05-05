@@ -1,38 +1,28 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
-
 namespace BEDC.Derived.MatrixUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
-
 def MatrixSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
-
 def MatrixSingletonClassifier (h k : BHist) : Prop :=
   MatrixSingletonCarrier h ∧ MatrixSingletonCarrier k ∧ hsame h k
-
 def MatrixSingletonZero : BHist :=
   BHist.Empty
-
 def MatrixSingletonOne : BHist :=
   BHist.Empty
-
 def MatrixSingletonAdd (M N : BHist) : BHist :=
   append M N
-
 def MatrixSingletonMul (M N : BHist) : BHist :=
   append M N
-
 def MatrixSingletonPow (M exponent : BHist) : BHist :=
   match exponent with
   | BHist.Empty => MatrixSingletonOne
   | BHist.e0 _ => MatrixSingletonZero
   | BHist.e1 tail => MatrixSingletonMul (MatrixSingletonPow M tail) M
-
 theorem MatrixSingletonPow_carrier_closed {M exponent : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
       MatrixSingletonCarrier (MatrixSingletonPow M exponent) := by
@@ -44,7 +34,6 @@ theorem MatrixSingletonPow_carrier_closed {M exponent : BHist} :
       exact hsame_refl BHist.Empty
   | e1 tail ih =>
       exact append_eq_empty_iff.mpr (And.intro (ih exponentUnary) carrierM)
-
 theorem MatrixSingletonPow_carrier_nonempty_unary_input_iff {M exponent : BHist} :
     UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
       (MatrixSingletonCarrier (MatrixSingletonPow M exponent) ↔ MatrixSingletonCarrier M) := by
@@ -60,7 +49,6 @@ theorem MatrixSingletonPow_carrier_nonempty_unary_input_iff {M exponent : BHist}
         exact (append_eq_empty_iff.mp powCarrier).right
   · intro carrierM
     exact MatrixSingletonPow_carrier_closed carrierM exponentUnary
-
 theorem MatrixSingletonPow_nonempty_unary_suffix_base_carrier {M e tail : BHist} :
     UnaryHistory tail -> (hsame tail BHist.Empty -> False) ->
       MatrixSingletonCarrier (MatrixSingletonPow M (append e tail)) ->
@@ -73,7 +61,6 @@ theorem MatrixSingletonPow_nonempty_unary_suffix_base_carrier {M e tail : BHist}
       cases tailUnary
   | e1 tail =>
       exact (append_eq_empty_iff.mp powCarrier).right
-
 theorem MatrixSingletonPow_positive_exponent_cont_readback {M exponent : BHist} :
     UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
       ∃ tail : BHist, UnaryHistory tail ∧
@@ -84,7 +71,6 @@ theorem MatrixSingletonPow_positive_exponent_cont_readback {M exponent : BHist} 
   | intro tail data =>
       cases data.left
       exact ⟨tail, data.right, cont_intro rfl⟩
-
 theorem MatrixSingletonPow_succ_classifier {M exponent : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
       MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
@@ -97,14 +83,11 @@ theorem MatrixSingletonPow_succ_classifier {M exponent : BHist} :
     append_eq_empty_iff.mpr (And.intro powCarrier carrierM)
   exact And.intro resultCarrier
     (And.intro resultCarrier (hsame_refl (MatrixSingletonMul (MatrixSingletonPow M exponent) M)))
-
 theorem MatrixSingletonPow_succ_endpoint_exactness {M exponent : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
-      MatrixSingletonCarrier (MatrixSingletonPow M (BHist.e1 exponent)) ∧
-        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
-          (MatrixSingletonMul (MatrixSingletonPow M exponent) M) ∧
-        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
-          (MatrixSingletonMul M (MatrixSingletonPow M exponent)) := by
+      MatrixSingletonCarrier (MatrixSingletonPow M (BHist.e1 exponent)) ∧ MatrixSingletonClassifier
+        (MatrixSingletonPow M (BHist.e1 exponent)) (MatrixSingletonMul (MatrixSingletonPow M exponent) M) ∧
+          MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent)) (MatrixSingletonMul M (MatrixSingletonPow M exponent)) := by
   intro carrierM exponentUnary
   have powCarrier : MatrixSingletonCarrier (MatrixSingletonPow M exponent) :=
     MatrixSingletonPow_carrier_closed carrierM exponentUnary
@@ -119,19 +102,13 @@ theorem MatrixSingletonPow_succ_endpoint_exactness {M exponent : BHist} :
       hsame (MatrixSingletonPow M (BHist.e1 exponent))
         (MatrixSingletonMul M (MatrixSingletonPow M exponent)) :=
     hsame_trans firstClassified.left (hsame_symm reversedCarrier)
-  exact And.intro firstClassified.left
-    (And.intro firstClassified
-      (And.intro firstClassified.left (And.intro reversedCarrier reversedSame)))
-
+  exact ⟨firstClassified.left, firstClassified, firstClassified.left, reversedCarrier, reversedSame⟩
 theorem MatrixSingletonPow_successor_endpoint_exactness {M exponent : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
       MatrixSingletonCarrier (MatrixSingletonPow M (BHist.e1 exponent)) ∧
-        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
-          (MatrixSingletonMul (MatrixSingletonPow M exponent) M) ∧
-        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
-          (MatrixSingletonMul M (MatrixSingletonPow M exponent)) := by
+        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent)) (MatrixSingletonMul (MatrixSingletonPow M exponent) M) ∧
+        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent)) (MatrixSingletonMul M (MatrixSingletonPow M exponent)) := by
   exact MatrixSingletonPow_succ_endpoint_exactness
-
 theorem MatrixSingletonPow_succ_continuation_classifier {M exponent r : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
       Cont (MatrixSingletonPow M exponent) M r ->
@@ -148,7 +125,6 @@ theorem MatrixSingletonPow_succ_continuation_classifier {M exponent r : BHist} :
     cases continuation
     rfl
   exact And.intro succCarrier (And.intro resultCarrier sameResult)
-
 theorem MatrixSingletonPow_visible_base_succ_continuation_empty_result_absurd
     {m exponent y r : BHist} :
     MatrixSingletonCarrier y ->
@@ -159,18 +135,12 @@ theorem MatrixSingletonPow_visible_base_succ_continuation_empty_result_absurd
   intro _carrierY
   constructor
   · intro continuation resultEmpty
-    have emptyContinuation :
-        Cont (MatrixSingletonPow (BHist.e0 m) (BHist.e1 exponent)) y BHist.Empty :=
-      cont_result_hsame_transport continuation resultEmpty
-    have sourceEmpty := (cont_empty_result_inversion emptyContinuation).left
-    have sourceParts := append_eq_empty_iff.mp sourceEmpty
+    have sourceParts := append_eq_empty_iff.mp
+      (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left
     exact not_hsame_e0_empty sourceParts.right
   · intro continuation resultEmpty
-    have emptyContinuation :
-        Cont (MatrixSingletonPow (BHist.e1 m) (BHist.e1 exponent)) y BHist.Empty :=
-      cont_result_hsame_transport continuation resultEmpty
-    have sourceEmpty := (cont_empty_result_inversion emptyContinuation).left
-    have sourceParts := append_eq_empty_iff.mp sourceEmpty
+    have sourceParts := append_eq_empty_iff.mp
+      (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left
     exact not_hsame_e1_empty sourceParts.right
 
 theorem MatrixSingletonPow_positive_exponent_visible_base_continuation_empty_result_absurd {m exponent y r : BHist} :
@@ -185,11 +155,15 @@ theorem MatrixSingletonPow_positive_exponent_visible_base_continuation_empty_res
     (fun continuation resultEmpty => not_hsame_e1_empty
       ((MatrixSingletonPow_carrier_nonempty_unary_input_iff exponentUnary exponentNonempty).mp
         (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left))
-
+theorem MatrixSingletonPow_nonempty_base_continuation_result_absurd {M exponent y r : BHist} :
+    UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) -> (MatrixSingletonCarrier M -> False) -> Cont (MatrixSingletonPow M exponent) y r -> hsame r BHist.Empty -> False := by
+  intro exponentUnary exponentNonempty baseNonempty continuation resultEmpty
+  have powCarrier : MatrixSingletonCarrier (MatrixSingletonPow M exponent) :=
+    (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left
+  exact baseNonempty ((MatrixSingletonPow_carrier_nonempty_unary_input_iff exponentUnary exponentNonempty).mp powCarrier)
 theorem MatrixSingletonPow_append_exponent_classifier {M w q : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q ->
-      MatrixSingletonClassifier (MatrixSingletonPow M (append w q))
-        (MatrixSingletonMul (MatrixSingletonPow M w) (MatrixSingletonPow M q)) := by
+      MatrixSingletonClassifier (MatrixSingletonPow M (append w q)) (MatrixSingletonMul (MatrixSingletonPow M w) (MatrixSingletonPow M q)) := by
   intro carrierM unaryW unaryQ
   have compositeCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (append w q)) :=
     MatrixSingletonPow_carrier_closed carrierM (unary_append_closed unaryW unaryQ)
@@ -203,12 +177,9 @@ theorem MatrixSingletonPow_append_exponent_classifier {M w q : BHist} :
     append_eq_empty_iff.mpr (And.intro leftCarrier rightCarrier)
   exact And.intro compositeCarrier
     (And.intro productCarrier (hsame_trans compositeCarrier (hsame_symm productCarrier)))
-
 theorem MatrixSingletonPow_append_succ_right_exponent_classifier {M w q : BHist} :
-    MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q ->
-      MatrixSingletonClassifier (MatrixSingletonPow M (append w (BHist.e1 q)))
-        (MatrixSingletonMul (MatrixSingletonPow M w)
-          (MatrixSingletonMul (MatrixSingletonPow M q) M)) := by
+    MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q -> MatrixSingletonClassifier
+      (MatrixSingletonPow M (append w (BHist.e1 q))) (MatrixSingletonMul (MatrixSingletonPow M w) (MatrixSingletonMul (MatrixSingletonPow M q) M)) := by
   intro carrierM unaryW unaryQ
   have compositeCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (append w (BHist.e1 q))) :=
     MatrixSingletonPow_carrier_closed carrierM (unary_append_closed unaryW (unary_e1_closed unaryQ))
@@ -224,11 +195,9 @@ theorem MatrixSingletonPow_append_succ_right_exponent_classifier {M w q : BHist}
     append_eq_empty_iff.mpr (And.intro leftCarrier rightMulCarrier)
   exact And.intro compositeCarrier
     (And.intro productCarrier (hsame_trans compositeCarrier (hsame_symm productCarrier)))
-
 theorem MatrixSingletonPow_append_exponent_comm_classifier {M w q : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q ->
-      MatrixSingletonClassifier (MatrixSingletonPow M (append w q))
-        (MatrixSingletonPow M (append q w)) := by
+      MatrixSingletonClassifier (MatrixSingletonPow M (append w q)) (MatrixSingletonPow M (append q w)) := by
   intro carrierM unaryW unaryQ
   have leftCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (append w q)) :=
     MatrixSingletonPow_carrier_closed carrierM (unary_append_closed unaryW unaryQ)
@@ -236,7 +205,6 @@ theorem MatrixSingletonPow_append_exponent_comm_classifier {M w q : BHist} :
     MatrixSingletonPow_carrier_closed carrierM (unary_append_closed unaryQ unaryW)
   exact And.intro leftCarrier
     (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
-
 theorem MatrixSingletonPow_append_exponent_classifier_iff {M a b h : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory a -> UnaryHistory b ->
       (MatrixSingletonClassifier (MatrixSingletonPow M (append a b)) h ↔
@@ -250,7 +218,6 @@ theorem MatrixSingletonPow_append_exponent_classifier_iff {M a b h : BHist} :
   · intro carrierH
     exact And.intro powCarrier
       (And.intro carrierH (hsame_trans powCarrier (hsame_symm carrierH)))
-
 theorem MatrixSingletonClassifier_append_split_empty_iff {M N h : BHist} :
     MatrixSingletonClassifier (append M N) h ↔
       hsame M BHist.Empty ∧ hsame N BHist.Empty ∧ MatrixSingletonCarrier h := by
@@ -540,6 +507,18 @@ theorem MatrixSingletonAddMul_continuation_result_iff {M N R : BHist} :
     cases carrierR
     exact cont_right_unit BHist.Empty
 
+theorem MatrixSingletonCarrier_continuation_append_target_result_iff {M N h R : BHist} :
+    MatrixSingletonCarrier M -> MatrixSingletonCarrier N -> Cont h (append M N) R ->
+      (MatrixSingletonCarrier R ↔ MatrixSingletonCarrier h) := by
+  intro carrierM carrierN continuation
+  constructor
+  · intro resultCarrier
+    exact (cont_empty_result_inversion
+      (cont_result_hsame_transport continuation resultCarrier)).left
+  · intro carrierH
+    exact cont_respects_hsame carrierH (append_eq_empty_iff.mpr (And.intro carrierM carrierN))
+      continuation (cont_right_unit BHist.Empty)
+
 theorem MatrixSingletonAddMul_continuation_empty_result_factors_iff {M N R : BHist} :
     Cont (MatrixSingletonAdd M N) (MatrixSingletonMul M N) R ->
       (hsame R BHist.Empty ↔ hsame M BHist.Empty ∧ hsame N BHist.Empty) := by
@@ -588,6 +567,22 @@ theorem MatrixSingletonClassifier_continuation_comm_closed {M N left right : BHi
     (And.intro emptyCarrier
       (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
 
+theorem MatrixSingletonMul_right_distributes_over_add {A B C : BHist} :
+    MatrixSingletonCarrier A -> MatrixSingletonCarrier B -> MatrixSingletonCarrier C ->
+      MatrixSingletonClassifier (MatrixSingletonMul (MatrixSingletonAdd A B) C)
+        (MatrixSingletonAdd (MatrixSingletonMul A C) (MatrixSingletonMul B C)) := by
+  intro carrierA carrierB carrierC
+  have leftCarrier : MatrixSingletonCarrier (MatrixSingletonMul (MatrixSingletonAdd A B) C) :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro carrierA carrierB)) carrierC)
+  have rightCarrier :
+      MatrixSingletonCarrier (MatrixSingletonAdd (MatrixSingletonMul A C)
+        (MatrixSingletonMul B C)) :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro carrierA carrierC))
+        (append_eq_empty_iff.mpr (And.intro carrierB carrierC)))
+  exact And.intro leftCarrier
+    (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 theorem MatrixSingletonCarrier_continuation_visible_result_absurd {M N r : BHist} :
     MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
       (Cont M N (BHist.e0 r) -> False) ∧ (Cont M N (BHist.e1 r) -> False) := by

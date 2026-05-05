@@ -54,6 +54,7 @@ $\hsame(\emp,\Eone(p))$. The BEDC history no-confusion theorem,
 Theorem~\ref{thm:history-no-confusion}, excludes this empty-versus-one
 identification.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListHistoryCarrier\_public\_length\_shape\_exhaustion}
 
 \begin{theorem}[List singleton source classified shape synchrony]
 \label{thm:list-singleton-source-classified-shape-synchrony}
@@ -141,6 +142,50 @@ Collect the common length $n$ and the six constructor histories. The displayed
 data are exactly the second alternative. The same no-confusion argument
 separates the nil endpoint shape from any cons endpoint shape.
 \end{proof}
+
+\begin{theorem}[List singleton source classified zero length iff empty]
+\label{thm:list-singleton-source-classified-zero-length-iff-empty}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For all
+histories $h,k:\mathsf{BHist}$, the following conditions are equivalent:
+$$
+\left(
+\begin{array}{l}
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\land\\
+\mathsf{ListPublicLength}_{A_{a_0}}(h,0)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(k,0)
+\end{array}
+\right)
+\quad\Longleftrightarrow\quad
+\left(\hsame(h,\Ezero(\emp))\land \hsame(k,\Ezero(\emp))\right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, start from the classifier witness and the two
+zero public-length witnesses. The zero-length characterization in
+Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package} turns the
+$h$-side witness into $\hsame(h,\Ezero(\emp))$ and the $k$-side witness into
+$\hsame(k,\Ezero(\emp))$.
+
+The two endpoint comparisons are exactly the displayed empty endpoint
+conjunction. The classifier witness is used only to keep the statement tied to
+classified singleton-source endpoints.
+
+For the reverse direction, assume
+$\hsame(h,\Ezero(\emp))\land\hsame(k,\Ezero(\emp))$. Apply the
+reverse zero-length characterization from
+Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package} to obtain
+$\mathsf{ListPublicLength}_{A_{a_0}}(h,0)$ and
+$\mathsf{ListPublicLength}_{A_{a_0}}(k,0)$.
+
+It remains to rebuild the endpoint classifier. Use the nil-nil branch of the
+constructor-disjunction field in
+Theorem~\ref{thm:list-singleton-source-finite-data-exit-constructor-audit}; the
+two empty endpoint comparisons are precisely the nil-nil data. Together with the
+two reconstructed zero public-length witnesses, this gives the left-hand
+condition.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_singleton\_zero\_public\_length\_iff\_empty}
 
 \begin{theorem}[List singleton source classified successor length inversion]
 \label{thm:list-singleton-source-classified-successor-length-inversion}
@@ -260,4 +305,100 @@ premises, so it yields
 $\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)$.
 
 Together these three reconstructed witnesses give the first condition.
+\end{proof}
+
+\begin{theorem}[List singleton source classified successor endpoint nonempty]
+\label{thm:list-singleton-source-classified-successor-endpoint-nonempty}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For all
+histories $h,k:\mathsf{BHist}$ and every finite length value $n$, if
+$$
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(k,n+1),
+$$
+then
+$$
+\neg\hsame(h,\emp)\land \neg\hsame(k,\emp).
+$$
+The ten-field fit is: traditional target finite-list successor endpoint
+exclusion; BEDC source $\mathsf{BHist}$ with singleton source $A_{a_0}$;
+carrier $\mathsf{ListHistoryCarrier}_{A_{a_0}}$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}$; stability from public
+successor length inversion; ledger cons endpoint readbacks through $\Eone(p)$
+and $\Eone(q)$; core theorem this endpoint exclusion; exactness by BEDC history
+no-confusion; standard bridge finite spines; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:list-singleton-source-classified-successor-length-inversion} to
+the classifier witness and the two successor public-length witnesses. It gives
+histories $a,b,t,u,p,q:\mathsf{BHist}$, in particular the endpoint readbacks
+$\hsame(h,\Eone(p))$ and $\hsame(k,\Eone(q))$.
+
+For the first exclusion, suppose $\hsame(h,\emp)$. Symmetry gives
+$\hsame(\emp,h)$, and transitivity with the readback $\hsame(h,\Eone(p))$ gives
+$\hsame(\emp,\Eone(p))$. The BEDC history no-confusion theorem,
+Theorem~\ref{thm:history-no-confusion}, rules out this empty-versus-one
+identification.
+
+The second exclusion is identical with $k$ and $q$. From $\hsame(k,\emp)$,
+symmetry and transitivity with $\hsame(k,\Eone(q))$ give
+$\hsame(\emp,\Eone(q))$, again contradicting
+Theorem~\ref{thm:history-no-confusion}. These two exclusions form the displayed
+conjunction.
+\end{proof}
+
+\begin{theorem}[List singleton source classified double-successor tail nonempty]
+\label{thm:list-singleton-source-classified-double-successor-tail-nonempty}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For all
+histories $h,k:\mathsf{BHist}$ and every finite length value $n$, if
+$$
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(h,(n+1)+1)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(k,(n+1)+1),
+$$
+then there exist histories $a,b,t,u,p,q:\mathsf{BHist}$ such that
+$$
+\left(
+\begin{array}{l}
+A_{a_0}(a)\land A_{a_0}(b)\land
+\mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+\mathsf{ListHistoryCarrier}_{A_{a_0}}(u)\land\\
+\mathsf{ListPublicLength}_{A_{a_0}}(t,n+1)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(u,n+1)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+\hsame(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)\land\\
+\neg\hsame(t,\emp)\land \neg\hsame(u,\emp)
+\end{array}
+\right).
+$$
+The ten-field fit is: traditional target finite-list two-step constructor
+readback; BEDC source singleton $\mathsf{BHist}$; carrier
+$\mathsf{ListHistoryCarrier}$; classifier
+$\mathsf{ListSpineHistoryClassifier}$; stability from successor component
+exactness; ledger exposed cons endpoints and tail public lengths; core theorem
+this block; exactness by endpoint no-confusion through the cited nonempty
+theorem; standard bridge finite spines; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:list-singleton-source-classified-successor-component-exactness}
+at length $n+1$ to the classifier witness and the two displayed
+double-successor public-length witnesses. The forward direction supplies
+histories $a,b,t,u,p,q:\mathsf{BHist}$ with the singleton heads, tail carriers,
+tail public lengths at $n+1$, the two $\ContR$ ledgers, the endpoint readbacks,
+the head comparison, and the tail classifier
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)$.
+
+Apply
+Theorem~\ref{thm:list-singleton-source-classified-successor-endpoint-nonempty}
+to this tail classifier and the two tail public-length witnesses at $n+1$. It
+gives $\neg\hsame(t,\emp)\land \neg\hsame(u,\emp)$.
+
+Keeping the same six histories and appending these two tail exclusions to the
+successor component package gives the displayed existential conclusion.
 \end{proof}

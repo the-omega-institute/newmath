@@ -56,7 +56,7 @@ MAX_AGENTS = 3
 TASK_TIMEOUT = 14400  # 4 hours; ChatGPT Pro thinking can be 60+ min/turn
 AGENT_RECENT_SECONDS = 120
 SESSION_IDLE_RETENTION = 14 * 24 * 3600  # keep sessions on disk for 14 days
-MIN_SCRIPT_VERSION = "bedc-1.15"
+MIN_SCRIPT_VERSION = "bedc-1.17"
 
 # In-memory state (durable copy on disk)
 task_queue: deque[dict] = deque()
@@ -168,6 +168,45 @@ def _agent_summary(now: float) -> dict[str, dict]:
         if isinstance(rec.get("metrics"), dict):
             summary[aid]["metrics"] = rec["metrics"]
     return summary
+
+
+def _chat_id(url: str) -> str:
+    m = re.search(r"/c/([a-f0-9-]{6,})", url or "")
+    return m.group(1) if m else ""
+
+
+def _same_chat_url(expected: str, seen: str) -> bool:
+    if not expected:
+        return True
+    if not seen:
+        return False
+    expected_id = _chat_id(expected)
+    seen_id = _chat_id(seen)
+    if expected_id or seen_id:
+        return bool(expected_id and seen_id and expected_id == seen_id)
+    return seen.startswith(expected)
+
+
+def _task_url_mismatch(task: dict, seen_url: str) -> bool:
+    expected = str(task.get("conversation_url") or "")
+    if not expected or not task.get("is_followup"):
+        return False
+    return not _same_chat_url(expected, seen_url)
+
+
+def _busy_agent_is_current(aid: str, rec: dict | None, task: dict) -> bool:
+    if not rec or not rec.get("recent", False):
+        return False
+    event = rec.get("event", "")
+    metrics = rec.get("metrics") or {}
+    seen_task_id = str(metrics.get("task_id") or "")
+    pending_task_id = str(task.get("task_id") or "")
+    if event in {"ack", "heartbeat"} and seen_task_id and seen_task_id != pending_task_id:
+        return False
+    seen_url = str(metrics.get("chatgpt_url") or metrics.get("page_url") or "")
+    if event in {"ack", "heartbeat"} and _task_url_mismatch(task, seen_url):
+        return False
+    return True
 
 
 def _script_version_tuple(version: str) -> tuple[int, ...]:
@@ -331,8 +370,13 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     )
                 ]
                 stale_busy = [
-                    aid for aid in pending_tasks
-                    if not recent.get(aid, {}).get("recent", False)
+                    aid for aid, task in pending_tasks.items()
+                    if not _busy_agent_is_current(aid, recent.get(aid), task)
+                ]
+                mismatched_busy = [
+                    aid for aid, task in pending_tasks.items()
+                    if recent.get(aid, {}).get("recent", False)
+                    and not _busy_agent_is_current(aid, recent.get(aid), task)
                 ]
                 if task_queue and not pending_tasks and not compatible_active_poll:
                     diagnosis = "queue_waiting_for_browser_agent"
@@ -353,6 +397,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     "active_poll_agents": active_poll,
                     "compatible_active_poll_agents": compatible_active_poll,
                     "stale_busy_agents": stale_busy,
+                    "mismatched_busy_agents": mismatched_busy,
                     "agent_recent_seconds": AGENT_RECENT_SECONDS,
                     "completed": len(results),
                     "active_sessions": len(sessions),
@@ -367,8 +412,11 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             task_id = parsed.path[len("/result/"):]
             with _lock:
                 rec = results.get(task_id)
+                cancelled = task_id in cancelled_tasks
             if rec:
                 self._send_json(rec)
+            elif cancelled:
+                self._send_json({"status": "cancelled", "task_id": task_id})
             else:
                 self._send_json({"status": "not_found"}, 404)
             return
@@ -525,6 +573,20 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         conv_id = (task or {}).get("conversation_id", "") or (existing or {}).get("conversation_id", "")
         if not chatgpt_url:
             chatgpt_url = (task or {}).get("conversation_url", "") or (existing or {}).get("chatgpt_url", "")
+        seen_url = chatgpt_url or data.get("page_url", "")
+        if task is not None and _task_url_mismatch(task, seen_url):
+            with _lock:
+                task["status"] = "queued"
+                task.pop("assigned_agent", None)
+                task_queue.appendleft(task)
+            expected = str(task.get("conversation_url") or "")
+            print(
+                f"[server] Ignored mismatched-url result {task_id} "
+                f"expected={expected[-50:]} seen={seen_url[-50:]} requeued",
+                flush=True,
+            )
+            self._send_json({"status": "ignored_mismatched_url", "task_id": task_id})
+            return
         if _response_is_bedc_contaminated(response):
             print(f"[server] Ignored contaminated result {task_id} ({len(response)} chars)")
             self._send_json({"status": "ignored_contaminated", "task_id": task_id})
@@ -605,8 +667,16 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         with _lock:
             _record_agent_seen(agent_id, event=event, metrics=metrics)
             if event == "heartbeat" and task_id:
+                assigned = pending_tasks.get(agent_id)
+                assigned_task_id = str((assigned or {}).get("task_id") or "")
                 still_pending = any(t.get("task_id") == task_id for t in pending_tasks.values())
-                if task_id in cancelled_tasks or (not still_pending and task_id not in results):
+                seen_url = str(metrics.get("chatgpt_url") or metrics.get("page_url") or "")
+                if (
+                    task_id in cancelled_tasks
+                    or (assigned_task_id and assigned_task_id != task_id)
+                    or (assigned and _task_url_mismatch(assigned, seen_url))
+                    or not still_pending
+                ):
                     self._send_json({"status": "cancelled", "task_id": task_id})
                     return
             if agent_id in dispatch_times:

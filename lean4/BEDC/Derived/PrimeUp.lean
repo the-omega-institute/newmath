@@ -1,18 +1,14 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Unary
 import BEDC.Derived.NatUp
-
 namespace BEDC.Derived.PrimeUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
-
 inductive NatMul (d : BHist) : BHist -> BHist -> Prop where
   | zero (hd : UnaryHistory d) : NatMul d BHist.Empty BHist.Empty
   | succ {q n n' : BHist} : NatMul d q n -> Cont n d n' -> NatMul d (BHist.e1 q) n'
-
 theorem NatMul_total {d q : BHist} :
     UnaryHistory d -> UnaryHistory q -> exists n : BHist, UnaryHistory n /\ NatMul d q n := by
   intro hd hq
@@ -27,7 +23,6 @@ theorem NatMul_total {d q : BHist} :
       | intro n data =>
           exact ⟨append n d, unary_cont_closed data.left hd (cont_intro rfl),
             NatMul.succ data.right (cont_intro rfl)⟩
-
 theorem NatMul_functional {d q n m : BHist} :
     UnaryHistory d -> NatMul d q n -> NatMul d q m -> hsame n m := by
   intro _hd left
@@ -43,13 +38,11 @@ theorem NatMul_functional {d q n m : BHist} :
       | succ rightPrev rightCont =>
           have samePrev : hsame _ _ := ih rightPrev
           exact cont_respects_hsame samePrev (hsame_refl d) leftCont rightCont
-
 theorem NatMul_left_unary {d q n : BHist} : NatMul d q n -> UnaryHistory d := by
   intro mul
   induction mul with
   | zero hd => exact hd
   | succ _ _ ih => exact ih
-
 theorem NatMul_right_unary {d q n : BHist} : NatMul d q n -> UnaryHistory q := by
   intro mul
   induction mul with
@@ -57,7 +50,6 @@ theorem NatMul_right_unary {d q n : BHist} : NatMul d q n -> UnaryHistory q := b
       exact unary_empty
   | succ _prev _step ih =>
       exact unary_e1_closed ih
-
 theorem NatMul_result_unary {d q n : BHist} :
     UnaryHistory d -> NatMul d q n -> UnaryHistory n := by
   intro hd mul
@@ -66,7 +58,6 @@ theorem NatMul_result_unary {d q n : BHist} :
       exact unary_empty
   | succ _prev step ih =>
       exact unary_cont_closed ih hd step
-
 theorem NatMul_append_cont {d q e w n r : BHist} :
     NatMul d w n -> NatMul d q e -> Cont n e r -> NatMul d (append w q) r := by
   intro left right continuation
@@ -85,7 +76,6 @@ theorem NatMul_succ_inversion {d q n' : BHist} :
   cases mul with
   | succ prev step =>
       exact ⟨_, prev, step⟩
-
 theorem NatMul_empty_left_result_empty {q n : BHist} :
     NatMul BHist.Empty q n -> hsame n BHist.Empty := by
   intro mul
@@ -108,7 +98,6 @@ theorem NatMul_unit_left_hsame {q n : BHist} :
       have prevSame := ih tailUnary
       cases prevSame
       exact cont_deterministic step (cont_intro rfl)
-
 theorem NatMul_unit_right_hsame {d n : BHist} :
     NatMul d (BHist.e1 BHist.Empty) n -> hsame n d := by
   intro hmul
@@ -122,7 +111,6 @@ theorem NatMul_e0_multiplier_absurd {d q n : BHist} :
     NatMul d (BHist.e0 q) n -> False := by
   intro mul
   cases mul
-
 theorem NatMul_nonempty_multiplicand_empty_result_iff {d q : BHist} :
     UnaryHistory d -> (hsame d BHist.Empty -> False) ->
       (NatMul d q BHist.Empty <-> hsame q BHist.Empty) := by
@@ -147,7 +135,6 @@ theorem NatMul_empty_result_factor_empty_or_multiplier_empty {d q : BHist} :
       exact Or.inr (hsame_refl BHist.Empty)
   | succ _prev step =>
       exact Or.inl (cont_empty_result_inversion step).right
-
 theorem NatMul_nonempty_factors_result_not_empty {d q n : BHist} :
     (hsame d BHist.Empty -> False) -> (hsame q BHist.Empty -> False) ->
       NatMul d q n -> hsame n BHist.Empty -> False := by
@@ -185,8 +172,21 @@ theorem NatMul_succ_result_empty_left_empty {d q n : BHist} :
   | succ _prev step =>
       exact (cont_empty_result_inversion step).right
 
+theorem NatMul_successor_result_multiplicand_positive_shape {d q n : BHist} :
+    NatMul d q (BHist.e1 n) -> exists tail : BHist, hsame d (BHist.e1 tail) ∧
+      UnaryHistory tail := by
+  intro mul
+  have dUnary : UnaryHistory d := NatMul_left_unary mul
+  cases d with
+  | Empty => exact False.elim (not_hsame_e1_empty (NatMul_empty_left_result_empty mul))
+  | e0 _tail => cases dUnary
+  | e1 tail => exact ⟨tail, hsame_refl (BHist.e1 tail), unary_e1_inversion dUnary⟩
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
+
+theorem NatDivides_divisor_unary {d n : BHist} : NatDivides d n -> UnaryHistory d := by
+  intro divides
+  cases divides with | intro _ qData => exact NatMul_left_unary qData.right
 
 theorem NatDivides_result_unary {d n : BHist} : NatDivides d n -> UnaryHistory n := by
   intro divides

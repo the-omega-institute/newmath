@@ -1,0 +1,74 @@
+\begin{theorem}[Matrix singleton classifier continuation commutativity closure]
+\label{thm:matrix-singleton-classifier-continuation-comm-closed}
+Let $M,N:\mathsf{BHist}$ be carried by the singleton matrix carrier
+$A_{\emp}$. If $\ContR(M,N,L)$ and $\ContR(N,M,R)$, then both continuation
+results are again carried by $A_{\emp}$, and the singleton matrix classifier
+relates the two results:
+$$
+A_{\emp}(L)\land A_{\emp}(R)\land \rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+The two carrier hypotheses identify $M$ and $N$ with $\emp$. After these
+identifications, the two continuation premises identify both $L$ and $R$ with
+the BEDC append endpoint $\mathsf{append}(\emp,\emp)$, which is $\emp$. The
+singleton carrier witnesses for $L$ and $R$ are therefore reflexive empty
+history witnesses, and the classifier is rebuilt from those two carrier
+components and $\hsame(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_continuation\_comm\_closed}
+
+\begin{theorem}[Matrix singleton carrier continuation result iff]
+\label{thm:matrix-singleton-carrier-continuation-result-iff}
+Let $M,N,R:\mathsf{BHist}$ be histories with $M$ and $N$ carried by the
+singleton matrix carrier $A_{\emp}$. Then continuation from $M$ to $N$ has
+result $R$ exactly when $R$ is again carried by $A_{\emp}$:
+$$
+\ContR(M,N,R)\Longleftrightarrow A_{\emp}(R).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two endpoint carrier witnesses as $\hsame(M,\emp)$ and
+$\hsame(N,\emp)$. In the forward direction, after those identifications the
+continuation has the same result as the right-unit continuation at $\emp$, so
+$R$ is singleton-carried. Conversely, if $R$ is singleton-carried, all three
+displayed histories are identified with $\emp$, and the right-unit
+continuation at $\emp$ supplies the required continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_continuation\_result\_iff}
+
+\begin{theorem}[Matrix singleton carrier append-target continuation result iff]
+\label{thm:matrix-singleton-carrier-continuation-append-target-result-iff}
+Let \(M,N,h,R:\mathsf{BHist}\) be histories with \(M\) and \(N\) carried by the
+singleton matrix carrier \(A_{\emp}\). If
+\(\ContR(h,\mathsf{append}(M,N),R)\), then the result is singleton-carried
+exactly when the source is singleton-carried:
+$$
+A_{\emp}(R)\Longleftrightarrow A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the continuation result to \(\emp\) and
+apply empty-result continuation inversion; the source endpoint must be
+\(\emp\). Conversely, the carrier witnesses for \(M\) and \(N\) split the
+append target as \(\emp\), and continuation respects the source and target
+identifications.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_continuation\_append\_target\_result\_iff}
+
+\begin{theorem}[Matrix singleton nested append target continuation result]
+\label{thm:matrix-singleton-nested-append-target-continuation-result-iff}
+For histories $M,N,P,h,r:\mathsf{BHist}$, if
+$\ContR(h,\mathsf{append}(M,\mathsf{append}(N,P)),r)$, then
+$$
+A_{\emp}(r)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(M)\land A_{\emp}(N)\land A_{\emp}(P).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction transports the continuation result to $\emp$ and applies
+empty-result inversion for continuation, then splits the nested append endpoint
+twice. Conversely, the four carrier witnesses rebuild the nested target as
+$\emp$, and continuation respects the two endpoint identifications.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonNestedAppendTarget\_continuation\_result\_iff}

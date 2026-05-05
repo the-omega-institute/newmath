@@ -23,6 +23,119 @@ ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_shape}
 
+\begin{theorem}[Metric distance witness right e1 result not empty]
+\label{thm:metric-distance-witness-right-e1-result-not-empty}
+For histories $x,y,d$, no concrete metric distance witness whose right endpoint
+is visibly one-headed can have a distance result history-same to $\emp$:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),d)
+\Longrightarrow
+\hsame(d,\emp)\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply the right e-one result shape theorem to expose a tail $k$ with
+$\hsame(d,\Eone(k))$. Composing this with $\hsame(d,\emp)$ gives
+$\hsame(\Eone(k),\emp)$, contradicting constructor disjointness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_not\_empty}
+
+\begin{theorem}[Metric distance witness right e1 result e0 absurd]
+\label{thm:metric-distance-witness-right-e1-result-e0-absurd}
+For histories $x,y,d$, no concrete metric distance witness can have a visibly
+one-headed right endpoint while its distance result is visibly zero-headed:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Ezero(d))
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply the right e-one result shape theorem to the witness. It exposes a tail
+$k$ with $\hsame(\Ezero(d),\Eone(k))$. Constructor no-confusion for generated
+history sameness rejects this zero-headed versus one-headed comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_e0\_absurd}
+
+\begin{theorem}[Metric distance witness right e1 result tail exactness]
+\label{thm:metric-distance-witness-right-e1-result-tail-hsame-exact}
+For histories $x,y,d,k$, if a distance witness has a visibly one-headed right
+endpoint and its displayed result is history-same as $\Eone(k)$, then $k$ is
+the exact descended distance tail:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),d)\Longrightarrow
+\hsame(d,\Eone(k))\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply right e-one result shape to expose an intermediate tail $k_0$ together
+with $\hsame(d,\Eone(k_0))$ and the descended metric witness. Compose this
+classifier with the displayed result classifier, invert the resulting
+one-headed $\hsame$ comparison, and transport the tail witness along the
+exposed tail equality.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_tail\_hsame\_exact}
+
+\begin{theorem}[Metric distance witness right e1 result tail determinism]
+\label{thm:metric-distance-witness-right-e1-result-tail-deterministic}
+For histories $x,y,d,d'$, two metric distance witnesses with the same source,
+the same visible right endpoint, and visible results determine the same result
+tail:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d'))
+\Longrightarrow
+\hsame(d,d').
+$$
+\end{theorem}
+\begin{proof}
+Project the continuation ledgers from the two metric witnesses. Continuation
+determinacy identifies the visible results
+$\hsame(\Eone(d),\Eone(d'))$, and one-constructor inversion descends this
+classifier to the tail relation $\hsame(d,d')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_tail\_deterministic}
+
+\begin{theorem}[Metric distance witness right e1 source shape]
+\label{thm:metric-distance-witness-right-e1-source-shape}
+For histories $x,y,d$, every concrete metric distance witness whose right
+endpoint is visibly one-headed exposes a visible distance tail and the matching
+empty-or-visible source alternative:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),d)
+\Longrightarrow
+\exists k:\mathsf{BHist}.\;
+\hsame(d,\Eone(k))\land
+\Bigl(
+(x=\emp\land\mathsf{UnaryHistory}(y)\land\hsame(k,y))
+\lor
+\exists x_1:\mathsf{BHist}.\;
+x=\Eone(x_1)\land
+\mathsf{MetricDistanceWitness}(\Eone(x_1),y,k)
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-right-e1-result-shape} to the
+given witness. This produces a history $k$, a displayed result comparison
+$\hsame(d,\Eone(k))$, and the descended witness
+$\mathsf{MetricDistanceWitness}(x,y,k)$.
+
+We next rebuild the displayed-result witness with result $\Eone(k)$. Keep the
+original source and right endpoint carriers, close the descended tail carrier
+under $\Eone$, and transport the original continuation field along
+$\hsame(d,\Eone(k))$.
+
+Apply
+\autoref{thm:metric-distance-witness-right-one-headed-source-cases} to this
+displayed-result witness. In the empty branch, keep the same $k$ and record
+$x=\emp$, the unary carrier for $y$, and $\hsame(k,y)$. In the visible branch,
+keep the same $k$ and the exposed $x_1$, together with
+$x=\Eone(x_1)$ and the descended metric witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_source\_shape}
+
 \begin{theorem}[Metric distance witness right e1 result iff]
 \label{thm:metric-distance-witness-right-e1-result-iff}
 For histories $x,y,d$, a distance witness whose right endpoint and result both
@@ -40,6 +153,98 @@ carriers under $\Eone$, and lift the continuation ledger by the one-step
 continuation rule.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_iff}
+
+\begin{theorem}[Metric distance witness right e1 result hsame source]
+\label{thm:metric-distance-witness-right-e1-result-hsame-source}
+For histories $x,x',y,d$, a distance witness whose right endpoint and result
+both carry one visible constructor has the same empty-or-visible source
+readback after source transport:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))\land\hsame(x,x')
+\Longrightarrow
+\bigl(x'=\emp\land\mathsf{UnaryHistory}(y)\land\hsame(d,y)\bigr)
+$$
+or there exists $x_1:\mathsf{BHist}$ such that
+$$
+x'=\Eone(x_1)\land\mathsf{MetricDistanceWitness}(\Eone(x_1),y,d).
+$$
+\end{theorem}
+\begin{proof}
+Apply the right one-headed source case split before transport. In the empty
+branch, empty $\hsame$ inversion identifies $x'$ with $\emp$. In the visible
+branch, visible $\hsame$ inversion exposes the transported tail, and unary and
+continuation transport rebuild the descended metric witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_hsame\_source}
+
+\begin{theorem}[Metric distance witness right e1 result hsame target]
+\label{thm:metric-distance-witness-right-e1-result-hsame-target}
+For histories $x,y,y',d$, a distance witness whose right endpoint and result
+both carry one visible constructor has the same empty-or-visible source
+readback after target-tail transport:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))\land\hsame(y,y')
+\Longrightarrow
+\bigl(x=\emp\land\mathsf{UnaryHistory}(y')\land\hsame(d,y')\bigr)
+$$
+or there exists $x_1:\mathsf{BHist}$ such that
+$$
+x=\Eone(x_1)\land\mathsf{MetricDistanceWitness}(\Eone(x_1),y',d).
+$$
+\end{theorem}
+\begin{proof}
+Apply the right one-headed source case split before target transport. In the
+empty-source branch, transport the unary carrier and compose the displayed
+result-tail comparison with $\hsame(y,y')$. In the visible-source branch, keep
+the exposed source tail and transport the target carrier and continuation
+ledger across the target-tail classifier, leaving the source and result
+endpoints fixed.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_hsame\_target}
+
+\begin{theorem}[Metric right e-one result two-sided endpoint transport]
+\label{thm:metric-distance-witness-right-e1-result-two-sided-endpoint-transport}
+For histories $x,x',y,y',d$, simultaneous source and target-tail transport
+preserves the empty-or-visible readback of a right e-one metric result:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))\land
+\hsame(x,x')\land\hsame(y,y')
+\Longrightarrow
+\bigl(x'=\emp\land\mathsf{UnaryHistory}(y')\land\hsame(d,y')\bigr)
+$$
+or there exists $x_1:\mathsf{BHist}$ such that
+$$
+x'=\Eone(x_1)\land\mathsf{MetricDistanceWitness}(\Eone(x_1),y',d).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:metric-distance-witness-right-e1-result-hsame-source} to the
+displayed witness and the supplied $\hsame(x,x')$. This gives the transported
+source readback with target tail $y$ still fixed.
+
+In the empty-source branch, keep $x'=\emp$. Transport the unary carrier from
+$y$ to $y'$ along $\hsame(y,y')$, and compose the displayed comparison
+$\hsame(d,y)$ with $\hsame(y,y')$ to obtain $\hsame(d,y')$.
+
+In the visible-source branch, keep the exposed $x_1$ and the equality
+$x'=\Eone(x_1)$. The descended witness
+$\mathsf{MetricDistanceWitness}(\Eone(x_1),y,d)$ supplies the source, target,
+and result carriers; unary transport moves the target carrier from $y$ to
+$y'$, while metric continuation transport carries the continuation ledger
+across the same target-tail classifier with source and result fixed. Repacking
+these fields gives
+$\mathsf{MetricDistanceWitness}(\Eone(x_1),y',d)$.
+
+Ten-field fit: traditional target two-sided visible endpoint transport; BEDC
+source $\mathsf{BHist}$, $\hsame$, and $\mathsf{MetricDistanceWitness}$;
+carrier unary metric endpoints; classifier $\hsame$; stability source and
+target-tail transport; ledger exposed right e-one distance tail; core theorem
+\autoref{thm:metric-distance-witness-right-e1-result-two-sided-endpoint-transport};
+exactness simultaneous transported source readback; standard bridge finite
+unary metric endpoint transport; status $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_two\_sided\_endpoint\_transport}
 
 \begin{theorem}[Metric e-one pair result tail readback]
 \label{thm:metric-distance-witness-e1-pair-result-tail-readback}
@@ -61,3 +266,46 @@ evidence for $y$, and its continuation ledger is exactly
 $d\hsame \Eone(x)\cdot y$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_e1\_pair\_result\_tail\_readback}
+
+\begin{theorem}[Metric e-one pair result tail exactness iff]
+\label{thm:metric-distance-witness-e1-pair-result-iff}
+For histories $x,y,d$, a metric distance witness whose source, target, and
+result are all visibly one-headed is equivalent to unary tail data together
+with the exposed continuation ledger:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),\Eone(d))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(x)\land\mathsf{UnaryHistory}(y)\land
+\hsame(d,\Eone(x)\cdot y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:metric-distance-witness-e1-pair-result-tail-readback}. It
+descends the visible target and result constructors and returns exactly the
+two unary tail carriers and the displayed continuation ledger.
+
+For the reverse direction, start from the unary tail carriers and the
+$\hsame$ ledger. Unary closure builds the source carrier
+$\mathsf{UnaryHistory}(\Eone(x))$, and the continuation ledger transports the
+append result so that $d$ is the concrete distance from $\Eone(x)$ to $y$.
+This gives the central witness
+$\mathsf{MetricDistanceWitness}(\Eone(x),y,d)$.
+
+Apply
+Theorem~\ref{thm:metric-distance-witness-left-e1-visible-target-step} to this
+central witness. The visible target constructor and the matching visible
+result constructor are restored, producing
+$\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),\Eone(d))$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_e1\_pair\_result\_iff}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_e1\_pair\_result\_tail\_exactness\_iff}
+
+The ten-field fit is: traditional target one-headed metric tail exactness;
+BEDC source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\mathsf{Cont}$, and
+$\mathsf{MetricDistanceWitness}$; carrier concrete metric distance witnesses;
+classifier $\hsame$; stability visible-constructor closure and continuation
+transport; ledger exposed tail distance; core theorem
+Theorem~\ref{thm:metric-distance-witness-e1-pair-result-iff};
+exactness bidirectional tail data; standard bridge finite metric endpoint
+readback; status $\mathsf{ProofTarget}$.

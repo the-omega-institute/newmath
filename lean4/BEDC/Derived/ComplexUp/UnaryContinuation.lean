@@ -53,4 +53,54 @@ theorem ComplexHistoryClassifier_unary_continuation_positive_components
     ComplexHistoryClassifier_unary_continuation_closed classified qUnary sameQQ' leftCont rightCont
   exact ComplexHistoryClassifier_positive_components continued
 
+theorem ComplexHistoryClassifier_unary_continuation_e1_endpoint_components
+    {h k q q' a b : BHist} :
+    ComplexHistoryClassifier h k -> UnaryHistory q -> hsame q q' ->
+      Cont h q (BHist.e1 a) -> Cont k q' (BHist.e1 b) ->
+        (exists real imagTail : BHist,
+          RatUp.RatHistoryCarrier real ∧ RatUp.RatHistoryCarrier (BHist.e1 imagTail) ∧
+            Cont real imagTail a) ∧
+          (exists real' imagTail' : BHist,
+            RatUp.RatHistoryCarrier real' ∧
+              RatUp.RatHistoryCarrier (BHist.e1 imagTail') ∧ Cont real' imagTail' b) := by
+  intro classified qUnary sameQQ' leftCont rightCont
+  have continued : ComplexHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
+    ComplexHistoryClassifier_unary_continuation_closed classified qUnary sameQQ' leftCont
+      rightCont
+  exact And.intro
+    ((ComplexHistoryClassifier_e1_endpoint_components (tail := a) (h := BHist.e1 b)).left
+      continued)
+    ((ComplexHistoryClassifier_e1_endpoint_components (tail := b) (h := BHist.e1 a)).right
+      continued)
+
+theorem ComplexHistoryClassifier_unary_continuation_e1_endpoint_positive_components
+    {h k q q' a b : BHist} :
+    ComplexHistoryClassifier h k -> UnaryHistory q -> hsame q q' ->
+      Cont h q (BHist.e1 a) -> Cont k q' (BHist.e1 b) ->
+        (exists real imagTail : BHist,
+          RatHistoryCarrier real ∧ RatHistoryCarrier (BHist.e1 imagTail) ∧
+            Cont real imagTail a ∧ PositiveUnaryDenominator real ∧
+              PositiveUnaryDenominator (BHist.e1 imagTail)) ∧
+          (exists real' imagTail' : BHist,
+            RatHistoryCarrier real' ∧ RatHistoryCarrier (BHist.e1 imagTail') ∧
+              Cont real' imagTail' b ∧ PositiveUnaryDenominator real' ∧
+                PositiveUnaryDenominator (BHist.e1 imagTail')) := by
+  intro classified qUnary sameQQ' leftCont rightCont
+  have continued : ComplexHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
+    ComplexHistoryClassifier_unary_continuation_closed classified qUnary sameQQ' leftCont
+      rightCont
+  exact And.intro
+    (ComplexHistoryCarrier_e1_tail_positive_components continued.left)
+    (ComplexHistoryCarrier_e1_tail_positive_components continued.right.left)
+
+theorem ComplexHistoryClassifier_unary_continuation_empty_endpoint_absurd
+    {h k q qPrime zq wq : BHist} :
+    ComplexHistoryClassifier h k -> UnaryHistory q -> hsame q qPrime -> Cont h q zq ->
+      Cont k qPrime wq ->
+        (hsame zq BHist.Empty -> False) ∧ (hsame wq BHist.Empty -> False) := by
+  intro classified qUnary sameQQPrime leftCont rightCont
+  exact ComplexHistoryClassifier_empty_endpoint_absurd
+    (ComplexHistoryClassifier_unary_continuation_closed classified qUnary sameQQPrime leftCont
+      rightCont)
+
 end BEDC.Derived.ComplexUp

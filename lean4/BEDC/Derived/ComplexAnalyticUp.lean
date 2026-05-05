@@ -7,6 +7,7 @@ namespace BEDC.Derived.ComplexAnalyticUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.ProdUp
@@ -87,6 +88,25 @@ theorem CplxPureImaginary_hsame_transport_witness {theta z z' : BHist} :
         hsame_trans (hsame_symm sameZZ') sameZ
       exact And.intro (And.intro thetaUnary sameZ') sameZ'
 
+theorem CplxPureImaginary_name_certificate :
+    NameCert (fun z : BHist => exists theta : BHist, CplxPureImaginary theta z)
+      hsame := by
+  constructor
+  · exact Exists.intro (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+      (Exists.intro BHist.Empty
+        (And.intro unary_empty (hsame_refl _)))
+  · intro z _source
+    exact hsame_refl z
+  · intro z z' sameZZ'
+    exact hsame_symm sameZZ'
+  · intro z z' z'' sameZZ' sameZ'Z''
+    exact hsame_trans sameZZ' sameZ'Z''
+  · intro z z' sameZZ' source
+    cases source with
+    | intro theta pureImaginary =>
+        exact Exists.intro theta
+          (CplxPureImaginary_hsame_transport_witness sameZZ' pureImaginary).left
+
 theorem CplxPureImaginary_phase_stability_witness {theta phi z : BHist} :
     CplxPureImaginary theta z -> hsame theta phi ->
       CplxPureImaginary phi z ∧ UnaryHistory phi ∧
@@ -141,6 +161,20 @@ theorem CplxPureImaginary_suffix_component_tail_witness {theta z q zq : BHist} :
       have sameTail : hsame imagq (BHist.e1 (append theta q)) :=
         data.right.left.trans (unary_append_e1_left (h := q) (k := theta) qUnary)
       exact ⟨imagq, data.left, sameTail, data.right.right.left, data.right.right.right⟩
+
+theorem CplxPureImaginary_suffix_parameter_readback {theta psi z q zq : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
+      CplxPureImaginary psi zq -> hsame psi (append theta q) := by
+  intro pureTheta qUnary zqCont purePsi
+  cases CplxPureImaginary_suffix_component_tail_witness pureTheta qUnary zqCont with
+  | intro imagq data =>
+      have displayedCont :
+          Cont (BHist.e1 BHist.Empty) imagq
+            (append (BHist.e1 BHist.Empty) (BHist.e1 psi)) :=
+        cont_result_hsame_transport data.right.right.left purePsi.right
+      have sameImaginaryDisplay : hsame (BHist.e1 psi) imagq :=
+        append_left_cancel (h := BHist.e1 BHist.Empty) displayedCont
+      exact hsame_e1_iff.mp (hsame_trans sameImaginaryDisplay data.right.left)
 
 theorem CplxPureImaginary_suffix_continuation_complex_carrier {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->

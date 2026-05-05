@@ -1,0 +1,51 @@
+\begin{theorem}[Real stream finite-window adjacent concatenation]
+\label{thm:real-stream-window-adjacent-concatenation}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices
+$n,m,r$, if
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m)
+$$
+and
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n+(m+1),r),
+$$
+then
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:real-stream-finite-window-classifier} in both
+source windows and fix an arbitrary offset $k\le m+1+r$. The goal is the
+rational-history classifier at the joined endpoint $n+k$.
+
+Split constructively between the case $k\le m$ and the complementary case in
+which $k=m+1+j$ for some $j\le r$. In the first case, apply the left source
+window directly at offset $k$. This yields
+$$
+\mathsf{RatHistoryClassifier}(x(n+k),y(n+k)).
+$$
+
+In the second case, apply the right source window at offset $j$. Its endpoint
+is
+$$
+\mathsf{RatHistoryClassifier}(x((n+(m+1))+j),y((n+(m+1))+j)).
+$$
+The arithmetic identity $(n+(m+1))+j=n+(m+1+j)=n+k$ identifies this endpoint
+with the selected joined endpoint.
+
+Since every offset $k\le m+1+r$ is covered by exactly one of these bounded
+cases, the collected endpoint classifiers repack as
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation-window
+concatenation; BEDC source $\mathsf{RealStreamWindowClassifier}$ over RatUp
+endpoint classifiers; carrier rational-observation streams; classifier
+concatenated finite-window predicate; stability by bounded-offset splitting and
+endpoint reuse; ledger left radius, right radius, join index, and selected
+offset; core theorem
+\autoref{thm:real-stream-window-adjacent-concatenation}; exactness every
+endpoint in the joined window is covered by one of the two source windows;
+standard bridge finite rational observation intervals; status
+$\mathsf{ProofTarget}$.

@@ -22,4 +22,22 @@ theorem FunctorPrefixHomCarrier_cycle_empty_components {p q a f g : BHist} :
           (hsame_refl (append p a)) cycle.right.right right)
         (append_right_cancel (k := a) cycle.left))
 
+theorem FunctorPrefixHomCarrier_prefix_triangle_cycle_empty_components {p q r a f g h : BHist} :
+    CategoryHomCarrier (append p a) (append q a) f ->
+      CategoryHomCarrier (append q a) (append r a) g ->
+        CategoryHomCarrier (append r a) (append p a) h ->
+          CategoryHomCarrier (append p a) (append q a) BHist.Empty ∧
+            CategoryHomCarrier (append q a) (append r a) BHist.Empty ∧
+              CategoryHomCarrier (append r a) (append p a) BHist.Empty ∧
+                hsame p q ∧ hsame q r := by
+  intro left right back
+  have cycle := CategoryHomCarrier_triangle_cycle_empty_hom_exactness left right back
+  exact
+    And.intro cycle.left
+      (And.intro cycle.right.left
+        (And.intro cycle.right.right.left
+          (And.intro
+            (append_right_cancel (k := a) cycle.right.right.right.left)
+            (append_right_cancel (k := a) cycle.right.right.right.right))))
+
 end BEDC.Derived.FunctorUp

@@ -253,3 +253,80 @@ first hom carrier along the classifier, and composes the inverse classifier
 with the stored empty-tail proof.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatCycleIdentityCarrier\_semanticNameCert}
+
+\begin{theorem}[EquivCat empty roundtrip identity carrier target-prefix hsame transport]
+\label{thm:equivcat-empty-roundtrip-identity-carrier-target-prefix-hsame-transport}
+For histories $p,q,q',a,unit,counit,left,right:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right),
+\qquad
+left\hsame\emp,
+\qquad
+right\hsame\emp,
+\qquad
+q\hsame q'.
+$$
+Then the empty roundtrip identity carrier transports to the target prefix $q'$:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q',a,\emp,\emp,\emp,\emp),
+$$
+and its empty identity component fields are
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q',a,\emp)
+\quad\text{and}\quad
+\mathsf{NatTransPrefixComponentCarrier}(q',p,a,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:equivcat-empty-roundtrip-prefix-determinacy} to the original carrier and the two empty roundtrip witnesses. This gives $p\hsame q$ and the empty component
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp).
+$$
+Reading this component through \autoref{thm:nattrans-prefix-component-carrier-empty-identity-iff} gives unary histories for $p$, $q$, and $a$. Unary transport along $q\hsame q'$ gives unary membership of $q'$, and transitivity of $\hsame$ gives $p\hsame q'$.
+
+The reverse implication of \autoref{thm:adjunction-unit-counit-empty-components-exactness}, applied with both triangle results equal to $\emp$, now gives
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q',a,\emp,\emp,\emp,\emp),
+$$
+because the two triangle-result classifiers are reflexivity of $\hsame(\emp,\emp)$. Finally, \autoref{def:adjunction-unit-counit-carrier} projects the first two fields of this carrier, giving the two displayed empty identity components for the transported target prefix.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatCycleIdentityCarrier\_target\_prefix\_hsame\_transport}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_target\_prefix\_hsame\_transport}
+
+\begin{theorem}[EquivCat empty roundtrip identity carrier source-prefix hsame transport]
+\label{thm:equivcat-empty-roundtrip-identity-carrier-source-prefix-hsame-transport}
+For histories $p,p',q,a,unit,counit,left,right:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right),
+\qquad
+left\hsame\emp,
+\qquad
+right\hsame\emp,
+\qquad
+p\hsame p'.
+$$
+Then the empty roundtrip identity carrier transports to the source prefix $p'$:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p',q,a,\emp,\emp,\emp,\emp),
+$$
+and its empty identity component fields are
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p',q,a,\emp)
+\quad\text{and}\quad
+\mathsf{NatTransPrefixComponentCarrier}(q,p',a,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:equivcat-empty-roundtrip-prefix-determinacy} to the original carrier and the two empty roundtrip witnesses. This gives $p\hsame q$ and the empty component
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp).
+$$
+Reading this component through \autoref{thm:nattrans-prefix-component-carrier-empty-identity-iff} gives unary histories for $p$, $q$, and $a$. Unary transport along $p\hsame p'$ gives unary membership of $p'$, and transitivity of $\hsame$, using symmetry on $p\hsame p'$, gives $p'\hsame q$.
+
+The reverse implication of \autoref{thm:adjunction-unit-counit-empty-components-exactness}, applied with both triangle results equal to $\emp$, now gives
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p',q,a,\emp,\emp,\emp,\emp),
+$$
+because the two triangle-result classifiers are reflexivity of $\hsame(\emp,\emp)$. Finally, \autoref{def:adjunction-unit-counit-carrier} projects the first two fields of this carrier, giving the two displayed empty identity components for the transported source prefix.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_source\_prefix\_hsame\_transport}

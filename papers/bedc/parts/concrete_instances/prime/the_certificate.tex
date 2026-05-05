@@ -50,6 +50,37 @@ The concrete certificate of \autoref{thm:prime-namecert} satisfies the semantic 
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.prime\_semantic\_name\_certificate}
+
+\begin{theorem}[Unary multiplication result semantic name certificate]
+\label{thm:natmul-result-semantic-namecert}
+For unary histories $d$ and $q$, the result predicate
+$\mathsf{NatMul}(d,q,-)$, used as source, pattern, and ledger policy, together
+with $\hsame$ as classifier, forms a semantic naming certificate.
+\end{theorem}
+\begin{proof}
+Totality of unary multiplication supplies a carried result witness. The
+classifier laws are exactly reflexivity, symmetry, and transitivity of
+$\hsame$. Carrier transport is result transport for $\mathsf{NatMul}$ along
+history-sameness, while the pattern and ledger maps are the shared concrete
+result predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_result\_semanticNameCert}
+
+\begin{theorem}[Divisibility semantic name certificate]
+\label{thm:nat-divides-semantic-namecert}
+For a unary divisor $d$, the predicate $\mathsf{NatDivides}(d,-)$, used as
+source, pattern, and ledger policy, together with $\hsame$ as classifier,
+forms a semantic naming certificate.
+\end{theorem}
+\begin{proof}
+The empty dividend is inhabited exactly by the empty-right divisibility
+characterization. The classifier laws are inherited from $\hsame$, and carrier
+transport is dividend transport for $\mathsf{NatDivides}$ along
+history-sameness. Since the source, pattern, and ledger predicates coincide,
+the semantic soundness fields are direct projections of the same witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_semanticNameCert}
 
 \begin{lemma}[Empty left factor has empty unary product]
 \label{lem:natmul-empty-left-empty-result}
@@ -70,6 +101,19 @@ If $q_0\hsame\emp$, the zero clause of \autoref{def:nat-multiplication} identifi
 
 If $q_0\not\hsame\emp$, the induction hypothesis applied to $\mathsf{NatMul}(d,q_0,p)$ gives a unary tail $t$ with $\Cont(d,t,p)$. Composing this continuation with $\Cont(p,d,n)$ and using continuation associativity gives $\Cont(d,\mathsf{append}(t,d),n)$. The tail $\mathsf{append}(t,d)$ is unary because continuation preserves unary histories.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_quotient\_product\_extension}
+
+\begin{lemma}[Divisibility exposes unary divisor]
+\label{lem:nat-divides-divisor-unary}
+If $\mathsf{NatDivides}(d,n)$ holds, then $d$ is a unary history.
+\end{lemma}
+\begin{proof}
+Unpack the quotient witness in \(\mathsf{NatDivides}(d,n)\). The
+corresponding multiplication witness has \(d\) as its multiplicand, and
+the multiplicand readback for closed multiplication derivations reads the
+unary carrier directly from it.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_divisor\_unary}
 
 \begin{theorem}[Divisibility antisymmetry up to history-sameness]
 \label{thm:nat-divides-antisymmetry-hsame}
@@ -82,6 +126,7 @@ If $q\hsame\emp$, the first multiplication witness has empty multiplier, so $e\h
 
 It remains to consider $q\not\hsame\emp$ and $r\not\hsame\emp$. By \autoref{lem:natmul-nonempty-quotient-product-extension}, there are unary tails $t$ and $s$ with $\Cont(d,t,e)$ and $\Cont(e,s,d)$. By closed unary generation, each tail is either $\emp$ or a one-extension. If $t\hsame\emp$, the first continuation is a right-unit continuation and gives $e\hsame d$ by \autoref{lem:unary-continuation-unit}; symmetry gives $d\hsame e$. If $s\hsame\emp$, the second continuation gives $d\hsame e$ directly. If both tails are one-extensions, the two continuations are strict unary prefix witnesses in the sense of \autoref{def:nat-unary-strict-prefix}, contradicting \autoref{thm:nat-unary-strict-prefix-asymm}. From that contradiction the desired history-sameness follows.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_antisymmetry\_hsame}
 
 \begin{lemma}[Unary multiplication transports along the multiplicand]
 \label{lem:nat-mul-multiplicand-hsame-transport}
@@ -90,6 +135,30 @@ Let $d,q,n$ be unary histories, and let $d'$ be a history with $d\hsame d'$. If 
 \begin{proof}
 By \autoref{lem:unary-transport}, $d'$ is unary. Induct on the closed $\mathsf{NatMul}(d,q,n)$ witness from \autoref{def:nat-multiplication}. In the zero-multiplier case, the result is $\emp$, and the zero constructor with the unary witness for $d'$ gives $\mathsf{NatMul}(d',\emp,\emp)$. In the successor case, the induction hypothesis gives $\mathsf{NatMul}(d',q,n_0)$ for the predecessor product. The original last step is a continuation $\Cont(n_0,d,n_1)$. Transport that continuation along reflexivity on $n_0$, the hypothesis $d\hsame d'$, and reflexivity on $n_1$ using \autoref{thm:cont-hsame-transport}; this gives $\Cont(n_0,d',n_1)$. Applying the successor constructor of \autoref{def:nat-multiplication} yields $\mathsf{NatMul}(d',\Eone(q),n_1)$.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_multiplicand\_hsame\_transport}
+
+\begin{lemma}[Unary multiplication transports along the multiplier]
+\label{lem:natmul-multiplier-hsame-transport}
+Let $d,q,n$ be unary multiplication histories, and let $q'$ be a history with
+$q\hsame q'$. If $\mathsf{NatMul}(d,q,n)$, then $q'$ is unary and
+$\mathsf{NatMul}(d,q',n)$.
+\end{lemma}
+\begin{proof}
+Case-analyze the displayed history-sameness $q\hsame q'$. In the reflexive
+case the original multiplication witness already has multiplier $q'$, and the
+right-unary theorem for $\mathsf{NatMul}$ supplies the unary witness for that
+multiplier.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_multiplier\_hsame\_transport}
+
+\begin{lemma}[Unary multiplication successor result-continuation transport]
+\label{lem:nat-mul-succ-result-cont-transport}
+Let $d,q,n$ be unary histories, and let $n'$ be a history with $n\hsame n'$. If $\mathsf{NatMul}(d,\Eone(q),n)$, then there is a predecessor product $p$ with $\mathsf{NatMul}(d,q,p)$ and $\Cont(p,d,n')$.
+\end{lemma}
+\begin{proof}
+Invert the successor multiplication witness to obtain a predecessor product $p$ and the final continuation $\Cont(p,d,n)$. Transport this continuation along the displayed result history-sameness, leaving the predecessor product unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_cont\_transport}
 
 \begin{theorem}[Divisibility transports along divisor history-sameness]
 \label{thm:nat-divides-divisor-hsame-transport}
@@ -98,6 +167,7 @@ Let $d$ and $e$ be unary histories, and let $d'$ be any history with $d\hsame d'
 \begin{proof}
 Unpack \autoref{def:nat-divides}. Choose a unary quotient $q$ with $\mathsf{NatMul}(d,q,e)$. By \autoref{lem:nat-mul-multiplicand-hsame-transport}, the same quotient satisfies $\mathsf{NatMul}(d',q,e)$. Since the quotient witness itself remains unary, the existential clause in \autoref{def:nat-divides} gives $\mathsf{NatDivides}(d',e)$.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_divisor\_hsame\_transport}
 
 \begin{lemma}[Unary multiplication transports along the result]
 \label{lem:nat-mul-result-hsame-transport}
@@ -108,6 +178,25 @@ Case-analyze the closed witness for $\mathsf{NatMul}(d,q,n)$ from \autoref{def:n
 
 In the successor case, the witness consists of a predecessor product $\mathsf{NatMul}(d,q_0,n_0)$ and a continuation $\Cont(n_0,d,n_1)$. The result hypothesis is $n_1\hsame n'$. Apply \autoref{thm:cont-hsame-transport} to this continuation, using reflexivity from \autoref{thm:history-sameness-equivalence} on $n_0$ and $d$ and the displayed result sameness. This yields $\Cont(n_0,d,n')$, and the successor constructor of \autoref{def:nat-multiplication} gives $\mathsf{NatMul}(d,\Eone(q_0),n')$.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_result\_hsame\_transport}
+
+\begin{lemma}[Unary multiplication append multiplier totality]
+\label{lem:nat-mul-append-multiplier-total}
+Let $d,w,n,q$ be histories. If $\mathsf{NatMul}(d,w,n)$ and $q$ is unary, then
+there is a unary result $r$ with
+$$
+\mathsf{NatMul}(d,\mathsf{append}(w,q),r).
+$$
+\end{lemma}
+\begin{proof}
+Read the unary multiplicand from the existing multiplication witness. Totality
+of unary multiplication supplies a unary product $e$ for the appended
+multiplier tail $q$. The continuation from $n$ to $e$ gives the displayed result
+$r=\mathsf{append}(n,e)$, and append-continuation closure for
+$\mathsf{NatMul}$ combines the two multiplication witnesses into the product
+over $\mathsf{append}(w,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_total}
 
 \begin{theorem}[Divisibility transports along dividend history-sameness]
 \label{thm:nat-divides-dividend-hsame-transport}
@@ -116,6 +205,7 @@ Let $d$ and $e$ be unary histories, and let $e'$ be a history with $e\hsame e'$.
 \begin{proof}
 By \autoref{lem:unary-transport}, the history $e'$ is unary, so it is an admissible dividend endpoint. Unpack \autoref{def:nat-divides}. Choose a unary quotient $q$ with $\mathsf{NatMul}(d,q,e)$. By \autoref{lem:nat-mul-result-hsame-transport}, the same quotient satisfies $\mathsf{NatMul}(d,q,e')$. The quotient witness remains unary, so the existential clause in \autoref{def:nat-divides} gives $\mathsf{NatDivides}(d,e')$.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_dividend\_hsame\_transport}
 
 \begin{corollary}[Divisibility transports along both endpoints]
 \label{cor:nat-divides-endpoint-hsame-transport}
@@ -124,3 +214,14 @@ Let $d$ and $e$ be unary histories, and let $d'$ and $e'$ be histories with $d\h
 \begin{proof}
 Unary transport puts $d'$ and $e'$ in the unary carrier. First apply \autoref{thm:nat-divides-divisor-hsame-transport} to transport the divisor from $d$ to $d'$, obtaining $\mathsf{NatDivides}(d',e)$. Then apply \autoref{thm:nat-divides-dividend-hsame-transport} to transport the dividend from $e$ to $e'$. The result is $\mathsf{NatDivides}(d',e')$.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_endpoint\_hsame\_transport}
+
+\begin{closurestatus}{\PrimeUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The unary-prime semantic certificate, with divisibility and primality predicates on unary histories, $\hsame$-restricted classifier, transport, and infinitude ledger rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.PrimeUp.prime\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{Full prime-number theory: gcd and Euclidean algorithm package, unique factorisation, prime distribution, prime number theorem, modular arithmetic, or analytic number theory.}
+  \upgradepath{$\matureClosure$ requires public divisibility and prime readback, gcd and factorisation laws, Euclid infinitude as a public theorem, endpoint exactness, and no-hidden-leakage.}
+\end{closurestatus}

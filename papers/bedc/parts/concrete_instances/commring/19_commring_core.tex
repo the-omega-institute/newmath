@@ -99,6 +99,7 @@ symmetry and transitivity of $\hsame$; the carrier fields are preserved by the
 same singleton endpoint classification, so the commutativity row remains
 $R_{\emp}$-classified after replacement.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.concrete\_singleton\_history\_commring\_full\_schema\_laws}
 
 \begin{theorem}[Concrete singleton history CommRingUp certificate boundary]
 \label{thm:concrete-singleton-history-commring-certificate-boundary}
@@ -225,6 +226,37 @@ $\rho_{\emp}$ are the singleton carrier witnesses for $\emp$, and the relation
 component is $\hsame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
+
+\begin{proposition}[CommRing forgets to Ring certificate]
+\label{prop:commring-forgets-ring-certificate}
+Let $R$ carry a $\CommRingUp(R)$ certificate. If the multiplication-commutativity
+row and its commutative-ring-specific ledger entries are omitted from the
+exported package, the retained carrier, source, ring pattern, classifier, ring
+stability fields, and ring ledger form a $\RingUp(R)$ certificate. The
+operations $0_R$, $1_R$, $+_R$, $(-)_R$, $\cdot_R$, and the carrier classifier
+on $R$ are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:commring-certificate-obligations}, a commutative-ring
+certificate supplies the same carrier operations as a ring certificate,
+together with the extra multiplication-commutativity requirement. Removing only
+that extra row leaves the carrier data of \autoref{def:ring-carrier}: zero,
+one, addition, additive inverse, multiplication, and the same carrier
+classifier.
+
+The source, pattern, classifier, stability, and ledger rows retained by this
+projection are exactly the ring rows. The source still contains the additive
+abelian-group and multiplicative monoid data required by
+\autoref{def:ring-source-specification}; the pattern still generates the ring
+expression language; and the stability rows still contain the ring
+congruence, distributivity, zero-multiplication, and unit laws listed in
+\autoref{def:ring-stability-certificate}.
+
+The discarded entries are precisely those whose only role is to witness or
+record multiplication commutativity. Therefore the retained rows satisfy
+\autoref{def:ring-certificate-obligations} with the same operations and
+classifier carried by the original $\CommRingUp$ certificate.
+\end{proof}
 
 \begin{theorem}[CommRing singleton negation empty endpoint]
 \label{thm:commring-singleton-neg-empty-endpoint}
@@ -466,6 +498,51 @@ introduction packages the four factors.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_context\_carrier\_split}
 
+\begin{theorem}[CommRing singleton classifier append-left carrier exactness]
+\label{thm:commring-singleton-classifier-append-left-carrier-iff}
+For histories $h,k,\mathit{out}:\mathsf{BHist}$, the singleton
+commutative-ring classifier relates the appended left endpoint to
+$\mathit{out}$ exactly when all three visible histories are singleton
+carriers:
+$$
+\rho_{\emp}(\mathsf{append}(h,k),\mathit{out})
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land A_{\emp}(\mathit{out}).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the left endpoint carrier from the classifier
+and applies empty-result inversion for append, yielding singleton carrier
+witnesses for $h$ and $k$. The right endpoint carrier is the second classifier
+field.
+
+Conversely, the carrier witnesses for $h$ and $k$ rebuild a singleton carrier
+witness for $\mathsf{append}(h,k)$ by empty-result construction. Together with
+the carrier witness for $\mathit{out}$, transitivity through $\emp$ and symmetry
+give the displayed singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_left\_carrier\_iff}
+
+\begin{theorem}[CommRing singleton classifier append-right carrier exactness]
+\label{thm:commring-singleton-classifier-append-right-carrier-iff}
+For histories $h,k,\mathit{out}:\mathsf{BHist}$, the singleton
+commutative-ring classifier relates $\mathit{out}$ to the appended right
+endpoint exactly when all three visible histories are singleton carriers:
+$$
+\rho_{\emp}(\mathit{out},\mathsf{append}(h,k))
+\Longleftrightarrow
+A_{\emp}(\mathit{out})\land A_{\emp}(h)\land A_{\emp}(k).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the right endpoint carrier from the classifier
+and splits the append carrier by empty-result inversion. Conversely, singleton
+carrier witnesses for $h$ and $k$ rebuild the appended right carrier. Together
+with the carrier witness for $\mathit{out}$, transitivity through $\emp$ gives
+the displayed classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_right\_carrier\_iff}
+
 \begin{theorem}[CommRing singleton classifier append commuted factors]
 \label{thm:commring-singleton-classifier-append-comm-congr}
 For histories $h,h',k,k':\mathsf{BHist}$, if the singleton commutative-ring
@@ -489,6 +566,28 @@ therefore classified through $\emp$, so transitivity and symmetry of $\hsame$
 give the displayed singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_comm\_congr}
+
+\begin{theorem}[CommRing singleton classifier append commutativity compatibility]
+\label{thm:commring-singleton-classifier-append-commutativity-compatible}
+For histories $x,x',y,y':\mathsf{BHist}$, if the singleton commutative-ring
+classifier relates $x$ to $x'$ and relates $y$ to $y'$, then it classifies
+three append endpoints:
+$$
+\rho_{\emp}(\mathsf{append}(x,y),\mathsf{append}(y,x)),
+\quad
+\rho_{\emp}(\mathsf{append}(x',y'),\mathsf{append}(y',x')),
+\quad
+\rho_{\emp}(\mathsf{append}(x,y),\mathsf{append}(x',y')).
+$$
+\end{theorem}
+\begin{proof}
+The two classifier hypotheses expose singleton carrier witnesses for
+$x,x',y,y'$. Empty-result construction for append builds singleton carrier
+witnesses for each displayed appended endpoint. Since every endpoint in the
+three classifier rows is classified through $\emp$, symmetry and transitivity
+of $\hsame$ package the three singleton classifier witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_commutativity\_compatible}
 
 \begin{theorem}[CommRing singleton classifier append commutation carrier exactness]
 \label{thm:commring-singleton-classifier-append-comm-carrier-iff}
@@ -569,6 +668,35 @@ append-empty inversion gives the two singleton carrier witnesses, and their
 chain through $\emp$ supplies the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_continuation\_empty\_result\_iff}
+
+\begin{theorem}[CommRing singleton continuation carrier split]
+\label{thm:commring-singleton-continuation-carrier-split}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton
+commutative-ring carrier on the continuation result splits exactly over the two
+input histories:
+$$
+\mathsf{CommRingSingletonCarrier}(R)
+\quad\Longleftrightarrow\quad
+\mathsf{CommRingSingletonCarrier}(P)\land
+\mathsf{CommRingSingletonCarrier}(Q).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, read
+$\mathsf{CommRingSingletonCarrier}(R)$ as $\hsame(R,\emp)$. Apply the reverse
+direction of
+Theorem~\ref{thm:commring-singleton-classifier-continuation-empty-result} to
+obtain $\mathsf{CommRingSingletonClassifier}(P,Q)$, and then unpack its two
+endpoint carrier witnesses.
+
+For the converse implication, assume carrier witnesses for $P$ and $Q$. These
+are witnesses of $\hsame(P,\emp)$ and $\hsame(Q,\emp)$, so symmetry and
+transitivity through $\emp$ package
+$\mathsf{CommRingSingletonClassifier}(P,Q)$. Apply the forward direction of
+Theorem~\ref{thm:commring-singleton-classifier-continuation-empty-result} to get
+$\hsame(R,\emp)$, which is exactly
+$\mathsf{CommRingSingletonCarrier}(R)$.
+\end{proof}
 
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}

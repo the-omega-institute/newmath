@@ -14,6 +14,7 @@ stdlib only (project rule: no third-party deps in tools).
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import subprocess
@@ -101,57 +102,129 @@ def count_paper_markers_per_chapter() -> list[dict]:
 NAMECERT_TARGET_RE = re.compile(
     r"\\(leanchecked|leanstmt)\{"
     r"(BEDC\.(?:Derived|FKernel)\.([A-Za-z]+)\.[A-Za-z0-9_\\]*?"
-    r"[Nn]ame[A-Za-z0-9_\\]{0,3}[Cc]ert(?:ificate)?"
-    r"[A-Za-z0-9_\\]*)"
+    # Strict definition: only NameCert / Name(_)Certificate-shaped
+    # theorems count as object-completion proofs. Other completion-
+    # related naming (*_laws, *_certificate_fields, *_stability_*) is
+    # NOT folded in here; the detail panel adds an explicit fallback
+    # message when a closurestatus block has no canonical namecert
+    # to surface.
+    r"[Nn]ame[A-Za-z0-9_\\]{0,3}[Cc]ert(?:ificate)?[A-Za-z0-9_\\]*)"
     r"\}"
 )
+
+# Author-declared chapter closure block. Same source-of-truth used by
+# critical_path.py and bedc_ci.py.
+CLOSURESTATUS_BEGIN_RE = re.compile(
+    r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
+)
+CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
+THEORYCLOSURE_RE = re.compile(r"\\theoryclosure\{\\(\w+)\}")
+FORMALSTATUS_RE = re.compile(r"\\formalstatus\{\\(\w+)\}")
+LEANTARGET_RE = re.compile(r"\\leantarget\{([^}]+)\}")
+BRIDGESTATUS_RE = re.compile(r"\\bridgestatus\{([^}]+)\}")
+
+CLOSURE_GRADE_ORDER = [
+    "seedClosure", "obligationClosure", "scopedClosure",
+    "publicClosure", "bridgedClosure", "matureClosure",
+]
+FORMAL_GRADE_ORDER = [
+    "unformalizedV", "formalTargetV", "encodedDefV",
+    "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
+    "axiomCleanV", "bridgeCheckedV",
+]
+
+
+def _macro_arg(text: str, name: str) -> str | None:
+    start = text.find("\\" + name + "{")
+    if start < 0:
+        return None
+    i = start + len(name) + 2
+    depth = 1
+    out: list[str] = []
+    while i < len(text):
+        ch = text[i]
+        if ch == "{":
+            depth += 1
+            out.append(ch)
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                return "".join(out).strip()
+            out.append(ch)
+        else:
+            out.append(ch)
+        i += 1
+    return None
+
 
 # FKernel namespaces that own a region's namecert (the region lives in
 # `Derived/` conceptually but its proof tree is in the kernel).
 FKERNEL_REGION_OVERRIDES: dict[str, str] = {
-    "Unary": "nat",  # nat_up_name_certificate, add_up_name_certificate_exists
+    "Unary": "nat",       # nat_up_name_certificate, etc.
+    "NameCert": "kernel", # FKernel.NameCert.* — kernel-level certificate machinery
+    "Cont": "kernel",     # FKernel.Cont.* — kernel continuation lemmas
+    "Package": "kernel",
+    "Bundle": "kernel",
+    "Ask": "kernel",
+    "Hist": "kernel",
 }
+
+# Paper directories scanned for namecert markers. concrete_instances holds
+# per-region object certificates; core / hardening / proof_standing /
+# proof_sprint / capstones contain kernel-level and meta certificates that
+# nonetheless ground a region's stage.
+PAPER_NAMECERT_DIRS = [
+    PAPER_INSTANCES,
+    ROOT / "papers" / "bedc" / "parts" / "core",
+    ROOT / "papers" / "bedc" / "parts" / "hardening",
+    ROOT / "papers" / "bedc" / "parts" / "proof_standing",
+    ROOT / "papers" / "bedc" / "parts" / "proof_sprint",
+    ROOT / "papers" / "bedc" / "parts" / "capstones",
+]
 
 
 def collect_namecert_theorems_per_region() -> dict[str, list[dict]]:
-    """Walk all paper chapters; return {region_id: [{name, status, file}, ...]}.
+    """Walk all paper chapters that may carry namecert markers; return
+    {region_id: [{name, status, file}, ...]}.
 
     A 'namecert theorem' is any \\leanchecked / \\leanstmt target whose Lean
     name matches *NameCert* or *Name(_)Certificate* (the BEDC convention for
     the object-completion theorems). Stripped underscore escapes are resolved.
+    Markers in core / hardening / proof_standing also count: they ground the
+    kernel and nat / add regions whose proofs live in FKernel.
     """
     out: dict[str, list[dict]] = defaultdict(list)
-    for f in PAPER_INSTANCES.rglob("*.tex"):
-        try:
-            rel = f.relative_to(PAPER_INSTANCES)
-            text = f.read_text(encoding="utf-8", errors="ignore")
-        except Exception:
+    paper_root = ROOT / "papers" / "bedc" / "parts"
+    for top in PAPER_NAMECERT_DIRS:
+        if not top.exists():
             continue
-        for m in NAMECERT_TARGET_RE.finditer(text):
-            status = m.group(1).removeprefix("lean")  # 'checked' or 'stmt'
-            full_target = m.group(2).replace("\\_", "_")
-            module = m.group(3)  # e.g. 'FieldUp', 'NatUp', 'Unary'
-            # Determine region: Derived modules use the standard Up-stripping;
-            # FKernel modules like 'Unary' may map to a specific region via
-            # the override table (FKernel.Unary owns nat / add namecerts).
-            if "FKernel" in m.group(2):
-                region = FKERNEL_REGION_OVERRIDES.get(module)
-                # add_up_name_certificate also lives under FKernel.Unary -- detect.
-                short = full_target.split(".")[-1].lower()
-                if short.startswith("add"):
-                    region = "add"
-                elif short.startswith("nat"):
-                    region = "nat"
-            else:
-                region = canonical(lean_module_to_region(f"BEDC.Derived.{module}"))
-            if not region:
+        for f in top.rglob("*.tex"):
+            try:
+                rel = f.relative_to(paper_root)
+                text = f.read_text(encoding="utf-8", errors="ignore")
+            except Exception:
                 continue
-            out[region].append({
-                "name": full_target,
-                "short": full_target.split(".")[-1],
-                "status": status,
-                "file": str(rel),
-            })
+            for m in NAMECERT_TARGET_RE.finditer(text):
+                status = m.group(1).removeprefix("lean")  # 'checked' or 'stmt'
+                full_target = m.group(2).replace("\\_", "_")
+                module = m.group(3)  # e.g. 'FieldUp', 'NatUp', 'Unary', 'NameCert'
+                if "FKernel" in m.group(2):
+                    region = FKERNEL_REGION_OVERRIDES.get(module, "kernel")
+                    short = full_target.split(".")[-1].lower()
+                    if short.startswith("add"):
+                        region = "add"
+                    elif short.startswith("nat"):
+                        region = "nat"
+                else:
+                    region = canonical(lean_module_to_region(f"BEDC.Derived.{module}"))
+                if not region:
+                    continue
+                out[region].append({
+                    "name": full_target,
+                    "short": full_target.split(".")[-1],
+                    "status": status,
+                    "file": str(rel),
+                })
     # Deduplicate (same target may appear in multiple chapters)
     for region in out:
         seen = set()
@@ -524,6 +597,94 @@ def compute_levels(deps: dict[str, set[str]]) -> dict[str, int]:
     return level
 
 
+def _grade_index(grade: str | None, order: list[str]) -> int:
+    if grade in order:
+        return order.index(grade)
+    return -1
+
+
+def collect_closure_per_region() -> dict[str, dict]:
+    """Scan paper for closurestatus blocks.
+
+    Returns {region_id: {
+        'theory_closure': str|None,
+        'formal_status': str|None,
+        'lean_target': str|None,
+        'bridge_status': str|None,
+        'scope_closed': str|None,
+        'not_claimed': str|None,
+        'upgrade_path': str|None,
+    }}.
+    """
+    out: dict[str, dict] = {}
+    paper_root = ROOT / "papers" / "bedc" / "parts"
+    for tex in paper_root.rglob("*.tex"):
+        try:
+            text = tex.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        for m in CLOSURESTATUS_BEGIN_RE.finditer(text):
+            region = canonical(m.group(1).lower())
+            if not region:
+                continue
+
+            tail = text[m.end():]
+            end_match = CLOSURESTATUS_END_RE.search(tail)
+            body = tail[:end_match.start()] if end_match else tail
+
+            tc_match = THEORYCLOSURE_RE.search(body)
+            fs_match = FORMALSTATUS_RE.search(body)
+            lt_match = LEANTARGET_RE.search(body)
+            bs_match = BRIDGESTATUS_RE.search(body)
+            theory_closure = tc_match.group(1) if tc_match else None
+            formal_status = fs_match.group(1) if fs_match else None
+            lean_target = (
+                lt_match.group(1).replace("\\_", "_").strip()
+                if lt_match else None
+            )
+            bridge_status = bs_match.group(1).strip() if bs_match else None
+            scope_closed = _macro_arg(body, "scopeclosed")
+            not_claimed = _macro_arg(body, "notclaimed")
+            upgrade_path = _macro_arg(body, "upgradepath")
+
+            current = {
+                "theory_closure": theory_closure,
+                "formal_status": formal_status,
+                "lean_target": lean_target,
+                "bridge_status": bridge_status,
+                "scope_closed": scope_closed,
+                "not_claimed": not_claimed,
+                "upgrade_path": upgrade_path,
+            }
+            prev = out.get(region)
+            if prev is None:
+                out[region] = current
+                continue
+
+            prev_theory = _grade_index(prev.get("theory_closure"), CLOSURE_GRADE_ORDER)
+            cur_theory = _grade_index(theory_closure, CLOSURE_GRADE_ORDER)
+            if cur_theory > prev_theory:
+                out[region] = current
+                continue
+
+            if cur_theory == prev_theory:
+                prev_formal = _grade_index(prev.get("formal_status"), FORMAL_GRADE_ORDER)
+                cur_formal = _grade_index(formal_status, FORMAL_GRADE_ORDER)
+                if cur_formal > prev_formal:
+                    prev["formal_status"] = formal_status
+                if prev.get("lean_target") is None and lean_target:
+                    prev["lean_target"] = lean_target
+                if prev.get("bridge_status") is None and bridge_status:
+                    prev["bridge_status"] = bridge_status
+                if prev.get("scope_closed") is None and scope_closed:
+                    prev["scope_closed"] = scope_closed
+                if prev.get("not_claimed") is None and not_claimed:
+                    prev["not_claimed"] = not_claimed
+                if prev.get("upgrade_path") is None and upgrade_path:
+                    prev["upgrade_path"] = upgrade_path
+    return out
+
+
 def build_dependency_graph() -> dict:
     """Build cytoscape graph by analysing Lean imports and paper \\autoref
     cross-references. Augmented with theorem counts, paper marker counts,
@@ -533,6 +694,7 @@ def build_dependency_graph() -> dict:
     paper_per_chapter = count_paper_markers_per_chapter()
     paper_per_region = aggregate_markers_per_region(paper_per_chapter)
     namecert_per_region = collect_namecert_theorems_per_region()
+    closure_per_region = collect_closure_per_region()
 
     deps_map, all_regions = derive_dependency_edges()
     schema_set = detect_schema_only_regions()
@@ -571,9 +733,31 @@ def build_dependency_graph() -> dict:
             "stmt": markers["stmt"],
             "defs": markers["def"],
             "schema_only": nid in schema_set,
-            # Namecert-theorem-grounded status: these are the actual
-            # object-completion proofs. Node stage is decided by these
-            # counts, not by aggregate chapter marker counts.
+            # Author-declared chapter closure block, shared with critical_path.py.
+            # null until the author writes both axes in a closurestatus block.
+            "closed_theoryclosure": (
+                closure_per_region.get(nid) or {}
+            ).get("theory_closure"),
+            "closed_formalstatus": (
+                closure_per_region.get(nid) or {}
+            ).get("formal_status"),
+            "closure_grounding": (
+                closure_per_region.get(nid) or {}
+            ).get("lean_target"),
+            "closed_bridge_status": (
+                closure_per_region.get(nid) or {}
+            ).get("bridge_status"),
+            "scope_closed": (
+                closure_per_region.get(nid) or {}
+            ).get("scope_closed"),
+            "not_claimed": (
+                closure_per_region.get(nid) or {}
+            ).get("not_claimed"),
+            "upgrade_path": (
+                closure_per_region.get(nid) or {}
+            ).get("upgrade_path"),
+            # Namecert-theorem-grounded data (kept for the detail panel,
+            # NOT used for proven/progress classification; closure is).
             "namecert_theorems": namecerts,
             "namecert_checked": len(namecerts_checked),
             "namecert_stmt": len(namecerts_stmt),
@@ -608,6 +792,14 @@ def build_glossary() -> dict:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="write dependency graph JSON to this path",
+    )
+    args = parser.parse_args()
+
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     print("[build-dossier-status] scanning Lean theorem counts...", file=sys.stderr)
@@ -655,6 +847,8 @@ def main() -> int:
     (DATA_DIR / "status.json").write_text(json.dumps(status, indent=2), encoding="utf-8")
     (DATA_DIR / "glossary.json").write_text(json.dumps(glossary, indent=2, ensure_ascii=False), encoding="utf-8")
     (DATA_DIR / "dependency.json").write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
+    if args.output:
+        args.output.write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print(
         f"[build-dossier-status] wrote {DATA_DIR.relative_to(ROOT)}/{{status,glossary,dependency}}.json "

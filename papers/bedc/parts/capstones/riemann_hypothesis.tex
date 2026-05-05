@@ -8,9 +8,9 @@ This capstone formally states the Riemann Hypothesis inside BEDC's distinction-f
 
 The dependency chain of the conjecture is laid out explicitly here, level by level, because the constructive content of the statement depends on every layer above it. Each level is given as a remark naming the supporting certificates, the responsible chapters, the current closure status (closed $\checkmark$, pending $\Box$, scaffold-only $\circ$), and the specific contribution of each chapter to the RH statement.
 
-\begin{remark}[LEVEL 1: arithmetic foundation, status $\checkmark$]
+\begin{remark}[LEVEL 1: arithmetic foundation, status $\checkmark/\Box$]
 \label{rem:rh-level-1}
-The naming certificates $\NameCert_{\NatUp}$ (\autoref{ch:concrete-instances-nat-namecert}), $\NameCert_{\IntUp}$, $\NameCert_{\RatUp}$ (\autoref{ch:concrete-instances-rat-namecert}), and $\NameCert_{\PrimeUp}$ (\autoref{ch:concrete-instances-prime-namecert}) are closed. They supply the arithmetic generators on which every later layer is built: $\NatUp$ provides indexing for series, $\IntUp$ provides signed exponents, $\RatUp$ provides the dense subfield needed for the regular Cauchy completion of $\RealUp$, and $\PrimeUp$ provides the index set of the Euler product $\zeta(s) = \prod_{p} (1 - p^{-s})^{-1}$.
+The naming certificates $\NameCert_{\NatUp}$ (\autoref{ch:concrete-instances-nat-namecert}), $\NameCert_{\IntUp}$, and $\NameCert_{\RatUp}$ (\autoref{ch:concrete-instances-rat-namecert}) form the checked arithmetic base. They supply the generators on which every later layer is built: $\NatUp$ provides indexing for series, $\IntUp$ provides signed exponents, and $\RatUp$ provides the dense subfield needed for the regular Cauchy completion of $\RealUp$. The certificate $\NameCert_{\PrimeUp}$ (\autoref{ch:concrete-instances-prime-namecert}) remains an open arithmetic certificate until its semantic naming certificate carries $\TheoryGate(\PrimeUp, \scopedClosure)$ at $\FormalStatus(\PrimeUp, \theoremCheckedV)$; once both axes hold, it supplies the index set of the Euler product $\zeta(s) = \prod_{p} (1 - p^{-s})^{-1}$.
 \end{remark}
 
 \begin{remark}[LEVEL 2: real analysis, status $\Box$]
@@ -35,7 +35,7 @@ The certificates $\NameCert_{\ComplexSeriesUp}$ (\autoref{ch:concrete-instances-
 
 \begin{remark}[Reading the chain]
 \label{rem:rh-chain-reading}
-Each level depends only on the levels strictly below it. The dependency is acyclic; the order in which a constructive RH proof must be assembled is exactly the order of \autoref{rem:rh-level-1} through \autoref{rem:rh-level-5}. No level can be skipped. The closure status column makes visible the current obligation: LEVEL 1 is fully closed, LEVEL 2 is one capstone away from closure, and LEVELs 3 through 5 are scaffolds whose elaboration is the bulk of the work between this capstone and a finished RH statement.
+Each level depends only on the levels strictly below it. The dependency is acyclic; the order in which a constructive RH proof must be assembled is exactly the order of \autoref{rem:rh-level-1} through \autoref{rem:rh-level-5}. No level can be skipped. The closure status column makes visible the current obligation: LEVEL 1 has a closed $\NatUp/\IntUp/\RatUp$ base with $\PrimeUp$ still pending, LEVEL 2 is one capstone away from closure, and LEVELs 3 through 5 are scaffolds whose elaboration is the bulk of the work between this capstone and a finished RH statement.
 \end{remark}
 
 \section{Formal statement of RH in BEDC}

@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """Active target discovery for BEDC bedc-deep.
 
-Two modes:
+Modes:
   probe   — codex scans papers/bedc/parts + lean4/BEDC for structural gaps,
             then claude reviews and filters; accepted candidates append to
             BOARD.md as new B-XX entries.
   curator — codex meta-review of completed-target transcripts + paper +
             BOARD progress; proposes under-represented directions, then
             claude reviews and filters.
+  paper_review — paper-only referee audit over `papers/bedc/parts/`; kept
+            candidates route through board_spawn before entering BOARD.
 
-Both modes are invoked manually (not inside the run-loop) so the user can
+Discovery modes are invoked manually or by supervisor low-water refill, so the user can
 inspect candidates before they enter the queue.
 
 Pattern matches the rest of bedc-deep: codex generates, claude gates.
@@ -28,6 +30,7 @@ import subprocess
 
 import codex_orchestrator
 import killo_golden_writeback
+import board_spawn
 from locks import file_lock
 from oracle_client import (
     BOARD_PATH,
@@ -63,28 +66,37 @@ def _git(args: list[str]) -> subprocess.CompletedProcess[str]:
     )
 
 
+# Upstream integration branch we sync into bedc-claim-packet-pipeline.
+# Kept in sync with dev_sync_resolver.UPSTREAM_BRANCH; switched from `dev`
+# to `codex-auto-dev` because codex_formalize merges land there first
+# and `dev` lags by hours-to-days.
+UPSTREAM_BRANCH = "codex-auto-dev"
+UPSTREAM_REF = f"origin/{UPSTREAM_BRANCH}"
+
+
 def sync_dev_if_clean() -> bool:
-    """Best-effort fetch + merge of origin/dev. Skips silently on uncommitted
-    changes or merge conflicts. Acquires paper_writes lock to avoid clashing
-    with a Stage 2 .tex append. Returns True iff dev's commits were merged.
+    """Best-effort fetch + merge of the upstream integration branch. Skips
+    silently on uncommitted changes or merge conflicts. Acquires
+    paper_writes lock to avoid clashing with a Stage 2 .tex append.
+    Returns True iff upstream commits were merged.
     """
     status = _git(["status", "--porcelain"])
     if status.stdout.strip():
         print("[discovery] sync_dev skipped: uncommitted changes", flush=True)
         return False
-    _git(["fetch", "origin", "dev"])
-    behind = _git(["rev-list", "--count", "HEAD..origin/dev"])
+    _git(["fetch", "origin", UPSTREAM_BRANCH])
+    behind = _git(["rev-list", "--count", f"HEAD..{UPSTREAM_REF}"])
     n = behind.stdout.strip() or "0"
     if n == "0":
         return False
-    print(f"[discovery] sync_dev pulling {n} commits from origin/dev", flush=True)
+    print(f"[discovery] sync_dev pulling {n} commits from {UPSTREAM_REF}", flush=True)
     with file_lock("paper_writes"):
-        merge = _git(["merge", "--no-edit", "origin/dev"])
+        merge = _git(["merge", "--no-edit", UPSTREAM_REF])
     if merge.returncode != 0:
         print("[discovery] sync_dev merge failed; aborting", flush=True)
         _git(["merge", "--abort"])
         return False
-    print(f"[discovery] sync_dev merged origin/dev cleanly ({n} commits)", flush=True)
+    print(f"[discovery] sync_dev merged {UPSTREAM_REF} cleanly ({n} commits)", flush=True)
     return True
 
 
@@ -195,6 +207,29 @@ def _intersect_keep(candidates: list[dict], decisions: list[dict]) -> tuple[list
     return kept, dropped
 
 
+def _chapter_from_inputs(inputs: list[str]) -> str:
+    for p in inputs:
+        m = re.search(r"papers/bedc/parts/([^/]+)/", p)
+        if m:
+            return m.group(1)
+    return "concrete_instances"
+
+
+def _for_board_spawn(candidate: dict, *, mode: str) -> dict:
+    """Normalize discovery candidates for the shared BOARD spawn judge.
+
+    The discovery prompts use `concrete_claim`; board_spawn expects `claim`.
+    Keep all original evidence fields, but route through the common judge so
+    paper-review discoveries are not appended by a weaker side path.
+    """
+    inputs = candidate.get("local_inputs") or []
+    out = dict(candidate)
+    out["claim"] = candidate.get("claim") or candidate.get("concrete_claim") or ""
+    out["chapter"] = candidate.get("chapter") or _chapter_from_inputs(inputs)
+    out["source"] = mode
+    return out
+
+
 def _extract_json_object(text: str) -> dict | None:
     text = (text or "").strip()
     if not text:
@@ -221,7 +256,14 @@ def _persist(mode: str, payload: dict) -> Path:
     return out
 
 
-def _run_two_stage(args: argparse.Namespace, mode: str, claude_template: str, **claude_kwargs) -> int:
+def _run_two_stage(
+    args: argparse.Namespace,
+    mode: str,
+    claude_template: str,
+    *,
+    append_via_board_spawn: bool = False,
+    **claude_kwargs,
+) -> int:
     """Adversarial two-stage discovery: claude generates with evidence, codex
     cross-checks independently, intersection lands on BOARD."""
     if not args.no_dev_sync:
@@ -259,7 +301,10 @@ def _run_two_stage(args: argparse.Namespace, mode: str, claude_template: str, **
     if not ok:
         print(f"[{mode}] phase 2 failed: {err}; falling back to phase-1 candidates without cross-check", flush=True)
         decisions = []
-    kept, dropped = _intersect_keep(claude_candidates, decisions)
+        kept = claude_candidates
+        dropped = []
+    else:
+        kept, dropped = _intersect_keep(claude_candidates, decisions)
     print(f"[{mode}] phase 2: kept {len(kept)} of {len(claude_candidates)} (codex dropped {len(dropped)})", flush=True)
 
     final_state: dict = {
@@ -274,11 +319,27 @@ def _run_two_stage(args: argparse.Namespace, mode: str, claude_template: str, **
 
     appended: list[str] = []
     if args.append and kept:
-        appended = append_candidates_to_board(
-            kept,
-            fit_threshold=args.candidate_fit_threshold,
-            novelty_threshold=args.candidate_novelty_threshold,
-        )
+        if append_via_board_spawn:
+            spawn_candidates = [_for_board_spawn(c, mode=mode) for c in kept]
+            spawn_result = board_spawn.spawn_from_candidates(
+                codex_candidates=spawn_candidates,
+                oracle_candidates=[],
+                fit_threshold=args.candidate_fit_threshold,
+                novelty_threshold=args.candidate_novelty_threshold,
+            )
+            final_state["board_spawn"] = {
+                "ok": spawn_result.ok,
+                "error": spawn_result.error,
+                "accepted": spawn_result.accepted,
+                "rejected": spawn_result.rejected,
+            }
+            appended = spawn_result.appended_ids if spawn_result.ok else []
+        else:
+            appended = append_candidates_to_board(
+                kept,
+                fit_threshold=args.candidate_fit_threshold,
+                novelty_threshold=args.candidate_novelty_threshold,
+            )
         final_state["appended_ids"] = appended
         print(f"[{mode}] appended {len(appended)} to BOARD.md: {appended}", flush=True)
 
@@ -306,23 +367,68 @@ def cmd_curator(args: argparse.Namespace) -> int:
     )
 
 
+def cmd_curriculum(args: argparse.Namespace) -> int:
+    """Curriculum probe — find textbook-classical theorems missing from
+    started chapters. Complements `probe` (which looks for internal
+    symmetry gaps inside the existing paper topology). Same two-stage
+    flow: claude proposes, codex adversarially audits.
+    """
+    return _run_two_stage(
+        args,
+        "curriculum",
+        "curriculum_probe.txt",
+        board_content=_board_text(),
+    )
+
+
+def cmd_paper_review(args: argparse.Namespace) -> int:
+    """Paper-review probe — referee-perspective audit of the paper for
+    senior-reviewer-grade revision targets (logical gaps, missing
+    companions, composite consequences, constructor inversions,
+    generalisations). Adapts loning's phase_review.txt approach but
+    routes through our judge gate so candidates land on BOARD only after
+    the same dedup / fit / novelty thresholds the other probes use.
+    """
+    return _run_two_stage(
+        args,
+        "paper_review",
+        "paper_review_probe.txt",
+        append_via_board_spawn=True,
+        board_content=_board_text(),
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="BEDC auto-discovery: codex generates, claude gates")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    p_probe = sub.add_parser("probe", help="Codex global gap scan over papers/bedc/parts + lean4/BEDC")
+    p_probe = sub.add_parser("probe", help="Static gap scan: definition-without-theorem, A→B without B→A, etc.")
     p_probe.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_probe.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_probe.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_probe.add_argument("--no-dev-sync", action="store_true", help="Skip merging origin/dev before scan")
+    p_probe.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
     p_probe.set_defaults(func=cmd_probe)
 
     p_cur = sub.add_parser("curator", help="Codex meta-review of completed targets + BOARD progress")
     p_cur.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_cur.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_cur.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_cur.add_argument("--no-dev-sync", action="store_true", help="Skip merging origin/dev before scan")
+    p_cur.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
     p_cur.set_defaults(func=cmd_curator)
+
+    p_cur2 = sub.add_parser("curriculum", help="Curriculum gap scan: classical textbook theorems missing from started chapters")
+    p_cur2.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
+    p_cur2.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
+    p_cur2.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
+    p_cur2.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_cur2.set_defaults(func=cmd_curriculum)
+
+    p_pr = sub.add_parser("paper_review", help="Editorial-referee audit: senior-review-grade revision targets (gaps, missing companions, generalisations)")
+    p_pr.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
+    p_pr.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
+    p_pr.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
+    p_pr.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_pr.set_defaults(func=cmd_paper_review)
 
     args = parser.parse_args()
     return args.func(args)

@@ -1,3 +1,4 @@
+import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
 
 namespace BEDC.Derived.ContinuousUp
@@ -214,6 +215,52 @@ theorem ContinuousModulusChain_suffix_iff {p source first second target : BHist}
                                                         (And.intro firstRel
                                                           suffixedSecondRel)))))
 
+theorem ContinuousModulusChain_visible_context_iff
+    {p q source first second target : BHist} :
+    ContinuousModulusChain (append p source) first (append second q)
+        (append (append p target) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧
+        ContinuousModulusChain source first second target := by
+  constructor
+  · intro chain
+    have suffixData :=
+      (ContinuousModulusChain_suffix_iff (p := q) (source := append p source)
+        (first := first) (second := second) (target := append p target)).mp chain
+    have prefixData :=
+      (ContinuousModulusChain_prefix_iff (p := p) (source := source)
+        (first := first) (second := second) (target := target)).mp suffixData.right
+    exact And.intro prefixData.left (And.intro suffixData.left prefixData.right)
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro suffixCarrier chain =>
+            have prefixedChain :
+                ContinuousModulusChain (append p source) first second (append p target) :=
+              (ContinuousModulusChain_prefix_iff (p := p) (source := source)
+                (first := first) (second := second) (target := target)).mpr
+                (And.intro prefixCarrier chain)
+            exact
+              (ContinuousModulusChain_suffix_iff (p := q) (source := append p source)
+                (first := first) (second := second) (target := append p target)).mpr
+                (And.intro suffixCarrier prefixedChain)
+
+theorem ContinuousModulusChain_visible_context_second_deterministic
+    {p q source first second second' target : BHist} :
+    ContinuousModulusChain (append p source) first (append second q)
+        (append (append p target) q) ->
+      ContinuousModulusChain (append p source) first (append second' q)
+        (append (append p target) q) ->
+        hsame second second' := by
+  intro left right
+  have leftData :=
+    (ContinuousModulusChain_visible_context_iff (p := p) (q := q) (source := source)
+      (first := first) (second := second) (target := target)).mp left
+  have rightData :=
+    (ContinuousModulusChain_visible_context_iff (p := p) (q := q) (source := source)
+      (first := first) (second := second') (target := target)).mp right
+  exact ContinuousModulusChain_second_deterministic leftData.right.right rightData.right.right
+
 theorem ContinuousFunctionCarrier_modulus_suffix_iff {p source map target modulus cert : BHist} :
     ContinuousFunctionCarrier source map target (append modulus p) (append cert p) <->
       UnaryHistory p ∧ ContinuousFunctionCarrier source map target modulus cert := by
@@ -292,5 +339,254 @@ theorem ContinuousFunctionCarrier_modulus_suffix_iff {p source map target modulu
                                                 (And.intro suffixedModulusCarrier
                                                   (And.intro sourceMap
                                                     suffixedTargetCert))))
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_iff
+    {p q source map target modulus cert : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+        (append (append p cert) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧
+        ContinuousFunctionCarrier source map target modulus cert := by
+  constructor
+  · intro visible
+    have suffixData :=
+      (ContinuousFunctionCarrier_modulus_suffix_iff (p := q) (source := append p source)
+        (map := map) (target := append p target) (modulus := modulus)
+        (cert := append p cert)).mp visible
+    have prefixData :=
+      (ContinuousFunctionCarrier_prefix_iff (p := p) (source := source) (map := map)
+        (target := target) (modulus := modulus) (cert := cert)).mp suffixData.right
+    exact And.intro prefixData.left (And.intro suffixData.left prefixData.right)
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro suffixCarrier carrier =>
+            have prefixedCarrier :
+                ContinuousFunctionCarrier (append p source) map (append p target) modulus
+                  (append p cert) :=
+              (ContinuousFunctionCarrier_prefix_iff (p := p) (source := source) (map := map)
+                (target := target) (modulus := modulus) (cert := cert)).mpr
+                (And.intro prefixCarrier carrier)
+            exact
+              (ContinuousFunctionCarrier_modulus_suffix_iff (p := q)
+                (source := append p source) (map := map) (target := append p target)
+                (modulus := modulus) (cert := append p cert)).mpr
+                (And.intro suffixCarrier prefixedCarrier)
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_empty_map_iff
+    {p q source target modulus cert : BHist} :
+    ContinuousFunctionCarrier (append p source) BHist.Empty (append p target)
+        (append modulus q) (append (append p cert) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ hsame target source ∧
+        ContinuousModulusWitness target modulus cert := by
+  constructor
+  · intro visible
+    have central :=
+      (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+        (source := source) (map := BHist.Empty) (target := target) (modulus := modulus)
+        (cert := cert)).mp visible
+    have emptyCentral :=
+      (ContinuousFunctionCarrier_empty_map_iff (source := source) (target := target)
+        (modulus := modulus) (cert := cert)).mp central.right.right
+    exact And.intro central.left (And.intro central.right.left emptyCentral)
+  · intro data
+    have central :
+        ContinuousFunctionCarrier source BHist.Empty target modulus cert :=
+      (ContinuousFunctionCarrier_empty_map_iff (source := source) (target := target)
+        (modulus := modulus) (cert := cert)).mpr data.right.right
+    exact
+      (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+        (source := source) (map := BHist.Empty) (target := target) (modulus := modulus)
+        (cert := cert)).mpr
+        (And.intro data.left (And.intro data.right.left central))
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic
+    {p q source map target target' modulus cert cert' : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+        (append (append p cert) q) ->
+      ContinuousFunctionCarrier (append p source) map (append p target') (append modulus q)
+        (append (append p cert') q) ->
+        hsame target target' ∧ hsame cert cert' := by
+  intro left right
+  have leftData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target) (modulus := modulus)
+      (cert := cert)).mp left
+  have rightData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target') (modulus := modulus)
+      (cert := cert')).mp right
+  exact
+    ContinuousFunctionCarrier_target_cert_deterministic
+      leftData.right.right rightData.right.right
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_map_deterministic
+    {p q source map map' target modulus cert : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+        (append (append p cert) q) ->
+      ContinuousFunctionCarrier (append p source) map' (append p target) (append modulus q)
+        (append (append p cert) q) ->
+        hsame map map' := by
+  intro left right
+  have leftData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target) (modulus := modulus)
+      (cert := cert)).mp left
+  have rightData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map') (target := target) (modulus := modulus)
+      (cert := cert)).mp right
+  exact ContinuousFunctionCarrier_map_deterministic leftData.right.right rightData.right.right
+
+theorem ContinuousFunctionCarrier_modulus_suffix_target_cert_deterministic
+    {q source map target target' modulus cert cert' : BHist} :
+    ContinuousFunctionCarrier source map target (append modulus q) (append cert q) ->
+      ContinuousFunctionCarrier source map target' (append modulus q) (append cert' q) ->
+        hsame target target' ∧ hsame cert cert' := by
+  intro left right
+  have leftData :=
+    (ContinuousFunctionCarrier_modulus_suffix_iff (p := q) (source := source)
+      (map := map) (target := target) (modulus := modulus) (cert := cert)).mp left
+  have rightData :=
+    (ContinuousFunctionCarrier_modulus_suffix_iff (p := q) (source := source)
+      (map := map) (target := target') (modulus := modulus) (cert := cert')).mp right
+  exact ContinuousFunctionCarrier_target_cert_deterministic leftData.right rightData.right
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_comp_closed
+    {p q source middle target f g fg modF modG modFG certF certG cert : BHist} :
+    ContinuousFunctionCarrier (append p source) f (append p middle) (append modF q)
+        (append (append p certF) q) ->
+      ContinuousFunctionCarrier (append p middle) g (append p target) (append modG q)
+        (append (append p certG) q) ->
+        Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
+          ContinuousFunctionCarrier (append p source) fg (append p target) (append modFG q)
+            (append (append p cert) q) := by
+  intro first second fgRel modRel certRel
+  have firstData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := f) (target := middle) (modulus := modF)
+      (cert := certF)).mp first
+  have secondData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := middle) (map := g) (target := target) (modulus := modG)
+      (cert := certG)).mp second
+  have central :
+      ContinuousFunctionCarrier source fg target modFG cert :=
+    ContinuousFunctionCarrier_comp_closed firstData.right.right secondData.right.right
+      fgRel modRel certRel
+  exact
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := fg) (target := target) (modulus := modFG)
+      (cert := cert)).mpr
+      (And.intro firstData.left (And.intro secondData.right.left central))
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_composition_public_readback
+    {p q source middle target target' f g fg modF modG modFG certF certG cert cert' : BHist} :
+    ContinuousFunctionCarrier (append p source) f (append p middle) (append modF q)
+        (append (append p certF) q) ->
+      ContinuousFunctionCarrier (append p middle) g (append p target) (append modG q)
+        (append (append p certG) q) ->
+        Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
+          ContinuousFunctionCarrier (append p source) fg (append p target')
+              (append modFG q) (append (append p cert') q) ->
+            hsame target target' ∧ hsame cert cert' := by
+  intro first second fgRel modRel certRel displayed
+  have firstData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := f) (target := middle) (modulus := modF)
+      (cert := certF)).mp first
+  have secondData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := middle) (map := g) (target := target) (modulus := modG)
+      (cert := certG)).mp second
+  have displayedData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := fg) (target := target') (modulus := modFG)
+      (cert := cert')).mp displayed
+  exact
+    ContinuousFunctionCarrier_comp_public_readback firstData.right.right secondData.right.right
+      fgRel modRel certRel displayedData.right.right
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_composite_ledger_deterministic
+    {p q source middle target f g fg fg' modF modG modFG modFG' certF certG cert cert' :
+      BHist} :
+    ContinuousFunctionCarrier (append p source) f (append p middle) (append modF q)
+        (append (append p certF) q) ->
+      ContinuousFunctionCarrier (append p middle) g (append p target) (append modG q)
+        (append (append p certG) q) ->
+        Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
+          Cont f g fg' -> Cont modF modG modFG' -> Cont target modFG' cert' ->
+            hsame fg fg' ∧ hsame modFG modFG' ∧ hsame cert cert' := by
+  intro _first _second fgRel modRel certRel fgRel' modRel' certRel'
+  have sameGraph : hsame fg fg' :=
+    cont_deterministic fgRel fgRel'
+  have sameModulus : hsame modFG modFG' :=
+    cont_deterministic modRel modRel'
+  have sameCert : hsame cert cert' :=
+    cont_respects_hsame (hsame_refl target) sameModulus certRel certRel'
+  exact And.intro sameGraph (And.intro sameModulus sameCert)
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_composite_ledger_determinacy
+    {p q source middle target f g fg fg' modF modG modFG modFG' certF certG cert cert' :
+      BHist} :
+    ContinuousFunctionCarrier (append p source) f (append p middle) (append modF q)
+        (append (append p certF) q) ->
+      ContinuousFunctionCarrier (append p middle) g (append p target) (append modG q)
+        (append (append p certG) q) ->
+        Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
+          Cont f g fg' -> Cont modF modG modFG' -> Cont target modFG' cert' ->
+            hsame fg fg' ∧ hsame modFG modFG' ∧ hsame cert cert' := by
+  intro first second fgRel modRel certRel fgRel' modRel' certRel'
+  exact
+    ContinuousFunctionCarrier_visible_modulus_context_composite_ledger_deterministic
+      first second fgRel modRel certRel fgRel' modRel' certRel'
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_field_determinacy
+    {p q source source' map map' target target' modulus modulus' cert cert' : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+        (append (append p cert) q) ->
+      ContinuousFunctionCarrier (append p source') map (append p target) (append modulus q)
+        (append (append p cert) q) ->
+        ContinuousFunctionCarrier (append p source) map' (append p target) (append modulus q)
+          (append (append p cert) q) ->
+          ContinuousFunctionCarrier (append p source) map (append p target) (append modulus' q)
+            (append (append p cert) q) ->
+            ContinuousFunctionCarrier (append p source) map (append p target') (append modulus q)
+              (append (append p cert') q) ->
+              hsame source source' ∧ hsame map map' ∧ hsame modulus modulus' ∧
+                hsame target target' ∧ hsame cert cert' := by
+  intro base displayedSource displayedMap displayedModulus displayedTarget
+  have baseData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target) (modulus := modulus)
+      (cert := cert)).mp base
+  have sourceData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source') (map := map) (target := target) (modulus := modulus)
+      (cert := cert)).mp displayedSource
+  have mapData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map') (target := target) (modulus := modulus)
+      (cert := cert)).mp displayedMap
+  have modulusData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target) (modulus := modulus')
+      (cert := cert)).mp displayedModulus
+  have targetData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target') (modulus := modulus)
+      (cert := cert')).mp displayedTarget
+  have sameSource : hsame source source' :=
+    ContinuousFunctionCarrier_source_deterministic baseData.right.right sourceData.right.right
+  have sameMap : hsame map map' :=
+    ContinuousFunctionCarrier_map_deterministic baseData.right.right mapData.right.right
+  have sameModulus : hsame modulus modulus' :=
+    ContinuousFunctionCarrier_modulus_deterministic baseData.right.right modulusData.right.right
+  have sameTargetCert : hsame target target' ∧ hsame cert cert' :=
+    ContinuousFunctionCarrier_target_cert_deterministic baseData.right.right targetData.right.right
+  exact
+    And.intro sameSource
+      (And.intro sameMap
+        (And.intro sameModulus sameTargetCert))
 
 end BEDC.Derived.ContinuousUp

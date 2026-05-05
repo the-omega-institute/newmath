@@ -19,6 +19,19 @@ $\mathsf{tail}(m)$ with $t$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_hsame\_iff}
 
+\begin{theorem}[Category hom carrier unary prefix exactness]
+\label{thm:category-hom-carrier-unary-prefix-iff}
+For a unary prefix $p$, a displayed hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$ is equivalent to the
+unprefixed hom-carrier from $a$ to $b$, together with the same morphism
+history.
+\end{theorem}
+\begin{proof}
+The forward direction cancels the common unary prefix in the two endpoint
+carriers and in the continuation ledger. The reverse direction uses unary
+append closure on both endpoints and prefixes the same continuation ledger.
+\end{proof}
+
 \begin{theorem}[Category hom carrier and continuation morphism tail correspondence]
 \label{thm:category-hom-carrier-continuation-morphism-tail-correspondence}
 For histories $a,b,f:\mathsf{BHist}$, the concrete hom-carrier witness is
@@ -238,4 +251,235 @@ exactly the four displayed fields of the basic $\CategoryUp$ hom-carrier
 stability package.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_stability\_law\_package}
-\closureat{\CategoryUp}{\checkedCertStr}
+\begin{definition}[Opposite category certificate data]
+\label{def:opposite-category-certificate-data}
+Let a $\CategoryUp$ certificate $\mathcal C$ have object carrier
+$\mathcal O$, object classifier $\sim_{\mathcal O}$, hom-carrier
+$\mathcal H(a,b,f)$, morphism classifier $\sim_{\mathcal H}$, identity
+witnesses $\mathsf{id}_a$, and composition relation
+$\mathsf{Comp}_{\mathcal C}(f,g,h)$ for displayed composable morphisms
+$f:a\to b$ and $g:b\to c$. The opposite certificate data
+$\mathcal C^{\mathrm{op}}$ are defined by
+$$
+\begin{aligned}
+\mathcal O^{\mathrm{op}}(a)&:=\mathcal O(a),&
+ a\sim_{\mathcal O}^{\mathrm{op}}a'&:=a\sim_{\mathcal O}a',\\
+\mathcal H^{\mathrm{op}}(a,b,f)&:=\mathcal H(b,a,f),&
+ f\sim_{\mathcal H}^{\mathrm{op}}g&:=f\sim_{\mathcal H}g,\\
+\mathsf{id}^{\mathrm{op}}_a&:=\mathsf{id}_a,&
+\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(f,g,h)&:=
+\mathsf{Comp}_{\mathcal C}(g,f,h).
+\end{aligned}
+$$
+\end{definition}
+
+\begin{theorem}[Opposite category certificate]
+\label{thm:opposite-category-certificate}
+If $\mathcal C$ satisfies the $\CategoryUp$ certificate obligations of
+\autoref{def:category-carrier}, then the data of
+\autoref{def:opposite-category-certificate-data} also satisfy the
+$\CategoryUp$ certificate obligations. Thus reversing hom-carriers and
+composition produces a $\CategoryUp(\mathcal C^{\mathrm{op}})$ certificate
+with the same object carrier, identity witnesses, object classifier, and
+morphism classifier.
+\end{theorem}
+\begin{proof}
+The object carrier and object classifier fields are literal reuses of the
+corresponding fields of $\mathcal C$, so their carrier and classifier laws are
+unchanged. For a fixed ordered pair $(a,b)$ in the opposite data, the
+hom-carrier predicate is the original predicate for the ordered pair $(b,a)$.
+The corresponding $\NameCert$ source, pattern, ledger, and classifier laws are
+therefore exactly the original hom-carrier certificate fields with the endpoint
+order swapped.
+
+The identity field is also inherited. At an object $a$,
+$$
+\mathcal H^{\mathrm{op}}(a,a,\mathsf{id}^{\mathrm{op}}_a)
+=
+\mathcal H(a,a,\mathsf{id}_a),
+$$
+which is the original identity hom-carrier field.
+
+For composition closure, let $f:a\to b$ and $g:b\to c$ be displayed in
+$\mathcal C^{\mathrm{op}}$. This means
+$\mathcal H(b,a,f)$ and $\mathcal H(c,b,g)$ in $\mathcal C$. If
+$\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(f,g,h)$ holds, then by definition
+$\mathsf{Comp}_{\mathcal C}(g,f,h)$ holds. The original composition closure in
+$\mathcal C$ gives $\mathcal H(c,a,h)$, which is exactly
+$\mathcal H^{\mathrm{op}}(a,c,h)$.
+
+For associativity, take composable opposite morphisms $f:a\to b$,
+$g:b\to c$, and $h:c\to d$, with displayed composites $fg$, $gh$, $left$, and
+$right$. The four opposite composition ledgers are, in $\mathcal C$,
+$$
+\mathsf{Comp}_{\mathcal C}(g,f,fg),\quad
+\mathsf{Comp}_{\mathcal C}(h,g,gh),\quad
+\mathsf{Comp}_{\mathcal C}(h,fg,left),\quad
+\mathsf{Comp}_{\mathcal C}(gh,f,right).
+$$
+Apply associativity in $\mathcal C$ to the reversed chain $h,g,f$. It compares
+$\mathsf{Comp}_{\mathcal C}(gh,f,right)$ with
+$\mathsf{Comp}_{\mathcal C}(h,fg,left)$, giving
+$right\sim_{\mathcal H}left$. Symmetry of the morphism classifier gives
+$left\sim_{\mathcal H}^{\mathrm{op}}right$.
+
+For unit laws, let $f:a\to b$ be displayed in the opposite data, so
+$f:b\to a$ in $\mathcal C$. The left unit law in $\mathcal C^{\mathrm{op}}$ is
+$\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(\mathsf{id}_a,f,left)$, which is
+$\mathsf{Comp}_{\mathcal C}(f,\mathsf{id}_a,left)$; this is the original right
+unit law. The right unit law in $\mathcal C^{\mathrm{op}}$ is
+$\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(f,\mathsf{id}_b,right)$, which is
+$\mathsf{Comp}_{\mathcal C}(\mathsf{id}_b,f,right)$; this is the original left
+unit law. Hence both opposite unit composites are classified with $f$.
+
+Endpoint transport is inherited with the same swap. A transported opposite
+hom-carrier $\mathcal H^{\mathrm{op}}(a,b,f)$ is the original carrier
+$\mathcal H(b,a,f)$, so source transport in the opposite data is target
+transport in $\mathcal C$, and target transport in the opposite data is source
+transport in $\mathcal C$. The morphism classifier is unchanged, so morphism
+transport and morphism determinacy are inherited directly.
+
+Specializing $\mathcal C$ to the unary-continuation law package of
+\autoref{thm:category-unary-continuation-stability-law-package} uses the
+identity field from \autoref{thm:category-hom-carrier-empty-identity}, the
+composition field from \autoref{thm:category-hom-carrier-comp-closed}, the
+associativity field from \autoref{thm:category-hom-carrier-comp-assoc-closed},
+the unit classification from \autoref{thm:category-hom-carrier-identity-square-closed},
+and endpoint transport from \autoref{thm:category-hom-carrier-hsame-transport}.
+\end{proof}
+\begin{closurestatus}{\CategoryUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The unary-continuation category hom-carrier composition-result semantic certificate, with identity, composition, associativity, unit classification, and endpoint transport supplied by the cited laws.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General category theory: arbitrary categories, functor categories, limits, colimits, adjunctions, equivalences, enriched categories, or categorical foundations.}
+  \upgradepath{$\publicClosure$ requires public object and morphism carriers, identity and composition readback, associativity and unit normal forms, functor-facing exactness, and no-hidden-leakage.}
+\end{closurestatus}
+
+\begin{theorem}[Double opposite category certificate data identity]
+\label{thm:double-opposite-category-certificate-data-identity}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the certificate
+obligations of \autoref{def:category-carrier}, with object carrier
+$\mathcal O$, object classifier $\sim_{\mathcal O}$, hom-carrier
+$\mathcal H(a,b,f)$, morphism classifier $\sim_{\mathcal H}$, identity
+witnesses $\mathsf{id}_a$, and composition relation
+$\mathsf{Comp}_{\mathcal C}$. Let
+$\mathcal C^{\mathrm{opop}}=(\mathcal C^{\mathrm{op}})^{\mathrm{op}}$ be
+obtained by applying \autoref{def:opposite-category-certificate-data} twice.
+Then $\mathcal C^{\mathrm{opop}}$ is a $\CategoryUp$ certificate, and its
+object carrier, object classifier, hom-carrier predicate, morphism classifier,
+identity witnesses, and composition relation are componentwise identical to
+those of $\mathcal C$:
+$$
+\begin{aligned}
+\mathcal O^{\mathrm{opop}}(a)&=\mathcal O(a),&
+ a\sim_{\mathcal O}^{\mathrm{opop}}a'&=a\sim_{\mathcal O}a',\\
+\mathcal H^{\mathrm{opop}}(a,b,f)&=\mathcal H(a,b,f),&
+ f\sim_{\mathcal H}^{\mathrm{opop}}g&=f\sim_{\mathcal H}g,\\
+\mathsf{id}^{\mathrm{opop}}_a&=\mathsf{id}_a,&
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)&=
+\mathsf{Comp}_{\mathcal C}(f,g,h).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Because $\mathcal C$ satisfies the $\CategoryUp$ obligations,
+\autoref{thm:opposite-category-certificate} makes $\mathcal C^{\mathrm{op}}$
+a certified $\CategoryUp$ instance. Applying the same theorem to that certified
+opposite data makes $\mathcal C^{\mathrm{opop}}$ a certified $\CategoryUp$
+instance.
+
+It remains only to compare the displayed data. For the object carrier and
+object classifier, two unfoldings of
+\autoref{def:opposite-category-certificate-data} give
+$\mathcal O^{\mathrm{opop}}(a)=\mathcal O^{\mathrm{op}}(a)=\mathcal O(a)$
+and
+$a\sim_{\mathcal O}^{\mathrm{opop}}a'=a\sim_{\mathcal O}^{\mathrm{op}}a'=
+a\sim_{\mathcal O}a'$.
+
+For hom-carriers, the first opposite swaps the endpoints and the second
+opposite swaps them back:
+$$
+\mathcal H^{\mathrm{opop}}(a,b,f)
+=\mathcal H^{\mathrm{op}}(b,a,f)
+=\mathcal H(a,b,f).
+$$
+The morphism classifier is not changed by either opposite construction, hence
+$f\sim_{\mathcal H}^{\mathrm{opop}}g=f\sim_{\mathcal H}g$. The identity row is
+also reused at both stages, so
+$\mathsf{id}^{\mathrm{opop}}_a=\mathsf{id}^{\mathrm{op}}_a=\mathsf{id}_a$.
+
+For composition, the two argument reversals cancel:
+$$
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)
+=\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(g,f,h)
+=\mathsf{Comp}_{\mathcal C}(f,g,h).
+$$
+Thus every listed data field of the double opposite certificate is the original
+field of $\mathcal C$.
+\end{proof}
+
+\begin{theorem}[Opposite category certificate involution]
+\label{thm:opposite-category-certificate-involution}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the obligations of
+\autoref{def:category-carrier}. Write its object carrier as $\mathcal O$,
+object classifier as $\sim_{\mathcal O}$, hom-carrier predicate as
+$\mathcal H(a,b,f)$, morphism classifier as $\sim_{\mathcal H}$, identity
+witnesses as $\mathsf{id}_a$, and composition classifier as
+$\mathsf{Comp}_{\mathcal C}(f,g,h)$. Let
+$\mathcal C^{\mathrm{opop}}=(\mathcal C^{\mathrm{op}})^{\mathrm{op}}$ be
+obtained by applying \autoref{def:opposite-category-certificate-data} twice.
+Then $\mathcal C^{\mathrm{opop}}$ is a $\CategoryUp$ certificate, and its
+object carrier, object classifier, hom-carrier predicate, morphism classifier,
+identity witnesses, and composition classifier reduce componentwise to those of
+$\mathcal C$:
+$$
+\begin{aligned}
+\mathcal O^{\mathrm{opop}}(a)&=\mathcal O(a),&
+ a\sim_{\mathcal O}^{\mathrm{opop}}a'&=a\sim_{\mathcal O}a',\\
+\mathcal H^{\mathrm{opop}}(a,b,f)&=\mathcal H(a,b,f),&
+ f\sim_{\mathcal H}^{\mathrm{opop}}g&=f\sim_{\mathcal H}g,\\
+\mathsf{id}^{\mathrm{opop}}_a&=\mathsf{id}_a,&
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)&=
+\mathsf{Comp}_{\mathcal C}(f,g,h).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Since $\mathcal C$ satisfies the $\CategoryUp$ obligations,
+\autoref{thm:opposite-category-certificate} gives a $\CategoryUp$ certificate
+on $\mathcal C^{\mathrm{op}}$. Applying the same theorem to that certificate
+gives a $\CategoryUp$ certificate on
+$\mathcal C^{\mathrm{opop}}=(\mathcal C^{\mathrm{op}})^{\mathrm{op}}$.
+
+The field comparison is obtained by two unfoldings of
+\autoref{def:opposite-category-certificate-data}. The object carrier and
+object classifier are reused by each opposite construction, so
+$\mathcal O^{\mathrm{opop}}(a)=\mathcal O^{\mathrm{op}}(a)=\mathcal O(a)$
+and
+$a\sim_{\mathcal O}^{\mathrm{opop}}a'=a\sim_{\mathcal O}^{\mathrm{op}}a'=
+a\sim_{\mathcal O}a'$.
+
+For hom-carriers, the first opposite reverses the endpoint order and the
+second opposite reverses it back:
+$$
+\mathcal H^{\mathrm{opop}}(a,b,f)
+=\mathcal H^{\mathrm{op}}(b,a,f)
+=\mathcal H(a,b,f).
+$$
+The morphism classifier is unchanged at both stages, hence
+$f\sim_{\mathcal H}^{\mathrm{opop}}g=f\sim_{\mathcal H}g$. The identity
+witnesses are also reused at both stages, so
+$\mathsf{id}^{\mathrm{opop}}_a=\mathsf{id}^{\mathrm{op}}_a=\mathsf{id}_a$.
+
+For composition, the defining reversal is applied twice. Thus, for displayed
+composable morphisms $f:a\to b$ and $g:b\to c$,
+$$
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)
+=\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(g,f,h)
+=\mathsf{Comp}_{\mathcal C}(f,g,h).
+$$
+Every displayed data field of the double opposite certificate is therefore the
+corresponding displayed data field of $\mathcal C$.
+\end{proof}

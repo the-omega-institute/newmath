@@ -13,37 +13,58 @@ format:
 ```{=html}
 <style>
   body { background: #fbfbfa; }
-  main.content { padding-top: 1rem !important; padding-bottom: 0 !important; max-width: 100% !important; }
+  /* Lock the Quarto wrapper to viewport height (minus 62px navbar) so
+     the map shell can fit on a 13" laptop without forcing scroll.
+     Wrapper paddings and Quarto's default page footer are zeroed. */
+  #quarto-content {
+    height: calc(100vh - 62px) !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+  main.content {
+    padding: 0 !important; margin: 0 !important;
+    max-width: 100% !important;
+    height: calc(100vh - 62px) !important;
+    overflow: hidden;
+  }
+  .page-footer, #quarto-content > footer { display: none !important; }
   #title-block-header { display: none; }
 
   .map-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 200px;
+    grid-template-columns: minmax(0, 1fr) 240px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas: "header header" "graph detail" "footer footer";
-    height: calc(100vh - 60px);
-    min-height: 760px;
+    /* Parent (#quarto-content) is locked to viewport-minus-navbar, so
+       the shell just fills its parent. min-height is a tablet floor.
+       overflow:hidden + min-height:0 on grid items prevents the
+       detail panel's min-content from inflating the grid past parent. */
+    height: 100%;
+    min-height: 540px;
+    overflow: hidden;
     gap: 0;
     background: #fbfbfa;
     border: 1px solid #e0e0e0;
   }
+  .map-shell > * { min-height: 0; min-width: 0; }
   main.content > .quarto-section-identifier { display: none; }
   .quarto-container { max-width: 100% !important; padding: 0 !important; }
   @media (max-width: 900px) {
     .map-shell { grid-template-columns: 1fr; grid-template-areas: "header" "graph" "detail" "footer"; height: auto; }
-    #cy { height: 540px; }
+    #cy-wrap { height: 540px; } #cy { height: 100%; }
     #detail { max-height: 480px; overflow-y: auto; }
   }
 
   .map-header {
     grid-area: header;
     padding: 0.7rem 1.2rem;
-    display: flex; align-items: baseline; justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between; gap: 0.7rem;
     border-bottom: 1px solid #e0e0e0; background: #fff;
   }
   .map-header h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.01em; }
   .map-header .summary { font-size: 0.86rem; color: #666; }
   .map-header .summary strong { color: #222; }
+  .map-controls { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end; }
   .lang-toggle { font-size: 0.85rem; }
   .lang-toggle button {
     border: 1px solid #ccc; background: white; padding: 0.2rem 0.6rem;
@@ -57,7 +78,45 @@ format:
   }
   .region-picker:focus { outline: 2px solid #2c3e50; outline-offset: -1px; }
 
-  #cy { grid-area: graph; height: 100%; background: #fbfbfa; }
+  #cy-wrap { grid-area: graph; position: relative; height: 100%; background: #fbfbfa; }
+  #cy { width: 100%; height: 100%; }
+  .map-filters {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 0.55rem 0.7rem;
+    font-size: 0.78rem;
+    z-index: 10;
+    max-width: 280px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+  .map-filters .ftitle {
+    font-weight: 600; color: #444; margin-bottom: 0.4rem; font-size: 0.78rem;
+  }
+  .map-filters .stub-row {
+    display: flex; align-items: center; gap: 0.35rem;
+    margin-bottom: 0.45rem; padding-bottom: 0.4rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer; user-select: none;
+  }
+  .map-filters .stub-row input { cursor: pointer; margin: 0; }
+  .map-filters .stub-row .lc-count { color: #888; font-size: 0.74rem; }
+  .map-filters .layer-grid { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+  .map-filters .layer-chip {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid #bbb; border-radius: 12px;
+    cursor: pointer; user-select: none;
+    background: white; color: #555;
+    font-size: 0.74rem;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+  }
+  .map-filters .layer-chip.active {
+    background: #2c3e50; color: white; border-color: #2c3e50;
+  }
+  .map-filters .layer-chip .lc-count { font-size: 0.68rem; opacity: 0.75; }
 
   #detail {
     grid-area: detail; padding: 1.2rem; overflow-y: auto;
@@ -91,7 +150,40 @@ format:
     font-size: 0.78rem; color: #2c3e50; background: transparent;
   }
   #detail .legend { margin-top: 1.5rem; padding-top: 0.9rem; border-top: 1px solid #eee; font-size: 0.82rem; color: #666; }
-  #detail .legend .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: middle; margin-right: 0.3rem; border: 1px solid rgba(0,0,0,0.2); }
+  #detail .legend .swatch {
+    display: inline-block; width: 14px; height: 14px; vertical-align: middle;
+    margin-right: 0.3rem;
+  }
+  #detail .legend .swatch.circle {
+    border-radius: 50%; border: 1px solid rgba(0,0,0,0.2);
+  }
+  #detail .legend .swatch.hex {
+    /* Cytoscape's hexagon shape, mirrored as a CSS clip-path so the legend
+       matches the on-graph node silhouette exactly. */
+    clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  }
+  #detail .legend > div { padding: 0.12rem 0; }
+  #detail .legend .legend-note {
+    margin-top: 0.45rem; font-size: 0.78rem; color: #888; line-height: 1.45;
+  }
+  #detail .closure-table {
+    margin-top: 0.8rem; padding-top: 0.7rem; border-top: 1px dashed #ddd;
+    font-size: 0.82rem; line-height: 1.4;
+  }
+  #detail .closure-row {
+    padding: 0.3rem 0; border-bottom: 1px solid #f3f3f3;
+  }
+  #detail .closure-row:last-child { border-bottom: none; }
+  #detail .closure-label {
+    color: #888; font-weight: 600;
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 0.15rem;
+  }
+  #detail .closure-value { color: #333; overflow-wrap: anywhere; }
+  #detail .closure-value code {
+    font-size: 0.78rem; color: #2c3e50; background: transparent;
+    white-space: normal; overflow-wrap: anywhere;
+  }
   #detail .crit-list { margin-top: 0.7rem; }
   #detail .crit-list a {
     display: block; padding: 0.25rem 0.5rem; margin-bottom: 0.2rem;
@@ -168,14 +260,27 @@ format:
     <select id="region-picker" class="region-picker" onchange="onPickerChange(this.value)">
       <option value="" data-i18n="picker_default">-- jump to region --</option>
     </select>
-    <div class="lang-toggle">
-      <span data-i18n="lang_label" style="margin-right:0.4rem;">Language:</span>
-      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
-      <button id="btn-zh" onclick="setLang('zh')">中文</button>
+    <div class="map-controls">
+      <div class="lang-toggle">
+        <span data-i18n="lang_label" style="margin-right:0.4rem;">Language:</span>
+        <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+        <button id="btn-zh" onclick="setLang('zh')">中文</button>
+      </div>
     </div>
   </div>
 
-  <div id="cy"></div>
+  <div id="cy-wrap">
+    <div id="cy"></div>
+    <div class="map-filters" id="map-filters">
+      <div class="ftitle" data-i18n="filter_title">Filters</div>
+      <label class="stub-row">
+        <input type="checkbox" id="stub-toggle" />
+        <span data-i18n="filter_stubs">Show stubs</span>
+        <span class="lc-count">(<span id="stub-count">0</span>)</span>
+      </label>
+      <div class="layer-grid" id="layer-grid"></div>
+    </div>
+  </div>
 
   <div id="detail">
     <div id="detail-content">
@@ -183,18 +288,19 @@ format:
     </div>
 
     <div class="legend">
-      <div data-i18n="legend_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Legend</div>
-      <div><span class="swatch" style="background:#c0392b;"></span><span data-i18n="legend_crit">Frontline (AI's current target)</span></div>
-      <div><span class="swatch" style="background:#27ae60;"></span><span data-i18n="legend_proven">Proven (object-completion theorem checked)</span></div>
-      <div><span class="swatch" style="background:#3498db;"></span><span data-i18n="legend_prog">In progress (theorems landing, completion theorem pending)</span></div>
-      <div><span class="swatch" style="background:#bdc3c7;"></span><span data-i18n="legend_scaf">Scaffold (paper only, Lean pending)</span></div>
-      <div><span class="swatch" style="background:#8e44ad;"></span><span data-i18n="legend_schema">Schema-only horizon (intentional)</span></div>
-      <div style="margin-top:0.4rem; color:#888;" data-i18n="legend_size">Size = total paper obligations (checked + stated).</div>
+      <div data-i18n="crit_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Where AI is attacking now</div>
+      <div id="crit-list" class="crit-list"></div>
     </div>
 
     <div class="legend">
-      <div data-i18n="crit_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Where AI is attacking now</div>
-      <div id="crit-list" class="crit-list"></div>
+      <div data-i18n="legend_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Legend</div>
+      <div><span class="swatch circle" style="background:#c0392b;"></span><span data-i18n="legend_crit">Frontline (AI's current target)</span></div>
+      <div><span class="swatch hex" style="background:#27ae60;"></span><span data-i18n="legend_closed">Closed (closurestatus declared)</span></div>
+      <div><span class="swatch circle" style="background:#3498db;"></span><span data-i18n="legend_prog">In progress (theorems landing, no closurestatus yet)</span></div>
+      <div><span class="swatch circle" style="background:#bdc3c7;"></span><span data-i18n="legend_scaf">Scaffold (paper only, Lean pending)</span></div>
+      <div><span class="swatch circle" style="background:#8e44ad;"></span><span data-i18n="legend_schema">Schema-only horizon (intentional)</span></div>
+      <div class="legend-note" data-i18n="legend_shape">Shape encodes theory-closure tier: ⬡ scoped, octagon public/bridged, ★ mature. Border encodes verification: dark = audit/axiom-clean, yellow halo = bridge-checked.</div>
+      <div class="legend-note" data-i18n="legend_size">Size = total paper obligations (checked + stated).</div>
     </div>
 
     <button class="glossary-toggle" onclick="toggleGlossary()">
@@ -229,11 +335,14 @@ const I18N = {
     hint: "Click a node to see its bilingual entry, stats, and dependencies.",
     legend_title: "Legend",
     legend_crit: "Frontline (AI's current target)",
-    legend_proven: "Proven (object-completion theorem checked)",
-    legend_prog: "In progress (theorems landing, completion theorem pending)",
+    legend_closed: "Closed (closurestatus declared)",
+    legend_prog: "In progress (theorems landing, no closurestatus yet)",
     legend_scaf: "Scaffold (paper only, Lean pending)",
     legend_schema: "Schema-only horizon (intentional)",
+    legend_shape: "Shape = theory-closure tier: ⬡ scoped, octagon public/bridged, ★ mature. Border = verification: dark for audit/axiom-clean, yellow halo for bridge-checked.",
     legend_size: "Size = total paper obligations (checked + stated).",
+    filter_title: "Filters",
+    filter_stubs: "Show stubs",
     crit_title: "Where AI is attacking now",
     footer_activity: "Monthly commits",
     sum_theorems: "theorems",
@@ -247,6 +356,16 @@ const I18N = {
     detail_downstream: "downstream",
     detail_deps: "Depends on:",
     detail_namecerts: "Object-completion theorems",
+    detail_grounded_by: "Closure grounded by",
+    detail_theory_closure: "Theory closure",
+    detail_scope_closed: "Scope closed",
+    detail_formal_verification: "Formal verification",
+    detail_lean_target: "Lean target",
+    detail_bridge_status: "Bridge status",
+    detail_not_claimed: "Not claimed",
+    detail_upgrade_path: "Upgrade path",
+    detail_none: "none",
+    detail_closed_no_grounding: "Closed by closurestatus block, with no Lean target declared yet. Add the canonical Lean theorem ID to surface it here.",
     picker_default: "-- jump to region --",
     grp_kernel: "Kernel primitives",
     grp_namecert: "NameCert framework",
@@ -271,11 +390,14 @@ const I18N = {
     hint: "点击节点查看双语词条, 统计和依赖关系.",
     legend_title: "图例",
     legend_crit: "前线 (AI 当前攻坚)",
-    legend_proven: "已证 (对象完成性定理已扣上)",
-    legend_prog: "进行中 (有定理在落, 主完成性定理还差)",
+    legend_closed: "已闭合 (声明 closurestatus)",
+    legend_prog: "进行中 (有定理在落, 尚未声明 closurestatus)",
     legend_scaf: "脚架 (仅论文, Lean 待补)",
     legend_schema: "Schema-only 视界 (有意为之)",
+    legend_shape: "形状 = 理论闭合等级: ⬡ scoped, 八边形 public/bridged, ★ mature. 边框 = 形式化验证: 深色 = audit/axiom-clean, 黄色光环 = bridge-checked.",
     legend_size: "节点大小 = 论文 obligation 总数 (checked + stated).",
+    filter_title: "过滤",
+    filter_stubs: "显示空 stub",
     crit_title: "AI 当前攻坚位置",
     footer_activity: "每月提交数",
     sum_theorems: "定理",
@@ -289,6 +411,16 @@ const I18N = {
     detail_downstream: "下游影响",
     detail_deps: "依赖于:",
     detail_namecerts: "对象完成性定理",
+    detail_grounded_by: "闭合证据",
+    detail_theory_closure: "理论闭合",
+    detail_scope_closed: "闭合范围",
+    detail_formal_verification: "形式化验证",
+    detail_lean_target: "Lean 目标",
+    detail_bridge_status: "桥接状态",
+    detail_not_claimed: "未声明",
+    detail_upgrade_path: "升级路径",
+    detail_none: "无",
+    detail_closed_no_grounding: "通过 closurestatus 块闭合，但未声明 Lean target。在论文块中加上权威 Lean 定理 ID 即可在此显示。",
     picker_default: "-- 跳到领域 --",
     grp_kernel: "内核原语",
     grp_namecert: "NameCert 框架",
@@ -399,9 +531,8 @@ function populatePicker() {
 function onPickerChange(id) {
   if (!id) return;
   showNodeDetail(id);
-  // Highlight the picked node + its dependency chain in the existing global
-  // view; do NOT change zoom. The graph stays at its fit-to-screen scale so
-  // the user keeps the full map context.
+  // showNodeDetail zooms into the connected subgraph; tapping an empty
+  // area restores the global fit.
 }
 
 // --- Glossary side pane ----------------------------------------------------
@@ -478,42 +609,55 @@ function toggleGlossary() {
   if (pane.classList.contains("open")) renderGlossary();
 }
 
+// Two visual channels for the two-axis closurestatus framework:
+//   color = work state  (categorical: schema / crit / closed / progress / scaffold)
+//   shape = theory closure tier  (ellipse < hexagon < octagon < star)
+//   border = formal verification tier  (white < dark < yellow halo)
+// Today every closed region sits at scopedClosure × theoremCheckedV, so only
+// hexagons + white borders show up; the higher-tier shapes/borders are
+// reserved for when the data populates them.
+const NODE_PALETTE = {
+  schema:   "#8e44ad",  // purple  — intentional schema-only horizon
+  crit:     "#c0392b",  // red     — AI's current target
+  closed:   "#27ae60",  // green   — closurestatus declared (incl. kernel)
+  progress: "#3498db",  // blue    — has theorems, no closurestatus yet
+  scaffold: "#bdc3c7",  // gray    — paper-only, Lean pending
+};
+
 function statusClass(node) {
-  // Schema-only takes precedence: an intentional horizon is not a missing target.
   if (node.schema_only) return "schema";
-  // Critical path: AI is targeting this region right now.
+  if (node.id === "kernel") return "closed";       // FKernel is closed by construction
   if (CRIT_SET.has(node.id)) return "crit";
-  // Kernel has no paper markers (defined in lean4/BEDC/FKernel) but is fully proven.
-  if (node.id === "kernel") return "proven";
-
-  // Three-tier classification grounded in two signals:
-  //   - namecert_checked   = the region's *completion* proofs are landed
-  //   - thms / checked     = there is *any* theorem activity in the region
-  //
-  // proven    : at least one namecert (object-completion) theorem is checked
-  //             AND there are no still-stated namecert theorems
-  // progress  : namecert not yet proven, but the region has Lean theorems or
-  //             paper-marker activity -- work is in flight
-  // scaffold  : nothing yet (paper exists, no theorems, no namecert)
-  const ncChecked = node.namecert_checked || 0;
-  const ncStmt    = node.namecert_stmt    || 0;
-  const thms      = node.thms             || 0;
-  const checked   = node.checked          || 0;
-
-  if (ncChecked > 0 && ncStmt === 0) return "proven";
-  if (ncChecked > 0)                  return "progress";  // mixed namecert states
-  if (thms > 0 || checked > 0)        return "progress";  // theorems exist, namecert pending
+  if (node.closed_theoryclosure || node.closed_formalstatus) return "closed";
+  if ((node.checked || 0) > 0 || (node.stmt || 0) > 0 ||
+      (node.namecert_checked || 0) > 0 || (node.thms || 0) > 0) {
+    return "progress";
+  }
   return "scaffold";
 }
 
-function nodeColor(cls) {
-  return {
-    schema:   "#8e44ad",  // purple — intentional horizon
-    crit:     "#c0392b",  // red — frontline / AI's current target
-    proven:   "#27ae60",  // green — all paper markers \leanchecked
-    progress: "#3498db",  // blue — partially proven (checked + stmt mixed)
-    scaffold: "#bdc3c7",  // gray — paper-only, Lean pending
-  }[cls] || "#bdc3c7";
+function nodeShape(node) {
+  if (node.id === "kernel") return "hexagon";
+  const tc = node.closed_theoryclosure;
+  if (tc === "matureClosure") return "star";
+  if (tc === "publicClosure" || tc === "bridgedClosure") return "octagon";
+  if (tc) return "hexagon";  // seed / obligation / scoped
+  return "ellipse";
+}
+
+function nodeBorder(node, cls) {
+  if (cls === "crit") return { stroke: "#7e1810", borderWidth: 3 };
+  const fs = node.closed_formalstatus;
+  if (fs === "bridgeCheckedV") return { stroke: "#f1c40f", borderWidth: 3 };
+  if (fs === "axiomCleanV" || fs === "auditCleanV") return { stroke: "#1c2833", borderWidth: 2 };
+  return { stroke: "#ffffff", borderWidth: 2 };
+}
+
+function nodeVisual(node) {
+  const cls = statusClass(node);
+  const fill = NODE_PALETTE[cls] || NODE_PALETTE.scaffold;
+  const shape = nodeShape(node);
+  return { cls, fill, shape, ...nodeBorder(node, cls) };
 }
 
 function nodeSizeMetric(node) {
@@ -529,15 +673,138 @@ function nodeLabel(node) {
   return node["label_" + LANG] || node.label_en || node.id;
 }
 
+function refreshNodeVisuals() {
+  if (!CY) return;
+  CY.nodes().forEach(n => {
+    const node = DEPS.nodes.find(d => d.id === n.id());
+    if (!node) return;
+    const visual = nodeVisual(node);
+    n.data("cls", visual.cls);
+    n.data("color", visual.fill);
+    n.data("stroke", visual.stroke);
+    n.data("borderWidth", visual.borderWidth);
+    n.data("shape", visual.shape);
+  });
+  CY.style().update();
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function detailValue(value, code = false) {
+  const text = value || t("detail_none");
+  const safe = escapeHtml(text);
+  return code ? `<code>${safe}</code>` : safe;
+}
+
+// ----- Filter UI -----
+const LEVEL_BUCKETS = [
+  { id: "b0", label: "L0–3",   min: 0,  max: 3 },
+  { id: "b1", label: "L4–8",   min: 4,  max: 8 },
+  { id: "b2", label: "L9–13",  min: 9,  max: 13 },
+  { id: "b3", label: "L14–17", min: 14, max: 17 },
+  { id: "b4", label: "L18–21", min: 18, max: 21 },
+  { id: "b5", label: "L22–25", min: 22, max: 25 },
+];
+
+let SHOW_STUBS = false;
+const ACTIVE_BUCKETS = new Set(LEVEL_BUCKETS.map(b => b.id));
+
+function nodeIsStub(n) {
+  return statusClass(n) === "scaffold";
+}
+
+function nodeBucketId(level) {
+  for (const b of LEVEL_BUCKETS) {
+    if (level >= b.min && level <= b.max) return b.id;
+  }
+  return null;
+}
+
+function applyFilters() {
+  if (!CY) return;
+  CY.batch(() => {
+    DEPS.nodes.forEach(n => {
+      const node = CY.getElementById(n.id);
+      if (!node || node.empty()) return;
+      const stub = nodeIsStub(n);
+      const bucket = nodeBucketId(n.level);
+      const show = (SHOW_STUBS || !stub) && ACTIVE_BUCKETS.has(bucket);
+      node.style("display", show ? "element" : "none");
+    });
+  });
+  // Re-run dagre on visible elements only so the remaining nodes spread
+  // across the full viewport instead of inheriting the cramped 250-node
+  // layout. Layout is fast; we re-run on every toggle.
+  const visible = CY.elements(":visible");
+  if (visible.length > 0) {
+    visible.layout({
+      name: "dagre",
+      rankDir: "LR",
+      nodeSep: 22,
+      rankSep: 150,
+      edgeSep: 10,
+      ranker: "network-simplex",
+      padding: 16,
+      fit: true,
+      animate: false,
+    }).run();
+    CY.fit(visible, 16);
+  }
+}
+
+function buildFilterUI() {
+  const stubsCount = DEPS.nodes.filter(nodeIsStub).length;
+  const stubCountEl = document.getElementById("stub-count");
+  if (stubCountEl) stubCountEl.textContent = stubsCount;
+
+  const cb = document.getElementById("stub-toggle");
+  if (cb) {
+    cb.checked = SHOW_STUBS;
+    cb.onchange = e => { SHOW_STUBS = e.target.checked; applyFilters(); };
+  }
+
+  const grid = document.getElementById("layer-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  LEVEL_BUCKETS.forEach(b => {
+    const count = DEPS.nodes.filter(n => n.level >= b.min && n.level <= b.max).length;
+    const chip = document.createElement("div");
+    chip.className = "layer-chip" + (ACTIVE_BUCKETS.has(b.id) ? " active" : "");
+    chip.dataset.bucket = b.id;
+    chip.innerHTML = `${b.label} <span class="lc-count">${count}</span>`;
+    chip.onclick = () => {
+      if (ACTIVE_BUCKETS.has(b.id)) {
+        ACTIVE_BUCKETS.delete(b.id);
+        chip.classList.remove("active");
+      } else {
+        ACTIVE_BUCKETS.add(b.id);
+        chip.classList.add("active");
+      }
+      applyFilters();
+    };
+    grid.appendChild(chip);
+  });
+}
+
 function renderCy() {
   const nodes = DEPS.nodes.map(n => {
-    const cls = statusClass(n);
+    const visual = nodeVisual(n);
     return {
       data: {
         id: n.id, label: nodeLabel(n),
         thms: n.thms || 0, score: n.score || 0,
-        downstream: n.downstream || 0, cls,
-        color: nodeColor(cls),
+        downstream: n.downstream || 0, cls: visual.cls,
+        color: visual.fill,
+        stroke: visual.stroke,
+        borderWidth: visual.borderWidth,
+        shape: visual.shape,
         size: nodeSizeMetric(n),
         checked: n.checked || 0, stmt: n.stmt || 0,
         schema_only: !!n.schema_only,
@@ -555,9 +822,10 @@ function renderCy() {
       {
         selector: "node",
         style: {
+          "shape": "data(shape)",
           "background-color": "data(color)",
           "label": "data(label)",
-          "font-size": "45px",
+          "font-size": "60px",
           "font-weight": 700,
           "color": "#0f0f0f",
           "text-valign": "bottom",
@@ -569,10 +837,10 @@ function renderCy() {
           "text-background-opacity": 0.92,
           "text-background-padding": "8px",
           "text-background-shape": "roundrectangle",
-          "width": "mapData(size, 0, 30, 24, 60)",
-          "height": "mapData(size, 0, 30, 24, 60)",
-          "border-width": 2,
-          "border-color": "#fff",
+          "width": "mapData(size, 0, 30, 50, 110)",
+          "height": "mapData(size, 0, 30, 50, 110)",
+          "border-width": "data(borderWidth)",
+          "border-color": "data(stroke)",
           "overlay-padding": 4,
         },
       },
@@ -604,13 +872,14 @@ function renderCy() {
     ],
     layout: {
       name: "dagre",
+      // BEDC dependency is a DAG; LR shows primitives (left) → derived
+      // (right). nodeSep tuned tight, rankSep wide so the natural shape
+      // matches the wide viewport (.map-shell extends to full height
+      // via calc(100vh - 30px) so 108 nodes can breathe vertically).
       rankDir: "LR",
-      // Wider rank spacing + tighter node spacing -> bigger labels under fit:true.
-      // The geometry is tuned so that the graph's natural size matches a typical
-      // viewport at fit ratio close to 1.0.
-      nodeSep: 36,
-      rankSep: 96,
-      edgeSep: 14,
+      nodeSep: 22,
+      rankSep: 150,
+      edgeSep: 10,
       ranker: "network-simplex",
       padding: 16,
       fit: true,
@@ -631,8 +900,13 @@ function renderCy() {
     if (evt.target === CY) {
       document.getElementById("detail-content").innerHTML =
         `<div class="hint">${t("hint")}</div>`;
-      CY.elements().removeClass("highlight");
+      CY.elements().removeClass("highlight").removeClass("faded");
       CY.nodes().unselect();
+      // Restore the global fit when the user taps an empty area.
+      CY.animate(
+        { fit: { eles: CY.elements(), padding: 16 } },
+        { duration: 350, easing: "ease-out" }
+      );
     }
   });
   // Global view: fit all nodes in the viewport. With the bigger font and
@@ -683,6 +957,18 @@ function showNodeDetail(id) {
     else e.addClass("faded");
   });
 
+  // Zoom into the connected subgraph (selected node + ancestors +
+  // descendants). Tap on background restores the global fit (see the
+  // tap-on-CY handler below).
+  const focusEles = CY.elements().filter(el => {
+    if (el.isNode()) return keep.has(el.id());
+    return keep.has(el.data("source")) && keep.has(el.data("target"));
+  });
+  CY.animate(
+    { fit: { eles: focusEles, padding: 60 } },
+    { duration: 350, easing: "ease-out" }
+  );
+
   const incoming = DEPS.edges
     .filter(e => e.target === id)
     .map(e => e.source)
@@ -719,8 +1005,41 @@ function showNodeDetail(id) {
     html += `<div class="term-deps">${t("detail_deps")} ${links.join(" ")}</div>`;
   }
 
-  // Object-completion theorems (the namecert proofs whose existence IS the
-  // object's existence in BEDC). One green ✓ for checked, blue ◯ for stmt.
+  if (node.closed_theoryclosure) {
+    const rows = [
+      ["detail_theory_closure", node.closed_theoryclosure, true],
+      ["detail_scope_closed", node.scope_closed, false],
+      ["detail_formal_verification", node.closed_formalstatus, true],
+      ["detail_lean_target", node.closure_grounding, true],
+      ["detail_bridge_status", node.closed_bridge_status, true],
+      ["detail_not_claimed", node.not_claimed, false],
+      ["detail_upgrade_path", node.upgrade_path, false],
+    ];
+    html += `<div class="closure-table">`;
+    for (const [labelKey, value, code] of rows) {
+      html += `<div class="closure-row">` +
+        `<div class="closure-label">${t(labelKey)}</div>` +
+        `<div class="closure-value">${detailValue(value, code)}</div>` +
+        `</div>`;
+    }
+    html += `</div>`;
+  }
+
+  // Object-completion / closure-grounding section. Three sources, in
+  // priority order:
+  //   1. closure_grounding  — the Lean theorem the author declared in
+  //                           closurestatus. Authoritative.
+  //   2. namecert_theorems  — heuristic namecert/Name(_)Certificate
+  //                           proofs found by NAMECERT_TARGET_RE.
+  //   3. (none)             — closed but no grounding, no namecert: hint.
+  if (node.closure_grounding) {
+    const short = node.closure_grounding.split(".").pop();
+    html += `
+      <div class="term-namecerts">
+        <div class="term-namecerts-header">${t("detail_grounded_by")}</div>
+        <div class="nc-row"><span style="color:#8e44ad;">★</span>&nbsp;<code>${short}</code></div>
+      </div>`;
+  }
   const ncList = node.namecert_theorems || [];
   if (ncList.length) {
     const items = ncList.map(t => {
@@ -736,13 +1055,29 @@ function showNodeDetail(id) {
         ` / <strong>${ncList.length}</strong>)</div>
         ${items}
       </div>`;
+  } else if (node.closed_theoryclosure && !node.closure_grounding) {
+    html += `
+      <div class="term-namecerts">
+        <div class="term-namecerts-header">${t("detail_namecerts")}</div>
+        <div class="nc-row" style="color:#666;font-style:italic;">
+          ${t("detail_closed_no_grounding")}
+        </div>
+      </div>`;
   }
 
   document.getElementById("detail-content").innerHTML = html;
 }
 
 function renderCritList() {
-  const cp = (STATUS.critical_path || []).slice(0, 7);
+  // critical_path has one entry per sibling sub-section, so the same region
+  // can appear multiple times. Dedupe by name and keep the first (highest
+  // tiebreak) occurrence — that's the entry critical_path.py sorted to top.
+  const seen = new Set();
+  const cp = (STATUS.critical_path || []).filter(c => {
+    if (seen.has(c.name)) return false;
+    seen.add(c.name);
+    return true;
+  }).slice(0, 7);
   const el = document.getElementById("crit-list");
   el.innerHTML = cp.map(c => {
     const g = GLOSSARY[c.name];
@@ -777,7 +1112,10 @@ function renderAll() {
       const node = DEPS.nodes.find(d => d.id === n.id());
       if (node) n.data("label", nodeLabel(node));
     });
+    refreshNodeVisuals();
   }
+  buildFilterUI();
+  applyFilters();
   renderCritList();
   renderSpark();
   if (CY && CY.nodes(":selected").length) {

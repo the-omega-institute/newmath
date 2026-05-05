@@ -1,0 +1,160 @@
+\begin{theorem}[NatTrans prefix component empty component opposite closure]
+\label{thm:nattrans-prefix-component-empty-component-opposite-closed}
+For histories $p,q,a,\eta:\mathsf{BHist}$, an empty prefix component from $p$
+to $q$ over $a$ also carries the component with the prefixes reversed:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\land
+\eta\hsame\emp
+\quad\Longrightarrow\quad
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\eta).
+$$
+\end{theorem}
+\begin{proof}
+Transport $\eta$ to $\emp$ and apply prefix-component empty-identity
+exactness. The forward component exposes unary carriers for $p$, $q$, and $a$,
+together with $p\hsame q$. Symmetry of $\hsame$ gives $q\hsame p$, and the
+same empty-identity exactness theorem rebuilds the reversed prefix component.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_component\_opposite\_closed}
+
+\begin{theorem}[NatTrans prefix component classifier empty component opposite closure]
+\label{thm:nattrans-prefix-component-classifier-empty-component-opposite-closed}
+For histories $p,q,a,\eta,\theta:\mathsf{BHist}$, if a prefix component
+classifier relates two empty displayed components from $p$ to $q$ over $a$,
+then it also relates them after reversing the endpoint prefixes:
+$$
+\mathsf{NatTransPrefixComponentClassifier}(p,q,a,\eta,\theta)\land
+\eta\hsame\emp\land\theta\hsame\emp
+\quad\Longrightarrow\quad
+\mathsf{NatTransPrefixComponentClassifier}(q,p,a,\eta,\theta).
+$$
+\end{theorem}
+\begin{proof}
+Project the classifier into its two component-carrier rows. Empty-component
+opposite closure reverses the endpoint prefixes for $\eta$ and for $\theta$
+separately. The classifier relation is then rebuilt from the reversed carrier
+rows and the original component equality $\eta\hsame\theta$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_empty\_component\_opposite\_closed}
+
+\begin{theorem}[NatTrans vertical empty result opposite closure]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-empty-result-opposite-closed}
+For histories $p,q,r,a,\eta,\theta:\mathsf{BHist}$, if components
+$p\to q$ and $q\to r$ over $a$ vertically compose with empty result, then the
+empty component also carries the opposite endpoint direction $r\to p$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\theta)\land
+\ContR(\eta,\theta,\emp)
+\Longrightarrow
+\mathsf{NatTransPrefixComponentCarrier}(r,p,a,\emp).
+$$
+\end{theorem}
+\begin{proof}
+First close the vertical composite, obtaining the empty component from $p$ to
+$r$ over $a$. Apply empty-component opposite closure to this component with
+reflexive $\hsame(\emp,\emp)$, which reverses the endpoint prefixes.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_opposite\_closed}
+
+\begin{theorem}[NatTrans vertical empty result componentwise opposite closure]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-empty-result-components-opposite-closed}
+For histories $p,q,r,a,\eta,\theta:\mathsf{BHist}$, if components
+$p\to q$ and $q\to r$ over $a$ vertically compose with empty result, then
+each displayed component also carries its opposite endpoint direction:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\theta)\land
+\ContR(\eta,\theta,\emp)
+\Longrightarrow
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\eta)\land
+\mathsf{NatTransPrefixComponentCarrier}(r,q,a,\theta).
+$$
+\end{theorem}
+\begin{proof}
+Apply vertical empty-result exactness to the two component carriers. It
+identifies both component histories with $\emp$. Empty-component opposite
+closure then reverses the endpoints of the first component and of the second
+component separately, preserving the displayed component histories.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_components\_opposite\_closed}
+
+\begin{theorem}[NatTrans vertical empty result classifier componentwise opposite closure]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-components-opposite-closed}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta':\mathsf{BHist}$, if two
+prefix-component classifiers form a vertical pair and both displayed
+component rows compose to the empty history, then each classifier also closes
+under the componentwise opposite endpoint direction:
+$$
+\mathsf{NatTransPrefixComponentClassifier}(p,q,a,\eta,\eta')\land
+\mathsf{NatTransPrefixComponentClassifier}(q,r,a,\theta,\theta')\land
+\ContR(\eta,\theta,\emp)\land\ContR(\eta',\theta',\emp)
+\Longrightarrow
+\mathsf{NatTransPrefixComponentClassifier}(q,p,a,\eta,\eta')\land
+\mathsf{NatTransPrefixComponentClassifier}(r,q,a,\theta,\theta').
+$$
+\end{theorem}
+\begin{proof}
+Apply classifier empty-result component readback to the two vertical
+continuations. It identifies all four displayed component histories with
+$\emp$. The classifier empty-component opposite closure then reverses the
+first classifier from $p\to q$ to $q\to p$ and the second from $q\to r$ to
+$r\to q$, preserving the original classifier comparisons inside each row.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_components\_opposite\_closed}
+
+\begin{theorem}[NatTrans vertical empty result prefix readback]
+\label{thm:nattrans-prefix-component-vert-comp-empty-result-prefixes-hsame}
+For histories $p,q,r,a,\eta,\theta:\mathsf{BHist}$, if components
+$p\to q$ and $q\to r$ over $a$ vertically compose with empty result, then the
+adjacent prefixes agree:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\theta)\land
+\ContR(\eta,\theta,\emp)
+\Longrightarrow
+\hsame(p,q)\land\hsame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply category empty-composite exactness to the two underlying component
+hom-carriers. It identifies the adjacent prefixed endpoints with the shared
+object suffix $a$. Right cancellation removes that common suffix and yields
+$\hsame(p,q)$ and $\hsame(q,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_prefixes\_hsame}
+
+\begin{theorem}[NatTrans vertical empty result endpoint cycle closure]
+\label{thm:nattrans-prefix-component-vert-comp-empty-result-cycle-closed}
+For histories $p,q,r,a,\eta,\theta:\mathsf{BHist}$, if components
+$p\to q$ and $q\to r$ over $a$ vertically compose with empty result, then the
+empty composite closes both endpoint directions and collapses all three
+prefixes:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\theta)\land
+\ContR(\eta,\theta,\emp)
+\Longrightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,r,a,\emp)\land
+\mathsf{NatTransPrefixComponentCarrier}(r,p,a,\emp)\land
+\hsame(p,q)\land\hsame(q,r)\land\hsame(p,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply the vertical composition closure of
+\autoref{thm:nattrans-prefix-component-carrier-vert-comp-closed} to the two
+input component carriers and the empty continuation ledger. This gives the
+forward empty component from $p$ to $r$ over $a$.
+
+Apply
+\autoref{thm:nattrans-prefix-component-carrier-vert-comp-empty-result-opposite-closed}
+to the same two component carriers and the same empty continuation ledger.
+This gives the reversed empty component from $r$ to $p$ over $a$.
+
+Apply
+\autoref{thm:nattrans-prefix-component-vert-comp-empty-result-prefixes-hsame}
+to read back $\hsame(p,q)$ and $\hsame(q,r)$. Transitivity of $\hsame$
+then gives $\hsame(p,r)$, and the five witnesses are packed in the displayed
+order.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_cycle\_closed}

@@ -72,6 +72,7 @@ For every power series \((a, z_0)\), every complex history \(z\), and every unar
 \begin{proof}
 By unary induction on \(n\), using totality and functionality of complex multiplication and addition.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesComplexPartSum\_exists\_unique}
 
 \section{Geometric bound predicate}
 
@@ -335,6 +336,27 @@ package for geometric bounds.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_visible\_radius\_witness\_endpoint\_package}
 
+\begin{theorem}[Convergence radius classifier-visible radius witness endpoint package]
+\label{thm:conv-rad-classifier-visible-radius-witness-endpoint-package}
+If $\hsame(R,R')$, $R'$ is unary, the coefficient streams $a$ and $b$ are
+complex-history classified pointwise, $\mathsf{ConvRad}(a,R)$ holds, and
+$\Eone(tail)$ is an admitted unary radius endpoint, then the transported
+convergence-radius witness function can be chosen so that every continuation
+$$
+\ContR(\Eone(tail),K(\Eone(tail)),R')
+$$
+exposes
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\hsame(R',\emp).
+$$
+\end{theorem}
+\begin{proof}
+Transport the convergence radius along $\hsame(R,R')$ and the pointwise
+complex-history classifier for the coefficients. The visible-radius endpoint
+package then applies at the transported radius $R'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_classifier\_visible\_radius\_witness\_endpoint\_package}
+
 \begin{lemma}[Convergence radius transport]
 \label{lem:conv-rad-radius-transport}
 If \(\hsame(R, R')\), \(\mathsf{ConvRad}(a, R)\), and \(R'\) is unary, then the same geometric-bound witness function supplies \(\mathsf{ConvRad}(a, R')\).
@@ -501,6 +523,7 @@ Triangular pasting of geometric bounds; constant inflation by a factor of \((n+1
 \label{def:conv-rad-source-spec}
 The source specification is the predicate \(\mathsf{ConvRad}(a, R)\) on power series carriers paired with a unary radius candidate.
 \end{definition}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadSourceSpec\_powerSeries\_geomBound\_readback}
 
 \begin{definition}[Convergence radius pattern specification]
 \label{def:conv-rad-pattern-spec}
@@ -571,3 +594,155 @@ transport row, while the carrier witness and append-unary closure are supplied
 by their corresponding checked rows in this chapter.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert}
+
+\begin{theorem}[Geometric bound is downward closed in the radius]
+\label{thm:geom-bound-radius-shrink-closed}
+For coefficients $a$, radius histories $r'$ and $r$, and constant history $K$, if
+$$
+\mathsf{NatUnaryStrictPrefix}(r',r)
+\qquad\text{and}\qquad
+\mathsf{GeomBound}(a,r,K),
+$$
+then
+$$
+\mathsf{GeomBound}(a,r',K).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:nat-unary-strict-prefix}, choose a unary tail $t$ such that $t$ is not $\emp$ and $\ContR(r',t,r)$ holds. By \autoref{def:geom-bound}, the bound at $r$ supplies the unary carrier for $r$, the unary carrier for $K$, the coefficient carrier rows, and the decidable comparison rows $|a_n|\cdot r^n\leq K$ for every unary index $n$. The strict-prefix witness is in particular a prefix witness from $r'$ to $r$; applying \autoref{thm:preorder-prefix-source-carrier-of-target-carrier} to that witness and to the unary carrier of $r$ gives the unary carrier of $r'$.
+
+It remains to transport the comparison rows. In the rational representation of unary histories, the continuation ledger $\ContR(r',t,r)$ reads $r=r'+t$ with $t\geq 0$, hence $0\leq r'\leq r$. Fix a unary index $n$. Unary induction on $n$ gives $(r')^n\leq r^n$: the empty exponent gives equality of units, and the one-extension step multiplies the induction comparison by the nonnegative factor $r'$ and then uses $r'\leq r$ with the nonnegative factor $r^n$. Since complex moduli are nonnegative, rational-history multiplication gives
+$$
+|a_n|\cdot (r')^n\leq |a_n|\cdot r^n.
+$$
+Composing this inequality with the comparison row supplied by $\mathsf{GeomBound}(a,r,K)$ yields $|a_n|\cdot (r')^n\leq K$. The constant carrier and coefficient carrier rows are unchanged, so \autoref{def:geom-bound} repacks these data as $\mathsf{GeomBound}(a,r',K)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_radius\_shrink\_closed}
+
+\begin{definition}[Convergence-radius compatible coefficient-ring inclusion]
+\label{def:conv-rad-coefficient-ring-inclusion}
+Let $R$ and $R'$ be coefficient sources equipped with $\CommRingUp$ certificates as in \autoref{def:commring-certificate-obligations}. Write their carriers and classifiers as $C_R,\sim_R$ and $C_{R'},\sim_{R'}$, their operations as $0_R,1_R,+_R,-_R,\cdot_R$ and $0_{R'},1_{R'},+_{R'},-_{R'},\cdot_{R'}$, and let $\gamma_R$ and $\gamma_{R'}$ be complex-realization maps into $\ComplexUp$ histories. A convergence-radius compatible coefficient-ring inclusion
+$$
+\iota:R\hookrightarrow R'
+$$
+consists of the following data:
+\begin{enumerate}
+  \item Carrier and classifier rows: $C_R(x)$ implies $C_{R'}(\iota x)$; $x\sim_R y$ implies $\iota x\sim_{R'}\iota y$; and, for carried $x,y$, $\iota x\sim_{R'}\iota y$ implies $x\sim_R y$.
+  \item Operation rows: for carried inputs, $\iota(0_R)\sim_{R'}0_{R'}$, $\iota(1_R)\sim_{R'}1_{R'}$, $\iota(x+_R y)\sim_{R'}\iota x+_{R'}\iota y$, $\iota(-_R x)\sim_{R'}-_{R'}\iota x$, and $\iota(x\cdot_R y)\sim_{R'}\iota x\cdot_{R'}\iota y$.
+  \item Complex-realization rows: $\gamma_R(x)$ and $\gamma_{R'}(\iota x)$ are complex histories, and every carried $x$ satisfies
+$$
+\mathsf{ComplexHistoryClassifier}(\gamma_R(x),\gamma_{R'}(\iota x)).
+$$
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Convergence radius monotonicity under coefficient-ring inclusion]
+\label{thm:conv-rad-coefficient-ring-inclusion-monotone}
+Let $R$ and $R'$ be $\CommRingUp$ coefficient sources and let $\iota:R\hookrightarrow R'$ be a convergence-radius compatible coefficient-ring inclusion from \autoref{def:conv-rad-coefficient-ring-inclusion}. For a pointwise carried formal coefficient sequence $f:\NatUp\to R$ as in \autoref{def:fps-carrier}, put
+$$
+a_n:=\gamma_R(f_n),\qquad a'_n:=\gamma_{R'}(\iota(f_n)).
+$$
+If $\rho$ is a unary radius history and $\mathsf{ConvRad}(a,\rho)$ holds, then
+$$
+\mathsf{ConvRad}(a',\rho).
+$$
+Thus every convergence-radius witness admitted by the $R$-view is also admitted by the $R'$-view.
+\end{theorem}
+\begin{proof}
+For each unary index $n$, pointwise carriedness gives $C_R(f_n)$. The complex-realization row in \autoref{def:conv-rad-coefficient-ring-inclusion} therefore supplies
+$$
+\mathsf{ComplexHistoryClassifier}(a_n,a'_n).
+$$
+The operation rows in the inclusion identify $a'$ as the coefficient sequence obtained by reading the same formal series in the larger coefficient source; these are the finite algebraic rows used by the partial-sum recursion of \autoref{def:part-sum-power-series}. The convergence-radius argument only needs the resulting pointwise complex classifier family.
+
+The radius endpoint is unchanged. Hence the radius-classifier input for \autoref{lem:conv-rad-radius-coefficient-classifier-transport} is the reflexive history-sameness witness $\hsame(\rho,\rho)$, and the target-radius carrier input is the displayed unary witness for $\rho$. Applying that lemma to the coefficient families $a$ and $a'$ gives $\mathsf{ConvRad}(a',\rho)$.
+
+Equivalently, unpacking \autoref{def:conv-rad}, the same constant-witness function $K$ can be retained. For every strict subradius $r$ of $\rho$, the source row gives $\mathsf{GeomBound}(a,r,K(r))$; the coefficient-classifier transport in \autoref{lem:conv-rad-radius-coefficient-classifier-transport} sends this geometric-bound row to $\mathsf{GeomBound}(a',r,K(r))$, while the radius and constant histories are unchanged as in \autoref{def:geom-bound}. These rows reassemble the convergence-radius predicate for $a'$ at $\rho$.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_coefficient\_ring\_inclusion\_monotone}
+
+\begin{definition}[Cauchy--Hadamard exactness row]
+\label{def:convrad-cauchy-hadamard-exactness-row}
+For a coefficient family $a$ and a unary radius history $R$, let
+$\mathsf{CHExact}(a,R)$ denote the analytic ledger row asserting that the
+$\mathsf{ConvRad}(a,R)$ endpoint is exact for the Cauchy--Hadamard limsup
+expression,
+$$
+R = 1/\mathsf{LimSup}_n |a_n|^{1/n}.
+$$
+This is the Cauchy--Hadamard item in \autoref{def:conv-rad-ledger-policy}. It
+is a ledger-policy row, not one of the checked carrier, classifier, transport,
+or closure rows of \autoref{thm:conv-rad-namecert}.
+\end{definition}
+
+\begin{definition}[Convergence-radius checked-row reduct]
+\label{def:convrad-checked-row-reduct}
+The checked-row reduct of the $\ConvergenceRadiusUp$ package is the finite row
+set $\mathcal Q_{\mathrm{chk}}$ consisting of the following data:
+\begin{enumerate}
+  \item the carrier row $\mathsf{ConvRad}(a,R)$ and the $\hsame$ classifier on
+  radius histories;
+  \item radius transport, as in \autoref{lem:conv-rad-radius-transport};
+  \item coefficient-family classifier transport, as in
+  \autoref{lem:conv-rad-radius-coefficient-classifier-transport};
+  \item extraction of power-series carrier data from geometric bounds and from
+  convergence-radius witnesses, as in \autoref{lem:geom-bound-power-series-carrier}
+  and \autoref{lem:conv-rad-power-series-carrier-witness};
+  \item append-unary coefficient closure, as in
+  \autoref{thm:conv-rad-append-unary-coeff-closed}.
+\end{enumerate}
+A policy interpretation over this reduct is a row assignment $\Pi$ with
+witnesses for every row in $\mathcal Q_{\mathrm{chk}}$. The assignment is
+constrained only on $\mathcal Q_{\mathrm{chk}}$; analytic ledger rows such as
+$\mathsf{CHExact}(a,R)$ are not constrained unless the ledger policy of
+\autoref{def:conv-rad-ledger-policy} is also supplied.
+\end{definition}
+
+\begin{theorem}[Checked convergence-radius rows do not force Cauchy--Hadamard]
+\label{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}
+Fix a coefficient family $a$ and a unary radius history $R$ for which the
+checked-row reduct of \autoref{def:convrad-checked-row-reduct} has the displayed
+carrier row $\mathsf{ConvRad}(a,R)$. In the $\ConvergenceRadiusUp$ setup reduced
+to that checked row set, there are two policy interpretations $\Pi_{+}$ and
+$\Pi_{-}$ over the same history carrier and the same radius classifier such
+that
+$$
+\forall q\in\mathcal Q_{\mathrm{chk}},\quad \Pi_{+}(q)=\Pi_{-}(q),
+$$
+but
+$$
+\Pi_{+}(\mathsf{CHExact}(a,R))=\mathsf{accept}
+\qquad\text{and}\qquad
+\Pi_{-}(\mathsf{CHExact}(a,R))=\mathsf{reject}.
+$$
+Consequently, no finite derivation whose nonlogical inputs are only the checked
+rows of \autoref{def:convrad-checked-row-reduct} can prove
+$\mathsf{CHExact}(a,R)$.
+\end{theorem}
+\begin{proof}
+By \autoref{def:typed-naming-certificate}, the naming-certificate template
+separates source, pattern, classifier, stability, and ledger fields. The
+concrete convergence-radius package in \autoref{thm:conv-rad-namecert} lists
+the checked carrier, classifier, transport, witness, and append-unary closure
+rows, and states that the analytic laws of \autoref{def:conv-rad-ledger-policy}
+remain ledger-policy obligations. The semantic certificate of
+\autoref{thm:conv-rad-semantic-namecert} repacks exactly those checked rows for
+the semantic naming-certificate schema.
+
+Let $\chi_{a,R}$ be the row name represented by
+$\mathsf{CHExact}(a,R)$. Since $\chi_{a,R}$ is not an element of
+$\mathcal Q_{\mathrm{chk}}$, define $\Pi_{+}$ and $\Pi_{-}$ to use the same
+witness for every checked row $q\in\mathcal Q_{\mathrm{chk}}$. On the
+Cauchy--Hadamard row, set $\Pi_{+}(\chi_{a,R})=\mathsf{accept}$ and
+$\Pi_{-}(\chi_{a,R})=\mathsf{reject}$; all other analytic row names may be
+assigned identically in the two interpretations.
+
+Every premise and conclusion of a checked row is read from
+$\mathcal Q_{\mathrm{chk}}$, so the two interpretations validate exactly the
+same checked carrier, classifier, transport, witness, and closure data. They
+therefore share the full checked-row reduct. They disagree only on the analytic
+ledger row $\mathsf{CHExact}(a,R)$, which the reduct does not mention. If the
+checked rows alone forced $\mathsf{CHExact}(a,R)$, any two interpretations that
+agree on all rows used by the derivation would agree on that conclusion.
+Applying this to $\Pi_{+}$ and $\Pi_{-}$ gives the displayed contradiction.
+\end{proof}

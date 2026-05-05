@@ -431,6 +431,36 @@ cocycle predicate to $r$.
 \section{The certificate}
 \label{sec:cohomology-certificate}
 
+\begin{definition}[Cohomology cocycle predicate]
+\label{def:cohomology-cocycle-predicate}
+For a BEDC cohomology differential $d:\mathsf{BHist}\to\mathsf{BHist}$, write
+$$
+C_d(h) :\Longleftrightarrow d(h)\hsame\emp.
+$$
+\end{definition}
+
+\begin{lemma}[Cohomology cocycle hsame transport]
+\label{lem:cohomology-cocycle-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ respect $\hsame$. If $C_d(h)$ and $\hsame(h,k)$, then $C_d(k)$.
+\end{lemma}
+\begin{proof}
+By the respect-$\hsame$ hypothesis on $d$, $\hsame(h,k)$ implies $\hsame(d(h),d(k))$. Symmetry of that comparison, followed by the cocycle row $d(h)\hsame\emp$, gives $d(k)\hsame\emp$.
+\end{proof}
+
+\begin{theorem}[Cohomology cocycle predicate semantic name certificate]
+\label{thm:cohomology-cocycle-predicate-semantic-namecert}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and respect $\hsame$. Fix $axis:\mathsf{BHist}$ with $C_d(axis)$. Then the cocycle predicate $C_d$, used simultaneously as source, pattern, and ledger, with classifier $\hsame$, carries a semantic naming certificate:
+$$
+\mathsf{SemanticNameCert}(C_d,C_d,C_d,\hsame).
+$$
+Its cohomology stability witnesses are the bilateral axis-cancel row of \autoref{thm:cohomology-cocycle-axis-bilateral-cancel} and the append-closure row of \autoref{thm:cohomology-cocycle-append-closed}.
+\end{theorem}
+\begin{proof}
+The source is inhabited by the chosen axis cocycle. The classifier fields in \autoref{def:lean-carrier-naming-certificate} are the finite-kernel reflexivity, symmetry, and transitivity laws for $\hsame$. Carrier transport for the core certificate is \autoref{lem:cohomology-cocycle-hsame-transport}. Therefore $C_d$ with classifier $\hsame$ forms the core $\NameCert(C_d,\hsame)$.
+
+Since source, pattern, and ledger are all the same predicate $C_d$, both semantic soundness maps are identity maps on a source witness. The stability component from \autoref{def:naming-certificate-stability-field} is supplied within the same predicate: \autoref{thm:cohomology-cocycle-axis-bilateral-cancel} descends a two-sided axis-shifted cocycle to the unshifted cocycle, and \autoref{thm:cohomology-cocycle-append-closed} composes two shifted cocycle witnesses along a cocycle axis. These fields populate the five roles of \autoref{def:typed-naming-certificate} with source $C_d$, pattern $C_d$, ledger $C_d$, and classifier $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_predicate\_semanticNameCert}
 \begin{theorem}[Cohomology cocycle semantic name certificate]
 \label{thm:cohomology-cocycle-semantic-namecert}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. The
@@ -448,4 +478,12 @@ classifier witness with the source cocycle predicate, and the pattern and
 ledger policies are the same cocycle predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_semanticNameCert}
-\closureat{\CohomologyUp}{\checkedCertStr}
+\begin{closurestatus}{\CohomologyUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The cohomology cocycle semantic certificate for a displayed cochain differential, with cocycle carrier, classifier transport, and pattern/ledger policies equal to the cocycle predicate.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CohomologyUp.CohomologyCocycle\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General cohomology theory: arbitrary cochain complexes, coboundary quotients, cup products, de Rham cohomology, sheaf cohomology, \v{C}ech cohomology, or spectral sequences.}
+  \upgradepath{$\publicClosure$ requires public cochain-complex data, cocycle and coboundary readback, quotient exactness, naturality, product operations where claimed, and no-hidden-leakage.}
+\end{closurestatus}

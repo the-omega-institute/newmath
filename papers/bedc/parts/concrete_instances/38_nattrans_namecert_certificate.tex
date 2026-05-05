@@ -68,6 +68,38 @@ $\eta\hsame\eta'$ witness, yielding the carrier for $\eta'$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_equivalence\_fields}
 
+\begin{theorem}[NatTrans prefix component classifier history transport]
+\label{thm:nattrans-prefix-component-classifier-hsame-transport}
+If the source prefix, target prefix, source object, and both displayed
+component histories are transported along $\hsame$, then the prefix component
+classifier transports to the displayed endpoints. The transported statement
+also exposes the two transported category hom-carrier fields.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the three unary endpoint carriers, the two
+append-indexed category hom-carriers, and the displayed component classifier.
+The source and target append endpoints transport along the prefix and object
+$\hsame$ witnesses. Apply category hom-carrier transport to each displayed
+component history, then compose the original component $\hsame$ witness with
+the two displayed transport witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_hsame\_transport}
+
+\begin{theorem}[NatTrans prefix component classifier zero-headed component impossibility]
+\label{thm:nattrans-prefix-component-classifier-zero-headed-component-absurd}
+If
+\(\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\theta)\) holds,
+then none of \(p,q,a,\eta,\theta\) can be a zero-headed history.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the three unary prefix/object fields, the two
+append-indexed category hom-carrier fields, and the displayed component
+\(\hsame\) witness. Zero-headed \(p\), \(q\), or \(a\) contradicts the
+corresponding unary field. Zero-headed \(\eta\) or \(\theta\) contradicts the
+unary morphism field inside the corresponding category hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_zero\_headed\_component\_absurd}
+
 \begin{theorem}[NatTrans prefix component classifier semantic name certificate]
 \label{thm:nattrans-prefix-component-classifier-semantic-namecert}
 If the empty component inhabits
@@ -88,6 +120,25 @@ ledger are the same concrete component carrier, the two semantic soundness maps
 are identity projections.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_semanticNameCert}
+
+\begin{theorem}[NatTrans prefix component classifier component semantic name certificate]
+\label{thm:nattrans-prefix-component-classifier-component-semantic-namecert}
+If $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ is inhabited by a
+concrete component, then the displayed component carrier, used simultaneously
+as source, pattern, and ledger policy, together with
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ forms a semantic name
+certificate.
+\end{theorem}
+\begin{proof}
+The supplied component gives the carrier witness. The reflexive, symmetric,
+and transitive classifier laws are obtained by unpacking the fixed unary prefix
+and object fields and applying the corresponding $\hsame$ law to the component
+history. Carrier transport reads the target component carrier directly from
+the classifier witness. The source, pattern, and ledger predicates are the
+same component carrier, so the semantic soundness maps preserve the witness
+unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_component\_semanticNameCert}
 
 \begin{theorem}[NatTrans prefix component classifier vertical composition congruence]
 \label{thm:nattrans-prefix-component-classifier-vert-comp-congruence}
@@ -125,6 +176,157 @@ $c\hsame c'$ witness into
 $\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(c,c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_congr}
+
+\begin{theorem}[NatTrans prefix component classifier right-identity closure]
+\label{thm:nattrans-prefix-component-classifier-right-identity-closure}
+For histories $p,q,a,\eta,\eta',r,r'$, suppose
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$ holds and
+suppose $\ContR(\eta,\emp,r)$ and $\ContR(\eta',\emp,r')$. Then
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(r,r')
+\land r\hsame r'.
+$$
+\end{theorem}
+\begin{proof}
+Right-unit determinacy identifies $r$ with $\eta$ and $r'$ with $\eta'$.
+Transport the prefix component classifier along these endpoint equalities,
+with the prefix and object histories fixed. The transported classifier
+contains the required endpoint comparison $r\hsame r'$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_right\_identity\_closed}
+
+\begin{theorem}[NatTrans prefix component classifier empty composite readback]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-readback}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta'$, suppose
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')
+\quad\text{and}\quad
+\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')
+$$
+and suppose $\ContR(\eta,\theta,\emp)$. Then the two displayed leading
+components classify against the empty component, and the adjacent prefixes
+are history-same:
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\emp)
+\land
+\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\emp)
+\land p\hsame q\land q\hsame r.
+$$
+\end{theorem}
+\begin{proof}
+Read the two carrier rows out of the classifier witnesses and apply the
+carrier-level empty-composite readback. This supplies empty component carriers
+for the two rows and the two prefix equalities. The corresponding
+empty-composite iff also gives $\eta\hsame\emp$ and $\theta\hsame\emp$.
+Repacking the original carried morphism rows, the empty component rows, and
+these history-same witnesses gives the two classifier rows against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_readback}
+
+\begin{theorem}[NatTrans classifier vertical empty-result component readback]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-components}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta',c,c'$, suppose
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$ and
+$\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')$ hold.
+If $\ContR(\eta,\theta,c)$, $\ContR(\eta',\theta',c')$,
+$c\hsame\emp$, and $c'\hsame\emp$, then the four component histories are
+empty and the adjacent prefixes agree:
+$$
+\hsame(\eta,\emp)\wedge\hsame(\eta',\emp)\wedge
+\hsame(\theta,\emp)\wedge\hsame(\theta',\emp)\wedge
+\hsame(p,q)\wedge\hsame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier fields for $\eta,\eta',\theta,\theta'$ from the two
+classifier witnesses. Apply vertical composite result-empty exactness to the
+primary components $\eta,\theta$ and to the secondary components
+$\eta',\theta'$. The primary readback supplies emptiness of $\eta$ and
+$\theta$ together with $p\hsame q$ and $q\hsame r$; the secondary readback
+supplies emptiness of $\eta'$ and $\theta'$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_components}
+
+\begin{theorem}[NatTrans classifier vertical empty-result cycle closure]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-cycle-closed}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta'$, suppose
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$ and
+$\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')$ hold.
+If $\ContR(\eta,\theta,\emp)$ and $\ContR(\eta',\theta',\emp)$, then
+$$
+\begin{array}{l}
+\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(\emp,\emp)\land
+\mathsf{NatTransPrefixComponentClassifier}_{r,p,a}(\emp,\emp)\\[2pt]
+{}\land p\hsame q\land q\hsame r\land p\hsame r.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Vertical classifier congruence composes the two displayed classifier rows and
+gives the forward empty classifier from $p$ to $r$. The empty-result component
+readback supplies the four empty component witnesses and the adjacent prefix
+equalities $p\hsame q$ and $q\hsame r$. Since the forward component is empty,
+the empty-component opposite closure gives the reverse classifier from $r$ to
+$p$. Transitivity of $\hsame$ gives $p\hsame r$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_cycle\_closed}
+
+\begin{theorem}[NatTrans classifier empty-result opposite package]
+\label{thm:nattrans-prefix-component-classifier-empty-result-opposite-package}
+For histories
+$p,q,r,a,\eta,\eta',\theta,\theta',c,c':\mathsf{BHist}$, suppose
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$ and
+$\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')$ hold.
+If $\ContR(\eta,\theta,c)$, $\ContR(\eta',\theta',c')$,
+$c\hsame\emp$, and $c'\hsame\emp$, then both classified components admit the
+opposite prefix direction and the adjacent prefixes agree:
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{q,p,a}(\eta,\eta')\wedge
+\mathsf{NatTransPrefixComponentClassifier}_{r,q,a}(\theta,\theta')\wedge
+\hsame(p,q)\wedge\hsame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. They provide carrier witnesses for
+$\eta,\eta'$ from prefix $p$ to prefix $q$ over $a$ and for
+$\theta,\theta'$ from prefix $q$ to prefix $r$ over $a$, together with
+$\eta\hsame\eta'$ and $\theta\hsame\theta'$.
+
+Apply
+Theorem~\ref{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-components}
+to the two classifiers, the two continuation witnesses, and the two empty
+result identifications. This identifies all four displayed component
+histories with $\emp$ and supplies $\hsame(p,q)$ and $\hsame(q,r)$.
+
+Now apply
+Theorem~\ref{thm:nattrans-prefix-component-empty-component-opposite-closed}
+separately to the carrier witnesses for $\eta$, $\eta'$, $\theta$, and
+$\theta'$. The four emptiness witnesses reverse the first classified pair
+from $p\to q$ to $q\to p$ and the second classified pair from $q\to r$ to
+$r\to q$.
+
+Repack the reversed carrier witnesses with the original
+$\eta\hsame\eta'$ and $\theta\hsame\theta'$ witnesses. The two rebuilt
+classifiers, together with the prefix agreements produced by readback, give
+the claimed package.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_empty\_result\_opposite\_package}
+
+\begin{theorem}[NatTrans vertical composite zero-headed component impossibility]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-zero-headed-component-absurd}
+For vertically composable prefix component classifiers, none of the three
+prefixes, the shared source object, the four input component histories, or the
+two composite component histories can be zero-headed.
+\end{theorem}
+\begin{proof}
+First form the composite prefix component classifier by vertical composition
+congruence. Zero-headed source-prefix, middle-prefix, object, or left
+component cases are rejected by the left classifier. Zero-headed middle-prefix,
+target-prefix, object, or right component cases are rejected by the right
+classifier. Zero-headed composite endpoints are rejected by the composite
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_zero\_headed\_component\_absurd}
 
 \begin{definition}[NatTrans stability certificate]
 \label{def:nattrans-stability-certificate}

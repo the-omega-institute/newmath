@@ -63,6 +63,42 @@ $\Unary(\mathsf{append}(h,k))$. Transporting along the continuation equality
 gives the displayed result-side exactness.
 \end{proof}
 
+\begin{theorem}[Concrete unary-history magma visible-right continuation result nonempty]
+\label{thm:concrete-unary-history-magma-cont-visible-right-result-nonempty}
+For histories \(h,t,r:\mathsf{BHist}\), a continuation whose right input is
+\(\Ezero(t)\) or \(\Eone(t)\) cannot have an empty result:
+$$
+(\ContR(h,\Ezero(t),r)\Rightarrow\neg\hsame(r,\emp))
+\quad\wedge\quad
+(\ContR(h,\Eone(t),r)\Rightarrow\neg\hsame(r,\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed continuation result along \(r\hsame\emp\). Empty-result
+continuation inversion would then force the visible right input itself to be
+\(\emp\). The zero- and one-headed cases are both excluded by constructor
+separation for \(\mathsf{BHist}\).
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_visible\_right\_result\_nonempty}
+
+\begin{theorem}[Concrete unary-history magma visible-left continuation result nonempty]
+\label{thm:concrete-unary-history-magma-cont-visible-left-result-nonempty}
+For histories \(h,t,r:\mathsf{BHist}\), a continuation whose left input is
+\(\Ezero(t)\) or \(\Eone(t)\) cannot have an empty result:
+$$
+(\ContR(\Ezero(t),h,r)\Rightarrow\neg\hsame(r,\emp))
+\quad\wedge\quad
+(\ContR(\Eone(t),h,r)\Rightarrow\neg\hsame(r,\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed continuation result along \(r\hsame\emp\). Empty-result
+continuation inversion would then force the visible left input itself to be
+\(\emp\). The zero- and one-headed cases are both excluded by constructor
+separation for \(\mathsf{BHist}\).
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_visible\_left\_result\_nonempty}
+
 \begin{theorem}[Concrete unary-history magma classifier append factors]
 \label{thm:concrete-unary-history-magma-classifier-append-factors}
 For histories $h,h',k,k':\mathsf{BHist}$, the concrete unary-history magma
@@ -155,6 +191,103 @@ result carriers, and continuation respect for $\hsame$ transports the left
 classifier and the right-input comparison to the result classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_left\_context\_classifier\_iff}
+
+\begin{theorem}[Concrete unary-history magma continuation left-unit classifier]
+\label{thm:concrete-unary-history-magma-cont-left-unit-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $\ContR(h,k,r)$, then classifying the result against the right endpoint is
+equivalent to saying that the right endpoint is unary and the left endpoint is
+the continuation left unit:
+$$
+R_U(r,k)
+\Longleftrightarrow
+U(k)\land\hsame(h,\emp).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the classifier exposes the carrier of $k$.
+Transporting the continuation result along $r\hsame k$ gives a continuation
+from $h$ by $k$ back to $k$, and left-unit uniqueness forces $h\hsame\emp$.
+Conversely, $\hsame(h,\emp)$ gives the unary carrier for $h$ and turns the
+continuation into the left-unit continuation, while unary closure rebuilds the
+result carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_left\_unit\_classifier\_iff}
+
+\begin{theorem}[Concrete unary-history magma continuation right-unit classifier]
+\label{thm:concrete-unary-history-magma-cont-right-unit-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $\ContR(h,k,r)$, then classifying the result against the left endpoint is
+equivalent to saying that the left endpoint is unary and the right endpoint is
+the continuation right unit:
+$$
+R_U(r,h)
+\Longleftrightarrow
+U(h)\land\hsame(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the classifier already exposes the carrier of $h$.
+Transporting the continuation result along $r\hsame h$ gives a continuation
+from $h$ by $k$ back to $h$, and right-unit uniqueness forces $k\hsame\emp$.
+Conversely, $\hsame(k,\emp)$ gives the unary carrier for $k$ and turns the
+continuation into the right-unit continuation, while unary closure rebuilds
+the result carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_right\_unit\_classifier\_iff}
+
+\begin{theorem}[Concrete unary-history magma continuation result both-input classifiers]
+\label{thm:concrete-unary-history-magma-cont-result-both-inputs-classifier-empty}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $\ContR(h,k,r)$, then the result is classified with both inputs exactly
+when both inputs are unary and both are history-same to \(\emp\):
+$$
+R_U(r,h)\land R_U(r,k)
+\Longleftrightarrow
+U(h)\land U(k)\land \hsame(h,\emp)\land \hsame(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the right-unit classifier characterization to the \(R_U(r,h)\) side and
+the left-unit classifier characterization to the \(R_U(r,k)\) side. These two
+readbacks give the two carriers and the two empty-endpoint equations. The
+reverse direction repacks the same data through the two unit classifier
+characterizations.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_result\_both\_inputs\_classifier\_empty\_iff}
+
+\begin{theorem}[Concrete unary-history magma continuation right-context classifier]
+\label{thm:concrete-unary-history-magma-right-context-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $R_U(r,r')$, $\ContR(l,r,a)$, and $\ContR(l',r',a')$, then the concrete
+magma classifier relates the two continuation results exactly when the two
+left inputs are unary and history-same:
+$$
+R_U(a,a')
+\Longleftrightarrow
+U(l)\land U(l')\land\hsame(l,l').
+$$
+\end{theorem}
+\begin{proof}
+Unary exactness for the two continuations reads the left-input carriers back
+from the result carriers. The result classifier equality cancels the shared
+classified right context, giving $l\hsame l'$. The reverse direction uses unary
+continuation closure for the two result carriers and continuation respect for
+$\hsame$ across the classified left and right inputs.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_right\_context\_classifier\_iff}
 
 \begin{theorem}[Concrete unary-history magma classifier middle-context cancellation]
 \label{thm:concrete-unary-history-magma-classifier-append-middle-cancel}
@@ -266,6 +399,58 @@ associativity.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_nested\_common\_context\_classifier\_iff}
 
+\begin{theorem}[Concrete unary-history magma nested left-unit classifier]
+\label{thm:concrete-unary-history-magma-cont-nested-left-unit-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $l,m,r,lm,a:\mathsf{BHist}$, if
+$\ContR(l,m,lm)$ and $\ContR(lm,r,a)$, then classifying the nested result
+against the right endpoint is equivalent to the right endpoint being unary and
+both visible left factors being empty:
+$$
+R_U(a,r)
+\Longleftrightarrow
+U(r)\land\hsame(l,\emp)\land\hsame(m,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-step left-unit classifier to the second continuation. The
+forward direction gives $U(r)$ and $lm\hsame\emp$; decomposing the first
+continuation then splits $lm\hsame\emp$ into $l\hsame\emp$ and
+$m\hsame\emp$. Conversely, the two empty-factor equalities compose through
+the first continuation to give $lm\hsame\emp$, and the one-step left-unit
+classifier rebuilds $R_U(a,r)$ for the second continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_nested\_left\_unit\_classifier\_iff}
+
+\begin{theorem}[Concrete unary-history magma nested right-unit classifier]
+\label{thm:concrete-unary-history-magma-cont-nested-right-unit-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $l,m,r,lm,a:\mathsf{BHist}$, if
+$\ContR(l,m,lm)$ and $\ContR(lm,r,a)$, then classifying the nested result
+against the left endpoint is equivalent to the left endpoint being unary and
+both visible right factors being empty:
+$$
+R_U(a,l)
+\Longleftrightarrow
+U(l)\land\hsame(m,\emp)\land\hsame(r,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Compose the two continuation ledgers by associativity into a continuation from
+\(l\) through \(\mathsf{append}(m,r)\) to \(a\). If \(R_U(a,l)\) holds, right
+unit uniqueness forces \(\mathsf{append}(m,r)\) to be empty, and append-empty
+inversion splits this into empty \(m\) and empty \(r\). Conversely, empty \(m\)
+makes \(lm\) agree with \(l\), and empty \(r\) lets the one-step right-unit
+classifier for the second continuation rebuild \(R_U(a,l)\).
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_nested\_right\_unit\_classifier\_iff}
+
 The ten-field per-object fit is: traditional target magma; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
 classifier carrier-aware $\hsame$ on unary endpoints; stability closure and
@@ -350,3 +535,12 @@ definition of $R_U$, so the displayed predicate is both the public classifier
 and the certificate's endpoint criterion.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.ConcreteUnaryHistoryMagma\_semanticNameCert}
+\begin{closurestatus}{\MagmaUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The concrete unary-history magma semantic certificate over BHist with append as the binary operation, classifier $R_U$, append-closure, classifier transport, and continuation-witness ledger.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MagmaUp.ConcreteUnaryHistoryMagma\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General magma theory: arbitrary binary operations on arbitrary carriers, identity / inverse / associativity / commutativity beyond what append induces, free magma constructions, or quotient magmas.}
+  \upgradepath{publicClosed requires public magma constructors over a non-history carrier, operation readback, classifier exactness, and a no-hidden-leakage statement bracketing the public surface.}
+\end{closurestatus}

@@ -1,59 +1,479 @@
-\begin{proposition}[Uniformly continuous image of a totally bounded source]
+\begin{definition}[BEDC image finite-net ledger]
+\label{def:compact-image-finite-net-ledger}
+Let $source$, $\mathsf{map}$, $target$, $\delta$, and $\varepsilon$ be histories
+belonging to the metric and continuous-map naming certificates. A BEDC image
+finite-net ledger is the history relation
+$$
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},\mathsf{ledger})
+$$
+whose accepted row contains a source $\mathsf{ProbeBundle}$ $\mathcal{A}$, a
+target $\mathsf{ProbeBundle}$ $\mathcal{B}$, and only BEDC rows over histories.
+For each bundled source center row $\mathsf{InBundle}(p,\mathcal{A})$ there is
+a center history $a$ admitted by the source finite-net ledger at precision
+$\delta$. For each such center, the graph ledger supplies a bundled target row
+$\mathsf{InBundle}(q,\mathcal{B})$ carrying a history $b$ and a row
+$$
+\mathsf{ContinuousMapCarrier}(a,\mathsf{map},b,\mathsf{modulus}_a,
+\mathsf{cert}_a,\mathsf{distance}_a).
+$$
+
+The target-distance component is recorded by $\mathsf{MetricDistanceWitness}$:
+for every image witness row
+$$
+\mathsf{ContinuousMapCarrier}(x,\mathsf{map},y,\mathsf{modulus}_x,
+\mathsf{cert}_x,\mathsf{distance}_x),
+$$
+the source finite-net coverage row gives a bundled center $a$ and a source
+distance witness below $\delta$, and the image ledger returns a bundled target
+center $b$ together with a target row
+$$
+\mathsf{MetricDistanceWitness}(y,b,d_y)
+$$
+certified below $\varepsilon$. This coverage row is stable under $\hsame$ in
+the source point, the image point, the bundled center, and the displayed
+distance histories; graph single-valuedness and metric-distance classifier
+transport are part of the ledger data. No external finite list, image predicate,
+or host function is a field of the relation.
+\end{definition}
+
+\begin{proposition}[Uniformly continuous image of a BEDC finite-net source]
 \label{prop:uniformly-continuous-image-totally-bounded-source}
-Let $X$ and $Y$ be certified $\MetricSpaceUp$ objects with the metric data of
-\autoref{def:metric-carrier}. Let $S$ be a certified $\TotallyBoundedUp$ source
-subset of $X$ in the domain discipline of
-\autoref{def:continuous-source-specification}. Write
-$\mathsf{TotBdd}_X(S)$ for its finite-net field, in the internal form that each
-source precision $\delta$ has a finite list
-$A_\delta=(a_1,\ldots,a_m)$ of $S$-admitted centers such that every
-$x\in S$ satisfies $\mathsf{Close}_X^{\delta}(x,a_i)$ for some $i$.
-Let $G$ be a certified $\ContinuousMapUp$ graph from $S$ to $Y$, with graph
-totality and single-valuedness as in \autoref{def:continuous-carrier}. Suppose
-that a unary modulus ledger $\delta_G$ satisfies the modulus-validity field of
-\autoref{def:continuous-stability-certificate} on $S$: for every target
-precision $n$, it supplies a source precision $\delta_G(n)$ such that
+Let $source$ and $target$ be metric BEDC carriers whose distance rows are
+encoded by $\mathsf{MetricDistanceWitness}$, and let
 $$
-\mathsf{Close}_X^{\delta_G(n)}(x,x')
-\Longrightarrow
-\mathsf{Close}_Y^n(y,y')
+\mathsf{ContinuousMapCarrier}(source,\mathsf{map},target,\mathsf{modulus},
+\mathsf{cert},\mathsf{distance})
 $$
-whenever $x,x'\in S$ and $G(x,y)$ and $G(x',y')$ are graph witnesses. Define
-the image predicate by
+be a $\ContinuousMapUp$ carrier with graph totality, graph single-valuedness,
+modulus validity, and classifier transport. For a target precision history
+$\varepsilon$, suppose an accepted modulus-validity row of this carrier selects
+a source precision history $\delta$. If the $\TotallyBoundedUp$ source
+certificate supplies a finite-net ledger at precision $\delta$, with source
+bundle $\mathcal{A}$ and classifier-stable source coverage, then there exist a
+target $\mathsf{ProbeBundle}$ $\mathcal{B}$ and a history
+$\mathsf{ledger}$ such that
 $$
-G[S](y)\Longleftrightarrow \exists x.\;S(x)\wedge G(x,y).
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},\mathsf{ledger})
 $$
-Then $G[S]$ is certified totally bounded in $Y$.
+holds for the image carrier determined by the displayed
+$\mathsf{ContinuousMapCarrier}$ rows.
+
+The ten-field certificate template is as follows.
+\begin{enumerate}
+  \item traditional target: a uniformly continuous image of a totally bounded
+  metric source is totally bounded;
+  \item BEDC source: $\MetricSpaceUp$, $\TotallyBoundedUp$, and
+  $\ContinuousMapUp$ histories over $\mathsf{BHist}$;
+  \item carrier: the image finite-net relation of
+  \autoref{def:compact-image-finite-net-ledger};
+  \item classifier: $\hsame$ on source histories, target histories, graph rows,
+  and distance rows;
+  \item stability obligations: graph single-valuedness, modulus-validity
+  transport, and $\mathsf{MetricDistanceWitness}$ classifier transport;
+  \item ledger: the source $\mathsf{ProbeBundle}$, the constructed target
+  $\mathsf{ProbeBundle}$, graph rows at bundled source centers, and target
+  distance rows;
+  \item core theorem list: this proposition together with the image finite-net
+  ledger definition;
+  \item exactness predicate: classifier-stable target coverage for every
+  displayed image witness row;
+  \item standard bridge: the ordinary metric theorem that uniformly continuous
+  maps preserve total boundedness;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
 \end{proposition}
 \begin{proof}
-Fix a target precision $n$, and let $\delta=\delta_G(n)$ be the source
-precision supplied by the certified modulus ledger. The finite-net field of
-$S$ returns a finite $\delta$-net
-$A_\delta=(a_1,\ldots,a_m)$ whose centers carry $S$-membership certificates and
-whose cover field says that every $x\in S$ is
-$\mathsf{Close}_X^{\delta}$ to one of the centers.
+Construct the target bundle by induction on the source $\mathsf{ProbeBundle}$
+constructors. In the $\Bnil$ case, use $\Bnil$ as the target bundle; the source
+coverage row has no admitted center to enumerate, and any image witness is
+handled by the source coverage contradiction supplied by the finite-net ledger.
 
-Apply graph totality to each admitted center $a_i$. Induction on the finite
-source list produces a finite target list $B_n=(b_1,\ldots,b_m)$ with graph
-witnesses $G(a_i,b_i)$ for all $i$. This is a finite certificate construction:
-the empty list gives the empty target list, and the cons step uses one instance
-of graph totality and the induction hypothesis. Each $b_i$ lies in the image
-predicate, witnessed by $a_i\in S$ together with $G(a_i,b_i)$.
+For a cons source bundle $\Bcons(p,\mathcal{A}_0)$, first apply the induction
+hypothesis to the tail. The head row $\mathsf{InBundle}(p,\Bcons(p,\mathcal{A}_0))$
+carries a source center history $a$. Graph totality from the displayed
+$\mathsf{ContinuousMapCarrier}$ supplies a target history $b$ with
+$$
+\mathsf{ContinuousMapCarrier}(a,\mathsf{map},b,\mathsf{modulus}_a,
+\mathsf{cert}_a,\mathsf{distance}_a).
+$$
+Adjoin the corresponding target probe to the recursively built target bundle,
+and record this graph row in the image ledger.
 
-It remains to prove that $B_n$ covers $G[S]$ at precision $n$. Let $y$ satisfy
-$G[S](y)$. Unpack the image witness to obtain $x\in S$ and $G(x,y)$. The
-finite $\delta$-net for $S$ gives an index $i$ such that
-$\mathsf{Close}_X^{\delta}(x,a_i)$. Since both $x$ and $a_i$ are admitted by
-$S$, the modulus-validity field applies to the graph witnesses $G(x,y)$ and
-$G(a_i,b_i)$ and yields
+Now take an arbitrary image witness
 $$
-\mathsf{Close}_Y^n(y,b_i).
+\mathsf{ContinuousMapCarrier}(x,\mathsf{map},y,\mathsf{modulus}_x,
+\mathsf{cert}_x,\mathsf{distance}_x).
 $$
-Thus every image point is covered by one of the finitely many image centers.
-Single-valuedness of the graph certificate makes the chosen $b_i$ stable under
-alternative graph outputs, and the classifier and distance-stability fields of
-\autoref{def:metric-classifier-specification} and
-\autoref{def:metric-stability-certificate} transport the cover judgment across
-source and target representatives. The target precision $n$ was arbitrary, so
-the finite lists $B_n$ certify $\mathsf{TotBdd}_Y(G[S])$.
+The source finite-net coverage row at precision $\delta$ gives a bundled
+center $a$ and a source distance row
+$\mathsf{MetricDistanceWitness}(x,a,d_x)$ certified below $\delta$. If this
+center lies in the tail bundle, use the recursive ledger. If it is the head
+center, use the graph row for $a$ and the modulus-validity row selected by
+$\varepsilon$ to transport the source distance witness to a target distance
+row $\mathsf{MetricDistanceWitness}(y,b,d_y)$ certified below $\varepsilon$.
+
+It remains to show the row is classifier-stable. If the image witness is
+presented with an $\hsame$ source representative, source coverage stability
+transports the chosen center and source distance witness. If the graph row at a
+center is presented with another target output, graph single-valuedness gives
+the corresponding $\hsame$ target history. The metric-distance classifier
+transport then carries $\mathsf{MetricDistanceWitness}(y,b,d_y)$ across the
+target representative and the displayed distance history, so the same target
+bundle certifies coverage for every equivalent image row.
+\end{proof}
+
+\begin{definition}[BEDC image located-refinement ledger]
+\label{def:compact-image-located-refinement-ledger}
+Let $source$, $\mathsf{map}$, $target$, $\mathsf{modulus}$, $\mathsf{cert}$, and $\mathsf{distance}$ be histories belonging to the metric and continuous-map certificates, and let $\varepsilon$ and $\delta$ be target and source precision histories related by the modulus-validity row. A BEDC image located-refinement ledger is the relation
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},\\
+\qquad imageSubset,imageLocated,imageFinite,imageIntermediate,imageCompact,
+finalImageLocated,finalImageIntermediate,finalImageCompact)
+\end{array}
+$$
+whose accepted row contains:
+\begin{enumerate}
+  \item the graph-totality, graph single-valuedness, modulus-validity, and metric-distance classifier rows of the displayed $\mathsf{ContinuousMapCarrier}$;
+  \item the finite-net image row
+  $$
+  \mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+  \mathcal{A},\mathcal{B},imageFinite);
+  $$
+  \item unary histories $imageSubset$, $imageLocated$, and $imageFinite$, together with continuation ledgers
+  $$
+  \Cont(imageSubset,imageLocated,imageIntermediate)
+  \quad\hbox{and}\quad
+  \Cont(imageIntermediate,imageFinite,imageCompact);
+  $$
+  \item the transported target located-refinement chain
+  $$
+  \mathsf{CompactLocatedRefinementChain}(imageFinite,imageLocated,imageIntermediate,
+  imageCompact,finalImageLocated,finalImageIntermediate,finalImageCompact);
+  $$
+  \item classifier stability under $\hsame$ in the image point, the displayed graph row, the target finite-net center, and the target metric-distance histories.
+\end{enumerate}
+The subset history $imageSubset$ is the graph image of the source subset: a target history is admitted exactly when it is related by a displayed continuous-map row to a source history admitted by the source compact carrier. No external set of target points or host-level function is a field of the ledger.
+\end{definition}
+
+\begin{theorem}[Compact image ledger classifier stability]
+\label{thm:compact-image-ledger-classifier-stability}
+Let $source$, $\mathsf{map}$, $target$, $\mathsf{modulus}$, $\varepsilon$,
+$\delta$, $\mathcal{A}$, and $\mathcal{B}$ be the source and target histories,
+precision histories, and probe bundles of the compact image construction. Assume
+the finite-net image row
+$$
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},imageFinite)
+$$
+and the located-refinement image row
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},\\
+\qquad imageSubset,imageLocated,imageFinite,imageIntermediate,imageCompact,
+finalImageLocated,finalImageIntermediate,finalImageCompact)
+\end{array}
+$$
+hold. Suppose the same image witness is presented through transported histories:
+an $\hsame$ image point, an $\hsame$ graph row, an $\hsame$ target finite-net
+center, $\hsame$ target metric-distance histories, and $\hsame$ transports for
+the five image carrier ledgers
+$$
+\begin{array}{c}
+imageSubset \hsame imageSubset',
+\qquad finalImageLocated \hsame finalImageLocated',
+\qquad imageFinite \hsame imageFinite',\\
+finalImageIntermediate \hsame finalImageIntermediate',
+\qquad finalImageCompact \hsame finalImageCompact'.
+\end{array}
+$$
+Then the unchanged source bundle $\mathcal{A}$ and target bundle $\mathcal{B}$
+repack the transported rows
+$$
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},imageFinite')
+$$
+and
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},\\
+\qquad imageSubset',imageLocated',imageFinite',imageIntermediate',imageCompact',
+finalImageLocated',finalImageIntermediate',finalImageCompact')
+\end{array}
+$$
+for the transported image rows. Moreover, whenever
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,finalImageLocated,imageFinite,
+finalImageIntermediate,finalImageCompact)
+$$
+holds, the transported compact witness carrier
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset',finalImageLocated',imageFinite',
+finalImageIntermediate',finalImageCompact')
+$$
+also holds.
+
+The ten-field certificate fit is as follows.
+\begin{enumerate}
+  \item traditional target: uniformly continuous images preserve compact witness
+  data under classifier-stable target coverage;
+  \item BEDC source: $\MetricSpaceUp$, $\ContinuousMapUp$, and $\CompactUp$
+  histories over $\mathsf{BHist}$;
+  \item carrier: the image finite-net ledger and the image located-refinement
+  ledger;
+  \item classifier: $\hsame$ on image points, graph rows, bundled target centers,
+  metric-distance histories, and image carrier ledgers;
+  \item stability obligations: graph single-valuedness together with
+  $\mathsf{MetricDistanceWitness}$ classifier transport;
+  \item ledger: the source and target $\mathsf{ProbeBundle}$ data, the graph rows
+  at source centers, the target distance rows, and the compact image continuation
+  rows;
+  \item core theorem list: this theorem;
+  \item exactness predicate: transported classifier-stable target coverage;
+  \item standard bridge: uniformly continuous images preserve compact witness
+  data;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unpack the finite-net image ledger. For a transported image witness, source
+coverage stability transports the chosen source center and its source
+$\mathsf{MetricDistanceWitness}$ row along the displayed $\hsame$ source and
+distance data.
+
+The graph row at that source center is stable because graph single-valuedness
+identifies the transported target output with the original bundled target
+history. Apply $\mathsf{MetricDistanceWitness}$ classifier transport to the
+target output, bundled center, and displayed target distance history. The same
+target bundle $\mathcal{B}$ therefore gives the transported coverage row, and
+the finite-net ledger repacks with $imageFinite'$.
+
+Next unpack the image located-refinement ledger. Its continuation rows and
+located-refinement chain are classifier data over the same graph image and the
+same target finite-net ledger; the supplied $\hsame$ transports for
+$imageSubset$, $imageFinite$, $finalImageLocated$, $finalImageIntermediate$, and
+$finalImageCompact$ carry those rows to the primed histories. Repacking these
+transported rows gives the stated
+$\mathsf{ImageLocatedRefinementLedger}$ with the same source and target bundles.
+
+Finally unpack the original compact witness carrier. Its fields are exactly the
+subset ledger, final located ledger, finite-net ledger, final intermediate
+ledger, and final compact ledger. Applying the carrier classifier transport to
+the five displayed $\hsame$ rows repacks the compact witness carrier over the
+primed image histories.
+\end{proof}
+
+\begin{theorem}[Uniformly continuous image of a BEDC compact source]
+\label{thm:uniformly-continuous-image-compact-source}
+Let $source$ and $target$ be metric BEDC carriers, and let
+$$
+\mathsf{ContinuousMapCarrier}(source,\mathsf{map},target,\mathsf{modulus},
+\mathsf{cert},\mathsf{distance})
+$$
+be a $\ContinuousMapUp$ carrier with graph totality, graph single-valuedness, modulus validity, and classifier transport. Assume the source carries the compact witness
+$$
+\mathsf{CompactWitnessCarrier}(sourceSubset,sourceLocated,sourceFinite,
+sourceIntermediate,sourceCompact).
+$$
+For a target precision history $\varepsilon$, let the accepted modulus-validity row select a source precision history $\delta$. If the source finite-net certificate supplies a bundle $\mathcal{A}$ at $\delta$, with classifier-stable source coverage, then the image carrier determined by the displayed graph rows admits histories $\mathcal{B}$, $imageSubset$, $imageLocated$, $imageFinite$, $imageIntermediate$, $imageCompact$, $finalImageLocated$, $finalImageIntermediate$, and $finalImageCompact$ such that
+$$
+\begin{array}{l}
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},imageFinite)\\
+\land\
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},imageSubset,imageLocated,imageFinite,
+imageIntermediate,imageCompact,\\
+\qquad finalImageLocated,finalImageIntermediate,finalImageCompact)\\
+\land\
+\mathsf{CompactWitnessCarrier}(imageSubset,finalImageLocated,imageFinite,
+finalImageIntermediate,finalImageCompact).
+\end{array}
+$$
+Thus the continuous image inherits a full compact witness carrier, with the finite-net image field and the located refinement chain carried through the same modulus ledger.
+\end{theorem}
+\begin{proof}
+Apply \autoref{prop:uniformly-continuous-image-totally-bounded-source} to the target precision $\varepsilon$, the selected source precision $\delta$, and the source finite-net row at $\delta$. This produces the target bundle $\mathcal{B}$ and the finite-net history $imageFinite$ satisfying
+$$
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},imageFinite).
+$$
+That row is the totally-bounded part of the image certificate: for every displayed image witness, source coverage gives a bundled source center, graph totality maps that center to a bundled target center, and modulus validity turns the source distance bound below $\delta$ into the target distance bound below $\varepsilon$.
+
+Define $imageSubset$ by the graph image of $sourceSubset$. Graph single-valuedness makes this subset independent of the chosen source representative, and the metric-distance classifier transport in the continuous-map carrier makes the displayed distance rows stable under $\hsame$ in the image point and target center.
+
+The located component is transported step by step. The source compact witness supplies the continuations
+$$
+\Cont(sourceSubset,sourceLocated,sourceIntermediate)
+\quad\hbox{and}\quad
+\Cont(sourceIntermediate,sourceFinite,sourceCompact).
+$$
+For each unary locatedness refinement tail in the source chain, the modulus-validity row assigns the corresponding target precision tail. The same tail extends the image locatedness ledger and the image intermediate ledger, while the fixed image finite-net history closes the compactness endpoint by the continuation
+$$
+\Cont(finalImageIntermediate,imageFinite,finalImageCompact).
+$$
+This is exactly the step constructor of \autoref{def:compact-located-refinement-chain}; the base constructor is the initial image locatedness package. Induction over the source located refinement chain therefore gives
+$$
+\mathsf{CompactLocatedRefinementChain}(imageFinite,imageLocated,imageIntermediate,
+imageCompact,finalImageLocated,finalImageIntermediate,finalImageCompact).
+$$
+Together with the unary image histories and the two initial continuation ledgers, these rows form the image located-refinement ledger of \autoref{def:compact-image-located-refinement-ledger}.
+
+The unary histories $imageSubset$, $imageLocated$, and $imageFinite$, together with
+$$
+\Cont(imageSubset,imageLocated,imageIntermediate)
+\quad\hbox{and}\quad
+\Cont(imageIntermediate,imageFinite,imageCompact),
+$$
+assemble the initial compact witness carrier
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,imageLocated,imageFinite,imageIntermediate,
+imageCompact).
+$$
+Apply \autoref{thm:compact-witness-carrier-located-refinement-chain-closed} to this carrier and the transported target located-refinement chain. The conclusion is
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,finalImageLocated,imageFinite,
+finalImageIntermediate,finalImageCompact),
+$$
+while the finite-net image ledger remains the same displayed $imageFinite$ field. Hence the image certificate contains both the totally-bounded image data and the located refinement chain required by the compact carrier.
+\end{proof}
+
+\begin{theorem}[Finite image nets produce image locatedness ledgers]
+\label{thm:finite-image-nets-produce-image-locatedness-ledgers}
+Let $source$ and $target$ be metric BEDC carriers, and let
+$$
+\mathsf{ContinuousMapCarrier}(source,\mathsf{map},target,\mathsf{modulus},
+\mathsf{cert},\mathsf{distance})
+$$
+be a $\ContinuousMapUp$ carrier with graph totality, graph single-valuedness,
+modulus validity, and metric-distance classifier transport. Fix target and
+source precision histories $\varepsilon$ and $\delta$, source and target
+bundles $\mathcal{A}$ and $\mathcal{B}$, and image histories
+$imageSubset$, $imageLocated$, $imageFinite$, $imageIntermediate$,
+$imageCompact$, $finalImageLocated$, $finalImageIntermediate$, and
+$finalImageCompact$. Assume
+$$
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},imageFinite).
+$$
+Assume also that the target metric-distance finite comparison data over
+$\mathcal{B}$ supplies the following BEDC rows:
+\begin{enumerate}
+  \item $imageSubset$ is the graph image of the source subset through the
+  displayed continuous-map carrier;
+  \item $imageSubset$, $imageLocated$, and $imageFinite$ are unary histories,
+  and
+  $$
+  \Cont(imageSubset,imageLocated,imageIntermediate)
+  \quad\hbox{and}\quad
+  \Cont(imageIntermediate,imageFinite,imageCompact)
+  $$
+  hold;
+  \item the finite comparison fold of the target distance rows below
+  $\varepsilon$ generates the located-refinement chain
+  $$
+  \mathsf{CompactLocatedRefinementChain}(imageFinite,imageLocated,
+  imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+  finalImageCompact);
+  $$
+  \item the comparison rows are stable under $\hsame$ in the image point, the
+  displayed graph row, the target finite-net center, and the target
+  metric-distance histories.
+\end{enumerate}
+Then the graph image predicate admits the image located-refinement ledger
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},imageSubset,imageLocated,imageFinite,\\
+\qquad imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+finalImageCompact).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:compact-image-located-refinement-ledger}. Its accepted row
+has five components. The continuous-map carrier supplies graph totality, graph
+single-valuedness, modulus validity, and metric-distance classifier transport.
+The displayed image finite-net hypothesis is exactly the finite-net component
+from \autoref{def:compact-image-finite-net-ledger}.
+
+The target comparison package supplies the graph-image reading of
+$imageSubset$, the unary histories $imageSubset$, $imageLocated$, and
+$imageFinite$, and the two initial continuation ledgers through
+$imageIntermediate$ and $imageCompact$. Its finite fold over the target bundle
+$\mathcal{B}$ supplies the compact located-refinement chain required by
+\autoref{def:compact-located-refinement-chain}. Finally, graph single-valuedness
+and metric-distance classifier transport give the stated stability under
+$\hsame$ for the image point, graph row, bundled target center, and displayed
+distance histories.
+
+These are precisely the fields listed in
+\autoref{def:compact-image-located-refinement-ledger}, so they assemble the
+claimed image located-refinement ledger.
+\end{proof}
+
+\begin{theorem}[Image located-refinement ledger compact carrier]
+\label{thm:image-located-refinement-ledger-compact-carrier}
+Let $source$ and $target$ be metric BEDC carriers, and let
+$$
+\mathsf{ContinuousMapCarrier}(source,\mathsf{map},target,\mathsf{modulus},
+\mathsf{cert},\mathsf{distance})
+$$
+be a $\ContinuousMapUp$ carrier with graph totality, graph single-valuedness,
+modulus validity, and metric-distance classifier transport. Fix target and
+source precision histories $\varepsilon$ and $\delta$, source and target
+bundles $\mathcal{A}$ and $\mathcal{B}$, and image histories
+$imageSubset$, $imageLocated$, $imageFinite$, $imageIntermediate$,
+$imageCompact$, $finalImageLocated$, $finalImageIntermediate$, and
+$finalImageCompact$. Assume that $imageSubset$, $imageLocated$, and
+$imageFinite$ are unary histories, and that
+$$
+\Cont(imageSubset,imageLocated,imageIntermediate)
+\quad\hbox{and}\quad
+\Cont(imageIntermediate,imageFinite,imageCompact)
+$$
+hold. If
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},imageSubset,imageLocated,imageFinite,\\
+\qquad imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+finalImageCompact)
+\end{array}
+$$
+supplies the compact located-refinement chain to $finalImageLocated$,
+$finalImageIntermediate$, and $finalImageCompact$, then
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,finalImageLocated,imageFinite,
+finalImageIntermediate,finalImageCompact).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the image located-refinement ledger. Its accepted row contains the compact
+located-refinement chain
+$$
+\mathsf{CompactLocatedRefinementChain}(imageFinite,imageLocated,
+imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+finalImageCompact).
+$$
+
+The unary histories $imageSubset$, $imageLocated$, and $imageFinite$, together
+with the two displayed continuations, assemble the initial compact witness
+carrier
+$$
+\mathsf{CompactWitnessCarrier}(imageSubset,imageLocated,imageFinite,
+imageIntermediate,imageCompact).
+$$
+
+Apply \autoref{thm:compact-witness-carrier-located-refinement-chain-closed} to
+this carrier and the located-refinement chain extracted from the ledger. The
+result replaces the located, intermediate, and compact fields by
+$finalImageLocated$, $finalImageIntermediate$, and $finalImageCompact$ while
+leaving the subset and finite-net fields fixed, which is exactly the claimed
+compact witness carrier.
 \end{proof}

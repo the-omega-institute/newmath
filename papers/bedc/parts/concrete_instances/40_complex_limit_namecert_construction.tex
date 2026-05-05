@@ -192,6 +192,27 @@ store unary support for the outer endpoints $z$ and $u$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound\_unary\_of\_distances}
 
+\begin{theorem}[Complex distance triangle bound empty endpoints]
+\label{thm:complex-distance-triangle-bound-empty-endpoints}
+For complex histories $z,w,u$ and distance histories $d_{12},d_{23}$, if
+the two concrete distance witnesses
+$$
+\mathsf{ComplexDistance}(z,w,d_{12})
+\quad\text{and}\quad
+\mathsf{ComplexDistance}(w,u,d_{23})
+$$
+hold and the explicit triangle bound is history-same to $\emp$, then all
+three endpoints are history-same to $\emp$.
+\end{theorem}
+\begin{proof}
+The triangle bound is $\mathsf{append}(d_{12},d_{23})$, so append-empty
+inversion forces both displayed distance histories to be empty. Each
+empty-distance witness then exposes empty endpoints by continuation
+empty-result inversion; applying this to the two adjacent distances gives
+$z\hsame\emp$, $w\hsame\emp$, and $u\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound\_empty\_endpoints}
+
 \begin{lemma}[Complex distance nonempty endpoint cases]
 \label{thm:cplx-dist-nonempty-distance-endpoint-cases}
 For complex histories $z,w$ and distance endpoint $d$, if
@@ -236,6 +257,7 @@ For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z
 \begin{proof}[Sketch]
 Componentwise application of the rational-history triangle inequality from \(\RealUp\) machinery (\autoref{ch:concrete-instances-real-namecert}) to the real and imaginary parts, followed by composition under the modulus witness of \autoref{def:cplx-modulus}. The bound \(\mathsf{TriBound}\) is explicit and unary-indexed.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_triangle\_explicit\_bound}
 
 \section{Regular complex sequences}
 
@@ -418,6 +440,22 @@ distance relation, so the suffixed sequence satisfies the same regularity
 predicate.
 \end{proof}
 
+\begin{theorem}[Complex limit constant suffix closure]
+\label{thm:complex-limit-append-constant-closed}
+Let $q:\mathsf{BHist}$ be unary. If $\mathsf{CplxLim}(s,N,z,M)$ holds, then
+the suffixed sequence $n\mapsto\mathsf{append}(s(n),q)$ has complex limit
+$\mathsf{append}(z,q)$ with the same regularity modulus $N$ and limit modulus
+$M$.
+\end{theorem}
+\begin{proof}
+Regularity is transported by the regular-sequence constant suffix closure. The
+limit carrier is closed by complex-history unary suffix closure. For every
+accepted modulus index, the original limit witness gives a complex distance
+from $s(n)$ to $z$; applying constant suffix closure to that distance gives the
+canonical distance from $\mathsf{append}(s(n),q)$ to $\mathsf{append}(z,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_append\_constant\_closed}
+
 \begin{theorem}[Regular complex sequence constant suffix result determinacy]
 \label{thm:complex-regular-sequence-append-constant-result-deterministic}
 Let \(q:\mathsf{BHist}\) be unary and let \((s,N)\) be a regular complex
@@ -470,10 +508,26 @@ the pointwise \(\hsame\) comparisons, and keep \(d\) fixed by reflexivity.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_hsame\_transport}
 
+\begin{theorem}[Complex limit sequence endpoint transport]
+\label{thm:complex-limit-sequence-hsame-transport}
+Let $s,t,N,M:\Hist\to\Hist$. If every unary index $n$ satisfies
+$\hsame(s(n),t(n))$, then $\mathsf{CplxLim}(s,N,z,M)$ implies
+$\mathsf{CplxLim}(t,N,z,M)$.
+\end{theorem}
+\begin{proof}
+The regular part is transported pointwise by the regular-sequence endpoint
+transport theorem. The displayed complex-history carrier for $z$ is unchanged.
+For each accepted limit-modulus index, reuse the original distance witness and
+transport its sequence endpoint from $s(n)$ to $t(n)$ along the supplied
+$\hsame$ comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_sequence\_hsame\_transport}
+
 \begin{definition}[Pointwise sum of complex sequences]
 \label{def:cplx-pointwise-sum}
 For complex sequences \(s, t\), the pointwise sum \(s \oplus t\) is given by \((s \oplus t)(n) := s(n) + t(n)\), where \(+\) is componentwise rational-history addition continuation on \(\ComplexUp\)-carriers.
 \end{definition}
+\leandef{BEDC.Derived.ComplexLimitUp.ComplexPointwiseSum}
 
 \begin{lemma}[Sum of regular sequences is regular with explicit modulus pasting]
 \label{lem:cplx-sum-regular}
@@ -482,6 +536,8 @@ If \(\mathsf{CplxRegSeq}(s, N_s)\) and \(\mathsf{CplxRegSeq}(t, N_t)\), then \(\
 \begin{proof}
 Applying the triangle inequality to \(\mathsf{CplxDist}((s \oplus t)(n), (s \oplus t)(m), D)\) decomposes the bound into the sum of the \(s\)- and \(t\)-bounds, each at level \(k+1\), giving total \(2^{-k}\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_pointwise\_sum\_closed}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_pointwise\_append\_same\_modulus\_closed}
 
 \begin{theorem}[Limit respects pointwise sum]
 \label{thm:cplx-lim-sum}
@@ -490,6 +546,7 @@ If \(\mathsf{CplxLim}(s, N_s, z_s, M_s)\) and \(\mathsf{CplxLim}(t, N_t, z_t, M_
 \begin{proof}[Sketch]
 Triangle inequality on \(\mathsf{CplxDist}((s \oplus t)(n), z_s + z_t, D)\): bound by the sum of the two component distances, each at level \(k+1\) by the hypothesis on \(M_s\) and \(M_t\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_pointwise\_append\_same\_modulus\_closed}
 
 \begin{theorem}[Limit respects scalar multiplication by a fixed complex history]
 \label{thm:cplx-lim-scalar}
@@ -498,6 +555,7 @@ For a fixed complex history \(c\) with modulus bound \(C\) (i.e.\ \(\mathsf{Cplx
 \begin{proof}[Sketch]
 The bilinearity of complex multiplication gives \(\mathsf{CplxDist}(c \cdot s(n), c \cdot z, D)\) bounded by \(C \cdot \mathsf{CplxDist}(s(n), z, D')\); shift the modulus index by the unary discretized logarithm of \(C\) to absorb the scaling factor.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_prepend\_constant\_closed}
 
 \begin{theorem}[Limit respects pointwise product with quadratic modulus]
 \label{thm:cplx-lim-product}
@@ -584,6 +642,158 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:complex-limit-semantic-namecert}
 The concrete certificate of \autoref{thm:complex-limit-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier is a \(\Hist\)-predicate, the classifier is a restriction of \(\hsame\) to complex-history components, and every closure law is given by an explicit constructive proof with explicit modulus pasting.
 \end{theorem}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_semanticNameCert}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.complex\_limit\_semantic\_name\_certificate}
+
+\begin{theorem}[Constant complex sequence has constant complex limit]
+\label{thm:cplx-constant-sequence-constant-limit}
+Let $z$ be a complex history. Define the constant sequence $s:\Unary\to\ComplexUp$ by $s(n):=z$, and define the two trivial moduli by
+$$
+N_{\mathrm{const}}(k):=\emp,
+\qquad
+M_{\mathrm{const}}(k):=\emp.
+$$
+If $\mathsf{CplxRegSeq}(s,N_{\mathrm{const}})$ holds by \autoref{lem:cplx-constant-regular}, then
+$$
+\mathsf{CplxLim}(s,N_{\mathrm{const}},z,M_{\mathrm{const}})
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Fix a unary precision $k$ and a unary index $n$ satisfying the threshold clause in \autoref{def:cplx-lim} for $M_{\mathrm{const}}(k)$. Since $M_{\mathrm{const}}(k)=N_{\mathrm{const}}(k)=\emp$, the same threshold clause makes $n$ acceptable for the regularity condition of \autoref{def:cplx-regseq}. Take the second regularity index to be $m:=\emp$; it is acceptable because $\hsame(\emp,N_{\mathrm{const}}(k))$ is reflexivity.
+
+Apply $\mathsf{CplxRegSeq}(s,N_{\mathrm{const}})$ at the indices $n$ and $m$. This gives a distance witness $D$ such that $\mathsf{CplxDist}(s(n),s(m),D)$ satisfies the unary representation of $D\leq 2^{-k}$. By the definition of the constant sequence, $s(m)=s(\emp)=z$. Therefore the same witness $D$ is exactly the distance estimate from $s(n)$ to $z$ required in \autoref{def:cplx-lim}. Since $k$ and $n$ were arbitrary, $M_{\mathrm{const}}$ is a valid complex-limit modulus for the constant sequence.
+\end{proof}
+
+\begin{theorem}[Eventually constant complex sequence has constant limit]
+\label{thm:cplx-eventually-constant-sequence-constant-limit}
+Let $s:\Unary\to\ComplexUp$ be a complex sequence, let $N,M:\Unary\to\Unary$ be unary moduli, and let $z$ be a complex history. Suppose $\mathsf{CplxRegSeq}(s,N)$ and suppose that $s$ is pointwise history-same to $z$ above $M$:
+$$
+\forall k,n:\Unary,\
+\bigl(\mathsf{NatUnaryStrictPrefix}(M(k),n)\lor\hsame(n,M(k))\bigr)
+\Longrightarrow
+\hsame(s(n),z).
+$$
+Then
+$$
+\mathsf{CplxLim}(s,N,z,M).
+$$
+\end{theorem}
+\begin{proof}
+Fix a unary precision $k$ and a unary index $n$ satisfying the threshold clause in \autoref{def:cplx-lim} for $M(k)$. Put $c(u):=z$ for the constant sequence. The empty threshold used in \autoref{thm:cplx-constant-sequence-constant-limit} accepts every unary index: if $n\hsame\emp$ this is the non-strict branch, and otherwise the tail $n$ with the left-unit continuation $\ContR(\emp,n,n)$ gives $\mathsf{NatUnaryStrictPrefix}(\emp,n)$ by \autoref{def:nat-unary-strict-prefix}. Hence the constant-limit theorem supplies a distance witness $D$ from $c(n)=z$ to $z$ satisfying the unary estimate $D\leq 2^{-k}$.
+
+The above-$M$ hypothesis gives $\hsame(s(n),z)$, hence $\hsame(s(n),c(n))$. Apply \autoref{thm:complex-distance-hsame-transport-with-relation} to the distance witness for $c(n)$ and $z$, using reflexivity of $\hsame$ on the limit endpoint and on $D$. The transported witness has endpoints $s(n)$ and $z$, and the same distance history $D$, so the estimate $D\leq 2^{-k}$ is unchanged.
+
+Since $k$ and $n$ were arbitrary among the accepted indices, these witnesses are exactly the convergence pattern required by \autoref{def:cplx-lim}. The hypothesis $\mathsf{CplxRegSeq}(s,N)$ supplies the regular-sequence side of the predicate, so $\mathsf{CplxLim}(s,N,z,M)$ holds.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_eventually\_constant\_closed}
+
+\begin{definition}[Pointwise difference of complex sequences]
+\label{def:cplx-pointwise-difference}
+For complex sequences $s,t:\Unary\to\ComplexUp$, the pointwise difference $s\ominus t$ is the sequence
+$$
+(s\ominus t)(n):=s(n)-t(n),
+$$
+where subtraction is the componentwise rational-history subtraction continuation on the two rational components of the complex carrier.
+\end{definition}
+
+\begin{lemma}[Difference of regular complex sequences is regular with explicit modulus pasting]
+\label{lem:cplx-difference-regular}
+If $\mathsf{CplxRegSeq}(s,N_s)$ and $\mathsf{CplxRegSeq}(t,N_t)$ hold, then $\mathsf{CplxRegSeq}(s\ominus t,N_{\ominus})$ holds for the explicit pasted modulus
+$$
+N_{\ominus}(k):=\max(N_s(k+1),N_t(k+1)).
+$$
+\end{lemma}
+\begin{proof}
+Fix a unary precision $k$ and accepted unary indices $n,m$ above $N_{\ominus}(k)$. The maximum clause makes the same indices accepted above $N_s(k+1)$ and above $N_t(k+1)$. The two regularity hypotheses therefore give distance witnesses $D_s$ and $D_t$ for $s(n)$ to $s(m)$ and for $t(n)$ to $t(m)$, each bounded by the unary dyadic budget $2^{-(k+1)}$.
+
+By the componentwise subtraction continuation,
+$$
+(s(n)-t(n))-(s(m)-t(m))=(s(n)-s(m))-(t(n)-t(m))
+$$
+component by component. The distance predicate of \autoref{def:cplx-distance} reads this as the modulus of a componentwise difference. Applying the symmetry of complex distance from \autoref{lem:cplx-dist-symmetric} to the $t$-term if needed, and then applying the triangle inequality of \autoref{lem:cplx-dist-triangle}, gives a distance witness for $(s\ominus t)(n)$ to $(s\ominus t)(m)$ bounded by $D_s+D_t$. Since both summands are bounded by $2^{-(k+1)}$, unary dyadic addition gives $D_s+D_t\leq 2^{-k}$. This is exactly the regularity clause of \autoref{def:cplx-regseq} for $s\ominus t$ with modulus $N_{\ominus}$.
+\end{proof}
+
+\begin{theorem}[Limit respects pointwise difference]
+\label{thm:cplx-lim-difference}
+If $\mathsf{CplxLim}(s,N_s,z_s,M_s)$ and $\mathsf{CplxLim}(t,N_t,z_t,M_t)$ hold, then
+$$
+\mathsf{CplxLim}(s\ominus t,N_{\ominus},z_s-z_t,M_{\ominus})
+$$
+holds with explicit pasted moduli
+$$
+N_{\ominus}(k):=\max(N_s(k+1),N_t(k+1)),
+\qquad
+M_{\ominus}(k):=\max(M_s(k+1),M_t(k+1)).
+$$
+\end{theorem}
+\begin{proof}
+The regular-sequence part is \autoref{lem:cplx-difference-regular}, applied to the regularity fields contained in the two limit hypotheses of \autoref{def:cplx-lim}.
+
+It remains to verify the limit estimate. Fix a unary precision $k$ and a unary index $n$ accepted above $M_{\ominus}(k)$. By the maximum clause, $n$ is accepted above both $M_s(k+1)$ and $M_t(k+1)$. The two limit hypotheses provide distance witnesses $E_s$ and $E_t$ from $s(n)$ to $z_s$ and from $t(n)$ to $z_t$, each bounded by $2^{-(k+1)}$.
+
+The componentwise subtraction ledgers give the identity
+$$
+(s\ominus t)(n)-(z_s-z_t)=(s(n)-z_s)-(t(n)-z_t).
+$$
+Using \autoref{def:cplx-distance}, the desired distance is the complex modulus of the right-hand side. Symmetry of complex distance from \autoref{lem:cplx-dist-symmetric} handles the signed second summand, and the triangle inequality of \autoref{lem:cplx-dist-triangle} bounds the displayed distance by $E_s+E_t$. The dyadic half-budget calculation gives $E_s+E_t\leq 2^{-k}$. Since $k$ and $n$ were arbitrary among the accepted indices, $M_{\ominus}$ satisfies the convergence clause of \autoref{def:cplx-lim} for the pointwise difference sequence and limit point $z_s-z_t$.
+\end{proof}
+
+\begin{definition}[Pointwise additive inverse of complex sequences]
+\label{def:cplx-pointwise-negation}
+For a complex sequence $s:\Unary\to\ComplexUp$, the pointwise additive inverse $-s$ is the sequence
+$$
+(-s)(n):=-(s(n)),
+$$
+where the endpoint inverse is formed componentwise on the real and imaginary rational-history components of the complex carrier from \autoref{def:complex-carrier}.
+\end{definition}
+
+\begin{lemma}[Complex distance is invariant under simultaneous negation]
+\label{lem:cplx-distance-simultaneous-negation}
+For complex histories $a,b$ and a distance history $D$,
+$$
+\mathsf{CplxDist}(a,b,D)\Longrightarrow \mathsf{CplxDist}(-a,-b,D).
+$$
+\end{lemma}
+\begin{proof}
+By \autoref{def:cplx-distance}, the hypothesis is a complex-modulus witness for the componentwise difference $a-b$. The componentwise additive-inverse ledger gives
+$$
+(-a)-(-b)=-(a-b)
+$$
+on both rational-history components. In \autoref{def:cplx-modulus}, replacing both components of a difference by their additive inverses does not change the displayed square terms, since rational-history squaring is invariant under additive inverse. The same modulus witness $D$ therefore certifies the distance from $-a$ to $-b$.
+\end{proof}
+
+\begin{theorem}[Complex limit respects pointwise negation]
+\label{thm:cplx-lim-pointwise-negation}
+If $\mathsf{CplxLim}(s,N,z,M)$ holds, then the pointwise additive-inverse sequence has complex limit $-z$ with the same regularity modulus and the same limit modulus:
+$$
+\mathsf{CplxLim}(-s,N,-z,M).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the limit hypothesis using \autoref{def:cplx-lim}. Its regularity field is a witness for $\mathsf{CplxRegSeq}(s,N)$, its target field carries the complex history $z$, and its modulus field gives the distance estimates from $s(n)$ to $z$ above $M$.
+
+First verify regularity for $-s$ with the unchanged modulus $N$. For a unary precision $k$ and accepted unary indices $n,m$ in the sense of \autoref{def:cplx-regseq}, regularity of $s$ gives a distance witness $D$ from $s(n)$ to $s(m)$ with the required dyadic bound. Applying \autoref{lem:cplx-distance-simultaneous-negation} gives a distance witness with the same $D$ from $(-s)(n)$ to $(-s)(m)$; the numerical bound is unchanged because the distance history has not changed. Thus $\mathsf{CplxRegSeq}(-s,N)$ holds.
+
+The target carrier for $-z$ is supplied by the componentwise additive-inverse closure of the $\ComplexUp$ carrier from \autoref{def:complex-carrier}. Now fix a unary precision $k$ and an accepted unary index $n$ above $M(k)$ as in \autoref{def:cplx-lim}. The original limit witness supplies a distance history $E$ from $s(n)$ to $z$ satisfying the $2^{-k}$ bound. Applying \autoref{lem:cplx-distance-simultaneous-negation} gives the same distance history $E$ from $(-s)(n)$ to $-z$, and the same dyadic estimate remains valid. Since $k$ and $n$ were arbitrary among the accepted indices, $M$ is a limit modulus for $-s$ at $-z$.
+\end{proof}
+
+\begin{definition}[Pointwise binary affine combination of complex sequences]
+\label{def:cplx-pointwise-binary-affine-combination}
+For fixed complex histories $a,b$ and complex sequences $s,t:\Unary\to\ComplexUp$, the pointwise binary affine combination $a\cdot s+b\cdot t$ is the unary-indexed sequence $(a\cdot s+b\cdot t)(n):=(a\cdot s(n))\oplus(b\cdot t(n))$. Here the scalar products are the componentwise complex products used in \autoref{thm:cplx-lim-scalar}, and $\oplus$ is the pointwise sum of \autoref{def:cplx-pointwise-sum}.
+\end{definition}
+\begin{theorem}[Complex limit respects binary affine combinations]
+\label{thm:cplx-lim-binary-affine-combination}
+Let $a,b$ be fixed complex histories with unary modulus bounds $A,B$, so $\mathsf{CplxMod}(a,A)$ and $\mathsf{CplxMod}(b,B)$. Let $\sigma_{ab}:=\log_2(A+B+1)$ be the standard unary scalar shift for the combined bound $A+B$. Suppose $\mathsf{CplxLim}(s,N_s,z_s,M_s)$ and $\mathsf{CplxLim}(t,N_t,z_t,M_t)$ hold. Define pasted shifted moduli by $N_{ab}(k):=\max\bigl(N_s(k+1+\sigma_{ab}),N_t(k+1+\sigma_{ab})\bigr)$ and $M_{ab}(k):=\max\bigl(M_s(k+1+\sigma_{ab}),M_t(k+1+\sigma_{ab})\bigr)$. Then the binary affine combination has the displayed complex limit:
+$$
+\mathsf{CplxLim}(a\cdot s+b\cdot t,N_{ab},a\cdot z_s+b\cdot z_t,M_{ab}).
+$$
+\end{theorem}
+\begin{proof}
+The proof packages the scalar estimate of \autoref{thm:cplx-lim-scalar} with the sum-pasting mechanism of \autoref{thm:cplx-lim-sum}. Unpack the two limit hypotheses by \autoref{def:cplx-lim}. Their regularity fields give $\mathsf{CplxRegSeq}(s,N_s)$ and $\mathsf{CplxRegSeq}(t,N_t)$, and their convergence fields give the distance estimates from $s(n)$ to $z_s$ and from $t(n)$ to $z_t$ above the displayed moduli. The target point $a\cdot z_s+b\cdot z_t$ is a complex history by the componentwise complex carrier of \autoref{def:complex-carrier}, the scalar-product carrier used in \autoref{thm:cplx-lim-scalar}, and the sum carrier used in \autoref{def:cplx-pointwise-sum}.
+First verify regularity. Fix a unary precision $k$ and unary indices $n,m$ accepted above $N_{ab}(k)$ in the sense of \autoref{def:cplx-regseq}. The maximum clause makes both indices accepted above $N_s(k+1+\sigma_{ab})$ and above $N_t(k+1+\sigma_{ab})$. Regularity of $s$ and $t$ supplies distance histories $D_s,D_t$ with $D_s\leq 2^{-(k+1+\sigma_{ab})}$ and $D_t\leq 2^{-(k+1+\sigma_{ab})}$. The scalar estimate underlying \autoref{thm:cplx-lim-scalar} and the bounds $\mathsf{CplxMod}(a,A)$, $\mathsf{CplxMod}(b,B)$ give distance bounds $A D_s$ for $a\cdot s(n)$ to $a\cdot s(m)$ and $B D_t$ for $b\cdot t(n)$ to $b\cdot t(m)$. Applying the triangle inequality of \autoref{lem:cplx-dist-triangle} after the pointwise sum construction of \autoref{def:cplx-pointwise-sum} bounds the affine-distance witness by $A D_s+B D_t$. The defining dyadic property of $\sigma_{ab}$ gives $A D_s+B D_t\leq (A+B)2^{-(k+1+\sigma_{ab})}\leq 2^{-k}$, so $\mathsf{CplxRegSeq}(a\cdot s+b\cdot t,N_{ab})$ holds.
+It remains to verify the convergence modulus. Fix a unary precision $k$ and a unary index $n$ accepted above $M_{ab}(k)$ as in \autoref{def:cplx-lim}. The maximum clause makes $n$ accepted above both $M_s(k+1+\sigma_{ab})$ and $M_t(k+1+\sigma_{ab})$. The two limit hypotheses give distance histories $E_s,E_t$ with $E_s\leq 2^{-(k+1+\sigma_{ab})}$ and $E_t\leq 2^{-(k+1+\sigma_{ab})}$. Componentwise bilinearity gives $(a\cdot s+b\cdot t)(n)-(a\cdot z_s+b\cdot z_t)=a\cdot(s(n)-z_s)+b\cdot(t(n)-z_t)$. Using \autoref{def:cplx-distance}, the same scalar estimates bound the two displayed summands by $A E_s$ and $B E_t$, and \autoref{lem:cplx-dist-triangle} bounds their sum by $A E_s+B E_t$. The same dyadic calculation gives $A E_s+B E_t\leq 2^{-k}$. Since $k$ and $n$ were arbitrary among the accepted indices, $M_{ab}$ satisfies the convergence clause for $a\cdot s+b\cdot t$ at $a\cdot z_s+b\cdot z_t$. Together with the regularity proved above, this is exactly the asserted $\mathsf{CplxLim}$ statement.
 \end{proof}

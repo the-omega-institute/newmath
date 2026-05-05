@@ -446,4 +446,207 @@ j\sim_C x\vee y .
 $$
 \end{proof}
 
+\begin{definition}[Concrete unary total-order lattice selectors]
+\label{def:totalorder-prefix-lattice-selectors}
+For carried unary histories $h,k$ in $\mathsf{Carrier}_{\mathsf{u}}$, let the active comparison branch be the ledger branch supplied by \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. Define the trichotomy lower and upper endpoint selectors by
+$$
+\mathsf{glb}_{\mathsf{tri}}(h,k):=
+\begin{cases}
+h, & \text{on } \mathsf{NatUnaryStrictPrefix}(h,k),\\
+h, & \text{on } \rho_{\mathsf{u}}(h,k),\\
+k, & \text{on } \mathsf{NatUnaryStrictPrefix}(k,h),
+\end{cases}
+\qquad
+\mathsf{lub}_{\mathsf{tri}}(h,k):=
+\begin{cases}
+k, & \text{on } \mathsf{NatUnaryStrictPrefix}(h,k),\\
+k, & \text{on } \rho_{\mathsf{u}}(h,k),\\
+h, & \text{on } \mathsf{NatUnaryStrictPrefix}(k,h).
+\end{cases}
+$$
+The total-order-selected lattice operations are
+$$
+h\wedge_{\mathsf{tri}}k:=\mathsf{glb}_{\mathsf{tri}}(h,k),
+\qquad
+h\vee_{\mathsf{tri}}k:=\mathsf{lub}_{\mathsf{tri}}(h,k).
+$$
+\end{definition}
 
+\begin{theorem}[Concrete unary $\TotalOrderUp$ forgets to $\LatticeUp$]
+\label{thm:totalorder-prefix-forgets-lattice-certificate}
+The concrete $\TotalOrderUp$ naming certificate of \autoref{thm:concrete-unary-prefix-totalorder-namecert} determines a $\LatticeUp$ certificate over the same carrier $C=\mathsf{Carrier}_{\mathsf{u}}$, classifier $\rho_{\mathsf{u}}$, and order $\le_{\mathsf{u}}$, with meet and join given by \autoref{def:totalorder-prefix-lattice-selectors}. For every carried pair $h,k\in C$, the meet and join classifier-equal the trichotomy endpoint selectors:
+$$
+\rho_{\mathsf{u}}(h\wedge_{\mathsf{tri}}k,\mathsf{glb}_{\mathsf{tri}}(h,k))
+\qquad\text{and}\qquad
+\rho_{\mathsf{u}}(h\vee_{\mathsf{tri}}k,\mathsf{lub}_{\mathsf{tri}}(h,k)).
+$$
+The meet bound-characterization rows are the greatest-lower selector rows of \autoref{thm:totalorder-prefix-greatest-lower-selector}, and the join bound-characterization rows are the least-upper selector rows of \autoref{thm:totalorder-prefix-least-upper-selector}.
+\end{theorem}
+\begin{proof}
+The source, carrier, classifier, relation, and inherited $\POSetUp$ stability rows are those already packaged in \autoref{thm:concrete-unary-prefix-totalorder-namecert}. That theorem cites the concrete unary-prefix $\POSetUp$ naming certificate, so the partial-order reflexivity, transitivity, congruence, and antisymmetry fields required by the lattice interface are already present.
+
+Fix carried unary histories $h,k$. The comparison partition of \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} chooses exactly one of the three branches
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k),
+\qquad
+\rho_{\mathsf{u}}(h,k),
+\qquad
+\mathsf{NatUnaryStrictPrefix}(k,h).
+$$
+The selector definition follows that same branch ledger: in the strict-left and same branches it chooses $h$ as the lower endpoint and $k$ as the upper endpoint, while in the strict-right branch it chooses $k$ as the lower endpoint and $h$ as the upper endpoint.
+
+The theorem \autoref{thm:totalorder-prefix-greatest-lower-selector} supplies, for this selected lower endpoint, a carried history $l$ with
+$$
+l\le_{\mathsf{u}}h,
+\qquad
+l\le_{\mathsf{u}}k,
+\qquad
+\bigl(r\le_{\mathsf{u}}h\land r\le_{\mathsf{u}}k\bigr)\Rightarrow r\le_{\mathsf{u}}l
+$$
+for every carried lower-bound witness $r$. By the displayed branch definition, this $l$ is precisely $\mathsf{glb}_{\mathsf{tri}}(h,k)$, hence precisely $h\wedge_{\mathsf{tri}}k$. These are the meet lower-bound and meet greatestness rows listed in \autoref{def:lattice-stability-certificate}.
+
+Similarly, \autoref{thm:totalorder-prefix-least-upper-selector} supplies, for the selected upper endpoint, a carried history $u$ with
+$$
+h\le_{\mathsf{u}}u,
+\qquad
+k\le_{\mathsf{u}}u,
+\qquad
+\bigl(h\le_{\mathsf{u}}r\land k\le_{\mathsf{u}}r\bigr)\Rightarrow u\le_{\mathsf{u}}r
+$$
+for every carried upper-bound witness $r$. By the displayed branch definition, this $u$ is precisely $\mathsf{lub}_{\mathsf{tri}}(h,k)$, hence precisely $h\vee_{\mathsf{tri}}k$. These are the join upper-bound and join leastness rows listed in \autoref{def:lattice-stability-certificate}.
+
+It remains to account for meet and join congruence. Suppose $h,h',k,k'$ are carried and that $\rho_{\mathsf{u}}(h,h')$ and $\rho_{\mathsf{u}}(k,k')$ hold. The branch-transport theorem \autoref{thm:concrete-unary-prefix-totalorder-branch-transport} preserves and reflects the strict-left, same, and strict-right branches across these endpoint replacements. If the active branch is strict-left or same, the meet outputs are $h$ and $h'$ and the join outputs are $k$ and $k'$. If the active branch is strict-right, the meet outputs are $k$ and $k'$ and the join outputs are $h$ and $h'$. In each case the assumed endpoint classifier witnesses give the required classifier comparison between the selected outputs. Thus meet and join are congruent in both arguments.
+
+The classifier-equality rows in the theorem statement follow from the same selected-readback definition and classifier reflexivity on carried endpoints. The ledger row of \autoref{def:lattice-ledger-policy} records the selected comparison branch together with the greatest-lower and least-upper bound certificates just cited. Therefore the tuple with operations $\wedge_{\mathsf{tri}}$ and $\vee_{\mathsf{tri}}$ satisfies the $\LatticeUp$ certificate obligations of \autoref{def:lattice-certificate-obligations}.
+\end{proof}
+
+\begin{definition}[Opposite lattice certificate data]
+\label{def:opposite-lattice-certificate-data}
+Let a $\LatticeUp$ certificate be presented by a carrier predicate $\mathcal C$, classifier $\sim_C$, order $\le_C$, meet $\wedge_C$, and join $\vee_C$. Define
+$$
+a\le_C^{\mathrm{op}} b:=b\le_C a,
+\qquad
+a\wedge_C^{\mathrm{op}} b:=a\vee_C b,
+\qquad
+a\vee_C^{\mathrm{op}} b:=a\wedge_C b.
+$$
+The opposite lattice data $C^{\mathrm{op}}$ have the same carrier predicate $\mathcal C$, the same classifier $\sim_C$, the opposite order $\le_C^{\mathrm{op}}$, meet $\wedge_C^{\mathrm{op}}$, and join $\vee_C^{\mathrm{op}}$.
+\end{definition}
+
+\begin{theorem}[Opposite lattice certificate]
+\label{thm:opposite-lattice-certificate}
+If $(\mathcal C,\sim_C,\le_C,\wedge_C,\vee_C)$ satisfies the $\LatticeUp$ certificate obligations of \autoref{def:lattice-certificate-obligations}, then the data of \autoref{def:opposite-lattice-certificate-data} also satisfy the $\LatticeUp$ certificate obligations.
+\end{theorem}
+\begin{proof}
+Unpack the lattice obligations through \autoref{def:lattice-certificate-obligations}. By \autoref{def:lattice-carrier} and \autoref{def:lattice-source-specification}, the given lattice certificate contains a certified $\POSetUp$ carrier with carrier predicate $\mathcal C$, classifier $\sim_C$, and order $\le_C$. Applying \autoref{thm:opposite-poset-certificate} supplies the carrier, source, pattern, classifier, stability, and ledger rows for the same carrier and classifier with order $\le_C^{\mathrm{op}}$.
+
+The binary operation rows are present with names exchanged. The opposite meet $\wedge_C^{\mathrm{op}}$ is the original join $\vee_C$, and the opposite join $\vee_C^{\mathrm{op}}$ is the original meet $\wedge_C$. Thus the carried-operation data required by the lattice source row are copied from the original join and meet data.
+
+It remains to verify the four bound-characterization rows in \autoref{def:lattice-stability-certificate}. Fix carried endpoints $a,b,z$. For the opposite meet, the lower-bound laws are exactly the original join upper-bound laws:
+$$
+a\wedge_C^{\mathrm{op}} b\le_C^{\mathrm{op}} a
+\Longleftrightarrow
+a\le_C a\vee_C b,
+\qquad
+ a\wedge_C^{\mathrm{op}} b\le_C^{\mathrm{op}} b
+\Longleftrightarrow
+b\le_C a\vee_C b.
+$$
+For opposite meet greatestness, assume $z\le_C^{\mathrm{op}} a$ and $z\le_C^{\mathrm{op}} b$. These unfold to $a\le_C z$ and $b\le_C z$. The original join leastness row gives $a\vee_C b\le_C z$, which is exactly
+$$
+z\le_C^{\mathrm{op}} a\wedge_C^{\mathrm{op}} b.
+$$
+
+For the opposite join, the upper-bound laws are exactly the original meet lower-bound laws:
+$$
+a\le_C^{\mathrm{op}} a\vee_C^{\mathrm{op}} b
+\Longleftrightarrow
+a\wedge_C b\le_C a,
+\qquad
+b\le_C^{\mathrm{op}} a\vee_C^{\mathrm{op}} b
+\Longleftrightarrow
+a\wedge_C b\le_C b.
+$$
+For opposite join leastness, assume $a\le_C^{\mathrm{op}} z$ and $b\le_C^{\mathrm{op}} z$. These unfold to $z\le_C a$ and $z\le_C b$. The original meet greatestness row gives $z\le_C a\wedge_C b$, which is exactly
+$$
+a\vee_C^{\mathrm{op}} b\le_C^{\mathrm{op}} z.
+$$
+
+Meet and join congruence are also exchanged. If $a\sim_C a'$ and $b\sim_C b'$, then original join congruence gives
+$$
+a\wedge_C^{\mathrm{op}} b
+=
+a\vee_C b
+\sim_C
+a'\vee_C b'
+=
+a'\wedge_C^{\mathrm{op}} b',
+$$
+and original meet congruence gives
+$$
+a\vee_C^{\mathrm{op}} b
+=
+a\wedge_C b
+\sim_C
+a'\wedge_C b'
+=
+a'\vee_C^{\mathrm{op}} b'.
+$$
+These are precisely the opposite meet-congruence and opposite join-congruence rows of \autoref{def:lattice-classifier-specification}.
+
+The pattern row of \autoref{def:lattice-pattern-specification} is unchanged expression formation by two binary lattice operations; each opposite meet node is read as an original join node, and each opposite join node is read as an original meet node. The ledger row of \autoref{def:lattice-ledger-policy} is the same exchange: an opposite meet ledger records the original join bound-characterization certificate, and an opposite join ledger records the original meet bound-characterization certificate, with the order witnesses interpreted through $\le_C^{\mathrm{op}}$. Together with the opposite $\POSetUp$ rows supplied above, these are all carrier, source, pattern, classifier, stability, and ledger obligations required by \autoref{def:lattice-certificate-obligations}. Hence $C^{\mathrm{op}}$ carries a $\LatticeUp$ certificate.
+\end{proof}
+
+\begin{theorem}[Double-opposite lattice certificate data identity]
+\label{thm:double-opposite-lattice-certificate-data-identity}
+Let $E$ be a $\LatticeUp$ certificate satisfying the obligations of \autoref{def:lattice-certificate-obligations}. Present its lattice data by a carrier predicate $\mathcal C$, classifier $\sim_C$, order relation $\le_C$, meet $\wedge_C$, join $\vee_C$, meet ledger row $\mathcal L_C^{\wedge}$, and join ledger row $\mathcal L_C^{\vee}$ as in \autoref{def:lattice-ledger-policy}. Let $E^{\mathrm{opop}}=(E^{\mathrm{op}})^{\mathrm{op}}$ be obtained by applying \autoref{def:opposite-lattice-certificate-data} twice. Then $E^{\mathrm{opop}}$ is a $\LatticeUp$ certificate, and its carrier predicate, classifier, order relation, meet, join, and lattice ledger rows are componentwise identical to those of $E$: for carried endpoints $a,b$,
+$$
+\begin{aligned}
+\mathcal C^{\mathrm{opop}}(a)&=\mathcal C(a),&
+a\sim_C^{\mathrm{opop}}b&=a\sim_C b,\\
+a\le_C^{\mathrm{opop}}b&=a\le_C b,&
+a\wedge_C^{\mathrm{opop}}b&=a\wedge_C b,\\
+a\vee_C^{\mathrm{opop}}b&=a\vee_C b,&
+\mathcal L_C^{\wedge,\mathrm{opop}}(a,b)&=\mathcal L_C^{\wedge}(a,b),\\
+\mathcal L_C^{\vee,\mathrm{opop}}(a,b)&=\mathcal L_C^{\vee}(a,b).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Because $E$ satisfies the $\LatticeUp$ obligations, \autoref{thm:opposite-lattice-certificate} makes $E^{\mathrm{op}}$ a certified $\LatticeUp$ instance. Applying the same theorem to that certified opposite data makes $E^{\mathrm{opop}}$ a certified $\LatticeUp$ instance.
+
+By \autoref{def:lattice-carrier} and \autoref{def:lattice-source-specification}, the inherited order part of $E$ is a certified $\POSetUp$ carrier with carrier predicate $\mathcal C$, classifier $\sim_C$, and order $\le_C$. Applying \autoref{thm:double-opposite-poset-certificate-data-identity} to this inherited part gives the carrier, classifier, order, and inherited antisymmetry-ledger identities after two opposites. Hence
+$$
+\mathcal C^{\mathrm{opop}}(a)=\mathcal C(a),
+\qquad
+a\sim_C^{\mathrm{opop}}b=a\sim_C b,
+\qquad
+a\le_C^{\mathrm{opop}}b=a\le_C b.
+$$
+
+For the lattice operations, two unfoldings of \autoref{def:opposite-lattice-certificate-data} give
+$$
+a\wedge_C^{\mathrm{opop}} b
+= a\vee_C^{\mathrm{op}} b
+= a\wedge_C b
+$$
+and
+$$
+a\vee_C^{\mathrm{opop}} b
+= a\wedge_C^{\mathrm{op}} b
+= a\vee_C b.
+$$
+Thus the double-opposite meet and join data are exactly the original meet and join data.
+
+The source row is a certified poset carrier plus meet and join operations, so the restored poset part together with the restored operation slots gives the original source row. The pattern row of \autoref{def:lattice-pattern-specification} is expression formation by meet and join over carrier witnesses; one opposite exchanges the two operation names and the second exchange restores them.
+
+The stability rows of \autoref{def:lattice-stability-certificate} are restored in the same componentwise way. In one opposite, the meet lower-bound and greatestness rows are the original join upper-bound and leastness rows read through the reversed order, while the join rows are the original meet rows read through the reversed order. The second opposite reverses the order again and exchanges the operation slots again, so the meet lower-bound, meet greatestness, join upper-bound, and join leastness rows are the original rows. Meet congruence and join congruence from \autoref{def:lattice-classifier-specification} are also exchanged twice and hence restored.
+
+Finally, \autoref{def:lattice-ledger-policy} records the operands and the bound-characterization certificate for each meet or join. A single opposite reads a meet ledger as the corresponding original join ledger and a join ledger as the corresponding original meet ledger, with order witnesses interpreted through $\le_C^{\mathrm{op}}$. The second opposite performs the same exchange again and the order has already returned to $\le_C$. Therefore
+$$
+\mathcal L_C^{\wedge,\mathrm{opop}}(a,b)=\mathcal L_C^{\wedge}(a,b),
+\qquad
+\mathcal L_C^{\vee,\mathrm{opop}}(a,b)=\mathcal L_C^{\vee}(a,b).
+$$
+Together these identities identify the double-opposite lattice certificate data with the original lattice certificate data.
+\end{proof}

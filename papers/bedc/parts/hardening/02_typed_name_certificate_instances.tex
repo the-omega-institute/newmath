@@ -274,3 +274,160 @@ A function-like interface obtained from a stable transformation carries a descen
 \leanvariant{BEDC.FKernel.NameCert.StableTransformation\_descent\_respects\_ledger\_pair}
 \leanvariant{BEDC.FKernel.NameCert.function\_like\_interfaces\_derived\_core}
 \leanvariant{BEDC.FKernel.NameCert.function\_like\_interface\_seed\_is\_derived}
+
+\begin{theorem}[Descent-certificate composition for stable transformations]
+\label{thm:descent-certificate-stable-transformation-composition}
+Let $S,R,Q:\mathsf{BHist}\to\mathsf{Prop}$ be source, intermediate, and target carrier specifications, and let
+$$
+\sim_S,\sim_R,\sim_Q:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}
+$$
+be their classifiers. Assume the classifier roles are licensed by
+$$
+\mathsf{cert}_S:\NameCert(S,\sim_S),\qquad
+\mathsf{cert}_R:\NameCert(R,\sim_R),\qquad
+\mathsf{cert}_Q:\NameCert(Q,\sim_Q).
+$$
+Let $T,U:\mathsf{BHist}\to\mathsf{BHist}$ have carrier-preservation fields
+$$
+\rho_T:\forall h.\;S(h)\to R(T(h))
+\qquad\text{and}\qquad
+\rho_U:\forall r.\;R(r)\to Q(U(r)).
+$$
+Assume descent certificates
+$$
+\delta_T:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_R)
+$$
+and
+$$
+\delta_U:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_R,\sim_Q)
+$$
+whose map fields are $T$ and $U$. Then the composite map $U\circ T$ preserves carriers by
+$$
+\rho_{U\circ T}(h,Sh)=\rho_U(T(h),\rho_T(h,Sh))
+$$
+and carries a descent certificate
+$$
+\delta_{U\circ T}:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_Q)
+$$
+with map field $h\mapsto U(T(h))$. Thus any source-classifier witness $h\sim_S k$ gives the target-classifier witness $U(T(h))\sim_Q U(T(k))$.
+
+Moreover, if
+$$
+\tau_T:\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},L_T,\sim_S,\sim_R)
+$$
+and
+$$
+\tau_U:\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},L_U,\sim_R,\sim_Q)
+$$
+have map fields $T$ and $U$, then their composite is a stable transformation
+$$
+\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},L_T\times L_U,\sim_S,\sim_Q)
+$$
+whose ledger witness is the ordered pair of the two input ledger witnesses. In gap-ledger cases this ordered pair is the witness-level form of the composite ledger policy of \autoref{def:hardening-composite-gap-ledger} and \autoref{cor:ledger-composition-principle}.
+\end{theorem}
+\leanchecked{BEDC.FKernel.NameCert.StableTransformation\_descentCertificate\_composition}
+\begin{proof}
+The three displayed naming certificates place $S$, $R$, and $Q$ in the typed certificate template of \autoref{def:typed-naming-certificate-expanded-template}; the descent argument uses the respect fields of the two descent certificates.
+
+Define $\delta_{U\circ T}$ with map field $h\mapsto U(T(h))$. Given $h\sim_S k$, the respect field of $\delta_T$ gives
+$$
+T(h)\sim_R T(k).
+$$
+Applying the respect field of $\delta_U$ to this intermediate classifier witness gives
+$$
+U(T(h))\sim_Q U(T(k)).
+$$
+By \autoref{def:descent-certificate}, this is exactly the respect field required for a descent certificate from $\sim_S$ to $\sim_Q$. Carrier preservation is the displayed composite of the two carrier-preservation fields.
+
+For the stable-transformation statement, use the same composite map. If $h\sim_S k$, the respect field of $\tau_T$ gives $T(h)\sim_R T(k)$, and the respect field of $\tau_U$ gives $U(T(h))\sim_Q U(T(k))$. The ledger field of \autoref{def:stable-transformation} supplies witnesses $\ell_T:L_T$ and $\ell_U:L_U$; pair them as $(\ell_T,\ell_U):L_T\times L_U$. This gives the ledger field for the composite stable transformation. When the two ledgers are gap ledgers, the same pair records the first-stage ledger and the second-stage ledger pulled back along the intermediate interface, which is the composite ledger policy cited above.
+\end{proof}
+
+\begin{theorem}[NameCert composition for stable transformations]
+\label{thm:semantic-namecert-stable-transformation-composition}
+Let $S,R,Q,P_S,P_R,P_Q,L_S,L_R,L_Q:\mathsf{BHist}\to\mathsf{Prop}$, and let
+$$
+\sim_S,\sim_R,\sim_Q:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}
+$$
+be classifier specifications. Assume semantic carrier certificates
+$$
+\mathcal{C}_S:\mathsf{SemanticNameCert}(S,P_S,L_S,\sim_S),\qquad
+\mathcal{C}_R:\mathsf{SemanticNameCert}(R,P_R,L_R,\sim_R),\qquad
+\mathcal{C}_Q:\mathsf{SemanticNameCert}(Q,P_Q,L_Q,\sim_Q).
+$$
+Let $T,U:\mathsf{BHist}\to\mathsf{BHist}$ have carrier-preservation fields
+$$
+\rho_T:\forall h.\;S(h)\to R(T(h)),
+\qquad
+\rho_U:\forall r.\;R(r)\to Q(U(r)).
+$$
+Let $\Lambda_T$ and $\Lambda_U$ be ledger witness types, and let
+$$
+\tau_T:\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},\Lambda_T,\sim_S,\sim_R)
+$$
+and
+$$
+\tau_U:\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},\Lambda_U,\sim_R,\sim_Q)
+$$
+be stable transformations with map fields $T$ and $U$. Let
+$$
+M_T,M_U:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}
+$$
+be their two-stage ledger predicates, with ledger soundness fields
+$$
+\lambda_T:\forall h.\;S(h)\to M_T(h,T(h)),
+\qquad
+\lambda_U:\forall r.\;R(r)\to M_U(r,U(r)).
+$$
+Define source-level composite pattern and ledger predicates by
+$$
+\mathsf{CompStab}_{T,U}(h)\Longleftrightarrow
+Q(U(T(h)))\land
+\forall k,\;h\sim_S k\to U(T(h))\sim_Q U(T(k))
+$$
+and
+$$
+\mathsf{CompLedger}_{T,U}(h)\Longleftrightarrow
+\exists r,\;r=T(h)\land M_T(h,r)\land M_U(r,U(r)).
+$$
+Then
+$$
+\mathsf{SemanticNameCert}(S,\mathsf{CompStab}_{T,U},\mathsf{CompLedger}_{T,U},\sim_S)
+$$
+holds. Its stability component is the composite descent witness for $U\circ T$, and its ledger component is the composite ledger policy.
+\end{theorem}
+\begin{proof}
+Use the core field of $\mathcal{C}_S$ as the core field of the displayed semantic certificate. By \autoref{def:lean-carrier-naming-certificate}, this is exactly the carrier-and-classifier certificate for $S$ and $\sim_S$. The core fields of $\mathcal{C}_R$ and $\mathcal{C}_Q$ place the intermediate and target classifiers in the same typed certificate discipline of \autoref{def:typed-naming-certificate-expanded-template}.
+
+For pattern soundness, fix $h$ with $Sh:S(h)$. Carrier preservation gives $\rho_T(h,Sh):R(T(h))$, and then $\rho_U(T(h),\rho_T(h,Sh)):Q(U(T(h)))$. If $h\sim_S k$, the respect field of $\tau_T$ gives $T(h)\sim_R T(k)$. Applying the respect field of $\tau_U$ gives $U(T(h))\sim_Q U(T(k))$. Hence $\mathsf{CompStab}_{T,U}(h)$.
+
+For ledger soundness at the same source history, choose the intermediate witness $r=T(h)$. The field $\lambda_T$ gives $M_T(h,T(h))$. The field $\rho_T$ gives $R(T(h))$, so $\lambda_U$ gives $M_U(T(h),U(T(h)))$. These witnesses prove $\mathsf{CompLedger}_{T,U}(h)$.
+
+The respect calculation is the descent certificate required by \autoref{def:descent-certificate}: a source-classifier witness is first transported along $T$ and then along $U$. By \autoref{def:naming-certificate-stability-field}, this fills the $\DescentCert$ and $\CompositionCert$ modes of the stability component. The ledger proof records the first-stage ledger together with the second-stage ledger pulled back along the intermediate witness. In gap-ledger cases this is the two-step witness of \autoref{def:hardening-composite-gap-ledger}, and \autoref{cor:ledger-composition-principle} identifies it as the composite ledger policy.
+\end{proof}
+
+\begin{theorem}[Semantic NameCert classifier replacement]
+\label{thm:semantic-namecert-classifier-replacement}
+Let $S,P,L:\mathsf{BHist}\to\mathsf{Prop}$ and let
+$C,C':\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be classifier specifications. Assume
+$$
+\mathcal{N}:\mathsf{SemanticNameCert}(S,P,L,C)
+$$
+and assume classifier comparison fields
+$$
+\alpha:\forall h,k,\; C'(h,k)\to C(h,k),
+\qquad
+\beta:\forall h,k,\; C(h,k)\to C'(h,k).
+$$
+Then
+$$
+\mathsf{SemanticNameCert}(S,P,L,C')
+$$
+holds. The resulting certificate also has the same pattern-ledger transport consequence: whenever $C'(h,k)$ and $S(h)$ hold, both $P(k)$ and $L(k)$ hold.
+\end{theorem}
+\begin{proof}
+By \autoref{def:typed-naming-certificate-expanded-template}, a semantic naming certificate separates its core carrier-classifier certificate from its pattern and ledger soundness fields. Keep the source, pattern, and ledger soundness fields of $\mathcal{N}$ unchanged. It remains only to replace the core classifier certificate.
+
+The original core field is a $\NameCert(S,C)$ in the sense of \autoref{def:lean-carrier-naming-certificate}. Define the new core field over $C'$ as follows. The inhabited source witness is the same one carried by the original core. For reflexivity at a source history $h$, apply the old reflexivity field to obtain $C(h,h)$ and then apply $\beta$. For symmetry, convert a witness $C'(h,k)$ to $C(h,k)$ by $\alpha$, apply the old symmetry field, and convert the result back by $\beta$. For transitivity, convert both $C'$ witnesses to $C$ by $\alpha$, apply the old transitivity field, and convert the composite classifier witness back by $\beta$. For carrier transport, convert $C'(h,k)$ to $C(h,k)$ by $\alpha$ and then use the old carrier-transport field to carry $S(h)$ to $S(k)$.
+
+These four classifier laws together with the unchanged source witness form $\NameCert(S,C')$. Combining this new core field with the unchanged pattern and ledger soundness fields gives $\mathsf{SemanticNameCert}(S,P,L,C')$. Finally, if $C'(h,k)$ and $S(h)$ hold, the new carrier-transport field gives $S(k)$, and the unchanged pattern and ledger soundness fields give $P(k)$ and $L(k)$. This is the same transport consequence recorded in \autoref{thm:semantic-namecert-pattern-ledger-transport} for the replacement classifier.
+\end{proof}

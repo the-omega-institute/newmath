@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.15
+// @version      1.17
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,8 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.15";
+  const NO_OUTPUT_IDLE_TIMEOUT = 420000;
+  const SCRIPT_VERSION = "bedc-1.17";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -413,11 +414,60 @@
     return msgs.length === 0;
   }
 
-  // BEDC ADD: detect if current page is a /c/<id> conversation
+  // BEDC: hard-pin the project prefix. If a tab somehow ends up on a
+  // bare /c/<id> URL (ChatGPT occasionally drops the /g/g-p-… prefix
+  // mid-session — observed empirically), every URL the userscript
+  // captures or hands back to the server must reassert this prefix so
+  // the project's PDF context isn't silently lost.
+  const BEDC_PROJECT_PREFIX = "/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc";
+
+  // Force a /c/<id> URL into the BEDC project namespace. Idempotent: a
+  // URL already in /g/g-p-…/c/<id> form is returned unchanged.
+  function pinToProject(url) {
+    if (!url) return url;
+    try {
+      const u = new URL(url, window.location.origin);
+      // already inside any /g/<slug>/ namespace — trust it
+      if (/^\/g\/[^/]+\//.test(u.pathname)) return u.toString();
+      // bare /c/<id> — splice in the BEDC project prefix
+      const m = u.pathname.match(/^\/c\/[a-f0-9-]{6,}/);
+      if (m) {
+        u.pathname = `${BEDC_PROJECT_PREFIX}${m[0]}`;
+        return u.toString();
+      }
+      // bare root or other path — return as-is, caller decides
+      return u.toString();
+    } catch {
+      return url;
+    }
+  }
+
+  // BEDC ADD: detect if current page is a /c/<id> conversation. Always
+  // returns a project-pinned URL so the server doesn't store a bare
+  // /c/<id> that would later leak the tab out of the project.
   function currentChatUrl() {
     const href = window.location.href;
-    if (/\/c\/[a-f0-9-]{6,}/.test(href)) return href.split("?")[0];
+    if (/\/c\/[a-f0-9-]{6,}/.test(href)) {
+      return pinToProject(href.split("?")[0]);
+    }
     return "";
+  }
+
+  // If we've drifted out of the project (URL is /c/<id> with no /g/g-p-…
+  // prefix), redirect ourselves back into the project namespace before
+  // doing anything that depends on PDF context. Returns true if we
+  // navigated (caller should bail out and let the page reload).
+  function ensureInProject() {
+    const href = window.location.href;
+    if (!/\/c\/[a-f0-9-]{6,}/.test(href)) return false;
+    if (window.location.pathname.startsWith(BEDC_PROJECT_PREFIX)) return false;
+    const pinned = pinToProject(href);
+    if (pinned !== href) {
+      log(`drift detected — navigating ${href.slice(-40)} → project-pinned`);
+      window.location.href = pinned;
+      return true;
+    }
+    return false;
   }
 
   // BEDC ADD: ChatGPT 5.5 redirects /?bedc=1 → /c/<latest>, so URL
@@ -1005,6 +1055,16 @@
         lastLogTime = elapsed;
         log(`Wait: ${elapsed}s, extracted=${responseText.length}, page=${mainLen}, stable=${stableCount}, gen=${generating}, url=${window.location.href.slice(-30)}`);
       }
+      if (
+        !generating &&
+        responseText.length < 5 &&
+        Date.now() - startTime >= NO_OUTPUT_IDLE_TIMEOUT
+      ) {
+        throw new Error(
+          `No assistant output after ${Math.floor(NO_OUTPUT_IDLE_TIMEOUT / 1000)}s ` +
+          `(page=${mainLen}, url=${window.location.href.slice(-60)})`
+        );
+      }
       if (responseText.length >= 5) {
         if (looksLikePromptEcho(responseText)) {
           if (stableCount === 0) log(`Prompt echo detected (${responseText.length} chars) — waiting`);
@@ -1054,15 +1114,18 @@
     if (re_extract) {
       log(`=== Task: ${task_id} [RE-EXTRACT] conv=${(conversation_id || "").slice(0, 12)} ===`);
       try {
-        if (conversation_url && !window.location.href.startsWith(conversation_url)) {
+        // BEDC FIX: re-pin server-provided URL into the project namespace
+        // in case it was stored as a bare /c/<id> from a drifted session.
+        const pinnedConv = pinToProject(conversation_url);
+        if (pinnedConv && !window.location.href.startsWith(pinnedConv)) {
           tabSet("navigating", true);
           tabSet("nav_task_id", task_id);
           saveTaskState(task);
           setTaskPhase("navigating");
-          log(`Navigating to ${conversation_url.slice(-60)} for re-extract ...`);
+          log(`Navigating to ${pinnedConv.slice(-60)} for re-extract ...`);
           busy = false;
           updatePanel();
-          window.location.href = conversation_url;
+          window.location.href = pinnedConv;
           return;
         }
         try { await serverPost("/ack", { task_id, agent_id: agentId() }); } catch {}
@@ -1164,7 +1227,14 @@
       // (a) follow-up + conversation_url provided + we are NOT on it → navigate there
       // (b) new task + we're not on a fresh chat page → navigate to fresh chat
       // (c) otherwise stay where we are
-      const targetUrl = (is_followup && conversation_url) ? conversation_url : null;
+      //
+      // BEDC FIX: pin any server-provided conversation_url into the BEDC
+      // project namespace before deciding to navigate. Sessions stored
+      // before v1.17 may carry bare /c/<id> URLs (drifted out of project)
+      // — navigating there would lose PDF context for the rest of the
+      // session. pinToProject is idempotent so already-pinned URLs are
+      // unchanged.
+      const targetUrl = (is_followup && conversation_url) ? pinToProject(conversation_url) : null;
       const needNavToConv = targetUrl && !window.location.href.startsWith(targetUrl);
       const needNavToFresh = !targetUrl && !isOnNewChatPage();
 
@@ -1190,12 +1260,22 @@
           // the project-attached PDF and any project-wide instructions).
           // Outside a Project, fall back to chatgpt.com root with the
           // tab's bedc=N flag pinned.
+          //
+          // BEDC FIX (cross-tab id corruption): the bedc flag MUST come
+          // from agentId() (which is pinned in sessionStorage on the
+          // tab's first load). Reading it from window.location.search
+          // here is wrong — after ChatGPT redirects /project?bedc=N to
+          // /project/c/<uuid>, the URL has no query string, and the
+          // previous default-of-"1" caused bedc_3 to navigate to
+          // ?bedc=1 and steal bedc_1's identity in subsequent tasks.
           const m = window.location.pathname.match(/^(\/g\/g-p-[a-zA-Z0-9_-]+)/);
-          const bedcFlag = (window.location.search.match(/[?&]bedc=([^&]+)/) || [])[1] || "1";
+          const aid = agentId();
+          const flagMatch = aid.match(/^bedc_(\d+)$/);
+          const bedcFlag = flagMatch ? flagMatch[1] : "1";
           const fallbackUrl = m
             ? `https://chatgpt.com${m[1]}/project?bedc=${bedcFlag}`
             : `https://chatgpt.com/?bedc=${bedcFlag}`;
-          log(`fallback URL: ${fallbackUrl}`);
+          log(`fallback URL: ${fallbackUrl} (agentId=${aid})`);
           window.location.href = fallbackUrl;
           return;
         }

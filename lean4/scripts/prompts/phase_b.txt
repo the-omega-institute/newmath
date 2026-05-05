@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v4.7 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.7 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -72,6 +72,19 @@ A target is INVALID if its main contribution is any of these shapes:
 4. Unclosed certificate shell: a `NameCert` theorem for a derived object whose
    proof works for arbitrary uninterpreted predicates supplied by parameters and
    does not prove any object-specific closure from a BEDC construction.
+
+   When proving a chapter's canonical Lean witness for a paper-side
+   `closurestatus` block, prefer one of these standard names so paper-side
+   closure proposals can cite it as `\leantarget{BEDC.<...>.<theorem>}`:
+     1. `<region>_semantic_name_certificate` (or `<X>_semanticNameCert` —
+         CamelCase variant) — the canonical object-completion proof
+     2. `<region>_name_certificate` — older convention, still acceptable
+     3. `<region>_stability_certificate_fields` — when the closure is a
+         field-aggregate proof rather than a single object certificate
+     4. `<region>_laws` — when the closure bundles laws into one theorem
+   `bedc_ci.py audit` rejects a paper `closurestatus` block whose
+   `\leantarget` doesn't exist in lean4/BEDC, so pick the canonical form
+   once and reuse it as the chapter's verification-axis citation.
 
 Prefer targets that close a concrete block:
 - Define a carrier over existing BEDC constructors, then prove its transport or
@@ -166,6 +179,36 @@ This rule applies especially to:
 
 The library has roughly 1500 declarations; further mass-production of one-line lemmas degrades the average information density. Phase B's job is to find theorems that are NOT one-step-from-existing.
 
+## Layered closure planning (READ FIRST — drives target shape)
+
+Each open chapter has TWO axes of closure progress, both read from the chapter's `closurestatus` block:
+
+- **theory_closure axis (6 grades)**: `seedClosure` → `obligationClosure` → `scopedClosure` → `publicClosure` → `bridgedClosure` → `matureClosure`. Owned mostly by paper P-rounds.
+- **formal_status axis (8 grades)**: `unformalizedV` → `formalTargetV` → `encodedDefV` → `scaffoldCheckedV` → `theoremCheckedV` → `auditCleanV` → `axiomCleanV` → `bridgeCheckedV`. **Owned by lean R-rounds (THIS phase)**.
+
+A chapter is "retired" from the critical path only when it reaches `(scopedClosure, theoremCheckedV)` simultaneously. Until then it remains in `top`.
+
+The `critical_path.py` JSON output now includes per-chapter `theory_grade` / `formal_grade` / `theory_grade_next` / `formal_grade_next` / `next_axis` / `next_grade_transition`. Use these fields to pick a target SHAPE that advances the chapter's formal grade by exactly one step. **Lean R-rounds focus on the formal axis**; paper P-rounds handle theory closure. If `next_axis == "theory_closure"`, the chapter's formal axis is already ahead — pick a different chapter from `top` whose formal axis still lags.
+
+### Formal-axis transition templates (target shape per step)
+
+| Current → Next | Required target shape |
+|---|---|
+| `(none) → unformalizedV` | NO Lean target. The chapter has no closurestatus block; emit no targets here, let a paper round propose the block. Skip this chapter and pick another from `top`. |
+| `unformalizedV → formalTargetV` | Add a `\leanstmt{X}` marker for at least one paper theorem in the chapter, where X is a NEW Lean declaration with body `:= by sorry`-equivalent (statement only) — but BEDC has 0-sorry invariant, so use `theorem T : <prop> := <existing_thm>` if a related thm exists, else skip and let formalTargetV transition wait for a real theorem-checked round. |
+| `formalTargetV → encodedDefV` | Add a `\leandef{X}` marker for chapter's CARRIER definition. X should be a `def` or `inductive` whose body uses BEDC kernel constructors (`BHist`, `Cont`, `hsame`, `UnaryHistory`, `NameCert`). Provides the chapter's mathematical encoding. |
+| `encodedDefV → scaffoldCheckedV` | Add 1-3 `\leanchecked{X}` markers for theorems that depend on the chapter's carrier definition. Each X is a real theorem whose proof uses BEDC kernel + the carrier's `def`. Multiple sibling files are fine; pick siblings with high `sibling_effective_unmarked`. |
+| `scaffoldCheckedV → theoremCheckedV` | Add `\leanchecked{X}` markers for the chapter's REMAINING unmarked theorems (close out coverage). When all paper theorems in the chapter have a `\leanchecked` marker pointing to a real proof, paper-side `closure_mark` proposal will register the transition. |
+| `theoremCheckedV → auditCleanV` | Run `python3 lean4/scripts/bedc_ci.py audit` and resolve any drift / dangling marker / dup label issue this round. Mostly paper-side cleanup; lean rounds can address `unresolved Lean markers` by ensuring the named declaration exists. |
+| `auditCleanV → axiomCleanV` | Refactor any theorem in the chapter that pulls in `Classical.choice` / `Quot.sound` / `propext` via `simp [iff]` / classical reasoning. Replace with explicit `Iff.mp` / `Iff.mpr` / case analysis. Verify with `bedc_ci.py axiom-purity --strict`. |
+| `axiomCleanV → bridgeCheckedV` | Prove a bridge theorem connecting the chapter's concrete BHist instance to its abstract interface (`<X>Up` schema). Last grade — chapter is mature. |
+
+### Skip rule
+
+If `next_axis == "theory_closure"`, the chapter is bottlenecked on PAPER side, not lean. Skip and pick a chapter where `next_axis == "formal_status"`. If ALL of `top[0..2]` have `next_axis == "theory_closure"`, emit `{"targets": []}` — paper rounds need to catch up first.
+
+Each target's JSON MUST include a `grade_transition` field that quotes the chapter's `next_grade_transition` from critical_path output. Phase D will not enforce this currently but Phase C uses it to pick the right marker family (`\leandef` for encodedDefV, `\leanchecked` for theoremCheckedV, etc).
+
 ## Critical-path discovery (HARD GATE)
 
 Run before target selection:
@@ -174,9 +217,29 @@ Run before target selection:
 python3 lean4/scripts/critical_path.py
 ```
 
-The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker), excluding chapters that carry `\closureat{<X>Up}{\checkedCertStr|\bridgeCertStr}` (= binarily closed per `papers/bedc/preamble.tex`'s `\closureat` macro) or whose declared dependencies are not yet ready (`deps_thms < deps_ready_threshold`, default 5, tunable via `.pipeline_parallel.json` key `deps_ready_threshold`; auto-relaxes 5→1 if strict yields empty top). The output's `top` array is the next set of fronts the library should attack. Each entry's `closed: false` (always, since closed chapters are filtered out before ranking) and `closed_at: null` for open chapters; the JSON also reports `closed_horizons` and `open_horizons` aggregates so phase_review on the paper side can see the closure progress.
+The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker), excluding chapters that carry a `closurestatus` block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, or whose declared dependencies are not yet ready (`deps_thms < deps_ready_threshold`, default 5, tunable via `.pipeline_parallel.json` key `deps_ready_threshold`; auto-relaxes 5→1 if strict yields empty top). The output's `top` array is the next set of fronts the library should attack. Each entry's `closed: false` (always, since retired chapters are filtered out before ranking) and `closed_at: null` for open chapters; the JSON also reports `closed_horizons` and `open_horizons` aggregates so phase_review on the paper side can see closurestatus progress.
 
-**At least 1 of your 3 selected targets MUST belong to `top[0..2]`** of that JSON output. The target's `target_file` should be the listed `file_lean` (creating it if it does not exist), and the paper site should be a missing-marker location in the listed `file_paper`.
+**At least 1 of your 3 selected targets SHOULD belong to `top[0..2]`** of that JSON output, IF top[0..2] contains paper labels with `exists_without_marker` status (i.e. paper has the theorem block but no `\leanchecked` registered). The target's `target_file` should be the listed `file_lean` (creating it if it does not exist), and the paper site should be a missing-marker location in the listed `file_paper`.
+
+**Fallback (HARD): if NO `top[0..2]` chapter contains an unmarked paper label that's not already claimed by another in-flight round**, drop the top-3 constraint entirely and pick from ANY chapter under `papers/bedc/parts/concrete_instances/` that has unmarked labels. There are typically ~1500-2000 unmarked labels across all chapters at any time; the round still produces useful formalization. Use:
+
+```bash
+# Quick scan for chapters with unmarked labels
+git grep -lE '\\label\{(thm|def|lem|prop|cor):' papers/bedc/parts/concrete_instances/ \
+  | xargs -I{} sh -c 'has_label=$(grep -c "\\\\label{" "{}"); has_marker=$(grep -c "\\\\leanchecked\|\\\\leanstmt\|\\\\leandef" "{}"); [ "$has_label" -gt "$has_marker" ] && echo "{}"' \
+  | head -10
+```
+
+The earlier "empty round preferred" rule applies ONLY when top[0..2] is unworkable AND no other chapter has good unmarked labels — that is rare. Three consecutive empty rounds → cooldown → wasted dispatch budget. Default to filling 3 slots from the broader pool when top[0..2] is starved.
+
+### Sibling-file granularity (`granularity: "sibling"`)
+
+Each `top[i]` entry is now a **single sibling file** within a chapter, not the chapter as a whole. Multiple `top[i]` entries can share the same `name` (chapter) but with different `file_paper` and `sibling_id`. Concurrent workers each lock on their chosen `file_paper` (per-sibling cooldown), so this is the unit of contention. Practical implications:
+
+- Pick your 3 targets from 3 DIFFERENT `file_paper` paths — never from the same sibling (would just pile thms onto one front and waste a slot). Different `sibling_id` of the same chapter is fine and often useful.
+- The `score`/`downstream` field still measures the **chapter's** transitive impact, not the sibling's, so all sibling fronts of a high-leverage chapter rank above any sibling of a low-leverage chapter. This is intentional.
+- The `sibling_thms` field is the leanchecked-marker count *inside that one sibling file* (vs `thms` which is the chapter total). Prefer siblings with low `sibling_thms` — they are closer to a fresh closure surface for the chapter.
+- `file_lean` is shared across all siblings of a chapter (the chapter has one `<X>Up.lean` parent), but you can put the new theorem under `BEDC/Derived/<X>Up/<Subdir>/...` to mirror the paper sibling structure when the chapter Lean file would otherwise grow past ~600 lines.
 
 ### Top-1 magnet rule (HARD GATE)
 
@@ -293,6 +356,12 @@ If `hit == false` AND no genuine three-condition blocker exists for all of `top[
 
 This rule is what stops codex from re-saturating Bool / Option / Sum / Prod / List / Rat. Once those nodes are over the saturation threshold, they exit the `top` list automatically and depth refinement on them is no longer required.
 
+### Paper-label claim — INERT in pure-formalization mode
+
+Pure-formalization mode (Step 4 above) means lean rounds NEVER introduce new `\label{...}` blocks. The cross-round label collision race is eliminated at the source. The `claim_paper_label.py` subprocess gate is therefore inert for lean rounds — you do NOT need to call it. (Paper rounds still call it from `phase_review.txt` because P-rounds are the only side that introduces new labels.)
+
+Skip this section entirely.
+
 ## HARD GATE — Derived shape saturation
 
 Before emitting a target under `BEDC.Derived.<X>Up.*`:
@@ -378,13 +447,18 @@ Steps:
 
    Newly-unlocked horizons (post schema-only unlock: e.g. CommRingUp, FieldUp, ModuleUp) are common in-flight targets across 7 parallel workers; this check is mandatory there.
 
-4. Discovery fallback (only when Step 3 cannot fill 3 slots after the HARD GATE filter): you MAY supplement the round with up to 3 total discovery targets — NEW theorem or definition statements that do not yet appear in any paper block but capture genuinely new content over BEDC primitives. Allowed shapes:
-   - Constructor inversion / no-confusion / determinacy / functionality lemma for an existing `inductive` or relation that lacks one.
-   - Chain / composition theorem combining 2+ existing \leanchecked theorems into a non-trivial multi-step conclusion.
-   - Setup-class field-projection theorem extracting one structure field as a standalone result.
-   - Carrier definition or NameCert spec field for a canonical math object in the BEDC licensing horizon: BoolUp / OptionUp / ProdUp / SumUp / ListUp / IntUp / RatUp / RealUp (Bishop) / ComplexUp / MonoidUp / GroupUp / AbGroupUp / RingUp / CommRingUp / FieldUp / ModuleUp / VecSpaceUp / LinearMapUp / MatrixUp / PolynomialUp / FormalPowerSeriesUp / PreorderUp / POSetUp / TotalOrderUp / LatticeUp / IntervalUp / MetricSpaceUp / S1Up / ContinuousFunctionUp / CompactUp / CategoryUp / FunctorUp / NatTransUp.
+4. **No `discovery` targets — pure formalization mode (HARD BAN).** Lean rounds MUST NOT propose new paper theorem / definition / lemma blocks. The paper side (P-rounds + external bedc-deep supervisor) owns all proposal of new `\label{thm:...}` / `\label{def:...}` blocks. Lean rounds register `\leanchecked` markers on theorems the paper has ALREADY captured.
 
-   A discovery target is INVALID if its proof reduces to `exact T` / `apply T` / `T.symm` / `T.mp` / `T.mpr` / single-step rewrite of any existing \leanchecked theorem T (those are variants — already disallowed elsewhere). JSON requires `paper_block_status: "discovery"`, `novelty_justification` (one sentence on what new content is captured), and `paper_target_chapter` (the existing chapter file into which Phase C will insert the new \begin{...} block).
+   Every emitted target MUST have `paper_block_status: "exists_without_marker"`. The `paper_label` field MUST resolve to a `\label{...}` that already exists somewhere under `papers/bedc/parts/` and lacks a `\leanchecked` marker. Verify with:
+   ```bash
+   git grep -nE "\\\\label\\{<your-label>\\}" -- 'papers/bedc/parts/'
+   git grep -nE "leanchecked\\{<your-target-decl>\\}" -- 'papers/bedc/parts/'
+   ```
+   First grep must return ≥1 hit; second must return 0. If first returns 0 (paper hasn't captured the claim yet), DROP that target and pick a different one whose paper site exists.
+
+   If after applying this filter you cannot fill 3 slots from `critical_path top[0..2]`, emit `{"targets": []}` — empty round is preferred over creating-from-scratch on the paper side. Paper rounds will catch up; the next dispatched lean round will find more `exists_without_marker` candidates.
+
+   This eliminates the R-round vs P-round label-collision race at its source: only the paper pipeline ever introduces new labels.
 
 ## Output Format (MUST follow exactly)
 Output a single JSON block:
@@ -401,9 +475,7 @@ Output a single JSON block:
       "difficulty": "low/medium/high",
       "chapter": "core/proof_obligations/concrete_instances/etc",
       "grep_confirmed_missing": true,
-      "paper_block_status": "exists_without_marker | discovery",
-      "novelty_justification": "(discovery only) one sentence on what new content this captures",
-      "paper_target_chapter": "(discovery only) e.g. parts/concrete_instances/15_monoid_namecert_construction.tex"
+      "paper_block_status": "exists_without_marker"
     }
   ]
 }

@@ -1,0 +1,79 @@
+\begin{theorem}[ContinuousMap composition category-metric package]
+\label{thm:continuousmap-composition-category-metric-package}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,distF,distG,displayed:\mathsf{BHist}$,
+assume the two concrete continuous-map carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+\end{array}
+$$
+and assume the continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+Then the composite exposes a category-metric package:
+\begin{enumerate}
+\item the canonical composite continuous-map carrier,
+$$
+\mathsf{ContinuousMapCarrier}
+(source,mapFG,target,modFG,certFG,\mathsf{append}(source,target));
+$$
+
+\item the composite categorical hom row,
+$$
+\mathsf{CategoryHomCarrier}(source,target,mapFG);
+$$
+
+\item the composite target-side modulus row,
+$$
+\mathsf{ContinuousModulusWitness}(target,modFG,certFG);
+$$
+
+\item the canonical metric distance row,
+$$
+\mathsf{MetricDistanceWitness}(source,target,\mathsf{append}(source,target));
+$$
+
+\item every displayed composite carrier with the same visible fields has the
+canonical distance ledger,
+$$
+\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG,displayed)
+\Rightarrow \hsame(displayed,\mathsf{append}(source,target)).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the continuous-function halves from the two
+$\mathsf{ContinuousMapCarrier}$ hypotheses. Apply
+Theorem~\ref{thm:continuous-function-carrier-comp-closed} to those halves and
+the three continuation ledgers, obtaining the composite
+$\mathsf{ContinuousFunctionCarrier}(source,mapFG,target,modFG,certFG)$.
+
+Package the canonical source-target distance by applying
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-iff} from right to
+left to this composite continuous-function carrier. This gives the first
+package row,
+$$
+\mathsf{ContinuousMapCarrier}
+(source,mapFG,target,modFG,certFG,\mathsf{append}(source,target)).
+$$
+
+Apply
+Theorem~\ref{thm:continuousmap-carrier-category-metric-decomposition} to the
+canonical composite carrier. Its three projections are exactly the displayed
+$\mathsf{CategoryHomCarrier}$ row, the
+$\mathsf{ContinuousModulusWitness}$ row, and the canonical
+$\mathsf{MetricDistanceWitness}$ row.
+
+For the final determinacy clause, compare any displayed composite carrier
+with the canonical composite carrier by
+Theorem~\ref{thm:continuousmap-target-cert-distance-deterministic}. The two
+carriers have the same source, map, target, modulus, and certificate histories,
+so the distance component of the determinacy conclusion is precisely
+$\hsame(displayed,\mathsf{append}(source,target))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_composition\_category\_metric\_package}

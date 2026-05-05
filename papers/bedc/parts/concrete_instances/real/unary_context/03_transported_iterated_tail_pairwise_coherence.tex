@@ -1,0 +1,95 @@
+\begin{theorem}[Real stream classifier transported iterated unary context selected e-one tail pairwise coherence]
+\label{thm:real-stream-classifier-transported-iterated-unary-context-selected-e1-tail-pairwise-coherence}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,u_X,u_Y,q_X,q_Y,s_X,s_Y,v_X,v_Y,o_X,o_Y:
+\mathbb{N}\to\Hist$, a selected index $n$, and histories
+$a,a',b,b':\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),
+$$
+and
+$$
+\mathsf{RealStreamClassifier}(x,y).
+$$
+Assume also that for every observation index $i$ the transported first context
+layer satisfies
+$$
+\mathsf{UnaryHistory}(p_X(i)),\quad \mathsf{UnaryHistory}(t_X(i)),\quad
+\hsame(p_X(i),p_Y(i)),\quad \hsame(t_X(i),t_Y(i)),
+$$
+$$
+\mathsf{Cont}(p_X(i),x'(i),m_X(i)),\quad
+\mathsf{Cont}(m_X(i),t_X(i),u_X(i)),
+$$
+$$
+\mathsf{Cont}(p_Y(i),y'(i),m_Y(i)),\quad
+\mathsf{Cont}(m_Y(i),t_Y(i),u_Y(i)),
+$$
+and that for every observation index $i$ the second context layer satisfies
+$$
+\mathsf{UnaryHistory}(q_X(i)),\quad \mathsf{UnaryHistory}(s_X(i)),\quad
+\hsame(q_X(i),q_Y(i)),\quad \hsame(s_X(i),s_Y(i)),
+$$
+$$
+\mathsf{Cont}(q_X(i),u_X(i),v_X(i)),\quad
+\mathsf{Cont}(v_X(i),s_X(i),o_X(i)),
+$$
+$$
+\mathsf{Cont}(q_Y(i),u_Y(i),v_Y(i)),\quad
+\mathsf{Cont}(v_Y(i),s_Y(i),o_Y(i)).
+$$
+If the selected second-layer outputs satisfy the four e-one displays
+$$
+\hsame(o_X(n),\Eone(a)),\quad
+\hsame(o_X(n),\Eone(a')),\quad
+\hsame(o_Y(n),\Eone(b)),\quad
+\hsame(o_Y(n),\Eone(b')),
+$$
+then all of the following data hold:
+\begin{enumerate}
+\item $\mathsf{UnaryHistory}(a)$;
+\item $\mathsf{UnaryHistory}(a')$;
+\item $\mathsf{UnaryHistory}(b)$;
+\item $\mathsf{UnaryHistory}(b')$;
+\item $\hsame(a,a')$;
+\item $\hsame(a,b)$;
+\item $\hsame(a,b')$;
+\item $\hsame(a',b)$;
+\item $\hsame(a',b')$;
+\item $\hsame(b,b')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-classifier-transported-unary-denominator-context-closed}
+to the pointwise representative rows, the source RealUp stream classifier, and
+the displayed first-layer context and continuation hypotheses. This produces
+$\mathsf{RealStreamClassifier}(u_X,u_Y)$.
+
+Next apply
+\autoref{thm:real-stream-classifier-unary-denominator-context-selected-e1-tail-pairwise-coherence}
+to this transported intermediate classifier, using the second-layer context and
+continuation rows together with the four selected e-one displays. The resulting
+ten rows are exactly the unary-history and pairwise tail-coherence package
+displayed above.
+\end{proof}
+
+Fit: traditional target RegSeqRat representative-stable iterated selected-tail
+canonicalization; BEDC source RealUp streams plus RatUp classifier plus
+$\mathsf{Cont}$; carrier rational-observation streams; classifier
+$\mathsf{RealStreamClassifier}$; stability representative transport followed
+by two context closures; ledger two context layers and four selected e-one
+seals; core theorem
+\autoref{thm:real-stream-classifier-transported-iterated-unary-context-selected-e1-tail-pairwise-coherence};
+exactness the selected-tail equivalence class; standard bridge dyadic
+selected-tail canonicalization; status $\mathsf{ProofTarget}$.
+\begin{closurestatus}{\RealUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The rational-embedding real-stream certificate for selected unary tails, with $\RatUp$ classifier transport, iterated context closure, and selected-tail canonicalization.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealUp.RealConstant\_rational\_embedding\_certificate}
+  \bridgestatus{none}
+  \notclaimed{Complete real-number theory: regular Cauchy completion, real arithmetic and order, metric completeness, least upper bounds, topology, continuity, or classical trichotomy.}
+  \upgradepath{$\matureClosure$ requires stream-name and regular-Cauchy carriers, rational embedding readback, arithmetic/order laws, completeness where claimed, and no-hidden-leakage for representatives.}
+\end{closurestatus}

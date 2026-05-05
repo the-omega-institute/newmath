@@ -1,0 +1,244 @@
+
+
+\begin{theorem}[Module scalar negation gives two-sided action inverse]
+\label{thm:module-scalar-negation-action-additive-inverse}
+Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar-ring classifier, $\sim_M$ for the module classifier, $+_R$ and $0_R$ for scalar addition and scalar zero, $-_R$ for scalar additive inverse, $+_M$ and $0_M$ for module addition and module zero, and $\odot_M$ for scalar action. For every carried scalar $r:R$ and carried module endpoint $m:M$,
+$$
+((-_R r)\odot_M m)+_M(r\odot_M m)\sim_M0_M
+$$
+and
+$$
+(r\odot_M m)+_M((-_R r)\odot_M m)\sim_M0_M.
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:module-source-specification}, the scalar source of the module certificate is a certified $\RingUp$. Its additive component, listed in \autoref{def:ring-stability-certificate} and \autoref{def:group-stability-certificate}, supplies inverse closure and the scalar additive left-inverse row. Thus $-_R r$ is carried and
+$$
+(-_R r)+_R r\sim_R0_R.
+$$
+Classifier reflexivity for the carried endpoint $m$ comes from \autoref{def:lean-carrier-naming-certificate}. Scalar-action congruence from \autoref{def:module-stability-certificate} transports the scalar inverse comparison to
+$$
+((-_R r)+_R r)\odot_M m\sim_M0_R\odot_M m.
+$$
+Scalar distributivity over scalar addition from \autoref{def:module-stability-certificate} gives
+$$
+((-_R r)+_R r)\odot_M m\sim_M((-_R r)\odot_M m)+_M(r\odot_M m).
+$$
+Using classifier symmetry from \autoref{def:lean-carrier-naming-certificate}, transitivity from \autoref{thm:namecert-equivalence-transitivity}, and the zero-action theorem \autoref{thm:module-zero-action-annihilation}, compose these comparisons to obtain
+$$
+((-_R r)\odot_M m)+_M(r\odot_M m)\sim_M0_M.
+$$
+For the other order, \autoref{thm:ring-add-right-inverse}, read in the same scalar source, supplies
+$$
+r+_R(-_R r)\sim_R0_R.
+$$
+Scalar-action congruence transports this comparison to
+$$
+(r+_R(-_R r))\odot_M m\sim_M0_R\odot_M m,
+$$
+and scalar distributivity over scalar addition gives
+$$
+(r+_R(-_R r))\odot_M m\sim_M(r\odot_M m)+_M((-_R r)\odot_M m).
+$$
+The same symmetry, transitivity, and zero-action composition gives
+$$
+(r\odot_M m)+_M((-_R r)\odot_M m)\sim_M0_M.
+$$
+\end{proof}
+
+\begin{definition}[Module LinearMap kernel predicate]
+\label{def:module-linearmap-kernel-predicate}
+Let $R$ carry a $\RingUp$ certificate, let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source, and let
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+hold. Write $\sim_N$ for the classifier on $N$ and $0_N$ for its module zero. The kernel predicate of $f$ is the zero fiber
+$$
+\mathsf{Ker}_f(x):\Longleftrightarrow x\text{ is carried in }M\land f(x)\sim_N0_N.
+$$
+The witness records source carrier evidence for $x$ together with the target-classifier comparison from $f(x)$ to the target zero.
+\end{definition}
+
+\begin{theorem}[Module LinearMap kernel submodule closure]
+\label{thm:module-linearmap-kernel-submodule-closure}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the source and target module classifiers, $+_M$ for source addition, $0_M$ and $0_N$ for source and target zero, and $\odot_M$ and $\odot_N$ for the scalar actions. If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+holds, then the predicate $\mathsf{Ker}_f$ from \autoref{def:module-linearmap-kernel-predicate} is stable under source-classifier transport, contains $0_M$, and is closed under source addition and carried scalar action:
+$$
+\mathsf{Ker}_f(x)\land x\sim_Mx'\Longrightarrow\mathsf{Ker}_f(x'),
+$$
+$$
+\mathsf{Ker}_f(0_M),
+$$
+$$
+\mathsf{Ker}_f(x)\land\mathsf{Ker}_f(u)\Longrightarrow\mathsf{Ker}_f(x+_M u),
+$$
+and, for every carried scalar $r:R$,
+$$
+\mathsf{Ker}_f(x)\Longrightarrow\mathsf{Ker}_f(r\odot_M x).
+$$
+In particular, the source-ring inverse closure makes $-_R r$ carried whenever $r$ is carried, so $\mathsf{Ker}_f(x)$ entails $\mathsf{Ker}_f((-_R r)\odot_M x)$.
+
+The ten-field fit is: traditional target the ordinary kernel submodule of an $R$-linear map; BEDC source the displayed $\mathsf{LinearMapCert}_R$ package over the two $\ModuleUp$ certificates; carrier the zero-fiber predicate $\mathsf{Ker}_f$; classifier the source module classifier restricted to that predicate; stability source-classifier transport, zero, addition, scalar action, and scalar-negation closure; ledger the function identifier $f$, its descent, zero, additivity, and scalar rows, plus the source and target module ledgers; core theorem this block; exactness predicate the condition $f(x)\sim_N0_N$ used by downstream first-isomorphism-style kernel exactness; standard bridge the usual kernel submodule construction; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:module-linearmap-certificate-package}. It supplies source-classifier descent for $f$, additivity, scalar compatibility, and zero preservation. Unpack the two module certificates through \autoref{def:module-certificate-obligations}. The source module supplies the carrier rows for $0_M$, $x+_M u$, and $r\odot_M x$; the target module supplies operation congruence and classifier comparison rows through \autoref{def:module-stability-certificate}.
+
+For source-classifier transport, assume $\mathsf{Ker}_f(x)$ and $x\sim_Mx'$. Source carrier transport gives that $x'$ is carried. The descent row gives a target comparison between $f(x)$ and $f(x')$. Compose it with the zero-fiber comparison $f(x)\sim_N0_N$ by the target classifier equivalence laws and \autoref{thm:namecert-equivalence-transitivity}. This yields $f(x')\sim_N0_N$, so $x'$ remains in the kernel predicate.
+
+For the zero row, source zero closure carries $0_M$. The zero-preservation row of \autoref{def:module-linearmap-certificate-package} gives
+$$
+f(0_M)\sim_N0_N.
+$$
+Thus $0_M$ satisfies the defining zero-fiber predicate.
+
+For addition, choose kernel witnesses for $x$ and $u$. Source additive closure carries $x+_M u$. Additivity gives
+$$
+f(x+_M u)\sim_Nf(x)+_Nf(u).
+$$
+Target additive congruence transports $f(x)\sim_N0_N$ and $f(u)\sim_N0_N$ to a comparison with $0_N+_N0_N$. The target additive zero rows reduce that endpoint to $0_N$, and \autoref{thm:namecert-equivalence-transitivity} composes the comparisons. Therefore $x+_M u$ lies in $\mathsf{Ker}_f$.
+
+For scalar action, let $r$ be a carried scalar and choose a kernel witness for $x$. Source scalar-action closure carries $r\odot_M x$. Scalar compatibility gives
+$$
+f(r\odot_M x)\sim_N r\odot_N f(x).
+$$
+Target scalar congruence transports $f(x)\sim_N0_N$ to $r\odot_N f(x)\sim_N r\odot_N0_N$. The zero-action theorem \autoref{thm:module-zero-action-annihilation} gives $r\odot_N0_N\sim_N0_N$, and transitivity gives the required zero-fiber comparison.
+
+Finally, the scalar source of the module certificate is a certified $\RingUp$ by \autoref{def:module-source-specification}, so the additive inverse row carries $-_R r$. Applying the scalar-action closure row to this carried scalar gives $\mathsf{Ker}_f((-_R r)\odot_M x)$. The endpoint interpretation is exactly \autoref{thm:module-scalar-negation-action-additive-inverse}: $(-_R r)\odot_M x$ is the additive inverse-side action endpoint for $r\odot_M x$ inside the source module classifier.
+\end{proof}
+
+\begin{theorem}[Module LinearMap kernel certificate package]
+\label{thm:module-linearmap-kernel-certificate-package}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Let
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+hold. Write $\sim_M$ and $\sim_N$ for the source and target module classifiers, $+_M$ and $0_M$ for source addition and source zero, $\odot_M$ for source scalar action, $0_N$ for target zero, and $\mathsf{Ker}_f$ for the predicate of \autoref{def:module-linearmap-kernel-predicate}. On the kernel carrier define the restricted classifier by
+$$
+x\sim_{\mathsf{Ker}_f}y :\Longleftrightarrow \mathsf{Ker}_f(x)\land\mathsf{Ker}_f(y)\land x\sim_My.
+$$
+Then the kernel data form a reusable certificate package with the following fields:
+\begin{enumerate}
+\item $\sim_{\mathsf{Ker}_f}$ is reflexive, symmetric, and transitive on carried kernel endpoints.
+\item Source-module classifier transport carries kernel witnesses along $x\sim_Mx'$.
+\item $0_M$ is a carried kernel endpoint, and carried kernel endpoints are closed under $+_M$ and under carried scalar action $\odot_M$.
+\item The inclusion of the kernel carrier into $M$ reflects the source classifier: for kernel endpoints, a comparison in $M$ repacks as a comparison for $\sim_{\mathsf{Ker}_f}$, and every restricted comparison projects to the underlying $x\sim_My$ row.
+\item Every carried kernel endpoint satisfies the exactness row $f(x)\sim_N0_N$.
+\end{enumerate}
+The ten-field fit is: traditional target kernel submodule certificate; BEDC source $\mathsf{LinearMapCert}_R$ over two $\ModuleUp$ certificates; carrier $\mathsf{Ker}_f$; classifier the restriction of $\sim_M$; stability inherited from \autoref{thm:module-linearmap-kernel-submodule-closure}; ledger the function identifier $f$ together with descent, zero, additivity, and scalar rows from \autoref{def:module-linearmap-certificate-package}; core theorem this package; exactness the zero-fiber row $f(x)\sim_N0_N$; standard bridge the ordinary kernel submodule; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The carrier rows are exactly the rows established in \autoref{thm:module-linearmap-kernel-submodule-closure}. They give source-classifier transport for $\mathsf{Ker}_f$, the kernel witness for $0_M$, additive closure, and carried scalar-action closure.
+
+For the restricted classifier laws, work only with endpoints already carrying kernel witnesses. Reflexivity follows from the source module NameCert reflexivity row applied to the underlying carried endpoint, then paired with the two kernel witnesses. Symmetry keeps the two kernel witnesses and reverses the source comparison by the symmetry row of \autoref{def:lean-carrier-naming-certificate}.
+
+For transitivity, take restricted comparisons from $x$ to $y$ and from $y$ to $z$. Their projections give $x\sim_My$ and $y\sim_Mz$. Apply \autoref{thm:namecert-equivalence-transitivity} in the source module classifier to obtain $x\sim_Mz$, and pair this comparison with the kernel witnesses for $x$ and $z$.
+
+The inclusion statement is definitional. A restricted comparison contains its underlying $x\sim_My$ component by the definition of $\sim_{\mathsf{Ker}_f}$. Conversely, for two kernel endpoints, any source comparison $x\sim_My$ repacks with the two endpoint witnesses to produce $x\sim_{\mathsf{Ker}_f}y$.
+
+It remains to identify the exactness row. By \autoref{def:module-linearmap-kernel-predicate}, a kernel witness is precisely source-carrier evidence together with the zero-fiber comparison $f(x)\sim_N0_N$. The descent row from \autoref{def:module-linearmap-certificate-package}, composed with \autoref{thm:namecert-equivalence-transitivity} in the target module classifier, is the compatibility used when this zero-fiber comparison is transported along source comparisons. Thus the restricted classifier, inclusion reflection, operation closure, and zero-fiber exactness sit in one certificate package.
+\end{proof}
+
+\begin{theorem}[Module singleton scalar-action kernel exactness]
+\label{thm:module-singleton-smul-kernel-exactness}
+For the concrete singleton empty-history module of
+\autoref{sec:module-concrete-singleton-instance}, fix the terminal scalar
+$\emp$ and define the scalar-action zero-fiber predicate
+$$
+K(h):\Longleftrightarrow A_{\emp}(h)\land
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(\emp,h),\emp).
+$$
+Then, for every history $h:\mathsf{BHist}$,
+$$
+K(h)\Longleftrightarrow A_{\emp}(h),
+$$
+and, for all histories $h,k:\mathsf{BHist}$, the restricted classifier on two
+kernel endpoints is exactly the singleton classifier row:
+$$
+K(h)\land K(k)\land \rho_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k).
+$$
+The ten-field fit is: traditional target terminal module kernel; BEDC source
+$\mathsf{BHist}$ with $\mathsf{ModuleSingletonSmul}$; carrier $A_{\emp}$;
+classifier $\rho_{\emp}$ restricted to $K$; stability inherited from singleton
+classifier transport and scalar-action laws; ledger the terminal scalar
+$\emp$ and the zero-fiber witness; core theorem this block; exactness
+$K(h)$ agrees with $A_{\emp}(h)$; standard bridge the kernel of the terminal
+endomorphism; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the displayed predicate $K$. The forward direction projects the first
+component, so a zero-fiber witness immediately gives $A_{\emp}(h)$.
+
+For the reverse direction, assume $A_{\emp}(h)$. The scalar action
+$\mathsf{ModuleSingletonSmul}(\emp,h)$ is definitionally the empty history.
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints} packages the
+empty endpoint comparison as $\rho_{\emp}(h,\emp)$, and
+Theorem~\ref{thm:module-singleton-smul-classifier-readback-iff} reads this
+classification through the singleton scalar action. This supplies
+$\rho_{\emp}(\mathsf{ModuleSingletonSmul}(\emp,h),\emp)$, which repacks with
+the given carrier witness as $K(h)$.
+
+It remains to compare the restricted classifier. One direction is projection:
+from $K(h)\land K(k)\land \rho_{\emp}(h,k)$ retain the third component.
+
+Conversely, assume $\rho_{\emp}(h,k)$. By
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints}, both endpoints
+lie in the singleton carrier $A_{\emp}$. Applying the first part to these two
+carrier witnesses gives $K(h)$ and $K(k)$, so the restricted classifier repacks
+as $K(h)\land K(k)\land \rho_{\emp}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_kernel\_exactness}
+
+\begin{theorem}[Module singleton scalar-action kernel semantic certificate]
+\label{thm:module-singleton-smul-kernel-semantic-name-cert}
+For the concrete singleton empty-history module of
+\autoref{sec:module-concrete-singleton-instance}, fix the terminal scalar
+$\emp$ and let
+$$
+K(h):\Longleftrightarrow A_{\emp}(h)\land
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(\emp,h),\emp).
+$$
+Define the restricted kernel classifier by
+$$
+\rho_K(h,k):\Longleftrightarrow K(h)\land K(k)\land \rho_{\emp}(h,k).
+$$
+Then source, pattern, and ledger all equal to $K$, together with classifier
+$\rho_K$, form the singleton scalar-action kernel semantic naming certificate:
+$$
+\mathsf{SemanticNameCert}(K,K,K,\rho_K).
+$$
+\end{theorem}
+\begin{proof}
+\autoref{thm:module-singleton-smul-kernel-exactness} identifies the
+displayed kernel predicate with the singleton carrier $A_{\emp}$. This gives
+the empty endpoint as an inhabitant of $K$ and converts each carried kernel
+endpoint to the carrier context used by
+\autoref{thm:module-singleton-scalar-action-laws}.
+
+For the restricted classifier core, reflexivity at a kernel endpoint $h$ uses
+the singleton classifier reflexivity row at the converted carrier witness for
+$h$, then repacks the two copies of the original kernel witness with
+$\rho_{\emp}(h,h)$. Symmetry projects a comparison
+$\rho_K(h,k)$ to $\rho_{\emp}(h,k)$, applies the symmetry row from
+\autoref{thm:module-singleton-scalar-action-laws}, and repacks the
+kernel witnesses in the reversed order.
+
+For transitivity, project the two restricted comparisons to
+$\rho_{\emp}(h,k)$ and $\rho_{\emp}(k,l)$. Apply
+\autoref{thm:namecert-equivalence-transitivity} in the singleton classifier to
+obtain $\rho_{\emp}(h,l)$, and pair that comparison with the retained kernel
+witnesses for $h$ and $l$.
+
+Endpoint witnesses are repacked through
+\autoref{thm:module-singleton-classifier-empty-endpoints}: every underlying
+singleton comparison supplies the carrier witnesses needed to return to $K$ by
+\autoref{thm:module-singleton-smul-kernel-exactness}. Conversely, a
+restricted comparison already contains its two $K$ witnesses and its underlying
+$\rho_{\emp}$ row.
+
+Pattern and ledger soundness are identity maps, since source, pattern, and
+ledger are the same predicate $K$. These rows assemble the displayed
+$\mathsf{SemanticNameCert}(K,K,K,\rho_K)$.
+\end{proof}

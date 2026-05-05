@@ -604,3 +604,27 @@ and $\mathsf{BLEN}(\Pi)=\mathsf{BLEN}(\Pi')$ and $\mathsf{BLEN}(\Theta)=\mathsf{
 Apply fixed-left-length split uniqueness to the outer append, using the equality of $\Pi$ and $\Pi'$ lengths. This identifies the two first segments and leaves equality of the two residual inner appends. Apply the same split uniqueness theorem to those residual appends with the equality of $\Theta$ and $\Theta'$ lengths, obtaining equality of the middle and final segments.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_three\_split\_unique\_fixed\_lengths}
+
+\begin{theorem}[Bundle append membership commutativity]
+\label{thm:bundle-append-membership-commutativity}
+For every probe $p$ and bundles $\Pi,\Theta$,
+$$
+p\in\mathsf{BAppend}(\Pi,\Theta)
+\quad\Longleftrightarrow\quad
+p\in\mathsf{BAppend}(\Theta,\Pi).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $p\in\mathsf{BAppend}(\Pi,\Theta)$.
+By \autoref{thm:bundle-append-membership}, either $p\in\Pi$ or
+$p\in\Theta$. If $p\in\Pi$, then \autoref{thm:bundle-append-membership}
+applied to $\mathsf{BAppend}(\Theta,\Pi)$ gives
+$p\in\mathsf{BAppend}(\Theta,\Pi)$ from the right disjunct. If
+$p\in\Theta$, it gives the same conclusion from the left disjunct.
+
+For the reverse direction, assume $p\in\mathsf{BAppend}(\Theta,\Pi)$.
+Again by \autoref{thm:bundle-append-membership}, either $p\in\Theta$ or
+$p\in\Pi$. In the first case, \autoref{thm:bundle-append-membership}
+applied to $\mathsf{BAppend}(\Pi,\Theta)$ gives membership from the right
+disjunct; in the second case, it gives membership from the left disjunct.
+\end{proof}

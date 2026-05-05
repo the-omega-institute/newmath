@@ -1,0 +1,51 @@
+\begin{theorem}[Real stream prefix tail endpoint projection]
+\label{thm:real-stream-prefix-tail-endpoint-projection}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
+if the prefix through $n$ is classified and every endpoint along the finite
+tail of length $m$ is rational-history classified, then the selected tail
+endpoint is rational-history classified:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\land
+\bigl(\forall k,\ 1\le k\le m\Longrightarrow
+\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))\bigr)
+\Longrightarrow
+\mathsf{RatHistoryClassifier}(x(n+m),y(n+m)).
+$$
+Ten-field fit: traditional target finite RealUp prefix endpoint readback; BEDC
+source RealUp stream prefixes over RatUp point classifiers; carrier
+rational-observation streams; classifier
+$\mathsf{RealStreamPrefixClassifier}$; stability by tail extension and endpoint
+projection; ledger initial prefix length, tail length, and selected endpoint;
+core theorem this projection; exactness selected endpoint classification;
+standard bridge RegSeqRat finite observation readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-prefix-classifier-tail-extension} to the
+classified prefix through $n$ and the finite tail endpoint hypothesis. This
+gives $\mathsf{RealStreamPrefixClassifier}(x,y,n+m)$.
+
+Now apply \autoref{thm:real-stream-prefix-classifier-endpoint} at the endpoint
+index $n+m$. The resulting projection is exactly
+$\mathsf{RatHistoryClassifier}(x(n+m),y(n+m))$.
+\end{proof}
+
+\begin{theorem}[Real stream prefix truncated endpoint common e-one tail readback]
+\label{thm:real-stream-prefix-truncated-endpoint-common-e1-tail-readback}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,
+if $\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, then the endpoint at
+$n$ has a common e-one tail readback:
+$$
+\exists a,b,\ \hsame(x(n),\Eone(a))\land \hsame(y(n),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Truncate the displayed prefix classifier to the selected endpoint $n$ and use
+the denominator package there. Its positive unary denominator rows give unary
+endpoint witnesses and separate both selected endpoints from $\emp$, so unary
+nonempty readback exposes e-one tails $a$ and $b$. The truncated e-one pair
+readback theorem then returns the two unary tail rows and their $\hsame$
+comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_endpoint\_common\_e1\_tail\_readback}

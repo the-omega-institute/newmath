@@ -1,0 +1,92 @@
+\begin{lemma}[Divisibility is closed under displayed continuation]
+\label{thm:nat-divides-cont-closed}
+If $\mathsf{NatDivides}(d,x)$ and $\mathsf{NatDivides}(d,y)$ hold, and
+$\Cont(x,y,z)$ displays $z$ as the continuation of the two divisible histories,
+then $\mathsf{NatDivides}(d,z)$ holds.
+\end{lemma}
+\begin{proof}
+Unpack the two quotient witnesses, say $qx$ and $qy$. Their multiplication
+witnesses have results $x$ and $y$. The quotient for $z$ is
+$\mathsf{append}(qx,qy)$; unary append closure makes it an admissible quotient,
+and append-continuation multiplication closure combines the two multiplication
+witnesses over the displayed $\Cont(x,y,z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_cont\_closed}
+
+\begin{lemma}[Unary multiplication append multiplier split]
+\label{lem:natmul-append-multiplier-split-exists}
+Let \(d,w,q,r:\mathsf{BHist}\) be unary where required. If the displayed unary
+multiplication relation proves
+\(\mathsf{NatMul}(d,\mathsf{append}(w,q),r)\), then there are unary histories
+\(n\) and \(e\) such that
+$$
+\mathsf{NatMul}(d,w,n)\land
+\mathsf{NatMul}(d,q,e)\land
+\ContR(n,e,r).
+$$
+\end{lemma}
+\begin{proof}
+Totality of unary multiplication supplies canonical products \(n\) and \(e\)
+for the two multiplier pieces \(w\) and \(q\). Append-continuation closure for
+\(\mathsf{NatMul}\) composes these two products into a displayed product over
+\(\mathsf{append}(w,q)\). Functionality of unary multiplication compares this
+canonical displayed result with the given result \(r\), and continuation
+transport along that history-sameness gives \(\ContR(n,e,r)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_split\_exists}
+
+\begin{lemma}[Right factor divisibility of a displayed product]
+\label{thm:nat-divides-mul-right-closed}
+If $d$ and $q$ are unary histories and $\mathsf{NatMul}(d,q,n)$ displays
+$n$ as their product, then $q$ divides $n$:
+$$
+\mathsf{UnaryHistory}(d)\Longrightarrow
+\mathsf{UnaryHistory}(q)\Longrightarrow
+\mathsf{NatMul}(d,q,n)\Longrightarrow
+\mathsf{NatDivides}(q,n).
+$$
+\end{lemma}
+\begin{proof}
+Totality of multiplication gives a displayed product for $q$ by $d$.
+Commutativity up to $\hsame$ compares that product with the given display
+of $d$ by $q$. The commuted display is a divisibility witness for $q$, and
+dividend transport across the result comparison carries it back to $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_mul\_right\_closed}
+
+\begin{theorem}[Nat divisibility is closed under left multiplication]
+\label{thm:nat-divides-mul-left-closed}
+For histories $d,x,q,z:\Hist$, if $x$ is unary,
+$\mathsf{NatDivides}(d,q)$, and $\mathsf{NatMul}(x,q,z)$, then
+$\mathsf{NatDivides}(d,z)$.
+\end{theorem}
+\begin{proof}
+Choose the quotient witness for $\mathsf{NatDivides}(d,q)$. Since $q$ is a
+unary result of that divisor witness, total multiplication gives a product of
+$q$ with $x$. Multiplicative commutativity identifies this product with the
+given product $z$ up to $\hsame$. Thus $q$ divides $z$ after dividend
+transport, and transitivity of $\mathsf{NatDivides}$ carries the original
+divisor $d$ through $q$ into $z$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_mul\_left\_closed}
+
+\begin{lemma}[Divisors of a nonempty unary product are bounded by the result]
+\label{lem:natdivides-result-boundary}
+If $\mathsf{NatDivides}(d,n)$, $n$ is unary, and $n\not\hsame\emp$, then
+either $d\hsame n$ or $\mathsf{NatUnaryStrictPrefix}(d,n)$.
+\end{lemma}
+\begin{proof}
+Unpack the quotient $q$ in the divisor witness and inspect the corresponding
+$\mathsf{NatMul}(d,q,n)$ witness. The empty quotient would make the product
+result empty, contradicting $n\not\hsame\emp$.
+
+For the unit quotient, multiplication by the unit identifies the product result
+with $d$, so the divisor is the whole result up to $\hsame$.
+
+For a successor quotient, the multiplication witness writes $n$ as the previous
+product followed by one more copy of $d$. The final $\Cont$ payload gives a
+strict unary prefix from that copy into the result; unary append commutativity
+and strict-prefix transport move the prefix endpoint to $d$, yielding
+$\mathsf{NatUnaryStrictPrefix}(d,n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_nonempty\_result\_boundary}

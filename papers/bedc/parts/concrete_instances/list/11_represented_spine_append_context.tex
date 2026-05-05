@@ -63,6 +63,175 @@ represented contextual endpoints $h$ and $k$ repacks the displayed contextual
 classifier as $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$.
 \end{proof}
 
+\section{Public append readback}
+\label{sec:list-public-append-readback}
+
+\begin{definition}[List public append readback]
+\label{def:list-public-append-readback}
+For a BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, define
+$\mathsf{ListPublicAppend}_A(h,k,r)$ to mean that there exist finite
+BEDC-history spines $xs,ys:\mathsf{HistSpine}$ such that
+$$
+\mathsf{ListSpineRep}_A(h,xs),
+\quad
+\mathsf{ListSpineRep}_A(k,ys),
+$$
+and
+$$
+\mathsf{ListSpineRep}_A(r,xs{++}ys)
+$$
+hold.
+\end{definition}
+
+\begin{lemma}[List spine append representation construction]
+\label{lem:list-spine-append-representation-construction}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For
+finite BEDC-history spines $xs,ys:\mathsf{HistSpine}$ and histories $h,k$, if
+$$
+\mathsf{ListSpineRep}_A(h,xs)
+\quad\hbox{and}\quad
+\mathsf{ListSpineRep}_A(k,ys)
+$$
+hold, then there exists a history $r:\mathsf{BHist}$ such that
+$$
+\mathsf{ListSpineRep}_A(r,xs{++}ys).
+$$
+\end{lemma}
+\begin{proof}
+Proceed by induction on the displayed representation
+$\mathsf{ListSpineRep}_A(h,xs)$.
+
+In the nil case, the displayed spine $xs$ is $\mathsf{nil}$, so
+$xs{++}ys$ is $ys$. Reuse the endpoint $k$ together with the given
+representation $\mathsf{ListSpineRep}_A(k,ys)$.
+
+In the cons case, write $xs=\mathsf{cons}(a,xs_0)$ and let the head
+constructor provide $A(a)$, a tail endpoint $t$, a tail representation
+$\mathsf{ListSpineRep}_A(t,xs_0)$, and a constructor ledger $\ContR(a,t,h)$.
+The induction hypothesis applied to the tail representation and the endpoint
+representation of $k$ gives a history $r_0$ represented by $xs_0{++}ys$.
+
+Use the same head payload $a$ and the constructed tail endpoint $r_0$ to form a
+BEDC constructor endpoint $r$ with $\ContR(a,r_0,r)$. The cons constructor for
+$\mathsf{ListSpineRep}_A$ then represents $r$ by
+$\mathsf{cons}(a,xs_0{++}ys)$, which is $xs{++}ys$.
+\end{proof}
+
+\begin{theorem}[List public append readback is total and classifier-congruent]
+\label{thm:list-public-append-readback-total-congruent}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. The public append readback
+relation satisfies:
+\begin{enumerate}
+  \item if $\mathsf{ListHistoryCarrier}_A(h)$ and
+  $\mathsf{ListHistoryCarrier}_A(k)$ hold, then there exists a history
+  $r:\mathsf{BHist}$ such that
+  $$
+  \mathsf{ListPublicAppend}_A(h,k,r)
+  \quad\hbox{and}\quad
+  \mathsf{ListHistoryCarrier}_A(r)
+  $$
+  hold;
+  \item if
+  $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,h')$,
+  $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(k,k')$,
+  $\mathsf{ListPublicAppend}_A(h,k,r)$, and
+  $\mathsf{ListPublicAppend}_A(h',k',r')$ hold, then
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(r,r')
+  $$
+  holds;
+  \item if $\mathsf{ListPublicAppend}_A(h,k,r)$ and
+  $\mathsf{ListPublicAppend}_A(h,k,r')$ hold, then
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(r,r')
+  $$
+  holds.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For totality, apply Theorem~\ref{thm:list-spine-representation-coverage} to the
+two public carrier witnesses. This gives finite spines $xs$ and $ys$ with
+$\mathsf{ListSpineRep}_A(h,xs)$ and $\mathsf{ListSpineRep}_A(k,ys)$.
+
+Apply Lemma~\ref{lem:list-spine-append-representation-construction} to construct
+an endpoint $r$ represented by $xs{++}ys$. This representation is precisely the
+third field of $\mathsf{ListPublicAppend}_A(h,k,r)$, and
+Theorem~\ref{thm:list-spine-representation-coverage} gives
+$\mathsf{ListHistoryCarrier}_A(r)$.
+
+For classifier congruence, unpack the two append readbacks as spines $xs,ys$
+and $xs',ys'$. Displayed-spine exactness reads the public classifiers on
+$h,h'$ and on $k,k'$ as
+$$
+\mathsf{ListClassifierSpec}(\sim_A,xs,xs')
+\quad\hbox{and}\quad
+\mathsf{ListClassifierSpec}(\sim_A,ys,ys').
+$$
+
+Theorem~\ref{thm:list-classifier-append-source-relation} combines these two
+finite-spine classifiers into
+$\mathsf{ListClassifierSpec}(\sim_A,xs{++}ys,xs'{++}ys')$. Repack that
+displayed classifier through the two append endpoint representations by the
+reverse direction of
+Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness},
+obtaining $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(r,r')$.
+
+For two outputs over the same inputs, unpack both append readbacks as
+$xs,ys$ and $xs',ys'$. Coherence for the two presentations of $h$ gives
+$\mathsf{ListClassifierSpec}(\sim_A,xs,xs')$, and coherence for the two
+presentations of $k$ gives $\mathsf{ListClassifierSpec}(\sim_A,ys,ys')$.
+
+Apply Theorem~\ref{thm:list-classifier-append-source-relation} and then
+displayed-spine exactness exactly as in the congruence argument. This classifies
+the two append outputs $r$ and $r'$.
+\end{proof}
+
+\begin{theorem}[List public append readback exposes unary-length addition]
+\label{thm:list-public-append-unary-length-additivity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For
+histories $h,k,r:\mathsf{BHist}$, if
+$$
+\mathsf{ListPublicAppend}_A(h,k,r)
+$$
+holds, then there exist histories $u,v,w:\mathsf{BHist}$ such that
+\begin{enumerate}
+  \item $\mathsf{ListPublicUnaryLength}_A(h,u)$,
+  $\mathsf{ListPublicUnaryLength}_A(k,v)$, and
+  $\mathsf{ListPublicUnaryLength}_A(r,w)$ hold;
+  \item
+  $$
+  \mathsf{NatAdd}(v,u,w);
+  $$
+  \item for every $z:\mathsf{BHist}$,
+  $$
+  \mathsf{NatAdd}(u,v,z)\to \hsame(w,z).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{ListPublicAppend}_A(h,k,r)$ as finite BEDC-history spines
+$xs,ys:\mathsf{HistSpine}$ together with representations of $h$ by $xs$, of $k$
+by $ys$, and of $r$ by $xs{++}ys$.
+
+Choose
+$$
+u=\mathsf{ListUnaryLength}(xs),\qquad
+v=\mathsf{ListUnaryLength}(ys),\qquad
+w=\mathsf{ListUnaryLength}(xs{++}ys).
+$$
+The three public unary-length witnesses follow by pairing the same spine
+representations with reflexivity of $\hsame$ in
+\autoref{def:list-public-unary-length-token}.
+
+Apply Theorem~\ref{thm:list-unary-length-append-additivity} to the three
+displayed representations. Its append-aligned clause gives
+$\mathsf{NatAdd}(v,u,w)$, and its commuted uniqueness clause gives, for every
+$z:\mathsf{BHist}$, the implication
+$\mathsf{NatAdd}(u,v,z)\to\hsame(w,z)$.
+\end{proof}
+
 \begin{theorem}[List classifier mixed-tag append-context exactness]
 \label{thm:list-classifier-mixed-tag-append-context-exactness}
 For finite BEDC-history spines $p,p',x,y,s,s'$, suppose

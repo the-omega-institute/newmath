@@ -83,6 +83,15 @@ $\emp$ and $\mathsf{Cont}(h,t,k)$.
 \end{definition}
 \leandef{BEDC.Derived.NatUp.NatUnaryStrictPrefix}
 
+\begin{lemma}[Unary continuation tail cases]
+\label{lem:nat-unary-prefix-cont-tail-cases}
+If a unary tail \(t\) displays \(\Cont(h,t,k)\), then either \(h\hsame k\) or \(h\) is a strict unary prefix of \(k\).
+\end{lemma}
+\begin{proof}
+Split the unary tail. The empty tail gives the right-unit continuation and therefore endpoint history-sameness. A zero-headed tail contradicts unary generation. A one-headed tail is nonempty, so the displayed continuation is exactly the witness for \(\mathsf{NatUnaryStrictPrefix}(h,k)\).
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryPrefix\_cont\_tail\_cases}
+
 \begin{theorem}[Unary prefix trichotomy into sameness or strict prefix]
 \label{thm:nat-unary-prefix-trichotomy-hsame-strict}
 If $h$ and $k$ are unary histories, then either $h\hsame k$, or $h$ is a
@@ -151,6 +160,18 @@ If \(\Eone(h)\) is a strict unary prefix of \(\Eone(k)\), then \(h\) is a strict
 Unpack the strict witness tail. The empty tail contradicts strictness, and an \(\Ezero\)-headed tail contradicts unary generation. For an \(\Eone(t)\) tail, invert the result boundary of the continuation and commute the visible \(\Eone\) across the unary tail \(t\), yielding the strict witness \(\Eone(t)\) from \(h\) to \(k\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_e1\_inversion}
+
+\begin{lemma}[Strict unary prefix one-boundary endpoint collapse is impossible]
+\label{lem:nat-unary-strict-prefix-e1-endpoint-hsame-absurd}
+If \(\Eone(h)\) is a strict unary prefix of \(\Eone(k)\) and \(h\hsame k\),
+then the displayed strict prefix is impossible.
+\end{lemma}
+\begin{proof}
+Apply one-boundary inversion to obtain a strict unary prefix from \(h\) to
+\(k\). The strict witness tail together with the endpoint identification
+\(h\hsame k\) contradicts the tail endpoint collapse lemma.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_e1\_endpoint\_hsame\_absurd}
 
 \begin{theorem}[Strict unary prefix one-boundary congruence]
 \label{thm:nat-unary-strict-prefix-e1-congr}
@@ -312,4 +333,12 @@ the two semantic predicates.
 The interface \(\NatUp\) is licensed by \(\mathsf{NameCert}_{\NatUp}\). It is not a primitive object of the finite kernel.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Unary.nat\_up\_licensed\_not\_primitive}
-\closureat{\NatUp}{\checkedCertStr}
+\begin{closurestatus}{\NatUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The unary-repetition history certificate over the BEDC carrier; classifier $\msame$ on histories; exactness witnessed by the cited semantic name certificate; ledger absent by explicit statement.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.FKernel.Unary.nat\_up\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{Full Peano natural-number theory: induction principle as a closed theorem schema, primitive recursion with computation rules, totality of arithmetic operations.}
+  \upgradepath{$\matureClosure$ requires $\NatUp$'s arithmetic test suite (induction, recursion, addition associativity and commutativity, multiplication distributivity, order totality) closed at paper level.}
+\end{closurestatus}

@@ -1,0 +1,53 @@
+\begin{theorem}[Singleton evaluation context continuation append-result carrier exactness]
+\label{thm:linearmap-singleton-eval-context-continuation-append-result-carrier-iff}
+For histories $p,f,x,y,q,r:\mathsf{BHist}$, if the context $p$ is carried by
+the singleton linear-map carrier and
+$$
+\ContR(\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),y,
+  \mathsf{append}(q,r)),
+$$
+then the continuation input $y$ is singleton-carried exactly when both append
+result components are singleton-carried:
+$$
+\mathsf{LinearMapSingletonCarrier}(y)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(q)\land
+\mathsf{LinearMapSingletonCarrier}(r).
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator returns $\emp$, so the carried context $p$ carries the
+left continuation endpoint. If $y$ is carried, continuation determinacy against
+the empty unit carries $\mathsf{append}(q,r)$, and append empty-result
+inversion splits this into carriers for $q$ and $r$.
+
+Conversely, carriers for $q$ and $r$ carry the displayed append result. Moving
+the continuation result to $\emp$ and inverting the empty continuation exposes
+$y\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_append\_result\_carrier\_iff}
+
+\begin{theorem}[Singleton linear-map append-source append-result classifier exactness]
+\label{thm:linearmap-singleton-classifier-continuation-append-source-append-result-iff}
+For histories \(p,q,r,s,t,h:\mathsf{BHist}\), if
+\[
+\ContR(\mathsf{append}(p,q),r,\mathsf{append}(s,t)),
+\]
+then
+\[
+\lambda_{\emp}(\mathsf{append}(s,t),h)
+\Longleftrightarrow
+L_{\emp}(p)\wedge L_{\emp}(q)\wedge L_{\emp}(r)\wedge
+L_{\emp}(s)\wedge L_{\emp}(t)\wedge L_{\emp}(h).
+\]
+\end{theorem}
+\begin{proof}
+Apply the append-source classifier exactness theorem to the displayed
+continuation. In the forward direction, the singleton classifier carries the
+append result, and empty-append inversion splits it into carriers for \(s\) and
+\(t\). Conversely, carriers for \(p,q,r\) rebuild the continuation source as
+an empty endpoint; the displayed continuation then carries
+\(\mathsf{append}(s,t)\), closing the singleton classifier with the carrier of
+\(h\).
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_append\_source\_append\_result\_iff}

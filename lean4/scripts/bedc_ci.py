@@ -438,6 +438,160 @@ def detect_case_collision_paths() -> list[dict[str, object]]:
     ]
 
 
+CLOSURESTATUS_BEGIN_RE = re.compile(
+    r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
+)
+CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
+CLOSURESTATUS_FIELD_RE = re.compile(
+    r"\\(theoryclosure|formalstatus|leantarget|bridgestatus"
+    r"|scopeclosed|notclaimed|upgradepath)\{([^}]+)\}"
+)
+
+VALID_CLOSURE_GRADES = {
+    "seedClosure", "obligationClosure", "scopedClosure",
+    "publicClosure", "bridgedClosure", "matureClosure",
+}
+VALID_FORMAL_GRADES = {
+    "unformalizedV", "formalTargetV", "encodedDefV",
+    "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
+    "axiomCleanV", "bridgeCheckedV",
+}
+GRADE_REQUIRES_LEAN_TARGET = {
+    "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
+    "axiomCleanV", "bridgeCheckedV",
+}
+
+
+def detect_orphan_concrete_subdirs() -> list[dict]:
+    """Every subdirectory of `papers/bedc/parts/concrete_instances/` MUST
+    name a real BEDC region — i.e. a region for which either:
+      (a) `lean4/BEDC/Derived/<X>Up.lean` exists (the standard derived horizon), OR
+      (b) the paper has a top-level `<NN>_<X>_namecert_construction.tex`
+          chapter (the paper-side region marker).
+
+    Sub-folders that don't match (e.g. `rat_proofs/` holding rat helper
+    lemmas) inflate the dossier dependency-graph node set and break
+    glossary completeness gates. Move their files up to the parent
+    region's directory or rename the folder to a real region name.
+    """
+    instances = PAPER_PARTS_ROOT / "concrete_instances"
+    if not instances.exists():
+        return []
+    derived = REPO_ROOT / "lean4" / "BEDC" / "Derived"
+    # Region names from Lean: BEDC/Derived/<X>Up.lean (file or directory)
+    lean_regions: set[str] = set()
+    if derived.exists():
+        for p in derived.iterdir():
+            stem = p.stem if p.is_file() else p.name
+            if stem.endswith("Up"):
+                core = stem[:-2]
+                lean_regions.add(re.sub(r"([a-z])([A-Z])", r"\1_\2", core).lower())
+    # Region names from paper: NN_<X>_namecert_construction.tex
+    paper_chapter_re = re.compile(r"^\d+_([a-z][a-z0-9_]*)_namecert_construction\.tex$")
+    paper_regions: set[str] = set()
+    for f in instances.iterdir():
+        if f.is_file():
+            m = paper_chapter_re.match(f.name)
+            if m:
+                paper_regions.add(m.group(1))
+    known = lean_regions | paper_regions
+    orphans: list[dict] = []
+    for sub in sorted(instances.iterdir()):
+        if not sub.is_dir():
+            continue
+        if sub.name not in known:
+            sample = sorted(p.name for p in sub.iterdir() if p.suffix == ".tex")[:3]
+            orphans.append({
+                "subdir": str(sub.relative_to(REPO_ROOT)),
+                "sample_files": sample,
+            })
+    return orphans
+
+
+def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
+    out: list[dict] = []
+    for tex in part_root.rglob("*.tex"):
+        try:
+            text = tex.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        for m in CLOSURESTATUS_BEGIN_RE.finditer(text):
+            line = text.count("\n", 0, m.start()) + 1
+            tail = text[m.end():]
+            end_match = CLOSURESTATUS_END_RE.search(tail)
+            if not end_match:
+                out.append({
+                    "file": str(tex.relative_to(part_root.parent.parent.parent)),
+                    "line": line,
+                    "region": m.group(1),
+                    "error": "no \\end{closurestatus}",
+                    "theory_closure": None,
+                    "formal_status": None,
+                    "lean_target": None,
+                    "bridge_status": None,
+                    "has_scope": False,
+                    "has_notclaimed": False,
+                    "has_upgradepath": False,
+                })
+                continue
+            body = tail[:end_match.start()]
+            fields: dict[str, str] = {}
+            for fm in CLOSURESTATUS_FIELD_RE.finditer(body):
+                fields[fm.group(1)] = fm.group(2).strip()
+            tc = fields.get("theoryclosure", "").lstrip("\\")
+            fs = fields.get("formalstatus", "").lstrip("\\")
+            lt = fields.get("leantarget")
+            if lt is not None:
+                lt = lt.replace("\\_", "_").strip()
+            out.append({
+                "file": str(tex.relative_to(part_root.parent.parent.parent)),
+                "line": line,
+                "region": m.group(1),
+                "theory_closure": tc or None,
+                "formal_status": fs or None,
+                "lean_target": lt,
+                "bridge_status": fields.get("bridgestatus"),
+                "has_scope": "scopeclosed" in fields,
+                "has_notclaimed": "notclaimed" in fields,
+                "has_upgradepath": "upgradepath" in fields,
+            })
+    return out
+
+
+def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[str]:
+    issues: list[str] = []
+    where = f"{block['file']}:{block['line']} (region {block['region']}Up)"
+    if block.get("error"):
+        issues.append(f"{where}: {block['error']}")
+        return issues
+    tc = block.get("theory_closure")
+    fs = block.get("formal_status")
+    lt = block.get("lean_target")
+    if not tc:
+        issues.append(f"{where}: missing \\theoryclosure")
+    elif tc not in VALID_CLOSURE_GRADES:
+        issues.append(f"{where}: invalid theoryclosure grade '{tc}'")
+    if not fs:
+        issues.append(f"{where}: missing \\formalstatus")
+    elif fs not in VALID_FORMAL_GRADES:
+        issues.append(f"{where}: invalid formalstatus grade '{fs}'")
+    if fs in GRADE_REQUIRES_LEAN_TARGET and not lt:
+        issues.append(
+            f"{where}: \\formalstatus={fs} requires \\leantarget"
+        )
+    if lt and lt not in lean_symbols:
+        issues.append(
+            f"{where}: \\leantarget '{lt}' does not resolve under lean4/BEDC/"
+        )
+    if not block.get("has_scope"):
+        issues.append(f"{where}: missing \\scopeclosed (binding scope text)")
+    if not block.get("has_notclaimed"):
+        issues.append(f"{where}: missing \\notclaimed (claims off the table)")
+    if not block.get("has_upgradepath"):
+        issues.append(f"{where}: missing \\upgradepath (next-grade obligation)")
+    return issues
+
+
 def audit_payload() -> dict[str, object]:
     declarations, fields = build_declaration_inventory()
     part_labels = collect_part_labels()
@@ -459,6 +613,15 @@ def audit_payload() -> dict[str, object]:
     ]
     case_collisions = detect_case_collision_paths()
 
+    closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
+    closurestatus_diagnostics: list[str] = []
+    for block in closurestatus_blocks:
+        closurestatus_diagnostics.extend(
+            diagnose_closurestatus_block(block, symbols)
+        )
+
+    orphan_concrete_subdirs = detect_orphan_concrete_subdirs()
+
     return {
         "forbidden_constructs": forbidden,
         "forbidden_construct_count": len(forbidden),
@@ -467,6 +630,12 @@ def audit_payload() -> dict[str, object]:
         "missing_marker_targets_count": len(missing_marker_targets),
         "case_collisions": case_collisions,
         "case_collisions_count": len(case_collisions),
+        "closurestatus_blocks_total": len(closurestatus_blocks),
+        "closurestatus_blocks": closurestatus_blocks,
+        "closurestatus_diagnostics": closurestatus_diagnostics,
+        "closurestatus_diagnostics_count": len(closurestatus_diagnostics),
+        "orphan_concrete_subdirs": orphan_concrete_subdirs,
+        "orphan_concrete_subdirs_count": len(orphan_concrete_subdirs),
         "inventory": inventory_payload(declarations, fields, part_labels, markers),
     }
 
@@ -588,12 +757,43 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 "`git update-index --force-remove <wrong-case-path>`; "
                 "also remove the duplicate import / reference."
             )
+        if payload["closurestatus_diagnostics"]:
+            print(
+                "[bedc-ci] closurestatus block diagnostics: "
+                f"{payload['closurestatus_diagnostics_count']}"
+            )
+            for msg in payload["closurestatus_diagnostics"][:80]:
+                print(f"  {msg}")
+            print(
+                "[bedc-ci] resolution: every \\begin{closurestatus}{<X>Up}"
+                " block must declare \\theoryclosure, \\formalstatus, "
+                "\\scopeclosed, \\notclaimed, \\upgradepath; if "
+                "\\formalstatus is theoremCheckedV or above, \\leantarget "
+                "is required and must resolve under lean4/BEDC/."
+            )
+        if payload["orphan_concrete_subdirs"]:
+            print(
+                "[bedc-ci] orphan concrete_instances/ subdirectories: "
+                f"{payload['orphan_concrete_subdirs_count']}"
+            )
+            for item in payload["orphan_concrete_subdirs"][:50]:
+                files = ", ".join(item["sample_files"]) or "(empty)"
+                print(f"  {item['subdir']}/  files: {files}")
+            print(
+                "[bedc-ci] resolution: every concrete_instances/<X>/ folder "
+                "must name a real BEDC region (i.e. a derived horizon with "
+                "lean4/BEDC/Derived/<X>Up.lean OR a paper namecert chapter "
+                "named NN_<X>_namecert_construction.tex). Move helper files "
+                "into the parent region's folder or rename the orphan."
+            )
 
     failures = (
         payload["forbidden_construct_count"]
         + payload["missing_marker_targets_count"]
         + len(payload["duplicate_part_labels"])
         + payload["case_collisions_count"]
+        + payload["closurestatus_diagnostics_count"]
+        + payload["orphan_concrete_subdirs_count"]
     )
     return 0 if failures == 0 else 1
 

@@ -9,6 +9,7 @@ This chapter gives a concrete naming-certificate construction for Dirichlet seri
 \label{def:dir-term}
 For coefficient sequence \(a : \Unary \to \ComplexUp\)-history (with \(a_0\) ignored, indexing starts at \(\Eone(\emp)\)), positive unary \(n\), complex history \(s\), the Dirichlet term \(\mathsf{DirTerm}(a, n, s, t_n)\) is the explicit complex history \(t_n = a_n \cdot n^{-s}\), where \(n^{-s}\) is computed via \(\exp(-s \log n)\) on the rational/real-history representation of \(\log n\) (defer constructive log to the \(\RealUp\)-namecert machinery, \autoref{ch:concrete-instances-real-namecert}).
 \end{definition}
+\leandef{BEDC.Derived.DirichletSeriesUp.DirichletTerm}
 
 \begin{definition}[Dirichlet positive index]
 \label{def:dirichlet-positive-index}
@@ -66,6 +67,19 @@ A one-headed right factor exposes unaryness of its tail from unaryness of the
 successor witness, so \(n\) itself is a positive Dirichlet index.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_append\_right\_cases}
+
+\begin{theorem}[Positive Dirichlet index append iff]
+\label{thm:dirichlet-positive-index-append-iff}
+If $m$ and $n$ are unary histories, then $\mathsf{append}(m,n)$ is a positive
+Dirichlet index exactly when $m$ is positive or $n$ is positive.
+\end{theorem}
+\begin{proof}
+The forward implication is the append right case split. Conversely, positivity
+in the left component is closed under appending a unary right component, and
+positivity in the right component is closed under prepending a unary left
+component.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_append\_iff}
 
 \begin{lemma}[Dirichlet term well-defined]
 \label{lem:dir-term-well-defined}
@@ -172,6 +186,25 @@ its unary carrier, the predecessor partial-sum witness, and the continuation
 ledger into \(S\).
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_positive\_index\_predecessor}
+
+\begin{theorem}[Dirichlet append-successor partial-sum predecessor]
+\label{thm:dirichlet-part-sum-append-successor-predecessor}
+Every closed witness of
+$\mathsf{DirichletPartSum}(\mathsf{term},s,\mathsf{append}(m,\Eone(n)),S)$
+exposes a predecessor partial sum at $\mathsf{append}(m,n)$:
+$$
+\exists P:\mathsf{BHist},\
+\mathsf{DirichletPartSum}(\mathsf{term},s,\mathsf{append}(m,n),P)\land
+\Cont(P,\mathsf{term}(\mathsf{append}(m,n),s),S).
+$$
+\end{theorem}
+\begin{proof}
+By the definition of history append, $\mathsf{append}(m,\Eone(n))$ is the
+successor history $\Eone(\mathsf{append}(m,n))$. Inverting the closed
+partial-sum witness therefore exposes the predecessor sum at
+$\mathsf{append}(m,n)$ and the continuation step into $S$.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_append\_successor\_predecessor}
 
 \begin{lemma}[Dirichlet partial-sum successor result is deterministic]
 \label{lem:dirichlet-part-sum-successor-result-deterministic}
@@ -384,6 +417,7 @@ Term-wise complex differentiability of \(n^{-s}\) gives derivative \(-(\log n) n
 \label{def:completely-multiplicative}
 A coefficient sequence \(a\) is completely multiplicative when \(a_1 = \Eone(\emp)\) and for all positive unary \(m, n\), \(a_{m \cdot n} = a_m \cdot a_n\) (product in \(\ComplexUp\)).
 \end{definition}
+\leandef{BEDC.Derived.DirichletSeriesUp.DirichletCoefficient\_completely\_multiplicative}
 
 \begin{theorem}[Euler product]
 \label{thm:euler-product}
@@ -404,6 +438,7 @@ The source specification on \((a, s)\) carries the constraint \(\mathsf{AbsConvA
 \label{def:dir-pattern-spec}
 The pattern is the regular Cauchy partial-sum predicate of \autoref{ch:concrete-instances-complex-series-namecert} applied to the Dirichlet term sequence.
 \end{definition}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_complexPartSum}
 
 \begin{definition}[Dirichlet classifier specification]
 \label{def:dir-classifier-spec}
@@ -433,6 +468,8 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:dirichlet-semantic-namecert}
 The concrete certificate of \autoref{thm:dirichlet-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
 \end{theorem}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_semanticNameCert}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.dirichlet\_semantic\_name\_certificate}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}

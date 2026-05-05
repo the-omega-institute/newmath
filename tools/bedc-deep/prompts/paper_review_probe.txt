@@ -1,0 +1,171 @@
+You are doing a PAPER-DRIVEN REVIEW AUDIT of the BEDC paper.
+
+Goal: walk `papers/bedc/parts/` from a senior referee's perspective and
+identify 6-12 GENUINELY OPEN, theorem-shaped research targets — gaps a
+careful peer reviewer would flag, NOT cosmetic noise. This complements
+`theory_probe` (internal symmetry inside existing topology) and
+`curriculum_probe` (textbook-classical theorem missing). Where they look
+inward and outward respectively, this prompt looks broadly at the **paper's
+own research surface**: claims that are made informally but not stated as
+theorems; abstract constructions whose concrete instances are not exhibited;
+named sections that imply a missing bridge theorem; constructor inversion /
+determinism / no-confusion lemmas missing for paper-defined data; definitions
+that need a closure, transport, obstruction, uniqueness, or comparison theorem;
+and stronger theorem statements whose proof skeleton is already visible in
+the paper.
+
+Pipeline lane (what bedc-deep does):
+- Reads only the paper source under `papers/bedc/parts/` and the paper
+  preamble. Do not inspect or require files outside the paper lane.
+- Output is a future LaTeX block (theorem / lemma / proposition / definition
+  with proof) that B will append into an existing chapter file under
+  `papers/bedc/parts/`.
+- This audit does not write files and does not add verification markers.
+- This audit does not add or repair `closurestatus` blocks. Those mix the
+  paper closure axis and Lean verification axis and belong to the gate /
+  formalization lane, not B's theorem-extension lane.
+- Operates within the existing paper chapters: core / proof_obligations /
+  concrete_hardening / concrete_instances / hardening / formalization /
+  proof_sprint / proof_standing / project_governance / capstones.
+
+Existing BOARD (skip everything semantically equivalent):
+```
+{board_content}
+```
+
+A genuine open target must satisfy ALL:
+1. Concrete proposition expressible as a single implication
+   "P(x) implies Q(x) under setup S".
+2. NOT already stated as `\begin{{{{theorem|lemma|proposition|corollary}}}}`
+   with `\label{{{{...}}}}` anywhere under `papers/bedc/parts/`.
+3. NOT already covered by an existing numbered paper statement. Verification
+   status macros that appear in the paper may be used as ordinary evidence
+   that a cited theorem exists, but do not propose marker-only targets.
+4. Within an existing chapter directory.
+5. Suitable for B's route: either likely closeable by codex_track in 1-6
+   rounds, or a precise oracle-worthy target with a named missing construction.
+   If a candidate needs infrastructure that is not in the paper yet, propose
+   that infrastructure instead of the downstream theorem.
+6. NOT a parameter-transport echo. Reject abstract "carrier/classifier A is
+   equivalent to carrier/classifier B, therefore fields transport" targets.
+   B wants concrete closure, inversion, coverage, determinacy, uniqueness,
+   bridge, or obstruction statements about named BEDC objects.
+7. Lands in a concrete body file, not a hub. If the natural landing file is
+   an index of `\input{{...}}` lines, cite the child file. Avoid appending to
+   files already at or above 760 lines unless a smaller prerequisite can land
+   in an existing child file.
+
+## Review categories worth proposing (theory-extension shaped)
+
+Pull from these 9 categories of senior-referee critique. Reject anything
+that doesn't fit a category cleanly — those are stylistic noise, not
+theory growth.
+
+1. **Logical gap**. A theorem statement used downstream whose proof skips
+   a non-trivial case; a definition invoked before being properly fixed.
+2. **Notational / definitional inconsistency**. Same symbol used with two
+   meanings; a definition restated differently in two chapters.
+3. **Dead / redundant material**. A definition or proposition never
+   referenced; a section subsumed by another; theorem hypotheses vacuous
+   or implied. (For dead-material targets, the proposed action is to
+   PROVE THE STRENGTHENING that makes the redundancy explicit, not to
+   delete.)
+4. **Missing companion result**. A claim made informally but not stated
+   as a theorem; a concrete instance for an abstract construction that is
+   asserted to exist but is not exhibited; a stated theorem whose natural
+   counterpart is used later but never named.
+5. **Unclear / imprecise statement**. A theorem whose hypotheses must be
+   tightened (or relaxed) for the conclusion to hold as currently
+   written; an "obvious" appeal that hides a real argument.
+6. **Stronger statement available**. The paper proves a weaker form when
+   the same proof yields more (uniform bound proved pointwise; finite
+   case when the general case is identical).
+7. **Composite consequence**. A non-trivial conclusion combining 2+ existing
+   paper theorems / definitions where the combined statement is not already
+   in the paper.
+8. **Constructor inversion / determinism / no-confusion lemma** for an
+   existing `inductive` (BMark / BHist / ProbeBundle / SigRel / psame /
+   external binary words / derived-carrier inductives) that does not yet
+   have one.
+9. **Generalisation of an existing paper theorem** with a strictly broader
+   hypothesis or strictly stronger conclusion, provable by the same proof
+   skeleton.
+
+10. **Bridge or obstruction target**. A named construction appears in two
+    nearby chapters but lacks the bridge, uniqueness, incompatibility, or
+    obstruction theorem needed to make the relation usable.
+
+11. **Frontier concrete object target**. A paper-only object chapter has
+    carrier data but lacks its first closure, transport, exactness, or
+    determinacy theorem.
+
+REJECT and do not propose: pure section restructuring, citation polish,
+stylistic rephrasing, content moves between chapters, "split this file"
+suggestions, items that only rename without strengthening.
+
+## Audit method
+
+1. Map paper structure. List `papers/bedc/parts/`. Note which chapters
+   are saturated with theorem blocks and which chapters still have mostly
+   carrier/definition prose.
+
+2. For each paper file, ask:
+   - Is there a claim made in prose that has no theorem/lemma block?
+   - Does the chapter introduce an `inductive` (or invoke one) without
+     stating its inversion / determinism lemma?
+   - Are there 2+ existing paper statements whose conjunction would yield a
+     concrete corollary that's missing?
+   - Is there a theorem whose proof body is more general than the stated
+     hypothesis?
+
+3. For each candidate, run a focused Grep across `papers/bedc/parts/`
+   for the concept name. If you find ANY matching theorem environment,
+   the candidate is NOT open — drop it.
+
+4. For each candidate, verify required prerequisite lemmas / definitions
+   exist. If ANY required obligation is missing, propose the missing
+   obligation instead.
+
+5. Reject candidates that are:
+   - Internal symmetry gaps (those belong to `theory_probe`).
+   - Textbook-classical curriculum gaps (those belong to `curriculum_probe`).
+   - Marker-only, `closurestatus`, or Lean verification-axis work.
+   - Parameter-transport echoes over abstract carriers / classifiers.
+   - Hub-file or near-line-cap append targets.
+   - Pure renamings or restructuring.
+   - Broad portfolio balancing with no concrete theorem shape.
+   - Already in BOARD by another title.
+
+6. Output a single JSON object on stdout, no prose, no markdown fences:
+
+{{{{
+  "candidates": [
+    {{{{
+      "title": "<short, ≤80 chars>",
+      "concrete_claim": "<single-sentence implication form>",
+      "local_inputs": ["papers/bedc/parts/..."],
+      "fit_score": <0-10 integer>,
+      "novelty": <0-10 integer>,
+      "route_expectation": "codex_close" | "oracle_likely",
+      "rationale": "<paragraph: which chapter, which review category (1-11 above), specific evidence (file:line) showing the gap, and why this belongs on B's BOARD route>"
+    }}}}
+  ],
+  "rejected": [
+    {{{{
+      "concept": "<short title>",
+      "reason": "<which existing label / BOARD entry covers it, with file:line>"
+    }}}}
+  ]
+}}}}
+
+Constraints:
+- Each `local_inputs` path MUST exist.
+- Each `local_inputs` path MUST be under `papers/bedc/parts/` or
+  `papers/bedc/preamble.tex`; do not emit `lean4/...` paths.
+- Score `fit_score` against the chapter's existing theorem density and
+  proof style. Score `novelty` against whether the claim is already
+  implicitly assumed elsewhere (low novelty) or genuinely new (high).
+- 6 candidates with strong editorial-review precedent is better than 12
+  borderline ones.
+- Empty rejected list is suspicious — referees always have notes that
+  don't make the cut.

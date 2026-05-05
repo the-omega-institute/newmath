@@ -1,4 +1,4 @@
-import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.EmptyRight
 
 namespace BEDC.Derived.PrimeUp
 
@@ -23,5 +23,41 @@ theorem NatDivides_empty_left_iff {n : BHist} :
   · intro nEmpty
     cases nEmpty
     exact (NatDivides_empty_right_iff (d := BHist.Empty)).mpr unary_empty
+
+theorem NatMul_empty_result_iff_factor_empty_or_multiplier_empty {d q n : BHist} :
+    NatMul d q n -> (hsame n BHist.Empty ↔ hsame d BHist.Empty ∨ hsame q BHist.Empty) := by
+  intro mul
+  constructor
+  · intro resultEmpty
+    cases resultEmpty
+    exact NatMul_empty_result_factor_empty_or_multiplier_empty mul
+  · intro emptyFactor
+    cases emptyFactor with
+    | inl dEmpty =>
+        cases dEmpty
+        exact NatMul_empty_left_result_empty mul
+    | inr qEmpty =>
+        cases qEmpty
+        have emptyProduct : NatMul d BHist.Empty BHist.Empty :=
+          (NatMul_empty_right_iff (d := d) (n := BHist.Empty)).mpr
+            ⟨NatMul_left_unary mul, hsame_refl BHist.Empty⟩
+        exact NatMul_functional (NatMul_left_unary mul) mul emptyProduct
+
+theorem NatMul_empty_left_iff {q n : BHist} :
+    NatMul BHist.Empty q n ↔ UnaryHistory q ∧ hsame n BHist.Empty := by
+  constructor
+  · intro mul
+    exact And.intro (NatMul_right_unary mul) (NatMul_empty_left_result_empty mul)
+  · intro data
+    cases data with
+    | intro qUnary resultEmpty =>
+        cases resultEmpty
+        induction q with
+        | Empty =>
+            exact NatMul.zero unary_empty
+        | e0 q =>
+            cases qUnary
+        | e1 q ih =>
+            exact NatMul.succ (ih qUnary) (BEDC.FKernel.Cont.cont_intro rfl)
 
 end BEDC.Derived.PrimeUp

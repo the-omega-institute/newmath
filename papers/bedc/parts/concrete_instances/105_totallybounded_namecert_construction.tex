@@ -6,5 +6,173 @@ The totally-bounded interface $\TotallyBoundedUp$ packages a metric carrier admi
 \section{Carrier definition}
 \label{sec:totallybounded-carrier}
 
+\begin{definition}[Singleton metric totally-bounded instance]
+\label{def:singleton-metric-totally-bounded-instance}
+The singleton metric totally-bounded instance is the $\MetricSpaceUp$ carrier
+on histories
+$$
+T_{\emp}(x):=\hsame(x,\emp).
+$$
+Its classifier is
+$$
+x\sim_T y \quad:\!\!\Longleftrightarrow\quad
+T_{\emp}(x)\land T_{\emp}(y)\land \hsame(x,y),
+$$
+and its distance witness is the concrete metric row
+$$
+d_T(x,y,\delta):=\mathsf{MetricDistanceWitness}(x,y,\delta).
+$$
+For every positive tolerance history $\varepsilon$, the finite net is the
+one-point closed bundle $\Bcons(\emp,\Bnil)$ with ledger center $\emp$. The
+bundle membership row is the head $\mathsf{InBundle}$ constructor, and the
+coverage ledger for a carried point $x$ uses the empty-distance witness
+$\mathsf{MetricDistanceWitness}(x,\emp,\emp)$ together with the carried endpoint
+row $T_{\emp}(x)$.
+\end{definition}
+
+\begin{theorem}[Singleton metric totally-bounded laws]
+\label{thm:singleton-metric-totally-bounded-laws}
+The instance of
+\autoref{def:singleton-metric-totally-bounded-instance} satisfies the concrete
+finite-net laws required by $\TotallyBoundedUp$: $\emp$ inhabits the carrier,
+the unique net center $\emp$ lies in the carrier, every carried point is covered
+by that center at empty distance, the net witness is stable under the singleton
+classifier $\sim_T$, and the coverage row is compatible with metric
+empty-distance exactness from
+\autoref{thm:metric-distance-witness-empty-distance-iff}.
+\end{theorem}
+\begin{proof}
+Carrier inhabitation and center membership are both the reflexive $\hsame$ row
+on $\emp$. Thus the ledger center named by the one-point
+$\mathsf{ProbeBundle}$ is accepted by $T_{\emp}$.
+
+For coverage, fix a carried point $x$. The row $T_{\emp}(x)$ is exactly
+$\hsame(x,\emp)$, so the singleton classifier records $x\sim_T \emp$ using the
+carried endpoint row, reflexivity of $\emp$, and the same endpoint
+$\hsame$ witness.
+
+Apply \autoref{thm:metric-distance-witness-empty-distance-iff} to identify the
+empty-distance metric row with the two endpoint classifiers to $\emp$. This
+packages $\mathsf{MetricDistanceWitness}(x,\emp,\emp)$ as the coverage witness
+for the unique center, and the head $\mathsf{InBundle}$ constructor records
+that the center belongs to $\Bcons(\emp,\Bnil)$.
+
+Stability under $\sim_T$ follows by unpacking the classifier on the source and
+target endpoints. Both histories classify with $\emp$, so the empty-distance
+exactness row supplies the same metric coverage after transport, and the closed
+bundle branch is unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.TotallyBoundedUp.SingletonMetricTotallyBounded\_laws}
+
+The ten-field fit is: traditional target total boundedness by finite
+$\varepsilon$-nets; BEDC source $\MetricSpaceUp$ over $\mathsf{BHist}$; carrier
+$T_{\emp}$; classifier $\sim_T$; stability from $\hsame$ and
+$\mathsf{MetricDistanceWitness}$ empty-distance exactness; ledger one center
+and one $\mathsf{ProbeBundle}$ branch; core theorem
+\autoref{thm:singleton-metric-totally-bounded-laws}; exactness singleton
+coverage; standard bridge terminal metric space; status $\mathsf{ProofTarget}$.
+
+\begin{definition}[Totally bounded ProbeBundle net carrier]
+\label{def:totallybounded-probebundle-net-carrier}
+Let $X$ be a metric BEDC carrier whose distance rows are encoded by
+$\mathsf{MetricDistanceWitness}$. A totally bounded ProbeBundle net carrier
+at tolerance history $\varepsilon$ is the history relation
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)
+$$
+whose accepted row consists only of $\mathsf{BHist}$ ledger data:
+\begin{enumerate}
+  \item a positive $\NameCert_{\RatUp}$ tolerance history $\varepsilon$;
+  \item a closed $\mathsf{ProbeBundle}$ $\mathcal{P}$ of center names;
+  \item for every probe row $\mathsf{InBundle}(p,\mathcal{P})$, a center
+  history $c_p$ admitted by the metric carrier $X$;
+  \item for every such bundled probe, a positive $\NameCert_{\RatUp}$ radius
+  history $r_p$;
+  \item for every source-point history $x$ admitted by $X$, a bundled probe
+  row $\mathsf{InBundle}(p,\mathcal{P})$, a distance history $d_p$, and a
+  row $\mathsf{MetricDistanceWitness}(x,c_p,d_p)$ whose $\RatUp$ comparison
+  ledger certifies $d_p \leq \varepsilon$.
+\end{enumerate}
+The finite carrier is the closed $\mathsf{ProbeBundle}$ inductive together
+with the displayed $\mathsf{InBundle}$ coverage rows. It is not an external
+enumeration of centers, and no host-level list is exposed as certificate data.
+\end{definition}
+
+\begin{theorem}[Totally bounded ProbeBundle net coverage stability]
+\label{thm:totallybounded-probebundle-net-coverage-stability}
+Let $X$ be a metric BEDC carrier with $\mathsf{MetricDistanceWitness}$
+classifier transport. Suppose
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)
+$$
+holds. If the tolerance history $\varepsilon$, the bundled center histories
+$c_p$, the positive radius histories $r_p$, and all displayed distance
+histories $d_p$ are transported by $\hsame$, and if the positive-tolerance,
+positive-radius, and bound comparisons are transported by the $\RatUp$
+classifier, then the same $\mathsf{ProbeBundle}$ $\mathcal{P}$ with the
+transported ledgers is again a valid totally bounded net for the transported
+tolerance history.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the closed $\mathsf{ProbeBundle}$ spine. In the
+$\Bnil$ case there is no bundled probe row to transport, and any accepted
+coverage row is absent by inversion on $\mathsf{InBundle}$.
+
+For a cons bundle $\Bcons(p,\mathcal{P}_0)$, the head probe is handled by the
+head constructor of $\mathsf{InBundle}$ and the tail probes are handled by the
+induction hypothesis through the tail constructor. The center history and the
+positive radius history attached to each case are moved along the supplied
+$\hsame$ rows, while the $\RatUp$ classifier transports positivity of the
+radius ledger.
+
+Now fix a transported source-point history $x'$. The original coverage row for
+an $\hsame$ representative $x$ supplies a bundled probe $p$, a center $c_p$,
+and a distance row $\mathsf{MetricDistanceWitness}(x,c_p,d_p)$ with
+$d_p \leq \varepsilon$. Metric $\hsame$ transport carries this row to
+$\mathsf{MetricDistanceWitness}(x',c'_p,d'_p)$ for the transported center and
+distance histories.
+
+It remains to repack the bound. The $\RatUp$ classifier transports the
+comparison $d_p \leq \varepsilon$ to the comparison
+$d'_p \leq \varepsilon'$, and the same $\mathsf{InBundle}(p,\mathcal{P})$
+constructor records that the chosen probe still belongs to the finite carrier.
+Thus the transported ledgers satisfy the carrier relation for the same closed
+bundle.
+\end{proof}
+
 \section{The certificate}
 \label{sec:totallybounded-certificate}
+
+\begin{theorem}[TotallyBoundedUp ProbeBundle NameCert target]
+\label{thm:totallybounded-probebundle-net-namecert-target}
+The carrier of \autoref{def:totallybounded-probebundle-net-carrier}, the
+classifier given by transported tolerance and bundled ledger histories, the
+coverage-stability theorem
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}, and the
+ledger policy that records the tolerance, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$ membership rows, center histories, positive radius
+histories, $\mathsf{MetricDistanceWitness}$ rows, and $\RatUp$ bound rows form
+the paper-level $\NameCert$ target for $\TotallyBoundedUp$ over a
+$\MetricSpaceUp$ carrier.
+\end{theorem}
+\begin{proof}
+The source field is the underlying $\MetricSpaceUp$ carrier together with its
+accepted point histories and metric-distance classifier. The pattern field is
+the relation
+$\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)$ for
+each positive $\RatUp$ tolerance history.
+
+The classifier acts on the visible tolerance and on every bundled ledger row:
+centers, radii, distance histories, and comparison proofs are transported by
+the displayed $\hsame$ and $\RatUp$ classifier rows. The finite part of the
+certificate is unchanged because $\mathcal{P}$ is the closed
+$\mathsf{ProbeBundle}$ inductive and membership is witnessed by
+$\mathsf{InBundle}$ constructors.
+
+The stability obligation is exactly
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}. The ledger
+policy records the same rows named in the carrier definition, so source
+soundness, pattern soundness, classifier stability, and ledger soundness are
+all witnessed by the displayed carrier and stability theorem. This is the
+required current paper target for $\NameCert_{\TotallyBoundedUp}$.
+\end{proof}

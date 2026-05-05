@@ -79,6 +79,15 @@ theorem NatUnaryStrictPrefix_e1_inversion {h k : BHist} :
                     exact cont_intro ((BHist.e1.inj tailCont).trans tailStep)
                   exact ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), loweredCont⟩
 
+theorem NatUnaryStrictPrefix_e1_endpoint_hsame_absurd {h k : BHist} :
+    NatUnaryStrictPrefix (BHist.e1 h) (BHist.e1 k) -> hsame h k -> False := by
+  intro strict sameTail
+  have lowered : NatUnaryStrictPrefix h k := NatUnaryStrictPrefix_e1_inversion strict
+  cases lowered with
+  | intro tail data =>
+      exact NatUnaryStrictPrefix_tail_endpoint_hsame_absurd
+        data.left data.right.left data.right.right sameTail
+
 theorem NatUnaryStrictPrefix_e1_congr {h k : BHist} :
     NatUnaryStrictPrefix h k -> NatUnaryStrictPrefix (BHist.e1 h) (BHist.e1 k) := by
   intro strict
@@ -280,5 +289,17 @@ theorem NatUnaryPrefix_directed_common_upper {h k : BHist} :
                     (Exists.intro BHist.Empty
                       (And.intro unary_empty (cont_right_unit h)))
                     (Exists.intro tail (And.intro tailUnary tailCont))))
+
+theorem NatUnaryPrefix_cont_tail_cases {h k tail : BHist} :
+    UnaryHistory tail -> Cont h tail k -> hsame h k ∨ NatUnaryStrictPrefix h k := by
+  intro tailUnary tailCont
+  cases tail with
+  | Empty =>
+      exact Or.inl tailCont.symm
+  | e0 tail =>
+      cases tailUnary
+  | e1 tail =>
+      exact Or.inr
+        ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), tailCont⟩
 
 end BEDC.Derived.NatUp

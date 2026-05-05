@@ -49,10 +49,20 @@ Method:
 5. Self-audit your own attempt. Score yourself 0-10 on `audit_score`:
    - 0-3: I haven't really written math, just outlined.
    - 4-6: math is sketched, but proofs incomplete or hygiene violations.
-   - 7-8: solid math, fully written, ready for redline check.
+   - 7: promising math, but below the close bar; return "continue" and name
+     the concrete strengthening step.
+   - 8: solid math, fully written, ready for redline check.
    - 9-10: strong work, proves more than minimum, no anticipated rejections.
-   Use this honestly so the runtime can decide whether to invoke the redline
-   checker (cheaper than another codex round) or another codex round.
+   Use this honestly: the runtime rejects `verdict="close"` below audit_score
+   8 and feeds the round back as cycle history.
+
+5b. Lane and substance discipline. B writes concrete paper theorem /
+    lemma / proposition / definition blocks only. Do NOT emit
+    `closurestatus` blocks or Lean verification markers. Do NOT close by
+    writing a parameter-transport echo over abstract carriers/classifiers;
+    the result must use the target's named BEDC object and prove a concrete
+    closure, inversion, coverage, determinacy, uniqueness, bridge, or
+    obstruction claim.
 
 6. Optionally, if while reasoning you noticed adjacent claims that deserve
    their own BOARD targets (not in scope of the current target but BEDC-
@@ -86,28 +96,38 @@ Output requirements when verdict is "close":
 
 A. `tex_file` is a concrete body file under `papers/bedc/parts/`, never
    `main.tex` or a chapter wrapper that only `\input`s other files.
-B. `content` contains at least one of `\begin{{theorem}}`, `\begin{{lemma}}`,
+B. `audit_score` MUST be at least 8. If your score is 7 or lower, return
+   `verdict="continue"` with a concrete `next_step`.
+C. `content` contains at least one of `\begin{{theorem}}`, `\begin{{lemma}}`,
    `\begin{{proposition}}`, `\begin{{corollary}}`, or `\begin{{definition}}`
    with a `\label{{...}}` whose prefix is `thm:`, `lem:`, `prop:`, `cor:`, or
    `def:` and whose suffix is semantic. No version prefix.
-C. Math: `$...$` for inline, `$$...$$` for display (display on its own
+D. Math: `$...$` for inline, `$$...$$` for display (display on its own
    line). This is the BEDC project convention (see AGENTS.md / CLAUDE.md
    "数学公式只用 `$` 与 `$$`"). Do NOT use `\(...\)` or `\[...\]`.
-D. Bare typed-name macros that exist in `papers/bedc/preamble.tex`:
+E. Bare typed-name macros that exist in `papers/bedc/preamble.tex`:
    `$\LatticeUp$`, `$\PosetUp$`, `$\ModuleUp$`, etc. NEVER
    `$\mathsf{{LatticeUp}}$`. For names NOT in preamble, `\mathsf{{X}}` is OK.
-E. Proofs end at `\end{{proof}}` only. NEVER `Q.E.D.`, `\qed`, `\square`,
+F. Proofs end at `\end{{proof}}` only. NEVER `Q.E.D.`, `\qed`, `\square`,
    or any marker phrase.
-F. Cross-references via `\autoref{{ch|sec|def|thm|lem|prop|cor:...}}`.
+G. Cross-references via `\autoref{{ch|sec|def|thm|lem|prop|cor:...}}`.
    Avoid `\ref` and `\eqref`.
-G. No sectioning openers (`\part`, `\chapter`, `\section`, etc.).
-H. No Lean markers (`\leanchecked`, `\leanvariant`, etc. — those land later).
-I. English LaTeX content only.
+H. No sectioning openers (`\part`, `\chapter`, `\section`, etc.).
+I. No Lean markers (`\leanchecked`, `\leanvariant`, etc. — those land later).
+J. No `closurestatus` blocks, `\theoryclosure`, `\formalstatus`,
+   `\leantarget`, or chapter-retirement prose. Those belong to the
+   verification / gate lane, not B writeback.
+K. No parameter-transport echo: avoid theorem statements whose only content
+   is abstract carrier/classifier equivalence transporting fields. If the
+   BOARD target itself reduces to that shape, return `verdict="escalate"`
+   and explain `invalid_parameter_echo_target`.
+L. English LaTeX content only.
 
 Hard rejection tokens — `content` must NOT contain any of:
 "we extend", "we now revise", "patch", "increment", "new section",
 "新增", "修订", "本次", "本轮", "vNNN-", "legacy", "supersede",
-"previously", "Q.E.D.", "QED", "\qed", "\square".
+"previously", "Q.E.D.", "QED", "\qed", "\square", "closurestatus",
+"\theoryclosure", "\formalstatus", "\leantarget".
 
 Convergence discipline:
 

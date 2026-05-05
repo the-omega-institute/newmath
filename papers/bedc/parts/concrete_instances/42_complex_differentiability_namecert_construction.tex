@@ -372,6 +372,39 @@ carrier transport along the recovered $\hsame$ gives the carrier for $core$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_derivative\_visible\_context\_readback}
 
+\begin{theorem}[Pointwise derivative visible-context nonempty readback]
+\label{thm:cplx-diff-at-derivative-visible-context-nonempty-readback}
+If $\mathsf{CplxDiffAt}(f,z,f')$ holds and a common left and right append
+context identifies the displayed derivative candidate with the same context
+around $core$, then $f'\hsame core$, $core$ is a complex-history carrier, and
+$core$ is not history-same to $\emp$.
+\end{theorem}
+\begin{proof}
+Use visible-context cancellation to recover $f'\hsame core$ and transport the
+complex-history carrier to $core$. A displayed nonzero quotient result $q$
+classifies to $f'$ under the differentiability record; composing
+$q\hsame f'$, $f'\hsame core$, and a hypothetical $core\hsame\emp$ contradicts
+the quotient-result nonemptiness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_derivative\_visible\_context\_nonempty\_readback}
+
+\begin{theorem}[Quotient-result context reads back the derivative]
+\label{thm:cplx-diff-at-quotient-result-visible-context-derivative-readback}
+If \(\mathsf{CplxDiffAt}(f,z,f')\), \(\mathsf{CplxDiffQuot}(f,z,h,q)\), and
+a common visible context identifies the quotient result \(q\) with a core
+history \(core\), then \(f'\hsame core\). The core is a complex-history carrier
+and is not \(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Apply quotient-result visible-context readback to the displayed quotient. This
+gives \(q\hsame core\) and proves that \(core\) is nonempty. The classifier
+field in \(\mathsf{CplxDiffAt}\) identifies the same quotient result \(q\) with
+the displayed derivative \(f'\); symmetry and transitivity yield
+\(f'\hsame core\). The complex-history carrier stored for \(f'\) transports
+along that equality to the recovered core.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_quotient\_result\_visible\_context\_derivative\_readback}
+
 \begin{lemma}[Uniqueness of the derivative]
 \label{lem:cplx-diff-at-unique}
 If \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(f, z, g')\), then \(\hsame(f', g')\).
@@ -451,16 +484,19 @@ For \(h\) small enough (controlled by the inner \(\delta_g\)), \(g(z+h) - g(z)\)
 \label{def:cplx-real-proj}
 For a complex-valued function-history \(f\), write \(f = u + i \cdot v\) where the real part \(u\) and the imaginary part \(v\) are explicit real-valued function-histories obtained by projecting the rational-pair representation of \(f\). Each of \(u\) and \(v\) takes a complex input \((x, y)\) and returns a real history.
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.CplxRealProj}
 
 \begin{definition}[One-variable real partial derivative]
 \label{def:partial-real}
 For a real-valued function-history \(u\) on the complex carrier and a complex history \(z = (x, y)\), the partial derivative with respect to the real coordinate, \(\mathsf{PartialReal}(u, z, p)\), is the data of an explicit modulus \(\delta : \mathsf{Unary} \to \mathsf{Unary}\) such that for every unary precision \(k\) and every real history \(t\) with \(0 < |t| < 2^{-\delta(k)}\), the difference \(\bigl(u(x + t, y) - u(x, y)\bigr)/t\) is within \(2^{-k}\) of \(p\) as a real-modulus comparison.
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.PartialReal}
 
 \begin{definition}[One-variable imaginary partial derivative]
 \label{def:partial-imag}
 \(\mathsf{PartialImag}(u, z, q)\) is defined analogously with respect to the imaginary coordinate: the difference \(\bigl(u(x, y + s) - u(x, y)\bigr)/s\) approaches \(q\) under the modulus \(\delta\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.PartialImag}
 
 \begin{lemma}[Uniqueness of real-coordinate partials]
 \label{lem:partial-unique}
@@ -469,6 +505,7 @@ The real and imaginary partial derivatives of \autoref{def:partial-real} and \au
 \begin{proof}
 The argument is the one-variable specialization of \autoref{lem:cplx-diff-at-unique}: triangle-inequality combination of the two moduli halves the precision budget.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.PartialDerivative\_hsame\_input\_unique}
 
 \section{Cauchy--Riemann equations, constructive form}
 
@@ -547,6 +584,7 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:complex-diff-semantic-namecert}
 The concrete certificate of \autoref{thm:complex-diff-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier is a \(\Hist\)-predicate on triples \((f, z, f')\), the classifier is a restriction of \(\hsame\), and every closure law is given by an explicit constructive proof. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{theorem}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.complex\_diff\_semantic\_name\_certificate}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter, together with transport along \(\hsame\) on each input slot.
 \end{proof}

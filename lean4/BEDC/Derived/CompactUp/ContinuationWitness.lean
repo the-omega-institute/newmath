@@ -61,6 +61,21 @@ theorem CompactFiniteRefinementChain_continuation_witness
                                         priorCombined)
                                       (And.intro finiteFinal compactFinal))
 
+theorem CompactFiniteRefinementChain_flattening_located_cont
+    {subset located finite intermediate compact midFinite midCompact finalFinite finalCompact :
+      BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact ->
+      CompactFiniteRefinementChain finite compact midFinite midCompact ->
+        CompactFiniteRefinementChain midFinite midCompact finalFinite finalCompact ->
+          CompactFiniteRefinementChain finite compact finalFinite finalCompact ∧
+            CompactWitnessCarrier subset located finalFinite intermediate finalCompact ∧
+              Cont subset located intermediate := by
+  intro carrier first second
+  have flattened := CompactFiniteRefinementChain_transitivity first second
+  exact And.intro flattened
+    (And.intro (CompactWitnessCarrier_finite_refinement_chain_closed carrier flattened)
+      carrier.right.right.right.left)
+
 theorem CompactLocatedRefinementChain_final_cases
     {finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
     CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
@@ -269,6 +284,36 @@ theorem CompactLocatedRefinementChain_common_source_final_located_tail_determini
             cases sameIntermediate
             exact cont_deterministic leftData.right.right.right rightData.right.right.right
           exact And.intro sameIntermediate sameCompact
+
+theorem CompactLocatedRefinementChain_common_source_final_intermediate_tail_deterministic
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact finalLocated'
+      finalIntermediate' finalCompact' : BHist} :
+    Cont intermediate finite compact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated
+        finalIntermediate finalCompact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated'
+        finalIntermediate' finalCompact' ->
+      hsame finalIntermediate finalIntermediate' ->
+        hsame finalLocated finalLocated' ∧ hsame finalCompact finalCompact' := by
+  intro initialCompact leftChain rightChain sameIntermediate
+  have leftWitness :=
+    CompactLocatedRefinementChain_continuation_witness leftChain initialCompact
+  have rightWitness :=
+    CompactLocatedRefinementChain_continuation_witness rightChain initialCompact
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases rightWitness with
+      | intro rightExtra rightData =>
+          have sameExtra : hsame leftExtra rightExtra := by
+            cases sameIntermediate
+            exact cont_left_cancel leftData.right.right.left rightData.right.right.left
+          have sameLocated : hsame finalLocated finalLocated' := by
+            cases sameExtra
+            exact cont_deterministic leftData.right.left rightData.right.left
+          have sameCompact : hsame finalCompact finalCompact' := by
+            cases sameIntermediate
+            exact cont_deterministic leftData.right.right.right rightData.right.right.right
+          exact And.intro sameLocated sameCompact
 
 theorem CompactLocatedRefinementChain_common_source_final_compact_tail_deterministic
     {finite located intermediate compact finalLocated finalIntermediate finalCompact finalLocated'

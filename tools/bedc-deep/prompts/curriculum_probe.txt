@@ -1,0 +1,265 @@
+You are doing a CURRICULUM AUDIT of the BEDC paper.
+
+Goal: identify 5-10 GENUINELY OPEN theorem-level claims in the BEDC
+project where the gap is NOT an internal symmetry of existing structure
+(those go through `theory_probe`), but rather a **classical theorem
+from a standard textbook on the topic** that has not yet been formalized
+in the chapter that introduces the object.
+
+This complements `theory_probe`. `theory_probe` looks for "definition
+without theorem", "A→B without B→A", "concrete instance missing",
+"composition gap" — internal symmetry inside the paper's existing
+topology. `curriculum_probe` looks for **textbook-classical theorems
+missing from started chapters** — outward-pointing curricular gaps.
+
+Pipeline lane (what bedc-deep does):
+- Reads `papers/bedc/parts/*.tex` and `lean4/BEDC/*.lean` (no edits during audit)
+- Output is a NEW LaTeX block (theorem with complete proof) appended into an
+  existing chapter file under papers/bedc/parts/
+- Does NOT add verification markers or `closurestatus` blocks. This lane
+  proposes theorem-shaped paper content; Lean verification and chapter
+  retirement are handled elsewhere.
+- Operates within the eight existing chapters: core / proof_obligations /
+  concrete_instances / hardening / formalization / proof_sprint / proof_standing /
+  project_governance
+
+Existing BOARD (skip everything semantically equivalent to these):
+```
+{board_content}
+```
+
+A genuine open target must satisfy ALL:
+1. Concrete proposition expressible as a single implication
+   "P(x) implies Q(x) under setup S".
+2. NOT already stated as `\begin{{theorem|lemma|proposition|corollary}}` with
+   `\label{{...}}` anywhere under `papers/bedc/parts/`.
+3. NOT already covered by `\leanchecked` / `\leanvariant` / `\leansorryd` /
+   `\leandef` / `\leanstmt` macros.
+4. Within an existing chapter directory.
+5. **Is a theorem any introductory textbook on the topic would have**
+   (curricular standard, not exotic / research-level).
+6. **Closes in 1-3 codex rounds without needing oracle escalation**.
+   This is the most important constraint, and the main reason candidates
+   from prior runs were timing out for an hour. See size discipline below.
+7. NOT a parameter-transport echo. Do not propose abstract carrier /
+   classifier equivalence restatements, source-equivalence sequels, or
+   field-by-field repackaging theorems. Prefer a concrete constructor,
+   closure, inversion, coverage, determinacy, uniqueness, or obstruction
+   lemma.
+8. Lands in a concrete body file, not a hub. If the obvious chapter file
+   mostly contains `\input{{...}}` lines, target one of its child files.
+   Avoid files already at or above 760 lines unless the candidate is a
+   smaller prerequisite fitting an existing child file.
+
+## Size discipline — STEPPING STONES BEFORE HEADLINES
+
+Codex closes a target in 1-3 rounds only when ALL the lemmas its proof
+needs ALREADY EXIST in the paper. If a candidate's proof requires
+infrastructure that does not yet exist (a missing definition, missing
+fold lemma, missing dual structure), codex's audit drops to ≤6 and the
+target escalates to the oracle, which then takes 30-90 minutes per
+target trying to write the entire infrastructure stack from scratch.
+
+That outcome is the failure mode this prompt must avoid.
+
+Before proposing a candidate, decompose it into its proof obligations:
+
+1. List the named objects, lemmas, and constructors the proof would
+   reference (you can sketch the proof briefly in your head).
+2. For each, run a focused Grep across `papers/bedc/parts/` to verify
+   it is already present.
+3. If ANY required obligation is missing, DO NOT propose the headline
+   theorem. Propose the missing obligation instead.
+
+Examples of headline theorems that should be DEFERRED until their
+prerequisites land (do not propose these directly):
+
+  - **Determinant multiplicativity** det(AB) = det(A)·det(B)
+    Requires: finite Sym(n) carrier, sign function, alternating
+    multilinear pairing — currently only the 1×1 singleton case is
+    formalized. Propose the prereqs first: "Sym(n) finite carrier",
+    "Sym(n) sign function on transposition spine", "Alternating
+    multilinear pairing on Fin(n) tuple".
+  - **Lagrange's theorem** |G| = |H|·[G:H]
+    Requires: right-coset representative spine, coset partition, finite
+    quotient cardinality readback. Propose: "Right-coset partition
+    closes G into disjoint H-orbits", "Coset cardinality equals |H|".
+  - **Euclid's lemma** prime divides product → prime divides factor
+    Requires: GCD existence + Bezout + divides-as-multiplication
+    interface that the Nat chapters do not yet uniformly carry.
+    Propose: "Bezout coefficients for two unary histories", "GCD
+    uniqueness up to history-sameness".
+  - **Polynomial factor theorem** root r implies (x − r) divides p
+    Requires: polynomial evaluation predicate, division algorithm,
+    factor characterization. Propose: "Polynomial evaluation is an
+    additive homomorphism" (already in BOARD as B-128) before factor
+    theorem.
+  - **Rank-nullity for linear maps**
+    Requires: dimension as cardinality of basis, finite basis spine,
+    direct sum universal property. Propose those building blocks
+    first.
+
+A good curriculum candidate is a **stepping-stone lemma whose proof
+uses only what is already in the paper**, even when the goal is
+ultimately a famous textbook theorem several layers above.
+
+## Per-topic stepping-stone inventories
+
+Examples (NOT exhaustive — use as inspiration. Prefer items that grep
+shows are NOT yet in the paper, where the named objects in the claim
+ARE already in the paper):
+
+Audit method (execute thoroughly — many tool calls expected):
+
+1. Map paper structure. List `papers/bedc/parts/concrete_instances/`. Note
+   which chapters have started (have a chapter file with definitions and
+   ≥1 theorem) but have **partial coverage of the standard textbook chapter
+   for that topic**.
+
+2. For each started chapter, ask the question:
+   "What classical theorems would a standard undergraduate textbook on
+    {{this object}} prove that this chapter has not yet stated?"
+
+   Examples by topic (NOT exhaustive — use as inspiration. Each entry is
+   a STEPPING-STONE LEMMA whose proof should close in 1-3 codex rounds
+   from infrastructure that already exists.):
+
+   - **Polynomial / FPS** (small lemmas, NOT division algorithm itself):
+     trim is idempotent on its own image; trim preserves zero-tail;
+     polynomial addition is commutative on trim-normalized representatives;
+     leading-coefficient is the head of the trimmed spine; evaluation at
+     zero equals constant term; evaluation distributes over addition (one
+     direction).
+   - **CommRing / Ring** (small lemmas, NOT prime ideal theory):
+     zero is unique up to classifier; -0 ~ 0; multiplication by zero
+     gives zero (one direction at a time); negation is involutive on
+     classifier; (-a)·b ~ -(a·b); subtraction by self gives zero;
+     a·(b+c) one-directional vs the other.
+   - **AbGroup / Group** (small lemmas, NOT torsion subgroup itself):
+     identity element is unique up to classifier; inverse is unique;
+     left-inverse equals right-inverse; (a^{{-1}})^{{-1}} ~ a;
+     (a·b)^{{-1}} ~ b^{{-1}}·a^{{-1}}; cancellation from left;
+     cancellation from right.
+   - **TotalOrder / POSet / Lattice** (small lemmas, NOT well-ordering):
+     antisymmetry from comparison witnesses; reflexivity at classifier;
+     min(a,a) ~ a; max distributes over classifier on one side;
+     ≤ transports along classifier on left argument; trichotomy gives
+     one of the three branches when given evidence.
+   - **Functor / NatTrans / Category** (small lemmas, NOT iso preservation):
+     identity functor preserves identity; identity functor preserves
+     composition; functor takes ~ to ~ on hom; constant functor at object
+     X sends every morphism to id_X; horizontal composition of nat
+     transforms is associative on one component pair.
+   - **Metric / TotallyBounded / Compact** (small lemmas, NOT Heine-Borel):
+     ε-ball at center contains center; distance is symmetric; triangle
+     inequality variant; uniform modulus on a singleton subset is trivial;
+     subset of totally bounded set with fixed-radius cover; net cover
+     transports along subset inclusion.
+   - **Module / VecSpace / LinearMap** (small lemmas, NOT rank-nullity):
+     0_R · m ~ 0_M; r · 0_M ~ 0_M; LinearMap of zero is zero; LinearMap
+     of negation is negation of LinearMap; LinearMap composition is
+     associative; identity LinearMap composed with f is f.
+   - **NatMul / NatDivides / Prime** (small lemmas, NOT Bezout / Euclid):
+     NatMul left-zero gives zero result; NatMul right-zero gives zero
+     result; NatMul one-on-left is identity; NatMul commutativity at
+     successor case; divides is reflexive on every unary history;
+     divides is transitive given two witnesses.
+
+3. For each candidate, run a focused grep across `papers/bedc/parts/` for
+   the concept name. If you find ANY matching theorem environment, the
+   candidate is NOT open — drop it. If you find only a remark or definition,
+   it may still be open (proceed).
+
+3b. **Capstone sketch hunt** — equally important to the textbook-curriculum
+    angle. Scan every `papers/bedc/parts/capstones/*.tex` for theorems whose
+    proof environment is `\begin{{proof}}[Sketch]` rather than a full proof.
+    These are headline philosophical / foundational claims (irreducibility
+    of distinction, two-loops, three-axioms unification, halting-as-limit,
+    reasoning-by-contradiction-boundary, real-completeness, type-checking-
+    as-classifier, compilation-as-namecert-morphism, reflection-and-limits).
+    Each sketch typically decomposes into 2-4 stepping-stone lemmas whose
+    conjunction is the full proof.
+
+    For each Sketch-only theorem you find, propose ONE stepping-stone
+    lemma (not the full theorem itself — the theorem is already there;
+    only its full proof is missing). Pick the most foundational lemma in
+    the proof's dependency tree first — the one that other lemmas in the
+    same sketch will reference.
+
+    Worked example (already seeded as B-147..B-152):
+      `thm:three-axioms-unification` has Sketch proof at
+      `capstones/three_axioms_one_closure.tex:37`. The Sketch decomposes
+      into three stratum-specific instantiation lemmas:
+        - "Choice as term-stratum instance of the meta-closure schema"
+        - "Quot.sound as type-stratum instance of the meta-closure schema"
+        - "Propext as proposition-stratum instance of the meta-closure schema"
+      All three reference only chapter-local definitions and examples
+      that already exist (`def:three-axioms-meta-closure-operation`,
+      `ex:three-axioms-choice/quot-sound/propext`), so each closes in
+      1-3 codex rounds. Once all three are added, the unification theorem's
+      Sketch can be replaced with a structured proof citing each.
+
+    Capstones with sketch-only proofs as of writing (use `grep -c "Sketch"`
+    to confirm currency):
+      - reflection_and_limits.tex (5 sketches — irreducibility of form,
+        definition-classifier correspondence, inductive types as classifier
+        closures, internal CIC interpretation, BEDC self-description)
+      - halting_as_form_of_distinction_limit.tex (3)
+      - reasoning_by_contradiction_boundary.tex (2)
+      - real_completeness.tex (3)
+      - type_checking_as_classifier_membership.tex (3)
+      - compilation_as_namecert_morphism.tex (3)
+      - compact_uniform_continuity.tex (1)
+      - three_axioms_one_closure.tex (2 — already seeded B-147..B-152)
+
+    Constraints on sketch-hunt candidates:
+      - The headline theorem itself MUST already be `\begin{{theorem}}` /
+        `\begin{{proposition}}` with a `\label{{...}}` in the chapter.
+        Don't re-state it. Propose its missing component lemma.
+      - The component lemma should reference only objects defined in the
+        same capstone or in the foundational chapters it `\autoref`s.
+        Verify via Grep before proposing.
+      - Mark these candidates with `chapter: "capstones"` and cite the
+        parent theorem's `\label` in the rationale so writeback knows
+        where to land them.
+
+4. Reject candidates that are:
+   - Internal symmetry gaps (those belong to `theory_probe`).
+   - Pure renamings or notation variants of existing theorems.
+   - Marker-only, `closurestatus`, or Lean verification work.
+   - Parameter-transport echoes over abstract carriers / classifiers.
+   - Hub-file or near-line-cap append targets.
+   - Cross-chapter integration (those belong to `curator`).
+   - Research-level or exotic results outside textbook standard.
+   - Already in BOARD by another title.
+
+5. Output a single JSON object on stdout, no prose, no markdown fences:
+
+{{
+  "candidates": [
+    {{
+      "title": "<short, ≤80 chars>",
+      "concrete_claim": "<single-sentence implication form>",
+      "local_inputs": ["papers/bedc/parts/...", "lean4/BEDC/..."],
+      "fit_score": <0-10 integer>,
+      "novelty": <0-10 integer>,
+      "rationale": "<paragraph: which chapter does this belong to, what textbook standard is it (e.g. 'Hungerford Algebra ch.III'), specific evidence (file:line) that it's not yet stated, why is it 1-3 round closeable>"
+    }}
+  ],
+  "rejected": [
+    {{
+      "concept": "<short title>",
+      "reason": "<which existing label / BOARD entry covers it, with file:line>"
+    }}
+  ]
+}}
+
+Constraints:
+- Each `local_inputs` path MUST exist in the repository (verify with Read or ls).
+- Be opinionated about novelty: a theorem that's "obvious next textbook step"
+  scores HIGH on fit (chapter accepts it cleanly) but moderate on novelty
+  (it's expected). That's fine — fit > novelty for this mode.
+- Empty candidates list is acceptable. Empty rejected list is suspicious.
+- 5 candidates with strong textbook precedent is better than 10 borderline ones.
+- The rejected list calibrates the audit; include 5+ entries showing what you
+  considered and why you dropped them.

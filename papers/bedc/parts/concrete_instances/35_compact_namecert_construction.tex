@@ -388,6 +388,43 @@ the displayed final endpoint unary witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_finite\_refinement\_chain\_endpoints\_unary}
 
+\begin{theorem}[Compact witness carrier finite refinement endpoint package]
+\label{thm:compact-witness-carrier-finite-refinement-endpoint-package}
+If
+
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact)
+$$
+
+and
+
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+$$
+
+hold, then both final endpoints are unary and the endpoint classifier relation is
+reflected exactly:
+
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(finalFinite)\land\mathsf{UnaryHistory}(finalCompact)
+\\
+\land\
+(\hsame(finalFinite,finalCompact)\Longleftrightarrow\hsame(finite,compact)).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:compact-witness-carrier-finite-refinement-chain-endpoints-unary}
+to the compact witness carrier and the finite refinement chain. This gives the
+unary witnesses for the final finite-net and compactness endpoints.
+
+Apply Theorem~\ref{thm:compact-finite-refinement-chain-endpoint-hsame-iff} to
+the same finite refinement chain. It gives the displayed classifier equivalence,
+and conjoining it with the endpoint unary witnesses gives the package.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_finite\_refinement\_endpoint\_package}
+
 \begin{theorem}[Compact witness carrier iterated finite refinement closure]
 \label{thm:compact-witness-carrier-iterated-finite-refinement-closed}
 For histories $subset$, $located$, $finite$, $extra_0$, $extra_1$,
@@ -655,3 +692,70 @@ for the unary endpoints, and combine
 \input{parts/concrete_instances/compact/35_finite_refinement_common_source_determinacy.tex}
 \input{parts/concrete_instances/compact/35_prefixed_composite_refinement_determinacy.tex}
 \input{parts/concrete_instances/compact/35_refinement_chain_final_cases.tex}
+
+\begin{theorem}[Compact witness carrier located finite refinement endpoint package]
+\label{thm:compact-witness-carrier-located-finite-refinement-endpoint-package}
+Assume
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact),
+$$
+and
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,
+finalLocated,finalIntermediate,finalCompact),
+$$
+and
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,finalCompact,finalFinite,
+finalCompact').
+$$
+Then one obtains
+$$
+\mathsf{CompactWitnessCarrier}(subset,finalLocated,finalFinite,finalIntermediate,
+finalCompact'),
+$$
+unary histories for $finalLocated$, $finalIntermediate$, $finalFinite$, and
+$finalCompact'$, and the endpoint classifier equivalences
+$$
+\hsame(finalLocated,finalIntermediate)\Longleftrightarrow
+\hsame(located,intermediate)
+$$
+and
+$$
+\hsame(finalFinite,finalCompact')\Longleftrightarrow
+\hsame(finite,finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+First package the refined carrier. Apply
+Theorem~\ref{thm:compact-witness-carrier-located-finite-refinement-chain-closed}
+to the initial compact witness carrier, the located refinement chain, and the
+finite refinement chain. This gives the displayed carrier over
+$(subset,finalLocated,finalFinite,finalIntermediate,finalCompact')$.
+
+Next package the endpoint unary data. Apply
+Theorem~\ref{thm:compact-witness-carrier-located-finite-refinement-chain-final-endpoints-unary}
+to the same three inputs, yielding unary histories for $finalLocated$,
+$finalIntermediate$, $finalFinite$, and $finalCompact'$.
+
+For the located endpoint classifier, apply
+Theorem~\ref{thm:compact-located-refinement-chain-endpoint-hsame} for the
+forward direction and
+Theorem~\ref{thm:compact-located-refinement-chain-endpoint-hsame-reflects} for
+the reverse direction.
+
+For the finite endpoint classifier, apply
+Theorem~\ref{thm:compact-finite-refinement-chain-endpoint-hsame-iff} to the
+finite refinement chain. The refined carrier, unary endpoint witnesses, and the
+two displayed equivalences form the requested package.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_finite\_refinement\_endpoint\_package}
+\begin{closurestatus}{\CompactUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The compact-net-witness semantic name certificate, with located/finite refinement chain, endpoint classifier, and refinement-witness ledger over the BEDC source.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CompactUp.CompactNetWitness\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General theory of compact spaces: arbitrary open-cover compactness, sequential compactness in non-metric settings, products of compact spaces (Tychonoff), or compactness of function spaces.}
+  \upgradepath{publicClosed requires public compact-witness constructors, refinement readback, endpoint exactness on a public carrier, and a no-hidden-leakage statement bracketing the compactness surface.}
+\end{closurestatus}

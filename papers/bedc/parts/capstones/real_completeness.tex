@@ -76,6 +76,145 @@ For the diagonal representative, the extraction formula always selects a member 
 Finally, \autoref{thm:real-constant-rational-embedding-certificate} identifies the pair $(\mathsf{RatConstStream}_d,\Eone(d))$ with the RealUp constant rational embedding. The previous paragraph shows that $L_d$ has exactly the same constant seed at every diagonal read, so the RealUp classifier relates $L_d$ to that embedding.
 \end{proof}
 
+\begin{theorem}[Stationary rational finite-window classifier bridge]
+\label{thm:real-completeness-stationary-rational-finite-window-bridge}
+For histories $d,e,a,w:\Hist$ with $\mathsf{UnaryHistory}(a)$ and
+$\mathsf{UnaryHistory}(w)$, the stationary rational point classifier, the
+constant StreamNameUp classifier, the RealUp finite-window classifier, and the
+e-one RealUp constant classifier are equivalent:
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e).
+$$
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealUnaryStreamWindowClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e,a,w).
+$$
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e,a,w)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)).
+$$
+\end{theorem}
+
+\begin{proof}[Sketch]
+The RatUp and StreamNameUp rows are the constant-stream point exactness row of
+\autoref{thm:rat-stream-name-constant-point-exactness}: a classifier between
+the hidden rational seeds is the same data as the pointwise classifier between
+the two constant observation maps.
+
+For the forward finite-window direction, read the constant StreamNameUp
+classifier as a RealUp unary-observation classifier by
+\autoref{thm:streamname-real-constant-prefix-bridge}. Apply the Real unary
+finite-window coverage theorem \autoref{thm:real-unary-stream-window-coverage}
+with the displayed witnesses $\mathsf{UnaryHistory}(a)$ and
+$\mathsf{UnaryHistory}(w)$.
+
+For the reverse finite-window direction, evaluate the window at offset $\emp$.
+The witness $\mathsf{UnaryOffsetLe}(\emp,w)$ is supplied by unary emptiness, the
+displayed unary bound on $w$, and the continuation unit law. The constant
+stream definitions erase the anchor and this offset, so the selected endpoint
+classifier is $\mathsf{RatHistoryClassifier}(d,e)$; applying
+\autoref{thm:rat-stream-name-constant-point-exactness} returns the
+StreamNameUp row.
+
+Finally, \autoref{thm:real-constant-history-classifier-e1-iff-rat} identifies
+the rational point classifier with
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$, and
+\autoref{thm:real-constant-rational-embedding-certificate} packages that
+identification as the constant rational RealUp embedding certificate.
+\end{proof}
+
+The bridge records the ten-field fit: traditional target stationary rational
+finite windows; BEDC source RatUp plus StreamNameUp plus RealUp; carrier
+stationary rational observation maps; classifier the four equivalent rows;
+stability inherited from RatUp classifier fields and unary-window coverage;
+ledger hidden rational seed plus anchor and bound; core theorem
+\autoref{thm:real-completeness-stationary-rational-finite-window-bridge};
+exactness the displayed equivalence; standard bridge constant rational real
+names; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Stationary rational selected tail seed exactness]
+\label{thm:real-completeness-stationary-rational-selected-tail-seed-exactness}
+For histories $d,e,a,w,k,d_0,e_0:\Hist$, assume
+$$
+\mathsf{RatHistoryClassifier}(d,e),\quad
+\mathsf{UnaryHistory}(a),\quad
+\mathsf{UnaryHistory}(w),\quad
+\mathsf{UnaryOffsetLe}(k,w),
+$$
+$$
+\hsame(d,\Eone(d_0)),\quad
+\hsame(e,\Eone(e_0)).
+$$
+Then the stationary constant streams form a RealUp finite-window classifier,
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e,a,w),
+$$
+and the selected endpoint e-one tail class is exactly the original RatUp seed-tail
+class:
+$$
+\begin{array}{l}
+\forall u,v:\Hist,\,
+\bigl(\hsame(\mathsf{RatConstStream}_d(\mathsf{append}(a,k)),\Eone(u))\land
+\hsame(\mathsf{RatConstStream}_e(\mathsf{append}(a,k)),\Eone(v))\bigr)\\
+\quad\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(d_0,u)\land
+\hsame(e_0,v)\bigr).
+\end{array}
+$$
+\end{theorem}
+
+\begin{proof}[Sketch]
+The displayed RatUp classifier and the two e-one seed displays are first read
+through the RatUp e-one tail readback row. This recovers
+$\mathsf{UnaryHistory}(d_0)$, $\mathsf{UnaryHistory}(e_0)$, and the seed-tail
+comparison $\hsame(d_0,e_0)$ inside the original rational classifier class.
+
+Apply StreamNameUp constant point exactness
+\autoref{thm:rat-stream-name-constant-point-exactness} to pass from the RatUp
+classifier on $d,e$ to the classifier between
+$\mathsf{RatConstStream}_d$ and $\mathsf{RatConstStream}_e$. Then use
+\autoref{thm:real-completeness-stationary-rational-finite-window-bridge} with
+the displayed unary anchor and bound to obtain the RealUp finite-window
+classifier row.
+
+For the forward direction of the displayed exactness, apply
+\autoref{thm:real-unary-streamname-finite-window-selected-tail-class-exactness}
+to the constant streams, the StreamNameUp classifier, the unary anchor and
+bound, and the selected offset. Its canonical selected tails are the displayed
+seed tails $d_0,e_0$, because the constant streams erase
+$\mathsf{append}(a,k)$ and the RatUp e-one readback identifies the selected
+endpoint displays with the seed displays.
+
+For the reverse direction, assume $\mathsf{UnaryHistory}(u)$,
+$\mathsf{UnaryHistory}(v)$, $\hsame(d_0,u)$, and $\hsame(e_0,v)$. Apply
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_congr}$ to the two tail comparisons, then
+compose by $\mathsf{BEDC.FKernel.Hist.hsame\_trans}$ with
+$\hsame(d,\Eone(d_0))$ and $\hsame(e,\Eone(e_0))$. Since each constant stream
+returns its seed at $\mathsf{append}(a,k)$, the two composites are exactly the
+selected endpoint displays for $u$ and $v$.
+\end{proof}
+
+Fit. Traditional target: stationary rational selected finite-window tail
+exactness. BEDC source: $\RatUp+\StreamNameUp+\RealUp$ plus $\mathsf{FKernel}$
+e-one congruence and transitivity. Carrier: selected constant-stream endpoint
+tails. Classifier: $\mathsf{RealUnaryStreamWindowClassifier}$ obtained from the
+stationary rational classifier chain. Stability: endpoint $\hsame$ transport
+from the seed displays to selected e-one tails. Ledger: RatUp classifier, seed
+e-one displays, unary anchor, unary bound, selected offset, and selected endpoint
+displays. Core theorem:
+\autoref{thm:real-completeness-stationary-rational-selected-tail-seed-exactness}.
+Exactness: the displayed if-and-only-if identifies selected finite-window tails
+with the original RatUp seed-tail class. Standard bridge: constant rational
+RealUp observation windows. Downstream use: RegSeqRat stationary observation
+canonicalization. Status: $\mathsf{ProofTarget}$.
+
 \section{Constructive content and axiom purity}
 \label{sec:real-completeness-axiom-purity}
 

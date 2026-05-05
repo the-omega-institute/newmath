@@ -95,6 +95,31 @@ theorem CategoryHomCarrier_cycle_identity_carriers {a b f g : BHist} :
     · exact CategoryHomCarrier_hsame_transport (hsame_refl b) sameEndpoint gEmpty right
     · exact sameEndpoint
 
+theorem CategoryHomCarrier_split_mono_witness_empty_boundary {a b f g id comp : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b a g -> CategoryHomCarrier a a id ->
+      Cont f g comp -> CategoryHomCarrier a a comp ->
+        hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame id BHist.Empty ∧
+          hsame comp BHist.Empty ∧ hsame a b := by
+  intro left right identity compRel composite
+  have cycle := CategoryHomCarrier_cycle_tails_empty left right
+  have sameEndpoint : hsame a b := cycle.left
+  have fEmpty : hsame f BHist.Empty := cycle.right.left
+  have gEmpty : hsame g BHist.Empty := cycle.right.right
+  have emptyIdentityCarrier : CategoryHomCarrier a a BHist.Empty :=
+    CategoryHomCarrier_hsame_transport (hsame_refl a) (hsame_symm sameEndpoint) fEmpty left
+  have idEmpty : hsame id BHist.Empty :=
+    CategoryHomCarrier_morphism_deterministic identity emptyIdentityCarrier
+  have relCompEmpty : hsame comp BHist.Empty := by
+    have emptyCompRel : Cont BHist.Empty BHist.Empty comp :=
+      cont_hsame_transport fEmpty gEmpty (hsame_refl comp) compRel
+    exact cont_deterministic emptyCompRel (cont_right_unit BHist.Empty)
+  have compSame : hsame comp comp :=
+    CategoryHomCarrier_morphism_deterministic composite
+      (CategoryHomCarrier_comp_closed left right compRel)
+  have compEmpty : hsame comp BHist.Empty := hsame_trans compSame relCompEmpty
+  exact And.intro fEmpty
+    (And.intro gEmpty (And.intro idEmpty (And.intro compEmpty sameEndpoint)))
+
 theorem CategoryHomCarrier_triangle_cycle_tails_empty {a b c f g h : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c a h ->
       hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame h BHist.Empty ∧

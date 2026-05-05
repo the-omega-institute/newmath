@@ -86,6 +86,20 @@ The classifier is the supplied carrier sameness relation, required to respect mu
 \end{definition}
 \leandef{BEDC.Derived.MonoidUp.MonoidHistoryClassifier}
 
+\begin{theorem}[Monoid history classifier unary diagonal induction]
+\label{thm:monoid-history-classifier-unary-diagonal-induction}
+If a predicate \(P\) holds at the empty diagonal \((\emp,\emp)\) and is
+preserved by simultaneous unary extension on a diagonal history, then every
+\(\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,k)\) witness
+supports \(P(h,k)\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier into unary witnesses for \(h\) and \(k\) plus
+\(h\hsame k\). The history sameness component identifies the two histories,
+reducing the claim to the diagonal, where unary-history induction applies.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.MonoidHistoryClassifier\_unary\_diagonal\_induction}
+
 \begin{definition}[Monoid stability certificate]
 \label{def:monoid-stability-certificate}
 The stability certificate consists of:
@@ -521,4 +535,139 @@ The identity element inhabits the carrier. The monoid classifier records source 
 
 \paragraph{Primitive boundary.}
 \(\MonoidUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
-\closureat{\MonoidUp}{\checkedCertStr}
+\begin{closurestatus}{\MonoidUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The concrete unary-history monoid semantic certificate with displayed carrier, classifier, multiplication, identity, associativity, unit laws, and multiplication closure.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MonoidUp.monoid\_history\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{General monoid theory: arbitrary monoids, monoid homomorphisms, submonoids, free monoids, presentations, cancellative monoids, or category-of-monoids structure.}
+  \upgradepath{$\publicClosure$ requires a public carrier and operation surface with expression readback, endpoint exactness, associativity/unit normal forms, and no-hidden-leakage for operation data.}
+\end{closurestatus}
+
+\begin{definition}[Opposite monoid certificate data]
+\label{def:opposite-monoid-certificate-data}
+Let a $\MonoidUp$ certificate be presented by a carrier predicate $\mathcal C$, classifier $\sim_C$, multiplication $\cdot_C$, and identity $e_C$. Define the reversed multiplication by
+$$
+a\cdot_C^{\mathrm{op}} b:=b\cdot_C a.
+$$
+The opposite monoid data $C^{\mathrm{op}}$ have the same carrier predicate $\mathcal C$, the same classifier $\sim_C$, the same identity $e_C$, and multiplication $\cdot_C^{\mathrm{op}}$.
+\end{definition}
+
+\begin{theorem}[Opposite monoid certificate]
+\label{thm:opposite-monoid-certificate}
+If $(\mathcal C,\sim_C,\cdot_C,e_C)$ satisfies the $\MonoidUp$ certificate obligations of \autoref{def:monoid-certificate-obligations}, then the data of \autoref{def:opposite-monoid-certificate-data} also satisfy the $\MonoidUp$ certificate obligations. Thus the same carrier, identity, and classifier carry a monoid certificate with multiplication $\cdot_C^{\mathrm{op}}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_opposite\_semantic\_name\_certificate}
+\begin{proof}
+Unpack the monoid obligations through \autoref{def:monoid-certificate-obligations}. The carrier row of \autoref{def:monoid-carrier} is unchanged. The carrier-and-classifier core is the same $\NameCert$ data, so classifier reflexivity, symmetry, transitivity, and carrier transport are copied from \autoref{def:lean-carrier-naming-certificate}. The source row of \autoref{def:monoid-source-specification} is the same carrier and classifier equipped with the reversed multiplication symbol.
+
+Closure for the reversed multiplication follows from original closure with the two inputs exchanged: if $\mathcal C(a)$ and $\mathcal C(b)$, then
+$$
+a\cdot_C^{\mathrm{op}} b=b\cdot_C a
+$$
+is carried because $b$ and $a$ are carried.
+
+The identity rows are exchanged. The opposite left identity law is
+$$
+e_C\cdot_C^{\mathrm{op}} a=a\cdot_C e_C\sim_C a,
+$$
+which is the original right identity row. The opposite right identity law is
+$$
+a\cdot_C^{\mathrm{op}} e_C=e_C\cdot_C a\sim_C a,
+$$
+which is the original left identity row.
+
+For associativity, the two opposite bracketings unfold to
+$$
+(a\cdot_C^{\mathrm{op}} b)\cdot_C^{\mathrm{op}} c=c\cdot_C(b\cdot_C a)
+$$
+and
+$$
+a\cdot_C^{\mathrm{op}}(b\cdot_C^{\mathrm{op}} c)=(c\cdot_C b)\cdot_C a.
+$$
+The associativity row in \autoref{def:monoid-stability-certificate}, applied to the original multiplication at the triple $(c,b,a)$, supplies
+$$
+(c\cdot_C b)\cdot_C a\sim_C c\cdot_C(b\cdot_C a).
+$$
+Classifier symmetry gives the required opposite orientation
+$$
+c\cdot_C(b\cdot_C a)\sim_C(c\cdot_C b)\cdot_C a.
+$$
+
+Multiplication congruence is also inherited with inputs exchanged. Given $a\sim_C a'$ and $b\sim_C b'$, the required comparison for the opposite product is
+$$
+a\cdot_C^{\mathrm{op}} b=b\cdot_C a\sim_C b'\cdot_C a'=a'\cdot_C^{\mathrm{op}} b',
+$$
+which is the original multiplication congruence applied to $b\sim_C b'$ and $a\sim_C a'$.
+
+The classifier row of \autoref{def:monoid-classifier-specification} is unchanged because endpoint comparison is still $\sim_C$; the congruence paragraph is exactly the respect-for-multiplication field for the reversed operation. The pattern row of \autoref{def:monoid-pattern-specification} remains closed expression formation from $e_C$, carried endpoints, and binary multiplication, with each reversed multiplication node read as an original multiplication node whose children are exchanged. The ledger row of \autoref{def:monoid-ledger-policy} records the same expression tree with that exchanged child order at every reversed multiplication node. Hence the source-to-pattern and source-to-ledger soundness fields are the original operation-tree soundness checks read through the definition of $\cdot_C^{\mathrm{op}}$.
+
+These carrier, source, pattern, classifier, stability, and ledger rows are precisely the five-field naming-certificate data required by \autoref{def:typed-naming-certificate} and the monoid obligations of \autoref{def:monoid-certificate-obligations}. Therefore $C^{\mathrm{op}}$ carries a $\MonoidUp$ certificate.
+\end{proof}
+
+\begin{theorem}[Double opposite monoid certificate data identity]
+\label{thm:double-opposite-monoid-certificate-data-identity}
+Let $D$ be a $\MonoidUp$ certificate satisfying the obligations of
+\autoref{def:monoid-certificate-obligations}. Present its monoid data by a
+carrier predicate $\mathcal C$, classifier $\sim_C$, multiplication $\cdot_C$,
+and identity element $e_C$ as in \autoref{def:opposite-monoid-certificate-data}.
+Let
+$$
+D^{\mathrm{opop}}=(D^{\mathrm{op}})^{\mathrm{op}}
+$$
+be obtained by applying \autoref{def:opposite-monoid-certificate-data} twice.
+Then $D^{\mathrm{opop}}$ is a $\MonoidUp$ certificate, and its carrier
+predicate, classifier, multiplication, and identity element are componentwise
+identical to those of $D$:
+$$
+\begin{aligned}
+\mathcal C^{\mathrm{opop}}(a)&=\mathcal C(a),&
+ a\sim_C^{\mathrm{opop}} b&=a\sim_C b,\\
+a\cdot_C^{\mathrm{opop}} b&=a\cdot_C b,&
+ e_C^{\mathrm{opop}}&=e_C.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Because $D$ satisfies the $\MonoidUp$ obligations,
+\autoref{thm:opposite-monoid-certificate} makes $D^{\mathrm{op}}$ a certified
+$\MonoidUp$ instance. Applying the same theorem to that certified opposite data
+makes $D^{\mathrm{opop}}$ a certified $\MonoidUp$ instance.
+
+It remains to compare the displayed data. The carrier predicate, classifier,
+and identity element are fixed by one use of
+\autoref{def:opposite-monoid-certificate-data}. Hence two unfoldings give
+$$
+\mathcal C^{\mathrm{opop}}(a)=\mathcal C^{\mathrm{op}}(a)=\mathcal C(a),
+$$
+$$
+a\sim_C^{\mathrm{opop}} b=a\sim_C^{\mathrm{op}} b=a\sim_C b,
+$$
+and
+$$
+e_C^{\mathrm{opop}}=e_C^{\mathrm{op}}=e_C.
+$$
+
+For multiplication, the first opposite exchanges the two inputs and the second
+opposite exchanges them back:
+$$
+a\cdot_C^{\mathrm{opop}} b
+=b\cdot_C^{\mathrm{op}} a
+=a\cdot_C b.
+$$
+Thus the raw multiplication field of the double opposite certificate is exactly
+the original multiplication field.
+
+The source row of \autoref{def:monoid-source-specification} uses only the
+carrier, classifier, and multiplication just identified. The pattern row of
+\autoref{def:monoid-pattern-specification} forms expressions from the same
+identity element and the same restored multiplication. The classifier row of
+\autoref{def:monoid-classifier-specification} is the same endpoint relation,
+and multiplication respect is typed over the restored multiplication. The
+ledger policy of \autoref{def:monoid-ledger-policy} records operation trees;
+one opposite reading swaps the two children at each multiplication node, and
+the second reading swaps the same children back. Therefore the displayed
+component identities identify the double opposite monoid certificate data with
+the monoid data of $D$.
+\end{proof}

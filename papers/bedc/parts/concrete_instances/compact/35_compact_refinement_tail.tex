@@ -64,6 +64,22 @@ finite suffix.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_common\_source\_final\_located\_tail\_deterministic}
 
+\begin{theorem}[Compact located refinement chain common-source final intermediate tail determinacy]
+\label{thm:compact-located-refinement-chain-common-source-final-intermediate-tail-deterministic}
+If two compact located refinement chains share the same starting compactness
+ledger and their final intermediate histories are $\hsame$, then their final
+located histories and final compact histories are $\hsame$.
+\end{theorem}
+\begin{proof}
+Apply the located continuation-witness theorem to both chains using the same
+starting compactness ledger. The final intermediate equality cancels the common
+intermediate source and identifies the refinement tails. Continuation
+determinism on the located ledgers identifies the final located histories, and
+continuation determinism over the fixed finite suffix identifies the final
+compact histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_common\_source\_final\_intermediate\_tail\_deterministic}
+
 \begin{theorem}[Compact located refinement chain common-source final compact tail determinacy]
 \label{thm:compact-located-refinement-chain-common-source-final-compact-tail-deterministic}
 If two compact located refinement chains share the same starting compactness
@@ -88,6 +104,36 @@ If a compact located refinement chain has empty final locatedness and intermedia
 Induct on the located refinement chain. In each step, transport the two final empty equalities across the displayed locatedness and intermediate continuations, use empty-result inversion, and apply the induction hypothesis.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_empty\_final\_reflects\_empty\_initial}
+
+\begin{theorem}[Compact located refinement chain located nonempty forward]
+\label{thm:compact-located-refinement-chain-located-nonempty-forward}
+If a compact located refinement chain starts from a locatedness ledger that is
+not history-same to \(\emp\), then its final locatedness ledger is not
+history-same to \(\emp\).
+\end{theorem}
+\begin{proof}
+Induct on the located refinement chain. The base case is the initial
+nonemptiness premise. In a step, an empty final locatedness endpoint transports
+across the displayed locatedness continuation; empty-result inversion then
+forces the prior locatedness endpoint to be empty, contradicting the induction
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_located\_nonempty\_forward}
+
+\begin{theorem}[Compact located refinement chain intermediate nonempty forward]
+\label{thm:compact-located-refinement-chain-intermediate-nonempty-forward}
+If a compact located refinement chain starts from an intermediate ledger that
+is not history-same to \(\emp\), then its final intermediate ledger is not
+history-same to \(\emp\).
+\end{theorem}
+\begin{proof}
+Induct on the located refinement chain. The base case is the initial
+nonemptiness premise. In a step, an empty final intermediate endpoint
+transports across the displayed intermediate continuation; empty-result
+inversion then forces the prior intermediate endpoint to be empty, contradicting
+the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_intermediate\_nonempty\_forward}
 
 \begin{theorem}[Compact witness carrier located empty final refinement reflects empty initial]
 \label{thm:compact-witness-carrier-located-empty-final-refinement-reflects-empty-initial}
@@ -203,3 +249,68 @@ $finalFinite$ and $finalCompact'$, which together form the displayed
 conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_finite\_refinement\_chain\_final\_endpoints\_unary}
+
+\begin{theorem}[Compact witness carrier located finite refinement certificate package]
+\label{thm:compact-witness-carrier-located-finite-refinement-complete-package}
+Assume
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact),
+$$
+a compact located refinement chain from
+$(finite,located,intermediate,compact)$ to
+$(finalLocated,finalIntermediate,finalCompact)$, and a compact finite
+refinement chain from $(finite,finalCompact)$ to
+$(finalFinite,finalCompact')$. Then these data determine one refinement
+certificate with the following components:
+\begin{enumerate}
+\item the refined carrier
+$$
+\mathsf{CompactWitnessCarrier}(subset,finalLocated,finalFinite,
+finalIntermediate,finalCompact');
+$$
+\item unary histories for $finalLocated$, $finalIntermediate$, $finalFinite$,
+and $finalCompact'$;
+\item endpoint classifier equivalences
+$$
+finalLocated\hsame finalIntermediate\leftrightarrow located\hsame intermediate
+$$
+and
+$$
+finalFinite\hsame finalCompact'\leftrightarrow finite\hsame finalCompact;
+$$
+\item terminal empty reflection: if $finalLocated$, $finalIntermediate$,
+$finalFinite$, and $finalCompact'$ are each history-same to $\emp$, then
+$subset$, $located$, $finite$, $intermediate$, and $compact$ are each
+history-same to $\emp$;
+\item nonempty propagation from $located$ to $finalLocated$, from
+$intermediate$ to $finalIntermediate$, from $finite$ to $finalFinite$, and
+from $finalCompact$ to $finalCompact'$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:compact-witness-carrier-located-finite-refinement-chain-closed}
+to the initial carrier and the two refinement chains. This supplies the
+refined compact witness carrier.
+
+Next apply
+Theorem~\ref{thm:compact-witness-carrier-located-finite-refinement-chain-final-endpoints-unary}
+to the same inputs. The four endpoint unary witnesses are exactly the unary
+part of the certificate. The located endpoint classifier equivalence comes
+from the compact located refinement chain endpoint theorem, and the finite
+endpoint classifier equivalence comes from the compact finite refinement chain
+endpoint theorem.
+
+The terminal empty-reflection component is
+Theorem~\ref{thm:compact-witness-carrier-located-finite-empty-final-reflects-empty-initial}.
+It takes the four empty terminal endpoints and reflects them back to the five
+initial carrier ledgers.
+
+Finally, the nonempty propagation fields are supplied independently by
+Theorem~\ref{thm:compact-located-refinement-chain-located-nonempty-forward},
+Theorem~\ref{thm:compact-located-refinement-chain-intermediate-nonempty-forward},
+the checked compact finite refinement chain nonempty-forward theorem, and the
+checked compact finite refinement chain compact-nonempty-forward theorem.
+Together these components form the advertised refinement certificate package.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_finite\_refinement\_complete\_package}

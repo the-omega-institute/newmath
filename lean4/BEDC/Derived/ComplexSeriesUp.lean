@@ -1,10 +1,13 @@
+import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexUp
 
 namespace BEDC.Derived.ComplexSeriesUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexLimitUp
 open BEDC.Derived.ComplexUp
 
 inductive ComplexPartSum (zero : BHist) (c : BHist -> BHist) : BHist -> BHist -> Prop where
@@ -189,6 +192,40 @@ theorem ComplexPartSum_result_unary {zero : BHist} {c : BHist -> BHist} {n S : B
         | step _ _ inner =>
             exact unary_e1_closed inner
       exact unary_cont_closed ih (termUnary (indexUnary previous)) stepContinuation
+
+def CauchyProduct (zero : BHist) (a b : BHist -> BHist) (n result : BHist) : Prop :=
+  exists left right : BHist,
+    ComplexPartSum zero a n left ∧ ComplexPartSum zero b n right ∧ Cont left right result
+
+theorem ComplexPartSum_semanticNameCert {zero : BHist} {c : BHist -> BHist}
+    {n S : BHist} (sum : ComplexPartSum zero c n S) :
+    SemanticNameCert (fun result : BHist => ComplexPartSum zero c n result)
+      (fun result : BHist => ComplexPartSum zero c n result)
+      (fun result : BHist => ComplexPartSum zero c n result) hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro S sum
+      equiv_refl := by
+        intro result _source
+        exact hsame_refl result
+      equiv_symm := by
+        intro result result' sameResult
+        exact hsame_symm sameResult
+      equiv_trans := by
+        intro result result' result'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro result result' sameResult source
+        cases sameResult
+        exact source
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
 
 inductive ComplexAbsPartSum (zero : BHist) (modulus : BHist -> BHist) :
     BHist -> BHist -> Prop where
@@ -402,6 +439,33 @@ theorem ComplexAbsPartSum_result_nonempty_of_nonempty_terms {zero : BHist}
       have emptyParts := cont_empty_result_inversion emptyStep
       exact modulusNonempty (indexUnary previous) emptyParts.right
 
+theorem ComplexAbsPartSum_empty_result_boundary {zero : BHist} {modulus : BHist -> BHist}
+    {n M : BHist} :
+    ComplexAbsPartSum zero modulus n M -> hsame M BHist.Empty ->
+      hsame zero BHist.Empty ∨
+        exists m : BHist, UnaryHistory m ∧ hsame (modulus m) BHist.Empty := by
+  intro sum
+  have indexUnary :
+      forall {m P : BHist}, ComplexAbsPartSum zero modulus m P -> UnaryHistory m :=
+    fun {m P : BHist} (part : ComplexAbsPartSum zero modulus m P) => by
+      induction part with
+      | zero =>
+          exact unary_empty
+      | step _ _ ih =>
+          exact unary_e1_closed ih
+  induction sum with
+  | zero =>
+      intro resultEmpty
+      exact Or.inl resultEmpty
+  | step previous stepContinuation _ih =>
+      intro resultEmpty
+      have emptyStep :
+          Cont _ (modulus _) BHist.Empty :=
+        cont_result_hsame_transport stepContinuation resultEmpty
+      have emptyParts := cont_empty_result_inversion emptyStep
+      exact Or.inr (Exists.intro _
+        (And.intro (indexUnary previous) emptyParts.right))
+
 theorem ComplexAbsPartSum_pointwise_hsame_deterministic {zero zero' : BHist}
     {modulus modulus' : BHist -> BHist} {n M T : BHist} :
     hsame zero zero' ->
@@ -499,6 +563,11 @@ theorem ComplexAbsPartSum_modulus_hsame_successor_result {zero zero' : BHist}
 def ComplexTermSeqCarrier (c : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> ComplexHistoryCarrier (c n)
 
+def ComplexSeriesConvWitness (zero : BHist) (c s N M : BHist -> BHist) (limit : BHist) : Prop :=
+  ComplexTermSeqCarrier c ∧
+    (forall n : BHist, UnaryHistory n -> ComplexPartSum zero c n (s n)) ∧
+      ComplexLimit s N limit M
+
 theorem ComplexTermSeqCarrier_hsame_transport {c d : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (c n) (d n)) ->
       ComplexTermSeqCarrier c -> ComplexTermSeqCarrier d := by
@@ -516,5 +585,50 @@ theorem ComplexTermSeqCarrier_hsame_transport {c d : BHist -> BHist} :
                       (And.intro realCarrier
                         (And.intro imagCarrier
                           (cont_result_hsame_transport cont (pointwise unaryN)))))
+
+def ComplexSeriesConv (zero : BHist) (c : BHist -> BHist) (S : BHist) : Prop :=
+  exists ps : BHist -> BHist, exists N : BHist -> BHist, exists M : BHist -> BHist,
+    (forall n : BHist, UnaryHistory n -> ComplexPartSum zero c n (ps n)) /\
+      ComplexLimit ps N S M
+
+theorem complex_series_semantic_name_certificate {zero : BHist} {c : BHist -> BHist}
+    {S : BHist} :
+    ComplexSeriesConv zero c S ->
+      SemanticNameCert (ComplexSeriesConv zero c) (ComplexSeriesConv zero c)
+        (ComplexSeriesConv zero c) hsame := by
+  intro conv
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro S conv
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same carrier
+        cases carrier with
+        | intro ps carrierRest =>
+            cases carrierRest with
+            | intro N carrierRest =>
+                cases carrierRest with
+                | intro M data =>
+                    exact Exists.intro ps
+                      (Exists.intro N
+                        (Exists.intro M
+                          (And.intro data.left
+                            (ComplexLimit_hsame_transport same data.right))))
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 end BEDC.Derived.ComplexSeriesUp

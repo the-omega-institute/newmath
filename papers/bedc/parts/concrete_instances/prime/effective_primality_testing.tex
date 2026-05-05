@@ -47,6 +47,20 @@ trial-division witness supplies unary closure of the tail by
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_positive\_shape}
 
+\begin{theorem}[Trial-division bound unit or successor shape]
+\label{thm:trialdiv-bound-unit-or-successor-shape}
+If \(\mathsf{TrialDiv}(b,n)\), then the bound is either the unit history
+\(\Eone(\emp)\) or has the shape \(\Eone(\Eone(t))\) for a unary tail \(t\).
+\end{theorem}
+\begin{proof}
+Apply the positive-shape theorem to write \(b\hsame\Eone(tail)\) with unary
+\(tail\). Case-analyze this tail. The empty tail gives the unit branch; a
+zero-headed tail contradicts unary generation; a one-headed tail exposes the
+displayed \(\Eone(\Eone(t))\) branch, and unary inversion supplies
+\(\mathsf{UnaryHistory}(t)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unit\_or\_successor\_shape}
+
 \begin{theorem}[Trial-division bounds have unit prefix or are unit]
 \label{thm:trial-div-bound-unit-prefix-or-self}
 If $\mathsf{TrialDiv}(b,n)$, then either $\Eone(\emp)$ is a strict unary prefix
@@ -61,6 +75,38 @@ one-step prefix across that $\HSame$ endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unit\_prefix\_or\_self}
 
+\begin{theorem}[Trial-division unit step yields strict unit prefix]
+\label{thm:trialdiv-bound-unit-strict-prefix-after-cont}
+If $\mathsf{TrialDiv}(b,n)$ and $\Cont(b,\Eone(\emp),b')$, then
+$\Eone(\emp)$ is a strict unary prefix of $b'$.
+\end{theorem}
+\begin{proof}
+The displayed continuation supplies a one-step strict prefix from $b$ to $b'$.
+The bound classification theorem gives either a strict unit prefix of $b$ or
+$b\hsame\Eone(\emp)$. In the strict-prefix branch, compose the previous strict
+prefix with the one-step prefix. In the unit branch, transport the one-step
+strict prefix across the displayed endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unit\_strict\_prefix\_after\_cont}
+
+\begin{theorem}[Trial-division target and bound trichotomy]
+\label{thm:trialdiv-target-unary-bound-trichotomy}
+If \(\mathsf{TrialDiv}(b,n)\), then the target \(n\) is unary and the current
+bound \(b\) is comparable with \(n\) by endpoint equality or by one of the two
+strict unary-prefix directions:
+$$
+\mathsf{UnaryHistory}(n)\land
+\bigl(b\hsame n\lor \mathsf{NatUnaryStrictPrefix}(b,n)\lor
+\mathsf{NatUnaryStrictPrefix}(n,b)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the trial-division witness to recover unaryness of the fixed target.
+The bound is unary by \autoref{thm:trial-div-bound-unary}. Applying unary-prefix
+trichotomy to these two unary histories gives the displayed comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_target\_unary\_and\_bound\_trichotomy}
+
 \begin{theorem}[Trial-division bounds are not empty]
 \label{thm:trial-div-bound-not-empty}
 If \(\mathsf{TrialDiv}(b,n)\), then \(b\) is not \(\emp\).
@@ -72,6 +118,39 @@ Use \autoref{thm:trial-div-bound-positive-shape} to write
 history no-confusion principle.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_not\_empty}
+
+\begin{theorem}[Trial-division unit step result is not unit]
+\label{thm:trialdiv-unit-step-result-not-unit}
+If $\mathsf{TrialDiv}(b,n)$ and $\Cont(b,\Eone(\emp),b')$, then
+$b'$ cannot be equal to the unit history $\Eone(\emp)$.
+\end{theorem}
+\begin{proof}
+Transport the displayed continuation result across
+$b'\hsame\Eone(\emp)$, obtaining a continuation
+$\Cont(b,\Eone(\emp),\Eone(\emp))$. Compare it with the left-unit
+continuation $\Cont(\emp,\Eone(\emp),\Eone(\emp))$ and cancel the common
+right unit history. This gives $b\hsame\emp$, contradicting
+\autoref{thm:trial-div-bound-not-empty}.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_unit\_step\_result\_not\_unit}
+
+\begin{theorem}[Trial-division unit step result successor shape]
+\label{thm:trialdiv-unit-step-result-successor-shape}
+If $\mathsf{TrialDiv}(b,n)$ and $\Cont(b,\Eone(\emp),b')$, then the step
+result has a two-step successor shape:
+$$
+\exists t:\mathsf{BHist}.\;
+b'\hsame\Eone(\Eone(t))\wedge\Unary(t).
+$$
+\end{theorem}
+\begin{proof}
+The trial-division bound is unary, and continuation with the unary unit keeps
+the result unary. The empty and zero-headed result cases contradict the
+continuation inversion and unary no-zero principles. The unit result case is
+excluded by the preceding unit-step theorem. The remaining unary case exposes
+the displayed tail.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_unit\_step\_result\_successor\_shape}
 
 \begin{theorem}[Terminal trial division excludes non-trivial divisors]
 \label{thm:trialdiv-terminal-excludes-nontrivial-divisors}
@@ -110,6 +189,7 @@ The prime predicate now follows by unfolding \autoref{def:nat-prime}: unaryness
 and strict greater-than are the hypotheses, and the preceding argument supplies
 the required alternative for every unary divisor.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_terminal\_excludes\_nontrivial\_divisors}
 
 \begin{theorem}[Decidability of primality]
 \label{thm:prime-decidable}
@@ -128,4 +208,3 @@ $\mathsf{TrialDiv}$ reaches $b=n$, and
 \autoref{thm:trialdiv-terminal-excludes-nontrivial-divisors} gives
 $\mathsf{NatPrime}(n)$.
 \end{proof}
-

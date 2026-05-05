@@ -5,6 +5,7 @@ namespace BEDC.Derived.ComplexLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 
@@ -22,6 +23,51 @@ theorem ComplexDistanceTriangleBound_unary_of_distances {z w u d12 d23 : BHist} 
     unary_append_closed leftDistance.right.right.left rightDistance.right.right.left
   exact And.intro boundUnary (And.intro leftDistance.left rightDistance.right.left)
 
+theorem ComplexDistanceTriangleBound_empty_endpoints {z w u d12 d23 : BHist} :
+    ComplexDistance z w d12 -> ComplexDistance w u d23 ->
+      hsame (ComplexDistanceTriangleBound d12 d23) BHist.Empty ->
+        hsame z BHist.Empty ∧ hsame w BHist.Empty ∧ hsame u BHist.Empty := by
+  intro leftDistance rightDistance boundEmpty
+  have distanceEmpty := append_eq_empty_iff.mp boundEmpty
+  cases distanceEmpty.left
+  cases distanceEmpty.right
+  have leftEndpoints : hsame z BHist.Empty ∧ hsame w BHist.Empty := by
+    cases leftDistance with
+    | intro _zCarrier rest =>
+        cases rest with
+        | intro _wCarrier rest =>
+            cases rest with
+            | intro _dCarrier rel =>
+                cases rel with
+                | inl zw =>
+                    exact cont_empty_result_inversion zw
+                | inr wz =>
+                    have endpoints := cont_empty_result_inversion wz
+                    exact And.intro endpoints.right endpoints.left
+  have rightEndpoints : hsame w BHist.Empty ∧ hsame u BHist.Empty := by
+    cases rightDistance with
+    | intro _wCarrier rest =>
+        cases rest with
+        | intro _uCarrier rest =>
+            cases rest with
+            | intro _dCarrier rel =>
+                cases rel with
+                | inl wu =>
+                    exact cont_empty_result_inversion wu
+                | inr uw =>
+                    have endpoints := cont_empty_result_inversion uw
+                    exact And.intro endpoints.right endpoints.left
+  exact And.intro leftEndpoints.left (And.intro leftEndpoints.right rightEndpoints.right)
+theorem ComplexDistance_triangle_explicit_bound {z w u d12 d23 : BHist} : ComplexDistance z w d12 ->
+    ComplexDistance w u d23 -> exists d13 : BHist, ComplexDistance z u d13 ∧
+      Cont d12 d23 (ComplexDistanceTriangleBound d12 d23) ∧
+        UnaryHistory (ComplexDistanceTriangleBound d12 d23) := by
+  intro leftDistance rightDistance
+  exact Exists.intro (append z u)
+    (And.intro (And.intro leftDistance.left (And.intro rightDistance.right.left (And.intro
+        (unary_append_closed leftDistance.left rightDistance.right.left) (Or.inl (cont_intro rfl)))))
+      (And.intro (cont_intro rfl)
+        (unary_append_closed leftDistance.right.right.left rightDistance.right.right.left)))
 theorem ComplexDistance_append_constant_closed {z w d q : BHist} :
     UnaryHistory q -> ComplexDistance z w d ->
       ComplexDistance (append z q) (append w q) (append (append z q) (append w q)) := by
@@ -190,6 +236,9 @@ def ComplexRegularSequence (s N : BHist -> BHist) : Prop :=
     Cont (N k) n n -> Cont (N k) m m ->
       exists d : BHist, ComplexDistance (s n) (s m) d
 
+def ComplexPointwiseSum (s t : BHist -> BHist) (n : BHist) : BHist :=
+  append (s n) (t n)
+
 def ComplexLimit (s N : BHist -> BHist) (z : BHist) (M : BHist -> BHist) : Prop :=
   ComplexRegularSequence s N ∧ ComplexHistoryCarrier z ∧
     forall k n : BHist, UnaryHistory k -> UnaryHistory n -> Cont (M k) n n ->
@@ -212,6 +261,35 @@ theorem ComplexLimit_hsame_transport {s N M : BHist -> BHist} {z z' : BHist} :
                     Exists.intro d
                       (ComplexDistance_hsame_transport_with_relation
                         (hsame_refl (s n)) sameZ (hsame_refl d) distance).left))
+
+theorem ComplexLimit_semanticNameCert {s N M : BHist -> BHist} {z : BHist}
+    (limit : ComplexLimit s N z M) :
+    SemanticNameCert (fun h : BHist => ComplexLimit s N h M)
+      (fun h : BHist => ComplexLimit s N h M) (fun h : BHist => ComplexLimit s N h M)
+      hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro z limit
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK sourceH
+        exact ComplexLimit_hsame_transport sameHK sourceH
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 theorem ComplexRegularSequence_constant {z : BHist} :
     UnaryHistory z -> ComplexRegularSequence (fun _ : BHist => z)
@@ -237,6 +315,25 @@ theorem ComplexLimit_constant {z : BHist} :
             (And.intro zUnary
               (And.intro (unary_append_closed zUnary zUnary) (Or.inl (cont_intro rfl)))))))
 
+theorem ComplexLimit_eventually_constant_closed {s N M : BHist -> BHist} {z : BHist} :
+    ComplexRegularSequence s N -> ComplexHistoryCarrier z ->
+      (forall {k n : BHist}, UnaryHistory k -> UnaryHistory n -> Cont (M k) n n ->
+        hsame (s n) z) ->
+        ComplexLimit s N z M := by
+  intro regular carrierZ eventuallyConstant
+  have zUnary : UnaryHistory z := ComplexHistoryCarrier_unary carrierZ
+  exact And.intro regular
+    (And.intro carrierZ
+      (fun k n unaryK unaryN controlled =>
+        let constantDistance : ComplexDistance z z (append z z) :=
+          And.intro zUnary
+            (And.intro zUnary
+              (And.intro (unary_append_closed zUnary zUnary) (Or.inl (cont_intro rfl))))
+        Exists.intro (append z z)
+          (ComplexDistance_hsame_transport_with_relation
+            (hsame_symm (eventuallyConstant unaryK unaryN controlled))
+            (hsame_refl z) (hsame_refl (append z z)) constantDistance).left))
+
 theorem ComplexRegularSequence_hsame_transport {s t N : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->
       ComplexRegularSequence s N -> ComplexRegularSequence t N := by
@@ -247,6 +344,43 @@ theorem ComplexRegularSequence_hsame_transport {s t N : BHist -> BHist} :
       exact Exists.intro d
         (ComplexDistance_hsame_transport_with_relation
           (pointwise unaryN) (pointwise unaryM) (hsame_refl d) distance).left
+
+theorem ComplexRegularSequence_pointwise_sum_closed {s t N : BHist -> BHist} :
+    ComplexRegularSequence s N -> ComplexRegularSequence t N ->
+      ComplexRegularSequence (ComplexPointwiseSum s t) N := by
+  intro regularS regularT
+  intro k n m unaryK unaryN unaryM contN contM
+  cases regularS k n m unaryK unaryN unaryM contN contM with
+  | intro _ds distanceS =>
+      cases regularT k n m unaryK unaryN unaryM contN contM with
+      | intro _dt distanceT =>
+          have leftUnary : UnaryHistory (ComplexPointwiseSum s t n) :=
+            unary_append_closed distanceS.left distanceT.left
+          have rightUnary : UnaryHistory (ComplexPointwiseSum s t m) :=
+            unary_append_closed distanceS.right.left distanceT.right.left
+          exact Exists.intro
+            (append (ComplexPointwiseSum s t n) (ComplexPointwiseSum s t m))
+            (And.intro leftUnary
+              (And.intro rightUnary
+                (And.intro (unary_append_closed leftUnary rightUnary)
+                  (Or.inl (cont_intro rfl)))))
+
+theorem ComplexLimit_sequence_hsame_transport {s t N M : BHist -> BHist} {z : BHist} :
+    (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->
+      ComplexLimit s N z M -> ComplexLimit t N z M := by
+  intro pointwise limit
+  cases limit with
+  | intro regular rest =>
+      cases rest with
+      | intro carrierZ modulus =>
+          exact And.intro (ComplexRegularSequence_hsame_transport pointwise regular)
+            (And.intro carrierZ
+              (fun k n unaryK unaryN controlled =>
+                match modulus k n unaryK unaryN controlled with
+                | Exists.intro d distance =>
+                    Exists.intro d
+                      (ComplexDistance_hsame_transport_with_relation
+                        (pointwise unaryN) (hsame_refl z) (hsame_refl d) distance).left))
 
 theorem ComplexRegularSequence_append_constant_closed {s N : BHist -> BHist} {q : BHist} :
     UnaryHistory q -> ComplexRegularSequence s N ->
@@ -262,6 +396,77 @@ theorem ComplexRegularSequence_append_constant_closed {s N : BHist -> BHist} {q 
         (And.intro leftUnary
           (And.intro rightUnary
             (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl)))))
+
+theorem ComplexLimit_append_constant_closed {s N M : BHist -> BHist} {z q : BHist} :
+    UnaryHistory q -> ComplexLimit s N z M ->
+      ComplexLimit (fun n : BHist => append (s n) q) N (append z q) M := by
+  intro unaryQ limit
+  cases limit with
+  | intro regular rest =>
+      cases rest with
+      | intro carrierZ modulus =>
+          exact And.intro (ComplexRegularSequence_append_constant_closed unaryQ regular)
+            (And.intro (ComplexHistoryCarrier_append_unary_closed carrierZ unaryQ)
+              (fun k n unaryK unaryN controlled =>
+                match modulus k n unaryK unaryN controlled with
+                | Exists.intro d distance =>
+                    Exists.intro (append (append (s n) q) (append z q))
+                      (ComplexDistance_append_constant_closed unaryQ distance)))
+
+theorem ComplexRegularSequence_pointwise_append_same_modulus_closed {s t N : BHist -> BHist} :
+    ComplexRegularSequence s N -> ComplexRegularSequence t N ->
+      ComplexRegularSequence (fun n : BHist => append (s n) (t n)) N := by
+  intro regularS regularT
+  intro k n m unaryK unaryN unaryM contN contM
+  cases regularS k n m unaryK unaryN unaryM contN contM with
+  | intro dS distanceS =>
+      cases regularT k n m unaryK unaryN unaryM contN contM with
+      | intro dT distanceT =>
+          have leftUnary : UnaryHistory (append (s n) (t n)) :=
+            unary_append_closed distanceS.left distanceT.left
+          have rightUnary : UnaryHistory (append (s m) (t m)) :=
+            unary_append_closed distanceS.right.left distanceT.right.left
+          exact Exists.intro (append (append (s n) (t n)) (append (s m) (t m)))
+            (And.intro leftUnary
+              (And.intro rightUnary
+                (And.intro (unary_append_closed leftUnary rightUnary)
+                  (Or.inl (cont_intro rfl)))))
+
+theorem ComplexLimit_pointwise_append_same_modulus_closed {s t N M : BHist -> BHist}
+    {z w : BHist} :
+    ComplexLimit s N z M -> ComplexLimit t N w M ->
+      ComplexLimit (fun n : BHist => append (s n) (t n)) N (append z w) M := by
+  intro limitS limitT
+  cases limitS with
+  | intro regularS restS =>
+      cases restS with
+      | intro carrierZ modulusS =>
+          cases limitT with
+          | intro regularT restT =>
+              cases restT with
+              | intro carrierW modulusT =>
+                  have zUnary : UnaryHistory z := ComplexHistoryCarrier_unary carrierZ
+                  have carrierZW : ComplexHistoryCarrier (append z w) :=
+                    ComplexHistoryCarrier_append_unary_closed carrierZ
+                      (ComplexHistoryCarrier_unary carrierW)
+                  exact And.intro
+                    (ComplexRegularSequence_pointwise_append_same_modulus_closed
+                      regularS regularT)
+                    (And.intro carrierZW
+                      (fun k n unaryK unaryN controlled =>
+                        match modulusS k n unaryK unaryN controlled with
+                        | Exists.intro dS distanceS =>
+                            match modulusT k n unaryK unaryN controlled with
+                            | Exists.intro dT distanceT =>
+                                have leftUnary : UnaryHistory (append (s n) (t n)) :=
+                                  unary_append_closed distanceS.left distanceT.left
+                                have rightUnary : UnaryHistory (append z w) :=
+                                  unary_append_closed zUnary distanceT.right.left
+                                Exists.intro (append (append (s n) (t n)) (append z w))
+                                  (And.intro leftUnary
+                                    (And.intro rightUnary
+                                      (And.intro (unary_append_closed leftUnary rightUnary)
+                                        (Or.inl (cont_intro rfl)))))))
 
 theorem ComplexRegularSequence_append_constant_result_deterministic {s N : BHist -> BHist}
     {q k n m d' : BHist} :
@@ -367,5 +572,52 @@ theorem ComplexDistance_unary_append_comm_package {z q : BHist} :
       (And.intro rightCarrier
         (And.intro (unary_append_closed leftCarrier rightCarrier) (Or.inl (cont_intro rfl)))))
     (unary_append_comm_hsame qCarrier zCarrier)
+
+theorem complex_limit_semantic_name_certificate :
+    BEDC.FKernel.NameCert.SemanticNameCert
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h k : BHist =>
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N h M) ∧
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N k M) ∧ hsame h k) := by
+  cases complex_history_semantic_name_certificate.core.carrier_inhabited with
+  | intro z carrierZ =>
+      exact {
+        core := {
+          carrier_inhabited :=
+            Exists.intro z
+              (Exists.intro (fun _ : BHist => z)
+                (Exists.intro (fun _ : BHist => BHist.Empty)
+                  (Exists.intro (fun _ : BHist => BHist.Empty)
+                    (ComplexLimit_constant carrierZ))))
+          equiv_refl := by
+            intro h source
+            exact And.intro source (And.intro source (hsame_refl h))
+          equiv_symm := by
+            intro h k classified
+            exact And.intro classified.right.left
+              (And.intro classified.left (hsame_symm classified.right.right))
+          equiv_trans := by
+            intro h k r classifiedHK classifiedKR
+            exact And.intro classifiedHK.left
+              (And.intro classifiedKR.right.left
+                (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+          carrier_respects_equiv := by
+            intro h k classified _sourceH
+            exact classified.right.left
+        }
+        pattern_sound := by
+          intro h source
+          exact source
+        ledger_sound := by
+          intro h source
+          exact source
+      }
 
 end BEDC.Derived.ComplexLimitUp

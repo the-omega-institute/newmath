@@ -1,0 +1,752 @@
+\chapter{A Concrete Naming Certificate for $\AdjunctionUp$}
+\label{ch:concrete-instances-adjunction-namecert}
+
+The adjunction interface $\AdjunctionUp$ packages a pair of functors $F \dashv G$ between two categories together with the natural-isomorphism witness on hom-sets. It depends on $\NameCert_{\FunctorUp}$ (\autoref{ch:concrete-instances-functor-namecert}) and $\NameCert_{\NatTransUp}$ (\autoref{ch:concrete-instances-nattrans-namecert}), and is the canonical structure underlying free/forgetful and Galois-style correspondences.
+
+\section{Carrier definition}
+\label{sec:adjunction-carrier}
+
+\begin{definition}[Adjunction unit-counit carrier]
+\label{def:adjunction-unit-counit-carrier}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$,
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds
+when $unit$ is a natural-transformation prefix component from $p$ to $q$ at
+$a$, $counit$ is the corresponding component from $q$ to $p$, and the two
+triangle witnesses are the continuations $\mathsf{Cont}(unit,counit,left)$ and
+$\mathsf{Cont}(counit,unit,right)$.
+\end{definition}
+\leandef{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier}
+
+\begin{definition}[Adjunction unit-counit alternating ledger]
+\label{def:adjunction-unit-counit-alternating-ledger}
+For histories $unit,counit,depth:\mathsf{BHist}$,
+$\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth)$ is the recursive
+ledger that alternates the two boundary components along a unary depth. The
+empty depth returns $\emp$, a one-headed depth appends the current unit
+component to the ledger with the two boundary components exchanged, and the
+zero-headed branch returns $\emp$.
+\end{definition}
+\leandef{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating}
+
+\begin{theorem}[Adjunction unit-counit diagonal empty components exactness]
+\label{thm:adjunction-unit-counit-empty-components-exact}
+For histories $p,q,a,composite:\mathsf{BHist}$,
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,\emp,\emp,composite,composite)\\
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\land
+\mathsf{UnaryHistory}(q)\land
+\mathsf{UnaryHistory}(a)\land
+p\sim q\land composite\sim\emp.
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_empty\_components\_exact}
+\begin{proof}
+Both displayed natural-transformation components are empty identity components.
+Their exactness theorem gives unary histories for $p,q,a$ and $p\sim q$. The
+diagonal continuation result of the two empty components is history-same as
+$\emp$. Conversely, $p\sim q$ supplies both empty identity components, and
+$composite\sim\emp$ supplies both empty continuation witnesses.
+\end{proof}
+
+\begin{theorem}[Adjunction empty unit-counit prefix exactness]
+\label{thm:adjunction-empty-unit-counit-prefix}
+For histories $p,q,a:\mathsf{BHist}$, empty unit and counit prefix components,
+together with the empty composite continuation, are exact for unary prefixes,
+a unary object, and prefix equality:
+$$
+\begin{array}{c}
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)
+\land
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\emp)
+\land
+\ContR(\emp,\emp,\emp)
+\\[2pt]
+\Longleftrightarrow
+\mathsf{Unary}(p)\land\mathsf{Unary}(q)\land\mathsf{Unary}(a)\land\hsame(p,q).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Each empty prefix component is read through the natural-transformation
+empty-identity exactness theorem. The unit component supplies the unary data and
+$p\hsame q$. Conversely, the unary data and $p\hsame q$ reconstruct the unit
+component; symmetry reconstructs the counit component; the empty composite is
+the reflexive continuation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.Adjunction\_empty\_unit\_counit\_prefix\_iff}
+
+\begin{theorem}[Adjunction unit-counit empty component exactness]
+\label{thm:adjunction-unit-counit-empty-components-exactness}
+For histories $p,q,a,left,right:\mathsf{BHist}$,
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,\emp,\emp,left,right)
+$$
+holds exactly when $p,q,a$ are unary histories, $p \hsame q$, and both triangle
+results satisfy $left \hsame \emp$ and $right \hsame \emp$.
+\end{theorem}
+\begin{proof}
+Each empty component is read by the natural-transformation empty-identity
+theorem, yielding the unary prefix data and $p \hsame q$. The two triangle
+continuations then compare with the empty right-unit continuation. Conversely,
+the same unary data and prefix equality rebuild both empty component carriers,
+and the displayed empty triangle results rebuild the two continuations.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_empty\_components\_iff}
+
+\begin{theorem}[Adjunction left-cycle empty component exactness]
+\label{thm:adjunction-unit-counit-left-cycle-empty-components}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$,
+an adjunction unit-counit carrier whose left triangle result is empty is
+equivalent to unary prefix data, two-way prefix equality, and all four
+unit, counit, left-triangle, and right-triangle histories being empty:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \hsame(left,\emp)\\[2pt]
+\Longleftrightarrow
+\Unary(p)\land\Unary(q)\land\Unary(a)\land
+\hsame(p,q)\land\hsame(q,p)\land
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(left,\emp)\land\hsame(right,\emp).
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_left\_cycle\_empty\_components\_iff}
+\begin{proof}
+The left empty triangle turns the unit-counit continuation into an empty
+prefix-component cycle. The prefix-cycle theorem extracts $p\hsame q$,
+$q\hsame p$, and empty unit and counit component histories. Reading the unit
+component as an empty natural-transformation identity supplies the unary
+witnesses for $p$, $q$, and $a$. The right triangle continuation then
+transports across the empty counit and unit witnesses to the empty
+continuation.
+
+Conversely, the unary data and the two prefix equalities rebuild the empty
+unit and counit natural-transformation components. The empty witnesses for
+unit, counit, left, and right rebuild the two continuation ledgers and retain
+the displayed left-cycle empty witness.
+\end{proof}
+
+\begin{theorem}[Adjunction right-cycle empty component exactness]
+\label{thm:adjunction-unit-counit-right-cycle-empty-components}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$,
+an adjunction unit-counit carrier whose right triangle result is empty is
+equivalent to unary prefix data, two-way prefix equality, and all four
+unit, counit, left-triangle, and right-triangle histories being empty:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \hsame(right,\emp)\\[2pt]
+\Longleftrightarrow
+\Unary(p)\land\Unary(q)\land\Unary(a)\land
+\hsame(p,q)\land\hsame(q,p)\land
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(left,\emp)\land\hsame(right,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Exchange the unit and counit component rows and read the right triangle as the
+left triangle of the exchanged carrier. The left-cycle exactness theorem
+extracts the unary witnesses, the two prefix equalities, and the empty
+component histories. Reassembling the component rows in the original order
+gives the displayed equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_right\_cycle\_empty\_components\_iff}
+
+\begin{theorem}[Adjunction unit-counit triangle result determinism]
+\label{thm:adjunction-unit-counit-triangle-results-deterministic}
+If an adjunction unit-counit carrier displays triangle results $left$ and
+$right$, then any other continuations with the same unit-counit inputs display
+the same results up to $\hsame$.
+\end{theorem}
+\begin{proof}
+Project the two continuation witnesses from the carrier and apply continuation
+determinism separately to the left and right triangle rows.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_triangle\_results\_deterministic}
+
+\begin{theorem}[Adjunction unit-counit triangle results coincide]
+\label{thm:adjunction-unit-counit-triangle-results-hsame}
+Let \(unit:p\Rightarrow q\) and \(counit:q\Rightarrow p\) be prefix
+natural-transformation components at \(a\). If the two triangle ledgers are
+displayed by
+$$
+\Cont(unit,counit,left)
+\qquad\text{and}\qquad
+\Cont(counit,unit,right),
+$$
+then \(left\hsame right\).
+\end{theorem}
+\begin{proof}
+The first continuation is a vertical composite prefix component from \(p\) to
+\(p\), hence the endomorphism component exactness identifies \(left\) with
+\(\emp\). The second continuation is the symmetric composite from \(q\) to
+\(q\), so the same exactness identifies \(right\) with \(\emp\). Transitivity of
+\(\hsame\) gives \(left\hsame right\).
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitTriangle\_results\_hsame}
+
+\begin{theorem}[Adjunction unit-counit endomorphism boundary emptiness]
+\label{thm:adjunction-unit-counit-carrier-endomorphism-unit-counit-empty}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, if
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right),
+$$
+then both boundary components are empty:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Both displayed boundary components are prefix natural-transformation
+endomorphism components over the same prefix $p$ and object $a$. The component
+exactness readback identifies the unit component with $\emp$ and then identifies
+the counit component with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_unit\_counit\_empty}
+
+\begin{theorem}[Adjunction unit-counit alternating unary]
+\label{thm:adjunction-unit-counit-alternating-unary}
+If $unit$, $counit$, and $depth$ are unary histories, then the alternating
+unit-counit ledger
+$$
+\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth)
+$$
+is unary.
+\end{theorem}
+\begin{proof}
+Induct on the unary depth. The empty depth yields the empty ledger. A
+zero-headed depth is impossible for a unary history. In the one-headed case,
+the recursive tail is unary by the induction hypothesis with $unit$ and
+$counit$ exchanged, and unary append closure combines it with the unary
+front component.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_unary}
+
+\begin{theorem}[Adjunction alternating zero-headed result exclusion]
+\label{thm:adjunction-unit-counit-carrier-alternating-zero-headed-result-absurd}
+For an adjunction unit-counit carrier, unary depth makes the alternating
+unit-counit ledger unary. Therefore it cannot be history-same to a zero-headed
+result:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \Unary(depth)
+\land \hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\Ezero(z))
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The unit and counit components of the displayed carrier are natural
+transformation component histories, hence each component history is unary.
+Together with unary depth, the alternating unary theorem makes the displayed
+alternating ledger unary. Transporting unary membership across the result
+\(\hsame\) would make \(\Ezero(z)\) unary, contradicting unary zero-headed
+exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_alternating\_zero\_headed\_result\_absurd}
+
+\begin{theorem}[Adjunction positive-depth alternating unit nonempty]
+\label{thm:adjunction-unit-counit-alternating-positive-depth-unit-nonempty}
+For histories $unit,counit,depth:\mathsf{BHist}$, suppose $depth$ is unary,
+$depth$ is not history-same as $\emp$, and $unit$ is not history-same as
+$\emp$. Then the alternating unit-counit ledger at that depth is not
+history-same as $\emp$:
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty depth has a one-headed tail. At such a depth the alternating
+ledger unfolds to an append whose left component is $unit$. Append nonemptiness
+therefore follows from the nonempty unit component.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_result\_nonempty\_of\_positive\_depth\_unit\_nonempty}
+
+\begin{theorem}[Adjunction positive-depth alternating continuation readback]
+\label{thm:adjunction-unit-counit-alternating-positive-depth-cont-readback}
+For histories $unit,counit,depth:\mathsf{BHist}$, suppose $depth$ is unary
+and not history-same as $\emp$. Then there is a unary tail $tail$ such that
+the alternating unit-counit ledger at $depth$ is displayed by the first
+continuation step
+$$
+\Cont\bigl(unit,\mathsf{AdjunctionUnitCounitAlternating}(counit,unit,tail),
+\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty depth has a one-headed tail. Unfolding the alternating ledger
+at that one-headed branch exposes exactly the continuation append whose left
+component is $unit$ and whose right component is the alternating ledger with
+the boundary components exchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_cont\_readback}
+
+\begin{theorem}[Adjunction alternating append positive suffix continuation readback]
+\label{thm:adjunction-unit-counit-alternating-append-positive-suffix-cont-readback}
+If $suffix$ is unary and not history-same as $\emp$, then the alternating
+unit-counit ledger over $\mathsf{append}(pref,suffix)$ exposes a successor
+continuation with the same prefix inside the exchanged tail:
+$$
+\exists tail.\ \Unary(tail)\land
+\Cont\bigl(unit,
+\mathsf{AdjunctionUnitCounitAlternating}(counit,unit,\mathsf{append}(pref,tail)),
+\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,\mathsf{append}(pref,suffix))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty suffixes have a one-headed tail. Substituting
+$suffix=\Eone(tail)$ makes the appended depth one-headed with payload
+$\mathsf{append}(pref,tail)$. The alternating ledger unfolds at that branch to
+append $unit$ to the exchanged alternating tail, which is exactly the
+displayed continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_append\_positive\_suffix\_cont\_readback}
+
+\begin{theorem}[Adjunction append-positive suffix empty result forces empty unit]
+\label{thm:adjunction-alternating-append-positive-suffix-result-empty-unit-empty}
+If \(suffix\) is unary and not history-same as \(\emp\), then an empty result
+for the alternating unit-counit ledger over \(\mathsf{append}(pref,suffix)\)
+forces the visible unit component to be empty:
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}
+  (unit,counit,\mathsf{append}(pref,suffix)),\emp)
+\Longrightarrow \hsame(unit,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The append-positive suffix readback writes the displayed alternating ledger as
+a continuation whose left endpoint is \(unit\). Transporting that continuation
+to the empty result and applying empty-result inversion for continuation
+forces the left endpoint \(unit\) to be empty.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_append\_positive\_suffix\_result\_empty\_unit\_empty}
+
+\begin{theorem}[Adjunction positive-tail empty result forces empty components]
+\label{thm:adjunction-unit-counit-alternating-positive-tail-result-empty-components-empty}
+Suppose $depth$ is unary, $depth=\Eone(tail)$, $tail$ is unary, and
+$tail$ is not history-same as $\emp$. If the alternating unit-counit ledger at
+$depth$ is history-same as $\emp$, then both displayed components are empty:
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)
+\Longrightarrow
+\hsame(unit,\emp)\land\hsame(counit,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Substitute $depth=\Eone(tail)$ and unfold the positive branch of the
+alternating ledger. Empty append inversion gives $unit\hsame\emp$ and an
+empty result for the exchanged alternating ledger over $tail$. Since $tail$ is
+unary and nonempty, the positive-depth empty-result readback applied to that
+exchanged ledger gives $counit\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_tail\_result\_empty\_components\_empty}
+
+\begin{theorem}[Adjunction positive-depth empty result forces empty unit]
+\label{thm:adjunction-alternating-positive-depth-result-empty-unit-empty}
+For unary nonempty $depth$, if the alternating unit-counit ledger is
+history-same as $\emp$, then the visible unit component is history-same as
+\(\emp\):
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)
+\quad\Longrightarrow\quad
+\hsame(unit,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Positive-depth continuation readback writes the alternating ledger as a
+continuation whose left component is \(unit\). Transporting this continuation
+along the empty result and applying empty-result inversion forces the left
+component to be empty.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_result\_empty\_unit\_empty}
+
+\begin{theorem}[Adjunction positive-depth empty alternating prefix readback]
+\label{thm:adjunction-unit-counit-carrier-alternating-positive-depth-empty-prefix-same}
+For histories $p,q,a,unit,counit,left,right,depth:\mathsf{BHist}$, suppose
+an adjunction unit-counit carrier holds, $depth$ is unary and nonempty, and
+the alternating unit-counit ledger is history-same to $\emp$. Then the source
+and target prefixes of the unit component are history-same:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \Unary(depth)\land(\hsame(depth,\emp)\to\bot)
+\land
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)
+\Longrightarrow
+\hsame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+The positive-depth empty-result readback forces $unit\hsame\emp$. Transporting
+the unit component to the empty component case lets natural-transformation
+empty-identity exactness read back the endpoint-prefix equality
+$\hsame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_alternating\_positive\_depth\_empty\_prefix\_same}
+
+\begin{theorem}[Adjunction visible unit positive-depth empty-result exclusion]
+\label{thm:adjunction-alternating-positive-depth-visible-unit-continuation-empty-result-absurd}
+For unary nonempty $depth$, an alternating unit-counit ledger whose displayed
+unit component has a visible head cannot continue to an empty result:
+$$
+\ContR(\mathsf{AdjunctionUnitCounitAlternating}(\Ezero(unit),counit,depth),y,r)
+\land r\hsame\emp\Longrightarrow\bot,
+$$
+and the same statement holds with $\Eone(unit)$ in place of $\Ezero(unit)$.
+\end{theorem}
+\begin{proof}
+Transport the continuation along $r\hsame\emp$ and invert the empty result.
+The positive-depth empty-result readback then forces the visible unit component
+itself to be history-same to $\emp$, contradicting constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_visible\_unit\_continuation\_empty\_result\_absurd}
+
+\begin{theorem}[Adjunction positive-depth unit-empty readback]
+\label{thm:adjunction-alternating-positive-depth-unit-empty-readback}
+For unary nonempty $depth$, if $unit\hsame\emp$, then the alternating
+unit-counit ledger at $depth$ is history-same to the tail readback with the
+boundary components exchanged: there is a unary $tail$ such that
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),
+\mathsf{AdjunctionUnitCounitAlternating}(counit,unit,tail)).
+$$
+\end{theorem}
+\begin{proof}
+Positive-depth continuation readback supplies a unary tail and a continuation
+from $unit$ into the exchanged alternating tail. Replacing $unit$ by $\emp$
+turns that continuation into the left-unit law, so its result reads back to
+the exchanged tail.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_unit\_empty\_readback}
+
+\begin{theorem}[Adjunction unit-counit alternating empty components closed]
+\label{thm:adjunction-unit-counit-alternating-empty-components-closed}
+If both boundary components are empty and $depth$ is unary, then the
+alternating unit-counit ledger is empty:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land\Unary(depth)
+\quad\Longrightarrow\quad
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the unary depth. The empty depth returns the empty ledger, while a
+zero-headed depth is incompatible with unary history. In the one-headed case,
+the recursion exchanges the empty unit and counit components; the induction
+hypothesis collapses the tail ledger, and append by the empty front component
+keeps the endpoint empty.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_empty\_components\_closed}
+
+\begin{theorem}[Adjunction unit-counit alternating endomorphism empty]
+\label{thm:adjunction-unit-counit-alternating-endomorphism-empty}
+For histories $p,a,unit,counit,left,right,depth:\mathsf{BHist}$, if
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+and $depth$ is unary, then the alternating unit-counit ledger is empty:
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp).
+$$
+\end{theorem}
+\begin{proof}
+The endomorphism boundary theorem identifies both boundary components with
+$\emp$. Induct on the unary depth. The empty depth is immediate. In the
+one-headed case, the recursive ledger has the boundary components exchanged;
+the induction hypothesis collapses that tail ledger to $\emp$, and the
+outer append by the empty unit component preserves the empty endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_endomorphism\_empty}
+
+\begin{theorem}[Adjunction unit-counit endomorphism triangle emptiness]
+\label{thm:adjunction-unit-counit-carrier-endomorphism-triangles-empty}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, if
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right),
+$$
+then both triangle legs are empty:
+$$
+\hsame(left,\emp)\land\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The endomorphism boundary theorem first identifies both $unit$ and $counit$
+with $\emp$. Continuation transport carries the two displayed triangle
+continuations to the right-unit continuation at $\emp$, yielding empty left and
+right triangle results.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_triangles\_empty}
+
+\begin{theorem}[Adjunction unit-counit endomorphism empty components iff]
+\label{thm:adjunction-unit-counit-carrier-endomorphism-empty-components-iff}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, the endomorphism
+adjunction unit-counit carrier is equivalent to unary data for $p$, $a$,
+$unit$, and $counit$, together with empty unit, counit, left triangle, and
+right triangle components:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+$$
+\Longleftrightarrow
+\Unary(p)\wedge\Unary(a)\wedge\Unary(unit)\wedge\Unary(counit)
+\wedge\hsame(unit,\emp)\wedge\hsame(counit,\emp)
+\wedge\hsame(left,\emp)\wedge\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction decomposes the two endomorphism natural-transformation
+components, yielding the unary witnesses and the empty unit and counit
+witnesses. The triangle-empty theorem supplies the two displayed triangle
+results. Conversely, empty unit and counit components rebuild the two
+endomorphism natural-transformation carriers, and the empty triangle witnesses
+rebuild the two continuation legs.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_empty\_components\_iff}
+
+\begin{theorem}[Adjunction unit-counit endomorphism total collapse]
+\label{thm:adjunction-unit-counit-endomorphism-total-collapse}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, if
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right),
+$$
+then all four endomorphism fields are empty:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land\hsame(left,\emp)\land\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:adjunction-unit-counit-carrier-endomorphism-unit-counit-empty}
+to the displayed carrier. This gives the two boundary witnesses
+$\hsame(unit,\emp)$ and $\hsame(counit,\emp)$.
+
+Apply Theorem~\ref{thm:adjunction-unit-counit-carrier-endomorphism-triangles-empty}
+to the same carrier. This gives the two triangle-leg witnesses
+$\hsame(left,\emp)$ and $\hsame(right,\emp)$.
+
+Combining the two boundary witnesses with the two triangle-leg witnesses
+assembles the displayed four-fold conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_total\_collapse}
+
+\begin{theorem}[Adjunction unit-counit endomorphism total alternating collapse]
+\label{thm:adjunction-unit-counit-endomorphism-total-alternating-collapse}
+For histories $p,a,unit,counit,left,right,depth:\mathsf{BHist}$, if
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+and $\mathsf{UnaryHistory}(depth)$, then the endomorphism boundary,
+triangle, and alternating ledger all collapse to the empty history:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(left,\emp)\land\hsame(right,\emp)\land
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:adjunction-unit-counit-carrier-endomorphism-unit-counit-empty}
+to the displayed carrier. This gives the two boundary witnesses
+$\hsame(unit,\emp)$ and $\hsame(counit,\emp)$.
+
+Apply Theorem~\ref{thm:adjunction-unit-counit-carrier-endomorphism-triangles-empty}
+to the same carrier. This gives the two triangle-leg witnesses
+$\hsame(left,\emp)$ and $\hsame(right,\emp)$.
+
+Apply Theorem~\ref{thm:adjunction-unit-counit-alternating-endomorphism-empty}
+to the displayed carrier and the unary-depth witness. This gives the
+alternating-ledger witness
+$\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)$.
+
+The five witnesses assemble the displayed conjunction, giving the total
+endomorphism collapse including the alternating ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_total\_alternating\_collapse}
+
+
+\begin{definition}[Adjunction composition pasting data]
+\label{def:adjunction-composition-pasting-data}
+Fix histories
+$$
+p_1,q_1,a_1,u_1,c_1,l_1,r_1,p_2,q_2,a_2,u_2,c_2,l_2,r_2,p_{21},q_{21},s_u,s_c,a,\tilde u_1,\tilde u_2,\tilde c_1,\tilde c_2,u_{21},c_{21},l_{21},r_{21} : \Hist .
+$$
+An adjunction composition pasting datum is the following finite family of generated judgments:
+\begin{enumerate}
+\item the two input unit-counit carriers
+$$
+\operatorname{AdjunctionUnitCounitCarrier}(p_1,q_1,a_1,u_1,c_1,l_1,r_1)
+$$
+and
+$$
+\operatorname{AdjunctionUnitCounitCarrier}(p_2,q_2,a_2,u_2,c_2,l_2,r_2);
+$$
+\item the two whiskered unit-component rows
+$$
+\operatorname{NatTransPrefixComponentCarrier}(p_{21},s_u,a,\tilde u_1),\qquad
+\operatorname{NatTransPrefixComponentCarrier}(s_u,q_{21},a,\tilde u_2);
+$$
+\item the two whiskered counit-component rows
+$$
+\operatorname{NatTransPrefixComponentCarrier}(q_{21},s_c,a,\tilde c_1),\qquad
+\operatorname{NatTransPrefixComponentCarrier}(s_c,p_{21},a,\tilde c_2);
+$$
+\item the two vertical-composition ledgers
+$$
+\Cont(\tilde u_1,\tilde u_2,u_{21}),\qquad\Cont(\tilde c_1,\tilde c_2,c_{21});
+$$
+\item the two composite triangle ledgers
+$$
+\Cont(u_{21},c_{21},l_{21}),\qquad\Cont(c_{21},u_{21},r_{21}).
+$$
+\end{enumerate}
+The categorical reading is that $p_{21}$ displays the composite left functor $F_2\circ F_1$, $q_{21}$ displays the composite right functor $G_1\circ G_2$, $u_{21}$ displays the vertically composed unit $(G_1\eta_2F_1)\circ\eta_1$, and $c_{21}$ displays the vertically composed counit $\varepsilon_2\circ(F_2\varepsilon_1G_2)$.
+\end{definition}
+
+\begin{theorem}[Composition of adjunction unit-counit carriers]
+\label{thm:adjunction-composition-unit-counit-carrier}
+Every adjunction composition pasting datum of \autoref{def:adjunction-composition-pasting-data} determines a composite unit-counit carrier
+$$
+\operatorname{AdjunctionUnitCounitCarrier}(p_{21},q_{21},a,u_{21},c_{21},l_{21},r_{21}).
+$$
+Thus the BEDC display of $F_2\circ F_1$ and $G_1\circ G_2$ carries an $\AdjunctionUp$ unit-counit certificate with unit and counit obtained by whiskering and vertical composition.
+\end{theorem}
+\begin{proof}
+Project the two unit-component rows from the pasting datum:
+$$
+\operatorname{NatTransPrefixComponentCarrier}(p_{21},s_u,a,\tilde u_1)
+$$
+and
+$$
+\operatorname{NatTransPrefixComponentCarrier}(s_u,q_{21},a,\tilde u_2).
+$$
+Project also the displayed vertical-composition ledger
+$$
+\Cont(\tilde u_1,\tilde u_2,u_{21}).
+$$
+The vertical composition closure theorem for $\NatTransUp$ prefix components applies to these two consecutive components with common middle prefix $s_u$ and common object history $a$. It returns
+$$
+\operatorname{NatTransPrefixComponentCarrier}(p_{21},q_{21},a,u_{21}).
+$$
+Project the two counit-component rows from the pasting datum:
+$$
+\operatorname{NatTransPrefixComponentCarrier}(q_{21},s_c,a,\tilde c_1)
+$$
+and
+$$
+\operatorname{NatTransPrefixComponentCarrier}(s_c,p_{21},a,\tilde c_2).
+$$
+Project also the displayed vertical-composition ledger
+$$
+\Cont(\tilde c_1,\tilde c_2,c_{21}).
+$$
+The same $\NatTransUp$ vertical composition closure theorem, now applied with common middle prefix $s_c$ and common object history $a$, returns
+$$
+\operatorname{NatTransPrefixComponentCarrier}(q_{21},p_{21},a,c_{21}).
+$$
+The pasting datum supplies the two composite triangle ledgers
+$$
+\Cont(u_{21},c_{21},l_{21})
+$$
+and
+$$
+\Cont(c_{21},u_{21},r_{21}).
+$$
+By \autoref{def:adjunction-unit-counit-carrier}, an adjunction unit-counit carrier consists precisely of a prefix natural-transformation component from the left prefix to the right prefix, a prefix natural-transformation component from the right prefix to the left prefix, and the two displayed continuation triangle ledgers. The four judgments just constructed and projected instantiate those four fields at $(p_{21},q_{21},a,u_{21},c_{21},l_{21},r_{21})$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionCompositionPasting\_unit\_counit\_carrier}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_composition\_pasting\_closed}
+
+\begin{proposition}[Composite unit and counit empty readback]
+\label{prop:adjunction-composition-empty-readback}
+For every adjunction composition pasting datum of \autoref{def:adjunction-composition-pasting-data}, the following two readback implications hold:
+$$
+\hsame(u_{21},e)\Longrightarrow\hsame(\tilde u_1,e)\wedge\hsame(\tilde u_2,e)\wedge\hsame(p_{21},s_u)\wedge\hsame(s_u,q_{21}),
+$$
+and
+$$
+\hsame(c_{21},e)\Longrightarrow\hsame(\tilde c_1,e)\wedge\hsame(\tilde c_2,e)\wedge\hsame(q_{21},s_c)\wedge\hsame(s_c,p_{21}).
+$$
+\end{proposition}
+\begin{proof}
+Project the unit-component rows
+$$
+\operatorname{NatTransPrefixComponentCarrier}(p_{21},s_u,a,\tilde u_1)
+$$
+and
+$$
+\operatorname{NatTransPrefixComponentCarrier}(s_u,q_{21},a,\tilde u_2),
+$$
+together with the unit vertical-composition ledger
+$$
+\Cont(\tilde u_1,\tilde u_2,u_{21}).
+$$
+The vertical-composite empty-result exactness theorem for $\NatTransUp$ prefix components states that, for these consecutive component rows, the assertion $\hsame(u_{21},e)$ is equivalent to the conjunction
+$$
+\hsame(\tilde u_1,e)\wedge\hsame(\tilde u_2,e)\wedge\hsame(p_{21},s_u)\wedge\hsame(s_u,q_{21}).
+$$
+Taking the forward implication of that equivalence gives the first displayed readback.
+Project the counit-component rows
+$$
+\operatorname{NatTransPrefixComponentCarrier}(q_{21},s_c,a,\tilde c_1)
+$$
+and
+$$
+\operatorname{NatTransPrefixComponentCarrier}(s_c,p_{21},a,\tilde c_2),
+$$
+together with the counit vertical-composition ledger
+$$
+\Cont(\tilde c_1,\tilde c_2,c_{21}).
+$$
+Applying the same vertical-composite empty-result exactness theorem to these consecutive component rows states that $\hsame(c_{21},e)$ is equivalent to
+$$
+\hsame(\tilde c_1,e)\wedge\hsame(\tilde c_2,e)\wedge\hsame(q_{21},s_c)\wedge\hsame(s_c,p_{21}).
+$$
+The forward implication of this equivalence is the second displayed readback.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionCompositionPasting\_empty\_readback}
+
+\begin{corollary}[Composite triangle result determinacy]
+\label{cor:adjunction-composition-triangle-determinacy}
+For every adjunction composition pasting datum of \autoref{def:adjunction-composition-pasting-data}, if histories $l'_{21}$ and $r'_{21}$ satisfy
+$$
+\Cont(u_{21},c_{21},l'_{21})
+$$
+and
+$$
+\Cont(c_{21},u_{21},r'_{21}),
+$$
+then
+$$
+\hsame(l_{21},l'_{21})\wedge \hsame(r_{21},r'_{21}).
+$$
+\end{corollary}
+\begin{proof}
+The pasting datum supplies
+$$
+\Cont(u_{21},c_{21},l_{21})
+$$
+and the hypothesis supplies
+$$
+\Cont(u_{21},c_{21},l'_{21}).
+$$
+Continuation determinacy applied to these two continuation witnesses with the same source history $u_{21}$ and the same right history $c_{21}$ yields
+$$
+\hsame(l_{21},l'_{21}).
+$$
+The pasting datum also supplies
+$$
+\Cont(c_{21},u_{21},r_{21})
+$$
+and the hypothesis supplies
+$$
+\Cont(c_{21},u_{21},r'_{21}).
+$$
+Continuation determinacy applied to these two continuation witnesses with the same source history $c_{21}$ and the same right history $u_{21}$ yields
+$$
+\hsame(r_{21},r'_{21}).
+$$
+The two history-sameness witnesses form the displayed conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionCompositionPasting\_triangle\_determinacy}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionCompositionPasting\_triangle\_results\_deterministic}

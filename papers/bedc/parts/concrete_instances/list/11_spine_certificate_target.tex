@@ -21,6 +21,7 @@ $$
 $$
 Thus $\mathsf{ListClassifierSpec}$ remains the finite-spine classifier, $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$ names the BEDC-history bridge through finite spines, and $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$ is the certificate classifier whose endpoints are BEDC histories. The recursive classifier $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{S,\sim_S}$ from Definition~\ref{def:list-history-classifier} is a paper-side generator for carrier and endpoint reasoning.
 \end{definition}
+\leandef{BEDC.Derived.ListUp.ListSpineRep}
 
 \begin{theorem}[List spine nil-cons no-confusion]\label{thm:list-spine-rep-nil-cons-no-confusion}
 For every BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, history $h$, source history $a$, and tail spine $xs:\mathsf{HistSpine}$, $\mathsf{ListSpineRep}_A(h,\mathsf{nil})$ and $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$ are contradictory.
@@ -28,6 +29,47 @@ For every BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, histor
 \begin{proof}
 Unpack the nil representation to obtain $\hsame(h,\emp)$. Unpack the cons representation to obtain an endpoint witness $\hsame(h,\Eone(p))$ for some continuation package $p$. Compose the symmetry of the nil endpoint with the cons endpoint to get $\hsame(\emp,\Eone(p))$, then close by BEDC history constructor no-confusion between the empty history and a one-step endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListSpineRep\_nil\_cons\_no\_confusion}
+
+\begin{lemma}[List spine cons hsame transport]
+\label{lem:list-spine-rep-cons-hsame-transport}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If
+$A(a)$ holds, the tail history $t$ represents a finite spine $xs$, the
+continuation $\ContR(a,t,p)$ holds, and $h$ exposes the cons endpoint
+$\Eone(p)$, then every $h'$ with $\hsame(h,h')$ represents the cons spine:
+$$
+A(a)\to \mathsf{ListSpineRep}_A(t,xs)\to \ContR(a,t,p)\to
+\hsame(h,\Eone(p))\to\hsame(h,h')\to
+\mathsf{ListSpineRep}_A(h',\mathsf{cons}(a,xs)).
+$$
+\end{lemma}
+\begin{proof}
+Use the cons constructor of Definition~\ref{def:list-spine-representation}.
+The head source witness, tail representation, and continuation witness are
+unchanged. The endpoint witness for $h'$ is obtained by composing
+$\hsame(h',h)$, the symmetry of the displayed endpoint transport, with the
+stored cons endpoint witness $\hsame(h,\Eone(p))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListSpineRep\_cons\_hsame\_transport}
+
+\begin{theorem}[List spine cons endpoint shape]
+\label{thm:list-spine-rep-cons-endpoint-shape}
+For every source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, history $h$,
+head $a$, and tail spine $xs:\mathsf{HistSpine}$, a cons spine presentation
+$\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$ exposes its BEDC constructor
+payload:
+$$
+\exists t,p:\mathsf{BHist}.\;
+A(a)\land\mathsf{ListSpineRep}_A(t,xs)\land\ContR(a,t,p)\land
+\hsame(h,\Eone(p)).
+$$
+\end{theorem}
+\begin{proof}
+Invert the displayed cons presentation. The cons constructor of
+$\mathsf{ListSpineRep}$ stores exactly the head source proof, tail spine
+presentation, continuation ledger, and one-headed endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListSpineRep\_cons\_endpoint\_shape}
 
 \begin{theorem}[List spine representation exactness]
 \label{thm:list-spine-representation-exactness}

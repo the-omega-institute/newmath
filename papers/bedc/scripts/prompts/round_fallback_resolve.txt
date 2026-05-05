@@ -13,7 +13,7 @@ will retry the merge automatically after you exit cleanly.
 cd {worktree}
 git status --porcelain                 # working tree should be clean before exit
 git log --oneline {base_branch}..HEAD  # confirm own-round commits still here
-cd papers/bedc && make 2>&1 | tail -50 # PDF build break?
+cd papers/bedc && make check 2>&1 | tail -50 # PDF build break? (`make check` = single -draftmode pass, ~half the time; switch to full `make` once syntax is clean to also catch \autoref / TOC issues)
 cd ../.. && python3 lean4/scripts/bedc_ci.py audit 2>&1 | tail -30
 python3 tools/check-axioms.py 2>&1 | tail -3
 ```
@@ -23,13 +23,18 @@ The first command that errors is what you need to fix.
 ## Common failure categories and recovery moves
 
 ### `bedc_ci.py audit` failure (drift / label / marker)
-- "duplicate paper labels" — a `\label{thm:...}` you added now collides
+- "duplicate paper labels" — a `\label{{thm:...}}` you added now collides
   with a sibling-merged label. Delete this round's `\label` occurrence
-  and the surrounding `\begin{theorem}…\end{theorem}` block if the block
+  and the surrounding `\begin{{theorem}}…\end{{theorem}}` block if the block
   exists only because of this round.
-- "unresolved Lean markers" — a `\leanchecked{X}` (or stmt/def variant)
+- "unresolved Lean markers" — a `\leanchecked{{X}}` (or stmt/def variant)
   references a Lean name that doesn't exist anywhere under
   `lean4/BEDC/`. Drop the marker.
+- "closurestatus audit failure" — a `closurestatus` block has a
+  `\leantarget` that does not resolve, is missing one of its seven
+  fields, or conflates theoryclosure × formalstatus. Repair the block
+  only when this round can justify both axes; otherwise delete this
+  round's whole block.
 - "case-collision" — git index has two paths differing only by case.
   `git update-index --force-remove <wrong-case-path>` then commit.
 
@@ -74,7 +79,7 @@ The first command that errors is what you need to fix.
 4. Re-run the gate that was failing. If it passes, you're done.
 5. Do NOT push. Do NOT touch other worktrees. Do NOT delete this worktree.
 6. Print a one-line summary on stdout: e.g.
-   `RECOVERED: drift audit — dropped duplicate \label{thm:foo}`.
+   `RECOVERED: drift audit — dropped duplicate \label{{thm:foo}}`.
 
 ## When to give up
 

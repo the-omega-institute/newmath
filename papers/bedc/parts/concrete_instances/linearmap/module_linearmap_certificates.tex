@@ -1,0 +1,712 @@
+\begin{lemma}[Codomain additive duplicate cancellation]
+\label{lem:abgroup-additive-duplicate-cancellation}
+Let $W$ carry an $\AbGroupUp(W)$ certificate with additive operation $+_W$, additive unit $0_W$, and classifier $\sim_W$. For any carried $w:W$, if
+$$
+w\sim_W w+_W w,
+$$
+then
+$$
+w\sim_W 0_W.
+$$
+\end{lemma}
+\begin{proof}
+By \autoref{prop:abgroup-forgets-group-certificate}, the additive carrier of $W$ has the same operation, unit, inverse, and classifier as a $\GroupUp$ carrier. Symmetry of the classifier turns the hypothesis into
+$$
+w+_W w\sim_W w.
+$$
+In additive notation, \autoref{thm:group-left-absorb-right-factor-unit} says that a comparison $a+_W b\sim_W a$ in this group reduct forces $b\sim_W0_W$. Taking $a=w$ and $b=w$ gives $w\sim_W0_W$.
+\end{proof}
+
+\begin{theorem}[LinearMap zero preservation from additivity]
+\label{thm:linearmap-zero-preservation-from-additivity}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates. Write $+_V$, $0_V$, and $\sim_V$ for the source vector addition, zero, and classifier, and write $+_W$, $0_W$, and $\sim_W$ for the codomain additive operation, zero, and classifier. Let $f:V\to W$ be a carried $\LinearMapUp(V,W)$ map. If the additive preservation row of $f$ is
+$$
+f(x+_V y)\sim_W f(x)+_W f(y)
+$$
+for carried source inputs $x,y$, then
+$$
+f(0_V)\sim_W0_W.
+$$
+The ten-field fit is: traditional target ordinary linear maps send zero to zero; BEDC source $\LinearMapUp(V,W)$ over the vector-space certificates; carrier the codomain vector carrier; classifier $\sim_W$; stability from additivity and codomain additive cancellation; ledger the zero-pair additive row and the cancellation witness; core theorem this block; exactness predicate $f(0_V)\sim_W0_W$; standard bridge zero preservation for additive linear maps; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+By \autoref{def:vecspace-carrier}, the source vector-space carrier is a module carrier, and by \autoref{def:module-carrier} its vector addition belongs to an additive abelian group. The source carrier transport used to read this comparison inside later rows is the standard semantic transport of \autoref{thm:semantic-namecert-pattern-ledger-transport}; the additive unit law supplies the source-side comparison
+$$
+0_V+_V0_V\sim_V0_V.
+$$
+
+The function-with-law data of \autoref{def:linearmap-carrier} evaluate the additive row on carried source expressions. Viewing evaluation by $f$ as the descent map packaged by the function-like linear-map data, \autoref{thm:descent-certificate-respects} transports the source comparison $0_V+_V0_V\sim_V0_V$ through evaluation; codomain symmetry and transitivity then compose that transported comparison with the additive row at $x=0_V$ and $y=0_V$, giving
+$$
+f(0_V)\sim_W f(0_V)+_W f(0_V).
+$$
+The output $f(0_V)$ is carried by the codomain part of the same linear-map data.
+
+For the codomain, \autoref{prop:vecspace-forgets-module-certificate} reads the vector space as a module, and \autoref{prop:module-forgets-abgroup-certificate} retains its additive abelian-group certificate with the same operation, zero, and classifier. Applying \autoref{lem:abgroup-additive-duplicate-cancellation} to $w=f(0_V)$ therefore gives
+$$
+f(0_V)\sim_W0_W.
+$$
+This is exactly the zero-preservation item listed in \autoref{def:linearmap-stability-certificate}, obtained from additivity and the codomain additive cancellation package.
+\end{proof}
+
+\begin{theorem}[LinearMap composition classifier congruence]
+\label{thm:linmap-composition-classifier-congruence}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $U$, $V$, and $W$ carry $\VecSpaceUp(F,U)$, $\VecSpaceUp(F,V)$, and $\VecSpaceUp(F,W)$ certificates over the same scalar source. Write $+_U$, $+_V$, and $+_W$ for vector addition, write the scalar actions as $r\cdot_U x$, $r\cdot_V y$, and $r\cdot_W z$, and write $\sim_U$, $\sim_V$, and $\sim_W$ for the corresponding vector classifiers. Let $f,f':U\to V$ be carried $\LinearMapUp(U,V)$ maps, and let $g,g':V\to W$ be carried $\LinearMapUp(V,W)$ maps. If $f$ and $f'$ are related by the pointwise $\LinearMapUp(U,V)$ classifier, and $g$ and $g'$ are related by the pointwise $\LinearMapUp(V,W)$ classifier, then $g\circ f$ and $g'\circ f'$ are carried $\LinearMapUp(U,W)$ maps and are related by the pointwise $\LinearMapUp(U,W)$ classifier:
+$$
+g\circ f\sim_{\LinearMapUp(U,W)}g'\circ f'.
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:vecspace-carrier}, each displayed vector-space certificate is a module certificate over the same scalar field, and by \autoref{def:module-carrier} the addition, scalar action, carrier, and classifier rows used below are the module rows specialized to vector spaces. By \autoref{def:linearmap-carrier}, each carried linear map has output closure, additive preservation, scalar compatibility, and a descent certificate for transporting classifier comparisons through evaluation.
+
+First consider $g\circ f$. For a carried input $x:U$, output closure for $f$ gives that $f(x)$ is carried in $V$, and output closure for $g$ gives that $g(f(x))$ is carried in $W$. Thus the composite has output closure. For carried inputs $x,y:U$, the additive row of $f$ gives
+$$
+f(x+_U y)\sim_V f(x)+_V f(y).
+$$
+Transporting this comparison through evaluation by $g$ using \autoref{thm:descent-certificate-respects}, and then applying the additive row of $g$, gives
+$$
+g(f(x+_U y))\sim_W g(f(x)+_V f(y))\sim_W g(f(x))+_W g(f(y)).
+$$
+Classifier transitivity in the codomain module gives the additive row for $g\circ f$. For a carried scalar $r:F$ and carried input $x:U$, the scalar row of $f$ gives
+$$
+f(r\cdot_U x)\sim_V r\cdot_V f(x).
+$$
+Transporting this comparison through evaluation by $g$, and then applying the scalar row of $g$, gives
+$$
+g(f(r\cdot_U x))\sim_W g(r\cdot_V f(x))\sim_W r\cdot_W g(f(x)).
+$$
+Again codomain transitivity gives scalar compatibility for $g\circ f$. Hence $g\circ f$ is a carried $\LinearMapUp(U,W)$ map. The same argument with $f'$ and $g'$ gives that $g'\circ f'$ is carried.
+
+It remains to prove pointwise classifier congruence. Fix a carried input $x:U$. The pointwise classifier relation between $f$ and $f'$ gives
+$$
+f(x)\sim_V f'(x).
+$$
+The descent certificate for $g$ transports this input comparison to
+$$
+g(f(x))\sim_W g(f'(x)).
+$$
+The pointwise classifier relation between $g$ and $g'$ applied at the carried input $f'(x)$ gives
+$$
+g(f'(x))\sim_W g'(f'(x)).
+$$
+Transitivity of $\sim_W$ yields
+$$
+(g\circ f)(x)\sim_W(g'\circ f')(x).
+$$
+Because $x$ was arbitrary, \autoref{def:linearmap-classifier-specification} identifies this pointwise comparison with the $\LinearMapUp(U,W)$ classifier relation between the two composites. The ledger is the composition row recorded by \autoref{def:linearmap-ledger-policy}, with the two input map ledgers and the codomain pointwise comparison ledger as its witnesses.
+\end{proof}
+
+\begin{definition}[Module LinearMap certificate package]
+\label{def:module-linearmap-certificate-package}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the module classifiers, $+_M$ and $+_N$ for vector addition, $0_M$ and $0_N$ for vector zero, and $\odot_M$ and $\odot_N$ for scalar action. A package
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+for a function $f:M\to N$ consists of:
+\begin{enumerate}
+  \item output closure: every carried $x:M$ has carried output $f(x):N$;
+  \item source-classifier descent: $x\sim_M y$ implies $f(x)\sim_N f(y)$;
+  \item additive preservation: $f(x+_M y)\sim_N f(x)+_N f(y)$ for carried $x,y:M$;
+  \item scalar compatibility: $f(r\odot_M x)\sim_N r\odot_N f(x)$ for carried scalars $r:R$ and carried $x:M$;
+  \item zero preservation: $f(0_M)\sim_N0_N$;
+  \item ledger data recording the function identifier, the two linearity rows, the zero row, and the codomain pointwise comparison ledgers.
+\end{enumerate}
+This is the module fragment of the linear-map carrier in \autoref{def:linearmap-carrier}, with its pointwise classifier read as in \autoref{def:linearmap-classifier-specification} and its stability rows read against \autoref{def:module-stability-certificate}.
+\end{definition}
+
+\begin{theorem}[Module LinearMap composition certificate]
+\label{thm:module-linearmap-composition-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$, $N$, and $P$ carry $\ModuleUp(R,M)$, $\ModuleUp(R,N)$, and $\ModuleUp(R,P)$ certificates over the same scalar source. If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(N,P;g),
+$$
+then the composite function $(g\circ f)(x):=g(f(x))$ carries a certificate
+$$
+\mathsf{LinearMapCert}_R(M,P;g\circ f).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two input certificates according to \autoref{def:module-linearmap-certificate-package}. The source data for the composite are the same scalar certificate $R$ together with the endpoint modules $M$ and $P$, which are among the module certificate obligations of \autoref{def:module-certificate-obligations}.
+
+For output closure, let $x$ be carried in $M$. Output closure for $f$ gives that $f(x)$ is carried in $N$, and output closure for $g$ gives that $g(f(x))$ is carried in $P$.
+
+For source-classifier descent, assume $x\sim_M y$. Descent for $f$ gives
+$$
+f(x)\sim_N f(y).
+$$
+Descent for $g$ transports this comparison to
+$$
+g(f(x))\sim_P g(f(y)),
+$$
+which is the descent row for $g\circ f$.
+
+For additivity, let $x$ and $y$ be carried in $M$. Additive closure in the $M$ module makes $x+_M y$ carried. The additive row of $f$ gives
+$$
+f(x+_M y)\sim_N f(x)+_N f(y).
+$$
+Descent for $g$ sends this comparison to
+$$
+g(f(x+_M y))\sim_P g(f(x)+_N f(y)).
+$$
+The outputs $f(x)$ and $f(y)$ are carried in $N$, so the additive row of $g$ gives
+$$
+g(f(x)+_N f(y))\sim_P g(f(x))+_P g(f(y)).
+$$
+Classifier transitivity from \autoref{thm:namecert-equivalence-transitivity} composes the last two displayed comparisons and gives the additive row for $g\circ f$.
+
+For scalar compatibility, let $r$ be a carried scalar and let $x$ be carried in $M$. Scalar-action closure in the $M$ module makes $r\odot_M x$ carried. The scalar row of $f$ gives
+$$
+f(r\odot_M x)\sim_N r\odot_N f(x).
+$$
+Descent for $g$ transports this to
+$$
+g(f(r\odot_M x))\sim_P g(r\odot_N f(x)).
+$$
+Since $f(x)$ is carried in $N$, the scalar row of $g$ gives
+$$
+g(r\odot_N f(x))\sim_P r\odot_P g(f(x)).
+$$
+Transitivity of the $P$ classifier gives scalar compatibility for the composite.
+
+For zero preservation, the zero row of $f$ gives
+$$
+f(0_M)\sim_N0_N.
+$$
+Descent for $g$ gives
+$$
+g(f(0_M))\sim_P g(0_N),
+$$
+and the zero row of $g$ gives
+$$
+g(0_N)\sim_P0_P.
+$$
+Transitivity of the $P$ classifier gives $(g\circ f)(0_M)\sim_P0_P$.
+
+The pointwise classifier for maps $M\to P$ is exactly the relation specified in \autoref{def:linearmap-classifier-specification}. The rows above are the output-closure, descent, additivity, scalar-compatibility, zero-preservation, and composition-closure entries of \autoref{def:linearmap-stability-certificate} read over the module carriers of \autoref{def:module-carrier}. The ledger is the composite record formed from the two input function identifiers and their linearity, zero, and pointwise comparison ledgers, matching the policy of \autoref{def:linearmap-ledger-policy}. Therefore the carrier, source, pattern, classifier, stability, and ledger data satisfy \autoref{def:linearmap-certificate-obligations} for $g\circ f$.
+\end{proof}
+
+\begin{theorem}[Module identity LinearMap certificate]
+\label{thm:module-linearmap-identity-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ carry a $\ModuleUp(R,M)$ certificate. Write $\sim_M$ for the module classifier, $+_M$ for module addition, $0_M$ for module zero, and $\odot_M$ for scalar action. Let $\mathrm{id}_M:M\to M$ be the identity function. Then
+$$
+\mathsf{LinearMapCert}_R(M,M;\mathrm{id}_M)
+$$
+holds. The source and target classifier are the same module classifier from \autoref{def:module-classifier-specification}, and the ledger is the identity-function ledger governed by \autoref{def:linearmap-ledger-policy}.
+
+The ten-field fit is: traditional target the ordinary identity linear map on a module; BEDC source a single $\ModuleUp(R,M)$ certificate; carrier the function $\mathrm{id}_M$ together with the rows listed in \autoref{def:module-linearmap-certificate-package}; classifier the pointwise module classifier from \autoref{def:linearmap-classifier-specification}; stability output closure, descent, additivity, scalar compatibility, zero preservation, and identity closure from \autoref{def:linearmap-stability-certificate}; ledger the identity function identifier and the inherited operation ledgers required by \autoref{def:linearmap-ledger-policy}; core theorem this block; exactness predicate the displayed certificate; standard bridge the usual identity linear map; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the module certificate by \autoref{def:module-certificate-obligations}. It supplies the module carrier, the module classifier, the additive operation and zero, the scalar action, their stability fields, and their ledgers. By \autoref{def:module-classifier-specification}, the classifier used on the source and target copies of $M$ is the same relation $\sim_M$. The carrier-and-equivalence core of the derived certificate, described in \autoref{def:lean-carrier-naming-certificate}, supplies classifier reflexivity on carried module endpoints.
+
+The rows required by \autoref{def:module-linearmap-certificate-package} are now checked one by one. For output closure, let $x$ be carried in $M$. Since $\mathrm{id}_M(x)=x$, the output is the same carried endpoint.
+
+For source-classifier descent, assume $x\sim_M y$. Applying the identity function changes neither endpoint, so the required comparison
+$$
+\mathrm{id}_M(x)\sim_M\mathrm{id}_M(y)
+$$
+is exactly the supplied comparison $x\sim_M y$.
+
+For additivity, let $x$ and $y$ be carried in $M$. The additive closure component listed in \autoref{def:module-stability-certificate} makes $x+_M y$ a carried module endpoint. Both sides of the additive row reduce to that same endpoint:
+$$
+\mathrm{id}_M(x+_M y)=x+_M y,
+\qquad
+\mathrm{id}_M(x)+_M\mathrm{id}_M(y)=x+_M y.
+$$
+Classifier reflexivity on the carried endpoint $x+_M y$ gives
+$$
+\mathrm{id}_M(x+_M y)\sim_M\mathrm{id}_M(x)+_M\mathrm{id}_M(y).
+$$
+
+For scalar compatibility, let $r$ be a carried scalar and let $x$ be carried in $M$. Scalar-action closure from \autoref{def:module-stability-certificate} makes $r\odot_M x$ carried. Again both endpoints are the same expression:
+$$
+\mathrm{id}_M(r\odot_M x)=r\odot_M x,
+\qquad
+r\odot_M\mathrm{id}_M(x)=r\odot_M x.
+$$
+Reflexivity of $\sim_M$ gives the scalar-compatibility row.
+
+For zero preservation, the additive unit $0_M$ is part of the carried additive module data. The two endpoints are both $0_M$:
+$$
+\mathrm{id}_M(0_M)=0_M.
+$$
+Reflexivity gives $\mathrm{id}_M(0_M)\sim_M0_M$.
+
+It remains only to record the certificate data. The function identifier is $\mathrm{id}_M$. The additive, scalar, and zero rows above use the existing module operation ledgers together with classifier reflexivity, and the descent row uses the input classifier witness itself. This is exactly the ledger policy of \autoref{def:linearmap-ledger-policy}. Therefore the carrier, source, pattern, classifier, stability, and ledger data satisfy \autoref{def:linearmap-certificate-obligations}, yielding $\mathsf{LinearMapCert}_R(M,M;\mathrm{id}_M)$.
+\end{proof}
+
+\begin{theorem}[Module LinearMap composition associativity certificate]
+\label{thm:module-linearmap-composition-associativity-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$, $N$, $P$, and $Q$ carry $\ModuleUp(R,M)$, $\ModuleUp(R,N)$, $\ModuleUp(R,P)$, and $\ModuleUp(R,Q)$ certificates over the same scalar source. Write $\sim_Q$ for the module classifier of $Q$. If
+$$
+\mathsf{LinearMapCert}_R(M,N;f),\qquad
+\mathsf{LinearMapCert}_R(N,P;g),\qquad
+\mathsf{LinearMapCert}_R(P,Q;k),
+$$
+then both associated triple composites carry certificates
+$$
+\mathsf{LinearMapCert}_R(M,Q;(k\circ g)\circ f)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,Q;k\circ(g\circ f)),
+$$
+and they are related by the pointwise $\LinearMapUp(M,Q)$ classifier:
+$$
+(k\circ g)\circ f\sim_{\LinearMapUp(M,Q)}k\circ(g\circ f).
+$$
+Equivalently, for every carried $x:M$,
+$$
+((k\circ g)\circ f)(x)\sim_Q(k\circ(g\circ f))(x).
+$$
+The ten-field fit is: traditional target associativity of composition of $R$-linear maps; BEDC source the three displayed $\mathsf{LinearMapCert}_R$ packages over a common scalar source; carrier the two composite function-with-law packages; classifier the pointwise $Q$-classifier from \autoref{def:linearmap-classifier-specification}; stability composition closure and endpoint reflexivity; ledger the two binary composition ledgers and the $Q$-endpoint reflexivity ledger; core theorem this block; exactness predicate the displayed pointwise comparison; standard bridge the usual associativity of function composition read pointwise; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-linearmap-composition-certificate} to the certificates for $f$ and $g$. This gives
+$$
+\mathsf{LinearMapCert}_R(M,P;g\circ f).
+$$
+Applying the same theorem to this composite and to $k$ gives
+$$
+\mathsf{LinearMapCert}_R(M,Q;k\circ(g\circ f)).
+$$
+
+In the other association, apply \autoref{thm:module-linearmap-composition-certificate} first to $g$ and $k$, giving
+$$
+\mathsf{LinearMapCert}_R(N,Q;k\circ g).
+$$
+Applying the same theorem to $f$ and this composite gives
+$$
+\mathsf{LinearMapCert}_R(M,Q;(k\circ g)\circ f).
+$$
+These are exactly the two certificate clauses required by \autoref{def:module-linearmap-certificate-package} and the composition-closure item of \autoref{def:linearmap-stability-certificate}.
+
+It remains to compare the two certified composites. By \autoref{def:linearmap-classifier-specification}, the $\LinearMapUp(M,Q)$ classifier is pointwise comparison in the codomain classifier. Let $x$ be a carried endpoint of $M$. The output-closure rows in \autoref{def:module-linearmap-certificate-package} give carried endpoints $f(x)$ in $N$, $g(f(x))$ in $P$, and $k(g(f(x)))$ in $Q$. Both associated composites evaluate to this same codomain endpoint:
+$$
+((k\circ g)\circ f)(x)=k(g(f(x)))=(k\circ(g\circ f))(x).
+$$
+The module classifier on $Q$ is the carrier classifier of \autoref{def:module-classifier-specification}. Its reflexivity row, supplied by the naming-certificate core in \autoref{def:lean-carrier-naming-certificate}, classifies the carried endpoint $k(g(f(x)))$ with itself. Hence
+$$
+((k\circ g)\circ f)(x)\sim_Q(k\circ(g\circ f))(x).
+$$
+
+Since the carried input $x$ was arbitrary, \autoref{def:linearmap-classifier-specification} packages these endpoint comparisons as
+$$
+(k\circ g)\circ f\sim_{\LinearMapUp(M,Q)}k\circ(g\circ f).
+$$
+The ledger field is formed from the two binary composition ledgers governed by \autoref{def:linearmap-ledger-policy}, together with the codomain reflexivity ledger at each point of $Q$.
+\end{proof}
+
+\begin{theorem}[Module LinearMap identity unit laws]
+\label{thm:module-linearmap-identity-unit-laws}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_N$ for the module classifier on $N$, and let $\mathrm{id}_M$ and $\mathrm{id}_N$ be the identity functions. If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+holds, then the two unit composites carry certificates
+$$
+\mathsf{LinearMapCert}_R(M,N;\mathrm{id}_N\circ f)\qquad\text{and}\qquad\mathsf{LinearMapCert}_R(M,N;f\circ\mathrm{id}_M),
+$$
+and both are related to $f$ by the pointwise $\LinearMapUp(M,N)$ classifier:
+$$
+\mathrm{id}_N\circ f\sim_{\LinearMapUp(M,N)}f\qquad\text{and}\qquad f\circ\mathrm{id}_M\sim_{\LinearMapUp(M,N)}f.
+$$
+Equivalently, for every carried $x:M$,
+$$
+\mathrm{id}_N(f(x))\sim_N f(x)\qquad\text{and}\qquad f(\mathrm{id}_M(x))\sim_N f(x).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-linearmap-identity-certificate} to $M$ and to $N$, obtaining $\mathsf{LinearMapCert}_R(M,M;\mathrm{id}_M)$ and $\mathsf{LinearMapCert}_R(N,N;\mathrm{id}_N)$.
+By \autoref{thm:module-linearmap-composition-certificate}, first with $f$ and $\mathrm{id}_N$ and then with $\mathrm{id}_M$ and $f$, the two composites carry certificates:
+$$
+\mathsf{LinearMapCert}_R(M,N;\mathrm{id}_N\circ f)\qquad\text{and}\qquad\mathsf{LinearMapCert}_R(M,N;f\circ\mathrm{id}_M).
+$$
+It remains to compare these carried maps. By \autoref{def:linearmap-classifier-specification}, this is pointwise comparison in the codomain classifier. Fix a carried $x:M$.
+The output-closure row of \autoref{def:module-linearmap-certificate-package} for $f$ makes $f(x)$ carried in $N$.
+Since $\mathrm{id}_N(f(x))=f(x)$ and $f(\mathrm{id}_M(x))=f(x)$, classifier reflexivity for the module classifier of $N$, supplied by \autoref{def:module-classifier-specification} and \autoref{def:lean-carrier-naming-certificate}, gives
+$$
+\mathrm{id}_N(f(x))\sim_N f(x)\qquad\text{and}\qquad f(\mathrm{id}_M(x))\sim_N f(x).
+$$
+Quantifying over carried $x$ packages these comparisons as the two $\LinearMapUp(M,N)$ classifier relations. The ledger is the identity and composition ledger required by \autoref{def:linearmap-ledger-policy}.
+\end{proof}
+
+\begin{definition}[Module LinearMap image predicate]\label{def:module-linearmap-image-predicate} Let $R$ carry a $\RingUp$ certificate, let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source, and let $f:M\to N$ be a function. Write $\sim_N$ for the classifier on $N$. The image predicate of $f$ is $\mathsf{Im}_f(y):\Longleftrightarrow \exists x:M,\ x\text{ is carried in }M\land f(x)\sim_N y$. The witness records the source carrier evidence for $x$ and the target classifier comparison from $f(x)$ to $y$.
+\end{definition}
+\begin{theorem}[Module LinearMap image submodule closure]\label{thm:module-linearmap-image-submodule-closure} Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the module classifiers, $+_M$ and $+_N$ for module addition, $0_M$ and $0_N$ for module zero, and $\odot_M$ and $\odot_N$ for scalar action. If $\mathsf{LinearMapCert}_R(M,N;f)$ holds, then the image predicate $\mathsf{Im}_f$ from \autoref{def:module-linearmap-image-predicate} is stable under target-classifier transport, contains $0_N$, and is closed under the inherited target addition and scalar action: $\mathsf{Im}_f(y)\land y\sim_N y'\Longrightarrow\mathsf{Im}_f(y')$, $\mathsf{Im}_f(0_N)$, $\mathsf{Im}_f(y)\land\mathsf{Im}_f(z)\Longrightarrow\mathsf{Im}_f(y+_N z)$, and $\mathsf{Im}_f(y)\Longrightarrow\mathsf{Im}_f(r\odot_N y)$ for every carried scalar $r:R$. Thus the image is a sub-module predicate of the target module for these closure rows.
+\end{theorem}
+\begin{proof}
+Unpack the package in \autoref{def:module-linearmap-certificate-package}. It supplies output closure, source-classifier descent, additive preservation, scalar compatibility, and zero preservation. Unpack the two module certificates through \autoref{def:module-certificate-obligations}; the source module supplies carried $0_M$, additive closure of $x+_M u$, and scalar-action closure of $r\odot_M x$, while the target module supplies additive congruence, scalar-action congruence, and classifier equivalence by \autoref{def:module-stability-certificate}, \autoref{def:abgroup-stability-certificate}, and \autoref{def:lean-carrier-naming-certificate}. For target-classifier transport, choose an image witness $x$ for $\mathsf{Im}_f(y)$, so $x$ is carried in $M$ and $f(x)\sim_N y$. Composing this comparison with $y\sim_N y'$ by \autoref{thm:namecert-equivalence-transitivity} gives $f(x)\sim_N y'$. The same source witness $x$ proves $\mathsf{Im}_f(y')$. For zero, the zero row of the linear-map certificate gives $f(0_M)\sim_N0_N$. Since $0_M$ is carried by the additive part of the source module, $x=0_M$ is an image witness for $0_N$. For addition, assume $\mathsf{Im}_f(y)$ and $\mathsf{Im}_f(z)$. Choose carried source witnesses $x,u:M$ with $f(x)\sim_N y$ and $f(u)\sim_N z$. Carrier transport in the target classifier makes $y$ and $z$ carried in $N$. Source additive closure makes $x+_M u$ carried in $M$. The additive preservation row gives $f(x+_M u)\sim_N f(x)+_N f(u)$. Target additive congruence transports the two image comparisons to $f(x)+_N f(u)\sim_N y+_N z$. Transitivity of $\sim_N$ composes the two comparisons, so the carried source endpoint $x+_M u$ witnesses $\mathsf{Im}_f(y+_N z)$. For scalar action, let $r$ be a carried scalar and assume $\mathsf{Im}_f(y)$. Choose a carried source witness $x:M$ with $f(x)\sim_N y$. Source scalar-action closure makes $r\odot_M x$ carried in $M$. Scalar compatibility gives $f(r\odot_M x)\sim_N r\odot_N f(x)$. Target scalar-action congruence, using classifier reflexivity on the carried scalar $r$ and the image comparison $f(x)\sim_N y$, gives $r\odot_N f(x)\sim_N r\odot_N y$. Transitivity gives $f(r\odot_M x)\sim_N r\odot_N y$, so $r\odot_M x$ is an image witness for $r\odot_N y$. The ledger is assembled from the source witnesses, the linearity rows of the $\mathsf{LinearMapCert}_R$ package, the target operation-congruence rows, and the classifier-transitivity ledger governed by \autoref{def:linearmap-ledger-policy}. No equality of functions is used; all comparisons are pointwise target-classifier comparisons as in \autoref{def:linearmap-classifier-specification}.
+\end{proof}
+
+\begin{theorem}[Module LinearMap pointwise sum certificate]
+\label{thm:module-linearmap-pointwise-sum-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the module classifiers, $+_M$ and $+_N$ for module addition, $0_M$ and $0_N$ for module zero, and $\odot_M$ and $\odot_N$ for scalar action. For functions $f,g:M\to N$, define $h:M\to N$ by
+$$
+h(x):=f(x)+_N g(x).
+$$
+If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,N;g),
+$$
+then
+$$
+\mathsf{LinearMapCert}_R(M,N;h).
+$$
+The ten-field fit is: traditional target pointwise addition of ordinary $R$-linear maps; BEDC source the two displayed $\mathsf{LinearMapCert}_R$ packages over common $\ModuleUp$ certificates; carrier the pointwise-sum function $h$; classifier the pointwise target classifier from \autoref{def:linearmap-classifier-specification}; stability output closure, descent, additivity, scalar compatibility, and zero preservation from the module and abelian-group rows; ledger the two input function identifiers, their linearity rows, and the target additive, middle-four, distributive, zero, and classifier ledgers; core theorem this block; exactness predicate the displayed certificate; standard bridge the usual closure of $\operatorname{Hom}_R(M,N)$ under pointwise addition; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the two input certificates by \autoref{def:module-linearmap-certificate-package}. They supply output closure, source-classifier descent, additive preservation, scalar compatibility, and zero preservation for $f$ and for $g$. Unpack the module certificates through \autoref{def:module-certificate-obligations}. The target module supplies additive closure, additive congruence, scalar-action closure, scalar-action congruence, scalar distributivity over module addition, and the additive abelian-group laws retained by \autoref{prop:module-forgets-abgroup-certificate}. Classifier symmetry and transitivity are supplied by the carrier certificate in \autoref{def:lean-carrier-naming-certificate} and composed by \autoref{thm:namecert-equivalence-transitivity}.
+
+For output closure, let $x$ be carried in $M$. Output closure for $f$ and $g$ makes $f(x)$ and $g(x)$ carried in $N$. Additive closure in the target module makes $f(x)+_N g(x)$ carried, so $h(x)$ is carried in $N$.
+
+For source-classifier descent, assume $x\sim_M y$. Descent for $f$ gives $f(x)\sim_N f(y)$, and descent for $g$ gives $g(x)\sim_N g(y)$. Target additive congruence transports these two comparisons to
+$$
+f(x)+_N g(x)\sim_N f(y)+_N g(y),
+$$
+which is $h(x)\sim_N h(y)$.
+
+For additivity, let $x$ and $y$ be carried in $M$. Source additive closure makes $x+_M y$ carried. The additive rows for $f$ and $g$ give
+$$
+f(x+_M y)\sim_N f(x)+_N f(y)
+\qquad\text{and}\qquad
+g(x+_M y)\sim_N g(x)+_N g(y).
+$$
+Target additive congruence therefore gives
+$$
+h(x+_M y)\sim_N (f(x)+_N f(y))+_N(g(x)+_N g(y)).
+$$
+By \autoref{prop:module-forgets-abgroup-certificate}, the additive part of $N$ is an $\AbGroupUp(N)$ certificate with the same $+_N$ and $\sim_N$. Applying the middle-four law of \autoref{thm:abgroup-middle-four-interchange} in additive notation gives
+$$
+(f(x)+_N f(y))+_N(g(x)+_N g(y))
+\sim_N
+(f(x)+_N g(x))+_N(f(y)+_N g(y)).
+$$
+Transitivity composes the last two displayed comparisons and yields
+$$
+h(x+_M y)\sim_N h(x)+_N h(y).
+$$
+
+For scalar compatibility, let $r$ be a carried scalar and let $x$ be carried in $M$. Source scalar-action closure makes $r\odot_M x$ carried. The scalar rows for $f$ and $g$ give
+$$
+f(r\odot_M x)\sim_N r\odot_N f(x)
+\qquad\text{and}\qquad
+g(r\odot_M x)\sim_N r\odot_N g(x).
+$$
+Target additive congruence gives
+$$
+h(r\odot_M x)\sim_N (r\odot_N f(x))+_N(r\odot_N g(x)).
+$$
+The scalar distributivity row of \autoref{def:module-stability-certificate}, read in the target module and oriented by classifier symmetry, gives
+$$
+(r\odot_N f(x))+_N(r\odot_N g(x))\sim_N r\odot_N(f(x)+_N g(x)).
+$$
+Transitivity yields
+$$
+h(r\odot_M x)\sim_N r\odot_N h(x).
+$$
+
+For zero preservation, the source zero endpoint is carried by the additive data. The zero rows for $f$ and $g$ give
+$$
+f(0_M)\sim_N0_N
+\qquad\text{and}\qquad
+g(0_M)\sim_N0_N.
+$$
+Target additive congruence gives
+$$
+h(0_M)\sim_N0_N+_N0_N.
+$$
+The additive unit law in the target abelian-group certificate classifies $0_N+_N0_N$ with $0_N$, and transitivity gives
+$$
+h(0_M)\sim_N0_N.
+$$
+
+The pointwise classifier for maps $M\to N$ is exactly \autoref{def:linearmap-classifier-specification}; the preceding descent row is its required pointwise respect. The ledger records the function identifier $h$, the two input function identifiers, the pointwise addition ledger for each output, the additive congruence and middle-four ledgers for the additivity row, the scalar-distributivity ledger for the scalar row, and the zero-plus-unit ledger for the zero row, matching \autoref{def:linearmap-ledger-policy}. Hence the carrier, source, pattern, classifier, stability, and ledger obligations of \autoref{def:linearmap-certificate-obligations} are satisfied for $h$.
+\end{proof}
+
+\begin{lemma}[Module scalar action preserves additive inverse]
+\label{lem:module-scalar-action-additive-inverse}
+Let $R$ carry a $\RingUp$ certificate, and let $N$ carry a $\ModuleUp(R,N)$ certificate. Write $\sim_N$ for the module classifier, $+_N$ for module addition, $0_N$ for module zero, $-_N$ for additive inverse, and $\odot_N$ for scalar action. For every carried scalar $r:R$ and carried endpoint $y:N$,
+$$
+-_N(r\odot_N y)\sim_N r\odot_N(-_N y).
+$$
+\end{lemma}
+\begin{proof}
+Unpack the module certificate through \autoref{def:module-certificate-obligations}. The additive reduct of the target module is an $\AbGroupUp(N)$ certificate by \autoref{prop:module-forgets-abgroup-certificate}, and its group reduct is obtained by \autoref{prop:abgroup-forgets-group-certificate}. These reducts keep the same addition, zero, additive inverse, and classifier. Thus inverse closure, inverse congruence, the inverse laws, additive congruence, and additive left cancellation are available through \autoref{def:abgroup-stability-certificate}, \autoref{def:group-stability-certificate}, and \autoref{thm:group-left-cancellation}.
+
+Let
+$$
+a:=r\odot_N y,
+\qquad
+b:=r\odot_N(-_N y).
+$$
+Scalar-action closure makes $a$ carried, inverse closure makes $-_N y$ carried, and scalar-action closure again makes $b$ carried. The additive right-inverse row for $a$ gives
+$$
+a+_N(-_N a)\sim_N0_N.
+$$
+The additive right-inverse row for $y$ gives
+$$
+y+_N(-_N y)\sim_N0_N.
+$$
+Scalar-action congruence, using classifier reflexivity on the carried scalar $r$, transports this to
+$$
+r\odot_N(y+_N(-_N y))\sim_N r\odot_N0_N.
+$$
+The zero-action annihilation theorem \autoref{thm:module-zero-action-annihilation} gives
+$$
+r\odot_N0_N\sim_N0_N.
+$$
+Transitivity therefore gives
+$$
+r\odot_N(y+_N(-_N y))\sim_N0_N.
+$$
+Scalar distributivity over module addition from \autoref{def:module-stability-certificate} gives
+$$
+r\odot_N(y+_N(-_N y))\sim_N (r\odot_N y)+_N(r\odot_N(-_N y)).
+$$
+Using classifier symmetry and transitivity, this yields
+$$
+a+_N b\sim_N0_N.
+$$
+Composing this comparison with the symmetry of $a+_N(-_N a)\sim_N0_N$ gives
+$$
+a+_N b\sim_N a+_N(-_N a).
+$$
+Additive left cancellation in the retained group reduct removes the common left summand $a$, giving $b\sim_N-_N a$. Classifier symmetry gives
+$$
+-_N a\sim_N b.
+$$
+Substituting the definitions of $a$ and $b$ is exactly the displayed scalar-action inverse law.
+\end{proof}
+
+\begin{theorem}[Module LinearMap pointwise inverse certificate]
+\label{thm:module-linearmap-pointwise-inverse-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the module classifiers, $+_M$ and $+_N$ for module addition, $0_M$ and $0_N$ for module zero, $-_N$ for the target additive inverse, and $\odot_M$ and $\odot_N$ for scalar action. For a function $f:M\to N$, define $h:M\to N$ by
+$$
+h(x):=-_N f(x).
+$$
+If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+holds, then
+$$
+\mathsf{LinearMapCert}_R(M,N;h)
+$$
+holds.
+The ten-field fit is: traditional target pointwise additive inverse of an ordinary $R$-linear map; BEDC source the displayed $\mathsf{LinearMapCert}_R(M,N;f)$ package over common $\ModuleUp$ certificates; carrier the pointwise inverse function $h$; classifier the pointwise target classifier from \autoref{def:linearmap-classifier-specification}; stability output closure, descent, additivity, scalar compatibility, and zero preservation from the target additive group and module action rows; ledger the input function identifier, the target inverse ledger, the inverse-congruence ledger, the inverse-of-sum ledger, and the scalar-action inverse ledger; core theorem this block; exactness predicate the displayed certificate; standard bridge closure of $\operatorname{Hom}_R(M,N)$ under pointwise additive inverse; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{LinearMapCert}_R(M,N;f)$ using \autoref{def:module-linearmap-certificate-package}. It supplies output closure, source-classifier descent, additive preservation, scalar compatibility, and zero preservation for $f$. Unpack the two module certificates through \autoref{def:module-certificate-obligations}. The target module supplies additive inverse closure, additive congruence, scalar-action congruence, scalar distributivity over module addition, and the additive abelian-group laws retained by \autoref{prop:module-forgets-abgroup-certificate}. Classifier symmetry and transitivity are supplied by the naming-certificate core in \autoref{def:lean-carrier-naming-certificate} and composed by \autoref{thm:namecert-equivalence-transitivity}.
+
+For output closure, let $x$ be carried in $M$. Output closure for $f$ makes $f(x)$ carried in $N$. Additive inverse closure in the target additive group makes $-_N f(x)$ carried, so $h(x)$ is carried in $N$.
+
+For source-classifier descent, assume $x\sim_M y$. Descent for $f$ gives
+$$
+f(x)\sim_N f(y).
+$$
+The inverse-congruence row in the target additive group gives
+$$
+-_N f(x)\sim_N-_N f(y),
+$$
+which is $h(x)\sim_Nh(y)$.
+
+For additivity, let $x$ and $y$ be carried in $M$. Source additive closure makes $x+_M y$ carried. The additive row for $f$ gives
+$$
+f(x+_M y)\sim_N f(x)+_N f(y).
+$$
+Inverse congruence transports this comparison to
+$$
+h(x+_M y)\sim_N-_N(f(x)+_N f(y)).
+$$
+By \autoref{prop:module-forgets-abgroup-certificate}, the additive part of $N$ is an $\AbGroupUp(N)$ certificate with the same $+_N$, $-_N$, and $\sim_N$. Applying \autoref{thm:abgroup-inverse-mul} in additive notation gives
+$$
+-_N(f(x)+_N f(y))\sim_N(-_N f(x))+_N(-_N f(y)).
+$$
+Transitivity yields
+$$
+h(x+_M y)\sim_N h(x)+_N h(y).
+$$
+
+For scalar compatibility, let $r$ be a carried scalar and let $x$ be carried in $M$. Source scalar-action closure makes $r\odot_M x$ carried. The scalar row for $f$ gives
+$$
+f(r\odot_M x)\sim_N r\odot_N f(x).
+$$
+Inverse congruence gives
+$$
+h(r\odot_M x)\sim_N-_N(r\odot_N f(x)).
+$$
+The output-closure row for $f$ makes $f(x)$ carried in $N$, so \autoref{lem:module-scalar-action-additive-inverse} applies in the target module and gives
+$$
+-_N(r\odot_N f(x))\sim_N r\odot_N(-_N f(x)).
+$$
+Transitivity gives
+$$
+h(r\odot_M x)\sim_N r\odot_N h(x).
+$$
+
+For zero preservation, the zero row of $f$ gives
+$$
+f(0_M)\sim_N0_N.
+$$
+Inverse congruence gives
+$$
+h(0_M)\sim_N-_N0_N.
+$$
+The additive group reduct identifies the inverse of the additive identity with the identity by \autoref{thm:group-inverse-identity}, so
+$$
+-_N0_N\sim_N0_N.
+$$
+Transitivity gives
+$$
+h(0_M)\sim_N0_N.
+$$
+
+The pointwise classifier for maps $M\to N$ is exactly \autoref{def:linearmap-classifier-specification}; the descent row above is the required pointwise respect. The ledger records the function identifier $h$, the input function identifier for $f$, the target inverse operation at each output, the inverse-congruence ledgers for descent, additivity, scalar compatibility, and zero, the inverse-of-sum ledger from \autoref{thm:abgroup-inverse-mul}, and the scalar-action inverse ledger from \autoref{lem:module-scalar-action-additive-inverse}, matching \autoref{def:linearmap-ledger-policy}. Hence the carrier, source, pattern, classifier, stability, and ledger obligations of \autoref{def:linearmap-certificate-obligations} are satisfied for $h$.
+\end{proof}
+
+\begin{theorem}[LinearMap additive inverse preservation]
+\label{thm:linearmap-additive-inverse-preservation}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates. Write $+_V$, $0_V$, $-_V$, and $\sim_V$ for the source vector addition, zero, additive inverse, and classifier, and write $+_W$, $0_W$, $-_W$, and $\sim_W$ for the codomain additive operation, zero, additive inverse, and classifier. Let $f:V\to W$ be a carried $\LinearMapUp(V,W)$ map. Then every carried source point $m:V$ satisfies
+$$
+f(-_V m)\sim_W-_W f(m).
+$$
+The ten-field fit is: traditional target ordinary linear maps preserve additive negation; BEDC source $\LinearMapUp(V,W)$ over the two vector-space certificates; carrier the codomain vector carrier; classifier $\sim_W$; stability from additivity, zero preservation, source inverse descent, and codomain inverse uniqueness; ledger the source right-inverse witness, additive-preservation row, zero-preservation row, codomain inverse witness, and uniqueness comparison; core theorem this block; exactness predicate $f(-_V m)\sim_W-_W f(m)$; standard bridge additive inverse preservation for linear maps; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+By \autoref{prop:vecspace-module-fragment-projection}, each vector-space certificate has a module reduct with the same vector addition, zero, additive inverse, and classifier. By \autoref{prop:module-forgets-abgroup-certificate} and \autoref{prop:abgroup-forgets-group-certificate}, the source and codomain additive data may be read as group data with those same operations and classifiers.
+
+Fix a carried source point $m:V$. Source inverse closure makes $-_V m$ carried, and the source right-inverse row gives
+$$
+m+_V(-_V m)\sim_V0_V.
+$$
+This source comparison is available for evaluation by the semantic transport of \autoref{thm:semantic-namecert-pattern-ledger-transport}. The function-with-law data of \autoref{def:linearmap-carrier} supply output closure, additive preservation, and the evaluation descent used through \autoref{thm:descent-certificate-respects}. Descent transports the source inverse comparison to
+$$
+f(m+_V(-_V m))\sim_W f(0_V).
+$$
+The additive row of $f$ at the carried pair $m,-_V m$ gives
+$$
+f(m+_V(-_V m))\sim_W f(m)+_W f(-_V m).
+$$
+The zero-preservation theorem \autoref{thm:linearmap-zero-preservation-from-additivity}, applied to the same additive row, gives
+$$
+f(0_V)\sim_W0_W.
+$$
+Classifier symmetry from \autoref{def:lean-carrier-naming-certificate} and transitivity from \autoref{thm:namecert-equivalence-transitivity} compose the last three comparisons into
+$$
+f(m)+_W f(-_V m)\sim_W0_W.
+$$
+
+Output closure makes $f(m)$ and $f(-_V m)$ carried in $W$, and codomain inverse closure makes $-_W f(m)$ carried. The codomain left-inverse row gives
+$$
+(-_W f(m))+_W f(m)\sim_W0_W.
+$$
+Apply \autoref{thm:group-left-right-inverse-uniqueness} in the codomain additive group reduct with $x=f(m)$, $y=-_W f(m)$, and $z=f(-_V m)$. The two displayed inverse witnesses give
+$$
+-_W f(m)\sim_W f(-_V m).
+$$
+One final classifier symmetry gives
+$$
+f(-_V m)\sim_W-_W f(m).
+$$
+The ledger entries are the source inverse comparison, the evaluation descent witness, the additive row, the zero-preservation row, the codomain inverse row, and the inverse-uniqueness comparison required by \autoref{def:linearmap-ledger-policy}.
+\end{proof}
+
+\begin{definition}[Module LinearMap kernel and image restricted module classifiers]
+\label{def:module-linearmap-kernel-image-restricted-classifiers}
+Let $R$ carry a $\RingUp$ certificate, let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source, and let
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+hold. Use the kernel and image predicates of \autoref{def:module-linearmap-kernel-predicate} and \autoref{def:module-linearmap-image-predicate}. The kernel classifier is the source module classifier restricted to the zero fiber:
+$$
+x\sim_{\mathsf{Ker}_f}x'
+\Longleftrightarrow
+\mathsf{Ker}_f(x)\land\mathsf{Ker}_f(x')\land x\sim_Mx'.
+$$
+The image classifier is the target module classifier restricted to the image carrier:
+$$
+y\sim_{\mathsf{Im}_f}y'
+\Longleftrightarrow
+\mathsf{Im}_f(y)\land\mathsf{Im}_f(y')\land y\sim_Ny'.
+$$
+The kernel module fragment uses $+_M$, $0_M$, $-_M$, and $\odot_M$. The image module fragment uses $+_N$, $0_N$, $-_N$, and $\odot_N$. In both fragments the scalar carrier, scalar operations, scalar classifier, and scalar ledger are copied from the ambient $\RingUp(R)$ certificate.
+\end{definition}
+
+\begin{theorem}[Kernel and image inherit module classifiers]
+\label{thm:module-linearmap-kernel-image-inherited-module-classifiers}
+Under the hypotheses of \autoref{def:module-linearmap-kernel-image-restricted-classifiers}, the predicate-defined carriers $\mathsf{Ker}_f$ and $\mathsf{Im}_f$ are stable under their ambient module classifiers, contain the corresponding zero element, and are closed under addition, additive negation, and carried scalar action. With the restricted classifiers of \autoref{def:module-linearmap-kernel-image-restricted-classifiers}, these data form inherited $\ModuleUp$ certificate packages over the same scalar source $R$.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{LinearMapCert}_R(M,N;f)$ by \autoref{def:module-linearmap-certificate-package} and unpack the two module certificates through \autoref{def:module-certificate-obligations}. The kernel transport, zero, addition, and scalar-action rows are exactly \autoref{thm:module-linearmap-kernel-submodule-closure}. The image transport, zero, addition, and scalar-action rows are exactly \autoref{thm:module-linearmap-image-submodule-closure}.
+
+It remains to record additive negation and the inherited classifier packages. For the kernel, assume $\mathsf{Ker}_f(x)$. The scalar source is a certified $\RingUp$ by \autoref{def:module-source-specification}, so the additive inverse row carries $-_R1_R$. Applying the scalar-action closure row of \autoref{thm:module-linearmap-kernel-submodule-closure} gives
+$$
+\mathsf{Ker}_f((-_R1_R)\odot_M x).
+$$
+In the source module, \autoref{thm:module-scalar-negation-action-additive-inverse} at $r=1_R$ gives
+$$
+((-_R1_R)\odot_Mx)+_M(1_R\odot_Mx)\sim_M0_M.
+$$
+The scalar unit row from \autoref{def:module-stability-certificate}, together with additive congruence in the additive group retained by \autoref{prop:module-forgets-abgroup-certificate}, replaces $1_R\odot_Mx$ by $x$. The source right-inverse row gives $x+_M(-_Mx)\sim_M0_M$. Applying \autoref{thm:group-left-right-inverse-uniqueness} in the source additive group reduct obtained through \autoref{prop:abgroup-forgets-group-certificate} identifies
+$$
+(-_R1_R)\odot_Mx\sim_M-_Mx.
+$$
+The source-classifier transport row of \autoref{thm:module-linearmap-kernel-submodule-closure} then gives $\mathsf{Ker}_f(-_Mx)$.
+
+For the image, assume $\mathsf{Im}_f(y)$. By the definition of the image predicate, choose a carried source witness $x$ with $f(x)\sim_Ny$. Output closure for $f$ and carrier transport for the target classifier make $y$ a carried target endpoint. The image scalar-action row of \autoref{thm:module-linearmap-image-submodule-closure}, applied to the carried scalar $-_R1_R$, gives
+$$
+\mathsf{Im}_f((-_R1_R)\odot_N y).
+$$
+The same inverse-side action argument in the target module gives
+$$
+(-_R1_R)\odot_Ny\sim_N-_Ny.
+$$
+The target-classifier transport row of \autoref{thm:module-linearmap-image-submodule-closure} therefore gives $\mathsf{Im}_f(-_Ny)$.
+
+The restricted kernel classifier is a naming certificate on $\mathsf{Ker}_f$: reflexivity, symmetry, and transitivity are the corresponding source-module classifier rows from \autoref{def:lean-carrier-naming-certificate} and \autoref{thm:namecert-equivalence-transitivity}, while carrier transport is the first row of \autoref{thm:module-linearmap-kernel-submodule-closure}. The restricted image classifier is handled identically, using the target-module classifier and the transport row of \autoref{thm:module-linearmap-image-submodule-closure}.
+
+Finally, every $\ModuleUp$ law on the restricted carriers is the ambient module law with its endpoints repackaged by the restricted classifier. Closure under zero, addition, negation, and scalar action supplies the two carrier components of each restricted classifier witness. The ambient comparison component is supplied by the source module for the kernel and by the target module for the image: additive associativity, additive unit and inverse laws, additive commutativity, additive congruence, scalar-action congruence, scalar associativity, both distributivity rows, and the scalar unit row are all listed in \autoref{def:module-stability-certificate} together with the additive $\AbGroupUp$ source retained by \autoref{prop:module-forgets-abgroup-certificate}. The scalar ring certificate is unchanged. The ledgers are the ambient operation ledgers together with the kernel or image witness carried in the restricted classifier, matching \autoref{def:module-ledger-policy}. Hence both predicate carriers inherit $\ModuleUp$ classifier packages over $R$.
+\end{proof}
+
+\begin{theorem}[Module LinearMap trivial kernel classifier injectivity]
+\label{thm:module-linearmap-trivial-kernel-classifier-injectivity}
+Let $R$ carry a $\RingUp$ certificate, let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source, and let
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+hold. Write $\sim_M$ and $\sim_N$ for the source and target module classifiers, $0_M$ and $0_N$ for the source and target zeros, $+_M$ for source addition, and $-_M$ for source additive inverse. Define classifier-injectivity on carried source endpoints by
+$$
+f(x)\sim_N f(y)\Longrightarrow x\sim_M y.
+$$
+Then $f$ is classifier-injective exactly when its BEDC kernel from \autoref{def:module-linearmap-kernel-predicate} is trivial:
+$$
+\mathsf{Ker}_f(x)\Longleftrightarrow x\sim_M0_M
+$$
+for every carried source endpoint $x:M$.
+
+The ten-field fit is: traditional target the ordinary criterion that a module homomorphism is injective exactly when its kernel is zero; BEDC source $\mathsf{LinearMapCert}_R(M,N;f)$ over the two $\ModuleUp$ certificates; carrier the source module carrier; classifier $\sim_M$; stability zero preservation, additivity, additive inverse preservation, and additive cancellation from the module additive reducts; ledger the function identifier $f$, its descent, zero, additivity, inverse, and source-cancellation rows; core theorem this block; exactness predicate the equivalence between classifier-injectivity and the trivial zero fiber; standard bridge first-isomorphism-style exactness for $\LinearMapUp$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first that $f$ is classifier-injective on carried source endpoints. Let $x$ be carried in $M$. If $\mathsf{Ker}_f(x)$, then \autoref{def:module-linearmap-kernel-predicate} gives $f(x)\sim_N0_N$. Zero preservation from \autoref{def:module-linearmap-certificate-package} gives $f(0_M)\sim_N0_N$, and classifier symmetry and transitivity in $N$ compose these rows to obtain $f(x)\sim_Nf(0_M)$. Classifier-injectivity gives $x\sim_M0_M$.
+
+Conversely, if $x\sim_M0_M$, source-classifier descent for $f$ gives $f(x)\sim_Nf(0_M)$. Composing this with zero preservation yields $f(x)\sim_N0_N$, so the carried endpoint $x$ satisfies $\mathsf{Ker}_f(x)$.
+
+Assume now that every carried $z:M$ satisfies $\mathsf{Ker}_f(z)\Longleftrightarrow z\sim_M0_M$. Let $x$ and $y$ be carried source endpoints with $f(x)\sim_Nf(y)$. Source additive inverse closure carries $-_M y$, and source addition closure carries $x+_M(-_M y)$.
+
+Additivity gives
+$$
+f(x+_M(-_M y))\sim_N f(x)+_N f(-_M y).
+$$
+The additive-inverse argument of \autoref{thm:linearmap-additive-inverse-preservation}, read through the additive group reducts of the module certificates, identifies $f(-_M y)$ with the target inverse of $f(y)$. Target additive congruence then transports $f(x)\sim_Nf(y)$ to a comparison of $f(x)+_N(-_N f(y))$ with $f(y)+_N(-_N f(y))$, and the target right-inverse row reduces the latter endpoint to $0_N$.
+
+Thus $x+_M(-_M y)$ lies in $\mathsf{Ker}_f$. By the trivial-kernel hypothesis,
+$$
+x+_M(-_M y)\sim_M0_M.
+$$
+The source right-inverse row also gives $y+_M(-_M y)\sim_M0_M$. Classifier symmetry and transitivity produce
+$$
+x+_M(-_M y)\sim_M y+_M(-_M y).
+$$
+Apply \autoref{thm:group-right-cancellation} in the source additive group reduct obtained from \autoref{prop:module-forgets-abgroup-certificate} and \autoref{prop:abgroup-forgets-group-certificate}. Cancelling the common carried summand $-_M y$ gives $x\sim_My$, which is classifier-injectivity.
+\end{proof}

@@ -330,6 +330,135 @@ with the left scale and the displayed continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_right\_factorization\_iff}
 
+\begin{theorem}[Prime scale append unit right predecessor uniqueness]
+\label{thm:padic-prime-scale-append-unit-right-predecessor-unique}
+For unary $w$, every prime scale over
+$\mathsf{append}(w,\Eone(\emp))$ exposes a predecessor scale
+$\mathsf{PadicPrimeScale}(p,w,n)$ and a continuation $\ContR(n,p,r)$, and
+the predecessor is unique up to $\hsame$ among prime-scale results over $w$:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(\emp)),r)
+\Longrightarrow
+\exists n.\,
+\mathsf{PadicPrimeScale}(p,w,n)\land\ContR(n,p,r)\land
+\forall other.\ \mathsf{PadicPrimeScale}(p,w,other)\Rightarrow n\hsame other.
+$$
+\end{theorem}
+\begin{proof}
+The append-unit-right factorization extracts the predecessor scale and the
+continuation by the prime base. Uniqueness is the functional property of the
+underlying natural multiplication field of $\mathsf{PadicPrimeScale}(p,w,n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_right\_predecessor\_unique}
+
+\begin{theorem}[Prime scale append unit right result readback]
+\label{thm:padic-prime-scale-append-unit-right-result-hsame}
+For unary $w$, if $n$ is a prime-scale result over $w$ and $r$ is a prime-scale
+result over $\mathsf{append}(w,\Eone(\emp))$, then $r$ reads back to appending
+the prime base to $n$:
+$$
+\mathsf{PadicPrimeScale}(p,w,n)\land
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(\emp)),r)
+\Rightarrow
+r\hsame\mathsf{append}(n,p).
+$$
+\end{theorem}
+\begin{proof}
+The append-unit-right predecessor theorem extracts a predecessor scale
+$\mathsf{PadicPrimeScale}(p,w,pred)$ with continuation $\ContR(pred,p,r)$.
+Predecessor uniqueness identifies $pred$ with the displayed result $n$ up to
+$\hsame$, and continuation respects that endpoint comparison against the
+canonical continuation $\ContR(n,p,\mathsf{append}(n,p))$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_right\_result\_hsame}
+
+\begin{theorem}[Prime scale append unit left factorization]
+\label{thm:padic-prime-scale-append-unit-left-factorization}
+For unary $q$, a prime scale over $\mathsf{append}(\Eone(\emp),q)$ is exactly a
+prime-scale result over $q$ preceded by continuation from the prime base:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)
+\Longleftrightarrow
+\exists e.\,\mathsf{PadicPrimeScale}(p,q,e)\land\ContR(p,e,r).
+$$
+\end{theorem}
+\begin{proof}
+Decompose the appended exponent into a unit left factor and the displayed
+right factor. The unit-exponent readback identifies the left scale result with
+the prime base, leaving the continuation $\ContR(p,e,r)$. Conversely, construct
+the unit scale from the empty exponent scale and combine it with the displayed
+right scale by append continuation closure.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_factorization\_iff}
+
+\begin{theorem}[Prime scale append unit left predecessor uniqueness]
+\label{thm:padic-prime-scale-append-unit-left-predecessor-unique}
+For unary $q$, every prime scale over
+$\mathsf{append}(\Eone(\emp),q)$ exposes a right-factor scale
+$\mathsf{PadicPrimeScale}(p,q,e)$ and a continuation $\ContR(p,e,r)$, and
+the right-factor result is unique up to $\hsame$ among prime-scale results over
+$q$:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)
+\Longrightarrow
+\exists e.\,
+\mathsf{PadicPrimeScale}(p,q,e)\land\ContR(p,e,r)\land
+\forall other.\ \mathsf{PadicPrimeScale}(p,q,other)\Rightarrow e\hsame other.
+$$
+\end{theorem}
+\begin{proof}
+The append-unit-left factorization extracts the right-factor scale and the
+continuation from the prime base. Uniqueness is the functional property of the
+underlying natural multiplication field of $\mathsf{PadicPrimeScale}(p,q,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_predecessor\_unique}
+
+\begin{theorem}[Prime scale append unit left result readback]
+\label{thm:padic-prime-scale-append-unit-left-result-hsame}
+For unary $q$, if $\mathsf{PadicPrimeScale}(p,q,e)$ and
+$\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)$ hold, then the
+appended-exponent result reads back to the continuation result
+$\mathsf{append}(p,e)$:
+$$
+\mathsf{PadicPrimeScale}(p,q,e)\land
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)
+\Rightarrow
+r\hsame\mathsf{append}(p,e).
+$$
+\end{theorem}
+\begin{proof}
+The append-unit-left predecessor theorem extracts a right-factor result
+$pred$ with $\mathsf{PadicPrimeScale}(p,q,pred)$ and continuation
+$\ContR(p,pred,r)$. The uniqueness clause identifies $pred$ with the displayed
+scale result $e$. Continuation respect for $\hsame$ compares the extracted
+continuation with the canonical continuation
+$\ContR(p,e,\mathsf{append}(p,e))$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_result\_hsame}
+
+\begin{theorem}[Prime scale append unit left result nonempty]
+\label{thm:padic-prime-scale-append-unit-left-result-not-empty}
+For unary $q$, if $\mathsf{PadicPrimeScale}(p,q,e)$ and
+$\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)$ hold, then the
+appended unit-left scale result cannot be empty:
+$$
+\mathsf{PadicPrimeScale}(p,q,e)\land
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)\land
+r\hsame\emp
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Read back the unit-left predecessor as a right-factor scale result $pred$ and
+a continuation $\ContR(p,pred,r)$. If $r\hsame\emp$, continuation empty-result
+inversion forces both $p$ and $pred$ to be empty. The uniqueness clause
+identifies $pred$ with the displayed right-factor result $e$, and the
+empty-result iff for $\mathsf{PadicPrimeScale}(p,q,e)$ reads this back to the
+right exponent. The prime-base empty contradiction applied to $p$ closes the
+case.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_result\_not\_empty}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of
@@ -344,6 +473,40 @@ scale witness have the same prime base and appended exponent, so
 \(\mathsf{NatMul}\) functionality identifies the two results.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_result\_functional}
+
+\begin{theorem}[Prime scale two unit exponents give prime square]
+\label{thm:padic-prime-scale-append-unit-exponents-result-square}
+If
+\(\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),\Eone(\emp)),result)\)
+holds, then the result is history-same to the square append of the prime base:
+$$
+result\hsame \mathsf{append}(p,p).
+$$
+\end{theorem}
+\begin{proof}
+The unit-exponent scale theorem constructs
+\(\mathsf{PadicPrimeScale}(p,\Eone(\emp),p)\) for each of the two exponent
+factors. The concrete continuation \(\ContR(p,p,\mathsf{append}(p,p))\)
+closes these two scales under append continuation. The resulting scale witness
+has the same prime base and appended exponent as the given witness, so
+\(\mathsf{NatMul}\) functionality identifies the displayed results.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_exponents\_result\_square\_hsame}
+
+\begin{theorem}[Prime scale two unit exponents have nonempty result]
+\label{thm:padic-prime-scale-append-unit-exponents-result-not-empty}
+If
+\(\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),\Eone(\emp)),result)\)
+holds, then \(result\hsame\emp\) is impossible.
+\end{theorem}
+\begin{proof}
+The square readback identifies \(result\) with \(\mathsf{append}(p,p)\).
+If \(result\hsame\emp\), append empty inversion forces \(p\hsame\emp\). But the
+prime witness contains a strict unary prefix from \(\Eone(\emp)\) to \(p\);
+transporting the final continuation to the empty endpoint forces its nonempty
+tail to be empty, a contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_exponents\_result\_not\_empty}
 
 \begin{theorem}[Prime scale append factor results unique]
 \label{thm:padic-prime-scale-append-factor-results-unique}
@@ -364,6 +527,21 @@ factor identifications across the displayed continuations and identifies the
 two composite results.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_factor\_results\_unique}
+
+\begin{theorem}[Prime scale append factor results commute]
+\label{thm:padic-prime-scale-append-factor-results-comm-hsame}
+Let $\mathsf{PadicPrimeScale}(p,w,n)$ and
+$\mathsf{PadicPrimeScale}(p,q,e)$ hold. If the two factor results are linked
+by both continuation orders $\ContR(n,e,r)$ and $\ContR(e,n,s)$, then the
+continuation results satisfy \(r\hsame s\).
+\end{theorem}
+\begin{proof}
+The scale witnesses expose unary carriers for the two factor results \(n\) and
+\(e\). Unary append commutativity identifies
+\(\mathsf{append}(n,e)\) with \(\mathsf{append}(e,n)\), and the two displayed
+continuation ledgers identify \(r\) and \(s\) with those append histories.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_factor\_results\_comm\_hsame}
 
 \begin{theorem}[Prime scale append totality]
 \label{thm:padic-prime-scale-append-total}
@@ -399,6 +577,27 @@ scales reduces \(r\hsame\emp\) to
 that condition into the two factor witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_empty\_result\_empty\_factors\_iff}
+
+\begin{theorem}[Prime scale append factor empty alignment]
+\label{thm:padic-prime-scale-append-factor-empty-alignment-iff}
+Under the hypotheses of
+\autoref{thm:padic-prime-scale-append-cont-closure}, the two factor results
+and the composite continuation result are all empty exactly when the two
+exponent factors are empty:
+$$
+n\hsame\emp\land e\hsame\emp\land r\hsame\emp
+\Longleftrightarrow
+w\hsame\emp\land q\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Prime-scale empty-result exactness identifies \(n\hsame\emp\) with
+\(w\hsame\emp\) and \(e\hsame\emp\) with \(q\hsame\emp\). The appended
+empty-result split identifies \(r\hsame\emp\) with the same two exponent
+factor conditions, so the three result-side empty witnesses align exactly
+with the two empty exponent factors.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_factor\_empty\_alignment\_iff}
 
 \begin{theorem}[Prime scale appended empty factor result readback]
 \label{thm:padic-prime-scale-append-empty-factor-result-hsame}
@@ -504,3 +703,22 @@ prime-scale witness. The source, pattern, and ledger predicates are the same
 result carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_result\_semanticNameCert}
+\begin{theorem}[Prime scale at unit exponent reads back the prime]
+\label{thm:padic-prime-scale-unit-exponent-reads-back-prime}
+For every history $p$, if $\mathsf{NatPrime}(p)$, then
+$\mathsf{PadicPrimeScale}(p,\Eone(\emp),p)$.
+\end{theorem}
+\begin{proof}
+The prime witness supplies the unary carrier field for $p$ required by
+\autoref{def:nat-multiplication}. The zero multiplication constructor gives
+$\mathsf{NatMul}(p,\emp,\emp)$. The left-unit part of
+\autoref{thm:continuation-unit-laws-spine} supplies the continuation
+$\Cont(\emp,p,p)$. Applying the successor constructor of
+\autoref{def:nat-multiplication} therefore yields
+$\mathsf{NatMul}(p,\Eone(\emp),p)$. Pairing this multiplication witness with
+the given prime witness is exactly
+$\mathsf{PadicPrimeScale}(p,\Eone(\emp),p)$ by
+\autoref{def:padic-prime-scale}.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_unit\_exponent\_prime}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_unit\_exponent\_result\_prime}

@@ -113,6 +113,493 @@ For raw composition preservation, the only composable pairs in $C$ are the four 
 The source hom assertion $\mathsf{HomCarrier}_{C}(0,1,a)$ is one of the constructors in the table for $C$. On the codomain side, $F_0(0)=0$, $F_0(1)=1$, and $F_1(a)=b$, so the required endpoint-indexed landing assertion is $\mathsf{HomCarrier}_{D}(0,1,b)$. The table for $D$ has no such generator; by the closed-generation discipline of \autoref{ch:proof-standing-internal-sameness-no-confusion} and the indexed hom-carrier reading in \autoref{def:category-classifier-specification}, no hidden witness is available. Hence $\neg\,\mathsf{HomCarrier}_{D}(F_0(0),F_0(1),F_1(a))$.
 By \autoref{thm:functor-hom-carrier-codomain-evaluation}, a certified $\FunctorUp$ carrier reads the source-indexed functor hom predicate as the codomain hom-carrier at the image endpoints. The finite table above satisfies the raw preservation data while failing exactly that predicate at $(0,1,a)$, so the endpoint-indexed hom-carrier landing field is a separate obligation.
 \end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorHomCarrier\_landing\_obstruction}
 
-\begin{proposition}[Functor composition preservation needs morphism-sameness respect]\label{prop:functor-composition-preservation-sameness-respect-required} Let $C,D,E$ be finite certified categories, and let $F:C\to D$ and $G:D\to E$ be carrier pairs with object maps $F_0,G_0$ and morphism maps $F_1,G_1$. Write $m\sim_D n$ and $r\sim_E s$ for the endpoint-indexed morphism classifiers, and suppose the $E$-classifier is symmetric and transitive. Assume the raw identity and raw composition preservation ledgers for $F$ and $G$ are present in the sense of \autoref{def:functor-carrier}. Fix composable morphisms $u:x\to y$ and $v:y\to z$ in $C$, and suppose the image pair $F_1(u),F_1(v)$ is a $D$-composable pair to which the raw composition ledger for $G$ applies. Set $H=G\circ F$ with $H_0(a)=G_0(F_0(a))$ and $H_1(w)=G_1(F_1(w))$. If $F_1(v\circ_C u)\sim_D F_1(v)\circ_D F_1(u)$ and $G_1(F_1(v)\circ_D F_1(u))\sim_E G_1(F_1(v))\circ_E G_1(F_1(u))$ but $\neg\bigl(G_1(F_1(v\circ_C u))\sim_E G_1(F_1(v)\circ_D F_1(u))\bigr)$, then $H$ has no composition preservation witness at the pair $(u,v)$: $\neg\bigl(H_1(v\circ_C u)\sim_E H_1(v)\circ_E H_1(u)\bigr)$. \end{proposition} \begin{proof} Assume that the displayed composite composition witness exists. Unfolding the composite carrier gives $G_1(F_1(v\circ_C u))\sim_E G_1(F_1(v))\circ_E G_1(F_1(u))$. The raw composition ledger for $G$ on the displayed image pair gives $G_1(F_1(v)\circ_D F_1(u))\sim_E G_1(F_1(v))\circ_E G_1(F_1(u))$. Symmetry reverses the second comparison, and transitivity composes it with the first. Hence $G_1(F_1(v\circ_C u))\sim_E G_1(F_1(v)\circ_D F_1(u))$, contradicting the displayed separation premise. Thus the composite composition witness cannot exist. The comparison supplied by $F$ is only a $D$-morphism classifier witness between $F_1(v\circ_C u)$ and $F_1(v)\circ_D F_1(u)$. To use the raw composition ledger for $G$, that witness must be transported through $G_1$. This is exactly the classifier-replacement stability field in \autoref{def:functor-stability-certificate} and the composition step used in \autoref{thm:functor-composite-preservation-witnesses}. The raw composition ledgers recorded by \autoref{def:functor-ledger-policy} do not by themselves supply this transport, so they cannot restore composition preservation for $G\circ F$. \end{proof}
+\begin{theorem}[Raw functor source hom target-one morphism cases]
+\label{thm:raw-functor-source-hom-target-one-morphism-cases}
+For histories $s,m$, any raw source hom whose target endpoint is the one-object
+code has exactly the identity-one or forward-arrow shape:
+$$
+\mathsf{RawFunctorSourceHom}(s,\Eone(\emp),m)
+\Longrightarrow
+\bigl(\hsame(s,\Eone(\emp))\land\hsame(m,\Eone(\emp))\bigr)
+\vee
+\bigl(\hsame(s,\emp)\land\hsame(m,\Eone(\Eone(\emp)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Invert the closed-generated source hom relation at the displayed target
+endpoint. The zero-identity constructor has empty target and is eliminated.
+The identity-one constructor gives the left disjunct by reflexivity, while the
+forward-arrow constructor gives the right disjunct by reflexivity on the empty
+source and double-one morphism code.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorSourceHom\_target\_one\_morphism\_cases}
 
+\begin{theorem}[Raw functor target hom source-one morphism cases]
+\label{thm:raw-functor-target-hom-source-one-morphism-cases}
+For histories $t,m$, any raw target hom whose source endpoint is the one-object
+code has exactly the identity-one or reverse-arrow shape:
+$$
+\mathsf{RawFunctorTargetHom}(\Eone(\emp),t,m)
+\Longrightarrow
+\bigl(\hsame(t,\Eone(\emp))\land\hsame(m,\Eone(\emp))\bigr)
+\vee
+\bigl(\hsame(t,\emp)\land\hsame(m,\Eone(\Eone(\emp)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Invert the closed-generated target hom relation at the displayed source
+endpoint. The zero-identity constructor has empty source and is eliminated.
+The identity-one constructor gives the left disjunct by reflexivity, while the
+reverse-arrow constructor gives the right disjunct by reflexivity on the empty
+target and double-one morphism code.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorTargetHom\_source\_one\_morphism\_cases}
+
+\begin{theorem}[Raw functor source hom empty-morphism endpoint readback]
+\label{thm:raw-functor-source-hom-empty-morphism-endpoint-readback}
+For histories $s,t$, any raw source hom witness whose displayed morphism is
+empty reads back empty endpoints:
+$$
+\mathsf{RawFunctorSourceHom}(s,t,\emp)
+\Longrightarrow
+\hsame(s,\emp)\land\hsame(t,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The source hom relation is closed-generated by the two identity constructors
+and the forward-arrow constructor. Constructor inversion at the concrete empty
+morphism eliminates the non-empty source-hom cases. The surviving empty
+identity case exposes empty source and target endpoints, and reflexivity
+supplies both history classifiers.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorSourceHom\_empty\_morphism\_endpoint\_readback}
+
+\begin{theorem}[Raw functor source hom forward-arrow endpoint readback]
+\label{thm:raw-functor-source-hom-forward-arrow-endpoint-readback}
+For histories $s,t$, any raw source hom witness whose displayed morphism is the
+forward-arrow code reads back the source and target endpoints:
+$$
+\mathsf{RawFunctorSourceHom}(s,t,\Eone(\Eone(\emp)))
+\Longrightarrow
+\hsame(s,\emp)\land\hsame(t,\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+The source hom relation is closed-generated by the two identity constructors
+and the forward-arrow constructor. Constructor inversion at the concrete
+forward-arrow morphism eliminates the two identity cases. The remaining
+forward-arrow case exposes the endpoints $\emp$ and $\Eone(\emp)$, and
+reflexivity supplies the two history classifiers.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorSourceHom\_forward\_arrow\_endpoint\_readback}
+
+\begin{theorem}[Raw functor target hom reverse-arrow endpoint readback]
+\label{thm:raw-functor-target-hom-reverse-arrow-endpoint-readback}
+For histories $s,t$, any raw target hom witness whose displayed morphism is the
+reverse-arrow code reads back the source and target endpoints:
+$$
+\mathsf{RawFunctorTargetHom}(s,t,\Eone(\Eone(\emp)))
+\Longrightarrow
+\hsame(s,\Eone(\emp))\land\hsame(t,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The target hom relation is closed-generated by the two identity constructors
+and the reverse-arrow constructor. Constructor inversion at the concrete
+reverse-arrow morphism eliminates the two identity cases. The surviving
+reverse-arrow case exposes the endpoints $\Eone(\emp)$ and $\emp$, and
+reflexivity supplies the two history classifiers.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorTargetHom\_reverse\_arrow\_endpoint\_readback}
+
+\begin{theorem}[Raw functor target hom empty morphism endpoint readback]
+\label{thm:raw-functor-target-hom-empty-morphism-endpoint-readback}
+For histories $s,t$, any raw target hom witness whose displayed morphism is the
+empty morphism code reads back both endpoints as empty:
+$$
+\mathsf{RawFunctorTargetHom}(s,t,\emp)
+\Longrightarrow
+\hsame(s,\emp)\land\hsame(t,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The raw target hom relation is closed-generated by the two identity
+constructors and the reverse-arrow constructor. Constructor inversion at the
+concrete empty morphism eliminates every constructor except the empty identity
+case, whose endpoints are both $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorTargetHom\_empty\_morphism\_endpoint\_readback}
+
+\begin{theorem}[Raw functor opposite arrow same-endpoint obstruction]
+\label{thm:raw-functor-opposite-arrow-same-endpoint-absurd}
+For histories $s,t$, the forward-arrow source hom and reverse-arrow target hom
+cannot share the same endpoints:
+$$
+\mathsf{RawFunctorSourceHom}(s,t,\Eone(\Eone(\emp)))
+\Longrightarrow
+\mathsf{RawFunctorTargetHom}(s,t,\Eone(\Eone(\emp)))
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:raw-functor-source-hom-forward-arrow-endpoint-readback} to
+the source witness. This gives $\hsame(s,\emp)$ and
+$\hsame(t,\Eone(\emp))$.
+
+Apply \autoref{thm:raw-functor-target-hom-reverse-arrow-endpoint-readback} to
+the target witness. This gives $\hsame(s,\Eone(\emp))$ and
+$\hsame(t,\emp)$.
+
+Using symmetry and transitivity of history-sameness, the two readbacks identify
+$\emp$ with $\Eone(\emp)$ through the common endpoint $s$; equivalently, the
+endpoint $t$ gives the same contradiction in the opposite order. This is
+excluded by BEDC history constructor no-confusion, so the paired raw hom
+witnesses cannot coexist.
+\end{proof}
+
+\begin{proposition}[Functor composition preservation needs morphism-sameness respect]\label{prop:functor-composition-preservation-empty-ledger-sameness-respect-required} Let $C,D,E$ be finite certified categories, and let $F:C\to D$ and $G:D\to E$ be carrier pairs with object maps $F_0,G_0$ and morphism maps $F_1,G_1$. Write $m\sim_D n$ and $r\sim_E s$ for the endpoint-indexed morphism classifiers, and suppose the $E$-classifier is symmetric and transitive. Assume the raw identity and raw composition preservation ledgers for $F$ and $G$ are present in the sense of \autoref{def:functor-carrier}. Fix composable morphisms $u:x\to y$ and $v:y\to z$ in $C$, and suppose the image pair $F_1(u),F_1(v)$ is a $D$-composable pair to which the raw composition ledger for $G$ applies. Set $H=G\circ F$ with $H_0(a)=G_0(F_0(a))$ and $H_1(w)=G_1(F_1(w))$. If $F_1(v\circ_C u)\sim_D F_1(v)\circ_D F_1(u)$ and $G_1(F_1(v)\circ_D F_1(u))\sim_E G_1(F_1(v))\circ_E G_1(F_1(u))$ but $\neg\bigl(G_1(F_1(v\circ_C u))\sim_E G_1(F_1(v)\circ_D F_1(u))\bigr)$, then $H$ has no composition preservation witness at the pair $(u,v)$: $\neg\bigl(H_1(v\circ_C u)\sim_E H_1(v)\circ_E H_1(u)\bigr)$. \end{proposition} \begin{proof} Assume that the displayed composite composition witness exists. Unfolding the composite carrier gives $G_1(F_1(v\circ_C u))\sim_E G_1(F_1(v))\circ_E G_1(F_1(u))$. The raw composition ledger for $G$ on the displayed image pair gives $G_1(F_1(v)\circ_D F_1(u))\sim_E G_1(F_1(v))\circ_E G_1(F_1(u))$. Symmetry reverses the second comparison, and transitivity composes it with the first. Hence $G_1(F_1(v\circ_C u))\sim_E G_1(F_1(v)\circ_D F_1(u))$, contradicting the displayed separation premise. Thus the composite composition witness cannot exist. The comparison supplied by $F$ is only a $D$-morphism classifier witness between $F_1(v\circ_C u)$ and $F_1(v)\circ_D F_1(u)$. To use the raw composition ledger for $G$, that witness must be transported through $G_1$. This is exactly the classifier-replacement stability field in \autoref{def:functor-stability-certificate} and the composition step used in \autoref{thm:functor-composite-preservation-witnesses}. The raw composition ledgers recorded by \autoref{def:functor-ledger-policy} do not by themselves supply this transport, so they cannot restore composition preservation for $G\circ F$. \end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorComposition\_preservation\_sameness\_respect\_required}
+
+\begin{theorem}[Functor composition identity unit laws]
+\label{thm:functor-composition-identity-unit-laws}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates satisfying
+\autoref{def:category-certificate-obligations}, and let
+$F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate satisfying
+\autoref{def:functor-certificate-obligations}. Write $F_0$ and $F_1$ for its
+object and morphism maps. Let $1_{\mathcal C}$ and $1_{\mathcal D}$ be the
+identity functor certificates supplied by
+\autoref{def:identity-functor-certificate-data} and
+\autoref{thm:identity-functor-namecert}, and write
+$$
+R=F\circ 1_{\mathcal C},
+\qquad
+L=1_{\mathcal D}\circ F.
+$$
+Then $R$ and $L$ are certified $\FunctorUp$ carriers from $\mathcal C$ to
+$\mathcal D$, and both are classified with $F$ by the $\FunctorUp$ classifier.
+Equivalently, for every source object $x$ and every displayed source morphism
+$u:a\to b$,
+$$
+R_0(x)\sim_{\mathcal O_{\mathcal D}}F_0(x),
+\qquad
+L_0(x)\sim_{\mathcal O_{\mathcal D}}F_0(x),
+$$
+and
+$$
+R_1(u)\sim_{\mathcal H_{\mathcal D}(F_0(a),F_0(b))}F_1(u),
+\qquad
+L_1(u)\sim_{\mathcal H_{\mathcal D}(F_0(a),F_0(b))}F_1(u).
+$$
+Consequently, for every pair of source objects $a,b$ and every codomain
+morphism candidate $m$,
+$$
+\mathsf{FunctorHomCarrier}_{R}(a,b,m)
+\Longleftrightarrow
+\mathsf{FunctorHomCarrier}_{F}(a,b,m)
+\Longleftrightarrow
+\mathsf{FunctorHomCarrier}_{L}(a,b,m).
+$$
+\end{theorem}
+\begin{proof}
+The identity certificates are available by
+\autoref{thm:identity-functor-namecert}. Applying
+\autoref{thm:functor-composite-preservation-witnesses} to the pair
+$(1_{\mathcal C},F)$ gives the identity and composition preservation witnesses
+for $R=F\circ 1_{\mathcal C}$, and applying the same theorem to the pair
+$(F,1_{\mathcal D})$ gives the corresponding witnesses for
+$L=1_{\mathcal D}\circ F$. Together with the source, pattern, classifier, and
+ledger rows listed in \autoref{def:functor-certificate-obligations}, these are
+certified $\FunctorUp$ carriers from $\mathcal C$ to $\mathcal D$.
+
+Unfold the identity functor data of
+\autoref{def:identity-functor-certificate-data}. For every source object $x$,
+$$
+(F\circ 1_{\mathcal C})_0(x)=F_0((1_{\mathcal C})_0(x))=F_0(x),
+$$
+and
+$$
+(1_{\mathcal D}\circ F)_0(x)=(1_{\mathcal D})_0(F_0(x))=F_0(x).
+$$
+Object-classifier reflexivity in the codomain category, recorded by
+\autoref{def:category-stability-certificate}, gives the two displayed object
+comparisons.
+
+For a displayed source morphism $u:a\to b$, the same unfolding gives
+$$
+(F\circ 1_{\mathcal C})_1(u)=F_1((1_{\mathcal C})_1(u))=F_1(u),
+$$
+and
+$$
+(1_{\mathcal D}\circ F)_1(u)=(1_{\mathcal D})_1(F_1(u))=F_1(u).
+$$
+Morphism-classifier reflexivity in the endpoint-indexed hom classifier of
+$\mathcal D$ gives both displayed morphism comparisons. By the pointwise
+classifier specification in \autoref{def:functor-classifier-specification} and
+the reflexivity row in \autoref{def:functor-stability-certificate}, these
+object and morphism comparisons are exactly the $\FunctorUp$ classifier
+witnesses $R\sim F$ and $L\sim F$.
+
+Finally apply \autoref{thm:functor-hom-carrier-codomain-evaluation} to $F$ and
+apply \autoref{thm:functor-composite-hom-carrier-classifier} to the two
+composites. Since the identity functor has identity object map on both
+$\mathcal C$ and $\mathcal D$, all three functor-indexed hom-carrier
+predicates reduce to
+$$
+\mathsf{HomCarrier}_{\mathcal D}(F_0(a),F_0(b),m).
+$$
+This gives the displayed biconditional chain.
+\end{proof}
+
+\begin{theorem}[Functor composition associativity classifier law]
+\label{thm:functor-composition-associativity-classifier-law}
+Let $\mathcal C,\mathcal D,\mathcal E,\mathcal L$ be certified
+$\CategoryUp$ packages satisfying \autoref{def:category-certificate-obligations}.
+Let $F:\mathcal C\to\mathcal D$, $G:\mathcal D\to\mathcal E$, and
+$H:\mathcal E\to\mathcal L$ be certified $\FunctorUp$ carriers satisfying
+\autoref{def:functor-certificate-obligations}, with object maps
+$F_0,G_0,H_0$ and morphism maps $F_1,G_1,H_1$. Write
+$$
+A=(H\circ G)\circ F,
+\qquad
+B=H\circ(G\circ F).
+$$
+Then $A$ and $B$ are certified $\FunctorUp$ carriers from $\mathcal C$ to
+$\mathcal L$, and they are classified together by the $\FunctorUp$ classifier.
+Explicitly, for every source object $x$,
+$$
+A_0(x)\sim_{\mathcal O_{\mathcal L}}B_0(x).
+$$
+For every displayed source morphism $u:a\to b$,
+$$
+A_1(u)\sim_{\mathcal H_{\mathcal L}(H_0(G_0(F_0(a))),H_0(G_0(F_0(b))))}B_1(u).
+$$
+Moreover, the functor-indexed hom-carrier classifiers agree pointwise: for
+every pair of source objects $a,b$ and every codomain morphism candidate $m$,
+$$
+\mathsf{FunctorHomCarrier}_{A}(a,b,m)
+\Longleftrightarrow
+\mathsf{FunctorHomCarrier}_{B}(a,b,m).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:functor-composite-preservation-witnesses} to $F$ and $G$
+to obtain the preservation witnesses for $G\circ F$, and apply the same theorem
+to $G$ and $H$ to obtain the preservation witnesses for $H\circ G$. Applying
+it again to $F$ with $H\circ G$ gives the preservation witnesses for
+$A=(H\circ G)\circ F$, and applying it to $G\circ F$ with $H$ gives the
+preservation witnesses for $B=H\circ(G\circ F)$. Together with the source,
+pattern, classifier, and ledger rows of \autoref{def:functor-certificate-obligations},
+these are certified $\FunctorUp$ carriers from $\mathcal C$ to $\mathcal L$.
+
+Unfold the composite object maps. For every object $x$ of $\mathcal C$,
+$$
+A_0(x)=(H\circ G)_0(F_0(x))=H_0(G_0(F_0(x))),
+$$
+and
+$$
+B_0(x)=H_0((G\circ F)_0(x))=H_0(G_0(F_0(x))).
+$$
+The two object images are the same displayed object of $\mathcal L$, so object
+classifier reflexivity from \autoref{def:category-stability-certificate} gives
+$A_0(x)\sim_{\mathcal O_{\mathcal L}}B_0(x)$.
+
+The morphism maps unfold in the same way. For every displayed source morphism
+$u:a\to b$,
+$$
+A_1(u)=(H\circ G)_1(F_1(u))=H_1(G_1(F_1(u))),
+$$
+and
+$$
+B_1(u)=H_1((G\circ F)_1(u))=H_1(G_1(F_1(u))).
+$$
+Morphism-classifier reflexivity in the endpoint-indexed hom classifier of
+$\mathcal L$ gives the displayed morphism comparison. By the pointwise
+classifier specification of \autoref{def:functor-classifier-specification},
+these object and morphism comparisons are exactly the $\FunctorUp$ classifier
+witness between $A$ and $B$.
+
+It remains to read the hom-carrier classifiers. Applying
+\autoref{thm:functor-composite-hom-carrier-classifier} to the composite of
+$F$ with $H\circ G$ gives, for every $a,b,m$,
+$$
+\mathsf{FunctorHomCarrier}_{A}(a,b,m)
+\Longleftrightarrow
+\mathsf{HomCarrier}_{\mathcal L}(H_0(G_0(F_0(a))),H_0(G_0(F_0(b))),m).
+$$
+Applying the same theorem to the composite of $G\circ F$ with $H$ gives
+$$
+\mathsf{FunctorHomCarrier}_{B}(a,b,m)
+\Longleftrightarrow
+\mathsf{HomCarrier}_{\mathcal L}(H_0(G_0(F_0(a))),H_0(G_0(F_0(b))),m).
+$$
+Both functor-indexed hom-carrier predicates therefore reduce to the same
+codomain hom-carrier classifier, and transitivity of the biconditional gives
+the pointwise equivalence.
+\end{proof}
+
+\begin{theorem}[Functor composition classifier category package]
+\label{thm:functor-composition-classifier-category-package}
+Let $\mathcal C,\mathcal D,\mathcal E,\mathcal L$ be certified
+$\CategoryUp$ packages satisfying \autoref{def:category-certificate-obligations}.
+Let $F:\mathcal C\to\mathcal D$, $G:\mathcal D\to\mathcal E$, and
+$H:\mathcal E\to\mathcal L$ be certified $\FunctorUp$ carriers satisfying
+\autoref{def:functor-certificate-obligations}, with object maps
+$F_0,G_0,H_0$ and morphism maps $F_1,G_1,H_1$. Then the certified
+functor carriers form a classifier-respected composition package with the
+following fields.
+\begin{enumerate}
+\item For every composable pair $F:\mathcal C\to\mathcal D$ and
+$G:\mathcal D\to\mathcal E$, the composite $G\circ F$ is a certified
+$\FunctorUp$ carrier from $\mathcal C$ to $\mathcal E$, and its
+$\mathsf{FunctorHomCarrier}$ is the codomain hom-carrier classifier at
+$G_0(F_0(-))$.
+\item For every certified $\CategoryUp$ package $\mathcal A$, the identity
+carrier $1_{\mathcal A}$ is a certified $\FunctorUp$ carrier on
+$\mathcal A$.
+\item For every certified $K:\mathcal A\to\mathcal B$, the composites
+$K\circ 1_{\mathcal A}$ and $1_{\mathcal B}\circ K$ are classified with
+$K$ by the $\FunctorUp$ classifier, and the three
+$\mathsf{FunctorHomCarrier}$ predicates are pointwise the same.
+\item For every certified triple $F,G,H$ as above, the two triple composites
+$A=(H\circ G)\circ F$ and $B=H\circ(G\circ F)$ are classified together by
+the $\FunctorUp$ classifier, and for every pair of source objects $a,b$ and
+every codomain morphism candidate $m$,
+$$
+\mathsf{FunctorHomCarrier}_{A}(a,b,m)
+\Longleftrightarrow
+\mathsf{FunctorHomCarrier}_{B}(a,b,m).
+$$
+\end{enumerate}
+This is the composition structure used by the $\NatTransUp$ and $\YonedaUp$
+interfaces whenever their source functors are composed.
+\end{theorem}
+\begin{proof}
+The proof uses the following ten-field roadmap.
+\begin{enumerate}
+\item traditional target = category-style composition of certified functors;
+\item BEDC source = $\CategoryUp$ and $\FunctorUp$;
+\item carrier = certified functor carriers;
+\item classifier = pointwise $\FunctorUp$ classifier;
+\item stability = closure, unit, associativity, and hom-carrier transport;
+\item ledger = source and codomain category ledgers plus preservation witnesses;
+\item core theorem list = \autoref{thm:functor-composite-preservation-witnesses},
+\autoref{thm:functor-composite-hom-carrier-classifier},
+\autoref{thm:identity-functor-namecert},
+\autoref{thm:functor-composition-identity-unit-laws}, and
+\autoref{thm:functor-composition-associativity-classifier-law};
+\item exactness = hom-carrier pointwise classifier agreement;
+\item standard bridge = ordinary functor-category laws;
+\item status = paper proof target.
+\end{enumerate}
+
+For closure under composition, apply
+\autoref{thm:functor-composite-preservation-witnesses} to a composable pair
+of certified functors. It supplies the identity and composition preservation
+witnesses for the composite carrier. Applying
+\autoref{thm:functor-composite-hom-carrier-classifier} reads the resulting
+$\mathsf{FunctorHomCarrier}$ pointwise as the codomain hom-carrier classifier
+at the composed image endpoints.
+
+For identities, \autoref{thm:identity-functor-namecert} supplies the certified
+identity functor on each certified $\CategoryUp$ package. The carrier,
+classifier, stability, and ledger rows named in
+\autoref{def:functor-certificate-obligations} are therefore available for
+$1_{\mathcal A}$ without adding any extra source data.
+
+For the unit laws, apply
+\autoref{thm:functor-composition-identity-unit-laws}. It identifies
+$K\circ 1_{\mathcal A}$ and $1_{\mathcal B}\circ K$ with $K$ under the
+object and morphism components of the $\FunctorUp$ classifier, and it gives
+the same pointwise $\mathsf{FunctorHomCarrier}$ predicate for all three
+functors.
+
+For associativity, apply
+\autoref{thm:functor-composition-associativity-classifier-law}. It certifies
+both triple composites, gives the pointwise object and morphism classifier
+witnesses between them, and gives the displayed agreement of their
+functor-indexed hom-carrier classifiers.
+
+The four fields are exactly the composition data demanded downstream: closed
+composition, certified identities, unit classifiers, associativity
+classifiers, and exact hom-carrier transport. Repacking those fields gives the
+claimed classifier-respected composition package for certified $\FunctorUp$
+carriers.
+\end{proof}
+
+\begin{closurestatus}{\FunctorUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The prefix functor carrier semantic certificate, including object and morphism map behavior, identity and composition preservation, classifier replacement, and composite functor ledger data.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General functor theory: arbitrary functor categories, natural transformations as a complete theory, adjunctions, Kan extensions, limits preservation, or equivalence of categories.}
+  \upgradepath{$\publicClosure$ requires public object and morphism maps, identity/composition readback, functor composition laws, category-facing endpoint exactness, and no-hidden-leakage.}
+\end{closurestatus}
+
+\begin{definition}[Two-point classifier-transport obstruction data]
+\label{def:two-point-classifier-transport-obstruction-data}
+Let $M=\{1,u\}$ be the idempotent monoid with unit $1$ and $u\circ u=u$. Let $T=\{I,P,Q\}$ be the transformation monoid on $\{0,1\}$ generated by the identity $I$ and the constant maps $P(0)=P(1)=0$ and $Q(0)=Q(1)=1$, with composition of functions. Thus $P\circ P=P$, $Q\circ Q=Q$, $Q\circ I=Q$, $I\circ P=P$, and $Q\ne P$.
+
+Let $\mathcal C$ be the one-object category of $M$ with equality as its morphism classifier. Let $\mathcal D$ be the one-object category of $T$ with the total morphism classifier, so every two carried endomorphisms are classified. Let $\mathcal E$ be the one-object category of $T$ with equality as its morphism classifier. Hom-carriers are total in each one-object category, and object classifiers are equality on the unique object.
+\end{definition}
+
+\begin{theorem}[FunctorUp composition obstruction without classifier replacement]
+\label{thm:functorup-composition-obstruction-without-classifier-replacement}
+The finite data of \autoref{def:two-point-classifier-transport-obstruction-data} exhibit a raw functor-like map $H:\mathcal D\to\mathcal E$ preserving identities and raw composition, certified $\FunctorUp$ carriers $F,G:\mathcal C\to\mathcal D$, and a certified $\NatTransUp$ carrier $\alpha:F\Rightarrow G$ such that the functor-whiskering naturality row for $H_{\ast}\alpha$ is impossible. Consequently the classifier-replacement row in \autoref{def:functor-stability-certificate} is not entailed by the raw carrier, identity, and composition rows of \autoref{def:functor-carrier}, and $\FunctorUp$ composition certification cannot be derived from those raw rows alone.
+\end{theorem}
+\begin{proof}
+The categories are certified in the sense of \autoref{def:category-certificate-obligations}. For $\mathcal C$ and $\mathcal E$, equality supplies the object and morphism classifier laws and is compatible with composition. For $\mathcal D$, the total morphism classifier is reflexive, symmetric, transitive, and compatible with composition. The identity, composition closure, associativity, and unit laws are the monoid laws of $M$ and $T$, matching \autoref{def:category-stability-certificate}.
+
+Define $F,G:\mathcal C\to\mathcal D$ on the unique object by the unique object map and on morphisms by
+$$
+F_1(1)=I,\qquad F_1(u)=P,
+\qquad
+G_1(1)=I,\qquad G_1(u)=Q.
+$$
+The equations $P\circ P=P$ and $Q\circ Q=Q$ make identity and composition preservation strict. Since the codomain classifier of $\mathcal D$ is total, the pointwise classifier rows and the source-comparison transport rows listed in \autoref{def:functor-stability-certificate} are automatic. Thus $F$ and $G$ satisfy the $\FunctorUp$ obligations of \autoref{def:functor-certificate-obligations}.
+
+Let $\alpha:F\Rightarrow G$ have the single component $\alpha_{\ast}=I$. The component carrier exists because $\mathcal D$ has one object. Naturality at the identity morphism is immediate. Naturality at $u$ is the $\mathcal D$-classifier comparison
+$$
+G_1(u)\circ \alpha_{\ast}
+=
+Q\circ I
+=
+Q
+\sim_{\mathcal D}
+P
+=
+I\circ P
+=
+\alpha_{\ast}\circ F_1(u),
+$$
+which is supplied by the total classifier of $\mathcal D$. The remaining component classifier, naturality-stability, vertical-composition, and identity rows of \autoref{def:nattrans-stability-certificate} are again immediate in the total classifier, so $\alpha$ satisfies \autoref{def:nattrans-certificate-obligations}.
+
+Now define $H:\mathcal D\to\mathcal E$ by the unique object map and the identity map on the raw monoid $T$. It preserves the identity and every raw composite strictly because the two categories have the same raw monoid. It does not preserve the morphism classifier: $\mathcal D$ classifies $Q\sim_{\mathcal D}P$, while the equality classifier of $\mathcal E$ gives $Q\not\sim_{\mathcal E}P$.
+
+The component prescribed by \autoref{def:functor-whiskered-nattrans-certificate-data} is
+$$
+(H_{\ast}\alpha)_{\ast}=H_1(I)=I,
+$$
+so the component carrier itself exists in $\mathcal E$. The naturality row at $u$, however, would have to be
+$$
+H_1(G_1(u))\circ H_1(I)
+\sim_{\mathcal E}
+H_1(I)\circ H_1(F_1(u)).
+$$
+Unfolding the displayed maps and the monoid products turns this into
+$$
+Q\circ I
+=
+Q
+\sim_{\mathcal E}
+P
+=
+I\circ P.
+$$
+This is impossible because $\mathcal E$ uses equality as its morphism classifier and $Q\ne P$ as transformations of $\{0,1\}$.
+
+Thus the naturality classifier for $\alpha$ in $\mathcal D$ cannot be transported through $H_1$. This is exactly the transport step used in \autoref{thm:functor-whiskering-nattrans-certificate} and, at the functor level, in \autoref{thm:functor-composite-preservation-witnesses}. If raw identity and raw composition preservation were enough for $\FunctorUp$ composition certification, applying that rule to $H\circ 1_{\mathcal D}$, with $1_{\mathcal D}$ supplied by \autoref{thm:identity-functor-namecert}, would certify the same raw map $H$ and hence the missing classifier transport $Q\sim_{\mathcal D}P\Rightarrow H_1(Q)\sim_{\mathcal E}H_1(P)$. The displayed failure in $\mathcal E$ contradicts that conclusion.
+\end{proof}

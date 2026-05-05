@@ -268,3 +268,108 @@ omitting inverse-witness entries gives the commutative-ring ledger for the same
 operations and classifier. Thus every $\CommRingUp(F)$ row is a coordinate of
 $\mathcal F$, and the displayed tuple is the required forgetful certificate.
 \end{proof}
+
+\begin{corollary}[Field certificate forgets to Ring certificate]
+\label{cor:field-certificate-forgets-to-ring-certificate}
+Let $\mathcal F$ be a BEDC history-level $\FieldUp(F)$ certificate with scalar
+carrier $C_F$, classifier $R_F$, operations $+_F$, $0_F$, $(-)_F$,
+$\mathsf{mul}_F$, and $1_F$, nonzero predicate $\mathsf{NonZero}_F$, and
+proof-indexed inverse $\mathsf{inv}_F(a,p)$ for
+$p:\mathsf{NonZero}_F(a)$. If $\mathcal F$ satisfies the field source,
+pattern, classifier, stability, ledger, and obligation rows of
+\autoref{def:field-source-specification},
+\autoref{def:field-pattern-specification},
+\autoref{def:field-classifier-specification},
+\autoref{def:field-stability-certificate},
+\autoref{def:field-ledger-policy}, and
+\autoref{def:field-certificate-obligations}, then the composite reduct obtained
+by first applying \autoref{thm:field-certificate-forgets-to-commring-certificate}
+and then applying \autoref{prop:commring-forgets-ring-certificate} is a
+$\RingUp(F)$ certificate. Its carrier is $C_F$, its classifier is $R_F$, and
+its operations are $+_F$, $0_F$, $(-)_F$, $\mathsf{mul}_F$, and $1_F$.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:field-certificate-forgets-to-commring-certificate} to
+$\mathcal F$. The resulting commutative-ring reduct keeps the carrier $C_F$,
+the classifier $R_F$, addition $+_F$, zero $0_F$, additive inverse $(-)_F$,
+multiplication $\mathsf{mul}_F$, and unit $1_F$. The rows involving
+$\mathsf{NonZero}_F$ and the proof-indexed inverse operation are omitted,
+because they are not part of the $\CommRingUp(F)$ obligations.
+
+Now apply \autoref{prop:commring-forgets-ring-certificate} to this
+$\CommRingUp(F)$ certificate. That projection removes only the
+multiplication-commutativity row and the commutative-ring-specific ledger
+entries, while retaining the carrier, source, ring pattern, classifier, ring
+stability fields, and ring ledger. By \autoref{def:ring-certificate-obligations},
+those retained rows are precisely a $\RingUp(F)$ certificate.
+
+Both projections are coordinate projections. The first does not alter the
+carrier or any of $+_F$, $0_F$, $(-)_F$, $\mathsf{mul}_F$, and $1_F$, and the
+second projection states that the same operations and carrier classifier are
+unchanged. Therefore the composite reduct is the required $\RingUp(F)$
+certificate over the original scalar carrier, classifier, and ring operations.
+\end{proof}
+
+\begin{theorem}[Preserved strict zero-divisor pair obstructs FieldUp]
+\label{thm:preserved-strict-zero-divisor-pair-obstructs-fieldup}
+Let $R$ be a BEDC history-level $\CommRingUp$ package over $\mathsf{BHist}$
+with zero $0$, unit $1$, multiplication $\cdot$, classifier $\hsame$, and
+apart-zero predicate $\mathsf{ApartZero}_R(x):=(x\hsame0\to\bot)$ as in
+\autoref{def:commring-left-zero-divisor-data}. Let $\mathcal F$ be a
+BEDC history-level $\FieldUp$ candidate satisfying
+\autoref{def:field-certificate-obligations} with the same zero, unit,
+multiplication, and classifier on the displayed histories. Assume its
+apartness-preservation row is
+$$
+\alpha:\forall x:\mathsf{BHist},\ \mathsf{ApartZero}_R(x)\to\mathsf{NonZero}_F(x).
+$$
+Then every $a,b:\mathsf{BHist}$ satisfies
+$$
+\mathsf{ApartZero}_R(a)\land
+\mathsf{ApartZero}_R(b)\land
+a\cdot b\hsame0
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Assume such a pair exists. Unpack its three components as
+$q_a:\mathsf{ApartZero}_R(a)$, $q_b:\mathsf{ApartZero}_R(b)$, and
+$z:a\cdot b\hsame0$.
+
+Apartness preservation converts the first two components into field nonzero
+witnesses
+$$
+p_a:=\alpha(a)(q_a):\mathsf{NonZero}_F(a),
+\qquad
+p_b:=\alpha(b)(q_b):\mathsf{NonZero}_F(b).
+$$
+
+Because the field candidate preserves the same multiplication, zero, and
+classifier on these endpoints, the ring classifier row $z$ is also the field
+zero-product row for $a$ and $b$. The product data in
+\autoref{def:field-certificate-obligations} supplies the hypotheses consumed by
+\autoref{thm:field-nonzero-factors-exclude-zero-product}. Applying that theorem
+to $p_a$, $p_b$, and $z$ gives $\mathsf{False}$, contradicting existence of the
+displayed pair. Thus a field candidate with the stated preserved coordinates
+cannot exist over a commutative-ring package carrying such witnesses.
+\end{proof}
+
+\begin{corollary}[Strict zero divisor obstructs FieldUp]
+\label{cor:strict-zero-divisor-obstructs-fieldup}
+Under the same preservation hypotheses, if $a:\mathsf{BHist}$ satisfies
+$\mathsf{StrictZD}_R(a)$ in the sense of
+\autoref{def:commring-strict-zero-divisor-data}, then no $\FieldUp$ certificate
+satisfying \autoref{def:field-certificate-obligations} preserves the same $0$,
+$1$, multiplication, classifier, and apartness over that commutative-ring
+package.
+\end{corollary}
+\begin{proof}
+Unpack $\mathsf{StrictZD}_R(a)$. It gives $\mathsf{ApartZero}_R(a)$ and a
+history $b:\mathsf{BHist}$ with $\mathsf{ApartZero}_R(b)$,
+$a\cdot b\hsame0$, and $b\cdot a\hsame0$. The first three of these components
+form the preserved strict zero-divisor pair excluded by
+\autoref{thm:preserved-strict-zero-divisor-pair-obstructs-fieldup}. Therefore
+any $\FieldUp$ certificate with the stated preservation rows yields
+$\mathsf{False}$.
+\end{proof}

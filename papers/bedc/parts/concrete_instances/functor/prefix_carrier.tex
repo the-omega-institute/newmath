@@ -14,6 +14,81 @@ composition preservation theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_from\_unary\_prefix}
 
+\begin{theorem}[Prefix functor carrier hsame transport with unary readback]
+\label{thm:prefix-functor-carrier-hsame-transport-with-unary}
+For prefix histories $p,q$, a prefix functor carrier at $p$ transports along
+$p\hsame q$ to a prefix functor carrier at $q$, and the transported endpoint
+also exposes $\mathsf{UnaryHistory}(q)$.
+\end{theorem}
+\begin{proof}
+Case-analyze the displayed history-sameness $p\hsame q$. In the reflexive
+case the original prefix functor carrier is already a carrier at $q$, and its
+stored prefix-unary field gives the unary readback.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_hsame\_transport\_with\_unary}
+
+\begin{theorem}[Functor prefix hom-carrier preserves]
+\label{thm:functor-prefix-hom-carrier-preserves}
+For a unary prefix $p$, any category hom-carrier from $a$ to $b$ transports to
+a category hom-carrier from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,b)$ with the same morphism history.
+\end{theorem}
+\begin{proof}
+Use unary append closure on the two endpoints and place the original
+continuation ledger under the common left prefix. The prefix is fixed on both
+source and target, so the morphism history is read without alteration.
+\end{proof}
+
+\begin{theorem}[Functor prefix hom-carrier reflects]
+\label{thm:functor-prefix-hom-carrier-reflects}
+For a unary prefix $p$, any category hom-carrier from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,b)$ reflects to a category hom-carrier from $a$ to $b$ with
+the same morphism history.
+\end{theorem}
+\begin{proof}
+Read the prefixed endpoint carriers through unary append exactness and cancel
+the common left prefix in the continuation ledger. The remaining continuation
+is the unprefixed hom-carrier from $a$ to $b$ with the same morphism history.
+\end{proof}
+
+\begin{theorem}[Functor prefix hom-carrier identity closed]
+\label{thm:functor-prefix-hom-carrier-identity-closed}
+For a unary prefix $p$ and a unary object $a$, the empty morphism is a category
+hom-carrier from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,a)$.
+\end{theorem}
+\begin{proof}
+Unary append closure carries the prefixed object. The category empty-identity
+row then supplies the empty hom-carrier at that carried endpoint.
+\end{proof}
+
+\begin{theorem}[Functor prefix hom-carrier composition preserves]
+\label{thm:functor-prefix-hom-carrier-comp-preserves}
+For a unary prefix $p$, composable hom-carriers from $a$ to $b$ and from $b$ to
+$c$ remain composable after prefixing all endpoints by $p$, and their
+continuation composite has the same morphism history.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:functor-prefix-hom-carrier-preserves} to both factor
+hom-carriers. The displayed continuation ledger is unchanged as a morphism
+history, while the source, middle, and target endpoints are all read under the
+same unary prefix.
+\end{proof}
+
+\begin{theorem}[Functor prefix hom-carrier composite hsame transport]
+\label{thm:functor-prefix-hom-carrier-comp-hsame-transport}
+For a unary prefix $p$, if two composable hom-carrier displays are transported
+by $\hsame$-classified source, middle, target, and morphism data, then the
+prefixed composite display transports by the same $\hsame$ data under
+$\mathsf{append}(p,\cdot)$.
+\end{theorem}
+\begin{proof}
+Transport the two factor hom-carriers by the category endpoint and morphism
+transport rows, then apply prefix preservation to the transported factors.
+Append congruence carries the source, middle, and target comparisons through
+the fixed unary prefix, and continuation transport carries the composite
+morphism comparison.
+\end{proof}
+
 \begin{theorem}[Prefix functor carrier composition public readback]
 \label{thm:prefix-functor-carrier-comp-public-readback}
 For a prefix functor carrier \(p\), if \(f\) is a hom-carrier from \(a\) to
@@ -29,6 +104,195 @@ prefixed composite. Public readback follows by category hom-carrier morphism
 determinacy at the same prefixed endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_public\_readback}
+
+\begin{theorem}[Prefix functor carrier right-factor endpoint determinacy]
+\label{thm:prefix-functor-carrier-comp-right-factor-endpoint-deterministic}
+For a prefix functor carrier \(p\), suppose \(f\) is a hom-carrier from \(a\)
+to \(b\), \(fg\) is displayed as \(\ContR(f,g,fg)\), and the prefixed
+composite \(fg\) is a hom-carrier from \(\mathsf{append}(p,a)\) to
+\(\mathsf{append}(p,c)\). If the same composite is also displayed as
+\(\ContR(f,g',fg)\) and \(g'\) is a hom-carrier from \(b'\) to \(c\), then
+\[
+\HSame(b,b')\wedge\HSame(g,g').
+\]
+\end{theorem}
+\begin{proof}
+The hom-reflection field of the prefix functor carrier reflects the displayed
+prefixed composite back to a hom-carrier from \(a\) to \(c\). Category
+right-factor endpoint determinacy compares this reflected composite against
+the displayed \(b'\to c\) right factor, and continuation left cancellation
+identifies the two right-factor histories.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_right\_factor\_endpoint\_deterministic}
+
+\begin{theorem}[Prefix functor carrier hom public readback]
+\label{thm:prefix-functor-carrier-hom-public-readback}
+For a prefix functor carrier \(p\), if \(f\) is a hom-carrier from \(a\) to
+\(b\), then \(f\) is displayed as a hom-carrier from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,b)\). Moreover, any displayed
+hom-carrier between those same prefixed endpoints has morphism history
+\(\HSame\) to \(f\).
+\end{theorem}
+\begin{proof}
+The hom-preservation field of the prefix functor carrier gives the prefixed
+hom-carrier with the same morphism history. Category hom-carrier morphism
+determinacy at the same prefixed endpoints compares every displayed carrier
+with that preserved morphism.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_hom\_public\_readback}
+
+\begin{theorem}[Prefix functor carrier append hom preservation]
+\label{thm:prefix-functor-carrier-append-hom-preserves}
+For prefix functor carriers \(p\) and \(q\), any hom-carrier
+\(\mathsf{CategoryHomCarrier}(a,b,f)\) is carried by the appended prefix:
+\[
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\mathsf{append}(p,q),a),
+\mathsf{append}(\mathsf{append}(p,q),b),f).
+\]
+\end{theorem}
+\begin{proof}
+First use the hom-preservation field of the \(q\)-carrier to display the
+hom-carrier at endpoints prefixed by \(q\). Use the hom-preservation field of
+the \(p\)-carrier on that displayed hom-carrier. The resulting endpoints are
+\(\mathsf{append}(p,\mathsf{append}(q,a))\) and
+\(\mathsf{append}(p,\mathsf{append}(q,b))\); continuation append associativity
+transports them to the appended-prefix endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_append\_hom\_preserves}
+
+\begin{theorem}[Prefix functor carrier append composition preservation]
+\label{thm:prefix-functor-carrier-append-comp-preserves}
+For prefix functor carriers \(p\) and \(q\), composable hom-carriers
+\(\mathsf{CategoryHomCarrier}(a,b,f)\) and
+\(\mathsf{CategoryHomCarrier}(b,c,g)\), together with \(\ContR(f,g,fg)\),
+display the composite \(fg\) at the endpoints prefixed by
+\(\mathsf{append}(p,q)\):
+\[
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\mathsf{append}(p,q),a),
+\mathsf{append}(\mathsf{append}(p,q),c),fg).
+\]
+\end{theorem}
+\begin{proof}
+Use the composition-preservation field of the \(q\)-carrier to close the
+composite at endpoints prefixed by \(q\). Then use the hom-preservation field
+of the \(p\)-carrier on that already composed display. Append associativity
+transports the source and target endpoints from nested prefixing to the single
+appended-prefix form.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_append\_comp\_preserves}
+
+\begin{theorem}[Prefix functor carrier e1 prefix hom reflects]
+\label{thm:prefix-functor-carrier-e1-prefix-hom-reflects}
+For histories $p,a,b,f$, a prefix functor carrier at the visible prefix
+$\Eone(p)$ reflects any displayed prefixed hom-carrier back to the unprefixed
+hom-carrier and exposes the unary tail of the visible prefix:
+$$
+\mathsf{PrefixFunctorCarrier}(\Eone(p))\to
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\Eone(p),a),
+\mathsf{append}(\Eone(p),b),f)\to
+\mathsf{UnaryHistory}(p)\land\mathsf{CategoryHomCarrier}(a,b,f).
+$$
+\end{theorem}
+\begin{proof}
+Project the stored unary evidence for the visible prefix and invert the
+$\Eone$ constructor to obtain $\mathsf{UnaryHistory}(p)$. The carrier's
+hom-reflection field cancels the displayed common prefix and returns the
+unprefixed category hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_e1\_prefix\_hom\_reflects}
+
+\begin{theorem}[Prefix functor carrier associative composition public readback]
+\label{thm:prefix-functor-carrier-comp-assoc-public-readback}
+For a prefix functor carrier \(p\), if \(f,g,h\) are composable
+hom-carriers from \(a\) to \(b\), from \(b\) to \(c\), and from \(c\) to
+\(d\), with displayed composites \(fg\), \(gh\), \(left\), and \(right\),
+then \(left\) and \(right\) are hom-carriers from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,d)\), satisfy
+\(\HSame(left,right)\), and compare by \(\HSame\) with every displayed
+hom-carrier between those same prefixed endpoints.
+\end{theorem}
+\begin{proof}
+The prefix functor carrier exposes a unary witness for the prefix, so
+prefix associative composition preservation closes both bracketed composites
+at the prefixed endpoints and supplies their associativity comparison.
+Category hom-carrier morphism determinacy at the same prefixed endpoints
+then compares each bracketed composite with any displayed carrier there.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_assoc\_public\_readback}
+
+\begin{theorem}[Prefix functor carrier identity public readback]
+\label{thm:prefix-functor-carrier-identity-public-readback}
+For a prefix functor carrier \(p\) and a unary object \(a\), every displayed
+hom-carrier from \(\mathsf{append}(p,a)\) to itself has morphism history
+\(\hsame\) to \(\emp\).
+\end{theorem}
+\begin{proof}
+The prefix carrier supplies unary closure for \(p\). Together with the unary
+carrier for \(a\), this constructs the empty identity hom-carrier at the
+prefixed endpoint. Category hom-carrier morphism determinacy then compares
+any displayed endomorphism at the same endpoint with that empty identity.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_identity\_public\_readback}
+
+\begin{theorem}[Prefix functor carrier preserves split-mono witnesses]
+\label{thm:prefix-functor-carrier-split-mono-witness-preserves}
+For histories $p,a,b,f,g,i,c$, suppose $p$ carries a prefix functor carrier,
+$f:a\to b$ and $g:b\to a$ are category hom-carriers, $i:a\to a$ is an
+identity hom-carrier, $\ContR(f,g,c)$ displays the composite, $c:a\to a$ is
+also a category hom-carrier, and $c\hsame i$. Then the prefixed endpoints carry
+a split-monomorphism witness: $g:\mathsf{append}(p,b)\to\mathsf{append}(p,a)$,
+the identity carrier over $\mathsf{append}(p,a)$, the same composite ledger,
+the prefixed composite carrier, and the same classifier comparison.
+\end{theorem}
+\begin{proof}
+Use the hom-preservation field of the prefix functor carrier on the inverse
+hom-carrier $g$ and on the identity hom-carrier $i$. Use its composition
+preservation field on $f$, $g$, and the displayed continuation for $c$. Taking
+the displayed prefixed identity to be $i$ and the displayed prefixed composite
+to be $c$ gives the required witness package, with the original comparison
+$c\hsame i$ as the classifier component.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_split\_mono\_witness\_preserves}
+
+\begin{theorem}[Prefix functor carrier preserves split-epi witnesses]
+\label{thm:prefix-functor-carrier-split-epi-witness-preserves}
+For histories $p,a,b,f,g,i,c$, suppose $p$ carries a prefix functor carrier,
+$f:a\to b$ and $g:b\to a$ are category hom-carriers, $i:b\to b$ is an
+identity hom-carrier, $\ContR(g,f,c)$ displays the composite, $c:b\to b$ is
+also a category hom-carrier, and $c\hsame i$. Then the prefixed endpoints carry
+a split-epimorphism witness: $g:\mathsf{append}(p,b)\to\mathsf{append}(p,a)$,
+the identity carrier over $\mathsf{append}(p,b)$, the same composite ledger,
+the prefixed composite carrier, and the same classifier comparison.
+\end{theorem}
+\begin{proof}
+Use the hom-preservation field of the prefix functor carrier on the displayed
+reverse hom-carrier $g$ and on the identity hom-carrier $i$. Use its
+composition preservation field on $g$, $f$, and the displayed continuation for
+$c$. Taking the displayed prefixed identity to be $i$ and the displayed
+prefixed composite to be $c$ gives the required witness package, with the
+original comparison $c\hsame i$ as the classifier component.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_split\_epi\_witness\_preserves}
+
+\begin{theorem}[Prefix functor carrier preserves split-isomorphism witness pairs]
+\label{thm:prefix-functor-carrier-split-iso-witness-pair-preserves}
+For histories $p,a,b,f,g_L,i_A,c_A,g_R,i_B,c_B$, suppose $p$ carries a
+prefix functor carrier, $f:a\to b$ is a category hom-carrier, $g_L:b\to a$
+and $g_R:b\to a$ are the two displayed inverse-side hom-carriers, $i_A:a\to a$
+and $i_B:b\to b$ are identity hom-carriers, and the continuations
+$\ContR(f,g_L,c_A)$ and $\ContR(g_R,f,c_B)$ display composites classified by
+$i_A$ and $i_B$. Then the prefixed endpoints carry the corresponding
+split-isomorphism witness pair with the same morphism histories and
+classifier comparisons.
+\end{theorem}
+\begin{proof}
+Use the hom-preservation field of the prefix functor carrier on $f$, both
+inverse-side hom-carriers, and both identity hom-carriers. Use its
+composition-preservation field on the two displayed continuation ledgers. The
+four displayed witnesses are the original identity and composite histories,
+and the two classifier components are the original comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_split\_iso\_witness\_pair\_preserves}
 
 \begin{theorem}[Prefix functor empty morphism source exactness]
 \label{thm:functor-prefix-empty-morphism-source}
@@ -51,6 +315,27 @@ carrier along endpoint sameness, and category empty-identity exactness
 reconstructs the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_morphism\_source\_iff}
+
+\begin{theorem}[One-headed prefix empty morphism source exactness]
+\label{thm:functor-prefix-e1-empty-morphism-source-iff}
+For histories $p,a,source$, the empty history is a category hom-carrier from
+$source$ to $\mathsf{append}(\Eone(p),a)$ exactly when $p$ and $a$ are unary and
+$source$ is history-same to that one-headed prefixed target:
+$$
+\mathsf{CategoryHomCarrier}(source,\mathsf{append}(\Eone(p),a),\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\hsame(source,\mathsf{append}(\Eone(p),a)).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefix empty morphism source exactness with prefix $\Eone(p)$. The
+forward direction turns unary membership of $\Eone(p)$ into unary membership
+of $p$ by one-headed unary inversion. Conversely, unary closure of the
+one-headed constructor rebuilds the prefixed unary target data, and the
+general source exactness reconstructs the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_prefix\_empty\_morphism\_source\_iff}
 
 \begin{theorem}[Prefix functor empty morphism endpoint exactness]
 \label{thm:functor-prefix-hom-carrier-morphism-empty-endpoint-iff}
@@ -113,3 +398,81 @@ $\mathsf{append}(p,c)$; category empty-source exactness rebuilds the final
 hom-carrier for $fg$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_inversion}
+
+\begin{theorem}[Prefix hom composite empty-middle target determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-empty-middle-target-deterministic}
+For histories $p,a,c,f,g,fg,\mathit{target}$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\emp$, $g$ is a hom-carrier from $\emp$ to
+$\mathsf{append}(p,c)$, $\ContR(f,g,fg)$, and the displayed composite
+$fg$ is also a hom-carrier from $\emp$ to $\mathit{target}$, then
+$$
+\hsame(\mathit{target},\mathsf{append}(p,c)).
+$$
+\end{theorem}
+\begin{proof}
+The empty-middle inversion supplies the canonical hom-carrier from $\emp$ to
+$\mathsf{append}(p,c)$ over the same composite morphism $fg$. Target
+determinacy for category hom-carriers compares this canonical carrier with the
+displayed one and yields the stated classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_target\_deterministic}
+
+\begin{theorem}[Prefix hom composite empty-middle displayed morphism determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-empty-middle-displayed-morphism-deterministic}
+For histories $p,a,c,f,g,fg,\mathit{displayed}$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\emp$, $g$ is a hom-carrier from $\emp$ to
+$\mathsf{append}(p,c)$, $\ContR(f,g,fg)$, and $\mathit{displayed}$ is also a
+hom-carrier from $\emp$ to $\mathsf{append}(p,c)$, then
+$$
+\HSame(\mathit{displayed},fg).
+$$
+\end{theorem}
+\begin{proof}
+The prefixed empty-middle inversion supplies the canonical hom-carrier from
+$\emp$ to $\mathsf{append}(p,c)$ over $fg$. Category hom-carrier morphism
+determinacy compares that carrier with the displayed carrier over the same
+endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_displayed\_morphism\_deterministic}
+
+\begin{theorem}[Prefix hom composite empty-middle source determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-empty-middle-source-deterministic}
+For histories $p,a,c,f,g,fg,\mathit{source}$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\emp$, $g$ is a hom-carrier from $\emp$ to
+$\mathsf{append}(p,c)$, $\ContR(f,g,fg)$, and the displayed composite $fg$ is
+also a hom-carrier from $\mathit{source}$ to $\mathsf{append}(p,c)$, then
+$$
+\hsame(\mathit{source},\emp).
+$$
+\end{theorem}
+\begin{proof}
+The empty-middle inversion supplies the canonical hom-carrier from $\emp$ to
+$\mathsf{append}(p,c)$ over $fg$. Source determinacy for category hom-carriers
+compares the displayed carrier with this canonical carrier and identifies the
+displayed source with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_source\_deterministic}
+
+\begin{theorem}[Prefix functor carrier empty-middle empty-result readback]
+\label{thm:prefix-functor-carrier-comp-empty-middle-empty-result-readback}
+For histories $p,q,a,c,f,g,fg$, suppose $p$ carries a prefix functor carrier,
+$f$ is a hom-carrier from $\mathsf{append}(p,a)$ to $\emp$, $g$ is a
+hom-carrier from $\emp$ to $\mathsf{append}(q,c)$, $\ContR(f,g,fg)$, and
+$fg\hsame\emp$. Then $q$ carries a prefix functor carrier, and all displayed
+components are empty:
+$$
+\mathsf{PrefixFunctorCarrier}(q)\wedge\hsame(p,\emp)\wedge\hsame(q,\emp)
+\wedge\hsame(a,\emp)\wedge\hsame(c,\emp)\wedge
+\hsame(f,\emp)\wedge\hsame(g,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply category composite-result empty exactness to the displayed hom-carriers.
+The left endpoint equality splits
+$\mathsf{append}(p,a)\hsame\emp$ into $p\hsame\emp$ and $a\hsame\emp$, and the
+right endpoint equality splits $\mathsf{append}(q,c)\hsame\emp$ into
+$q\hsame\emp$ and $c\hsame\emp$. The factor morphism equalities give
+$f\hsame\emp$ and $g\hsame\emp$. Since $q$ is history-same to $\emp$, the
+unary-prefix constructor supplies the prefix functor carrier at $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_empty\_middle\_empty\_result\_readback}

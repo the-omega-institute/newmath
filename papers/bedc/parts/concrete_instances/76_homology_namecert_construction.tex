@@ -295,6 +295,7 @@ appended differential image matches the continuation result $r$.
 Conjoining these two conclusions gives the displayed cycle-preimage certificate
 for the same continuation result.
 \end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_continuation\_cycle\_preimage\_package}
 
 \begin{theorem}[Homology boundary carrier continuation nonempty preimage append]
 \label{thm:homology-boundary-carrier-cont-nonempty-preimage-append}
@@ -352,6 +353,28 @@ $\mathsf{append}(h,k)\hsame\mathsf{Empty}$, and the append empty preimage
 theorem supplies the paired witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_empty\_preimages}
+
+\begin{theorem}[Homology boundary carrier continuation empty-result preimage equivalence]
+\label{thm:homology-boundary-carrier-cont-empty-result-preimages-iff}
+If $B_d(h)$ and $B_d(k)$ and $\ContR(h,k,r)$, then $r$ is history-same to
+$\mathsf{Empty}$ exactly when the two boundary witnesses can be chosen with
+empty differential endpoints:
+$$
+\hsame(r,\mathsf{Empty})
+\Longleftrightarrow
+\exists u,v:\mathsf{BHist},\
+\hsame(h,d(u))\land \hsame(k,d(v))\land
+\hsame(d(u),\mathsf{Empty})\land\hsame(d(v),\mathsf{Empty}).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the continuation empty-preimage theorem. Conversely,
+the two displayed empty differential endpoints transport through the boundary
+witnesses to give $h\hsame\mathsf{Empty}$ and $k\hsame\mathsf{Empty}$; append
+empty-result exactness makes $\mathsf{append}(h,k)$ empty, and the continuation
+ledger identifies this append endpoint with $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_empty\_result\_preimages\_iff}
 
 \begin{theorem}[Homology boundary carrier append nonempty preimage]
 \label{thm:homology-boundary-carrier-append-nonempty-preimage}
@@ -422,6 +445,30 @@ cycle witness is attached to whichever disjunct supplies the nonempty
 preimage.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_nonempty\_cycle\_preimage}
+
+\begin{theorem}[Homology boundary carrier continuation nonempty cycle preimage]
+\label{thm:homology-boundary-carrier-cont-nonempty-cycle-preimage}
+Assume the differential is square-zero. If $B_d(h)$ and $B_d(k)$, if
+$\ContR(h,k,r)$, and if $r$ is not history-same to $\mathsf{Empty}$, then at
+least one side has a boundary preimage with a nonempty differential endpoint,
+and that side is a cycle:
+$$
+\begin{aligned}
+&\left(\exists u:\mathsf{BHist},\
+\hsame(h,d(u))\land Z_d(h)\land\neg\hsame(d(u),\mathsf{Empty})\right)\\
+&\quad{}\lor
+\left(\exists v:\mathsf{BHist},\
+\hsame(k,d(v))\land Z_d(k)\land\neg\hsame(d(v),\mathsf{Empty})\right).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The continuation equation transports nonemptiness of $r$ to nonemptiness of
+$\mathsf{append}(h,k)$. The append nonempty cycle-preimage theorem then
+separates the witness to the left boundary preimage or to the right boundary
+preimage, carrying the corresponding cycle evidence supplied by square-zero.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_nonempty\_cycle\_preimage}
 
 \begin{theorem}[Homology boundary carrier continuation cycle components]
 \label{thm:homology-boundary-cont-cycle-components}
@@ -593,3 +640,30 @@ endpoint carrier witness already stored in the classifier. The semantic
 pattern and ledger fields are the source witness itself.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert}
+\begin{closurestatus}{\HomologyUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The singleton homology cycle semantic certificate for a displayed differential, with cycle carrier, classifier transport, and source/pattern/ledger all read through the singleton cycle predicate.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General homology theory: arbitrary chain complexes, boundary/image quotients, chain maps, exact sequences, long exact sequences, singular or simplicial homology, and derived functors.}
+  \upgradepath{$\publicClosure$ requires public chain-complex data, cycle and boundary readback, quotient exactness, chain-map functoriality, exact-sequence behavior, and no-hidden-leakage.}
+\end{closurestatus}
+
+\begin{theorem}[Homology cycle carrier $\hsame$ transport]
+\label{thm:homology-cycle-carrier-hsame-transport}
+Assume the differential is stable under history-sameness:
+$$
+\forall u,v:\mathsf{BHist},\ \hsame(u,v)\to\hsame(d(u),d(v)).
+$$
+If $Z_d(h)$ and $\hsame(h,k)$, then $Z_d(k)$.
+\end{theorem}
+\begin{proof}
+By \autoref{sec:homology-carrier}, $Z_d(h)$ is the endpoint comparison
+$\hsame(d(h),\mathsf{Empty})$. Applying the displayed stability row to
+$\hsame(h,k)$ gives $\hsame(d(h),d(k))$. Symmetry of $\hsame$ gives
+$\hsame(d(k),d(h))$, and transitivity with the cycle endpoint gives
+$\hsame(d(k),\mathsf{Empty})$. By the same carrier definition, this is
+$Z_d(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_hsame\_transport}

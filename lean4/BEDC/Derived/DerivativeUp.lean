@@ -168,6 +168,24 @@ theorem DerivativeMetricQuotient_distance_cont_depth_add {f z h q dist : BHist} 
                               exact And.intro metricLedger
                                 (MetricDistanceWitness_depth_add witness)
 
+theorem DerivativeMetricQuotient_empty_function_step_readback {z h q dist : BHist} :
+    DerivativeMetricQuotient BHist.Empty z h q dist ->
+      hsame q h ∧ Cont h q dist ∧ hsame dist (append h h) := by
+  intro quotient
+  have functionLedger : Cont BHist.Empty h q := quotient.right.right.right.right.left
+  have sameQH : hsame q h := cont_left_unit_result functionLedger
+  have metricLedger : Cont h q dist := quotient.right.right.right.right.right.right.right
+  have sameDistHQ : hsame dist (append h q) := metricLedger
+  have sameHQHH : hsame (append h q) (append h h) := congrArg (append h) sameQH
+  exact And.intro sameQH (And.intro metricLedger (hsame_trans sameDistHQ sameHQHH))
+
+theorem DerivativeMetricQuotient_empty_function_zero_step_absurd {z h q dist s : BHist} :
+    DerivativeMetricQuotient BHist.Empty z h q dist -> hsame h (BHist.e0 s) -> False := by
+  intro quotient sameStep
+  have visibleStep : UnaryHistory (BHist.e0 s) :=
+    unary_transport quotient.right.right.right.right.right.left sameStep
+  exact unary_no_zero_extension visibleStep
+
 theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
     CplxDiffAt f z fp ->
       ∃ h : BHist, ∃ q : BHist, UnaryHistory h ∧ UnaryHistory q ∧ Cont f h q ∧ hsame q fp := by
@@ -209,6 +227,31 @@ theorem DerivativeCplxDiffAt_derivative_nonempty {f z fp : BHist} :
                           have quotientEmpty : hsame q BHist.Empty :=
                             hsame_trans (classifier quotient) derivativeEmpty
                           exact CplxDiffQuot_result_nonempty quotient quotientEmpty
+
+theorem DerivativeCplxDiffAt_empty_function_step_readback {z fp : BHist} :
+    CplxDiffAt BHist.Empty z fp ->
+      ∃ h : BHist, CplxNonZero h ∧ UnaryHistory h ∧ hsame fp h := by
+  intro derivative
+  cases derivative with
+  | intro _functionCarrier derivativeRest =>
+      cases derivativeRest with
+      | intro _pointCarrier derivativeRest =>
+          cases derivativeRest with
+          | intro _derivativeCarrier derivativeRest =>
+              cases derivativeRest with
+              | intro witness classifier =>
+                  cases witness with
+                  | intro h witnessRest =>
+                      cases witnessRest with
+                      | intro q quotient =>
+                          have stepData := CplxDiffQuot_step_unary quotient
+                          have ledger : Cont BHist.Empty h q := stepData.right.right
+                          have sameQH : hsame q h := cont_left_unit_result ledger
+                          have sameFpH : hsame fp h :=
+                            hsame_trans (hsame_symm (classifier quotient)) sameQH
+                          exact Exists.intro h
+                            (And.intro quotient.right.right.left
+                              (And.intro stepData.left sameFpH))
 
 theorem DerivativeMetricQuotient_quotient_distance_nonempty {f z h q dist : BHist} :
     DerivativeMetricQuotient f z h q dist ->
@@ -452,5 +495,84 @@ theorem DerivativeMetricQuotient_function_visible_context_readback
   have sameCore : hsame f core :=
     (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
   exact And.intro sameCore (unary_transport quotient.left sameCore)
+
+theorem DerivativeMetricQuotient_chain_product_composition
+    {f g z h_f h_g h_fg q_f q_g q_fg d_f d_g d_fg F_fg : BHist} :
+    DerivativeMetricQuotient f z h_f q_f d_f ->
+      DerivativeMetricQuotient g q_f h_g q_g d_g ->
+        Cont h_f h_g h_fg -> Cont q_f q_g q_fg -> Cont d_f d_g d_fg ->
+          Cont f g F_fg -> Cont f h_fg q_g ->
+            DerivativeMetricQuotient F_fg z h_fg q_fg d_fg ∧
+              Cont d_f d_g d_fg ∧ Cont q_f h_g q_g ∧ hsame g q_f := by
+  intro left right stepProduct quotientProduct distanceProduct functionProduct chainLedger
+  have leftFunctionLedger : Cont f h_f q_f :=
+    left.right.right.right.right.left
+  have rightFunctionLedger : Cont g h_g q_g :=
+    right.right.right.right.right.left
+  have innerQuotientLedger : Cont q_f h_g q_g :=
+    cont_composite_right_factor leftFunctionLedger stepProduct chainLedger
+  have sameFunctionQuotient : hsame g q_f :=
+    hsame_symm (cont_right_cancel innerQuotientLedger rightFunctionLedger)
+  have functionCarrier : UnaryHistory F_fg :=
+    unary_cont_closed left.left right.left functionProduct
+  have stepCarrier : UnaryHistory h_fg :=
+    unary_cont_closed left.right.right.right.right.right.left
+      right.right.right.right.right.right.left stepProduct
+  have quotientCarrier : UnaryHistory q_fg :=
+    unary_cont_closed left.right.right.right.left right.right.right.right.left
+      quotientProduct
+  have distanceCarrier : UnaryHistory d_fg :=
+    unary_cont_closed left.right.right.right.right.right.right.left
+      right.right.right.right.right.right.right.left distanceProduct
+  have stepNonzero : CplxNonZero h_fg := by
+    intro stepEmpty
+    have endpoints :=
+      cont_empty_result_inversion (cont_result_hsame_transport stepProduct stepEmpty)
+    exact left.right.right.left endpoints.left
+  have quotientLedger : Cont F_fg h_fg q_fg := by
+    have sameResult : hsame (append F_fg h_fg) q_fg := by
+      cases functionProduct
+      cases stepProduct
+      cases quotientProduct
+      cases leftFunctionLedger
+      cases rightFunctionLedger
+      exact
+        (append_assoc f g (append h_f h_g)).trans
+          ((congrArg (append f)
+            ((append_assoc g h_f h_g).symm.trans
+              ((congrArg (fun tail => append tail h_g)
+                (unary_append_comm right.left left.right.right.right.right.right.left)).trans
+                  (append_assoc h_f g h_g)))).trans
+            (append_assoc f h_f (append g h_g)).symm)
+    exact cont_result_hsame_transport (cont_intro rfl) sameResult
+  have metricLedger : Cont h_fg q_fg d_fg := by
+    have sameResult : hsame (append h_fg q_fg) d_fg := by
+      cases stepProduct
+      cases quotientProduct
+      cases distanceProduct
+      cases left.right.right.right.right.right.right.right
+      cases right.right.right.right.right.right.right.right
+      exact
+        (append_assoc h_f h_g (append q_f q_g)).trans
+          ((congrArg (append h_f)
+            ((append_assoc h_g q_f q_g).symm.trans
+              ((congrArg (fun tail => append tail q_g)
+                (unary_append_comm right.right.right.right.right.right.left
+                  left.right.right.right.left)).trans
+                  (append_assoc q_f h_g q_g)))).trans
+            (append_assoc h_f q_f (append h_g q_g)).symm)
+    exact cont_result_hsame_transport (cont_intro rfl) sameResult
+  have quotient :
+      DerivativeMetricQuotient F_fg z h_fg q_fg d_fg :=
+    And.intro functionCarrier
+      (And.intro left.right.left
+        (And.intro stepNonzero
+          (And.intro quotientCarrier
+            (And.intro quotientLedger
+              (And.intro stepCarrier
+                (And.intro distanceCarrier metricLedger))))))
+  exact And.intro quotient
+    (And.intro distanceProduct
+      (And.intro innerQuotientLedger sameFunctionQuotient))
 
 end BEDC.Derived.DerivativeUp

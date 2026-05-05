@@ -167,3 +167,128 @@ and transitivity are those of $\hsame$. Carrier transport is exactly
 right endpoints fixed by reflexivity.
 \end{proof}
 \leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_tensor\_semanticNameCert}
+
+\begin{theorem}[Tensor product singleton factor source-target swap]
+\label{thm:tensorproduct-singleton-factor-source-target-swap}
+For histories $l,r,t:\mathsf{BHist}$, if
+$$
+\mathsf{TensorProductSingletonFactor}(l,r,t)
+$$
+holds, then
+$$
+\mathsf{TensorProductSingletonFactor}(r,l,t)
+$$
+holds. The resulting factor contains the swapped continuation witness
+$\Cont(r,l,t)$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:tensorproduct-singleton-factor}. The factor supplies
+$A_{\emp}(l)$, $A_{\emp}(r)$, $A_{\emp}(t)$, and
+$\Cont(l,r,t)$. In the concrete singleton module of
+\autoref{def:singleton-empty-history-module-instance}, the first two endpoint
+witnesses are the comparisons $l\hsame\emp$ and $r\hsame\emp$. Hence
+$l\hsame r$ follows by composing $l\hsame\emp$ with the symmetry of
+$r\hsame\emp$, and $r\hsame l$ follows by the same argument with the roles
+reversed.
+
+Apply \autoref{thm:tensorproduct-singleton-factor-hsame-transport} to the
+original factor with the comparisons $l\hsame r$, $r\hsame l$, and
+$t\hsame t$. Its conclusion is exactly the swapped predicate
+$\mathsf{TensorProductSingletonFactor}(r,l,t)$, and its continuation component
+is $\Cont(r,l,t)$.
+\end{proof}
+\leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_source\_target\_swap}
+
+\begin{theorem}[Tensor product singleton factor swap symmetry]
+\label{thm:tensorproduct-singleton-factor-swap-symmetry}
+For histories $l,r,t:\mathsf{BHist}$, if
+$$
+\mathsf{TensorProductSingletonFactor}(l,r,t)
+$$
+holds, then
+$$
+\mathsf{TensorProductSingletonFactor}(r,l,t)
+$$
+holds. The resulting factor includes the continuation witness $\Cont(r,l,t)$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:tensorproduct-singleton-factor}. The factor consists of
+$A_{\emp}(l)$, $A_{\emp}(r)$, $A_{\emp}(t)$, and $\Cont(l,r,t)$. By
+\autoref{def:singleton-empty-history-module-instance} and
+\autoref{def:list-singleton-history-source}, the two factor carrier witnesses
+are endpoint comparisons $l\hsame\emp$ and $r\hsame\emp$. Transitivity of
+$\hsame$ gives $l\hsame r$ by composing $l\hsame\emp$ with the symmetry of
+$r\hsame\emp$, and similarly gives $r\hsame l$.
+
+Apply \autoref{thm:tensorproduct-singleton-factor-hsame-transport} to the
+original factor with endpoint comparisons $l\hsame r$, $r\hsame l$, and the
+reflexive comparison $t\hsame t$. The transported conclusion is
+$\mathsf{TensorProductSingletonFactor}(r,l,t)$, and the retained continuation
+component is $\Cont(r,l,t)$.
+\end{proof}
+
+\begin{theorem}[Tensor product singleton factor associator]
+\label{thm:tensorproduct-singleton-factor-associator}
+For histories $l,r,s,t,u:\mathsf{BHist}$, if
+$$
+\mathsf{TensorProductSingletonFactor}(l,r,t)
+\quad\text{and}\quad
+\mathsf{TensorProductSingletonFactor}(t,s,u)
+$$
+hold, then there is a history $m:\mathsf{BHist}$ such that
+$$
+\mathsf{TensorProductSingletonFactor}(r,s,m)
+\quad\text{and}\quad
+\mathsf{TensorProductSingletonFactor}(l,m,u)
+$$
+hold. The two resulting factors retain the rebracketed continuation ledgers
+$\Cont(r,s,m)$ and $\Cont(l,m,u)$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:tensorproduct-singleton-factor}. The first factor supplies
+$A_{\emp}(l)$, $A_{\emp}(r)$, $A_{\emp}(t)$, and $\Cont(l,r,t)$; the second
+supplies $A_{\emp}(t)$, $A_{\emp}(s)$, $A_{\emp}(u)$, and $\Cont(t,s,u)$.
+Apply the associativity existence form of the continuation spine to the two
+continuation ledgers $\Cont(l,r,t)$ and $\Cont(t,s,u)$. This gives a history
+$m$ with
+$$
+\Cont(r,s,m)
+\quad\text{and}\quad
+\Cont(l,m,u).
+$$
+
+It remains only to show that $m$ lies in the singleton module carrier. By
+\autoref{def:singleton-empty-history-module-instance} and
+\autoref{def:list-singleton-history-source}, the carrier witnesses
+$A_{\emp}(r)$ and $A_{\emp}(s)$ identify $r$ and $s$ with $\emp$. Transporting
+$\Cont(r,s,m)$ along these two endpoint comparisons gives
+$\Cont(\emp,\emp,m)$. The continuation unit laws of
+\autoref{thm:continuation-unit-laws-spine} compare this ledger with the empty
+unit continuation and identify $m$ with $\emp$, which is exactly
+$A_{\emp}(m)$.
+
+Now package the first rebracketed factor from $A_{\emp}(r)$, $A_{\emp}(s)$,
+$A_{\emp}(m)$, and $\Cont(r,s,m)$. Package the second from $A_{\emp}(l)$,
+$A_{\emp}(m)$, $A_{\emp}(u)$, and $\Cont(l,m,u)$.
+\end{proof}
+\leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_associator}
+
+\begin{theorem}[Tensor product singleton factor classifier uniqueness]
+\label{thm:tensorproduct-singleton-factor-classifier-uniqueness}
+For histories $l,r,t,t':\mathsf{BHist}$, if
+$$
+\mathsf{TensorProductSingletonFactor}(l,r,t)
+\quad\text{and}\quad
+\mathsf{TensorProductSingletonFactor}(l,r,t')
+$$
+hold, then
+$$
+t\hsame t'.
+$$
+Thus any two tensor endpoints obtained from the same singleton module factor pair are classifier-equal in the tensor endpoint certificate of \autoref{thm:tensorproduct-singleton-factor-tensor-semantic-namecert}.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:tensorproduct-singleton-factor} for both factor witnesses. The first witness supplies $\Cont(l,r,t)$; the second supplies $\Cont(l,r,t')$. These two continuation ledgers have the same source history $l$ and the same right history $r$. Applying \autoref{thm:continuation-determinacy-up-to-history-sameness} to the two ledgers identifies their outputs, giving $t\hsame t'$. The classifier in \autoref{thm:tensorproduct-singleton-factor-tensor-semantic-namecert} is $\hsame$ on this endpoint carrier, so this output identification is exactly tensor classifier equality.
+\end{proof}
+\leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_classifier\_uniqueness}
+\leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_classifier\_uniqueness\_readback}

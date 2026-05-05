@@ -126,6 +126,15 @@ def TensorProductSingletonFactor (left right tensor : BHist) : Prop :=
   ModuleSingletonCarrier left ∧ ModuleSingletonCarrier right ∧
     ModuleSingletonCarrier tensor ∧ Cont left right tensor
 
+theorem TensorProductSingletonFactor_classifier_uniqueness {left right tensor tensor' : BHist} :
+    TensorProductSingletonFactor left right tensor ->
+      TensorProductSingletonFactor left right tensor' ->
+        hsame tensor tensor' ∧ Cont left right tensor ∧ Cont left right tensor' := by
+  intro leftFactor rightFactor
+  have leftCont : Cont left right tensor := leftFactor.right.right.right
+  have rightCont : Cont left right tensor' := rightFactor.right.right.right
+  exact And.intro (cont_deterministic leftCont rightCont) (And.intro leftCont rightCont)
+
 theorem TensorProductSingletonCarrier_factor_witness {tensor : BHist} :
     TensorProductSingletonCarrier tensor ->
       Exists (fun left : BHist => Exists (fun right : BHist =>
@@ -166,9 +175,48 @@ theorem TensorProductSingletonFactor_hsame_transport
   have tensorCont' : Cont left' right' tensor' :=
     cont_hsame_transport sameLeft sameRight sameTensor factor.right.right.right
   exact And.intro
-    (And.intro leftCarrier'
-      (And.intro rightCarrier' (And.intro tensorCarrier' tensorCont')))
+      (And.intro leftCarrier'
+        (And.intro rightCarrier' (And.intro tensorCarrier' tensorCont')))
     tensorCont'
+
+theorem TensorProductSingletonFactor_source_target_swap {left right tensor : BHist} :
+    TensorProductSingletonFactor left right tensor ->
+      TensorProductSingletonFactor right left tensor ∧ Cont right left tensor := by
+  intro factor
+  exact TensorProductSingletonFactor_hsame_transport factor
+    (hsame_trans factor.left (hsame_symm factor.right.left))
+    (hsame_trans factor.right.left (hsame_symm factor.left))
+    (hsame_refl tensor)
+
+theorem TensorProductSingletonFactor_associator {l r s t u : BHist} :
+    TensorProductSingletonFactor l r t -> TensorProductSingletonFactor t s u ->
+      exists m : BHist, TensorProductSingletonFactor r s m ∧
+        TensorProductSingletonFactor l m u ∧ Cont r s m ∧ Cont l m u := by
+  intro leftFactor rightFactor
+  have assoc := cont_assoc_left_exists leftFactor.right.right.right rightFactor.right.right.right
+  cases assoc with
+  | intro m conts =>
+      have mCarrier : ModuleSingletonCarrier m :=
+        @cont_left_unit_result BHist.Empty m
+          (@cont_hsame_transport r BHist.Empty s BHist.Empty m m
+            leftFactor.right.left rightFactor.right.left (hsame_refl m) conts.left)
+      exact Exists.intro m
+        (And.intro
+          (And.intro leftFactor.right.left
+            (And.intro rightFactor.right.left (And.intro mCarrier conts.left)))
+            (And.intro
+              (And.intro leftFactor.left
+                (And.intro mCarrier (And.intro rightFactor.right.right.left conts.right)))
+            (And.intro conts.left conts.right)))
+
+theorem TensorProductSingletonFactor_classifier_uniqueness_readback {l r t t' : BHist} :
+    TensorProductSingletonFactor l r t -> TensorProductSingletonFactor l r t' ->
+      hsame t t' ∧ Cont l r t ∧ Cont l r t' := by
+  intro leftFactor rightFactor
+  have sameTensor : hsame t t' :=
+    cont_deterministic leftFactor.right.right.right rightFactor.right.right.right
+  exact And.intro sameTensor
+    (And.intro leftFactor.right.right.right rightFactor.right.right.right)
 
 theorem TensorProductSingletonFactor_tensor_semanticNameCert {left right tensor : BHist} :
     TensorProductSingletonFactor left right tensor ->

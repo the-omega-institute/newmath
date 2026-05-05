@@ -1,0 +1,182 @@
+\begin{theorem}[Module parity epsilon empty-result classifier]
+\label{thm:module-parity-smul-epsilon-empty-result-iff}
+For every history $m:\mathsf{BHist}$, scalar action by the parity epsilon
+history has empty output exactly when the module endpoint is not the empty
+history:
+$$
+\hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m),\emp)
+\Longleftrightarrow
+\bigl(\hsame(m,\emp)\Longrightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$. If $m=\emp$, the displayed result is
+$\Eone(\emp)$, so empty output contradicts constructor disjointness; conversely
+the right-hand side is contradicted by reflexivity of $\emp$. If $m$ is visibly
+zero-headed or one-headed, the parity action reduces to $\emp$, and the
+right-hand side follows from the corresponding visible-vs-empty no-confusion
+law.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_empty\_result\_iff}
+
+\begin{theorem}[Module parity epsilon result partition]
+\label{thm:module-parity-smul-epsilon-result-partition}
+For every history $m:\mathsf{BHist}$, scalar action by the parity epsilon
+history has exactly the following result partition:
+$$
+\bigl(\hsame(m,\emp)\land
+  \hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m),
+    \mathsf{ModuleParityOne})\bigr)
+\quad\lor\quad
+\bigl((\hsame(m,\emp)\Rightarrow\mathsf{False})\land
+  \hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m),\emp)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$. At $m=\emp$, the action reduces to
+$\mathsf{ModuleParityOne}$, giving the left side of the partition. At a visible
+zero-headed or one-headed history, the action reduces to $\emp$, while
+constructor disjointness gives the nonempty premise of the right side.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_result\_partition}
+
+\begin{theorem}[Module parity epsilon visible-one iff empty]
+\label{thm:module-parity-smul-epsilon-visible-one-iff-empty}
+For every history $m:\mathsf{BHist}$,
+$$
+\hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m),
+  \mathsf{ModuleParityOne})
+\Longleftrightarrow
+\hsame(m,\emp).
+$$
+Its ten-field fit is: traditional target, deterministic parity-action branch
+readback; BEDC source, $\mathsf{BHist}$ with
+$\mathsf{ModuleParitySmul}$; carrier, all histories; classifier, $\hsame$;
+ledger, the epsilon scalar and the input constructor case; core theorem, this
+block; exactness, visible-one output iff empty input; standard bridge, the
+two-point parity toggle; status, $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$.
+
+For $m=\emp$, scalar action by $\mathsf{ModuleParityEps}$ reduces to
+$\mathsf{ModuleParityOne}$. The forward direction and the reverse direction
+are therefore both reflexive after the reduction.
+
+For a zero-headed visible history, the action reduces to $\emp$. The forward
+direction would identify $\emp$ with $\mathsf{ModuleParityOne}$, contradicting
+empty-vs-visible-one no-confusion. The reverse direction starts from an
+impossible visible-vs-empty premise, so it follows by eliminating that premise.
+
+For a one-headed visible history, the action again reduces to $\emp$. The same
+empty-vs-visible-one no-confusion rejects the forward direction, and the
+reverse direction follows by eliminating the impossible visible-vs-empty
+premise.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_visible\_one\_input\_empty\_iff}
+
+\begin{theorem}[Module parity epsilon boolean orbit involution]
+\label{thm:module-parity-smul-epsilon-boolean-orbit-involutive}
+For every history $m:\mathsf{BHist}$, if $m$ is history-same to either
+$\emp$ or $\mathsf{ModuleParityOne}$, then two successive scalar actions by
+$\mathsf{ModuleParityEps}$ return $m$:
+$$
+\bigl(\HSame(m,\emp)\lor \HSame(m,\mathsf{ModuleParityOne})\bigr)
+\Longrightarrow
+\HSame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},
+  \mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m)),m).
+$$
+\end{theorem}
+\begin{proof}
+Split the displayed endpoint assumption. In the empty endpoint branch, replace
+$m$ by $\emp$ and compute the two epsilon actions: the first reaches
+$\mathsf{ModuleParityOne}$ and the second returns to $\emp$. In the visible-one
+branch, replace $m$ by $\mathsf{ModuleParityOne}$ and compute the two epsilon
+actions in the opposite order, ending at the same visible-one endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_boolean\_orbit\_involutive}
+
+\begin{theorem}[Module parity epsilon multiplication boolean orbit involution]
+\label{thm:module-parity-mul-epsilon-boolean-orbit-involutive}
+For every history $r:\mathsf{BHist}$, if $r$ is history-same to either
+$\emp$ or $\mathsf{ModuleParityEps}$, then two successive parity
+multiplications by $\mathsf{ModuleParityEps}$ return $r$:
+$$
+\bigl(\HSame(r,\emp)\lor \HSame(r,\mathsf{ModuleParityEps})\bigr)
+\Longrightarrow
+\HSame(\mathsf{ModuleParityMul}(\mathsf{ModuleParityEps},
+  \mathsf{ModuleParityMul}(\mathsf{ModuleParityEps},r)),r).
+$$
+\end{theorem}
+\begin{proof}
+Split the displayed endpoint assumption. In the empty endpoint branch, replace
+$r$ by $\emp$ and compute the two epsilon multiplications. In the epsilon
+endpoint branch, replace $r$ by $\mathsf{ModuleParityEps}$ and compute the same
+two multiplications. Each branch closes by reflexivity of the displayed
+endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParityMul\_epsilon\_boolean\_orbit\_involutive}
+
+\begin{theorem}[Module parity epsilon empty endpoint has no fixed point]
+\label{thm:module-parity-smul-e0-empty-no-fixed-point}
+For every history $m:\mathsf{BHist}$,
+$$
+\hsame(\mathsf{ModuleParitySmul}(\Ezero(\emp),m),m)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$. At $m=\emp$ the action produces
+$\Eone(\emp)$, contradicting visible-one versus empty no-confusion. At
+$m=\Ezero(h)$ and $m=\Eone(h)$ the action produces $\emp$, contradicting the
+corresponding empty versus visible no-confusion law.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_e0\_empty\_no\_fixed\_point}
+
+\begin{theorem}[Module parity epsilon double action empty iff]
+\label{thm:module-parity-epsilon-double-action-empty-iff}
+For every history $m:\mathsf{BHist}$,
+$$
+\hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},
+  \mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m)),\emp)
+\Longleftrightarrow
+\hsame(m,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-parity-smul-epsilon-result-partition} to the first
+epsilon action on $m$. In the empty-input branch, the first action is
+$\mathsf{ModuleParityOne}$, so the second epsilon action reduces to $\emp$.
+This gives the forward endpoint and the reverse endpoint by the same empty
+branch witness.
+
+In the nonempty branch, the first action is $\emp$, so the second epsilon
+action reduces to $\mathsf{ModuleParityOne}$. Visible-one versus empty
+no-confusion rules out the left side of the displayed equivalence. Conversely,
+an assumed $\hsame(m,\emp)$ contradicts the nonempty premise supplied by the
+partition, so this branch contributes no empty-input witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_double\_action\_empty\_iff}
+
+\begin{theorem}[Module parity epsilon double action one iff]
+\label{thm:module-parity-smul-epsilon-double-action-one-iff}
+For every history $m:\mathsf{BHist}$,
+$$
+\hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},
+  \mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m)),
+  \mathsf{ModuleParityOne})
+\Longleftrightarrow
+\bigl(\hsame(m,\emp)\to\bot\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$. At $m=\emp$, the double epsilon
+action lands at $\emp$, so equality with $\mathsf{ModuleParityOne}$ is ruled
+out by empty versus visible-one separation, matching the false nonempty
+predicate. At visible inputs, the first epsilon action lands at $\emp$ and the
+second lands at $\mathsf{ModuleParityOne}$; the reverse direction uses
+reflexivity, and the forward direction rules out an empty input by constructor
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_double\_action\_one\_iff}
