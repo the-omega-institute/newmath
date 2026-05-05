@@ -271,6 +271,11 @@ theorem DirichletSeriesIndex_append_unary_tail_nonempty {n tail : BHist} :
 def DirichletPositiveIndex (n : BHist) : Prop :=
   exists tail : BHist, UnaryHistory tail /\ n = BHist.e1 tail
 
+def DirichletCoefficient_completely_multiplicative (coeff : BHist -> BHist) : Prop :=
+  hsame (coeff (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) ∧
+    forall {m n : BHist}, DirichletPositiveIndex m -> DirichletPositiveIndex n ->
+      hsame (coeff (append m n)) (append (coeff m) (coeff n))
+
 theorem DirichletPositiveIndex_nonempty {n : BHist} :
     DirichletPositiveIndex n -> (hsame n BHist.Empty -> False) := by
   intro positiveN sameEmpty
