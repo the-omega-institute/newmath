@@ -144,3 +144,75 @@ $$
 \mathsf{FlowValue}(F)\preceq_{\NatUp}\mathsf{CutCap}_{G,u}(C).
 $$
 \end{proof}
+
+\begin{theorem}[Network-flow cut accounting from vertex conservation]
+\label{thm:networkflow-cut-accounting-from-vertex-conservation}
+Let $G$ be a directed $\GraphUp$ carrier, let $C$ be a finite $s$-$t$ cut record in $G$, and let $f$ be a unary edge-flow assignment with unary value history $V$. Let $\sim_V$ be the vertex classifier carried by $G$. Suppose $W_C$ is a finite vertex spine enumerating the nonterminal cut-side predicate
+$$
+\mathsf{CutSide}_{C,s,t}(v)
+\Longleftrightarrow
+\mathsf{Vert}_G(v)\land S_C(v)\land \neg(v\sim_V s)\land \neg(v\sim_V t)
+$$
+in the finite-spine sense of \autoref{def:finset-spine-enumerates-predicate}. Let $I_s$ and $O_s$ be finite edge spines enumerating the incoming and outgoing edges at $s$, and for every entry $v$ of $W_C$ let $I_v$ and $O_v$ be finite edge spines enumerating the incoming and outgoing edges at $v$. Let $\mathsf{VCat}_{W_C}(I)$ and $\mathsf{VCat}_{W_C}(O)$ denote the concatenations of these edge spines in the order of $W_C$. Finally let $J_C$ be a finite edge spine enumerating the internal cut-side edges
+$$
+\mathsf{Internal}_C(e)
+\Longleftrightarrow
+\mathsf{Edge}_G(e)\land S_C(\mathsf{tail}_G(e))\land S_C(\mathsf{head}_G(e)).
+$$
+Assume the finite incidence readback rows
+$$
+\mathsf{USum}_{I_s{++}\mathsf{VCat}_{W_C}(I)}(f)
+\hsame
+\mathsf{append}(\mathsf{CutBack}_{G,C}(f),\mathsf{USum}_{J_C}(f))
+$$
+and
+$$
+\mathsf{USum}_{O_s{++}\mathsf{VCat}_{W_C}(O)}(f)
+\hsame
+\mathsf{append}(\mathsf{CutForw}_{G,C}(f),\mathsf{USum}_{J_C}(f))
+$$
+are supplied by the certified finite-position accounting of \autoref{def:finset-classifier-preserving-enumeration-permutation}. If the source-value row
+$$
+\Cont(V,\mathsf{USum}_{I_s}(f),\mathsf{USum}_{O_s}(f))
+$$
+holds and every nonterminal cut-side vertex satisfies vertex conservation
+$$
+\forall v:\mathsf{BHist}.\;
+\mathsf{SpineMember}(v,W_C)
+\to
+\mathsf{USum}_{I_v}(f)\hsame\mathsf{USum}_{O_v}(f),
+$$
+then the cut supplies the finite conservation-accounting row
+$$
+\Cont(V,\mathsf{CutBack}_{G,C}(f),\mathsf{CutForw}_{G,C}(f)).
+$$
+\end{theorem}
+\begin{proof}
+First aggregate the local vertex rows over the finite spine $W_C$. Induct through $W_C$, carrying the invariant that the source row together with the conservation rows for the vertices already visited supplies a continuation from $V$ by the accumulated incoming-side sum to the accumulated outgoing-side sum. The empty-spine case is the source-value row, using the nil clause in the finite fold of \autoref{def:networkflow-finite-flow-cut-data}. In the cons step, the induction hypothesis supplies the accumulated continuation and the head occurrence supplies
+$$
+\mathsf{USum}_{I_v}(f)\hsame\mathsf{USum}_{O_v}(f).
+$$
+Associativity for unary continuation from \autoref{lem:unary-continuation-associativity} appends this head block to the accumulated incoming and outgoing ledgers, and the commutative unary additive field from \autoref{def:additive-stability-certificate}, concretely \autoref{thm:unary-cont-comm}, permits the block to be read in the vertex-spine order used by $\mathsf{VCat}_{W_C}$. Thus the induction yields
+$$
+\Cont
+\bigl(
+V,
+\mathsf{USum}_{I_s{++}\mathsf{VCat}_{W_C}(I)}(f),
+\mathsf{USum}_{O_s{++}\mathsf{VCat}_{W_C}(O)}(f)
+\bigr).
+$$
+Put $J=\mathsf{USum}_{J_C}(f)$. Transport this aggregate continuation along the two displayed incidence readback rows. This gives
+$$
+\Cont
+\bigl(
+V,
+\mathsf{append}(\mathsf{CutBack}_{G,C}(f),J),
+\mathsf{append}(\mathsf{CutForw}_{G,C}(f),J)
+\bigr).
+$$
+The forward direction of the continuation suffix equivalence \autoref{thm:continuation-suffix-iff}, with $a=V$, $f=\mathsf{CutBack}_{G,C}(f)$, $b=\mathsf{CutForw}_{G,C}(f)$, and $p=J$, cancels the common internal suffix and yields
+$$
+\Cont(V,\mathsf{CutBack}_{G,C}(f),\mathsf{CutForw}_{G,C}(f)).
+$$
+This is exactly the finite conservation-accounting row from \autoref{def:networkflow-finite-flow-cut-data}.
+\end{proof}
