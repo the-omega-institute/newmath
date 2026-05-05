@@ -293,4 +293,34 @@ theorem CompletionMetricDistanceWitness_visible_context_e1_prefix_independent_sy
     (And.intro eData.left
       (And.intro (hsame_e1_iff.mp sameVisibleTail) eData.right))
 
+theorem CompletionMetricDistanceWitness_semanticNameCert {x y d : BHist} :
+    MetricDistanceWitness x y d ->
+      BEDC.FKernel.NameCert.SemanticNameCert (MetricDistanceWitness x y)
+        (MetricDistanceWitness x y) (MetricDistanceWitness x y) hsame := by
+  intro witness
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro d witness
+      equiv_refl := by
+        intro result _source
+        exact hsame_refl result
+      equiv_symm := by
+        intro result result' sameResult
+        exact hsame_symm sameResult
+      equiv_trans := by
+        intro result result' result'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro result result' sameResult source
+        exact MetricDistanceWitness_hsame_fields_transport
+          (hsame_refl x) (hsame_refl y) sameResult source
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
+
 end BEDC.Derived.CompletionUp

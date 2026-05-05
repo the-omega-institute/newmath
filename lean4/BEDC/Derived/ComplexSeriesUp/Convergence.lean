@@ -82,4 +82,51 @@ theorem ComplexSeriesConv_pointwise_source_limit_transport {zero zero' S T : BHi
                     (And.intro targetPartials
                       (ComplexLimit_hsame_transport sameLimit targetLimitS))))
 
+theorem ComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist} {n S : BHist} :
+    ComplexPartSum zero c n S -> UnaryHistory n := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact BEDC.FKernel.Unary.unary_empty
+  | step _previous _stepContinuation ih =>
+      exact BEDC.FKernel.Unary.unary_e1_closed ih
+
+theorem ComplexPartSum_pointwise_append_partials {a b : BHist -> BHist} {n SA SB : BHist}
+    (aUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (a m))
+    (bUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (b m)) :
+    ComplexPartSum BHist.Empty a n SA -> ComplexPartSum BHist.Empty b n SB ->
+      ComplexPartSum BHist.Empty (fun m : BHist => append (a m) (b m)) n (append SA SB) := by
+  intro left
+  induction left generalizing SB with
+  | zero =>
+      intro right
+      cases right with
+      | zero =>
+          exact ComplexPartSum.zero
+  | step leftPrevious leftStep ih =>
+      intro right
+      cases right with
+      | step rightPrevious rightStep =>
+          have previousUnaryA :
+              UnaryHistory _ :=
+            ComplexPartSum_result_unary unary_empty aUnary leftPrevious
+          have previousUnaryB :
+              UnaryHistory _ :=
+            ComplexPartSum_result_unary unary_empty bUnary rightPrevious
+          have termUnaryA :
+              UnaryHistory (a _) :=
+            aUnary (ComplexPartSum_index_unary leftPrevious)
+          have combinedPrevious := ih rightPrevious
+          refine ComplexPartSum.step combinedPrevious ?_
+          apply cont_intro
+          exact
+            ((congrArg (fun source : BHist => append source _) leftStep).trans
+              ((congrArg (append _) rightStep).trans
+                ((append_assoc _ (a _) _).trans
+                  ((congrArg (append _) (append_assoc _ _ _).symm).trans
+                    ((congrArg (fun source : BHist => append _ (append source _))
+                        (unary_append_comm termUnaryA previousUnaryB)).trans
+                      ((congrArg (append _) (append_assoc _ _ _)).trans
+                        (append_assoc _ _ _).symm))))))
+
 end BEDC.Derived.ComplexSeriesUp
