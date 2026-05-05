@@ -36,6 +36,16 @@ theorem NatMul_append_multiplier_total {d w n q : BHist} :
         (And.intro (unary_cont_closed nUnary eData.left (cont_intro rfl))
           (NatMul_append_cont mul eData.right (cont_intro rfl)))
 
+theorem NatDivides_mul_right_closed {d q n : BHist} :
+    UnaryHistory d -> UnaryHistory q -> NatMul d q n -> NatDivides q n := by
+  intro dUnary qUnary mul
+  have qProduct := NatMul_total qUnary dUnary
+  cases qProduct with
+  | intro m mData =>
+      have sameResult : hsame n m := NatMul_comm_hsame dUnary qUnary mul mData.right
+      have dividesM : NatDivides q m := Exists.intro d (And.intro dUnary mData.right)
+      exact (NatDivides_dividend_hsame_transport dividesM (hsame_symm sameResult)).right
+
 theorem NatDivides_mul_left_closed {d x q z : BHist} :
     UnaryHistory x -> NatDivides d q -> NatMul x q z -> NatDivides d z := by
   intro xUnary divides mul
