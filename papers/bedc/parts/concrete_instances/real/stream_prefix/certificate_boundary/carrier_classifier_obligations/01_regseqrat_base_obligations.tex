@@ -1,0 +1,57 @@
+\begin{theorem}[RegSeqRat carrier obligation]
+\label{thm:regseqrat-carrier-obligation}
+The carrier obligation for $\RegSeqRat$ is exactly the
+$\mathsf{RatStreamNameCarrier}$ row together with the regularity witness over
+$\mathsf{UnaryHistory}$ observations. Concretely, for a rational-observation
+map $s:\Hist\to\Hist$, a $\RegSeqRat$ carrier consists of
+$\mathsf{RatStreamNameCarrier}(s)$ and a ledger which, at each certified unary
+observation index $n$, exposes the endpoint $\RatUp$ carrier row
+$\mathsf{RatHistoryCarrier}(s(n))$ and the dyadic-tolerance witness demanded by
+the stream regularity check.
+\end{theorem}
+\begin{proof}
+Unfold the spine named in
+Definition~\ref{def:regseqrat-stream-certificate-spine}. Its first component
+is the $\mathsf{RatStreamNameCarrier}$ row, and its ledger is indexed only by
+certified $\mathsf{UnaryHistory}$ observations.
+
+The endpoint carrier rows are supplied by
+\autoref{thm:regseqrat-stream-classifier-stability-spine}; the constant case is
+supplied by \autoref{thm:regseqrat-constant-stream-spine}. The public package
+\autoref{thm:regseqrat-stream-spine-scoped-package} records these rows as the
+carrier face of the scoped spine.
+
+The seal consumer
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine} uses no carrier data
+outside this spine. Thus the carrier obligation is precisely the named
+stream-name carrier plus the unary-observation regularity ledger.
+\end{proof}
+
+\begin{theorem}[RegSeqRat classifier obligation]
+\label{thm:regseqrat-classifier-obligation}
+The classifier obligation for $\RegSeqRat$ is exactly
+$\mathsf{RealUnaryStreamClassifier}$ read with
+$\mathsf{RatStreamNameClassifier}$ endpoint recovery. For carried streams
+$s,t:\Hist\to\Hist$, a classifier row records the pointwise $\RatUp$
+comparison over every certified $\mathsf{UnaryHistory}$ observation and
+recovers the two endpoint stream-name carrier rows used by
+$\mathsf{RatStreamNameClassifier}(s,t)$.
+\end{theorem}
+\begin{proof}
+Start from Definition~\ref{def:regseqrat-stream-certificate-spine}. The spine
+does not introduce a separate classifier relation; it stores the RealUp unary
+stream classifier over the same BEDC unary observations.
+
+Apply \autoref{thm:regseqrat-stream-classifier-stability-spine}. It reads the
+pointwise $\RatUp$ classifier rows from
+$\mathsf{RealUnaryStreamClassifier}$, recovers the endpoint carrier rows, and
+repackages the transported data as a
+$\mathsf{RatStreamNameClassifier}$ row. The constant boundary is the reflexive
+case supplied by \autoref{thm:regseqrat-constant-stream-spine}.
+
+The scoped package
+\autoref{thm:regseqrat-stream-spine-scoped-package} lists the reflexive,
+symmetric, transitive, and transported classifier rows together. The seal
+consumer \autoref{thm:regseqrat-realup-seal-consumes-stream-spine} confirms
+that the same row is the classifier exported through the $\RealUp$ interface.
+\end{proof}

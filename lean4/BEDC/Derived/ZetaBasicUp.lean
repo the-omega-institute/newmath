@@ -17,8 +17,19 @@ def ZetaBasicPartSum (s n z : BHist) : Prop :=
 def ZetaBasic (s z : BHist) : Prop :=
   DirichletSeriesConv ZetaBasicUnitTerm s z
 
+def ZetaBasicSourceSpec (s : BHist) : Prop := UnaryHistory s
+
 def ZetaBasicPatternSpec (s n z : BHist) : Prop :=
   UnaryHistory n ∧ ZetaBasicPartSum s n z ∧ hsame (ZetaBasicUnitTerm n s) (BHist.e1 s)
+
+theorem ZetaBasicSourceSpec_unit_term_carrier {s : BHist} :
+    ZetaBasicSourceSpec s ->
+      UnaryHistory (ZetaBasicUnitTerm BHist.Empty s) ∧
+        (hsame (ZetaBasicUnitTerm BHist.Empty s) BHist.Empty -> False) := by
+  intro source
+  unfold ZetaBasicSourceSpec at source
+  unfold ZetaBasicUnitTerm
+  exact And.intro (unary_e1_closed source) not_hsame_e1_empty
 
 theorem ZetaBasicPartSum_unary_result {s n z : BHist} :
     UnaryHistory s -> UnaryHistory n -> ZetaBasicPartSum s n z -> UnaryHistory z := by
