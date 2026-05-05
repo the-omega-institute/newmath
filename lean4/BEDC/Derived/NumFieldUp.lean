@@ -55,4 +55,23 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
 
+theorem NumFieldReflexiveRational_fieldext_consumption {h k r m out : BHist} :
+    RatHistoryClassifier h k -> NumFieldRatReflexiveCarrier r -> RatHistoryCarrier m ->
+      Cont (FieldExtSingletonEmbedding r) m out ->
+        RatHistoryCarrier (FieldExtSingletonEmbedding h) ∧
+          RatHistoryCarrier (FieldExtSingletonEmbedding k) ∧
+            RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) ∧
+              Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
+                Cont BHist.Empty k (FieldExtSingletonEmbedding k) ∧ RatHistoryCarrier out := by
+  intro classified carrierR carrierM continuation
+  have locked := FieldExtRatReflexiveEmbedding_ledger_source_lock classified
+  have actionClassified :
+      RatHistoryClassifier out (append (FieldExtSingletonEmbedding r) m) :=
+    FieldExtRatReflexiveTower_scalar_action carrierR.right.left carrierM continuation
+  exact And.intro (RatHistoryLedgerPolicy_visible_carrier locked.left)
+    (And.intro (RatHistoryLedgerPolicy_visible_carrier locked.right.left)
+      (And.intro locked.right.right.left
+        (And.intro locked.right.right.right.left
+          (And.intro locked.right.right.right.right actionClassified.left))))
+
 end BEDC.Derived.NumFieldUp
