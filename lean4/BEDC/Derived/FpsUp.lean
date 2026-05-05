@@ -520,4 +520,37 @@ theorem FpsSingletonThreefoldCauchySplitSpines_reassociation {xs ys zs : List BH
     append_eq_empty_iff.mpr (And.intro xEmpty yzEmpty)
   exact hsame_trans leftEmpty (hsame_symm rightEmpty)
 
+theorem FpsSingletonCauchyProduct_carried_assoc_continuation_classifier
+    {xs ys zs : List BHist} {left right : BHist} :
+    FpsSingletonAddFoldSpineCarrier xs ->
+      FpsSingletonAddFoldSpineCarrier ys ->
+        FpsSingletonAddFoldSpineCarrier zs ->
+          Cont (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+              (FpsSingletonAddFold zs) left ->
+            Cont (FpsSingletonAddFold xs)
+              (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs)) right ->
+              FpsSingletonClassifier left right := by
+  intro xsSpine ysSpine zsSpine leftCont rightCont
+  have splitClassifier :=
+    FpsSingletonThreefoldCauchySplitSpines_classifier xsSpine ysSpine zsSpine
+  have reassoc :=
+    FpsSingletonThreefoldCauchySplitSpines_reassociation xsSpine ysSpine zsSpine
+  have leftCanonical :
+      Cont (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+        (FpsSingletonAddFold zs) (FpsSingletonThreefoldCauchySplitSpines xs ys zs).1 := by
+    rfl
+  have rightCanonical :
+      Cont (FpsSingletonAddFold xs)
+        (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs))
+        (FpsSingletonThreefoldCauchySplitSpines xs ys zs).2 := by
+    rfl
+  have leftSame : hsame left (FpsSingletonThreefoldCauchySplitSpines xs ys zs).1 :=
+    cont_deterministic leftCont leftCanonical
+  have rightSame : hsame right (FpsSingletonThreefoldCauchySplitSpines xs ys zs).2 :=
+    cont_deterministic rightCont rightCanonical
+  exact
+    And.intro (hsame_trans leftSame splitClassifier.right.left)
+      (And.intro (hsame_trans rightSame splitClassifier.right.right)
+        (hsame_trans leftSame (hsame_trans reassoc (hsame_symm rightSame))))
+
 end BEDC.Derived.FpsUp

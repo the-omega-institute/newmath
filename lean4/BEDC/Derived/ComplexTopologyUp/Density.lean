@@ -14,4 +14,19 @@ def ComplexTopologyDensityWitness
         exists gap : BHist,
           ComplexTopologyOpenDiskGap center radius (seq n) gap ∧ Cont (seq n) gap radius
 
+theorem ComplexTopologyOpenDiskGap_density_witness_with_boundary
+    {center radius point gap : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap ->
+      ComplexTopologyDensityWitness center radius point (fun _n : BHist => point) ∧
+        (forall n : BHist, UnaryHistory n ->
+          exists g : BHist,
+            ComplexTopologyOpenDiskGap center radius point g ∧ Cont point g radius) := by
+  intro disk
+  have boundary : Cont point gap radius := disk.right.right.right.right
+  exact And.intro
+    (Exists.intro gap
+      (And.intro disk
+        (fun _n _unary => Exists.intro gap (And.intro disk boundary))))
+    (fun _n _unary => Exists.intro gap (And.intro disk boundary))
+
 end BEDC.Derived.ComplexTopologyUp
