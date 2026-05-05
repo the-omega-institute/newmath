@@ -668,3 +668,45 @@ The restricted kernel classifier is a naming certificate on $\mathsf{Ker}_f$: re
 
 Finally, every $\ModuleUp$ law on the restricted carriers is the ambient module law with its endpoints repackaged by the restricted classifier. Closure under zero, addition, negation, and scalar action supplies the two carrier components of each restricted classifier witness. The ambient comparison component is supplied by the source module for the kernel and by the target module for the image: additive associativity, additive unit and inverse laws, additive commutativity, additive congruence, scalar-action congruence, scalar associativity, both distributivity rows, and the scalar unit row are all listed in \autoref{def:module-stability-certificate} together with the additive $\AbGroupUp$ source retained by \autoref{prop:module-forgets-abgroup-certificate}. The scalar ring certificate is unchanged. The ledgers are the ambient operation ledgers together with the kernel or image witness carried in the restricted classifier, matching \autoref{def:module-ledger-policy}. Hence both predicate carriers inherit $\ModuleUp$ classifier packages over $R$.
 \end{proof}
+
+\begin{theorem}[Module LinearMap trivial kernel classifier injectivity]
+\label{thm:module-linearmap-trivial-kernel-classifier-injectivity}
+Let $R$ carry a $\RingUp$ certificate, let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source, and let
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+hold. Write $\sim_M$ and $\sim_N$ for the source and target module classifiers, $0_M$ and $0_N$ for the source and target zeros, $+_M$ for source addition, and $-_M$ for source additive inverse. Define classifier-injectivity on carried source endpoints by
+$$
+f(x)\sim_N f(y)\Longrightarrow x\sim_M y.
+$$
+Then $f$ is classifier-injective exactly when its BEDC kernel from \autoref{def:module-linearmap-kernel-predicate} is trivial:
+$$
+\mathsf{Ker}_f(x)\Longleftrightarrow x\sim_M0_M
+$$
+for every carried source endpoint $x:M$.
+
+The ten-field fit is: traditional target the ordinary criterion that a module homomorphism is injective exactly when its kernel is zero; BEDC source $\mathsf{LinearMapCert}_R(M,N;f)$ over the two $\ModuleUp$ certificates; carrier the source module carrier; classifier $\sim_M$; stability zero preservation, additivity, additive inverse preservation, and additive cancellation from the module additive reducts; ledger the function identifier $f$, its descent, zero, additivity, inverse, and source-cancellation rows; core theorem this block; exactness predicate the equivalence between classifier-injectivity and the trivial zero fiber; standard bridge first-isomorphism-style exactness for $\LinearMapUp$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first that $f$ is classifier-injective on carried source endpoints. Let $x$ be carried in $M$. If $\mathsf{Ker}_f(x)$, then \autoref{def:module-linearmap-kernel-predicate} gives $f(x)\sim_N0_N$. Zero preservation from \autoref{def:module-linearmap-certificate-package} gives $f(0_M)\sim_N0_N$, and classifier symmetry and transitivity in $N$ compose these rows to obtain $f(x)\sim_Nf(0_M)$. Classifier-injectivity gives $x\sim_M0_M$.
+
+Conversely, if $x\sim_M0_M$, source-classifier descent for $f$ gives $f(x)\sim_Nf(0_M)$. Composing this with zero preservation yields $f(x)\sim_N0_N$, so the carried endpoint $x$ satisfies $\mathsf{Ker}_f(x)$.
+
+Assume now that every carried $z:M$ satisfies $\mathsf{Ker}_f(z)\Longleftrightarrow z\sim_M0_M$. Let $x$ and $y$ be carried source endpoints with $f(x)\sim_Nf(y)$. Source additive inverse closure carries $-_M y$, and source addition closure carries $x+_M(-_M y)$.
+
+Additivity gives
+$$
+f(x+_M(-_M y))\sim_N f(x)+_N f(-_M y).
+$$
+The additive-inverse argument of \autoref{thm:linearmap-additive-inverse-preservation}, read through the additive group reducts of the module certificates, identifies $f(-_M y)$ with the target inverse of $f(y)$. Target additive congruence then transports $f(x)\sim_Nf(y)$ to a comparison of $f(x)+_N(-_N f(y))$ with $f(y)+_N(-_N f(y))$, and the target right-inverse row reduces the latter endpoint to $0_N$.
+
+Thus $x+_M(-_M y)$ lies in $\mathsf{Ker}_f$. By the trivial-kernel hypothesis,
+$$
+x+_M(-_M y)\sim_M0_M.
+$$
+The source right-inverse row also gives $y+_M(-_M y)\sim_M0_M$. Classifier symmetry and transitivity produce
+$$
+x+_M(-_M y)\sim_M y+_M(-_M y).
+$$
+Apply \autoref{thm:group-right-cancellation} in the source additive group reduct obtained from \autoref{prop:module-forgets-abgroup-certificate} and \autoref{prop:abgroup-forgets-group-certificate}. Cancelling the common carried summand $-_M y$ gives $x\sim_My$, which is classifier-injectivity.
+\end{proof}

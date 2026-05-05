@@ -471,6 +471,7 @@ import BEDC.Derived.MatrixUp.PositiveTail
 import BEDC.Derived.MatrixUp.PositiveExponentClassifier
 import BEDC.Derived.MatrixUp.PositiveSuffix
 import BEDC.Derived.MatrixUp.VisibleBaseCarrier
+import BEDC.Derived.MatrixUp.VisibleCarrier
 import BEDC.Derived.MatrixUp.NestedAppendTarget
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
@@ -516,6 +517,7 @@ import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.GraphDepth
 import BEDC.Derived.ContinuousMapUp.IdentityUnits
 import BEDC.Derived.ContinuousMapUp.CompositionCertificate
+import BEDC.Derived.ContinuousMapUp.DistanceBoundary
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
 import BEDC.Derived.CompactUp.Suffix
