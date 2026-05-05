@@ -284,3 +284,43 @@ The open ledger has exactly two rows. \autoref{thm:topology-singleton-boundary-o
 
 It remains to repack these rows into the public certificate shape. Apply \autoref{thm:topology-namecert-obligation-package} with the singleton indexed-open carrier, its displayed union ledger, and its boundary witnesses. The resulting package records all open predicates by explicit indices and carries their provenance through the finite-intersection, union, bottom, and top constructor rows.
 \end{proof}
+
+\begin{theorem}[Topology downstream open constructor coverage]
+\label{thm:topology-downstream-open-constructor-coverage}
+Every public open row admitted by the metric-generated topology source of \autoref{def:topology-metric-generated-carrier} or by the singleton empty-history source of \autoref{def:topology-singleton-empty-history-carrier} is carried by an explicit $\mathsf{BHist}$ ledger constructor. The possible constructors are exactly a singleton metric-ball row, a finite-list intersection row, a binary generated-open meet row, an arbitrary-union witness row, the bottom row, or the top row. Thus a downstream chapter consuming a carried open receives a visible index, a pointwise carrying equation, and one of these constructor records, rather than an unindexed subset of the carrier.
+\end{theorem}
+\begin{proof}
+For the metric-generated source, inspect the ledger rows listed in \autoref{def:topology-metric-generated-carrier} and \autoref{def:topology-generated-open-exactness}. Singleton metric balls are carried by the base-open transport row of \autoref{thm:topology-metric-base-open-transport}. Finite-list intersections are carried by the finite-list intersection row of \autoref{thm:topology-metric-base-intersection}.
+
+Binary generated-open meets are carried by \autoref{thm:topology-generated-open-binary-meet-row}. The remaining metric-generated rows are supplied by the general topology certificate. Arbitrary unions are exactly the witnessed rows of \autoref{thm:topology-indexed-open-arbitrary-union}, while the empty and whole rows are the boundary witnesses of \autoref{thm:topology-indexed-open-boundary-closure}.
+
+For the singleton source, inspect \autoref{def:topology-singleton-empty-history-carrier}. The only primitive open indices are $\bot_{\TopologyUp}$ and $\top_{\TopologyUp}$, and their boundary laws are \autoref{thm:topology-singleton-boundary-open-laws}. The meet table and union classification are carried by \autoref{thm:topology-singleton-finite-intersection-laws} and \autoref{thm:topology-singleton-arbitrary-union-laws}. These cases exhaust the displayed rows in both sources.
+\end{proof}
+
+\begin{theorem}[Topology downstream carrier classifier scope]
+\label{thm:topology-downstream-carrier-classifier-scope}
+Let a downstream chapter receive a $\TopologyUp$ carried-open row from either displayed source. Membership may be transported only through the carrier classifier $\mathsf{same}_X$ together with the carried-open equation
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}}(i,U).
+$$
+In particular, the exported rule does not identify opens by an external powerset equality: it transports the displayed predicate $U$ by converting through $\mathsf{OpenAt}(i,-)$ and then applying the certificate stability already present in the indexed-open carrier.
+\end{theorem}
+\begin{proof}
+Start with a carried row $(i,h_i)$ and a classifier witness $\mathsf{same}_X(x,y)$. The equation $h_i$ converts membership in the public predicate $U$ at $x$ into membership in $\mathsf{OpenAt}(i,x)$, and the membership-stability field of \autoref{def:topology-indexed-open-carrier} transports this to $\mathsf{OpenAt}(i,y)$. Applying $h_i$ at $y$ returns membership in $U(y)$.
+
+For constructor rows, the same route is supplied by the closure theorem that created the row. Finite intersections use \autoref{thm:topology-indexed-open-finite-intersection}; binary generated-open meets use \autoref{thm:topology-generated-open-binary-meet-row}; arbitrary unions use \autoref{thm:topology-indexed-open-arbitrary-union}; boundary rows use \autoref{thm:topology-indexed-open-boundary-closure}. In the singleton source, the bottom and top rows are the laws of \autoref{thm:topology-singleton-boundary-open-laws}, and the finite-intersection and union cases are \autoref{thm:topology-singleton-finite-intersection-laws} and \autoref{thm:topology-singleton-arbitrary-union-laws}.
+
+No step requires equality of host powersets. The downstream chapter only sees the carrier classifier, the carried-open index, and the constructor row that proves the carrying equation.
+\end{proof}
+
+\begin{theorem}[Topology downstream NameCert export surface]
+\label{thm:topology-downstream-namecert-export-surface}
+The exact $\TopologyUp$ surface exported to $\BanachUp$, $\ManifoldUp$, $\ComplexTopologyUp$, and continuous-map chapters consists of the carrier, the carrier classifier, the carried-open index, the finite-intersection constructor, the binary generated-open meet constructor, the arbitrary-union constructor, the boundary rows, and the ledger provenance for each public open. This surface is assembled by \autoref{thm:topology-namecert-obligation-package}, \autoref{thm:topology-metric-generated-namecert-surface}, \autoref{thm:topology-singleton-namecert-obligation-surface}, \autoref{thm:topology-downstream-open-constructor-coverage}, and \autoref{thm:topology-downstream-carrier-classifier-scope}. It does not assert a bridge to a standard topological-space object.
+\end{theorem}
+\begin{proof}
+The package theorem \autoref{thm:topology-namecert-obligation-package} identifies the common certificate surface: carrier, classifier, carried-open predicate, finite intersections, arbitrary unions, boundary rows, and visible ledger policy. The metric-generated instance supplies one concrete source by \autoref{thm:topology-metric-generated-namecert-surface}; the singleton empty-history instance supplies the other by \autoref{thm:topology-singleton-namecert-obligation-surface}.
+
+The coverage theorem \autoref{thm:topology-downstream-open-constructor-coverage} then restricts every public row from these sources to one of the explicit ledger constructors. The classifier-scope theorem \autoref{thm:topology-downstream-carrier-classifier-scope} records the only allowed membership-transport route through the displayed carrier classifier and the carried-open equation.
+
+Combining these clauses gives the advertised export surface for dependent chapters. Since none of the cited rows constructs a host topological-space value or proves equality with host powersets, the result is a certified carried-open interface only, not a standard-space bridge.
+\end{proof}

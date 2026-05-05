@@ -217,6 +217,8 @@ import BEDC.Derived.FieldExtUp.SingletonInverse
 import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
 import BEDC.Derived.FieldExtUp.StabilityExactness
 import BEDC.Derived.FieldExtUp.RatReflexiveSemanticCertificate
+import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
+import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
@@ -275,6 +277,7 @@ import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RatUp.LedgerContextEquivalence
+import BEDC.Derived.RatUp.RepresentativeStabilityPackage
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
