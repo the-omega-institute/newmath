@@ -152,6 +152,18 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
 
+theorem NumFieldReflexiveRational_embedding_coordinate_classifier {m coord : BHist} :
+    RatHistoryCarrier m -> Cont m BHist.Empty coord ->
+      RatHistoryClassifier (FieldExtSingletonEmbedding m) coord ∧ RatHistoryClassifier coord m ∧
+        RatHistoryCarrier (FieldExtSingletonEmbedding m) ∧ RatHistoryCarrier coord := by
+  intro carrierM coordinateReadback
+  have witness :=
+    NumFieldReflexiveRational_finite_extension_witness carrierM coordinateReadback
+  have embeddedCoord : RatHistoryClassifier (FieldExtSingletonEmbedding m) coord :=
+    RatHistoryClassifier_trans witness.right.right (RatHistoryClassifier_symm witness.left)
+  exact And.intro embeddedCoord
+    (And.intro witness.left (And.intro witness.right.left witness.left.left))
+
 theorem NumFieldReflexiveRational_singleton_basis_transport {h basis coord : BHist} :
     NumFieldRatReflexiveCarrier h -> RatHistoryCarrier basis ->
       hsame basis (BHist.e1 BHist.Empty) -> Cont h basis coord ->

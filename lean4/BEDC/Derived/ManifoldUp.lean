@@ -255,4 +255,34 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
 
+theorem ManifoldSingleton_transition_inverse_boundary {source target forward backward left right : BHist} :
+    ManifoldSingletonCarrier source -> ManifoldSingletonCarrier target -> Cont source target forward ->
+      Cont target source backward -> Cont forward backward left -> Cont backward forward right ->
+        hsame forward BHist.Empty ∧ hsame backward BHist.Empty ∧ hsame left BHist.Empty ∧
+          hsame right BHist.Empty ∧ UnaryHistory forward ∧ UnaryHistory backward ∧
+            UnaryHistory left ∧ UnaryHistory right := by
+  intro sourceCarrier targetCarrier forwardCont backwardCont leftCont rightCont
+  have forwardRows :=
+    ManifoldSingleton_transition_smoothness sourceCarrier targetCarrier forwardCont
+  have backwardRows :=
+    ManifoldSingleton_transition_smoothness targetCarrier sourceCarrier backwardCont
+  have forwardEmpty : hsame forward BHist.Empty := forwardRows.left
+  have backwardEmpty : hsame backward BHist.Empty := backwardRows.left
+  have emptyCont : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame forwardEmpty backwardEmpty leftCont emptyCont
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame backwardEmpty forwardEmpty rightCont emptyCont
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right :=
+    unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro forwardEmpty
+    (And.intro backwardEmpty
+      (And.intro leftEmpty
+        (And.intro rightEmpty
+          (And.intro forwardRows.right.right.right
+            (And.intro backwardRows.right.right.right (And.intro leftUnary rightUnary))))))
+
 end BEDC.Derived.ManifoldUp
