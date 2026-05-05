@@ -189,4 +189,26 @@ theorem NatDivides_cont_left_factor {d x y z : BHist} :
   exact NatDivides_prefix_cancellation dUnary dNonempty yUnary xUnary zUnary yxCont
     dividesY dividesZ
 
+theorem NatDivides_cont_right_factor_iff {d x y z : BHist} :
+    UnaryHistory d -> (hsame d BHist.Empty -> False) -> UnaryHistory x -> UnaryHistory y ->
+      UnaryHistory z -> NatDivides d x -> Cont x y z ->
+        (NatDivides d z ↔ NatDivides d y) := by
+  intro dUnary dNonempty xUnary yUnary zUnary dividesX xyCont
+  constructor
+  · intro dividesZ
+    exact NatDivides_prefix_cancellation dUnary dNonempty xUnary yUnary zUnary xyCont
+      dividesX dividesZ
+  · intro dividesY
+    cases dividesX with
+    | intro qx qxData =>
+        cases qxData with
+        | intro qxUnary qxMul =>
+            cases dividesY with
+            | intro qy qyData =>
+                cases qyData with
+                | intro qyUnary qyMul =>
+                    exact Exists.intro (append qx qy)
+                      (And.intro (unary_append_closed qxUnary qyUnary)
+                        (NatMul_append_cont qxMul qyMul xyCont))
+
 end BEDC.Derived.PrimeUp
