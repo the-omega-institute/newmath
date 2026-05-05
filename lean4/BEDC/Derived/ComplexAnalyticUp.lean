@@ -140,6 +140,40 @@ theorem CplxExp_output_hsame_transport {z w w' : BHist} :
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
 
+theorem CplxExp_pure_imaginary_euler_component_witness {theta z w : BHist} :
+    CplxPureImaginary theta z -> CplxExp z w ->
+      ∃ real imag realOut imagOut : BHist,
+        RatHistoryCarrier real ∧ RatHistoryCarrier imag ∧ Cont real imag z ∧
+          RatHistoryCarrier realOut ∧ RatHistoryCarrier imagOut ∧ Cont realOut imagOut w ∧
+            hsame realOut z ∧ hsame imagOut (append imag real) ∧
+              hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) := by
+  intro pureImaginary expWitness
+  cases expWitness with
+  | intro real expRest =>
+      cases expRest with
+      | intro imag expRest =>
+          cases expRest with
+          | intro realOut expRest =>
+              cases expRest with
+              | intro imagOut data =>
+                  have sameRealOutZ : hsame realOut z :=
+                    hsame_trans data.right.right.right.right.right.right.left
+                      (hsame_symm data.right.right.left)
+                  exact Exists.intro real
+                    (Exists.intro imag
+                      (Exists.intro realOut
+                        (Exists.intro imagOut
+                          (And.intro data.left
+                            (And.intro data.right.left
+                              (And.intro data.right.right.left
+                                (And.intro data.right.right.right.left
+                                  (And.intro data.right.right.right.right.left
+                                    (And.intro data.right.right.right.right.right.left
+                                      (And.intro sameRealOutZ
+                                        (And.intro
+                                          data.right.right.right.right.right.right.right
+                                          pureImaginary.right)))))))))))
+
 def CplxPower (a s w : BHist) : Prop :=
   ComplexHistoryCarrier a ∧ ComplexHistoryCarrier s ∧ ComplexHistoryCarrier w ∧
     hsame w (append s a)
