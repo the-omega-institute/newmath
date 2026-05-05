@@ -17,6 +17,9 @@ def ZetaBasicPartSum (s n z : BHist) : Prop :=
 def ZetaBasic (s z : BHist) : Prop :=
   DirichletSeriesConv ZetaBasicUnitTerm s z
 
+def ZetaBasicClassifierSpec (s z z' : BHist) : Prop :=
+  ZetaBasic s z ∧ hsame z z'
+
 def ZetaBasicSourceSpec (s : BHist) : Prop := UnaryHistory s
 
 def ZetaBasicPatternSpec (s n z : BHist) : Prop :=
@@ -100,6 +103,36 @@ theorem ZetaBasicPartSum_successor_step_inversion {s n z : BHist} :
   | step previousSum stepCont =>
       unfold ZetaBasicUnitTerm at stepCont
       exact Exists.intro _ (And.intro previousSum stepCont)
+
+theorem ZetaBasicClassifierSpec_successor_limit_transport {s z z' z'' n P Q : BHist} :
+    ZetaBasicClassifierSpec s z z' -> hsame z' z'' -> ZetaBasicPartSum s n P ->
+      Cont P (ZetaBasicUnitTerm n s) Q ->
+        ((exists ps : BHist -> BHist, exists N : BHist -> BHist, exists M : BHist -> BHist,
+          (forall k : BHist, UnaryHistory k -> ZetaBasicPartSum s k (ps k)) ∧
+            ComplexLimit ps N z'' M) ∧ ZetaBasicPartSum s (BHist.e1 n) Q ∧
+              ZetaBasicClassifierSpec s z z'') := by
+  intro classified sameZTarget partialSum stepCont
+  cases classified with
+  | intro basic sameZClassified =>
+      cases basic with
+      | intro ps basicRest =>
+          cases basicRest with
+          | intro N basicRest =>
+              cases basicRest with
+              | intro M data =>
+                  have sameZTransported : hsame z z'' := hsame_trans sameZClassified sameZTarget
+                  exact And.intro
+                    (Exists.intro ps
+                      (Exists.intro N
+                        (Exists.intro M
+                          (And.intro data.left
+                            (ComplexLimit_hsame_transport sameZTransported data.right)))))
+                    (And.intro (DirichletPartSum.step partialSum stepCont)
+                      (And.intro
+                        (Exists.intro ps
+                          (Exists.intro N
+                            (Exists.intro M (And.intro data.left data.right))))
+                        sameZTransported))
 
 theorem ZetaBasicPatternSpec_successor_step_inversion {s n z : BHist} :
     ZetaBasicPatternSpec s (BHist.e1 n) z ->
