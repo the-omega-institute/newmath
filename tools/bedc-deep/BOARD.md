@@ -8354,3 +8354,305 @@ CompleteMetricLimitWitness is defined at papers/bedc/parts/concrete_instances/10
 
 ---
 
+### B-321 - Matrix transpose double-readback involution
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Matrix transpose double-readback involution |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a certified scalar RingUp and MatrixUp carrier, if X is a carried n by m matrix, then (X^T)^T is carried as an n by m matrix and pointwise matrix-classifier equal to X.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/carrier_definition.tex`
+- `papers/bedc/parts/concrete_instances/matrix/the_certificate.tex`
+
+Rationale:
+This is a concrete closure/readback theorem for an already-defined matrix operation and is not covered by the current BOARD or paper labels. It lands in the matrix concrete-instance subtree, has a narrow implication form, and should be a useful companion to the existing transpose product-reversal surface without duplicating it.
+
+---
+
+
+### B-322 - FinSet enumeration classifier transitivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FinSet enumeration classifier transitivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a fixed SetUp NameCert on A, if FinSetEnumClassifier(xs,ys) and FinSetEnumClassifier(ys,zs), then FinSetEnumClassifier(xs,zs).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+The claim is a precise classifier-closure property for the finite-set enumeration classifier and is not already represented by the existing permutation-invariance definition label. It belongs in the FinSet concrete-instance chapter and supplies a basic relation law needed by the public classifier surface.
+
+---
+
+
+### B-323 - Enumeration permutation composition closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Enumeration permutation composition closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a fixed SetUp NameCert on A, if EnumPerm(xs,ys) and EnumPerm(ys,zs), then EnumPerm(xs,zs).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/95_symgroup_namecert_construction.tex`
+
+Rationale:
+This is a concrete composition-closure theorem for the EnumPerm carrier relation, distinct from classifier preservation under one enumeration permutation and not duplicated by existing BOARD entries. It directly supports the permutation and symmetric-group concrete-instance surface with a focused construction target.
+
+---
+
+
+### B-324 - CatColimit cocone morphism prewhiskering descent
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CatColimit cocone morphism prewhiskering descent |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Given a certified NatTrans beta:E=>D and D-cocones kappa,mu pulled back to E-cocones by precomposing each leg with beta, if CoconeMor_D(kappa,mu;f), then CoconeMor_E(kappa^beta,mu^beta;f).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/84_catcolimit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/83_catlimit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_carrier.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+This is a specific bridge theorem for CatColimit cocone morphisms under diagram prewhiskering, not a marker or abstract source-equivalence restatement. It is parallel to known CatLimit coverage but absent on the colimit side, so it fills a concrete asymmetric gap without duplicating the existing comparison-fiber collapse corollary.
+
+---
+
+
+### B-325 - Residue pole data result determinism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Residue pole data result determinism |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two ResiduePoleData witnesses share z0,r,p,g,I,rho and have function histories f and f', then f is hsame to f'.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/103_residue_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+The candidate is a narrow determinacy result for a concrete carrier witness and is not matched by the supplied paper labels or existing BOARD targets. It belongs to the residue concrete-instance chapter and records a reusable endpoint consequence of shared continuation data rather than merely rephrasing an abstract classifier equivalence.
+
+---
+
+### B-326 - Matrix addition commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Matrix addition commutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a MatrixUp carrier over a scalar RingUp source, if A and B are carried matrices of the same dimensions and matrix addition is pointwise, then A + B is matrix-classified with B + A.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/matrix/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_distributivity_transpose.tex`
+- `lean4/BEDC/Derived/MatrixUp.lean`
+
+Rationale:
+This belongs in the matrix concrete-instance chapter as a first linear-algebra theorem: pointwise matrix addition is commutative because scalar addition is commutative. Evidence for the needed objects is present: MatrixUp is introduced with pointwise classifier and derived addition at papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex:4, the classifier is defined at papers/bedc/parts/concrete_instances/matrix/the_certificate.tex:14, and existing distributivity theorems already assume pointwise matrix addition at papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_distributivity_transpose.tex:41. Focused grep found no theorem label for matrix addition commutativity; the proof is entrywise and should close in one round.
+
+---
+
+
+### B-327 - Matrix addition associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Matrix addition associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a MatrixUp carrier over a scalar RingUp source, if A, B, and C are carried same-shaped matrices and matrix addition is pointwise, then (A + B) + C is matrix-classified with A + (B + C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/matrix/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_distributivity_transpose.tex`
+- `lean4/BEDC/Derived/MatrixUp.lean`
+
+Rationale:
+This is a standard first theorem in any linear-algebra text after defining matrix addition. The chapter has the pointwise classifier and addition closure rows at papers/bedc/parts/concrete_instances/matrix/the_certificate.tex:14 and :51, and multiplication distributivity already uses pointwise addition at papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_distributivity_transpose.tex:41. There is no matching theorem label for matrix addition associativity. The proof is a pointwise application of scalar additive associativity, so it is a small stepping-stone rather than a matrix-algebra headline.
+
+---
+
+
+### B-328 - Zero matrix is additive identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Zero matrix is additive identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a MatrixUp carrier over a scalar RingUp source, if A is a carried n by m matrix and Z is the finite-fold zero matrix datum, then A + Z and Z + A are matrix-classified with A.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/matrix/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_zero_matrix_absorption.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `lean4/BEDC/Derived/MatrixUp.lean`
+
+Rationale:
+This is the textbook additive-identity law for matrices. The zero matrix datum exists at papers/bedc/parts/concrete_instances/matrix/finite_fold_zero_matrix_absorption.tex:2, but the only theorem there is zero multiplication at :13, not additive identity. Matrix addition is already a derived pointwise operation from papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex:4. The proof is entrywise using scalar left/right zero laws, with no missing infrastructure.
+
+---
+
+
+### B-329 - Zero linear map certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Zero linear map certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under ModuleUp certificates for M and N over the same scalar RingUp source, if z maps every carried element of M to 0_N, then z satisfies LinearMapCert_R(M,N;z).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/module/21_module_namecert_construction_core.tex`
+- `lean4/BEDC/Derived/LinearMapUp.lean`
+
+Rationale:
+This is the standard zero homomorphism theorem from an introductory module or linear algebra text. LinearMapUp is defined as additivity plus scalar compatibility at papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex:4, the certificate package is present at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:99, and module zero-action annihilation already exists at papers/bedc/parts/concrete_instances/module/21_module_namecert_construction_core.tex:654. Grep found no zero-map certificate theorem. It lands naturally in module_linearmap_certificates.tex, which is below the line cap.
+
+---
+
+
+### B-330 - LinearMap pointwise sum commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LinearMap pointwise sum commutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under common ModuleUp source and target certificates, if f and g satisfy LinearMapCert_R(M,N), then the pointwise sum f + g is LinearMap-classified with g + f.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `lean4/BEDC/Derived/LinearMapUp.lean`
+
+Rationale:
+This is the first additive law for Hom_R(M,N), standard in module theory. The pointwise sum certificate is already proved at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:341, and the pointwise classifier is defined at papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex:14. Focused grep found no commutativity theorem for linearmap pointwise addition. The proof is pointwise target-module additive commutativity.
+
+---
+
+
+### B-331 - FPS pointwise addition associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FPS pointwise addition associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a FormalPowerSeriesUp carrier over a scalar RingUp source, if F, G, and H are carried coefficient sequences, then (F + G) + H is FPS-classified with F + (G + H).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `lean4/BEDC/Derived/FpsUp.lean`
+
+Rationale:
+This is a standard formal-power-series ring law, smaller than product identity or distributivity. The FPS pointwise addition coefficient rule is defined at papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex:384, and FPS addition commutativity is already proved at :394, so the needed pointwise infrastructure exists. Grep found no FPS addition associativity theorem. The proof is coefficientwise scalar additive associativity followed by the FPS pointwise classifier.
+
+---
+
