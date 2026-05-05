@@ -476,6 +476,17 @@ theorem AbsConvAbscissa_witness_result_carrier
                   witnessData.right sourceCarrier convergence continuation
                 resultCarrier))
 
+def DirichletSourceSpec (term : BHist -> BHist -> BHist) (sigma s S : BHist) : Prop :=
+  AbsConvAbscissa term sigma ∧ ComplexHistoryCarrier s ∧ DirichletSeriesConv term s S
+
+theorem DirichletSourceSpec_witness_result_carrier
+    {term : BHist -> BHist -> BHist} {sigma s S : BHist} :
+    DirichletSourceSpec term sigma s S ->
+      ∃ witness : BHist, UnaryHistory witness ∧
+        (Cont sigma witness S -> ComplexHistoryCarrier S) := by
+  intro source
+  exact AbsConvAbscissa_witness_result_carrier source.left source.right.left source.right.right
+
 theorem dirichlet_semantic_name_certificate {term : BHist -> BHist -> BHist}
     {s S : BHist} :
     DirichletSeriesConv term s S ->
