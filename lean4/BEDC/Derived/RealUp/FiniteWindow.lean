@@ -489,4 +489,39 @@ theorem RealUnaryStreamWindowClassifier_selected_tail_class_exactness
                     hsame_trans data.right.left
                       (hsame_e1_congr selected.right.right.right)⟩)⟩
 
+theorem RealUnaryStreamWindowClassifier_selected_tail_class_restricted_exactness
+    {s t : BHist -> BHist} {a w wPrime k : BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameClassifier s t ->
+      UnaryHistory a -> UnaryOffsetLe wPrime w -> UnaryOffsetLe k wPrime ->
+        exists u : BHist, exists v : BHist,
+          hsame (s (append a k)) (BHist.e1 u) ∧
+            hsame (t (append a k)) (BHist.e1 v) ∧
+              UnaryHistory u ∧ UnaryHistory v ∧ hsame u v ∧
+                (forall uOther vOther : BHist,
+                  (hsame (s (append a k)) (BHist.e1 uOther) ∧
+                    hsame (t (append a k)) (BHist.e1 vOther)) ↔
+                      (UnaryHistory uOther ∧ UnaryHistory vOther ∧ hsame u uOther ∧
+                        hsame v vOther)) := by
+  intro carrierS carrierT classified aUnary wPrimeOffset kOffset
+  cases wPrimeOffset with
+  | intro wPrimeUnary wPrimeTail =>
+      cases wPrimeTail with
+      | intro sigma sigmaData =>
+          cases sigmaData with
+          | intro sigmaUnary wPrimeSigmaCont =>
+              cases kOffset with
+              | intro kUnary kTail =>
+                  cases kTail with
+                  | intro tau tauData =>
+                      cases tauData with
+                      | intro tauUnary kTauCont =>
+                          have wUnary : UnaryHistory w :=
+                            unary_cont_closed wPrimeUnary sigmaUnary wPrimeSigmaCont
+                          have kToW : UnaryOffsetLe k w :=
+                            UnaryOffsetLe_cont_trans kUnary tauUnary sigmaUnary kTauCont
+                              wPrimeSigmaCont
+                          exact
+                            RealUnaryStreamWindowClassifier_selected_tail_class_exactness
+                              carrierS carrierT classified aUnary wUnary kToW
+
 end BEDC.Derived.RealUp
