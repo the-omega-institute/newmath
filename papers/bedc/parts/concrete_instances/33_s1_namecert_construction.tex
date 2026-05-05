@@ -540,7 +540,13 @@ The pattern is unit-circle formation from a real pair and a certified proof obje
 
 \begin{definition}[SOne classifier specification]
 \label{def:s1-classifier-specification}
-The classifier relates two carrier witnesses $(x,y,p)$ and $(x',y',p')$ when $\RealClassifier(x,x')$ and $\RealClassifier(y,y')$ hold componentwise and the unit equation witness transports from $p$ to $p'$ along those two real-classifier witnesses.
+The concrete $\mathsf{BHist}$ classifier relates two
+$\mathsf{SOneHistoryCarrier}$ witnesses $(x,y,e,p)$ and $(x',y',e',p')$
+exactly when $\hsame(x,x')$ and $\hsame(y,y')$ hold componentwise. Under those
+component witnesses, the equation and point ledgers are determined by
+\autoref{thm:s1-component-classifier-ledger-determinacy}, and they are
+transported by \autoref{thm:s1-equation-witness-transport} and
+\autoref{thm:s1-carrier-hsame-transport}.
 \end{definition}
 
 \begin{definition}[SOne stability certificate]
@@ -655,6 +661,36 @@ Record both real witnesses, the componentwise real-classifier witnesses used in 
 \label{def:s1-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name $\SOneUp$.
 \end{definition}
+
+\begin{theorem}[Semantic SOneUp history certificate]
+\label{thm:sone-history-semantic-namecert}
+The concrete data $\mathsf{SOneHistoryCarrier}$,
+\autoref{def:s1-source-specification}, \autoref{def:s1-pattern-specification},
+\autoref{def:s1-classifier-specification},
+\autoref{def:s1-stability-certificate}, and \autoref{def:s1-ledger-policy}
+assemble a semantic $\NameCert$ for $\SOneUp$ over $\mathsf{BHist}$.
+\end{theorem}
+\begin{proof}
+The carrier and public-readback row is supplied by
+\autoref{thm:sone-history-carrier-public-readback}: every
+$\mathsf{SOneHistoryCarrier}(x,y,e,p)$ exposes the two real histories, the
+unit-equation witness, and the point continuation ledger as concrete
+$\mathsf{BHist}$ data.
+
+The classifier row is the componentwise $\hsame$ relation from
+\autoref{def:s1-classifier-specification}. Once $\hsame(x,x')$ and
+$\hsame(y,y')$ are given,
+\autoref{thm:s1-component-classifier-ledger-determinacy} determines the hidden
+equation and point ledgers between the two carrier witnesses.
+
+The stability and ledger rows are obtained by transporting those determined
+ledgers. Apply \autoref{thm:s1-equation-witness-transport} to replace the
+unit-equation witness, and then apply \autoref{thm:s1-carrier-hsame-transport}
+to transport the full carrier package along the component, equation, and point
+$\hsame$ witnesses. These rows are precisely the certificate obligations listed
+in \autoref{def:s1-certificate-obligations}, so the displayed data form the
+semantic $\NameCert$ for $\SOneUp$.
+\end{proof}
 
 \paragraph{Primitive boundary.}
 $\SOneUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
