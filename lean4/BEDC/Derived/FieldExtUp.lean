@@ -179,6 +179,33 @@ theorem FieldExtSingleton_embedding_obligations :
 def FieldExtSingletonEmbedding (h : BHist) : BHist :=
   append BHist.Empty h
 
+theorem FieldExtRatReflexiveEmbedding_transport_fields :
+    (forall {h : BHist}, RatHistoryCarrier h ->
+      RatHistoryCarrier (append BHist.Empty h)) ∧
+    (forall {h : BHist}, RatHistoryCarrier (append BHist.Empty h) ->
+      RatHistoryCarrier h) ∧
+    (forall {h k : BHist}, RatHistoryClassifier h k ↔
+      RatHistoryClassifier (append BHist.Empty h) (append BHist.Empty k)) ∧
+    (forall {h k r : BHist}, Cont h k r -> Cont (append BHist.Empty h) k r) := by
+  constructor
+  · intro h carrier
+    exact RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left h)) carrier
+  · constructor
+    · intro h carrier
+      exact RatHistoryCarrier_hsame_transport (append_empty_left h) carrier
+    · constructor
+      · intro h k
+        constructor
+        · intro classified
+          exact RatHistoryClassifier_hsame_transport
+            (hsame_symm (append_empty_left h)) (hsame_symm (append_empty_left k)) classified
+        · intro classified
+          exact RatHistoryClassifier_hsame_transport
+            (append_empty_left h) (append_empty_left k) classified
+      · intro h k r continuation
+        exact cont_intro
+          (continuation.trans (congrArg (fun left => append left k) (append_empty_left h).symm))
+
 def FieldExtSingletonLedgerPolicy (h : BHist) : Prop :=
   FieldSingletonCarrier h ∧ VecSpaceSingletonCarrier h ∧
     FieldSingletonClassifier (FieldExtSingletonEmbedding h) (append BHist.Empty h)
@@ -317,6 +344,30 @@ theorem FieldExtRatReflexive_exact_endpoint_classification {h k : BHist} :
       (hsame_symm (append_empty_left h)) (hsame_symm (append_empty_left k)) classified
   exact And.intro embeddedH (And.intro embeddedK embeddedHK)
 
+theorem FieldExtRatReflexive_source_pattern_lock {h k : BHist} :
+    RatHistoryClassifier h k ->
+      RatHistoryCarrier (FieldExtSingletonEmbedding h) ∧
+        RatHistoryCarrier (FieldExtSingletonEmbedding k) ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) ∧
+            Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
+              Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+  intro classified
+  have embeddedClassifier :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact RatHistoryClassifier_hsame_transport
+      (hsame_symm (append_empty_left h)) (hsame_symm (append_empty_left k)) classified
+  have leftCont : Cont BHist.Empty h (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  have rightCont : Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  exact And.intro embeddedClassifier.left
+    (And.intro embeddedClassifier.right.left
+      (And.intro embeddedClassifier
+        (And.intro leftCont rightCont)))
+
 theorem FieldExtSingletonEmbedding_identity_tower_package {h : BHist} :
     FieldSingletonCarrier h ->
       FieldSingletonClassifier (FieldExtSingletonEmbedding (FieldExtSingletonEmbedding h))
@@ -348,6 +399,19 @@ theorem FieldExtSingletonEmbedding_identity_tower_package {h : BHist} :
   exact And.intro
     (And.intro doubleCarrier (And.intro embeddedCarrier doubleSameEmbedded))
     (And.intro towerCont doubleSameH)
+
+theorem FieldExtRatReflexiveTower_scalar_action {r m out : BHist} :
+    RatHistoryCarrier r -> RatHistoryCarrier m -> Cont r m out ->
+      RatHistoryClassifier out (append r m) := by
+  intro carrierR carrierM continuation
+  have positiveM : PositiveUnaryDenominator m :=
+    RatHistoryCarrier_iff_positive_denominator.mp carrierM
+  have unaryM : UnaryHistory m := (PositiveUnaryDenominator_unary_and_nonempty positiveM).left
+  have appendCarrier : RatHistoryCarrier (append r m) :=
+    RatHistoryCarrier_append_unary_denominator_closed carrierR unaryM
+  exact And.intro
+    (RatHistoryCarrier_hsame_transport continuation.symm appendCarrier)
+    (And.intro appendCarrier continuation)
 
 theorem FieldExtSingletonCarrier_coincidence {h : BHist} :
     FieldSingletonCarrier h ->
