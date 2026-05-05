@@ -6263,3 +6263,185 @@ papers/bedc/parts/proof_standing/02_ext_cont_proof_spine.tex:197-212 proves thm:
 
 ---
 
+### B-242 - Tensor product singleton factor associator
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Tensor product singleton factor associator |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If TensorProductSingletonFactor(l,r,t) and TensorProductSingletonFactor(t,s,u) hold, then there exists m with TensorProductSingletonFactor(r,s,m) and TensorProductSingletonFactor(l,m,u), making the singleton tensor pairing associative up to the factor predicate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/65_tensorproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/module/21_module_namecert_construction_core.tex`
+
+Rationale:
+Chapter 65 defines TensorProductSingletonFactor at line 110-121 (a ternary continuation-ledger factor predicate) and proves swap symmetry at line 201-227 (factor (l,r,t) implies factor (r,l,t)). The chapter intro (line 4) explicitly motivates 'multilinear data on which higher tensor algebras and exterior powers are built' yet provides no associator law for the four-place factor structure. Grep for 'tensor.*associ|associat.*tensor|TensorProduct.*Assoc' across papers/bedc/parts/ returns 0 matches. The proof would use the same singleton-collapse + continuation-respect technique as the existing swap-symmetry theorem, applied to the rebracketing of two ContR ledgers. Distinct from board entries B-06..B-31 (no tensor product appears on the board).
+
+---
+
+
+### B-243 - NatTrans Godement interchange of vertical and horizontal composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NatTrans Godement interchange of vertical and horizontal composition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 10/10 |
+
+Problem:
+For natural transformations alpha:F=>G, beta:G=>H between functors C->D and alpha':F'=>G', beta':G'=>H' between functors D->E, the horizontal composite (beta'*beta) o (alpha'*alpha) of the vertical composites is identical (componentwise) to the vertical composite (beta'*beta) o (alpha'*alpha) of the horizontal composites.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/functor/pipeline_composite_extras.tex`
+
+Rationale:
+nattrans/vertical_and_opposite_extras.tex proves vertical composition naturality (line 59), functor whiskering (line 249), prewhiskering by a functor (line 345), and horizontal composition (line 422) as separate theorems, but never relates the two compositions through the Godement interchange law. Grep across papers/bedc/parts/ for 'whisker.*associ|associ.*whisker|whiskering.*associat' returns 0 matches; 'interchange|godement' (case-insensitive) returns only AbGroup middle-four interchange (algebraic, not categorical). Functor composition associativity is proven at functor/pipeline_composite_extras.tex:348 but the natural-transformation interchange that would justify combining horizontal/vertical composites is missing. This is the central 2-categorical coherence law making bicategory structure visible. Not on board.
+
+---
+
+
+### B-244 - Functor whiskering preserves vertical composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Functor whiskering preserves vertical composition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For functors F,G,H:C->D, K:D->E, and natural transformations alpha:F=>G, beta:G=>H, the K-whiskered vertical composite K_*(beta o alpha) is identical componentwise to the vertical composite (K_*beta) o (K_*alpha).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/nattrans/tail_comm_closed.tex`
+
+Rationale:
+vertical_and_opposite_extras.tex proves Functor whiskering of a single natural transformation (line 249, thm:functor-whiskering-nattrans-certificate) and Vertical composition naturality (line 59), and prewhiskering by a functor (line 345), but never proves that whiskering distributes over vertical composition. Grep across papers/bedc/parts/ for 'whisker.*compos|compos.*whisker' returns 0 hits for the distributivity statement. This is a strictly weaker theorem than the full Godement interchange but is independently meaningful as the 2-categorical-functoriality of whiskering. Not on board.
+
+---
+
+### B-245 - NatPrime predicate respects history-sameness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NatPrime predicate respects history-sameness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+If NatPrime(p) and hsame(p, p'), then NatPrime(p').
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/prime/the_prime_predicate.tex`
+- `papers/bedc/parts/concrete_instances/prime/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Belongs to concrete_instances chapter 39 (prime). Textbook-classical (Hungerford Algebra ch.II §1; the prime predicate is stable under equality of representatives — every introductory number theory text states this implicitly when defining primes on equivalence classes). Negative evidence: grep 'NatPrime.*hsame' returns no labeled theorem; grep 'primality.*respects' returns no matches; def:prime-stability-certificate item 1 lists the property as a stability obligation but no \begin{theorem} proves it. Closes in 1-3 rounds because the proof is a three-way conjunction transport: (i) Unary transports along hsame via lem:unary-transport (already proven); (ii) NatGT(p, Eone(emp)) transports via NatUnaryStrictPrefix endpoint transport (already in chapter 04); (iii) the universal-divisor clause transports through cor:nat-divides-endpoint-hsame-transport (already proven, B-77/B-79 family). All three sub-transports exist; just compose.
+
+---
+
+
+### B-246 - Trivial subgroup carries SubgroupUp(G)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Trivial subgroup carries SubgroupUp(G) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+For any GroupUp(G) certificate, the singleton predicate P(x) := x ~_G e packaged with the inherited classifier carries a SubgroupUp(G) certificate, with closure-under-identity, closure-under-multiplication via e·e ~ e, and closure-under-inverse via inv(e) ~ e.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction_core.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+
+Rationale:
+Belongs to concrete_instances chapter 58 (subgroup), which currently has only Centralizer SubgroupUp instance. Textbook-classical (Dummit-Foote Abstract Algebra §2.1, example 1 — the trivial subgroup {e}). Negative evidence: grep 'trivial.*subgroup', 'subgroup-singleton', 'subgroup-identity-only' all 0 matches; no BOARD entry between B-127 (subgroup intersection) and any singleton-subgroup case. Closes in 1-3 rounds: closure-under-identity is reflexivity of ~_G; closure-under-multiplication uses monoid left/right unit applied at e (monoid stability rows already lean-checked); closure-under-inverse follows from group left-inverse + right-identity at inv(e) by symmetry+transitivity of hsame (one-line). All three obligations discharge from already-proven group/monoid stability rows.
+
+---
+
+
+### B-247 - Polynomial multiplication absorbs the zero polynomial on the left
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial multiplication absorbs the zero polynomial on the left |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For a CommRing R and any normalized polynomial q, PolyMul_R(nil, q) ~ nil under PolySame_R.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim.tex`
+
+Rationale:
+Belongs to concrete_instances chapter 25 (polynomial). Textbook-classical (Hungerford Algebra ch.III §6 — zero element of a polynomial ring absorbs multiplication). Negative evidence: grep 'PolyMul.{0,5}nil' / 'polynomial.*zero.*absorption' / 'polynomial.*zero.*mul' returns 0 matches; the only zero-absorption hits are ring-level (thm:ring-mul-zero-absorption) not polynomial-level. BOARD has B-22 (polynomial mul zero-tail invariance), B-30 (two-sided trim compatibility for radd), B-194 (polynomial mul commutativity) — none covers nil-as-PolyMul-left-absorber. Closes in 1-3 rounds: rmul_R has a defining nil clause `rmul_R(nil, y) := nil` (def:polynomial-raw-cauchy-product); trim_R(nil) = nil by trim's nil clause; PolyMul_R(nil, q) = trim_R(rmul_R(trim_R(nil), trim_R(q))) reduces to nil; PolySame_R(nil, nil) is the nil-nil clause of ListClassifierSpec. Three-line proof using existing definitions only.
+
+---
+
+
+### B-248 - FPS Cauchy product constant term is product of constant terms
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FPS Cauchy product constant term is product of constant terms |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For carried coefficient sequences F, G : NatUp → R over a Ring R, (F ⊙_fps G)_0 ~_R F_0 ·_R G_0.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Belongs to concrete_instances chapter 26 (FormalPowerSeries). Textbook-classical (Stanley EC1 §1.1 — constant term is multiplicative on FPS products). Negative evidence: grep 'fps.{0,5}coeff.{0,5}zero' / 'constant.{0,5}term.{0,5}fps' returns 0 hits; only one F_0·G_0 occurrence inside lem:fps-cauchy-coefficient-spine-swapped-reverse for commutativity, not standalone for index 0. BOARD has B-85 (FPS Cauchy classifier congruence), B-211/212 (FPS commutativities), B-231 (Cauchy distributivity) — none addresses the boundary index n=0 directly. Closes in 1-3 rounds: def:fps-cauchy-coefficient-spine gives `(F⊙G)_n := fold_+(CauchySp_n(F,G))`; at n=0, Split(0) has unique decomposition (0,0) so CauchySp_0(F,G) = [F_0 ·_R G_0]; fold_+([x]) = x +_R 0_R; thm:ring-add-right-zero (already checked) collapses to F_0 ·_R G_0. Three-line proof using existing fold and split definitions.
+
+---
+
