@@ -303,6 +303,49 @@ to be history-same to \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_endpoint\_cert\_cycle\_tails\_empty}
 
+\begin{theorem}[Continuous function carrier endpoint-certificate cycle exactness]
+\label{thm:continuous-function-carrier-endpoint-cert-cycle-exactness}
+For histories $source,map,target,modulus,cert$, if a continuous-function carrier
+closes its public source against its endpoint certificate, then the carrier is an
+identity presentation at that endpoint:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\hsame(source,cert)
+\Longrightarrow
+\\
+\hsame(map,\emp)\land\hsame(modulus,\emp)\land
+\hsame(target,source)\land\hsame(cert,source).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:continuous-function-carrier-endpoint-cert-cycle-tails-empty}
+to the carrier and the displayed endpoint certificate equality. This gives
+$\hsame(map,\emp)$ and $\hsame(modulus,\emp)$.
+
+Unpack the graph ledger $\Cont(source,map,target)$ from the carrier. Transport
+that ledger across $\hsame(map,\emp)$ to obtain $\Cont(source,\emp,target)$. The
+right-unit clause of \autoref{thm:continuation-unit-laws-spine} supplies
+$\Cont(source,\emp,source)$, and continuation determinacy from
+\autoref{thm:continuation-determinacy-up-to-history-sameness} identifies
+$target$ with $source$.
+
+Finally, symmetry in \autoref{thm:history-sameness-equivalence} turns the
+displayed $\hsame(source,cert)$ into $\hsame(cert,source)$, and the four
+pieces assemble the stated conjunction.
+\end{proof}
+
+The ten-field fit is: traditional target, identity-cycle exactness for
+continuous-function carriers; BEDC kernel, $BHist$; ledger relation, $\Cont$;
+carrier, $\mathsf{ContinuousFunctionCarrier}$; classifier, $\hsame$; ledger
+fields, $source,map,target,modulus,cert$; core theorem,
+\autoref{thm:continuous-function-carrier-endpoint-cert-cycle-exactness};
+exactness, the four displayed $\hsame$ rows; standard bridge, deferred;
+downstream consumer, $\mathsf{ContinuousMapUp}$ identity and category
+normalization.
+
 \begin{theorem}[Continuous function carrier prefix exactness]
 \label{thm:continuous-function-carrier-prefix-iff}
 For histories $p,source,map,target,modulus,cert$, prefixing the visible source,
@@ -557,6 +600,7 @@ composition synchronization result. The exactness predicate is the displayed
 pair of carriers together with the three $\hsame$ conclusions. The standard
 bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_composition\_associative\_certificate\_synchronization}
 
 \begin{theorem}[Continuous function carrier fourfold left-right synchronization]
 \label{thm:continuous-function-carrier-fourfold-left-right-synchronization}
@@ -656,3 +700,5 @@ constructed carriers together with the three $\hsame$ conclusions. The
 downstream use is ContinuousMapUp associativity coherence and the later
 category bridge.
 \end{proof}
+
+\input{parts/concrete_instances/34_continuous_namecert_function_carrier_fivefold_synchronization}
