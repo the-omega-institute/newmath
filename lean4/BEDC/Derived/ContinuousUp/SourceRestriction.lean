@@ -211,4 +211,38 @@ theorem ContinuousFunctionCarrier_visible_source_restriction_terminal_modulus_co
       (And.intro visibleData.left (And.intro visibleData.right.left restrictedCarrier))
   exact ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic canonical displayed
 
+theorem ContinuousFunctionCarrier_visible_source_restriction_modulus_chain_commutes
+    {p q restricted source map target target' oldMod oldCert delta1 delta2 delta cert cert' :
+      BHist} :
+    Cont restricted BHist.Empty source ->
+      ContinuousFunctionCarrier (append p source) map (append p target) (append oldMod q)
+          (append (append p oldCert) q) ->
+        ContinuousModulusChain target delta1 delta2 cert ->
+          Cont delta1 delta2 delta ->
+            ContinuousFunctionCarrier (append p restricted) map (append p target')
+                (append delta q) (append (append p cert') q) ->
+              ContinuousFunctionCarrier (append p restricted) map (append p target)
+                  (append delta q) (append (append p cert) q) ∧
+                ContinuousModulusWitness target delta cert ∧
+                  hsame target target' ∧ hsame cert cert' := by
+  intro sourceRestriction carrier chain compositeRel displayed
+  have visibleData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target) (modulus := oldMod)
+      (cert := oldCert)).mp carrier
+  have centralPackage :=
+    ContinuousFunctionCarrier_empty_source_restriction_modulus_chain sourceRestriction
+      visibleData.right.right chain compositeRel
+  have canonical :
+      ContinuousFunctionCarrier (append p restricted) map (append p target)
+        (append delta q) (append (append p cert) q) :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := restricted) (map := map) (target := target) (modulus := delta)
+      (cert := cert)).mpr
+      (And.intro visibleData.left (And.intro visibleData.right.left centralPackage.left))
+  have readback :
+      hsame target target' ∧ hsame cert cert' :=
+    ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic canonical displayed
+  exact And.intro canonical (And.intro centralPackage.right readback)
+
 end BEDC.Derived.ContinuousUp

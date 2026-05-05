@@ -412,6 +412,8 @@ A complex series \(c\) converges absolutely with bound \(M\) and modulus \(N : \
 \label{lem:abs-conv-implies-conv}
 If \(\mathsf{AbsConv}(c, M, N)\) holds, the complex partial sums \((S_n)_n\) form a regular complex Cauchy sequence with the same modulus \(N\), and hence have an explicit complex-history limit \(S\) by Cauchy completeness (\autoref{ch:concrete-instances-complex-limit-namecert}).
 \end{lemma}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsConv\_complexSeriesConv}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsConv\_complexSeriesConv\_of\_pointwise\_hsame}
 \begin{proof}[Sketch]
 The triangle inequality on each segment of consecutive partial sums bounds \(|S_n - S_m|\) by \(|M_n - M_m|\). Apply the modulus from absolute convergence directly.
 \end{proof}
@@ -534,6 +536,7 @@ The ledger policy records:
 \label{thm:complex-series-namecert}
 The five fields \((\mathsf{ComplexSeriesSourceSpec}, \mathsf{ComplexSeriesPatternSpec}, \mathsf{ComplexSeriesClassifierSpec}, \mathsf{ComplexSeriesStabilityCert}, \mathsf{ComplexSeriesLedgerPolicy})\) form a naming certificate over \(\Hist\) for the complex series interface \(\ComplexSeriesUp\).
 \end{theorem}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.complex\_series\_name\_certificate}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). All conversions between term sequence, partial-sum sequence, modulus, and limit are explicit unary functions, so the certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\) --- its Lean targets fall under the project's axiom-purity gate.
 \end{proof}

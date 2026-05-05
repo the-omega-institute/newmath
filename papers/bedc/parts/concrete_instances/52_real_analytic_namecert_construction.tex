@@ -10,6 +10,7 @@ This chapter records the proof obligations for the constructive transcendental p
 \label{def:real-analytic-leibniz-partial-sum}
 For unary index \(n\), the Leibniz partial sum predicate \(\mathsf{LeibPart}(n, S_n)\) holds when \(S_n\) is the explicit \(\RatUp\)-history obtained by summing the first \(n\) terms of \(\sum_{k \geq 0} (-1)^k / (2k+1)\) via unary recursion using \(\RatUp\) addition and signed-fraction subtraction.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticLeibnizPartSum}
 
 \begin{lemma}[Leibniz alternating-series Cauchy modulus]
 \label{lem:real-analytic-leibniz-cauchy}
@@ -58,6 +59,7 @@ $\mathsf{RealClassifier}(r_1,r_2)$.
 \label{def:real-analytic-exp-part}
 For \(\RealUp\)-history \(x\) and unary index \(n\), the predicate \(\mathsf{ExpPart}(x, n, S_n)\) holds when \(S_n\) is the partial sum \(\sum_{k=0}^{n} x^k / k!\) computed by unary recursion: powers \(x^k\) via iterated \(\RealUp\) multiplication, factorials \(k!\) via the unary factorial of \(\PrimeUp\) (\autoref{ch:concrete-instances-prime-namecert}), and division as \(\RealUp\)-multiplicative inverse against the positive unary denominator.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticExpPart}
 
 \begin{lemma}[Real-analytic complex partial-sum indices are unary]
 \label{lem:real-analytic-complex-part-sum-index-unary}
@@ -196,6 +198,7 @@ target unary transport theorem to the two closed computations. The zero
 comparison, source modulus unaryness, and pointwise comparison
 $m(i)\hsame m'(i)$ at unary indices give $\mathsf{UnaryHistory}(T)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexAbsPartSum\_closed\_pointwise\_index\_result\_unary\_transport}
 
 \begin{theorem}[Real-analytic local stream unary package]
 \label{thm:real-analytic-local-stream-obligations-only}
@@ -225,6 +228,7 @@ row, the $\RealUp$ limit witness row, and the limit-uniqueness classifier row
 remain the separate supplied hypotheses of
 \autoref{thm:real-analytic-certificate-boundary}.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticLocalStream\_obligations\_package}
 \begin{proof}
 For the complex closed-source clause, apply
 \autoref{thm:real-analytic-complex-part-sum-index-result-unary}. Its hypotheses

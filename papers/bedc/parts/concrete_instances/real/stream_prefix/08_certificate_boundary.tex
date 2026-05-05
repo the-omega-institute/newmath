@@ -11,6 +11,139 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{definition}[RegSeqRat stream certificate spine]
+\label{def:regseqrat-stream-certificate-spine}
+A $\RegSeqRat$ stream certificate spine for a rational-observation stream
+$s:\Hist\to\Hist$ is a rational stream-name carrier
+$\mathsf{RatStreamNameCarrier}(s)$ together with a regularity witness stable
+under $\mathsf{RealUnaryStreamClassifier}$. Its ledger records the unary
+observation indices, the endpoint $\RatUp$ carriers exposed at those indices,
+the pointwise $\RatUp$ classifiers read from the stream classifier, and the
+dyadic-tolerance requests used by the regularity witness.
+
+The ten-field fit is: traditional target Bishop regular rational sequence;
+BEDC source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\RatUp$, and
+$\StreamNameUp$; carrier $\mathsf{RatStreamNameCarrier}$ plus the regularity
+witness; classifier $\mathsf{RealUnaryStreamClassifier}$; stability pointwise
+RatUp reflexivity, symmetry, transitivity, and $\hsame$ transport; ledger
+finite observations and tolerance witnesses; core theorem list
+\autoref{thm:regseqrat-stream-classifier-stability-spine} and
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine}; exactness pointwise
+stream classification; standard bridge RealUp seal; status
+$\mathsf{ProofTarget}$.
+\end{definition}
+
+\begin{theorem}[RegSeqRat constant stream spine]
+\label{thm:regseqrat-constant-stream-spine}
+For every history $d:\Hist$, a carrier
+$\mathsf{RatHistoryCarrier}(d)$ supplies a $\RegSeqRat$ stream certificate spine
+for $\mathsf{RatConstStream}_d$. The spine consists of the
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$ row, the self
+$\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_d)$ row, and a constant regularity ledger: at any two
+certified unary observation indices, both exposed endpoints are the same
+$\RatUp$ point $d$, and every dyadic-tolerance request is discharged by RatUp
+classifier reflexivity.
+\end{theorem}
+\begin{proof}
+Apply the carrier half of
+\autoref{thm:rat-stream-name-constant-point-exactness} from right to left to
+the displayed $\mathsf{RatHistoryCarrier}(d)$. This gives the stream-name
+carrier row for $\mathsf{RatConstStream}_d$.
+
+For the classifier row, unfold
+Definition~\ref{def:real-unary-observation-stream-classifier}. A certified
+unary observation $n$ reads
+$\mathsf{RatConstStream}_d(n)=d$, so the required pointwise
+$\mathsf{RatHistoryClassifier}(\mathsf{RatConstStream}_d(n),
+\mathsf{RatConstStream}_d(n))$ is RatUp classifier reflexivity at the supplied
+carrier of $d$.
+
+The regularity ledger is constant. Given any two certified unary observation
+indices, the point-exactness theorem identifies both exposed endpoints with
+the same RatUp point $d$. Thus the two observations have the same carrier, and
+each dyadic tolerance request compares $d$ with itself, again by RatUp
+reflexivity. These rows are exactly the data named in
+Definition~\ref{def:regseqrat-stream-certificate-spine}.
+\end{proof}
+
+\begin{theorem}[RegSeqRat stream classifier stability spine]
+\label{thm:regseqrat-stream-classifier-stability-spine}
+Let $s,t,u,s',t':\Hist\to\Hist$ be rational-observation maps. Suppose
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameCarrier}(u),
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t),\quad
+\mathsf{RealUnaryStreamClassifier}(t,u),
+$$
+and suppose the displayed endpoints transport pointwise over unary
+observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then the $\RegSeqRat$ stream certificate spine supplies
+$\mathsf{RealUnaryStreamClassifier}(s,s)$,
+$\mathsf{RealUnaryStreamClassifier}(t,s)$,
+$\mathsf{RealUnaryStreamClassifier}(s,u)$, the endpoint rows
+$\mathsf{RatHistoryCarrier}(s(n))$ and
+$\mathsf{RatHistoryCarrier}(t(n))$ at every certified unary observation $n$,
+and the transported stream-name classifier
+$\mathsf{RatStreamNameClassifier}(s',t')$.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:regseqrat-stream-certificate-spine},
+Definition~\ref{def:rat-stream-name-carrier},
+Definition~\ref{def:rat-stream-name-classifier}, and
+Definition~\ref{def:real-unary-observation-stream-classifier}. The spine is
+therefore the existing BEDC unary stream row together with the regularity
+ledger; no separate classifier is being postulated.
+
+Apply \autoref{thm:real-unary-stream-classifier-stability-package} to the
+three carried streams, the two displayed RealUp unary stream classifiers, and
+the two pointwise $\hsame$ transport rows. Its reflexivity, symmetry, and
+transitivity clauses give the three
+$\mathsf{RealUnaryStreamClassifier}$ conclusions, and its endpoint clause gives
+the pointwise $\RatUp$ carrier rows.
+
+The same package returns
+$\mathsf{RatStreamNameClassifier}(s,t)$ and
+$\mathsf{RealUnaryStreamClassifier}(s',t')$. Combining the transported point
+classifier with RatUp classifier $\hsame$ transport and the transported
+endpoint carrier rows repacks exactly
+$\mathsf{RatStreamNameClassifier}(s',t')$.
+\end{proof}
+
+\begin{theorem}[RegSeqRat seal supplies RealUp observation classifier]
+\label{thm:regseqrat-realup-seal-consumes-stream-spine}
+Let $X$ and $Y$ be sealed $\RealUp$ candidates exposing rational-observation
+streams $s,t:\Hist\to\Hist$. If the exposed streams satisfy the
+$\RegSeqRat$ stream certificate spine and the seal records
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ as its stream comparison row, then
+the sealed candidates export exactly the
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row required by
+\autoref{def:real-classifier-specification}.
+\end{theorem}
+\begin{proof}
+Project the exposed stream data from the two $\RealUp$ seals. The
+$\RegSeqRat$ spine gives the $\mathsf{RatStreamNameCarrier}$ rows, the
+regularity ledger, and the pointwise RatUp classifier row over every certified
+unary observation.
+
+Now read the seal's stored stream comparison row. By
+Definition~\ref{def:real-unary-observation-stream-classifier}, this is exactly
+the pointwise rational-history classifier over the same certified unary
+observations.
+
+Repack that row under the RealUp seal. The result is the classifier row named
+by \autoref{def:real-classifier-specification}; no quotient or completion
+principle is used.
+\end{proof}
+
 \begin{theorem}[Real unary stream classifier stability package]
 \label{thm:real-unary-stream-classifier-stability-package}
 For rational-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose

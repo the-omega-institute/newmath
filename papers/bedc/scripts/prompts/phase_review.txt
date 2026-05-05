@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v3.1 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v3.2 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -174,11 +174,17 @@ A chapter retires from the critical path only when it reaches `(scopedClosure, t
 
 A `closure_mark` review target proposes adding a `\closureat{<X>Up}{<strength>Str}[BEDC.<...>.<theorem>]` line to the chapter — that's the binary closure marker the audit reads. closure_mark targets register the transition, but the underlying content (obligation/scope/public/bridge work) must already exist. Do NOT propose closure_mark for a chapter that hasn't done the prior-grade content work.
 
-### Skip rule
+### Skip rule (narrow — applies only when both grades are non-null)
 
-If `next_axis == "formal_status"` for a chapter, that chapter is bottlenecked on LEAN side. Skip it for paper rounds — pick a chapter where `next_axis == "theory_closure"`. If ALL of `top[0..2]` have `next_axis == "formal_status"`, emit `{"targets": []}` — let lean rounds catch up.
+The skip rule only applies to chapters that ALREADY have a `closurestatus` block (`theory_grade` non-null AND `formal_grade` non-null). For those:
 
-Each target's JSON MAY include a `grade_transition` field quoting `next_grade_transition`. Phase Revise uses it to scope the diff (don't add prose unrelated to the named transition).
+- If `next_axis == "formal_status"` AND `theory_grade` is non-null, the chapter's theory axis is already ahead of its formal axis — lean R-rounds need to catch up first. Skip it for paper rounds — pick a chapter where `next_axis == "theory_closure"`, OR a chapter where both grades are null (those are always paper-eligible per the `(none) → seedClosure` row above).
+
+For chapters with `theory_grade` null (the majority today — the `closurestatus` block has not been written yet), paper P-rounds are ALWAYS eligible. The `(none) → seedClosure` template row IS the paper work for these chapters: write the closurestatus block. Do NOT skip a null-grade chapter just because `critical_path.py` happens to compute `next_axis == "formal_status"` for it (the computation defaults to `formal_status` when both grades are null because the formal-axis order is longer; this is a critical_path internal detail and does NOT mean paper should skip).
+
+Empty-targets escape `{"targets": []}` is reserved for the genuine corner case where every accessible chapter has both grades non-null AND every accessible front is lean-bottlenecked. This is exceedingly rare today.
+
+Each target's JSON MAY include a `grade_transition` field quoting `next_grade_transition`. Phase Revise uses it to scope the diff (don't add prose unrelated to the named transition). For null-grade chapters the transition is `"(no block) -> seedClosure"`.
 
 ## Critical-path discovery (HARD GATE)
 
