@@ -482,3 +482,88 @@ inner-product row comparison. The endpoint readback is the constant RealUp
 zero row supplied by
 \autoref{thm:hilbert-singleton-endpoint-readback}.
 \end{proof}
+
+\begin{theorem}[Hilbert singleton universal orthogonality]
+\label{thm:hilbert-singleton-universal-orthogonality}
+For any carried histories $m,n:\mathsf{BHist}$ in the singleton Hilbert
+carrier, the inner-product endpoint is the constant RealUp zero row:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle m,n\rangle_{\emp},0_{\mathsf{Real}}^{c}).
+$$
+Thus every carried pair is orthogonal under the singleton Hilbert classifier.
+\end{theorem}
+\begin{proof}
+By \autoref{def:hilbert-singleton-empty-history-carrier}, every carried
+history is the public singleton endpoint. Hence the displayed pair has no
+separate source data beyond the unique $\emp$ endpoint.
+
+Apply
+\autoref{thm:hilbert-singleton-constant-inner-product-transport}. The
+constant inner-product row transports every accepted pair to the same
+$\mathsf{RealConstantHistoryClassifier}$ value at $0_{\mathsf{Real}}^{c}$.
+
+Finally,
+\autoref{thm:hilbert-singleton-endpoint-readback} identifies that endpoint
+with the public Hilbert readback row. This is precisely the singleton
+orthogonality classifier for the carried pair.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton parallelogram collapse]
+\label{thm:hilbert-singleton-parallelogram-collapse}
+For carried histories $m,n:\mathsf{BHist}$ in the singleton Hilbert carrier,
+the parallelogram law surface over the singleton vector-space operations
+collapses to the constant RealUp zero endpoint. The four norm rows
+$$
+\nu_{\emp}(m+n),\quad
+\nu_{\emp}(m-n),\quad
+\nu_{\emp}(m),\quad
+\nu_{\emp}(n)
+$$
+are all classified with $0_{\mathsf{Real}}^{c}$ by
+$\mathsf{RealConstantHistoryClassifier}$, so both sides of the Hilbert
+parallelogram identity are read through the same constant-real row.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:hilbert-singleton-source-compatibility}. It places the
+Hilbert carrier, the singleton vector carrier, and the singleton norm carrier
+on one shared $\rho_{\emp}$ source surface.
+
+The vector operations are collapsed by
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse}. Therefore
+$m+n$, $m-n$, $m$, and $n$ all expose the unique carried endpoint of the
+singleton vector space.
+
+Apply \autoref{thm:singleton-empty-history-norm-laws} to those four carried
+endpoints. Each displayed norm is classified with the constant RealUp zero
+endpoint, and \autoref{thm:hilbert-singleton-endpoint-readback} reads these
+norm rows inside the Hilbert package. The two parallelogram sides therefore
+have the same classifier row.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton projection boundary]
+\label{thm:hilbert-singleton-projection-boundary}
+The public projection boundary of the singleton Hilbert package selects
+$\emp$ for every carried input pair. The selected endpoint is classified by
+$\rho_{\emp}$, and the projection readback agrees simultaneously with the
+Banach limit row, the singleton $\NormUp$ row, and the constant
+inner-product zero row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:hilbert-singleton-projection-uniqueness} to the public
+projection witnesses for the carried inputs. Since the Hilbert carrier has
+only the singleton endpoint, uniqueness identifies every selected endpoint by
+$\rho_{\emp}$.
+
+The complete normed certificate in
+\autoref{thm:hilbert-singleton-complete-normed-certificate} places that
+selection on the Banach singleton surface. Through
+\autoref{thm:hilbert-singleton-source-compatibility}, the same source
+comparison is also the singleton $\NormUp$ comparison.
+
+It remains to read the Hilbert geometry row. By
+\autoref{thm:hilbert-singleton-universal-orthogonality}, the inner-product
+component of the selected pair is the constant RealUp zero row. Hence the
+projection boundary agrees with the Banach limit row, the NormUp zero row,
+and the orthogonality row at the same selected endpoint.
+\end{proof}
