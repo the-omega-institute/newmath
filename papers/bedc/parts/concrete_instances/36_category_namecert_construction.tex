@@ -485,3 +485,49 @@ $$
 Every displayed data field of the double opposite certificate is therefore the
 corresponding displayed data field of $\mathcal C$.
 \end{proof}
+
+\begin{definition}[Category split epimorphism witness]
+\label{def:category-split-epimorphism-witness}
+With the notation of \autoref{def:category-carrier}, let $\mathcal C$ be a
+$\CategoryUp$ certificate and let $\mathcal H(a,b,f)$ display a hom-carrier
+$f:a\to b$. A split-epimorphism witness for $f$ consists of a hom-carrier
+$\mathcal H(b,a,s)$, a displayed composite $sf:b\to b$ with
+$\mathsf{Comp}_{\mathcal C}(s,f,sf)$, and a morphism-classifier comparison
+$sf\sim_{\mathcal H}\mathsf{id}_b$ to the identity witness at $b$.
+\end{definition}
+
+\begin{theorem}[Category split epimorphism right cancellation]
+\label{thm:category-split-epimorphism-right-cancellative}
+Let $\mathcal C$ be a $\CategoryUp$ certificate as in
+\autoref{def:category-carrier}. Suppose $\mathcal H(a,b,f)$ has a
+split-epimorphism witness $(s,sf)$ in the sense of
+\autoref{def:category-split-epimorphism-witness}. For hom-carriers
+$\mathcal H(b,x,u)$ and $\mathcal H(b,x,v)$, let $fu$ and $fv$ be displayed
+composites of $u$ after $f$ and $v$ after $f$:
+$$
+\mathsf{Comp}_{\mathcal C}(f,u,fu),
+\qquad
+\mathsf{Comp}_{\mathcal C}(f,v,fv).
+$$
+If $fu\sim_{\mathcal H}fv$, then $u\sim_{\mathcal H}v$.
+\end{theorem}
+\begin{proof}
+Let $sf$ be the split composite and let
+$sf\sim_{\mathcal H}\mathsf{id}_b$ be its classifier comparison with the
+identity at $b$. Precompose the comparison $fu\sim_{\mathcal H}fv$ by the
+section $s$. The classifier-respecting composition field of the $\CategoryUp$
+certificate gives classifier equality between the two composites $fu$ after
+$s$ and $fv$ after $s$.
+
+Consider the $u$ side. Associativity for the displayed triple $s:b\to a$,
+$f:a\to b$, and $u:b\to x$ identifies the right-associated composite $fu$
+after $s$ with the left-associated composite $u$ after $sf$. The split
+comparison replaces $sf$ by $\mathsf{id}_b$, again by classifier-respecting
+composition. The left-unit law then classifies $u$ after $\mathsf{id}_b$ with
+$u$ itself. Hence the composite $fu$ after $s$ is classified with $u$.
+
+The same argument with $v$ shows that the composite $fv$ after $s$ is
+classified with $v$. Combining these two reductions with the classifier
+equality between $fu$ after $s$ and $fv$ after $s$, and using symmetry and
+transitivity of $\sim_{\mathcal H}$, gives $u\sim_{\mathcal H}v$.
+\end{proof}

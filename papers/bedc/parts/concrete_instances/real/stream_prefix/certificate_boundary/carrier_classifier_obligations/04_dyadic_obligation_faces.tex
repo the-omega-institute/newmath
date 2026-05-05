@@ -57,6 +57,41 @@ the $\hsame$ transport used here, and no additional arithmetic, quotient, or
 completion datum is introduced.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore positive-denominator boundary]
+\label{thm:dyadic-rat-core-positive-denominator-no-confusion-boundary}
+For an endpoint $d:\Hist$ carrying
+$\mathsf{DyadicRatCoreObservationRow}(d)$, the positive-denominator component
+supplies $\mathsf{UnaryHistory}(d)$ and excludes the endpoint shapes
+$d\hsame\emp$, $d\hsame\Ezero(t)$, and
+$d\hsame\mathsf{append}(u,\Ezero(t))$ for all histories $u,t:\Hist$.
+If $d\hsame e$ is a displayed classifier endpoint transport, then the
+transported endpoint $e$ carries the same unary-history witness and the same
+exclusions against $\emp$, $\Ezero(t)$, and
+$\mathsf{append}(u,\Ezero(t))$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:dyadic-rat-core-observation-row}. Its denominator
+projection is the $\mathsf{PositiveUnaryDenominator}(d)$ row, so
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} gives both the
+unary-history witness and the exclusion of $d\hsame\emp$.
+
+The zero-extension exclusion is exactly
+\autoref{thm:rat-positive-denominator-e0-absurd} applied to the projected
+positive-denominator row. The appended zero-tail exclusion is
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}; composing a
+display $d\hsame\mathsf{append}(u,\Ezero(t))$ with denominator transport would
+produce the forbidden positive-denominator witness at the appended zero-tail.
+
+Now let $d\hsame e$ be the displayed classifier transport. Transport the
+positive-denominator row along
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}, or equivalently
+transport the whole observation row along
+\autoref{thm:dyadic-rat-core-observation-row-hsame-transport} and project its
+denominator component. The three RatUp no-confusion facts applied at $e$
+give the same exclusions for the classified endpoint, and the result repacks
+as the DyadicRatCore endpoint-shape boundary.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore carrier obligation]
 \label{thm:dyadic-rat-core-carrier-obligation}
 The carrier obligation for DyadicRatCore is the ten-field certificate boundary
