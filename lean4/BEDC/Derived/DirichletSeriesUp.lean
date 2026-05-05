@@ -280,6 +280,20 @@ theorem DirichletSeriesIndex_append_unary_tail_nonempty {n tail : BHist} :
 def DirichletPositiveIndex (n : BHist) : Prop :=
   exists tail : BHist, UnaryHistory tail /\ n = BHist.e1 tail
 
+theorem DirichletTerm_positive_index_append_hsame_transport
+    {coeff coeff' : BHist -> BHist} {n n' s s' t t' : BHist} :
+    DirichletPositiveIndex n -> DirichletPositiveIndex n' ->
+      hsame t (append (coeff n) s) -> hsame t' (append (coeff' n') s') ->
+        hsame (coeff n) (coeff' n') -> hsame s s' ->
+          hsame t t' ∧ hsame t (DirichletTerm coeff n s) ∧
+            hsame t' (DirichletTerm coeff' n' s') := by
+  intro _positiveN _positiveN' sameT sameT' sameCoeff sameS
+  have sameTerms : hsame (append (coeff n) s) (append (coeff' n') s') := by
+    exact hsame_trans (congrArg (fun x : BHist => append x s) sameCoeff)
+      (congrArg (append (coeff' n')) sameS)
+  exact And.intro (hsame_trans sameT (hsame_trans sameTerms (hsame_symm sameT')))
+    (And.intro sameT sameT')
+
 def DirichletCoefficient_completely_multiplicative (coeff : BHist -> BHist) : Prop :=
   hsame (coeff (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) ∧
     forall {m n : BHist}, DirichletPositiveIndex m -> DirichletPositiveIndex n ->

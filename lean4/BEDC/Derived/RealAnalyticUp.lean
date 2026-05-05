@@ -9,6 +9,11 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.ComplexSeriesUp
 
+def RealAnalyticTrigPart (zero : BHist) (sinTerm cosTerm : BHist -> BHist)
+    (n sinResult cosResult pairResult : BHist) : Prop :=
+  ComplexPartSum zero sinTerm n sinResult ∧ ComplexPartSum zero cosTerm n cosResult ∧
+    Cont sinResult cosResult pairResult
+
 def RealAnalyticLeibnizPartialSum (leibnizTerm : BHist -> BHist) (n S : BHist) :
     Prop :=
   UnaryHistory n ∧ ComplexPartSum BHist.Empty leibnizTerm n S ∧ UnaryHistory S
