@@ -56,6 +56,51 @@ consumer \autoref{thm:regseqrat-realup-seal-consumes-stream-spine} confirms
 that the same row is the classifier exported through the $\RealUp$ interface.
 \end{proof}
 
+\begin{definition}[DyadicRatCore observation row]
+\label{def:dyadic-rat-core-observation-row}
+A DyadicRatCore observation row for a BEDC history $d$ is the package consisting
+of a $\mathsf{RatHistoryCarrier}(d)$ witness, a positive unary denominator row
+$\mathsf{PositiveUnaryDenominator}(d)$, and the dyadic-radius token used by the
+$\RegSeqRat$ regularity check. Its classifier face is inherited from
+$\mathsf{RatHistoryClassifier}$, together with $\hsame$ transport of the
+positive-denominator row.
+\end{definition}
+
+\begin{theorem}[RegSeqRat dyadic observation coverage]
+\label{thm:regseqrat-dyadic-observation-coverage}
+Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ stream certificate spine, and let
+$n$ be a certified $\mathsf{UnaryHistory}$ observation index of that spine. Then
+the exposed endpoint $s(n)$ has a DyadicRatCore observation row in the sense of
+\autoref{def:dyadic-rat-core-observation-row}. Moreover, if a stream classifier
+is transported pointwise along $\hsame$ to a target endpoint $s'(n)$, then the
+same pointwise transport carries this DyadicRatCore observation row to
+$s'(n)$.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:regseqrat-stream-certificate-spine}. At the
+certified observation index $n$, \autoref{thm:regseqrat-carrier-obligation}
+supplies the endpoint $\mathsf{RatHistoryCarrier}(s(n))$ row and the
+dyadic-tolerance witness recorded in the regularity ledger.
+
+The positive-denominator component is read from the RatUp carrier interface:
+\autoref{thm:rat-history-carrier-positive-denominator-equivalence} converts the
+endpoint carrier row into $\mathsf{PositiveUnaryDenominator}(s(n))$. These
+three pieces are exactly the DyadicRatCore observation row of
+\autoref{def:dyadic-rat-core-observation-row}.
+
+For the transported endpoint, apply
+\autoref{thm:regseqrat-classifier-obligation} to recover the pointwise
+$\mathsf{RatHistoryClassifier}$ row carried by the stream classifier. Its
+$\hsame$ comparison transports the endpoint carrier/classifier face through the
+existing $\mathsf{RatHistoryClassifier}$ transport, and
+\autoref{thm:rat-positive-unary-denominator-hsame-transport} transports the
+positive-denominator row to $s'(n)$.
+
+The dyadic-radius token is attached to the same certified observation request
+in the spine ledger, so no additional completion or quotient datum is needed.
+Thus the transported package is again a DyadicRatCore observation row.
+\end{proof}
+
 \begin{theorem}[RegSeqRat constant and transport obligation]
 \label{thm:regseqrat-constant-and-transport-obligation}
 The constant and transport obligations for $\RegSeqRat$ are the inhabitation of

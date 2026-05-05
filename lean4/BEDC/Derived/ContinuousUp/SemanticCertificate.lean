@@ -12,7 +12,7 @@ def ContinuousSourceSpec (source : BHist) : Prop :=
   UnaryHistory source ∧
     ∃ map target modulus cert : BHist, ContinuousFunctionCarrier source map target modulus cert
 
-def ContinuousPatternSpec (source map target modulus cert : BHist) : Prop :=
+def ContinuousFunctionPatternSpec (source map target modulus cert : BHist) : Prop :=
   UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory map ∧ UnaryHistory modulus ∧
     ContinuousModulusWitness target modulus cert ∧ Cont source map target
 
@@ -26,8 +26,9 @@ theorem ContinuousFunctionCarrier_sourceSpec_readback
         (Exists.intro modulus
           (Exists.intro cert carrier))))
 
-theorem ContinuousPatternSpec_function_carrier_iff {source map target modulus cert : BHist} :
-    ContinuousPatternSpec source map target modulus cert ↔
+theorem ContinuousFunctionPatternSpec_function_carrier_iff
+    {source map target modulus cert : BHist} :
+    ContinuousFunctionPatternSpec source map target modulus cert ↔
       ContinuousFunctionCarrier source map target modulus cert ∧ UnaryHistory cert := by
   constructor
   · intro pattern

@@ -84,6 +84,16 @@ inductive GammaFactorial : BHist -> BHist -> Prop where
   | step {n m r : BHist} :
       GammaFactorial n m -> Cont (BHist.e1 n) m r -> GammaFactorial (BHist.e1 n) r
 
+theorem GammaFactorial_unary_result {n m : BHist} :
+    GammaFactorial n m -> UnaryHistory n ∧ UnaryHistory m := by
+  intro factorial
+  induction factorial with
+  | zero =>
+      exact And.intro unary_empty (unary_e1_closed unary_empty)
+  | step previous stepContinuation ih =>
+      exact And.intro (unary_e1_closed ih.left)
+        (unary_cont_closed (unary_e1_closed ih.left) ih.right stepContinuation)
+
 theorem GammaPoleLocus_complex_carrier_witness {s : BHist} :
     GammaPoleLocus s ->
       ∃ n : BHist,
