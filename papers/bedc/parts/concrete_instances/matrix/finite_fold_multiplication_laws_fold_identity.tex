@@ -332,3 +332,54 @@ pointwise matrix classifier gives both displayed matrix identity laws. The
 ledger in \autoref{def:matrix-ledger-policy} records the same row and column
 witnesses throughout the two products, so no dimension data is changed.
 \end{proof}
+
+\begin{definition}[Finite-fold matrix identity data]
+\label{def:finite-fold-matrix-identity-data}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint
+$0_R$, unit endpoint $1_R$, addition $+_R$, multiplication $\cdot_R$, and finite
+additive folds as in \autoref{def:finite-additive-scalar-fold}. For each finite
+dimension $n:\NatUp$, the finite-fold identity matrix $I_n$ is the carried
+$n\times n$ matrix whose $(i,j)$ entry is $1_R$ when the finite indices agree
+and $0_R$ otherwise.
+\end{definition}
+
+\begin{theorem}[Finite-fold matrix identity law]
+\label{thm:finite-fold-matrix-identity-law}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint
+$0_R$, unit endpoint $1_R$, addition $+_R$, multiplication $\cdot_R$, and finite
+additive folds over finite index spines as in
+\autoref{def:finite-additive-scalar-fold}. Let $A$ be a carried $n\times m$
+$\MatrixUp$ matrix. Assume the scalar classifier equivalence fields, additive
+zero laws, multiplication congruence, zero multiplication laws, and left and
+right unit laws retained in \autoref{def:ring-stability-certificate}. Then the
+finite-fold products with the identity matrices of
+\autoref{def:finite-fold-matrix-identity-data} are carried and
+$$
+I_n\cdot_{\mathrm{Mat}} A\sim_{\mathrm{Mat}}A
+\qquad\text{and}\qquad
+A\cdot_{\mathrm{Mat}} I_m\sim_{\mathrm{Mat}}A.
+$$
+\end{theorem}
+\begin{proof}
+The multiplication closure row of \autoref{def:matrix-stability-certificate}
+carries both products. By \autoref{def:matrix-classifier-specification}, it is
+enough to compare scalar entries.
+
+For the left identity, fix $i:\mathsf{Fin}(n)$ and $j:\mathsf{Fin}(m)$. The
+finite fold for $(I_n\cdot_{\mathrm{Mat}}A)_{i,j}$ has one diagonal summand
+$1_R\cdot_R A_{i,j}$ and all other summands $0_R\cdot_R A_{k,j}$. The unit law
+classifies the diagonal summand with $A_{i,j}$, and the zero multiplication law
+classifies every off-diagonal summand with $0_R$.
+
+The finite additive fold over a spine with one carried scalar and all remaining
+entries classified with $0_R$ reduces, by the additive zero laws and fold
+congruence from \autoref{thm:finite-additive-fold-congruence-coefficient-lists},
+to that single scalar. Hence $(I_n\cdot_{\mathrm{Mat}}A)_{i,j}\sim_R A_{i,j}$.
+
+The right identity is symmetric. The fold for
+$(A\cdot_{\mathrm{Mat}}I_m)_{i,j}$ has diagonal summand
+$A_{i,j}\cdot_R1_R$ and off-diagonal summands classified with $0_R$. The right
+unit law, zero multiplication laws, additive zero laws, and fold congruence
+again collapse the fold to $A_{i,j}$. Packaging the two entrywise comparisons
+gives the displayed matrix classifier laws.
+\end{proof}
