@@ -59,6 +59,9 @@ def ConvRad (a : Nat -> BHist) (R : BHist) : Prop :=
 def ConvRadCauchyHadamardExactnessRow (a : Nat -> BHist) (R witness : BHist) : Prop :=
   ConvRad a R ∧ UnaryHistory R ∧ UnaryHistory witness ∧ Cont R witness R
 
+def ConvRadClassifierSpec (R R' : BHist) : Prop :=
+  UnaryHistory R ∧ UnaryHistory R' ∧ hsame R R'
+
 theorem GeomBound_powerSeriesCarrier {a : Nat -> BHist} {r K z0 : BHist} :
     GeomBound a r K -> ComplexHistoryCarrier z0 ->
       PowerSeriesCarrier a z0 ∧ UnaryHistory r ∧ UnaryHistory K := by
@@ -79,6 +82,13 @@ theorem ConvRad_radius_transport {a : Nat -> BHist} {R R' : BHist} :
   cases radius with
   | intro _ witness =>
       exact And.intro targetUnary witness
+
+theorem ConvRadClassifierSpec_radius_transport {a : Nat -> BHist} {R R' : BHist} :
+    ConvRadClassifierSpec R R' -> ConvRad a R -> ConvRad a R' ∧ UnaryHistory R' := by
+  intro classifier radius
+  exact And.intro
+    (ConvRad_radius_transport classifier.right.right radius classifier.right.left)
+    classifier.right.left
 
 theorem ConvRad_radius_coefficient_classifier_transport {a b : Nat -> BHist} {R R' : BHist} :
     hsame R R' -> UnaryHistory R' -> (forall n : Nat, ComplexHistoryClassifier (a n) (b n)) ->

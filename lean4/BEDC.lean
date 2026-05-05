@@ -162,6 +162,7 @@ import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
 import BEDC.Derived.ComplexSeriesUp.CauchyProductResultUnary
 import BEDC.Derived.ComplexSeriesUp.NameCertificate
+import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.ZetaBasicUp
@@ -285,6 +286,7 @@ import BEDC.Derived.RealUp.SemanticCertificate
 import BEDC.Derived.RealUp.ReindexedStreamName
 import BEDC.Derived.RealUp.EquivalenceFields
 import BEDC.Derived.RealUp.PairReadback
+import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.SelectedTransportFit
 import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
 import BEDC.Derived.AdeleUp
@@ -494,6 +496,7 @@ import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
+import BEDC.Derived.MatrixUp.AppendVisibleFactorExclusion
 import BEDC.Derived.MatrixUp.MulContinuation
 import BEDC.Derived.MatrixUp.ContinuationResult
 import BEDC.Derived.MatrixUp.ExponentCases
