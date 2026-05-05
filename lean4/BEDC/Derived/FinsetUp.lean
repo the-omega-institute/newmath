@@ -158,4 +158,45 @@ theorem FinsetEnumerationCarrier_bundleAppend_split
                           (Or.inr member)
                       exact Exists.intro x (And.intro memberApp rel)
 
+theorem FinsetEnumerationCarrier_append_split
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {left right : ProbeBundle BHist} {z : BHist} :
+    FinsetEnumerationCarrier A Rel (bundleAppend left right) z <->
+      FinsetEnumerationCarrier A Rel left z ∨ FinsetEnumerationCarrier A Rel right z := by
+  constructor
+  · intro carried
+    cases carried with
+    | intro sourceZ witness =>
+        cases witness with
+        | intro x memberAndSame =>
+            have splitMember : InBundle x left ∨ InBundle x right :=
+              Iff.mp inBundle_bundleAppend_iff memberAndSame.left
+            cases splitMember with
+            | inl leftMember =>
+                exact Or.inl
+                  (And.intro sourceZ (Exists.intro x (And.intro leftMember memberAndSame.right)))
+            | inr rightMember =>
+                exact Or.inr
+                  (And.intro sourceZ (Exists.intro x (And.intro rightMember memberAndSame.right)))
+  · intro carried
+    cases carried with
+    | inl leftCarried =>
+        cases leftCarried with
+        | intro sourceZ witness =>
+            cases witness with
+            | intro x memberAndSame =>
+                have appendMember : InBundle x (bundleAppend left right) :=
+                  Iff.mpr inBundle_bundleAppend_iff (Or.inl memberAndSame.left)
+                exact And.intro sourceZ
+                  (Exists.intro x (And.intro appendMember memberAndSame.right))
+    | inr rightCarried =>
+        cases rightCarried with
+        | intro sourceZ witness =>
+            cases witness with
+            | intro x memberAndSame =>
+                have appendMember : InBundle x (bundleAppend left right) :=
+                  Iff.mpr inBundle_bundleAppend_iff (Or.inr memberAndSame.left)
+                exact And.intro sourceZ
+                  (Exists.intro x (And.intro appendMember memberAndSame.right))
+
 end BEDC.Derived.FinsetUp

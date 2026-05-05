@@ -90,6 +90,8 @@ $$
 The original and transported rows are classified by
 $(h,k,g)\sim_{\mathsf{Graph}}(h',k',g')$.
 \end{theorem}
+\leanchecked{BEDC.Derived.GraphUp.GraphEdge\_classifier\_transport}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_classifier\_transport}
 \begin{proof}
 Unpack $\mathsf{GraphEdge}(h,k,g)$ by
 \autoref{def:graph-cont-adjacency-carrier}. This yields
@@ -119,6 +121,7 @@ classifier $\hsame$ restricted to unary histories, edge relation
 $\mathsf{GraphEdge}$, endpoint coverage, edge transport, and the visible
 $\Cont$ ledger. The standard bridge field is absent from this surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.GraphUp.GraphContNameCert\_surface}
 \begin{proof}
 The definition supplies the concrete BEDC source, the vertex carrier, the
 restricted vertex classifier, the edge relation, the visible ledger, and the
@@ -137,4 +140,98 @@ repackages the transported row as another $\mathsf{GraphEdge}$ witness.
 These clauses are precisely the listed $\GraphUp$ paper obligations, so the
 chapter exposes the carrier, classifier, edge, coverage, transport, and ledger
 surface required by $\TreeUp$ and downstream combinatorial certificates.
+\end{proof}
+
+\begin{theorem}[Graph empty-tail identity edge]
+\label{thm:graph-cont-edge-empty-tail-identity}
+For every history $h:\mathsf{BHist}$, if $\mathsf{UnaryHistory}(h)$, then
+$$
+\mathsf{GraphEdge}(h,\emp,h).
+$$
+Its ten-field fit is: traditional target identity graph edge; BEDC source
+$\mathsf{BHist}$, $\mathsf{UnaryHistory}$, and $\Cont$; carrier
+$\mathsf{GraphEdge}$; classifier componentwise $\hsame$; endpoint fields the
+two displayed unary witnesses; stability inherited from
+$\mathsf{cont\_hsame\_transport}$; ledger $(h,\emp,h)$; exactness by endpoint
+coverage and continuation determinacy; standard bridge absent; status proof
+target.
+\end{theorem}
+\begin{proof}
+Use $\mathsf{UnaryHistory}(h)$ for the source endpoint. The empty history is a
+unary history by the empty unary constructor, so it supplies the target
+endpoint.
+
+The continuation row is the right-unit row $\Cont(h,\emp,h)$, also named
+$\mathsf{cont\_right\_unit}$. Repacking these three fields through
+\autoref{def:graph-cont-adjacency-carrier} gives the displayed
+$\mathsf{GraphEdge}$ row.
+\end{proof}
+
+\begin{theorem}[Graph edge result determinacy]
+\label{thm:graph-cont-edge-result-determinacy}
+For histories $h,k,g,g':\mathsf{BHist}$, if
+$\mathsf{GraphEdge}(h,k,g)$ and $\mathsf{GraphEdge}(h,k,g')$, then
+$$
+\hsame(g,g').
+$$
+Its ten-field fit is: traditional target graph edge-result determinacy; BEDC
+source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, and $\Cont$; carrier
+$\mathsf{GraphEdge}$; classifier componentwise $\hsame$; endpoint fields read
+from the two edge rows; stability inherited from continuation transport;
+ledger the two rows $(h,k,g)$ and $(h,k,g')$; exactness by endpoint coverage
+and continuation determinacy up to $\hsame$; standard bridge absent; status
+proof target.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:graph-cont-edge-endpoint-coverage} to both edge rows. This
+projects the two continuation witnesses $\Cont(h,k,g)$ and $\Cont(h,k,g')$
+from the graph carrier.
+
+Apply $\mathsf{cont\_deterministic}$, equivalently
+$\mathsf{cont\_determinacy\_up\_to\_hsame\_spine}$, to the two continuation
+rows with the same source and the same visible target. The resulting
+classification is exactly $\hsame(g,g')$.
+\end{proof}
+
+\begin{theorem}[Graph visible-tail step closure]
+\label{thm:graph-cont-edge-visible-tail-step-closure}
+For histories $h,k,g:\mathsf{BHist}$, suppose $\mathsf{GraphEdge}(h,k,g)$ and
+suppose the visible-tail constructors preserve unary history at the target and
+result positions:
+$$
+\mathsf{UnaryHistory}(\Ezero(k))\land
+\mathsf{UnaryHistory}(\Ezero(g))\land
+\mathsf{UnaryHistory}(\Eone(k))\land
+\mathsf{UnaryHistory}(\Eone(g)).
+$$
+Then
+$$
+\mathsf{GraphEdge}(h,\Ezero(k),\Ezero(g))
+\land
+\mathsf{GraphEdge}(h,\Eone(k),\Eone(g)).
+$$
+Its ten-field fit is: traditional target visible-tail graph closure; BEDC
+source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, and $\Cont$; carrier
+$\mathsf{GraphEdge}$; classifier componentwise $\hsame$; endpoint fields the
+source row plus the supplied visible-tail unary rows; stability inherited from
+the two continuation step rules; ledger the two stepped triples; exactness by
+endpoint coverage and continuation determinacy; standard bridge absent; status
+proof target.
+\end{theorem}
+\begin{proof}
+First project the original edge by
+\autoref{thm:graph-cont-edge-endpoint-coverage}. This gives
+$\mathsf{UnaryHistory}(h)$ and the continuation row $\Cont(h,k,g)$.
+
+For the zero-tail branch, use the supplied unary rows
+$\mathsf{UnaryHistory}(\Ezero(k))$ and $\mathsf{UnaryHistory}(\Ezero(g))$.
+Apply the zero continuation step rule to $\Cont(h,k,g)$, obtaining
+$\Cont(h,\Ezero(k),\Ezero(g))$. Repack these three fields as
+$\mathsf{GraphEdge}(h,\Ezero(k),\Ezero(g))$.
+
+For the one-tail branch, use the supplied unary rows
+$\mathsf{UnaryHistory}(\Eone(k))$ and $\mathsf{UnaryHistory}(\Eone(g))$.
+Apply the one continuation step rule to $\Cont(h,k,g)$, obtaining
+$\Cont(h,\Eone(k),\Eone(g))$. Repack these three fields as
+$\mathsf{GraphEdge}(h,\Eone(k),\Eone(g))$.
 \end{proof}
