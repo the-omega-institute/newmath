@@ -270,6 +270,64 @@ transported carrier. The conclusion is precisely the product carrier at $p'$,
 the unit-equation readback for $e'$, the rational component witnesses for
 $x'$ and $y'$, and the continuation ledger $\ContR(x',y',p')$.
 \end{proof}
+
+\begin{theorem}[SOne component classifier full readback package]
+\label{thm:sone-component-classifier-full-readback-package}
+For histories $x,y,e,p,x',y',e',p'$, a component-classifier witness packages
+the public readback at the source tuple, the hidden equation and point ledgers,
+and the public readback at the transported tuple:
+$$
+\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))
+\Longrightarrow
+\Bigl(
+\mathsf{SOneProductHistoryCarrier}(p)\land
+\hsame(e,\mathsf{SOneUnitHistory})\land
+\exists d_x,d_y.\;
+\hsame(x,\Eone(d_x))\land
+\mathsf{RatHistoryCarrier}(d_x)\land
+\hsame(y,\Eone(d_y))\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\ContR(x,y,p)
+\Bigr)
+\land
+\bigl(\hsame(e,e')\land\hsame(p,p')\bigr)
+\land
+\Bigl(
+\mathsf{SOneProductHistoryCarrier}(p')\land
+\hsame(e',\mathsf{SOneUnitHistory})\land
+\exists d'_x,d'_y.\;
+\hsame(x',\Eone(d'_x))\land
+\mathsf{RatHistoryCarrier}(d'_x)\land
+\hsame(y',\Eone(d'_y))\land
+\mathsf{RatHistoryCarrier}(d'_y)\land
+\ContR(x',y',p')
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the component classifier through
+\autoref{def:sone-component-classifier-relation}. This gives the source carrier
+row $\mathsf{SOneHistoryCarrier}(x,y,e,p)$, the target carrier row
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$, and the exposed component witnesses
+$\hsame(x,x')$ and $\hsame(y,y')$.
+
+Apply \autoref{thm:sone-history-carrier-public-readback} to the source carrier.
+It produces the first displayed public package: the product carrier at $p$, the
+unit-equation readback at $e$, the two rational component witnesses for $x$ and
+$y$, and the continuation ledger $\ContR(x,y,p)$.
+
+Next apply \autoref{thm:s1-component-classifier-ledger-determinacy} to the two
+carrier rows and the two exposed component comparisons. This returns the hidden
+equation ledger $\hsame(e,e')$ and the hidden point ledger $\hsame(p,p')$.
+
+For the transported public package, either apply
+\autoref{thm:sone-component-classifier-public-readback} directly to the original
+classifier witness, or apply
+\autoref{thm:sone-history-carrier-public-readback} to the target carrier row.
+The resulting fields are exactly the product carrier at $p'$, the
+unit-equation readback at $e'$, the rational component witnesses for $x'$ and
+$y'$, and the continuation ledger $\ContR(x',y',p')$.
+\end{proof}
 \begin{definition}[SOne ledger policy]
 \label{def:s1-ledger-policy}
 Record both real witnesses, the componentwise real-classifier witnesses used in classifier derivations, and the transported unit equation proof.
