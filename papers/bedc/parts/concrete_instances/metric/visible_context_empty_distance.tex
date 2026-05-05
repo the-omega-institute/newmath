@@ -61,6 +61,25 @@ $\hsame(o,o')$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_splice\_hsame}
 
+\begin{theorem}[Metric visible-context empty-distance append unit laws]
+\label{thm:metric-distance-witness-visible-context-empty-distance-append-unit-laws}
+For histories $p,q,x,y,l,r$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q).
+$$
+Then the central endpoints act as append units:
+$$
+x\cdot r=r\quad\wedge\quad l\cdot y=l.
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context empty-distance exactness to the witness. This exposes
+$\hsame(x,\emp)$ and $\hsame(y,\emp)$. Substituting these empty endpoints turns
+the two displayed append equations into the BEDC left and right append unit
+laws.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_append\_unit\_laws}
+
 \begin{theorem}[Metric visible-context empty-distance witness splice]
 \label{thm:metric-distance-witness-visible-context-empty-distance-witness-splice}
 For histories $p,q,x,y,l,r,m,o$, suppose
