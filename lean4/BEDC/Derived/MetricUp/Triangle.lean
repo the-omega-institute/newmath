@@ -303,6 +303,38 @@ theorem MetricDistanceWitness_triangle_right_empty_boundary_witness {x y z dxy d
   exact MetricDistanceWitness_hsame_fields_transport (hsame_refl x) (hsame_refl BHist.Empty)
     (hsame_symm collapsed.right.right.right) canonical
 
+theorem MetricDistanceWitness_triangle_bilateral_empty_edge_collapse
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dxy BHist.Empty ->
+        hsame dyz BHist.Empty ->
+          hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame z BHist.Empty ∧
+            hsame dxyz BHist.Empty ∧ MetricDistanceDepth dxyz = 0 ∧
+              MetricDistanceWitness BHist.Empty BHist.Empty dxyz := by
+  intro xy yz xyz dxyEmpty dyzEmpty
+  have leftCollapse :
+      hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame dxyz z ∧ hsame dyz z :=
+    MetricDistanceWitness_triangle_left_distance_empty_collapse xy yz xyz dxyEmpty
+  have rightCollapse :
+      hsame y BHist.Empty ∧ hsame z BHist.Empty ∧ hsame dxy x ∧ hsame dxyz x :=
+    MetricDistanceWitness_triangle_right_distance_empty_collapse xy yz xyz dyzEmpty
+  have xEmpty : hsame x BHist.Empty := leftCollapse.left
+  have yEmpty : hsame y BHist.Empty := leftCollapse.right.left
+  have zEmpty : hsame z BHist.Empty := rightCollapse.right.left
+  have dxyzEmpty : hsame dxyz BHist.Empty :=
+    hsame_trans leftCollapse.right.right.left zEmpty
+  have depthZero : MetricDistanceDepth dxyz = 0 :=
+    MetricDistanceDepth_zero_iff_empty.mpr dxyzEmpty
+  have emptyWitness : MetricDistanceWitness BHist.Empty BHist.Empty dxyz :=
+    MetricDistanceWitness_hsame_fields_transport (hsame_refl BHist.Empty)
+      (hsame_refl BHist.Empty) (hsame_symm dxyzEmpty)
+      ((MetricDistanceWitness_empty_distance_iff (x := BHist.Empty) (y := BHist.Empty)).mpr
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
+  exact And.intro xEmpty
+    (And.intro yEmpty
+      (And.intro zEmpty
+        (And.intro dxyzEmpty (And.intro depthZero emptyWitness))))
+
 theorem MetricDistanceWitness_visible_context_triangle_depth_zero_collapse
     {p q x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
