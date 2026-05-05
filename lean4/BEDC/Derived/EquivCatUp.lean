@@ -6,8 +6,8 @@ namespace BEDC.Derived.EquivCatUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
-open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.FKernel.NameCert
 open BEDC.Derived.AdjunctionUp
 open BEDC.Derived.CategoryUp
 open BEDC.Derived.NatTransUp
@@ -198,6 +198,31 @@ theorem EquivCatCycleIdentityCarrier_target_prefix_hsame_transport
             (And.intro sameSourceTarget
               (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))))))
   exact And.intro transported (And.intro unitCarrier counitCarrier)
+
+theorem EquivCatAdjunction_empty_roundtrip_target_prefix_hsame_transport
+    {p q q' a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p q a unit counit left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty -> hsame q q' ->
+        AdjunctionUnitCounitCarrier p q' a BHist.Empty BHist.Empty BHist.Empty BHist.Empty ∧
+          NatTransPrefixComponentCarrier p q' a BHist.Empty ∧
+            NatTransPrefixComponentCarrier q' p a BHist.Empty := by
+  intro carrier leftEmpty rightEmpty sameQQ'
+  have boundary :=
+    EquivCatAdjunction_empty_roundtrip_prefix_determinacy carrier leftEmpty rightEmpty
+  have componentData :=
+    (NatTransPrefixComponentCarrier_empty_identity_iff (p := p) (q := q) (a := a)).mp
+      boundary.right.right.right.left
+  have q'Carrier : UnaryHistory q' :=
+    unary_transport componentData.right.left sameQQ'
+  have samePQ' : hsame p q' :=
+    hsame_trans boundary.left sameQQ'
+  have transported :
+      AdjunctionUnitCounitCarrier p q' a BHist.Empty BHist.Empty BHist.Empty BHist.Empty :=
+    (AdjunctionUnitCounitCarrier_empty_components_iff
+      (p := p) (q := q') (a := a) (left := BHist.Empty) (right := BHist.Empty)).mpr
+      ⟨componentData.left, q'Carrier, componentData.right.right.left, samePQ',
+        hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩
+  exact And.intro transported (And.intro transported.left transported.right.left)
 
 theorem EquivCatCycleIdentityCarrier_semanticNameCert {a b f g : BHist}
     (left : CategoryHomCarrier a b f) (right : CategoryHomCarrier b a g) :
