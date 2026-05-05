@@ -577,7 +577,19 @@ theorem cont_right_tail_result_cases {h k r : BHist} :
       | intro u witness =>
           exact Exists.intro t
             (Exists.intro u
-              (And.intro (hsame_refl (BHist.e1 t))
-                (And.intro witness.left witness.right)))
+                (And.intro (hsame_refl (BHist.e1 t))
+                  (And.intro witness.left witness.right)))
+
+theorem cont_right_tail_result_nonempty_cases {h k r : BHist} :
+    Cont h k r -> (hsame k BHist.Empty -> False) ->
+      (∃ t u : BHist, hsame k (BHist.e0 t) ∧ hsame r (BHist.e0 u) ∧ Cont h t u) ∨
+        (∃ t u : BHist, hsame k (BHist.e1 t) ∧ hsame r (BHist.e1 u) ∧ Cont h t u) := by
+  intro hcont nonempty
+  have casesResult := cont_right_tail_result_cases hcont
+  cases casesResult with
+  | inl emptyCase =>
+      exact False.elim (nonempty emptyCase.left)
+  | inr tailCases =>
+      exact tailCases
 
 end BEDC.FKernel.Cont
