@@ -448,3 +448,41 @@ w\le_C c\wedge b'.
 $$
 Substituting the displayed definition of $w$ gives the claimed comparison.
 \end{proof}
+
+\begin{theorem}[Lattice operation monotonicity from directional bounds]
+\label{thm:lattice-operation-monotonicity-from-directional-bounds}
+Let $A$ be a $\LatticeUp$ carrier with order $\le_C$ and classifier $\sim_C$. Assume the inherited $\PreorderUp$ reflexivity and transitivity fields from \autoref{def:preorder-stability-certificate} and the directional meet and join bound-characterization fields from \autoref{def:lattice-stability-certificate}. If $a,a',b,b',c\in A$ with $a\le_C a'$ and $b\le_C b'$, then
+$$
+a\wedge c\le_C a'\wedge c,
+\qquad
+c\wedge a\le_C c\wedge a',
+$$
+and
+$$
+b\vee c\le_C b'\vee c,
+\qquad
+c\vee b\le_C c\vee b'.
+$$
+\end{theorem}
+\begin{proof}
+The inherited preorder reflexivity field gives
+$$
+c\le_C c.
+$$
+Apply \autoref{lem:lattice-meet-two-sided-monotonicity-from-directional-bounds} to the comparisons $a\le_C a'$ and $c\le_C c$. This gives
+$$
+a\wedge c\le_C a'\wedge c.
+$$
+Apply the same meet monotonicity lemma to $c\le_C c$ and $a\le_C a'$. This gives
+$$
+c\wedge a\le_C c\wedge a'.
+$$
+Apply \autoref{lem:lattice-join-two-sided-monotonicity-from-directional-bounds} to $b\le_C b'$ and $c\le_C c$. This gives
+$$
+b\vee c\le_C b'\vee c.
+$$
+Apply the same join monotonicity lemma to $c\le_C c$ and $b\le_C b'$. This gives
+$$
+c\vee b\le_C c\vee b'.
+$$
+\end{proof}
