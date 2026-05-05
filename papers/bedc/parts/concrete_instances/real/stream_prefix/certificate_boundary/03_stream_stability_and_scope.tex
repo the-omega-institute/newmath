@@ -1,0 +1,177 @@
+\begin{theorem}[RegSeqRat stream classifier stability spine]
+\label{thm:regseqrat-stream-classifier-stability-spine}
+Let $s,t,u,s',t':\Hist\to\Hist$ be rational-observation maps. Suppose
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameCarrier}(u),
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t),\quad
+\mathsf{RealUnaryStreamClassifier}(t,u),
+$$
+and suppose the displayed endpoints transport pointwise over unary
+observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then the $\RegSeqRat$ stream certificate spine supplies
+$\mathsf{RealUnaryStreamClassifier}(s,s)$,
+$\mathsf{RealUnaryStreamClassifier}(t,s)$,
+$\mathsf{RealUnaryStreamClassifier}(s,u)$, the endpoint rows
+$\mathsf{RatHistoryCarrier}(s(n))$ and
+$\mathsf{RatHistoryCarrier}(t(n))$ at every certified unary observation $n$,
+and the transported stream-name classifier
+$\mathsf{RatStreamNameClassifier}(s',t')$.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:regseqrat-stream-certificate-spine},
+Definition~\ref{def:rat-stream-name-carrier},
+Definition~\ref{def:rat-stream-name-classifier}, and
+Definition~\ref{def:real-unary-observation-stream-classifier}. The spine is
+therefore the existing BEDC unary stream row together with the regularity
+ledger; no separate classifier is being postulated.
+
+Apply \autoref{thm:real-unary-stream-classifier-stability-package} to the
+three carried streams, the two displayed RealUp unary stream classifiers, and
+the two pointwise $\hsame$ transport rows. Its reflexivity, symmetry, and
+transitivity clauses give the three
+$\mathsf{RealUnaryStreamClassifier}$ conclusions, and its endpoint clause gives
+the pointwise $\RatUp$ carrier rows.
+
+The same package returns
+$\mathsf{RatStreamNameClassifier}(s,t)$ and
+$\mathsf{RealUnaryStreamClassifier}(s',t')$. Combining the transported point
+classifier with RatUp classifier $\hsame$ transport and the transported
+endpoint carrier rows repacks exactly
+$\mathsf{RatStreamNameClassifier}(s',t')$.
+\end{proof}
+
+\begin{theorem}[RegSeqRat seal supplies RealUp observation classifier]
+\label{thm:regseqrat-realup-seal-consumes-stream-spine}
+Let $X$ and $Y$ be sealed $\RealUp$ candidates exposing rational-observation
+streams $s,t:\Hist\to\Hist$. If the exposed streams satisfy the
+$\RegSeqRat$ stream certificate spine and the seal records
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ as its stream comparison row, then
+the sealed candidates export exactly the
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row required by
+\autoref{def:real-classifier-specification}.
+\end{theorem}
+\begin{proof}
+Project the exposed stream data from the two $\RealUp$ seals. The
+$\RegSeqRat$ spine gives the $\mathsf{RatStreamNameCarrier}$ rows, the
+regularity ledger, and the pointwise RatUp classifier row over every certified
+unary observation.
+
+Now read the seal's stored stream comparison row. By
+Definition~\ref{def:real-unary-observation-stream-classifier}, this is exactly
+the pointwise rational-history classifier over the same certified unary
+observations.
+
+Repack that row under the RealUp seal. The result is the classifier row named
+by \autoref{def:real-classifier-specification}; no quotient or completion
+principle is used.
+\end{proof}
+
+\begin{theorem}[RegSeqRat stream spine scoped package]
+\label{thm:regseqrat-stream-spine-scoped-package}
+Let $s,t,u,s',t':\Hist\to\Hist$ be rational-observation maps carrying
+$\mathsf{RatStreamNameCarrier}(s)$, $\mathsf{RatStreamNameCarrier}(t)$, and
+$\mathsf{RatStreamNameCarrier}(u)$. Suppose the stream comparison rows
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ and
+$\mathsf{RealUnaryStreamClassifier}(t,u)$ are recorded, and suppose the endpoint
+transports are pointwise over unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then the $\RegSeqRat$ stream certificate spine supplies the following scoped
+package.
+\begin{enumerate}
+  \item For any $d:\Hist$ with $\mathsf{RatHistoryCarrier}(d)$, the constant
+  stream $\mathsf{RatConstStream}_d$ inhabits the $\RegSeqRat$ stream spine.
+  \item The classifier rows
+  $\mathsf{RealUnaryStreamClassifier}(s,s)$,
+  $\mathsf{RealUnaryStreamClassifier}(t,s)$, and
+  $\mathsf{RealUnaryStreamClassifier}(s,u)$ are available.
+  \item At every certified unary observation $n$, the endpoint carrier rows
+  $\mathsf{RatHistoryCarrier}(s(n))$ and
+  $\mathsf{RatHistoryCarrier}(t(n))$ are available.
+  \item The transported stream-name classifier
+  $\mathsf{RatStreamNameClassifier}(s',t')$ is available.
+  \item For sealed $\RealUp$ candidates exposing $s$ and $t$, whose seal records
+  $\mathsf{RealUnaryStreamClassifier}(s,t)$ as the stream comparison row, the
+  RealUp seal exports the row required by
+  \autoref{def:real-classifier-specification}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The constant-stream clause is exactly
+\autoref{thm:regseqrat-constant-stream-spine}. It turns any
+$\mathsf{RatHistoryCarrier}(d)$ into the carried constant stream, its reflexive
+unary stream classifier, and the constant regularity ledger.
+
+For the stability clauses, apply
+\autoref{thm:regseqrat-stream-classifier-stability-spine} to $s,t,u,s',t'$,
+the three carried-stream rows, the two displayed classifier rows, and the two
+pointwise $\hsame$ transports. This gives the reflexive, symmetric, and
+transitive $\mathsf{RealUnaryStreamClassifier}$ rows, the endpoint
+$\RatUp$ carrier rows at every certified unary observation, and the transported
+$\mathsf{RatStreamNameClassifier}(s',t')$ row.
+
+Finally, apply
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine} to any sealed
+$\RealUp$ candidates exposing $s$ and $t$ with the recorded stream comparison.
+The seal consumer repacks that same comparison as the RealUp classifier export.
+
+All rows are obtained by projection, pointwise $\hsame$ transport, and repacking
+of the listed certificate data. No quotient, completion, or host equality
+principle is used.
+\end{proof}
+
+\begin{theorem}[RegSeqRat spine pointwise hsame transport]
+\label{thm:regseqrat-spine-pointwise-hsame-transport}
+Let $s,t,s',t':\Hist\to\Hist$ be rational-observation maps. Suppose $s$ and
+$t$ carry $\RegSeqRat$ stream certificate spines, and suppose the stream
+comparison row $\mathsf{RealUnaryStreamClassifier}(s,t)$ is recorded. If the
+endpoint transports are pointwise over certified unary observations,
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)),
+$$
+then the transported streams $s'$ and $t'$ carry $\RegSeqRat$ stream
+certificate spines and export the transported
+$\mathsf{RatStreamNameClassifier}(s',t')$. Moreover, for sealed $\RealUp$
+candidates exposing $s'$ and $t'$, whose seal records the transported stream
+comparison row, the seal exports the corresponding RealUp observation
+classifier required by \autoref{def:real-classifier-specification}.
+\end{theorem}
+\begin{proof}
+First read the endpoint data from the original spine. The scoped package in
+\autoref{thm:regseqrat-stream-spine-scoped-package} supplies the carrier rows,
+the reflexive, symmetric, and transitive classifier rows, and the dyadic ledger
+entries over certified unary observations.
+
+Next transport the stream-name comparison. Apply
+\autoref{thm:real-unary-streamname-transported-classifier} to the recorded
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row and to the two pointwise
+$\hsame$ transport families. It returns the transported
+$\mathsf{RatStreamNameClassifier}(s',t')$, including the transported endpoint
+carrier rows for $s'$ and $t'$.
+
+These transported carrier rows, together with the original dyadic requests read
+at the same certified unary observations, repack as the $\RegSeqRat$ stream
+certificate spines for $s'$ and $t'$. The construction only changes the
+endpoint histories by the displayed $\hsame$ witnesses; the unary observation
+indices and tolerance ledger are unchanged.
+
+Finally apply
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine} to sealed $\RealUp$
+candidates exposing $s'$ and $t'$ with the transported stream comparison row.
+The seal consumer exports exactly the RealUp observation classifier named by
+\autoref{def:real-classifier-specification}.
+\end{proof}
