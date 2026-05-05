@@ -216,3 +216,142 @@ $$
 $$
 This is exactly the finite conservation-accounting row from \autoref{def:networkflow-finite-flow-cut-data}.
 \end{proof}
+
+\begin{definition}[Residual-cut augmenting-path exhaustion certificate]
+\label{def:networkflow-residual-cut-augmenting-exhaustion-certificate}
+Fix the finite $\NetworkFlowUp$ setup of \autoref{def:networkflow-finite-flow-cut-data}: a directed $\GraphUp$ carrier $G$, a unary capacity assignment $u$, carried vertices $s,t$, and a feasible $s$-$t$ flow $F$ with edge-flow assignment $f_F$. A residual-cut augmenting-path exhaustion certificate $\Xi$ for $F$ consists of a finite $s$-$t$ cut record $C_\Xi$ in $G$, written
+$$
+\mathsf{ResCut}_{F,u}(\Xi):=C_\Xi,
+$$
+and the following residual boundary rows. For each $i:\mathsf{Pos}(C_\Xi^{+})$, write
+$$
+U_{\Xi,i}:=u(\mathsf{entry}_{C_\Xi^{+}}(i)),
+\qquad
+E_{\Xi,i}:=f_F(\mathsf{entry}_{C_\Xi^{+}}(i)).
+$$
+Then
+$$
+U_{\Xi,i}
+\preceq_{\NatUp}
+E_{\Xi,i}.
+$$
+There is also a named backward residual history $B_\Xi$ with
+$$
+B_\Xi:=\mathsf{CutBack}_{G,C_\Xi}(f_F),
+\qquad
+B_\Xi\hsame\emp.
+$$
+The first row is the finite-spine saturation of every forward edge of the induced residual cut. The second row is the finite-spine absence of backward flow across that cut.
+\end{definition}
+
+\begin{lemma}[Empty backward accounting reflects cut flow below value]
+\label{lem:networkflow-empty-backward-accounting-cut-flow-below-value}
+Let $G$ be a directed $\GraphUp$ carrier, let $u$ be a unary capacity assignment, let $F$ be a feasible finite $\NetworkFlowUp$ $s$-$t$ flow over $u$ with edge-flow assignment $f_F$, and let $C$ be a finite $s$-$t$ cut record in $G$. Write
+$$
+B_C:=\mathsf{CutBack}_{G,C}(f_F),
+\qquad
+X_C:=\mathsf{CutForw}_{G,C}(f_F),
+\qquad
+V_F:=\mathsf{FlowValue}(F).
+$$
+If
+$$
+B_C\hsame\emp,
+$$
+then
+$$
+X_C
+\preceq_{\NatUp}
+V_F.
+$$
+\end{lemma}
+\begin{proof}
+Unpack \autoref{def:networkflow-finite-flow-cut-data} for the chosen cut $C$. The feasibility data supply histories $B_{F,C}$ and $X_{F,C}$ with
+$$
+B_{F,C}=B_C,
+\qquad
+X_{F,C}=X_C,
+$$
+and with the accounting row
+$$
+\Cont(V_F,B_{F,C},X_{F,C}).
+$$
+The displayed backward-empty hypothesis and the identification row for $B_{F,C}$ give $B_{F,C}\hsame\emp$. The identification row for $X_{F,C}$ gives $X_{F,C}\hsame X_C$.
+
+Transport the accounting row along these endpoint classifications using \autoref{thm:cont-hsame-transport}. This gives
+$$
+\Cont(V_F,\emp,X_C).
+$$
+The right-unit clause of \autoref{thm:continuation-unit-laws} identifies the result with the source, so
+$$
+X_C\hsame V_F.
+$$
+Applying \autoref{thm:preorder-prefix-le-of-hsame} to this history-sameness gives the displayed $\NatUp$ prefix comparison.
+\end{proof}
+
+\begin{theorem}[Network-flow max-flow min-cut equality from residual exhaustion]
+\label{thm:networkflow-maxflow-mincut-equality-from-residual-exhaustion}
+Let $G$ be a directed $\GraphUp$ carrier, let $u$ be a unary capacity assignment, let $s,t$ be carried vertices, and let $F$ be a feasible finite $\NetworkFlowUp$ $s$-$t$ flow over $u$ with edge-flow assignment $f_F$. If $\Xi$ is a residual-cut augmenting-path exhaustion certificate for $F$, write
+$$
+C_\Xi:=\mathsf{ResCut}_{F,u}(\Xi),
+\qquad
+V_F:=\mathsf{FlowValue}(F),
+\qquad
+K_\Xi:=\mathsf{CutCap}_{G,u}(C_\Xi).
+$$
+Then the value of $F$ is $\NatUp$-classified equal to the capacity of the residual cut induced by $\Xi$:
+$$
+V_F\hsame K_\Xi.
+$$
+Moreover, the equality is supported by the two prefix comparisons
+$$
+V_F
+\preceq_{\NatUp}
+K_\Xi
+\qquad\text{and}\qquad
+K_\Xi
+\preceq_{\NatUp}
+V_F.
+$$
+\end{theorem}
+\begin{proof}
+Use the displayed names and put
+$$
+X_\Xi:=\mathsf{CutForw}_{G,C_\Xi}(f_F).
+$$
+The comparison from flow value to cut capacity is exactly \autoref{thm:networkflow-weak-duality-cuts} applied to the feasible flow $F$ and the finite cut record $C_\Xi$:
+$$
+V_F\preceq_{\NatUp}K_\Xi.
+$$
+
+Unpack \autoref{def:networkflow-residual-cut-augmenting-exhaustion-certificate}. Its forward saturation row gives, for every $i:\mathsf{Pos}(C_\Xi^{+})$, with $U_{\Xi,i}$ and $E_{\Xi,i}$ as named there,
+$$
+U_{\Xi,i}
+\preceq_{\NatUp}
+E_{\Xi,i}.
+$$
+Apply \autoref{lem:networkflow-unary-finite-fold-monotonicity} to the finite spine $C_\Xi^{+}$ with assignments $u$ and $f_F$. By the definitions of $K_\Xi$ and $X_\Xi$ in \autoref{def:networkflow-finite-flow-cut-data}, this yields
+$$
+K_\Xi
+\preceq_{\NatUp}
+X_\Xi.
+$$
+The backward-empty row of the certificate and \autoref{lem:networkflow-empty-backward-accounting-cut-flow-below-value} give
+$$
+X_\Xi
+\preceq_{\NatUp}
+V_F.
+$$
+Transitivity of the concrete unary prefix preorder from \autoref{thm:preorder-prefix-transitivity} composes these two comparisons and gives
+$$
+K_\Xi
+\preceq_{\NatUp}
+V_F.
+$$
+
+The two displayed prefix comparisons now face in opposite directions. Applying \autoref{thm:preorder-prefix-le-antisymm-hsame} gives
+$$
+V_F\hsame K_\Xi.
+$$
+Both endpoints are unary: the source is the flow-value witness of feasibility, and the target is the finite unary fold defining cut capacity. Therefore \autoref{def:unary-classifier-specification} reads this history-sameness as the claimed $\NatUp$ classification equality.
+\end{proof}
