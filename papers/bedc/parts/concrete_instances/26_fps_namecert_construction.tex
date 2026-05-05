@@ -528,3 +528,102 @@ $$
 F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\odot_{\mathrm{fps}}F.
 $$
 \end{proof}
+
+\begin{theorem}[FPS Cauchy product distributes over FPS addition]
+\label{thm:fps-cauchy-product-distributes-over-fps-addition}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive fold $\mathsf{fold}_{+,R}$. Let the $\FormalPowerSeriesUp(R)$ interface use the pointwise classifier $\sim_{\mathrm{fps}}$ of \autoref{def:fps-classifier-specification}, pointwise addition from \autoref{def:fps-pointwise-addition-coefficient}, and the Cauchy coefficient spine of \autoref{def:fps-cauchy-coefficient-spine} read over these $\RingUp$ operations. For carried coefficient sequences $F,G,H:\NatUp\to R$, the displayed products and sums are carried and
+$$
+F\odot_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)
+\sim_{\mathrm{fps}}
+(F\odot_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}(F\odot_{\mathrm{fps}}H)
+$$
+and
+$$
+(F\oplus_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H
+\sim_{\mathrm{fps}}
+(F\odot_{\mathrm{fps}}H)\oplus_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H).
+$$
+Equivalently, for every unary coefficient index $n:\NatUp$,
+$$
+(F\odot_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H))_n
+\sim_R
+((F\odot_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}(F\odot_{\mathrm{fps}}H))_n
+$$
+and
+$$
+((F\oplus_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H)_n
+\sim_R
+((F\odot_{\mathrm{fps}}H)\oplus_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H))_n.
+$$
+\end{theorem}
+\begin{proof}
+The carrying clauses follow from the addition and Cauchy-product closure rows in \autoref{def:fps-stability-certificate}. By the pointwise classifier of \autoref{def:fps-classifier-specification}, it remains to compare the scalar coefficient endpoints at an arbitrary index.
+
+Fix $n:\NatUp$. For the first comparison, set
+$$
+x_n:=\mathsf{CauchySp}_n(F,G),
+\qquad
+y_n:=\mathsf{CauchySp}_n(F,H).
+$$
+Both finite spines are indexed by the same split spine $\mathsf{Split}(n)$ from \autoref{def:fps-cauchy-coefficient-spine}. For each split $(i,j)$ in that spine, pointwise addition gives $(G\oplus_{\mathrm{fps}}H)_j=G_j+_RH_j$. Multiplication congruence and scalar left distributivity from \autoref{def:ring-stability-certificate} give
+$$
+F_i\cdot_R(G\oplus_{\mathrm{fps}}H)_j
+\sim_R
+(F_i\cdot_RG_j)+_R(F_i\cdot_RH_j).
+$$
+The matching split order assembles these scalar witnesses, using \autoref{def:list-classifier-specification}, into
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{CauchySp}_n(F,G\oplus_{\mathrm{fps}}H),x_n+_Ry_n\bigr).
+$$
+Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} yields
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F,G\oplus_{\mathrm{fps}}H))
+\sim_R
+\mathsf{fold}_{+,R}(x_n+_Ry_n).
+$$
+By \autoref{lem:finite-additive-fold-splits-pointwise-sums},
+$$
+\mathsf{fold}_{+,R}(x_n+_Ry_n)
+\sim_R
+\mathsf{fold}_{+,R}(x_n)+_R\mathsf{fold}_{+,R}(y_n).
+$$
+Classifier transitivity composes these two comparisons. Unfolding the Cauchy coefficient rule in \autoref{def:fps-cauchy-coefficient-spine} and the pointwise addition rule in \autoref{def:fps-pointwise-addition-coefficient} identifies the composed endpoint comparison with
+$$
+(F\odot_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H))_n
+\sim_R
+((F\odot_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}(F\odot_{\mathrm{fps}}H))_n.
+$$
+
+For the second comparison, set
+$$
+u_n:=\mathsf{CauchySp}_n(F,H),
+\qquad
+v_n:=\mathsf{CauchySp}_n(G,H).
+$$
+Again both spines use the same split spine $\mathsf{Split}(n)$. For each split $(i,j)$, pointwise addition gives $(F\oplus_{\mathrm{fps}}G)_i=F_i+_RG_i$. Multiplication congruence and scalar right distributivity from \autoref{def:ring-stability-certificate} give
+$$
+(F\oplus_{\mathrm{fps}}G)_i\cdot_RH_j
+\sim_R
+(F_i\cdot_RH_j)+_R(G_i\cdot_RH_j).
+$$
+Thus
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{CauchySp}_n(F\oplus_{\mathrm{fps}}G,H),u_n+_Rv_n\bigr)
+$$
+holds. The fold congruence theorem \autoref{thm:finite-additive-fold-congruence-coefficient-lists} and the fold-splitting lemma \autoref{lem:finite-additive-fold-splits-pointwise-sums} classify
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F\oplus_{\mathrm{fps}}G,H))
+\sim_R
+\mathsf{fold}_{+,R}(u_n)+_R\mathsf{fold}_{+,R}(v_n).
+$$
+Unfolding \autoref{def:fps-cauchy-coefficient-spine} and \autoref{def:fps-pointwise-addition-coefficient} identifies this scalar comparison with
+$$
+((F\oplus_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H)_n
+\sim_R
+((F\odot_{\mathrm{fps}}H)\oplus_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H))_n.
+$$
+
+Since $n$ was arbitrary in both calculations, \autoref{def:fps-classifier-specification} packages the coefficientwise scalar comparisons as the two displayed $\FormalPowerSeriesUp$ classifier judgments.
+\end{proof}
