@@ -126,6 +126,15 @@ def TensorProductSingletonFactor (left right tensor : BHist) : Prop :=
   ModuleSingletonCarrier left ∧ ModuleSingletonCarrier right ∧
     ModuleSingletonCarrier tensor ∧ Cont left right tensor
 
+theorem TensorProductSingletonFactor_classifier_uniqueness {left right tensor tensor' : BHist} :
+    TensorProductSingletonFactor left right tensor ->
+      TensorProductSingletonFactor left right tensor' ->
+        hsame tensor tensor' ∧ Cont left right tensor ∧ Cont left right tensor' := by
+  intro leftFactor rightFactor
+  have leftCont : Cont left right tensor := leftFactor.right.right.right
+  have rightCont : Cont left right tensor' := rightFactor.right.right.right
+  exact And.intro (cont_deterministic leftCont rightCont) (And.intro leftCont rightCont)
+
 theorem TensorProductSingletonCarrier_factor_witness {tensor : BHist} :
     TensorProductSingletonCarrier tensor ->
       Exists (fun left : BHist => Exists (fun right : BHist =>
