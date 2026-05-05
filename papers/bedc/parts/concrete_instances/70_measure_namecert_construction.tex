@@ -556,3 +556,121 @@ event and countable-sum rows, $\ProbSpaceUp$ uses the empty and disjoint-union
 rows, and $\FunctionalAnalysisUp$ uses the $\RealUp$ value classifier and
 additive compatibility rows.
 \end{proof}
+
+\begin{definition}[Concrete zero BHist measure surface]
+\label{def:measure-zero-bhist-surface}
+The concrete zero $\mathsf{BHist}$ measure surface is the following
+$\MeasureUp$ carrier instance over the BEDC history substrate. Its carrier row is
+$$
+\mathsf{ZeroMeasureCode}(h)\Longleftrightarrow \hsame(h,\emp).
+$$
+Its carrier classifier is
+$$
+h\sim_0 k \Longleftrightarrow \hsame(h,k).
+$$
+The displayed event inventory contains exactly the singleton empty-event row:
+an event presentation is measurable precisely when its visible
+$\mathsf{BHist}$ event code is classified with $\emp$. The measure endpoint is
+the constant $\RealUp$ zero endpoint,
+$$
+\mu_0(E):=0_R,
+$$
+for every displayed measurable event $E$. The countable-sum endpoint for every
+measurable sequence is also the constant endpoint $0_R$.
+
+The only ambient rows used by this surface are $\mathsf{BHist}$,
+$\hsame$, the classifier and zero row of $\NameCert_{\RealUp}$, and the
+additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} for zero, addition
+congruence, and the additive zero laws.
+\end{definition}
+
+\begin{theorem}[Zero BHist measure carrier-classifier stability]
+\label{thm:measure-zero-bhist-carrier-classifier-stability}
+The concrete zero surface of
+\autoref{def:measure-zero-bhist-surface} satisfies the carrier transport,
+event-row transport, and endpoint transport rows required by the $\MeasureUp$
+carrier classifier. If $\mathsf{ZeroMeasureCode}(h)$ and $h\sim_0 k$, then
+$\mathsf{ZeroMeasureCode}(k)$. If $E$ is a displayed measurable event over
+$h$ and $E'$ is transported along the same $\hsame$ comparison, then $E'$ is
+again the singleton empty-event row over $k$. The endpoint comparison is
+$$
+\mu_0(E)\sim_R\mu_0(E').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the carrier row. The assumption
+$\mathsf{ZeroMeasureCode}(h)$ identifies $h$ with $\emp$, while $h\sim_0 k$
+is exactly an $\hsame(h,k)$ comparison. Symmetry and transitivity of
+$\hsame$ identify $k$ with $\emp$, so the transported carrier row is again
+$\mathsf{ZeroMeasureCode}(k)$.
+
+For event-row transport, the only displayed measurable row is the empty-event
+row. Transporting an empty event presentation along an $\hsame$ comparison
+therefore has only one possible visible target row: the same empty-event row
+read in the $k$-fiber. No quotient of events or external set equality is used.
+
+For endpoint transport, both endpoint projections reduce by definition to
+$0_R$. The reflexive classifier row of $\NameCert_{\RealUp}$ classifies
+$0_R$ with itself, giving $\mu_0(E)\sim_R\mu_0(E')$.
+\end{proof}
+
+\begin{theorem}[Zero BHist measure sigma-additivity]
+\label{thm:measure-zero-bhist-sigma-additivity}
+For the concrete zero surface of
+\autoref{def:measure-zero-bhist-surface}, every displayed pairwise-disjoint
+measurable sequence $E_\bullet$ has countable union classified with the same
+singleton empty-event row, and the measure comparison is
+$$
+\mu_0\left(\bigcup_{n:\mathbb{N}}E_n\right)\sim_R
+\sum_{n=0}^{\infty}\mu_0(E_n).
+$$
+Here the countable-sum endpoint on the right is the constant endpoint $0_R$.
+The head-tail readback for this endpoint is classified by the additive
+$\AbGroupUp$ zero laws.
+\end{theorem}
+\begin{proof}
+Every displayed measurable term in the zero surface is the empty-event row.
+Thus each $E_n$ is classified with $\emp$, and the visible countable union of
+the displayed sequence is again classified with $\emp$. The pairwise
+disjointness premise adds no extra branch, because the only event row on either
+side of an intersection is empty.
+
+The measure endpoint of the union is $0_R$ by definition. Each summand
+$\mu_0(E_n)$ is also $0_R$, and the countable-sum endpoint selected by the
+surface is the constant $0_R$. Reflexivity of the $\RealUp$ classifier supplied
+by $\NameCert_{\RealUp}$ therefore gives the displayed sigma-additivity
+comparison.
+
+It remains to read the head-tail row. The head endpoint is $0_R$, and the tail
+endpoint is again $0_R$. The additive $\AbGroupUp$ row classifies
+$0_R+0_R$ with $0_R$, and classifier symmetry gives the required comparison
+between the constant sum endpoint and its head-tail expression.
+\end{proof}
+
+\begin{theorem}[Zero BHist MeasureUp NameCert package]
+\label{thm:measure-zero-bhist-namecert-package}
+The concrete zero surface of
+\autoref{def:measure-zero-bhist-surface}, together with
+\autoref{thm:measure-zero-bhist-carrier-classifier-stability} and
+\autoref{thm:measure-zero-bhist-sigma-additivity}, forms a concrete
+$\MeasureUp$ NameCert obligation package by the packaging theorem
+\autoref{thm:measure-namecert-obligation-package}.
+\end{theorem}
+\begin{proof}
+Project the concrete surface rows. The carrier row is
+$\mathsf{ZeroMeasureCode}$, the classifier row is $\sim_0$, the measurable-event
+inventory is the singleton empty-event row, the measure endpoint is the constant
+$0_R$ map, and the countable-sum endpoint is the constant $0_R$ row.
+
+The carrier-classifier theorem supplies the transport fields required by the
+package: carried histories move along $\hsame$, measurable rows remain the
+empty-event row, and endpoints compare by the reflexive $\RealUp$ zero
+classifier. The sigma-additivity theorem supplies the countable-union row and
+the head-tail readback row, with additive compatibility read from the
+$\AbGroupUp$ zero laws.
+
+These are exactly the rows consumed by
+\autoref{thm:measure-namecert-obligation-package}. Repacking them through that
+theorem gives a concrete $\MeasureUp$ obligation package whose visible carrier
+is the zero $\mathsf{BHist}$ surface.
+\end{proof}
