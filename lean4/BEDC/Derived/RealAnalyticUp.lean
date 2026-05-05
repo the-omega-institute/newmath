@@ -28,6 +28,10 @@ def RealAnalyticExpPart (x n S : BHist) : Prop :=
   ComplexHistoryCarrier x ∧
     ComplexPartSum x (fun m : BHist => append x m) n S ∧ UnaryHistory n
 
+def RealAnalyticExp (x bound modulus y : BHist) : Prop :=
+  ComplexHistoryCarrier x ∧ UnaryHistory bound ∧ UnaryHistory modulus ∧
+    exists n S : BHist, UnaryHistory n ∧ RealAnalyticExpPart x n S ∧ Cont S modulus y
+
 theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist} :
     ComplexPartSum zero c n S -> UnaryHistory n := by
