@@ -650,6 +650,33 @@ and
 exactness predicate $Q(D,E,u_D,u_E,z_D,z_E)$; standard bridge the constant
 RatUp-to-RealUp stream bridge; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real constant appended-tail bridge common-head full denominator-tail package exactness]
+\label{thm:real-constant-appended-tail-bridge-common-head-full-denominator-tail-package-exactness}
+For histories $left,d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation
+maps $r,q:\Hist\to\Hist$, use the same definitions of $D$, $E$, the bridge
+rows $A,B,U,C$, and the common-head package $Q(D,E,u_D,u_E,z_D,z_E)$ as in
+\autoref{thm:real-constant-appended-tail-bridge-common-head-full-denominator-tail-package}.
+If $\hsame(tail_D,tail_E)$, then the common-head full denominator-tail package
+is exact for the four bridge rows:
+$$
+Q(D,E,u_D,u_E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C.
+$$
+\end{theorem}
+\begin{proof}
+Assume $Q(D,E,u_D,u_E,z_D,z_E)$. Project its appended-tail denominator package
+$P(D,E,z_D,z_E)$, where the denominator heads are $left\cdot d$ and
+$left\cdot e$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness}
+to obtain $A\land B\land U\land C$.
+
+Conversely assume $\hsame(tail_D,tail_E)$ and $A\land B\land U\land C$.
+Project the row $A$ from the conjunction. Apply
+\autoref{thm:real-constant-appended-tail-bridge-common-head-full-denominator-tail-package}
+under the tail agreement; its first projection has type
+$A\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E)$. The projected row $A$ supplies the
+premise, so $Q(D,E,u_D,u_E,z_D,z_E)$ holds.
+\end{proof}
+
 \begin{theorem}[Real constant appended-tail bridge single-row full denominator-tail exactness]
 \label{thm:real-constant-appended-tail-bridge-single-row-full-denominator-tail-exactness}
 For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
