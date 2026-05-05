@@ -79,3 +79,52 @@ theorem:
 \autoref{thm:real-unary-streamname-pointwise-denominator-coverage}. Exactness:
 the three-way equivalence. Standard bridge: finite rational observation windows
 for RegSeqRat/RealUp. Status: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RegSeqRat finite-window dyadic observation coverage]
+\label{thm:regseqrat-finite-window-dyadic-observation-coverage}
+For observation maps $s,t:\Hist\to\Hist$, histories $a,w,k:\Hist$, and
+RegSeqRat stream certificate spines for $s$ and $t$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{UnaryHistory}(a),\quad
+\mathsf{UnaryHistory}(w),\quad
+\mathsf{UnaryOffsetLe}(k,w).
+$$
+Let $n=\mathsf{append}(a,k)$. Then the selected bounded observation supplies
+the finite RealUp window and the dyadic endpoint rows:
+$$
+\begin{array}{l}
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)\land
+\mathsf{RatHistoryClassifier}(s(n),t(n))\land\\
+\mathsf{DyadicRatCoreObservationRow}(s(n))\land
+\mathsf{DyadicRatCoreObservationRow}(t(n)).
+\end{array}
+$$
+Here $\mathsf{DyadicRatCoreObservationRow}$ is the package described in
+\autoref{def:dyadic-rat-core-observation-row}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-unary-streamname-finite-window-coverage} to the two
+carrier rows, the displayed StreamNameUp classifier, and the unary anchor and
+bound. This constructs
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$.
+
+Project the window at the selected offset $k$ by
+\autoref{lem:real-unary-stream-window-endpoint-projection}. The witness
+$\mathsf{UnaryOffsetLe}(k,w)$ supplies the bounded row, so the selected
+observation $n=\mathsf{append}(a,k)$ carries
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Unfolding the offset witness gives $\mathsf{UnaryHistory}(k)$. Unary append
+closure with $\mathsf{UnaryHistory}(a)$ gives
+$\mathsf{UnaryHistory}(n)$, the certified observation index needed by the two
+RegSeqRat spines.
+
+Apply \autoref{thm:regseqrat-dyadic-observation-coverage} to the spine for
+$s$ at $n$, and apply the same theorem to the spine for $t$ at $n$. These two
+applications supply the DyadicRatCore observation rows for $s(n)$ and $t(n)$.
+Together with the selected classifier and the finite window, these are exactly
+the displayed package.
+\end{proof}
