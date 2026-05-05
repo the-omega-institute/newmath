@@ -22,6 +22,27 @@ the one-step continuation rule.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_iff}
 
+\begin{theorem}[Metric distance witness left e1 result depth addition]
+\label{thm:metric-distance-witness-left-e1-result-depth-add}
+For histories $x,y,d$, every visible-result distance witness
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+$$
+descends the metric depth identity to the visible tails:
+$$
+\mathsf{MetricDistanceDepth}(d)
+=
+\mathsf{MetricDistanceDepth}(x)+\mathsf{MetricDistanceDepth}(y).
+$$
+\end{theorem}
+\begin{proof}
+Apply metric-distance depth addition to the displayed witness. The resulting
+identity has a visible constructor on the source side and on the result side.
+Normalize the natural-number expression with successor addition, then cancel
+the shared successor.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_depth\_add}
+
 \begin{theorem}[Metric distance witness left e1 result empty target iff]
 \label{thm:metric-distance-witness-left-e1-result-empty-target-iff}
 For histories $x,y,d$, a metric distance witness from $\Eone(x)$ to target
@@ -94,6 +115,36 @@ $y'=\Eone(y_1)$ and $y_0\hsame y_1$; unary and continuation transport
 carry the tail metric witness to the displayed target tail.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_hsame\_target}
+
+\begin{theorem}[Metric distance witness left e1 result hsame result]
+\label{thm:metric-distance-witness-left-e1-result-hsame-result}
+For histories $x,y,d,d'$, a distance witness from a visible left endpoint to a
+visible result keeps the same empty-or-visible target alternative after
+transporting the displayed result tail along $\hsame(d,d')$:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longrightarrow
+\hsame(d,d')
+\Longrightarrow
+\bigl(y=\emp\land\mathsf{UnaryHistory}(x)\land\hsame(x,d')\bigr)
+\lor
+\bigl(\exists y_1:\mathsf{BHist}.\;
+y=\Eone(y_1)\land
+\mathsf{MetricDistanceWitness}(\Eone(x),y_1,d')\bigr).
+$$
+\end{theorem}
+\begin{proof}
+First lift the result-tail agreement through the visible constructor, obtaining
+$\hsame(\Eone(d),\Eone(d'))$. The metric hsame transport field is then applied
+with reflexive source and target transports, so the original witness repacks as
+$\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d'))$.
+
+Apply Theorem~\ref{thm:metric-distance-witness-left-e1-result-iff} to this
+transported witness. The empty target branch gives
+$\mathsf{UnaryHistory}(x)$ and $\hsame(x,d')$; the visible target branch gives a
+tail $y_1$ with $y=\Eone(y_1)$ and
+$\mathsf{MetricDistanceWitness}(\Eone(x),y_1,d')$.
+\end{proof}
 
 \begin{theorem}[Metric distance witness left e1 result tail determinism]
 \label{thm:metric-distance-witness-left-e1-result-tail-deterministic}
