@@ -175,6 +175,8 @@ cd papers/bedc && make
 ```
 The Makefile runs `pdflatex -interaction=nonstopmode main.tex` twice. Both passes must exit 0 and produce a clean `main.pdf`. If LaTeX reports `Undefined control sequence`, `Missing $ inserted`, `\label{...} multiply defined`, or `reference ... on page ... undefined`, fix the cause before continuing — do NOT bury warnings.
 
+**Iterative debugging shortcut:** while diagnosing a build break or fixing a single edit, you may use `cd papers/bedc && make check` (single `pdflatex -draftmode` pass, ~half the wall time) to confirm syntax / undefined-macro / missing-input errors. `make check` does NOT resolve `\autoref` / TOC / page numbers, so once edits stabilise re-run the full `make` before continuing to Step 3 — drift audit and `\leanchecked` resolution depend on a clean two-pass build.
+
 If a target turns out to be unproveable, compile-breaking, purely explanatory, or lacking a concrete downstream use, REVERT it (`git checkout -- <files>`) and continue with the remaining targets. A round that lands 1 high-value target is acceptable; a round that lands 0 high-value targets should output an explicit failure message and skip Step 6.
 
 ## Step 3: Drift audit
