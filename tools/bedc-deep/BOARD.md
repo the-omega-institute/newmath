@@ -5783,3 +5783,85 @@ Rationale:
 
 ---
 
+### B-224 - Lattice meet two-sided monotonicity from directional bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice meet two-sided monotonicity from directional bounds |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a LatticeUp setup with inherited preorder transitivity and antisymmetry plus the directional meet bound-characterization fields, if $a \le_C a'$ and $b \le_C b'$, then $a \wedge b \le_C a' \wedge b'$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_directed_associativity.tex`
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Belongs to concrete_instances/lattice. This is the canonical 'lattice operations are monotone' lemma in every lattice-theory text (Davey-Priestley, Introduction to Lattices and Order, §2.8; Birkhoff, Lattice Theory, ch I §6 (P5)). Searched papers/bedc/parts/concrete_instances/lattice/ and 30_lattice_*.tex with grep for 'monoton|isoton|le.*meet|meet.*le' — zero matches. Existing chapter has idempotence, absorption, commutativity, opposite absorption, bound uniqueness, but never two-sided monotonicity. Proof uses only fields already present in def:lattice-stability-certificate: meet lower-left, meet lower-right, preorder transitivity (inherited from 27_preorder), and meet greatestness. Concretely: $a \wedge b \le_C a$ then transitivity to $a'$ gives $a \wedge b \le_C a'$; symmetrically $a \wedge b \le_C b'$; meet greatestness packages these as $a \wedge b \le_C a' \wedge b'$. Closes in 1 round — 10 lines like lem:lattice-meet-absorbs-smaller-ordered-endpoint at 30_lattice_directed_associativity.tex:53.
+
+---
+
+
+### B-225 - Lattice join two-sided monotonicity from directional bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice join two-sided monotonicity from directional bounds |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a LatticeUp setup with inherited preorder transitivity and antisymmetry plus the directional join bound-characterization fields, if $a \le_C a'$ and $b \le_C b'$, then $a \vee b \le_C a' \vee b'$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_directed_associativity.tex`
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Dual of the meet candidate above. Same textbook reference (Davey-Priestley §2.8 P5; Birkhoff ch I §6). Grep across lattice/ and 30_lattice_*.tex for 'join.*monoton|join.*le.*join' returns zero. The proof uses join upper-left, join upper-right, preorder transitivity, and join leastness, all present in def:lattice-stability-certificate. Step-by-step: $a \le_C a'$ composes with join upper-left $a' \le_C a' \vee b'$ to give $a \le_C a' \vee b'$; symmetrically $b \le_C a' \vee b'$; join leastness gives $a \vee b \le_C a' \vee b'$. 1-round closure, isomorphic to the meet companion.
+
+---
+
+
+### B-226 - Lattice meet monotonicity in the second argument
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice meet monotonicity in the second argument |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a LatticeUp setup with inherited preorder reflexivity and transitivity plus the directional meet bound-characterization fields, for every $c$, if $b \le_C b'$, then $c \wedge b \le_C c \wedge b'$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_directed_associativity.tex`
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Single-argument refinement of the two-sided monotonicity: a separate stepping stone because Davey-Priestley and Roman, Lattices and Ordered Sets ch 2 both prove it as the building block (one-sided $\Rightarrow$ two-sided by composition). It is also the form most often cited downstream by chain arguments. Grep on 'meet.*monoton|monoton.*meet' across the chapter returns zero. Proof is 4 lines: $c \wedge b \le_C c$ (lower-left), $c \wedge b \le_C b \le_C b'$ (lower-right + transitivity), then meet greatestness with witness $c \wedge b$ and operands $c, b'$ gives $c \wedge b \le_C c \wedge b'$. Closes in 1 round; serves as the canonical lemma later for spectrum/Galois constructions.
+
+---
+
