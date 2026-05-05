@@ -35,6 +35,40 @@ def Gamma (s z : BHist) : Prop :=
     GammaDomainCore s apart ∧ UnaryHistory apart ∧
       GammaWeierstrassCauchyModulus s apart P N ∧ ComplexLimit P N z M
 
+theorem Gamma_recurrence_limit_pair_carriers {s z w : BHist} :
+    Gamma s z -> Gamma (append s (BHist.e1 BHist.Empty)) w ->
+      (exists apart : BHist,
+        GammaDomainCore s apart ∧ UnaryHistory apart ∧ ComplexHistoryCarrier z) ∧
+        (exists apartShift : BHist,
+          GammaDomainCore (append s (BHist.e1 BHist.Empty)) apartShift ∧
+            UnaryHistory apartShift ∧ ComplexHistoryCarrier w) := by
+  intro gammaS gammaShift
+  cases gammaS with
+  | intro apart gammaRest =>
+      cases gammaRest with
+      | intro P gammaRest =>
+          cases gammaRest with
+          | intro N gammaRest =>
+              cases gammaRest with
+              | intro M gammaData =>
+                  cases gammaShift with
+                  | intro apartShift shiftedRest =>
+                      cases shiftedRest with
+                      | intro PShift shiftedRest =>
+                          cases shiftedRest with
+                          | intro NShift shiftedRest =>
+                              cases shiftedRest with
+                              | intro MShift shiftedData =>
+                                  exact And.intro
+                                    (Exists.intro apart
+                                      (And.intro gammaData.left
+                                        (And.intro gammaData.right.left
+                                          gammaData.right.right.right.right.left)))
+                                    (Exists.intro apartShift
+                                      (And.intro shiftedData.left
+                                        (And.intro shiftedData.right.left
+                                          shiftedData.right.right.right.right.left)))
+
 theorem Gamma_holomorphic_limit_certificate_readback {s z : BHist} :
     Gamma s z ->
       ∃ apart : BHist, ∃ P : BHist -> BHist, ∃ N : BHist -> BHist,
