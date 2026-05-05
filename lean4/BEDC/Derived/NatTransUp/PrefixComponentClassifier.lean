@@ -1,4 +1,5 @@
 import BEDC.Derived.NatTransUp
+import BEDC.Derived.NatTransUp.EmptyComponentOpposite
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.FKernel.NameCert
 
@@ -206,6 +207,32 @@ theorem NatTransPrefixComponentClassifier_zero_headed_component_absurd
                       exact unary_no_zero_extension
                         classified.right.right.right.right.left.right.right.left
 
+theorem NatTransPrefixComponentClassifier_empty_component_opposite_closed
+    {p q a eta theta : BHist} :
+    NatTransPrefixComponentClassifier p q a eta theta ->
+      hsame eta BHist.Empty -> hsame theta BHist.Empty ->
+        NatTransPrefixComponentClassifier q p a eta theta := by
+  intro classified etaEmpty thetaEmpty
+  have etaComponent : NatTransPrefixComponentCarrier p q a eta :=
+    And.intro classified.left
+      (And.intro classified.right.left
+        (And.intro classified.right.right.left classified.right.right.right.left))
+  have thetaComponent : NatTransPrefixComponentCarrier p q a theta :=
+    And.intro classified.left
+      (And.intro classified.right.left
+        (And.intro classified.right.right.left classified.right.right.right.right.left))
+  have etaOpposite : NatTransPrefixComponentCarrier q p a eta :=
+    NatTransPrefixComponentCarrier_empty_component_opposite_closed etaComponent etaEmpty
+  have thetaOpposite : NatTransPrefixComponentCarrier q p a theta :=
+    NatTransPrefixComponentCarrier_empty_component_opposite_closed thetaComponent thetaEmpty
+  exact
+    And.intro etaOpposite.left
+      (And.intro etaOpposite.right.left
+        (And.intro etaOpposite.right.right.left
+          (And.intro etaOpposite.right.right.right
+            (And.intro thetaOpposite.right.right.right
+              classified.right.right.right.right.right))))
+
 theorem NatTransPrefixComponentClassifier_vert_comp_zero_headed_component_absurd
     {p q r a eta eta' theta theta' c c' : BHist} :
     NatTransPrefixComponentClassifier p q a eta eta' ->
@@ -274,6 +301,47 @@ theorem NatTransPrefixComponentClassifier_vert_comp_zero_headed_component_absurd
                                         NatTransPrefixComponentClassifier_zero_headed_component_absurd
                                           composite
                                           (Or.inr (Or.inr (Or.inr (Or.inr c'Zero))))
+
+theorem NatTransPrefixComponentClassifier_vert_comp_empty_result_readback
+    {p q r a eta eta' theta theta' : BHist} :
+    NatTransPrefixComponentClassifier p q a eta eta' ->
+      NatTransPrefixComponentClassifier q r a theta theta' ->
+        Cont eta theta BHist.Empty ->
+          NatTransPrefixComponentClassifier p q a eta BHist.Empty ∧
+            NatTransPrefixComponentClassifier q r a theta BHist.Empty ∧
+              hsame p q ∧ hsame q r := by
+  intro left right comp
+  have leftCarrier : NatTransPrefixComponentCarrier p q a eta :=
+    And.intro left.left
+      (And.intro left.right.left
+        (And.intro left.right.right.left left.right.right.right.left))
+  have rightCarrier : NatTransPrefixComponentCarrier q r a theta :=
+    And.intro right.left
+      (And.intro right.right.left
+        (And.intro right.right.right.left right.right.right.right.left))
+  have emptyComponents :=
+    NatTransPrefixComponentCarrier_vert_comp_empty_component_readback
+      leftCarrier rightCarrier comp
+  have emptyData :=
+    Iff.mp (NatTransPrefixComponentCarrier_vert_comp_empty_iff leftCarrier rightCarrier) comp
+  have leftClassified :
+      NatTransPrefixComponentClassifier p q a eta BHist.Empty :=
+    And.intro left.left
+      (And.intro left.right.left
+        (And.intro left.right.right.left
+          (And.intro left.right.right.right.left
+            (And.intro emptyComponents.left.right.right.right emptyData.left))))
+  have rightClassified :
+      NatTransPrefixComponentClassifier q r a theta BHist.Empty :=
+    And.intro right.left
+      (And.intro right.right.left
+        (And.intro right.right.right.left
+          (And.intro right.right.right.right.left
+            (And.intro emptyComponents.right.left.right.right.right
+              emptyData.right.left))))
+  exact And.intro leftClassified
+    (And.intro rightClassified
+      (And.intro emptyComponents.right.right.left emptyComponents.right.right.right))
 
 theorem NatTransPrefixComponentClassifier_vert_comp_empty_result_components
     {p q r a eta eta' theta theta' c c' : BHist} :

@@ -89,6 +89,32 @@ result with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_continuation\_empty\_result\_factors\_iff}
 
+\begin{theorem}[Matrix singleton multiplication continuation result carrier]
+\label{thm:matrix-singleton-mul-continuation-result-carrier}
+For histories $M,N,h,r:\mathsf{BHist}$, any continuation from $h$ through the
+singleton multiplication endpoint has singleton result exactly when the source
+and both multiplication inputs are singleton carriers:
+$$
+\ContR(h,M\odot N,r)
+\Longrightarrow
+\bigl(A_{\emp}(r)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(M)\land A_{\emp}(N)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, transport the displayed continuation result along
+$r\hsame\emp$ and invert the empty continuation result. The target endpoint is
+$M\odot N$, which unfolds to $\mathsf{append}(M,N)$, so append empty-result
+inversion supplies the two multiplication input carriers. The same continuation
+inversion supplies the source carrier.
+
+Conversely, the source carrier and the two multiplication input carriers
+collapse the target endpoint to $\emp$. Continuation respect for $\hsame$
+compares the displayed continuation with the right-unit continuation at
+$\emp$, giving the singleton result carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonMulContinuation\_result\_carrier\_iff}
+
 \begin{theorem}[Matrix singleton add-mul visible-left continuation result nonempty]
 \label{thm:matrix-singleton-addmul-visible-left-continuation-result-nonempty}
 For any histories $m,N,R$, if the shared left input of the displayed singleton

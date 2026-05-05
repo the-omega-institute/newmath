@@ -136,6 +136,26 @@ assemble the restricted singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_append\_context\_classifier\_iff}
 
+\begin{theorem}[Singleton linear-map evaluation context pair classifier]
+\label{thm:linearmap-singleton-classifier-eval-context-pair-iff}
+For histories $p,q,f,x,g,y:\mathsf{BHist}$,
+$$
+\mathsf{LinearMapSingletonClassifier}
+  (\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),
+   \mathsf{append}(q,\mathsf{LinearMapSingletonEval}(g,y)))
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(p)\land
+\mathsf{LinearMapSingletonCarrier}(q).
+$$
+\end{theorem}
+\begin{proof}
+Both singleton evaluation tails are definitionally $\emp$. The append-pair
+classifier exactness splits the two appended endpoints into four singleton
+carrier obligations; the two evaluation-tail obligations are closed by
+reflexivity at $\emp$, leaving exactly the two context carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_eval\_context\_pair\_iff}
+
 \begin{theorem}[Singleton evaluation continuation classifier]
 \label{thm:linearmap-singleton-eval-continuation-classifier}
 For histories $f,x,y,r,h:\mathsf{BHist}$, if

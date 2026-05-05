@@ -1,4 +1,4 @@
-import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.PrimeShape
 
 namespace BEDC.Derived.PrimeUp
 
@@ -27,5 +27,23 @@ theorem PrimeFactorization_cons_head_divides {p n : BHist} {ps : List BHist} :
             | intro tailProduct tailData =>
                 exact Exists.intro tailProduct
                   (And.intro (NatMul_right_unary tailData.right) tailData.right)
+
+theorem PrimeFactorizationProduct_result_not_empty {ps : List BHist} {n : BHist} :
+    PrimeFactorizationProduct ps n -> hsame n BHist.Empty -> False := by
+  intro product
+  induction ps generalizing n with
+  | nil =>
+      intro sameEmpty
+      exact not_hsame_e1_empty (hsame_trans (hsame_symm product) sameEmpty)
+  | cons p ps ih =>
+      intro sameEmpty
+      cases product with
+      | intro pPrime tailData =>
+          cases tailData with
+          | intro tailProduct productTail =>
+              exact NatMul_nonempty_factors_result_not_empty
+                (NatPrime_empty_absurd pPrime)
+                (fun tailEmpty => ih productTail.left tailEmpty)
+                productTail.right sameEmpty
 
 end BEDC.Derived.PrimeUp
