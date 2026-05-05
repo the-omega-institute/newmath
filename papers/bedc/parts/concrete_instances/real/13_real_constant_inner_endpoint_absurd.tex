@@ -139,6 +139,7 @@ $\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))$, and apply the
 right orientation of
 \autoref{thm:real-constant-history-classifier-e1-empty-endpoint-absurd}.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_transported\_inner\_empty\_endpoint\_absurd}
 
 \begin{theorem}[Real constant classifier appended e-zero tail absurd]
 \label{thm:real-constant-history-classifier-e1-append-e0-tail-absurd}
@@ -289,6 +290,59 @@ core theorem
 exactness impossibility of empty or zero-headed sealed denominators;
 downstream bridge RealUp constant-name denominator sanity; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real constant classifier transported complete malformed inner denominator exclusions]
+\label{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}
+For histories $h,k,t_h,t_k,p_h,z_h,p_k,z_k:\mathsf{BHist}$, a constant
+real-history classifier excludes every transported malformed sealed
+denominator boundary: inner empty, inner e-zero, and appended e-zero
+denominators on either endpoint:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Eone(\emp))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(k,\Eone(\emp))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Eone(\Ezero(t_h)))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(k,\Eone(\Ezero(t_k)))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Eone(p_h\cdot\Ezero(z_h)))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(k,\Eone(p_k\cdot\Ezero(z_k)))\Longrightarrow\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Project the first two displayed rows from
+\autoref{thm:real-constant-history-classifier-transported-malformed-inner-denominator-absurd}.
+These give the left and right transported inner-empty exclusions.
+
+Project the two e-zero rows from
+\autoref{thm:real-constant-history-classifier-transported-inner-e0-endpoint-absurd},
+using $t_h$ for the left endpoint and $t_k$ for the right endpoint.
+
+Finally project the last two displayed rows from
+\autoref{thm:real-constant-history-classifier-transported-malformed-inner-denominator-absurd}.
+Together the empty rows, the e-zero rows, and the appended e-zero rows have
+exactly the six displayed orientations.
+\end{proof}
+
+The ten-field fit is: traditional target RealUp constant malformed
+sealed-denominator exclusion; BEDC source RealUp constant classifier plus RatUp
+denominator shape; carrier $\mathsf{BHist}$; classifier
+$\mathsf{RealConstantHistoryClassifier}$; stability endpoint transport; ledger
+empty, e-zero, and appended e-zero inner shapes; core theorem
+\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd};
+exactness full transported malformed sealed-denominator impossibility;
+standard bridge constant rational real names; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real constant classifier full malformed endpoint exclusion package]
 \label{thm:real-constant-history-classifier-full-malformed-endpoint-exclusion-package}

@@ -530,23 +530,14 @@ theorem ModuleParitySmul_epsilon_empty_result_iff {m : BHist} :
       (hsame m BHist.Empty -> False) := by
   cases m with
   | Empty =>
-      constructor
-      · intro sameResult _sameInput
-        exact not_hsame_e1_empty sameResult
-      · intro nonempty
-        exact False.elim (nonempty (hsame_refl BHist.Empty))
+      exact Iff.intro (fun sameResult _sameInput => not_hsame_e1_empty sameResult)
+        (fun nonempty => False.elim (nonempty (hsame_refl BHist.Empty)))
   | e0 h =>
-      constructor
-      · intro _sameResult sameInput
-        exact not_hsame_e0_empty sameInput
-      · intro _nonempty
-        exact hsame_refl BHist.Empty
+      exact Iff.intro (fun _sameResult sameInput => not_hsame_e0_empty sameInput)
+        (fun _nonempty => hsame_refl BHist.Empty)
   | e1 h =>
-      constructor
-      · intro _sameResult sameInput
-        exact not_hsame_e1_empty sameInput
-      · intro _nonempty
-        exact hsame_refl BHist.Empty
+      exact Iff.intro (fun _sameResult sameInput => not_hsame_e1_empty sameInput)
+        (fun _nonempty => hsame_refl BHist.Empty)
 
 theorem ModuleParitySmul_epsilon_result_partition {m : BHist} :
     (hsame m BHist.Empty ∧ hsame (ModuleParitySmul ModuleParityEps m) ModuleParityOne) ∨
@@ -561,6 +552,13 @@ theorem ModuleParitySmul_epsilon_result_partition {m : BHist} :
   | e1 h =>
       exact Or.inr (And.intro (fun sameEmpty => not_hsame_e1_empty sameEmpty)
         (hsame_refl BHist.Empty))
+
+theorem ModuleParitySmul_epsilon_visible_one_input_empty_iff {m : BHist} :
+    hsame (ModuleParitySmul ModuleParityEps m) ModuleParityOne ↔ hsame m BHist.Empty := by
+  cases m with
+  | Empty => exact Iff.intro (fun _sameResult => hsame_refl BHist.Empty) (fun _sameInput => hsame_refl ModuleParityOne)
+  | e0 h => exact Iff.intro (fun sameResult => False.elim (not_hsame_emp_e1 sameResult)) (fun sameInput => False.elim (not_hsame_e0_empty sameInput))
+  | e1 h => exact Iff.intro (fun sameResult => False.elim (not_hsame_emp_e1 sameResult)) (fun sameInput => False.elim (not_hsame_e1_empty sameInput))
 
 theorem ModuleParitySmul_e0_empty_no_fixed_point {m : BHist} :
     hsame (ModuleParitySmul (BHist.e0 BHist.Empty) m) m -> False := by

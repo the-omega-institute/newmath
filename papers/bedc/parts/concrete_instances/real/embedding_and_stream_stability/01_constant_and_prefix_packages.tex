@@ -237,6 +237,39 @@ $\mathsf{UnaryHistory}(x(n))$, $\mathsf{UnaryHistory}(y(n))$, and the two
 nonemptiness implications, so the seven displayed rows repack directly.
 \end{proof}
 
+\begin{theorem}[Real stream prefix add-left endpoint positive unary nonempty package]
+\label{thm:real-stream-prefix-add-left-endpoint-positive-unary-nonempty-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$, if
+the left stream has unary histories pointwise and the prefix through $m+n$ is
+classified,
+$$
+\forall i,\ \mathsf{UnaryHistory}(x(i)),
+\qquad
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n),
+$$
+then the selected endpoints carry positive unary denominator witnesses, unary
+history rows, and empty-boundary exclusions:
+$$
+\begin{array}{l}
+\mathsf{PositiveUnaryDenominator}(x(n))\land
+\mathsf{PositiveUnaryDenominator}(y(n))\land
+\mathsf{UnaryHistory}(x(n))\land
+\mathsf{UnaryHistory}(y(n))\land\\
+(\hsame(x(n),\emp)\to\mathsf{False})\land
+(\hsame(y(n),\emp)\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Use add-left prefix extraction to descend from the displayed $m+n$ prefix to
+the selected $n$ prefix, retaining the unary row at $x(n)$. Endpoint projection
+reads the rational-history classifier at $(x(n),y(n))$. RatUp positivity gives
+positive unary denominator witnesses for both endpoints, and positive
+denominator readback supplies the two unary rows and the two empty-boundary
+exclusions.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_add\_left\_endpoint\_positive\_unary\_nonempty\_package}
+
 \begin{theorem}[Real stream prefix truncated endpoint e-zero absurdity]
 \label{thm:real-stream-prefix-truncated-endpoint-e0-absurd}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices $m,n$, and
