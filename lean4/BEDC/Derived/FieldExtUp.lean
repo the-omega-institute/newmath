@@ -2,6 +2,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Cont.Units
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.RatContinuation
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
 
@@ -362,5 +363,22 @@ theorem FieldExtSingletonOperation_readback_exactness {r m : BHist} :
         (And.intro fieldEmptyRow
           (And.intro fieldEmptyRow
             (And.intro vecEmptyRow fieldEmptyRow)))))
+
+theorem FieldExtRatReflexive_vector_space_package :
+    SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
+        RatHistoryClassifier ∧
+      (forall {r r' m m' out out' : BHist}, RatHistoryClassifier r r' ->
+        RatHistoryClassifier m m' -> Cont r m out -> Cont r' m' out' ->
+          RatHistoryClassifier out out') ∧
+      (forall {r m out : BHist}, RatHistoryCarrier r -> RatHistoryCarrier m ->
+        Cont r m out -> RatHistoryCarrier out) := by
+  constructor
+  · exact rat_history_semantic_name_certificate
+  · constructor
+    · intro r r' m m' out out' classifiedR classifiedM leftContinuation rightContinuation
+      exact field_rat_denominator_continuation_binary_classifier_congruence
+        classifiedR classifiedM leftContinuation rightContinuation
+    · intro r m out carrierR carrierM continuation
+      exact RatHistoryCarrier_continuation_closed carrierR carrierM continuation
 
 end BEDC.Derived.FieldExtUp
