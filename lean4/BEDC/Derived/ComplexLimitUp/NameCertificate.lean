@@ -43,7 +43,54 @@ theorem complex_limit_name_certificate :
             | intro M limit =>
                 exact Exists.intro s
                   (Exists.intro N
-                    (Exists.intro M
+                  (Exists.intro M
                       (ComplexLimit_hsame_transport sameHK limit)))
+
+theorem complex_limit_semantic_name_certificate :
+    SemanticNameCert
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h k : BHist =>
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N h M) ∧
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N k M) ∧ hsame h k) := by
+  cases complex_history_semantic_name_certificate.core.carrier_inhabited with
+  | intro z carrierZ =>
+      exact {
+        core := {
+          carrier_inhabited :=
+            Exists.intro z
+              (Exists.intro (fun _ : BHist => z)
+                (Exists.intro (fun _ : BHist => BHist.Empty)
+                  (Exists.intro (fun _ : BHist => BHist.Empty)
+                    (ComplexLimit_constant carrierZ))))
+          equiv_refl := by
+            intro h source
+            exact And.intro source (And.intro source (hsame_refl h))
+          equiv_symm := by
+            intro h k classified
+            exact And.intro classified.right.left
+              (And.intro classified.left (hsame_symm classified.right.right))
+          equiv_trans := by
+            intro h k r classifiedHK classifiedKR
+            exact And.intro classifiedHK.left
+              (And.intro classifiedKR.right.left
+                (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+          carrier_respects_equiv := by
+            intro h k classified _sourceH
+            exact classified.right.left
+        }
+        pattern_sound := by
+          intro h source
+          exact source
+        ledger_sound := by
+          intro h source
+          exact source
+      }
 
 end BEDC.Derived.ComplexLimitUp
