@@ -5702,3 +5702,166 @@ Concrete single-implication theorem expressible as 'op(op(D)) = D componentwise'
 
 ---
 
+### B-221 - Double-opposite monoid certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Double-opposite monoid certificate data identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $(\mathcal{C},\sim_C,\cdot_C,e_C)$ satisfies the $\MonoidUp$ certificate obligations, then applying the opposite-monoid construction twice yields a $\MonoidUp$ certificate whose carrier, classifier, multiplication, and identity data are componentwise identical to the original.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+
+Rationale:
+Chapter 15 (15_monoid_namecert_construction.tex:549) proves `thm:opposite-monoid-certificate` constructing the opposite monoid, but the chapter does NOT contain the parallel `double-opposite monoid certificate data identity` theorem that is present for poset (28_poset_namecert_construction.tex:435 `thm:double-opposite-poset-certificate-data-identity`), category (36_category_namecert_construction.tex:352, plus involution at :415), functor (functor/certificate_obligations.tex:670), and natural transformation (nattrans/vertical_and_opposite_extras.tex:140). Review category 4 (missing companion result): a coherence statement asserted by parallel pattern in the categorical chapters but never stated for monoid. Closes in 1-2 codex rounds because the proof skeleton is `unfold opposite twice, observe that exchange of inputs composed with itself is identity, copy the field-by-field reduction used in the poset/category proofs`; all required ingredients (opposite-monoid theorem, classifier reflexivity, no kernel rules) are local to chapter 15.
+
+---
+
+
+### B-222 - Limit respects pointwise difference of complex sequences
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Limit respects pointwise difference of complex sequences |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $\mathsf{CplxLim}(s, N_s, z_s, M_s)$ and $\mathsf{CplxLim}(t, N_t, z_t, M_t)$, then $\mathsf{CplxLim}(s\ominus t, N', z_s - z_t, M')$ with explicit pasted modulus $M'(k):=\max(M_s(k+1), M_t(k+1))$, where $\ominus$ is componentwise rational-history subtraction continuation.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/40_complex_limit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/14_complex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+
+Rationale:
+Chapter 40 has `thm:cplx-lim-sum` (line 538), `thm:cplx-lim-scalar` (line 546), `thm:cplx-lim-product` (line 554), and `thm:cplx-lim-unique` (line 320), but a grep for `cplx-lim-(neg|sub|diff|conj|abs|modulus)` returns 0 hits, while the chapter's distance definition itself is built from componentwise difference (line 15: `CplxDist(z,w,D) := CplxMod(z-w, D)`). Review category 4 (missing companion result): the difference operation is the most directly derivable companion to the sum and is more primitive than the product or scalar variants already proved. Closes in 1 round: triangle inequality on $\mathsf{CplxDist}((s\ominus t)(n), z_s - z_t, D)$ decomposes the bound into the sum of $s$- and $t$- bounds at level $k+1$, identical proof skeleton to `thm:cplx-lim-sum` with rational-history subtraction continuation in place of addition continuation.
+
+---
+
+
+### B-223 - Double-opposite lattice certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Double-opposite lattice certificate data identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $(\mathcal{C},\sim_C,\le_C,\wedge_C,\vee_C)$ satisfies the $\LatticeUp$ certificate obligations, then applying the opposite-lattice construction of `lattice/the_certificate.tex` twice yields a $\LatticeUp$ certificate whose order, meet, and join data are componentwise identical to the original.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+`lattice/the_certificate.tex:533-597` constructs the opposite-lattice certificate (swapping meet and join, reversing order), but the parallel `double-opposite lattice certificate data identity` theorem present for poset (28_poset_namecert_construction.tex:435) is missing — grep for `double.*opposite|opposite.*opposite` in lattice/ files returns 0 hits beyond the singular opposite construction. Review category 4 (missing companion result), parallel structure to candidate 1. Closes in 1-2 codex rounds: meet/join order exchange is involutive, classifier and order reverse twice to themselves, and the fielded reduction copies the poset double-opposite proof. The lattice certificate inherits POSet stability fields, so the inherited part already follows from the poset double-opposite theorem already in the paper.
+
+---
+
+### B-224 - Lattice meet two-sided monotonicity from directional bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice meet two-sided monotonicity from directional bounds |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a LatticeUp setup with inherited preorder transitivity and antisymmetry plus the directional meet bound-characterization fields, if $a \le_C a'$ and $b \le_C b'$, then $a \wedge b \le_C a' \wedge b'$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_directed_associativity.tex`
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Belongs to concrete_instances/lattice. This is the canonical 'lattice operations are monotone' lemma in every lattice-theory text (Davey-Priestley, Introduction to Lattices and Order, §2.8; Birkhoff, Lattice Theory, ch I §6 (P5)). Searched papers/bedc/parts/concrete_instances/lattice/ and 30_lattice_*.tex with grep for 'monoton|isoton|le.*meet|meet.*le' — zero matches. Existing chapter has idempotence, absorption, commutativity, opposite absorption, bound uniqueness, but never two-sided monotonicity. Proof uses only fields already present in def:lattice-stability-certificate: meet lower-left, meet lower-right, preorder transitivity (inherited from 27_preorder), and meet greatestness. Concretely: $a \wedge b \le_C a$ then transitivity to $a'$ gives $a \wedge b \le_C a'$; symmetrically $a \wedge b \le_C b'$; meet greatestness packages these as $a \wedge b \le_C a' \wedge b'$. Closes in 1 round — 10 lines like lem:lattice-meet-absorbs-smaller-ordered-endpoint at 30_lattice_directed_associativity.tex:53.
+
+---
+
+
+### B-225 - Lattice join two-sided monotonicity from directional bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice join two-sided monotonicity from directional bounds |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a LatticeUp setup with inherited preorder transitivity and antisymmetry plus the directional join bound-characterization fields, if $a \le_C a'$ and $b \le_C b'$, then $a \vee b \le_C a' \vee b'$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_directed_associativity.tex`
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Dual of the meet candidate above. Same textbook reference (Davey-Priestley §2.8 P5; Birkhoff ch I §6). Grep across lattice/ and 30_lattice_*.tex for 'join.*monoton|join.*le.*join' returns zero. The proof uses join upper-left, join upper-right, preorder transitivity, and join leastness, all present in def:lattice-stability-certificate. Step-by-step: $a \le_C a'$ composes with join upper-left $a' \le_C a' \vee b'$ to give $a \le_C a' \vee b'$; symmetrically $b \le_C a' \vee b'$; join leastness gives $a \vee b \le_C a' \vee b'$. 1-round closure, isomorphic to the meet companion.
+
+---
+
+
+### B-226 - Lattice meet monotonicity in the second argument
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice meet monotonicity in the second argument |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a LatticeUp setup with inherited preorder reflexivity and transitivity plus the directional meet bound-characterization fields, for every $c$, if $b \le_C b'$, then $c \wedge b \le_C c \wedge b'$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_directed_associativity.tex`
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Single-argument refinement of the two-sided monotonicity: a separate stepping stone because Davey-Priestley and Roman, Lattices and Ordered Sets ch 2 both prove it as the building block (one-sided $\Rightarrow$ two-sided by composition). It is also the form most often cited downstream by chain arguments. Grep on 'meet.*monoton|monoton.*meet' across the chapter returns zero. Proof is 4 lines: $c \wedge b \le_C c$ (lower-left), $c \wedge b \le_C b \le_C b'$ (lower-right + transitivity), then meet greatestness with witness $c \wedge b$ and operands $c, b'$ gives $c \wedge b \le_C c \wedge b'$. Closes in 1 round; serves as the canonical lemma later for spectrum/Galois constructions.
+
+---
+
