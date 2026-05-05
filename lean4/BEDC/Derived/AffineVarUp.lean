@@ -11,6 +11,9 @@ def AffineFiniteFamilyZeroLocus (AffPoint : BHist -> Prop)
     Prop :=
   AffPoint x ∧ forall {p : BHist}, InBundle p family -> PolyEvalZero p x
 
+def AffineFiniteFamilyEquationInclusion (F G : ProbeBundle BHist) : Prop :=
+  forall {p : BHist}, InBundle p F -> InBundle p G
+
 theorem AffineFiniteFamilyZeroLocus_intersection_concat {AffPoint : BHist -> Prop}
     {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
     AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero (bundleAppend F G) x <->
@@ -38,6 +41,22 @@ theorem AffineFiniteFamilyZeroLocus_intersection_concat {AffPoint : BHist -> Pro
             exact loci.left.right memberF
         | inr memberG =>
             exact loci.right.right memberG)
+
+theorem AffineFiniteFamilyEquationRows_restrict {PolyEvalZero : BHist -> BHist -> Prop}
+    {F G : ProbeBundle BHist} {x : BHist} :
+    AffineFiniteFamilyEquationInclusion F G ->
+      (forall {p : BHist}, InBundle p G -> PolyEvalZero p x) ->
+        forall {p : BHist}, InBundle p F -> PolyEvalZero p x := by
+  intro incl rows p memberF
+  exact rows (incl memberF)
+
+theorem AffineFiniteFamilyZeroLocus_inclusion_contravariant {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
+    AffineFiniteFamilyEquationInclusion F G ->
+      AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x ->
+        AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x := by
+  intro incl locusG
+  exact And.intro locusG.left (AffineFiniteFamilyEquationRows_restrict incl locusG.right)
 
 theorem AffineFiniteFamilyZeroLocus_inclusion_reverse {AffPoint : BHist -> Prop}
     {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
