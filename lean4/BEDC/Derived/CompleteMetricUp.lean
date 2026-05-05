@@ -12,6 +12,16 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.MetricUp
 open BEDC.Derived.RatUp
 
+def CompleteMetricSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+theorem CompleteMetricSingletonCarrier_empty_distance {x : BHist} :
+    CompleteMetricSingletonCarrier x -> MetricDistanceWitness x BHist.Empty BHist.Empty := by
+  intro carrier
+  exact
+    (MetricDistanceWitness_empty_distance_iff (x := x) (y := BHist.Empty)).mpr
+      (And.intro carrier (hsame_refl BHist.Empty))
+
 def CompleteMetricLimitWitness (X : BHist -> Prop) (s M : BHist -> BHist)
     (limit : BHist) : Prop :=
   X limit ∧

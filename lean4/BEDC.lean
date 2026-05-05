@@ -144,6 +144,7 @@ import BEDC.Derived.ProdUp.ComponentwiseRefinement
 import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProdUp.EmptyLeftComponent
+import BEDC.Derived.ProdUp.EmptySourceExclusion
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
