@@ -41,6 +41,36 @@ theorem CohomologyCocycle_semanticNameCert {d : BHist -> BHist}
       exact source
   }
 
+theorem CohomologyCocycle_predicate_semanticNameCert {d : BHist -> BHist} {axis : BHist}
+    (axisCycle : hsame (d axis) BHist.Empty)
+    (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) :
+    SemanticNameCert (fun h : BHist => hsame (d h) BHist.Empty)
+      (fun h : BHist => hsame (d h) BHist.Empty)
+      (fun h : BHist => hsame (d h) BHist.Empty) hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro axis axisCycle
+      equiv_refl := by
+        intro h _cycle
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same source
+        exact hsame_trans (hsame_symm (dCongr same)) source
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+
 theorem CohomologyCocycle_axis_right_cancel {d : BHist -> BHist} {axis h : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
     hsame (d (append h axis)) BHist.Empty -> hsame (d h) BHist.Empty := by

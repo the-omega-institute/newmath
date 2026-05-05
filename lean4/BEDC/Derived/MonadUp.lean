@@ -1,9 +1,12 @@
 import BEDC.Derived.AdjunctionUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.MonadUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.Derived.AdjunctionUp
 open BEDC.Derived.NatTransUp
 
@@ -171,5 +174,48 @@ theorem MonadAdjunctionEndomorphism_left_triangle_suffix_output_empty_iff
     exact
       cont_respects_hsame leftEmpty suffixEmpty leftSuffix
         (cont_right_unit BHist.Empty)
+
+theorem MonadAdjunctionEndomorphism_semanticNameCert {p a : BHist}
+    (pUnary : UnaryHistory p) (aUnary : UnaryHistory a) :
+    let Carrier : BHist -> Prop :=
+      fun unit : BHist => ∃ counit left right : BHist,
+        AdjunctionUnitCounitCarrier p p a unit counit left right
+    SemanticNameCert Carrier Carrier Carrier hsame := by
+  intro Carrier
+  constructor
+  · constructor
+    · have emptyCarrier :
+          AdjunctionUnitCounitCarrier p p a BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty :=
+        (AdjunctionUnitCounitCarrier_empty_components_iff (p := p) (q := p) (a := a)
+          (left := BHist.Empty) (right := BHist.Empty)).mpr
+          (And.intro pUnary
+            (And.intro pUnary
+              (And.intro aUnary
+                (And.intro (hsame_refl p)
+                  (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))))))
+      exact
+        Exists.intro BHist.Empty
+          (Exists.intro BHist.Empty (Exists.intro BHist.Empty
+            (Exists.intro BHist.Empty emptyCarrier)))
+    · intro unit _carrier
+      exact hsame_refl unit
+    · intro unit unit' sameUnit
+      exact hsame_symm sameUnit
+    · intro unit unit' unit'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro unit unit' sameUnit carrier
+      cases carrier with
+      | intro counit carrierRest =>
+          cases carrierRest with
+          | intro left carrierRest =>
+              cases carrierRest with
+              | intro right displayCarrier =>
+                  cases sameUnit
+                  exact Exists.intro counit (Exists.intro left (Exists.intro right displayCarrier))
+  · intro unit source
+    exact source
+  · intro unit source
+    exact source
 
 end BEDC.Derived.MonadUp

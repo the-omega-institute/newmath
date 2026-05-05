@@ -153,6 +153,7 @@ import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexSeriesUp
+import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.ZetaBasicUp
@@ -512,6 +513,7 @@ import BEDC.Derived.ContinuousUp.GraphChainFactorization
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
 import BEDC.Derived.ContinuousUp.ModulusWitnessPublicReadback
 import BEDC.Derived.ContinuousUp.EmptyMap
+import BEDC.Derived.ContinuousUp.VisibleEmptyMapExactness
 import BEDC.Derived.ContinuousUp.ResultCases
 import BEDC.Derived.ContinuousUp.EmptySource
 import BEDC.Derived.ContinuousUp.EmptyModulus
@@ -557,6 +559,7 @@ import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CompactUp.EmptyFinalReflection
 import BEDC.Derived.CompactUp.NonemptyForward
+import BEDC.Derived.CompactUp.CompletePackage
 import BEDC.Derived.CompactUp.EmptyNet
 import BEDC.Derived.CompactUp.EmptyCenter
 import BEDC.Derived.CompactUp.LeftE1ResultCases

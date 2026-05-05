@@ -164,6 +164,14 @@ theorem AdeleHistoryCarrier_visible_scale_append_not_empty {real p exponent resu
     Iff.mp (PadicPrimeScale_empty_result_iff_empty_exponent scale) resultEmpty
   exact not_hsame_e1_empty exponentEmpty
 
+theorem AdeleHistoryCarrier_visible_scale_append_result_hsame_transport {a a' s : BHist} :
+    AdeleHistoryCarrier a -> (hsame (append a s) BHist.Empty -> False) ->
+      hsame a a' -> hsame (append a' s) BHist.Empty -> False := by
+  intro _carrier sourceNonempty sameAA' targetEmpty
+  have appendSame : hsame (append a s) (append a' s) :=
+    congrArg (fun x => append x s) sameAA'
+  exact sourceNonempty (hsame_trans appendSame targetEmpty)
+
 theorem AdeleHistoryCarrier_e1_real_append_nonempty {realTail p exponent result : BHist} :
     RealConstantHistoryCarrier (BHist.e1 realTail) -> PadicPrimeScale p exponent result ->
       AdeleHistoryCarrier (append (BHist.e1 realTail) result) ∧
