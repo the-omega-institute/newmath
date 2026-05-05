@@ -75,6 +75,20 @@ one-step prefix across that $\HSame$ endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unit\_prefix\_or\_self}
 
+\begin{theorem}[Trial-division unit step yields strict unit prefix]
+\label{thm:trialdiv-bound-unit-strict-prefix-after-cont}
+If $\mathsf{TrialDiv}(b,n)$ and $\Cont(b,\Eone(\emp),b')$, then
+$\Eone(\emp)$ is a strict unary prefix of $b'$.
+\end{theorem}
+\begin{proof}
+The displayed continuation supplies a one-step strict prefix from $b$ to $b'$.
+The bound classification theorem gives either a strict unit prefix of $b$ or
+$b\hsame\Eone(\emp)$. In the strict-prefix branch, compose the previous strict
+prefix with the one-step prefix. In the unit branch, transport the one-step
+strict prefix across the displayed endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unit\_strict\_prefix\_after\_cont}
+
 \begin{theorem}[Trial-division bounds are not empty]
 \label{thm:trial-div-bound-not-empty}
 If \(\mathsf{TrialDiv}(b,n)\), then \(b\) is not \(\emp\).

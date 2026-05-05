@@ -3,7 +3,9 @@ import BEDC.Derived.PrimeUp
 namespace BEDC.Derived.PrimeUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.Derived.NatUp
 
 theorem TrialDiv_bound_unit_or_successor_shape {b n : BHist} :
     TrialDiv b n ->
@@ -21,5 +23,21 @@ theorem TrialDiv_bound_unit_or_successor_shape {b n : BHist} :
       | e1 tail =>
           exact Or.inr
             (Exists.intro tail (And.intro data.left (unary_e1_inversion data.right)))
+
+theorem TrialDiv_bound_unit_strict_prefix_after_cont {b n b' : BHist} :
+    TrialDiv b n -> Cont b (BHist.e1 BHist.Empty) b' ->
+      BEDC.Derived.NatUp.NatUnaryStrictPrefix (BHist.e1 BHist.Empty) b' := by
+  intro trial stepCont
+  have stepStrict : NatUnaryStrictPrefix b b' :=
+    ⟨BHist.e1 BHist.Empty, unary_e1_closed unary_empty, (fun empty => by cases empty),
+      stepCont⟩
+  cases TrialDiv_bound_unit_prefix_or_self trial with
+  | inl previousStrict =>
+      cases NatUnaryStrictPrefix_trans_composite_tail previousStrict stepStrict with
+      | intro _ composite =>
+          exact composite.right.right.right
+  | inr sameUnit =>
+      exact NatUnaryStrictPrefix_cont_hsame_transport (unary_e1_closed unary_empty)
+        (fun empty => by cases empty) stepCont sameUnit (hsame_refl _)
 
 end BEDC.Derived.PrimeUp
