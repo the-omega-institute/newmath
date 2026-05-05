@@ -8,3 +8,66 @@ The quotient-ring interface $\QuotientRingUp$ packages the carrier of cosets of 
 
 \section{The certificate}
 \label{sec:quotientring-certificate}
+
+\begin{definition}[Ideal coset relation for quotient rings]
+\label{def:quotientring-ideal-coset-relation}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ object over $R$, written as a carried predicate $I(x)$. Write $x-_R y$ for $x+_R(-_R y)$. The ideal-coset relation used by the $\QuotientRingUp$ carrier is
+$$
+a\equiv_I a'\Longleftrightarrow C(a)\land C(a')\land I(a-_R a').
+$$
+\end{definition}
+
+\begin{theorem}[QuotientRing multiplication descends to ideal cosets]
+\label{thm:quotientring-multiplication-descends-to-cosets}
+Let $R$ carry a $\RingUp$ certificate and let $I$ be an $\IdealUp$ object over $R$. Assume the ideal certificate supplies additive closure, classifier transport, and two-sided absorption by every carried ring endpoint, as required by \autoref{sec:ideal-certificate}. For carried endpoints $a,a',b,b'$, if
+$$
+a\equiv_I a'\qquad\text{and}\qquad b\equiv_I b',
+$$
+then
+$$
+(a\cdot_R b)\equiv_I(a'\cdot_R b').
+$$
+Thus the multiplication operation on the $\QuotientRingUp$ coset carrier is representative-independent.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:quotientring-ideal-coset-relation}. Set $d_a:=a-_R a'$ and $d_b:=b-_R b'$. The two coset hypotheses give $I(d_a)$ and $I(d_b)$, together with the carrier witnesses for $a,a',b,b'$.
+
+By the right absorption field of the $\IdealUp$ certificate, $I(d_a)$ and the carrier witness for $b$ give
+$$
+I(d_a\cdot_R b).
+$$
+By the left absorption field, $I(d_b)$ and the carrier witness for $a'$ give
+$$
+I(a'\cdot_R d_b).
+$$
+Additive closure in the ideal therefore gives
+$$
+I((d_a\cdot_R b)+_R(a'\cdot_R d_b)).
+$$
+
+It remains to identify this ideal element with the difference of the two products. By \autoref{thm:ring-right-distributivity-over-subtraction},
+$$
+d_a\cdot_R b\sim_R(a\cdot_R b)-_R(a'\cdot_R b),
+$$
+and by \autoref{thm:ring-left-distributivity-over-subtraction},
+$$
+a'\cdot_R d_b\sim_R(a'\cdot_R b)-_R(a'\cdot_R b').
+$$
+Addition congruence transports the sum to
+$$
+((a\cdot_R b)-_R(a'\cdot_R b))+_R((a'\cdot_R b)-_R(a'\cdot_R b')).
+$$
+The additive abelian-group rows of \autoref{def:ring-stability-certificate}, with the right inverse law from \autoref{thm:ring-add-right-inverse} and the right zero law from \autoref{thm:ring-add-right-zero}, cancel the middle pair $-_R(a'\cdot_R b)$ and $a'\cdot_R b$. Hence
+$$
+(d_a\cdot_R b)+_R(a'\cdot_R d_b)\sim_R(a\cdot_R b)-_R(a'\cdot_R b').
+$$
+Classifier transport for the ideal moves the displayed membership across this classifier edge, giving
+$$
+I((a\cdot_R b)-_R(a'\cdot_R b')).
+$$
+Multiplication closure in the $\RingUp$ certificate supplies the carrier witnesses for $a\cdot_R b$ and $a'\cdot_R b'$. These two carrier witnesses together with the displayed ideal-membership statement are exactly
+$$
+(a\cdot_R b)\equiv_I(a'\cdot_R b')
+$$
+by \autoref{def:quotientring-ideal-coset-relation}.
+\end{proof}
