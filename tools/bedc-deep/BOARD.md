@@ -8814,3 +8814,81 @@ MeasureUp is still very lightly populated: papers/bedc/parts/concrete_instances/
 
 ---
 
+### B-338 - Totally bounded subcarrier inherits the same net
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Totally bounded subcarrier inherits the same net |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the TotallyBoundedProbeBundleNet setup, if Y is a classifier-stable subcarrier of X and X has an epsilon-net bundle P at tolerance epsilon, then restricting the coverage rows to Y makes the same P an epsilon-net for Y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+Belongs in concrete_instances/105_totallybounded_namecert_construction.tex. This is the standard metric-space theorem that every subset of a totally bounded set is totally bounded. The chapter defines TotallyBoundedProbeBundleNet at papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex:75 and proves coverage stability and tolerance weakening at lines 102 and 183, but focused search found no subset/subcarrier theorem. It closes in 1 round: for y in Y, use the inclusion Y -> X, apply the existing X coverage row, and reuse the same probe bundle.
+
+---
+
+
+### B-339 - Finite union of totally bounded ProbeBundle nets
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Finite union of totally bounded ProbeBundle nets |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If X and Y each carry a TotallyBoundedProbeBundleNet at the same tolerance epsilon, then the union carrier X union Y carries a TotallyBoundedProbeBundleNet whose probe bundle is bundleAppend of the two nets.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `lean4/BEDC/FKernel/Bundle.lean`
+
+Rationale:
+Belongs in concrete_instances/105_totallybounded_namecert_construction.tex. Finite unions of totally bounded metric subspaces are a standard introductory metric theorem. The net object is already explicit at papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex:75, and the Lean bundle side already has bundleAppend and append membership support in lean4/BEDC/FKernel/Bundle.lean:12 and lean4/BEDC/FKernel/Bundle.lean:174. Focused search found no totally bounded union theorem. It closes in 1-3 rounds by case-splitting on union membership and injecting the selected center through the left or right side of bundleAppend.
+
+---
+
+
+### B-340 - Finite-spine concatenation enumerates finite-set union
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Finite-spine concatenation enumerates finite-set union |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If finite spines xs and ys enumerate finite predicates U and V over the same SetUp classifier, then the concatenated spine enumerates the union predicate z such that U(z) or V(z).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Belongs in concrete_instances/90_finset_namecert_construction.tex. Closure of finite sets under union is a first textbook theorem about finite sets. The chapter introduces enumeration membership at papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex:12 and the FinSet enumeration carrier at line 104, then proves duplicate and permutation invariance at lines 150 and 192, but focused search found no union or concatenation enumeration theorem. It should close in 1-3 rounds from the existing finite-spine and ListUp infrastructure by the usual append-membership split.
+
+---
+
