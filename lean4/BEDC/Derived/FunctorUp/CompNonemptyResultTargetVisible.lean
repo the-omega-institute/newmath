@@ -146,4 +146,33 @@ theorem FunctorPrefixHomCarrier_comp_assoc_nonempty_result_target_component_e1_c
     FunctorPrefixHomCarrier_comp_nonempty_result_target_component_e1_cases
       prefixedLeft prefixedThird visibleRel
 
+theorem FunctorPrefixHomCarrier_comp_nonempty_result_source_component_e1_cases
+    {p a b c f g k : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g -> Cont f g (BHist.e1 k) ->
+        (hsame (append p a) BHist.Empty -> False) ->
+          (∃ p0 : BHist, p = BHist.e1 p0 ∧ UnaryHistory p0) ∨
+            (∃ a0 : BHist, a = BHist.e1 a0 ∧ UnaryHistory a0) := by
+  intro left right comp sourceNonempty
+  have visibleSource :=
+    FunctorPrefixHomCarrier_comp_nonempty_result_source_visible left right comp sourceNonempty
+  cases visibleSource with
+  | intro s sourceData =>
+      cases sourceData with
+      | intro _r data =>
+          have sourceEq : append p a = BHist.e1 s := data.left
+          have appendSourceNonempty : hsame (append p a) BHist.Empty -> False := by
+            intro sourceEmpty
+            exact not_hsame_e1_empty (sourceEq.symm.trans sourceEmpty)
+          have componentCases :=
+            Iff.mp (append_nonempty_iff (h := p) (k := a)) appendSourceNonempty
+          cases componentCases with
+          | inl prefixNonempty =>
+              have prefixUnary : UnaryHistory p := unary_append_left_factor left.left
+              exact Or.inl (unary_history_nonempty_e1_tail prefixUnary prefixNonempty)
+          | inr sourceComponentNonempty =>
+              have sourceComponentUnary : UnaryHistory a := unary_append_right_factor left.left
+              exact Or.inr
+                (unary_history_nonempty_e1_tail sourceComponentUnary sourceComponentNonempty)
+
 end BEDC.Derived.FunctorUp

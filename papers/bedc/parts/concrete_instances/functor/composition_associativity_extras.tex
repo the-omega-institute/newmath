@@ -395,6 +395,28 @@ one-headed component.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_result\_target\_component\_e1\_cases}
 
+\begin{theorem}[Prefix functor visible composite source component cases]
+\label{thm:functor-prefix-hom-carrier-comp-nonempty-result-source-component-e1-cases}
+For prefixed hom-carriers from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,b)$ and from $\mathsf{append}(p,b)$ to
+$\mathsf{append}(p,c)$, if the composite continuation displays the visible
+result $\Eone(k)$ and the source $\mathsf{append}(p,a)$ is not empty, then the
+prefix component or the source-tail component is one-headed:
+$$
+\exists p_0.\ p=\Eone(p_0)\land\mathsf{UnaryHistory}(p_0)
+\quad\vee\quad
+\exists a_0.\ a=\Eone(a_0)\land\mathsf{UnaryHistory}(a_0).
+$$
+\end{theorem}
+\begin{proof}
+Composite source visibility displays $\mathsf{append}(p,a)$ as a one-headed
+history. Therefore the append source is nonempty. BEDC append non-emptiness
+splits this into nonempty $p$ or nonempty $a$, while unary append
+factorization extracts the corresponding carrier. Unary nonempty readback then
+gives the one-headed component.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_result\_source\_component\_e1\_cases}
+
 \begin{theorem}[Prefix functor one-headed morphism-target component exactness]
 \label{thm:functor-prefix-hom-carrier-e1-morphism-target-components-iff}
 For histories $p,a,k,r$, a hom-carrier from the prefixed source
@@ -671,3 +693,27 @@ right suffix $a$ from those two endpoint equalities gives the stated prefix
 equalities.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_prefix\_triangle\_cycle\_empty\_components}
+
+\begin{theorem}[Functor prefix composite endpoint cycle boundary components]
+\label{thm:functor-prefix-hom-carrier-comp-endpoint-cycle-boundary-components}
+For histories $p,a,b,c,f,g,fg$, suppose the prefixed hom-carriers
+$$
+\mathsf{append}(p,a)\xrightarrow{f}\mathsf{append}(p,b)
+\xrightarrow{g}\mathsf{append}(p,c)
+$$
+compose through $\ContR(f,g,fg)$ and the unprefixed endpoints satisfy
+$\hsame(a,c)$. Then both component morphisms and their composite are
+$\hsame$ to $\emp$, and the unprefixed boundary collapses:
+$$
+\hsame(f,\emp)\land \hsame(g,\emp)\land \hsame(fg,\emp)\land
+\hsame(a,b)\land\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Apply the category hom-carrier composite endpoint-cycle boundary theorem to
+the prefixed endpoints. The hypothesis $\hsame(a,c)$ gives
+$\hsame(\mathsf{append}(p,a),\mathsf{append}(p,c))$, and the category theorem
+returns the empty morphism data together with prefixed endpoint equalities.
+Cancelling the common left prefix $p$ gives $\hsame(a,b)$ and $\hsame(b,c)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_endpoint\_cycle\_boundary\_components}
