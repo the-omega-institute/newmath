@@ -4,6 +4,7 @@ namespace BEDC.Derived.ComplexDifferentiabilityUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.ComplexDiffUp
@@ -229,8 +230,36 @@ theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
                                         (classifier quotientAtSource) sameFpGp))))
                           exact And.intro diff'
                             (Exists.intro h
-                              (Exists.intro gp
-                                (And.intro quotient'
-                                  (And.intro continuation' (hsame_refl gp)))))
+                            (Exists.intro gp
+                              (And.intro quotient'
+                                (And.intro continuation' (hsame_refl gp)))))
+
+theorem complex_diff_semantic_name_certificate {f z fp : BHist} :
+    CplxDiffAt f z fp ->
+      SemanticNameCert (CplxDiffAt f z) (CplxDiffAt f z) (CplxDiffAt f z) hsame := by
+  intro diff
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro fp diff
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same carrier
+        exact (CplxDiffAt_hsame_transport_witness carrier (hsame_refl z) same).left
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 end BEDC.Derived.ComplexDifferentiabilityUp
