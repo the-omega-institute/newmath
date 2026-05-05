@@ -162,6 +162,7 @@ import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
 import BEDC.Derived.ComplexSeriesUp.CauchyProductResultUnary
 import BEDC.Derived.ComplexSeriesUp.NameCertificate
+import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
@@ -190,6 +191,7 @@ import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
+import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
