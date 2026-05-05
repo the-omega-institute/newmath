@@ -523,6 +523,7 @@ import BEDC.Derived.ContinuousUp.TerminalModulusExtension
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousUp.TerminalModulusExtension
+import BEDC.Derived.ContinuousUp.VisibleTerminalModulusExtension
 import BEDC.Derived.ContinuousUp.VisibleGraphModulusDeterminism
 import BEDC.Derived.ContinuousUp.TripleComposition
 import BEDC.Derived.ContinuousMapUp
