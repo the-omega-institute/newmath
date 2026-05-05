@@ -154,6 +154,7 @@ import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
+import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.ZetaBasicUp
@@ -214,6 +215,7 @@ import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
+import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
@@ -274,6 +276,7 @@ import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
+import BEDC.Derived.S1Up.SemanticFieldAssembly
 import BEDC.Derived.S1Up.SemanticCertificateFields
 import BEDC.Derived.S1Up.FieldAssembly
 import BEDC.Derived.S1Up.SemanticFields
@@ -491,6 +494,8 @@ import BEDC.Derived.MatrixUp.SemanticCertificate
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
+import BEDC.Derived.PolynomialUp.RawAdd
+import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
@@ -555,6 +560,7 @@ import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.ContinuousMapUp.EmptyIdentityDistance
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
+import BEDC.Derived.CompactUp.ImageLedger
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
 import BEDC.Derived.CompactUp.EndpointIff

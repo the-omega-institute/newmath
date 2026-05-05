@@ -446,4 +446,33 @@ theorem dirichlet_semantic_name_certificate {term : BHist -> BHist -> BHist}
       exact source
   }
 
+theorem dirichlet_name_certificate {term : BHist -> BHist -> BHist} {s S : BHist}
+    (conv : DirichletSeriesConv term s S) :
+    NameCert (DirichletSeriesConv term s) hsame := by
+  exact {
+    carrier_inhabited := Exists.intro S conv
+    equiv_refl := by
+      intro h _carrier
+      exact hsame_refl h
+    equiv_symm := by
+      intro h k same
+      exact hsame_symm same
+    equiv_trans := by
+      intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    carrier_respects_equiv := by
+      intro h k same carrier
+      cases carrier with
+      | intro ps rest =>
+          cases rest with
+          | intro N rest =>
+              cases rest with
+              | intro M data =>
+                  exact Exists.intro ps
+                    (Exists.intro N
+                      (Exists.intro M
+                        (And.intro data.left
+                          (ComplexLimit_hsame_transport same data.right))))
+  }
+
 end BEDC.Derived.DirichletSeriesUp
