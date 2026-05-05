@@ -368,4 +368,29 @@ theorem MatrixSingletonAddFold_append_continuation_classifier
       (hsame_trans (hsame_symm sameResult) displayedClassifier.right.left)
       (hsame_trans displayedClassifier.right.right sameResult))
 
+theorem MatrixSingletonAddFold_zero_prefix_absorption {xs ys : List BHist} :
+    MatrixSingletonAddFoldSpineCarrier xs ->
+      MatrixSingletonAddFoldSpineCarrier ys ->
+        MatrixSingletonClassifier (MatrixSingletonAddFold (xs ++ ys))
+          (MatrixSingletonAddFold ys) := by
+  intro xsCarrier ysCarrier
+  have combinedCarrier : MatrixSingletonCarrier (MatrixSingletonAddFold (xs ++ ys)) :=
+    Iff.mpr MatrixSingletonAddFold_append_carrier_iff (And.intro xsCarrier ysCarrier)
+  have suffixCarrier : MatrixSingletonCarrier (MatrixSingletonAddFold ys) :=
+    Iff.mpr MatrixSingletonAddFold_carrier_iff ysCarrier
+  have displayedSame :
+      hsame (MatrixSingletonAddFold (xs ++ ys))
+        (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) :=
+    MatrixSingletonAddFold_append_hsame
+  have prefixEmpty : hsame (MatrixSingletonAddFold xs) BHist.Empty :=
+    Iff.mpr MatrixSingletonAddFold_carrier_iff xsCarrier
+  have displayedSuffixSame :
+      hsame (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys))
+        (MatrixSingletonAddFold ys) := by
+    exact Eq.trans
+      (congrArg (fun h : BHist => append h (MatrixSingletonAddFold ys)) prefixEmpty)
+      (append_empty_left (MatrixSingletonAddFold ys))
+  exact And.intro combinedCarrier
+    (And.intro suffixCarrier (hsame_trans displayedSame displayedSuffixSame))
+
 end BEDC.Derived.MatrixUp
