@@ -1,11 +1,13 @@
 import BEDC.Derived.GammaUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexSeriesUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.GammaFunctionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.GammaUp
 open BEDC.Derived.ComplexUp
@@ -15,6 +17,14 @@ open BEDC.Derived.ComplexSeriesUp
 def GammaWeierstrassCauchyModulus
     (s apart : BHist) (P N : BHist -> BHist) : Prop :=
   GammaDomainCore s apart ∧ ComplexRegularSequence P N
+
+theorem GammaWeierstrassCauchyModulus_constant {s apart z : BHist} :
+    GammaDomainCore s apart -> ComplexHistoryCarrier z ->
+      GammaWeierstrassCauchyModulus s apart (fun _ : BHist => z)
+        (fun _ : BHist => BHist.Empty) := by
+  intro domain carrierZ
+  have zUnary : UnaryHistory z := ComplexHistoryCarrier_unary carrierZ
+  exact And.intro domain (ComplexRegularSequence_constant zUnary)
 
 def GammaWeierstrassPart (s apart n p : BHist) : Prop :=
   GammaDomainCore s apart ∧ UnaryHistory n ∧ ComplexHistoryCarrier p ∧
@@ -44,5 +54,34 @@ theorem GammaLimitCertificate_hsame_transport
   intro domain limit
   exact And.intro (GammaDomainCore_hsame_transport sameST domain).left
     (ComplexLimit_sequence_hsame_transport pointwise limit)
+
+theorem gamma_function_semantic_name_certificate {s z : BHist} (gamma : Gamma s z) :
+    SemanticNameCert (fun result : BHist => Gamma s result)
+      (fun result : BHist => Gamma s result)
+      (fun result : BHist => Gamma s result) hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro z gamma
+      equiv_refl := by
+        intro result _source
+        exact hsame_refl result
+      equiv_symm := by
+        intro result result' sameResult
+        exact hsame_symm sameResult
+      equiv_trans := by
+        intro result result' result'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro result result' sameResult source
+        cases sameResult
+        exact source
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
 
 end BEDC.Derived.GammaFunctionUp
