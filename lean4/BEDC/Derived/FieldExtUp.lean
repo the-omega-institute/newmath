@@ -427,4 +427,29 @@ theorem FieldExtSingletonOperation_readback_exactness {r m : BHist} :
           (And.intro fieldEmptyRow
             (And.intro vecEmptyRow fieldEmptyRow)))))
 
+theorem FieldExtSingleton_exact_endpoint_classification {h r m : BHist} :
+    FieldSingletonCarrier h -> FieldSingletonCarrier r -> VecSpaceSingletonCarrier m ->
+      FieldSingletonClassifier (FieldExtSingletonEmbedding h) BHist.Empty ∧
+        FieldSingletonClassifier FieldSingletonZero BHist.Empty ∧
+          FieldSingletonClassifier FieldSingletonOne BHist.Empty ∧
+            FieldSingletonClassifier (FieldSingletonAdd r m) BHist.Empty ∧
+              FieldSingletonClassifier (FieldSingletonNeg r) BHist.Empty ∧
+                FieldSingletonClassifier (FieldSingletonMul r m) BHist.Empty ∧
+                  VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) BHist.Empty := by
+  intro carrierH carrierR carrierM
+  have operationRows := FieldExtSingletonOperation_readback_exactness carrierR carrierM
+  have embeddedCarrier : FieldSingletonCarrier (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact hsame_trans (append_empty_left h) carrierH
+  have embeddedRow : FieldSingletonClassifier (FieldExtSingletonEmbedding h) BHist.Empty :=
+    And.intro embeddedCarrier
+      (And.intro (hsame_refl BHist.Empty) embeddedCarrier)
+  exact And.intro embeddedRow
+    (And.intro operationRows.left
+      (And.intro operationRows.right.left
+        (And.intro operationRows.right.right.left
+          (And.intro operationRows.right.right.right.left
+            (And.intro operationRows.right.right.right.right.left
+              operationRows.right.right.right.right.right.left)))))
+
 end BEDC.Derived.FieldExtUp
