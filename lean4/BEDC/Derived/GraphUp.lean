@@ -146,4 +146,25 @@ theorem GraphCont_namecert_surface :
         intro h k g h' k' g' edge sameH sameK sameG
         exact (GraphContEdge_classifier_transport edge sameH sameK sameG).left))
 
+theorem GraphContEdge_two_step_composition {h k l hk kl : BHist} :
+    GraphContEdge h k hk -> GraphContEdge k l kl ->
+      exists left : BHist, exists right : BHist,
+        GraphContEdge hk l left ∧ GraphContEdge h kl right ∧ hsame left right := by
+  intro hkEdge klEdge
+  have hkUnary : UnaryHistory hk :=
+    unary_cont_closed hkEdge.left hkEdge.right.left hkEdge.right.right
+  have klUnary : UnaryHistory kl :=
+    unary_cont_closed klEdge.left klEdge.right.left klEdge.right.right
+  cases cont_assoc_exists_hsame hkEdge.right.right klEdge.right.right with
+  | intro left leftData =>
+      cases leftData with
+      | intro right data =>
+          exact Exists.intro left
+            (Exists.intro right
+              (And.intro
+                (And.intro hkUnary (And.intro klEdge.right.left data.left))
+                (And.intro
+                  (And.intro hkEdge.left (And.intro klUnary data.right.left))
+                  data.right.right)))
+
 end BEDC.Derived.GraphUp
