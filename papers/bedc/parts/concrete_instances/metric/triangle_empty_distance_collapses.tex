@@ -193,3 +193,45 @@ The second edge supplies the unary carrier for $z$. Apply
 displayed classifier $d_{xyz}\hsame z$ to package the canonical witness from
 $\emp$ to $z$ with displayed distance $d_{xyz}$.
 \end{proof}
+
+\begin{theorem}[Metric triangle two-sided empty witness exactness]
+\label{thm:metric-distance-witness-two-sided-empty-triangle-witness-exactness}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$,
+$\mathsf{MetricDistanceWitness}(y,z,d_{yz})$, and
+$\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$ form a metric triangle and
+both displayed edge distances are history-same to $\emp$, then the outer result
+simultaneously carries every empty-boundary witness row needed by the triangle:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow\\
+\hsame(d_{xy},\emp)\Longrightarrow
+\hsame(d_{yz},\emp)\Longrightarrow\\
+\hsame(d_{xyz},\emp)\land
+\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})\land
+\mathsf{MetricDistanceWitness}(\emp,z,d_{xyz})\land
+\mathsf{MetricDistanceWitness}(x,\emp,d_{xyz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:metric-distance-witness-triangle-bilateral-empty-edge-collapse} to
+the three triangle witnesses and the two classifiers
+$\hsame(d_{xy},\emp)$ and $\hsame(d_{yz},\emp)$. This gives
+$\hsame(d_{xyz},\emp)$ together with the empty-to-empty witness
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})$.
+
+Next apply
+\autoref{thm:metric-distance-witness-triangle-left-empty-boundary-witness} to
+the same triangle and $\hsame(d_{xy},\emp)$. This supplies the boundary row
+$\mathsf{MetricDistanceWitness}(\emp,z,d_{xyz})$.
+
+Finally apply
+\autoref{thm:metric-distance-witness-triangle-right-empty-boundary-witness} to
+the same triangle and $\hsame(d_{yz},\emp)$. This supplies
+$\mathsf{MetricDistanceWitness}(x,\emp,d_{xyz})$, and the four rows assemble
+into the displayed conjunction.
+\end{proof}
