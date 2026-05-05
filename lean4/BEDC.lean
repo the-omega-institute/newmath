@@ -684,6 +684,7 @@ import BEDC.Derived.AdjunctionUp.TriangleResults
 import BEDC.Derived.AdjunctionUp.TriangleZeroHeaded
 import BEDC.Derived.AdjunctionUp.TriangleSingleLegEmpty
 import BEDC.Derived.AdjunctionUp.CompositionPasting
+import BEDC.Derived.AdjunctionUp.CompositionPastingEmptyReadback
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp
