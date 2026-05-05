@@ -203,6 +203,9 @@ import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
+import BEDC.Derived.BanachUp
+import BEDC.Derived.ErrorCodeUp
+import BEDC.Derived.FieldExtUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
@@ -311,6 +314,7 @@ import BEDC.Derived.RealUp.MalformedSealedDenominator
 import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.SelectedTransportFit
 import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
+import BEDC.Derived.BanachUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
@@ -499,6 +503,7 @@ import BEDC.Derived.FieldUp.RatHistoryClassifierContinuationResultSingletonAbsur
 import BEDC.Derived.FieldUp.RatClassifiedFactors
 import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
+import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldUp.TailFactor
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.RatUp.HistoryLedgerContextEndpoint
