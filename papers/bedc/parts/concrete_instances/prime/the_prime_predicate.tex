@@ -66,6 +66,21 @@ is impossible.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_empty\_absurd}
 
+\begin{theorem}[Prime product factors are nonempty]
+\label{thm:nat-prime-natmul-factors-not-empty}
+Let $p,d,q$ be histories. If $p$ is prime, $d$ and $q$ are unary histories,
+and $\mathsf{NatMul}(d,q,p)$ holds, then neither factor is history-same to
+$\emp$.
+\end{theorem}
+\begin{proof}
+Package the displayed multiplication witness directly as
+$\mathsf{NatDivides}(d,p)$ to exclude $d\hsame\emp$ by the prime no-empty-divisor
+theorem. For the multiplier, multiplication closure gives
+$\mathsf{NatDivides}(q,p)$ from the same $\mathsf{NatMul}(d,q,p)$ witness,
+and the same no-empty-divisor theorem excludes $q\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_factors\_not\_empty}
+
 \begin{theorem}[Prime is not empty]
 \label{thm:natprime-empty-absurd}
 If $p$ is prime, then $p$ is not history-same to $\emp$.
@@ -103,6 +118,26 @@ $q\hsame\Eone(\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_nonunit\_factor\_multiplier\_unit}
 
+\begin{theorem}[Prime product factor is unit or prime]
+\label{thm:prime-natmul-factor-unit-or-prime}
+Let $p,d,q$ be histories. If $p$ is prime, $d$ and $q$ are unary histories, and
+$\mathsf{NatMul}(d,q,p)$ holds, then either $d$ is the unit factor and $q$
+reads back to $p$, or $d$ reads back to $p$ and $q$ is the unit multiplier:
+$$
+\bigl(\hsame(d,\Eone(\emp))\wedge\hsame(q,p)\bigr)\vee
+\bigl(\hsame(d,p)\wedge\hsame(q,\Eone(\emp))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Package the multiplication witness as $\mathsf{NatDivides}(d,p)$ and apply the
+divisor classifier field of $\mathsf{NatPrime}(p)$. In the unit branch,
+unit-left multiplication identifies the result $p$ with the multiplier $q$. In
+the prime-factor branch, the unit case would identify $p$ with the unit and
+contradict primality, so the nonunit-factor theorem identifies $q$ with the
+unit.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_factor\_unit\_or\_prime}
+
 \begin{theorem}[Prime divisor positive shape]
 \label{thm:natprime-divisor-positive-shape}
 If $p$ is prime and $d$ divides $p$, then $d$ has a one-step successor shape:
@@ -120,6 +155,25 @@ theorem, and the zero-headed case contradicts unary history. The remaining
 one-headed case exposes the requested tail by unary inversion.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_positive\_shape}
+
+\begin{theorem}[Prime divisor strict interval exclusion]
+\label{thm:natprime-natdivides-strict-between-absurd}
+Let $p,d:\mathsf{BHist}$. If $\mathsf{NatPrime}(p)$, $\Unary(d)$, and
+$\mathsf{NatDivides}(d,p)$ hold, then $d$ cannot lie strictly between the
+unit and $p$ in unary prefix order:
+$$
+\mathsf{NatUnaryStrictPrefix}(\Eone(\emp),d)\Longrightarrow
+\mathsf{NatUnaryStrictPrefix}(d,p)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply the divisor classifier field in $\mathsf{NatPrime}(p)$ to the displayed
+unary divisor $d$. The unit branch identifies the endpoint of the strict
+prefix from $\Eone(\emp)$ to $d$, contradicting strict endpoint separation.
+The prime branch identifies the endpoint of the strict prefix from $d$ to
+$p$, giving the same endpoint contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatDivides\_strict\_between\_absurd}
 
 \begin{lemma}[Non-primality of the unit]
 \label{lem:unit-not-prime}
