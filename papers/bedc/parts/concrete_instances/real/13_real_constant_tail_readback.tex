@@ -575,6 +575,60 @@ the exactness conjunction gives the stated rowwise equivalences for
 $A,B,U,C$.
 \end{proof}
 
+\begin{theorem}[Real constant appended-tail bridge head-tail agreement equivalence]
+\label{thm:real-constant-appended-tail-bridge-head-tail-agreement-equivalence}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Then each bridge row identifies denominator-head agreement with displayed
+e-one-tail agreement:
+$$
+(A\Longrightarrow(\hsame(d,e)\Longleftrightarrow\hsame(tail_D,tail_E)))\land
+(B\Longrightarrow(\hsame(d,e)\Longleftrightarrow\hsame(tail_D,tail_E)))\land
+(U\Longrightarrow(\hsame(d,e)\Longleftrightarrow\hsame(tail_D,tail_E)))\land
+(C\Longrightarrow(\hsame(d,e)\Longleftrightarrow\hsame(tail_D,tail_E))).
+$$
+\end{theorem}
+\begin{proof}
+Fix one of the bridge rows $A,B,U,C$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package} to the
+same displayed data and the chosen row. This recovers the denominator package
+$P(D,E,z_D,z_E)$, whose final component is $D\hsame E$.
+
+For the direction from displayed tail agreement to head agreement, assume
+$\hsame(tail_D,tail_E)$. Transport this equality through the $\Eone$
+constructor and the right append context $e\cdot(-)$, so the endpoint
+comparison $D\hsame E$ is read against the common suffix $\Eone(tail_D)$.
+BEDC right append cancellation then yields $\hsame(d,e)$.
+
+For the direction from head agreement to displayed tail agreement, assume
+$\hsame(d,e)$. Transport this equality through the left append context
+$(-)\cdot\Eone(tail_E)$, so the same endpoint comparison is read with common
+left head $d$. BEDC left append cancellation gives
+$\hsame(\Eone(tail_D),\Eone(tail_E))$, and e-one constructor inversion gives
+$\hsame(tail_D,tail_E)$.
+
+The argument uses only the selected row to recover $D\hsame E$, so repeating it
+for $A$, $B$, $U$, and $C$ gives the four displayed implications.
+\end{proof}
+
 \begin{theorem}[Real constant appended-tail bridge malformed sealed denominator exclusion]
 \label{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}
 For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
