@@ -1,0 +1,81 @@
+\begin{definition}[Real unary selected denominator row]
+\label{def:real-unary-selected-denominator-row}
+For observation maps $s,t:\Hist\to\Hist$ and a certified unary observation
+$n:\Hist$, the selected denominator row records the complete RatUp denominator
+data at that observation:
+$$
+\begin{array}{l}
+\mathsf{RealUnarySelectedDenominatorRow}(s,t,n)
+\Longleftrightarrow\\
+\mathsf{RatHistoryClassifier}(s(n),t(n))\land
+\mathsf{PositiveUnaryDenominator}(s(n))\land
+\mathsf{PositiveUnaryDenominator}(t(n))\land\\
+\mathsf{UnaryHistory}(s(n))\land
+\mathsf{UnaryHistory}(t(n))\land
+(\hsame(s(n),\emp)\to\mathsf{False})\land\\
+(\hsame(t(n),\emp)\to\mathsf{False})\land
+\forall z:\Hist,
+((\hsame(s(n),\Ezero(z))\to\mathsf{False})\land\\
+\hspace{3.3cm}(\hsame(t(n),\Ezero(z))\to\mathsf{False})).
+\end{array}
+$$
+\end{definition}
+
+\begin{theorem}[Real unary StreamNameUp pointwise denominator coverage]
+\label{thm:real-unary-streamname-pointwise-denominator-coverage}
+For observation maps $s,t:\Hist\to\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s)
+\quad\text{and}\quad
+\mathsf{RatStreamNameCarrier}(t).
+$$
+Then the following three clauses are equivalent, in the sense that any one of
+them constructs the other two:
+\begin{enumerate}
+\item $\mathsf{RatStreamNameClassifier}(s,t)$.
+\item $\mathsf{RealUnaryStreamClassifier}(s,t)$.
+\item $\forall n,\ \mathsf{UnaryHistory}(n)\to
+\mathsf{RealUnarySelectedDenominatorRow}(s,t,n)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The StreamNameUp and Real unary classifier clauses are the same pointwise
+RatUp classifier under the two carrier assumptions. Apply
+\autoref{thm:real-unary-streamname-classifier-exactness} to identify them.
+
+Assume the Real unary classifier and fix a certified unary observation $n$.
+Evaluating the classifier at $n$ gives
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$. Apply
+\autoref{thm:rat-history-classifier-positive-denominators} to this row, then
+apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately
+to the two positive denominator witnesses. This supplies the classifier, both
+positive unary denominators, both unary endpoint rows, and both nonempty
+exclusions.
+
+It remains to fill the zero-headed exclusions. For an arbitrary history $z$,
+transport the positive unary denominator witness for $s(n)$ along
+$\hsame(s(n),\Ezero(z))$ by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}, then contradict
+\autoref{thm:rat-positive-denominator-e0-absurd}. The same argument for
+$t(n)$ gives the right endpoint exclusion, so the selected denominator row is
+constructed.
+
+Conversely, assume the pointwise selected denominator rows. For each certified
+unary observation $n$, project the first conjunct of
+$\mathsf{RealUnarySelectedDenominatorRow}(s,t,n)$ to obtain
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$. Repack this pointwise classifier
+with the two carrier assumptions as $\mathsf{RatStreamNameClassifier}(s,t)$,
+and use the exactness theorem again to recover the Real unary classifier
+clause.
+\end{proof}
+
+Fit. Traditional target: certified rational observation streams for RealUp.
+BEDC source: $\StreamNameUp+\RealUp+\RatUp$. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier pair:
+$\mathsf{RatStreamNameClassifier}$ and
+$\mathsf{RealUnaryStreamClassifier}$. Stability: pointwise RatUp denominator
+transport. Ledger: unary observation index and zero-headed probes. Core
+theorem:
+\autoref{thm:real-unary-streamname-pointwise-denominator-coverage}. Exactness:
+the three-way equivalence. Standard bridge: finite rational observation windows
+for RegSeqRat/RealUp. Status: $\mathsf{ProofTarget}$.
