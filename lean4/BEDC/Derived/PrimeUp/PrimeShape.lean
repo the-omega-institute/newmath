@@ -51,4 +51,10 @@ theorem NatPrime_divisor_positive_shape {p d : BHist} :
   | e1 tail =>
       exact ⟨tail, hsame_refl (BHist.e1 tail), unary_e1_inversion dCarrier⟩
 
+theorem NatPrime_empty_absurd {p : BHist} :
+    NatPrime p -> hsame p BHist.Empty -> False := by
+  intro prime sameEmpty
+  cases sameEmpty
+  exact NatUnaryStrictPrefix_empty_right_absurd prime.right.left
+
 end BEDC.Derived.PrimeUp

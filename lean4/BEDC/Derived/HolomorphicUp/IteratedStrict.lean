@@ -65,4 +65,14 @@ theorem IteratedStrictCplxDiff_result_not_empty {seed h : BHist} {n : Nat} :
               (cont_result_hsame_transport data.right.right.right resultEmpty)).right
           exact data.right.right.left emptyStep
 
+theorem IteratedStrictCplxDiff_zero_or_strict_prefix {seed h : BHist} {n : Nat} :
+    UnaryHistory seed -> IteratedStrictCplxDiff seed n h ->
+      hsame seed h ∨ NatUnaryStrictPrefix seed h := by
+  intro seedUnary diff
+  cases n with
+  | zero =>
+      exact Or.inl diff
+  | succ n =>
+      exact Or.inr (IteratedStrictCplxDiff_strict_prefix seedUnary diff)
+
 end BEDC.Derived.HolomorphicUp
