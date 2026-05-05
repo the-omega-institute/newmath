@@ -6524,3 +6524,166 @@ Single-implication structural probe over the core continuation relation: it char
 
 ---
 
+### B-252 - QuotientRing multiplication descends to cosets
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | QuotientRing multiplication descends to cosets |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Ring↑ R and Ideal↑ I, if a ∼I a′ and b ∼I b′, then a ·R b ∼I a′ ·R b′, so QuotientRing↑ multiplication is representative-independent.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/85_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/83_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/84_quotientgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/42_ring_namecert_construction.tex`
+
+Rationale:
+QuotientRing↑ (chapter 85) is the multiplicative lift of QuotientGroup↑ along Ideal↑, but the surrounding theorems on the BOARD and in the paper coverage cover only quotient-group / centralizer-coset closure and ring/module representative transport (B-19, B-23). Well-definedness of multiplication on cosets is a genuinely missing ring-specific certificate prerequisite that uses ideal absorption plus ring distributivity — not a paraphrase of any module representative target. High value: it is on the critical path for the QuotientRing↑ certificate.
+
+---
+
+
+### B-253 - Matrix transpose reverses product over the opposite ring
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix transpose reverses product over the opposite ring |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Mat↑ over Ring↑ R, for carried conformable matrices A,B, transpose(A ·R B) is Mat↑-classified over Rop with transpose(B) ·Rop transpose(A).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/48_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/42_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/39_monoid_namecert_construction.tex`
+
+Rationale:
+Chapter 48 (Matrix) currently exposes identity, associativity, finite-fold distribution, and multiplication classifier congruence; no anti-homomorphism statement crossing the opposite-ring certificate exists on BOARD or in paper coverage. This is a structural counterpart that consumes already-proven opposite-operation certificates from the ring/monoid layers, distinct from any module-side or quotient-ring entry.
+
+---
+
+
+### B-254 - Two-index fold swap from finite permutation invariance
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Two-index fold swap from finite permutation invariance |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a commutative additive finite-fold certificate with permutation invariance, if sτ(k,j) ∼R s(j,k) pointwise, then ΣJ(j ↦ ΣK(k ↦ s(j,k))) ∼R ΣK(k ↦ ΣJ(j ↦ sτ(k,j))).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/48_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/49_finite_additive_scalar_fold.tex`
+- `papers/bedc/parts/concrete_instances/42_ring_namecert_construction.tex`
+
+Rationale:
+Chapter 48 cites two-index fold swap as a stability obligation but it is not derived from the underlying finite-additive-scalar-fold layer (chapter 49, def:finite-additive-scalar-fold present in coverage but no fold-swap theorem). Establishing this collapses an assumed matrix-level certificate field into a derived theorem — strictly upstream of B-08/B-19/B-23 patterns and not duplicated by any module or polynomial entry on BOARD.
+
+---
+
+
+### B-255 - Singleton determinant row-swap sign collapse
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Singleton determinant row-swap sign collapse |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under singleton Determinant↑, if M′ is obtained from singleton-carried M by a row-swap ledger with sign endpoint s, then det_e(M′) ∼R s ·R det_e(M); the singleton sign classifier further collapses to det_e(M′) ∼R det_e(M).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/86_determinant_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/48_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/43_commring_namecert_construction.tex`
+
+Rationale:
+Chapter 86 advertises row-swap sign behavior as a determinant stability obligation; the existing theorem in 86 covers endpoint correspondence and multiplicativity but not row-swap discharge. No determinant entry sits on BOARD. Compact, in-scope target that closes a named obligation in the singleton case without requiring a full determinant theory expansion.
+
+---
+
+
+### B-256 - CatLimit apex uniqueness from universal cones
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CatLimit apex uniqueness from universal cones |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+Under CatLimit↑ for a fixed Functor↑ diagram D, if L and L′ are both certified limiting cones, there exist comparison morphisms u:L→L′ and v:L′→L whose composites are classified as the respective identities.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/107_catlimit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/60_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/61_functor_namecert_construction.tex`
+
+Rationale:
+Chapter 107 introduces CatLimit↑ as a universal cone but the canonical apex-uniqueness theorem is missing from BOARD and from visible paper coverage (no thm:catlimit-* labels). Distinct from the functor-composition (B-11) and natural-transformation composition (B-14) targets because it consumes the universal-cone field directly to derive an isomorphism in the apex layer. Foundational for any future categorical limit machinery.
+
+---
+
+
+### B-257 - CatLimit and CatColimit are opposite-dual certificates
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CatLimit and CatColimit are opposite-dual certificates |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under CatLimit↑(C,D,L), applying opposite-category and opposite-functor certificate data yields CatColimit↑(Cop,Dop,Lop), and the converse follows after double-opposite identification.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/107_catlimit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/108_catcolimit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/60_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/61_functor_namecert_construction.tex`
+
+Rationale:
+Chapters 107 and 108 advertise CatLimit↑/CatColimit↑ as dual interfaces; the opposite-category/opposite-functor identities exist in earlier category chapters but the duality bridge between the two limit interfaces is not proven on BOARD or in coverage. Reuses already-derived opposite machinery to close an advertised duality at the limit layer — distinct from the apex-uniqueness target since it transports the universal-cone certificate across the opposite construction rather than deriving it.
+
+---
+
