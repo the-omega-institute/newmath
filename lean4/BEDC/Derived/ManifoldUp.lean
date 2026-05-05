@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
@@ -17,6 +18,23 @@ theorem ManifoldSingletonCarrier_topology_scope {h : BHist} :
   intro carrier
   exact And.intro carrier
     (And.intro (unary_transport unary_empty (hsame_symm carrier)) (cont_left_unit h))
+
+theorem ManifoldSingleton_chart_coverage {h domain value : BHist} :
+    ManifoldSingletonCarrier h -> Cont BHist.Empty h domain -> Cont h BHist.Empty value ->
+      hsame domain BHist.Empty ∧ hsame value h ∧ hsame value BHist.Empty ∧ UnaryHistory value := by
+  intro carrier domainReadback valueReadback
+  have sameDomainH : hsame domain h :=
+    cont_left_unit_result domainReadback
+  have domainEmpty : hsame domain BHist.Empty :=
+    hsame_trans sameDomainH carrier
+  have valueH : hsame value h :=
+    cont_right_unit_result valueReadback
+  have valueEmpty : hsame value BHist.Empty :=
+    hsame_trans valueH carrier
+  have valueUnary : UnaryHistory value :=
+    unary_transport unary_empty (hsame_symm valueEmpty)
+  exact And.intro domainEmpty
+    (And.intro valueH (And.intro valueEmpty valueUnary))
 
 theorem ManifoldSingleton_semanticNameCert :
     SemanticNameCert ManifoldSingletonCarrier ManifoldSingletonCarrier ManifoldSingletonCarrier
