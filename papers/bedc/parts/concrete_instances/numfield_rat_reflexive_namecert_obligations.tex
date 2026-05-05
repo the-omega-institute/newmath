@@ -1,0 +1,73 @@
+\begin{theorem}[RatUp reflexive NumField classifier transport]
+\label{thm:numfield-rat-reflexive-classifier-transport}
+For accepted package histories $P,Q:\mathsf{BHist}$ in the carrier of
+\autoref{def:numfield-rat-reflexive-carrier}, if the displayed package rows of
+$P$ and $Q$ are componentwise related by $\hsame$, then the $\NumFieldUp$
+classifier transports the carrier of $P$ to the carrier of $Q$. The transported
+rows are exactly the RatUp carrier row, the RatUp FieldUp base row, the RatUp
+FieldUp ambient row, the identity embedding row, the singleton basis row, and
+the scalar-action row.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:numfield-rat-reflexive-carrier}. The source pattern is the
+RatUp reflexive $\FieldExtUp$ pattern with a singleton basis field, so the
+carrier rows of $P$ and $Q$ have the same visible components.
+
+Apply
+\autoref{thm:fieldext-ratup-reflexive-source-pattern-lock}. It fixes the base
+carrier, ambient carrier, vector carrier, classifiers, identity embedding, and
+scalar action to the concrete RatUp data already certified by the
+$\FieldUp(\RatUp)$ source.
+
+The RatUp classifier component is read from
+\autoref{thm:rat-history-semantic-name-certificate}. Thus componentwise
+$\hsame$ transports the rational endpoint rows, and the identity embedding
+does not alter either endpoint.
+
+It remains to transport the singleton basis row. The row has one displayed
+unit vector and one coordinate classifier, both over the same
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$. Projection
+from the componentwise $\hsame$ hypothesis therefore gives the transported
+basis row, and repacking the transported FieldExt rows with this basis row
+gives the claimed $\NumFieldUp$ carrier transport.
+\end{proof}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexiveSingletonBasis\_scalar\_transport}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_classifier\_transport}
+
+\begin{theorem}[RatUp reflexive NumField ledger exactness]
+\label{thm:numfield-rat-reflexive-ledger-exactness}
+Every accepted $\NumFieldUp$ carrier row, embedding row, basis row,
+scalar-action row, operation row, exactness row, and ledger row in
+\autoref{def:numfield-rat-reflexive-carrier} is one of the displayed rows of
+the RatUp reflexive $\FieldExtUp$ certificate, together with the singleton
+basis row. In particular, the FieldExt rows are exhausted by
+\autoref{thm:fieldext-ratup-reflexive-certificate-row-exhaustion}, and the
+basis row adds only the unit vector over $\mathsf{RatHistoryCarrier}$ with
+coordinate classifier $\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_ledger\_exactness}
+\begin{proof}
+Begin with an accepted $\NumFieldUp$ row and unfold
+\autoref{def:numfield-rat-reflexive-carrier}. The definition admits only rows
+belonging to the RatUp reflexive $\FieldExtUp$ source pattern and the singleton
+basis field.
+
+For carrier, classifier, embedding, scalar-action, operation, exactness, and
+ledger rows, apply
+\autoref{thm:fieldext-ratup-reflexive-certificate-row-exhaustion}. It says
+that the FieldExt part is covered by the two reads of the
+$\FieldUp(\RatUp)$ endpoint certificate, the identity embedding row, and the
+self-vector-space row whose scalar action is RatUp multiplication.
+
+The remaining row is the singleton basis field. Its support has one basis
+entry, the rational unit history, and its coordinate comparison is the same
+RatUp classifier. The basis ledger therefore records no operation endpoint
+beyond the unit row already present in the RatUp FieldUp table and no
+classifier beyond $\mathsf{RatHistoryClassifier}$.
+
+Combining these projections gives row exactness for the complete
+$\NumFieldUp$ carrier: every accepted row is either one of the exhausted
+FieldExt rows or the displayed singleton basis row.
+\end{proof}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexiveSingletonBasis\_ledger\_exactness}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_ledger\_exactness}

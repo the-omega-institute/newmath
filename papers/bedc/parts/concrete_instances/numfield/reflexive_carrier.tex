@@ -1,0 +1,124 @@
+\section{Carrier definition}
+\label{sec:numfield-carrier}
+
+\begin{definition}[Reflexive rational field-extension carrier for NumFieldUp]
+\label{def:numfield-reflexive-rational-field-extension-carrier}
+\label{def:numfield-rat-reflexive-carrier}
+The concrete $\NumFieldUp$ carrier is the RatUp reflexive field-extension
+carrier of \autoref{def:fieldext-reflexive-extension-carrier}, read as a
+number-field certificate surface. Its base carrier and ambient carrier are
+both $\mathsf{RatHistoryCarrier}$, its base and ambient classifiers are both
+$\mathsf{RatHistoryClassifier}$, and its field-operation table is the concrete
+$\FieldUp(\RatUp)$ operation table recorded in the RatUp certificate chapter.
+
+The embedding row is the identity embedding
+$$
+\iota_{\mathsf{Rat}}:\RatUp\hookrightarrow\RatUp ,
+$$
+and the finite-degree row is the singleton unary basis row. Thus the displayed
+module basis has one vector, the coordinate readback is the RatUp endpoint
+itself, and the scalar-action row is RatUp multiplication. The carrier has no
+separate algebraic endpoint outside the $\mathsf{BHist}$ rows already used by
+the RatUp and FieldExtUp certificates.
+\end{definition}
+\leandef{BEDC.Derived.NumFieldUp.NumFieldReflexiveRationalCarrier}
+\leandef{BEDC.Derived.NumFieldUp.NumFieldRatReflexiveCarrier}
+
+\begin{theorem}[RatUp reflexive NumField carrier and classifier]
+\label{thm:numfield-reflexive-carrier-classifier}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the
+$\NumFieldUp$ carrier is exactly $\mathsf{RatHistoryCarrier}$ and the
+$\NumFieldUp$ endpoint classifier is exactly $\mathsf{RatHistoryClassifier}$.
+Every displayed number-field endpoint is therefore a RatUp history endpoint,
+and every endpoint comparison is a RatUp classifier comparison.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_carrier\_classifier}
+\begin{proof}
+Unfold \autoref{def:numfield-reflexive-rational-field-extension-carrier}. The
+carrier and classifier fields are specified directly as
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$.
+
+The RatUp semantic name certificate supplies the carried-history
+interpretation for these fields. No quotient, completion, polynomial carrier,
+or new endpoint classifier is introduced by the $\NumFieldUp$ reading, so each
+number-field endpoint is read through the same RatUp history row.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive FieldExt consumption for NumFieldUp]
+\label{thm:numfield-reflexive-fieldext-consumption}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the
+finite-extension component consumed by $\NumFieldUp$ is the identity
+$\FieldExtUp$ row of \autoref{def:fieldext-reflexive-extension-carrier}. Its
+base field and ambient field are both the concrete $\FieldUp(\RatUp)$
+certificate, its embedding is $\iota_{\mathsf{Rat}}(h):=h$, and its scalar
+action is the RatUp multiplication row.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_fieldext\_consumption}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_fieldext\_consumption}
+\begin{proof}
+Read the finite-extension witness from
+\autoref{thm:fieldext-reflexive-public-namecert-interface}. That theorem
+exposes the public $\FieldExtUp$ interface whose carrier, classifier, base
+field, ambient field, identity embedding, self-vector-space rows, exactness,
+and ledger all live over the RatUp operation table.
+
+The $\NumFieldUp$ source only consumes that interface. Because the consumed row
+is the identity extension, the base and ambient field certificates are the same
+RatUp field certificate, and the scalar-action row is the same multiplication
+row already present in $\FieldUp(\RatUp)$.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive NumField ledger exactness]
+\label{thm:numfield-reflexive-ledger-exactness}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the
+$\NumFieldUp$ exactness and ledger rows are inherited from the RatUp reflexive
+$\FieldExtUp$ public interface. In particular, every carrier display,
+classifier display, field-operation endpoint, identity-embedding endpoint,
+vector-space endpoint, scalar-action endpoint, and ledger provenance row is one
+of the rows listed by
+\autoref{thm:fieldext-reflexive-public-namecert-interface}.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:numfield-reflexive-fieldext-consumption}. It identifies the
+finite-extension component used by $\NumFieldUp$ with the public RatUp
+reflexive $\FieldExtUp$ interface.
+
+Next read the exactness and ledger clauses from
+\autoref{thm:fieldext-reflexive-public-namecert-interface}. Its public surface
+includes exact endpoint classification and ledger provenance over the RatUp
+operation table. Since the carrier and classifier are unchanged by
+\autoref{thm:numfield-reflexive-carrier-classifier}, those clauses serve as the
+displayed $\NumFieldUp$ exactness and ledger rows without any additional
+transport.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive NumField NameCert obligation surface]
+\label{thm:numfield-reflexive-namecert-obligation-surface}
+The carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier} assembles the
+paper-side $\NameCert_{\NumFieldUp}$ obligation surface. The surface records
+the RatUp history carrier, the RatUp history classifier, the identity
+finite-extension witness, the inherited FieldExt stability rows, the inherited
+exact endpoint classification, and the inherited ledger provenance from the
+RatUp reflexive $\FieldExtUp$ public interface.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_semantic\_name\_certificate}
+\begin{proof}
+Use \autoref{thm:numfield-reflexive-carrier-classifier} for the carrier and
+classifier slots. These slots are the RatUp history carrier and classifier, so
+the $\NumFieldUp$ source is rooted in $\mathsf{BHist}$.
+
+Use \autoref{thm:numfield-reflexive-fieldext-consumption} for the finite
+field-extension slot. It supplies the identity embedding, the shared
+base-and-ambient RatUp field certificates, and the self-vector-space row
+required by the number-field reading.
+
+Use \autoref{thm:numfield-reflexive-ledger-exactness} for the exactness and
+ledger slots. Together these three rows cover the carrier, classifier,
+finite-extension, stability, exactness, and ledger obligations named by the
+paper-side $\NameCert_{\NumFieldUp}$ surface.
+\end{proof}
