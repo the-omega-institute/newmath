@@ -8170,3 +8170,28 @@ LFunction↑ already proves successor positivity, previous uniqueness, successor
 
 ---
 
+### B-314 - HoloOnDisk nested subdisk functoriality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | HoloOnDisk nested subdisk functoriality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under HolomorphicUp, given Subradius(r2,r1;e1) and Subradius(r1,r0;e0) over a HoloOnDisk(f,z0,r0) parent witness, the iterated subdisk witness W↾e1∘(W↾e0) is classifier-equivalent to the direct subdisk witness W↾(e0·e1) of HoloOnDisk(f,z0,r2) along the composed ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/55_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/43_holomorphic_namecert_construction.tex`
+
+Rationale:
+This is the natural functoriality completion of the two existing items in 55_complex_topology_namecert_construction.tex: lem:holo-certified-subdisk-radius-compose composes Subradius witnesses at the LEDGER level only, and thm:holo-on-disk-subdisk-restriction restricts along a SINGLE Subradius. Neither states that two successive HoloOnDisk restrictions yield the classifier-equivalent witness as one direct restriction along the composed ledger e0·e1. This functoriality square is a concrete coherence theorem on the modulus ledger δ_r2(k,g'')=δ_r1(k,g''·e1)=δ_r0(k,g''·e1·e0)=δ_r0(k,g''·(e0·e1)) and on the inherited stability/classifier fields. It is distinct from B-10 (interval nested bounds, different carrier), B-11 (categorical functor composition over hom-carriers), and B-29 (lattice bound uniqueness). It does not duplicate any \label{*:holo-*} or \label{*:cplx-topo-*} entry in the paper. Landing in 55_complex_topology_namecert_construction.tex (415 lines) is safe and natural — the proof reuses lem:holo-certified-subdisk-radius-compose plus the parent restriction theorem twice. Risk: medium (witness-level coherence over already-proven ledger-level coherence).
+
+---
+
