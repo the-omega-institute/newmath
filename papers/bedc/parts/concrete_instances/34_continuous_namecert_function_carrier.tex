@@ -735,3 +735,56 @@ constructed carriers together with the three $\hsame$ conclusions. The
 downstream use is ContinuousMapUp associativity coherence and the later
 category bridge.
 \end{proof}
+
+\begin{theorem}[Continuous function carrier pentagon bracketing coherence]
+\label{thm:continuous-function-carrier-pentagon-bracketing-coherence}
+For BHist histories $source,mid_1,mid_2,mid_3,target$ and four one-step
+$\mathsf{ContinuousFunctionCarrier}$ witnesses over
+$source\to mid_1\to mid_2\to mid_3\to target$, display the five fourfold
+composite presentations
+$$
+(((f g) h) k),\quad ((f (g h)) k),\quad ((f g) (h k)),\quad
+(f ((g h) k)),\quad (f (g (h k))).
+$$
+For each presentation suppose the graph ledger, modulus ledger, and target
+certificate ledger are given by the corresponding $\mathsf{Cont}$ chains, with
+public composite map, modulus, and certificate histories
+$(map_i,mod_i,cert_i)$ for $i=1,\ldots,5$. Then each displayed bracketing is a
+valid witness
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map_i,target,mod_i,cert_i)
+$$
+from $source$ to $target$, and the five public ledgers are connected by
+$\hsame$ along the pentagon edges:
+$$
+\begin{array}{ll}
+\hsame(map_1,map_2),\ \hsame(mod_1,mod_2),\ \hsame(cert_1,cert_2),&
+\hsame(map_2,map_3),\ \hsame(mod_2,mod_3),\ \hsame(cert_2,cert_3),\\
+\hsame(map_3,map_4),\ \hsame(mod_3,mod_4),\ \hsame(cert_3,cert_4),&
+\hsame(map_4,map_5),\ \hsame(mod_4,mod_5),\ \hsame(cert_4,cert_5),\\
+\hsame(map_5,map_1),\ \hsame(mod_5,mod_1),\ \hsame(cert_5,cert_1).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Each vertex of the pentagon is constructed by repeated use of
+Theorem~\ref{thm:continuous-function-carrier-comp-closed} along the displayed
+graph, modulus, and certificate ledgers. This gives the five
+$\mathsf{ContinuousFunctionCarrier}(source,map_i,target,mod_i,cert_i)$
+witnesses.
+
+For an edge that changes one internal triple bracketing while leaving the
+fourth factor fixed, apply
+Theorem~\ref{thm:continuous-function-carrier-triple-composition-certificate-synchronization}
+inside that triple and then compose with the remaining carrier by
+Theorem~\ref{thm:continuous-function-carrier-comp-closed}. This transports the
+public map, modulus, and certificate histories by $\hsame$.
+
+The long edge compares the left-deep and right-deep presentations directly.
+Apply
+Theorem~\ref{thm:continuous-function-carrier-fourfold-left-right-synchronization}
+and the kernel theorem $\mathsf{cont\_assoc\_four}$ to the common
+$f,g,h,k$ continuation spine; the same argument applied to the modulus spine
+and then to the target-certificate ledger gives the three remaining
+$\hsame$ conclusions.
+\end{proof}
