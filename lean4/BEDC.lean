@@ -535,6 +535,7 @@ import BEDC.Derived.CompactUp.EmptyNet
 import BEDC.Derived.CompactUp.EmptyCenter
 import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CompactUp.EndpointCycle
+import BEDC.Derived.CompactUp.TwoStepFactor
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.E1TargetMorphismExactness
 import BEDC.Derived.CategoryUp.NonemptyMorphismIff

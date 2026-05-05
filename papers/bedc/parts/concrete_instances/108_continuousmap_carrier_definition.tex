@@ -85,35 +85,7 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, unpack $\mathsf{ContinuousMapCarrier}$ into its
-visible continuous-function component and its metric-distance component. Apply
-\autoref{thm:continuous-function-carrier-visible-modulus-context-iff} to the
-function row to recover unary evidence for $p$ and $q$ together with the central
-continuous-function carrier.
-
-Apply
-\autoref{thm:continuous-function-carrier-graph-modulus-cont-readback} to that
-central carrier. Its graph row is exactly
-$\mathsf{CategoryHomCarrier}(source,target,map)$, and its target-modulus row is
-$\mathsf{ContinuousModulusWitness}(target,modulus,cert)$. Apply
-\autoref{thm:metric-distance-witness-prefix-iff} to the metric row to read back
-the central $\mathsf{MetricDistanceWitness}(source,target,distance)$.
-
-For the reverse direction, start with the two unary context histories, the
-central categorical row, the target-modulus witness, and the central metric
-witness. The categorical row supplies the graph continuation and unary source,
-target, and map histories.
-
-The modulus row supplies the unary modulus and certificate histories plus the
-certificate continuation, so the central continuous-function carrier is
-reassembled.
-
-Apply
-\autoref{thm:continuous-function-carrier-visible-modulus-context-iff} from
-right to left to restore the visible source, target, modulus, and certificate
-ledgers. Apply \autoref{thm:metric-distance-witness-prefix-iff} from right to
-left to restore the prefixed metric ledger, and pair the two rows into the
-displayed $\mathsf{ContinuousMapCarrier}$.
+\input{parts/concrete_instances/continuousmap/visible_context_category_metric_decomposition_proof.tex}
 \end{proof}
 
 The ten-field fit is: traditional continuous maps carried with explicit visible
