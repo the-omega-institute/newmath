@@ -349,6 +349,52 @@ object, arithmetic or order laws, metric completeness, or a standard bridge.
 Those data are outside the scoped certificate boundary claimed here.
 \end{proof}
 
+\begin{theorem}[RealUp public certificate export]
+\label{thm:realup-public-certificate-export}
+The public $\NameCert_{\RealUp}$ surface exported to downstream L10 chapters is
+exactly the package consisting of
+\autoref{thm:realup-scoped-certificate-boundary},
+\autoref{thm:realup-scoped-finite-window-read-surface}, the scoped
+$\RegSeqRat$ stream-name interface of
+\autoref{thm:regseqrat-streamname-scoped-interface}, the DyadicRatCore
+observation rows, $\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.
+Downstream chapters may cite this theorem as the public $\RealUp$ certificate
+boundary for carrier, classifier, stability, transport, finite observation,
+ledger, and seal data. The exported surface contains no completeness theorem,
+arithmetic or order closure, metric-completeness certificate, or standard
+bridge.
+\end{theorem}
+\begin{proof}
+Start with the scoped certificate boundary. Apply
+\autoref{thm:realup-scoped-certificate-boundary}; it gathers the
+DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$,
+$\mathsf{UnaryHistory}$, $\hsame$ transport, constant-history carrier,
+constant-history classifier, unary stream classifier, and finite ledger policy
+as one $\Hist$-indexed $\RealUp$ boundary.
+
+Next attach the finite read surface. Apply
+\autoref{thm:realup-scoped-finite-window-read-surface}; it says that selected
+finite $\RealUp$ observation windows read exactly the same carrier/classifier,
+stability/transport, finite ledger, dyadic source, stream-name, endpoint, and
+seal rows, and no quotient, completion, arithmetic, order, Classical, or
+standard-bridge datum.
+
+Finally package the source interfaces exposed to downstream chapters. The
+scoped $\RegSeqRat$ stream-name interface of
+\autoref{thm:regseqrat-streamname-scoped-interface} supplies the stream-name
+classifier, reflexive, reversed, composed, endpoint, and transported
+classifier rows. The DyadicRatCore observation rows and the named
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$ rows are
+therefore precisely the public $\NameCert_{\RealUp}$ surface. Since each row is
+already inside the scoped boundary or the finite read surface, downstream L10
+chapters may cite this theorem as the public $\RealUp$ certificate boundary
+without reconstructing the package.
+\end{proof}
+
 \begin{theorem}[RealUp public rational-stream export]
 \label{thm:realup-public-rational-stream-export}
 The scoped $\RealUp$ certificate boundary exports the public $\RealUp$
