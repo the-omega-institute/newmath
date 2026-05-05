@@ -56,7 +56,7 @@ MAX_AGENTS = 3
 TASK_TIMEOUT = 14400  # 4 hours; ChatGPT Pro thinking can be 60+ min/turn
 AGENT_RECENT_SECONDS = 120
 SESSION_IDLE_RETENTION = 14 * 24 * 3600  # keep sessions on disk for 14 days
-MIN_SCRIPT_VERSION = "bedc-1.18"
+MIN_SCRIPT_VERSION = "bedc-1.19"
 BEDC_PROJECT_PREFIX = "/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc"
 BEDC_PROJECT_URL = f"https://chatgpt.com{BEDC_PROJECT_PREFIX}/project"
 
@@ -440,8 +440,10 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     if recent.get(aid, {}).get("recent", False)
                     and not _busy_agent_is_current(aid, recent.get(aid), task)
                 ]
-                if task_queue and not pending_tasks and not compatible_active_poll:
+                if task_queue and not pending_tasks and not active_poll:
                     diagnosis = "queue_waiting_for_browser_agent"
+                elif task_queue and not pending_tasks and not compatible_active_poll:
+                    diagnosis = "queue_waiting_for_compatible_agent"
                 elif task_queue and not pending_tasks and not project_active_poll:
                     diagnosis = "queue_waiting_for_project_agent"
                 elif pending_tasks:

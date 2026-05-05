@@ -1123,14 +1123,7 @@
     updatePanel();
 
     if (!isInsideBedcProject()) {
-      if (ensureInProject()) {
-        busy = false;
-        updatePanel();
-        return;
-      }
-      log(`Outside BEDC Project; refusing task on ${window.location.href.slice(-60)}`);
-      busy = false;
-      updatePanel();
+      navigateTaskBackToProject(task, "outside project before task");
       return;
     }
 
@@ -1318,6 +1311,11 @@
         return;
       }
 
+      if (!isInsideBedcProject()) {
+        navigateTaskBackToProject(task, "navigation left project");
+        return;
+      }
+
       // ACK
       try { await serverPost("/ack", { task_id, agent_id: agentId() }); } catch {}
       setTaskPhase("processing");
@@ -1492,6 +1490,30 @@
   // gives each tab its own private namespace.
   function tabSet(k, v) { return GM_setValue(`${agentId()}_${k}`, v); }
   function tabGet(k, d) { return GM_getValue(`${agentId()}_${k}`, d); }
+
+  function bedcFlagForAgent() {
+    const flagMatch = agentId().match(/^bedc_(\d+)$/);
+    return flagMatch ? flagMatch[1] : (bedcFlagFromUrl() || "1");
+  }
+
+  function projectEntryUrlForAgent() {
+    return `${BEDC_PROJECT_HOME}?bedc=${encodeURIComponent(bedcFlagForAgent())}`;
+  }
+
+  function navigateTaskBackToProject(task, reason) {
+    const taskId = (task && task.task_id) || "";
+    const target = /\/c\/[a-f0-9-]{6,}/.test(window.location.href)
+      ? pinToProject(window.location.href)
+      : projectEntryUrlForAgent();
+    tabSet("navigating", true);
+    tabSet("nav_task_id", taskId);
+    if (task) saveTaskState(task);
+    setTaskPhase("navigating");
+    log(`${reason}; navigating to BEDC Project ${target.slice(-80)}`);
+    busy = false;
+    updatePanel();
+    window.location.href = target;
+  }
 
   // ── Main loop ────────────────────────────────────────────────────────
   function _readActive() {
