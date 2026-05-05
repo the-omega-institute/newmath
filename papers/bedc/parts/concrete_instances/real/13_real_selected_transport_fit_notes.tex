@@ -104,3 +104,97 @@ $\hsame(y'(n),\Eone(b))$. The resulting finite-prefix readback block is
 conjoined with the two contextual blocks above, giving the stated certificate
 package.
 \end{proof}
+
+\begin{theorem}[Real selected transport synchronized e-one endpoints]
+\label{thm:real-selected-transport-synchronized-e1-endpoints}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
+indices $m,n$, and histories $a,a',b,b',z_X,z_Y:\Hist$, assume the pointwise
+transport rows and the two source classifier rows
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n).
+$$
+Assume also the selected transported context rows
+$$
+\mathsf{UnaryHistory}(p_X(n)),\quad
+\mathsf{UnaryHistory}(t_X(n)),\quad
+\hsame(p_X(n),p_Y(n)),\quad
+\hsame(t_X(n),t_Y(n)),
+$$
+the selected continuation rows
+$$
+\mathsf{Cont}(p_X(n),x'(n),m_X(n)),\quad
+\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
+\quad\mathsf{Cont}(p_Y(n),y'(n),m_Y(n)),\quad
+\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
+$$
+and the selected e-one displays
+$$
+\hsame(o_X(n),\Eone(a)),\quad
+\hsame(o_X(n),\Eone(a')),\quad
+\hsame(o_Y(n),\Eone(b)),\quad
+\hsame(o_Y(n),\Eone(b')),\quad
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(y'(n),\Eone(b)).
+$$
+Then the selected transported endpoints satisfy the synchronized classifier and
+tail rows
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
+\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))\land\\
+\mathsf{UnaryHistory}(a)\land
+\mathsf{UnaryHistory}(a')\land
+\mathsf{UnaryHistory}(b)\land
+\mathsf{UnaryHistory}(b')\land\\
+\hsame(a,a')\land \hsame(b,b')\land \hsame(a,b)\land \hsame(a',b').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package}
+to the displayed pointwise transport rows, the source stream classifier, the
+selected context rows, the continuation rows, and the contextual displays for
+$a$ and $b$.
+
+This supplies the contextual endpoint package and, in particular, the tail row
+$\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$.
+
+Next apply
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}
+to the same transported contextual data and all four contextual e-one displays.
+This supplies $\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$,
+$\hsame(a,a')$, $\hsame(b,b')$, and $\hsame(a',b')$, while retaining the
+$a,b$ tail rows already identified above.
+
+Apply
+\autoref{thm:real-stream-prefix-transported-selected-full-shape-readback-package}
+to the prefix classifier row, the two pointwise transport rows, and the selected
+prefix endpoint displays $\hsame(x'(n),\Eone(a))$ and
+$\hsame(y'(n),\Eone(b))$. The returned finite-prefix readback package includes
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+
+Finally use the reverse direction of
+\autoref{thm:rat-history-classifier-e1-tail-unary-iff} on
+$\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
+$\hsame(a',b')$. It gives
+$\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))$, which combines with the
+first displayed classifier and the eight synchronized tail rows.
+\end{proof}
+
+Fit: traditional target synchronized selected RealUp observation readback; BEDC
+source RatUp, StreamNameUp-shaped RealUp streams, $\mathsf{Cont}$, and FKernel
+$\hsame$; carrier rational-observation streams; classifiers
+RealStreamClassifier plus RatHistoryClassifier on displayed e-one endpoints;
+stability pointwise transport, contextual continuation, and e-one tail
+inversion/congruence; ledger selected index, four endpoint tails, two
+contextual outputs, and prefix endpoint rows; core theorem
+\autoref{thm:real-selected-transport-synchronized-e1-endpoints}; exactness the
+two displayed RatHistoryClassifier rows and all four synchronized tails;
+standard bridge selected RegSeqRat dyadic observation readback; status
+$\mathsf{ProofTarget}$.
