@@ -107,6 +107,25 @@ theorem GraphContEdge_classifier_transport {h k g h' k' g' : BHist} :
             (And.intro continuation'
               (And.intro sameH (And.intro sameK sameG)))
 
+theorem GraphContEdge_row_inversion :
+    (forall {h h' k g : BHist}, GraphContEdge h k g -> GraphContEdge h' k g ->
+      Cont h k g ∧ Cont h' k g ∧ hsame h h') ∧
+    (forall {h k k' g : BHist}, GraphContEdge h k g -> GraphContEdge h k' g ->
+      Cont h k g ∧ Cont h k' g ∧ hsame k k') ∧
+    (forall {h k g g' : BHist}, GraphContEdge h k g -> GraphContEdge h k g' ->
+      Cont h k g ∧ Cont h k g' ∧ hsame g g') := by
+  constructor
+  · intro h h' k g left right
+    exact And.intro left.right.right
+      (And.intro right.right.right (cont_right_cancel left.right.right right.right.right))
+  constructor
+  · intro h k k' g left right
+    exact And.intro left.right.right
+      (And.intro right.right.right (cont_left_cancel left.right.right right.right.right))
+  · intro h k g g' left right
+    exact And.intro left.right.right
+      (And.intro right.right.right (cont_deterministic left.right.right right.right.right))
+
 theorem GraphCont_namecert_surface :
     SemanticNameCert UnaryHistory UnaryHistory UnaryHistory hsame ∧
       (forall {h k g : BHist}, GraphContEdge h k g ->
