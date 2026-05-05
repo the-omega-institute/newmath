@@ -309,6 +309,7 @@ import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
+import BEDC.Derived.S1Up.CarrierExactness
 import BEDC.Derived.S1Up.SemanticFieldAssembly
 import BEDC.Derived.S1Up.SemanticCertificateFields
 import BEDC.Derived.S1Up.FieldAssembly
@@ -498,6 +499,7 @@ import BEDC.Derived.FieldUp.RatDenomUnitContextEndpoint
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
+import BEDC.Derived.FpsUp.CauchyCoefficientSpine
 import BEDC.Derived.FpsUp.SourceSpec
 import BEDC.Derived.FpsUp.CauchyCoeffSpine
 import BEDC.Derived.FpsUp.CauchyProductAssociativity
