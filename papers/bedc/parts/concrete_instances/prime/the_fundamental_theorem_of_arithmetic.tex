@@ -26,6 +26,33 @@ that witness supplies the quotient carrier required by \(\mathsf{NatDivides}\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.PrimeFactorization\_cons\_head\_divides}
 
+\begin{theorem}[Prime factorization product result transport]
+\label{thm:prime-factorization-product-result-hsame-transport}
+If a prime factorization product yields \(n\), and \(n\hsame n'\), then the
+same factorization product yields \(n'\).
+\end{theorem}
+\begin{proof}
+Inspect the concrete list-product predicate. The empty product clause is
+transported by transitivity of \(\hsame\). In the cons clause, the tail product
+is unchanged, and the displayed \(\mathsf{NatMul}\) result witness is
+transported along \(n\hsame n'\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.PrimeFactorizationProduct\_result\_hsame\_transport}
+
+\begin{theorem}[Prime factorization products have nonempty result]
+\label{thm:prime-factorization-product-result-not-empty}
+If \(\mathsf{PrimeFactorizationProduct}(ps,n)\), then \(n\) is not
+history-same to \(\emp\).
+\end{theorem}
+\begin{proof}
+Induct on the list \(ps\). The empty product is \(\Eone(\emp)\), which is
+separated from \(\emp\) by constructor no-confusion. In the cons case, the
+head prime is nonempty, the induction hypothesis makes the tail product
+nonempty, and the nonempty-factor multiplication theorem applies to the
+displayed \(\mathsf{NatMul}\) witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.PrimeFactorizationProduct\_result\_not\_empty}
+
 \begin{definition}[Natural prime product relation]
 \label{def:nat-prime-product-relation}
 The relation \(\mathsf{NatPrimeProduct}(ps,n)\) is the closed list product
@@ -51,6 +78,34 @@ multiplication result theorem applies to the displayed \(\mathsf{NatMul}\)
 witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrimeProduct\_result\_not\_empty}
+
+\begin{theorem}[Natural prime products have unary result]
+\label{thm:nat-prime-product-result-unary}
+If \(\mathsf{NatPrimeProduct}(ps,n)\), then \(n\) is a unary history.
+\end{theorem}
+\begin{proof}
+Induct on the list-product witness. The empty product is \(\Eone(\emp)\),
+hence unary by unary successor closure over the empty history. In the cons
+case, primality supplies the unary carrier of the head factor, and the
+multiplication-result carrier theorem applies to the displayed
+\(\mathsf{NatMul}\) witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrimeProduct\_result\_unary}
+
+\begin{theorem}[Natural prime product cons tail divides]
+\label{thm:nat-prime-product-cons-tail-divides}
+If \(\mathsf{NatPrimeProduct}(p::ps,n)\), then \(p\) is unary and there is a
+tail product \(m\) such that \(\mathsf{NatPrimeProduct}(ps,m)\) and
+\(\mathsf{NatDivides}(m,n)\).
+\end{theorem}
+\begin{proof}
+Invert the cons constructor of \(\mathsf{NatPrimeProduct}\). The head prime
+gives the unary carrier of \(p\), while the tail witness gives the product
+\(m\). The preceding unary-result theorem supplies the unary carrier of \(m\),
+and the multiplication closure theorem turns the displayed
+\(\mathsf{NatMul}(p,m,n)\) witness into \(\mathsf{NatDivides}(m,n)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrimeProduct\_cons\_tail\_divides}
 
 \begin{theorem}[Existence of prime factorization]
 \label{thm:ftoa-existence}
