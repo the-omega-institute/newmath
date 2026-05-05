@@ -36,6 +36,20 @@ theorem ZetaBoundaryNonvanishingWitness_sigma_nonempty {s sigma : BHist} :
 def ZetaZeroPatternSpec (s z : BHist) : Prop :=
   ZetaZeroSourceSpec s ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
 
+def ZetaZeroClassifierSpec (s t : BHist) : Prop :=
+  ZetaZeroSourceSpec s ∧ ZetaZeroSourceSpec t ∧ hsame s t ∧
+    hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+      hsame t (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+
+theorem ZetaZeroClassifierSpec_zero_anchor_pair {s t : BHist} :
+    ZetaZeroClassifierSpec s t ->
+      hsame s t ∧
+        hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+          hsame t (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro classifier
+  exact And.intro classifier.right.right.left
+    (And.intro classifier.right.right.right.left classifier.right.right.right.right)
+
 theorem ZetaZeroSourceSpec_zero_classifier {s : BHist} :
     ZetaZeroSourceSpec s ->
       ComplexHistoryClassifier s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
