@@ -9149,3 +9149,137 @@ This is a concrete finite-spine permutation closure fact in the existing FinSet 
 
 ---
 
+### B-351 - Ideal intersection closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ideal intersection closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If R has a RingUp certificate and I,J are IdealUp predicates over R, then K(x)=I(x) and J(x) is an IdealUp predicate over R.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/59_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/61_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+IdealUp is structurally under-developed: papers/bedc/parts/concrete_instances/59_ideal_namecert_construction.tex:1-10 is only the chapter shell, while line 4 says the object is a sub-rng closed under multiplication by ambient ring elements and is the kernel object for QuotientRingUp. Quotient-ring content already consumes ideal fields for cosets and descent at papers/bedc/parts/concrete_instances/61_quotientring_namecert_construction.tex:12-22 and :75-89, but the IdealUp chapter itself has no canonical closure theorem. A binary intersection theorem is a concrete algebraic construction, not another quotient-ring descent target.
+
+---
+
+
+### B-352 - Sheaf gluing uniqueness from locality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Sheaf gluing uniqueness from locality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+If a SheafUp presheaf gives a compatible local family on an open cover and two global sections restrict to that family on every cover member, then the two global sections are classifier-equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/129_sheaf_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/128_presheaf_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex`
+
+Rationale:
+The sheaf chapter is untouched beyond its shell: papers/bedc/parts/concrete_instances/129_sheaf_namecert_construction.tex:4 says SheafUp is a presheaf satisfying locality and gluing over open covers, and :6-10 contains only empty carrier/certificate sections. The presheaf input is likewise only introduced at papers/bedc/parts/concrete_instances/128_presheaf_namecert_construction.tex:4-10, while generic TopologyUp has already gained indexed-open closure laws at papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex:45-128. This candidate opens a genuinely new sheaf-theoretic surface with the smallest nontrivial companion theorem to gluing.
+
+---
+
+
+### B-353 - Computable composition by bounded simulation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Computable composition by bounded simulation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 10/10 |
+
+Problem:
+If f and g are ComputableUp partial Nat functions with certified bounded simulations and f(n) returns m within its bound while g(m) returns k within its bound, then the composite g after f has a certified bounded simulation returning k.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/98_seq_namecert_construction.tex`
+
+Rationale:
+Computability is a blindspot in the current board: papers/bedc/parts/concrete_instances/177_computable_namecert_construction.tex:4 defines ComputableUp through Turing-machine simulation up to time-step bounds, and :6-10 has no theorem body. The dependency on NatUp and SeqUp is explicit at the same line; NatUp has substantial unary infrastructure beginning at papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex:8, while SeqUp is only a substrate shell at papers/bedc/parts/concrete_instances/98_seq_namecert_construction.tex:4-10. Composition of bounded simulations is the first concrete theorem for this chapter and is distinct from the already queued Seq pointwise classifier target.
+
+---
+
+
+### B-354 - Error-code unique decoding radius
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Error-code unique decoding radius |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+If C is an ErrorCodeUp code with minimum distance d and t=floor((d-1)/2), and two codewords c1,c2 are both within Hamming distance t of the same received word r, then c1 and c2 are code-classifier equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/219_errorcode_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+Coding theory has no completed content despite a precise promise: papers/bedc/parts/concrete_instances/219_errorcode_namecert_construction.tex:4 packages a subset of F_q^n at minimum Hamming distance d with decoder data correcting up to floor((d-1)/2) errors, and :6-10 is empty. The theorem is a single metric-distance implication that explains why the advertised decoding radius is well-defined before any larger coding-theory results are attempted.
+
+---
+
+
+### B-355 - Matching subset closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Matching subset closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If M is a MatchingUp edge set in a GraphUp carrier and N is a FinSetUp edge subset of M, then N is also a MatchingUp edge set.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+The combinatorial optimization slice is nearly empty: papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex:4 says MatchingUp is a subset of graph edges with no shared vertex, and :6-10 has no companion theorem. GraphUp is only the vertex/edge substrate at papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex:4-10, while FinSetUp now has concrete enumeration membership machinery at papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex:12-31. Subset heredity is the smallest real matching theorem and does not duplicate the graph edge-transport board item.
+
+---
+
