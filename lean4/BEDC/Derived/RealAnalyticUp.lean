@@ -4,6 +4,7 @@ namespace BEDC.Derived.RealAnalyticUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexSeriesUp
 
@@ -135,5 +136,44 @@ theorem RealAnalyticLocalStream_obligations_package {zero zero' : BHist}
   · intro n M T unaryN source target
     exact RealAnalyticComplexAbsPartSum_pointwise_result_unary_transport zeroUnary sameZero
       modulusUnary modulusSame unaryN source target
+
+theorem real_analytic_certificate_boundary {zero : BHist} {c modulus : BHist -> BHist} :
+    SemanticNameCert
+      (fun result : BHist =>
+        exists n : BHist,
+          ComplexPartSum zero c n result \/ ComplexAbsPartSum zero modulus n result)
+      (fun result : BHist =>
+        exists n : BHist,
+          ComplexPartSum zero c n result \/ ComplexAbsPartSum zero modulus n result)
+      (fun result : BHist =>
+        exists n : BHist,
+          ComplexPartSum zero c n result \/ ComplexAbsPartSum zero modulus n result)
+      hsame := by
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro zero
+          (Exists.intro BHist.Empty (Or.inl ComplexPartSum.zero))
+      equiv_refl := by
+        intro result _source
+        exact hsame_refl result
+      equiv_symm := by
+        intro result result' sameResult
+        exact hsame_symm sameResult
+      equiv_trans := by
+        intro result result' result'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro result result' sameResult source
+        cases sameResult
+        exact source
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
 
 end BEDC.Derived.RealAnalyticUp
