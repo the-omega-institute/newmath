@@ -241,6 +241,17 @@ theorem MetricDistanceWitness_triangle_right_distance_empty_collapse {x y z dxy 
     (And.intro yzEndpoints.right
       (And.intro dxyExact (hsame_trans dxyzExactDxy dxyExact)))
 
+theorem MetricDistanceWitness_triangle_right_distance_empty_spine_witness
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dyz BHist.Empty ->
+        MetricDistanceWitness x BHist.Empty dxyz := by
+  intro xy yz xyz dyzEmpty
+  have collapse :=
+    MetricDistanceWitness_triangle_right_distance_empty_collapse xy yz xyz dyzEmpty
+  exact (MetricDistanceWitness_empty_right_iff (x := x) (d := dxyz)).mpr
+    (And.intro xy.left collapse.right.right.right)
+
 theorem MetricDistanceWitness_visible_context_triangle_depth_zero_collapse
     {p q x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
