@@ -215,6 +215,21 @@ theorem ZetaBasicPartSum_successor_source_result_nonempty_transport {s t n z : B
               (And.intro stepData.right.right
                 (ZetaBasicPartSum_successor_result_nonempty targetSum)))
 
+theorem ZetaBasicPatternSpec_successor_source_hsame_transport {s t n z : BHist} :
+    hsame s t -> ZetaBasicPatternSpec s (BHist.e1 n) z ->
+      exists u : BHist, ZetaBasicPatternSpec t (BHist.e1 n) u ∧ hsame z u ∧
+        (hsame u BHist.Empty -> False) := by
+  intro sameST pattern
+  have transported :=
+    ZetaBasicPartSum_successor_source_result_nonempty_transport sameST pattern.right.left
+  cases transported with
+  | intro u data =>
+      exact Exists.intro u
+        (And.intro
+          (And.intro pattern.left
+            (And.intro data.left (hsame_refl (ZetaBasicUnitTerm (BHist.e1 n) t))))
+          (And.intro data.right.left data.right.right))
+
 theorem ZetaBasic_semanticNameCert {s z : BHist} :
     ZetaBasic s z ->
       SemanticNameCert (ZetaBasic s) (ZetaBasic s) (ZetaBasic s) hsame := by

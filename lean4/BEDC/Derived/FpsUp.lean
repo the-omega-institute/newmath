@@ -445,6 +445,56 @@ theorem FpsSingletonPointwiseAdditionCoeff_comm_classifier {F G n : BHist} :
       (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty))))
     (And.intro leftEmpty rightEmpty)
 
+theorem FpsSingletonPointwiseAdditionCoeff_associativity {F G H n : BHist} :
+    FpsSingletonClassifier
+        (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n)
+        (FpsSingletonPointwiseAdditionCoeff F
+          (FpsSingletonPointwiseAdditionCoeff G H n) n) ∧
+      hsame
+        (append
+          (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n)
+          BHist.Empty)
+        (append
+          (FpsSingletonPointwiseAdditionCoeff F
+            (FpsSingletonPointwiseAdditionCoeff G H n) n)
+          BHist.Empty) := by
+  have leftCoeffEmpty :
+      hsame
+        (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n)
+        BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have rightCoeffEmpty :
+      hsame
+        (FpsSingletonPointwiseAdditionCoeff F
+          (FpsSingletonPointwiseAdditionCoeff G H n) n)
+        BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have displayedSame :
+      hsame
+        (append
+          (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n)
+          BHist.Empty)
+        (append
+          (FpsSingletonPointwiseAdditionCoeff F
+            (FpsSingletonPointwiseAdditionCoeff G H n) n)
+          BHist.Empty) :=
+    hsame_trans
+      (append_empty_right
+        (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n))
+      (hsame_trans leftCoeffEmpty
+        (hsame_symm
+          (hsame_trans
+            (append_empty_right
+              (FpsSingletonPointwiseAdditionCoeff F
+                (FpsSingletonPointwiseAdditionCoeff G H n) n))
+            rightCoeffEmpty)))
+  exact And.intro
+    (And.intro leftCoeffEmpty
+      (And.intro rightCoeffEmpty (hsame_trans leftCoeffEmpty (hsame_symm rightCoeffEmpty))))
+    displayedSame
+
 theorem FpsSingletonPointwiseAdditionCoeff_assoc_classifier {F G H n : BHist} :
     FpsSingletonClassifier
         (FpsSingletonPointwiseAdditionCoeff (FpsSingletonAdd F G) H n)
