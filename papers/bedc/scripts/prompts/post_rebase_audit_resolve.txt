@@ -43,7 +43,10 @@ Remove ONLY this round's offending additions to make audit pass:
 6. Do NOT touch lean4/BEDC/.
 7. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
    until both exit 0. If the round becomes empty after removing the
-   collisions, that is acceptable.
+   collisions, that is acceptable. While iterating on the strip-out
+   you may use `make check` (single -draftmode pass, ~half the time)
+   to confirm syntax; the FINAL verification before commit must be
+   the full `make` so cross-references and the audit still line up.
 8. After audit passes, `git add papers/bedc` and create a small
    follow-up commit on the round branch (or amend the merge commit
    with `git commit --amend --no-edit`) so the strip-out is
