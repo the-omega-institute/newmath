@@ -395,4 +395,21 @@ theorem PowerSeriesComplexPartSum_exists_unique {zero n : BHist} {term : BHist -
             (And.intro currentCarrier
               (fun T other => ComplexPartSum_deterministic current other)))
 
+def ConvRadSourceSpec (a : Nat -> BHist) (z0 R : BHist) : Prop :=
+  PowerSeriesCarrier a z0 ∧ ConvRad a R
+
+theorem ConvRadSourceSpec_powerSeries_geomBound_readback {a : Nat -> BHist} {z0 R : BHist} :
+    ConvRadSourceSpec a z0 R ->
+      ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
+        PowerSeriesCarrier a z0 ∧ GeomBound a r (K r) ∧ UnaryHistory R := by
+  intro source
+  cases source with
+  | intro carrier radius =>
+      cases ConvRad_powerSeriesCarrier_witness radius carrier.right.right with
+      | intro K readback =>
+          exact Exists.intro K (by
+            intro r radiusUnary continuation
+            have row := readback radiusUnary continuation
+            exact And.intro row.left (And.intro row.right radius.left))
+
 end BEDC.Derived.ConvergenceRadiusUp

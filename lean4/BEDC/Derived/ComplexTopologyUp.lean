@@ -131,6 +131,41 @@ theorem ComplexTopologyOpenSet_union_closed {I : Type} {U : I -> BHist -> Prop} 
   | intro i member =>
       exact branchOpen i member
 
+theorem ComplexTopologyOpenSet_intersection_witness_closed {U V : BHist -> Prop} :
+    ComplexTopologyOpenSet U -> ComplexTopologyOpenSet V ->
+      ComplexTopologyOpenSet (fun z : BHist => U z ∧ V z) ∧
+        forall {z : BHist}, U z ∧ V z ->
+          exists centerU radiusU gapU centerV radiusV gapV : BHist,
+            ComplexTopologyOpenDiskGap centerU radiusU z gapU ∧ Cont z gapU radiusU ∧
+              ComplexTopologyOpenDiskGap centerV radiusV z gapV ∧ Cont z gapV radiusV := by
+  intro openU openV
+  constructor
+  · intro z member
+    exact openU member.left
+  · intro z member
+    cases openU member.left with
+    | intro centerU leftRest =>
+        cases leftRest with
+        | intro radiusU leftRest =>
+            cases leftRest with
+            | intro gapU leftWitness =>
+                cases openV member.right with
+                | intro centerV rightRest =>
+                    cases rightRest with
+                    | intro radiusV rightRest =>
+                        cases rightRest with
+                        | intro gapV rightWitness =>
+                            exact Exists.intro centerU
+                              (Exists.intro radiusU
+                                (Exists.intro gapU
+                                  (Exists.intro centerV
+                                    (Exists.intro radiusV
+                                      (Exists.intro gapV
+                                        (And.intro leftWitness.left
+                                          (And.intro leftWitness.right
+                                            (And.intro rightWitness.left
+                                              rightWitness.right))))))))
+
 theorem ComplexTopologyOpenSet_intersection_witnesses {U V : BHist -> Prop} :
     ComplexTopologyOpenSet U -> ComplexTopologyOpenSet V ->
       ComplexTopologyOpenSet (fun z : BHist => U z ∧ V z) ∧

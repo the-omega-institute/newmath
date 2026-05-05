@@ -60,6 +60,22 @@ theorem RealAnalyticComplexPartSum_index_result_unary {zero : BHist} {c : BHist 
       exact And.intro (unary_e1_closed ih.left)
         (unary_cont_closed ih.right (termUnary ih.left) stepContinuation)
 
+theorem RealAnalyticComplexPartSum_closed_pointwise_index_result_unary_transport {zero zero' : BHist}
+    {c d : BHist -> BHist} {n S T : BHist}
+    (zeroUnary : UnaryHistory zero)
+    (sameZero : hsame zero zero')
+    (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (c m))
+    (termSame : forall {m : BHist}, UnaryHistory m -> hsame (c m) (d m)) :
+    ComplexPartSum zero c n S -> ComplexPartSum zero' d n T ->
+      UnaryHistory n ∧ UnaryHistory T := by
+  intro source target
+  have unaryN : UnaryHistory n :=
+    RealAnalyticComplexPartSum_index_unary source
+  have unaryT : UnaryHistory T :=
+    RealAnalyticComplexPartSum_pointwise_result_unary_transport zeroUnary sameZero
+      termUnary termSame unaryN source target
+  exact And.intro unaryN unaryT
+
 theorem RealAnalyticComplexAbsPartSum_index_result_unary {zero : BHist}
     {modulus : BHist -> BHist} {n M : BHist}
     (zeroUnary : UnaryHistory zero)
