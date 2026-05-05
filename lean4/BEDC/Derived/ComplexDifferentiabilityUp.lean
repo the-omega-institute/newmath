@@ -141,6 +141,32 @@ theorem CplxDiffAt_witness_nonzero_result {f z fp : BHist} :
                                 (And.intro (CplxDiffQuot_result_nonempty quotient)
                                   quotientClass)))))
 
+theorem CplxDiffAt_sum_append_derivative_carrier {f g z fp gp : BHist} :
+    CplxDiffAt f z fp -> CplxDiffAt g z gp ->
+      ComplexHistoryCarrier (append fp gp) ∧
+        ∃ hf : BHist, ∃ qf : BHist, ∃ hg : BHist, ∃ qg : BHist,
+          CplxDiffQuot f z hf qf ∧ CplxDiffQuot g z hg qg ∧
+            Cont fp gp (append fp gp) := by
+  intro diffF diffG
+  cases diffF.right.right.right.left with
+  | intro hf diffFWitness =>
+      cases diffFWitness with
+      | intro qf quotientF =>
+          cases diffG.right.right.right.left with
+          | intro hg diffGWitness =>
+              cases diffGWitness with
+              | intro qg quotientG =>
+                  have appendCarrier : ComplexHistoryCarrier (append fp gp) :=
+                    ComplexHistoryCarrier_append_unary_closed diffF.right.right.left
+                      (ComplexHistoryCarrier_unary diffG.right.right.left)
+                  exact And.intro appendCarrier
+                    (Exists.intro hf
+                      (Exists.intro qf
+                        (Exists.intro hg
+                          (Exists.intro qg
+                            (And.intro quotientF
+                              (And.intro quotientG (cont_intro rfl)))))))
+
 theorem CplxDiffAt_visible_step_branches_absurd {f z fp p q out0 out1 : BHist} :
     CplxDiffAt f z fp -> CplxDiffQuot f z (BHist.e0 p) out0 ->
       CplxDiffQuot f z (BHist.e1 q) out1 -> False := by
