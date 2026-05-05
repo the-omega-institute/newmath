@@ -307,6 +307,19 @@ theorem FieldExtSingletonEmbedding_identity_tower_package {h : BHist} :
     (And.intro doubleCarrier (And.intro embeddedCarrier doubleSameEmbedded))
     (And.intro towerCont doubleSameH)
 
+theorem FieldExtRatReflexiveTower_scalar_action {r m out : BHist} :
+    RatHistoryCarrier r -> RatHistoryCarrier m -> Cont r m out ->
+      RatHistoryClassifier out (append r m) := by
+  intro carrierR carrierM continuation
+  have positiveM : PositiveUnaryDenominator m :=
+    RatHistoryCarrier_iff_positive_denominator.mp carrierM
+  have unaryM : UnaryHistory m := (PositiveUnaryDenominator_unary_and_nonempty positiveM).left
+  have appendCarrier : RatHistoryCarrier (append r m) :=
+    RatHistoryCarrier_append_unary_denominator_closed carrierR unaryM
+  exact And.intro
+    (RatHistoryCarrier_hsame_transport continuation.symm appendCarrier)
+    (And.intro appendCarrier continuation)
+
 theorem FieldExtSingletonCarrier_coincidence {h : BHist} :
     FieldSingletonCarrier h ->
       FieldSingletonCarrier h ∧ VecSpaceSingletonCarrier h ∧
