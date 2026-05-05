@@ -1,6 +1,7 @@
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CompleteMetricUp
@@ -19,6 +20,35 @@ def CompleteMetricLimitWitness (X : BHist -> Prop) (s M : BHist -> BHist)
       exists d : BHist,
         MetricDistanceWitness (s n) limit d ∧
           Cont (s n) limit d ∧ RatHistoryClassifier d (M n)
+
+theorem CompleteMetricLimitWitness_empty_limit_distance_cont_readback
+    {X : BHist -> Prop} {s M : BHist -> BHist} :
+    CompleteMetricLimitWitness X s M BHist.Empty ->
+      forall {n : BHist}, UnaryHistory n -> X (s n) ->
+        exists d : BHist,
+          Cont (s n) BHist.Empty d ∧ hsame d (s n) ∧ RatHistoryClassifier d (M n) := by
+  intro witness n nUnary source
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have boundary :
+          UnaryHistory (s n) ∧ hsame d (s n) :=
+        (MetricDistanceWitness_empty_right_iff (x := s n) (d := d)).mp distanceData.left
+      exact ⟨d, distanceData.right.left, boundary.right, distanceData.right.right⟩
+
+theorem CompleteMetricLimitWitness_empty_limit_rat_positive
+    {X : BHist -> Prop} {s M : BHist -> BHist} :
+    CompleteMetricLimitWitness X s M BHist.Empty ->
+      forall {n : BHist}, UnaryHistory n -> X (s n) ->
+        exists d : BHist,
+          PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) ∧
+            Cont (s n) BHist.Empty d := by
+  intro witness n nUnary source
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have positives :
+          PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) :=
+        RatHistoryClassifier_positive_denominators distanceData.right.right
+      exact ⟨d, positives.left, positives.right, distanceData.right.left⟩
 
 theorem CompleteMetricLimitWitness_hsame_transport {X : BHist -> Prop}
     {s s' M M' : BHist -> BHist} {limit limit' : BHist} :
