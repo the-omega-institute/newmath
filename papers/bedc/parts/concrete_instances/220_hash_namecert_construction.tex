@@ -91,3 +91,32 @@ $$
 $$
 Using the swapped digest witnesses $d'$ and $d$, the two original evaluation row witnesses read in the opposite order, the reversed message distinction, and the reversed digest comparison, the definition repacks exactly as $\mathsf{HashCollisionSuccess}_{\mathcal H}(x',x)$ over the same $\mathsf{HashEval}_{\mathcal H}$ row.
 \end{proof}
+
+\begin{theorem}[Hash collision transcript symmetry]
+\label{thm:hash-collision-transcript-symmetry}
+Let $\mathcal H$ be a $\HashUp$ certificate whose message classifier $\sigma_{\mathcal H}$ and finite-output digest classifier $\rho_{\mathcal H}$ have the classifier-symmetry fields supplied by their naming-certificate components. For message histories $x$ and $x'$, every successful collision transcript for the ordered pair $(x,x')$ induces a successful collision transcript for the ordered pair $(x',x)$ over the same two hash-evaluation rows:
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')
+\Longrightarrow
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x',x).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:hash-evaluation-success-transcripts}. A collision transcript for $(x,x')$ gives digest histories $d$ and $d'$ with evaluation row witnesses
+$$
+\mathsf{HashEval}_{\mathcal H}(x,d)
+\qquad\text{and}\qquad
+\mathsf{HashEval}_{\mathcal H}(x',d'),
+$$
+the message distinction witness $\neg\sigma_{\mathcal H}(x,x')$, and the digest comparison $\rho_{\mathcal H}(d,d')$.
+
+The digest-classifier symmetry field from \autoref{def:lean-carrier-naming-certificate}, applied through the finite-output $\FinSetUp$ component cited in \autoref{ch:concrete-instances-finset-namecert}, reverses the digest comparison to
+$$
+\rho_{\mathcal H}(d',d).
+$$
+For the reversed message distinction, suppose $\sigma_{\mathcal H}(x',x)$ held. The message-classifier symmetry field from the same naming-certificate discipline would give $\sigma_{\mathcal H}(x,x')$, contradicting $\neg\sigma_{\mathcal H}(x,x')$. Hence
+$$
+\neg\sigma_{\mathcal H}(x',x).
+$$
+Using the swapped digest witnesses $d'$ and $d$, the two original evaluation row witnesses read in the opposite order, the reversed message distinction, and the reversed digest comparison, the definition repacks exactly as $\mathsf{HashCollisionSuccess}_{\mathcal H}(x',x)$ over the same two $\mathsf{HashEval}_{\mathcal H}$ rows.
+\end{proof}
