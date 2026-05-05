@@ -288,3 +288,27 @@ The pole-locus apartness of \autoref{def:gamma-domain} together with the Weierst
 \label{rem:gamma-schema-horizon-discharge}
 This chapter exports the constructive Gamma witness types, the Weierstrass-product carriers, and the explicit unary moduli consumed by the zeta functional-equation chapter \autoref{ch:concrete-instances-zeta-continuation}.
 \end{remark}
+
+\begin{theorem}[Gamma Weierstrass Cauchy modulus hsame transport]
+\label{thm:gamma-weierstrass-cauchy-modulus-hsame-transport}
+Let $s$ and $t$ be complex histories with $s\hsame t$. Suppose $s$ carries a Gamma-domain core witness whose apartness datum has precision $k_0$, and set
+$$
+N_s(k):=\max(k_0,k)+|\mathsf{Re}(s)|^2+|\mathsf{Im}(s)|^2.
+$$
+Then $t$ carries a Gamma-domain core witness with the same apartness datum. Let $P^t$ be the unary-indexed Weierstrass partial-product family obtained from \autoref{def:gamma-weierstrass-part} at $t$. The pair $(P^t,N_s)$ satisfies $\mathsf{CplxRegSeq}(P^t,N_s)$ in the sense of \autoref{def:cplx-regseq}. Equivalently, for every unary precision $k$ and all unary indices $m,n$ accepted above $N_s(k)$, the complex distance from $P^t_m$ to $P^t_n$ is bounded by the unary representation of $2^{-k}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:gamma-domain-core-hsame-transport} to the comparison $s\hsame t$. The transported witness keeps the original apartness datum, hence keeps the precision $k_0$, while replacing the complex carrier and pole-exclusion fields by their transports to $t$.
+
+Define
+$$
+N_t(k):=\max(k_0,k)+|\mathsf{Re}(t)|^2+|\mathsf{Im}(t)|^2.
+$$
+By \autoref{lem:gamma-weierstrass-cauchy}, the Weierstrass partial products at $t$ form a regular complex Cauchy sequence with modulus $N_t$.
+
+It remains only to replace $N_t$ by $N_s$. The comparison $s\hsame t$, together with the product-classifier reading of complex histories in \autoref{def:complex-classifier-specification}, transports the real and imaginary readbacks of $s$ to those of $t$. The absolute-value, squaring, unary maximum, and unary addition continuations used in the displayed modulus are classifier-respecting, so for every unary $k$ there is a history-sameness comparison
+$$
+N_s(k)\hsame N_t(k).
+$$
+Now fix $k$ and unary indices $m,n$ accepted above $N_s(k)$ in the threshold clause of \autoref{def:cplx-regseq}. In the equality branch, compose the equality with $N_s(k)\hsame N_t(k)$. In the strict-prefix branch, unpack \autoref{def:nat-unary-strict-prefix} and transport the same nonempty unary tail across the endpoint comparison by \autoref{thm:nat-unary-strict-prefix-cont-hsame-transport}. Thus $m$ and $n$ are accepted above $N_t(k)$ as well. The regularity witness for $(P^t,N_t)$ supplies the required complex-distance bound, and the distance history is unchanged. Since $k,m,n$ were arbitrary, $(P^t,N_s)$ is regular with the transported source modulus.
+\end{proof}
