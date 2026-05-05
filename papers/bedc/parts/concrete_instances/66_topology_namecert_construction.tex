@@ -83,3 +83,53 @@ which is precisely the pointwise carrying equation for $U\cap V$ after reversing
 
 For classifier transport, assume $\mathsf{same}_X(x,y)$. Convert $U(x)\wedge V(x)$ to $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)$ by the carrying equation just proved. The membership-stability field of \autoref{def:topology-indexed-open-carrier} transports this to $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,y)$, and the carrying equation at $y$ converts back to $U(y)\wedge V(y)$. The reverse implication is identical with the same stability equivalence read in the opposite direction.
 \end{proof}
+
+\begin{definition}[Indexed arbitrary-union open witness]
+\label{def:topology-indexed-arbitrary-union-witness}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$, and let $A$ be an indexing type. For a family of open indices $\iota:A\to\mathsf{OpenIx}$, an index $u:\mathsf{OpenIx}$ is an indexed arbitrary-union witness for $\iota$, written $\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)$, when it carries exactly the pointwise union of the indexed open memberships:
+$$
+\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)
+:\Longleftrightarrow
+\forall x:X,\quad
+\mathsf{OpenAt}(u,x)
+\Longleftrightarrow
+\exists a:A,\ \mathsf{OpenAt}(\iota(a),x).
+$$
+This is the arbitrary-union counterpart to the finite-intersection operation in \autoref{def:topology-indexed-open-carrier}.
+\end{definition}
+
+\begin{theorem}[Topology indexed open arbitrary-union closure]
+\label{thm:topology-indexed-open-arbitrary-union}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. Let $A$ be an indexing type, let $\iota:A\to\mathsf{OpenIx}$ be a family of open indices, and let $U_a:X\to\mathsf{Prop}$ be predicates indexed by $a:A$. Put $U_{\cup}:X\to\mathsf{Prop}$ for the predicate
+$$
+U_{\cup}(x):\Longleftrightarrow \exists a:A,\ U_a(x).
+$$
+If $u:\mathsf{OpenIx}$ is an indexed arbitrary-union witness for $\iota$ and each $\iota(a)$ carries $U_a$, then $u$ carries $U_{\cup}$:
+$$
+\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)
+\Longrightarrow
+\bigl(\forall a:A,\ \mathsf{CarriesOpen}_{\mathcal{T}}(\iota(a),U_a)\bigr)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}}(u,U_{\cup}).
+$$
+Equivalently, for every point $x:X$ the supplied union index has the introduction and inversion form
+$$
+\mathsf{OpenAt}(u,x)
+\Longleftrightarrow
+\exists a:A,\ U_a(x),
+$$
+and the union predicate transports under the carrier classifier:
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl((\exists a:A,\ U_a(x))\Longleftrightarrow(\exists a:A,\ U_a(y))\bigr).
+$$
+This is the generic $\TopologyUp$ indexed-family closure law whose concrete complex instance appears in \autoref{thm:cplx-topo-union}.
+\end{theorem}
+\begin{proof}
+Assume $h_{\cup}:\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)$ and $h_{\mathrm{car}}:\forall a:A,\ \mathsf{CarriesOpen}_{\mathcal{T}}(\iota(a),U_a)$. Fix $x:X$. If $U_{\cup}(x)$ holds, choose $a:A$ with $U_a(x)$. The carry witness $h_{\mathrm{car}}(a)$ gives $\mathsf{OpenAt}(\iota(a),x)$, hence $\exists a:A,\ \mathsf{OpenAt}(\iota(a),x)$. The arbitrary-union witness $h_{\cup}$ converts this existential open membership into $\mathsf{OpenAt}(u,x)$.
+
+Conversely, if $\mathsf{OpenAt}(u,x)$ holds, then $h_{\cup}$ gives some $a:A$ with $\mathsf{OpenAt}(\iota(a),x)$. The carry witness $h_{\mathrm{car}}(a)$ converts this membership back into $U_a(x)$, hence $U_{\cup}(x)$. Since $x$ was arbitrary, this proves $\mathsf{CarriesOpen}_{\mathcal{T}}(u,U_{\cup})$, and reversing the displayed equivalence gives the pointwise introduction and inversion form.
+
+For classifier transport, assume $\mathsf{same}_X(x,y)$. The carrying equation just proved converts $\exists a:A,\ U_a(x)$ to $\mathsf{OpenAt}(u,x)$. The membership-stability field of \autoref{def:topology-indexed-open-carrier}, applied to the index $u$, transports this to $\mathsf{OpenAt}(u,y)$, and the carrying equation at $y$ converts it to $\exists a:A,\ U_a(y)$. The reverse implication uses the same stability equivalence in the opposite direction.
+\end{proof}
