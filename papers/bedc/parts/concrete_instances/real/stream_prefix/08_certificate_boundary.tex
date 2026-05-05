@@ -33,6 +33,40 @@ stream classification; standard bridge RealUp seal; status
 $\mathsf{ProofTarget}$.
 \end{definition}
 
+\begin{theorem}[RegSeqRat constant stream spine]
+\label{thm:regseqrat-constant-stream-spine}
+For every history $d:\Hist$, a carrier
+$\mathsf{RatHistoryCarrier}(d)$ supplies a $\RegSeqRat$ stream certificate spine
+for $\mathsf{RatConstStream}_d$. The spine consists of the
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$ row, the self
+$\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_d)$ row, and a constant regularity ledger: at any two
+certified unary observation indices, both exposed endpoints are the same
+$\RatUp$ point $d$, and every dyadic-tolerance request is discharged by RatUp
+classifier reflexivity.
+\end{theorem}
+\begin{proof}
+Apply the carrier half of
+\autoref{thm:rat-stream-name-constant-point-exactness} from right to left to
+the displayed $\mathsf{RatHistoryCarrier}(d)$. This gives the stream-name
+carrier row for $\mathsf{RatConstStream}_d$.
+
+For the classifier row, unfold
+Definition~\ref{def:real-unary-observation-stream-classifier}. A certified
+unary observation $n$ reads
+$\mathsf{RatConstStream}_d(n)=d$, so the required pointwise
+$\mathsf{RatHistoryClassifier}(\mathsf{RatConstStream}_d(n),
+\mathsf{RatConstStream}_d(n))$ is RatUp classifier reflexivity at the supplied
+carrier of $d$.
+
+The regularity ledger is constant. Given any two certified unary observation
+indices, the point-exactness theorem identifies both exposed endpoints with
+the same RatUp point $d$. Thus the two observations have the same carrier, and
+each dyadic tolerance request compares $d$ with itself, again by RatUp
+reflexivity. These rows are exactly the data named in
+Definition~\ref{def:regseqrat-stream-certificate-spine}.
+\end{proof}
+
 \begin{theorem}[RegSeqRat stream classifier stability spine]
 \label{thm:regseqrat-stream-classifier-stability-spine}
 Let $s,t,u,s',t':\Hist\to\Hist$ be rational-observation maps. Suppose
