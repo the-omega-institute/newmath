@@ -53,6 +53,7 @@ class WritebackResult:
     # real error lines (Undefined control seq / Missing / Extra etc.) so
     # the runtime can feed them as rejection_reasons to codex corrective.
     compile_errors: list = None  # type: ignore
+    closure_candidate: dict = None  # type: ignore
 
 
 def _now_tag() -> str:
@@ -467,7 +468,25 @@ def writeback(
                 compile_errors=errors,
             )
 
-    return WritebackResult(True, "accept", str(target.relative_to(REPO_ROOT)), True, True, [])
+    tex_result = str(target.relative_to(REPO_ROOT))
+    closure_review: dict = {}
+    try:
+        import closure_candidate
+
+        closure_review = closure_candidate.analyze(
+            target_id=target_id,
+            target_title=target_title,
+            tex_file=tex_result,
+            appended_content=content,
+        )
+    except Exception as exc:
+        closure_review = {
+            "ok": False,
+            "action": "error",
+            "error": f"closure_candidate failed: {exc}",
+        }
+
+    return WritebackResult(True, "accept", tex_result, True, True, [], closure_candidate=closure_review)
 
 
 def _extract_compile_errors(compile_log: str) -> list[str]:
@@ -536,6 +555,7 @@ def main() -> int:
         "compile_ok": result.compile_ok,
         "rejection_reasons": result.rejection_reasons,
         "error": result.error,
+        "closure_candidate": result.closure_candidate or {},
     }, indent=2, ensure_ascii=False))
     return 0 if result.ok and result.verdict == "accept" else 1
 
