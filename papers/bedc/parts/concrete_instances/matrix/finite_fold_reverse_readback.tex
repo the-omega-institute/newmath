@@ -1,0 +1,37 @@
+\begin{theorem}[Singleton additive fold reverse empty append readback]
+\label{thm:matrix-singleton-add-fold-reverse-empty-append-hsame}
+If \(xs\) is carried by \(\mathsf{MatrixSingletonAddFoldSpineCarrier}\), then
+appending the singleton additive fold of \(xs\) to \(\emp\) is history-same to
+appending the singleton additive fold of \(\mathsf{reverse}(xs)\) to \(\emp\).
+\end{theorem}
+\begin{proof}
+First prove by induction on the spine that the carrier is preserved by list
+reversal. The nil case is the empty carrier. In the cons case, the induction
+hypothesis carries the reversed tail, the head supplies the singleton suffix
+carrier, and append closure for spine carriers carries the reversed cons
+spine. The fold carrier equivalence then makes both folds empty-carried, and
+the right-unit law for append identifies the two displayed empty-appended
+endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_empty\_append\_hsame}
+
+\begin{theorem}[Singleton additive fold reverse carrier readback]
+\label{thm:matrix-singleton-add-fold-reverse-carrier-readback}
+If \(xs\) is carried by \(\mathsf{MatrixSingletonAddFoldSpineCarrier}\), then
+the reversed singleton additive fold is carried, and the two fold endpoints are
+history-same:
+$$
+\mathsf{MatrixSingletonCarrier}(\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(xs)))
+\land
+\mathsf{MatrixSingletonAddFold}(xs)\hsame
+\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(xs)).
+$$
+\end{theorem}
+\begin{proof}
+Induct through the reverse accumulator to show that carried spines remain
+carried after reversal. The fold carrier readback then makes both the original
+fold and the reversed fold singleton-carried. Since the singleton carrier is
+history-sameness to \(\emp\), transitivity through \(\emp\) gives the displayed
+fold readback.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_carrier\_readback}
