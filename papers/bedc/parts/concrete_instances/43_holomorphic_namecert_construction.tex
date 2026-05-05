@@ -640,6 +640,20 @@ forces that tail to be empty, contradicting strictness.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_endpoint\_hsame\_absurd}
 
+\begin{theorem}[Strict iterated complex differentiability result nonemptiness]
+\label{thm:iterated-strict-cplxdiff-result-not-empty}
+If a strict iterated complex-differentiability chain advances by at least one
+nonempty continuation step, then its final endpoint cannot be $\hsame$ to
+$\emp$.
+\end{theorem}
+\begin{proof}
+Invert the successor strict-iteration witness to expose the previous endpoint,
+the final step, and its nonempty-step field. Transport the final continuation
+result along the displayed empty endpoint comparison. Empty-result inversion
+forces the final step to be empty, contradicting the stored strictness field.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_result\_not\_empty}
+
 \begin{theorem}[Strict iterated complex differentiability transports unary readback]
 \label{thm:iterated-strict-cplx-diff-hsame-transport-unary-readback}
 If a strict iterated complex-differentiability chain has \(\hsame\)-equivalent
