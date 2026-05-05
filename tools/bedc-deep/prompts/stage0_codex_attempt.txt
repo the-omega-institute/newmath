@@ -55,6 +55,9 @@ Method:
 4. If DIRECT: every proof step must cite a specific existing field /
    lemma / definition by its label OR by its named role in the target
    chapter. Use proper paper conventions (see Output requirements below).
+   Do not solve the target by emitting marker-only text, a `closurestatus`
+   block, or a parameter-transport echo over abstract carriers/classifiers.
+   The block must prove a concrete claim about the named BEDC object.
 
 Return only one JSON object matching the schema below. No markdown fence,
 no prose outside JSON, no shell commands inside the JSON.
@@ -93,15 +96,20 @@ G. No sectioning openers: NEVER `\part`, `\chapter`, `\section`,
 H. No Lean markers: NEVER `\leanchecked`, `\leanvariant`, `\leansorryd`,
    `\leandef`, `\leanstmt`. The downstream codex_formalize lane attaches
    those after Lean targets land.
-I. English LaTeX content only. The BEDC paper body has zero Chinese.
-J. `depth_self_assessment` is `"adequate"` for an honest direct proof. If
+I. No `closurestatus` blocks, `\theoryclosure`, `\formalstatus`,
+   `\leantarget`, or chapter-retirement prose.
+J. No parameter-transport echo: the theorem may not simply transport an
+   abstract carrier/classifier equivalence through fields.
+K. English LaTeX content only. The BEDC paper body has zero Chinese.
+L. `depth_self_assessment` is `"adequate"` for an honest direct proof. If
    you are tempted to mark it `"shallow"`, re-route to `verdict=needs_deep`
    instead. `"deep"` is reserved for the oracle path.
 
 Hard rejection tokens — `content` must NOT contain any of:
 "we extend", "we now revise", "patch", "increment", "new section",
 "新增", "修订", "本次", "本轮", "vNNN-", "legacy", "supersede",
-"previously", "Q.E.D.", "QED", "\qed", "\square".
+"previously", "Q.E.D.", "QED", "\qed", "\square", "closurestatus",
+"\theoryclosure", "\formalstatus", "\leantarget".
 
 Output requirements when verdict is "needs_deep":
 

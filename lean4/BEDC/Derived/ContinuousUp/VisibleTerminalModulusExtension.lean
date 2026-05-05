@@ -74,31 +74,45 @@ theorem ContinuousFunctionCarrier_visible_terminal_modulus_reassociation
               Cont extra1 extra2 extra12 ->
                 Cont modulus0 extra12 modulus12 ->
                   ContinuousFunctionCarrier (append p source) map (append p target)
-                    (append modulus2 q) (append (append p cert2) q) ∧
+                      (append modulus2 q) (append (append p cert2) q) ∧
                     ContinuousFunctionCarrier (append p source) map (append p target)
                       (append modulus12 q) (append (append p cert2) q) ∧
-                      hsame modulus2 modulus12 := by
-  intro carrier witness1 witness2 rel1 rel2 relExtra relComposite
+                    hsame modulus2 modulus12 := by
+  intro carrier witness1 witness2 rel1 rel2 extraRel compositeRel
   have sequential :
-      ContinuousFunctionCarrier (append p source) map (append p target)
-        (append modulus2 q) (append (append p cert2) q) :=
+      ContinuousFunctionCarrier (append p source) map (append p target) (append modulus2 q)
+        (append (append p cert2) q) :=
     ContinuousFunctionCarrier_visible_terminal_modulus_extension_transitive
       carrier witness1 rel1 witness2 rel2
-  have chain : ContinuousModulusChain cert0 extra1 extra2 cert2 :=
-    And.intro witness1.left
-      (And.intro witness1.right.left
-        (And.intro witness2.right.left
-          (And.intro witness2.right.right.left
-            (Exists.intro cert1
-              (And.intro witness1.right.right.right witness2.right.right.right)))))
+  have chain : ContinuousModulusChain cert0 extra1 extra2 cert2 := by
+    cases witness1 with
+    | intro cert0Carrier witness1Rest =>
+        cases witness1Rest with
+        | intro extra1Carrier witness1Rest =>
+            cases witness1Rest with
+            | intro cert1Carrier cert0Extra1 =>
+                cases witness2 with
+                | intro _cert1Carrier witness2Rest =>
+                    cases witness2Rest with
+                    | intro extra2Carrier witness2Rest =>
+                        cases witness2Rest with
+                        | intro cert2Carrier cert1Extra2 =>
+                            exact
+                              And.intro cert0Carrier
+                                (And.intro extra1Carrier
+                                  (And.intro extra2Carrier
+                                    (And.intro cert2Carrier
+                                      (Exists.intro cert1
+                                        (And.intro cert0Extra1 cert1Extra2)))))
   have compositeWitness : ContinuousModulusWitness cert0 extra12 cert2 :=
-    ContinuousModulusChain_composite_closed chain relExtra
+    ContinuousModulusChain_composite_closed chain extraRel
   have composite :
-      ContinuousFunctionCarrier (append p source) map (append p target)
-        (append modulus12 q) (append (append p cert2) q) :=
-    ContinuousFunctionCarrier_visible_terminal_modulus_extension carrier compositeWitness relComposite
-  exact And.intro sequential
-    (And.intro composite (cont_assoc_hsame rel1 rel2 relExtra relComposite))
+      ContinuousFunctionCarrier (append p source) map (append p target) (append modulus12 q)
+        (append (append p cert2) q) :=
+    ContinuousFunctionCarrier_visible_terminal_modulus_extension carrier compositeWitness compositeRel
+  have sameModulus : hsame modulus2 modulus12 :=
+    cont_assoc_hsame rel1 rel2 extraRel compositeRel
+  exact And.intro sequential (And.intro composite sameModulus)
 
 theorem ContinuousFunctionCarrier_visible_terminal_modulus_reassociation_output_determinacy
     {p q source map target target' modulus0 cert0 extra1 modulus1 cert1 extra2 extra12
