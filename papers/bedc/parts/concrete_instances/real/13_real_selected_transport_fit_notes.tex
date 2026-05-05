@@ -607,18 +607,8 @@ synchronized rows are exactly the tail rows already supplied by the
 determinacy package.
 \end{proof}
 
-Fit: traditional target synchronized transported RealUp selected-observation
-certificate; BEDC source RealUp stream transport plus RatUp and FKernel
-$\Cont$; carrier rational-observation streams; classifier RealStreamClassifier
-plus displayed RatHistoryClassifier rows; stability pointwise $\hsame$, context
-closure, stream-classifier finite-prefix closure, e-one inversion; ledger
-selected index, prefix surplus, four tails, contexts; core theorem
-\autoref{thm:real-selected-transport-fit-synchronized-package}; exactness
-package plus synchronized classifiers; standard bridge selected RegSeqRat
-dyadic observation readback; status $\mathsf{ProofTarget}$.
-
-\begin{theorem}[Real selected transport synchronized fit from stream classifier]
-\label{thm:real-selected-transport-fit-synchronized-from-stream-classifier}
+\begin{theorem}[Real selected transport synchronized package from stream classifier]
+\label{thm:real-selected-transport-synchronized-package-from-stream-classifier}
 For rational-observation streams
 $x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
 indices $m,n$, and histories $a,a',b,b',z_X,z_Y:\Hist$, assume the pointwise
@@ -718,26 +708,33 @@ $$
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:real-stream-classifier-prefix} to
-$\mathsf{RealStreamClassifier}(x,y)$ at the finite length $m+n$. This gives the
-prefix row $\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$.
+$\mathsf{RealStreamClassifier}(x,y)$ at the finite length $m+n$. This produces
+the derived row $\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$.
 
-Apply \autoref{thm:real-selected-transport-fit-synchronized-package} to the two
-pointwise transport rows, the source stream classifier row, the derived prefix
-row, the selected context rows, the selected continuation rows, and the six
-selected e-one display rows. Its conclusion is exactly the four packages listed
+Apply \autoref{thm:real-selected-transport-fit-synchronized-package} with the
+derived prefix row, the source stream classifier row, the two pointwise
+transport rows, and the remaining context, continuation, and displayed e-one
+hypotheses. The four returned packages are exactly the four packages displayed
 above.
 \end{proof}
 
-Fit: traditional target stream-classifier-closed synchronized transported
-RealUp selected-observation certificate; BEDC source
-\autoref{thm:real-stream-classifier-prefix} plus
-\autoref{thm:real-selected-transport-fit-synchronized-package}; carrier
-rational-observation streams; classifier $\mathsf{RealStreamClassifier}$ with
-the finite-prefix row derived internally; stability pointwise $\hsame$,
-context closure, e-one inversion, and selected full-shape readback; ledger
-selected index, prefix surplus, four tails, contexts, and derived prefix row;
-core theorem
-\autoref{thm:real-selected-transport-fit-synchronized-from-stream-classifier}
-in future Lean namespace \texttt{BEDC.Derived.RealUp}; exactness predicate the
-four synchronized selected-transport packages; standard bridge RealUp selected
-RegSeqRat endpoint synchronization; status $\mathsf{ProofTarget}$.
+Fit: traditional target selected RealUp observation synchronization from a
+stream classifier; BEDC source RealUp stream classifier plus RatUp,
+StreamNameUp, and $\mathsf{Cont}$; carrier rational-observation streams;
+classifier $\mathsf{RealStreamClassifier}$ with derived finite-prefix row;
+stability pointwise $\hsame$ transport, contextual continuation, and e-one
+inversion; ledger selected index, prefix length, transport rows, contexts, and
+four tails; core theorem
+\autoref{thm:real-selected-transport-synchronized-package-from-stream-classifier};
+exactness the four synchronized packages; standard bridge selected RegSeqRat
+dyadic observation readback; status $\mathsf{ProofTarget}$.
+
+Fit: traditional target synchronized transported RealUp selected-observation
+certificate; BEDC source RealUp stream transport plus RatUp and FKernel
+$\Cont$; carrier rational-observation streams; classifier RealStreamClassifier
+plus displayed RatHistoryClassifier rows; stability pointwise $\hsame$, context
+closure, stream-classifier finite-prefix closure, e-one inversion; ledger
+selected index, prefix surplus, four tails, contexts; core theorem
+\autoref{thm:real-selected-transport-fit-synchronized-package}; exactness
+package plus synchronized classifiers; standard bridge selected RegSeqRat
+dyadic observation readback; status $\mathsf{ProofTarget}$.

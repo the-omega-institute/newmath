@@ -640,3 +640,20 @@ pattern and ledger fields are the source witness itself.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert}
 \closureat{\HomologyUp}{\checkedCertStr}[BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert]
+
+\begin{theorem}[Homology cycle carrier $\hsame$ transport]
+\label{thm:homology-cycle-carrier-hsame-transport}
+Assume the differential is stable under history-sameness:
+$$
+\forall u,v:\mathsf{BHist},\ \hsame(u,v)\to\hsame(d(u),d(v)).
+$$
+If $Z_d(h)$ and $\hsame(h,k)$, then $Z_d(k)$.
+\end{theorem}
+\begin{proof}
+By \autoref{sec:homology-carrier}, $Z_d(h)$ is the endpoint comparison
+$\hsame(d(h),\mathsf{Empty})$. Applying the displayed stability row to
+$\hsame(h,k)$ gives $\hsame(d(h),d(k))$. Symmetry of $\hsame$ gives
+$\hsame(d(k),d(h))$, and transitivity with the cycle endpoint gives
+$\hsame(d(k),\mathsf{Empty})$. By the same carrier definition, this is
+$Z_d(k)$.
+\end{proof}
