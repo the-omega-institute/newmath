@@ -810,7 +810,7 @@ def main() -> int:
                     supervisor_log("tab health: queue_waiting_for_browser_agent > 5min — verify ChatGPT tabs ACTIVE")
                     macos_notify(
                         "BEDC supervisor: tab stuck",
-                        "ChatGPT tab stuck > 5 min — open https://chatgpt.com/?bedc=1 and click Start",
+                        "ChatGPT tab stuck > 5 min — open https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start",
                     )
                     last_tab_alert_ts = _now()
 
