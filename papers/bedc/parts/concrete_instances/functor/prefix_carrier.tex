@@ -352,3 +352,27 @@ compares the displayed carrier with this canonical carrier and identifies the
 displayed source with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_source\_deterministic}
+
+\begin{theorem}[Prefix functor carrier empty-middle empty-result readback]
+\label{thm:prefix-functor-carrier-comp-empty-middle-empty-result-readback}
+For histories $p,q,a,c,f,g,fg$, suppose $p$ carries a prefix functor carrier,
+$f$ is a hom-carrier from $\mathsf{append}(p,a)$ to $\emp$, $g$ is a
+hom-carrier from $\emp$ to $\mathsf{append}(q,c)$, $\ContR(f,g,fg)$, and
+$fg\hsame\emp$. Then $q$ carries a prefix functor carrier, and all displayed
+components are empty:
+$$
+\mathsf{PrefixFunctorCarrier}(q)\wedge\hsame(p,\emp)\wedge\hsame(q,\emp)
+\wedge\hsame(a,\emp)\wedge\hsame(c,\emp)\wedge
+\hsame(f,\emp)\wedge\hsame(g,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply category composite-result empty exactness to the displayed hom-carriers.
+The left endpoint equality splits
+$\mathsf{append}(p,a)\hsame\emp$ into $p\hsame\emp$ and $a\hsame\emp$, and the
+right endpoint equality splits $\mathsf{append}(q,c)\hsame\emp$ into
+$q\hsame\emp$ and $c\hsame\emp$. The factor morphism equalities give
+$f\hsame\emp$ and $g\hsame\emp$. Since $q$ is history-same to $\emp$, the
+unary-prefix constructor supplies the prefix functor carrier at $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_empty\_middle\_empty\_result\_readback}
