@@ -107,6 +107,25 @@ theorem GraphContEdge_classifier_transport {h k g h' k' g' : BHist} :
             (And.intro continuation'
               (And.intro sameH (And.intro sameK sameG)))
 
+theorem GraphContEdge_row_inversion :
+    (forall {h h' k g : BHist}, GraphContEdge h k g -> GraphContEdge h' k g ->
+      Cont h k g ∧ Cont h' k g ∧ hsame h h') ∧
+    (forall {h k k' g : BHist}, GraphContEdge h k g -> GraphContEdge h k' g ->
+      Cont h k g ∧ Cont h k' g ∧ hsame k k') ∧
+    (forall {h k g g' : BHist}, GraphContEdge h k g -> GraphContEdge h k g' ->
+      Cont h k g ∧ Cont h k g' ∧ hsame g g') := by
+  constructor
+  · intro h h' k g left right
+    exact And.intro left.right.right
+      (And.intro right.right.right (cont_right_cancel left.right.right right.right.right))
+  constructor
+  · intro h k k' g left right
+    exact And.intro left.right.right
+      (And.intro right.right.right (cont_left_cancel left.right.right right.right.right))
+  · intro h k g g' left right
+    exact And.intro left.right.right
+      (And.intro right.right.right (cont_deterministic left.right.right right.right.right))
+
 theorem GraphCont_namecert_surface :
     SemanticNameCert UnaryHistory UnaryHistory UnaryHistory hsame ∧
       (forall {h k g : BHist}, GraphContEdge h k g ->
@@ -145,6 +164,27 @@ theorem GraphCont_namecert_surface :
       (by
         intro h k g h' k' g' edge sameH sameK sameG
         exact (GraphContEdge_classifier_transport edge sameH sameK sameG).left))
+
+theorem GraphContEdge_two_step_composition {h k l hk kl : BHist} :
+    GraphContEdge h k hk -> GraphContEdge k l kl ->
+      exists left : BHist, exists right : BHist,
+        GraphContEdge hk l left ∧ GraphContEdge h kl right ∧ hsame left right := by
+  intro hkEdge klEdge
+  have hkUnary : UnaryHistory hk :=
+    unary_cont_closed hkEdge.left hkEdge.right.left hkEdge.right.right
+  have klUnary : UnaryHistory kl :=
+    unary_cont_closed klEdge.left klEdge.right.left klEdge.right.right
+  cases cont_assoc_exists_hsame hkEdge.right.right klEdge.right.right with
+  | intro left leftData =>
+      cases leftData with
+      | intro right data =>
+          exact Exists.intro left
+            (Exists.intro right
+              (And.intro
+                (And.intro hkUnary (And.intro klEdge.right.left data.left))
+                  (And.intro
+                    (And.intro hkEdge.left (And.intro klUnary data.right.left))
+                    data.right.right)))
 
 theorem GraphContEdge_composition_closure {h k l hk kl : BHist} :
     GraphContEdge h k hk -> GraphContEdge k l kl ->
