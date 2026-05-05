@@ -6,6 +6,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexUp
 open BEDC.Derived.ComplexLimitUp
 open BEDC.Derived.DirichletSeriesUp
 
@@ -24,6 +25,10 @@ def ZetaBasicSourceSpec (s : BHist) : Prop := UnaryHistory s
 
 def ZetaBasicPatternSpec (s n z : BHist) : Prop :=
   UnaryHistory n ∧ ZetaBasicPartSum s n z ∧ hsame (ZetaBasicUnitTerm n s) (BHist.e1 s)
+
+def ZetaBasicLedgerPolicy (s z : BHist) : Prop :=
+  ZetaBasicSourceSpec s ∧ ZetaBasic s z ∧ ComplexHistoryCarrier z ∧
+    exists n p : BHist, UnaryHistory n ∧ ZetaBasicPartSum s n p
 
 theorem ZetaBasicSourceSpec_unit_term_carrier {s : BHist} :
     ZetaBasicSourceSpec s ->
@@ -145,6 +150,12 @@ theorem ZetaBasicPatternSpec_successor_step_inversion {s n z : BHist} :
       exact Exists.intro previous
         (And.intro (And.intro unaryN (And.intro previousData.left (hsame_refl _)))
           previousData.right)
+
+theorem ZetaBasicLedgerPolicy_carrier_fields {s z : BHist} :
+    ZetaBasicLedgerPolicy s z ->
+      ZetaBasicSourceSpec s ∧ ZetaBasic s z ∧ ComplexHistoryCarrier z := by
+  intro ledger
+  exact And.intro ledger.left (And.intro ledger.right.left ledger.right.right.left)
 
 theorem ZetaBasicPartSum_empty_source_successor_result_shape {n z : BHist} :
     ZetaBasicPartSum BHist.Empty (BHist.e1 n) z ->
