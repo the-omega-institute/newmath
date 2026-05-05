@@ -114,6 +114,26 @@ theorem TotallyBoundedProbeBundleNet_finite_union {X Y : BHist -> Prop} {eps : B
                               (right := right)).mpr (Or.inr pData.left),
                             d, distanceData.left, distanceData.right⟩
 
+theorem TotallyBoundedProbeBundleNet_subcarrier_restriction {X Y : BHist -> Prop}
+    {eps : BHist} {bundle : ProbeBundle BHist}
+    (inclusion : forall {y : BHist}, Y y -> X y)
+    (centerY : forall {p : BHist}, InBundle p bundle -> Y p) :
+    TotallyBoundedProbeBundleNet X eps bundle -> TotallyBoundedProbeBundleNet Y eps bundle := by
+  intro net
+  cases net with
+  | intro epsCarrier rest =>
+      constructor
+      · exact epsCarrier
+      · constructor
+        · intro p inBundle
+          exact centerY inBundle
+        · intro y sourceY
+          cases rest.right (inclusion sourceY) with
+          | intro p pData =>
+              cases pData.right with
+              | intro d distanceData =>
+                  exact ⟨p, pData.left, d, distanceData.left, distanceData.right⟩
+
 theorem SingletonMetricTotallyBounded_laws :
     hsame BHist.Empty BHist.Empty ∧
       InBundle BHist.Empty (ProbeBundle.Bcons BHist.Empty ProbeBundle.Bnil) ∧
