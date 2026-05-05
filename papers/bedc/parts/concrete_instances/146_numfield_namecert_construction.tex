@@ -199,6 +199,94 @@ FieldExtUp vector-space row.
 \end{proof}
 \leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_finite\_basis\_witness}
 
+\begin{definition}[NumFieldUp RatUp reflexive singleton basis row]
+\label{def:numfieldup-rat-reflexive-singleton-basis-row}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the singleton
+basis row is the FieldExtUp vector-space singleton row. Its support is the
+one-element FieldExt vector carrier entry named by
+$\mathsf{FieldSingletonOne}:=\mathsf{BHist.Empty}$.
+
+The RatUp data in the row live only in coordinate readback. For each carried
+$m:\mathsf{BHist}$, a coordinate endpoint $coord:\mathsf{BHist}$ is accepted
+when $\mathsf{Cont}\ m\ \mathsf{BHist.Empty}\ coord$ holds, and the embedded
+ambient endpoint is $\mathsf{FieldExtSingletonEmbedding}\ m$. Thus the basis
+support is a FieldExt singleton-vector support, while the coordinate endpoint
+and the embedded endpoint are the RatUp-classified rows attached to $m$.
+\end{definition}
+
+\begin{theorem}[NumFieldUp RatUp reflexive basis carrier boundary]
+\label{thm:numfieldup-rat-reflexive-basis-carried}
+In the singleton basis row of
+\autoref{def:numfieldup-rat-reflexive-singleton-basis-row}, the basis support is
+carried by the FieldExtUp singleton vector carrier. The paper does not assert
+$\mathsf{RatHistoryCarrier}\ \mathsf{BHist.Empty}$ for that support. RatUp
+carrier hypotheses apply to coordinate endpoints and to embedded ambient
+endpoints, not to the bare FieldExt singleton vector marker.
+\end{theorem}
+\begin{proof}
+Unfold the singleton basis row of
+\autoref{def:numfieldup-rat-reflexive-singleton-basis-row}. The displayed
+support entry is
+$\mathsf{FieldSingletonOne}:=\mathsf{BHist.Empty}$, so its carrier obligation is
+the FieldExt singleton vector carrier obligation.
+
+The RatUp carrier predicate is read on the coordinate side. For a carried
+$m:\mathsf{BHist}$, the accepted coordinate row has
+$\mathsf{Cont}\ m\ \mathsf{BHist.Empty}\ coord$, and the embedded endpoint is
+$\mathsf{FieldExtSingletonEmbedding}\ m$. Apply
+$\mathsf{RatHistoryCarrier\_not\_empty}$ to separate this coordinate-side
+RatUp carrier from any assertion that $\mathsf{BHist.Empty}$ itself is a RatUp
+history carrier endpoint.
+\end{proof}
+
+\begin{theorem}[NumFieldUp RatUp reflexive coordinate exactness span]
+\label{thm:numfieldup-rat-reflexive-coordinate-exactness}
+Let $h,k,c,d:\mathsf{BHist}$. If
+$\mathsf{RatHistoryClassifier}\ h\ k$,
+$\mathsf{Cont}\ h\ \mathsf{BHist.Empty}\ c$, and
+$\mathsf{Cont}\ k\ \mathsf{BHist.Empty}\ d$, then
+$\mathsf{RatHistoryClassifier}\ c\ d$ and
+$\mathsf{RatHistoryClassifier}\ (\mathsf{FieldExtSingletonEmbedding}\ h)
+(\mathsf{FieldExtSingletonEmbedding}\ k)$.
+\end{theorem}
+\begin{proof}
+Apply $\mathsf{cont\_right\_unit\_result}$ to the two coordinate readbacks. This
+identifies $c$ with $h$ and $d$ with $k$ in the history classifier class named by
+right multiplication with the empty endpoint.
+
+Next use $\mathsf{RatHistoryClassifier\_hsame\_transport}$ to transport the
+given classifier $\mathsf{RatHistoryClassifier}\ h\ k$ across these two
+right-unit identifications. This yields
+$\mathsf{RatHistoryClassifier}\ c\ d$.
+
+For the embedded endpoints, apply
+$\mathsf{FieldExtRatReflexive\_exact\_endpoint\_classification}$ to the same
+classifier input. The reflexive FieldExt embedding is the singleton embedding
+row, so the embedded histories
+$\mathsf{FieldExtSingletonEmbedding}\ h$ and
+$\mathsf{FieldExtSingletonEmbedding}\ k$ remain in the same RatUp classifier
+class.
+\end{proof}
+
+\begin{theorem}[NumFieldUp RatUp reflexive coordinate uniqueness]
+\label{thm:numfieldup-rat-reflexive-coordinate-uniqueness}
+Let $m,c,d:\mathsf{BHist}$. If
+$\mathsf{Cont}\ m\ \mathsf{BHist.Empty}\ c$ and
+$\mathsf{Cont}\ m\ \mathsf{BHist.Empty}\ d$, then
+$\mathsf{RatHistoryClassifier}\ c\ d$, and both $c$ and $d$ classify the carried
+endpoint $m$ under $\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+Apply right-unit determinacy for $\mathsf{Cont}$ to the two readback rows. The
+first row classifies $c$ with $m$, and the second row classifies $d$ with $m$.
+
+Use symmetry of $\mathsf{RatHistoryClassifier}$ on the second classification to
+read $m$ against $d$. Then use transitivity with the first classification to
+obtain $\mathsf{RatHistoryClassifier}\ c\ d$. The two endpoint classifications
+are exactly the two right-unit readbacks, oriented by symmetry when necessary.
+\end{proof}
+
 \begin{theorem}[NumFieldUp reflexive rational NameCert obligation package]
 \label{thm:numfield-reflexive-rational-namecert-obligation-package}
 The carrier of
