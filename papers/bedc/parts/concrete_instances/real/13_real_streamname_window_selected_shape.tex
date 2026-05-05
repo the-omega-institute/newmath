@@ -285,11 +285,10 @@ $$
 \quad
 \hsame(t(\mathsf{append}(\alpha,k)),\Eone(v)).
 $$
-Then the selected endpoints carry the full finite-window endpoint package and
-the appended e-zero-tail exclusions:
+Then the selected endpoints carry the selected-shape endpoint package and the
+appended e-zero-tail exclusions:
 $$
 \begin{array}{l}
-\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)\land\\
 \mathsf{RatHistoryClassifier}(s(\mathsf{append}(\alpha,k)),t(\mathsf{append}(\alpha,k)))\land\\
 \mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))\land\\
 \mathsf{UnaryHistory}(u)\land\mathsf{UnaryHistory}(v)\land\hsame(u,v)\land\\
@@ -310,11 +309,11 @@ $$
 \end{theorem}
 \begin{proof}
 Apply
-\autoref{thm:real-unary-streamname-finite-window-selected-full-endpoint-package}
+\autoref{thm:real-unary-streamname-finite-window-selected-shape-package}
 to the two carrier rows, the StreamNameUp classifier, the unary anchor and
 bound, the selected offset, and the displayed one-headed endpoint comparisons.
-This gives every row of the full finite-window endpoint package, including the
-two selected positive-denominator witnesses.
+This gives every selected endpoint row through the zero-head exclusions,
+including the two selected positive-denominator witnesses.
 
 For the left endpoint, suppose
 $\hsame(s(\mathsf{append}(\alpha,k)),d_s\cdot\Ezero(z_s))$. Transport the
@@ -331,9 +330,10 @@ positive denominator witness for $t(\mathsf{append}(\alpha,k))$ to
 $d_t\cdot\Ezero(z_t)$, and the same appended e-zero-tail absurdity theorem
 contradicts that transported witness.
 
-Repack the original full endpoint rows with the two appended-tail exclusions.
+Repack the original selected-shape rows with the two appended-tail exclusions.
 This is exactly the displayed selected classifier appended-tail package.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_classifier\_appended\_tail\_package}
 
 Fit. Traditional target: selected finite-window rational readback with
 appended-tail endpoint exclusion for RealUp StreamNameUp classifiers. BEDC
@@ -418,6 +418,7 @@ Package $u$ and $v$ as the existential witnesses. Prepending their two selected
 endpoint displays to the returned appended-tail package gives exactly the
 displayed coverage package.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_e1\_tail\_coverage\_package}
 
 Fit. Traditional target: finite RealUp observation-window readback without
 endpoint display hypotheses. BEDC source: $\StreamNameUp$ plus $\RealUp$ finite
