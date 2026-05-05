@@ -1,4 +1,5 @@
 import BEDC.Derived.MatrixUp
+import BEDC.Derived.MatrixUp.FiniteFold
 
 namespace BEDC.Derived.MatrixUp
 
