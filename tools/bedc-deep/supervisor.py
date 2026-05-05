@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """BEDC bedc-deep supervisor — outer loop that keeps the pipeline alive.
 
+Mission: keep the paper-research pipeline deriving correct, local BEDC
+theorem-site content, refilling BOARD from vetted discovery, and surfacing
+closure follow-up candidates without mixing them into theorem writeback.
+
 Wraps `oracle_client.py --loop` and adds:
   1. Server health: ensure bedc_oracle_server.py is running on :8767.
   2. Stale cleanup: prune dead .in_progress markers each pass.
