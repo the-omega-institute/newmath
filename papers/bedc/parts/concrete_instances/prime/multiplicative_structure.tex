@@ -513,6 +513,19 @@ multiplication witness repackages as \(\mathsf{NatDivides}(d,n_0)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_result\_cases}
 
+\begin{theorem}[Divisibility zero-headed component impossibility]
+\label{thm:nat-divides-zero-headed-component-absurd}
+If \(\mathsf{NatDivides}(d,n)\) holds, then neither the divisor \(d\) nor the
+dividend \(n\) can be a zero-headed history.
+\end{theorem}
+\begin{proof}
+Unpack the explicit quotient \(q\) in the divisibility witness. The underlying
+\(\mathsf{NatMul}(d,q,n)\) witness rules out zero-headed multiplicand,
+multiplier, and result components. Applying that impossibility to the divisor
+or dividend component gives the claim.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_zero\_headed\_component\_absurd}
+
 \begin{lemma}[Empty left divisibility has empty result]
 \label{lem:natdivides-empty-left-result-empty}
 If \(\mathsf{NatDivides}(\emp,n)\), then \(n\hsame\emp\).
@@ -625,6 +638,27 @@ If \(\mathsf{NatDivides}(d, e)\) and \(\mathsf{NatDivides}(e, n)\), then \(\math
 From the witnessing quotients \(q_1\) with \(\mathsf{NatMul}(d, q_1, e)\) and \(q_2\) with \(\mathsf{NatMul}(e, q_2, n)\), the composite quotient is \(q_1 \cdot q_2\), itself constructed as a unary history by \autoref{lem:nat-mul-total}.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_transitive}
+
+\begin{theorem}[Unary divisibility partial-order certificate]
+\label{thm:nat-divides-partial-order-certificate}
+On unary histories, $\mathsf{NatDivides}$ is reflexive and transitive, and it is
+antisymmetric modulo $\hsame$: for unary histories $d$, $e$, and $n$,
+$\mathsf{NatDivides}(d,d)$,
+$\mathsf{NatDivides}(d,e) \wedge \mathsf{NatDivides}(e,n) \Rightarrow
+\mathsf{NatDivides}(d,n)$, and
+$\mathsf{NatDivides}(d,e) \wedge \mathsf{NatDivides}(e,d) \Rightarrow
+d\hsame e$.
+\end{theorem}
+\begin{proof}
+The reflexive clause is \autoref{lem:divides-reflexive}, and the transitive
+clause is \autoref{lem:divides-transitive}. The antisymmetric clause is
+\autoref{thm:nat-divides-antisymmetry-hsame}.
+
+This is a paper-level bundled certificate rather than a distinct Lean marker
+site: the three checked laws are consumed together by bounded divisor search,
+Euclid's lemma, and factorization uniqueness as the order-like interface for
+unary divisibility.
+\end{proof}
 
 \begin{lemma}[Divisibility is closed under displayed continuation]
 \label{thm:nat-divides-cont-closed}

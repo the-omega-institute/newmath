@@ -20,3 +20,47 @@ and the central carrier. Conversely, rebuild the prefixed carrier first, then
 reattach the modulus suffix.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_visible\_modulus\_context\_iff}
+
+\begin{theorem}[Continuous modulus chain visible context exactness]
+\label{thm:continuous-modulus-chain-visible-context-iff}
+For histories $p,q,source,first,second,target$, a visible prefix on the source
+and target together with a visible suffix on the second modulus and target is
+exactly unary evidence for the two contexts together with the central
+two-link chain:
+$$
+\mathsf{ContinuousModulusChain}(p\cdot source,first,second\cdot q,
+(p\cdot target)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(q)\wedge
+\mathsf{ContinuousModulusChain}(source,first,second,target).
+$$
+\end{theorem}
+\begin{proof}
+Peel the right suffix from the second modulus and target by chain suffix
+exactness. The remaining chain has the common left prefix on source and
+target, so chain prefix exactness exposes unary $p$ and the central chain.
+Conversely, rebuild the prefixed chain first, then reattach the suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_visible\_context\_iff}
+
+\begin{theorem}[Continuous modulus chain visible context second determinacy]
+\label{thm:continuous-modulus-chain-visible-context-second-deterministic}
+For histories $p,q,source,first,second,second',target$, if two visible-context
+two-link modulus chains share the same visible source, first modulus, and
+visible target,
+$$
+\mathsf{ContinuousModulusChain}(p\cdot source,first,second\cdot q,
+(p\cdot target)\cdot q)
+\quad\hbox{and}\quad
+\mathsf{ContinuousModulusChain}(p\cdot source,first,second'\cdot q,
+(p\cdot target)\cdot q),
+$$
+then $second\hsame second'$.
+\end{theorem}
+\begin{proof}
+Apply the visible-context exactness statement to both chains. This removes the
+common prefix and suffix contexts and exposes two central chains with the same
+source, first modulus, and target. The ordinary second-modulus determinacy
+theorem identifies the two central second moduli.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_visible\_context\_second\_deterministic}

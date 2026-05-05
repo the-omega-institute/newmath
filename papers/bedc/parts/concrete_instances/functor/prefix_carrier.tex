@@ -141,6 +141,46 @@ with that preserved morphism.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_hom\_public\_readback}
 
+\begin{theorem}[Prefix functor carrier append hom preservation]
+\label{thm:prefix-functor-carrier-append-hom-preserves}
+For prefix functor carriers \(p\) and \(q\), any hom-carrier
+\(\mathsf{CategoryHomCarrier}(a,b,f)\) is carried by the appended prefix:
+\[
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\mathsf{append}(p,q),a),
+\mathsf{append}(\mathsf{append}(p,q),b),f).
+\]
+\end{theorem}
+\begin{proof}
+First use the hom-preservation field of the \(q\)-carrier to display the
+hom-carrier at endpoints prefixed by \(q\). Use the hom-preservation field of
+the \(p\)-carrier on that displayed hom-carrier. The resulting endpoints are
+\(\mathsf{append}(p,\mathsf{append}(q,a))\) and
+\(\mathsf{append}(p,\mathsf{append}(q,b))\); continuation append associativity
+transports them to the appended-prefix endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_append\_hom\_preserves}
+
+\begin{theorem}[Prefix functor carrier append composition preservation]
+\label{thm:prefix-functor-carrier-append-comp-preserves}
+For prefix functor carriers \(p\) and \(q\), composable hom-carriers
+\(\mathsf{CategoryHomCarrier}(a,b,f)\) and
+\(\mathsf{CategoryHomCarrier}(b,c,g)\), together with \(\ContR(f,g,fg)\),
+display the composite \(fg\) at the endpoints prefixed by
+\(\mathsf{append}(p,q)\):
+\[
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\mathsf{append}(p,q),a),
+\mathsf{append}(\mathsf{append}(p,q),c),fg).
+\]
+\end{theorem}
+\begin{proof}
+Use the composition-preservation field of the \(q\)-carrier to close the
+composite at endpoints prefixed by \(q\). Then use the hom-preservation field
+of the \(p\)-carrier on that already composed display. Append associativity
+transports the source and target endpoints from nested prefixing to the single
+appended-prefix form.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_append\_comp\_preserves}
+
 \begin{theorem}[Prefix functor carrier e1 prefix hom reflects]
 \label{thm:prefix-functor-carrier-e1-prefix-hom-reflects}
 For histories $p,a,b,f$, a prefix functor carrier at the visible prefix
