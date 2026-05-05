@@ -348,61 +348,66 @@ deferred; status $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_canonical\_distance\_exactness}
 
-\begin{theorem}[ContinuousMap carrier hsame transport]
-\label{thm:continuousmap-carrier-hsame-transport}
-Let $source,map,target$ and $modulus,cert,distance$ be histories. Let
-$source',map',target'$ and $modulus',cert',distance'$ be displayed histories. If
-the concrete carrier holds and the six exposed histories classify with the
-displayed histories, then the displayed histories carry the same continuous-map
-carrier:
+\begin{theorem}[ContinuousMap carrier hsame-field transport with depth ledger]
+\label{thm:continuousmap-carrier-hsame-field-transport-depth}
+For histories $source,source',map,map',target,target',modulus,modulus',
+cert,cert',distance,distance':\mathsf{BHist}$, suppose
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+$$
+and
+$$
+\hsame(source,source')\land
+\hsame(map,map')\land
+\hsame(target,target')\land
+\hsame(modulus,modulus')\land
+\hsame(cert,cert')\land
+\hsame(distance,distance')
+$$
+hold. Then the transported histories again form a continuous-map carrier, and
+the transported distance exposes the endpoint continuation and depth ledger:
 $$
 \begin{array}{l}
-\mathsf{ContinuousMapCarrier}(source,map,target,
+\mathsf{ContinuousMapCarrier}(source',map',target',modulus',cert',distance')
 \\
-\qquad modulus,cert,distance)
+\land\ \ContR(source',target',distance')
 \\
-\Longrightarrow
-\hsame(source,source')\land\hsame(map,map')\land
-\hsame(target,target')
-\\
-\Longrightarrow
-\hsame(modulus,modulus')\land\hsame(cert,cert')\land
-\hsame(distance,distance')
-\\
-\Longrightarrow
-\mathsf{ContinuousMapCarrier}(source',map',target',
-\\
-\qquad modulus',cert',distance').
+\land\
+\mathsf{MetricDistanceDepth}(distance')=
+\mathsf{MetricDistanceDepth}(source')+\mathsf{MetricDistanceDepth}(target').
 \end{array}
 $$
 \end{theorem}
 \begin{proof}
-Project the given $\mathsf{ContinuousMapCarrier}$ into its
-$\mathsf{ContinuousFunctionCarrier}$ component and its
-$\mathsf{MetricDistanceWitness}$ component.
+Unpack the displayed $\mathsf{ContinuousMapCarrier}$ into its
+$\mathsf{ContinuousFunctionCarrier}$ half and its
+$\mathsf{MetricDistanceWitness}$ half. Apply
+\autoref{thm:continuous-function-carrier-hsame-transport} to the five function
+fields $source,map,target,modulus,cert$ and their displayed $\hsame$ images.
+This gives the transported continuous-function half.
 
-Apply Theorem~\ref{thm:continuous-function-carrier-hsame-transport} to the
-first five classifier witnesses. This transports the function carrier from
-$(source,map,target,modulus,cert)$ to
-$(source',map',target',modulus',cert')$.
-
-Apply Theorem~\ref{thm:metric-distance-witness-hsame-fields-transport} to the
-source, target, and distance classifier witnesses. The transported metric
-fields provide unary membership for $source'$, $target'$, and $distance'$,
-together with $\ContR(source',target',distance')$, hence the displayed
+For the metric half, apply
+\autoref{thm:metric-distance-witness-hsame-fields-transport} to
+$source,target,distance$ and $source',target',distance'$. The resulting unary
+fields and transported continuation repack as
 $\mathsf{MetricDistanceWitness}(source',target',distance')$.
 
-Pair the transported function carrier with the transported metric witness.
-This repacks exactly the displayed
-$\mathsf{ContinuousMapCarrier}(source',map',target',modulus',cert',distance')$.
+Apply
+\autoref{thm:metric-distance-witness-hsame-transport-cont-depth-add} to the
+same three $\hsame$ witnesses and the original metric witness. It supplies the
+displayed $\ContR(source',target',distance')$ and the displayed depth equation.
+Pairing the transported continuous-function half with the transported metric
+witness gives the carrier component; pairing this with the continuation and
+depth ledger gives the stated conjunction.
 
-The ten-field fit is: traditional target ContinuousMap stability under
-classifier transport; BEDC source $\mathsf{ContinuousFunctionCarrier}$ and
-$\mathsf{MetricDistanceWitness}$; carrier $\mathsf{ContinuousMapCarrier}$;
-classifier $\hsame$; stability obligation fieldwise transport over all six
-displayed histories; ledger source, map, target, modulus, certificate, and
-distance histories; core theorem this transport; exactness the repacked
-carrier; standard bridge deferred; status $\mathsf{ProofTarget}$.
+The ten-field fit is: traditional target stable uniformly continuous map under
+classifier transport; BEDC source $\mathsf{ContinuousFunctionCarrier}$,
+$\mathsf{MetricDistanceWitness}$, and $\hsame$; carrier
+$\mathsf{ContinuousMapCarrier}$; classifier $\hsame$; stability obligation
+six-field transport plus transported metric depth ledger; ledger hidden
+distance history; core theorem this block; exactness transported carrier and
+distance-depth equation; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
 \end{proof}
 
 \begin{theorem}[ContinuousMap function carrier metric graph exactness]
