@@ -230,3 +230,62 @@ projection gives the witness on the right endpoint $p\cdot\Ezero(z)$. This is
 again impossible by
 \autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
 \end{proof}
+
+\begin{theorem}[Real constant classifier transported malformed inner denominator exclusions]
+\label{thm:real-constant-history-classifier-transported-malformed-inner-denominator-absurd}
+For histories $h,k,p_h,z_h,p_k,z_k:\mathsf{BHist}$, a constant real-history
+classifier excludes transported empty sealed endpoints and transported
+appended e-zero sealed denominators on either endpoint:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Eone(\emp))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(k,\Eone(\emp))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Eone(p_h\cdot\Ezero(z_h)))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(k,\Eone(p_k\cdot\Ezero(z_k)))\Longrightarrow\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The two empty endpoint clauses are exactly the transported inner-empty endpoint
+exclusions from
+\autoref{thm:real-constant-history-classifier-transported-inner-empty-endpoint-absurd}.
+
+For the left appended e-zero clause, unpack the constant classifier just far
+enough to recover an opposite endpoint display $k\hsame\Eone(d)$ for some
+history $d$. Together with the assumed display
+$h\hsame\Eone(p_h\cdot\Ezero(z_h))$,
+\autoref{thm:real-constant-history-classifier-endpoint-transport} transports
+the classifier to
+$\mathsf{RealConstantHistoryClassifier}(\Eone(p_h\cdot\Ezero(z_h)),\Eone(d))$.
+The left clause of
+\autoref{thm:real-constant-history-classifier-e1-append-e0-tail-absurd}
+contradicts this transported classifier.
+
+For the right appended e-zero clause, unpack symmetrically to recover
+$h\hsame\Eone(d)$ for some history $d$. Transport the assumed display
+$k\hsame\Eone(p_k\cdot\Ezero(z_k))$ across
+\autoref{thm:real-constant-history-classifier-endpoint-transport}, obtaining
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(p_k\cdot\Ezero(z_k)))$.
+The right clause of
+\autoref{thm:real-constant-history-classifier-e1-append-e0-tail-absurd}
+gives the contradiction.
+\end{proof}
+
+The ten-field fit is: traditional target transported RealUp denominator
+sanity; BEDC source RealUp constant classifiers plus RatUp
+positive-denominator shape; carrier $\mathsf{BHist}$; classifier
+$\mathsf{RealConstantHistoryClassifier}$; stability row endpoint transport;
+ledger transported empty endpoints and appended e-zero denominator displays;
+core theorem
+\autoref{thm:real-constant-history-classifier-transported-malformed-inner-denominator-absurd};
+exactness impossibility of empty or zero-headed sealed denominators;
+downstream bridge RealUp constant-name denominator sanity; status
+$\mathsf{ProofTarget}$.
