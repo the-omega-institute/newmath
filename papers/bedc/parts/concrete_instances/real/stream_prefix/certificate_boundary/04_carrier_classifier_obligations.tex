@@ -105,6 +105,45 @@ Thus the source package has precisely the stated carrier, classifier,
 stability, and finite ledger faces over $\Hist$.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore observation row hsame transport]
+\label{thm:dyadic-rat-core-observation-row-hsame-transport}
+Let $d,e:\Hist$. If $d$ has a DyadicRatCore observation row in the sense of
+\autoref{def:dyadic-rat-core-observation-row} and $\hsame(d,e)$ holds, then
+$e$ has a DyadicRatCore observation row. Its $\mathsf{RatHistoryCarrier}(e)$
+component is the $\RatUp$ carrier transport of the carrier component at $d$,
+its $\mathsf{PositiveUnaryDenominator}(e)$ component is transported by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}, and its
+dyadic-radius token is the same certified observation ledger entry of the
+$\RegSeqRat$ spine.
+\end{theorem}
+\begin{proof}
+Unpack the row named by
+\autoref{def:dyadic-rat-core-observation-row}. It consists of a
+$\mathsf{RatHistoryCarrier}(d)$ row, a
+$\mathsf{PositiveUnaryDenominator}(d)$ row, and a dyadic-radius token attached
+to a certified unary observation entry in the $\RegSeqRat$ regularity ledger.
+
+Transport the carrier face along $\hsame(d,e)$ using the $\RatUp$ carrier
+transport already used in
+\autoref{thm:dyadic-rat-core-scoped-source-package}. The compatibility between
+the rational-history carrier and the positive-denominator row is the one
+identified by
+\autoref{thm:rat-history-carrier-positive-denominator-equivalence}.
+
+Now apply
+\autoref{thm:rat-positive-unary-denominator-hsame-transport} to carry the
+positive-denominator component from $d$ to $e$. The endpoint rational row and
+the certified dyadic request are the rows recorded by
+\autoref{thm:regseqrat-carrier-obligation} inside the scoped spine of
+\autoref{thm:regseqrat-stream-spine-scoped-package}.
+
+The dyadic-radius token is not recomputed during transport: it remains attached
+to the same certified observation ledger entry used by the source package.
+Thus the transported carrier row, the transported positive-denominator row,
+and the unchanged ledger token repack as a DyadicRatCore observation row for
+$e$.
+\end{proof}
+
 \begin{theorem}[RegSeqRat dyadic observation coverage]
 \label{thm:regseqrat-dyadic-observation-coverage}
 Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ stream certificate spine, and let
