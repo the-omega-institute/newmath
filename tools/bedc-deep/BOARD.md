@@ -5865,3 +5865,298 @@ Single-argument refinement of the two-sided monotonicity: a separate stepping st
 
 ---
 
+### B-227 - NatTrans whiskering by a functor yields a natural transformation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NatTrans whiskering by a functor yields a natural transformation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 10/10 |
+
+Problem:
+If \alpha : F \Rightarrow G is a natural transformation between functors C \to D under \NameCert_{\NatTransUp} and H : D \to E is a functor under \NameCert_{\FunctorUp}, then the component family (H_1 \circ \alpha)_X := H_1(\alpha_X) is a natural transformation H \circ F \Rightarrow H \circ G satisfying the \NameCert_{\NatTransUp} carrier and naturality-square fields under the morphism classifier of E.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_carrier.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_certificate.tex`
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/functor/pipeline_composite_extras.tex`
+
+Rationale:
+Whiskering (post-composition of a natural transformation by a functor, often called horizontal composition's left or right unit) is a foundational categorical operation distinct from vertical composition (already covered in nattrans/vertical_and_opposite_extras.tex:59 thm:nattrans-vertical-composition-naturality, board entry B-14). Grep "horizontal\|whisker" across papers/bedc/parts/ AND lean4/BEDC/ returned 0 hits. Grep "thm:.*nattrans.*horizontal" returned 0 hits. The chapter has thm:identity-nattrans-certificate (vertical_and_opposite_extras.tex:212), thm:nattrans-vertical-composition-naturality (line 60), and thm:double-opposite-nattrans-certificate-data-identity (line 141), but no theorem proves that pre/post-composing with a functor preserves the natural-transformation structure. Builds directly on functor-classifier-replacement-stability (functor/certificate_obligations.tex) and existing nattrans naturality-square machinery.
+
+---
+
+
+### B-228 - Composition of adjunctions
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Composition of adjunctions |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 10/10 |
+
+Problem:
+If \NameCert_{\AdjunctionUp} carriers F_1 \dashv G_1 between categories C and D and F_2 \dashv G_2 between D and E are given, with both unit-counit data satisfying \autoref{def:adjunction-unit-counit-carrier}, then the composite functors F_2 \circ F_1 and G_1 \circ G_2 form an adjunction F_2 \circ F_1 \dashv G_1 \circ G_2 between C and E whose unit and counit are obtained by whiskering and vertical composition of the input units and counits.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_carrier_and_alternating.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_certificate.tex`
+- `papers/bedc/parts/concrete_instances/adjunction/carrier_swap_involutions.tex`
+- `papers/bedc/parts/concrete_instances/functor/pipeline_composite_extras.tex`
+
+Rationale:
+Composition of adjunctions is a core fact of category theory and is expected at the same level of derivedness as functor composition (B-11 on the board). Grep "adjunction.*compos\|compos.*adjunction" finds only thm:adjunction-prefix-unit-counit-composite-empty (85_adjunction_namecert_certificate.tex:5) and thm:monad-adjunction-endomorphism-triangle-composite-empty (86_monad...:175); both concern empty triangle composites WITHIN a single adjunction, not the composition of two distinct adjunctions. Grep "adjunction.*natural.*isomorph\|adjunction.*uniqu" returned 0 hits. Existing infrastructure includes thm:adjunction-unit-counit-carrier-swap-involution and full triangle-result determinism (85_...carrier_and_alternating.tex:160 thm:adjunction-unit-counit-triangle-results-deterministic), which give the classifier transport this composition theorem needs.
+
+---
+
+
+### B-229 - Composite pullback gap-policy preserves coverage and separation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Composite pullback gap-policy preserves coverage and separation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Assume \GapPol(\Pi,D). If \tau_1 : D' \to D and \tau_2 : D'' \to D' each carry a classifier-preserving pullback ledger over \Pi in the sense of \autoref{def:classifier-preserving-pullback-ledger}, then the composite history operation \tau_1 \circ \tau_2 : D'' \to D carries a classifier-preserving pullback ledger whose pulled-back membership predicate satisfies the coverage and separation obligations on D''.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/gap_policy.tex`
+- `papers/bedc/parts/core/07_gap_policies_coverage_separation_and_composition.tex`
+- `papers/bedc/parts/proof_standing/04_package_gap_proof_spine.tex`
+
+Rationale:
+gap_policy.tex proves single-pullback theorems thm:package-token-pullback-separation (line 127) and thm:pulled-back-gap-policy-preserves-coverage-and-separation (line 151), but the composition of two pullback ledgers is not lifted to a theorem. Grep "pullback.*compos\|compos.*pullback" across papers/bedc/parts/ returned only one hit, in core/07_gap_policies...:182, which discusses composite COMPRESSION ledgers (compositional gap-ledger structure inside a SINGLE \GapPol), not the iteration of \tau-pullbacks across nested domains. The composition of two classifier-preserving pullback ledgers is implicitly required for nested cross-observation chains but never formalized. Standing as a corollary of the existing single-pullback theorem composed with itself, but the explicit statement and dependency wiring (token-policy preservation across two stages) is missing.
+
+---
+
+
+### B-230 - FPS Cauchy product associativity over a commutative ring
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FPS Cauchy product associativity over a commutative ring |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Let R be a \CommRingUp certificate read through \autoref{prop:commring-forgets-ring-certificate} as a \RingUp certificate. For coefficient sequences F, G, H : \NatUp \to R as in \autoref{def:fps-carrier} with the Cauchy product \odot_{\mathrm{fps}} of \autoref{def:fps-cauchy-coefficient-spine}, the FPS classifier identifies (F \odot_{\mathrm{fps}} G) \odot_{\mathrm{fps}} H with F \odot_{\mathrm{fps}} (G \odot_{\mathrm{fps}} H).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Chapter 26 (FPS) has labeled theorems for singleton instance laws (thm:singleton-zero-fps-laws line 45), Cauchy product congruence (thm:fps-cauchy-product-classifier-congruence line 339), addition commutativity (thm:fps-addition-commutativity-from-scalar-additive-commutativity line 393), and Cauchy product commutativity from commring scalars (thm:fps-cauchy-product-commutativity-from-commring-scalars line 490). It does NOT have a Cauchy product associativity theorem: grep "fps.*associat\|cauchy.*associat" across papers/bedc/parts/ returned 0 hits. Distinct from board entry B-09 (polynomial chapter 25), since FPS over \NatUp \to R has different normalization semantics than coefficient-list polynomials. The required two-index finite fold swap (cf. matrix/finite_fold_multiplication_laws.tex thm:matrix-multiplication-associativity-finite-folds line 211) is already in the toolkit, so the proof is constructible from existing infrastructure but the theorem is currently absent.
+
+---
+
+
+### B-231 - FPS Cauchy product distributes over FPS addition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FPS Cauchy product distributes over FPS addition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Let R be a \RingUp certificate. For coefficient sequences F, G, H : \NatUp \to R as in \autoref{def:fps-carrier} with addition \oplus_{\mathrm{fps}} and Cauchy product \odot_{\mathrm{fps}} from \autoref{def:fps-cauchy-coefficient-spine}, the FPS classifier identifies F \odot_{\mathrm{fps}} (G \oplus_{\mathrm{fps}} H) with (F \odot_{\mathrm{fps}} G) \oplus_{\mathrm{fps}} (F \odot_{\mathrm{fps}} H), and similarly for the right side.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws.tex`
+
+Rationale:
+Companion to candidate #4. Chapter 26 has labeled theorems through line 522 (last labeled thm:fps-cauchy-product-commutativity-from-commring-scalars at line 490), but grep "fps.*distrib\|distrib.*fps" across papers/bedc/parts/ returned 0 hits and grep "fps.*right.*unit\|fps.*left.*unit\|fps.*one.*unit" returned 0 hits. The singleton instance handles the trivial case (thm:singleton-zero-fps-laws collapses all operations to \emp), but no theorem distributes generic-ring Cauchy product over generic-ring addition pointwise on coefficients. The required machinery (finite additive fold splits pointwise sums, lem:finite-additive-fold-splits-pointwise-sums in matrix/finite_fold_multiplication_laws.tex line 563) already exists. Distinct from the polynomial chapter 25 board entries (B-09, B-22, B-30, B-31) because FPS has no normalization step.
+
+---
+
+
+### B-232 - Right adjoint uniqueness up to natural isomorphism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Right adjoint uniqueness up to natural isomorphism |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Suppose \NameCert_{\AdjunctionUp} carriers F \dashv G_1 and F \dashv G_2 are both displayed between the same categories C and D in the sense of \autoref{def:adjunction-unit-counit-carrier}. Then there is a natural-transformation pair \eta : G_1 \Rightarrow G_2 and \eta' : G_2 \Rightarrow G_1 whose vertical composites are the identity natural transformations on G_1 and G_2 under \NameCert_{\NatTransUp}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_carrier_and_alternating.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_certificate.tex`
+- `papers/bedc/parts/concrete_instances/adjunction/carrier_swap_involutions.tex`
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+
+Rationale:
+Right (and left) adjoint uniqueness up to natural iso is a standard categorical result that BEDC's existing adjunction infrastructure should support but currently does not state. Grep "adjunction.*uniqu\|adjunction.*natural.*isomorph\|adjunction.*equival" across papers/bedc/parts/ returned 0 results except a description-level remark in 85_adjunction_namecert_carrier_and_alternating.tex:4 about 'natural-isomorphism witness on hom-sets', which is the input data, not the uniqueness theorem. The adjunction chapter has thm:adjunction-unit-counit-triangle-results-deterministic (carrier_and_alternating.tex:160), thm:adjunction-unit-counit-carrier-swap-involution, and full triangle-result symmetry, all of which feed this uniqueness derivation. Genuinely distinct from candidate #2 (composition of adjunctions): uniqueness compares two adjunctions sharing F, while composition combines two adjunctions over different category pairs.
+
+---
+
+### B-233 - Complex limit respects pointwise negation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Complex limit respects pointwise negation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If CplxLim(s, N, z, M) holds, then the pointwise additive-inverse sequence -s satisfies CplxLim(-s, N, -z, M) with the same limit modulus.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/40_complex_limit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/12_complex_namecert_construction.tex`
+
+Rationale:
+The complex-limit chapter (definitions def:cplx-lim, def:cplx-pointwise-difference, def:cplx-pointwise-sum) already records pointwise negation/sum/difference as carrier operations, but the paper coverage shows no theorem stating that CplxLim transports across pointwise negation. This is a clean unary classifier-transport theorem — a single implication using only the additive-inverse field of the complex carrier and the unchanged modulus N. It is the simplest closure-under-arithmetic property of complex limits and forms a natural prerequisite/lemma for stronger results (sum, affine combinations). It does not duplicate any existing B-target — none of B-06..B-31 is about complex limits or arithmetic transport — and it lives squarely in concrete_instances chapter 40 (complex limit namecert).
+
+---
+
+
+### B-234 - Complex limit respects binary affine combinations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Complex limit respects binary affine combinations |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If CplxLim(s, N_s, z_s, M_s) and CplxLim(t, N_t, z_t, M_t) hold, then a·s + b·t satisfies CplxLim(a·s+b·t, N_{ab}, a·z_s + b·z_t, M_{ab}) under the pasted scalar-shift modulus.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/40_complex_limit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/12_complex_namecert_construction.tex`
+
+Rationale:
+The complex-limit certificate has pointwise sum and scalar-multiplication carrier operations defined (def:cplx-pointwise-sum, def:cplx-power), but paper coverage exhibits no theorem expressing the linearity of complex limits as a single classifier-transport statement. An affine-combination theorem captures linearity in one strike (sum + scalar shift, with pasted modulus N_{ab} = max(N_s, N_t) shifted by |a|+|b|). It is a foundational closure property of CplxLim that downstream targets (Cauchy product convergence, conv-rad, holomorphic stability) rely on implicitly. It is genuinely distinct from the negation target above because it requires both pointwise sum and scalar-multiplication classifier fields, plus modulus pasting — a fundamentally different proof obligation. No overlap with B-06..B-31 or with any existing thm/lem/cor label in the coverage list.
+
+---
+
+### B-235 - Lattice operation monotonicity from directional bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Lattice operation monotonicity from directional bounds |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the LatticeUp directional bound setup, if $a\le_C a'$ then $a\wedge c\le_C a'\wedge c$ and $c\wedge a\le_C c\wedge a'$, and if $b\le_C b'$ then $b\vee c\le_C b'\vee c$ and $c\vee b\le_C c\vee b'$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Monotonicity is the missing structural law in the lattice directional-bound family on BOARD. Existing entries cover idempotence/absorption (B-07), commutativity (B-25), associativity (B-26), opposite absorption (B-27), and bound uniqueness (B-29), but none state that meet and join are order-preserving in their arguments. Following the BOARD precedent set by B-25/B-26/B-27 (one entry per law family, covering both meet and join), the two codex sub-claims are consolidated into a single monotonicity entry covering all four argument slots. The proof reuses the same directional GLB/LUB and inherited preorder transitivity ingredients already invoked by B-26, so it lands cleanly in chapter 30.
+
+---
+
+### B-236 - NatTrans prewhiskering by a functor yields a natural transformation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | NatTrans prewhiskering by a functor yields a natural transformation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If $\alpha:F\Rightarrow G$ is a $\NatTransUp$ certificate over $\mathcal C\to\mathcal D$ and $K:\mathcal B\to\mathcal C$ is a $\FunctorUp$ certificate, then $\alpha\ast K:F\circ K\Rightarrow G\circ K$ is a $\NatTransUp$ carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Chapter 38 (nattrans) is currently 100% definitions / 0 theorems, exactly the structural gap B-14 already identified. The paper carries `def:functor-whiskered-nattrans-certificate-data` as a definition site, but no theorem upgrades the whiskered data to a NatTransUp carrier. Prewhiskering is the most elementary categorical operation on natural transformations beyond plain vertical composition — it is strictly weaker than horizontal composition (the other accepted candidate) and uses only the source FunctorUp certificate's morphism action. Distinct from B-14 (vertical β∘α along a shared middle functor) and from B-11 (functor composition's hom-carrier classifier), so no BOARD overlap. A natural standalone target for the loop because the proof obligation reduces to chasing the naturality square along $K(f)$ for $f$ in $\mathcal B$, exposing exactly which FunctorUp fields the NatTransUp certificate transports through.
+
+---
+
+
+### B-237 - Horizontal composition of natural transformations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Horizontal composition of natural transformations |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If $\alpha:F\Rightarrow G$ between $\mathcal C\to\mathcal D$ and $\beta:H\Rightarrow K$ between $\mathcal D\to\mathcal E$ are composable $\NatTransUp$ certificates, then the component family $\beta_{G(X)}\circ H_1(\alpha_X)$ forms a $\NatTransUp$ carrier $H\circ F\Rightarrow K\circ G$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+B-14 covers the vertical composite $\beta\circ\alpha$ along a shared middle functor $G$; horizontal composition has different source/target functors and a fundamentally different naturality square (it depends on both functor's morphism actions, plus the interchange equality $\beta_{G(X)}\circ H_1(\alpha_X) = K_1(\alpha_X)\circ\beta_{F(X)}$). Independent of the accepted prewhiskering target: horizontal composition is the symmetric general case, prewhiskering is the special case where $\beta$ is the identity on a functor. Sits in the same 0-theorem chapter as B-14, addressing a different proof obligation. The claim is stated as a single implication on certificate data and is squarely in concrete_instances scope; not present in paper_coverage (no `\label{thm:nattrans-horizontal-...}` or similar exists).
+
+---
+
