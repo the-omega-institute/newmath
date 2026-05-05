@@ -201,6 +201,7 @@ import BEDC.Derived.ComplexTopologyUp.CertifiedSubradius
 import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
