@@ -6214,3 +6214,27 @@ Adjunction is an established BEDC topic with multiple definitions in the paper (
 
 ---
 
+### B-240 - Homology cycle carrier respects history-sameness via $\hsame$-stable differential
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Homology cycle carrier respects history-sameness via $\hsame$-stable differential |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If the chain differential $d$ satisfies $\hsame(h,k)\Rightarrow\hsame(d(h),d(k))$ for all histories, and $Z_d(h)$ and $\hsame(h,k)$, then $Z_d(k)$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/76_homology_namecert_construction.tex`
+
+Rationale:
+`76_homology_namecert_construction.tex` has 34 theorems but no bedc-deep additions; only `B-135 cohomology-cocycle-predicate-semantic-namecert` (which is a separate chapter, 77_cohomology) appears on BOARD. Existing homology theorems include `cycle-carrier-append-hsame-transport` (line 376 area) for the append case and `boundary-cycle-append-hsame-transport`, `cycle-boundary-append-hsame-transport`, `cycle-boundary-append-cycle-hsame-transport` — all `append`-flavored transports. The plain non-append cycle-carrier hsame transport — `Z_d(h)\land\hsame(h,k)\Rightarrow Z_d(k)` under a stated `d`-stability hypothesis — is missing despite being the most basic transport claim, and is not on BOARD. It is exactly the kind of single-implication seed the loop is meant to add.
+
+---
+
