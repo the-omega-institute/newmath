@@ -158,6 +158,47 @@ theorem EquivCatAdjunction_empty_roundtrip_source_prefix_deterministic
     NatTransPrefixComponentCarrier_empty_identity_prefix_trans displayed emptyComponents.right
   exact hsame_symm sameRP
 
+theorem EquivCatCycleIdentityCarrier_target_prefix_hsame_transport
+    {p q q' a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p q a unit counit left right ->
+      hsame left BHist.Empty ->
+        hsame right BHist.Empty ->
+          hsame q q' ->
+            AdjunctionUnitCounitCarrier p q' a BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty ∧
+              NatTransPrefixComponentCarrier p q' a BHist.Empty ∧
+              NatTransPrefixComponentCarrier q' p a BHist.Empty := by
+  intro carrier leftEmpty rightEmpty sameTarget
+  have boundary :=
+    EquivCatAdjunction_empty_roundtrip_prefix_determinacy carrier leftEmpty rightEmpty
+  have unitData :=
+    Iff.mp NatTransPrefixComponentCarrier_empty_identity_iff boundary.right.right.right.left
+  have sameSourceTarget : hsame p q' :=
+    hsame_trans boundary.left sameTarget
+  have unitCarrier : NatTransPrefixComponentCarrier p q' a BHist.Empty :=
+    Iff.mpr NatTransPrefixComponentCarrier_empty_identity_iff
+      (And.intro unitData.left
+        (And.intro
+          (unary_transport unitData.right.left sameTarget)
+          (And.intro unitData.right.right.left sameSourceTarget)))
+  have counitCarrier : NatTransPrefixComponentCarrier q' p a BHist.Empty :=
+    Iff.mpr NatTransPrefixComponentCarrier_empty_identity_iff
+      (And.intro
+        (unary_transport unitData.right.left sameTarget)
+        (And.intro unitData.left
+          (And.intro unitData.right.right.left (hsame_symm sameSourceTarget))))
+  have transported :
+      AdjunctionUnitCounitCarrier p q' a BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty :=
+    Iff.mpr AdjunctionUnitCounitCarrier_empty_components_iff
+      (And.intro unitData.left
+        (And.intro
+          (unary_transport unitData.right.left sameTarget)
+          (And.intro unitData.right.right.left
+            (And.intro sameSourceTarget
+              (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))))))
+  exact And.intro transported (And.intro unitCarrier counitCarrier)
+
 theorem EquivCatAdjunction_empty_roundtrip_target_prefix_hsame_transport
     {p q q' a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p q a unit counit left right ->

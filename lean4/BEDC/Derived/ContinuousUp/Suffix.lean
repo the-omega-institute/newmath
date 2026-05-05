@@ -373,7 +373,7 @@ theorem ContinuousFunctionCarrier_visible_modulus_context_iff
                 (modulus := modulus) (cert := append p cert)).mpr
                 (And.intro suffixCarrier prefixedCarrier)
 
-theorem ContinuousFunctionCarrier_visible_modulus_context_empty_map_exactness
+theorem ContinuousFunctionCarrier_visible_modulus_context_empty_map_iff
     {p q source target modulus cert : BHist} :
     ContinuousFunctionCarrier (append p source) BHist.Empty (append p target)
         (append modulus q) (append (append p cert) q) ↔
@@ -381,23 +381,19 @@ theorem ContinuousFunctionCarrier_visible_modulus_context_empty_map_exactness
         ContinuousModulusWitness target modulus cert := by
   constructor
   · intro visible
-    have visibleData :=
+    have central :=
       (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
         (source := source) (map := BHist.Empty) (target := target) (modulus := modulus)
         (cert := cert)).mp visible
-    have centralData :=
+    have emptyCentral :=
       (ContinuousFunctionCarrier_empty_map_iff (source := source) (target := target)
-        (modulus := modulus) (cert := cert)).mp visibleData.right.right
-    exact
-      And.intro visibleData.left
-        (And.intro visibleData.right.left
-          (And.intro centralData.left centralData.right))
+        (modulus := modulus) (cert := cert)).mp central.right.right
+    exact And.intro central.left (And.intro central.right.left emptyCentral)
   · intro data
     have central :
         ContinuousFunctionCarrier source BHist.Empty target modulus cert :=
       (ContinuousFunctionCarrier_empty_map_iff (source := source) (target := target)
-        (modulus := modulus) (cert := cert)).mpr
-        (And.intro data.right.right.left data.right.right.right)
+        (modulus := modulus) (cert := cert)).mpr data.right.right
     exact
       (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
         (source := source) (map := BHist.Empty) (target := target) (modulus := modulus)
