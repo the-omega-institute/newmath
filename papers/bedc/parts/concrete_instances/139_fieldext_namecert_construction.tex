@@ -36,12 +36,35 @@ The certificate fit has ten fields:
   same empty-history endpoint.
   \item Core theorem list:
   Theorems~\ref{thm:fieldext-singleton-embedding-laws},
-  \ref{thm:fieldext-singleton-vector-space-compatibility}, and
+  \ref{thm:fieldext-singleton-embedding-exactness},
+  \ref{thm:fieldext-singleton-vector-space-compatibility},
+  \ref{thm:fieldext-singleton-embedded-scalar-action-collapse}, and
   \ref{thm:fieldext-singleton-namecert-obligations}.
   \item Exactness predicate: singleton endpoint collapse.
   \item Standard bridge: the terminal field extension.
   \item Status: $\mathsf{ProofTarget}$.
 \end{enumerate}
+\end{definition}
+
+\begin{definition}[Singleton FieldExt obligation scope]
+\label{def:fieldext-singleton-obligation-scope}
+The terminal $\FieldExtUp$ instance over $A_{\emp}$ is the following ten-field
+paper template. The traditional target is the one-point field extension. The BEDC
+source is $\mathsf{BHist}$. The base field carrier, extension field carrier, and
+extension vector carrier are all $A_{\emp}$. The classifier is the shared
+singleton relation $\rho_{\emp}$ from
+Definition~\ref{def:fieldext-singleton-embedding-carrier}. The embedding is the
+identity map $\iota_{\emp}(h):=h$. The extension-field vector-space-over-base
+action is the singleton vector-space action over the singleton $\FieldUp$ source.
+
+The stability obligations are the singleton field rows of
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws} for the base and
+extension fields, together with the singleton vector-space rows of
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws}. The ledger consists of
+identity-embedding provenance and singleton scalar-action provenance over the
+same empty-history endpoint. The downstream consumers are the Galois,
+number-field, and algebraic-closure certificate families, each of which reads the
+same carrier, classifier, exactness, scalar-action, and ledger fields.
 \end{definition}
 
 \begin{theorem}[Singleton field-extension embedding laws]
@@ -81,6 +104,36 @@ proof-indexed domain. Hence base inverse and embedded extension inverse are
 classified by $\rho_{\emp}$ at the same singleton endpoint.
 \end{proof}
 
+\begin{theorem}[Singleton FieldExt embedding exactness]
+\label{thm:fieldext-singleton-embedding-exactness}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier}, let
+$h,k:\mathsf{BHist}$ be carried by $A_{\emp}$. Then
+$$
+\rho_{\emp}(h,k)\quad\text{if and only if}\quad
+\rho_{\emp}(\iota_{\emp}(h),\iota_{\emp}(k)).
+$$
+Moreover, for every displayed singleton field operation in the base package, its
+embedded extension endpoint is classified with the corresponding source endpoint
+by $\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+Unfold $\iota_{\emp}$. The displayed equivalence is the classifier comparison
+recorded in Theorem~\ref{thm:fieldext-singleton-embedding-laws}; after the
+identity embedding is unfolded, both sides are the same singleton classifier
+assertion.
+
+For the operation endpoints, apply
+Theorem~\ref{thm:fieldext-singleton-embedding-laws} to the carried inputs. It
+gives preservation of zero, one, addition, negation, multiplication, and the
+proof-indexed inverse up to $\rho_{\emp}$.
+
+The concrete endpoint identification comes from the singleton operation-table
+collapse in Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}.
+Thus each embedded operation row lands in the same $\rho_{\emp}$ class as its
+source row.
+\end{proof}
+
 \section{The certificate}
 \label{sec:fieldext-certificate}
 
@@ -113,6 +166,29 @@ compatibility of embedded scalar multiplication with the singleton extension
 field product.
 \end{proof}
 
+\begin{theorem}[Singleton FieldExt embedded scalar-action collapse]
+\label{thm:fieldext-singleton-embedded-scalar-action-collapse}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier}, let
+$r,m:\mathsf{BHist}$ be carried by $A_{\emp}$. The vector-space scalar action of
+the embedded singleton scalar $\iota_{\emp}(r)$ on $m$ and the singleton
+extension-field multiplication endpoint for $r$ and $m$ lie in the same
+$\rho_{\emp}$ class.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:fieldext-singleton-vector-space-compatibility}. It gives
+the semantic compatibility statement between embedded scalar multiplication and
+extension-field multiplication for carried scalar and vector endpoints.
+
+The vector-space action endpoint collapses to $\emp$ by
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}. The
+extension-field multiplication endpoint collapses to $\emp$ by
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}.
+
+Since both endpoints are carried by $A_{\emp}$ and both collapse to the same
+empty-history endpoint, the shared classifier $\rho_{\emp}$ relates them.
+\end{proof}
+
 \begin{theorem}[Singleton field-extension NameCert obligations]
 \label{thm:fieldext-singleton-namecert-obligations}
 The concrete data of
@@ -138,10 +214,13 @@ Theorem~\ref{thm:singleton-empty-history-vecspace-laws}. Its paper-side
 semantic packaging is recorded by
 Theorem~\ref{thm:singleton-empty-history-vecspace-semantic-certificate}.
 
-Exactness and ledger provenance are the singleton endpoint facts already used
-in the two compatibility theorems: every operation endpoint is classified with
-$\emp$, the embedding is the identity on histories, and the vector-space
-action has the same empty-history provenance. These clauses assemble the
-listed $\FieldExtUp$ $\NameCert$ obligations for the concrete singleton
-field-extension carrier.
+Embedding exactness is supplied by
+Theorem~\ref{thm:fieldext-singleton-embedding-exactness}. Embedded scalar-action
+collapse is supplied by
+Theorem~\ref{thm:fieldext-singleton-embedded-scalar-action-collapse}.
+
+The remaining ledger provenance is the identity embedding on histories together
+with the singleton scalar-action provenance over the same empty-history endpoint.
+These clauses assemble the listed $\FieldExtUp$ $\NameCert$ obligations for the
+concrete singleton field-extension carrier.
 \end{proof}
