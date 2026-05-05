@@ -10167,3 +10167,57 @@ This is a concrete Lie-algebra theorem landing in the existing \LieAlgebraUp and
 
 ---
 
+### B-389 - Distribution empty target event has zero mass
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Distribution empty target event has zero mass |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a DistributionUp pushforward for a RandomVarUp map, if the empty target event is measurable, its preimage is identified with the source empty event, and the source MeasureUp empty-set-zero theorem applies, then the pushforward mass of the target empty event is RealUp-classified as zero.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex`
+
+Rationale:
+This is a concrete distribution-level coverage theorem that lands naturally beside the existing total-mass theorem. It is not already proved by the MeasureUp empty-set theorem alone, because it explicitly composes the RandomVarUp preimage row with the DistributionUp pushforward row.
+
+---
+
+
+### B-390 - Distribution finite disjoint-union additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Distribution finite disjoint-union additivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DistributionUp pushforward for a RandomVarUp map, if target events are measurable and disjoint, preimages preserve the measurable union and disjointness, and the source MeasureUp finite disjoint-union theorem applies, then the pushforward mass of the union is RealUp-classified as the sum of the pushforward masses.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex`
+
+Rationale:
+This fills a real structural gap: the paper has MeasureUp finite disjoint-union additivity and a DistributionUp total-mass theorem, but not the inherited finite additivity law for pushforward distributions. It is concrete, local, and distinct from the existing BOARD targets.
+
+---
+
