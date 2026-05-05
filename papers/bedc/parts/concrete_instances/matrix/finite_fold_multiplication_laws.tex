@@ -790,41 +790,4 @@ $$
 The pointwise matrix classifier of \autoref{def:matrix-classifier-specification} packages these scalar comparisons as the displayed $\MatrixUp$ classification over $R^{\mathrm{op}}$. The row-column swap and the unchanged scalar source are recorded by the dimension and scalar ledger of \autoref{def:matrix-ledger-policy}.
 \end{proof}
 
-\begin{theorem}[Two-index fold swap from finite permutation invariance]
-\label{thm:two-index-fold-swap-from-finite-permutation-invariance}
-Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{def:finite-additive-scalar-fold}. Assume the scalar classifier equivalence fields and the additive associativity, commutativity, zero, and congruence rows retained in \autoref{def:ring-stability-certificate}. Let $J$ and $K$ be finite index carriers with chosen finite enumerating spines, and write $\Sigma_J$ and $\Sigma_K$ for the corresponding finite folds of scalar families over those spines. Suppose the fold is finite-permutation invariant: whenever finite carried scalar spines $xs$ and $ys$ are related by a bijection of their finite position spines and every matched pair of entries is related by $\sim_R$, then
-$$
-\mathsf{fold}_{+,R}(xs)\sim_R\mathsf{fold}_{+,R}(ys).
-$$
-For every pointwise carried scalar family $s:J\times K\to R$ and every pointwise carried transpose family $s^\tau:K\times J\to R$ satisfying
-$$
-s^\tau(k,j)\sim_R s(j,k)
-$$
-for all $j:J$ and $k:K$, the two iterated folds satisfy
-$$
-\Sigma_J(j\mapsto\Sigma_K(k\mapsto s(j,k)))\sim_R\Sigma_K(k\mapsto\Sigma_J(j\mapsto s^\tau(k,j))).
-$$
-Thus the field specified in \autoref{def:two-index-finite-fold-swap-certificate} is derivable from the finite-permutation invariant additive fold.
-\end{theorem}
-\begin{proof}
-For a family $u:J\times K\to R$, let $\mathsf{Row}_{J,K}(u)$ be the finite scalar spine obtained by concatenating, in the chosen $J$-order, the chosen $K$-spine $k\mapsto u(j,k)$ for each row $j$. For a family $v:K\times J\to R$, let $\mathsf{Col}_{K,J}(v)$ be the analogous $K$-major spine.
-
-First compare the iterated fold with the flattened row spine. The finite-fold append law used here is obtained by induction on a finite spine $xs$:
-$$
-\mathsf{fold}_{+,R}(xs{++}ys)\sim_R\mathsf{fold}_{+,R}(xs)+_R\mathsf{fold}_{+,R}(ys).
-$$
-In the nil case this is the additive zero law after unfolding \autoref{def:finite-additive-scalar-fold}. In the cons case, unfold the fold on the cons spine, apply the induction hypothesis inside the right summand by additive congruence, and rebracket by additive associativity. Applying this append law while inducting on the finite spine enumerating $J$ gives
-$$
-\Sigma_J(j\mapsto\Sigma_K(k\mapsto s(j,k)))\sim_R\mathsf{fold}_{+,R}(\mathsf{Row}_{J,K}(s)).
-$$
-The same argument with the two index carriers interchanged, followed by classifier symmetry, gives
-$$
-\mathsf{fold}_{+,R}(\mathsf{Col}_{K,J}(s^\tau))\sim_R\Sigma_K(k\mapsto\Sigma_J(j\mapsto s^\tau(k,j))).
-$$
-
-The transposition map sends the occurrence indexed by $(j,k)$ in $\mathsf{Row}_{J,K}(s)$ to the occurrence indexed by $(k,j)$ in $\mathsf{Col}_{K,J}(s^\tau)$. Since the chosen spines enumerate $J$ and $K$ without loss or duplication, this map is a bijection of the two finite position spines. At matched positions the hypothesis gives $s^\tau(k,j)\sim_Rs(j,k)$, and classifier symmetry gives the orientation $s(j,k)\sim_Rs^\tau(k,j)$. Finite-permutation invariance therefore yields
-$$
-\mathsf{fold}_{+,R}(\mathsf{Row}_{J,K}(s))\sim_R\mathsf{fold}_{+,R}(\mathsf{Col}_{K,J}(s^\tau)).
-$$
-Classifier transitivity composes the row-flattening comparison, the permutation-invariance comparison, and the column-unflattening comparison, giving the displayed two-index fold swap.
-\end{proof}
+\input{parts/concrete_instances/matrix/two_index_fold_swap_from_finite_permutation_invariance}
