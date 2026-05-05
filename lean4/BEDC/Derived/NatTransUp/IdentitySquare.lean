@@ -66,4 +66,24 @@ theorem NatTransPrefixComponentCarrier_vert_comp_left_identity_empty_result_iff
     cases data.left
     exact cont_left_unit_result leftRel
 
+theorem NatTransPrefixComponentCarrier_vert_comp_identity_square_empty_result_iff
+    {p q a eta left right : BHist} :
+    NatTransPrefixComponentCarrier p q a eta -> Cont BHist.Empty eta left ->
+      Cont eta BHist.Empty right ->
+        (hsame left BHist.Empty ∧ hsame right BHist.Empty ↔
+          hsame eta BHist.Empty ∧ hsame p q) := by
+  intro component leftRel rightRel
+  constructor
+  · intro emptySquare
+    exact
+      (NatTransPrefixComponentCarrier_vert_comp_left_identity_empty_result_iff
+        component leftRel).mp emptySquare.left
+  · intro data
+    exact
+      And.intro
+        ((NatTransPrefixComponentCarrier_vert_comp_left_identity_empty_result_iff
+          component leftRel).mpr data)
+        ((NatTransPrefixComponentCarrier_vert_comp_right_identity_empty_result_iff
+          component rightRel).mpr data)
+
 end BEDC.Derived.NatTransUp
