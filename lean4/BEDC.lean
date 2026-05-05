@@ -227,6 +227,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
+import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
@@ -269,7 +270,9 @@ import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
+import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
+import BEDC.Derived.MatroidUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp

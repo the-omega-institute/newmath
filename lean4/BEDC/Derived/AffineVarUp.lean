@@ -39,4 +39,16 @@ theorem AffineFiniteFamilyZeroLocus_intersection_concat {AffPoint : BHist -> Pro
         | inr memberG =>
             exact loci.right.right memberG)
 
+theorem AffineFiniteFamilyZeroLocus_empty_family_iff {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {x : BHist} :
+    AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero ProbeBundle.Bnil x <-> AffPoint x := by
+  constructor
+  · intro locus
+    exact locus.left
+  · intro point
+    exact And.intro point
+      (by
+        intro p member
+        exact False.elim (inBundle_nil_elim member))
+
 end BEDC.Derived.AffineVarUp
