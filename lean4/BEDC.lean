@@ -512,6 +512,7 @@ import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
+import BEDC.Derived.ContinuousUp.TripleComposition
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.GraphDepth
