@@ -66,6 +66,21 @@ is impossible.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_empty\_absurd}
 
+\begin{theorem}[Prime product factors are nonempty]
+\label{thm:nat-prime-natmul-factors-not-empty}
+Let $p,d,q$ be histories. If $p$ is prime, $d$ and $q$ are unary histories,
+and $\mathsf{NatMul}(d,q,p)$ holds, then neither factor is history-same to
+$\emp$.
+\end{theorem}
+\begin{proof}
+Package the displayed multiplication witness directly as
+$\mathsf{NatDivides}(d,p)$ to exclude $d\hsame\emp$ by the prime no-empty-divisor
+theorem. For the multiplier, multiplication closure gives
+$\mathsf{NatDivides}(q,p)$ from the same $\mathsf{NatMul}(d,q,p)$ witness,
+and the same no-empty-divisor theorem excludes $q\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_factors\_not\_empty}
+
 \begin{theorem}[Prime is not empty]
 \label{thm:natprime-empty-absurd}
 If $p$ is prime, then $p$ is not history-same to $\emp$.

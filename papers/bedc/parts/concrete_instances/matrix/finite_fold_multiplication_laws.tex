@@ -102,6 +102,25 @@ direction repacks those two splits through the same empty-append constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold append visible middle exclusion]
+\label{thm:matrix-singleton-add-fold-append-visible-middle-absurd}
+For finite singleton-matrix spines \(pref\) and \(suffix\), a visible middle
+entry remains excluded after an arbitrary carried prefix:
+$$
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(pref\,{++}\,\Ezero(m)::suffix),\emp)
+\quad\wedge\quad
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(pref\,{++}\,\Eone(m)::suffix),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply append-carrier readback to the split spine. If the whole appended fold
+read back to \(\emp\), then the suffix-side spine carrier would include the
+visible middle entry as a singleton carrier. That carrier identifies
+\(\Ezero(m)\) or \(\Eone(m)\) with \(\emp\), contradicting constructor
+separation for histories.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_visible\_middle\_absurd}
+
 \begin{theorem}[Singleton additive fold append readback]
 \label{thm:matrix-singleton-add-fold-append-hsame}
 For finite singleton-matrix spines \(xs\) and \(ys\), folding their appended

@@ -63,6 +63,25 @@ theorem MatrixSingletonAddFold_append_carrier_iff {xs ys : List BHist} :
           (And.intro spineCarrier.left.left
             (Iff.mpr ih (And.intro spineCarrier.left.right spineCarrier.right)))
 
+theorem MatrixSingletonAddFold_append_visible_middle_absurd {pref suffix : List BHist} {m : BHist} :
+    (hsame (MatrixSingletonAddFold (pref ++ BHist.e0 m :: suffix)) BHist.Empty -> False) ∧
+      (hsame (MatrixSingletonAddFold (pref ++ BHist.e1 m :: suffix)) BHist.Empty -> False) := by
+  constructor
+  · intro foldEmpty
+    have spineParts :=
+      Iff.mp
+        (MatrixSingletonAddFold_append_carrier_iff
+          (xs := pref) (ys := BHist.e0 m :: suffix))
+        foldEmpty
+    exact not_hsame_e0_empty spineParts.right.left
+  · intro foldEmpty
+    have spineParts :=
+      Iff.mp
+        (MatrixSingletonAddFold_append_carrier_iff
+          (xs := pref) (ys := BHist.e1 m :: suffix))
+        foldEmpty
+    exact not_hsame_e1_empty spineParts.right.left
+
 theorem MatrixSingletonAddFold_append_hsame {xs ys : List BHist} :
     hsame (MatrixSingletonAddFold (xs ++ ys))
       (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) := by
