@@ -43,6 +43,25 @@ theorem AbelianCatKernelCokernelCarrier_factorization_rows
       (And.intro carrier.right.right.right.right.right.right.right.left
         (And.intro carrier.right.right.right.right.right.right.right.right factorUnary)))
 
+theorem AbelianCatKernelCokernelCarrier_zero_biproduct_readback
+    {obj hom zero biprod add kernel cokernel factor : BHist} :
+    AbelianCatKernelCokernelCarrier obj hom zero biprod add kernel cokernel factor ->
+      GroupSingletonCarrier zero ∧ Cont BHist.Empty hom biprod ∧ Cont hom BHist.Empty add ∧
+        hsame biprod hom ∧ hsame add hom ∧ UnaryHistory biprod ∧ UnaryHistory add := by
+  intro carrier
+  have homUnary : UnaryHistory hom := carrier.right.left
+  have zeroCarrier : GroupSingletonCarrier zero := carrier.right.right.right.left
+  have biprodRow : Cont BHist.Empty hom biprod := carrier.right.right.right.right.left
+  have addRow : Cont hom BHist.Empty add := carrier.right.right.right.right.right.left
+  have biprodHom : hsame biprod hom := cont_left_unit_result biprodRow
+  have addHom : hsame add hom := cont_right_unit_result addRow
+  have biprodUnary : UnaryHistory biprod := unary_transport homUnary (hsame_symm biprodHom)
+  have addUnary : UnaryHistory add := unary_transport homUnary (hsame_symm addHom)
+  exact And.intro zeroCarrier
+    (And.intro biprodRow
+      (And.intro addRow
+        (And.intro biprodHom (And.intro addHom (And.intro biprodUnary addUnary)))))
+
 def AbelianCatAdditiveCarrier
     (source target zero add kernel cokernel factor : BHist) : Prop :=
   CategoryHomCarrier source target zero ∧ GroupSingletonCarrier add ∧ UnaryHistory kernel ∧
@@ -190,6 +209,56 @@ theorem AbelianCatKernelCokernel_visible_factorization
                   (And.intro imageUnary
                   (And.intro coimageUnary
                       (And.intro comparisonUnary recomposedUnary))))))))))
+
+theorem AbelianCatKernelCokernelCarrier_classifier_transport
+    {obj hom zero biprod add kernel cokernel factor obj' hom' zero' biprod' add' kernel'
+      cokernel' factor' : BHist} :
+    AbelianCatKernelCokernelCarrier obj hom zero biprod add kernel cokernel factor ->
+      hsame obj obj' -> hsame hom hom' -> hsame zero zero' -> hsame biprod biprod' ->
+        hsame add add' -> hsame kernel kernel' -> hsame cokernel cokernel' ->
+          hsame factor factor' ->
+            AbelianCatKernelCokernelCarrier obj' hom' zero' biprod' add' kernel' cokernel'
+                factor' ∧
+              CategoryHomCarrier obj' obj' hom' ∧ Cont kernel' cokernel' factor' := by
+  intro carrier sameObj sameHom sameZero sameBiprod sameAdd sameKernel sameCokernel sameFactor
+  cases sameObj
+  cases sameHom
+  cases sameZero
+  cases sameBiprod
+  cases sameAdd
+  cases sameKernel
+  cases sameCokernel
+  cases sameFactor
+  exact And.intro carrier
+    (And.intro carrier.right.right.left carrier.right.right.right.right.right.right.right.right)
+
+theorem AbelianCatKernelCokernel_recomposition_audit_row
+    {f kerObj cokObj imageObj coimageObj comparison recomposed audit : BHist} :
+    hsame f BHist.Empty -> Cont BHist.Empty f kerObj -> Cont f BHist.Empty cokObj ->
+      Cont kerObj cokObj imageObj -> Cont imageObj BHist.Empty coimageObj ->
+        Cont coimageObj BHist.Empty comparison -> Cont comparison BHist.Empty recomposed ->
+          Cont recomposed BHist.Empty audit ->
+            hsame audit BHist.Empty ∧ hsame audit f ∧ UnaryHistory audit ∧
+              UnaryHistory recomposed ∧ hsame recomposed f := by
+  intro fEmpty kerReadback cokReadback imageReadback coimageReadback comparisonReadback
+    recomposedReadback auditReadback
+  have visibleRows :=
+    AbelianCatKernelCokernel_visible_factorization fEmpty kerReadback cokReadback imageReadback
+      coimageReadback comparisonReadback recomposedReadback
+  have recomposedF : hsame recomposed f :=
+    visibleRows.right.right.right.right.right.left
+  have recomposedUnary : UnaryHistory recomposed :=
+    visibleRows.right.right.right.right.right.right.right.right.right.right.right
+  have sameAuditRecomposed : hsame audit recomposed :=
+    cont_right_unit_result auditReadback
+  have auditF : hsame audit f :=
+    hsame_trans sameAuditRecomposed recomposedF
+  have auditEmpty : hsame audit BHist.Empty :=
+    hsame_trans auditF fEmpty
+  have auditUnary : UnaryHistory audit :=
+    unary_transport unary_empty (hsame_symm auditEmpty)
+  exact And.intro auditEmpty
+    (And.intro auditF (And.intro auditUnary (And.intro recomposedUnary recomposedF)))
 
 structure AbelianCatZeroBiproductKernelSurface where
   source : BHist
