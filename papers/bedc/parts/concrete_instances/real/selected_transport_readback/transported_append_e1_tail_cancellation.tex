@@ -47,3 +47,71 @@ appended e-one endpoint seals, and the supplied tail comparison; core theorem
 \autoref{thm:real-stream-classifier-transported-selected-append-e1-tail-hsame-cancel};
 exactness the displayed implication to $\hsame(d,e)$; standard bridge RegSeqRat
 and dyadic endpoint normalization readback; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream classifier transported selected certified e-one tail cancellation envelope]
+\label{thm:real-stream-classifier-transported-selected-certified-e1-tail-cancellation-envelope}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, an index
+$n$, and histories $d,e,tail_D,tail_E,z_X,z_Y:\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),
+$$
+and assume the transported selected endpoints display as appended e-one tails:
+$$
+\hsame(x'(n),\Eone(d\cdot\Eone(tail_D))),\quad
+\hsame(y'(n),\Eone(e\cdot\Eone(tail_E))),\quad
+\hsame(tail_D,tail_E).
+$$
+Then the same transported selected observation carries the endpoint certificate
+and the denominator-head cancellation package
+$$
+\begin{array}{l}
+\mathsf{PositiveUnaryDenominator}(x'(n))\land
+\mathsf{PositiveUnaryDenominator}(y'(n))\\
+{}\land\ \mathsf{UnaryHistory}(x'(n))\land
+\mathsf{UnaryHistory}(y'(n))\\
+{}\land\ (\hsame(x'(n),\emp)\to\mathsf{False})\land
+(\hsame(y'(n),\emp)\to\mathsf{False})\\
+{}\land\ (\hsame(x'(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y'(n),\Ezero(z_Y))\to\mathsf{False})\\
+{}\land\ \hsame(d,e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Evaluate $\mathsf{RealStreamClassifier}(x,y)$ at the selected index $n$.
+Transport the resulting RatUp point classifier along the two pointwise stream
+rows to obtain a classifier for $x'(n)$ and $y'(n)$.
+
+Project positive unary denominators from the transported RatUp classifier.
+Apply positive-denominator readback to the two projected rows; this gives the
+unary endpoint rows and separates both selected endpoints from $\emp$.
+
+For the displayed zero-headed exclusions, transport each positive-denominator
+row across a proposed comparison with $\Ezero(z_X)$ or $\Ezero(z_Y)$ and apply
+the RatUp zero-headed contradiction.
+
+Finally transport the RatUp classifier across the two displayed appended e-one
+endpoint seals. RatUp e-one tail readback compares
+$d\cdot\Eone(tail_D)$ with $e\cdot\Eone(tail_E)$; the supplied tail comparison
+identifies the two e-one suffixes, and
+\autoref{thm:append-hsame-right-context-cancel} cancels that right context to
+give $\hsame(d,e)$. Repack the endpoint certificate rows with this denominator
+head comparison.
+\end{proof}
+
+Fit: traditional target transported selected denominator-tail agreement with
+certified endpoint readback for RealUp streams; BEDC source RealUp streams,
+RatUp classifier transport, RatUp positive denominator readback, RatUp e-one
+tail readback, zero-headed denominator exclusion, and BEDC append cancellation;
+carrier rational-observation streams; classifier $\mathsf{RealStreamClassifier}$
+plus selected $\mathsf{RatHistoryClassifier}$; stability pointwise stream
+transport, endpoint hsame transport, e-one constructor transport, positive
+denominator hsame transport, and append right-context cancellation; ledger
+selected index, two stream transport rows, two displayed appended e-one endpoint
+seals, the supplied tail comparison, and two zero-extension tests; core theorem
+\autoref{thm:real-stream-classifier-transported-selected-certified-e1-tail-cancellation-envelope};
+exactness the displayed endpoint certificate and $\hsame(d,e)$ package; standard
+bridge RegSeqRat and dyadic endpoint normalization readback; status
+$\mathsf{ProofTarget}$.
