@@ -28,9 +28,7 @@ $$
 Induct on the displayed finite-spine classifier witness. In the nil case, both
 folds reduce by \autoref{def:finite-additive-scalar-fold} to $0_R$, and the
 zero self-classification row of \autoref{def:ring-stability-certificate} gives
-$0_R\sim_R0_R$.
-
-In the cons case, the head comparison gives $x\sim_R y$, and the induction
+$0_R\sim_R0_R$. In the cons case, the head comparison gives $x\sim_R y$, and the induction
 hypothesis gives
 $\mathsf{fold}_{+,R}(xs)\sim_R\mathsf{fold}_{+,R}(ys)$. Additive congruence from
 \autoref{def:ring-stability-certificate} transports these two comparisons to
@@ -63,6 +61,38 @@ tail-fold carrier with the tail spine carrier.
 \leandef{BEDC.Derived.MatrixUp.MatrixSingletonAddFoldSpineCarrier}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold continuation result readback]
+\label{thm:matrix-singleton-add-fold-continuation-result-iff}
+For every finite spine \(xs\) and histories \(h,r:\mathsf{BHist}\), if
+\[
+\mathsf{Cont}\bigl(h,\mathsf{MatrixSingletonAddFold}(xs),r\bigr),
+\]
+then the result is carried by the singleton matrix carrier exactly when the
+left input is carried and every entry of the fold spine is carried:
+\[
+\mathsf{MatrixSingletonCarrier}(r)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs).
+\]
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the displayed continuation along
+\(\mathsf{MatrixSingletonCarrier}(r)\) to a continuation ending at \(\emp\).
+Kernel empty-result inversion for \(\mathsf{Cont}\) forces both \(h\) and
+\(\mathsf{MatrixSingletonAddFold}(xs)\) to be empty. The first equality is the
+left carrier, and the second is read through
+\autoref{thm:matrix-singleton-add-fold-carrier-iff} to obtain the spine
+carrier.
+
+Conversely, the left carrier identifies \(h\) with \(\emp\), while
+\autoref{thm:matrix-singleton-add-fold-carrier-iff} turns the spine carrier
+into \(\hsame(\mathsf{MatrixSingletonAddFold}(xs),\emp)\). Continuation
+respect for \(\hsame\), compared against the empty right-unit continuation,
+forces \(r\) to be carried by the singleton matrix carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_continuation\_result\_iff}
+
 \begin{theorem}[Singleton additive fold visible head exclusion]
 \label{thm:matrix-singleton-add-fold-visible-head-absurd}
 For every history $m$ and finite spine $xs$, folding a singleton additive spine
@@ -80,7 +110,6 @@ $\Ezero(m)$ or $\Eone(m)$ with $\emp$. Both alternatives contradict constructor
 separation in $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_visible\_head\_absurd}
-
 \begin{theorem}[Singleton additive fold append carrier readback]
 \label{thm:matrix-singleton-add-fold-append-carrier-iff}
 For finite singleton-matrix spines $xs$ and $ys$,
@@ -101,7 +130,6 @@ carrier into the tail spine carrier and the carrier of $ys$, and the reverse
 direction repacks those two splits through the same empty-append constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
-
 \begin{theorem}[Singleton additive fold appended visible tail exclusion]
 \label{thm:matrix-singleton-add-fold-append-visible-tail-absurd}
 For every history \(m\) and finite spine \(xs\), appending a visible singleton
@@ -119,7 +147,6 @@ the one-element visible tail. The tail carrier would identify either
 separation in \(\mathsf{BHist}\).
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_visible\_tail\_absurd}
-
 \begin{theorem}[Singleton additive fold append visible middle exclusion]
 \label{thm:matrix-singleton-add-fold-append-visible-middle-absurd}
 For finite singleton-matrix spines \(pref\) and \(suffix\), a visible middle
@@ -723,8 +750,6 @@ $$
 Applying \autoref{lem:finite-additive-fold-splits-pointwise-sums} to the shared $K$-indexed spine classifies the outer fold with the same sum of the selected row fold and the transposed tail fold. Classifier symmetry and transitivity compose these comparisons, giving the cons case.
 \end{proof}
 
-\input{parts/concrete_instances/matrix/matrix_product_associativity_scalar_folds}
-
+\input{parts/concrete_instances/matrix/product_associativity_from_scalar_folds}
 \input{parts/concrete_instances/matrix/finite_fold_multiplication_transpose}
-
 \input{parts/concrete_instances/matrix/two_index_fold_swap_from_finite_permutation_invariance}
