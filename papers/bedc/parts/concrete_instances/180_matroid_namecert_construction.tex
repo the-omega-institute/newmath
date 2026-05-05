@@ -116,3 +116,149 @@ $$
 $$
 The exchange row and all cardinal comparison data are irrelevant for this closure step; independence is preserved solely by the certified subset-closure field.
 \end{proof}
+\leanchecked{BEDC.Derived.MatroidUp.MatroidFinSetIntersection\_preserves\_independence}
+
+\begin{definition}[Certified matroid restriction rows]
+\label{def:matroid-restriction-row-package}
+Fix a ground predicate $E:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_E$. For predicates $I,I^+:\mathsf{BHist}\to\mathsf{Prop}$ and a history $x:\mathsf{BHist}$, define the certified $\FinSetUp$ insertion row by
+$$
+\mathsf{FinSetInsert}_{E,\sim_E}(I,x,I^+)
+\Longleftrightarrow
+E(x)\land
+\exists xs^+:\mathsf{HistSpine}.\;
+\mathsf{FinSetSpineEnumerates}_{E,\sim_E}(xs^+,I^+)
+\land
+\forall z:\mathsf{BHist}.\;
+I^+(z)\Longleftrightarrow I(z)\vee(E(z)\land z\sim_E x).
+$$
+For a certified finite-cardinality comparison predicate $\mathsf{FinSetCardLt}_{E,\sim_E}$, the ambient exchange row for a family $\mathsf{Ind}$ is
+$$
+\mathsf{MatroidExchangeRow}_{E,\sim_E,\mathsf{FinSetCardLt}}(\mathsf{Ind})
+\Longleftrightarrow
+\forall I\,J.\;
+\mathsf{Ind}(I)\to
+\mathsf{Ind}(J)\to
+\mathsf{FinSetCardLt}_{E,\sim_E}(I,J)\to
+\exists x:\mathsf{BHist}.\;\exists I^+:\mathsf{BHist}\to\mathsf{Prop}.\;
+J(x)\land\neg I(x)\land
+\mathsf{FinSetInsert}_{E,\sim_E}(I,x,I^+)\land
+\mathsf{Ind}(I^+).
+$$
+For a finite subset predicate $K$ of $E$ and a candidate restricted family $\mathsf{Ind}_{M|K}$, define the restricted $\MatroidUp$ row package by
+$$
+\mathsf{MatroidRestrictionRows}_{E,\sim_E,K,\mathsf{FinSetCardLt}}(\mathsf{Ind}_M,\mathsf{Ind}_{M|K})
+\Longleftrightarrow
+\begin{gathered}
+\forall I.\;
+\mathsf{Ind}_{M|K}(I)\Longleftrightarrow
+\mathsf{Ind}_M(I)\land
+\mathsf{FinSetSubset}_{E,\sim_E}(I,K),\\
+\forall I.\;
+\mathsf{Ind}_{M|K}(I)\to
+\exists xs:\mathsf{HistSpine}.\;
+\mathsf{FinSetSpineEnumerates}_{E,\sim_E}(xs,I),\\
+\forall I\,z.\;\mathsf{Ind}_{M|K}(I)\to I(z)\to K(z),\\
+\mathsf{Ind}_{M|K}(\lambda z.\;\bot),\\
+\forall I\,J.\;\mathsf{Ind}_{M|K}(I)\to
+\mathsf{FinSetSubset}_{E,\sim_E}(J,I)\to
+\mathsf{Ind}_{M|K}(J),\\
+\forall I\,J.\;\mathsf{Ind}_{M|K}(I)\to
+\mathsf{Ind}_{M|K}(J)\to
+\mathsf{FinSetCardLt}_{E,\sim_E}(I,J)\to
+\exists x:\mathsf{BHist}.\;\exists I^+:\mathsf{BHist}\to\mathsf{Prop}.\;
+J(x)\land\neg I(x)\land K(x)\land
+\mathsf{FinSetInsert}_{E,\sim_E}(I,x,I^+)\land
+\mathsf{Ind}_{M|K}(I^+).
+\end{gathered}
+$$
+The rows use the same finite-spine and cardinal-comparison surface as the ambient $\MatroidUp$ certificate of \autoref{def:matroid-independence-certificate-surface}, while the ground row is narrowed to $K$.
+\end{definition}
+
+\begin{lemma}[Finite-spine subsets are classifier saturated]
+\label{lem:finset-subset-classifier-saturation}
+Let $E:\mathsf{BHist}\to\mathsf{Prop}$ have classifier $\sim_E$, let $\mathsf{cert}:\NameCert(E,\sim_E)$, and let $K:\mathsf{BHist}\to\mathsf{Prop}$. If
+$$
+\mathsf{FinSetSpineEnumerates}_{E,\sim_E}(ks,K),
+$$
+then for all histories $x,y:\mathsf{BHist}$,
+$$
+K(x)\land E(y)\land y\sim_E x\to K(y).
+$$
+\end{lemma}
+\begin{proof}
+Unfold \autoref{def:finset-spine-enumerates-predicate}. The enumeration hypothesis turns $K(x)$ into $\mathsf{EnumMem}_{E,\sim_E}(x,ks)$. Unfolding \autoref{def:finset-enumeration-membership}, choose a position $i:\mathsf{Pos}(ks)$ with $E(\mathsf{entry}_{ks}(i))$ and
+$$
+x\sim_E\mathsf{entry}_{ks}(i).
+$$
+The transitivity field of $\mathsf{cert}$ from \autoref{def:lean-carrier-naming-certificate}, applied to $y\sim_E x$ and the displayed comparison, gives
+$$
+y\sim_E\mathsf{entry}_{ks}(i).
+$$
+Together with $E(y)$ and the same position $i$, this repacks as $\mathsf{EnumMem}_{E,\sim_E}(y,ks)$. The forward half of the enumeration equivalence for $y$ yields $K(y)$.
+\end{proof}
+
+\begin{theorem}[Matroid restriction certificate]
+\label{thm:matroid-restriction-certificate}
+Fix a $\MatroidUp$ independent-set certificate over a ground predicate $E:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_E$ and naming certificate $\mathsf{cert}:\NameCert(E,\sim_E)$. Let $\mathsf{Ind}_M$ be its independent-family row, with fields $\mathsf{finite}_M$, $\mathsf{ground}_M$, $\mathsf{empty}_M$, and $\mathsf{hereditary}_M$ as in \autoref{def:matroid-independence-certificate-surface}. Assume also the ambient exchange row
+$$
+\mathsf{MatroidExchangeRow}_{E,\sim_E,\mathsf{FinSetCardLt}}(\mathsf{Ind}_M).
+$$
+Let $K:\mathsf{BHist}\to\mathsf{Prop}$ be a $\FinSetUp$ subset of $E$:
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(K,E).
+$$
+If a family $\mathsf{Ind}_{M|K}$ is exactly the family of ambient independent predicates contained in $K$,
+$$
+\forall I.\;
+\mathsf{Ind}_{M|K}(I)\Longleftrightarrow
+\mathsf{Ind}_M(I)\land
+\mathsf{FinSetSubset}_{E,\sim_E}(I,K),
+$$
+then it satisfies the restricted $\MatroidUp$ row package over $K$:
+$$
+\mathsf{MatroidRestrictionRows}_{E,\sim_E,K,\mathsf{FinSetCardLt}}(\mathsf{Ind}_M,\mathsf{Ind}_{M|K}).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the displayed $K$-subset row using \autoref{def:matroid-finset-subset-and-intersection}. Choose a finite spine $ks$ with
+$$
+\mathsf{FinSetSpineEnumerates}_{E,\sim_E}(ks,K),
+$$
+and keep the inclusion row $K(z)\to E(z)$. Unfold \autoref{def:matroid-restriction-row-package}. The defining equivalence row for $\mathsf{Ind}_{M|K}$ is exactly the displayed hypothesis.
+
+For the finite row, assume $\mathsf{Ind}_{M|K}(I)$. The defining equivalence gives $\mathsf{Ind}_M(I)$, so $\mathsf{finite}_M$ supplies a finite spine enumerating $I$ over $(E,\sim_E)$.
+
+For the ground row over $K$, assume $\mathsf{Ind}_{M|K}(I)$ and $I(z)$. The defining equivalence gives $\mathsf{FinSetSubset}_{E,\sim_E}(I,K)$. Unpacking that subset row gives the inclusion $I(z)\to K(z)$, hence $K(z)$.
+
+For the empty row, $\mathsf{empty}_M$ gives $\mathsf{Ind}_M(\lambda z.\;\bot)$. Applying $\mathsf{finite}_M$ to this ambient independent set gives a finite spine enumerating the empty predicate. Pair that spine with the vacuous inclusion $(\lambda z.\;\bot)(z)\to K(z)$ to obtain
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(\lambda z.\;\bot,K).
+$$
+The defining equivalence for $\mathsf{Ind}_{M|K}$ then gives $\mathsf{Ind}_{M|K}(\lambda z.\;\bot)$.
+
+For hereditary closure, assume $\mathsf{Ind}_{M|K}(I)$ and $\mathsf{FinSetSubset}_{E,\sim_E}(J,I)$. The defining equivalence gives $\mathsf{Ind}_M(I)$ and $\mathsf{FinSetSubset}_{E,\sim_E}(I,K)$. The ambient hereditary row gives $\mathsf{Ind}_M(J)$. Unpack the two subset rows: the row from $J$ to $I$ supplies a finite spine enumerating $J$ and an inclusion $J(z)\to I(z)$, while the row from $I$ to $K$ supplies an inclusion $I(z)\to K(z)$. Composing the inclusions and keeping the finite spine for $J$ gives
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(J,K).
+$$
+The defining equivalence repacks these two facts as $\mathsf{Ind}_{M|K}(J)$.
+
+For exchange, assume $\mathsf{Ind}_{M|K}(I)$, $\mathsf{Ind}_{M|K}(J)$, and $\mathsf{FinSetCardLt}_{E,\sim_E}(I,J)$. The defining equivalence gives ambient independence of both $I$ and $J$, plus subset rows
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(I,K)
+\qquad\text{and}\qquad
+\mathsf{FinSetSubset}_{E,\sim_E}(J,K).
+$$
+Apply the ambient exchange row to obtain histories $x$ and $I^+$ such that
+$$
+J(x)\land\neg I(x)\land
+\mathsf{FinSetInsert}_{E,\sim_E}(I,x,I^+)\land
+\mathsf{Ind}_M(I^+).
+$$
+Unpacking the subset row from $J$ to $K$ gives the inclusion $\forall z:\mathsf{BHist}.\;J(z)\to K(z)$; applying this inclusion at $x$ to the witness $J(x)$ gives $K(x)$. Unpack the insertion row: it supplies a finite spine enumerating $I^+$ and the pointwise law
+$$
+I^+(z)\Longleftrightarrow I(z)\vee(E(z)\land z\sim_E x).
+$$
+To prove $\mathsf{FinSetSubset}_{E,\sim_E}(I^+,K)$, keep the finite spine from the insertion row. If $I^+(z)$ holds, the displayed pointwise law gives either $I(z)$ or $E(z)\land z\sim_E x$. In the first case, the subset row from $I$ to $K$ gives $K(z)$. In the second case, apply \autoref{lem:finset-subset-classifier-saturation} to the finite spine $ks$, the witness $K(x)$, the carried witness $E(z)$, and the comparison $z\sim_E x$; this gives $K(z)$. Thus $I^+$ is a finite subset of $K$.
+
+Pair $\mathsf{Ind}_M(I^+)$ with this subset row and apply the defining equivalence for $\mathsf{Ind}_{M|K}$ to obtain $\mathsf{Ind}_{M|K}(I^+)$. The selected $x$, the predicate $I^+$, the witnesses $J(x)$, $\neg I(x)$, $K(x)$, the insertion row, and the restricted independence of $I^+$ are exactly the restricted exchange row.
+\end{proof}
