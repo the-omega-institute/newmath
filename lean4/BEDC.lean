@@ -531,6 +531,7 @@ import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.GraphDepth
 import BEDC.Derived.ContinuousMapUp.IdentityUnits
+import BEDC.Derived.ContinuousMapUp.IdentitySandwich
 import BEDC.Derived.ContinuousMapUp.CompositionCertificate
 import BEDC.Derived.ContinuousMapUp.CategoryMetricDecomposition
 import BEDC.Derived.ContinuousMapUp.TerminalModulusExtension

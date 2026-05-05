@@ -29,6 +29,11 @@ def PolynomialSingletonAdd (P Q : BHist) : BHist :=
 def PolynomialSingletonMul (P Q : BHist) : BHist :=
   append P Q
 
+inductive PolynomialZeroRemainder : List BHist -> Prop where
+  | nil : PolynomialZeroRemainder []
+  | cons {x : BHist} {xs : List BHist} :
+      hsame x BHist.Empty -> PolynomialZeroRemainder xs -> PolynomialZeroRemainder (x :: xs)
+
 theorem PolynomialSingletonClassifier_add_split_empty_iff {P Q h : BHist} :
     PolynomialSingletonClassifier (PolynomialSingletonAdd P Q) h ↔
       hsame P BHist.Empty ∧ hsame Q BHist.Empty ∧ PolynomialSingletonCarrier h := by
