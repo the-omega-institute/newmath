@@ -65,35 +65,6 @@ theorem ComplexTopologyOpenDiskGap_hsame_transport
                                           (And.intro gapCarrier' pointGap'))))
                                     pointGap'
 
-theorem ComplexTopologyOpenDiskGap_semanticNameCert {center radius point gap : BHist} :
-    ComplexTopologyOpenDiskGap center radius point gap ->
-      SemanticNameCert (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g)
-        (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g)
-        (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g) hsame := by
-  intro disk
-  constructor
-  · constructor
-    · exact Exists.intro gap disk
-    · intro h _carrier
-      exact hsame_refl h
-    · intro h k same
-      exact hsame_symm same
-    · intro h k r sameHK sameKR
-      exact hsame_trans sameHK sameKR
-    · intro h k same carrier
-      have centerClass : ComplexHistoryClassifier center center :=
-        And.intro carrier.left (And.intro carrier.left (hsame_refl center))
-      have pointClass : ComplexHistoryClassifier point point :=
-        And.intro carrier.right.right.left
-          (And.intro carrier.right.right.left (hsame_refl point))
-      exact
-        (ComplexTopologyOpenDiskGap_hsame_transport carrier centerClass
-          (hsame_refl radius) pointClass same).left
-  · intro h source
-    exact source
-  · intro h source
-    exact source
-
 theorem ComplexTopologyClosedDiskGap_hsame_transport
     {center center' radius radius' point point' gap gap' : BHist} :
     ComplexTopologyClosedDiskGap center radius point gap ->
