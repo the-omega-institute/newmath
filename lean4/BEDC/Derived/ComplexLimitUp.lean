@@ -5,6 +5,7 @@ namespace BEDC.Derived.ComplexLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 
@@ -248,6 +249,35 @@ theorem ComplexLimit_hsame_transport {s N M : BHist -> BHist} {z z' : BHist} :
                     Exists.intro d
                       (ComplexDistance_hsame_transport_with_relation
                         (hsame_refl (s n)) sameZ (hsame_refl d) distance).left))
+
+theorem ComplexLimit_semanticNameCert {s N M : BHist -> BHist} {z : BHist}
+    (limit : ComplexLimit s N z M) :
+    SemanticNameCert (fun h : BHist => ComplexLimit s N h M)
+      (fun h : BHist => ComplexLimit s N h M) (fun h : BHist => ComplexLimit s N h M)
+      hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro z limit
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK sourceH
+        exact ComplexLimit_hsame_transport sameHK sourceH
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 theorem ComplexRegularSequence_constant {z : BHist} :
     UnaryHistory z -> ComplexRegularSequence (fun _ : BHist => z)
