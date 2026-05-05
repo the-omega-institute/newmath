@@ -10647,3 +10647,28 @@ The claim is a concrete single-implication category theorem that belongs in the 
 
 ---
 
+### B-407 - LieAlgebra adjoint acting-endpoint additive linearity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LieAlgebra adjoint acting-endpoint additive linearity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a LieAlgebraUp certificate, if x, z, and y are carried by the Lie-algebra vector carrier, then ad^L_{x +_L z}(y) is classified with ad^L_x(y) +_L ad^L_z(y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete theorem-level gap in the existing LieAlgebraUp surface: the paper already has adjoint additivity in the acted-on endpoint and scalar linearity in the acting endpoint, but not additive linearity in the acting endpoint. It lands cleanly in the existing Lie-algebra certificate chapter, is not a BOARD duplicate, is not marker-only or verification-axis work, and the landing file is well below the line cap.
+
+---
+
