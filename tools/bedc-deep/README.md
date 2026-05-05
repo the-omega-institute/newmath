@@ -248,6 +248,17 @@ Smoke test the codex orchestrator with a saved prompt:
 python3 tools/bedc-deep/codex_orchestrator.py /path/to/prompt.txt
 ```
 
+Watch loning-side integration branches for paper-pipeline, prompt, and
+closure-discipline changes without merging them:
+
+```bash
+python3 tools/bedc-deep/loning_watch.py
+```
+
+The supervisor runs this periodically. It records the latest scan at
+`tools/bedc-deep/state/loning_watch_latest.md` and appends human-inbox notes
+when new relevant commits appear.
+
 Run Stage 2 manually for a finished Stage 1 target:
 
 ```bash

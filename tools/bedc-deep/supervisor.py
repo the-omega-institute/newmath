@@ -9,7 +9,8 @@ Wraps `oracle_client.py --loop` and adds:
   5. Curator: trigger after a batch of new completions.
   6. Tab health: alert when queue_waiting_for_browser_agent stays stuck.
   7. Auto-commit: detect changes in papers/bedc/parts/ and BOARD.md, push.
-  8. Claude progress review (tier 3): periodic claude -p over the state +
+  8. Loning watch: fetch-and-report remote pipeline/closure discipline changes.
+  9. Claude progress review (tier 3): periodic claude -p over the state +
      server snapshot, with recommend_probe / recommend_curator auto-applied.
 
 Stop the supervisor by creating tools/bedc-deep/.stop or sending SIGINT.
@@ -40,6 +41,7 @@ ORACLE_SERVER_URL = "http://localhost:8767"
 SERVER_SCRIPT = SCRIPT_DIR / "bedc_oracle_server.py"
 ORACLE_CLIENT = SCRIPT_DIR / "oracle_client.py"
 AUTO_DISCOVERY = SCRIPT_DIR / "auto_discovery.py"
+LONING_WATCH = SCRIPT_DIR / "loning_watch.py"
 
 DEFAULT_PARALLEL = 3
 DEFAULT_POLL_INTERVAL = 60
@@ -50,6 +52,7 @@ DEFAULT_PAPER_REVIEW_COOLDOWN_HOURS = 3
 DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
+DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 TAB_STUCK_THRESHOLD_S = 300
 COMPLETIONS_PER_CURATOR = 5
@@ -537,6 +540,42 @@ def trigger_oracle_board_refill() -> None:
         )
 
 
+def run_loning_watch() -> dict | None:
+    """Fetch-and-report loning-side pipeline/closure changes.
+
+    This intentionally does not call git_sync_dev(): the watch path observes
+    remote integration branches and writes state/human-inbox notes only.
+    """
+    try:
+        proc = subprocess.run(
+            ["python3", str(LONING_WATCH)],
+            cwd=str(REPO_ROOT),
+            text=True,
+            capture_output=True,
+            timeout=180,
+        )
+    except subprocess.TimeoutExpired:
+        supervisor_log("loning_watch: timed out")
+        return None
+    except OSError as exc:
+        supervisor_log(f"loning_watch: failed to launch: {exc}")
+        return None
+    if proc.returncode != 0:
+        err = (proc.stderr or proc.stdout or "").strip()
+        supervisor_log(f"loning_watch: rc={proc.returncode} {err[:300]}")
+        return None
+    try:
+        data = json.loads(proc.stdout.strip().splitlines()[-1])
+    except (IndexError, json.JSONDecodeError):
+        supervisor_log(f"loning_watch: output not JSON: {(proc.stdout or '')[:300]}")
+        return None
+    supervisor_log(
+        f"loning_watch: refs={len(data.get('refs_checked') or [])} "
+        f"new={data.get('new_commits')} relevant={data.get('relevant_commits')}"
+    )
+    return data
+
+
 def trigger_curator(*, no_dev_sync: bool = False) -> None:
     if not no_dev_sync:
         git_sync_dev()
@@ -694,6 +733,10 @@ def main() -> int:
     parser.add_argument("--oracle-refill-cooldown-hours", type=float, default=DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS,
                         help="Cooldown between oracle_board_refill runs. Triggered alongside probe when BOARD is low water; "
                              "leverages project-attached PDF for deeper candidate suggestions.")
+    parser.add_argument("--loning-watch-minutes", type=float, default=DEFAULT_LONING_WATCH_MINUTES,
+                        help="Cooldown between fetch-and-report checks of loning-side integration branches.")
+    parser.add_argument("--no-loning-watch", action="store_true",
+                        help="Disable loning-side fetch-and-report monitoring.")
     parser.add_argument("--no-claude-review", action="store_true")
     # --pi-version was removed when v0 retired; accept-and-ignore for any
     # call sites still passing it.
@@ -732,6 +775,7 @@ def main() -> int:
     last_claude_review_ts = 0.0
     last_oracle_refill_ts = 0.0
     last_paper_review_ts = 0.0
+    last_loning_watch_ts = 0.0
     last_completed_count = board_completed_count()
     last_tab_alert_ts = 0.0
     inner: subprocess.Popen | None = None
@@ -817,6 +861,12 @@ def main() -> int:
             clusters = stage2_reject_clusters()
             if clusters:
                 supervisor_log(f"stage2 reject clusters: {clusters} — consider hardening WRITE_PAPER_LATEX prompt")
+
+            if not args.no_loning_watch:
+                since_loning_watch_m = (_now() - last_loning_watch_ts) / 60.0
+                if since_loning_watch_m > args.loning_watch_minutes:
+                    run_loning_watch()
+                    last_loning_watch_ts = _now()
 
             if not args.no_auto_commit:
                 try:
