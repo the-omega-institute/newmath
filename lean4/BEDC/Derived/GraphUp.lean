@@ -208,4 +208,18 @@ theorem GraphContEdge_composition_closure {h k l hk kl : BHist} :
         (And.intro (And.intro edgeHK.left (And.intro unaryKL contRight))
           (And.intro contLeft (And.intro contRight sameLR)))))
 
+theorem GraphContEdge_visible_tail_step_closure {h k g : BHist} :
+    GraphContEdge h k g -> UnaryHistory (BHist.e0 k) -> UnaryHistory (BHist.e0 g) ->
+      UnaryHistory (BHist.e1 k) -> UnaryHistory (BHist.e1 g) ->
+        GraphContEdge h (BHist.e0 k) (BHist.e0 g) ∧
+          GraphContEdge h (BHist.e1 k) (BHist.e1 g) := by
+  intro edge unaryKZero unaryGZero unaryKOne unaryGOne
+  have zeroStep : Cont h (BHist.e0 k) (BHist.e0 g) :=
+    cont_step_zero edge.right.right
+  have oneStep : Cont h (BHist.e1 k) (BHist.e1 g) :=
+    cont_step_one edge.right.right
+  exact And.intro
+    (And.intro edge.left (And.intro unaryKZero zeroStep))
+    (And.intro edge.left (And.intro unaryKOne oneStep))
+
 end BEDC.Derived.GraphUp

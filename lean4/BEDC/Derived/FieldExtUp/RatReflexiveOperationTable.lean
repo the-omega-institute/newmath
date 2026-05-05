@@ -4,6 +4,7 @@ namespace BEDC.Derived.FieldExtUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldUp
 open BEDC.Derived.RatUp
@@ -111,5 +112,32 @@ theorem FieldExtRatReflexive_certificate_row_exhaustion
         (And.intro denominatorRows.right.left
           (And.intro operationRows.left
             (And.intro operationRows.right.left operationRows.right.right.left)))))
+
+theorem FieldExtRatReflexiveTower_ledger_coverage {h k r m out product : BHist} :
+    RatHistoryClassifier h k -> RatHistoryCarrier r -> RatHistoryCarrier m ->
+      Cont r m product -> Cont (FieldExtSingletonEmbedding r) m out ->
+        SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
+            RatHistoryClassifier ∧
+          RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+            RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+              RatHistoryClassifier out product ∧
+                PositiveUnaryDenominator out ∧ PositiveUnaryDenominator product := by
+  intro classifiedHK carrierR carrierM productCont actionCont
+  have ledgerRows :
+      RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+        RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) ∧
+            Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
+              Cont BHist.Empty k (FieldExtSingletonEmbedding k) :=
+    FieldExtRatReflexiveEmbedding_ledger_source_lock classifiedHK
+  have actionRows :
+      RatHistoryClassifier out product ∧ PositiveUnaryDenominator out ∧
+        PositiveUnaryDenominator product :=
+    FieldExtRatReflexive_scalar_action_readback carrierR carrierM actionCont productCont
+  exact And.intro rat_history_semantic_name_certificate
+    (And.intro ledgerRows.left
+      (And.intro ledgerRows.right.left
+        (And.intro actionRows.left
+          (And.intro actionRows.right.left actionRows.right.right))))
 
 end BEDC.Derived.FieldExtUp
