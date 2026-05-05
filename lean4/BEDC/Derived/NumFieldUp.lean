@@ -103,29 +103,6 @@ theorem NumFieldRatReflexive_finite_basis_witness {h : BHist} :
       (unary_e1_closed unary_empty) (hsame_refl (BHist.e1 BHist.Empty))
   exact And.intro basisCarrier (And.intro basisContinuation appendedClassified)
 
-theorem NumFieldRatReflexive_ledger_exactness {h r m product action : BHist} :
-    NumFieldRatReflexiveCarrier h -> RatHistoryCarrier r -> RatHistoryCarrier m ->
-      Cont r m product -> Cont (FieldExtSingletonEmbedding r) m action ->
-        RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
-          RatHistoryCarrier (BHist.e1 BHist.Empty) ∧
-            Cont h (BHist.e1 BHist.Empty) (append h (BHist.e1 BHist.Empty)) ∧
-              RatHistoryClassifier product action ∧ RatHistoryCarrier product ∧
-                RatHistoryCarrier action := by
-  intro carrierH carrierR carrierM productCont actionCont
-  have basisRows := NumFieldRatReflexive_finite_basis_witness carrierH
-  have operationRows :
-      RatHistoryClassifier product action ∧ RatHistoryCarrier product ∧
-        RatHistoryCarrier action ∧ RatHistoryClassifier (FieldExtSingletonEmbedding r) r :=
-    FieldExtRatReflexive_operation_table_source_coverage
-      (And.intro carrierR (And.intro carrierR (hsame_refl r)))
-      (And.intro carrierM (And.intro carrierM (hsame_refl m)))
-      productCont actionCont
-  exact And.intro carrierH.right.right.right
-    (And.intro basisRows.left
-      (And.intro basisRows.right.left
-        (And.intro operationRows.left
-          (And.intro operationRows.right.left operationRows.right.right.left))))
-
 theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     RatHistoryCarrier m -> Cont m BHist.Empty coord ->
       RatHistoryClassifier coord m ∧ RatHistoryCarrier (FieldExtSingletonEmbedding m) ∧
