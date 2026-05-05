@@ -31,4 +31,24 @@ theorem LinearMapSingletonEval_context_continuation_append_target_carrier_iff
     have contextParts := append_eq_empty_iff.mp endpoints.left
     exact And.intro contextParts.left endpoints.right
 
+theorem LinearMapSingletonEval_context_append_input_result_carrier_iff
+    {p f x y z q r : BHist} :
+    Cont (append p (LinearMapSingletonEval f x)) (append y z) (append q r) ->
+      (LinearMapSingletonCarrier p ∧ LinearMapSingletonCarrier y ∧
+          LinearMapSingletonCarrier z ↔
+        LinearMapSingletonCarrier q ∧ LinearMapSingletonCarrier r) := by
+  intro continuation
+  have base :=
+    LinearMapSingletonEval_context_continuation_append_target_carrier_iff
+      (p := p) (f := f) (x := x) (y := append y z) (q := q) (r := r) continuation
+  constructor
+  · intro carriers
+    have inputCarrier : LinearMapSingletonCarrier (append y z) :=
+      append_eq_empty_iff.mpr (And.intro carriers.right.left carriers.right.right)
+    exact base.mp (And.intro carriers.left inputCarrier)
+  · intro carriers
+    have contextCarriers := base.mpr carriers
+    have inputParts := append_eq_empty_iff.mp contextCarriers.right
+    exact And.intro contextCarriers.left (And.intro inputParts.left inputParts.right)
+
 end BEDC.Derived.LinearMapUp
