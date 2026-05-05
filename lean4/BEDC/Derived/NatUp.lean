@@ -290,4 +290,16 @@ theorem NatUnaryPrefix_directed_common_upper {h k : BHist} :
                       (And.intro unary_empty (cont_right_unit h)))
                     (Exists.intro tail (And.intro tailUnary tailCont))))
 
+theorem NatUnaryPrefix_cont_tail_cases {h k tail : BHist} :
+    UnaryHistory tail -> Cont h tail k -> hsame h k ∨ NatUnaryStrictPrefix h k := by
+  intro tailUnary tailCont
+  cases tail with
+  | Empty =>
+      exact Or.inl tailCont.symm
+  | e0 tail =>
+      cases tailUnary
+  | e1 tail =>
+      exact Or.inr
+        ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), tailCont⟩
+
 end BEDC.Derived.NatUp
