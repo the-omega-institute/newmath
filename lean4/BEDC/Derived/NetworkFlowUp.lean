@@ -104,4 +104,16 @@ theorem NetworkFlow_empty_backward_accounting_cut_flow_below_value {V B X : BHis
   have sameXV : hsame X V := cont_deterministic accounting (cont_right_unit V)
   exact PreorderPrefixLE_of_hsame sameXV
 
+protected theorem NetworkFlow_maxflow_mincut_equality_from_residual_exhaustion {V K X B : BHist}
+    (weakDuality : PreorderPrefixLE V K) (forwardSaturation : PreorderPrefixLE K X)
+    (backwardUnary : UnaryHistory B) (backwardEmpty : hsame B BHist.Empty)
+    (accounting : Cont V B X) :
+    hsame V K ∧ PreorderPrefixLE K V := by
+  have cutFlowBelowValue : PreorderPrefixLE X V :=
+    NetworkFlow_empty_backward_accounting_cut_flow_below_value
+      backwardUnary backwardEmpty accounting
+  have cutBelowValue : PreorderPrefixLE K V :=
+    PreorderPrefixLE_trans forwardSaturation cutFlowBelowValue
+  exact And.intro (PreorderPrefixLE_antisymm_hsame weakDuality cutBelowValue) cutBelowValue
+
 end BEDC.Derived.NetworkFlowUp
