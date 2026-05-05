@@ -176,6 +176,26 @@ gives unaryness of $T$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexAbsPartSum\_pointwise\_result\_unary\_transport}
 
+\begin{theorem}[Closed pointwise absolute partial-sum unary transport]
+\label{thm:real-analytic-complex-abs-part-sum-closed-pointwise-index-result-unary-transport}
+For two modulus families $m,m':\mathsf{BHist}\to\mathsf{BHist}$, suppose
+the chosen zero histories $zero$ and $zero'$ are $\hsame$, the source zero
+history $zero$ is unary, each $m(i)$ is unary whenever $i$ is unary, and
+$m(i)\hsame m'(i)$ for every unary index $i$. If closed absolute partial-sum
+witnesses compute $M$ for $(zero,m)$ and $T$ for $(zero',m')$ at the same
+index $n$, then $\mathsf{UnaryHistory}(n)$ and $\mathsf{UnaryHistory}(T)$.
+\end{theorem}
+\begin{proof}
+Apply the absolute partial-sum index/result unary theorem to the source
+witness. The source zero unaryness and the unaryness of $m(i)$ on unary
+indices give both $\mathsf{UnaryHistory}(n)$ and $\mathsf{UnaryHistory}(M)$.
+
+Using the derived unary index witness, apply the pointwise absolute partial-sum
+target unary transport theorem to the two closed computations. The zero
+comparison, source modulus unaryness, and pointwise comparison
+$m(i)\hsame m'(i)$ at unary indices give $\mathsf{UnaryHistory}(T)$.
+\end{proof}
+
 \begin{theorem}[Real-analytic local stream unary package]
 \label{thm:real-analytic-local-stream-obligations-only}
 Let $zero,zero':\mathsf{BHist}$ be chosen zero histories. Let
