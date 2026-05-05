@@ -122,3 +122,53 @@ core theorem
 in future Lean namespace \texttt{BEDC.Derived.RealUp}; exactness predicate the
 four synchronized selected-transport packages; standard bridge RealUp selected
 RegSeqRat endpoint synchronization; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real selected transport synchronized e-one classifier clique]
+\label{thm:real-selected-transport-synchronized-e1-classifier-clique}
+Under the hypotheses of
+\autoref{thm:real-selected-transport-fit-synchronized-from-stream-classifier},
+the four displayed tails $a,a',b,b'$ form a complete displayed
+rational-classifier clique:
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(a'))\land
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b'))\land
+\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))\land
+\mathsf{RatHistoryClassifier}(\Eone(b),\Eone(b')).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-selected-transport-fit-synchronized-from-stream-classifier}
+to the displayed hypotheses and project the synchronized displayed rows. This
+gives unary rows for $a,a',b,b'$ and the four tail rows
+$\hsame(a,a')$, $\hsame(b,b')$, $\hsame(a,b)$, and $\hsame(a',b')$.
+
+The two remaining tail rows come from
+\autoref{thm:history-sameness-equivalence}. Compose $\hsame(a,b)$ with
+$\hsame(b,b')$ to obtain $\hsame(a,b')$. Compose the symmetry of
+$\hsame(a,a')$ with $\hsame(a,b)$ to obtain $\hsame(a',b)$.
+
+For each displayed pair among
+$(a,a')$, $(a,b)$, $(a,b')$, $(a',b)$, $(a',b')$, and $(b,b')$, use the
+corresponding two unary rows and tail $\hsame$ row. The reverse direction of
+\autoref{thm:rat-history-classifier-e1-tail-unary-iff} lifts that data to the
+six displayed $\mathsf{RatHistoryClassifier}$ rows, which are exactly the
+complete clique.
+\end{proof}
+
+Fit: traditional target synchronized RegSeqRat selected-observation classifier
+completion; BEDC source RealUp stream classifier plus RatUp e-one classifier
+exactness plus FKernel hsame; carrier rational-observation streams with
+selected displayed e-one tails; classifier $\mathsf{RealStreamClassifier}$
+feeding $\mathsf{RatHistoryClassifier}$ through $\Eone$ displays; stability
+pointwise $\hsame$ and tail-level symmetry and transitivity; ledger selected
+index, contexts, transported endpoints, unary tails, and six pairwise
+classifier rows; core theorem
+\autoref{thm:real-selected-transport-synchronized-e1-classifier-clique} in
+future Lean namespace \texttt{BEDC.Derived.RealUp}; exactness predicate
+complete displayed e-one rational-classifier clique; downstream use RealUp
+dyadic endpoint normalization; status $\mathsf{ProofTarget}$.
