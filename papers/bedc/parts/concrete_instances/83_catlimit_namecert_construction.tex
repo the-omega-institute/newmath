@@ -8,3 +8,304 @@ The categorical-limit interface $\CatLimitUp$ packages a cone over a diagram in 
 
 \section{The certificate}
 \label{sec:catlimit-certificate}
+
+\begin{definition}[Fixed-diagram cone comparison data]\label{def:catlimit-fixed-diagram-comparison-data}
+Fix a $\CategoryUp$ certificate $\mathcal C$, an indexing category $\mathcal J$, and a certified $\FunctorUp$ diagram $D:\mathcal J\to\mathcal C$. Write $\operatorname{Mor}_{\mathcal C}(A,B;f)$ for the certified assertion that $f$ is a morphism $A\to B$, $\operatorname{MorEq}_{\mathcal C}(A,B;f,g)$ for the morphism classifier between parallel morphisms $f,g:A\to B$, and $\operatorname{Comp}_{\mathcal C}(A,B,C;f,g,h)$ for the certified composition witness saying that $h:A\to C$ classifies the composite of $f:A\to B$ followed by $g:B\to C$.
+
+For $D$-cones $\lambda$ and $\mu$ with apexes $L$ and $M$, the predicate
+$$\operatorname{ConeMor}_{D}(\lambda,\mu;f)$$
+means that $\operatorname{Mor}_{\mathcal C}(L,M;f)$ holds and, for every object $j$ of $\mathcal J$, there is a component composite $c_j:L\to D(j)$ such that
+$$\operatorname{Comp}_{\mathcal C}(L,M,D(j);f,\mu_j,c_j)$$
+and
+$$\operatorname{MorEq}_{\mathcal C}(L,D(j);c_j,\lambda_j).$$
+A certified limiting cone is written
+$$\operatorname{LimCone}_{D}(L,\lambda).$$
+It consists of a $D$-cone $\lambda$ with apex $L$ and the universal field that every $D$-cone $\chi$ with apex $X$ admits a morphism $m:X\to L$ satisfying $\operatorname{ConeMor}_{D}(\chi,\lambda;m)$, with any two such morphisms classified by $\operatorname{MorEq}_{\mathcal C}(X,L;-,-)$.
+\end{definition}
+
+\begin{lemma}[Composition closure for cone morphisms]\label{lem:catlimit-cone-morphism-composite-closure}
+Let $\lambda,\mu,\nu$ be $D$-cones with apexes $L,M,N$. Suppose
+$$\operatorname{ConeMor}_{D}(\lambda,\mu;f)$$
+for $f:L\to M$, and
+$$\operatorname{ConeMor}_{D}(\mu,\nu;g)$$
+for $g:M\to N$. If
+$$\operatorname{Comp}_{\mathcal C}(L,M,N;f,g,h),$$
+then
+$$\operatorname{ConeMor}_{D}(\lambda,\nu;h).$$
+\end{lemma}
+\begin{proof}
+The composition field of the $\CategoryUp$ certificate gives $\operatorname{Mor}_{\mathcal C}(L,N;h)$ from the displayed composition witness and the morphism fields of $f$ and $g$.
+
+Fix an object $j$ of $\mathcal J$. From $\operatorname{ConeMor}_{D}(\mu,\nu;g)$, obtain a composite $d_j:M\to D(j)$ with
+$$\operatorname{Comp}_{\mathcal C}(M,N,D(j);g,\nu_j,d_j)$$
+and
+$$\operatorname{MorEq}_{\mathcal C}(M,D(j);d_j,\mu_j).$$
+From $\operatorname{ConeMor}_{D}(\lambda,\mu;f)$, obtain a composite $e_j:L\to D(j)$ with
+$$\operatorname{Comp}_{\mathcal C}(L,M,D(j);f,\mu_j,e_j)$$
+and
+$$\operatorname{MorEq}_{\mathcal C}(L,D(j);e_j,\lambda_j).$$
+The associativity field of the $\CategoryUp$ certificate applies to
+$$L\xrightarrow{f}M\xrightarrow{g}N\xrightarrow{\nu_j}D(j).$$
+Together with the witnesses for $h=g\circ f$ and $d_j=\nu_j\circ g$, it supplies a composite $r_j:L\to D(j)$ with
+$$\operatorname{Comp}_{\mathcal C}(L,N,D(j);h,\nu_j,r_j)$$
+and a classifier comparison between $r_j$ and the composite of $f$ followed by $d_j$. The morphism-classifier congruence field transports
+$$\operatorname{MorEq}_{\mathcal C}(M,D(j);d_j,\mu_j)$$
+across right composition by $f$, giving a classifier comparison between the composite of $f$ followed by $d_j$ and the composite $e_j$ of $f$ followed by $\mu_j$. Transitivity of $\operatorname{MorEq}_{\mathcal C}$ then yields
+$$\operatorname{MorEq}_{\mathcal C}(L,D(j);r_j,\lambda_j).$$
+Since the object $j$ was arbitrary, the component witnesses $r_j$ assemble the component ledger for $\operatorname{ConeMor}_{D}(\lambda,\nu;h)$.
+\end{proof}
+
+\begin{lemma}[Identity cone morphism]\label{lem:catlimit-cone-identity-comparison}
+If $\lambda$ is a $D$-cone with apex $L$, then
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L).$$
+\end{lemma}
+\begin{proof}
+The identity field of the $\CategoryUp$ certificate gives $\operatorname{Mor}_{\mathcal C}(L,L;1_L)$. Fix an object $j$ of $\mathcal J$. The unit field for the component $\lambda_j:L\to D(j)$ supplies a composite $c_j:L\to D(j)$ with
+$$\operatorname{Comp}_{\mathcal C}(L,L,D(j);1_L,\lambda_j,c_j)$$
+and
+$$\operatorname{MorEq}_{\mathcal C}(L,D(j);c_j,\lambda_j).$$
+These witnesses, indexed by the objects of $\mathcal J$, give the cone-morphism ledger for $\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L)$.
+\end{proof}
+
+\begin{proposition}[Limiting-cone endomorphism rigidity]\label{prop:catlimit-limiting-cone-endomorphism-rigidity}
+If
+$$\operatorname{LimCone}_{D}(L,\lambda)$$
+and
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda;a),$$
+then
+$$\operatorname{MorEq}_{\mathcal C}(L,L;a,1_L).$$
+\end{proposition}
+\begin{proof}
+By \autoref{lem:catlimit-cone-identity-comparison}, the identity morphism satisfies
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L).$$
+The universal uniqueness field of $\operatorname{LimCone}_{D}(L,\lambda)$ applies to the source cone $\lambda$ and to the two cone morphisms $a,1_L:L\to L$. It gives
+$$\operatorname{MorEq}_{\mathcal C}(L,L;a,1_L).$$
+\end{proof}
+
+\begin{theorem}[CatLimit apex uniqueness from universal cones]\label{thm:catlimit-universal-cones-comparison-identities}
+Let $D:\mathcal J\to\mathcal C$ be a fixed certified $\FunctorUp$ diagram in a $\CategoryUp$ certificate $\mathcal C$. If
+$$\operatorname{LimCone}_{D}(L,\lambda)$$
+and
+$$\operatorname{LimCone}_{D}(L',\lambda')$$
+are two certified limiting cones over $D$, then there exist comparison morphisms
+$$u:L\to L'$$
+and
+$$v:L'\to L$$
+such that
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda';u)$$
+and
+$$\operatorname{ConeMor}_{D}(\lambda',\lambda;v).$$
+Moreover, there are composite results $c_L:L\to L$ and $c_{L'}:L'\to L'$ satisfying
+$$\operatorname{Comp}_{\mathcal C}(L,L',L;u,v,c_L)$$
+and
+$$\operatorname{Comp}_{\mathcal C}(L',L,L';v,u,c_{L'})$$
+with
+$$\operatorname{MorEq}_{\mathcal C}(L,L;c_L,1_L)$$
+and
+$$\operatorname{MorEq}_{\mathcal C}(L',L';c_{L'},1_{L'}).$$
+\end{theorem}
+\begin{proof}
+Apply the universal existence field of $\operatorname{LimCone}_{D}(L',\lambda')$ to the $D$-cone $\lambda$ with apex $L$. This supplies a morphism $u:L\to L'$ and a cone-morphism ledger
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda';u).$$
+Apply the universal existence field of $\operatorname{LimCone}_{D}(L,\lambda)$ to the $D$-cone $\lambda'$ with apex $L'$. This supplies a morphism $v:L'\to L$ and a cone-morphism ledger
+$$\operatorname{ConeMor}_{D}(\lambda',\lambda;v).$$
+The composition field of $\mathcal C$ supplies a composite result $c_L:L\to L$ with
+$$\operatorname{Comp}_{\mathcal C}(L,L',L;u,v,c_L).$$
+Using \autoref{lem:catlimit-cone-morphism-composite-closure} with the two cone morphisms
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda';u)$$
+and
+$$\operatorname{ConeMor}_{D}(\lambda',\lambda;v),$$
+one obtains
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda;c_L).$$
+Now \autoref{prop:catlimit-limiting-cone-endomorphism-rigidity}, applied to $\operatorname{LimCone}_{D}(L,\lambda)$ and this cone endomorphism, gives
+$$\operatorname{MorEq}_{\mathcal C}(L,L;c_L,1_L).$$
+The composition field of $\mathcal C$ also supplies a composite result $c_{L'}:L'\to L'$ with
+$$\operatorname{Comp}_{\mathcal C}(L',L,L';v,u,c_{L'}).$$
+Using \autoref{lem:catlimit-cone-morphism-composite-closure} with the two cone morphisms
+$$\operatorname{ConeMor}_{D}(\lambda',\lambda;v)$$
+and
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda';u),$$
+one obtains
+$$\operatorname{ConeMor}_{D}(\lambda',\lambda';c_{L'}).$$
+Now \autoref{prop:catlimit-limiting-cone-endomorphism-rigidity}, applied to $\operatorname{LimCone}_{D}(L',\lambda')$ and this cone endomorphism, gives
+$$\operatorname{MorEq}_{\mathcal C}(L',L';c_{L'},1_{L'}).$$
+\end{proof}
+
+\begin{corollary}[Comparison-fiber collapse]\label{cor:catlimit-comparison-fiber-collapse}
+Under the hypotheses of \autoref{thm:catlimit-universal-cones-comparison-identities}, if $u_1,u_2:L\to L'$ both satisfy
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda';u_1)$$
+and
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda';u_2),$$
+then
+$$\operatorname{MorEq}_{\mathcal C}(L,L';u_1,u_2).$$
+If $v_1,v_2:L'\to L$ both satisfy
+$$\operatorname{ConeMor}_{D}(\lambda',\lambda;v_1)$$
+and
+$$\operatorname{ConeMor}_{D}(\lambda',\lambda;v_2),$$
+then
+$$\operatorname{MorEq}_{\mathcal C}(L',L;v_1,v_2).$$
+\end{corollary}
+\begin{proof}
+The two morphisms $u_1,u_2:L\to L'$ are cone morphisms from the same source cone $\lambda$ to the same limiting cone $\lambda'$. The universal uniqueness field of $\operatorname{LimCone}_{D}(L',\lambda')$ applied to the source cone $\lambda$ gives
+$$\operatorname{MorEq}_{\mathcal C}(L,L';u_1,u_2).$$
+The two morphisms $v_1,v_2:L'\to L$ are cone morphisms from the same source cone $\lambda'$ to the same limiting cone $\lambda$. The universal uniqueness field of $\operatorname{LimCone}_{D}(L,\lambda)$ applied to the source cone $\lambda'$ gives
+$$\operatorname{MorEq}_{\mathcal C}(L',L;v_1,v_2).$$
+\end{proof}
+
+\begin{proposition}[Field dependency of the comparison construction]\label{prop:catlimit-apex-comparison-field-dependency}
+The construction in \autoref{thm:catlimit-universal-cones-comparison-identities} is obtained from the following fields:
+\begin{enumerate}
+\item the universal existence field of each limiting cone, applied once to the other cone;
+\item the $\CategoryUp$ composition field, applied once to $u$ followed by $v$ and once to $v$ followed by $u$;
+\item the associativity and morphism-classifier congruence fields used in \autoref{lem:catlimit-cone-morphism-composite-closure};
+\item the identity and unit fields used in \autoref{lem:catlimit-cone-identity-comparison};
+\item the universal uniqueness field of each limiting cone, applied to its own cone endomorphism.
+\end{enumerate}
+No object equality, quotient carrier, host-level function extensionality, or external isomorphism principle enters the construction.
+\end{proposition}
+\begin{proof}
+The first universal existence application is made to $\operatorname{LimCone}_{D}(L',\lambda')$ with source cone $\lambda$, and it produces the morphism $u:L\to L'$ together with $\operatorname{ConeMor}_{D}(\lambda,\lambda';u)$. The second universal existence application is made to $\operatorname{LimCone}_{D}(L,\lambda)$ with source cone $\lambda'$, and it produces the morphism $v:L'\to L$ together with $\operatorname{ConeMor}_{D}(\lambda',\lambda;v)$.
+
+The $\CategoryUp$ composition field produces $c_L$ from $u$ followed by $v$, and it produces $c_{L'}$ from $v$ followed by $u$. The passage from these raw composites to cone endomorphisms is exactly \autoref{lem:catlimit-cone-morphism-composite-closure}; its proof uses associativity to compare $\nu_j\circ(g\circ f)$ with $(\nu_j\circ g)\circ f$, morphism-classifier congruence to replace $\nu_j\circ g$ by the corresponding cone component, and transitivity to reach the original source component.
+
+The classification of an arbitrary cone endomorphism with the identity is exactly \autoref{prop:catlimit-limiting-cone-endomorphism-rigidity}. That proposition first uses \autoref{lem:catlimit-cone-identity-comparison}, whose proof uses only the identity and unit fields of the $\CategoryUp$ certificate, and then applies the universal uniqueness field of the limiting cone to the pair consisting of the given cone endomorphism and the identity cone morphism.
+
+Combining these field projections gives precisely the two comparison morphisms, the two composite witnesses, and the two identity classifications stated in \autoref{thm:catlimit-universal-cones-comparison-identities}. Each displayed equality is an instance of $\operatorname{MorEq}_{\mathcal C}$, and every object-level comparison used in the construction is one of the fields listed above.
+\end{proof}
+
+\begin{definition}[Pointwise certified diagram equivalence]
+\label{def:catlimit-pointwise-certified-diagram-equivalence}
+Fix $\CategoryUp$ certificates $\mathcal J$ and $\mathcal C$, and certified $\FunctorUp$ diagrams $D,E:\mathcal J\to\mathcal C$. A pointwise certified diagram equivalence between $D$ and $E$ is a pair of certified $\NatTransUp$ carriers
+$$
+\alpha:D\Rightarrow E,\qquad \beta:E\Rightarrow D,
+$$
+such that, for every object $j$ of $\mathcal J$, the component composites are classified as identities in $\mathcal C$. Thus there are composites $d_j:D(j)\to D(j)$ and $e_j:E(j)\to E(j)$ with
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),E(j),D(j);\alpha_j,\beta_j,d_j)
+\quad\text{and}\quad
+\operatorname{MorEq}_{\mathcal C}(D(j),D(j);d_j,1_{D(j)}),
+$$
+and
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),E(j);\beta_j,\alpha_j,e_j)
+\quad\text{and}\quad
+\operatorname{MorEq}_{\mathcal C}(E(j),E(j);e_j,1_{E(j)}).
+$$
+The naturality, component-carrier, and component-classifier rows are exactly the rows required by the $\NatTransUp$ carrier and certificate obligations.
+\end{definition}
+
+\begin{theorem}[CatLimit transport along pointwise certified diagram equivalence]
+\label{thm:catlimit-transport-pointwise-certified-diagram-equivalence}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations, and let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams. Suppose $(\alpha,\beta)$ is a pointwise certified diagram equivalence between $D$ and $E$ in the sense of \autoref{def:catlimit-pointwise-certified-diagram-equivalence}. If
+$$
+\operatorname{LimCone}_{D}(L,\lambda)
+$$
+holds, and if $\lambda^E$ is the component family obtained by certified composition
+$$
+\operatorname{Comp}_{\mathcal C}(L,D(j),E(j);\lambda_j,\alpha_j,\lambda^E_j)
+$$
+for every object $j$ of $\mathcal J$, then
+$$
+\operatorname{LimCone}_{E}(L,\lambda^E).
+$$
+\end{theorem}
+\begin{proof}
+First verify the $E$-cone ledger for $\lambda^E$. For a displayed morphism $u:j\to k$ in $\mathcal J$, the $D$-cone law for $\lambda$ classifies the composite of $\lambda_j$ followed by $D(u)$ with $\lambda_k$. Naturality of $\alpha$ classifies $\alpha_j$ followed by $E(u)$ with $D(u)$ followed by $\alpha_k$. Associativity and composition congruence from \autoref{def:category-stability-certificate} paste these two classifier comparisons and identify the composite of $\lambda^E_j$ followed by $E(u)$ with $\lambda^E_k$. Thus $\lambda^E$ is an $E$-cone with apex $L$.
+
+Let $\chi$ be any $E$-cone with apex $X$. Form a $D$-component family $\chi^D$ by composing each component with $\beta_j$:
+$$
+\operatorname{Comp}_{\mathcal C}(X,E(j),D(j);\chi_j,\beta_j,\chi^D_j).
+$$
+The $E$-cone law for $\chi$, naturality of $\beta$, and the same associativity and congruence fields show that $\chi^D$ is a $D$-cone. The universal existence field of $\operatorname{LimCone}_{D}(L,\lambda)$ therefore supplies a morphism $m:X\to L$ with
+$$
+\operatorname{ConeMor}_{D}(\chi^D,\lambda;m).
+$$
+For each $j$, the component comparison of this cone morphism classifies $m$ followed by $\lambda_j$ with $\chi_j$ followed by $\beta_j$. Composing that comparison on the right with $\alpha_j$, using associativity, and then using the $E(j)$-identity row $\beta_j$ followed by $\alpha_j$ classified with $1_{E(j)}$, gives a classifier comparison between $m$ followed by $\lambda^E_j$ and $\chi_j$. The right identity law in $\mathcal C$ supplies the final comparison with $\chi_j$. Hence
+$$
+\operatorname{ConeMor}_{E}(\chi,\lambda^E;m),
+$$
+which is the universal existence field for $\lambda^E$.
+
+It remains to verify universal uniqueness. Let $m,n:X\to L$ both satisfy
+$$
+\operatorname{ConeMor}_{E}(\chi,\lambda^E;m)
+\quad\text{and}\quad
+\operatorname{ConeMor}_{E}(\chi,\lambda^E;n).
+$$
+For $m$, compose the component comparison $m;\lambda^E_j$ classified with $\chi_j$ on the right by $\beta_j$. Since $\lambda^E_j$ is the composite of $\lambda_j$ followed by $\alpha_j$, associativity rewrites the left side as $m;\lambda_j;\alpha_j;\beta_j$. The $D(j)$-identity row classifies $\alpha_j$ followed by $\beta_j$ with $1_{D(j)}$, and the right identity law reduces this to $m;\lambda_j$. The right side is the defining component $\chi^D_j$. Thus
+$$
+\operatorname{ConeMor}_{D}(\chi^D,\lambda;m).
+$$
+The same argument gives
+$$
+\operatorname{ConeMor}_{D}(\chi^D,\lambda;n).
+$$
+The universal uniqueness field of $\operatorname{LimCone}_{D}(L,\lambda)$ applies to these two $D$-cone morphisms and yields
+$$
+\operatorname{MorEq}_{\mathcal C}(X,L;m,n).
+$$
+This is exactly the uniqueness field required for $\operatorname{LimCone}_{E}(L,\lambda^E)$.
+\end{proof}
+
+\begin{theorem}[Cone morphism classifier descent through natural-transformation whiskering]
+\label{thm:catlimit-cone-morphism-nattrans-whiskering-descent}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations. Let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams, and let $\alpha:D\Rightarrow E$ be a certified $\NatTransUp$ carrier with components $\alpha_j:D(j)\to E(j)$. Let $\lambda$ and $\mu$ be $D$-cones with apexes $L$ and $M$, and let $\lambda^\alpha$ and $\mu^\alpha$ be the corresponding $E$-cones obtained by composing each cone leg with the component of $\alpha$:
+$$
+\operatorname{Comp}_{\mathcal C}(L,D(j),E(j);\lambda_j,\alpha_j,\lambda^\alpha_j)
+\qquad\text{and}\qquad
+\operatorname{Comp}_{\mathcal C}(M,D(j),E(j);\mu_j,\alpha_j,\mu^\alpha_j)
+$$
+for every object $j$ of $\mathcal J$, with image endpoints read through the certified endpoint-transport fields. If
+$$
+\operatorname{ConeMor}_{D}(\lambda,\mu;f),
+$$
+then
+$$
+\operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:nattrans-carrier}, each $\alpha_j$ is a displayed morphism $D(j)\to E(j)$ in $\mathcal C$, and the naturality row is the cone-whiskering ledger that makes the displayed component families $\lambda^\alpha$ and $\mu^\alpha$ into $E$-cones. If any object image is represented by a classified endpoint rather than by a literal endpoint, the source-target replacement row of \autoref{def:functor-stability-certificate} and the endpoint-indexed transport fields of \autoref{def:category-stability-certificate} reindex the component morphisms before the following composition ledgers are formed.
+
+Unpack $\operatorname{ConeMor}_{D}(\lambda,\mu;f)$ using \autoref{def:catlimit-fixed-diagram-comparison-data}. It gives the apex morphism field $\operatorname{Mor}_{\mathcal C}(L,M;f)$ and, for each object $j$ of $\mathcal J$, a displayed composite $d_j:L\to D(j)$ such that
+$$
+\operatorname{Comp}_{\mathcal C}(L,M,D(j);f,\mu_j,d_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(L,D(j);d_j,\lambda_j).
+$$
+The same apex morphism field is the apex morphism required for $\operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f)$.
+
+Fix $j$. The postwhiskered target leg is displayed by
+$$
+\operatorname{Comp}_{\mathcal C}(M,D(j),E(j);\mu_j,\alpha_j,\mu^\alpha_j).
+$$
+Composition closure in \autoref{def:category-stability-certificate} supplies a composite $s_j:L\to E(j)$ of $f$ followed by $\mu^\alpha_j$:
+$$
+\operatorname{Comp}_{\mathcal C}(L,M,E(j);f,\mu^\alpha_j,s_j).
+$$
+It also supplies a composite $t_j:L\to E(j)$ of $d_j$ followed by $\alpha_j$:
+$$
+\operatorname{Comp}_{\mathcal C}(L,D(j),E(j);d_j,\alpha_j,t_j).
+$$
+Associativity in the same category certificate, applied to
+$$
+L\xrightarrow{f}M\xrightarrow{\mu_j}D(j)\xrightarrow{\alpha_j}E(j),
+$$
+compares the two bracketings and gives
+$$
+\operatorname{MorEq}_{\mathcal C}(L,E(j);s_j,t_j).
+$$
+
+The component classifier from the original cone morphism gives $d_j\sim\lambda_j$ at the endpoint pair $(L,D(j))$. Composition congruence with the fixed right factor $\alpha_j$, together with the displayed definition of $\lambda^\alpha_j$, transports this comparison to
+$$
+\operatorname{MorEq}_{\mathcal C}(L,E(j);t_j,\lambda^\alpha_j).
+$$
+Transitivity of the morphism classifier in \autoref{def:category-stability-certificate} composes the last two comparisons and yields
+$$
+\operatorname{MorEq}_{\mathcal C}(L,E(j);s_j,\lambda^\alpha_j).
+$$
+
+Thus, for the fixed object $j$, the composite $s_j$ supplies the required $E$-cone-morphism component ledger for $f$ from $\lambda^\alpha$ to $\mu^\alpha$. Since $j$ was arbitrary, these ledgers assemble with the already supplied apex morphism field into $\operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f)$.
+\end{proof}
