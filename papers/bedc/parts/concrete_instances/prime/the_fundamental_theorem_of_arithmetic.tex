@@ -4,6 +4,26 @@
 \label{def:prime-factorization-list}
 A prime factorization of a unary history \(n\) is a finite list of unary primes \([p_1, \dots, p_k]\) (in non-decreasing unary order) such that the iterated multiplicative continuation \(p_1 \cdot p_2 \cdots p_k\) yields a unary history \(\hsame\)-equal to \(n\).
 \end{definition}
+\leandef{BEDC.Derived.PrimeUp.PrimeFactorizationProduct}
+\leandef{BEDC.Derived.PrimeUp.PrimeFactorization}
+
+\begin{theorem}[Prime factorization cons head divides]
+\label{thm:prime-factorization-cons-head-divides}
+If a prime factorization list of \(n\) has head \(p\), then \(p\) is prime and
+divides \(n\):
+$$
+\mathsf{PrimeFactorization}(n,p::ps)
+\Longrightarrow
+\mathsf{NatPrime}(p)\land\mathsf{NatDivides}(p,n).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the cons clause of the concrete factorization-product predicate. It
+exposes the head primality proof, a tail product, and the multiplication
+witness \(\mathsf{NatMul}(p,\mathsf{tail},n)\). The multiplier unary field of
+that witness supplies the quotient carrier required by \(\mathsf{NatDivides}\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.PrimeFactorization\_cons\_head\_divides}
 
 \begin{theorem}[Existence of prime factorization]
 \label{thm:ftoa-existence}
@@ -22,4 +42,3 @@ Apply \autoref{thm:prime-divides-product-factor} to the leading prime of one fac
 
 Cancel the matched factor using the \(\mathsf{NatMul}\) result and functionality facts, then continue by induction on the remaining lists. The induction gives pointwise agreement up to \(\hsame\) and length agreement \(j = k\).
 \end{proof}
-
