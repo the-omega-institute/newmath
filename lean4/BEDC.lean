@@ -546,6 +546,7 @@ import BEDC.Derived.ContinuousUp.EmptyModulus
 import BEDC.Derived.ContinuousUp.EmptyModuli
 import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
+import BEDC.Derived.ContinuousUp.CertificateFields
 import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.PublicReadback
