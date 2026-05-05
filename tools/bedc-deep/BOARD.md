@@ -9337,3 +9337,196 @@ This is a concrete zero-fiber closure target for IdealUp and is not covered by t
 
 ---
 
+### B-358 - ProbSpace complement mass additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ProbSpace complement mass additivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a ProbSpaceUp carrier has a measurable subset A and a measurable complement Ac whose disjoint union is the total space, then mu(A)+mu(Ac) is RealUp-classified as the probability unit.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex`
+
+Rationale:
+The probability layer is an empty skeleton while its measure substrate has just become usable: papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex:4 says ProbSpaceUp is a MeasureUp space with total measure equal to the unit, and papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex:47-52 now proves finite disjoint-union additivity. BOARD coverage around tools/bedc-deep/BOARD.md:8714 and tools/bedc-deep/BOARD.md:8790 covers MeasureUp only; grep over BOARD/state for ProbSpaceUp/probability returned no target. This is a concrete first probability theorem, not a new verification marker or carrier transport sequel.
+
+---
+
+
+### B-359 - Convex midpoint closure from affine-combination field
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Convex midpoint closure from affine-combination field |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a ConvexSetUp carrier contains x and y and h is a nonnegative scalar with h+h classified as 1, then the affine midpoint h*x+h*y is carried by the same ConvexSetUp carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+The convex-geometry slice has no deep-loop target and is still only a chapter stub: papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex:4 says ConvexSetUp is closed under affine combinations with nonnegative coefficients summing to one, while papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex:4 and papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex:51-63 provide the affine/vector-space substrate. Grep over BOARD/state for ConvexSetUp/convex returned no hits. The midpoint statement is the smallest nontrivial specialization of the advertised closure law and gives later polytope/LP chapters a citable convexity lemma.
+
+---
+
+
+### B-360 - Network-flow weak duality for cuts
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Network-flow weak duality for cuts |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If f is a feasible NetworkFlowUp s-t flow and C is an s-t cut in the same directed graph, then the value of f is NatUp-classified below the capacity of C.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+Combinatorial optimization is nearly untouched beyond MatchingUp: papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex:4 promises edge capacities and max-flow/min-cut duality, papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex:4 supplies the graph edge substrate, and papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex:52-70 gives unary NatUp comparison infrastructure. BOARD has Matching subset closure at tools/bedc-deep/BOARD.md:9260, but no NetworkFlowUp/flow/cut target. Weak duality is a single concrete implication and the natural prerequisite before any max-flow/min-cut equality claim.
+
+---
+
+
+### B-361 - Hash second-preimage success induces collision
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Hash second-preimage success induces collision |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 10/10 |
+
+Problem:
+If a HashUp transcript is a successful second-preimage for message x with distinct x' and H(x') classified equal to H(x), then the pair (x,x') is a successful collision transcript for the same hash row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/110_funcobj_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+The cryptographic slice has no completed deep-loop content: papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex:4 lists collision resistance, preimage resistance, and second-preimage resistance over a deterministic finite-output map, while papers/bedc/parts/concrete_instances/110_funcobj_namecert_construction.tex:4 gives the function-object substrate and papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex:4 supplies finite-output enumeration machinery. Grep over BOARD/state for HashUp/hash returned no hits. The reduction is a concrete transcript-level implication and avoids importing any cryptographic hardness theory.
+
+---
+
+### B-362 - Network-flow cut accounting from vertex conservation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Network-flow cut accounting from vertex conservation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a finite directed NetworkFlowUp setup, if a flow satisfies the source-value row and vertex conservation at every nonterminal cut-side vertex, then every finite s-t cut supplies Cont(value, backward crossing flow, forward crossing flow).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+
+Rationale:
+This is a concrete prerequisite theorem for the current network-flow surface: the existing weak-duality proof uses cut accounting as a feasibility row, while this target derives that row from local vertex conservation. It is not a BOARD duplicate and is not already proven by the current weak-duality theorem.
+
+---
+
+
+### B-363 - Network-flow max-flow min-cut equality package
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Network-flow max-flow min-cut equality package |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a finite NetworkFlowUp setup, if a feasible flow carries an augmenting-path exhaustion certificate, then its value is NatUp-classified equal to the capacity of the residual cut induced by that certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+This is a conditional strong-duality target, distinct from the existing weak-duality cut bound. It lands directly in the network-flow chapter, has a single certificate-to-classification implication shape, and would close a named interface direction without duplicating any existing BOARD entry.
+
+---
+
+### B-364 - NetworkFlowUp residual reachability cut extraction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | NetworkFlowUp residual reachability cut extraction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a finite NetworkFlowUp setup, if t is not residual-reachable from s, then the cut induced by the residual-reachable side supplies the residual-cut augmenting-path exhaustion certificate: all forward cut edges are saturated and the backward cut flow is classified empty.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+
+Rationale:
+This is a concrete theorem-level bridge in the existing NetworkFlowUp surface: the paper already has weak duality, cut accounting, a residual-exhaustion certificate, and max-flow/min-cut equality from such a certificate, but it does not derive that certificate from the standard no-residual-path condition. It is not a duplicate of the existing equality package because it produces the certificate rows that the equality theorem assumes, and the landing file is a concrete non-hub chapter well below the line cap.
+
+---
+

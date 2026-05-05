@@ -329,7 +329,78 @@ theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
                             (Exists.intro h
                             (Exists.intro gp
                               (And.intro quotient'
-                                (And.intro continuation' (hsame_refl gp)))))
+                              (And.intro continuation' (hsame_refl gp)))))
+
+theorem CplxDiffAt_prepend_complex_scalar_closed {c f z fp : BHist} :
+    ComplexHistoryCarrier c -> CplxDiffAt f z fp ->
+      CplxDiffAt (append c f) z (append c fp) ∧ ComplexHistoryCarrier (append c fp) := by
+  intro cCarrier diff
+  cases diff with
+  | intro functionCarrier diffRest =>
+      cases diffRest with
+      | intro pointCarrier diffRest =>
+          cases diffRest with
+          | intro derivativeCarrier diffRest =>
+              cases diffRest with
+              | intro witness classifier =>
+                  cases witness with
+                  | intro h witnessRest =>
+                      cases witnessRest with
+                      | intro q quotient =>
+                          have cUnary : UnaryHistory c :=
+                            ComplexHistoryCarrier_unary cCarrier
+                          have targetFunctionCarrier : UnaryHistory (append c f) :=
+                            unary_append_closed cUnary functionCarrier
+                          have targetDerivativeCarrier :
+                              ComplexHistoryCarrier (append c fp) :=
+                            ComplexHistoryCarrier_append_unary_closed cCarrier
+                              (ComplexHistoryCarrier_unary derivativeCarrier)
+                          have qUnary : UnaryHistory q := (CplxDiffQuot_step_unary quotient).right.left
+                          have targetQuotient :
+                              CplxDiffQuot (append c f) z h (append c q) := by
+                            cases quotient with
+                            | intro _functionCarrier quotientRest =>
+                                cases quotientRest with
+                                | intro _pointCarrier quotientRest =>
+                                    cases quotientRest with
+                                    | intro stepNonzero quotientRest =>
+                                        cases quotientRest with
+                                        | intro _quotientCarrier ledger =>
+                                            exact And.intro targetFunctionCarrier
+                                              (And.intro pointCarrier
+                                                (And.intro stepNonzero
+                                                  (And.intro
+                                                    (unary_append_closed cUnary qUnary)
+                                                    (by
+                                                      cases ledger
+                                                      exact (append_assoc c f h).symm))))
+                          have targetDiff :
+                              CplxDiffAt (append c f) z (append c fp) := by
+                            exact And.intro targetFunctionCarrier
+                              (And.intro pointCarrier
+                                (And.intro targetDerivativeCarrier
+                                  (And.intro
+                                    (Exists.intro h (Exists.intro (append c q) targetQuotient))
+                                    (by
+                                      intro h' q' targetQuotient'
+                                      have hUnary : UnaryHistory h' :=
+                                        (CplxDiffQuot_step_unary targetQuotient').left
+                                      have sourceResultUnary : UnaryHistory (append f h') :=
+                                        unary_append_closed functionCarrier hUnary
+                                      have sourceQuotient : CplxDiffQuot f z h' (append f h') :=
+                                        And.intro functionCarrier
+                                          (And.intro pointCarrier
+                                            (And.intro targetQuotient'.right.right.left
+                                              (And.intro sourceResultUnary rfl)))
+                                      have sameSourceResult : hsame (append f h') fp :=
+                                        classifier sourceQuotient
+                                      have sameTargetResult :
+                                          hsame q' (append c (append f h')) :=
+                                        hsame_trans targetQuotient'.right.right.right.right
+                                          (append_assoc c f h')
+                                      cases sameSourceResult
+                                      exact sameTargetResult))))
+                          exact And.intro targetDiff targetDerivativeCarrier
 
 theorem CplxDiffClassifierSpec_hsame_transport_witness {f g z w fp gp : BHist} :
     CplxDiffAt f z fp -> hsame f g -> hsame z w -> hsame fp gp ->
