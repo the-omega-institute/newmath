@@ -7,6 +7,12 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexSeriesUp
 
+inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist -> Prop where
+  | zero : RealAnalyticLeibnizPartSum term BHist.Empty BHist.Empty
+  | step {n S T : BHist} :
+      RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
+        RealAnalyticLeibnizPartSum term (BHist.e1 n) T
+
 theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist} :
     ComplexPartSum zero c n S -> UnaryHistory n := by
