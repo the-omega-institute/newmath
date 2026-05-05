@@ -290,6 +290,30 @@ theorem FieldExtRatReflexiveEmbedding_denominator_package {h k : BHist} :
       (And.intro embeddedClassifier
         (And.intro nonempty.left nonempty.right)))
 
+theorem FieldExtRatReflexive_source_pattern_lock {h k : BHist} :
+    RatHistoryClassifier h k ->
+      RatHistoryCarrier (FieldExtSingletonEmbedding h) ∧
+        RatHistoryCarrier (FieldExtSingletonEmbedding k) ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) ∧
+            Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
+              Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+  intro classified
+  have embeddedClassifier :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact RatHistoryClassifier_hsame_transport
+      (hsame_symm (append_empty_left h)) (hsame_symm (append_empty_left k)) classified
+  have leftCont : Cont BHist.Empty h (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  have rightCont : Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  exact And.intro embeddedClassifier.left
+    (And.intro embeddedClassifier.right.left
+      (And.intro embeddedClassifier
+        (And.intro leftCont rightCont)))
+
 theorem FieldExtSingletonEmbedding_identity_tower_package {h : BHist} :
     FieldSingletonCarrier h ->
       FieldSingletonClassifier (FieldExtSingletonEmbedding (FieldExtSingletonEmbedding h))
