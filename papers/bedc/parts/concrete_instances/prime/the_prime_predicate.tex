@@ -92,6 +92,24 @@ $q\hsame\Eone(\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_nonunit\_factor\_multiplier\_unit}
 
+\begin{theorem}[Prime divisor positive shape]
+\label{thm:natprime-divisor-positive-shape}
+If $p$ is prime and $d$ divides $p$, then $d$ has a one-step successor shape:
+$$
+\mathsf{NatPrime}(p)\Longrightarrow
+\mathsf{NatDivides}(d,p)\Longrightarrow
+\exists t:\mathsf{BHist}.\;
+\hsame(d,\Eone(t))\wedge\mathsf{UnaryHistory}(t).
+$$
+\end{theorem}
+\begin{proof}
+Read the divisor witness as a unary multiplication witness, which gives
+$\mathsf{UnaryHistory}(d)$. The empty case contradicts the prime no-empty-divisor
+theorem, and the zero-headed case contradicts unary history. The remaining
+one-headed case exposes the requested tail by unary inversion.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_positive\_shape}
+
 \begin{lemma}[Non-primality of the unit]
 \label{lem:unit-not-prime}
 \(\neg \mathsf{NatPrime}(\Eone(\emp))\).

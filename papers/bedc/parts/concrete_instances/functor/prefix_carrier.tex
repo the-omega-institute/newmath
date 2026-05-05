@@ -121,6 +121,26 @@ with that preserved morphism.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_hom\_public\_readback}
 
+\begin{theorem}[Prefix functor carrier e1 prefix hom reflects]
+\label{thm:prefix-functor-carrier-e1-prefix-hom-reflects}
+For histories $p,a,b,f$, a prefix functor carrier at the visible prefix
+$\Eone(p)$ reflects any displayed prefixed hom-carrier back to the unprefixed
+hom-carrier and exposes the unary tail of the visible prefix:
+$$
+\mathsf{PrefixFunctorCarrier}(\Eone(p))\to
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\Eone(p),a),
+\mathsf{append}(\Eone(p),b),f)\to
+\mathsf{UnaryHistory}(p)\land\mathsf{CategoryHomCarrier}(a,b,f).
+$$
+\end{theorem}
+\begin{proof}
+Project the stored unary evidence for the visible prefix and invert the
+$\Eone$ constructor to obtain $\mathsf{UnaryHistory}(p)$. The carrier's
+hom-reflection field cancels the displayed common prefix and returns the
+unprefixed category hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_e1\_prefix\_hom\_reflects}
+
 \begin{theorem}[Prefix functor carrier associative composition public readback]
 \label{thm:prefix-functor-carrier-comp-assoc-public-readback}
 For a prefix functor carrier \(p\), if \(f,g,h\) are composable

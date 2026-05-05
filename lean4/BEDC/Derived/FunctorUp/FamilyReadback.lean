@@ -96,11 +96,30 @@ theorem RawFunctorHomCarrier_landing_obstruction :
       · intro landing
         cases landing
 
+theorem RawFunctorSourceHom_forward_arrow_endpoint_readback {s t : BHist} :
+    RawFunctorSourceHom s t (BHist.e1 (BHist.e1 BHist.Empty)) ->
+      hsame s BHist.Empty ∧ hsame t (BHist.e1 BHist.Empty) := by
+  intro sourceHom
+  cases sourceHom
+  exact And.intro (hsame_refl BHist.Empty) (hsame_refl (BHist.e1 BHist.Empty))
+
 theorem RawFunctorTargetHom_reverse_arrow_endpoint_readback {s t : BHist} :
     RawFunctorTargetHom s t (BHist.e1 (BHist.e1 BHist.Empty)) ->
       hsame s (BHist.e1 BHist.Empty) ∧ hsame t BHist.Empty := by
   intro targetHom
   cases targetHom
   exact And.intro (hsame_refl (BHist.e1 BHist.Empty)) (hsame_refl BHist.Empty)
+
+theorem RawFunctorSourceHom_empty_morphism_endpoint_readback {s t : BHist} :
+    RawFunctorSourceHom s t BHist.Empty -> hsame s BHist.Empty ∧ hsame t BHist.Empty := by
+  intro sourceHom
+  cases sourceHom
+  exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+
+theorem RawFunctorTargetHom_empty_morphism_endpoint_readback {s t : BHist} :
+    RawFunctorTargetHom s t BHist.Empty -> hsame s BHist.Empty ∧ hsame t BHist.Empty := by
+  intro targetHom
+  cases targetHom
+  exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
 
 end BEDC.Derived.FunctorUp

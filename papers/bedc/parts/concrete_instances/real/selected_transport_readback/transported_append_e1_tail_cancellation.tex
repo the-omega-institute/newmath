@@ -1,0 +1,49 @@
+\begin{theorem}[Real stream classifier transported selected appended e-one tail cancellation]
+\label{thm:real-stream-classifier-transported-selected-append-e1-tail-hsame-cancel}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, index $n$,
+and histories $d,e,tail_D,tail_E$, if the source stream endpoints are
+classified and the transported selected endpoints display as appended e-one
+tails, then tail equality cancels the transported displayed tails and recovers
+the denominator head comparison:
+$$
+\begin{array}{l}
+(\forall i,\ \hsame(x(i),x'(i)))\Longrightarrow
+(\forall i,\ \hsame(y(i),y'(i)))\Longrightarrow\\
+\qquad
+\mathsf{RealStreamClassifier}(x,y)\Longrightarrow
+\hsame(x'(n),\Eone(d\cdot\Eone(tail_D)))\Longrightarrow\\
+\qquad
+\hsame(y'(n),\Eone(e\cdot\Eone(tail_E)))\Longrightarrow
+\hsame(tail_D,tail_E)\Longrightarrow
+\hsame(d,e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Evaluate $\mathsf{RealStreamClassifier}(x,y)$ at the selected index $n$ to
+obtain the RatUp point classifier for $x(n)$ and $y(n)$. Use the two pointwise
+$\hsame$ rows to transport that classifier to the endpoints $x'(n)$ and
+$y'(n)$.
+
+Transport the RatUp point classifier again across the two displayed appended
+e-one seals. This gives a RatUp classifier between
+$\Eone(d\cdot\Eone(tail_D))$ and $\Eone(e\cdot\Eone(tail_E))$.
+
+Apply RatUp e-one tail readback to compare
+$d\cdot\Eone(tail_D)$ with $e\cdot\Eone(tail_E)$. The supplied tail comparison
+identifies the two e-one suffixes, and
+\autoref{thm:append-hsame-right-context-cancel} cancels the common suffix to
+leave exactly $\hsame(d,e)$.
+\end{proof}
+
+Fit: traditional target transported selected denominator-tail agreement
+readback for RealUp streams; BEDC source RealUp streams, RatUp classifier
+transport, RatUp e-one tail readback, and BEDC append cancellation; carrier
+rational-observation streams; classifier $\mathsf{RealStreamClassifier}$ plus
+selected $\mathsf{RatHistoryClassifier}$; stability pointwise stream transport,
+endpoint hsame transport, e-one constructor transport, and append right-context
+cancellation; ledger selected index, two stream transport rows, two displayed
+appended e-one endpoint seals, and the supplied tail comparison; core theorem
+\autoref{thm:real-stream-classifier-transported-selected-append-e1-tail-hsame-cancel};
+exactness the displayed implication to $\hsame(d,e)$; standard bridge RegSeqRat
+and dyadic endpoint normalization readback; status $\mathsf{ProofTarget}$.
