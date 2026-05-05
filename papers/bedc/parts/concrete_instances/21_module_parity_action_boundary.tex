@@ -19,6 +19,27 @@ law.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_empty\_result\_iff}
 
+\begin{theorem}[Module parity epsilon result partition]
+\label{thm:module-parity-smul-epsilon-result-partition}
+For every history $m:\mathsf{BHist}$, scalar action by the parity epsilon
+history has exactly the following result partition:
+$$
+\bigl(\hsame(m,\emp)\land
+  \hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m),
+    \mathsf{ModuleParityOne})\bigr)
+\quad\lor\quad
+\bigl((\hsame(m,\emp)\Rightarrow\mathsf{False})\land
+  \hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m),\emp)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$. At $m=\emp$, the action reduces to
+$\mathsf{ModuleParityOne}$, giving the left side of the partition. At a visible
+zero-headed or one-headed history, the action reduces to $\emp$, while
+constructor disjointness gives the nonempty premise of the right side.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_result\_partition}
+
 \begin{theorem}[Module parity epsilon empty endpoint has no fixed point]
 \label{thm:module-parity-smul-e0-empty-no-fixed-point}
 For every history $m:\mathsf{BHist}$,

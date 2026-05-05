@@ -75,4 +75,33 @@ theorem RealStreamPrefixClassifier_transported_selected_full_shape_readback_pack
                         exact PositiveUnaryDenominator_e0_absurd
                           (PositiveUnaryDenominator_hsame_transport sameZero positives.right)
 
+theorem RealStreamClassifier_transported_selected_e1_tail_determinacy
+    {x x' y y' : Nat -> BHist} {n : Nat} {a a' b b' : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y -> hsame (x' n) (BHist.e1 a) ->
+          hsame (x' n) (BHist.e1 a') -> hsame (y' n) (BHist.e1 b) ->
+            hsame (y' n) (BHist.e1 b') ->
+              UnaryHistory a ∧ UnaryHistory a' ∧ UnaryHistory b ∧ UnaryHistory b' ∧
+                hsame a a' ∧ hsame b b' ∧ hsame a b ∧ hsame a' b' := by
+  intro sameX sameY classified sameLeft sameLeft' sameRight sameRight'
+  have readAB :
+      UnaryHistory a ∧ UnaryHistory b ∧ hsame a b :=
+    RealStreamClassifier_transport_selected_e1_pair_readback sameX sameY classified
+      sameLeft sameRight
+  have readA'B' :
+      UnaryHistory a' ∧ UnaryHistory b' ∧ hsame a' b' :=
+    RealStreamClassifier_transport_selected_e1_pair_readback sameX sameY classified
+      sameLeft' sameRight'
+  have sameAA' : hsame a a' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameLeft) sameLeft')
+  have sameBB' : hsame b b' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameRight) sameRight')
+  exact And.intro readAB.left
+    (And.intro readA'B'.left
+      (And.intro readAB.right.left
+        (And.intro readA'B'.right.left
+          (And.intro sameAA'
+            (And.intro sameBB' (And.intro readAB.right.right readA'B'.right.right))))))
+
 end BEDC.Derived.RealUp
