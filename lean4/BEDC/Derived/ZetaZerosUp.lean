@@ -4,6 +4,7 @@ namespace BEDC.Derived.ZetaZerosUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.FKernel.NameCert
 open BEDC.Derived.ComplexUp
@@ -65,6 +66,20 @@ theorem ZetaZeroSourceSpec_hsame_transport_classifier {s t : BHist} :
   have sourceT : ZetaZeroSourceSpec t :=
     And.intro carrierT sameTZero
   exact And.intro sourceT (ZetaZeroSourceSpec_zero_classifier sourceT)
+
+theorem ZetaZeroSourceSpec_name_certificate :
+    NameCert ZetaZeroSourceSpec ComplexHistoryClassifier := by
+  constructor
+  · exact Exists.intro (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+      (And.intro ZetaZeroComplexHistory_carrier (hsame_refl _))
+  · intro s source
+    exact And.intro source.left (And.intro source.left (hsame_refl s))
+  · intro s t classified
+    exact ComplexHistoryClassifier_symm classified
+  · intro s t u classifiedST classifiedTU
+    exact ComplexHistoryClassifier_trans classifiedST classifiedTU
+  · intro s t classified source
+    exact (ZetaZeroSourceSpec_hsame_transport_classifier classified.right.right source).left
 
 theorem ZetaZeroPatternSpec_hsame_transport_classifier {s t z w : BHist} :
     hsame s t -> hsame z w -> ZetaZeroPatternSpec s z ->

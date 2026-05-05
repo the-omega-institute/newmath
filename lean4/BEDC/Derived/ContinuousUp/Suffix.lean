@@ -1,3 +1,4 @@
+import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
 
 namespace BEDC.Derived.ContinuousUp
@@ -371,6 +372,33 @@ theorem ContinuousFunctionCarrier_visible_modulus_context_iff
                 (source := append p source) (map := map) (target := append p target)
                 (modulus := modulus) (cert := append p cert)).mpr
                 (And.intro suffixCarrier prefixedCarrier)
+
+theorem ContinuousFunctionCarrier_visible_modulus_context_empty_map_iff
+    {p q source target modulus cert : BHist} :
+    ContinuousFunctionCarrier (append p source) BHist.Empty (append p target)
+        (append modulus q) (append (append p cert) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ hsame target source ∧
+        ContinuousModulusWitness target modulus cert := by
+  constructor
+  · intro visible
+    have central :=
+      (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+        (source := source) (map := BHist.Empty) (target := target) (modulus := modulus)
+        (cert := cert)).mp visible
+    have emptyCentral :=
+      (ContinuousFunctionCarrier_empty_map_iff (source := source) (target := target)
+        (modulus := modulus) (cert := cert)).mp central.right.right
+    exact And.intro central.left (And.intro central.right.left emptyCentral)
+  · intro data
+    have central :
+        ContinuousFunctionCarrier source BHist.Empty target modulus cert :=
+      (ContinuousFunctionCarrier_empty_map_iff (source := source) (target := target)
+        (modulus := modulus) (cert := cert)).mpr data.right.right
+    exact
+      (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+        (source := source) (map := BHist.Empty) (target := target) (modulus := modulus)
+        (cert := cert)).mpr
+        (And.intro data.left (And.intro data.right.left central))
 
 theorem ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic
     {p q source map target target' modulus cert cert' : BHist} :

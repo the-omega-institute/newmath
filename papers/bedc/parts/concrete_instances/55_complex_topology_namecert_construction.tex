@@ -287,6 +287,7 @@ Membership in the union is by case analysis on \(I\); each case provides the int
 \label{def:cplx-topo-dyadic-net}
 For a complex-set predicate \(K\) and unary precision \(k\), a dyadic \(2^{-k}\)-net is a finite list of complex histories \([z_1, \ldots, z_N]\) such that for every \(z\) with \(K(z)\), there exists an index \(i \leq N\) with \(\mathsf{OpenDisk}(z_i, 2^{-k}, z)\). The net function \(\mathsf{Net}_K : \mathsf{Unary} \to \mathsf{List}(\ComplexUp)\) is required to be a total explicit function on the precision domain.
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyDyadicNet}
 
 \begin{definition}[Compact subset]
 \label{def:cplx-topo-compact}
@@ -375,3 +376,42 @@ Each carrier predicate is closed inductive over \(\ComplexUp\)-histories with de
 \label{rem:cplx-topo-discharge-forward-refs}
 The open-disk, compact-half-plane, cluster-sequence, and domain-compatibility witnesses inline-defined or implicitly used in \autoref{ch:concrete-instances-holomorphic-namecert}, \autoref{ch:concrete-instances-contour-integral}, \autoref{ch:concrete-instances-analytic-continuation}, and \autoref{ch:concrete-instances-zeta-basic-namecert} are now anchored at the present \(\ComplexTopologyUp\) certificate. Future restructuring should re-export the inline \(\mathsf{OpenDisk}\) from \(\mathsf{BEDC.Derived.HolomorphicUp}\) as an alias of the canonical \(\mathsf{BEDC.Derived.ComplexTopologyUp.OpenDisk}\).
 \end{remark}
+
+\begin{definition}[Certified subdisk radius]
+\label{def:holo-certified-subdisk-radius}
+For unary radii $r'$ and $r$, a certified subdisk radius from $r'$ to $r$ is a unary history $e$ together with a radius-continuation ledger $\ContR(r',e,r)$. We write this datum as $\mathsf{Subradius}(r',r;e)$. The empty tail is the equality case.
+\end{definition}
+
+\begin{lemma}[Certified subdisk radii compose]
+\label{lem:holo-certified-subdisk-radius-compose}
+If $\mathsf{Subradius}(r_0,r_1;e_0)$ and $\mathsf{Subradius}(r_1,r_2;e_1)$, then $\mathsf{Subradius}(r_0,r_2;e_0\cdot e_1)$.
+\end{lemma}
+\begin{proof}
+Unpack the two subradius certificates. Unary append closure makes $e_0\cdot e_1$ unary. Associativity of $\ContR$ composes $\ContR(r_0,e_0,r_1)$ with $\ContR(r_1,e_1,r_2)$ and gives $\ContR(r_0,e_0\cdot e_1,r_2)$.
+\end{proof}
+
+\begin{theorem}[HoloOnDisk subdisk restriction]
+\label{thm:holo-on-disk-subdisk-restriction}
+Let $f : \ComplexUp \to \ComplexUp$, let $z_0$ be a complex center history, and let $r'$ and $r$ be unary radii. If $\mathsf{HoloOnDisk}(f,z_0,r)$ is witnessed by a displayed $\HolomorphicUp$ seed witness $W$ with uniform modulus ledger $\delta_r$, and if $\mathsf{Subradius}(r',r;e)$ is certified, then $\mathsf{HoloOnDisk}(f,z_0,r')$ is witnessed by a subdisk witness $W\!\restriction_e$.
+
+More explicitly, for every point $z$ and displayed smaller-disk gap $g'$,
+$$
+\mathsf{OpenDisk}(z_0,r',z,g')\land\mathsf{Subradius}(r',r;e)
+\Longrightarrow
+\mathsf{OpenDisk}(z_0,r,z,g'\cdot e).
+$$
+The restricted modulus is obtained by reading every smaller boundary gap through this inclusion:
+$$
+\delta_{r'}(k,g') := \delta_r(k,g'\cdot e).
+$$
+If the parent witness uses a displayed large-disk gap $g$ instead of $g'\cdot e$, then $g\hsame g'\cdot e$ by \autoref{thm:open-disk-radius-extension-gap-public-readback}, so the modulus and derivative ledgers transport along the stability field of \autoref{def:holo-stability-cert}. The classifier on $W\!\restriction_e$ is the parent pointwise classifier restricted to points admitted by $\mathsf{OpenDisk}(z_0,r',-)$; its radius slot is $r'$ on both restricted representatives, and the comparison back to $W$ is recorded by the subradius ledger $e$. The ledger of $W\!\restriction_e$ keeps the same function history, center history, pointwise complex-differentiability data, derivative-recursion data, Taylor data, Cauchy-bound data, and identity data, with each disk-local admission transported through the subradius certificate.
+\end{theorem}
+\begin{proof}
+Unpack the seed predicate of \autoref{def:holo-on-disk}. The parent witness $W$ supplies, for every $z$ admitted by $\mathsf{OpenDisk}(z_0,r,z)$ and every unary precision $k$, the corresponding complex-differentiability witness controlled by $\delta_r$ and the displayed boundary gap.
+
+Now fix $z$, $k$, and a smaller-disk gap $g'$ with $\mathsf{OpenDisk}(z_0,r',z,g')$. The subradius certificate gives a unary $e$ and $\ContR(r',e,r)$. Applying \autoref{thm:open-disk-radius-extension-closed} to the smaller open disk gives $\mathsf{OpenDisk}(z_0,r,z)$. In gap form, \autoref{thm:open-disk-radius-extension-gap-public-readback} reads the large boundary as the appended gap $g'\cdot e$, up to $\hsame$ against any displayed parent gap. Therefore the parent holomorphic witness applies at the same point $z$ and precision $k$.
+
+Define the restricted modulus by $\delta_{r'}(k,g')=\delta_r(k,g'\cdot e)$. The input $g'\cdot e$ is unary by unary append closure, so this is a total unary modulus ledger. If a canonical parent gap is chosen differently, the public readback theorem gives the required $\hsame$ comparison, and \autoref{def:holo-stability-cert} transports the modulus and differentiability witness across that comparison.
+
+All remaining fields are inherited by narrowing the domain of quantification. The function history and center history are unchanged. Disk-gap ledgers are sent to the parent disk by $g'\mapsto g'\cdot e$. Any ledger entry indexed by a further subradius of $r'$ is read in the parent ledger by composing that subradius with $e$ using \autoref{lem:holo-certified-subdisk-radius-compose}. The pointwise classifier clause of \autoref{def:holo-classifier-spec} is therefore exactly the parent pointwise classifier after the open-disk inclusion, while the restricted radius data are compared by reflexivity inside the smaller carrier and related to the parent carrier by the retained subradius ledger. These data satisfy the source, classifier, and ledger fields of \autoref{def:holo-source-spec}, \autoref{def:holo-classifier-spec}, and \autoref{def:holo-ledger-policy} for radius $r'$.
+\end{proof}
