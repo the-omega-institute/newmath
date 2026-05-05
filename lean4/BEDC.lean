@@ -213,6 +213,7 @@ import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
+import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
@@ -547,6 +548,7 @@ import BEDC.Derived.ContinuousMapUp.SemanticCertificate
 import BEDC.Derived.ContinuousMapUp.EmptyIdentityDistance
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
+import BEDC.Derived.CompactUp.ImageLedger
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
 import BEDC.Derived.CompactUp.EndpointIff
