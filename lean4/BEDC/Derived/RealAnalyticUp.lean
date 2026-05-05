@@ -24,6 +24,18 @@ inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist ->
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
 
+theorem RealAnalyticLeibnizPartSum_index_result_unary {term : BHist -> BHist}
+    {n S : BHist}
+    (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (term m)) :
+    RealAnalyticLeibnizPartSum term n S -> UnaryHistory n ∧ UnaryHistory S := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact And.intro unary_empty unary_empty
+  | step previous stepContinuation ih =>
+      exact And.intro (unary_e1_closed ih.left)
+        (unary_cont_closed ih.right (termUnary ih.left) stepContinuation)
+
 def RealAnalyticExpPart (x n S : BHist) : Prop :=
   ComplexHistoryCarrier x ∧
     ComplexPartSum x (fun m : BHist => append x m) n S ∧ UnaryHistory n

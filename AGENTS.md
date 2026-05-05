@@ -75,7 +75,7 @@ Cross-tool AI agent guidance (Codex / Cursor / Cline / Aider / Claude Code via C
 
 ## V. typeclass 设计纪律
 
-- 4 个 setup class 各自只放真正所属的字段 (AskSetup 不得放 Pkg)
+- 各 setup class 只放真正所属的字段 (AskSetup 不得放 Pkg)
 - 提供 `Minimal*Setup` 实例 (`Unit` 类型 + 平凡谓词) 让 Examples/ 与下游使用
 - BaseReflectionSetup 是 `structure` 不是 `class`, 与 FKernel 独立, 不共享类型
 
@@ -127,7 +127,7 @@ Cross-tool AI agent guidance (Codex / Cursor / Cline / Aider / Claude Code via C
 
 - 每个 Lean 目标在论文中**只标注一次**(primary site)
 - 每个 paper 定理点**最多一条 `\leanchecked`** (canonical 主实现); 同 claim 的变体用 `\leanvariant` 标注
-- `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex §41.4` 是例外: 5 个 base-reflection 目标的"一站式"摘要块
+- `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex §41.4` 是例外: base-reflection 目标的"一站式"摘要块
 - 状态变化时 (sorry → checked, def → checked) 同一 commit 更新 marker; `bedc_ci.py audit` 强制所有 `\leanchecked` / `\leanvariant` / `\leantarget` 的 X 在 Lean 真存在
 - **绝不**把 closure 轴写成 verification 轴的函数, 也不要反过来; codex pipeline 的 `axis-confusion` gate 会拒绝这类 round
 
@@ -148,7 +148,7 @@ Cross-tool AI agent guidance (Codex / Cursor / Cline / Aider / Claude Code via C
 1. 把新章节追加到对应 `papers/bedc/parts/<theme>/` 目录
 2. 在 `lean4/BEDC/...` 添加对应 Lean 目标 (`def` / `theorem` / 新增 inductive 构造子)
 3. 在论文章节调用对应 `\leanchecked` 系列宏
-4. `lake build` + `make` + `check-axioms.py` + `bedc_ci.py audit` 四过
+4. 走完上节"完整本地验证"列出的全部命令
 
 ## label 命名
 
@@ -165,15 +165,19 @@ Cross-tool AI agent guidance (Codex / Cursor / Cline / Aider / Claude Code via C
 
 ```bash
 cd lean4 && lake build                            # 0 axiom, 0 sorry, build OK
-cd papers/bedc && make                            # pdflatex 双趟, 130+ 页 PDF
+cd papers/bedc && make                            # pdflatex 双趟, 生成 PDF (~75s)
 python3 tools/check-axioms.py                     # 源代码 axiom 禁用审计
 python3 lean4/scripts/bedc_ci.py audit            # paper ↔ Lean drift 审计
 python3 lean4/scripts/bedc_ci.py axiom-purity     # 传递依赖审计 (禁 Classical.choice / Quot.sound)
 ```
 
-五项全 exit 0 才算 ship 标准.
+上述命令全部 exit 0 才算 ship 标准.
 
-`axiom-purity --strict` 用 `#print axioms` 检测每条 BEDC 定理的传递依赖, 强制零 Lean stdlib 公理依赖: 禁 `Classical.choice` (LEM/选择公理)、`Quot.sound` (商类型公理) 和 `propext` (命题外延). BEDC 现状: 562 个定理全部纯 CIC 派生, 不依赖任何 stdlib 公理, 跟 Brouwer / Bishop 严格 constructive 同档.
+## 开发循环: 用 `make check` 代替 `make`
+
+提交 / 出版前用 `make` (双趟, 生成 PDF, 解析 `\autoref` / TOC). 平时反复改章节、试错时用 `make check` —— 单趟 `pdflatex -draftmode`, 大约一半时间 (40s vs 75s), 仍然抓到所有真错误 (Undefined control sequence / Missing $ / Extra } / unresolved `\input` / package errors). 唯一代价: 交叉引用印成 `?? on page ??`, 对开发循环不影响. **不要在 ship 前用 `make check` 替代 `make`**: 你需要看 PDF 真实出来, 也需要确认所有 `\autoref` 解析 (CI 会查).
+
+`axiom-purity --strict` 用 `#print axioms` 检测每条 BEDC 定理的传递依赖, 强制零 Lean stdlib 公理依赖: 禁 `Classical.choice` (LEM/选择公理)、`Quot.sound` (商类型公理) 和 `propext` (命题外延). BEDC 全部定理纯 CIC 派生, 不依赖任何 stdlib 公理, 跟 Brouwer / Bishop 严格 constructive 同档.
 
 ## CI
 
@@ -214,6 +218,6 @@ python3 lean4/scripts/bedc_ci.py axiom-purity     # 传递依赖审计 (禁 Clas
 
 ## V. 可复现、可审计
 
-- 构建过程必须可复现 (上述 4 命令)
+- 构建过程必须可复现 (上述完整本地验证命令)
 - 生成结果须能回溯到源文件与依赖链
 - 任何理论修改同步 paper + Lean + metadata, 三方 CI 一致才能合并

@@ -55,3 +55,38 @@ Avoids funext by using pointwise classifier sameness instead of equality of func
   \notclaimed{General linear-map theory: arbitrary linear maps, kernels, images, rank-nullity, dual spaces, matrices of maps, bounded operators, or function extensionality as a public principle.}
   \upgradepath{$\publicClosure$ requires public map data, pointwise readback, zero/additivity/scalar compatibility laws, identity and composition exactness, and no-hidden-leakage for function witnesses.}
 \end{closurestatus}
+
+\begin{theorem}[LinearMap pointwise classifier equivalence]
+\label{thm:linearmap-pointwise-classifier-equivalence}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates. Write $C_V$ and $C_W$ for source and codomain carrier predicates, and write $\sim_W$ for a codomain classifier supplied by $\NameCert(C_W,\sim_W)$. Let $\mathsf{Lin}_{V,W}(f)$ be the carried $\LinearMapUp(V,W)$ map-code predicate from \autoref{def:linearmap-carrier}; in particular, a witness of $\mathsf{Lin}_{V,W}(f)$ includes output closure $C_V(x)\Longrightarrow C_W(f(x))$. Define the pointwise $\LinearMapUp$ classifier by
+$$
+f\sim_{\LinearMapUp(V,W)}g
+:\Longleftrightarrow
+\mathsf{Lin}_{V,W}(f)\land\mathsf{Lin}_{V,W}(g)\land
+\forall x,\; C_V(x)\Longrightarrow f(x)\sim_W g(x).
+$$
+Then $\sim_{\LinearMapUp(V,W)}$ is reflexive, symmetric, and transitive on carried linear-map codes:
+$$
+\begin{aligned}
+&\mathsf{Lin}_{V,W}(f)\Longrightarrow f\sim_{\LinearMapUp(V,W)}f,\\
+&f\sim_{\LinearMapUp(V,W)}g\Longrightarrow g\sim_{\LinearMapUp(V,W)}f,\\
+&f\sim_{\LinearMapUp(V,W)}g\land g\sim_{\LinearMapUp(V,W)}h
+\Longrightarrow f\sim_{\LinearMapUp(V,W)}h.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:lean-carrier-naming-certificate}, the codomain $\NameCert(C_W,\sim_W)$ supplies reflexivity for carried codomain outputs, symmetry for $\sim_W$, and transitivity for composable $\sim_W$ witnesses. By \autoref{def:linearmap-classifier-specification}, the $\LinearMapUp$ classifier is the pointwise codomain comparison over all carried source inputs, together with the two carried map-code endpoints.
+
+For reflexivity, assume $\mathsf{Lin}_{V,W}(f)$ and let $x$ be a carried source input. Output closure in the linear-map carrier gives $C_W(f(x))$. Codomain reflexivity gives $f(x)\sim_W f(x)$. The two endpoint carrier fields are both the given $\mathsf{Lin}_{V,W}(f)$ witness, so the pointwise classifier relates $f$ to itself.
+
+For symmetry, assume $f\sim_{\LinearMapUp(V,W)}g$. Its endpoint fields give $\mathsf{Lin}_{V,W}(f)$ and $\mathsf{Lin}_{V,W}(g)$. For each carried $x$, the pointwise field gives $f(x)\sim_W g(x)$; codomain symmetry gives $g(x)\sim_W f(x)$. Swapping the endpoint carrier fields and using these reversed pointwise comparisons gives $g\sim_{\LinearMapUp(V,W)}f$.
+
+For transitivity, assume $f\sim_{\LinearMapUp(V,W)}g$ and $g\sim_{\LinearMapUp(V,W)}h$. The first endpoint field of the first witness carries $f$, and the second endpoint field of the second witness carries $h$. For each carried $x$, the two pointwise fields give
+$$
+f(x)\sim_W g(x),
+\qquad
+g(x)\sim_W h(x).
+$$
+Codomain transitivity gives $f(x)\sim_W h(x)$. These pointwise composites, together with the carried endpoints $f$ and $h$, form $f\sim_{\LinearMapUp(V,W)}h$. Thus the classifier attached to \autoref{def:linearmap-classifier-specification} satisfies the reflexive, symmetric, and transitive rows required by the stability and certificate obligations in \autoref{def:linearmap-stability-certificate} and \autoref{def:linearmap-certificate-obligations}.
+\end{proof}

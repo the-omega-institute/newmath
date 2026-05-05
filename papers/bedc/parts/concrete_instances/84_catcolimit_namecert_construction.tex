@@ -222,3 +222,62 @@ $$
 \operatorname{MorEq}_{\mathcal C}(C',C';c_{C'},1_{C'}).
 $$
 \end{proof}
+
+\begin{theorem}[Cocone morphism classifier descent through natural-transformation prewhiskering]
+\label{thm:catcolimit-cocone-morphism-nattrans-prewhiskering-descent}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations. Let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams, and let $\beta:E\Rightarrow D$ be a certified $\NatTransUp$ carrier with components $\beta_j:E(j)\to D(j)$. Let $\kappa$ and $\mu$ be $D$-cocones with vertices $K$ and $M$, and let $\kappa^{\beta}$ and $\mu^{\beta}$ be the corresponding $E$-cocones obtained by precomposing each cocone leg with the component of $\beta$:
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),K;\beta_j,\kappa_j,\kappa^{\beta}_j)
+\qquad\text{and}\qquad
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),M;\beta_j,\mu_j,\mu^{\beta}_j)
+$$
+for every object $j$ of $\mathcal J$, with image endpoints read through the certified endpoint-transport fields. If
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\mu;f),
+$$
+then
+$$
+\operatorname{CoconeMor}_{E}(\kappa^{\beta},\mu^{\beta};f).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:nattrans-carrier}, each $\beta_j$ is a displayed morphism $E(j)\to D(j)$ in $\mathcal C$, and the naturality row is the cocone-prewhiskering ledger that makes the displayed component families $\kappa^{\beta}$ and $\mu^{\beta}$ into $E$-cocones. If an object image is represented by a classified endpoint rather than by a literal endpoint, the source-target replacement row of \autoref{def:functor-stability-certificate} and the endpoint-indexed transport fields of \autoref{def:category-stability-certificate} reindex the component morphisms before the following composition ledgers are formed.
+
+Unpack $\operatorname{CoconeMor}_{D}(\kappa,\mu;f)$ using \autoref{def:catcolimit-fixed-diagram-cocone-comparison-data}. It gives the vertex morphism field $\operatorname{Mor}_{\mathcal C}(K,M;f)$ and, for each object $j$ of $\mathcal J$, a displayed composite $d_j:D(j)\to M$ such that
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),K,M;\kappa_j,f,d_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),M;d_j,\mu_j).
+$$
+The same vertex morphism field is the vertex morphism required for $\operatorname{CoconeMor}_{E}(\kappa^{\beta},\mu^{\beta};f)$.
+
+Fix $j$. Composition closure in \autoref{def:category-stability-certificate} supplies a composite $s_j:E(j)\to M$ of $\kappa^{\beta}_j$ followed by $f$:
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),K,M;\kappa^{\beta}_j,f,s_j).
+$$
+It also supplies a composite $t_j:E(j)\to M$ of $\beta_j$ followed by $d_j$:
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),M;\beta_j,d_j,t_j).
+$$
+Associativity in the same category certificate, applied to
+$$
+E(j)\xrightarrow{\beta_j}D(j)\xrightarrow{\kappa_j}K\xrightarrow{f}M,
+$$
+compares the two bracketings and gives
+$$
+\operatorname{MorEq}_{\mathcal C}(E(j),M;s_j,t_j).
+$$
+
+The component classifier from the original cocone morphism gives $d_j\sim\mu_j$ at the endpoint pair $(D(j),M)$. Composition congruence with the fixed left factor $\beta_j$, together with the displayed definition of $\mu^{\beta}_j$, transports this comparison to
+$$
+\operatorname{MorEq}_{\mathcal C}(E(j),M;t_j,\mu^{\beta}_j).
+$$
+Transitivity of the morphism classifier in \autoref{def:category-stability-certificate} composes the last two comparisons and yields
+$$
+\operatorname{MorEq}_{\mathcal C}(E(j),M;s_j,\mu^{\beta}_j).
+$$
+
+Thus, for the fixed object $j$, the composite $s_j$ supplies the required $E$-cocone-morphism component ledger for $f$ from $\kappa^{\beta}$ to $\mu^{\beta}$. Since $j$ was arbitrary, these ledgers assemble with the already supplied vertex morphism field into $\operatorname{CoconeMor}_{E}(\kappa^{\beta},\mu^{\beta};f)$.
+\end{proof}

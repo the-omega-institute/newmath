@@ -49,7 +49,11 @@ Remove ONLY this round's (R{round_number}) offending additions:
    until both exit 0. If the round's paper-side contribution
    becomes empty after the cleanup, that is acceptable — keep
    the Lean-side commits and let the pipeline merge what
-   remains.
+   remains. While iterating on the strip-out you may use
+   `make check` (single -draftmode pass, ~half the wall time)
+   to confirm syntax; the FINAL verification before commit
+   must be the full `make` so cross-references and the audit
+   line up.
 8. Once everything passes, `git add papers/bedc` and create a
    small follow-up commit (or amend the merge commit with
    `git commit --amend --no-edit`) so the round's history retains

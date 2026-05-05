@@ -427,6 +427,18 @@ theorem FpsSingletonCauchyProduct_distributes_over_addition_classifier {F G H : 
     (And.intro emptyClassifier
       (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
 
+theorem FpsSingletonCauchyProduct_zero_index_spine {F G : BHist} :
+    FpsSingletonAddFoldSpineCarrier
+        [FpsSingletonMul (FpsSingletonCoeff F BHist.Empty) (FpsSingletonCoeff G BHist.Empty)] ∧
+      FpsSingletonClassifier
+        (FpsSingletonAddFold
+          [FpsSingletonMul (FpsSingletonCoeff F BHist.Empty) (FpsSingletonCoeff G BHist.Empty)])
+        (FpsSingletonMul (FpsSingletonCoeff F BHist.Empty)
+          (FpsSingletonCoeff G BHist.Empty)) := by
+  have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro (And.intro emptyCarrier (hsame_refl BHist.Empty))
+    (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+
 def FpsSingletonThreefoldCauchySplitSpines (xs ys zs : List BHist) : BHist × BHist :=
   (append (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys)) (FpsSingletonAddFold zs),
     append (FpsSingletonAddFold xs) (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs)))
