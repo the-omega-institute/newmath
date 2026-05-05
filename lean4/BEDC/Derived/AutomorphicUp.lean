@@ -5,6 +5,7 @@ namespace BEDC.Derived.AutomorphicUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.Derived.AdeleUp
 
 theorem AutomorphicAdeleGraph_cont_nonempty {domain value graph : BHist} :
@@ -326,5 +327,58 @@ theorem AutomorphicAdeleGraph_visible_result_context_factorizes
     (cont_prefix_iff (p := p) (a := domain) (b := graph) (f := value)).mp rightPeeled
   exact And.intro graphCont
     (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier graphCont)
+
+def AutomorphicAdeleGraphCarrier (g : BHist) : Prop :=
+  ∃ domain : BHist, ∃ value : BHist,
+    AdeleHistoryCarrier domain ∧ AdeleHistoryCarrier value ∧ Cont domain value g
+
+theorem AutomorphicAdeleGraphCarrier_hsame_transport {g g' : BHist} :
+    AutomorphicAdeleGraphCarrier g -> hsame g g' ->
+      AutomorphicAdeleGraphCarrier g' ∧
+        ∃ domain : BHist, ∃ value : BHist,
+          AdeleHistoryCarrier domain ∧ AdeleHistoryCarrier value ∧ Cont domain value g' := by
+  intro graphCarrier sameGraph
+  cases graphCarrier with
+  | intro domain rest =>
+      cases rest with
+      | intro value data =>
+          have transported : Cont domain value g' :=
+            cont_result_hsame_transport data.right.right sameGraph
+          have graphCarrier' : AutomorphicAdeleGraphCarrier g' :=
+            ⟨domain, value, data.left, data.right.left, transported⟩
+          exact And.intro graphCarrier'
+            ⟨domain, value, data.left, data.right.left, transported⟩
+
+theorem AutomorphicAdeleGraph_semanticNameCert :
+    SemanticNameCert AutomorphicAdeleGraphCarrier AutomorphicAdeleGraphCarrier
+      AutomorphicAdeleGraphCarrier hsame := by
+  have adeleWitness := AdeleHistoryCarrier_semanticNameCert.core.carrier_inhabited
+  cases adeleWitness with
+  | intro endpoint endpointCarrier =>
+      have graphCarrier : AutomorphicAdeleGraphCarrier (append endpoint endpoint) :=
+        ⟨endpoint, endpoint, endpointCarrier, endpointCarrier, cont_intro rfl⟩
+      exact {
+        core := {
+          carrier_inhabited := Exists.intro (append endpoint endpoint) graphCarrier
+          equiv_refl := by
+            intro h _carrier
+            exact hsame_refl h
+          equiv_symm := by
+            intro h k same
+            exact hsame_symm same
+          equiv_trans := by
+            intro h k r sameHK sameKR
+            exact hsame_trans sameHK sameKR
+          carrier_respects_equiv := by
+            intro h k same carrier
+            exact (AutomorphicAdeleGraphCarrier_hsame_transport carrier same).left
+        }
+        pattern_sound := by
+          intro h source
+          exact source
+        ledger_sound := by
+          intro h source
+          exact source
+      }
 
 end BEDC.Derived.AutomorphicUp
