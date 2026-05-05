@@ -501,6 +501,7 @@ import BEDC.Derived.FpsUp
 import BEDC.Derived.FpsUp.SourceSpec
 import BEDC.Derived.FpsUp.CauchyCoeffSpine
 import BEDC.Derived.FpsUp.CauchyProductAssociativity
+import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.FpsUp.StabilityFields
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.LinearMapUp.ContinuationAppendPair
