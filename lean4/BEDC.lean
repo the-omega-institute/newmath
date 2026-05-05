@@ -247,6 +247,7 @@ import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.ListUp.MapShape
 import BEDC.Derived.ListUp.PublicReverse
 import BEDC.Derived.ListUp.PublicReverseLength
+import BEDC.Derived.ListUp.PublicAppendLength
 import BEDC.Derived.ListUp.ReverseAppendAntimorphism
 import BEDC.Derived.ListUp.NameCertTransport
 import BEDC.Derived.ListUp.SourceEquivalence
