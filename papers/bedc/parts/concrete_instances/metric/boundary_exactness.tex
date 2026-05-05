@@ -205,6 +205,63 @@ Theorem~\ref{thm:metric-distance-witness-empty-boundary-nonempty-distance-positi
 exactness positive depth on the nonempty boundary endpoint; standard bridge
 finite unary metric boundary readback; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Metric visible-boundary positive-depth endpoint readback]
+\label{thm:metric-distance-witness-visible-boundary-positive-depth-endpoint-readback}
+For histories $p,q,source,target,dist:\mathsf{BHist}$, a visible-context
+metric distance witness with exactly one empty central boundary and positive
+central distance depth reads back the nonempty central endpoint as one-headed
+and positive-depth:
+$$
+\begin{array}{l}
+\bigl(
+\mathsf{MetricDistanceWitness}(p\cdot\emp,target\cdot q,(p\cdot dist)\cdot q)
+\to
+(\mathsf{MetricDistanceDepth}(dist)=0\to\mathsf{False})
+\to\\
+\qquad
+\exists targetTail,\ target=\Eone(targetTail)\land
+\mathsf{UnaryHistory}(targetTail)\land
+0<\mathsf{MetricDistanceDepth}(target)
+\bigr)
+\land\\
+\bigl(
+\mathsf{MetricDistanceWitness}(p\cdot source,\emp\cdot q,(p\cdot dist)\cdot q)
+\to
+(\mathsf{MetricDistanceDepth}(dist)=0\to\mathsf{False})
+\to\\
+\qquad
+\exists sourceTail,\ source=\Eone(sourceTail)\land
+\mathsf{UnaryHistory}(sourceTail)\land
+0<\mathsf{MetricDistanceDepth}(source)
+\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the empty central source implication, apply
+\autoref{thm:metric-distance-witness-visible-context-iff} to peel the visible
+prefix $p$ and suffix $q$ from the displayed witness. This recovers the central
+witness $\mathsf{MetricDistanceWitness}(\emp,target,dist)$.
+
+The positive-depth hypothesis rules out
+$\mathsf{MetricDistanceDepth}(dist)=0$. By
+\autoref{thm:metric-distance-depth-zero-iff-empty}, this is the same
+nonempty-distance input required by the empty-source e-one cases theorem.
+Apply
+\autoref{thm:metric-distance-witness-empty-source-nonempty-distance-target-e1-cases}
+to obtain $target=\Eone(targetTail)$ with unary $targetTail$. The one-headed
+displayed endpoint has successor structural metric depth, so
+$0<\mathsf{MetricDistanceDepth}(target)$.
+
+For the empty central target implication, the same visible-context peeling
+recovers $\mathsf{MetricDistanceWitness}(source,\emp,dist)$. The same
+zero-depth equivalence converts positive depth of $dist$ into the
+nonempty-distance input, and
+\autoref{thm:metric-distance-witness-empty-target-nonempty-distance-source-e1-cases}
+gives $source=\Eone(sourceTail)$ with unary $sourceTail$. The displayed
+one-headed source again has positive structural metric depth.
+\end{proof}
+
 \begin{theorem}[Metric distance witness zero-headed component impossibility]
 \label{thm:metric-distance-witness-e0-component-absurd}
 For histories $x,y,d:\mathsf{BHist}$, no concrete metric distance witness has
