@@ -1,4 +1,5 @@
 import BEDC.Derived.ContinuousMapUp
+import BEDC.Derived.ContinuousMapUp.CompositionCategoryMetricPackage
 
 namespace BEDC.Derived.ContinuousMapUp
 

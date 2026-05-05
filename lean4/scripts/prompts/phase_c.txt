@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v5.3 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.5 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -123,7 +123,7 @@ git fetch origin lean4-codex-auto-dev
 git merge --no-ff --no-edit origin/lean4-codex-auto-dev
 ```
 
-Rationale: the outer `codex_formalize.py` process owns the merge → push sequence under `_git_lock`. If Phase C does NOT pre-sync, every `_codex_resolve_post_rebase_audit` invocation later holds `_git_lock` for up to 1200s while resolving label collisions reactively. Pre-syncing in Step 5 (before commit, where you have full context) eliminates that reactive 1200s lock-and-codex-call. This is the v5.3 architectural fix — earlier prompt versions forbade ALL remote sync inside Phase C, which produced the audit-recovery wave the outer pipeline could never fully avoid.
+Rationale: the outer `codex_formalize.py` process owns the merge → push sequence under `_git_lock`. If Phase C does NOT pre-sync, every `_codex_resolve_post_rebase_audit` invocation later holds `_git_lock` for up to 1200s while resolving label collisions reactively. Pre-syncing in Step 5 (before commit, where you have full context) eliminates that reactive 1200s lock-and-codex-call. This is the v5.5 architectural fix — earlier prompt versions forbade ALL remote sync inside Phase C, which produced the audit-recovery wave the outer pipeline could never fully avoid.
 
 ## Hard Constraints
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
@@ -161,6 +161,32 @@ Use `lake_gate.py` for ALL `lake` calls in this round. Do NOT invoke `lake` dire
 
 If errors occur, fix them before continuing. If a target is stuck, choose a different one rather than leaving partial code behind.
 
+### HARD GATE — every new `.lean` file MUST be imported into `BEDC.lean`
+
+If this round CREATES a new file under `lean4/BEDC/` (i.e. `git status --porcelain lean4/BEDC/ | grep '^A'` lists it), you MUST add a corresponding `import BEDC.<dotted.module.path>` line to `lean4/BEDC.lean` in the same round. Failure to do so produces an "orphan module" — `lake build` from `BEDC.lean` won't build it, and downstream `bedc_ci.py axiom-purity --strict` invocations will report `"no parsed #print axioms result"` for every theorem in the orphan, failing the audit gate and triggering recovery.
+
+Run this check after Step 2 build succeeds, before proceeding to Step 3:
+
+```bash
+# List newly-added .lean files under lean4/BEDC/
+new_lean=$(git -C "${REPO_ROOT:-$(git rev-parse --show-toplevel)}" status --porcelain lean4/BEDC/ \
+  | awk '/^\?\?|^A / {print $2}' \
+  | grep '\.lean$' \
+  | grep -v 'BEDC\.lean$')
+
+# For each, derive the dotted module path and check BEDC.lean has the import
+for f in $new_lean; do
+  mod=$(echo "$f" | sed 's|/|.|g; s|\.lean$||; s|^lean4\.||')
+  if ! grep -qF "import $mod" lean4/BEDC.lean; then
+    echo "ORPHAN: $f → missing 'import $mod' in lean4/BEDC.lean"
+  fi
+done
+```
+
+If the script prints any `ORPHAN:` line, append the corresponding `import BEDC.<module>` line to `lean4/BEDC.lean` BEFORE Step 3. Place the new line near the existing imports for the same `BEDC.Derived.<X>Up.*` namespace (alphabetic ordering preferred but not strictly enforced — just keep related imports clustered). Re-run `lake_gate.py build` after the edit to confirm the import compiles cleanly. The build verifies the new file's transitive deps; the orphan check verifies the new file is reachable from the toplevel module.
+
+This gate catches the failure mode where a Lean round adds new theorems that build standalone but don't enter the main `#print axioms` graph — a salvage-merge or solo-run gap that produces transient `axiom-purity` failures across downstream rounds until manually fixed.
+
 ## Step 3: Paper marker registration
 After `lake build` passes:
 1. For each new Lean target, find the relevant paper theorem/definition site in `papers/bedc/parts/`. Decide which marker macro to use:
@@ -176,7 +202,7 @@ After `lake build` passes:
    - If the paper site already has `\leanchecked` and your new target would only be a variant of it → do not register it; pick another target.
 3. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
 
-4. **Pure-formalization mode (HARD GATE)**: every target has `paper_block_status: "exists_without_marker"` (Phase B v5.3+ rejects `discovery`). The paper site for each target ALREADY EXISTS — there is a `\begin{theorem}…\label{thm:<X>}…\end{theorem}` (or `\begin{definition}` / `\begin{lemma}` / `\begin{corollary}`) somewhere in `papers/bedc/parts/`. Phase C's only paper-side action is to APPEND the marker line `\leanchecked{<X>}` (or `\leanstmt` / `\leandef` per the decision rule above) immediately after the existing `\end{...}` of that block. Do NOT:
+4. **Pure-formalization mode (HARD GATE)**: every target has `paper_block_status: "exists_without_marker"` (Phase B v5.5+ rejects `discovery`). The paper site for each target ALREADY EXISTS — there is a `\begin{theorem}…\label{thm:<X>}…\end{theorem}` (or `\begin{definition}` / `\begin{lemma}` / `\begin{corollary}`) somewhere in `papers/bedc/parts/`. Phase C's only paper-side action is to APPEND the marker line `\leanchecked{<X>}` (or `\leanstmt` / `\leandef` per the decision rule above) immediately after the existing `\end{...}` of that block. Do NOT:
    - insert a NEW `\begin{...}` / `\label{...}` block (paper rounds + bedc-deep own theorem proposal);
    - create a new sibling `.tex` file under any chapter directory;
    - copy / paraphrase the existing theorem into a different file with a renamed label.
