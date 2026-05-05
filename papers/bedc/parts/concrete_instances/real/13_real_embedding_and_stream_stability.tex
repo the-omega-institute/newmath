@@ -747,6 +747,45 @@ Exactness: transported StreamNameUp classifier and displayed selected endpoint
 package. Standard bridge: pointwise rational stream observation readback.
 Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real unary StreamNameUp classifier selected endpoint tail pairwise coherence]
+\label{thm:real-unary-streamname-classifier-selected-endpoint-tail-pairwise-coherence}
+For unary observation maps $s,t,s',t':\Hist\to\Hist$, a certified observation
+$n:\Hist$, and histories $a,a',b,b':\Hist$, assume
+$\mathsf{RatStreamNameClassifier}(s,t)$, $\mathsf{UnaryHistory}(n)$, the two
+pointwise transport rows of
+\autoref{thm:real-unary-streamname-classifier-selected-endpoint-shape-package},
+and the four displayed endpoints
+$$
+\hsame(s'(n),\Eone(a)),\quad \hsame(s'(n),\Eone(a')),\quad
+\hsame(t'(n),\Eone(b)),\quad \hsame(t'(n),\Eone(b')).
+$$
+Then $\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(a')$,
+$\mathsf{UnaryHistory}(b)$, $\mathsf{UnaryHistory}(b')$, and all six tail
+comparisons hold:
+$$
+\hsame(a,a'),\quad \hsame(a,b),\quad \hsame(a,b'),\quad
+\hsame(a',b),\quad \hsame(a',b'),\quad \hsame(b,b').
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-unary-streamname-classifier-selected-endpoint-shape-package}
+twice, first to the displayed pair $(a,b)$ and then to $(a',b')$, instantiating
+the zero-headed display parameters by endpoint tails. This supplies the four
+unary-history rows together with $\hsame(a,b)$ and $\hsame(a',b')$.
+
+For the same-side comparisons, compose the two displays of $s'(n)$ to obtain
+$\hsame(\Eone(a),\Eone(a'))$ and use
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_inversion\_iff}$ to read back
+$\hsame(a,a')$. The same composition and e-one inversion applied to the two
+displays of $t'(n)$ gives $\hsame(b,b')$.
+
+It remains to fill the two mixed comparisons. Compose $\hsame(a,b)$ with
+$\hsame(b,b')$ by $\mathsf{BEDC.FKernel.Hist.hsame\_trans}$ to obtain
+$\hsame(a,b')$; compose the symmetry of $\hsame(a,a')$ with $\hsame(a,b)$ to
+obtain $\hsame(a',b)$. Package the four unary rows and the six comparisons.
+\end{proof}
+
 Fit. Traditional target: selected unary stream observation readback. BEDC source:
 RealUp unary streams plus RatUp classifier. Carrier: unary-indexed rational
 observation maps. Classifier: $\mathsf{RealUnaryStreamClassifier}$. Stability:
