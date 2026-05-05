@@ -549,6 +549,68 @@ transported by \autoref{thm:s1-equation-witness-transport} and
 \autoref{thm:s1-carrier-hsame-transport}.
 \end{definition}
 
+\begin{definition}[SOne component classifier relation]
+\label{def:sone-component-classifier-relation}
+For histories $x,y,e,p,x',y',e',p'$, the concrete relation
+$\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))$ is defined only
+between displayed $\mathsf{SOneHistoryCarrier}$ witnesses. Its data are:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p')
+\Longrightarrow
+\hsame(x,x') \wedge \hsame(y,y').
+$$
+Thus the classifier exposes exactly the two real component comparisons; the
+equation witness and the point witness stay hidden until determinacy and
+transport supply their ledgers.
+\end{definition}
+
+\begin{theorem}[SOne component classifier stability]
+\label{thm:sone-component-classifier-stability}
+On the carrier $\mathsf{SOneHistoryCarrier}$, the relation
+$\mathsf{SOneComponentClassifier}$ supplies the stability row required by the
+semantic $\NameCert$ for $\SOneUp$. Concretely:
+\begin{enumerate}
+  \item it is reflexive, symmetric, and transitive by the equivalence theorem
+  for $\hsame$ on the two exposed real components;
+  \item any classifier witness between
+  $\mathsf{SOneHistoryCarrier}(x,y,e,p)$ and
+  $\mathsf{SOneHistoryCarrier}(x',y',e',p')$ determines
+  $\hsame(e,e')$ and $\hsame(p,p')$;
+  \item the carrier transports from $(x,y,e,p)$ to $(x',y',e',p')$ along the
+  resulting four coordinate $\hsame$ witnesses.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Reflexivity, symmetry, and transitivity are inherited componentwise from
+\autoref{thm:history-sameness-equivalence}. Reflexivity uses the two diagonal
+component witnesses; symmetry reverses both exposed witnesses; transitivity
+composes the two exposed witnesses through the middle carrier.
+
+For the hidden ledgers, keep both
+$\mathsf{SOneHistoryCarrier}$ witnesses in scope and unpack the classifier as
+the exposed pair $\hsame(x,x')$ and $\hsame(y,y')$. Apply
+\autoref{thm:s1-component-classifier-ledger-determinacy}; it returns exactly
+the equation witness $\hsame(e,e')$ and the point witness $\hsame(p,p')$.
+
+The equation ledger is stable by
+\autoref{thm:s1-equation-witness-transport}. With the component ledgers and the
+determined point ledger, \autoref{thm:s1-carrier-hsame-transport} then
+transports the whole carrier from $(x,y,e,p)$ to $(x',y',e',p')$.
+
+The certificate fit has ten fields: the traditional target is unit-circle
+component classification; the BEDC source is $\mathsf{BHist}$ with
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$, $\ProdUp$, and $\mathsf{Cont}$; the
+carrier is $\mathsf{SOneHistoryCarrier}$; the classifier is
+$\mathsf{SOneComponentClassifier}$; the stability obligations are equivalence
+plus carrier transport; the ledger data are the equation and point witnesses;
+the core theorem is this stability theorem; exactness is hidden-ledger
+determinacy; the standard bridge is deferred; and the status is
+$\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{definition}[SOne stability certificate]
 \label{def:s1-stability-certificate}
 The stability certificate consists of:

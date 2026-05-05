@@ -21,3 +21,27 @@ Apply the modulus-validity field for $f$ on $T$ to the transported memberships, 
 This is the entire obligation for the restricted witness: only the source-admission hypotheses have been narrowed from $T$ to $U$, and those hypotheses enter the original modulus field through the certified inclusion. The precision ledger $\delta$ is unchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_source\_restriction\_modulus\_chain}
+
+\begin{theorem}[Uniform continuity modulus restriction is transitive]
+\label{thm:uniform-continuity-modulus-restriction-transitive}
+Let $Y$ and $Z$ be certified $\MetricSpaceUp$ objects with the metric data of \autoref{def:metric-carrier}. Let $V$, $U$, and $T$ be certified source-subset witnesses in the totally bounded domain discipline of \autoref{def:continuous-source-specification}, with certified inclusions
+$$
+j:V\subseteq U
+$$
+and
+$$
+i:U\subseteq T.
+$$
+For a certified graph witness $f:T\to Z$, let $f\!\restriction_U$ be the restriction along $i$, let $(f\!\restriction_U)\!\restriction_V$ be the successive restriction along $j$, and let $f\!\restriction_V$ be the direct restriction along the composite inclusion $i\circ j:V\subseteq T$. The composite inclusion carries the same history-level graph relation, codomain classifier ledger, unary precision ledger, and modulus ledger as the successive restriction. If a unary precision ledger $\delta$ satisfies the modulus-validity field of \autoref{def:continuous-stability-certificate} for $f$ over $T$, then $\delta$ satisfies that field for both $f\!\restriction_V$ and $(f\!\restriction_U)\!\restriction_V$, and the two restricted witnesses are related by the $\ContinuousMapUp$ classifier of \autoref{def:continuous-classifier-specification}.
+\end{theorem}
+\begin{proof}
+Apply Proposition~\ref{prop:uniform-continuity-modulus-restricts-along-subset-inclusion} first to $i:U\subseteq T$. This transports the modulus-validity field for $f$ over $T$ to the restriction $f\!\restriction_U$ over $U$, with the graph relation and all precision data left unchanged.
+
+Apply the same proposition to $j:V\subseteq U$ and the already restricted witness $f\!\restriction_U$. The result is the modulus-validity field for $(f\!\restriction_U)\!\restriction_V$ over $V$, with the same history-level graph relation, codomain classifier ledger, unary precision ledger, and modulus ledger.
+
+Apply Proposition~\ref{prop:uniform-continuity-modulus-restricts-along-subset-inclusion} once more to the composite inclusion $i\circ j:V\subseteq T$. This gives the direct restricted witness $f\!\restriction_V$ and its modulus-validity field over $V$ using the original witness $f$ and the same unary precision ledger $\delta$.
+
+It remains to compare the direct and successive restrictions. By \autoref{def:continuous-pattern-specification}, restriction changes only the source-admission reading of the graph; by \autoref{def:continuous-ledger-policy}, the graph relation, codomain classifier ledger, unary precision ledger, and modulus ledger are recorded as the same ledgers. Thus the direct and successive witnesses present the same carrier data to the classifier, and \autoref{def:continuous-classifier-specification} relates them as $\ContinuousMapUp$ witnesses.
+
+Ten-field fit: traditional target functorial restriction of uniformly continuous maps; BEDC source BHist with certified source predicates and ContinuousFunctionCarrier; carrier restricted graph witness; classifier ContinuousMap classifier; stability nested source-admission transport; ledger unchanged graph/modulus ledgers; core theorem this block; exactness direct-versus-successive restriction agreement; standard bridge restriction functoriality for uniformly continuous maps; status ProofTarget.
+\end{proof}

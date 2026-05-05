@@ -52,6 +52,36 @@ Direct verification of the four \(\NameCert\) field types using the construction
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.prime\_semantic\_name\_certificate}
 
+\begin{theorem}[Unary multiplication result semantic name certificate]
+\label{thm:natmul-result-semantic-namecert}
+For unary histories $d$ and $q$, the result predicate
+$\mathsf{NatMul}(d,q,-)$, used as source, pattern, and ledger policy, together
+with $\hsame$ as classifier, forms a semantic naming certificate.
+\end{theorem}
+\begin{proof}
+Totality of unary multiplication supplies a carried result witness. The
+classifier laws are exactly reflexivity, symmetry, and transitivity of
+$\hsame$. Carrier transport is result transport for $\mathsf{NatMul}$ along
+history-sameness, while the pattern and ledger maps are the shared concrete
+result predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_result\_semanticNameCert}
+
+\begin{theorem}[Divisibility semantic name certificate]
+\label{thm:nat-divides-semantic-namecert}
+For a unary divisor $d$, the predicate $\mathsf{NatDivides}(d,-)$, used as
+source, pattern, and ledger policy, together with $\hsame$ as classifier,
+forms a semantic naming certificate.
+\end{theorem}
+\begin{proof}
+The empty dividend is inhabited exactly by the empty-right divisibility
+characterization. The classifier laws are inherited from $\hsame$, and carrier
+transport is dividend transport for $\mathsf{NatDivides}$ along
+history-sameness. Since the source, pattern, and ledger predicates coincide,
+the semantic soundness fields are direct projections of the same witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_semanticNameCert}
+
 \begin{lemma}[Empty left factor has empty unary product]
 \label{lem:natmul-empty-left-empty-result}
 If $\mathsf{NatMul}(\emp,q,n)$, then $n\hsame\emp$.
@@ -72,6 +102,18 @@ If $q_0\hsame\emp$, the zero clause of \autoref{def:nat-multiplication} identifi
 If $q_0\not\hsame\emp$, the induction hypothesis applied to $\mathsf{NatMul}(d,q_0,p)$ gives a unary tail $t$ with $\Cont(d,t,p)$. Composing this continuation with $\Cont(p,d,n)$ and using continuation associativity gives $\Cont(d,\mathsf{append}(t,d),n)$. The tail $\mathsf{append}(t,d)$ is unary because continuation preserves unary histories.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_quotient\_product\_extension}
+
+\begin{lemma}[Divisibility exposes unary divisor]
+\label{lem:nat-divides-divisor-unary}
+If $\mathsf{NatDivides}(d,n)$ holds, then $d$ is a unary history.
+\end{lemma}
+\begin{proof}
+Unpack the quotient witness in \(\mathsf{NatDivides}(d,n)\). The
+corresponding multiplication witness has \(d\) as its multiplicand, and
+the multiplicand readback for closed multiplication derivations reads the
+unary carrier directly from it.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_divisor\_unary}
 
 \begin{theorem}[Divisibility antisymmetry up to history-sameness]
 \label{thm:nat-divides-antisymmetry-hsame}
