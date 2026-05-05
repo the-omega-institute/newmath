@@ -74,6 +74,21 @@ theorem MatroidFinsetIntersection_left_subset
               exact (Iff.mp (pointwise z) memberJ).left
           exact And.intro subset finiteSpine
 
+theorem MatroidIntersection_preserves_independence
+    {E : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {Ind : (BHist -> Prop) -> Prop} {I K J : BHist -> Prop} :
+    (forall {A B : BHist -> Prop}, Ind A -> MatroidFinsetSubset E Rel B A -> Ind B) ->
+      Ind I ->
+        MatroidFinsetIntersection E Rel J I K ->
+          Ind J ∧ exists zs : ProbeBundle BHist, MatroidFinsetEnumerates E Rel zs J := by
+  intro hereditary independentI intersection
+  have subsetAndWitness :=
+    MatroidFinsetIntersection_left_subset (E := E) (Rel := Rel) (I := I) (K := K)
+      (J := J) intersection
+  constructor
+  · exact hereditary independentI subsetAndWitness.left
+  · exact subsetAndWitness.right
+
 def MatroidFinSetSpineEnumerates (E : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
     (xs : ProbeBundle BHist) (S : BHist -> Prop) : Prop :=
   (forall x : BHist, InBundle x xs -> E x) ∧

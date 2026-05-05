@@ -10513,3 +10513,111 @@ This is a concrete LieAlgebraUp theorem in the existing concrete_instances surfa
 
 ---
 
+### B-402 - QuantumChannel finite convex-mixture closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | QuantumChannel finite convex-mixture closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under QuantumChannelUp(H,K), if a finite affine spine of maps Phi_i are carried by QChan_{H,K} and the weights are nonnegative with total weight one, then the pointwise affine mixture Phi_mix is carried by QuantumChannelUp(H,K).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+
+Rationale:
+This is a concrete closure theorem for the existing quantum-channel carrier, distinct from the current composition and density-image theorems. It lands directly in the QuantumChannelUp chapter and uses the existing linear-map and convex finite-affine-spine surfaces rather than adding a marker or verification-axis item.
+
+---
+
+
+### B-403 - QuantumChannel preserves density finite mixtures
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | QuantumChannel preserves density finite mixtures |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If QChan_{H,K}(Phi) and DensAffSpine_H(xs,lambda,rho_mix), then applying Phi entrywise gives the matching finite affine spine over K, with endpoint Phi(rho_mix) carried by DensityMatrixUp(K).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+
+Rationale:
+This is not just the single-input density-image lemma: it records finite affine-mixture compatibility of a carried CPTP linear map. The target is concrete, local to the quantum-channel and density-matrix chapters, and distinct from channel composition closure and channel convex-mixture closure.
+
+---
+
+### B-404 - LieAlgebra adjoint acting-endpoint scalar linearity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LieAlgebra adjoint acting-endpoint scalar linearity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a \(\LieAlgebraUp\) certificate, if \(r\) is carried by the scalar-field carrier and \(x,y\) are carried by the vector carrier, then \(\operatorname{ad}^{L}_{r\odot_L x}(y)\sim_L r\odot_L\operatorname{ad}^{L}_{x}(y)\).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete Lie-algebra certificate law in the existing concrete_instances surface. The paper already has the acted-on endpoint scalar-linearity theorem for \(\operatorname{ad}^{L}_{x}(r\odot_L y)\), but the acting-endpoint scalar-linearity direction is semantically different and has no matching BOARD entry or paper theorem label. It should land safely in the existing Lie-algebra chapter and clarifies the bilateral bracket linearity exposed by the adjoint notation.
+
+---
+
+
+### B-405 - LieAlgebra adjoint linear endomap package
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LieAlgebra adjoint linear endomap package |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a \(\LieAlgebraUp\) certificate, if \(x\) is carried by the Lie-algebra vector carrier, then \(t\mapsto \operatorname{ad}^{L}_{x}(t)\) carries the \(\LinearMapUp\) endomap package on that vector carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+Rationale:
+This is a concrete bridge target from the Lie-algebra certificate to the existing LinearMap certificate surface. It is not a new abstract linear-map theory item: it packages the adjoint definition, classifier descent, additive preservation, scalar compatibility, and zero row into a named endomap certificate. Existing paper theorems supply component rows, but no current BOARD entry or paper label states the assembled certificate target.
+
+---
+
