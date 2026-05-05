@@ -368,3 +368,42 @@ Those data are outside the scoped certificate boundary claimed here.
   \notclaimed{This block does not close $\RealUp$ completeness, arithmetic or order closure, metric completeness, or any standard bridge.}
   \upgradepath{The next paper grade is $\publicClosure$, requiring a public $\RealUp$ export theorem consumed by downstream certificates rather than additional scoped binding.}
 \end{closurestatus}
+
+\begin{theorem}[RealUp public scoped export]
+\label{thm:realup-public-scoped-export}
+\autoref{thm:realup-scoped-certificate-boundary} exports the public $\RealUp$
+interface over the already-scoped DyadicRatCore, $\RegSeqRat$,
+$\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$, $\hsame$,
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$ rows.
+Every downstream certificate may cite this theorem as the single public
+$\RealUp$ interface for those rows, provided it only consumes the scoped
+carrier, classifier, stability, transport, ledger, and seal data named in that
+boundary. The export adds no $\RealUp$ completeness, arithmetic or order
+closure, metric completeness, quotient representatives, or standard bridge.
+\end{theorem}
+\begin{proof}
+The closure block for $\RealUp$ records that
+\autoref{thm:realup-scoped-certificate-boundary} is the scoped boundary over
+exactly the displayed BEDC primitives and that its verified grounding is the
+constant-history semantic name certificate. Thus the boundary is already a
+named $\RealUp$ interface rather than an internal construction step.
+
+Apply \autoref{thm:dyadic-rat-core-obligation-boundary-package} for the
+DyadicRatCore and $\RegSeqRat$ obligation package, and apply
+\autoref{thm:rat-stream-name-certificate-fields} for the $\StreamNameUp$ and
+$\RatUp$ certificate fields. The RegSeqRat stream-name interface
+\autoref{thm:regseqrat-streamname-scoped-interface} supplies the scoped
+history and $\hsame$ transport rows, while
+\autoref{thm:realup-scoped-certificate-boundary} gathers those rows with the
+constant-history carrier, constant-history classifier, unary stream
+classifier, ledger policy, and seal.
+
+These citations expose precisely the public surface needed by later
+certificates: they can cite one $\RealUp$ theorem and recover the same scoped
+rows without reopening the stream-prefix inventory. Since the cited boundary
+explicitly excludes completeness, arithmetic and order laws, metric
+completeness, quotient representatives, and standard-bridge data, the export
+does not add any of those structures.
+\end{proof}
