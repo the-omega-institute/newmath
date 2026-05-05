@@ -157,4 +157,39 @@ theorem gamma_function_semantic_name_certificate {s z : BHist} (gamma : Gamma s 
       exact source
   }
 
+theorem Gamma_reflection_boundary_certificate {s t z w : BHist} :
+    Gamma s z -> Gamma t w ->
+      ∃ apartS : BHist, ∃ apartT : BHist,
+        ∃ PS : BHist -> BHist, ∃ NS : BHist -> BHist, ∃ MS : BHist -> BHist,
+          ∃ PT : BHist -> BHist, ∃ NT : BHist -> BHist, ∃ MT : BHist -> BHist,
+            GammaDomainCore s apartS ∧ UnaryHistory apartS ∧
+              GammaWeierstrassCauchyModulus s apartS PS NS ∧
+                ComplexLimit PS NS z MS ∧
+                  GammaDomainCore t apartT ∧ UnaryHistory apartT ∧
+                    GammaWeierstrassCauchyModulus t apartT PT NT ∧
+                      ComplexLimit PT NT w MT := by
+  intro gammaS gammaT
+  cases gammaS with
+  | intro apartS gammaSData =>
+      cases gammaSData with
+      | intro PS gammaSData =>
+          cases gammaSData with
+          | intro NS gammaSData =>
+              cases gammaSData with
+              | intro MS gammaSRows =>
+                  cases gammaT with
+                  | intro apartT gammaTData =>
+                      cases gammaTData with
+                      | intro PT gammaTData =>
+                          cases gammaTData with
+                          | intro NT gammaTData =>
+                              cases gammaTData with
+                              | intro MT gammaTRows =>
+                                  exact ⟨apartS, apartT, PS, NS, MS, PT, NT, MT,
+                                    gammaSRows.left, gammaSRows.right.left,
+                                    gammaSRows.right.right.left,
+                                    gammaSRows.right.right.right, gammaTRows.left,
+                                    gammaTRows.right.left, gammaTRows.right.right.left,
+                                    gammaTRows.right.right.right⟩
+
 end BEDC.Derived.GammaFunctionUp
