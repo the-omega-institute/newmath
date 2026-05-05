@@ -105,6 +105,59 @@ theorem FinsetEnumerationClassifier_trans
   · intro carried
     exact Iff.mpr (xy z) (Iff.mpr (yz z) carried)
 
+theorem FinsetEnumerationCarrier_bundleAppend_split
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {left right : ProbeBundle BHist} {a : BHist} :
+    FinsetEnumerationCarrier A Rel (bundleAppend left right) a ↔
+      A a ∧
+        ((exists x : BHist, InBundle x left ∧ Rel a x) ∨
+          (exists x : BHist, InBundle x right ∧ Rel a x)) := by
+  constructor
+  · intro carried
+    cases carried with
+    | intro source witness =>
+        constructor
+        · exact source
+        · cases witness with
+          | intro x memberAndRel =>
+              cases memberAndRel with
+              | intro member rel =>
+                  have split :
+                      InBundle x left ∨ InBundle x right :=
+                    (inBundle_bundleAppend_iff (p := x) (left := left) (right := right)).mp
+                      member
+                  cases split with
+                  | inl memberLeft =>
+                      exact Or.inl (Exists.intro x (And.intro memberLeft rel))
+                  | inr memberRight =>
+                      exact Or.inr (Exists.intro x (And.intro memberRight rel))
+  · intro carried
+    cases carried with
+    | intro source split =>
+        constructor
+        · exact source
+        · cases split with
+          | inl leftWitness =>
+              cases leftWitness with
+              | intro x memberAndRel =>
+                  cases memberAndRel with
+                  | intro member rel =>
+                      have memberApp :
+                          InBundle x (bundleAppend left right) :=
+                        (inBundle_bundleAppend_iff (p := x) (left := left) (right := right)).mpr
+                          (Or.inl member)
+                      exact Exists.intro x (And.intro memberApp rel)
+          | inr rightWitness =>
+              cases rightWitness with
+              | intro x memberAndRel =>
+                  cases memberAndRel with
+                  | intro member rel =>
+                      have memberApp :
+                          InBundle x (bundleAppend left right) :=
+                        (inBundle_bundleAppend_iff (p := x) (left := left) (right := right)).mpr
+                          (Or.inr member)
+                      exact Exists.intro x (And.intro memberApp rel)
+
 theorem FinsetEnumerationCarrier_append_split
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
     {left right : ProbeBundle BHist} {z : BHist} :

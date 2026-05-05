@@ -194,4 +194,30 @@ theorem ListSpineBridgeClassifier_public_cons_readback_deterministic {A : BHist 
               (Exists.intro xs'
                 (And.intro repT (And.intro repT' readback.right))))
 
+theorem ListSpineBridgeClassifier_represented_spine_alignment {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (coherent :
+      forall {h : BHist} {xs ys : ListCarrier BHist},
+        ListSpineRep A h xs -> ListSpineRep A h ys -> ListClassifierSpec Rel xs ys)
+    {h k : BHist} {xs0 ys0 : ListCarrier BHist} :
+    ListSpineRep A h xs0 -> ListSpineRep A k ys0 ->
+      ListSpineBridgeClassifier A Rel h k -> ListClassifierSpec Rel xs0 ys0 := by
+  intro repH repK bridge
+  cases bridge with
+  | intro xs bridgeTail =>
+      cases bridgeTail with
+      | intro ys bridgeData =>
+          cases bridgeData with
+          | intro repHX bridgeRest =>
+              cases bridgeRest with
+              | intro repKY classifiedBridge =>
+                  have classifiedLeft : ListClassifierSpec Rel xs0 xs :=
+                    coherent repH repHX
+                  have classifiedRight : ListClassifierSpec Rel ys ys0 :=
+                    coherent repKY repK
+                  exact ListClassifierSpec_trans_from_nameCert cert
+                    (ListClassifierSpec_trans_from_nameCert cert classifiedLeft
+                      classifiedBridge)
+                    classifiedRight
+
 end BEDC.Derived.ListUp
