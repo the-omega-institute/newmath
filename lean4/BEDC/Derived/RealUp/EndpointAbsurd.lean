@@ -90,4 +90,33 @@ theorem RealConstantHistoryClassifier_transported_inner_e0_endpoint_absurd {h k 
                     exact (RealConstantHistoryClassifier_e1_e0_endpoint_absurd
                       (tail := tail) (d := d)).right transported
 
+theorem RealConstantHistoryClassifier_transported_inner_empty_endpoint_absurd {h k : BHist} :
+    RealConstantHistoryClassifier h k ->
+      (hsame h (BHist.e1 BHist.Empty) -> False) ∧
+        (hsame k (BHist.e1 BHist.Empty) -> False) := by
+  intro classified
+  cases classified with
+  | intro d rest =>
+      cases rest with
+      | intro e data =>
+          cases data with
+          | intro sameH rest =>
+              cases rest with
+              | intro sameK ratClassified =>
+                  constructor
+                  · intro sameInner
+                    have transported :
+                        RealConstantHistoryClassifier (BHist.e1 BHist.Empty) (BHist.e1 e) :=
+                      RealConstantHistoryClassifier_endpoint_transport sameInner sameK
+                        ⟨d, e, sameH, sameK, ratClassified⟩
+                    exact (RealConstantHistoryClassifier_e1_empty_endpoint_absurd
+                      (d := e)).left transported
+                  · intro sameInner
+                    have transported :
+                        RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 BHist.Empty) :=
+                      RealConstantHistoryClassifier_endpoint_transport sameH sameInner
+                        ⟨d, e, sameH, sameK, ratClassified⟩
+                    exact (RealConstantHistoryClassifier_e1_empty_endpoint_absurd
+                      (d := d)).right transported
+
 end BEDC.Derived.RealUp
