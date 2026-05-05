@@ -72,6 +72,19 @@ theorem NontrivialZero_in_crit_strip {s : BHist} :
   intro nontrivial
   exact And.intro nontrivial.right (InCritStrip_boundary_excluded nontrivial.right)
 
+def NontrivialZeroWitness (s sigma tau : BHist) : Prop :=
+  ZetaZero s ∧ BEDC.Derived.CritStripUp.CritStripComplexCarrier s sigma tau
+
+theorem NontrivialZeroWitness_continuation_contradicts_zero_source {s sigma tau : BHist} :
+    NontrivialZeroWitness s sigma tau -> Cont sigma tau s -> ZetaZeroSourceSpec s -> False := by
+  intro witness continuation source
+  have _sourceCarrier : ComplexHistoryCarrier s := source.left
+  have carrier : BEDC.Derived.CritStripUp.CritStripComplexCarrier s sigma tau :=
+    And.intro witness.right.left
+      (And.intro witness.right.right.left
+        (And.intro continuation witness.right.right.right.right))
+  exact (BEDC.Derived.CritStripUp.CritStripComplexCarrier_strict_interval_absurd carrier).right
+
 theorem ZetaVal_well_defined {s z z' : BHist} :
     ZetaVal s z -> ZetaVal s z' -> ComplexHistoryClassifier z z' := by
   intro value value'
