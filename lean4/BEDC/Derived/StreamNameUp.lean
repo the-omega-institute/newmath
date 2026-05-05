@@ -373,4 +373,89 @@ theorem RatStreamNameClassifier_unary_context_e1_pair_readback
   exact RatHistoryClassifier_cont_unary_context_e1_pair_readback pointClassified prefUnary
     prefSame tailUnary tailSame prefSCont outSCont prefTCont outTCont sameLeft sameRight
 
+theorem RatStreamNameClassifier_observation_shape_exclusions {s t : BHist -> BHist}
+    {n : BHist} :
+    RatStreamNameClassifier s t -> UnaryHistory n ->
+      PositiveUnaryDenominator (s n) ∧ PositiveUnaryDenominator (t n) ∧
+        UnaryHistory (s n) ∧ UnaryHistory (t n) ∧
+          (hsame (s n) BHist.Empty -> False) ∧
+            (hsame (t n) BHist.Empty -> False) ∧
+              (forall z_s : BHist, hsame (s n) (BHist.e0 z_s) -> False) ∧
+                (forall z_t : BHist, hsame (t n) (BHist.e0 z_t) -> False) := by
+  intro classified nUnary
+  have pointClassified : RatHistoryClassifier (s n) (t n) :=
+    classified.right.right n nUnary
+  have positives : PositiveUnaryDenominator (s n) ∧ PositiveUnaryDenominator (t n) :=
+    RatHistoryClassifier_positive_denominators pointClassified
+  have leftRows := PositiveUnaryDenominator_unary_and_nonempty positives.left
+  have rightRows := PositiveUnaryDenominator_unary_and_nonempty positives.right
+  exact And.intro positives.left
+    (And.intro positives.right
+      (And.intro leftRows.left
+        (And.intro rightRows.left
+          (And.intro leftRows.right
+            (And.intro rightRows.right
+              (And.intro
+                (fun z_s sameZero =>
+                  PositiveUnaryDenominator_e0_absurd
+                    (PositiveUnaryDenominator_hsame_transport sameZero positives.left))
+                (fun z_t sameZero =>
+                  PositiveUnaryDenominator_e0_absurd
+                    (PositiveUnaryDenominator_hsame_transport sameZero positives.right))))))))
+
+theorem RatStreamName_independent_reindexed_constant_classifier
+    {d e : BHist} {r q : BHist -> BHist} :
+    RatHistoryCarrier d ->
+      (forall n : BHist, UnaryHistory n -> hsame (RatConstStream d (r n)) d) ∧
+        RatStreamNameCarrier (fun n : BHist => RatConstStream d (r n)) ∧
+          (RatHistoryClassifier d e ->
+            RatStreamNameClassifier (fun n : BHist => RatConstStream d (r n))
+              (fun n : BHist => RatConstStream e (q n))) := by
+  intro carrierD
+  have pointSame :
+      forall n : BHist, UnaryHistory n -> hsame (RatConstStream d (r n)) d := by
+    intro n _nUnary
+    cases r n with
+    | Empty => exact hsame_refl d
+    | e0 _ => exact hsame_refl d
+    | e1 _ => exact hsame_refl d
+  have streamCarrier : RatStreamNameCarrier (fun n : BHist => RatConstStream d (r n)) := by
+    intro n _nUnary
+    cases r n with
+    | Empty => exact carrierD
+    | e0 _ => exact carrierD
+    | e1 _ => exact carrierD
+  have classifierLift :
+      RatHistoryClassifier d e ->
+        RatStreamNameClassifier (fun n : BHist => RatConstStream d (r n))
+          (fun n : BHist => RatConstStream e (q n)) := by
+    intro ratClassifier
+    have carrierE :
+        RatStreamNameCarrier (fun n : BHist => RatConstStream e (q n)) := by
+      intro n _nUnary
+      cases q n with
+      | Empty => exact ratClassifier.right.left
+      | e0 _ => exact ratClassifier.right.left
+      | e1 _ => exact ratClassifier.right.left
+    exact And.intro streamCarrier
+      (And.intro carrierE
+        (fun n _nUnary => by
+          cases r n with
+          | Empty =>
+              cases q n with
+              | Empty => exact ratClassifier
+              | e0 _ => exact ratClassifier
+              | e1 _ => exact ratClassifier
+          | e0 _ =>
+              cases q n with
+              | Empty => exact ratClassifier
+              | e0 _ => exact ratClassifier
+              | e1 _ => exact ratClassifier
+          | e1 _ =>
+              cases q n with
+              | Empty => exact ratClassifier
+              | e0 _ => exact ratClassifier
+              | e1 _ => exact ratClassifier))
+  exact And.intro pointSame (And.intro streamCarrier classifierLift)
+
 end BEDC.Derived.StreamNameUp

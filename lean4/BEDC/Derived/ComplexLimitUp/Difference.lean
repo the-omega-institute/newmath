@@ -19,4 +19,13 @@ theorem ComplexLimit_pointwise_difference_closed {s t N M : BHist -> BHist} {z w
     ComplexLimit_prepend_constant_closed unary_empty limitT
   exact ComplexLimit_pointwise_append_same_modulus_closed limitS shiftedLimitT
 
+theorem ComplexRegularSequence_pointwise_difference_closed {s t N : BHist -> BHist} :
+    ComplexRegularSequence s N -> ComplexRegularSequence t N ->
+      ComplexRegularSequence (fun n : BHist => append (s n) (append BHist.Empty (t n))) N := by
+  intro regularS regularT
+  have shiftedRegularT :
+      ComplexRegularSequence (fun n : BHist => append BHist.Empty (t n)) N :=
+    ComplexRegularSequence_prepend_constant_closed unary_empty regularT
+  exact ComplexRegularSequence_pointwise_append_same_modulus_closed regularS shiftedRegularT
+
 end BEDC.Derived.ComplexLimitUp
