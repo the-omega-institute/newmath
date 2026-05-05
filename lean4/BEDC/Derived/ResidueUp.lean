@@ -66,7 +66,7 @@ theorem ResiduePoleData_result_determinism
           cases leftRest with
           | intro _leftResidueCarrier leftRest =>
               cases leftRest with
-              | intro _leftProductCarrier leftLedger =>
+              | intro _leftProductCarrier leftCont =>
                   cases rightData with
                   | intro _rightDisk rightRest =>
                       cases rightRest with
@@ -74,10 +74,10 @@ theorem ResiduePoleData_result_determinism
                           cases rightRest with
                           | intro _rightResidueCarrier rightRest =>
                               cases rightRest with
-                              | intro _rightProductCarrier rightLedger =>
+                              | intro _rightProductCarrier rightCont =>
                                   exact And.intro
-                                    (cont_deterministic leftLedger rightLedger)
-                                    (And.intro leftLedger rightLedger)
+                                    (cont_deterministic leftCont rightCont)
+                                    (And.intro leftCont rightCont)
 
 theorem ResiduePoleData_empty_function_endpoints
     {f center radius pole gap integral residue : BHist} :

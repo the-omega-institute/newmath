@@ -35,6 +35,22 @@ theorem ZetaBoundaryNonvanishingWitness_sigma_nonempty {s sigma : BHist} :
     hsame_trans (hsame_symm sameUnit) sameEmpty
   exact not_hsame_e1_empty unitEmpty
 
+theorem ZetaZeroLedgerPolicy_boundary_nonvanishing_readback {s sigma : BHist} :
+    ZetaBoundaryNonvanishingWitness s sigma ->
+      ∃ imag : BHist, RatHistoryCarrier sigma ∧ hsame sigma (BHist.e1 BHist.Empty) ∧
+        RatHistoryCarrier imag ∧ Cont sigma imag s ∧ (ZetaZeroSourceSpec s -> False) ∧
+          (hsame sigma BHist.Empty -> False) := by
+  intro witness
+  cases witness.right.right.right with
+  | intro imag imagData =>
+      exact Exists.intro imag
+        (And.intro witness.right.left
+          (And.intro witness.right.right.left
+            (And.intro imagData.left
+              (And.intro imagData.right.left
+                (And.intro imagData.right.right
+                  (ZetaBoundaryNonvanishingWitness_sigma_nonempty witness))))))
+
 def ZetaVal (s z : BHist) : Prop :=
   ComplexHistoryCarrier s ∧ (hsame s (BHist.e1 BHist.Empty) -> False) ∧
     ComplexHistoryCarrier z ∧
