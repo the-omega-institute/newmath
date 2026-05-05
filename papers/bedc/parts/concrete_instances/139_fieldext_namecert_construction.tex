@@ -383,6 +383,105 @@ ordinary reflexive rational field extension. Thus the ledger and standard
 bridge obligations are both read from the same concrete RatUp FieldUp table.
 \end{proof}
 
+\begin{theorem}[RatUp reflexive FieldExtUp tower composition]
+\label{thm:fieldext-ratup-reflexive-tower-composition}
+Compose two copies of the reflexive FieldExtUp certificate of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}. The resulting
+two-step tower has base, middle, and top carrier all equal to
+$\mathsf{RatHistoryCarrier}$, has base, middle, and top classifier all equal
+to $\mathsf{RatHistoryClassifier}$, has composite embedding equal to the
+identity embedding on $\mathsf{BHist}$, and uses the same FieldUp
+multiplication scalar action in each vector-space-over-base row. The tower
+therefore carries no endpoint outside the concrete RatUp FieldUp operation
+table.
+\end{theorem}
+\begin{proof}
+For each field endpoint in the tower, read the same concrete FieldUp
+certificate from
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary}. This fixes the
+base, middle, and top carriers to $\mathsf{RatHistoryCarrier}$ and fixes the
+three classifiers to $\mathsf{RatHistoryClassifier}$.
+
+The embedding rows are identity rows. Apply
+\autoref{thm:fieldext-reflexive-embedding-transport} to each copy. Since the
+underlying map is the identity on $\mathsf{BHist}$, composing the two displayed
+embeddings again gives the identity embedding and preserves the same carrier,
+classifier, and operation rows.
+
+The vector-space rows are supplied by
+\autoref{thm:fieldext-reflexive-vector-space-package}. Its scalar action is
+FieldUp multiplication, and its scalar-action congruence is the multiplication
+congruence row of the same RatUp FieldUp certificate.
+
+Finally apply
+\autoref{thm:fieldext-reflexive-certificate-obligations}. It records that the
+carrier, classifier, embedding, scalar-action, exactness, and ledger rows all
+come from the single concrete RatUp FieldUp source tuple, so the two-step
+tower has the stated reflexive package.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive FieldExtUp tower scalar action]
+\label{thm:fieldext-ratup-reflexive-tower-scalar-action}
+In the two-step reflexive tower of
+\autoref{thm:fieldext-ratup-reflexive-tower-composition}, let
+$r,m:\mathsf{BHist}$ be carried RatUp scalar and vector endpoints. The tower
+scalar-action endpoint obtained by acting with $r$ on $m$ is classified by
+$\mathsf{RatHistoryClassifier}$ with the corresponding RatUp FieldUp
+multiplication endpoint for $r$ and $m$.
+\end{theorem}
+\begin{proof}
+The tower scalar action is the self-vector-space scalar action selected in
+\autoref{thm:fieldext-reflexive-vector-space-package}. By that theorem, the
+action row is FieldUp multiplication on the same RatUp carrier.
+
+The multiplication endpoint and the scalar-action endpoint therefore name the
+same operation row of the concrete $\FieldUp(\RatUp)$ certificate. The required
+classifier comparison is exactly the multiplication congruence row supplied by
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary}, read through
+$\mathsf{RatHistoryClassifier}$.
+
+Since
+\autoref{thm:fieldext-ratup-reflexive-tower-composition} keeps the identity
+embedding at both tower levels, no transport changes the endpoints. The
+classification row remains the RatUp multiplication row for the original
+carried scalar and vector endpoints.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive FieldExtUp tower ledger coverage]
+\label{thm:fieldext-ratup-reflexive-tower-ledger-coverage}
+Every carrier row, classifier row, embedding row, scalar-action row, exactness
+row, and ledger row in the two-step reflexive tower of
+\autoref{thm:fieldext-ratup-reflexive-tower-composition} is covered by three
+concrete sources: the single RatUp FieldUp source tuple
+$\mathsf{RatUpFieldSource}_F$, the identity embedding row on
+$\mathsf{BHist}$, and the self-vector-space row whose scalar action is FieldUp
+multiplication.
+\end{theorem}
+\begin{proof}
+The carrier and classifier rows are covered by the concrete RatUp FieldUp
+source tuple via
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary}. The same source
+also supplies the operation-table rows used at the base, middle, and top field
+levels.
+
+The embedding rows are covered by
+\autoref{thm:fieldext-reflexive-embedding-transport}. The two embeddings and
+their composite are all the identity on $\mathsf{BHist}$, so the tower has one
+embedding policy and one classifier-transport row.
+
+The scalar-action rows are covered by
+\autoref{thm:fieldext-reflexive-vector-space-package} and
+\autoref{thm:fieldext-ratup-reflexive-tower-scalar-action}. They identify the
+tower action with FieldUp multiplication and classify its endpoints by the
+RatUp multiplication congruence row.
+
+The exactness and ledger rows are then those assembled in
+\autoref{thm:fieldext-reflexive-certificate-obligations}. Together with
+\autoref{thm:fieldext-ratup-reflexive-tower-composition}, this accounts for
+every row of the two-step reflexive tower without naming any source beyond the
+RatUp FieldUp tuple, identity embedding, and self-vector-space package.
+\end{proof}
+
 \begin{theorem}[Singleton field extension as a vector space over its base]
 \label{thm:fieldext-singleton-vector-space-over-base}
 For the concrete data of
@@ -414,6 +513,7 @@ endpoint to the extension-field multiplication endpoint. This gives the
 compatibility of embedded scalar multiplication with the singleton extension
 field product.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingletonVectorSpace\_smul\_mul\_compatible}
 
 \begin{theorem}[Singleton FieldExt embedded scalar-action collapse]
 \label{thm:fieldext-singleton-embedded-scalar-action-collapse}
