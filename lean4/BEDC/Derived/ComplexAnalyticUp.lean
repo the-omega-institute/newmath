@@ -188,6 +188,29 @@ def CplxLog (realLog : BHist -> BHist) (z w : BHist) : Prop :=
     CplxModArg z r theta ∧ hsame logR (realLog r) ∧ Cont logR theta w ∧
       ComplexHistoryCarrier w
 
+theorem CplxLog_exp_inverse_carrier_witness
+    {realLog : BHist -> BHist} {z w expw : BHist} :
+    CplxLog realLog z w -> CplxExp w expw ->
+      ComplexHistoryCarrier z ∧ ComplexHistoryCarrier w ∧ ComplexHistoryCarrier expw ∧
+        exists r theta logR : BHist,
+          CplxModArg z r theta ∧ hsame logR (realLog r) ∧ Cont logR theta w := by
+  intro logWitness expWitness
+  have expCarriers := CplxExp_component_carrier_witness expWitness
+  cases logWitness with
+  | intro r logRest =>
+      cases logRest with
+      | intro theta logRest =>
+          cases logRest with
+          | intro logR logData =>
+              exact And.intro logData.left.left
+                (And.intro expCarriers.left
+                  (And.intro expCarriers.right
+                    (Exists.intro r
+                      (Exists.intro theta
+                        (Exists.intro logR
+                          (And.intro logData.left
+                            (And.intro logData.right.left logData.right.right.left)))))))
+
 theorem CplxPureImaginary_e1_tail_iff {theta tail : BHist} :
     CplxPureImaginary theta (BHist.e1 tail) <->
       UnaryHistory theta /\ hsame tail (append (BHist.e1 BHist.Empty) theta) := by
@@ -229,6 +252,14 @@ theorem CplxPureImaginary_complex_carrier_witness {theta z : BHist} :
       exact And.intro thetaUnary
         (And.intro sameZ
           (ProdHistoryCarrier_hsame_transport (hsame_symm sameZ) pureCarrier))
+
+theorem CplxExp_euler_pure_imaginary_carrier_witness {theta z w : BHist} :
+    CplxPureImaginary theta z -> CplxExp z w ->
+      UnaryHistory theta ∧ ComplexHistoryCarrier z ∧ ComplexHistoryCarrier w := by
+  intro pureImaginary expWitness
+  have pureCarrier := CplxPureImaginary_complex_carrier_witness pureImaginary
+  have expCarriers := CplxExp_component_carrier_witness expWitness
+  exact And.intro pureCarrier.left (And.intro expCarriers.left expCarriers.right)
 
 theorem CplxPureImaginary_hsame_transport_witness {theta z z' : BHist} :
     hsame z z' -> CplxPureImaginary theta z ->
