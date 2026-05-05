@@ -24,6 +24,9 @@ def FpsSingletonOne : BHist :=
 def FpsSingletonCoeff (_F _n : BHist) : BHist :=
   BHist.Empty
 
+def FpsSingletonPointwiseAdditionCoeff (F G n : BHist) : BHist :=
+  append (FpsSingletonCoeff F n) (FpsSingletonCoeff G n)
+
 def FpsSingletonAdd (_F _G : BHist) : BHist :=
   BHist.Empty
 
@@ -346,5 +349,27 @@ theorem FpsSingletonAddFold_reverse_empty_append_hsame
     (hsame_trans leftEmpty
       (hsame_symm
         (hsame_trans (append_empty_right (FpsSingletonAddFold xs.reverse)) rightEmpty)))
+
+theorem FpsSingletonCauchyProduct_comm_classifier {xs ys : List BHist} :
+    BEDC.Derived.ListUp.ListClassifierSpec hsame xs ys.reverse ->
+      FpsSingletonAddFoldSpineCarrier xs -> FpsSingletonAddFoldSpineCarrier ys ->
+        FpsSingletonClassifier (append (FpsSingletonAddFold xs) BHist.Empty)
+          (append (FpsSingletonAddFold ys) BHist.Empty) := by
+  intro classified spineXS spineYS
+  have congruence :=
+    FpsSingletonCauchyProduct_classifier_congruence classified spineXS
+  have leftEmpty : hsame (FpsSingletonAddFold xs) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty spineXS
+  have rightEmpty : hsame (FpsSingletonAddFold ys) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty spineYS
+  have reverseSame :
+      hsame (append (FpsSingletonAddFold ys) BHist.Empty)
+        (append (FpsSingletonAddFold ys.reverse) BHist.Empty) :=
+    FpsSingletonAddFold_reverse_empty_append_hsame spineYS
+  exact And.intro
+    (hsame_trans (append_empty_right (FpsSingletonAddFold xs)) leftEmpty)
+    (And.intro
+      (hsame_trans (append_empty_right (FpsSingletonAddFold ys)) rightEmpty)
+      (hsame_trans congruence.right (hsame_symm reverseSame)))
 
 end BEDC.Derived.FpsUp
