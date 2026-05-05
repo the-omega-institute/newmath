@@ -30,6 +30,127 @@ $$
 \section{The certificate}
 \label{sec:ideal-certificate}
 
+\begin{definition}[Ideal obligation inventory]
+\label{def:ideal-obligation-inventory}
+An $\IdealUp$ certificate over a fixed $\RingUp$ certificate is the ten-field
+$\NameCert_{\IdealUp}$ inventory whose rows are fixed as follows.
+\begin{enumerate}
+\item The traditional target is a two-sided ideal of a ring.
+\item The BEDC source is $\RingUp$ over $\mathsf{BHist}$, with the ambient
+carrier, classifier, addition, additive inverse, zero, and multiplication
+already named by the ring certificate.
+\item The carrier is a predicate $I:\mathsf{BHist}\to\mathsf{Prop}$ supported
+by the ambient ring carrier $C$.
+\item The classifier is inherited from the ambient ring classifier $\sim_R$.
+\item The stability rows are zero membership, additive closure, additive
+inverse closure, internal multiplication closure, classifier transport, and
+two-sided absorption by every carried ambient ring endpoint.
+\item The ledger records hidden membership witnesses for $I(x)$ and the
+ambient absorber witnesses $C(r)$ consumed by the two absorption rows.
+\item The core theorem list consists of
+\autoref{thm:ideal-carrier-support-row-obligation},
+\autoref{thm:ideal-zero-add-neg-obligation},
+\autoref{thm:ideal-classifier-absorption-obligation},
+\autoref{thm:ideal-intersection-closure},
+\autoref{thm:finite-ideal-intersection-closure}, and
+\autoref{thm:ring-map-ideal-preimage-ideal-closure}.
+\item Exactness is row exhaustion: the certificate consumes exactly the carrier
+support, zero, additive, inverse, internal multiplication, classifier
+transport, and two-sided absorption rows displayed here.
+\item The standard bridge row is absent at this paper site.
+\item The boundary package is the scoped $\IdealUp$ obligation surface used by
+quotient-ring, ideal-class, intersection, finite-meet, and preimage
+constructions.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Ideal carrier support obligation]
+\label{thm:ideal-carrier-support-row-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with ambient carrier
+$C$ and classifier $\sim_R$. Let $I:\mathsf{BHist}\to\mathsf{Prop}$ satisfy the
+inventory of \autoref{def:ideal-obligation-inventory}. Then the inventory
+supplies the carrier-support row
+$$
+I(x)\Longrightarrow C(x).
+$$
+Consequently every endpoint admitted by the ideal predicate is a carried
+$\RingUp$ endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier row of \autoref{def:ideal-obligation-inventory}. That row
+states that $I$ is supported by the ambient $\RingUp$ carrier $C$.
+
+Applying this projection to a membership witness $I(x)$ gives $C(x)$. The
+endpoint $x$ therefore lies in the same $\mathsf{BHist}$ carrier scope as the
+ambient ring operations and classifier $\sim_R$.
+\end{proof}
+
+\begin{theorem}[Ideal zero and additive obligations]
+\label{thm:ideal-zero-add-neg-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with addition
+$+_R$, additive inverse $-_R$, zero $0_R$, multiplication $\cdot_R$, ambient
+carrier $C$, and classifier $\sim_R$. Let
+$I:\mathsf{BHist}\to\mathsf{Prop}$ satisfy the inventory of
+\autoref{def:ideal-obligation-inventory}. Then the inventory supplies
+$$
+I(0_R),
+$$
+$$
+I(x)\land I(y)\Longrightarrow I(x+_R y),
+$$
+$$
+I(x)\Longrightarrow I(-_R x),
+$$
+and
+$$
+I(x)\land I(y)\Longrightarrow I(x\cdot_R y).
+$$
+\end{theorem}
+\begin{proof}
+Project the stability field of \autoref{def:ideal-obligation-inventory}. Its
+zero row is exactly $I(0_R)$, using the zero endpoint named by the surrounding
+$\RingUp$ certificate.
+
+The same stability field contains the additive closure and additive inverse
+rows. Projecting those rows gives closure under $+_R$ and $-_R$ for every pair
+or endpoint already carrying an $I$-membership witness.
+
+Finally project the internal multiplication row from the same inventory. Since
+the multiplication symbol $\cdot_R$ is the one named by the ambient $\RingUp$
+certificate, the resulting endpoint remains in the ring carrier scope supplied
+by the carrier-support row.
+\end{proof}
+
+\begin{theorem}[Ideal classifier and absorption obligations]
+\label{thm:ideal-classifier-absorption-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with carrier $C$,
+classifier $\sim_R$, and multiplication $\cdot_R$. Let
+$I:\mathsf{BHist}\to\mathsf{Prop}$ satisfy the inventory of
+\autoref{def:ideal-obligation-inventory}. Then the inventory supplies
+classifier transport
+$$
+I(x)\land x\sim_R y\Longrightarrow I(y)
+$$
+and two-sided absorption by every carried ambient ring endpoint:
+$$
+C(r)\land I(x)\Longrightarrow I(r\cdot_R x)\land I(x\cdot_R r).
+$$
+\end{theorem}
+\begin{proof}
+Project the classifier row and the classifier-transport stability row of
+\autoref{def:ideal-obligation-inventory}. The classifier row identifies the
+ideal comparison relation with the ambient $\RingUp$ classifier $\sim_R$, and
+the transport row carries $I$-membership along that comparison.
+
+Project the absorption rows from the same stability field. Given an ambient
+absorber witness $C(r)$ and an ideal membership witness $I(x)$, the left row
+gives $I(r\cdot_R x)$ and the right row gives $I(x\cdot_R r)$.
+
+The ledger row records exactly the membership witness for $x$ and the carried
+ambient witness for $r$ consumed in these projections, so no extra absorber or
+classifier datum is introduced outside the surrounding $\RingUp$ scope.
+\end{proof}
+
 \begin{theorem}[Ideal zero-membership obligation]
 \label{thm:ideal-zero-membership-obligation}
 Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, with $\NameCert_{\RingUp}$ carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. If $I:\mathsf{BHist}\to\mathsf{Prop}$ is an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}, then the certificate contains the zero-membership row $I(0_R)$.
