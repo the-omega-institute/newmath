@@ -107,4 +107,58 @@ theorem BanachSingleton_complete_metric_limit_empty_witness {s M : BHist -> BHis
     exact Exists.intro BHist.Empty
       (And.intro distanceWitness (And.intro continuation (modulusClassified nUnary)))
 
+theorem BanachSingleton_norm_distance_zero_exactness {x y : BHist} :
+    BanachSingletonCarrier x -> BanachSingletonCarrier y ->
+      MetricDistanceWitness x y BHist.Empty ->
+        VecSpaceSingletonClassifier x y ∧ hsame x y := by
+  intro carrierX carrierY distanceZero
+  have endpoints :
+      hsame x BHist.Empty ∧ hsame y BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := x) (y := y)).mp distanceZero
+  have sameXY : hsame x y :=
+    hsame_trans endpoints.left (hsame_symm endpoints.right)
+  exact And.intro
+    (And.intro carrierX.left (And.intro carrierY.left sameXY))
+    sameXY
+
+theorem BanachSingleton_limit_classifier_uniqueness
+    {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
+    CompleteMetricLimitWitness BanachSingletonCarrier s M0 l0 ->
+      CompleteMetricLimitWitness BanachSingletonCarrier s M1 l1 ->
+        hsame l0 l1 ∧ VecSpaceSingletonClassifier l0 l1 ∧
+          BanachSingletonClassifier l0 l1 ∧
+            Cont l0 BHist.Empty l0 ∧ Cont l1 BHist.Empty l1 := by
+  intro witness0 witness1
+  have limit0Vec : VecSpaceSingletonCarrier l0 := witness0.left.left
+  have limit1Vec : VecSpaceSingletonCarrier l1 := witness1.left.left
+  have sameLimits : hsame l0 l1 :=
+    hsame_trans limit0Vec (hsame_symm limit1Vec)
+  have vecClassified : VecSpaceSingletonClassifier l0 l1 :=
+    And.intro limit0Vec (And.intro limit1Vec sameLimits)
+  have banachClassified : BanachSingletonClassifier l0 l1 :=
+    And.intro witness0.left (And.intro witness1.left sameLimits)
+  exact And.intro sameLimits
+    (And.intro vecClassified
+      (And.intro banachClassified
+        (And.intro (cont_right_unit l0) (cont_right_unit l1))))
+
+theorem BanachSingleton_limit_classifier_unique
+    {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
+    CompleteMetricLimitWitness BanachSingletonCarrier s M0 l0 ->
+      CompleteMetricLimitWitness BanachSingletonCarrier s M1 l1 ->
+        BanachSingletonClassifier l0 l1 ∧
+          MetricDistanceWitness l0 l1 BHist.Empty := by
+  intro witness0 witness1
+  have carrier0 : BanachSingletonCarrier l0 := witness0.left
+  have carrier1 : BanachSingletonCarrier l1 := witness1.left
+  have sameL0 : hsame l0 BHist.Empty := carrier0.left
+  have sameL1 : hsame l1 BHist.Empty := carrier1.left
+  have sameLimits : hsame l0 l1 := hsame_trans sameL0 (hsame_symm sameL1)
+  have distance :
+      MetricDistanceWitness l0 l1 BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr (And.intro sameL0 sameL1)
+  exact And.intro
+    (And.intro carrier0 (And.intro carrier1 sameLimits))
+    distance
+
 end BEDC.Derived.BanachUp
