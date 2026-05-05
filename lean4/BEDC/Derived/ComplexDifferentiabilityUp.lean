@@ -18,6 +18,9 @@ def PartialReal (u z p : BHist) : Prop :=
 def PartialImag (u z q : BHist) : Prop :=
   UnaryHistory u ∧ UnaryHistory z ∧ CplxDiffAt u z q
 
+def CplxDiffClassifierSpec (f z fp g w gp : BHist) : Prop :=
+  CplxDiffAt f z fp ∧ CplxDiffAt g w gp ∧ hsame f g ∧ hsame z w ∧ hsame fp gp
+
 theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
     CplxDiffAt f z fp ->
       exists h : BHist, exists q : BHist,
@@ -242,6 +245,19 @@ theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
                             (Exists.intro gp
                               (And.intro quotient'
                                 (And.intro continuation' (hsame_refl gp)))))
+
+theorem CplxDiffClassifierSpec_hsame_transport_witness {f g z w fp gp : BHist} :
+    CplxDiffAt f z fp -> hsame f g -> hsame z w -> hsame fp gp ->
+      CplxDiffClassifierSpec f z fp g w gp ∧
+        ∃ h : BHist, ∃ q : BHist,
+          CplxDiffQuot g w h q ∧ Cont g h q ∧ hsame q gp := by
+  intro diff sameF sameZ sameFpGp
+  have transported := CplxDiffAt_full_hsame_transport_witness diff sameF sameZ sameFpGp
+  exact And.intro
+    (And.intro diff
+      (And.intro transported.left
+        (And.intro sameF (And.intro sameZ sameFpGp))))
+    transported.right
 
 theorem PartialDerivative_hsame_input_unique {u z z' p q : BHist} :
     ((PartialReal u z p -> PartialReal u z' q -> hsame z z' ->
