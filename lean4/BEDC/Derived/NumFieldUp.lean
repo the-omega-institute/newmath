@@ -7,6 +7,7 @@ namespace BEDC.Derived.NumFieldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldExtUp
 open BEDC.Derived.RatUp
@@ -54,5 +55,24 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     unfold FieldExtSingletonEmbedding
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
+
+theorem NumFieldReflexiveRational_source_scope :
+    SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier RatHistoryClassifier ∧
+      (forall {h k : BHist}, RatHistoryClassifier h k ->
+        RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+          RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+            RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k)) ∧
+        (forall {r m out : BHist}, RatHistoryCarrier r -> RatHistoryCarrier m ->
+          Cont r m out -> RatHistoryCarrier out) := by
+  have vectorPackage := FieldExtRatReflexive_vector_space_package
+  constructor
+  · exact vectorPackage.left
+  · constructor
+    · intro h k classified
+      have locked := FieldExtRatReflexiveEmbedding_ledger_source_lock classified
+      exact And.intro locked.left
+        (And.intro locked.right.left locked.right.right.left)
+    · intro r m out carrierR carrierM continuation
+      exact vectorPackage.right.right carrierR carrierM continuation
 
 end BEDC.Derived.NumFieldUp
