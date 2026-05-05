@@ -429,6 +429,28 @@ def DirichletSeriesConv (term : BHist -> BHist -> BHist) (s S : BHist) : Prop :=
     (forall n : BHist, UnaryHistory n -> DirichletPartSum term s n (ps n)) /\
       ComplexLimit ps N S M
 
+def AbsConvAbscissa (term : BHist -> BHist -> BHist) (sigma : BHist) : Prop :=
+  UnaryHistory sigma ∧ exists witness : BHist, UnaryHistory witness ∧
+    forall {s S : BHist}, ComplexHistoryCarrier s -> DirichletSeriesConv term s S ->
+      Cont sigma witness S -> ComplexHistoryCarrier S
+
+theorem AbsConvAbscissa_witness_result_carrier
+    {term : BHist -> BHist -> BHist} {sigma s S : BHist} :
+    AbsConvAbscissa term sigma -> ComplexHistoryCarrier s -> DirichletSeriesConv term s S ->
+      exists witness : BHist, UnaryHistory witness ∧
+        (Cont sigma witness S -> ComplexHistoryCarrier S) := by
+  intro abscissa sourceCarrier convergence
+  cases abscissa with
+  | intro _sigmaUnary witnessRow =>
+      cases witnessRow with
+      | intro witness witnessData =>
+          exact Exists.intro witness
+            (And.intro witnessData.left
+              (fun continuation =>
+                have resultCarrier : ComplexHistoryCarrier S :=
+                  witnessData.right sourceCarrier convergence continuation
+                resultCarrier))
+
 theorem dirichlet_semantic_name_certificate {term : BHist -> BHist -> BHist}
     {s S : BHist} :
     DirichletSeriesConv term s S ->

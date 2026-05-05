@@ -95,6 +95,15 @@ def print_status_hint(server_url: str) -> dict:
         print("[status] queued work has no active BEDC ChatGPT tab.", flush=True)
         print("[status] install userscript: tools/bedc-deep/bedc_oracle_macos.user.js", flush=True)
         print("[status] open: https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start in the BEDC panel", flush=True)
+    elif status.get("diagnosis") == "queue_waiting_for_compatible_agent":
+        print(
+            f"[status] active BEDC tabs are older than {status.get('required_script_version', 'required version')}; "
+            "update tools/bedc-deep/bedc_oracle_macos.user.js and refresh Project tabs.",
+            flush=True,
+        )
+    elif status.get("diagnosis") == "queue_waiting_for_project_agent":
+        print("[status] active BEDC tab is not inside the BEDC ChatGPT Project.", flush=True)
+        print("[status] open: https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start in the BEDC panel", flush=True)
     return status
 
 
@@ -175,7 +184,7 @@ def wait_for_recent_agent(server_url: str, seconds: int, poll_interval: int) -> 
     deadline = time.time() + seconds
     while time.time() < deadline:
         status = print_status_hint(server_url)
-        if status.get("active_recent_agents"):
+        if status.get("project_active_poll_agents"):
             return True
         time.sleep(max(1, poll_interval))
     return False

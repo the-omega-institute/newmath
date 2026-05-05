@@ -38,6 +38,10 @@ def ZetaVal (s z : BHist) : Prop :=
     ComplexHistoryCarrier z ∧
       ComplexHistoryClassifier z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
 
+def ZetaZero (s : BHist) : Prop :=
+  exists z : BHist, ZetaVal s z ∧
+    hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+
 theorem ZetaVal_well_defined {s z z' : BHist} :
     ZetaVal s z -> ZetaVal s z' -> ComplexHistoryClassifier z z' := by
   intro value value'
