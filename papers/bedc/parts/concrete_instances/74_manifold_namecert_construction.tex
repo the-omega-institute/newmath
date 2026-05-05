@@ -6,5 +6,123 @@ The manifold interface $\ManifoldUp$ packages a topological carrier with a finit
 \section{Carrier definition}
 \label{sec:manifold-carrier}
 
+\begin{definition}[Chart-atlas manifold carrier]
+\label{def:manifold-chart-atlas-carrier}
+A chart-atlas manifold carrier for $\ManifoldUp$ is a predicate
+$\mathsf{ManAtlasPkg}(P)$ on $\mathsf{BHist}$ packages $P$ whose fields are the
+following rows.
+\begin{enumerate}
+\item The traditional target is a finite-atlas topological manifold.
+\item The BEDC source is $\TopologyUp$ together with $\RealUp$ coordinate
+histories and real-analytic transition rows from
+\autoref{ch:concrete-instances-real-analytic-namecert}.
+\item The carrier row contains a topological carrier history $M$ with its
+$\TopologyUp$ certificate, a finite chart-index history $I$, chart-domain
+predicates $\mathsf{Dom}_i$ on $M$, chart maps
+$\varphi_i:\mathsf{Dom}_i\to(\RealUp)^{n_i}$, and overlap transition ledgers
+$\mathsf{Trans}_{ij}$ for each chart pair $i,j$.
+\item The classifier row is componentwise $\hsame$ on $M$, on $I$, on every
+chart-domain row, on every chart-map row, and on every transition ledger.
+\item The stability row says that componentwise $\hsame$ transport of those
+fields carries $\mathsf{ManAtlasPkg}$ packages to
+$\mathsf{ManAtlasPkg}$ packages.
+\item The ledger records topology rows, real-coordinate rows, overlap rows, and
+constructively smooth transition certificates for each nonempty chart overlap.
+\item The standard bridge row is absent: this carrier names the BEDC
+obligation surface and does not assert an external manifold equivalence.
+\end{enumerate}
+Equivalently, $\mathsf{ManAtlasPkg}(P)$ is the ten-field
+$\NameCert_{\ManifoldUp}$ source object whose public carrier is the finite
+chart atlas over $M$, whose classifier is the displayed componentwise
+$\hsame$ classifier, and whose visible ledger is the topology-coordinate-overlap
+ledger just listed.
+\end{definition}
+
 \section{The certificate}
 \label{sec:manifold-certificate}
+
+\begin{theorem}[Manifold chart-transition classifier stability]
+\label{thm:manifold-chart-transition-classifier-stability}
+Let $P$ and $Q$ be $\mathsf{BHist}$ packages. Suppose
+$\mathsf{ManAtlasPkg}(P)$ holds and the data of $P$ and $Q$ are related
+componentwise by $\hsame$: the topological carrier histories are $\hsame$, the
+finite chart-index histories are $\hsame$, corresponding chart-domain rows are
+$\hsame$, corresponding chart-map rows are $\hsame$, and corresponding
+real-analytic transition ledgers are $\hsame$. Then
+$\mathsf{ManAtlasPkg}(Q)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{ManAtlasPkg}(P)$ using
+\autoref{def:manifold-chart-atlas-carrier}. The package supplies the
+$\TopologyUp$ carrier row for $M$, the finite chart-index row, all chart-domain
+and chart-map rows, and the overlap transition ledgers.
+
+Transport the topological carrier by the supplied $\hsame$ comparison of the
+carrier histories. Transport the finite chart-index row in the same way. For
+each chart index, transport the domain predicate and the chart-map row by the
+componentwise $\hsame$ hypotheses.
+
+For each chart pair, transport the real-coordinate transition ledger and the
+constructively smooth transition certificate by the corresponding
+real-analytic $\hsame$ row. Repack the transported topology, chart, map,
+overlap, and smoothness rows. These are exactly the fields required by
+\autoref{def:manifold-chart-atlas-carrier} for
+$\mathsf{ManAtlasPkg}(Q)$.
+\end{proof}
+
+\begin{theorem}[Manifold atlas overlap coverage]
+\label{thm:manifold-atlas-overlap-coverage}
+Every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$ exposes, for
+each chart pair $i,j$ in its finite chart-index history, a domain-overlap row
+$$
+\mathsf{Overlap}_{ij}(x)
+:\Longleftrightarrow
+\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)
+$$
+on the topological carrier and the corresponding constructively smooth
+$\RealUp$ transition ledger from $\varphi_i$-coordinates to
+$\varphi_j$-coordinates on that overlap.
+\end{theorem}
+\begin{proof}
+Unpack the carried atlas package by
+\autoref{def:manifold-chart-atlas-carrier}. The finite chart-index row gives
+the admissible chart pairs, while the chart-domain rows give the two predicates
+$\mathsf{Dom}_i$ and $\mathsf{Dom}_j$ over the same topological carrier.
+
+For a fixed pair $i,j$, form the overlap row by conjunction of the two domain
+memberships. The topology ledger records the carrier support of both domains,
+so the overlap row is a predicate on the same topological carrier $M$.
+
+The package ledger contains, for this same pair, the transition row
+$\mathsf{Trans}_{ij}$. Its real-coordinate part records the source and target
+$\RealUp$ coordinate histories, and its real-analytic part records the
+constructively smooth transition certificate on the displayed overlap. Project
+these two ledger components to obtain the claimed coverage row.
+\end{proof}
+
+\begin{theorem}[Manifold name-certificate obligation surface]
+\label{thm:manifold-namecert-obligation-surface}
+The carrier definition of
+\autoref{def:manifold-chart-atlas-carrier}, together with
+\autoref{thm:manifold-chart-transition-classifier-stability} and
+\autoref{thm:manifold-atlas-overlap-coverage}, assembles the paper-side
+$\ManifoldUp$ obligation surface. The surface consists of a topological carrier,
+a finite chart atlas, chart classifier stability, overlap coverage, the
+transition-smoothness ledger, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+The carrier definition supplies the named source object:
+$\TopologyUp$ rows for the base carrier, $\RealUp$ coordinate rows for chart
+targets, finite chart-index data, chart domains, chart maps, and transition
+ledgers.
+
+\autoref{thm:manifold-chart-transition-classifier-stability} supplies the
+classifier-stability obligation for the whole package, because every public
+field is transported by the componentwise $\hsame$ classifier specified in the
+carrier definition.
+
+\autoref{thm:manifold-atlas-overlap-coverage} supplies the overlap and
+transition-smoothness obligations. The absence of a standard bridge is already
+part of the carrier definition, so the assembled object is exactly the
+$\ManifoldUp$ paper obligation surface listed in the theorem statement.
+\end{proof}
