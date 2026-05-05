@@ -240,6 +240,16 @@ theorem GeomBound_radius_shrink_closed {a : Nat -> BHist} {r' r K : BHist} :
       exact And.intro radiusUnary
         (And.intro radiusUnary (And.intro bound.right.left bound.right.right))
 
+def ConvRadPatternSpec (a : Nat -> BHist) (R r K : BHist) : Prop :=
+  ConvRad a R ∧ GeomBound a r K
+
+theorem ConvRadPatternSpec_radius_shrink_closed {a : Nat -> BHist} {R r' r K : BHist} :
+    NatUnaryStrictPrefix r' r -> ConvRadPatternSpec a R r K ->
+      UnaryHistory r' ∧ ConvRadPatternSpec a R r' K := by
+  intro strict pattern
+  have shrink := GeomBound_radius_shrink_closed strict pattern.right
+  exact And.intro shrink.left (And.intro pattern.left shrink.right)
+
 theorem GeomBound_coeff_classifier_append_unary_closed {a b : Nat -> BHist} {r K q : BHist} :
     (forall n : Nat, ComplexHistoryClassifier (a n) (b n)) -> GeomBound a r K ->
       UnaryHistory q -> GeomBound (fun n : Nat => append (b n) q) r K := by

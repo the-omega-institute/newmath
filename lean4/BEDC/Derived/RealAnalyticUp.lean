@@ -317,6 +317,31 @@ theorem RealAnalyticLocalStream_obligations_package {zero zero' : BHist}
     exact RealAnalyticComplexAbsPartSum_pointwise_result_unary_transport zeroUnary sameZero
       modulusUnary modulusSame unaryN source target
 
+theorem RealAnalyticExp_local_witness_unary {x bound modulus y : BHist} :
+    RealAnalyticExp x bound modulus y ->
+      UnaryHistory bound ∧ UnaryHistory modulus ∧
+        ∃ n S : BHist,
+          UnaryHistory n ∧ UnaryHistory S ∧ RealAnalyticExpPart x n S ∧ Cont S modulus y := by
+  intro exp
+  cases exp.right.right.right with
+  | intro n witnessN =>
+      cases witnessN with
+      | intro S data =>
+          have xUnary : UnaryHistory x := ComplexHistoryCarrier_unary exp.left
+          have termUnary :
+              forall {m : BHist}, UnaryHistory m -> UnaryHistory (append x m) := by
+            intro m unaryM
+            exact unary_append_closed xUnary unaryM
+          have sumUnary : UnaryHistory S :=
+            ComplexPartSum_result_unary xUnary termUnary data.right.left.right.left
+          exact And.intro exp.right.left
+            (And.intro exp.right.right.left
+              (Exists.intro n
+                (Exists.intro S
+                  (And.intro data.left
+                    (And.intro sumUnary
+                      (And.intro data.right.left data.right.right))))))
+
 theorem real_analytic_certificate_boundary {zero : BHist} {c modulus : BHist -> BHist} :
     SemanticNameCert
       (fun result : BHist =>
