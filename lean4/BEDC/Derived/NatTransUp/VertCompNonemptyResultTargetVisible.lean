@@ -121,4 +121,24 @@ theorem NatTransPrefixComponentCarrier_vert_comp_nonempty_result_source_target_c
                               (And.intro data.right.right.right.right.right.left
                                 data.right.right.right.right.right.right))))))
 
+theorem NatTransPrefixComponentCarrier_vert_comp_nonempty_result_right_identity_visible_readback
+    {p q r a eta theta k right : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta -> Cont eta theta (BHist.e1 k) ->
+        Cont (BHist.e1 k) BHist.Empty right ->
+          (hsame (append p a) BHist.Empty -> False) ->
+            NatTransPrefixComponentCarrier p r a right ∧ hsame right (BHist.e1 k) ∧
+              ∃ s t : BHist, append p a = BHist.e1 s ∧ append r a = BHist.e1 t ∧
+                UnaryHistory s ∧ UnaryHistory k ∧ UnaryHistory t ∧
+                  Cont (BHist.e1 s) (BHist.e1 k) (BHist.e1 t) := by
+  intro left component comp rightRel sourceNonempty
+  have compositeCarrier : NatTransPrefixComponentCarrier p r a (BHist.e1 k) :=
+    NatTransPrefixComponentCarrier_vert_comp_closed left component comp
+  have rightClosed :=
+    NatTransPrefixComponentCarrier_vert_comp_right_identity_closed compositeCarrier rightRel
+  have visibleReadback :=
+    NatTransPrefixComponentCarrier_vert_comp_nonempty_result_source_visible left component comp
+      sourceNonempty
+  exact And.intro rightClosed.left (And.intro rightClosed.right visibleReadback)
+
 end BEDC.Derived.NatTransUp
