@@ -10065,3 +10065,79 @@ Cryptographic BEDC content has concentrated on HashUp, where concrete transcript
 
 ---
 
+### B-385 - Affine empty family full-space zero-locus
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Affine empty family full-space zero-locus |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under the affine finite-family zero-locus setup, AffPoint_R,n(x) implies V_R,n(empty)(x).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+
+Rationale:
+This is a concrete base-case theorem for the existing AffineVarUp zero-locus definition. It is not a BOARD duplicate and is not already present as a theorem or corollary; the current paper has the zero-locus definition and a concatenation/intersection theorem, but no empty-family full-space statement. The landing file is short and directly suitable.
+
+---
+
+
+### B-386 - Affine duplicate equation insertion invariance
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Affine duplicate equation insertion invariance |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under the affine finite-family zero-locus setup, if a polynomial equation already occurs in F, then V_R,n(insert(p,F))(x) implies and is implied by V_R,n(F)(x).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+This is a concrete invariance property for affine zero-loci under redundant finite-spine equations. It is adjacent to the existing FinSet duplicate insertion theorem, but that theorem concerns finite-set enumeration classifiers rather than affine polynomial-equation zero-loci, so this is not already proven at the affine-variety surface.
+
+---
+
+
+### B-387 - Affine finite-family inclusion reverses zero-loci
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Affine finite-family inclusion reverses zero-loci |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the affine finite-family zero-locus setup, if every equation occurring in F also occurs in G, then V_R,n(G)(x) implies V_R,n(F)(x).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+This is the natural contravariance theorem for finite polynomial-family zero-loci and is broader than the existing concatenation/intersection result. It is concrete, lands in the current AffineVarUp chapter, and would give a reusable inclusion principle for later affine-variety arguments without duplicating an existing BOARD target.
+
+---
+
