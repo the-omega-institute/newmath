@@ -534,6 +534,7 @@ from \autoref{def:list-classifier-specification}, then
 \mathsf{fold}_{+}(xs)\sim_R\mathsf{fold}_{+}(ys).
 \]
 \end{theorem}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonAddFold\_list\_classifier\_hsame}
 \begin{proof}
 Induct on the structural classifier witness. By \autoref{thm:list-classifier-case-exactness}, the nil case is the nil-nil constructor and the cons case is the cons-cons constructor; mixed nil-cons shapes have no classifier witness. The same structural witness also records the equal finite-spine length by \autoref{thm:list-classifier-length-eq}.
 
@@ -559,6 +560,7 @@ then
 \mathsf{fold}_{+}(\mathsf{summ}_I)\sim_R0_R.
 \]
 \end{theorem}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonAddFold\_zero\_remainder\_empty}
 \begin{proof}
 The displayed hypothesis is a finite-spine classifier witness as in \autoref{def:list-classifier-specification}. By \autoref{thm:list-classifier-case-exactness}, its only possible constructor cases are nil-nil and cons-cons. Induct on this structural witness.
 
@@ -574,6 +576,7 @@ Applying additive congruence from \autoref{def:ring-stability-certificate} to th
 \]
 The additive left-zero law identifies \(0_R+0_R\) with \(0_R\). Classifier transitivity composes these two comparisons. The cons fold equation then identifies \(a+\mathsf{fold}_{+}(xs')\) with \(\mathsf{fold}_{+}(\mathsf{cons}(a,xs'))\), giving the claimed fold comparison for the cons spine.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialZeroRemainder\_addFold\_empty\_classified}
 
 \begin{definition}[Classified zero remainder spine]
 \label{def:classified-zero-remainder-spine}
@@ -586,6 +589,7 @@ a\sim_R0_R
 \mathsf{ZeroRem}_R(\mathsf{cons}(a,t')).
 $$
 \end{definition}
+\leandef{BEDC.Derived.PolynomialUp.PolynomialZeroRemainder}
 
 \begin{lemma}[Trim invariance under a common classified spine and zero remainders]
 \label{lem:trim-invariance-common-classified-spine-zero-remainders}

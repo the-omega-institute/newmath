@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.Derived.ListUp
 
 namespace BEDC.Derived.FpsUp
 
@@ -129,6 +130,16 @@ theorem FpsSingletonCoeff_empty_ledger {F n : BHist} :
   have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
   exact And.intro (hsame_refl BHist.Empty)
     (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+
+theorem FpsSingletonCauchyProduct_constant_coefficient {F G : BHist} :
+    FpsSingletonClassifier (FpsSingletonMul F G)
+      (FpsSingletonMul (FpsSingletonCoeff F BHist.Empty) (FpsSingletonCoeff G BHist.Empty)) ∧
+    Cont (FpsSingletonCoeff F BHist.Empty) (FpsSingletonCoeff G BHist.Empty)
+      (FpsSingletonMul (FpsSingletonCoeff F BHist.Empty) (FpsSingletonCoeff G BHist.Empty)) := by
+  have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro
+    (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+    (cont_right_unit BHist.Empty)
 
 theorem FpsSingletonEmptyHistoryClassifier_append_split_empty_iff {p q h : BHist} :
     FpsSingletonEmptyHistoryClassifier (BEDC.FKernel.Cont.append p q) h ↔
@@ -267,5 +278,73 @@ theorem FpsSingletonEmptyHistoryClassifier_continuation_comm_closed
   exact And.intro emptyCarrier
     (And.intro emptyCarrier
       (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
+
+def FpsSingletonAddFold : List BHist -> BHist
+  | [] => FpsSingletonZero
+  | x :: xs => FpsSingletonAdd x (FpsSingletonAddFold xs)
+
+def FpsSingletonAddFoldSpineCarrier : List BHist -> Prop
+  | [] => hsame BHist.Empty BHist.Empty
+  | x :: xs => FpsSingletonCarrier x ∧ FpsSingletonAddFoldSpineCarrier xs
+
+theorem FpsSingletonAddFold_spine_carrier_empty
+    {xs : List BHist} :
+    FpsSingletonAddFoldSpineCarrier xs ->
+      hsame (FpsSingletonAddFold xs) BHist.Empty := by
+  intro spine
+  induction xs with
+  | nil =>
+      exact hsame_refl BHist.Empty
+  | cons x xs ih =>
+      cases spine with
+      | intro _headCarrier _tailCarrier =>
+          exact hsame_refl BHist.Empty
+
+theorem FpsSingletonCauchyProduct_classifier_congruence {xs ys : List BHist} :
+    BEDC.Derived.ListUp.ListClassifierSpec hsame xs ys ->
+      FpsSingletonAddFoldSpineCarrier xs ->
+        FpsSingletonAddFoldSpineCarrier ys ∧
+          hsame (append (FpsSingletonAddFold xs) BHist.Empty)
+            (append (FpsSingletonAddFold ys) BHist.Empty) := by
+  intro classified spine
+  induction xs generalizing ys with
+  | nil =>
+      cases ys with
+      | nil =>
+          exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+      | cons y ys =>
+          cases classified
+  | cons x xs ih =>
+      cases ys with
+      | nil =>
+          cases classified
+      | cons y ys =>
+          cases classified with
+          | intro headSame tailClassified =>
+              cases spine with
+              | intro xCarrier xsCarrier =>
+                  have tail := ih tailClassified xsCarrier
+                  exact And.intro
+                    (And.intro (hsame_trans (hsame_symm headSame) xCarrier) tail.left)
+                    (hsame_refl BHist.Empty)
+
+theorem FpsSingletonAddFold_reverse_empty_append_hsame
+    {xs : List BHist} :
+    FpsSingletonAddFoldSpineCarrier xs ->
+      hsame (append (FpsSingletonAddFold xs) BHist.Empty)
+        (append (FpsSingletonAddFold xs.reverse) BHist.Empty) := by
+  intro spine
+  have leftEmpty : hsame (FpsSingletonAddFold xs) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty spine
+  have rightEmpty : hsame (FpsSingletonAddFold xs.reverse) BHist.Empty := by
+    induction xs.reverse with
+    | nil =>
+        exact hsame_refl BHist.Empty
+    | cons x tail ih =>
+        exact hsame_refl BHist.Empty
+  exact hsame_trans (append_empty_right (FpsSingletonAddFold xs))
+    (hsame_trans leftEmpty
+      (hsame_symm
+        (hsame_trans (append_empty_right (FpsSingletonAddFold xs.reverse)) rightEmpty)))
 
 end BEDC.Derived.FpsUp

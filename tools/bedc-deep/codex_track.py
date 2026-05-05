@@ -4,7 +4,7 @@
 Replaces the prior Stage 0 (stage0_quickpath) with an unbounded-round,
 audit-driven codex iteration. Codex authors a LaTeX block, self-audits,
 and loops until either:
-  - codex declares verdict=close, audit_score≥7, claude redline check passes
+  - codex declares verdict=close, audit_score≥8, claude redline check passes
     → return ("close", content, board_candidates, ...)
   - codex declares verdict=escalate (genuine math obstruction)
     → return ("escalate", reason, board_candidates, ...)
@@ -46,6 +46,7 @@ LOG_DIR = SCRIPT_DIR / "state" / "codex_track_logs"
 CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_CODEX_TIMEOUT = 600
 DEFAULT_REDLINE_TIMEOUT = 600
+MIN_CLOSE_AUDIT_SCORE = 8
 
 # Round ceiling is a *safety net*, not a primary terminator. Codex normally
 # terminates via verdict=close or verdict=escalate. The ceiling exists only
@@ -463,8 +464,27 @@ def run_codex_track(
                     board_candidates=board_candidates,
                 )
 
-            # If codex's self-audit is low, still run redline (it's cheap).
-            # If audit_score is genuinely high, redline is more likely to pass first try.
+            if audit_score < MIN_CLOSE_AUDIT_SCORE:
+                print(
+                    f"[codex_track] {target.target_id} close self-rejected at round {round_idx} "
+                    f"(audit={audit_score} < {MIN_CLOSE_AUDIT_SCORE}); continuing",
+                    flush=True,
+                )
+                if not str(parsed.get("next_step", "")).strip():
+                    parsed["next_step"] = (
+                        f"Strengthen the proof until audit_score is at least "
+                        f"{MIN_CLOSE_AUDIT_SCORE}."
+                    )
+                history.append(_summarize_round_for_history(parsed, None))
+                rounds.append({
+                    "round": round_idx,
+                    "codex": parsed,
+                    "redline": None,
+                    "outcome": "audit_below_threshold",
+                    "codex_seconds": codex_dt,
+                })
+                continue
+
             print(
                 f"[codex_track] {target.target_id} round {round_idx} — redline check "
                 f"(codex {codex_dt:.1f}s, audit={audit_score}, {len(content)} chars)",

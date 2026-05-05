@@ -262,6 +262,7 @@ Then every inhabitant of the inner interval carrier is an inhabitant of the oute
 \mathsf{IntervalCarrier}_{\ell_1,u_1}(h).
 \]
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalCarrier\_boundary\_weakening}
 \begin{proof}
 By \autoref{def:interval-carrier}, an inner carrier witness consists of unary membership for \(h\), a lower-bound witness in \(\ell_2(h)\), and an upper-bound witness in \(u_2(h)\). Keep the unary membership witness unchanged. Apply the pointwise lower-bound map \(\lambda_h\) to the lower witness, and apply the pointwise upper-bound map \(\upsilon_h\) to the upper witness. These three witnesses reconstruct \(\mathsf{IntervalCarrier}_{\ell_1,u_1}(h)\) by \autoref{def:interval-carrier}.
 \end{proof}
@@ -280,6 +281,7 @@ Then for all histories \(h,k:\mathsf{BHist}\),
 \mathsf{IntervalClassifierSpec}_{\ell_1,u_1}(h,k).
 \]
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_boundary\_weakening}
 \begin{proof}
 Eliminate the inner classifier witness using \autoref{def:interval-classifier-specification}. It consists of an \(\mathsf{IntervalCarrier}_{\ell_2,u_2}(h)\) witness, an \(\mathsf{IntervalCarrier}_{\ell_2,u_2}(k)\) witness, and the stored \(\hsame(h,k)\) link. Apply \autoref{thm:interval-carrier-boundary-weakening} at \(h\) to obtain \(\mathsf{IntervalCarrier}_{\ell_1,u_1}(h)\), and apply the same theorem at \(k\) to obtain \(\mathsf{IntervalCarrier}_{\ell_1,u_1}(k)\). Rebuild the restricted classifier from these two carrier witnesses and the unchanged stored \(\hsame(h,k)\) witness by \autoref{def:interval-classifier-specification}.
 \end{proof}

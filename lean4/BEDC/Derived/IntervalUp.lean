@@ -195,6 +195,36 @@ theorem IntervalClassifierSpec_symm {lower upper : BEDC.FKernel.Hist.BHist -> Pr
       | intro carrierK sameHK =>
           exact ⟨carrierK, carrierH, BEDC.FKernel.Hist.hsame_symm sameHK⟩
 
+theorem IntervalCarrier_boundary_weakening {lowerOuter lowerInner upperOuter upperInner :
+    BHist -> Prop} {h : BHist}
+    (lowerMap : forall x : BHist, lowerInner x -> lowerOuter x)
+    (upperMap : forall x : BHist, upperInner x -> upperOuter x) :
+    IntervalCarrier lowerInner upperInner h ->
+      UnaryHistory h ∧ IntervalCarrier lowerOuter upperOuter h := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.left
+      (And.intro (lowerMap h carrier.right.left) (upperMap h carrier.right.right)))
+
+theorem IntervalClassifierSpec_boundary_weakening {lowerOuter lowerInner upperOuter upperInner :
+    BHist -> Prop} {h k : BHist}
+    (lowerMap : forall x : BHist, lowerInner x -> lowerOuter x)
+    (upperMap : forall x : BHist, upperInner x -> upperOuter x) :
+    IntervalClassifierSpec lowerInner upperInner h k ->
+      IntervalClassifierSpec lowerOuter upperOuter h k := by
+  intro classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          constructor
+          · exact ⟨carrierH.left, lowerMap h carrierH.right.left,
+              upperMap h carrierH.right.right⟩
+          · constructor
+            · exact ⟨carrierK.left, lowerMap k carrierK.right.left,
+                upperMap k carrierK.right.right⟩
+            · exact sameHK
+
 theorem IntervalEmptyBoundaryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist} :
     IntervalEmptyBoundaryLedgerPolicy rho v ->
       (IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
