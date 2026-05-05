@@ -154,6 +154,19 @@ theorem ConvRad_semanticNameCert {a : Nat -> BHist} {R : BHist} (radius : ConvRa
   · intro _h source
     exact source
 
+theorem ConvRad_checked_rows_do_not_force_cauchy_hadamard {a : Nat -> BHist} {R : BHist} :
+    ConvRad a R -> UnaryHistory R ->
+      ∃ accept reject : BHist, (hsame accept reject -> False) ∧
+        (ConvRad a R ∧ hsame R R) ∧ (ConvRad a R ∧ hsame R R) := by
+  intro radius _radiusUnary
+  exact Exists.intro BHist.Empty
+    (Exists.intro (BHist.e1 BHist.Empty)
+      (And.intro
+        (fun sameAcceptReject => not_hsame_e1_empty (hsame_symm sameAcceptReject))
+        (And.intro
+          (And.intro radius (hsame_refl R))
+          (And.intro radius (hsame_refl R)))))
+
 theorem GeomBound_radius_semanticNameCert {a : Nat -> BHist} {r K : BHist}
     (bound : GeomBound a r K) :
     SemanticNameCert (fun radius : BHist => GeomBound a radius K)
@@ -414,5 +427,37 @@ theorem ConvRadSourceSpec_powerSeries_geomBound_readback {a : Nat -> BHist} {z0 
             intro r radiusUnary continuation
             have row := readback radiusUnary continuation
             exact And.intro row.left (And.intro row.right radius.left))
+
+theorem ConvRad_stability_certificate_fields {a b : Nat -> BHist} {R q : BHist} :
+    (forall {h : BHist}, hsame h h) ∧
+    (forall {h k : BHist}, hsame h k -> hsame k h) ∧
+    (forall {h k r : BHist}, hsame h k -> hsame k r -> hsame h r) ∧
+    (forall {R' : BHist}, hsame R R' -> UnaryHistory R' -> ConvRad a R -> ConvRad a R') ∧
+    ((forall n : Nat, ComplexHistoryClassifier (a n) (b n)) -> ConvRad a R -> ConvRad b R) ∧
+    (ConvRad a R -> UnaryHistory q -> ConvRad (fun n : Nat => append (a n) q) R) := by
+  exact And.intro
+    (fun {h : BHist} => hsame_refl h)
+    (And.intro
+      (fun {h k : BHist} same => hsame_symm same)
+      (And.intro
+        (fun {h k r : BHist} sameHK sameKR => hsame_trans sameHK sameKR)
+        (And.intro
+          (fun {R' : BHist} sameRadius targetUnary radius =>
+            ConvRad_radius_transport sameRadius radius targetUnary)
+          (And.intro
+            (fun coeffClassified radius =>
+              (ConvRad_radius_coefficient_classifier_transport (hsame_refl R) radius.left
+                coeffClassified radius).right)
+            (fun radius qUnary => ConvRad_append_unary_coeff_closed radius qUnary)))))
+
+def ConvRadCheckedRowReduct (a : Nat -> BHist) (z0 R : BHist) : Prop :=
+  ConvRadSourceSpec a z0 R ∧
+    ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
+      PowerSeriesCarrier a z0 ∧ GeomBound a r (K r) ∧ UnaryHistory R
+
+theorem ConvRadSourceSpec_checkedRowReduct_readback {a : Nat -> BHist} {z0 R : BHist} :
+    ConvRadSourceSpec a z0 R -> ConvRadCheckedRowReduct a z0 R := by
+  intro source
+  exact And.intro source (ConvRadSourceSpec_powerSeries_geomBound_readback source)
 
 end BEDC.Derived.ConvergenceRadiusUp

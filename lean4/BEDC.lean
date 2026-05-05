@@ -154,10 +154,12 @@ import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.Difference
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.NameCertificate
+import BEDC.Derived.ComplexLimitUp.PointwiseDifference
 import BEDC.Derived.ComplexLimitUp.PointwiseNegation
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
+import BEDC.Derived.ComplexSeriesUp.CauchyProductResultUnary
 import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
@@ -554,9 +556,11 @@ import BEDC.Derived.ContinuousUp.VisibleModulusContextComposition
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.VisibleEndpointCycle
 import BEDC.Derived.ContinuousUp.SemanticCertificate
+import BEDC.Derived.ContinuousUp.CertificateFields
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousUp.VisibleGraphModulusDeterminism
 import BEDC.Derived.ContinuousUp.VisibleSourceRestriction
+import BEDC.Derived.ContinuousUp.VisibleSourceRestrictionReassociation
 import BEDC.Derived.ContinuousUp.TripleComposition
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
@@ -603,6 +607,7 @@ import BEDC.Derived.CategoryUp.ContinuationTailIdentitySquare
 import BEDC.Derived.CategoryUp.SemanticCertificate
 import BEDC.Derived.CategoryUp.IdentityLaw
 import BEDC.Derived.CategoryUp.Cycle
+import BEDC.Derived.CategoryUp.OppositeCompAssoc
 import BEDC.Derived.CategoryUp.PrefixCycle
 import BEDC.Derived.CategoryUp.SourceEmpty
 import BEDC.Derived.CategoryUp.Prefix
