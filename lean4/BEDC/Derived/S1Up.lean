@@ -6,6 +6,7 @@ namespace BEDC.Derived.S1Up
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.Derived.ProdUp
 open BEDC.Derived.RatUp
 open BEDC.Derived.RealUp
@@ -313,6 +314,50 @@ theorem SOneHistoryCarrier_coordinate_transport
                 exact cont_result_hsame_transport pointCont samePoint
               exact And.intro xCarrier'
                 (And.intro yCarrier' (And.intro equationCarrier' pointCont'))
+
+theorem sone_history_semantic_name_certificate {x y e p : BHist} :
+    SOneHistoryCarrier x y e p ->
+      SemanticNameCert (fun point : BHist =>
+          exists x y e : BHist, SOneHistoryCarrier x y e point)
+        (fun point : BHist => exists x y e : BHist, SOneHistoryCarrier x y e point)
+        (fun point : BHist => exists x y e : BHist, SOneHistoryCarrier x y e point)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro p
+        (Exists.intro x (Exists.intro y (Exists.intro e carrier)))
+      equiv_refl := by
+        intro point _carrier
+        exact hsame_refl point
+      equiv_symm := by
+        intro point point' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro point point' point'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro point point' same source
+        cases source with
+        | intro sourceX restX =>
+            cases restX with
+            | intro sourceY restY =>
+                cases restY with
+                | intro sourceE sourceCarrier =>
+                    exact Exists.intro sourceX
+                      (Exists.intro sourceY
+                        (Exists.intro sourceE
+                          (SOneHistoryCarrier_coordinate_transport sourceCarrier
+                            (hsame_refl sourceX) (hsame_refl sourceY)
+                            (hsame_refl sourceE) same)))
+    }
+    pattern_sound := by
+      intro _point source
+      exact source
+    ledger_sound := by
+      intro _point source
+      exact source
+  }
 
 theorem SOneHistoryCarrier_component_classifier_ledger_determinacy
     {x y e p x' y' e' p' : BHist} :

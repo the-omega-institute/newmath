@@ -193,6 +193,10 @@ theorem ComplexPartSum_result_unary {zero : BHist} {c : BHist -> BHist} {n S : B
             exact unary_e1_closed inner
       exact unary_cont_closed ih (termUnary (indexUnary previous)) stepContinuation
 
+def CauchyProduct (zero : BHist) (a b : BHist -> BHist) (n result : BHist) : Prop :=
+  exists left right : BHist,
+    ComplexPartSum zero a n left ∧ ComplexPartSum zero b n right ∧ Cont left right result
+
 inductive ComplexAbsPartSum (zero : BHist) (modulus : BHist -> BHist) :
     BHist -> BHist -> Prop where
   | zero : ComplexAbsPartSum zero modulus BHist.Empty zero
