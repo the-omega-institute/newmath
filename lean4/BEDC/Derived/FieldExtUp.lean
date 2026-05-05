@@ -588,6 +588,55 @@ theorem FieldExtSingletonOperation_readback_exactness {r m : BHist} :
           (And.intro fieldEmptyRow
             (And.intro vecEmptyRow fieldEmptyRow)))))
 
+theorem FieldExtSingleton_inverse_ledger_coverage {a : BHist} (p : FieldSingletonNonZero a) :
+    FieldSingletonCarrier a ->
+      FieldSingletonClassifier (FieldSingletonInv a p) FieldSingletonZero ∧
+        FieldSingletonClassifier (FieldSingletonMul (FieldSingletonInv a p) a) FieldSingletonOne ∧
+          (hsame a BHist.Empty -> hsame a (BHist.e0 BHist.Empty) -> False) := by
+  intro carrier
+  have emptyFieldCarrier : FieldSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyFieldRow : FieldSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyFieldCarrier
+      (And.intro emptyFieldCarrier (hsame_refl BHist.Empty))
+  have inverseRow : FieldSingletonClassifier (FieldSingletonInv a p) FieldSingletonZero := by
+    unfold FieldSingletonInv FieldSingletonZero
+    exact emptyFieldRow
+  have inverseMulRow :
+      FieldSingletonClassifier (FieldSingletonMul (FieldSingletonInv a p) a)
+        FieldSingletonOne := by
+    unfold FieldSingletonMul FieldSingletonOne
+    exact emptyFieldRow
+  exact And.intro inverseRow
+    (And.intro inverseMulRow
+      (by
+        intro _sameEmpty _sameE0
+        exact field_singleton_nonzero_absurd carrier p.right))
+
+theorem FieldExtSingleton_exact_endpoint_classification {h r m : BHist} :
+    FieldSingletonCarrier h -> FieldSingletonCarrier r -> VecSpaceSingletonCarrier m ->
+      FieldSingletonClassifier (FieldExtSingletonEmbedding h) BHist.Empty ∧
+        FieldSingletonClassifier FieldSingletonZero BHist.Empty ∧
+          FieldSingletonClassifier FieldSingletonOne BHist.Empty ∧
+            FieldSingletonClassifier (FieldSingletonAdd r m) BHist.Empty ∧
+              FieldSingletonClassifier (FieldSingletonNeg r) BHist.Empty ∧
+                FieldSingletonClassifier (FieldSingletonMul r m) BHist.Empty ∧
+                  VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) BHist.Empty := by
+  intro carrierH carrierR carrierM
+  have operationRows := FieldExtSingletonOperation_readback_exactness carrierR carrierM
+  have embeddedCarrier : FieldSingletonCarrier (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact hsame_trans (append_empty_left h) carrierH
+  have embeddedRow : FieldSingletonClassifier (FieldExtSingletonEmbedding h) BHist.Empty :=
+    And.intro embeddedCarrier
+      (And.intro (hsame_refl BHist.Empty) embeddedCarrier)
+  exact And.intro embeddedRow
+    (And.intro operationRows.left
+      (And.intro operationRows.right.left
+        (And.intro operationRows.right.right.left
+          (And.intro operationRows.right.right.right.left
+            (And.intro operationRows.right.right.right.right.left
+              operationRows.right.right.right.right.right.left)))))
+
 theorem FieldExtRatReflexive_vector_space_package :
     SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
         RatHistoryClassifier ∧
