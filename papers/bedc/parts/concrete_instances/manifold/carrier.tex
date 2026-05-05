@@ -151,6 +151,101 @@ the common overlap. This witness is the atlas-transition composition required
 by the $\ManifoldUp$ ledger.
 \end{proof}
 
+\begin{theorem}[ManifoldUp chart-domain intersection open]
+\label{thm:manifoldup-chart-domain-intersection-open}
+Let $P$ be a package with $\mathsf{ManAtlasPkg}(P)$. For chart indices $i,j$,
+the $\TopologyUp$ index
+$\mathsf{domIx}(i)\wedge_{\TopologyUp}\mathsf{domIx}(j)$ carries the overlap
+predicate
+$$
+x\longmapsto \mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)
+$$
+on the underlying topological carrier.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{ManAtlasPkg}(P)$ by
+\autoref{def:manifold-chart-atlas-carrier}. The carrier row exposes the common
+$\TopologyUp$ carrier and, for every chart index, a displayed open index
+$\mathsf{domIx}(-)$ carrying the corresponding chart-domain predicate.
+
+Project the two rows
+$\mathsf{CarriesOpen}_{\mathcal{T}}(\mathsf{domIx}(i),\mathsf{Dom}_i)$ and
+$\mathsf{CarriesOpen}_{\mathcal{T}}(\mathsf{domIx}(j),\mathsf{Dom}_j)$. They
+live over the same carrier because both chart domains are fields of the same
+atlas package.
+
+Apply \autoref{thm:topology-indexed-open-finite-intersection} to these two
+carried opens. The resulting finite-intersection index is
+$\mathsf{domIx}(i)\wedge_{\TopologyUp}\mathsf{domIx}(j)$, and its pointwise
+readback is exactly the displayed conjunction of the two chart-domain
+memberships.
+\end{proof}
+
+\begin{theorem}[ManifoldUp overlap transition source carried]
+\label{thm:manifoldup-overlap-transition-source-carried}
+Let $P$ be a package with $\mathsf{ManAtlasPkg}(P)$. Every displayed transition
+row $\mathsf{Trans}_{ij}$ is sourced on the carried open overlap supplied by
+\autoref{thm:manifoldup-chart-domain-intersection-open} and exposes finite
+$\RealUp$ source and target coordinate rows
+$\mathsf{coord}_i(x)$ and $\mathsf{coord}_j(x)$.
+\end{theorem}
+\begin{proof}
+Fix the chart pair $i,j$ and unpack the transition ledger of
+\autoref{def:manifold-chart-atlas-carrier}. The ledger row for
+$\mathsf{Trans}_{ij}$ is indexed by the same chart-domain predicates
+$\mathsf{Dom}_i$ and $\mathsf{Dom}_j$ that appear in the carrier row.
+
+Use \autoref{thm:manifoldup-chart-domain-intersection-open} to replace the
+informal pairwise overlap by the explicit carried-open index
+$\mathsf{domIx}(i)\wedge_{\TopologyUp}\mathsf{domIx}(j)$. Thus the source
+predicate for the transition is not a hidden set-theoretic intersection; it is
+the $\TopologyUp$ certificate carrying
+$\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)$.
+
+Project the coordinate fields from the same atlas package. The source list
+$\mathsf{coord}_i(x)$ and target list $\mathsf{coord}_j(x)$ are finite lists of
+$\RealUp$ histories, and the transition row records the real-analytic
+certificate between those two finite coordinate rows on the carried overlap.
+\end{proof}
+
+\begin{theorem}[ManifoldUp triple-overlap composition scope]
+\label{thm:manifoldup-triple-overlap-open-composition-scope}
+Let $P$ be a package with $\mathsf{ManAtlasPkg}(P)$. For chart indices $i,j,k$,
+the triple-overlap predicate
+$$
+x\longmapsto
+\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)\wedge\mathsf{Dom}_k(x)
+$$
+is carried by iterating the $\TopologyUp$ finite-intersection index, and this
+carried triple overlap is the scoped source on which
+\autoref{thm:manifoldup-atlas-transition-composition} composes the two
+real-analytic transition ledgers.
+\end{theorem}
+\begin{proof}
+First build the pairwise overlap for $i$ and $j$ using
+\autoref{thm:manifoldup-chart-domain-intersection-open}. This gives a
+$\TopologyUp$ carried-open index for
+$\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)$ over the package carrier.
+
+Project the chart-domain row for $k$ from
+\autoref{def:manifold-chart-atlas-carrier}. Apply
+\autoref{thm:topology-indexed-open-finite-intersection} to the carried
+pairwise overlap and the carried open $\mathsf{Dom}_k$. The resulting iterated
+index carries the displayed triple conjunction, with the parenthesizing read
+through the pointwise conjunction witness.
+
+Now restrict the transition ledgers $\mathsf{Trans}_{ij}$ and
+$\mathsf{Trans}_{jk}$ to this carried triple overlap. The source and target
+coordinate rows are finite $\RealUp$ lists by
+\autoref{thm:manifoldup-overlap-transition-source-carried}, and the shared
+$j$-coordinate row is exposed on the same carried source.
+
+Only after this source has been carried, apply
+\autoref{thm:manifoldup-atlas-transition-composition}. Its composition witness
+therefore lives on the explicit $\TopologyUp$ triple-overlap certificate, not
+on an implicit common-overlap predicate.
+\end{proof}
+
 \begin{definition}[Singleton empty-chart manifold package]
 \label{def:manifold-singleton-empty-chart-package}
 Let the BEDC manifold carrier be the singleton history predicate

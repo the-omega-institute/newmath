@@ -207,6 +207,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
+import BEDC.Derived.FieldExtUp.ScalarActionSourceReadback
 import BEDC.Derived.FieldExtUp.ScalarActionContReadback
 import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.SingletonLedger
@@ -562,6 +563,7 @@ import BEDC.Derived.PolynomialUp.Evaluation
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PreorderUp
+import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.LatticeUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.IntervalUp
