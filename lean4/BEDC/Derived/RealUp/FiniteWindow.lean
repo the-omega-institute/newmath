@@ -476,4 +476,45 @@ theorem RealUnaryStreamWindowClassifier_selected_tail_class_exactness
                     hsame_trans data.right.left
                       (hsame_e1_congr selected.right.right.right)⟩)⟩
 
+theorem RealUnaryStreamWindowClassifier_constant_rational_exactness_iff {d e a w : BHist} :
+    UnaryHistory a -> UnaryHistory w ->
+      (RatHistoryClassifier d e ↔
+        RealUnaryStreamWindowClassifier (RatConstStream d) (RatConstStream e) a w) := by
+  intro aUnary wUnary
+  constructor
+  · intro ratClassifier
+    have streamClassified :
+        RatStreamNameClassifier (RatConstStream d) (RatConstStream e) :=
+      RatStreamName_constant_witness.right.right ratClassifier
+    exact RatStreamNameClassifier_real_unary_window_coverage streamClassified.left
+      streamClassified.right.left streamClassified aUnary wUnary
+  · intro windowed
+    have offset : UnaryOffsetLe BHist.Empty w :=
+      ⟨unary_empty, ⟨w, wUnary, cont_intro (append_empty_left w).symm⟩⟩
+    exact windowed.right.right BHist.Empty offset
+
+theorem RealUnaryStreamWindowClassifier_empty_bound_iff {s t : BHist -> BHist}
+    {a : BHist} :
+    RealUnaryStreamWindowClassifier s t a BHist.Empty ↔
+      UnaryHistory a ∧ RatHistoryClassifier (s a) (t a) := by
+  constructor
+  · intro windowed
+    have offset : UnaryOffsetLe BHist.Empty BHist.Empty :=
+      ⟨unary_empty, ⟨BHist.Empty, unary_empty, cont_intro rfl⟩⟩
+    have point := windowed.right.right BHist.Empty offset
+    exact And.intro windowed.left point
+  · intro data
+    constructor
+    · exact data.left
+    · constructor
+      · exact unary_empty
+      · intro k offset
+        cases offset with
+        | intro _kUnary rest =>
+            cases rest with
+            | intro tau tauData =>
+                have emptyParts := cont_empty_result_inversion tauData.right
+                cases emptyParts.left
+                exact data.right
+
 end BEDC.Derived.RealUp
