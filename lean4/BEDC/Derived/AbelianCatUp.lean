@@ -112,4 +112,32 @@ theorem AbelianCatKernelCokernel_visible_factorization
                     (And.intro coimageUnary
                       (And.intro comparisonUnary recomposedUnary))))))))))
 
+theorem AbelianCatKernelCokernel_recomposition_audit_row
+    {f kerObj cokObj imageObj coimageObj comparison recomposed audit : BHist} :
+    hsame f BHist.Empty -> Cont BHist.Empty f kerObj -> Cont f BHist.Empty cokObj ->
+      Cont kerObj cokObj imageObj -> Cont imageObj BHist.Empty coimageObj ->
+        Cont coimageObj BHist.Empty comparison -> Cont comparison BHist.Empty recomposed ->
+          Cont recomposed BHist.Empty audit ->
+            hsame audit BHist.Empty ∧ hsame audit f ∧ UnaryHistory audit ∧
+              UnaryHistory recomposed ∧ hsame recomposed f := by
+  intro fEmpty kerReadback cokReadback imageReadback coimageReadback comparisonReadback
+    recomposedReadback auditReadback
+  have visibleRows :=
+    AbelianCatKernelCokernel_visible_factorization fEmpty kerReadback cokReadback imageReadback
+      coimageReadback comparisonReadback recomposedReadback
+  have recomposedF : hsame recomposed f :=
+    visibleRows.right.right.right.right.right.left
+  have recomposedUnary : UnaryHistory recomposed :=
+    visibleRows.right.right.right.right.right.right.right.right.right.right.right
+  have sameAuditRecomposed : hsame audit recomposed :=
+    cont_right_unit_result auditReadback
+  have auditF : hsame audit f :=
+    hsame_trans sameAuditRecomposed recomposedF
+  have auditEmpty : hsame audit BHist.Empty :=
+    hsame_trans auditF fEmpty
+  have auditUnary : UnaryHistory audit :=
+    unary_transport unary_empty (hsame_symm auditEmpty)
+  exact And.intro auditEmpty
+    (And.intro auditF (And.intro auditUnary (And.intro recomposedUnary recomposedF)))
+
 end BEDC.Derived.AbelianCatUp

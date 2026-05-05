@@ -255,4 +255,42 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
 
+theorem ManifoldSingleton_coherence_rows_empty {i j k self pair triple inverse cocycle : BHist} :
+    ManifoldSingletonCarrier i -> ManifoldSingletonCarrier j -> ManifoldSingletonCarrier k ->
+      Cont i i self -> Cont i j pair -> Cont pair k triple -> Cont self pair inverse ->
+        Cont triple self cocycle ->
+          hsame self BHist.Empty ∧ hsame pair BHist.Empty ∧ hsame triple BHist.Empty ∧
+            hsame inverse BHist.Empty ∧ hsame cocycle BHist.Empty ∧ UnaryHistory self ∧
+              UnaryHistory pair ∧ UnaryHistory triple ∧ UnaryHistory inverse ∧
+                UnaryHistory cocycle := by
+  intro carrierI carrierJ carrierK selfRow pairRow tripleRow inverseRow cocycleRow
+  have selfEmpty : hsame self BHist.Empty :=
+    cont_respects_hsame carrierI carrierI selfRow (cont_left_unit BHist.Empty)
+  have pairEmpty : hsame pair BHist.Empty :=
+    cont_respects_hsame carrierI carrierJ pairRow (cont_left_unit BHist.Empty)
+  have tripleEmpty : hsame triple BHist.Empty :=
+    cont_respects_hsame pairEmpty carrierK tripleRow (cont_left_unit BHist.Empty)
+  have inverseEmpty : hsame inverse BHist.Empty :=
+    cont_respects_hsame selfEmpty pairEmpty inverseRow (cont_left_unit BHist.Empty)
+  have cocycleEmpty : hsame cocycle BHist.Empty :=
+    cont_respects_hsame tripleEmpty selfEmpty cocycleRow (cont_left_unit BHist.Empty)
+  have selfUnary : UnaryHistory self :=
+    unary_transport unary_empty (hsame_symm selfEmpty)
+  have pairUnary : UnaryHistory pair :=
+    unary_transport unary_empty (hsame_symm pairEmpty)
+  have tripleUnary : UnaryHistory triple :=
+    unary_transport unary_empty (hsame_symm tripleEmpty)
+  have inverseUnary : UnaryHistory inverse :=
+    unary_transport unary_empty (hsame_symm inverseEmpty)
+  have cocycleUnary : UnaryHistory cocycle :=
+    unary_transport unary_empty (hsame_symm cocycleEmpty)
+  exact And.intro selfEmpty
+    (And.intro pairEmpty
+      (And.intro tripleEmpty
+        (And.intro inverseEmpty
+          (And.intro cocycleEmpty
+            (And.intro selfUnary
+              (And.intro pairUnary
+                (And.intro tripleUnary (And.intro inverseUnary cocycleUnary))))))))
+
 end BEDC.Derived.ManifoldUp
