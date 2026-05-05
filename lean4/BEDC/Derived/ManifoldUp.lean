@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.ManifoldUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def ManifoldSingletonCarrier (h : BHist) : Prop :=
@@ -33,6 +35,55 @@ theorem ManifoldSingleton_chart_coverage {h domain value : BHist} :
     unary_transport unary_empty (hsame_symm valueEmpty)
   exact And.intro domainEmpty
     (And.intro valueH (And.intro valueEmpty valueUnary))
+
+theorem ManifoldSingleton_semanticNameCert :
+    SemanticNameCert ManifoldSingletonCarrier ManifoldSingletonCarrier ManifoldSingletonCarrier
+        (fun h k : BHist =>
+          ManifoldSingletonCarrier h ∧ ManifoldSingletonCarrier k ∧ hsame h k) ∧
+      (forall {h : BHist}, ManifoldSingletonCarrier h -> UnaryHistory h ∧ Cont BHist.Empty h h) := by
+  have emptyCarrier : ManifoldSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+        equiv_refl := by
+          intro h carrier
+          exact And.intro carrier (And.intro carrier (hsame_refl h))
+        equiv_symm := by
+          intro h k classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro h k r classifiedHK classifiedKR
+          exact And.intro classifiedHK.left
+            (And.intro classifiedKR.right.left
+              (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+        carrier_respects_equiv := by
+          intro h k classified _sourceH
+          exact classified.right.left
+      }
+      pattern_sound := by
+        intro h carrier
+        exact carrier
+      ledger_sound := by
+        intro h carrier
+        exact carrier
+    }
+  · intro h carrier
+    exact (ManifoldSingletonCarrier_topology_scope carrier).right
+
+theorem ManifoldSingleton_chart_value_transport {h k : BHist} :
+    ManifoldSingletonCarrier h -> ManifoldSingletonCarrier k ->
+      hsame h k ∧ UnaryHistory h ∧ UnaryHistory k ∧ Cont BHist.Empty h h ∧
+        Cont BHist.Empty k k := by
+  intro carrierH carrierK
+  have hRows := ManifoldSingletonCarrier_topology_scope carrierH
+  have kRows := ManifoldSingletonCarrier_topology_scope carrierK
+  have sameHK : hsame h k := hsame_trans hRows.left (hsame_symm kRows.left)
+  exact And.intro sameHK
+    (And.intro hRows.right.left
+      (And.intro kRows.right.left
+        (And.intro hRows.right.right kRows.right.right)))
 
 theorem ManifoldSingleton_atlas_index_exhaustion {chart overlap domain : BHist} :
     ManifoldSingletonCarrier chart -> Cont BHist.Empty chart domain -> Cont chart chart overlap ->
