@@ -1,3 +1,62 @@
+\begin{theorem}[Matrix multiplication classifier congruence]
+\label{thm:matrix-multiplication-classifier-congruence}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, multiplication $\cdot_R$, addition $+_R$, zero endpoint $0_R$, and finite additive fold from \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Let $n,m,p:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. Let
+$$
+A,A':\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
+\qquad
+B,B':\mathsf{Fin}(m)\times\mathsf{Fin}(p)\to R
+$$
+be carried matrices over the same scalar source and the same matching inner dimension $m$. Assume matrix multiplication is the finite-fold operation
+$$
+(X\cdot Y)_{i,k}:=\Sigma_{\mathsf{Fin}(m)}(j\mapsto X_{i,j}\cdot_RY_{j,k})
+$$
+for the shared inner finite index carrier, using the multiplication closure field of \autoref{def:matrix-stability-certificate}. Assume the scalar multiplication congruence field of \autoref{def:ring-stability-certificate} and the fold congruence theorem \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. If
+$$
+A\sim_{\mathrm{Mat}}A'
+\qquad\text{and}\qquad
+B\sim_{\mathrm{Mat}}B',
+$$
+then $A\cdot B$ and $A'\cdot B'$ are carried $\MatrixUp$ matrices, and
+$$
+A\cdot B\sim_{\mathrm{Mat}}A'\cdot B'.
+$$
+\end{theorem}
+\begin{proof}
+The multiplication closure item in \autoref{def:matrix-stability-certificate} applies to the carried compatible pairs $(A,B)$ and $(A',B')$, so both products $A\cdot B$ and $A'\cdot B'$ are carried by the $\mathsf{Fin}(n)\times\mathsf{Fin}(p)$ matrix carrier.
+
+By \autoref{def:matrix-classifier-specification}, it remains to prove the scalar classifier comparison entrywise. Fix $i:\mathsf{Fin}(n)$ and $k:\mathsf{Fin}(p)$. The matrix classifier hypotheses give, for every $j:\mathsf{Fin}(m)$,
+$$
+A_{i,j}\sim_R A'_{i,j}
+\qquad\text{and}\qquad
+B_{j,k}\sim_R B'_{j,k}.
+$$
+The multiplication congruence field in \autoref{def:ring-stability-certificate} therefore gives the summand comparison
+$$
+A_{i,j}\cdot_R B_{j,k}
+\sim_R
+A'_{i,j}\cdot_R B'_{j,k}
+$$
+for every inner index $j$.
+
+The shared inner dimension supplies the same finite enumeration of $\mathsf{Fin}(m)$ on both sides. Hence these summand comparisons form a same-length finite-spine classifier witness between
+$$
+j\mapsto A_{i,j}\cdot_R B_{j,k}
+\qquad\text{and}\qquad
+j\mapsto A'_{i,j}\cdot_R B'_{j,k}.
+$$
+Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} to that finite-spine witness yields
+$$
+\Sigma_{\mathsf{Fin}(m)}(j\mapsto A_{i,j}\cdot_R B_{j,k})
+\sim_R
+\Sigma_{\mathsf{Fin}(m)}(j\mapsto A'_{i,j}\cdot_R B'_{j,k}).
+$$
+By the displayed definition of matrix multiplication, this is exactly
+$$
+(A\cdot B)_{i,k}\sim_R(A'\cdot B')_{i,k}.
+$$
+Since $i$ and $k$ were arbitrary, \autoref{def:matrix-classifier-specification} packages the entrywise scalar comparisons as $A\cdot B\sim_{\mathrm{Mat}}A'\cdot B'$. The dimension and scalar-source ledgers are unchanged and are recorded by \autoref{def:matrix-ledger-policy}.
+\end{proof}
+
 \begin{lemma}[Finite additive fold splits pointwise sums]
 \label{lem:finite-additive-fold-splits-pointwise-sums}
 Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{def:finite-additive-scalar-fold}. Assume the scalar classifier equivalence fields and the additive abelian-group, additive congruence, and zero rows of \autoref{def:ring-stability-certificate}. For same-indexed finite carried scalar spines $xs$ and $ys$, write $xs+_R ys$ for the pointwise sum spine. Then
@@ -182,36 +241,4 @@ $$
 (A+B)\cdot C\sim_{\mathrm{Mat}}(A\cdot C)+(B\cdot C).
 $$
 The dimensions and shared scalar source are unchanged throughout; \autoref{def:matrix-ledger-policy} records the common row, contraction, and column witnesses.
-\end{proof}
-
-\begin{lemma}[Rectangular scalar fold reindexing]
-\label{lem:rectangular-scalar-fold-reindexing}
-Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{def:finite-additive-scalar-fold}. Let $J$ and $K$ be finite index carriers with finite fold sums $\Sigma_J$ and $\Sigma_K$ obtained from their carried index spines. Assume the scalar classifier equivalence fields, the additive abelian-group laws, additive congruence, and zero rows listed in \autoref{def:ring-stability-certificate}. For every pointwise carried scalar family $s:J\times K\to R$, the two iterated scalar folds satisfy
-$$
-\Sigma_J(j\mapsto\Sigma_K(k\mapsto s(j,k)))\sim_R
-\Sigma_K(k\mapsto\Sigma_J(j\mapsto s(j,k))).
-$$
-\end{lemma}
-\begin{proof}
-Induct on the finite spine enumerating $J$. In the nil case, the left endpoint is the fold of the empty spine and hence reduces to $0_R$. The right endpoint is the $K$-fold of the constant family whose inner $J$-fold is $0_R$; an induction on the finite spine enumerating $K$, using the additive zero rows and additive congruence from \autoref{def:ring-stability-certificate}, classifies this fold with $0_R$.
-
-In the cons case, write the outer index spine as $j_0::J'$. The left iterated fold unfolds to
-$$
-\Sigma_K(k\mapsto s(j_0,k))+_R
-\Sigma_{J'}(j\mapsto\Sigma_K(k\mapsto s(j,k))).
-$$
-The induction hypothesis classifies the tail term with
-$$
-\Sigma_K(k\mapsto\Sigma_{J'}(j\mapsto s(j,k))).
-$$
-Additive congruence therefore transports the left endpoint to
-$$
-\Sigma_K(k\mapsto s(j_0,k))+_R
-\Sigma_K(k\mapsto\Sigma_{J'}(j\mapsto s(j,k))).
-$$
-On the right endpoint, the inner $J$-fold at each $k$ unfolds as
-$$
-s(j_0,k)+_R\Sigma_{J'}(j\mapsto s(j,k)).
-$$
-Applying \autoref{lem:finite-additive-fold-splits-pointwise-sums} to the shared $K$-indexed spine classifies the outer fold with the same sum of the selected row fold and the transposed tail fold. Classifier symmetry and transitivity compose these comparisons, giving the cons case.
 \end{proof}

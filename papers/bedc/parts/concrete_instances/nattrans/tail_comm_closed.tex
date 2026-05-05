@@ -14,3 +14,23 @@ composite. Tail commutativity of the same two component carriers identifies
 the forward and reversed continuation results.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_tail\_comm\_closed}
+
+\begin{theorem}[NatTrans prefix component vertical composite tail comm public readback]
+\label{thm:nattrans-prefix-component-vert-comp-tail-comm-public-readback}
+For prefix components over unary histories, if \(\eta\) is a component from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(q,a)\), \(\theta\) is a component
+from \(\mathsf{append}(q,a)\) to \(\mathsf{append}(r,a)\), and both
+\(\ContR(\eta,\theta,\eta\theta)\) and \(\ContR(\theta,\eta,\theta\eta)\)
+hold, then both displayed composites are components from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(r,a)\), they are history-same,
+and any other displayed component with the same endpoints reads back to both.
+\end{theorem}
+\begin{proof}
+Vertical composition closure gives the forward component. Tail commutativity
+identifies the forward and reversed continuation results, and hsame transport
+moves the forward component carrier across that identification to the reversed
+component. The public readback row for vertical composition identifies the
+forward composite with any displayed component at the same endpoints; composing
+this comparison with tail commutativity gives the reversed readback.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_tail\_comm\_public\_readback}
