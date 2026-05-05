@@ -66,7 +66,26 @@ theorem HashCollisionSuccess_symmetric
           exact Exists.intro d'
             (Exists.intro d
               (And.intro transcript.right.left
-                (And.intro transcript.left
-                  (And.intro msgDistinct digestSymm))))
+              (And.intro transcript.left
+                (And.intro msgDistinct digestSymm))))
+
+theorem HashCollisionTranscript_symmetric
+    {HashEval : BHist -> BHist -> Prop}
+    {MsgCarrier DigCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (msgCert : SemanticNameCert MsgCarrier MsgCarrier MsgCarrier MsgClassifier)
+    (digestCert : SemanticNameCert DigCarrier DigCarrier DigCarrier DigClassifier)
+    {x x' d d' : BHist} :
+    HashEval x d -> HashEval x' d' -> (MsgClassifier x x' -> False) ->
+      DigClassifier d d' ->
+      HashEval x' d' ∧ HashEval x d ∧ (MsgClassifier x' x -> False) ∧
+        DigClassifier d' d := by
+  intro evalLeft evalRight msgDistinct digestSame
+  have msgDistinctSymm : MsgClassifier x' x -> False := by
+    intro reversed
+    exact msgDistinct (msgCert.core.equiv_symm reversed)
+  exact And.intro evalRight
+    (And.intro evalLeft
+      (And.intro msgDistinctSymm (digestCert.core.equiv_symm digestSame)))
 
 end BEDC.Derived.HashUp
