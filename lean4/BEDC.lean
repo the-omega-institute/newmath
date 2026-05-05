@@ -448,6 +448,7 @@ import BEDC.Derived.LinearMapUp.ContextContinuation
 import BEDC.Derived.LinearMapUp.ContinuationVisibleSource
 import BEDC.Derived.LinearMapUp.ContextContinuationAppendResult
 import BEDC.Derived.LinearMapUp.EvalContinuationPair
+import BEDC.Derived.LinearMapUp.EvalContextPair
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.ModuleUp.ActionBoundary
 import BEDC.Derived.ModuleUp.KernelExactness
@@ -458,6 +459,7 @@ import BEDC.Derived.MatrixUp.AddMulContinuation
 import BEDC.Derived.MatrixUp.PowContinuation
 import BEDC.Derived.MatrixUp.PositiveSuffix
 import BEDC.Derived.MatrixUp.VisibleBaseCarrier
+import BEDC.Derived.MatrixUp.NestedAppendTarget
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
@@ -629,6 +631,7 @@ import BEDC.Derived.NatTransUp.TailCommClosed
 import BEDC.Derived.NatTransUp.EmptyObject
 import BEDC.Derived.NatTransUp.EmptyComponentOpposite
 import BEDC.Derived.NatTransUp.PrefixComponentClassifier
+import BEDC.Derived.NatTransUp.UnaryObjectSuffix
 import BEDC.Derived.NatTransUp.VertCompNonemptyResultTargetVisible
 import BEDC.Derived.NatTransUp.VertCompCycleBoundary
 import BEDC.Derived.AdjunctionUp
