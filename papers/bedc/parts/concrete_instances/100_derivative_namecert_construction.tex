@@ -373,3 +373,82 @@ $f'$. Symmetry and transitivity identify $f'$ with $h$.
 
 \section{The certificate}
 \label{sec:derivative-certificate}
+
+\begin{theorem}[Derivative metric quotient chain-product composition]
+\label{thm:derivative-metric-quotient-chain-product-composition}
+For histories $f,g,z,h_f,h_g,q_f,q_g,d_f,d_g:\mathsf{BHist}$, assume
+$$
+\mathsf{DerivativeMetricQuotient}(f,z,h_f,q_f,d_f),\qquad
+\mathsf{DerivativeMetricQuotient}(g,q_f,h_g,q_g,d_g).
+$$
+Let $h_{fg},q_{fg},d_{fg},F_{fg}:\mathsf{BHist}$ be continuation witnesses with
+$$
+\Cont(h_f,h_g,h_{fg}),\qquad
+\Cont(q_f,q_g,q_{fg}),\qquad
+\Cont(d_f,d_g,d_{fg}),\qquad
+\Cont(f,g,F_{fg}),
+$$
+and assume the displayed chain ledger
+$$
+\Cont(f,h_{fg},q_g).
+$$
+Then the product representative of the chain is a derivative metric quotient,
+$$
+\mathsf{DerivativeMetricQuotient}(F_{fg},z,h_{fg},q_{fg},d_{fg}),
+$$
+and its distance ledger is the continuation product of the two component
+distance histories:
+$$
+\Cont(d_f,d_g,d_{fg}).
+$$
+The displayed chain ledger also factors through the inner quotient endpoint:
+$$
+\Cont(q_f,h_g,q_g)\land g\hsame q_f.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two derivative metric quotient witnesses using
+\autoref{def:derivative-metric-quotient}. The first witness gives unary
+carriers for $f,z,h_f,q_f,d_f$, the non-zero step witness for $h_f$, and the
+continuation ledgers $\Cont(f,h_f,q_f)$ and $\Cont(h_f,q_f,d_f)$. The second
+witness gives unary carriers for $g,q_f,h_g,q_g,d_g$, the non-zero step witness
+for $h_g$, and the continuation ledgers $\Cont(g,h_g,q_g)$ and
+$\Cont(h_g,q_g,d_g)$.
+
+The supplied continuation ledgers give unary carriers for $F_{fg}$, $h_{fg}$,
+$q_{fg}$, and $d_{fg}$. If $h_{fg}\hsame\emp$, continuation-empty inversion
+applied to $\Cont(h_f,h_g,h_{fg})$ forces $h_f\hsame\emp$, contradicting the
+non-zero step field of the first quotient. Thus $h_{fg}$ carries the required
+complex non-zero witness.
+
+The chain ledger factors through $q_f$ as follows. The supplied continuation
+$\Cont(h_f,h_g,h_{fg})$, together with $\Cont(f,h_f,q_f)$ and the displayed
+$\Cont(f,h_{fg},q_g)$, gives $\Cont(q_f,h_g,q_g)$ by
+\autoref{thm:cont-composite-right-factor}. Comparing this ledger with the
+second quotient ledger $\Cont(g,h_g,q_g)$ and cancelling the common right tail
+$h_g$ gives $g\hsame q_f$.
+
+It remains to assemble the two ledgers required by
+$\mathsf{DerivativeMetricQuotient}(F_{fg},z,h_{fg},q_{fg},d_{fg})$. For the
+quotient ledger, replace $q_f$ and $q_g$ by the results of
+$\Cont(f,h_f,q_f)$ and $\Cont(g,h_g,q_g)$. After reassociation, the canonical
+result of continuing $F_{fg}$ by $h_{fg}$ and the displayed quotient
+representative $q_{fg}$ differ only by moving the unary factor $g$ past the
+unary factor $h_f$. Unary continuation commutativity from
+\autoref{thm:unary-commutativity-refined}, together with associativity from
+\autoref{thm:continuation-associativity-up-to-hsame-proof-standing}, therefore
+identifies the two results, and continuation result transport gives
+$\Cont(F_{fg},h_{fg},q_{fg})$.
+
+For the metric ledger, replace $d_f$ and $d_g$ by the results of
+$\Cont(h_f,q_f,d_f)$ and $\Cont(h_g,q_g,d_g)$. The ledger
+$\Cont(d_f,d_g,d_{fg})$ therefore classifies $d_{fg}$ with the product of the
+two component metric results. The canonical metric result of continuing
+$h_{fg}$ by $q_{fg}$ is obtained from the step product followed by the quotient
+product. Reassociation and the same unary commutativity swap of $q_f$ with
+$h_g$ identify these two histories, so continuation result transport gives
+$\Cont(h_{fg},q_{fg},d_{fg})$. Repacking the unary carriers, the non-zero
+composite step, and the two continuation ledgers gives the derivative metric
+quotient. Finally, $\Cont(d_f,d_g,d_{fg})$ is the displayed distance product
+ledger.
+\end{proof}

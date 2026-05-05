@@ -7420,3 +7420,29 @@ Connects two already-named compact-image predicates (def:compact-image-finite-ne
 
 ---
 
+### B-286 - Continuous-map image determinacy for principal-suffix points
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Continuous-map image determinacy for principal-suffix points |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two displayed image rows are induced by the same continuous-map graph from the same principal-suffix source point, then their target histories are history-same.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+This is a foundational image-determinacy / graph-functionality claim about ContinuousMap carriers, formulated as a single implication on principal-suffix points. It is distinct from B-12 (which is about uniform-continuity modulus composition) and from the existing continuous-map definitions (def:continuousmap-carrier, def:continuousmapup-metric-*), which specify carrier and stability fields but do not separately project image determinacy as a labeled theorem. Filling this gap clarifies the function-likeness of continuous-map graphs at the certificate level and gives downstream chapters a citable handle for source-target consistency.
+
+---
+
