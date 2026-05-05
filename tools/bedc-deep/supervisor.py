@@ -453,8 +453,9 @@ def git_sync_dev() -> bool:
     return False
 
 
-def trigger_probe() -> None:
-    git_sync_dev()
+def trigger_probe(*, no_dev_sync: bool = False) -> None:
+    if not no_dev_sync:
+        git_sync_dev()
     supervisor_log("triggering auto_discovery probe")
     # Capture output so silent crashes (e.g. prompt format() KeyError) are
     # visible in the supervisor logs instead of vanishing into DEVNULL.
@@ -470,14 +471,15 @@ def trigger_probe() -> None:
         )
 
 
-def trigger_curriculum_probe() -> None:
+def trigger_curriculum_probe(*, no_dev_sync: bool = False) -> None:
     """Curriculum-aware probe — find textbook-classical theorems missing
     from started chapters. Complements `probe` (internal symmetry gaps)
     and `oracle_board_refill` (deep structural / classification theorems).
     Same architecture as probe but with a different prompt that asks for
     'what would a standard textbook on this object also cover'.
     """
-    git_sync_dev()
+    if not no_dev_sync:
+        git_sync_dev()
     supervisor_log("triggering auto_discovery curriculum probe")
     log_path = SUPERVISOR_LOG_DIR / f"curriculum_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -491,7 +493,7 @@ def trigger_curriculum_probe() -> None:
         )
 
 
-def trigger_paper_review() -> None:
+def trigger_paper_review(*, no_dev_sync: bool = False) -> None:
     """Editorial-referee audit (paper-driven discovery, gated by our
     judge). Complements `probe` (internal symmetry), `curriculum`
     (textbook-classical), and `oracle_board_refill` (PDF-attached deep
@@ -499,7 +501,8 @@ def trigger_paper_review() -> None:
     board_judge so candidates land on BOARD only after the same
     fit/novelty/dedup thresholds.
     """
-    git_sync_dev()
+    if not no_dev_sync:
+        git_sync_dev()
     supervisor_log("triggering auto_discovery paper_review")
     log_path = SUPERVISOR_LOG_DIR / f"paper_review_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -534,8 +537,9 @@ def trigger_oracle_board_refill() -> None:
         )
 
 
-def trigger_curator() -> None:
-    git_sync_dev()
+def trigger_curator(*, no_dev_sync: bool = False) -> None:
+    if not no_dev_sync:
+        git_sync_dev()
     supervisor_log("triggering auto_discovery curator")
     subprocess.Popen(
         ["python3", str(AUTO_DISCOVERY), "curator", "--append"],
@@ -778,15 +782,15 @@ def main() -> int:
             since_paper_review_h = (_now() - last_paper_review_ts) / 3600.0
             if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
-                trigger_probe()
+                trigger_probe(no_dev_sync=args.no_dev_sync)
                 last_probe_ts = _now()
             if unfinished < args.low_water and since_curriculum_h > supervisor_state["curriculum_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
-                trigger_curriculum_probe()
+                trigger_curriculum_probe(no_dev_sync=args.no_dev_sync)
                 last_curriculum_ts = _now()
             if unfinished < args.low_water and since_paper_review_h > supervisor_state["paper_review_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
-                trigger_paper_review()
+                trigger_paper_review(no_dev_sync=args.no_dev_sync)
                 last_paper_review_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
@@ -797,7 +801,7 @@ def main() -> int:
             since_curator_h = (_now() - last_curator_ts) / 3600.0
             if done_now - last_completed_count >= COMPLETIONS_PER_CURATOR and since_curator_h > supervisor_state["curator_cooldown_hours"]:
                 supervisor_log(f"completions delta={done_now - last_completed_count} → curator")
-                trigger_curator()
+                trigger_curator(no_dev_sync=args.no_dev_sync)
                 last_curator_ts = _now()
                 last_completed_count = done_now
 
