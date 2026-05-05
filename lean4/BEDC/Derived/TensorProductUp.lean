@@ -166,9 +166,18 @@ theorem TensorProductSingletonFactor_hsame_transport
   have tensorCont' : Cont left' right' tensor' :=
     cont_hsame_transport sameLeft sameRight sameTensor factor.right.right.right
   exact And.intro
-    (And.intro leftCarrier'
-      (And.intro rightCarrier' (And.intro tensorCarrier' tensorCont')))
+      (And.intro leftCarrier'
+        (And.intro rightCarrier' (And.intro tensorCarrier' tensorCont')))
     tensorCont'
+
+theorem TensorProductSingletonFactor_source_target_swap {left right tensor : BHist} :
+    TensorProductSingletonFactor left right tensor ->
+      TensorProductSingletonFactor right left tensor ∧ Cont right left tensor := by
+  intro factor
+  exact TensorProductSingletonFactor_hsame_transport factor
+    (hsame_trans factor.left (hsame_symm factor.right.left))
+    (hsame_trans factor.right.left (hsame_symm factor.left))
+    (hsame_refl tensor)
 
 theorem TensorProductSingletonFactor_associator {l r s t u : BHist} :
     TensorProductSingletonFactor l r t -> TensorProductSingletonFactor t s u ->

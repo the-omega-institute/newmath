@@ -78,4 +78,18 @@ theorem ContinuousMapCarrier_categorical_canonical_distance_exactness
     exact ContinuousMapCarrier_canonical_distance_exactness.mpr
       (And.intro functionCarrier data.right.right)
 
+theorem ContinuousMapCarrier_prefixed_categorical_canonical_distance_exactness
+    {p source map target modulus cert distance displayed : BHist} :
+    UnaryHistory p -> CategoryHomCarrier source target map ->
+      ContinuousModulusWitness target modulus cert -> hsame distance (append source target) ->
+        (ContinuousMapCarrier (append p source) map (append p target) modulus
+          (append p cert) displayed ↔
+            hsame displayed (append (append p source) (append p target))) := by
+  intro prefixCarrier homCarrier modulusWitness sameDistance
+  have baseCarrier :
+      ContinuousMapCarrier source map target modulus cert distance :=
+    ContinuousMapCarrier_categorical_canonical_distance_exactness.mpr
+      (And.intro homCarrier (And.intro modulusWitness sameDistance))
+  exact ContinuousMapCarrier_prefix_canonical_distance_exactness prefixCarrier baseCarrier
+
 end BEDC.Derived.ContinuousMapUp
