@@ -1,0 +1,186 @@
+\begin{theorem}[Real constant classifier appended e-one tail unary readback]
+\label{thm:real-constant-history-classifier-append-e1-tail-unary-readback}
+For histories $d,e,tail_D,tail_E$, a constant RealUp classifier whose two
+rational denominators are displayed as appended e-one tails reads back both
+unary factors and the rational endpoint classifier:
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot\Eone(tail_D)),
+  \Eone(e\cdot\Eone(tail_E)))
+\Longrightarrow
+\mathsf{UnaryHistory}(d)\land\mathsf{UnaryHistory}(tail_D)\land
+\mathsf{UnaryHistory}(e)\land\mathsf{UnaryHistory}(tail_E)\land
+\hsame(d\cdot\Eone(tail_D),e\cdot\Eone(tail_E)).
+$$
+\end{theorem}
+\begin{proof}
+Use the e-one RealUp/RatUp classifier equivalence to expose the underlying
+RatUp history classifier. Its positive-denominator fields apply to both
+displayed denominators. The appended e-one denominator decomposition reads
+each positive denominator as unary evidence for its head and tail, and the
+remaining classifier field is the displayed endpoint $\hsame$ relation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_e1\_tail\_unary\_readback}
+
+\begin{theorem}[Real constant classifier common-head e-one tail readback]
+\label{thm:real-constant-history-classifier-append-common-head-e1-tail-readback}
+For histories $left,d,e,tail_D,tail_E$, a common visible head in two displayed
+constant RealUp e-one tail denominators can be read back to the five unary
+factors and the central denominator comparison:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}
+  (\Eone(left\cdot(d\cdot\Eone(tail_D))),
+   \Eone(left\cdot(e\cdot\Eone(tail_E))))\\
+\qquad\Longrightarrow
+\hsame(tail_D,tail_E)\Longrightarrow\\
+\qquad
+\mathsf{UnaryHistory}(left)\land
+\mathsf{UnaryHistory}(d)\land
+\mathsf{UnaryHistory}(e)\land
+\mathsf{UnaryHistory}(tail_D)\land
+\mathsf{UnaryHistory}(tail_E)\land
+\hsame(d,e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Use associativity of BEDC append to expose the endpoints as appended e-one
+tails with heads $left\cdot d$ and $left\cdot e$. The appended e-one tail
+readback theorem gives unary evidence for both composite heads, the two tails,
+and the displayed endpoint comparison. Split the composite unary heads into
+their factors. The assumed tail comparison identifies the two e-one tail
+suffixes, so BEDC append right cancellation removes the shared suffix; append
+left cancellation then removes the common head and yields $\hsame(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_common\_head\_e1\_tail\_readback}
+\begin{theorem}[Real constant classifier appended e-one matched-tail head readback]
+\label{thm:real-constant-classifier-appended-e1-matched-tail-head-readback}
+For histories $d,e,tail_D,tail_E$, if
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot\Eone(tail_D)),
+  \Eone(e\cdot\Eone(tail_E)))\land
+\hsame(tail_D,tail_E),
+$$
+then
+$$
+\mathsf{UnaryHistory}(d)\land\mathsf{UnaryHistory}(tail_D)\land
+\mathsf{UnaryHistory}(e)\land\mathsf{UnaryHistory}(tail_E)\land
+\hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-constant-history-classifier-append-e1-tail-unary-readback}
+to the displayed classifier. This gives the four unary rows for $d$,
+$tail_D$, $e$, and $tail_E$, together with endpoint equality
+$\hsame(d\cdot\Eone(tail_D),e\cdot\Eone(tail_E))$.
+
+The assumed tail agreement $\hsame(tail_D,tail_E)$ transports through the
+e-one constructor and right append congruence. Hence the right endpoint may be
+read with the same displayed tail as the left endpoint:
+$\hsame(e\cdot\Eone(tail_E),e\cdot\Eone(tail_D))$.
+
+Endpoint transport therefore presents a constant-real classifier of
+$\Eone(d\cdot\Eone(tail_D))$ against $\Eone(e\cdot\Eone(tail_D))$. Apply
+\autoref{thm:real-constant-history-classifier-append-common-tail-cancel} with
+common tail $\Eone(tail_D)$ to obtain $\hsame(d,e)$, and combine this with the
+four unary rows already read back.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_e1\_matched\_tail\_head\_readback}
+
+The ten-field fit is: traditional target finite denominator-tail agreement
+readback for RealUp constants; BEDC source RealUp constant classifiers plus
+RatUp positive-denominator readback; carrier BEDC histories; classifier
+$\mathsf{RealConstantHistoryClassifier}$; stability by endpoint transport,
+e-one congruence, append congruence, and common-tail cancellation; ledger
+displayed denominator heads and displayed e-one tails; core theorem
+\autoref{thm:real-constant-classifier-appended-e1-matched-tail-head-readback};
+exactness the displayed five-row conjunction; standard bridge finite
+RegSeqRat denominator-tail readback; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real constant classifier appended e-one tail denominator package]
+\label{thm:real-constant-history-classifier-append-e1-tail-denominator-package}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\mathsf{BHist}$, write
+$D=d\cdot\Eone(tail_D)$ and $E=e\cdot\Eone(tail_E)$. If
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)),
+$$
+then the appended rational denominators satisfy the following package:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(D,E)$;
+  \item $\mathsf{PositiveUnaryDenominator}(D)$ and
+  $\mathsf{PositiveUnaryDenominator}(E)$;
+  \item $\mathsf{UnaryHistory}(d)$, $\mathsf{UnaryHistory}(tail_D)$,
+  $\mathsf{UnaryHistory}(e)$, and $\mathsf{UnaryHistory}(tail_E)$;
+  \item $D\hsame\emp\Longrightarrow\bot$ and
+  $E\hsame\emp\Longrightarrow\bot$;
+  \item $D\hsame\Ezero(z_D)\Longrightarrow\bot$ and
+  $E\hsame\Ezero(z_E)\Longrightarrow\bot$;
+  \item $D\hsame E$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-constant-history-classifier-e1-iff-rat} to the
+displayed constant RealUp classifier. This exposes the underlying
+$\mathsf{RatHistoryClassifier}(D,E)$ and keeps its classifier field available
+for the final $D\hsame E$ row.
+
+Next apply \autoref{thm:rat-history-classifier-positive-denominators} to the
+rational classifier. The result supplies positive unary denominator witnesses
+for both appended tails. Applying
+\autoref{thm:rat-positive-denominator-append-eone-right-exact} to each
+witness decomposes the two appended e-one denominators into the four unary
+factor rows.
+
+Finally apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} to
+the two positive-denominator witnesses to obtain the two exclusions against
+$\emp$. If either appended denominator were history-same to a zero-extension,
+transport the corresponding positive-denominator witness along that sameness
+and contradict \autoref{thm:rat-positive-denominator-e0-absurd}. The hsame row
+is the rational classifier endpoint field, equivalently the checked unary
+readback theorem above.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_e1\_tail\_denominator\_package}
+
+\begin{definition}[Real constant appended-tail denominator package]
+\label{def:real-constant-appended-tail-denominator-package}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+The predicate
+$\mathsf{RealConstantAppendedTailDenominatorPackage}(d,e,tail_D,tail_E,z_D,z_E)$
+is the conjunction of the following six rows:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(D,E)$;
+  \item $\mathsf{PositiveUnaryDenominator}(D)$ and
+  $\mathsf{PositiveUnaryDenominator}(E)$;
+  \item $\mathsf{UnaryHistory}(d)$, $\mathsf{UnaryHistory}(tail_D)$,
+  $\mathsf{UnaryHistory}(e)$, and $\mathsf{UnaryHistory}(tail_E)$;
+  \item $D\hsame\emp\Longrightarrow\bot$ and
+  $E\hsame\emp\Longrightarrow\bot$;
+  \item $D\hsame\Ezero(z_D)\Longrightarrow\bot$ and
+  $E\hsame\Ezero(z_E)\Longrightarrow\bot$;
+  \item $D\hsame E$.
+\end{enumerate}
+\end{definition}
+\begin{definition}[Real constant appended-tail full denominator-tail package]
+\label{def:real-constant-appended-tail-full-denominator-tail-package}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+The predicate
+$\mathsf{RealConstantAppendedTailFullDenominatorTailPackage}
+(d,e,tail_D,tail_E,u_D,u_E,z_D,z_E)$ is the denominator package
+\autoref{def:real-constant-appended-tail-denominator-package} together with
+\begin{enumerate}
+  \item $\hsame(D,u_D\cdot\Ezero(z_D))\Longrightarrow\bot$;
+  \item $\hsame(E,u_E\cdot\Ezero(z_E))\Longrightarrow\bot$;
+  \item $\hsame(d,e)$.
+\end{enumerate}
+\end{definition}
