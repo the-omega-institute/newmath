@@ -66,6 +66,26 @@ factor $y$ from the divisible result $z$, leaving divisibility of $x$ by $d$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_cont\_left\_factor}
 
+\begin{theorem}[Divisible continuation right factor iff]
+\label{thm:nat-divides-cont-right-factor-iff}
+Let $d$, $x$, $y$, and $z$ be unary histories with $d\not\hsame\emp$. If
+$\mathsf{NatDivides}(d,x)$ and $\Cont(x,y,z)$, then divisibility of the
+continuation result is equivalent to divisibility of the displayed right
+factor:
+$$
+\mathsf{NatDivides}(d,z)\Longleftrightarrow\mathsf{NatDivides}(d,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply divisible prefix cancellation to remove the
+already-divisible left factor $x$ from the divisible result $z$. For the
+reverse direction, unpack the quotient witnesses for
+$\mathsf{NatDivides}(d,x)$ and $\mathsf{NatDivides}(d,y)$; appending the two
+quotients and using multiplication append closure builds a quotient witness
+for the displayed continuation result $z$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_cont\_right\_factor\_iff}
+
 \begin{theorem}[Prime divisor dichotomy]
 \label{thm:prime-divisor-dichotomy}
 For unary histories $p$ and $a$, if $\mathsf{NatPrime}(p)$, then

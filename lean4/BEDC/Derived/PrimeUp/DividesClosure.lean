@@ -46,6 +46,18 @@ theorem NatDivides_mul_right_closed {d q n : BHist} :
       have dividesM : NatDivides q m := Exists.intro d (And.intro dUnary mData.right)
       exact (NatDivides_dividend_hsame_transport dividesM (hsame_symm sameResult)).right
 
+theorem NatPrime_NatMul_factors_not_empty {p d q : BHist} :
+    NatPrime p -> UnaryHistory d -> UnaryHistory q -> NatMul d q p ->
+      (hsame d BHist.Empty -> False) ∧ (hsame q BHist.Empty -> False) := by
+  intro prime dUnary qUnary mul
+  constructor
+  · intro dEmpty
+    have dDividesP : NatDivides d p := Exists.intro q (And.intro qUnary mul)
+    exact NatPrime_divisor_empty_absurd prime dDividesP dEmpty
+  · intro qEmpty
+    have qDividesP : NatDivides q p := NatDivides_mul_right_closed dUnary qUnary mul
+    exact NatPrime_divisor_empty_absurd prime qDividesP qEmpty
+
 theorem NatDivides_mul_left_closed {d x q z : BHist} :
     UnaryHistory x -> NatDivides d q -> NatMul x q z -> NatDivides d z := by
   intro xUnary divides mul

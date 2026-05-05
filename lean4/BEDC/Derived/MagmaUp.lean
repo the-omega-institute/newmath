@@ -434,4 +434,33 @@ theorem concrete_unary_history_magma_cont_nested_common_context_classifier_iff
       Eq.symm (append_assoc left middle' right) ▸ sameLeftAssociated
     exact And.intro leftCarrier (And.intro rightCarrier sameAssociated)
 
+theorem concrete_unary_history_magma_cont_nested_left_unit_classifier_iff
+    {left middle right lm out : BHist} :
+    Cont left middle lm -> Cont lm right out ->
+      (let Carrier : BHist -> Prop := UnaryHistory
+       let Classifier : BHist -> BHist -> Prop :=
+        fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+       Classifier out right ↔
+        Carrier right ∧ hsame left BHist.Empty ∧ hsame middle BHist.Empty) := by
+  intro leftMiddle leftResult
+  dsimp
+  constructor
+  · intro classified
+    have leftUnitData :=
+      Iff.mp
+        (concrete_unary_history_magma_cont_left_unit_classifier_iff leftResult)
+        classified
+    have emptyFactors : hsame left BHist.Empty ∧ hsame middle BHist.Empty := by
+      cases leftMiddle
+      exact append_eq_empty_iff.mp leftUnitData.right
+    exact And.intro leftUnitData.left emptyFactors
+  · intro data
+    have leftMiddleEmpty : hsame lm BHist.Empty := by
+      cases leftMiddle
+      exact append_eq_empty_iff.mpr (And.intro data.right.left data.right.right)
+    exact
+      Iff.mpr
+        (concrete_unary_history_magma_cont_left_unit_classifier_iff leftResult)
+        (And.intro data.left leftMiddleEmpty)
+
 end BEDC.Derived.MagmaUp

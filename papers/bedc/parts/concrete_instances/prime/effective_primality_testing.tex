@@ -134,6 +134,24 @@ right unit history. This gives $b\hsame\emp$, contradicting
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_unit\_step\_result\_not\_unit}
 
+\begin{theorem}[Trial-division unit step result successor shape]
+\label{thm:trialdiv-unit-step-result-successor-shape}
+If $\mathsf{TrialDiv}(b,n)$ and $\Cont(b,\Eone(\emp),b')$, then the step
+result has a two-step successor shape:
+$$
+\exists t:\mathsf{BHist}.\;
+b'\hsame\Eone(\Eone(t))\wedge\Unary(t).
+$$
+\end{theorem}
+\begin{proof}
+The trial-division bound is unary, and continuation with the unary unit keeps
+the result unary. The empty and zero-headed result cases contradict the
+continuation inversion and unary no-zero principles. The unit result case is
+excluded by the preceding unit-step theorem. The remaining unary case exposes
+the displayed tail.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_unit\_step\_result\_successor\_shape}
+
 \begin{theorem}[Terminal trial division excludes non-trivial divisors]
 \label{thm:trialdiv-terminal-excludes-nontrivial-divisors}
 Let $n$ be unary with $\mathsf{NatGT}(n,\Eone(\emp))$. If
