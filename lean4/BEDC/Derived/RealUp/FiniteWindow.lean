@@ -393,4 +393,44 @@ theorem RealUnaryStreamWindowClassifier_selected_canonical_e1_tail_witness
                   data.right.right.right.right.right.right.right.left,
                 hsame_trans data.right.right.right.right.right.right.right.left sameVV'⟩⟩
 
+theorem RealUnaryStreamWindowClassifier_selected_e1_tail_pairwise_coherence
+    {s t : BHist -> BHist} {a w k u uPrime v vPrime : BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameClassifier s t ->
+      UnaryHistory a -> UnaryHistory w -> UnaryOffsetLe k w ->
+        hsame (s (append a k)) (BHist.e1 u) ->
+          hsame (s (append a k)) (BHist.e1 uPrime) ->
+            hsame (t (append a k)) (BHist.e1 v) ->
+              hsame (t (append a k)) (BHist.e1 vPrime) ->
+                UnaryHistory u ∧ UnaryHistory uPrime ∧ UnaryHistory v ∧
+                  UnaryHistory vPrime ∧ hsame u uPrime ∧ hsame v vPrime ∧
+                    hsame u v ∧ hsame uPrime vPrime ∧ hsame u vPrime ∧
+                      hsame uPrime v := by
+  intro carrierS carrierT classified aUnary wUnary offset sameSU sameSUPrime sameTV
+    sameTVPrime
+  have first :=
+    RealUnaryStreamWindowClassifier_selected_shape_package
+      (s := s) (t := t) (a := a) (w := w) (k := k) (u := u) (v := v)
+      (zS := u) (zT := v)
+      carrierS carrierT classified aUnary wUnary offset sameSU sameTV
+  have second :=
+    RealUnaryStreamWindowClassifier_selected_shape_package
+      (s := s) (t := t) (a := a) (w := w) (k := k) (u := uPrime) (v := vPrime)
+      (zS := uPrime) (zT := vPrime)
+      carrierS carrierT classified aUnary wUnary offset sameSUPrime sameTVPrime
+  have sameUUPrime : hsame u uPrime :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameSU) sameSUPrime)
+  have sameVVPrime : hsame v vPrime :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameTV) sameTVPrime)
+  have sameUV : hsame u v :=
+    first.right.right.right.right.left
+  have sameUPrimeVPrime : hsame uPrime vPrime :=
+    second.right.right.right.right.left
+  have sameUVPrime : hsame u vPrime :=
+    hsame_trans sameUV sameVVPrime
+  have sameUPrimeV : hsame uPrime v :=
+    hsame_trans (hsame_symm sameUUPrime) sameUV
+  exact ⟨first.right.right.left, second.right.right.left, first.right.right.right.left,
+    second.right.right.right.left, sameUUPrime, sameVVPrime, sameUV, sameUPrimeVPrime,
+    sameUVPrime, sameUPrimeV⟩
+
 end BEDC.Derived.RealUp

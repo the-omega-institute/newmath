@@ -202,6 +202,115 @@ theorem RealConstant_appended_tail_bridge_denominator_package_exactness
       (d := d) (e := e) (tailD := tailD) (tailE := tailE) (zD := zD) (zE := zE)
       (r := r) (q := q)).right.right.right rows.right.right.right
 
+theorem RealConstant_appended_tail_bridge_full_denominator_tail_package
+    {d e tailD tailE uD uE zD zE : BHist} {r q : BHist -> BHist} :
+    let D := append d (BHist.e1 tailD)
+    let E := append e (BHist.e1 tailE)
+    let FullPackage : Prop :=
+      RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧ PositiveUnaryDenominator E ∧
+        UnaryHistory d ∧ UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailE ∧
+          (hsame D BHist.Empty -> False) ∧ (hsame E BHist.Empty -> False) ∧
+            (hsame D (BHist.e0 zD) -> False) ∧ (hsame E (BHist.e0 zE) -> False) ∧
+              hsame D E ∧ (hsame D (append uD (BHist.e0 zD)) -> False) ∧
+                (hsame E (append uE (BHist.e0 zE)) -> False) ∧ hsame d e
+    hsame tailD tailE ->
+      (RatHistoryClassifier D E -> FullPackage) ∧
+      (RatStreamNameClassifier (fun n : BHist => RatConstStream D (r n))
+        (fun n : BHist => RatConstStream E (q n)) -> FullPackage) ∧
+      (RealUnaryStreamClassifier (fun n : BHist => RatConstStream D (r n))
+        (fun n : BHist => RatConstStream E (q n)) -> FullPackage) ∧
+      (RealConstantHistoryClassifier (BHist.e1 D) (BHist.e1 E) -> FullPackage) := by
+  dsimp
+  intro sameTail
+  cases sameTail
+  have rows :=
+    RealConstant_appended_tail_bridge_denominator_package
+      (d := d) (e := e) (tailD := tailD) (tailE := tailD) (zD := zD) (zE := zE)
+      (r := r) (q := q)
+  dsimp at rows
+  have extend :
+      RatHistoryClassifier (append d (BHist.e1 tailD)) (append e (BHist.e1 tailD)) ∧
+        PositiveUnaryDenominator (append d (BHist.e1 tailD)) ∧
+          PositiveUnaryDenominator (append e (BHist.e1 tailD)) ∧ UnaryHistory d ∧
+            UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailD ∧
+              (hsame (append d (BHist.e1 tailD)) BHist.Empty -> False) ∧
+                (hsame (append e (BHist.e1 tailD)) BHist.Empty -> False) ∧
+                  (hsame (append d (BHist.e1 tailD)) (BHist.e0 zD) -> False) ∧
+                    (hsame (append e (BHist.e1 tailD)) (BHist.e0 zE) -> False) ∧
+                      hsame (append d (BHist.e1 tailD)) (append e (BHist.e1 tailD)) ->
+        RatHistoryClassifier (append d (BHist.e1 tailD)) (append e (BHist.e1 tailD)) ∧
+          PositiveUnaryDenominator (append d (BHist.e1 tailD)) ∧
+            PositiveUnaryDenominator (append e (BHist.e1 tailD)) ∧ UnaryHistory d ∧
+              UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailD ∧
+                (hsame (append d (BHist.e1 tailD)) BHist.Empty -> False) ∧
+                  (hsame (append e (BHist.e1 tailD)) BHist.Empty -> False) ∧
+                    (hsame (append d (BHist.e1 tailD)) (BHist.e0 zD) -> False) ∧
+                      (hsame (append e (BHist.e1 tailD)) (BHist.e0 zE) -> False) ∧
+                        hsame (append d (BHist.e1 tailD)) (append e (BHist.e1 tailD)) ∧
+                          (hsame (append d (BHist.e1 tailD))
+                              (append uD (BHist.e0 zD)) ->
+                            False) ∧
+                            (hsame (append e (BHist.e1 tailD))
+                                (append uE (BHist.e0 zE)) ->
+                              False) ∧ hsame d e := by
+    intro package
+    cases package with
+    | intro rat rest =>
+        cases rest with
+        | intro positiveD rest =>
+            cases rest with
+            | intro positiveE rest =>
+                cases rest with
+                | intro unaryD rest =>
+                    cases rest with
+                    | intro unaryTailD rest =>
+                        cases rest with
+                        | intro unaryE rest =>
+                            cases rest with
+                            | intro unaryTailE rest =>
+                                cases rest with
+                                | intro notDEmpty rest =>
+                                    cases rest with
+                                    | intro notEEmpty rest =>
+                                        cases rest with
+                                        | intro notDE0 rest =>
+                                            cases rest with
+                                            | intro notEE0 sameDEFull =>
+                                                have notDAppendE0 :
+                                                    hsame (append d (BHist.e1 tailD))
+                                                        (append uD (BHist.e0 zD)) ->
+                                                      False := by
+                                                  intro sameZero
+                                                  exact PositiveUnaryDenominator_append_e0_tail_absurd
+                                                    (PositiveUnaryDenominator_hsame_transport
+                                                      sameZero positiveD)
+                                                have notEAppendE0 :
+                                                    hsame (append e (BHist.e1 tailD))
+                                                        (append uE (BHist.e0 zE)) ->
+                                                      False := by
+                                                  intro sameZero
+                                                  exact PositiveUnaryDenominator_append_e0_tail_absurd
+                                                    (PositiveUnaryDenominator_hsame_transport
+                                                      sameZero positiveE)
+                                                have sameDE : hsame d e :=
+                                                  append_right_cancel (k := BHist.e1 tailD)
+                                                    sameDEFull
+                                                exact ⟨rat, positiveD, positiveE, unaryD,
+                                                  unaryTailD, unaryE, unaryTailE, notDEmpty,
+                                                  notEEmpty, notDE0, notEE0, sameDEFull,
+                                                  notDAppendE0, notEAppendE0, sameDE⟩
+  constructor
+  · intro classified
+    exact extend (rows.left classified)
+  · constructor
+    · intro classified
+      exact extend (rows.right.left classified)
+    · constructor
+      · intro classified
+        exact extend (rows.right.right.left classified)
+      · intro classified
+        exact extend (rows.right.right.right classified)
+
 theorem RealConstantHistoryClassifier_append_common_head_e1_tail_readback
     {left d e tailD tailE : BHist} :
     RealConstantHistoryClassifier (BHist.e1 (append left (append d (BHist.e1 tailD))))

@@ -253,6 +253,68 @@ Ledger: the selected observation and two transport rows. Core theorem:
 Exactness: the displayed shape package. Standard bridge: pointwise rational
 stream equality under observation transport. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Rational stream-name transported observation full endpoint package]
+\label{thm:rat-stream-name-transported-observation-full-endpoint-package}
+For certified observation maps $s,t,s',t':\Hist\to\Hist$, an observation
+history $n$, and histories $a,b,z_s,z_t:\Hist$, suppose
+$$
+\mathsf{RatStreamNameClassifier}(s,t)\quad\text{and}\quad
+\mathsf{UnaryHistory}(n),
+$$
+suppose the selected endpoints are related pointwise by transport rows
+$$
+\forall k,\ \mathsf{UnaryHistory}(k)\to\hsame(s(k),s'(k)),
+\quad
+\forall k,\ \mathsf{UnaryHistory}(k)\to\hsame(t(k),t'(k)),
+$$
+and suppose the transported selected observations are displayed as
+one-extension endpoints
+$$
+\hsame(s'(n),\Eone(a))\quad\text{and}\quad \hsame(t'(n),\Eone(b)).
+$$
+Then the transported selected-observation endpoint package holds:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s'(n),t'(n))$.
+  \item $\mathsf{PositiveUnaryDenominator}(s'(n))\land
+  \mathsf{PositiveUnaryDenominator}(t'(n))$.
+  \item $\mathsf{UnaryHistory}(s'(n))\land\mathsf{UnaryHistory}(t'(n))$.
+  \item $(\hsame(s'(n),\emp)\to\mathsf{False})\land
+  (\hsame(t'(n),\emp)\to\mathsf{False})$.
+  \item $(\hsame(s'(n),\Ezero(z_s))\to\mathsf{False})\land
+  (\hsame(t'(n),\Ezero(z_t))\to\mathsf{False})$.
+  \item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land
+  \hsame(a,b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:rat-stream-name-classifier} at the certified observation
+$(n,\nu)$, where $\nu:\mathsf{UnaryHistory}(n)$. The pointwise row gives the
+source point classifier $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Apply \autoref{thm:rat-history-classifier-hsame-transport} to this source
+classifier and to the two pointwise transport rows evaluated at $n$. This gives
+the transported point classifier
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$.
+
+Apply
+\autoref{thm:rat-stream-name-classifier-transported-observation-shape-exclusions}
+to the same stream classifier, unary observation, and transport rows. It
+supplies the transported positive-denominator rows, unary endpoint rows, empty
+exclusions, and universal zero-headed exclusions. Instantiate the last two rows
+at the displayed histories $z_s$ and $z_t$.
+
+For the one-tail readback, transport
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$ along the two displayed
+one-extension endpoint comparisons. The transported classifier is
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+
+Apply \autoref{thm:rat-history-classifier-e1-tail-unary-iff} in the forward
+direction to read back $\mathsf{UnaryHistory}(a)$,
+$\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$. The transported point
+classifier, transported shape rows, and one-tail readback rows form exactly the
+listed endpoint package.
+\end{proof}
+
 \begin{theorem}[Rational stream-name reindexing and map stability]
 \label{thm:rat-stream-name-reindexing-and-map-stability}
 For certified observation maps $s,t,r:\Hist\to\Hist$, suppose $r$ preserves
