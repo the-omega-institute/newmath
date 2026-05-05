@@ -5,7 +5,9 @@ namespace BEDC.Derived.ComplexSeriesUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexUp
 open BEDC.Derived.ComplexLimitUp
+open BEDC.Derived.RatUp
 
 def ComplexSeriesClassifierSpec (zero : BHist) (c : BHist -> BHist) (S T : BHist) : Prop :=
   ComplexSeriesConv zero c S ∧ hsame S T
@@ -126,7 +128,27 @@ theorem ComplexPartSum_pointwise_append_partials {a b : BHist -> BHist} {n SA SB
                   ((congrArg (append _) (append_assoc _ _ _).symm).trans
                     ((congrArg (fun source : BHist => append _ (append source _))
                         (unary_append_comm termUnaryA previousUnaryB)).trans
-                      ((congrArg (append _) (append_assoc _ _ _)).trans
-                        (append_assoc _ _ _).symm))))))
+                        ((congrArg (append _) (append_assoc _ _ _)).trans
+                          (append_assoc _ _ _).symm))))))
+
+theorem ComplexTermSeqCarrier_pointwise_append_components {c d : BHist -> BHist} :
+    ComplexTermSeqCarrier c -> ComplexTermSeqCarrier d ->
+      ComplexTermSeqCarrier (fun n : BHist => append (c n) (d n)) ∧
+        forall n : BHist, UnaryHistory n ->
+          exists real imag : BHist,
+            RatHistoryCarrier real ∧ RatHistoryCarrier imag ∧
+              Cont real imag (append (c n) (d n)) := by
+  intro cCarrier dCarrier
+  constructor
+  · intro n unaryN
+    exact ComplexHistoryCarrier_append_unary_closed (cCarrier n unaryN)
+      (ComplexHistoryCarrier_unary (dCarrier n unaryN))
+  · intro n unaryN
+    cases ComplexHistoryCarrier_append_unary_closed (cCarrier n unaryN)
+        (ComplexHistoryCarrier_unary (dCarrier n unaryN)) with
+    | intro real rest =>
+        cases rest with
+        | intro imag data =>
+            exact Exists.intro real (Exists.intro imag data)
 
 end BEDC.Derived.ComplexSeriesUp
