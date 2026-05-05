@@ -79,6 +79,20 @@ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrimeProduct\_result\_not\_empty}
 
+\begin{theorem}[Natural prime factorizations have nonempty result]
+\label{thm:nat-prime-factorization-result-not-empty}
+If \(\mathsf{NatPrimeFactorization}(ps,n)\), then \(n\) is not history-same
+to \(\emp\).
+\end{theorem}
+\begin{proof}
+Induct on the concrete factorization witness. The unit factorization has
+result \(\Eone(\emp)\), separated from \(\emp\) by constructor no-confusion.
+The singleton case is prime nonemptiness. In the cons case, primality makes
+the head factor nonempty, the induction hypothesis makes the tail product
+nonempty, and nonempty-factor multiplication excludes an empty result.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrimeFactorization\_result\_not\_empty}
+
 \begin{theorem}[Natural prime products have unary result]
 \label{thm:nat-prime-product-result-unary}
 If \(\mathsf{NatPrimeProduct}(ps,n)\), then \(n\) is a unary history.

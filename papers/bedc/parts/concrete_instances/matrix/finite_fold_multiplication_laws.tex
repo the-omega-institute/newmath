@@ -102,6 +102,24 @@ direction repacks those two splits through the same empty-append constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold appended visible tail exclusion]
+\label{thm:matrix-singleton-add-fold-append-visible-tail-absurd}
+For every history \(m\) and finite spine \(xs\), appending a visible singleton
+tail before folding cannot read back to the empty carrier:
+$$
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(xs{++}[\Ezero(m)]),\emp)
+\quad\wedge\quad
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(xs{++}[\Eone(m)]),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the appended-spine carrier readback to split the fold over \(xs\) and
+the one-element visible tail. The tail carrier would identify either
+\(\Ezero(m)\) or \(\Eone(m)\) with \(\emp\), contradicting constructor
+separation in \(\mathsf{BHist}\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_visible\_tail\_absurd}
+
 \begin{theorem}[Singleton additive fold append readback]
 \label{thm:matrix-singleton-add-fold-append-hsame}
 For finite singleton-matrix spines \(xs\) and \(ys\), folding their appended

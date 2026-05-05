@@ -97,6 +97,19 @@ theorem concrete_unary_history_magma_cont_result_unary_iff {h k r : BHist} :
     cases rel
     exact unary_append_factors_iff_result.mp factors
 
+theorem concrete_unary_history_magma_cont_visible_right_result_nonempty {h t r : BHist} :
+    (Cont h (BHist.e0 t) r -> hsame r BHist.Empty -> False) ∧
+      (Cont h (BHist.e1 t) r -> hsame r BHist.Empty -> False) := by
+  constructor
+  · intro continuation resultEmpty
+    have emptyContinuation : Cont h (BHist.e0 t) BHist.Empty :=
+      cont_result_hsame_transport continuation resultEmpty
+    exact not_hsame_e0_empty (cont_empty_result_inversion emptyContinuation).right
+  · intro continuation resultEmpty
+    have emptyContinuation : Cont h (BHist.e1 t) BHist.Empty :=
+      cont_result_hsame_transport continuation resultEmpty
+    exact not_hsame_e1_empty (cont_empty_result_inversion emptyContinuation).right
+
 theorem concrete_unary_history_magma_classifier_append_factors_iff {h h' k k' : BHist} :
     let Carrier : BHist -> Prop := UnaryHistory
     let Classifier : BHist -> BHist -> Prop :=

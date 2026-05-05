@@ -37,6 +37,25 @@ theorem NatPrimeProduct_result_not_empty {ps : List BHist} {n : BHist} :
           exact NatMul_nonempty_factors_result_not_empty
             (fun pEmpty => not_hsame_e1_empty (data.left.symm.trans pEmpty)) ih mul sameEmpty
 
+theorem NatPrimeFactorization_result_not_empty {ps : List BHist} {n : BHist} :
+    NatPrimeFactorization ps n -> hsame n BHist.Empty -> False := by
+  intro factorization
+  induction factorization with
+  | unit =>
+      intro sameEmpty
+      exact not_hsame_e1_empty sameEmpty
+  | singleton prime =>
+      intro sameEmpty
+      exact NatPrime_empty_absurd prime sameEmpty
+  | cons prime _nextPrime _ordered _tailFactorization mul tailNonempty =>
+      intro sameEmpty
+      have primeShape := NatPrime_successor_tail_nonempty prime
+      cases primeShape with
+      | intro tail data =>
+          exact NatMul_nonempty_factors_result_not_empty
+            (fun pEmpty => not_hsame_e1_empty (data.left.symm.trans pEmpty))
+            tailNonempty mul sameEmpty
+
 theorem NatPrimeProduct_result_unary {ps : List BHist} {n : BHist} :
     NatPrimeProduct ps n -> UnaryHistory n := by
   intro product
