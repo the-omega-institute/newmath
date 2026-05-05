@@ -17,6 +17,7 @@ $$
 $$
 Bracket closure makes $\operatorname{ad}^{L}_{x}(t)$ carried, and bracket classifier congruence makes this a classifier-respecting endomap of the vector carrier. This is the Lie-algebra side of the $\operatorname{ad}$ coordinate named in \autoref{ch:concrete-instances-adjointrep-namecert}.
 \end{definition}
+\leandef{BEDC.Derived.LieAlgebraUp.LieAlgebraSingletonAdjointAction}
 
 \begin{theorem}[Adjoint action derivation from Jacobi]
 \label{thm:liealgebra-adjoint-action-derivation-from-jacobi}
@@ -146,4 +147,104 @@ $$
 r\odot_L[x,y]_L.
 $$
 Unfolding the adjoint action from \autoref{def:liealgebra-adjoint-action-from-bracket} on both bracket endpoints identifies this comparison with the displayed scalar-linearity law for $\operatorname{ad}^{L}_{x}$, and the closure statements above identify both sides as carried endpoints of $C_L$.
+\end{proof}
+
+\begin{theorem}[Adjoint action acting-endpoint scalar linearity]
+\label{thm:liealgebra-adjoint-action-acting-endpoint-scalar-linearity}
+Let $L$ carry a $\LieAlgebraUp$ certificate. Write $S_L$ for its scalar-field carrier, $C_L$ for its vector carrier, $\sim_{L}$ for its vector carrier classifier, $\odot_L$ for the scalar action in the vector-space reduct, and $[-,-]_L$ for the Lie bracket. If $r$ is carried by $S_L$ and $x,y$ are carried by $C_L$, then $\operatorname{ad}^{L}_{r\odot_L x}(y)$ and $r\odot_L\operatorname{ad}^{L}_{x}(y)$ are carried by $C_L$, and
+$$
+\operatorname{ad}^{L}_{r\odot_L x}(y)
+\sim_{L}
+r\odot_L\operatorname{ad}^{L}_{x}(y).
+$$
+\end{theorem}
+\begin{proof}
+Scalar-action closure in the $\VecSpaceUp$ reduct carries $r\odot_L x$. Bracket closure in the $\LieAlgebraUp$ certificate therefore carries $[r\odot_L x,y]_L$. The same bracket-closure field carries $[x,y]_L$, and scalar-action closure carries $r\odot_L[x,y]_L$.
+
+The first-argument scalar-linearity field in the bilinear bracket, applied to the carried scalar endpoint $r$ and carried vector endpoints $x,y$, gives
+$$
+[r\odot_L x,y]_L
+\sim_{L}
+r\odot_L[x,y]_L.
+$$
+Unfolding the adjoint action from \autoref{def:liealgebra-adjoint-action-from-bracket} on both bracket endpoints identifies this comparison with the displayed scalar-linearity law for the acting endpoint of $\operatorname{ad}^{L}$, and the closure statements above identify both sides as carried endpoints of $C_L$.
+\end{proof}
+
+\begin{theorem}[Lie-algebra adjoint LinearMap endomap package]
+\label{thm:liealgebra-adjoint-linearmap-endomap-package}
+Let $L$ carry a $\LieAlgebraUp$ certificate. Write $F_L$ for the scalar field of its vector-space reduct, $F_{L,\mathsf{Ring}}$ for the ring reduct of that scalar field, $C_L$ for the vector carrier, $\sim_L$ for the vector classifier, $+_L$ and $0_L$ for vector addition and zero, $\odot_L$ for scalar action, and $[-,-]_L$ for the Lie bracket. If $x$ is carried by $C_L$, define the endomap identifier
+$$
+\mathsf{adEnd}^{L}_{x}(t):=\operatorname{ad}^{L}_{x}(t)=[x,t]_L.
+$$
+Then $\mathsf{adEnd}^{L}_{x}$ carries the $\LinearMapUp$ endomap package on the vector carrier. Equivalently, after the vector-space reduct is read through \autoref{prop:vecspace-module-fragment-projection},
+$$
+\mathsf{LinearMapCert}_{F_{L,\mathsf{Ring}}}(C_L,C_L;\mathsf{adEnd}^{L}_{x})
+$$
+holds.
+\end{theorem}
+\begin{proof}
+The $\LieAlgebraUp$ certificate contains a $\VecSpaceUp(F_L,C_L)$ reduct. By \autoref{prop:vecspace-module-fragment-projection}, deleting only the inverse-indexed field rows gives a $\ModuleUp(F_{L,\mathsf{Ring}},C_L)$ certificate with the same vector carrier, classifier, vector addition, zero, scalar action, and non-inverse ledgers. These are the source and target module carriers used by \autoref{def:module-linearmap-certificate-package}.
+
+For output closure, let $t$ be carried by $C_L$. Bracket closure in the $\LieAlgebraUp$ certificate carries $[x,t]_L$, so $\mathsf{adEnd}^{L}_{x}(t)$ is carried by $C_L$.
+
+For source-classifier descent, assume $t\sim_Lu$ between carried vector endpoints. Classifier reflexivity gives $x\sim_Lx$, and the bracket classifier-congruence row cited in \autoref{def:liealgebra-adjoint-action-from-bracket} transports these two comparisons to
+$$
+[x,t]_L\sim_L[x,u]_L.
+$$
+Unfolding the endomap identifier gives
+$$
+\mathsf{adEnd}^{L}_{x}(t)\sim_L\mathsf{adEnd}^{L}_{x}(u).
+$$
+
+For additivity, \autoref{thm:liealgebra-adjoint-action-additive-linearity} gives, for carried $y,z:C_L$,
+$$
+\mathsf{adEnd}^{L}_{x}(y+_Lz)
+\sim_L
+\mathsf{adEnd}^{L}_{x}(y)+_L\mathsf{adEnd}^{L}_{x}(z).
+$$
+For scalar compatibility, \autoref{thm:liealgebra-adjoint-action-scalar-linearity} gives, for each carried scalar $r:F_L$ and carried $y:C_L$,
+$$
+\mathsf{adEnd}^{L}_{x}(r\odot_Ly)
+\sim_L
+r\odot_L\mathsf{adEnd}^{L}_{x}(y).
+$$
+The scalar carrier and scalar action are unchanged by the ring reduct, so this is exactly the scalar row required over $F_{L,\mathsf{Ring}}$.
+
+It remains to record the zero row. The vector-space additive unit law gives
+$$
+0_L+_L0_L\sim_L0_L.
+$$
+The descent row just proved transports this comparison through $\mathsf{adEnd}^{L}_{x}$, and the additive row at $0_L,0_L$ gives
+$$
+\mathsf{adEnd}^{L}_{x}(0_L)
+\sim_L
+\mathsf{adEnd}^{L}_{x}(0_L)+_L\mathsf{adEnd}^{L}_{x}(0_L).
+$$
+By \autoref{cor:vecspace-additive-carrier-projection}, the additive vector carrier of $C_L$ is an $\AbGroupUp$ certificate with the same $+_L$, $0_L$, and $\sim_L$. Applying \autoref{lem:abgroup-additive-duplicate-cancellation} to $w=\mathsf{adEnd}^{L}_{x}(0_L)$ yields
+$$
+\mathsf{adEnd}^{L}_{x}(0_L)\sim_L0_L.
+$$
+
+Thus output closure, source-classifier descent, additive preservation, scalar compatibility, zero preservation, and ledger data are all available: the ledger records the identifier $\mathsf{adEnd}^{L}_{x}$, the fixed carried input $x$, the bracket-closure and bracket-congruence witnesses, and the two second-argument bilinearity rows. By \autoref{def:module-linearmap-certificate-package}, these rows form $\mathsf{LinearMapCert}_{F_{L,\mathsf{Ring}}}(C_L,C_L;\mathsf{adEnd}^{L}_{x})$. Since \autoref{def:linearmap-source-specification}, \autoref{def:linearmap-pattern-specification}, \autoref{def:linearmap-classifier-specification}, \autoref{def:linearmap-stability-certificate}, and \autoref{def:linearmap-certificate-obligations} read the vector-space endomap package as precisely this function-with-law formation over a common scalar source, the same rows carry the $\LinearMapUp$ endomap package on $C_L$.
+\end{proof}
+
+\begin{theorem}[Adjoint action acting-endpoint additive linearity]
+\label{thm:liealgebra-adjoint-action-acting-endpoint-additive-linearity}
+Let $L$ carry a $\LieAlgebraUp$ certificate. Write $C_L$ for its vector carrier, $\sim_{L}$ for its vector carrier classifier, $+_{L}$ for vector addition in the vector-space reduct, and $[-,-]_L$ for the Lie bracket. If $x,z,y$ are carried by $C_L$, then $\operatorname{ad}^{L}_{x+_{L}z}(y)$ and $\operatorname{ad}^{L}_{x}(y)+_{L}\operatorname{ad}^{L}_{z}(y)$ are carried by $C_L$, and
+$$
+\operatorname{ad}^{L}_{x+_{L}z}(y)
+\sim_{L}
+\operatorname{ad}^{L}_{x}(y)+_{L}\operatorname{ad}^{L}_{z}(y).
+$$
+\end{theorem}
+\begin{proof}
+The additive vector law retained in the $\VecSpaceUp$ reduct, read through \autoref{def:vecspace-stability-certificate} and \autoref{def:module-stability-certificate}, carries $x+_{L}z$. Bracket closure in the $\LieAlgebraUp$ certificate therefore carries $[x+_{L}z,y]_L$. The same bracket-closure row carries $[x,y]_L$ and $[z,y]_L$, and additive vector closure carries $[x,y]_L+_{L}[z,y]_L$.
+
+The first-input additivity row of the bilinear bracket, applied to the carried endpoints $x,z,y$, gives
+$$
+[x+_{L}z,y]_L
+\sim_{L}
+[x,y]_L+_{L}[z,y]_L.
+$$
+Unfolding the adjoint action from \autoref{def:liealgebra-adjoint-action-from-bracket} at the three bracket endpoints turns this comparison into the displayed acting-endpoint additive-linearity law, and the carrier statements above identify both sides as endpoints carried by $C_L$.
 \end{proof}
