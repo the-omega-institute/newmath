@@ -167,6 +167,26 @@ hypothesis cancels the remaining visible context.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_visible\_context\_cancel}
 
+\begin{theorem}[Metric distance depth append-right cancellation iff]
+\label{thm:metric-distance-depth-append-right-cancel-iff}
+For histories $p,d,e:\mathsf{BHist}$, appending the same right suffix preserves
+and reflects equality of structural metric distance depth:
+$$
+\mathsf{MetricDistanceDepth}(d\cdot p)
+=
+\mathsf{MetricDistanceDepth}(e\cdot p)
+\Longleftrightarrow
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the common suffix $p$. The empty suffix is immediate. In the two
+visible constructor cases, both appended depths carry the same successor head;
+successor injectivity gives the forward implication, and congruence of
+successor rebuilds the appended equality in the reverse implication.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_right\_cancel\_iff}
+
 \begin{theorem}[Metric distance depth append-right equality emptiness]
 \label{thm:metric-distance-depth-append-right-eq-iff-empty}
 For histories $p$ and $d$, appending $p$ on the right preserves structural
@@ -186,6 +206,27 @@ $\emp$. Conversely, substituting $p=\emp$ makes the right append definitionally
 equal to $d$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_right\_eq\_iff\_empty}
+
+\begin{theorem}[Metric distance same-source continuation result cancellation]
+\label{thm:metric-distance-depth-same-source-cont-result-cancel}
+For unary histories $x,y,z$ and continuation rows
+$\ContR(x,y,d)$ and $\ContR(x,z,e)$, equality of the two result depths cancels
+the common source depth:
+$$
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(y)=\mathsf{MetricDistanceDepth}(z).
+$$
+\end{theorem}
+\begin{proof}
+Package the two continuation rows as metric-distance witnesses. Depth
+additivity gives
+$\mathsf{depth}(d)=\mathsf{depth}(x)+\mathsf{depth}(y)$ and
+$\mathsf{depth}(e)=\mathsf{depth}(x)+\mathsf{depth}(z)$. The displayed result
+depth equality therefore has a common left summand, and natural-number
+cancellation identifies the two target depths.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_same\_source\_cont\_result\_cancel}
 
 \begin{theorem}[Metric distance depth visible-context equality emptiness]
 \label{thm:metric-distance-depth-visible-context-eq-iff-empty}
