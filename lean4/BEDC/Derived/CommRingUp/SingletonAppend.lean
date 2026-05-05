@@ -369,6 +369,25 @@ theorem commringSingletonEmpty_square_signed_product_annihilator_package {a b : 
     (And.intro (hsame_refl BHist.Empty)
       (fun _c => And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
 
+theorem commringSingletonEmpty_square_endpoint_annihilator_package {a b : BHist} :
+    commringSingletonEmptyCarrier a -> commringSingletonEmptyCarrier b ->
+      hsame (commringSingletonEmptyMul a a) (commringSingletonEmptyMul b b) ∧
+        (forall c : BHist,
+          hsame (commringSingletonEmptyMul (commringSingletonEmptyMul a a) c) BHist.Empty ∧
+          hsame (commringSingletonEmptyMul c (commringSingletonEmptyMul a a)) BHist.Empty ∧
+          hsame (commringSingletonEmptyMul (commringSingletonEmptyMul b b) c) BHist.Empty ∧
+          hsame (commringSingletonEmptyMul c (commringSingletonEmptyMul b b)) BHist.Empty) := by
+  intro _carrierA _carrierB
+  have squareA : hsame (commringSingletonEmptyMul a a) BHist.Empty :=
+    hsame_refl BHist.Empty
+  have squareB : hsame (commringSingletonEmptyMul b b) BHist.Empty :=
+    hsame_refl BHist.Empty
+  exact And.intro (hsame_trans squareA (hsame_symm squareB))
+    (fun c =>
+      And.intro (hsame_refl BHist.Empty)
+        (And.intro (hsame_refl BHist.Empty)
+          (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))))
+
 theorem CommRingSingletonClassifier_append_commutativity_compatible {x x' y y' : BHist} :
     CommRingSingletonClassifier x x' ->
       CommRingSingletonClassifier y y' ->
