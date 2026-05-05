@@ -1,0 +1,114 @@
+\begin{theorem}[Real unary StreamNameUp finite-window transported selected appended-tail package]
+\label{thm:real-unary-streamname-finite-window-transported-selected-appended-tail-package}
+For observation maps $s,t,s',t':\Hist\to\Hist$ and histories
+$\alpha,\omega,k,u,v,z_s,z_t,d_s,d_t:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega),
+$$
+and the pointwise transported rows
+$$
+\forall n:\Hist,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n:\Hist,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Assume also the displayed transported selected window endpoints
+$$
+\hsame(s'(\mathsf{append}(\alpha,k)),\Eone(u)),
+\quad
+\hsame(t'(\mathsf{append}(\alpha,k)),\Eone(v)).
+$$
+Then the transported selected endpoints carry the selected-shape endpoint
+package and the appended e-zero-tail exclusions:
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(s'(\mathsf{append}(\alpha,k)),t'(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land\mathsf{UnaryHistory}(v)\land\hsame(u,v)\land\\
+\mathsf{PositiveUnaryDenominator}(s'(\mathsf{append}(\alpha,k)))\land
+\mathsf{PositiveUnaryDenominator}(t'(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{UnaryHistory}(s'(\mathsf{append}(\alpha,k)))\land
+\mathsf{UnaryHistory}(t'(\mathsf{append}(\alpha,k)))\land\\
+(\hsame(s'(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land
+(\hsame(t'(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land\\
+(\hsame(s'(\mathsf{append}(\alpha,k)),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t'(\mathsf{append}(\alpha,k)),\Ezero(z_t))\to\mathsf{False})\land\\
+(\hsame(s'(\mathsf{append}(\alpha,k)),d_s\cdot\Ezero(z_s))\to
+\mathsf{False})\land\\
+(\hsame(t'(\mathsf{append}(\alpha,k)),d_t\cdot\Ezero(z_t))\to
+\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First derive the selected RatUp classifier at
+$\mathsf{append}(\alpha,k)$. Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-denominator-package}
+to the StreamNameUp classifier, the unary anchor and bound, and the selected
+offset. This supplies the untransported selected
+$\mathsf{RatHistoryClassifier}$ row, positive denominator rows, unary endpoint
+rows, nonempty exclusions, and zero-head exclusions.
+
+The selected index $\mathsf{append}(\alpha,k)$ is unary by the finite-window
+offset construction, so the two pointwise rows give
+$\hsame(s(\mathsf{append}(\alpha,k)),s'(\mathsf{append}(\alpha,k)))$ and
+$\hsame(t(\mathsf{append}(\alpha,k)),t'(\mathsf{append}(\alpha,k)))$.
+Transport the selected RatUp classifier across these two comparisons by
+\autoref{thm:rat-history-classifier-hsame-transport}. Transport the two
+positive denominator rows by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}.
+
+Apply \autoref{thm:rat-history-classifier-e1-tail-unary-iff} to the transported
+classifier and the two displayed one-headed endpoint comparisons. This gives
+$\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))$, the two unary tail rows,
+and $\hsame(u,v)$. Apply
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} to the transported
+positive-denominator rows; this gives the unary transported endpoint rows and
+the two empty endpoint exclusions.
+
+For the zero-head exclusions, suppose first
+$\hsame(s'(\mathsf{append}(\alpha,k)),\Ezero(z_s))$. Transport the left
+positive-denominator witness across that comparison by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}, contradicting
+\autoref{thm:rat-positive-denominator-e0-absurd}. The right zero-head exclusion
+is the same argument using $t'(\mathsf{append}(\alpha,k))$ and $\Ezero(z_t)$.
+
+It remains to rule out the appended e-zero tails. For the left endpoint,
+suppose
+$\hsame(s'(\mathsf{append}(\alpha,k)),d_s\cdot\Ezero(z_s))$. Transport the
+positive denominator witness for $s'(\mathsf{append}(\alpha,k))$ across this
+comparison by \autoref{thm:rat-positive-unary-denominator-hsame-transport}.
+The transported witness contradicts
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+
+The right endpoint is identical. A display
+$\hsame(t'(\mathsf{append}(\alpha,k)),d_t\cdot\Ezero(z_t))$ transports the
+positive denominator witness for $t'(\mathsf{append}(\alpha,k))$ to
+$d_t\cdot\Ezero(z_t)$, and the same appended e-zero-tail obstruction
+contradicts that transported witness.
+
+Repack the transported classifier, displayed e-one readback rows, denominator
+rows, endpoint exclusions, and appended-tail contradictions. These rows are
+exactly the transported selected endpoint package.
+\end{proof}
+
+Fit. Traditional target: transported finite-window rational readback with
+appended-tail endpoint obstruction for RealUp StreamNameUp classifiers. BEDC
+source: $\StreamNameUp+\RealUp+\RatUp$ over $\mathsf{BHist}$. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$ transported to the selected
+$\mathsf{RatHistoryClassifier}$. Stability: pointwise $\hsame$ transport of
+StreamNameUp endpoints and positive-denominator transport to appended tails.
+Ledger: carrier, classifier, unary anchor, unary bound, selected offset,
+pointwise transport rows, one-headed endpoint displays, zero-head tests, and
+appended-tail displays. Core theorem:
+\autoref{thm:real-unary-streamname-finite-window-transported-selected-appended-tail-package}.
+Exactness: transported selected endpoint package plus the two appended
+e-zero-tail exclusion rows. Standard bridge: finite rational observation
+windows. Status: $\mathsf{ProofTarget}$.
