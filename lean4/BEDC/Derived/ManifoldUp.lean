@@ -177,6 +177,24 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_chart_domain_intersection_open
+    {base indexI indexJ domainI domainJ chart transitionI transitionJ overlap : BHist} :
+    ManifoldAtlasPackage base indexI domainI chart transitionI ->
+      ManifoldAtlasPackage base indexJ domainJ chart transitionJ ->
+        Cont domainI domainJ overlap ->
+          UnaryHistory overlap ∧ hsame overlap (append (append base indexI) (append base indexJ)) := by
+  intro packageI packageJ overlapRow
+  have domainIUnary : UnaryHistory domainI := packageI.right.right.left
+  have domainJUnary : UnaryHistory domainJ := packageJ.right.right.left
+  have domainIRow : Cont base indexI domainI := packageI.right.right.right.right.right.left
+  have domainJRow : Cont base indexJ domainJ := packageJ.right.right.right.right.right.left
+  have overlapUnary : UnaryHistory overlap :=
+    unary_cont_closed domainIUnary domainJUnary overlapRow
+  cases domainIRow
+  cases domainJRow
+  cases overlapRow
+  exact And.intro overlapUnary (hsame_refl (append (append base indexI) (append base indexJ)))
+
 def ManifoldScopedBoundaryPackage (carrier i j k pair triple : BHist) : Prop :=
   UnaryHistory carrier ∧ UnaryHistory i ∧ UnaryHistory j ∧ UnaryHistory k ∧
     Cont i j pair ∧ Cont pair k triple
