@@ -50,6 +50,8 @@ REPO_ROOT = SCRIPT_DIR.parents[1]
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "state" / "board_refill_logs"
 ORACLE_SERVER = "http://localhost:8767"
+REFILL_TAG = "bedc-deep-board-refill"
+REFILL_TASK_PREFIX = "bedc_board_refill_"
 
 DEFAULT_TIMEOUT = 7200  # 2 hours — oracle can take long on a meta-question
 DEFAULT_POLL_INTERVAL = 30
@@ -81,6 +83,18 @@ def _http_post(url: str, data: dict, timeout: int = 30) -> dict:
 def _http_get(url: str, timeout: int = 10) -> dict:
     with urllib.request.urlopen(url, timeout=timeout) as resp:
         return json.loads(resp.read().decode("utf-8"), strict=False)
+
+
+def _has_refill_in_server(status: dict) -> bool:
+    for task in status.get("queued_tasks") or []:
+        if task.get("tag") == REFILL_TAG:
+            return True
+        if str(task.get("task_id", "")).startswith(REFILL_TASK_PREFIX):
+            return True
+    for task in (status.get("agents") or {}).values():
+        if str(task.get("task_id", "")).startswith(REFILL_TASK_PREFIX):
+            return True
+    return False
 
 
 def _board_content() -> str:
@@ -180,7 +194,7 @@ def submit_refill(server_url: str, prompt: str) -> dict:
         "task_id": task_id,
         "prompt": prompt,
         "model": "chatgpt-5.5-pro",
-        "tag": "bedc-deep-board-refill",
+        "tag": REFILL_TAG,
     }
     req = urllib.request.Request(
         f"{server_url}/submit",
@@ -191,14 +205,26 @@ def submit_refill(server_url: str, prompt: str) -> dict:
         return json.loads(resp.read().decode("utf-8"), strict=False)
 
 
-def poll_result(server_url: str, task_id: str, timeout: int, poll_interval: int) -> str:
+def poll_result(
+    server_url: str,
+    task_id: str,
+    timeout: int,
+    poll_interval: int,
+) -> Optional[str]:
     start = time.time()
     last_log = start
     while time.time() - start < timeout:
         try:
             data = _http_get(f"{server_url}/result/{task_id}", timeout=10)
-            if data.get("status") == "completed":
+            status = data.get("status")
+            if status == "completed":
                 return data.get("response", "")
+            if status in {"cancelled", "failed", "error"}:
+                print(
+                    f"[board_refill] task ended with status={status}",
+                    flush=True,
+                )
+                return None
         except Exception:
             pass
         if time.time() - last_log > 60:
@@ -223,6 +249,10 @@ def main() -> int:
     parser.add_argument("--poll-interval", type=int, default=DEFAULT_POLL_INTERVAL)
     parser.add_argument("--dry-run", action="store_true",
                         help="Only build + print prompt, don't submit.")
+    parser.add_argument("--allow-queue-without-tabs", action="store_true",
+                        help="Submit even when no active BEDC browser tab is polling.")
+    parser.add_argument("--allow-duplicate-refill", action="store_true",
+                        help="Submit even when another board-refill task is queued or active.")
     args = parser.parse_args()
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -240,7 +270,21 @@ def main() -> int:
     # Verify server reachable
     try:
         status = _http_get(f"{args.server}/status", timeout=5)
+        if _has_refill_in_server(status) and not args.allow_duplicate_refill:
+            print(
+                "[board_refill] existing board-refill task is queued or active; "
+                "skipping submit.",
+                flush=True,
+            )
+            return 0
         if not status.get("active_recent_agents"):
+            if not args.allow_queue_without_tabs:
+                print(
+                    "[board_refill] no active BEDC ChatGPT tabs polling; "
+                    "skipping submit instead of queueing.",
+                    flush=True,
+                )
+                return 0
             print(
                 f"[board_refill] WARN: no active ChatGPT tabs polling. "
                 f"Submit will queue but won't dispatch. Open the BEDC Project "
@@ -260,6 +304,9 @@ def main() -> int:
     print(f"[board_refill] submitted task={task_id} conv={conv_id[:14]}", flush=True)
 
     response = poll_result(args.server, task_id, args.timeout, args.poll_interval)
+    if response is None:
+        print("[board_refill] stopped before receiving a response", flush=True)
+        return 1
     if not response:
         print(f"[board_refill] timeout waiting for response (limit={args.timeout}s)",
               flush=True)
