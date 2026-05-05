@@ -61,4 +61,23 @@ theorem NatTransPrefixComponentCarrier_vert_comp_empty_result_components_opposit
       (NatTransPrefixComponentCarrier_empty_component_opposite_closed left emptyData.left)
       (NatTransPrefixComponentCarrier_empty_component_opposite_closed right emptyData.right.left)
 
+theorem NatTransPrefixComponentCarrier_vert_comp_empty_result_cycle_closed
+    {p q r a eta theta : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta -> Cont eta theta BHist.Empty ->
+        NatTransPrefixComponentCarrier p r a BHist.Empty /\
+          NatTransPrefixComponentCarrier r p a BHist.Empty /\
+            hsame p q /\ hsame q r /\ hsame p r := by
+  intro left right comp
+  have forward : NatTransPrefixComponentCarrier p r a BHist.Empty :=
+    NatTransPrefixComponentCarrier_vert_comp_closed left right comp
+  have backward : NatTransPrefixComponentCarrier r p a BHist.Empty :=
+    NatTransPrefixComponentCarrier_vert_comp_empty_result_opposite_closed left right comp
+  have prefixSame :=
+    NatTransPrefixComponentCarrier_vert_comp_empty_result_prefixes_hsame left right comp
+  exact And.intro forward
+    (And.intro backward
+      (And.intro prefixSame.left
+        (And.intro prefixSame.right (hsame_trans prefixSame.left prefixSame.right))))
+
 end BEDC.Derived.NatTransUp

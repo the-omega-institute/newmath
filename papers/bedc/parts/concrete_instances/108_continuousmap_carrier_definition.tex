@@ -411,6 +411,64 @@ deferred; status $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_canonical\_distance\_exactness}
 
+\begin{theorem}[ContinuousMap categorical canonical distance exactness]
+\label{thm:continuousmap-carrier-categorical-canonical-distance-exactness}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+the continuous-map carrier is exactly the composite classifier obtained from
+the categorical source-target hom row, the target-side continuity-modulus row,
+and the canonical source-target distance ledger:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+\\[2pt]
+\quad\Longleftrightarrow\quad
+\mathsf{CategoryHomCarrier}(source,target,map)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert)\land
+\hsame(distance,\mathsf{append}(source,target)).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, apply
+Theorem~\ref{thm:continuousmap-carrier-category-metric-decomposition} to the
+given carrier. This yields the categorical hom row and the target-side
+modulus row, together with the metric distance witness.
+
+Apply
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-exactness} to the
+same carrier. Its distance component replaces the metric witness by the
+canonical classifier
+$\hsame(distance,\mathsf{append}(source,target))$, so the displayed
+three-part conjunction follows.
+
+Conversely, unpack
+$\mathsf{CategoryHomCarrier}(source,target,map)$ into the unary source,
+target, and map histories plus the graph continuation. Unpack
+$\mathsf{ContinuousModulusWitness}(target,modulus,cert)$ into the target,
+modulus, and certificate histories plus the modulus continuation. These rows
+rebuild
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$.
+
+Now use
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-exactness} in the
+reverse direction with the rebuilt continuous-function carrier and the
+displayed classifier
+$\hsame(distance,\mathsf{append}(source,target))$. The result is precisely
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$.
+
+The ten-field fit is: traditional target continuous maps as morphisms with a
+canonical endpoint distance ledger; BEDC source
+$\mathsf{CategoryUp}/\mathsf{ContinuousUp}/\mathsf{MetricUp}/
+\mathsf{ContinuousMapUp}$; carrier $\mathsf{ContinuousMapCarrier}$;
+classifier $\hsame$; stability supplied by the categorical hom row, the
+modulus witness, and canonical distance exactness; ledger source, target, map,
+modulus, certificate, and distance histories; core theorem the displayed
+equivalence; exactness replacement of the metric witness by
+$\hsame(distance,\mathsf{append}(source,target))$; standard bridge is the
+same morphism-layer reading; downstream consumer $\ContinuousMapUp$ as the
+morphism layer for compact-continuous certificates.
+\end{proof}
+
 \begin{theorem}[ContinuousMap carrier hsame-field transport with depth ledger]
 \label{thm:continuousmap-carrier-hsame-field-transport-depth}
 For histories $source,source',map,map',target,target',modulus,modulus',
