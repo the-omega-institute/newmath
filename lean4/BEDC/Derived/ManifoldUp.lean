@@ -177,6 +177,13 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_transition_closure {base index domain chart transition : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      UnaryHistory transition ∧ hsame transition (append domain chart) := by
+  intro package
+  exact And.intro package.right.right.right.right.left
+    package.right.right.right.right.right.right
+
 def ManifoldScopedBoundaryPackage (carrier i j k pair triple : BHist) : Prop :=
   UnaryHistory carrier ∧ UnaryHistory i ∧ UnaryHistory j ∧ UnaryHistory k ∧
     Cont i j pair ∧ Cont pair k triple
@@ -196,6 +203,21 @@ theorem ManifoldScopedBoundaryPackage_triple_overlap_source_determinacy
   cases pairRow
   cases tripleRow
   exact And.intro pairUnary (And.intro tripleUnary (append_assoc i j k))
+
+theorem ManifoldScopedBoundaryPackage_pair_transition_closure
+    {carrier i j k pair triple : BHist} :
+    ManifoldScopedBoundaryPackage carrier i j k pair triple ->
+      UnaryHistory pair ∧ hsame pair (append i j) ∧ UnaryHistory triple ∧
+        hsame triple (append pair k) := by
+  intro package
+  have iUnary : UnaryHistory i := package.right.left
+  have jUnary : UnaryHistory j := package.right.right.left
+  have kUnary : UnaryHistory k := package.right.right.right.left
+  have pairRow : Cont i j pair := package.right.right.right.right.left
+  have tripleRow : Cont pair k triple := package.right.right.right.right.right
+  have pairUnary : UnaryHistory pair := unary_cont_closed iUnary jUnary pairRow
+  have tripleUnary : UnaryHistory triple := unary_cont_closed pairUnary kUnary tripleRow
+  exact And.intro pairUnary (And.intro pairRow (And.intro tripleUnary tripleRow))
 
 theorem ManifoldSingleton_scoped_boundary_instance {chart domain value transition : BHist} :
     ManifoldSingletonCarrier chart -> Cont BHist.Empty chart domain ->
