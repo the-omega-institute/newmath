@@ -118,3 +118,49 @@ continuation $x\cdot\emp=x$. Transporting the result field along
 $d_{xyz}\hsame x$ gives the displayed witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_right\_empty\_boundary\_witness}
+
+\begin{theorem}[Metric triangle bilateral empty edge collapse]
+\label{thm:metric-distance-witness-triangle-bilateral-empty-edge-collapse}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if both displayed edge distances
+in a metric triangle are history-same to $\emp$, then all three endpoints, the
+outer displayed distance, and the final structural depth collapse to the empty
+case:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow\\
+\hsame(d_{xy},\emp)\Longrightarrow
+\hsame(d_{yz},\emp)\Longrightarrow\\
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xyz},\emp)\land
+\mathsf{MetricDistanceDepth}(d_{xyz})=0.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:metric-distance-witness-triangle-left-distance-empty-collapse} to
+the three triangle witnesses and the classifier $\hsame(d_{xy},\emp)$. This
+gives the empty classifiers for $x$ and $y$, and reads $d_{xyz}$ and
+$d_{yz}$ back to the right endpoint $z$.
+
+Apply
+\autoref{thm:metric-distance-witness-triangle-right-distance-empty-collapse} to
+the same three witnesses and the classifier $\hsame(d_{yz},\emp)$. This gives
+the empty classifiers for $y$ and $z$, and reads $d_{xy}$ and $d_{xyz}$ back to
+the left endpoint $x$.
+
+The endpoint classifiers give the first three conjuncts. For the outer
+distance, compose the left-collapse readback $\hsame(d_{xyz},z)$ with
+$\hsame(z,\emp)$ by transitivity of $\hsame$. Finally apply
+\autoref{thm:metric-distance-depth-zero-iff-empty} to this empty final-distance
+classifier to obtain $\mathsf{MetricDistanceDepth}(d_{xyz})=0$.
+\end{proof}
+
+Fit: traditional target degenerate triangle normalization; BEDC source $BHist$
+metric distance witnesses; carrier the three witnessed edges; classifier
+$\hsame$; stability from the two empty-edge collapse lemmas and depth-zero
+readback; ledger the two displayed edge distances; core theorem this block;
+exactness the endpoint and final-distance collapse; standard bridge none
+claimed; status $\mathsf{ProofTarget}$.
