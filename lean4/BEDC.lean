@@ -177,6 +177,7 @@ import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.ComplexTopologyUp
+import BEDC.Derived.ComplexTopologyUp.VisibleRadius
 import BEDC.Derived.ComplexTopologyUp.CertifiedSubradius
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
