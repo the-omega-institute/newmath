@@ -50,3 +50,27 @@ $$
 $$
 Apply \autoref{thm:cont-cancel-hsame-left-context} to these two continuations, using reflexivity for $\HSame(p,p)$ and the obtained result comparison $\HSame(r_0,p)$. The conclusion is $\HSame(u,\emp)$.
 \end{proof}
+
+\begin{theorem}[Continuation fixed left-unit probe forces empty source]
+\label{thm:cont-fixed-left-unit-probe-empty-source}
+For all histories $u,p:\mathsf{BHist}$, if
+$$
+\forall r:\mathsf{BHist}.\; \ContR(u,p,r)\Rightarrow \HSame(r,p),
+$$
+then $\HSame(u,\emp)$.
+\end{theorem}
+\begin{proof}
+Let $r_0=\mathsf{append}(u,p)$ be the canonical result representative for continuing source $u$ by tail $p$. By the append presentation of $\ContR$ in \autoref{def:continuation-relation}, there is a continuation witness
+$$
+\ContR(u,p,r_0).
+$$
+The fixed-probe hypothesis applied to this witness gives $\HSame(r_0,p)$. Transporting the canonical witness along this result comparison by \autoref{thm:cont-result-hsame-transport} gives
+$$
+\ContR(u,p,p).
+$$
+By the left-unit clause of \autoref{thm:continuation-unit-laws}, there is also a continuation witness
+$$
+\ContR(\emp,p,p).
+$$
+Apply the right-cancellation clause of \autoref{thm:continuation-right-cancellation} to these two continuations and the reflexive comparison $\HSame(p,p)$. The conclusion is $\HSame(u,\emp)$.
+\end{proof}
