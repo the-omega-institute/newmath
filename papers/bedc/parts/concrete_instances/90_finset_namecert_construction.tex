@@ -135,3 +135,160 @@ For the forward direction, unpack \autoref{def:finset-enumeration-carrier} and k
 
 For the reverse direction, take a witness $x$ with $\mathsf{SpineMember}(x,xs)$ and $a\sim_A x$. The enumeration witness and \autoref{lem:finset-enumeration-spine-entries-source-carried} give $A(x)$. The symmetry field of $\mathsf{cert}$, as part of \autoref{def:lean-carrier-naming-certificate}, turns $a\sim_A x$ into $x\sim_A a$. Carrier transport from the same certificate carries $A(x)$ along this comparison to obtain $A(a)$. Pair this carrier witness with the original occurrence and classifier witness, and repack by \autoref{def:finset-enumeration-carrier}.
 \end{proof}
+
+\begin{lemma}[Finite-spine occurrence has a position readback]
+\label{lem:finset-spine-member-position-readback}
+For every finite BEDC-history spine $xs:\mathsf{HistSpine}$ and history $y:\mathsf{BHist}$, if $\mathsf{SpineMember}(y,xs)$ holds, then
+$$
+\exists j:\mathsf{Pos}(xs).\;\mathsf{entry}_{xs}(j)=y.
+$$
+\end{lemma}
+\begin{proof}
+Induct on the generated occurrence witness from \autoref{def:finite-spine-occurrence}. In the head clause $\mathsf{SpineMember}(y,\mathsf{cons}(y,ys))$, choose the head position of $\mathsf{cons}(y,ys)$; its readback is $y$. In the tail clause, the induction hypothesis gives a position $j:\mathsf{Pos}(ys)$ with $\mathsf{entry}_{ys}(j)=y$. Use the tail-position inclusion $\mathsf{Pos}(ys)\to\mathsf{Pos}(\mathsf{cons}(x,ys))$; its readback is the same tail entry, so it witnesses the displayed equality for $\mathsf{cons}(x,ys)$.
+\end{proof}
+
+\begin{theorem}[FinSet duplicate insertion invariance]
+\label{thm:finset-duplicate-insertion-invariant}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For a finite BEDC-history spine $xs:\mathsf{HistSpine}$ and histories $x,y:\mathsf{BHist}$, if
+$$
+A(x)\land A(y)\land \mathsf{SpineMember}(y,xs)\land x\sim_A y,
+$$
+then
+$$
+\mathsf{FinSetEnumClassifier}_{A,\sim_A}(\mathsf{cons}(x,xs),xs)
+$$
+holds. Thus a source-carried head entry whose source classifier class is already represented in the finite spine is invisible to the induced $\FinSetUp$ classifier.
+\end{theorem}
+\begin{proof}
+Unpack the displayed assumptions as $A(x)$, $A(y)$, an occurrence $\mathsf{SpineMember}(y,xs)$, and a classifier witness $x\sim_A y$. By \autoref{lem:finset-spine-member-position-readback}, choose a position $j:\mathsf{Pos}(xs)$ with $\mathsf{entry}_{xs}(j)=y$.
+
+Unfold \autoref{def:finset-enumeration-membership}. It is enough to fix a query history $z$ and prove the two membership implications between $\mathsf{cons}(x,xs)$ and $xs$.
+
+For the forward implication, suppose $\mathsf{EnumMem}_{A,\sim_A}(z,\mathsf{cons}(x,xs))$. Then $A(z)$ holds and some position of the cons spine carries an entry classified with $z$. Case-analyze that position. If it is the head position, the readback is $x$, so the witness supplies $z\sim_A x$. The transitivity field of $\mathsf{cert}$ from \autoref{def:lean-carrier-naming-certificate} composes $z\sim_A x$ with $x\sim_A y$ and gives $z\sim_A y$. Rewriting $y$ as $\mathsf{entry}_{xs}(j)$, the position $j$ together with $A(y)$ repacks as $\mathsf{EnumMem}_{A,\sim_A}(z,xs)$. If the cons-position is inherited from the tail, its readback is already a position of $xs$ with the same carried-entry and classifier witnesses, so it repacks directly as $\mathsf{EnumMem}_{A,\sim_A}(z,xs)$.
+
+For the reverse implication, suppose $\mathsf{EnumMem}_{A,\sim_A}(z,xs)$. Keep its source witness $A(z)$ and its position $i:\mathsf{Pos}(xs)$ with $A(\mathsf{entry}_{xs}(i))$ and $z\sim_A\mathsf{entry}_{xs}(i)$. View $i$ as the corresponding tail position of $\mathsf{cons}(x,xs)$. The cons readback at that tail position is $\mathsf{entry}_{xs}(i)$, so the same carried-entry and classifier witnesses repack as $\mathsf{EnumMem}_{A,\sim_A}(z,\mathsf{cons}(x,xs))$.
+
+The two implications hold for every query history $z$. By the classifier clause in \autoref{def:finset-enumeration-membership}, this is exactly $\mathsf{FinSetEnumClassifier}_{A,\sim_A}(\mathsf{cons}(x,xs),xs)$.
+\end{proof}
+
+\begin{lemma}[Certified finite-position bijections compose]
+\label{lem:finset-enum-position-bijection-composition}
+For finite BEDC-history spines $xs$, $ys$, and $zs$, certified finite-position bijections
+$$
+\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)
+\qquad\text{and}\qquad
+\rho:\mathsf{Pos}(ys)\cong\mathsf{Pos}(zs)
+$$
+compose to a certified finite-position bijection
+$$
+\rho\circ\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(zs),
+$$
+whose inverse position map is $\pi^{-1}\circ\rho^{-1}$.
+\end{lemma}
+\begin{proof}
+The certified-bijection data in \autoref{def:finset-classifier-preserving-enumeration-permutation} consist of a forward position map, an inverse position map, and the two inverse identities. For the composite, take the forward position map $\rho\circ\pi$ and the inverse position map $\pi^{-1}\circ\rho^{-1}$. The left and right inverse identities follow by applying first the inverse identities of $\rho$ and then the inverse identities of $\pi$, in the corresponding order. Thus the composite map carries the same certified-bijection data required in \autoref{def:finset-classifier-preserving-enumeration-permutation}.
+\end{proof}
+
+\begin{theorem}[EnumPerm transitivity by bijection composition]
+\label{thm:enumperm-transitivity-by-bijection-composition}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For finite BEDC-history spines $xs$, $ys$, and $zs$, if
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(xs,ys)
+\qquad\text{and}\qquad
+\mathsf{EnumPerm}_{A,\sim_A}(ys,zs)
+$$
+hold, then
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(xs,zs)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:finset-classifier-preserving-enumeration-permutation}. Choose from the first permutation a certified bijection $\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)$ and a pointwise preservation field
+$$
+P_\pi(i):
+A(\mathsf{entry}_{xs}(i))\land
+A(\mathsf{entry}_{ys}(\pi(i)))\land
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+Choose from the second permutation a certified bijection $\rho:\mathsf{Pos}(ys)\cong\mathsf{Pos}(zs)$ and a pointwise preservation field
+$$
+P_\rho(j):
+A(\mathsf{entry}_{ys}(j))\land
+A(\mathsf{entry}_{zs}(\rho(j)))\land
+\mathsf{entry}_{ys}(j)\sim_A\mathsf{entry}_{zs}(\rho(j)).
+$$
+By \autoref{lem:finset-enum-position-bijection-composition}, $\rho\circ\pi$ is a certified bijection from $\mathsf{Pos}(xs)$ to $\mathsf{Pos}(zs)$.
+
+It remains to verify the pointwise classifier-preservation field for the composite. Fix $i:\mathsf{Pos}(xs)$. The field $P_\pi(i)$ gives
+$$
+A(\mathsf{entry}_{xs}(i))
+\qquad\text{and}\qquad
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+The field $P_\rho(\pi(i))$ gives
+$$
+A(\mathsf{entry}_{zs}(\rho(\pi(i))))
+\qquad\text{and}\qquad
+\mathsf{entry}_{ys}(\pi(i))\sim_A\mathsf{entry}_{zs}(\rho(\pi(i))).
+$$
+The transitivity field of $\mathsf{cert}$, equivalently \autoref{thm:namecert-equivalence-transitivity}, composes the two classifier witnesses and yields
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{zs}(\rho(\pi(i))).
+$$
+Together with the displayed carrier witnesses, this is exactly the pointwise preservation clause for the composite certified bijection. Repacking the composite bijection and this field gives $\mathsf{EnumPerm}_{A,\sim_A}(xs,zs)$.
+\end{proof}
+
+\begin{lemma}[Pointwise enumeration membership equivalences compose]
+\label{lem:finset-enummem-pointwise-equivalence-composition}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let $\sim_A$ be a source classifier, and let $xs$, $ys$, and $zs$ be finite BEDC-history spines. If, for every query history $q$,
+$$
+\mathsf{EnumMem}_{A,\sim_A}(q,xs)
+\Longleftrightarrow
+\mathsf{EnumMem}_{A,\sim_A}(q,ys)
+$$
+and
+$$
+\mathsf{EnumMem}_{A,\sim_A}(q,ys)
+\Longleftrightarrow
+\mathsf{EnumMem}_{A,\sim_A}(q,zs)
+$$
+hold, then, for every query history $q$,
+$$
+\mathsf{EnumMem}_{A,\sim_A}(q,xs)
+\Longleftrightarrow
+\mathsf{EnumMem}_{A,\sim_A}(q,zs).
+$$
+\end{lemma}
+\begin{proof}
+Fix a query history $q$. For the forward implication, assume $\mathsf{EnumMem}_{A,\sim_A}(q,xs)$. The forward half of the first displayed equivalence gives $\mathsf{EnumMem}_{A,\sim_A}(q,ys)$, and the forward half of the second displayed equivalence gives $\mathsf{EnumMem}_{A,\sim_A}(q,zs)$.
+
+For the reverse implication, assume $\mathsf{EnumMem}_{A,\sim_A}(q,zs)$. The reverse half of the second displayed equivalence gives $\mathsf{EnumMem}_{A,\sim_A}(q,ys)$, and the reverse half of the first displayed equivalence gives $\mathsf{EnumMem}_{A,\sim_A}(q,xs)$. Thus the two enumeration-membership predicates are equivalent at $q$. Since $q$ was arbitrary, the pointwise equivalence holds for all query histories.
+\end{proof}
+
+\begin{theorem}[FinSet enumeration classifier transitivity]
+\label{thm:finset-enumeration-classifier-transitivity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For finite BEDC-history spines $xs$, $ys$, and $zs$, if
+$$
+\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,ys)
+\qquad\text{and}\qquad
+\mathsf{FinSetEnumClassifier}_{A,\sim_A}(ys,zs)
+$$
+hold, then
+$$
+\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,zs)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+The certificate fixes the ambient source and classifier. Unfold the classifier clause in \autoref{def:finset-enumeration-membership}. The first hypothesis supplies, for every query history $q$, the equivalence between $\mathsf{EnumMem}_{A,\sim_A}(q,xs)$ and $\mathsf{EnumMem}_{A,\sim_A}(q,ys)$. The second supplies, for the same $q$, the equivalence between $\mathsf{EnumMem}_{A,\sim_A}(q,ys)$ and $\mathsf{EnumMem}_{A,\sim_A}(q,zs)$.
+
+By \autoref{lem:finset-enummem-pointwise-equivalence-composition}, these two pointwise equivalences compose to
+$$
+\forall q:\mathsf{BHist}.\;
+\mathsf{EnumMem}_{A,\sim_A}(q,xs)
+\Longleftrightarrow
+\mathsf{EnumMem}_{A,\sim_A}(q,zs).
+$$
+Applying the same classifier clause in \autoref{def:finset-enumeration-membership} repacks this pointwise statement as $\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,zs)$.
+\end{proof}

@@ -118,6 +118,11 @@ def CplxModArg (z r theta : BHist) : Prop :=
   ComplexHistoryCarrier z ∧ CplxNonZero z ∧ UnaryHistory r ∧ UnaryHistory theta ∧
     ComplexHistoryClassifier z (append (BHist.e1 r) (BHist.e1 theta))
 
+def CplxLog (realLog : BHist -> BHist) (z w : BHist) : Prop :=
+  ∃ r theta logR : BHist,
+    CplxModArg z r theta ∧ hsame logR (realLog r) ∧ Cont logR theta w ∧
+      ComplexHistoryCarrier w
+
 theorem CplxPureImaginary_e1_tail_iff {theta tail : BHist} :
     CplxPureImaginary theta (BHist.e1 tail) <->
       UnaryHistory theta /\ hsame tail (append (BHist.e1 BHist.Empty) theta) := by
@@ -324,6 +329,11 @@ theorem CplxPureImaginary_continuation_e0_result_absurd {theta z q tail : BHist}
   have resultCarrier : ComplexHistoryCarrier (BHist.e0 tail) :=
     CplxPureImaginary_continuation_complex_carrier pureImaginary qUnary zqCont
   exact unary_no_zero_extension (ComplexHistoryCarrier_unary resultCarrier)
+
+def CplxSinCos (z s c : BHist) : Prop :=
+  ∃ iz negIz expIz expNegIz : BHist,
+    ComplexHistoryCarrier z ∧ CplxExp iz expIz ∧ CplxExp negIz expNegIz ∧
+      hsame s (append expIz expNegIz) ∧ hsame c (append expIz expIz)
 
 theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
     (UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))) ->

@@ -51,7 +51,7 @@ format:
   .quarto-container { max-width: 100% !important; padding: 0 !important; }
   @media (max-width: 900px) {
     .map-shell { grid-template-columns: 1fr; grid-template-areas: "header" "graph" "detail" "footer"; height: auto; }
-    #cy { height: 540px; }
+    #cy-wrap { height: 540px; } #cy { height: 100%; }
     #detail { max-height: 480px; overflow-y: auto; }
   }
 
@@ -78,7 +78,66 @@ format:
   }
   .region-picker:focus { outline: 2px solid #2c3e50; outline-offset: -1px; }
 
-  #cy { grid-area: graph; height: 100%; background: #fbfbfa; }
+  #cy-wrap { grid-area: graph; position: relative; height: 100%; background: #fbfbfa; }
+  #cy { width: 100%; height: 100%; }
+  .zoom-controls {
+    position: absolute;
+    top: 12px; left: 12px;
+    display: flex; flex-direction: column; gap: 4px;
+    z-index: 10;
+  }
+  .zoom-controls button {
+    width: 32px; height: 32px;
+    border: 1px solid #d0d0d0;
+    background: rgba(255, 255, 255, 0.94);
+    border-radius: 4px;
+    font-size: 1.05rem; line-height: 1;
+    cursor: pointer; padding: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit; color: #333;
+    transition: background 0.12s;
+  }
+  .zoom-controls button:hover { background: #f4f4f4; }
+  .zoom-controls button:active { background: #e8e8e8; }
+  .zoom-controls button:focus { outline: 2px solid #2c3e50; outline-offset: 1px; }
+  .map-filters {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 0.55rem 0.7rem;
+    font-size: 0.78rem;
+    z-index: 10;
+    max-width: 280px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+  .map-filters .ftitle {
+    font-weight: 600; color: #444; margin-bottom: 0.4rem; font-size: 0.78rem;
+  }
+  .map-filters .stub-row {
+    display: flex; align-items: center; gap: 0.35rem;
+    margin-bottom: 0.45rem; padding-bottom: 0.4rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer; user-select: none;
+  }
+  .map-filters .stub-row input { cursor: pointer; margin: 0; }
+  .map-filters .stub-row .lc-count { color: #888; font-size: 0.74rem; }
+  .map-filters .layer-grid { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+  .map-filters .layer-chip {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid #bbb; border-radius: 12px;
+    cursor: pointer; user-select: none;
+    background: white; color: #555;
+    font-size: 0.74rem;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+  }
+  .map-filters .layer-chip.active {
+    background: #2c3e50; color: white; border-color: #2c3e50;
+  }
+  .map-filters .layer-chip .lc-count { font-size: 0.68rem; opacity: 0.75; }
 
   #detail {
     grid-area: detail; padding: 1.2rem; overflow-y: auto;
@@ -231,7 +290,23 @@ format:
     </div>
   </div>
 
-  <div id="cy"></div>
+  <div id="cy-wrap">
+    <div id="cy"></div>
+    <div class="zoom-controls" id="zoom-controls">
+      <button type="button" id="zoom-in" data-i18n-title="zoom_in" title="Zoom in" aria-label="Zoom in">+</button>
+      <button type="button" id="zoom-out" data-i18n-title="zoom_out" title="Zoom out" aria-label="Zoom out">&#8722;</button>
+      <button type="button" id="zoom-reset" data-i18n-title="zoom_reset" title="Fit to view" aria-label="Fit to view"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9"/></svg></button>
+    </div>
+    <div class="map-filters" id="map-filters">
+      <div class="ftitle" data-i18n="filter_title">Filters</div>
+      <label class="stub-row">
+        <input type="checkbox" id="stub-toggle" />
+        <span data-i18n="filter_stubs">Show stubs</span>
+        <span class="lc-count">(<span id="stub-count">0</span>)</span>
+      </label>
+      <div class="layer-grid" id="layer-grid"></div>
+    </div>
+  </div>
 
   <div id="detail">
     <div id="detail-content">
@@ -292,6 +367,8 @@ const I18N = {
     legend_schema: "Schema-only horizon (intentional)",
     legend_shape: "Shape = theory-closure tier: ⬡ scoped, octagon public/bridged, ★ mature. Border = verification: dark for audit/axiom-clean, yellow halo for bridge-checked.",
     legend_size: "Size = total paper obligations (checked + stated).",
+    filter_title: "Filters",
+    filter_stubs: "Show stubs",
     crit_title: "Where AI is attacking now",
     footer_activity: "Monthly commits",
     sum_theorems: "theorems",
@@ -332,6 +409,9 @@ const I18N = {
     grp_other: "Other",
     glossary_btn: "📖 Browse all bilingual terms",
     glossary_title: "Bilingual Glossary",
+    zoom_in: "Zoom in",
+    zoom_out: "Zoom out",
+    zoom_reset: "Fit to view",
   },
   zh: {
     title: "BEDC 项目地图",
@@ -345,6 +425,8 @@ const I18N = {
     legend_schema: "Schema-only 视界 (有意为之)",
     legend_shape: "形状 = 理论闭合等级: ⬡ scoped, 八边形 public/bridged, ★ mature. 边框 = 形式化验证: 深色 = audit/axiom-clean, 黄色光环 = bridge-checked.",
     legend_size: "节点大小 = 论文 obligation 总数 (checked + stated).",
+    filter_title: "过滤",
+    filter_stubs: "显示空 stub",
     crit_title: "AI 当前攻坚位置",
     footer_activity: "每月提交数",
     sum_theorems: "定理",
@@ -385,6 +467,9 @@ const I18N = {
     grp_other: "其他",
     glossary_btn: "📖 浏览全部双语术语",
     glossary_title: "双语术语表",
+    zoom_in: "放大",
+    zoom_out: "缩小",
+    zoom_reset: "适应窗口",
   },
 };
 
@@ -409,6 +494,14 @@ function applyStaticI18n() {
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
     if (I18N[LANG][key] !== undefined) el.innerHTML = I18N[LANG][key];
+  });
+  document.querySelectorAll("[data-i18n-title]").forEach(el => {
+    const key = el.getAttribute("data-i18n-title");
+    const val = I18N[LANG][key];
+    if (val !== undefined) {
+      el.setAttribute("title", val);
+      el.setAttribute("aria-label", val);
+    }
   });
   document.getElementById("btn-en").classList.toggle("active", LANG === "en");
   document.getElementById("btn-zh").classList.toggle("active", LANG === "zh");
@@ -650,6 +743,96 @@ function detailValue(value, code = false) {
   return code ? `<code>${safe}</code>` : safe;
 }
 
+// ----- Filter UI -----
+const LEVEL_BUCKETS = [
+  { id: "b0", label: "L0–3",   min: 0,  max: 3 },
+  { id: "b1", label: "L4–8",   min: 4,  max: 8 },
+  { id: "b2", label: "L9–13",  min: 9,  max: 13 },
+  { id: "b3", label: "L14–17", min: 14, max: 17 },
+  { id: "b4", label: "L18–21", min: 18, max: 21 },
+  { id: "b5", label: "L22–25", min: 22, max: 25 },
+];
+
+let SHOW_STUBS = false;
+const ACTIVE_BUCKETS = new Set(LEVEL_BUCKETS.map(b => b.id));
+
+function nodeIsStub(n) {
+  return statusClass(n) === "scaffold";
+}
+
+function nodeBucketId(level) {
+  for (const b of LEVEL_BUCKETS) {
+    if (level >= b.min && level <= b.max) return b.id;
+  }
+  return null;
+}
+
+function applyFilters() {
+  if (!CY) return;
+  CY.batch(() => {
+    DEPS.nodes.forEach(n => {
+      const node = CY.getElementById(n.id);
+      if (!node || node.empty()) return;
+      const stub = nodeIsStub(n);
+      const bucket = nodeBucketId(n.level);
+      const show = (SHOW_STUBS || !stub) && ACTIVE_BUCKETS.has(bucket);
+      node.style("display", show ? "element" : "none");
+    });
+  });
+  // Re-run dagre on visible elements only so the remaining nodes spread
+  // across the full viewport instead of inheriting the cramped 250-node
+  // layout. Layout is fast; we re-run on every toggle.
+  const visible = CY.elements(":visible");
+  if (visible.length > 0) {
+    visible.layout({
+      name: "dagre",
+      rankDir: "LR",
+      nodeSep: 22,
+      rankSep: 150,
+      edgeSep: 10,
+      ranker: "network-simplex",
+      padding: 16,
+      fit: true,
+      animate: false,
+    }).run();
+    CY.fit(visible, 16);
+  }
+}
+
+function buildFilterUI() {
+  const stubsCount = DEPS.nodes.filter(nodeIsStub).length;
+  const stubCountEl = document.getElementById("stub-count");
+  if (stubCountEl) stubCountEl.textContent = stubsCount;
+
+  const cb = document.getElementById("stub-toggle");
+  if (cb) {
+    cb.checked = SHOW_STUBS;
+    cb.onchange = e => { SHOW_STUBS = e.target.checked; applyFilters(); };
+  }
+
+  const grid = document.getElementById("layer-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  LEVEL_BUCKETS.forEach(b => {
+    const count = DEPS.nodes.filter(n => n.level >= b.min && n.level <= b.max).length;
+    const chip = document.createElement("div");
+    chip.className = "layer-chip" + (ACTIVE_BUCKETS.has(b.id) ? " active" : "");
+    chip.dataset.bucket = b.id;
+    chip.innerHTML = `${b.label} <span class="lc-count">${count}</span>`;
+    chip.onclick = () => {
+      if (ACTIVE_BUCKETS.has(b.id)) {
+        ACTIVE_BUCKETS.delete(b.id);
+        chip.classList.remove("active");
+      } else {
+        ACTIVE_BUCKETS.add(b.id);
+        chip.classList.add("active");
+      }
+      applyFilters();
+    };
+    grid.appendChild(chip);
+  });
+}
+
 function renderCy() {
   const nodes = DEPS.nodes.map(n => {
     const visual = nodeVisual(n);
@@ -682,7 +865,7 @@ function renderCy() {
           "shape": "data(shape)",
           "background-color": "data(color)",
           "label": "data(label)",
-          "font-size": "45px",
+          "font-size": "60px",
           "font-weight": 700,
           "color": "#0f0f0f",
           "text-valign": "bottom",
@@ -694,8 +877,8 @@ function renderCy() {
           "text-background-opacity": 0.92,
           "text-background-padding": "8px",
           "text-background-shape": "roundrectangle",
-          "width": "mapData(size, 0, 30, 24, 60)",
-          "height": "mapData(size, 0, 30, 24, 60)",
+          "width": "mapData(size, 0, 30, 50, 110)",
+          "height": "mapData(size, 0, 30, 50, 110)",
           "border-width": "data(borderWidth)",
           "border-color": "data(stroke)",
           "overlay-padding": 4,
@@ -744,13 +927,17 @@ function renderCy() {
     },
     // Disable wheel/pinch zoom (per request); pan-drag remains for nudging
     // so the dropdown's centered jump can be fine-tuned without the user
-    // ever needing to scroll-zoom.
+    // ever needing to scroll-zoom. The +/-/fit buttons drive zoom
+    // programmatically — bounds keep them sane.
     userZoomingEnabled: false,
     userPanningEnabled: true,
     boxSelectionEnabled: false,
     wheelSensitivity: 0,
     autoungrabify: true,
+    minZoom: 0.05,
+    maxZoom: 4,
   });
+  setupZoomControls();
 
   CY.on("tap", "node", evt => showNodeDetail(evt.target.id()));
   CY.on("tap", evt => {
@@ -770,6 +957,26 @@ function renderCy() {
   // outline below, labels stay legible even when fit-zoomed. The dropdown
   // is the primary nav for jumping between specific regions.
   CY.fit(undefined, 16);
+}
+
+function setupZoomControls() {
+  if (!CY) return;
+  const stepZoom = factor => {
+    const w = CY.width(), h = CY.height();
+    const next = CY.zoom() * factor;
+    CY.zoom({ level: next, renderedPosition: { x: w / 2, y: h / 2 } });
+  };
+  const bind = (id, fn) => {
+    const el = document.getElementById(id);
+    if (el) el.onclick = fn;
+  };
+  bind("zoom-in",  () => stepZoom(1.25));
+  bind("zoom-out", () => stepZoom(0.8));
+  bind("zoom-reset", () => {
+    const visible = CY.elements(":visible");
+    const eles = visible.length ? visible : CY.elements();
+    CY.animate({ fit: { eles, padding: 16 } }, { duration: 300, easing: "ease-out" });
+  });
 }
 
 function showNodeDetail(id) {
@@ -971,6 +1178,8 @@ function renderAll() {
     });
     refreshNodeVisuals();
   }
+  buildFilterUI();
+  applyFilters();
   renderCritList();
   renderSpark();
   if (CY && CY.nodes(":selected").length) {

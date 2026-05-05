@@ -66,6 +66,45 @@ $\mathsf{RatHistoryClassifier}$, together with $\hsame$ transport of the
 positive-denominator row.
 \end{definition}
 
+\begin{theorem}[DyadicRatCore scoped source package]
+\label{thm:dyadic-rat-core-scoped-source-package}
+The DyadicRatCore source used by $\RegSeqRat$ is the concrete BEDC scoped
+source package over $\Hist$ whose carrier, classifier, stability, and ledger
+faces are all read from the rational-history endpoint spine. For each endpoint
+history $d$, the carrier face is
+$\mathsf{RatHistoryCarrier}(d)$ together with
+$\mathsf{PositiveUnaryDenominator}(d)$ and the dyadic-radius token recorded by
+the $\RegSeqRat$ regularity request. For endpoints $d,e$, the classifier face
+is $\mathsf{RatHistoryClassifier}(d,e)$ together with $\hsame$ transport of the
+positive-denominator rows. The stability face is inherited from the $\RatUp$
+carrier and classifier transports and from the pointwise classifier obligation
+of $\RegSeqRat$. The ledger face is exactly the finite family of
+dyadic-tolerance requests already recorded in the $\RegSeqRat$ spine.
+\end{theorem}
+\begin{proof}
+Start with the carrier face. Definition~\ref{def:dyadic-rat-core-observation-row}
+names the three endpoint rows: the rational-history carrier, the positive
+unary denominator, and the dyadic-radius token. The endpoint carrier and the
+finite dyadic request are supplied by
+\autoref{thm:regseqrat-carrier-obligation}, while
+\autoref{thm:rat-history-carrier-positive-denominator-equivalence} converts
+the carrier row into the positive-denominator row.
+
+Next read the classifier and stability faces. The pointwise stream classifier
+obligation in \autoref{thm:regseqrat-classifier-obligation} exposes the
+$\mathsf{RatHistoryClassifier}(d,e)$ endpoint comparison used by the
+DyadicRatCore source. RatUp carrier and classifier transport carries the
+rational-history rows along the same $\hsame$ comparison, and
+\autoref{thm:rat-positive-unary-denominator-hsame-transport} carries the
+positive-denominator row.
+
+It remains only to identify the ledger. No request outside the
+$\RegSeqRat$ spine is used: the dyadic-radius token is attached to the same
+certified unary observation entry that supplies the endpoint rational row.
+Thus the source package has precisely the stated carrier, classifier,
+stability, and finite ledger faces over $\Hist$.
+\end{proof}
+
 \begin{theorem}[RegSeqRat dyadic observation coverage]
 \label{thm:regseqrat-dyadic-observation-coverage}
 Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ stream certificate spine, and let
