@@ -412,4 +412,44 @@ $\hsame(certFG,certFG_2)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_certificate\_deterministic}
 
+\begin{theorem}[ContinuousMap composite target, certificate, and distance determinacy]
+\label{thm:continuousmap-carrier-comp-target-cert-distance-deterministic}
+For histories
+$source,mid,target,target_2,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,certFG_2,distF,distG,displayed:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),
+\qquad
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+$$
+and the composition ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+If a displayed composite carrier uses the same source, composite map, and
+modulus but displays target $target_2$, certificate $certFG_2$, and distance
+$displayed$, then the displayed rows agree with the canonical composite:
+$$
+\begin{array}{l}
+\hsame(target,target_2)\land \hsame(certFG,certFG_2)\land
+\hsame(displayed,\mathsf{append}(source,target))\\
+\qquad{}\land\ContR(source,target,\mathsf{append}(source,target)).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First close the canonical composite carrier from the two input carriers and
+the three continuation ledgers. Its target is $target$, its certificate is
+$certFG$, and its distance ledger is $\mathsf{append}(source,target)$. Compare
+this canonical carrier with the displayed composite carrier by
+\autoref{thm:continuousmap-target-cert-distance-deterministic}. The comparison
+gives target and certificate determinacy, identifies the canonical distance
+with $displayed$, and exposes the canonical endpoint continuation. Symmetry of
+$\hsame$ orients the displayed distance as
+$\hsame(displayed,\mathsf{append}(source,target))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_target\_cert\_distance\_deterministic}
+
 \input{parts/concrete_instances/continuousmap/associative_composition_canonical_package}
