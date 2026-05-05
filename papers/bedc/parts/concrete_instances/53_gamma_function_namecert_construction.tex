@@ -312,3 +312,29 @@ N_s(k)\hsame N_t(k).
 $$
 Now fix $k$ and unary indices $m,n$ accepted above $N_s(k)$ in the threshold clause of \autoref{def:cplx-regseq}. In the equality branch, compose the equality with $N_s(k)\hsame N_t(k)$. In the strict-prefix branch, unpack \autoref{def:nat-unary-strict-prefix} and transport the same nonempty unary tail across the endpoint comparison by \autoref{thm:nat-unary-strict-prefix-cont-hsame-transport}. Thus $m$ and $n$ are accepted above $N_t(k)$ as well. The regularity witness for $(P^t,N_t)$ supplies the required complex-distance bound, and the distance history is unchanged. Since $k,m,n$ were arbitrary, $(P^t,N_s)$ is regular with the transported source modulus.
 \end{proof}
+
+\begin{theorem}[Gamma limit certificate hsame transport]
+\label{thm:gamma-limit-certificate-hsame-transport}
+Let $s,t,z$ be complex histories with $s\hsame t$. Suppose $D_s$ is a $\mathsf{GammaDom}(s)$ core witness with apartness precision $k_0$, and suppose $\mathsf{Gamma}(s,z)$ is witnessed in the sense of \autoref{def:gamma} by the Weierstrass partial-product family $P^s$ of \autoref{def:gamma-weierstrass-part}, the Cauchy modulus
+$$
+N_s(k):=\max(k_0,k)+|\mathsf{Re}(s)|^2+|\mathsf{Im}(s)|^2,
+$$
+and a complex-limit modulus $M_s$. Then $\mathsf{Gamma}(t,z)$ holds with the Gamma-domain core witness transported from $D_s$ by \autoref{thm:gamma-domain-core-hsame-transport}, with the Weierstrass partial-product family $P^t$ at $t$, with the same Cauchy modulus $N_s$, and with the same limit point $z$.
+\end{theorem}
+\begin{proof}
+Unpack the displayed Gamma witness by \autoref{def:gamma}. It consists of the domain witness $D_s$, the partial-product family $P^s$, the regularity supplied by \autoref{lem:gamma-weierstrass-cauchy}, and a limit row
+$$
+\mathsf{CplxLim}(P^s,N_s,z,M_s)
+$$
+in the sense of \autoref{def:cplx-lim}.
+
+Apply \autoref{thm:gamma-domain-core-hsame-transport} to $s\hsame t$ and $D_s$. This gives the target domain witness $D_t$ with the same apartness datum and the same precision $k_0$. Let $P^t$ be the partial-product family obtained from \autoref{def:gamma-weierstrass-part} using $D_t$. By \autoref{thm:gamma-weierstrass-cauchy-modulus-hsame-transport}, $(P^t,N_s)$ is a regular complex sequence, so the target Cauchy modulus is the source modulus $N_s$.
+
+For every unary index $n$, the partial products $P^s_n$ and $P^t_n$ are history-same. This is unary induction on $n$. In the base product, the constants are identical and the only source-dependent endpoint is transported by $s\hsame t$. In the successor step, the induction hypothesis compares the preceding products; the displayed source comparison transports the factors $1+s/n$, their inverses, and $\exp(s\log(1+1/n))$ to the corresponding factors at $t$. The rational-pair complex operations are classifier-respecting by \autoref{def:complex-stability-certificate}, and the analytic $\exp$ and $\log$ rows are classifier-respecting in the construction of \autoref{ch:concrete-instances-real-analytic-namecert}. Continuation determinacy then identifies the two successor products.
+
+The pointwise comparison $P^s_n\hsame P^t_n$ lets \autoref{thm:complex-limit-sequence-hsame-transport} carry the source limit row to
+$$
+\mathsf{CplxLim}(P^t,N_s,z,M_s).
+$$
+If the target limit certificate is presented through another endpoint $z_t$, \autoref{thm:cplx-lim-unique} and \autoref{def:cplx-lim-classifier-specification} classify $z_t$ with $z$ componentwise, and \autoref{lem:cplx-lim-hsame} transports the limit row to the endpoint $z$. Repacking \autoref{def:gamma} with $D_t$, $P^t$, $N_s$, $M_s$, and this limit row gives $\mathsf{Gamma}(t,z)$.
+\end{proof}
