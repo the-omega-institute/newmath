@@ -8,7 +8,9 @@ observation history $n$.
 
 \begin{theorem}[Constant rational stream-name witness]
 \label{thm:rat-stream-name-constant-witness}
-For histories $d,e:\Hist$, if $\mathsf{RatHistoryCarrier}(d)$, then
+For histories $d,e:\Hist$, every certified unary observation $n:\Hist$
+satisfies $\hsame(\mathsf{RatConstStream}_d(n),d)$. If
+$\mathsf{RatHistoryCarrier}(d)$, then
 $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$ and
 $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
 \mathsf{RatConstStream}_d)$. If $\mathsf{RatHistoryClassifier}(d,e)$, then
@@ -16,6 +18,11 @@ $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
 \mathsf{RatConstStream}_e)$.
 \end{theorem}
 \begin{proof}
+Unfold $\mathsf{RatConstStream}$. For any certified unary observation history
+$n$ with witness $\nu:\mathsf{UnaryHistory}(n)$, the selected observation is
+definitionally the hidden seed $d$. History reflexivity gives
+$\hsame(\mathsf{RatConstStream}_d(n),d)$ at that point.
+
 Unfold $\mathsf{RatConstStream}$ and
 $\mathsf{RatStreamNameCarrier}$. For any certified observation history $n$ with
 witness $\nu:\mathsf{UnaryHistory}(n)$, the stream value is $d$, so the supplied
@@ -33,6 +40,44 @@ the supplied $\mathsf{RatHistoryClassifier}(d,e)$ is already the required
 pointwise classifier witness.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_constant\_witness}
+
+\begin{theorem}[Constant rational stream certified-observation determinacy]
+\label{thm:rat-const-stream-certified-observation-determinacy}
+For a history $d:\Hist$ and certified unary observations $m,n:\Hist$, the
+constant rational stream reads the same history at both observation sites:
+$$
+\hsame(\mathsf{RatConstStream}_d(m),\mathsf{RatConstStream}_d(n)).
+$$
+
+The ten-field fit is:
+\begin{enumerate}
+  \item the traditional target is constant rational observation-name coherence;
+  \item the BEDC source is $\RatUp+\StreamNameUp$;
+  \item the carrier is $\mathsf{RatConstStream}$ over certified unary
+  observations;
+  \item the classifier/history relation is $\hsame$;
+  \item stability is certified-observation invariance;
+  \item the ledger is the hidden rational seed plus two unary observation
+  witnesses;
+  \item the core theorem is this determinacy statement;
+  \item exactness says both observations read back to the same seed;
+  \item the standard bridge is ordinary constant stream extensionality;
+  \item the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply the point-sameness row of
+\autoref{thm:rat-stream-name-constant-witness} to the certified observation
+$m$. This gives $\hsame(\mathsf{RatConstStream}_d(m),d)$.
+
+Apply the same row to the certified observation $n$, obtaining
+$\hsame(\mathsf{RatConstStream}_d(n),d)$. By symmetry, this gives
+$\hsame(d,\mathsf{RatConstStream}_d(n))$.
+
+Compose the two history-sameness witnesses by transitivity through the hidden
+seed $d$. The result is
+$\hsame(\mathsf{RatConstStream}_d(m),\mathsf{RatConstStream}_d(n))$.
+\end{proof}
 
 \begin{theorem}[Rational stream-name constant reindexing classifier]
 \label{thm:rat-stream-name-constant-reindexing-classifier}

@@ -6951,3 +6951,53 @@ The LinearMap↑ chapter supplies the certificate interface and proves kernel/im
 
 ---
 
+### B-268 - Composite gap intermediate-witness sameness from same admitted source
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Composite gap intermediate-witness sameness from same admitted source |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under layered first-gap separation, if CompGap(z_1, h) and CompGap(z_2, h) hold over the same admitted source h with intermediate witnesses y_1 and y_2 respectively, then interSame(y_1, y_2) holds.
+
+Local inputs:
+- `papers/bedc/parts/core/07_gap_policies_coverage_separation_and_composition.tex`
+- `lean4/BEDC/FKernel/Gap.lean`
+
+Rationale:
+Chapter 07 lines 117-118 (proof of thm:composite-gap-separation) explicitly derives 'First-layer separation gives interSame(y_1,y_2)' as an intermediate step but the chapter never extracts it as its own labeled theorem. The chapter has 8 labeled theorems (gap-coverage, gap-separation, gap-separation-from-memberships, gap-representative, composite-gap-coverage, composite-gap-separation, composite-exactness-from-layers, composite-representative-for-admitted-source) and the dual 'finalSame from same source' direction is named (composite-gap-separation), while the strictly stronger structural assertion at the intermediate level is left implicit. Category 7 (composite consequence) and Category 8 (constructor inversion / determinism for the existential unpacking of CompGap). Closeable in 1 round: apply compGap_left_witness twice, then first-layer gap-separation. Required infrastructure (gap-separation, compGap-left-witness leanvariant) already present.
+
+---
+
+
+### B-269 - Package representative for a generated answer-history
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Package representative for a generated answer-history |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under PkgPol(Π), for every generated answer-history s, there exists a package token p with Pkg(Π, s, p) such that for every t with hsame(s, t) and Pkg(Π, t, q), psame(p, q) holds.
+
+Local inputs:
+- `papers/bedc/parts/core/06_packages_and_package_policies.tex`
+
+Rationale:
+Chapter 06 has only one labeled theorem (thm:packages-classify-signatures-core), which states extensionality and grounding as biconditionals but does not assemble them into a representative-selection statement. The exact dual lives one chapter later as thm:gap-representative-for-admitted-source (07.tex:59) for gap policies. The asymmetry — gap policy has its representative theorem named, package policy does not — is a clean editorial gap. Category 7 (composite consequence: combine PkgPol existence field with extensionality field). Closeable in 1 round: existence supplies p; extensionality applied to (s, t, hsame(s,t), p, q) supplies psame(p, q).
+
+---
+
