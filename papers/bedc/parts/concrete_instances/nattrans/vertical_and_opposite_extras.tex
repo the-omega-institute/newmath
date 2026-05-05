@@ -404,3 +404,78 @@ which is the required $\NatTransUp$ naturality field under the morphism classifi
 
 The ledger row of \autoref{def:nattrans-ledger-policy} records the two composite functor ledgers, the component ledger of $\alpha$ at each object $K_0(X)$, the morphism-image ledger $K_1(u)$, and the naturality derivation of $\alpha$ at that displayed morphism.
 \end{proof}
+
+\begin{definition}[Horizontal natural transformation data]
+\label{def:nattrans-horizontal-composition-certificate-data}
+Let $\mathcal C$, $\mathcal D$, and $\mathcal E$ be $\CategoryUp$ certificates. Let $F,G:\mathcal C\to\mathcal D$ and $H,K:\mathcal D\to\mathcal E$ be $\FunctorUp$ certificates with object maps $F_0,G_0,H_0,K_0$ and morphism maps $F_1,G_1,H_1,K_1$. Let $\alpha:F\Rightarrow G$ and $\beta:H\Rightarrow K$ be $\NatTransUp$ certificates with component families $\alpha_X:F_0(X)\to G_0(X)$ and $\beta_Y:H_0(Y)\to K_0(Y)$. The horizontal composite data $\beta\diamond\alpha:H\circ F\Rightarrow K\circ G$ have component family
+$$
+(\beta\diamond\alpha)_X:=\beta_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X).
+$$
+For a displayed morphism $u:X\to Y$ in $\mathcal C$, the displayed naturality row is the $\mathcal E$-morphism-classifier comparison
+$$
+K_1(G_1(u))\circ_{\mathcal E}(\beta_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X))
+\sim_{\mathcal E}
+(\beta_{G_0(Y)}\circ_{\mathcal E}H_1(\alpha_Y))\circ_{\mathcal E}H_1(F_1(u)).
+$$
+\end{definition}
+
+\begin{theorem}[Horizontal composition of natural transformations]
+\label{thm:nattrans-horizontal-composition-certificate}
+Let $\mathcal C$, $\mathcal D$, and $\mathcal E$ be $\CategoryUp$ certificates satisfying \autoref{def:category-certificate-obligations}. Let $F,G:\mathcal C\to\mathcal D$ and $H,K:\mathcal D\to\mathcal E$ be $\FunctorUp$ certificates satisfying \autoref{def:functor-certificate-obligations}, with object maps $F_0,G_0,H_0,K_0$ and morphism maps $F_1,G_1,H_1,K_1$. If $\alpha:F\Rightarrow G$ and $\beta:H\Rightarrow K$ satisfy the $\NatTransUp$ certificate obligations of \autoref{def:nattrans-certificate-obligations}, then the data of \autoref{def:nattrans-horizontal-composition-certificate-data} satisfy the $\NatTransUp$ carrier and naturality-square fields for a natural transformation
+$$
+\beta\diamond\alpha:H\circ F\Rightarrow K\circ G
+$$
+under the morphism classifier of $\mathcal E$. Its component at each object $X$ is
+$$
+(\beta\diamond\alpha)_X=\beta_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X),
+$$
+and for every displayed morphism $u:X\to Y$ in $\mathcal C$ its naturality row is
+$$
+K_1(G_1(u))\circ_{\mathcal E}(\beta_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X))
+\sim_{\mathcal E}
+(\beta_{G_0(Y)}\circ_{\mathcal E}H_1(\alpha_Y))\circ_{\mathcal E}H_1(F_1(u)).
+$$
+Moreover, for each object $X$, this component is classified with the alternative component obtained by applying $K$ to $\alpha_X$ after the component of $\beta$ at $F_0(X)$:
+$$
+(\beta\diamond\alpha)_X
+\sim_{\mathcal E}
+K_1(\alpha_X)\circ_{\mathcal E}\beta_{F_0(X)}.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:functor-composite-preservation-witnesses} to the pairs $(F,H)$, $(G,H)$, $(F,K)$, and $(G,K)$. Together with the source, pattern, classifier, stability, and ledger rows listed in \autoref{def:functor-certificate-obligations}, this reads $H\circ F$, $H\circ G$, $K\circ F$, and $K\circ G$ as certified $\FunctorUp$ carriers with source and target categories as displayed.
+
+By \autoref{thm:functor-whiskering-nattrans-certificate} applied to $H$ and $\alpha$, the component family
+$$
+(H_{\ast}\alpha)_X=H_1(\alpha_X)
+$$
+satisfies the $\NatTransUp$ carrier and naturality-square fields from $H\circ F$ to $H\circ G$. By \autoref{thm:nattrans-prewhiskering-by-functor-certificate} applied to $\beta$ and $G$, the component family
+$$
+(\beta\ast G)_X=\beta_{G_0(X)}
+$$
+satisfies the corresponding fields from $H\circ G$ to $K\circ G$. These two natural transformations share source category $\mathcal C$, target category $\mathcal E$, and middle functor $H\circ G$.
+
+The vertical-composition row in \autoref{def:nattrans-stability-certificate}, equivalently the construction used in \autoref{thm:nattrans-vertical-composition-naturality}, therefore gives a $\NatTransUp$ carrier from $H\circ F$ to $K\circ G$ with component
+$$
+((\beta\ast G)\circ(H_{\ast}\alpha))_X
+=(\beta\ast G)_X\circ_{\mathcal E}(H_{\ast}\alpha)_X
+=\beta_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X).
+$$
+This is exactly the component family in \autoref{def:nattrans-horizontal-composition-certificate-data}.
+
+For naturality, let $u:X\to Y$ be displayed in $\mathcal C$. Applying \autoref{thm:nattrans-vertical-composition-naturality} to $H_{\ast}\alpha$ and $\beta\ast G$ gives
+$$
+(K\circ G)_1(u)\circ_{\mathcal E}(\beta\diamond\alpha)_X
+\sim_{\mathcal E}
+(\beta\diamond\alpha)_Y\circ_{\mathcal E}(H\circ F)_1(u).
+$$
+Unfolding the composite morphism maps supplied by \autoref{thm:functor-composite-preservation-witnesses} gives $(K\circ G)_1(u)=K_1(G_1(u))$ and $(H\circ F)_1(u)=H_1(F_1(u))$. Substituting the displayed component formula gives the naturality row stated above.
+
+It remains to identify the alternate component display. The carrier field of $\alpha$, from \autoref{def:nattrans-carrier}, makes $\alpha_X:F_0(X)\to G_0(X)$ a displayed morphism of $\mathcal D$. Naturality of $\beta$ at this displayed morphism gives
+$$
+K_1(\alpha_X)\circ_{\mathcal E}\beta_{F_0(X)}
+\sim_{\mathcal E}
+\beta_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X).
+$$
+Symmetry of the $\mathcal E$ morphism classifier, recorded in \autoref{def:category-stability-certificate}, reverses this comparison, and the right-hand side is the horizontal component by definition.
+\end{proof}
