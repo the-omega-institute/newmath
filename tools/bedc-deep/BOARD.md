@@ -9444,3 +9444,89 @@ The cryptographic slice has no completed deep-loop content: papers/bedc/parts/co
 
 ---
 
+### B-362 - Network-flow cut accounting from vertex conservation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Network-flow cut accounting from vertex conservation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a finite directed NetworkFlowUp setup, if a flow satisfies the source-value row and vertex conservation at every nonterminal cut-side vertex, then every finite s-t cut supplies Cont(value, backward crossing flow, forward crossing flow).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+
+Rationale:
+This is a concrete prerequisite theorem for the current network-flow surface: the existing weak-duality proof uses cut accounting as a feasibility row, while this target derives that row from local vertex conservation. It is not a BOARD duplicate and is not already proven by the current weak-duality theorem.
+
+---
+
+
+### B-363 - Network-flow max-flow min-cut equality package
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Network-flow max-flow min-cut equality package |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a finite NetworkFlowUp setup, if a feasible flow carries an augmenting-path exhaustion certificate, then its value is NatUp-classified equal to the capacity of the residual cut induced by that certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+This is a conditional strong-duality target, distinct from the existing weak-duality cut bound. It lands directly in the network-flow chapter, has a single certificate-to-classification implication shape, and would close a named interface direction without duplicating any existing BOARD entry.
+
+---
+
+### B-364 - NetworkFlowUp residual reachability cut extraction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | NetworkFlowUp residual reachability cut extraction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a finite NetworkFlowUp setup, if t is not residual-reachable from s, then the cut induced by the residual-reachable side supplies the residual-cut augmenting-path exhaustion certificate: all forward cut edges are saturated and the backward cut flow is classified empty.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+
+Rationale:
+This is a concrete theorem-level bridge in the existing NetworkFlowUp surface: the paper already has weak duality, cut accounting, a residual-exhaustion certificate, and max-flow/min-cut equality from such a certificate, but it does not derive that certificate from the standard no-residual-path condition. It is not a duplicate of the existing equality package because it produces the certificate rows that the equality theorem assumes, and the landing file is a concrete non-hub chapter well below the line cap.
+
+---
+
