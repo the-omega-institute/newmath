@@ -64,6 +64,48 @@ theorem RealStreamClassifier_transported_contextual_full_endpoint_package
   exact RealStreamClassifier_selected_contextual_full_endpoint_package transported prefUnary
     tailUnary prefSame tailSame prefCont outXCont prefYCont outYCont outXOne outYOne
 
+theorem RealStreamClassifier_transported_contextual_displayed_e1_classifier_package
+    {x x' y y' prefX prefY tailX tailY midX midY outX outY : Nat -> BHist}
+    {n : Nat} {a b zX zY : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y -> UnaryHistory (prefX n) -> UnaryHistory (tailX n) ->
+          hsame (prefX n) (prefY n) -> hsame (tailX n) (tailY n) ->
+            Cont (prefX n) (x' n) (midX n) -> Cont (midX n) (tailX n) (outX n) ->
+              Cont (prefY n) (y' n) (midY n) -> Cont (midY n) (tailY n) (outY n) ->
+                hsame (outX n) (BHist.e1 a) -> hsame (outY n) (BHist.e1 b) ->
+                  RatHistoryClassifier (outX n) (outY n) ∧
+                    RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) ∧ UnaryHistory a ∧
+                      UnaryHistory b ∧ hsame a b ∧ PositiveUnaryDenominator (outX n) ∧
+                        PositiveUnaryDenominator (outY n) ∧ UnaryHistory (outX n) ∧
+                          UnaryHistory (outY n) ∧ (hsame (outX n) BHist.Empty -> False) ∧
+                            (hsame (outY n) BHist.Empty -> False) ∧
+                              (hsame (outX n) (BHist.e0 zX) -> False) ∧
+                                (hsame (outY n) (BHist.e0 zY) -> False) := by
+  intro sameX sameY classified prefUnary tailUnary prefSame tailSame prefCont outXCont
+    prefYCont outYCont outXOne outYOne
+  have endpointPackage := RealStreamClassifier_transported_contextual_full_endpoint_package
+    (leftTail := a) (rightTail := b) (zX := zX) (zY := zY) sameX sameY classified
+    prefUnary tailUnary prefSame tailSame prefCont outXCont prefYCont outYCont outXOne
+    outYOne
+  have displayed : RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
+    RatHistoryClassifier_hsame_transport outXOne outYOne endpointPackage.left
+  exact And.intro endpointPackage.left
+    (And.intro displayed
+      (And.intro endpointPackage.right.right.right.right.right.right.right.right.right.left
+        (And.intro
+          endpointPackage.right.right.right.right.right.right.right.right.right.right.left
+          (And.intro
+            endpointPackage.right.right.right.right.right.right.right.right.right.right.right
+            (And.intro endpointPackage.right.left
+              (And.intro endpointPackage.right.right.left
+                (And.intro endpointPackage.right.right.right.left
+                  (And.intro endpointPackage.right.right.right.right.left
+                    (And.intro endpointPackage.right.right.right.right.right.left
+                      (And.intro endpointPackage.right.right.right.right.right.right.left
+                        (And.intro endpointPackage.right.right.right.right.right.right.right.left
+                          endpointPackage.right.right.right.right.right.right.right.right.left)))))))))))
+
 theorem RealStreamClassifier_transported_contextual_e1_tail_determinacy
     {x x' y y' prefX prefY tailX tailY midX midY outX outY : Nat -> BHist}
     {n : Nat} {a a' b b' : BHist} :

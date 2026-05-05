@@ -1,0 +1,404 @@
+\begin{definition}[Constant rational stream name]
+\label{def:rat-stream-name-constant}
+For a history $d:\Hist$, write $\mathsf{RatConstStream}_d(n)=d$ for every unary
+observation history $n$.
+\end{definition}
+\leandef{BEDC.Derived.StreamNameUp.RatStreamName\_constant}
+\leandef{BEDC.Derived.StreamNameUp.RatConstStream}
+
+\begin{theorem}[Constant rational stream-name witness]
+\label{thm:rat-stream-name-constant-witness}
+For histories $d,e:\Hist$, if $\mathsf{RatHistoryCarrier}(d)$, then
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$ and
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_d)$. If $\mathsf{RatHistoryClassifier}(d,e)$, then
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e)$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatConstStream}$ and
+$\mathsf{RatStreamNameCarrier}$. For any certified observation history $n$ with
+witness $\nu:\mathsf{UnaryHistory}(n)$, the stream value is $d$, so the supplied
+$\mathsf{RatHistoryCarrier}(d)$ is the required pointwise carrier witness.
+
+For the self-classifier, unfold $\mathsf{RatStreamNameClassifier}$ and fix
+$n$ with witness $\nu:\mathsf{UnaryHistory}(n)$. The two endpoint observations
+are both $d$, and RatUp carrier-reflexivity turns the certified rational
+observation into $\mathsf{RatHistoryClassifier}(d,d)$.
+
+For a classifier between two constant streams, unfold
+$\mathsf{RatStreamNameClassifier}$ and fix $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. The endpoint observations are $d$ and $e$, so
+the supplied $\mathsf{RatHistoryClassifier}(d,e)$ is already the required
+pointwise classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_constant\_witness}
+
+\begin{theorem}[Rational stream-name constant reindexing classifier]
+\label{thm:rat-stream-name-constant-reindexing-classifier}
+For histories $d,e:\Hist$ and an observation reindexer $r:\Hist\to\Hist$,
+suppose $r$ preserves certified unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(r(n)).
+$$
+If $\mathsf{RatHistoryCarrier}(d)$, then
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$ and
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_d)$. If $\mathsf{RatHistoryClassifier}(d,e)$, then
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ r)$.
+\end{theorem}
+\begin{proof}
+For the carrier, unfold $\mathsf{RatConstStream}$ and
+$\mathsf{RatStreamNameCarrier}$. Fix an observation history $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. The reindexer supplies a certified unary
+observation witness for $r(n)$, but the reindexed constant stream still has
+value $d$, so the supplied $\mathsf{RatHistoryCarrier}(d)$ is the required
+pointwise carrier witness.
+
+For the classifier against the original constant stream, unfold
+$\mathsf{RatStreamNameClassifier}$ and fix the same certified observation data
+$(n,\nu)$. Both stream values are $d$ after expanding the constant stream, so
+RatUp carrier-reflexivity turns the carrier witness for $d$ into the required
+point classifier $\mathsf{RatHistoryClassifier}(d,d)$.
+
+For two reindexed constant streams, unfold
+$\mathsf{RatStreamNameClassifier}$ and fix $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. The unary-preservation hypothesis certifies
+$r(n)$ as an admissible observation, while both endpoint stream values remain
+the seeds $d$ and $e$. The supplied
+$\mathsf{RatHistoryClassifier}(d,e)$ is therefore reused pointwise.
+\end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_constant\_reindexing\_classifier}
+
+\begin{theorem}[Rational stream-name independently reindexed constant classifier]
+\label{thm:rat-stream-name-independent-reindexed-constant-classifier}
+For histories $d,e:\Hist$ and observation schedules
+$r,q:\Hist\to\Hist$, if $\mathsf{RatHistoryCarrier}(d)$, then
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$. If
+$\mathsf{RatHistoryClassifier}(d,e)$, then
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q)$.
+
+The ten-field fit is:
+\begin{enumerate}
+  \item the traditional target is independently scheduled constant rational
+  stream names;
+  \item the BEDC source is $\RatUp$ over $\mathsf{BHist}$;
+  \item the carrier row is $\mathsf{RatStreamNameCarrier}$;
+  \item the classifier row is $\mathsf{RatStreamNameClassifier}$;
+  \item the schedule row is the pair of observation maps $r$ and $q$;
+  \item the ledger is the two observation schedules together with the hidden
+  rational seeds $d$ and $e$;
+  \item the core theorem is this independently reindexed constant classifier;
+  \item exactness is pointwise reduction to the $\RatUp$ classifier;
+  \item the downstream consumer is the $\RealUp$ independent reindexed constant
+  bridge;
+  \item the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the carrier, unfold $\mathsf{RatConstStream}$ and
+$\mathsf{RatStreamNameCarrier}$. Fix an arbitrary certified unary observation
+$n$ with witness $\nu:\mathsf{UnaryHistory}(n)$. The composite
+$\mathsf{RatConstStream}_d\circ r$ still evaluates to $d$, so the supplied
+$\mathsf{RatHistoryCarrier}(d)$ is reused as the pointwise carrier witness.
+
+For the classifier, unfold $\mathsf{RatConstStream}$ and
+$\mathsf{RatStreamNameClassifier}$. At the same kind of certified unary
+observation $n$, the left endpoint ignores $r(n)$ and evaluates to $d$, while
+the right endpoint ignores $q(n)$ and evaluates to $e$. Thus the supplied
+$\mathsf{RatHistoryClassifier}(d,e)$ is already the required pointwise
+classifier.
+\end{proof}
+
+\begin{theorem}[Rational stream-name independently reindexed constant point exactness]
+\label{thm:rat-stream-name-independent-reindexed-constant-point-exactness}
+For histories $d,e:\Hist$ and observation maps $r,q:\Hist\to\Hist$, the
+pointwise stream-name carrier and classifier of independently reindexed
+constant streams recover exactly the RatUp history data:
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(d)
+$$
+and
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatConstStream}$ and $\mathsf{RatStreamNameCarrier}$. In the
+forward carrier direction, read the stream carrier at the empty observation
+$\emp$; the reindexed constant stream evaluates to the seed history $d$ there.
+
+In the reverse carrier direction, fix an arbitrary certified unary observation.
+The composite $\mathsf{RatConstStream}_d\circ r$ still evaluates to $d$, so the
+seed carrier $\mathsf{RatHistoryCarrier}(d)$ supplies the pointwise stream
+carrier witness.
+
+For the classifier equivalence, unfold $\mathsf{RatConstStream}$ and
+$\mathsf{RatStreamNameClassifier}$. In the forward direction, read the stream
+classifier at $\emp$; both independently reindexed constant streams ignore their
+observation maps and return the endpoint histories $d$ and $e$.
+
+In the reverse direction, the supplied
+$\mathsf{RatHistoryClassifier}(d,e)$ already contains the endpoint carrier data
+and the point classifier between $d$ and $e$. At every certified unary
+observation, the two stream endpoints again reduce to $d$ and $e$, so the same
+point classifier repacks into the stream-name classifier.
+\end{proof}
+
+\begin{theorem}[Rational constant stream empty-observation exactness]
+\label{thm:rat-const-stream-empty-point-exactness}
+For histories $h,k:\Hist$, the pointwise stream-name carrier and classifier of
+constant streams are equivalent to their RatUp point data at the empty unary
+observation:
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_h)
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(\mathsf{RatConstStream}_h(\emp))
+$$
+and
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_h,
+\mathsf{RatConstStream}_k)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(\mathsf{RatConstStream}_h(\emp),
+\mathsf{RatConstStream}_k(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatConstStream}$. In the
+forward carrier direction, read the pointwise carrier witness at the empty
+unary observation $\emp$, obtaining the RatUp carrier at
+$\mathsf{RatConstStream}_h(\emp)$.
+
+In the reverse carrier direction, fix an arbitrary certified unary
+observation. A constant stream has the same value there as at $\emp$, so the
+empty-observation carrier rebuilds the required pointwise carrier witness.
+
+For the classifier equivalence, unfold $\mathsf{RatStreamNameClassifier}$ and
+the two constant streams. The forward direction reads the pointwise classifier
+witness at $\emp$.
+
+In the reverse direction, the empty-observation classifier contains the endpoint
+carrier data and the point classifier between
+$\mathsf{RatConstStream}_h(\emp)$ and $\mathsf{RatConstStream}_k(\emp)$. At
+every certified unary observation, the two constant endpoints again evaluate as
+they do at $\emp$, so the same RatUp classifier repacks into the stream-name
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatConstStream\_empty\_point\_exactness}
+
+\begin{theorem}[Rational stream-name constant point exactness]
+\label{thm:rat-stream-name-constant-point-exactness}
+For histories $h,k:\Hist$, the pointwise stream-name carrier and classifier of
+constant streams recover exactly the RatUp history data:
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_h)
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(h)
+$$
+and
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_h,
+\mathsf{RatConstStream}_k)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatConstStream}$. In the
+forward direction, read the pointwise carrier witness at observation index $0$.
+In the reverse direction, fix an arbitrary observation index $n$; since the
+constant stream value is $h$, the supplied $\mathsf{RatHistoryCarrier}(h)$
+witness is exactly the required pointwise witness.
+
+For the classifier statement, unfold $\mathsf{RatStreamNameClassifier}$ and
+the two constant streams. In the forward direction, read the pointwise
+classifier witness at observation index $0$. In the reverse direction, fix an
+arbitrary observation index $n$; since the endpoint stream values are $h$ and
+$k$, the supplied $\mathsf{RatHistoryClassifier}(h,k)$ witness is exactly the
+required pointwise classifier at that observation.
+\end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_constant\_point\_exactness}
+
+\begin{theorem}[Rational stream-name constant bridge package]
+\label{thm:rat-stream-name-constant-bridge-package}
+For histories $d,e:\Hist$ and an observation reindexer $r:\Hist\to\Hist$,
+suppose $r$ preserves certified unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(r(n)).
+$$
+Every witness $\rho:\mathsf{RatHistoryClassifier}(d,e)$ determines the concrete
+constant stream-name bridge package consisting of:
+\begin{enumerate}
+  \item the carrier rows
+  $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$ and
+  $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$;
+  \item the classifier row
+  $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+  \mathsf{RatConstStream}_e)$;
+  \item the reindexed classifier rows
+  $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+  \mathsf{RatConstStream}_d)$ and
+  $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+  \mathsf{RatConstStream}_e\circ r)$;
+  \item the exactness equivalence
+
+  $$
+  \mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+  \mathsf{RatConstStream}_e)
+  \Longleftrightarrow
+  \mathsf{RatHistoryClassifier}(d,e).
+  $$
+
+\end{enumerate}
+
+The compact ten-field fit is:
+\begin{enumerate}
+  \item the traditional target is ordinary constant rational observation names;
+  \item the BEDC source is $\RatUp$ plus $\StreamNameUp$ over $\mathsf{BHist}$;
+  \item the carrier row is $\mathsf{RatStreamNameCarrier}$ on the hidden seed
+  stream and its certified observation reindexing;
+  \item the classifier row is $\mathsf{RatStreamNameClassifier}$ on constant
+  rational stream names;
+  \item the stability rows are constant observation reindexing and same-seed
+  comparison against the unreindexed constant stream;
+  \item the ledger is the rational seed pair $(d,e)$ together with the unary
+  preserving reindexer $r$;
+  \item the core theorem is this constant bridge package;
+  \item exactness is the reduction of constant stream-name classification to
+  $\mathsf{RatHistoryClassifier}(d,e)$;
+  \item the standard bridge is ordinary constant rational streams read as
+  certified stream names;
+  \item the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier witness for $d$ from the RatUp classifier
+$\rho:\mathsf{RatHistoryClassifier}(d,e)$. Apply
+\autoref{thm:rat-stream-name-constant-witness} to this carrier witness to obtain
+the unreindexed carrier row, and apply the same theorem to $\rho$ to obtain the
+unreindexed classifier between $\mathsf{RatConstStream}_d$ and
+$\mathsf{RatConstStream}_e$.
+
+Next apply \autoref{thm:rat-stream-name-constant-reindexing-classifier} with the
+unary-preservation row for $r$. Its carrier clause supplies
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$, its same-seed
+clause supplies the classifier from $\mathsf{RatConstStream}_d\circ r$ to
+$\mathsf{RatConstStream}_d$, and its endpoint clause supplies the classifier
+from $\mathsf{RatConstStream}_d\circ r$ to
+$\mathsf{RatConstStream}_e\circ r$.
+
+The exactness row is precisely
+\autoref{thm:rat-stream-name-constant-point-exactness}: after expanding the two
+constant streams, stream-name classification is equivalent to the RatUp
+classifier on the two hidden histories $d$ and $e$.
+
+Repack these carrier, classifier, reindexing, and exactness witnesses with the
+ledger $(d,e,r)$. The resulting object is the named bridge package for constant
+rational observation names.
+\end{proof}
+
+\begin{theorem}[Rational stream-name public certificate]
+\label{thm:rat-stream-name-public-certificate}
+The carrier $\mathsf{RatStreamNameCarrier}$ and classifier
+$\mathsf{RatStreamNameClassifier}$, read over unary $\mathsf{BHist}$
+observations and RatUp point carriers and classifiers, supply the public
+$\StreamNameUp$ certificate with the following ten fields:
+\begin{enumerate}
+  \item the traditional target is the certified countable rational-observation
+  name interface;
+  \item the BEDC source is $\RatUp$ over $\mathsf{BHist}$;
+  \item the carrier row is $\mathsf{RatStreamNameCarrier}$;
+  \item the classifier row is $\mathsf{RatStreamNameClassifier}$;
+  \item reflexivity, symmetry, transitivity, endpoint-carrier recovery, and
+  history-sameness transport are the rows of
+  \autoref{thm:rat-stream-name-certificate-fields};
+  \item reindexing stability and mapped-stream stability are the two clauses of
+  \autoref{thm:rat-stream-name-reindexing-and-map-stability};
+  \item composed reindexing stability is
+  \autoref{thm:rat-stream-name-reindexing-composition-law};
+  \item inhabited constant streams are supplied by
+  \autoref{thm:rat-stream-name-constant-witness};
+  \item constant reindexing classification is
+  \autoref{thm:rat-stream-name-constant-reindexing-classifier};
+  \item constant-point and independently reindexed constant-point exactness,
+  with finite unary observation data in the ledger and exactness pointwise over
+  the $\RatUp$ classifier, are
+  \autoref{thm:rat-stream-name-constant-point-exactness} and
+  \autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the two public rows. The carrier row is the predicate assigning to each
+stream $s:\Hist\to\Hist$ the pointwise requirement
+$\mathsf{RatHistoryCarrier}(s(n))$ at every certified unary observation
+$n:\mathsf{BHist}$, and the classifier row assigns to each pair of streams the
+pointwise RatUp classifier between their two observed histories.
+
+The equivalence-relation and transport rows are exactly the five clauses of
+\autoref{thm:rat-stream-name-certificate-fields}. They read a stream
+certificate at an arbitrary unary observation and apply the corresponding
+RatUp point theorem, so no global stream data other than the two unfolded rows
+is introduced.
+
+The structural action rows come from
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} and
+\autoref{thm:rat-stream-name-reindexing-composition-law}. The first theorem
+handles a single certified observation reindexer and a RatUp-preserving history
+map; the second repacks two unary-preserving reindexers into their composite and
+then applies the same pointwise classifier and carrier reading.
+
+The inhabited and constant-name rows are supplied by
+\autoref{thm:rat-stream-name-constant-witness} and
+\autoref{thm:rat-stream-name-constant-reindexing-classifier}. The witness row
+uses a RatUp history carrier as the seed for a constant stream, while the
+reindexing row observes that every reindexed constant stream still has the same
+endpoint seed at each certified unary observation.
+
+Finally,
+\autoref{thm:rat-stream-name-constant-point-exactness} identifies the constant
+stream carrier and classifier with the underlying RatUp carrier and classifier,
+and
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness}
+gives the same exactness after independent observation reindexing on the two
+constant endpoints. Thus the ledger consists of finite unary observation data
+together with the pointwise RatUp witnesses, and the exactness field is
+pointwise over the RatUp classifier. These ten rows are precisely the public
+$\StreamNameUp$ certificate assembled from the named component theorems.
+\end{proof}
+
+The certificate template has ten fields: traditional target certified
+countable rational-observation names; BEDC source $\RatUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{RatStreamNameCarrier}$; classifier
+$\mathsf{RatStreamNameClassifier}$; stability obligations as the fields of
+\autoref{thm:rat-stream-name-certificate-fields}, the reindexing and mapped
+stream stability clauses from
+\autoref{thm:rat-stream-name-reindexing-and-map-stability}, the composed
+reindexing stability law from
+\autoref{thm:rat-stream-name-reindexing-composition-law}, the constant stream
+witness from \autoref{thm:rat-stream-name-constant-witness},
+constant reindexing classification from
+\autoref{thm:rat-stream-name-constant-reindexing-classifier}, and
+constant-point exactness from
+\autoref{thm:rat-stream-name-constant-point-exactness} and
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness};
+ledger finite observation index plus pointwise rational witnesses, and for a
+constant stream the hidden constant seed together with the observation index;
+core theorems
+\autoref{thm:rat-stream-name-certificate-fields} and
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} and
+\autoref{thm:rat-stream-name-reindexing-composition-law} and
+\autoref{thm:rat-stream-name-constant-witness} and
+\autoref{thm:rat-stream-name-constant-reindexing-classifier} and
+\autoref{thm:rat-stream-name-constant-point-exactness} and
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness};
+exactness pointwise over the RatUp classifier; standard bridge ordinary
+rational streams; status
+$\mathsf{ProofTarget}$.
