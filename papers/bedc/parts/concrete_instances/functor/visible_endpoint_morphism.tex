@@ -75,3 +75,29 @@ $\hsame(\Eone(a),r)\to\bot$, and the three facts assemble the displayed
 conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_visible\_morphism\_unique\_strict\_boundary}
+
+\begin{theorem}[Prefix functor e-one visible morphism payload determinacy]
+\label{thm:functor-prefix-e1-visible-morphism-payload-deterministic}
+For histories $p,p',a,a',r,r',k,k'$, if the three displayed endpoints agree,
+$$
+\hsame(p,p'),\qquad \hsame(a,a'),\qquad \hsame(r,r'),
+$$
+then two prefixed one-headed visible morphisms with those transported endpoints
+have the same visible payload:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,\Eone(a)),
+\mathsf{append}(p,\Eone(r)),\Eone(k))
+\Longrightarrow
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p',\Eone(a')),
+\mathsf{append}(p',\Eone(r')),\Eone(k'))
+\Longrightarrow
+\hsame(k,k').
+$$
+\end{theorem}
+\begin{proof}
+Use the three $\hsame$ rows to identify the prefix, source tail, and target
+tail displays. Category morphism determinacy then gives
+$\hsame(\Eone(k),\Eone(k'))$, and the e-one constructor inversion descends this
+to $\hsame(k,k')$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_visible\_morphism\_payload\_deterministic}

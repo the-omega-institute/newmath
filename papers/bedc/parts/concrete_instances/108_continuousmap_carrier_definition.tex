@@ -372,6 +372,71 @@ exactness the displayed iff; downstream use compact-continuous map endpoint
 and composition normalization; status $\mathsf{ProofTarget}$.
 \end{proof}
 
+\begin{theorem}[ContinuousMap prefixed canonical distance package]
+\label{thm:continuousmap-prefixed-canonical-distance-package}
+The ten-field fit is: traditional target continuous-map prefix-normalization
+package; BEDC source $\mathsf{ContinuousMapCarrier}$ plus
+$\mathsf{MetricDistanceWitness}$; carrier $\mathsf{ContinuousMapCarrier}$;
+classifier $\hsame$; stability prefix closure, determinacy, and exactness;
+ledger prefix and displayed distance; core theorem this package; exactness the
+iff row; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+For histories
+$p,source,map,target,modulus,cert,distance,displayed:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$ and
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$,
+then the following three facts hold:
+\begin{enumerate}
+\item
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),\\
+\qquad \mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\item
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),displayed)\\
+\to
+\hsame(displayed,
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\item
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),displayed)\\
+\Longleftrightarrow
+\hsame(displayed,
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the canonical carrier clause, apply
+Theorem~\ref{thm:continuousmap-carrier-prefix-canonical-distance-closed} to
+the unary prefix and the original continuous-map carrier.
+
+For the displayed determinacy clause, fix a displayed prefixed carrier with the
+same source, map, target, modulus, and prefixed certificate fields. Apply
+Theorem~\ref{thm:continuousmap-prefix-canonical-distance-determinacy} to the
+unary prefix, the original carrier, and this displayed prefixed carrier.
+
+For the exact classifier clause, apply
+Theorem~\ref{thm:continuousmap-prefix-canonical-distance-exactness} to the
+same unary prefix and original carrier. Its conclusion is precisely the iff
+between the displayed prefixed carrier and the $\hsame$ classifier for the
+canonical prefixed distance ledger.
+\end{proof}
+
 \begin{theorem}[ContinuousMap empty map and empty distance certificate readback]
 \label{thm:continuousmap-empty-map-empty-distance-certificate-readback}
 For histories $source$, $target$, $modulus$, and $cert$, if
