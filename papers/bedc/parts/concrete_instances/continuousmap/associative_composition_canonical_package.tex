@@ -220,3 +220,115 @@ $$
 The two displayed equalities are exactly the depth-synchronization conclusion.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_associative\_composition\_depth\_synchronization}
+
+\begin{theorem}[ContinuousMap identity sandwich coherence]
+\label{thm:continuousmap-identity-sandwich-coherence}
+For histories
+$source,target,map,modulus,cert,distance,map_{LF},map_L,map_{RT},map_R,mod_{LF},mod_L,mod_{RT},mod_R,cert_{LF},cert_L,cert_{RT},cert_R:\mathsf{BHist}$,
+assume
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance),
+$$
+and assume the left-bracketed identity-sandwich ledger spine
+$$
+\begin{array}{lll}
+\ContR(\emp,map,map_{LF}),&
+\ContR(\emp,modulus,mod_{LF}),&
+\ContR(target,mod_{LF},cert_{LF}),\\
+\ContR(map_{LF},\emp,map_L),&
+\ContR(mod_{LF},\emp,mod_L),&
+\ContR(target,mod_L,cert_L),
+\end{array}
+$$
+and the right-bracketed identity-sandwich ledger spine
+$$
+\begin{array}{lll}
+\ContR(map,\emp,map_{RT}),&
+\ContR(modulus,\emp,mod_{RT}),&
+\ContR(target,mod_{RT},cert_{RT}),\\
+\ContR(\emp,map_{RT},map_R),&
+\ContR(\emp,mod_{RT},mod_R),&
+\ContR(target,mod_R,cert_R).
+\end{array}
+$$
+Then the two bracketed identity sandwiches are coherent with the displayed
+carrier:
+\begin{enumerate}
+\item the left-bracketed sandwich closes as
+$$
+\mathsf{ContinuousMapCarrier}
+(source,map_L,target,mod_L,cert_L,\mathsf{append}(source,target));
+$$
+
+\item the right-bracketed sandwich closes as
+$$
+\mathsf{ContinuousMapCarrier}
+(source,map_R,target,mod_R,cert_R,\mathsf{append}(source,target));
+$$
+
+\item the selected graph histories are the original graph history,
+$$
+\hsame(map_L,map)\land \hsame(map_R,map);
+$$
+
+\item the selected modulus histories are the original modulus history,
+$$
+\hsame(mod_L,modulus)\land \hsame(mod_R,modulus);
+$$
+
+\item the selected certificate histories and the original certificate history
+are pairwise classified together,
+$$
+\hsame(cert_L,cert)\land \hsame(cert_R,cert)\land \hsame(cert_L,cert_R).
+$$
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_identity\_sandwich\_coherence}
+\begin{proof}
+Apply \autoref{thm:continuousmap-empty-identity-carriers} to the displayed
+$\mathsf{ContinuousMapCarrier}$. This supplies the source and target empty
+identity carriers used as the outer factors of the sandwich.
+
+For the left bracketing, first apply
+\autoref{thm:continuousmap-carrier-comp-closed} to the source identity carrier
+and the displayed carrier, using the ledgers ending at $cert_{LF}$. Apply the
+same closure theorem again to that intermediate carrier and the target identity
+carrier, using the ledgers ending at $cert_L$. This gives the left sandwich
+carrier over $\mathsf{append}(source,target)$.
+
+For the right bracketing, first compose the displayed carrier with the target
+identity carrier, using the ledgers ending at $cert_{RT}$. Then compose the
+source identity carrier with that intermediate carrier, using the ledgers ending
+at $cert_R$. The same closure theorem gives the right sandwich carrier over the
+same canonical source-target distance ledger.
+
+Apply
+\autoref{thm:continuousmap-carrier-composition-associative-canonical-package}
+to the source identity carrier, the displayed carrier, and the target identity
+carrier. Its graph and modulus rows identify the two bracketed selected
+histories. Apply
+\autoref{thm:continuousmap-composition-associative-certificate-deterministic}
+to the same three-carrier spine to get $\hsame(cert_L,cert_R)$.
+
+The remaining readback is by continuation units. The ledgers
+$\ContR(\emp,map,map_{LF})$ and $\ContR(map_{LF},\emp,map_L)$ combine
+\texttt{cont\_left\_unit\_result} and \texttt{cont\_right\_unit\_result} to
+give $\hsame(map_L,map)$, and the right-bracketed graph ledgers give
+$\hsame(map_R,map)$ in the same way. The identical argument applied to
+$modulus$ gives the two modulus classifiers.
+
+Project the original certificate ledger $\ContR(target,modulus,cert)$ from the
+carrier. With target reflexivity, the modulus classifiers, and the displayed
+target-modulus certificate ledgers, \texttt{cont\_respects\_hsame} identifies
+$cert_L$ and $cert_R$ with $cert$. Together with the associative certificate
+row, these are exactly the pairwise certificate classifiers.
+
+The ten-field fit is: traditional target identity-sandwich coherence for
+uniformly continuous maps, BEDC source $\mathsf{BHist}$ with $\ContR$, $\hsame$,
+and $\mathsf{ContinuousMapCarrier}$, carrier $\mathsf{ContinuousMapCarrier}$,
+classifier $\hsame$, stability from unit continuation and associative
+composition, ledger graph/modulus/certificate histories, core theorem this
+coherence package, exactness the canonical source-target distance rows, standard
+bridge deferred, and status $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_identity\_sandwich\_coherence}
