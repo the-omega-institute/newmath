@@ -461,6 +461,7 @@ import BEDC.Derived.MatrixUp.ExponentCases
 import BEDC.Derived.MatrixUp.PowContinuation
 import BEDC.Derived.MatrixUp.PositiveSuffix
 import BEDC.Derived.MatrixUp.VisibleBaseCarrier
+import BEDC.Derived.MatrixUp.VisibleCarrier
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
