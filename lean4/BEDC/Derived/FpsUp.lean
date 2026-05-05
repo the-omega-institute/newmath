@@ -24,6 +24,9 @@ def FpsSingletonOne : BHist :=
 def FpsSingletonCoeff (_F _n : BHist) : BHist :=
   BHist.Empty
 
+def FpsSingletonPointwiseAdditionCoeff (F G n : BHist) : BHist :=
+  append (FpsSingletonCoeff F n) (FpsSingletonCoeff G n)
+
 def FpsSingletonAdd (_F _G : BHist) : BHist :=
   BHist.Empty
 
