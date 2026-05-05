@@ -2,6 +2,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Cont.Units
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.RatContinuation
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
 
@@ -473,6 +474,54 @@ theorem FieldExtSingletonOperation_readback_exactness {r m : BHist} :
         (And.intro fieldEmptyRow
           (And.intro fieldEmptyRow
             (And.intro vecEmptyRow fieldEmptyRow)))))
+
+theorem FieldExtRatReflexive_vector_space_package :
+    SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
+        RatHistoryClassifier ∧
+      (forall {r r' m m' out out' : BHist}, RatHistoryClassifier r r' ->
+        RatHistoryClassifier m m' -> Cont r m out -> Cont r' m' out' ->
+          RatHistoryClassifier out out') ∧
+      (forall {r m out : BHist}, RatHistoryCarrier r -> RatHistoryCarrier m ->
+        Cont r m out -> RatHistoryCarrier out) := by
+  constructor
+  · exact rat_history_semantic_name_certificate
+  · constructor
+    · intro r r' m m' out out' classifiedR classifiedM leftContinuation rightContinuation
+      exact field_rat_denominator_continuation_binary_classifier_congruence
+        classifiedR classifiedM leftContinuation rightContinuation
+    · intro r m out carrierR carrierM continuation
+      exact RatHistoryCarrier_continuation_closed carrierR carrierM continuation
+
+theorem FieldExtRatReflexiveEmbedding_ledger_source_lock {h k : BHist} :
+    RatHistoryClassifier h k ->
+      RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+        RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) ∧
+            Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
+              Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+  intro classified
+  have hEmbedded : hsame h (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact (append_empty_left h).symm
+  have kEmbedded : hsame k (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact (append_empty_left k).symm
+  have hLedger : RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) :=
+    And.intro classified.left hEmbedded
+  have kLedger : RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) :=
+    And.intro classified.right.left kEmbedded
+  have embeddedClassifier :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) :=
+    RatHistoryClassifier_hsame_transport hEmbedded kEmbedded classified
+  have hCont : Cont BHist.Empty h (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  have kCont : Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  exact And.intro hLedger
+    (And.intro kLedger
+      (And.intro embeddedClassifier (And.intro hCont kCont)))
 
 theorem FieldExtRatReflexive_scalar_action_readback {r m out product : BHist} :
     RatHistoryCarrier r -> RatHistoryCarrier m -> Cont (FieldExtSingletonEmbedding r) m out ->
