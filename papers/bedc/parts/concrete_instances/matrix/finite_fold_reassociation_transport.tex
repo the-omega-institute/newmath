@@ -1,0 +1,53 @@
+\begin{theorem}[Matrix multiplication reassociation classifier transport]
+\label{thm:matrix-multiplication-reassociation-classifier-transport}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, addition $+_R$, multiplication $\cdot_R$, zero endpoint $0_R$, and finite additive folds over finite index spines as in \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Let $n,m,p,q:\NatUp$, and consider the compatible $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. Let
+$$
+A,A':\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
+\qquad
+B,B':\mathsf{Fin}(m)\times\mathsf{Fin}(p)\to R,
+\qquad
+C,C':\mathsf{Fin}(p)\times\mathsf{Fin}(q)\to R
+$$
+be carried matrices over the same scalar source and matching finite dimensions. Assume matrix multiplication is the finite-fold operation
+$$
+(X\cdot Y)_{u,w}:=\Sigma_V(v\mapsto X_{u,v}\cdot_RY_{v,w})
+$$
+for every matching inner finite index carrier $V$, using the multiplication closure field of \autoref{def:matrix-stability-certificate}. Assume the scalar classifier equivalence fields, multiplication congruence, multiplicative associativity, left and right distributivity, additive laws, zero multiplication laws, the fold congruence theorem \autoref{thm:finite-additive-fold-congruence-coefficient-lists}, and the two-index finite fold swap certificate of \autoref{def:two-index-finite-fold-swap-certificate} required by \autoref{thm:matrix-multiplication-associativity-finite-folds} and \autoref{thm:matrix-multiplication-classifier-congruence}. If
+$$
+A\sim_{\mathrm{Mat}}A',
+\qquad
+B\sim_{\mathrm{Mat}}B',
+\qquad
+C\sim_{\mathrm{Mat}}C',
+$$
+then the two reassociated products $(A\cdot B)\cdot C$ and $A'\cdot(B'\cdot C')$ are carried $\MatrixUp$ matrices, and
+$$
+(A\cdot B)\cdot C
+\sim_{\mathrm{Mat}}
+A'\cdot(B'\cdot C').
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:matrix-multiplication-classifier-congruence} to the hypotheses $A\sim_{\mathrm{Mat}}A'$ and $B\sim_{\mathrm{Mat}}B'$. This carries $A\cdot B$ and $A'\cdot B'$ and gives
+$$
+A\cdot B\sim_{\mathrm{Mat}}A'\cdot B'.
+$$
+
+Apply \autoref{thm:matrix-multiplication-classifier-congruence} again to this product comparison and to $C\sim_{\mathrm{Mat}}C'$. The compatible dimensions are unchanged, so it carries the two outer left-associated products and gives
+$$
+(A\cdot B)\cdot C
+\sim_{\mathrm{Mat}}
+(A'\cdot B')\cdot C'.
+$$
+
+Now apply \autoref{thm:matrix-multiplication-associativity-finite-folds} to the carried triple $A',B',C'$. The same scalar fold source and the same finite dimension ledger carry $B'\cdot C'$ and $A'\cdot(B'\cdot C')$, and the theorem supplies
+$$
+(A'\cdot B')\cdot C'
+\sim_{\mathrm{Mat}}
+A'\cdot(B'\cdot C').
+$$
+
+Matrix-classifier transitivity composes the two displayed comparisons. The conclusion follows, with all carrier witnesses obtained from the multiplication closure field and all dimension witnesses preserved by \autoref{def:matrix-ledger-policy}.
+\end{proof}
+
+The ten-field fit is: traditional target, reassociation under matrix equality; BEDC source, $\MatrixUp+\RingUp+\NatUp$; carrier, finite matrix carriers; classifier, pointwise scalar sameness; stability, multiplication classifier congruence plus finite-fold associativity; ledger, unchanged dimensions and scalar source; core theorem, reassociation classifier transport; exactness, pointwise scalar classification; standard bridge, finite-dimensional matrix algebra; status, $\mathsf{ProofTarget}$.

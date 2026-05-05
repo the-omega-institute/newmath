@@ -233,3 +233,77 @@ finalImageIntermediate,finalImageCompact),
 $$
 while the finite-net image ledger remains the same displayed $imageFinite$ field. Hence the image certificate contains both the totally-bounded image data and the located refinement chain required by the compact carrier.
 \end{proof}
+
+\begin{theorem}[Finite image nets produce image locatedness ledgers]
+\label{thm:finite-image-nets-produce-image-locatedness-ledgers}
+Let $source$ and $target$ be metric BEDC carriers, and let
+$$
+\mathsf{ContinuousMapCarrier}(source,\mathsf{map},target,\mathsf{modulus},
+\mathsf{cert},\mathsf{distance})
+$$
+be a $\ContinuousMapUp$ carrier with graph totality, graph single-valuedness,
+modulus validity, and metric-distance classifier transport. Fix target and
+source precision histories $\varepsilon$ and $\delta$, source and target
+bundles $\mathcal{A}$ and $\mathcal{B}$, and image histories
+$imageSubset$, $imageLocated$, $imageFinite$, $imageIntermediate$,
+$imageCompact$, $finalImageLocated$, $finalImageIntermediate$, and
+$finalImageCompact$. Assume
+$$
+\mathsf{ImageFiniteNetLedger}(source,\mathsf{map},target,\delta,\varepsilon,
+\mathcal{A},\mathcal{B},imageFinite).
+$$
+Assume also that the target metric-distance finite comparison data over
+$\mathcal{B}$ supplies the following BEDC rows:
+\begin{enumerate}
+  \item $imageSubset$ is the graph image of the source subset through the
+  displayed continuous-map carrier;
+  \item $imageSubset$, $imageLocated$, and $imageFinite$ are unary histories,
+  and
+  $$
+  \Cont(imageSubset,imageLocated,imageIntermediate)
+  \quad\hbox{and}\quad
+  \Cont(imageIntermediate,imageFinite,imageCompact)
+  $$
+  hold;
+  \item the finite comparison fold of the target distance rows below
+  $\varepsilon$ generates the located-refinement chain
+  $$
+  \mathsf{CompactLocatedRefinementChain}(imageFinite,imageLocated,
+  imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+  finalImageCompact);
+  $$
+  \item the comparison rows are stable under $\hsame$ in the image point, the
+  displayed graph row, the target finite-net center, and the target
+  metric-distance histories.
+\end{enumerate}
+Then the graph image predicate admits the image located-refinement ledger
+$$
+\begin{array}{l}
+\mathsf{ImageLocatedRefinementLedger}(source,\mathsf{map},target,\mathsf{modulus},
+\varepsilon,\delta,\mathcal{A},\mathcal{B},imageSubset,imageLocated,imageFinite,\\
+\qquad imageIntermediate,imageCompact,finalImageLocated,finalImageIntermediate,
+finalImageCompact).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:compact-image-located-refinement-ledger}. Its accepted row
+has five components. The continuous-map carrier supplies graph totality, graph
+single-valuedness, modulus validity, and metric-distance classifier transport.
+The displayed image finite-net hypothesis is exactly the finite-net component
+from \autoref{def:compact-image-finite-net-ledger}.
+
+The target comparison package supplies the graph-image reading of
+$imageSubset$, the unary histories $imageSubset$, $imageLocated$, and
+$imageFinite$, and the two initial continuation ledgers through
+$imageIntermediate$ and $imageCompact$. Its finite fold over the target bundle
+$\mathcal{B}$ supplies the compact located-refinement chain required by
+\autoref{def:compact-located-refinement-chain}. Finally, graph single-valuedness
+and metric-distance classifier transport give the stated stability under
+$\hsame$ for the image point, graph row, bundled target center, and displayed
+distance histories.
+
+These are precisely the fields listed in
+\autoref{def:compact-image-located-refinement-ledger}, so they assemble the
+claimed image located-refinement ledger.
+\end{proof}
