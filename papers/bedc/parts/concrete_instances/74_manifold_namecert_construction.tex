@@ -458,3 +458,92 @@ absent, and the resulting status is a paper-side obligation target for the
 Lean declaration
 $\mathsf{BEDC.Derived.ManifoldUp.SingletonEmptyChart\_name\_certificate}$.
 \end{proof}
+
+\begin{definition}[Singleton manifold atlas ledger]
+\label{def:manifold-singleton-atlas-ledger}
+The singleton manifold atlas ledger is the $\mathsf{BHist}$ package determined
+by the carrier $C_{\emp}$ of
+\autoref{def:manifold-singleton-empty-chart-package}, the single chart index
+$\chi_{\emp}$, the top-open chart domain supplied by $\TopologyUp$, the constant
+$0_{\RealUp}$ endpoint supplied by $\RealUp$, and the
+$\RealAnalyticUp$ local constant transition row. Its ten-field template is:
+\begin{description}
+\item[Traditional target.] The one-point smooth manifold.
+\item[BEDC source.] $\mathsf{BHist}$ with distinguished history $\emp$.
+\item[Carrier.] The predicate $C_{\emp}(h)$, equivalently $\hsame(h,\emp)$.
+\item[Classifier.] The relation $\hsame$ restricted to $C_{\emp}$.
+\item[Stability obligations.] Carrier transport, top-open membership transport,
+chart-domain readback, chart-value constancy, and transition-row constancy.
+\item[Ledger.] The rows
+$\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, the indexed
+$\TopologyUp$ boundary rows, the $\RealUp$ zero endpoint, and the
+$\RealAnalyticUp$ constant-map row.
+\item[Core theorem list.]
+\autoref{thm:manifold-singleton-carrier-topology-scope},
+\autoref{thm:manifold-singleton-chart-coverage},
+\autoref{thm:manifold-singleton-transition-smoothness}, and
+\autoref{thm:manifold-singleton-namecert-obligation-package}.
+\item[Exactness.] The only accepted domain witness is the top-open
+$C_{\emp}$ witness, and the only accepted overlap transition is the
+self-overlap constant transition.
+\item[No standard bridge.] The ledger contains no $\StdBridge$ row.
+\item[Status.] A paper-side $\NameCert_{\ManifoldUp}$ obligation target for
+later formalization under $\mathsf{BEDC.Derived.ManifoldUp}$.
+\end{description}
+\end{definition}
+
+\begin{theorem}[Singleton manifold atlas index exhaustion]
+\label{thm:manifold-singleton-atlas-index-exhaustion}
+In the singleton manifold atlas ledger of
+\autoref{def:manifold-singleton-atlas-ledger}, every visible chart-index row is
+the sole index $\chi_{\emp}$. Every nonempty overlap row is the pair
+$(\chi_{\emp},\chi_{\emp})$, and every accepted chart-domain witness is exactly
+the top-open $C_{\emp}$ witness.
+\end{theorem}
+\begin{proof}
+Unfold the atlas ledger of
+\autoref{def:manifold-singleton-atlas-ledger} and the construction package of
+\autoref{def:manifold-singleton-empty-chart-package}. The chart-index field is
+the displayed singleton list, so any visible chart row has the unique name
+$\chi_{\emp}$.
+
+With only one chart name available, a nonempty overlap can have no index pair
+other than $(\chi_{\emp},\chi_{\emp})$. The overlap is nonempty exactly when its
+domain side admits a carried history, and the only domain side exposed by the
+construction is the inherited top open.
+
+Apply
+\autoref{thm:manifold-singleton-carrier-topology-scope} to identify that
+top-open membership with $C_{\emp}$. Then apply
+\autoref{thm:manifold-singleton-chart-coverage} to read the same witness as
+the chart-domain ledger row, proving that no second chart-domain witness is
+present.
+\end{proof}
+
+\begin{theorem}[Singleton manifold chart-value transport]
+\label{thm:manifold-singleton-chart-value-transport}
+Let $h,k:\mathsf{BHist}$. If $C_{\emp}(h)$, $C_{\emp}(k)$, and $\hsame(h,k)$
+hold, then the chart-value ledger transports the value
+$\chi_{\emp}(h)=0_{\RealUp}$ to the value $\chi_{\emp}(k)=0_{\RealUp}$. Under
+the same transport, the transition ledger remains the
+$\RealAnalyticUp$ constant-map row for the self-overlap
+$(\chi_{\emp},\chi_{\emp})$.
+\end{theorem}
+\begin{proof}
+Use the carrier witnesses to read both $h$ and $k$ as histories in
+$C_{\emp}$. The relation $\hsame(h,k)$ supplies the classifier transport
+between them, and symmetry and transitivity of $\hsame$ keep the transport
+inside the singleton carrier.
+
+Apply \autoref{thm:manifold-singleton-chart-coverage} to the carried history
+$h$. The chart value is the constant endpoint $0_{\RealUp}$. Apply the same
+coverage theorem to the carried history $k$; the target endpoint is again
+$0_{\RealUp}$, so the chart-value ledger has transported the displayed value
+without changing the real row.
+
+Finally apply
+\autoref{thm:manifold-singleton-transition-smoothness}. Since the atlas has
+only the self-overlap $(\chi_{\emp},\chi_{\emp})$ and both chart readings are
+the same constant endpoint, the transition ledger is still the
+$\RealAnalyticUp$ local constant map row.
+\end{proof}
