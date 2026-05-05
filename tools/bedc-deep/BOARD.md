@@ -6187,3 +6187,30 @@ FPS chapter currently exposes only definitions (def:fps-carrier, def:fps-cauchy-
 
 ---
 
+### B-239 - Left adjoint uniqueness up to natural isomorphism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Left adjoint uniqueness up to natural isomorphism |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If two adjunction unit-counit displays share the same right-adjoint prefix, their left-adjoint prefixes are connected by mutually inverse NatTransUp comparison components, giving uniqueness of left adjoints up to natural isomorphism in the BEDC adjunction certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/adjunction/carrier_swap_involutions.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Adjunction is an established BEDC topic with multiple definitions in the paper (def:adjunction-triangle-carrier, def:adjunction-unit-counit-carrier, def:adjunction-unit-counit-carrier-swap-classifier) and active work in papers/bedc/parts/concrete_instances/adjunction/, but no theorem currently captures the structural uniqueness of left adjoints relative to a fixed right adjoint. Existing BOARD entries on functors (B-11) and natural transformations (B-14) cover composition and naturality, not adjoint uniqueness, so this is a clean adjacent gap. The claim is a single implication in BEDC certificate form (NatTransUp inverse-pair witnessing) rather than a generic categorical platitude, and it requires combining the unit-counit triangle laws with NatTransUp composition naturality, which makes it a meaningful proof target rather than a paraphrase of existing entries.
+
+---
+
