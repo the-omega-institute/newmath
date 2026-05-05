@@ -208,6 +208,7 @@ import BEDC.Derived.FieldExtUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
+import BEDC.Derived.GraphUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch

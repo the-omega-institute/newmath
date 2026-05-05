@@ -363,4 +363,35 @@ theorem FieldExtSingletonOperation_readback_exactness {r m : BHist} :
           (And.intro fieldEmptyRow
             (And.intro vecEmptyRow fieldEmptyRow)))))
 
+theorem FieldExtRatReflexiveEmbedding_ledger_source_lock {h k : BHist} :
+    RatHistoryClassifier h k ->
+      RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+        RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) ∧
+            Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
+              Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+  intro classified
+  have hEmbedded : hsame h (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact (append_empty_left h).symm
+  have kEmbedded : hsame k (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact (append_empty_left k).symm
+  have hLedger : RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) :=
+    And.intro classified.left hEmbedded
+  have kLedger : RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) :=
+    And.intro classified.right.left kEmbedded
+  have embeddedClassifier :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) :=
+    RatHistoryClassifier_hsame_transport hEmbedded kEmbedded classified
+  have hCont : Cont BHist.Empty h (FieldExtSingletonEmbedding h) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  have kCont : Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
+    unfold FieldExtSingletonEmbedding
+    exact cont_intro rfl
+  exact And.intro hLedger
+    (And.intro kLedger
+      (And.intro embeddedClassifier (And.intro hCont kCont)))
+
 end BEDC.Derived.FieldExtUp
