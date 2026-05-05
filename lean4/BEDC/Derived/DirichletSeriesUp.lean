@@ -5,7 +5,9 @@ namespace BEDC.Derived.DirichletSeriesUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexLimitUp
 
 inductive DirichletPartSum (term : BHist -> BHist -> BHist) (s : BHist) :
     BHist -> BHist -> Prop where
@@ -203,6 +205,36 @@ theorem DirichletPartSum_result_unary {term : BHist -> BHist -> BHist} {s n S : 
       have unaryPreviousIndex : UnaryHistory _ := DirichletPartSum_index_unary previous
       exact unary_cont_closed ih (termUnary unaryPreviousIndex) stepContinuation
 
+theorem DirichletPartSum_semanticNameCert {term : BHist -> BHist -> BHist} {s n S : BHist}
+    (sum : DirichletPartSum term s n S) :
+    SemanticNameCert (fun result : BHist => DirichletPartSum term s n result)
+      (fun result : BHist => DirichletPartSum term s n result)
+      (fun result : BHist => DirichletPartSum term s n result) hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro S sum
+      equiv_refl := by
+        intro result _source
+        exact hsame_refl result
+      equiv_symm := by
+        intro result result' sameResult
+        exact hsame_symm sameResult
+      equiv_trans := by
+        intro result result' result'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro result result' sameResult source
+        cases sameResult
+        exact source
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
+
 theorem DirichletSeriesIndex_e1_tail_nonempty {n : BHist} :
     UnaryHistory n ->
       UnaryHistory (BHist.e1 n) ∧ (hsame (BHist.e1 n) BHist.Empty -> False) := by
@@ -348,5 +380,50 @@ theorem DirichletPositiveIndex_append_iff {m n : BHist} :
         exact DirichletPositiveIndex_append_unary_closed positiveM unaryN
     | inr positiveN =>
         exact DirichletPositiveIndex_prepend_unary_closed unaryM positiveN
+
+def DirichletSeriesConv (term : BHist -> BHist -> BHist) (s S : BHist) : Prop :=
+  exists ps : BHist -> BHist, exists N : BHist -> BHist, exists M : BHist -> BHist,
+    (forall n : BHist, UnaryHistory n -> DirichletPartSum term s n (ps n)) /\
+      ComplexLimit ps N S M
+
+theorem dirichlet_semantic_name_certificate {term : BHist -> BHist -> BHist}
+    {s S : BHist} :
+    DirichletSeriesConv term s S ->
+      SemanticNameCert (DirichletSeriesConv term s) (DirichletSeriesConv term s)
+        (DirichletSeriesConv term s) hsame := by
+  intro conv
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro S conv
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same carrier
+        cases carrier with
+        | intro ps carrierRest =>
+            cases carrierRest with
+            | intro N carrierRest =>
+                cases carrierRest with
+                | intro M data =>
+                    exact Exists.intro ps
+                      (Exists.intro N
+                        (Exists.intro M
+                          (And.intro data.left
+                            (ComplexLimit_hsame_transport same data.right))))
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 end BEDC.Derived.DirichletSeriesUp

@@ -586,3 +586,100 @@ For inverse compatibility, unpack $\mathsf{TrivRel}_G(x,y)$. Inverse closure sup
 
 These are the identity, product, inverse, transport, and restricted-classifier fields required by the $\SubgroupUp$ row format used in \autoref{thm:subgroup-centralizer-certificate-target}.
 \end{proof}
+
+\begin{theorem}[Subgroup chain composition certificate]
+\label{thm:subgroup-chain-composition-certificate}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ with
+operation $\mathsf{mul}$, unit $e$, inverse operation $\mathsf{inv}$, and
+ambient classifier $\hsame$, assume the monoid stability rows of
+\autoref{def:monoid-stability-certificate}, the inverse rows of
+\autoref{def:group-stability-certificate}, and the history-sameness equivalence
+of \autoref{thm:history-sameness-equivalence}. Let
+$P_K,P_H:\mathsf{BHist}\to\mathsf{Prop}$ be carrier predicates and define
+$$
+P_{H\leq G}(x):\Longleftrightarrow P_K(x)\land P_H(x),
+$$
+$$
+R_{H\leq G}(x,y):\Longleftrightarrow
+P_{H\leq G}(x)\land P_{H\leq G}(y)\land x\hsame y,
+$$
+and
+$$
+R_H^K(x,y):\Longleftrightarrow
+P_K(x)\land P_H(x)\land P_K(y)\land P_H(y)\land x\hsame y.
+$$
+Assume the $P_K$ carrier has the ambient $\SubgroupUp$ carrier rows:
+\begin{enumerate}
+\item $P_K(e)$.
+\item If $P_K(x)$ and $P_K(y)$, then $P_K(\mathsf{mul}(x,y))$.
+\item If $P_K(x)$, then $P_K(\mathsf{inv}(x))$.
+\item If $P_K(x)$ and $x\hsame y$, then $P_K(y)$.
+\end{enumerate}
+Assume $P_H$ has the following rows over the $P_K$-restricted carrier:
+\begin{enumerate}
+\item $P_H(e)$.
+\item If $P_K(x)$, $P_H(x)$, $P_K(y)$, and $P_H(y)$, then
+$P_H(\mathsf{mul}(x,y))$.
+\item If $P_K(x)$ and $P_H(x)$, then $P_H(\mathsf{inv}(x))$.
+\item If $P_K(x)$, $P_K(y)$, $P_H(x)$, and $x\hsame y$, then $P_H(y)$.
+\item If $R_H^K(x,x')$ and $R_H^K(y,y')$, then
+$R_H^K(\mathsf{mul}(x,y),\mathsf{mul}(x',y'))$.
+\item If $R_H^K(x,y)$, then
+$R_H^K(\mathsf{inv}(x),\mathsf{inv}(y))$.
+\end{enumerate}
+Then the carrier $P_{H\leq G}$ with restricted classifier $R_{H\leq G}$
+satisfies the concrete $\SubgroupUp$ certificate rows over $G$ in the row
+format of \autoref{thm:subgroup-trivial-certificate} and
+\autoref{thm:subgroup-centralizer-certificate-target}.
+\end{theorem}
+\begin{proof}
+The relation $R_H^K$ is the same restricted relation as $R_{H\leq G}$ after
+reassociating the endpoint carrier conjunctions. Thus either presentation
+stores exactly two endpoint witnesses for $P_K\land P_H$ and one ambient
+$\hsame$ comparison.
+
+First verify the semantic naming classifier required by
+\autoref{def:lean-carrier-naming-certificate}. If $P_{H\leq G}(x)$, ambient
+reflexivity gives $x\hsame x$, so $R_{H\leq G}(x,x)$ holds. If
+$R_{H\leq G}(x,y)$ holds, swap the two endpoint carrier witnesses and apply
+symmetry of $\hsame$ to obtain $R_{H\leq G}(y,x)$. If
+$R_{H\leq G}(x,y)$ and $R_{H\leq G}(y,z)$ hold, keep the stored carrier
+witnesses for $x$ and $z$ and compose $x\hsame y$ with $y\hsame z$ by
+transitivity of $\hsame$. Hence $R_{H\leq G}$ is a semantic naming classifier
+on the conjunction carrier.
+
+For the identity row, pair the ambient $P_K(e)$ row with the internal
+$P_H(e)$ row. This is exactly $P_{H\leq G}(e)$.
+
+For product closure, assume $P_{H\leq G}(x)$ and $P_{H\leq G}(y)$. Unfolding
+these hypotheses gives $P_K(x)$, $P_H(x)$, $P_K(y)$, and $P_H(y)$. The
+$P_K$ product row gives $P_K(\mathsf{mul}(x,y))$, while the internal $P_H$
+product row gives $P_H(\mathsf{mul}(x,y))$. Pairing the two conclusions gives
+$P_{H\leq G}(\mathsf{mul}(x,y))$.
+
+For inverse closure, unfold $P_{H\leq G}(x)$ into $P_K(x)$ and $P_H(x)$. The
+$P_K$ inverse row gives $P_K(\mathsf{inv}(x))$, and the internal $P_H$ inverse
+row gives $P_H(\mathsf{inv}(x))$. Together these prove
+$P_{H\leq G}(\mathsf{inv}(x))$.
+
+For carrier transport, assume $P_{H\leq G}(x)$ and $x\hsame y$. The $P_K$
+transport row first gives $P_K(y)$. With $P_K(x)$, this target $P_K(y)$,
+$P_H(x)$, and the same comparison $x\hsame y$, the internal $P_H$ transport
+row gives $P_H(y)$. Therefore $P_{H\leq G}(y)$.
+
+For multiplication compatibility of the restricted classifier, unpack the two
+$R_{H\leq G}$ witnesses as $R_H^K(x,x')$ and $R_H^K(y,y')$. The internal
+restricted-classifier product row gives
+$R_H^K(\mathsf{mul}(x,y),\mathsf{mul}(x',y'))$, which is precisely
+$R_{H\leq G}(\mathsf{mul}(x,y),\mathsf{mul}(x',y'))$ after unfolding the
+conjunction carrier.
+
+For inverse compatibility, unpack $R_{H\leq G}(x,y)$ as $R_H^K(x,y)$. The
+internal restricted-classifier inverse row gives
+$R_H^K(\mathsf{inv}(x),\mathsf{inv}(y))$, equivalently
+$R_{H\leq G}(\mathsf{inv}(x),\mathsf{inv}(y))$.
+
+These are exactly the semantic classifier, identity, product, inverse,
+carrier-transport, multiplication-classifier, and inverse-classifier rows of a
+$\SubgroupUp$ certificate over the original ambient group $G$.
+\end{proof}

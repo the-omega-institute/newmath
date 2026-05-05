@@ -435,6 +435,7 @@ $$
 \mathsf{fold}_{+,R}(xs)\sim_R\mathsf{fold}_{+,R}(\mathsf{reverse}(xs)).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonAddFold\_reverse\_empty\_append\_hsame}
 \begin{proof}
 First prove by induction on $xs$ that for every carried scalar $a$,
 $$
@@ -582,7 +583,7 @@ $$
 \sim_R
 \mathsf{fold}_{+,R}(x_n+_Ry_n).
 $$
-By \autoref{lem:finite-additive-fold-splits-pointwise-sums},
+By \autoref{lem:finite-additive-fold-separates-pointwise-scalar-sums},
 $$
 \mathsf{fold}_{+,R}(x_n+_Ry_n)
 \sim_R
@@ -612,7 +613,7 @@ $$
 \mathsf{ListClassifierSpec}\bigl(\sim_R,
 \mathsf{CauchySp}_n(F\oplus_{\mathrm{fps}}G,H),u_n+_Rv_n\bigr)
 $$
-holds. The fold congruence theorem \autoref{thm:finite-additive-fold-congruence-coefficient-lists} and the fold-splitting lemma \autoref{lem:finite-additive-fold-splits-pointwise-sums} classify
+holds. The fold congruence theorem \autoref{thm:finite-additive-fold-congruence-coefficient-lists} and the fold-splitting lemma \autoref{lem:finite-additive-fold-separates-pointwise-scalar-sums} classify
 $$
 \mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F\oplus_{\mathrm{fps}}G,H))
 \sim_R
