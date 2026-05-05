@@ -314,4 +314,23 @@ theorem complex_diff_semantic_name_certificate {f z fp : BHist} :
       exact source
   }
 
+theorem complex_diff_name_certificate {f z fp : BHist} (diff : CplxDiffAt f z fp) :
+    NameCert (CplxDiffAt f z) ComplexHistoryClassifier := by
+  exact {
+    carrier_inhabited := Exists.intro fp diff
+    equiv_refl := by
+      intro h carrier
+      exact And.intro carrier.right.right.left
+        (And.intro carrier.right.right.left (hsame_refl h))
+    equiv_symm := by
+      intro h k classified
+      exact ComplexHistoryClassifier_symm classified
+    equiv_trans := by
+      intro h k r classifiedHK classifiedKR
+      exact ComplexHistoryClassifier_trans classifiedHK classifiedKR
+    carrier_respects_equiv := by
+      intro h k classified carrier
+      exact (CplxDiffAt_hsame_transport_witness carrier (hsame_refl z) classified.right.right).left
+  }
+
 end BEDC.Derived.ComplexDifferentiabilityUp
