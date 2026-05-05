@@ -162,6 +162,7 @@ import BEDC.Derived.ComplexLimitUp.PointwiseDifference
 import BEDC.Derived.ComplexLimitUp.PointwiseNegation
 import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
+import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
@@ -171,6 +172,7 @@ import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
+import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
@@ -196,6 +198,7 @@ import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
+import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
@@ -306,6 +309,7 @@ import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
+import BEDC.Derived.S1Up.CarrierExactness
 import BEDC.Derived.S1Up.SemanticFieldAssembly
 import BEDC.Derived.S1Up.SemanticCertificateFields
 import BEDC.Derived.S1Up.FieldAssembly
@@ -495,6 +499,8 @@ import BEDC.Derived.FieldUp.RatDenomUnitContextEndpoint
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
+import BEDC.Derived.FpsUp.CauchyCoefficientSpine
+import BEDC.Derived.FpsUp.SourceSpec
 import BEDC.Derived.FpsUp.CauchyCoeffSpine
 import BEDC.Derived.FpsUp.CauchyProductAssociativity
 import BEDC.Derived.FpsUp.StabilityFields
