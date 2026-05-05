@@ -12,6 +12,11 @@ def GammaWeierstrassCauchyModulus
     (s apart : BHist) (P N : BHist -> BHist) : Prop :=
   GammaDomainCore s apart ∧ ComplexRegularSequence P N
 
+def Gamma (s z : BHist) : Prop :=
+  ∃ apart : BHist, ∃ P N M : BHist -> BHist,
+    GammaDomainCore s apart ∧ UnaryHistory apart ∧
+      GammaWeierstrassCauchyModulus s apart P N ∧ ComplexLimit P N z M
+
 theorem GammaWeierstrassCauchyModulus_hsame_transport
     {s t apart : BHist} {P Q N : BHist -> BHist}
     (sameST : hsame s t)

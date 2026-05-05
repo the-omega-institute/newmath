@@ -88,6 +88,26 @@ Thus the $\OrderUp$ consumer reads endpoint sameness through the already exposed
 unary classifier rather than through a separate phase-specific classifier.
 \end{proof}
 
+\begin{theorem}[Unary prefix OrderUp relation obligation]
+\label{thm:unary-prefix-orderup-relation-obligation}
+The order-relation row of the Full Nat Arithmetic $\OrderUp$ phase package is
+the same concrete unary-prefix relation $\le_{\mathsf{u}}$ exposed by the
+unary-prefix $\TotalOrderUp$ surface on $\mathsf{UnaryHistory}$ endpoints. It
+introduces no second comparison relation, no host Nat order, and no quotient
+order.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-prefix-orderup-phase-exit-package}. The package
+statement explicitly names $\le_{\mathsf{u}}$ as the order relation consumed by
+the Full Nat Arithmetic $\OrderUp$ phase.
+
+The source of that row is
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. The phase
+package projects the relation from this unary-prefix $\TotalOrderUp$
+certificate, so the consumer receives the exposed relation itself and no
+additional comparison relation.
+\end{proof}
+
 \begin{theorem}[Unary prefix OrderUp preorder obligation]
 \label{thm:unary-prefix-orderup-preorder-obligation}
 On carried endpoints, reflexivity and transitivity of $\le_{\mathsf{u}}$ are
@@ -323,7 +343,7 @@ unary-prefix $\OrderUp$ object.
 
 \begin{closurestatus}{\OrderUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation frontier is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-carrier-obligation}, \autoref{thm:unary-prefix-orderup-classifier-obligation}, \autoref{thm:unary-prefix-orderup-preorder-obligation}, \autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, \autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}, \autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation}, \autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}, \autoref{thm:unary-prefix-orderup-exactness-obligation}, \autoref{thm:unary-prefix-orderup-ledger-obligation}, \autoref{thm:orderup-carrier-classifier-obligation}, \autoref{thm:orderup-preorder-antisymmetry-obligation}, \autoref{thm:orderup-constructive-comparison-obligation}, and \autoref{thm:orderup-finite-interval-endpoint-obligation} spelling out the carrier, classifier, preorder, antisymmetry, constructive comparison, finite interval coverage, endpoint uniqueness, exactness, and ledger rows.}
+  \scopeclosed{The obligation frontier is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-carrier-obligation}, \autoref{thm:unary-prefix-orderup-classifier-obligation}, \autoref{thm:unary-prefix-orderup-relation-obligation}, \autoref{thm:unary-prefix-orderup-preorder-obligation}, \autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, \autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}, \autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation}, \autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}, \autoref{thm:unary-prefix-orderup-exactness-obligation}, \autoref{thm:unary-prefix-orderup-ledger-obligation}, \autoref{thm:orderup-carrier-classifier-obligation}, \autoref{thm:orderup-preorder-antisymmetry-obligation}, \autoref{thm:orderup-constructive-comparison-obligation}, and \autoref{thm:orderup-finite-interval-endpoint-obligation} spelling out the carrier, classifier, relation, preorder, antisymmetry, constructive comparison, finite interval coverage, endpoint uniqueness, exactness, and ledger rows.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.PreorderUp.preorder\_prefix\_stability\_certificate\_fields}
   \bridgestatus{none}
