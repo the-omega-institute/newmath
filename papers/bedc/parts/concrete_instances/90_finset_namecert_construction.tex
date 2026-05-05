@@ -305,3 +305,57 @@ $$
 $$
 Together with the displayed carrier witnesses, this is exactly the pointwise preservation clause for the composite certified bijection. Repacking the composite bijection and this field gives $\mathsf{EnumPerm}_{A,\sim_A}(xs,zs)$.
 \end{proof}
+
+\begin{lemma}[Pointwise enumeration membership equivalences compose]
+\label{lem:finset-enummem-pointwise-equivalence-composition}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let $\sim_A$ be a source classifier, and let $xs$, $ys$, and $zs$ be finite BEDC-history spines. If, for every query history $q$,
+$$
+\mathsf{EnumMem}_{A,\sim_A}(q,xs)
+\Longleftrightarrow
+\mathsf{EnumMem}_{A,\sim_A}(q,ys)
+$$
+and
+$$
+\mathsf{EnumMem}_{A,\sim_A}(q,ys)
+\Longleftrightarrow
+\mathsf{EnumMem}_{A,\sim_A}(q,zs)
+$$
+hold, then, for every query history $q$,
+$$
+\mathsf{EnumMem}_{A,\sim_A}(q,xs)
+\Longleftrightarrow
+\mathsf{EnumMem}_{A,\sim_A}(q,zs).
+$$
+\end{lemma}
+\begin{proof}
+Fix a query history $q$. For the forward implication, assume $\mathsf{EnumMem}_{A,\sim_A}(q,xs)$. The forward half of the first displayed equivalence gives $\mathsf{EnumMem}_{A,\sim_A}(q,ys)$, and the forward half of the second displayed equivalence gives $\mathsf{EnumMem}_{A,\sim_A}(q,zs)$.
+
+For the reverse implication, assume $\mathsf{EnumMem}_{A,\sim_A}(q,zs)$. The reverse half of the second displayed equivalence gives $\mathsf{EnumMem}_{A,\sim_A}(q,ys)$, and the reverse half of the first displayed equivalence gives $\mathsf{EnumMem}_{A,\sim_A}(q,xs)$. Thus the two enumeration-membership predicates are equivalent at $q$. Since $q$ was arbitrary, the pointwise equivalence holds for all query histories.
+\end{proof}
+
+\begin{theorem}[FinSet enumeration classifier transitivity]
+\label{thm:finset-enumeration-classifier-transitivity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For finite BEDC-history spines $xs$, $ys$, and $zs$, if
+$$
+\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,ys)
+\qquad\text{and}\qquad
+\mathsf{FinSetEnumClassifier}_{A,\sim_A}(ys,zs)
+$$
+hold, then
+$$
+\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,zs)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+The certificate fixes the ambient source and classifier. Unfold the classifier clause in \autoref{def:finset-enumeration-membership}. The first hypothesis supplies, for every query history $q$, the equivalence between $\mathsf{EnumMem}_{A,\sim_A}(q,xs)$ and $\mathsf{EnumMem}_{A,\sim_A}(q,ys)$. The second supplies, for the same $q$, the equivalence between $\mathsf{EnumMem}_{A,\sim_A}(q,ys)$ and $\mathsf{EnumMem}_{A,\sim_A}(q,zs)$.
+
+By \autoref{lem:finset-enummem-pointwise-equivalence-composition}, these two pointwise equivalences compose to
+$$
+\forall q:\mathsf{BHist}.\;
+\mathsf{EnumMem}_{A,\sim_A}(q,xs)
+\Longleftrightarrow
+\mathsf{EnumMem}_{A,\sim_A}(q,zs).
+$$
+Applying the same classifier clause in \autoref{def:finset-enumeration-membership} repacks this pointwise statement as $\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,zs)$.
+\end{proof}
