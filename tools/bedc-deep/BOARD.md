@@ -6445,3 +6445,29 @@ Belongs to concrete_instances chapter 26 (FormalPowerSeries). Textbook-classical
 
 ---
 
+### B-249 - Continuation fixed right-unit probe forces source emptiness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Continuation fixed right-unit probe forces source emptiness |
+| Layer | proof_standing |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For all histories p and u, (forall r:BHist, ContR(p,u,r) -> HSame(r,p)) implies HSame(u,emp).
+
+Local inputs:
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+- `papers/bedc/parts/proof_obligations/unary_shift_and_commutativity.tex`
+- `lean4/BEDC/FKernel/Continuation.lean`
+
+Rationale:
+Clean inversion/forcing theorem on the core continuation relation: it characterizes the empty history as the unique right-unit witness of ContR by probing across all result histories. The existing paper has def:continuation-relation, def:continuation-step-rules, and def:continuation-morphism-comp-closed but no labeled theorem reading off emptiness from the universal right-fixedpoint condition. None of the existing BOARD entries (B-06 through B-31) target continuation right-unit inversion; they cluster around concrete-instance stability fields (lattice, module, polynomial, functor, nattrans) and naming-license boundaries, not the abstract continuation relation itself. The implication form is concrete (single P implies Q under the BHist/ContR setup), at the right level for proof_standing or the relational-extension core chapter, and would give a reusable lemma for arguing about identity-style continuation interfaces without committing to a specific concrete instance.
+
+---
+
