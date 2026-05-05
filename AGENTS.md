@@ -165,13 +165,17 @@ Cross-tool AI agent guidance (Codex / Cursor / Cline / Aider / Claude Code via C
 
 ```bash
 cd lean4 && lake build                            # 0 axiom, 0 sorry, build OK
-cd papers/bedc && make                            # pdflatex 双趟, 生成 PDF
+cd papers/bedc && make                            # pdflatex 双趟, 生成 PDF (~75s)
 python3 tools/check-axioms.py                     # 源代码 axiom 禁用审计
 python3 lean4/scripts/bedc_ci.py audit            # paper ↔ Lean drift 审计
 python3 lean4/scripts/bedc_ci.py axiom-purity     # 传递依赖审计 (禁 Classical.choice / Quot.sound)
 ```
 
 上述命令全部 exit 0 才算 ship 标准.
+
+## 开发循环: 用 `make check` 代替 `make`
+
+提交 / 出版前用 `make` (双趟, 生成 PDF, 解析 `\autoref` / TOC). 平时反复改章节、试错时用 `make check` —— 单趟 `pdflatex -draftmode`, 大约一半时间 (40s vs 75s), 仍然抓到所有真错误 (Undefined control sequence / Missing $ / Extra } / unresolved `\input` / package errors). 唯一代价: 交叉引用印成 `?? on page ??`, 对开发循环不影响. **不要在 ship 前用 `make check` 替代 `make`**: 你需要看 PDF 真实出来, 也需要确认所有 `\autoref` 解析 (CI 会查).
 
 `axiom-purity --strict` 用 `#print axioms` 检测每条 BEDC 定理的传递依赖, 强制零 Lean stdlib 公理依赖: 禁 `Classical.choice` (LEM/选择公理)、`Quot.sound` (商类型公理) 和 `propext` (命题外延). BEDC 全部定理纯 CIC 派生, 不依赖任何 stdlib 公理, 跟 Brouwer / Bishop 严格 constructive 同档.
 

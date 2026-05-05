@@ -225,6 +225,8 @@ cd papers/bedc && make
 python3 tools/check-axioms.py
 ```
 
+While iterating on a paper edit, `cd papers/bedc && make check` (single `pdflatex -draftmode` pass, ~40 s vs ~75 s) is enough to confirm syntax / undefined macros / unresolved `\input`. **The pre-commit verification above must use the full `make`**: only the second pass resolves `\autoref` and TOC, and the drift audit / `\leanchecked` resolution that follows depend on a clean two-pass build.
+
 ## Step 5: Pre-commit sync with origin BASE (proactive label-collision resolution)
 
 Before staging and committing, fetch the latest BASE and merge it into the worktree. This catches concurrent rounds' commits that landed during your Phase C session, and lets you resolve any label / declaration collision INLINE while you still have full context — much cheaper than the outer pipeline's reactive `_codex_resolve_post_rebase_audit` flow which runs after the audit gate already failed.
