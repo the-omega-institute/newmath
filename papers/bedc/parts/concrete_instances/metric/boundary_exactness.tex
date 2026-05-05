@@ -340,6 +340,27 @@ left endpoint $\Eone(x)$ to be history-same as $\emp$, contradicting the
 disjointness of visible one-headed histories from the empty history.
 \end{proof}
 
+\begin{theorem}[Metric e1 endpoints force e1 distance]
+\label{thm:metric-distance-witness-e1-endpoints-distance-e1-shape}
+For histories $x,y,d:\mathsf{BHist}$, a metric distance witness between two
+one-headed endpoints forces the distance history itself to be one-headed with a
+unary tail:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),d)
+\Longrightarrow
+\exists d_0:\mathsf{BHist},\;
+d=\Eone(d_0)\land\mathsf{UnaryHistory}(d_0).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the distance history. The empty case contradicts
+\autoref{thm:metric-distance-witness-e1-pair-empty-distance-absurd}; the
+zero-headed case contradicts the unary carrier field of the witness. The
+one-headed case exposes the displayed tail, and unary inversion supplies its
+carrier proof.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_e1\_endpoints\_distance\_e1\_shape}
+
 \begin{theorem}[Metric right-boundary visible context distance source]
 \label{thm:metric-distance-witness-right-boundary-visible-context-distance-source}
 For histories $p,q,x,d:\mathsf{BHist}$, a visible-context distance witness with
