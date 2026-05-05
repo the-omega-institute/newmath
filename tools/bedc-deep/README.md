@@ -38,6 +38,7 @@ loop:
     - applies 10-item BEDC hygiene checklist
     - if accept: append cleaned content into papers/bedc/parts/<theme>/<file>.tex
     - run `cd papers/bedc && make` to verify; rollback on compile failure
+    - after make succeeds: run closure_candidate proposal review
 ```
 
 ## Hygiene checklist (Stage 2)
@@ -68,6 +69,12 @@ This lane never edits `lean4/`. Stage 2 only writes to
 lane is the appended LaTeX, with NO marker macros. The downstream
 `codex_formalize.py` Phase B grep scan picks up unmarked theorem sites
 automatically.
+
+`closure_candidate.py` is a post-writeback reviewer, not a Stage 2 writer.
+It records whether the touched chapter may need a chapter-level
+`closurestatus` pass after the theorem site lands. It never edits paper or
+Lean files; nontrivial findings go to `state/closure_candidates/` and the
+human inbox for a separate closure audit.
 
 ## Commands
 
@@ -259,6 +266,17 @@ The supervisor runs this periodically. It records the latest scan at
 `tools/bedc-deep/state/loning_watch_latest.md` and appends human-inbox notes
 when new relevant commits appear.
 
+Review a successful writeback for closurestatus follow-up without editing the
+paper:
+
+```bash
+python3 tools/bedc-deep/closure_candidate.py \
+  --target-id B-01 \
+  --tex-file papers/bedc/parts/concrete_instances/example.tex \
+  --content-file tools/bedc-deep/targets/example/raw_oracle_latex.md \
+  --json
+```
+
 Run Stage 2 manually for a finished Stage 1 target:
 
 ```bash
@@ -279,6 +297,7 @@ The oracle server expected by `oracle_client.py` is `http://localhost:8767`
 - `state/<slug>/cursor.json` — per-turn checkpoint for resumability.
 - `state/codex_logs/` — codex orchestrator prompts + outputs (audit trail).
 - `state/stage2_logs/` — Stage 2 Claude prompts + outputs.
+- `state/closure_candidates/` — post-writeback closurestatus proposal records.
 - `targets/<slug>/turn_NN_*.md` — per-turn prompts and responses.
 - `targets/<slug>/raw_oracle_latex.md` — terminal WRITE_PAPER_LATEX output.
 - `targets/<slug>/candidates.json` — Stage 1.5 topic discovery output.
