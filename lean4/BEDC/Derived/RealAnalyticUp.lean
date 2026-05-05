@@ -5,6 +5,7 @@ namespace BEDC.Derived.RealAnalyticUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexUp
 open BEDC.Derived.ComplexSeriesUp
 
 inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist -> Prop where
@@ -12,6 +13,10 @@ inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist ->
   | step {n S T : BHist} :
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
+
+def RealAnalyticExpPart (x n S : BHist) : Prop :=
+  ComplexHistoryCarrier x ∧
+    ComplexPartSum x (fun m : BHist => append x m) n S ∧ UnaryHistory n
 
 theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist} :
