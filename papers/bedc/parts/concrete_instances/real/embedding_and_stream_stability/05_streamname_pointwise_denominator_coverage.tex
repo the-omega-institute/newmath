@@ -248,6 +248,80 @@ the two transported DyadicRatCore observation rows. This is exactly the
 displayed finite-window dyadic transport package.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window transported dyadic source exhaustion]
+\label{thm:regseqrat-finite-window-transported-dyadic-source-exhaustion}
+For observation maps $s,t,s',t':\Hist\to\Hist$ and histories $a,w,k:\Hist$,
+assume RegSeqRat stream certificate spines for all four streams and
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameCarrier}(s'),\quad
+\mathsf{RatStreamNameCarrier}(t'),
+$$
+$$
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{UnaryHistory}(a),\quad
+\mathsf{UnaryHistory}(w),\quad
+\mathsf{UnaryOffsetLe}(k,w).
+$$
+Let $n=\mathsf{append}(a,k)$, and assume the selected pointwise transport rows
+$$
+\hsame(s(n),s'(n))
+\quad\text{and}\quad
+\hsame(t(n),t'(n)).
+$$
+Then the transported selected observation exhausts the scoped DyadicRatCore
+source package at the endpoints $s'(n)$ and $t'(n)$:
+$$
+\begin{array}{l}
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)\land\\
+\mathsf{RatHistoryClassifier}(s'(n),t'(n))\land\\
+\mathsf{DyadicRatCoreObservationRow}(s'(n))\land
+\mathsf{DyadicRatCoreObservationRow}(t'(n)).
+\end{array}
+$$
+Moreover, the carrier, classifier, stability, and finite ledger faces read at
+$s'(n)$ and $t'(n)$ are exactly the faces named by
+\autoref{thm:dyadic-rat-core-scoped-source-package}.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-finite-window-dyadic-transport-package}. It supplies
+the transported finite-window dyadic package: the original
+$\RealUp$ window, the transported selected classifier
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$, and the two transported
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses at $s'(n)$ and $t'(n)$.
+
+Now identify the scoped source reads. Apply
+\autoref{thm:dyadic-rat-core-scoped-source-package} to the endpoint rows
+$s'(n)$ and $t'(n)$. The carrier face is the rational-history carrier,
+positive unary denominator, and dyadic-radius token stored in each transported
+DyadicRatCore observation row. The classifier face is the transported
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$ together with the selected
+$\hsame$ stability rows.
+
+The ledger is finite for the same reason as in the transport package. The
+index $n=\mathsf{append}(a,k)$ is selected by the unary anchor and bounded
+offset, and the dyadic-radius token read at each transported endpoint is the
+token carried by the corresponding RegSeqRat spine. Thus the transported
+classifier and endpoint rows read no data beyond the scoped DyadicRatCore
+carrier, classifier, stability, and finite ledger faces.
+\end{proof}
+
+Fit. Traditional target: transported finite-window dyadic endpoint source
+coverage for RegSeqRat. BEDC source:
+$\StreamNameUp+\RatUp+\RealUp+\DyadicRatCore$. Carrier/classifier: four
+$\mathsf{RatStreamNameCarrier}$ rows, the source
+$\mathsf{RatStreamNameClassifier}(s,t)$, and the transported selected
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$. Stability: selected
+$\hsame$ transport of the two endpoints. Ledger: unary offset together with
+the dyadic-radius token at each transported endpoint. Core theorem:
+\autoref{thm:regseqrat-finite-window-transported-dyadic-source-exhaustion}.
+Exactness: the transported endpoint package is the scoped DyadicRatCore source
+read at $s'(n)$ and $t'(n)$. Standard bridge: finite rational observation
+windows for RealUp. Downstream use: the RealUp finite-window seal.
+Status: $\mathsf{ProofTarget}$.
+
 Fit. Traditional target: finite-window dyadic endpoint transport for
 RegSeqRat. BEDC source: $\StreamNameUp+\RatUp+\RealUp+\DyadicRatCore$ over
 $\mathsf{BHist}$. Carrier: four $\mathsf{RatStreamNameCarrier}$ rows with
