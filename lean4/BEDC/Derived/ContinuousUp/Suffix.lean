@@ -513,4 +513,52 @@ theorem ContinuousFunctionCarrier_visible_modulus_context_composite_ledger_deter
     ContinuousFunctionCarrier_visible_modulus_context_composite_ledger_deterministic
       first second fgRel modRel certRel fgRel' modRel' certRel'
 
+theorem ContinuousFunctionCarrier_visible_modulus_context_field_determinacy
+    {p q source source' map map' target target' modulus modulus' cert cert' : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+        (append (append p cert) q) ->
+      ContinuousFunctionCarrier (append p source') map (append p target) (append modulus q)
+        (append (append p cert) q) ->
+        ContinuousFunctionCarrier (append p source) map' (append p target) (append modulus q)
+          (append (append p cert) q) ->
+          ContinuousFunctionCarrier (append p source) map (append p target) (append modulus' q)
+            (append (append p cert) q) ->
+            ContinuousFunctionCarrier (append p source) map (append p target') (append modulus q)
+              (append (append p cert') q) ->
+              hsame source source' ∧ hsame map map' ∧ hsame modulus modulus' ∧
+                hsame target target' ∧ hsame cert cert' := by
+  intro base displayedSource displayedMap displayedModulus displayedTarget
+  have baseData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target) (modulus := modulus)
+      (cert := cert)).mp base
+  have sourceData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source') (map := map) (target := target) (modulus := modulus)
+      (cert := cert)).mp displayedSource
+  have mapData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map') (target := target) (modulus := modulus)
+      (cert := cert)).mp displayedMap
+  have modulusData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target) (modulus := modulus')
+      (cert := cert)).mp displayedModulus
+  have targetData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := map) (target := target') (modulus := modulus)
+      (cert := cert')).mp displayedTarget
+  have sameSource : hsame source source' :=
+    ContinuousFunctionCarrier_source_deterministic baseData.right.right sourceData.right.right
+  have sameMap : hsame map map' :=
+    ContinuousFunctionCarrier_map_deterministic baseData.right.right mapData.right.right
+  have sameModulus : hsame modulus modulus' :=
+    ContinuousFunctionCarrier_modulus_deterministic baseData.right.right modulusData.right.right
+  have sameTargetCert : hsame target target' ∧ hsame cert cert' :=
+    ContinuousFunctionCarrier_target_cert_deterministic baseData.right.right targetData.right.right
+  exact
+    And.intro sameSource
+      (And.intro sameMap
+        (And.intro sameModulus sameTargetCert))
+
 end BEDC.Derived.ContinuousUp

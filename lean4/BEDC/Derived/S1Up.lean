@@ -433,6 +433,25 @@ theorem SOneHistoryCarrier_component_classifier_ledger_determinacy
                             (hsame_trans leftEquationUnit (hsame_symm rightEquationUnit))
                             (cont_respects_hsame sameX sameY leftPoint rightPoint)
 
+theorem SOneComponentClassifier_full_readback_package {x y e p x' y' e' p' : BHist} :
+    SOneComponentClassifier x y e p x' y' e' p' ->
+      (SOneProductHistoryCarrier p ∧ hsame e SOneUnitHistory ∧
+        ∃ dx dy : BHist,
+          hsame x (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧
+            hsame y (BHist.e1 dy) ∧ RatHistoryCarrier dy ∧ Cont x y p) ∧
+        (hsame e e' ∧ hsame p p') ∧
+          (SOneProductHistoryCarrier p' ∧ hsame e' SOneUnitHistory ∧
+            ∃ dx dy : BHist,
+              hsame x' (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧
+                hsame y' (BHist.e1 dy) ∧ RatHistoryCarrier dy ∧ Cont x' y' p') := by
+  intro classifier
+  have sourceReadback := SOneHistoryCarrier_public_readback classifier.left
+  have ledgerDeterminacy :=
+    SOneHistoryCarrier_component_classifier_ledger_determinacy classifier.left
+      classifier.right.left classifier.right.right.left classifier.right.right.right
+  have targetReadback := SOneHistoryCarrier_public_readback classifier.right.left
+  exact And.intro sourceReadback (And.intro ledgerDeterminacy targetReadback)
+
 theorem SOneComponentClassifier_stability :
     (∀ {x y e p : BHist}, SOneHistoryCarrier x y e p ->
       SOneComponentClassifier x y e p x y e p) ∧
