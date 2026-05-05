@@ -29,7 +29,13 @@ The identity field says $\rho_{i,i}(s)\sim_i s$ for every $s:\mathsf{Sec}(i)$, a
 $$
 \rho_{j,k}(\rho_{i,j}(s))\sim_k\rho_{i,k}(s)
 $$
-for every $s:\mathsf{Sec}(i)$. This is the section-level concrete form of the contravariant restriction data described in \autoref{ch:concrete-instances-presheaf-namecert}.
+for every $s:\mathsf{Sec}(i)$. The restriction classifier-stability field says that, for every inclusion $j\le_{\mathcal{T}}i$ and every $s,t:\mathsf{Sec}(i)$,
+$$
+s\sim_i t
+\Longrightarrow
+\rho_{i,j}(s)\sim_j\rho_{i,j}(t).
+$$
+This is the section-level concrete form of the contravariant restriction data described in \autoref{ch:concrete-instances-presheaf-namecert}.
 \end{definition}
 
 \begin{definition}[Indexed sheaf cover, compatibility, and locality]
@@ -208,4 +214,86 @@ $$
 \rho_{i,\iota(a)}(h)\sim_{\iota(a)}s_a
 $$
 for the same $a$. Since $a$ was arbitrary, both cover-global sections $h$ and $g$ restrict to the compatible local family $s_a$ on every member of $\mathcal{U}$. Applying \autoref{thm:sheaf-gluing-uniqueness-from-locality} with $h$ as the first cover-global section and $g$ as the second gives $h\sim_i g$.
+\end{proof}
+
+\begin{theorem}[Sheaf restriction classifier transport]
+\label{thm:sheaf-restriction-classifier-transport}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. For every inclusion $j\le_{\mathcal{T}}i$ and every pair $s,t:\mathsf{Sec}(i)$, classifier equality on the larger open transports along restriction:
+$$
+s\sim_i t
+\Longrightarrow
+\rho_{i,j}(s)\sim_j\rho_{i,j}(t).
+$$
+Thus restriction rows are morphisms of the local section classifiers.
+\end{theorem}
+\begin{proof}
+The indexed sheaf carrier contains the indexed section presheaf carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}. Apply its restriction classifier-stability field to the inclusion $j\le_{\mathcal{T}}i$ and the given classifier row $s\sim_i t$.
+\end{proof}
+
+\begin{theorem}[Sheaf compatible-family stability]
+\label{thm:sheaf-gluing-compatible-family-stability}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of an open index $i:\mathsf{OpenIx}$. Suppose $s_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$ and $t_a:\mathsf{Sec}(\iota(a))$ is a second local family with
+$$
+\forall a:A,\quad t_a\sim_{\iota(a)}s_a.
+$$
+Then $t_a$ is compatible over $\mathcal{U}$. Explicitly, for all $a,b:A$, writing $k_{a,b}:=\iota(a)\wedge_{\TopologyUp}\iota(b)$, one has
+$$
+\rho_{\iota(a),k_{a,b}}(t_a)
+\sim_{k_{a,b}}
+\rho_{\iota(b),k_{a,b}}(t_b).
+$$
+\end{theorem}
+\begin{proof}
+Fix $a,b:A$ and write $k=\iota(a)\wedge_{\TopologyUp}\iota(b)$. The finite-intersection field of \autoref{def:topology-indexed-open-carrier} supplies the inclusions $k\le_{\mathcal{T}}\iota(a)$ and $k\le_{\mathcal{T}}\iota(b)$ needed to restrict both local sections to the overlap.
+
+Apply \autoref{thm:sheaf-restriction-classifier-transport} to the classifier row $t_a\sim_{\iota(a)}s_a$ along $k\le_{\mathcal{T}}\iota(a)$. This gives
+$$
+\rho_{\iota(a),k}(t_a)
+\sim_k
+\rho_{\iota(a),k}(s_a).
+$$
+Apply the same transport row to $t_b\sim_{\iota(b)}s_b$ along $k\le_{\mathcal{T}}\iota(b)$, and then use symmetry of the classifier on $\mathsf{Sec}(k)$, to get
+$$
+\rho_{\iota(b),k}(s_b)
+\sim_k
+\rho_{\iota(b),k}(t_b).
+$$
+
+The compatibility of the original family gives
+$$
+\rho_{\iota(a),k}(s_a)
+\sim_k
+\rho_{\iota(b),k}(s_b).
+$$
+Transitivity of $\sim_k$ first composes the transported $a$-side row with the original compatibility row, and then composes the result with the reversed transported $b$-side row. The resulting row is exactly
+$$
+\rho_{\iota(a),k}(t_a)
+\sim_k
+\rho_{\iota(b),k}(t_b).
+$$
+Since $a$ and $b$ were arbitrary, the family $t_a$ is compatible over $\mathcal{U}$.
+\end{proof}
+
+\begin{theorem}[Sheaf NameCert obligation surface]
+\label{thm:sheaf-namecert-obligation-surface}
+The concrete $\SheafUp$ certificate surface is the following ten-field obligation surface.
+\begin{enumerate}
+\item The traditional target is a sheaf of sections over indexed opens of an indexed topology carrier.
+\item The BEDC source data are $\TopologyUp$ together with $\PreSheafUp$.
+\item The carrier is the indexed section presheaf carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
+\item The classifier family is the open-indexed relation $\sim_i$ on $\mathsf{Sec}(i)$.
+\item The stability obligations are classifier equivalence, identity restriction, composition of restriction, restriction classifier transport, locality, gluing, uniqueness of gluing, compatibility of global restrictions, and compatible-family stability.
+\item The ledger consists of open-cover indices, cover-member inclusions, finite-intersection overlap indices, and restriction rows to those overlaps.
+\item The core theorem list is \autoref{thm:sheaf-restriction-classifier-transport}, \autoref{thm:sheaf-gluing-compatible-family-stability}, \autoref{thm:sheaf-gluing-uniqueness-from-locality}, \autoref{thm:sheaf-global-restrictions-compatible-local-family}, and \autoref{cor:sheaf-gluing-global-restrictions-idempotent}.
+\item Exactness is locality together with existence and uniqueness of gluing for compatible local families.
+\item There is no standard bridge attached to this surface.
+\item The status is a paper-side obligation surface for downstream certificates using $\NameCert_{\SheafUp}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Rows one through four are the data fixed by \autoref{def:sheaf-indexed-section-presheaf-carrier} and \autoref{def:sheaf-indexed-cover-compatibility-locality}: indexed opens come from $\TopologyUp$, section carriers and contravariant restriction rows come from $\PreSheafUp$, and classifier equality is indexed by the same opens as the section carriers.
+
+Row five is exactly the list of fields and consequences exposed in this section. Equivalence, identity, composition, and restriction transport are part of the carrier surface; locality and gluing are the sheaf fields; uniqueness, compatible global restrictions, idempotence of global gluing, and compatible-family stability are the theorem rows cited in row seven.
+
+Rows six through ten record how downstream constructions consume the surface. A ringed-space or scheme certificate can name cover indices, overlaps, and restriction rows without choosing a standard-model bridge; the exactness content available to it is precisely local detection plus existence and uniqueness of gluing.
 \end{proof}
