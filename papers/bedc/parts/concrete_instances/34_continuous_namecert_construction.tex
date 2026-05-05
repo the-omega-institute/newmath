@@ -25,6 +25,18 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.ContinuousUp.ContinuousModulusWitness}
 
+\begin{definition}[Continuous modulus chain]
+\label{def:continuous-modulus-chain}
+For histories $source,first,second,target$,
+$\mathsf{ContinuousModulusChain}(source,first,second,target)$ consists of unary
+histories for $source$, $first$, $second$, and $target$, plus a middle history
+$m$ with
+$$
+\ContR(source,first,m)\quad\hbox{and}\quad\ContR(m,second,target).
+$$
+\end{definition}
+\leandef{BEDC.Derived.ContinuousUp.ContinuousModulusChain}
+
 \begin{theorem}[Continuous modulus witness empty-source exactness]
 \label{thm:continuous-modulus-witness-empty-source-iff}
 For histories $modulus$ and $target$, a one-step modulus witness whose source
@@ -167,6 +179,33 @@ histories with their transported presentations, so the resulting continuous
 modulus witness has the transported endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_composite\_endpoint\_hsame\_transport}
+
+\begin{theorem}[Continuous modulus chain composite public readback]
+\label{thm:continuous-modulus-chain-composite-public-readback}
+For histories $source,first,second,target,composite$, a two-link modulus chain
+and a public composite modulus ledger give the chain-level readback:
+$$
+\begin{array}{l}
+\mathsf{ContinuousModulusChain}(source,first,second,target)\Longrightarrow
+\ContR(first,second,composite)\Longrightarrow
+\\
+\mathsf{ContinuousModulusWitness}(source,composite,target)\ \land\\
+\forall target'.\;
+\mathsf{ContinuousModulusWitness}(source,composite,target')\Longrightarrow
+\hsame(target,target').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:continuous-modulus-chain-composite-closed} to the chain
+and composite ledger to obtain
+$\mathsf{ContinuousModulusWitness}(source,composite,target)$.
+
+For any competing $target'$, apply
+Theorem~\ref{thm:continuous-modulus-witness-target-hsame-deterministic} to this
+witness, the competing witness, reflexivity of the shared source, and the shared
+composite modulus.
+\end{proof}
 
 \begin{theorem}[Continuous function carrier composition through modulus chain]
 \label{thm:continuous-function-carrier-comp-modulus-chain-closed}

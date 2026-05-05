@@ -168,6 +168,7 @@ import BEDC.Derived.HolomorphicUp.CenterPointSuffixGapReadback
 import BEDC.Derived.HolomorphicUp.OpenDiskRadiusExtension
 import BEDC.Derived.HolomorphicUp.OpenDiskZeroHeaded
 import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
+import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
@@ -224,6 +225,7 @@ import BEDC.Derived.PrimeUp.EmptyResult
 import BEDC.Derived.PrimeUp.NatMulCases
 import BEDC.Derived.PrimeUp.NatMulComm
 import BEDC.Derived.PrimeUp.NatMulTransport
+import BEDC.Derived.PrimeUp.NatMulSplit
 import BEDC.Derived.PrimeUp.SuccMultiplicand
 import BEDC.Derived.PrimeUp.ResultCancel
 import BEDC.Derived.PrimeUp.SuccResultContTransport
@@ -468,6 +470,7 @@ import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
 import BEDC.Derived.MatrixUp.MulContinuation
+import BEDC.Derived.MatrixUp.ContinuationResult
 import BEDC.Derived.MatrixUp.ExponentCases
 import BEDC.Derived.MatrixUp.PowContinuation
 import BEDC.Derived.MatrixUp.PositiveTail
@@ -476,6 +479,8 @@ import BEDC.Derived.MatrixUp.PositiveSuffix
 import BEDC.Derived.MatrixUp.VisibleBaseCarrier
 import BEDC.Derived.MatrixUp.VisibleCarrier
 import BEDC.Derived.MatrixUp.NestedAppendTarget
+import BEDC.Derived.MatrixUp.FiniteFold
+import BEDC.Derived.MatrixUp.SemanticCertificate
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
@@ -513,15 +518,22 @@ import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
+import BEDC.Derived.ContinuousUp.CompositionAssociativity
+import BEDC.Derived.ContinuousUp.TerminalModulusExtension
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
+import BEDC.Derived.ContinuousUp.TerminalModulusExtension
+import BEDC.Derived.ContinuousUp.VisibleGraphModulusDeterminism
 import BEDC.Derived.ContinuousUp.TripleComposition
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.GraphDepth
 import BEDC.Derived.ContinuousMapUp.IdentityUnits
 import BEDC.Derived.ContinuousMapUp.CompositionCertificate
+import BEDC.Derived.ContinuousMapUp.CategoryMetricDecomposition
+import BEDC.Derived.ContinuousMapUp.CompositionTargetDeterminacy
 import BEDC.Derived.ContinuousMapUp.DistanceBoundary
+import BEDC.Derived.ContinuousMapUp.TransportDepth
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
 import BEDC.Derived.CompactUp.Suffix
@@ -656,6 +668,7 @@ import BEDC.Derived.NatTransUp.PrefixComponentClassifier
 import BEDC.Derived.NatTransUp.UnaryObjectSuffix
 import BEDC.Derived.NatTransUp.VertCompNonemptyResultTargetVisible
 import BEDC.Derived.NatTransUp.VertCompCycleBoundary
+import BEDC.Derived.NatTransUp.VerticalWhisker
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.AdjunctionUp.CarrierSwap
 import BEDC.Derived.AdjunctionUp.TriangleComponents
@@ -668,6 +681,7 @@ import BEDC.Derived.AdjunctionUp.RightAdjointUniqueness
 import BEDC.Derived.AdjunctionUp.TriangleTotalCollapse
 import BEDC.Derived.AdjunctionUp.TriangleResults
 import BEDC.Derived.AdjunctionUp.TriangleZeroHeaded
+import BEDC.Derived.AdjunctionUp.CompositionPasting
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp

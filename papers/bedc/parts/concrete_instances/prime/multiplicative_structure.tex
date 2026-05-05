@@ -56,6 +56,37 @@ Invert the successor multiplication witness. Its final step is a continuation
 the left multiplicand \(d\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_empty\_left\_empty}
+\begin{theorem}[Successor result exposes positive multiplicand shape]
+\label{thm:natmul-successor-result-multiplicand-positive-shape}
+If $\mathsf{NatMul}(d,q,\Eone(n))$, then the multiplicand has one-headed
+unary shape:
+$$
+\exists t,\ d\hsame\Eone(t)\wedge\mathsf{UnaryHistory}(t).
+$$
+\end{theorem}
+\begin{proof}
+The multiplication witness carries a unary classifier for $d$. If $d$ were
+$\emp$, empty-left multiplication would force the successor result to be
+history-same to $\emp$, contradicting constructor separation. The zero-headed
+case contradicts unary exactness. Thus $d=\Eone(t)$, and the same unary
+classifier exposes a unary tail.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_successor\_result\_multiplicand\_positive\_shape}
+\begin{theorem}[Successor result exposes positive multiplier shape]
+\label{thm:natmul-successor-result-multiplier-positive-shape}
+If $\mathsf{NatMul}(d,q,\Eone(n))$, then the multiplier has one-headed unary
+shape:
+$$
+\exists t,\ q\hsame\Eone(t)\wedge\mathsf{UnaryHistory}(t).
+$$
+\end{theorem}
+\begin{proof}
+The multiplication witness carries a unary classifier for $q$. The empty
+multiplier is impossible because the empty multiplier constructor returns
+$\emp$, not a successor result. The zero-headed case contradicts unary
+exactness. Hence $q=\Eone(t)$, and the tail is unary by one-headed inversion.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_successor\_result\_multiplier\_positive\_shape}
 \begin{theorem}[Successor multiplication has positive result shape]
 \label{thm:natmul-succ-result-positive-shape}
 If $\mathsf{NatMul}(d,\Eone(q),n)$ and $d$ is not history-same to
