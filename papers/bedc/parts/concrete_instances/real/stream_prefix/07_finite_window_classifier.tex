@@ -13,6 +13,26 @@ $$
 \leandef{BEDC.Derived.RealUp.RealUnaryOffsetLe}
 \leandef{BEDC.Derived.RealUp.UnaryOffsetLe}
 
+\begin{theorem}[Unary offset continuation transitivity]
+\label{thm:real-unary-offset-cont-trans}
+For histories $k,w,u,\tau,\sigma:\Hist$,
+$$
+\mathsf{UnaryHistory}(k)\land\mathsf{UnaryHistory}(\tau)\land
+\mathsf{UnaryHistory}(\sigma)\land
+\ContR(k,\tau,w)\land\ContR(w,\sigma,u)
+\Longrightarrow
+\mathsf{UnaryOffsetLe}(k,u).
+$$
+\end{theorem}
+\begin{proof}
+Use $\mathsf{append}(\tau,\sigma)$ as the composed offset tail. Unary append
+closure supplies its unary-history row, and continuation associativity turns
+the two displayed continuation rows into a continuation from $k$ through that
+tail to $u$. Together with the given $\mathsf{UnaryHistory}(k)$ row, these
+data repack as $\mathsf{UnaryOffsetLe}(k,u)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.UnaryOffsetLe\_cont\_trans}
+
 \begin{definition}[Real unary stream finite window classifier]
 \label{def:real-unary-stream-window-classifier}
 For observation maps $s,t:\Hist\to\Hist$ and histories $a,w:\Hist$, read $a$
