@@ -218,6 +218,7 @@ import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.EmptyBoundedSource
+import BEDC.Derived.ListUp.HistoryCarrier
 import BEDC.Derived.ListUp.SpineRep
 import BEDC.Derived.ListUp.SpineCoherence
 import BEDC.Derived.ListUp.SpineBridge
@@ -244,6 +245,7 @@ import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
+import BEDC.Derived.FieldExtUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -398,6 +400,7 @@ import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.EmptyUnitConjugation
 import BEDC.Derived.FieldUp.EmptyUnitConjugationFixedPoint
@@ -575,6 +578,7 @@ import BEDC.Derived.MetricUp.CompositeEndpointCollapse
 import BEDC.Derived.MetricUp.BallBudget
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompleteMetricUp
+import BEDC.Derived.BanachUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
