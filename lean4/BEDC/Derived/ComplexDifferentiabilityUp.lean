@@ -331,6 +331,20 @@ theorem complex_diff_semantic_name_certificate {f z fp : BHist} :
       exact source
   }
 
+def CplxDiffLedgerPolicy (f z fp : BHist) : Prop :=
+  CplxDiffAt f z fp ∧
+    (∃ h : BHist, ∃ q : BHist,
+      CplxDiffQuot f z h q ∧ Cont f h q ∧ CplxNonZero h ∧ CplxNonZero q ∧
+        hsame q fp) ∧
+      SemanticNameCert (CplxDiffAt f z) (CplxDiffAt f z) (CplxDiffAt f z) hsame
+
+theorem CplxDiffLedgerPolicy_of_diff {f z fp : BHist} :
+    CplxDiffAt f z fp -> CplxDiffLedgerPolicy f z fp := by
+  intro diff
+  exact And.intro diff
+    (And.intro (CplxDiffAt_witness_nonzero_result diff)
+      (complex_diff_semantic_name_certificate diff))
+
 theorem complex_diff_name_certificate {f z fp : BHist} (diff : CplxDiffAt f z fp) :
     NameCert (CplxDiffAt f z) ComplexHistoryClassifier := by
   exact {
