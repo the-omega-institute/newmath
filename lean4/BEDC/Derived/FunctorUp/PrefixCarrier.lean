@@ -61,6 +61,14 @@ theorem PrefixFunctorCarrier_hom_public_readback {p a b f : BHist} :
   exact And.intro displayedCarrier
     (fun displayed => CategoryHomCarrier_morphism_deterministic displayedCarrier displayed)
 
+theorem PrefixFunctorCarrier_e1_prefix_hom_reflects {p a b f : BHist} :
+    PrefixFunctorCarrier (BHist.e1 p) ->
+      CategoryHomCarrier (append (BHist.e1 p) a) (append (BHist.e1 p) b) f ->
+        UnaryHistory p ∧ CategoryHomCarrier a b f := by
+  intro prefixCarrier displayedCarrier
+  exact And.intro (unary_e1_inversion prefixCarrier.prefix_unary)
+    (prefixCarrier.hom_reflects displayedCarrier)
+
 theorem PrefixFunctorCarrier_comp_assoc_public_readback
     {p a b c d f g h fg gh left right : BHist} :
     PrefixFunctorCarrier p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->

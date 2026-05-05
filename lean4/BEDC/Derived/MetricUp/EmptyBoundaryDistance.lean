@@ -242,6 +242,18 @@ theorem MetricDistanceWitness_visible_context_empty_distance_unit_splice_commute
   cases sameRight
   rfl
 
+theorem MetricDistanceWitness_visible_context_empty_distance_endpoint_continuation_units
+    {p q x y l r outL outR : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ->
+      Cont l x outL -> Cont y r outR -> hsame outL l ∧ hsame outR r := by
+  intro visible leftCont rightCont
+  have endpoints :=
+    (MetricDistanceWitness_visible_context_empty_distance_iff (p := p) (q := q)
+      (x := x) (y := y)).mp visible
+  cases endpoints.right.right.left
+  cases endpoints.right.right.right
+  exact And.intro (Iff.mp cont_right_unit_iff leftCont) (cont_left_unit_result rightCont)
+
 theorem MetricDistanceWitness_empty_boundary_visible_context_witness_splice
     {p q d l r mid out : BHist} :
     MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
