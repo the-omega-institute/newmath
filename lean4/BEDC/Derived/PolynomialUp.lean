@@ -408,4 +408,13 @@ theorem PolynomialZeroRemainder_addFold_empty_classified {xs : List BHist} :
       exact And.intro foldEmpty
         (And.intro (hsame_refl BHist.Empty) foldEmpty)
 
+theorem PolynomialSingletonAddFold_zero_remainder_empty {xs : List BHist} :
+    PolynomialZeroRemainder xs -> hsame (PolynomialSingletonAddFold xs) BHist.Empty := by
+  intro h
+  induction h with
+  | nil =>
+      exact hsame_refl BHist.Empty
+  | cons xEmpty tailZero ih =>
+      exact append_eq_empty_iff.mpr (And.intro xEmpty ih)
+
 end BEDC.Derived.PolynomialUp
