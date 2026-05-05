@@ -1,9 +1,14 @@
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont
 
 namespace BEDC.Derived.HashUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
+
+def HashEvalTranscript (MsgCarrier DigCarrier : BHist -> Prop) (m d row : BHist) : Prop :=
+  MsgCarrier m ∧ DigCarrier d ∧ Cont m d row
 
 def HashSecondPreimageSuccess
     (HashEval : BHist -> BHist -> Prop)
@@ -66,7 +71,26 @@ theorem HashCollisionSuccess_symmetric
           exact Exists.intro d'
             (Exists.intro d
               (And.intro transcript.right.left
-                (And.intro transcript.left
-                  (And.intro msgDistinct digestSymm))))
+              (And.intro transcript.left
+                (And.intro msgDistinct digestSymm))))
+
+theorem HashCollisionTranscript_symmetric
+    {HashEval : BHist -> BHist -> Prop}
+    {MsgCarrier DigCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (msgCert : SemanticNameCert MsgCarrier MsgCarrier MsgCarrier MsgClassifier)
+    (digestCert : SemanticNameCert DigCarrier DigCarrier DigCarrier DigClassifier)
+    {x x' d d' : BHist} :
+    HashEval x d -> HashEval x' d' -> (MsgClassifier x x' -> False) ->
+      DigClassifier d d' ->
+      HashEval x' d' ∧ HashEval x d ∧ (MsgClassifier x' x -> False) ∧
+        DigClassifier d' d := by
+  intro evalLeft evalRight msgDistinct digestSame
+  have msgDistinctSymm : MsgClassifier x' x -> False := by
+    intro reversed
+    exact msgDistinct (msgCert.core.equiv_symm reversed)
+  exact And.intro evalRight
+    (And.intro evalLeft
+      (And.intro msgDistinctSymm (digestCert.core.equiv_symm digestSame)))
 
 end BEDC.Derived.HashUp

@@ -10,6 +10,45 @@ open BEDC.FKernel.Unary
 def ComputableBoundedSim (P n B m : BHist) : Prop :=
   UnaryHistory P ∧ UnaryHistory n ∧ UnaryHistory B ∧ UnaryHistory m ∧ Cont n B m
 
+structure ComputableBoundedGraphCertificate where
+  Graph : BHist -> BHist -> Prop
+  program : BHist
+  bound : BHist -> BHist
+  program_unary : UnaryHistory program
+  bound_unary : forall {n : BHist}, UnaryHistory n -> UnaryHistory (bound n)
+  graph_to_sim :
+    forall {n m : BHist}, Graph n m -> ComputableBoundedSim program n (bound n) m
+  sim_to_graph :
+    forall {n m : BHist}, ComputableBoundedSim program n (bound n) m -> Graph n m
+
+theorem ComputableBoundedSim_same_bound_output_hsame {P n B m mPrime : BHist} :
+    ComputableBoundedSim P n B m -> ComputableBoundedSim P n B mPrime ->
+      hsame m mPrime ∧ Cont n B m ∧ Cont n B mPrime := by
+  intro leftRun rightRun
+  exact And.intro
+    (cont_deterministic leftRun.right.right.right.right rightRun.right.right.right.right)
+    (And.intro leftRun.right.right.right.right rightRun.right.right.right.right)
+
+theorem ComputableBoundedGraphCertificate_single_valuedness
+    (C : ComputableBoundedGraphCertificate) {n m mPrime : BHist} :
+    C.Graph n m -> C.Graph n mPrime ->
+      ComputableBoundedSim C.program n (C.bound n) m ∧
+        ComputableBoundedSim C.program n (C.bound n) mPrime ∧
+          hsame m mPrime ∧ Cont n (C.bound n) m ∧ Cont n (C.bound n) mPrime := by
+  intro leftGraph rightGraph
+  have leftRun := C.graph_to_sim leftGraph
+  have rightRun := C.graph_to_sim rightGraph
+  have readback := ComputableBoundedSim_same_bound_output_hsame leftRun rightRun
+  exact And.intro leftRun (And.intro rightRun readback)
+
+theorem ComputableBoundedSim_same_bound_output_deterministic {P n B m m' : BHist} :
+    ComputableBoundedSim P n B m -> ComputableBoundedSim P n B m' ->
+      hsame m m' ∧ UnaryHistory m ∧ UnaryHistory m' := by
+  intro leftRun rightRun
+  exact And.intro
+    (cont_deterministic leftRun.right.right.right.right rightRun.right.right.right.right)
+    (And.intro leftRun.right.right.right.left rightRun.right.right.right.left)
+
 theorem ComputableBoundedSim_composition {PF PG n bF m bG k : BHist} :
     ComputableBoundedSim PF n bF m -> ComputableBoundedSim PG m bG k ->
       exists B : BHist, UnaryHistory B ∧ Cont bF bG B ∧
