@@ -20,13 +20,6 @@ exclusion applies in the corresponding orientation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_e0\_endpoint\_absurd}
 
-<<<<<<< HEAD
-\begin{theorem}[Real constant classifier malformed inner denominator exclusions]
-\label{thm:real-constant-history-classifier-malformed-inner-denominator-absurd}
-For histories $d,p,z:\mathsf{BHist}$, the constant real-history classifier
-excludes every exposed rational denominator that is internally empty or ends
-with an appended e-zero tail:
-=======
 \begin{theorem}[Real constant classifier transported inner e-zero endpoint absurd]
 \label{thm:real-constant-history-classifier-transported-inner-e0-endpoint-absurd}
 For histories $h,k,tail:\mathsf{BHist}$, any constant real-history classifier
@@ -44,8 +37,8 @@ $$
 \end{theorem}
 \begin{proof}
 For the left endpoint, unpack the constant real classifier only far enough to
-recover the opposite endpoint display $k\hsame\Eone(d)$. Together with the
-assumed display $h\hsame\Eone(\Ezero(tail))$,
+recover the opposite endpoint display $k\hsame\Eone(d)$ for some $d$. Together
+with the assumed display $h\hsame\Eone(\Ezero(tail))$,
 \autoref{thm:real-constant-history-classifier-endpoint-transport} transports
 the classifier to the exact pair
 $\mathsf{RealConstantHistoryClassifier}(\Eone(\Ezero(tail)),\Eone(d))$.
@@ -53,7 +46,7 @@ Then \autoref{thm:real-constant-history-classifier-e1-e0-endpoint-absurd}
 contradicts this exact sealed-zero shape.
 
 The right endpoint is symmetric. Unpack the classifier to recover
-$h\hsame\Eone(d)$, combine it with the assumed
+$h\hsame\Eone(d)$ for some $d$, combine it with the assumed
 $k\hsame\Eone(\Ezero(tail))$, transport to
 $\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\Ezero(tail)))$, and
 apply the opposite orientation of
@@ -65,13 +58,37 @@ apply the opposite orientation of
 For histories $d:\mathsf{BHist}$, the constant real-history classifier excludes
 an empty rational endpoint even when it is sealed by the outer constant-real
 $\Eone$ constructor:
->>>>>>> origin/auto-dev
 $$
 \begin{array}{l}
 \mathsf{RealConstantHistoryClassifier}(\Eone(\emp),\Eone(d))
 \Longrightarrow\mathsf{False},\\
 \mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))
-<<<<<<< HEAD
+\Longrightarrow\mathsf{False}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Expose the sealed constant-real classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. In the first
+orientation this gives a rational classifier
+$\mathsf{RatHistoryClassifier}(\emp,d)$; in the second orientation it gives
+$\mathsf{RatHistoryClassifier}(d,\emp)$.
+
+Apply \autoref{thm:rat-history-classifier-endpoints-not-empty} to the exposed
+rational classifier in the corresponding orientation. The relevant endpoint
+nonemptiness clause contradicts $\hsame(\emp,\emp)$ by reflexivity.
+\end{proof}
+
+\begin{theorem}[Real constant classifier malformed inner denominator exclusions]
+\label{thm:real-constant-history-classifier-malformed-inner-denominator-absurd}
+For histories $d,p,z:\mathsf{BHist}$, the constant real-history classifier
+excludes every exposed rational denominator that is internally empty or ends
+with an appended e-zero tail:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(\Eone(\emp),\Eone(d))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))
 \Longrightarrow\mathsf{False},\\
 \mathsf{RealConstantHistoryClassifier}(\Eone(p\cdot\Ezero(z)),\Eone(d))
 \Longrightarrow\mathsf{False},\\
@@ -111,20 +128,4 @@ For the right appended e-zero-tail clause, the same positive-denominator
 projection gives the witness on the right endpoint $p\cdot\Ezero(z)$. This is
 again impossible by
 \autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
-=======
-\Longrightarrow\mathsf{False}.
-\end{array}
-$$
-\end{theorem}
-\begin{proof}
-Expose the sealed constant-real classifier with
-\autoref{thm:real-constant-history-classifier-e1-iff-rat}. In the first
-orientation this gives a rational classifier
-$\mathsf{RatHistoryClassifier}(\emp,d)$; in the second orientation it gives
-$\mathsf{RatHistoryClassifier}(d,\emp)$.
-
-Apply \autoref{thm:rat-history-classifier-endpoints-not-empty} to the exposed
-rational classifier in the corresponding orientation. The relevant endpoint
-nonemptiness clause contradicts $\hsame(\emp,\emp)$ by reflexivity.
->>>>>>> origin/auto-dev
 \end{proof}
