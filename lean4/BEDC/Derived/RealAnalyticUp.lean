@@ -7,6 +7,10 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexSeriesUp
 
+def RealAnalyticLeibnizPartialSum (leibnizTerm : BHist -> BHist) (n S : BHist) :
+    Prop :=
+  UnaryHistory n ∧ ComplexPartSum BHist.Empty leibnizTerm n S ∧ UnaryHistory S
+
 theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist} :
     ComplexPartSum zero c n S -> UnaryHistory n := by
