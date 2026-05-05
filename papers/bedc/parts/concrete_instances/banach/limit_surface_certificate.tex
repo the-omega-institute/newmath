@@ -1,0 +1,164 @@
+\section{Banach limit surface certificate}
+\label{sec:banach-limit-surface-certificate}
+
+\begin{definition}[Banach limit surface certificate]
+\label{def:banach-limit-surface-certificate}
+For a concrete Banach carrier $X$ of
+\autoref{def:banach-concrete-carrier}, a regular $\StreamNameUp$ stream $s$,
+a displayed modulus history $M$, a displayed limit history $\ell$, and a
+late-distance ledger $\Lambda$, the Banach limit surface certificate is the
+predicate
+$$
+\mathsf{BanachLimitSurface}_X(s,M,\ell,\Lambda).
+$$
+It consists of the carried $\mathsf{BHist}$ stream observations of $s$, the
+componentwise $\hsame$ transport rows for the observations, the modulus
+history $M$, and the limit history $\ell$, the displayed
+$\mathsf{BanachMetricWitness}_X$ rows in $\Lambda$, and the
+$\mathsf{CompleteMetricLimitWitness}(X,s,M,\ell,\Lambda)$ row that consumes
+those distance rows.
+
+The ten-field template is fixed as follows. The traditional target is the
+Banach limit interface for regular Cauchy streams. The BEDC source is
+$\NormUp$, $\StreamNameUp$, $\CompleteMetricUp$, and the $\RealUp$ comparison
+rows used by the displayed norm distances. The carrier is the concrete Banach
+carrier $X$. The classifier is $\hsame$ on carried representatives together
+with the $\mathsf{RealClassifier}$ on norm distances. Stability is supplied by
+\autoref{thm:banach-classifier-transport-obligation}. The ledger records the
+stream observations, the modulus $M$, the endpoint $\ell$, the norm-distance
+rows in $\Lambda$, and the $\RatUp$ comparison rows.
+
+The core theorem list is
+\autoref{thm:banach-limit-surface-endpoint-coverage},
+\autoref{thm:banach-limit-surface-classifier-transport},
+\autoref{thm:banach-limit-surface-uniqueness}, and
+\autoref{thm:banach-limit-surface-namecert-obligations}. Exactness is the
+equivalence between the displayed $\mathsf{BanachMetricWitness}_X$ rows and
+the $\mathsf{CompleteMetricLimitWitness}$ rows they feed. The standard bridge
+field is absent. The status is a paper proof target in
+$\mathsf{BEDC.Derived.BanachUp}$.
+\end{definition}
+
+\begin{theorem}[Banach limit surface endpoint coverage]
+\label{thm:banach-limit-surface-endpoint-coverage}
+Any displayed row
+$$
+\mathsf{BanachLimitSurface}_X(s,M,\ell,\Lambda)
+$$
+exposes the carried Banach endpoint $X$, the carried $\StreamNameUp$
+observations of $s$, the modulus history $M$, the carried limit history
+$\ell$, every displayed $\mathsf{BanachMetricWitness}_X$ distance row in
+$\Lambda$, and the corresponding
+$\mathsf{CompleteMetricLimitWitness}(X,s,M,\ell,\Lambda)$ row.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:banach-limit-surface-certificate}. The first displayed
+fields are exactly the carrier $X$, the stream observations of $s$, the
+modulus history $M$, and the carried limit history $\ell$.
+
+The next displayed fields are the ledger rows. Projecting them gives each
+$\mathsf{BanachMetricWitness}_X$ distance row in $\Lambda$ together with the
+$\RatUp$ comparison rows attached to the same late-observation entry.
+
+The final displayed field is the consumed complete-metric row. Projecting it
+gives $\mathsf{CompleteMetricLimitWitness}(X,s,M,\ell,\Lambda)$ with the same
+carrier, stream, modulus, endpoint, and distance ledger.
+\end{proof}
+
+\begin{theorem}[Banach limit surface classifier transport]
+\label{thm:banach-limit-surface-classifier-transport}
+Let $\mathsf{BanachLimitSurface}_X(s,M,\ell,\Lambda)$ be displayed.
+Componentwise $\hsame$ transport of the stream observations, modulus history,
+limit endpoint, distance histories, and comparison ledgers preserves the
+predicate $\mathsf{BanachLimitSurface}_X$ for the transported data.
+\end{theorem}
+\begin{proof}
+Start with the stream and endpoint rows. Apply
+\autoref{thm:banach-cauchy-stream-transport} to the transported observations,
+modulus history, limit history, norm-distance rows, and $\RatUp$ comparison
+rows. This keeps the regular Cauchy input and the convergence ledger in the
+Banach complete-metric shape.
+
+Next transport the norm and distance classifiers. For each carried endpoint
+comparison in the stream and the candidate limit, use
+\autoref{thm:banach-classifier-transport-obligation} to obtain the transported
+$\mathsf{RealClassifier}$ rows for the corresponding norm values and induced
+distances.
+
+Finally repackage the transported complete-metric row. Apply
+\autoref{thm:banach-complete-metric-namecert-coupling} to the transported
+carrier rows, the transported $\mathsf{BanachMetricWitness}_X$ ledger, and the
+transported $\mathsf{CompleteMetricLimitWitness}$ row. The resulting package
+is precisely the transported $\mathsf{BanachLimitSurface}_X$ row.
+\end{proof}
+
+\begin{theorem}[Banach limit surface uniqueness]
+\label{thm:banach-limit-surface-uniqueness}
+Let $X$ be a concrete Banach carrier and let $s$ be a regular Cauchy
+$\StreamNameUp$ stream over $X$. If
+$$
+\mathsf{BanachLimitSurface}_X(s,M_0,\ell_0,\Lambda_0)
+$$
+and
+$$
+\mathsf{BanachLimitSurface}_X(s,M_1,\ell_1,\Lambda_1)
+$$
+are displayed for the same stream, then the carried limit histories are
+classified by $\hsame$. In the singleton empty-history carrier this
+classification is the singleton classifier row
+$\rho_{\emp}(\ell_0,\ell_1)$.
+\end{theorem}
+\begin{proof}
+First project both surface rows through
+\autoref{thm:banach-limit-surface-endpoint-coverage}. This exposes the two
+complete-metric rows
+$\mathsf{CompleteMetricLimitWitness}(X,s,M_0,\ell_0,\Lambda_0)$ and
+$\mathsf{CompleteMetricLimitWitness}(X,s,M_1,\ell_1,\Lambda_1)$ for the same
+regular Cauchy stream.
+
+Apply \autoref{thm:banach-limit-uniqueness} to these two rows. Its conclusion
+identifies the carried limit histories in the Banach point classifier, which
+is the $\hsame$-classified representative relation fixed by
+\autoref{def:banach-concrete-carrier}.
+
+For the singleton carrier, read the same two projected rows through
+\autoref{def:banach-complete-metric-namecert-interface}. Then apply
+\autoref{thm:banach-singleton-limit-namecert-uniqueness}. It refines the
+$\hsame$ classification of $\ell_0$ and $\ell_1$ to the displayed singleton
+row $\rho_{\emp}(\ell_0,\ell_1)$.
+\end{proof}
+
+\begin{theorem}[Banach limit surface NameCert obligations]
+\label{thm:banach-limit-surface-namecert-obligations}
+The predicate $\mathsf{BanachLimitSurface}_X(s,M,\ell,\Lambda)$ together with
+\autoref{thm:banach-limit-surface-endpoint-coverage},
+\autoref{thm:banach-limit-surface-classifier-transport}, and
+\autoref{thm:banach-limit-surface-uniqueness} assembles the paper-side
+$\NameCert$ obligation package for Banach limit surfaces.
+\end{theorem}
+\begin{proof}
+Endpoint coverage supplies the carrier, source, and ledger fields. By
+\autoref{thm:banach-limit-surface-endpoint-coverage}, each certificate row
+exposes the Banach carrier $X$, the $\StreamNameUp$ observations, the modulus
+history, the carried endpoint, the Banach metric rows, the $\RatUp$ comparison
+rows, and the complete-metric limit row.
+
+Stability is supplied by classifier transport. Apply
+\autoref{thm:banach-limit-surface-classifier-transport} to componentwise
+$\hsame$ transport of the observations, modulus, endpoint, and ledger
+histories; the theorem returns the transported Banach limit surface row with
+the RealUp distance classifiers repacked.
+
+Exactness is supplied by uniqueness and the displayed metric boundary. Apply
+\autoref{thm:banach-limit-surface-uniqueness} for the limit endpoint
+classifier, and read the metric rows through
+\autoref{def:banach-limit-surface-certificate} to identify each
+$\mathsf{BanachMetricWitness}_X$ row with the complete-metric row it feeds.
+
+The CompleteMetricUp bridge is the interface of
+\autoref{def:banach-complete-metric-namecert-interface}. It connects the
+Banach norm-distance ledger to the consumed
+$\mathsf{CompleteMetricLimitWitness}$ row, so the carrier, classifier,
+stability, ledger, exactness, and bridge-facing fields of the Banach limit
+surface $\NameCert$ package are all accounted for.
+\end{proof}
