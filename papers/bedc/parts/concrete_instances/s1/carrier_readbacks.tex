@@ -310,6 +310,40 @@ between the equation tail and $\Eone(\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_e1\_components\_unit\_equation\_classifier}
 
+\begin{theorem}[SOne e-one components carrier exactness]
+\label{thm:sone-e1-components-carrier-exactness}
+For histories $d_x,d_y,e,t$, the one-headed presentation of a concrete
+$\SOneUp$ history carrier is exact: it is present precisely when the two
+coordinate tails are rational carriers, the equation tail classifies the
+one-headed empty tail, and the point tail is the displayed continuation:
+$$
+\mathsf{SOneHistoryCarrier}(\Eone(d_x),\Eone(d_y),\Eone(e),\Eone(t))
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(d_x)\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\mathsf{RatHistoryClassifier}(e,\Eone(\emp))\land
+\ContR(\Eone(d_x),d_y,t).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is exactly the e-one unit-equation classifier readback:
+apply \autoref{thm:s1-e1-components-unit-equation-classifier} to the given
+$\SOneUp$ carrier witness.
+
+For the reverse direction, start from the four displayed fields. The two
+rational carrier fields repack as the real-constant carrier witnesses for
+$\Eone(d_x)$ and $\Eone(d_y)$. The rational classifier
+$\mathsf{RatHistoryClassifier}(e,\Eone(\emp))$ lifts along the real-constant
+e-one classifier exactness theorem to the required classifier from
+$\Eone(e)$ to $\mathsf{SOneUnitHistory}$.
+
+It remains to supply the point-continuation field. The hypothesis
+$\ContR(\Eone(d_x),d_y,t)$ is exactly the statement that the one-headed point
+ledger $\Eone(t)$ carries the append continuation determined by
+$\Eone(d_x)$ and $d_y$. With these four fields repacked, the constructor for
+$\mathsf{SOneHistoryCarrier}$ gives the desired carrier witness.
+\end{proof}
+
 \begin{theorem}[SOne history carrier y e-one point shape]
 \label{thm:sone-history-carrier-y-e1-point-shape}
 For histories $x,y,e,p,d_y$, if a concrete $\SOneUp$ history-carrier witness
