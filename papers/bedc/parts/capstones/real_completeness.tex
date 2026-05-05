@@ -308,6 +308,90 @@ RegSeqRat finite observation window pasting; downstream use RegSeqRat
 stationary observation canonicalization and the Phase Real and Completion
 diagonal-limit capstone. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Stationary rational finite-partition fold]
+\label{thm:real-completeness-stationary-rational-partition-fold}
+For histories $d,e,d_0,e_0:\Hist$, an anchor $n$, a total bound $w$, and a
+unary observation schedule $\eta:\mathbb{N}\to\Hist$, define the stationary
+rational RealUp observation streams
+$$
+C_d(i)=\mathsf{RatConstStream}_d(\eta(i)),
+\quad
+C_e(i)=\mathsf{RatConstStream}_e(\eta(i)).
+$$
+Let $P$ be a certified finite partition spine over $(n,w)$ with segment anchors
+and radii $(n_i,r_i)$, and suppose that $P$ records the unary source-anchor,
+source-bound, and selected-offset witnesses for every segment. Assume
+$$
+\mathsf{RatHistoryClassifier}(d,e),\quad
+\hsame(d,\Eone(d_0)),\quad
+\hsame(e,\Eone(e_0)).
+$$
+Then the total stationary window classifier is exactly the finite conjunction
+of the segment classifiers named by $P$:
+$$
+\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,w)
+\Longleftrightarrow
+\bigwedge_{(n_i,r_i)\in P}
+\mathsf{RealStreamWindowClassifier}(C_d,C_e,n_i,r_i).
+$$
+Moreover, for every segment $(n_i,r_i)$ named by $P$ and every selected offset
+$k\le r_i$ whose unary source witness is recorded by $P$, the selected endpoint
+has the original displayed seed-tail class:
+$$
+\begin{array}{l}
+\forall u,v:\Hist,\,
+\bigl(\hsame(C_d(n_i+k),\Eone(u))\land
+\hsame(C_e(n_i+k),\Eone(v))\bigr)\\
+\quad\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(d_0,u)\land
+\hsame(e_0,v)\bigr).
+\end{array}
+$$
+\end{theorem}
+
+\begin{proof}[Sketch]
+First treat each segment named by $P$ as an ordinary stationary rational
+finite window. The spine ledger supplies the unary source anchor, source bound,
+and selected offsets for that segment, while the common
+$\mathsf{RatHistoryClassifier}(d,e)$ row is shared by every segment.
+
+Apply
+\autoref{thm:real-completeness-stationary-rational-selected-tail-seed-exactness}
+segmentwise. This gives, for every selected offset in every segment, the
+displayed endpoint-tail equivalence with the seed tails $d_0,e_0$.
+
+Next apply
+\autoref{thm:real-completeness-stationary-rational-finite-window-bridge}
+to each segment ledger. The stationary streams erase the observation schedule
+$\eta$, so the same RatUp classifier produces every segment classifier
+$\mathsf{RealStreamWindowClassifier}(C_d,C_e,n_i,r_i)$.
+
+It remains to fold the segment classifiers along the certified spine. Apply
+\autoref{thm:real-stream-window-finite-partition-fold} to the streams
+$C_d,C_e$ and to $P$. In the singleton case this is the existing stationary
+finite-window bridge. In the successor case the induction step uses the spine
+continuation ledger to concatenate the predecessor window with the final
+segment, exactly as in the finite partition fold.
+\end{proof}
+
+The ten-field fit is: traditional target finite stationary rational partition
+coverage; BEDC source $\RatUp+\StreamNameUp+\RealUp$ plus the Real stream
+finite partition spine; carrier stationary constant rational observation
+streams; classifier total
+$\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,w)$ and the segment classifiers
+named by $P$; stability by RatUp classifier transport, selected-tail seed
+exactness, and partition-spine induction; ledger hidden rational seed, seed
+e-one displays, total bound, segment radii, accumulated anchors, unary source
+anchors, source bounds, selected offsets, and continuation rows; core theorem
+\autoref{thm:real-completeness-stationary-rational-partition-fold}; exactness
+the displayed fold equivalence and the displayed seed-tail equivalence;
+standard bridge finite RegSeqRat observation coverage by stationary rational
+streams; downstream use Phase Real and Completion diagonal-limit capstone
+ledger consumption. Status: $\mathsf{ProofTarget}$.
+
 \section{Constructive content and axiom purity}
 \label{sec:real-completeness-axiom-purity}
 
