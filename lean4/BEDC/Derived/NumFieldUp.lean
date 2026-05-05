@@ -1,5 +1,6 @@
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
 import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
+import BEDC.Derived.FieldExtUp.RatReflexiveSourcePattern
 import BEDC.Derived.RatUp.HistoryClassifier
 
 namespace BEDC.Derived.NumFieldUp
@@ -34,5 +35,24 @@ theorem NumFieldRatReflexive_finite_basis_witness {h : BHist} :
     RatHistoryClassifier_append_unary_denominator_closed sourceClassified
       (unary_e1_closed unary_empty) (hsame_refl (BHist.e1 BHist.Empty))
   exact And.intro basisCarrier (And.intro basisContinuation appendedClassified)
+
+theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
+    RatHistoryCarrier m -> Cont m BHist.Empty coord ->
+      RatHistoryClassifier coord m ∧ RatHistoryCarrier (FieldExtSingletonEmbedding m) ∧
+        RatHistoryClassifier (FieldExtSingletonEmbedding m) m := by
+  intro carrierM coordinateReadback
+  have sameCoordM : hsame coord m :=
+    cont_right_unit_result coordinateReadback
+  have coordCarrier : RatHistoryCarrier coord :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameCoordM) carrierM
+  have coordClassifier : RatHistoryClassifier coord m :=
+    And.intro coordCarrier (And.intro carrierM sameCoordM)
+  have embeddedCarrier : RatHistoryCarrier (FieldExtSingletonEmbedding m) := by
+    unfold FieldExtSingletonEmbedding
+    exact RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left m)) carrierM
+  have embeddedClassifier : RatHistoryClassifier (FieldExtSingletonEmbedding m) m := by
+    unfold FieldExtSingletonEmbedding
+    exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
+  exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
 
 end BEDC.Derived.NumFieldUp
