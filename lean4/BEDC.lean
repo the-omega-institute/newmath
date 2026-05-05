@@ -163,6 +163,7 @@ import BEDC.Derived.HolomorphicUp.IteratedTransport
 import BEDC.Derived.HolomorphicUp.IteratedComposition
 import BEDC.Derived.HolomorphicUp.IteratedStrict
 import BEDC.Derived.HolomorphicUp.IteratedStrictReadback
+import BEDC.Derived.HolomorphicUp.IteratedStrictOrdinarySuffix
 import BEDC.Derived.HolomorphicUp.CenterPointSuffixGapReadback
 import BEDC.Derived.HolomorphicUp.OpenDiskRadiusExtension
 import BEDC.Derived.HolomorphicUp.OpenDiskZeroHeaded
@@ -227,6 +228,7 @@ import BEDC.Derived.PrimeUp.SuccMultiplicand
 import BEDC.Derived.PrimeUp.ResultCancel
 import BEDC.Derived.PrimeUp.SuccResultContTransport
 import BEDC.Derived.PrimeUp.ResultBoundary
+import BEDC.Derived.PrimeUp.ProductFactor
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
 import BEDC.Derived.PrimeUp.DivisorPositiveShape
@@ -242,6 +244,7 @@ import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 import BEDC.Derived.PrimeUp.TrialDivStep
 import BEDC.Derived.PrimeUp.SemanticCertificate
 import BEDC.Derived.PadicUp
+import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.EndpointAbsurd
