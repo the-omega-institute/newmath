@@ -634,9 +634,11 @@ import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.AdjunctionUp.CarrierSwap
 import BEDC.Derived.AdjunctionUp.TriangleComponents
 import BEDC.Derived.AdjunctionUp.AlternatingSuffix
+import BEDC.Derived.AdjunctionUp.AlternatingPrefix
 import BEDC.Derived.AdjunctionUp.AlternatingZeroHeaded
 import BEDC.Derived.AdjunctionUp.CarrierSwapInvolution
 import BEDC.Derived.AdjunctionUp.TriangleTotalCollapse
+import BEDC.Derived.AdjunctionUp.TriangleZeroHeaded
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp
