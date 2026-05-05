@@ -308,6 +308,45 @@ theorem FramedListBridgeClassifier_public_successor_component_exactness
                                                 (And.intro repK (congrArg Nat.succ tailLengthK))
                                             exact And.intro bridge (And.intro publicH publicK)
 
+theorem FramedListBridgeClassifier_public_successor_endpoint_nonempty
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} {n : Nat} :
+    FramedListBridgeClassifier A Rel h k -> FramedListPublicLength A h (Nat.succ n) ->
+      FramedListPublicLength A k (Nat.succ n) ->
+        (hsame h BHist.Empty -> False) ∧ (hsame k BHist.Empty -> False) := by
+  intro bridge publicH publicK
+  have components :=
+    (FramedListBridgeClassifier_public_successor_component_exactness
+      (A := A) (Rel := Rel) cert compat).mp
+      (And.intro bridge (And.intro publicH publicK))
+  cases components with
+  | intro a restA =>
+      cases restA with
+      | intro b restB =>
+          cases restB with
+          | intro xs restXS =>
+              cases restXS with
+              | intro ys data =>
+                  cases data with
+                  | intro _sourceA data =>
+                      cases data with
+                      | intro _sourceB data =>
+                          cases data with
+                          | intro repH data =>
+                              cases data with
+                              | intro repK _rest =>
+                                  constructor
+                                  · intro sameHEmpty
+                                    have endpointEmpty :
+                                        hsame (FramedListEndpoint (a :: xs)) BHist.Empty :=
+                                      hsame_trans (hsame_symm repH.right) sameHEmpty
+                                    exact not_hsame_e1_empty endpointEmpty
+                                  · intro sameKEmpty
+                                    have endpointEmpty :
+                                        hsame (FramedListEndpoint (b :: ys)) BHist.Empty :=
+                                      hsame_trans (hsame_symm repK.right) sameKEmpty
+                                    exact not_hsame_e1_empty endpointEmpty
+
 theorem FramedListBridgeClassifier_successor_component_exactness_iff
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
     (compat : ListSourceHsameCompatible A Rel) {h k : BHist} {n : Nat} :
