@@ -696,7 +696,7 @@ def _recent_paper_attack_chapter_counts(window_minutes: int = 30) -> dict[str, i
 
 def compute_root_unblocks(horizons: dict[str, dict],
                             threshold: int,
-                            *, recent_attack_threshold: int = 3) -> list[dict]:
+                            *, recent_attack_threshold: int = 1) -> list[dict]:
     """Identify chapters whose `thms < threshold` are blocking the most
     downstream chapters from becoming `deps_ready`. These are the
     "root-of-tree" stubs that paper P-rounds should attack first to
@@ -713,9 +713,13 @@ def compute_root_unblocks(horizons: dict[str, dict],
     `recent_attack_threshold` or more commits in the last 30 min are
     rotated OUT of the output, so concurrent paper rounds spread their
     attention across the root tree instead of dogpiling the top entry.
-    `recent_attack_threshold=3` empirically matches the round latency
-    (a paper round takes ~10-15 min, so 3 commits/30min = the chapter
-    is being worked on by every active paper worker).
+    `recent_attack_threshold=1` empirically required: codex deterministically
+    writes the SAME obligation labels for the same chapter+task prompt,
+    so even 2 concurrent rounds attacking the same root chapter produce
+    duplicate `\\label{thm:<chapter>-...}` collisions. Threshold=1 means
+    a chapter is rotated out the moment one commit lands; with paper=8
+    workers, this still leaves enough chapters in rotation as long as
+    `top_root_unblocks` has at least ~10 entries.
 
     Returns sorted list `[{name, thms, deps, unblock_count, file_paper,
     recent_attacks}, ...]` descending by unblock_count, only entries
