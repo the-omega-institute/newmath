@@ -1,0 +1,224 @@
+\begin{theorem}[ContinuousMap function carrier metric graph exactness]
+\label{thm:continuousmap-function-carrier-metric-graph-exactness}
+For histories $source,map,target,modulus,cert,dist:\mathsf{BHist}$, if
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+$$
+and
+$$
+\mathsf{MetricDistanceWitness}(source,map,dist)
+$$
+both hold, then the carrier exposes the graph continuation and the metric
+distance endpoint is exactly the same history as the graph target:
+$$
+\mathsf{Cont}(source,map,target)\land \hsame(dist,target).
+$$
+\end{theorem}
+\begin{proof}
+Read back the continuous-function carrier to obtain its graph continuation
+$\mathsf{Cont}(source,map,target)$. The metric witness supplies the continuation
+$\mathsf{Cont}(source,map,dist)$ over the same source and map. Continuation
+determinacy identifies the two endpoints, giving $\hsame(dist,target)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapFunctionCarrier\_metric\_graph\_exactness}
+
+\begin{theorem}[ContinuousMap empty map with empty distance boundaries]
+\label{thm:continuousmap-empty-map-empty-distance-boundaries}
+For histories $source$, $target$, $modulus$, and $cert$, a concrete
+continuous-map carrier with empty graph map and empty distance ledger is
+equivalent to empty source and target boundaries together with the empty-source
+modulus witness:
+$$
+\mathsf{ContinuousMapCarrier}(source,\emp,target,modulus,cert,\emp)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(target,\emp)\land
+\mathsf{ContinuousModulusWitness}(\emp,modulus,cert).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, empty-map exactness for the continuous-function
+component gives a modulus witness over the target, while empty-distance
+exactness for the metric witness collapses both endpoint histories to
+$\emp$. Transporting across the target collapse presents the modulus witness
+over $\emp$.
+
+Conversely, the empty endpoint data presents the graph carrier as the
+empty-map exactness case, and metric empty-distance exactness builds the
+distance witness over the two empty endpoints. Their conjunction is exactly the
+concrete continuous-map carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_map\_empty\_distance\_boundaries\_iff}
+
+\begin{theorem}[ContinuousMap prefix canonical distance closure]
+\label{thm:continuousmap-carrier-prefix-canonical-distance-closed}
+For histories $p,source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+if $p$ is unary and
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$
+holds, then the prefixed endpoints carry the same map and modulus with the
+prefixed certificate and canonical prefixed distance:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),\\
+\qquad \mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_prefix\_canonical\_distance\_closed}
+\begin{proof}
+Prefix closure for the continuous-function carrier gives the prefixed function
+half. The metric half is built canonically: the prefixed source and target are
+unary by unary append closure, their appended distance is unary by another
+append-closure step, and the distance continuation is the defining append
+equation.
+\end{proof}
+
+\begin{theorem}[ContinuousMap prefixed carrier canonical distance determinacy]
+\label{thm:continuousmap-prefix-canonical-distance-determinacy}
+For histories $p,source,map,target,modulus,cert,distance,distance':\mathsf{BHist}$,
+if $\mathsf{UnaryHistory}(p)$,
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$, and
+$$
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),distance')
+$$
+hold, then the displayed prefixed carrier has the canonical prefixed distance
+ledger:
+$$
+\hsame(distance',
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+$$
+\end{theorem}
+\begin{proof}
+First build the canonical prefixed carrier from the original one. Apply
+Theorem~\ref{thm:continuousmap-carrier-prefix-canonical-distance-closed} to
+the unary prefix and the original carrier.
+
+Now compare the displayed prefixed carrier with that canonical prefixed
+carrier. They have the same prefixed source, map, prefixed target, modulus, and
+prefixed certificate, so
+Theorem~\ref{thm:continuousmap-target-cert-distance-deterministic} determines
+the distance component.
+
+Projecting that distance component gives exactly the displayed orientation:
+$\hsame(distance',
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target)))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_prefix\_canonical\_distance\_deterministic}
+
+\begin{theorem}[ContinuousMap prefixed carrier canonical distance exactness]
+\label{thm:continuousmap-prefix-canonical-distance-exactness}
+For histories
+$p,source,map,target,modulus,cert,distance,distance':\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$ and
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$,
+then the prefixed continuous-map carrier is equivalent to the displayed
+canonical prefixed distance classifier:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),distance')\\
+\Longleftrightarrow
+\hsame(distance',
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, apply
+Theorem~\ref{thm:continuousmap-prefix-canonical-distance-determinacy} to the
+unary prefix, the original carrier, and the displayed prefixed carrier. This
+identifies $distance'$ with the canonical prefixed source-target ledger.
+
+Conversely, first build the canonical prefixed carrier by applying
+Theorem~\ref{thm:continuousmap-carrier-prefix-canonical-distance-closed} to
+$\mathsf{UnaryHistory}(p)$ and the original continuous-map carrier. Project
+its continuous-function half.
+
+Now apply
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-exactness} in the
+reverse direction to that continuous-function half and the displayed
+classifier
+$\hsame(distance',
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target)))$.
+This repacks the prefixed continuous-function data with the arbitrary
+displayed distance ledger $distance'$.
+
+The ten-field fit is: traditional target prefixed continuous-map distance
+normalization; BEDC source $\mathsf{ContinuousMapCarrier}$,
+$\mathsf{ContinuousFunctionCarrier}$, $\mathsf{MetricDistanceWitness}$, and
+$\ContR$; carrier $\mathsf{ContinuousMapCarrier}$; classifier $\hsame$;
+stability from prefix closure, distance determinacy, and canonical distance
+exactness; ledger the hidden prefixed distance history; core theorem this iff;
+exactness the displayed iff; downstream use compact-continuous map endpoint
+and composition normalization; status $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_prefix\_canonical\_distance\_exactness}
+
+\begin{theorem}[ContinuousMap prefixed canonical distance package]
+\label{thm:continuousmap-prefixed-canonical-distance-package}
+The ten-field fit is: traditional target continuous-map prefix-normalization
+package; BEDC source $\mathsf{ContinuousMapCarrier}$ plus
+$\mathsf{MetricDistanceWitness}$; carrier $\mathsf{ContinuousMapCarrier}$;
+classifier $\hsame$; stability prefix closure, determinacy, and exactness;
+ledger prefix and displayed distance; core theorem this package; exactness the
+iff row; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+For histories
+$p,source,map,target,modulus,cert,distance,displayed:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$ and
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$,
+then the following three facts hold:
+\begin{enumerate}
+\item
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),\\
+\qquad \mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\item
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),displayed)\\
+\to
+\hsame(displayed,
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\item
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),displayed)\\
+\Longleftrightarrow
+\hsame(displayed,
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the canonical carrier clause, apply
+Theorem~\ref{thm:continuousmap-carrier-prefix-canonical-distance-closed} to
+the unary prefix and the original continuous-map carrier.
+
+For the displayed determinacy clause, fix a displayed prefixed carrier with the
+same source, map, target, modulus, and prefixed certificate fields. Apply
+Theorem~\ref{thm:continuousmap-prefix-canonical-distance-determinacy} to the
+unary prefix, the original carrier, and this displayed prefixed carrier.
+
+For the exact classifier clause, apply
+Theorem~\ref{thm:continuousmap-prefix-canonical-distance-exactness} to the
+same unary prefix and original carrier. Its conclusion is precisely the iff
+between the displayed prefixed carrier and the $\hsame$ classifier for the
+canonical prefixed distance ledger.
+\end{proof}
