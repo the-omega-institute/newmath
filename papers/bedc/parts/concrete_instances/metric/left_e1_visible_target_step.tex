@@ -61,6 +61,30 @@ returns the displayed witness at $k$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_result\_tail\_hsame\_exact}
 
+\begin{theorem}[Metric distance witness left e1 visible target result-source absurd]
+\label{thm:metric-distance-witness-left-e1-visible-target-result-source-absurd}
+For histories $x,y,d$, a distance witness from $\Eone(x)$ to $\Eone(y)$ with
+visible result $\Eone(d)$ cannot also identify the descended result $d$ with
+the visible source $\Eone(x)$ when the target tail is nonempty:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),\Eone(d))
+\Longrightarrow
+\bigl(\hsame(y,\emp)\Rightarrow\bot\bigr)
+\Longrightarrow
+\hsame(d,\Eone(x))
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Right-visible result exactness descends the witness to
+$\mathsf{MetricDistanceWitness}(\Eone(x),y,d)$. Transporting its continuation
+result across $\hsame(d,\Eone(x))$ makes $y$ a right-unit continuation at
+$\Eone(x)$, so right-unit uniqueness gives $\hsame(y,\emp)$, contradicting the
+displayed nonempty target-tail hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_result\_source\_absurd}
+
 \begin{theorem}[Metric distance witness left e1 source step]
 \label{thm:metric-distance-witness-left-e1-source-step}
 For histories $x,y,d$, a distance witness from $x$ to $y$ with result $d$

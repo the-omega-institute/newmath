@@ -169,3 +169,44 @@ so these fields form a concrete metric distance witness from $l$ to $r$.
 Metric distance depth additivity then gives the displayed equation.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_depth\_add}
+
+\begin{theorem}[Metric empty-boundary visible context canonical splice package]
+\label{thm:metric-empty-boundary-visible-context-canonical-splice-package}
+For histories $p,q,d,l,r,mid,out,out'$, an empty-boundary visible-context
+distance witness, unary endpoint carriers, a two-step continuation through
+$d$, and a displayed direct continuation from $l$ to $r$ determine the
+canonical splice package:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{UnaryHistory}(l)\Longrightarrow\mathsf{UnaryHistory}(r)\Longrightarrow\\
+\qquad
+\ContR(l,d,mid)\Longrightarrow\ContR(mid,r,out)\Longrightarrow
+\ContR(l,r,out')\Longrightarrow\\
+\qquad
+\mathsf{MetricDistanceWitness}(l,r,out)\land
+\hsame(out,out')\land\\
+\qquad
+\mathsf{MetricDistanceDepth}(out)=
+\mathsf{MetricDistanceDepth}(l)+\mathsf{MetricDistanceDepth}(r).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The witness row is supplied by
+Theorem~\ref{thm:metric-distance-witness-empty-boundary-visible-context-witness-splice}
+from the empty-boundary visible-context witness, the unary carriers, and the
+two displayed continuation rows.
+
+The comparison row is supplied by
+Theorem~\ref{thm:metric-empty-boundary-visible-context-continuation-splice-hsame},
+which compares the spliced output with the displayed direct continuation
+$\ContR(l,r,out')$.
+
+The depth row is supplied by
+Theorem~\ref{thm:metric-distance-witness-empty-boundary-visible-context-continuation-depth-add}.
+Conjoining these three rows gives the displayed certificate package.
+\end{proof}
+
+\closureat{\MetricUp}{\checkedCertStr}[BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert]
