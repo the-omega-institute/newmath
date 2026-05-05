@@ -242,6 +242,7 @@ import BEDC.Derived.FinsetUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
+import BEDC.Derived.MatchingUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
@@ -522,6 +523,7 @@ import BEDC.Derived.ModuleUp.KernelExactness
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
+import BEDC.Derived.NormUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
 import BEDC.Derived.MatrixUp.AppendVisibleFactorExclusion
