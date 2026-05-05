@@ -6,6 +6,112 @@ The measure interface $\MeasureUp$ packages a carrier with a constructive $\sigm
 \section{Carrier definition}
 \label{sec:measure-carrier}
 
+\begin{definition}[MeasureUp carrier surface]
+\label{def:measureup-carrier-surface}
+A $\MeasureUp$ carrier surface is a tuple
+$$
+(\mathsf{MCarrier},\sim_M,\mathcal{A},\mu,\sim_R)
+$$
+with the following rows. The carrier row is a predicate
+$\mathsf{MCarrier}:\mathsf{BHist}\to\mathsf{Prop}$. The classifier row
+$h\sim_M k$ is a NameCert-style classifier on carried histories in the sense of
+\autoref{def:lean-carrier-naming-certificate}. The measurable-subset row
+$\mathcal{A}(h,E)$ assigns to each carried history $h$ a designated family of
+measurable subsets $E$ of its event object. The measure row
+$\mu_h(E)$ assigns to every $\mathcal{A}(h,E)$ a $\RealUp$ endpoint classified
+by the $\RealUp$ classifier $\sim_R$ of
+\autoref{def:real-classifier-specification}.
+
+Carrier transport is part of the surface: if $\mathsf{MCarrier}(h)$,
+$h\sim_M k$, and $\mathcal{A}(h,E)$, then the transported event row is read in
+the $k$-fiber, and the corresponding measure values compare under $\sim_R$.
+\end{definition}
+
+\begin{definition}[MeasureUp countable-additivity row]
+\label{def:measureup-countable-additivity-row}
+For a $\MeasureUp$ carrier surface as in
+\autoref{def:measureup-carrier-surface}, the countable-additivity row fixes,
+for every carried history $h$, a sequence $E:\mathbb{N}\to\mathcal{P}(h)$
+satisfying:
+\begin{enumerate}
+\item each $E_n$ is measurable, $\mathcal{A}(h,E_n)$;
+\item the sequence is pairwise disjoint in the $h$-fiber;
+\item the union event $\bigcup_{n:\mathbb{N}}E_n$ is supplied as a measurable
+row of $\mathcal{A}(h,-)$;
+\item there is a countable $\RealUp$ sum endpoint
+$\sum_{n=0}^{\infty}\mu_h(E_n)$;
+\item the head-tail readback compares this endpoint with
+$\mu_h(E_0)+\sum_{n=0}^{\infty}\mu_h(E_{n+1})$ under $\sim_R$;
+\item pointwise $\sim_R$-classification of the summands transports to
+$\sim_R$-classification of the two countable sum endpoints.
+\end{enumerate}
+The row asserts the sigma-additivity comparison
+$$
+\mu_h\left(\bigcup_{n:\mathbb{N}}E_n\right)\sim_R
+\sum_{n=0}^{\infty}\mu_h(E_n).
+$$
+\end{definition}
+
+\begin{theorem}[Measure carrier classifier obligations]
+\label{thm:measure-carrier-classifier-obligations}
+Every $\MeasureUp$ carrier surface supplies the NameCert-style reflexivity,
+symmetry, and transitivity rows for $\sim_M$ on carried histories, and it
+transports $\mathsf{MCarrier}$, measurable rows, and measure comparisons along
+that classifier.
+\end{theorem}
+\begin{proof}
+Unpack the carrier surface of \autoref{def:measureup-carrier-surface}. Its
+classifier row is required to be a carrier naming certificate in the sense of
+\autoref{def:lean-carrier-naming-certificate}, so reflexivity, symmetry,
+transitivity, and carrier transport are projections of that row.
+
+The measurable-subset and measure rows are indexed by carried histories. The
+surface states that a classifier comparison between carried histories re-reads
+the event row in the target fiber and compares the corresponding $\RealUp$
+measure values. Applying that transport clause gives exactly the displayed
+carrier, classifier, and measure-stability obligations.
+\end{proof}
+
+\begin{theorem}[Measure sigma-algebra obligations]
+\label{thm:measure-sigma-algebra-obligations}
+For every $\MeasureUp$ carrier surface, the designated measurable family
+$\mathcal{A}(h,-)$ is closed under the empty event, binary union, countable
+union, and complement rows used by the measure certificate whenever
+$\mathsf{MCarrier}(h)$ holds.
+\end{theorem}
+\begin{proof}
+Fix a carried history $h$. The measurable-subset row in
+\autoref{def:measureup-carrier-surface} is the designated sigma-algebra family
+for the $h$-fiber, so its certificate clauses give the empty event and
+complement rows.
+
+The same sigma-algebra row supplies finite binary union as the two-term case of
+its closure data, and it supplies countable union for every measurable sequence.
+These are the exact rows consumed by the sigma-additivity comparison in
+\autoref{def:measureup-countable-additivity-row}.
+\end{proof}
+
+\begin{theorem}[Measure RealUp sum scope]
+\label{thm:measure-realup-sum-scope}
+The countable-additivity comparison of
+\autoref{def:measureup-countable-additivity-row} is scoped only to the
+$\RealUp$ classifier stability of \autoref{def:real-classifier-specification}
+and to the additive $\AbGroupUp$ zero, unit, and congruence rows cited from
+\autoref{def:abgroup-carrier}. It does not assert an independent construction
+of real analysis outside those rows.
+\end{theorem}
+\begin{proof}
+Unpack the countable-additivity row. Its endpoint is a $\RealUp$ countable sum,
+and every comparison involving that endpoint is stated under the classifier
+$\sim_R$ from \autoref{def:real-classifier-specification}.
+
+The two measure consequences below use this endpoint only through head-tail
+readback, pointwise classifier stability, sigma-additivity, and the additive
+$\AbGroupUp$ rows of \autoref{def:abgroup-carrier}. Thus the scope of the row is
+exactly the named classifier and additive certificate surface, with no extra
+analytic closure claim.
+\end{proof}
+
 \section{The certificate}
 \label{sec:measure-certificate}
 
