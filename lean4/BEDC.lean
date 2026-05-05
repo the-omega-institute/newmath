@@ -227,6 +227,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
+import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
@@ -554,6 +555,7 @@ import BEDC.Derived.LinearMapUp.EvalContextPair
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.ModuleUp.ActionBoundary
 import BEDC.Derived.ModuleUp.KernelExactness
+import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp

@@ -105,3 +105,24 @@ P+_{L}(-_{L}Q)\sim_{L}R.
 $$
 Substituting the definitions of $P$, $Q$, and $R$, and using the pointwise endomap-commutator reading above, gives the displayed identity.
 \end{proof}
+
+\begin{theorem}[Adjoint action preserves vector addition]
+\label{thm:liealgebra-adjoint-action-additive-linearity}
+Let $L$ carry a $\LieAlgebraUp$ certificate. Write $C_L$ for its vector carrier, $\sim_{L}$ for its carrier classifier, $+_{L}$ for vector addition in the vector-space reduct, and $[-,-]_L$ for the Lie bracket. If $x,y,z$ are carried by $C_L$, then $\operatorname{ad}^{L}_{x}(y+_{L}z)$ and $\operatorname{ad}^{L}_{x}(y)+_{L}\operatorname{ad}^{L}_{x}(z)$ are carried by $C_L$, and
+$$
+\operatorname{ad}^{L}_{x}(y+_{L}z)
+\sim_{L}
+\operatorname{ad}^{L}_{x}(y)+_{L}\operatorname{ad}^{L}_{x}(z).
+$$
+\end{theorem}
+\begin{proof}
+The additive closure field of the vector-space reduct carries $y+_{L}z$. The bracket-closure field of the $\LieAlgebraUp$ certificate therefore carries $[x,y+_{L}z]_L$, and it also carries $[x,y]_L$ and $[x,z]_L$. Applying additive closure once more carries $[x,y]_L+_{L}[x,z]_L$.
+
+The second-argument additivity field in the bilinear bracket, applied to the carried endpoints $x,y,z$, gives
+$$
+[x,y+_{L}z]_L
+\sim_{L}
+[x,y]_L+_{L}[x,z]_L.
+$$
+Unfolding the adjoint action from \autoref{def:liealgebra-adjoint-action-from-bracket} on the three bracket endpoints identifies this comparison with the displayed adjoint additive-linearity law, and the closure statements above identify both sides as carried endpoints of $C_L$.
+\end{proof}
