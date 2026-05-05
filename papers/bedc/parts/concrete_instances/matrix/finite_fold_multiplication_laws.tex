@@ -226,6 +226,29 @@ comparison between the appended fold and the displayed append endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_display\_classifier\_iff}
 
+\begin{theorem}[Singleton additive fold append continuation classifier]
+\label{thm:matrix-singleton-add-fold-append-continuation-classifier}
+If two finite singleton-matrix spines are carried and a continuation ledger
+composes their individual additive folds to an endpoint \(r\), then the
+appended fold classifies \(r\):
+$$
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(ys)\land
+\Cont(\mathsf{MatrixSingletonAddFold}(xs),
+      \mathsf{MatrixSingletonAddFold}(ys),r)
+\Longrightarrow
+\mathsf{MatrixSingletonClassifier}
+  (\mathsf{MatrixSingletonAddFold}(xs\mathbin{+\!\!+}ys),r).
+$$
+\end{theorem}
+\begin{proof}
+The display classifier identifies the appended fold with the canonical append
+of the two individual folds. The continuation ledger has the same left and
+right factors as that canonical append, so continuation determinacy transports
+the classifier endpoint from the canonical append to \(r\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_continuation\_classifier}
+
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
 Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$
