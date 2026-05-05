@@ -8,3 +8,50 @@ The affine-variety interface $\AffineVarUp$ packages the zero-locus of a finite 
 
 \section{The certificate}
 \label{sec:affinevar-certificate}
+
+\begin{definition}[Affine finite-family zero-locus]
+\label{def:affine-finite-family-zero-locus}
+Fix a $\NameCert_{\CommRingUp}$ with scalar classifier $\sim_R$ and scalar zero $0_R$. Fix a dimension $n$, an affine point carrier $\mathsf{AffPoint}_{R,n}:\mathsf{BHist}\to\mathsf{Prop}$, and a polynomial evaluation row $\mathsf{Eval}_{R,n}(p,x,y)$ for polynomial-code histories over that affine $n$-space. Let $\mathsf{PolyCode}_{R,n}(p)$ denote the polynomial-code carrier read from the normalized finite coefficient-sequence substrate of \autoref{def:polynomial-carrier}.
+
+For a polynomial code $p$ and point history $x$, define the zero-evaluation predicate by
+$$
+\mathsf{PolyEvalZero}_{R,n}(p,x)
+\Longleftrightarrow
+\mathsf{PolyCode}_{R,n}(p)\land
+\exists y:\mathsf{BHist}.\;
+\mathsf{Eval}_{R,n}(p,x,y)\land y\sim_R 0_R.
+$$
+For a finite BEDC-history spine $F:\mathsf{HistSpine}$ of polynomial codes, define the affine finite-family zero-locus carrier by
+$$
+\mathsf{V}_{R,n}(F)(x)
+\Longleftrightarrow
+\mathsf{AffPoint}_{R,n}(x)\land
+\forall i:\mathsf{Pos}(F).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x).
+$$
+This is the finite-equation carrier used by the concrete $\AffineVarUp$ presentation: the point row is shared by the ambient affine space, while the equation row is read from the finite polynomial spine.
+\end{definition}
+
+\begin{theorem}[Affine zero-locus intersection by equation concatenation]
+\label{thm:affine-zero-locus-intersection-equation-concatenation}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F,G:\mathsf{HistSpine}$ be finite polynomial-family spines over the same affine $n$-space. For every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(F{++}G)(x)
+\Longleftrightarrow
+\mathsf{V}_{R,n}(F)(x)\land\mathsf{V}_{R,n}(G)(x).
+$$
+In particular, if $x$ is classified in both zero-loci $\mathsf{V}_{R,n}(F)$ and $\mathsf{V}_{R,n}(G)$, then $x$ is classified in the zero-locus of the concatenated polynomial family $F{++}G$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:affine-finite-family-zero-locus}. The finite-spine append split is the positional form underlying \autoref{lem:finset-enummem-append-split}: a position of $F{++}G$ is either a left position coming from $F$ or a right position coming from $G$, and the corresponding readback is respectively $\mathsf{entry}_{F}$ or $\mathsf{entry}_{G}$.
+
+For the forward implication, assume $\mathsf{V}_{R,n}(F{++}G)(x)$. Its first component gives $\mathsf{AffPoint}_{R,n}(x)$. To prove $\mathsf{V}_{R,n}(F)(x)$, keep this same affine-point witness and fix a position $i:\mathsf{Pos}(F)$. Embed $i$ as the left position of $F{++}G$. The appended-family zero row gives
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F{++}G}(\iota_F(i)),x),
+$$
+and the left-readback clause identifies this entry with $\mathsf{entry}_{F}(i)$. This proves the required equation row for $F$. The proof for $G$ is identical, using the right position embedding $\iota_G(j):\mathsf{Pos}(F{++}G)$ for each $j:\mathsf{Pos}(G)$. Thus both $\mathsf{V}_{R,n}(F)(x)$ and $\mathsf{V}_{R,n}(G)(x)$ hold.
+
+For the reverse implication, assume $\mathsf{V}_{R,n}(F)(x)\land\mathsf{V}_{R,n}(G)(x)$. The affine-point component for the concatenated zero-locus is the one supplied by the $F$ component. Now fix a position $k:\mathsf{Pos}(F{++}G)$. By the same finite-spine append split, $k$ is either a left position $\iota_F(i)$ or a right position $\iota_G(j)$. In the left case, the equation row of $\mathsf{V}_{R,n}(F)(x)$ gives $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x)$, which is the required row for $\mathsf{entry}_{F{++}G}(k)$. In the right case, the equation row of $\mathsf{V}_{R,n}(G)(x)$ gives $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{G}(j),x)$, again with the required readback equality for the appended spine.
+
+The affine-point witness and this case analysis over every position of $F{++}G$ repack as $\mathsf{V}_{R,n}(F{++}G)(x)$, giving the displayed equivalence and the stated intersection implication.
+\end{proof}
