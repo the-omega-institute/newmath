@@ -123,8 +123,8 @@ $d_{xyz}\hsame x$ gives the displayed witness.
 \label{thm:metric-distance-witness-triangle-bilateral-empty-edge-collapse}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if both displayed edge distances
 in a metric triangle are history-same to $\emp$, then all three endpoints, the
-outer displayed distance, and the final structural depth collapse to the empty
-case:
+outer displayed distance, the final structural depth, and the empty-to-empty
+outer witness collapse to the empty case:
 $$
 \begin{array}{l}
 \mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
@@ -134,7 +134,8 @@ $$
 \hsame(d_{yz},\emp)\Longrightarrow\\
 \hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
 \hsame(d_{xyz},\emp)\land
-\mathsf{MetricDistanceDepth}(d_{xyz})=0.
+\mathsf{MetricDistanceDepth}(d_{xyz})=0\land
+\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz}).
 \end{array}
 $$
 \end{theorem}
@@ -153,9 +154,15 @@ the left endpoint $x$.
 
 The endpoint classifiers give the first three conjuncts. For the outer
 distance, compose the left-collapse readback $\hsame(d_{xyz},z)$ with
-$\hsame(z,\emp)$ by transitivity of $\hsame$. Finally apply
+$\hsame(z,\emp)$ by transitivity of $\hsame$. Apply
 \autoref{thm:metric-distance-depth-zero-iff-empty} to this empty final-distance
 classifier to obtain $\mathsf{MetricDistanceDepth}(d_{xyz})=0$.
+
+The empty-boundary metric witness
+$\mathsf{MetricDistanceWitness}(\emp,\emp,\emp)$ is the exact empty-distance
+case. Transporting its result field along $d_{xyz}\hsame\emp$ yields
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d_{xyz})$. Conjoining these rows
+gives the displayed package.
 \end{proof}
 
 Fit: traditional target degenerate triangle normalization; BEDC source $BHist$
