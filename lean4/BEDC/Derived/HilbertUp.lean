@@ -2,6 +2,7 @@ import BEDC.Derived.NormUp
 import BEDC.Derived.RealUp.Core
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
+import BEDC.Derived.MetricUp
 
 namespace BEDC.Derived.HilbertUp
 
@@ -9,6 +10,7 @@ open BEDC.Derived.NormUp
 open BEDC.Derived.RatUp
 open BEDC.Derived.RealUp
 open BEDC.Derived.VecSpaceUp
+open BEDC.Derived.MetricUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
@@ -76,5 +78,70 @@ theorem HilbertSingleton_constant_inner_product_transport {m m' n n' : BHist} :
   exact And.intro leftConstant
     (And.intro rightConstant
       (And.intro transported normTransport))
+
+theorem HilbertSingleton_endpoint_readback {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+        RealConstantHistoryClassifier (HilbertSingletonInnerProduct m m)
+          (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          MetricDistanceWitness m n BHist.Empty := by
+  intro carrierM carrierN
+  have normRows := NormSingletonEmptyHistory_laws carrierM carrierN
+  have innerRows := HilbertSingleton_inner_product_norm_compatibility carrierM
+  have mEndpoint : hsame m BHist.Empty := normRows.right.right.right.left.right.right
+  have nEndpoint : hsame n BHist.Empty := normRows.right.right.right.right.right.right
+  have distanceWitness : MetricDistanceWitness m n BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := m) (y := n)).mpr
+      (And.intro mEndpoint nEndpoint)
+  have innerConstant :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct m m)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    Iff.mpr innerRows.right normRows.right.right.right.left
+  exact And.intro normRows.right.left (And.intro innerConstant distanceWitness)
+
+theorem HilbertSingleton_projection_carried_endpoint {h : BHist} :
+    VecSpaceSingletonCarrier h ->
+      VecSpaceSingletonCarrier BHist.Empty ∧
+        VecSpaceSingletonClassifier h BHist.Empty ∧
+          RealConstantHistoryClassifier (NormSingletonNorm BHist.Empty)
+            (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier (NormSingletonNorm h)
+              (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+              RealConstantHistoryClassifier (HilbertSingletonInnerProduct h BHist.Empty)
+                (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierH
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have normEmpty := NormSingletonEmptyHistory_laws emptyCarrier emptyCarrier
+  have normH := NormSingletonEmptyHistory_laws carrierH emptyCarrier
+  have hEmpty : VecSpaceSingletonClassifier h BHist.Empty := normH.right.right.right.left
+  have emptyClassified :
+      VecSpaceSingletonClassifier BHist.Empty BHist.Empty := normEmpty.right.right.right.left
+  have innerRows :=
+    HilbertSingleton_constant_inner_product_transport hEmpty emptyClassified
+  exact And.intro emptyCarrier
+    (And.intro hEmpty
+      (And.intro normEmpty.right.left
+        (And.intro normH.right.left innerRows.left)))
+
+theorem HilbertSingleton_projection_residual_decomposition {h p : BHist} :
+    VecSpaceSingletonCarrier h -> VecSpaceSingletonClassifier p BHist.Empty ->
+      VecSpaceSingletonClassifier h p ∧
+        VecSpaceSingletonClassifier (VecSpaceSingletonSmul h p) BHist.Empty ∧
+          RealConstantHistoryClassifier (HilbertSingletonInnerProduct h p) (NormSingletonNorm p) := by
+  intro carrierH classifiedP
+  have carrierP : VecSpaceSingletonCarrier p := classifiedP.left
+  have normRows := NormSingletonEmptyHistory_laws carrierH carrierP
+  have hP : VecSpaceSingletonClassifier h p :=
+    And.intro carrierH
+      (And.intro carrierP (hsame_trans carrierH (hsame_symm carrierP)))
+  have smulEmpty : VecSpaceSingletonClassifier (VecSpaceSingletonSmul h p) BHist.Empty :=
+    normRows.right.right.left
+  have innerRows := HilbertSingleton_constant_inner_product_transport hP classifiedP
+  have innerNorm :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct h p) (NormSingletonNorm p) :=
+    by
+      unfold NormSingletonNorm
+      exact innerRows.left
+  exact And.intro hP (And.intro smulEmpty innerNorm)
 
 end BEDC.Derived.HilbertUp
