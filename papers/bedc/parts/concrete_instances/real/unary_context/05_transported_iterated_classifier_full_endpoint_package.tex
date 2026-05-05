@@ -1,0 +1,91 @@
+\begin{theorem}[Real stream classifier transported iterated unary context selected classifier full endpoint package]
+\label{thm:real-stream-classifier-transported-iterated-unary-context-selected-classifier-full-endpoint-package}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,u_X,u_Y,q_X,q_Y,s_X,s_Y,v_X,v_Y,o_X,o_Y:
+\mathbb{N}\to\Hist$, a selected index $n$, histories
+$a,b,z_X,z_Y:\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),
+$$
+and
+$$
+\mathsf{RealStreamClassifier}(x,y).
+$$
+Assume also that for every observation index $i$ the transported first
+unary-context layer satisfies
+$$
+\mathsf{UnaryHistory}(p_X(i)),\quad \mathsf{UnaryHistory}(t_X(i)),\quad
+\hsame(p_X(i),p_Y(i)),\quad \hsame(t_X(i),t_Y(i)),
+$$
+$$
+\mathsf{Cont}(p_X(i),x'(i),m_X(i)),\quad
+\mathsf{Cont}(m_X(i),t_X(i),u_X(i)),
+$$
+$$
+\mathsf{Cont}(p_Y(i),y'(i),m_Y(i)),\quad
+\mathsf{Cont}(m_Y(i),t_Y(i),u_Y(i)),
+$$
+and that for every observation index $i$ the second unary-context layer
+satisfies
+$$
+\mathsf{UnaryHistory}(q_X(i)),\quad \mathsf{UnaryHistory}(s_X(i)),\quad
+\hsame(q_X(i),q_Y(i)),\quad \hsame(s_X(i),s_Y(i)),
+$$
+$$
+\mathsf{Cont}(q_X(i),u_X(i),v_X(i)),\quad
+\mathsf{Cont}(v_X(i),s_X(i),o_X(i)),
+$$
+$$
+\mathsf{Cont}(q_Y(i),u_Y(i),v_Y(i)),\quad
+\mathsf{Cont}(v_Y(i),s_Y(i),o_Y(i)).
+$$
+If the selected second-layer outputs satisfy
+$$
+\hsame(o_X(n),\Eone(a))\quad\text{and}\quad
+\hsame(o_Y(n),\Eone(b)),
+$$
+then the selected transported contextual endpoints carry all of the following
+data:
+\begin{enumerate}
+\item $\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))$;
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$;
+\item $\mathsf{PositiveUnaryDenominator}(o_X(n))\land
+\mathsf{PositiveUnaryDenominator}(o_Y(n))$;
+\item $\mathsf{UnaryHistory}(o_X(n))\land \mathsf{UnaryHistory}(o_Y(n))$;
+\item $(\hsame(o_X(n),\emp)\to\mathsf{False})\land
+(\hsame(o_Y(n),\emp)\to\mathsf{False})$;
+\item $(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False})$;
+\item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-classifier-transported-unary-denominator-context-closed}
+to the pointwise representative rows, the source RealUp stream classifier, and
+the displayed transported first-layer context and continuation hypotheses.
+This produces $\mathsf{RealStreamClassifier}(u_X,u_Y)$.
+
+Next apply
+\autoref{thm:real-stream-classifier-unary-denominator-context-selected-classifier-full-endpoint-package}
+to this intermediate stream classifier, the second-layer context and
+continuation rows, the selected one-extension seals, and the two zero-extension
+tests. The resulting seven rows are exactly the selected transported classifier
+full endpoint package displayed above.
+\end{proof}
+
+Fit: traditional target RealUp selected transported observation readback; BEDC
+source $\mathsf{RealStreamClassifier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{Cont}$, $\mathsf{UnaryHistory}$, and FKernel $\hsame$; carrier
+rational-observation streams; classifier $\mathsf{RealStreamClassifier}$ with
+selected sealed $\mathsf{RatHistoryClassifier}$; stability representative
+transport followed by two unary context layers; ledger selected index, context
+witnesses, continuation outputs, e-one seals, and zero-headed tests; core
+theorem
+\autoref{thm:real-stream-classifier-transported-iterated-unary-context-selected-classifier-full-endpoint-package};
+exactness selected and sealed RatUp classifiers, denominator and unary-shape
+rows, nonempty exclusions, zero-headed exclusions, and e-one tail readback;
+standard bridge RegSeqRat selected transported observation readback; status
+$\mathsf{ProofTarget}$.

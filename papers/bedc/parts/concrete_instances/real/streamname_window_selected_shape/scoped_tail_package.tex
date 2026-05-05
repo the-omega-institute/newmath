@@ -1,0 +1,130 @@
+\begin{definition}[Real unary StreamNameUp selected-window scoped tail package]
+\label{def:real-unary-streamname-selected-window-scoped-tail-package}
+The selected-window scoped tail package is the ten-field BEDC certificate for
+the finite RealUp observation-tail canonicalization at a selected unary offset:
+\begin{enumerate}
+\item Traditional target: finite RealUp observation-tail canonicalization for
+selected StreamNameUp windows.
+\item BEDC source: $\StreamNameUp+\RealUp+\RatUp+\mathsf{FKernel}$ over
+$\mathsf{BHist}$.
+\item Carrier: $\mathsf{RatStreamNameCarrier}$ for both observation maps.
+\item Classifier:
+$\mathsf{RatStreamNameClassifier}$ through
+$\mathsf{RealUnaryStreamWindowClassifier}$.
+\item Stability: $\hsame$ transport, FKernel e-one congruence and inversion,
+positive-denominator transport, and offset-bound projection.
+\item Ledger: carrier rows, classifier row, unary anchor, unary bound, selected
+offset, endpoint displays, denominator exclusions, and canonical tail witnesses.
+\item Bound data: the selected site is $\mathsf{append}(\alpha,k)$ with
+$\mathsf{UnaryOffsetLe}(k,\omega)$, so the finite-window classifier projects to
+the selected source $\mathsf{RatHistoryClassifier}$ row.
+\item Core theorem list:
+\autoref{thm:real-unary-streamname-finite-window-selected-denominator-package},
+\autoref{thm:real-unary-streamname-finite-window-selected-e1-tail-coverage-package},
+\autoref{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-witness},
+\autoref{thm:real-unary-streamname-finite-window-selected-tail-class-exactness},
+\autoref{thm:real-unary-streamname-finite-window-selected-full-tail-class-certificate},
+and the window-sourced exactness target
+$\mathsf{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_tail\_class\_exactness\_from\_window}$.
+\item Exactness predicate: displayed selected e-one tail pairs are present
+exactly when their tails lie in the canonical $\hsame$ classes of the chosen
+witnesses.
+\item Standard bridge: RegSeqRat finite observation canonicalization. Status:
+$\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Real unary StreamNameUp selected-window scoped tail package]
+\label{thm:real-unary-streamname-selected-window-scoped-tail-package}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega).
+$$
+Then the selected window carries a scoped package: there exist histories
+$u,v:\Hist$ such that
+$$
+\begin{array}{l}
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))\land\\
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)\land\\
+\mathsf{RatHistoryClassifier}(s(\mathsf{append}(\alpha,k)),t(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(u,v)\land\\
+\mathsf{PositiveUnaryDenominator}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{PositiveUnaryDenominator}(t(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{UnaryHistory}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{UnaryHistory}(t(\mathsf{append}(\alpha,k)))\land\\
+\forall z_s,z_t,d_s,d_t:\Hist,\,
+(\hsame(s(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land\\
+\qquad
+(\hsame(t(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land\\
+\qquad
+(\hsame(s(\mathsf{append}(\alpha,k)),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t(\mathsf{append}(\alpha,k)),\Ezero(z_t))\to\mathsf{False})\land\\
+\qquad
+(\hsame(s(\mathsf{append}(\alpha,k)),d_s\cdot\Ezero(z_s))\to
+\mathsf{False})\land\\
+\qquad
+(\hsame(t(\mathsf{append}(\alpha,k)),d_t\cdot\Ezero(z_t))\to
+\mathsf{False})\land\\
+\forall u',v':\Hist,\,
+\bigl(\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u'))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v'))\bigr)
+\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u')\land
+\mathsf{UnaryHistory}(v')\land
+\hsame(u,u')\land
+\hsame(v,v')\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-tail-class-exactness}
+to the carrier rows, the StreamNameUp classifier, the unary anchor and bound,
+and the selected offset. This chooses canonical tails $u$ and $v$ with the two
+selected e-one endpoint displays, the unary tail rows, $\hsame(u,v)$, and the
+exact if-and-only-if clause for every displayed selected e-one tail pair.
+
+Apply \autoref{thm:real-unary-streamname-finite-window-coverage} to the same
+carrier rows, classifier, unary anchor, and unary bound. This gives
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)$. Projecting that
+window at the selected offset is the selected source
+$\mathsf{RatHistoryClassifier}$ row at $\mathsf{append}(\alpha,k)$.
+
+The displayed selected endpoints for $u$ and $v$ transport the selected source
+classifier to $\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))$ by
+\autoref{thm:rat-history-classifier-hsame-transport}. FKernel e-one inversion,
+as used in the canonical tail-class theorem, reads this transported row as the
+canonical common-tail relation.
+
+For the denominator and endpoint-exclusion ledger, fix arbitrary histories
+$z_s,z_t,d_s,d_t$. Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-denominator-package}
+to the classifier, the unary anchor and bound, the selected offset, and the
+zero-head tests. This returns the selected positive-denominator rows, endpoint
+unary rows, nonempty exclusions, and zero-head exclusions.
+
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-classifier-appended-tail-package}
+to the chosen e-one endpoint displays and the same displayed histories
+$z_s,z_t,d_s,d_t$. Positive-denominator transport supplies the two appended
+e-zero-tail exclusions, while the earlier selected source row and endpoint rows
+remain unchanged.
+
+Repack the finite-window row, selected source row, endpoint classifier,
+positive-denominator ledger, endpoint exclusions, canonical tails, and exact
+tail-class predicate. These fields are precisely the scoped package described
+in \autoref{def:real-unary-streamname-selected-window-scoped-tail-package}.
+\end{proof}
