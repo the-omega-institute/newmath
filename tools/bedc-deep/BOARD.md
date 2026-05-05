@@ -10404,3 +10404,87 @@ The public-key chapter defines certified encryption and decrypt-encrypt exactnes
 
 ---
 
+### B-398 - Split isomorphism inverse witnesses coincide
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Split isomorphism inverse witnesses coincide |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a CategoryUp certificate, if f:a->b carries a split-isomorphism witness pair with left inverse g_L and right inverse g_R, then g_L and g_R are classifier-equal in the hom carrier from b to a.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `lean4/BEDC/Derived/CategoryUp.lean`
+- `lean4/BEDC/Derived/FunctorUp.lean`
+
+Rationale:
+Belongs to the category/functor certificate cluster. This is the standard category-theory lemma that a left inverse and a right inverse of the same morphism coincide, found in any introductory category text around isomorphisms. The split-isomorphism witness pair is defined at papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex:527, and lines 531-541 explicitly store left and right inverse witnesses while saying no equality between them is required. Focused searches for split inverse uniqueness, left-right inverse equality, g_L/g_R equality, and inverse uniqueness found no labeled theorem or BOARD entry. The proof is a one-page associativity/unit calculation: g_L = g_L id_b = g_L (f g_R) = (g_L f) g_R = id_a g_R = g_R. It should land in the shorter category body surface rather than appending to certificate_obligations.tex, which is already 783 lines.
+
+---
+
+
+### B-399 - Split monomorphisms are left-cancellative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Split monomorphisms are left-cancellative |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a CategoryUp certificate, if f:a->b has a split-monomorphism witness and the composites f after u and f after v are hom-classifier equal for u,v:x->a, then u and v are hom-classifier equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `lean4/BEDC/Derived/CategoryUp.lean`
+- `lean4/BEDC/Derived/FunctorUp.lean`
+
+Rationale:
+Belongs to the category/functor certificate cluster. The textbook theorem is 'every split monomorphism is monic' (Mac Lane CWM I.5 / Riehl 1.2). The split-monomorphism definition is present at papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex:421 and composition of split monomorphisms is already a theorem at :727, but focused searches for split mono cancellation or split monomorphism implies monomorphism found no labeled theorem and no BOARD entry. The proof uses only the stored left inverse, composition congruence, associativity, and identity laws: precompose the displayed equality by the left inverse and reduce both sides. This is a concrete cancellation theorem, not a field repackaging.
+
+---
+
+
+### B-400 - ProbSpace complement mass as one minus event mass
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ProbSpace complement mass as one minus event mass |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a ProbSpaceUp carrier with complement additivity for A and Ac and an additive RealUp inverse, if mu(A)+mu(Ac) is RealUp-classified as 1_R, then mu(Ac) is RealUp-classified as 1_R + (-mu(A)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/group/namecert_construction_core/02_certificate.tex`
+- `lean4/BEDC/Derived/AbGroupUp.lean`
+
+Rationale:
+Belongs to the probability-space chapter. The theorem P(A^c)=1-P(A) is a first-page result in introductory probability texts after finite additivity. The chapter currently proves only complement additivity at papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex:13, using measure finite disjoint-union additivity from papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex:48. Focused search for one-minus, complement subtraction, or probability complement subtraction found no labeled theorem and BOARD has only B-358 for additivity. The file is 44 lines, so the target is safe to append. The proof closes by adding the additive inverse of mu(A), using RealUp/AbGroup cancellation or inverse uniqueness from the group certificate, and the additive unit law.
+
+---
+
