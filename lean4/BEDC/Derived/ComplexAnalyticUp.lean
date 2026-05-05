@@ -499,6 +499,49 @@ theorem CplxPureImaginary_continuation_e0_result_absurd {theta z q tail : BHist}
     CplxPureImaginary_continuation_complex_carrier pureImaginary qUnary zqCont
   exact unary_no_zero_extension (ComplexHistoryCarrier_unary resultCarrier)
 
+theorem CplxExp_pure_imaginary_euler_component_package {theta z w : BHist} :
+    CplxPureImaginary theta z -> CplxExp z w ->
+      ∃ realOut imagOut : BHist,
+        RatHistoryCarrier realOut ∧ RatHistoryCarrier imagOut ∧ Cont realOut imagOut w ∧
+          hsame realOut (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) ∧
+            hsame imagOut (append (BHist.e1 theta) (BHist.e1 BHist.Empty)) ∧
+              ComplexHistoryCarrier w := by
+  intro pureImaginary expWitness
+  cases expWitness with
+  | intro real expRest =>
+      cases expRest with
+      | intro imag expRest =>
+          cases expRest with
+          | intro realOut expRest =>
+              cases expRest with
+              | intro imagOut data =>
+                  have realUnary : UnaryHistory real :=
+                    (PositiveUnaryDenominator_unary_and_nonempty
+                      (RatHistoryCarrier_iff_positive_denominator.mp data.left)).left
+                  have imagUnary : UnaryHistory imag :=
+                    (PositiveUnaryDenominator_unary_and_nonempty
+                      (RatHistoryCarrier_iff_positive_denominator.mp data.right.left)).left
+                  have sameInput :
+                      hsame (append real imag)
+                        (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) :=
+                    data.right.right.left.symm.trans pureImaginary.right
+                  have sameRealOut :
+                      hsame realOut (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) := by
+                    exact data.right.right.right.right.right.right.left.trans sameInput
+                  have sameImagOut :
+                      hsame imagOut (append (BHist.e1 theta) (BHist.e1 BHist.Empty)) := by
+                    exact hsame_trans data.right.right.right.right.right.right.right
+                      (hsame_trans (unary_append_comm_hsame imagUnary realUnary)
+                        (hsame_trans sameInput
+                          (unary_append_comm_hsame (unary_e1_closed unary_empty)
+                            (unary_e1_closed pureImaginary.left))))
+                  have outputCarrier : ComplexHistoryCarrier w :=
+                    ProdHistoryCarrier_cont_intro data.right.right.right.left
+                      data.right.right.right.right.left data.right.right.right.right.right.left
+                  exact ⟨realOut, imagOut, data.right.right.right.left,
+                    data.right.right.right.right.left, data.right.right.right.right.right.left,
+                    sameRealOut, sameImagOut, outputCarrier⟩
+
 def CplxSinCos (z s c : BHist) : Prop :=
   ∃ iz negIz expIz expNegIz : BHist,
     ComplexHistoryCarrier z ∧ CplxExp iz expIz ∧ CplxExp negIz expNegIz ∧
