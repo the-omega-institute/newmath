@@ -58,6 +58,9 @@ def InCritStrip (sigma : BHist) : Prop :=
   NatUnaryStrictPrefix BHist.Empty sigma ∧
     NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty)
 
+def CompactSubStrip (epsilon T s : BHist) : Prop :=
+  InCritStrip s ∧ UnaryHistory epsilon ∧ UnaryHistory T
+
 def InCritStrip_open_interval_decidable (sigma : BHist) :
     Decidable
       (NatUnaryStrictPrefix BHist.Empty sigma ∧
@@ -188,6 +191,15 @@ theorem CritStripEmptyBoundary_semanticNameCert :
     exact source
   · intro _h source
     exact source
+
+theorem crit_strip_name_certificate :
+    NameCert (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+        (fun h k : BHist => hsame h k) ∧
+      (forall {s sigma tau : BHist}, CritStripComplexCarrier s sigma tau -> False) := by
+  constructor
+  · exact CritStripEmptyBoundary_semanticNameCert.core
+  · intro s sigma tau carrier
+    exact (CritStripComplexCarrier_strict_interval_absurd carrier).right
 
 theorem crit_strip_semantic_name_certificate :
     SemanticNameCert

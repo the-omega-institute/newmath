@@ -403,4 +403,8 @@ theorem FpsSingletonCauchyProduct_comm_classifier {xs ys : List BHist} :
       (hsame_trans (append_empty_right (FpsSingletonAddFold ys)) rightEmpty)
       (hsame_trans congruence.right (hsame_symm reverseSame)))
 
+def FpsSingletonThreefoldCauchySplitSpines (xs ys zs : List BHist) : BHist × BHist :=
+  (append (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys)) (FpsSingletonAddFold zs),
+    append (FpsSingletonAddFold xs) (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs)))
+
 end BEDC.Derived.FpsUp

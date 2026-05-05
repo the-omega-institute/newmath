@@ -1,0 +1,75 @@
+\section{OrderUp Interval Collapse}
+\label{sec:totalorder-orderup-interval-collapse}
+
+\begin{theorem}[Unary prefix OrderUp bounded interval collapse]
+\label{thm:unary-prefix-orderup-bounded-interval-collapse}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite
+BEDC-history spine in the helper of \autoref{def:list-carrier}. Assume every
+entry of $L$ is carried by $\mathsf{Carrier}_{\mathsf{u}}$ for the concrete
+$\TotalOrderUp$ certificate of
+\autoref{thm:concrete-unary-prefix-totalorder-namecert}:
+$$
+\forall x.\; x\in L\to \mathsf{Carrier}_{\mathsf{u}}(x).
+$$
+Let $m$ and $M$ be the finite extrema supplied by
+\autoref{thm:totalorder-prefix-finite-extrema-certificate}. Then every entry
+of the finite spine lies in the displayed unary interval:
+$$
+\forall x.\; x\in L\to
+\bigl(m\le_{\mathsf{u}}x\land x\le_{\mathsf{u}}M\bigr).
+$$
+Moreover, if endpoints $m'$ and $M'$ satisfy the same finite-bound rows,
+namely
+$$
+\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m')
+\land
+\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M'),
+$$
+then the endpoints are classified with the selected extrema:
+$$
+\rho_{\mathsf{u}}(m,m')
+\land
+\rho_{\mathsf{u}}(M,M').
+$$
+
+The per-object fields are: traditional target finite bounded interval in
+unary arithmetic order; BEDC source $\mathsf{UnaryHistory}$,
+$\le_{\mathsf{u}}$, $\rho_{\mathsf{u}}$, and finite
+$\mathsf{ListCarrier}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier
+$\rho_{\mathsf{u}}$; stability from TotalOrder-to-OrderUp and finite extrema
+uniqueness; ledger finite spine membership plus selected extrema; core theorem
+this block; exactness classifier uniqueness of interval endpoints; standard
+bridge finite unary-word bounded intervals; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup} to read the
+concrete unary $\TotalOrderUp$ rows as the L7 arithmetic $\OrderUp$ surface.
+The comparison relation exposed to the consumer is still
+$\le_{\mathsf{u}}$, and the classifier exposed on endpoints is still
+$\rho_{\mathsf{u}}$.
+
+Invoke \autoref{thm:totalorder-prefix-finite-extrema-certificate} on the
+nonempty carried spine $L$. This produces selected histories $m$ and $M$
+together with
+$\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m)$ and
+$\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M)$, plus classifier uniqueness
+for competing minimum and maximum witness records.
+
+Project the selected minimum witness through
+\autoref{def:totalorder-prefix-finite-minimum-witness}. Its lower-bound row
+states $\forall x.\; x\in L\to m\le_{\mathsf{u}}x$. Project the selected
+maximum witness through
+\autoref{def:totalorder-prefix-finite-maximum-witness}. Its upper-bound row
+states $\forall x.\; x\in L\to x\le_{\mathsf{u}}M$.
+
+For each membership witness $x\in L$, pair these two projected comparisons to
+obtain $m\le_{\mathsf{u}}x$ and $x\le_{\mathsf{u}}M$. Hence the finite spine
+collapses into the bounded unary interval selected by the two extrema.
+
+If $m'$ and $M'$ satisfy the same finite-bound witness rows, apply the
+uniqueness clauses returned by
+\autoref{thm:totalorder-prefix-finite-extrema-certificate}. The minimum row
+classifies $m'$ with $m$ by $\rho_{\mathsf{u}}(m,m')$, and the maximum row
+classifies $M'$ with $M$ by $\rho_{\mathsf{u}}(M,M')$.
+\end{proof}
