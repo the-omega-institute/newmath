@@ -12,6 +12,12 @@ open BEDC.Derived.ComplexDiffUp
 def CplxRealProj (f u v : BHist) : Prop :=
   UnaryHistory u ∧ UnaryHistory v ∧ Cont u v f
 
+def PartialReal (u z p : BHist) : Prop :=
+  UnaryHistory u ∧ UnaryHistory z ∧ CplxDiffAt u z p
+
+def PartialImag (u z q : BHist) : Prop :=
+  UnaryHistory u ∧ UnaryHistory z ∧ CplxDiffAt u z q
+
 theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
     CplxDiffAt f z fp ->
       exists h : BHist, exists q : BHist,
@@ -236,6 +242,49 @@ theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
                             (Exists.intro gp
                               (And.intro quotient'
                                 (And.intro continuation' (hsame_refl gp)))))
+
+theorem PartialDerivative_hsame_input_unique {u z z' p q : BHist} :
+    ((PartialReal u z p -> PartialReal u z' q -> hsame z z' ->
+        hsame p q ∧ PartialReal u z q ∧ PartialReal u z' p ∧
+          ∃ h : BHist, ∃ r : BHist, CplxDiffQuot u z h r ∧ Cont u h r) ∧
+      (PartialImag u z p -> PartialImag u z' q -> hsame z z' ->
+        hsame p q ∧ PartialImag u z q ∧ PartialImag u z' p ∧
+          ∃ h : BHist, ∃ r : BHist, CplxDiffQuot u z h r ∧ Cont u h r)) := by
+  constructor
+  · intro partialSource partialTarget sameInput
+    have targetAtSource : CplxDiffAt u z q :=
+      (CplxDiffAt_hsame_transport_witness partialTarget.right.right
+        (hsame_symm sameInput) (hsame_refl q)).left
+    have unique := CplxDiffAt_derivative_unique partialSource.right.right targetAtSource
+    have sourceAtTarget : CplxDiffAt u z' p :=
+      (CplxDiffAt_hsame_transport_witness partialSource.right.right sameInput
+        (hsame_refl p)).left
+    exact And.intro unique.left
+      (And.intro
+        (And.intro partialSource.left
+          (And.intro (unary_transport partialTarget.right.left (hsame_symm sameInput))
+            targetAtSource))
+        (And.intro
+          (And.intro partialTarget.left
+            (And.intro (unary_transport partialSource.right.left sameInput) sourceAtTarget))
+          unique.right))
+  · intro partialSource partialTarget sameInput
+    have targetAtSource : CplxDiffAt u z q :=
+      (CplxDiffAt_hsame_transport_witness partialTarget.right.right
+        (hsame_symm sameInput) (hsame_refl q)).left
+    have unique := CplxDiffAt_derivative_unique partialSource.right.right targetAtSource
+    have sourceAtTarget : CplxDiffAt u z' p :=
+      (CplxDiffAt_hsame_transport_witness partialSource.right.right sameInput
+        (hsame_refl p)).left
+    exact And.intro unique.left
+      (And.intro
+        (And.intro partialSource.left
+          (And.intro (unary_transport partialTarget.right.left (hsame_symm sameInput))
+            targetAtSource))
+        (And.intro
+          (And.intro partialTarget.left
+            (And.intro (unary_transport partialSource.right.left sameInput) sourceAtTarget))
+          unique.right))
 
 theorem complex_diff_semantic_name_certificate {f z fp : BHist} :
     CplxDiffAt f z fp ->
