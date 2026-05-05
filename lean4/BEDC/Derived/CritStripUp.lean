@@ -189,4 +189,48 @@ theorem CritStripEmptyBoundary_semanticNameCert :
   · intro _h source
     exact source
 
+theorem crit_strip_name_certificate :
+    NameCert (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+        (fun h k : BHist => hsame h k) ∧
+      (forall {s sigma tau : BHist}, CritStripComplexCarrier s sigma tau -> False) := by
+  constructor
+  · exact CritStripEmptyBoundary_semanticNameCert.core
+  · intro s sigma tau carrier
+    exact (CritStripComplexCarrier_strict_interval_absurd carrier).right
+
+theorem crit_strip_semantic_name_certificate :
+    SemanticNameCert
+      (fun h : BHist =>
+        hsame h BHist.Empty ∧
+          (forall sigma tau : BHist, CritStripComplexCarrier h sigma tau -> False))
+      (fun h : BHist =>
+        hsame h BHist.Empty ∧
+          (forall sigma tau : BHist, CritStripComplexCarrier h sigma tau -> False))
+      (fun h : BHist =>
+        hsame h BHist.Empty ∧
+          (forall sigma tau : BHist, CritStripComplexCarrier h sigma tau -> False))
+      hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty
+        (And.intro (hsame_refl BHist.Empty)
+          (fun _sigma _tau carrier =>
+            (CritStripComplexCarrier_strict_interval_absurd carrier).right))
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      have sameEmpty : hsame k BHist.Empty :=
+        hsame_trans (hsame_symm same) carrier.left
+      exact And.intro sameEmpty
+        (fun _sigma _tau obstruction =>
+          (CritStripComplexCarrier_strict_interval_absurd obstruction).right)
+  · intro _h source
+    exact source
+  · intro _h source
+    exact source
+
 end BEDC.Derived.CritStripUp

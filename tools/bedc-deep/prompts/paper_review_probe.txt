@@ -21,6 +21,9 @@ Pipeline lane (what bedc-deep does):
   with proof) that B will append into an existing chapter file under
   `papers/bedc/parts/`.
 - This audit does not write files and does not add verification markers.
+- This audit does not add or repair `closurestatus` blocks. Those mix the
+  paper closure axis and Lean verification axis and belong to the gate /
+  formalization lane, not B's theorem-extension lane.
 - Operates within the existing paper chapters: core / proof_obligations /
   concrete_hardening / concrete_instances / hardening / formalization /
   proof_sprint / proof_standing / project_governance / capstones.
@@ -43,6 +46,14 @@ A genuine open target must satisfy ALL:
    rounds, or a precise oracle-worthy target with a named missing construction.
    If a candidate needs infrastructure that is not in the paper yet, propose
    that infrastructure instead of the downstream theorem.
+6. NOT a parameter-transport echo. Reject abstract "carrier/classifier A is
+   equivalent to carrier/classifier B, therefore fields transport" targets.
+   B wants concrete closure, inversion, coverage, determinacy, uniqueness,
+   bridge, or obstruction statements about named BEDC objects.
+7. Lands in a concrete body file, not a hub. If the natural landing file is
+   an index of `\input{{...}}` lines, cite the child file. Avoid appending to
+   files already at or above 760 lines unless a smaller prerequisite can land
+   in an existing child file.
 
 ## Review categories worth proposing (theory-extension shaped)
 
@@ -118,6 +129,9 @@ suggestions, items that only rename without strengthening.
 5. Reject candidates that are:
    - Internal symmetry gaps (those belong to `theory_probe`).
    - Textbook-classical curriculum gaps (those belong to `curriculum_probe`).
+   - Marker-only, `closurestatus`, or Lean verification-axis work.
+   - Parameter-transport echoes over abstract carriers / classifiers.
+   - Hub-file or near-line-cap append targets.
    - Pure renamings or restructuring.
    - Broad portfolio balancing with no concrete theorem shape.
    - Already in BOARD by another title.

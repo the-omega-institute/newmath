@@ -151,6 +151,7 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
+import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
 import BEDC.Derived.RealAnalyticUp
@@ -170,6 +171,7 @@ import BEDC.Derived.HolomorphicUp.OpenDiskRadiusExtension
 import BEDC.Derived.HolomorphicUp.OpenDiskZeroHeaded
 import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.HolomorphicUp.OpenDiskComponents
+import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
@@ -273,6 +275,8 @@ import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.S1Up.SemanticCertificateFields
+import BEDC.Derived.S1Up.FieldAssembly
+import BEDC.Derived.S1Up.SemanticFields
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver
 import BEDC.Derived.GroupUp.ConjugationParameter
@@ -507,6 +511,7 @@ import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.MetricUp.HsameDeterminism
 import BEDC.Derived.MetricUp.AppendCommPackage
 import BEDC.Derived.MetricUp.CompositeEndpointCollapse
+import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
@@ -529,6 +534,7 @@ import BEDC.Derived.ContinuousUp.TerminalModulusExtension
 import BEDC.Derived.ContinuousUp.VisibleTerminalModulusExtension
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.VisibleEndpointCycle
+import BEDC.Derived.ContinuousUp.SemanticCertificate
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousUp.VisibleGraphModulusDeterminism
 import BEDC.Derived.ContinuousUp.VisibleSourceRestriction
@@ -545,6 +551,7 @@ import BEDC.Derived.ContinuousMapUp.CompositionTargetDeterminacy
 import BEDC.Derived.ContinuousMapUp.DistanceBoundary
 import BEDC.Derived.ContinuousMapUp.TransportDepth
 import BEDC.Derived.ContinuousMapUp.SemanticCertificate
+import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.ContinuousMapUp.EmptyIdentityDistance
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
