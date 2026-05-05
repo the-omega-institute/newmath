@@ -13,6 +13,16 @@ def ComplexAbsConv (zero : BHist) (modulus : BHist -> BHist) (bound : BHist) : P
     (forall n : BHist, UnaryHistory n -> ComplexAbsPartSum zero modulus n (absps n)) /\
       ComplexLimit absps N bound M
 
+theorem ComplexAbsPartSum_complexPartSum {zero : BHist} {modulus : BHist -> BHist}
+    {n S : BHist} :
+    ComplexAbsPartSum zero modulus n S -> ComplexPartSum zero modulus n S := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact ComplexPartSum.zero
+  | step previous stepCont ih =>
+      exact ComplexPartSum.step ih stepCont
+
 theorem ComplexAbsConv_complexSeriesConv_of_pointwise_hsame {zero bound : BHist}
     {modulus c : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (modulus n) (c n)) ->
@@ -47,5 +57,12 @@ theorem ComplexAbsConv_complexSeriesConv_of_pointwise_hsame {zero bound : BHist}
                   data.left n unaryN
                 exact convert unaryN absRow
               · exact data.right
+
+theorem ComplexAbsConv_complexSeriesConv {modulus : BHist -> BHist} {bound : BHist} :
+    ComplexAbsConv BHist.Empty modulus bound ->
+      ComplexSeriesConv BHist.Empty modulus bound := by
+  intro absConv
+  exact ComplexAbsConv_complexSeriesConv_of_pointwise_hsame
+    (fun {n : BHist} _unaryN => hsame_refl (modulus n)) absConv
 
 end BEDC.Derived.ComplexSeriesUp
