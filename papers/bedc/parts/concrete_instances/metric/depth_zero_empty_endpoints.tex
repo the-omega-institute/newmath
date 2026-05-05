@@ -146,6 +146,31 @@ depth-add equation reduces the claim to left cancellation for addition in
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_left\_cancel}
 
+\begin{theorem}[Metric strict prefix depth decomposition]
+\label{thm:metric-distance-depth-strict-prefix-decomposes}
+For histories $h,k:\mathsf{BHist}$, a strict unary prefix witness from $h$ to
+$k$ exposes a nonempty unary tail whose continuation reconstructs $k$, and the
+metric depth of $k$ splits as the depth of $h$ plus the depth of that tail:
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k)
+\Longrightarrow
+\exists tail:\mathsf{BHist}.\;
+\mathsf{UnaryHistory}(tail)\land (tail=\emp\to\mathsf{False})\land
+\ContR(h,tail,k)\land
+\mathsf{MetricDistanceDepth}(k)
+=
+\mathsf{MetricDistanceDepth}(h)+\mathsf{MetricDistanceDepth}(tail).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the strict-prefix witness. It already supplies a unary nonempty tail
+and a continuation ledger from $h$ through that tail to $k$. Inverting the
+continuation identifies $k$ with $h\cdot tail$. Induction on the concrete tail
+then proves the structural depth equation for append, giving the displayed
+sum formula.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_strict\_prefix\_decomposes}
+
 \begin{theorem}[Metric distance depth visible-context cancellation]
 \label{thm:metric-distance-depth-visible-context-cancel}
 For histories $p,q,d,e:\mathsf{BHist}$, equality of structural depths after a

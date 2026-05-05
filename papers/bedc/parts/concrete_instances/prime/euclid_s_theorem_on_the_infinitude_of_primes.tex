@@ -52,6 +52,39 @@ existential definition of \(\mathsf{NatDivides}(\Eone(n),m)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatFact\_successor\_input\_divides\_result}
 
+\begin{theorem}[Factorial absorbs every positive bounded unary predecessor]
+\label{thm:natfact-bounded-positive-predecessor-divides}
+Let $n,m,d$ be histories. If $\mathsf{NatFact}(n,m)$,
+$\mathsf{UnaryHistory}(d)$, $\mathsf{NatGT}(d,\emp)$, and either $d\hsame n$
+or $\mathsf{NatUnaryStrictPrefix}(d,n)$, then
+$\mathsf{NatDivides}(d,m)$.
+\end{theorem}
+\begin{proof}[Sketch]
+Induct on the closed $\mathsf{NatFact}$ witness. In the empty-input case,
+positive boundedness would require either $d\hsame\emp$ or a strict unary
+prefix of $\emp$, contradicting $\mathsf{NatGT}(d,\emp)$ and strict-prefix
+inversion.
+
+For the successor step, write the input as $\Eone(n_0)$ and the result as the
+product of $\Eone(n_0)$ with the predecessor factorial result. If
+$d\hsame\Eone(n_0)$, endpoint transport turns
+\autoref{thm:natfact-successor-input-divides-result} into the required
+divisibility statement for $d$.
+
+It remains to treat the strict-predecessor branch. Invert the
+$\mathsf{NatUnaryStrictPrefix}(d,\Eone(n_0))$ witness. The endpoint case is the
+previous paragraph, while the proper predecessor case gives either
+$d\hsame n_0$ or $\mathsf{NatUnaryStrictPrefix}(d,n_0)$. The induction
+hypothesis therefore gives divisibility of the predecessor factorial result by
+$d$.
+
+Finally, push that divisibility through the final multiplication witness. Use
+the left-closure of $\mathsf{NatDivides}$ under multiplication, and transport
+along $\hsame$ endpoints where the constructor inversion changed the displayed
+representatives. Transitivity of $\mathsf{NatDivides}$ yields
+$\mathsf{NatDivides}(d,m)$ for the successor factorial result.
+\end{proof}
+
 \begin{lemma}[Unary factorial results are nonempty]
 \label{lem:nat-fact-result-not-empty}
 Every closed witness of $\mathsf{NatFact}(n,m)$ has a result $m$ distinct
@@ -120,7 +153,14 @@ By unary induction on \(n\), using the totality and functionality of \(\mathsf{N
 Let \(m\) be the unary factorial of \(n\), and let \(m'\) be the successor \(\Eone(m)\) (i.e., \(n! + 1\)). Then for every unary \(d\) with \(\Eone(\emp) \neq d\) and \(\mathsf{NatGT}(\Eone(n), d) \vee \hsame(d, \Eone(n)) \vee \mathsf{NatGT}(d, \Eone(n)) \wedge \mathsf{NatDivides}(d, n)\), we have \(\neg \mathsf{NatDivides}(d, m')\).
 \end{lemma}
 \begin{proof}[Sketch]
-If \(d\) divides both \(n!\) and \(n! + 1\), then \(d\) divides their difference, which is the unit; hence \(d\) is the unit, contradicting \(d \neq \Eone(\emp)\).
+For every positive unary $d$ bounded by $n$, the factorial absorption theorem
+\autoref{thm:natfact-bounded-positive-predecessor-divides} supplies
+$\mathsf{NatDivides}(d,m)$. If the same $d$ also divides $m'=\Eone(m)$, then
+the unit-successor subtraction argument shows that $d$ divides the unit.
+
+Unit divisibility forces $d\hsame\Eone(\emp)$, contradicting the displayed
+non-unit hypothesis. Thus no such bounded non-unit divisor can divide
+$m'$.
 \end{proof}
 
 \begin{theorem}[Euclid's theorem, constructive form]

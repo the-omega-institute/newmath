@@ -1,10 +1,12 @@
 import BEDC.Derived.MetricUp
+import BEDC.Derived.NatUp
 
 namespace BEDC.Derived.MetricUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.Derived.NatUp
 
 theorem MetricDistanceDepth_zero_iff_empty {d : BHist} :
     MetricDistanceDepth d = 0 ↔ hsame d BHist.Empty := by
@@ -329,5 +331,35 @@ theorem MetricDistanceDepth_same_source_cont_result_cancel {x y z d e : BHist} :
         exact ih b c (Nat.succ.inj normalized)
   exact addLeftCancel (MetricDistanceDepth x) (MetricDistanceDepth y) (MetricDistanceDepth z)
     expanded
+
+theorem MetricDistanceDepth_strict_prefix_decomposes {h k : BHist} :
+    NatUnaryStrictPrefix h k ->
+      ∃ tail : BHist, UnaryHistory tail ∧ (tail = BHist.Empty -> False) ∧ Cont h tail k ∧
+        MetricDistanceDepth k = MetricDistanceDepth h + MetricDistanceDepth tail := by
+  intro strict
+  cases strict with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary strictData =>
+          cases strictData with
+          | intro tailNonempty tailCont =>
+              cases tailCont
+              have depthAppendAll :
+                  ∀ x y : BHist, MetricDistanceDepth (append x y) =
+                    MetricDistanceDepth x + MetricDistanceDepth y := by
+                intro x y
+                induction y with
+                | Empty =>
+                    rfl
+                | e0 y ih =>
+                    exact congrArg Nat.succ ih
+                | e1 y ih =>
+                    exact congrArg Nat.succ ih
+              have depthAppend :
+                  MetricDistanceDepth (append h tail) =
+                    MetricDistanceDepth h + MetricDistanceDepth tail :=
+                depthAppendAll h tail
+              exact
+                ⟨tail, tailUnary, tailNonempty, cont_intro rfl, depthAppend⟩
 
 end BEDC.Derived.MetricUp

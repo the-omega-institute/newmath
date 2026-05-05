@@ -229,6 +229,7 @@ import BEDC.Derived.PrimeUp.ResultBoundary
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
 import BEDC.Derived.PrimeUp.FactorialShape
+import BEDC.Derived.PrimeUp.FactorizationList
 import BEDC.Derived.PrimeUp.PrimeShape
 import BEDC.Derived.PrimeUp.TrialDivShape
 import BEDC.Derived.PadicUp
@@ -607,6 +608,7 @@ import BEDC.Derived.FunctorUp.CompNonemptyResultTargetVisible
 import BEDC.Derived.FunctorUp.CompEmptyMiddleInversion
 import BEDC.Derived.FunctorUp.AssocEmptyResult
 import BEDC.Derived.FunctorUp.AssocReflects
+import BEDC.Derived.FunctorUp.CompEndpointCycleBoundaryComponents
 import BEDC.Derived.FunctorUp.CompositionSamenessRespect
 import BEDC.Derived.FunctorUp.SplitMono
 import BEDC.Derived.NatTransUp
@@ -624,12 +626,14 @@ import BEDC.Derived.NatTransUp.EmptyObject
 import BEDC.Derived.NatTransUp.EmptyComponentOpposite
 import BEDC.Derived.NatTransUp.PrefixComponentClassifier
 import BEDC.Derived.NatTransUp.VertCompNonemptyResultTargetVisible
+import BEDC.Derived.NatTransUp.VertCompCycleBoundary
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.AdjunctionUp.CarrierSwap
 import BEDC.Derived.AdjunctionUp.TriangleComponents
 import BEDC.Derived.AdjunctionUp.AlternatingSuffix
 import BEDC.Derived.AdjunctionUp.AlternatingZeroHeaded
 import BEDC.Derived.AdjunctionUp.CarrierSwapInvolution
+import BEDC.Derived.AdjunctionUp.TriangleTotalCollapse
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp
