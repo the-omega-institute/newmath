@@ -7,6 +7,9 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.FKernel.NameCert
 
+def ConcreteUnaryHistorySemigroupOppositeMul (h k : BHist) : BHist :=
+  append k h
+
 theorem concrete_unary_history_semigroup_cont_assoc_classifier {h k l hk kl left right : BHist} :
     UnaryHistory h -> UnaryHistory k -> UnaryHistory l ->
       Cont h k hk -> Cont hk l left -> Cont k l kl -> Cont h kl right ->
