@@ -560,6 +560,7 @@ import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
+import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.NormUp
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.MatrixUp

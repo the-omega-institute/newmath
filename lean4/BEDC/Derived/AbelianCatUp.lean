@@ -83,6 +83,30 @@ theorem AbelianCatAdditiveCarrier_classifier_transport
         (And.intro carrier.right.right.right.right.right.left
           carrier.right.right.right.right.right.right)))
 
+theorem AbelianCatAdditiveCarrier_factor_unary_closure
+    {source target zero add kernel cokernel factor : BHist} :
+    AbelianCatAdditiveCarrier source target zero add kernel cokernel factor ->
+      UnaryHistory factor ∧ hsame factor (append kernel cokernel) := by
+  intro carrier
+  exact And.intro carrier.right.right.right.right.left carrier.right.right.right.right.right.right
+
+theorem AbelianCatAdditiveCarrier_factor_append_readback
+    {source target zero add kernel cokernel factor : BHist} :
+    AbelianCatAdditiveCarrier source target zero add kernel cokernel factor ->
+      hsame factor (append (append zero add) cokernel) ∧
+        Cont (append zero add) cokernel factor ∧ UnaryHistory factor := by
+  intro carrier
+  have factorUnary : UnaryHistory factor := carrier.right.right.right.right.left
+  have kernelRow : Cont zero add kernel := carrier.right.right.right.right.right.left
+  have factorRow : Cont kernel cokernel factor := carrier.right.right.right.right.right.right
+  have factorAppend : hsame factor (append (append zero add) cokernel) := by
+    cases kernelRow
+    exact factorRow
+  have composedRow : Cont (append zero add) cokernel factor := by
+    cases kernelRow
+    exact factorRow
+  exact And.intro factorAppend (And.intro composedRow factorUnary)
+
 theorem AbelianCatKernelCokernel_visible_factorization
     {f kerObj cokObj imageObj coimageObj comparison recomposed : BHist} :
     hsame f BHist.Empty -> Cont BHist.Empty f kerObj -> Cont f BHist.Empty cokObj ->
@@ -142,5 +166,26 @@ theorem AbelianCatKernelCokernel_visible_factorization
                   (And.intro imageUnary
                   (And.intro coimageUnary
                       (And.intro comparisonUnary recomposedUnary))))))))))
+
+structure AbelianCatZeroBiproductKernelSurface where
+  source : BHist
+  target : BHist
+  zero : BHist
+  add : BHist
+  kernel : BHist
+  cokernel : BHist
+  factor : BHist
+  carrier : AbelianCatAdditiveCarrier source target zero add kernel cokernel factor
+  zero_hom : CategoryHomCarrier source target zero
+  add_carrier : GroupSingletonCarrier add
+  kernel_row : Cont zero add kernel
+  factor_row : Cont kernel cokernel factor
+
+theorem AbelianCatZeroBiproductKernelSurface_rows
+    (S : AbelianCatZeroBiproductKernelSurface) :
+    CategoryHomCarrier S.source S.target S.zero ∧ GroupSingletonCarrier S.add ∧
+      Cont S.zero S.add S.kernel ∧ Cont S.kernel S.cokernel S.factor := by
+  exact And.intro S.zero_hom
+    (And.intro S.add_carrier (And.intro S.kernel_row S.factor_row))
 
 end BEDC.Derived.AbelianCatUp
