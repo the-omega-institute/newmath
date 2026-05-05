@@ -1,0 +1,83 @@
+\begin{theorem}[Real stream classifier transported contextual displayed e-one appended-tail package]
+\label{thm:real-stream-classifier-transported-contextual-displayed-e1-appended-tail-exclusion-package}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, a selected
+index $n$, and histories $a,b,d_X,d_Y,z_X,z_Y:\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y).
+$$
+Assume also the selected transported context rows
+$$
+\mathsf{UnaryHistory}(p_X(n)),\quad
+\mathsf{UnaryHistory}(t_X(n)),\quad
+\hsame(p_X(n),p_Y(n)),\quad
+\hsame(t_X(n),t_Y(n)),
+$$
+the four selected continuation rows
+$$
+\mathsf{Cont}(p_X(n),x'(n),m_X(n)),\quad
+\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
+\quad
+\mathsf{Cont}(p_Y(n),y'(n),m_Y(n)),\quad
+\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
+$$
+and the two one-headed endpoint seals
+$$
+\hsame(o_X(n),\Eone(a))\quad\text{and}\quad \hsame(o_Y(n),\Eone(b)).
+$$
+Then the transported selected contextual displayed e-one package also carries the
+appended e-zero-tail exclusions:
+\begin{enumerate}
+\item $\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))$.
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+\item $\mathsf{UnaryHistory}(a)$ and $\mathsf{UnaryHistory}(b)$.
+\item $\hsame(a,b)$.
+\item $\mathsf{PositiveUnaryDenominator}(o_X(n))$ and
+$\mathsf{PositiveUnaryDenominator}(o_Y(n))$.
+\item $\mathsf{UnaryHistory}(o_X(n))$ and $\mathsf{UnaryHistory}(o_Y(n))$.
+\item $\hsame(o_X(n),\emp)\to\mathsf{False}$ and
+$\hsame(o_Y(n),\emp)\to\mathsf{False}$.
+\item $\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False}$ and
+$\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False}$.
+\item $(\hsame(o_X(n),d_X\cdot\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),d_Y\cdot\Ezero(z_Y))\to\mathsf{False})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transported-contextual-displayed-e1-classifier-package}
+under the same pointwise transport rows, selected context rows, continuation rows,
+and one-headed endpoint seals. This supplies the classifier rows, the displayed
+e-one tail readback, the positive-denominator rows, the unary endpoint rows, and
+the nonempty and zero-headed exclusions.
+
+For the left appended-tail test, suppose
+$\hsame(o_X(n),d_X\cdot\Ezero(z_X))$. Transport
+$\mathsf{PositiveUnaryDenominator}(o_X(n))$ across this displayed equality by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}. The transported
+positive-denominator row for $d_X\cdot\Ezero(z_X)$ contradicts
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+
+The right appended-tail test is the same argument applied to
+$\hsame(o_Y(n),d_Y\cdot\Ezero(z_Y))$ and the projected positive-denominator row
+for $o_Y(n)$. Transport gives a positive denominator for
+$d_Y\cdot\Ezero(z_Y)$, contradicting the same appended e-zero-tail obstruction.
+
+Repackage the rows from the transported contextual displayed e-one classifier
+package with the two appended-tail contradictions. The result is the stated
+displayed classifier package together with the appended e-zero-tail exclusions.
+\end{proof}
+
+Fit: traditional target transported RegSeqRat contextual endpoint classifier
+with appended-tail exclusion; BEDC source RealUp streams, RatUp classifier,
+$\mathsf{Cont}$, and positive denominator obstruction; carrier
+rational-observation streams; classifier $\mathsf{RealStreamClassifier}$ plus
+selected $\mathsf{RatHistoryClassifier}$; stability pointwise transport, context
+closure, e-one display transport, and positive-denominator appended-tail
+contradiction; ledger selected index, transport rows, context continuations,
+e-one seals, zero-headed and appended-tail tests; core theorem
+\autoref{thm:real-stream-classifier-transported-contextual-displayed-e1-appended-tail-exclusion-package};
+exactness displayed classifier package plus appended-tail exclusions; standard
+bridge dyadic endpoint normalization; status $\mathsf{ProofTarget}$.
