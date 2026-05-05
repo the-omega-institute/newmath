@@ -318,3 +318,70 @@ Finally use classifier transitivity in \autoref{def:continuous-classifier-specif
 
 Ten-field fit: traditional target finite three-step terminal-modulus normalization under source restriction; BEDC source $\mathsf{BHist}$ with certified source predicates, $\ContR$, and three $\mathsf{ContinuousModulusWitness}$ ledgers; carrier $\mathsf{ContinuousFunctionCarrier}$ preserved through sequential and reassociated terminal extensions; classifier ContinuousMap classifier with transitivity; stability transported source admission plus preserved modulus-validity fields; ledger restricted graph ledger, target classifier ledger, final sequential and reassociated modulus ledgers, and terminal certificate ledger; core theorem this block; exactness equality of the two route endpoints plus $\hsame(modulus_3,modulus_{123})$; standard bridge finite modulus-normalization coherence for uniformly continuous maps; status ProofTarget.
 \end{proof}
+
+\begin{theorem}[Uniform continuity visible restriction three-step terminal modulus normal form]
+\label{thm:uniform-continuity-visible-restriction-three-step-terminal-modulus-normal-form}
+Let
+$$
+p,q,\mathit{restricted},source,map,target,target',modulus_0,cert_0,
+extra_1,modulus_1,cert_1,extra_2,modulus_2,cert_2,extra_3,
+modulus_3,cert_3,extra_{12},modulus_{12},extra_{123},
+modulus_{123},cert':\mathsf{BHist}
+$$
+be histories. Assume the source restriction ledger
+$$
+\ContR(\mathit{restricted},\emp,source),
+$$
+the visible continuous-function carrier
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
+modulus_0\cdot q,(p\cdot cert_0)\cdot q),
+$$
+the three terminal modulus witnesses
+$$
+\begin{array}{l}
+\mathsf{ContinuousModulusWitness}(cert_0,extra_1,cert_1),\\
+\mathsf{ContinuousModulusWitness}(cert_1,extra_2,cert_2),\\
+\mathsf{ContinuousModulusWitness}(cert_2,extra_3,cert_3),
+\end{array}
+$$
+the sequential and reassociated terminal modulus ledgers
+$$
+\begin{array}{l}
+\ContR(modulus_0,extra_1,modulus_1),\quad
+\ContR(modulus_1,extra_2,modulus_2),\quad
+\ContR(modulus_2,extra_3,modulus_3),\\
+\ContR(extra_1,extra_2,extra_{12}),\quad
+\ContR(modulus_0,extra_{12},modulus_{12}),\\
+\ContR(extra_{12},extra_3,extra_{123}),\quad
+\ContR(modulus_0,extra_{123},modulus_{123}),
+\end{array}
+$$
+and the displayed restricted sequential carrier
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot \mathit{restricted},map,p\cdot target',
+modulus_3\cdot q,(p\cdot cert')\cdot q).
+$$
+Then the visible restricted carrier has the three-step terminal modulus normal form
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot \mathit{restricted},map,p\cdot target,
+modulus_{123}\cdot q,(p\cdot cert_3)\cdot q),
+$$
+and the displayed sequential endpoint reads back to the same public data:
+$$
+\hsame(target,target')\land
+\hsame(cert_3,cert')\land
+\hsame(modulus_3,modulus_{123}).
+$$
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:continuous-function-carrier-visible-terminal-modulus-three-step-reassociation} to the unreduced visible carrier, the three terminal witness rows, and the displayed sequential and reassociated $\ContR$ ledgers. It supplies the visible sequential carrier with final data $modulus_3,cert_3$, the visible reassociated carrier with final data $modulus_{123},cert_3$, and the modulus comparison $\hsame(modulus_3,modulus_{123})$.
+
+Restrict the reassociated carrier along the same source ledger $\ContR(\mathit{restricted},\emp,source)$. Proposition~\ref{prop:uniform-continuity-modulus-restricts-along-subset-inclusion} transports the source-admission field, while the visible context and ledger policies preserve the graph ledger $map$, target ledger $p\cdot target$, reassociated modulus ledger $modulus_{123}\cdot q$, and certificate ledger $(p\cdot cert_3)\cdot q$.
+
+Next compare the sequential and reassociated routes through Theorem~\ref{thm:uniform-continuity-restriction-three-step-terminal-modulus-reassociation}, applied to the central histories under the same source restriction and terminal ledgers. This identifies the restricted sequential endpoint with the restricted reassociated endpoint and records the same terminal-modulus readback $\hsame(modulus_3,modulus_{123})$.
+
+Finally apply Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-target-cert-deterministic} to the canonical restricted sequential carrier and the displayed restricted sequential carrier. They share the visible source $p\cdot \mathit{restricted}$, the graph ledger $map$, the visible modulus $modulus_3\cdot q$, and the same visible prefix and suffix, so determinacy gives $\hsame(target,target')$ and $\hsame(cert_3,cert')$. Combining these with the modulus comparison yields the stated normal-form readback.
+
+Ten-field fit: traditional target visible source restriction followed by three terminal modulus extensions; BEDC source $\mathsf{BHist}$ with visible contexts, source restriction ledger, $\ContR$, and three $\mathsf{ContinuousModulusWitness}$ rows; carrier visible $\mathsf{ContinuousFunctionCarrier}$ with restricted source; classifier $\hsame$ target, certificate, and modulus readback; stability source-admission restriction plus terminal modulus reassociation; ledger restricted graph ledger, visible target ledger, sequential and reassociated modulus ledgers, and terminal certificate ledger; core theorem this normal-form statement; exactness comparison against any displayed restricted sequential carrier; standard bridge visible uniformly continuous restriction under three terminal modulus extensions; status ProofTarget.
+\end{proof}
