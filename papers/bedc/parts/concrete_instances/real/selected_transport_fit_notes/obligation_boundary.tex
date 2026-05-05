@@ -1,0 +1,198 @@
+\begin{theorem}[Real selected transport fit carrier obligation]
+\label{thm:real-selected-transport-fit-carrier-obligation}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
+indices $m,n$, and histories
+$a,a',b,b',d_X,d_Y,e_X,e_Y,w_X,w_Y,z_X,z_Y:\Hist$, assume the pointwise
+transport rows, source stream classifier row, selected context rows,
+continuation rows, and selected e-one displays of
+\autoref{thm:real-selected-transport-fit-from-stream-classifier}. Then the
+selected transport supplies the RealUp carrier boundary
+$$
+\begin{array}{l}
+\mathsf{PositiveUnaryDenominator}(o_X(n))\land
+\mathsf{PositiveUnaryDenominator}(o_Y(n))\land
+\mathsf{PositiveUnaryDenominator}(x'(n))\land
+\mathsf{PositiveUnaryDenominator}(y'(n))\land\\
+\mathsf{UnaryHistory}(o_X(n))\land
+\mathsf{UnaryHistory}(o_Y(n))\land
+\mathsf{UnaryHistory}(x'(n))\land
+\mathsf{UnaryHistory}(y'(n))\land\\
+\mathsf{UnaryHistory}(a)\land
+\mathsf{UnaryHistory}(a')\land
+\mathsf{UnaryHistory}(b)\land
+\mathsf{UnaryHistory}(b')\land\\
+(\hsame(o_X(n),\emp)\to\mathsf{False})\land
+(\hsame(o_Y(n),\emp)\to\mathsf{False})\land
+(\hsame(x'(n),\emp)\to\mathsf{False})\land
+(\hsame(y'(n),\emp)\to\mathsf{False})\land\\
+(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False})\land
+(\hsame(x'(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y'(n),\Ezero(z_Y))\to\mathsf{False})\land\\
+(\hsame(o_X(n),d_X\cdot\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),d_Y\cdot\Ezero(z_Y))\to\mathsf{False})\land\\
+(\hsame(x'(n),e_X\cdot\Ezero(w_X))\to\mathsf{False})\land
+(\hsame(y'(n),e_Y\cdot\Ezero(w_Y))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-classifier-prefix} to the source
+$\mathsf{RealStreamClassifier}(x,y)$ row at length $m+n$. This supplies the
+prefix classifier row required by
+\autoref{thm:real-selected-transport-fit-certificate} and
+\autoref{thm:real-selected-transport-fit-appended-tail-certificate}.
+
+Invoke \autoref{thm:real-selected-transport-fit-certificate} with the derived
+prefix row and the displayed selected-transport hypotheses. Its contextual
+endpoint component gives the carrier rows for $o_X(n)$ and $o_Y(n)$, and its
+finite-prefix component gives the carrier rows for $x'(n)$ and $y'(n)$.
+
+The tail rows for $a$ and $b$ are projected from both the contextual endpoint
+component and the finite-prefix component. The tail rows for $a'$ and $b'$ are
+projected from the contextual e-one tail determinacy component.
+
+Finally invoke
+\autoref{thm:real-selected-transport-fit-appended-tail-certificate}. Its
+appended-tail component gives the four displayed e-zero-tail exclusions. These
+projections are exactly the displayed carrier boundary.
+\end{proof}
+
+\begin{theorem}[Real selected transport fit classifier obligation]
+\label{thm:real-selected-transport-fit-classifier-obligation}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
+indices $m,n$, and histories $a,a',b,b',z_X,z_Y:\Hist$, assume the pointwise
+transport rows, source stream classifier row, selected context rows,
+continuation rows, and selected e-one displays of
+\autoref{thm:real-selected-transport-fit-from-stream-classifier}. Then the
+selected transport supplies the RealUp classifier boundary
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))\land
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
+\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))\land\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(\Eone(a)),\Eone(\Eone(b)))\land\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(\Eone(a')),\Eone(\Eone(b'))).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-selected-transport-fit-from-stream-classifier} to the
+displayed selected-transport hypotheses. The contextual endpoint package
+projects to $\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))$, and the
+finite-prefix package projects to
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+
+Apply \autoref{thm:real-selected-transport-synchronized-e1-endpoints} to the
+same selected-transport hypotheses. This supplies
+$\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))$ together with the
+synchronized tail rows used by the constant-real package.
+
+Apply
+\autoref{thm:real-selected-transport-constant-real-classifier-package} to the
+same hypotheses. It supplies the two displayed
+$\mathsf{RealConstantHistoryClassifier}$ rows. Conjoining the three rational
+classifier rows with the two constant-real classifier rows gives the stated
+classifier boundary.
+\end{proof}
+
+\begin{theorem}[Real selected transport fit ledger obligation]
+\label{thm:real-selected-transport-fit-ledger-obligation}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
+indices $m,n$, and histories
+$a,a',b,b',d_X,d_Y,e_X,e_Y,w_X,w_Y,z_X,z_Y:\Hist$, assume the pointwise
+transport rows, source stream classifier row, selected context rows,
+continuation rows, and selected e-one displays of
+\autoref{thm:real-selected-transport-fit-from-stream-classifier}. Then the
+ledger consumed by the carrier and classifier obligations is exactly the
+selected index $n$, the prefix surplus $m$, the pointwise transport rows
+$\forall i,\ \hsame(x(i),x'(i))$ and
+$\forall i,\ \hsame(y(i),y'(i))$, the contextual continuations
+$$
+\begin{array}{l}
+\mathsf{Cont}(p_X(n),x'(n),m_X(n)),\quad
+\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),\\
+\mathsf{Cont}(p_Y(n),y'(n),m_Y(n)),\quad
+\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
+\end{array}
+$$
+the displayed e-one tails
+$$
+\begin{array}{l}
+\hsame(o_X(n),\Eone(a)),\quad
+\hsame(o_X(n),\Eone(a')),\quad
+\hsame(o_Y(n),\Eone(b)),\quad
+\hsame(o_Y(n),\Eone(b')),\\
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(y'(n),\Eone(b)),
+\end{array}
+$$
+and the appended-tail probes $d_X,d_Y,e_X,e_Y,w_X,w_Y,z_X,z_Y$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-selected-transport-fit-carrier-obligation} and
+\autoref{thm:real-selected-transport-fit-classifier-obligation} to the same
+selected-transport data. The former consumes the selected index, the prefix
+surplus, the transport rows, the contextual continuations, the six e-one
+displays, and the appended-tail probes; the latter consumes the same selected
+index, transport, context, continuation, and displayed-tail rows without the
+extra appended-tail probes.
+
+The four-package theorem
+\autoref{thm:real-selected-transport-fit-from-stream-classifier} accounts for
+the contextual endpoint package, displayed e-one classifier package, tail
+determinacy package, and finite-prefix readback package. Its certificate
+strengthening
+\autoref{thm:real-selected-transport-fit-appended-tail-certificate} accounts
+for the appended-tail tests.
+
+Projecting these packages lists no further inputs: the rows consumed are
+exactly the selected index, prefix surplus, pointwise transport rows,
+contextual continuations, displayed e-one tails, and appended-tail probes named
+in the statement.
+\end{proof}
+
+\begin{theorem}[Real selected transport fit stability and seal obligation]
+\label{thm:real-selected-transport-fit-stability-seal-obligation}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$,
+indices $m,n$, and histories
+$a,a',b,b',d_X,d_Y,e_X,e_Y,w_X,w_Y,z_X,z_Y:\Hist$, assume the pointwise
+transport rows, source stream classifier row, selected context rows,
+continuation rows, and selected e-one displays of
+\autoref{thm:real-selected-transport-fit-from-stream-classifier}. Then the
+carrier, classifier, and ledger package of
+\autoref{thm:real-selected-transport-fit-carrier-obligation},
+\autoref{thm:real-selected-transport-fit-classifier-obligation}, and
+\autoref{thm:real-selected-transport-fit-ledger-obligation} is stable under the
+pointwise $\hsame$ transports, consumes only the selected index $n$, prefix
+surplus $m$, contextual $\Cont$ rows, displayed e-one tails, and appended-tail
+probes already listed there, and is accepted by the $\RealUp$ seal through
+\autoref{def:realup-obligation-boundary}.
+\end{theorem}
+\begin{proof}
+First collect the selected-transport package. Apply
+\autoref{thm:real-selected-transport-fit-carrier-obligation},
+\autoref{thm:real-selected-transport-fit-classifier-obligation}, and
+\autoref{thm:real-selected-transport-fit-ledger-obligation} to the same
+selected-transport hypotheses. These three faces supply the carrier,
+classifier, and finite ledger rows while naming exactly the selected index,
+prefix surplus, context rows, displayed e-one tails, and appended-tail probes.
+
+Next read the stability and ledger face through the RealUp obligation boundary.
+Apply \autoref{thm:realup-stability-ledger-obligations}; the pointwise
+$\hsame$ transports and selected finite ledger rows are precisely the stability
+and ledger entries required by \autoref{def:realup-obligation-boundary}.
+
+Finally attach the seal. Apply
+\autoref{thm:realup-seal-and-regseqrat-consumption-obligations}; it accepts the
+same package through the $\RealUp$ seal and records that the $\RegSeqRat$
+consumption reads no source outside the displayed carrier, classifier,
+stability, and ledger rows. Thus the theorem is the stability and seal face of
+the selected-transport obligation package, not a separate source presentation.
+\end{proof}

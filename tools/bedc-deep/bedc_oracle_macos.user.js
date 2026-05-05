@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.18
+// @version      1.20
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -43,7 +43,8 @@
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
   const NO_OUTPUT_IDLE_TIMEOUT = 420000;
-  const SCRIPT_VERSION = "bedc-1.18";
+  const REFILL_NO_OUTPUT_IDLE_TIMEOUT = 1800000;
+  const SCRIPT_VERSION = "bedc-1.20";
   const BEDC_PROJECT_PREFIX = "/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc";
   const BEDC_PROJECT_HOME = `https://chatgpt.com${BEDC_PROJECT_PREFIX}/project`;
 
@@ -1017,7 +1018,7 @@
     return false;
   }
 
-  async function waitForResponse(task_id) {
+  async function waitForResponse(task_id, noOutputIdleTimeout = NO_OUTPUT_IDLE_TIMEOUT) {
     log(`Waiting for ChatGPT response (pre-send assistant count was ${preSubmitAssistantCount})...`);
     const startTime = Date.now();
     let lastResponseText = "";
@@ -1073,10 +1074,10 @@
       if (
         !generating &&
         responseText.length < 5 &&
-        Date.now() - startTime >= NO_OUTPUT_IDLE_TIMEOUT
+        Date.now() - startTime >= noOutputIdleTimeout
       ) {
         throw new Error(
-          `No assistant output after ${Math.floor(NO_OUTPUT_IDLE_TIMEOUT / 1000)}s ` +
+          `No assistant output after ${Math.floor(noOutputIdleTimeout / 1000)}s ` +
           `(page=${mainLen}, url=${window.location.href.slice(-60)})`
         );
       }
@@ -1118,9 +1119,17 @@
 
   // ── Process a task (BEDC ADD: multi-turn navigation + reload-safe) ─
   async function processTask(task) {
-    const { task_id, prompt, conversation_url, is_followup, conversation_id, re_extract, pdf_base64, pdf_name } = task;
+    const { task_id, prompt, conversation_url, is_followup, conversation_id, re_extract, pdf_base64, pdf_name, tag } = task;
+    const noOutputIdleTimeout = (tag === "bedc-deep-board-refill")
+      ? REFILL_NO_OUTPUT_IDLE_TIMEOUT
+      : NO_OUTPUT_IDLE_TIMEOUT;
     busy = true;
     updatePanel();
+
+    if (!isInsideBedcProject()) {
+      navigateTaskBackToProject(task, "outside project before task");
+      return;
+    }
 
     // BEDC ADD: re_extract mode. Server says "this conversation already
     // has the response we want — just navigate there and extract the latest
@@ -1204,7 +1213,7 @@
       setSentPrompt(prompt);
       capturePostSendState();
       try {
-        const response = await waitForResponse(task_id);
+        const response = await waitForResponse(task_id, noOutputIdleTimeout);
         if (!response || response.length < 5) {
           throw new Error(`Resumed wait got no response (${response?.length || 0} chars)`);
         }
@@ -1306,6 +1315,11 @@
         return;
       }
 
+      if (!isInsideBedcProject()) {
+        navigateTaskBackToProject(task, "navigation left project");
+        return;
+      }
+
       // ACK
       try { await serverPost("/ack", { task_id, agent_id: agentId() }); } catch {}
       setTaskPhase("processing");
@@ -1392,7 +1406,7 @@
 
       await sleep(5000); // settle DOM
       capturePostSendState();
-      const response = await waitForResponse(task_id);
+      const response = await waitForResponse(task_id, noOutputIdleTimeout);
 
       if (!response || response.length < 5) {
         throw new Error(`Response too short or empty (${response?.length || 0} chars)`);
@@ -1481,6 +1495,30 @@
   function tabSet(k, v) { return GM_setValue(`${agentId()}_${k}`, v); }
   function tabGet(k, d) { return GM_getValue(`${agentId()}_${k}`, d); }
 
+  function bedcFlagForAgent() {
+    const flagMatch = agentId().match(/^bedc_(\d+)$/);
+    return flagMatch ? flagMatch[1] : (bedcFlagFromUrl() || "1");
+  }
+
+  function projectEntryUrlForAgent() {
+    return `${BEDC_PROJECT_HOME}?bedc=${encodeURIComponent(bedcFlagForAgent())}`;
+  }
+
+  function navigateTaskBackToProject(task, reason) {
+    const taskId = (task && task.task_id) || "";
+    const target = /\/c\/[a-f0-9-]{6,}/.test(window.location.href)
+      ? pinToProject(window.location.href)
+      : projectEntryUrlForAgent();
+    tabSet("navigating", true);
+    tabSet("nav_task_id", taskId);
+    if (task) saveTaskState(task);
+    setTaskPhase("navigating");
+    log(`${reason}; navigating to BEDC Project ${target.slice(-80)}`);
+    busy = false;
+    updatePanel();
+    window.location.href = target;
+  }
+
   // ── Main loop ────────────────────────────────────────────────────────
   function _readActive() {
     try { return sessionStorage.getItem("bedc_active") === "1" && isInsideBedcProject(); }
@@ -1543,6 +1581,10 @@
     const urlHasFlag = window.location.search.includes("bedc=");
     const inFlightId = getInFlightTaskId();
     const inFlightAgeMin = Math.floor(getInFlightAgeMs() / 60000);
+    const storedActive = (() => {
+      try { return sessionStorage.getItem("bedc_active") === "1"; }
+      catch { return false; }
+    })();
 
     if (urlHasFlag && !isInsideBedcProject()) {
       const target = projectEntryUrl();
@@ -1550,6 +1592,8 @@
       window.location.href = target;
       return;
     }
+
+    if ((inFlightId || storedActive) && ensureInProject()) return;
 
     // BEDC ADD: if we have an in-flight task that's clearly stuck (>3h),
     // give up — server's task_timeout (4h) hasn't kicked in yet but we don't
@@ -1570,7 +1614,7 @@
       try {
         await serverPost("/pin-conv-url", {
           task_id: inFlightId,
-          chatgpt_url: window.location.href.split("?")[0],
+          chatgpt_url: currentChatUrl(),
           agent_id: agentId(),
         });
       } catch {}

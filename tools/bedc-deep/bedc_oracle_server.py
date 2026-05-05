@@ -56,7 +56,7 @@ MAX_AGENTS = 3
 TASK_TIMEOUT = 14400  # 4 hours; ChatGPT Pro thinking can be 60+ min/turn
 AGENT_RECENT_SECONDS = 120
 SESSION_IDLE_RETENTION = 14 * 24 * 3600  # keep sessions on disk for 14 days
-MIN_SCRIPT_VERSION = "bedc-1.18"
+MIN_SCRIPT_VERSION = "bedc-1.20"
 BEDC_PROJECT_PREFIX = "/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc"
 BEDC_PROJECT_URL = f"https://chatgpt.com{BEDC_PROJECT_PREFIX}/project"
 
@@ -232,6 +232,33 @@ def _page_in_bedc_project(url: str) -> bool:
     return parsed.netloc in {"chatgpt.com", "chat.openai.com"} and parsed.path.startswith(BEDC_PROJECT_PREFIX)
 
 
+def _cancel_pending_for_agent(agent_id: str, *, reason: str) -> str:
+    """Drop one pending task for an agent that is no longer valid."""
+    task = pending_tasks.pop(agent_id, None)
+    dispatch_times.pop(agent_id, None)
+    recent_agents.pop(agent_id, None)
+    task_id = str((task or {}).get("task_id") or "")
+    if task_id:
+        cancelled_tasks.add(task_id)
+        print(f"[server] Cancelled {task_id} for {agent_id}: {reason}", flush=True)
+    return task_id
+
+
+def _cancel_pending_task_id(task_id: str, *, reason: str) -> str:
+    """Drop whichever agent is holding task_id."""
+    if not task_id:
+        return ""
+    for aid, task in list(pending_tasks.items()):
+        if task.get("task_id") == task_id:
+            pending_tasks.pop(aid, None)
+            dispatch_times.pop(aid, None)
+            recent_agents.pop(aid, None)
+            cancelled_tasks.add(task_id)
+            print(f"[server] Cancelled {task_id} for {aid}: {reason}", flush=True)
+            return aid
+    return ""
+
+
 def _queued_summary(now: float) -> list[dict]:
     items: list[dict] = []
     for task in list(task_queue)[:10]:
@@ -335,20 +362,24 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             compatible_script = _script_version_ok(poll_metrics["script_version"])
             in_project = _page_in_bedc_project(poll_metrics["page_url"])
             with _lock:
+                if not in_project:
+                    cancelled_id = ""
+                    if agent_id in pending_tasks:
+                        cancelled_id = _cancel_pending_for_agent(
+                            agent_id,
+                            reason=f"outside BEDC Project poll ({poll_metrics['page_url'][-80:]})",
+                        )
+                    else:
+                        recent_agents.pop(agent_id, None)
+                    self._send_json({
+                        "status": "cancelled" if cancelled_id else "idle",
+                        "task_id": cancelled_id,
+                        "required_project_url": BEDC_PROJECT_URL,
+                        "reason": "agent outside BEDC Project",
+                    })
+                    return
                 _record_agent_seen(agent_id, event="poll", metrics=poll_metrics)
                 if agent_id in pending_tasks:
-                    if not in_project:
-                        print(
-                            f"[server] Ignored duplicate outside-project poll from {agent_id}: "
-                            f"agent outside BEDC Project ({poll_metrics['page_url'][-80:]})",
-                            flush=True,
-                        )
-                        self._send_json({
-                            "status": "idle",
-                            "required_project_url": BEDC_PROJECT_URL,
-                            "reason": "agent outside BEDC Project",
-                        })
-                        return
                     self._send_json(pending_tasks[agent_id])
                     return
                 if not compatible_script:
@@ -356,13 +387,6 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         "status": "idle",
                         "required_script_version": MIN_SCRIPT_VERSION,
                         "agent_script_version": poll_metrics["script_version"],
-                    })
-                    return
-                if not in_project:
-                    self._send_json({
-                        "status": "idle",
-                        "required_project_url": BEDC_PROJECT_URL,
-                        "reason": "agent outside BEDC Project",
                     })
                     return
                 if task_queue and len(pending_tasks) < MAX_AGENTS:
@@ -416,8 +440,10 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     if recent.get(aid, {}).get("recent", False)
                     and not _busy_agent_is_current(aid, recent.get(aid), task)
                 ]
-                if task_queue and not pending_tasks and not compatible_active_poll:
+                if task_queue and not pending_tasks and not active_poll:
                     diagnosis = "queue_waiting_for_browser_agent"
+                elif task_queue and not pending_tasks and not compatible_active_poll:
+                    diagnosis = "queue_waiting_for_compatible_agent"
                 elif task_queue and not pending_tasks and not project_active_poll:
                     diagnosis = "queue_waiting_for_project_agent"
                 elif pending_tasks:
@@ -596,6 +622,10 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             self._send_json({"error": "task_id and response required"}, 400)
             return
         if not _page_in_bedc_project(data.get("page_url", "")):
+            with _lock:
+                _cancel_pending_task_id(task_id, reason="outside-project result")
+                if agent_id:
+                    recent_agents.pop(agent_id, None)
             print(
                 f"[server] Ignored outside-project result {task_id} "
                 f"page={str(data.get('page_url', ''))[-80:]}",
@@ -714,15 +744,26 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 "chatgpt_url": data.get("chatgpt_url", ""),
             }
         with _lock:
+            in_project = _page_in_bedc_project(metrics.get("page_url", ""))
+            if not in_project:
+                cancelled_id = ""
+                if task_id and pending_tasks.get(agent_id, {}).get("task_id") == task_id:
+                    cancelled_id = _cancel_pending_for_agent(agent_id, reason="outside-project ack/heartbeat")
+                else:
+                    recent_agents.pop(agent_id, None)
+                self._send_json({
+                    "status": "cancelled" if cancelled_id else "ignored_outside_project",
+                    "task_id": cancelled_id or task_id,
+                    "required_project_url": BEDC_PROJECT_URL,
+                    "reason": "agent outside BEDC Project",
+                })
+                return
             _record_agent_seen(agent_id, event=event, metrics=metrics)
             if event == "heartbeat" and task_id:
                 assigned = pending_tasks.get(agent_id)
                 assigned_task_id = str((assigned or {}).get("task_id") or "")
                 still_pending = any(t.get("task_id") == task_id for t in pending_tasks.values())
                 seen_url = str(metrics.get("chatgpt_url") or metrics.get("page_url") or "")
-                if assigned and not _page_in_bedc_project(metrics.get("page_url", "")):
-                    self._send_json({"status": "cancelled", "task_id": task_id})
-                    return
                 if (
                     task_id in cancelled_tasks
                     or (assigned_task_id and assigned_task_id != task_id)
@@ -756,6 +797,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         cancelled_tasks.add(tid)
                     pending_tasks.pop(aid, None)
                     dispatch_times.pop(aid, None)
+                    recent_agents.pop(aid, None)
             elif task_id:
                 kept: deque[dict] = deque()
                 while task_queue:
@@ -772,6 +814,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         cancelled_tasks.add(task_id)
                         pending_tasks.pop(aid, None)
                         dispatch_times.pop(aid, None)
+                        recent_agents.pop(aid, None)
             else:
                 self._send_json({"error": "task_id or all=true required"}, 400)
                 return
@@ -801,6 +844,14 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         chatgpt_url = data.get("chatgpt_url", "")
         if not task_id or not chatgpt_url:
             self._send_json({"error": "task_id and chatgpt_url required"}, 400)
+            return
+        if not _page_in_bedc_project(chatgpt_url):
+            self._send_json({
+                "status": "ignored_outside_project",
+                "task_id": task_id,
+                "required_project_url": BEDC_PROJECT_URL,
+                "reason": "chatgpt_url outside BEDC Project",
+            })
             return
         with _lock:
             # Find the conversation_id from result record OR pending task

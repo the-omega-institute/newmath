@@ -29,4 +29,18 @@ theorem ComplexTopologyOpenDiskGap_density_witness_with_boundary
         (fun _n _unary => Exists.intro gap (And.intro disk boundary))))
     (fun _n _unary => Exists.intro gap (And.intro disk boundary))
 
+theorem ComplexTopologyOpenDiskGap_constant_density_witness
+    {center radius point gap : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap ->
+      ComplexTopologyDensityWitness center radius point (fun _ : BHist => point) ∧
+        Cont point gap radius := by
+  intro disk
+  exact And.intro
+    (Exists.intro gap
+      (And.intro disk
+        (by
+          intro n _unaryN
+          exact Exists.intro gap (And.intro disk disk.right.right.right.right))))
+    disk.right.right.right.right
+
 end BEDC.Derived.ComplexTopologyUp
