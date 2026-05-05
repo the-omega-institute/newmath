@@ -6,5 +6,137 @@ The Hilbert-space interface $\HilbertUp$ packages a Banach space whose norm is i
 \section{Carrier definition}
 \label{sec:hilbert-carrier}
 
+\begin{definition}[Hilbert singleton empty-history carrier]
+\label{def:hilbert-singleton-empty-history-carrier}
+The concrete $\HilbertUp$ carrier is the singleton empty-history Banach
+carrier of \autoref{def:banach-singleton-empty-history-instance}, read over
+the singleton empty-history vector space of
+\autoref{def:singleton-empty-history-vecspace-instance}. Thus the vector
+carrier is $A_{\emp}$, the vector classifier is $\rho_{\emp}$, the normed
+carrier is the singleton $\BanachUp$ carrier, and the norm is
+$\nu_{\emp}$.
+
+The inner-product row is the constant-zero RealUp endpoint
+$$
+\langle m,n\rangle_{\emp}:=0_{\mathsf{Real}}^{c}
+$$
+for all displayed vector histories $m,n:\mathsf{BHist}$. Its scalar-side
+classifier is $\mathsf{RealConstantHistoryClassifier}$. The induced norm row
+is read by the same constant endpoint:
+$$
+\|\!m\!\|_{\langle,\rangle_{\emp}}:=0_{\mathsf{Real}}^{c}.
+$$
+Hence the induced norm is the singleton $\NormUp$ norm $\nu_{\emp}$ from
+\autoref{def:singleton-empty-history-norm-instance}. The ledger records the
+singleton vector-space source, the Banach singleton carrier, and the RatUp zero
+witness sealed as the RealUp constant endpoint.
+\end{definition}
+
 \section{The certificate}
 \label{sec:hilbert-certificate}
+
+\begin{theorem}[Hilbert singleton inner-product norm compatibility]
+\label{thm:hilbert-singleton-inner-product-norm-compatibility}
+For the carrier of
+\autoref{def:hilbert-singleton-empty-history-carrier}, the norm induced by
+$\langle-,-\rangle_{\emp}$ agrees with the singleton norm $\nu_{\emp}$:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\|\!m\!\|_{\langle,\rangle_{\emp}},\nu_{\emp}(m))
+$$
+for every carried $m:\mathsf{BHist}$. Moreover positive definiteness of the
+inner-product row collapses to the singleton vector classifier:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle m,m\rangle_{\emp},0_{\mathsf{Real}}^{c})
+\Longleftrightarrow
+\rho_{\emp}(m,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The induced norm and $\nu_{\emp}$ are both the constant endpoint
+$0_{\mathsf{Real}}^{c}$. The carrier and classifier rows of
+\autoref{thm:singleton-empty-history-norm-carrier-classifier} give the RealUp
+constant-history classifier for this endpoint, so the two norm presentations
+are classified together.
+
+For positive definiteness in the forward direction, the inner-product value
+$\langle m,m\rangle_{\emp}$ is again $0_{\mathsf{Real}}^{c}$. Apply
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse} to the
+carried vector endpoint. It identifies $m$ with $\emp$ under $\rho_{\emp}$.
+
+For the reverse direction, assume $\rho_{\emp}(m,\emp)$. The inner-product row
+does not inspect the representative; it returns $0_{\mathsf{Real}}^{c}$ for
+every pair. The zero-exactness boundary of
+\autoref{thm:singleton-empty-history-norm-zero-exactness}, together with the
+constant-real classifier already supplied by the singleton norm carrier,
+repackages the row as
+$\mathsf{RealConstantHistoryClassifier}
+(\langle m,m\rangle_{\emp},0_{\mathsf{Real}}^{c})$.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton complete normed certificate]
+\label{thm:hilbert-singleton-complete-normed-certificate}
+The normed part of
+\autoref{def:hilbert-singleton-empty-history-carrier} is complete. Every
+regular Cauchy stream carried by $A_{\emp}$ has selected limit $\emp$, every
+late distance-to-limit row is classified with $0_{\mathsf{Real}}^{c}$, and any
+two selected Banach limit witnesses are classified by $\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+Use the singleton Banach carrier of
+\autoref{def:banach-singleton-empty-history-instance}. Its metric is the
+constant RealUp zero endpoint and its limit-selection rule sends every
+certified regular Cauchy stream to $\emp$.
+
+The complete-metric laws are supplied by
+\autoref{thm:singleton-complete-metric-laws}. They give the carried singleton
+limit, the empty modulus, and the late-observation ledgers for the constant
+zero metric.
+
+Finally apply
+\autoref{thm:banach-singleton-limit-namecert-uniqueness} to compare any two
+Banach limit witnesses for the same stream. In the singleton vector carrier,
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse} reads that
+comparison as the classifier row $\rho_{\emp}$, so the complete normed
+certificate is the Banach singleton certificate read through the Hilbert
+carrier.
+\end{proof}
+
+\begin{theorem}[Hilbert NameCert obligation package]
+\label{thm:hilbert-namecert-obligation-package}
+The carrier of
+\autoref{def:hilbert-singleton-empty-history-carrier}, together with the two
+certificate rows
+\autoref{thm:hilbert-singleton-inner-product-norm-compatibility} and
+\autoref{thm:hilbert-singleton-complete-normed-certificate}, assembles the
+paper-side $\NameCert_{\HilbertUp}$ obligation package. Its carrier is
+$A_{\emp}$, its classifier is $\rho_{\emp}$, its inner-product row is
+$\langle-,-\rangle_{\emp}$, its induced norm is $\nu_{\emp}$, its completeness
+field is the singleton Banach limit rule, its ledger is the union of the
+singleton vector-space, norm, inner-product zero-row, and Banach-completion
+ledgers, and its bridge status is none.
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are copied from the singleton empty-history
+vector-space certificate. The Banach source is exactly
+\autoref{def:banach-singleton-empty-history-instance}, so the normed carrier
+and metric rows are already present before the Hilbert row is attached.
+
+The inner-product compatibility field is
+\autoref{thm:hilbert-singleton-inner-product-norm-compatibility}. It identifies
+the induced norm with $\nu_{\emp}$ and reflects positive definiteness back to
+the singleton classifier against $\emp$.
+
+The completeness field is
+\autoref{thm:hilbert-singleton-complete-normed-certificate}. It supplies the
+selected limit, the convergence ledgers, and classifier uniqueness for
+regular Cauchy streams in the norm induced by the inner product.
+
+Combining these rows gives the local $\HilbertUp$ naming certificate: the
+traditional target is the one-point Hilbert space, the BEDC source is
+$\mathsf{BHist}$, the carrier and classifier are $A_{\emp}$ and
+$\rho_{\emp}$, the stability rows are constant-zero classifier transport, the
+exactness row is positive definiteness against $\emp$, the ledger records the
+shared singleton provenance, and no standard bridge is claimed here.
+\end{proof}
