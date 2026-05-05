@@ -622,23 +622,56 @@ nonempty rows for $D$ and $E$.
 
 Unfold
 \autoref{def:real-constant-malformed-sealed-denominator-display} at
-$\Eone(D)$. In the sealed-empty branch, e-one constructor inversion turns
-$\hsame(\Eone(D),\Eone(\emp))$ into $D\hsame\emp$, contradicting the nonempty
-row for $D$ from the package.
+$\Eone(D)$. The endpoint $D$ has three branches.
+\begin{enumerate}
+  \item In the sealed-empty branch, e-one constructor inversion turns
+  $\hsame(\Eone(D),\Eone(\emp))$ into $D\hsame\emp$, contradicting the
+  nonempty row for $D$ from the package.
 
-In the sealed appended e-zero branch, use the displayed witnesses $p,z$.
-E-one constructor inversion turns
-$\hsame(\Eone(D),\Eone(p\cdot\Ezero(z)))$ into
-$D\hsame p\cdot\Ezero(z)$. Transport the positive-denominator witness for
-$D$ across this sameness by
-\autoref{thm:rat-positive-unary-denominator-hsame-transport}; the transported
-witness contradicts
-\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+  \item In the sealed inner e-zero branch, use the displayed witness $t$.
+  E-one constructor inversion turns
+  $\hsame(\Eone(D),\Eone(\Ezero(t)))$ into $D\hsame\Ezero(t)$. Transport the
+  positive-denominator witness for $D$ across this sameness by
+  \autoref{thm:rat-positive-unary-denominator-hsame-transport}; the
+  transported witness contradicts
+  \autoref{thm:rat-positive-denominator-e0-absurd}.
 
-The endpoint $E$ is identical. The sealed-empty branch contradicts the
-nonempty row $E\hsame\emp\Longrightarrow\bot$, and the sealed appended
-e-zero branch transports the positive-denominator witness for $E$ to
-$p\cdot\Ezero(z)$ before applying the same appended e-zero absurdity theorem.
+  \item In the sealed appended e-zero branch, use the displayed witnesses
+  $p,z$. E-one constructor inversion turns
+  $\hsame(\Eone(D),\Eone(p\cdot\Ezero(z)))$ into
+  $D\hsame p\cdot\Ezero(z)$. Transport the positive-denominator witness for
+  $D$ across this sameness by
+  \autoref{thm:rat-positive-unary-denominator-hsame-transport}; the
+  transported witness contradicts
+  \autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+\end{enumerate}
+
+Unfold
+\autoref{def:real-constant-malformed-sealed-denominator-display} at
+$\Eone(E)$. The endpoint $E$ has the same three branches.
+\begin{enumerate}
+  \item In the sealed-empty branch, e-one constructor inversion turns
+  $\hsame(\Eone(E),\Eone(\emp))$ into $E\hsame\emp$, contradicting the
+  nonempty row for $E$ from the package.
+
+  \item In the sealed inner e-zero branch, use the displayed witness $t$.
+  E-one constructor inversion turns
+  $\hsame(\Eone(E),\Eone(\Ezero(t)))$ into $E\hsame\Ezero(t)$. Transport the
+  positive-denominator witness for $E$ across this sameness by
+  \autoref{thm:rat-positive-unary-denominator-hsame-transport}; the
+  transported witness contradicts
+  \autoref{thm:rat-positive-denominator-e0-absurd}.
+
+  \item In the sealed appended e-zero branch, use the displayed witnesses
+  $p,z$. E-one constructor inversion turns
+  $\hsame(\Eone(E),\Eone(p\cdot\Ezero(z)))$ into
+  $E\hsame p\cdot\Ezero(z)$. Transport the positive-denominator witness for
+  $E$ across this sameness by
+  \autoref{thm:rat-positive-unary-denominator-hsame-transport}; the
+  transported witness contradicts
+  \autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+\end{enumerate}
+
 These two endpoint exclusions are exactly $M(D,E)$ for each of the four
 bridge-row implications.
 \end{proof}
@@ -648,8 +681,8 @@ traditional target constant rational bridge denominator sanity; BEDC source
 RatUp plus StreamNameUp plus RealUp over $\mathsf{BHist}$; carrier the
 appended-tail rational histories $D,E$; classifiers the four concrete rows
 $A,B,U,C$; stability from denominator package readback, e-one inversion, and
-positive-denominator transport; ledger malformed sealed empty and appended
-e-zero displays; core theorem
+positive-denominator transport; ledger malformed sealed empty, inner e-zero,
+and appended e-zero displays; core theorem
 \autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion};
 exactness the common exclusion predicate for all bridge rows; standard bridge
 RegSeqRat constant embedding denominator sanity; status $\mathsf{ProofTarget}$.
