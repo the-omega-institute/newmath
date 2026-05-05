@@ -110,4 +110,16 @@ theorem IteratedStrictCplxDiff_add_closed_strict_prefix_readback
               exact And.intro joined
                 (fun seedUnary => IteratedStrictCplxDiff_strict_prefix seedUnary joined)
 
+theorem IteratedStrictCplxDiff_add_closed_endpoint_hsame_absurd
+    {seed middle target : BHist} {n m : Nat} :
+    UnaryHistory seed -> IteratedStrictCplxDiff seed n middle ->
+      IteratedStrictCplxDiff middle (Nat.succ m) target -> hsame seed target -> False := by
+  intro seedUnary left right sameEndpoint
+  have joined := IteratedStrictCplxDiff_add_closed_strict_prefix_readback left right
+  have strictPrefix : NatUnaryStrictPrefix seed target := joined.right seedUnary
+  cases strictPrefix with
+  | intro tail data =>
+      exact NatUnaryStrictPrefix_tail_endpoint_hsame_absurd
+        data.left data.right.left data.right.right sameEndpoint
+
 end BEDC.Derived.HolomorphicUp

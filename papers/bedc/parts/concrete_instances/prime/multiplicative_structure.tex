@@ -9,7 +9,6 @@ For unary histories \(d, q, n\) with \(\mathsf{Unary}(d)\), \(\mathsf{Unary}(q)\
 \end{enumerate}
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.NatMul}
-
 \begin{lemma}[Unary multiplication successor inversion]
 \label{lem:nat-mul-succ-inversion}
 If $\mathsf{NatMul}(d,\Eone(q),n')$, then there is a predecessor product
@@ -21,7 +20,6 @@ $\mathsf{NatMul}$. The displayed predecessor product and continuation
 witness are exactly the constructor payloads.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}
-
 \begin{lemma}[Unary multiplication exponent-result cases]
 \label{lem:nat-mul-exponent-result-cases}
 Every witness of \(\mathsf{NatMul}(d,q,n)\) is either the empty exponent
@@ -36,7 +34,6 @@ empty exponent and empty result. The successor constructor exposes exactly the
 predecessor exponent, predecessor product, and final continuation payload.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_exponent\_result\_cases}
-
 \begin{lemma}[Empty left unary multiplication has empty result]
 \label{lem:natmul-empty-left-result-empty}
 If \(\mathsf{NatMul}(\emp,q,n)\), then \(n\hsame\emp\).
@@ -48,7 +45,6 @@ the previous product with \(\emp\), and the final continuation is therefore an
 empty-left continuation whose result is \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_left\_result\_empty}
-
 \begin{theorem}[Successor multiplication with empty result has empty left factor]
 \label{thm:natmul-succ-result-empty-left-empty}
 If \(\mathsf{NatMul}(d,\Eone(q),n)\) and \(n\hsame\emp\), then \(d\hsame\emp\).
@@ -60,7 +56,6 @@ Invert the successor multiplication witness. Its final step is a continuation
 the left multiplicand \(d\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_empty\_left\_empty}
-
 \begin{theorem}[Successor multiplication has positive result shape]
 \label{thm:natmul-succ-result-positive-shape}
 If $\mathsf{NatMul}(d,\Eone(q),n)$ and $d$ is not history-same to
@@ -78,7 +73,6 @@ has result $\Eone(\mathsf{append}(n_0,t))$, whose tail is unary by append
 closure.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_positive\_shape}
-
 \begin{theorem}[Nonempty multiplier multiplication has positive result shape]
 \label{thm:natmul-nonempty-multiplier-result-positive-shape}
 If $\mathsf{NatMul}(d,q,n)$, $q$ is not history-same to $\emp$, and $d$ is not
@@ -95,7 +89,6 @@ unary exactness. Hence $q=\Eone(q_0)$, and
 multiplication witness and the nonempty multiplicand.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_multiplier\_result\_positive\_shape}
-
 \begin{theorem}[Successor multiplication empty result exactness]
 \label{thm:nat-mul-succ-result-empty-left-empty-iff}
 If $\mathsf{NatMul}(d,\Eone(q),n)$, then the result is empty exactly when the
@@ -110,7 +103,6 @@ reverse implication, identify $d$ with $\emp$ and apply the empty-left
 multiplication result theorem to the same multiplication witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_empty\_left\_empty\_iff}
-
 \begin{lemma}[Unary multiplication right operand is unary]
 \label{lem:nat-mul-right-unary}
 Every closed witness of $\mathsf{NatMul}(d,q,n)$ carries a unary multiplier
@@ -122,7 +114,6 @@ $\emp$, and the successor constructor applies $\Eone$ to the previous unary
 multiplier.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_right\_unary}
-
 \begin{lemma}[Unary multiplication is functional]
 \label{lem:nat-mul-functional}
 For each pair of unary histories \((d, q)\), there is at most one unary \(n\) with \(\mathsf{NatMul}(d, q, n)\), up to \(\hsame\).
@@ -131,7 +122,6 @@ For each pair of unary histories \((d, q)\), there is at most one unary \(n\) wi
 By induction on the second argument \(q\), using the determinacy of \(\Cont\) at each appending step.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_functional}
-
 \begin{theorem}[Nonempty multiplicand result cancellation]
 \label{thm:natmul-nonempty-multiplicand-result-cancel}
 Let $d$ be a unary history with $d\not\hsame\emp$. If
@@ -167,6 +157,21 @@ multiplication. Since unary histories are determined by their word length, the
 two multiplication ledgers have history-same results.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_comm\_hsame}
+
+\begin{theorem}[Unary multiplication associates up to history sameness]
+\label{thm:natmul-assoc-hsame}
+For unary histories \(a,b,c\), if \(ab\) realizes \(\mathsf{NatMul}(a,b,-)\),
+\(\ell\) realizes \(\mathsf{NatMul}(ab,c,-)\), \(bc\) realizes
+\(\mathsf{NatMul}(b,c,-)\), and \(r\) realizes \(\mathsf{NatMul}(a,bc,-)\),
+then \(\ell\hsame r\).
+\end{theorem}
+\begin{proof}
+Both displayed products are unary. Their BEDC word lengths read back as
+\((|a|\cdot |b|)\cdot |c|\) and \(|a|\cdot(|b|\cdot |c|)\), respectively;
+natural-number associativity identifies these lengths, and unary length
+readback identifies the two histories up to \(\hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_assoc\_hsame}
 
 \begin{lemma}[Unary multiplication is total on unary inputs]
 \label{lem:nat-mul-total}
