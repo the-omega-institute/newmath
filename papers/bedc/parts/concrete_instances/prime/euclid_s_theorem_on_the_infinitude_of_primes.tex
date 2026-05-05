@@ -34,6 +34,24 @@ exactly the predecessor factorial witness and the multiplication witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatFact\_successor\_inversion}
 
+\begin{theorem}[Factorial successor input divides its result]
+\label{thm:natfact-successor-input-divides-result}
+If \(\mathsf{NatFact}(\Eone(n),m)\), then the successor input
+\(\Eone(n)\) divides the factorial result \(m\):
+$$
+\mathsf{NatFact}(\Eone(n),m)\Longrightarrow
+\mathsf{NatDivides}(\Eone(n),m).
+$$
+\end{theorem}
+\begin{proof}
+Successor inversion exposes a predecessor factorial value \(m_0\) together
+with a multiplication witness
+\(\mathsf{NatMul}(\Eone(n),m_0,m)\). The predecessor factorial result is unary
+by factorial result closure. Thus \(m_0\) is a valid quotient witness in the
+existential definition of \(\mathsf{NatDivides}(\Eone(n),m)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_successor\_input\_divides\_result}
+
 \begin{lemma}[Unary factorial results are nonempty]
 \label{lem:nat-fact-result-not-empty}
 Every closed witness of $\mathsf{NatFact}(n,m)$ has a result $m$ distinct
