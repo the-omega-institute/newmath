@@ -17,6 +17,18 @@ def ListSpineBridgeClassifier (A : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
 def ListSpineHistoryCarrier (A : BHist -> Prop) (h : BHist) : Prop :=
   exists xs : ListCarrier BHist, ListSpineRep A h xs
 
+theorem ListSpineRep_self_classifier {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert A Rel) {p : BHist} {xs : ListCarrier BHist} :
+    ListSpineRep A p xs -> ListClassifierSpec Rel xs xs := by
+  intro rep
+  induction rep with
+  | nil _endpoint =>
+      constructor
+  | cons head _tail _spine _endpoint ih =>
+      constructor
+      · exact cert.equiv_refl head
+      · exact ih
+
 protected theorem ListSpineBridgeClassifier_stability_from_cons_boundary {A : BHist -> Prop}
     {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
     (boundary :
