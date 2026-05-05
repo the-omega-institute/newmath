@@ -112,6 +112,27 @@ $$
 \mathsf{CompactNetWitness}(n,\eta,m).
 $$
 \end{definition}
+\leandef{BEDC.Derived.CompactUp.CompactNetTwoStepFactor}
+
+\begin{theorem}[Two-step compact net factor composed closure]
+\label{thm:compact-net-two-step-factor-composed-closed}
+For histories $c,\epsilon,\eta,\theta,m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$, $\mathsf{UnaryHistory}(\eta)$, and
+$\Cont(\epsilon,\eta,\theta)$. Then every displayed two-step factor composes
+to a compact-net witness at the composite precision:
+$$
+\mathsf{CompactNetTwoStepFactor}(c,\epsilon,\eta,m)
+\Longrightarrow
+\mathsf{CompactNetWitness}(c,\theta,m).
+$$
+\end{theorem}
+\begin{proof}
+Choose the intermediate net from the two-step factor. Apply prefixed composite
+closure with the empty visible prefix to compose the two compact-net witnesses
+through $\Cont(\epsilon,\eta,\theta)$. The compact-net prefix equivalence then
+removes the empty prefix and returns the unprefixed witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetTwoStepFactor\_composed\_closed}
 
 \begin{theorem}[Prefixed composite compact net witness exactness]
 \label{thm:compact-net-witness-prefixed-composite-iff}

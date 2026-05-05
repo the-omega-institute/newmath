@@ -374,6 +374,21 @@ constructor disjointness of \(\mathsf{e1}\) and \(\emp\) in \(\mathsf{BHist}\).
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.OpenDiskGap\_e1\_point\_empty\_radius\_absurd}
 
+\begin{theorem}[Open disk empty radius excludes zero-visible points]
+\label{thm:holo-open-disk-e0-point-empty-radius-absurd}
+For every complex center \(z_0\), zero-visible point \(\mathsf{e0}(z)\), and
+gap history \(g\), the concrete open-disk gap predicate with empty radius leads
+to contradiction.
+\end{theorem}
+\begin{proof}
+Unpack the concrete gap predicate to obtain
+\(\mathsf{Cont}(\mathsf{e0}(z),g,\emp)\). Empty-result inversion for
+continuations identifies the zero-visible point endpoint with \(\emp\), which
+contradicts constructor disjointness of \(\mathsf{e0}\) and \(\emp\) in
+\(\mathsf{BHist}\).
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDiskGap\_e0\_point\_empty\_radius\_absurd}
+
 \begin{lemma}[Open disk endpoint transport]
 \label{lem:open-disk-endpoint-transport}
 If the center and point are transported by the complex-history classifier, the radius is transported by \(\hsame\), and the same unary gap continues the point to the radius, then \(\mathsf{OpenDisk}(z_0, r, z)\) transports to \(\mathsf{OpenDisk}(z_0', r', z')\).
@@ -452,6 +467,20 @@ the point endpoint and the gap endpoint with $\emp$, while the original ledger
 and unary gap witness remain part of the displayed boundary data.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskWitnessed\_empty\_radius\_boundary}
+
+\begin{theorem}[Holomorphic open disk empty-radius boundary]
+\label{thm:holomorphic-open-disk-empty-radius-boundary}
+If \(\mathsf{HolomorphicOpenDisk}(z_0,r,z,g)\) holds and \(r\hsame\emp\),
+then both the displayed point and boundary gap are empty endpoints:
+\(z\hsame\emp\land g\hsame\emp\).
+\end{theorem}
+\begin{proof}
+The concrete disk predicate contains the boundary ledger \(\ContR(z,g,r)\).
+Transporting its result along \(r\hsame\emp\) gives a continuation into the
+empty history. Empty-result inversion for continuation then identifies both
+inputs with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_empty\_radius\_boundary}
 
 \section{Holomorphic predicate}
 
@@ -695,6 +724,41 @@ hypothesis to the previous endpoint and append the final strict continuation.
 The strict-prefix readback theorem applies to the concatenated nonempty chain.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_add\_closed\_strict\_prefix\_readback}
+
+\begin{theorem}[Strict iterated complex differentiability with ordinary suffix readback]
+\label{thm:iterated-strict-cplxdiff-ordinary-suffix-strict-prefix-readback}
+If a strict iterated complex-differentiability chain carries a seed to a
+middle history in at least one stage, and an ordinary iterated chain carries
+that middle history to a target history, then the combined ordinary chain
+starts at the seed and has the summed length. Unary readback from the seed
+still exposes a strict unary prefix into the target.
+\end{theorem}
+\begin{proof}
+Forget the strict left chain to an ordinary iterated chain and concatenate it
+with the ordinary suffix. For the prefix readback, induct over the ordinary
+suffix. The zero case transports the strict prefix through the endpoint
+comparison. In the successor case, the induction hypothesis gives a strict
+prefix into the previous endpoint, and the final ordinary continuation gives
+a unary weak prefix from that endpoint to the target; strict prefix is closed
+under such a right extension.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_ordinary\_suffix\_strict\_prefix\_readback}
+
+\begin{theorem}[Strict iterated concatenation rejects a closed endpoint]
+\label{thm:iterated-strict-cplxdiff-add-closed-endpoint-hsame-absurd}
+If a strict iterated chain carries a unary seed to a middle history and a
+second strict chain carries that middle history through at least one nonempty
+step to a target, then the concatenated target cannot be history-same to the
+seed.
+\end{theorem}
+\begin{proof}
+The additive strict-prefix readback theorem concatenates the two chains and
+extracts a strict unary prefix from the seed to the target. Unpacking that
+prefix gives a nonempty unary tail and a continuation from the seed to the
+target. Endpoint \(\hsame\) cancellation forces that tail to be empty,
+contradicting strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_add\_closed\_endpoint\_hsame\_absurd}
 
 \section{The seed fields}
 

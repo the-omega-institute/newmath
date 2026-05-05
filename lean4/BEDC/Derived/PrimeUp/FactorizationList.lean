@@ -1,3 +1,4 @@
+import BEDC.Derived.PrimeUp.NatMulTransport
 import BEDC.Derived.PrimeUp.PrimeShape
 
 namespace BEDC.Derived.PrimeUp
@@ -27,6 +28,35 @@ theorem PrimeFactorization_cons_head_divides {p n : BHist} {ps : List BHist} :
             | intro tailProduct tailData =>
                 exact Exists.intro tailProduct
                   (And.intro (NatMul_right_unary tailData.right) tailData.right)
+
+theorem PrimeFactorizationProduct_result_hsame_transport {ps : List BHist} {n n' : BHist} :
+    PrimeFactorizationProduct ps n -> hsame n n' -> PrimeFactorizationProduct ps n' := by
+  intro product sameResult
+  cases ps with
+  | nil =>
+      exact hsame_trans (hsame_symm sameResult) product
+  | cons p ps =>
+      cases product with
+      | intro pPrime productTail =>
+          cases productTail with
+          | intro tailProduct tailData =>
+              exact And.intro pPrime
+                (Exists.intro tailProduct
+                  (And.intro tailData.left
+                    (NatMul_result_hsame_transport tailData.right sameResult).right))
+
+theorem PrimeFactorizationProduct_result_unary {ps : List BHist} {n : BHist} :
+    PrimeFactorizationProduct ps n -> UnaryHistory n := by
+  intro product
+  induction ps generalizing n with
+  | nil =>
+      exact unary_transport (unary_e1_closed unary_empty) (hsame_symm product)
+  | cons _p _ps _ih =>
+      cases product with
+      | intro pPrime productTail =>
+          cases productTail with
+          | intro _tailProduct tailData =>
+              exact NatMul_result_unary pPrime.left tailData.right
 
 theorem PrimeFactorizationProduct_result_not_empty {ps : List BHist} {n : BHist} :
     PrimeFactorizationProduct ps n -> hsame n BHist.Empty -> False := by
