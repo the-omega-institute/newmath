@@ -64,4 +64,41 @@ theorem RealStreamClassifier_transported_contextual_full_endpoint_package
   exact RealStreamClassifier_selected_contextual_full_endpoint_package transported prefUnary
     tailUnary prefSame tailSame prefCont outXCont prefYCont outYCont outXOne outYOne
 
+theorem RealStreamClassifier_transported_contextual_e1_tail_determinacy
+    {x x' y y' prefX prefY tailX tailY midX midY outX outY : Nat -> BHist}
+    {n : Nat} {a a' b b' : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y -> UnaryHistory (prefX n) -> UnaryHistory (tailX n) ->
+          hsame (prefX n) (prefY n) -> hsame (tailX n) (tailY n) ->
+            Cont (prefX n) (x' n) (midX n) -> Cont (midX n) (tailX n) (outX n) ->
+              Cont (prefY n) (y' n) (midY n) -> Cont (midY n) (tailY n) (outY n) ->
+                hsame (outX n) (BHist.e1 a) -> hsame (outX n) (BHist.e1 a') ->
+                  hsame (outY n) (BHist.e1 b) -> hsame (outY n) (BHist.e1 b') ->
+                    UnaryHistory a ∧ UnaryHistory a' ∧ UnaryHistory b ∧ UnaryHistory b' ∧
+                      hsame a a' ∧ hsame b b' ∧ hsame a b ∧ hsame a' b' := by
+  intro sameX sameY classified prefUnary tailUnary prefSame tailSame prefCont outXCont
+    prefYCont outYCont outXOne outXOne' outYOne outYOne'
+  have first := RealStreamClassifier_transported_contextual_full_endpoint_package
+    (leftTail := a) (rightTail := b) (zX := a) (zY := b) sameX sameY classified
+    prefUnary tailUnary prefSame tailSame prefCont outXCont prefYCont outYCont
+    outXOne outYOne
+  have second := RealStreamClassifier_transported_contextual_full_endpoint_package
+    (leftTail := a') (rightTail := b') (zX := a') (zY := b') sameX sameY classified
+    prefUnary tailUnary prefSame tailSame prefCont outXCont prefYCont outYCont
+    outXOne' outYOne'
+  have firstTails := first.right.right.right.right.right.right.right.right.right
+  have secondTails := second.right.right.right.right.right.right.right.right.right
+  have sameAA' : hsame a a' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm outXOne) outXOne')
+  have sameBB' : hsame b b' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm outYOne) outYOne')
+  exact And.intro firstTails.left
+    (And.intro secondTails.left
+      (And.intro firstTails.right.left
+        (And.intro secondTails.right.left
+          (And.intro sameAA'
+            (And.intro sameBB'
+              (And.intro firstTails.right.right secondTails.right.right))))))
+
 end BEDC.Derived.RealUp

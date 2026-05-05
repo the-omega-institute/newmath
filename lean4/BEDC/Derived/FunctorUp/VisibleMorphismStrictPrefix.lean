@@ -36,4 +36,17 @@ theorem FunctorPrefixHomCarrier_e1_visible_morphism_unique_strict_boundary
     FunctorPrefixHomCarrier_e1_visible_morphism_endpoint_hsame_absurd left tailNonempty
   exact And.intro sameTail (And.intro strictBoundary endpointAbsurd)
 
+theorem FunctorPrefixHomCarrier_e1_visible_morphism_payload_deterministic
+    {p p' a a' r r' k k' : BHist} :
+    hsame p p' -> hsame a a' -> hsame r r' ->
+      CategoryHomCarrier (append p (BHist.e1 a)) (append p (BHist.e1 r)) (BHist.e1 k) ->
+        CategoryHomCarrier (append p' (BHist.e1 a')) (append p' (BHist.e1 r'))
+          (BHist.e1 k') ->
+          hsame k k' := by
+  intro samePrefix sameSource sameTarget left right
+  cases samePrefix
+  cases sameSource
+  cases sameTarget
+  exact hsame_e1_iff.mp (CategoryHomCarrier_morphism_deterministic left right)
+
 end BEDC.Derived.FunctorUp
