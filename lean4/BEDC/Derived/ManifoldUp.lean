@@ -85,6 +85,21 @@ theorem ManifoldSingleton_chart_value_transport {h k : BHist} :
       (And.intro kRows.right.left
         (And.intro hRows.right.right kRows.right.right)))
 
+structure ManifoldChartCoordinateTransportRow where
+  package : BHist
+  chartIndex : BHist
+  source : BHist
+  target : BHist
+  sourceCarrier : ManifoldSingletonCarrier source
+  targetCarrier : ManifoldSingletonCarrier target
+  sourceValue : BHist
+  targetValue : BHist
+  sourceReadback : Cont BHist.Empty source sourceValue
+  targetReadback : Cont BHist.Empty target targetValue
+  coordinateClassified : hsame sourceValue targetValue
+  sourceUnary : UnaryHistory sourceValue
+  targetUnary : UnaryHistory targetValue
+
 theorem ManifoldSingleton_atlas_index_exhaustion {chart overlap domain : BHist} :
     ManifoldSingletonCarrier chart -> Cont BHist.Empty chart domain -> Cont chart chart overlap ->
       hsame chart BHist.Empty ∧ hsame domain BHist.Empty ∧ hsame overlap BHist.Empty ∧
@@ -107,5 +122,22 @@ theorem ManifoldSingleton_atlas_index_exhaustion {chart overlap domain : BHist} 
     unary_transport unary_empty (hsame_symm overlapEmpty)
   exact And.intro chartEmpty
     (And.intro domainEmpty (And.intro overlapEmpty (And.intro domainUnary overlapUnary)))
+
+theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
+    ManifoldSingletonCarrier source -> ManifoldSingletonCarrier target -> Cont source target result ->
+      hsame result BHist.Empty ∧ hsame result source ∧ hsame result target ∧
+        UnaryHistory result := by
+  intro sourceCarrier targetCarrier transition
+  have emptyTransition : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  have resultEmpty : hsame result BHist.Empty :=
+    cont_respects_hsame sourceCarrier targetCarrier transition emptyTransition
+  have resultSource : hsame result source :=
+    hsame_trans resultEmpty (hsame_symm sourceCarrier)
+  have resultTarget : hsame result target :=
+    hsame_trans resultEmpty (hsame_symm targetCarrier)
+  have resultUnary : UnaryHistory result :=
+    unary_transport unary_empty (hsame_symm resultEmpty)
+  exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
 
 end BEDC.Derived.ManifoldUp
