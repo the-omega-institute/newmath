@@ -80,6 +80,11 @@ def NumFieldRatReflexiveCarrier (h : BHist) : Prop :=
     RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
       Cont BHist.Empty h (FieldExtSingletonEmbedding h)
 
+def NumFieldRatReflexiveSingletonBasisRow (h coord support : BHist) : Prop :=
+  support = BHist.Empty ∧ NumFieldRatReflexiveCarrier h ∧
+    Cont h BHist.Empty coord ∧ RatHistoryClassifier coord h ∧
+      RatHistoryCarrier (FieldExtSingletonEmbedding h)
+
 def NumFieldRatReflexiveClassifier (h k : BHist) : Prop :=
   NumFieldRatReflexiveCarrier h ∧ NumFieldRatReflexiveCarrier k ∧ RatHistoryClassifier h k
 
@@ -122,6 +127,16 @@ theorem NumFieldRatReflexive_finite_basis_witness {h : BHist} :
     RatHistoryClassifier_append_unary_denominator_closed sourceClassified
       (unary_e1_closed unary_empty) (hsame_refl (BHist.e1 BHist.Empty))
   exact And.intro basisCarrier (And.intro basisContinuation appendedClassified)
+
+theorem NumFieldRatReflexive_basis_support_boundary :
+    BEDC.Derived.VecSpaceUp.VecSpaceSingletonCarrier BHist.Empty ∧
+      BEDC.Derived.FieldUp.FieldSingletonCarrier BHist.Empty ∧
+        (RatHistoryCarrier BHist.Empty -> False) := by
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro (hsame_refl BHist.Empty)
+      (by
+        intro ratEmpty
+        exact RatHistoryCarrier_not_empty ratEmpty (hsame_refl BHist.Empty)))
 
 theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     RatHistoryCarrier m -> Cont m BHist.Empty coord ->
@@ -426,9 +441,48 @@ theorem NumFieldRatReflexive_ledger_exactness
     (And.intro fieldRows.right.left
       (And.intro fieldRows.right.right.left
         (And.intro fieldRows.right.right.right.left
-          (And.intro fieldRows.right.right.right.right.left
-            (And.intro fieldRows.right.right.right.right.right.left
-              (And.intro fieldRows.right.right.right.right.right.right coordClassifier))))))
+            (And.intro fieldRows.right.right.right.right.left
+              (And.intro fieldRows.right.right.right.right.right.left
+                (And.intro fieldRows.right.right.right.right.right.right coordClassifier))))))
+
+theorem NumFieldRatReflexive_scoped_namecert_certificate :
+    SemanticNameCert NumFieldRatReflexiveCarrier NumFieldRatReflexiveCarrier
+        NumFieldRatReflexiveCarrier NumFieldRatReflexiveClassifier ∧
+      (forall {h k : BHist}, RatHistoryClassifier h k ->
+        NumFieldRatReflexiveClassifier h k ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k)) ∧
+      (forall {h : BHist}, NumFieldRatReflexiveCarrier h ->
+        RatHistoryCarrier (BHist.e1 BHist.Empty) ∧
+          Cont h (BHist.e1 BHist.Empty) (append h (BHist.e1 BHist.Empty))) ∧
+      (forall {h k r r' m m' product action coord : BHist},
+        RatHistoryClassifier h k -> RatHistoryClassifier r r' -> RatHistoryClassifier m m' ->
+          Cont r m product -> Cont (FieldExtSingletonEmbedding r') m' action ->
+            Cont m' BHist.Empty coord ->
+              RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+                RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+                  RatHistoryClassifier product action ∧ RatHistoryCarrier product ∧
+                    RatHistoryCarrier action ∧ RatHistoryClassifier coord m') := by
+  have package := NumFieldReflexiveRational_namecert_obligation_package
+  constructor
+  · exact package.left
+  · constructor
+    · intro h k classified
+      exact And.intro (package.right.left classified) (package.right.right (package.right.left classified))
+    · constructor
+      · intro h carrier
+        have basisRows := NumFieldRatReflexive_finite_basis_witness carrier
+        exact And.intro basisRows.left basisRows.right.left
+      · intro h k r r' m m' product action coord classifiedHK classifiedRR classifiedMM
+          productCont actionCont coordCont
+        have exactRows :=
+          NumFieldRatReflexive_ledger_exactness classifiedHK classifiedRR classifiedMM
+            productCont actionCont coordCont
+        exact And.intro exactRows.left
+          (And.intro exactRows.right.left
+            (And.intro exactRows.right.right.right.right.left
+              (And.intro exactRows.right.right.right.right.right.left
+                (And.intro exactRows.right.right.right.right.right.right.left
+                  exactRows.right.right.right.right.right.right.right))))
 
 theorem NumFieldReflexiveRational_exactness_package
     {h k r r' m m' product action coord : BHist} :
