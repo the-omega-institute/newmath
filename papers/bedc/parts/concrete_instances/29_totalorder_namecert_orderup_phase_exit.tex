@@ -176,6 +176,70 @@ only up to the declared unary-prefix classifier, which is the phase classifier
 of \autoref{thm:unary-prefix-orderup-phase-exit-package}.
 \end{proof}
 
+\begin{theorem}[Unary prefix OrderUp exactness obligation]
+\label{thm:unary-prefix-orderup-exactness-obligation}
+On carried unary endpoints $h$ and $k$, the $\OrderUp$ classifier row
+$\rho_{\mathsf{u}}$ is exact for two-sided $\le_{\mathsf{u}}$ comparison:
+$$
+\rho_{\mathsf{u}}(h,k)
+\quad\text{if and only if}\quad
+h\le_{\mathsf{u}}k\land k\le_{\mathsf{u}}h.
+$$
+This exactness row uses the same carrier, classifier, and relation tuple as the
+unary-prefix $\TotalOrderUp$ surface and introduces no quotient equality.
+\end{theorem}
+\begin{proof}
+First expose the concrete phase package by
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. It identifies the
+$\OrderUp$ carrier with $\mathsf{UnaryHistory}$, the classifier with
+$\rho_{\mathsf{u}}$, and the relation with $\le_{\mathsf{u}}$.
+
+Project the same tuple back to the inherited unary-prefix $\TotalOrderUp$
+surface of \autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}.
+There is no transport across a new carrier or a new relation; the consumer is
+reading the original preorder classifier boundary.
+
+Apply \autoref{thm:poset-prefix-classifier-exactness}. Its forward direction
+turns classifier sameness into the two prefix comparisons, and its reverse
+direction turns the two comparisons back into the carrier-aware classifier.
+Under the package projection, that equivalence is precisely the displayed
+$\rho_{\mathsf{u}}$ exactness row for $\OrderUp$.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp ledger obligation]
+\label{thm:unary-prefix-orderup-ledger-obligation}
+The Full Nat Arithmetic $\OrderUp$ ledger records exactly the concrete unary
+carrier witnesses, the selected constructive comparison branch, the finite
+interval endpoint witnesses, and the endpoint-readback comparisons. All entries
+are stated over $\mathsf{BHist}$, $\mathsf{ListCarrier}$, and $\Cont$ data. The
+ledger contains no quotient carrier, no host order, and no unrecorded classical
+comparison principle.
+\end{theorem}
+\begin{proof}
+Begin with the phase package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. Its ledger boundary is
+the displayed $\mathsf{UnaryHistory}$ carrier over $\mathsf{BHist}$, the
+classifier $\rho_{\mathsf{u}}$, the relation $\le_{\mathsf{u}}$, and the
+constructive comparison branch selected by the inherited unary-prefix
+$\TotalOrderUp$ surface.
+
+Next read the finite-spine part through
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}. For a nonempty
+$\mathsf{ListCarrier}$ spine, the ledger keeps the membership witnesses, the
+selected lower and upper endpoints, and the two bounding comparisons against
+each listed entry.
+
+Finally apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique}. This supplies
+the endpoint-readback comparisons showing that competing lower endpoints and
+competing upper endpoints are classified by $\rho_{\mathsf{u}}$.
+
+Combining these rows gives exactly the advertised ledger: every recorded item is
+a BEDC history, finite-list, or continuation witness already present in the
+unary-prefix package, and none of the rows appeal to a quotient carrier or an
+external host order.
+\end{proof}
+
 \begin{theorem}[OrderUp carrier and classifier obligation]
 \label{thm:orderup-carrier-classifier-obligation}
 The concrete carrier for the unary-prefix $\OrderUp$ phase object is
@@ -259,10 +323,10 @@ unary-prefix $\OrderUp$ object.
 
 \begin{closurestatus}{\OrderUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation frontier is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-carrier-obligation}, \autoref{thm:unary-prefix-orderup-classifier-obligation}, \autoref{thm:unary-prefix-orderup-preorder-obligation}, \autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, \autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}, \autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation}, \autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}, \autoref{thm:orderup-carrier-classifier-obligation}, \autoref{thm:orderup-preorder-antisymmetry-obligation}, \autoref{thm:orderup-constructive-comparison-obligation}, and \autoref{thm:orderup-finite-interval-endpoint-obligation} spelling out the carrier, classifier, preorder, antisymmetry, constructive comparison, finite interval coverage, and endpoint uniqueness rows.}
+  \scopeclosed{The obligation frontier is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-carrier-obligation}, \autoref{thm:unary-prefix-orderup-classifier-obligation}, \autoref{thm:unary-prefix-orderup-preorder-obligation}, \autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, \autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}, \autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation}, \autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}, \autoref{thm:unary-prefix-orderup-exactness-obligation}, \autoref{thm:unary-prefix-orderup-ledger-obligation}, \autoref{thm:orderup-carrier-classifier-obligation}, \autoref{thm:orderup-preorder-antisymmetry-obligation}, \autoref{thm:orderup-constructive-comparison-obligation}, and \autoref{thm:orderup-finite-interval-endpoint-obligation} spelling out the carrier, classifier, preorder, antisymmetry, constructive comparison, finite interval coverage, endpoint uniqueness, exactness, and ledger rows.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.PreorderUp.preorder\_prefix\_stability\_certificate\_fields}
   \bridgestatus{none}
   \notclaimed{The chapter does not claim a checked Lean OrderUp namespace, an audit-clean formal target, classical trichotomy, or full traditional order theory.}
-  \upgradepath{$\scopedClosure$ requires exactness and ledger rows for the concrete OrderUp package, together with a Lean target when the formalization is supplied.}
+  \upgradepath{$\scopedClosure$ requires binding these obligation rows to their named BEDC primitives and checked targets.}
 \end{closurestatus}
