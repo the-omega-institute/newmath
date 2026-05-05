@@ -249,7 +249,7 @@ const I18N = {
     hint: "Click a node to see its bilingual entry, stats, and dependencies.",
     legend_title: "Legend",
     legend_crit: "Frontline (AI's current target)",
-    legend_proven: "Proven (object-completion theorem checked)",
+    legend_proven: "Proven (closurestatus reaches scoped theory closure and theorem-checked verification)",
     legend_prog: "In progress (theorems landing, completion theorem pending)",
     legend_scaf: "Scaffold (paper only, Lean pending)",
     legend_schema: "Schema-only horizon (intentional)",
@@ -268,7 +268,9 @@ const I18N = {
     detail_deps: "Depends on:",
     detail_namecerts: "Object-completion theorems",
     detail_grounded_by: "Closure grounded by",
-    detail_closed_no_grounding: "Closed via \\closureat — no [grounding] declared yet. Add the canonical Lean theorem ID to surface it here.",
+    detail_theory: "theory",
+    detail_verification: "verification",
+    detail_closed_no_grounding: "Closed by closurestatus block, with no Lean target declared yet. Add the canonical Lean theorem ID to surface it here.",
     picker_default: "-- jump to region --",
     grp_kernel: "Kernel primitives",
     grp_namecert: "NameCert framework",
@@ -293,7 +295,7 @@ const I18N = {
     hint: "点击节点查看双语词条, 统计和依赖关系.",
     legend_title: "图例",
     legend_crit: "前线 (AI 当前攻坚)",
-    legend_proven: "已证 (对象完成性定理已扣上)",
+    legend_proven: "已证 (closurestatus 达到 scoped 理论闭合与 theorem-checked 验证)",
     legend_prog: "进行中 (有定理在落, 主完成性定理还差)",
     legend_scaf: "脚架 (仅论文, Lean 待补)",
     legend_schema: "Schema-only 视界 (有意为之)",
@@ -312,7 +314,9 @@ const I18N = {
     detail_deps: "依赖于:",
     detail_namecerts: "对象完成性定理",
     detail_grounded_by: "闭合证据",
-    detail_closed_no_grounding: "通过 \\closureat 闭合，但未声明 [grounding] —— 在论文宏中加上权威 Lean 定理 ID 即可在此显示。",
+    detail_theory: "理论",
+    detail_verification: "验证",
+    detail_closed_no_grounding: "通过 closurestatus 块闭合，但未声明 Lean target。在论文块中加上权威 Lean 定理 ID 即可在此显示。",
     picker_default: "-- 跳到领域 --",
     grp_kernel: "内核原语",
     grp_namecert: "NameCert 框架",
@@ -501,15 +505,33 @@ function toggleGlossary() {
   if (pane.classList.contains("open")) renderGlossary();
 }
 
+const THEORY_CLOSURE_ORDER = [
+  "seedClosure", "obligationClosure", "scopedClosure",
+  "publicClosure", "bridgedClosure", "matureClosure",
+];
+const FORMAL_STATUS_ORDER = [
+  "unformalizedV", "formalTargetV", "encodedDefV",
+  "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
+  "axiomCleanV", "bridgeCheckedV",
+];
+
+function gradeAtOrAbove(value, threshold, order) {
+  const i = order.indexOf(value);
+  const j = order.indexOf(threshold);
+  return i >= 0 && j >= 0 && i >= j;
+}
+
 function statusClass(node) {
-  // Single source-of-truth: \closureat{<X>Up}{strength} declared by the
-  // author. Same signal used by lean4/scripts/critical_path.py to decide
-  // which horizons are excluded from the attack queue. Dossier and
-  // critical_path now share one judgment — no other heuristic upgrades
-  // a region to proven.
+  // Single source-of-truth: closurestatus block declared by the author.
+  // Same signal used by lean4/scripts/critical_path.py to decide which
+  // horizons are excluded from the attack queue. Dossier and critical_path
+  // share one judgment; no other heuristic upgrades a region to proven.
   if (node.schema_only) return "schema";
   if (node.id === "kernel") return "proven";       // FKernel is closed by construction
-  if (node.closed_strength) return "proven";        // \closureat{...}{checkedCert|bridgeCert}
+  if (
+    gradeAtOrAbove(node.closed_theoryclosure, "scopedClosure", THEORY_CLOSURE_ORDER) &&
+    gradeAtOrAbove(node.closed_formalstatus, "theoremCheckedV", FORMAL_STATUS_ORDER)
+  ) return "proven";
   if (CRIT_SET.has(node.id)) return "crit";        // open horizon AI is attacking
   if ((node.checked || 0) > 0 || (node.stmt || 0) > 0 ||
       (node.namecert_checked || 0) > 0 || (node.thms || 0) > 0) {
@@ -749,10 +771,17 @@ function showNodeDetail(id) {
     html += `<div class="term-deps">${t("detail_deps")} ${links.join(" ")}</div>`;
   }
 
+  if (node.closed_theoryclosure || node.closed_formalstatus) {
+    html += `<div class="term-deps">` +
+      `${t("detail_theory")}: <code>${node.closed_theoryclosure || "none"}</code>, ` +
+      `${t("detail_verification")}: <code>${node.closed_formalstatus || "none"}</code>` +
+      `</div>`;
+  }
+
   // Object-completion / closure-grounding section. Three sources, in
   // priority order:
   //   1. closure_grounding  — the Lean theorem the author declared in
-  //                           \closureat{...}[grounding]. Authoritative.
+  //                           closurestatus. Authoritative.
   //   2. namecert_theorems  — heuristic namecert/Name(_)Certificate
   //                           proofs found by NAMECERT_TARGET_RE.
   //   3. (none)             — closed but no grounding, no namecert: hint.
@@ -779,7 +808,7 @@ function showNodeDetail(id) {
         ` / <strong>${ncList.length}</strong>)</div>
         ${items}
       </div>`;
-  } else if (node.closed_strength && !node.closure_grounding) {
+  } else if (node.closed_theoryclosure && !node.closure_grounding) {
     html += `
       <div class="term-namecerts">
         <div class="term-namecerts-header">${t("detail_namecerts")}</div>
