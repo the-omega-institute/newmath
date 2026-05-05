@@ -225,4 +225,50 @@ theorem MetricDistanceWitness_empty_boundary_nonempty_distance_positive_endpoint
         cases sourceData.left
         exact Nat.succ_pos (MetricDistanceDepth sourceTail)
 
+theorem MetricDistanceWitness_visible_boundary_positive_depth_endpoint_readback
+    {p q source target dist : BHist} :
+    (MetricDistanceWitness (append p BHist.Empty) (append target q) (append (append p dist) q) ->
+      (MetricDistanceDepth dist = 0 -> False) ->
+        ∃ targetTail : BHist,
+          target = BHist.e1 targetTail ∧ UnaryHistory targetTail ∧
+            0 < MetricDistanceDepth target) ∧
+      (MetricDistanceWitness (append p source) (append BHist.Empty q) (append (append p dist) q) ->
+        (MetricDistanceDepth dist = 0 -> False) ->
+          ∃ sourceTail : BHist,
+            source = BHist.e1 sourceTail ∧ UnaryHistory sourceTail ∧
+              0 < MetricDistanceDepth source) := by
+  constructor
+  · intro visible positiveDepth
+    have boundary :=
+      (MetricDistanceWitness_left_boundary_visible_context_iff
+        (p := p) (q := q) (y := target) (d := dist)).mp visible
+    have targetNonempty : hsame target BHist.Empty -> False := by
+      intro targetEmpty
+      exact positiveDepth
+        (MetricDistanceDepth_zero_iff_empty.mpr
+          (hsame_trans boundary.right.right.right targetEmpty))
+    have targetShape := unary_history_nonempty_e1_tail boundary.right.right.left targetNonempty
+    cases targetShape with
+    | intro targetTail targetData =>
+        cases targetData.left
+        exact Exists.intro targetTail
+          (And.intro rfl
+            (And.intro targetData.right (Nat.succ_pos (MetricDistanceDepth targetTail))))
+  · intro visible positiveDepth
+    have boundary :=
+      (MetricDistanceWitness_right_boundary_visible_context_iff
+        (p := p) (q := q) (x := source) (d := dist)).mp visible
+    have sourceNonempty : hsame source BHist.Empty -> False := by
+      intro sourceEmpty
+      exact positiveDepth
+        (MetricDistanceDepth_zero_iff_empty.mpr
+          (hsame_trans boundary.right.right.right sourceEmpty))
+    have sourceShape := unary_history_nonempty_e1_tail boundary.right.right.left sourceNonempty
+    cases sourceShape with
+    | intro sourceTail sourceData =>
+        cases sourceData.left
+        exact Exists.intro sourceTail
+          (And.intro rfl
+            (And.intro sourceData.right (Nat.succ_pos (MetricDistanceDepth sourceTail))))
+
 end BEDC.Derived.MetricUp

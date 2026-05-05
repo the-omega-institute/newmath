@@ -18,11 +18,67 @@ def RealAnalyticLeibnizPartialSum (leibnizTerm : BHist -> BHist) (n S : BHist) :
     Prop :=
   UnaryHistory n ∧ ComplexPartSum BHist.Empty leibnizTerm n S ∧ UnaryHistory S
 
+def RealAnalyticPi (leibnizTerm : BHist -> BHist) (pi : BHist) : Prop :=
+  ∃ S : BHist,
+    RealAnalyticLeibnizPartialSum leibnizTerm (BHist.e1 (BHist.e1 BHist.Empty)) S ∧
+      hsame pi (append S S) ∧ UnaryHistory pi
+
 inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist -> Prop where
   | zero : RealAnalyticLeibnizPartSum term BHist.Empty BHist.Empty
   | step {n S T : BHist} :
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
+
+def RealAnalyticPiBoundary (term : BHist -> BHist) (candidate : BHist) : Prop :=
+  exists n S : BHist,
+    RealAnalyticLeibnizPartSum term n S ∧ Cont S BHist.Empty candidate ∧
+      UnaryHistory candidate
+
+def RealAnalyticPiLocalData (leibnizTerm : BHist -> BHist) (n sum pi : BHist) : Prop :=
+  UnaryHistory n ∧ RealAnalyticLeibnizPartSum leibnizTerm n sum ∧ UnaryHistory sum ∧
+    Cont sum sum pi
+
+def RealAnalyticPiCandidate (leibnizTerm : BHist -> BHist) (limit : BHist) : Prop :=
+  exists n S : BHist, RealAnalyticLeibnizPartSum leibnizTerm n S ∧ Cont S BHist.Empty limit
+
+theorem RealAnalyticPiCandidate_empty_cont_readback {leibnizTerm : BHist -> BHist}
+    {n S limit : BHist} :
+    RealAnalyticLeibnizPartSum leibnizTerm n S -> Cont S BHist.Empty limit ->
+      RealAnalyticPiCandidate leibnizTerm limit ∧ hsame S limit := by
+  intro partSum limitCont
+  exact
+    And.intro
+      (Exists.intro n (Exists.intro S (And.intro partSum limitCont)))
+      (hsame_symm (cont_right_unit_iff.mp limitCont))
+
+theorem RealAnalyticLeibnizPartSum_pointwise_hsame_deterministic
+    {term term' : BHist -> BHist} {n S T : BHist} :
+    (forall {m : BHist}, UnaryHistory m -> hsame (term m) (term' m)) ->
+      RealAnalyticLeibnizPartSum term n S ->
+        RealAnalyticLeibnizPartSum term' n T -> hsame S T := by
+  intro termSame source
+  have indexUnary :
+      forall {m P : BHist}, RealAnalyticLeibnizPartSum term m P -> UnaryHistory m := by
+    intro m P sum
+    induction sum with
+    | zero =>
+        exact unary_empty
+    | step _ _ ih =>
+        exact unary_e1_closed ih
+  induction source generalizing T with
+  | zero =>
+      intro target
+      cases target with
+      | zero =>
+          exact hsame_refl BHist.Empty
+  | step previous stepContinuation ih =>
+      intro target
+      cases target with
+      | step previous' stepContinuation' =>
+          have unaryPrevious : UnaryHistory _ := indexUnary previous
+          have samePrevious : hsame _ _ := ih previous'
+          exact cont_respects_hsame samePrevious (termSame unaryPrevious)
+            stepContinuation stepContinuation'
 
 theorem RealAnalyticLeibnizPartSum_index_result_unary {term : BHist -> BHist}
     {n S : BHist}
@@ -141,6 +197,35 @@ theorem RealAnalyticComplexAbsPartSum_closed_pointwise_index_result_unary_transp
     RealAnalyticComplexAbsPartSum_pointwise_result_unary_transport zeroUnary sameZero
       modulusUnary modulusSame unaryN source target
   exact And.intro unaryN unaryT
+
+theorem RealAnalyticPiBoundary_leibniz_index_result_unary {term : BHist -> BHist}
+    {candidate : BHist}
+    (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (term m)) :
+    RealAnalyticPiBoundary term candidate ->
+      exists n S : BHist, UnaryHistory n ∧ UnaryHistory S ∧ Cont S BHist.Empty candidate := by
+  intro boundary
+  have leibnizUnary :
+      forall {n S : BHist}, RealAnalyticLeibnizPartSum term n S ->
+        UnaryHistory n ∧ UnaryHistory S := by
+    intro n S leibniz
+    induction leibniz with
+    | zero =>
+        exact And.intro unary_empty unary_empty
+    | step previous stepCont ih =>
+        exact And.intro (unary_e1_closed ih.left)
+          (unary_cont_closed ih.right (termUnary ih.left) stepCont)
+  cases boundary with
+  | intro n boundaryN =>
+      cases boundaryN with
+      | intro S data =>
+          cases data with
+          | intro leibniz rest =>
+              have unaryPair : UnaryHistory n ∧ UnaryHistory S :=
+                leibnizUnary leibniz
+              exact Exists.intro n
+                (Exists.intro S
+                  (And.intro unaryPair.left
+                    (And.intro unaryPair.right rest.left)))
 
 theorem RealAnalyticLocalStream_obligations_package {zero zero' : BHist}
     {c d modulus modulus' : BHist -> BHist} :
