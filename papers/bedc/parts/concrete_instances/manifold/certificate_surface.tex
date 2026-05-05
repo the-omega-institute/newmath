@@ -81,6 +81,7 @@ to the transported overlap witness and the coordinatewise $\RealUp$ classifier
 witnesses. The result is the transition row at $y$, classified by the same
 visible atlas ledger entry.
 \end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_classifier\_stability}
 
 \begin{theorem}[Manifold charted NameCert surface]
 \label{thm:manifold-charted-namecert-surface}
@@ -188,6 +189,7 @@ on the topological carrier and the corresponding constructively smooth
 $\RealUp$ transition ledger from $\varphi_i$-coordinates to
 $\varphi_j$-coordinates on that overlap.
 \end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldAtlasPackage\_pairwise\_overlap\_readback}
 \begin{proof}
 Unpack the carried atlas package by
 \autoref{def:manifold-chart-atlas-carrier}. The finite chart-index row gives
@@ -235,6 +237,7 @@ Each entry is a visible ledger row over $\TopologyUp$ carried-overlap
 transport, $\RealUp$ coordinate histories, and the real-analytic classifier
 rows already exposed by the atlas package.
 \end{definition}
+\leandef{BEDC.Derived.ManifoldUp.ManifoldTransitionCoherenceLedger}
 
 \begin{theorem}[Manifold overlap identity transition]
 \label{thm:manifold-overlap-identity-transition}
@@ -271,6 +274,8 @@ $\mathsf{IdTrans}_i$ on the $i$-coordinate overlap, and the composite
 $\mathsf{Trans}_{ij}\circ\mathsf{Trans}_{ji}$ is classified by
 $\mathsf{IdTrans}_j$ on the $j$-coordinate overlap.
 \end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_inverse\_boundary}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_overlap\_inverse\_transition}
 \begin{proof}
 Unpack the two pairwise overlap rows using
 \autoref{thm:manifold-atlas-overlap-coverage}. The row for $(i,j)$ carries
@@ -297,6 +302,7 @@ overlap, $\mathsf{Trans}_{jk}\circ\mathsf{Trans}_{ij}$ and
 $\mathsf{Trans}_{ik}$ are classified by the same real-analytic transition row
 from $\varphi_i$-coordinates to $\varphi_k$-coordinates.
 \end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_coherence\_rows\_empty}
 \begin{proof}
 Start from the three pairwise overlap rows supplied by
 \autoref{thm:manifold-atlas-overlap-coverage}. Their $\TopologyUp$ domain
@@ -453,3 +459,13 @@ standard bridge is already part of the carrier definition, so the assembled
 object is exactly the $\ManifoldUp$ $\NameCert$ obligation threshold listed in
 the theorem statement.
 \end{proof}
+
+\begin{closurestatus}{\ManifoldUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The singleton empty-chart ManifoldUp certificate together with the finite-atlas paper obligation surface over $\mathsf{BHist}$, $\TopologyUp$, $\RealUp$, and $\RealAnalyticUp$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General smooth-manifold theory, arbitrary atlas machine verification, external manifold-library equivalence, tangent bundles, forms, integration, or de Rham theorems.}
+  \upgradepath{$\publicClosure$ requires a single exported ManifoldUp public theorem for the atlas interface and a checked bridge only after the standard model rows are explicitly supplied.}
+\end{closurestatus}
