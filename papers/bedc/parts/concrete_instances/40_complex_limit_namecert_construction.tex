@@ -9,6 +9,9 @@ This chapter gives a concrete naming-certificate construction for the complex-li
 \label{def:cplx-modulus}
 For a complex history \(z\) with components \((x, y)\) in \(\RatUp\)-carrier, the complex modulus \(\mathsf{CplxMod}(z, M)\) is the closed inductive predicate asserting that \(M\) is a unary-indexed \(\RealUp\)-bound history witnessing \(M^2 \geq x^2 + y^2\) under unary-history rational arithmetic. The witness is constructed by applying the rational squaring continuation to each component followed by additive composition.
 \end{definition}
+\leandef{BEDC.Derived.ComplexLimitUp.ComplexModulus}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexModulus\_hsame\_transport}
+\leandef{BEDC.Derived.ComplexLimitUp.CplxMod}
 
 \begin{definition}[Pairwise complex distance]
 \label{def:cplx-distance}
@@ -274,6 +277,7 @@ If \(\mathsf{CplxRegSeq}(s, N)\) holds, then the projection sequences \(\mathsf{
 \begin{proof}
 Each component bound is dominated by the modulus witness of \autoref{def:cplx-modulus}: if \(D^2 \geq x^2 + y^2\), then \(D \geq |x|\) and \(D \geq |y|\). The unary modulus carries through unchanged.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_accepted\_pair\_unary\_witness}
 
 \begin{lemma}[Constant sequence is regular]
 \label{lem:cplx-constant-regular}
@@ -618,6 +622,7 @@ The stability certificate consists of:
   \item compatibility of the modulus function with \(\hsame\) on its unary inputs and outputs.
 \end{enumerate}
 \end{definition}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_stability\_certificate\_fields}
 
 \begin{definition}[Complex-limit ledger policy]
 \label{def:cplx-lim-ledger-policy}
@@ -709,6 +714,7 @@ $$
 N_{\ominus}(k):=\max(N_s(k+1),N_t(k+1)).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_pointwise\_difference\_closed}
 \begin{proof}
 Fix a unary precision $k$ and accepted unary indices $n,m$ above $N_{\ominus}(k)$. The maximum clause makes the same indices accepted above $N_s(k+1)$ and above $N_t(k+1)$. The two regularity hypotheses therefore give distance witnesses $D_s$ and $D_t$ for $s(n)$ to $s(m)$ and for $t(n)$ to $t(m)$, each bounded by the unary dyadic budget $2^{-(k+1)}$.
 
