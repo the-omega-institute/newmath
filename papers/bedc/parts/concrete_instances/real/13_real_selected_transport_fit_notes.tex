@@ -69,38 +69,75 @@ $$
 \hsame(x'(n),\Eone(a)),\quad
 \hsame(y'(n),\Eone(b)).
 $$
-Then the selected-transport fit carries all three certificate packages:
-\begin{enumerate}
-\item the contextual endpoint package of
-\autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package}
-for $o_X(n)$ and $o_Y(n)$ with tails $a$ and $b$;
-\item the contextual e-one tail determinacy package of
-\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}
-for the four tails $a,a',b,b'$;
-\item the finite-prefix selected full-shape readback package of
-\autoref{thm:real-stream-prefix-transported-selected-full-shape-readback-package}
-for $x'(n)$ and $y'(n)$ with tails $a$ and $b$.
-\end{enumerate}
+Then the selected-transport fit carries the displayed package
+$$
+\begin{array}{l}
+\Bigl(
+\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))\land
+\mathsf{PositiveUnaryDenominator}(o_X(n))\land
+\mathsf{PositiveUnaryDenominator}(o_Y(n))\land\\
+\mathsf{UnaryHistory}(o_X(n))\land
+\mathsf{UnaryHistory}(o_Y(n))\land
+(\hsame(o_X(n),\emp)\to\mathsf{False})\land
+(\hsame(o_Y(n),\emp)\to\mathsf{False})\land\\
+(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False})\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land
+\hsame(a,b)
+\Bigr)\\
+{}\land
+\Bigl(
+\mathsf{UnaryHistory}(a)\land
+\mathsf{UnaryHistory}(a')\land
+\mathsf{UnaryHistory}(b)\land
+\mathsf{UnaryHistory}(b')\land\\
+\hsame(a,a')\land
+\hsame(b,b')\land
+\hsame(a,b)\land
+\hsame(a',b')
+\Bigr)\\
+{}\land
+\Bigl(
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land
+\mathsf{UnaryHistory}(b)\land
+\hsame(a,b)\land\\
+\mathsf{PositiveUnaryDenominator}(x'(n))\land
+\mathsf{PositiveUnaryDenominator}(y'(n))\land
+\mathsf{UnaryHistory}(x'(n))\land
+\mathsf{UnaryHistory}(y'(n))\land\\
+(\hsame(x'(n),\emp)\to\mathsf{False})\land
+(\hsame(y'(n),\emp)\to\mathsf{False})\land\\
+(\hsame(x'(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y'(n),\Ezero(z_Y))\to\mathsf{False})
+\Bigr).
+\end{array}
+$$
 \end{theorem}
 \begin{proof}
-Apply
+We build the three displayed conjuncts separately and then conjoin them.
+
+For the first conjunct, apply
 \autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package}
 to the two pointwise transport rows, the stream classifier row, the displayed
-context rows, the four continuation rows, and the two endpoint displays
-$\hsame(o_X(n),\Eone(a))$ and $\hsame(o_Y(n),\Eone(b))$. This yields the
-contextual endpoint certificate block.
+context rows, the four continuation rows, and the endpoint displays
+$\hsame(o_X(n),\Eone(a))$ and $\hsame(o_Y(n),\Eone(b))$. Its six enumerated
+rows project to the classifier row, the two positive-denominator rows, the two
+endpoint-unary rows, the two empty exclusions, the two zero-headed exclusions
+using $z_X$ and $z_Y$, and the tail rows
+$\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
 
-Apply
+For the second conjunct, apply
 \autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}
 to the same transport, classifier, context, and continuation rows, now using
-all four displayed e-one endpoints. This yields the selected contextual
-tail-determinacy block for $a,a',b,b'$.
+all four displayed e-one endpoints. The eight displayed rows of that theorem
+project directly to the four unary tail rows and the four hsame tail rows.
 
-Apply
+For the third conjunct, apply
 \autoref{thm:real-stream-prefix-transported-selected-full-shape-readback-package}
-to the prefix classifier row, the two pointwise transport rows, and the two
-selected endpoint displays $\hsame(x'(n),\Eone(a))$ and
-$\hsame(y'(n),\Eone(b))$. The resulting finite-prefix readback block is
-conjoined with the two contextual blocks above, giving the stated certificate
-package.
+to the prefix classifier row, the two pointwise transport rows, and the selected
+endpoint displays $\hsame(x'(n),\Eone(a))$ and
+$\hsame(y'(n),\Eone(b))$. Its displayed readback package projects to the
+e-one classifier, tail, positive-denominator, endpoint-unary, empty-exclusion,
+and zero-headed exclusion rows for $x'(n)$ and $y'(n)$.
 \end{proof}
