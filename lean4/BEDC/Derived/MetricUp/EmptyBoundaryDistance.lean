@@ -28,6 +28,18 @@ theorem MetricDistanceWitness_visible_context_empty_distance_continuation_splice
       rightCont
   exact cont_deterministic spliced displayed
 
+theorem MetricDistanceWitness_visible_context_empty_distance_continuation_results_hsame
+    {p q x y l m n : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ->
+      Cont l x m -> Cont l y n -> hsame m n := by
+  intro visible leftCont rightCont
+  have endpoints :=
+    (MetricDistanceWitness_visible_context_empty_distance_iff (p := p) (q := q)
+      (x := x) (y := y)).mp visible
+  cases endpoints.right.right.left
+  cases endpoints.right.right.right
+  exact cont_deterministic leftCont rightCont
+
 theorem MetricDistanceWitness_visible_context_empty_distance_append_unit_laws
     {p q x y l r : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ->

@@ -115,6 +115,48 @@ By \autoref{thm:functor-hom-carrier-codomain-evaluation}, a certified $\FunctorU
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.RawFunctorHomCarrier\_landing\_obstruction}
 
+\begin{theorem}[Raw functor source hom target-one morphism cases]
+\label{thm:raw-functor-source-hom-target-one-morphism-cases}
+For histories $s,m$, any raw source hom whose target endpoint is the one-object
+code has exactly the identity-one or forward-arrow shape:
+$$
+\mathsf{RawFunctorSourceHom}(s,\Eone(\emp),m)
+\Longrightarrow
+\bigl(\hsame(s,\Eone(\emp))\land\hsame(m,\Eone(\emp))\bigr)
+\vee
+\bigl(\hsame(s,\emp)\land\hsame(m,\Eone(\Eone(\emp)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Invert the closed-generated source hom relation at the displayed target
+endpoint. The zero-identity constructor has empty target and is eliminated.
+The identity-one constructor gives the left disjunct by reflexivity, while the
+forward-arrow constructor gives the right disjunct by reflexivity on the empty
+source and double-one morphism code.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorSourceHom\_target\_one\_morphism\_cases}
+
+\begin{theorem}[Raw functor target hom source-one morphism cases]
+\label{thm:raw-functor-target-hom-source-one-morphism-cases}
+For histories $t,m$, any raw target hom whose source endpoint is the one-object
+code has exactly the identity-one or reverse-arrow shape:
+$$
+\mathsf{RawFunctorTargetHom}(\Eone(\emp),t,m)
+\Longrightarrow
+\bigl(\hsame(t,\Eone(\emp))\land\hsame(m,\Eone(\emp))\bigr)
+\vee
+\bigl(\hsame(t,\emp)\land\hsame(m,\Eone(\Eone(\emp)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Invert the closed-generated target hom relation at the displayed source
+endpoint. The zero-identity constructor has empty source and is eliminated.
+The identity-one constructor gives the left disjunct by reflexivity, while the
+reverse-arrow constructor gives the right disjunct by reflexivity on the empty
+target and double-one morphism code.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.RawFunctorTargetHom\_source\_one\_morphism\_cases}
+
 \begin{theorem}[Raw functor target hom reverse-arrow endpoint readback]
 \label{thm:raw-functor-target-hom-reverse-arrow-endpoint-readback}
 For histories $s,t$, any raw target hom witness whose displayed morphism is the

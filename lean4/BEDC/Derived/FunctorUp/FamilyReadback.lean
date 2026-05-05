@@ -96,6 +96,32 @@ theorem RawFunctorHomCarrier_landing_obstruction :
       · intro landing
         cases landing
 
+theorem RawFunctorSourceHom_target_one_morphism_cases {s m : BHist} :
+    RawFunctorSourceHom s (BHist.e1 BHist.Empty) m ->
+      (hsame s (BHist.e1 BHist.Empty) ∧ hsame m (BHist.e1 BHist.Empty)) ∨
+        (hsame s BHist.Empty ∧ hsame m (BHist.e1 (BHist.e1 BHist.Empty))) := by
+  intro sourceHom
+  cases sourceHom
+  · exact Or.inl
+      (And.intro (hsame_refl (BHist.e1 BHist.Empty))
+        (hsame_refl (BHist.e1 BHist.Empty)))
+  · exact Or.inr
+      (And.intro (hsame_refl BHist.Empty)
+        (hsame_refl (BHist.e1 (BHist.e1 BHist.Empty))))
+
+theorem RawFunctorTargetHom_source_one_morphism_cases {t m : BHist} :
+    RawFunctorTargetHom (BHist.e1 BHist.Empty) t m ->
+      (hsame t (BHist.e1 BHist.Empty) ∧ hsame m (BHist.e1 BHist.Empty)) ∨
+        (hsame t BHist.Empty ∧ hsame m (BHist.e1 (BHist.e1 BHist.Empty))) := by
+  intro targetHom
+  cases targetHom
+  · exact Or.inl
+      (And.intro (hsame_refl (BHist.e1 BHist.Empty))
+        (hsame_refl (BHist.e1 BHist.Empty)))
+  · exact Or.inr
+      (And.intro (hsame_refl BHist.Empty)
+        (hsame_refl (BHist.e1 (BHist.e1 BHist.Empty))))
+
 theorem RawFunctorTargetHom_reverse_arrow_endpoint_readback {s t : BHist} :
     RawFunctorTargetHom s t (BHist.e1 (BHist.e1 BHist.Empty)) ->
       hsame s (BHist.e1 BHist.Empty) ∧ hsame t BHist.Empty := by
