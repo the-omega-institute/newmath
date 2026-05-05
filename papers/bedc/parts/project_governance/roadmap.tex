@@ -28,20 +28,14 @@ $$
 $$
 A mature object such as $\mathbb{N}$, $\mathbb{R}$, $S^1$, a metric space, or a category is admitted only as the stable interface of a generative behaviour, never as a primitive input.
 
-\section{Strength gradient}
-\label{sec:roadmap-strength-gradient}
+\section{Closure and verification axes}
+\label{sec:roadmap-closure-and-verification-axes}
 
-Every claim about a derived mature object falls into exactly one of four strengths, and lower strengths must not be reported as higher ones.
+Every claim about a derived mature object is read on two independent axes. The closure axis records what the paper has reconstructed; the verification axis records the audit state of the corresponding Lean target. The discipline is recorded in \autoref{ch:closure-and-verification-discipline}.
 $$
-\boxed{\text{naming seed} \;<\; \text{paper certificate} \;<\; \text{machine-checked certificate} \;<\; \text{conservative bridge to the standard model}.}
+\boxed{(c, v) \in \TheoryClosure \times \FormalStatus.}
 $$
-
-\begin{description}
-  \item[\textbf{Naming seed}] A paper-side proposal that an object can be reached. Carrier and classifier are sketched, no obligations are checked.
-  \item[\textbf{Paper certificate}] All five $\NameCert$ fields are written down with prose proofs in the paper. No Lean target yet.
-  \item[\textbf{Machine-checked certificate}] $\NameCert$ fields and $\StabilityCert$ obligations are formalised under \texttt{lean4/BEDC/}, with each paper site holding a single canonical \texttt{\textbackslash leanchecked} marker.
-  \item[\textbf{Conservative bridge}] An auxiliary, external bidirectional translation between the BEDC certificate and the mature object as it exists in a standard reference (Bourbaki / mathlib / HoTT). The bridge is interpretive only and never replaces the internal proof obligation.
-\end{description}
+The closure axis grades are $\seedClosure < \obligationClosure < \scopedClosure < \publicClosure < \bridgedClosure < \matureClosure$; the verification axis grades are $\unformalizedV < \formalTargetV < \encodedDefV < \scaffoldCheckedV < \theoremCheckedV < \auditCleanV < \axiomCleanV$, with $\bridgeCheckedV$ as the bridge-axis verification level. Neither axis determines the other.
 
 \section{Anti-primitive principle}
 \label{sec:roadmap-anti-primitive}
@@ -98,7 +92,7 @@ $$
 \;\to\;
 \NameCert.
 $$
-Before any derived interface is attempted, every node above must hold a machine-checked certificate at the strength of paragraph~\ref{sec:roadmap-strength-gradient}: $\msame$ and $\hsame$ as equivalences with no-confusion, $\Ext$ and $\Cont$ with associativity and unit laws, $\Ask$ and $\Sig$ with totality and determinism under the relevant policies, $\Pkg$ and $\Gap$ with their soundness/coverage/separation theorems, and $\NameCert$ as the universal admission rule.
+Before any derived interface is attempted, every node above must hold a checked verification target under the discipline of \autoref{sec:roadmap-closure-and-verification-axes}: $\msame$ and $\hsame$ as equivalences with no-confusion, $\Ext$ and $\Cont$ with associativity and unit laws, $\Ask$ and $\Sig$ with totality and determinism under the relevant policies, $\Pkg$ and $\Gap$ with their soundness/coverage/separation theorems, and $\NameCert$ as the universal admission rule.
 
 \section{L4 exact globalization contract}
 \label{sec:roadmap-l4-exact-globalization}
@@ -259,7 +253,7 @@ Every milestone is filed under the same ten-field template:
   \item \textbf{Core theorem list}: the minimum set that must hold.
   \item \textbf{Exactness predicate}: coverage, soundness, completeness, classification $\iff$.
   \item \textbf{Standard bridge}: the conservative back-and-forth to the mature reference.
-  \item \textbf{Status}: $\text{Seed} \mid \text{PaperCert} \mid \text{ProofTarget} \mid \text{CheckedCert} \mid \text{InteropCert} \mid \text{Deferred}$.
+  \item \textbf{Status}: a pair $(c, v)$ where $c \in \TheoryClosure$ is the closure axis grade and $v \in \FormalStatus$ is the verification axis grade.
 \end{enumerate}
 
 \section{Near-term phases}
@@ -268,34 +262,84 @@ Every milestone is filed under the same ten-field template:
 The near-term path is a small number of phase bundles. Each phase has a specific exit criterion and is the only sanctioned advancement direction during its tenure.
 
 \begin{description}
-  \item[\textbf{Phase Kernel-Checked Baseline}] L0--L5 fully machine-checked, including $\msame$, $\hsame$, $\Ext$, $\Cont$, $\Sig$, $\Gap$, $\NameCert$, $\ExactGlobalizeBase$. Exit criterion: every kernel theorem holds a \texttt{\textbackslash leanchecked}.
-  \item[\textbf{Phase Finite Data}] L6 machine-checked, $\BoolUp$ through $\ListUp$, with the ten-field template completed for each. Exit criterion: $\bedcciaudit$ green over all five objects and $\mathsf{CheckedCert}$ status at the public-object certificate scopes listed in \autoref{sec:roadmap-l6-finite-data}. An envelope-only checked core does not close an object whose chapter still records a stronger public-object $\mathsf{ProofTarget}$.
-  \item[\textbf{Phase Full Nat Arithmetic}] L7 machine-checked, $\NatUp$ through $\RatUp$, with full induction, recursion, ordered-ring and ordered-field structure. Exit criterion: $\RatUp$ NameCert holds at the $\mathsf{SemanticNameCert}$ machine-checked certificate strength, not merely as a weaker paper-side certificate or theorem target.
-  \item[\textbf{Phase Algebra Hierarchy}] L8 up to $\FieldUp$. Exit criterion: $\FieldUp(\RatUp)$ as a fully derived instance.
-  \item[\textbf{Phase Real and Completion}] L10 items 1--4 of section~\ref{sec:roadmap-l10-construction-order}: $\DyadicRatCore$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$. Exit criterion: $\RealUp$ NameCert holds at the machine-checked strength, with the dyadic embedding theorem live.
-  \item[\textbf{Phase Real Algebra and Geometry}] L10 items 5--7: $\RealAlgOrder$, $\MetricSpaceUp$, $\SOneUp$. Exit criterion: $\SOneUp$ shipped with the unit-circle equation transport.
-  \item[\textbf{Phase Compact and Continuous}] L10 items 8--11: $\TotallyBoundedUp$, $\CompleteMetricUp$, $\CompactMetricUp$, $\ContinuousMapUp$. Exit criterion: explicit compact $[0,1]$ and compact $S^1$ certificates, plus a non-trivial uniformly continuous map between them.
-  \item[\textbf{Phase Linear Algebra and Analysis Seed}] L8 vector-space layer plus L11 calculus seed: $\VecSpaceUp$, $\LinMapUp$, $\MatrixUp$, $\NormUp$, $\HilbertUp$. Exit criterion: at least one non-trivial spectral statement, even if confined to a finite-dimensional space.
-  \item[\textbf{Phase Category and Bridge}] L12 $\CategoryUp$ and L14 bridge for already-checked objects. Exit criterion: a certified category whose objects are $\RealUp$ and $\SOneUp$ and whose morphisms are $\ContinuousMapUp$, plus a documented mathlib bridge for $\NatUp$ and $\IntUp$.
+  \item[\textbf{Phase Kernel-Checked Baseline}] L0--L5, including $\msame$, $\hsame$, $\Ext$, $\Cont$, $\Sig$, $\Gap$, $\NameCert$, $\ExactGlobalizeBase$. Exit criterion:
+    \begin{itemize}
+      \item Closure axis: kernel proof obligations are supplied through the finite-kernel proof DAG ending at $\NameCert$.
+      \item Verification axis: $\FormalStatus(N, \auditCleanV)$ for every cited kernel target $N$.
+      \item Bridge status: pending.
+    \end{itemize}
+  \item[\textbf{Phase Finite Data}] L6, $\BoolUp$ through $\ListUp$, with the ten-field template completed for each. Exit criterion:
+    \begin{itemize}
+      \item Closure axis: $\TheoryGate(N, \scopedClosure)$ for every $N$ in $\{\BoolUp, \OptionUp, \SumUp, \ProdUp, \ListUp\}$.
+      \item Verification axis: $\FormalStatus(N, \auditCleanV)$ on the cited Lean targets.
+      \item Bridge status: pending.
+    \end{itemize}
+  \item[\textbf{Phase Full Nat Arithmetic}] L7, $\NatUp$ through $\RatUp$, with induction, recursion, ordered-ring and ordered-field structure. Exit criterion:
+    \begin{itemize}
+      \item Closure axis: $\TheoryGate(N, \scopedClosure)$ for every $N$ in $\{\NatUp, \AddUp, \MulUp, \OrderUp, \IntUp, \RatUp\}$.
+      \item Verification axis: $\FormalStatus(N, \auditCleanV)$ on the cited Lean targets.
+      \item Bridge status: pending.
+    \end{itemize}
+  \item[\textbf{Phase Algebra Hierarchy}] L8 up to $\FieldUp$. Exit criterion:
+    \begin{itemize}
+      \item Closure axis: $\TheoryGate(N, \scopedClosure)$ for every $N$ in $\{\MonoidUp, \GroupUp, \AbGroupUp, \RingUp, \CommRingUp, \FieldUp\}$.
+      \item Verification axis: $\FormalStatus(N, \auditCleanV)$ on the cited Lean targets.
+      \item Bridge status: pending.
+    \end{itemize}
+  \item[\textbf{Phase Real and Completion}] L10 items 1--4 of section~\ref{sec:roadmap-l10-construction-order}: $\DyadicRatCore$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$. Exit criterion:
+    \begin{itemize}
+      \item Closure axis: $\TheoryGate(N, \scopedClosure)$ for every $N$ in $\{\DyadicRatCore, \StreamNameUp, \RegSeqRat, \RealUp\}$.
+      \item Verification axis: $\FormalStatus(N, \auditCleanV)$ on the cited Lean targets.
+      \item Bridge status: pending.
+    \end{itemize}
+  \item[\textbf{Phase Real Algebra and Geometry}] L10 items 5--7: $\RealAlgOrder$, $\MetricSpaceUp$, $\SOneUp$. Exit criterion:
+    \begin{itemize}
+      \item Closure axis: $\TheoryGate(N, \scopedClosure)$ for every $N$ in $\{\RealAlgOrder, \MetricSpaceUp, \SOneUp\}$.
+      \item Verification axis: $\FormalStatus(N, \auditCleanV)$ on the cited Lean targets.
+      \item Bridge status: pending.
+    \end{itemize}
+  \item[\textbf{Phase Compact and Continuous}] L10 items 8--11: $\TotallyBoundedUp$, $\CompleteMetricUp$, $\CompactMetricUp$, $\ContinuousMapUp$. Exit criterion:
+    \begin{itemize}
+      \item Closure axis: $\TheoryGate(N, \scopedClosure)$ for every $N$ in $\{\TotallyBoundedUp, \CompleteMetricUp, \CompactMetricUp, \ContinuousMapUp\}$.
+      \item Verification axis: $\FormalStatus(N, \auditCleanV)$ on the cited Lean targets.
+      \item Bridge status: pending.
+    \end{itemize}
+  \item[\textbf{Phase Linear Algebra and Analysis Seed}] L8 vector-space layer plus L11 calculus seed: $\VecSpaceUp$, $\LinMapUp$, $\MatrixUp$, $\NormUp$, $\HilbertUp$. Exit criterion:
+    \begin{itemize}
+      \item Closure axis: $\TheoryGate(N, \scopedClosure)$ for every $N$ in $\{\VecSpaceUp, \LinMapUp, \MatrixUp, \NormUp, \HilbertUp\}$.
+      \item Verification axis: $\FormalStatus(N, \auditCleanV)$ on the cited Lean targets.
+      \item Bridge status: pending.
+    \end{itemize}
+  \item[\textbf{Phase Category and Bridge}] L12 $\CategoryUp$ and L14 bridge for already-checked objects. Exit criterion:
+    \begin{itemize}
+      \item Closure axis: $\TheoryGate(N, \scopedClosure)$ for every phase object, with $\bridgedClosure$ only for objects whose standard bridge is explicitly supplied.
+      \item Verification axis: $\FormalStatus(N, \auditCleanV)$ on the cited BEDC Lean targets and $\FormalStatus(N, \bridgeCheckedV)$ on bridge targets where claimed.
+      \item Bridge status: supplied for the named bridge deliverables and pending elsewhere.
+    \end{itemize}
 \end{description}
 
-The reviewer pipeline picks targets in service of the current open phase. Targets that advance a later phase while the current phase is open are deferred. The roadmap is amended in place when a phase exits, never via patch markers or version annotations.
+The reviewer pipeline picks targets in service of the current open phase. Targets that advance a later phase while the current phase is open are deferred. The roadmap is maintained in place when a phase exits, without version annotations.
 
 \section{Claims explicitly off the table}
 \label{sec:roadmap-off-the-table}
 
-Until each milestone holds at the strength specified above, the project does not claim:
+The discipline of this manuscript is two-axis. The following readings are refused:
 \begin{enumerate}
   \item BEDC has re-derived all of mature mathematics.
   \item $\RealUp$ is complete.
   \item $\SOneUp$ is complete.
   \item $\FoldUp$ is complete.
-  \item $\NatUp$ seed equals full natural-number theory.
-  \item $\AddUp$ seed equals full addition.
+  \item $\NatUp$ at $\scopedClosure$ equals full natural-number theory.
+  \item $\AddUp$ at $\scopedClosure$ equals full addition.
   \item Paper certificates equal machine-checked certificates.
   \item Lean scaffolds equal verified implementations.
   \item External standard models replace BEDC internal proof obligations.
-  \item Host equality, host $\texttt{Nat}$, or host functions are part of the BEDC public surface.
+  \item Host equality, host $\mathsf{Nat}$, or host functions are part of the BEDC public surface.
+  \item Machine verification is required for theoretical closure.
+  \item Without $\theoremCheckedV$ no closure grade above $\seedClosure$ may be claimed.
+  \item A checked theorem-shape scaffold closes the corresponding object theory.
+  \item A scoped certificate closure is a full traditional-object reconstruction.
+  \item A bridge is closed merely because the BEDC-side certificate is checked.
 \end{enumerate}
 
 The discipline of this roadmap is condensed in one line:

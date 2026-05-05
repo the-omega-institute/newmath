@@ -240,6 +240,18 @@ theorem MetricDistanceWitness_triangle_left_distance_empty_visible_context_close
       (y := z) (d := dxyz)).mpr
       (And.intro pCarrier (And.intro qCarrier central))
 
+theorem MetricDistanceWitness_triangle_left_empty_boundary_witness {x y z dxy dyz dxyz :
+    BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dxy BHist.Empty ->
+        MetricDistanceWitness BHist.Empty z dxyz := by
+  intro xy yz xyz dxyEmpty
+  have collapsed :
+      hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame dxyz z ∧ hsame dyz z :=
+    MetricDistanceWitness_triangle_left_distance_empty_collapse xy yz xyz dxyEmpty
+  exact (MetricDistanceWitness_empty_left_iff (y := z) (d := dxyz)).mpr
+    (And.intro yz.right.left collapsed.right.right.left)
+
 theorem MetricDistanceWitness_triangle_right_distance_empty_collapse {x y z dxy dyz dxyz :
     BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
