@@ -157,6 +157,28 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
 
+theorem NumFieldReflexiveRational_coordinate_readback_pair_determinacy {m c0 c1 : BHist} :
+    RatHistoryCarrier m -> Cont m BHist.Empty c0 -> Cont m BHist.Empty c1 ->
+      RatHistoryClassifier c0 c1 ∧ RatHistoryClassifier c0 m ∧ RatHistoryClassifier c1 m := by
+  intro carrierM readback0 readback1
+  have sameC0M : hsame c0 m :=
+    cont_right_unit_result readback0
+  have sameC1M : hsame c1 m :=
+    cont_right_unit_result readback1
+  have carrierC0 : RatHistoryCarrier c0 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC0M) carrierM
+  have carrierC1 : RatHistoryCarrier c1 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC1M) carrierM
+  have classifiedC0M : RatHistoryClassifier c0 m :=
+    And.intro carrierC0 (And.intro carrierM sameC0M)
+  have classifiedC1M : RatHistoryClassifier c1 m :=
+    And.intro carrierC1 (And.intro carrierM sameC1M)
+  have classifiedMC1 : RatHistoryClassifier m c1 :=
+    RatHistoryClassifier_symm classifiedC1M
+  have classifiedC0C1 : RatHistoryClassifier c0 c1 :=
+    RatHistoryClassifier_trans classifiedC0M classifiedMC1
+  exact And.intro classifiedC0C1 (And.intro classifiedC0M classifiedC1M)
+
 theorem NumFieldReflexiveRational_coordinate_readback_uniqueness {m c0 c1 : BHist} :
     RatHistoryCarrier m -> Cont m BHist.Empty c0 -> Cont m BHist.Empty c1 ->
       RatHistoryClassifier c0 c1 ∧ RatHistoryClassifier c0 m ∧
