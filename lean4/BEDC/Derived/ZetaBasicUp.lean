@@ -13,6 +13,9 @@ def ZetaBasicUnitTerm (_n s : BHist) : BHist := BHist.e1 s
 def ZetaBasicPartSum (s n z : BHist) : Prop :=
   DirichletPartSum ZetaBasicUnitTerm s n z
 
+def ZetaBasic (s z : BHist) : Prop :=
+  DirichletSeriesConv ZetaBasicUnitTerm s z
+
 theorem ZetaBasicPartSum_unary_result {s n z : BHist} :
     UnaryHistory s -> UnaryHistory n -> ZetaBasicPartSum s n z -> UnaryHistory z := by
   intro unaryS unaryN sum

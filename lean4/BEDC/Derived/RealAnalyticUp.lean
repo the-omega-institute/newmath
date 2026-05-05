@@ -105,4 +105,35 @@ theorem RealAnalyticComplexAbsPartSum_closed_pointwise_index_result_unary_transp
       modulusUnary modulusSame unaryN source target
   exact And.intro unaryN unaryT
 
+theorem RealAnalyticLocalStream_obligations_package {zero zero' : BHist}
+    {c d modulus modulus' : BHist -> BHist} :
+    UnaryHistory zero -> hsame zero zero' ->
+      (forall {i : BHist}, UnaryHistory i -> UnaryHistory (c i)) ->
+        (forall {i : BHist}, UnaryHistory i -> UnaryHistory (modulus i)) ->
+          (forall {i : BHist}, UnaryHistory i -> hsame (c i) (d i)) ->
+            (forall {i : BHist}, UnaryHistory i -> hsame (modulus i) (modulus' i)) ->
+              ((forall {n S : BHist}, ComplexPartSum zero c n S ->
+                    UnaryHistory n ∧ UnaryHistory S) ∧
+                (forall {n S T : BHist}, UnaryHistory n -> ComplexPartSum zero c n S ->
+                  ComplexPartSum zero' d n T -> UnaryHistory T) ∧
+                (forall {n M : BHist}, ComplexAbsPartSum zero modulus n M ->
+                  UnaryHistory n ∧ UnaryHistory M) ∧
+                (forall {n M T : BHist}, UnaryHistory n ->
+                  ComplexAbsPartSum zero modulus n M ->
+                    ComplexAbsPartSum zero' modulus' n T -> UnaryHistory T)) := by
+  intro zeroUnary sameZero termUnary modulusUnary termSame modulusSame
+  constructor
+  · intro n S sum
+    exact RealAnalyticComplexPartSum_index_result_unary zeroUnary termUnary sum
+  constructor
+  · intro n S T unaryN source target
+    exact RealAnalyticComplexPartSum_pointwise_result_unary_transport zeroUnary sameZero
+      termUnary termSame unaryN source target
+  constructor
+  · intro n M sum
+    exact RealAnalyticComplexAbsPartSum_index_result_unary zeroUnary modulusUnary sum
+  · intro n M T unaryN source target
+    exact RealAnalyticComplexAbsPartSum_pointwise_result_unary_transport zeroUnary sameZero
+      modulusUnary modulusSame unaryN source target
+
 end BEDC.Derived.RealAnalyticUp
