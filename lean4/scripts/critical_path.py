@@ -288,6 +288,11 @@ def extract_horizons() -> dict[str, dict]:
             is_chapter_retired_from_horizon(full_text, name)
         )
         closed_at = [theory_grade, formal_grade] if retired else None
+        # Compute next-grade targets per axis. Used by phase B/C prompts to
+        # pick the right "level transition" target shape for the round.
+        theory_next = _next_grade(theory_grade, CLOSURE_GRADE_ORDER)
+        formal_next = _next_grade(formal_grade, FORMAL_GRADE_ORDER)
+        next_axis = _select_next_axis(theory_grade, formal_grade)
         camel = derive_lean_camel_case(name, text)
         lean_file = DERIVED_DIR / f"{camel}Up.lean"
         siblings = _collect_siblings(tex, name, camel, lean_file)
@@ -299,11 +304,61 @@ def extract_horizons() -> dict[str, dict]:
             "closed": retired,
             "closure_grounding": lean_target,
             "lean_target": lean_target,
+            "theory_grade": theory_grade,
+            "formal_grade": formal_grade,
+            "theory_grade_next": theory_next,
+            "formal_grade_next": formal_next,
+            "next_axis": next_axis,
+            "next_grade_transition": _format_transition(
+                theory_grade, formal_grade, theory_next, formal_next, next_axis
+            ),
             "file_paper": str(tex.relative_to(ROOT)),
             "file_lean": str(lean_file.relative_to(ROOT)),
             "siblings": siblings,
         }
     return horizons
+
+
+def _next_grade(current: str | None, order: list[str]) -> str | None:
+    """Next-higher grade in `order` after `current`. None if at top or
+    `current` is not in `order` (treat as needing the lowest grade)."""
+    if current is None:
+        return order[0] if order else None
+    if current not in order:
+        return order[0] if order else None
+    i = order.index(current)
+    if i + 1 >= len(order):
+        return None
+    return order[i + 1]
+
+
+def _select_next_axis(theory: str | None, formal: str | None) -> str:
+    """Choose which axis (theory_closure / formal_status) needs the next
+    bump first. Strategy: pick the axis that is FARTHEST below its
+    retirement threshold — the more lagging axis is the bottleneck for
+    retirement. Ties go to formal (lean rounds dominate the dispatcher)."""
+    def lag(grade, order, threshold):
+        if grade is None:
+            return len(order)  # "below the order" — max lag
+        try:
+            cur = order.index(grade)
+        except ValueError:
+            return len(order)
+        try:
+            tgt = order.index(threshold)
+        except ValueError:
+            return 0
+        return max(0, tgt - cur)
+    t_lag = lag(theory, CLOSURE_GRADE_ORDER, RETIREMENT_CLOSURE_THRESHOLD)
+    f_lag = lag(formal, FORMAL_GRADE_ORDER, RETIREMENT_FORMAL_THRESHOLD)
+    return "theory_closure" if t_lag > f_lag else "formal_status"
+
+
+def _format_transition(theory_cur, formal_cur, theory_next, formal_next, axis) -> str:
+    """Human-readable string codex can plan against."""
+    if axis == "theory_closure":
+        return f"theory: {theory_cur or '(none)'} -> {theory_next or '(top)'}"
+    return f"formal: {formal_cur or '(none)'} -> {formal_next or '(top)'}"
 
 
 def _collect_siblings(parent_tex: Path, chapter_name: str, camel: str,
@@ -520,6 +575,14 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
             # unmarked). Replaces the older chapter-level tiebreak which
             # didn't differentiate siblings within a chapter.
             sib_tiebreak = sib_effective_unmarked / (1.0 + sib["thms"])
+            # Distance from retirement (used in sort key — chapters
+            # closer to (scoped, theoremChecked) get a small boost so the
+            # tail closes faster while still respecting downstream order).
+            t_lag = _grade_lag(info.get("theory_grade"),
+                               CLOSURE_GRADE_ORDER, RETIREMENT_CLOSURE_THRESHOLD)
+            f_lag = _grade_lag(info.get("formal_grade"),
+                               FORMAL_GRADE_ORDER, RETIREMENT_FORMAL_THRESHOLD)
+            chapter_lag = t_lag + f_lag
             ranked.append({
                 "name": n,
                 "deps": info["deps"],
@@ -530,6 +593,14 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
                 "downstream": chapter_down,
                 "score": chapter_down,
                 "tiebreak": round(sib_tiebreak, 2),
+                # Grade metadata (Phase 1 layered closure planning):
+                "theory_grade": info.get("theory_grade"),
+                "formal_grade": info.get("formal_grade"),
+                "theory_grade_next": info.get("theory_grade_next"),
+                "formal_grade_next": info.get("formal_grade_next"),
+                "next_axis": info.get("next_axis"),
+                "next_grade_transition": info.get("next_grade_transition"),
+                "chapter_grade_lag": chapter_lag,
                 # Sibling-level fields:
                 "sibling_id": sib["sibling_id"],
                 "sibling_thms": sib["thms"],
@@ -540,13 +611,35 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
                 "file_paper": sib["file_paper"],
                 "file_lean": sib["file_lean"],
             })
-    # Sort: prefer high downstream, then HIGH effective_unmarked (slots not
-    # already claimed), then per-sibling tiebreak, then alphabetic.
+    # Sort: prefer high downstream, then chapters CLOSER to retirement
+    # (lower chapter_grade_lag = closer to scoped+theoremChecked → finish
+    # them off so retirement frees critical-path slots), then HIGH
+    # effective_unmarked, then per-sibling tiebreak, then alphabetic.
     ranked.sort(key=lambda r: (
-        -r["score"], -r["sibling_effective_unmarked"], -r["tiebreak"],
+        -r["score"],
+        r["chapter_grade_lag"],
+        -r["sibling_effective_unmarked"],
+        -r["tiebreak"],
         r["name"], r["sibling_id"],
     ))
     return ranked
+
+
+def _grade_lag(grade: str | None, order: list[str], threshold: str) -> int:
+    """Number of grade steps between `grade` and `threshold` (≥0). Used by
+    the sort key to prefer chapters closer to retirement so the tail
+    closes faster."""
+    if grade is None:
+        return len(order)
+    try:
+        cur = order.index(grade)
+    except ValueError:
+        return len(order)
+    try:
+        tgt = order.index(threshold)
+    except ValueError:
+        return 0
+    return max(0, tgt - cur)
 
 
 def main() -> int:

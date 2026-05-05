@@ -157,6 +157,7 @@ pointwise comparison $c(m)\hsame d(m)$ at unary indices. Unary history
 transport along $\hsame$ carries $\mathsf{UnaryHistory}(S)$ to
 $\mathsf{UnaryHistory}(T)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexPartSum\_closed\_pointwise\_index\_result\_unary\_transport}
 
 \begin{theorem}[Real-analytic pointwise absolute partial-sum target unaryness]
 \label{thm:real-analytic-complex-abs-part-sum-pointwise-result-unary-transport}
@@ -175,6 +176,79 @@ comparison, and the unary index witness. Unary history closure under $\hsame$
 gives unaryness of $T$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexAbsPartSum\_pointwise\_result\_unary\_transport}
+
+\begin{theorem}[Closed pointwise absolute partial-sum unary transport]
+\label{thm:real-analytic-complex-abs-part-sum-closed-pointwise-index-result-unary-transport}
+For two modulus families $m,m':\mathsf{BHist}\to\mathsf{BHist}$, suppose
+the chosen zero histories $zero$ and $zero'$ are $\hsame$, the source zero
+history $zero$ is unary, each $m(i)$ is unary whenever $i$ is unary, and
+$m(i)\hsame m'(i)$ for every unary index $i$. If closed absolute partial-sum
+witnesses compute $M$ for $(zero,m)$ and $T$ for $(zero',m')$ at the same
+index $n$, then $\mathsf{UnaryHistory}(n)$ and $\mathsf{UnaryHistory}(T)$.
+\end{theorem}
+\begin{proof}
+Apply the absolute partial-sum index/result unary theorem to the source
+witness. The source zero unaryness and the unaryness of $m(i)$ on unary
+indices give both $\mathsf{UnaryHistory}(n)$ and $\mathsf{UnaryHistory}(M)$.
+
+Using the derived unary index witness, apply the pointwise absolute partial-sum
+target unary transport theorem to the two closed computations. The zero
+comparison, source modulus unaryness, and pointwise comparison
+$m(i)\hsame m'(i)$ at unary indices give $\mathsf{UnaryHistory}(T)$.
+\end{proof}
+
+\begin{theorem}[Real-analytic local stream unary package]
+\label{thm:real-analytic-local-stream-obligations-only}
+Let $zero,zero':\mathsf{BHist}$ be chosen zero histories. Let
+$c,d:\mathsf{BHist}\to\mathsf{BHist}$ be complex term families, and let
+$m,m':\mathsf{BHist}\to\mathsf{BHist}$ be absolute-modulus families. Assume
+$\mathsf{UnaryHistory}(zero)$, $zero\hsame zero'$, each $c(i)$ is unary at
+unary $i$, each $m(i)$ is unary at unary $i$, and the pointwise comparisons
+$c(i)\hsame d(i)$ and $m(i)\hsame m'(i)$ hold at every unary index $i$. Then
+the local stream side supplies exactly the following four obligations:
+\begin{enumerate}
+\item every closed witness $\mathsf{ComplexPartSum}(zero,c,n,S)$ gives
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{UnaryHistory}(S)$;
+\item if $n$ is unary and closed pointwise witnesses
+$\mathsf{ComplexPartSum}(zero,c,n,S)$ and
+$\mathsf{ComplexPartSum}(zero',d,n,T)$ are given, then
+$\mathsf{UnaryHistory}(T)$;
+\item every closed witness $\mathsf{ComplexAbsPartSum}(zero,m,n,M)$ gives
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{UnaryHistory}(M)$;
+\item if $n$ is unary and closed pointwise witnesses
+$\mathsf{ComplexAbsPartSum}(zero,m,n,M)$ and
+$\mathsf{ComplexAbsPartSum}(zero',m',n,T)$ are given, then
+$\mathsf{UnaryHistory}(T)$.
+\end{enumerate}
+This package contains only finite stream-side data; the $\RegSeqRat$ carrier
+row, the $\RealUp$ limit witness row, and the limit-uniqueness classifier row
+remain the separate supplied hypotheses of
+\autoref{thm:real-analytic-certificate-boundary}.
+\end{theorem}
+\begin{proof}
+For the complex closed-source clause, apply
+\autoref{thm:real-analytic-complex-part-sum-index-result-unary}. Its hypotheses
+are exactly the unary zero history and unaryness of $c(i)$ on unary indices.
+
+For the complex pointwise target clause, apply
+\autoref{thm:real-analytic-complex-part-sum-pointwise-result-unary-transport}.
+The hypotheses provide the comparison $zero\hsame zero'$, the source unary
+zero history, unaryness of the source term family, the pointwise comparisons
+$c(i)\hsame d(i)$, and the displayed unary index.
+
+For the absolute closed-source clause, apply
+\autoref{thm:real-analytic-complex-abs-part-sum-index-result-unary}. Its
+hypotheses are the same unary zero history and unaryness of $m(i)$ on unary
+indices.
+
+For the absolute pointwise target clause, apply
+\autoref{thm:real-analytic-complex-abs-part-sum-pointwise-result-unary-transport}.
+The hypotheses provide the zero comparison, the source unary zero history, the
+source modulus unaryness, the pointwise comparisons $m(i)\hsame m'(i)$, and the
+displayed unary index. These four applications do not create a
+$\RegSeqRat$ name, a $\RealUp$ limit, or a real-history classifier; those rows
+remain external to the finite stream package.
+\end{proof}
 
 \begin{lemma}[Exponential Cauchy modulus on bounded inputs]
 \label{lem:real-analytic-exp-cauchy}

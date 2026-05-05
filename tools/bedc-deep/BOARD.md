@@ -8007,3 +8007,191 @@ Chapter 123 presents Series↑ as NameCertSeq↑ plus partial-sum sequence with 
 
 ---
 
+### B-308 - QuotientRing zero coset classification
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | QuotientRing zero coset classification |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under Ring↑ and Ideal↑ setup, a ≡I 0R if and only if a is R-carried and I(a) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/85_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/83_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/42_ring_namecert_construction.tex`
+
+Rationale:
+QuotientRing↑ chapter already lifts addition and multiplication descent to ideal cosets but does not isolate the zero-coset classification as a theorem. This is the natural classifier counterpart to the descent theorems and a direct prerequisite for ModN-style zero classification. The proof unfolds a ≡I 0R using a − 0R ∼R a and the ideal classifier transport, so it is short and does not invoke any new structure beyond existing Ring↑ and Ideal↑ fields. No BOARD entry covers ideal-coset zero classification, and no paper label matches.
+
+---
+
+
+### B-309 - ModN as the nZ quotient certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | ModN as the nZ quotient certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under Int↑ and positive n : Nat↑, if nZ is certified as an Int↑ ideal, then QuotientRing↑(Int↑, nZ) yields a ModN↑ NameCert with the same classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/104_modn_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/83_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/30_int_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_nat_namecert_construction.tex`
+
+Rationale:
+ModN↑ chapter currently asserts in prose that ModN is the canonical QuotientRing↑ instance over nZ but does not provide a theorem specializing the QuotientRing certificate to the ModN certificate. This bridge theorem upgrades a header-level interface to a scannable certificate target and unblocks downstream formalization that wants to reuse ModN classifier laws. It is distinct from quotient-ring descent theorems already on the books because it is the specialization step, not the closure step.
+
+---
+
+
+### B-310 - HoloOnDisk subdisk restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | HoloOnDisk subdisk restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Holo↑ seed setup, HoloOnDisk(f, z0, r) and a certified r' ≤ r imply HoloOnDisk(f, z0, r') with a compatible classifier and ledger witness.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/67_holomorphic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/79_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/78_complex_analytic_namecert_construction.tex`
+
+Rationale:
+Holo↑ chapter is currently Seed and lists composition image-containment and identity-on-smaller-disk obligations but provides no theorem that the holomorphic carrier restricts to a smaller concentric disk. This monotonicity is a structural prerequisite for both closure obligations and any disk-shrinking identity argument. The proof mostly uses OpenDisk gap and refinement infrastructure already present in CplxTopo↑ plus existing hsame transport, so it sits cleanly inside the BEDC certificate scope without invoking external complex analysis.
+
+---
+
+
+### B-311 - HoloOnDisk additive closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | HoloOnDisk additive closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Holo↑ seed setup, HoloOnDisk(f, z0, r) and HoloOnDisk(g, z0, r) with compatible uniform-modulus witnesses imply HoloOnDisk(f + g, z0, r).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/67_holomorphic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_complex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/78_complex_analytic_namecert_construction.tex`
+
+Rationale:
+Holo↑ core obligations explicitly list sum, product, and composition closure but the existing PDF-side Holo theorems concentrate on open-disk boundary and iterated differentiability readback, not additive closure. Additive closure is the smallest of the three closure theorems and a natural sibling of the product and composition closure targets, with a self-contained proof using complex pointwise sum and modulus pasting plus hsame-stable ledger composition. No BOARD entry currently covers this closure direction.
+
+---
+
+
+### B-312 - Holo dense-sequence identity classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Holo dense-sequence identity classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Holo↑ seed setup, if f and g are holomorphic on the same disk and classifier-equal on a certified quantitatively dense sequence, then f and g are identified by the Holo classifier on any certified smaller disk.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/67_holomorphic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/79_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/74_analytic_continuation_namecert_construction.tex`
+
+Rationale:
+Holo↑ obligations explicitly list a dense-sequence identity obligation but currently leave it as a Seed field rather than a paper theorem. The proposed claim is the BEDC certificate counterpart of the classical identity theorem, expressed entirely through CplxTopo↑ DomCompat and density witnesses already certified in the chapter. It is the highest-leverage upgrade from Holo seed status to scannable certificate, and it is genuinely new relative to the BOARD which contains no analogous identity-classifier targets. Complexity is real but bounded by the existing density and DomCompat scaffolding.
+
+---
+
+
+### B-313 - LFunction finite zero-tail stability
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LFunction finite zero-tail stability |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under LFunction↑ Dirichlet partial-sum setup, DirichletPartSum(term, s, n, S) together with term(i, s) ∼ e for all i in [n, n+k) implies DirichletPartSum(term, s, n + k, S).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/105_lfunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/69_dirichlet_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/68_complex_series_namecert_construction.tex`
+
+Rationale:
+LFunction↑ already proves successor positivity, previous uniqueness, successor determinacy, and one-step zero-term stability, but lacks the multi-step finite-fold version. The proposed theorem is the natural Nat-induction extension of the one-step theorem and is needed for any later truncation argument on Dirichlet partial sums. It stays strictly inside BEDC certificate framework about partial-sum stability and does not introduce analytic L-function content. Short complexity, clear induction skeleton, no BOARD overlap.
+
+---
+
+### B-314 - HoloOnDisk nested subdisk functoriality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | HoloOnDisk nested subdisk functoriality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under HolomorphicUp, given Subradius(r2,r1;e1) and Subradius(r1,r0;e0) over a HoloOnDisk(f,z0,r0) parent witness, the iterated subdisk witness W↾e1∘(W↾e0) is classifier-equivalent to the direct subdisk witness W↾(e0·e1) of HoloOnDisk(f,z0,r2) along the composed ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/55_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/43_holomorphic_namecert_construction.tex`
+
+Rationale:
+This is the natural functoriality completion of the two existing items in 55_complex_topology_namecert_construction.tex: lem:holo-certified-subdisk-radius-compose composes Subradius witnesses at the LEDGER level only, and thm:holo-on-disk-subdisk-restriction restricts along a SINGLE Subradius. Neither states that two successive HoloOnDisk restrictions yield the classifier-equivalent witness as one direct restriction along the composed ledger e0·e1. This functoriality square is a concrete coherence theorem on the modulus ledger δ_r2(k,g'')=δ_r1(k,g''·e1)=δ_r0(k,g''·e1·e0)=δ_r0(k,g''·(e0·e1)) and on the inherited stability/classifier fields. It is distinct from B-10 (interval nested bounds, different carrier), B-11 (categorical functor composition over hom-carriers), and B-29 (lattice bound uniqueness). It does not duplicate any \label{*:holo-*} or \label{*:cplx-topo-*} entry in the paper. Landing in 55_complex_topology_namecert_construction.tex (415 lines) is safe and natural — the proof reuses lem:holo-certified-subdisk-radius-compose plus the parent restriction theorem twice. Risk: medium (witness-level coherence over already-proven ledger-level coherence).
+
+---
+
