@@ -6445,3 +6445,55 @@ Belongs to concrete_instances chapter 26 (FormalPowerSeries). Textbook-classical
 
 ---
 
+### B-249 - Continuation fixed right-unit probe forces source emptiness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Continuation fixed right-unit probe forces source emptiness |
+| Layer | proof_standing |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For all histories p and u, (forall r:BHist, ContR(p,u,r) -> HSame(r,p)) implies HSame(u,emp).
+
+Local inputs:
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+- `papers/bedc/parts/proof_obligations/unary_shift_and_commutativity.tex`
+- `lean4/BEDC/FKernel/Continuation.lean`
+
+Rationale:
+Clean inversion/forcing theorem on the core continuation relation: it characterizes the empty history as the unique right-unit witness of ContR by probing across all result histories. The existing paper has def:continuation-relation, def:continuation-step-rules, and def:continuation-morphism-comp-closed but no labeled theorem reading off emptiness from the universal right-fixedpoint condition. None of the existing BOARD entries (B-06 through B-31) target continuation right-unit inversion; they cluster around concrete-instance stability fields (lattice, module, polynomial, functor, nattrans) and naming-license boundaries, not the abstract continuation relation itself. The implication form is concrete (single P implies Q under the BHist/ContR setup), at the right level for proof_standing or the relational-extension core chapter, and would give a reusable lemma for arguing about identity-style continuation interfaces without committing to a specific concrete instance.
+
+---
+
+### B-250 - Prewhiskering preserves vertical composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Prewhiskering preserves vertical composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under FunctorUp and NatTransUp setups, for L : B -> C and vertically composable alpha : F => G, beta : G => H, the prewhiskered transformation (beta o_v alpha) * L has the same component family as (beta * L) o_v (alpha * L) up to the nattrans component classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Chapters 37 and 38 are 100% definition-only, and `def:functor-whiskered-nattrans-certificate-data` already supplies the prewhiskering carrier on the paper side, but no theorem states an interchange law between whiskering and vertical composition. This is distinct from B-11 (functor composition closes the hom-carrier classifier) and B-14 (vertical composition preserves the naturality square): it pins down how prewhiskering distributes over vertical composition, which is a third independent categorical interchange law and a natural next theorem site once B-11 and B-14 land. The proof is a direct component-wise calculation under the existing certificate fields, making it a clean medium-risk slot.
+
+---
+

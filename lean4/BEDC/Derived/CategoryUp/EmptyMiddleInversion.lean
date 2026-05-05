@@ -1,4 +1,5 @@
 import BEDC.Derived.CategoryUp.EmptySourceComposite
+import BEDC.Derived.CategoryUp.EmptyComposite
 
 namespace BEDC.Derived.CategoryUp
 
@@ -29,5 +30,16 @@ theorem CategoryHomCarrier_comp_empty_middle_displayed_morphism_deterministic
     CategoryHomCarrier_comp_empty_middle_inversion
       (a := a) (c := c) (f := f) (g := g) (fg := fg) left right comp
   exact CategoryHomCarrier_morphism_deterministic displayedCarrier inverted.right.right.right.left
+
+theorem CategoryHomCarrier_comp_empty_middle_empty_result_components {a c f g fg : BHist} :
+    CategoryHomCarrier a BHist.Empty f -> CategoryHomCarrier BHist.Empty c g -> Cont f g fg ->
+      hsame fg BHist.Empty ->
+        hsame a BHist.Empty ∧ hsame c BHist.Empty ∧ hsame f BHist.Empty ∧
+          hsame g BHist.Empty := by
+  intro left right comp resultEmpty
+  have emptyData := (CategoryHomCarrier_comp_result_empty_iff left right comp).mp resultEmpty
+  exact And.intro emptyData.right.right.left
+    (And.intro (hsame_symm emptyData.right.right.right)
+      (And.intro emptyData.left emptyData.right.left))
 
 end BEDC.Derived.CategoryUp

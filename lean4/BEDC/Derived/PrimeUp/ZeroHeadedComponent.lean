@@ -32,4 +32,15 @@ theorem NatMul_zero_headed_component_absurd {d q n : BHist} :
               cases nEq
               exact unary_no_zero_extension nUnary
 
+theorem NatDivides_zero_headed_component_absurd {d n : BHist} :
+    NatDivides d n -> ((∃ z : BHist, d = BHist.e0 z) ∨
+      (∃ z : BHist, n = BHist.e0 z)) -> False := by
+  intro divides zeroComponent
+  cases divides with
+  | intro q qData =>
+      exact NatMul_zero_headed_component_absurd qData.right
+        (Or.elim zeroComponent
+          (fun dZero => Or.inl dZero)
+          (fun nZero => Or.inr (Or.inr nZero)))
+
 end BEDC.Derived.PrimeUp
