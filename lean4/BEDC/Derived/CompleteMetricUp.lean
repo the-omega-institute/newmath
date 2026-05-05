@@ -82,4 +82,12 @@ theorem SingletonCompleteMetric_laws :
   · intro x y sameX sameY
     exact hsame_trans sameX (hsame_symm sameY)
 
+theorem CompleteMetricLimitWitness_singleton_uniqueness
+    {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
+    CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M0 l0 ->
+      CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M1 l1 ->
+        hsame l0 l1 := by
+  intro witness0 witness1
+  exact hsame_trans witness0.left (hsame_symm witness1.left)
+
 end BEDC.Derived.CompleteMetricUp

@@ -350,4 +350,25 @@ theorem complex_diff_name_certificate {f z fp : BHist} (diff : CplxDiffAt f z fp
       exact (CplxDiffAt_hsame_transport_witness carrier (hsame_refl z) classified.right.right).left
   }
 
+theorem CplxDiff_stability_certificate_fields :
+    (forall {f z z' fp gp : BHist}, CplxDiffAt f z fp -> hsame z z' ->
+      hsame fp gp -> CplxDiffAt f z' gp ∧
+        exists h : BHist, exists q : BHist,
+          CplxDiffQuot f z' h q ∧ Cont f h q ∧ hsame q gp) ∧
+    (forall {f z fp gp : BHist}, CplxDiffAt f z fp -> CplxDiffAt f z gp ->
+      hsame fp gp ∧
+        exists h : BHist, exists q : BHist, CplxDiffQuot f z h q ∧ Cont f h q) ∧
+    (forall {f f' z z' h h' q q' : BHist}, hsame f f' -> hsame z z' ->
+      hsame h h' -> hsame q q' -> CplxDiffQuot f z h q ->
+        CplxDiffQuot f' z' h' q' ∧ UnaryHistory z' ∧ CplxNonZero h' ∧
+          Cont f' h' q') := by
+  constructor
+  · intro f z z' fp gp diff sameZ sameFpGp
+    exact CplxDiffAt_hsame_transport_witness diff sameZ sameFpGp
+  · constructor
+    · intro f z fp gp leftDiff rightDiff
+      exact CplxDiffAt_derivative_unique leftDiff rightDiff
+    · intro f f' z z' h h' q q' sameF sameZ sameH sameQ quotient
+      exact CplxDiffQuot_hsame_transport sameF sameZ sameH sameQ quotient
+
 end BEDC.Derived.ComplexDifferentiabilityUp
