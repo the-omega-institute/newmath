@@ -128,3 +128,88 @@ applications supply the DyadicRatCore observation rows for $s(n)$ and $t(n)$.
 Together with the selected classifier and the finite window, these are exactly
 the displayed package.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-window dyadic transport package]
+\label{thm:regseqrat-finite-window-dyadic-transport-package}
+For observation maps $s,t,s',t':\Hist\to\Hist$ and histories $a,w,k:\Hist$,
+assume RegSeqRat stream certificate spines for all four streams and
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameCarrier}(s'),\quad
+\mathsf{RatStreamNameCarrier}(t'),
+$$
+$$
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{UnaryHistory}(a),\quad
+\mathsf{UnaryHistory}(w),\quad
+\mathsf{UnaryOffsetLe}(k,w).
+$$
+Let $n=\mathsf{append}(a,k)$, and assume the selected pointwise transport rows
+$$
+\hsame(s(n),s'(n))
+\quad\text{and}\quad
+\hsame(t(n),t'(n)).
+$$
+Then the transported selected endpoints carry the finite-window dyadic package
+$$
+\begin{array}{l}
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)\land\\
+\mathsf{RatHistoryClassifier}(s'(n),t'(n))\land\\
+\mathsf{DyadicRatCoreObservationRow}(s'(n))\land
+\mathsf{DyadicRatCoreObservationRow}(t'(n)).
+\end{array}
+$$
+Here $\mathsf{DyadicRatCoreObservationRow}$ is the package described in
+\autoref{def:dyadic-rat-core-observation-row}.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage} to the
+untransported streams $s,t$, their RegSeqRat spines, the two
+$\mathsf{RatStreamNameCarrier}$ rows, the displayed StreamNameUp classifier,
+and the unary anchor, bound, and offset. This supplies the original
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$, the selected
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$, and the DyadicRatCore observation
+rows at $s(n)$ and $t(n)$.
+
+Transport the selected classifier next. Apply
+\autoref{thm:rat-history-classifier-hsame-transport} to the selected
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ and to the two pointwise
+$\hsame$ rows. The result is the transported selected classifier
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$.
+
+It remains to expose the transported DyadicRatCore rows. The offset witness
+gives the certified unary row for $k$, and unary append closure with
+$\mathsf{UnaryHistory}(a)$ gives $\mathsf{UnaryHistory}(n)$. Apply
+\autoref{thm:regseqrat-dyadic-observation-coverage} to the RegSeqRat spine
+for $s'$ at $n$, and apply the same theorem to the spine for $t'$ at $n$.
+These two applications provide the dyadic-radius ledger tokens and endpoint
+carrier faces for $s'(n)$ and $t'(n)$.
+
+The denominator face is stable under the selected pointwise transports. From
+the untransported DyadicRatCore rows, project the positive unary denominator
+rows at $s(n)$ and $t(n)$, then transport them along
+\autoref{thm:rat-positive-unary-denominator-hsame-transport} using
+$\hsame(s(n),s'(n))$ and $\hsame(t(n),t'(n))$. These transported denominator
+rows agree with the denominator components of the $s'$ and $t'$ DyadicRatCore
+packages supplied by the previous paragraph.
+
+Repack the original finite window, the transported selected classifier, and
+the two transported DyadicRatCore observation rows. This is exactly the
+displayed finite-window dyadic transport package.
+\end{proof}
+
+Fit. Traditional target: finite-window dyadic endpoint transport for
+RegSeqRat. BEDC source: $\StreamNameUp+\RatUp+\RealUp+\DyadicRatCore$ over
+$\mathsf{BHist}$. Carrier: four $\mathsf{RatStreamNameCarrier}$ rows with
+RegSeqRat stream certificate spines. Classifier:
+$\mathsf{RatStreamNameClassifier}(s,t)$ and the transported selected
+$\mathsf{RatHistoryClassifier}$. Stability: selected pointwise $\hsame$
+transport plus positive-denominator transport. Ledger: the selected unary
+offset and dyadic-radius token. Core theorem:
+\autoref{thm:regseqrat-finite-window-dyadic-transport-package}. Exactness:
+transported selected endpoint coverage. Standard bridge: finite RealUp
+observation windows for RegSeqRat streams. Downstream use: RealUp
+finite-window seal and later RegSeqRat formalization. Status:
+$\mathsf{ProofTarget}$.
