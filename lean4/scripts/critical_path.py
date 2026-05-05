@@ -121,6 +121,7 @@ SCHEMA_ONLY_HORIZONS: set[str] = {
 NAME_RE = re.compile(r"^\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$")
 UP_REF_RE = re.compile(r"\\?([A-Z][A-Za-z]*)Up\b")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
+PAPER_LABEL_RE = re.compile(r"\\label\{(thm|def|lem|prop|cor):")
 # `\closureat{<X>Up}{<strength>}` is the per-chapter binary closure marker
 # (preamble.tex). The chapter is "closed" iff a closureat with strength
 # `\checkedCertStr` or `\bridgeCertStr` is present anywhere under the
@@ -299,6 +300,8 @@ def _collect_siblings(parent_tex: Path, chapter_name: str, camel: str,
             except Exception:
                 sib_text = ""
             sib_thms = len(LEAN_MARKER_RE.findall(sib_text))
+            sib_labels = len(PAPER_LABEL_RE.findall(sib_text))
+            sib_unmarked = max(0, sib_labels - sib_thms)
             sib_closed = is_chapter_closed(sib_text, chapter_name) is not None
             siblings.append({
                 "name": chapter_name,
@@ -306,15 +309,21 @@ def _collect_siblings(parent_tex: Path, chapter_name: str, camel: str,
                 "file_paper": str(sib.relative_to(ROOT)),
                 "file_lean": file_lean_str,
                 "thms": sib_thms,
+                "labels": sib_labels,
+                "unmarked": sib_unmarked,
                 "closed": sib_closed,
             })
     if parent_has_inline or not siblings:
+        parent_thms = len(LEAN_MARKER_RE.findall(parent_text))
+        parent_labels = len(PAPER_LABEL_RE.findall(parent_text))
         siblings.append({
             "name": chapter_name,
             "sibling_id": parent_tex.stem,
             "file_paper": str(parent_tex.relative_to(ROOT)),
             "file_lean": file_lean_str,
-            "thms": len(LEAN_MARKER_RE.findall(parent_text)),
+            "thms": parent_thms,
+            "labels": parent_labels,
+            "unmarked": max(0, parent_labels - parent_thms),
             "closed": False,
         })
     return siblings
@@ -434,6 +443,12 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
         for sib in info.get("siblings", []):
             if sib.get("closed"):
                 continue
+            # CRITICAL: skip siblings with no unmarked labels — codex would
+            # find nothing to formalize there. `thms` (existing markers) is
+            # not the right signal; `unmarked = labels − markers` is.
+            sib_unmarked = sib.get("unmarked", 0)
+            if sib_unmarked <= 0:
+                continue
             ranked.append({
                 # Chapter-level fields (consumed by phase_b magnet rule etc.)
                 "name": n,
@@ -448,12 +463,16 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
                 # and the lock pool — file_paper is unique per sibling).
                 "sibling_id": sib["sibling_id"],
                 "sibling_thms": sib["thms"],
+                "sibling_labels": sib.get("labels", 0),
+                "sibling_unmarked": sib_unmarked,
                 "file_paper": sib["file_paper"],
                 "file_lean": sib["file_lean"],
             })
+    # Sort: prefer high downstream, then HIGH unmarked count (more available
+    # work), then sibling_id alphabetic.
     ranked.sort(key=lambda r: (
-        -r["score"], -r["tiebreak"], r["name"],
-        r["sibling_thms"], r["sibling_id"],
+        -r["score"], -r["sibling_unmarked"], -r["tiebreak"],
+        r["name"], r["sibling_id"],
     ))
     return ranked
 
