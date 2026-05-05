@@ -93,6 +93,13 @@ theorem CompleteMetricLimitWitness_singleton_uniqueness
 def CompleteMetricSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
 
+theorem CompleteMetricSingletonCarrier_empty_distance {x : BHist} :
+    CompleteMetricSingletonCarrier x -> MetricDistanceWitness x BHist.Empty BHist.Empty := by
+  intro carrier
+  exact
+    (MetricDistanceWitness_empty_distance_iff (x := x) (y := BHist.Empty)).mpr
+      (And.intro carrier (hsame_refl BHist.Empty))
+
 def CompleteMetricSingletonClassifier (h k : BHist) : Prop :=
   CompleteMetricSingletonCarrier h ∧ CompleteMetricSingletonCarrier k ∧ hsame h k
 

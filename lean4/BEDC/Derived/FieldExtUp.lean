@@ -588,6 +588,30 @@ theorem FieldExtSingletonOperation_readback_exactness {r m : BHist} :
           (And.intro fieldEmptyRow
             (And.intro vecEmptyRow fieldEmptyRow)))))
 
+theorem FieldExtSingleton_inverse_ledger_coverage {a : BHist} (p : FieldSingletonNonZero a) :
+    FieldSingletonCarrier a ->
+      FieldSingletonClassifier (FieldSingletonInv a p) FieldSingletonZero ∧
+        FieldSingletonClassifier (FieldSingletonMul (FieldSingletonInv a p) a) FieldSingletonOne ∧
+          (hsame a BHist.Empty -> hsame a (BHist.e0 BHist.Empty) -> False) := by
+  intro carrier
+  have emptyFieldCarrier : FieldSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyFieldRow : FieldSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyFieldCarrier
+      (And.intro emptyFieldCarrier (hsame_refl BHist.Empty))
+  have inverseRow : FieldSingletonClassifier (FieldSingletonInv a p) FieldSingletonZero := by
+    unfold FieldSingletonInv FieldSingletonZero
+    exact emptyFieldRow
+  have inverseMulRow :
+      FieldSingletonClassifier (FieldSingletonMul (FieldSingletonInv a p) a)
+        FieldSingletonOne := by
+    unfold FieldSingletonMul FieldSingletonOne
+    exact emptyFieldRow
+  exact And.intro inverseRow
+    (And.intro inverseMulRow
+      (by
+        intro _sameEmpty _sameE0
+        exact field_singleton_nonzero_absurd carrier p.right))
+
 theorem FieldExtSingleton_exact_endpoint_classification {h r m : BHist} :
     FieldSingletonCarrier h -> FieldSingletonCarrier r -> VecSpaceSingletonCarrier m ->
       FieldSingletonClassifier (FieldExtSingletonEmbedding h) BHist.Empty ∧
