@@ -61,6 +61,11 @@ def InCritStrip (sigma : BHist) : Prop :=
 def CompactSubStrip (epsilon T s : BHist) : Prop :=
   InCritStrip s ∧ UnaryHistory epsilon ∧ UnaryHistory T
 
+theorem CompactSubStrip_empty_unit_obstruction_decidable (epsilon T s : BHist) :
+    CompactSubStrip epsilon T s -> False := by
+  intro compact
+  exact CritStripOpenInterval_empty_unit_absurd compact.left.left compact.left.right
+
 def InCritStrip_open_interval_decidable (sigma : BHist) :
     Decidable
       (NatUnaryStrictPrefix BHist.Empty sigma ∧

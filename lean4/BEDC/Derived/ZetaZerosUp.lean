@@ -25,6 +25,14 @@ def ZetaBoundaryNonvanishingWitness (s sigma : BHist) : Prop :=
   ComplexHistoryCarrier s ∧ RatHistoryCarrier sigma ∧ hsame sigma (BHist.e1 BHist.Empty) ∧
     ∃ imag : BHist, RatHistoryCarrier imag ∧ Cont sigma imag s ∧ (ZetaZeroSourceSpec s -> False)
 
+theorem ZetaBoundaryNonvanishingWitness_sigma_nonempty {s sigma : BHist} :
+    ZetaBoundaryNonvanishingWitness s sigma -> (hsame sigma BHist.Empty -> False) := by
+  intro witness sameEmpty
+  have sameUnit : hsame sigma (BHist.e1 BHist.Empty) := witness.right.right.left
+  have unitEmpty : hsame (BHist.e1 BHist.Empty) BHist.Empty :=
+    hsame_trans (hsame_symm sameUnit) sameEmpty
+  exact not_hsame_e1_empty unitEmpty
+
 def ZetaZeroPatternSpec (s z : BHist) : Prop :=
   ZetaZeroSourceSpec s ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
 
