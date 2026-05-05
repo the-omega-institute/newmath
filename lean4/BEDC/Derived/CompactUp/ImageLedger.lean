@@ -33,4 +33,46 @@ theorem ImageLocatedRefinementLedger_compact_carrier
   exact CompactWitnessCarrier_located_refinement_chain_closed initial
     ledger.right.right.right.right.right
 
+theorem ImageLocatedRefinementLedger_hsame_transport
+    {source map target modulus epsilon delta imageSubset imageLocated imageFinite imageIntermediate
+      imageCompact finalImageLocated finalImageIntermediate finalImageCompact imageSubset'
+      imageLocated' imageFinite' imageIntermediate' imageCompact' finalImageLocated'
+      finalImageIntermediate' finalImageCompact' : BHist} :
+    hsame imageSubset imageSubset' -> hsame imageLocated imageLocated' ->
+      hsame imageFinite imageFinite' -> hsame imageIntermediate imageIntermediate' ->
+        hsame imageCompact imageCompact' -> hsame finalImageLocated finalImageLocated' ->
+          hsame finalImageIntermediate finalImageIntermediate' ->
+            hsame finalImageCompact finalImageCompact' ->
+              ImageLocatedRefinementLedger source map target modulus epsilon delta imageSubset
+                imageLocated imageFinite imageIntermediate imageCompact finalImageLocated
+                finalImageIntermediate finalImageCompact ->
+                ImageLocatedRefinementLedger source map target modulus epsilon delta imageSubset'
+                    imageLocated' imageFinite' imageIntermediate' imageCompact' finalImageLocated'
+                    finalImageIntermediate' finalImageCompact' ∧
+                  CompactWitnessCarrier imageSubset' finalImageLocated' imageFinite'
+                    finalImageIntermediate' finalImageCompact' ∧
+                    Cont imageSubset' finalImageLocated' finalImageIntermediate' ∧
+                      Cont finalImageIntermediate' imageFinite' finalImageCompact' := by
+  intro sameSubset sameLocated sameFinite sameIntermediate sameCompact sameFinalLocated
+    sameFinalIntermediate sameFinalCompact ledger
+  cases sameSubset
+  cases sameLocated
+  cases sameFinite
+  cases sameIntermediate
+  cases sameCompact
+  cases sameFinalLocated
+  cases sameFinalIntermediate
+  cases sameFinalCompact
+  have transportedLedger :
+      ImageLocatedRefinementLedger source map target modulus epsilon delta imageSubset imageLocated
+        imageFinite imageIntermediate imageCompact finalImageLocated finalImageIntermediate
+        finalImageCompact := ledger
+  have finalCarrier :
+      CompactWitnessCarrier imageSubset finalImageLocated imageFinite finalImageIntermediate
+        finalImageCompact :=
+    ImageLocatedRefinementLedger_compact_carrier transportedLedger
+  exact And.intro transportedLedger
+    (And.intro finalCarrier (And.intro finalCarrier.right.right.right.left
+      finalCarrier.right.right.right.right))
+
 end BEDC.Derived.CompactUp
