@@ -1,0 +1,284 @@
+\section{The certificate}
+
+\begin{definition}[SOne source specification]
+\label{def:s1-source-specification}
+The source is the $\ProdUp$ pair of two $\RealUp$ witnesses together with the real-algebra data needed to form $x^2 + y^2$ and the displayed unit witness.
+\end{definition}
+
+\begin{definition}[SOne pattern specification]
+\label{def:s1-pattern-specification}
+The pattern is unit-circle formation from a real pair and a certified proof object for the equation $x^2 + y^2 \approx 1$.
+\end{definition}
+
+\begin{definition}[SOne classifier specification]
+\label{def:s1-classifier-specification}
+The concrete $\mathsf{BHist}$ classifier relates two
+$\mathsf{SOneHistoryCarrier}$ witnesses $(x,y,e,p)$ and $(x',y',e',p')$
+exactly when $\hsame(x,x')$ and $\hsame(y,y')$ hold componentwise. Under those
+component witnesses, the equation and point ledgers are determined by
+\autoref{thm:s1-component-classifier-ledger-determinacy}, and they are
+transported by \autoref{thm:s1-equation-witness-transport} and
+\autoref{thm:s1-carrier-hsame-transport}.
+\end{definition}
+
+\begin{definition}[SOne component classifier relation]
+\label{def:sone-component-classifier-relation}
+For histories $x,y,e,p,x',y',e',p'$, the concrete relation
+$\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))$ is defined only
+between displayed $\mathsf{SOneHistoryCarrier}$ witnesses. Its data are:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p')
+\Longrightarrow
+\hsame(x,x') \wedge \hsame(y,y').
+$$
+Thus the classifier exposes exactly the two real component comparisons; the
+equation witness and the point witness stay hidden until determinacy and
+transport supply their ledgers.
+\end{definition}
+
+\begin{theorem}[SOne component classifier stability]
+\label{thm:sone-component-classifier-stability}
+On the carrier $\mathsf{SOneHistoryCarrier}$, the relation
+$\mathsf{SOneComponentClassifier}$ supplies the stability row required by the
+semantic $\NameCert$ for $\SOneUp$. Concretely:
+\begin{enumerate}
+  \item it is reflexive, symmetric, and transitive by the equivalence theorem
+  for $\hsame$ on the two exposed real components;
+  \item any classifier witness between
+  $\mathsf{SOneHistoryCarrier}(x,y,e,p)$ and
+  $\mathsf{SOneHistoryCarrier}(x',y',e',p')$ determines
+  $\hsame(e,e')$ and $\hsame(p,p')$;
+  \item the carrier transports from $(x,y,e,p)$ to $(x',y',e',p')$ along the
+  resulting four coordinate $\hsame$ witnesses.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Reflexivity, symmetry, and transitivity are inherited componentwise from
+\autoref{thm:history-sameness-equivalence}. Reflexivity uses the two diagonal
+component witnesses; symmetry reverses both exposed witnesses; transitivity
+composes the two exposed witnesses through the middle carrier.
+
+For the hidden ledgers, keep both
+$\mathsf{SOneHistoryCarrier}$ witnesses in scope and unpack the classifier as
+the exposed pair $\hsame(x,x')$ and $\hsame(y,y')$. Apply
+\autoref{thm:s1-component-classifier-ledger-determinacy}; it returns exactly
+the equation witness $\hsame(e,e')$ and the point witness $\hsame(p,p')$.
+
+The equation ledger is stable by
+\autoref{thm:s1-equation-witness-transport}. With the component ledgers and the
+determined point ledger, \autoref{thm:s1-carrier-hsame-transport} then
+transports the whole carrier from $(x,y,e,p)$ to $(x',y',e',p')$.
+
+The certificate fit has ten fields: the traditional target is unit-circle
+component classification; the BEDC source is $\mathsf{BHist}$ with
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$, $\ProdUp$, and $\mathsf{Cont}$; the
+carrier is $\mathsf{SOneHistoryCarrier}$; the classifier is
+$\mathsf{SOneComponentClassifier}$; the stability obligations are equivalence
+plus carrier transport; the ledger data are the equation and point witnesses;
+the core theorem is this stability theorem; exactness is hidden-ledger
+determinacy; the standard bridge is deferred; and the status is
+$\mathsf{ProofTarget}$.
+\end{proof}
+
+\begin{definition}[SOne stability certificate]
+\label{def:s1-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item reflexivity from reflexivity of the two real components and identity transport of the equation witness
+  \item symmetry by symmetry of the two real components and reverse transport of the equation witness
+  \item transitivity by transitivity of the two real components and composition of equation transport
+  \item compatibility with the $\ProdUp$ classifier over $\RealUp \times \RealUp$
+  \item preservation of the certified equation $x^2 + y^2 \approx 1$
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[SOne equation-witness transport]
+\label{thm:s1-equation-witness-transport}
+For histories $x,y,e,e',p$, the concrete $\SOneUp$ history carrier is stable
+under replacement of the displayed unit-equation witness along the equation
+ledger:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\hsame(e,e')
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x,y,e',p).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{SOneHistoryCarrier}(x,y,e,p)$ into the two
+$\mathsf{RealConstantHistoryCarrier}$ component fields, the
+$\mathsf{RealConstantHistoryClassifier}(e,\mathsf{SOneUnitHistory})$ field,
+and the continuation witness $\mathsf{Cont}(x,y,p)$.
+
+The equation ledger gives $\hsame(e,e')$. Combine it with
+$\hsame(\mathsf{SOneUnitHistory},\mathsf{SOneUnitHistory})$ by reflexivity and
+apply the endpoint-transport theorem for the real-constant history classifier.
+This produces
+$\mathsf{RealConstantHistoryClassifier}(e',\mathsf{SOneUnitHistory})$ while the
+two component carriers and the continuation ledger remain unchanged.
+
+Repack the four fields into $\mathsf{SOneHistoryCarrier}(x,y,e',p)$. The
+certificate fit is the traditional target unit-circle equation transport; the
+BEDC source $\mathsf{BHist}$ with $\mathsf{RealConstantHistoryClassifier}$; the
+carrier $\mathsf{SOneHistoryCarrier}$; the classifier $\hsame$ on the equation
+ledger; the stability obligation equation-witness transport; the ledger
+transported unit-equation proof; the core theorem equation-witness replacement;
+the exactness claim that the same $\SOneUp$ carrier is preserved; the standard
+bridge deferred outside this theorem; and the status $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_equation\_witness\_transport}
+
+\begin{theorem}[SOne carrier hsame transport]
+\label{thm:s1-carrier-hsame-transport}
+For histories $x,y,e,p,x',y',e',p'$, the concrete $\SOneUp$ history carrier is
+stable under componentwise $\hsame$ transport on all exposed carrier
+coordinates:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\hsame(x,x')
+\Longrightarrow
+\hsame(y,y')
+\Longrightarrow
+\hsame(e,e')
+\Longrightarrow
+\hsame(p,p')
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p').
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{SOneHistoryCarrier}(x,y,e,p)$ into the two
+$\mathsf{RealConstantHistoryCarrier}$ component fields, the
+$\mathsf{RealConstantHistoryClassifier}(e,\mathsf{SOneUnitHistory})$ field, and
+the continuation witness $\mathsf{Cont}(x,y,p)$.
+
+Transport the first and second real-constant carrier fields along
+$\hsame(x,x')$ and $\hsame(y,y')$. Each step composes the exposed endpoint
+equality of the real-constant carrier with the supplied history equality, so the
+same real-constant carrier predicate is obtained at $x'$ and at $y'$.
+
+Transport the equation classifier by applying
+$\mathsf{RealConstantHistoryClassifier\_endpoint\_transport}$ to $\hsame(e,e')$
+and the reflexive witness
+$\hsame(\mathsf{SOneUnitHistory},\mathsf{SOneUnitHistory})$. This gives
+$\mathsf{RealConstantHistoryClassifier}(e',\mathsf{SOneUnitHistory})$.
+
+Transport the continuation ledger by the kernel continuation $\hsame$ transport
+theorem, using the component witnesses for $x$, $y$, and $p$. The result is
+$\mathsf{Cont}(x',y',p')$.
+
+Repack the two transported real-constant carriers, the transported equation
+classifier, and the transported continuation ledger into
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$. The certificate fit is the
+traditional target unit-circle carrier transport; the BEDC source
+$\mathsf{BHist}$ with real-constant carrier, real-constant classifier, and
+$\mathsf{Cont}$; the carrier $\mathsf{SOneHistoryCarrier}$; the classifier
+$\hsame$ on the exposed coordinates; the stability obligation carrier
+transport; the ledger transported endpoints and equation proof; the core
+theorem this carrier-transport statement; the exactness claim that the same
+carrier predicate is preserved; the standard bridge deferred outside this
+theorem; and the status $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_coordinate\_transport}
+
+
+\begin{theorem}[SOne transported public readback]
+\label{thm:s1-public-readback-transport}
+For histories $x,y,e,p,x',y',e',p'$, a concrete $\SOneUp$ history carrier
+and componentwise transported BEDC history data expose the public readback at
+the transported tuple:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\hsame(x,x')
+\Longrightarrow
+\hsame(y,y')
+\Longrightarrow
+\hsame(e,e')
+\Longrightarrow
+\hsame(p,p')
+\Longrightarrow
+\mathsf{SOneProductHistoryCarrier}(p')\land
+\hsame(e',\mathsf{SOneUnitHistory})\land
+\exists d_x,d_y.\;
+\hsame(x',\Eone(d_x))\land
+\mathsf{RatHistoryCarrier}(d_x)\land
+\hsame(y',\Eone(d_y))\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\ContR(x',y',p').
+$$
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:s1-carrier-hsame-transport} to the displayed carrier
+and the four supplied $\hsame$ witnesses. This produces the transported carrier
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$.
+
+Next apply \autoref{thm:sone-history-carrier-public-readback} to that
+transported carrier. Its conclusion is exactly the product carrier at $p'$, the
+unit-equation readback for $e'$, the two rational component witnesses for $x'$
+and $y'$, and the transported continuation ledger.
+
+The ten-field fit is: traditional target transported unit-circle public
+readback; BEDC source $\SOneUp$ over $\mathsf{BHist}$, $\RealUp$, $\ProdUp$, and
+$\mathsf{Cont}$; carrier $\mathsf{SOneHistoryCarrier}$; classifier coordinate
+$\hsame$; stability coordinate transport; ledger transported equation and point
+witnesses; core theorem this readback; exactness public carrier and
+unit-equation exposure; standard bridge deferred; status $\mathsf{ProofTarget}$.
+\end{proof}
+\begin{definition}[SOne ledger policy]
+\label{def:s1-ledger-policy}
+Record both real witnesses, the componentwise real-classifier witnesses used in classifier derivations, and the transported unit equation proof.
+\end{definition}
+
+\begin{definition}[$\SOneUp$ certificate obligations]
+\label{def:s1-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name $\SOneUp$.
+\end{definition}
+
+\begin{theorem}[Semantic SOneUp history certificate]
+\label{thm:sone-history-semantic-namecert}
+The concrete data $\mathsf{SOneHistoryCarrier}$,
+\autoref{def:s1-source-specification}, \autoref{def:s1-pattern-specification},
+\autoref{def:s1-classifier-specification},
+\autoref{def:s1-stability-certificate}, and \autoref{def:s1-ledger-policy}
+assemble a semantic $\NameCert$ for $\SOneUp$ over $\mathsf{BHist}$.
+\end{theorem}
+\begin{proof}
+The carrier and public-readback row is supplied by
+\autoref{thm:sone-history-carrier-public-readback}: every
+$\mathsf{SOneHistoryCarrier}(x,y,e,p)$ exposes the two real histories, the
+unit-equation witness, and the point continuation ledger as concrete
+$\mathsf{BHist}$ data.
+
+The classifier row is the componentwise $\hsame$ relation from
+\autoref{def:s1-classifier-specification}. Once $\hsame(x,x')$ and
+$\hsame(y,y')$ are given,
+\autoref{thm:s1-component-classifier-ledger-determinacy} determines the hidden
+equation and point ledgers between the two carrier witnesses.
+
+The stability and ledger rows are obtained by transporting those determined
+ledgers. Apply \autoref{thm:s1-equation-witness-transport} to replace the
+unit-equation witness, and then apply \autoref{thm:s1-carrier-hsame-transport}
+to transport the full carrier package along the component, equation, and point
+$\hsame$ witnesses.
+
+The transported public row is read back by
+\autoref{thm:s1-public-readback-transport}. It exposes the product carrier, the
+unit equation, the rational component witnesses, and the continuation ledger at
+the transported tuple, so the displayed data form the semantic $\NameCert$ for
+$\SOneUp$ with the obligations listed in
+\autoref{def:s1-certificate-obligations}.
+\end{proof}
+
+\paragraph{Primitive boundary.}
+$\SOneUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:s1-zero-axiom-note}
+The interface records explicit component witnesses and equation transport, with no quotient-type representative and no use of $\mathsf{Quot.sound}$.
+\end{remark}
