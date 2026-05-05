@@ -222,6 +222,39 @@ theorem unary_append_monoid_semantic_name_certificate :
       cases sameB
       exact hsame_refl (append a b))
 
+theorem unary_append_monoid_opposite_semantic_name_certificate :
+    SemanticNameCert UnaryHistory UnaryHistory UnaryHistory (MonoidHistoryClassifier UnaryHistory) ∧
+      (forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append h BHist.Empty) h) ∧
+      (forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append BHist.Empty h) h) ∧
+      (forall {a b c : BHist}, UnaryHistory a -> UnaryHistory b -> UnaryHistory c ->
+        MonoidHistoryClassifier UnaryHistory (append c (append b a))
+          (append (append c b) a)) ∧
+      (forall {a a' b b' : BHist}, UnaryHistory a -> UnaryHistory a' -> UnaryHistory b ->
+        UnaryHistory b' -> MonoidHistoryClassifier UnaryHistory a a' ->
+          MonoidHistoryClassifier UnaryHistory b b' ->
+            MonoidHistoryClassifier UnaryHistory (append b a) (append b' a')) := by
+  exact monoid_history_semantic_name_certificate UnaryHistory
+    (fun a b : BHist => append b a) BHist.Empty unary_empty
+    (by
+      intro h k uh uk
+      exact unary_append_closed uk uh)
+    (by
+      intro a b c _ _ _
+      exact (BEDC.FKernel.Cont.append_assoc c b a).symm)
+    (by
+      intro h _
+      exact BEDC.FKernel.Cont.append_empty_right h)
+    (by
+      intro h _
+      exact BEDC.FKernel.Cont.append_empty_left h)
+    (by
+      intro a a' b b' _ _ _ _ sameA sameB
+      cases sameA
+      cases sameB
+      exact hsame_refl (append b a))
+
 theorem unary_append_monoid_left_identity_empty {e : BHist} :
     UnaryHistory e ->
       (forall {h : BHist}, UnaryHistory h ->

@@ -449,3 +449,48 @@ observation; core theorem
 \autoref{thm:rat-stream-name-finite-window-from-classifier}; exactness
 pointwise RatUp classification on bundled unary observations; standard bridge
 finite prefixes of rational streams; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rational stream-name finite-window structural laws]
+\label{thm:rat-stream-name-finite-window-structural-laws}
+For certified observation maps $s,t:\Hist\to\Hist$ and probe bundles
+$\mathcal{P},\mathcal{Q}:\mathsf{ProbeBundle}$, the finite-window classifier
+has the following structural laws.
+\begin{enumerate}
+\item If every bundled observation of $\mathcal{Q}$ is also bundled in
+$\mathcal{P}$, then
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ implies
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{Q})$.
+\item
+$\mathsf{RatStreamNameFiniteWindowClassifier}
+(s,t,\mathsf{bundleAppend}(\mathcal{P},\mathcal{Q}))$ implies both
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ and
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{Q})$.
+\item If the finite-window classifier holds on $\mathcal{P}$ and on
+$\mathcal{Q}$, then it holds on
+$\mathsf{bundleAppend}(\mathcal{P},\mathcal{Q})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier}. For the
+subbundle law, fix an arbitrary history $n$ with
+$\mathsf{InBundle}(n,\mathcal{Q})$ and a unary witness
+$\mathsf{UnaryHistory}(n)$. The assumed subbundle map transports the bundle
+membership from $\mathcal{Q}$ to $\mathcal{P}$, and the classifier on
+$\mathcal{P}$ gives $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+For the two projections from an appended bundle, fix $n$ first with
+$\mathsf{InBundle}(n,\mathcal{P})$ and then with
+$\mathsf{InBundle}(n,\mathcal{Q})$. In each case the append membership lemma
+for $\mathsf{bundleAppend}$ injects the selected membership into
+$\mathsf{InBundle}(n,\mathsf{bundleAppend}(\mathcal{P},\mathcal{Q}))$. The
+classifier on the appended bundle then supplies the corresponding point
+RatUp classifier row.
+
+For recomposition, fix $n$ with membership in
+$\mathsf{bundleAppend}(\mathcal{P},\mathcal{Q})$ and a unary witness. The
+kernel equivalence for appended bundles rewrites this membership as a
+left-or-right membership alternative. In the left case apply the classifier on
+$\mathcal{P}$; in the right case apply the classifier on $\mathcal{Q}$. Both
+cases yield the same required conclusion
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+\end{proof}

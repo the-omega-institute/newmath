@@ -30,6 +30,22 @@ theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension
       (cert := cert')).mpr
       (And.intro visibleData.left (And.intro visibleData.right.left central))
 
+theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension_output_determinacy
+    {p q source map target target' modulus cert extra modulus' cert' cert'' : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+        (append (append p cert) q) ->
+      ContinuousModulusWitness cert extra cert' ->
+        Cont modulus extra modulus' ->
+          ContinuousFunctionCarrier (append p source) map (append p target')
+              (append modulus' q) (append (append p cert'') q) ->
+            hsame target target' ∧ hsame cert' cert'' := by
+  intro carrier terminalWitness modulusRel displayed
+  have canonical :
+      ContinuousFunctionCarrier (append p source) map (append p target)
+        (append modulus' q) (append (append p cert') q) :=
+    ContinuousFunctionCarrier_visible_terminal_modulus_extension carrier terminalWitness modulusRel
+  exact ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic canonical displayed
+
 theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension_transitive
     {p q source map target modulus0 cert0 extra1 modulus1 cert1 extra2 modulus2 cert2 :
       BHist} :
