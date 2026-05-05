@@ -157,6 +157,7 @@ import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.NameCertificate
 import BEDC.Derived.ComplexLimitUp.PointwiseDifference
 import BEDC.Derived.ComplexLimitUp.PointwiseNegation
+import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
@@ -484,6 +485,7 @@ import BEDC.Derived.FieldUp.RatDenomUnitContextEndpoint
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
+import BEDC.Derived.FpsUp.StabilityFields
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.LinearMapUp.ContinuationAppendPair
 import BEDC.Derived.LinearMapUp.ContextContinuation
