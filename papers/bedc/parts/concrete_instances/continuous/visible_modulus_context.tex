@@ -21,6 +21,44 @@ reattach the modulus suffix.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_visible\_modulus\_context\_iff}
 
+\begin{theorem}[Continuous function carrier visible-context empty-map exactness]
+\label{thm:continuous-function-carrier-visible-modulus-context-empty-map-exactness}
+For histories $p,q,source,target,modulus,cert$, the empty graph map remains
+exact under visible prefix and suffix ledgers:
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,\emp,p\cdot target,
+modulus\cdot q,(p\cdot cert)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(q)\wedge
+\hsame(target,source)\wedge
+\mathsf{ContinuousModulusWitness}(target,modulus,cert).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff} to
+strip the visible prefix from source, target, and certificate and the visible
+suffix from modulus and certificate. The exposed central carrier has empty map,
+so Theorem~\ref{thm:continuous-function-carrier-empty-map-iff} gives
+$\hsame(target,source)$ and the central modulus witness.
+
+For the reverse direction, start from unary context evidence, the
+$target$--$source$ classifier, and the central modulus witness. Use
+Theorem~\ref{thm:continuous-function-carrier-empty-map-iff} to rebuild the
+central empty-map carrier, then apply
+Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff} to
+restore the visible prefix and suffix ledgers.
+
+The ten-field certificate fit is the identity uniformly continuous graph
+readback over the $BHist/\mathsf{Cont}$ source, with
+$\mathsf{ContinuousFunctionCarrier}$ as carrier, $\mathsf{hsame}$ as
+classifier, visible prefix/suffix stability as the context law, the empty graph
+map as the readback field, central modulus witness exactness as the
+certificate content, source and target ledgers classified by $\hsame$, modulus
+and certificate ledgers preserved by the suffix, and
+$\mathsf{ContinuousMapUp}$ identity-map use downstream.
+\end{proof}
+
 \begin{theorem}[Continuous modulus chain visible context exactness]
 \label{thm:continuous-modulus-chain-visible-context-iff}
 For histories $p,q,source,first,second,target$, a visible prefix on the source
