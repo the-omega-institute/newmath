@@ -36,10 +36,11 @@ def PolynomialSingletonEval (alpha : BHist) : List BHist -> BHist
       PolynomialSingletonAdd c (PolynomialSingletonMul alpha (PolynomialSingletonEval alpha cs))
 
 def PolynomialSingletonRawAdd : List BHist -> List BHist -> List BHist
-  | [], [] => []
-  | a :: xs, [] => append a BHist.Empty :: PolynomialSingletonRawAdd xs []
-  | [], b :: ys => append BHist.Empty b :: PolynomialSingletonRawAdd [] ys
-  | a :: xs, b :: ys => append a b :: PolynomialSingletonRawAdd xs ys
+  | [], ys => ys.foldr (fun b acc => append BHist.Empty b :: acc) []
+  | a :: xs, ys =>
+      match ys with
+      | [] => append a BHist.Empty :: PolynomialSingletonRawAdd xs []
+      | b :: ys => append a b :: PolynomialSingletonRawAdd xs ys
 
 inductive PolynomialZeroRemainder : List BHist -> Prop where
   | nil : PolynomialZeroRemainder []
