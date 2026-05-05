@@ -419,6 +419,32 @@ These three consequences together with the already recovered package $P$ are
 exactly $Q(D,E,u_D,u_E,z_D,z_E)$ for each bridge row.
 \end{proof}
 
+\begin{theorem}[Real constant appended-tail bridge full denominator-tail package exactness]
+\label{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, use the same definitions of $D$, $E$, the bridge rows
+$A,B,U,C$, and the full package $Q(D,E,u_D,u_E,z_D,z_E)$ as in
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}.
+If $\hsame(tail_D,tail_E)$, then the full denominator-tail package is exact
+for the bridge rows:
+$$
+Q(D,E,u_D,u_E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C.
+$$
+\end{theorem}
+\begin{proof}
+Assume $Q(D,E,u_D,u_E,z_D,z_E)$. Project its
+$P(D,E,z_D,z_E)$ component and apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness}.
+This gives the four bridge rows $A\land B\land U\land C$.
+
+Conversely assume $\hsame(tail_D,tail_E)$ and $A\land B\land U\land C$.
+Apply
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}
+under the tail agreement. The first projected implication has type
+$A\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E)$, and the projected row $A$ supplies
+its premise. Hence the full package $Q(D,E,u_D,u_E,z_D,z_E)$ holds.
+\end{proof}
+
 The bridge-readback certificate fit has ten fields: traditional target faithful
 constant rational embedding into RealUp; BEDC source RatUp plus StreamNameUp
 plus RealUp; carrier the appended-tail rational histories $D,E$ and the
@@ -431,9 +457,12 @@ together with
 \autoref{thm:real-constant-appended-tail-bridge-denominator-package},
 \autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness},
 and
-\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package};
-exactness the equivalence
-$P(D,E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C$, hence recovery of
-$R$, of $P(D,E,z_D,z_E)$, of the appended e-zero-tail exclusions, and of matched
-denominator heads from any bridge classifier row; standard bridge RegSeqRat
-denominator-tail canonicalization; status $\mathsf{ProofTarget}$.
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package},
+with exactness supplied by
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness};
+under tail agreement the equivalence
+$Q(D,E,u_D,u_E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C$ recovers
+$R$, the denominator package $P(D,E,z_D,z_E)$, the appended e-zero-tail
+exclusions, and the matched denominator heads from any bridge classifier row;
+standard bridge RegSeqRat denominator-tail canonicalization; status
+$\mathsf{ProofTarget}$.
