@@ -1,0 +1,34 @@
+\begin{lemma}[Rectangular scalar fold reindexing]
+\label{lem:rectangular-scalar-fold-reindexing}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint
+$0_R$, addition $+_R$, and finite additive folds over finite index spines as in
+\autoref{def:finite-additive-scalar-fold}. Let $J$ and $K$ be finite index
+carriers with chosen finite enumerating spines, and let
+$s:J\times K\to R$ be a pointwise carried scalar family. Assume the scalar
+classifier equivalence fields and the additive associativity, commutativity,
+zero, and congruence rows retained in \autoref{def:ring-stability-certificate}.
+Then the two rectangular iterated folds are scalar-classified:
+$$
+\Sigma_{j:J}\Sigma_{k:K}s(j,k)
+\sim_R
+\Sigma_{k:K}\Sigma_{j:J}s(j,k).
+$$
+\end{lemma}
+\begin{proof}
+Flatten both iterated folds to finite spines over the product index carrier
+$J\times K$. For the left fold, use the enumeration that lists the $K$-fiber
+inside each $j:J$; for the right fold, use the enumeration that lists the
+$J$-fiber inside each $k:K$.
+
+The two flattened spines contain the same carried scalar entries, related by the
+coordinate-swap bijection $(j,k)\mapsto(k,j)$. Additive associativity and
+commutativity make the finite additive fold invariant under this finite
+permutation, while fold congruence transports the pointwise reflexive scalar
+classifier witnesses through the two folds.
+
+Equivalently, apply the two-index fold swap certificate of
+\autoref{def:two-index-finite-fold-swap-certificate} to the family $s$ and to
+the transpose family $s^{\tau}(k,j):=s(j,k)$. The transpose compatibility
+witness is reflexive at every scalar entry, so the certificate gives exactly the
+displayed reindexing comparison.
+\end{proof}
