@@ -1,0 +1,45 @@
+\begin{theorem}[ContinuousMap visible-context canonical distance exactness]
+\label{thm:continuousmap-visible-context-canonical-distance-exactness}
+For histories $p,q,source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+the visible continuous-map carrier is exactly the central continuous-function
+carrier together with the canonical source-target distance classifier:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(p\cdot source,map,p\cdot target,modulus\cdot q,
+(p\cdot cert)\cdot q,p\cdot distance)
+\\[2pt]
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\land\mathsf{UnaryHistory}(q)\land
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)\land
+\hsame(distance,\mathsf{append}(source,target)).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:continuousmap-carrier-visible-context-category-metric-decomposition}
+to the displayed carrier. This produces unary evidence for $p$ and $q$, the
+central category hom row, the central modulus row, and
+$\mathsf{MetricDistanceWitness}(source,target,distance)$.
+
+The category hom row and the modulus row repack as
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$. Compare
+the resulting central continuous-map carrier with its canonical-distance form
+by Theorem~\ref{thm:continuousmap-carrier-canonical-distance-exactness}. This
+replaces the central metric witness by the classifier
+$\hsame(distance,\mathsf{append}(source,target))$.
+
+For the reverse direction, start from the two unary context histories, the
+central continuous-function carrier, and the displayed canonical classifier.
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-exactness} builds
+the central continuous-map carrier, equivalently transporting the canonical
+metric witness for $\mathsf{append}(source,target)$ along
+$\hsame(distance,\mathsf{append}(source,target))$.
+
+Project the central carrier into its category hom, modulus, and metric rows.
+Then apply
+Theorem~\ref{thm:continuousmap-carrier-visible-context-category-metric-decomposition}
+from right to left with the two unary context histories. The result is
+precisely the displayed visible-context
+$\mathsf{ContinuousMapCarrier}$.
+\end{proof}
