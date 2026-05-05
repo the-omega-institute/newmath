@@ -52,6 +52,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
+import BEDC.Derived.IntUp.Bridge
 import BEDC.Derived.IntUp.CanonicalReadback
 import BEDC.Derived.IntUp.PairCarrierInduction
 import BEDC.Derived.IntUp.BalancedContext
@@ -154,9 +155,11 @@ import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.Difference
 import BEDC.Derived.ComplexLimitUp.LinearClosure
+import BEDC.Derived.ComplexLimitUp.Modulus
 import BEDC.Derived.ComplexLimitUp.NameCertificate
 import BEDC.Derived.ComplexLimitUp.PointwiseDifference
 import BEDC.Derived.ComplexLimitUp.PointwiseNegation
+import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
@@ -186,6 +189,7 @@ import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
 import BEDC.Derived.ComplexTopologyUp.CertifiedSubradius
 import BEDC.Derived.ComplexTopologyUp.Density
+import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
@@ -290,6 +294,7 @@ import BEDC.Derived.RealUp.SemanticCertificate
 import BEDC.Derived.RealUp.ReindexedStreamName
 import BEDC.Derived.RealUp.EquivalenceFields
 import BEDC.Derived.RealUp.PairReadback
+import BEDC.Derived.RealUp.MalformedSealedDenominator
 import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.SelectedTransportFit
 import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
