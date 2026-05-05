@@ -15,6 +15,28 @@ def RealAnalyticTrigPart (zero : BHist) (sinTerm cosTerm : BHist -> BHist)
   ComplexPartSum zero sinTerm n sinResult ∧ ComplexPartSum zero cosTerm n cosResult ∧
     Cont sinResult cosResult pairResult
 
+def RealAnalyticSinCosCandidate (x : BHist) (sinTerm cosTerm : BHist -> BHist)
+    (n sinResult cosResult pairResult : BHist) : Prop :=
+  ComplexHistoryCarrier x ∧ UnaryHistory n ∧
+    RealAnalyticTrigPart x sinTerm cosTerm n sinResult cosResult pairResult
+
+theorem RealAnalyticSinCosCandidate_pair_unary {x n sinResult cosResult pairResult : BHist}
+    {sinTerm cosTerm : BHist -> BHist}
+    (sinUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (sinTerm m))
+    (cosUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (cosTerm m)) :
+    RealAnalyticSinCosCandidate x sinTerm cosTerm n sinResult cosResult pairResult ->
+      UnaryHistory sinResult ∧ UnaryHistory cosResult ∧ UnaryHistory pairResult := by
+  intro candidate
+  have xUnary : UnaryHistory x :=
+    ComplexHistoryCarrier_unary candidate.left
+  have sinResultUnary : UnaryHistory sinResult :=
+    ComplexPartSum_result_unary xUnary sinUnary candidate.right.right.left
+  have cosResultUnary : UnaryHistory cosResult :=
+    ComplexPartSum_result_unary xUnary cosUnary candidate.right.right.right.left
+  exact And.intro sinResultUnary
+    (And.intro cosResultUnary
+      (unary_cont_closed sinResultUnary cosResultUnary candidate.right.right.right.right))
+
 def RealAnalyticLeibnizPartialSum (leibnizTerm : BHist -> BHist) (n S : BHist) :
     Prop :=
   UnaryHistory n ∧ ComplexPartSum BHist.Empty leibnizTerm n S ∧ UnaryHistory S
@@ -29,6 +51,37 @@ inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist ->
   | step {n S T : BHist} :
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
+
+theorem RealAnalyticLeibnizPartSum_successor_result_deterministic
+    {term : BHist -> BHist} {n S T U : BHist} :
+    RealAnalyticLeibnizPartSum term n S ->
+      Cont S (term n) T ->
+        RealAnalyticLeibnizPartSum term (BHist.e1 n) U ->
+          hsame T U := by
+  have deterministic :
+      forall {n S T : BHist},
+        RealAnalyticLeibnizPartSum term n S ->
+          RealAnalyticLeibnizPartSum term n T ->
+            hsame S T := by
+    intro n S T left
+    induction left generalizing T with
+    | zero =>
+        intro right
+        cases right with
+        | zero =>
+            exact hsame_refl BHist.Empty
+    | step leftSum leftStep ih =>
+        intro right
+        cases right with
+        | step rightSum rightStep =>
+            have samePartial := ih rightSum
+            exact cont_respects_hsame samePartial (hsame_refl (term _)) leftStep rightStep
+  intro source stepContinuation target
+  cases target with
+  | step targetPrevious targetContinuation =>
+      have samePrevious := deterministic source targetPrevious
+      exact cont_respects_hsame samePrevious (hsame_refl (term n)) stepContinuation
+        targetContinuation
 
 def RealAnalyticPiBoundary (term : BHist -> BHist) (candidate : BHist) : Prop :=
   exists n S : BHist,
