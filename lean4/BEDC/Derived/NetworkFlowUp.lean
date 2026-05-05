@@ -154,6 +154,23 @@ theorem NetworkFlow_empty_backward_accounting_cut_flow_below_value {V B X : BHis
   have sameXV : hsame X V := cont_deterministic accounting (cont_right_unit V)
   exact PreorderPrefixLE_of_hsame sameXV
 
+theorem NetworkFlowUSum_monotone {xs : List BHist} {a b : BHist -> BHist} :
+    (forall e : BHist, e ∈ xs -> UnaryHistory (a e)) ->
+    (forall e : BHist, e ∈ xs -> UnaryHistory (b e)) ->
+    (forall e : BHist, e ∈ xs -> PreorderPrefixLE (a e) (b e)) ->
+      PreorderPrefixLE (NetworkFlowUSum a xs) (NetworkFlowUSum b xs) := by
+  intro unaryA unaryB pointwise
+  exact NetworkFlowUSum_monotonicity (xs := xs) (a := a) (b := b)
+    (by
+      intro e memE
+      exact unaryA e memE)
+    (by
+      intro e memE
+      exact unaryB e memE)
+    (by
+      intro e memE
+      exact pointwise e memE)
+
 theorem NetworkFlowEmptyBackwardAccounting_cut_flow_below_value {V B X : BHist} :
     Cont V B X -> hsame B BHist.Empty -> PreorderPrefixLE X V := by
   intro accounting backwardEmpty
