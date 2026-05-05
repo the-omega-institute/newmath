@@ -193,6 +193,15 @@ theorem AdeleHistoryCarrier_cont_right_result_nonempty {h k r : BHist} :
   have endpoints := cont_empty_result_inversion emptyContinuation
   exact AdeleHistoryCarrier_not_empty carrier endpoints.right
 
+theorem AdeleHistoryCarrier_cont_append_right_result_nonempty {h k p r : BHist} :
+    AdeleHistoryCarrier k -> Cont h (append p k) r -> hsame r BHist.Empty -> False := by
+  intro carrier continuation resultEmpty
+  have emptyContinuation : Cont h (append p k) BHist.Empty :=
+    cont_result_hsame_transport continuation resultEmpty
+  have endpoints := cont_empty_result_inversion emptyContinuation
+  have targetParts := append_eq_empty_iff.mp endpoints.right
+  exact AdeleHistoryCarrier_not_empty carrier targetParts.right
+
 theorem AdeleHistoryCarrier_visible_scale_cont_nonempty_package {real p exponent result k out : BHist} :
     RealConstantHistoryCarrier real -> PadicPrimeScale p (BHist.e1 exponent) result ->
       Cont (append real result) k out ->
