@@ -53,3 +53,49 @@ selected offset; core theorem
 \autoref{thm:real-stream-window-overlap-partition}; exactness the displayed
 equivalence; standard bridge overlapping finite RegSeqRat observation
 intervals; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream finite-window three-piece partition]
+\label{thm:real-stream-window-three-piece-partition}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices
+$n,m,r,s$,
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r+1+s)
+\Longleftrightarrow
+\mathsf{RealStreamWindowClassifier}(x,y,n,m)\land
+\mathsf{RealStreamWindowClassifier}(x,y,n+(m+1),r)\land
+\mathsf{RealStreamWindowClassifier}(x,y,n+(m+1)+(r+1),s).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the wide window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r+1+s)$. Apply
+\autoref{thm:real-stream-window-adjacent-partition} with right radius
+$r+1+s$ to split it into the left window at $(n,m)$ and the remaining right
+block at $(n+(m+1),r+1+s)$.
+
+Apply \autoref{thm:real-stream-window-adjacent-partition} again to that
+remaining block, now with left radius $r$ and right radius $s$. This gives the
+middle window at $(n+(m+1),r)$ and the right window at
+$(n+(m+1)+(r+1),s)$, and the three extracted windows form the displayed
+conjunction.
+
+For the reverse direction, assume the three displayed windows. Apply the
+reverse direction of \autoref{thm:real-stream-window-adjacent-partition} to
+the middle and right windows, producing the combined right block
+$\mathsf{RealStreamWindowClassifier}(x,y,n+(m+1),r+1+s)$.
+
+Apply the reverse direction of
+\autoref{thm:real-stream-window-adjacent-partition} once more to the left
+window and this combined right block. The result is the wide window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r+1+s)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite RegSeqRat observation chains;
+BEDC source RealUp windows over RatUp endpoint classifiers and StreamNameUp
+observation schedules; carrier rational-observation streams; classifier
+$\mathsf{RealStreamWindowClassifier}$; stability by adjacent partition and
+concatenation; ledger two cut points and three bounded-offset blocks; core
+theorem \autoref{thm:real-stream-window-three-piece-partition}; exactness
+equivalence between the wide window and the three chained windows; standard
+bridge finite observation interval refinement for RealUp; status
+$\mathsf{ProofTarget}$.
