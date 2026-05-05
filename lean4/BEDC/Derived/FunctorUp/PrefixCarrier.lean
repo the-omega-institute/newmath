@@ -61,6 +61,37 @@ theorem PrefixFunctorCarrier_hom_public_readback {p a b f : BHist} :
   exact And.intro displayedCarrier
     (fun displayed => CategoryHomCarrier_morphism_deterministic displayedCarrier displayed)
 
+theorem PrefixFunctorCarrier_append_hom_preserves {p q a b f : BHist} :
+    PrefixFunctorCarrier p -> PrefixFunctorCarrier q -> CategoryHomCarrier a b f ->
+      CategoryHomCarrier (append (append p q) a) (append (append p q) b) f := by
+  intro prefixP prefixQ homCarrier
+  have qClosed : CategoryHomCarrier (append q a) (append q b) f :=
+    prefixQ.hom_preserves homCarrier
+  have pClosed : CategoryHomCarrier (append p (append q a)) (append p (append q b)) f :=
+    prefixP.hom_preserves qClosed
+  exact
+    CategoryHomCarrier_hsame_transport
+      (append_assoc p q a).symm
+      (append_assoc p q b).symm
+      (hsame_refl f)
+      pClosed
+
+theorem PrefixFunctorCarrier_append_comp_preserves {p q a b c f g fg : BHist} :
+    PrefixFunctorCarrier p -> PrefixFunctorCarrier q -> CategoryHomCarrier a b f ->
+      CategoryHomCarrier b c g -> Cont f g fg ->
+        CategoryHomCarrier (append (append p q) a) (append (append p q) c) fg := by
+  intro prefixP prefixQ left right comp
+  have qClosed : CategoryHomCarrier (append q a) (append q c) fg :=
+    prefixQ.comp_preserves left right comp
+  have pClosed : CategoryHomCarrier (append p (append q a)) (append p (append q c)) fg :=
+    prefixP.hom_preserves qClosed
+  exact
+    CategoryHomCarrier_hsame_transport
+      (append_assoc p q a).symm
+      (append_assoc p q c).symm
+      (hsame_refl fg)
+      pClosed
+
 theorem PrefixFunctorCarrier_e1_prefix_hom_reflects {p a b f : BHist} :
     PrefixFunctorCarrier (BHist.e1 p) ->
       CategoryHomCarrier (append (BHist.e1 p) a) (append (BHist.e1 p) b) f ->

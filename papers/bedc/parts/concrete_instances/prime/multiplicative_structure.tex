@@ -473,6 +473,19 @@ multiplication witness repackages as \(\mathsf{NatDivides}(d,n_0)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_result\_cases}
 
+\begin{theorem}[Divisibility zero-headed component impossibility]
+\label{thm:nat-divides-zero-headed-component-absurd}
+If \(\mathsf{NatDivides}(d,n)\) holds, then neither the divisor \(d\) nor the
+dividend \(n\) can be a zero-headed history.
+\end{theorem}
+\begin{proof}
+Unpack the explicit quotient \(q\) in the divisibility witness. The underlying
+\(\mathsf{NatMul}(d,q,n)\) witness rules out zero-headed multiplicand,
+multiplier, and result components. Applying that impossibility to the divisor
+or dividend component gives the claim.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_zero\_headed\_component\_absurd}
+
 \begin{lemma}[Empty left divisibility has empty result]
 \label{lem:natdivides-empty-left-result-empty}
 If \(\mathsf{NatDivides}(\emp,n)\), then \(n\hsame\emp\).
