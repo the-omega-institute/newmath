@@ -197,6 +197,25 @@ theorem ManifoldScopedBoundaryPackage_triple_overlap_source_determinacy
   cases tripleRow
   exact And.intro pairUnary (And.intro tripleUnary (append_assoc i j k))
 
+theorem ManifoldScopedBoundaryPackage_reassociated_source {carrier i j k pair triple : BHist} :
+    ManifoldScopedBoundaryPackage carrier i j k pair triple ->
+      ∃ right : BHist, Cont j k right ∧ Cont i right triple ∧
+        hsame triple (append i (append j k)) := by
+  intro package
+  have pairRow : Cont i j pair := package.right.right.right.right.left
+  have tripleRow : Cont pair k triple := package.right.right.right.right.right
+  refine Exists.intro (append j k) ?_
+  have rightRow : Cont j k (append j k) := cont_intro rfl
+  have reassociatedRow : Cont i (append j k) triple := by
+    cases pairRow
+    cases tripleRow
+    exact cont_intro (append_assoc i j k)
+  have visibleReadback : hsame triple (append i (append j k)) := by
+    cases pairRow
+    cases tripleRow
+    exact append_assoc i j k
+  exact And.intro rightRow (And.intro reassociatedRow visibleReadback)
+
 theorem ManifoldSingleton_scoped_boundary_instance {chart domain value transition : BHist} :
     ManifoldSingletonCarrier chart -> Cont BHist.Empty chart domain ->
       Cont chart BHist.Empty value -> Cont domain value transition ->
