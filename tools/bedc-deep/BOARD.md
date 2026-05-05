@@ -9501,3 +9501,32 @@ This is a conditional strong-duality target, distinct from the existing weak-dua
 
 ---
 
+### B-364 - NetworkFlowUp residual reachability cut extraction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | NetworkFlowUp residual reachability cut extraction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a finite NetworkFlowUp setup, if t is not residual-reachable from s, then the cut induced by the residual-reachable side supplies the residual-cut augmenting-path exhaustion certificate: all forward cut edges are saturated and the backward cut flow is classified empty.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+
+Rationale:
+This is a concrete theorem-level bridge in the existing NetworkFlowUp surface: the paper already has weak duality, cut accounting, a residual-exhaustion certificate, and max-flow/min-cut equality from such a certificate, but it does not derive that certificate from the standard no-residual-path condition. It is not a duplicate of the existing equality package because it produces the certificate rows that the equality theorem assumes, and the landing file is a concrete non-hub chapter well below the line cap.
+
+---
+
