@@ -590,6 +590,7 @@ import BEDC.Derived.CategoryUp.ContinuationTailIdentitySquare
 import BEDC.Derived.CategoryUp.SemanticCertificate
 import BEDC.Derived.CategoryUp.IdentityLaw
 import BEDC.Derived.CategoryUp.Cycle
+import BEDC.Derived.CategoryUp.OppositeCompAssoc
 import BEDC.Derived.CategoryUp.PrefixCycle
 import BEDC.Derived.CategoryUp.SourceEmpty
 import BEDC.Derived.CategoryUp.Prefix
