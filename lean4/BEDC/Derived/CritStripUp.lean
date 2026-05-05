@@ -58,6 +58,9 @@ def InCritStrip (sigma : BHist) : Prop :=
   NatUnaryStrictPrefix BHist.Empty sigma ∧
     NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty)
 
+def CompactSubStrip (epsilon T s : BHist) : Prop :=
+  InCritStrip s ∧ UnaryHistory epsilon ∧ UnaryHistory T
+
 def InCritStrip_open_interval_decidable (sigma : BHist) :
     Decidable
       (NatUnaryStrictPrefix BHist.Empty sigma ∧

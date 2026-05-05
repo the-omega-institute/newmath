@@ -274,6 +274,7 @@ import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
+import BEDC.Derived.S1Up.SemanticFieldAssembly
 import BEDC.Derived.S1Up.SemanticCertificateFields
 import BEDC.Derived.S1Up.FieldAssembly
 import BEDC.Derived.S1Up.SemanticFields
