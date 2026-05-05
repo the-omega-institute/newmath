@@ -192,4 +192,51 @@ theorem CentralizerCosetCarrier_empty_representative_context_iff
           (append_eq_empty_iff.mpr
             (And.intro carriers.right.left.right carriers.right.right.right))))
 
+theorem CentralizerCosetClassifier_representative_context_classifier_iff
+    {mul : BHist -> BHist -> BHist} {a repr l h r k : BHist}
+    (emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty)
+    (reprCentral : SubgroupCentralizerCarrier mul a repr)
+    (reprEmpty : hsame repr BHist.Empty) :
+    CentralizerCosetClassifier mul a repr (append l (append h r)) k <->
+      CentralizerCosetCarrier mul a repr l /\
+        CentralizerCosetCarrier mul a repr h /\
+          CentralizerCosetCarrier mul a repr r /\
+            CentralizerCosetCarrier mul a repr k := by
+  have classifierTransport :=
+    CentralizerCosetClassifier_empty_representative_transport_iff
+      (mul := mul) (a := a) (repr := repr) (h := append l (append h r)) (k := k)
+      emptyCentral reprCentral reprEmpty
+  have emptyContext :=
+    CentralizerCosetCarrier_empty_representative_context_iff
+      (mul := mul) (a := a) (left := l) (h := h) (right := r) emptyCentral
+  constructor
+  · intro classified
+    have emptyClassified := Iff.mp classifierTransport classified
+    have emptyLefts := Iff.mp emptyContext emptyClassified.left
+    exact And.intro
+      (And.intro reprCentral (hsame_trans emptyLefts.left.right (hsame_symm reprEmpty)))
+      (And.intro
+        (And.intro reprCentral (hsame_trans emptyLefts.right.left.right (hsame_symm reprEmpty)))
+        (And.intro
+          (And.intro reprCentral
+            (hsame_trans emptyLefts.right.right.right (hsame_symm reprEmpty)))
+          (And.intro reprCentral
+            (hsame_trans emptyClassified.right.left.right (hsame_symm reprEmpty)))))
+  · intro carriers
+    have emptyCarriers :
+        CentralizerCosetCarrier mul a BHist.Empty l /\
+          CentralizerCosetCarrier mul a BHist.Empty h /\
+            CentralizerCosetCarrier mul a BHist.Empty r := by
+      exact And.intro (And.intro emptyCentral (hsame_trans carriers.left.right reprEmpty))
+        (And.intro (And.intro emptyCentral (hsame_trans carriers.right.left.right reprEmpty))
+          (And.intro emptyCentral (hsame_trans carriers.right.right.left.right reprEmpty)))
+    have emptyK : CentralizerCosetCarrier mul a BHist.Empty k :=
+      And.intro emptyCentral (hsame_trans carriers.right.right.right.right reprEmpty)
+    have emptyLeft : CentralizerCosetCarrier mul a BHist.Empty (append l (append h r)) :=
+      Iff.mpr emptyContext emptyCarriers
+    have sameLeftK : hsame (append l (append h r)) k :=
+      hsame_trans emptyLeft.right (hsame_symm emptyK.right)
+    exact Iff.mpr classifierTransport
+      (And.intro emptyLeft (And.intro emptyK sameLeftK))
+
 end BEDC.Derived.QuotientGroupUp

@@ -25,4 +25,8 @@ theorem ComplexModulus_hsame_transport {z z' m m' : BHist} :
               sameM distance).left
           exact And.intro carrierZ' (And.intro unaryM' distance')
 
+def CplxMod (z M : BHist) : Prop :=
+  ComplexHistoryCarrier z ∧ UnaryHistory M ∧
+    (ComplexDistance z BHist.Empty M ∨ ComplexDistance BHist.Empty z M)
+
 end BEDC.Derived.ComplexLimitUp
