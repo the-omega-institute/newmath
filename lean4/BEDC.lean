@@ -539,7 +539,8 @@ import BEDC.Derived.ContinuousMapUp.CompositionTargetDeterminacy
 import BEDC.Derived.ContinuousMapUp.DistanceBoundary
 import BEDC.Derived.ContinuousMapUp.TransportDepth
 import BEDC.Derived.ContinuousMapUp.SemanticCertificate
-import BEDC.Derived.ContinuousMapUp.TerminalModulusExtension
+import BEDC.Derived.ContinuousMapUp.EmptyIdentityDistance
+import BEDC.Derived.ContinuousMapUp.IdentitySandwich
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
 import BEDC.Derived.CompactUp.Suffix
