@@ -155,6 +155,7 @@ import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.NameCertificate
 import BEDC.Derived.ComplexLimitUp.PointwiseNegation
 import BEDC.Derived.ComplexSeriesUp
+import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
 import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.RealAnalyticUp
