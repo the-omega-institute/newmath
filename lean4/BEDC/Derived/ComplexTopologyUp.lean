@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.HolomorphicUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.ComplexTopologyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.HolomorphicUp
@@ -448,5 +450,33 @@ theorem ComplexTopologyOpenDiskGap_center_point_unary_suffix_transport
                 (And.intro shiftedDisk.right.right.left
                   (And.intro shiftedDisk.right.right.right.left shiftedBoundary))))
             shiftedBoundary
+
+theorem ComplexTopologyOpenDiskGap_semanticNameCert {center radius point gap : BHist}
+    (witness : ComplexTopologyOpenDiskGap center radius point gap) :
+    SemanticNameCert (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g)
+      (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g)
+      (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro gap witness
+    · intro g _carrier
+      exact hsame_refl g
+    · intro g g' same
+      exact hsame_symm same
+    · intro g g' g'' sameGG' sameG'G''
+      exact hsame_trans sameGG' sameG'G''
+    · intro g g' same carrier
+      have centerClass : ComplexHistoryClassifier center center :=
+        And.intro carrier.left (And.intro carrier.left (hsame_refl center))
+      have pointClass : ComplexHistoryClassifier point point :=
+        And.intro carrier.right.right.left
+          (And.intro carrier.right.right.left (hsame_refl point))
+      exact
+        (ComplexTopologyOpenDiskGap_hsame_transport carrier centerClass
+          (hsame_refl radius) pointClass same).left
+  · intro g source
+    exact source
+  · intro g source
+    exact source
 
 end BEDC.Derived.ComplexTopologyUp
