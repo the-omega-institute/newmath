@@ -133,6 +133,30 @@ FORMAL_GRADE_ORDER = [
     "axiomCleanV", "bridgeCheckedV",
 ]
 
+
+def _macro_arg(text: str, name: str) -> str | None:
+    start = text.find("\\" + name + "{")
+    if start < 0:
+        return None
+    i = start + len(name) + 2
+    depth = 1
+    out: list[str] = []
+    while i < len(text):
+        ch = text[i]
+        if ch == "{":
+            depth += 1
+            out.append(ch)
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                return "".join(out).strip()
+            out.append(ch)
+        else:
+            out.append(ch)
+        i += 1
+    return None
+
+
 # FKernel namespaces that own a region's namecert (the region lives in
 # `Derived/` conceptually but its proof tree is in the kernel).
 FKERNEL_REGION_OVERRIDES: dict[str, str] = {
@@ -587,6 +611,9 @@ def collect_closure_per_region() -> dict[str, dict]:
         'formal_status': str|None,
         'lean_target': str|None,
         'bridge_status': str|None,
+        'scope_closed': str|None,
+        'not_claimed': str|None,
+        'upgrade_path': str|None,
     }}.
     """
     out: dict[str, dict] = {}
@@ -616,12 +643,18 @@ def collect_closure_per_region() -> dict[str, dict]:
                 if lt_match else None
             )
             bridge_status = bs_match.group(1).strip() if bs_match else None
+            scope_closed = _macro_arg(body, "scopeclosed")
+            not_claimed = _macro_arg(body, "notclaimed")
+            upgrade_path = _macro_arg(body, "upgradepath")
 
             current = {
                 "theory_closure": theory_closure,
                 "formal_status": formal_status,
                 "lean_target": lean_target,
                 "bridge_status": bridge_status,
+                "scope_closed": scope_closed,
+                "not_claimed": not_claimed,
+                "upgrade_path": upgrade_path,
             }
             prev = out.get(region)
             if prev is None:
@@ -643,6 +676,12 @@ def collect_closure_per_region() -> dict[str, dict]:
                     prev["lean_target"] = lean_target
                 if prev.get("bridge_status") is None and bridge_status:
                     prev["bridge_status"] = bridge_status
+                if prev.get("scope_closed") is None and scope_closed:
+                    prev["scope_closed"] = scope_closed
+                if prev.get("not_claimed") is None and not_claimed:
+                    prev["not_claimed"] = not_claimed
+                if prev.get("upgrade_path") is None and upgrade_path:
+                    prev["upgrade_path"] = upgrade_path
     return out
 
 
@@ -708,6 +747,15 @@ def build_dependency_graph() -> dict:
             "closed_bridge_status": (
                 closure_per_region.get(nid) or {}
             ).get("bridge_status"),
+            "scope_closed": (
+                closure_per_region.get(nid) or {}
+            ).get("scope_closed"),
+            "not_claimed": (
+                closure_per_region.get(nid) or {}
+            ).get("not_claimed"),
+            "upgrade_path": (
+                closure_per_region.get(nid) or {}
+            ).get("upgrade_path"),
             # Namecert-theorem-grounded data (kept for the detail panel,
             # NOT used for proven/progress classification; closure is).
             "namecert_theorems": namecerts,
