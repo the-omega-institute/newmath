@@ -132,4 +132,20 @@ theorem UnitHistoryClassifier_terminal_map_uniqueness {S : BHist -> Prop}
   have sameFG : hsame (f a) (g a) := hsame_trans fEmpty (hsame_symm gEmpty)
   exact And.intro (And.intro fUnit (And.intro gUnit sameFG)) (And.intro fEmpty gEmpty)
 
+theorem UnitHistoryClassifier_terminal_map_unique {S : BHist -> Prop}
+    {R : BHist -> BHist -> Prop} (cert : NameCert S R) {f g : BHist -> BHist} :
+    (forall a : BHist, S a -> UnitHistoryCarrier (f a)) ->
+      (forall a : BHist, S a -> UnitHistoryCarrier (g a)) ->
+        forall a : BHist, S a -> UnitHistoryClassifier (f a) (g a) := by
+  have sourceWitness : exists h : BHist, S h := nameCert_carrier_witness cert
+  cases sourceWitness with
+  | intro _source _sourceCarrier =>
+      intro fCarrier gCarrier a source
+      have fUnit : UnitHistoryCarrier (f a) := fCarrier a source
+      have gUnit : UnitHistoryCarrier (g a) := gCarrier a source
+      have fEmpty : hsame (f a) BHist.Empty := UnitHistoryCarrier_empty_iff.mp fUnit
+      have gEmpty : hsame (g a) BHist.Empty := UnitHistoryCarrier_empty_iff.mp gUnit
+      exact And.intro fUnit
+        (And.intro gUnit (hsame_trans fEmpty (hsame_symm gEmpty)))
+
 end BEDC.Derived.UnitUp
