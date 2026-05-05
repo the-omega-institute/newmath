@@ -18,9 +18,31 @@ def PartialReal (u z p : BHist) : Prop :=
 def PartialImag (u z q : BHist) : Prop :=
   UnaryHistory u ∧ UnaryHistory z ∧ CplxDiffAt u z q
 
+def CplxDiffClassifierSpec (f z fp g w gp : BHist) : Prop :=
+  CplxDiffAt f z fp ∧ CplxDiffAt g w gp ∧ hsame f g ∧ hsame z w ∧ hsame fp gp
+
 def CplxDiffSourceSpec (f z fp : BHist) : Prop :=
   CplxDiffAt f z fp ∧
     ∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z h q ∧ Cont f h q ∧ hsame q fp
+
+def CplxDiffPatternSpec (f z pattern : BHist) : Prop :=
+  ∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z h q ∧ Cont h q pattern
+
+theorem CplxDiffPatternSpec_witness_readback {f z pattern : BHist} :
+    CplxDiffPatternSpec f z pattern ->
+      ∃ h : BHist, ∃ q : BHist,
+        CplxDiffQuot f z h q ∧ Cont h q pattern ∧ UnaryHistory h ∧ UnaryHistory q := by
+  intro patternSpec
+  cases patternSpec with
+  | intro h patternRest =>
+      cases patternRest with
+      | intro q witness =>
+          have quotientReadback := CplxDiffQuot_step_unary witness.left
+          exact Exists.intro h
+            (Exists.intro q
+              (And.intro witness.left
+                (And.intro witness.right
+                  (And.intro quotientReadback.left quotientReadback.right.left))))
 
 theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
     CplxDiffAt f z fp ->
@@ -260,6 +282,19 @@ theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
                               (And.intro quotient'
                                 (And.intro continuation' (hsame_refl gp)))))
 
+theorem CplxDiffClassifierSpec_hsame_transport_witness {f g z w fp gp : BHist} :
+    CplxDiffAt f z fp -> hsame f g -> hsame z w -> hsame fp gp ->
+      CplxDiffClassifierSpec f z fp g w gp ∧
+        ∃ h : BHist, ∃ q : BHist,
+          CplxDiffQuot g w h q ∧ Cont g h q ∧ hsame q gp := by
+  intro diff sameF sameZ sameFpGp
+  have transported := CplxDiffAt_full_hsame_transport_witness diff sameF sameZ sameFpGp
+  exact And.intro
+    (And.intro diff
+      (And.intro transported.left
+        (And.intro sameF (And.intro sameZ sameFpGp))))
+    transported.right
+
 theorem PartialDerivative_hsame_input_unique {u z z' p q : BHist} :
     ((PartialReal u z p -> PartialReal u z' q -> hsame z z' ->
         hsame p q ∧ PartialReal u z q ∧ PartialReal u z' p ∧
@@ -330,6 +365,20 @@ theorem complex_diff_semantic_name_certificate {f z fp : BHist} :
       intro _h source
       exact source
   }
+
+def CplxDiffLedgerPolicy (f z fp : BHist) : Prop :=
+  CplxDiffAt f z fp ∧
+    (∃ h : BHist, ∃ q : BHist,
+      CplxDiffQuot f z h q ∧ Cont f h q ∧ CplxNonZero h ∧ CplxNonZero q ∧
+        hsame q fp) ∧
+      SemanticNameCert (CplxDiffAt f z) (CplxDiffAt f z) (CplxDiffAt f z) hsame
+
+theorem CplxDiffLedgerPolicy_of_diff {f z fp : BHist} :
+    CplxDiffAt f z fp -> CplxDiffLedgerPolicy f z fp := by
+  intro diff
+  exact And.intro diff
+    (And.intro (CplxDiffAt_witness_nonzero_result diff)
+      (complex_diff_semantic_name_certificate diff))
 
 theorem complex_diff_name_certificate {f z fp : BHist} (diff : CplxDiffAt f z fp) :
     NameCert (CplxDiffAt f z) ComplexHistoryClassifier := by
