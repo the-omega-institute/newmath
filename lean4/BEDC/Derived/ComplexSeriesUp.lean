@@ -193,6 +193,40 @@ theorem ComplexPartSum_result_unary {zero : BHist} {c : BHist -> BHist} {n S : B
             exact unary_e1_closed inner
       exact unary_cont_closed ih (termUnary (indexUnary previous)) stepContinuation
 
+def CauchyProduct (zero : BHist) (a b : BHist -> BHist) (n result : BHist) : Prop :=
+  exists left right : BHist,
+    ComplexPartSum zero a n left ∧ ComplexPartSum zero b n right ∧ Cont left right result
+
+theorem ComplexPartSum_semanticNameCert {zero : BHist} {c : BHist -> BHist}
+    {n S : BHist} (sum : ComplexPartSum zero c n S) :
+    SemanticNameCert (fun result : BHist => ComplexPartSum zero c n result)
+      (fun result : BHist => ComplexPartSum zero c n result)
+      (fun result : BHist => ComplexPartSum zero c n result) hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro S sum
+      equiv_refl := by
+        intro result _source
+        exact hsame_refl result
+      equiv_symm := by
+        intro result result' sameResult
+        exact hsame_symm sameResult
+      equiv_trans := by
+        intro result result' result'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro result result' sameResult source
+        cases sameResult
+        exact source
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
+
 inductive ComplexAbsPartSum (zero : BHist) (modulus : BHist -> BHist) :
     BHist -> BHist -> Prop where
   | zero : ComplexAbsPartSum zero modulus BHist.Empty zero
@@ -528,6 +562,11 @@ theorem ComplexAbsPartSum_modulus_hsame_successor_result {zero zero' : BHist}
 
 def ComplexTermSeqCarrier (c : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> ComplexHistoryCarrier (c n)
+
+def ComplexSeriesConvWitness (zero : BHist) (c s N M : BHist -> BHist) (limit : BHist) : Prop :=
+  ComplexTermSeqCarrier c ∧
+    (forall n : BHist, UnaryHistory n -> ComplexPartSum zero c n (s n)) ∧
+      ComplexLimit s N limit M
 
 theorem ComplexTermSeqCarrier_hsame_transport {c d : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (c n) (d n)) ->
