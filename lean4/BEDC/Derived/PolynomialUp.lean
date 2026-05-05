@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
+import BEDC.Derived.ListUp
 
 namespace BEDC.Derived.PolynomialUp
 
@@ -28,6 +29,11 @@ def PolynomialSingletonAdd (P Q : BHist) : BHist :=
 
 def PolynomialSingletonMul (P Q : BHist) : BHist :=
   append P Q
+
+inductive PolynomialZeroRemainder : List BHist -> Prop where
+  | nil : PolynomialZeroRemainder []
+  | cons {x : BHist} {xs : List BHist} :
+      hsame x BHist.Empty -> PolynomialZeroRemainder xs -> PolynomialZeroRemainder (x :: xs)
 
 theorem PolynomialSingletonClassifier_add_split_empty_iff {P Q h : BHist} :
     PolynomialSingletonClassifier (PolynomialSingletonAdd P Q) h ↔
@@ -349,5 +355,42 @@ theorem PolynomialSingletonNormalize_append_classifier_carrier_iff {P Q h : BHis
   · intro carrier
     exact And.intro (hsame_refl BHist.Empty)
       (And.intro carrier (hsame_symm carrier))
+
+def PolynomialSingletonAddFold : List BHist -> BHist
+  | [] => PolynomialSingletonZero
+  | x :: xs => PolynomialSingletonAdd x (PolynomialSingletonAddFold xs)
+
+theorem PolynomialSingletonAddFold_list_classifier_hsame
+    {xs ys : List BHist} :
+    BEDC.Derived.ListUp.ListClassifierSpec hsame xs ys ->
+      hsame (PolynomialSingletonAddFold xs) (PolynomialSingletonAddFold ys) ∧
+        Cont (PolynomialSingletonAddFold xs) BHist.Empty (PolynomialSingletonAddFold xs) := by
+  intro classified
+  induction xs generalizing ys with
+  | nil =>
+      cases ys with
+      | nil =>
+          exact And.intro (hsame_refl BHist.Empty) (cont_right_unit BHist.Empty)
+      | cons y ys =>
+          cases classified
+  | cons x xs ih =>
+      cases ys with
+      | nil =>
+          cases classified
+      | cons y ys =>
+          cases classified with
+          | intro headSame tailSame =>
+              have tailData := ih tailSame
+              have leftCont :
+                  Cont x (PolynomialSingletonAddFold xs)
+                    (PolynomialSingletonAddFold (x :: xs)) := by
+                rfl
+              have rightCont :
+                  Cont y (PolynomialSingletonAddFold ys)
+                    (PolynomialSingletonAddFold (y :: ys)) := by
+                rfl
+              exact And.intro
+                (cont_respects_hsame headSame tailData.left leftCont rightCont)
+                (cont_right_unit (PolynomialSingletonAddFold (x :: xs)))
 
 end BEDC.Derived.PolynomialUp
