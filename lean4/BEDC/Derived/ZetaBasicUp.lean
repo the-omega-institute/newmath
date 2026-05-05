@@ -13,6 +13,9 @@ def ZetaBasicUnitTerm (_n s : BHist) : BHist := BHist.e1 s
 def ZetaBasicPartSum (s n z : BHist) : Prop :=
   DirichletPartSum ZetaBasicUnitTerm s n z
 
+def ZetaBasic (s z : BHist) : Prop :=
+  DirichletSeriesConv ZetaBasicUnitTerm s z
+
 theorem ZetaBasicPartSum_unary_result {s n z : BHist} :
     UnaryHistory s -> UnaryHistory n -> ZetaBasicPartSum s n z -> UnaryHistory z := by
   intro unaryS unaryN sum
@@ -184,5 +187,46 @@ theorem ZetaBasicPartSum_successor_source_result_nonempty_transport {s t n z : B
             (And.intro targetSum
               (And.intro stepData.right.right
                 (ZetaBasicPartSum_successor_result_nonempty targetSum)))
+
+theorem zeta_basic_semantic_name_certificate {s n z : BHist}
+    (sum : ZetaBasicPartSum s (BHist.e1 n) z) :
+    SemanticNameCert
+      (fun result : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧ (hsame result BHist.Empty -> False))
+      (fun result : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧ (hsame result BHist.Empty -> False))
+      (fun result : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧ (hsame result BHist.Empty -> False))
+      (fun result result' : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧
+          ZetaBasicPartSum s (BHist.e1 n) result' ∧ hsame result result') := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro z
+        (And.intro sum (ZetaBasicPartSum_successor_result_nonempty sum))
+      equiv_refl := by
+        intro result source
+        exact And.intro source.left (And.intro source.left (hsame_refl result))
+      equiv_symm := by
+        intro result result' classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro result result' result'' leftClass rightClass
+        exact And.intro leftClass.left
+          (And.intro rightClass.right.left
+            (hsame_trans leftClass.right.right rightClass.right.right))
+      carrier_respects_equiv := by
+        intro result result' classified _source
+        exact And.intro classified.right.left
+          (ZetaBasicPartSum_successor_result_nonempty classified.right.left)
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
 
 end BEDC.Derived.ZetaBasicUp

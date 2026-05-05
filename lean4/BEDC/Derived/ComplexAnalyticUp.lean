@@ -277,4 +277,40 @@ theorem CplxPureImaginary_suffix_tail_deterministic {theta phi z w q q' zq wq : 
   cases sameZW
   exact append_left_cancel (h := z) (zCont.symm.trans (sameResult.trans wCont))
 
+theorem complex_analytic_licensed_not_primitive :
+    SemanticNameCert
+      (fun z : BHist => exists theta : BHist, CplxPureImaginary theta z)
+      (fun z : BHist => exists theta : BHist, CplxPureImaginary theta z)
+      (fun z : BHist => exists theta : BHist, CplxPureImaginary theta z)
+      (fun z z' : BHist =>
+        (exists theta : BHist, CplxPureImaginary theta z) ∧
+          (exists theta : BHist, CplxPureImaginary theta z') ∧ hsame z z') := by
+  exact {
+    core := {
+      carrier_inhabited :=
+        BEDC.FKernel.NameCert.NameCert.carrier_inhabited CplxPureImaginary_name_certificate
+      equiv_refl := by
+        intro z source
+        exact And.intro source (And.intro source (hsame_refl z))
+      equiv_symm := by
+        intro z z' classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro z z' z'' leftClass rightClass
+        exact And.intro leftClass.left
+          (And.intro rightClass.right.left
+            (hsame_trans leftClass.right.right rightClass.right.right))
+      carrier_respects_equiv := by
+        intro z z' classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro z source
+      exact source
+    ledger_sound := by
+      intro z source
+      exact source
+  }
+
 end BEDC.Derived.ComplexAnalyticUp
