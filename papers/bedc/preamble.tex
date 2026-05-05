@@ -391,63 +391,18 @@
 % from the horizon work queue. Both axes are mandatory.
 \NewDocumentEnvironment{closurestatus}{m}{%
   \par\smallskip\noindent%
-  \fbox{%
-    \begin{minipage}{0.94\linewidth}%
-      \footnotesize\sffamily\color{purple!55!black}%
-      \textbf{Closure status for $\NameCert_{#1}$.}\par
-      \def\theoryclosure##1{\par\textbf{Theory closure:} $\TheoryGate(\NameCert_{#1},\,##1)$\par}%
-      \def\scopeclosed##1{\textbf{Scope closed:} ##1\par}%
-      \def\formalstatus##1{\textbf{Formal verification:} $\FormalStatus(\NameCert_{#1},\,##1)$\par}%
-      \def\leantarget##1{\textbf{Lean target:} \texttt{\detokenize{##1}}\par}%
-      \def\bridgestatus##1{\textbf{Bridge status:} ##1\par}%
-      \def\notclaimed##1{\textbf{Not claimed:} ##1\par}%
-      \def\upgradepath##1{\textbf{Upgrade path:} ##1\par}%
+  \begingroup%
+    \footnotesize\sffamily\color{purple!55!black}%
+    \textbf{Closure status for $\NameCert_{#1}$.}\par
+    \def\theoryclosure##1{\par\textbf{Theory closure:} $\TheoryGate(\NameCert_{#1},\,##1)$\par}%
+    \def\scopeclosed##1{\textbf{Scope closed:} ##1\par}%
+    \def\formalstatus##1{\textbf{Formal verification:} $\FormalStatus(\NameCert_{#1},\,##1)$\par}%
+    \def\leantarget##1{\textbf{Lean target:} \texttt{\detokenize{##1}}\par}%
+    \def\bridgestatus##1{\textbf{Bridge status:} ##1\par}%
+    \def\notclaimed##1{\textbf{Not claimed:} ##1\par}%
+    \def\upgradepath##1{\textbf{Upgrade path:} ##1\par}%
 }{%
-    \end{minipage}%
-  }\par\smallskip
+  \par\endgroup\smallskip
 }
 
-% --- TEMPORARY SHIM: removed in milestone P3 ----------------------------
-% Restore the legacy single-axis vocabulary so existing chapters compile
-% while individual sites are migrated. Each shim re-emits a closurestatus
-% block in degraded form (theory_closure = scopedClosed, formal status =
-% theoremCheckedV, no scope/notclaimed/upgrade fields). The audit script
-% recognizes these as legacy-shim emissions and refuses to count them as
-% complete; this forces every site to be hand-migrated before the shim
-% is deleted at the end of P3.
-\newcommand{\AcceptGate}{\mathsf{LegacyAcceptGate}}
-\newcommand{\Strength}{\mathsf{LegacyStrength}}
-\newcommand{\seedStr}{\mathsf{LegacyStrength.seed}}
-\newcommand{\paperCertStr}{\mathsf{LegacyStrength.paperCert}}
-\newcommand{\checkedCertStr}{\mathsf{LegacyStrength.checkedCert}}
-\newcommand{\bridgeCertStr}{\mathsf{LegacyStrength.bridgeCert}}
-\newcommand{\DerivCert}{\mathsf{DerivCert}}
-\NewDocumentCommand{\closureatShimA}{m}{%
-  \par\smallskip\noindent%
-  \fbox{%
-    \begin{minipage}{0.94\linewidth}%
-      \footnotesize\sffamily\color{purple!55!black}%
-      \textbf{Closure status for $\NameCert_{#1}$.}\par
-      \par\textbf{Theory closure:} $\TheoryGate(\NameCert_{#1},\,\scopedClosure)$\par
-      \textbf{Formal verification:} $\FormalStatus(\NameCert_{#1},\,\theoremCheckedV)$\par
-    \end{minipage}%
-  }\par\smallskip
-}
-\NewDocumentCommand{\closureatShimB}{m m}{%
-  \par\smallskip\noindent%
-  \fbox{%
-    \begin{minipage}{0.94\linewidth}%
-      \footnotesize\sffamily\color{purple!55!black}%
-      \textbf{Closure status for $\NameCert_{#1}$.}\par
-      \par\textbf{Theory closure:} $\TheoryGate(\NameCert_{#1},\,\scopedClosure)$\par
-      \textbf{Formal verification:} $\FormalStatus(\NameCert_{#1},\,\theoremCheckedV)$\par
-      \textbf{Lean target:} \texttt{\leannobreak{#2}}\par
-    \end{minipage}%
-  }\par\smallskip
-}
-\NewDocumentCommand{\closureat}{m m o}{%
-  \IfValueTF{#3}{\closureatShimB{#1}{#3}}{\closureatShimA{#1}}%
-  \par\noindent{\footnotesize\color{red!50!black}\textsf{[legacy-shim --- replace with full closurestatus block]}}\par
-}
-% --- end TEMPORARY SHIM -------------------------------------------------
 \newcommand{\CannotClaim}{\mathsf{CannotClaim}}
