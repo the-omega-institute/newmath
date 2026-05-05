@@ -140,6 +140,29 @@ theorem ContinuousFunctionCarrier_empty_source_restriction_terminal_modulus_comm
       (hsame_refl modulus') (hsame_refl cert') extended
   exact ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed
 
+theorem ContinuousFunctionCarrier_empty_source_restriction_terminal_modulus_package
+    {restricted source map target modulus cert extra modulus' cert' displayedTarget displayedCert :
+      BHist} :
+    Cont restricted BHist.Empty source ->
+      ContinuousFunctionCarrier source map target modulus cert ->
+        ContinuousModulusWitness cert extra cert' ->
+          Cont modulus extra modulus' ->
+            ContinuousFunctionCarrier restricted map displayedTarget modulus' displayedCert ->
+              ContinuousFunctionCarrier restricted map target modulus' cert' ∧
+                hsame target displayedTarget ∧ hsame cert' displayedCert := by
+  intro sourceRestriction carrier terminalWitness modulusRel displayed
+  have extended :
+      ContinuousFunctionCarrier source map target modulus' cert' :=
+    ContinuousFunctionCarrier_terminal_modulus_extension carrier terminalWitness modulusRel
+  have sameSource : hsame source restricted :=
+    sourceRestriction
+  have restrictedCarrier :
+      ContinuousFunctionCarrier restricted map target modulus' cert' :=
+    ContinuousFunctionCarrier_hsame_transport sameSource (hsame_refl map) (hsame_refl target)
+      (hsame_refl modulus') (hsame_refl cert') extended
+  exact And.intro restrictedCarrier
+    (ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed)
+
 theorem ContinuousFunctionCarrier_empty_source_restriction_visible_terminal_modulus_commutes
     {restricted p q source map target modulus cert extra modulus' cert' displayedTarget
         displayedCert : BHist} :
@@ -262,5 +285,39 @@ theorem ContinuousFunctionCarrier_visible_source_restriction_modulus_chain_commu
       hsame target target' ∧ hsame cert cert' :=
     ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic canonical displayed
   exact And.intro canonical (And.intro centralPackage.right readback)
+
+theorem ContinuousFunctionCarrier_visible_source_restriction_modulus_chain_functorial_normal_form
+    {p q sourceT sourceU sourceV sourceW map target targetD targetS oldMod oldCert delta1 delta2
+        delta cert certD certS : BHist} :
+    Cont sourceU BHist.Empty sourceT ->
+      Cont sourceV BHist.Empty sourceU ->
+        Cont sourceW BHist.Empty sourceV ->
+          Cont sourceW BHist.Empty sourceT ->
+            ContinuousFunctionCarrier (append p sourceT) map (append p target) (append oldMod q)
+                (append (append p oldCert) q) ->
+              ContinuousModulusChain target delta1 delta2 cert ->
+                Cont delta1 delta2 delta ->
+                  ContinuousFunctionCarrier (append p sourceW) map (append p targetD)
+                      (append delta q) (append (append p certD) q) ->
+                    ContinuousFunctionCarrier (append p sourceW) map (append p targetS)
+                        (append delta q) (append (append p certS) q) ->
+                      ContinuousFunctionCarrier (append p sourceW) map (append p target)
+                          (append delta q) (append (append p cert) q) ∧
+                        hsame target targetD ∧ hsame cert certD ∧
+                          hsame target targetS ∧ hsame cert certS := by
+  intro sourceUT sourceVU sourceWV sourceWT carrier chain compositeRel displayedDirect
+    displayedSuccessive
+  have directPackage :=
+    ContinuousFunctionCarrier_visible_source_restriction_modulus_chain_commutes
+      sourceWT carrier chain compositeRel displayedDirect
+  have successiveRestriction : Cont sourceW BHist.Empty sourceT :=
+    sourceUT.trans (sourceVU.trans sourceWV)
+  have successivePackage :=
+    ContinuousFunctionCarrier_visible_source_restriction_modulus_chain_commutes
+      successiveRestriction carrier chain compositeRel displayedSuccessive
+  exact And.intro directPackage.left
+    (And.intro directPackage.right.right.left
+      (And.intro directPackage.right.right.right
+        (And.intro successivePackage.right.right.left successivePackage.right.right.right)))
 
 end BEDC.Derived.ContinuousUp
