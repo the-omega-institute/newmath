@@ -704,6 +704,7 @@ import BEDC.Derived.CategoryUp.CompTailSemanticCertificate
 import BEDC.Derived.CategoryUp.RightE0TailTargetCases
 import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.CategoryUp.AssocEmptyResult
+import BEDC.Derived.CategoryUp.FourfoldAssoc
 import BEDC.Derived.CategoryUp.OppositeAssoc
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
