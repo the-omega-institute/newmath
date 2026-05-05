@@ -79,6 +79,7 @@ $$
 \mathsf{USum}_{xs}(a)\preceq_{\NatUp}\mathsf{USum}_{xs}(b).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.NetworkFlowUp.NetworkFlowUSum\_prefix\_monotone}
 \leanchecked{BEDC.Derived.NetworkFlowUp.NetworkFlowUSum\_monotonicity}
 \begin{proof}
 Induct on the finite spine $xs$. In the nil case, both folds are $\emp$, so reflexivity of the unary-prefix preorder from \autoref{thm:concrete-unary-prefix-preorder-laws} gives the displayed comparison.
@@ -190,6 +191,7 @@ $$
 \Cont(V,\mathsf{CutBack}_{G,C}(f),\mathsf{CutForw}_{G,C}(f)).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.NetworkFlowUp.NetworkFlow\_cut\_accounting\_suffix\_cancellation}
 \begin{proof}
 First aggregate the local vertex rows over the finite spine $W_C$. Induct through $W_C$, carrying the invariant that the source row together with the conservation rows for the vertices already visited supplies a continuation from $V$ by the accumulated incoming-side sum to the accumulated outgoing-side sum. The empty-spine case is the source-value row, using the nil clause in the finite fold of \autoref{def:networkflow-finite-flow-cut-data}. In the cons step, the induction hypothesis supplies the accumulated continuation and the head occurrence supplies
 $$
@@ -360,6 +362,7 @@ V_F\hsame K_\Xi.
 $$
 Both endpoints are unary: the source is the flow-value witness of feasibility, and the target is the finite unary fold defining cut capacity. Therefore \autoref{def:unary-classifier-specification} reads this history-sameness as the claimed $\NatUp$ classification equality.
 \end{proof}
+\leanchecked{BEDC.Derived.NetworkFlowUp.NetworkFlow\_residual\_exhaustion\_cut\_value\_hsame}
 
 \begin{theorem}[Network-flow equality implies optimality]
 \label{thm:networkflow-equality-implies-optimality}

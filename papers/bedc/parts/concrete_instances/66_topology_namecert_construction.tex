@@ -214,6 +214,42 @@ A metric-generated topology source for $\TopologyUp$ consists of a certified $\M
 The resulting topology carrier is $\mathcal{T}_{d,\mathsf{ball}}$ from \autoref{def:metric-finite-ball-indexed-topology}. The source ledger records, for every public open, the BHist row naming whether the open is a singleton metric ball, a finite-list intersection of metric balls, an arbitrary union of already carried metric opens, the empty open, or the whole open.
 \end{definition}
 
+\begin{theorem}[Metric-generated topology carrier scope]
+\label{thm:topology-metric-generated-carrier-scope}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}. Then the BEDC source, carrier choice, classifier choice, and operation rows of $\mathcal{G}$ are exactly the $\MetricSpaceUp$ carrier $C$, the carrier classifier $\mathsf{same}_C$, the distance witness $\mathsf{MetricDistanceWitness}(d)$, the ordered $\RealUp$ comparison $<_{\mathsf R}$, positive $\RatUp$ and $\RealUp$ radius ledgers, finite-list metric-ball indices, indexed union witnesses, and boundary indices. No open row is selected from an external powerset or quotient.
+\end{theorem}
+\begin{proof}
+Unfold the metric-generated source of \autoref{def:topology-metric-generated-carrier}. Its first row is the certified metric carrier $C$ with classifier $\mathsf{same}_C$, followed by the distance witness, ordered-real comparison, and positive-radius ledgers named in the statement.
+
+Unfold the topology carrier $\mathcal{T}_{d,\mathsf{ball}}$ from \autoref{def:metric-finite-ball-indexed-topology}. The open index object is $\mathsf{FinList}(\mathsf{BallData}_d)$, the membership predicate is finite-list ball membership, and finite intersection is finite-list concatenation.
+
+The remaining source rows are exactly the indexed arbitrary-union witnesses and the boundary indices named in \autoref{def:topology-metric-generated-carrier}. Since every admitted open is introduced through one of these rows, the construction has no separate powerset selection and no quotient carrier.
+\end{proof}
+
+\begin{theorem}[Metric-generated topology classifier scope]
+\label{thm:topology-metric-generated-classifier-scope}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}. Singleton metric balls, finite intersections, supplied arbitrary unions, and boundary opens all transport membership along the metric carrier classifier $\mathsf{same}_C$. Thus every classifier-stability obligation exposed by the metric-generated $\TopologyUp$ source is discharged by the displayed indexed-open rows.
+\end{theorem}
+\begin{proof}
+Singleton metric balls transport along $\mathsf{same}_C$ by \autoref{thm:topology-metric-base-open-transport}. That theorem also identifies each singleton ball index as a carried open of $\mathcal{T}_{d,\mathsf{ball}}$.
+
+Finite intersections transport by \autoref{thm:topology-metric-base-intersection}. Its conclusion applies the generic finite-intersection classifier transport to the concatenated finite-list index.
+
+Supplied arbitrary unions transport by \autoref{thm:topology-indexed-open-arbitrary-union}. Boundary opens transport by \autoref{thm:topology-indexed-open-boundary-closure}. These four rows cover exactly the public open constructors named by the metric-generated source, so no additional classifier-stability field is required.
+\end{proof}
+
+\begin{theorem}[Metric-generated topology ledger scope]
+\label{thm:topology-metric-generated-ledger-scope}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}, equipped with indexed arbitrary-union witnesses and indexed boundary open witnesses. Every public open admitted by $\mathcal{G}$ carries a visible BHist provenance row of exactly one of the displayed constructors: singleton metric ball, finite-list intersection, arbitrary union, empty open, or whole open. Composite rows preserve the constructor provenance of their inputs, and no unindexed open is admitted.
+\end{theorem}
+\begin{proof}
+The ledger sentence in \autoref{def:topology-metric-generated-carrier} assigns a BHist row to every public open accepted by the source. The possible row names are precisely singleton metric ball, finite-list intersection, arbitrary union, empty open, and whole open.
+
+The constructor rows used by \autoref{thm:topology-metric-generated-namecert-surface} give the corresponding witnesses. Singleton metric-ball rows come from \autoref{thm:topology-metric-base-open-transport}, finite-list intersection rows from \autoref{thm:topology-metric-base-intersection}, arbitrary-union rows from \autoref{thm:topology-indexed-open-arbitrary-union}, and boundary rows from \autoref{thm:topology-indexed-open-boundary-closure}.
+
+For a composite row, the certificate records both the outer constructor and the input rows it combines. Therefore the provenance visible at the public surface remains one of the displayed constructor rows, and an open predicate without an index and ledger row is not admitted by $\mathcal{G}$.
+\end{proof}
+
 \begin{theorem}[Metric-generated base-open transport]
 \label{thm:topology-metric-base-open-transport}
 Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}. For every metric ball datum $b=(c,r,\rho)$ and points $x,y:C$, metric classifier equality of the points transports basic open membership:
