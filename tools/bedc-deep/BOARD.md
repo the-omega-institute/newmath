@@ -6820,3 +6820,134 @@ Negative counterpart to B-11 (positive functor composition closure): explicitly 
 
 ---
 
+### B-263 - Matrix transpose classifier involution
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix transpose classifier involution |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the Mat↑ setup over a scalar Ring↑, A ∼Mat B implies A^T ∼Mat B^T, and for every carried A, (A^T)^T ∼Mat A under the original pointwise classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Definition 48.70 introduces matrix transpose and Theorem 48.71 proves product-reversal over the opposite ring, but the paper does not isolate transpose itself as a classifier-preserving involution. No BOARD entry (B-06..B-31) addresses matrix transpose. The two-part claim (congruence + involution) is tight and uses only the pointwise index swap, making it a genuine prerequisite/sibling of 48.71 rather than a paraphrase. Lands cleanly in concrete_instances/24_matrix_namecert_construction.tex.
+
+---
+
+
+### B-264 - Opposite ring double-opposite rigidity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Opposite ring double-opposite rigidity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a Ring↑ R, the iterated opposite construction (R^op)^op coincides with R on carrier, classifier, additive data, unit, multiplication, stability rows, and ledger rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Category, functor, and lattice chapters carry explicit double-opposite data-identity theorems, but the ring-level analogue is missing. Distinct from B-28 (which is a forgetful projection CommRing↑ → Ring↑); this is involutivity of the opposite-ring construction itself. No matching label appears in paper_coverage (no `thm:ring-double-opposite` or similar). Fills a structural gap and supports later module/algebra reuse.
+
+---
+
+
+### B-265 - QuotientRing additive descent to ideal cosets
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | QuotientRing additive descent to ideal cosets |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a Ring↑ R and Ideal↑ I, if a ≡I a′ and b ≡I b′ for the ideal-coset relation defined by I(a −R a′), then (a +R b) ≡I (a′ +R b′) and (−R a) ≡I (−R a′).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/61_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/59_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Chapter 85 establishes the ideal-coset relation and proves multiplication descent, but the additive and negation descent legs are not standalone theorem sites. This is the additive prerequisite to a complete representative-independence package for QuotientRing↑ and is genuinely distinct from the proved multiplicative case. No BOARD entry covers quotient rings, and no `thm:quotientring-additive-descent` label appears in paper_coverage.
+
+---
+
+
+### B-266 - Determinant singleton row-swap sign collapse
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Determinant singleton row-swap sign collapse |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+In the singleton Determinant↑ setup, any certified row-swap endpoint S of a singleton-carried matrix M satisfies CommRingSingletonClassifier(det_e(S), −det_e(M)) and hence CommRingSingletonClassifier(det_e(S), det_e(M)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/62_determinant_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Definition 86.1 lists row-swap sign collapse among determinant stability obligations; Theorem 86.2 records endpoint correspondence, identity, classifier transport, and multiplicativity but not the alternating-law sibling. The singleton scaffold makes the proof small (singleton classifier collapses sign) while exercising the row-swap obligation directly. No BOARD entry addresses determinants, and no matching label appears in paper_coverage. Narrow but honest scope.
+
+---
+
+
+### B-267 - LinearMap composition preserves certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap composition preserves certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a common scalar Ring↑, if LinearMapCert_R(M,N; f) and LinearMapCert_R(N,P; g) hold for Module↑ objects M, N, P, then LinearMapCert_R(M,P; g ∘ f) holds with composed carrier, classifier, stability, and ledger witnesses.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+The LinearMap↑ chapter supplies the certificate interface and proves kernel/image inheritance, but composition closure is not packaged. Foundational structural theorem prerequisite for any later categorical or endomorphism reuse of certified linear maps. Distinct from module scalar-action targets (B-08, B-19, B-20, B-23, B-24) because it concerns morphism composition closure, not module element classifier behavior. No paper label matches.
+
+---
+
