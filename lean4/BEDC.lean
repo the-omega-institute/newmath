@@ -213,6 +213,7 @@ import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.EmptyBoundedSource
+import BEDC.Derived.ListUp.HistoryCarrier
 import BEDC.Derived.ListUp.SpineRep
 import BEDC.Derived.ListUp.SpineCoherence
 import BEDC.Derived.ListUp.SpineBridge
@@ -239,6 +240,7 @@ import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
+import BEDC.Derived.FieldExtUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
