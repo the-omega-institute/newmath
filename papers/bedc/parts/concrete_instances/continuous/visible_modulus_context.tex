@@ -388,11 +388,11 @@ reverse use of visible-context exactness after central composition closure. The
 standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 
-\begin{theorem}[Continuous function carrier visible-context composite target-certificate determinacy]
-\label{thm:continuous-function-carrier-visible-context-composite-target-cert-determinacy}
+\begin{theorem}[Continuous function carrier visible-context composition public readback]
+\label{thm:continuous-function-carrier-visible-modulus-context-composition-public-readback}
 For histories
 $p,q,source,middle,target,target',f,g,fg,modF,modG,modFG,certF,certG,cert,cert'$,
-suppose the two visible-context input carriers
+suppose the two contextualized carriers
 $$
 \mathsf{ContinuousFunctionCarrier}(p\cdot source,f,p\cdot middle,
 modF\cdot q,(p\cdot certF)\cdot q)
@@ -402,62 +402,56 @@ $$
 \mathsf{ContinuousFunctionCarrier}(p\cdot middle,g,p\cdot target,
 modG\cdot q,(p\cdot certG)\cdot q)
 $$
-hold. If the graph, modulus, and target-certificate ledgers
+hold, together with the graph, modulus, and target-certificate ledgers
 $$
 \mathsf{Cont}(f,g,fg),\quad
 \mathsf{Cont}(modF,modG,modFG),\quad
-\mathsf{Cont}(target,modFG,cert)
+\mathsf{Cont}(target,modFG,cert).
 $$
-hold, and an alternate visible presentation of the same composite graph and
-modulus also holds,
+If a displayed visible composite carrier
 $$
 \mathsf{ContinuousFunctionCarrier}(p\cdot source,fg,p\cdot target',
-modFG\cdot q,(p\cdot cert')\cdot q),
+modFG\cdot q,(p\cdot cert')\cdot q)
 $$
-then the composite target and certificate are determined by the visible
-presentation:
+also holds, then the public composite target and certificate read back to the
+canonical central pair:
 $$
 \hsame(target,target')\land\hsame(cert,cert').
 $$
 \end{theorem}
 \begin{proof}
 Apply Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff}
-to the first visible-context input carrier. This exposes unary witnesses for
-the visible prefix $p$ and suffix $q$ together with the central carrier
+to the first contextualized carrier. This peels the common visible prefix and
+suffix, and it exposes the central carrier
 $\mathsf{ContinuousFunctionCarrier}(source,f,middle,modF,certF)$.
 
-Apply the same visible-context exactness theorem to the second input carrier.
-The common contexts are peeled away, giving the central carrier
-$\mathsf{ContinuousFunctionCarrier}(middle,g,target,modG,certG)$ over the same
-middle and target histories.
+Apply the same visible-context exactness theorem to the second contextualized
+carrier. The central carrier
+$\mathsf{ContinuousFunctionCarrier}(middle,g,target,modG,certG)$ is recovered
+over the same middle history and canonical target history.
 
-Now apply Theorem~\ref{thm:continuous-function-carrier-comp-closed} to the two
-central carriers and the displayed graph, modulus, and target-certificate
-ledgers. This constructs the central composite carrier
-$\mathsf{ContinuousFunctionCarrier}(source,fg,target,modFG,cert)$.
+Apply the visible-context exactness theorem once more to the displayed
+composite carrier. This removes the displayed visible context and gives the
+central displayed carrier
+$\mathsf{ContinuousFunctionCarrier}(source,fg,target',modFG,cert')$.
 
-Use Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff}
-in the reverse direction with the recovered unary witnesses for $p$ and $q$.
-This repacks the central composite carrier into the visible presentation
-$\mathsf{ContinuousFunctionCarrier}(p\cdot source,fg,p\cdot target,
-modFG\cdot q,(p\cdot cert)\cdot q)$.
-
-Finally apply
-Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-target-cert-deterministic}
-to the constructed visible composite and the alternate visible carrier. Its
-conclusion is exactly
-$\hsame(target,target')\land\hsame(cert,cert')$.
+Now apply
+Theorem~\ref{thm:continuous-function-carrier-comp-public-readback} to the two
+central input carriers, the three displayed continuation ledgers, and the
+central displayed composite carrier. The central public readback theorem gives
+exactly $\hsame(target,target')\land\hsame(cert,cert')$.
 
 The ten-field certificate fit is the following. The traditional target is
-visible composite target-certificate uniqueness. The BEDC source is
-$\mathsf{BHist}$ with $\mathsf{Cont}$. The carrier is
+public readback for contextual continuous-function composition. The BEDC
+source is $\mathsf{BHist}$ equipped with $\mathsf{Cont}$. The carrier is
 $\mathsf{ContinuousFunctionCarrier}$ and the classifier is $\hsame$. The
-stability obligation is visible-context composition determinacy. The ledger is
-source, middle, target, map, modulus, certificate, prefix, and suffix histories.
-The core theorem is this block. The exactness claim is the displayed pair of
-$\hsame$ conclusions. The standard bridge is deferred. The downstream consumer
-is $\mathsf{ContinuousMapUp}$ composition and category coherence, and the
-status is $\mathsf{ProofTarget}$.
+stability obligation is contextual composite target and certificate readback.
+The ledger consists of source, middle, target, displayed target, graph map,
+modulus, certificate, displayed certificate, visible prefix, and visible suffix
+histories. The core theorem is this visible-context readback statement. The
+exactness claim is the central target-certificate pair returned after peeling
+visible context. The standard bridge is deferred, and the status is
+$\mathsf{ProofTarget}$.
 \end{proof}
 
 \begin{theorem}[Continuous function carrier visible-context composite ledger determinacy]

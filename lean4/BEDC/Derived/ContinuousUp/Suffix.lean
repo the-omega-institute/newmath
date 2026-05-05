@@ -406,4 +406,32 @@ theorem ContinuousFunctionCarrier_modulus_suffix_target_cert_deterministic
       (map := map) (target := target') (modulus := modulus) (cert := cert')).mp right
   exact ContinuousFunctionCarrier_target_cert_deterministic leftData.right rightData.right
 
+theorem ContinuousFunctionCarrier_visible_modulus_context_comp_closed
+    {p q source middle target f g fg modF modG modFG certF certG cert : BHist} :
+    ContinuousFunctionCarrier (append p source) f (append p middle) (append modF q)
+        (append (append p certF) q) ->
+      ContinuousFunctionCarrier (append p middle) g (append p target) (append modG q)
+        (append (append p certG) q) ->
+        Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
+          ContinuousFunctionCarrier (append p source) fg (append p target) (append modFG q)
+            (append (append p cert) q) := by
+  intro first second fgRel modRel certRel
+  have firstData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := f) (target := middle) (modulus := modF)
+      (cert := certF)).mp first
+  have secondData :=
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := middle) (map := g) (target := target) (modulus := modG)
+      (cert := certG)).mp second
+  have central :
+      ContinuousFunctionCarrier source fg target modFG cert :=
+    ContinuousFunctionCarrier_comp_closed firstData.right.right secondData.right.right
+      fgRel modRel certRel
+  exact
+    (ContinuousFunctionCarrier_visible_modulus_context_iff (p := p) (q := q)
+      (source := source) (map := fg) (target := target) (modulus := modFG)
+      (cert := cert)).mpr
+      (And.intro firstData.left (And.intro secondData.right.left central))
+
 end BEDC.Derived.ContinuousUp

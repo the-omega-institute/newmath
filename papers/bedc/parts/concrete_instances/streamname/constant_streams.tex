@@ -194,6 +194,47 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatConstStream\_empty\_point\_exactness}
 
+\begin{theorem}[Rational stream-name constant arbitrary observation exactness]
+\label{thm:rat-stream-name-constant-arbitrary-observation-exactness}
+For histories $h,k:\Hist$ and an observation history $n:\Hist$ with
+$\mathsf{UnaryHistory}(n)$, the pointwise stream-name carrier and classifier of
+constant streams recover exactly the RatUp data at that certified observation:
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_h)
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(\mathsf{RatConstStream}_h(n))
+$$
+and
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_h,
+\mathsf{RatConstStream}_k)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(\mathsf{RatConstStream}_h(n),
+\mathsf{RatConstStream}_k(n)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatConstStream}$. In the
+forward carrier direction, read the pointwise carrier witness at the supplied
+certified unary observation $n$, obtaining the RatUp carrier at
+$\mathsf{RatConstStream}_h(n)$.
+
+In the reverse carrier direction, fix an arbitrary certified unary observation
+$m$. Since $\mathsf{RatConstStream}_h(m)$ and $\mathsf{RatConstStream}_h(n)$
+are both the hidden seed $h$, the displayed carrier at $n$ supplies the
+required pointwise carrier witness at $m$.
+
+For the classifier equivalence, unfold $\mathsf{RatStreamNameClassifier}$ and
+the two constant streams. The forward direction reads the pointwise classifier
+witness at the supplied certified unary observation $n$.
+
+In the reverse direction, the classifier at $n$ contains the endpoint carrier
+data and the point classifier between $\mathsf{RatConstStream}_h(n)$ and
+$\mathsf{RatConstStream}_k(n)$. At every certified unary observation $m$, the
+two constant endpoints again evaluate to the same hidden seeds, so the same
+RatUp classifier repacks into the stream-name classifier.
+\end{proof}
+
 \begin{theorem}[Rational stream-name constant point exactness]
 \label{thm:rat-stream-name-constant-point-exactness}
 For histories $h,k:\Hist$, the pointwise stream-name carrier and classifier of
