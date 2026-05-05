@@ -6,5 +6,82 @@ The complete-metric interface $\CompleteMetricUp$ packages a metric carrier in w
 \section{Carrier definition}
 \label{sec:completemetric-carrier}
 
+\begin{definition}[Complete metric limit witness]
+\label{def:completemetric-limit-witness}
+Let $X$ be a certified metric carrier over $\mathsf{BHist}$, with point
+classifier, distance rows encoded by $\mathsf{MetricDistanceWitness}$, and
+the $\RatUp$ comparison ledgers used for visible tolerances. A complete metric
+limit witness for a regular Cauchy stream name $s$ is the BEDC relation
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)
+$$
+whose accepted row consists of the following ledgers:
+\begin{enumerate}
+  \item a $\StreamNameUp$ regular Cauchy stream name $s$ whose observations
+  are carried by $X$;
+  \item an explicit modulus history $\mu$ certifying the regular Cauchy
+  bound for $s$ at each positive $\RatUp$ tolerance;
+  \item a limit history $\ell$ carried by $X$;
+  \item for every positive tolerance history $\varepsilon$, a threshold
+  observation history $N_{\varepsilon}$ displayed by $\mu$;
+  \item for every observation history $n$ beyond $N_{\varepsilon}$, a
+  distance history $d_{n,\varepsilon}$ together with the row
+  $\mathsf{MetricDistanceWitness}(s(n),\ell,d_{n,\varepsilon})$ and a
+  $\RatUp$ comparison ledger certifying
+  $d_{n,\varepsilon}\leq\varepsilon$.
+\end{enumerate}
+The witness is therefore a finite-schema history package: the carrier,
+stream, modulus, limit, metric-distance rows, and rational comparisons are all
+visible BEDC ledgers, while convergence is recorded by the family of displayed
+late-observation bounds.
+\end{definition}
+
 \section{The certificate}
 \label{sec:completemetric-certificate}
+
+\begin{theorem}[Complete metric limit witness stability]
+\label{thm:completemetric-limit-witness-stability}
+Let $X$ be a certified metric carrier with $\StreamNameUp$ observation
+transport, $\mathsf{MetricDistanceWitness}$ transport, and $\RatUp$
+comparison transport. If
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)
+$$
+holds, and if the stream observations of $s$, the modulus history $\mu$, the
+limit history $\ell$, every displayed threshold, and every displayed distance
+history are transported by $\hsame$ together with the corresponding $\RatUp$
+positivity and comparison rows, then the transported ledgers form a complete
+metric limit witness
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s',\mu',\ell',L')
+$$
+for the transported regular Cauchy stream name $s'$ and transported limit
+history $\ell'$.
+\end{theorem}
+\begin{proof}
+Unpack the witness row. The stream component is pointwise: for each certified
+observation history, $\StreamNameUp$ transport carries the observed history
+$s(n)$ to the corresponding observed history $s'(n')$, and the regular Cauchy
+modulus row is moved along the supplied $\hsame$ history for $\mu$.
+
+Fix a positive tolerance history $\varepsilon'$ transported from
+$\varepsilon$. The threshold ledger $N_{\varepsilon}$ is carried to
+$N'_{\varepsilon'}$, and the $\RatUp$ classifier transports the positivity
+row for the tolerance together with the order row expressing that an
+observation is late enough.
+
+For such a late transported observation, the original witness supplies
+$\mathsf{MetricDistanceWitness}(s(n),\ell,d_{n,\varepsilon})$ and the bound
+$d_{n,\varepsilon}\leq\varepsilon$. Metric-distance transport moves this row
+to
+$$
+\mathsf{MetricDistanceWitness}(s'(n'),\ell',d'_{n',\varepsilon'}).
+$$
+
+The remaining ledger is the comparison. Apply the $\RatUp$ classifier
+transport to the displayed bound and repack the result as
+$d'_{n',\varepsilon'}\leq\varepsilon'$. Since every field of the carrier row
+has been transported and the quantification over late observations is
+preserved pointwise, the transported package is again a complete metric limit
+witness.
+\end{proof}
