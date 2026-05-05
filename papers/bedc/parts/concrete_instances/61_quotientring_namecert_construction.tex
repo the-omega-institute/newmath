@@ -141,3 +141,65 @@ $$
 $$
 by \autoref{def:quotientring-ideal-coset-relation}.
 \end{proof}
+
+\begin{theorem}[QuotientRing ideal coset relation equivalence]
+\label{thm:quotientring-ideal-coset-equivalence}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ object over $R$, written as a carried predicate $I(x)$, and write $x-_R y$ for $x+_R(-_R y)$ as in \autoref{def:quotientring-ideal-coset-relation}. Assume the ideal certificate rows named in \autoref{sec:ideal-certificate} supply zero closure, additive-inverse closure, additive closure, and classifier transport:
+$$
+I(0_R),\qquad
+\forall x,\; I(x)\Longrightarrow I(-_R x),\qquad
+\forall x,y,\; I(x)\land I(y)\Longrightarrow I(x+_R y),
+$$
+and
+$$
+\forall x,y,\; I(x)\land x\sim_R y\Longrightarrow I(y).
+$$
+Then the relation $\equiv_I$ of \autoref{def:quotientring-ideal-coset-relation} is an equivalence relation on carried ring endpoints: for every $a,b,c$,
+$$
+C(a)\Longrightarrow a\equiv_I a,
+$$
+$$
+a\equiv_I b\Longrightarrow b\equiv_I a,
+$$
+and
+$$
+(a\equiv_I b\land b\equiv_I c)\Longrightarrow a\equiv_I c.
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:quotientring-ideal-coset-relation}.
+
+For reflexivity, assume $C(a)$. The zero row gives $I(0_R)$. The additive right-inverse theorem \autoref{thm:ring-add-right-inverse}, read in the additive component of $R$, gives
+$$
+a-_R a\sim_R0_R.
+$$
+Classifier symmetry from \autoref{def:lean-carrier-naming-certificate} reverses this edge, and classifier transport for $I$ gives $I(a-_R a)$. Together with the two copies of $C(a)$, this is $a\equiv_I a$.
+
+For symmetry, assume $a\equiv_I b$. The unfolded hypothesis supplies $C(a)$, $C(b)$, and $I(a-_R b)$. Additive-inverse closure gives
+$$
+I(-_R(a-_R b)).
+$$
+The additive abelian-group rows in \autoref{def:ring-stability-certificate} identify the inverse of a difference with the reversed difference:
+$$
+-_R(a-_R b)\sim_R b-_R a.
+$$
+Indeed, \autoref{thm:ring-neg-add} rewrites the left endpoint to $(-_R a)+_R(-_R(-_R b))$; \autoref{thm:group-left-inverse-involutive}, read in the additive group of $R$, identifies $-_R(-_R b)$ with $b$; additive commutativity then gives $b+_R(-_R a)$. The classifier edges are composed by \autoref{thm:namecert-equivalence-transitivity}. Classifier transport for $I$ yields $I(b-_R a)$. Repacking $C(b)$, $C(a)$, and this membership gives $b\equiv_I a$.
+
+For transitivity, assume $a\equiv_I b$ and $b\equiv_I c$. Unfolding gives $C(a)$, $C(b)$, $C(c)$, $I(a-_R b)$, and $I(b-_R c)$. Additive closure gives
+$$
+I((a-_R b)+_R(b-_R c)).
+$$
+The additive associativity, left-inverse, left-zero, and addition-congruence rows in \autoref{def:ring-stability-certificate} give
+$$
+(a-_R b)+_R(b-_R c)\sim_R a-_R c.
+$$
+After expanding the two differences, reassociate
+$$
+(a+_R(-_R b))+_R(b+_R(-_R c))
+$$
+to
+$$
+a+_R(((-_R b)+_R b)+_R(-_R c)).
+$$
+The middle pair collapses to $0_R$ by the additive left-inverse row, and the additive left-zero row reduces the tail to $-_R c$. Thus the expression is classified with $a+_R(-_R c)$, namely $a-_R c$. Classifier transport for $I$ gives $I(a-_R c)$. Repacking this with $C(a)$ and $C(c)$ gives $a\equiv_I c$.
+\end{proof}
