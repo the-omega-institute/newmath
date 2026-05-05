@@ -5,7 +5,12 @@ namespace BEDC.Derived.RealAnalyticUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexUp
 open BEDC.Derived.ComplexSeriesUp
+
+def RealAnalyticExpPart (x n S : BHist) : Prop :=
+  ComplexHistoryCarrier x ∧
+    ComplexPartSum x (fun m : BHist => append x m) n S ∧ UnaryHistory n
 
 theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist} :
