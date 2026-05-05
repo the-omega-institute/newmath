@@ -385,3 +385,73 @@ Finally apply Theorem~\ref{thm:continuous-function-carrier-visible-modulus-conte
 
 Ten-field fit: traditional target visible source restriction followed by three terminal modulus extensions; BEDC source $\mathsf{BHist}$ with visible contexts, source restriction ledger, $\ContR$, and three $\mathsf{ContinuousModulusWitness}$ rows; carrier visible $\mathsf{ContinuousFunctionCarrier}$ with restricted source; classifier $\hsame$ target, certificate, and modulus readback; stability source-admission restriction plus terminal modulus reassociation; ledger restricted graph ledger, visible target ledger, sequential and reassociated modulus ledgers, and terminal certificate ledger; core theorem this normal-form statement; exactness comparison against any displayed restricted sequential carrier; standard bridge visible uniformly continuous restriction under three terminal modulus extensions; status ProofTarget.
 \end{proof}
+
+\begin{theorem}[Continuous restriction visible modulus-chain functorial normal form]
+\label{thm:continuous-restriction-visible-modulus-chain-functorial-normal-form}
+Let $T$, $U$, $V$, and $W$ be certified source-subset witnesses in the totally bounded domain discipline of \autoref{def:continuous-source-specification}, with certified inclusions
+$$
+k:W\subseteq V,\qquad j:V\subseteq U,\qquad i:U\subseteq T.
+$$
+Let
+$$
+p,q,source_T,source_U,source_V,source_W,map,target,target_d,target_s,
+oldMod,oldCert,\delta_1,\delta_2,\delta,cert,cert_d,cert_s:\mathsf{BHist}
+$$
+be histories. Assume the visible carrier over $T$
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source_T,map,p\cdot target,
+oldMod\cdot q,(p\cdot oldCert)\cdot q),
+$$
+the source-restriction ledgers
+$$
+\ContR(source_U,\emp,source_T),\qquad
+\ContR(source_V,\emp,source_U),\qquad
+\ContR(source_W,\emp,source_V),\qquad
+\ContR(source_W,\emp,source_T),
+$$
+the two-link visible modulus chain
+$$
+\mathsf{ContinuousModulusChain}(target,\delta_1,\delta_2,cert),
+$$
+the composite modulus ledger
+$$
+\ContR(\delta_1,\delta_2,\delta),
+$$
+the displayed direct restricted carrier over $W$
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source_W,map,p\cdot target_d,
+\delta\cdot q,(p\cdot cert_d)\cdot q),
+$$
+and the displayed successive restricted carrier over $W$
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source_W,map,p\cdot target_s,
+\delta\cdot q,(p\cdot cert_s)\cdot q).
+$$
+Then the route that restricts directly from $T$ to $W$ and the route that restricts successively
+$$
+T\longrightarrow U\longrightarrow V\longrightarrow W
+$$
+before applying the same visible modulus-chain replacement have the common public normal form
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source_W,map,p\cdot target,
+\delta\cdot q,(p\cdot cert)\cdot q),
+$$
+and their displayed target and certificate readbacks agree:
+$$
+\hsame(target,target_d)\land\hsame(cert,cert_d)\land
+\hsame(target,target_s)\land\hsame(cert,cert_s).
+$$
+\end{theorem}
+\begin{proof}
+First collapse the nested source restrictions. Apply Theorem~\ref{thm:uniform-continuity-restriction-functorial-action} to $i:U\subseteq T$ and $j:V\subseteq U$ to compare the direct restriction from $T$ to $V$ with the successive route through $U$.
+
+Apply Theorem~\ref{thm:uniform-continuity-restriction-functorial-action} again to the composite inclusion $V\subseteq T$ and $k:W\subseteq V$. This identifies the direct restriction from $T$ to $W$ with the three-step route through $U$ and $V$ at the $\ContinuousMapUp$ classifier, while preserving the graph ledger $map$, the visible target ledger $p\cdot target$, and the source ledger $p\cdot source_W$.
+
+Next normalize the visible modulus data on the direct representative. Theorem~\ref{thm:uniform-continuity-visible-restriction-modulus-chain-commutes}, applied to the direct source ledger $\ContR(source_W,\emp,source_T)$ and the chain $\mathsf{ContinuousModulusChain}(target,\delta_1,\delta_2,cert)$, supplies the canonical visible carrier over $W$ with public histories $map$, $p\cdot target$, $\delta\cdot q$, and $(p\cdot cert)\cdot q$.
+
+It remains to read back the two displayed endpoints. The direct displayed carrier has the same restricted source, graph ledger, visible modulus ledger, and visible prefix and suffix as the canonical direct carrier, so Theorem~\ref{thm:uniform-continuity-visible-restriction-modulus-chain-commutes} gives $\hsame(target,target_d)$ and $\hsame(cert,cert_d)$.
+
+Transport the same canonical carrier across the classifier comparison supplied by the functorial restriction step. Target and certificate determinacy for visible modulus contexts then applies to the successive displayed carrier, giving $\hsame(target,target_s)$ and $\hsame(cert,cert_s)$. Combining the four readbacks yields the stated common normal form for the direct and successive routes.
+
+Ten-field fit: traditional target nested restriction of uniformly continuous maps followed by a visible two-link modulus-chain replacement; BEDC source $\mathsf{BHist}$ with visible contexts, certified source-restriction ledgers, $\ContR$, and $\mathsf{ContinuousModulusChain}$; carrier visible $\mathsf{ContinuousFunctionCarrier}$ over the final source $W$; classifier ContinuousMap classifier plus $\hsame$ target and certificate readback; stability identity and composite source-admission transport with modulus-chain preservation; ledger common graph ledger, visible target ledger, composite modulus ledger, and visible certificate ledger; core theorem this normal form; exactness direct-versus-successive route agreement after the same chain replacement; standard bridge functorial source restriction with visible modulus-chain normalization for uniformly continuous maps; status ProofTarget.
+\end{proof}
