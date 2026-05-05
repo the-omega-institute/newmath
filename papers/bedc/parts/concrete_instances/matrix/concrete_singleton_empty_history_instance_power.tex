@@ -439,6 +439,27 @@ constructor separation.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_visible\_base\_continuation\_empty\_result\_absurd}
 
+\begin{theorem}[Matrix singleton power visible-base appended positive-suffix empty-result exclusion]
+\label{thm:matrix-singleton-pow-visible-base-append-positive-suffix-continuation-empty-result-absurd}
+If $pref$ and $suffix$ are unary histories and $suffix\not\hsame\emp$, then
+neither visible-base singleton power over $\mathsf{append}(pref,suffix)$ can
+continue to an empty result:
+$$
+\ContR(\mathsf{MatrixSingletonPow}(\Ezero(m),\mathsf{append}(pref,suffix)),y,r)
+\land r\hsame\emp\Longrightarrow\bot,
+$$
+and the same statement holds with $\Eone(m)$ in place of $\Ezero(m)$.
+\end{theorem}
+\begin{proof}
+Unary append closure makes $\mathsf{append}(pref,suffix)$ a unary exponent.
+If that exponent were empty, append empty-result exactness would force
+$suffix\hsame\emp$, contrary to the positive-suffix hypothesis. The
+positive-exponent visible-base carrier exclusion therefore rules out the source
+carrier recovered by transporting the continuation result to $\emp$ and
+inverting the empty continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_visible\_base\_append\_positive\_suffix\_continuation\_empty\_result\_absurd}
+
 \begin{theorem}[Matrix singleton power nonempty-base empty-result exclusion]
 \label{thm:matrix-singleton-pow-nonempty-base-continuation-result-absurd}
 For unary nonempty exponent $e$, if the base matrix $M$ is not singleton-carried, then

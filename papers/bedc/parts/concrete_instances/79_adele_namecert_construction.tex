@@ -57,6 +57,20 @@ adele history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_cont\_right\_result\_nonempty}
 
+\begin{theorem}[Adele appended right carrier continuation result nonempty]
+\label{thm:adele-history-carrier-cont-append-right-result-nonempty}
+If $\mathsf{AdeleHistoryCarrier}(k)$ holds, $\mathsf{Cont}(h,\mathsf{append}(p,k),r)$
+holds, and $r\hsame\emp$, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Transport the continuation result along $r\hsame\emp$ to a continuation with
+empty result. The empty-result inversion theorem for $\mathsf{Cont}$ forces
+$\mathsf{append}(p,k)\hsame\emp$. Empty append inversion recovers
+$k\hsame\emp$, contradicting the nonempty theorem for the adele history
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_cont\_append\_right\_result\_nonempty}
+
 \begin{theorem}[Adele real-padic e1 real nonempty scale result package]
 \label{thm:adele-real-padic-e1-real-nonempty-scale-result-package}
 For histories $r,p,e,s:\mathsf{BHist}$, if $r$ is a rational-history carrier
@@ -186,6 +200,25 @@ the nonempty output endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_cont\_nonempty\_package}
 
+\begin{theorem}[Adele visible zero-scale continuation nonempty package]
+\label{thm:adele-history-carrier-visible-zero-scale-cont-nonempty-package}
+For histories $r,p,e,s,k,out:\mathsf{BHist}$, if
+$\mathsf{RealConstantHistoryCarrier}(r)$,
+$\mathsf{PadicPrimeScale}(p,\mathsf{e0}(e),s)$, and
+$\ContR(\mathsf{append}(r,s),k,out)$ hold, then
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(r,s))\land
+(\hsame(s,\emp)\to\bot)\land(\hsame(out,\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+The visible zero-scale theorem supplies both the adele-history carrier for
+$\mathsf{append}(r,s)$ and the nonempty scale endpoint $s$. Feeding that carrier
+and the displayed continuation into the adele continuation-result theorem gives
+the nonempty output endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_zero\_scale\_cont\_nonempty\_package}
+
 \begin{theorem}[Adele e1 real append carrier is nonempty]
 \label{thm:adele-history-carrier-e1-real-append-nonempty}
 For histories $realTail,p,exponent,result:\mathsf{BHist}$, if
@@ -312,6 +345,28 @@ unit-right exponent, and scale result. The continuation readback is exactly the
 unit-right prime-scale append factorization applied to the unary left exponent.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_right\_scale\_cont\_readback}
+
+\begin{theorem}[Adele unit-right scale append readback]
+\label{thm:adele-history-carrier-unit-right-scale-append-readback}
+Let $real,p,w,result:\mathsf{BHist}$. If $real$ is a constant real-history
+carrier, $w$ is unary, and
+$\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(\emp)),result)$ holds,
+then $\mathsf{append}(real,result)$ is an adele-history carrier and
+$$
+\exists n.\,
+\mathsf{PadicPrimeScale}(p,w,n)\land
+\mathsf{append}(real,result)\hsame
+\mathsf{append}(real,\mathsf{append}(n,p)).
+$$
+\end{theorem}
+\begin{proof}
+The adele carrier uses the displayed real component, prime base, appended
+unit-right exponent, and scale result. The unit-right prime-scale factorization
+extracts a left-factor result $n$ with $\ContR(n,p,result)$; reading that
+continuation as the append endpoint and applying the fixed real append context
+gives the displayed real-padic readback.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_right\_scale\_append\_readback}
 
 \begin{theorem}[Adele real-stream prefix visible scale carrier]
 \label{thm:adele-real-stream-prefix-visible-scale-carrier}

@@ -6820,3 +6820,448 @@ Negative counterpart to B-11 (positive functor composition closure): explicitly 
 
 ---
 
+### B-263 - Matrix transpose classifier involution
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix transpose classifier involution |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the Mat↑ setup over a scalar Ring↑, A ∼Mat B implies A^T ∼Mat B^T, and for every carried A, (A^T)^T ∼Mat A under the original pointwise classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Definition 48.70 introduces matrix transpose and Theorem 48.71 proves product-reversal over the opposite ring, but the paper does not isolate transpose itself as a classifier-preserving involution. No BOARD entry (B-06..B-31) addresses matrix transpose. The two-part claim (congruence + involution) is tight and uses only the pointwise index swap, making it a genuine prerequisite/sibling of 48.71 rather than a paraphrase. Lands cleanly in concrete_instances/24_matrix_namecert_construction.tex.
+
+---
+
+
+### B-264 - Opposite ring double-opposite rigidity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Opposite ring double-opposite rigidity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a Ring↑ R, the iterated opposite construction (R^op)^op coincides with R on carrier, classifier, additive data, unit, multiplication, stability rows, and ledger rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Category, functor, and lattice chapters carry explicit double-opposite data-identity theorems, but the ring-level analogue is missing. Distinct from B-28 (which is a forgetful projection CommRing↑ → Ring↑); this is involutivity of the opposite-ring construction itself. No matching label appears in paper_coverage (no `thm:ring-double-opposite` or similar). Fills a structural gap and supports later module/algebra reuse.
+
+---
+
+
+### B-265 - QuotientRing additive descent to ideal cosets
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | QuotientRing additive descent to ideal cosets |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a Ring↑ R and Ideal↑ I, if a ≡I a′ and b ≡I b′ for the ideal-coset relation defined by I(a −R a′), then (a +R b) ≡I (a′ +R b′) and (−R a) ≡I (−R a′).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/61_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/59_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Chapter 85 establishes the ideal-coset relation and proves multiplication descent, but the additive and negation descent legs are not standalone theorem sites. This is the additive prerequisite to a complete representative-independence package for QuotientRing↑ and is genuinely distinct from the proved multiplicative case. No BOARD entry covers quotient rings, and no `thm:quotientring-additive-descent` label appears in paper_coverage.
+
+---
+
+
+### B-266 - Determinant singleton row-swap sign collapse
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Determinant singleton row-swap sign collapse |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+In the singleton Determinant↑ setup, any certified row-swap endpoint S of a singleton-carried matrix M satisfies CommRingSingletonClassifier(det_e(S), −det_e(M)) and hence CommRingSingletonClassifier(det_e(S), det_e(M)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/62_determinant_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Definition 86.1 lists row-swap sign collapse among determinant stability obligations; Theorem 86.2 records endpoint correspondence, identity, classifier transport, and multiplicativity but not the alternating-law sibling. The singleton scaffold makes the proof small (singleton classifier collapses sign) while exercising the row-swap obligation directly. No BOARD entry addresses determinants, and no matching label appears in paper_coverage. Narrow but honest scope.
+
+---
+
+
+### B-267 - LinearMap composition preserves certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap composition preserves certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a common scalar Ring↑, if LinearMapCert_R(M,N; f) and LinearMapCert_R(N,P; g) hold for Module↑ objects M, N, P, then LinearMapCert_R(M,P; g ∘ f) holds with composed carrier, classifier, stability, and ledger witnesses.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+The LinearMap↑ chapter supplies the certificate interface and proves kernel/image inheritance, but composition closure is not packaged. Foundational structural theorem prerequisite for any later categorical or endomorphism reuse of certified linear maps. Distinct from module scalar-action targets (B-08, B-19, B-20, B-23, B-24) because it concerns morphism composition closure, not module element classifier behavior. No paper label matches.
+
+---
+
+### B-268 - Composite gap intermediate-witness sameness from same admitted source
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Composite gap intermediate-witness sameness from same admitted source |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under layered first-gap separation, if CompGap(z_1, h) and CompGap(z_2, h) hold over the same admitted source h with intermediate witnesses y_1 and y_2 respectively, then interSame(y_1, y_2) holds.
+
+Local inputs:
+- `papers/bedc/parts/core/07_gap_policies_coverage_separation_and_composition.tex`
+- `lean4/BEDC/FKernel/Gap.lean`
+
+Rationale:
+Chapter 07 lines 117-118 (proof of thm:composite-gap-separation) explicitly derives 'First-layer separation gives interSame(y_1,y_2)' as an intermediate step but the chapter never extracts it as its own labeled theorem. The chapter has 8 labeled theorems (gap-coverage, gap-separation, gap-separation-from-memberships, gap-representative, composite-gap-coverage, composite-gap-separation, composite-exactness-from-layers, composite-representative-for-admitted-source) and the dual 'finalSame from same source' direction is named (composite-gap-separation), while the strictly stronger structural assertion at the intermediate level is left implicit. Category 7 (composite consequence) and Category 8 (constructor inversion / determinism for the existential unpacking of CompGap). Closeable in 1 round: apply compGap_left_witness twice, then first-layer gap-separation. Required infrastructure (gap-separation, compGap-left-witness leanvariant) already present.
+
+---
+
+
+### B-269 - Package representative for a generated answer-history
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Package representative for a generated answer-history |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under PkgPol(Π), for every generated answer-history s, there exists a package token p with Pkg(Π, s, p) such that for every t with hsame(s, t) and Pkg(Π, t, q), psame(p, q) holds.
+
+Local inputs:
+- `papers/bedc/parts/core/06_packages_and_package_policies.tex`
+
+Rationale:
+Chapter 06 has only one labeled theorem (thm:packages-classify-signatures-core), which states extensionality and grounding as biconditionals but does not assemble them into a representative-selection statement. The exact dual lives one chapter later as thm:gap-representative-for-admitted-source (07.tex:59) for gap policies. The asymmetry — gap policy has its representative theorem named, package policy does not — is a clean editorial gap. Category 7 (composite consequence: combine PkgPol existence field with extensionality field). Closeable in 1 round: existence supplies p; extensionality applied to (s, t, hsame(s,t), p, q) supplies psame(p, q).
+
+---
+
+### B-270 - QuotientRing ideal-coset equivalence relation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | QuotientRing ideal-coset equivalence relation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If the ideal certificate supplies zero closure, additive-inverse closure, additive closure, and classifier transport, then the ideal-coset relation $\equiv_I$ on a $\RingUp$ carrier is reflexive, symmetric, and transitive.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/61_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ideal/`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+
+Rationale:
+Foundational gap directly upstream of the existing QuotientRing descent theorems. The paper defines $\equiv_I$ in `def:quotientring-ideal-coset-relation` and proves operation descent in `thm:quotientring-multiplication-descends-to-cosets` and `thm:quotientring-additive-descent`, but never proves the relation is an equivalence relation. Without that, the descent results cannot license a well-defined coset quotient. The claim is a single concrete implication, ideal-closure-fields imply equivalence-relation laws, and lives squarely in concrete_instances next to the existing quotient-ring chapter. Distinct from B-25..B-29 (lattice) and B-19..B-24 (module/commring structure) since none touch quotient construction. Required as a prerequisite before any further QuotientRing certificate-field work.
+
+---
+
+### B-271 - AbGroup additive negation is involutive: -(-a) ~ a
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AbGroup additive negation is involutive: -(-a) ~ a |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under an AbGroupUp(M) certificate, for every carried element x of M, the additive negation satisfies -(-x) ~_M x.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/abgroup/17_abgroup_torsion_subgroup_closure.tex`
+- `papers/bedc/parts/concrete_instances/group/namecert_construction_core/02_certificate.tex`
+
+Rationale:
+Hungerford 'Algebra' ch.I §1 includes (-(-a)) = a as an immediate textbook consequence of additive group axioms. Chapter 17_abgroup has 23 theorems (centralizer/normalizer-flavored, double cancel, mul-balanced, etc.) and a forgetful prop:abgroup-forgets-group-certificate (B-53), but `grep -E 'abgroup.*neg.*involu|neg.{0,5}neg|negation.{0,30}involu'` against papers/bedc/parts/ returns 0 labeled theorems for AbGroup negation involutive. All prereqs already exist: (i) thm:group-left-inverse-involutive and thm:group-right-inverse-involutive in group/namecert_construction_core/02_certificate.tex provide inv(inv(x)) ~ x in multiplicative form; (ii) prop:abgroup-forgets-group-certificate (B-53) provides the forgetful that turns AbGroup additive structure into Group multiplicative structure. The proof is a one-line transport of group inverse-involutivity along the forgetful, so the theorem closes in 1 codex round.
+
+---
+
+
+### B-272 - Polynomial singleton evaluation: eval at any alpha of [c] returns c
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial singleton evaluation: eval at any alpha of [c] returns c |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a RingUp(R) certificate with Horner evaluation as in def:polynomial-horner-evaluation, for every carried scalar c and every carried evaluation point alpha, Eval_{alpha,R}(cons(c, nil)) ~_R c.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim.tex`
+
+Rationale:
+Hungerford 'Algebra' ch.III §5 records as a routine textbook fact that the constant polynomial [c] evaluates to c independent of the evaluation point. Chapter 25 has 22 theorems and an existing thm:polynomial-evaluation-at-zero-constant-term at line 406 of 25_polynomial_literal_addtrim.tex, but that theorem is the special case alpha=0 with arbitrary spine cons(a,t); it is NOT the singleton [c] evaluated at arbitrary alpha. Grep for 'eval.{0,5}singleton|singleton.{0,5}eval|polynomial.{0,30}cons.{0,5}nil' returns 0 labeled theorems. The Horner unfolding of cons(c, nil) is c +_R alpha *_R Eval(nil); Eval(nil) ~_R 0_R is a definitional row, alpha *_R 0_R ~_R 0_R is RingUp's right-zero absorption (already used in 18_ring_zero_product_and_signed_square.tex), and c +_R 0_R ~_R c is the additive zero unit. All three prereqs are present, so the proof is three classifier-rewrites and closes in 1 codex round.
+
+---
+
+
+### B-273 - Subgroup chain composition: K subgroup of G and H subgroup of K implies H subgroup of G
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Subgroup chain composition: K subgroup of G and H subgroup of K implies H subgroup of G |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Given carrier predicates P_K and P_H over the carrier of G with SubgroupUp(G)(P_K) and the conjunction predicate P_H_in_G(x) := P_K(x) and P_H(x), if P_H satisfies the SubgroupUp closure rows internally to the P_K-restricted carrier (containment of e_G, closure under mul, closure under inv, hsame transport, restricted-classifier compatibility), then P_H_in_G satisfies SubgroupUp(G).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction_core.tex`
+- `papers/bedc/parts/concrete_instances/group/namecert_construction_core/02_certificate.tex`
+
+Rationale:
+Hungerford 'Algebra' ch.I §5 (Theorem 5.1 corollary) records subgroup chain transitivity as standard textbook fact. Chapter 58 has 18+16 theorems concentrated on centralizer/normalizer/quotient-classifier and B-127 (Subgroup intersection is a subgroup) and B-246 (Trivial subgroup carries SubgroupUp). Grep for 'subgroup.{0,5}of.{0,5}subgroup|nested.{0,5}subgroup|subgroup.{0,5}transit|chain.{0,5}subgroup' across papers/bedc/parts/ returns only one specific instance ratup-fieldup-affine-normalizer-subgroupup-inclusion-action at 58_subgroup_namecert_construction_core.tex line 351, not the general transitivity. All prereqs exist: (i) thm:subgroup-trivial-certificate at 58_subgroup_namecert_construction.tex line 542 enumerates the SubgroupUp row format (identity, product, inverse, transport, restricted-classifier); (ii) thm:subgroup-centralizer-intersection-classifier-mul-closed-from-empty-unit and the four sibling lemmas in 58_subgroup_namecert_construction_core.tex prove closure of conjunction predicates under each row; (iii) Group multiplication and inverse congruence are in group/namecert_construction_core/02_certificate.tex. The proof is row-by-row conjunction lifting and closes in 1-2 codex rounds. This is a stepping-stone toward Lagrange's theorem (B-141) — Lagrange currently cannot decompose the iterated coset structure without subgroup chain transitivity.
+
+---
+
+### B-274 - Categorical equivalence is closed under composition (transitivity of equivalences)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Categorical equivalence is closed under composition (transitivity of equivalences) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If `AdjunctionUnitCounitCarrier(p,q,a,u_1,c_1,l_1,r_1)` and `AdjunctionUnitCounitCarrier(q,r,a,u_2,c_2,l_2,r_2)` both satisfy the empty-roundtrip condition (l_i,r_i hsame to ε), then there exist `u_3,c_3,l_3,r_3` such that `AdjunctionUnitCounitCarrier(p,r,a,u_3,c_3,l_3,r_3)` holds and l_3,r_3 are hsame to ε.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/88_equivcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_certificate.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_triangle_carrier.tex`
+
+Rationale:
+Chapter 88 contains 11 theorems (88_equivcat_namecert_construction.tex lines 10, 30, 64, 85, 107, 130, 148, 171, 192, 212, 234) and ALL labels begin `thm:equivcat-adjunction-empty-roundtrip-...`; every existing theorem decomposes or characterizes a SINGLE equivalence's empty-roundtrip witness. None compose two equivalences. Grep for `equivcat.*compos|equivcat.*transit|equiv.*pr.serv.*lim|equivcat-transitive` across papers/bedc/parts returns 0 hits. The chapter intro at line 4 explicitly calls $\EquivCatUp$ 'the structural notion of sameness for $\NameCert_{\CategoryUp}$ instances' — sameness should be transitive but that property is unproven. Infrastructure is in place: chapter 85 supplies AdjunctionUnitCounitCarrier across general (p,q) prefix pairs (85_adjunction_namecert_triangle_carrier.tex lines 16-186 give component-empty / collapse / prefix-deterministic theorems that suffice as building blocks).
+
+---
+
+
+### B-275 - Continuous-map image of a principal-suffix filter is a principal-suffix filter on the target
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Continuous-map image of a principal-suffix filter is a principal-suffix filter on the target |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If `FilterPrincipalSuffix(base,left,right,...)` (chapter 71) and `ContinuousMapCarrier(base,map,target,modulus,cert,distance)` (chapter 34), then there exist target histories carrying a `FilterPrincipalSuffix` witness on `target` whose intersection-closure and unary-commuting-square fields are determined by the source filter and the continuous-map graph.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/71_filter_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_function_carrier.tex`
+
+Rationale:
+Chapter 71 has 15 theorems all labeled `thm:filter-principal-suffix-...` (71_filter_namecert_construction.tex lines 10, 32, 53, 71, 93, 114, 132, 146, 166, 188, 208, 236, 259, 281, 300). Every existing theorem is INTERNAL to a single filter (intersection closure, commuting square, point determinism, semantic name-cert). Grep `filter.*continu|continuous.*filter|filter.*image|filter.*map|filter.*pushforward` across papers/bedc/parts returns 0 file matches. Chapter intro line 4 declares the filter is 'the constructive analogue of mathlib-style \texttt{Filter} for the BEDC topology and analysis layers' — pushforward under continuous maps is the canonical first interaction with the topology layer (mathlib's `Filter.map`), and it is absent.
+
+---
+
+
+### B-276 - Continuous image of a compact source is compact, not merely totally bounded
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Continuous image of a compact source is compact, not merely totally bounded |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If `ContinuousMapCarrier(source,map,target,modulus,cert,distance)` and the source carries a full `CompactWitnessCarrier` (totally-bounded plus located refinement chain), then the target image bundle inherits a CompactWitness with both the totally-bounded image fields AND a located refinement chain transported through the modulus, not merely the totally-bounded image proved in proposition 35b.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/35_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35b_compact_image_total_bounded.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+`35b_compact_image_total_bounded.tex` lines 41-125 prove `prop:uniformly-continuous-image-totally-bounded-source` ONLY for the totally-bounded fragment (it produces an `ImageFiniteNetLedger` but no located refinement). Chapter 35 has 19+ refinement-chain theorems (lines 15-553 including `thm:compact-witness-carrier-located-extension-closed` and `thm:compact-located-refinement-chain-transitivity`) for the located component of the compact carrier on a single source, but no theorem lifts the totally-bounded image proof to a full compact image. Grep `image.*compact|compact-image|continuous.*compact` across papers/bedc/parts returns only the existing totally-bounded variant and a roadmap mention. In BEDC, `compact = totally-bounded + located + Cauchy-completeness`; the located component's preservation under continuous maps is the missing piece that distinguishes the claim from what is already proved.
+
+---
+
+
+### B-277 - EqType class membership is transitive at the class-carrier layer
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EqType class membership is transitive at the class-carrier layer |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a history h belongs to the equality-type class anchored at `anchor` (i.e., `EqtypeClassCarrier(anchor,h)`) and h' belongs to the equality-type class anchored at h (`EqtypeClassCarrier(h,h')`), then h' belongs to the equality-type class anchored at `anchor`.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/109_eqtype_namecert_construction.tex`
+
+Rationale:
+Chapter 109 has 13 theorems all labeled `thm:eqtype-class-carrier-...` or `thm:eqtype-class-carrier-anchor-hsame-transport` (109_eqtype_namecert_construction.tex lines 10, 23, 37, 50, 64, 78, 93, 107, 128, 142, 156, 177, 194). Every theorem treats specific anchor patterns (`e1-anchor`, `e0-anchor`, `visible-context`) with READBACK / DETERMINISTIC / ABSURD / SEMANTIC-NAMECERT patterns. The chapter intro at line 4 calls $\EqUp$ 'the foundational equality layer underlying every $\psame$ classifier' — classical equality is reflexive/symmetric/transitive, but the only equivalence-relation property proved is HSAME transport (`thm:eqtype-class-carrier-anchor-hsame-transport` line 194), not class-carrier transitivity (chained anchor relation). Grep `eqtype.*reflex|eqtype.*sym|eqtype.*trans|reflex.*eqtype` returns only the unrelated anchor-transport theorem. The chain transitivity is a single-implication structural fact that fits the chapter's style and infrastructure.
+
+---
+
+
+### B-278 - Derivative metric quotients compose: chain rule on metric quotient witnesses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Derivative metric quotients compose: chain rule on metric quotient witnesses |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 9/10 |
+
+Problem:
+If `DerivativeMetricQuotient(f,z,h_f,q_f,d_f)` holds and `DerivativeMetricQuotient(g,q_f,h_g,q_g,d_g)` also holds (the inner derivative is taken at the outer quotient endpoint), and continuations chain via `Cont(f,append(h_f,h_g),q_g)`, then a composite metric-quotient witness exists for the chain f→g whose distance history is classifier-equal to the continuation product of d_f and d_g.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/100_derivative_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/42_complex_differentiability_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+Chapter 100 has 19 theorems (100_derivative_namecert_construction.tex lines 28, 55, 80, 99, 117, 131, 146, 161, 176, 192, 207, 222, 242, 267, 289, 307, 327, 342, 356) all labeled `thm:derivative-metric-quotient-...` or `thm:derivative-cplx-diff-at-...`. Every theorem is about TRANSPORT (`hsame-transport` line 28), DETERMINACY (`result-deterministic` line 222, `hsame-step-result-deterministic` line 242), READBACK (`visible-context-readback` line 131-192), or NEGATIVE shape (`visible-step-same-quotient-absurd` line 289). Grep `chain.*rule|chainrule|derivative-chain|derivative.*compos|derivative.*product-rule|derivative.*linearity|derivative-leibniz|derivative-sum` returns 0 hits in the derivative chapter (only roadmap and complex-differentiability mentions of `composite modulus` in unrelated contexts). The chain rule is the canonical compositional theorem (foundational for any analytic chapter built on derivatives) and is genuinely absent.
+
+---
+
+
+### B-279 - Tensor product factorization is unique up to the tensor classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Tensor product factorization is unique up to the tensor classifier |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If `TensorProductSingletonFactor(l,r,t)` and `TensorProductSingletonFactor(l,r,t')` both hold for the same factor pair (l,r) with the same singleton-carrier source and target modules, then the two factorization endpoints t and t' are classifier-equal under the tensor classifier (hsame on the tensor carrier).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/65_tensorproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+Chapter 65 has 12 theorems (65_tensorproduct_namecert_construction.tex lines 18, 36, 49, 67, 82, 97, 125, 139, 156, 172, 202, 230) covering EXISTENCE (`factor-witness` line 125), TRANSPORT (`factor-hsame-transport` line 139), SYMMETRY (`factor-source-target-swap` line 172, `factor-swap-symmetry` line 202), and ASSOCIATIVITY (`factor-associator` line 230). The chapter intro at line 4 says 'packages the universal bilinear factorization' — the universal property has both an EXISTENCE clause (proved via `factor-witness`) and a UNIQUENESS clause (any two factorizations agree). Grep `tensorproduct.*univers|tensor.*univers.*property|tensorproduct-uniqueness` returns 0 hits. The uniqueness clause as a single-implication theorem t hsame t' from two factor witnesses is missing and is a clean, single-step extension building only on `hsame-transport` and `factor-witness`.
+
+---
+

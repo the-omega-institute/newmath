@@ -193,6 +193,15 @@ theorem AdeleHistoryCarrier_cont_right_result_nonempty {h k r : BHist} :
   have endpoints := cont_empty_result_inversion emptyContinuation
   exact AdeleHistoryCarrier_not_empty carrier endpoints.right
 
+theorem AdeleHistoryCarrier_cont_append_right_result_nonempty {h k p r : BHist} :
+    AdeleHistoryCarrier k -> Cont h (append p k) r -> hsame r BHist.Empty -> False := by
+  intro carrier continuation resultEmpty
+  have emptyContinuation : Cont h (append p k) BHist.Empty :=
+    cont_result_hsame_transport continuation resultEmpty
+  have endpoints := cont_empty_result_inversion emptyContinuation
+  have targetParts := append_eq_empty_iff.mp endpoints.right
+  exact AdeleHistoryCarrier_not_empty carrier targetParts.right
+
 theorem AdeleHistoryCarrier_visible_scale_cont_nonempty_package {real p exponent result k out : BHist} :
     RealConstantHistoryCarrier real -> PadicPrimeScale p (BHist.e1 exponent) result ->
       Cont (append real result) k out ->
@@ -201,6 +210,19 @@ theorem AdeleHistoryCarrier_visible_scale_cont_nonempty_package {real p exponent
   intro realCarrier scale continuation
   have visibleScale :=
     AdeleHistoryCarrier_visible_scale_result_nonempty realCarrier scale
+  exact And.intro visibleScale.left
+    (And.intro visibleScale.right
+      (AdeleHistoryCarrier_cont_result_nonempty visibleScale.left continuation))
+
+theorem AdeleHistoryCarrier_visible_zero_scale_cont_nonempty_package
+    {real p exponent result k out : BHist} :
+    RealConstantHistoryCarrier real -> PadicPrimeScale p (BHist.e0 exponent) result ->
+      Cont (append real result) k out ->
+        AdeleHistoryCarrier (append real result) ∧
+          (hsame result BHist.Empty -> False) ∧ (hsame out BHist.Empty -> False) := by
+  intro realCarrier scale continuation
+  have visibleScale :=
+    AdeleHistoryCarrier_visible_zero_scale_result_nonempty realCarrier scale
   exact And.intro visibleScale.left
     (And.intro visibleScale.right
       (AdeleHistoryCarrier_cont_result_nonempty visibleScale.left continuation))
@@ -522,5 +544,19 @@ theorem AdeleHistoryCarrier_unit_right_scale_cont_readback {real p w result : BH
     ⟨real, p, append w (BHist.e1 BHist.Empty), result, realCarrier, scale,
       hsame_refl (append real result)⟩
     factorization
+
+theorem AdeleHistoryCarrier_unit_right_scale_append_readback {real p w result : BHist} :
+    RealConstantHistoryCarrier real -> UnaryHistory w ->
+      PadicPrimeScale p (append w (BHist.e1 BHist.Empty)) result ->
+        AdeleHistoryCarrier (append real result) ∧
+          Exists (fun n : BHist => PadicPrimeScale p w n ∧
+            hsame (append real result) (append real (append n p))) := by
+  intro realCarrier unaryW scale
+  have readback :=
+    AdeleHistoryCarrier_unit_right_scale_cont_readback realCarrier unaryW scale
+  cases readback.right with
+  | intro n data =>
+      exact And.intro readback.left
+        (Exists.intro n (And.intro data.left (congrArg (append real) data.right)))
 
 end BEDC.Derived.AdeleUp
