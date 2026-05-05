@@ -334,4 +334,41 @@ same three continuation ledgers, producing the stated equality for
 $\mathsf{MetricDistanceDepth}$.
 \end{proof}
 
+\begin{theorem}[ContinuousMap composition certificate determinacy]
+\label{thm:continuousmap-comp-certificate-deterministic}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,certFG_2,distF,distG,displayed:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),
+\qquad
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+$$
+and the composition ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+If another displayed composite carrier has the same source, map, target,
+modulus, and a certificate $certFG_2$,
+$$
+\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG_2,displayed),
+$$
+then the certificate histories agree:
+$$
+\hsame(certFG,certFG_2).
+$$
+\end{theorem}
+\begin{proof}
+First close the canonical composite carrier from the two input carriers and the
+three continuation ledgers by
+Theorem~\ref{thm:continuousmap-carrier-comp-closed}. Compare this canonical
+carrier with the displayed carrier by
+Theorem~\ref{thm:continuousmap-target-cert-distance-deterministic}. The
+certificate component of that comparison is the required
+$\hsame(certFG,certFG_2)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_certificate\_deterministic}
+
 \input{parts/concrete_instances/continuousmap/associative_composition_canonical_package}

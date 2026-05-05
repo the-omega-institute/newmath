@@ -237,6 +237,7 @@ import BEDC.Derived.PrimeUp.FactorizationList
 import BEDC.Derived.PrimeUp.PrimeShape
 import BEDC.Derived.PrimeUp.TrialDivShape
 import BEDC.Derived.PrimeUp.ZeroHeadedComponent
+import BEDC.Derived.PrimeUp.TrialDivStep
 import BEDC.Derived.PrimeUp.SemanticCertificate
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
@@ -507,6 +508,8 @@ import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.GraphDepth
+import BEDC.Derived.ContinuousMapUp.IdentityUnits
+import BEDC.Derived.ContinuousMapUp.CompositionCertificate
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
 import BEDC.Derived.CompactUp.Suffix
@@ -644,10 +647,12 @@ import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.AdjunctionUp.CarrierSwap
 import BEDC.Derived.AdjunctionUp.TriangleComponents
 import BEDC.Derived.AdjunctionUp.AlternatingSuffix
+import BEDC.Derived.AdjunctionUp.AlternatingPrefix
 import BEDC.Derived.AdjunctionUp.AlternatingZeroHeaded
 import BEDC.Derived.AdjunctionUp.CarrierSwapInvolution
 import BEDC.Derived.AdjunctionUp.RightAdjointUniqueness
 import BEDC.Derived.AdjunctionUp.TriangleTotalCollapse
+import BEDC.Derived.AdjunctionUp.TriangleZeroHeaded
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp

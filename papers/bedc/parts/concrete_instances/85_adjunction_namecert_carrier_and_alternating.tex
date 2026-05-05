@@ -304,6 +304,29 @@ component to be empty.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_result\_empty\_unit\_empty}
 
+\begin{theorem}[Adjunction positive-depth empty alternating prefix readback]
+\label{thm:adjunction-unit-counit-carrier-alternating-positive-depth-empty-prefix-same}
+For histories $p,q,a,unit,counit,left,right,depth:\mathsf{BHist}$, suppose
+an adjunction unit-counit carrier holds, $depth$ is unary and nonempty, and
+the alternating unit-counit ledger is history-same to $\emp$. Then the source
+and target prefixes of the unit component are history-same:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \Unary(depth)\land(\hsame(depth,\emp)\to\bot)
+\land
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)
+\Longrightarrow
+\hsame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+The positive-depth empty-result readback forces $unit\hsame\emp$. Transporting
+the unit component to the empty component case lets natural-transformation
+empty-identity exactness read back the endpoint-prefix equality
+$\hsame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_alternating\_positive\_depth\_empty\_prefix\_same}
+
 \begin{theorem}[Adjunction visible unit positive-depth empty-result exclusion]
 \label{thm:adjunction-alternating-positive-depth-visible-unit-continuation-empty-result-absurd}
 For unary nonempty $depth$, an alternating unit-counit ledger whose displayed
@@ -480,4 +503,3 @@ The five witnesses assemble the displayed conjunction, giving the total
 endomorphism collapse including the alternating ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_total\_alternating\_collapse}
-
