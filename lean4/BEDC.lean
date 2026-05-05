@@ -236,6 +236,7 @@ import BEDC.Derived.PrimeUp.DivisionWithRemainder
 import BEDC.Derived.PrimeUp.FactorizationList
 import BEDC.Derived.PrimeUp.PrimeShape
 import BEDC.Derived.PrimeUp.TrialDivShape
+import BEDC.Derived.PrimeUp.SemanticCertificate
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.EndpointAbsurd
@@ -491,6 +492,7 @@ import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ResultCases
 import BEDC.Derived.ContinuousUp.EmptySource
 import BEDC.Derived.ContinuousUp.EmptyModulus
+import BEDC.Derived.ContinuousUp.EmptyModuli
 import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.ContinuousUp.CompModulusChain
