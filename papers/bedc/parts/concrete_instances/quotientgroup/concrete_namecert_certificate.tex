@@ -18,7 +18,6 @@ source, pattern, and ledger predicates are the same singleton predicate, their
 soundness clauses are direct projections of the source witness.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingleton\_semanticNameCert}
-
 \begin{theorem}[QuotientGroup singleton normalizer orbit classifier collapse]
 \label{thm:quotientgroup-singleton-normalizer-orbit-classifier-collapse}
 For histories $x,y:\mathsf{BHist}$, in the concrete singleton history group
@@ -67,7 +66,6 @@ $A_{\emp}(x)$ and $A_{\emp}(y)$, so the reverse direction of
 $x\sim_{N_{\emp}}y$.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier\_normalizer\_orbit\_collapse\_iff}
-
 \begin{theorem}[QuotientGroup singleton continuation classifier]
 \label{thm:quotientgroup-singleton-classifier-continuation-classifier}
 If $\ContR(p,q,r)$, then the singleton classifier at the continuation result
@@ -89,7 +87,6 @@ rebuild $r\hsame\emp$, and the endpoint carrier for $h$ supplies the remaining
 classifier fields.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier\_continuation\_classifier\_iff}
-
 \begin{theorem}[QuotientGroup singleton classifier visible endpoint exclusion]
 \label{thm:quotientgroup-singleton-classifier-visible-endpoint-absurd}
 For histories $p,q,k:\mathsf{BHist}$, no classifier edge can have a visible
@@ -109,7 +106,6 @@ right endpoint gives the same contradiction from the right carrier field. Each
 case is excluded by constructor separation for generated BEDC histories.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier\_visible\_endpoint\_absurd}
-
 \begin{theorem}[Centralizer coset SemanticNameCert]
 \label{thm:quotientgroup-centralizer-coset-semantic-namecert}
 If the representative $\mathsf{repr}$ centralizes $a$, then the
@@ -122,7 +118,6 @@ transitivity of the classifier are inherited from $\hsame$, while carrier
 respect follows from the carried right endpoint stored in the classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCoset\_semanticNameCert}
-
 \begin{theorem}[Centralizer coset empty representative classifier transport]
 \label{thm:quotientgroup-centralizer-coset-empty-representative-transport}
 If the representative $\mathsf{repr}$ and the empty history both centralize
@@ -758,7 +753,15 @@ first-isomorphism-style quotient-kernel exactness; status
 $\mathsf{ProofTarget}$.
 
 \input{parts/concrete_instances/quotientgroup_abelian_terminal_projection}
-\closureat{\QuotientGroupUp}{\checkedCertStr}[BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_semanticNameCert]
+\begin{closurestatus}{\QuotientGroupUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The centralizer-normalizer quotient-group semantic certificate, with coset carrier, orbit/kernel classifiers, quotient-kernel equivalence, and the displayed first-isomorphism-style exactness rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General quotient-group theory: arbitrary normal subgroups, coset multiplication for all groups, canonical projections, universal property, group actions, or full isomorphism theorems.}
+  \upgradepath{$\publicClosure$ requires public normal-subgroup and coset surfaces, quotient operation readback, projection exactness, kernel/orbit classifier completeness, and no-hidden-leakage.}
+\end{closurestatus}
 
 \begin{theorem}[Centralizer coset carrier representative product closure]
 \label{thm:quotientgroup-centralizer-coset-carrier-representative-product}

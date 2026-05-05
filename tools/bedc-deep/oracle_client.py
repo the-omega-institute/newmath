@@ -1431,23 +1431,33 @@ def _run_loop_two_pool(args: argparse.Namespace,
             active[fut] = ("oracle", t.target_id)
             return True
 
-        if codex_pool:
-            for _ in range(codex_parallel):
-                if not _spawn_codex():
-                    break
-        if oracle_pool:
-            for _ in range(oracle_parallel):
-                if not _spawn_oracle():
-                    break
+        def _active_count(role_name: str) -> int:
+            return sum(1 for r, _ in active.values() if r == role_name)
+
+        def _fill_slots() -> bool:
+            spawned = False
+            if codex_pool:
+                while _active_count("codex") < codex_parallel:
+                    if not _spawn_codex():
+                        break
+                    spawned = True
+            if oracle_pool:
+                while _active_count("oracle") < oracle_parallel:
+                    if not _spawn_oracle():
+                        break
+                    spawned = True
+            return spawned
+
+        _fill_slots()
 
         idle_ticks = 0
         while active or idle_ticks < 120:
+            filled = _fill_slots()
             if not active:
                 idle_ticks += 1
                 time.sleep(2)
-                if codex_pool and not _spawn_codex() and oracle_pool and not _spawn_oracle():
-                    continue
-                idle_ticks = 0
+                if filled:
+                    idle_ticks = 0
                 continue
             done, _pending = wait(list(active.keys()), timeout=2, return_when=FIRST_COMPLETED)
             for fut in done:
@@ -1460,19 +1470,7 @@ def _run_loop_two_pool(args: argparse.Namespace,
                     print(f"[loop:{role}] {tid} worker exited: {e}", flush=True)
                 except Exception as e:
                     print(f"[loop:{role}] {tid} worker error: {e}", flush=True)
-            for fut in done:
-                if codex_pool and not _spawn_codex():
-                    if oracle_pool:
-                        _spawn_oracle()
-                else:
-                    pass
-            if oracle_pool:
-                idle_oracle_slots = oracle_parallel - sum(
-                    1 for r, _ in active.values() if r == "oracle"
-                )
-                for _ in range(max(0, idle_oracle_slots)):
-                    if not _spawn_oracle():
-                        break
+            _fill_slots()
             idle_ticks = 0
     except KeyboardInterrupt:
         print("[loop] interrupted; existing workers continue to safe stop", flush=True)
