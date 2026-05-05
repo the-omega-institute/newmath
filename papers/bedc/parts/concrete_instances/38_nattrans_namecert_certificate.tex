@@ -158,6 +158,34 @@ $\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(c,c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_congr}
 
+\begin{theorem}[NatTrans prefix component classifier empty composite readback]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-readback}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta'$, suppose
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')
+\quad\text{and}\quad
+\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')
+$$
+and suppose $\ContR(\eta,\theta,\emp)$. Then the two displayed leading
+components classify against the empty component, and the adjacent prefixes
+are history-same:
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\emp)
+\land
+\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\emp)
+\land p\hsame q\land q\hsame r.
+$$
+\end{theorem}
+\begin{proof}
+Read the two carrier rows out of the classifier witnesses and apply the
+carrier-level empty-composite readback. This supplies empty component carriers
+for the two rows and the two prefix equalities. The corresponding
+empty-composite iff also gives $\eta\hsame\emp$ and $\theta\hsame\emp$.
+Repacking the original carried morphism rows, the empty component rows, and
+these history-same witnesses gives the two classifier rows against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_readback}
+
 \begin{theorem}[NatTrans vertical composite zero-headed component impossibility]
 \label{thm:nattrans-prefix-component-classifier-vert-comp-zero-headed-component-absurd}
 For vertically composable prefix component classifiers, none of the three

@@ -456,6 +456,7 @@ import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
 import BEDC.Derived.MatrixUp.PowContinuation
+import BEDC.Derived.MatrixUp.PositiveExponentClassifier
 import BEDC.Derived.MatrixUp.PositiveSuffix
 import BEDC.Derived.MatrixUp.VisibleBaseCarrier
 import BEDC.Derived.DeterminantUp
@@ -637,6 +638,7 @@ import BEDC.Derived.AdjunctionUp.TriangleComponents
 import BEDC.Derived.AdjunctionUp.AlternatingSuffix
 import BEDC.Derived.AdjunctionUp.AlternatingZeroHeaded
 import BEDC.Derived.AdjunctionUp.CarrierSwapInvolution
+import BEDC.Derived.AdjunctionUp.RightAdjointUniqueness
 import BEDC.Derived.AdjunctionUp.TriangleTotalCollapse
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp

@@ -95,6 +95,28 @@ power ledger from $A_{\emp}(M)$ and $\Unary(e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_nonempty\_unary\_input\_iff}
 
+\begin{theorem}[Matrix singleton power positive exponent classifier iff]
+\label{thm:matrix-singleton-pow-positive-exponent-classifier-iff}
+Let $M,e,h:\mathsf{BHist}$. If $e$ is unary and not history-same to $\emp$,
+then the singleton classifier of the positive power ledger against $h$ is
+exactly the pair of singleton carrier conditions on the base and the displayed
+endpoint:
+$$
+\mathsf{MatrixSingletonClassifier}(\mathsf{MatrixSingletonPow}(M,e),h)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(M)\land\mathsf{MatrixSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the carried power endpoint from the classifier and
+uses positive-exponent carrier exactness to recover the singleton carrier of
+$M$; the right endpoint carrier is already part of the classifier. Conversely,
+the singleton carrier of $M$ and unary exponent closure carry the positive
+power ledger, and the carried endpoint $h$ completes the singleton classifier
+by transitivity through $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_classifier\_iff}
+
 \begin{theorem}[Matrix singleton power nonempty unary suffix base carrier]
 \label{thm:matrix-singleton-pow-nonempty-unary-suffix-base-carrier}
 If $tail$ is unary and not history-same as $\emp$, then a singleton carrier
