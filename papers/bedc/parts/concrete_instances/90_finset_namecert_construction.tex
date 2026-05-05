@@ -8,3 +8,129 @@ The finite-set interface $\FinSetUp$ packages a $\NameCert_{\SetUp}$ together wi
 
 \section{The certificate}
 \label{sec:finset-certificate}
+
+\begin{definition}[Finite-spine enumeration membership]
+\label{def:finset-enumeration-membership}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate with classifier $\sim_A$. For a finite BEDC-history spine $xs:\mathsf{HistSpine}$, let $\mathsf{Pos}(xs)$ be its finite position carrier and let $\mathsf{entry}_{xs}:\mathsf{Pos}(xs)\to\mathsf{BHist}$ be its entry readback. Define enumeration membership by
+$$
+\mathsf{EnumMem}_{A,\sim_A}(z,xs)
+\Longleftrightarrow
+A(z)\land
+\exists i:\mathsf{Pos}(xs).\;A(\mathsf{entry}_{xs}(i))\land z\sim_A\mathsf{entry}_{xs}(i).
+$$
+The enumeration-induced $\FinSetUp$ classifier between two finite-spine presentations is
+$$
+\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,ys)
+\Longleftrightarrow
+\forall z:\mathsf{BHist}.\;
+\mathsf{EnumMem}_{A,\sim_A}(z,xs)
+\Longleftrightarrow
+\mathsf{EnumMem}_{A,\sim_A}(z,ys).
+$$
+This is the extensional classifier read from the enumeration witness used by the finite-set presentation in \autoref{ch:concrete-instances-finset-namecert}.
+\end{definition}
+
+\begin{definition}[Classifier-preserving enumeration permutation]
+\label{def:finset-classifier-preserving-enumeration-permutation}
+For finite BEDC-history spines $xs$ and $ys$, define $\mathsf{EnumPerm}_{A,\sim_A}(xs,ys)$ to mean that there is a certified finite-position bijection
+$$
+\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)
+$$
+such that every matched pair of entries is carried by the fixed $\SetUp$ source and classified by its classifier:
+$$
+\forall i:\mathsf{Pos}(xs).\;
+A(\mathsf{entry}_{xs}(i))\land
+A(\mathsf{entry}_{ys}(\pi(i)))\land
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+The inverse position map $\pi^{-1}$ is part of the certified bijection. This is the enumeration-level presentation datum used by the $\PermutationUp$ interface in \autoref{ch:concrete-instances-permutation-namecert}.
+\end{definition}
+
+\begin{theorem}[FinSet classifier invariant under enumeration permutation]
+\label{thm:finset-classifier-enumeration-permutation-invariant}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For finite BEDC-history spines $xs$ and $ys$, if
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(xs,ys)
+$$
+holds, then
+$$
+\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,ys)
+$$
+holds. Equivalently, replacing a $\FinSetUp$ enumeration witness by a certified permutation that preserves the fixed source classifier pointwise leaves the induced finite-set classifier unchanged.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:finset-classifier-preserving-enumeration-permutation} and choose the certified bijection $\pi$ with its pointwise classifier-preservation field. Unfold \autoref{def:finset-enumeration-membership}. It is enough to fix a query history $z$ and prove the two membership implications.
+
+For the forward implication, suppose $\mathsf{EnumMem}_{A,\sim_A}(z,xs)$. Then $A(z)$ holds and there is a position $i:\mathsf{Pos}(xs)$ such that $A(\mathsf{entry}_{xs}(i))$ and
+$$
+z\sim_A\mathsf{entry}_{xs}(i)
+$$
+hold. The permutation field at $i$ gives $A(\mathsf{entry}_{ys}(\pi(i)))$ and
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+The transitivity field of the naming certificate from \autoref{def:lean-carrier-naming-certificate}, applied to these two classifier witnesses, gives
+$$
+z\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+Using the position $\pi(i)$ and the carried-entry witness just obtained, this repacks as $\mathsf{EnumMem}_{A,\sim_A}(z,ys)$.
+
+For the reverse implication, suppose $\mathsf{EnumMem}_{A,\sim_A}(z,ys)$. Then $A(z)$ holds and there is a position $j:\mathsf{Pos}(ys)$ such that $A(\mathsf{entry}_{ys}(j))$ and
+$$
+z\sim_A\mathsf{entry}_{ys}(j)
+$$
+hold. Put $i=\pi^{-1}(j)$. The pointwise preservation field at $i$ gives
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(j),
+$$
+because $\pi(i)=j$, and it also gives $A(\mathsf{entry}_{xs}(i))$. The symmetry field of $\mathsf{cert}$ reverses the matched-entry comparison to
+$$
+\mathsf{entry}_{ys}(j)\sim_A\mathsf{entry}_{xs}(i).
+$$
+Transitivity of the same classifier composes this with $z\sim_A\mathsf{entry}_{ys}(j)$ and yields
+$$
+z\sim_A\mathsf{entry}_{xs}(i).
+$$
+The position $i$ therefore witnesses $\mathsf{EnumMem}_{A,\sim_A}(z,xs)$.
+
+The two implications hold for every query history $z$, so the two enumeration-induced predicates are pointwise equivalent. By \autoref{def:finset-enumeration-membership}, this is exactly $\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,ys)$.
+\end{proof}
+
+\begin{definition}[Finite-spine occurrence]
+\label{def:finite-spine-occurrence}
+For a finite spine $xs:\mathsf{HistSpine}$ and a history $x:\mathsf{BHist}$, the predicate $\mathsf{SpineMember}(x,xs)$ is generated by two clauses: $\mathsf{SpineMember}(x,\mathsf{cons}(x,ys))$ for every tail $ys$, and if $\mathsf{SpineMember}(x,ys)$ then $\mathsf{SpineMember}(x,\mathsf{cons}(y,ys))$ for every head $y$. There is no clause for $\mathsf{nil}$.
+\end{definition}
+
+\begin{definition}[FinSet enumeration carrier]
+\label{def:finset-enumeration-carrier}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of the underlying $\NameCert_{\SetUp}$, let $\sim_A$ be its classifier, and let $xs:\mathsf{HistSpine}$ be the finite spine supplied by the $\ListUp$ enumeration witness of \autoref{def:list-spine-representation}. Define the finite-set carrier represented by $xs$ by
+$$
+\mathsf{FinSetEnumCarrier}_{A,\sim_A}(xs)(a)
+\Longleftrightarrow
+A(a)\land
+\exists x:\mathsf{BHist}.\;\mathsf{SpineMember}(x,xs)\land a\sim_A x.
+$$
+\end{definition}
+
+\begin{lemma}[Enumeration spine entries are source-carried]
+\label{lem:finset-enumeration-spine-entries-source-carried}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If $\mathsf{ListSpineRep}_A(e,xs)$ and $\mathsf{SpineMember}(x,xs)$ hold, then $A(x)$ holds.
+\end{lemma}
+\begin{proof}
+Induct on the displayed $\mathsf{ListSpineRep}_A(e,xs)$ witness from \autoref{def:list-spine-representation}. The nil representation has $xs=\mathsf{nil}$, and \autoref{def:finite-spine-occurrence} gives no occurrence clause for $\mathsf{nil}$. In the cons representation, the occurrence of $x$ in $\mathsf{cons}(a,xs')$ is either the head occurrence or a tail occurrence. The head case returns the stored source witness $A(a)$. The tail case applies the induction hypothesis to the tail representation $\mathsf{ListSpineRep}_A(t,xs')$ and the displayed tail occurrence.
+\end{proof}
+
+\begin{theorem}[FinSet enumeration membership exactness]
+\label{thm:finset-enumeration-membership-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of the underlying $\NameCert_{\SetUp}$, let $\sim_A$ be its classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and let $e$ and $xs$ satisfy $\mathsf{ListSpineRep}_A(e,xs)$. Then for every history $a$,
+$$
+\mathsf{FinSetEnumCarrier}_{A,\sim_A}(xs)(a)
+\Longleftrightarrow
+\exists x:\mathsf{BHist}.\;\mathsf{SpineMember}(x,xs)\land a\sim_A x.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack \autoref{def:finset-enumeration-carrier} and keep the displayed occurrence and classifier witness.
+
+For the reverse direction, take a witness $x$ with $\mathsf{SpineMember}(x,xs)$ and $a\sim_A x$. The enumeration witness and \autoref{lem:finset-enumeration-spine-entries-source-carried} give $A(x)$. The symmetry field of $\mathsf{cert}$, as part of \autoref{def:lean-carrier-naming-certificate}, turns $a\sim_A x$ into $x\sim_A a$. Carrier transport from the same certificate carries $A(x)$ along this comparison to obtain $A(a)$. Pair this carrier witness with the original occurrence and classifier witness, and repack by \autoref{def:finset-enumeration-carrier}.
+\end{proof}

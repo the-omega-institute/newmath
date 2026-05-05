@@ -9,6 +9,9 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexLimitUp
 
+def DirichletTerm (coeff : BHist -> BHist) (n s : BHist) : BHist :=
+  append (coeff n) s
+
 inductive DirichletPartSum (term : BHist -> BHist -> BHist) (s : BHist) :
     BHist -> BHist -> Prop where
   | zero : DirichletPartSum term s BHist.Empty BHist.Empty
