@@ -8,3 +8,57 @@ The computable-function interface $\ComputableUp$ packages partial functions $\m
 
 \section{The certificate}
 \label{sec:computable-certificate}
+
+\begin{definition}[Bounded simulation witness for $\ComputableUp$]
+\label{def:computable-bounded-simulation-witness}
+Fix a deterministic Turing-machine code $P$ whose input and output tapes carry unary $\NatUp$ histories. For unary histories $n$, $B$, and $m$, the judgment
+$$
+  \mathsf{BoundedSim}(P,n,B,m)
+$$
+means that there is a $\SeqUp$ trace $C$ of configurations indexed by the unary prefixes of $B$ such that:
+\begin{enumerate}
+  \item the zero-prefix entry is the initial configuration of $P$ on input $n$;
+  \item every one-step extension in the prefix interval follows the transition relation of $P$, with halted configurations allowed to repeat;
+  \item the endpoint entry at bound $B$ is halted and reads back the unary output $m$.
+\end{enumerate}
+The trace is a $\SeqUp$ object in the sense of \autoref{ch:concrete-instances-seq-namecert}, while the bound and output are unary histories in the sense of \autoref{def:unary-history-judgment}. Thus $B$ is an upper bound, not an exact running time.
+\end{definition}
+
+\begin{definition}[Bounded $\ComputableUp$ graph certificate]
+\label{def:computable-bounded-graph-certificate}
+For a partial graph $F\subseteq\NatUp\times\NatUp$, a bounded $\ComputableUp$ graph certificate consists of a deterministic machine code $P_F$ and a $\SeqUp$ unary-bound modulus $\beta_F$ such that, for all unary $n$ and $m$,
+$$
+  F(n,m)\Longleftrightarrow \mathsf{BoundedSim}(P_F,n,\beta_F(n),m),
+$$
+and any two bounded simulations for the same input return $\hsame$-classified output histories. The modulus value $\beta_F(n)$ is part of the certificate ledger, so each accepted graph value carries its displayed time-step bound.
+\end{definition}
+
+\begin{theorem}[Computable composition by bounded simulation]
+\label{thm:computable-composition-bounded-simulation}
+Let $F$ and $G$ be partial $\NatUp$ graphs carrying bounded $\ComputableUp$ graph certificates $(P_F,\beta_F)$ and $(P_G,\beta_G)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. Suppose $F(n,m)$ is witnessed by
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m)
+$$
+and $G(m,k)$ is witnessed by
+$$
+  \mathsf{BoundedSim}(P_G,m,\beta_G(m),k).
+$$
+Then there is a unary history $B$ and a deterministic composite machine code $P_{G\circ F}$ such that
+$$
+  \mathsf{BoundedSim}(P_{G\circ F},n,B,k).
+$$
+Consequently the composite graph
+$$
+  (G\circ F)(n,k) := \exists m:\NatUp,\ F(n,m)\ \text{and}\ G(m,k)
+$$
+has a certified bounded simulation returning $k$ on input $n$.
+\end{theorem}
+\begin{proof}
+Write $b_F:=\beta_F(n)$ and $b_G:=\beta_G(m)$. Since the two certificates are $\SeqUp$ unary-bound moduli over the $\NatUp$ source, $b_F$ and $b_G$ are unary histories. Apply the continuation rules of \autoref{def:continuation-relation} to choose a history $B$ with $\ContR(b_F,b_G,B)$. By unary closure under continuation from \autoref{prop:unary-repetition-closed-under-continuation}, $B$ is unary.
+
+Define $P_{G\circ F}$ as the phase machine that first runs $P_F$ on the input tape, reads the halted unary output as the next input tape, and then runs $P_G$. The phase boundary is exact: the endpoint row of the first bounded trace is halted with output $m$, which is precisely the initial input required by the second bounded trace.
+
+Build a $\SeqUp$ trace over the unary prefixes of $B$ by prefix recursion along the displayed continuation witness $\ContR(b_F,b_G,B)$. On the first segment, indexed by prefixes of $b_F$, use the trace supplied by $\mathsf{BoundedSim}(P_F,n,b_F,m)$. At the boundary $b_F$, the first trace is already halted with output $m$ by \autoref{def:computable-bounded-simulation-witness}. On the second segment, indexed as the continuation of $b_F$ by prefixes of $b_G$, use the trace supplied by $\mathsf{BoundedSim}(P_G,m,b_G,k)$.
+
+The transition rows are valid in all cases. Inside the first segment they are the transition rows of $P_F$; inside the second segment they are the transition rows of $P_G$; at the boundary they are the phase switch of $P_{G\circ F}$. Halted-state repetition in \autoref{def:computable-bounded-simulation-witness} permits the first bounded run to occupy its whole bound before the second phase begins. The endpoint of the composite bound corresponds to the endpoint of the $G$ trace, so it is halted with output $k$. Hence the assembled trace is a witness of $\mathsf{BoundedSim}(P_{G\circ F},n,B,k)$.
+\end{proof}
