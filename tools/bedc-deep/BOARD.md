@@ -6263,3 +6263,80 @@ papers/bedc/parts/proof_standing/02_ext_cont_proof_spine.tex:197-212 proves thm:
 
 ---
 
+### B-242 - Tensor product singleton factor associator
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Tensor product singleton factor associator |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If TensorProductSingletonFactor(l,r,t) and TensorProductSingletonFactor(t,s,u) hold, then there exists m with TensorProductSingletonFactor(r,s,m) and TensorProductSingletonFactor(l,m,u), making the singleton tensor pairing associative up to the factor predicate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/65_tensorproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/module/21_module_namecert_construction_core.tex`
+
+Rationale:
+Chapter 65 defines TensorProductSingletonFactor at line 110-121 (a ternary continuation-ledger factor predicate) and proves swap symmetry at line 201-227 (factor (l,r,t) implies factor (r,l,t)). The chapter intro (line 4) explicitly motivates 'multilinear data on which higher tensor algebras and exterior powers are built' yet provides no associator law for the four-place factor structure. Grep for 'tensor.*associ|associat.*tensor|TensorProduct.*Assoc' across papers/bedc/parts/ returns 0 matches. The proof would use the same singleton-collapse + continuation-respect technique as the existing swap-symmetry theorem, applied to the rebracketing of two ContR ledgers. Distinct from board entries B-06..B-31 (no tensor product appears on the board).
+
+---
+
+
+### B-243 - NatTrans Godement interchange of vertical and horizontal composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NatTrans Godement interchange of vertical and horizontal composition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 10/10 |
+
+Problem:
+For natural transformations alpha:F=>G, beta:G=>H between functors C->D and alpha':F'=>G', beta':G'=>H' between functors D->E, the horizontal composite (beta'*beta) o (alpha'*alpha) of the vertical composites is identical (componentwise) to the vertical composite (beta'*beta) o (alpha'*alpha) of the horizontal composites.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/functor/pipeline_composite_extras.tex`
+
+Rationale:
+nattrans/vertical_and_opposite_extras.tex proves vertical composition naturality (line 59), functor whiskering (line 249), prewhiskering by a functor (line 345), and horizontal composition (line 422) as separate theorems, but never relates the two compositions through the Godement interchange law. Grep across papers/bedc/parts/ for 'whisker.*associ|associ.*whisker|whiskering.*associat' returns 0 matches; 'interchange|godement' (case-insensitive) returns only AbGroup middle-four interchange (algebraic, not categorical). Functor composition associativity is proven at functor/pipeline_composite_extras.tex:348 but the natural-transformation interchange that would justify combining horizontal/vertical composites is missing. This is the central 2-categorical coherence law making bicategory structure visible. Not on board.
+
+---
+
+
+### B-244 - Functor whiskering preserves vertical composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Functor whiskering preserves vertical composition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For functors F,G,H:C->D, K:D->E, and natural transformations alpha:F=>G, beta:G=>H, the K-whiskered vertical composite K_*(beta o alpha) is identical componentwise to the vertical composite (K_*beta) o (K_*alpha).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/nattrans/tail_comm_closed.tex`
+
+Rationale:
+vertical_and_opposite_extras.tex proves Functor whiskering of a single natural transformation (line 249, thm:functor-whiskering-nattrans-certificate) and Vertical composition naturality (line 59), and prewhiskering by a functor (line 345), but never proves that whiskering distributes over vertical composition. Grep across papers/bedc/parts/ for 'whisker.*compos|compos.*whisker' returns 0 hits for the distributivity statement. This is a strictly weaker theorem than the full Godement interchange but is independently meaningful as the 2-categorical-functoriality of whiskering. Not on board.
+
+---
+
