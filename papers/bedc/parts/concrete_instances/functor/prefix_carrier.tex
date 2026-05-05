@@ -176,6 +176,27 @@ reconstructs the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_morphism\_source\_iff}
 
+\begin{theorem}[One-headed prefix empty morphism source exactness]
+\label{thm:functor-prefix-e1-empty-morphism-source-iff}
+For histories $p,a,source$, the empty history is a category hom-carrier from
+$source$ to $\mathsf{append}(\Eone(p),a)$ exactly when $p$ and $a$ are unary and
+$source$ is history-same to that one-headed prefixed target:
+$$
+\mathsf{CategoryHomCarrier}(source,\mathsf{append}(\Eone(p),a),\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\hsame(source,\mathsf{append}(\Eone(p),a)).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefix empty morphism source exactness with prefix $\Eone(p)$. The
+forward direction turns unary membership of $\Eone(p)$ into unary membership
+of $p$ by one-headed unary inversion. Conversely, unary closure of the
+one-headed constructor rebuilds the prefixed unary target data, and the
+general source exactness reconstructs the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_prefix\_empty\_morphism\_source\_iff}
+
 \begin{theorem}[Prefix functor empty morphism endpoint exactness]
 \label{thm:functor-prefix-hom-carrier-morphism-empty-endpoint-iff}
 For histories $p,a,b,f$, a prefixed hom-carrier has empty morphism history

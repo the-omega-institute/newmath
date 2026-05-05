@@ -356,6 +356,51 @@ recovers every row of $P(D,E,z_D,z_E)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstant\_appended\_tail\_bridge\_denominator\_package\_exactness}
 
+\begin{theorem}[Real constant appended-tail bridge single-row denominator package exactness]
+\label{thm:real-constant-appended-tail-bridge-single-row-denominator-package-exactness}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, use the same definitions of $D$, $E$, the bridge rows
+$A,B,U,C$, and the appended-tail denominator package
+$P(D,E,z_D,z_E)$ as in
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness}.
+If $D=d\cdot\Eone(tail_D)$ and $E=e\cdot\Eone(tail_E)$, then each concrete
+bridge row is exact for the denominator package:
+$$
+(A\Longleftrightarrow P(D,E,z_D,z_E))\land
+(B\Longleftrightarrow P(D,E,z_D,z_E))\land
+(U\Longleftrightarrow P(D,E,z_D,z_E))\land
+(C\Longleftrightarrow P(D,E,z_D,z_E)).
+$$
+\end{theorem}
+\begin{proof}
+The row-to-package directions are the four projections of
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package} under the
+displayed appended-tail decompositions.
+
+For the package-to-row directions, assume $P(D,E,z_D,z_E)$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness}
+under the same decompositions. The resulting conjunction
+$A\land B\land U\land C$ supplies the corresponding row by projection.
+
+Combining the four row-to-package projections with these four projections from
+the exactness conjunction gives the stated rowwise equivalences for
+$A,B,U,C$.
+\end{proof}
+
+The single-row denominator bridge fit has ten fields: traditional target
+faithful constant rational embedding into RealUp; BEDC source RatUp plus
+StreamNameUp plus RealUp; carrier the appended-tail rational histories $D,E$
+and the independently reindexed constant streams; classifier rows $A,B,U,C$;
+stability from constant streams ignoring $r$ and $q$; ledger the e-one
+denominator tails $tail_D,tail_E$ with heads $d,e$ and zero witnesses
+$z_D,z_E$; core theorem
+\autoref{thm:real-constant-appended-tail-rational-stream-bridge-readback}
+together with
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package};
+exactness predicate $P(D,E,z_D,z_E)$ supplied by
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness};
+downstream bridge the dyadic RealUp embedding; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real constant appended-tail bridge appended e-zero exclusion without tail agreement]
 \label{thm:real-constant-appended-tail-bridge-appended-ezero-exclusion}
 For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
