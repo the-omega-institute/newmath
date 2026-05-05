@@ -127,6 +127,62 @@ CATALOG = [
      "The equality-type interface $\\EqUp$ packages the constructive identity type over a carrier, with reflexivity as the sole constructor and explicit transport for kernel-licit substitution. It supplies the foundational equality layer underlying every $\\psame$ classifier."),
     (110, "funcobj", "FuncUp",
      "The function-object interface $\\FuncUp$ packages the carrier of functions $A \\to B$ between two naming certificates, together with the pointwise $\\hsame$-respecting structure. It supplies the substrate for $\\NameCert_{\\LinearMapUp}$ (\\autoref{ch:concrete-instances-linearmap-namecert}) and $\\NameCert_{\\ContinuousMapUp}$ (\\autoref{ch:concrete-instances-continuousmap-namecert}) as restrictions of the general function object."),
+    (111, "riemannianmetric", "RiemannianMetricUp",
+     "The Riemannian-metric interface $\\RiemannianMetricUp$ packages a smooth field of positive-definite inner products on the tangent fibres of a manifold carrier. It depends on $\\NameCert_{\\ManifoldUp}$ (\\autoref{ch:concrete-instances-manifold-namecert}) and $\\NameCert_{\\InnerProductUp}$ (\\autoref{ch:concrete-instances-innerproduct-namecert}), and supplies the metric substrate for length, geodesic, and curvature certificates."),
+    (112, "connection", "ConnectionUp",
+     "The connection interface $\\ConnectionUp$ packages a covariant derivative on a fibre bundle, with linearity in the section argument and the Leibniz rule against scalar functions. It depends on $\\NameCert_{\\BundleUp}$ (\\autoref{ch:concrete-instances-bundle-namecert}) and $\\NameCert_{\\ManifoldUp}$ (\\autoref{ch:concrete-instances-manifold-namecert}), and supplies the parallel-transport and curvature substrate."),
+    (113, "curvature", "CurvatureUp",
+     "The curvature interface $\\CurvatureUp$ packages the antisymmetric bracket of a connection, certifying the Bianchi identities and the tensorial behaviour under section change. It depends on $\\NameCert_{\\ConnectionUp}$ (\\autoref{ch:concrete-instances-connection-namecert}) and supplies the local invariants on which Riemannian and gauge-field certificates rest."),
+    (114, "diffform", "DiffFormUp",
+     "The differential-form interface $\\DiffFormUp$ packages the carrier of antisymmetric multilinear maps on the tangent bundle of a manifold, together with the wedge product. It depends on $\\NameCert_{\\ManifoldUp}$ (\\autoref{ch:concrete-instances-manifold-namecert}) and $\\NameCert_{\\TensorProductUp}$ (\\autoref{ch:concrete-instances-tensorproduct-namecert}), and is the substrate for the de~Rham complex."),
+    (115, "deRham", "DeRhamUp",
+     "The de~Rham interface $\\DeRhamUp$ packages the exterior-derivative chain complex on differential forms, certifying $d^2 = 0$ and $\\hsame$-stability. It depends on $\\NameCert_{\\DiffFormUp}$ (\\autoref{ch:concrete-instances-diffform-namecert}) and $\\NameCert_{\\CohomologyUp}$ (\\autoref{ch:concrete-instances-cohomology-namecert}), and supplies the de~Rham cohomology of a manifold."),
+    (116, "symplectic", "SymplecticUp",
+     "The symplectic-structure interface $\\SymplecticUp$ packages a closed nondegenerate $2$-form on an even-dimensional manifold carrier. It depends on $\\NameCert_{\\DiffFormUp}$ (\\autoref{ch:concrete-instances-diffform-namecert}) and $\\NameCert_{\\ManifoldUp}$ (\\autoref{ch:concrete-instances-manifold-namecert}), and is the substrate for Hamiltonian dynamics and Poisson-bracket certificates."),
+    (117, "contact", "ContactUp",
+     "The contact-structure interface $\\ContactUp$ packages a maximally nonintegrable hyperplane field on an odd-dimensional manifold carrier, recorded as a $1$-form whose top-degree wedge is nondegenerate. It depends on $\\NameCert_{\\DiffFormUp}$ (\\autoref{ch:concrete-instances-diffform-namecert}) and $\\NameCert_{\\ManifoldUp}$ (\\autoref{ch:concrete-instances-manifold-namecert})."),
+    (118, "liegroup", "LieGroupUp",
+     "The Lie-group interface $\\LieGroupUp$ packages a group carrier whose underlying set is a manifold and whose multiplication and inverse are constructively smooth. It depends on $\\NameCert_{\\GroupUp}$ (\\autoref{ch:concrete-instances-group-namecert}) and $\\NameCert_{\\ManifoldUp}$ (\\autoref{ch:concrete-instances-manifold-namecert}), and is the substrate for representation, exponential, and root-system certificates."),
+    (119, "liealgebra", "LieAlgebraUp",
+     "The Lie-algebra interface $\\LieAlgebraUp$ packages a vector-space carrier endowed with an antisymmetric bilinear bracket satisfying the Jacobi identity. It depends on $\\NameCert_{\\VecSpaceUp}$ (\\autoref{ch:concrete-instances-vecspace-namecert}), and is both the tangent-space-at-identity datum of a Lie group and the algebraic object on which root-system certificates are built."),
+    (120, "expmap", "ExpMapUp",
+     "The exponential-map interface $\\ExpMapUp$ packages the canonical map $\\mathfrak{g} \\to G$ from the Lie algebra to the Lie group of a connected Lie-group carrier. It depends on $\\NameCert_{\\LieGroupUp}$ (\\autoref{ch:concrete-instances-liegroup-namecert}) and $\\NameCert_{\\LieAlgebraUp}$ (\\autoref{ch:concrete-instances-liealgebra-namecert})."),
+    (121, "adjointrep", "AdjointRepUp",
+     "The adjoint-representation interface $\\AdjointRepUp$ packages the conjugation action $\\mathrm{Ad}\\colon G \\to \\mathrm{Aut}(\\mathfrak{g})$ together with its differential $\\mathrm{ad}$. It depends on $\\NameCert_{\\LieGroupUp}$ (\\autoref{ch:concrete-instances-liegroup-namecert}) and $\\NameCert_{\\LieAlgebraUp}$ (\\autoref{ch:concrete-instances-liealgebra-namecert})."),
+    (122, "rootsystem", "RootSystemUp",
+     "The root-system interface $\\RootSystemUp$ packages a finite set of nonzero vectors in a finite-dimensional inner-product space closed under the reflections they generate, with integer Cartan pairings. It depends on $\\NameCert_{\\InnerProductUp}$ (\\autoref{ch:concrete-instances-innerproduct-namecert}) and $\\NameCert_{\\FinSetUp}$ (\\autoref{ch:concrete-instances-finset-namecert}), and is the combinatorial backbone of semisimple Lie-algebra classification."),
+    (123, "weylgroup", "WeylGroupUp",
+     "The Weyl-group interface $\\WeylGroupUp$ packages the finite reflection group generated by the simple roots of a root system. It depends on $\\NameCert_{\\RootSystemUp}$ (\\autoref{ch:concrete-instances-rootsystem-namecert}) and $\\NameCert_{\\GroupUp}$ (\\autoref{ch:concrete-instances-group-namecert}), and is the discrete symmetry datum on which character-theoretic certificates rest."),
+    (124, "bilinform", "BilinFormUp",
+     "The bilinear-form interface $\\BilinFormUp$ packages a bilinear pairing on a module carrier together with its symmetry, antisymmetry, and nondegeneracy classifiers. It depends on $\\NameCert_{\\ModuleUp}$ (\\autoref{ch:concrete-instances-module-namecert}) and $\\NameCert_{\\VecSpaceUp}$ (\\autoref{ch:concrete-instances-vecspace-namecert}), and is the universal datum from which inner products, symplectic forms, and Clifford algebras are licensed."),
+    (125, "clifford", "CliffordUp",
+     "The Clifford-algebra interface $\\CliffordUp$ packages the universal associative algebra generated by a vector-space carrier and a quadratic form $q$, modulo the relation $v \\cdot v = q(v)$. It depends on $\\NameCert_{\\TensorProductUp}$ (\\autoref{ch:concrete-instances-tensorproduct-namecert}) and $\\NameCert_{\\BilinFormUp}$ (\\autoref{ch:concrete-instances-bilinform-namecert}), and is the substrate for the Spin and Pin certificates."),
+    (126, "spingroup", "SpinGroupUp",
+     "The Spin-group interface $\\SpinGroupUp$ packages the connected double cover of the orthogonal group as a subgroup of the Clifford-algebra units. It depends on $\\NameCert_{\\CliffordUp}$ (\\autoref{ch:concrete-instances-clifford-namecert}) and $\\NameCert_{\\GroupUp}$ (\\autoref{ch:concrete-instances-group-namecert})."),
+    (127, "pingroup", "PinGroupUp",
+     "The Pin-group interface $\\PinGroupUp$ packages the double cover of the full orthogonal group, extending Spin by a reflection generator. It depends on $\\NameCert_{\\SpinGroupUp}$ (\\autoref{ch:concrete-instances-spingroup-namecert}) and $\\NameCert_{\\CliffordUp}$ (\\autoref{ch:concrete-instances-clifford-namecert})."),
+    (128, "presheaf", "PreSheafUp",
+     "The presheaf interface $\\PreSheafUp$ packages a contravariant functor from the open-sets category of a topological carrier to a target category, with restriction maps respecting composition and identity. It depends on $\\NameCert_{\\CategoryUp}$ (\\autoref{ch:concrete-instances-category-namecert}) and $\\NameCert_{\\FunctorUp}$ (\\autoref{ch:concrete-instances-functor-namecert})."),
+    (129, "sheaf", "SheafUp",
+     "The sheaf interface $\\SheafUp$ packages a presheaf satisfying the locality and gluing axioms over open covers. It depends on $\\NameCert_{\\PreSheafUp}$ (\\autoref{ch:concrete-instances-presheaf-namecert}) and $\\NameCert_{\\TopologyUp}$ (\\autoref{ch:concrete-instances-topology-namecert}), and is the substrate for ringed-space and scheme certificates."),
+    (130, "ringedspace", "RingedSpaceUp",
+     "The ringed-space interface $\\RingedSpaceUp$ packages a topological carrier with a sheaf of commutative rings on it, certifying that stalks form local rings. It depends on $\\NameCert_{\\SheafUp}$ (\\autoref{ch:concrete-instances-sheaf-namecert}) and $\\NameCert_{\\CommRingUp}$ (\\autoref{ch:concrete-instances-commring-namecert})."),
+    (131, "scheme", "SchemeUp",
+     "The scheme interface $\\SchemeUp$ packages a locally ringed space that admits an open cover by spectra of commutative rings. It depends on $\\NameCert_{\\RingedSpaceUp}$ (\\autoref{ch:concrete-instances-ringedspace-namecert}) and $\\NameCert_{\\CommRingUp}$ (\\autoref{ch:concrete-instances-commring-namecert}), and is the substrate for affine and projective variety certificates."),
+    (132, "affinevar", "AffineVarUp",
+     "The affine-variety interface $\\AffineVarUp$ packages the zero-locus of a finite system of polynomial equations in the affine $n$-space of a commutative-ring carrier. It depends on $\\NameCert_{\\CommRingUp}$ (\\autoref{ch:concrete-instances-commring-namecert}) and $\\NameCert_{\\PolynomialUp}$ (\\autoref{ch:concrete-instances-polynomial-namecert})."),
+    (133, "projectivevar", "ProjectiveVarUp",
+     "The projective-variety interface $\\ProjectiveVarUp$ packages the zero-locus of a homogeneous polynomial ideal in the projective $n$-space of a commutative-ring carrier. It depends on $\\NameCert_{\\AffineVarUp}$ (\\autoref{ch:concrete-instances-affinevar-namecert}) and $\\NameCert_{\\PolynomialUp}$ (\\autoref{ch:concrete-instances-polynomial-namecert})."),
+    (134, "homotopy", "HomotopyUp",
+     "The homotopy interface $\\HomotopyUp$ packages the equivalence-of-paths relation between continuous maps under a continuous deformation parameter. It depends on $\\NameCert_{\\ContinuousMapUp}$ (\\autoref{ch:concrete-instances-continuousmap-namecert}) and $\\NameCert_{\\IntervalUp}$ (\\autoref{ch:concrete-instances-interval-namecert}), and is the substrate for fundamental-group and higher-homotopy certificates."),
+    (135, "simplicialset", "SimplicialSetUp",
+     "The simplicial-set interface $\\SimplicialSetUp$ packages a contravariant functor from the simplex category $\\Delta$ to a certified set carrier, with face and degeneracy operators satisfying the simplicial identities. It depends on $\\NameCert_{\\FunctorUp}$ (\\autoref{ch:concrete-instances-functor-namecert}) and $\\NameCert_{\\FinSetUp}$ (\\autoref{ch:concrete-instances-finset-namecert})."),
+    (136, "modelcat", "ModelCatUp",
+     "The model-category interface $\\ModelCatUp$ packages a category carrier with three distinguished classes of morphisms (cofibrations, fibrations, weak equivalences) satisfying lifting and factorisation axioms. It depends on $\\NameCert_{\\CategoryUp}$ (\\autoref{ch:concrete-instances-category-namecert}), and is the homotopy-theoretic substrate beneath higher-category certificates."),
+    (137, "infcat", "InfCatUp",
+     "The $\\infty$-category interface $\\InfCatUp$ packages a simplicial-set carrier satisfying the inner-horn lifting condition (a quasicategory). It depends on $\\NameCert_{\\SimplicialSetUp}$ (\\autoref{ch:concrete-instances-simplicialset-namecert}) and $\\NameCert_{\\CategoryUp}$ (\\autoref{ch:concrete-instances-category-namecert})."),
+    (138, "derivedcat", "DerivedCatUp",
+     "The derived-category interface $\\DerivedCatUp$ packages the localisation of a chain-complex category at quasi-isomorphisms. It depends on $\\NameCert_{\\CategoryUp}$ (\\autoref{ch:concrete-instances-category-namecert}) and $\\NameCert_{\\CohomologyUp}$ (\\autoref{ch:concrete-instances-cohomology-namecert})."),
 ]
 
 TEMPLATE = """\\chapter{{A Concrete Naming Certificate for $\\{macro}$}}
@@ -151,13 +207,16 @@ def main():
     have = existing_macros()
     missing = []
     inputs = []
+    wrote = 0
     for num, slug, macro, intro in CATALOG:
         path = DEST / f"{num}_{slug}_namecert_construction.tex"
-        path.write_text(TEMPLATE.format(macro=macro, slug=slug, intro=intro))
+        if not path.exists():
+            path.write_text(TEMPLATE.format(macro=macro, slug=slug, intro=intro))
+            wrote += 1
         inputs.append(f"\\input{{parts/concrete_instances/{num}_{slug}_namecert_construction.tex}}")
         if macro not in have:
             missing.append(macro)
-    print("WROTE", len(CATALOG), "files into", DEST)
+    print("WROTE", wrote, "new files (skipped", len(CATALOG) - wrote, "existing) into", DEST)
     print()
     print("=== INPUT LINES (append to main.tex Concrete Instances part) ===")
     for line in inputs:
