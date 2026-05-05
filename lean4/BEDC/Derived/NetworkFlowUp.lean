@@ -152,4 +152,21 @@ theorem NetworkFlow_empty_backward_accounting_cut_flow_below_value {V B X : BHis
   have sameXV : hsame X V := cont_deterministic accounting (cont_right_unit V)
   exact PreorderPrefixLE_of_hsame sameXV
 
+theorem NetworkFlow_residual_exhaustion_value_capacity_hsame
+    {V backward cutFlow cutCapacity : BHist} :
+    UnaryHistory backward -> hsame backward BHist.Empty -> Cont V backward cutFlow ->
+      PreorderPrefixLE V cutCapacity -> PreorderPrefixLE cutCapacity cutFlow ->
+        hsame V cutCapacity ∧ PreorderPrefixLE V cutCapacity ∧
+          PreorderPrefixLE cutCapacity V := by
+  intro backwardUnary backwardEmpty accounting valueBelowCapacity capacityBelowCutFlow
+  have cutFlowBelowValue : PreorderPrefixLE cutFlow V :=
+    NetworkFlow_empty_backward_accounting_cut_flow_below_value
+      backwardUnary backwardEmpty accounting
+  have capacityBelowValue : PreorderPrefixLE cutCapacity V :=
+    PreorderPrefixLE_trans capacityBelowCutFlow cutFlowBelowValue
+  have sameValueCapacity : hsame V cutCapacity :=
+    PreorderPrefixLE_antisymm_hsame valueBelowCapacity capacityBelowValue
+  exact And.intro sameValueCapacity
+    (And.intro valueBelowCapacity capacityBelowValue)
+
 end BEDC.Derived.NetworkFlowUp

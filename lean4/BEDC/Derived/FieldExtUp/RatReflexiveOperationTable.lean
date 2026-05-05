@@ -61,4 +61,32 @@ theorem FieldExtRatReflexive_operation_table_source_coverage
     (And.intro productActionClassifier.left
       (And.intro productActionClassifier.right.left endpointRows.left))
 
+theorem FieldExtRatReflexive_ledger_provenance {h k r m product action : BHist} :
+    RatHistoryClassifier h k -> RatHistoryCarrier r -> RatHistoryCarrier m ->
+      Cont r m product -> Cont (FieldExtSingletonEmbedding r) m action ->
+        RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+          RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+            RatHistoryClassifier product action ∧
+              RatHistoryCarrier product ∧ RatHistoryCarrier action := by
+  intro classifiedHK carrierR carrierM productCont actionCont
+  have ledgerRows :
+      RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+        RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+          RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) ∧
+            Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
+              Cont BHist.Empty k (FieldExtSingletonEmbedding k) :=
+    FieldExtRatReflexiveEmbedding_ledger_source_lock classifiedHK
+  have operationRows :
+    RatHistoryClassifier product action ∧
+        RatHistoryCarrier product ∧
+          RatHistoryCarrier action ∧ RatHistoryClassifier (FieldExtSingletonEmbedding r) r :=
+    FieldExtRatReflexive_operation_table_source_coverage
+      (And.intro carrierR (And.intro carrierR (hsame_refl r)))
+      (And.intro carrierM (And.intro carrierM (hsame_refl m)))
+      productCont actionCont
+  exact And.intro ledgerRows.left
+    (And.intro ledgerRows.right.left
+      (And.intro operationRows.left
+        (And.intro operationRows.right.left operationRows.right.right.left)))
+
 end BEDC.Derived.FieldExtUp

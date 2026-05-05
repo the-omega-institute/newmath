@@ -199,4 +199,32 @@ theorem FinsetEnumerationCarrier_append_split
                 exact And.intro sourceZ
                   (Exists.intro x (And.intro appendMember memberAndSame.right))
 
+theorem FinsetEnumerationCarrier_bundleAppend_union
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {left right : ProbeBundle BHist} {U V : BHist -> Prop} :
+    (forall z : BHist, FinsetEnumerationCarrier A Rel left z <-> U z) ->
+      (forall z : BHist, FinsetEnumerationCarrier A Rel right z <-> V z) ->
+        forall z : BHist,
+          FinsetEnumerationCarrier A Rel (bundleAppend left right) z <-> U z \/ V z := by
+  intro leftEnumerates rightEnumerates z
+  constructor
+  · intro carried
+    have split :
+        FinsetEnumerationCarrier A Rel left z ∨ FinsetEnumerationCarrier A Rel right z :=
+      Iff.mp FinsetEnumerationCarrier_append_split carried
+    cases split with
+    | inl leftCarried =>
+        exact Or.inl (Iff.mp (leftEnumerates z) leftCarried)
+    | inr rightCarried =>
+        exact Or.inr (Iff.mp (rightEnumerates z) rightCarried)
+  · intro unionCarried
+    have split :
+        FinsetEnumerationCarrier A Rel left z ∨ FinsetEnumerationCarrier A Rel right z := by
+      cases unionCarried with
+      | inl carriedU =>
+          exact Or.inl (Iff.mpr (leftEnumerates z) carriedU)
+      | inr carriedV =>
+          exact Or.inr (Iff.mpr (rightEnumerates z) carriedV)
+    exact Iff.mpr FinsetEnumerationCarrier_append_split split
+
 end BEDC.Derived.FinsetUp
