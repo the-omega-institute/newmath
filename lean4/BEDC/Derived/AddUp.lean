@@ -5,6 +5,7 @@ namespace BEDC.Derived.AddUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem AddUnaryContinuation_hsame_transport {h h' k k' r r' : BHist} :
@@ -138,5 +139,24 @@ theorem AddUpThreePoint_unital_graph_not_swapped_commutative :
             · rfl
             · intro same
               exact not_hsame_e0_e1 same
+
+theorem AddUnaryContinuationMonoid_activation_package :
+    NameCert UnaryHistory AddClassifierSpec ∧ AddLedgerPolicy ∧
+      (forall {h left right : BHist}, UnaryHistory h -> Cont h BHist.Empty left ->
+        Cont BHist.Empty h right ->
+          UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h) ∧
+      (forall {a b c ab bc abc abc2 : BHist}, UnaryHistory a -> UnaryHistory b ->
+        UnaryHistory c -> Cont a b ab -> Cont b c bc -> Cont ab c abc ->
+          Cont a bc abc2 -> hsame abc abc2) := by
+  exact And.intro add_up_name_certificate
+    (And.intro addLedgerPolicy_from_unary_cont_closed
+      (And.intro
+        (by
+          intro h left right unaryH leftCont rightCont
+          exact unary_cont_unit unaryH leftCont rightCont)
+        (by
+          intro a b c ab bc abc abc2 unaryA unaryB unaryC contAB contBC contABC contABC2
+          exact unary_continuation_associativity
+            unaryA unaryB unaryC contAB contBC contABC contABC2)))
 
 end BEDC.Derived.AddUp
