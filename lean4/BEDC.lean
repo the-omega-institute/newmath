@@ -151,6 +151,7 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
+import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
 import BEDC.Derived.RealAnalyticUp
@@ -506,6 +507,7 @@ import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.MetricUp.HsameDeterminism
 import BEDC.Derived.MetricUp.AppendCommPackage
 import BEDC.Derived.MetricUp.CompositeEndpointCollapse
+import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix

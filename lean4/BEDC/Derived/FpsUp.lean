@@ -350,6 +350,37 @@ theorem FpsSingletonAddFold_reverse_empty_append_hsame
       (hsame_symm
         (hsame_trans (append_empty_right (FpsSingletonAddFold xs.reverse)) rightEmpty)))
 
+theorem FpsSingletonCauchyProduct_swapped_reverse_fold_hsame {xs ys : List BHist} :
+    BEDC.Derived.ListUp.ListClassifierSpec hsame xs ys.reverse ->
+      FpsSingletonAddFoldSpineCarrier xs -> FpsSingletonAddFoldSpineCarrier ys ->
+        hsame (append (FpsSingletonAddFold xs) BHist.Empty)
+          (append (FpsSingletonAddFold ys) BHist.Empty) := by
+  intro classified xsSpine ysSpine
+  have reverseSpine :
+      ∀ {zs : List BHist}, FpsSingletonAddFoldSpineCarrier zs ->
+        FpsSingletonAddFoldSpineCarrier zs.reverse := by
+    intro zs zsSpine
+    have reverseAuxSpine :
+        ∀ {tail acc : List BHist}, FpsSingletonAddFoldSpineCarrier tail ->
+          FpsSingletonAddFoldSpineCarrier acc ->
+            FpsSingletonAddFoldSpineCarrier (List.reverseAux tail acc) := by
+      intro tail acc tailSpine accSpine
+      induction tail generalizing acc with
+      | nil =>
+          exact accSpine
+      | cons h tail ih =>
+          exact ih tailSpine.right (And.intro tailSpine.left accSpine)
+    exact reverseAuxSpine zsSpine (hsame_refl BHist.Empty)
+  have congruent :
+      hsame (append (FpsSingletonAddFold xs) BHist.Empty)
+        (append (FpsSingletonAddFold ys.reverse) BHist.Empty) :=
+    (FpsSingletonCauchyProduct_classifier_congruence classified xsSpine).right
+  have reversed :
+      hsame (append (FpsSingletonAddFold ys) BHist.Empty)
+        (append (FpsSingletonAddFold ys.reverse) BHist.Empty) :=
+    FpsSingletonAddFold_reverse_empty_append_hsame ysSpine
+  exact hsame_trans congruent (hsame_symm reversed)
+
 theorem FpsSingletonCauchyProduct_comm_classifier {xs ys : List BHist} :
     BEDC.Derived.ListUp.ListClassifierSpec hsame xs ys.reverse ->
       FpsSingletonAddFoldSpineCarrier xs -> FpsSingletonAddFoldSpineCarrier ys ->
