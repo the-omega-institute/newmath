@@ -1,5 +1,6 @@
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.TotallyBoundedUp
+import BEDC.Derived.MetricUp
 
 namespace BEDC.Derived.CompactMetricUp
 
@@ -8,6 +9,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Derived.CompleteMetricUp
 open BEDC.Derived.TotallyBoundedUp
+open BEDC.Derived.MetricUp
 
 def CompactMetricCertificate (X : BHist -> Prop) (eps : BHist)
     (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
@@ -26,5 +28,16 @@ theorem CompactMetricCertificate_hsame_transport {X : BHist -> Prop} {eps eps' :
   · exact TotallyBoundedProbeBundleNet_coverage_hsame_transport sameEps certificate.left
   · exact CompleteMetricLimitWitness_hsame_transport carrierTransport streamTransport
       modulusTransport sameLimit certificate.right
+
+theorem CompactMetricSingleton_certificate_package :
+    InBundle BHist.Empty (ProbeBundle.Bcons BHist.Empty ProbeBundle.Bnil) ∧
+      MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty ∧ hsame BHist.Empty BHist.Empty := by
+  constructor
+  · exact inBundle_cons_self BHist.Empty ProbeBundle.Bnil
+  constructor
+  · exact
+      (MetricDistanceWitness_empty_distance_iff (x := BHist.Empty) (y := BHist.Empty)).mpr
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  · exact hsame_refl BHist.Empty
 
 end BEDC.Derived.CompactMetricUp
