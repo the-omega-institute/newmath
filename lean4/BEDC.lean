@@ -519,6 +519,7 @@ import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
+import BEDC.Derived.ContinuousUp.PublicReadback
 import BEDC.Derived.ContinuousUp.CompositionAssociativity
 import BEDC.Derived.ContinuousUp.TerminalModulusExtension
 import BEDC.Derived.ContinuousUp.VisibleTerminalModulusExtension
@@ -688,6 +689,7 @@ import BEDC.Derived.AdjunctionUp.TriangleResults
 import BEDC.Derived.AdjunctionUp.TriangleZeroHeaded
 import BEDC.Derived.AdjunctionUp.TriangleSingleLegEmpty
 import BEDC.Derived.AdjunctionUp.CompositionPasting
+import BEDC.Derived.AdjunctionUp.CompositionPastingEmptyReadback
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp
