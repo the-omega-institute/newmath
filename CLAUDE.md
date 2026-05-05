@@ -83,29 +83,51 @@
 
 ## 状态宏 (preamble.tex)
 
-每个论文中讨论的 Lean 目标用对应宏标注其当前状态:
+每个论文中讨论的 Lean 目标在论文里通过两类宏标注：
 
-- `\leanchecked{Lean.Target.name}` — 该 paper site 的 canonical 主实现 (绿 ✓), 每 paper site 只一条
+### Lean 标记宏 (verification 轴 only)
+
+- `\leanchecked{Lean.Target.name}` — 该 paper site 的 canonical 主实现 (绿 ✓), 每 paper site 只一条; 对应 `formalstatus = theoremCheckedV`
 - `\leanvariant{Lean.Target.name}` — 同一 paper claim 的 wrapper / projection / 不同 binder 风格 / 弱化结论等变体 (灰小字, `↪ variant` 缩进), 每 primary 下可多条
-- `\leansorryd{Lean.Target.name}{rationale}` — 暂用 sorry (橙) -- 项目 invariant 是 0 sorry, 此宏用于未来如有重新出现
-- `\leanstmt{Lean.Target.name}` — statement-only / structure 字段 (蓝)
-- `\leandef{Lean.Target.name}` — `def` 或 `inductive` 定义 (灰)
+- `\leansorryd{Lean.Target.name}{rationale}` — 暂用 sorry (橙) -- 项目 invariant 是 0 sorry, 此宏用于未来如有重新出现; 对应 `formalstatus = formalTargetV`
+- `\leanstmt{Lean.Target.name}` — statement-only / structure 字段 (蓝); 对应 `formalstatus = formalTargetV`
+- `\leandef{Lean.Target.name}` — `def` 或 `inductive` 定义 (灰); 对应 `formalstatus = encodedDefV`
 
-## 下划线规则
+这些宏只描述 Lean-side 验证状态. 它们不暗示 paper 一侧的 closure 等级.
 
-- 调用时 underscore 必须写成 `\_` (LaTeX 转义), 例如:
-  ```latex
-  \leanchecked{BEDC.BaseReflection.PackageReflection\_base}
-  ```
+### Closurestatus 块 (theory × verification 两轴)
+
+每个 `<X>Up` 章末尾用 `closurestatus` 环境记录两轴状态:
+
+```latex
+\begin{closurestatus}{\<X>Up}
+  \theoryclosure{\scopedClosure}      % paper 一侧理论闭合等级
+  \scopeclosed{<一句话写清精确闭合范围>}
+  \formalstatus{\theoremCheckedV}     % Lean 一侧验证等级
+  \leantarget{BEDC.<...>.<theorem>}  % 必须在 lean4/BEDC/ 真存在
+  \bridgestatus{none}                 % none / paperBridge / bridgeChecked
+  \notclaimed{<一句话: 本章明确不闭合的内容>}
+  \upgradepath{<一句话: 升级到下一闭合等级所需补足>}
+\end{closurestatus}
+```
+
+闭合等级 (理论轴) 取自 `seed | obligation | scopedClosed | publicClosed | bridgedClosed | maturePackageClosed`, 验证等级取自 `unformalized | formalTarget | encodedDef | scaffoldChecked | theoremChecked | auditClean | axiomClean | bridgeChecked`.
+
+两个轴是**独立的**: paper 闭合不依赖 Lean 验证, Lean 验证也不创造 paper 闭合. 二者只通过 `VerifiedGate(N, c, v) := TheoryGate(N, c) ∧ FormalStatus(N, v)` 同时报告.
+
+### 下划线规则
+
+- 调用 `\leanchecked` / `\leantarget` 等时, underscore 必须写成 `\_`, 例如 `BEDC.BaseReflection.PackageReflection\_base`
 - `xstring` 把 `\_` 替换为细空格, PDF 中不显示字面下划线
 - 命名空间 `.` 保持字面
 
-## marker 使用纪律
+### marker 使用纪律
 
-- 每个 Lean 目标在论文中**只标注一次**(primary site, 即定理首次形式化处)
-- 每个 paper 定理点**最多一条 `\leanchecked`** (canonical 主实现); 同 claim 的 wrapper / projection / 不同 binder 风格 / 弱化结论用 `\leanvariant` 标注
+- 每个 Lean 目标在论文中**只标注一次**(primary site)
+- 每个 paper 定理点**最多一条 `\leanchecked`** (canonical 主实现); 同 claim 的变体用 `\leanvariant` 标注
 - `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex §41.4` 是例外: 5 个 base-reflection 目标的"一站式"摘要块
-- 状态变化时 (sorry → checked, def → checked) 同一 commit 更新 marker; `bedc_ci.py audit` 强制所有 `\leanchecked` / `\leanvariant` 的 X 在 Lean 真存在
+- 状态变化时 (sorry → checked, def → checked) 同一 commit 更新 marker; `bedc_ci.py audit` 强制所有 `\leanchecked` / `\leanvariant` / `\leantarget` 的 X 在 Lean 真存在
+- **绝不**把 closure 轴写成 verification 轴的函数, 也不要反过来; codex pipeline 的 `axis-confusion` gate 会拒绝这类 round
 
 ---
 
