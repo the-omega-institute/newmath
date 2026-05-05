@@ -82,6 +82,12 @@ theorem SingletonCompleteMetric_laws :
   · intro x y sameX sameY
     exact hsame_trans sameX (hsame_symm sameY)
 
+def CompleteMetricSingletonInstance (s M : BHist -> BHist) : Prop :=
+  hsame BHist.Empty BHist.Empty ∧
+    (forall {n : BHist}, UnaryHistory n -> hsame (s n) BHist.Empty ->
+      MetricDistanceWitness (s n) BHist.Empty BHist.Empty ∧
+        Cont (s n) BHist.Empty BHist.Empty ∧ RatHistoryClassifier BHist.Empty (M n))
+
 theorem CompleteMetricLimitWitness_singleton_uniqueness
     {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
     CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M0 l0 ->
@@ -89,5 +95,18 @@ theorem CompleteMetricLimitWitness_singleton_uniqueness
         hsame l0 l1 := by
   intro witness0 witness1
   exact hsame_trans witness0.left (hsame_symm witness1.left)
+
+theorem CompleteMetricLimitWitness_singleton_classifier_distance
+    {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
+    CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M0 l0 ->
+      CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M1 l1 ->
+        hsame l0 l1 ∧ MetricDistanceWitness l0 l1 BHist.Empty := by
+  intro witness0 witness1
+  have sameLimits : hsame l0 l1 :=
+    CompleteMetricLimitWitness_singleton_uniqueness witness0 witness1
+  have distance : MetricDistanceWitness l0 l1 BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := l0) (y := l1)).mpr
+      (And.intro witness0.left witness1.left)
+  exact And.intro sameLimits distance
 
 end BEDC.Derived.CompleteMetricUp
