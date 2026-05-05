@@ -103,6 +103,28 @@ the displayed metric distance witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_left\_unit\_witness}
 
+\begin{theorem}[Metric empty-boundary visible context right-unit witness]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-right-unit-witness}
+For histories $p,q,d,l,out$, an empty-boundary visible-context distance witness
+turns any continuation $\ContR(l,d,out)$ into a metric witness into the empty
+target:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{UnaryHistory}(l)\Longrightarrow
+\ContR(l,d,out)\Longrightarrow
+\mathsf{MetricDistanceWitness}(l,\emp,out).
+$$
+\end{theorem}
+\begin{proof}
+The empty-boundary distance theorem identifies $d$ with $\emp$. Substituting
+that classifier makes the continuation a right-unit continuation into $\emp$.
+The source is unary by hypothesis, the empty target is unary, and unary
+continuation closure supplies the output carrier, so the three fields package
+the displayed metric distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_right\_unit\_witness}
+
 \begin{theorem}[Metric empty-boundary visible context continuation depth add]
 \label{thm:metric-distance-witness-empty-boundary-visible-context-continuation-depth-add}
 For histories $p,q,d,l,r,mid,out$, an empty-boundary visible-context distance
