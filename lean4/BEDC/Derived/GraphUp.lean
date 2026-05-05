@@ -101,10 +101,8 @@ theorem GraphContEdge_classifier_transport {h k g h' k' g' : BHist} :
       | intro unaryK continuation =>
           have unaryH' : UnaryHistory h' := unary_transport unaryH sameH
           have unaryK' : UnaryHistory k' := unary_transport unaryK sameK
-          have continuation' : Cont h' k' g' := by
-            cases sameH
-            cases sameK
-            exact cont_result_hsame_transport continuation sameG
+          have continuation' : Cont h' k' g' :=
+            cont_hsame_transport sameH sameK sameG continuation
           exact And.intro (And.intro unaryH' (And.intro unaryK' continuation'))
             (And.intro continuation'
               (And.intro sameH (And.intro sameK sameG)))
