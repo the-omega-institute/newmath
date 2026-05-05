@@ -255,3 +255,48 @@ continuations, first identifying $mid$ with $l$ and then $out$ with $mid$.
 Transitivity gives the displayed $\hsame(out,l)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_independent\_symmetric\_zero\_depth\_distance\_continuation\_result}
+
+\begin{theorem}[Metric symmetric zero-depth reverse distance continuation result]
+\label{thm:metric-distance-witness-prefix-independent-symmetric-zero-depth-reverse-distance-continuation-result}
+For histories $p,q,p',q',x,y,d_{xy},d_{yx},l,mid,out$, symmetric
+visible-context distance witnesses with independent contexts and zero-depth
+forward distance also make the reverse-ordered two-step continuation return to
+the original left endpoint:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\to
+\mathsf{MetricDistanceWitness}(p'\cdot y,x\cdot q',(p'\cdot d_{yx})\cdot q')
+\to
+\mathsf{MetricDistanceDepth}(d_{xy})=0
+\to
+\\
+\ContR(l,d_{yx},mid)\to
+\ContR(mid,d_{xy},out)\to
+\hsame(out,l).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:metric-distance-witness-prefix-independent-symmetric-zero-depth-collapse}
+to the two visible-context witnesses and the zero-depth hypothesis for
+$d_{xy}$. This gives $\mathsf{MetricDistanceDepth}(d_{yx})=0$.
+
+Now apply
+\autoref{thm:metric-distance-witness-prefix-independent-symmetric-zero-depth-distance-continuation-result}
+with the two visible contexts swapped: $p',q',y,x,d_{yx}$ play the forward
+roles and $p,q,x,y,d_{xy}$ play the reverse roles. The recovered zero-depth
+row for $d_{yx}$ is the forward depth hypothesis in that swapped instance, and
+the displayed ledgers are exactly $\ContR(l,d_{yx},mid)$ followed by
+$\ContR(mid,d_{xy},out)$.
+
+Thus the swapped distance-continuation result returns $\hsame(out,l)$. The
+fit records traditional target zero-distance round trip, BEDC source
+$\mathsf{BHist}$ with $\ContR$ and $\mathsf{MetricDistanceWitness}$, carrier
+the visible-context witness pair, classifier $\hsame$, stability from
+zero-depth collapse and continuation unit laws, ledger the two central distance
+histories, core theorem this reverse-order round trip, exactness
+boundary-unit cancellation, standard bridge zero metric distance as identity
+path, and status $\mathsf{ProofTarget}$.
+\end{proof}
