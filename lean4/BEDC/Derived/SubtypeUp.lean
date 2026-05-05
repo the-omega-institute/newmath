@@ -30,4 +30,16 @@ theorem SubtypeRestrictedClassifier_nameCert {S P : BHist -> Prop}
       exact And.intro parentCarrier subtypeCarrier
   }
 
+theorem SubtypeRestrictedCarrier_classifier_closed {S P : BHist -> Prop}
+    {Classifier : BHist -> BHist -> Prop} (cert : NameCert S Classifier)
+    (stableP : forall {h k : BHist}, S h -> P h -> Classifier h k -> P k)
+    {h k : BHist} :
+    S h ∧ P h -> Classifier h k -> S k ∧ P k := by
+  intro carrier classified
+  have parentCarrier : S k :=
+    NameCert.carrier_respects_equiv cert classified carrier.left
+  have subtypeCarrier : P k :=
+    stableP carrier.left carrier.right classified
+  exact And.intro parentCarrier subtypeCarrier
+
 end BEDC.Derived.SubtypeUp

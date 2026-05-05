@@ -225,6 +225,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
+import BEDC.Derived.IdealUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
