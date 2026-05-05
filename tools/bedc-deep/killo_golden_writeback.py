@@ -53,6 +53,7 @@ class WritebackResult:
     # real error lines (Undefined control seq / Missing / Extra etc.) so
     # the runtime can feed them as rejection_reasons to codex corrective.
     compile_errors: list = None  # type: ignore
+    closure_candidate: dict = None  # type: ignore
 
 
 def _now_tag() -> str:
@@ -105,6 +106,8 @@ def _extract_json_object(text: str) -> Optional[dict]:
 
 def claude_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = "") -> tuple[bool, str, int]:
     """Run `claude -p --dangerously-skip-permissions` with stdin prompt."""
+    if os.environ.get("BEDC_DISABLE_CLAUDE"):
+        return (False, "claude disabled by BEDC_DISABLE_CLAUDE", -2)
     if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
         return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
 
@@ -155,6 +158,37 @@ def claude_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = "
     (LOG_DIR / f"{tag}_{ts}.stdout.txt").write_text(stdout or "", encoding="utf-8")
     (LOG_DIR / f"{tag}_{ts}.stderr.txt").write_text(stderr or "", encoding="utf-8")
     return (rc == 0, stdout, rc)
+
+
+def codex_json_fallback(
+    prompt: str,
+    *,
+    timeout: int = DEFAULT_TIMEOUT,
+    log_tag: str = "",
+    role_note: str = "Claude is unavailable for this BEDC gate.",
+) -> tuple[bool, dict, str, str]:
+    """Run an independent read-only Codex JSON gate when Claude is unavailable."""
+    import codex_orchestrator
+
+    fallback_prompt = (
+        f"{role_note}\n"
+        "Act as the independent fallback checker for this gate. Preserve the "
+        "same acceptance standard and return only the JSON object required by "
+        "the original prompt. Do not edit files.\n\n"
+        f"{prompt}"
+    )
+    tag = (log_tag or "stage2") + "_codex_fallback"
+    result = codex_orchestrator.codex_exec(
+        fallback_prompt,
+        timeout=timeout,
+        log_tag=tag,
+    )
+    if not result.ok:
+        return (False, {}, result.raw_output, result.error or f"codex rc={result.rc}")
+    parsed = result.parsed or _extract_json_object(result.raw_output) or {}
+    if not parsed:
+        return (False, {}, result.raw_output, "codex fallback output was not JSON")
+    return (True, parsed, result.raw_output, "")
 
 
 def _all_paper_labels() -> set[str]:
@@ -353,14 +387,41 @@ def writeback(
         prompt += "\n## Blocking issues (require your judgement)\n"
         for b in all_blocking:
             prompt += f"- {b}\n"
-        ok, stdout, rc = claude_exec(prompt, log_tag=f"writeback_{target_id}")
+        log_tag = f"writeback_{target_id}"
+        ok, stdout, rc = claude_exec(prompt, log_tag=log_tag)
         if not ok:
-            return WritebackResult(False, "error", "", False, False, [],
-                                    error=f"claude exec rc={rc}: {stdout[:400]}")
-        parsed = _extract_json_object(stdout)
+            fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
+                prompt,
+                log_tag=log_tag,
+                role_note=(
+                    "Claude is unavailable for the BEDC killo-golden writeback "
+                    "gate; run the same hygiene and safety gate as an independent "
+                    "Codex fallback."
+                ),
+            )
+            if not fallback_ok:
+                return WritebackResult(False, "error", "", False, False, [],
+                                        error=(
+                                            f"claude exec rc={rc}: {stdout[:400]}; "
+                                            f"codex fallback: {fallback_error[:400]}"
+                                        ))
+            stdout = fallback_stdout
+        else:
+            parsed = _extract_json_object(stdout)
         if not parsed:
-            return WritebackResult(False, "error", "", False, False, [],
-                                    error="claude output was not JSON")
+            fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
+                prompt,
+                log_tag=log_tag,
+                role_note=(
+                    "Claude returned non-JSON for the BEDC killo-golden writeback "
+                    "gate; run the same hygiene and safety gate as an independent "
+                    "Codex fallback."
+                ),
+            )
+            if not fallback_ok:
+                return WritebackResult(False, "error", "", False, False, [],
+                                        error=f"claude output was not JSON; codex fallback: {fallback_error[:400]}")
+            stdout = fallback_stdout
         verdict = str(parsed.get("verdict", "")).lower()
         rejection_reasons = parsed.get("rejection_reasons") or []
         if verdict != "accept":
@@ -407,7 +468,25 @@ def writeback(
                 compile_errors=errors,
             )
 
-    return WritebackResult(True, "accept", str(target.relative_to(REPO_ROOT)), True, True, [])
+    tex_result = str(target.relative_to(REPO_ROOT))
+    closure_review: dict = {}
+    try:
+        import closure_candidate
+
+        closure_review = closure_candidate.analyze(
+            target_id=target_id,
+            target_title=target_title,
+            tex_file=tex_result,
+            appended_content=content,
+        )
+    except Exception as exc:
+        closure_review = {
+            "ok": False,
+            "action": "error",
+            "error": f"closure_candidate failed: {exc}",
+        }
+
+    return WritebackResult(True, "accept", tex_result, True, True, [], closure_candidate=closure_review)
 
 
 def _extract_compile_errors(compile_log: str) -> list[str]:
@@ -476,6 +555,7 @@ def main() -> int:
         "compile_ok": result.compile_ok,
         "rejection_reasons": result.rejection_reasons,
         "error": result.error,
+        "closure_candidate": result.closure_candidate or {},
     }, indent=2, ensure_ascii=False))
     return 0 if result.ok and result.verdict == "accept" else 1
 

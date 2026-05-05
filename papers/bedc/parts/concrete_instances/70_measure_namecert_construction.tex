@@ -8,3 +8,38 @@ The measure interface $\MeasureUp$ packages a carrier with a constructive $\sigm
 
 \section{The certificate}
 \label{sec:measure-certificate}
+
+\begin{theorem}[Measure empty set is zero]
+\label{thm:measure-empty-set-zero-from-sigma-additivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Suppose $\varnothing\in\mathcal{A}$, and suppose the $\MeasureUp$ certificate supplies $\sigma$-additivity for every pairwise-disjoint measurable sequence, together with classifier-stable head-tail readback for the resulting countable $\RealUp$ sum. If the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row with zero $0_R$, then
+$$
+\mu(\varnothing)\sim_R 0_R.
+$$
+\end{theorem}
+\begin{proof}
+Let $E_n:=\varnothing$ for every $n:\mathbb{N}$. The hypothesis $\varnothing\in\mathcal{A}$ makes every $E_n$ measurable. The sequence is pairwise disjoint, and its union is again $\varnothing$.
+
+Let $S$ be the countable $\RealUp$ sum $\sum_{n=0}^{\infty}\mu(E_n)$. The $\sigma$-additivity row gives
+$$
+\mu(\varnothing)\sim_R S.
+$$
+The head-tail row for this sum gives
+$$
+S\sim_R\mu(E_0)+\sum_{n=1}^{\infty}\mu(E_n).
+$$
+Since $E_0=\varnothing$, the first summand is $\mu(\varnothing)$. The tail sequence $(E_{n+1})_{n\geq0}$ is pointwise the same empty sequence as $(E_n)_{n\geq0}$, so countable-sum classifier stability gives
+$$
+\sum_{n=1}^{\infty}\mu(E_n)\sim_R S.
+$$
+Composing this with the $\sigma$-additivity comparison and transporting the right summand through addition yields
+$$
+S\sim_R\mu(\varnothing)+\mu(\varnothing).
+$$
+Composing once more with $\mu(\varnothing)\sim_R S$ gives
+$$
+\mu(\varnothing)\sim_R\mu(\varnothing)+\mu(\varnothing).
+$$
+By symmetry, $\mu(\varnothing)+\mu(\varnothing)\sim_R\mu(\varnothing)$.
+
+The additive $\AbGroupUp$ row described in \autoref{def:abgroup-carrier} gives the group hypotheses for $+$ and $0_R$. Applying \autoref{thm:group-left-absorb-right-factor-unit} with $a=\mu(\varnothing)$ and $b=\mu(\varnothing)$ forces the right summand to the additive unit, yielding $\mu(\varnothing)\sim_R0_R$.
+\end{proof}
