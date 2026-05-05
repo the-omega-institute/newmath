@@ -64,6 +64,48 @@ def _resolve_locks_file() -> Path:
 LOCKS_FILE = _resolve_locks_file()
 LOCK_TTL_SECONDS = 1500  # 25 min — matches typical paper round duration
 
+
+def _resolve_paper_label_claims_file() -> Path:
+    """Anchor matches `claim_paper_label.py`'s state file location."""
+    fallback = Path(__file__).resolve().parent / ".paper_label_claims.json"
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            cwd=str(Path(__file__).resolve().parent),
+            capture_output=True, text=True, check=True, timeout=5,
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+        return fallback
+    if not out:
+        return fallback
+    common = Path(out)
+    if not common.is_absolute():
+        common = (Path(__file__).resolve().parent / common).resolve()
+    return common / "bedc-paper-label-claims.json"
+
+
+PAPER_LABEL_CLAIMS_FILE = _resolve_paper_label_claims_file()
+
+
+def _read_active_claimed_labels() -> set[str]:
+    """Set of paper labels currently held by some in-flight round (TTL-fresh).
+
+    Read from `claim_paper_label.py`'s shared JSON. Used by
+    _rank_at_threshold to deduct claimed labels from per-sibling
+    `unmarked` count — codex shouldn't pick a sibling whose available
+    targets are already taken. Silent on errors (degrade to empty)."""
+    try:
+        if not PAPER_LABEL_CLAIMS_FILE.exists():
+            return set()
+        data = json.loads(PAPER_LABEL_CLAIMS_FILE.read_text(encoding="utf-8"))
+        now = time.time()
+        return {
+            k for k, v in data.items()
+            if isinstance(v, dict) and float(v.get("expires_at", 0)) > now
+        }
+    except Exception:
+        return set()
+
 # Lower bound for "node is implemented enough that its dependents may proceed".
 # Lives in `.pipeline_parallel.json` under key `deps_ready_threshold` so it
 # can be tuned without restarting the orchestrator. Default 5; main() reads
@@ -89,12 +131,6 @@ def read_deps_ready_threshold(default: int = DEFAULT_DEPS_READY_THRESHOLD) -> in
 # Legacy module-level constant kept for any importer that still references
 # `cp.DEPS_READY_THRESHOLD`. main() now reads from the config file.
 DEPS_READY_THRESHOLD = DEFAULT_DEPS_READY_THRESHOLD
-
-# Upper bound for "node is saturated; do not pick further". Tightened from
-# the original 20 to 10 because nat/int/ring at 12-15 thm were still in
-# `top` even though further per-domain instances were pure parameter-echo
-# bloat.
-SATURATION_THRESHOLD = 10
 
 # Horizons whose paper schemas are parametric (the chapter writes laws as
 # `mul / add / neg : BHist -> BHist -> BHist` without specifying a
@@ -122,6 +158,7 @@ NAME_RE = re.compile(r"^\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$")
 UP_REF_RE = re.compile(r"\\?([A-Z][A-Za-z]*)Up\b")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
 PAPER_LABEL_RE = re.compile(r"\\label\{(thm|def|lem|prop|cor):")
+PAPER_LABEL_FULL_RE = re.compile(r"\\label\{(thm|def|lem|prop|cor):([^}]+)\}")
 # `\closureat{<X>Up}{<strength>}` is the per-chapter binary closure marker
 # (preamble.tex). The chapter is "closed" iff a closureat with strength
 # `\checkedCertStr` or `\bridgeCertStr` is present anywhere under the
@@ -300,7 +337,9 @@ def _collect_siblings(parent_tex: Path, chapter_name: str, camel: str,
             except Exception:
                 sib_text = ""
             sib_thms = len(LEAN_MARKER_RE.findall(sib_text))
-            sib_labels = len(PAPER_LABEL_RE.findall(sib_text))
+            sib_label_set = {f"{m.group(1)}:{m.group(2)}"
+                              for m in PAPER_LABEL_FULL_RE.finditer(sib_text)}
+            sib_labels = len(sib_label_set)
             sib_unmarked = max(0, sib_labels - sib_thms)
             sib_closed = is_chapter_closed(sib_text, chapter_name) is not None
             siblings.append({
@@ -310,20 +349,23 @@ def _collect_siblings(parent_tex: Path, chapter_name: str, camel: str,
                 "file_lean": file_lean_str,
                 "thms": sib_thms,
                 "labels": sib_labels,
+                "label_slugs": sorted(sib_label_set),
                 "unmarked": sib_unmarked,
                 "closed": sib_closed,
             })
     if parent_has_inline or not siblings:
         parent_thms = len(LEAN_MARKER_RE.findall(parent_text))
-        parent_labels = len(PAPER_LABEL_RE.findall(parent_text))
+        parent_label_set = {f"{m.group(1)}:{m.group(2)}"
+                              for m in PAPER_LABEL_FULL_RE.finditer(parent_text)}
         siblings.append({
             "name": chapter_name,
             "sibling_id": parent_tex.stem,
             "file_paper": str(parent_tex.relative_to(ROOT)),
             "file_lean": file_lean_str,
             "thms": parent_thms,
-            "labels": parent_labels,
-            "unmarked": max(0, parent_labels - parent_thms),
+            "labels": len(parent_label_set),
+            "label_slugs": sorted(parent_label_set),
+            "unmarked": max(0, len(parent_label_set) - parent_thms),
             "closed": False,
         })
     return siblings
@@ -429,6 +471,7 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
     chapters above siblings of low-leverage chapters, while letting
     concurrent workers spread across the chapter's sibling pool.
     """
+    active_claimed = _read_active_claimed_labels()
     ranked: list[dict] = []
     for n, info in horizons.items():
         if n in SCHEMA_ONLY_HORIZONS:
@@ -439,18 +482,26 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
             continue
         chapter_down = downstream[n]
         chapter_thms = info["thms"]
-        chapter_tiebreak = chapter_down / (1.0 + chapter_thms)
         for sib in info.get("siblings", []):
             if sib.get("closed"):
                 continue
-            # CRITICAL: skip siblings with no unmarked labels — codex would
-            # find nothing to formalize there. `thms` (existing markers) is
-            # not the right signal; `unmarked = labels − markers` is.
-            sib_unmarked = sib.get("unmarked", 0)
-            if sib_unmarked <= 0:
+            sib_unmarked_raw = sib.get("unmarked", 0)
+            if sib_unmarked_raw <= 0:
                 continue
+            # Subtract paper-label-claims held by other in-flight rounds —
+            # those are unavailable to this round so they shouldn't count
+            # toward "available work" in the rank.
+            sib_label_set = set(sib.get("label_slugs", []))
+            sib_claimed = len(sib_label_set & active_claimed) if active_claimed else 0
+            sib_effective_unmarked = max(0, sib_unmarked_raw - sib_claimed)
+            if sib_effective_unmarked <= 0:
+                continue
+            # Sibling-level tiebreak: prefer fronts where most of the
+            # remaining surface is unmarked (low markers / high effective
+            # unmarked). Replaces the older chapter-level tiebreak which
+            # didn't differentiate siblings within a chapter.
+            sib_tiebreak = sib_effective_unmarked / (1.0 + sib["thms"])
             ranked.append({
-                # Chapter-level fields (consumed by phase_b magnet rule etc.)
                 "name": n,
                 "deps": info["deps"],
                 "thms": chapter_thms,
@@ -458,20 +509,21 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
                 "closed": False,
                 "downstream": chapter_down,
                 "score": chapter_down,
-                "tiebreak": round(chapter_tiebreak, 2),
-                # Sibling-level fields (consumed by phase_b target picker
-                # and the lock pool — file_paper is unique per sibling).
+                "tiebreak": round(sib_tiebreak, 2),
+                # Sibling-level fields:
                 "sibling_id": sib["sibling_id"],
                 "sibling_thms": sib["thms"],
                 "sibling_labels": sib.get("labels", 0),
-                "sibling_unmarked": sib_unmarked,
+                "sibling_unmarked": sib_unmarked_raw,
+                "sibling_claimed": sib_claimed,
+                "sibling_effective_unmarked": sib_effective_unmarked,
                 "file_paper": sib["file_paper"],
                 "file_lean": sib["file_lean"],
             })
-    # Sort: prefer high downstream, then HIGH unmarked count (more available
-    # work), then sibling_id alphabetic.
+    # Sort: prefer high downstream, then HIGH effective_unmarked (slots not
+    # already claimed), then per-sibling tiebreak, then alphabetic.
     ranked.sort(key=lambda r: (
-        -r["score"], -r["sibling_unmarked"], -r["tiebreak"],
+        -r["score"], -r["sibling_effective_unmarked"], -r["tiebreak"],
         r["name"], r["sibling_id"],
     ))
     return ranked
