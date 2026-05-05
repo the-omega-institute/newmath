@@ -5702,3 +5702,84 @@ Concrete single-implication theorem expressible as 'op(op(D)) = D componentwise'
 
 ---
 
+### B-221 - Double-opposite monoid certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Double-opposite monoid certificate data identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $(\mathcal{C},\sim_C,\cdot_C,e_C)$ satisfies the $\MonoidUp$ certificate obligations, then applying the opposite-monoid construction twice yields a $\MonoidUp$ certificate whose carrier, classifier, multiplication, and identity data are componentwise identical to the original.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+
+Rationale:
+Chapter 15 (15_monoid_namecert_construction.tex:549) proves `thm:opposite-monoid-certificate` constructing the opposite monoid, but the chapter does NOT contain the parallel `double-opposite monoid certificate data identity` theorem that is present for poset (28_poset_namecert_construction.tex:435 `thm:double-opposite-poset-certificate-data-identity`), category (36_category_namecert_construction.tex:352, plus involution at :415), functor (functor/certificate_obligations.tex:670), and natural transformation (nattrans/vertical_and_opposite_extras.tex:140). Review category 4 (missing companion result): a coherence statement asserted by parallel pattern in the categorical chapters but never stated for monoid. Closes in 1-2 codex rounds because the proof skeleton is `unfold opposite twice, observe that exchange of inputs composed with itself is identity, copy the field-by-field reduction used in the poset/category proofs`; all required ingredients (opposite-monoid theorem, classifier reflexivity, no kernel rules) are local to chapter 15.
+
+---
+
+
+### B-222 - Limit respects pointwise difference of complex sequences
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Limit respects pointwise difference of complex sequences |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $\mathsf{CplxLim}(s, N_s, z_s, M_s)$ and $\mathsf{CplxLim}(t, N_t, z_t, M_t)$, then $\mathsf{CplxLim}(s\ominus t, N', z_s - z_t, M')$ with explicit pasted modulus $M'(k):=\max(M_s(k+1), M_t(k+1))$, where $\ominus$ is componentwise rational-history subtraction continuation.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/40_complex_limit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/14_complex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+
+Rationale:
+Chapter 40 has `thm:cplx-lim-sum` (line 538), `thm:cplx-lim-scalar` (line 546), `thm:cplx-lim-product` (line 554), and `thm:cplx-lim-unique` (line 320), but a grep for `cplx-lim-(neg|sub|diff|conj|abs|modulus)` returns 0 hits, while the chapter's distance definition itself is built from componentwise difference (line 15: `CplxDist(z,w,D) := CplxMod(z-w, D)`). Review category 4 (missing companion result): the difference operation is the most directly derivable companion to the sum and is more primitive than the product or scalar variants already proved. Closes in 1 round: triangle inequality on $\mathsf{CplxDist}((s\ominus t)(n), z_s - z_t, D)$ decomposes the bound into the sum of $s$- and $t$- bounds at level $k+1$, identical proof skeleton to `thm:cplx-lim-sum` with rational-history subtraction continuation in place of addition continuation.
+
+---
+
+
+### B-223 - Double-opposite lattice certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Double-opposite lattice certificate data identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $(\mathcal{C},\sim_C,\le_C,\wedge_C,\vee_C)$ satisfies the $\LatticeUp$ certificate obligations, then applying the opposite-lattice construction of `lattice/the_certificate.tex` twice yields a $\LatticeUp$ certificate whose order, meet, and join data are componentwise identical to the original.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+`lattice/the_certificate.tex:533-597` constructs the opposite-lattice certificate (swapping meet and join, reversing order), but the parallel `double-opposite lattice certificate data identity` theorem present for poset (28_poset_namecert_construction.tex:435) is missing — grep for `double.*opposite|opposite.*opposite` in lattice/ files returns 0 hits beyond the singular opposite construction. Review category 4 (missing companion result), parallel structure to candidate 1. Closes in 1-2 codex rounds: meet/join order exchange is involutive, classifier and order reverse twice to themselves, and the fielded reduction copies the poset double-opposite proof. The lattice certificate inherits POSet stability fields, so the inherited part already follows from the poset double-opposite theorem already in the paper.
+
+---
+
