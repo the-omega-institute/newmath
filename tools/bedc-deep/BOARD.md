@@ -7106,3 +7106,162 @@ Hungerford 'Algebra' ch.I §5 (Theorem 5.1 corollary) records subgroup chain tra
 
 ---
 
+### B-274 - Categorical equivalence is closed under composition (transitivity of equivalences)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Categorical equivalence is closed under composition (transitivity of equivalences) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If `AdjunctionUnitCounitCarrier(p,q,a,u_1,c_1,l_1,r_1)` and `AdjunctionUnitCounitCarrier(q,r,a,u_2,c_2,l_2,r_2)` both satisfy the empty-roundtrip condition (l_i,r_i hsame to ε), then there exist `u_3,c_3,l_3,r_3` such that `AdjunctionUnitCounitCarrier(p,r,a,u_3,c_3,l_3,r_3)` holds and l_3,r_3 are hsame to ε.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/88_equivcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_certificate.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_triangle_carrier.tex`
+
+Rationale:
+Chapter 88 contains 11 theorems (88_equivcat_namecert_construction.tex lines 10, 30, 64, 85, 107, 130, 148, 171, 192, 212, 234) and ALL labels begin `thm:equivcat-adjunction-empty-roundtrip-...`; every existing theorem decomposes or characterizes a SINGLE equivalence's empty-roundtrip witness. None compose two equivalences. Grep for `equivcat.*compos|equivcat.*transit|equiv.*pr.serv.*lim|equivcat-transitive` across papers/bedc/parts returns 0 hits. The chapter intro at line 4 explicitly calls $\EquivCatUp$ 'the structural notion of sameness for $\NameCert_{\CategoryUp}$ instances' — sameness should be transitive but that property is unproven. Infrastructure is in place: chapter 85 supplies AdjunctionUnitCounitCarrier across general (p,q) prefix pairs (85_adjunction_namecert_triangle_carrier.tex lines 16-186 give component-empty / collapse / prefix-deterministic theorems that suffice as building blocks).
+
+---
+
+
+### B-275 - Continuous-map image of a principal-suffix filter is a principal-suffix filter on the target
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Continuous-map image of a principal-suffix filter is a principal-suffix filter on the target |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If `FilterPrincipalSuffix(base,left,right,...)` (chapter 71) and `ContinuousMapCarrier(base,map,target,modulus,cert,distance)` (chapter 34), then there exist target histories carrying a `FilterPrincipalSuffix` witness on `target` whose intersection-closure and unary-commuting-square fields are determined by the source filter and the continuous-map graph.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/71_filter_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_function_carrier.tex`
+
+Rationale:
+Chapter 71 has 15 theorems all labeled `thm:filter-principal-suffix-...` (71_filter_namecert_construction.tex lines 10, 32, 53, 71, 93, 114, 132, 146, 166, 188, 208, 236, 259, 281, 300). Every existing theorem is INTERNAL to a single filter (intersection closure, commuting square, point determinism, semantic name-cert). Grep `filter.*continu|continuous.*filter|filter.*image|filter.*map|filter.*pushforward` across papers/bedc/parts returns 0 file matches. Chapter intro line 4 declares the filter is 'the constructive analogue of mathlib-style \texttt{Filter} for the BEDC topology and analysis layers' — pushforward under continuous maps is the canonical first interaction with the topology layer (mathlib's `Filter.map`), and it is absent.
+
+---
+
+
+### B-276 - Continuous image of a compact source is compact, not merely totally bounded
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Continuous image of a compact source is compact, not merely totally bounded |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If `ContinuousMapCarrier(source,map,target,modulus,cert,distance)` and the source carries a full `CompactWitnessCarrier` (totally-bounded plus located refinement chain), then the target image bundle inherits a CompactWitness with both the totally-bounded image fields AND a located refinement chain transported through the modulus, not merely the totally-bounded image proved in proposition 35b.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/35_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35b_compact_image_total_bounded.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+`35b_compact_image_total_bounded.tex` lines 41-125 prove `prop:uniformly-continuous-image-totally-bounded-source` ONLY for the totally-bounded fragment (it produces an `ImageFiniteNetLedger` but no located refinement). Chapter 35 has 19+ refinement-chain theorems (lines 15-553 including `thm:compact-witness-carrier-located-extension-closed` and `thm:compact-located-refinement-chain-transitivity`) for the located component of the compact carrier on a single source, but no theorem lifts the totally-bounded image proof to a full compact image. Grep `image.*compact|compact-image|continuous.*compact` across papers/bedc/parts returns only the existing totally-bounded variant and a roadmap mention. In BEDC, `compact = totally-bounded + located + Cauchy-completeness`; the located component's preservation under continuous maps is the missing piece that distinguishes the claim from what is already proved.
+
+---
+
+
+### B-277 - EqType class membership is transitive at the class-carrier layer
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EqType class membership is transitive at the class-carrier layer |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a history h belongs to the equality-type class anchored at `anchor` (i.e., `EqtypeClassCarrier(anchor,h)`) and h' belongs to the equality-type class anchored at h (`EqtypeClassCarrier(h,h')`), then h' belongs to the equality-type class anchored at `anchor`.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/109_eqtype_namecert_construction.tex`
+
+Rationale:
+Chapter 109 has 13 theorems all labeled `thm:eqtype-class-carrier-...` or `thm:eqtype-class-carrier-anchor-hsame-transport` (109_eqtype_namecert_construction.tex lines 10, 23, 37, 50, 64, 78, 93, 107, 128, 142, 156, 177, 194). Every theorem treats specific anchor patterns (`e1-anchor`, `e0-anchor`, `visible-context`) with READBACK / DETERMINISTIC / ABSURD / SEMANTIC-NAMECERT patterns. The chapter intro at line 4 calls $\EqUp$ 'the foundational equality layer underlying every $\psame$ classifier' — classical equality is reflexive/symmetric/transitive, but the only equivalence-relation property proved is HSAME transport (`thm:eqtype-class-carrier-anchor-hsame-transport` line 194), not class-carrier transitivity (chained anchor relation). Grep `eqtype.*reflex|eqtype.*sym|eqtype.*trans|reflex.*eqtype` returns only the unrelated anchor-transport theorem. The chain transitivity is a single-implication structural fact that fits the chapter's style and infrastructure.
+
+---
+
+
+### B-278 - Derivative metric quotients compose: chain rule on metric quotient witnesses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Derivative metric quotients compose: chain rule on metric quotient witnesses |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 9/10 |
+
+Problem:
+If `DerivativeMetricQuotient(f,z,h_f,q_f,d_f)` holds and `DerivativeMetricQuotient(g,q_f,h_g,q_g,d_g)` also holds (the inner derivative is taken at the outer quotient endpoint), and continuations chain via `Cont(f,append(h_f,h_g),q_g)`, then a composite metric-quotient witness exists for the chain f→g whose distance history is classifier-equal to the continuation product of d_f and d_g.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/100_derivative_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/42_complex_differentiability_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+Chapter 100 has 19 theorems (100_derivative_namecert_construction.tex lines 28, 55, 80, 99, 117, 131, 146, 161, 176, 192, 207, 222, 242, 267, 289, 307, 327, 342, 356) all labeled `thm:derivative-metric-quotient-...` or `thm:derivative-cplx-diff-at-...`. Every theorem is about TRANSPORT (`hsame-transport` line 28), DETERMINACY (`result-deterministic` line 222, `hsame-step-result-deterministic` line 242), READBACK (`visible-context-readback` line 131-192), or NEGATIVE shape (`visible-step-same-quotient-absurd` line 289). Grep `chain.*rule|chainrule|derivative-chain|derivative.*compos|derivative.*product-rule|derivative.*linearity|derivative-leibniz|derivative-sum` returns 0 hits in the derivative chapter (only roadmap and complex-differentiability mentions of `composite modulus` in unrelated contexts). The chain rule is the canonical compositional theorem (foundational for any analytic chapter built on derivatives) and is genuinely absent.
+
+---
+
+
+### B-279 - Tensor product factorization is unique up to the tensor classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Tensor product factorization is unique up to the tensor classifier |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If `TensorProductSingletonFactor(l,r,t)` and `TensorProductSingletonFactor(l,r,t')` both hold for the same factor pair (l,r) with the same singleton-carrier source and target modules, then the two factorization endpoints t and t' are classifier-equal under the tensor classifier (hsame on the tensor carrier).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/65_tensorproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+Chapter 65 has 12 theorems (65_tensorproduct_namecert_construction.tex lines 18, 36, 49, 67, 82, 97, 125, 139, 156, 172, 202, 230) covering EXISTENCE (`factor-witness` line 125), TRANSPORT (`factor-hsame-transport` line 139), SYMMETRY (`factor-source-target-swap` line 172, `factor-swap-symmetry` line 202), and ASSOCIATIVITY (`factor-associator` line 230). The chapter intro at line 4 says 'packages the universal bilinear factorization' — the universal property has both an EXISTENCE clause (proved via `factor-witness`) and a UNIQUENESS clause (any two factorizations agree). Grep `tensorproduct.*univers|tensor.*univers.*property|tensorproduct-uniqueness` returns 0 hits. The uniqueness clause as a single-implication theorem t hsame t' from two factor witnesses is missing and is a clean, single-step extension building only on `hsame-transport` and `factor-witness`.
+
+---
+
