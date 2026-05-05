@@ -7,6 +7,7 @@ namespace BEDC.Derived.NumFieldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldExtUp
 open BEDC.Derived.RatUp
@@ -119,5 +120,44 @@ theorem NumFieldRatReflexive_ledger_exactness
           (And.intro fieldRows.right.right.right.right.left
             (And.intro fieldRows.right.right.right.right.right.left
               (And.intro fieldRows.right.right.right.right.right.right coordClassifier))))))
+
+theorem NumFieldReflexiveRational_exactness_package
+    {h k r r' m m' product action coord : BHist} :
+    NumFieldRatReflexiveCarrier h -> RatHistoryClassifier h k ->
+      RatHistoryClassifier r r' -> RatHistoryClassifier m m' -> Cont r m product ->
+        Cont (FieldExtSingletonEmbedding r') m' action -> Cont m' BHist.Empty coord ->
+          SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
+              RatHistoryClassifier ∧
+            NumFieldRatReflexiveCarrier k ∧
+              RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+                RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+                  RatHistoryClassifier product action ∧ RatHistoryCarrier product ∧
+                    RatHistoryCarrier action ∧ RatHistoryClassifier coord m' := by
+  intro carrierH classifiedHK classifiedRR classifiedMM productCont actionCont coordinateReadback
+  have exactRows :
+      RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+        RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+          PositiveUnaryDenominator (FieldExtSingletonEmbedding h) ∧
+            PositiveUnaryDenominator (FieldExtSingletonEmbedding k) ∧
+              RatHistoryClassifier product action ∧ RatHistoryCarrier product ∧
+                RatHistoryCarrier action ∧ RatHistoryClassifier coord m' :=
+    NumFieldRatReflexive_ledger_exactness classifiedHK classifiedRR classifiedMM
+      productCont actionCont coordinateReadback
+  have kCarrier : RatHistoryCarrier k := classifiedHK.right.left
+  have kFieldCarrier : RatHistoryCarrier (FieldExtSingletonEmbedding k) :=
+    RatHistoryLedgerPolicy_visible_carrier exactRows.right.left
+  have kContinuation : Cont BHist.Empty k (FieldExtSingletonEmbedding k) :=
+    (FieldExtRatReflexiveEmbedding_ledger_source_lock classifiedHK).right.right.right.right
+  have kNumCarrier : NumFieldRatReflexiveCarrier k :=
+    And.intro kCarrier
+      (And.intro kFieldCarrier (And.intro kContinuation exactRows.right.left))
+  exact And.intro rat_history_semantic_name_certificate
+    (And.intro kNumCarrier
+      (And.intro exactRows.left
+        (And.intro exactRows.right.left
+          (And.intro exactRows.right.right.right.right.left
+            (And.intro exactRows.right.right.right.right.right.left
+              (And.intro exactRows.right.right.right.right.right.right.left
+                exactRows.right.right.right.right.right.right.right))))))
 
 end BEDC.Derived.NumFieldUp

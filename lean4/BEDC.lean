@@ -551,6 +551,7 @@ import BEDC.Derived.LinearMapUp.EvalContextPair
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.ModuleUp.ActionBoundary
 import BEDC.Derived.ModuleUp.KernelExactness
+import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp

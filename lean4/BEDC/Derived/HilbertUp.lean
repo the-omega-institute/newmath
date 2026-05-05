@@ -2,6 +2,7 @@ import BEDC.Derived.NormUp
 import BEDC.Derived.RealUp.Core
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
+import BEDC.Derived.MetricUp
 
 namespace BEDC.Derived.HilbertUp
 
@@ -9,6 +10,7 @@ open BEDC.Derived.NormUp
 open BEDC.Derived.RatUp
 open BEDC.Derived.RealUp
 open BEDC.Derived.VecSpaceUp
+open BEDC.Derived.MetricUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
@@ -76,5 +78,25 @@ theorem HilbertSingleton_constant_inner_product_transport {m m' n n' : BHist} :
   exact And.intro leftConstant
     (And.intro rightConstant
       (And.intro transported normTransport))
+
+theorem HilbertSingleton_endpoint_readback {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+        RealConstantHistoryClassifier (HilbertSingletonInnerProduct m m)
+          (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          MetricDistanceWitness m n BHist.Empty := by
+  intro carrierM carrierN
+  have normRows := NormSingletonEmptyHistory_laws carrierM carrierN
+  have innerRows := HilbertSingleton_inner_product_norm_compatibility carrierM
+  have mEndpoint : hsame m BHist.Empty := normRows.right.right.right.left.right.right
+  have nEndpoint : hsame n BHist.Empty := normRows.right.right.right.right.right.right
+  have distanceWitness : MetricDistanceWitness m n BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := m) (y := n)).mpr
+      (And.intro mEndpoint nEndpoint)
+  have innerConstant :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct m m)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    Iff.mpr innerRows.right normRows.right.right.right.left
+  exact And.intro normRows.right.left (And.intro innerConstant distanceWitness)
 
 end BEDC.Derived.HilbertUp
