@@ -33,6 +33,65 @@ inventory is:
 \end{enumerate}
 \end{definition}
 
+\begin{definition}[MeasureUp certificate surface]
+\label{def:measure-certificate-surface}
+A $\MeasureUp$ certificate surface over the BEDC history substrate consists of the following data.
+\begin{enumerate}
+  \item a carrier predicate $\mathsf{MeasCode}:\mathsf{BHist}\to\mathsf{Prop}$ for histories that present measure codes;
+  \item a classifier $\sim_M:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ and a core $\NameCert(\mathsf{MeasCode},\sim_M)$, so membership in $\mathsf{MeasCode}$ transports along $\sim_M$ by the $\NameCert$ transport field;
+  \item a designated measurable-family predicate $\mathsf{MeasFam}$ on predicates $E:\mathsf{BHist}\to\mathsf{Prop}$, stable under the displayed classifier and under $\hsame$ on the endpoint histories that present the same event;
+  \item a $\RealUp$-valued endpoint map $\mu$ from measurable predicates to their measure endpoints, with equality of measurable presentations transported through the $\RealUp$ classifier $\sim_R$ of \autoref{def:real-classifier-specification};
+  \item a countable-sum endpoint $\Sigma_\mu(E_\bullet)$ for each measurable sequence $E_\bullet:\mathbb{N}\to(\mathsf{BHist}\to\mathsf{Prop})$;
+  \item $\sigma$-algebra rows asserting $\mathsf{MeasFam}(\varnothing)$, binary-union closure for disjoint measurable pairs, and countable-union closure for measurable sequences;
+  \item a $\sigma$-additivity row: whenever $E_\bullet$ is a pairwise-disjoint measurable sequence with countable union $U$, the comparison $\mu(U)\sim_R\Sigma_\mu(E_\bullet)$ holds;
+  \item a head-tail readback row: for every measurable sequence $E_\bullet$, the endpoint $\Sigma_\mu(E_\bullet)$ is classified with $\mu(E_0)+\Sigma_\mu(E_{\bullet+1})$ by the $\RealUp$ additive operation;
+  \item a countable-sum classifier row: pointwise classifier equality of measurable sequences transports their countable endpoints through $\sim_R$.
+\end{enumerate}
+The dependencies of the surface are exactly the BEDC objects named above: $\NameCert$ supplies carrier and classifier transport; $\mathsf{BHist}$ supplies the visible code substrate; $\hsame$ and $\Cont$ supply history sameness and continuation discipline for event presentations; $\RealUp$ supplies the codomain classifier; and the additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} supplies the addition, zero, congruence, and cancellation laws used by the displayed measure consequences.
+\end{definition}
+
+\begin{theorem}[Measure carrier transport obligation]
+\label{thm:measure-obligation-carrier-transport}
+Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in \autoref{def:measure-certificate-surface}. If $h,k:\mathsf{BHist}$ satisfy $\mathsf{MeasCode}(h)$ and $h\sim_M k$, then $\mathsf{MeasCode}(k)$. Moreover, every displayed row attached to the carried measure code, namely the measurable-family row, $\sigma$-algebra rows, $\RealUp$ endpoint map, $\sigma$-additivity row, head-tail row, and countable-sum classifier row, may be read at $k$ after transporting its carrier proof along $h\sim_M k$.
+\end{theorem}
+\begin{proof}
+The carrier part is the transport field of the core $\NameCert(\mathsf{MeasCode},\sim_M)$ in the surface. Apply it to the carried proof at $h$ and the classifier comparison $h\sim_M k$.
+
+The remaining rows are fields of the same certificate surface indexed by the carried measure code. Once the carrier proof has been moved from $h$ to $k$, the row projections are read with that transported proof. No quotient or host equality of histories is used; the only movement is along the displayed $\NameCert$ classifier.
+\end{proof}
+
+\begin{theorem}[Measure constant-empty sigma-additive row]
+\label{thm:measure-obligation-sigma-additive-row}
+Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in \autoref{def:measure-certificate-surface}. Define $E_n:=\varnothing$ for every $n:\mathbb{N}$. Then $E_\bullet$ is a measurable sequence, it is pairwise disjoint, its countable union is $\varnothing$, and the $\sigma$-additivity row gives the comparison
+$$
+\mu(\varnothing)\sim_R\Sigma_\mu(E_\bullet).
+$$
+This is the sigma-additive input used by \autoref{thm:measure-empty-set-zero-from-sigma-additivity}.
+\end{theorem}
+\begin{proof}
+The $\sigma$-algebra rows of the surface include the empty-event row, so each $E_n$ is measurable. Pairwise disjointness is immediate because both sides of every pairwise intersection are the empty predicate.
+
+The countable union of the constant-empty sequence is again the empty predicate. The countable-union row therefore identifies the union endpoint required by the $\sigma$-additivity row with $\varnothing$.
+
+Apply the $\sigma$-additivity row to this measurable pairwise-disjoint sequence and its displayed union. The resulting comparison is precisely $\mu(\varnothing)\sim_R\Sigma_\mu(E_\bullet)$.
+\end{proof}
+
+\begin{theorem}[Measure countable-sum classifier stability obligation]
+\label{thm:measure-obligation-countable-sum-classifier-stability}
+Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in \autoref{def:measure-certificate-surface}. Let $E_\bullet$ and $F_\bullet$ be measurable sequences. If every index satisfies $\mu(E_n)\sim_R\mu(F_n)$ through the $\RealUp$ classifier, then their countable endpoints satisfy
+$$
+\Sigma_\mu(E_\bullet)\sim_R\Sigma_\mu(F_\bullet).
+$$
+In particular, the all-empty tail used in \autoref{thm:measure-empty-set-zero-from-sigma-additivity} and the shifted empty tail used in \autoref{thm:measure-finite-disjoint-union-additivity} transport to the same countable $\RealUp$ sum.
+\end{theorem}
+\begin{proof}
+The countable-sum classifier row is part of the certificate surface. Feed it the two measurable sequences and the pointwise $\RealUp$ classifier comparison of their measure endpoints.
+
+For the all-empty tail, the pointwise comparison is reflexivity of $\sim_R$ at each endpoint $\mu(\varnothing)$. For the shifted finite-union tail, every shifted term is the empty event, so the same reflexive pointwise comparison applies after reading the sequence definition at each index.
+
+Thus both downstream arguments may replace a syntactically shifted empty countable sum by the canonical all-empty countable sum using only classifier transport, not host-level equality of sums.
+\end{proof}
+
 \section{The certificate}
 \label{sec:measure-certificate}
 
