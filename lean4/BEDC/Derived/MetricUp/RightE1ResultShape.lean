@@ -149,4 +149,42 @@ theorem MetricDistanceWitness_right_e1_result_hsame_target {x y y' d : BHist} :
                         (And.intro targetCarrier
                           (And.intro tailWitness.right.right.left targetCont)))))
 
+theorem MetricDistanceWitness_right_e1_result_two_sided_endpoint_transport
+    {x x' y y' d : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) -> hsame x x' -> hsame y y' ->
+      (x' = BHist.Empty ∧ UnaryHistory y' ∧ hsame d y') ∨
+        (∃ x1 : BHist, x' = BHist.e1 x1 ∧
+          MetricDistanceWitness (BHist.e1 x1) y' d) := by
+  intro witness sameSource sameTarget
+  have sourceCases :=
+    MetricDistanceWitness_right_e1_result_hsame_source witness sameSource
+  cases sourceCases with
+  | inl emptyCase =>
+      cases emptyCase with
+      | intro sourceEmpty data =>
+          cases data with
+          | intro targetCarrier sameResult =>
+              have targetCarrier' : UnaryHistory y' := unary_transport targetCarrier sameTarget
+              exact
+                Or.inl
+                  (And.intro sourceEmpty
+                    (And.intro targetCarrier' (hsame_trans sameResult sameTarget)))
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro x1 data =>
+          cases data with
+          | intro sourceEq tailWitness =>
+              have targetCarrier' : UnaryHistory y' :=
+                unary_transport tailWitness.right.left sameTarget
+              have targetCont : Cont (BHist.e1 x1) y' d :=
+                cont_hsame_transport (hsame_refl (BHist.e1 x1)) sameTarget
+                  (hsame_refl d) tailWitness.right.right.right
+              exact
+                Or.inr
+                  (Exists.intro x1
+                    (And.intro sourceEq
+                      (And.intro tailWitness.left
+                        (And.intro targetCarrier'
+                          (And.intro tailWitness.right.right.left targetCont)))))
+
 end BEDC.Derived.MetricUp
