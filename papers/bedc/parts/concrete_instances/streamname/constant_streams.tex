@@ -305,6 +305,78 @@ ledger $(d,e,r)$. The resulting object is the named bridge package for constant
 rational observation names.
 \end{proof}
 
+\begin{theorem}[Rational stream-name constant bridge package exactness]
+\label{thm:rat-stream-name-constant-bridge-package-exactness}
+For histories $d,e:\Hist$ and an observation reindexer $r:\Hist\to\Hist$,
+suppose $r$ preserves certified unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(r(n)).
+$$
+Write $\mathsf{K}(d,e,r)$ for the conjunction of the following concrete
+constant stream-name bridge rows:
+\begin{enumerate}
+  \item $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$;
+  \item $\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$;
+  \item $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+  \mathsf{RatConstStream}_e)$;
+  \item $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+  \mathsf{RatConstStream}_d)$;
+  \item $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+  \mathsf{RatConstStream}_e\circ r)$;
+  \item the exactness row
+
+  $$
+  \mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+  \mathsf{RatConstStream}_e)
+  \Longleftrightarrow
+  \mathsf{RatHistoryClassifier}(d,e).
+  $$
+
+\end{enumerate}
+Then the whole package is exact over the underlying RatUp classifier:
+$$
+\mathsf{K}(d,e,r)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+
+The compact ten-field fit is:
+\begin{enumerate}
+  \item the traditional target is $\StreamNameUp$ constant rational observation
+  names;
+  \item the BEDC source is $\RatUp$ over $\mathsf{BHist}$;
+  \item the carrier row is the pair of carrier conjuncts in
+  $\mathsf{K}(d,e,r)$;
+  \item the classifier row is the three classifier conjuncts in
+  $\mathsf{K}(d,e,r)$;
+  \item the stability rows are the unary-preservation premise and the two
+  reindexed constant classifier rows;
+  \item the ledger is the triple $(d,e,r)$ together with the unary-preservation
+  witness for $r$;
+  \item the core theorem is package-level exactness for constant rational
+  stream names;
+  \item exactness is the displayed iff between $\mathsf{K}(d,e,r)$ and
+  $\mathsf{RatHistoryClassifier}(d,e)$;
+  \item the downstream consumer is the $\RealUp$ constant rational embedding;
+  \item the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+In the forward direction, assume a witness of $\mathsf{K}(d,e,r)$. Project its
+unreindexed classifier row
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e)$ and its exactness row. Applying the forward half of
+that row gives $\mathsf{RatHistoryClassifier}(d,e)$.
+
+In the reverse direction, assume
+$\rho:\mathsf{RatHistoryClassifier}(d,e)$. Apply
+\autoref{thm:rat-stream-name-constant-bridge-package} to $\rho$ and to the
+displayed unary-preservation row for $r$. The resulting bridge package supplies
+exactly the two carrier rows, the unreindexed classifier row, the two reindexed
+classifier rows, and the constant-point exactness row listed in
+$\mathsf{K}(d,e,r)$.
+\end{proof}
+
 \begin{theorem}[Rational stream-name public certificate]
 \label{thm:rat-stream-name-public-certificate}
 The carrier $\mathsf{RatStreamNameCarrier}$ and classifier
