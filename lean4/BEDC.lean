@@ -151,6 +151,7 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
+import BEDC.Derived.ComplexLimitUp.Difference
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.NameCertificate
 import BEDC.Derived.ComplexLimitUp.PointwiseDifference
@@ -555,6 +556,7 @@ import BEDC.Derived.ContinuousUp.VisibleModulusContextComposition
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.VisibleEndpointCycle
 import BEDC.Derived.ContinuousUp.SemanticCertificate
+import BEDC.Derived.ContinuousUp.CertificateFields
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousUp.VisibleGraphModulusDeterminism
 import BEDC.Derived.ContinuousUp.VisibleSourceRestriction
