@@ -164,6 +164,19 @@ theorem CritStripComplexCarrier_hsame_transport {s s' sigma sigma' tau tau' : BH
     (And.intro transportedCont
       (CritStripComplexCarrier_strict_interval_absurd transportedCarrier).right)
 
+theorem CritStripStabilityCert_fields :
+    (forall {sigma sigma' : BHist}, InCritStrip sigma -> hsame sigma sigma' ->
+      InCritStrip sigma' ∧ (hsame sigma' BHist.Empty -> False) ∧
+        (hsame sigma' (BHist.e1 BHist.Empty) -> False)) ∧
+      (forall {s s' sigma sigma' tau tau' : BHist}, hsame s s' -> hsame sigma sigma' ->
+        hsame tau tau' -> CritStripComplexCarrier s sigma tau ->
+          CritStripComplexCarrier s' sigma' tau' ∧ Cont sigma' tau' s' ∧ False) := by
+  constructor
+  · intro sigma sigma' strip sameSigma
+    exact InCritStrip_hsame_transport_boundary_exclusion strip sameSigma
+  · intro s s' sigma sigma' tau tau' sameS sameSigma sameTau carrier
+    exact CritStripComplexCarrier_hsame_transport sameS sameSigma sameTau carrier
+
 theorem CritStripComplexCarrier_component_boundary_exclusion {s sigma tau : BHist} :
     CritStripComplexCarrier s sigma tau ->
       (hsame sigma BHist.Empty -> False) ∧

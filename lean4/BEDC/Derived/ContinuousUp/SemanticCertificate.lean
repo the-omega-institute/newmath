@@ -5,6 +5,21 @@ namespace BEDC.Derived.ContinuousUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
+
+def ContinuousSourceSpec (source : BHist) : Prop :=
+  UnaryHistory source ∧
+    ∃ map target modulus cert : BHist, ContinuousFunctionCarrier source map target modulus cert
+
+theorem ContinuousFunctionCarrier_sourceSpec_readback
+    {source map target modulus cert : BHist} :
+    ContinuousFunctionCarrier source map target modulus cert -> ContinuousSourceSpec source := by
+  intro carrier
+  exact And.intro carrier.left
+    (Exists.intro map
+      (Exists.intro target
+        (Exists.intro modulus
+          (Exists.intro cert carrier))))
 
 theorem ContinuousFunctionCarrier_certificate_semanticNameCert
     {source map target modulus cert : BHist}
