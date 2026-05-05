@@ -451,16 +451,79 @@ For finite intersections, split on the two indices. Any case containing $\bot_{\
 The $\top_{\TopologyUp},\top_{\TopologyUp}$ case reduces both sides to $C_{\emp}(h)$, with conjunction introduction and projection giving the two directions. This supplies the binary closure row used by \autoref{thm:topology-indexed-open-finite-intersection}.
 \end{proof}
 
-\begin{theorem}[Singleton topology arbitrary-union laws]
-\label{thm:topology-singleton-arbitrary-union-laws}
-For any indexed family $\iota:A\to\mathsf{OpenIx}_{\emp}$ in the singleton carrier of \autoref{def:topology-singleton-empty-history-carrier}, the arbitrary union has a displayed witness. If every displayed member is $\bot_{\TopologyUp}$, then $\bot_{\TopologyUp}$ carries the union. If some displayed $a_0:A$ satisfies $\iota(a_0)=\top_{\TopologyUp}$, then $\top_{\TopologyUp}$ carries the union. Hence the singleton ledger supplies the arbitrary-union witness required by \autoref{thm:topology-indexed-open-arbitrary-union}.
+\begin{theorem}[Singleton topology all-bottom union exactness]
+\label{thm:topology-singleton-union-bottom-exactness}
+For the singleton carrier of \autoref{def:topology-singleton-empty-history-carrier}, let $\iota:A\to\mathsf{OpenIx}_{\emp}$ be an indexed family of displayed opens. If the family carries a displayed all-bottom witness $h_{\bot}:\forall a:A,\ \iota(a)=\bot_{\TopologyUp}$,
+then $\bot_{\TopologyUp}$ carries the pointwise union predicate
+$$
+U_{\iota}(h):\Longleftrightarrow
+\exists a:A,\ \mathsf{OpenAt}_{\emp}(\iota(a),h).
+$$
+Equivalently, for every $h:\mathsf{BHist}$,
+$$
+\mathsf{OpenAt}_{\emp}(\bot_{\TopologyUp},h)
+\Longleftrightarrow
+U_{\iota}(h).
+$$
 \end{theorem}
 \begin{proof}
-Split on whether a top row is present in the family. If no top row is present, each displayed index is $\bot_{\TopologyUp}$. Then every pointwise membership clause is false, so the union predicate is false and is carried by $\bot_{\TopologyUp}$.
+Unfold the bottom row of \autoref{def:topology-singleton-empty-history-carrier}. The left side is $\mathsf{False}$ at every point.
 
-If a displayed member $a_0$ has index $\top_{\TopologyUp}$, then membership in the union is equivalent to $C_{\emp}(h)$. In the forward direction, inspect the witnessing index: a $\bot_{\TopologyUp}$ witness is impossible, while a $\top_{\TopologyUp}$ witness gives $C_{\emp}(h)$.
+For the forward direction there is no inhabitant to transport. For the reverse direction, take a displayed witness $a:A$ of $U_{\iota}(h)$. The all-bottom ledger entry $h_{\bot}(a)$ rewrites its membership row to $\mathsf{OpenAt}_{\emp}(\bot_{\TopologyUp},h)$, hence to $\mathsf{False}$.
 
-For the reverse direction, inject $C_{\emp}(h)$ into the union through the displayed top member $a_0$. This is the carrying equation for $\top_{\TopologyUp}$, so the union is represented by an explicit singleton ledger row.
+Thus the union predicate is empty pointwise, and the explicit bottom row carries it without deciding anything about the family outside the displayed all-bottom witness.
+\end{proof}
+
+\begin{theorem}[Singleton topology top-member union exactness]
+\label{thm:topology-singleton-union-top-exactness}
+For the singleton carrier of \autoref{def:topology-singleton-empty-history-carrier}, let $\iota:A\to\mathsf{OpenIx}_{\emp}$ be an indexed family of displayed opens. If the family carries displayed data $a_0:A$ and $h_{\top}:\iota(a_0)=\top_{\TopologyUp}$,
+then $\top_{\TopologyUp}$ carries the pointwise union predicate
+$$
+U_{\iota}(h):\Longleftrightarrow
+\exists a:A,\ \mathsf{OpenAt}_{\emp}(\iota(a),h).
+$$
+Equivalently, for every $h:\mathsf{BHist}$,
+$$
+\mathsf{OpenAt}_{\emp}(\top_{\TopologyUp},h)
+\Longleftrightarrow
+U_{\iota}(h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the top row of \autoref{def:topology-singleton-empty-history-carrier}. Its membership predicate is exactly $C_{\emp}(h)$.
+
+In the forward direction, inject the displayed carrier witness through the named index $a_0$. The ledger equality $h_{\top}$ identifies $\mathsf{OpenAt}_{\emp}(\iota(a_0),h)$ with the top-row membership predicate, so $a_0$ witnesses $U_{\iota}(h)$.
+
+For the reverse direction, inspect the existential witness $a:A$ and the two-row open ledger. A bottom-row witness is impossible because bottom membership is $\mathsf{False}$. A top-row witness is exactly $C_{\emp}(h)$, which is the membership predicate of $\top_{\TopologyUp}$.
+
+Therefore the union predicate is the whole singleton carrier, and the explicit top row carries it through the displayed top member.
+\end{proof}
+
+\begin{theorem}[Singleton topology union case-split ledger]
+\label{thm:topology-singleton-union-case-split-ledger}
+For the singleton carrier of \autoref{def:topology-singleton-empty-history-carrier}, an indexed family $\iota:A\to\mathsf{OpenIx}_{\emp}$ is accepted as an arbitrary-union row only with one of the following displayed ledger alternatives:
+\begin{enumerate}
+\item an all-bottom witness $\forall a:A,\ \iota(a)=\bot_{\TopologyUp}$, in which case the accepted row is $\bot_{\TopologyUp}$ and its carrying equation is supplied by \autoref{thm:topology-singleton-union-bottom-exactness};
+\item a top-member witness consisting of $a_0:A$ and $\iota(a_0)=\top_{\TopologyUp}$, in which case the accepted row is $\top_{\TopologyUp}$ and its carrying equation is supplied by \autoref{thm:topology-singleton-union-top-exactness}.
+\end{enumerate}
+No additional case distinction over the family is part of the singleton topology certificate.
+\end{theorem}
+\begin{proof}
+The ledger is a policy over displayed certificate data. In the first alternative, repack the given all-bottom witness through \autoref{thm:topology-singleton-union-bottom-exactness}; the carried predicate is the indexed union and the chosen row is $\bot_{\TopologyUp}$.
+
+In the second alternative, repack the displayed top member through \autoref{thm:topology-singleton-union-top-exactness}; the carried predicate is the same indexed union and the chosen row is $\top_{\TopologyUp}$.
+
+These two rows are exactly the accepted constructors for the singleton arbitrary-union surface, so the certificate consumer receives a union row together with its reason instead of deriving a hidden family-level decision.
+\end{proof}
+
+\begin{theorem}[Singleton topology arbitrary-union laws]
+\label{thm:topology-singleton-arbitrary-union-laws}
+For any indexed family $\iota:A\to\mathsf{OpenIx}_{\emp}$ in the singleton carrier of \autoref{def:topology-singleton-empty-history-carrier}, the arbitrary-union witness required by \autoref{thm:topology-indexed-open-arbitrary-union} is supplied only from the displayed alternatives of \autoref{thm:topology-singleton-union-case-split-ledger}. With an all-bottom ledger entry the accepted union row is $\bot_{\TopologyUp}$; with a displayed top member the accepted union row is $\top_{\TopologyUp}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topology-singleton-union-case-split-ledger}. The all-bottom branch is already carried by \autoref{thm:topology-singleton-union-bottom-exactness}, and the top-member branch is already carried by \autoref{thm:topology-singleton-union-top-exactness}.
+
+The final arbitrary-union interface therefore repacks a recorded ledger alternative. It does not infer a top-present or top-absent dichotomy from the host logic.
 \end{proof}
 
 \begin{theorem}[Singleton topology NameCert obligation surface]
