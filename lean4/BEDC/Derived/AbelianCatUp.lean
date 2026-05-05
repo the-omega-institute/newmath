@@ -112,4 +112,25 @@ theorem AbelianCatKernelCokernel_visible_factorization
                     (And.intro coimageUnary
                       (And.intro comparisonUnary recomposedUnary))))))))))
 
+structure AbelianCatZeroBiproductKernelSurface where
+  source : BHist
+  target : BHist
+  zero : BHist
+  add : BHist
+  kernel : BHist
+  cokernel : BHist
+  factor : BHist
+  carrier : AbelianCatAdditiveCarrier source target zero add kernel cokernel factor
+  zero_hom : CategoryHomCarrier source target zero
+  add_carrier : GroupSingletonCarrier add
+  kernel_row : Cont zero add kernel
+  factor_row : Cont kernel cokernel factor
+
+theorem AbelianCatZeroBiproductKernelSurface_rows
+    (S : AbelianCatZeroBiproductKernelSurface) :
+    CategoryHomCarrier S.source S.target S.zero ∧ GroupSingletonCarrier S.add ∧
+      Cont S.zero S.add S.kernel ∧ Cont S.kernel S.cokernel S.factor := by
+  exact And.intro S.zero_hom
+    (And.intro S.add_carrier (And.intro S.kernel_row S.factor_row))
+
 end BEDC.Derived.AbelianCatUp
