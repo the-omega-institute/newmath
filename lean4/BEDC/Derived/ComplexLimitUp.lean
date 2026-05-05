@@ -5,6 +5,7 @@ namespace BEDC.Derived.ComplexLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 
@@ -248,6 +249,35 @@ theorem ComplexLimit_hsame_transport {s N M : BHist -> BHist} {z z' : BHist} :
                     Exists.intro d
                       (ComplexDistance_hsame_transport_with_relation
                         (hsame_refl (s n)) sameZ (hsame_refl d) distance).left))
+
+theorem ComplexLimit_semanticNameCert {s N M : BHist -> BHist} {z : BHist}
+    (limit : ComplexLimit s N z M) :
+    SemanticNameCert (fun h : BHist => ComplexLimit s N h M)
+      (fun h : BHist => ComplexLimit s N h M) (fun h : BHist => ComplexLimit s N h M)
+      hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro z limit
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK sourceH
+        exact ComplexLimit_hsame_transport sameHK sourceH
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 theorem ComplexRegularSequence_constant {z : BHist} :
     UnaryHistory z -> ComplexRegularSequence (fun _ : BHist => z)
@@ -510,5 +540,52 @@ theorem ComplexDistance_unary_append_comm_package {z q : BHist} :
       (And.intro rightCarrier
         (And.intro (unary_append_closed leftCarrier rightCarrier) (Or.inl (cont_intro rfl)))))
     (unary_append_comm_hsame qCarrier zCarrier)
+
+theorem complex_limit_semantic_name_certificate :
+    BEDC.FKernel.NameCert.SemanticNameCert
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h k : BHist =>
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N h M) ∧
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N k M) ∧ hsame h k) := by
+  cases complex_history_semantic_name_certificate.core.carrier_inhabited with
+  | intro z carrierZ =>
+      exact {
+        core := {
+          carrier_inhabited :=
+            Exists.intro z
+              (Exists.intro (fun _ : BHist => z)
+                (Exists.intro (fun _ : BHist => BHist.Empty)
+                  (Exists.intro (fun _ : BHist => BHist.Empty)
+                    (ComplexLimit_constant carrierZ))))
+          equiv_refl := by
+            intro h source
+            exact And.intro source (And.intro source (hsame_refl h))
+          equiv_symm := by
+            intro h k classified
+            exact And.intro classified.right.left
+              (And.intro classified.left (hsame_symm classified.right.right))
+          equiv_trans := by
+            intro h k r classifiedHK classifiedKR
+            exact And.intro classifiedHK.left
+              (And.intro classifiedKR.right.left
+                (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+          carrier_respects_equiv := by
+            intro h k classified _sourceH
+            exact classified.right.left
+        }
+        pattern_sound := by
+          intro h source
+          exact source
+        ledger_sound := by
+          intro h source
+          exact source
+      }
 
 end BEDC.Derived.ComplexLimitUp
