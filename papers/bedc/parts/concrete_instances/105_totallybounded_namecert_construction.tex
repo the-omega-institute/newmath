@@ -6,6 +6,71 @@ The totally-bounded interface $\TotallyBoundedUp$ packages a metric carrier admi
 \section{Carrier definition}
 \label{sec:totallybounded-carrier}
 
+\begin{definition}[Singleton metric totally-bounded instance]
+\label{def:singleton-metric-totally-bounded-instance}
+The singleton metric totally-bounded instance is the $\MetricSpaceUp$ carrier
+on histories
+$$
+T_{\emp}(x):=\hsame(x,\emp).
+$$
+Its classifier is
+$$
+x\sim_T y \quad:\!\!\Longleftrightarrow\quad
+T_{\emp}(x)\land T_{\emp}(y)\land \hsame(x,y),
+$$
+and its distance witness is the concrete metric row
+$$
+d_T(x,y,\delta):=\mathsf{MetricDistanceWitness}(x,y,\delta).
+$$
+For every positive tolerance history $\varepsilon$, the finite net is the
+one-point closed bundle $\Bcons(\emp,\Bnil)$ with ledger center $\emp$. The
+bundle membership row is the head $\mathsf{InBundle}$ constructor, and the
+coverage ledger for a carried point $x$ uses the empty-distance witness
+$\mathsf{MetricDistanceWitness}(x,\emp,\emp)$ together with the carried endpoint
+row $T_{\emp}(x)$.
+\end{definition}
+
+\begin{theorem}[Singleton metric totally-bounded laws]
+\label{thm:singleton-metric-totally-bounded-laws}
+The instance of
+\autoref{def:singleton-metric-totally-bounded-instance} satisfies the concrete
+finite-net laws required by $\TotallyBoundedUp$: $\emp$ inhabits the carrier,
+the unique net center $\emp$ lies in the carrier, every carried point is covered
+by that center at empty distance, the net witness is stable under the singleton
+classifier $\sim_T$, and the coverage row is compatible with metric
+empty-distance exactness from
+\autoref{thm:metric-distance-witness-empty-distance-iff}.
+\end{theorem}
+\begin{proof}
+Carrier inhabitation and center membership are both the reflexive $\hsame$ row
+on $\emp$. Thus the ledger center named by the one-point
+$\mathsf{ProbeBundle}$ is accepted by $T_{\emp}$.
+
+For coverage, fix a carried point $x$. The row $T_{\emp}(x)$ is exactly
+$\hsame(x,\emp)$, so the singleton classifier records $x\sim_T \emp$ using the
+carried endpoint row, reflexivity of $\emp$, and the same endpoint
+$\hsame$ witness.
+
+Apply \autoref{thm:metric-distance-witness-empty-distance-iff} to identify the
+empty-distance metric row with the two endpoint classifiers to $\emp$. This
+packages $\mathsf{MetricDistanceWitness}(x,\emp,\emp)$ as the coverage witness
+for the unique center, and the head $\mathsf{InBundle}$ constructor records
+that the center belongs to $\Bcons(\emp,\Bnil)$.
+
+Stability under $\sim_T$ follows by unpacking the classifier on the source and
+target endpoints. Both histories classify with $\emp$, so the empty-distance
+exactness row supplies the same metric coverage after transport, and the closed
+bundle branch is unchanged.
+\end{proof}
+
+The ten-field fit is: traditional target total boundedness by finite
+$\varepsilon$-nets; BEDC source $\MetricSpaceUp$ over $\mathsf{BHist}$; carrier
+$T_{\emp}$; classifier $\sim_T$; stability from $\hsame$ and
+$\mathsf{MetricDistanceWitness}$ empty-distance exactness; ledger one center
+and one $\mathsf{ProbeBundle}$ branch; core theorem
+\autoref{thm:singleton-metric-totally-bounded-laws}; exactness singleton
+coverage; standard bridge terminal metric space; status $\mathsf{ProofTarget}$.
+
 \begin{definition}[Totally bounded ProbeBundle net carrier]
 \label{def:totallybounded-probebundle-net-carrier}
 Let $X$ be a metric BEDC carrier whose distance rows are encoded by

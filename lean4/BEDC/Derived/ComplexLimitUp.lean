@@ -58,7 +58,16 @@ theorem ComplexDistanceTriangleBound_empty_endpoints {z w u d12 d23 : BHist} :
                     have endpoints := cont_empty_result_inversion uw
                     exact And.intro endpoints.right endpoints.left
   exact And.intro leftEndpoints.left (And.intro leftEndpoints.right rightEndpoints.right)
-
+theorem ComplexDistance_triangle_explicit_bound {z w u d12 d23 : BHist} : ComplexDistance z w d12 ->
+    ComplexDistance w u d23 -> exists d13 : BHist, ComplexDistance z u d13 ∧
+      Cont d12 d23 (ComplexDistanceTriangleBound d12 d23) ∧
+        UnaryHistory (ComplexDistanceTriangleBound d12 d23) := by
+  intro leftDistance rightDistance
+  exact Exists.intro (append z u)
+    (And.intro (And.intro leftDistance.left (And.intro rightDistance.right.left (And.intro
+        (unary_append_closed leftDistance.left rightDistance.right.left) (Or.inl (cont_intro rfl)))))
+      (And.intro (cont_intro rfl)
+        (unary_append_closed leftDistance.right.right.left rightDistance.right.right.left)))
 theorem ComplexDistance_append_constant_closed {z w d q : BHist} :
     UnaryHistory q -> ComplexDistance z w d ->
       ComplexDistance (append z q) (append w q) (append (append z q) (append w q)) := by
