@@ -1,6 +1,7 @@
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CompleteMetricUp
@@ -66,6 +67,26 @@ theorem CompleteMetricLimitWitness_name_certificate {X : BHist -> Prop}
     exact source
   · intro _h source
     exact source
+
+theorem CompleteMetricLimitWitness_metric_budget_shape_lock {X : BHist -> Prop}
+    {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      exists d : BHist,
+        MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+          RatHistoryClassifier d (M n) ∧ (hsame d BHist.Empty -> False) ∧
+            (forall z : BHist, hsame d (BHist.e0 z) -> False) := by
+  intro witness nUnary source
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have endpointNonempty := RatHistoryClassifier_endpoints_not_empty distanceData.right.right
+      have endpointZeroExcluded :
+          forall z : BHist, hsame d (BHist.e0 z) -> False := by
+        intro z sameZero
+        exact (RatHistoryClassifier_e0_endpoint_absurd (tail := z) (d := M n)).left
+          (RatHistoryClassifier_hsame_transport sameZero (hsame_refl (M n))
+            distanceData.right.right)
+      exact ⟨d, distanceData.left, distanceData.right.left, distanceData.right.right,
+        endpointNonempty.left, endpointZeroExcluded⟩
 
 theorem SingletonCompleteMetric_laws :
     hsame BHist.Empty BHist.Empty ∧
