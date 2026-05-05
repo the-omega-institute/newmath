@@ -2,6 +2,29 @@
 
 \begin{definition}[LinearMap carrier]
 \label{def:linearmap-carrier}
-Use a structure containing a function \(f:V\to W\) plus explicit proofs of additivity and scalar compatibility.
+A concrete $\LinearMapUp$ carrier is a $\mathsf{BHist}$-coded map-code
+predicate together with classifier, evaluation, and composition data. For the
+singleton empty-history instance, the public map-code carrier is
+$$
+L_{\emp}(f):=\hsame(f,\emp),
+$$
+the pointwise classifier is
+$$
+\lambda_{\emp}(f,g):=L_{\emp}(f)\land L_{\emp}(g)\land\hsame(f,g),
+$$
+the evaluator is
+$$
+\mathsf{ev}_{\emp}(f,x):=\emp,
+$$
+and the composition operation is
+$$
+\mathsf{comp}_{\emp}(g,f):=\emp.
+$$
+The required closure, congruence, additivity, scalar compatibility, identity,
+zero-map, and composition laws are supplied by
+Theorem~\ref{thm:singleton-empty-history-linearmap-laws}.
 \end{definition}
-
+\leandef{BEDC.Derived.LinearMapUp.LinearMapSingletonCarrier}
+\leandef{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier}
+\leandef{BEDC.Derived.LinearMapUp.LinearMapSingletonEval}
+\leandef{BEDC.Derived.LinearMapUp.LinearMapSingletonComp}
