@@ -563,3 +563,185 @@ The five witnesses assemble the displayed conjunction, giving the total
 endomorphism collapse including the alternating ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_total\_alternating\_collapse}
+
+
+\begin{definition}[Adjunction composition pasting data]
+\label{def:adjunction-composition-pasting-data}
+Fix histories
+$$
+p_1,q_1,a_1,u_1,c_1,l_1,r_1,p_2,q_2,a_2,u_2,c_2,l_2,r_2,p_{21},q_{21},s_u,s_c,a,\tilde u_1,\tilde u_2,\tilde c_1,\tilde c_2,u_{21},c_{21},l_{21},r_{21} : \Hist .
+$$
+An adjunction composition pasting datum is the following finite family of generated judgments:
+\begin{enumerate}
+\item the two input unit-counit carriers
+$$
+\operatorname{AdjunctionUnitCounitCarrier}(p_1,q_1,a_1,u_1,c_1,l_1,r_1)
+$$
+and
+$$
+\operatorname{AdjunctionUnitCounitCarrier}(p_2,q_2,a_2,u_2,c_2,l_2,r_2);
+$$
+\item the two whiskered unit-component rows
+$$
+\operatorname{NatTransPrefixComponentCarrier}(p_{21},s_u,a,\tilde u_1),\qquad
+\operatorname{NatTransPrefixComponentCarrier}(s_u,q_{21},a,\tilde u_2);
+$$
+\item the two whiskered counit-component rows
+$$
+\operatorname{NatTransPrefixComponentCarrier}(q_{21},s_c,a,\tilde c_1),\qquad
+\operatorname{NatTransPrefixComponentCarrier}(s_c,p_{21},a,\tilde c_2);
+$$
+\item the two vertical-composition ledgers
+$$
+\Cont(\tilde u_1,\tilde u_2,u_{21}),\qquad\Cont(\tilde c_1,\tilde c_2,c_{21});
+$$
+\item the two composite triangle ledgers
+$$
+\Cont(u_{21},c_{21},l_{21}),\qquad\Cont(c_{21},u_{21},r_{21}).
+$$
+\end{enumerate}
+The categorical reading is that $p_{21}$ displays the composite left functor $F_2\circ F_1$, $q_{21}$ displays the composite right functor $G_1\circ G_2$, $u_{21}$ displays the vertically composed unit $(G_1\eta_2F_1)\circ\eta_1$, and $c_{21}$ displays the vertically composed counit $\varepsilon_2\circ(F_2\varepsilon_1G_2)$.
+\end{definition}
+
+\begin{theorem}[Composition of adjunction unit-counit carriers]
+\label{thm:adjunction-composition-unit-counit-carrier}
+Every adjunction composition pasting datum of \autoref{def:adjunction-composition-pasting-data} determines a composite unit-counit carrier
+$$
+\operatorname{AdjunctionUnitCounitCarrier}(p_{21},q_{21},a,u_{21},c_{21},l_{21},r_{21}).
+$$
+Thus the BEDC display of $F_2\circ F_1$ and $G_1\circ G_2$ carries an $\AdjunctionUp$ unit-counit certificate with unit and counit obtained by whiskering and vertical composition.
+\end{theorem}
+\begin{proof}
+Project the two unit-component rows from the pasting datum:
+$$
+\operatorname{NatTransPrefixComponentCarrier}(p_{21},s_u,a,\tilde u_1)
+$$
+and
+$$
+\operatorname{NatTransPrefixComponentCarrier}(s_u,q_{21},a,\tilde u_2).
+$$
+Project also the displayed vertical-composition ledger
+$$
+\Cont(\tilde u_1,\tilde u_2,u_{21}).
+$$
+The vertical composition closure theorem for $\NatTransUp$ prefix components applies to these two consecutive components with common middle prefix $s_u$ and common object history $a$. It returns
+$$
+\operatorname{NatTransPrefixComponentCarrier}(p_{21},q_{21},a,u_{21}).
+$$
+Project the two counit-component rows from the pasting datum:
+$$
+\operatorname{NatTransPrefixComponentCarrier}(q_{21},s_c,a,\tilde c_1)
+$$
+and
+$$
+\operatorname{NatTransPrefixComponentCarrier}(s_c,p_{21},a,\tilde c_2).
+$$
+Project also the displayed vertical-composition ledger
+$$
+\Cont(\tilde c_1,\tilde c_2,c_{21}).
+$$
+The same $\NatTransUp$ vertical composition closure theorem, now applied with common middle prefix $s_c$ and common object history $a$, returns
+$$
+\operatorname{NatTransPrefixComponentCarrier}(q_{21},p_{21},a,c_{21}).
+$$
+The pasting datum supplies the two composite triangle ledgers
+$$
+\Cont(u_{21},c_{21},l_{21})
+$$
+and
+$$
+\Cont(c_{21},u_{21},r_{21}).
+$$
+By \autoref{def:adjunction-unit-counit-carrier}, an adjunction unit-counit carrier consists precisely of a prefix natural-transformation component from the left prefix to the right prefix, a prefix natural-transformation component from the right prefix to the left prefix, and the two displayed continuation triangle ledgers. The four judgments just constructed and projected instantiate those four fields at $(p_{21},q_{21},a,u_{21},c_{21},l_{21},r_{21})$.
+\end{proof}
+
+\begin{proposition}[Composite unit and counit empty readback]
+\label{prop:adjunction-composition-empty-readback}
+For every adjunction composition pasting datum of \autoref{def:adjunction-composition-pasting-data}, the following two readback implications hold:
+$$
+\hsame(u_{21},e)\Longrightarrow\hsame(\tilde u_1,e)\wedge\hsame(\tilde u_2,e)\wedge\hsame(p_{21},s_u)\wedge\hsame(s_u,q_{21}),
+$$
+and
+$$
+\hsame(c_{21},e)\Longrightarrow\hsame(\tilde c_1,e)\wedge\hsame(\tilde c_2,e)\wedge\hsame(q_{21},s_c)\wedge\hsame(s_c,p_{21}).
+$$
+\end{proposition}
+\begin{proof}
+Project the unit-component rows
+$$
+\operatorname{NatTransPrefixComponentCarrier}(p_{21},s_u,a,\tilde u_1)
+$$
+and
+$$
+\operatorname{NatTransPrefixComponentCarrier}(s_u,q_{21},a,\tilde u_2),
+$$
+together with the unit vertical-composition ledger
+$$
+\Cont(\tilde u_1,\tilde u_2,u_{21}).
+$$
+The vertical-composite empty-result exactness theorem for $\NatTransUp$ prefix components states that, for these consecutive component rows, the assertion $\hsame(u_{21},e)$ is equivalent to the conjunction
+$$
+\hsame(\tilde u_1,e)\wedge\hsame(\tilde u_2,e)\wedge\hsame(p_{21},s_u)\wedge\hsame(s_u,q_{21}).
+$$
+Taking the forward implication of that equivalence gives the first displayed readback.
+Project the counit-component rows
+$$
+\operatorname{NatTransPrefixComponentCarrier}(q_{21},s_c,a,\tilde c_1)
+$$
+and
+$$
+\operatorname{NatTransPrefixComponentCarrier}(s_c,p_{21},a,\tilde c_2),
+$$
+together with the counit vertical-composition ledger
+$$
+\Cont(\tilde c_1,\tilde c_2,c_{21}).
+$$
+Applying the same vertical-composite empty-result exactness theorem to these consecutive component rows states that $\hsame(c_{21},e)$ is equivalent to
+$$
+\hsame(\tilde c_1,e)\wedge\hsame(\tilde c_2,e)\wedge\hsame(q_{21},s_c)\wedge\hsame(s_c,p_{21}).
+$$
+The forward implication of this equivalence is the second displayed readback.
+\end{proof}
+
+\begin{corollary}[Composite triangle result determinacy]
+\label{cor:adjunction-composition-triangle-determinacy}
+For every adjunction composition pasting datum of \autoref{def:adjunction-composition-pasting-data}, if histories $l'_{21}$ and $r'_{21}$ satisfy
+$$
+\Cont(u_{21},c_{21},l'_{21})
+$$
+and
+$$
+\Cont(c_{21},u_{21},r'_{21}),
+$$
+then
+$$
+\hsame(l_{21},l'_{21})\wedge \hsame(r_{21},r'_{21}).
+$$
+\end{corollary}
+\begin{proof}
+The pasting datum supplies
+$$
+\Cont(u_{21},c_{21},l_{21})
+$$
+and the hypothesis supplies
+$$
+\Cont(u_{21},c_{21},l'_{21}).
+$$
+Continuation determinacy applied to these two continuation witnesses with the same source history $u_{21}$ and the same right history $c_{21}$ yields
+$$
+\hsame(l_{21},l'_{21}).
+$$
+The pasting datum also supplies
+$$
+\Cont(c_{21},u_{21},r_{21})
+$$
+and the hypothesis supplies
+$$
+\Cont(c_{21},u_{21},r'_{21}).
+$$
+Continuation determinacy applied to these two continuation witnesses with the same source history $c_{21}$ and the same right history $u_{21}$ yields
+$$
+\hsame(r_{21},r'_{21}).
+$$
+The two history-sameness witnesses form the displayed conjunction.
+\end{proof}
