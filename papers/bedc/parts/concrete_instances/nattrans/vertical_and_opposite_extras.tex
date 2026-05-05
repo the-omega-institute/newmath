@@ -332,3 +332,75 @@ which is the required $\NatTransUp$ naturality field under the morphism classifi
 
 The ledger row of \autoref{def:nattrans-ledger-policy} records the two composite functor ledgers, the image under $H_1$ of each component ledger of $\alpha$, the transported naturality row, and the two composition-preservation rows of $H$ used to identify the displayed source and target composites.
 \end{proof}
+
+\begin{definition}[Prewhiskered natural transformation data]
+\label{def:prewhiskered-nattrans-certificate-data}
+Let $\mathcal B$, $\mathcal C$, and $\mathcal D$ be $\CategoryUp$ certificates. Let $K:\mathcal B\to\mathcal C$ be a $\FunctorUp$ certificate with object map $K_0$ and morphism map $K_1$. Let $F,G:\mathcal C\to\mathcal D$ be $\FunctorUp$ certificates with object maps $F_0,G_0$ and morphism maps $F_1,G_1$, and let $\alpha:F\Rightarrow G$ be a $\NatTransUp$ certificate with component family $\alpha_X:F_0(X)\to G_0(X)$. The prewhiskered data $\alpha\ast K:F\circ K\Rightarrow G\circ K$ are the component family
+$$
+(\alpha\ast K)_X:=\alpha_{K_0(X)}.
+$$
+For a displayed morphism $u:X\to Y$ in $\mathcal B$, the displayed naturality row is the $\mathcal D$-morphism-classifier comparison obtained by applying the naturality row of $\alpha$ to the displayed $\mathcal C$-morphism $K_1(u):K_0(X)\to K_0(Y)$.
+\end{definition}
+
+\begin{theorem}[NatTrans prewhiskering by a functor]
+\label{thm:nattrans-prewhiskering-by-functor-certificate}
+Let $\mathcal B$, $\mathcal C$, and $\mathcal D$ be $\CategoryUp$ certificates satisfying \autoref{def:category-certificate-obligations}. Let $K:\mathcal B\to\mathcal C$ and $F,G:\mathcal C\to\mathcal D$ be $\FunctorUp$ certificates satisfying \autoref{def:functor-certificate-obligations}, with object maps $K_0,F_0,G_0$ and morphism maps $K_1,F_1,G_1$. If $\alpha:F\Rightarrow G$ satisfies the $\NatTransUp$ certificate obligations of \autoref{def:nattrans-certificate-obligations}, then the data of \autoref{def:prewhiskered-nattrans-certificate-data} satisfy the $\NatTransUp$ carrier and naturality-square fields for a natural transformation
+$$
+\alpha\ast K:F\circ K\Rightarrow G\circ K
+$$
+under the morphism classifier of $\mathcal D$. Its component at each object $X$ of $\mathcal B$ is
+$$
+(\alpha\ast K)_X=\alpha_{K_0(X)},
+$$
+and for every displayed morphism $u:X\to Y$ in $\mathcal B$ its naturality row is
+$$
+G_1(K_1(u))\circ_{\mathcal D}\alpha_{K_0(X)}
+\sim_{\mathcal D}
+\alpha_{K_0(Y)}\circ_{\mathcal D}F_1(K_1(u)).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:functor-composite-preservation-witnesses} to the pairs $(K,F)$ and $(K,G)$. Together with the source, pattern, classifier, stability, and ledger rows listed in \autoref{def:functor-certificate-obligations}, this reads $F\circ K$ and $G\circ K$ as certified $\FunctorUp$ carriers from $\mathcal B$ to $\mathcal D$. Their object maps are
+$$
+(F\circ K)_0(X)=F_0(K_0(X)),
+\qquad
+(G\circ K)_0(X)=G_0(K_0(X)),
+$$
+and their morphism maps are
+$$
+(F\circ K)_1(u)=F_1(K_1(u)),
+\qquad
+(G\circ K)_1(u)=G_1(K_1(u)).
+$$
+Thus the source row required by \autoref{def:nattrans-source-specification} is the pair $(F\circ K,G\circ K)$.
+
+For the carrier row, fix an object $X$ of $\mathcal B$. The functor carrier of \autoref{def:functor-carrier} sends $X$ to the object $K_0(X)$ of $\mathcal C$. The carrier field of $\alpha$, specified in \autoref{def:nattrans-carrier}, gives the displayed $\mathcal D$-morphism
+$$
+\alpha_{K_0(X)}:F_0(K_0(X))\to G_0(K_0(X)).
+$$
+Using the composite object maps above, this is exactly a component
+$$
+(\alpha\ast K)_X:(F\circ K)_0(X)\to(G\circ K)_0(X)
+$$
+of the component-family pattern from \autoref{def:nattrans-pattern-specification}.
+
+It remains to verify naturality. Let $u:X\to Y$ be a displayed morphism in $\mathcal B$. The morphism-map field of $K$ sends it to a displayed morphism
+$$
+K_1(u):K_0(X)\to K_0(Y)
+$$
+in $\mathcal C$. Applying the naturality field of $\alpha$ to this displayed $\mathcal C$-morphism gives
+$$
+G_1(K_1(u))\circ_{\mathcal D}\alpha_{K_0(X)}
+\sim_{\mathcal D}
+\alpha_{K_0(Y)}\circ_{\mathcal D}F_1(K_1(u)).
+$$
+Substituting the composite morphism maps and the component definition gives
+$$
+(G\circ K)_1(u)\circ_{\mathcal D}(\alpha\ast K)_X
+\sim_{\mathcal D}
+(\alpha\ast K)_Y\circ_{\mathcal D}(F\circ K)_1(u),
+$$
+which is the required $\NatTransUp$ naturality field under the morphism classifier of $\mathcal D$.
+
+The ledger row of \autoref{def:nattrans-ledger-policy} records the two composite functor ledgers, the component ledger of $\alpha$ at each object $K_0(X)$, the morphism-image ledger $K_1(u)$, and the naturality derivation of $\alpha$ at that displayed morphism.
+\end{proof}
