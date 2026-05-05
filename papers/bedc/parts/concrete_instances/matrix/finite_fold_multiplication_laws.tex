@@ -185,22 +185,46 @@ associativity law.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_hsame}
 
-\begin{theorem}[Singleton additive fold reverse empty append readback]
-\label{thm:matrix-singleton-add-fold-reverse-empty-append-hsame}
-If \(xs\) is carried by \(\mathsf{MatrixSingletonAddFoldSpineCarrier}\), then
-appending the singleton additive fold of \(xs\) to \(\emp\) is history-same to
-appending the singleton additive fold of \(\mathsf{reverse}(xs)\) to \(\emp\).
+\input{parts/concrete_instances/matrix/finite_fold_reverse_readback}
+
+\begin{theorem}[Singleton additive fold reverse carrier readback]
+\label{thm:matrix-singleton-add-fold-reverse-carrier-iff}
+For every finite singleton-matrix spine \(xs\), reversing the spine preserves
+the empty-carrier readback of its singleton additive fold:
+$$
+\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(xs))\hsame\emp
+\Longleftrightarrow
+\mathsf{MatrixSingletonAddFold}(xs)\hsame\emp.
+$$
 \end{theorem}
 \begin{proof}
-First prove by induction on the spine that the carrier is preserved by list
-reversal. The nil case is the empty carrier. In the cons case, the induction
-hypothesis carries the reversed tail, the head supplies the singleton suffix
-carrier, and append closure for spine carriers carries the reversed cons
-spine. The fold carrier equivalence then makes both folds empty-carried, and
-the right-unit law for append identifies the two displayed empty-appended
-endpoints.
+Prove an auxiliary statement for \(\mathsf{reverseAux}(tail,acc)\): its spine
+carrier is equivalent to the carrier of \(tail\) together with the carrier of
+\(acc\). The nil case projects the accumulator carrier, and the cons case
+moves the head into the accumulator before applying the induction hypothesis.
+Specializing to the empty accumulator gives reverse preservation of the spine
+carrier, and the fold carrier readback converts both sides.
 \end{proof}
-\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_empty\_append\_hsame}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_carrier\_iff}
+
+\begin{theorem}[Singleton additive fold reverse continuation result readback]
+\label{thm:matrix-singleton-add-fold-reverse-continuation-result-iff}
+If \(\ContR(h,\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(xs)),r)\), then
+the result is singleton-carried exactly when \(h\) is singleton-carried and
+the unreversed fold is empty-carried:
+$$
+A_{\emp}(r)\Longleftrightarrow
+A_{\emp}(h)\land
+\mathsf{MatrixSingletonAddFold}(xs)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply the continuation result readback to the reversed spine. Its right-hand
+side contains the reversed spine carrier. Convert that carrier to the
+reversed fold carrier, use reverse carrier readback to pass to the unreversed
+fold, and repack the two implication directions.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_continuation\_result\_iff}
 
 \begin{theorem}[Singleton additive fold append display classifier]
 \label{thm:matrix-singleton-add-fold-append-display-classifier-iff}
@@ -256,6 +280,78 @@ continuation respect for endpoint sameness transports the carried source and
 carried display to the result.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_continuation\_append\_display\_classifier\_iff}
+
+\begin{theorem}[Singleton additive fold append continuation result]
+\label{thm:matrix-singleton-add-fold-append-continuation-result}
+For finite singleton-matrix spines \(xs\) and \(ys\), a continuation from
+\(h\) through the fold of \(xs{++}ys\) reads singleton carriedness of its
+result exactly as carriedness of \(h\) and of both appended spine segments:
+$$
+\ContR(h,\mathsf{MatrixSingletonAddFold}(xs{++}ys),r)
+\Longrightarrow
+\bigl(\mathsf{MatrixSingletonCarrier}(r)\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(ys)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply the finite-fold continuation result exactness to recover the carrier of
+\(h\) and the spine carrier for the appended list. The append-spine carrier
+equivalence splits that appended carrier into the two segment carriers. The
+reverse direction repacks the segment carriers by the same append equivalence
+and then uses finite-fold continuation result exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_continuation\_result\_iff}
+
+\begin{theorem}[Singleton additive fold continuation empty result spine iff]
+\label{thm:matrix-singleton-addfold-continuation-empty-result-spine-iff}
+For a continuation out of the singleton additive fold, an empty result is
+equivalent to the fold spine being carried and the continuation right input
+being empty:
+$$
+\ContR(\mathsf{MatrixSingletonAddFold}(xs),y,r)
+\Longrightarrow
+\bigl(r\hsame\emp
+\Longleftrightarrow
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land y\hsame\emp\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, transport the continuation result to $\emp$ and use
+continuation empty-result inversion. The left factor is the folded endpoint,
+which the fold carrier readback identifies with the finite spine carrier; the
+right factor is the displayed $y\hsame\emp$ witness.
+
+Conversely, the spine carrier reads back to
+$\mathsf{MatrixSingletonAddFold}(xs)\hsame\emp$. Together with
+$y\hsame\emp$, continuation respect for history-sameness compares the supplied
+continuation with the empty right-unit continuation, yielding $r\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_continuation\_empty\_result\_spine\_iff}
+
+\begin{theorem}[Singleton additive fold append continuation classifier]
+\label{thm:matrix-singleton-add-fold-append-continuation-classifier}
+If two finite singleton-matrix spines are carried and a continuation ledger
+composes their individual additive folds to an endpoint \(r\), then the
+appended fold classifies \(r\):
+$$
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(ys)\land
+\Cont(\mathsf{MatrixSingletonAddFold}(xs),
+      \mathsf{MatrixSingletonAddFold}(ys),r)
+\Longrightarrow
+\mathsf{MatrixSingletonClassifier}
+  (\mathsf{MatrixSingletonAddFold}(xs\mathbin{+\!\!+}ys),r).
+$$
+\end{theorem}
+\begin{proof}
+The display classifier identifies the appended fold with the canonical append
+of the two individual folds. The continuation ledger has the same left and
+right factors as that canonical append, so continuation determinacy transports
+the classifier endpoint from the canonical append to \(r\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_continuation\_classifier}
 
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
@@ -749,38 +845,7 @@ $$
 The dimensions and shared scalar source are unchanged throughout; \autoref{def:matrix-ledger-policy} records the common row, contraction, and column witnesses.
 \end{proof}
 
-\begin{lemma}[Rectangular scalar fold reindexing]
-\label{lem:rectangular-scalar-fold-reindexing}
-Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{def:finite-additive-scalar-fold}. Let $J$ and $K$ be finite index carriers with finite fold sums $\Sigma_J$ and $\Sigma_K$ obtained from their carried index spines. Assume the scalar classifier equivalence fields, the additive abelian-group laws, additive congruence, and zero rows listed in \autoref{def:ring-stability-certificate}. For every pointwise carried scalar family $s:J\times K\to R$, the two iterated scalar folds satisfy
-$$
-\Sigma_J(j\mapsto\Sigma_K(k\mapsto s(j,k)))\sim_R
-\Sigma_K(k\mapsto\Sigma_J(j\mapsto s(j,k))).
-$$
-\end{lemma}
-\begin{proof}
-Induct on the finite spine enumerating $J$. In the nil case, the left endpoint is the fold of the empty spine and hence reduces to $0_R$. The right endpoint is the $K$-fold of the constant family whose inner $J$-fold is $0_R$; an induction on the finite spine enumerating $K$, using the additive zero rows and additive congruence from \autoref{def:ring-stability-certificate}, classifies this fold with $0_R$.
-
-In the cons case, write the outer index spine as $j_0::J'$. The left iterated fold unfolds to
-$$
-\Sigma_K(k\mapsto s(j_0,k))+_R
-\Sigma_{J'}(j\mapsto\Sigma_K(k\mapsto s(j,k))).
-$$
-The induction hypothesis classifies the tail term with
-$$
-\Sigma_K(k\mapsto\Sigma_{J'}(j\mapsto s(j,k))).
-$$
-Additive congruence therefore transports the left endpoint to
-$$
-\Sigma_K(k\mapsto s(j_0,k))+_R
-\Sigma_K(k\mapsto\Sigma_{J'}(j\mapsto s(j,k))).
-$$
-On the right endpoint, the inner $J$-fold at each $k$ unfolds as
-$$
-s(j_0,k)+_R\Sigma_{J'}(j\mapsto s(j,k)).
-$$
-Applying \autoref{lem:finite-additive-fold-splits-pointwise-sums} to the shared $K$-indexed spine classifies the outer fold with the same sum of the selected row fold and the transposed tail fold. Classifier symmetry and transitivity compose these comparisons, giving the cons case.
-\end{proof}
-
+\input{parts/concrete_instances/matrix/rectangular_scalar_fold_reindexing}
 \input{parts/concrete_instances/matrix/product_associativity_from_scalar_folds}
 \input{parts/concrete_instances/matrix/finite_fold_multiplication_transpose}
 \input{parts/concrete_instances/matrix/two_index_fold_swap_from_finite_permutation_invariance}
