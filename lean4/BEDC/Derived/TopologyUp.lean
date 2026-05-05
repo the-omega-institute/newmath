@@ -244,4 +244,49 @@ theorem TopologySingleton_boundary_open_laws :
     · intro carrierH
       exact And.intro (hsame_refl BHist.Empty) carrierH
 
+theorem TopologySingleton_union_bottom_exactness {A : Type} (ι : A -> BHist)
+    (allBottom : forall a : A, hsame (ι a) (BHist.e0 BHist.Empty)) :
+    forall h : BHist,
+      TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <->
+        exists a : A, TopologySingletonOpenAt (ι a) h := by
+  intro h
+  constructor
+  · intro openBottom
+    exact False.elim (not_hsame_e0_empty openBottom.left)
+  · intro witness
+    cases witness with
+    | intro a openA =>
+        have bottomAtA : hsame (BHist.e0 BHist.Empty) (ι a) :=
+          hsame_symm (allBottom a)
+        have openBottom : TopologySingletonOpenAt (BHist.e0 BHist.Empty) h :=
+          And.intro (hsame_trans bottomAtA openA.left) openA.right
+        exact False.elim (not_hsame_e0_empty openBottom.left)
+
+theorem BHistSubspaceOpen_carrier_transport (T : BHistIndexedOpenCarrier)
+    {S : BHist -> Prop} {i : T.OpenIx} {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k -> (S h ∧ S k ∧ hsame h k) ->
+      ((S h ∧ T.OpenAt i h) <-> (S k ∧ T.OpenAt i k)) := by
+  intro unaryH unaryK restrictedSame
+  have stable : T.OpenAt i h <-> T.OpenAt i k :=
+    T.membership_stable unaryH unaryK restrictedSame.right.right
+  constructor
+  · intro subH
+    exact And.intro restrictedSame.right.left (Iff.mp stable subH.right)
+  · intro subK
+    exact And.intro restrictedSame.left (Iff.mpr stable subK.right)
+
+theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 : A) :
+    hsame (ι a0) BHist.Empty ->
+      forall h : BHist,
+        TopologySingletonOpenAt BHist.Empty h <->
+          exists a : A, TopologySingletonOpenAt (ι a) h := by
+  intro displayedTop h
+  constructor
+  · intro topOpen
+    exact Exists.intro a0 (And.intro displayedTop topOpen.right)
+  · intro indexedOpen
+    cases indexedOpen with
+    | intro a openA =>
+        exact And.intro (hsame_refl BHist.Empty) openA.right
+
 end BEDC.Derived.TopologyUp
