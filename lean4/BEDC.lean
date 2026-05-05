@@ -60,6 +60,7 @@ import BEDC.Derived.IntUp.OneSidedContext
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.EmptyUp
+import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
