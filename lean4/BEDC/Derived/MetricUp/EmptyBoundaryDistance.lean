@@ -106,6 +106,21 @@ theorem MetricDistanceWitness_empty_boundary_visible_context_left_unit_witness
     (And.intro rCarrier
       (And.intro (unary_cont_closed unary_empty rCarrier continuation) continuation))
 
+theorem MetricDistanceWitness_empty_boundary_visible_context_right_unit_witness
+    {p q d l out : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) -> UnaryHistory l -> Cont l d out ->
+        MetricDistanceWitness l BHist.Empty out := by
+  intro visible lCarrier continuation
+  have distanceEmpty :
+      hsame d BHist.Empty :=
+    (MetricDistanceWitness_empty_boundary_visible_context_distance_empty
+      (p := p) (q := q) (d := d) visible).left
+  cases distanceEmpty
+  exact And.intro lCarrier
+    (And.intro unary_empty
+      (And.intro (unary_cont_closed lCarrier unary_empty continuation) continuation))
+
 theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_left_unit_iff
     {p q d r out : BHist} :
     MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
