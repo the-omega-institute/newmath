@@ -158,22 +158,7 @@ associativity law.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_hsame}
 
-\begin{theorem}[Singleton additive fold reverse empty append readback]
-\label{thm:matrix-singleton-add-fold-reverse-empty-append-hsame}
-If \(xs\) is carried by \(\mathsf{MatrixSingletonAddFoldSpineCarrier}\), then
-appending the singleton additive fold of \(xs\) to \(\emp\) is history-same to
-appending the singleton additive fold of \(\mathsf{reverse}(xs)\) to \(\emp\).
-\end{theorem}
-\begin{proof}
-First prove by induction on the spine that the carrier is preserved by list
-reversal. The nil case is the empty carrier. In the cons case, the induction
-hypothesis carries the reversed tail, the head supplies the singleton suffix
-carrier, and append closure for spine carriers carries the reversed cons
-spine. The fold carrier equivalence then makes both folds empty-carried, and
-the right-unit law for append identifies the two displayed empty-appended
-endpoints.
-\end{proof}
-\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_empty\_append\_hsame}
+\input{parts/concrete_instances/matrix/finite_fold_reverse_readback}
 
 \begin{theorem}[Singleton additive fold append display classifier]
 \label{thm:matrix-singleton-add-fold-append-display-classifier-iff}
