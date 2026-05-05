@@ -30,4 +30,20 @@ theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension
       (cert := cert')).mpr
       (And.intro visibleData.left (And.intro visibleData.right.left central))
 
+theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension_transitive
+    {p q source map target modulus0 cert0 extra1 modulus1 cert1 extra2 modulus2 cert2 :
+      BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus0 q)
+        (append (append p cert0) q) ->
+      ContinuousModulusWitness cert0 extra1 cert1 ->
+        Cont modulus0 extra1 modulus1 ->
+          ContinuousModulusWitness cert1 extra2 cert2 ->
+            Cont modulus1 extra2 modulus2 ->
+              ContinuousFunctionCarrier (append p source) map (append p target)
+                (append modulus2 q) (append (append p cert2) q) := by
+  intro carrier witness1 rel1 witness2 rel2
+  exact ContinuousFunctionCarrier_visible_terminal_modulus_extension
+    (ContinuousFunctionCarrier_visible_terminal_modulus_extension carrier witness1 rel1)
+    witness2 rel2
+
 end BEDC.Derived.ContinuousUp
