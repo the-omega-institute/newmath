@@ -116,3 +116,50 @@ Apply \autoref{thm:nattrans-prefix-component-vert-comp-result-empty-iff} to $\et
 
 The component rows extracted from the two adjunction carriers include unary witnesses for $q_1$, $q_2$, and $a$. Thus \autoref{thm:nattrans-prefix-component-carrier-empty-identity-iff} supplies the empty identity components at $q_1$ and at $q_2$. Combining those empty identity components with the carried endomorphism components $I_1$ and $I_2$, and with $I_1\hsame\emp$ and $I_2\hsame\emp$, packages exactly the two classifier witnesses in \autoref{def:nattrans-prefix-component-classifier}. Since \autoref{def:nattrans-carrier} reads a $\NatTransUp$ carrier componentwise over object histories, these classifier witnesses are the identity vertical-composite rows for the displayed comparison pair.
 \end{proof}
+
+\begin{theorem}[Left adjoint uniqueness up to natural isomorphism]
+\label{thm:adjunction-left-adjoint-uniqueness-natural-isomorphism}
+Let $p_1,p_2,q,a,u_1,c_1,l_1,r_1,u_2,c_2,l_2,r_2,\xi,\xi',J_1,J_2:\mathsf{BHist}$.
+Suppose two adjunction unit-counit displays share the right prefix $q$ and the object history $a$:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p_1,q,a,u_1,c_1,l_1,r_1)
+\quad\text{and}\quad
+\mathsf{AdjunctionUnitCounitCarrier}(p_2,q,a,u_2,c_2,l_2,r_2).
+$$
+Suppose the comparison continuations are displayed by
+$$
+\ContR(u_1,c_2,\xi),\qquad
+\ContR(u_2,c_1,\xi'),\qquad
+\ContR(\xi,\xi',J_1),\qquad
+\ContR(\xi',\xi,J_2).
+$$
+Reading $q$ as the common right-adjoint prefix and $p_i$ as the two left-adjoint prefixes, the comparison components $\xi:p_1\Rightarrow p_2$ and $\xi':p_2\Rightarrow p_1$ form a componentwise $\NatTransUp$ isomorphism:
+$$
+\begin{array}{l}
+\mathsf{NatTransPrefixComponentCarrier}(p_1,p_2,a,\xi)\land
+\mathsf{NatTransPrefixComponentCarrier}(p_2,p_1,a,\xi')\\[2pt]
+{}\land
+\mathsf{NatTransPrefixComponentClassifier}_{p_1,p_1,a}(J_1,\emp)
+\land
+\mathsf{NatTransPrefixComponentClassifier}_{p_2,p_2,a}(J_2,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply the carrier-swap symmetry of \autoref{thm:adjunction-unit-counit-carrier-swap-symmetry} to the two displayed adjunction carriers. The resulting carriers are
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(q,p_1,a,c_1,u_1,r_1,l_1)
+\quad\text{and}\quad
+\mathsf{AdjunctionUnitCounitCarrier}(q,p_2,a,c_2,u_2,r_2,l_2).
+$$
+They share the left prefix $q$ and the same object history $a$. In these swapped displays the comparison continuations required by \autoref{thm:adjunction-right-adjoint-uniqueness-natural-isomorphism} are exactly
+$$
+\ContR(u_1,c_2,\xi),\qquad
+\ContR(u_2,c_1,\xi'),\qquad
+\ContR(\xi,\xi',J_1),\qquad
+\ContR(\xi',\xi,J_2),
+$$
+because the counit fields of the swapped displays are $u_1$ and $u_2$, while the unit fields are $c_1$ and $c_2$.
+
+Applying \autoref{thm:adjunction-right-adjoint-uniqueness-natural-isomorphism} to the swapped pair gives the two prefix-component carriers from $p_1$ to $p_2$ and back, together with the two identity-composite classifier rows over $p_1$ and $p_2$. These four conclusions are exactly the displayed componentwise $\NatTransUp$ isomorphism for the original pair with common right-adjoint prefix $q$.
+\end{proof}
