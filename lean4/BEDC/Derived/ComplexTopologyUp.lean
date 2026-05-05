@@ -284,6 +284,48 @@ theorem ComplexTopologyOpenDiskGap_radius_not_empty {center radius point gap : B
                     cont_empty_result_inversion (cont_result_hsame_transport pointGap sameRadius)
                   exact ComplexHistoryCarrier_not_empty pointCarrier emptyParts.left
 
+theorem ComplexTopologyOpenSet_intersection_radius_witnesses_nonempty
+    {U V : BHist -> Prop} {z : BHist} :
+    ComplexTopologyOpenSet U -> ComplexTopologyOpenSet V -> U z -> V z ->
+      exists cU rU gU cV rV gV : BHist,
+        ComplexTopologyOpenDiskGap cU rU z gU ∧ Cont z gU rU ∧
+          (hsame rU BHist.Empty -> False) ∧
+            ComplexTopologyOpenDiskGap cV rV z gV ∧ Cont z gV rV ∧
+              (hsame rV BHist.Empty -> False) := by
+  intro openU openV memberU memberV
+  cases openU memberU with
+  | intro cU witnessU =>
+      cases witnessU with
+      | intro rU witnessU =>
+          cases witnessU with
+          | intro gU witnessU =>
+              cases witnessU with
+              | intro diskU boundaryU =>
+                  cases openV memberV with
+                  | intro cV witnessV =>
+                      cases witnessV with
+                      | intro rV witnessV =>
+                          cases witnessV with
+                          | intro gV witnessV =>
+                              cases witnessV with
+                              | intro diskV boundaryV =>
+                                  exact
+                                    Exists.intro cU
+                                      (Exists.intro rU
+                                        (Exists.intro gU
+                                          (Exists.intro cV
+                                            (Exists.intro rV
+                                              (Exists.intro gV
+                                                (And.intro diskU
+                                                  (And.intro boundaryU
+                                                    (And.intro
+                                                      (ComplexTopologyOpenDiskGap_radius_not_empty
+                                                        diskU)
+                                                      (And.intro diskV
+                                                        (And.intro boundaryV
+                                                          (ComplexTopologyOpenDiskGap_radius_not_empty
+                                                            diskV)))))))))))
+
 theorem ComplexTopologyOpenDiskGap_empty_gap_radius_point {center radius point gap : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap -> hsame gap BHist.Empty ->
       hsame radius point := by
