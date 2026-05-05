@@ -153,10 +153,12 @@ import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.NameCertificate
+import BEDC.Derived.ComplexLimitUp.PointwiseDifference
 import BEDC.Derived.ComplexLimitUp.PointwiseNegation
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
+import BEDC.Derived.ComplexSeriesUp.CauchyProductResultUnary
 import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
@@ -556,6 +558,7 @@ import BEDC.Derived.ContinuousUp.SemanticCertificate
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousUp.VisibleGraphModulusDeterminism
 import BEDC.Derived.ContinuousUp.VisibleSourceRestriction
+import BEDC.Derived.ContinuousUp.VisibleSourceRestrictionReassociation
 import BEDC.Derived.ContinuousUp.TripleComposition
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
