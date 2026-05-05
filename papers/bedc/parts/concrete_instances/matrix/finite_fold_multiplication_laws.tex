@@ -28,9 +28,7 @@ $$
 Induct on the displayed finite-spine classifier witness. In the nil case, both
 folds reduce by \autoref{def:finite-additive-scalar-fold} to $0_R$, and the
 zero self-classification row of \autoref{def:ring-stability-certificate} gives
-$0_R\sim_R0_R$.
-
-In the cons case, the head comparison gives $x\sim_R y$, and the induction
+$0_R\sim_R0_R$. In the cons case, the head comparison gives $x\sim_R y$, and the induction
 hypothesis gives
 $\mathsf{fold}_{+,R}(xs)\sim_R\mathsf{fold}_{+,R}(ys)$. Additive congruence from
 \autoref{def:ring-stability-certificate} transports these two comparisons to
@@ -62,7 +60,6 @@ tail-fold carrier with the tail spine carrier.
 \leandef{BEDC.Derived.MatrixUp.MatrixSingletonAddFold}
 \leandef{BEDC.Derived.MatrixUp.MatrixSingletonAddFoldSpineCarrier}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_carrier\_iff}
-
 \begin{theorem}[Singleton additive fold visible head exclusion]
 \label{thm:matrix-singleton-add-fold-visible-head-absurd}
 For every history $m$ and finite spine $xs$, folding a singleton additive spine
@@ -80,7 +77,6 @@ $\Ezero(m)$ or $\Eone(m)$ with $\emp$. Both alternatives contradict constructor
 separation in $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_visible\_head\_absurd}
-
 \begin{theorem}[Singleton additive fold append carrier readback]
 \label{thm:matrix-singleton-add-fold-append-carrier-iff}
 For finite singleton-matrix spines $xs$ and $ys$,
@@ -101,7 +97,6 @@ carrier into the tail spine carrier and the carrier of $ys$, and the reverse
 direction repacks those two splits through the same empty-append constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
-
 \begin{theorem}[Singleton additive fold appended visible tail exclusion]
 \label{thm:matrix-singleton-add-fold-append-visible-tail-absurd}
 For every history \(m\) and finite spine \(xs\), appending a visible singleton
@@ -119,7 +114,6 @@ the one-element visible tail. The tail carrier would identify either
 separation in \(\mathsf{BHist}\).
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_visible\_tail\_absurd}
-
 \begin{theorem}[Singleton additive fold append visible middle exclusion]
 \label{thm:matrix-singleton-add-fold-append-visible-middle-absurd}
 For finite singleton-matrix spines \(pref\) and \(suffix\), a visible middle
@@ -801,6 +795,5 @@ $$
 Classifier transitivity composes the left expansion, this rectangular fold reindexing, and the symmetry of the right expansion. Thus every entry of $(A\cdot_{\mathrm{Mat}}B)\cdot_{\mathrm{Mat}}C$ is scalar-classified with the corresponding entry of $A\cdot_{\mathrm{Mat}}(B\cdot_{\mathrm{Mat}}C)$. The pointwise classifier of \autoref{def:matrix-classifier-specification} packages these entrywise comparisons as the displayed matrix classifier, and \autoref{def:matrix-ledger-policy} records that the dimension witnesses are unchanged.
 \end{proof}
 
-\input{parts/concrete_instances/matrix/transpose_product_opposite_ring}
 \input{parts/concrete_instances/matrix/finite_fold_multiplication_transpose}
 \input{parts/concrete_instances/matrix/two_index_fold_swap_from_finite_permutation_invariance}
