@@ -22,6 +22,11 @@ def ComplexTopologyClosedDiskGap (center radius point gap : BHist) : Prop :=
   ComplexHistoryCarrier center ∧ UnaryHistory radius ∧ ComplexHistoryCarrier point ∧
     UnaryHistory gap ∧ (Cont point gap radius ∨ hsame point radius)
 
+def ComplexTopologyOpenSet (U : BHist -> Prop) : Prop :=
+  forall {z : BHist}, U z ->
+    exists center radius gap : BHist,
+      ComplexTopologyOpenDiskGap center radius z gap ∧ Cont z gap radius
+
 theorem ComplexTopologyOpenDiskGap_gap_deterministic
     {center radius point gap gap' : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap -> Cont point gap' radius ->
@@ -110,6 +115,14 @@ theorem ComplexTopologyClosedDiskGap_hsame_transport
                                         (And.intro pointTarget
                                           (And.intro gapCarrier' boundary'))))
                                     boundary'
+
+theorem ComplexTopologyOpenSet_union_closed {I : Type} {U : I -> BHist -> Prop} :
+    (forall i : I, ComplexTopologyOpenSet (U i)) ->
+      ComplexTopologyOpenSet (fun z : BHist => exists i : I, U i z) := by
+  intro branchOpen _z unionMember
+  cases unionMember with
+  | intro i member =>
+      exact branchOpen i member
 
 theorem ComplexTopologyClosedDiskGap_strict_radius_not_empty
     {center radius point gap : BHist} :
