@@ -488,6 +488,18 @@ def ModuleParityMul : BHist -> BHist -> BHist
   | BHist.e1 _h, BHist.e0 _k => BHist.Empty
   | BHist.e1 _h, BHist.e1 _k => BHist.Empty
 
+theorem ModuleParityMul_epsilon_boolean_orbit_involutive {r : BHist} :
+    (hsame r BHist.Empty ∨ hsame r ModuleParityEps) ->
+      hsame (ModuleParityMul ModuleParityEps (ModuleParityMul ModuleParityEps r)) r := by
+  intro orbit
+  cases orbit with
+  | inl sameEmpty =>
+      cases sameEmpty
+      exact hsame_refl BHist.Empty
+  | inr sameEps =>
+      cases sameEps
+      exact hsame_refl ModuleParityEps
+
 def ModuleParitySmul : BHist -> BHist -> BHist
   | BHist.Empty, _ => BHist.Empty
   | BHist.e0 BHist.Empty, BHist.Empty => BHist.e1 BHist.Empty

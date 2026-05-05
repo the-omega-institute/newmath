@@ -44,6 +44,21 @@ theorem RealConstantHistoryClassifier_e1_append_e0_endpoint_absurd {head tail d 
       RatHistoryClassifier_positive_denominators ratClassified
     exact PositiveUnaryDenominator_append_e0_tail_absurd positives.right
 
+theorem RealConstantHistoryClassifier_e1_empty_endpoint_absurd {d : BHist} :
+    (RealConstantHistoryClassifier (BHist.e1 BHist.Empty) (BHist.e1 d) -> False) ∧
+      (RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 BHist.Empty) -> False) := by
+  constructor
+  · intro classified
+    have ratClassified : RatHistoryClassifier BHist.Empty d :=
+      Iff.mp RealConstantHistoryClassifier_e1_iff_rat classified
+    exact (RatHistoryClassifier_endpoints_not_empty ratClassified).left
+      (hsame_refl BHist.Empty)
+  · intro classified
+    have ratClassified : RatHistoryClassifier d BHist.Empty :=
+      Iff.mp RealConstantHistoryClassifier_e1_iff_rat classified
+    exact (RatHistoryClassifier_endpoints_not_empty ratClassified).right
+      (hsame_refl BHist.Empty)
+
 theorem RealConstantHistoryClassifier_transported_inner_e0_endpoint_absurd {h k tail : BHist} :
     RealConstantHistoryClassifier h k ->
       (hsame h (BHist.e1 (BHist.e0 tail)) -> False) ∧
