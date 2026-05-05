@@ -52,6 +52,23 @@ existential definition of \(\mathsf{NatDivides}(\Eone(n),m)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatFact\_successor\_input\_divides\_result}
 
+\begin{theorem}[Factorial successor step predecessor divides product]
+\label{thm:natfact-successor-step-predecessor-divides}
+If \(\mathsf{NatFact}(n,m)\) and
+\(\mathsf{NatMul}(\Eone(n),m,m')\), then the predecessor factorial value
+divides the displayed successor-step product:
+$$
+\mathsf{NatDivides}(m,m').
+$$
+\end{theorem}
+\begin{proof}
+The factorial witness supplies unary evidence for \(n\) and for the
+predecessor factorial result \(m\). Thus the displayed multiplication step has
+two unary inputs, and right-factor divisibility for unary multiplication
+applies directly to the factor \(m\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_successor\_step\_predecessor\_divides}
+
 \begin{theorem}[Factorial absorbs every positive bounded unary predecessor]
 \label{thm:natfact-bounded-positive-predecessor-divides}
 Let $n,m,d$ be histories. If $\mathsf{NatFact}(n,m)$,
@@ -84,6 +101,7 @@ along $\hsame$ endpoints where the constructor inversion changed the displayed
 representatives. Transitivity of $\mathsf{NatDivides}$ yields
 $\mathsf{NatDivides}(d,m)$ for the successor factorial result.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_bounded\_positive\_predecessor\_divides}
 
 \begin{lemma}[Unary factorial results are nonempty]
 \label{lem:nat-fact-result-not-empty}
@@ -124,6 +142,19 @@ If \(\mathsf{NatFact}(n,m)\), then \(m\) is a unary history.
 Induct on the factorial witness. The base constructor yields \(\Eone(\emp)\), which is unary. The successor constructor carries a multiplication witness, whose left factor is unary by multiplicand readback and whose result is unary by multiplication result closure.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatFact\_result\_unary}
+
+\begin{theorem}[Unary factorial zero-headed component impossibility]
+\label{thm:natfact-zero-headed-component-absurd}
+For histories \(n,m\), a closed witness of \(\mathsf{NatFact}(n,m)\) cannot
+have either its input or result displayed as a zero-headed history.
+\end{theorem}
+\begin{proof}
+Factorial input readback gives \(\mathsf{UnaryHistory}(n)\), and factorial
+result readback gives \(\mathsf{UnaryHistory}(m)\). In either displayed
+zero-headed branch, substituting the equality turns a zero-headed history into
+a unary history, contradicting unary zero-extension separation.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_zero\_headed\_component\_absurd}
 
 \begin{theorem}[Factorial results have positive shape]
 \label{thm:natfact-result-positive-shape}

@@ -6471,3 +6471,29 @@ Clean inversion/forcing theorem on the core continuation relation: it characteri
 
 ---
 
+### B-250 - Prewhiskering preserves vertical composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Prewhiskering preserves vertical composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under FunctorUp and NatTransUp setups, for L : B -> C and vertically composable alpha : F => G, beta : G => H, the prewhiskered transformation (beta o_v alpha) * L has the same component family as (beta * L) o_v (alpha * L) up to the nattrans component classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Chapters 37 and 38 are 100% definition-only, and `def:functor-whiskered-nattrans-certificate-data` already supplies the prewhiskering carrier on the paper side, but no theorem states an interchange law between whiskering and vertical composition. This is distinct from B-11 (functor composition closes the hom-carrier classifier) and B-14 (vertical composition preserves the naturality square): it pins down how prewhiskering distributes over vertical composition, which is a third independent categorical interchange law and a natural next theorem site once B-11 and B-14 land. The proof is a direct component-wise calculation under the existing certificate fields, making it a clean medium-risk slot.
+
+---
+
