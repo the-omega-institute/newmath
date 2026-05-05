@@ -81,6 +81,7 @@ to the transported overlap witness and the coordinatewise $\RealUp$ classifier
 witnesses. The result is the transition row at $y$, classified by the same
 visible atlas ledger entry.
 \end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_classifier\_stability}
 
 \begin{theorem}[Manifold charted NameCert surface]
 \label{thm:manifold-charted-namecert-surface}
@@ -236,6 +237,7 @@ Each entry is a visible ledger row over $\TopologyUp$ carried-overlap
 transport, $\RealUp$ coordinate histories, and the real-analytic classifier
 rows already exposed by the atlas package.
 \end{definition}
+\leandef{BEDC.Derived.ManifoldUp.ManifoldTransitionCoherenceLedger}
 
 \begin{theorem}[Manifold overlap identity transition]
 \label{thm:manifold-overlap-identity-transition}
@@ -272,6 +274,8 @@ $\mathsf{IdTrans}_i$ on the $i$-coordinate overlap, and the composite
 $\mathsf{Trans}_{ij}\circ\mathsf{Trans}_{ji}$ is classified by
 $\mathsf{IdTrans}_j$ on the $j$-coordinate overlap.
 \end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_inverse\_boundary}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_overlap\_inverse\_transition}
 \begin{proof}
 Unpack the two pairwise overlap rows using
 \autoref{thm:manifold-atlas-overlap-coverage}. The row for $(i,j)$ carries
@@ -298,6 +302,7 @@ overlap, $\mathsf{Trans}_{jk}\circ\mathsf{Trans}_{ij}$ and
 $\mathsf{Trans}_{ik}$ are classified by the same real-analytic transition row
 from $\varphi_i$-coordinates to $\varphi_k$-coordinates.
 \end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_coherence\_rows\_empty}
 \begin{proof}
 Start from the three pairwise overlap rows supplied by
 \autoref{thm:manifold-atlas-overlap-coverage}. Their $\TopologyUp$ domain
@@ -317,6 +322,62 @@ $\mathsf{Trans}_{ik}$ as the same transition row from $\varphi_i$ to
 $\varphi_k$. Repacking that classifier with the common carried-overlap domain
 gives the displayed cocycle obligation.
 \end{proof}
+
+\begin{theorem}[ManifoldUp transition-coherence exhaustion]
+\label{thm:manifoldup-transition-coherence-exhaustion}
+For every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$, every row
+of the transition coherence ledger of
+\autoref{def:manifold-transition-coherence-ledger} is one of the displayed
+one-chart identity rows, two-chart inverse-composite rows, or three-chart
+cocycle rows. In each case its source is a carried $\TopologyUp$ overlap or
+triple-overlap, its endpoints are finite $\RealUp$ coordinate histories, and
+its classifier is the real-analytic transition row already exposed by the
+atlas ledger.
+\end{theorem}
+\begin{proof}
+Unpack the transition coherence ledger of
+\autoref{def:manifold-transition-coherence-ledger}. Its indexing data is the
+finite chart-index history carried by $\mathsf{ManAtlasPkg}(P)$, so each
+ledger row has one chart name, an ordered chart pair, or an ordered chart
+triple as its visible index.
+
+In the one-index case, the row is $\mathsf{IdTrans}_i$. Apply
+\autoref{thm:manifold-overlap-identity-transition}. The source is the
+self-overlap $\mathsf{Overlap}_{ii}$ carried by $\TopologyUp$, the two
+endpoints are the same finite $\RealUp$ coordinate history $\varphi_i$, and
+the classifier is the identity real-analytic transition row exposed in the
+atlas ledger.
+
+In the two-index case, the row is $\mathsf{InvTrans}_{ij}$. Apply
+\autoref{thm:manifold-overlap-inverse-transition}. The source is the carried
+overlap transported between $\mathsf{Overlap}_{ij}$ and
+$\mathsf{Overlap}_{ji}$, the endpoints are the finite coordinate histories
+$\varphi_i$ and $\varphi_j$, and the two composites classify through the
+identity rows already exposed by the atlas transition ledger.
+
+In the three-index case, the row is $\mathsf{Cocycle}_{ijk}$. Apply
+\autoref{thm:manifold-triple-overlap-cocycle}. The source is the carried
+triple-overlap predicate, the endpoints are the finite coordinate histories
+$\varphi_i$, $\varphi_j$, and $\varphi_k$, and the composite transition and
+direct transition are classified by the same real-analytic row from
+$\varphi_i$ to $\varphi_k$.
+
+These three cases exhaust the constructors displayed in
+\autoref{def:manifold-transition-coherence-ledger}. Repack the resulting
+carrier, endpoint, and classifier witnesses through
+\autoref{thm:manifold-namecert-obligation-surface} to obtain the advertised
+$\ManifoldUp$ ledger boundary.
+\end{proof}
+
+\begin{closurestatus}{\ManifoldUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the carried atlas package, its overlap and triple-overlap sources, and the identity, inverse-composite, and cocycle rows of the transition coherence ledger.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{This boundary does not claim a public manifold object, coordinate-change calculus, bundle functoriality, or a standard bridge.}
+  \upgradepath{A scoped-closure grade requires Lean verification of the full transition-coherence exhaustion theorem and its binding into the public ManifoldUp certificate surface.}
+\end{closurestatus}
 
 \begin{theorem}[Manifold name-certificate obligation surface]
 \label{thm:manifold-namecert-obligation-surface}
@@ -397,3 +458,13 @@ standard bridge is already part of the carrier definition, so the assembled
 object is exactly the $\ManifoldUp$ $\NameCert$ obligation threshold listed in
 the theorem statement.
 \end{proof}
+
+\begin{closurestatus}{\ManifoldUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The singleton empty-chart ManifoldUp certificate together with the finite-atlas paper obligation surface over $\mathsf{BHist}$, $\TopologyUp$, $\RealUp$, and $\RealAnalyticUp$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General smooth-manifold theory, arbitrary atlas machine verification, external manifold-library equivalence, tangent bundles, forms, integration, or de Rham theorems.}
+  \upgradepath{$\publicClosure$ requires a single exported ManifoldUp public theorem for the atlas interface and a checked bridge only after the standard model rows are explicitly supplied.}
+\end{closurestatus}
