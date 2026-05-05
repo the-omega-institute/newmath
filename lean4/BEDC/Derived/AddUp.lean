@@ -18,6 +18,58 @@ theorem AddUnaryContinuation_hsame_transport {h h' k k' r r' : BHist} :
   have unaryR' : UnaryHistory r' := unary_cont_closed unaryH' unaryK' continuation'
   exact ⟨unaryH', unaryK', unaryR', continuation'⟩
 
+def AddUpTwoPointCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty ∨ hsame h (BHist.e1 BHist.Empty)
+
+def AddUpTwoPointMul : BHist -> BHist -> BHist
+  | BHist.Empty, y => y
+  | BHist.e1 _, BHist.Empty => BHist.e1 BHist.Empty
+  | BHist.e1 _, BHist.e1 _ => BHist.Empty
+  | BHist.e1 _, BHist.e0 _ => BHist.Empty
+  | BHist.e0 _, _ => BHist.Empty
+
+theorem AddUpTwoPoint_unital_graph_swapped_commutative :
+    let e : BHist := BHist.Empty
+    let u : BHist := BHist.e1 BHist.Empty
+    AddUpTwoPointCarrier e ∧ AddUpTwoPointCarrier u ∧
+      (forall x : BHist, AddUpTwoPointCarrier x ->
+        hsame (AddUpTwoPointMul e x) x ∧ hsame (AddUpTwoPointMul x e) x) ∧
+      (forall x y : BHist, AddUpTwoPointCarrier x -> AddUpTwoPointCarrier y ->
+        hsame (AddUpTwoPointMul x y) (AddUpTwoPointMul y x)) := by
+  constructor
+  · exact Or.inl rfl
+  · constructor
+    · exact Or.inr rfl
+    · constructor
+      · intro x carrierX
+        cases carrierX with
+        | inl sameEmpty =>
+            cases sameEmpty
+            exact And.intro rfl rfl
+        | inr sameUnit =>
+            cases sameUnit
+            exact And.intro rfl rfl
+      · intro x y carrierX carrierY
+        cases carrierX with
+        | inl xEmpty =>
+            cases xEmpty
+            cases carrierY with
+            | inl yEmpty =>
+                cases yEmpty
+                rfl
+            | inr yUnit =>
+                cases yUnit
+                rfl
+        | inr xUnit =>
+            cases xUnit
+            cases carrierY with
+            | inl yEmpty =>
+                cases yEmpty
+                rfl
+            | inr yUnit =>
+                cases yUnit
+                rfl
+
 inductive AddUpThreePointCarrier : BHist → Prop where
   | empty : AddUpThreePointCarrier BHist.Empty
   | point0 : AddUpThreePointCarrier (BHist.e0 BHist.Empty)
