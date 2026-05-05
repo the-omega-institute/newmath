@@ -334,4 +334,29 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
 
+structure ManifoldChartedCarrier where
+  base : BHist
+  index : BHist
+  domain : BHist
+  chart : BHist
+  transition : BHist
+  base_unary : UnaryHistory base
+  index_unary : UnaryHistory index
+  domain_unary : UnaryHistory domain
+  chart_unary : UnaryHistory chart
+  transition_unary : UnaryHistory transition
+  domain_row : Cont base index domain
+  transition_row : Cont domain chart transition
+
+theorem ManifoldChartedCarrier_atlas_package (M : ManifoldChartedCarrier) :
+    ManifoldAtlasPackage M.base M.index M.domain M.chart M.transition ∧
+      Cont M.base M.index M.domain ∧ Cont M.domain M.chart M.transition := by
+  have package : ManifoldAtlasPackage M.base M.index M.domain M.chart M.transition :=
+    And.intro M.base_unary
+      (And.intro M.index_unary
+        (And.intro M.domain_unary
+          (And.intro M.chart_unary
+            (And.intro M.transition_unary (And.intro M.domain_row M.transition_row)))))
+  exact And.intro package (And.intro M.domain_row M.transition_row)
+
 end BEDC.Derived.ManifoldUp
