@@ -344,6 +344,21 @@ empty product.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_result\_iff\_factor\_empty\_or\_multiplier\_empty}
 
+\begin{theorem}[Successor multiplication result equal to factor exposes an empty input]
+\label{thm:nat-mul-succ-result-eq-factor-empty-or-multiplier-empty}
+If \(d\) is unary, \(\mathsf{NatMul}(d,\Eone(q),n)\), and
+\(n\hsame d\), then either \(d\hsame\emp\) or \(q\hsame\emp\).
+\end{theorem}
+\begin{proof}
+Invert the successor multiplication to obtain a predecessor product
+\(\mathsf{NatMul}(d,q,p)\) and a continuation \(\Cont(p,d,n)\). Transport that
+continuation across \(n\hsame d\), then cancel its common right factor against
+the displayed unit continuation \(\Cont(\emp,d,d)\). This gives \(p\hsame\emp\).
+Transport the predecessor product to empty result and apply the empty-result
+factor split.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_eq\_factor\_empty\_or\_multiplier\_empty}
+
 \begin{theorem}[Nonempty unary multiplication factors have nonempty result]
 \label{thm:natmul-nonempty-factors-result-not-empty}
 If neither \(d\) nor \(q\) is history-same to \(\emp\), then no witness
