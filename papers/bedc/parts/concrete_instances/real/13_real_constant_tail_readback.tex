@@ -709,6 +709,60 @@ the exactness conjunction gives the stated rowwise equivalences for
 $A,B,U,C$.
 \end{proof}
 
+\begin{theorem}[Real constant appended-tail bridge head-tail agreement equivalence]
+\label{thm:real-constant-appended-tail-bridge-head-tail-agreement-equivalence}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Then each bridge row identifies denominator-head agreement with displayed
+e-one-tail agreement:
+$$
+(A\Longrightarrow(\hsame(d,e)\Longleftrightarrow\hsame(tail_D,tail_E)))\land
+(B\Longrightarrow(\hsame(d,e)\Longleftrightarrow\hsame(tail_D,tail_E)))\land
+(U\Longrightarrow(\hsame(d,e)\Longleftrightarrow\hsame(tail_D,tail_E)))\land
+(C\Longrightarrow(\hsame(d,e)\Longleftrightarrow\hsame(tail_D,tail_E))).
+$$
+\end{theorem}
+\begin{proof}
+Fix one of the bridge rows $A,B,U,C$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package} to the
+same displayed data and the chosen row. This recovers the denominator package
+$P(D,E,z_D,z_E)$, whose final component is $D\hsame E$.
+
+For the direction from displayed tail agreement to head agreement, assume
+$\hsame(tail_D,tail_E)$. Transport this equality through the $\Eone$
+constructor and the right append context $e\cdot(-)$, so the endpoint
+comparison $D\hsame E$ is read against the common suffix $\Eone(tail_D)$.
+BEDC right append cancellation then yields $\hsame(d,e)$.
+
+For the direction from head agreement to displayed tail agreement, assume
+$\hsame(d,e)$. Transport this equality through the left append context
+$(-)\cdot\Eone(tail_E)$, so the same endpoint comparison is read with common
+left head $d$. BEDC left append cancellation gives
+$\hsame(\Eone(tail_D),\Eone(tail_E))$, and e-one constructor inversion gives
+$\hsame(tail_D,tail_E)$.
+
+The argument uses only the selected row to recover $D\hsame E$, so repeating it
+for $A$, $B$, $U$, and $C$ gives the four displayed implications.
+\end{proof}
+
 \begin{theorem}[Real constant appended-tail bridge malformed sealed denominator exclusion]
 \label{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}
 For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
@@ -808,6 +862,48 @@ $\Eone(E)$. The endpoint $E$ has the same three branches.
 
 These two endpoint exclusions are exactly $M(D,E)$ for each of the four
 bridge-row implications.
+\end{proof}
+
+\begin{theorem}[Real constant appended-tail bridge full denominator sanity exactness]
+\label{thm:real-constant-appended-tail-bridge-full-denominator-sanity-exactness}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, use the same definitions of $D$, $E$, the bridge rows
+$A,B,U,C$, the full denominator-tail package $Q(D,E,u_D,u_E,z_D,z_E)$, and
+the malformed sealed denominator exclusion $M(D,E)$ as in
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness}
+and
+\autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}.
+Let $S(D,E,u_D,u_E,z_D,z_E)$ denote the combined denominator-sanity package
+$$
+S(D,E,u_D,u_E,z_D,z_E)\mathrel{:=}Q(D,E,u_D,u_E,z_D,z_E)\land M(D,E).
+$$
+If $\hsame(tail_D,tail_E)$, then the combined package is exact for the bridge
+rows:
+$$
+S(D,E,u_D,u_E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\hsame(tail_D,tail_E)$.
+
+For the forward direction, assume $S(D,E,u_D,u_E,z_D,z_E)$. Project its
+$Q(D,E,u_D,u_E,z_D,z_E)$ component and apply
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness}
+under the tail agreement. This gives $A\land B\land U\land C$.
+
+For the reverse direction, assume $A\land B\land U\land C$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness}
+under the same tail agreement to recover
+$Q(D,E,u_D,u_E,z_D,z_E)$.
+
+It remains to build $M(D,E)$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}
+to the displayed data. The first projected implication has type
+$A\Longrightarrow M(D,E)$, and the $A$ row supplied by the row conjunction gives
+$M(D,E)$.
+
+Conjoining the recovered $Q(D,E,u_D,u_E,z_D,z_E)$ with $M(D,E)$ is exactly
+$S(D,E,u_D,u_E,z_D,z_E)$.
 \end{proof}
 
 The malformed sealed bridge denominator certificate fit has ten fields:
