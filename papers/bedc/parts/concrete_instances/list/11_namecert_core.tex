@@ -40,6 +40,7 @@ For a source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, define $\mathsf{ListHis
   \item cons: if there are histories $a,t,p$ with $S(a)$, $\mathsf{ListHistoryCarrier}_S(t)$, $\ContR(a,t,p)$, and $\hsame(h,\Eone(p))$, then $\mathsf{ListHistoryCarrier}_S(h)$.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.ListUp.ListHistoryCarrier}
 
 \begin{definition}[List recursive history classifier]
 \label{def:list-history-classifier}
@@ -109,6 +110,7 @@ For any source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and any history $h$, i
 \begin{proof}
 Apply the induction principle for the least predicate displayed in the preceding definition. The nil constructor gives the left disjunct directly. The cons constructor exposes its witnesses $a,t,p$ together with $S(a)$, the recursive carrier witness for $t$, the continuation witness $\ContR(a,t,p)$, and the endpoint witness $\hsame(h,\Eone(p))$, which are exactly the data required for the right disjunct.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListHistoryCarrier\_generated\_cases}
 
 \begin{theorem}[List history carrier transport]
 \label{thm:list-history-carrier-hsame-transport}
