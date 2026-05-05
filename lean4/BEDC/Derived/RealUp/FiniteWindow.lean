@@ -24,6 +24,19 @@ theorem UnaryOffsetLe_cont_trans {k w u tau sigma : BHist} :
     cases rightCont
     exact append_assoc k tau sigma⟩⟩
 
+theorem UnaryOffsetLe_append_tail_closed {k w tail : BHist} :
+    UnaryOffsetLe k w -> UnaryHistory tail -> UnaryOffsetLe k (append w tail) := by
+  intro offset tailUnary
+  cases offset with
+  | intro kUnary tailData =>
+      cases tailData with
+      | intro tau tauData =>
+          cases tauData with
+          | intro tauUnary leftCont =>
+              exact ⟨kUnary, ⟨append tau tail, unary_append_closed tauUnary tailUnary, by
+                cases leftCont
+                exact append_assoc k tau tail⟩⟩
+
 def RealUnaryStreamWindowClassifier (s t : BHist -> BHist) (a w : BHist) : Prop :=
   UnaryHistory a ∧ UnaryHistory w ∧
     forall k : BHist, UnaryOffsetLe k w ->

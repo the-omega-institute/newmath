@@ -376,6 +376,59 @@ theorem
 exactness pairwise selected-tail coherence; standard bridge RegSeqRat selected
 dyadic-tail canonicalization; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream classifier unary denominator context selected e-one tail-class exactness]
+\label{thm:real-stream-classifier-unary-denominator-context-selected-e1-tail-class-exactness}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, a selected
+index $n$, and histories $a,b:\Hist$, assume
+$\mathsf{RealStreamClassifier}(x,y)$ and the pointwise unary-context plus
+continuation hypotheses of
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed}. If the
+selected contextual outputs satisfy the displayed endpoint seals
+$$
+\hsame(o_X(n),\Eone(a)),\quad
+\hsame(o_Y(n),\Eone(b)),
+$$
+then for all histories $u,v:\Hist$,
+$$
+\bigl(\hsame(o_X(n),\Eone(u))\land\hsame(o_Y(n),\Eone(v))\bigr)
+\Longleftrightarrow
+\bigl(\mathsf{UnaryHistory}(u)\land\mathsf{UnaryHistory}(v)\land
+\hsame(a,u)\land\hsame(b,v)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the two additional displays
+$\hsame(o_X(n),\Eone(u))$ and $\hsame(o_Y(n),\Eone(v))$. Apply
+\autoref{thm:real-stream-classifier-unary-denominator-context-selected-e1-tail-pairwise-coherence}
+with $(a,a',b,b')=(a,u,b,v)$ to the two endpoint seals and the two additional
+displays. The resulting ten rows include $\mathsf{UnaryHistory}(u)$,
+$\mathsf{UnaryHistory}(v)$, $\hsame(a,u)$, and $\hsame(b,v)$.
+
+For the reverse direction, assume $\mathsf{UnaryHistory}(u)$,
+$\mathsf{UnaryHistory}(v)$, $\hsame(a,u)$, and $\hsame(b,v)$. Apply
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_congr}$ to $\hsame(a,u)$ and compose the
+result with the endpoint seal $\hsame(o_X(n),\Eone(a))$ by
+$\mathsf{BEDC.FKernel.Hist.hsame\_trans}$. This gives
+$\hsame(o_X(n),\Eone(u))$.
+
+Apply the same e-one congruence and transitivity chain to $\hsame(b,v)$ and
+the endpoint seal $\hsame(o_Y(n),\Eone(b))$. This gives
+$\hsame(o_Y(n),\Eone(v))$, and the two displays form the selected tail-class
+membership pair.
+\end{proof}
+
+Fit: traditional target contextual selected denominator-tail classes; BEDC
+source RealUp streams, RatUp readback, $\mathsf{Cont}$,
+$\mathsf{UnaryHistory}$, and FKernel e-one congruence; carrier
+rational-observation streams; classifier $\mathsf{RealStreamClassifier}$;
+stability pairwise coherence plus e-one congruence; ledger selected index,
+context witnesses, continuation outputs, and selected e-one seals; core theorem
+\autoref{thm:real-stream-classifier-unary-denominator-context-selected-e1-tail-class-exactness};
+exactness the displayed selected e-one tails are exactly the canonical
+$\hsame$ classes; standard bridge RegSeqRat selected dyadic-tail
+canonicalization; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream classifier transported contextual e-one tail pairwise coherence]
 \label{thm:real-stream-classifier-transported-contextual-e1-tail-pairwise-coherence}
 For rational-observation streams

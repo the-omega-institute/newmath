@@ -43,6 +43,29 @@ metric distance witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_hsame\_fields\_transport}
 
+\begin{theorem}[Metric distance witness hsame transport depth add]
+\label{thm:metric-distance-witness-hsame-transport-cont-depth-add}
+For histories $x,x',y,y',d,d':\mathsf{BHist}$, history-sameness of the two
+endpoints and of the distance result transports the continuation field and
+preserves the append-depth ledger:
+$$
+\hsame(x,x')\Longrightarrow
+\hsame(y,y')\Longrightarrow
+\hsame(d,d')\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d)\Longrightarrow
+\ContR(x',y',d')\land
+\mathsf{MetricDistanceDepth}(d')=
+\mathsf{MetricDistanceDepth}(x')+\mathsf{MetricDistanceDepth}(y').
+$$
+\end{theorem}
+\begin{proof}
+Case-reduce the three supplied $\hsame$ witnesses. The transported histories
+are then the source, target, and distance of the original metric witness.
+Project its continuation field and apply the metric distance depth-add theorem
+to the same witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_hsame\_transport\_cont\_depth\_add}
+
 \begin{theorem}[Metric distance witness hsame source determinacy]
 \label{thm:metric-distance-witness-hsame-source-deterministic}
 For histories $x,x',y,y',d,d':\mathsf{BHist}$, if the target and distance
@@ -176,6 +199,33 @@ classifications then fit the endpoint-hsame result determinacy theorem, giving
 the displayed $\hsame(d,e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_prefix\_independent\_endpoint\_hsame\_result\_deterministic}
+
+\begin{theorem}[Metric distance witness visible right tail determinacy]
+\label{thm:metric-distance-witness-visible-context-right-e1-result-tail-deterministic}
+For histories $p,q,p',q',x,y,d,d':\mathsf{BHist}$, if two visible-context
+metric witnesses share the central source and the right endpoint
+$\Eone(y)$, and their displayed distance results are respectively
+$\Eone(d)$ and $\Eone(d')$ inside their visible contexts, then the distance
+tails classify together:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,\Eone(y)\cdot q,(p\cdot\Eone(d))\cdot q)
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p'\cdot x,\Eone(y)\cdot q',(p'\cdot\Eone(d'))\cdot q')
+\Longrightarrow
+\hsame(d,d').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Visible-context exactness removes the outer prefixes and suffixes, exposing two
+central metric witnesses with right endpoint $\Eone(y)$ and results
+$\Eone(d)$ and $\Eone(d')$. Right-\(\Eone\) result exactness descends both
+witnesses to their tails, after which continuation determinism identifies the
+tail distance results.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_right\_e1\_result\_tail\_deterministic}
 
 \begin{theorem}[Metric distance witness visible-context semantic name certificate]
 \label{thm:metric-distance-witness-visible-context-semantic-namecert}

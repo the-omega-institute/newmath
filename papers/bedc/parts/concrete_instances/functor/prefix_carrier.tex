@@ -121,6 +121,26 @@ with that preserved morphism.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_hom\_public\_readback}
 
+\begin{theorem}[Prefix functor carrier e1 prefix hom reflects]
+\label{thm:prefix-functor-carrier-e1-prefix-hom-reflects}
+For histories $p,a,b,f$, a prefix functor carrier at the visible prefix
+$\Eone(p)$ reflects any displayed prefixed hom-carrier back to the unprefixed
+hom-carrier and exposes the unary tail of the visible prefix:
+$$
+\mathsf{PrefixFunctorCarrier}(\Eone(p))\to
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\Eone(p),a),
+\mathsf{append}(\Eone(p),b),f)\to
+\mathsf{UnaryHistory}(p)\land\mathsf{CategoryHomCarrier}(a,b,f).
+$$
+\end{theorem}
+\begin{proof}
+Project the stored unary evidence for the visible prefix and invert the
+$\Eone$ constructor to obtain $\mathsf{UnaryHistory}(p)$. The carrier's
+hom-reflection field cancels the displayed common prefix and returns the
+unprefixed category hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_e1\_prefix\_hom\_reflects}
+
 \begin{theorem}[Prefix functor carrier associative composition public readback]
 \label{thm:prefix-functor-carrier-comp-assoc-public-readback}
 For a prefix functor carrier \(p\), if \(f,g,h\) are composable
@@ -153,6 +173,26 @@ prefixed endpoint. Category hom-carrier morphism determinacy then compares
 any displayed endomorphism at the same endpoint with that empty identity.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_identity\_public\_readback}
+
+\begin{theorem}[Prefix functor carrier preserves split-mono witnesses]
+\label{thm:prefix-functor-carrier-split-mono-witness-preserves}
+For histories $p,a,b,f,g,i,c$, suppose $p$ carries a prefix functor carrier,
+$f:a\to b$ and $g:b\to a$ are category hom-carriers, $i:a\to a$ is an
+identity hom-carrier, $\ContR(f,g,c)$ displays the composite, $c:a\to a$ is
+also a category hom-carrier, and $c\hsame i$. Then the prefixed endpoints carry
+a split-monomorphism witness: $g:\mathsf{append}(p,b)\to\mathsf{append}(p,a)$,
+the identity carrier over $\mathsf{append}(p,a)$, the same composite ledger,
+the prefixed composite carrier, and the same classifier comparison.
+\end{theorem}
+\begin{proof}
+Use the hom-preservation field of the prefix functor carrier on the inverse
+hom-carrier $g$ and on the identity hom-carrier $i$. Use its composition
+preservation field on $f$, $g$, and the displayed continuation for $c$. Taking
+the displayed prefixed identity to be $i$ and the displayed prefixed composite
+to be $c$ gives the required witness package, with the original comparison
+$c\hsame i$ as the classifier component.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_split\_mono\_witness\_preserves}
 
 \begin{theorem}[Prefix functor empty morphism source exactness]
 \label{thm:functor-prefix-empty-morphism-source}

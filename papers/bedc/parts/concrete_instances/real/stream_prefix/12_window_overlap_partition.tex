@@ -1,0 +1,55 @@
+\begin{theorem}[Real stream finite-window overlap partition]
+\label{thm:real-stream-window-overlap-partition}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices
+$n,m,r$,
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m+r)
+\Longleftrightarrow
+\mathsf{RealStreamWindowClassifier}(x,y,n,m)\land
+\mathsf{RealStreamWindowClassifier}(x,y,n+m,r).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the wide window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+r)$. Apply
+\autoref{thm:real-stream-window-subwindow-extraction} with shift $0$ and
+radius $m$; the bound $0+m\le m+r$ extracts the left window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$.
+
+Apply \autoref{thm:real-stream-window-subwindow-extraction} again with shift
+$m$ and radius $r$. The bound $m+r\le m+r$ extracts the right overlapping
+window $\mathsf{RealStreamWindowClassifier}(x,y,n+m,r)$. These two extracted
+windows form the displayed conjunction.
+
+For the reverse direction, assume the two overlapping windows. Unfold
+Definition~\ref{def:real-stream-finite-window-classifier} and fix a selected
+offset $k\le m+r$. It remains to produce the RatUp endpoint classifier at
+$n+k$.
+
+If $k\le m$, the left window applies directly at offset $k$ and gives
+$$
+\mathsf{RatHistoryClassifier}(x(n+k),y(n+k)).
+$$
+
+In the remaining bounded-offset case, write $k=m+j$ with $j\le r$. The right
+window applies at offset $j$ and gives
+$$
+\mathsf{RatHistoryClassifier}(x((n+m)+j),y((n+m)+j)).
+$$
+The arithmetic identity $(n+m)+j=n+(m+j)=n+k$ identifies this endpoint with
+the selected endpoint of the wide window.
+
+The two offset cases cover every $k\le m+r$, with the boundary endpoint
+$k=m$ shared by both windows. Hence the collected endpoint classifiers repack
+as $\mathsf{RealStreamWindowClassifier}(x,y,n,m+r)$.
+\end{proof}
+
+The ten-field fit is: traditional target overlapping finite rational
+observation intervals; BEDC source $\mathsf{RealStreamWindowClassifier}$ over
+RatUp endpoint classifiers; carrier rational-observation streams; classifier
+finite-window predicate; stability by subwindow extraction and bounded-offset
+splitting; ledger anchor, overlap radius, right radius, shared boundary, and
+selected offset; core theorem
+\autoref{thm:real-stream-window-overlap-partition}; exactness the displayed
+equivalence; standard bridge overlapping finite RegSeqRat observation
+intervals; status $\mathsf{ProofTarget}$.
