@@ -559,3 +559,104 @@ The concrete certificate of \autoref{thm:complex-series-namecert} satisfies the 
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}
+
+\begin{lemma}[Pointwise sum is a complex term sequence]
+\label{lem:complex-term-seq-pointwise-addition}
+Let $c,d:\Hist\to\Hist$ be complex term sequences in the sense of \autoref{def:complex-term-seq}, and define their pointwise sum by
+$$
+(c\oplus d)(m):=\mathsf{append}(c(m),d(m)),
+$$
+as in \autoref{def:cplx-pointwise-sum}. Then $c\oplus d$ is again a complex term sequence.
+\end{lemma}
+\begin{proof}
+Fix a unary index $m$. Name the two term histories by fresh history variables $C_m$ and $D_m$, with $C_m=c(m)$ and $D_m=d(m)$. The term-sequence hypotheses give complex-history carriers for $C_m$ and $D_m$. By \autoref{thm:complex-history-carrier-unary}, $D_m$ is unary. The canonical append relation supplies a history $A_m$ such that
+$$
+\Cont(C_m,D_m,A_m)
+\quad\text{and}\quad
+A_m\hsame\mathsf{append}(C_m,D_m).
+$$
+This continuation witness falls under complex carrier unary continuation closure from \autoref{thm:complex-history-carrier-unary-continuation-closed}, so the named pointwise result $(c\oplus d)(m)$ is a complex-history carrier. Since $m$ was arbitrary among unary indices, the pointwise-sum family is a complex term sequence.
+\end{proof}
+
+\begin{theorem}[Complex partial sums commute with pointwise addition]
+\label{thm:complex-part-sum-pointwise-addition}
+Let $c,d:\Hist\to\Hist$ be complex term sequences, let $(c\oplus d)(m):=\mathsf{append}(c(m),d(m))$, and let $z_c,z_d,z_\oplus:\Hist$ be unary base histories with
+$$
+z_\oplus\hsame\mathsf{append}(z_c,z_d).
+$$
+If $n$ is unary and
+$$
+\mathsf{ComplexPartSum}(z_c,c,n,S_c)
+\quad\text{and}\quad
+\mathsf{ComplexPartSum}(z_d,d,n,S_d)
+$$
+hold, then there is a history $S_\oplus$ such that
+$$
+\mathsf{ComplexPartSum}(z_\oplus,c\oplus d,n,S_\oplus)
+\land
+S_\oplus\hsame\mathsf{append}(S_c,S_d).
+$$
+Moreover every closed partial sum $T$ of $c\oplus d$ at the same index satisfies
+$$
+\mathsf{ComplexPartSum}(z_\oplus,c\oplus d,n,T)
+\Longrightarrow
+T\hsame\mathsf{append}(S_c,S_d).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{lem:complex-term-seq-pointwise-addition}, $c\oplus d$ is a complex term sequence. Prove the displayed existence statement by unary induction on $n$, uniformly in the two input partial-sum witnesses.
+
+In the base case $n=\emp$, index-case inversion from \autoref{lem:complex-part-sum-index-cases} identifies $S_c$ with $z_c$ and $S_d$ with $z_d$. The zero constructor gives
+$$
+\mathsf{ComplexPartSum}(z_\oplus,c\oplus d,\emp,z_\oplus).
+$$
+The base comparison $z_\oplus\hsame\mathsf{append}(z_c,z_d)$, append congruence from \autoref{thm:external-append-hsame-congruence}, and the two endpoint identifications give $z_\oplus\hsame\mathsf{append}(S_c,S_d)$.
+
+For the successor case $n=\Eone(m)$, invert the two input partial-sum witnesses with \autoref{lem:complex-part-sum-index-cases}. This exposes predecessor sums $P_c,P_d$, bound term histories $C_m,D_m$ with $C_m\hsame c(m)$ and $D_m\hsame d(m)$, and continuations
+$$
+\Cont(P_c,C_m,S_c)
+\quad\text{and}\quad
+\Cont(P_d,D_m,S_d).
+$$
+The induction hypothesis at $m$ gives $P_\oplus$ with
+$$
+\mathsf{ComplexPartSum}(z_\oplus,c\oplus d,m,P_\oplus)
+\land
+P_\oplus\hsame\mathsf{append}(P_c,P_d).
+$$
+Let $A_m$ be the bound pointwise-sum term history supplied by the canonical append evidence
+$$
+\Cont(C_m,D_m,A_m)
+\quad\text{and}\quad
+A_m\hsame\mathsf{append}(C_m,D_m).
+$$
+Let $S_\oplus$ be the fresh successor history supplied by
+$$
+\Cont(P_\oplus,A_m,S_\oplus).
+$$
+The step constructor for \autoref{def:complex-part-sum} gives the closed partial sum for $c\oplus d$ at $\Eone(m)$.
+
+It remains to compare this result with the sum of the two displayed successor results. The term-sequence hypotheses and \autoref{thm:complex-history-carrier-unary} make $C_m$ and $D_m$ unary, while \autoref{thm:complex-part-sum-result-unary} makes $P_c$ and $P_d$ unary. Associativity of unary continuation from \autoref{lem:unary-continuation-associativity} and commutativity from \autoref{thm:unary-cont-comm} give the middle-four comparison
+$$
+\mathsf{append}(\mathsf{append}(P_c,P_d),\mathsf{append}(C_m,D_m))
+\hsame
+\mathsf{append}(\mathsf{append}(P_c,C_m),\mathsf{append}(P_d,D_m)).
+$$
+The comparison $P_\oplus\hsame\mathsf{append}(P_c,P_d)$ and the term comparison $A_m\hsame\mathsf{append}(C_m,D_m)$ put the continuation witness for $S_\oplus$ in the same source and right-history class as the canonical append continuation to the left endpoint; \autoref{thm:continuation-determinacy-up-to-history-sameness} gives the corresponding $\hsame$ comparison.
+
+The two displayed continuation witnesses for $S_c$ and $S_d$ are compared with the canonical append continuations by \autoref{thm:continuation-determinacy-up-to-history-sameness}, yielding
+$$
+\mathsf{append}(P_c,C_m)\hsame S_c
+\quad\text{and}\quad
+\mathsf{append}(P_d,D_m)\hsame S_d.
+$$
+Applying \autoref{thm:external-append-hsame-congruence} to these two comparisons gives
+$$
+\mathsf{append}(\mathsf{append}(P_c,C_m),\mathsf{append}(P_d,D_m))
+\hsame
+\mathsf{append}(S_c,S_d).
+$$
+Transitivity with the comparison for $S_\oplus$ and the middle-four comparison gives the required comparison for $S_\oplus$.
+
+Finally, let $T$ be any closed partial sum of $c\oplus d$ at $n$. The determinacy theorem \autoref{lem:complex-part-sum-well-defined} compares $T$ with the constructed $S_\oplus$; transitivity with the comparison already proved gives $T\hsame\mathsf{append}(S_c,S_d)$.
+\end{proof}
