@@ -393,4 +393,19 @@ theorem PolynomialSingletonAddFold_list_classifier_hsame
                 (cont_respects_hsame headSame tailData.left leftCont rightCont)
                 (cont_right_unit (PolynomialSingletonAddFold (x :: xs)))
 
+theorem PolynomialZeroRemainder_addFold_empty_classified {xs : List BHist} :
+    PolynomialZeroRemainder xs ->
+      PolynomialSingletonClassifier (PolynomialSingletonAddFold xs) BHist.Empty := by
+  intro zeroRemainder
+  induction zeroRemainder with
+  | nil =>
+      exact And.intro (hsame_refl BHist.Empty)
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  | cons headEmpty _tailZero tailClassified =>
+      have foldEmpty :
+          hsame (PolynomialSingletonAddFold (_ :: _)) BHist.Empty :=
+        append_eq_empty_iff.mpr (And.intro headEmpty tailClassified.left)
+      exact And.intro foldEmpty
+        (And.intro (hsame_refl BHist.Empty) foldEmpty)
+
 end BEDC.Derived.PolynomialUp

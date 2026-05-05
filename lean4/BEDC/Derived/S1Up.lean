@@ -314,6 +314,18 @@ theorem SOneHistoryCarrier_coordinate_transport
               exact And.intro xCarrier'
                 (And.intro yCarrier' (And.intro equationCarrier' pointCont'))
 
+theorem SOneHistoryCarrier_public_readback_transport
+    {x y equation point x' y' equation' point' : BHist} :
+    SOneHistoryCarrier x y equation point -> hsame x x' -> hsame y y' ->
+      hsame equation equation' -> hsame point point' ->
+        SOneProductHistoryCarrier point' ∧ hsame equation' SOneUnitHistory ∧
+          ∃ dx dy : BHist,
+            hsame x' (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧
+              hsame y' (BHist.e1 dy) ∧ RatHistoryCarrier dy ∧ Cont x' y' point' := by
+  intro carrier sameX sameY sameEquation samePoint
+  exact SOneHistoryCarrier_public_readback
+    (SOneHistoryCarrier_coordinate_transport carrier sameX sameY sameEquation samePoint)
+
 theorem SOneHistoryCarrier_component_classifier_ledger_determinacy
     {x y e p x' y' e' p' : BHist} :
     SOneHistoryCarrier x y e p -> SOneHistoryCarrier x' y' e' p' ->
