@@ -470,6 +470,21 @@ has the same prime base and appended exponent as the given witness, so
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_exponents\_result\_square\_hsame}
 
+\begin{theorem}[Prime scale two unit exponents have nonempty result]
+\label{thm:padic-prime-scale-append-unit-exponents-result-not-empty}
+If
+\(\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),\Eone(\emp)),result)\)
+holds, then \(result\hsame\emp\) is impossible.
+\end{theorem}
+\begin{proof}
+The square readback identifies \(result\) with \(\mathsf{append}(p,p)\).
+If \(result\hsame\emp\), append empty inversion forces \(p\hsame\emp\). But the
+prime witness contains a strict unary prefix from \(\Eone(\emp)\) to \(p\);
+transporting the final continuation to the empty endpoint forces its nonempty
+tail to be empty, a contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_exponents\_result\_not\_empty}
+
 \begin{theorem}[Prime scale append factor results unique]
 \label{thm:padic-prime-scale-append-factor-results-unique}
 Let $\mathsf{PadicPrimeScale}(p,w,n)$ and

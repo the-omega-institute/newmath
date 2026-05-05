@@ -1,5 +1,6 @@
 import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.FactorialShape
+import BEDC.Derived.PrimeUp.UnitResult
 
 namespace BEDC.Derived.PrimeUp
 
@@ -73,5 +74,29 @@ theorem NatFact_bounded_positive_predecessor_divides {n m d : BHist} :
           have dividesPrevious : NatDivides d _ := ih dUnary dPositive predecessorBounded
           exact NatDivides_mul_left_closed (unary_e1_closed (NatFact_input_unary previous))
             dividesPrevious mul
+
+theorem NatFact_successor_no_bounded_nonunit_divisor {n m d : BHist} :
+    NatFact n m -> UnaryHistory d -> NatUnaryStrictPrefix BHist.Empty d ->
+      (hsame d (BHist.e1 BHist.Empty) -> False) ->
+        (NatUnaryStrictPrefix d n ∨ hsame d n) ->
+          NatDivides d (BHist.e1 m) -> False := by
+  intro fact dUnary dPositive dNonunit bounded dividesSucc
+  have dNonempty : hsame d BHist.Empty -> False := by
+    intro dEmpty
+    cases dEmpty
+    exact NatUnaryStrictPrefix_empty_right_absurd dPositive
+  have boundedForAbsorption : hsame d n ∨ NatUnaryStrictPrefix d n := by
+    cases bounded with
+    | inl strict =>
+        exact Or.inr strict
+    | inr same =>
+        exact Or.inl same
+  have dividesResult : NatDivides d m :=
+    NatFact_bounded_positive_predecessor_divides fact dUnary dPositive boundedForAbsorption
+  have unitDivides : NatDivides d (BHist.e1 BHist.Empty) :=
+    NatDivides_prefix_cancellation dUnary dNonempty (NatFact_result_unary fact)
+      (unary_e1_closed unary_empty) (NatDivides_result_unary dividesSucc) (cont_intro rfl)
+      dividesResult dividesSucc
+  exact dNonunit (Iff.mp NatDivides_unit_right_iff unitDivides)
 
 end BEDC.Derived.PrimeUp

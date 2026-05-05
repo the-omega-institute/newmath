@@ -1,6 +1,123 @@
 \section{The certificate}
 \label{sec:continuousmap-certificate}
 
+\begin{definition}[Metric ContinuousMapUp source specification]
+\label{def:continuousmapup-metric-source-specification}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, the
+metric $\ContinuousMapUp$ source row is the conjunction
+$$
+\begin{array}{l}
+\mathsf{CategoryHomCarrier}(source,target,map)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert)\land
+\mathsf{MetricDistanceWitness}(source,target,distance).
+\end{array}
+$$
+It names the categorical graph carrier, the target-side modulus witness, and
+the endpoint distance witness carried by the six-history certificate object.
+\end{definition}
+
+\begin{definition}[Metric ContinuousMapUp pattern specification]
+\label{def:continuousmapup-metric-pattern-specification}
+The metric $\ContinuousMapUp$ pattern is the six-field carrier formation
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance).
+$$
+The displayed carrier is the public pattern consumed by compact-continuous and
+Heine--Cantor arguments: it packages the source, map, target, modulus,
+certificate, and distance histories in one BEDC object.
+\end{definition}
+
+\begin{definition}[Metric ContinuousMapUp classifier specification]
+\label{def:continuousmapup-metric-classifier-specification}
+For two metric $\ContinuousMapUp$ carriers with histories
+$source,map,target,modulus,cert,distance$ and
+$source',map',target',modulus',cert',distance'$, the classifier is
+componentwise $\hsame$ on the six displayed histories:
+$$
+\begin{array}{l}
+\hsame(source,source')\land
+\hsame(map,map')\land
+\hsame(target,target')\land
+\hsame(modulus,modulus')\land
+\hsame(cert,cert')\land
+\hsame(distance,distance').
+\end{array}
+$$
+The same classifier row records the hidden canonical-distance exactness
+$$
+\hsame(distance,\mathsf{append}(source,target))
+$$
+for each admitted carrier, and similarly for the primed carrier.
+\end{definition}
+
+\begin{definition}[Metric ContinuousMapUp stability certificate]
+\label{def:continuousmapup-metric-stability-certificate}
+The metric $\ContinuousMapUp$ stability certificate consists of:
+\begin{enumerate}
+  \item field transport of the six histories under the componentwise
+  $\hsame$ classifier;
+  \item canonical-distance exactness for each admitted carrier;
+  \item two-sided identity closure by empty maps and empty distance ledgers;
+  \item composition closure by categorical graph composition, modulus
+  composition, and canonical endpoint-distance normalization;
+  \item associativity of the composed canonical package.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Metric ContinuousMapUp ledger policy]
+\label{def:continuousmapup-metric-ledger-policy}
+The metric $\ContinuousMapUp$ ledger policy records the six histories
+$source,map,target,modulus,cert,distance$, the visible source row of
+\autoref{def:continuousmapup-metric-source-specification}, and the hidden
+canonical-distance ledger
+$\hsame(distance,\mathsf{append}(source,target))$. Under composition it keeps
+the graph and modulus continuation ledgers visible and rewrites the displayed
+distance to the canonical endpoint append.
+\end{definition}
+
+\begin{theorem}[Metric ContinuousMapUp certificate bridge]
+\label{thm:continuousmapup-metric-certificate-bridge}
+The five rows of
+\autoref{def:continuousmapup-metric-source-specification}--\autoref{def:continuousmapup-metric-ledger-policy}
+form the paper-side $\NameCert$ obligations for $\ContinuousMapUp$ with carrier
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance).
+$$
+The bridge identifies the source row with the
+$\mathsf{CategoryUp}$, $\mathsf{ContinuousUp}$, and $\mathsf{MetricUp}$
+components; exposes componentwise $\hsame$ on the six displayed histories; and
+uses the hidden canonical-distance exactness
+$\hsame(distance,\mathsf{append}(source,target))$ as the distance certificate
+consumed by identity and composition.
+\end{theorem}
+\begin{proof}
+First unpack the carrier through
+\autoref{thm:continuousmap-carrier-categorical-canonical-distance-exactness}.
+This gives the categorical hom row, the target-side modulus row, and the
+canonical endpoint-distance classifier. Together with
+\autoref{def:continuousmapup-metric-source-specification}, these are exactly
+the visible source obligations.
+
+Next use
+\autoref{thm:continuousmap-carrier-hsame-field-transport-depth} to transport
+the six displayed histories along the componentwise classifier. The transport
+step supplies the classifier and stability fields without changing the public
+carrier shape.
+
+Identity closure is supplied by
+\autoref{thm:continuousmap-empty-identities-two-sided-composition-units}. It
+shows that empty identity maps and empty distance ledgers serve as the
+two-sided units required by the certificate policy.
+
+Finally apply
+\autoref{thm:continuousmap-carrier-composition-associative-canonical-package}.
+It composes the graph, modulus, certificate, and distance rows while
+normalizing the distance back to the canonical endpoint append. This is the
+ledger behavior stated in
+\autoref{def:continuousmapup-metric-ledger-policy}, so the five displayed rows
+give the advertised $\NameCert$ obligations for $\ContinuousMapUp$.
+\end{proof}
+
 \input{parts/concrete_instances/continuousmap/empty_identities_two_sided_composition_units}
 
 \begin{theorem}[ContinuousMap composite graph depth addition]
@@ -453,3 +570,113 @@ $\hsame(displayed,\mathsf{append}(source,target))$.
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_target\_cert\_distance\_deterministic}
 
 \input{parts/concrete_instances/continuousmap/associative_composition_canonical_package}
+
+\begin{theorem}[ContinuousMap identity sandwich coherence]
+\label{thm:continuousmap-identity-sandwich-coherence}
+For histories
+$source,target,map,modulus,cert,distance,map_{LF},map_L,map_{RT},map_R,mod_{LF},mod_L,mod_{RT},mod_R,cert_{LF},cert_L,cert_{RT},cert_R:\mathsf{BHist}$,
+assume
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance),
+$$
+and assume the left-bracketed identity-sandwich ledger spine
+$$
+\begin{array}{lll}
+\ContR(\emp,map,map_{LF}),&
+\ContR(\emp,modulus,mod_{LF}),&
+\ContR(target,mod_{LF},cert_{LF}),\\
+\ContR(map_{LF},\emp,map_L),&
+\ContR(mod_{LF},\emp,mod_L),&
+\ContR(target,mod_L,cert_L),
+\end{array}
+$$
+and the right-bracketed identity-sandwich ledger spine
+$$
+\begin{array}{lll}
+\ContR(map,\emp,map_{RT}),&
+\ContR(modulus,\emp,mod_{RT}),&
+\ContR(target,mod_{RT},cert_{RT}),\\
+\ContR(\emp,map_{RT},map_R),&
+\ContR(\emp,mod_{RT},mod_R),&
+\ContR(target,mod_R,cert_R).
+\end{array}
+$$
+Then the two bracketed identity sandwiches are coherent with the displayed
+carrier:
+\begin{enumerate}
+\item the left-bracketed sandwich closes as
+$$
+\mathsf{ContinuousMapCarrier}
+(source,map_L,target,mod_L,cert_L,\mathsf{append}(source,target));
+$$
+
+\item the right-bracketed sandwich closes as
+$$
+\mathsf{ContinuousMapCarrier}
+(source,map_R,target,mod_R,cert_R,\mathsf{append}(source,target));
+$$
+
+\item the selected graph histories are the original graph history,
+$$
+\hsame(map_L,map)\land \hsame(map_R,map);
+$$
+
+\item the selected modulus histories are the original modulus history,
+$$
+\hsame(mod_L,modulus)\land \hsame(mod_R,modulus);
+$$
+
+\item the selected certificate histories and the original certificate history
+are pairwise classified together,
+$$
+\hsame(cert_L,cert)\land \hsame(cert_R,cert)\land \hsame(cert_L,cert_R).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:continuousmap-empty-identity-carriers} to the displayed
+$\mathsf{ContinuousMapCarrier}$. This supplies the source and target empty
+identity carriers used as the outer factors of the sandwich.
+
+For the left bracketing, first apply
+\autoref{thm:continuousmap-carrier-comp-closed} to the source identity carrier
+and the displayed carrier, using the ledgers ending at $cert_{LF}$. Apply the
+same closure theorem again to that intermediate carrier and the target identity
+carrier, using the ledgers ending at $cert_L$. This gives the left sandwich
+carrier over $\mathsf{append}(source,target)$.
+
+For the right bracketing, first compose the displayed carrier with the target
+identity carrier, using the ledgers ending at $cert_{RT}$. Then compose the
+source identity carrier with that intermediate carrier, using the ledgers ending
+at $cert_R$. The same closure theorem gives the right sandwich carrier over the
+same canonical source-target distance ledger.
+
+Apply
+\autoref{thm:continuousmap-carrier-composition-associative-canonical-package}
+to the source identity carrier, the displayed carrier, and the target identity
+carrier. Its graph and modulus rows identify the two bracketed selected
+histories. Apply
+\autoref{thm:continuousmap-composition-associative-certificate-deterministic}
+to the same three-carrier spine to get $\hsame(cert_L,cert_R)$.
+
+The remaining readback is by continuation units. The ledgers
+$\ContR(\emp,map,map_{LF})$ and $\ContR(map_{LF},\emp,map_L)$ combine
+\texttt{cont\_left\_unit\_result} and \texttt{cont\_right\_unit\_result} to
+give $\hsame(map_L,map)$, and the right-bracketed graph ledgers give
+$\hsame(map_R,map)$ in the same way. The identical argument applied to
+$modulus$ gives the two modulus classifiers.
+
+Project the original certificate ledger $\ContR(target,modulus,cert)$ from the
+carrier. With target reflexivity, the modulus classifiers, and the displayed
+target-modulus certificate ledgers, \texttt{cont\_respects\_hsame} identifies
+$cert_L$ and $cert_R$ with $cert$. Together with the associative certificate
+row, these are exactly the pairwise certificate classifiers.
+
+The ten-field fit is: traditional target identity-sandwich coherence for
+uniformly continuous maps, BEDC source $\mathsf{BHist}$ with $\ContR$, $\hsame$,
+and $\mathsf{ContinuousMapCarrier}$, carrier $\mathsf{ContinuousMapCarrier}$,
+classifier $\hsame$, stability from unit continuation and associative
+composition, ledger graph/modulus/certificate histories, core theorem this
+coherence package, exactness the canonical source-target distance rows, standard
+bridge deferred, and status $\mathsf{ProofTarget}$.
+\end{proof}
