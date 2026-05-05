@@ -134,6 +134,25 @@ direction repacks those two splits through the same empty-append constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold append visible middle exclusion]
+\label{thm:matrix-singleton-add-fold-append-visible-middle-absurd}
+For finite singleton-matrix spines \(pref\) and \(suffix\), a visible middle
+entry remains excluded after an arbitrary carried prefix:
+$$
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(pref\,{++}\,\Ezero(m)::suffix),\emp)
+\quad\wedge\quad
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(pref\,{++}\,\Eone(m)::suffix),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply append-carrier readback to the split spine. If the whole appended fold
+read back to \(\emp\), then the suffix-side spine carrier would include the
+visible middle entry as a singleton carrier. That carrier identifies
+\(\Ezero(m)\) or \(\Eone(m)\) with \(\emp\), contradicting constructor
+separation for histories.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_visible\_middle\_absurd}
+
 \begin{theorem}[Singleton additive fold append readback]
 \label{thm:matrix-singleton-add-fold-append-hsame}
 For finite singleton-matrix spines \(xs\) and \(ys\), folding their appended
@@ -152,6 +171,30 @@ hypothesis under the common head, and reassociate by the kernel append
 associativity law.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_hsame}
+
+\begin{theorem}[Singleton additive fold append display classifier]
+\label{thm:matrix-singleton-add-fold-append-display-classifier-iff}
+For finite singleton-matrix spines \(xs\) and \(ys\), the classifier between
+the fold of the appended spine and the append of the two individual folds is
+equivalent to carriedness of both input spines:
+$$
+\mathsf{MatrixSingletonClassifier}
+  (\mathsf{MatrixSingletonAddFold}(xs\mathbin{+\!\!+}ys),
+   \mathsf{append}(\mathsf{MatrixSingletonAddFold}(xs),
+                  \mathsf{MatrixSingletonAddFold}(ys)))
+\Longleftrightarrow
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(ys).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, project the classifier to its left carrier row and
+use append-spine carrier readback. Conversely, read both spine carriers back
+to carriers for the individual folds; empty-append inversion gives the carrier
+of the displayed append, while fold append readback supplies the classifier
+comparison between the appended fold and the displayed append endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_display\_classifier\_iff}
 
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
