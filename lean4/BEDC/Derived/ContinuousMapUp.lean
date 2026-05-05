@@ -492,10 +492,8 @@ theorem ContinuousMapCarrier_empty_distance_empty_graph_comp_certificate_readbac
       hsame source BHist.Empty ∧ hsame target BHist.Empty ∧
         UnaryHistory certFG ∧ hsame certFG modFG :=
     ContinuousMapCarrier_empty_map_empty_distance_certificate_readback composite.right.right.right
-  exact
-    And.intro composite.left
-      (And.intro composite.right.left
-        (And.intro composite.right.right.left certReadback.right.right))
+  exact And.intro composite.left
+    (And.intro composite.right.left (And.intro composite.right.right.left certReadback.right.right))
 
 theorem ContinuousMapCarrier_comp_distance_deterministic
     {source mid target mapF mapG mapFG modF modG modFG certF certG certFG distF distG dist :
@@ -511,6 +509,19 @@ theorem ContinuousMapCarrier_comp_distance_deterministic
     ContinuousMapCarrier_comp_closed first second graphRel modulusRel certRel
   exact
     (ContinuousMapCarrier_target_cert_distance_deterministic displayed canonical).right.right.left
+
+theorem ContinuousMapCarrier_comp_displayed_distance_canonical_iff {source mid target mapF mapG
+    mapFG modF modG modFG certF certG certFG distF distG displayed : BHist} :
+    ContinuousMapCarrier source mapF mid modF certF distF ->
+      ContinuousMapCarrier mid mapG target modG certG distG ->
+        Cont mapF mapG mapFG -> Cont modF modG modFG -> Cont target modFG certFG ->
+          (ContinuousMapCarrier source mapFG target modFG certFG displayed ↔ hsame displayed
+            (append source target)) := by
+  intro first second graphRel modulusRel certRel
+  exact Iff.intro
+    (ContinuousMapCarrier_comp_distance_deterministic first second graphRel modulusRel certRel)
+    (fun sameDisplayed => ContinuousMapCarrier_canonical_distance_exactness.mpr (And.intro
+      (ContinuousMapCarrier_comp_closed first second graphRel modulusRel certRel).left sameDisplayed))
 
 theorem ContinuousMap_comp_graph_depth_add
     {source mid target mapF mapG mapFG modF modG modFG certF certG certFG : BHist} :
@@ -574,24 +585,13 @@ theorem ContinuousMapCarrier_composition_associative_canonical_package
     cont_assoc_unique graphFG graphGH graphL graphR
   have modulusSame : hsame modL modR :=
     cont_assoc_unique modulusFG modulusGH modulusL modulusR
-  have displayedLeft :
-      ContinuousMapCarrier source mapL target modL certL displayedL ->
-        hsame displayedL (append source target) := by
-    intro displayed
-    exact
-      ContinuousMapCarrier_comp_distance_deterministic carrierFG carrierH graphL modulusL certLRel
-        displayed
-  have displayedRight :
-      ContinuousMapCarrier source mapR target modR certR displayedR ->
-        hsame displayedR (append source target) := by
-    intro displayed
-    exact
-      ContinuousMapCarrier_comp_distance_deterministic carrierF carrierGH graphR modulusR certRRel
-        displayed
-  exact
-    And.intro carrierL
-      (And.intro carrierR
-        (And.intro graphSame
-          (And.intro modulusSame (And.intro displayedLeft displayedRight))))
+  exact And.intro carrierL
+    (And.intro carrierR
+      (And.intro graphSame (And.intro modulusSame
+        (And.intro
+          (fun displayed => ContinuousMapCarrier_comp_distance_deterministic carrierFG carrierH
+            graphL modulusL certLRel displayed)
+          (fun displayed => ContinuousMapCarrier_comp_distance_deterministic carrierF carrierGH
+            graphR modulusR certRRel displayed)))))
 
 end BEDC.Derived.ContinuousMapUp
