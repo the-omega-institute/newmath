@@ -242,6 +242,8 @@ import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
+import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
+import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
