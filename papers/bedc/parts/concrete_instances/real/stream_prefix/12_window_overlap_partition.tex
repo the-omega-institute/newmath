@@ -99,3 +99,89 @@ theorem \autoref{thm:real-stream-window-three-piece-partition}; exactness
 equivalence between the wide window and the three chained windows; standard
 bridge finite observation interval refinement for RealUp; status
 $\mathsf{ProofTarget}$.
+
+\begin{definition}[Real stream finite-window partition spine]
+\label{def:real-stream-window-partition-spine}
+For a rational-observation anchor $n$ and a total finite bound $w$, a nonempty
+$\mathsf{BEDC}$ finite partition spine is a finite $\mathsf{BHist}$-coded chain
+$P$ of unary radius histories $a_0,\ldots,a_{q-1}:\Hist$ together with endpoint
+continuation rows. Its numeric radii $r_i$ are the unary lengths displayed by
+the $a_i$, its segment anchors are
+$$
+n_0=n,\qquad n_{i+1}=n_i+(r_i+1),
+$$
+and its accumulated displayed bound is
+$$
+w=r_0+1+r_1+1+\cdots+1+r_{q-1}.
+$$
+The singleton spine has accumulated bound $r_0$ and one segment at the original
+anchor. The successor spine appends one unary radius $a_i$ by a native unary
+$\mathsf{append}$ display and a $\mathsf{Cont}$ row from the previous endpoint
+anchor to the next endpoint anchor. Thus every segment named by $P$ is a
+concrete RealUp finite window
+$\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i)$, and the final accumulated
+anchor is obtained only by repeated unary $\mathsf{append}$ and $\mathsf{Cont}$
+composition.
+\end{definition}
+
+\begin{theorem}[Real stream finite-window partition fold]
+\label{thm:real-stream-window-finite-partition-fold}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, a
+total bound $w$, and a certified finite partition spine $P$ over $(n,w)$ with
+segments $(n_i,r_i)$, the total window classifier is equivalent to the
+conjunction of the segment classifiers named by $P$:
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,w)
+\Longleftrightarrow
+\bigwedge_{(n_i,r_i)\in P}
+\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i).
+$$
+For the singleton spine, the right side is the single segment classifier.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the certified partition spine $P$.
+
+In the singleton case, the spine definition identifies the total bound with the
+single segment radius. The right side is the same
+$\mathsf{RealStreamWindowClassifier}(x,y,n,r_0)$ row, so the displayed
+equivalence is reflexive.
+
+For the successor step, write the predecessor spine as $P_0$ with accumulated
+bound $u$ and final anchor $n+u+1$ in the displayed unary continuation ledger.
+The new certified unary radius is $r$, so the successor spine displays the
+total bound as $u+1+r$ and names the new final segment
+$\mathsf{RealStreamWindowClassifier}(x,y,n+(u+1),r)$.
+
+For the forward direction of the successor step, apply
+\autoref{thm:real-stream-window-adjacent-partition} to the total window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,u+1+r)$. This gives the predecessor
+wide window $\mathsf{RealStreamWindowClassifier}(x,y,n,u)$ and the new final
+segment. Apply the induction hypothesis to the predecessor wide window to
+obtain every segment classifier named by $P_0$, then conjoin that list with the
+new final segment.
+
+For the reverse direction, assume the conjunction over the successor spine.
+Project the predecessor segment conjunction and the new final segment. The
+induction hypothesis repacks the predecessor segment conjunction into
+$\mathsf{RealStreamWindowClassifier}(x,y,n,u)$. Apply the reverse direction of
+\autoref{thm:real-stream-window-adjacent-partition} to this predecessor window
+and the new final segment, producing
+$\mathsf{RealStreamWindowClassifier}(x,y,n,u+1+r)$.
+
+The three-segment case is the displayed consistency check: taking a spine with
+three radii $m,r,s$ reduces the induction twice and gives exactly
+\autoref{thm:real-stream-window-three-piece-partition}. Its two displayed cut
+points are the first two successor anchors in the finite spine ledger.
+\end{proof}
+
+The ten-field fit is: traditional target finite RegSeqRat observation partition
+coverage; BEDC source $\mathsf{RealStreamWindowClassifier}$ plus
+$\mathsf{RatHistoryClassifier}$ endpoint rows and $\mathsf{Cont}$ with unary
+anchors; carrier rational-observation streams; classifier
+$\mathsf{RealStreamWindowClassifier}$ over a certified finite partition spine;
+stability by adjacent partition, induction on the $\mathsf{BHist}$ spine, and
+unary anchor continuation; ledger total bound, segment radii, accumulated
+anchors, continuation rows, and endpoint classifiers; core theorem
+\autoref{thm:real-stream-window-finite-partition-fold}; exactness the displayed
+fold equivalence; standard bridge RealUp and RegSeqRat finite observation
+coverage; status $\mathsf{ProofTarget}$.
