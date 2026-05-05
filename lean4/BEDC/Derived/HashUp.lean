@@ -55,6 +55,11 @@ theorem HashCollisionSuccess_symmetric
   | intro d successD =>
       cases successD with
       | intro d' transcript =>
+          have digestSymm : DigClassifier d' d :=
+            digestCert.core.equiv_symm transcript.right.right.right
+          have msgDistinct : MsgClassifier x' x -> False := by
+            intro reversed
+            exact transcript.right.right.left (msgCert.core.equiv_symm reversed)
           have notReverse : MsgClassifier x' x -> False := by
             intro reverse
             exact transcript.right.right.left (msgCert.core.equiv_symm reverse)
@@ -62,7 +67,6 @@ theorem HashCollisionSuccess_symmetric
             (Exists.intro d
               (And.intro transcript.right.left
                 (And.intro transcript.left
-                  (And.intro notReverse
-                    (digestCert.core.equiv_symm transcript.right.right.right)))))
+                  (And.intro msgDistinct digestSymm))))
 
 end BEDC.Derived.HashUp
