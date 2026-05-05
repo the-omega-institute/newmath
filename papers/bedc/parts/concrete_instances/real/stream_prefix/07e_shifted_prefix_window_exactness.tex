@@ -1,0 +1,33 @@
+\begin{theorem}[Real stream shifted prefix-window exactness]
+\label{thm:real-stream-shifted-prefix-window-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
+define shifted streams $x_n,y_n:\mathbb{N}\to\Hist$ by
+$x_n(k)=x(n+k)$ and $y_n(k)=y(n+k)$. Then
+$$
+\mathsf{RealStreamPrefixClassifier}(x_n,y_n,m)
+\Longleftrightarrow
+\mathsf{RealStreamWindowClassifier}(x,y,n,m).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-prefix-window-exactness-at-zero} to the shifted
+streams $x_n$ and $y_n$. This gives the equivalence between the recursive
+prefix classifier on the shifted streams and the zero-anchored window
+classifier $\mathsf{RealStreamWindowClassifier}(x_n,y_n,0,m)$.
+
+Unfold the zero-anchored window classifier. Its endpoint rows are
+$x_n(0+k)$ and $y_n(0+k)$ for bounded offsets $k\le m$.
+
+By the definitions of the shifted streams and the identity $0+k=k$, these rows
+are exactly $x(n+k)$ and $y(n+k)$. Repacking the same bounded endpoint
+classifiers is precisely $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$.
+\end{proof}
+
+The ten-field fit is: traditional target shifted finite RealUp observation
+windows; BEDC source RealUp prefix/window classifiers plus RatUp endpoints;
+carrier rational-observation streams; classifier the displayed equivalence;
+stability zero-anchor exactness together with the index shift; ledger anchor
+$n$, radius $m$, and offset $k$; core theorem
+\autoref{thm:real-stream-shifted-prefix-window-exactness}; exactness
+arbitrary-anchor window iff shifted recursive prefix; standard bridge finite
+RegSeqRat observation windows; status $\mathsf{ProofTarget}$.

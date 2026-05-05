@@ -1,0 +1,143 @@
+\begin{theorem}[Real constant appended-tail bridge appended e-zero exclusion without tail agreement]
+\label{thm:real-constant-appended-tail-bridge-appended-ezero-exclusion}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Let $R(D,E,u_D,u_E,z_D,z_E)$ denote the paired exclusions
+$$
+(\hsame(D,u_D\cdot\Ezero(z_D))\Longrightarrow\bot)\land
+(\hsame(E,u_E\cdot\Ezero(z_E))\Longrightarrow\bot).
+$$
+Then every bridge row entails $R(D,E,u_D,u_E,z_D,z_E)$:
+$$
+(A\Longrightarrow R(D,E,u_D,u_E,z_D,z_E))\land
+(B\Longrightarrow R(D,E,u_D,u_E,z_D,z_E))\land
+(U\Longrightarrow R(D,E,u_D,u_E,z_D,z_E))\land
+(C\Longrightarrow R(D,E,u_D,u_E,z_D,z_E)).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package}. For each
+of the four bridge rows $A,B,U,C$, this supplies the package
+$P(D,E,z_D,z_E)$.
+
+Project the two positive-denominator rows of $P$. If
+$\hsame(D,u_D\cdot\Ezero(z_D))$, transport the
+$\mathsf{PositiveUnaryDenominator}(D)$ witness across the displayed appended
+e-zero-tail sameness and contradict
+\autoref{thm:positive-unary-denominator-append-e0-tail-absurd}.
+
+The same argument applied to $E$ transports the
+$\mathsf{PositiveUnaryDenominator}(E)$ witness across
+$\hsame(E,u_E\cdot\Ezero(z_E))$ and gives the second contradiction. These two
+contradictions are exactly $R(D,E,u_D,u_E,z_D,z_E)$ for each bridge row.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstant\_appended\_tail\_bridge\_appended\_e0\_tail\_absurd}
+
+\begin{theorem}[Real constant appended-tail bridge full denominator-tail package]
+\label{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Let $P(D,E,z_D,z_E)$ abbreviate
+$\mathsf{RealConstantAppendedTailDenominatorPackage}
+(d,e,tail_D,tail_E,z_D,z_E)$ from
+\autoref{def:real-constant-appended-tail-denominator-package}. Let
+$Q(D,E,u_D,u_E,z_D,z_E)$ abbreviate
+$\mathsf{RealConstantAppendedTailFullDenominatorTailPackage}
+(d,e,tail_D,tail_E,u_D,u_E,z_D,z_E)$ from
+\autoref{def:real-constant-appended-tail-full-denominator-tail-package}.
+If $\hsame(tail_D,tail_E)$, then every bridge row entails this full
+denominator-tail package:
+$$
+(A\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E))\land
+(B\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E))\land
+(U\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E))\land
+(C\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E)).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\hsame(tail_D,tail_E)$. Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package}. For each
+of the four bridge rows $A,B,U,C$, this supplies the package
+$P(D,E,z_D,z_E)$.
+
+Independently,
+\autoref{thm:real-constant-appended-tail-bridge-appended-ezero-exclusion}
+gives the two appended e-zero-tail exclusions for $D$ and $E$ under each bridge
+row.
+
+It remains to determine the matched heads. The final row of $P$ gives
+$D\hsame E$. The tail hypothesis transports through the $\Eone$ constructor,
+and append congruence rewrites $e\cdot\Eone(tail_E)$ as
+$e\cdot\Eone(tail_D)$. Thus the endpoint comparison has a common right suffix
+$\Eone(tail_D)$, so BEDC append right cancellation yields $\hsame(d,e)$.
+
+These three consequences together with the already recovered package $P$ are
+exactly the named projections of $Q(D,E,u_D,u_E,z_D,z_E)$ from
+\autoref{def:real-constant-appended-tail-full-denominator-tail-package} for
+each bridge row.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstant\_appended\_tail\_bridge\_full\_denominator\_tail\_package}
+
+\begin{theorem}[Real constant appended-tail bridge full denominator-tail package exactness]
+\label{thm:real-constant-appended-tail-bridge-full-denominator-tail-package-exactness}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, use the same definitions of $D$, $E$, the bridge rows
+$A,B,U,C$, and the full package $Q(D,E,u_D,u_E,z_D,z_E)$ as in
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}.
+If $\hsame(tail_D,tail_E)$, then the full denominator-tail package is exact
+for the bridge rows:
+$$
+Q(D,E,u_D,u_E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C.
+$$
+\end{theorem}
+\begin{proof}
+Assume $Q(D,E,u_D,u_E,z_D,z_E)$. Project its
+$P(D,E,z_D,z_E)$ component and apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness}.
+This gives the four bridge rows $A\land B\land U\land C$.
+
+Conversely assume $\hsame(tail_D,tail_E)$ and $A\land B\land U\land C$.
+Apply
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}
+under the tail agreement. The first projected implication has type
+$A\Longrightarrow Q(D,E,u_D,u_E,z_D,z_E)$, and the projected row $A$ supplies
+its premise. Hence the full package $Q(D,E,u_D,u_E,z_D,z_E)$ holds.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstant\_appended\_tail\_bridge\_full\_denominator\_tail\_package\_exactness}
