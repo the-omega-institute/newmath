@@ -75,6 +75,39 @@ theorem RealUnaryStreamWindowClassifier_selected_shape_package
       PositiveUnaryDenominator_e0_absurd
         (PositiveUnaryDenominator_hsame_transport sameZero positives.right))⟩
 
+theorem RealUnaryStreamWindowClassifier_selected_denominator_package
+    {s t : BHist -> BHist} {a w k zS zT : BHist} :
+    RatStreamNameClassifier s t -> UnaryHistory a -> UnaryHistory w -> UnaryOffsetLe k w ->
+      RatHistoryClassifier (s (append a k)) (t (append a k)) ∧
+        PositiveUnaryDenominator (s (append a k)) ∧
+          PositiveUnaryDenominator (t (append a k)) ∧
+            UnaryHistory (s (append a k)) ∧ UnaryHistory (t (append a k)) ∧
+              (hsame (s (append a k)) BHist.Empty -> False) ∧
+                (hsame (t (append a k)) BHist.Empty -> False) ∧
+                  (hsame (s (append a k)) (BHist.e0 zS) -> False) ∧
+                    (hsame (t (append a k)) (BHist.e0 zT) -> False) := by
+  intro classified aUnary _wUnary offset
+  have selected : RatHistoryClassifier (s (append a k)) (t (append a k)) :=
+    classified.right.right (append a k) (unary_append_closed aUnary offset.left)
+  have positives :
+      PositiveUnaryDenominator (s (append a k)) ∧
+        PositiveUnaryDenominator (t (append a k)) :=
+    RatHistoryClassifier_positive_denominators selected
+  have leftRows :
+      UnaryHistory (s (append a k)) ∧ (hsame (s (append a k)) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positives.left
+  have rightRows :
+      UnaryHistory (t (append a k)) ∧ (hsame (t (append a k)) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positives.right
+  exact ⟨selected, positives.left, positives.right, leftRows.left, rightRows.left,
+    leftRows.right, rightRows.right,
+    (fun sameZero =>
+      PositiveUnaryDenominator_e0_absurd
+        (PositiveUnaryDenominator_hsame_transport sameZero positives.left)),
+    (fun sameZero =>
+      PositiveUnaryDenominator_e0_absurd
+        (PositiveUnaryDenominator_hsame_transport sameZero positives.right))⟩
+
 theorem RealUnaryStreamWindowClassifier_selected_classifier_appended_tail_package
     {s t : BHist -> BHist} {a w k u v zS zT dS dT : BHist} :
     RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameClassifier s t ->
