@@ -133,6 +133,31 @@ $T$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexPartSum\_pointwise\_result\_unary\_transport}
 
+\begin{theorem}[Closed pointwise complex partial-sum unary transport]
+\label{thm:real-analytic-complex-part-sum-closed-pointwise-index-result-unary-transport}
+For two complex term families $c,d:\mathsf{BHist}\to\mathsf{BHist}$, suppose
+the chosen zero histories $zero$ and $zero'$ are $\hsame$, the source zero
+history $zero$ is unary, each $c(m)$ is unary whenever $m$ is unary, and
+$c(m)\hsame d(m)$ for every unary index $m$. If closed partial-sum witnesses
+compute $S$ for $(zero,c)$ and $T$ for $(zero',d)$ at the same index $n$, then
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{UnaryHistory}(T)$.
+\end{theorem}
+\begin{proof}
+Apply the complex partial-sum index unary theorem to the source witness. This
+turns the closed source computation into the unary index witness
+$\mathsf{UnaryHistory}(n)$.
+
+With this derived index witness, apply the complex partial-sum index/result
+unary theorem to the same source witness. The hypotheses on $zero$ and $c$
+give $\mathsf{UnaryHistory}(S)$.
+
+Pointwise $\hsame$ determinacy for complex partial sums identifies $S$ and
+$T$ under $\hsame$, using the comparison of the zero histories and the
+pointwise comparison $c(m)\hsame d(m)$ at unary indices. Unary history
+transport along $\hsame$ carries $\mathsf{UnaryHistory}(S)$ to
+$\mathsf{UnaryHistory}(T)$.
+\end{proof}
+
 \begin{theorem}[Real-analytic pointwise absolute partial-sum target unaryness]
 \label{thm:real-analytic-complex-abs-part-sum-pointwise-result-unary-transport}
 For two modulus families $\mathsf{modulus},\mathsf{modulus}':
