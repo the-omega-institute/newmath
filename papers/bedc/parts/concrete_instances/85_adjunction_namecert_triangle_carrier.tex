@@ -12,6 +12,22 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier}
 
+\begin{theorem}[Adjunction triangle carrier zero-headed component impossibility]
+\label{thm:adjunction-triangle-carrier-zero-headed-component-absurd}
+For histories $left,right,object,unit,counit,leftLeg,rightLeg:\mathsf{BHist}$,
+an adjunction triangle carrier has no zero-headed displayed component among
+its prefixes, object, unit, counit, or triangle legs.
+\end{theorem}
+\begin{proof}
+The prefix, object, unit, and counit cases are rejected by the
+natural-transformation prefix-component zero-headed impossibility theorem
+applied to one of the two component rows. For the two triangle legs, the unit
+and counit component rows supply unary histories for the component histories;
+unary continuation closure makes the leg result unary, contradicting unary
+zero-headed exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_zero\_headed\_component\_absurd}
+
 \begin{theorem}[Adjunction empty roundtrip prefix determinacy]
 \label{thm:adjunction-empty-roundtrip-prefix-deterministic}
 For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and

@@ -1,4 +1,5 @@
 import BEDC.Derived.LinearMapUp
+import BEDC.Derived.LinearMapUp.CompContinuation
 
 namespace BEDC.Derived.LinearMapUp
 
