@@ -3,6 +3,7 @@ import BEDC.Derived.RealUp
 namespace BEDC.Derived.RealUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
 
@@ -103,5 +104,27 @@ theorem RealStreamClassifier_transported_selected_e1_tail_determinacy
         (And.intro readA'B'.right.left
           (And.intro sameAA'
             (And.intro sameBB' (And.intro readAB.right.right readA'B'.right.right))))))
+
+theorem RealStreamClassifier_transported_selected_append_e1_tail_hsame_cancel
+    {x x' y y' : Nat -> BHist} {n : Nat} {d e tailD tailE : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y ->
+          hsame (x' n) (BHist.e1 (append d (BHist.e1 tailD))) ->
+            hsame (y' n) (BHist.e1 (append e (BHist.e1 tailE))) ->
+              hsame tailD tailE -> hsame d e := by
+  intro sameX sameY classified sameLeft sameRight sameTail
+  have displayed :
+      RatHistoryClassifier (BHist.e1 (append d (BHist.e1 tailD)))
+        (BHist.e1 (append e (BHist.e1 tailE))) :=
+    RealStreamClassifier_transported_selected_e1_rat_classifier_readback sameX sameY
+      classified sameLeft sameRight
+  have readback :
+      UnaryHistory (append d (BHist.e1 tailD)) ∧
+        UnaryHistory (append e (BHist.e1 tailE)) ∧
+          hsame (append d (BHist.e1 tailD)) (append e (BHist.e1 tailE)) :=
+    RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+  cases sameTail
+  exact append_right_cancel (k := BHist.e1 tailD) readback.right.right
 
 end BEDC.Derived.RealUp
