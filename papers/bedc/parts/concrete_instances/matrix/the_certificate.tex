@@ -55,6 +55,43 @@ singleton carrier, the two semantic soundness maps are identity projections.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_semanticNameCert}
 
+\begin{theorem}[Singleton empty-history MatrixUp certificate obligations]
+\label{thm:matrix-singleton-empty-history-certificate-obligations}
+For the singleton empty-history matrix data of
+\autoref{def:singleton-empty-history-matrix-instance}, the $\MatrixUp$
+obligations of \autoref{def:matrix-certificate-obligations} are instantiated
+as follows:
+\begin{enumerate}
+  \item the source, pattern, and ledger carriers are the singleton carrier
+  $A_{\emp}$ on $\mathsf{BHist}$;
+  \item the classifier is $\rho_{\emp}$;
+  \item the semantic $\NameCert$ rows are supplied by
+  \autoref{thm:matrix-singleton-carrier-semantic-namecert};
+  \item the zero, identity, operation-closure, unit, associativity, and
+  congruence rows are supplied by
+  \autoref{thm:singleton-empty-history-matrix-laws}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:matrix-certificate-obligations}. The source, pattern, and
+ledger slots are all the displayed singleton history carrier $A_{\emp}$ from
+\autoref{def:singleton-empty-history-matrix-instance}, and the classifier slot
+is the displayed relation $\rho_{\emp}$. The ledger is the same singleton
+dimension/source ledger, with row and column witnesses represented by $\emp$.
+
+The carrier transport and semantic soundness rows are exactly
+\autoref{thm:matrix-singleton-carrier-semantic-namecert}. That theorem uses
+the same carrier in the source, pattern, and ledger positions, so its semantic
+$\NameCert$ data supplies the certificate-level carrier and classifier core.
+
+It remains to fill the stability rows. The law package of
+\autoref{thm:singleton-empty-history-matrix-laws} carries $0_M$ and $I_M$,
+closes $A_{\emp}$ under $\oplus$ and $\odot$, supplies the unit and identity
+laws, proves associativity under $\rho_{\emp}$, and gives classifier
+congruence for both operations. These rows exhaust the stability portion of
+the displayed $\MatrixUp$ obligations.
+\end{proof}
+
 \paragraph{Primitive boundary.}
 \(\MatrixUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
