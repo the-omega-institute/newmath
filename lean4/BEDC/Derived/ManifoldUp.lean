@@ -155,6 +155,28 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_transition_source_readback
+    {base index domain chart transition : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      UnaryHistory transition ∧ hsame transition (append (append base index) chart) ∧
+        Cont (append base index) chart transition ∧ Cont base index domain ∧
+          Cont domain chart transition := by
+  intro package
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  have domainRow : Cont base index domain := package.right.right.right.right.right.left
+  have transitionRow : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have sourceReadback : hsame transition (append (append base index) chart) := by
+    cases domainRow
+    cases transitionRow
+    rfl
+  have carriedTransition : Cont (append base index) chart transition := by
+    cases domainRow
+    exact transitionRow
+  exact And.intro transitionUnary
+    (And.intro sourceReadback
+      (And.intro carriedTransition (And.intro domainRow transitionRow)))
+
 def ManifoldScopedBoundaryPackage (carrier i j k pair triple : BHist) : Prop :=
   UnaryHistory carrier ∧ UnaryHistory i ∧ UnaryHistory j ∧ UnaryHistory k ∧
     Cont i j pair ∧ Cont pair k triple

@@ -152,6 +152,25 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
 
+theorem NumFieldReflexiveRational_coordinate_readback_uniqueness {m c0 c1 : BHist} :
+    RatHistoryCarrier m -> Cont m BHist.Empty c0 -> Cont m BHist.Empty c1 ->
+      RatHistoryClassifier c0 c1 ∧ RatHistoryClassifier c0 m ∧
+        RatHistoryClassifier c1 m := by
+  intro carrierM leftReadback rightReadback
+  have sameC0M : hsame c0 m := cont_right_unit_result leftReadback
+  have sameC1M : hsame c1 m := cont_right_unit_result rightReadback
+  have c0Carrier : RatHistoryCarrier c0 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC0M) carrierM
+  have c1Carrier : RatHistoryCarrier c1 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC1M) carrierM
+  have c0M : RatHistoryClassifier c0 m :=
+    And.intro c0Carrier (And.intro carrierM sameC0M)
+  have c1M : RatHistoryClassifier c1 m :=
+    And.intro c1Carrier (And.intro carrierM sameC1M)
+  have c0c1 : RatHistoryClassifier c0 c1 :=
+    RatHistoryClassifier_trans c0M (RatHistoryClassifier_symm c1M)
+  exact And.intro c0c1 (And.intro c0M c1M)
+
 theorem NumFieldReflexiveRational_singleton_basis_transport {h basis coord : BHist} :
     NumFieldRatReflexiveCarrier h -> RatHistoryCarrier basis ->
       hsame basis (BHist.e1 BHist.Empty) -> Cont h basis coord ->
