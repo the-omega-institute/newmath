@@ -25,6 +25,25 @@ def CplxDiffSourceSpec (f z fp : BHist) : Prop :=
   CplxDiffAt f z fp ∧
     ∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z h q ∧ Cont f h q ∧ hsame q fp
 
+def CplxDiffPatternSpec (f z pattern : BHist) : Prop :=
+  ∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z h q ∧ Cont h q pattern
+
+theorem CplxDiffPatternSpec_witness_readback {f z pattern : BHist} :
+    CplxDiffPatternSpec f z pattern ->
+      ∃ h : BHist, ∃ q : BHist,
+        CplxDiffQuot f z h q ∧ Cont h q pattern ∧ UnaryHistory h ∧ UnaryHistory q := by
+  intro patternSpec
+  cases patternSpec with
+  | intro h patternRest =>
+      cases patternRest with
+      | intro q witness =>
+          have quotientReadback := CplxDiffQuot_step_unary witness.left
+          exact Exists.intro h
+            (Exists.intro q
+              (And.intro witness.left
+                (And.intro witness.right
+                  (And.intro quotientReadback.left quotientReadback.right.left))))
+
 theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
     CplxDiffAt f z fp ->
       exists h : BHist, exists q : BHist,
