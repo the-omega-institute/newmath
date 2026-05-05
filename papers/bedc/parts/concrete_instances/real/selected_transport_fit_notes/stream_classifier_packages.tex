@@ -137,7 +137,8 @@ $$
 \mathsf{UnaryHistory}(a')\land
 \mathsf{UnaryHistory}(b)\land
 \mathsf{UnaryHistory}(b')\land\\
-\hsame(a,a')\land \hsame(b,b')\land \hsame(a,b)\land \hsame(a',b').
+\hsame(a,a')\land \hsame(b,b')\land \hsame(a,b)\land\\
+\hsame(a',b')\land \hsame(a,b')\land \hsame(a',b).
 \end{array}
 $$
 \end{theorem}
@@ -159,6 +160,10 @@ This supplies $\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$,
 $\hsame(a,a')$, $\hsame(b,b')$, and $\hsame(a',b')$, while retaining the
 $a,b$ tail rows already identified above.
 
+The off-diagonal tail rows are constructive consequences of these rows. Compose
+$\hsame(a,b)$ with $\hsame(b,b')$ to obtain $\hsame(a,b')$; compose the
+symmetry of $\hsame(a,a')$ with $\hsame(a,b)$ to obtain $\hsame(a',b)$.
+
 Apply \autoref{thm:real-stream-classifier-prefix} to
 $\mathsf{RealStreamClassifier}(x,y)$ at the finite length $m+n$. This gives the
 derived row $\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ used by the selected
@@ -176,7 +181,8 @@ Finally use the reverse direction of
 $\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
 $\hsame(a',b')$. It gives
 $\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))$, which combines with the
-first displayed classifier and the eight synchronized tail rows.
+first displayed classifier, the four unary tail rows, and the six pairwise
+synchronized tail rows.
 \end{proof}
 
 Fit: traditional target synchronized selected RealUp observation readback; BEDC
@@ -185,10 +191,11 @@ $\hsame$; carrier rational-observation streams; classifiers
 RealStreamClassifier plus RatHistoryClassifier on displayed e-one endpoints;
 stability pointwise transport, stream-classifier finite-prefix closure,
 contextual continuation, and e-one tail inversion/congruence; ledger selected
-index, prefix surplus, four endpoint tails, two contextual outputs, and prefix
+index, prefix surplus, four endpoint histories, two contextual outputs, and prefix
 endpoint rows; core theorem
 \autoref{thm:real-selected-transport-synchronized-e1-endpoints}; exactness the
-two displayed RatHistoryClassifier rows and all four synchronized tails;
+two displayed RatHistoryClassifier rows and all six pairwise synchronized tail
+rows;
 standard bridge selected RegSeqRat dyadic observation readback; status
 $\mathsf{ProofTarget}$.
 
@@ -245,7 +252,9 @@ $$
 \end{array}
 $$
 \item The contextual e-one tail determinacy package of
-\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}:
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}
+together with the off-diagonal rows of
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-cross-hsame}:
 $$
 \begin{array}{l}
 \mathsf{UnaryHistory}(a)\land
@@ -255,7 +264,9 @@ $$
 \hsame(a,a')\land
 \hsame(b,b')\land
 \hsame(a,b)\land
-\hsame(a',b').
+\hsame(a',b')\land
+\hsame(a,b')\land
+\hsame(a',b).
 \end{array}
 $$
 \item The finite-prefix selected full-shape readback package of
@@ -286,7 +297,9 @@ $$
 \hsame(a,a')\land
 \hsame(b,b')\land
 \hsame(a,b)\land
-\hsame(a',b').
+\hsame(a',b')\land
+\hsame(a,b')\land
+\hsame(a',b).
 \end{array}
 $$
 \end{enumerate}
@@ -303,6 +316,10 @@ Next apply
 to the same transported contextual data and all four displayed e-one endpoints.
 This gives the contextual e-one tail determinacy package, including the primed
 tail rows used below.
+
+The two off-diagonal rows are the same constructive consequences: compose
+$\hsame(a,b)$ with $\hsame(b,b')$ for $\hsame(a,b')$, and compose the symmetry
+of $\hsame(a,a')$ with $\hsame(a,b)$ for $\hsame(a',b)$.
 
 Apply \autoref{thm:real-stream-classifier-prefix} to
 $\mathsf{RealStreamClassifier}(x,y)$ at the finite length $m+n$. This gives the
@@ -322,8 +339,8 @@ Finally use the reverse direction of
 $\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
 $\hsame(a',b')$. It gives
 $\mathsf{RatHistoryClassifier}(\Eone(a'),\Eone(b'))$, and the remaining
-synchronized rows are exactly the tail rows already supplied by the
-determinacy package.
+synchronized rows are exactly the six pairwise tail rows supplied by the
+determinacy package and its off-diagonal consequences.
 \end{proof}
 
 \begin{theorem}[Real selected transport synchronized package from stream classifier]
@@ -379,7 +396,9 @@ $$
 \end{array}
 $$
 \item The contextual e-one tail determinacy package of
-\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}:
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}
+together with the off-diagonal rows of
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-cross-hsame}:
 $$
 \begin{array}{l}
 \mathsf{UnaryHistory}(a)\land
@@ -389,7 +408,9 @@ $$
 \hsame(a,a')\land
 \hsame(b,b')\land
 \hsame(a,b)\land
-\hsame(a',b').
+\hsame(a',b')\land
+\hsame(a,b')\land
+\hsame(a',b).
 \end{array}
 $$
 \item The finite-prefix selected full-shape readback package of
@@ -420,7 +441,9 @@ $$
 \hsame(a,a')\land
 \hsame(b,b')\land
 \hsame(a,b)\land
-\hsame(a',b').
+\hsame(a',b')\land
+\hsame(a,b')\land
+\hsame(a',b).
 \end{array}
 $$
 \end{enumerate}
@@ -434,7 +457,8 @@ Apply \autoref{thm:real-selected-transport-fit-synchronized-package} with the
 derived prefix row, the source stream classifier row, the two pointwise
 transport rows, and the remaining context, continuation, and displayed e-one
 hypotheses. The four returned packages are exactly the four packages displayed
-above.
+above, with six pairwise synchronized tail rows in the displayed synchronized
+package.
 \end{proof}
 
 Fit: traditional target selected RealUp observation synchronization from a
@@ -443,10 +467,11 @@ StreamNameUp, and $\mathsf{Cont}$; carrier rational-observation streams;
 classifier $\mathsf{RealStreamClassifier}$ with derived finite-prefix row;
 stability pointwise $\hsame$ transport, contextual continuation, and e-one
 inversion; ledger selected index, prefix length, transport rows, contexts, and
-four tails; core theorem
+four tail histories; core theorem
 \autoref{thm:real-selected-transport-synchronized-package-from-stream-classifier};
-exactness the four synchronized packages; standard bridge selected RegSeqRat
-dyadic observation readback; status $\mathsf{ProofTarget}$.
+exactness the four synchronized packages, including six pairwise synchronized
+tail rows; standard bridge selected RegSeqRat dyadic observation readback;
+status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real selected transport synchronized appended-tail package from stream classifier]
 \label{thm:real-selected-transport-synchronized-appended-tail-package-from-stream-classifier}
@@ -504,7 +529,8 @@ certificate; BEDC source RealUp stream transport plus RatUp and FKernel
 $\Cont$; carrier rational-observation streams; classifier RealStreamClassifier
 plus displayed RatHistoryClassifier rows; stability pointwise $\hsame$, context
 closure, stream-classifier finite-prefix closure, e-one inversion; ledger
-selected index, prefix surplus, four tails, contexts; core theorem
+selected index, prefix surplus, four tail histories, contexts; core theorem
 \autoref{thm:real-selected-transport-fit-synchronized-package}; exactness
-package plus synchronized classifiers; standard bridge selected RegSeqRat
-dyadic observation readback; status $\mathsf{ProofTarget}$.
+package plus synchronized classifiers and six pairwise synchronized tail rows;
+standard bridge selected RegSeqRat dyadic observation readback; status
+$\mathsf{ProofTarget}$.

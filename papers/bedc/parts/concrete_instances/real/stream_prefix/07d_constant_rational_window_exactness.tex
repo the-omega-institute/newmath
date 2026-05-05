@@ -1,0 +1,53 @@
+\begin{theorem}[Constant rational real finite-window exactness]
+\label{thm:real-constant-rational-finite-window-exactness}
+For histories $d,e,a,w:\Hist$ with $\mathsf{UnaryHistory}(a)$ and
+$\mathsf{UnaryHistory}(w)$,
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\Longleftrightarrow
+\mathsf{RealUnaryStreamWindowClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e,a,w).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$\mathsf{RatHistoryClassifier}(d,e)$. The constant-stream witness
+\autoref{thm:rat-stream-name-constant-witness} supplies
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e)$.
+
+Read this StreamNameUp classifier as the corresponding RealUp unary-observation
+stream classifier by \autoref{thm:streamname-real-constant-prefix-bridge}. With
+the displayed unary anchor and bound witnesses, apply
+\autoref{thm:real-unary-stream-window-coverage} to obtain the finite-window
+classifier.
+
+For the reverse direction, assume
+$\mathsf{RealUnaryStreamWindowClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e,a,w)$. The empty history is a certified unary offset
+below $w$: use the unary witness for $w$, the unary witness for $\emp$, and the
+continuation row $\ContR(\emp,w,w)$.
+
+Apply
+\autoref{lem:real-unary-stream-window-endpoint-projection} at the offset
+$\emp$. This yields
+$$
+\mathsf{RatHistoryClassifier}(
+\mathsf{RatConstStream}_d(\mathsf{append}(a,\emp)),
+\mathsf{RatConstStream}_e(\mathsf{append}(a,\emp))).
+$$
+
+Unfold $\mathsf{RatConstStream}$. Both constant streams ignore the observation
+history $\mathsf{append}(a,\emp)$, so the projected endpoint classifier is
+exactly $\mathsf{RatHistoryClassifier}(d,e)$.
+\end{proof}
+
+The ten-field fit is: traditional target constant rational observations inside
+RealUp finite windows; BEDC source RatUp plus StreamNameUp plus RealUp; carrier
+constant rational observation streams; classifier the displayed equivalence;
+stability inherited from constant stream classification and finite-window
+endpoint projection; ledger hidden rational seed, anchor, bound, and empty
+offset; core theorem
+\autoref{thm:real-constant-rational-finite-window-exactness}; exactness the
+displayed equivalence; standard bridge constant rational finite observation
+windows; status $\mathsf{ProofTarget}$.
