@@ -40,6 +40,80 @@ theorem ComplexTopologyCertifiedSubradius_comp {r0 r1 r2 e0 e1 e01 : BHist} :
           (And.intro e01Carrier radiusRel)))
       radiusRel
 
+theorem ComplexTopologyOpenDiskGap_certified_subradius_public_readback
+    {center inner outer point gap tail displayedGap : BHist} :
+    ComplexTopologyCertifiedSubradius inner outer tail ->
+      ComplexTopologyOpenDiskGap center inner point gap ->
+        ComplexTopologyOpenDiskGap center outer point displayedGap ->
+          hsame displayedGap (append gap tail) := by
+  intro subradius smaller displayedOuter
+  have extended :
+      ComplexTopologyOpenDiskGap center outer point (append gap tail) ∧
+        Cont point (append gap tail) outer :=
+    ComplexTopologyOpenDiskGap_radius_extension_closed smaller subradius.right.right.left
+      subradius.right.right.right (cont_intro rfl)
+  exact ComplexTopologyOpenDiskGap_gap_deterministic displayedOuter extended.right
+
+theorem ComplexTopologyOpenDiskGap_subradius_inclusion_readback
+    {center inner outer point gap tail extendedGap : BHist} :
+    ComplexTopologyOpenDiskGap center inner point gap ->
+      ComplexTopologyCertifiedSubradius inner outer tail ->
+        Cont gap tail extendedGap ->
+          ComplexTopologyOpenDiskGap center outer point extendedGap ∧
+            Cont point extendedGap outer ∧
+              forall parentGap : BHist,
+                ComplexTopologyOpenDiskGap center outer point parentGap ->
+                  hsame parentGap extendedGap := by
+  intro disk subradius gapTail
+  have extended :
+      ComplexTopologyOpenDiskGap center outer point extendedGap ∧
+        Cont point extendedGap outer :=
+    ComplexTopologyOpenDiskGap_radius_extension_closed disk subradius.right.right.left
+      subradius.right.right.right gapTail
+  exact And.intro extended.left
+    (And.intro extended.right
+      (fun parentGap parentDisk =>
+        ComplexTopologyOpenDiskGap_gap_deterministic parentDisk extended.right))
+
+theorem ComplexTopologyCertifiedSubradius_openDiskGap_extension_gap_readback
+    {center inner outer point gap tail displayedGap : BHist} :
+    ComplexTopologyOpenDiskGap center inner point gap ->
+      ComplexTopologyCertifiedSubradius inner outer tail ->
+        ComplexTopologyOpenDiskGap center outer point displayedGap ->
+          hsame displayedGap (append gap tail) := by
+  intro disk subradius displayed
+  have gapStep : Cont gap tail (append gap tail) := by
+    exact cont_intro rfl
+  have extended :=
+    ComplexTopologyOpenDiskGap_radius_extension_closed disk subradius.right.right.left
+      subradius.right.right.right gapStep
+  exact ComplexTopologyOpenDiskGap_gap_deterministic displayed extended.right
+
+theorem ComplexTopologyCertifiedSubradius_open_disk_gap_public_readback
+    {center inner outer point gap tail outerGap : BHist} :
+    ComplexTopologyOpenDiskGap center inner point gap ->
+      ComplexTopologyCertifiedSubradius inner outer tail ->
+        Cont gap tail outerGap ->
+          ComplexTopologyOpenDiskGap center outer point outerGap ∧
+            Cont point outerGap outer ∧ hsame outerGap (append gap tail) := by
+  intro disk subradius gapTail
+  have outerGapUnary : UnaryHistory outerGap :=
+    unary_cont_closed disk.right.right.right.left subradius.right.right.left gapTail
+  have pointOuterGap : Cont point outerGap outer := by
+    apply cont_intro
+    exact
+      subradius.right.right.right.trans
+        ((congrArg (fun h => append h tail) disk.right.right.right.right).trans
+          ((append_assoc point gap tail).trans
+            (congrArg (append point) gapTail.symm)))
+  exact
+    And.intro
+      (And.intro disk.left
+        (And.intro subradius.right.left
+          (And.intro disk.right.right.left
+            (And.intro outerGapUnary pointOuterGap))))
+      (And.intro pointOuterGap gapTail)
+
 theorem ComplexTopologyOpenDiskGap_subradius_extension_public_readback
     {center inner outer point gap tail largeGap : BHist} :
     ComplexTopologyOpenDiskGap center inner point gap ->

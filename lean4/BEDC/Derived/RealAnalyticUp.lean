@@ -7,6 +7,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
+open BEDC.Derived.ComplexLimitUp
 open BEDC.Derived.ComplexSeriesUp
 
 def RealAnalyticTrigPart (zero : BHist) (sinTerm cosTerm : BHist -> BHist)
@@ -28,6 +29,15 @@ inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist ->
   | step {n S T : BHist} :
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
+
+def RealAnalyticPiBoundary (term : BHist -> BHist) (candidate : BHist) : Prop :=
+  exists n S : BHist,
+    RealAnalyticLeibnizPartSum term n S ∧ Cont S BHist.Empty candidate ∧
+      UnaryHistory candidate
+
+def RealAnalyticPiLocalData (leibnizTerm : BHist -> BHist) (n sum pi : BHist) : Prop :=
+  UnaryHistory n ∧ RealAnalyticLeibnizPartSum leibnizTerm n sum ∧ UnaryHistory sum ∧
+    Cont sum sum pi
 
 def RealAnalyticPiCandidate (leibnizTerm : BHist -> BHist) (limit : BHist) : Prop :=
   exists n S : BHist, RealAnalyticLeibnizPartSum leibnizTerm n S ∧ Cont S BHist.Empty limit
@@ -86,6 +96,15 @@ theorem RealAnalyticLeibnizPartSum_index_result_unary {term : BHist -> BHist}
 def RealAnalyticExpPart (x n S : BHist) : Prop :=
   ComplexHistoryCarrier x ∧
     ComplexPartSum x (fun m : BHist => append x m) n S ∧ UnaryHistory n
+
+def RealAnalyticLog (x logValue : BHist) (bisect M : BHist -> BHist) : Prop :=
+  ComplexHistoryCarrier x ∧
+    ComplexLimit bisect (fun _ : BHist => BHist.Empty) logValue M ∧
+      forall {n : BHist}, UnaryHistory n -> UnaryHistory (bisect n)
+
+def RealAnalyticExp (x bound modulus y : BHist) : Prop :=
+  ComplexHistoryCarrier x ∧ UnaryHistory bound ∧ UnaryHistory modulus ∧
+    exists n S : BHist, UnaryHistory n ∧ RealAnalyticExpPart x n S ∧ Cont S modulus y
 
 theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist} :
@@ -184,6 +203,35 @@ theorem RealAnalyticComplexAbsPartSum_closed_pointwise_index_result_unary_transp
     RealAnalyticComplexAbsPartSum_pointwise_result_unary_transport zeroUnary sameZero
       modulusUnary modulusSame unaryN source target
   exact And.intro unaryN unaryT
+
+theorem RealAnalyticPiBoundary_leibniz_index_result_unary {term : BHist -> BHist}
+    {candidate : BHist}
+    (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (term m)) :
+    RealAnalyticPiBoundary term candidate ->
+      exists n S : BHist, UnaryHistory n ∧ UnaryHistory S ∧ Cont S BHist.Empty candidate := by
+  intro boundary
+  have leibnizUnary :
+      forall {n S : BHist}, RealAnalyticLeibnizPartSum term n S ->
+        UnaryHistory n ∧ UnaryHistory S := by
+    intro n S leibniz
+    induction leibniz with
+    | zero =>
+        exact And.intro unary_empty unary_empty
+    | step previous stepCont ih =>
+        exact And.intro (unary_e1_closed ih.left)
+          (unary_cont_closed ih.right (termUnary ih.left) stepCont)
+  cases boundary with
+  | intro n boundaryN =>
+      cases boundaryN with
+      | intro S data =>
+          cases data with
+          | intro leibniz rest =>
+              have unaryPair : UnaryHistory n ∧ UnaryHistory S :=
+                leibnizUnary leibniz
+              exact Exists.intro n
+                (Exists.intro S
+                  (And.intro unaryPair.left
+                    (And.intro unaryPair.right rest.left)))
 
 theorem RealAnalyticLocalStream_obligations_package {zero zero' : BHist}
     {c d modulus modulus' : BHist -> BHist} :
