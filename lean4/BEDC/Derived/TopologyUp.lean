@@ -21,6 +21,31 @@ def BHistCarriesOpen (T : BHistIndexedOpenCarrier) (i : T.OpenIx)
     (U : BHist -> Prop) : Prop :=
   forall {x : BHist}, UnaryHistory x -> (U x <-> T.OpenAt i x)
 
+theorem BHistCarriesOpen_classifier_transport (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} :
+    BHistCarriesOpen T i U ->
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  intro carries x y unaryX unaryY sameXY
+  have carryX : U x <-> T.OpenAt i x :=
+    carries unaryX
+  have carryY : U y <-> T.OpenAt i y :=
+    carries unaryY
+  have stable : T.OpenAt i x <-> T.OpenAt i y :=
+    T.membership_stable unaryX unaryY sameXY
+  constructor
+  · intro ux
+    have openX : T.OpenAt i x :=
+      Iff.mp carryX ux
+    have openY : T.OpenAt i y :=
+      Iff.mp stable openX
+    exact Iff.mpr carryY openY
+  · intro uy
+    have openY : T.OpenAt i y :=
+      Iff.mp carryY uy
+    have openX : T.OpenAt i x :=
+      Iff.mpr stable openY
+    exact Iff.mpr carryX openX
+
 theorem BHistIndexedOpen_finite_intersection_closure (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} :
     BHistCarriesOpen T i U -> BHistCarriesOpen T j V ->
