@@ -73,6 +73,18 @@ If $q_0\not\hsame\emp$, the induction hypothesis applied to $\mathsf{NatMul}(d,q
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_quotient\_product\_extension}
 
+\begin{lemma}[Divisibility exposes unary divisor]
+\label{lem:nat-divides-divisor-unary}
+If $\mathsf{NatDivides}(d,n)$ holds, then $d$ is a unary history.
+\end{lemma}
+\begin{proof}
+Unpack the quotient witness in \(\mathsf{NatDivides}(d,n)\). The
+corresponding multiplication witness has \(d\) as its multiplicand, and
+the multiplicand readback for closed multiplication derivations reads the
+unary carrier directly from it.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_divisor\_unary}
+
 \begin{theorem}[Divisibility antisymmetry up to history-sameness]
 \label{thm:nat-divides-antisymmetry-hsame}
 Let $d$ and $e$ be unary histories. If $\mathsf{NatDivides}(d,e)$ and $\mathsf{NatDivides}(e,d)$, then $d\hsame e$.
