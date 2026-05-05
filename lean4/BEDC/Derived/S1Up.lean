@@ -573,26 +573,4 @@ theorem SOneHistoryCarrier_e1_components_unit_equation_classifier
     (And.intro readback.right.left
       (And.intro equationClassifier readback.right.right.right))
 
-theorem SOneHistoryCarrier_e1_components_carrier_exactness {dx dy equationTail t : BHist} :
-    SOneHistoryCarrier (BHist.e1 dx) (BHist.e1 dy) (BHist.e1 equationTail)
-      (BHist.e1 t) ↔
-      RatHistoryCarrier dx ∧ RatHistoryCarrier dy ∧
-        RatHistoryClassifier equationTail (BHist.e1 BHist.Empty) ∧
-          Cont (BHist.e1 dx) dy t := by
-  constructor
-  · intro carrier
-    exact SOneHistoryCarrier_e1_components_unit_equation_classifier carrier
-  · intro data
-    have dxCarrier : RealConstantHistoryCarrier (BHist.e1 dx) :=
-      RealConstantHistoryCarrier_e1_iff_rat.mpr data.left
-    have dyCarrier : RealConstantHistoryCarrier (BHist.e1 dy) :=
-      RealConstantHistoryCarrier_e1_iff_rat.mpr data.right.left
-    have equationCarrier :
-        RealConstantHistoryClassifier (BHist.e1 equationTail) SOneUnitHistory :=
-      RealConstantHistoryClassifier_e1_iff_rat.mpr data.right.right.left
-    have pointCont : Cont (BHist.e1 dx) (BHist.e1 dy) (BHist.e1 t) := by
-      cases data.right.right.right
-      rfl
-    exact And.intro dxCarrier (And.intro dyCarrier (And.intro equationCarrier pointCont))
-
 end BEDC.Derived.S1Up
