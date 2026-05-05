@@ -57,4 +57,21 @@ theorem NatPrime_empty_absurd {p : BHist} :
   cases sameEmpty
   exact NatUnaryStrictPrefix_empty_right_absurd prime.right.left
 
+theorem NatPrime_NatDivides_strict_between_absurd {p d : BHist} :
+    NatPrime p -> UnaryHistory d -> NatDivides d p ->
+      NatUnaryStrictPrefix (BHist.e1 BHist.Empty) d -> NatUnaryStrictPrefix d p -> False := by
+  intro prime dUnary divides unitStrict primeStrict
+  have divisorBoundary := prime.right.right d dUnary divides
+  cases divisorBoundary with
+  | inl dUnit =>
+      cases unitStrict with
+      | intro tail data =>
+          exact NatUnaryStrictPrefix_tail_endpoint_hsame_absurd
+            data.left data.right.left data.right.right (hsame_symm dUnit)
+  | inr dPrime =>
+      cases primeStrict with
+      | intro tail data =>
+          exact NatUnaryStrictPrefix_tail_endpoint_hsame_absurd
+            data.left data.right.left data.right.right dPrime
+
 end BEDC.Derived.PrimeUp

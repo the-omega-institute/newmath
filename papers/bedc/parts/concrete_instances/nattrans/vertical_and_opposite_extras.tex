@@ -523,6 +523,48 @@ $$
 Symmetry of the $\mathcal E$ morphism classifier, recorded in \autoref{def:category-stability-certificate}, reverses this comparison, and the right-hand side is the horizontal component by definition.
 \end{proof}
 
+\begin{theorem}[NatTrans horizontal identity reductions]
+\label{thm:nattrans-horizontal-identity-reductions}
+Let $\mathcal C$, $\mathcal D$, and $\mathcal E$ be $\CategoryUp$ certificates satisfying \autoref{def:category-certificate-obligations}. Let $F,G:\mathcal C\to\mathcal D$ and $H,K:\mathcal D\to\mathcal E$ be certified $\FunctorUp$ carriers satisfying \autoref{def:functor-certificate-obligations}, with object maps $F_0,G_0,H_0,K_0$ and morphism maps $F_1,G_1,H_1,K_1$. Let $\alpha:F\Rightarrow G$ and $\beta:H\Rightarrow K$ be certified $\NatTransUp$ carriers satisfying \autoref{def:nattrans-certificate-obligations}. Then for every object $X$ of $\mathcal C$ the identity-horizontal composites supplied by \autoref{thm:nattrans-horizontal-composition-certificate} are componentwise classified by the corresponding one-sided whiskerings:
+$$
+(\mathsf{id}_H\diamond\alpha)_X
+\sim_{\mathcal E}
+(H_{\ast}\alpha)_X
+\sim_{\mathcal E}
+H_1(\alpha_X)
+$$
+and
+$$
+(\beta\diamond\mathsf{id}_F)_X
+\sim_{\mathcal E}
+(\beta\ast F)_X
+\sim_{\mathcal E}
+\beta_{F_0(X)}.
+$$
+Equivalently, the left identity comparison has $\mathsf{BHist}$ component readback $H_1(\alpha_X)$ on both sides, and the right identity comparison has $\mathsf{BHist}$ component readback $\beta_{F_0(X)}$ on both sides.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:identity-nattrans-certificate} to form $\mathsf{id}_H:H\Rightarrow H$ and $\mathsf{id}_F:F\Rightarrow F$. Use \autoref{thm:functor-whiskering-nattrans-certificate} to read $H_{\ast}\alpha$ as a certified transformation $H\circ F\Rightarrow H\circ G$, and use \autoref{thm:nattrans-prewhiskering-by-functor-certificate} to read $\beta\ast F$ as a certified transformation $H\circ F\Rightarrow K\circ F$.
+
+For the left identity law, \autoref{thm:nattrans-horizontal-composition-certificate} applied to $\mathsf{id}_H$ and $\alpha$ gives the component
+$$
+(\mathsf{id}_H\diamond\alpha)_X
+=
+(\mathsf{id}_H)_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X).
+$$
+The identity-transformation certificate identifies $(\mathsf{id}_H)_{G_0(X)}$ with $\mathsf{id}_{H_0(G_0(X))}$, while the whiskering certificate identifies $(H_{\ast}\alpha)_X$ with $H_1(\alpha_X)$. The left identity row of the target category in \autoref{def:category-stability-certificate} classifies $\mathsf{id}_{H_0(G_0(X))}\circ_{\mathcal E}H_1(\alpha_X)$ with $H_1(\alpha_X)$, and transitivity of the $\mathcal E$ classifier gives the displayed comparison.
+
+For the right identity law, \autoref{thm:nattrans-horizontal-composition-certificate} applied to $\beta$ and $\mathsf{id}_F$ gives
+$$
+(\beta\diamond\mathsf{id}_F)_X
+=
+\beta_{F_0(X)}\circ_{\mathcal E}H_1((\mathsf{id}_F)_X).
+$$
+The identity-transformation certificate reads $(\mathsf{id}_F)_X$ as $\mathsf{id}_{F_0(X)}$. The identity-preservation row of $H$ in \autoref{def:functor-stability-certificate} classifies $H_1(\mathsf{id}_{F_0(X)})$ with $\mathsf{id}_{H_0(F_0(X))}$, and the right identity row of \autoref{def:category-stability-certificate} classifies the resulting composite with $\beta_{F_0(X)}$. The prewhiskering certificate identifies $(\beta\ast F)_X$ with the same component, so target-classifier transitivity gives the second comparison.
+
+The ledger is the union of the identity-transformation ledgers, the whiskering and prewhiskering ledgers, the horizontal-composition ledger, and the target-category identity ledgers used in the two component reductions.
+\end{proof}
+
 \paragraph{Capstone.}
 
 \begin{theorem}[Horizontal-vertical interchange for natural transformations]
@@ -706,3 +748,4 @@ $$
 
 The carrier fields of \autoref{def:nattrans-carrier} make $\alpha_{L_0(X)}$ and $\beta_{L_0(X)}$ composable displayed morphisms in $\mathcal D$, and the category stability field of \autoref{def:category-stability-certificate} gives reflexivity of the morphism classifier on their displayed composite. The componentwise classifier specification of \autoref{def:nattrans-classifier-specification} therefore classifies the two prewhiskering routes together at every object $X$.
 \end{proof}
+\closureat{\NatTransUp}{\checkedCertStr}[BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_semanticNameCert]

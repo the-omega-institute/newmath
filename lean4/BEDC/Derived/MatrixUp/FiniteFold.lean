@@ -92,4 +92,23 @@ theorem MatrixSingletonAddFold_append_hsame {xs ys : List BHist} :
       exact (congrArg (append x) ih).trans
         (append_assoc x (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)).symm
 
+theorem MatrixSingletonAddFold_append_display_classifier_iff {xs ys : List BHist} :
+    MatrixSingletonClassifier (MatrixSingletonAddFold (xs ++ ys))
+      (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) ↔
+        MatrixSingletonAddFoldSpineCarrier xs ∧ MatrixSingletonAddFoldSpineCarrier ys := by
+  constructor
+  · intro classified
+    exact Iff.mp MatrixSingletonAddFold_append_carrier_iff classified.left
+  · intro spine
+    have foldedCarrier : MatrixSingletonCarrier (MatrixSingletonAddFold (xs ++ ys)) :=
+      Iff.mpr MatrixSingletonAddFold_append_carrier_iff spine
+    have displayedCarrier :
+        MatrixSingletonCarrier (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) :=
+      append_eq_empty_iff.mpr
+        (And.intro
+          (Iff.mpr MatrixSingletonAddFold_carrier_iff spine.left)
+          (Iff.mpr MatrixSingletonAddFold_carrier_iff spine.right))
+    exact And.intro foldedCarrier
+      (And.intro displayedCarrier MatrixSingletonAddFold_append_hsame)
+
 end BEDC.Derived.MatrixUp
