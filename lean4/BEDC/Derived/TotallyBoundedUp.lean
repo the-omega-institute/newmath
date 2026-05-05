@@ -40,6 +40,31 @@ theorem TotallyBoundedProbeBundleNet_coverage_hsame_transport {X : BHist -> Prop
                     RatHistoryClassifier_hsame_transport (hsame_refl d) sameEps
                       distanceData.right⟩
 
+theorem TotallyBoundedProbeBundleNet_tolerance_weakening {X : BHist -> Prop}
+    {eps eps' : BHist} {bundle : ProbeBundle BHist} :
+    RatHistoryClassifier eps eps' -> TotallyBoundedProbeBundleNet X eps bundle ->
+      TotallyBoundedProbeBundleNet X eps' bundle := by
+  intro tolerance net
+  cases tolerance with
+  | intro epsCarrier toleranceRest =>
+      cases toleranceRest with
+      | intro epsCarrier' sameEps =>
+          cases net with
+          | intro _netEpsCarrier netRest =>
+              constructor
+              · exact epsCarrier'
+              · constructor
+                · exact netRest.left
+                · intro x sourceX
+                  cases netRest.right sourceX with
+                  | intro p pData =>
+                      cases pData.right with
+                      | intro d distanceData =>
+                          have dToEps' : RatHistoryClassifier d eps' :=
+                            RatHistoryClassifier_trans distanceData.right
+                              (And.intro epsCarrier (And.intro epsCarrier' sameEps))
+                          exact ⟨p, pData.left, d, distanceData.left, dToEps'⟩
+
 theorem TotallyBoundedProbeBundleNet_name_certificate {X : BHist -> Prop} {eps : BHist}
     {bundle : ProbeBundle BHist} :
     TotallyBoundedProbeBundleNet X eps bundle ->
