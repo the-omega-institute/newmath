@@ -559,4 +559,12 @@ theorem AdeleHistoryCarrier_unit_right_scale_append_readback {real p w result : 
       exact And.intro readback.left
         (Exists.intro n (And.intro data.left (congrArg (append real) data.right)))
 
+theorem AdeleHistoryCarrier_visible_scale_append_result_hsame_transport {a a' s : BHist} :
+    AdeleHistoryCarrier a -> (hsame (append a s) BHist.Empty -> False) -> hsame a a' ->
+      hsame (append a' s) BHist.Empty -> False := by
+  intro _carrierA nonempty sameAA' sameTargetEmpty
+  have sameAppend : hsame (append a s) (append a' s) :=
+    congrArg (fun h : BHist => append h s) sameAA'
+  exact nonempty (hsame_trans sameAppend sameTargetEmpty)
+
 end BEDC.Derived.AdeleUp

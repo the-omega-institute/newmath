@@ -225,18 +225,17 @@ $$
 $$
 This is the Cauchy product in low-coefficient-first Horner form: the cons clause expresses $(a+Xx)y=ay+X(xy)$.
 \end{definition}
-
 \begin{lemma}[Horner evaluation of scalar-multiplied coefficient spines]
 \label{lem:horner-evaluation-raw-scalar-product}
 Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For every carried scalar coefficient $a$ and every finite coefficient spine $y:\mathsf{ListCarrier}(R)$,
 $$
 \mathsf{eval}_{\alpha,R}(\mathsf{rscale}_R(a,y))\sim_R
- a\cdot\mathsf{eval}_{\alpha,R}(y).
+a\cdot\mathsf{eval}_{\alpha,R}(y).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_rawScale\_classified}
 \begin{proof}
 Induct on the finite spine $y$ from \autoref{def:list-carrier}. In the nil case, both the scalar-multiple spine and its Horner value are $0_R$. The target endpoint is $a\cdot0_R$, and the zero-multiplication row in \autoref{def:ring-stability-certificate}, with symmetry of $\sim_R$, gives the displayed comparison.
-
 In the cons case, write $y=\mathsf{cons}(b,y')$. The recursion in \autoref{def:polynomial-raw-cauchy-product} and the Horner recursion in \autoref{def:polynomial-horner-evaluation} identify the left endpoint with
 $$
 a\cdot b+\alpha\cdot\mathsf{eval}_{\alpha,R}(\mathsf{rscale}_R(a,y')).

@@ -19,6 +19,10 @@ theorem ZetaZeroComplexHistory_carrier :
 def ZetaZeroSourceSpec (s : BHist) : Prop :=
   ComplexHistoryCarrier s ∧ hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
 
+def ZetaBoundaryNonvanishingWitness (s sigma : BHist) : Prop :=
+  ComplexHistoryCarrier s ∧ RatHistoryCarrier sigma ∧ hsame sigma (BHist.e1 BHist.Empty) ∧
+    ∃ imag : BHist, RatHistoryCarrier imag ∧ Cont sigma imag s ∧ (ZetaZeroSourceSpec s -> False)
+
 def ZetaZeroPatternSpec (s z : BHist) : Prop :=
   ZetaZeroSourceSpec s ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
 
