@@ -108,4 +108,56 @@ theorem ManifoldSingleton_atlas_index_exhaustion {chart overlap domain : BHist} 
   exact And.intro chartEmpty
     (And.intro domainEmpty (And.intro overlapEmpty (And.intro domainUnary overlapUnary)))
 
+def ManifoldAtlasPackage (base index domain chart transition : BHist) : Prop :=
+  UnaryHistory base ∧ UnaryHistory index ∧ UnaryHistory domain ∧ UnaryHistory chart ∧
+    UnaryHistory transition ∧ Cont base index domain ∧ Cont domain chart transition
+
+def ManifoldAtlasClassifier
+    (base index domain chart transition base' index' domain' chart' transition' : BHist) :
+    Prop :=
+  hsame base base' ∧ hsame index index' ∧ hsame domain domain' ∧ hsame chart chart' ∧
+    hsame transition transition'
+
+theorem ManifoldAtlasPackage_classifier_transport
+    {base index domain chart transition base' index' domain' chart' transition' : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      ManifoldAtlasClassifier base index domain chart transition base' index' domain' chart'
+        transition' ->
+        ManifoldAtlasPackage base' index' domain' chart' transition' ∧ UnaryHistory base' ∧
+          UnaryHistory index' ∧ Cont base' index' domain' ∧
+            Cont domain' chart' transition' := by
+  intro package classified
+  have baseUnary : UnaryHistory base := package.left
+  have indexUnary : UnaryHistory index := package.right.left
+  have domainRow : Cont base index domain := package.right.right.right.right.right.left
+  have transitionRow : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  cases classified.left
+  cases classified.right.left
+  cases classified.right.right.left
+  cases classified.right.right.right.left
+  cases classified.right.right.right.right
+  exact And.intro package
+    (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
+
+def ManifoldScopedBoundaryPackage (carrier i j k pair triple : BHist) : Prop :=
+  UnaryHistory carrier ∧ UnaryHistory i ∧ UnaryHistory j ∧ UnaryHistory k ∧
+    Cont i j pair ∧ Cont pair k triple
+
+theorem ManifoldScopedBoundaryPackage_triple_overlap_source_determinacy
+    {carrier i j k pair triple : BHist} :
+    ManifoldScopedBoundaryPackage carrier i j k pair triple ->
+      UnaryHistory pair ∧ UnaryHistory triple ∧ hsame triple (append i (append j k)) := by
+  intro package
+  have iUnary : UnaryHistory i := package.right.left
+  have jUnary : UnaryHistory j := package.right.right.left
+  have kUnary : UnaryHistory k := package.right.right.right.left
+  have pairRow : Cont i j pair := package.right.right.right.right.left
+  have tripleRow : Cont pair k triple := package.right.right.right.right.right
+  have pairUnary : UnaryHistory pair := unary_cont_closed iUnary jUnary pairRow
+  have tripleUnary : UnaryHistory triple := unary_cont_closed pairUnary kUnary tripleRow
+  cases pairRow
+  cases tripleRow
+  exact And.intro pairUnary (And.intro tripleUnary (append_assoc i j k))
+
 end BEDC.Derived.ManifoldUp
