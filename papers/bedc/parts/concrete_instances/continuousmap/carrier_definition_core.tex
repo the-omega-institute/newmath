@@ -1,8 +1,3 @@
-\chapter{A Concrete Naming Certificate for $\ContinuousMapUp$}
-\label{ch:concrete-instances-continuousmap-namecert}
-
-The continuous-map interface $\ContinuousMapUp$ packages a function between metric carriers together with a pointwise modulus of continuity. It depends on $\NameCert_{\MetricSpaceUp}$ (\autoref{ch:concrete-instances-metric-namecert}) and lifts $\NameCert_{\ContinuousFunctionUp}$ (\autoref{ch:concrete-instances-continuous-namecert}) to general L10 metric carriers.
-
 \section{Carrier definition}
 \label{sec:continuousmap-carrier}
 
@@ -221,3 +216,70 @@ reverse direction reassembles the function witness and the empty distance
 witness after the five endpoint equalities are exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_cert\_iff}
+
+\begin{theorem}[Empty identity maps reflect metric witnesses]
+\label{thm:continuousmap-empty-identity-metric-witness-reflects}
+For histories $x,y,x',y',d,m_x,m_y,c_x,c_y:\mathsf{BHist}$, if
+$\mathsf{ContinuousFunctionCarrier}(x,\emp,x',m_x,c_x)$ and
+$\mathsf{ContinuousFunctionCarrier}(y,\emp,y',m_y,c_y)$ are empty-map
+continuous carriers, then every displayed metric witness
+$\mathsf{MetricDistanceWitness}(x',y',d)$ reflects to a source-side witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+\end{theorem}
+\begin{proof}
+The empty-map carrier readback identifies $x'$ with $x$ and $y'$ with $y$.
+Unary endpoint membership and the continuation field of the metric witness
+transport along these two $\hsame$ witnesses, while the distance history is
+held fixed.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_witness\_reflects}
+
+\begin{theorem}[Empty identity maps transport metric witnesses exactly]
+\label{thm:continuousmap-empty-identity-metric-witness-iff}
+For histories $x,y,x',y',d,m_x,m_y,c_x,c_y:\mathsf{BHist}$, if
+$\mathsf{ContinuousFunctionCarrier}(x,\emp,x',m_x,c_x)$ and
+$\mathsf{ContinuousFunctionCarrier}(y,\emp,y',m_y,c_y)$ are empty-map
+continuous carriers, then the image-side and source-side metric witnesses are
+equivalent:
+$$
+\mathsf{MetricDistanceWitness}(x',y',d)\Longleftrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:continuousmap-empty-identity-metric-witness-reflects} to the
+two empty-map continuous carriers and the displayed image-side metric witness.
+
+For the reverse direction, apply
+Theorem~\ref{thm:continuous-function-carrier-empty-map-iff} to the two
+carriers. It reads back $x'\hsame x$ and $y'\hsame y$; symmetry orients these
+witnesses as $x\hsame x'$ and $y\hsame y'$. Combine them with reflexivity
+$d\hsame d$ and apply
+Theorem~\ref{thm:metric-distance-witness-hsame-fields-transport} to transport
+the source-side metric fields. Repacking those transported unary fields and
+the transported continuation ledger gives
+$\mathsf{MetricDistanceWitness}(x',y',d)$.
+\end{proof}
+
+The ten-field fit is: traditional target empty continuous-map metric readback,
+BEDC source ContinuousMapUp, carrier $\mathsf{ContinuousFunctionCarrier}$,
+classifier $\hsame$, empty-map graph ledger $\emp$, distance ledger $d$,
+metric certificate $\mathsf{MetricDistanceWitness}$, core theorem
+Theorem~\ref{thm:continuousmap-empty-identity-metric-witness-iff}, exactness
+the displayed iff, and downstream consumer compact-continuous metric readback.
+
+\begin{theorem}[Empty identity maps preserve metric result determinacy]
+\label{thm:continuousmap-empty-identity-metric-result-deterministic}
+For histories $x,y,x',y',d,d',m_x,m_y,c_x,c_y:\mathsf{BHist}$, if the two
+endpoints are carried by empty continuous maps, then an image-side metric
+witness $\mathsf{MetricDistanceWitness}(x',y',d)$ and a source-side metric
+witness $\mathsf{MetricDistanceWitness}(x,y,d')$ have $\hsame$ distance
+results.
+\end{theorem}
+\begin{proof}
+First reflect the image-side witness through the empty continuous maps to get
+$\mathsf{MetricDistanceWitness}(x,y,d)$. Metric witness result determinacy at
+reflexive source endpoints then compares the two displayed distance histories.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_result\_deterministic}

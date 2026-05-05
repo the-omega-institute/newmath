@@ -380,6 +380,30 @@ the suffixed certificate leg.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_modulus\_suffix\_iff}
 
+\begin{theorem}[Continuous function carrier modulus-suffix target-certificate determinacy]
+\label{thm:continuous-function-carrier-modulus-suffix-target-cert-deterministic}
+For histories $q,source,map,target,target',modulus,cert,cert'$, if two
+continuous-function carrier witnesses share the same source, map, and visible
+modulus suffix,
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus\cdot q,cert\cdot q)
+\quad\hbox{and}\quad
+\mathsf{ContinuousFunctionCarrier}(source,map,target',modulus\cdot q,cert'\cdot q),
+$$
+then their central target and certificate ledgers are determined:
+$$
+\hsame(target,target')\land\hsame(cert,cert').
+$$
+\end{theorem}
+\begin{proof}
+Apply modulus suffix exactness to each carrier witness. This removes the common
+suffix from the modulus and certificate ledgers and exposes two central
+continuous-function carriers over the same source, map, and modulus. The
+target-certificate determinacy theorem for continuous-function carriers then
+identifies the central targets and the central certificates.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_modulus\_suffix\_target\_cert\_deterministic}
+
 \begin{theorem}[Continuous function carrier prefixed graph-chain factorization]
 \label{thm:continuous-function-carrier-prefixed-graph-chain-factorizes}
 For histories $p,source,map,target,\delta_1,\delta_2,\delta,cert$, if

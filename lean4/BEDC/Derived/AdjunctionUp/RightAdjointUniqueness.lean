@@ -1,4 +1,5 @@
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.AdjunctionUp.CarrierSwap
 import BEDC.Derived.NatTransUp.PrefixComponentClassifier
 
 namespace BEDC.Derived.AdjunctionUp
@@ -55,5 +56,23 @@ theorem AdjunctionRightAdjoint_natural_isomorphism_uniqueness
             (And.intro I2EmptyCarrier.right.right.right I2Empty))))
   exact And.intro etaCarrier
     (And.intro eta'Carrier (And.intro I1Classified I2Classified))
+
+theorem AdjunctionLeftAdjoint_natural_isomorphism_uniqueness
+    {p1 p2 q a u1 c1 l1 r1 u2 c2 l2 r2 xi xi' J1 J2 : BHist} :
+    AdjunctionUnitCounitCarrier p1 q a u1 c1 l1 r1 ->
+      AdjunctionUnitCounitCarrier p2 q a u2 c2 l2 r2 ->
+        Cont u1 c2 xi -> Cont u2 c1 xi' -> Cont xi xi' J1 -> Cont xi' xi J2 ->
+          NatTransPrefixComponentCarrier p1 p2 a xi ∧
+            NatTransPrefixComponentCarrier p2 p1 a xi' ∧
+              NatTransPrefixComponentClassifier p1 p1 a J1 BHist.Empty ∧
+                NatTransPrefixComponentClassifier p2 p2 a J2 BHist.Empty := by
+  intro first second u1c2 u2c1 xiXi' xi'Xi
+  have swappedFirst : AdjunctionUnitCounitCarrier q p1 a c1 u1 r1 l1 :=
+    Iff.mp AdjunctionUnitCounitCarrier_carrier_swap_iff first
+  have swappedSecond : AdjunctionUnitCounitCarrier q p2 a c2 u2 r2 l2 :=
+    Iff.mp AdjunctionUnitCounitCarrier_carrier_swap_iff second
+  exact
+    AdjunctionRightAdjoint_natural_isomorphism_uniqueness swappedFirst swappedSecond
+      u1c2 u2c1 xiXi' xi'Xi
 
 end BEDC.Derived.AdjunctionUp
