@@ -248,6 +248,7 @@ import BEDC.Derived.PrimeUp.SemanticCertificate
 import BEDC.Derived.PadicUp
 import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
+import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.EndpointAbsurd
 import BEDC.Derived.RealUp.ConstantCarrierContext
