@@ -158,3 +158,25 @@ an assumed $\hsame(m,\emp)$ contradicts the nonempty premise supplied by the
 partition, so this branch contributes no empty-input witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_double\_action\_empty\_iff}
+
+\begin{theorem}[Module parity epsilon double action one iff]
+\label{thm:module-parity-smul-epsilon-double-action-one-iff}
+For every history $m:\mathsf{BHist}$,
+$$
+\hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},
+  \mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m)),
+  \mathsf{ModuleParityOne})
+\Longleftrightarrow
+\bigl(\hsame(m,\emp)\to\bot\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$. At $m=\emp$, the double epsilon
+action lands at $\emp$, so equality with $\mathsf{ModuleParityOne}$ is ruled
+out by empty versus visible-one separation, matching the false nonempty
+predicate. At visible inputs, the first epsilon action lands at $\emp$ and the
+second lands at $\mathsf{ModuleParityOne}$; the reverse direction uses
+reflexivity, and the forward direction rules out an empty input by constructor
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_double\_action\_one\_iff}
