@@ -6,5 +6,64 @@ The complete-metric interface $\CompleteMetricUp$ packages a metric carrier in w
 \section{Carrier definition}
 \label{sec:completemetric-carrier}
 
+\begin{definition}[Singleton complete metric instance]
+\label{def:singleton-complete-metric-instance}
+The singleton complete metric instance is the metric carrier on histories
+$$
+C_{\emp}(x):=\hsame(x,\emp).
+$$
+Its classifier is
+$$
+x\sim_C y \quad:\!\!\Longleftrightarrow\quad
+C_{\emp}(x)\land C_{\emp}(y)\land \hsame(x,y).
+$$
+A regular Cauchy name for this carrier is a stream of observed histories
+$\gamma$ whose every observed history $\gamma_n$ is carried by $C_{\emp}$,
+together with the regularity ledger asserting that every displayed pair
+$\gamma_m,\gamma_n$ admits the empty-distance metric row
+$\mathsf{MetricDistanceWitness}(\gamma_m,\gamma_n,\emp)$ after transport along
+their carried endpoint rows. The limit selector sends every such name to
+$\emp$. Its modulus is the empty history, and its convergence distance witness
+at every observation is
+$\mathsf{MetricDistanceWitness}(\gamma_n,\emp,\emp)$.
+\end{definition}
+
 \section{The certificate}
 \label{sec:completemetric-certificate}
+
+\begin{theorem}[Singleton complete metric laws]
+\label{thm:singleton-complete-metric-laws}
+The instance of \autoref{def:singleton-complete-metric-instance} satisfies the
+complete-metric laws required by $\CompleteMetricUp$: every $C_{\emp}$ regular
+Cauchy name converges to the selected limit $\emp$, the selected limit is
+stable under the classifier $\sim_C$, any two displayed limits are $\hsame$,
+and the convergence ledger is compatible with metric empty-distance exactness
+from \autoref{thm:metric-distance-witness-empty-distance-iff}. This
+construction is the $\CompleteMetricUp$ companion to
+\autoref{thm:singleton-metric-totally-bounded-laws}.
+\end{theorem}
+\begin{proof}
+Unfold $C_{\emp}$. Each observed history $\gamma_n$ of a regular Cauchy name
+comes with a carried endpoint row $\hsame(\gamma_n,\emp)$. The selected limit
+$\emp$ is carried by reflexivity of $\hsame$, and the empty modulus asks for no
+additional history beyond this endpoint ledger.
+
+For convergence, apply
+\autoref{thm:metric-distance-witness-empty-distance-iff} to the endpoint rows
+$\hsame(\gamma_n,\emp)$ and $\hsame(\emp,\emp)$. This identifies the
+empty-distance metric row
+$\mathsf{MetricDistanceWitness}(\gamma_n,\emp,\emp)$ with the classifier data
+already carried by the stream observation and the selected limit.
+
+Stability under $\sim_C$ is obtained by unpacking the classifier. A transported
+candidate limit is carried by $C_{\emp}$, hence it is $\hsame$ to $\emp$.
+Transitivity of $\hsame$ transports the convergence ledger from $\emp$ to that
+candidate, while the empty-distance exactness theorem supplies the same
+metric row after the endpoint transport.
+
+Finally, suppose $\ell_1$ and $\ell_2$ are two displayed limits for the same
+regular Cauchy name. Each displayed limit is carried by $C_{\emp}$, so
+$\hsame(\ell_1,\emp)$ and $\hsame(\ell_2,\emp)$ hold. Symmetry and transitivity
+of $\hsame$ give $\hsame(\ell_1,\ell_2)$, proving uniqueness of displayed
+limits inside the singleton classifier.
+\end{proof}
