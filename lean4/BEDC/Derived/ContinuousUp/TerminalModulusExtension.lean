@@ -4,6 +4,7 @@ namespace BEDC.Derived.ContinuousUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 
 theorem ContinuousFunctionCarrier_terminal_modulus_extension
     {source map target modulus cert extra modulus' cert' : BHist} :
