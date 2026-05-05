@@ -347,3 +347,104 @@ $$
 a\vee(b\wedge c)\sim_C (a\vee b)\wedge(a\vee c).
 $$
 \end{proof}
+
+\begin{lemma}[Lattice meet two-sided monotonicity from directional bounds]
+\label{lem:lattice-meet-two-sided-monotonicity-from-directional-bounds}
+Let $A$ be a $\LatticeUp$ carrier with order $\le_C$ and classifier $\sim_C$. Assume the inherited $\PreorderUp$ transitivity field from \autoref{def:preorder-stability-certificate} and the directional meet lower-bound and greatest-lower-bound fields from \autoref{def:lattice-stability-certificate}. If $a,a',b,b'\in A$ with $a\le_C a'$ and $b\le_C b'$, then
+$$
+a\wedge b\le_C a'\wedge b'.
+$$
+\end{lemma}
+\begin{proof}
+Put
+$$
+w=a\wedge b.
+$$
+The meet lower-left field gives
+$$
+w\le_C a.
+$$
+Composing this comparison with the assumed comparison $a\le_C a'$ by the inherited preorder transitivity field gives
+$$
+w\le_C a'.
+$$
+The meet lower-right field gives
+$$
+w\le_C b.
+$$
+Composing this comparison with the assumed comparison $b\le_C b'$ gives
+$$
+w\le_C b'.
+$$
+Applying meet greatestness to the two bounds $w\le_C a'$ and $w\le_C b'$ gives
+$$
+w\le_C a'\wedge b'.
+$$
+Substituting the displayed definition of $w$ gives the claimed comparison.
+\end{proof}
+
+\begin{lemma}[Join is monotone in both ordered endpoints]
+\label{lem:lattice-join-two-sided-monotonicity-from-directional-bounds}
+Let $A$ be a $\LatticeUp$ carrier with order $\le_C$. Assume the inherited $\PreorderUp$ transitivity field from \autoref{def:preorder-stability-certificate} and the directional join upper-bound and least-upper-bound fields from \autoref{def:lattice-stability-certificate}. If $a,b,a',b'\in A$ with $a\le_C a'$ and $b\le_C b'$, then
+$$
+a\vee b\le_C a'\vee b'.
+$$
+\end{lemma}
+\begin{proof}
+Put
+$$
+u=a'\vee b'.
+$$
+The join upper-left field gives
+$$
+a'\le_C u.
+$$
+Composing the assumed comparison $a\le_C a'$ with $a'\le_C u$ by the inherited preorder transitivity field gives
+$$
+a\le_C u.
+$$
+The join upper-right field gives
+$$
+b'\le_C u.
+$$
+Composing the assumed comparison $b\le_C b'$ with $b'\le_C u$ by the same transitivity field gives
+$$
+b\le_C u.
+$$
+Applying join leastness to the two upper-bound comparisons $a\le_C u$ and $b\le_C u$ gives
+$$
+a\vee b\le_C u.
+$$
+Substituting the displayed definition of $u$ gives the claimed comparison.
+\end{proof}
+
+\begin{lemma}[Lattice meet monotonicity in the second argument from directional bounds]
+\label{lem:lattice-meet-monotonicity-second-argument-from-directional-bounds}
+Let $A$ be a $\LatticeUp$ carrier with order $\le_C$ and classifier $\sim_C$. Assume the inherited $\PreorderUp$ reflexivity and transitivity fields from \autoref{def:preorder-stability-certificate} and the directional meet lower-bound and greatest-lower-bound fields from \autoref{def:lattice-stability-certificate}. If $b,b',c\in A$ and $b\le_C b'$, then
+$$
+c\wedge b\le_C c\wedge b'.
+$$
+\end{lemma}
+\begin{proof}
+Put
+$$
+w=c\wedge b.
+$$
+The meet lower-left field gives
+$$
+w\le_C c.
+$$
+The meet lower-right field gives
+$$
+w\le_C b.
+$$
+Composing this comparison with the assumed comparison $b\le_C b'$ by the inherited preorder transitivity field gives
+$$
+w\le_C b'.
+$$
+Applying meet greatestness to the two bounds $w\le_C c$ and $w\le_C b'$ gives
+$$
+w\le_C c\wedge b'.
+$$
+Substituting the displayed definition of $w$ gives the claimed comparison.
+\end{proof}
