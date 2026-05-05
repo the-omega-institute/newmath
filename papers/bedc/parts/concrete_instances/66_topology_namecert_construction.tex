@@ -8,3 +8,78 @@ The topology interface $\TopologyUp$ packages a carrier with a family of open su
 
 \section{The certificate}
 \label{sec:topology-certificate}
+
+\begin{definition}[Indexed open topology carrier]
+\label{def:topology-indexed-open-carrier}
+An indexed open topology carrier for $\TopologyUp$ is a tuple
+$\mathcal{T}=(X,\mathsf{same}_X,\mathsf{OpenIx},\mathsf{OpenAt},\wedge_{\TopologyUp})$ consisting of a carrier $X$, a carrier classifier $\mathsf{same}_X$, an index object $\mathsf{OpenIx}$, a membership predicate
+$$
+\mathsf{OpenAt}:\mathsf{OpenIx}\times X\to\mathsf{Prop},
+$$
+and a binary operation $i,j\mapsto i\wedge_{\TopologyUp}j$ on $\mathsf{OpenIx}$. The classifier plays the role isolated in \autoref{def:metric-classifier-specification}; for every index $i$ it transports open membership by
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl(\mathsf{OpenAt}(i,x)\Longleftrightarrow\mathsf{OpenAt}(i,y)\bigr).
+$$
+The finite-intersection field is the exact pointwise law
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(\mathsf{OpenAt}(i,x)\wedge\mathsf{OpenAt}(j,x)\bigr).
+$$
+Thus the index operation is part of the certificate data of \autoref{sec:topology-certificate}, not an external selection of an open subset.
+\end{definition}
+
+\begin{definition}[Indexed open carried predicate]
+\label{def:topology-indexed-open-carried-predicate}
+For an indexed open topology carrier $\mathcal{T}$ and a predicate $U:X\to\mathsf{Prop}$, an index $i:\mathsf{OpenIx}$ carries $U$, written $\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$, when it gives the pointwise classifier
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)
+:\Longleftrightarrow
+\forall x:X,\quad U(x)\Longleftrightarrow\mathsf{OpenAt}(i,x).
+$$
+A witnessed open of $\TopologyUp$ is such a pair $(i,h_i)$, with $h_i:\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$.
+\end{definition}
+
+\begin{theorem}[Topology indexed open finite-intersection closure]
+\label{thm:topology-indexed-open-finite-intersection}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. If indices $i,j:\mathsf{OpenIx}$ carry predicates $U,V:X\to\mathsf{Prop}$, then the certificate index $i\wedge_{\TopologyUp}j$ carries the finite intersection $U\cap V$:
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}}(j,V)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}}(i\wedge_{\TopologyUp}j,U\cap V),
+$$
+where $(U\cap V)(x)$ means $U(x)\wedge V(x)$. Equivalently, for every point $x:X$ the finite-intersection witness has the introduction and inversion form
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(U(x)\wedge V(x)\bigr),
+$$
+and this carried intersection transports under the carrier classifier:
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl((U(x)\wedge V(x))\Longleftrightarrow(U(y)\wedge V(y))\bigr).
+$$
+This is the $\TopologyUp$ closure step whose concrete complex instance is used in \autoref{thm:cplx-topo-finite-intersection}.
+\end{theorem}
+\begin{proof}
+Assume $h_U:\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$ and $h_V:\mathsf{CarriesOpen}_{\mathcal{T}}(j,V)$. Fix $x:X$. The finite-intersection field of \autoref{def:topology-indexed-open-carrier} gives
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(\mathsf{OpenAt}(i,x)\wedge\mathsf{OpenAt}(j,x)\bigr).
+$$
+The two carry witnesses give $U(x)\Longleftrightarrow\mathsf{OpenAt}(i,x)$ and $V(x)\Longleftrightarrow\mathsf{OpenAt}(j,x)$. Composing these three equivalences gives
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(U(x)\wedge V(x)\bigr),
+$$
+which is precisely the pointwise carrying equation for $U\cap V$ after reversing the displayed equivalence.
+
+For classifier transport, assume $\mathsf{same}_X(x,y)$. Convert $U(x)\wedge V(x)$ to $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)$ by the carrying equation just proved. The membership-stability field of \autoref{def:topology-indexed-open-carrier} transports this to $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,y)$, and the carrying equation at $y$ converts back to $U(y)\wedge V(y)$. The reverse implication is identical with the same stability equivalence read in the opposite direction.
+\end{proof}
