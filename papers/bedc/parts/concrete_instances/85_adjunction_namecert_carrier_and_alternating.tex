@@ -285,6 +285,25 @@ displayed continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_append\_positive\_suffix\_cont\_readback}
 
+\begin{theorem}[Adjunction append-positive suffix empty result forces empty unit]
+\label{thm:adjunction-alternating-append-positive-suffix-result-empty-unit-empty}
+If \(suffix\) is unary and not history-same as \(\emp\), then an empty result
+for the alternating unit-counit ledger over \(\mathsf{append}(pref,suffix)\)
+forces the visible unit component to be empty:
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}
+  (unit,counit,\mathsf{append}(pref,suffix)),\emp)
+\Longrightarrow \hsame(unit,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The append-positive suffix readback writes the displayed alternating ledger as
+a continuation whose left endpoint is \(unit\). Transporting that continuation
+to the empty result and applying empty-result inversion for continuation
+forces the left endpoint \(unit\) to be empty.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_append\_positive\_suffix\_result\_empty\_unit\_empty}
+
 \begin{theorem}[Adjunction positive-depth empty result forces empty unit]
 \label{thm:adjunction-alternating-positive-depth-result-empty-unit-empty}
 For unary nonempty $depth$, if the alternating unit-counit ledger is
@@ -480,4 +499,3 @@ The five witnesses assemble the displayed conjunction, giving the total
 endomorphism collapse including the alternating ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_total\_alternating\_collapse}
-
