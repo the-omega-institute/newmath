@@ -207,6 +207,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
+import BEDC.Derived.FieldExtUp.SingletonInverse
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.GammaUp

@@ -1,6 +1,7 @@
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CompleteMetricUp
@@ -66,6 +67,34 @@ theorem CompleteMetricLimitWitness_name_certificate {X : BHist -> Prop}
     exact source
   · intro _h source
     exact source
+
+theorem CompleteMetricLimitWitness_observation_distance_package
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      exists d : BHist,
+        MetricDistanceWitness (s n) limit d ∧
+          Cont (s n) limit d ∧ RatHistoryCarrier d ∧ RatHistoryCarrier (M n) ∧
+            PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) := by
+  intro witness nUnary source
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have positives :
+          PositiveUnaryDenominator d ∧ PositiveUnaryDenominator (M n) :=
+        RatHistoryClassifier_positive_denominators distanceData.right.right
+      exact ⟨d, distanceData.left, distanceData.right.left, distanceData.right.right.left,
+        distanceData.right.right.right.left, positives.left, positives.right⟩
+
+theorem CompleteMetricLimitWitness_observation_distance_deterministic
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n d' : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      MetricDistanceWitness (s n) limit d' ->
+        exists d : BHist,
+          MetricDistanceWitness (s n) limit d ∧ RatHistoryClassifier d (M n) ∧ hsame d d' := by
+  intro witness nUnary source externalDistance
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      exact ⟨d, distanceData.left, distanceData.right.right,
+        cont_deterministic distanceData.right.left externalDistance.right.right.right⟩
 
 theorem SingletonCompleteMetric_laws :
     hsame BHist.Empty BHist.Empty ∧
