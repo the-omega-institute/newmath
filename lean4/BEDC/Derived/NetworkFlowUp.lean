@@ -27,7 +27,67 @@ theorem NetworkFlowUSum_unary_closed {xs : List BHist} {a : BHist → BHist} :
           intro z memZ
           exact unaryA (List.Mem.tail e memZ)))
 
+theorem NetworkFlowUSum_unary {xs : List BHist} {a : BHist -> BHist} :
+    (forall e : BHist, List.Mem e xs -> UnaryHistory (a e)) ->
+      UnaryHistory (NetworkFlowUSum a xs) := by
+  intro unaryA
+  exact NetworkFlowUSum_unary_closed (xs := xs) (a := a) (by
+    intro e memE
+    exact unaryA e memE)
+
+theorem NetworkFlowUSum_prefix_monotone {xs : List BHist} {a b : BHist -> BHist} :
+    (forall e : BHist, List.Mem e xs -> UnaryHistory (a e)) ->
+      (forall e : BHist, List.Mem e xs -> PreorderPrefixLE (a e) (b e)) ->
+        PreorderPrefixLE (NetworkFlowUSum a xs) (NetworkFlowUSum b xs) := by
+  intro unaryA pointwise
+  induction xs with
+  | nil =>
+      exact PreorderPrefixLE_of_hsame (hsame_refl BHist.Empty)
+  | cons e xs ih =>
+      have tailUnary : UnaryHistory (NetworkFlowUSum a xs) :=
+        NetworkFlowUSum_unary (xs := xs) (a := a)
+          (fun t mem => unaryA t (List.Mem.tail e mem))
+      have headStep :
+          PreorderPrefixLE (append (a e) (NetworkFlowUSum a xs))
+            (append (b e) (NetworkFlowUSum a xs)) :=
+        PreorderPrefixLE_append_right_context tailUnary
+          (pointwise e (List.Mem.head xs))
+      have tailStep :
+          PreorderPrefixLE (append (b e) (NetworkFlowUSum a xs))
+            (append (b e) (NetworkFlowUSum b xs)) :=
+        PreorderPrefixLE_append_left_context
+          (ih (fun t mem => unaryA t (List.Mem.tail e mem))
+            (fun t mem => pointwise t (List.Mem.tail e mem)))
+      exact PreorderPrefixLE_trans headStep tailStep
+
 theorem NetworkFlowUSum_monotonicity {xs : List BHist} {a b : BHist → BHist} :
+    (∀ {e : BHist}, List.Mem e xs → UnaryHistory (a e)) →
+      (∀ {e : BHist}, List.Mem e xs → UnaryHistory (b e)) →
+        (∀ {e : BHist}, List.Mem e xs → PreorderPrefixLE (a e) (b e)) →
+          PreorderPrefixLE (NetworkFlowUSum a xs) (NetworkFlowUSum b xs) := by
+  intro unaryA _unaryB pointwise
+  exact NetworkFlowUSum_prefix_monotone (xs := xs) (a := a) (b := b)
+    (fun e memE => unaryA memE)
+    (fun e memE => pointwise memE)
+
+theorem NetworkFlowUSum_monotone {xs : List BHist} {a b : BHist -> BHist} :
+    (forall e : BHist, e ∈ xs -> UnaryHistory (a e)) ->
+    (forall e : BHist, e ∈ xs -> UnaryHistory (b e)) ->
+    (forall e : BHist, e ∈ xs -> PreorderPrefixLE (a e) (b e)) ->
+      PreorderPrefixLE (NetworkFlowUSum a xs) (NetworkFlowUSum b xs) := by
+  intro unaryA unaryB pointwise
+  exact NetworkFlowUSum_monotonicity (xs := xs) (a := a) (b := b)
+    (by
+      intro e memE
+      exact unaryA e memE)
+    (by
+      intro e memE
+      exact unaryB e memE)
+    (by
+      intro e memE
+      exact pointwise e memE)
+
+theorem NetworkFlowUSum_monotonicity_direct {xs : List BHist} {a b : BHist → BHist} :
     (∀ {e : BHist}, List.Mem e xs → UnaryHistory (a e)) →
       (∀ {e : BHist}, List.Mem e xs → UnaryHistory (b e)) →
         (∀ {e : BHist}, List.Mem e xs → PreorderPrefixLE (a e) (b e)) →

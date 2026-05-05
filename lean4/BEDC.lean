@@ -261,6 +261,7 @@ import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
+import BEDC.Derived.ManifoldUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.RatUp
@@ -541,6 +542,7 @@ import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.NormUp
+import BEDC.Derived.HilbertUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
 import BEDC.Derived.MatrixUp.AppendVisibleFactorExclusion
