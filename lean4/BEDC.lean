@@ -316,6 +316,7 @@ import BEDC.Derived.GroupUp.ConjugatedCommutatorOrbit
 import BEDC.Derived.GroupUp.AppendInverseObstruction
 import BEDC.Derived.GroupUp.InverseFiber
 import BEDC.Derived.GroupUp.InverseEmpty
+import BEDC.Derived.GroupUp.OppositeLaws
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.AppendE1UnitKernelUnary
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
@@ -656,6 +657,7 @@ import BEDC.Derived.CategoryUp.CompTailSemanticCertificate
 import BEDC.Derived.CategoryUp.RightE0TailTargetCases
 import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.CategoryUp.AssocEmptyResult
+import BEDC.Derived.CategoryUp.OppositeAssoc
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
