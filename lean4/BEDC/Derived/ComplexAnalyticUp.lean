@@ -114,6 +114,30 @@ def CplxPower (a s w : BHist) : Prop :=
   ComplexHistoryCarrier a ∧ ComplexHistoryCarrier s ∧ ComplexHistoryCarrier w ∧
     hsame w (append s a)
 
+theorem CplxPower_dirichlet_factor_witness {n s : BHist} :
+    UnaryHistory n -> ComplexHistoryCarrier s ->
+      CplxPower (append (BHist.e1 n) (BHist.e1 BHist.Empty)) s
+          (append s (append (BHist.e1 n) (BHist.e1 BHist.Empty))) ∧
+        ComplexHistoryCarrier (append s (append (BHist.e1 n) (BHist.e1 BHist.Empty))) := by
+  intro nUnary sCarrier
+  have realCarrier : RatHistoryCarrier (BHist.e1 n) := by
+    exact RatHistoryCarrier_iff_positive_denominator.mpr
+      (PositiveUnaryDenominator_e1_iff_unary.mpr nUnary)
+  have imagCarrier : RatHistoryCarrier (BHist.e1 BHist.Empty) := by
+    exact RatHistoryCarrier_iff_positive_denominator.mpr
+      (PositiveUnaryDenominator_e1_iff_unary.mpr unary_empty)
+  have factorCarrier :
+      ComplexHistoryCarrier (append (BHist.e1 n) (BHist.e1 BHist.Empty)) :=
+    ProdHistoryCarrier_append_intro realCarrier imagCarrier
+  have resultCarrier :
+      ComplexHistoryCarrier (append s (append (BHist.e1 n) (BHist.e1 BHist.Empty))) :=
+    ComplexHistoryCarrier_append_unary_closed sCarrier
+      (unary_append_closed (unary_e1_closed nUnary) (unary_e1_closed unary_empty))
+  exact And.intro
+    (And.intro factorCarrier
+      (And.intro sCarrier (And.intro resultCarrier (hsame_refl _))))
+    resultCarrier
+
 theorem CplxPower_dirichlet_factor_classifier {a s w : BHist} :
     CplxPower a s w -> ComplexHistoryClassifier w (append s a) ∧ hsame w (append s a) := by
   intro power
