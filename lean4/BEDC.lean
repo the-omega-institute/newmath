@@ -473,6 +473,7 @@ import BEDC.Derived.MatrixUp.PositiveSuffix
 import BEDC.Derived.MatrixUp.VisibleBaseCarrier
 import BEDC.Derived.MatrixUp.VisibleCarrier
 import BEDC.Derived.MatrixUp.NestedAppendTarget
+import BEDC.Derived.MatrixUp.FiniteFold
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
@@ -510,6 +511,8 @@ import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
+import BEDC.Derived.ContinuousUp.CompositionAssociativity
+import BEDC.Derived.ContinuousUp.TerminalModulusExtension
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousMapUp
