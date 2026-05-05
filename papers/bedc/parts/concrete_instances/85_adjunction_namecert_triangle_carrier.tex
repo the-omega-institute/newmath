@@ -74,6 +74,33 @@ unit law.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_iff\_components\_empty}
 
+\begin{theorem}[Adjunction triangle single-leg empty equivalence]
+\label{thm:adjunction-triangle-single-leg-empty-iff}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, an adjunction triangle carrier makes either empty triangle leg
+determine the other:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+(\hsame(leftLeg,\emp)\Longleftrightarrow\hsame(rightLeg,\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Fix the carrier. For the forward direction, invert the left continuation
+ledger $\ContR(unit,counit,leftLeg)$ after transporting the displayed
+$leftLeg$ witness to $\emp$. This gives $\hsame(unit,\emp)$ and
+$\hsame(counit,\emp)$. Apply the reverse direction of
+Theorem~\ref{thm:adjunction-triangle-roundtrip-empty-iff-components-empty} and
+project the resulting $rightLeg$ witness.
+
+For the reverse direction, use the right continuation ledger
+$\ContR(counit,unit,rightLeg)$ first. The same inversion gives empty $unit$
+and $counit$ witnesses, the reverse direction of
+Theorem~\ref{thm:adjunction-triangle-roundtrip-empty-iff-components-empty}
+rebuilds the pair of empty triangle legs, and projecting gives the displayed
+$leftLeg$ witness.
+\end{proof}
+
 \begin{theorem}[Adjunction triangle empty components prefix determinacy]
 \label{thm:adjunction-triangle-components-empty-prefix-deterministic}
 For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
