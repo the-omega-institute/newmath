@@ -189,6 +189,15 @@ theorem CritStripEmptyBoundary_semanticNameCert :
   · intro _h source
     exact source
 
+theorem crit_strip_name_certificate :
+    NameCert (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+        (fun h k : BHist => hsame h k) ∧
+      (forall {s sigma tau : BHist}, CritStripComplexCarrier s sigma tau -> False) := by
+  constructor
+  · exact CritStripEmptyBoundary_semanticNameCert.core
+  · intro s sigma tau carrier
+    exact (CritStripComplexCarrier_strict_interval_absurd carrier).right
+
 theorem crit_strip_semantic_name_certificate :
     SemanticNameCert
       (fun h : BHist =>
