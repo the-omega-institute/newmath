@@ -415,4 +415,26 @@ theorem ConvRadSourceSpec_powerSeries_geomBound_readback {a : Nat -> BHist} {z0 
             have row := readback radiusUnary continuation
             exact And.intro row.left (And.intro row.right radius.left))
 
+theorem ConvRad_stability_certificate_fields {a b : Nat -> BHist} {R q : BHist} :
+    (forall {h : BHist}, hsame h h) ∧
+    (forall {h k : BHist}, hsame h k -> hsame k h) ∧
+    (forall {h k r : BHist}, hsame h k -> hsame k r -> hsame h r) ∧
+    (forall {R' : BHist}, hsame R R' -> UnaryHistory R' -> ConvRad a R -> ConvRad a R') ∧
+    ((forall n : Nat, ComplexHistoryClassifier (a n) (b n)) -> ConvRad a R -> ConvRad b R) ∧
+    (ConvRad a R -> UnaryHistory q -> ConvRad (fun n : Nat => append (a n) q) R) := by
+  exact And.intro
+    (fun {h : BHist} => hsame_refl h)
+    (And.intro
+      (fun {h k : BHist} same => hsame_symm same)
+      (And.intro
+        (fun {h k r : BHist} sameHK sameKR => hsame_trans sameHK sameKR)
+        (And.intro
+          (fun {R' : BHist} sameRadius targetUnary radius =>
+            ConvRad_radius_transport sameRadius radius targetUnary)
+          (And.intro
+            (fun coeffClassified radius =>
+              (ConvRad_radius_coefficient_classifier_transport (hsame_refl R) radius.left
+                coeffClassified radius).right)
+            (fun radius qUnary => ConvRad_append_unary_coeff_closed radius qUnary)))))
+
 end BEDC.Derived.ConvergenceRadiusUp
