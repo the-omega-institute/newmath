@@ -642,6 +642,62 @@ def _grade_lag(grade: str | None, order: list[str], threshold: str) -> int:
     return max(0, tgt - cur)
 
 
+def compute_root_unblocks(horizons: dict[str, dict],
+                            threshold: int) -> list[dict]:
+    """Identify chapters whose `thms < threshold` are blocking the most
+    downstream chapters from becoming `deps_ready`. These are the
+    "root-of-tree" stubs that paper P-rounds should attack first to
+    unblock large fan-outs.
+
+    For each candidate root R (open, non-schema, `thms < threshold`),
+    count how many OTHER open non-schema chapters M satisfy:
+      - R ∈ M.deps
+      - every other dep of M (besides R) is already at `thms >= threshold`
+    i.e. R is the SINGLE remaining blocker for M. Lifting R to ready
+    immediately unblocks `unblock_count` downstream chapters.
+
+    Returns sorted list `[{name, thms, deps, unblock_count, file_paper}, ...]`
+    descending by unblock_count, only entries with unblock_count > 0.
+    """
+    candidates: list[dict] = []
+    for n, info in horizons.items():
+        if info.get("closed"):
+            continue
+        if n in SCHEMA_ONLY_HORIZONS:
+            continue
+        if info.get("thms", 0) >= threshold:
+            continue
+        # Count downstream chapters where n is the SINGLE remaining blocker.
+        unblock = 0
+        for m, mh in horizons.items():
+            if m == n or mh.get("closed"):
+                continue
+            if m in SCHEMA_ONLY_HORIZONS:
+                continue
+            if n not in mh.get("deps", []):
+                continue
+            other_blockers = 0
+            for d in mh["deps"]:
+                if d == n:
+                    continue
+                if d not in horizons:
+                    continue  # external (kernel) — assume ready
+                if horizons[d].get("thms", 0) < threshold:
+                    other_blockers += 1
+            if other_blockers == 0:
+                unblock += 1
+        if unblock > 0:
+            candidates.append({
+                "name": n,
+                "thms": info.get("thms", 0),
+                "deps": info.get("deps", []),
+                "unblock_count": unblock,
+                "file_paper": info.get("file_paper"),
+            })
+    candidates.sort(key=lambda r: (-r["unblock_count"], r["thms"], r["name"]))
+    return candidates
+
+
 def main() -> int:
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
@@ -674,15 +730,22 @@ def main() -> int:
         elif not info.get("closed"):
             open_count += 1
 
+    # Compute root-unblock candidates against the EFFECTIVE threshold
+    # (post-relaxation) so the suggestion list matches what _rank_at_threshold
+    # actually filtered against.
+    effective_threshold = relaxed_at if relaxed_at is not None else strict
+    root_unblocks = compute_root_unblocks(horizons, effective_threshold)
+
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "deps_ready_threshold": strict,
-        "deps_ready_threshold_used": relaxed_at if relaxed_at is not None else strict,
+        "deps_ready_threshold_used": effective_threshold,
         "deps_ready_relaxed": relaxed_at is not None,
         "closed_horizons": closed_count,
         "open_horizons": open_count,
         "granularity": "sibling",
         "top": rolled[:25],
+        "top_root_unblocks": root_unblocks[:10],
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
