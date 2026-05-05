@@ -96,4 +96,7 @@ theorem ConcreteUnaryHistorySemigroup_opposite_semanticNameCert :
             (concrete_unary_history_semigroup_cont_assoc_classifier
               unaryL unaryK unaryH lk klh kh lhk)
 
+def ConcreteUnaryHistorySemigroup_oppMul (h k : BHist) : BHist :=
+  append k h
+
 end BEDC.Derived.SemigroupUp
