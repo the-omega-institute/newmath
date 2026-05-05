@@ -63,6 +63,40 @@ theorem MatrixSingletonAddFold_append_carrier_iff {xs ys : List BHist} :
           (And.intro spineCarrier.left.left
             (Iff.mpr ih (And.intro spineCarrier.left.right spineCarrier.right)))
 
+theorem MatrixSingletonAddFold_append_visible_tail_absurd {xs : List BHist} {m : BHist} :
+    (hsame (MatrixSingletonAddFold (xs ++ [BHist.e0 m])) BHist.Empty -> False) ∧
+      (hsame (MatrixSingletonAddFold (xs ++ [BHist.e1 m])) BHist.Empty -> False) := by
+  constructor
+  · intro foldEmpty
+    have spine :=
+      Iff.mp (MatrixSingletonAddFold_append_carrier_iff (xs := xs) (ys := [BHist.e0 m]))
+        foldEmpty
+    exact not_hsame_e0_empty spine.right.left
+  · intro foldEmpty
+    have spine :=
+      Iff.mp (MatrixSingletonAddFold_append_carrier_iff (xs := xs) (ys := [BHist.e1 m]))
+        foldEmpty
+    exact not_hsame_e1_empty spine.right.left
+
+theorem MatrixSingletonAddFold_append_visible_middle_absurd {pref suffix : List BHist} {m : BHist} :
+    (hsame (MatrixSingletonAddFold (pref ++ BHist.e0 m :: suffix)) BHist.Empty -> False) ∧
+      (hsame (MatrixSingletonAddFold (pref ++ BHist.e1 m :: suffix)) BHist.Empty -> False) := by
+  constructor
+  · intro foldEmpty
+    have spineParts :=
+      Iff.mp
+        (MatrixSingletonAddFold_append_carrier_iff
+          (xs := pref) (ys := BHist.e0 m :: suffix))
+        foldEmpty
+    exact not_hsame_e0_empty spineParts.right.left
+  · intro foldEmpty
+    have spineParts :=
+      Iff.mp
+        (MatrixSingletonAddFold_append_carrier_iff
+          (xs := pref) (ys := BHist.e1 m :: suffix))
+        foldEmpty
+    exact not_hsame_e1_empty spineParts.right.left
+
 theorem MatrixSingletonAddFold_append_hsame {xs ys : List BHist} :
     hsame (MatrixSingletonAddFold (xs ++ ys))
       (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) := by
@@ -72,5 +106,50 @@ theorem MatrixSingletonAddFold_append_hsame {xs ys : List BHist} :
   | cons x xs ih =>
       exact (congrArg (append x) ih).trans
         (append_assoc x (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)).symm
+
+theorem MatrixSingletonAddFold_reverse_empty_append_hsame {xs : List BHist} :
+    MatrixSingletonAddFoldSpineCarrier xs ->
+      hsame (append (MatrixSingletonAddFold xs) BHist.Empty)
+        (append (MatrixSingletonAddFold xs.reverse) BHist.Empty) := by
+  intro carrier
+  have reverseCarrier :
+      ∀ {ys : List BHist}, MatrixSingletonAddFoldSpineCarrier ys ->
+        MatrixSingletonAddFoldSpineCarrier ys.reverse := by
+    intro ys ysCarrier
+    have reverseAuxCarrier :
+        ∀ {tail acc : List BHist}, MatrixSingletonAddFoldSpineCarrier tail ->
+          MatrixSingletonAddFoldSpineCarrier acc ->
+            MatrixSingletonAddFoldSpineCarrier (List.reverseAux tail acc) := by
+      intro tail acc tailCarrier accCarrier
+      induction tail generalizing acc with
+      | nil =>
+          exact accCarrier
+      | cons y tail ih =>
+          exact ih tailCarrier.right (And.intro tailCarrier.left accCarrier)
+    exact reverseAuxCarrier ysCarrier (hsame_refl BHist.Empty)
+  have leftEmpty : hsame (MatrixSingletonAddFold xs) BHist.Empty :=
+    Iff.mpr MatrixSingletonAddFold_carrier_iff carrier
+  have rightEmpty : hsame (MatrixSingletonAddFold xs.reverse) BHist.Empty :=
+    Iff.mpr MatrixSingletonAddFold_carrier_iff (reverseCarrier carrier)
+  exact hsame_trans leftEmpty (hsame_symm rightEmpty)
+
+theorem MatrixSingletonAddFold_append_display_classifier_iff {xs ys : List BHist} :
+    MatrixSingletonClassifier (MatrixSingletonAddFold (xs ++ ys))
+      (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) ↔
+        MatrixSingletonAddFoldSpineCarrier xs ∧ MatrixSingletonAddFoldSpineCarrier ys := by
+  constructor
+  · intro classified
+    exact Iff.mp MatrixSingletonAddFold_append_carrier_iff classified.left
+  · intro spine
+    have foldedCarrier : MatrixSingletonCarrier (MatrixSingletonAddFold (xs ++ ys)) :=
+      Iff.mpr MatrixSingletonAddFold_append_carrier_iff spine
+    have displayedCarrier :
+        MatrixSingletonCarrier (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) :=
+      append_eq_empty_iff.mpr
+        (And.intro
+          (Iff.mpr MatrixSingletonAddFold_carrier_iff spine.left)
+          (Iff.mpr MatrixSingletonAddFold_carrier_iff spine.right))
+    exact And.intro foldedCarrier
+      (And.intro displayedCarrier MatrixSingletonAddFold_append_hsame)
 
 end BEDC.Derived.MatrixUp

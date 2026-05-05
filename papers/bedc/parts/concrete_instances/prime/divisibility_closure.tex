@@ -13,6 +13,28 @@ witnesses over the displayed $\Cont(x,y,z)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_cont\_closed}
 
+\begin{lemma}[Unary multiplication append multiplier split]
+\label{lem:natmul-append-multiplier-split-exists}
+Let \(d,w,q,r:\mathsf{BHist}\) be unary where required. If the displayed unary
+multiplication relation proves
+\(\mathsf{NatMul}(d,\mathsf{append}(w,q),r)\), then there are unary histories
+\(n\) and \(e\) such that
+$$
+\mathsf{NatMul}(d,w,n)\land
+\mathsf{NatMul}(d,q,e)\land
+\ContR(n,e,r).
+$$
+\end{lemma}
+\begin{proof}
+Totality of unary multiplication supplies canonical products \(n\) and \(e\)
+for the two multiplier pieces \(w\) and \(q\). Append-continuation closure for
+\(\mathsf{NatMul}\) composes these two products into a displayed product over
+\(\mathsf{append}(w,q)\). Functionality of unary multiplication compares this
+canonical displayed result with the given result \(r\), and continuation
+transport along that history-sameness gives \(\ContR(n,e,r)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_split\_exists}
+
 \begin{lemma}[Right factor divisibility of a displayed product]
 \label{thm:nat-divides-mul-right-closed}
 If $d$ and $q$ are unary histories and $\mathsf{NatMul}(d,q,n)$ displays
