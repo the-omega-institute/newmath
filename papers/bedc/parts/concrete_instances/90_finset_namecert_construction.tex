@@ -111,6 +111,7 @@ A(a)\land
 \exists x:\mathsf{BHist}.\;\mathsf{SpineMember}(x,xs)\land a\sim_A x.
 $$
 \end{definition}
+\leandef{BEDC.Derived.FinsetUp.FinsetEnumerationCarrier}
 
 \begin{lemma}[Enumeration spine entries are source-carried]
 \label{lem:finset-enumeration-spine-entries-source-carried}
@@ -135,6 +136,7 @@ For the forward direction, unpack \autoref{def:finset-enumeration-carrier} and k
 
 For the reverse direction, take a witness $x$ with $\mathsf{SpineMember}(x,xs)$ and $a\sim_A x$. The enumeration witness and \autoref{lem:finset-enumeration-spine-entries-source-carried} give $A(x)$. The symmetry field of $\mathsf{cert}$, as part of \autoref{def:lean-carrier-naming-certificate}, turns $a\sim_A x$ into $x\sim_A a$. Carrier transport from the same certificate carries $A(x)$ along this comparison to obtain $A(a)$. Pair this carrier witness with the original occurrence and classifier witness, and repack by \autoref{def:finset-enumeration-carrier}.
 \end{proof}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetEnumerationCarrier\_membership\_exactness}
 
 \begin{lemma}[Finite-spine occurrence has a position readback]
 \label{lem:finset-spine-member-position-readback}
@@ -170,6 +172,7 @@ For the reverse implication, suppose $\mathsf{EnumMem}_{A,\sim_A}(z,xs)$. Keep i
 
 The two implications hold for every query history $z$. By the classifier clause in \autoref{def:finset-enumeration-membership}, this is exactly $\mathsf{FinSetEnumClassifier}_{A,\sim_A}(\mathsf{cons}(x,xs),xs)$.
 \end{proof}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetEnumerationClassifier\_duplicate\_insert}
 
 \begin{lemma}[Certified finite-position bijections compose]
 \label{lem:finset-enum-position-bijection-composition}
