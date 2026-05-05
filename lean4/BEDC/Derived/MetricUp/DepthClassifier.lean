@@ -1,9 +1,12 @@
 import BEDC.Derived.MetricUp
+import BEDC.Derived.NatUp
 
 namespace BEDC.Derived.MetricUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+open BEDC.Derived.NatUp
 
 theorem MetricDistanceDepth_zero_iff_empty {d : BHist} :
     MetricDistanceDepth d = 0 ↔ hsame d BHist.Empty := by
@@ -276,5 +279,87 @@ theorem MetricDistanceWitness_visible_context_total_zero_components {p q x y d :
   exact And.intro sourceParts.left
     (And.intro sourceParts.right
       (And.intro targetParts.left (And.intro targetParts.right centralParts.right)))
+
+theorem MetricDistanceDepth_append_right_cancel_iff {p d e : BHist} :
+    MetricDistanceDepth (append d p) = MetricDistanceDepth (append e p) ↔
+      MetricDistanceDepth d = MetricDistanceDepth e := by
+  induction p with
+  | Empty =>
+      constructor
+      · intro sameDepth
+        exact sameDepth
+      · intro sameDepth
+        exact sameDepth
+  | e0 p ih =>
+      constructor
+      · intro sameDepth
+        exact ih.mp (Nat.succ.inj sameDepth)
+      · intro sameDepth
+        exact congrArg Nat.succ (ih.mpr sameDepth)
+  | e1 p ih =>
+      constructor
+      · intro sameDepth
+        exact ih.mp (Nat.succ.inj sameDepth)
+      · intro sameDepth
+        exact congrArg Nat.succ (ih.mpr sameDepth)
+
+theorem MetricDistanceDepth_same_source_cont_result_cancel {x y z d e : BHist} :
+    UnaryHistory x -> UnaryHistory y -> UnaryHistory z -> Cont x y d -> Cont x z e ->
+      MetricDistanceDepth d = MetricDistanceDepth e -> MetricDistanceDepth y = MetricDistanceDepth z := by
+  intro xUnary yUnary zUnary leftCont rightCont sameDepth
+  have dUnary : UnaryHistory d := unary_cont_closed xUnary yUnary leftCont
+  have eUnary : UnaryHistory e := unary_cont_closed xUnary zUnary rightCont
+  have leftWitness : MetricDistanceWitness x y d :=
+    And.intro xUnary (And.intro yUnary (And.intro dUnary leftCont))
+  have rightWitness : MetricDistanceWitness x z e :=
+    And.intro xUnary (And.intro zUnary (And.intro eUnary rightCont))
+  have expanded :
+      MetricDistanceDepth x + MetricDistanceDepth y =
+        MetricDistanceDepth x + MetricDistanceDepth z :=
+    (MetricDistanceWitness_depth_add leftWitness).symm.trans
+      (sameDepth.trans (MetricDistanceWitness_depth_add rightWitness))
+  have addLeftCancel : ∀ a b c : Nat, a + b = a + c -> b = c := by
+    intro a
+    induction a with
+    | zero =>
+        intro b c same
+        exact (Nat.zero_add b).symm.trans (same.trans (Nat.zero_add c))
+    | succ a ih =>
+        intro b c same
+        have normalized : Nat.succ (a + b) = Nat.succ (a + c) :=
+          (Nat.succ_add a b).symm.trans (same.trans (Nat.succ_add a c))
+        exact ih b c (Nat.succ.inj normalized)
+  exact addLeftCancel (MetricDistanceDepth x) (MetricDistanceDepth y) (MetricDistanceDepth z)
+    expanded
+
+theorem MetricDistanceDepth_strict_prefix_decomposes {h k : BHist} :
+    NatUnaryStrictPrefix h k ->
+      ∃ tail : BHist, UnaryHistory tail ∧ (tail = BHist.Empty -> False) ∧ Cont h tail k ∧
+        MetricDistanceDepth k = MetricDistanceDepth h + MetricDistanceDepth tail := by
+  intro strict
+  cases strict with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary strictData =>
+          cases strictData with
+          | intro tailNonempty tailCont =>
+              cases tailCont
+              have depthAppendAll :
+                  ∀ x y : BHist, MetricDistanceDepth (append x y) =
+                    MetricDistanceDepth x + MetricDistanceDepth y := by
+                intro x y
+                induction y with
+                | Empty =>
+                    rfl
+                | e0 y ih =>
+                    exact congrArg Nat.succ ih
+                | e1 y ih =>
+                    exact congrArg Nat.succ ih
+              have depthAppend :
+                  MetricDistanceDepth (append h tail) =
+                    MetricDistanceDepth h + MetricDistanceDepth tail :=
+                depthAppendAll h tail
+              exact
+                ⟨tail, tailUnary, tailNonempty, cont_intro rfl, depthAppend⟩
 
 end BEDC.Derived.MetricUp
