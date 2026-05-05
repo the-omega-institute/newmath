@@ -60,3 +60,48 @@ $$
 $$
 The additive inverse and unit laws reduce the left endpoint to $A$ and the right endpoint to $B+_{L}C$, all inside the classifier $\sim_{L}$. Substituting the definitions of $A$, $B$, and $C$, and unfolding \autoref{def:liealgebra-adjoint-action-from-bracket}, gives the displayed adjoint derivation law.
 \end{proof}
+
+\begin{theorem}[Inner derivation commutator identity]
+\label{thm:liealgebra-inner-derivation-commutator-identity}
+Let $L$ carry a $\LieAlgebraUp$ certificate as in \autoref{ch:concrete-instances-liealgebra-namecert}. Write $+_{L}$, $0_{L}$, and $-_{L}$ for the additive vector-space operations inherited from \autoref{ch:concrete-instances-vecspace-namecert}, write $\sim_{L}$ for the carrier classifier, and write $[-,-]_L$ for the Lie bracket. For carried endpoints $x,y,z$ of $C_L$, read the bracket of adjoint endomaps pointwise as
+$$
+[\operatorname{ad}^{L}_{x},\operatorname{ad}^{L}_{y}](t)
+:=
+\operatorname{ad}^{L}_{x}(\operatorname{ad}^{L}_{y}(t))
++_{L}
+(-_{L}\operatorname{ad}^{L}_{y}(\operatorname{ad}^{L}_{x}(t))).
+$$
+Then $[\operatorname{ad}^{L}_{x},\operatorname{ad}^{L}_{y}](z)$ and $\operatorname{ad}^{L}_{[x,y]_L}(z)$ are carried by $C_L$, and
+$$
+[\operatorname{ad}^{L}_{x},\operatorname{ad}^{L}_{y}](z)
+\sim_{L}
+\operatorname{ad}^{L}_{[x,y]_L}(z).
+$$
+\end{theorem}
+\begin{proof}
+Bracket closure carries $[x,y]_L$, $\operatorname{ad}^{L}_{y}(z)$, $\operatorname{ad}^{L}_{x}(z)$, $\operatorname{ad}^{L}_{x}(\operatorname{ad}^{L}_{y}(z))$, $\operatorname{ad}^{L}_{y}(\operatorname{ad}^{L}_{x}(z))$, and $\operatorname{ad}^{L}_{[x,y]_L}(z)$. The additive closure and negation closure of the vector-space reduct therefore carry the displayed endomap commutator endpoint.
+
+Set
+$$
+P:=\operatorname{ad}^{L}_{x}(\operatorname{ad}^{L}_{y}(z)),
+\qquad
+Q:=\operatorname{ad}^{L}_{y}(\operatorname{ad}^{L}_{x}(z)),
+\qquad
+R:=\operatorname{ad}^{L}_{[x,y]_L}(z).
+$$
+Unfolding \autoref{def:liealgebra-adjoint-action-from-bracket}, the comparison in \autoref{thm:liealgebra-adjoint-action-derivation-from-jacobi} applied to $x,y,z$ gives
+$$
+P\sim_{L}R+_{L}Q.
+$$
+Add $-_{L}Q$ on the right by additive congruence:
+$$
+P+_{L}(-_{L}Q)
+\sim_{L}
+(R+_{L}Q)+_{L}(-_{L}Q).
+$$
+Associativity in the additive vector-space law rewrites the right endpoint as $R+_{L}(Q+_{L}(-_{L}Q))$. The inverse law and the additive unit law classify this endpoint with $R$. By transitivity of $\sim_{L}$,
+$$
+P+_{L}(-_{L}Q)\sim_{L}R.
+$$
+Substituting the definitions of $P$, $Q$, and $R$, and using the pointwise endomap-commutator reading above, gives the displayed identity.
+\end{proof}
