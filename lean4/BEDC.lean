@@ -531,6 +531,7 @@ import BEDC.Derived.ContinuousUp.TerminalModulusExtension
 import BEDC.Derived.ContinuousUp.VisibleTerminalModulusExtension
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.VisibleEndpointCycle
+import BEDC.Derived.ContinuousUp.SemanticCertificate
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousUp.VisibleGraphModulusDeterminism
 import BEDC.Derived.ContinuousUp.VisibleSourceRestriction
@@ -547,6 +548,7 @@ import BEDC.Derived.ContinuousMapUp.CompositionTargetDeterminacy
 import BEDC.Derived.ContinuousMapUp.DistanceBoundary
 import BEDC.Derived.ContinuousMapUp.TransportDepth
 import BEDC.Derived.ContinuousMapUp.SemanticCertificate
+import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.ContinuousMapUp.EmptyIdentityDistance
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision

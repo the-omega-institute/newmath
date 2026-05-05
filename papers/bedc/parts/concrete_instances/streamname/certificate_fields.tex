@@ -541,6 +541,55 @@ cases yield the same required conclusion
 $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name finite-window selected zero-head exclusion]
+\label{thm:rat-stream-name-finite-window-selected-zero-head-exclusion}
+For certified observation maps $s,t:\Hist\to\Hist$, a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, an observation history $n$, and histories
+$z_s,z_t:\Hist$, suppose
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}),
+\quad
+\mathsf{InBundle}(n,\mathcal{P}),
+\quad
+\mathsf{UnaryHistory}(n).
+$$
+Then the selected finite-window endpoints cannot be zero-headed:
+$$
+(\hsame(s(n),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t(n),\Ezero(z_t))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier} at the
+selected observation $n$, its bundle membership, and its unary witness. This
+produces the selected RatUp point classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to this
+selected classifier. The result supplies positive-denominator witnesses for
+both selected endpoint histories $s(n)$ and $t(n)$.
+
+For the left endpoint, assume a displayed zero-headed comparison
+$\hsame(s(n),\Ezero(z_s))$. Transport the positive-denominator witness for
+$s(n)$ along that comparison by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}. The transported
+witness contradicts \autoref{thm:rat-positive-denominator-e0-absurd}.
+
+For the right endpoint, the same argument applied to
+$\hsame(t(n),\Ezero(z_t))$ transports the positive-denominator witness for
+$t(n)$ to a zero-headed denominator witness, again contradicting
+\autoref{thm:rat-positive-denominator-e0-absurd}. These two contradictions
+give the displayed conjunction.
+\end{proof}
+
+The compact ten-field fit is: traditional target finite rational observation
+endpoint sanity; BEDC source $\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$;
+carrier observation maps; classifier finite-window restriction; ledger
+selected probe observation; exactness selected RatUp point classification;
+downstream $\RealUp/\RegSeqRat$ selected endpoint normalization; standard
+bridge ordinary finite rational stream endpoints; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rational stream-name finite-window selected full endpoint package]
 \label{thm:rat-stream-name-finite-window-selected-full-endpoint-package}
 For certified observation maps $s,t:\Hist\to\Hist$, a probe bundle
