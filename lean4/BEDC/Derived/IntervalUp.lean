@@ -214,6 +214,25 @@ theorem IntervalClassifierSpec_boundary_weakening {lowerOuter lowerInner upperOu
                 upperMap k carrierK.right.right⟩
             · exact sameHK
 
+theorem IntervalClassifierSpec_boundary_eliminator_counterexample :
+    IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) BHist.Empty BHist.Empty ∧
+      ((forall x : BHist, hsame BHist.Empty x -> False) -> False) ∧
+      ((forall x : BHist, hsame x BHist.Empty -> False) -> False) ∧
+      (IntervalClassifierSpec (fun _x : BHist => False) (fun _x : BHist => False)
+          BHist.Empty BHist.Empty -> False) := by
+  constructor
+  · exact IntervalClassifierSpec_empty_boundary_of_hsame
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  · constructor
+    · intro lowerEliminator
+      exact lowerEliminator BHist.Empty (hsame_refl BHist.Empty)
+    · constructor
+      · intro upperEliminator
+        exact upperEliminator BHist.Empty (hsame_refl BHist.Empty)
+      · intro outerClassifier
+        exact outerClassifier.left.right.left
+
 theorem IntervalEmptyBoundaryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist} :
     IntervalEmptyBoundaryLedgerPolicy rho v ->
       (IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
