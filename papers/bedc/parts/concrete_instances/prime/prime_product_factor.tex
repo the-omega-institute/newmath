@@ -1,0 +1,32 @@
+\begin{theorem}[Prime divisor of a unary product exposes a factor]
+\label{thm:prime-divides-product-factor}
+For histories \(p,a,b,n\), if \(\mathsf{NatPrime}(p)\),
+\(\mathsf{NatMul}(a,b,n)\), and \(\mathsf{NatDivides}(p,n)\), then
+\(\mathsf{NatDivides}(p,a)\) or \(\mathsf{NatDivides}(p,b)\).
+\end{theorem}
+\begin{proof}[Sketch]
+Induct on the concrete unary multiplication witness
+\(\mathsf{NatMul}(a,b,n)\), viewing the right factor \(b\) as the induction
+spine.
+
+In the zero-product case, the result is \(\emp\). A divisor witness for \(p\)
+into \(\emp\) would make \(\emp\) a multiple of the prime \(p\). The non-empty
+condition in \(\mathsf{NatPrime}(p)\), together with the empty-result inversion
+for \(\mathsf{NatMul}\), rules this case out, so the conclusion follows
+vacuously.
+
+In the successor case, the product is obtained by appending one more copy of
+\(a\) to the previous product. If \(p\) already divides the previous product,
+the induction hypothesis gives \(\mathsf{NatDivides}(p,a)\) or divisibility
+into the predecessor of \(b\); in the latter subcase, the successor
+multiplication constructor and \autoref{lem:divides-transitive} transport the
+divisor to \(\mathsf{NatDivides}(p,b)\).
+
+It remains when the final appended copy is the first place where the divisor
+can occur. The \(\mathsf{NatMul}\) result and functionality facts identify the
+last continuation with the factor \(a\) up to \(\hsame\). Applying the defining
+divisor alternative in \(\mathsf{NatPrime}(p)\) to this non-trivial divisor
+yields either the unit case, which is incompatible with the prime's
+strict-greater field, or \(\hsame\)-equality with \(a\). This gives
+\(\mathsf{NatDivides}(p,a)\), completing the induction.
+\end{proof}

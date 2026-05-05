@@ -170,6 +170,18 @@ def _agent_summary(now: float) -> dict[str, dict]:
     return summary
 
 
+def _busy_agent_is_current(aid: str, rec: dict | None, task: dict) -> bool:
+    if not rec or not rec.get("recent", False):
+        return False
+    event = rec.get("event", "")
+    metrics = rec.get("metrics") or {}
+    seen_task_id = str(metrics.get("task_id") or "")
+    pending_task_id = str(task.get("task_id") or "")
+    if event in {"ack", "heartbeat"} and seen_task_id and seen_task_id != pending_task_id:
+        return False
+    return True
+
+
 def _script_version_tuple(version: str) -> tuple[int, ...]:
     m = re.search(r"(\d+(?:\.\d+)*)", version or "")
     if not m:
@@ -331,8 +343,13 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     )
                 ]
                 stale_busy = [
-                    aid for aid in pending_tasks
-                    if not recent.get(aid, {}).get("recent", False)
+                    aid for aid, task in pending_tasks.items()
+                    if not _busy_agent_is_current(aid, recent.get(aid), task)
+                ]
+                mismatched_busy = [
+                    aid for aid, task in pending_tasks.items()
+                    if recent.get(aid, {}).get("recent", False)
+                    and not _busy_agent_is_current(aid, recent.get(aid), task)
                 ]
                 if task_queue and not pending_tasks and not compatible_active_poll:
                     diagnosis = "queue_waiting_for_browser_agent"
@@ -353,6 +370,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     "active_poll_agents": active_poll,
                     "compatible_active_poll_agents": compatible_active_poll,
                     "stale_busy_agents": stale_busy,
+                    "mismatched_busy_agents": mismatched_busy,
                     "agent_recent_seconds": AGENT_RECENT_SECONDS,
                     "completed": len(results),
                     "active_sessions": len(sessions),
@@ -608,8 +626,14 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         with _lock:
             _record_agent_seen(agent_id, event=event, metrics=metrics)
             if event == "heartbeat" and task_id:
+                assigned = pending_tasks.get(agent_id)
+                assigned_task_id = str((assigned or {}).get("task_id") or "")
                 still_pending = any(t.get("task_id") == task_id for t in pending_tasks.values())
-                if task_id in cancelled_tasks or (not still_pending and task_id not in results):
+                if (
+                    task_id in cancelled_tasks
+                    or (assigned_task_id and assigned_task_id != task_id)
+                    or not still_pending
+                ):
                     self._send_json({"status": "cancelled", "task_id": task_id})
                     return
             if agent_id in dispatch_times:
