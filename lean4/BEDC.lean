@@ -202,6 +202,7 @@ import BEDC.Derived.ComplexTopologyUp.CertifiedSubradius
 import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
@@ -225,6 +226,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
+import BEDC.Derived.IdealUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
