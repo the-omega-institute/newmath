@@ -35,6 +35,32 @@ def Gamma (s z : BHist) : Prop :=
     GammaDomainCore s apart ∧ UnaryHistory apart ∧
       GammaWeierstrassCauchyModulus s apart P N ∧ ComplexLimit P N z M
 
+theorem Gamma_holomorphic_limit_certificate_readback {s z : BHist} :
+    Gamma s z ->
+      ∃ apart : BHist, ∃ P : BHist -> BHist, ∃ N : BHist -> BHist,
+        ∃ M : BHist -> BHist,
+          GammaDomainCore s apart ∧ UnaryHistory apart ∧
+            GammaWeierstrassCauchyModulus s apart P N ∧ ComplexLimit P N z M ∧
+              ComplexHistoryCarrier z := by
+  intro gamma
+  cases gamma with
+  | intro apart gammaData =>
+      cases gammaData with
+      | intro P gammaData =>
+          cases gammaData with
+          | intro N gammaData =>
+              cases gammaData with
+              | intro M rows =>
+                  exact Exists.intro apart
+                    (Exists.intro P
+                      (Exists.intro N
+                        (Exists.intro M
+                          (And.intro rows.left
+                            (And.intro rows.right.left
+                              (And.intro rows.right.right.left
+                                (And.intro rows.right.right.right
+                                  rows.right.right.right.right.left)))))))
+
 theorem GammaWeierstrassCauchyModulus_hsame_transport
     {s t apart : BHist} {P Q N : BHist -> BHist}
     (sameST : hsame s t)
