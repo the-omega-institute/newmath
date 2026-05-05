@@ -80,6 +80,7 @@ import BEDC.Derived.OptionUp.ChainPayload
 import BEDC.Derived.OptionUp.EmptyRawIff
 import BEDC.Derived.OptionUp.LedgerEndpoint
 import BEDC.Derived.OptionUp.LedgerReadback
+import BEDC.Derived.OptionUp.LedgerPresentPayloadReadback
 import BEDC.Derived.OptionUp.SourceVisibleIff
 import BEDC.Derived.OptionUp.EndpointAbsurd
 import BEDC.Derived.OptionUp.EndpointTransportE0Absurd
@@ -194,6 +195,7 @@ import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
+import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
@@ -281,6 +283,7 @@ import BEDC.Derived.RealUp.SelectedEndpointShape
 import BEDC.Derived.RealUp.FiniteWindow
 import BEDC.Derived.RealUp.FiniteWindowEndpoint
 import BEDC.Derived.RealUp.FiniteWindowFullPackage
+import BEDC.Derived.RealUp.FiniteWindowStabilityPackage
 import BEDC.Derived.RealUp.UnarySelectedEndpointShape
 import BEDC.Derived.RealUp.FinitePrefixStability
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
@@ -491,6 +494,8 @@ import BEDC.Derived.FieldUp.RatDenomUnitContextEndpoint
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
+import BEDC.Derived.FpsUp.CauchyCoeffSpine
+import BEDC.Derived.FpsUp.CauchyProductAssociativity
 import BEDC.Derived.FpsUp.StabilityFields
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.LinearMapUp.ContinuationAppendPair
