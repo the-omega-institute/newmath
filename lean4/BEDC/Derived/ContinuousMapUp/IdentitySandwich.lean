@@ -1,9 +1,12 @@
 import BEDC.Derived.ContinuousMapUp
+import BEDC.FKernel.Cont.Units
 
 namespace BEDC.Derived.ContinuousMapUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+open BEDC.Derived.ContinuousUp
 
 theorem ContinuousMapCarrier_identity_sandwich_coherence
     {source target map modulus cert distance mapLF mapL mapRT mapR modLF modL modRT modR
@@ -24,48 +27,67 @@ theorem ContinuousMapCarrier_identity_sandwich_coherence
                               ContinuousMapCarrier source mapL target modL certL
                                   (append source target) ∧
                                 ContinuousMapCarrier source mapR target modR certR
-                                    (append source target) ∧
-                                  hsame mapL map ∧ hsame mapR map ∧
-                                    hsame modL modulus ∧ hsame modR modulus ∧
-                                      hsame certL cert ∧ hsame certR cert ∧
-                                        hsame certL certR := by
-  intro carrier graphLF modulusLF certLFRel graphL modulusL certLRel graphRT modulusRT
-    certRTRel graphR modulusR certRRel
-  have identities := ContinuousMapCarrier_empty_identities_closed carrier
-  have leftIntermediate :
-      ContinuousMapCarrier source mapLF target modLF certLF (append source target) :=
-    ContinuousMapCarrier_comp_closed identities.left carrier graphLF modulusLF certLFRel
+                                  (append source target) ∧
+                                  hsame mapL map ∧ hsame mapR map ∧ hsame modL modulus ∧
+                                    hsame modR modulus ∧ hsame certL cert ∧
+                                      hsame certR cert ∧ hsame certL certR := by
+  intro carrier mapLFRel modLFRel certLFRel mapLRel modLRel certLRel mapRTRel modRTRel
+    certRTRel mapRRel modRRel certRRel
+  have sameMapLF : hsame mapLF map := cont_left_unit_result mapLFRel
+  have sameMapL : hsame mapL map := hsame_trans (cont_right_unit_result mapLRel) sameMapLF
+  have sameModLF : hsame modLF modulus := cont_left_unit_result modLFRel
+  have sameModL : hsame modL modulus := hsame_trans (cont_right_unit_result modLRel) sameModLF
+  have sameCertLF : hsame certLF cert :=
+    cont_respects_hsame (hsame_refl target) sameModLF certLFRel carrier.left.right.right.right.right.right
+  have sameCertL : hsame certL cert :=
+    hsame_trans
+      (cont_respects_hsame (hsame_refl target) (cont_right_unit_result modLRel) certLRel
+        certLFRel)
+      sameCertLF
+  have sameMapRT : hsame mapRT map := cont_right_unit_result mapRTRel
+  have sameMapR : hsame mapR map := hsame_trans (cont_left_unit_result mapRRel) sameMapRT
+  have sameModRT : hsame modRT modulus := cont_right_unit_result modRTRel
+  have sameModR : hsame modR modulus := hsame_trans (cont_left_unit_result modRRel) sameModRT
+  have sameCertRT : hsame certRT cert :=
+    cont_respects_hsame (hsame_refl target) sameModRT certRTRel carrier.left.right.right.right.right.right
+  have sameCertR : hsame certR cert :=
+    hsame_trans
+      (cont_respects_hsame (hsame_refl target) (cont_left_unit_result modRRel) certRRel
+        certRTRel)
+      sameCertRT
+  have leftGraph : Cont source mapL target := by
+    cases sameMapL
+    exact carrier.left.right.right.right.right.left
+  have rightGraph : Cont source mapR target := by
+    cases sameMapR
+    exact carrier.left.right.right.right.right.left
+  have leftFunction :
+      ContinuousFunctionCarrier source mapL target modL certL :=
+    And.intro carrier.left.left
+      (And.intro carrier.left.right.left
+        (And.intro (unary_transport carrier.left.right.right.left (hsame_symm sameMapL))
+          (And.intro (unary_transport carrier.left.right.right.right.left (hsame_symm sameModL))
+            (And.intro leftGraph certLRel))))
+  have rightFunction :
+      ContinuousFunctionCarrier source mapR target modR certR :=
+    And.intro carrier.left.left
+      (And.intro carrier.left.right.left
+        (And.intro (unary_transport carrier.left.right.right.left (hsame_symm sameMapR))
+          (And.intro (unary_transport carrier.left.right.right.right.left (hsame_symm sameModR))
+            (And.intro rightGraph certRRel))))
   have leftCarrier :
       ContinuousMapCarrier source mapL target modL certL (append source target) :=
-    ContinuousMapCarrier_comp_closed leftIntermediate identities.right graphL modulusL certLRel
-  have rightIntermediate :
-      ContinuousMapCarrier source mapRT target modRT certRT (append source target) :=
-    ContinuousMapCarrier_comp_closed carrier identities.right graphRT modulusRT certRTRel
+    ContinuousMapCarrier_canonical_distance_iff.mpr leftFunction
   have rightCarrier :
       ContinuousMapCarrier source mapR target modR certR (append source target) :=
-    ContinuousMapCarrier_comp_closed identities.left rightIntermediate graphR modulusR certRRel
-  have sameMapL : hsame mapL map :=
-    hsame_trans (cont_right_unit_iff.mp graphL) (cont_left_unit_result graphLF)
-  have sameMapR : hsame mapR map :=
-    hsame_trans (cont_left_unit_result graphR) (cont_right_unit_iff.mp graphRT)
-  have sameModL : hsame modL modulus :=
-    hsame_trans (cont_right_unit_iff.mp modulusL) (cont_left_unit_result modulusLF)
-  have sameModR : hsame modR modulus :=
-    hsame_trans (cont_left_unit_result modulusR) (cont_right_unit_iff.mp modulusRT)
-  have certRel : Cont target modulus cert := carrier.left.right.right.right.right.right
-  have sameCertL : hsame certL cert :=
-    cont_respects_hsame (hsame_refl target) sameModL certLRel certRel
-  have sameCertR : hsame certR cert :=
-    cont_respects_hsame (hsame_refl target) sameModR certRRel certRel
-  exact
-    And.intro leftCarrier
-      (And.intro rightCarrier
-        (And.intro sameMapL
-          (And.intro sameMapR
-            (And.intro sameModL
-              (And.intro sameModR
-                (And.intro sameCertL
-                  (And.intro sameCertR
-                    (hsame_trans sameCertL (hsame_symm sameCertR)))))))))
+    ContinuousMapCarrier_canonical_distance_iff.mpr rightFunction
+  exact And.intro leftCarrier
+    (And.intro rightCarrier
+      (And.intro sameMapL
+        (And.intro sameMapR
+          (And.intro sameModL
+            (And.intro sameModR
+              (And.intro sameCertL
+                (And.intro sameCertR (hsame_trans sameCertL (hsame_symm sameCertR)))))))))
 
 end BEDC.Derived.ContinuousMapUp
