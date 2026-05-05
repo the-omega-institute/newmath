@@ -511,6 +511,7 @@ import BEDC.Derived.ContinuousUp.GraphChainFactorization
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
 import BEDC.Derived.ContinuousUp.ModulusWitnessPublicReadback
 import BEDC.Derived.ContinuousUp.EmptyMap
+import BEDC.Derived.ContinuousUp.VisibleEmptyMapExactness
 import BEDC.Derived.ContinuousUp.ResultCases
 import BEDC.Derived.ContinuousUp.EmptySource
 import BEDC.Derived.ContinuousUp.EmptyModulus
