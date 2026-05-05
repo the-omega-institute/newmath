@@ -80,6 +80,11 @@ def NumFieldRatReflexiveCarrier (h : BHist) : Prop :=
     RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
       Cont BHist.Empty h (FieldExtSingletonEmbedding h)
 
+def NumFieldRatReflexiveSingletonBasisRow (h coord support : BHist) : Prop :=
+  support = BHist.Empty ∧ NumFieldRatReflexiveCarrier h ∧
+    Cont h BHist.Empty coord ∧ RatHistoryClassifier coord h ∧
+      RatHistoryCarrier (FieldExtSingletonEmbedding h)
+
 def NumFieldRatReflexiveClassifier (h k : BHist) : Prop :=
   NumFieldRatReflexiveCarrier h ∧ NumFieldRatReflexiveCarrier k ∧ RatHistoryClassifier h k
 
