@@ -20,6 +20,9 @@ def GeomBound (a : Nat -> BHist) (r K : BHist) : Prop :=
 def PowerSeriesCarrier (a : Nat -> BHist) (z0 : BHist) : Prop :=
   UnaryHistory z0 ∧ (∀ n : Nat, ComplexHistoryCarrier (a n)) ∧ ComplexHistoryCarrier z0
 
+def PowerSeriesPartSum (a : Nat -> BHist) (z0 n S : BHist) : Prop :=
+  PowerSeriesCarrier a z0 ∧ ComplexPartSum z0 (fun _ : BHist => a 0) n S
+
 theorem PowerSeriesCarrier_origin_coefficient_transport {a b : Nat -> BHist} {z0 z0' : BHist} :
     hsame z0 z0' -> (∀ n : Nat, ComplexHistoryClassifier (a n) (b n)) ->
       PowerSeriesCarrier a z0 -> UnaryHistory z0' ∧ PowerSeriesCarrier b z0' := by
@@ -289,6 +292,11 @@ theorem ConvRad_successor_coefficients_closed {a : Nat -> BHist} {R : BHist} :
                   (And.intro sourceBound.right.left
                     (fun n : Nat => sourceBound.right.right (Nat.succ n)))))
 
+theorem ConvRad_coefficient_tail_closed {a : Nat -> BHist} {R : BHist} :
+    ConvRad a R -> UnaryHistory R ∧ ConvRad (fun n : Nat => a (Nat.succ n)) R := by
+  intro radius
+  exact And.intro radius.left (ConvRad_successor_coefficients_closed radius)
+
 theorem ConvRad_powerSeriesCarrier_witness {a : Nat -> BHist} {R z0 : BHist} :
     ConvRad a R -> ComplexHistoryCarrier z0 ->
       ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
@@ -426,6 +434,23 @@ theorem PowerSeriesComplexPartSum_exists_unique {zero n : BHist} {term : BHist -
           (And.intro current
             (And.intro currentCarrier
               (fun T other => ComplexPartSum_deterministic current other)))
+
+theorem PowerSeriesCarrier_constant_coeff_partSum_exists_unique {a : Nat -> BHist} {z0 n : BHist} :
+    PowerSeriesCarrier a z0 -> UnaryHistory n ->
+      ∃ S : BHist, PowerSeriesPartSum a z0 n S ∧ ComplexHistoryCarrier S ∧
+        ∀ T : BHist, PowerSeriesPartSum a z0 n T -> hsame S T := by
+  intro carrier unaryN
+  have constantCoeff :
+      ∀ {m : BHist}, UnaryHistory m -> ComplexHistoryCarrier ((fun _ : BHist => a 0) m) :=
+    fun {_m : BHist} _unaryM => carrier.right.left 0
+  cases PowerSeriesComplexPartSum_exists_unique carrier.right.right constantCoeff unaryN with
+  | intro S data =>
+      exact Exists.intro S
+        (And.intro
+          (And.intro carrier data.left)
+          (And.intro data.right.left
+            (fun T part =>
+              data.right.right T part.right)))
 
 def ConvRadSourceSpec (a : Nat -> BHist) (z0 R : BHist) : Prop :=
   PowerSeriesCarrier a z0 ∧ ConvRad a R

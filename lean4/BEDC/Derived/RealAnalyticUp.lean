@@ -18,11 +18,70 @@ def RealAnalyticLeibnizPartialSum (leibnizTerm : BHist -> BHist) (n S : BHist) :
     Prop :=
   UnaryHistory n ∧ ComplexPartSum BHist.Empty leibnizTerm n S ∧ UnaryHistory S
 
+def RealAnalyticPi (leibnizTerm : BHist -> BHist) (pi : BHist) : Prop :=
+  ∃ S : BHist,
+    RealAnalyticLeibnizPartialSum leibnizTerm (BHist.e1 (BHist.e1 BHist.Empty)) S ∧
+      hsame pi (append S S) ∧ UnaryHistory pi
+
 inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist -> Prop where
   | zero : RealAnalyticLeibnizPartSum term BHist.Empty BHist.Empty
   | step {n S T : BHist} :
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
+
+def RealAnalyticPiCandidate (leibnizTerm : BHist -> BHist) (limit : BHist) : Prop :=
+  exists n S : BHist, RealAnalyticLeibnizPartSum leibnizTerm n S ∧ Cont S BHist.Empty limit
+
+theorem RealAnalyticPiCandidate_empty_cont_readback {leibnizTerm : BHist -> BHist}
+    {n S limit : BHist} :
+    RealAnalyticLeibnizPartSum leibnizTerm n S -> Cont S BHist.Empty limit ->
+      RealAnalyticPiCandidate leibnizTerm limit ∧ hsame S limit := by
+  intro partSum limitCont
+  exact
+    And.intro
+      (Exists.intro n (Exists.intro S (And.intro partSum limitCont)))
+      (hsame_symm (cont_right_unit_iff.mp limitCont))
+
+theorem RealAnalyticLeibnizPartSum_pointwise_hsame_deterministic
+    {term term' : BHist -> BHist} {n S T : BHist} :
+    (forall {m : BHist}, UnaryHistory m -> hsame (term m) (term' m)) ->
+      RealAnalyticLeibnizPartSum term n S ->
+        RealAnalyticLeibnizPartSum term' n T -> hsame S T := by
+  intro termSame source
+  have indexUnary :
+      forall {m P : BHist}, RealAnalyticLeibnizPartSum term m P -> UnaryHistory m := by
+    intro m P sum
+    induction sum with
+    | zero =>
+        exact unary_empty
+    | step _ _ ih =>
+        exact unary_e1_closed ih
+  induction source generalizing T with
+  | zero =>
+      intro target
+      cases target with
+      | zero =>
+          exact hsame_refl BHist.Empty
+  | step previous stepContinuation ih =>
+      intro target
+      cases target with
+      | step previous' stepContinuation' =>
+          have unaryPrevious : UnaryHistory _ := indexUnary previous
+          have samePrevious : hsame _ _ := ih previous'
+          exact cont_respects_hsame samePrevious (termSame unaryPrevious)
+            stepContinuation stepContinuation'
+
+theorem RealAnalyticLeibnizPartSum_index_result_unary {term : BHist -> BHist}
+    {n S : BHist}
+    (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (term m)) :
+    RealAnalyticLeibnizPartSum term n S -> UnaryHistory n ∧ UnaryHistory S := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact And.intro unary_empty unary_empty
+  | step previous stepContinuation ih =>
+      exact And.intro (unary_e1_closed ih.left)
+        (unary_cont_closed ih.right (termUnary ih.left) stepContinuation)
 
 def RealAnalyticExpPart (x n S : BHist) : Prop :=
   ComplexHistoryCarrier x ∧
