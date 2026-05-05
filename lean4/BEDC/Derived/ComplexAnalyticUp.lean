@@ -59,6 +59,54 @@ theorem CplxExp_component_carrier_witness {z w : BHist} :
                       componentData.right.right.right.right.left
                       componentData.right.right.right.right.right.left)
 
+theorem CplxExp_component_well_defined
+    {real imag realOut imagOut z z' w w' : BHist} :
+    RatHistoryCarrier real -> RatHistoryCarrier imag -> RatHistoryCarrier realOut ->
+      RatHistoryCarrier imagOut -> Cont real imag z -> Cont real imag z' ->
+        Cont realOut imagOut w -> Cont realOut imagOut w' ->
+          hsame realOut (append real imag) -> hsame imagOut (append imag real) ->
+            CplxExp z w ∧ CplxExp z' w' ∧
+              ComplexHistoryClassifier z z' ∧ ComplexHistoryClassifier w w' := by
+  intro realCarrier imagCarrier realOutCarrier imagOutCarrier contZ contZ' contW contW'
+    sameRealOut sameImagOut
+  have expZW : CplxExp z w :=
+    Exists.intro real
+      (Exists.intro imag
+        (Exists.intro realOut
+          (Exists.intro imagOut
+            (And.intro realCarrier
+              (And.intro imagCarrier
+                (And.intro contZ
+                  (And.intro realOutCarrier
+                    (And.intro imagOutCarrier
+                      (And.intro contW (And.intro sameRealOut sameImagOut))))))))))
+  have expZ'W' : CplxExp z' w' :=
+    Exists.intro real
+      (Exists.intro imag
+        (Exists.intro realOut
+          (Exists.intro imagOut
+            (And.intro realCarrier
+              (And.intro imagCarrier
+                (And.intro contZ'
+                  (And.intro realOutCarrier
+                    (And.intro imagOutCarrier
+                      (And.intro contW' (And.intro sameRealOut sameImagOut))))))))))
+  have realClassifier : RatHistoryClassifier real real :=
+    And.intro realCarrier (And.intro realCarrier (hsame_refl real))
+  have imagClassifier : RatHistoryClassifier imag imag :=
+    And.intro imagCarrier (And.intro imagCarrier (hsame_refl imag))
+  have realOutClassifier : RatHistoryClassifier realOut realOut :=
+    And.intro realOutCarrier (And.intro realOutCarrier (hsame_refl realOut))
+  have imagOutClassifier : RatHistoryClassifier imagOut imagOut :=
+    And.intro imagOutCarrier (And.intro imagOutCarrier (hsame_refl imagOut))
+  exact And.intro expZW
+    (And.intro expZ'W'
+      (And.intro
+        (ComplexHistoryClassifier_component_classifier_intro realClassifier imagClassifier
+          contZ contZ')
+        (ComplexHistoryClassifier_component_classifier_intro realOutClassifier imagOutClassifier
+          contW contW')))
+
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
 
@@ -69,6 +117,11 @@ def CplxPower (a s w : BHist) : Prop :=
 def CplxModArg (z r theta : BHist) : Prop :=
   ComplexHistoryCarrier z ∧ CplxNonZero z ∧ UnaryHistory r ∧ UnaryHistory theta ∧
     ComplexHistoryClassifier z (append (BHist.e1 r) (BHist.e1 theta))
+
+def CplxLog (realLog : BHist -> BHist) (z w : BHist) : Prop :=
+  ∃ r theta logR : BHist,
+    CplxModArg z r theta ∧ hsame logR (realLog r) ∧ Cont logR theta w ∧
+      ComplexHistoryCarrier w
 
 theorem CplxPureImaginary_e1_tail_iff {theta tail : BHist} :
     CplxPureImaginary theta (BHist.e1 tail) <->
@@ -276,6 +329,11 @@ theorem CplxPureImaginary_continuation_e0_result_absurd {theta z q tail : BHist}
   have resultCarrier : ComplexHistoryCarrier (BHist.e0 tail) :=
     CplxPureImaginary_continuation_complex_carrier pureImaginary qUnary zqCont
   exact unary_no_zero_extension (ComplexHistoryCarrier_unary resultCarrier)
+
+def CplxSinCos (z s c : BHist) : Prop :=
+  ∃ iz negIz expIz expNegIz : BHist,
+    ComplexHistoryCarrier z ∧ CplxExp iz expIz ∧ CplxExp negIz expNegIz ∧
+      hsame s (append expIz expNegIz) ∧ hsame c (append expIz expIz)
 
 theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
     (UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))) ->

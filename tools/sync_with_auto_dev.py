@@ -214,14 +214,27 @@ def ensure_local_tracks_origin(branch: str) -> bool:
         print(f"[sync] origin/{branch} missing — cannot sync", file=sys.stderr)
         return False
     if has_local_branch(branch):
-        # Switch and ff-pull.
+        # Switch and converge with origin. Try ff first to keep history
+        # clean; if local branch has diverged from origin/<branch>
+        # (typically because an external worker — e.g. bedc-deep
+        # supervisor — pushed commits to origin while local has its own
+        # bookkeeping merges), fall back to a real merge with codex
+        # conflict resolution. Leaving the divergence as-is wedges the
+        # rest of the sync (push step gets `non-fast-forward` rejection
+        # forever).
         git("checkout", branch)
-        try:
-            git("merge", "--ff-only", f"origin/{branch}")
-        except RuntimeError:
-            print(f"[sync] {branch} cannot ff origin/{branch} (diverged); leaving as-is",
+        ff = git("merge", "--ff-only", f"origin/{branch}",
+                 check=False, capture=True)
+        if ff.returncode == 0:
+            return True
+        print(f"[sync] {branch} cannot ff origin/{branch} (diverged); "
+              f"falling back to merge --no-ff with codex resolver",
+              file=sys.stderr)
+        if not merge_with_codex_fallback(f"origin/{branch}",
+                                         label=f"{branch} <- origin/{branch}"):
+            print(f"[sync] {branch} <- origin/{branch}: convergence failed",
                   file=sys.stderr)
-            # Diverged: caller's bidirectional merge step will reconcile.
+            return False
         return True
     # Create new local tracking branch from origin.
     git("checkout", "-b", branch, f"origin/{branch}")
