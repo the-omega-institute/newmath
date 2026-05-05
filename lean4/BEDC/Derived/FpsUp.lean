@@ -144,6 +144,16 @@ theorem FpsSingletonCauchyProduct_constant_coefficient {F G : BHist} :
     (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
     (cont_right_unit BHist.Empty)
 
+theorem FpsSingletonCauchyProduct_left_distrib_classifier {F G H : BHist} :
+    FpsSingletonClassifier (FpsSingletonMul F (FpsSingletonAdd G H))
+        (FpsSingletonAdd (FpsSingletonMul F G) (FpsSingletonMul F H)) ∧
+      Cont (FpsSingletonMul F G) (FpsSingletonMul F H)
+        (FpsSingletonAdd (FpsSingletonMul F G) (FpsSingletonMul F H)) := by
+  have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro
+    (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+    (cont_right_unit BHist.Empty)
+
 theorem FpsSingletonEmptyHistoryClassifier_append_split_empty_iff {p q h : BHist} :
     FpsSingletonEmptyHistoryClassifier (BEDC.FKernel.Cont.append p q) h ↔
       hsame p BHist.Empty ∧ hsame q BHist.Empty ∧ FpsSingletonEmptyHistoryCarrier h := by
@@ -406,5 +416,36 @@ theorem FpsSingletonCauchyProduct_comm_classifier {xs ys : List BHist} :
 def FpsSingletonThreefoldCauchySplitSpines (xs ys zs : List BHist) : BHist × BHist :=
   (append (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys)) (FpsSingletonAddFold zs),
     append (FpsSingletonAddFold xs) (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs)))
+
+theorem FpsSingletonThreefoldCauchySplitSpines_reassociation {xs ys zs : List BHist} :
+    FpsSingletonAddFoldSpineCarrier xs ->
+      FpsSingletonAddFoldSpineCarrier ys ->
+        FpsSingletonAddFoldSpineCarrier zs ->
+          hsame (append (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+            (FpsSingletonAddFold zs))
+            (append (FpsSingletonAddFold xs)
+              (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs))) := by
+  intro xsSpine ysSpine zsSpine
+  have xEmpty : hsame (FpsSingletonAddFold xs) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty xsSpine
+  have yEmpty : hsame (FpsSingletonAddFold ys) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty ysSpine
+  have zEmpty : hsame (FpsSingletonAddFold zs) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty zsSpine
+  have xyEmpty : hsame (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+      BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro xEmpty yEmpty)
+  have yzEmpty : hsame (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs))
+      BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro yEmpty zEmpty)
+  have leftEmpty :
+      hsame (append (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+        (FpsSingletonAddFold zs)) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro xyEmpty zEmpty)
+  have rightEmpty :
+      hsame (append (FpsSingletonAddFold xs)
+        (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs))) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro xEmpty yzEmpty)
+  exact hsame_trans leftEmpty (hsame_symm rightEmpty)
 
 end BEDC.Derived.FpsUp
