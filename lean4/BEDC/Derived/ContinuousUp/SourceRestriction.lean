@@ -67,6 +67,40 @@ theorem ContinuousFunctionCarrier_empty_source_restriction_transitive_package
     ContinuousFunctionCarrier_target_cert_deterministic packaged.left displayed
   exact And.intro packaged.left (And.intro packaged.right readback)
 
+theorem ContinuousFunctionCarrier_empty_source_restriction_functorial_action
+    {source map target oldMod oldCert delta1 delta2 delta cert displayedTarget displayedCert v u
+      displayedTarget2 displayedCert2 : BHist} :
+    ContinuousFunctionCarrier source map target oldMod oldCert ->
+      ContinuousModulusChain target delta1 delta2 cert ->
+        Cont delta1 delta2 delta ->
+          ContinuousFunctionCarrier source map displayedTarget delta displayedCert ->
+            (ContinuousFunctionCarrier source map target delta cert ∧
+                ContinuousModulusWitness target delta cert ∧
+                  hsame target displayedTarget ∧ hsame cert displayedCert) ∧
+              (Cont v BHist.Empty u ->
+                Cont u BHist.Empty source ->
+                  ContinuousFunctionCarrier v map displayedTarget2 delta displayedCert2 ->
+                    ContinuousFunctionCarrier v map target delta cert ∧
+                      ContinuousModulusWitness target delta cert ∧
+                        hsame target displayedTarget2 ∧ hsame cert displayedCert2) := by
+  intro carrier chain compositeRel displayed
+  have identityPackage :
+      ContinuousFunctionCarrier source map target delta cert ∧
+        ContinuousModulusWitness target delta cert ∧
+          hsame target displayedTarget ∧ hsame cert displayedCert :=
+    by
+      have packaged :=
+        ContinuousFunctionCarrier_empty_source_restriction_modulus_chain
+          (cont_right_unit source) carrier chain compositeRel
+      exact And.intro packaged.left
+        (And.intro packaged.right
+          (ContinuousFunctionCarrier_target_cert_deterministic packaged.left displayed))
+  constructor
+  · exact identityPackage
+  · intro firstRestriction secondRestriction displayed2
+    exact ContinuousFunctionCarrier_empty_source_restriction_transitive_package
+      firstRestriction secondRestriction carrier chain compositeRel displayed2
+
 theorem ContinuousFunctionCarrier_empty_source_restriction_terminal_modulus_commutes
     {restricted source map target modulus cert extra modulus' cert' displayedTarget displayedCert :
       BHist} :
