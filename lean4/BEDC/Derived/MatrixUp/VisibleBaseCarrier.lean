@@ -133,4 +133,30 @@ theorem MatrixSingletonPow_visible_base_positive_exponent_carrier_absurd {m expo
             cases exponentEq
             cases exponentUnary
 
+theorem MatrixSingletonPow_visible_base_append_positive_suffix_continuation_empty_result_absurd
+    {m pref suffix y r : BHist} :
+    UnaryHistory pref -> UnaryHistory suffix -> (hsame suffix BHist.Empty -> False) ->
+      (Cont (MatrixSingletonPow (BHist.e0 m) (append pref suffix)) y r ->
+        hsame r BHist.Empty -> False) ∧
+      (Cont (MatrixSingletonPow (BHist.e1 m) (append pref suffix)) y r ->
+        hsame r BHist.Empty -> False) := by
+  intro prefUnary suffixUnary suffixNonempty
+  have exponentUnary : UnaryHistory (append pref suffix) :=
+    unary_append_closed prefUnary suffixUnary
+  have exponentNonempty : hsame (append pref suffix) BHist.Empty -> False := by
+    intro exponentEmpty
+    exact suffixNonempty (append_eq_empty_iff.mp exponentEmpty).right
+  have carrierAbsurd :=
+    MatrixSingletonPow_visible_base_positive_exponent_carrier_absurd
+      (m := m) (exponent := append pref suffix) exponentUnary exponentNonempty
+  exact And.intro
+    (fun continuation resultEmpty =>
+      carrierAbsurd.left
+        (cont_empty_result_inversion
+          (cont_result_hsame_transport continuation resultEmpty)).left)
+    (fun continuation resultEmpty =>
+      carrierAbsurd.right
+        (cont_empty_result_inversion
+          (cont_result_hsame_transport continuation resultEmpty)).left)
+
 end BEDC.Derived.MatrixUp
