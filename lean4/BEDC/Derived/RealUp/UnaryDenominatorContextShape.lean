@@ -74,4 +74,71 @@ theorem RealStreamClassifier_transported_unary_denominator_context_closed
   exact RealStreamClassifier_unary_denominator_context_closed transported pXUnary tXUnary
     sameP sameT pXCont oXCont pYCont oYCont
 
+theorem RealStreamClassifier_unary_denominator_context_appended_e0_tail_absurd
+    {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat}
+    {dX dY zX zY : BHist} :
+    RealStreamClassifier x y ->
+      (forall i : Nat, UnaryHistory (pX i)) ->
+        (forall i : Nat, UnaryHistory (tX i)) ->
+          (forall i : Nat, hsame (pX i) (pY i)) ->
+            (forall i : Nat, hsame (tX i) (tY i)) ->
+              (forall i : Nat, Cont (pX i) (x i) (mX i)) ->
+                (forall i : Nat, Cont (mX i) (tX i) (oX i)) ->
+                  (forall i : Nat, Cont (pY i) (y i) (mY i)) ->
+                    (forall i : Nat, Cont (mY i) (tY i) (oY i)) ->
+                      (hsame (oX n) (append dX (BHist.e0 zX)) -> False) ∧
+                        (hsame (oY n) (append dY (BHist.e0 zY)) -> False) := by
+  intro classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont
+  have positives :
+      PositiveUnaryDenominator (oX n) ∧ PositiveUnaryDenominator (oY n) :=
+    RealStreamClassifier_unary_denominator_context_selected_positive_denominators (n := n)
+      classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont
+  constructor
+  · intro displayed
+    exact PositiveUnaryDenominator_append_e0_tail_absurd
+      (PositiveUnaryDenominator_hsame_transport displayed positives.left)
+  · intro displayed
+    exact PositiveUnaryDenominator_append_e0_tail_absurd
+      (PositiveUnaryDenominator_hsame_transport displayed positives.right)
+
+theorem RealStreamClassifier_unary_denominator_context_selected_e1_tail_determinacy
+    {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat}
+    {a a' b b' : BHist} :
+    RealStreamClassifier x y ->
+      (forall i : Nat, UnaryHistory (pX i)) ->
+        (forall i : Nat, UnaryHistory (tX i)) ->
+          (forall i : Nat, hsame (pX i) (pY i)) ->
+            (forall i : Nat, hsame (tX i) (tY i)) ->
+              (forall i : Nat, Cont (pX i) (x i) (mX i)) ->
+                (forall i : Nat, Cont (mX i) (tX i) (oX i)) ->
+                  (forall i : Nat, Cont (pY i) (y i) (mY i)) ->
+                    (forall i : Nat, Cont (mY i) (tY i) (oY i)) ->
+                      hsame (oX n) (BHist.e1 a) -> hsame (oX n) (BHist.e1 a') ->
+                        hsame (oY n) (BHist.e1 b) -> hsame (oY n) (BHist.e1 b') ->
+                          UnaryHistory a ∧ UnaryHistory a' ∧ UnaryHistory b ∧
+                            UnaryHistory b' ∧ hsame a a' ∧ hsame b b' ∧ hsame a b ∧
+                              hsame a' b' := by
+  intro classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont sameLeft
+    sameLeft' sameRight sameRight'
+  have readAB :
+      UnaryHistory a ∧ UnaryHistory b ∧ hsame a b :=
+    RealStreamClassifier_unary_denominator_context_selected_e1_pair_readback (n := n)
+      classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont sameLeft
+      sameRight
+  have readA'B' :
+      UnaryHistory a' ∧ UnaryHistory b' ∧ hsame a' b' :=
+    RealStreamClassifier_unary_denominator_context_selected_e1_pair_readback (n := n)
+      classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont sameLeft'
+      sameRight'
+  have sameAA' : hsame a a' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameLeft) sameLeft')
+  have sameBB' : hsame b b' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameRight) sameRight')
+  exact And.intro readAB.left
+    (And.intro readA'B'.left
+      (And.intro readAB.right.left
+        (And.intro readA'B'.right.left
+          (And.intro sameAA'
+            (And.intro sameBB' (And.intro readAB.right.right readA'B'.right.right))))))
+
 end BEDC.Derived.RealUp
