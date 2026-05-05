@@ -522,6 +522,7 @@ import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.PublicReadback
 import BEDC.Derived.ContinuousUp.CompositionAssociativity
 import BEDC.Derived.ContinuousUp.TerminalModulusExtension
+import BEDC.Derived.ContinuousUp.VisibleFieldDeterminacy
 import BEDC.Derived.ContinuousUp.VisibleTerminalModulusExtension
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.VisibleEndpointCycle
