@@ -116,3 +116,162 @@ $$
 $$
 which is the asserted $\DensityMatrixUp$ output closure.
 \end{proof}
+
+\begin{definition}[QuantumChannel affine mixture spine]
+\label{def:quantumchannel-affine-mixture-spine}
+Let $H$ and $K$ be $\HilbertUp$ carriers, and write
+$$
+\mathsf{Map}_{H,K}:=\mathsf{TC}(H)\to\mathsf{TC}(K).
+$$
+Use the pointwise real scalar action and pointwise trace-class addition on maps,
+$$
+(a\odot_{H,K}\Phi)(T):=a\odot_K\Phi(T),
+\qquad
+(\Phi\oplus_{H,K}\Psi)(T):=\Phi(T)+_{\mathsf{TC}(K)}\Psi(T).
+$$
+For a finite map spine $\Phi_s:\mathsf{ListCarrier}(\mathsf{Map}_{H,K})$, a finite real-weight spine $\lambda:\mathsf{ListCarrier}(\RealUp)$, and an endpoint $\Phi_{\mathrm{mix}}:\mathsf{Map}_{H,K}$, define
+$$
+\mathsf{QChanAffSpine}_{H,K}(\Phi_s,\lambda,\Phi_{\mathrm{mix}})
+:\Longleftrightarrow
+\mathsf{ConvAffSpine}_{\mathsf{QChan}_{H,K}}(\Phi_s,\lambda,\Phi_{\mathrm{mix}}),
+$$
+where the right side is the finite affine-spine datum of \autoref{def:convexset-finite-affine-spine-data} read with carrier $C=\mathsf{QChan}_{H,K}$, scalar action $\odot_{H,K}$, and addition $\oplus_{H,K}$. Thus the datum records carried channel entries, nonnegative real weights with total weight classified as one, and a recursive pointwise affine endpoint.
+\end{definition}
+
+\begin{lemma}[QuantumChannel binary convex mixture closure]
+\label{lem:quantumchannel-binary-convex-mixture-closure}
+Let $H$ and $K$ be $\HilbertUp$ carriers. Let $\Phi,\Psi:\mathsf{TC}(H)\to\mathsf{TC}(K)$ and let $a,b$ be real scalar coefficients. Define $\Phi_{\mathrm{mix}}:\mathsf{TC}(H)\to\mathsf{TC}(K)$ pointwise by
+$$
+\Phi_{\mathrm{mix}}(T)
+=
+(a\odot_K\Phi(T))+_{\mathsf{TC}(K)}(b\odot_K\Psi(T)).
+$$
+If
+$$
+\mathsf{QChan}_{H,K}(\Phi)
+\land
+\mathsf{QChan}_{H,K}(\Psi)
+\land
+\mathsf{NonNeg}_{\RealUp}(a)
+\land
+\mathsf{NonNeg}_{\RealUp}(b)
+\land
+ a+b=1,
+$$
+then
+$$
+\mathsf{QChan}_{H,K}(\Phi_{\mathrm{mix}}).
+$$
+\end{lemma}
+\begin{proof}
+Unpack the two channel hypotheses by \autoref{def:quantumchannel-cptp-carrier}. Their first rows carry the two $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ map-codes of \autoref{def:linearmap-carrier}. The trace-class carriers are real vector-space and module carriers inherited from the $\OperatorIdealUp$ and $\HilbertUp$ dependency surfaces cited in \autoref{ch:concrete-instances-densitymatrix-namecert}.
+
+The pointwise formula for $\Phi_{\mathrm{mix}}$ gives a carried linear-map code. Indeed, output closure follows from output closure for $\Phi$ and $\Psi$ together with scalar-action and addition closure in $\mathsf{TC}(K)$. Source-classifier descent follows by applying the descent rows for $\Phi$ and $\Psi$, then scalar-action congruence and additive congruence in the target trace-class module. Additivity follows from the additivity rows for $\Phi$ and $\Psi$, scalar distributivity over target addition, and the middle-four additive law in the target module. Scalar compatibility follows from the scalar rows for $\Phi$ and $\Psi$, scalar associativity and commutativity in the real field, and target scalar distributivity over addition. Zero preservation follows from the zero rows for $\Phi$ and $\Psi$, the target zero-action laws, and the target additive unit law. These are exactly the rows of \autoref{def:module-linearmap-certificate-package}; equivalently, they are the pointwise-sum mechanism of \autoref{thm:module-linearmap-pointwise-sum-certificate} applied after checking the two pointwise scalar multiples. Hence $\Phi_{\mathrm{mix}}$ carries the required $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ map-code.
+
+For complete positivity, let $A$ be a finite ancilla Hilbert carrier and let $X$ be a positive trace-class operator on $A\otimes H$. Complete positivity of $\Phi$ and $\Psi$ gives positive trace-class operators
+$$
+Y_{\Phi}:=(\operatorname{id}_A\otimes\Phi)(X),
+\qquad
+Y_{\Psi}:=(\operatorname{id}_A\otimes\Psi)(X)
+$$
+on $A\otimes K$. The amplified-map ledger is pointwise affine in the channel argument, so
+$$
+(\operatorname{id}_A\otimes\Phi_{\mathrm{mix}})(X)
+=
+(a\odot_{A\otimes K}Y_{\Phi})+_{\mathsf{TC}(A\otimes K)}(b\odot_{A\otimes K}Y_{\Psi}).
+$$
+The positivity cone on trace-class operators is closed under nonnegative real scalar action and addition, and the hypotheses supply $\mathsf{NonNeg}_{\RealUp}(a)$ and $\mathsf{NonNeg}_{\RealUp}(b)$. Therefore $(\operatorname{id}_A\otimes\Phi_{\mathrm{mix}})(X)$ is positive trace-class on $A\otimes K$. Since $A$ and $X$ were arbitrary, $\Phi_{\mathrm{mix}}$ is completely positive.
+
+For trace preservation, let $T\in\mathsf{TC}(H)$. Trace linearity over the trace-class vector carrier and trace preservation for $\Phi$ and $\Psi$ give
+$$
+\begin{aligned}
+\operatorname{Tr}_K(\Phi_{\mathrm{mix}}(T))
+&=
+ a\operatorname{Tr}_K(\Phi(T))+b\operatorname{Tr}_K(\Psi(T))\\
+&=
+ a\operatorname{Tr}_H(T)+b\operatorname{Tr}_H(T)\\
+&=
+ (a+b)\operatorname{Tr}_H(T)\\
+&=
+ \operatorname{Tr}_H(T).
+\end{aligned}
+$$
+Thus the linear-map row, complete-positivity row, and trace-preservation row required by \autoref{def:quantumchannel-cptp-carrier} all hold for $\Phi_{\mathrm{mix}}$.
+\end{proof}
+
+\begin{theorem}[QuantumChannel finite convex mixture closure]
+\label{thm:quantumchannel-finite-convex-mixture-closure}
+Let $H$ and $K$ be $\HilbertUp$ carriers. For every finite map spine $\Phi_s:\mathsf{ListCarrier}(\mathsf{Map}_{H,K})$, finite real-weight spine $\lambda:\mathsf{ListCarrier}(\RealUp)$, and endpoint $\Phi_{\mathrm{mix}}:\mathsf{Map}_{H,K}$, if
+$$
+\mathsf{QChanAffSpine}_{H,K}(\Phi_s,\lambda,\Phi_{\mathrm{mix}}),
+$$
+then the pointwise affine mixture is carried by $\QuantumChannelUp(H,K)$:
+$$
+\mathsf{QChan}_{H,K}(\Phi_{\mathrm{mix}}).
+$$
+Equivalently, any finite pointwise affine mixture of carried $\mathsf{QChan}_{H,K}$ entries with nonnegative real weights whose finite sum is classified as one is again a carried quantum channel from $H$ to $K$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:quantumchannel-affine-mixture-spine}. The hypothesis is the finite affine-spine datum of \autoref{def:convexset-finite-affine-spine-data} specialized to the concrete carrier $C=\mathsf{QChan}_{H,K}$ on the pointwise map carrier $\mathsf{Map}_{H,K}$. It contains the visible finite readback of carried channel entries and nonnegative unit-sum weights, together with a local bracketing witness for the endpoint $\Phi_{\mathrm{mix}}$.
+
+Induct on the local bracketing witness. In the singleton clause, the endpoint is the displayed map $\Phi$, and the clause itself supplies $\mathsf{QChan}_{H,K}(\Phi)$.
+
+In the binary-extension clause, the induction hypothesis gives that the tail endpoint $\Theta$ is carried by $\mathsf{QChan}_{H,K}$. The same clause supplies a carried head map $\Phi$, nonnegative real coefficients $a,b$, and the local unit-sum identity $a+b=1$. Its endpoint is the pointwise map
+$$
+T\longmapsto (a\odot_K\Phi(T))+_{\mathsf{TC}(K)}(b\odot_K\Theta(T)).
+$$
+Applying \autoref{lem:quantumchannel-binary-convex-mixture-closure} to $\Phi$, $\Theta$, $a$, and $b$ gives that this endpoint is carried by $\mathsf{QChan}_{H,K}$.
+
+The induction covers every recursive affine bracketing packaged by $\mathsf{QChanAffSpine}_{H,K}(\Phi_s,\lambda,\Phi_{\mathrm{mix}})$. Hence $\mathsf{QChan}_{H,K}(\Phi_{\mathrm{mix}})$ holds.
+\end{proof}
+
+\begin{theorem}[QuantumChannel finite density-mixture preservation]
+\label{thm:quantumchannel-density-finite-mixture-preservation}
+Let $H$ and $K$ be $\HilbertUp$ carriers, let $\Phi:\mathsf{TC}(H)\to\mathsf{TC}(K)$, let $xs:\mathsf{ListCarrier}(\mathsf{TC}(H))$ be a finite trace-class spine, let $\lambda:\mathsf{ListCarrier}(\RealUp)$ be a finite real-weight spine, and let $\rho_{\mathrm{mix}}\in\mathsf{TC}(H)$. Write $\Phi_{\ast}xs$ for the entrywise image spine defined by
+$$
+\Phi_{\ast}(\mathsf{nil}) := \mathsf{nil},
+\qquad
+\Phi_{\ast}(\mathsf{cons}(\rho,xs')) :=
+\mathsf{cons}(\Phi(\rho),\Phi_{\ast}(xs')).
+$$
+If
+$$
+\mathsf{QChan}_{H,K}(\Phi)
+\qquad\text{and}\qquad
+\mathsf{DensAffSpine}_H(xs,\lambda,\rho_{\mathrm{mix}}),
+$$
+then
+$$
+\mathsf{DensAffSpine}_K(\Phi_{\ast}xs,\lambda,\Phi(\rho_{\mathrm{mix}}))
+\qquad\text{and}\qquad
+\mathsf{Dens}_K(\Phi(\rho_{\mathrm{mix}})).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{QChan}_{H,K}(\Phi)$ by \autoref{def:quantumchannel-cptp-carrier}. Its carried $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ row, read through \autoref{def:linearmap-carrier}, supplies output closure, additivity, and scalar compatibility on the trace-class vector carriers. Hence for carried trace-class endpoints $T,U$ and real scalars $a,b$,
+$$
+\Phi\bigl((a\odot_H T)+_{\mathsf{TC}(H)}(b\odot_H U)\bigr)
+=
+(a\odot_K\Phi(T))+_{\mathsf{TC}(K)}(b\odot_K\Phi(U)).
+$$
+
+Unpack $\mathsf{DensAffSpine}_H(xs,\lambda,\rho_{\mathrm{mix}})$ by \autoref{def:densitymatrix-affine-mixture-spine}. This is the affine-spine datum of \autoref{def:convexset-finite-affine-spine-data} for the concrete carrier $\mathsf{Dens}_H$. The global readback gives a position match between $xs$ and $\lambda$, carried source entries, nonnegative weights, and unit finite weight sum. The recursive definition of $\Phi_{\ast}xs$ has the same finite positions as $xs$, so the same position match applies to $\Phi_{\ast}xs$ and $\lambda$. For each displayed source entry $\rho$, the readback gives $\mathsf{Dens}_H(\rho)$; applying \autoref{lem:quantumchannel-densitymatrix-image} gives $\mathsf{Dens}_K(\Phi(\rho))$. The weight nonnegativity clauses and the finite unit-sum clause are unchanged, since the weight spine is still $\lambda$.
+
+It remains to rebuild the local bracketing witness over $K$. Induct on the source bracketing witness packaged by \autoref{def:convexset-finite-affine-spine-data}. In the singleton clause, the source clause supplies $\mathsf{Dens}_H(\rho)$, nonnegativity of the displayed weight, and classification of that weight as the scalar unit. The density-image lemma gives $\mathsf{Dens}_K(\Phi(\rho))$, and the singleton bracketing clause over $K$ gives the target bracket for $\mathsf{cons}(\Phi(\rho),\mathsf{nil})$ with endpoint $\Phi(\rho)$.
+
+In the binary-extension clause, write the source endpoint as
+$$
+z=(a\odot_H\rho)+_{\mathsf{TC}(H)}(b\odot_H\tau).
+$$
+The induction hypothesis gives the target tail bracket with endpoint $\Phi(\tau)$. The source clause supplies $\mathsf{Dens}_H(\rho)$, nonnegativity of $a$ and $b$, and the same local unit-sum comparison. By \autoref{lem:quantumchannel-densitymatrix-image}, $\mathsf{Dens}_K(\Phi(\rho))$. The binary bracketing clause over $K$ therefore builds the endpoint
+$$
+(a\odot_K\Phi(\rho))+_{\mathsf{TC}(K)}(b\odot_K\Phi(\tau)).
+$$
+The displayed linearity identity rewrites this target endpoint as $\Phi(z)$. Thus the binary target bracket matches the entrywise image spine and has endpoint $\Phi(z)$.
+
+The induction supplies the target bracketing witness for the whole source witness, and the global readback was already rebuilt. Repacking these two rows by \autoref{def:densitymatrix-affine-mixture-spine} gives
+$$
+\mathsf{DensAffSpine}_K(\Phi_{\ast}xs,\lambda,\Phi(\rho_{\mathrm{mix}})).
+$$
+Applying \autoref{thm:densitymatrix-finite-affine-mixture-closure} to this target density affine spine gives $\mathsf{Dens}_K(\Phi(\rho_{\mathrm{mix}}))$.
+\end{proof}
