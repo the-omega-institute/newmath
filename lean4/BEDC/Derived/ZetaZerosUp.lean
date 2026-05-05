@@ -33,6 +33,17 @@ theorem ZetaBoundaryNonvanishingWitness_sigma_nonempty {s sigma : BHist} :
     hsame_trans (hsame_symm sameUnit) sameEmpty
   exact not_hsame_e1_empty unitEmpty
 
+def ZetaVal (s z : BHist) : Prop :=
+  ComplexHistoryCarrier s ∧ (hsame s (BHist.e1 BHist.Empty) -> False) ∧
+    ComplexHistoryCarrier z ∧
+      ComplexHistoryClassifier z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+
+theorem ZetaVal_well_defined {s z z' : BHist} :
+    ZetaVal s z -> ZetaVal s z' -> ComplexHistoryClassifier z z' := by
+  intro value value'
+  exact ComplexHistoryClassifier_trans value.right.right.right
+    (ComplexHistoryClassifier_symm value'.right.right.right)
+
 def ZetaZeroPatternSpec (s z : BHist) : Prop :=
   ZetaZeroSourceSpec s ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
 
