@@ -60,6 +60,7 @@ import BEDC.Derived.IntUp.OneSidedContext
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.EmptyUp
+import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
@@ -171,6 +172,7 @@ import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
+import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
@@ -245,7 +247,9 @@ import BEDC.Derived.FinsetUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
+import BEDC.Derived.MatchingUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
+import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
@@ -499,17 +503,16 @@ import BEDC.Derived.FieldUp.RatClassifiedFactors
 import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
 import BEDC.Derived.FieldUp.TailFactor
+import BEDC.Derived.FieldExtUp
 import BEDC.Derived.RatUp.HistoryLedgerContextEndpoint
 import BEDC.Derived.FieldUp.RatDenomUnitContextEndpoint
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
-import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.FpsUp.CauchyCoefficientSpine
 import BEDC.Derived.FpsUp.SourceSpec
 import BEDC.Derived.FpsUp.CauchyCoeffSpine
 import BEDC.Derived.FpsUp.CauchyProductAssociativity
-import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.FpsUp.StabilityFields
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.LinearMapUp.ContinuationAppendPair
@@ -525,6 +528,7 @@ import BEDC.Derived.ModuleUp.KernelExactness
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
+import BEDC.Derived.NormUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
 import BEDC.Derived.MatrixUp.AppendVisibleFactorExclusion
@@ -545,7 +549,6 @@ import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.Evaluation
-import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PreorderUp
@@ -568,8 +571,6 @@ import BEDC.Derived.MetricUp.HsameDeterminism
 import BEDC.Derived.MetricUp.AppendCommPackage
 import BEDC.Derived.MetricUp.CompositeEndpointCollapse
 import BEDC.Derived.MetricUp.BallBudget
-import BEDC.Derived.CompleteMetricUp
-import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
@@ -587,7 +588,6 @@ import BEDC.Derived.ContinuousUp.EmptyModulus
 import BEDC.Derived.ContinuousUp.EmptyModuli
 import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
-import BEDC.Derived.ContinuousUp.CertificateFields
 import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.PublicReadback
