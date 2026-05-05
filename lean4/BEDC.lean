@@ -309,6 +309,7 @@ import BEDC.Derived.RealUp.MalformedSealedDenominator
 import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.SelectedTransportFit
 import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
+import BEDC.Derived.BanachUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
@@ -497,6 +498,7 @@ import BEDC.Derived.FieldUp.RatHistoryClassifierContinuationResultSingletonAbsur
 import BEDC.Derived.FieldUp.RatClassifiedFactors
 import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
+import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldUp.TailFactor
 import BEDC.Derived.RatUp.HistoryLedgerContextEndpoint
 import BEDC.Derived.FieldUp.RatDenomUnitContextEndpoint
