@@ -170,4 +170,33 @@ $$
 \leandef{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrierSwap}
 \leandef{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitDisplaySame}
 
+\begin{theorem}[Adjunction triangle display empty normal form]
+\label{thm:adjunction-triangle-display-empty-normal-form}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, let
+$D=(left,right,object,unit,counit,leftLeg,rightLeg)$ and
+$N=(left,left,object,\emp,\emp,\emp,\emp)$. Then
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+\mathsf{AdjunctionUnitCounitDisplaySame}(D,N).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:adjunction-triangle-roundtrip-total-collapse} to the
+given adjunction triangle carrier. This gives the four emptiness witnesses
+for $unit$, $counit$, $leftLeg$, and $rightLeg$, together with the endpoint
+prefix witness $\hsame(left,right)$.
+
+Unfold \autoref{def:adjunction-unit-counit-carrier-swap-classifier} only at
+the display classifier fields. The $left$ and $object$ coordinates are
+witnessed by reflexivity. The $right$ coordinate is witnessed by symmetry of
+the endpoint-prefix witness, giving $\hsame(right,left)$.
+
+The remaining four classifier fields are exactly the empty witnesses for
+$unit$, $counit$, $leftLeg$, and $rightLeg$. Packing these seven witnesses in
+the displayed coordinate order proves
+$\mathsf{AdjunctionUnitCounitDisplaySame}(D,N)$.
+\end{proof}
+
 \input{parts/concrete_instances/adjunction/carrier_swap_involutions}

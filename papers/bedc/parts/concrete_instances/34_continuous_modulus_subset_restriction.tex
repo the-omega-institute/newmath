@@ -20,6 +20,46 @@ Apply the modulus-validity field for $f$ on $T$ to the transported memberships, 
 
 This is the entire obligation for the restricted witness: only the source-admission hypotheses have been narrowed from $T$ to $U$, and those hypotheses enter the original modulus field through the certified inclusion. The precision ledger $\delta$ is unchanged.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_source\_restriction\_modulus\_chain}
+
+\begin{theorem}[Continuous empty-source restriction public package]
+\label{thm:continuous-empty-source-restriction-public-package}
+Let $\mathit{restricted},\mathit{source},\mathit{map},\mathit{target},\mathit{target}',\mathit{oldMod},\mathit{oldCert},\delta_1,\delta_2,\delta,\mathit{cert},\mathit{cert}' : \mathsf{BHist}$ be histories. Assume
+$$
+\ContR(\mathit{restricted},\emp,\mathit{source}),
+$$
+$$
+\mathsf{ContinuousFunctionCarrier}(\mathit{source},\mathit{map},\mathit{target},\mathit{oldMod},\mathit{oldCert}),
+$$
+$$
+\mathsf{ContinuousModulusChain}(\mathit{target},\delta_1,\delta_2,\mathit{cert}),
+$$
+$$
+\ContR(\delta_1,\delta_2,\delta),
+$$
+and a displayed restricted carrier
+$$
+\mathsf{ContinuousFunctionCarrier}(\mathit{restricted},\mathit{map},\mathit{target}',\delta,\mathit{cert}').
+$$
+Then the empty-source restriction has the public package
+$$
+\mathsf{ContinuousFunctionCarrier}(\mathit{restricted},\mathit{map},\mathit{target},\delta,\mathit{cert}),
+$$
+$$
+\mathsf{ContinuousModulusWitness}(\mathit{target},\delta,\mathit{cert}),
+$$
+and
+$$
+\hsame(\mathit{target},\mathit{target}')\land\hsame(\mathit{cert},\mathit{cert}').
+$$
+\end{theorem}
+\begin{proof}
+Apply the preceding checked empty-source restriction-chain theorem to the source restriction, the original carrier, the modulus chain, and the composite modulus relation. This produces the restricted $\mathsf{ContinuousFunctionCarrier}$ over $(\mathit{restricted},\mathit{map},\mathit{target},\delta,\mathit{cert})$ and the $\mathsf{ContinuousModulusWitness}$ over $(\mathit{target},\delta,\mathit{cert})$.
+
+It remains to read back the displayed public target and certificate. The Lean-side theorem $\mathsf{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_source\_restriction\_public\_readback}$ applies to the same hypotheses together with the displayed restricted carrier, and returns $\hsame(\mathit{target},\mathit{target}')\land\hsame(\mathit{cert},\mathit{cert}')$.
+
+Ten-field fit: traditional target restriction of uniformly continuous maps along an empty-source inclusion; BEDC source BHist, Cont, ContinuousFunctionCarrier, and ContinuousModulusChain; carrier the restricted ContinuousFunctionCarrier; classifier hsame on target and certificate histories; stability hsame transport and modulus-chain composition; ledger unchanged graph with replaced modulus/certificate chain; core theorem this public package; exactness the target/certificate readback; standard bridge ordinary restricted-map readback; status ProofTarget.
+\end{proof}
 
 \begin{theorem}[Uniform continuity modulus restriction is transitive]
 \label{thm:uniform-continuity-modulus-restriction-transitive}

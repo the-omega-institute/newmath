@@ -52,6 +52,46 @@ by $M$, and the zero-headed branch returns the singleton zero endpoint.
 \end{definition}
 \leandef{BEDC.Derived.MatrixUp.MatrixSingletonPow}
 
+\begin{theorem}[Matrix singleton power empty-exponent classifier iff]
+\label{thm:matrix-singleton-pow-empty-exponent-classifier-iff}
+For histories $M,h:\mathsf{BHist}$, the singleton classifier of the empty
+exponent power ledger against $h$ is exactly the singleton carrier condition
+on $h$:
+$$
+\mathsf{MatrixSingletonClassifier}(\mathsf{MatrixSingletonPow}(M,\emp),h)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+The empty exponent branch of $\mathsf{MatrixSingletonPow}$ is
+$\mathsf{MatrixSingletonOne}=\emp$. The forward implication reads the right
+carrier field from the classifier. Conversely, a singleton carrier witness
+for $h$ combines with the empty carrier of $\emp$ and symmetry of $\hsame$ to
+assemble the singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_empty\_exponent\_classifier\_iff}
+
+\begin{theorem}[Matrix singleton power zero-head exponent classifier iff]
+\label{thm:matrix-singleton-pow-zero-head-exponent-classifier-iff}
+For histories $M,e,h:\mathsf{BHist}$, the singleton classifier of a
+zero-headed exponent power ledger against $h$ is exactly the singleton carrier
+condition on $h$:
+$$
+\mathsf{MatrixSingletonClassifier}(\mathsf{MatrixSingletonPow}(M,\Ezero(e)),h)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+The zero-headed exponent branch of $\mathsf{MatrixSingletonPow}$ is
+$\mathsf{MatrixSingletonZero}=\emp$. The classifier therefore has the same
+right-endpoint readback as the empty singleton endpoint: forward projection
+gives the carrier of $h$, and the reverse direction repacks the empty carrier
+of $\emp$, the carrier of $h$, and the corresponding $\hsame$ comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_zero\_head\_exponent\_classifier\_iff}
+
 \begin{theorem}[Matrix singleton power carrier closure]
 \label{thm:matrix-singleton-pow-carrier-closed}
 If $M$ is carried by the singleton matrix carrier and $e$ is unary, then the
@@ -94,6 +134,30 @@ power ledger. Conversely, carrier closure for singleton powers carries the
 power ledger from $A_{\emp}(M)$ and $\Unary(e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_nonempty\_unary\_input\_iff}
+
+\begin{theorem}[Matrix singleton positive power continuation result carrier iff]
+\label{thm:matrix-singleton-pow-positive-exponent-continuation-result-carrier-iff}
+Let \(M,e,y,r:\mathsf{BHist}\). If \(e\) is unary and not history-same to
+\(\emp\), and if
+\(\ContR(\mathsf{MatrixSingletonPow}(M,e),y,r)\), then the displayed
+continuation result is carried exactly when both the base matrix and the right
+continuation input are carried:
+$$
+A_{\emp}(r)
+\Longleftrightarrow
+A_{\emp}(M)\land A_{\emp}(y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the continuation result to \(\emp\) and
+invert empty continuation results. This gives carrier witnesses for the power
+source and for \(y\); positive-exponent power carrier exactness recovers
+\(A_{\emp}(M)\) from the power source carrier. Conversely,
+\(A_{\emp}(M)\) carries the positive power source, and together with
+\(A_{\emp}(y)\) append empty-result exactness identifies the displayed
+continuation result with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_continuation\_result\_carrier\_iff}
 
 \begin{theorem}[Matrix singleton power positive exponent classifier iff]
 \label{thm:matrix-singleton-pow-positive-exponent-classifier-iff}

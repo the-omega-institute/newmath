@@ -1,6 +1,123 @@
 \section{The certificate}
 \label{sec:continuousmap-certificate}
 
+\begin{definition}[Metric ContinuousMapUp source specification]
+\label{def:continuousmapup-metric-source-specification}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, the
+metric $\ContinuousMapUp$ source row is the conjunction
+$$
+\begin{array}{l}
+\mathsf{CategoryHomCarrier}(source,target,map)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert)\land
+\mathsf{MetricDistanceWitness}(source,target,distance).
+\end{array}
+$$
+It names the categorical graph carrier, the target-side modulus witness, and
+the endpoint distance witness carried by the six-history certificate object.
+\end{definition}
+
+\begin{definition}[Metric ContinuousMapUp pattern specification]
+\label{def:continuousmapup-metric-pattern-specification}
+The metric $\ContinuousMapUp$ pattern is the six-field carrier formation
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance).
+$$
+The displayed carrier is the public pattern consumed by compact-continuous and
+Heine--Cantor arguments: it packages the source, map, target, modulus,
+certificate, and distance histories in one BEDC object.
+\end{definition}
+
+\begin{definition}[Metric ContinuousMapUp classifier specification]
+\label{def:continuousmapup-metric-classifier-specification}
+For two metric $\ContinuousMapUp$ carriers with histories
+$source,map,target,modulus,cert,distance$ and
+$source',map',target',modulus',cert',distance'$, the classifier is
+componentwise $\hsame$ on the six displayed histories:
+$$
+\begin{array}{l}
+\hsame(source,source')\land
+\hsame(map,map')\land
+\hsame(target,target')\land
+\hsame(modulus,modulus')\land
+\hsame(cert,cert')\land
+\hsame(distance,distance').
+\end{array}
+$$
+The same classifier row records the hidden canonical-distance exactness
+$$
+\hsame(distance,\mathsf{append}(source,target))
+$$
+for each admitted carrier, and similarly for the primed carrier.
+\end{definition}
+
+\begin{definition}[Metric ContinuousMapUp stability certificate]
+\label{def:continuousmapup-metric-stability-certificate}
+The metric $\ContinuousMapUp$ stability certificate consists of:
+\begin{enumerate}
+  \item field transport of the six histories under the componentwise
+  $\hsame$ classifier;
+  \item canonical-distance exactness for each admitted carrier;
+  \item two-sided identity closure by empty maps and empty distance ledgers;
+  \item composition closure by categorical graph composition, modulus
+  composition, and canonical endpoint-distance normalization;
+  \item associativity of the composed canonical package.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Metric ContinuousMapUp ledger policy]
+\label{def:continuousmapup-metric-ledger-policy}
+The metric $\ContinuousMapUp$ ledger policy records the six histories
+$source,map,target,modulus,cert,distance$, the visible source row of
+\autoref{def:continuousmapup-metric-source-specification}, and the hidden
+canonical-distance ledger
+$\hsame(distance,\mathsf{append}(source,target))$. Under composition it keeps
+the graph and modulus continuation ledgers visible and rewrites the displayed
+distance to the canonical endpoint append.
+\end{definition}
+
+\begin{theorem}[Metric ContinuousMapUp certificate bridge]
+\label{thm:continuousmapup-metric-certificate-bridge}
+The five rows of
+\autoref{def:continuousmapup-metric-source-specification}--\autoref{def:continuousmapup-metric-ledger-policy}
+form the paper-side $\NameCert$ obligations for $\ContinuousMapUp$ with carrier
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance).
+$$
+The bridge identifies the source row with the
+$\mathsf{CategoryUp}$, $\mathsf{ContinuousUp}$, and $\mathsf{MetricUp}$
+components; exposes componentwise $\hsame$ on the six displayed histories; and
+uses the hidden canonical-distance exactness
+$\hsame(distance,\mathsf{append}(source,target))$ as the distance certificate
+consumed by identity and composition.
+\end{theorem}
+\begin{proof}
+First unpack the carrier through
+\autoref{thm:continuousmap-carrier-categorical-canonical-distance-exactness}.
+This gives the categorical hom row, the target-side modulus row, and the
+canonical endpoint-distance classifier. Together with
+\autoref{def:continuousmapup-metric-source-specification}, these are exactly
+the visible source obligations.
+
+Next use
+\autoref{thm:continuousmap-carrier-hsame-field-transport-depth} to transport
+the six displayed histories along the componentwise classifier. The transport
+step supplies the classifier and stability fields without changing the public
+carrier shape.
+
+Identity closure is supplied by
+\autoref{thm:continuousmap-empty-identities-two-sided-composition-units}. It
+shows that empty identity maps and empty distance ledgers serve as the
+two-sided units required by the certificate policy.
+
+Finally apply
+\autoref{thm:continuousmap-carrier-composition-associative-canonical-package}.
+It composes the graph, modulus, certificate, and distance rows while
+normalizing the distance back to the canonical endpoint append. This is the
+ledger behavior stated in
+\autoref{def:continuousmapup-metric-ledger-policy}, so the five displayed rows
+give the advertised $\NameCert$ obligations for $\ContinuousMapUp$.
+\end{proof}
+
 \input{parts/concrete_instances/continuousmap/empty_identities_two_sided_composition_units}
 
 \begin{theorem}[ContinuousMap composite graph depth addition]
@@ -411,6 +528,46 @@ certificate component of that comparison is the required
 $\hsame(certFG,certFG_2)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_certificate\_deterministic}
+
+\begin{theorem}[ContinuousMap composite target, certificate, and distance determinacy]
+\label{thm:continuousmap-carrier-comp-target-cert-distance-deterministic}
+For histories
+$source,mid,target,target_2,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,certFG_2,distF,distG,displayed:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),
+\qquad
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+$$
+and the composition ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+If a displayed composite carrier uses the same source, composite map, and
+modulus but displays target $target_2$, certificate $certFG_2$, and distance
+$displayed$, then the displayed rows agree with the canonical composite:
+$$
+\begin{array}{l}
+\hsame(target,target_2)\land \hsame(certFG,certFG_2)\land
+\hsame(displayed,\mathsf{append}(source,target))\\
+\qquad{}\land\ContR(source,target,\mathsf{append}(source,target)).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First close the canonical composite carrier from the two input carriers and
+the three continuation ledgers. Its target is $target$, its certificate is
+$certFG$, and its distance ledger is $\mathsf{append}(source,target)$. Compare
+this canonical carrier with the displayed composite carrier by
+\autoref{thm:continuousmap-target-cert-distance-deterministic}. The comparison
+gives target and certificate determinacy, identifies the canonical distance
+with $displayed$, and exposes the canonical endpoint continuation. Symmetry of
+$\hsame$ orients the displayed distance as
+$\hsame(displayed,\mathsf{append}(source,target))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_target\_cert\_distance\_deterministic}
 
 \begin{theorem}[ContinuousMap category-metric terminal extension bridge]
 \label{thm:continuousmap-category-metric-terminal-extension-bridge}
