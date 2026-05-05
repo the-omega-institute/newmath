@@ -56,3 +56,24 @@ For the reverse implication, assume $\mathsf{V}_{R,n}(F)(x)\land\mathsf{V}_{R,n}
 
 The affine-point witness and this case analysis over every position of $F{++}G$ repack as $\mathsf{V}_{R,n}(F{++}G)(x)$, giving the displayed equivalence and the stated intersection implication.
 \end{proof}
+
+\begin{theorem}[Affine empty-family zero-locus is the ambient affine space]
+\label{thm:affine-empty-family-zero-locus-full-space}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $\mathsf{nil}:\mathsf{HistSpine}$ denote the empty finite polynomial-family spine. For every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(\mathsf{nil})(x)
+\Longleftrightarrow
+\mathsf{AffPoint}_{R,n}(x).
+$$
+In particular, $\mathsf{AffPoint}_{R,n}(x)$ implies $\mathsf{V}_{R,n}(\mathsf{nil})(x)$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:affine-finite-family-zero-locus}. The forward implication is projection from the defining conjunction, since every zero-locus point carries its ambient affine-point witness.
+
+For the reverse implication, assume $\mathsf{AffPoint}_{R,n}(x)$. It remains only to supply the equation row
+$$
+\forall i:\mathsf{Pos}(\mathsf{nil}).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{\mathsf{nil}}(i),x).
+$$
+The nil finite spine has no positions, by the finite-spine nil clause of \autoref{def:list-spine-representation} and the empty-position reading used in \autoref{lem:finset-enummem-append-split}. Hence this universal row has no instances to check. Pairing the given affine-point witness with the empty equation row gives $\mathsf{V}_{R,n}(\mathsf{nil})(x)$.
+\end{proof}
