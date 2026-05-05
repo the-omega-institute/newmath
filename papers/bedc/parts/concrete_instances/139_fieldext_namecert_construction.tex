@@ -138,10 +138,76 @@ Theorem~\ref{thm:singleton-empty-history-vecspace-laws}. Its paper-side
 semantic packaging is recorded by
 Theorem~\ref{thm:singleton-empty-history-vecspace-semantic-certificate}.
 
-Exactness and ledger provenance are the singleton endpoint facts already used
-in the two compatibility theorems: every operation endpoint is classified with
-$\emp$, the embedding is the identity on histories, and the vector-space
-action has the same empty-history provenance. These clauses assemble the
+Exactness and ledger provenance are supplied by
+Theorems~\ref{thm:fieldext-singleton-exact-endpoint-classification} and
+\ref{thm:fieldext-singleton-ledger-provenance}. These clauses assemble the
 listed $\FieldExtUp$ $\NameCert$ obligations for the concrete singleton
 field-extension carrier.
+\end{proof}
+
+\begin{definition}[Singleton field-extension exactness and ledger interface]
+\label{def:fieldext-singleton-exactness-ledger-interface}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier}, the
+$\FieldExtUp$ exactness and ledger interface is read entirely through the
+singleton carrier $A_{\emp}$ and classifier $\rho_{\emp}$. Thus the displayed
+base-field carrier, extension-field carrier, identity embedding endpoint,
+vector scalar-action endpoint, and extension-field multiplication endpoint
+all have the same source $A_{\emp}$, and every endpoint comparison used by
+the certificate is a $\rho_{\emp}$ row over that source.
+\end{definition}
+
+\begin{theorem}[Singleton field-extension exact endpoint classification]
+\label{thm:fieldext-singleton-exact-endpoint-classification}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier}, every displayed
+base-field operation endpoint, every displayed extension-field operation
+endpoint, the vector scalar-action endpoint, and the identity embedding
+endpoint are carried by $A_{\emp}$ and classified with $\emp$ by
+$\rho_{\emp}$. In particular, the operation table of the base field, the
+operation table of the extension field, and the scalar-action table of the
+extension vector space have one exact endpoint class.
+\end{theorem}
+\begin{proof}
+For the base and extension field operation endpoints, apply
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}. Both
+field structures in
+Definition~\ref{def:fieldext-singleton-embedding-carrier} use the same
+singleton $\FieldUp$ operation table.
+
+For the vector scalar-action endpoint, apply
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}. Its
+scalar-action clause reads the endpoint as $\emp$ over the same
+$A_{\emp}$ and $\rho_{\emp}$.
+
+The embedding endpoint is immediate from $\iota_{\emp}(h):=h$. If $h$ is
+carried by $A_{\emp}$, then the singleton carrier identifies $h$ with
+$\emp$, and unfolding $\rho_{\emp}$ gives the displayed classifier row.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension ledger provenance]
+\label{thm:fieldext-singleton-ledger-provenance}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier}, the
+$\FieldExtUp$ ledger records only the identity embedding row together with
+the singleton field and vector-space provenance rows. The field rows are the
+two copies of the singleton empty-history field certificate, the vector row is
+the singleton empty-history vector-space semantic certificate, and the
+embedding row is the identity stability package for $\iota_{\emp}$.
+\end{theorem}
+\begin{proof}
+The two field ledger rows are supplied by
+Theorem~\ref{thm:singleton-empty-history-field-schema-certificate}, once for
+the base field and once for the extension field. The two uses have identical
+carrier, classifier, and singleton operation endpoints.
+
+The vector-space provenance row is supplied by
+Theorem~\ref{thm:singleton-empty-history-vecspace-semantic-certificate}. It
+uses the same scalar source, vector source, classifier, and empty-history
+scalar-action endpoint as the displayed $\FieldExtUp$ data.
+
+The embedding row is supplied by
+Theorem~\ref{thm:fieldext-singleton-embedding-laws}. Since
+$\iota_{\emp}$ is the identity on histories, no additional ledger source is
+introduced beyond the singleton field and vector-space rows.
 \end{proof}
