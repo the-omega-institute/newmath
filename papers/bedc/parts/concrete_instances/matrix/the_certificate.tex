@@ -55,6 +55,45 @@ singleton carrier, the two semantic soundness maps are identity projections.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_semanticNameCert}
 
+\begin{theorem}[Terminal matrix certificate boundary]
+\label{thm:matrix-terminal-certificate-boundary}
+For the singleton empty-history matrix instance of
+\autoref{def:singleton-empty-history-matrix-instance},
+\autoref{thm:matrix-singleton-carrier-semantic-namecert} supplies the
+inhabited carrier, source, pattern, and ledger rows, while
+\autoref{thm:singleton-empty-history-matrix-laws} supplies the concrete
+classifier $\rho_{\emp}$, operation closure, zero and identity laws,
+associativity, and classifier congruence. Consequently, the terminal matrix
+object realizes the $\MatrixUp$ certificate obligations of
+\autoref{def:matrix-certificate-obligations} with carrier $A_{\emp}$,
+classifier $\rho_{\emp}$, zero and identity $\emp$, and both displayed
+operations given by append:
+$$
+M\oplus N:=\mathsf{append}(M,N),\qquad
+M\odot N:=\mathsf{append}(M,N).
+$$
+\end{theorem}
+\begin{proof}
+Unpack \autoref{thm:matrix-singleton-carrier-semantic-namecert}. It gives
+the inhabited singleton carrier $A_{\emp}$ and uses that same singleton row
+as source, pattern, and ledger policy. Its semantic transport and soundness
+maps are the $A_{\emp}$ projections over the ambient classifier $\hsame$,
+so this cited result fixes the non-operational rows of
+\autoref{def:matrix-certificate-obligations}.
+
+Unpack \autoref{thm:singleton-empty-history-matrix-laws}. It supplies the
+classifier $\rho_{\emp}$ for the concrete singleton instance, closure of
+$A_{\emp}$ under both displayed append operations, the zero and identity laws
+for $\emp$, associativity for the two operation symbols, and congruence of
+$\rho_{\emp}$ under both operations.
+
+Combining these two checked results gives the public certificate boundary.
+The first result supplies the singleton NameCert carrier data; the second
+supplies the finite-table $\MatrixUp$ law package. The conclusion is therefore
+a composite boundary for the terminal matrix object, not a duplicate of either
+constituent theorem.
+\end{proof}
+
 \paragraph{Primitive boundary.}
 \(\MatrixUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
