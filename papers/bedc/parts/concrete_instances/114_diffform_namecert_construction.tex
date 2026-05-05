@@ -208,3 +208,81 @@ nonintegrability require additional operator or geometric rows. They are not
 fields of the $\DiffFormUp$ surface, so downstream chapters must state and
 certify them in their own $\NameCert$ surfaces.
 \end{proof}
+
+\begin{theorem}[Differential-form source scope]
+\label{thm:diffform-source-scope}
+Every row accepted by $\mathsf{DiffFormBHistCarrier}_{M,T}$ depends only on
+$BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$. No accepted
+row may import a carrier component, classifier clause, or endpoint comparison
+from outside those six displayed sources.
+\end{theorem}
+\begin{proof}
+Project the accepted row through
+\autoref{def:diffform-bhist-form-carrier}. Its six components are exactly the
+degree history, probe bundle, tensor row, scalar endpoint, antisymmetry
+ledger, and source ledger. The only structural rows mentioned there are
+$BHist$, $\mathsf{ProbeBundle}$, the $\TensorProductUp$ continuation ledgers
+$\Cont$, and the two upstream $\NameCert$ sources.
+
+Now read the classifier clauses in
+\autoref{def:diffform-bhist-form-classifier}. Degree, tensor, antisymmetry,
+and source-ledger comparisons are $\hsame$ comparisons on visible histories,
+while scalar endpoint comparison is the retained scalar classifier supplied by
+the manifold and tensor sources. Thus every accepted classifier step remains
+inside the stated source scope.
+\end{proof}
+
+\begin{theorem}[Differential-form wedge degree ledger]
+\label{thm:diffform-wedge-degree-ledger}
+For a carried wedge row $\omega\wedge_{\DiffFormUp}\eta$, the visible BHist
+provenance exposes the degree row of $\omega$, the degree row of $\eta$, the
+$\TensorProductUp$ concatenation ledger supplied by
+\autoref{thm:diffform-wedge-ledger-coverage}, and the resulting unary degree
+row of the wedge. This ledger states provenance for the wedge degree and does
+not assert any exterior-derivative identity.
+\end{theorem}
+\begin{proof}
+Unpack the wedge row by
+\autoref{thm:diffform-wedge-ledger-coverage}. Admission of the wedge requires
+a visible $\TensorProductUp$ concatenation row joining the tensor component of
+the left carried form to the tensor component of the right carried form.
+
+Read the two input degree rows from
+\autoref{def:diffform-bhist-form-carrier}. They are the first carrier
+components of $\omega$ and $\eta$, and the wedge row records them in its
+source ledger together with the tensor concatenation row.
+
+Repack those displayed histories as the wedge degree ledger. The output
+degree row is a unary history visible in the carried wedge row, so downstream
+chapters may cite the two input degree rows, the concatenation provenance, and
+the output degree row without adding any law about $d$.
+\end{proof}
+
+\begin{theorem}[Differential-form scalar endpoint transport]
+\label{thm:diffform-scalar-endpoint-transport}
+Let $\omega$ and $\omega'$ be $\DiffFormUp$ rows with componentwise $\hsame$
+comparisons on their probe bundles, tensor rows, antisymmetry ledgers, and
+source ledgers. If the scalar endpoint of $\omega$ is accepted by the retained
+scalar classifier from the upstream manifold and tensor sources, then the
+scalar endpoint comparison transports to $\omega'$ through the
+$\DiffFormUp$ classifier.
+\end{theorem}
+\begin{proof}
+First transport the carrier row. The componentwise comparisons on the probe
+bundle, tensor row, antisymmetry ledger, and source ledger are exactly the
+visible histories required by
+\autoref{thm:diffform-carrier-hsame-transport}, so the transported row is
+again accepted by $\mathsf{DiffFormBHistCarrier}_{M,T}$.
+
+Next apply classifier stability. By
+\autoref{thm:diffform-form-classifier-stability}, the scalar endpoint clause
+of \autoref{def:diffform-bhist-form-classifier} is preserved under the same
+componentwise transport.
+
+Finally, the scalar comparison used in that clause is not a new
+$\DiffFormUp$ primitive. It is the retained scalar classifier from the
+manifold and tensor sources, so endpoint comparison moves along the
+transported probe, tensor, antisymmetry, and source ledgers already present in
+the carried row.
+\end{proof}
