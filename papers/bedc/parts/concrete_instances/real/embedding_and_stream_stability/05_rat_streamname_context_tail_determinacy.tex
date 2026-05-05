@@ -1,0 +1,75 @@
+\begin{theorem}[Rat StreamName unary-context e-one tail determinacy]
+\label{thm:rat-streamname-unary-context-e1-tail-determinacy}
+For observation maps $s,t:\Hist\to\Hist$, a selected observation $n:\Hist$,
+prefix and tail histories $p_s,p_t,q_s,q_t:\Hist$, middle histories
+$m_s,m_t:\Hist$, output histories $o_s,o_t:\Hist$, and displayed tails
+$a,a',b,b':\Hist$, assume
+$$
+\begin{array}{l}
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{UnaryHistory}(n),\quad
+\mathsf{UnaryHistory}(p_s),\quad
+\hsame(p_s,p_t),\\
+\mathsf{UnaryHistory}(q_s),\quad
+\hsame(q_s,q_t),\quad
+\mathsf{Cont}(p_s,s(n),m_s),\quad
+\mathsf{Cont}(m_s,q_s,o_s),\\
+\mathsf{Cont}(p_t,t(n),m_t),\quad
+\mathsf{Cont}(m_t,q_t,o_t),
+\end{array}
+$$
+and the four e-one displays
+$$
+\hsame(o_s,\Eone(a)),\quad
+\hsame(o_s,\Eone(a')),\quad
+\hsame(o_t,\Eone(b)),\quad
+\hsame(o_t,\Eone(b')).
+$$
+Then all of the following data hold:
+\begin{enumerate}
+\item $\mathsf{UnaryHistory}(a)$;
+\item $\mathsf{UnaryHistory}(a')$;
+\item $\mathsf{UnaryHistory}(b)$;
+\item $\mathsf{UnaryHistory}(b')$;
+\item $\hsame(a,a')$;
+\item $\hsame(a,b)$;
+\item $\hsame(a,b')$;
+\item $\hsame(a',b)$;
+\item $\hsame(a',b')$;
+\item $\hsame(b,b')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-streamname-unary-context-full-endpoint-package}
+to the displays $\hsame(o_s,\Eone(a))$ and $\hsame(o_t,\Eone(b))$.
+Its tail rows supply $\mathsf{UnaryHistory}(a)$,
+$\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
+
+Apply the same full endpoint package again to the displays
+$\hsame(o_s,\Eone(a'))$ and $\hsame(o_t,\Eone(b'))$. This supplies
+$\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
+$\hsame(a',b')$.
+
+For the left-output tail comparison, compose the first display of $o_s$ with
+the symmetry of the second display. The resulting
+$\hsame(\Eone(a),\Eone(a'))$ is inverted by
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_inversion\_iff}$, giving
+$\hsame(a,a')$.
+
+The same composition and e-one inversion applied to the two displays of $o_t$
+gives $\hsame(b,b')$. Transitivity of $\hsame$, using $\hsame(a,b)$ together
+with symmetry of $\hsame(a',b')$ and the two same-side comparisons, gives the
+remaining mixed rows $\hsame(a,b')$ and $\hsame(a',b)$. Package the four
+unary rows with the six displayed tail comparisons.
+\end{proof}
+
+Fit. Traditional target: selected contextual rational-stream tail determinacy.
+BEDC source: $\StreamNameUp+\RatUp+\mathsf{BHist}$. Carrier: observation maps
+over $\Hist$. Classifier: $\mathsf{RatStreamNameClassifier}$. Stability:
+unary context closure, e-one no-confusion, and $\hsame$ transitivity. Ledger:
+selected observation, context rows, continuation rows, and endpoint displays.
+Core theorem:
+\autoref{thm:rat-streamname-unary-context-e1-tail-determinacy}. Exactness:
+uniqueness of displayed e-one tails. Standard bridge: RegSeqRat selected
+observation canonicalization. Status: $\mathsf{ProofTarget}$.
