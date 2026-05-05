@@ -404,3 +404,30 @@ For ledger soundness at the same source history, choose the intermediate witness
 
 The respect calculation is the descent certificate required by \autoref{def:descent-certificate}: a source-classifier witness is first transported along $T$ and then along $U$. By \autoref{def:naming-certificate-stability-field}, this fills the $\DescentCert$ and $\CompositionCert$ modes of the stability component. The ledger proof records the first-stage ledger together with the second-stage ledger pulled back along the intermediate witness. In gap-ledger cases this is the two-step witness of \autoref{def:hardening-composite-gap-ledger}, and \autoref{cor:ledger-composition-principle} identifies it as the composite ledger policy.
 \end{proof}
+
+\begin{theorem}[Semantic NameCert classifier replacement]
+\label{thm:semantic-namecert-classifier-replacement}
+Let $S,P,L:\mathsf{BHist}\to\mathsf{Prop}$ and let
+$C,C':\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be classifier specifications. Assume
+$$
+\mathcal{N}:\mathsf{SemanticNameCert}(S,P,L,C)
+$$
+and assume classifier comparison fields
+$$
+\alpha:\forall h,k,\; C'(h,k)\to C(h,k),
+\qquad
+\beta:\forall h,k,\; C(h,k)\to C'(h,k).
+$$
+Then
+$$
+\mathsf{SemanticNameCert}(S,P,L,C')
+$$
+holds. The resulting certificate also has the same pattern-ledger transport consequence: whenever $C'(h,k)$ and $S(h)$ hold, both $P(k)$ and $L(k)$ hold.
+\end{theorem}
+\begin{proof}
+By \autoref{def:typed-naming-certificate-expanded-template}, a semantic naming certificate separates its core carrier-classifier certificate from its pattern and ledger soundness fields. Keep the source, pattern, and ledger soundness fields of $\mathcal{N}$ unchanged. It remains only to replace the core classifier certificate.
+
+The original core field is a $\NameCert(S,C)$ in the sense of \autoref{def:lean-carrier-naming-certificate}. Define the new core field over $C'$ as follows. The inhabited source witness is the same one carried by the original core. For reflexivity at a source history $h$, apply the old reflexivity field to obtain $C(h,h)$ and then apply $\beta$. For symmetry, convert a witness $C'(h,k)$ to $C(h,k)$ by $\alpha$, apply the old symmetry field, and convert the result back by $\beta$. For transitivity, convert both $C'$ witnesses to $C$ by $\alpha$, apply the old transitivity field, and convert the composite classifier witness back by $\beta$. For carrier transport, convert $C'(h,k)$ to $C(h,k)$ by $\alpha$ and then use the old carrier-transport field to carry $S(h)$ to $S(k)$.
+
+These four classifier laws together with the unchanged source witness form $\NameCert(S,C')$. Combining this new core field with the unchanged pattern and ledger soundness fields gives $\mathsf{SemanticNameCert}(S,P,L,C')$. Finally, if $C'(h,k)$ and $S(h)$ hold, the new carrier-transport field gives $S(k)$, and the unchanged pattern and ledger soundness fields give $P(k)$ and $L(k)$. This is the same transport consequence recorded in \autoref{thm:semantic-namecert-pattern-ledger-transport} for the replacement classifier.
+\end{proof}

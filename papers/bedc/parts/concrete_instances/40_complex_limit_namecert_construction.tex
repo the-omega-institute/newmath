@@ -257,6 +257,7 @@ For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z
 \begin{proof}[Sketch]
 Componentwise application of the rational-history triangle inequality from \(\RealUp\) machinery (\autoref{ch:concrete-instances-real-namecert}) to the real and imaginary parts, followed by composition under the modulus witness of \autoref{def:cplx-modulus}. The bound \(\mathsf{TriBound}\) is explicit and unary-indexed.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_triangle\_explicit\_bound}
 
 \section{Regular complex sequences}
 
@@ -526,6 +527,7 @@ $\hsame$ comparison.
 \label{def:cplx-pointwise-sum}
 For complex sequences \(s, t\), the pointwise sum \(s \oplus t\) is given by \((s \oplus t)(n) := s(n) + t(n)\), where \(+\) is componentwise rational-history addition continuation on \(\ComplexUp\)-carriers.
 \end{definition}
+\leandef{BEDC.Derived.ComplexLimitUp.ComplexPointwiseSum}
 
 \begin{lemma}[Sum of regular sequences is regular with explicit modulus pasting]
 \label{lem:cplx-sum-regular}
@@ -534,6 +536,7 @@ If \(\mathsf{CplxRegSeq}(s, N_s)\) and \(\mathsf{CplxRegSeq}(t, N_t)\), then \(\
 \begin{proof}
 Applying the triangle inequality to \(\mathsf{CplxDist}((s \oplus t)(n), (s \oplus t)(m), D)\) decomposes the bound into the sum of the \(s\)- and \(t\)-bounds, each at level \(k+1\), giving total \(2^{-k}\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_pointwise\_sum\_closed}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_pointwise\_append\_same\_modulus\_closed}
 
 \begin{theorem}[Limit respects pointwise sum]
@@ -642,6 +645,7 @@ The concrete certificate of \autoref{thm:complex-limit-namecert} satisfies the s
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.complex\_limit\_semantic\_name\_certificate}
 
 \begin{theorem}[Constant complex sequence has constant complex limit]
 \label{thm:cplx-constant-sequence-constant-limit}

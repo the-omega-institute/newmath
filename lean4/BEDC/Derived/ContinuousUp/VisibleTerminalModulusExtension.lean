@@ -30,4 +30,36 @@ theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension
       (cert := cert')).mpr
       (And.intro visibleData.left (And.intro visibleData.right.left central))
 
+theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension_output_determinacy
+    {p q source map target target' modulus cert extra modulus' cert' cert'' : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+        (append (append p cert) q) ->
+      ContinuousModulusWitness cert extra cert' ->
+        Cont modulus extra modulus' ->
+          ContinuousFunctionCarrier (append p source) map (append p target')
+              (append modulus' q) (append (append p cert'') q) ->
+            hsame target target' ∧ hsame cert' cert'' := by
+  intro carrier terminalWitness modulusRel displayed
+  have canonical :
+      ContinuousFunctionCarrier (append p source) map (append p target)
+        (append modulus' q) (append (append p cert') q) :=
+    ContinuousFunctionCarrier_visible_terminal_modulus_extension carrier terminalWitness modulusRel
+  exact ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic canonical displayed
+
+theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension_transitive
+    {p q source map target modulus0 cert0 extra1 modulus1 cert1 extra2 modulus2 cert2 :
+      BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus0 q)
+        (append (append p cert0) q) ->
+      ContinuousModulusWitness cert0 extra1 cert1 ->
+        Cont modulus0 extra1 modulus1 ->
+          ContinuousModulusWitness cert1 extra2 cert2 ->
+            Cont modulus1 extra2 modulus2 ->
+              ContinuousFunctionCarrier (append p source) map (append p target)
+                (append modulus2 q) (append (append p cert2) q) := by
+  intro carrier witness1 rel1 witness2 rel2
+  exact ContinuousFunctionCarrier_visible_terminal_modulus_extension
+    (ContinuousFunctionCarrier_visible_terminal_modulus_extension carrier witness1 rel1)
+    witness2 rel2
+
 end BEDC.Derived.ContinuousUp

@@ -195,6 +195,17 @@ theorem IntervalClassifierSpec_symm {lower upper : BEDC.FKernel.Hist.BHist -> Pr
       | intro carrierK sameHK =>
           exact ⟨carrierK, carrierH, BEDC.FKernel.Hist.hsame_symm sameHK⟩
 
+theorem IntervalCarrier_boundary_weakening {lowerOuter lowerInner upperOuter upperInner :
+    BHist -> Prop} {h : BHist}
+    (lowerMap : forall x : BHist, lowerInner x -> lowerOuter x)
+    (upperMap : forall x : BHist, upperInner x -> upperOuter x) :
+    IntervalCarrier lowerInner upperInner h ->
+      UnaryHistory h ∧ IntervalCarrier lowerOuter upperOuter h := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.left
+      (And.intro (lowerMap h carrier.right.left) (upperMap h carrier.right.right)))
+
 theorem IntervalClassifierSpec_boundary_weakening {lowerOuter lowerInner upperOuter upperInner :
     BHist -> Prop} {h k : BHist}
     (lowerMap : forall x : BHist, lowerInner x -> lowerOuter x)
@@ -213,6 +224,25 @@ theorem IntervalClassifierSpec_boundary_weakening {lowerOuter lowerInner upperOu
             · exact ⟨carrierK.left, lowerMap k carrierK.right.left,
                 upperMap k carrierK.right.right⟩
             · exact sameHK
+
+theorem IntervalClassifierSpec_boundary_eliminator_counterexample :
+    IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) BHist.Empty BHist.Empty ∧
+      ((forall x : BHist, hsame BHist.Empty x -> False) -> False) ∧
+      ((forall x : BHist, hsame x BHist.Empty -> False) -> False) ∧
+      (IntervalClassifierSpec (fun _x : BHist => False) (fun _x : BHist => False)
+          BHist.Empty BHist.Empty -> False) := by
+  constructor
+  · exact IntervalClassifierSpec_empty_boundary_of_hsame
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  · constructor
+    · intro lowerEliminator
+      exact lowerEliminator BHist.Empty (hsame_refl BHist.Empty)
+    · constructor
+      · intro upperEliminator
+        exact upperEliminator BHist.Empty (hsame_refl BHist.Empty)
+      · intro outerClassifier
+        exact outerClassifier.left.right.left
 
 theorem IntervalEmptyBoundaryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist} :
     IntervalEmptyBoundaryLedgerPolicy rho v ->

@@ -58,7 +58,16 @@ theorem ComplexDistanceTriangleBound_empty_endpoints {z w u d12 d23 : BHist} :
                     have endpoints := cont_empty_result_inversion uw
                     exact And.intro endpoints.right endpoints.left
   exact And.intro leftEndpoints.left (And.intro leftEndpoints.right rightEndpoints.right)
-
+theorem ComplexDistance_triangle_explicit_bound {z w u d12 d23 : BHist} : ComplexDistance z w d12 ->
+    ComplexDistance w u d23 -> exists d13 : BHist, ComplexDistance z u d13 ∧
+      Cont d12 d23 (ComplexDistanceTriangleBound d12 d23) ∧
+        UnaryHistory (ComplexDistanceTriangleBound d12 d23) := by
+  intro leftDistance rightDistance
+  exact Exists.intro (append z u)
+    (And.intro (And.intro leftDistance.left (And.intro rightDistance.right.left (And.intro
+        (unary_append_closed leftDistance.left rightDistance.right.left) (Or.inl (cont_intro rfl)))))
+      (And.intro (cont_intro rfl)
+        (unary_append_closed leftDistance.right.right.left rightDistance.right.right.left)))
 theorem ComplexDistance_append_constant_closed {z w d q : BHist} :
     UnaryHistory q -> ComplexDistance z w d ->
       ComplexDistance (append z q) (append w q) (append (append z q) (append w q)) := by
@@ -227,6 +236,9 @@ def ComplexRegularSequence (s N : BHist -> BHist) : Prop :=
     Cont (N k) n n -> Cont (N k) m m ->
       exists d : BHist, ComplexDistance (s n) (s m) d
 
+def ComplexPointwiseSum (s t : BHist -> BHist) (n : BHist) : BHist :=
+  append (s n) (t n)
+
 def ComplexLimit (s N : BHist -> BHist) (z : BHist) (M : BHist -> BHist) : Prop :=
   ComplexRegularSequence s N ∧ ComplexHistoryCarrier z ∧
     forall k n : BHist, UnaryHistory k -> UnaryHistory n -> Cont (M k) n n ->
@@ -332,6 +344,26 @@ theorem ComplexRegularSequence_hsame_transport {s t N : BHist -> BHist} :
       exact Exists.intro d
         (ComplexDistance_hsame_transport_with_relation
           (pointwise unaryN) (pointwise unaryM) (hsame_refl d) distance).left
+
+theorem ComplexRegularSequence_pointwise_sum_closed {s t N : BHist -> BHist} :
+    ComplexRegularSequence s N -> ComplexRegularSequence t N ->
+      ComplexRegularSequence (ComplexPointwiseSum s t) N := by
+  intro regularS regularT
+  intro k n m unaryK unaryN unaryM contN contM
+  cases regularS k n m unaryK unaryN unaryM contN contM with
+  | intro _ds distanceS =>
+      cases regularT k n m unaryK unaryN unaryM contN contM with
+      | intro _dt distanceT =>
+          have leftUnary : UnaryHistory (ComplexPointwiseSum s t n) :=
+            unary_append_closed distanceS.left distanceT.left
+          have rightUnary : UnaryHistory (ComplexPointwiseSum s t m) :=
+            unary_append_closed distanceS.right.left distanceT.right.left
+          exact Exists.intro
+            (append (ComplexPointwiseSum s t n) (ComplexPointwiseSum s t m))
+            (And.intro leftUnary
+              (And.intro rightUnary
+                (And.intro (unary_append_closed leftUnary rightUnary)
+                  (Or.inl (cont_intro rfl)))))
 
 theorem ComplexLimit_sequence_hsame_transport {s t N M : BHist -> BHist} {z : BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->
@@ -540,5 +572,52 @@ theorem ComplexDistance_unary_append_comm_package {z q : BHist} :
       (And.intro rightCarrier
         (And.intro (unary_append_closed leftCarrier rightCarrier) (Or.inl (cont_intro rfl)))))
     (unary_append_comm_hsame qCarrier zCarrier)
+
+theorem complex_limit_semantic_name_certificate :
+    BEDC.FKernel.NameCert.SemanticNameCert
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h k : BHist =>
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N h M) ∧
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N k M) ∧ hsame h k) := by
+  cases complex_history_semantic_name_certificate.core.carrier_inhabited with
+  | intro z carrierZ =>
+      exact {
+        core := {
+          carrier_inhabited :=
+            Exists.intro z
+              (Exists.intro (fun _ : BHist => z)
+                (Exists.intro (fun _ : BHist => BHist.Empty)
+                  (Exists.intro (fun _ : BHist => BHist.Empty)
+                    (ComplexLimit_constant carrierZ))))
+          equiv_refl := by
+            intro h source
+            exact And.intro source (And.intro source (hsame_refl h))
+          equiv_symm := by
+            intro h k classified
+            exact And.intro classified.right.left
+              (And.intro classified.left (hsame_symm classified.right.right))
+          equiv_trans := by
+            intro h k r classifiedHK classifiedKR
+            exact And.intro classifiedHK.left
+              (And.intro classifiedKR.right.left
+                (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+          carrier_respects_equiv := by
+            intro h k classified _sourceH
+            exact classified.right.left
+        }
+        pattern_sound := by
+          intro h source
+          exact source
+        ledger_sound := by
+          intro h source
+          exact source
+      }
 
 end BEDC.Derived.ComplexLimitUp

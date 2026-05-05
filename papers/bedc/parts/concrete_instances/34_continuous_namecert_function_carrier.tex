@@ -346,6 +346,41 @@ exactness, the four displayed $\hsame$ rows; standard bridge, deferred;
 downstream consumer, $\mathsf{ContinuousMapUp}$ identity and category
 normalization.
 
+\begin{theorem}[Continuous function carrier composite endpoint-certificate cycle exactness]
+\label{thm:continuous-function-carrier-composite-endpoint-cycle-exactness}
+For histories $source,middle,target,f,g,fg,modF,modG,modFG,certF,certG,cert$,
+closed composition of continuous-function carriers inherits endpoint-certificate
+cycle collapse:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,f,middle,modF,certF)\wedge
+\mathsf{ContinuousFunctionCarrier}(middle,g,target,modG,certG)\wedge
+\\
+\mathsf{Cont}(f,g,fg)\wedge
+\mathsf{Cont}(modF,modG,modFG)\wedge
+\mathsf{Cont}(target,modFG,cert)\wedge
+\hsame(source,cert)
+\\
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,fg,target,modFG,cert)\wedge
+\hsame(fg,\emp)\wedge\hsame(modFG,\emp)\wedge
+\hsame(target,source)\wedge\hsame(cert,source).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuous-function-carrier-comp-closed} to the two
+given carriers, the displayed composite map and modulus continuations, and the
+target-to-certificate continuation. This constructs
+$\mathsf{ContinuousFunctionCarrier}(source,fg,target,modFG,cert)$.
+
+Next apply
+\autoref{thm:continuous-function-carrier-endpoint-cert-cycle-exactness} to this
+composite carrier and the displayed endpoint-certificate equality
+$\hsame(source,cert)$. The resulting four history-sameness conclusions, together
+with the composite carrier just constructed, assemble the stated conjunction.
+\end{proof}
+
 \begin{theorem}[Continuous function carrier prefix exactness]
 \label{thm:continuous-function-carrier-prefix-iff}
 For histories $p,source,map,target,modulus,cert$, prefixing the visible source,

@@ -7472,3 +7472,538 @@ Direct symmetric counterpart of the existing target-prefix transport theorem (th
 
 ---
 
+### B-288 - Gamma limit certificate hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Gamma limit certificate hsame transport |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If s hsame t, GammaDom(s), and Gamma(s,z) hold with a Weierstrass limit witness, then Gamma(t,z) holds with the transported domain witness and the same Cauchy modulus, with z unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/53_gamma_function_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/55_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+The Gamma chapter ships transport theorems for the pole locus (thm:gamma-pole-locus-hsame-transport-witness), the domain core (thm:gamma-domain-core-hsame-transport), and the Weierstrass Cauchy modulus (thm:gamma-weierstrass-cauchy-modulus-hsame-transport), but no theorem closes the loop at the value level: Gamma(s,z) implies Gamma(t,z) under s hsame t. This theorem is the natural composition of the three existing transport theorems with ComplexLimitUp uniqueness, and it is the prerequisite needed for any downstream zeta argument that compares Gamma values across history-equivalent complex histories (notably the s ↦ 1-s reflection comparisons in the zeta functional equation chapter). Sits cleanly inside the existing concrete_instances/gamma scope, fills a known gap, and does not duplicate any existing BOARD entry.
+
+---
+
+### B-289 - MetricBallBudget 有限路径预算归纳
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | MetricBallBudget 有限路径预算归纳 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Met↑ 的 ball-budget setup 下, 若有限路径 x0,...,xn 的每条边满足 MetricBallBudget_d(x_i,x_{i+1}; r_i), 则 MetricBallBudget_d(x0,xn; r0+...+r_{n-1})。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+
+Rationale:
+Existing metric chapter has only the two-step composition theorem for ball budgets; this is the proper finite-path induction extension that closes path-budget transport via triangle inequality plus monotone budget addition. No BOARD entry covers metric ball-budget propagation, and paper labels show only def-level modulus / continuous data, not a path-budget theorem. Useful prerequisite for downstream compact and continuous targets, and small enough to close in one oracle round.
+
+---
+
+
+### B-290 - Compact 有限网见证的精度放宽
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Compact 有限网见证的精度放宽 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Compact↑ setup 下, 若 n 是 ε-有限网见证且 ordered-real 预算给出 ε ≤ ε′, 则同一网见证 n 也是 ε′-有限网见证。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/35_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+
+Rationale:
+Compact stability certificate enumerates per-precision finite-net data plus precision-monotonicity as obligation fields, but neither BOARD nor paper labels (def:compact-uniform-finite-net, def:compact-finite-refinement-chain, etc.) elevate the precision-coarsening to a standalone theorem. Promoting it to a theorem unblocks later compact classifier and uniform finite-net ledger targets without overlapping prefix/refinement results. Short, concrete implication form; lands cleanly in concrete_instances.
+
+---
+
+
+### B-291 - Compact 见证分类器的传递闭合
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Compact 见证分类器的传递闭合 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Compact↑ classifier setup 下, 若 K∼K′ 和 K′∼K″ 都由成员谓词的 carrier-sameness 双向等价给出, 则复合这些双向等价得到 K∼K″。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/35_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+Compact classifier specification defines compact-witness sameness via bidirectional membership evidence under carrier sameness; transitivity is the natural classification-style theorem but is not present in BOARD or paper labels (only def-level classifier specs appear). Distinct from prefix-closure/refinement targets — this is structural transitivity of the equivalence used for classifier sameness. Compact in size yet structurally important for downstream classifier-projection lemmas.
+
+---
+
+
+### B-292 - ContinuousMap 复合的代表元同余
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | ContinuousMap 复合的代表元同余 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+在 ContinuousMap↑ setup 下, 若 f∼f′ 且 g∼g′ under ContinuousMap classifier 且复合两侧的源域、目标域和 totally-bounded witnesses 匹配, 则 g∘f ∼ g′∘f′。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35_compact_namecert_construction.tex`
+
+Rationale:
+B-12 covers forward closure of uniform-continuity moduli under composition; this candidate is the sibling congruence theorem at the classifier level — composition transports representative sameness through both factors. Genuinely distinct because it requires graph-output replacement, modulus mutual refinement, and codomain classifier transitivity, not just modulus composition. Not in paper labels (continuousmapup-metric-* are def-level only).
+
+---
+
+
+### B-293 - LinearMap 证书的复合闭合
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap 证书的复合闭合 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在同一标量 Ring↑ 和三个 Module↑ setup 下, 若 f:M→N 与 g:N→P 是 certified LinearMap↑ carriers, 则 g∘f 携带 LinearMap↑ carrier、stability 和 ledger, 且其点态分类器由 f 与 g 的点态分类器复合给出。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/22_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Linearmap chapter has carrier/source/pattern/classifier/stability/ledger definitions but no BOARD target on linear-map structural closure. Composition closure is the principal structure theorem for the linearmap certificate package, distinct from existing module-side targets B-08/B-23 (which are scalar-action obligations). Closes via additivity, scalar compatibility and pointwise classifier transport — clearly bounded scope.
+
+---
+
+
+### B-294 - Matrix 转置的双重刚性
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix 转置的双重刚性 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+在 Matrix↑ setup 下, 若转置操作按同一 scalar classifier 逐坐标搬运矩阵 carrier, 则任意矩阵 A 满足 (Aᵀ)ᵀ ∼ A under Matrix↑ classifier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Matrix chapter has carrier/classifier/stability/transpose-certified-scalar-carrier definitions but no transpose-involution theorem in BOARD or paper labels. Small structural rigidity result — two row/column swaps composed back to global structural equality at the matrix classifier level — that is not just a scalar-classifier transport. Tight scope, easily closeable in a short oracle pass.
+
+---
+
+
+### B-295 - ConvRad checked 行不能推出 Cauchy-Hadamard
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | ConvRad checked 行不能推出 Cauchy-Hadamard |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+在 ConvRad↑ setup 中只假设 checked carrier、radius transport、coefficient transport 与 append-unary closure 行而不加入 analytic ledger policy 时, 存在两个同 checked 行的政策解释使 Cauchy-Hadamard exactness 的真值不同。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/41_convergence_radius_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/40_power_series_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/44_complex_series_namecert_construction.tex`
+
+Rationale:
+ConvRad chapter explicitly separates checked NameCert rows from analytic ledger laws and leaves Cauchy-Hadamard limsup characterization as a ledger-policy obligation. This candidate elevates that separation into an obstruction/independence theorem closeable by exhibiting two policy interpretations sharing all checked rows but disagreeing on exact-radius law — entirely BEDC-internal, not external complex analysis. No analogous BOARD entry; def:conv-rad-* labels are all def-level.
+
+---
+
+### B-296 - CatLimit transport along pointwise certified diagram equivalence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CatLimit transport along pointwise certified diagram equivalence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under NameCertCat↑, if Functor↑ diagrams D,E:J→C admit a pointwise two-sided classifier-equivalent NatTrans↑, then any CatLimit↑(D,L,λ) transports componentwise to a CatLimit↑(E,L,λ_E).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Lifts B-256's vertex uniqueness (already in BOARD context) to diagram-level invariance under NatTrans equivalence — a strictly stronger transport statement that has no analog in current BOARD or paper labels. Binds Functor↑/NatTrans↑/CatLimit↑ certificate fields together, and provides the natural stability lemma needed before any further CatLimit construction targets land. Single-implication form, lands cleanly in concrete_instances next to chapters 36-38.
+
+---
+
+
+### B-297 - Cone morphism classifier descent through NatTrans whiskering
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Cone morphism classifier descent through NatTrans whiskering |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under certified Cat↑/Functor↑ composition and endpoint transport, if α:D⇒E is a NatTrans↑ and f is a ConeMor_D between D-cones, then post-whiskering f by α yields a ConeMor_E between the corresponding E-cones.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Distinct from B-14 (vertical NatTrans composition naturality square): this is whiskering descent on cone morphism ledger, not on nattrans composition itself. Acts as the foundational lemma underneath the diagram-transport target above; isolating it prevents repeated ad hoc reproof in CatLimit/CatColimit follow-ups. Concrete single-implication form, anchored on the cone morphism ledger fields already in functor/nattrans chapters.
+
+---
+
+
+### B-298 - CatColimit vertex co-uniqueness from universal cocones
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CatColimit vertex co-uniqueness from universal cocones |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+For a fixed Functor↑ diagram D, if both C and C′ are CatColimit↑-certified universal cocone vertices, there exist comparison morphisms u:C→C′ and v:C′→C with u∘v and v∘u classified as the corresponding identity morphisms by the Cat↑ morphism classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+True dual of the existing CatLimit vertex uniqueness work — exercises the colimit direction of BEDC's classifier language, which is currently uncovered by both BOARD and paper labels. Tests symmetry/completeness of the universal property formulation under classifier-only equality. Single implication, no overlap with B-11/B-14/B-17 which all live on the limit/functor side.
+
+---
+
+
+### B-299 - SemanticNameCert stability under equivalence-refining classifier replacement
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | SemanticNameCert stability under equivalence-refining classifier replacement |
+| Layer | hardening |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If SemanticNameCert(S,P,L,C) holds and C′ is a classifier on S that mutually implies C while preserving P- and L-transport, then SemanticNameCert(S,P,L,C′) holds.
+
+Local inputs:
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+
+Rationale:
+Sibling but distinct from B-17 (presentation weakening on P,L with C fixed): this fixes S,P,L and replaces the classifier C, isolating which record fields are invariant under classifier swaps. Closes the symmetric half of the SemanticNameCert stability picture and prevents per-instance reproofs of isomorphic-classifier replacement downstream. Concrete one-line implication on a single record.
+
+---
+
+### B-300 - Subtype classifier reflects parent classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Subtype classifier reflects parent classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Set↑ parent S, stable predicate P, and Subtype↑ setup, x ∼S y with P(x), P(y) implies (x,Px) ∼Sub (y,Py), and (x,Px) ∼Sub (y,Py) implies x ∼S y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/115_subtype_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Chapter 115 introduces Subtype↑ as the kernel-licit refinement type built from a parent Set↑ carrier with a decidable stable predicate, but no theorem in the existing paper or BOARD pins down that the subtype classifier is exactly the parent classifier restricted to predicate-witnesses. This biconditional is the canonical representation theorem for Subtype↑ and is a prerequisite for downstream subring/submodule/kernel constructions. It is not subsumed by B-17 (a generic SemanticNameCert presentation weakening), since this is concrete and bidirectional rather than a one-way pointwise weakening.
+
+---
+
+
+### B-301 - FinSet enumeration membership exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | FinSet enumeration membership exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under FinSet↑ given by Set↑ carrier and enumeration list xs, a is a FinSet member iff there exists x ∈ xs with a ∼A x.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/114_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35_list_namecert_construction.tex`
+
+Rationale:
+Chapter 114 stipulates FinSet↑ as NameCertSet↑ plus a finite enumeration witness via NameCertList↑, but the paper currently only carries the carrier definition and certificate entry; no theorem ties FinSet membership to existence of a classifier-equal enumeration point. This is the central representation theorem for FinSet↑ and is a prerequisite for Permutation↑, Graph↑, and combinatorial certificate work. It is orthogonal to BOARD's polynomial/list zero-tail normalization targets, which concern raw operation invariance rather than membership classification.
+
+---
+
+
+### B-302 - FinSet classifier invariant under enumeration permutation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | FinSet classifier invariant under enumeration permutation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a fixed Set↑ classifier, if FinSet↑ enumeration lists xs, ys are connected by a certified permutation preserving ∼A pointwise, then they induce the same FinSet classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/114_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/118_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35_list_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+
+Rationale:
+FinSet↑ enumeration is presentation data, so the classifier should not depend on the order of the enumeration witness; without this theorem the same finite set has multiple non-canonical FinSet classifiers. The claim is concrete and uses only certified permutation plus pointwise classifier preservation, distinct from BOARD's categorical composition targets (B-11/B-14) and from polynomial/list zero-tail rewrites. It also serves as a downstream substrate for Permutation↑ presentation independence.
+
+---
+
+
+### B-303 - Permutation composition closure for FinSet bijections
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Permutation composition closure for FinSet bijections |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Permutation↑ over FinSet↑, if σ and τ are FinSet-classified self-bijections then τ∘σ is a carried permutation and preserves both forward and inverse bijection classifiers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/118_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/114_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+
+Rationale:
+Chapter 118 presents Permutation↑ as the carrier of FinSet↑ self-bijections supplying the underlying carrier and action data for SymGroup↑, but no theorem currently records that bijection composition stays inside the certificate. This closure is the prerequisite for SymGroup↑ structure work and is structurally distinct from B-11 functor composition (different objects, different inputs: FinSet classifier transport plus inverse witness composition).
+
+---
+
+
+### B-304 - SymGroup forgets to Group certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | SymGroup forgets to Group certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under SymGroup↑ setup, forgetting the FinSet action presentation while keeping composition, identity, inverse, and classifier yields a Group↑ name certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_symgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/118_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/40_group_namecert_construction.tex`
+
+Rationale:
+Chapter 119 declares SymGroup↑ as the canonical instance packaging Permutation↑ under composition into NameCertGroup↑, but no forgetful Group↑ projection theorem exists. This is a direct sibling to B-28 (CommRing forgets to Ring) and follows the same forgetful-projection pattern, so novelty is moderate; the chapter and underlying objects (Permutation↑ vs. ring multiplication) are entirely different, justifying a separate slot rather than absorbing into B-28.
+
+---
+
+
+### B-305 - Graph edge transport along vertex classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Graph edge transport along vertex classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Graph↑ over Set↑, if u ∼V u′ and v ∼V v′ then Edge(u,v) implies Edge(u′,v′), so the edge classifier is invariant under vertex representative replacement.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/120_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/113_set_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Chapter 120 defines Graph↑ as a Set↑ vertex carrier with a binary edge relation, used as the substrate for Tree↑ and poset-as-DAG, but no theorem proves that the edge relation transports under vertex classifier equivalence. This is the basic soundness theorem for Graph↑ and prerequisite for Tree↑; it is unrelated to the automorphic-adele-graph carrier already in the paper, which concerns visible-context readback rather than basic combinatorial transport.
+
+---
+
+
+### B-306 - Seq classifier equivalent to pointwise classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Seq classifier equivalent to pointwise classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under Seq↑(A), two sequences f, g are Seq-classified equal iff for every Nat↑ index n, f(n) ∼A g(n).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/122_seq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_nat_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Chapter 122 introduces Seq↑ as Nat↑→A naming-certificate functions with regularity/boundedness moduli, used as the substrate for Series↑ and ConvRad↑, but no theorem makes the Seq classifier exactly pointwise. This is the canonical representation theorem for Seq↑ and a prerequisite for downstream series and analytic-limit certificates, orthogonal to B-12 (continuous modulus composition) and B-15 (Bishop real limit transport).
+
+---
+
+
+### B-307 - Series partial sums respect Seq equality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Series partial sums respect Seq equality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Series↑ over an additive carrier, if term sequences f, g are pointwise ∼A equal then their certified partial-sum sequences are pointwise classifier-equal and induce the same Series↑ classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/123_series_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/122_seq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_nat_namecert_construction.tex`
+
+Rationale:
+Chapter 123 presents Series↑ as NameCertSeq↑ plus partial-sum sequence with explicit convergence moduli, but no theorem packages the finite-induction step that term-level Seq equality lifts to partial-sum equality and Series↑ classifier equality. This is the functoriality of the Series construction over its underlying sequence classifier and a prerequisite for convergence-modulus soundness work; it does not duplicate polynomial-normalization or FPS-Cauchy-product targets on the BOARD.
+
+---
+
