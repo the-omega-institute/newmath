@@ -374,6 +374,21 @@ constructor disjointness of \(\mathsf{e1}\) and \(\emp\) in \(\mathsf{BHist}\).
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.OpenDiskGap\_e1\_point\_empty\_radius\_absurd}
 
+\begin{theorem}[Open disk empty radius excludes zero-visible points]
+\label{thm:holo-open-disk-e0-point-empty-radius-absurd}
+For every complex center \(z_0\), zero-visible point \(\mathsf{e0}(z)\), and
+gap history \(g\), the concrete open-disk gap predicate with empty radius leads
+to contradiction.
+\end{theorem}
+\begin{proof}
+Unpack the concrete gap predicate to obtain
+\(\mathsf{Cont}(\mathsf{e0}(z),g,\emp)\). Empty-result inversion for
+continuations identifies the zero-visible point endpoint with \(\emp\), which
+contradicts constructor disjointness of \(\mathsf{e0}\) and \(\emp\) in
+\(\mathsf{BHist}\).
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDiskGap\_e0\_point\_empty\_radius\_absurd}
+
 \begin{lemma}[Open disk endpoint transport]
 \label{lem:open-disk-endpoint-transport}
 If the center and point are transported by the complex-history classifier, the radius is transported by \(\hsame\), and the same unary gap continues the point to the radius, then \(\mathsf{OpenDisk}(z_0, r, z)\) transports to \(\mathsf{OpenDisk}(z_0', r', z')\).

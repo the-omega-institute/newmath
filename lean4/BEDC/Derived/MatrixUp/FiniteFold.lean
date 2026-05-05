@@ -32,4 +32,13 @@ theorem MatrixSingletonAddFold_carrier_iff {xs : List BHist} :
         exact append_eq_empty_iff.mpr
           (And.intro spineCarrier.left (Iff.mpr ih spineCarrier.right))
 
+theorem MatrixSingletonAddFold_visible_head_absurd {m : BHist} {xs : List BHist} :
+    (hsame (MatrixSingletonAddFold (BHist.e0 m :: xs)) BHist.Empty -> False) ∧
+      (hsame (MatrixSingletonAddFold (BHist.e1 m :: xs)) BHist.Empty -> False) := by
+  constructor
+  · intro foldEmpty
+    exact not_hsame_e0_empty (append_eq_empty_iff.mp foldEmpty).left
+  · intro foldEmpty
+    exact not_hsame_e1_empty (append_eq_empty_iff.mp foldEmpty).left
+
 end BEDC.Derived.MatrixUp

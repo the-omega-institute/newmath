@@ -227,6 +227,7 @@ import BEDC.Derived.PrimeUp.SuccMultiplicand
 import BEDC.Derived.PrimeUp.ResultCancel
 import BEDC.Derived.PrimeUp.SuccResultContTransport
 import BEDC.Derived.PrimeUp.ResultBoundary
+import BEDC.Derived.PrimeUp.ProductFactor
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
 import BEDC.Derived.PrimeUp.DivisorPositiveShape

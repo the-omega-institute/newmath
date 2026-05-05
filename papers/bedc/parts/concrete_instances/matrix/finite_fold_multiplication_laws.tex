@@ -63,6 +63,24 @@ tail-fold carrier with the tail spine carrier.
 \leandef{BEDC.Derived.MatrixUp.MatrixSingletonAddFoldSpineCarrier}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold visible head exclusion]
+\label{thm:matrix-singleton-add-fold-visible-head-absurd}
+For every history $m$ and finite spine $xs$, folding a singleton additive spine
+whose head is $\Ezero(m)$ or $\Eone(m)$ cannot read back to the empty carrier:
+$$
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(\Ezero(m)::xs),\emp)
+\quad\wedge\quad
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(\Eone(m)::xs),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the cons case of the finite singleton additive fold. The head is the
+left factor of a kernel append, and empty-append inversion would identify
+$\Ezero(m)$ or $\Eone(m)$ with $\emp$. Both alternatives contradict constructor
+separation in $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_visible\_head\_absurd}
+
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
 Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$
