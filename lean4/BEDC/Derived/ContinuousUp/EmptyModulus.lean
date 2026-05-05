@@ -31,4 +31,42 @@ theorem ContinuousModulusWitness_empty_modulus_iff {source target : BHist} :
                   (And.intro targetCarrier
                     (Iff.mpr cont_right_unit_iff (hsame_symm sameSourceTarget))))
 
+theorem ContinuousFunctionCarrier_empty_modulus_iff {source map target cert : BHist} :
+    ContinuousFunctionCarrier source map target BHist.Empty cert ↔
+      UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory map ∧
+        Cont source map target ∧ hsame cert target := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier rest =>
+            cases rest with
+            | intro mapCarrier rest =>
+                cases rest with
+                | intro _emptyCarrier rest =>
+                    cases rest with
+                    | intro sourceMap targetCert =>
+                        exact
+                          And.intro sourceCarrier
+                            (And.intro targetCarrier
+                              (And.intro mapCarrier
+                                (And.intro sourceMap (Iff.mp cont_right_unit_iff targetCert))))
+  · intro data
+    cases data with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier rest =>
+            cases rest with
+            | intro mapCarrier rest =>
+                cases rest with
+                | intro sourceMap sameCertTarget =>
+                    exact
+                      And.intro sourceCarrier
+                        (And.intro targetCarrier
+                          (And.intro mapCarrier
+                            (And.intro unary_empty
+                              (And.intro sourceMap
+                                (Iff.mpr cont_right_unit_iff sameCertTarget)))))
+
 end BEDC.Derived.ContinuousUp
