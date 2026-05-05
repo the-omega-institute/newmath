@@ -87,6 +87,57 @@ theorem NatTransPrefixComponentClassifier_semanticNameCert {p q a : BHist}
       exact component
   }
 
+theorem NatTransPrefixComponentClassifier_component_semanticNameCert {p q a eta : BHist}
+    (component : NatTransPrefixComponentCarrier p q a eta) :
+    SemanticNameCert (NatTransPrefixComponentCarrier p q a)
+      (NatTransPrefixComponentCarrier p q a) (NatTransPrefixComponentCarrier p q a)
+      (NatTransPrefixComponentClassifier p q a) := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro eta component
+      equiv_refl := by
+        intro theta componentTheta
+        exact
+          And.intro componentTheta.left
+            (And.intro componentTheta.right.left
+              (And.intro componentTheta.right.right.left
+                (And.intro componentTheta.right.right.right
+                  (And.intro componentTheta.right.right.right (hsame_refl theta)))))
+      equiv_symm := by
+        intro theta iota classified
+        exact
+          And.intro classified.left
+            (And.intro classified.right.left
+              (And.intro classified.right.right.left
+                (And.intro classified.right.right.right.right.left
+                  (And.intro classified.right.right.right.left
+                    (hsame_symm classified.right.right.right.right.right)))))
+      equiv_trans := by
+        intro theta iota kappa classifiedLeft classifiedRight
+        exact
+          And.intro classifiedLeft.left
+            (And.intro classifiedLeft.right.left
+              (And.intro classifiedLeft.right.right.left
+                (And.intro classifiedLeft.right.right.right.left
+                  (And.intro classifiedRight.right.right.right.right.left
+                    (hsame_trans classifiedLeft.right.right.right.right.right
+                      classifiedRight.right.right.right.right.right)))))
+      carrier_respects_equiv := by
+        intro theta iota classified _componentTheta
+        exact
+          And.intro classified.left
+            (And.intro classified.right.left
+              (And.intro classified.right.right.left
+                classified.right.right.right.right.left))
+    }
+    pattern_sound := by
+      intro _theta componentTheta
+      exact componentTheta
+    ledger_sound := by
+      intro _theta componentTheta
+      exact componentTheta
+  }
+
 theorem NatTransPrefixComponentClassifier_equivalence_fields {p q a : BHist} :
     (forall {eta : BHist}, NatTransPrefixComponentCarrier p q a eta ->
       NatTransPrefixComponentClassifier p q a eta eta) ∧

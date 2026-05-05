@@ -121,6 +121,25 @@ are identity projections.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_semanticNameCert}
 
+\begin{theorem}[NatTrans prefix component classifier component semantic name certificate]
+\label{thm:nattrans-prefix-component-classifier-component-semantic-namecert}
+If $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ is inhabited by a
+concrete component, then the displayed component carrier, used simultaneously
+as source, pattern, and ledger policy, together with
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ forms a semantic name
+certificate.
+\end{theorem}
+\begin{proof}
+The supplied component gives the carrier witness. The reflexive, symmetric,
+and transitive classifier laws are obtained by unpacking the fixed unary prefix
+and object fields and applying the corresponding $\hsame$ law to the component
+history. Carrier transport reads the target component carrier directly from
+the classifier witness. The source, pattern, and ledger predicates are the
+same component carrier, so the semantic soundness maps preserve the witness
+unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_component\_semanticNameCert}
+
 \begin{theorem}[NatTrans prefix component classifier vertical composition congruence]
 \label{thm:nattrans-prefix-component-classifier-vert-comp-congruence}
 For histories $p,q,r,a,\eta,\eta',\theta,\theta',c,c'$, if
