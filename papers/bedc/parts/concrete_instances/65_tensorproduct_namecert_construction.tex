@@ -225,3 +225,48 @@ reflexive comparison $t\hsame t$. The transported conclusion is
 $\mathsf{TensorProductSingletonFactor}(r,l,t)$, and the retained continuation
 component is $\Cont(r,l,t)$.
 \end{proof}
+
+\begin{theorem}[Tensor product singleton factor associator]
+\label{thm:tensorproduct-singleton-factor-associator}
+For histories $l,r,s,t,u:\mathsf{BHist}$, if
+$$
+\mathsf{TensorProductSingletonFactor}(l,r,t)
+\quad\text{and}\quad
+\mathsf{TensorProductSingletonFactor}(t,s,u)
+$$
+hold, then there is a history $m:\mathsf{BHist}$ such that
+$$
+\mathsf{TensorProductSingletonFactor}(r,s,m)
+\quad\text{and}\quad
+\mathsf{TensorProductSingletonFactor}(l,m,u)
+$$
+hold. The two resulting factors retain the rebracketed continuation ledgers
+$\Cont(r,s,m)$ and $\Cont(l,m,u)$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:tensorproduct-singleton-factor}. The first factor supplies
+$A_{\emp}(l)$, $A_{\emp}(r)$, $A_{\emp}(t)$, and $\Cont(l,r,t)$; the second
+supplies $A_{\emp}(t)$, $A_{\emp}(s)$, $A_{\emp}(u)$, and $\Cont(t,s,u)$.
+Apply the associativity existence form of the continuation spine to the two
+continuation ledgers $\Cont(l,r,t)$ and $\Cont(t,s,u)$. This gives a history
+$m$ with
+$$
+\Cont(r,s,m)
+\quad\text{and}\quad
+\Cont(l,m,u).
+$$
+
+It remains only to show that $m$ lies in the singleton module carrier. By
+\autoref{def:singleton-empty-history-module-instance} and
+\autoref{def:list-singleton-history-source}, the carrier witnesses
+$A_{\emp}(r)$ and $A_{\emp}(s)$ identify $r$ and $s$ with $\emp$. Transporting
+$\Cont(r,s,m)$ along these two endpoint comparisons gives
+$\Cont(\emp,\emp,m)$. The continuation unit laws of
+\autoref{thm:continuation-unit-laws-spine} compare this ledger with the empty
+unit continuation and identify $m$ with $\emp$, which is exactly
+$A_{\emp}(m)$.
+
+Now package the first rebracketed factor from $A_{\emp}(r)$, $A_{\emp}(s)$,
+$A_{\emp}(m)$, and $\Cont(r,s,m)$. Package the second from $A_{\emp}(l)$,
+$A_{\emp}(m)$, $A_{\emp}(u)$, and $\Cont(l,m,u)$.
+\end{proof}

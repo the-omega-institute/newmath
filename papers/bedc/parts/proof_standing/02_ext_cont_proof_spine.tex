@@ -629,3 +629,19 @@ source, yielding the two displayed continuation witnesses.
 The continuation relation supplies a finite-kernel seed for addition-like derived interfaces. The additive interface is not primitive; it may be licensed only by a naming certificate whose stability component cites continuation unit and associativity.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Cont.continuation\_addition\_like\_seed\_has\_unit\_assoc}
+
+\begin{theorem}[Continuation ezero right-unit probe forces emptiness]
+\label{thm:cont-e0-right-unit-probe-forces-empty}
+For every generated history $u$, the fixed zero-headed probe law
+$$
+\forall r:\mathsf{BHist}.\;
+\ContR(\Ezero(\emp),u,r)\to \HSame(r,\Ezero(\emp))
+$$
+forces $u\hsame\emp$.
+\end{theorem}
+\begin{proof}
+Apply the probe law to the canonical continuation
+$\ContR(\Ezero(\emp),u,\mathsf{append}(\Ezero(\emp),u))$. Continuation result
+transport gives $\ContR(\Ezero(\emp),u,\Ezero(\emp))$, and right-unit
+uniqueness then forces the right endpoint $u$ to be empty.
+\end{proof}
