@@ -1,4 +1,5 @@
 import BEDC.Derived.ContinuousUp.Transport
+import BEDC.Derived.ContinuousUp.TerminalModulusExtension
 
 namespace BEDC.Derived.ContinuousUp
 
@@ -40,6 +41,27 @@ theorem ContinuousFunctionCarrier_empty_source_restriction_public_readback
       ContinuousFunctionCarrier restricted map target delta cert :=
     (ContinuousFunctionCarrier_empty_source_restriction_modulus_chain sourceRestriction carrier
       chain compositeRel).left
+  exact ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed
+
+theorem ContinuousFunctionCarrier_empty_source_restriction_terminal_modulus_commutes
+    {restricted source map target modulus cert extra modulus' cert' displayedTarget displayedCert :
+      BHist} :
+    Cont restricted BHist.Empty source ->
+      ContinuousFunctionCarrier source map target modulus cert ->
+        ContinuousModulusWitness cert extra cert' ->
+          Cont modulus extra modulus' ->
+            ContinuousFunctionCarrier restricted map displayedTarget modulus' displayedCert ->
+              hsame target displayedTarget ∧ hsame cert' displayedCert := by
+  intro sourceRestriction carrier terminalWitness modulusRel displayed
+  have extended :
+      ContinuousFunctionCarrier source map target modulus' cert' :=
+    ContinuousFunctionCarrier_terminal_modulus_extension carrier terminalWitness modulusRel
+  have sameSource : hsame source restricted :=
+    sourceRestriction
+  have restrictedCarrier :
+      ContinuousFunctionCarrier restricted map target modulus' cert' :=
+    ContinuousFunctionCarrier_hsame_transport sameSource (hsame_refl map) (hsame_refl target)
+      (hsame_refl modulus') (hsame_refl cert') extended
   exact ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed
 
 end BEDC.Derived.ContinuousUp
