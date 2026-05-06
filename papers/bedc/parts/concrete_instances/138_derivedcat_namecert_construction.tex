@@ -88,3 +88,28 @@ Thus the ledger for $\ell$ differs from the ledger for $r$ by a finite list of d
 
 The composite $r\circ\mathsf{id}_X$ is symmetric at the source endpoint. Apply \autoref{thm:category-hom-carrier-left-identity-carrier-result} to collapse the category leg containing the source identity, and use the displayed cohomology identity row to transport the quasi-isomorphism leg back to the original ledger row. These two displayed steps again form a finite zigzag made only of category morphism classifiers and quasi-isomorphism witnesses. The generated classifier therefore gives $\rho\sim_{\DerivedCatUp} r$.
 \end{proof}
+
+\begin{theorem}[DerivedCatUp roof associativity classifier law]
+\label{thm:derivedcat-roof-associativity-classifier-law}
+Let $r_{01}:X_0\to X_1$, $r_{12}:X_1\to X_2$, and $r_{23}:X_2\to X_3$ be three composable displayed $\DerivedCatUp$ roof ledger rows in the visible localization interface of \autoref{def:derivedcat-namecert-obligation-surface}. Let $r_{02}$ be a displayed binary composite ledger for $r_{12}\circ r_{01}$, and let $r_{13}$ be a displayed binary composite ledger for $r_{23}\circ r_{12}$. If $L$ and $R$ are displayed roof ledger rows for the two associated threefold composites
+$$
+L:\ r_{23}\circ(r_{12}\circ r_{01}),
+\qquad
+R:\ (r_{23}\circ r_{12})\circ r_{01},
+$$
+formed only from the $\NameCert_{\CategoryUp}$ composition rows and the $\NameCert_{\CohomologyUp}$ quasi-isomorphism stability rows, then the generated zigzag classifier classifies them:
+$$
+L\sim_{\DerivedCatUp} R.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the three roof ledger rows. Each row exposes a category morphism leg, a cohomology quasi-isomorphism leg, and the composition witnesses required by \autoref{def:derivedcat-namecert-obligation-surface}. Write the category morphism legs as $f_{01}$, $f_{12}$, and $f_{23}$, and write the quasi-isomorphism legs as $q_{01}$, $q_{12}$, and $q_{23}$.
+
+The category coordinates of $L$ and $R$ are exactly the two composition trees built from $f_{01}$, $f_{12}$, and $f_{23}$. Applying \autoref{thm:category-hom-carrier-comp-assoc-closed} to those three hom-carrier legs gives hom-carrier rows for both final category morphism histories and an $\HSame$ comparison between them. By \autoref{thm:derivedcat-quasi-isomorphism-classifier-obligation}, every displayed category morphism classifier row is one generator of $\sim_{\DerivedCatUp}$.
+
+For the weak-equivalence coordinate, both final ledgers paste the same three cohomology quasi-isomorphism witnesses $q_{01}$, $q_{12}$, and $q_{23}$, with only the bracketing of the pasting ledger changed. The cohomology stability fields of \autoref{thm:cohomology-cocycle-predicate-semantic-namecert}, concretely \autoref{thm:cohomology-cocycle-append-closed} together with \autoref{lem:cohomology-cocycle-hsame-transport}, carry the pasted witness across the category associativity comparison and identify the two bracketed cohomology rows by a finite list of displayed cohomology steps. Read through the derived localization surface, those steps are precisely quasi-isomorphism generators for $\sim_{\DerivedCatUp}$.
+
+It remains to reassemble the component comparisons at the roof-ledger level. The composition descent obligation \autoref{thm:derivedcat-composition-descent-obligation} says that classifier comparisons of represented roof factors remain classifier comparisons after forming the displayed roof composite. Applying descent to the category associativity comparison and to the cohomology pasting comparison places both finite generator lists inside the two threefold roof ledgers $L$ and $R$.
+
+Concatenating these displayed generator lists gives a finite zigzag from $L$ to $R$ whose steps are only category morphism classifier rows and cohomology quasi-isomorphism rows. By the generated-zigzag exactness of \autoref{thm:derivedcat-quasi-isomorphism-classifier-obligation}, this finite zigzag is exactly a witness for $L\sim_{\DerivedCatUp} R$.
+\end{proof}
