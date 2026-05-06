@@ -126,6 +126,20 @@ Conversely, a bounded simulation at the displayed value $\beta_F(n)$ is converte
 For composed certificates, \autoref{def:continuation-relation} supplies the continuation witness joining the two displayed bounds, and \autoref{thm:computable-composition-bounded-simulation} builds the composite trace. The endpoint readback of the composite ledger is the endpoint readback of the second trace, while single-valuedness is supplied by \autoref{thm:computable-bounded-graph-single-valuedness}.
 \end{proof}
 
+\begin{theorem}[Computable bounded graph certificate scope]
+\label{thm:computable-bounded-graph-certificate-scope}
+For every bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$ for a partial graph $F\subseteq\NatUp\times\NatUp$, the primitive scope of the four certificate obligations is exactly the bounded graph certificate surface. The carrier obligation is scoped by the unary input history $n$, the unary output history $m$, the displayed unary bound $\beta_F(n)$, and the $\SeqUp$ simulation trace. The classifier obligation is scoped by $\hsame$ and the $\NatUp$ unary classifier. The stability obligation is scoped by the identity certificate, $\ContR$ phase-boundary composition, and bounded-simulation single-valuedness. The ledger obligation is scoped by the program code $P_F$, the displayed bound value $\beta_F(n)$, the trace, the endpoint readback, and the continuation witness used for composed traces.
+\end{theorem}
+\begin{proof}
+Unpack the bounded graph certificate of \autoref{def:computable-bounded-graph-certificate}. Its fields are the deterministic code $P_F$, the unary-bound modulus $\beta_F$, the graph exactness equivalence with bounded simulation, and output determinacy. The witness format of \autoref{def:computable-bounded-simulation-witness} then names the only carrier data used by an accepted row: unary source input, displayed bound, $\SeqUp$ trace, and unary endpoint readback.
+
+The carrier and ledger clauses are therefore the obligations isolated in \autoref{thm:computable-bounded-graph-source-carrier-obligation} and \autoref{thm:computable-bounded-graph-ledger-exactness-obligation}. They expose no hidden running-time object beyond $\beta_F(n)$ and no hidden observation object beyond the $\SeqUp$ trace and endpoint readback.
+
+The classifier clause is \autoref{thm:computable-bounded-graph-classifier-stability-obligation}: transport is governed by $\hsame$ and the unary classifier of $\NatUp$, and the accepted output class is controlled by \autoref{thm:computable-bounded-graph-single-valuedness}.
+
+Finally, stability is supplied by \autoref{thm:computable-identity-bounded-graph-certificate} for the identity surface and by \autoref{thm:computable-composition-bounded-simulation} for phase-boundary composition. Thus $\ContR$ records the continuation witness joining displayed bounds, while single-valuedness keeps each certified graph row functional up to the unary classifier. These ingredients are precisely the bounded $\ComputableUp$ graph certificate scope.
+\end{proof}
+
 \begin{theorem}[Computable composition by bounded simulation]
 \label{thm:computable-composition-bounded-simulation}
 Let $F$ and $G$ be partial $\NatUp$ graphs carrying bounded $\ComputableUp$ graph certificates $(P_F,\beta_F)$ and $(P_G,\beta_G)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. Suppose $F(n,m)$ is witnessed by
