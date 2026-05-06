@@ -10,6 +10,10 @@ open BEDC.Derived.CategoryUp
 open BEDC.Derived.ContinuousUp
 open BEDC.Derived.MetricUp
 
+def ContinuousMapMetricSourceSpec (source map target modulus cert distance : BHist) : Prop :=
+  CategoryHomCarrier source target map ∧ ContinuousModulusWitness target modulus cert ∧
+    MetricDistanceWitness source target distance
+
 theorem ContinuousMapCarrier_category_metric_decomposition
     {source map target modulus cert distance : BHist} :
     ContinuousMapCarrier source map target modulus cert distance ↔
@@ -54,6 +58,20 @@ theorem ContinuousMapCarrier_category_metric_decomposition
           (And.intro homCarrier.right.right.left
             (And.intro modulusWitness.right.left (And.intro graphRel certRel))))
     exact And.intro functionCarrier distanceWitness
+
+theorem ContinuousMapMetricSourceSpec_canonical_carrier {source map target modulus cert : BHist} :
+    ContinuousMapMetricSourceSpec source map target modulus cert (append source target) ->
+      ContinuousMapCarrier source map target modulus cert (append source target) := by
+  intro sourceSpec
+  have graphRel : Cont source map target := sourceSpec.left.right.right.right
+  have certRel : Cont target modulus cert := sourceSpec.right.left.right.right.right
+  have distanceRel : Cont source target (append source target) :=
+    sourceSpec.right.right.right.right.right
+  exact ContinuousMapCarrier_category_metric_decomposition.mpr
+    (And.intro sourceSpec.left
+      (And.intro sourceSpec.right.left
+        (And.intro sourceSpec.right.right
+          (And.intro graphRel (And.intro certRel distanceRel)))))
 
 theorem ContinuousMapCarrier_categorical_canonical_distance_exactness
     {source map target modulus cert distance : BHist} :
