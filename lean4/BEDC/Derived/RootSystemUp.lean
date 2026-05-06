@@ -31,6 +31,16 @@ def RootSystemFiniteSupportClassifier
     (h k : BHist) : Prop :=
   InBundle h support ∧ InBundle k support ∧ hsame h k ∧ VectorClassifier h k
 
+theorem RootSystemFiniteSupportCarrier_nonzero_rows {support : ProbeBundle BHist}
+    {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h) {h : BHist} :
+    RootSystemFiniteSupportCarrier support Vector Nonzero h ->
+      InBundle h support ∧ Vector h ∧ Nonzero h ∧ UnaryHistory h := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right (vector_unary carrier.right.left)))
+
 theorem RootSystemFiniteSupportCarrier_classifier_transport
     {support : ProbeBundle BHist}
     {Vector Nonzero : BHist -> Prop}
