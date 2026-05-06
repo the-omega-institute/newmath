@@ -11,6 +11,7 @@ open BEDC.Derived.NormUp
 open BEDC.Derived.RatUp
 open BEDC.Derived.RealUp
 open BEDC.Derived.VecSpaceUp
+open BEDC.Derived.ModuleUp
 open BEDC.FKernel.Cont
 open BEDC.Derived.MetricUp
 open BEDC.FKernel.Hist
@@ -184,9 +185,37 @@ theorem HilbertSingleton_endpoint_readback {m n : BHist} :
       (And.intro mEndpoint nEndpoint)
   have innerConstant :
       RealConstantHistoryClassifier (HilbertSingletonInnerProduct m m)
-        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+      (BHist.e1 (BHist.e1 BHist.Empty)) :=
     Iff.mpr innerRows.right normRows.right.right.right.left
   exact And.intro normRows.right.left (And.intro innerConstant distanceWitness)
+
+theorem HilbertSingleton_parallelogram_collapse {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      RealConstantHistoryClassifier (NormSingletonNorm (ModuleSingletonAdd m n))
+          (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+        RealConstantHistoryClassifier (NormSingletonNorm (ModuleSingletonAdd m (ModuleSingletonNeg n)))
+            (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier (NormSingletonNorm n)
+              (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have addCarrier : VecSpaceSingletonCarrier (ModuleSingletonAdd m n) := by
+    unfold ModuleSingletonAdd
+    exact emptyCarrier
+  have negCarrier : VecSpaceSingletonCarrier (ModuleSingletonNeg n) := by
+    unfold ModuleSingletonNeg
+    exact emptyCarrier
+  have diffCarrier : VecSpaceSingletonCarrier (ModuleSingletonAdd m (ModuleSingletonNeg n)) := by
+    unfold ModuleSingletonAdd
+    exact emptyCarrier
+  have addRows := NormSingletonEmptyHistory_laws addCarrier emptyCarrier
+  have diffRows := NormSingletonEmptyHistory_laws diffCarrier negCarrier
+  have mRows := NormSingletonEmptyHistory_laws carrierM carrierN
+  have nRows := NormSingletonEmptyHistory_laws carrierN carrierM
+  exact And.intro addRows.right.left
+    (And.intro diffRows.right.left
+      (And.intro mRows.right.left nRows.right.left))
 
 theorem HilbertSingleton_projection_carried_endpoint {h : BHist} :
     VecSpaceSingletonCarrier h ->
