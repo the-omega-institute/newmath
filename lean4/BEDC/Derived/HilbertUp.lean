@@ -263,6 +263,29 @@ theorem HilbertSingletonProjection_idempotence {h : BHist} :
     HilbertSingleton_constant_inner_product_transport projectionClassified projectionClassified
   exact And.intro projectionClassified innerRows.left
 
+theorem HilbertSingletonProjection_witness_idempotent {m p : BHist} :
+    HilbertSingletonProjectionWitness m p ->
+      HilbertSingletonProjectionWitness p BHist.Empty ∧
+        VecSpaceSingletonClassifier (HilbertSingletonProjection p) p := by
+  intro projectionWitness
+  have carrierP : VecSpaceSingletonCarrier p := projectionWitness.right.left
+  have endpointP : VecSpaceSingletonClassifier p BHist.Empty := projectionWitness.right.right.left
+  have projectionRows := HilbertSingleton_projection_carried_endpoint carrierP
+  have emptyClassified : VecSpaceSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro projectionRows.left (And.intro projectionRows.left (hsame_refl BHist.Empty))
+  have emptyProjectionWitness :
+      HilbertSingletonProjectionWitness p BHist.Empty :=
+    And.intro carrierP
+      (And.intro projectionRows.left
+        (And.intro emptyClassified
+          (And.intro projectionRows.right.right.right.left projectionRows.right.right.right.right)))
+  have projectionClassified :
+      VecSpaceSingletonClassifier (HilbertSingletonProjection p) p := by
+    unfold HilbertSingletonProjection
+    exact And.intro endpointP.right.left
+      (And.intro carrierP (hsame_symm endpointP.right.right))
+  exact And.intro emptyProjectionWitness projectionClassified
+
 theorem HilbertSingletonProjection_semantic_name_certificate :
     SemanticNameCert VecSpaceSingletonCarrier
       (fun h : BHist => VecSpaceSingletonClassifier (HilbertSingletonProjection h) BHist.Empty)
