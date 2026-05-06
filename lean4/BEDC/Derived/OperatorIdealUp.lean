@@ -67,6 +67,17 @@ theorem OperatorIdealTraceClass_two_sided_absorption_row {A T left right : BHist
     (OperatorIdealTraceClass_finite_context_closure carrierT leftAction)
     (OperatorIdealTraceClass_finite_context_closure carrierT rightAction)
 
+theorem OperatorIdealTraceClass_scalar_closure {a T result : BHist} :
+    UnaryHistory a -> OperatorIdealTraceClassCarrier T -> Cont a T result ->
+      OperatorIdealTraceClassCarrier result ∧ OperatorIdealBoundedContextAction T result := by
+  intro unaryA carrierT scalarCont
+  have scalarAction : OperatorIdealBoundedContextAction T result :=
+    OperatorIdealBoundedContextAction.left unaryA
+      (OperatorIdealBoundedContextAction.id (T := T)) scalarCont
+  exact And.intro
+    (OperatorIdealTraceClass_finite_context_closure carrierT scalarAction)
+    scalarAction
+
 theorem OperatorIdealTraceClass_binary_linear_combination_closure
     {a b T S aT bS result : BHist} :
     UnaryHistory a -> UnaryHistory b -> OperatorIdealTraceClassCarrier T ->
@@ -148,5 +159,23 @@ theorem OperatorIdealTraceClass_additive_closure_row {T S sum neg : BHist} :
           exact OperatorIdealTraceClassCarrier.mk neg
             (unary_cont_closed unary_empty supportUnaryT negRel)
             (cont_right_unit neg)
+
+theorem OperatorIdealTraceClass_consumer_spine_coverage {T S sum neg A left right : BHist} :
+    OperatorIdealTraceClassCarrier T -> OperatorIdealTraceClassCarrier S -> UnaryHistory A ->
+      Cont T S sum -> Cont BHist.Empty T neg -> Cont A T left -> Cont T A right ->
+        OperatorIdealTraceClassCarrier sum ∧ OperatorIdealTraceClassCarrier neg ∧
+          OperatorIdealTraceClassCarrier left ∧ OperatorIdealTraceClassCarrier right := by
+  intro carrierT carrierS unaryA sumCont negCont leftCont rightCont
+  have additiveRows :=
+    OperatorIdealTraceClass_additive_closure_row (T := T) (S := S) (sum := sum) (neg := neg)
+  have sumCarrier : OperatorIdealTraceClassCarrier sum :=
+    additiveRows.right.left carrierT carrierS sumCont
+  have negCarrier : OperatorIdealTraceClassCarrier neg :=
+    additiveRows.right.right carrierT negCont
+  have absorptionRows :=
+    OperatorIdealTraceClass_two_sided_absorption_row unaryA carrierT leftCont rightCont
+  exact And.intro sumCarrier
+    (And.intro negCarrier
+      (And.intro absorptionRows.left absorptionRows.right))
 
 end BEDC.Derived.OperatorIdealUp
