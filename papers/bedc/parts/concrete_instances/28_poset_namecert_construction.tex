@@ -176,6 +176,39 @@ displayed equivalence is the exactness row supplied by the same law package, so
 the concrete tuple repacks as the public $\NameCert$ for $\POSetUp$.
 \end{proof}
 
+\begin{theorem}[Singleton empty $\POSetUp$ schema instantiation]
+\label{thm:poset-singleton-schema-instantiated}
+The tuple $(A_{\emp},\rho_{\emp},\le_{\emp})$ of
+\autoref{def:concrete-singleton-empty-poset-instance} instantiates the
+$\POSetUp$ schema over the fixed BEDC history carrier $\mathsf{BHist}$. Its
+carrier row is $A_{\emp}$, its classifier row is $\rho_{\emp}$, and its
+relation row is $\le_{\emp}$. Its preorder reflexivity, preorder
+transitivity, relation congruence, antisymmetry, and exactness rows are exactly
+the rows certified in \autoref{thm:singleton-empty-poset-laws}. Its concrete
+$\NameCert$ packaging is the certificate of
+\autoref{thm:concrete-singleton-empty-poset-namecert}.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-singleton-empty-poset-instance}. The carrier is
+the singleton history source $A_{\emp}$ inside $\mathsf{BHist}$, the classifier
+is the restricted history classifier $\rho_{\emp}$, and the relation is the
+carrier-guarded restricted prefix comparison $\le_{\emp}$.
+
+The law rows are supplied without changing carrier. Apply
+\autoref{thm:singleton-empty-poset-laws}: it gives the singleton inhabitance
+and carrier transport, the preorder reflexivity and transitivity rows for
+$\le_{\emp}$, endpoint congruence for the guarded relation, antisymmetry under
+$\rho_{\emp}$, and the displayed exactness between $\rho_{\emp}$ and the two
+opposing guarded comparisons.
+
+Finally apply
+\autoref{thm:concrete-singleton-empty-poset-namecert}. That theorem packages
+the same source, pattern, classifier, stability, ledger, and exactness fields
+as a concrete $\NameCert$ licensing $\POSetUp$ over $\mathsf{BHist}$. Therefore
+the schema instance is pinned to the concrete history carrier and not obtained
+by transporting an abstract parameter schema.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[POSet source specification]
