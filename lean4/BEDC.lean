@@ -225,6 +225,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
 import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.NumFieldUp
+import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
 import BEDC.Derived.NumFieldUp.DegreeOneBasis
 import BEDC.Derived.NumFieldUp.EmbeddingCoordinateProductCompatibility
 import BEDC.Derived.NumFieldUp.SingletonBasisSupport
@@ -284,6 +285,8 @@ import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.ManifoldUp
+import BEDC.Derived.ManifoldUp.IdentityTransitionBoundary
+import BEDC.Derived.ManifoldUp.IdentityTransitionReadback
 import BEDC.Derived.ManifoldUp.AtlasSurface
 import BEDC.Derived.ManifoldUp.OverlapIdentityTransition
 import BEDC.Derived.ManifoldUp.IdentityTransition

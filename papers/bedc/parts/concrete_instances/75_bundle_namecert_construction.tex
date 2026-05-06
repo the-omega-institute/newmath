@@ -106,6 +106,51 @@ transition witnesses. Hence local trivialization rows and transition
 compatibility are preserved by the displayed $\hsame$ transport.
 \end{proof}
 
+\begin{theorem}[Bundle transition cocycle ledger closure]
+\label{thm:bundle-transition-cocycle-ledger-closure}
+Let $P$ be carried by $\mathsf{BundleLocalTrivPkg}(P)$, and let
+$\tau_i,\tau_j,\tau_k$ be three local trivialization rows in its finite
+$\mathsf{ProbeBundle}$ row. Suppose the pairwise overlaps
+$\mathsf{Overlap}_{ij}$ and $\mathsf{Overlap}_{jk}$ are accepted by the same
+trivialization $\mathsf{ProbeBundle}$, and suppose their common base
+restriction carries the direct transition row from $\tau_i$ to $\tau_k$ and
+the composed route through $\tau_j$ with continuation witness
+$\Cont(\mathsf{Trans}_{ij},\mathsf{Trans}_{jk},\mathsf{Trans}_{ijk})$. Then,
+after transporting the base and total manifold rows by the retained
+$\NameCert_{\ManifoldUp}$ classifier, the direct transition row and the
+composed transition row are componentwise $\hsame$. The source-ledger row for
+this comparison is exactly the row displaying
+$\tau_i,\tau_j,\tau_k$, the two overlap witnesses, the displayed $\Cont$
+composition witness, and the transition congruence witnesses for the three
+transition edges.
+\end{theorem}
+\begin{proof}
+Work inside the carrier displayed in
+\autoref{def:bundle-local-trivialization-obligation-surface}. The three
+trivialization rows and the two accepted overlap witnesses live in the closed
+finite $\mathsf{ProbeBundle}$ row of $P$.
+
+Induct on the finite $\mathsf{ProbeBundle}$ of overlap witnesses. In the empty
+case there is no additional overlap branch to inspect: ledger descent keeps
+the displayed provenance row, and reflexivity of $\hsame$ identifies the
+direct and composed transition histories on the vacuous carried overlap.
+
+For the cons step, transport the head transition by componentwise $\hsame$.
+Projection compatibility keeps the transported base and total manifold rows
+aligned with the displayed projection row, so all three transition edges still
+have the same source and target bundle rows on the common triple restriction.
+
+Apply transition congruence to the $i,j$, $j,k$, and $i,k$ transition edges.
+Continuation associativity for $\Cont$, followed by transitivity of $\hsame$,
+identifies the direct $i,k$ transition history with the route composed through
+the middle trivialization row $\tau_j$.
+
+Finally, ledger descent repacks the same displayed provenance: the three
+trivialization rows, the two overlap witnesses, the $\Cont$ composition
+witness, and the transition congruence witnesses. This is the claimed
+cocycle-style ledger row for the bundle transition comparison.
+\end{proof}
+
 \begin{theorem}[Bundle NameCert exactness obligation]
 \label{thm:bundle-namecert-exactness-obligation}
 The public fields of $\NameCert_{\BundleUp}$ are exactly the carrier,
