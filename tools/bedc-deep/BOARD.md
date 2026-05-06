@@ -12598,3 +12598,29 @@ CondExpUp is described as the L2 projection of an integrable random variable ont
 
 ---
 
+### B-479 - Empty edge predicate is a matching
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Empty edge predicate is a matching |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a GraphUp carrier G, if the selected edge predicate is empty, then MatchingEdgeSet_G(empty) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `lean4/BEDC/Derived/MatchingUp.lean`
+
+Rationale:
+Belongs in concrete_instances MatchingUp. Introductory graph theory treats the empty edge set as the first matching before hereditary and union facts. The chapter defines MatchingEdgeSet_G(M) by edge support and a no-shared-vertex implication at papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex:12-23, and its only matching theorems are finite-subset closure at papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex:38 and compatible union closure at papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex:77. Focused search found no labeled empty-matching theorem or board entry. It closes in one round: both defining obligations are implications from the empty predicate, so the proof is vacuous and needs no new graph infrastructure.
+
+---
+
