@@ -97,4 +97,27 @@ theorem CatLimitLimCone_comparison_identities {L L' D lambda lambda' : BHist} :
                                     (And.intro vuRel
                                       (And.intro uvEmpty vuEmpty))))))))))
 
+theorem CatLimitConeMor_nattrans_whiskering_descent
+    {L M D E f lambda mu alpha lambdaAlpha muAlpha d s : BHist} :
+    CatLimitConeMor L M D f lambda mu d -> CategoryHomCarrier D E alpha ->
+      Cont lambda alpha lambdaAlpha -> Cont mu alpha muAlpha -> Cont f muAlpha s ->
+        CatLimitConeMor L M E f lambdaAlpha muAlpha s := by
+  intro cone alphaCarrier lambdaAlphaRel muAlphaRel targetRel
+  have muAlphaCarrier : CategoryHomCarrier M E muAlpha :=
+    CategoryHomCarrier_comp_closed cone.right.left alphaCarrier muAlphaRel
+  have lambdaAlphaCarrier : CategoryHomCarrier L E lambdaAlpha :=
+    CategoryHomCarrier_comp_closed cone.right.right.left alphaCarrier lambdaAlphaRel
+  have targetCarrier : CategoryHomCarrier L E s :=
+    CategoryHomCarrier_comp_closed cone.left muAlphaCarrier targetRel
+  have dAlphaRel : Cont d alpha lambdaAlpha :=
+    cont_hsame_transport (hsame_symm cone.right.right.right.right.right)
+      (hsame_refl alpha) (hsame_refl lambdaAlpha) lambdaAlphaRel
+  have sameLambdaAlphaTarget : hsame lambdaAlpha s :=
+    cont_assoc_hsame cone.right.right.right.right.left dAlphaRel muAlphaRel targetRel
+  exact And.intro cone.left
+    (And.intro muAlphaCarrier
+      (And.intro lambdaAlphaCarrier
+        (And.intro targetCarrier
+          (And.intro targetRel (hsame_symm sameLambdaAlphaTarget)))))
+
 end BEDC.Derived.CatLimitUp
