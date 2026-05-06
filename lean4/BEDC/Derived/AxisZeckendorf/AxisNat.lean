@@ -5,10 +5,12 @@ kernel-distinct; their relationship is mediated by
 `BEDC.Derived.AxisZeckendorf.Bridge`.
 -/
 import BEDC.Derived.AxisZeckendorf.Spine
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.AxisZeckendorf.AxisNat
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
 open BEDC.Derived.AxisZeckendorf.Spine
 
 def AxisNatSourceSpec (h : BHist) : Prop := ZeroSpine h
@@ -45,5 +47,16 @@ def axisNat_namecert : AxisNatNameCert :=
     ledger := AxisNatLedgerPolicy }
 
 theorem axisNat_licensed_not_primitive : True := True.intro
+
+theorem ZeroSpine_unaryHistory_intersection_empty {h : BHist} :
+    ZeroSpine h -> UnaryHistory h -> hsame h BHist.Empty := by
+  intro zeroSpine
+  induction zeroSpine with
+  | empty =>
+      intro _unary
+      exact hsame_refl BHist.Empty
+  | step _innerZero ih =>
+      intro unaryStep
+      exact False.elim (unary_no_zero_extension unaryStep)
 
 end BEDC.Derived.AxisZeckendorf.AxisNat

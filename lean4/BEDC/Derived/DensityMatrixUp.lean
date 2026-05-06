@@ -46,6 +46,27 @@ theorem DensityMatrixAffineMixtureSpine_binary_convex_closure
   exact And.intro outDensity
     (DensityMatrixAffineMixtureSpine.mix rhoSpine sigmaSpine route)
 
+theorem DensityMatrixAffineMixtureSpine_binary_constant_exactness
+    {density : BHist -> Prop} {classifier : BHist -> BHist -> Prop}
+    {rho sigma rho0 out : BHist} (rhoDensity : density rho) (rhoUnary : UnaryHistory rho)
+    (sigmaDensity : density sigma) (sigmaUnary : UnaryHistory sigma)
+    (rhoClassified : classifier rho rho0) (sigmaClassified : classifier sigma rho0)
+    (route : Cont rho sigma out)
+    (binaryClosed :
+      forall {left right result : BHist},
+        density left -> density right -> Cont left right result -> density result)
+    (classifierCont :
+      forall {left right result : BHist},
+        density left -> density right -> classifier left rho0 -> classifier right rho0 ->
+          Cont left right result -> classifier result rho0) :
+    density out ∧ classifier out rho0 ∧ DensityMatrixAffineMixtureSpine density out := by
+  have closed :=
+    DensityMatrixAffineMixtureSpine_binary_convex_closure rhoDensity rhoUnary sigmaDensity
+      sigmaUnary route binaryClosed
+  have outClassified : classifier out rho0 :=
+    classifierCont rhoDensity sigmaDensity rhoClassified sigmaClassified route
+  exact And.intro closed.left (And.intro outClassified closed.right)
+
 theorem DensityMatrixAffineMixtureSpine_unary_endpoint
     {density : BHist -> Prop} {rho : BHist} :
     DensityMatrixAffineMixtureSpine density rho -> UnaryHistory rho := by
