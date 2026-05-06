@@ -557,6 +557,100 @@ rows, and $\FunctionalAnalysisUp$ uses the $\RealUp$ value classifier and
 additive compatibility rows.
 \end{proof}
 
+\begin{theorem}[Measure null event addition neutral]
+\label{thm:measure-null-event-addition-neutral}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $E$ be a
+measurable event, let $\varnothing$ be the empty measurable event, and let
+$0_R$ be the additive unit in the $\RealUp$ additive $\AbGroupUp$ row. Then
+the finite measure endpoint satisfies both neutral readbacks
+$$
+\mu(E)+\mu(\varnothing)\sim_R\mu(E)
+$$
+and
+$$
+\mu(\varnothing)+\mu(E)\sim_R\mu(E).
+$$
+\end{theorem}
+\begin{proof}
+\autoref{thm:measure-empty-set-zero-from-sigma-additivity} gives
+$\mu(\varnothing)\sim_R0_R$ from the all-empty countable disjoint family. The
+$\RealUp$ classifier transport row carries this comparison through addition
+with the fixed endpoint $\mu(E)$.
+
+For the right neutral readback, additive congruence gives
+$\mu(E)+\mu(\varnothing)\sim_R\mu(E)+0_R$. The right-unit row of the additive
+$\AbGroupUp$ structure then gives $\mu(E)+0_R\sim_R\mu(E)$, and transitivity
+of $\sim_R$ composes the two comparisons.
+
+For the left neutral readback, the same transport gives
+$\mu(\varnothing)+\mu(E)\sim_R0_R+\mu(E)$. The left-unit row of the additive
+$\AbGroupUp$ structure gives $0_R+\mu(E)\sim_R\mu(E)$, so transitivity gives
+the displayed comparison.
+\end{proof}
+
+\begin{theorem}[Measure finite disjoint-union symmetric readback]
+\label{thm:measure-finite-disjoint-union-symmetric-readback}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $A$ and
+$B$ be disjoint measurable events, and let $A\cup B$ be the measurable binary
+union row. If the ordered finite readback gives
+$$
+\mu(A\cup B)\sim_R\mu(A)+\mu(B),
+$$
+then the symmetric readback also holds:
+$$
+\mu(A\cup B)\sim_R\mu(B)+\mu(A).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to the displayed
+disjoint measurable pair. This supplies the ordered comparison
+$\mu(A\cup B)\sim_R\mu(A)+\mu(B)$ from empty-zero, head-tail readback, and
+finite-support countable additivity.
+
+The additive commutativity row of the $\RealUp$ additive $\AbGroupUp$ surface
+gives $\mu(A)+\mu(B)\sim_R\mu(B)+\mu(A)$. Transitivity of the $\RealUp$
+classifier composes the ordered finite readback with this commutativity row
+and gives the symmetric readback.
+\end{proof}
+
+\begin{theorem}[Measure two-step finite-additivity package]
+\label{thm:measure-two-step-finite-additivity-package}
+The $\MeasureUp$ finite-additivity readback surface consists of the empty-zero
+row, null-event neutrality, ordered binary disjoint-union additivity, and
+symmetric binary disjoint-union additivity. Its fit is the following ten-field
+package:
+\begin{enumerate}
+  \item traditional target: finite additive measure readback;
+  \item BEDC source: $\MeasureUp+\RealUp+\AbGroupUp$;
+  \item carrier: measurable $\mathsf{BHist}$ event rows;
+  \item classifier: the endpoint classifier $\sim_R$;
+  \item stability: classifier transport and additive congruence;
+  \item ledger: empty-event, binary-union, and countable-tail rows;
+  \item core theorem list: \autoref{thm:measure-empty-set-zero-from-sigma-additivity}, \autoref{thm:measure-null-event-addition-neutral}, \autoref{thm:measure-finite-disjoint-union-additivity}, and \autoref{thm:measure-finite-disjoint-union-symmetric-readback};
+  \item exactness: visible finite support readback;
+  \item standard bridge: absent at this paper site;
+  \item status: paper target.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the empty measurable event, binary-union row, countable disjoint-family
+row, head-tail countable-sum row, endpoint classifier, and additive
+$\AbGroupUp$ rows from \autoref{thm:measure-namecert-obligation-package}.
+
+The empty-zero row is exactly
+\autoref{thm:measure-empty-set-zero-from-sigma-additivity}. The two null-event
+neutrality rows are \autoref{thm:measure-null-event-addition-neutral}, obtained
+by transporting empty-zero through additive congruence and then applying the
+left and right unit laws.
+
+For a disjoint measurable pair, the ordered binary readback is
+\autoref{thm:measure-finite-disjoint-union-additivity}. Composing that ordered
+readback with additive commutativity gives
+\autoref{thm:measure-finite-disjoint-union-symmetric-readback}. These four rows
+are precisely the finite support surface required by downstream
+$\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consumers.
+\end{proof}
+
 \begin{definition}[Measure event row coverage]
 \label{def:measure-event-row-coverage}
 For the $\MeasureUp$ sigma-algebra carrier surface of
