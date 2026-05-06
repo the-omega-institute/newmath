@@ -137,6 +137,7 @@ import BEDC.Derived.OptionUp.EndpointSemanticFields
 import BEDC.Derived.OptionUp.Pattern
 import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
+import BEDC.Derived.OdeUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
