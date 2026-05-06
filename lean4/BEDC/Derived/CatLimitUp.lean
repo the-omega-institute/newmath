@@ -171,4 +171,17 @@ theorem CatLimitConeMor_nattrans_whiskering_descent
         (And.intro targetCarrier
           (And.intro targetRel (hsame_symm sameLambdaAlphaTarget)))))
 
+theorem CatLimitLimCone_transport_pointwise_equiv {L D E lambda lambdaE alpha beta : BHist} :
+    CatLimitLimCone L D lambda -> CategoryHomCarrier D E alpha ->
+      CategoryHomCarrier E D beta -> Cont lambda alpha lambdaE ->
+        hsame (append alpha beta) BHist.Empty -> hsame (append beta alpha) BHist.Empty ->
+          CatLimitLimCone L E lambdaE := by
+  intro limit alphaCarrier _betaCarrier lambdaAlpha alphaBetaEmpty _betaAlphaEmpty
+  have alphaEmpty : alpha = BHist.Empty := (append_eq_empty_iff.mp alphaBetaEmpty).left
+  cases alphaEmpty
+  have sameED : hsame E D := cont_deterministic alphaCarrier.right.right.right (cont_right_unit D)
+  cases sameED
+  cases lambdaAlpha
+  exact limit
+
 end BEDC.Derived.CatLimitUp

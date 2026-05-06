@@ -62,4 +62,15 @@ theorem ComplexLimit_binary_affine_combination_closed {a b : BHist}
     (ComplexLimit_prepend_constant_closed unaryA limitS)
     (ComplexLimit_prepend_constant_closed unaryB limitT)
 
+theorem ComplexLimit_two_sided_unary_context_closure {s N M : BHist -> BHist}
+    {z p q : BHist} :
+    UnaryHistory p -> UnaryHistory q -> ComplexLimit s N z M ->
+      ComplexLimit (fun n : BHist => append p (append (s n) q)) N
+        (append p (append z q)) M := by
+  intro unaryP unaryQ limit
+  have suffixed :
+      ComplexLimit (fun n : BHist => append (s n) q) N (append z q) M :=
+    ComplexLimit_append_constant_closed unaryQ limit
+  exact ComplexLimit_prepend_constant_closed unaryP suffixed
+
 end BEDC.Derived.ComplexLimitUp
