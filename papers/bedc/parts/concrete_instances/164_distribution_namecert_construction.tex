@@ -6,8 +6,85 @@ The distribution interface $\DistributionUp$ packages the pushforward measure of
 \section{Carrier definition}
 \label{sec:distribution-carrier}
 
+\begin{definition}[Distribution pushforward carrier]
+\label{def:distribution-pushforward-carrier}
+A carried $\DistributionUp$ datum consists of a carried $\RandomVarUp$ map $X:S\to T$ as in \autoref{sec:randomvar-carrier}, a $\ProbSpaceUp$ source carrier whose measurable-event family and probability measure are written $\mathcal{A}_S$ and $\mu_S$, and a target $\MeasureUp$ carrier whose measurable-event family is written $\mathcal{A}_T$. For each target measurable event $B\in\mathcal{A}_T$, the $\RandomVarUp$ measurable-preimage row supplies a source measurable event
+$$
+X^{-1}(B)\in\mathcal{A}_S.
+$$
+The pushed-forward endpoint is the RealUp-valued row
+$$
+\mu_X(B):=\mu_S(X^{-1}(B)).
+$$
+Thus the $\DistributionUp$ carrier is the target measurable family $\mathcal{A}_T$ together with the endpoint assignment $B\mapsto\mu_X(B)$ whose source is the probability measure of the carried source.
+\end{definition}
+
+\begin{definition}[Distribution pushforward classifier]
+\label{def:distribution-pushforward-classifier}
+Let $(\mathcal{A}_T,\mu_X)$ and $(\mathcal{A}'_T,\mu'_Y)$ be two displayed $\DistributionUp$ pushforward rows carried by target event classifiers $\sim_{\mathcal{A}_T}$ and by the $\RealUp$ classifier $\sim_R$ of \autoref{def:real-classifier-specification}. The rows are classified when, for every pair of displayed target measurable events $B\in\mathcal{A}_T$ and $B'\in\mathcal{A}'_T$ with
+$$
+B\sim_{\mathcal{A}_T}B',
+$$
+their pushed-forward endpoints agree under the real classifier:
+$$
+\mu_X(B)\sim_R\mu'_Y(B').
+$$
+Equivalently, the event classifier decides which target events may be compared, and the RealUp classifier decides equality of their measured pushforward endpoints.
+\end{definition}
+
 \section{The certificate}
 \label{sec:distribution-certificate}
+
+\begin{theorem}[Distribution pushforward row]
+\label{thm:distribution-pushforward-row}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map from a $\ProbSpaceUp$ source to a target $\MeasureUp$ carrier, and let $\mu_X$ be the $\DistributionUp$ endpoint assignment of \autoref{def:distribution-pushforward-carrier}. Write $\mathcal{A}_T$ for the target measurable-event family, $\mu_S$ for the source probability measure, and $x\sim_R y$ for the $\RealUp$ classifier. Then for every target measurable event $B\in\mathcal{A}_T$,
+$$
+\mu_X(B)\sim_R\mu_S(X^{-1}(B)).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:distribution-pushforward-carrier}, the endpoint $\mu_X(B)$ is defined by applying the source probability measure to the measurable preimage supplied by the $\RandomVarUp$ row:
+$$
+\mu_X(B):=\mu_S(X^{-1}(B)).
+$$
+
+The measurable-preimage row ensures that $X^{-1}(B)$ is a legitimate source measurable event before the source measure is read. The source $\ProbSpaceUp$ carrier supplies the measure row $\mu_S$ on that event.
+
+The displayed equality is therefore an endpoint identity in $\RealUp$. Reflexivity of the $\RealUp$ classifier gives
+$$
+\mu_S(X^{-1}(B))\sim_R\mu_S(X^{-1}(B)).
+$$
+Transport along the definitional carrier equality reads this as
+$$
+\mu_X(B)\sim_R\mu_S(X^{-1}(B)).
+$$
+\end{proof}
+
+\begin{theorem}[Distribution NameCert obligation packet]
+\label{thm:distribution-namecert-obligation-packet}
+The $\DistributionUp$ pushforward surface supplies the NameCert obligation packet for a carried random variable $X:S\to T$ over a source $\ProbSpaceUp$ carrier and a target $\MeasureUp$ carrier. Its ten-field roadmap fit is:
+\begin{enumerate}
+\item \textbf{Traditional target}: the distribution law of $X$, regarded as the pushforward probability measure on target measurable events.
+\item \textbf{BEDC source}: the $\RandomVarUp$ measurable-preimage certificate, the source $\ProbSpaceUp$ measure rows, the target $\MeasureUp$ event classifier, and the shared $\RealUp$ classifier.
+\item \textbf{Carrier choice}: the target measurable family $\mathcal{A}_T$ equipped with the endpoint assignment $B\mapsto\mu_S(X^{-1}(B))$ from \autoref{def:distribution-pushforward-carrier}.
+\item \textbf{Classifier choice}: the row classifier of \autoref{def:distribution-pushforward-classifier}, combining target-event classification with RealUp endpoint classification.
+\item \textbf{Stability obligations}: target-event transport through the $\MeasureUp$ classifier, source-preimage transport through the $\RandomVarUp$ measurable-preimage rows, source-measure transport through the source $\MeasureUp$ ledger, and reflexive, symmetric, transitive, and congruent use of the $\RealUp$ classifier.
+\item \textbf{Ledger}: the source event $X^{-1}(B)$ is retained as the hidden witness explaining each target endpoint, while the public row exposes only the target event $B$ and the real endpoint $\mu_X(B)$.
+\item \textbf{Core theorem list}: the pushforward row of \autoref{thm:distribution-pushforward-row}, total-mass inheritance \autoref{thm:distribution-pushforward-total-mass-unit}, empty-event inheritance \autoref{thm:distribution-empty-target-event-zero-mass}, finite additivity \autoref{thm:distribution-pushforward-finite-disjoint-union-additivity}, monotonicity \autoref{thm:distribution-pushforward-monotone-events}, countable disjoint sigma-additivity \autoref{thm:distribution-pushforward-countable-disjoint-sigma-additivity}, and continuity from below \autoref{thm:distribution-pushforward-continuity-from-below}.
+\item \textbf{Exactness predicate}: for every target measurable event $B$, the row exactness predicate is $\mu_X(B)\sim_R\mu_S(X^{-1}(B))$, with target-event classifier transport and source-event ledger transport preserving the displayed endpoint.
+\item \textbf{Standard bridge}: the ordinary measure-theoretic pushforward law $X_\ast\mu_S$ on the target measurable space, read conservatively through the target event classifier and the RealUp endpoint classifier.
+\item \textbf{Status}: the packet records the carrier and certificate obligations at the paper level, with Lean formalization reserved for the $\BEDC.Derived.DistributionUp$ namespace.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are exactly \autoref{def:distribution-pushforward-carrier} and \autoref{def:distribution-pushforward-classifier}. The carrier uses the $\RandomVarUp$ measurable-preimage row to make $X^{-1}(B)$ a source measurable event, and then reads the source $\ProbSpaceUp$ measure row at that event.
+
+The stability and exactness fields follow from the same chain. Target-event transport is supplied by the $\MeasureUp$ event classifier; source-preimage transport is supplied by the RandomVarUp measurable-preimage certificate; source-measure transport is read through the source $\MeasureUp$ ledger; endpoint comparison is composed by RealUp classifier reflexivity and transitivity.
+
+The ledger field records that the source event is kept as hidden witness data for each public target endpoint. This is precisely the information consumed by the downstream mass, empty-event, additivity, monotonicity, sigma-additivity, and continuity-from-below rows in this chapter.
+
+The standard bridge is the usual pushforward measure surface, but only as a conservative readback of the displayed BEDC rows. No host quotient or host event equality is imported into the carrier; all comparisons pass through the target-event and RealUp classifiers.
+\end{proof}
 
 \begin{theorem}[Distribution pushforward total mass is the probability unit]
 \label{thm:distribution-pushforward-total-mass-unit}
