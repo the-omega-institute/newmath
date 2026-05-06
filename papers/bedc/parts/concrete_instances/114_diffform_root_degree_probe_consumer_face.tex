@@ -1,0 +1,123 @@
+\begin{definition}[Differential-form root degree-probe consumer face]
+\label{def:diffform-root-degree-probe-consumer-face}
+The root degree-probe consumer face of $\DiffFormUp$ is the subface of
+\autoref{def:diffform-root-bhist-namecert-surface} whose rows are exactly:
+\begin{enumerate}
+  \item the unary degree history of a carried
+  $\mathsf{DiffFormBHistCarrier}_{M,T}$ row;
+  \item the visible $\mathsf{ProbeBundle}$ spine carried by the same row;
+  \item the degree-probe alignment transport row of
+  \autoref{thm:diffform-degree-probe-alignment-transport};
+  \item the wedge degree routing row exposed by the wedge ledger;
+  \item the exterior-derivative successor-degree input routing row of
+  \autoref{thm:diffform-exterior-input-root-closure};
+  \item the displayed $BHist$, $\hsame$, $\Cont$,
+  $\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$ source rows.
+\end{enumerate}
+The face contains no row for nilpotence, closedness, nondegeneracy, contact
+nonintegrability, a de Rham quotient, or a standard bridge. It is a consumer
+face for downstream reads of degree and probe data only; all consumer-specific
+laws remain outside $\DiffFormUp$.
+\end{definition}
+
+\begin{theorem}[Differential-form root degree-probe face coverage]
+\label{thm:diffform-root-degree-probe-face-coverage}
+Every $\DiffFormUp$ row read by $\DeRhamUp$, $\SymplecticUp$, or $\ContactUp$
+for degree bookkeeping, visible probe bookkeeping, degree-probe alignment,
+wedge degree routing, or exterior-derivative successor-degree input routing
+belongs to \autoref{def:diffform-root-degree-probe-consumer-face} or to the
+shared root rows named by
+\autoref{def:diffform-root-consumer-face-classifier}.
+\end{theorem}
+\begin{proof}
+First read the root carrier surface. Apply
+\autoref{thm:diffform-root-bhist-carrier-obligation}. It identifies the carried
+degree history, the visible $\mathsf{ProbeBundle}$ spine, and the ManifoldUp and
+TensorProductUp source rows as fields of the root $BHist$ NameCert surface.
+
+Next isolate the degree-probe row. Apply
+\autoref{thm:diffform-degree-probe-alignment-carrier-refinement}. The carried
+form row refines to the unary degree history and the matching probe bundle over
+the same tensor input reading, so the downstream degree/probe read is one of
+the rows named in
+\autoref{def:diffform-root-degree-probe-consumer-face}.
+
+For operation routing, use
+\autoref{thm:diffform-exterior-input-root-closure} and
+\autoref{thm:diffform-root-bhist-downstream-boundary}. These theorems place the
+successor-degree exterior input, wedge degree routing, carried row, classifier
+row, source rows, and $\Cont$ histories on the root-visible surface.
+
+Finally apply \autoref{thm:diffform-root-consumer-face-coverage}. Every
+downstream exported row is in a consumer face or in the shared root face.
+Intersecting that coverage with the rows listed in
+\autoref{def:diffform-root-degree-probe-consumer-face} gives the stated
+coverage for degree and probe reads, with no residual row outside the two
+named faces.
+\end{proof}
+
+\begin{theorem}[Differential-form root degree-probe face stability]
+\label{thm:diffform-root-degree-probe-face-stability}
+Classifier transport along $\sim_{\DiffFormUp}$ preserves the root
+degree-probe consumer face. In particular, transported downstream reads of
+degree history, $\mathsf{ProbeBundle}$ spine, degree-probe alignment, wedge
+degree routing, exterior-derivative successor-degree input routing, and the
+displayed source rows remain inside
+\autoref{def:diffform-root-degree-probe-consumer-face}.
+\end{theorem}
+\begin{proof}
+Transport the root surface first. Apply
+\autoref{thm:diffform-root-bhist-classifier-stability-obligation}; carrier
+transport preserves the degree history, probe bundle, wedge routing,
+exterior-input routing, and displayed source rows of
+\autoref{def:diffform-root-bhist-namecert-surface}.
+
+Now transport the aligned subrow. Apply
+\autoref{thm:diffform-degree-probe-alignment-transport}. The classifier
+comparison carries the $\hsame$ degree comparison and the transported
+$\mathsf{ProbeBundle}$ spine to the target endpoint, rebuilding the aligned
+degree/probe row there.
+
+It remains to keep consumer laws out of the transported face. Apply
+\autoref{thm:diffform-root-consumer-face-disjointness}. Nilpotence, closedness,
+nondegeneracy, and contact nonintegrability are consumer-specific law rows, and
+the root degree-probe face contains no quotient or standard bridge row. Thus
+classifier transport preserves the face without enlarging it.
+\end{proof}
+
+\begin{theorem}[Differential-form root degree-probe downstream factorization]
+\label{thm:diffform-root-degree-probe-face-downstream-factorization}
+Every read by $\DeRhamUp$, $\SymplecticUp$, or $\ContactUp$ that uses
+$\DiffFormUp$ degree or probe data factors first through
+\autoref{def:diffform-root-degree-probe-consumer-face}, and only after that
+through the law rows owned by the downstream chapter.
+\end{theorem}
+\begin{proof}
+Start with an arbitrary downstream read of $\DiffFormUp$ degree or probe data.
+Apply \autoref{thm:diffform-root-bhist-downstream-boundary}; downstream access
+to $\DiffFormUp$ factors through the carried row, classifier row,
+degree-probe alignment, wedge routing, exterior-input routing, source NameCert
+rows, and $\Cont$ route histories.
+
+Refine the degree/probe component with
+\autoref{thm:diffform-degree-probe-alignment-carrier-refinement} and transport
+it with \autoref{thm:diffform-degree-probe-alignment-transport}. The consumer
+therefore reads the unary degree history and the $\mathsf{ProbeBundle}$ spine
+through the face defined in
+\autoref{def:diffform-root-degree-probe-consumer-face}, not through a separate
+downstream carrier.
+
+For exterior-derivative input, apply
+\autoref{thm:diffform-exterior-input-root-closure}. The successor-degree input
+row is repacked from the same carried row, transported probe bundle, tensor
+row, scalar endpoint comparison, and source ledger. For wedge routing, use the
+wedge degree routing already listed by the root $BHist$ downstream boundary.
+
+Finally apply \autoref{thm:diffform-root-consumer-face-coverage} and
+\autoref{thm:diffform-root-consumer-face-disjointness}. Coverage places all
+downstream reads in the named consumer or shared root faces, while disjointness
+keeps nilpotence, closedness, nondegeneracy, contact nonintegrability, quotient
+data, and bridge data outside this face. Hence $\DeRhamUp$, $\SymplecticUp$,
+and $\ContactUp$ first factor through the degree-probe consumer face and then
+state their own laws on their own surfaces.
+\end{proof}
