@@ -469,3 +469,98 @@ source is $\mathsf{BHist}$, and the bridge field is explicitly empty. Thus
 $\NameCert_{\InnerProductUp}$ is available as a paper-side obligation surface
 without importing host Hilbert-space structure.
 \end{proof}
+
+\begin{definition}[InnerProduct root dependency surface]
+\label{def:innerproduct-root-dependency-surface}
+The $\InnerProductUp$ root dependency surface is the displayed tuple consisting
+of the $\VecSpaceUp$ carrier and classifier of
+\autoref{def:innerproduct-bhist-carrier}, the retained scalar endpoint source,
+the inner-product endpoint row, the conjugate-symmetry row, the sesquilinear
+rows, the positive-definite exactness row, the classifier transport row, and
+the visible ledger. It is the exact dependency package exported by
+$\InnerProductUp$ to later certificates: every projected component is one of
+these displayed rows, and no completeness, Banach metric, ambient topology, or
+host Hilbert-space row is part of the tuple.
+\end{definition}
+
+\begin{theorem}[InnerProduct root vector-scalar exposure]
+\label{thm:innerproduct-root-vecspace-scalar-exposure}
+Every consumer of the root surface of
+\autoref{def:innerproduct-root-dependency-surface} can project exactly the
+vector carrier and classifier, the vector addition, zero, negation, and scalar
+action rows, the scalar endpoint classifier, and the scalar operation rows
+already named in \autoref{def:innerproduct-bhist-carrier} and
+\autoref{def:innerproduct-bhist-source}. No separate vector carrier or scalar
+endpoint source is exposed.
+\end{theorem}
+\begin{proof}
+Project the vector portion of the root surface. By
+\autoref{thm:innerproduct-bhist-carrier-row}, this projection is the displayed
+$\VecSpaceUp$ BHist carrier $C_V$ together with its classifier $\sim_V$, vector
+operations, scalar action row, and scalar-valued form row.
+
+Project the scalar portion from the same source tuple. The scalar endpoint
+classifier and scalar operation rows are the retained rows of
+\autoref{def:innerproduct-bhist-source}; if a representative changes, apply
+\autoref{thm:innerproduct-carrier-transport-obligation} to transport the
+displayed form and operation rows through the exposed classifiers.
+
+These projections exhaust the vector-scalar part of
+\autoref{def:innerproduct-root-dependency-surface}. Since the definition lists
+only displayed carrier, classifier, operation, scalar endpoint, form, law, and
+ledger rows, there is no second vector carrier or scalar endpoint source to
+project.
+\end{proof}
+
+\begin{theorem}[InnerProduct root form-law exposure]
+\label{thm:innerproduct-root-form-law-exposure}
+For the root surface of \autoref{def:innerproduct-root-dependency-surface},
+conjugate symmetry, sesquilinearity, positive definiteness, and form endpoint
+transport are exactly the law rows exposed by the surface. A consumer may read
+those rows, and only those rows, as the inner-product law interface.
+\end{theorem}
+\begin{proof}
+The conjugate-symmetry and positivity rows are the rows identified by
+\autoref{thm:innerproduct-symmetry-positivity-row}. They compare scalar
+histories under the retained scalar classifier and do not introduce a host
+scalar field.
+
+The additive and scalar-action compatibility rows are the sesquilinear rows
+identified by \autoref{thm:innerproduct-vecspace-linearity-row}. Their inputs
+are the exposed vector operations and scalar endpoint operations from the root
+surface.
+
+Positive-definite exactness is the row supplied by
+\autoref{thm:innerproduct-positive-definite-obligation}, and endpoint
+transport is the row supplied by
+\autoref{thm:innerproduct-classifier-transport-row}. Together these rows are
+precisely the law entries named in
+\autoref{def:innerproduct-root-dependency-surface}; all remaining entries of
+the root surface are carrier, source, classifier, or ledger entries.
+\end{proof}
+
+\begin{theorem}[InnerProduct root Hilbert consumption surface]
+\label{thm:innerproduct-root-hilbert-consumption-surface}
+A $\HilbertUp$ dependency may consume the root surface of
+\autoref{def:innerproduct-root-dependency-surface} together with its separate
+Banach and completeness row. A $\FourierUp$, $\RiemannianMetricUp$, or
+$\RootSystemUp$ dependency may consume only the vector, scalar, form, law, and
+ledger rows of the same root surface.
+\end{theorem}
+\begin{proof}
+For $\HilbertUp$, apply \autoref{thm:innerproduct-hilbert-boundary-row}. It
+allows the Hilbert certificate to read the carrier, classifier, scalar-valued
+form, linearity, conjugate symmetry, positivity, scalar endpoint, and transport
+rows from $\InnerProductUp$.
+
+The vector and scalar projections used by this boundary are exactly the ones
+identified by \autoref{thm:innerproduct-root-vecspace-scalar-exposure}. The
+form and law projections are exactly the ones identified by
+\autoref{thm:innerproduct-root-form-law-exposure}.
+
+Completeness and Cauchy-limit selection are not projected from
+$\InnerProductUp$; they must enter through the separate Banach and completeness
+row of the Hilbert dependency. The non-Hilbert consumers named in the statement
+therefore receive only the root surface rows for vector, scalar, form, law, and
+ledger data, with no Banach or completeness projection.
+\end{proof}
