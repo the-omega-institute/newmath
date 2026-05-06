@@ -126,6 +126,23 @@ theorem DistributionPushforward_relative_difference_additivity
     cont_respects_hsame (hsame_symm pushBClass) (hsame_symm pushDClass) sourceSum pushSumCont
   exact hsame_trans pushAClass sourcePushSum
 
+theorem DistributionPushforward_complement_mass_decomposition
+    {targetTotal event complement pushedTotal pushedEvent pushedComplement pushedSum
+      probabilityUnit : BHist} :
+    Cont event complement targetTotal -> hsame pushedEvent event ->
+      hsame pushedComplement complement -> Cont pushedEvent pushedComplement pushedSum ->
+        hsame pushedTotal targetTotal -> hsame pushedTotal probabilityUnit ->
+          hsame pushedTotal pushedSum ∧ hsame probabilityUnit pushedSum := by
+  intro targetComplement pushedEventEvent pushedComplementComplement pushedComplementRow
+  intro pushedTotalTarget pushedTotalUnit
+  have targetPushedSum : hsame targetTotal pushedSum :=
+    cont_respects_hsame (hsame_symm pushedEventEvent)
+      (hsame_symm pushedComplementComplement) targetComplement pushedComplementRow
+  have pushedTotalPushedSum : hsame pushedTotal pushedSum :=
+    hsame_trans pushedTotalTarget targetPushedSum
+  exact And.intro pushedTotalPushedSum (hsame_trans (hsame_symm pushedTotalUnit)
+    pushedTotalPushedSum)
+
 theorem DistributionPushforward_monotone_under_target_inclusion
     {sourceB sourceD sourceA pushB pushD pushA pushSum : BHist} :
     Cont sourceB sourceD sourceA -> hsame pushA sourceA -> hsame pushB sourceB ->
