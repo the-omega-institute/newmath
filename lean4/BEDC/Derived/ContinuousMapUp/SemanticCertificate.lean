@@ -1,4 +1,6 @@
 import BEDC.Derived.ContinuousMapUp
+import BEDC.Derived.ContinuousMapUp.CategoryMetricDecomposition
+import BEDC.Derived.ContinuousMapUp.TransportDepth
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.ContinuousMapUp
@@ -31,6 +33,44 @@ theorem ContinuousMapMetricPatternSpec_carrier_readback
             (Exists.intro modulus
               (Exists.intro cert (And.intro carrier exactness.right)))))
   · exact exactness.right
+
+def ContinuousMapMetricClassifierSpec
+    (source map target modulus cert distance source' map' target' modulus' cert' distance' :
+      BHist) : Prop :=
+  hsame source source' ∧ hsame map map' ∧ hsame target target' ∧
+    hsame modulus modulus' ∧ hsame cert cert' ∧ hsame distance distance'
+
+theorem ContinuousMapMetricClassifierSpec_field_transport
+    {source source' map map' target target' modulus modulus' cert cert' distance distance' :
+      BHist} :
+    ContinuousMapMetricClassifierSpec source map target modulus cert distance source' map' target'
+        modulus' cert' distance' ->
+      ContinuousMapCarrier source map target modulus cert distance ->
+        ContinuousMapCarrier source' map' target' modulus' cert' distance' ∧
+          Cont source' target' distance' := by
+  intro classified carrier
+  have transported :=
+    ContinuousMapCarrier_hsame_field_transport_depth carrier classified.left classified.right.left
+      classified.right.right.left classified.right.right.right.left
+      classified.right.right.right.right.left classified.right.right.right.right.right
+  exact And.intro transported.left transported.right.left
+
+def ContinuousMapMetricLedgerPolicy (source map target modulus cert distance : BHist) :
+    Prop :=
+  ContinuousMapMetricSourceSpec source map target modulus cert distance ∧
+    hsame distance (append source target)
+
+theorem ContinuousMapMetricLedgerPolicy_carrier_exact
+    {source map target modulus cert distance : BHist} :
+    ContinuousMapMetricLedgerPolicy source map target modulus cert distance ->
+      ContinuousMapCarrier source map target modulus cert distance ∧
+        hsame distance (append source target) := by
+  intro policy
+  have carrier :
+      ContinuousMapCarrier source map target modulus cert distance :=
+    ContinuousMapCarrier_categorical_canonical_distance_exactness.mpr
+      (And.intro policy.left.left (And.intro policy.left.right.left policy.right))
+  exact And.intro carrier policy.right
 
 theorem continuousmap_semantic_name_certificate {source map target modulus cert : BHist}
     (carrier : ContinuousMapCarrier source map target modulus cert (append source target)) :
