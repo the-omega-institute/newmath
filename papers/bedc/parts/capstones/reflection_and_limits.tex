@@ -172,3 +172,37 @@ Unfold such a certificate as $\NameCert_R=(\SourceSpec_R,\PatternSpec_R,\Classif
 
 The self-description of \autoref{cor:bedc-self-description} changes only the input side of this argument: it supplies internal restatements of BEDC claims over $\mathrm{CIC}^{*}$. It does not turn the external host execution that accepts the manuscript's proofs into a field of the internal structure. If the ledger of $\NameCert_R$ were strengthened to return BEDC truth for every internally described BEDC sentence, then the self-description would compose with that ledger to give an internal BEDC truth predicate, which is exactly the obstruction recorded in \autoref{rem:reflection-tarski-undefinability}. Hence $\mathrm{CIC}^{*}$ exists as a structural copy of the host calculus, while the host runtime remains external.
 \end{proof}
+
+\begin{definition}[Truth-total reflection certificate]
+\label{def:truth-total-reflection-certificate}
+Let $\mathsf{Sent}(\mathrm{CIC}^{*})$ be the BEDC-internal carrier of sentence codes supplied by the structural interpretation of \autoref{thm:internal-cic-interpretation}. A \emph{truth-total reflection certificate} is a naming certificate $\NameCert_T$ over $\mathsf{Sent}(\mathrm{CIC}^{*})$ with an extension predicate $\Ext_T$ such that every sentence $\varphi$ represented in $\mathrm{CIC}^{*}$ satisfies
+$$
+\Ext_T(\ulcorner\varphi\urcorner)\Longleftrightarrow \varphi.
+$$
+The left-to-right implication is internal soundness for the code, and the right-to-left implication is internal completeness for the code. The certificate is therefore stronger than the structural copy of \autoref{thm:internal-cic-interpretation}: it does not only describe formation and recursor structure, but classifies the BEDC sentence represented by each code.
+\end{definition}
+
+\begin{theorem}[Exact boundary of reflection]
+\label{thm:reflection-boundary-exact}
+BEDC has a closed ground self-instantiation and no truth-total meta self-instantiation. Concretely, the ground side has exactly the two generated marks $\bzero$ and $\bone$, exactly the two positive primitive mark-sameness judgments $\msame(\bzero,\bzero)$ and $\msame(\bone,\bone)$, and no generated cross-mark sameness. On the meta side, no truth-total reflection certificate of \autoref{def:truth-total-reflection-certificate} exists for $\mathrm{CIC}^{*}$.
+\end{theorem}
+
+\begin{proof}
+The ground claim is closed generation. By \autoref{def:raw-marks}, the only raw mark forms are $\bzero$ and $\bone$. By \autoref{def:internal-mark-sameness}, the only primitive positive mark-sameness judgments are $\msame(\bzero,\bzero)$ and $\msame(\bone,\bone)$. By \autoref{thm:mark-no-confusion}, no generated mark-sameness judgment crosses the two constructors. Since \autoref{prin:layer-isolation} and \autoref{prin:no-inherited-mathematical-primitives} place no object-language mathematical primitive before $\Mark$, and \autoref{thm:derived-interfaces-require-certificates} forces every later derived interface to enter through a $\NameCert$, this is the only closed primitive loop available at the ground.
+
+For the meta claim, suppose that a truth-total reflection certificate $\NameCert_T$ exists. The structure $\mathrm{CIC}^{*}$ of \autoref{thm:internal-cic-interpretation} supplies an internal structural copy of the host calculus, and \autoref{cor:bedc-self-description} supplies internal restatements of formal claims over that structure. Hence the diagonal construction for the one-variable formula $\neg\Ext_T(x)$ is available at the structural level named by \autoref{rem:reflection-tarski-undefinability}. Let $\delta$ be the represented sentence satisfying
+$$
+\delta\Longleftrightarrow \neg\Ext_T(\ulcorner\delta\urcorner).
+$$
+Truth-totality of $\NameCert_T$ also gives
+$$
+\Ext_T(\ulcorner\delta\urcorner)\Longleftrightarrow \delta.
+$$
+Combining the two equivalences yields
+$$
+\Ext_T(\ulcorner\delta\urcorner)\Longleftrightarrow \neg\Ext_T(\ulcorner\delta\urcorner).
+$$
+The left-to-right direction turns any witness of $\Ext_T(\ulcorner\delta\urcorner)$ into a refutation of the same witness, so $\neg\Ext_T(\ulcorner\delta\urcorner)$ holds. Applying the right-to-left direction to this refutation gives a witness of $\Ext_T(\ulcorner\delta\urcorner)$, contradicting the refutation just obtained. Therefore $\NameCert_T$ cannot exist.
+
+Thus the reflection boundary is exact: the constructor-level distinction closes at $\Mark$, while structural self-description stops before an internal truth classifier.
+\end{proof}
