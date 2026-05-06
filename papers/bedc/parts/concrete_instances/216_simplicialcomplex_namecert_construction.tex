@@ -228,3 +228,84 @@ Unfold the inherited relation to read these as $\mathsf{Face}(\rho,\tau)$ and $\
 For the two-step chain statement, start with the displayed chain hypothesis. The face-closure row just proved gives $\mathsf{Simplex}_{K\cap L}(\tau)$ from the upper face incidence. Applying the same row again to $\mathsf{Simplex}_{K\cap L}(\tau)$ and $\mathsf{Face}_{K\cap L}(\rho,\tau)$ gives $\mathsf{Simplex}_{K\cap L}(\rho)$. The inherited transitivity row gives $\mathsf{Face}_{K\cap L}(\rho,\sigma)$. Combining these three conclusions proves the final conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexIntersection\_face\_chain\_closure}
+
+\begin{theorem}[Simplicial intersection inherits face dimension grading]
+\label{thm:simplicialcomplex-intersection-inherits-face-dimension-grading}
+Let $K$ and $L$ be $\SimplicialComplexUp$ finite face carriers over the same finite vertex source $(V,\sim_V)$, sharing the simplex-code source, classifier, and face relation as in \autoref{def:simplicialcomplex-intersection-carrier-rows}. Let $d:\mathsf{BHist}\to\mathbb{N}$ be a common face-dimension grading map: its $K$-row and $L$-row are
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_K(\alpha)\land
+\mathsf{Simplex}_K(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+d(\alpha)\le d(\beta),
+$$
+and
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_L(\alpha)\land
+\mathsf{Simplex}_L(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+d(\alpha)\le d(\beta).
+$$
+Then the intersection predicate and inherited face relation satisfy the face-dimension grading row
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_{K\cap L}(\alpha)\land
+\mathsf{Simplex}_{K\cap L}(\beta)\land
+\mathsf{Face}_{K\cap L}(\alpha,\beta)
+\to
+d(\alpha)\le d(\beta).
+$$
+Moreover, every two-step face chain in the intersection satisfies
+$$
+\mathsf{Simplex}_{K\cap L}(\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\rho,\tau)
+\to
+d(\rho)\le d(\tau)
+\land
+d(\tau)\le d(\sigma)
+\land
+d(\rho)\le d(\sigma).
+$$
+\end{theorem}
+\begin{proof}
+For the one-step grading row, fix histories $\alpha,\beta:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cap L}(\alpha)\land
+\mathsf{Simplex}_{K\cap L}(\beta)\land
+\mathsf{Face}_{K\cap L}(\alpha,\beta).
+$$
+Unfolding the intersection predicate from \autoref{def:simplicialcomplex-intersection-carrier-rows} gives $\mathsf{Simplex}_K(\alpha)$, $\mathsf{Simplex}_L(\alpha)$, $\mathsf{Simplex}_K(\beta)$, and $\mathsf{Simplex}_L(\beta)$. Unfolding the inherited face relation gives $\mathsf{Face}(\alpha,\beta)$. The $K$-row of the common grading map, which is the carried-face monotonicity field of \autoref{def:simplicialcomplex-face-dimension-grading-row} read through the shared relation, gives
+$$
+d(\alpha)\le d(\beta).
+$$
+The $L$-row applies to the same unfolded face incidence and the $L$-endpoints, giving the identical comparison for the same map $d$. Hence the displayed intersection row holds.
+
+For the two-step assertion, fix $\rho,\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cap L}(\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\rho,\tau).
+$$
+Unfolding gives $\mathsf{Simplex}_K(\sigma)$ and $\mathsf{Simplex}_L(\sigma)$, together with $\mathsf{Face}(\tau,\sigma)$ and $\mathsf{Face}(\rho,\tau)$. The simplicial closure row of \autoref{def:simplicialcomplex-finite-face-carrier} gives $\mathsf{Simplex}_K(\tau)$ and $\mathsf{Simplex}_L(\tau)$, hence $\mathsf{Simplex}_{K\cap L}(\tau)$. Applying the same closure rows to $\mathsf{Face}(\rho,\tau)$ gives $\mathsf{Simplex}_K(\rho)$ and $\mathsf{Simplex}_L(\rho)$, hence $\mathsf{Simplex}_{K\cap L}(\rho)$. The transitivity field of the shared $\PosetUp$ face row from \autoref{def:poset-carrier}, packaged by \autoref{def:simplicialcomplex-finite-face-carrier}, composes $\mathsf{Face}(\rho,\tau)$ with $\mathsf{Face}(\tau,\sigma)$ and gives $\mathsf{Face}(\rho,\sigma)$, which folds back to $\mathsf{Face}_{K\cap L}(\rho,\sigma)$.
+
+Apply the inherited one-step grading row to $(\rho,\tau)$, to $(\tau,\sigma)$, and to $(\rho,\sigma)$. These three applications give
+$$
+d(\rho)\le d(\tau),
+$$
+$$
+d(\tau)\le d(\sigma),
+$$
+and
+$$
+d(\rho)\le d(\sigma).
+$$
+Combining the three comparisons gives the claimed chain conjunction.
+\end{proof}
