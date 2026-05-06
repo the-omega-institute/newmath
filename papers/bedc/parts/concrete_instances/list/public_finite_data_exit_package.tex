@@ -1,0 +1,117 @@
+\begin{theorem}[List public finite-data exit package]
+\label{thm:list-public-finite-data-exit-package}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. If
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ holds, then the public
+$\ListUp$ object carries the Phase Finite Data exit package:
+\begin{enumerate}
+  \item
+  $\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+  \mathsf{ListHistoryPattern}_A,
+  \mathsf{ListHistoryLedger}_A,
+  \mathsf{ListSpineHistoryClassifier}_{A,\sim_A})$.
+  \item
+  The public carrier is exact against both the finite pattern predicate and the
+  ledger predicate:
+  $$
+  \forall h.\;
+  \mathsf{ListHistoryCarrier}_A(h)
+  \Longleftrightarrow
+  \mathsf{ListHistoryPattern}_A(h)
+  $$
+  and
+  $$
+  \forall h.\;
+  \mathsf{ListHistoryCarrier}_A(h)
+  \Longleftrightarrow
+  \mathsf{ListHistoryLedger}_A(h).
+  $$
+  \item
+  Public length is total and well-defined:
+  $$
+  \forall h.\;\mathsf{ListHistoryCarrier}_A(h)\to
+  \exists n.\;\mathsf{ListPublicLength}_A(h,n)
+  $$
+  and
+  $$
+  \forall h\,n\,m.\;\mathsf{ListPublicLength}_A(h,n)\to
+  \mathsf{ListPublicLength}_A(h,m)\to n=m.
+  $$
+  \item
+  Classified endpoints share public length:
+  $$
+  \forall h\,k.\;\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)\to
+  \exists n.\;\mathsf{ListPublicLength}_A(h,n)\land
+  \mathsf{ListPublicLength}_A(k,n)
+  $$
+  and
+  $$
+  \forall h\,k\,n\,m.\;
+  \mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)\to
+  \mathsf{ListPublicLength}_A(h,n)\to
+  \mathsf{ListPublicLength}_A(k,m)\to n=m.
+  $$
+  \item
+  Every classified endpoint pair exposes finite spine ledgers:
+  $$
+  \forall h\,k.\;\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)\to
+  \left(
+  \begin{array}{l}
+  (\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(h,xs))\\
+  \land\\
+  (\exists ys:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(k,ys))
+  \end{array}
+  \right).
+  $$
+  \item
+  The same classifier is exactly the nil-nil or cons-cons constructor audit:
+  $$
+  \forall h\,k.\;
+  \mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)
+  \Longleftrightarrow
+  \begin{array}{l}
+  (\hsame(h,\emp)\land \hsame(k,\emp))\\
+  \lor\\
+  \exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A(a)\land A(b)\land
+  \mathsf{ListHistoryCarrier}_A(t)\land
+  \mathsf{ListHistoryCarrier}_A(u)\land\\
+  \ContR(a,t,p)\land \ContR(b,u,q)\land
+  \hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+  \sim_A(a,b)\land
+  \mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,u)
+  \end{array}
+  \right).
+  \end{array}
+  $$
+  \item
+  The classified successor component readback package is independent of the
+  chosen six-tuple witness, in the sense of
+  Theorem~\ref{thm:list-classified-successor-component-unique-existence}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-public-object-certificate-with-length-readback} to
+$\mathsf{cert}$ and the cons-boundary coherence witness. Its five displayed
+fields give the semantic certificate, totality of public length, well-definedness
+of public length, shared length for classified endpoints, and equality of public
+length values across classified endpoints.
+
+Apply Theorem~\ref{thm:list-history-carrier-pattern-ledger-equivalence} with
+$S=A$. This supplies the exactness of $\mathsf{ListHistoryCarrier}_A$ against
+both $\mathsf{ListHistoryPattern}_A$ and $\mathsf{ListHistoryLedger}_A$.
+
+Next apply Theorem~\ref{thm:list-public-object-constructor-audit}. This supplies
+the endpoint spine-ledger exposure for every
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ witness and the nil-or-cons
+constructor audit for the same classifier.
+
+Finally use
+Theorem~\ref{thm:list-classified-successor-component-unique-existence}. It
+turns the classified successor exactness clause into a witness-choice
+independent component package for the public object. Repack the three theorem
+outputs into the seven displayed fields.
+\end{proof}
