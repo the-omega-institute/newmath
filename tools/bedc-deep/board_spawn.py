@@ -34,6 +34,7 @@ from locks import file_lock
 import codex_orchestrator
 import board_archive
 import board_context
+import candidate_inbox
 import paper_index
 
 
@@ -342,20 +343,23 @@ def spawn_from_candidates(
     if not codex_candidates and not oracle_candidates:
         return BoardSpawnResult(ok=True)
 
-    # Step 1: dedup vs existing BOARD titles (cheap pre-filter).
-    existing_titles = _existing_board_titles()
-    def _alive(c: dict) -> bool:
-        title = (c.get("title") or "").strip().lower()
-        return bool(title) and title not in existing_titles
-
-    codex_alive = [c for c in codex_candidates if _alive(c)]
-    oracle_alive = [c for c in oracle_candidates if _alive(c)]
-    cheap_drops = (
-        [{**c, "source": "codex", "reason": "duplicate_title_in_board"}
-         for c in codex_candidates if not _alive(c)]
-        + [{**c, "source": "oracle", "reason": "duplicate_title_in_board"}
-           for c in oracle_candidates if not _alive(c)]
+    # Step 1: runtime inbox + deterministic pre-gate. This keeps the active
+    # BOARD as an execution queue instead of a proposal/memory sink.
+    codex_screen = candidate_inbox.screen_candidates(
+        codex_candidates,
+        source="codex",
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
     )
+    oracle_screen = candidate_inbox.screen_candidates(
+        oracle_candidates,
+        source="oracle",
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
+    )
+    codex_alive = codex_screen.accepted
+    oracle_alive = oracle_screen.accepted
+    cheap_drops = codex_screen.rejected + oracle_screen.rejected
 
     if not codex_alive and not oracle_alive:
         print(
@@ -404,15 +408,18 @@ def spawn_from_candidates(
                 local_acc.append(tid)
                 appended_ids.append(tid)
             _atomic_append_to_board(blocks)
+            candidate_inbox.record_board_promotions(final_accepted, appended_ids, mode="board_spawn")
 
     print(
         f"[board_spawn] accepted={len(final_accepted)} rejected={len(rejected) + len(threshold_drops) + len(cheap_drops)}",
         flush=True,
     )
+    all_rejected = cheap_drops + rejected + threshold_drops
+    candidate_inbox.record_rejections(all_rejected, mode="board_spawn")
     return BoardSpawnResult(
         ok=True,
         accepted=final_accepted,
-        rejected=cheap_drops + rejected + threshold_drops,
+        rejected=all_rejected,
         appended_ids=appended_ids,
     )
 
