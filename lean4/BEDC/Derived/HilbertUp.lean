@@ -263,6 +263,41 @@ theorem HilbertSingletonProjection_idempotence {h : BHist} :
     HilbertSingleton_constant_inner_product_transport projectionClassified projectionClassified
   exact And.intro projectionClassified innerRows.left
 
+theorem HilbertSingletonProjection_residual_zero_package {h : BHist} :
+    VecSpaceSingletonCarrier h ->
+      VecSpaceSingletonClassifier (HilbertSingletonProjection (HilbertSingletonProjection h))
+          (HilbertSingletonProjection h) ∧
+        RealConstantHistoryClassifier (NormSingletonNorm (HilbertSingletonProjection h))
+          (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          RealConstantHistoryClassifier
+            (NormSingletonNorm (HilbertSingletonProjection (HilbertSingletonProjection h)))
+            (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier
+              (HilbertSingletonInnerProduct h (HilbertSingletonProjection h))
+              (NormSingletonNorm (HilbertSingletonProjection h)) := by
+  intro carrierH
+  have idempotenceRows := HilbertSingletonProjection_idempotence carrierH
+  have projectionCarrier : VecSpaceSingletonCarrier (HilbertSingletonProjection h) := by
+    unfold HilbertSingletonProjection
+    exact hsame_refl BHist.Empty
+  have projectionProjectionCarrier :
+      VecSpaceSingletonCarrier (HilbertSingletonProjection (HilbertSingletonProjection h)) := by
+    unfold HilbertSingletonProjection
+    exact hsame_refl BHist.Empty
+  have normProjectionRows :=
+    NormSingletonEmptyHistory_laws projectionCarrier projectionProjectionCarrier
+  have normProjectedRows :=
+    NormSingletonEmptyHistory_laws projectionProjectionCarrier projectionCarrier
+  have projectionClassified : VecSpaceSingletonClassifier (HilbertSingletonProjection h) BHist.Empty := by
+    unfold HilbertSingletonProjection
+    exact And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have decompositionRows :=
+    HilbertSingleton_projection_residual_decomposition carrierH projectionClassified
+  exact And.intro idempotenceRows.left
+    (And.intro normProjectionRows.right.left
+      (And.intro normProjectedRows.right.left decompositionRows.right.right))
+
 theorem HilbertSingletonProjection_witness_idempotent {m p : BHist} :
     HilbertSingletonProjectionWitness m p ->
       HilbertSingletonProjectionWitness p BHist.Empty ∧
