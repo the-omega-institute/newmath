@@ -239,4 +239,55 @@ theorem FinsetEnumerationCarrier_bundleAppend_union
           exact Or.inr (Iff.mpr (rightEnumerates z) carriedV)
     exact Iff.mpr FinsetEnumerationCarrier_append_split split
 
+theorem FinsetEnumerationClassifier_permutation_invariant
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    {left right : ProbeBundle BHist}
+    (leftBundle : FinsetEnumerationBundle A left)
+    (rightBundle : FinsetEnumerationBundle A right)
+    (forward : forall {p : BHist}, InBundle p left ->
+      exists q : BHist, InBundle q right ∧ Rel p q)
+    (backward : forall {q : BHist}, InBundle q right ->
+      exists p : BHist, InBundle p left ∧ Rel q p) :
+    FinsetEnumerationClassifier A Rel left right := by
+  intro z
+  constructor
+  · intro carriedLeft
+    cases carriedLeft with
+    | intro _sourceZ witness =>
+        cases witness with
+        | intro p memberAndRel =>
+            cases memberAndRel with
+            | intro memberLeft relZP =>
+                cases forward memberLeft with
+                | intro q rightData =>
+                    have relZQ : Rel z q :=
+                      NameCert.equiv_trans cert relZP rightData.right
+                    have sourceQ : A q :=
+                      FinsetEnumerationBundle_member_source_carried rightBundle rightData.left
+                    have sourceRightZ : A z :=
+                      NameCert.carrier_respects_equiv cert
+                        (NameCert.equiv_symm cert relZQ) sourceQ
+                    exact And.intro sourceRightZ
+                      (Exists.intro q
+                        (And.intro rightData.left relZQ))
+  · intro carriedRight
+    cases carriedRight with
+    | intro _sourceZ witness =>
+        cases witness with
+        | intro q memberAndRel =>
+            cases memberAndRel with
+            | intro memberRight relZQ =>
+                cases backward memberRight with
+                | intro p leftData =>
+                    have relZP : Rel z p :=
+                      NameCert.equiv_trans cert relZQ leftData.right
+                    have sourceP : A p :=
+                      FinsetEnumerationBundle_member_source_carried leftBundle leftData.left
+                    have sourceLeftZ : A z :=
+                      NameCert.carrier_respects_equiv cert
+                        (NameCert.equiv_symm cert relZP) sourceP
+                    exact And.intro sourceLeftZ
+                      (Exists.intro p
+                        (And.intro leftData.left relZP))
+
 end BEDC.Derived.FinsetUp
