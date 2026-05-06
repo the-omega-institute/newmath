@@ -175,6 +175,18 @@ theorem RealAnalyticLog_hsame_transport_value_unary {x x' logValue logValue' : B
     (And.intro xCarrier' (And.intro limitValue' bisectUnary'))
     (ComplexHistoryCarrier_unary limitValue'.right.left)
 
+theorem RealAnalyticSuppliedLimitConsumption_boundary {s t N M : BHist -> BHist}
+    {r r' : BHist} :
+    (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->
+      hsame r r' -> ComplexLimit s N r M ->
+        ComplexLimit t N r' M ∧ ComplexHistoryCarrier r' := by
+  intro pointwise sameLimit limit
+  have transportedSequence : ComplexLimit t N r M :=
+    ComplexLimit_sequence_hsame_transport pointwise limit
+  have transportedLimit : ComplexLimit t N r' M :=
+    ComplexLimit_hsame_transport sameLimit transportedSequence
+  exact And.intro transportedLimit transportedLimit.right.left
+
 def RealAnalyticExp (x bound modulus y : BHist) : Prop :=
   ComplexHistoryCarrier x ∧ UnaryHistory bound ∧ UnaryHistory modulus ∧
     exists n S : BHist, UnaryHistory n ∧ RealAnalyticExpPart x n S ∧ Cont S modulus y
@@ -249,6 +261,54 @@ theorem RealAnalyticTrigPart_pair_index_result_unary
     (And.intro sinIndexResult.right
       (And.intro cosIndexResult.right
         (unary_cont_closed sinIndexResult.right cosIndexResult.right trigPart.right.right)))
+
+theorem RealAnalyticSinAdd_local_product_sum_unary {zero n sx cx sy cy pairX pairY
+    leftProd rightProd sum : BHist} {sinX cosX sinY cosY : BHist -> BHist}
+    (zeroUnary : UnaryHistory zero)
+    (sinXUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (sinX m))
+    (cosXUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (cosX m))
+    (sinYUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (sinY m))
+    (cosYUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (cosY m)) :
+    RealAnalyticTrigPart zero sinX cosX n sx cx pairX ->
+      RealAnalyticTrigPart zero sinY cosY n sy cy pairY ->
+        Cont sx cy leftProd -> Cont cx sy rightProd -> Cont leftProd rightProd sum ->
+          UnaryHistory leftProd ∧ UnaryHistory rightProd ∧ UnaryHistory sum := by
+  intro trigX trigY leftCont rightCont sumCont
+  have trigXUnary :=
+    RealAnalyticTrigPart_pair_index_result_unary zeroUnary sinXUnary cosXUnary trigX
+  have trigYUnary :=
+    RealAnalyticTrigPart_pair_index_result_unary zeroUnary sinYUnary cosYUnary trigY
+  have leftProdUnary : UnaryHistory leftProd :=
+    unary_cont_closed trigXUnary.right.left trigYUnary.right.right.left leftCont
+  have rightProdUnary : UnaryHistory rightProd :=
+    unary_cont_closed trigXUnary.right.right.left trigYUnary.right.left rightCont
+  exact And.intro leftProdUnary
+    (And.intro rightProdUnary
+      (unary_cont_closed leftProdUnary rightProdUnary sumCont))
+
+theorem RealAnalyticCosAdd_local_product_difference_unary {zero n sx cx sy cy pairX pairY
+    leftProd rightProd diff : BHist} {sinX cosX sinY cosY : BHist -> BHist}
+    (zeroUnary : UnaryHistory zero)
+    (sinXUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (sinX m))
+    (cosXUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (cosX m))
+    (sinYUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (sinY m))
+    (cosYUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (cosY m)) :
+    RealAnalyticTrigPart zero sinX cosX n sx cx pairX ->
+      RealAnalyticTrigPart zero sinY cosY n sy cy pairY ->
+        Cont cx cy leftProd -> Cont sx sy rightProd -> Cont leftProd rightProd diff ->
+          UnaryHistory leftProd ∧ UnaryHistory rightProd ∧ UnaryHistory diff := by
+  intro trigX trigY leftCont rightCont diffCont
+  have trigXUnary :=
+    RealAnalyticTrigPart_pair_index_result_unary zeroUnary sinXUnary cosXUnary trigX
+  have trigYUnary :=
+    RealAnalyticTrigPart_pair_index_result_unary zeroUnary sinYUnary cosYUnary trigY
+  have leftProdUnary : UnaryHistory leftProd :=
+    unary_cont_closed trigXUnary.right.right.left trigYUnary.right.right.left leftCont
+  have rightProdUnary : UnaryHistory rightProd :=
+    unary_cont_closed trigXUnary.right.left trigYUnary.right.left rightCont
+  exact And.intro leftProdUnary
+    (And.intro rightProdUnary
+      (unary_cont_closed leftProdUnary rightProdUnary diffCont))
 
 theorem RealAnalyticComplexPartSum_closed_pointwise_index_result_unary_transport {zero zero' : BHist}
     {c d : BHist -> BHist} {n S T : BHist}

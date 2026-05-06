@@ -160,6 +160,7 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
+import BEDC.Derived.ComplexLimitUp.ComponentAssembly
 import BEDC.Derived.ComplexLimitUp.Constant
 import BEDC.Derived.ComplexLimitUp.Difference
 import BEDC.Derived.ComplexLimitUp.LinearClosure
@@ -345,6 +346,7 @@ import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
+import BEDC.Derived.FpsUp.MultiplicativeMonoid
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption

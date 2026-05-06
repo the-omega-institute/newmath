@@ -1,0 +1,158 @@
+\section{Measure root finite disjoint event envelope}
+\label{sec:measure-root-finite-disjoint-event-envelope}
+
+The finite disjoint event envelope is the kernel-facing $\MeasureUp$ package
+used when downstream analysis chapters need a single finite event family,
+its displayed union, its $\RealUp$ value fold, and the ledger rows that make
+the finite support visible. It is a finite $\mathsf{BHist}$ event package,
+not a sigma-complete event space or a standard bridge.
+
+\begin{definition}[Measure root finite disjoint event envelope]
+\label{def:measure-root-finite-disjoint-envelope}
+The $\MeasureUp$ root finite disjoint event envelope is the ten-field package
+attached to a displayed finite family $E_0,\ldots,E_{n-1}$ of
+$\mathsf{BHist}$ event rows:
+\begin{enumerate}
+  \item source: the root public $\MeasureUp$ basis of
+  \autoref{def:measure-root-public-obligation-basis}, the root event boundary
+  of \autoref{sec:measure-root-event-boundary-package}, and the finite-support
+  consumer front of \autoref{def:measure-root-finite-support-consumer-front};
+  \item carrier: each $E_i$ is a carried $\mathsf{BHist}$ event row covered by
+  the root $\MeasureUp$ event carrier;
+  \item classifier: event comparison is the public $\MeasureUp$ classifier
+  projected to componentwise $\hsame$ on displayed event histories and to the
+  $\RealUp$ classifier on endpoint rows;
+  \item disjointness: the family is pairwise disjoint after any classifier
+  transport admitted by the root event boundary;
+  \item finite union: the package displays a finite union row
+  $U_n=E_0\sqcup\cdots\sqcup E_{n-1}$ in the same $\mathsf{BHist}$ ledger;
+  \item value rows: each component has a $\RealUp$ value endpoint $\mu(E_i)$
+  and the union has a $\RealUp$ value endpoint $\mu(U_n)$;
+  \item fold row: the finite endpoint
+  $\mathsf{fold}_R(\mu(E_0),\ldots,\mu(E_{n-1}))$ is built by the additive
+  $\AbGroupUp$ row carried by $\RealUp$;
+  \item support ledger: the finite family is embedded as a countable family
+  with a constant empty tail, together with the visible finite-support
+  ledger row;
+  \item consumer boundary: $\IntegralUp$, $\ProbSpaceUp$, and
+  $\FunctionalAnalysisUp$ may read only the carrier, finite union, value fold,
+  and support-ledger rows named here;
+  \item excluded surface: no sigma-completeness row, open-cover compactness
+  row, quotient event equality, host set equality, analytic completion
+  object, or $\StdBridge$ row is part of the envelope.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Measure root finite disjoint carrier classifier]
+\label{thm:measure-root-finite-disjoint-carrier-classifier}
+The envelope of \autoref{def:measure-root-finite-disjoint-envelope} projects
+carried $\MeasureUp$ event rows, classifier-stable pairwise disjointness, and
+$\RealUp$ carrier rows from the existing root carrier, classifier, and event
+boundary packages. Thus every component event, its transported disjointness
+relation, its endpoint value, and the displayed finite union remain rows of
+the same root $\mathsf{BHist}$ ledger.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier fields of
+\autoref{def:measure-root-public-obligation-basis}. By
+\autoref{thm:measure-root-public-obligation-basis-carrier}, each displayed
+event row in the finite family is a carried $\mathsf{BHist}$ row, and
+classifier transport keeps the attached endpoint and ledger witnesses on the
+transported row.
+
+Next read the same finite family through
+\autoref{thm:measure-root-event-boundary-carrier}. The event boundary exposes
+the visible event rows, finite union rows, endpoint rows, and ledger rows
+without replacing the displayed event carrier by a host-level event object.
+
+For disjointness, use
+\autoref{thm:measure-root-event-boundary-classifier}. Its classifier is
+componentwise $\hsame$ on displayed histories together with $\RealUp$
+endpoint comparison. Pairwise disjointness in the envelope is therefore
+stable exactly under the same classifier motion.
+
+Finally project the endpoint rows through
+\autoref{thm:measure-root-finite-support-carrier-readback}. The finite
+support spine and the empty tail are read from the root carrier ledger, so
+the component values, finite union value, and support ledger all remain
+visible $\MeasureUp$ root rows.
+\end{proof}
+
+\begin{theorem}[Measure root finite disjoint additivity]
+\label{thm:measure-root-finite-disjoint-additivity}
+For every envelope of
+\autoref{def:measure-root-finite-disjoint-envelope}, the displayed finite
+union value is classified by the finite $\RealUp$ fold of the component
+values:
+$$
+\mu(U_n)\sim_R\mathsf{fold}_R(\mu(E_0),\ldots,\mu(E_{n-1})).
+$$
+The classification is read from the countable-additivity row, the
+finite-support empty-tail readback, and the finite disjoint-union additivity
+packages already exposed by the $\MeasureUp$ root.
+\end{theorem}
+\begin{proof}
+Embed the finite family into a countable family by appending the constant
+empty tail named in the support-ledger field of the envelope. The carrier
+part of \autoref{thm:measure-root-finite-disjoint-carrier-classifier} keeps
+the finite spine, the empty tail, and the displayed union in the same
+$\mathsf{BHist}$ ledger.
+
+Apply \autoref{thm:measure-root-public-obligation-basis-additivity}. It
+supplies the countable disjoint-additivity row, the finite readback row, and
+the countable-sum classifier transport over the visible ledger.
+
+The empty tail is read by
+\autoref{thm:measure-root-finite-support-additivity-readback} and
+\autoref{thm:measure-finite-support-countable-readback}. These rows identify
+the countable endpoint of the finite-support family with the finite
+$\RealUp$ fold of the displayed component endpoints.
+
+It remains to compare the displayed finite union endpoint with that finite
+fold. Use \autoref{thm:measure-finite-disjoint-union-additivity} along the
+finite union tree, with additive congruence and associativity from the
+$\RealUp$ $\AbGroupUp$ row. Composing these classifier comparisons gives the
+displayed readback for $\mu(U_n)$.
+\end{proof}
+
+\begin{theorem}[Measure root finite disjoint consumer threshold]
+\label{thm:measure-root-finite-disjoint-consumer-threshold}
+The downstream $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$ consumers of a
+\autoref{def:measure-root-finite-disjoint-envelope} may read exactly the
+event carrier, displayed finite union, $\RealUp$ value fold, and
+finite-support ledger rows of the envelope. They receive no
+sigma-completeness row, open-cover compactness row, standard bridge row,
+quotient event equality, host set equality, or analytic completion object
+from this package.
+\end{theorem}
+\begin{proof}
+Begin with the consumer boundary field of
+\autoref{def:measure-root-finite-disjoint-envelope}. It names only the
+carrier, finite union, value fold, and finite-support ledger rows as outgoing
+analysis data.
+
+For the shared carrier and endpoint rows, apply
+\autoref{thm:measure-root-finite-disjoint-carrier-classifier}. This pins
+every consumer-visible event and value to the root $\mathsf{BHist}$ ledger
+and the $\RealUp$ endpoint classifier.
+
+For the finite value readback, apply
+\autoref{thm:measure-root-finite-disjoint-additivity}. The downstream
+consumers see the displayed union value only through the finite fold
+comparison supplied by the envelope.
+
+Now project the three consumer faces through
+\autoref{thm:measure-root-finite-support-downstream-exhaustion},
+\autoref{thm:measure-integral-consumer-rows},
+\autoref{thm:measure-probability-consumer-rows}, and
+\autoref{thm:measure-functionalanalysis-consumer-rows}. These projections
+read finite-support rows from the same root package and do not add a fourth
+consumer or a broader analytic interface.
+
+The excluded-surface field of the envelope contains no slot for
+sigma-completeness, open-cover compactness, quotient event equality, host set
+equality, analytic completion, or $\StdBridge$ data. Therefore the three
+analysis consumers receive exactly the four named row families and no larger
+surface.
+\end{proof}
