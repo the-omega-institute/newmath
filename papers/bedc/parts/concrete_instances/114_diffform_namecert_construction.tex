@@ -458,6 +458,92 @@ reassemble into the carried wedge row and into the classifier comparison for
 the transported wedge endpoints.
 \end{proof}
 
+\begin{definition}[Differential-form wedge probe concatenation ledger]
+\label{def:diffform-wedge-probe-concatenation-ledger}
+For carried form rows
+$$
+\omega=(d_\omega,\mathcal{P}_\omega,\tau_\omega,\sigma_\omega,\alpha_\omega,\lambda_\omega)
+$$
+and
+$$
+\eta=(d_\eta,\mathcal{P}_\eta,\tau_\eta,\sigma_\eta,\alpha_\eta,\lambda_\eta),
+$$
+the wedge probe concatenation ledger is the visible BHist package whose output
+probe bundle is
+$$
+\mathcal{P}_{\omega\wedge\eta}
+=\mathsf{bundleAppend}(\mathcal{P}_\omega,\mathcal{P}_\eta).
+$$
+It records the left input ledger $\lambda_\omega$, the right input ledger
+$\lambda_\eta$, the two input $\mathsf{ProbeBundle}$ spines, the displayed
+output $\mathsf{ProbeBundle}$ spine, and the same tensor-concatenation
+provenance row used by the wedge ledger coverage of
+\autoref{thm:diffform-wedge-ledger-coverage}.
+\end{definition}
+
+\begin{theorem}[Differential-form wedge probe concatenation coverage]
+\label{thm:diffform-wedge-probe-concatenation-coverage}
+Every wedge row $\omega\wedge_{\DiffFormUp}\eta$ admitted by
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ carries the wedge probe concatenation
+ledger of \autoref{def:diffform-wedge-probe-concatenation-ledger}. Its output
+probe bundle has length equal to the sum of the two input probe-bundle lengths,
+and a probe row is in the output bundle exactly when it is in the left input
+spine or in the right input spine.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diffform-wedge-ledger-coverage}. The tensor concatenation
+row in that ledger is read over the same two probe spines that occur in the
+two carried input form rows, so the output probe surface is forced to be
+$\mathsf{bundleAppend}(\mathcal{P}_\omega,\mathcal{P}_\eta)$.
+
+Now induct on the left $\mathsf{ProbeBundle}$ spine. The empty case exposes
+the right input spine as the whole output, giving the length and membership
+claims directly from the right bundle.
+
+In the cons case, the head probe remains the head of the output spine and the
+induction hypothesis applies to the tail. Reassembling the head case with the
+tail comparison gives length additivity for
+$\mathsf{bundleAppend}$ and the membership iff splitting membership into the
+left spine or the right spine.
+
+The BHist row of
+\autoref{def:diffform-wedge-probe-concatenation-ledger} stores exactly these
+input ledgers, the output bundle, and the tensor provenance row. Therefore
+every admitted wedge row carries the displayed probe concatenation surface.
+\end{proof}
+
+\begin{theorem}[Differential-form wedge probe concatenation classifier stability]
+\label{thm:diffform-wedge-probe-concatenation-classifier-stability}
+Let $(\omega,\eta)$ and $(\omega',\eta')$ be two pairs of carried
+$\DiffFormUp$ rows with $\omega\sim_{\DiffFormUp}\omega'$ and
+$\eta\sim_{\DiffFormUp}\eta'$. If their wedge rows are admitted, then the
+wedge probe concatenation ledgers of
+\autoref{def:diffform-wedge-probe-concatenation-ledger} are related by
+$\hsame$, and the transported wedge outputs remain classified under
+$\sim_{\DiffFormUp}$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:diffform-form-classifier-stability} to transport the two
+input form classifiers componentwise. The probe-slot part of that transport is
+controlled by \autoref{thm:diffform-probe-slot-arity-transport}, so the left
+input probe bundles match and the right input probe bundles match with the
+same visible arities.
+
+Apply \autoref{thm:diffform-wedge-ledger-coverage} to the two admitted wedge
+rows. Their tensor concatenation rows transport through the
+$\TensorProductUp$ classifier, and the scalar endpoint rows transport through
+the retained scalar classifier.
+
+Finally transport the
+$\mathsf{bundleAppend}(\mathcal{P}_\omega,\mathcal{P}_\eta)$ row
+componentwise along the two input probe-bundle comparisons. The length and
+membership clauses are preserved by
+\autoref{thm:diffform-wedge-probe-concatenation-coverage}, and the left
+ledger, right ledger, output probe bundle, and tensor provenance rows repack
+as the required $\hsame$ comparison between the two probe concatenation
+ledgers.
+\end{proof}
+
 \begin{definition}[Differential-form wedge associator ledger]
 \label{def:diffform-wedge-associator-ledger}
 For carried form rows $\omega$, $\eta$, and $\theta$ in
@@ -509,20 +595,27 @@ $\DiffFormUp$ classifier equality between the two parenthesized wedge rows.
 \label{thm:diffform-exterior-algebra-obligation-surface}
 The $\DiffFormUp$ exterior-algebra surface available to $\DeRhamUp$,
 $\SymplecticUp$, and $\ContactUp$ consists of carrier transport, classifier
-stability, binary wedge ledger coverage, and the wedge associator ledger. This
-surface does not assert $d^2=0$, closedness, nondegeneracy, or contact
-nonintegrability.
+stability, binary wedge ledger coverage, wedge probe concatenation coverage,
+the wedge associator ledger, and the wedge degree ledger. This surface does
+not assert $d^2=0$, closedness, nondegeneracy, or contact nonintegrability.
 \end{theorem}
 \begin{proof}
 Carrier transport and classifier stability are supplied by
 \autoref{thm:diffform-carrier-hsame-transport} and
 \autoref{thm:diffform-form-classifier-stability}. Binary wedge admission and
-transport are exactly \autoref{thm:diffform-wedge-ledger-coverage}.
+transport are exactly \autoref{thm:diffform-wedge-ledger-coverage}, while the
+visible output probe spine is the probe concatenation ledger of
+\autoref{def:diffform-wedge-probe-concatenation-ledger} with coverage and
+classifier stability from
+\autoref{thm:diffform-wedge-probe-concatenation-coverage} and
+\autoref{thm:diffform-wedge-probe-concatenation-classifier-stability}.
 
 Associativity of the exposed exterior product is not an unrecorded algebraic
 law. It is the visible associator ledger of
 \autoref{def:diffform-wedge-associator-ledger}, closed under the carrier and
-classifier by \autoref{thm:diffform-wedge-associator-closure}.
+classifier by \autoref{thm:diffform-wedge-associator-closure}. Degree
+bookkeeping is the visible unary-history ledger of
+\autoref{def:diffform-wedge-degree-ledger}.
 
 Combining these rows with the NameCert surface of
 \autoref{thm:diffform-namecert-obligation-surface} and the downstream scope
@@ -601,9 +694,11 @@ Any $\DeRhamUp$ exterior-derivative row sourced from $\DiffFormUp$ may depend
 on the $\DiffFormUp$ source only through the carried $\mathsf{ProbeBundle}$,
 the unary degree row, the multilinear $\TensorProductUp$ tensor row, the scalar
 endpoint classifier, the antisymmetry ledger, wedge ledger coverage, and the
+wedge probe concatenation ledger of
+\autoref{def:diffform-wedge-probe-concatenation-ledger} together with the
 wedge degree ledger of \autoref{def:diffform-wedge-degree-ledger}. It cannot
-import $d^2=0$, closedness, nondegeneracy, or contact nonintegrability from the
-$\DiffFormUp$ certificate.
+import $d^2=0$, closedness, nondegeneracy, or contact nonintegrability from
+the $\DiffFormUp$ certificate.
 \end{theorem}
 \begin{proof}
 Inspect the carrier of \autoref{def:diffform-bhist-form-carrier}. The rows
@@ -611,9 +706,12 @@ visible to an exterior-derivative construction are the probe bundle, unary
 degree row, tensor row, scalar endpoint, antisymmetry ledger, and source
 ledger, all carried as BHist data.
 
-The two wedge interfaces exported by $\DiffFormUp$ are exactly the tensor
-coverage of \autoref{thm:diffform-wedge-ledger-coverage} and the degree ledger
-of \autoref{def:diffform-wedge-degree-ledger}. Their stability is supplied by
+The wedge interfaces exported by $\DiffFormUp$ are exactly the tensor coverage
+of \autoref{thm:diffform-wedge-ledger-coverage}, the probe concatenation
+surface of \autoref{def:diffform-wedge-probe-concatenation-ledger}, and the
+degree ledger of \autoref{def:diffform-wedge-degree-ledger}. Their stability
+is supplied by
+\autoref{thm:diffform-wedge-probe-concatenation-classifier-stability} and
 \autoref{thm:diffform-wedge-degree-classifier-stability} together with the
 carrier and classifier stability theorems above.
 
@@ -631,9 +729,10 @@ The paper-side $\NameCert_{\DiffFormUp}$ obligation surface consists exactly
 of the carrier of \autoref{def:diffform-bhist-form-carrier}, the classifier
 of \autoref{def:diffform-bhist-form-classifier}, carrier transport,
 classifier stability, wedge ledger coverage, the wedge associator ledger, the
-wedge degree ledger, wedge degree classifier stability, the exterior-derivative
-candidate ledger, its degree-raise and wedge-input stability rows, the
-antisymmetry permutation ledger, the de Rham input boundary of
+wedge probe concatenation ledger, wedge probe concatenation classifier
+stability, the wedge degree ledger, wedge degree classifier stability, the
+exterior-derivative candidate ledger, its degree-raise and wedge-input
+stability rows, the antisymmetry permutation ledger, the de Rham input boundary of
 \autoref{thm:diffform-derham-input-boundary}, and the downstream scope row of
 \autoref{thm:diffform-exterior-derivative-downstream-scope}. It asserts no
 standard bridge beyond these BEDC rows and no identity $d^2=0$, closedness,
@@ -646,12 +745,18 @@ stability is \autoref{thm:diffform-form-classifier-stability}.
 
 The multiplicative operation exposed by the surface is the wedge row, whose
 admission and stability are exactly the visible tensor-concatenation statement
-of \autoref{thm:diffform-wedge-ledger-coverage}. Its associativity obligation
-is the visible ledger of \autoref{def:diffform-wedge-associator-ledger} and
-the closure statement of \autoref{thm:diffform-wedge-associator-closure}. Its
-degree bookkeeping is the visible unary-history ledger of
-\autoref{def:diffform-wedge-degree-ledger}, and classifier stability for that
-ledger is \autoref{thm:diffform-wedge-degree-classifier-stability}.
+of \autoref{thm:diffform-wedge-ledger-coverage}. Its output probe spine is the
+visible concatenation ledger of
+\autoref{def:diffform-wedge-probe-concatenation-ledger}, with coverage and
+transport supplied by
+\autoref{thm:diffform-wedge-probe-concatenation-coverage} and
+\autoref{thm:diffform-wedge-probe-concatenation-classifier-stability}. Its
+associativity obligation is the visible ledger of
+\autoref{def:diffform-wedge-associator-ledger} and the closure statement of
+\autoref{thm:diffform-wedge-associator-closure}. Its degree bookkeeping is the
+visible unary-history ledger of \autoref{def:diffform-wedge-degree-ledger},
+and classifier stability for that ledger is
+\autoref{thm:diffform-wedge-degree-classifier-stability}.
 Antisymmetry is not hidden in the wedge operation: it is the explicit
 permutation ledger retained in every carrier row.
 
@@ -670,122 +775,108 @@ obligation surface and not a claim of equivalence with a standard
 differential-form object.
 \end{proof}
 
-\begin{theorem}[Differential-form exterior-derivative downstream scope]
-\label{thm:diffform-exterior-derivative-downstream-scope}
-Downstream exterior-derivative chapters may use a $\DiffFormUp$ row only
-through its degree row, its carried $\mathsf{ProbeBundle}$ of tangent probes,
-its multilinear $\TensorProductUp$ tensor row, its scalar endpoint classifier,
-its antisymmetry ledger, wedge ledger coverage, the wedge associator ledger,
-the wedge degree ledger, and the exterior-derivative candidate ledger of
-\autoref{def:diffform-exterior-derivative-candidate-ledger}. In particular, the
-DiffForm surface supplies the carrier, classifier, exterior-algebra substrate,
-degree-raise candidate row, and endpoint transport substrate for $\DeRhamUp$,
-$\SymplecticUp$, and $\ContactUp$, but it does not by itself assert $d^2=0$,
-closedness, nondegeneracy, or contact nonintegrability.
-\end{theorem}
-\begin{proof}
-Inspect the exported fields of
-\autoref{thm:diffform-namecert-obligation-surface}. Each accessible component
-is one of the displayed carrier, classifier, stability, wedge, or ledger rows.
-
-The exterior derivative needs the degree row and the multilinear scalar
-endpoint surface in order to state degree raising and scalar endpoint
-transport. Those rows are available from the carrier and classifier; the
-wedge degree ledger supplies the visible input-degree bookkeeping allowed at
-the de Rham boundary. The candidate ledger of
-\autoref{def:diffform-exterior-derivative-candidate-ledger} supplies the
-positive output-carrier and successor-degree row allowed at that boundary.
-Stability is supplied by the two transport theorems,
-\autoref{thm:diffform-wedge-degree-classifier-stability}, and
-\autoref{thm:diffform-exterior-derivative-wedge-input-stability}.
-
-The identities $d^2=0$, closedness, nondegeneracy, and contact
-nonintegrability require additional operator or geometric rows. They are not
-fields of the $\DiffFormUp$ surface, so downstream chapters must state and
-certify them in their own $\NameCert$ surfaces.
-\end{proof}
+\input{parts/concrete_instances/114_diffform_exterior_derivative_input_scope.tex}
 
 \input{parts/concrete_instances/114_diffform_exterior_derivative_input_package.tex}
 
-\begin{theorem}[Differential-form source scope]
-\label{thm:diffform-source-scope}
-Every row accepted by $\mathsf{DiffFormBHistCarrier}_{M,T}$ depends only on
-$BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
-$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$. No accepted
-row may import a carrier component, classifier clause, or endpoint comparison
-from outside those six displayed sources.
-\end{theorem}
-\begin{proof}
-Project the accepted row through
-\autoref{def:diffform-bhist-form-carrier}. Its six components are exactly the
-degree history, probe bundle, tensor row, scalar endpoint, antisymmetry
-ledger, and source ledger. The only structural rows mentioned there are
-$BHist$, $\mathsf{ProbeBundle}$, the $\TensorProductUp$ continuation ledgers
-$\Cont$, and the two upstream $\NameCert$ sources.
-
-Now read the classifier clauses in
-\autoref{def:diffform-bhist-form-classifier}. Degree, tensor, antisymmetry,
-and source-ledger comparisons are $\hsame$ comparisons on visible histories,
-while scalar endpoint comparison is the retained scalar classifier supplied by
-the manifold and tensor sources. Thus every accepted classifier step remains
-inside the stated source scope.
-\end{proof}
-
-\begin{theorem}[Differential-form wedge degree ledger]
-\label{thm:diffform-wedge-degree-ledger}
-For a carried wedge row $\omega\wedge_{\DiffFormUp}\eta$, the visible BHist
-provenance exposes the degree row of $\omega$, the degree row of $\eta$, the
-$\TensorProductUp$ concatenation ledger supplied by
-\autoref{thm:diffform-wedge-ledger-coverage}, and the resulting unary degree
-row of the wedge. This ledger states provenance for the wedge degree and does
-not assert any exterior-derivative identity.
-\end{theorem}
-\begin{proof}
-Unpack the wedge row by
-\autoref{thm:diffform-wedge-ledger-coverage}. Admission of the wedge requires
-a visible $\TensorProductUp$ concatenation row joining the tensor component of
-the left carried form to the tensor component of the right carried form.
-
-Read the two input degree rows from
-\autoref{def:diffform-bhist-form-carrier}. They are the first carrier
-components of $\omega$ and $\eta$, and the wedge row records them in its
-source ledger together with the tensor concatenation row.
-
-Repack those displayed histories as the wedge degree ledger. The output
-degree row is a unary history visible in the carried wedge row, so downstream
-chapters may cite the two input degree rows, the concatenation provenance, and
-the output degree row without adding any law about $d$.
-\end{proof}
-
-\begin{theorem}[Differential-form scalar endpoint transport]
-\label{thm:diffform-scalar-endpoint-transport}
-Let $\omega$ and $\omega'$ be $\DiffFormUp$ rows with componentwise $\hsame$
-comparisons on their probe bundles, tensor rows, antisymmetry ledgers, and
-source ledgers. If the scalar endpoint of $\omega$ is accepted by the retained
-scalar classifier from the upstream manifold and tensor sources, then the
-scalar endpoint comparison transports to $\omega'$ through the
-$\DiffFormUp$ classifier.
-\end{theorem}
-\begin{proof}
-First transport the carrier row. The componentwise comparisons on the probe
-bundle, tensor row, antisymmetry ledger, and source ledger are exactly the
-visible histories required by
-\autoref{thm:diffform-carrier-hsame-transport}, so the transported row is
-again accepted by $\mathsf{DiffFormBHistCarrier}_{M,T}$.
-
-Next apply classifier stability. By
-\autoref{thm:diffform-form-classifier-stability}, the scalar endpoint clause
-of \autoref{def:diffform-bhist-form-classifier} is preserved under the same
-componentwise transport.
-
-Finally, the scalar comparison used in that clause is not a new
-$\DiffFormUp$ primitive. It is the retained scalar classifier from the
-manifold and tensor sources, so endpoint comparison moves along the
-transported probe, tensor, antisymmetry, and source ledgers already present in
-the carried row.
-\end{proof}
-
 \input{parts/concrete_instances/114_diffform_antisymmetry_chain_ledger.tex}
+
+\begin{theorem}[Differential-form derived antisymmetry normal form]
+\label{thm:diffform-derived-antisymmetry-normal-form}
+Every finite permutation comparison admitted for carried $\DiffFormUp$ rows
+over the same degree row factors through the differential-form antisymmetry
+chain ledger of \autoref{def:diffform-antisymmetry-chain-ledger}. Each step of
+the factorization is a visible adjacent swap, reverse rows are supplied by
+\autoref{thm:diffform-adjacent-swap-involution-ledger}, and any transported
+comparison remains a $\DiffFormUp$ classifier comparison by
+\autoref{thm:diffform-antisymmetry-chain-classifier-stability}.
+\end{theorem}
+\begin{proof}
+Begin with the carried rows in
+\autoref{def:diffform-bhist-form-carrier}. Their permutation data are not an
+external oracle: the carrier exposes only the antisymmetry ledger and the source
+ledger, so any admitted comparison must be read as a displayed finite spine of
+probe-bundle rows.
+
+Apply \autoref{def:diffform-antisymmetry-chain-ledger} to identify this spine
+as adjacent swaps over the carried $\mathsf{ProbeBundle}$ rows. For each step,
+\autoref{thm:diffform-adjacent-swap-involution-ledger} supplies the reverse row
+and the scalar endpoint comparison needed to return along the same visible
+data.
+
+Finally transport the comparison componentwise. The stability theorem
+\autoref{thm:diffform-antisymmetry-chain-classifier-stability} carries the
+degree, probe, tensor, scalar endpoint, antisymmetry, and source rows to the
+transported carrier rows, so the derived comparison remains internal to
+$\sim_{\DiffFormUp}$.
+\end{proof}
+
+\begin{theorem}[Differential-form de Rham boundary consumption]
+\label{thm:diffform-derham-boundary-consumption}
+A downstream $\DeRhamUp$ exterior-derivative row can consume $\DiffFormUp$ only
+through the carried form rows, their classifier rows, wedge ledger coverage,
+the wedge degree ledger, exterior-derivative candidate and input rows, scalar
+endpoint transport, and the antisymmetry normal form of
+\autoref{thm:diffform-derived-antisymmetry-normal-form}. It cannot read
+$d^2=0$, closedness, nondegeneracy, or contact nonintegrability from
+$\DiffFormUp$.
+\end{theorem}
+\begin{proof}
+The carrier and classifier entries are exactly the displayed
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ and $\sim_{\DiffFormUp}$ rows. Wedge
+admission is bounded by \autoref{thm:diffform-wedge-ledger-coverage}, and its
+degree bookkeeping is the ledger of
+\autoref{def:diffform-wedge-degree-ledger}.
+
+The exterior-derivative interface is bounded by
+\autoref{thm:diffform-derham-input-boundary} and
+\autoref{thm:diffform-exterior-derivative-downstream-scope}. These theorems
+list the visible candidate rows, input rows, probe/tensor/scalar transport
+rows, and source ledgers available to a consumer.
+
+It remains to control permutation comparisons inside the same boundary.
+Apply \autoref{thm:diffform-derived-antisymmetry-normal-form}: every admitted
+comparison is decomposed into the chain ledger, adjacent-swap reverse rows, and
+classifier-stable transported rows.
+
+None of these cited rows contains an operator-square identity, a closedness
+predicate, a nondegeneracy predicate, or a contact nonintegrability predicate.
+Those obligations therefore must be stated by the consuming $\DeRhamUp$,
+$\SymplecticUp$, or $\ContactUp$ surface rather than read from $\DiffFormUp$.
+\end{proof}
+
+\begin{theorem}[Differential-form wedge derivative input boundary]
+\label{thm:diffform-wedge-derivative-input-boundary}
+When the same carried form appears both in a wedge row and in an
+exterior-derivative input package, the shared visible data are exactly the
+unary degree row, the wedge degree continuation ledger, the one-step derivative
+continuation ledger, the probe, tensor, and scalar transport rows, and the
+source ledger. No Leibniz rule and no nilpotence row are supplied by this
+shared boundary.
+\end{theorem}
+\begin{proof}
+Read the wedge side first. The available multiplicative data are the tensor
+coverage theorem \autoref{thm:diffform-wedge-ledger-coverage} and the unary
+degree continuation ledger of
+\autoref{def:diffform-wedge-degree-ledger}; both are rows over the same carried
+degree, probe, tensor, scalar endpoint, and source entries.
+
+Read the exterior-derivative side through
+\autoref{thm:diffform-derham-input-boundary} and
+\autoref{thm:diffform-exterior-derivative-downstream-scope}. These rows expose
+the derivative candidate, the one-step degree continuation, and the transport
+clauses for the probe bundle, tensor row, scalar endpoint, and source ledger.
+
+The intersection of the two readings is therefore the visible carrier data
+they both name. Antisymmetry comparisons inside that intersection are governed
+by \autoref{thm:diffform-derived-antisymmetry-normal-form}, so even transported
+permutation data stay ledger-based.
+
+A Leibniz rule would relate a derivative of a wedge to a sum of two derivative
+terms, and nilpotence would relate two derivative steps. Neither row is among
+the wedge coverage, wedge degree, exterior-derivative input, transport, or
+source-ledger rows listed above, so the shared boundary supplies neither one.
+\end{proof}
 
 \begin{closurestatus}{\DiffFormUp}
   \theoryclosure{\seedClosure}

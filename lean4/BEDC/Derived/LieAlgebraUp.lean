@@ -255,4 +255,26 @@ theorem LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity_classifier
   exact (LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity
     carrierX carrierZ carrierY xzRow leftRow xyRow zyRow rightRow).left
 
+theorem LieAlgebraSingletonAdjoint_acting_endpoint_scalar_linearity
+    {r x y smulX left xy right : BHist} :
+    VecSpaceSingletonCarrier r -> VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y ->
+      Cont r x smulX -> Cont smulX y left -> Cont x y xy -> Cont r xy right ->
+        VecSpaceSingletonClassifier left right ∧ UnaryHistory left ∧ UnaryHistory right := by
+  intro carrierR carrierX carrierY smulXRow leftRow xyRow rightRow
+  have smulXEmpty : hsame smulX BHist.Empty :=
+    cont_respects_hsame carrierR carrierX smulXRow (cont_left_unit BHist.Empty)
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame smulXEmpty carrierY leftRow (cont_left_unit BHist.Empty)
+  have xyEmpty : hsame xy BHist.Empty :=
+    cont_respects_hsame carrierX carrierY xyRow (cont_left_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame carrierR xyEmpty rightRow (cont_left_unit BHist.Empty)
+  have classified : VecSpaceSingletonClassifier left right :=
+    And.intro leftEmpty (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right :=
+    unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro classified (And.intro leftUnary rightUnary)
+
 end BEDC.Derived.LieAlgebraUp
