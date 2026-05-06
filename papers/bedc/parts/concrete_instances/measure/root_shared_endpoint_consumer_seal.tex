@@ -1,0 +1,114 @@
+\begin{definition}[Measure root shared endpoint consumer seal]
+\label{def:measure-root-shared-endpoint-consumer-seal}
+The $\MeasureUp$ root shared endpoint consumer seal fixes the endpoint rows
+that may be read by more than one outgoing analysis face before any such face
+is consumed. Its shared source is exactly the combination of the $\RealUp$
+endpoint classifier rows and the $\StreamNameUp$ endpoint-family rows already
+named by \autoref{def:measure-root-source-closure-package}. The
+$\mathsf{BHist}$ event-ledger rows remain the only shared event source rows.
+
+The integral, probability, and functional-analysis faces are outgoing
+consumers of this sealed source. They may project the root event ledger and
+the shared endpoint classifier rows, but their face-specific rows are not
+source hypotheses of the root package. Thus probability normalization,
+integral head-tail readback, and functional-analysis monotone and
+relative-difference rows are consumer rows only.
+\end{definition}
+
+\begin{theorem}[Measure root shared endpoint coverage]
+\label{thm:measure-root-shared-endpoint-coverage}
+Every shared endpoint row used by the $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$ faces of
+\autoref{def:measure-root-shared-endpoint-consumer-seal} is either a
+$\MeasureUp$ $\mathsf{BHist}$ event-ledger row, a $\RealUp$ endpoint
+classifier row, or a $\StreamNameUp$ endpoint-family row already exposed by
+the root source-closure package.
+\end{theorem}
+\begin{proof}
+First project the source endpoint closure of
+\autoref{thm:measure-root-source-endpoint-row-closure}. It identifies the
+measure-value, countable-sum, finite-additivity, head-tail, nonnegative,
+monotone, and relative-difference endpoint rows through $\NameCert_{\RealUp}$
+and the additive real rows of the root orientation surface.
+
+Next apply \autoref{thm:measure-streamname-endpoint-stability}. The
+StreamName-indexed rows that appear at countable endpoint sites are stable
+pointwise under the StreamName classifier, so they remain the endpoint-family
+rows named by the root source package rather than a new analytic carrier.
+
+Now use \autoref{thm:measure-root-consumer-face-coverage}. Each outgoing row
+belongs to the integral, probability, or functional-analysis face, with any
+overlap classified as a shared root event-ledger row or a shared $\RealUp$
+endpoint row.
+
+Combining these projections gives the stated coverage. A row shared by the
+three consumers has already appeared in the root event ledger, the $\RealUp$
+endpoint classifier, or the $\StreamNameUp$ endpoint family before the
+consumer face reads it.
+\end{proof}
+
+\begin{theorem}[Measure root consumer face source separation]
+\label{thm:measure-root-consumer-face-source-separation}
+The probability-normalization rows, integral head-tail readback rows, and
+functional-analysis monotone and relative-difference rows of
+\autoref{def:measure-root-shared-endpoint-consumer-seal} never become source
+hypotheses of the root $\MeasureUp$ package.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:measure-root-source-ledger-exhaustion}. The source
+ledger consumes only the visible measurable membership,
+relative-difference, disjointness, measure-value, $\StreamNameUp$
+endpoint-family, and countable-sum rows. It explicitly excludes probability
+normalization, integral premeasure rows, functional-analysis rows, and bridge
+rows from the root source ledger.
+
+Next apply \autoref{thm:measure-root-consumer-face-disjointness}. The
+probability-normalization row is specific to the probability face, the
+head-tail readback row is specific to the integral face, and the monotone and
+relative-difference rows are specific to the functional-analysis face except
+where their endpoint classifier has already been sealed as a shared root row.
+
+Finally use \autoref{thm:measure-root-consumer-projection-separation}. The
+three consumer faces are one-way projections out of the assembled root
+surface and cannot serve as hypotheses for the root carrier, classifier,
+event-coverage, additivity, continuity, or endpoint-family obligations.
+
+The exclusions from the source ledger and the one-way projection boundary
+therefore separate consumer-specific rows from root source hypotheses.
+\end{proof}
+
+\begin{theorem}[Measure root shared endpoint deps-ready seal]
+\label{thm:measure-root-shared-endpoint-deps-ready-seal}
+The seal of \autoref{def:measure-root-shared-endpoint-consumer-seal}, the
+coverage theorem of \autoref{thm:measure-root-shared-endpoint-coverage}, the
+source-separation theorem of
+\autoref{thm:measure-root-consumer-face-source-separation}, the source package
+of \autoref{thm:measure-root-source-deps-ready-package}, and the
+cross-consumer threshold of
+\autoref{thm:measure-root-cross-consumer-threshold-package} form the
+deps-ready root seal consumed by $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$.
+\end{theorem}
+\begin{proof}
+First fix the source package by
+\autoref{thm:measure-root-source-deps-ready-package}. This supplies the
+$\mathsf{BHist}$ carrier and classifier, the event ledger, the $\RealUp$
+endpoint rows, the $\StreamNameUp$ endpoint-family rows, and the exhausted
+source ledger.
+
+Next insert the shared endpoint seal. Apply
+\autoref{thm:measure-root-shared-endpoint-coverage} to show that every shared
+row consumed by the three analysis faces is already one of the sealed source
+rows. Apply \autoref{thm:measure-root-consumer-face-source-separation} to keep
+probability normalization, integral head-tail readback, and
+functional-analysis monotone and relative-difference rows on the consumer
+side.
+
+Finally apply \autoref{thm:measure-root-cross-consumer-threshold-package}. It
+packages the three outgoing faces over the same shared event ledger and
+endpoint classifier while keeping face-specific rows on their own projections.
+
+Repacking these three steps gives a deps-ready root seal: the shared endpoint
+rows are identified once at the root, and the three downstream chapters
+consume only the corresponding outgoing faces.
+\end{proof}
