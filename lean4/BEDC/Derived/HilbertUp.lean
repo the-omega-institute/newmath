@@ -244,6 +244,26 @@ def HilbertSingletonProjectionWitness (m p : BHist) : Prop :=
 def HilbertSingletonProjection (_h : BHist) : BHist :=
   BHist.Empty
 
+theorem HilbertSingletonProjection_existence {m : BHist} :
+    VecSpaceSingletonCarrier m ->
+      HilbertSingletonProjectionWitness m BHist.Empty ∧
+        VecSpaceSingletonClassifier (HilbertSingletonProjection m) BHist.Empty := by
+  intro carrierM
+  have projectionRows := HilbertSingleton_projection_carried_endpoint carrierM
+  have emptyClassified : VecSpaceSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro projectionRows.left
+      (And.intro projectionRows.left (hsame_refl BHist.Empty))
+  have projectionWitness : HilbertSingletonProjectionWitness m BHist.Empty :=
+    And.intro carrierM
+      (And.intro projectionRows.left
+        (And.intro emptyClassified
+          (And.intro projectionRows.right.right.right.left projectionRows.right.right.right.right)))
+  have projectionClassified :
+      VecSpaceSingletonClassifier (HilbertSingletonProjection m) BHist.Empty := by
+    unfold HilbertSingletonProjection
+    exact emptyClassified
+  exact And.intro projectionWitness projectionClassified
+
 theorem HilbertSingletonProjection_idempotence {h : BHist} :
     VecSpaceSingletonCarrier h ->
       VecSpaceSingletonClassifier (HilbertSingletonProjection (HilbertSingletonProjection h))
