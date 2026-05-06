@@ -351,6 +351,7 @@ import BEDC.Derived.FpsUp.LedgerPolicy
 import BEDC.Derived.FpsUp.MultiplicativeMonoid
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.FpsUp.PublicAlgebraInterface
+import BEDC.Derived.FpsUp.RingUpTailAlgebra
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
@@ -395,6 +396,7 @@ import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.RealUp.Index
+import BEDC.Derived.InnerProductUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
