@@ -1,0 +1,135 @@
+\begin{definition}[Measure root NameCert public surface]
+\label{def:measure-root-namecert-public-surface}
+The root $\MeasureUp$ NameCert public surface is the ten-field carrier surface
+of \autoref{def:measure-sigma-algebra-carrier-surface}, read together with the
+certificate surface of \autoref{def:measure-certificate-surface}, the exact
+event-row coverage predicate of \autoref{def:measure-event-row-coverage}, and
+the no-$\StdBridge$ row recorded in the standard-bridge field of the carrier
+surface. Concretely, its public rows are:
+\begin{enumerate}
+  \item the traditional constructive measure-space target;
+  \item the BEDC source rows over $\mathsf{BHist}$, $\NameCert_{\RealUp}$, and
+  the additive $\AbGroupUp$ real row;
+  \item the visible carrier rows for measurable events, empty event, binary
+  union, countable union, complement/relative-difference, disjoint sequence
+  readback, $\RealUp$ endpoints, and countable sums;
+  \item the componentwise $\hsame$ classifier, with $\RealUp$ endpoint
+  comparison supplied by the real classifier;
+  \item the stability rows for every displayed event, value, and countable-sum
+  component;
+  \item the ledger rows attached to hidden membership, relative-difference,
+  and countable-sum witnesses;
+  \item the core consequence rows named in the carrier surface;
+  \item the exactness predicate asserting that downstream consumers read only
+  the displayed rows;
+  \item the explicit absence of a standard bridge at this paper site;
+  \item the public status row that exposes the resulting package as the
+  $\MeasureUp$ NameCert obligation surface.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Measure root carrier-classifier public obligation]
+\label{thm:measure-root-carrier-classifier-public-obligation}
+The root $\MeasureUp$ NameCert public surface of
+\autoref{def:measure-root-namecert-public-surface} supplies the public carrier
+and classifier transport rows required by the $\MeasureUp$ obligation surface.
+For any two presented histories $h,k:\mathsf{BHist}$ in the surface, a carried
+$\MeasureUp$ code at $h$, and a public classifier comparison $h\sim_M k$, the
+surface transports the carrier code, each visible event row, each ledger row,
+and each $\RealUp$ endpoint row from $h$ to $k$.
+\end{theorem}
+\begin{proof}
+Begin with the root public surface and project its carrier and classifier
+fields. These fields are exactly the carrier slots and componentwise
+classifier slots listed in
+\autoref{def:measure-sigma-algebra-carrier-surface}.
+
+Apply \autoref{thm:measure-carrier-classifier-obligation}. It transports the
+displayed measurable-event, empty-event, binary-union, countable-union,
+relative-difference, disjointness, endpoint, and countable-sum rows along the
+public classifier. The $\RealUp$ endpoint movement is read through the
+displayed real classifier, while the event rows move by their $\hsame$
+components.
+
+It remains to expose the stability rows as public obligation rows. Apply
+\autoref{thm:measureup-classifier-stability-obligations}. Its projections
+identify the same classifier-stable rows at the certificate level, so the
+transported carrier, classifier, ledger, and endpoint data repack as the
+root carrier-classifier public obligation.
+\end{proof}
+
+\begin{theorem}[Measure root sigma-additive public obligation]
+\label{thm:measure-root-sigma-additive-public-obligation}
+The root $\MeasureUp$ NameCert public surface supplies the public
+sigma-additive, empty-zero, finite readback, and relative-difference rows.
+For every covered pairwise-disjoint measurable sequence $E_\bullet$ with
+countable union $U$, the surface supplies
+$$
+\mu(U)\sim_R\Sigma_\mu(E_\bullet).
+$$
+It also supplies $\mu(\varnothing)\sim_R0_R$, finite disjoint-union readback
+for covered disjoint pairs, and relative-difference additivity for covered
+inclusions of measurable events in the same fiber.
+\end{theorem}
+\begin{proof}
+Project the sigma-algebra, countable-union, head-tail, countable-sum
+classifier, and additive $\AbGroupUp$ rows from the root public surface. The
+coverage predicate ensures that the measurable sequence, its union, its
+disjointness witness, and the resulting endpoints are all visible
+$\mathsf{BHist}$ ledger rows.
+
+Apply \autoref{thm:measureup-sigma-additive-certificate-obligations} to read
+the certificate rows as the public sigma-additive obligation. Its
+sigma-additivity projection gives the displayed comparison for
+$E_\bullet$ and $U$.
+
+Next apply \autoref{thm:measure-empty-set-zero-from-sigma-additivity}. The
+constant-empty measurable sequence is covered by the empty-event and
+countable-union rows, and the additive $\AbGroupUp$ row supplies the zero and
+congruence laws used by the theorem.
+
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to a covered
+disjoint pair. The same visible binary-union, endpoint, and head-tail rows
+give the finite readback comparison.
+
+Finally apply \autoref{thm:measure-relative-difference-additivity}. The
+relative-difference row is one of the displayed carrier rows, so the inclusion
+witness, disjointness witness, binary-union readback, and endpoint comparison
+repack as the public relative-difference obligation.
+\end{proof}
+
+\begin{theorem}[Measure root downstream unblock package]
+\label{thm:measure-root-downstream-unblock-package}
+The carrier-classifier rows of
+\autoref{thm:measure-root-carrier-classifier-public-obligation} and the
+sigma-additive rows of
+\autoref{thm:measure-root-sigma-additive-public-obligation} form the public
+$\MeasureUp$ package consumed by $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$. The package exposes only covered measurable-event
+rows, $\RealUp$ endpoint rows, countable-sum rows, classifier-stable
+head-tail readback, empty-zero, finite disjoint-union readback,
+relative-difference additivity, and the explicit no-$\StdBridge$ row.
+\end{theorem}
+\begin{proof}
+Start from the root public surface and apply
+\autoref{thm:measure-namecert-obligation-package}. This repacks the carrier,
+classifier, sigma-additivity, ledger exactness, nonnegative value, monotone
+inclusion, and measure consequence rows as the public $\MeasureUp$ NameCert
+obligation package.
+
+For $\ProbSpaceUp$, apply
+\autoref{thm:measure-probability-normalization-row}. It consumes the total
+event endpoint together with the empty-zero and finite disjoint-union rows
+already exposed by the root sigma-additive public obligation.
+
+For $\IntegralUp$ and $\FunctionalAnalysisUp$, apply
+\autoref{thm:measure-integral-premeasure-consumption}. Its consumed rows are
+exactly the covered measurable-event rows, endpoint classifier rows,
+countable-sum rows, head-tail readback rows, and finite disjoint-union rows
+projected above.
+
+The event-row coverage predicate prevents any extra carrier from entering the
+downstream package. The standard-bridge field is the no-$\StdBridge$ row from
+the root surface, so the public package is a NameCert surface only and makes
+no standard-bridge claim.
+\end{proof}
