@@ -161,6 +161,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.ConditionalUnique
+import BEDC.Derived.ComplexLimitUp.ComponentAssembly
 import BEDC.Derived.ComplexLimitUp.Constant
 import BEDC.Derived.ComplexLimitUp.Difference
 import BEDC.Derived.ComplexLimitUp.LinearClosure
@@ -182,6 +183,7 @@ import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
+import BEDC.Derived.MeasureUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
