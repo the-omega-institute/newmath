@@ -160,3 +160,42 @@ $$
 \mu_X(U_T)\sim_R\mu_X(B)+\mu_X(C).
 $$
 \end{proof}
+
+\begin{theorem}[Distribution nonnegative value inheritance]
+\label{thm:distribution-nonnegative-value-inheritance}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a $\MeasureUp$ target as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure as in \autoref{sec:distribution-carrier}, $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}, and $\mathsf{NonNeg}_R$ for the nonnegative predicate exposed by the shared $\RealAlgOrder$ row. Let $B$ be a target event with $B\in\mathcal{A}_T$, and define
+$$
+A_B:=X^{-1}(B).
+$$
+Suppose:
+\begin{itemize}
+\item the $\RandomVarUp$ measurable-preimage row of \autoref{sec:randomvar-certificate} sends the target measurable event $B$ to the source measurable event $A_B$, so $A_B\in\mathcal{A}_S$;
+\item the $\DistributionUp$ pushforward row of \autoref{sec:distribution-certificate} gives, at the target event $B$,
+$$
+\mu_X(B)\sim_R\mu_S(A_B);
+$$
+\item the source $\MeasureUp$ component of the $\ProbSpaceUp$ source exposes the nonnegative value row of \autoref{thm:measure-nonnegative-value-obligation}, and the same $\RealAlgOrder$ nonnegative predicate is stable under the $\RealUp$ classifier.
+\end{itemize}
+Then
+$$
+\mathsf{NonNeg}_R(\mu_X(B)).
+$$
+\end{theorem}
+\begin{proof}
+The measurable-preimage row makes $A_B$ a displayed measurable event in the source measurable family. Reading the source probability space through its underlying $\MeasureUp$ component, \autoref{thm:measure-nonnegative-value-obligation} supplies
+$$
+\mathsf{NonNeg}_R(\mu_S(A_B)).
+$$
+The pushforward row identifies the pushed-forward endpoint with the source endpoint:
+$$
+\mu_X(B)\sim_R\mu_S(A_B).
+$$
+By symmetry of the $\RealUp$ classifier, this also reads
+$$
+\mu_S(A_B)\sim_R\mu_X(B).
+$$
+Stability of the $\RealAlgOrder$ nonnegative predicate under $\sim_R$ transports the displayed source nonnegative row across this classifier comparison, giving
+$$
+\mathsf{NonNeg}_R(\mu_X(B)).
+$$
+\end{proof}
