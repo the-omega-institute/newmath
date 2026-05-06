@@ -1,0 +1,142 @@
+\begin{definition}[Measure root countable-premeasure front]
+\label{def:measure-root-countable-premeasure-front}
+The $\MeasureUp$ root countable-premeasure front is the ten-field surface
+that exposes the traditional constructive countable premeasure target through
+BEDC names:
+\begin{enumerate}
+  \item traditional target: a countable premeasure surface whose measurable
+  events are visible as counted rows and whose values are nonnegative
+  $\RealUp$ endpoints;
+  \item BEDC source: $\NameCert_{\RealUp}$, $\StreamNameUp$ countable
+  families, $\mathsf{BHist}$, $\hsame$, the $\MeasureUp$ carrier and
+  classifier rows, nonnegative endpoint rows, empty-event rows,
+  finite-additivity rows, relative-difference rows, and countable-sum rows;
+  \item carrier choice: measurable-event $\mathsf{BHist}$ rows together with
+  the $\RealUp$ endpoint classifier for the value of each covered event;
+  \item classifier choice: componentwise $\hsame$ transport for event rows,
+  measurable-witness transport, and endpoint comparison through the
+  $\RealUp$ classifier $\sim_R$;
+  \item stability rows: carrier transport, classifier transport,
+  finite-additivity readback, relative-difference additivity,
+  continuity-from-below readback, and countable-sum classifier stability;
+  \item ledger: hidden measurable witnesses, disjointness witnesses,
+  countable-family indices, countable-union witnesses, and the countable-sum
+  endpoints assigned to the same visible $\mathsf{BHist}$ rows;
+  \item exactness: coverage, soundness, and completeness for every displayed
+  measurable-event row named by \autoref{def:measure-event-row-coverage};
+  \item displayed classification iff: a countable disjoint union is classified
+  by the front exactly when its covered component rows, covered union row,
+  pairwise-disjointness row, and $\RealUp$ countable endpoint comparison are
+  all displayed in the same ledger;
+  \item consumer boundary: downstream chapters may read the front only through
+  the rows listed in
+  \autoref{thm:measure-root-countable-premeasure-consumer-threshold};
+  \item standard bridge: no $\StdBridge$, analytic completion object, host set
+  equality, or quotient event equality is part of this front.
+\end{enumerate}
+It is the countable-name premeasure face of the root package described by
+\autoref{def:measure-root-seed-obligation-front} and
+\autoref{def:measure-countable-name-root-unblock-surface}.
+\end{definition}
+
+\begin{theorem}[Measure root countable-premeasure carrier obligation]
+\label{thm:measure-root-countable-premeasure-carrier-obligation}
+The front of \autoref{def:measure-root-countable-premeasure-front} exposes
+exactly the carried $\mathsf{BHist}$ measurable-event rows, $\RealUp$ endpoint
+rows, carrier transport, and classifier transport needed by the root
+$\MeasureUp$ $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with the seed carrier-classifier obligation of
+\autoref{thm:measure-root-seed-carrier-classifier-obligation}. It transports
+the carried measure code, every displayed measurable-event row, every ledger
+row, and every $\RealUp$ endpoint comparison attached to the root
+$\MeasureUp$ surface.
+
+Next restrict those rows to the countable-premeasure front. The carrier field
+of \autoref{def:measure-root-countable-premeasure-front} keeps only covered
+measurable-event $\mathsf{BHist}$ rows and the endpoint classifier for their
+values. The classifier field keeps only componentwise $\hsame$ event
+transport, measurable-witness transport, and $\RealUp$ endpoint transport.
+
+Finally compare with the countable-name carrier package of
+\autoref{thm:measure-countable-name-carrier-classifier-obligation}. Its
+StreamName endpoint transport is read over the same visible event rows, so the
+front contains all carrier and classifier transport needed by the root
+$\NameCert_{\MeasureUp}$ and no additional host-level equality row.
+\end{proof}
+
+\begin{theorem}[Measure root countable-premeasure additivity obligation]
+\label{thm:measure-root-countable-premeasure-additivity-obligation}
+The front of \autoref{def:measure-root-countable-premeasure-front} obtains
+countable disjoint additivity by combining the root sigma-additivity row,
+finite-additivity readback, relative-difference additivity,
+continuity-from-below, and countable-sum classifier stability.
+\end{theorem}
+\begin{proof}
+Project the covered disjoint countable family from the front ledger. The
+component rows, countable-union row, disjointness witness, and countable-sum
+endpoint all live in the same visible $\mathsf{BHist}$ carrier.
+
+Apply \autoref{thm:measure-root-seed-sigma-additive-obligation}. It supplies
+the root comparison between the measure of the covered union and the
+countable endpoint sum, with both endpoints compared through the $\RealUp$
+classifier.
+
+For finite readback, use
+\autoref{thm:measure-finite-disjoint-union-additivity} and
+\autoref{thm:measure-finite-support-countable-readback}. These identify the
+binary and finite-support cases as projections of the same countable
+additivity row.
+
+For difference and limiting readback, apply
+\autoref{thm:measure-relative-difference-additivity} and
+\autoref{thm:measure-continuity-from-below-package}. They supply the
+relative-difference decomposition and increasing-union readback without
+adding any consumer-specific row to the root package.
+
+Finally use \autoref{thm:measure-obligation-countable-sum-classifier-stability}
+to transport pointwise endpoint comparisons to the countable-sum endpoint.
+Thus every additivity clause of the front is read from the existing root
+$\MeasureUp$ rows.
+\end{proof}
+
+\begin{theorem}[Measure root countable-premeasure consumer threshold]
+\label{thm:measure-root-countable-premeasure-consumer-threshold}
+$\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consumers may read
+only the countable-premeasure front of
+\autoref{def:measure-root-countable-premeasure-front}. The $\IntegralUp$ face
+receives covered-event, countable-sum, and finite-readback rows; the
+$\ProbSpaceUp$ face adds only the total-mass normalization row; and the
+$\FunctionalAnalysisUp$ face receives nonnegative, monotone,
+relative-difference, and countable-sum stability rows.
+\end{theorem}
+\begin{proof}
+Begin with the root seed consumer threshold of
+\autoref{thm:measure-root-seed-consumer-threshold}. It fixes the outgoing
+consumer rows for $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$ as projections of the same root $\MeasureUp$ package.
+
+For $\IntegralUp$, apply \autoref{thm:measure-integral-consumer-rows} together
+with \autoref{thm:measure-integral-premeasure-consumption}. The consumer reads
+covered measurable events, countable-sum rows, head-tail readback, and the
+finite readback supplied by the countable-premeasure front.
+
+For $\ProbSpaceUp$, apply \autoref{thm:measure-probability-consumer-rows} and
+\autoref{thm:measure-probability-normalization-row}. These rows add the
+total-mass normalization endpoint while leaving the event ledger and
+additivity rows inherited from the same front.
+
+For $\FunctionalAnalysisUp$, apply
+\autoref{thm:measure-functionalanalysis-consumer-rows},
+\autoref{thm:measure-nonnegative-value-obligation},
+\autoref{thm:measure-monotone-under-measurable-inclusion}, and
+\autoref{thm:measure-relative-difference-additivity}. These projections read
+only nonnegative endpoint, monotone inclusion, relative-difference, and
+countable-sum stability rows.
+
+The exhaustion clause of
+\autoref{thm:measure-root-consumer-threshold-triad-exhaustion} keeps every
+other consumer-specific row off the root surface. Hence the three analysis
+chapters may consume exactly the rows stated above.
+\end{proof}
