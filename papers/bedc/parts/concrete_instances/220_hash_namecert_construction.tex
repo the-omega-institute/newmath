@@ -124,3 +124,36 @@ $$
 $$
 Using the swapped digest witnesses $d'$ and $d$, the two original evaluation row witnesses read in the opposite order, the reversed message distinction, and the reversed digest comparison, the definition repacks exactly as $\mathsf{HashCollisionSuccess}_{\mathcal H}(x',x)$ over the same two $\mathsf{HashEval}_{\mathcal H}$ rows.
 \end{proof}
+
+\begin{theorem}[Hash collision success induces reversed second-preimage]
+\label{thm:hash-collision-success-induces-reversed-second-preimage}
+Let $\mathcal H$ be a $\HashUp$ certificate whose message classifier $\sigma_{\mathcal H}$ has the classifier-symmetry field supplied by its naming-certificate component. For message histories $x$ and $x'$, every successful collision transcript for the ordered pair $(x,x')$ induces a successful second-preimage transcript for base message $x'$ and returned message $x$ over the same two hash-evaluation rows:
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')
+\Longrightarrow
+\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x',x).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:hash-evaluation-success-transcripts}. A collision transcript for $(x,x')$ gives digest histories $d$ and $d'$ with the two evaluation row witnesses
+$$
+\mathsf{HashEval}_{\mathcal H}(x,d)
+\qquad\text{and}\qquad
+\mathsf{HashEval}_{\mathcal H}(x',d'),
+$$
+the message distinction witness $\neg\sigma_{\mathcal H}(x,x')$, and the digest comparison
+$$
+\rho_{\mathcal H}(d,d').
+$$
+To build the second-preimage transcript for $(x',x)$, take the digest witness for the base message $x'$ to be $d'$ and the digest witness for the returned message $x$ to be $d$. The two displayed evaluation row witnesses then occur in the required reversed order, and the required digest condition is still
+$$
+\rho_{\mathcal H}(d,d'),
+$$
+which is the collision digest comparison itself.
+
+It remains only to reverse the message distinction. Suppose $\sigma_{\mathcal H}(x',x)$ held. The message-classifier symmetry field from \autoref{def:lean-carrier-naming-certificate} would give $\sigma_{\mathcal H}(x,x')$, contradicting $\neg\sigma_{\mathcal H}(x,x')$. Hence
+$$
+\neg\sigma_{\mathcal H}(x',x).
+$$
+Using the swapped digest witnesses $d'$ and $d$, the same two hash-evaluation rows, the reversed message distinction, and the unchanged digest comparison, the definition repacks exactly as $\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x',x)$.
+\end{proof}
