@@ -181,6 +181,7 @@ $$
 $$
 Evaluating this row at $j$ gives $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(j),x)$. Rewriting along $\mathsf{entry}_{F}(j)=p$ gives the displayed zero-evaluation predicate for $p$ at $x$.
 \end{proof}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_occurred\_equation\_row}
 
 \begin{theorem}[Affine duplicate equation insertion invariance]
 \label{thm:affine-duplicate-equation-insertion-invariance}
@@ -205,4 +206,28 @@ For the forward implication, assume $\mathsf{V}_{R,n}(\mathsf{cons}(p,F))(x)$. U
 For the reverse implication, assume $\mathsf{V}_{R,n}(F)(x)$. Unfold \autoref{def:affine-finite-family-zero-locus}. The affine-point component for $\mathsf{cons}(p,F)$ is the one supplied by $\mathsf{V}_{R,n}(F)(x)$. It remains to verify every equation row of the cons spine. A position of $\mathsf{cons}(p,F)$ is either the head position or a tail position. In the head case, \autoref{lem:affine-zero-locus-occurred-equation-row}, applied to the displayed occurrence of $p$ in $F$ and to $\mathsf{V}_{R,n}(F)(x)$, gives $\mathsf{PolyEvalZero}_{R,n}(p,x)$, which is exactly the head equation row. In the tail case, the position is inherited from some $i:\mathsf{Pos}(F)$, and the tail readback is $\mathsf{entry}_{F}(i)$. The equation row of $\mathsf{V}_{R,n}(F)(x)$ at $i$ gives the required predicate for that tail entry.
 
 The affine-point witness and the head-or-tail verification of every cons-spine position repack as $\mathsf{V}_{R,n}(\mathsf{cons}(p,F))(x)$, and hence as $\mathsf{V}_{R,n}(\mathsf{insert}_{\mathrm{eq}}(p,F))(x)$.
+\end{proof}
+
+\begin{theorem}[Affine mutual family inclusion gives equal zero-loci]
+\label{thm:affine-mutual-family-inclusion-equal-zero-loci}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F,G:\mathsf{HistSpine}$ be finite polynomial-family spines over the same affine $n$-space. If both
+$$
+\mathsf{EqFamIncl}(F,G)
+\qquad\text{and}\qquad
+\mathsf{EqFamIncl}(G,F)
+$$
+hold, then for every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(F)(x)
+\Longleftrightarrow
+\mathsf{V}_{R,n}(G)(x).
+$$
+Thus mutually included finite affine equation presentations classify exactly the same zero-locus points.
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{EqFamIncl}(F,G)$ and $\mathsf{EqFamIncl}(G,F)$, and fix a point history $x:\mathsf{BHist}$. To prove the forward implication, assume $\mathsf{V}_{R,n}(F)(x)$. Apply \autoref{thm:affine-finite-family-inclusion-reverses-zero-loci} to the inclusion $\mathsf{EqFamIncl}(G,F)$, with the ordered pair of families read as $(G,F)$. Since inclusion reverses zero-loci, this gives $\mathsf{V}_{R,n}(G)(x)$.
+
+For the reverse implication, assume $\mathsf{V}_{R,n}(G)(x)$. Apply \autoref{thm:affine-finite-family-inclusion-reverses-zero-loci} to the inclusion $\mathsf{EqFamIncl}(F,G)$, with the ordered pair of families read as $(F,G)$. This gives $\mathsf{V}_{R,n}(F)(x)$.
+
+The two implications together give the displayed equivalence for the fixed $x$, and $x$ was arbitrary.
 \end{proof}

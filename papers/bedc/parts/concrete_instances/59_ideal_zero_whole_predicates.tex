@@ -1,0 +1,75 @@
+\begin{definition}[Zero IdealUp predicate]
+\label{def:ideal-zero-predicate}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. The zero $\IdealUp$ predicate over $R$ is the concrete carried predicate
+$$
+\mathsf{ZeroIdeal}_R(x)\Longleftrightarrow C(x)\land x\sim_R0_R.
+$$
+\end{definition}
+
+\begin{theorem}[Zero IdealUp predicate closure]
+\label{thm:ideal-zero-predicate-ideal-closure}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-zero-predicate}. Assume the ring certificate supplies carrier transport, zero carriedness, addition congruence, additive inverse congruence, multiplication congruence, additive zero and inverse laws, and the two zero-product rows $0_R\cdot_R r\sim_R0_R$ and $r\cdot_R0_R\sim_R0_R$ for every carried endpoint $r$. Then $\mathsf{ZeroIdeal}_R$ is an $\IdealUp$ carried predicate over $R$. Explicitly, it has carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and left and right absorption by every carried ambient endpoint.
+\end{theorem}
+\begin{proof}
+Carrier support is the first conjunct in \autoref{def:ideal-zero-predicate}. Zero membership uses the ring zero carriedness row together with classifier reflexivity at $0_R$.
+
+For additive closure, unpack two memberships as carried endpoints classified with $0_R$. Ring addition congruence transports the two classifier comparisons to
+
+$$
+x+_R y\sim_R0_R+_R0_R.
+$$
+
+The additive zero law identifies $0_R+_R0_R$ with $0_R$, and transitivity gives the displayed zero classifier for $x+_R y$. The ring operation-closure row supplies $C(x+_R y)$, so the two witnesses repack $\mathsf{ZeroIdeal}_R(x+_R y)$.
+
+For additive inverse closure, additive inverse congruence transports $x\sim_R0_R$ to $-_R x\sim_R-_R0_R$. The inverse row for zero and transitivity identify $-_R x$ with $0_R$, while the inverse operation-closure row supplies $C(-_R x)$.
+
+Internal multiplication is the same pattern. Multiplication congruence sends the two zero classifiers to $x\cdot_R y\sim_R0_R\cdot_R0_R$, and the zero-product row collapses the right endpoint to $0_R$. Multiplication closure supplies the carrier conjunct.
+
+Classifier transport is immediate from the carrier-transport row and classifier transitivity: if $\mathsf{ZeroIdeal}_R(x)$ and $x\sim_Ry$, then $C(y)$ follows from carrier transport, and $y\sim_R0_R$ follows by symmetry and transitivity from $x\sim_Ry$ and $x\sim_R0_R$.
+
+Finally fix a carried ambient endpoint $r$. From $\mathsf{ZeroIdeal}_R(x)$, multiplication congruence identifies $r\cdot_Rx$ with $r\cdot_R0_R$ and $x\cdot_Rr$ with $0_R\cdot_Rr$; the two zero-product rows identify both products with $0_R$. Multiplication closure supplies their carrier conjuncts, so both absorption rows repack as zero-ideal memberships.
+\end{proof}
+
+\begin{definition}[Whole IdealUp predicate]
+\label{def:ideal-whole-predicate}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. The whole $\IdealUp$ predicate over $R$ is the concrete carried predicate
+$$
+\mathsf{WholeIdeal}_R(x)\Longleftrightarrow C(x).
+$$
+\end{definition}
+
+\begin{theorem}[Whole IdealUp predicate closure]
+\label{thm:ideal-whole-predicate-ideal-closure}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-whole-predicate}. Assume the ring certificate supplies zero carriedness, carrier transport, and carrier closure for addition, additive inverse, and multiplication. Then $\mathsf{WholeIdeal}_R$ is an $\IdealUp$ carried predicate over $R$. Explicitly, it has carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and left and right absorption by every carried ambient endpoint.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-whole-predicate}. Carrier support is identity on the ambient carrier predicate, and zero membership is exactly the ring zero carriedness row.
+
+The additive, inverse, and internal multiplication rows are the corresponding ambient operation-closure rows of the $\RingUp$ certificate. Since $\mathsf{WholeIdeal}_R(x)$ means only $C(x)$, each operation closure repacks directly as whole-ideal membership.
+
+Classifier transport is the ambient carrier-transport row. If $C(x)$ and $x\sim_Ry$, the transported carrier witness is precisely $\mathsf{WholeIdeal}_R(y)$.
+
+For two-sided absorption, fix $C(r)$ and $\mathsf{WholeIdeal}_R(x)$. Ambient multiplication closure gives $C(r\cdot_Rx)$ and $C(x\cdot_Rr)$, which are exactly the left and right whole-ideal memberships.
+\end{proof}
+
+\begin{theorem}[Zero and whole quotient-kernel scope]
+\label{thm:ideal-zero-and-whole-quotient-kernel-scope}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}. Let $Q_{\mathsf{ZeroIdeal}}$ and $Q_{\mathsf{WholeIdeal}}$ be the source packages of \autoref{def:ideal-quotient-kernel-source-package} built from \autoref{def:ideal-zero-predicate} and \autoref{def:ideal-whole-predicate}. Then the zero-ideal package is the equality-like carried-endpoint kernel
+$$
+Q_{\mathsf{ZeroIdeal}}(x,y)\Longleftrightarrow C(x)\land C(y)\land (x-_R y)\sim_R0_R,
+$$
+with the RingUp subtraction-zero rows identifying this condition with $x\sim_Ry$ whenever the ambient difference exactness row is available. The whole-ideal package is the total carried-endpoint kernel
+$$
+Q_{\mathsf{WholeIdeal}}(x,y)\Longleftrightarrow C(x)\land C(y).
+$$
+Both packages remain quotient-free $\mathsf{BHist}$ relations consumable by $\QuotientRingUp$ before any quotient carrier or quotient primitive is formed.
+\end{theorem}
+\begin{proof}
+For the zero predicate, unfold \autoref{def:ideal-quotient-kernel-source-package} and \autoref{def:ideal-zero-predicate}. The relation $Q_{\mathsf{ZeroIdeal}}(x,y)$ contains $C(x)$, $C(y)$, and the two fields of $\mathsf{ZeroIdeal}_R(x-_R y)$.
+
+The carrier field $C(x-_R y)$ is already supplied by the subtraction operation-closure rows from the two carried endpoints. The remaining field is the displayed zero classifier $(x-_R y)\sim_R0_R$. Thus the quotient-kernel source repacks as the equality-like carried-endpoint kernel, and the ambient subtraction-zero exactness rows compare that kernel with the classifier $x\sim_Ry$.
+
+For the whole predicate, unfold \autoref{def:ideal-whole-predicate}. The membership $\mathsf{WholeIdeal}_R(x-_R y)$ is exactly the carrier witness $C(x-_R y)$, which follows from the carrier closure of additive inverse and addition applied to $C(x)$ and $C(y)$. Therefore no condition remains beyond the two carried endpoints, giving the displayed total kernel.
+
+The diagonal and endpoint-transport surfaces of these two concrete kernels are the specializations of \autoref{thm:ideal-quotient-kernel-diagonal-exactness} and \autoref{thm:ideal-quotient-kernel-transport-surface}. The repacked source packages therefore expose the same quotient-free boundary described in \autoref{def:ideal-quotient-kernel-source-package}, so $\QuotientRingUp$ consumes them through the existing IdealUp surface.
+\end{proof}

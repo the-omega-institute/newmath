@@ -77,6 +77,7 @@ fields. Thus every carried row is one of the named rows, and the carrier has no
 second case.
 \end{proof}
 \leanchecked{BEDC.Derived.BundleUp.BundleLocalTrivPackage\_carrier\_projection}
+\leanchecked{BEDC.Derived.BundleUp.BundleLocalTrivPkg\_projection\_rows}
 
 \begin{theorem}[Bundle trivialization transition stability]
 \label{thm:bundle-trivialization-transition-stability}
@@ -177,4 +178,109 @@ the displayed carrier fields, the displayed classifier and stability fields,
 the transition ledger, and the explicit statement that the standard bridge row
 is absent. Therefore the public $\NameCert_{\BundleUp}$ surface is exhausted
 by exactly those fields.
+\end{proof}
+
+\begin{theorem}[Bundle projection and fibre source scope]
+\label{thm:bundle-projection-fibre-source-scope}
+In every carried $\mathsf{BundleLocalTrivPkg}(P)$ row, the base row, total row,
+projection row, fibre-model row, and source row are scoped entirely by
+$\mathsf{BHist}$. The base and total rows use the retained
+$\NameCert_{\ManifoldUp}$ classifier, while projection, fibre, and source rows
+are compared by componentwise $\hsame$ rather than by host-level functions.
+\end{theorem}
+\begin{proof}
+Apply \autoref{def:bundle-local-trivialization-obligation-surface} to read the
+displayed bundle surface. Its source row is a visible $\mathsf{BHist}$ ledger,
+and its base, total, projection, and fibre-model entries are also displayed as
+histories inside $\mathsf{BundleLocalTrivPkg}(P)$.
+
+Apply \autoref{thm:bundle-carrier-projection-obligation} to project those rows
+from the carried package. The base and total rows are classified by the retained
+$\NameCert_{\ManifoldUp}$ row, and every bundle-specific row is transported only
+by the componentwise $\hsame$ clauses of the surface.
+
+Thus no host function is part of the scoped comparison. The fibre and
+projection data remain named histories, and the ledger records their sources in
+the same $\mathsf{BHist}$ vocabulary.
+\end{proof}
+
+\begin{theorem}[Bundle trivialization ProbeBundle scope]
+\label{thm:bundle-trivialization-probebundle-scope}
+The finite trivialization rows in $\mathsf{BundleLocalTrivPkg}(P)$ are exactly
+$\mathsf{ProbeBundle}$ witnesses. Componentwise $\hsame$ transport preserves
+their scope by induction on the closed constructors $\mathsf{Bnil}$ and
+$\mathsf{Bcons}$.
+\end{theorem}
+\begin{proof}
+Read the trivialization row from
+\autoref{def:bundle-local-trivialization-obligation-surface}. The row is not an
+external family of functions: it is the finite $\mathsf{ProbeBundle}$ field
+listed in the carried bundle package.
+
+Induct on the displayed probe bundle. In the $\mathsf{Bnil}$ case, the empty
+witness has no chart row to transport, so the carrier-stability field preserves
+the row directly.
+
+In the $\mathsf{Bcons}$ case, the head witness is transported by the
+componentwise $\hsame$ classifier on its trivialization history. The induction
+hypothesis preserves the remaining witnesses, and the closed constructor
+reassembles the transported $\mathsf{ProbeBundle}$ row.
+
+This is precisely the stability mechanism used in
+\autoref{thm:bundle-trivialization-transition-stability}, so finite
+trivialization scope is preserved without leaving the BEDC history language.
+\end{proof}
+
+\begin{theorem}[Bundle transition and ledger scope]
+\label{thm:bundle-transition-ledger-scope}
+Transition rows and source-ledger rows in $\mathsf{BundleLocalTrivPkg}(P)$
+descend under componentwise $\hsame$. The descent uses the retained
+$\NameCert_{\ManifoldUp}$ classifier only for the base and total manifold rows;
+overlap transitions and ledger entries remain bundle-specific
+$\mathsf{BHist}$ rows.
+\end{theorem}
+\begin{proof}
+Start with two transported trivialization rows. By
+\autoref{thm:bundle-trivialization-transition-stability}, their overlap row is
+still compared after transport through the displayed transition congruence
+field.
+
+The manifold part of the comparison is exactly the retained
+$\NameCert_{\ManifoldUp}$ classifier on base and total rows. The transition row
+itself is not reinterpreted as a host map; it is the transported
+bundle-specific history named by the componentwise $\hsame$ field.
+
+Finally apply the ledger-descent row of
+\autoref{def:bundle-local-trivialization-obligation-surface}. It sends the
+source entry for each carrier, projection, trivialization, fibre-model, and
+transition row to the corresponding transported source entry. Hence both the
+transition row and the ledger row descend in the same scoped vocabulary.
+\end{proof}
+
+\begin{theorem}[Bundle scoped obligation package]
+\label{thm:bundle-namecert-scoped-obligation-package}
+The carrier projection, projection--fibre source scope, finite
+$\mathsf{ProbeBundle}$ trivialization scope, transition--ledger descent, and
+visible exactness rows together form the scoped
+$\NameCert_{\BundleUp}$ obligation package. Its public surface is kernel-facing:
+all bundle-specific data are $\mathsf{BHist}$ rows compared by componentwise
+$\hsame$, and the only retained external classifier is
+$\NameCert_{\ManifoldUp}$ on the base and total manifold rows.
+\end{theorem}
+\begin{proof}
+First assemble the carrier rows using
+\autoref{thm:bundle-carrier-projection-obligation}. This supplies the base,
+total, projection, fibre-model, trivialization, transition, and source-ledger
+rows named by $\mathsf{BundleLocalTrivPkg}(P)$.
+
+Next add the scoped comparisons. The projection and fibre source claim is
+\autoref{thm:bundle-projection-fibre-source-scope}; finite trivialization scope
+is \autoref{thm:bundle-trivialization-probebundle-scope}; transition and ledger
+descent is \autoref{thm:bundle-transition-ledger-scope}.
+
+It remains to identify the public certificate surface. Apply
+\autoref{thm:bundle-namecert-exactness-obligation}: the accepted
+$\NameCert_{\BundleUp}$ fields are exactly the displayed carrier, classifier,
+stability, transition ledger, readback, and absent-bridge rows. Therefore the
+scoped rows above repack into the stated kernel-facing obligation package.
 \end{proof}
