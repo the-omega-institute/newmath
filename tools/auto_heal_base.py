@@ -203,10 +203,30 @@ def cycle() -> None:
         print(f"[heal] not on {BASE_BRANCH} (on {cur}); skipping cycle",
               file=sys.stderr)
         return
-    # Skip if working tree is dirty (don't fight a human edit).
-    dirty = git("status", "--porcelain", capture=True).stdout.strip()
-    if dirty:
-        print("[heal] working tree dirty; skipping cycle", file=sys.stderr)
+    # Skip if working tree has TRACKED modifications (don't fight a human
+    # edit). Untracked files (`?? path`) are tolerated — `_mcp_snippet_*`
+    # temp files and similar tooling debris accumulate in the main checkout
+    # and would otherwise lock the daemon out forever.
+    # `.pipeline_parallel.json` is also tolerated because the autotune
+    # daemon rewrites it every 300s — racing isn't a corruption risk for
+    # the heal flow (codex never touches that file).
+    porcelain = git("status", "--porcelain", capture=True).stdout
+    blocking = []
+    for raw in porcelain.splitlines():
+        if not raw:
+            continue
+        status = raw[:2]
+        path = raw[3:] if len(raw) > 3 else ""
+        if status == "??":
+            continue
+        if path == ".pipeline_parallel.json":
+            continue
+        blocking.append(raw)
+    if blocking:
+        print(f"[heal] working tree has {len(blocking)} tracked modification(s); skipping cycle",
+              file=sys.stderr)
+        for b in blocking[:3]:
+            print(f"[heal]   {b}", file=sys.stderr)
         return
     # Fetch and try ff.
     run(["git", "fetch", "origin", BASE_BRANCH], check=False, timeout=60)
