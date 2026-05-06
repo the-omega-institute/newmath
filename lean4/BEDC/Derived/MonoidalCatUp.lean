@@ -10,6 +10,16 @@ open BEDC.FKernel.Unary
 
 def MonoidalCatSingletonTensor (h k : BHist) : BHist := append h k
 
+theorem MonoidalCatSingleton_tensor_identity_hom {a b : BHist} :
+    UnaryHistory a ->
+      UnaryHistory b ->
+        hsame (MonoidalCatSingletonTensor BHist.Empty BHist.Empty) BHist.Empty ∧
+          CategoryHomCarrier (append a b) (append a b) BHist.Empty := by
+  intro leftCarrier rightCarrier
+  have tensorCarrier : UnaryHistory (append a b) :=
+    unary_append_closed leftCarrier rightCarrier
+  exact And.intro rfl (CategoryHomCarrier_empty_identity tensorCarrier)
+
 theorem MonoidalCatSingleton_tensor_carrier {a b c d f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier c d g ->
       UnaryHistory (append a c) ∧

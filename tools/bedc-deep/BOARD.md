@@ -12200,3 +12200,30 @@ This is small but valid certificate infrastructure for the paper-defined exactne
 
 ---
 
+### B-466 - Distribution monotone under target inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Distribution monotone under target inclusion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DistributionUp pushforward setup for a RandomVarUp map X from a ProbSpaceUp source, if B and A are target measurable events with B \subseteq A, then \mu_X(B) \le_R \mu_X(A).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete DistributionUp consequence, not a marker or verification-axis task. The paper has MeasureUp monotonicity and RandomVar preimage relative-difference exactness, while the DistributionUp chapter currently states total mass, empty-event zero mass, finite disjoint-union additivity, and nonnegative value inheritance, but not target-inclusion monotonicity for the pushforward endpoint. It is distinct from the existing BOARD entries and lands safely in the short distribution chapter with focused measure and random-variable support inputs.
+
+---
+
