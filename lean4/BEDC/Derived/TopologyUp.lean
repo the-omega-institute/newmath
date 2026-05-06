@@ -4,6 +4,7 @@ import BEDC.Derived.TopologyUp.Singleton
 namespace BEDC.Derived.TopologyUp
 
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
@@ -89,6 +90,20 @@ theorem BHistFiniteBaseNeighborhood_bundleAppend_carries_intersection
     exact Iff.mp meetCarries (Iff.mp appendSplit appendNeighborhood)
   · intro openMeet
     exact Iff.mpr appendSplit (Iff.mpr meetCarries openMeet)
+
+theorem BHistLedgerPublicOpenTree_meet_ledger_constructor (T : BHistIndexedOpenCarrier)
+    {i j : T.OpenIx} {U V : BHist -> Prop} {leftLedger rightLedger : BHist} :
+    BHistLedgerPublicOpenTree T i U leftLedger ->
+      BHistLedgerPublicOpenTree T j V rightLedger ->
+        BHistLedgerPublicOpenTree T (T.meet i j) (fun x : BHist => U x ∧ V x)
+            (BHist.e0 (append leftLedger rightLedger)) ∧
+          BHistCarriesOpen T (T.meet i j) (fun x : BHist => U x ∧ V x) := by
+  intro leftTree rightTree
+  have meetTree :
+      BHistLedgerPublicOpenTree T (T.meet i j) (fun x : BHist => U x ∧ V x)
+        (BHist.e0 (append leftLedger rightLedger)) :=
+    BHistLedgerPublicOpenTree.meet leftTree rightTree
+  exact And.intro meetTree (BHistPublicOpenTree_carries_open T meetTree)
 
 theorem BHistUnaryTopologyDepsReady_obligation_package (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} :
