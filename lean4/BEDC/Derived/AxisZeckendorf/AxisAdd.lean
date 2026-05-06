@@ -61,6 +61,21 @@ theorem AxisAddCont_result_zeroSpine {h k r : BHist} :
       | intro r0 witness =>
           exact witness.left ▸ ZeroSpine.step (ih witness.right)
 
+theorem AxisAddCont_associative_zeroSpine {a b c ab bc left right : BHist} :
+    ZeroSpine a -> ZeroSpine b -> ZeroSpine c ->
+      Cont a b ab -> Cont b c bc -> Cont ab c left -> Cont a bc right ->
+        AxisAddPatternSpec ab c left ∧ AxisAddPatternSpec a bc right ∧ hsame left right := by
+  intro spineA spineB spineC contAB contBC contLeft contRight
+  have spineAB : ZeroSpine ab :=
+    AxisAddCont_result_zeroSpine spineA spineB contAB
+  have spineBC : ZeroSpine bc :=
+    AxisAddCont_result_zeroSpine spineB spineC contBC
+  have assocSame : hsame left right :=
+    cont_assoc_hsame contAB contLeft contBC contRight
+  exact
+    And.intro (And.intro spineAB (And.intro spineC contLeft))
+      (And.intro (And.intro spineA (And.intro spineBC contRight)) assocSame)
+
 theorem axisAdd_licensed_not_primitive : True := True.intro
 
 theorem AxisAdd_cont_result_zeroSpine {h k r : BHist} :

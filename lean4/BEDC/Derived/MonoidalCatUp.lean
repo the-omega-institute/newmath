@@ -1,4 +1,5 @@
 import BEDC.Derived.CategoryUp
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.MonoidalCatUp
@@ -6,6 +7,7 @@ namespace BEDC.Derived.MonoidalCatUp
 open BEDC.Derived.CategoryUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def MonoidalCatSingletonTensor (h k : BHist) : BHist := append h k
@@ -153,6 +155,46 @@ theorem MonoidalCatSingleton_tensor_preserves_composition
             (append_assoc f fPrime (append g gPrime)).symm
   exact And.intro tensorThenComposite
     (And.intro compositeThenTensor displayedSame)
+
+theorem MonoidalCatSingleton_semantic_name_certificate :
+    SemanticNameCert UnaryHistory UnaryHistory UnaryHistory
+      (fun h k : BHist => UnaryHistory h /\ UnaryHistory k /\ hsame h k) /\
+      (forall {a b c d f g : BHist},
+        CategoryHomCarrier a b f -> CategoryHomCarrier c d g ->
+          UnaryHistory (MonoidalCatSingletonTensor a c) /\
+            CategoryHomCarrier (MonoidalCatSingletonTensor a c)
+              (MonoidalCatSingletonTensor b d) (MonoidalCatSingletonTensor f g)) /\
+      (forall {a0 a1 a2 c0 c1 c2 f fPrime g gPrime : BHist},
+        CategoryHomCarrier a0 a1 f -> CategoryHomCarrier a1 a2 fPrime ->
+          CategoryHomCarrier c0 c1 g -> CategoryHomCarrier c1 c2 gPrime ->
+            hsame (append (append f g) (append fPrime gPrime))
+              (append (append f fPrime) (append g gPrime))) := by
+  constructor
+  · constructor
+    · constructor
+      · exact Exists.intro BHist.Empty unary_empty
+      · intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      · intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      · intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      · intro h k classified _source
+        exact classified.right.left
+    · intro h source
+      exact source
+    · intro h source
+      exact source
+  · constructor
+    · intro a b c d f g left right
+      exact MonoidalCatSingleton_tensor_carrier left right
+    · intro a0 a1 a2 c0 c1 c2 f fPrime g gPrime fCarrier fPrimeCarrier gCarrier
+        gPrimeCarrier
+      exact (MonoidalCatSingleton_tensor_preserves_composition fCarrier fPrimeCarrier gCarrier
+        gPrimeCarrier).right.right
 
 theorem MonoidalCatSingleton_coherence_laws
     {w x y z pentagonLeft pentagonRight triangleLeft triangleRight : BHist} :
