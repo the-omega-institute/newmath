@@ -308,6 +308,89 @@ classifier and endpoint rows read no data beyond the scoped DyadicRatCore
 carrier, classifier, stability, and finite ledger faces.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window dyadic transport composition]
+\label{thm:regseqrat-finite-window-dyadic-transport-composition}
+For observation maps $s,t,s',t',s'',t'':\Hist\to\Hist$ and histories
+$a,w,k:\Hist$, assume RegSeqRat stream certificate spines for all six streams
+and
+$$
+\begin{array}{lll}
+\mathsf{RatStreamNameCarrier}(s),&
+\mathsf{RatStreamNameCarrier}(t),&
+\mathsf{RatStreamNameCarrier}(s'),\\
+\mathsf{RatStreamNameCarrier}(t'),&
+\mathsf{RatStreamNameCarrier}(s''),&
+\mathsf{RatStreamNameCarrier}(t''),
+\end{array}
+$$
+$$
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{UnaryHistory}(a),\quad
+\mathsf{UnaryHistory}(w),\quad
+\mathsf{UnaryOffsetLe}(k,w).
+$$
+Let $n=\mathsf{append}(a,k)$, and assume the selected pointwise transport rows
+$$
+\hsame(s(n),s'(n)),\quad
+\hsame(t(n),t'(n)),\quad
+\hsame(s'(n),s''(n)),\quad
+\hsame(t'(n),t''(n)).
+$$
+Then the twice-transported selected endpoints carry the finite-window dyadic
+package and exhaust the scoped DyadicRatCore source package at $s''(n)$ and
+$t''(n)$:
+$$
+\begin{array}{l}
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)\land\\
+\mathsf{RatHistoryClassifier}(s''(n),t''(n))\land\\
+\mathsf{DyadicRatCoreObservationRow}(s''(n))\land
+\mathsf{DyadicRatCoreObservationRow}(t''(n)).
+\end{array}
+$$
+Moreover, the carrier, classifier, stability, and finite ledger faces read at
+$s''(n)$ and $t''(n)$ are exactly the faces named by
+\autoref{thm:dyadic-rat-core-scoped-source-package}.
+\end{theorem}
+\begin{proof}
+First compose the selected endpoint transports. Apply
+\autoref{thm:history-sameness-equivalence} to
+$\hsame(s(n),s'(n))$ and $\hsame(s'(n),s''(n))$, and apply the same theorem
+to $\hsame(t(n),t'(n))$ and $\hsame(t'(n),t''(n))$. This gives direct rows
+$\hsame(s(n),s''(n))$ and $\hsame(t(n),t''(n))$ at the selected index.
+
+Next apply
+\autoref{thm:regseqrat-finite-window-dyadic-transport-package} with target
+streams $s''$ and $t''$. The six-stream hypotheses contain the four rows it
+needs for $s,t,s'',t''$, the source classifier, the unary anchor and bound,
+the bounded offset, and the composed selected $\hsame$ rows. Hence it supplies
+the original $\RealUp$ finite window, the selected
+$\mathsf{RatHistoryClassifier}(s''(n),t''(n))$, and the two
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses at $s''(n)$ and $t''(n)$.
+
+Finally identify the package faces. Apply
+\autoref{thm:dyadic-rat-core-scoped-source-package} to the two endpoint rows
+at $s''(n)$ and $t''(n)$. The carrier face is read from the transported
+DyadicRatCore rows, the classifier face is the twice-transported selected
+RatUp classifier, the stability face is the composed $\hsame$ transport, and
+the finite ledger is the unary selected index together with the dyadic-radius
+tokens stored by the RegSeqRat spines.
+\end{proof}
+
+Fit. Traditional target: composed finite-window dyadic endpoint transport for
+RegSeqRat. BEDC source:
+$\StreamNameUp+\RatUp+\RealUp+\DyadicRatCore$. Carrier/classifier: six
+$\mathsf{RatStreamNameCarrier}$ rows, the source
+$\mathsf{RatStreamNameClassifier}(s,t)$, and the twice-transported selected
+$\mathsf{RatHistoryClassifier}(s''(n),t''(n))$. Stability: composed
+$\hsame$ endpoint transport through the intermediate presentation. Ledger:
+the selected unary offset and the dyadic-radius token at each final endpoint.
+Core theorem:
+\autoref{thm:regseqrat-finite-window-dyadic-transport-composition}.
+Exactness: the final endpoint package is the scoped DyadicRatCore source read
+at $s''(n)$ and $t''(n)$. Standard bridge: finite RealUp observation windows.
+Downstream use: the RealUp finite-window seal. Status:
+$\mathsf{ProofTarget}$.
+
 Fit. Traditional target: transported finite-window dyadic endpoint source
 coverage for RegSeqRat. BEDC source:
 $\StreamNameUp+\RatUp+\RealUp+\DyadicRatCore$. Carrier/classifier: four
