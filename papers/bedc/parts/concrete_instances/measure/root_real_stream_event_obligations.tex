@@ -1,0 +1,178 @@
+\section{Measure root real-stream event obligations}
+\label{sec:measure-root-real-stream-event-obligations}
+
+The real-stream event obligation surface pins the public $\MeasureUp$ root to
+the displayed $\mathsf{BHist}$ event rows, $\StreamNameUp$ observation names,
+and $\RealUp$ endpoint comparisons that downstream analysis chapters may read.
+It is a root obligation surface, not an analytic completion or a host
+measure-space interface.
+
+\begin{theorem}[Measure root real-stream event obligation]
+\label{thm:measure-root-real-stream-event-obligation}
+The $\MeasureUp$ root event row exposed by
+\autoref{def:measure-root-public-obligation-basis} is a
+$\mathsf{BHist}$-displayed event carrier whose observable values are exactly
+the $\StreamNameUp$-indexed $\RealUp$ endpoint observations supplied by
+\autoref{def:measure-root-real-stream-regularity-front}. Thus every carried
+root event is read as a displayed event history, a stream observation name,
+and the attached real endpoint comparison on the same ledger row.
+\end{theorem}
+\begin{proof}
+Start with the carrier and ledger clauses of
+\autoref{def:measure-root-public-obligation-basis}. They identify the root
+measure carrier with $\mathsf{MeasCode}$ rows on $\mathsf{BHist}$ and attach
+hidden measurable-event witnesses only to displayed public rows.
+
+Apply \autoref{thm:measure-root-public-obligation-basis-carrier}. It
+transports the carried $\MeasureUp$ code, visible event rows, endpoint rows,
+countable-family rows, and ledger witnesses over the same public carrier.
+
+Now read the same row through
+\autoref{def:measure-root-real-stream-regularity-front} and
+\autoref{thm:measure-root-real-stream-carrier-regularity}. The real-stream
+front adds exactly the StreamName endpoint-family observation and the
+$\RealUp$ endpoint comparison attached to the displayed event history.
+
+The other public faces remain attached to this same row. By
+\autoref{thm:measure-root-public-obligation-basis-additivity} and
+\autoref{thm:measure-root-real-stream-additivity-regularity}, countable sums
+are read only through the same displayed event family and endpoint stream.
+By \autoref{thm:measure-root-public-obligation-basis-consumer} and
+\autoref{thm:measure-root-real-stream-consumer-regularity-boundary}, the
+analysis consumers see only projections of these displayed rows.
+
+Repack the two readings as a single root obligation row. The public basis
+supplies the displayed $\mathsf{BHist}$ event carrier, while the real-stream
+front supplies only the observation name and endpoint comparison already
+attached to that carrier. No host event equality, quotient event equality, or
+analytic completion object is introduced.
+\end{proof}
+
+\begin{theorem}[Measure root event classifier stability]
+\label{thm:measure-root-event-classifier-stability}
+For the root event surface of
+\autoref{thm:measure-root-real-stream-event-obligation}, componentwise
+$\hsame$ transport of displayed event histories together with
+$\StreamNameUp$ observation transport and $\RealUp$ endpoint classifier
+transport preserves the carried $\MeasureUp$ root row and its visible ledger.
+\end{theorem}
+\begin{proof}
+Begin with two displayed event histories in the public root ledger and a
+componentwise $\hsame$ comparison between them. The carrier theorem
+\autoref{thm:measure-root-public-obligation-basis-carrier} transports the
+carried $\MeasureUp$ code, visible event rows, endpoint rows, and ledger
+witnesses along the public classifier.
+
+Next use the classifier clauses of
+\autoref{def:measure-root-real-stream-regularity-front}. They require
+pointwise StreamName classifier transport and $\RealUp$ endpoint comparison
+for values and countable sums over the same displayed history row.
+
+Apply \autoref{thm:measure-root-real-stream-carrier-regularity}. It aligns
+the transported event history, the transported stream observation, and the
+transported real endpoint on one ledger row. Then apply
+\autoref{thm:measure-root-real-stream-additivity-regularity} to keep the
+countable-sum endpoint classifier compatible with the same transport.
+
+The additive and consumer projections do not widen the classifier. By
+\autoref{thm:measure-root-public-obligation-basis-additivity}, the additive
+row remains a visible countable-family row in the public ledger. By
+\autoref{thm:measure-root-public-obligation-basis-consumer} and
+\autoref{thm:measure-root-real-stream-consumer-regularity-boundary}, the
+consumer rows read the transported endpoint data without adding a new event
+carrier.
+
+The resulting row is still one of the rows counted by
+\autoref{def:measure-root-public-obligation-basis}. Therefore the carried
+$\MeasureUp$ root row, its event display, and its endpoint observation remain
+stable under the componentwise $\hsame$ and $\RealUp$ classifier motion.
+\end{proof}
+
+\begin{theorem}[Measure root countable additivity scope]
+\label{thm:measure-root-countable-additivity-scope}
+The countable disjoint-additivity obligation of the $\MeasureUp$ root is
+scoped exactly to displayed $\mathsf{BHist}$ event families, their
+$\StreamNameUp$ observation names, their $\RealUp$ endpoint sums, and the
+visible ledger rows of \autoref{def:measure-root-public-obligation-basis}.
+It does not assert additivity for an external sigma-algebra or for quotient
+event equality.
+\end{theorem}
+\begin{proof}
+Project the additive face from
+\autoref{def:measure-root-public-obligation-basis}. It lists empty-zero,
+finite readback, relative-difference additivity, countable
+disjoint-additivity, and countable-sum transport through the additive
+$\AbGroupUp$ real row.
+
+The carrier and observation rows are fixed before additivity is read. Apply
+\autoref{thm:measure-root-public-obligation-basis-carrier}; then read the
+same carrier through \autoref{def:measure-root-real-stream-regularity-front}
+and \autoref{thm:measure-root-real-stream-carrier-regularity}. This supplies
+the displayed $\mathsf{BHist}$ family, the StreamName observation names, and
+the attached $\RealUp$ endpoint comparisons.
+
+Apply \autoref{thm:measure-root-public-obligation-basis-additivity}. The
+theorem keeps the additive obligation attached to covered event rows,
+disjointness witnesses, countable-union rows, relative-difference rows, and
+countable-sum endpoint witnesses in the public ledger.
+
+Next apply
+\autoref{thm:measure-root-real-stream-additivity-regularity}. It reads the
+same countable family through the StreamName-indexed endpoint family and
+identifies the countable disjoint-additivity conclusion with a $\RealUp$
+endpoint comparison for the countable sum.
+
+Combining the two projections gives the stated scope: displayed
+$\mathsf{BHist}$ event families, StreamName observation names, real endpoint
+sums, and the visible ledger. Since both source surfaces exclude host
+sigma-algebra equality and quotient event equality, the countable
+additivity obligation is confined to the root public surface. The consumer
+boundary is then only a projection of this scope by
+\autoref{thm:measure-root-public-obligation-basis-consumer} and
+\autoref{thm:measure-root-real-stream-consumer-regularity-boundary}.
+\end{proof}
+
+\begin{theorem}[Measure root analysis consumer surface]
+\label{thm:measure-root-probspace-integral-consumer-surface}
+The downstream $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$ consumers of the $\MeasureUp$ root consume exactly
+the displayed event rows, $\RealUp$ endpoint rows, countable-sum rows,
+finite-readback rows, normalization rows, monotone rows, and
+relative-difference rows carried by
+\autoref{def:measure-root-public-obligation-basis} and
+\autoref{def:measure-root-real-stream-regularity-front}.
+\end{theorem}
+\begin{proof}
+Start with the consumer clause of
+\autoref{def:measure-root-public-obligation-basis}. It has exactly three
+outgoing faces: $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$.
+
+The carrier and additive prerequisites are already fixed by
+\autoref{thm:measure-root-public-obligation-basis-carrier} and
+\autoref{thm:measure-root-public-obligation-basis-additivity}. Reading them
+through \autoref{def:measure-root-real-stream-regularity-front},
+\autoref{thm:measure-root-real-stream-carrier-regularity}, and
+\autoref{thm:measure-root-real-stream-additivity-regularity} gives the
+displayed event rows, StreamName observations, endpoint comparisons, and
+countable-sum rows consumed below.
+
+Apply \autoref{thm:measure-root-public-obligation-basis-consumer}. The
+consumer face exposes covered event rows, endpoint classifier rows,
+countable-sum rows, empty-zero, finite readback, relative-difference,
+monotone inclusion, nonnegative endpoint, and total-event normalization rows
+for the three named consumers.
+
+Now apply
+\autoref{thm:measure-root-real-stream-consumer-regularity-boundary}. The
+real-stream front restricts the same consumers to the rows visible through
+StreamName observations and $\RealUp$ endpoint comparisons over the displayed
+$\mathsf{BHist}$ ledger.
+
+Finally combine the exactness clauses of the public basis and the
+real-stream front. They leave no fourth analysis consumer, no external
+event carrier, and no analytic completion row. Hence $\IntegralUp$,
+$\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consume exactly the listed root
+event, endpoint, countable-sum, finite-readback, normalization, monotone, and
+relative-difference rows.
+\end{proof}
