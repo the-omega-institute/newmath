@@ -198,6 +198,7 @@ import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.TopologyUp.Core
+import BEDC.Derived.TopologyUp.FiniteBaseNeighborhood
 import BEDC.Derived.TopologyUp.Singleton
 import BEDC.Derived.TopologyUp
 import BEDC.Derived.TopologyUp.GeneratedOpenExactness
@@ -247,6 +248,7 @@ import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.IdealUp
+import BEDC.Derived.IdealUp.AmbientCarrier
 import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.IdealUp.QuotientKernelScope
 import BEDC.Derived.ModNUp
@@ -429,6 +431,7 @@ import BEDC.Derived.RingUp
 import BEDC.Derived.RingUp.SingletonAppend
 import BEDC.Derived.RingUp.SingletonContinuation
 import BEDC.Derived.RingUp.Cancellation
+import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
 import BEDC.Derived.CommRingUp
