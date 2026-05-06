@@ -614,6 +614,36 @@ The ideal classifier-transport row carries $I(x-_R y)$ across this subtraction c
 \end{proof}
 \leanchecked{BEDC.Derived.IdealUp.IdealQuotientKernel\_endpoint\_transport}
 
+\begin{theorem}[Ideal quotient-kernel multiplication descent]
+\label{thm:ideal-quotient-kernel-multiplication-descent}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}, and let $I$ be an $\IdealUp$ carried predicate over $R$. Assume the ring certificate supplies multiplication carrier rows and the product-difference classifier row, and assume the ideal certificate supplies classifier transport, additive closure, and left and right absorption by every carried endpoint. If $Q_I(a,a')$ and $Q_I(b,b')$, then the IdealUp rows give
+$$
+I((a\cdot_R b)-_R(a'\cdot_R b')).
+$$
+Together with the RingUp multiplication carrier rows, this repacks as
+$$
+Q_I(a\cdot_R b,a'\cdot_R b').
+$$
+Ten-field fit: traditional target quotient-kernel multiplication descent; BEDC source $\RingUp$ plus $\IdealUp$ over $\mathsf{BHist}$; carrier $Q_I$ endpoints; classifier $\sim_R$; stability absorption, additive closure, and classifier transport; ledger two representative differences and two absorbed products; core theorem this block; exactness the displayed repacking; standard bridge absent; status proof target.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-quotient-kernel-source-package}. From $Q_I(a,a')$ and $Q_I(b,b')$ we obtain carried endpoints $C(a)$, $C(a')$, $C(b)$, and $C(b')$, together with ideal memberships for the representative differences. Write
+$$
+d_a:=a-_R a',
+\qquad
+d_b:=b-_R b'.
+$$
+
+Right absorption applies $I(d_a)$ against the carried endpoint $b$, giving $I(d_a\cdot_R b)$. Left absorption applies $I(d_b)$ against the carried endpoint $a'$, giving $I(a'\cdot_R d_b)$. Additive closure combines these two absorbed products into membership of their ring sum.
+
+The product-difference classifier row identifies that sum with $(a\cdot_R b)-_R(a'\cdot_R b')$. Classifier transport for the ideal predicate carries the combined membership across this comparison, yielding
+$$
+I((a\cdot_R b)-_R(a'\cdot_R b')).
+$$
+
+Finally, multiplication carrier rows applied to $C(a),C(b)$ and to $C(a'),C(b')$ give the two product carrier witnesses. Pairing those witnesses with the transported product-difference membership is exactly $Q_I(a\cdot_R b,a'\cdot_R b')$.
+\end{proof}
+
 \begin{theorem}[Ideal quotient-ring export surface]
 \label{thm:ideal-quotientring-export-surface}
 Let $R$ carry a $\RingUp$ certificate and let $I$ be an $\IdealUp$ carried predicate over $R$, with $Q_I$ as in \autoref{def:ideal-quotient-kernel-source-package}. The IdealUp rows export the quotient-free kernel surface consumed by $\QuotientRingUp$ in \autoref{ch:concrete-instances-quotientring-namecert}: diagonal exactness for carried endpoints, transport along the RingUp classifier on both endpoints, and the two-sided absorption rows needed for representative-independent multiplication. The zero-fiber and preimage constructions of \autoref{def:ring-map-zero-fiber-predicate}, \autoref{thm:ring-map-zero-fiber-ideal-closure}, \autoref{def:ring-map-ideal-preimage-predicate}, and \autoref{thm:ring-map-ideal-preimage-ideal-closure} therefore produce concrete inputs to this same quotient-kernel surface.
@@ -621,7 +651,7 @@ Let $R$ carry a $\RingUp$ certificate and let $I$ be an $\IdealUp$ carried predi
 \begin{proof}
 The diagonal component is exactly \autoref{thm:ideal-quotient-kernel-diagonal-exactness}. The endpoint-transport component is exactly \autoref{thm:ideal-quotient-kernel-transport-surface}.
 
-For multiplication, unfold $Q_I$. Representative changes provide ideal memberships $I(a-_R a')$ and $I(b-_R b')$. The right absorption row applies the first membership against the carried endpoint $b$, and the left absorption row applies the second membership against the carried endpoint $a'$. Additive closure and classifier transport then assemble the product-difference membership used in \autoref{thm:quotientring-multiplication-descends-to-cosets}.
+The multiplication component is exactly \autoref{thm:ideal-quotient-kernel-multiplication-descent}, which isolates the product-difference membership used in \autoref{thm:quotientring-multiplication-descends-to-cosets}.
 
 The same package also exposes the additive representative surface used by \autoref{thm:quotientring-additive-descent}, the equivalence surface used by \autoref{thm:quotientring-ideal-coset-equivalence}, and the zero-classification surface used by \autoref{thm:quotientring-zero-coset-classification}. Thus an IdealUp predicate, including one obtained as a zero fiber or as a ring-map preimage, supplies the concrete quotient-kernel source required before any quotient carrier is formed.
 \end{proof}
