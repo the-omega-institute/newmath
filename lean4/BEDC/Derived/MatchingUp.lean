@@ -46,4 +46,14 @@ theorem MatchingEdgeSet_finite_subset_closed
                   bundleRow inNE'
                 exact incidentRow (subsetRow inNE) (subsetRow inNE') vertV incVE incVE'
 
+theorem MatchingEdgeSet_e0_empty_absurd_predicate
+    {Vert Edge : BHist -> Prop} {Inc : BHist -> BHist -> Prop}
+    {EdgeRel : BHist -> BHist -> Prop} :
+    MatchingEdgeSet Vert Edge Inc EdgeRel (fun e : BHist => hsame (BHist.e0 e) BHist.Empty) := by
+  constructor
+  · intro e selected
+    exact False.elim (not_hsame_e0_empty selected)
+  · intro e _e' _v selected _selected' _vert _inc _inc'
+    exact False.elim (not_hsame_e0_empty selected)
+
 end BEDC.Derived.MatchingUp
