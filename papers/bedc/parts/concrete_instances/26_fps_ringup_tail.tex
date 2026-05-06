@@ -389,6 +389,28 @@ passing through a separate FPS naming interface.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistory\_semanticNameCert}
 
+\begin{theorem}[FormalPowerSeriesUp ring-interface public export]
+\label{thm:fps-ring-interface-public-export}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, multiplicative unit endpoint $1_R$, addition $+_R$, additive inverse $-_R$, multiplication $\cdot_R$, and finite additive fold $\mathsf{fold}_{+,R}$. Let $\FormalPowerSeriesUp(R)$ use the carried coefficient sequences $\mathsf{FPSCarrier}_R$, the pointwise classifier $\sim_{\mathrm{fps}}$, pointwise addition $\oplus_{\mathrm{fps}}$, zero series $0_{\mathrm{fps}}$, coefficientwise inverse $-_{\mathrm{fps}}$, Cauchy product $\odot_{\mathrm{fps}}$, and Cauchy unit $1_{\mathrm{fps}}$. Then these data export one public ring-interface package consisting of:
+\begin{enumerate}
+\item the additive group face from \autoref{thm:fps-pointwise-additive-group-laws};
+\item the multiplicative monoid face from \autoref{thm:fps-cauchy-product-multiplicative-monoid-laws};
+\item the two distributivity rows from \autoref{thm:fps-cauchy-product-distributes-over-pointwise-addition};
+\item the left and right zero-series Cauchy-product absorption rows from \autoref{thm:fps-zero-series-cauchy-product-absorption-over-ringup-scalars};
+\item the common $\mathsf{BHist}$ carrier/classifier naming surface certified by \autoref{thm:fps-singleton-empty-history-semantic-certificate}.
+\end{enumerate}
+Thus $\FormalPowerSeriesUp(R)$ presents the pointwise additive group, the Cauchy multiplicative monoid with unit, the RingUp compatibility rows, and the semantic empty-history naming certificate as one public ring-interface object.
+\end{theorem}
+\begin{proof}
+Package the rows by conjunction over the displayed formal-power-series carrier and classifier. The additive group row is supplied by \autoref{thm:fps-pointwise-additive-group-laws}; it fixes the pointwise addition, zero series, coefficientwise inverse, and additive classifier laws on $\mathsf{FPSCarrier}_R$.
+
+The multiplicative face is supplied by \autoref{thm:fps-cauchy-product-multiplicative-monoid-laws}. It uses the same pointwise classifier and gives Cauchy-product closure, congruence, associativity, the Cauchy unit, and the two unit laws.
+
+The RingUp compatibility rows are the two distributivity laws of \autoref{thm:fps-cauchy-product-distributes-over-pointwise-addition} together with the left and right zero-series absorption laws of \autoref{thm:fps-zero-series-cauchy-product-absorption-over-ringup-scalars}. These rows share the same pointwise addition, zero series, and Cauchy product, so the conjunction has no carrier transport component.
+
+Finally, \autoref{thm:fps-singleton-empty-history-semantic-certificate} keeps the assembled rows on the same $\mathsf{BHist}$ carrier/classifier surface when the terminal formal-power-series object is used. The conjunction of these cited rows is exactly the public ring-interface package stated above.
+\end{proof}
+
 \begin{closurestatus}{\FormalPowerSeriesUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The FPS RingUp-tail package is closed exactly over $\RingUp$, $\NatUp$, the coefficientwise carrier, pointwise classifier, pointwise addition, coefficientwise inverse, Cauchy product, unit series, and finite-fold zero absorption rows displayed in this chapter.}
