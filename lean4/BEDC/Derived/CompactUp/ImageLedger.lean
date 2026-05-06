@@ -1,10 +1,20 @@
 import BEDC.Derived.CompactUp
+import BEDC.Derived.ContinuousMapUp
+import BEDC.FKernel.Bundle
 
 namespace BEDC.Derived.CompactUp
 
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
+
+def ImageFiniteNetLedger
+    (source map target delta epsilon : BHist) (sourceBundle targetBundle : ProbeBundle BHist)
+      (ledger : BHist) : Prop :=
+  InBundle source sourceBundle ∧ InBundle target targetBundle ∧ UnaryHistory delta ∧
+    UnaryHistory epsilon ∧ UnaryHistory ledger ∧
+      BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier source map target delta epsilon ledger
 
 def ImageLocatedRefinementLedger
     (source map target modulus epsilon delta imageSubset imageLocated imageFinite imageIntermediate
