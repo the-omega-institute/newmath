@@ -1,0 +1,126 @@
+\section{Continuity from below row}
+\label{sec:measure-continuity-from-below}
+
+\begin{theorem}[Measure monotone partial-union chain]
+\label{thm:measure-monotone-partial-union-chain}
+Let $M$ be a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, with
+designated measurable family $\mathcal{A}$, measure map $\mu$, and event
+classifier $\sim_M$. Let $E_\bullet$ be a displayed increasing measurable
+sequence in one carried $\mathsf{BHist}$ fiber: every $E_n$ is in
+$\mathcal{A}$, and the public event readback displays $E_n\subseteq E_{n+1}$.
+Then the $\MeasureUp$ sigma-algebra and relative-difference rows supply
+measurable finite partial unions $P_n$ and pairwise disjoint measurable layers
+$D_n$ such that
+$$
+D_0=E_0,\qquad D_{n+1}=E_{n+1}\setminus E_n,
+\qquad P_n\sim_M E_n.
+$$
+Moreover $P_n$ is classified as the displayed disjoint union
+$D_0\sqcup\cdots\sqcup D_n$, and the public monotone row classifies
+$\mu(E_n)\le_R\mu(E_{n+1})$ for every $n$.
+\end{theorem}
+\begin{proof}
+Start with $D_0:=E_0$ and $P_0:=E_0$. The displayed measurability of $E_0$
+gives both rows, and the classifier comparison $P_0\sim_M E_0$ is reflexivity
+of the $\MeasureUp$ event classifier.
+
+For the successor step, apply
+\autoref{thm:measure-relative-difference-disjoint-decomposition} to the
+displayed inclusion $E_n\subseteq E_{n+1}$. It supplies the measurable layer
+$D_{n+1}:=E_{n+1}\setminus E_n$, its disjointness from $E_n$, and the
+binary-union readback
+$$
+E_n\sqcup D_{n+1}\sim_M E_{n+1}.
+$$
+
+Use the induction readback $P_n\sim_M E_n$ to transport this binary-union row
+from $E_n$ to $P_n$. The sigma-algebra binary-union row then supplies
+$P_{n+1}:=P_n\sqcup D_{n+1}$ as a measurable event, classified with
+$E_{n+1}$ by the composed event classifier comparison.
+
+The disjointness of the accumulated layers follows by induction from the
+displayed chain: earlier layers lie inside $E_n$ by the previous partial-union
+readback, while the new layer is disjoint from $E_n$. Finally apply
+\autoref{thm:measure-monotone-under-measurable-inclusion} to each displayed
+inclusion $E_n\subseteq E_{n+1}$ to obtain
+$\mu(E_n)\le_R\mu(E_{n+1})$.
+\end{proof}
+
+\begin{theorem}[Measure continuity from below package]
+\label{thm:measure-continuity-from-below-package}
+Let $M$ be a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. For a
+displayed increasing measurable sequence $E_\bullet$, let
+$D_0:=E_0$ and $D_{n+1}:=E_{n+1}\setminus E_n$ be the measurable disjoint
+layers supplied by
+\autoref{thm:measure-monotone-partial-union-chain}. If
+$U:=\bigcup_{n:\mathbb{N}}E_n$ is the countable-union row of the same
+measurable sequence, then the $\sigma$-additivity row classifies
+$$
+\mu(U)\sim_R\Sigma_\mu(D_\bullet).
+$$
+For every finite prefix, the finite disjoint-union readback classifies
+$$
+\Sigma_\mu(D_0,\ldots,D_n)\sim_R\mu(E_n),
+$$
+where the left endpoint denotes the visible finite-support countable sum
+associated to the first $n+1$ layers and an empty tail.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-monotone-partial-union-chain} to obtain the layer
+sequence $D_\bullet$, the partial unions $P_n$, and the classifier readbacks
+$P_n\sim_M E_n$. The same theorem gives pairwise disjointness of the layers and
+measurability of every layer.
+
+The countable union of the layers is classified with the countable union
+$U:=\bigcup_nE_n$: every layer lies in the corresponding $E_n$, and every
+element visible in some $E_n$ lies in the finite partial union
+$D_0\sqcup\cdots\sqcup D_n$ by the partial-union readback. This is an event
+classifier comparison, not a host-level equality of subsets.
+
+Apply the $\sigma$-additivity row of
+\autoref{thm:measureup-sigma-additive-certificate-obligations} to the
+pairwise-disjoint measurable sequence $D_\bullet$. It gives the comparison
+between the measure of the displayed countable union of the layers and
+$\Sigma_\mu(D_\bullet)$, and event-classifier transport carries the left
+endpoint to $\mu(U)$.
+
+For a fixed $n$, apply finite disjoint-union additivity along the visible
+binary-union tree for $P_n=D_0\sqcup\cdots\sqcup D_n$. The finite-support
+countable readback rows of
+\autoref{thm:measure-finite-support-countable-readback} and
+\autoref{thm:measure-finite-three-support-countable-readback}, iterated over
+the displayed finite tree, identify that finite-support countable endpoint
+with the measure of $P_n$. Transport along $P_n\sim_M E_n$ gives the displayed
+classification with $\mu(E_n)$.
+\end{proof}
+
+\begin{theorem}[Measure continuity from below integral scope]
+\label{thm:measure-continuity-from-below-integral-scope}
+The $\IntegralUp$ premeasure interface may consume the continuity-from-below
+package of \autoref{thm:measure-continuity-from-below-package} exactly through
+the public $\MeasureUp$ rows: displayed measurable events, relative-difference
+layers, finite disjoint-union readbacks, $\sigma$-additivity for the disjoint
+layer sequence, countable-sum classifier stability, and $\RealUp$ endpoint
+transport. It receives no standard bridge row and no host set equality row from
+this paper site.
+\end{theorem}
+\begin{proof}
+Project the premeasure rows named in
+\autoref{thm:measure-integral-premeasure-consumption}. These are the
+measurable-event ledger, endpoint classifier, countable-sum endpoint,
+head-tail readback, and finite disjoint-union rows exposed by the public
+$\MeasureUp$ package.
+
+The layer construction uses only the relative-difference row from
+\autoref{thm:measure-relative-difference-disjoint-decomposition} and the
+monotone inclusion row from
+\autoref{thm:measure-monotone-under-measurable-inclusion}. The endpoint
+classification uses only the $\sigma$-additivity and countable-sum rows named
+by \autoref{thm:measureup-sigma-additive-certificate-obligations}.
+
+Thus an $\IntegralUp$ consumer receives the named continuity package as a
+premeasure obligation over visible $\mathsf{BHist}$ event rows. The only
+identifications available to that consumer are $\MeasureUp$ event classifier
+comparisons and $\RealUp$ endpoint classifier comparisons, so no standard
+bridge or host equality is imported.
+\end{proof}
