@@ -1,0 +1,132 @@
+\begin{definition}[Measure head-tail tail scope]
+\label{def:measure-head-tail-tail-scope}
+Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in
+\autoref{def:measure-certificate-surface}, and let $E_\bullet$ be a measurable
+sequence in that surface. The head-tail tail scope of $E_\bullet$ is the
+four-row package consisting of:
+\begin{enumerate}
+  \item the shifted measurable sequence $E_{\bullet+1}$, read as the family
+  $n\mapsto E_{n+1}$ by the same measurable-family row;
+  \item pointwise $\sim_M$ transport for the shifted event presentations, with
+  endpoint movement read through the $\RealUp$ classifier $\sim_R$;
+  \item the countable endpoint $\Sigma_\mu(E_{\bullet+1})$ attached to the
+  shifted measurable sequence;
+  \item admissibility of $E_{\bullet+1}$ as an input to the same head-tail
+  readback row and countable-sum classifier row that classify
+  $\Sigma_\mu(E_\bullet)$.
+\end{enumerate}
+This scope records only certificate-surface rows. It does not identify shifted
+host sequences by ambient equality, and it does not introduce a separate
+measure construction outside the displayed $\MeasureUp$ rows.
+\end{definition}
+
+\begin{theorem}[Measure head-tail tail measurable-sequence scope]
+\label{thm:measure-head-tail-tail-measurable-sequence-scope}
+Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in
+\autoref{def:measure-certificate-surface}, and let $E_\bullet$ be a measurable
+sequence in that surface. Then the shifted family $E_{\bullet+1}$ is an
+admitted measurable sequence for the same certificate surface. Consequently
+every head-tail readback later applied to $\Sigma_\mu(E_{\bullet+1})$ is an
+application of the displayed measurable-family row of $\mathcal{M}$, not an
+implicit host-level shift.
+\end{theorem}
+\begin{proof}
+Project the measurable-family row from
+\autoref{def:measure-certificate-surface}. Since $E_\bullet$ is supplied as a
+measurable sequence, each displayed event $E_n$ carries the certificate
+membership row required by $\mathsf{MeasFam}$.
+
+Form the shifted family by reindexing the same displayed rows: at index $n$ the
+new family reads the old row at $n+1$. This uses no new event carrier and no
+extra endpoint; it repacks the existing measurable witnesses into the
+sequence-indexed slot demanded by the surface.
+
+The carrier inventory of
+\autoref{def:measureup-carrier-obligation-inventory} lists measurable sequence
+rows and countable-sum rows as ledger entries. Therefore the shifted family is
+admitted exactly as another measurable sequence over the same certificate
+surface, and the head-tail row may be projected for it.
+\end{proof}
+
+\begin{theorem}[Measure head-tail tail countable-sum scope]
+\label{thm:measure-head-tail-tail-countable-sum-scope}
+Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in
+\autoref{def:measure-certificate-surface}, and let $E_\bullet$ be a measurable
+sequence with head-tail tail scope as in
+\autoref{def:measure-head-tail-tail-scope}. Then
+$\Sigma_\mu(E_{\bullet+1})$ is the countable-sum endpoint consumed by the
+head-tail comparison for $E_\bullet$:
+$$
+\Sigma_\mu(E_\bullet)\sim_R\mu(E_0)+\Sigma_\mu(E_{\bullet+1}).
+$$
+If $F_\bullet$ is another admitted tail sequence and every index satisfies
+$\mu(E_{n+1})\sim_R\mu(F_n)$, then the countable endpoint transported into the
+head-tail comparison satisfies
+$$
+\Sigma_\mu(E_{\bullet+1})\sim_R\Sigma_\mu(F_\bullet).
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:measure-head-tail-tail-measurable-sequence-scope} to read
+$E_{\bullet+1}$ as a measurable sequence in the same surface. The countable-sum
+field of \autoref{def:measure-certificate-surface} therefore supplies the
+endpoint $\Sigma_\mu(E_{\bullet+1})$ as a certificate row.
+
+Project the head-tail readback row of the same surface and apply it to
+$E_\bullet$. The displayed comparison is exactly the row named in
+\autoref{def:measure-head-tail-tail-scope}: its tail term is the endpoint
+attached to the admitted shifted family.
+
+For classifier transport, apply
+\autoref{thm:measure-obligation-countable-sum-classifier-stability} to the two
+admitted measurable sequences $E_{\bullet+1}$ and $F_\bullet$. The pointwise
+comparison $\mu(E_{n+1})\sim_R\mu(F_n)$ is precisely the hypothesis required by
+the countable-sum classifier row, so the transported endpoint is accepted by the
+same head-tail comparison.
+\end{proof}
+
+\begin{theorem}[Measure head-tail consumer exhaustion]
+\label{thm:measure-head-tail-consumer-exhaustion}
+Every later finite-support, continuity-from-below, integral, probability, or
+functional-analysis use of a shifted countable tail in the $\MeasureUp$ carrier
+consumes exactly the following four certificate rows:
+\begin{enumerate}
+  \item shifted measurable-sequence scope for $E_{\bullet+1}$;
+  \item the shifted endpoint $\Sigma_\mu(E_{\bullet+1})$;
+  \item head-tail readback classifying $\Sigma_\mu(E_\bullet)$ with
+  $\mu(E_0)+\Sigma_\mu(E_{\bullet+1})$;
+  \item countable-sum classifier stability transporting pointwise tail
+  equality through $\sim_R$.
+\end{enumerate}
+In particular, the finite-support readbacks that repeatedly apply head-tail to
+shifted sequences, including
+\autoref{thm:measure-finite-three-support-countable-readback} and
+\autoref{thm:measure-four-support-countable-readback}, are audited by these
+four rows together with the sigma-additive input of
+\autoref{thm:measure-obligation-sigma-additive-row}.
+\end{theorem}
+\begin{proof}
+The first two rows are exactly the tail package of
+\autoref{def:measure-head-tail-tail-scope}, with admissibility supplied by
+\autoref{thm:measure-head-tail-tail-measurable-sequence-scope}. They account for
+the measurable-sequence witness and the countable endpoint before any additive
+readback is used.
+
+The third row is the head-tail projection of
+\autoref{def:measure-certificate-surface}. It is the row consumed in the
+finite-support readbacks when the original sequence, once-shifted sequence, and
+twice-shifted sequence are exposed successively.
+
+The fourth row is the countable-sum classifier stability obligation
+\autoref{thm:measure-obligation-countable-sum-classifier-stability}. It is the
+only transport principle used when a shifted tail is compared with the canonical
+empty tail or with a downstream tail carrying pointwise equal $\RealUp$
+endpoints.
+
+The remaining downstream consumers named in the statement receive the same
+surface through the carrier inventory of
+\autoref{def:measureup-carrier-obligation-inventory}. Since the inventory lists
+measurable sequence rows, countable-sum rows, head-tail readback, and classifier
+stability as the available rows, there is no fifth certificate input for a
+shifted countable tail.
+\end{proof}
