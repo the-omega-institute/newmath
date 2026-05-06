@@ -48,6 +48,27 @@ For composite rows, the downstream coverage theorem \autoref{thm:topology-downst
 \end{proof}
 \leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyLedgerRow\_constructor\_coverage}
 
+\begin{theorem}[Unary topology ledger constructor no-confusion]
+\label{thm:topology-unary-ledger-constructor-no-confusion}
+Let $\mathcal{U}$ be the unary $\mathsf{BHist}$ indexed topology source of \autoref{def:topology-unary-bhist-source}. For any unary public predicate $U:\mathsf{BHist}\to\mathsf{Prop}$ carried by an admitted visible $\mathsf{BHistUnaryTopologyLedgerRow}$, no row introduced by one of
+$$
+\mathsf{singletonMetricBall},\quad
+\mathsf{finiteListIntersection},\quad
+\mathsf{binaryGeneratedMeet},\quad
+\mathsf{arbitraryUnion},\quad
+\mathsf{bottom},\quad
+\mathsf{top}
+$$
+can also be introduced by a different named constructor from the same list while carrying the same predicate $U$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topology-unary-constructor-ledger-coverage} to reduce an admitted unary row to the six visible constructor alternatives listed in the statement. The closed inductive row type $\mathsf{BHistUnaryTopologyLedgerRow}$ has no additional public-open row form, so every admissible branch has one exposed outer constructor.
+
+Now invert the exposed constructor of the row. In the $\mathsf{singletonMetricBall}$ branch, constructor inversion rejects equality with each of the finite-list, binary-meet, arbitrary-union, bottom, and top branches. The same inversion argument applies to each remaining branch, because the outer constructor name is the first datum recovered from the closed ledger row before any carried index or pointwise carrying equation is read.
+
+Thus two derivations of the same visible row carrying the same predicate $U$ must expose the same constructor name. If the names are different, constructor no-confusion for the closed inductive ledger gives a contradiction, so an admitted unary row cannot have two different visible constructor origins.
+\end{proof}
+
 \begin{theorem}[Unary BHist topology public certificate]
 \label{thm:topology-unary-bhist-public-certificate}
 Let $\mathcal{U}$ be the unary $\mathsf{BHist}$ indexed topology source of \autoref{def:topology-unary-bhist-source}. Any visible $\mathsf{BHistUnaryTopologyLedgerRow}$ carrying a nonempty unary public predicate $U$ exports a $\mathsf{SemanticNameCert}$ whose carrier is $\UnaryHistory(h)\land U(h)$, whose pattern is $\mathsf{OpenAt}_{\mathsf{un}}(i,h)$, whose ledger records a unary $\mathsf{BHist}$ constructor row together with the carried index membership, and whose classifier is $\UnaryHistory(h)\land\UnaryHistory(k)\land\hsame(h,k)$.
