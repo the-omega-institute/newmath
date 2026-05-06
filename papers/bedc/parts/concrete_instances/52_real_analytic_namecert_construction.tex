@@ -60,6 +60,47 @@ $\mathsf{RealClassifier}(r_1,r_2)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticLeibnizPartSum\_pointwise\_hsame\_deterministic}
 
+\begin{theorem}[Real-analytic supplied limit consumption boundary]
+\label{thm:real-analytic-supplied-limit-consumption-boundary}
+Let $P$ be any local analytic stream package used in this chapter: the Leibniz
+$\mathsf{Pi}$ stream, an exponential partial-sum stream, a logarithm bisection
+stream, or a sine or cosine partial-sum stream. A displayed $\RealUp$ output
+$r$ for $P$ is consumable only through the following supplied rows:
+\begin{enumerate}
+\item a $\RegSeqRat$ carrier witness for the underlying $\mathsf{BHist}$ stream
+name and its unary modulus;
+\item a $\RealUp$ limit witness naming $r$ as the target history of that stream;
+\item the Phase Real and Completion limit-transport or limit-uniqueness row that
+connects the supplied stream witness to the public $\RealUp$ carrier and
+classifier surface.
+\end{enumerate}
+If two such packages $P$ and $Q$ are related by a supplied $\RegSeqRat$
+classifier witness and their supplied targets are $r$ and $s$, then the only
+conclusion licensed by those rows is $\mathsf{RealClassifier}(r,s)$. The rows do
+not supply $\RealUp$ completeness, $\RealUp$ arithmetic, $\RealUp$ order, metric
+completeness, or a standard bridge.
+\end{theorem}
+\begin{proof}
+The transport pattern is the one isolated in
+\autoref{thm:real-analytic-series-variant-equivalence-boundary}. The
+$\RegSeqRat$ classifier is applied at the stream-name level, the two supplied
+limit witnesses name the target histories, and the supplied Phase Real and
+Completion uniqueness row returns only the displayed real-history classifier.
+
+For the stream-side inputs, use the local obligation package of
+\autoref{thm:real-analytic-local-stream-obligations-only}. Its unary and
+pointwise transport clauses cover the finite partial-sum witnesses used by the
+Leibniz, exponential, logarithm-bisection, sine, and cosine packages, but they do
+not create a $\RegSeqRat$ carrier row or a $\RealUp$ limit row.
+
+The public rows available after a limit witness are exactly the rows exposed by
+\autoref{thm:realup-public-certificate-export}: carrier, classifier, stability,
+transport, finite observation, ledger, and seal data for the scoped $\RealUp$
+surface. That public boundary explicitly excludes completion theorems,
+arithmetic and order closure, metric completeness, and standard-bridge data, so
+the stated classifier is the maximal conclusion licensed by the supplied rows.
+\end{proof}
+
 \section{Constructive exponential}
 \label{sec:real-analytic-exp}
 
@@ -362,6 +403,32 @@ For the induction step, the supplied addition-formula row rewrites $\sin((n+1)\m
 
 \section{Certificate target}
 \label{sec:real-analytic-cert-target}
+
+\begin{theorem}[Real-analytic Real-completion dependency surface]
+\label{thm:real-analytic-real-completion-dependency-surface}
+Any admissible use of the local endpoint rows for $\mathsf{Pi}$, $\mathsf{Exp}$, $\mathsf{Log}$, $\mathsf{Sin}$, or $\mathsf{Cos}$ must factor through the following supplied Phase Real and Completion faces: the $\DyadicRatCore$ arithmetic and modulus rows for the relevant partial sums, the $\StreamNameUp$ observation-carrier and classifier rows, the $\RegSeqRat$ regularity and stream-classifier rows, the $\RealUp$ seal or limit-witness rows, and $\mathsf{RealClassifier}$ limit-uniqueness transport. The local partial-sum, Cauchy-modulus, parity-split, and addition-formula rows do not by themselves provide a $\RealUp$ endpoint classifier or a completed $\NameCert(\RealAnalyticUp)$.
+\end{theorem}
+\begin{proof}
+For $\mathsf{Pi}$, \autoref{sec:real-analytic-pi} supplies the Leibniz partial-sum family and its explicit Cauchy modulus. Those rows are rational stream data only: the endpoint becomes a real-history object only after the supplied $\DyadicRatCore$ arithmetic, $\StreamNameUp$ observation, $\RegSeqRat$ regularity, $\RealUp$ limit witness, and $\mathsf{RealClassifier}$ uniqueness rows are present.
+
+For $\mathsf{Exp}$, \autoref{sec:real-analytic-exp} supplies the power-series partial sums, the bounded-input modulus, and the local additivity row. The additivity statement uses supplied $\RealUp$ witnesses and classifier uniqueness for the three exponential endpoints; without those faces, the Cauchy-product comparison remains a regular-rational stream comparison and does not name a completed endpoint.
+
+For $\mathsf{Log}$, \autoref{sec:real-analytic-log} supplies the inverse-of-exponential bisection scheme and the inverse relation under positivity, apartness, rational-embedding, and bisection hypotheses. The bisection rows produce a candidate stream, while the $\RealUp$ seal or limit witness and uniqueness transport are the supplied Completion faces that turn that stream into a usable logarithm endpoint.
+
+For $\mathsf{Sin}$ and $\mathsf{Cos}$, \autoref{sec:real-analytic-trig} supplies the trigonometric partial sums, their shared modulus, the parity splits, and the addition-formula rows. The parity and addition formulas compare coefficient streams and transported product streams; they still require the supplied $\StreamNameUp$, $\RegSeqRat$, $\RealUp$, and uniqueness rows before either trigonometric endpoint has a real-history classifier.
+
+Repacking these five cases gives exactly the dependency surface consumed by \autoref{thm:real-analytic-certificate-boundary}: every analytic endpoint enters through the displayed Phase Real and Completion faces, and every local calculation remains a proof obligation until those faces are supplied.
+\end{proof}
+
+\begin{closurestatus}{\RealAnalyticUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{thm:real-analytic-real-completion-dependency-surface} binds the paper-side seed scope to the supplied DyadicRatCore, StreamNameUp, RegSeqRat, RealUp, and RealClassifier dependency faces for the five displayed analytic endpoints.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealAnalyticUp.real\_analytic\_certificate\_boundary}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a completed $\NameCert(\RealAnalyticUp)$, $\RealUp$ completeness, or standard bridges for the analytic endpoints.}
+  \upgradepath{A higher closure grade requires checked carrier, classifier, exactness, ledger, and bridge rows for the analytic endpoint package over the completed RealUp surface.}
+\end{closurestatus}
 
 \begin{theorem}[$\RealAnalyticUp$ certificate boundary]
 \label{thm:real-analytic-certificate-boundary}
