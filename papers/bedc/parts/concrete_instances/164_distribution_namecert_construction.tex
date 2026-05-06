@@ -469,3 +469,73 @@ $$
 \mu_X(U_T)\sim_R\sum_{n\in\mathbb N}\mu_X(B_n).
 $$
 \end{proof}
+
+\begin{theorem}[Distribution pushforward continuity from below]\label{thm:distribution-pushforward-continuity-from-below}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in $\autoref{sec:randomvar-carrier}$, from a $\ProbSpaceUp$ source as in $\autoref{sec:probspace-carrier}$ to a target $\MeasureUp$ carrier as in $\autoref{sec:measure-carrier}$. Write $\mathcal A_S$ and $\mathcal A_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure as in $\autoref{sec:distribution-carrier}$, and $x\sim_R y$ for the $\RealUp$ classifier of $\autoref{def:real-classifier-specification}$. Let $(B_n)_{n\in\mathbb N}$ be target events with $B_n\in\mathcal A_T$ for every $n$, and suppose the target readback supplies both
+$$
+B_n\subseteq B_{n+1}\quad\text{for every }n\in\mathbb N,
+$$
+and
+$$
+B:=\bigcup_{n\in\mathbb N} B_n
+\qquad\text{with}
+\qquad
+t\in B\Longleftrightarrow \exists n\in\mathbb N,\ t\in B_n.
+$$
+For each $n$, let $A_n:=X^{-1}(B_n)$ and let $A_B:=X^{-1}(B)$. Suppose the hypotheses of $\autoref{thm:randomvar-countable-preimage-union-exactness}$ and $\autoref{thm:measure-continuity-from-below-package}$ are satisfied for this data, including source measurability and the source countable-union row
+$$
+U_S:=\bigvee\nolimits^S_{n\in\mathbb N} A_n\in\mathcal A_S
+\qquad\text{and}\qquad
+A_B\sim_{\mathcal A_S}U_S.
+$$
+Then
+$$
+\mu_X(B)\sim_R\lim_{n\to\infty}\mu_X(B_n).
+$$
+\end{theorem}
+\begin{proof}
+For each $n$, apply the measurable-preimage readback to get
+$$
+A_n\in\mathcal A_S,\qquad A_B\in\mathcal A_S.
+$$
+From the target inclusion row $B_n\subseteq B_{n+1}$ and the preimage readbacks
+$$
+s\in A_n\Longleftrightarrow X(s)\in B_n,
+\qquad s\in A_{n+1}\Longleftrightarrow X(s)\in B_{n+1},
+$$
+it follows pointwise that $A_n\subseteq A_{n+1}$. Hence $(A_n)_{n\in\mathbb N}$ is an increasing source measurable sequence.
+
+Apply $\autoref{thm:measure-continuity-from-below-package}$ to $(A_n)$ and its source union $U_S$. This provides a source disjoint layer chain with prefix readbacks
+$$
+\Sigma_\mu(D_0,\dots,D_n)\sim_R\mu_S(A_n)\quad\text{for every }n\in\mathbb N,
+$$
+and the endpoint comparison
+$$
+\mu_S(U_S)\sim_R\sum_{n\in\mathbb N}\mu_S(D_n).
+$$
+
+By the $\DistributionUp$ pushforward row of $\autoref{sec:distribution-certificate}$,
+$$
+\mu_X(B)\sim_R\mu_S(A_B),
+$$
+and for each $n$
+$$
+\mu_X(B_n)\sim_R\mu_S(A_n).
+$$
+Composing the first comparison with $A_B\sim_{\mathcal A_S}U_S$ through source measure transport gives
+$$
+\mu_X(B)\sim_R\mu_S(U_S).
+$$
+Combining this with the continuity-from-below endpoint row yields
+$$
+\mu_X(B)\sim_R\sum_{n\in\mathbb N}\mu_S(D_n).
+$$
+Together with the prefix readbacks, each finite prefix is also transport-equivalent to the pushed-forward target prefix value:
+$$
+\Sigma_\mu(D_0,\dots,D_n)\sim_R\mu_X(B_n)\quad\text{for every }n\in\mathbb N.
+$$
+By the continuity-from-below readback convention for this displayed chain, the endpoint on the right is exactly the monotone limit of the target pushed-forward prefix sequence, hence
+$$
+\mu_X(B)\sim_R\lim_{n\to\infty}\mu_X(B_n).
+$$
+\end{proof}
