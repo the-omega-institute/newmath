@@ -135,14 +135,115 @@ def declaration_in_derived(worktree: Path, name: str) -> bool:
     return bool(res.stdout.strip())
 
 
+# Same regex as codex_formalize.py's _BEDC_TOUCHPOINT_RE — used for the
+# SHALLOW GROWTH dup-conclusion preview so codex's self-check sees the
+# exact same set as Phase D's reject.
+_BEDC_TOUCHPOINT_RE = re.compile(
+    r"\b(BHist|BMark|hsame|msame|ProbeBundle|SigRel|InGap|NameCert|"
+    r"SemanticNameCert|Cont|Ext|InBundle|UnaryHistory|Pkg|sameSig|"
+    r"DescentCertificate|StableTransformation|ThreadFamily|"
+    r"AskEvent|AskPolicy|BundleAskPolicy|SealEvent|SealInterface|"
+    r"StageInterface|bundleAppend|bundleLength|bwordLength)\b"
+)
+
+
+def _diff_added_blocks_per_file(worktree: Path, base_branch: str) -> dict[str, list[tuple[str, str]]]:
+    """Group `diff_added_decls` results by source file (rel path), so the
+    SHALLOW GROWTH check can compare conclusions WITHIN one file (matching
+    codex_formalize.py's `detect_shallow_growth_patterns` semantics)."""
+    # Re-parse the same git log, but track which file each + line lives in.
+    res = subprocess.run(
+        [
+            "git", "log", "-p", "--no-color", "--reverse",
+            f"{base_branch}..HEAD", "--", "lean4/BEDC/",
+        ],
+        cwd=worktree, capture_output=True, text=True, check=False,
+    )
+    text = res.stdout or ""
+    grouped: dict[str, list[tuple[str, str]]] = {}
+    current_file: str | None = None
+    pending: list[str] = []
+    pending_name: str | None = None
+
+    def flush(rel: str | None) -> None:
+        nonlocal pending, pending_name
+        if rel and pending_name is not None and pending:
+            grouped.setdefault(rel, []).append((pending_name, "\n".join(pending)))
+        pending_name = None
+        pending = []
+
+    for raw in text.splitlines():
+        if raw.startswith("+++ b/"):
+            flush(current_file)
+            current_file = raw[len("+++ b/"):]
+            continue
+        if not raw.startswith("+") or raw.startswith("+++"):
+            flush(current_file)
+            continue
+        line = raw[1:]
+        m = DECL_RE.match(line)
+        if m:
+            flush(current_file)
+            pending_name = m.group(2)
+            pending = [line]
+        elif pending_name is not None:
+            pending.append(line)
+            if len(pending) > SIGNATURE_BLOCK_LIMIT:
+                flush(current_file)
+    flush(current_file)
+    return grouped
+
+
+def _decl_conclusion(block: str) -> str:
+    """Extract the conclusion (after the final `:` before `:=`) from a
+    declaration's signature block. Same heuristic as codex_formalize.py."""
+    header = block.split(":=", 1)[0]
+    idx = header.rfind(":")
+    if idx == -1:
+        return ""
+    return " ".join(header[idx + 1:].split())
+
+
+def detect_shallow_growth_dups(worktree: Path, base_branch: str) -> list[str]:
+    """Detect duplicate-conclusion theorems among the round's added decls
+    (same algorithm as `codex_formalize.py::detect_shallow_growth_patterns`,
+    abbreviated to dup-conclusion only — anchor-missing / parameter-echo
+    are already caught by main()). Designed for Phase C self-check use.
+    """
+    violations: list[str] = []
+    grouped = _diff_added_blocks_per_file(worktree, base_branch)
+    for rel, blocks in grouped.items():
+        conclusion_owner: dict[str, str] = {}
+        for name, block in blocks:
+            kind_match = re.match(r"\s*(?:protected\s+)?(theorem|lemma)\b", block)
+            if not kind_match:
+                continue
+            conclusion = _decl_conclusion(block)
+            if not conclusion:
+                continue
+            if not _BEDC_TOUCHPOINT_RE.search(conclusion):
+                continue
+            if conclusion in conclusion_owner:
+                violations.append(
+                    f"{rel}: duplicate theorem conclusion in "
+                    f"{conclusion_owner[conclusion]} and {name}"
+                )
+            else:
+                conclusion_owner[conclusion] = name
+    return violations
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--worktree", type=Path, required=True)
     p.add_argument("--base-branch", type=str, required=True)
+    p.add_argument("--include-shallow", action="store_true",
+                    help="Also detect duplicate-conclusion theorems "
+                          "(matches codex_formalize.detect_shallow_growth_patterns).")
     args = p.parse_args()
 
     decls = diff_added_decls(args.worktree, args.base_branch)
-    if not decls:
+    if not decls and not args.include_shallow:
         return 0
 
     arity_hits: list[str] = []
@@ -163,7 +264,11 @@ def main() -> int:
         if is_derived and not BHIST_CONSTRUCTOR_RE.search(sig):
             anchor_hits.append(name)
 
-    if not (arity_hits or echo_hits or anchor_hits):
+    shallow_hits: list[str] = []
+    if args.include_shallow:
+        shallow_hits = detect_shallow_growth_dups(args.worktree, args.base_branch)
+
+    if not (arity_hits or echo_hits or anchor_hits or shallow_hits):
         return 0
 
     msgs: list[str] = []
@@ -184,6 +289,11 @@ def main() -> int:
             "Derived theorem missing a BHist / BMark / hsame / ProbeBundle / "
             "SigRel / NameCert anchor in its signature: "
             + ", ".join(anchor_hits[:5])
+        )
+    if shallow_hits:
+        msgs.append(
+            "SHALLOW GROWTH PATTERN — duplicate theorem conclusion(s) "
+            "(Phase D will reject):\n  " + "\n  ".join(shallow_hits[:8])
         )
     print("\n".join(msgs))
     return 1
