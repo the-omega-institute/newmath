@@ -1,0 +1,44 @@
+\begin{definition}[Sheaf root cover-descent source]
+\label{def:sheaf-root-cover-descent-source}
+The $\SheafUp$ root cover-descent source is the following $\mathsf{BHist}$-scoped source tuple. It is read over a $\TopologyUp$ indexed-open carrier with point carrier $\mathsf{BHist}$, membership row $\mathsf{OpenAt}$, inclusion relation $\le_{\mathcal{T}}$, and finite-intersection rows; an indexed $\SheafUp$ carrier with section carriers $\mathsf{Sec}(i)$, classifiers $\sim_i$, and restriction maps $\rho_{i,j}$; an indexed cover $\mathcal{U}=(A,\iota,h,\gamma)$ of an ambient open $i$; member inclusions $h_a:\iota(a)\le_{\mathcal{T}}i$; displayed restriction routes to members and finite-intersection overlaps; a compatible local family $s_a:\mathsf{Sec}(\iota(a))$; and the section classifier rows used to compare restrictions on members, overlaps, and glued readbacks.
+
+The source admits only these displayed data: $\mathsf{BHist}$ histories, indexed open membership, cover-member witnesses, member and overlap inclusions, restriction-route witnesses, compatible-family overlap equalities, locality, gluing, and section classifiers. It excludes stalks, quotient carriers, host powerset equality of covers, and external sheafification.
+\end{definition}
+
+\begin{theorem}[Sheaf root cover-descent carrier exactness]
+\label{thm:sheaf-root-cover-descent-carrier-exactness}
+The source of \autoref{def:sheaf-root-cover-descent-source} exposes exactly $\mathsf{BHist}$, $\mathsf{OpenAt}$, cover membership, restriction maps, finite-intersection overlap rows, and section classifiers. In particular, every carrier or classifier row visible to cover descent is one of the indexed-open carrier rows of $\TopologyUp$, the indexed section rows of $\SheafUp$, or the compatible-family and locality rows of the sheaf cover surface.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:sheaf-root-cover-descent-source}. The topology component contributes only $\mathsf{BHist}$, indexed opens, $\mathsf{OpenAt}$, inclusion witnesses, and finite-intersection rows. These are exactly the displayed carrier and membership rows of \autoref{def:topology-indexed-open-carrier}.
+
+Unfold the indexed sheaf component. By \autoref{def:sheaf-indexed-section-presheaf-carrier}, the section-level rows are the carriers $\mathsf{Sec}(i)$, classifiers $\sim_i$, restriction maps $\rho_{i,j}$, and restriction stability fields attached to displayed inclusion routes.
+
+Finally unfold the cover and local-family component through \autoref{def:sheaf-indexed-cover-compatibility-locality}. It adds cover membership, member inclusions, finite-intersection overlap comparisons, locality, and gluing. None of the three unfolded sources contains a stalk carrier, a quotient carrier, host powerset equality, or external sheafification, so the displayed list is exact.
+\end{proof}
+
+\begin{theorem}[Sheaf root cover-descent gluing exhaustion]
+\label{thm:sheaf-root-cover-descent-gluing-exhaustion}
+Every root cover-descent comparison route for the source of \autoref{def:sheaf-root-cover-descent-source} factors through a cover member or a displayed common refinement, then through restriction-route exactness, and finally through the locality or gluing classifier row. Thus the cover-descent route surface is exhausted by cover membership, finite-intersection overlap rows, restriction transport, point-germ readback, and gluing uniqueness.
+\end{theorem}
+\begin{proof}
+First apply the cover law $\gamma$ in the indexed cover $\mathcal{U}$. Each history cell $b:\mathsf{BHist}$ lying in the ambient open is sent to a member $a:A$ with $\mathsf{OpenAt}(\iota(a),b)$, and the finite-intersection rows of \autoref{def:topology-indexed-open-carrier} supply the displayed overlaps used for pairwise comparison.
+
+Next route the comparison through the sheaf restriction surface. Apply \autoref{thm:sheaf-root-route-exactness-membership-transport} to transport the member witness through the displayed route, and apply \autoref{thm:sheaf-root-route-exactness-cont-composition} when the comparison is represented by a composed route history. Both steps keep the target section classifier attached to the reached open.
+
+It remains to read the local family through gluing. Apply \autoref{thm:sheaf-bhist-point-germ-gluing-readback} for the memberwise readback of a glued section, and apply \autoref{thm:sheaf-gluing-uniqueness-from-locality} to identify any two global readbacks that agree on all displayed members. The route therefore ends at the existing locality or gluing classifier row and introduces no further carrier or classifier.
+\end{proof}
+
+\begin{theorem}[Sheaf root cover-descent downstream interface]
+\label{thm:sheaf-root-cover-descent-downstream-interface}
+The $\RingedSpaceUp$, $\SchemeUp$, and topology pullback consumers may consume only the cover-descent source of \autoref{def:sheaf-root-cover-descent-source}, the carrier exactness row of \autoref{thm:sheaf-root-cover-descent-carrier-exactness}, the gluing exhaustion row of \autoref{thm:sheaf-root-cover-descent-gluing-exhaustion}, and the downstream exactness coverage row of \autoref{thm:sheaf-root-downstream-consumer-exactness-coverage}. They receive no additional sheaf carrier and no additional sheaf classifier.
+\end{theorem}
+\begin{proof}
+For the ringed-space consumer, apply \autoref{thm:sheaf-ringedspace-local-ring-row}. Its sheaf-side data are section carriers, classifiers, restriction stability, point-germ readback, and local compatibility rows, all already present in the cover-descent source and its carrier exactness row.
+
+For the scheme consumer, apply \autoref{thm:sheaf-scheme-gluing-cover-row}. The chart gluing request is routed through cover membership, finite-intersection overlaps, compatible local families, gluing, and common-refinement comparison, which are precisely the rows exhausted by \autoref{thm:sheaf-root-cover-descent-gluing-exhaustion}.
+
+For topology pullback, apply \autoref{thm:sheaf-topology-pullback-cover-row}. Pullback cover membership and compatible-family transport are displayed over the same indexed-open and restriction-route rows, so they add no carrier beyond \autoref{def:sheaf-root-cover-descent-source}.
+
+Finally apply \autoref{thm:sheaf-root-downstream-consumer-exactness-coverage}. It seals the three consumer projections to cover membership, locality and gluing, refinement descent, common-refinement exactness, and projection rows. Hence downstream access is exactly the cover-descent interface named in the statement.
+\end{proof}
