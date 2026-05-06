@@ -21,6 +21,27 @@ inductive ListHistoryClassifierRec (S : BHist -> Prop) (sameS : BHist -> BHist -
         Cont a t p -> Cont b u q -> hsame h (BHist.e1 p) -> hsame k (BHist.e1 q) ->
           ListHistoryClassifierRec S sameS h k
 
+inductive ListHistoryClassifier (S : BHist -> Prop) (Rel : BHist -> BHist -> Prop) :
+    BHist -> BHist -> Prop where
+  | nil {h k : BHist} :
+      hsame h BHist.Empty -> hsame k BHist.Empty -> ListHistoryClassifier S Rel h k
+  | cons {h k a b t u p q : BHist} :
+      S a -> S b -> Rel a b -> ListHistoryClassifier S Rel t u -> Cont a t p ->
+        Cont b u q -> hsame h (BHist.e1 p) -> hsame k (BHist.e1 q) ->
+          ListHistoryClassifier S Rel h k
+
+theorem ListHistoryClassifier_carrier_endpoints {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} {h k : BHist} :
+    ListHistoryClassifier S Rel h k -> ListHistoryCarrier S h ∧ ListHistoryCarrier S k := by
+  intro classifier
+  induction classifier with
+  | nil sameH sameK =>
+      exact And.intro (ListHistoryCarrier.nil sameH) (ListHistoryCarrier.nil sameK)
+  | cons sourceA sourceB _rel _tailClass contLeft contRight sameH sameK tailCarriers =>
+      exact And.intro
+        (ListHistoryCarrier.cons sourceA tailCarriers.left contLeft sameH)
+        (ListHistoryCarrier.cons sourceB tailCarriers.right contRight sameK)
+
 theorem ListHistoryCarrier_generated_cases {S : BHist -> Prop} {h : BHist} :
     ListHistoryCarrier S h ->
       hsame h BHist.Empty ∨

@@ -99,6 +99,20 @@ theorem SumHistoryClassifier_carrier_transport_from_nameCert {Left Right : BHist
                                         (rightCert.carrier_respects_equiv sameSource
                                           carrierRight)))
 
+theorem SumHistoryClassifier_source_certified_endpoint_readback {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop}
+    (certL : NameCert Left LeftEq) (certR : NameCert Right RightEq) {h k : BHist} :
+    SumHistoryCarrier Left Right h ->
+      SumHistoryClassifier Left Right LeftEq RightEq h k ->
+        SumHistoryCarrier Left Right k ∧ SumHistoryCarrier Left Right h ∧
+          SumHistoryCarrier Left Right k ∧
+            SumHistoryClassifier Left Right LeftEq RightEq h k := by
+  intro carrierH classifiedHK
+  have carrierK : SumHistoryCarrier Left Right k :=
+    SumHistoryClassifier_carrier_transport_from_nameCert certL certR carrierH classifiedHK
+  exact And.intro carrierK
+    (And.intro carrierH (And.intro carrierK classifiedHK))
+
   theorem SumHistoryClassifier_symm_from_nameCert
     {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop}
