@@ -11913,3 +11913,290 @@ Root-system and Weyl-group territory is under-represented: BOARD/state hits ment
 
 ---
 
+### B-455 - RandomVar total-event preimage exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar total-event preimage exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a carried RandomVarUp map X:S->T with source total event Omega_S, target total event Omega_T, and measurable-preimage readback, preimage_X(Omega_T) is source-measurable and source-event-classifier equal to Omega_S.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+
+Rationale:
+Belongs in the RandomVar chapter. This is the standard inverse-image law f^{-1}(Y)=X from introductory set theory and probability texts, and it is already needed as an assumption by the Distribution total-mass theorem at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:17. The RandomVar chapter has union, relative-difference, and complement preimage theorems at papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex:13, :59, and :111, but no labeled total-preimage theorem. It should close directly from the total-event classifier/readback rows already used in the surrounding proofs.
+
+---
+
+
+### B-456 - RandomVar empty-event preimage exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar empty-event preimage exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a carried RandomVarUp map X:S->T with source empty event empty_S, target empty event empty_T, and measurable-preimage readback, preimage_X(empty_T) is source-measurable and source-event-classifier equal to empty_S.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+
+Rationale:
+Belongs in the RandomVar chapter. The theorem is the textbook inverse-image law f^{-1}(empty)=empty, used throughout measure-theory introductions before pushforward measures. It is presently only consumed as an assumption by the Distribution empty-target theorem at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:59, while papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex states only union, relative-difference, and complement preimage laws at :13, :59, and :111. The proof is a boundary readback argument, not new infrastructure.
+
+---
+
+
+### B-457 - Distribution nonnegative value inheritance
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Distribution nonnegative value inheritance |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a DistributionUp pushforward for X:S->T, every target measurable event B has nonnegative pushed-forward value mu_X(B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+Belongs in the Distribution chapter. Nonnegativity of a pushforward measure is a first-page theorem in standard measure/probability treatments. The source-side theorem is already present as Measure nonnegative value obligation at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:1, and Distribution currently has only total mass, empty target zero, and finite disjoint additivity at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:13, :55, and :94. The proof is just pushforward readback plus the existing measure nonnegativity row.
+
+---
+
+
+### B-458 - Distribution pushforward monotonicity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Distribution pushforward monotonicity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DistributionUp pushforward for X:S->T, if target measurable events B and C satisfy B subset C and the RandomVar preimage row supplies the corresponding source inclusion, then mu_X(B) <=_R mu_X(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+Belongs in the Distribution chapter. Monotonicity of pushforward measures is standard in Billingsley or Folland-style introductions. The needed ingredients already exist: RandomVar relative-difference exactness records the target-to-source inclusion behavior at papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex:59, and source Measure monotonicity is present at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:26. No labeled Distribution monotonicity theorem appears beside the existing Distribution theorems at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:13, :55, and :94.
+
+---
+
+
+### B-459 - Distribution relative-difference additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Distribution relative-difference additivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DistributionUp pushforward for X:S->T, if target events B subset A have a target relative-difference event A_minus_B and RandomVar preserves that relative difference, then mu_X(A) is classifier-equal to mu_X(B)+mu_X(A_minus_B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+Belongs in the Distribution chapter. The decomposition mu(A)=mu(B)+mu(A\B) for B subset A is a standard elementary measure theorem, and the pushforward version is the direct curricular next step after defining distributions. RandomVar relative-difference exactness is already a theorem at papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex:59, and Measure relative-difference additivity is present in papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex. The Distribution chapter has no relative-difference theorem among its current labels at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:13, :55, and :94, so this is closeable without new definitions.
+
+---
+
+### B-460 - OperatorIdeal trace-class scalar closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | OperatorIdeal trace-class scalar closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the OperatorIdeal trace-class setup, if T is carried by TC(H) and a is a carried scalar for the inherited Hilbert module action, then a times T is carried by TC(H).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+
+Rationale:
+This is a concrete closure row for an existing OperatorIdeal surface and it appears to support a visible downstream DensityMatrix dependency. It is not a marker, status, or parameter-echo target, and it is distinct from the existing BOARD entries and the listed paper labels.
+
+---
+
+
+### B-461 - ConvexSet linear-image affine closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ConvexSet linear-image affine closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under ConvexSetUp and LinearMapUp, if C has binary affine-combination closure and f is carried by the linear-map certificate, then the pointwise image f[C] has binary affine-combination closure.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+
+Rationale:
+This is a concrete image-closure theorem using the paper's ConvexSet and LinearMap rows. It is not duplicated by the existing finite affine-spine or intersection closure labels, and it lands cleanly in an existing concrete_instances surface.
+
+---
+
+
+### B-462 - Distribution pushforward monotone events
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Distribution pushforward monotone events |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under DistributionUp, RandomVarUp, and ProbSpaceUp, if B is a target measurable subevent of A for X, then mu_X(B) <= mu_X(A) under the target RealAlgOrder row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete composite consequence of the probability surface: pushforward measure, random-variable preimage exactness, and source monotonicity. It is not a duplicate of the existing total-mass, empty-event, or disjoint-union distribution rows.
+
+---
+
+
+### B-463 - Network-flow residual exhaustion optimality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Network-flow residual exhaustion optimality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under finite NetworkFlowUp feasibility, if a flow has a residual-cut augmenting-path exhaustion certificate, then the flow is maximal among feasible flows and its residual cut is minimal among finite cuts.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+
+Rationale:
+This is a focused certificate-consumption corollary that exposes the direct payload of residual exhaustion by composing existing network-flow results. It is concrete, scoped, and distinct from the existing BOARD targets.
+
+---
+
+
+### B-464 - Hash collision gives reversed second-preimage
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Hash collision gives reversed second-preimage |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under HashUp, if HashCollisionSuccess_H(x,x') holds, then HashSecondPreimageSuccess_H(x',x) holds over the same two hash-evaluation rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+
+Rationale:
+This is a concrete transcript bridge between two existing hash success predicates. It is not just collision symmetry or the already stated second-preimage-to-collision direction, and it makes a missing converse relation explicit.
+
+---
+
+
+### B-465 - Quadrature degree-bound reflexivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Quadrature degree-bound reflexivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under QuadratureUp, for every unary degree bound d, DegBoundLe(d,d) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+
+Rationale:
+This is small but valid certificate infrastructure for the paper-defined exactness-degree comparison. Existing weakening and transitivity rows do not by themselves provide the missing reflexive row, and no listed BOARD entry covers quadrature degree-bound structure.
+
+---
+
