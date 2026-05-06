@@ -104,6 +104,19 @@ def render_board() -> str:
     return "\n".join(out)
 
 
+def render_candidate_inbox() -> str:
+    try:
+        import candidate_inbox
+        data = candidate_inbox.stats()
+    except Exception as exc:
+        return f"  unavailable: {exc}"
+    by_event = data.get("by_event") or {}
+    if not by_event:
+        return "  events: 0"
+    parts = [f"{k}={v}" for k, v in by_event.items()]
+    return f"  events: {data.get('events', 0)}   " + "   ".join(parts)
+
+
 def render_target_table() -> str:
     from lifecycle import derive_failure_kind, decide_next_action
     rows: list[str] = []
@@ -206,6 +219,8 @@ def main() -> int:
     print(render_server(_safe_get_server()))
     print(_section("BOARD"))
     print(render_board())
+    print(_section("Candidate Inbox"))
+    print(render_candidate_inbox())
     print(_section("Target lifecycle"))
     print(render_target_table())
     print(_section("failure_kind histogram"))
