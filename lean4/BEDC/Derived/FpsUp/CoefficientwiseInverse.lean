@@ -42,4 +42,58 @@ theorem FpsSingletonCoeffwiseInverse_zero_laws {F N n : BHist} :
         cases rightEmpty
         exact cont_right_unit BHist.Empty))
 
+theorem FpsSingletonPointwiseAdditiveGroup_laws :
+    hsame FpsSingletonZero BHist.Empty ∧
+      FpsSingletonCarrier FpsSingletonZero ∧
+      (forall {F G : BHist}, FpsSingletonCarrier F -> FpsSingletonCarrier G ->
+        FpsSingletonCarrier (FpsSingletonAdd F G) ∧
+          FpsSingletonClassifier (FpsSingletonAdd F G) BHist.Empty) ∧
+      (forall {F G F' G' : BHist}, FpsSingletonClassifier F F' ->
+        FpsSingletonClassifier G G' ->
+          FpsSingletonClassifier (FpsSingletonAdd F G) (FpsSingletonAdd F' G')) ∧
+      (forall {F G H : BHist}, FpsSingletonCarrier F -> FpsSingletonCarrier G ->
+        FpsSingletonCarrier H ->
+          FpsSingletonClassifier
+            (FpsSingletonAdd (FpsSingletonAdd F G) H)
+            (FpsSingletonAdd F (FpsSingletonAdd G H))) ∧
+      (forall {F : BHist}, FpsSingletonCarrier F ->
+        FpsSingletonClassifier (FpsSingletonAdd FpsSingletonZero F) F ∧
+          FpsSingletonClassifier (FpsSingletonAdd F FpsSingletonZero) F) ∧
+      (forall {F N n : BHist}, FpsSingletonCarrier F ->
+        FpsSingletonClassifier N FpsSingletonZero ->
+          FpsSingletonClassifier (FpsSingletonPointwiseAdditionCoeff F N n)
+              FpsSingletonZero ∧
+            FpsSingletonClassifier (FpsSingletonPointwiseAdditionCoeff N F n)
+              FpsSingletonZero ∧
+              Cont (FpsSingletonPointwiseAdditionCoeff F N n)
+                (FpsSingletonPointwiseAdditionCoeff N F n) BHist.Empty) := by
+  have monoid := FpsSingletonPointwiseAdditiveMonoid_laws
+  cases monoid with
+  | intro zeroSame rest =>
+      cases rest with
+      | intro zeroCarrier rest =>
+          cases rest with
+          | intro addClosed rest =>
+              cases rest with
+              | intro addTransport rest =>
+                  cases rest with
+                  | intro addAssoc addIdentity =>
+                      constructor
+                      · exact zeroSame
+                      · constructor
+                        · exact zeroCarrier
+                        · constructor
+                          · exact addClosed
+                          · constructor
+                            · exact addTransport
+                            · constructor
+                              · exact addAssoc
+                              · constructor
+                                · exact addIdentity
+                                · intro F N n carrierF classifierN
+                                  exact
+                                    FpsSingletonCoeffwiseInverse_zero_laws
+                                      (F := F) (N := N) (n := n)
+                                      carrierF classifierN
+
 end BEDC.Derived.FpsUp
