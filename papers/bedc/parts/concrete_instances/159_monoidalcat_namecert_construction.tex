@@ -39,28 +39,19 @@ For hom rows, first use the endpoint stability law package of \autoref{cor:categ
 The resulting composite row has exactly the source $\mathsf{append}(a,c)$, target $\mathsf{append}(b,d)$, and displayed morphism $\mathsf{append}(f,g)$ required by the tensor carrier surface.
 \end{proof}
 
-\begin{theorem}[MonoidalCat singleton tensor functoriality]
-\label{thm:monoidalcat-singleton-tensor-functoriality}
-In the singleton tensor instance of \autoref{def:monoidalcat-singleton-tensor-instance}, tensor preserves identity and composition hom-carriers. For carried unary histories $x$ and $y$, tensoring the identity hom-carriers at $x$ and $y$ gives the identity hom-carrier at $\mathsf{append}(x,y)$ under the unary-continuation morphism classifier.
-
-For composable displayed hom histories $f:a\to b$, $f':b\to c$, $g:d\to e$, and $g':e\to r$, if $f'\circ f$ and $g'\circ g$ are the closed continuation composites, then the displayed composite
+\begin{theorem}[MonoidalCat singleton tensor preserves identity homs]
+\label{thm:monoidalcat-singleton-tensor-identity-hom}
+In the singleton tensor instance of \autoref{def:monoidalcat-singleton-tensor-instance}, let $a$ and $b$ be carried unary objects. The tensor of the identity hom histories $\emp:a\to a$ and $\emp:b\to b$ is classified as the identity hom on $a\otimes b$. Concretely, $\mathsf{append}(\emp,\emp)$ is $\hsame$ to $\emp$, and the row gives
 $$
-\mathsf{append}(f',g')\circ\mathsf{append}(f,g)
+\mathsf{CategoryHomCarrier}(\mathsf{append}(a,b),\mathsf{append}(a,b),\emp).
 $$
-is classified by
-$$
-\mathsf{append}(f'\circ f,g'\circ g)
-$$
-as a hom history from $\mathsf{append}(a,d)$ to $\mathsf{append}(c,r)$.
 \end{theorem}
 \begin{proof}
-For identities, apply \autoref{thm:continuation-morphism-identity-composition-closure} at $x$ and at $y$. Tensoring the two empty-tail witnesses gives $\mathsf{append}(\emp,\emp)$, and the empty-continuation unit laws classify this history as the empty identity tail at $\mathsf{append}(x,y)$.
+The identity rows for $a$ and $b$ are the empty continuation rows supplied by \autoref{thm:category-unary-continuation-stability-law-package}. Unary append closure gives the tensor object $\mathsf{append}(a,b)$ as a carried unary object.
 
-For composition, first use \autoref{thm:monoidalcat-singleton-tensor-carrier} on $f,g$ and on $f',g'$ to build the two displayed tensor hom-carriers. Apply \autoref{thm:category-hom-carrier-comp-closed} to those two tensor hom-carriers, obtaining a composite hom-carrier from $\mathsf{append}(a,d)$ to $\mathsf{append}(c,r)$.
+Tensoring the two displayed identity histories gives $\mathsf{append}(\emp,\emp)$. The empty-continuation unit laws of \autoref{thm:concrete-history-monoid-laws} identify this displayed history with $\emp$ by $\hsame$.
 
-Next build the componentwise composites. Apply \autoref{thm:category-hom-carrier-comp-closed} to $f,f'$ and to $g,g'$, and then apply \autoref{thm:monoidalcat-singleton-tensor-carrier} to $f'\circ f$ and $g'\circ g$.
-
-Finally compare the two displayed histories. The continuation associativity law moves between composing after tensoring and tensoring after composing, while the empty-continuation unit laws cover the identity boundary. The associative composition package \autoref{thm:category-hom-carrier-comp-assoc-closed} transports this comparison through the unary-continuation morphism classifier, so the two hom histories are classified by the same $\hsame$ row.
+Transport the identity row on $\mathsf{append}(a,b)$ along that $\hsame$ classifier row. The resulting displayed hom carrier is exactly $\mathsf{CategoryHomCarrier}(\mathsf{append}(a,b),\mathsf{append}(a,b),\emp)$, so the tensor preserves identity hom histories on the concrete singleton carrier.
 \end{proof}
 
 \begin{theorem}[MonoidalCat singleton associator and unitors]
@@ -95,9 +86,9 @@ The singleton tensor instance assembles the following paper-side $\NameCert_{\Mo
   \item BEDC source: $\CategoryUp$, $\ContR$, $\hsame$, and $\mathsf{CategoryHomCarrier}$.
   \item Carrier: unary $\mathsf{BHist}$ objects and continuation hom histories.
   \item Classifier: $\hsame$ on displayed object and hom histories.
-  \item Stability: tensor carrier closure, tensor identity and composition preservation, associator rows, unitor rows, pentagon coherence, and triangle coherence.
+  \item Stability: tensor carrier closure, identity-hom preservation, composition preservation, associator rows, unitor rows, pentagon coherence, and triangle coherence.
   \item Ledger: tensor tails and the two coherence-path ledgers.
-  \item Core theorem list: \autoref{thm:monoidalcat-singleton-tensor-carrier}, \autoref{thm:monoidalcat-singleton-tensor-functoriality}, \autoref{thm:monoidalcat-singleton-associator-unitors}, \autoref{thm:monoidalcat-singleton-coherence-laws}, and \autoref{thm:category-unary-continuation-stability-law-package}.
+  \item Core theorem list: \autoref{thm:monoidalcat-singleton-tensor-carrier}, \autoref{thm:monoidalcat-singleton-tensor-identity-hom}, \autoref{thm:monoidalcat-singleton-tensor-preserves-composition}, \autoref{thm:monoidalcat-singleton-associator-unitors}, \autoref{thm:monoidalcat-singleton-coherence-laws}, and \autoref{thm:category-unary-continuation-stability-law-package}.
   \item Exactness: classifier equality of the displayed coherence paths.
   \item Standard bridge: absent.
   \item Status: paper-side obligation surface.
@@ -106,7 +97,51 @@ The singleton tensor instance assembles the following paper-side $\NameCert_{\Mo
 \begin{proof}
 The carrier and classifier fields are supplied by the unary-continuation category and its $\mathsf{CategoryHomCarrier}$ rows. The tensor field is the append operation in \autoref{def:monoidalcat-singleton-tensor-instance}.
 
-The stability fields are discharged by \autoref{thm:monoidalcat-singleton-tensor-carrier}, \autoref{thm:monoidalcat-singleton-tensor-functoriality}, and \autoref{thm:monoidalcat-singleton-associator-unitors}. The coherence fields are discharged by \autoref{thm:monoidalcat-singleton-coherence-laws}.
+The stability fields are discharged by \autoref{thm:monoidalcat-singleton-tensor-carrier}, \autoref{thm:monoidalcat-singleton-tensor-identity-hom}, \autoref{thm:monoidalcat-singleton-tensor-preserves-composition}, and \autoref{thm:monoidalcat-singleton-associator-unitors}. The coherence fields are discharged by \autoref{thm:monoidalcat-singleton-coherence-laws}.
 
 The ledger records only the displayed continuation tails and the two coherence paths. Exactness is the statement that the two paths in each coherence diagram are equal under $\hsame$, and no standard external monoidal-category bridge is asserted here.
+\end{proof}
+
+\begin{theorem}[MonoidalCat singleton tensor preserves composition]
+\label{thm:monoidalcat-singleton-tensor-preserves-composition}
+In the singleton tensor instance of \autoref{def:monoidalcat-singleton-tensor-instance}, suppose
+$$
+\mathsf{CategoryHomCarrier}(a_0,a_1,f),\quad
+\mathsf{CategoryHomCarrier}(a_1,a_2,f'),\quad
+\mathsf{CategoryHomCarrier}(c_0,c_1,g),\quad
+\mathsf{CategoryHomCarrier}(c_1,c_2,g')
+$$
+are two composable pairs of displayed hom rows. Then the tensor composite and the tensor of component composites are both displayed hom rows from $\mathsf{append}(a_0,c_0)$ to $\mathsf{append}(a_2,c_2)$, and their morphism classifiers agree:
+$$
+\begin{gathered}
+\mathsf{CategoryHomCarrier}
+  (\mathsf{append}(a_0,c_0),\mathsf{append}(a_2,c_2),
+   \mathsf{append}(\mathsf{append}(f,g),\mathsf{append}(f',g'))),\\
+\mathsf{CategoryHomCarrier}
+  (\mathsf{append}(a_0,c_0),\mathsf{append}(a_2,c_2),
+   \mathsf{append}(\mathsf{append}(f,f'),\mathsf{append}(g,g'))),\\
+\HSame(\mathsf{append}(\mathsf{append}(f,g),\mathsf{append}(f',g')),
+       \mathsf{append}(\mathsf{append}(f,f'),\mathsf{append}(g,g'))).
+\end{gathered}
+$$
+Equivalently, $(f\otimes g)$ followed by $(f'\otimes g')$ is classifier-equal to $(f'\circ f)\otimes(g'\circ g)$ in the concrete singleton $\MonoidalCatUp$ certificate.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:monoidalcat-singleton-tensor-carrier}, the tensor rows $\mathsf{append}(f,g)$ and $\mathsf{append}(f',g')$ are hom-carriers from $\mathsf{append}(a_0,c_0)$ to $\mathsf{append}(a_1,c_1)$ and from $\mathsf{append}(a_1,c_1)$ to $\mathsf{append}(a_2,c_2)$. Applying \autoref{thm:category-hom-carrier-comp-closed} to these two tensor rows gives the first displayed carrier.
+
+Applying \autoref{thm:category-hom-carrier-comp-closed} to the pair $f,f'$ gives the component composite $\mathsf{append}(f,f')$ from $a_0$ to $a_2$, and applying it to $g,g'$ gives $\mathsf{append}(g,g')$ from $c_0$ to $c_2$. A second use of \autoref{thm:monoidalcat-singleton-tensor-carrier} gives the second displayed carrier.
+
+It remains to compare the displayed morphism histories. The four input hom-carrier rows expose unary membership of $f$, $f'$, $g$, and $g'$. Hence \autoref{thm:unary-commutativity-refined}, applied to the canonical append continuations for $g$ followed by $f'$ and for $f'$ followed by $g$, gives
+$$
+\HSame(\mathsf{append}(g,f'),\mathsf{append}(f',g)).
+$$
+Repeated use of \autoref{thm:continuation-associativity} identifies the tensor composite with
+$$
+\mathsf{append}(f,\mathsf{append}(\mathsf{append}(g,f'),g'))
+$$
+and identifies the tensor of component composites with
+$$
+\mathsf{append}(f,\mathsf{append}(\mathsf{append}(f',g),g')).
+$$
+The reverse direction of \autoref{thm:append-hsame-common-context-cancel}, with common left context $f$ and common right context $g'$, transports the middle comparison into the two displayed fourfold histories. Transitivity of $\HSame$ with the two associativity comparisons gives the required classifier equality.
 \end{proof}
