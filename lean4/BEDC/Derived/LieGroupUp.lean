@@ -151,6 +151,35 @@ theorem LieGroupSingleton_classifier_transport {h h' k k' : BHist} :
     (And.intro productLeft (And.intro productRight productSame))
     (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
 
+theorem LieGroupSingleton_multiplication_smooth_homomorphism {h k product domain value : BHist} :
+    LieGroupSingletonCarrier h ->
+      LieGroupSingletonCarrier k ->
+        Cont h k product ->
+          Cont BHist.Empty product domain ->
+            Cont product BHist.Empty value ->
+              LieGroupSingletonCarrier product ∧
+                LieGroupSingletonClassifier product BHist.Empty ∧
+                  hsame domain BHist.Empty ∧ hsame value BHist.Empty ∧ UnaryHistory value := by
+  intro carrierH carrierK productRow domainRow valueRow
+  have productEmpty : hsame product BHist.Empty :=
+    cont_respects_hsame carrierH carrierK productRow (cont_left_unit BHist.Empty)
+  have emptyCarrier : LieGroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have productClassified : LieGroupSingletonClassifier product BHist.Empty :=
+    And.intro productEmpty (And.intro emptyCarrier productEmpty)
+  have domainEmpty : hsame domain BHist.Empty := by
+    have sameDomain : hsame domain product :=
+      cont_left_unit_result domainRow
+    exact hsame_trans sameDomain productEmpty
+  have valueEmpty : hsame value BHist.Empty :=
+    cont_respects_hsame productEmpty (hsame_refl BHist.Empty) valueRow
+      (cont_left_unit BHist.Empty)
+  have valueUnary : UnaryHistory value :=
+    unary_transport unary_empty (hsame_symm valueEmpty)
+  exact And.intro productEmpty
+    (And.intro productClassified
+      (And.intro domainEmpty (And.intro valueEmpty valueUnary)))
+
 theorem LieGroupSingleton_carrier_obligation :
     SemanticNameCert LieGroupSingletonCarrier LieGroupSingletonCarrier LieGroupSingletonCarrier
         LieGroupSingletonClassifier ∧
