@@ -23,4 +23,22 @@ theorem DiffFormBHistCarrier_coordinate_ledger
     exact unary_append_closed tensorUnary antisymUnary
   exact ⟨degreeUnary, probeUnary, tensorUnary, scalarUnary, ledgerRoute⟩
 
+theorem DiffFormExteriorDerivative_degree_raise_ledger
+    {degree probe tensor scalar antisym ledger targetDegree : BHist} :
+    UnaryHistory degree -> UnaryHistory probe -> Cont degree probe tensor ->
+      UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          Cont degree (BHist.e1 BHist.Empty) targetDegree ->
+            UnaryHistory degree ∧ UnaryHistory targetDegree ∧
+              Cont degree (BHist.e1 BHist.Empty) targetDegree ∧ UnaryHistory tensor ∧
+                UnaryHistory scalar := by
+  intro degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute targetRoute
+  have coordinateRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have targetUnary : UnaryHistory targetDegree :=
+    unary_cont_closed degreeUnary (unary_e1_closed unary_empty) targetRoute
+  exact ⟨coordinateRows.left, targetUnary, targetRoute, coordinateRows.right.right.left,
+    coordinateRows.right.right.right.left⟩
+
 end BEDC.Derived.DiffFormUp
