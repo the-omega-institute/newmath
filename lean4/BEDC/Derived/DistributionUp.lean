@@ -93,4 +93,15 @@ theorem DistributionPushforward_monotone_under_target_inclusion
     cont_result_hsame_transport pushSumCont (hsame_symm pushAFromSum)
   exact Exists.intro pushD (And.intro pushDToPushA pushDUnary)
 
+theorem DistributionPushforward_nonnegative_value_inheritance
+    {sourceValue pushedValue witness : BHist} :
+    UnaryHistory sourceValue -> Cont sourceValue BHist.Empty witness ->
+      hsame pushedValue witness -> UnaryHistory pushedValue ∧ hsame pushedValue sourceValue := by
+  intro sourceNonnegative sourceReadback pushedWitness
+  have witnessSource : hsame witness sourceValue :=
+    cont_right_unit_result sourceReadback
+  have pushedSource : hsame pushedValue sourceValue :=
+    hsame_trans pushedWitness witnessSource
+  exact And.intro (unary_transport sourceNonnegative (hsame_symm pushedSource)) pushedSource
+
 end BEDC.Derived.DistributionUp

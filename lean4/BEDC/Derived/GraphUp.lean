@@ -144,6 +144,16 @@ theorem GraphContEdge_unit_loop {h gL gR : BHist} :
           intro edge
           exact cont_right_unit_result edge.right.right)))
 
+theorem GraphContEdge_empty_tail_identity {h g : BHist} :
+    UnaryHistory h -> GraphContEdge h BHist.Empty g ->
+      GraphContEdge h BHist.Empty h ∧ hsame g h := by
+  intro unaryH edge
+  have identityEdge : GraphContEdge h BHist.Empty h :=
+    And.intro unaryH (And.intro unary_empty (cont_right_unit h))
+  have sameResult : hsame g h :=
+    cont_right_unit_result edge.right.right
+  exact And.intro identityEdge sameResult
+
 theorem GraphCont_namecert_surface :
     SemanticNameCert UnaryHistory UnaryHistory UnaryHistory hsame ∧
       (forall {h k g : BHist}, GraphContEdge h k g ->
