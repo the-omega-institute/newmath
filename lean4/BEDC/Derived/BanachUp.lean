@@ -55,6 +55,24 @@ def BanachSingletonCarrier (h : BHist) : Prop :=
 def BanachSingletonClassifier (h k : BHist) : Prop :=
   BanachSingletonCarrier h ∧ BanachSingletonCarrier k ∧ hsame h k
 
+def BanachSingletonBoundedLinearOperator (T : BHist -> BHist) (K ledger : BHist) : Prop :=
+  hsame K BHist.Empty ∧ (hsame ledger BHist.Empty -> False) ∧
+    forall {x : BHist}, BanachSingletonCarrier x -> BanachSingletonCarrier (T x)
+
+theorem BanachSingletonBoundedLinearOperator_composition_closure {T S : BHist -> BHist}
+    {K L Lambda Gamma : BHist} :
+    BanachSingletonBoundedLinearOperator T K Lambda ->
+      BanachSingletonBoundedLinearOperator S L Gamma ->
+        BanachSingletonBoundedLinearOperator (fun x : BHist => S (T x)) BHist.Empty
+          (BHist.e0 (append Gamma Lambda)) := by
+  intro boundedT boundedS
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro
+      (fun ledgerEmpty => not_hsame_e0_empty ledgerEmpty)
+      (by
+        intro x carrierX
+        exact boundedS.right.right (boundedT.right.right carrierX)))
+
 theorem BanachSingletonCarrier_semanticNameCert :
     SemanticNameCert BanachSingletonCarrier BanachSingletonCarrier BanachSingletonCarrier
       BanachSingletonClassifier := by
