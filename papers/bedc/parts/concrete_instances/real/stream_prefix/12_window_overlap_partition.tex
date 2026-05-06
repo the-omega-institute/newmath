@@ -185,3 +185,55 @@ anchors, continuation rows, and endpoint classifiers; core theorem
 \autoref{thm:real-stream-window-finite-partition-fold}; exactness the displayed
 fold equivalence; standard bridge RealUp and RegSeqRat finite observation
 coverage; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RealUp finite-window partition read surface]
+\label{thm:realup-window-partition-read-surface}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, a
+total bound $w$, and a certified finite partition spine $P$ over $(n,w)$ with
+segments $(n_i,r_i)$, the total window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,w)$ and the conjunction of segment
+windows
+$$
+\bigwedge_{(n_i,r_i)\in P}
+\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i)
+$$
+expose the same scoped $\RealUp$ certificate boundary rows. These rows are
+exactly the endpoint $\RatUp$ classifiers, positive unary denominator rows,
+nonempty unary endpoint rows, common e-one tail readback wherever the endpoints
+are displayed as one-headed, finite $\mathsf{RealLedgerPolicy}$ rows,
+DyadicRatCore observation rows, $\RegSeqRat$ spine rows, $\StreamNameUp$ request
+names, $\mathsf{UnaryHistory}$ witnesses, and $\hsame$ transport rows named by
+the certified window spine. Neither presentation reads quotient data, a
+completion object, a metric-completeness certificate, arithmetic or order
+closure, Classical data, or a standard bridge.
+\end{theorem}
+\begin{proof}
+First transport between the two window presentations. Apply
+\autoref{thm:real-stream-window-finite-partition-fold}; the total classifier at
+$(n,w)$ is equivalent to the finite conjunction of the segment classifiers named
+by $P$.
+
+Now read the total presentation through the scoped boundary. Apply
+\autoref{thm:realup-scoped-finite-window-read-surface} to the total window. It
+identifies the endpoint $\RatUp$ rows, denominator rows, common e-one tail
+readback, finite ledger rows, dyadic source rows, stream-name rows, unary
+history witnesses, and $\hsame$ transport rows available at the total window.
+
+For each segment $(n_i,r_i)$ supplied by the partition spine, apply
+\autoref{thm:realup-scoped-finite-window-read-surface} again to the segment
+window $\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i)$. The partition-spine
+ledger records that the segment anchors and radii are obtained from the same
+unary radius histories, $\mathsf{append}$ displays, and $\mathsf{Cont}$ rows
+used to display the total bound, so the segment reads name only the finite
+endpoint and dyadic source rows already named by the total presentation.
+
+It remains to identify the primitive boundary. Apply
+\autoref{thm:realup-finite-window-exhaustion-obligation} for the endpoint
+package and dyadic finite-window source exhaustion. Apply
+\autoref{thm:realup-stream-prefix-scoped-obligation-package} for the carrier,
+classifier, stability, ledger, and seal rows of the primitive stream-prefix
+boundary. These two packages contain exactly the rows listed in the statement
+and exclude quotient, completion, metric-completeness, arithmetic, order,
+Classical, and standard-bridge data, so the partitioned and total presentations
+have the same scoped $\RealUp$ read surface.
+\end{proof}
