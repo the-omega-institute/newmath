@@ -71,6 +71,12 @@ theorem TopologySingleton_semantic_name_certificate :
       · intro carrierH
         exact And.intro (hsame_refl BHist.Empty) carrierH
 
+theorem TopologySingleton_boundary_open_laws :
+    (forall h : BHist, TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <-> False) ∧
+      (forall h : BHist,
+        TopologySingletonOpenAt BHist.Empty h <-> TopologySingletonCarrier h) :=
+  TopologySingleton_semantic_name_certificate.right
+
 theorem TopologySingleton_finite_intersection_laws
     {i j h : BHist}
     (_validI : hsame i BHist.Empty ∨ hsame i (BHist.e0 BHist.Empty))
