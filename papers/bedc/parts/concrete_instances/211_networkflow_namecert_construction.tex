@@ -420,3 +420,44 @@ $$
 $$
 The two comparisons are exactly the displayed maximality and minimality clauses.
 \end{proof}
+
+\begin{corollary}[Network-flow residual exhaustion optimality]
+\label{cor:networkflow-residual-exhaustion-optimality}
+Let $G$ be a directed $\GraphUp$ carrier, let $u$ be a unary capacity assignment, and let $s,t$ be carried vertices. Let $F$ be a feasible finite $\NetworkFlowUp$ $s$-$t$ flow over $u$ with edge-flow assignment $f_F$. If $\Xi$ is a residual-cut augmenting-path exhaustion certificate for $F$, write
+$$
+C_\Xi:=\mathsf{ResCut}_{F,u}(\Xi).
+$$
+Then $F$ is maximal among feasible finite $s$-$t$ flows and $C_\Xi$ is minimal among finite $s$-$t$ cuts: for every feasible finite $\NetworkFlowUp$ $s$-$t$ flow $F'$ over $u$ and every finite $s$-$t$ cut record $D$ in $G$,
+$$
+\mathsf{FlowValue}(F')
+\preceq_{\NatUp}
+\mathsf{FlowValue}(F)
+\qquad\text{and}\qquad
+\mathsf{CutCap}_{G,u}(C_\Xi)
+\preceq_{\NatUp}
+\mathsf{CutCap}_{G,u}(D).
+$$
+\end{corollary}
+\begin{proof}
+Put
+$$
+V_F:=\mathsf{FlowValue}(F),
+\qquad
+K_\Xi:=\mathsf{CutCap}_{G,u}(C_\Xi).
+$$
+By \autoref{thm:networkflow-maxflow-mincut-equality-from-residual-exhaustion}, the residual exhaustion certificate supplies
+$$
+V_F\hsame K_\Xi.
+$$
+Apply \autoref{thm:networkflow-equality-implies-optimality} to the feasible flow $F$ and the finite cut record $C_\Xi$. For each feasible finite $s$-$t$ flow $F'$ over $u$ and each finite $s$-$t$ cut record $D$ in $G$, it gives
+$$
+\mathsf{FlowValue}(F')
+\preceq_{\NatUp}
+\mathsf{FlowValue}(F)
+\qquad\text{and}\qquad
+\mathsf{CutCap}_{G,u}(C_\Xi)
+\preceq_{\NatUp}
+\mathsf{CutCap}_{G,u}(D).
+$$
+These are exactly the maximal-flow and minimal-cut clauses for the residual cut induced by $\Xi$.
+\end{proof}

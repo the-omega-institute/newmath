@@ -100,3 +100,35 @@ The trace-class carrier in \autoref{def:operatorideal-trace-class-carrier} furth
 
 The positivity predicate $\mathsf{Pos}_H$, the trace functional $\operatorname{Tr}_H$, and the trace-one equation are not fields of either displayed OperatorIdeal inventory. They are introduced only when $\DensityMatrixUp$ and $\QuantumChannelUp$ state their own carrier and certificate rows, so none of compactness, spectral decomposition, trace existence, or a standard bridge is exported by this chapter.
 \end{proof}
+
+\begin{theorem}[OperatorIdeal trace-class scalar closure]
+\label{thm:operatorideal-trace-class-scalar-closure}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. Let $a$ be a carried $\RealUp$ scalar endpoint for the Hilbert module action. Write $M_a:H\to H$ for the bounded Hilbert scalar-action endomorphism carried by the scalar row of \autoref{def:operatorideal-hilbert-source-surface},
+$$
+M_a(x):=a\cdot_H x,
+$$
+and let the induced trace-class scalar action on operators be
+$$
+a\odot_H T:=M_a\circ T.
+$$
+Then trace-class membership is closed under this scalar action:
+$$
+\mathsf{TC}(H)(T)\Longrightarrow\mathsf{TC}(H)(a\odot_H T).
+$$
+\end{theorem}
+\begin{proof}
+The carried scalar hypothesis gives a certified scalar-action row on the Hilbert module surface. Read as a map in the bounded-operator composition ring, that row carries the homothety $M_a$ as a bounded $\LinearMapUp(H,H)$ endpoint; in the notation of \autoref{def:operatorideal-hilbert-source-surface}, this is the ambient witness $\mathsf{Op}_H(M_a)$.
+
+Now assume $\mathsf{TC}(H)(T)$. By \autoref{def:operatorideal-trace-class-carrier}, this witness consists of a bounded-operator carrier row $\mathsf{Op}_H(T)$ and an ideal-membership row $\mathsf{TraceClassIdeal}_H(T)$ inside the bounded-operator composition ring.
+
+Apply \autoref{thm:operatorideal-two-sided-absorption-row} with the carried ambient operator $A=M_a$. The left absorption component gives
+$$
+\mathsf{TC}(H)(M_a\circ T),
+$$
+while the right component gives $\mathsf{TC}(H)(T\circ M_a)$ and is not needed here.
+
+The displayed definition of the inherited scalar action identifies $M_a\circ T$ with $a\odot_H T$. The classifier-transport row for the ideal predicate in \autoref{thm:ideal-classifier-transport-obligation} carries the obtained trace-class witness across that endpoint identity, giving
+$$
+\mathsf{TC}(H)(a\odot_H T).
+$$
+\end{proof}
