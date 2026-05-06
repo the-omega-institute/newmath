@@ -1,0 +1,109 @@
+\begin{definition}[Measure root consumer threshold triad]
+\label{def:measure-root-consumer-threshold-triad}
+The $\MeasureUp$ root consumer threshold triad is the three-sided package
+whose source side is the deps-ready source package of
+\autoref{thm:measure-root-source-deps-ready-package}, whose shared endpoint
+side is the deps-ready seal of
+\autoref{thm:measure-root-shared-endpoint-deps-ready-seal}, and whose
+consumer side consists exactly of the three outgoing faces supplied by
+\autoref{thm:measure-root-bhist-probspace-threshold} and
+\autoref{thm:measure-root-bhist-integral-functional-threshold}. The
+$\ProbSpaceUp$ face receives the total-event normalization, empty-zero,
+finite-additivity, and $\RealUp$ endpoint normalization rows. The
+$\IntegralUp$ face receives the measurable-event, finite-readback,
+countable-sum, head-tail, and continuity-from-below rows. The
+$\FunctionalAnalysisUp$ face receives the nonnegative endpoint, monotone
+inclusion, relative-difference, countable-sum, and continuity-from-below rows.
+All three faces read the same root $\mathsf{BHist}$ event ledger and the same
+sealed $\RealUp$ and $\StreamNameUp$ endpoint rows.
+\end{definition}
+
+\begin{theorem}[Measure root source threshold triad face]
+\label{thm:measure-root-source-threshold-triad-face}
+The source face of
+\autoref{def:measure-root-consumer-threshold-triad} exposes only the
+$\mathsf{BHist}$ event ledger, the $\MeasureUp$ carrier and componentwise
+classifier, the $\RealUp$ endpoint classifier, the $\StreamNameUp$
+endpoint-family rows, additivity, continuity from below, and ledger exactness.
+It exposes no $\IntegralUp$, $\ProbSpaceUp$, or $\FunctionalAnalysisUp$
+consumer-specific row as a root source hypothesis.
+\end{theorem}
+\begin{proof}
+Project the source package from
+\autoref{thm:measure-root-source-deps-ready-package}. It fixes the
+$\mathsf{BHist}$ carrier, the $\MeasureUp$ classifier rows, the visible event
+ledger, the $\RealUp$ endpoint rows, the $\StreamNameUp$ endpoint-family rows,
+and the exhausted source ledger before any consumer face is read.
+
+The event and endpoint parts of that package are already identified by
+\autoref{thm:measure-root-source-event-row-closure} and
+\autoref{thm:measure-root-source-endpoint-row-closure}. These two projections
+account for the root event rows, additivity rows, continuity-from-below rows,
+endpoint classifier rows, and endpoint-family rows named in the statement.
+
+Finally apply \autoref{thm:measure-root-source-ledger-exhaustion}. Its
+exclusion clause removes probability normalization, integral premeasure rows,
+functional-analysis rows, host equality, quotient event equality, and bridge
+rows from the source ledger. Thus the source face of the triad contains only
+the displayed root rows.
+\end{proof}
+
+\begin{theorem}[Measure root shared endpoint threshold triad face]
+\label{thm:measure-root-shared-endpoint-threshold-triad-face}
+The shared endpoint face of
+\autoref{def:measure-root-consumer-threshold-triad} is exactly the collection
+of $\RealUp$ endpoint classifier rows and $\StreamNameUp$ endpoint-family rows
+sealed in
+\autoref{thm:measure-root-shared-endpoint-deps-ready-seal} before projection
+to $\IntegralUp$, $\ProbSpaceUp$, or $\FunctionalAnalysisUp$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:measure-root-shared-endpoint-deps-ready-seal}. The
+seal is built from the source package, shared endpoint coverage, consumer-face
+source separation, and the cross-consumer threshold package. Its shared rows
+are therefore fixed before any outgoing face consumes them.
+
+Apply \autoref{thm:measure-root-shared-endpoint-coverage}. Every row shared
+by the three analysis faces is already a root $\mathsf{BHist}$ event-ledger
+row, a $\RealUp$ endpoint classifier row, or a $\StreamNameUp$
+endpoint-family row. The endpoint part of the shared face is precisely the
+last two families.
+
+Then use \autoref{thm:measure-root-consumer-face-source-separation}. It keeps
+probability normalization, integral head-tail readback, and
+functional-analysis monotone and relative-difference rows on their own
+consumer projections unless their endpoint classifier has already been sealed
+as a shared root row. Hence no extra endpoint row appears after projection.
+\end{proof}
+
+\begin{theorem}[Measure root consumer threshold triad exhaustion]
+\label{thm:measure-root-consumer-threshold-triad-exhaustion}
+In the triad of \autoref{def:measure-root-consumer-threshold-triad},
+$\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consume only their
+named outgoing faces. No probability normalization row, integral head-tail or
+premeasure row, functional-analysis monotone or relative-difference row, host
+set equality, quotient event equality, analytic completion object, or
+$\StdBridge$ row becomes a root $\MeasureUp$ hypothesis.
+\end{theorem}
+\begin{proof}
+First project the consumer side of
+\autoref{def:measure-root-consumer-threshold-triad}. The $\ProbSpaceUp$ face
+is the face identified by
+\autoref{thm:measure-root-bhist-probspace-threshold}; the $\IntegralUp$ and
+$\FunctionalAnalysisUp$ faces are the two faces identified by
+\autoref{thm:measure-root-bhist-integral-functional-threshold}.
+
+Next compare these outgoing faces with the source face of
+\autoref{thm:measure-root-source-threshold-triad-face}. The source face has
+already exhausted the root carrier, classifier, event ledger, endpoint rows,
+additivity, continuity, and ledger exactness without importing any
+consumer-specific row.
+
+Finally apply
+\autoref{thm:measure-root-shared-endpoint-threshold-triad-face}. Shared
+endpoint rows are sealed as $\RealUp$ and $\StreamNameUp$ rows before consumer
+projection, while the remaining probability, integral, and
+functional-analysis rows stay on their named outgoing faces. This exhausts
+the triad and prevents every consumer-specific row listed in the statement
+from becoming a root $\MeasureUp$ hypothesis.
+\end{proof}
