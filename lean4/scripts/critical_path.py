@@ -284,6 +284,16 @@ def extract_horizons() -> dict[str, dict]:
         deps = {m.group(1).lower() for m in UP_REF_RE.finditer(full_text)}
         deps.discard(name)
         thms = len(LEAN_MARKER_RE.findall(full_text))
+        # `labels` counts paper obligation `\label{thm|def|...}` slugs in
+        # the chapter's full include closure. Distinct from `thms` (lean
+        # markers): paper writes obligations first, lean catches up
+        # later. `deps_ready` uses `max(thms, labels)` so a chapter with
+        # paper obligation content is treated as "ready" downstream
+        # before its lean side has filled in markers — otherwise root
+        # chapters with rich paper obligations but no lean markers stay
+        # in dep-blocked limbo.
+        labels = len({f"{m.group(1)}:{m.group(2)}"
+                      for m in PAPER_LABEL_FULL_RE.finditer(full_text)})
         retired, theory_grade, formal_grade, lean_target = (
             is_chapter_retired_from_horizon(full_text, name)
         )
@@ -300,6 +310,7 @@ def extract_horizons() -> dict[str, dict]:
             "name": name,
             "deps": sorted(deps),
             "thms": thms,
+            "labels": labels,
             "closed_at": closed_at,
             "closed": retired,
             "closure_grounding": lean_target,
@@ -470,11 +481,29 @@ def transitive_downstream(horizons: dict[str, dict]) -> dict[str, int]:
 
 def deps_ready(name: str, horizons: dict[str, dict],
                 threshold: int = DEFAULT_DEPS_READY_THRESHOLD) -> bool:
-    """All declared deps must already have >= threshold theorems."""
+    """All declared deps must already have `>= threshold` of EITHER
+    lean markers (`thms`) OR paper obligation labels (`labels`).
+
+    Why max() instead of just `thms`: paper rounds write obligation
+    `\\label{thm:...}` blocks ahead of lean rounds adding
+    `\\leanchecked` markers. With strict `thms` check, a chapter
+    with rich paper obligation surface (e.g. bundle: 9 \\begin{theorem}
+    + 9 \\label) but 0 lean markers stays dep-blocked, blocking 5+
+    downstream chapters from entering critical_path.top. By the time
+    lean catches up the obligation surface may have moved on.
+
+    Using max(thms, labels) treats paper-written obligations as
+    "ready downstream" — the dep chapter has enough content that
+    lean rounds can now form lean targets against it.
+    """
     for d in horizons[name]["deps"]:
         if d not in horizons:
             continue  # external (e.g. a kernel object); ignore
-        if horizons[d]["thms"] < threshold:
+        ready = max(
+            horizons[d].get("thms", 0),
+            horizons[d].get("labels", 0),
+        )
+        if ready < threshold:
             return False
     return True
 
