@@ -326,6 +326,58 @@ transports the left factor along $f(x)\sim_T0_T$, and uses the target left zero-
 The displayed carrier support, zero, additive, inverse, multiplicative, classifier-transport, and two-sided absorption rows are exactly the $\IdealUp$ certificate rows listed in \autoref{sec:ideal-certificate} for a predicate over the source $\RingUp$ certificate.
 \end{proof}
 
+\begin{definition}[Ideal quotient-kernel source package]
+\label{def:ideal-quotient-kernel-source-package}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ carried predicate over $R$, and write
+$$
+x-_R y:=x+_R(-_R y).
+$$
+The ideal quotient-kernel source package is the concrete $\mathsf{BHist}$ relation $Q_I$ on ring endpoints defined by
+$$
+Q_I(x,y)\Longleftrightarrow C(x)\land C(y)\land I(x-_R y).
+$$
+It is the quotient-free $\mathsf{BHist}$ relation later read as the ideal-coset relation in \autoref{def:quotientring-ideal-coset-relation}.
+\end{definition}
+
+\begin{theorem}[Ideal quotient-kernel diagonal exactness]
+\label{thm:ideal-quotient-kernel-diagonal-exactness}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}, and let $I$ be an $\IdealUp$ carried predicate over $R$. Assume the ideal certificate supplies zero membership and classifier transport, and the ring certificate supplies the additive inverse and zero rows. If $C(x)$, then $Q_I(x,x)$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-quotient-kernel-source-package}. The two endpoint carrier witnesses are both the given evidence $C(x)$.
+
+It remains to show $I(x-_R x)$. By the additive inverse row in the underlying ring certificate, $x+_R(-_R x)$ is classified with $0_R$. The ideal zero row gives $I(0_R)$, and classifier symmetry orients the comparison from $0_R$ to $x-_R x$.
+
+Classifier transport for $I$ carries zero membership across this edge. Repacking the two carrier witnesses with the transported ideal membership gives $Q_I(x,x)$.
+\end{proof}
+
+\begin{theorem}[Ideal quotient-kernel transport surface]
+\label{thm:ideal-quotient-kernel-transport-surface}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}, and let $I$ be an $\IdealUp$ carried predicate over $R$. Assume the ring certificate supplies carrier transport, additive inverse congruence, addition congruence, and the classifier-equivalence rows, and assume the ideal certificate supplies classifier transport. If $Q_I(x,y)$, $x\sim_R x'$, and $y\sim_R y'$, then $Q_I(x',y')$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-quotient-kernel-source-package}. From $Q_I(x,y)$ we have $C(x)$, $C(y)$, and $I(x-_R y)$.
+
+Carrier transport along $x\sim_R x'$ and $y\sim_R y'$ gives $C(x')$ and $C(y')$. Additive inverse congruence sends $y\sim_R y'$ to $-_R y\sim_R -_R y'$, and addition congruence combines this with $x\sim_R x'$ to obtain
+$$
+x-_R y\sim_R x'-_R y'.
+$$
+
+The ideal classifier-transport row carries $I(x-_R y)$ across this subtraction comparison, giving $I(x'-_R y')$. Pairing this membership with the transported carriers gives $Q_I(x',y')$.
+\end{proof}
+
+\begin{theorem}[Ideal quotient-ring export surface]
+\label{thm:ideal-quotientring-export-surface}
+Let $R$ carry a $\RingUp$ certificate and let $I$ be an $\IdealUp$ carried predicate over $R$, with $Q_I$ as in \autoref{def:ideal-quotient-kernel-source-package}. The IdealUp rows export the quotient-free kernel surface consumed by $\QuotientRingUp$ in \autoref{ch:concrete-instances-quotientring-namecert}: diagonal exactness for carried endpoints, transport along the RingUp classifier on both endpoints, and the two-sided absorption rows needed for representative-independent multiplication. The zero-fiber and preimage constructions of \autoref{def:ring-map-zero-fiber-predicate}, \autoref{thm:ring-map-zero-fiber-ideal-closure}, \autoref{def:ring-map-ideal-preimage-predicate}, and \autoref{thm:ring-map-ideal-preimage-ideal-closure} therefore produce concrete inputs to this same quotient-kernel surface.
+\end{theorem}
+\begin{proof}
+The diagonal component is exactly \autoref{thm:ideal-quotient-kernel-diagonal-exactness}. The endpoint-transport component is exactly \autoref{thm:ideal-quotient-kernel-transport-surface}.
+
+For multiplication, unfold $Q_I$. Representative changes provide ideal memberships $I(a-_R a')$ and $I(b-_R b')$. The right absorption row applies the first membership against the carried endpoint $b$, and the left absorption row applies the second membership against the carried endpoint $a'$. Additive closure and classifier transport then assemble the product-difference membership used in \autoref{thm:quotientring-multiplication-descends-to-cosets}.
+
+The same package also exposes the additive representative surface used by \autoref{thm:quotientring-additive-descent}, the equivalence surface used by \autoref{thm:quotientring-ideal-coset-equivalence}, and the zero-classification surface used by \autoref{thm:quotientring-zero-coset-classification}. Thus an IdealUp predicate, including one obtained as a zero fiber or as a ring-map preimage, supplies the concrete quotient-kernel source required before any quotient carrier is formed.
+\end{proof}
+
 \begin{definition}[Finite ideal-intersection predicate]
 \label{def:finite-ideal-intersection-predicate}
 Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $xs:\mathsf{HistSpine}$ be a finite BEDC-history spine, and let $\mathcal{I}$ assign to every position $i:\mathsf{Pos}(xs)$ a predicate $\mathcal{I}_i:\mathsf{BHist}\to\mathsf{Prop}$ over the same ring data. The finite relative intersection predicate is
