@@ -26,6 +26,13 @@ def RatStreamNameFiniteWindowClassifier (s t : BHist -> BHist)
 def RatStreamName_constant (d : BHist) (_n : BHist) : BHist :=
   append BHist.Empty d
 
+theorem RatStreamNameCarrier_pointwise_hsame_transport {s s' : BHist -> BHist} :
+    RatStreamNameCarrier s ->
+      (forall n : BHist, UnaryHistory n -> hsame (s n) (s' n)) ->
+        RatStreamNameCarrier s' := by
+  intro carrier samePoint n nUnary
+  exact RatHistoryCarrier_hsame_transport (samePoint n nUnary) (carrier n nUnary)
+
 theorem RatConstStream_empty_point_exactness {h k : BHist} :
     (RatStreamNameCarrier (RatConstStream h) ↔
       RatHistoryCarrier (RatConstStream h BHist.Empty)) ∧
