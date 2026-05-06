@@ -415,6 +415,23 @@ theorem RealAnalyticLocalStream_obligations_package {zero zero' : BHist}
     exact RealAnalyticComplexAbsPartSum_pointwise_result_unary_transport zeroUnary sameZero
       modulusUnary modulusSame unaryN source target
 
+theorem RealAnalyticRealCompletionDependencySurface_local_result_unary {zero result : BHist}
+    {c modulus : BHist -> BHist} :
+    UnaryHistory zero ->
+      (forall {n : BHist}, UnaryHistory n -> UnaryHistory (c n)) ->
+        (forall {n : BHist}, UnaryHistory n -> UnaryHistory (modulus n)) ->
+          (exists n : BHist,
+            ComplexPartSum zero c n result \/ ComplexAbsPartSum zero modulus n result) ->
+            UnaryHistory result := by
+  intro zeroUnary termUnary modulusUnary localSurface
+  cases localSurface with
+  | intro n surface =>
+      cases surface with
+      | inl partSum =>
+          exact ComplexPartSum_result_unary zeroUnary termUnary partSum
+      | inr absPartSum =>
+          exact ComplexAbsPartSum_result_unary zeroUnary modulusUnary absPartSum
+
 theorem RealAnalyticExp_local_witness_unary {x bound modulus y : BHist} :
     RealAnalyticExp x bound modulus y ->
       UnaryHistory bound ∧ UnaryHistory modulus ∧
