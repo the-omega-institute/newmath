@@ -191,4 +191,29 @@ theorem MeasureZeroBHist_sigma_additivity (events : Nat -> BHist) :
     | succ n ih =>
         exact cont_respects_hsame ih (eventsZero (Nat.succ n)) rfl (cont_left_unit BHist.Empty)
 
+theorem MeasureZeroBHistPrefix_classifier_stability (events values : Nat -> BHist) :
+    (forall n : Nat, MeasureZeroBHistClassifier (events n) (values n)) ->
+      forall n : Nat,
+        MeasureZeroBHistClassifier
+          (MeasureZeroBHistPrefix events n) (MeasureZeroBHistPrefix values n) := by
+  intro pointwise n
+  induction n with
+  | zero =>
+      exact And.intro (hsame_refl BHist.Empty)
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  | succ n ih =>
+      have eventClassified := pointwise n
+      have leftZero :
+          MeasureZeroBHistCarrier (MeasureZeroBHistPrefix events (Nat.succ n)) := by
+        exact append_eq_empty_iff.mpr (And.intro ih.left eventClassified.left)
+      have rightZero :
+          MeasureZeroBHistCarrier (MeasureZeroBHistPrefix values (Nat.succ n)) := by
+        exact append_eq_empty_iff.mpr
+          (And.intro ih.right.left eventClassified.right.left)
+      have samePrefixes :
+          hsame (MeasureZeroBHistPrefix events (Nat.succ n))
+            (MeasureZeroBHistPrefix values (Nat.succ n)) :=
+        hsame_trans leftZero (hsame_symm rightZero)
+      exact And.intro leftZero (And.intro rightZero samePrefixes)
+
 end BEDC.Derived.MeasureUp
