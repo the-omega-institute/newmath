@@ -236,6 +236,7 @@ import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.IdealUp
+import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
@@ -283,6 +284,7 @@ import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
+import BEDC.Derived.LatticeUp.MeetAbsorption
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
