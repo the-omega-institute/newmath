@@ -1,0 +1,160 @@
+\input{parts/concrete_instances/59_ideal_zero_whole_predicates}
+
+\begin{theorem}[Ideal zero-membership obligation]
+\label{thm:ideal-zero-membership-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, with $\NameCert_{\RingUp}$ carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. If $I:\mathsf{BHist}\to\mathsf{Prop}$ is an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}, then the certificate contains the zero-membership row $I(0_R)$.
+\end{theorem}
+\begin{proof}
+Unpack the $\IdealUp$ carried-predicate data from \autoref{def:ideal-carried-predicate-rows}. The underlying predicate is explicitly a predicate on $\mathsf{BHist}$, while the zero endpoint $0_R$ is the zero row of the ambient $\RingUp$ certificate.
+
+Among the rows carried by the ideal certificate is the zero-membership row. Projecting that row gives exactly $I(0_R)$.
+\end{proof}
+
+\begin{theorem}[Ideal classifier-transport obligation]
+\label{thm:ideal-classifier-transport-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, with $\NameCert_{\RingUp}$ carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. If $I:\mathsf{BHist}\to\mathsf{Prop}$ is an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}, then its certificate contains the classifier-transport row
+$$
+I(x)\land x\sim_R y\Longrightarrow I(y).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the carried predicate rows. The endpoints $x$ and $y$ are BEDC histories, the relation $x\sim_R y$ is the classifier supplied by the ambient $\NameCert_{\RingUp}$, and $I$ is the $\mathsf{BHist}$ predicate being certified.
+
+The classifier-transport row listed in \autoref{def:ideal-carried-predicate-rows} is one of the fields of the $\IdealUp$ certificate. Projecting it and applying it to a membership witness $I(x)$ and the classifier comparison $x\sim_R y$ yields $I(y)$.
+\end{proof}
+
+\begin{theorem}[Ideal two-sided absorption obligation]
+\label{thm:ideal-two-sided-absorption-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, with $\NameCert_{\RingUp}$ carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. If $I:\mathsf{BHist}\to\mathsf{Prop}$ is an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}, then its certificate contains the left and right ambient absorption rows: for every carried ambient endpoint $r$ with $C(r)$,
+$$
+I(x)\Longrightarrow I(r\cdot_R x)\land I(x\cdot_R r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the $\IdealUp$ certificate rows from \autoref{def:ideal-carried-predicate-rows}. The ambient multiplier $r$ is not required to belong to the ideal predicate; it is only required to be carried by the $\RingUp$ carrier $C$ from the underlying $\NameCert_{\RingUp}$.
+
+The two-sided absorption row is part of the listed certificate surface. Projecting it at the carried endpoint $r$ and a membership witness $I(x)$ gives the pair of conclusions $I(r\cdot_R x)$ and $I(x\cdot_R r)$.
+\end{proof}
+
+\begin{definition}[Ideal intersection predicate]
+\label{def:ideal-intersection-predicate}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, and let $I$ and $J$ be $\IdealUp$ carried predicates over $R$ in the sense of \autoref{sec:ideal-carrier}. The intersection predicate $I\cap_RJ$ is defined by
+$$
+(I\cap_RJ)(x)\Longleftrightarrow I(x)\land J(x).
+$$
+\end{definition}
+
+\begin{theorem}[Ideal intersection closure]
+\label{thm:ideal-intersection-closure}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over $R$. Assume the two ideal certificates provide the rows specified in \autoref{sec:ideal-certificate}: carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and left and right absorption by every carried ring endpoint. For $K:=I\cap_RJ$ as in \autoref{def:ideal-intersection-predicate}, $K$ is an $\IdealUp$ predicate over $R$. Explicitly, $K$ has carrier support and the rows
+$$
+K(0_R),\qquad
+K(x)\land K(y)\Longrightarrow K(x+_R y),\qquad
+K(x)\Longrightarrow K(-_R x),
+$$
+$$
+K(x)\land K(y)\Longrightarrow K(x\cdot_R y),\qquad
+K(x)\land x\sim_R y\Longrightarrow K(y),
+$$
+and, for every $r$ with $C(r)$,
+$$
+K(x)\Longrightarrow K(r\cdot_R x)\land K(x\cdot_R r).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealIntersection\_closure\_rows}
+\begin{proof}
+The carrier support row is immediate. If $K(x)$, then $I(x)$ and $J(x)$; the carrier-support row of either ideal gives $C(x)$.
+
+For zero, the zero rows for $I$ and $J$ give $I(0_R)$ and $J(0_R)$, hence $K(0_R)$.
+
+For additive closure, assume $K(x)$ and $K(y)$. Then $I(x)$, $I(y)$, $J(x)$, and $J(y)$. The additive-closure row for $I$ gives $I(x+_R y)$, and the additive-closure row for $J$ gives $J(x+_R y)$. Together these are $K(x+_R y)$.
+
+For additive inverse closure, assume $K(x)$. The inverse row for $I$ gives $I(-_R x)$, and the inverse row for $J$ gives $J(-_R x)$. Thus $K(-_R x)$.
+
+For internal multiplication closure, assume $K(x)$ and $K(y)$. Carrier support gives $C(y)$. Right absorption in $I$, applied to $I(x)$ and $C(y)$, gives $I(x\cdot_R y)$. Right absorption in $J$, applied to $J(x)$ and $C(y)$, gives $J(x\cdot_R y)$. Hence $K(x\cdot_R y)$, which supplies the multiplicative closure row required by the sub-rng part of $\IdealUp$.
+
+For classifier transport, assume $K(x)$ and $x\sim_R y$. The transport row for $I$ gives $I(y)$, and the transport row for $J$ gives $J(y)$. Therefore $K(y)$.
+
+For right absorption, assume $K(x)$ and $C(r)$. Right absorption in the two input ideal certificates gives $I(x\cdot_R r)$ and $J(x\cdot_R r)$, so $K(x\cdot_R r)$. For left absorption, the same argument with the left absorption rows gives $I(r\cdot_R x)$ and $J(r\cdot_R x)$, hence $K(r\cdot_R x)$.
+
+These rows are exactly the carrier, additive sub-rng, classifier-stability, and ambient two-sided absorption rows required of an $\IdealUp$ predicate over the given $\RingUp$ certificate.
+\end{proof}
+
+\begin{definition}[Ideal sum predicate]
+\label{def:ideal-sum-predicate}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ carried predicates over $R$ in the sense of \autoref{sec:ideal-carrier}. The ideal-sum predicate $I+_RJ$ is defined by the displayed additive decomposition
+$$
+(I+_RJ)(z)\Longleftrightarrow
+\exists x,y:\mathsf{BHist}.\; I(x)\land J(y)\land z\sim_R x+_R y.
+$$
+The ambient carrier witnesses are obtained through the carrier-support rows of the two $\IdealUp$ certificates, the ring addition carrier row, and carrier transport along $\sim_R$. The hidden ledger for a sum membership contains only the two membership witnesses $I(x)$ and $J(y)$ together with the additive decomposition row $z\sim_R x+_R y$.
+\end{definition}
+
+\begin{theorem}[Ideal sum closure]
+\label{thm:ideal-sum-closure}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over $R$. Assume the two ideal certificates provide the rows specified in \autoref{sec:ideal-certificate}: carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and left and right absorption by every carried ring endpoint. For $K:=I+_RJ$ as in \autoref{def:ideal-sum-predicate}, $K$ is an $\IdealUp$ predicate over $R$. Explicitly, $K$ has carrier support and the rows
+$$
+K(0_R),\qquad
+K(z)\land K(w)\Longrightarrow K(z+_R w),\qquad
+K(z)\Longrightarrow K(-_R z),
+$$
+$$
+K(z)\land K(w)\Longrightarrow K(z\cdot_R w),\qquad
+K(z)\land z\sim_R z'\Longrightarrow K(z'),
+$$
+and, for every $r$ with $C(r)$,
+$$
+K(z)\Longrightarrow K(r\cdot_R z)\land K(z\cdot_R r).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealSum\_closure\_rows}
+\begin{proof}
+For carrier support, unpack a witness for $K(z)$. The support rows of $I$ and $J$ give $C(x)$ and $C(y)$, the ring addition carrier row gives $C(x+_R y)$, and carrier transport along $z\sim_R x+_R y$ gives $C(z)$.
+
+For zero membership, use the witness pair $(0_R,0_R)$. The zero rows give $I(0_R)$ and $J(0_R)$, and the additive-zero row of the ring certificate supplies the decomposition $0_R\sim_R0_R+_R0_R$.
+
+For additive closure, choose witnesses $z\sim_R x+_R y$ for $K(z)$ and $w\sim_R x'+_R y'$ for $K(w)$. Addition congruence carries these decompositions to
+
+$$
+z+_R w\sim_R (x+_R y)+_R(x'+_R y').
+$$
+
+Additive associativity and commutativity in the $\RingUp$ rows regroup the right side as $(x+_R x')+_R(y+_R y')$. The additive-closure rows of $I$ and $J$ give $I(x+_R x')$ and $J(y+_R y')$, which are the required witnesses for $K(z+_R w)$.
+
+For additive inverse closure, start from $z\sim_R x+_R y$. The inverse-congruence row gives $-_R z\sim_R -_R(x+_R y)$, and the inverse-of-sum row identifies the right side with $(-_R x)+_R(-_R y)$. The additive inverse rows of $I$ and $J$ supply $I(-_R x)$ and $J(-_R y)$, so $K(-_R z)$.
+
+For classifier transport, assume $K(z)$ and $z\sim_R z'$. Symmetry and transitivity of the classifier compose $z'\sim_R z$ with the displayed decomposition for $z$, giving the same witness pair for $K(z')$.
+
+For absorption, assume $K(z)$ with witness $z\sim_R x+_R y$ and let $r$ be carried. Distributivity gives
+
+$$
+r\cdot_R z\sim_R (r\cdot_R x)+_R(r\cdot_R y)
+$$
+
+and
+
+$$
+z\cdot_R r\sim_R (x\cdot_R r)+_R(y\cdot_R r).
+$$
+
+The left and right absorption rows of $I$ and $J$ supply the four displayed ideal memberships, so the two decompositions witness $K(r\cdot_R z)$ and $K(z\cdot_R r)$.
+
+For internal multiplication closure, carrier support for $K(w)$ gives $C(w)$. Right absorption applied to $K(z)$ and $C(w)$ yields $K(z\cdot_R w)$, which supplies the multiplicative row required by the sub-rng part of $\IdealUp$.
+
+These rows are exactly the carrier, additive sub-rng, multiplicative sub-rng, classifier-stability, and two-sided ambient absorption rows required of an $\IdealUp$ predicate over the fixed $\RingUp$ certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.IdealUp.IdealSum\_ideal\_closure\_rows}
+
+\begin{theorem}[Ideal sum quotient-ring kernel scope]
+\label{thm:ideal-sum-quotientring-kernel-scope}
+Let $R$ carry a $\RingUp$ certificate and let $I$ and $J$ be $\IdealUp$ carried predicates over $R$. Let $K:=I+_RJ$ be the ideal-sum predicate of \autoref{def:ideal-sum-predicate}, and let $Q_K$ be the quotient-kernel source package of \autoref{def:ideal-quotient-kernel-source-package}. The package $Q_K$ has the same diagonal and endpoint-transport scope as the quotient-kernel packages built from any other $\IdealUp$ predicate, so $\QuotientRingUp$ may consume ideal sums without adding quotient primitives.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealSumQuotientKernel\_scope}
+\begin{proof}
+By \autoref{thm:ideal-sum-closure}, the predicate $K$ is an $\IdealUp$ predicate over the same $\RingUp$ data as $I$ and $J$.
+
+Apply \autoref{thm:ideal-quotient-kernel-diagonal-exactness} to $K$ for the diagonal row, and apply \autoref{thm:ideal-quotient-kernel-transport-surface} to $K$ for endpoint transport. The kernel relation is still the same concrete relation $Q_K(x,y)\Longleftrightarrow C(x)\land C(y)\land K(x-_R y)$, so the quotient-ring consumer sees no additional quotient carrier or quotient primitive.
+
+The ten-field fit is: traditional target sum of two ideals; BEDC source $\RingUp$ plus two $\IdealUp$ predicates over $\mathsf{BHist}$; carrier the existential additive decomposition predicate; classifier $\sim_R$; stability \autoref{thm:ideal-sum-closure}; ledger decomposition witnesses; core theorem \autoref{thm:ideal-sum-closure}; exactness row exhaustion of the displayed witnesses; standard bridge absent; status $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.IdealUp.IdealSumQuotientKernel\_diagonal\_transport\_scope}
