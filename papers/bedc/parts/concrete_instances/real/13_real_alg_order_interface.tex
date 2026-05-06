@@ -199,11 +199,72 @@ as the corresponding RealUp constant row.
 The intended Lean target shape for this boundary is
 \texttt{BEDC.Derived.RealAlgOrderUp.constant\_rational\_order\_boundary}.
 
+\begin{theorem}[RealAlgOrder constant rational scoped certificate]
+\label{thm:realalgorder-constant-rational-scoped-certificate}
+The constant-rational $\RealAlgOrder$ package is scoped exactly by
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, the RatUp
+operation and order rows, $\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$, $\mathsf{BHist}$, $\hsame$,
+\autoref{thm:real-constant-rational-embedding-certificate}, and
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. More precisely,
+it forms a ten-field scoped certificate with the following fields:
+\begin{enumerate}
+  \item traditional target: the constant rational real algebra and order
+  surface of $\RealAlgOrder$;
+  \item BEDC source: $\RatUp+\StreamNameUp+\RealUp$ restricted to RealUp
+  constant rational endpoints over $\mathsf{BHist}$ and $\hsame$;
+  \item carrier: $\mathsf{RealConstantHistoryCarrier}$;
+  \item classifier: $\mathsf{RealConstantHistoryClassifier}$;
+  \item stability: every displayed Real constant classifier comparison reads
+  back to the RatUp classifier row by
+  \autoref{thm:real-constant-history-classifier-e1-iff-rat};
+  \item ledger: the hidden rational operation or order row remains the RatUp
+  row, while the visible endpoint is sealed by the e-one RealUp constant
+  embedding of \autoref{thm:real-constant-rational-embedding-certificate};
+  \item carrier and classifier theorem:
+  \autoref{thm:realalgorder-constant-carrier-classifier-obligations};
+  \item algebra theorem:
+  \autoref{thm:realalgorder-constant-algebra-row-obligations};
+  \item order and apartness theorems:
+  \autoref{thm:realalgorder-constant-order-apartness-obligations} and
+  \autoref{thm:realalgorder-constant-rational-order-boundary};
+  \item exactness: no completeness row, trichotomy row, metric row, topology
+  row, or standard-bridge row is consumed.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First project the four RealAlgOrder boundary theorems. The carrier and
+classifier component comes from
+\autoref{thm:realalgorder-constant-carrier-classifier-obligations}; the
+algebra component comes from
+\autoref{thm:realalgorder-constant-algebra-row-obligations}; the order and
+apartness component comes from
+\autoref{thm:realalgorder-constant-order-apartness-obligations}; and the
+combined boundary comes from
+\autoref{thm:realalgorder-constant-rational-order-boundary}.
+
+Next expose the permitted source for each projected component. The only public
+Real endpoints are $\Eone(d)$-sealed rational histories supplied by
+\autoref{thm:real-constant-rational-embedding-certificate}. The only hidden
+operation and order rows are the RatUp rows named in the concrete interface,
+and the only ambient history relation used to move them is $\hsame$ on
+$\mathsf{BHist}$.
+
+Finally read every Real constant classifier move back to RatUp through
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. This gives exactly
+the RatUp classifier comparison required by the projected carrier,
+classifier, algebra, order, and apartness rows, and no proof step asks for
+completeness, trichotomy, metric structure, topology, or a standard bridge.
+\end{proof}
+
+The intended Lean target shape for this certificate is
+\texttt{BEDC.Derived.RealAlgOrderUp.constant\_rational\_scoped\_certificate}.
+
 \begin{closurestatus}{\RealAlgOrder}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope is RatUp, StreamNameUp, RealUp constant rational endpoints, $\mathsf{BHist}$, $\hsame$, and classifier transport for carrier, classifier, algebra, order, and apartness rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:realalgorder-constant-rational-scoped-certificate} binds RatUp, StreamNameUp, RealUp constant rational endpoints, $\mathsf{BHist}$, $\hsame$, and classifier transport for carrier, classifier, algebra, order, and apartness rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This boundary does not claim complete real arithmetic or order, trichotomy, completeness, or metric and topological consequences.}
-  \upgradepath{A scoped-closure grade requires grounding these obligations against RatUp, StreamNameUp, RealUp constants, $\mathsf{BHist}$, and $\hsame$.}
+  \notclaimed{This boundary does not claim complete real arithmetic, trichotomy, completeness, metric or topological consequences, or a standard bridge.}
+  \upgradepath{A formal verification grade requires a Lean theorem for the scoped certificate while preserving the independent paper and Lean axes.}
 \end{closurestatus}
