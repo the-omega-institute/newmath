@@ -1,10 +1,16 @@
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.TopologyUp
 
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
+
+def BHistFiniteBaseNeighborhood (indices : ProbeBundle BHist)
+    (ball : BHist -> BHist -> Prop) (x : BHist) : Prop :=
+  forall i : BHist, InBundle i indices -> ball i x
 
 structure BHistIndexedOpenCarrier where
   OpenIx : Type
@@ -82,6 +88,25 @@ theorem BHistCarriesOpen_classifier_transport (T : BHistIndexedOpenCarrier)
     have openX : T.OpenAt i x :=
       Iff.mpr stable openY
     exact Iff.mpr carryX openX
+
+theorem BHistFiniteBaseNeighborhood_classifier_transport (indices : ProbeBundle BHist)
+    (ball : BHist -> BHist -> Prop) {x y : BHist}
+    (ballStable :
+      forall {i x y : BHist}, InBundle i indices -> UnaryHistory x -> UnaryHistory y ->
+        hsame x y -> (ball i x <-> ball i y)) :
+    UnaryHistory x -> UnaryHistory y -> hsame x y ->
+      (BHistFiniteBaseNeighborhood indices ball x <->
+        BHistFiniteBaseNeighborhood indices ball y) := by
+  intro unaryX unaryY sameXY
+  constructor
+  · intro neighborhoodX i inIndices
+    have stable : ball i x <-> ball i y :=
+      ballStable inIndices unaryX unaryY sameXY
+    exact Iff.mp stable (neighborhoodX i inIndices)
+  · intro neighborhoodY i inIndices
+    have stable : ball i x <-> ball i y :=
+      ballStable inIndices unaryX unaryY sameXY
+    exact Iff.mpr stable (neighborhoodY i inIndices)
 
 theorem BHistIndexedOpen_finite_intersection_closure (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} :
