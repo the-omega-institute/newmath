@@ -1,0 +1,48 @@
+\begin{definition}[Sheaf downstream root source]
+\label{def:sheaf-downstream-root-source}
+The downstream root source for $\SheafUp$ is the displayed certificate surface obtained by taking the indexed-open carrier of $\TopologyUp$, the restriction carrier of $\PreSheafUp$, the locality and gluing surface of $\SheafUp$, the cover-nerve ledger of \autoref{def:sheaf-bhist-cover-nerve-ledger}, the point-germ ledger of \autoref{def:sheaf-bhist-point-germ-ledger}, and the refinement exactness rows of \autoref{thm:sheaf-refined-cover-exactness-obligation} and \autoref{thm:sheaf-cover-presentation-exactness}.
+
+This source exposes only indexed opens, $\mathsf{BHist}$ membership rows, restriction maps, section classifiers, compatible local-family predicates, point-germ comparisons, displayed refinements, and cover-presentation exactness. It contains no host powerset equality and no quotient of cover presentations.
+\end{definition}
+
+\begin{theorem}[Sheaf RingedSpace local ring row]
+\label{thm:sheaf-ringedspace-local-ring-row}
+Let $\mathcal{S}$ be an indexed $\SheafUp$ carrier over an indexed-open $\TopologyUp$ carrier $\mathcal{T}$. Suppose each section carrier $\mathsf{Sec}(i)$ carries the $\CommRingUp$ operation rows required for a local-ring row, and suppose every restriction map $\rho_{i,j}$ preserves addition, multiplication, zero, one, unit detection, maximal-ideal detection, and the section classifier. Then the source of \autoref{def:sheaf-downstream-root-source} exposes the structure-sheaf rows consumed by $\RingedSpaceUp$: open-indexed commutative ring sections, classifier-stable restrictions, pointwise local-ring readbacks through the point-germ ledger, and local compatibility of the section classifier.
+\end{theorem}
+\begin{proof}
+Project the downstream source of \autoref{def:sheaf-downstream-root-source}. Its carrier rows are the indexed sections, classifiers, restrictions, locality and gluing fields, cover ledger, point-germ ledger, and refinement exactness rows already supplied by $\SheafUp$.
+
+Use \autoref{thm:sheaf-root-unblock-restriction-stability-obligation} for restriction stability. The assumed operation preservation rows ride on the same restriction routes, so the ring operations and the section classifier are transported together along every inclusion $j\le_{\mathcal{T}}i$.
+
+For local-ring readback, use the point-germ ledger of \autoref{def:sheaf-bhist-point-germ-ledger}. A row $(i,o_i,s)$ records an indexed open containing a history cell and a section over that open; comparison is performed on a displayed common neighborhood by restriction and the section classifier. Thus unit and maximal-ideal rows are repacked as point-germ rows without forming a stalk quotient.
+
+The resulting package has exactly the rows requested by the $\RingedSpaceUp$ consumer: a structure sheaf indexed by opens, ring-preserving restrictions, classifier-stable pointwise readback, and local-ring data visible through the existing ledger rows.
+\end{proof}
+
+\begin{theorem}[Sheaf Scheme gluing cover row]
+\label{thm:sheaf-scheme-gluing-cover-row}
+Let $\mathcal{U}=(A,\iota,h,\gamma)$ be a displayed affine cover presentation of an indexed open $i$ for an indexed $\SheafUp$ carrier $\mathcal{S}$. Suppose each member $\iota(a)$ carries a local ringed chart row, and suppose the chart rows are compatible on the finite-intersection overlap rows $\iota(a)\wedge_{\TopologyUp}\iota(b)$ after restriction of sections, local-ring operations, and section classifiers. Then the downstream root source exposes a global section classifier row consumed by $\SchemeUp$: displayed local chart sections glue to a global section over $i$, and any two displayed gluings determine the same global classifier class after common-refinement comparison.
+\end{theorem}
+\begin{proof}
+First read cover membership from \autoref{thm:sheaf-root-unblock-cover-membership-obligation}. Every displayed history cell of the ambient open has a cover member witness, and pairwise overlap rows are supplied by finite intersections in the $\TopologyUp$ carrier.
+
+The assumed overlap compatibility is exactly the compatible local-family predicate of \autoref{def:sheaf-indexed-cover-compatibility-locality}, with the local ringed chart rows transported by restriction. Applying \autoref{thm:sheaf-root-unblock-locality-gluing-obligation} gives a displayed global section and identifies any two global readbacks that agree on the cover.
+
+Refinement descent then supplies invariance under a different displayed affine cover. Use \autoref{thm:sheaf-refinement-gluing-descent} to pass gluing along refinements, \autoref{thm:sheaf-refined-cover-exactness-obligation} for the refined exactness row, and \autoref{thm:sheaf-cover-presentation-exactness} for common-refinement comparison.
+
+Thus $\SchemeUp$ receives a global section classifier row assembled from cover membership, finite-intersection overlaps, locality, gluing, refinement descent, and cover-presentation exactness, with no quotient of cover presentations.
+\end{proof}
+
+\begin{theorem}[Sheaf topology pullback cover row]
+\label{thm:sheaf-topology-pullback-cover-row}
+Let $f:Y\to X$ be a classifier-respecting $\mathsf{BHist}$ map, and let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed cover row for a $\SheafUp$ carrier over $X$. Pull the cover back through the $\TopologyUp$ pullback-open rows of \autoref{def:topology-bhist-pullback-open-row}. Then the pulled-back cover preserves cover membership, restriction stability, and compatible local-family predicates: each source history cell covered by the pulled-back ambient open has a pulled-back cover-member witness, restriction maps commute with classifier transport along the pulled-back inclusion rows, and compatible local sections remain compatible after pullback to finite-intersection overlap rows.
+\end{theorem}
+\begin{proof}
+Start with the topology pullback-open rows. The map row for $f$ transports source classifier witnesses to target classifier witnesses, while \autoref{thm:topology-pullback-open-row-finite-meet} preserves finite intersections and \autoref{thm:topology-pullback-open-row-arbitrary-union} preserves displayed cover unions.
+
+Apply \autoref{thm:sheaf-root-unblock-cover-membership-obligation} to the target cover row and then precompose the resulting membership witnesses with $f$. The pulled-back cover-member witness is the same index $a:A$, read through the pulled-back predicate of \autoref{def:topology-bhist-pullback-open-row}.
+
+For restrictions, use \autoref{thm:sheaf-root-unblock-restriction-stability-obligation}. The source inclusion rows are obtained by pulling back the target inclusions, and the classifier-respecting row for $f$ supplies the transport needed to compare the source-side section classifiers.
+
+Finally, compatibility of local families is checked on pairwise finite-intersection overlap rows. Since finite meets commute with the displayed pullback row and restriction classifier transport is stable along the same routes, every target overlap equality pulls back to the corresponding source overlap equality. This is the compatible local-family predicate required by the downstream topology pullback consumer.
+\end{proof}
