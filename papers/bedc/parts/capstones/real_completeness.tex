@@ -564,6 +564,103 @@ original $\mathsf{RatHistoryClassifier}(d,e)$, transported through
 constant embeddings.
 \end{proof}
 
+\begin{theorem}[Stationary rational partition refinement invariance]
+\label{thm:real-completeness-stationary-partition-refinement-invariance}
+For RatUp histories $d,e,d_0,e_0:\Hist$, an observation anchor $n$, a total
+bound $w$, and a unary observation schedule $\eta:\mathbb{N}\to\Hist$, define
+the stationary rational RealUp observation streams
+$$
+C_d(i)=\mathsf{RatConstStream}_d(\eta(i)),
+\quad
+C_e(i)=\mathsf{RatConstStream}_e(\eta(i)).
+$$
+Let $P$ be a certified finite partition spine over $(n,w)$, and let $P'$ be a
+certified refinement of $P$ obtained by replacing each segment $(n_i,r_i)$ of
+$P$ by a finite adjacent chain $(n_{i,j},r_{i,j})$ whose union is the same
+window. Suppose that the refinement map preserves the unary source-anchor,
+source-bound, selected-offset, and continuation ledgers: every subsegment of
+$P'$ is recorded with the same stationary source anchor and source bound as
+its parent segment in $P$, selected offsets are the corresponding translated
+offsets inside the parent segment, and the continuation rows concatenate the
+subsegments back to the parent window.
+Assume
+$$
+\mathsf{RatHistoryCarrier}(d),\quad
+\mathsf{RatHistoryCarrier}(e),\quad
+\mathsf{RatHistoryClassifier}(d,e),
+$$
+and the seed displays
+$$
+\hsame(d,\Eone(d_0)),\quad
+\hsame(e,\Eone(e_0)).
+$$
+Then the finite segment ledger named by $P$ holds iff the finite segment ledger
+named by $P'$ holds:
+$$
+\bigwedge_{(n_i,r_i)\in P}
+\mathsf{RealStreamWindowClassifier}(C_d,C_e,n_i,r_i)
+\Longleftrightarrow
+\bigwedge_{(n_{i,j},r_{i,j})\in P'}
+\mathsf{RealStreamWindowClassifier}(C_d,C_e,n_{i,j},r_{i,j}).
+$$
+Moreover, either ledger gives the same diagonal RealUp embedding conclusions
+of
+\autoref{thm:real-completeness-stationary-partition-diagonal-embedding} for
+$X_d$ and $X_e$, and every selected endpoint in either ledger has the same
+seed-tail class supplied by
+\autoref{thm:real-completeness-stationary-rational-selected-tail-seed-exactness}.
+\end{theorem}
+
+\begin{proof}[Sketch]
+First apply
+\autoref{thm:real-completeness-stationary-rational-partition-fold} to the
+original spine $P$. Its ledger is equivalent to the total classifier
+$\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,w)$, and its selected endpoint
+rows have the seed-tail class determined by $d_0,e_0$.
+
+Apply the same partition fold to the refined spine $P'$. The refinement
+preserves the source-anchor and source-bound rows, so each subsegment is a
+stationary rational finite window with the same hidden RatUp seed classifier.
+
+For a subsegment inside a parent segment, use adjacent-window restriction to
+read the parent classifier on the smaller window, and use adjacent-window
+concatenation along the refinement chain to assemble the parent window from
+the subsegments. The stationary streams erase the observation schedule
+$\eta$, so this restriction and concatenation carry no extra endpoint data
+beyond the translated selected offsets already recorded in the refinement
+ledger.
+
+The forward direction transports the $P$ ledger through the common total
+classifier and then through the fold for $P'$. The reverse direction uses the
+fold for $P'$ to recover the same total classifier and then the fold for $P$ to
+recover the original segment conjunction.
+
+Finally apply
+\autoref{thm:real-completeness-stationary-partition-diagonal-embedding} once
+with $P$ and once with $P'$. Both applications consume the same total
+stationary window classifier and the same RatUp seed classifier. Apply
+\autoref{thm:real-completeness-stationary-rational-selected-tail-seed-exactness}
+on the selected offsets in each spine to identify every endpoint tail with the
+same displayed seed-tail class.
+\end{proof}
+
+The ten-field fit is: traditional target finite stationary rational
+segmentation independence; BEDC source $\RatUp+\StreamNameUp+\RealUp$ plus Real
+stream finite partition spines; carrier stationary constant rational
+observation streams; classifier the total
+$\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,w)$ and the segment classifiers
+named by $P$ and $P'$; stability by partition fold, adjacent-window
+restriction, adjacent-window concatenation, and selected-tail seed exactness;
+ledger hidden rational seed, seed e-one displays, total bound, parent segment
+radii, refined subsegment radii, translated selected offsets, source anchors,
+source bounds, and continuation rows; core theorem
+\autoref{thm:real-completeness-stationary-partition-refinement-invariance};
+exactness the common finite ledger equivalence, the common diagonal embedding
+certificate, and the common selected endpoint seed-tail class; standard bridge
+RegSeqRat stationary observation partitions with certified refined
+segmentation; downstream use Real and Completion diagonal-limit capstone
+ledger consumption. Status: $\mathsf{ProofTarget}$.
+
 \section{Constructive content and axiom purity}
 \label{sec:real-completeness-axiom-purity}
 
