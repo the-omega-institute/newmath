@@ -531,3 +531,73 @@ classified with $v$. Combining these two reductions with the classifier
 equality between $fu$ after $s$ and $fv$ after $s$, and using symmetry and
 transitivity of $\sim_{\mathcal H}$, gives $u\sim_{\mathcal H}v$.
 \end{proof}
+
+\begin{theorem}[Category split epimorphism composition closure]
+\label{thm:category-split-epimorphism-composition-closed}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the obligations of
+\autoref{def:category-certificate-obligations}. With the notation of
+\autoref{def:category-carrier}, let $\mathcal H(a,b,f)$ and
+$\mathcal H(b,c,g)$ display hom-carriers. Suppose $f$ has a
+split-epimorphism witness with right-inverse hom-carrier
+$f^\dagger:b\to a$ and split composite $s_f:b\to b$,
+$$
+\mathsf{Comp}_{\mathcal C}(f^\dagger,f,s_f),
+\qquad
+s_f\sim_{\mathcal H}\mathsf{id}_b,
+$$
+and suppose $g$ has a split-epimorphism witness with right-inverse
+hom-carrier $g^\dagger:c\to b$ and split composite $s_g:c\to c$,
+$$
+\mathsf{Comp}_{\mathcal C}(g^\dagger,g,s_g),
+\qquad
+s_g\sim_{\mathcal H}\mathsf{id}_c,
+$$
+in the sense of \autoref{def:category-split-epimorphism-witness}. If
+$u:a\to c$ is a displayed composite of $g$ after $f$ and $\ell:c\to a$ is
+the displayed reverse composite of their right-inverse witnesses,
+$$
+\mathsf{Comp}_{\mathcal C}(f,g,u),
+\qquad
+\mathsf{Comp}_{\mathcal C}(g^\dagger,f^\dagger,\ell),
+$$
+then $u$ is a displayed hom-carrier from $a$ to $c$ and carries a
+split-epimorphism witness whose right-inverse hom-carrier is $\ell$.
+\end{theorem}
+\begin{proof}
+The two split-epimorphism witnesses supply hom-carriers for $f^\dagger$ and
+$g^\dagger$. Composition closure in the $\CategoryUp$ stability certificate
+therefore makes the displayed composites $u$ and $\ell$ hom-carriers over
+$a\to c$ and $c\to a$.
+
+Let $R:c\to c$ be the composite display selected for $u$ after $\ell$, so
+$\mathsf{Comp}_{\mathcal C}(\ell,u,R)$. It remains to classify $R$ with
+$\mathsf{id}_c$. The four displayed factors form the chain
+$$
+c\xrightarrow{g^\dagger}b\xrightarrow{f^\dagger}a
+\xrightarrow{f}b\xrightarrow{g}c.
+$$
+The associativity row of \autoref{def:category-stability-certificate}, applied
+twice, compares the outside bracketing
+$(g\circ_{\mathcal C} f)\circ_{\mathcal C}(f^\dagger\circ_{\mathcal C}g^\dagger)$
+with the bracketing
+$g\circ_{\mathcal C}((f\circ_{\mathcal C}f^\dagger)\circ_{\mathcal C}g^\dagger)$.
+Thus $R$ is classified with the display obtained by first using the inner
+split composite $s_f$, then composing with $g^\dagger$, and finally composing
+with $g$.
+
+Since $s_f\sim_{\mathcal H}\mathsf{id}_b$, composition congruence replaces
+$s_f\circ_{\mathcal C}g^\dagger$ by
+$\mathsf{id}_b\circ_{\mathcal C}g^\dagger$. The identity law at the target of
+$g^\dagger$ classifies this composite with $g^\dagger$. Composing that
+comparison with the outer factor $g$ compares the resulting display with
+$s_g=g\circ_{\mathcal C}g^\dagger$. Transitivity of the morphism classifier,
+together with the stored comparison $s_g\sim_{\mathcal H}\mathsf{id}_c$, gives
+$R\sim_{\mathcal H}\mathsf{id}_c$.
+
+The hom-carriers for $u$ and $\ell$, the target identity display
+$\mathsf{id}_c$, the composite ledger
+$\mathsf{Comp}_{\mathcal C}(\ell,u,R)$, and the classifier comparison
+$R\sim_{\mathcal H}\mathsf{id}_c$ are exactly the data required by
+\autoref{def:category-split-epimorphism-witness}. Hence $u$ carries a
+split-epimorphism witness with right-inverse hom-carrier $\ell$.
+\end{proof}

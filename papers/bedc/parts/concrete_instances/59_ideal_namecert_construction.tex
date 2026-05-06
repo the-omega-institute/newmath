@@ -225,6 +225,8 @@ By the definition of $W_R$, this is $W_R(x-_R y)$. Pairing it with the original
 endpoint carrier witnesses gives $Q_{W_R}(x,y)$.
 \end{proof}
 
+\input{parts/concrete_instances/59_ideal_zero_whole_predicates}
+
 \begin{theorem}[Ideal zero-membership obligation]
 \label{thm:ideal-zero-membership-obligation}
 Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, with $\NameCert_{\RingUp}$ carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. If $I:\mathsf{BHist}\to\mathsf{Prop}$ is an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}, then the certificate contains the zero-membership row $I(0_R)$.
@@ -378,6 +380,87 @@ By \autoref{thm:ideal-sum-closure}, the predicate $K$ is an $\IdealUp$ predicate
 Apply \autoref{thm:ideal-quotient-kernel-diagonal-exactness} to $K$ for the diagonal row, and apply \autoref{thm:ideal-quotient-kernel-transport-surface} to $K$ for endpoint transport. The kernel relation is still the same concrete relation $Q_K(x,y)\Longleftrightarrow C(x)\land C(y)\land K(x-_R y)$, so the quotient-ring consumer sees no additional quotient carrier or quotient primitive.
 
 The ten-field fit is: traditional target sum of two ideals; BEDC source $\RingUp$ plus two $\IdealUp$ predicates over $\mathsf{BHist}$; carrier the existential additive decomposition predicate; classifier $\sim_R$; stability \autoref{thm:ideal-sum-closure}; ledger decomposition witnesses; core theorem \autoref{thm:ideal-sum-closure}; exactness row exhaustion of the displayed witnesses; standard bridge absent; status $\mathsf{ProofTarget}$.
+\end{proof}
+
+\begin{definition}[Principal two-sided generated ideal predicate]
+\label{def:ideal-principal-generated-predicate}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $a$ be a carried generator, so $C(a)$. The principal two-sided generated ideal predicate $\langle a\rangle_R$ is the predicate on endpoints $z$ for which a finite $\mathsf{HistSpine}$ carries signed two-sided monomial rows
+$$
+\ell_i\cdot_R a\cdot_R r_i
+$$
+with $C(\ell_i)$ and $C(r_i)$ at every spine position $i$, together with sign rows, such that the $\RingUp$ finite additive fold of those signed rows is classifier-equal to $z$. The empty spine folds to $0_R$. The certificate ledger records the spine, the left and right coefficient rows, the sign rows, and the final classifier edge from the finite fold to $z$.
+\end{definition}
+
+\begin{theorem}[Principal generated subtractive closure]
+\label{thm:ideal-principal-generated-subtractive-closure}
+Let $R$ carry a $\RingUp$ certificate, let $a$ be a carried generator, and let $\langle a\rangle_R$ be the predicate of \autoref{def:ideal-principal-generated-predicate}. Then $\langle a\rangle_R$ has carrier support, zero membership, additive closure, additive inverse closure, and classifier transport over the ambient $\RingUp$ data:
+$$
+\langle a\rangle_R(0_R),\qquad
+\langle a\rangle_R(x)\land \langle a\rangle_R(y)\Longrightarrow \langle a\rangle_R(x+_R y),\qquad
+\langle a\rangle_R(x)\Longrightarrow \langle a\rangle_R(-_R x),
+$$
+and
+$$
+\langle a\rangle_R(x)\land x\sim_R y\Longrightarrow \langle a\rangle_R(y),
+$$
+with every displayed membership carrying a RingUp endpoint carrier witness.
+\end{theorem}
+\begin{proof}
+Carrier support is part of the final fold certificate: every signed monomial row is carried by the multiplication-closure rows, the finite additive fold is carried by the additive-closure rows, and classifier transport carries that support to the named endpoint $z$.
+
+For zero membership, take the empty spine. Its fold is $0_R$, and the final classifier edge is the reflexive edge at $0_R$.
+
+For additive closure, concatenate the two finite spines witnessing $x$ and $y$. The fold of the concatenated spine is classified, by RingUp finite-fold associativity, with the sum of the two earlier folds. Addition congruence then transports along the two final classifier edges and yields a final classifier edge to $x+_R y$.
+
+For additive inverse closure, reverse the signs in the spine witnessing $x$. The RingUp inverse and finite-fold rows classify the new fold with the additive inverse of the old fold, and inverse congruence transports the final edge to $-_R x$.
+
+For classifier transport, keep the same spine and compose its final classifier edge with the given edge $x\sim_R y$. The ledger data is unchanged, and the composed edge witnesses $\langle a\rangle_R(y)$.
+\end{proof}
+
+\begin{theorem}[Principal generated absorption closure]
+\label{thm:ideal-principal-generated-absorption-closure}
+Let $R$ carry a $\RingUp$ certificate, let $a$ be a carried generator, and let $\langle a\rangle_R$ be the predicate of \autoref{def:ideal-principal-generated-predicate}. If $t$ is carried, then $\langle a\rangle_R(x)$ implies both $\langle a\rangle_R(t\cdot_R x)$ and $\langle a\rangle_R(x\cdot_R t)$. Consequently, together with \autoref{thm:ideal-principal-generated-subtractive-closure}, the predicate $\langle a\rangle_R$ supplies the internal multiplication row required of an $\IdealUp$ predicate.
+\end{theorem}
+\begin{proof}
+Start with a finite signed spine witnessing $\langle a\rangle_R(x)$. For left absorption by a carried endpoint $t$, multiply every monomial row in the spine on the left by $t$.
+
+Associativity rewrites each row
+$$
+t\cdot_R(\ell_i\cdot_R a\cdot_R r_i)
+$$
+as
+$$
+(t\cdot_R\ell_i)\cdot_R a\cdot_R r_i.
+$$
+Carrier support for $t$ and $\ell_i$ gives $C(t\cdot_R\ell_i)$, while $C(r_i)$ is retained. Distributivity and the finite-fold multiplication rows classify the fold of the transformed spine with $t\cdot_R x$, after composing with the original final classifier edge.
+
+For right absorption, multiply every monomial row on the right by $t$. Associativity rewrites
+$$
+(\ell_i\cdot_R a\cdot_R r_i)\cdot_R t
+$$
+as
+$$
+\ell_i\cdot_R a\cdot_R(r_i\cdot_R t),
+$$
+and the multiplication-closure rows give $C(r_i\cdot_R t)$. The same distributivity and finite-fold argument supplies the final classifier edge to $x\cdot_R t$.
+
+Internal multiplication is then a consequence of right absorption: from $\langle a\rangle_R(x)$ and $\langle a\rangle_R(y)$, carrier support from \autoref{thm:ideal-principal-generated-subtractive-closure} gives $C(y)$, and right absorption by $y$ gives $\langle a\rangle_R(x\cdot_R y)$.
+\end{proof}
+
+\begin{theorem}[Principal generated quotient-kernel scope]
+\label{thm:ideal-principal-generated-quotient-kernel-scope}
+Let $R$ carry a $\RingUp$ certificate, let $a$ be a carried generator, and let $I:=\langle a\rangle_R$ be the predicate of \autoref{def:ideal-principal-generated-predicate}. The generated predicate supplies the quotient-free kernel surface consumed by $\QuotientRingUp$:
+$$
+Q_I(x,y)\Longleftrightarrow C(x)\land C(y)\land I(x-_R y).
+$$
+In particular, the diagonal and endpoint-transport rows for this surface are exactly the rows obtained by applying \autoref{thm:ideal-quotient-kernel-diagonal-exactness} and \autoref{thm:ideal-quotient-kernel-transport-surface} to $I$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:ideal-principal-generated-subtractive-closure} and \autoref{thm:ideal-principal-generated-absorption-closure}, the predicate $I$ has the carrier, zero, additive, inverse, classifier-transport, internal multiplication, and two-sided absorption rows required of an $\IdealUp$ predicate over the ambient ring certificate.
+
+Unfold \autoref{def:ideal-quotient-kernel-source-package} with this $I$. The displayed relation is therefore the same concrete quotient-free $\mathsf{BHist}$ kernel package used for every IdealUp predicate.
+
+Apply \autoref{thm:ideal-quotient-kernel-diagonal-exactness} to obtain diagonal exactness, and apply \autoref{thm:ideal-quotient-kernel-transport-surface} to obtain endpoint transport. No quotient carrier or extra quotient primitive is introduced before $\QuotientRingUp$ consumes the surface.
 \end{proof}
 
 \begin{definition}[Ring map zero-fiber predicate]
