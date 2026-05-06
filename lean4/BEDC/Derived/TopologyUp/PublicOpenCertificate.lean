@@ -7,6 +7,38 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
+theorem BHistUnaryTopologyLedgerRow_public_open_coverage (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} :
+    BHistUnaryTopologyLedgerRow T i U ->
+      (exists ledger : BHist, UnaryHistory ledger) ∧
+        BHistCarriesOpen T i U ∧ TopologyPublicOpenTree T i U := by
+  intro row
+  cases row with
+  | singletonMetricBall ledger unaryLedger carries =>
+      exact And.intro
+        (Exists.intro ledger unaryLedger)
+        (And.intro carries (TopologyPublicOpenTree.basic carries))
+  | finiteListIntersection ledger unaryLedger carries =>
+      exact And.intro
+        (Exists.intro ledger unaryLedger)
+        (And.intro carries (TopologyPublicOpenTree.basic carries))
+  | binaryGeneratedMeet ledger unaryLedger carries =>
+      exact And.intro
+        (Exists.intro ledger unaryLedger)
+        (And.intro carries (TopologyPublicOpenTree.basic carries))
+  | arbitraryUnion ledger unaryLedger carries =>
+      exact And.intro
+        (Exists.intro ledger unaryLedger)
+        (And.intro carries (TopologyPublicOpenTree.basic carries))
+  | bottom ledger unaryLedger carries =>
+      exact And.intro
+        (Exists.intro ledger unaryLedger)
+        (And.intro carries (TopologyPublicOpenTree.basic carries))
+  | top ledger unaryLedger carries =>
+      exact And.intro
+        (Exists.intro ledger unaryLedger)
+        (And.intro carries (TopologyPublicOpenTree.basic carries))
+
 theorem TopologyPublicOpenTree_semantic_name_certificate (T : BHistIndexedOpenCarrier)
     {i : T.OpenIx} {U : BHist -> Prop} (tree : TopologyPublicOpenTree T i U)
     (source : exists h : BHist, UnaryHistory h ∧ U h) :
