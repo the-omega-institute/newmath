@@ -173,9 +173,7 @@ import BEDC.Derived.ComplexLimitUp.Product
 import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
-import BEDC.Derived.DistributionUp
 import BEDC.Derived.MeasureUp
-import BEDC.Derived.RandomVarUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
@@ -236,6 +234,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.DistributionUp
+import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.FieldExtUp
