@@ -28,6 +28,30 @@ theorem DiffFormBHistCarrier_coordinate_ledger
     exact unary_append_closed tensorUnary antisymUnary
   exact ⟨degreeUnary, probeUnary, tensorUnary, scalarUnary, ledgerRoute⟩
 
+theorem DiffFormBHistCarrier_hsame_transport
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
+      ledger' : BHist} :
+    hsame degree degree' -> hsame probe probe' -> hsame tensor tensor' ->
+      hsame scalar scalar' -> hsame antisym antisym' -> hsame ledger ledger' ->
+        UnaryHistory degree -> UnaryHistory probe -> Cont degree probe tensor ->
+          UnaryHistory antisym -> Cont tensor antisym scalar ->
+            hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+              UnaryHistory degree' ∧ UnaryHistory probe' ∧ UnaryHistory tensor' ∧
+                UnaryHistory scalar' ∧
+                  hsame ledger'
+                    (append degree' (append probe' (append tensor' (append scalar' antisym')))) :=
+  by
+    intro sameDegree sameProbe sameTensor sameScalar sameAntisym sameLedger degreeUnary
+      probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+    cases sameDegree
+    cases sameProbe
+    cases sameTensor
+    cases sameScalar
+    cases sameAntisym
+    cases sameLedger
+    exact DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute
+      antisymUnary scalarRoute ledgerRoute
+
 def DiffFormBHistClassifier
     (ScalarClassifier : BHist -> BHist -> Prop) (probes : ProbeBundle BHist)
     (degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
@@ -35,6 +59,21 @@ def DiffFormBHistClassifier
   InBundle probe probes ∧ InBundle probe' probes ∧ hsame degree degree' ∧
     hsame probe probe' ∧ hsame tensor tensor' ∧ ScalarClassifier scalar scalar' ∧
       hsame antisym antisym' ∧ hsame ledger ledger'
+
+theorem DiffFormBHistClassifier_reflexivity_obligation
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier)
+    {probes : ProbeBundle BHist} {d p t s a l : BHist} :
+    InBundle p probes -> ScalarCarrier s ->
+      DiffFormBHistClassifier ScalarClassifier probes d p t s a l d p t s a l := by
+  intro probeRow scalarRow
+  exact And.intro probeRow
+    (And.intro probeRow
+      (And.intro (hsame_refl d)
+        (And.intro (hsame_refl p)
+          (And.intro (hsame_refl t)
+            (And.intro (NameCert.equiv_refl scalarCert scalarRow)
+              (And.intro (hsame_refl a) (hsame_refl l)))))))
 
 theorem DiffFormBHistClassifier_symmetry_obligation
     {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
@@ -293,5 +332,29 @@ theorem DiffFormExteriorDerivative_wedge_input_stability
     exact ⟨probeIn, probeAIn, sameD, sameProbe, sameTensor, scalarClass, sameAntisym,
       sameSource⟩
   exact ⟨transportedLedger, classifierRows⟩
+
+theorem DiffFormExteriorDerivativeLedger_degree_successor_nonempty
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar
+      scalar' antisym source ->
+      UnaryHistory d ∧ UnaryHistory dplus ∧ Cont d (BHist.e1 BHist.Empty) dplus ∧
+        (hsame dplus BHist.Empty -> False) := by
+  intro ledger
+  have degreeRows := DiffFormExteriorDerivativeLedger_degree_raise ledger
+  exact And.intro degreeRows.left
+    (And.intro degreeRows.right.left
+      (And.intro degreeRows.right.right
+        (by
+          intro raisedEmpty
+          cases degreeRows.right.right
+          exact not_hsame_e1_empty (append_eq_empty_iff.mp raisedEmpty).right)))
+
+theorem DiffFormDegreeProbeAligned_hsame_transport
+    {d d' : BHist} {bundle : ProbeBundle BHist} :
+    DegreeProbeAligned d bundle -> hsame d d' -> DegreeProbeAligned d' bundle ∧
+      UnaryHistory d' := by
+  intro aligned sameDegree
+  cases sameDegree
+  exact And.intro aligned (DiffFormDegreeProbeAligned_bundleAppend_cont_unary aligned)
 
 end BEDC.Derived.DiffFormUp
