@@ -1,0 +1,41 @@
+\begin{theorem}[Module zero LinearMap classifier uniqueness]
+\label{thm:module-zero-linearmap-classifier-uniqueness}
+Let $R$ carry a $\RingUp$ scalar certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_N$ for the codomain module classifier and $0_N$ for the codomain zero. Let $z,z':M\to N$ be functions. Assume that both functions satisfy the zero-linear-map hypotheses of \autoref{thm:module-zero-linearmap-certificate}: for every carried $x:M$, the outputs $z(x)$ and $z'(x)$ are carried in $N$ and
+$$
+z(x)\sim_N0_N
+\qquad\text{and}\qquad
+z'(x)\sim_N0_N.
+$$
+Then both functions carry certified zero linear-map packages
+$$
+\mathsf{LinearMapCert}_R(M,N;z)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,N;z'),
+$$
+and the pointwise $\LinearMapUp(M,N)$ classifier identifies them:
+$$
+z\sim_{\LinearMapUp(M,N)}z'.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-zero-linearmap-certificate} to the pointwise zero witnesses for $z$. This gives $\mathsf{LinearMapCert}_R(M,N;z)$. Apply the same theorem to the pointwise zero witnesses for $z'$. This gives $\mathsf{LinearMapCert}_R(M,N;z')$.
+
+It remains to compare the two carried map endpoints. By \autoref{def:linearmap-classifier-specification}, the $\LinearMapUp(M,N)$ classifier is pointwise comparison in the codomain module classifier, together with the two carried linear-map endpoints just obtained.
+
+Fix a carried source endpoint $x:M$. The hypotheses give
+$$
+z(x)\sim_N0_N
+\qquad\text{and}\qquad
+z'(x)\sim_N0_N.
+$$
+Classifier symmetry in the codomain $\NameCert$ changes the second comparison into $0_N\sim_Nz'(x)$. Codomain transitivity, as recorded by \autoref{thm:namecert-equivalence-transitivity}, composes it with $z(x)\sim_N0_N$ and yields
+$$
+z(x)\sim_Nz'(x).
+$$
+
+Since $x$ was arbitrary, \autoref{def:linearmap-classifier-specification} packages these pointwise codomain comparisons, together with the two certified endpoint packages, as
+$$
+z\sim_{\LinearMapUp(M,N)}z'.
+$$
+The ledger is the pair of zero-linear-map ledgers supplied by \autoref{thm:module-zero-linearmap-certificate}, plus the codomain classifier symmetry and transitivity witnesses, matching \autoref{def:linearmap-ledger-policy}.
+\end{proof}

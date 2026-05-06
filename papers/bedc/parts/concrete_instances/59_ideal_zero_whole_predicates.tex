@@ -77,3 +77,21 @@ For the whole predicate, unfold \autoref{def:ideal-whole-predicate}. The members
 The diagonal and endpoint-transport surfaces of these two concrete kernels are the specializations of \autoref{thm:ideal-quotient-kernel-diagonal-exactness} and \autoref{thm:ideal-quotient-kernel-transport-surface}. The repacked source packages therefore expose the same quotient-free boundary described in \autoref{def:ideal-quotient-kernel-source-package}, so $\QuotientRingUp$ consumes them through the existing IdealUp surface.
 \end{proof}
 \leanchecked{BEDC.Derived.IdealUp.IdealZeroAndWholeQuotientKernel\_scope}
+
+\begin{theorem}[Zero IdealUp kernel is contained in whole IdealUp kernel]
+\label{thm:ideal-zero-kernel-contained-in-whole-kernel}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}. Let $Q_{\mathsf{ZeroIdeal}}$ and $Q_{\mathsf{WholeIdeal}}$ be the two source packages of \autoref{thm:ideal-zero-and-whole-quotient-kernel-scope}. For every endpoint pair $x,y$, if the zero-ideal quotient-kernel relation holds, then the whole-ideal quotient-kernel relation holds:
+$$
+Q_{\mathsf{ZeroIdeal}}(x,y)\Longrightarrow Q_{\mathsf{WholeIdeal}}(x,y).
+$$
+Equivalently, every carried endpoint pair satisfying the zero-ideal kernel is contained in the carried endpoint surface of the whole-ideal kernel.
+
+The ten-field fit is: traditional target extremal ideal-kernel comparison; BEDC source $\RingUp$, $\IdealUp$, and $\QuotientRingUp$; carrier ambient carried endpoints; classifier quotient-kernel relation; stability inherited from the two concrete ideal predicates; ledger hidden subtraction witness; core theorem this containment; exactness the displayed implication; standard bridge zero quotient refines whole quotient; status paper target.
+\end{theorem}
+\begin{proof}
+Unfold the scope computation of \autoref{thm:ideal-zero-and-whole-quotient-kernel-scope}. A zero-kernel witness for $Q_{\mathsf{ZeroIdeal}}(x,y)$ consists of the carried endpoint witnesses $C(x)$ and $C(y)$ together with the hidden subtraction classifier $(x-_R y)\sim_R0_R$.
+
+Project the two endpoint fields and discard the subtraction witness for this containment. The whole-kernel computation in the same theorem has no remaining ideal-membership condition beyond the ambient endpoint surface.
+
+Repack the projected witnesses $C(x)$ and $C(y)$ as the witness for $Q_{\mathsf{WholeIdeal}}(x,y)$. This gives the displayed implication and records that the zero quotient-kernel relation is a subrelation of the whole quotient-kernel relation.
+\end{proof}
