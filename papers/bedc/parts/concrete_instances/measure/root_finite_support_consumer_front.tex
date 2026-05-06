@@ -1,0 +1,136 @@
+\section{Measure root finite-support consumer front}
+\label{sec:measure-root-finite-support-consumer-front}
+
+\begin{definition}[Measure root finite-support consumer front]
+\label{def:measure-root-finite-support-consumer-front}
+The $\MeasureUp$ root finite-support consumer front is the ten-field package
+that exposes the finite-support rows needed by downstream analysis consumers:
+\begin{enumerate}
+  \item traditional target: finite-support measurable events with readback
+  values in the $\RealUp$ additive endpoint surface;
+  \item BEDC source: $\MeasureUp+\StreamNameUp+\RealUp+\AbGroupUp$;
+  \item carrier: a covered finite support spine of displayed measurable
+  $\mathsf{BHist}$ event rows together with a constant empty tail;
+  \item classifier: the public $\MeasureUp$ event classifier together with
+  the $\RealUp$ endpoint classifier for each displayed value and finite sum;
+  \item stability: componentwise event transport, endpoint transport,
+  additive congruence, and support-spine transport;
+  \item ledger: the finite support spine, the constant empty tail, the
+  countable-union row, and the finite union tree read from the same displayed
+  $\mathsf{BHist}$ rows;
+  \item exactness: finite-support sum readback through
+  \autoref{thm:measure-finite-support-countable-readback};
+  \item displayed classification iff: a consumer row belongs to the front
+  exactly when it is read from the covered event spine, the empty tail, the
+  finite union tree, and the $\RealUp$ finite-sum endpoint;
+  \item consumer boundary: $\IntegralUp$, $\ProbSpaceUp$, and
+  $\FunctionalAnalysisUp$ may consume only the rows named in
+  \autoref{thm:measure-root-finite-support-downstream-exhaustion};
+  \item standard bridge: no host set equality, quotient event equality,
+  $\RealUp$ completeness row, or $\StdBridge$ row is part of this front.
+\end{enumerate}
+The front is a finite-support face of the root consumer package of
+\autoref{def:measure-root-consumer-package}, not a separate analytic
+completion object.
+\end{definition}
+
+\begin{theorem}[Measure root finite-support carrier readback]
+\label{thm:measure-root-finite-support-carrier-readback}
+The front of \autoref{def:measure-root-finite-support-consumer-front}
+supplies covered measurable-event rows and empty-tail stream rows from
+\autoref{def:measure-event-row-coverage},
+\autoref{thm:measure-countable-name-carrier-classifier-obligation}, and
+\autoref{thm:measure-finite-support-countable-readback}. In particular, every
+finite support spine visible to the front is a $\mathsf{BHist}$ event ledger
+row whose constant empty tail is classified by the public $\MeasureUp$
+carrier and the $\RealUp$ endpoint classifier.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:measure-event-row-coverage}. It places the displayed
+measurable events, the empty event, finite union rows, countable union rows,
+and measure endpoints on visible $\mathsf{BHist}$ ledger entries.
+
+Next apply \autoref{thm:measure-countable-name-carrier-classifier-obligation}.
+The countable name carrier supplies the stream-indexed family in which the
+finite support spine is followed by the constant empty tail, and it transports
+the displayed event rows through the same componentwise classifier.
+
+Finally use \autoref{thm:measure-finite-support-countable-readback}. Its
+finite-support hypothesis identifies the nonempty spine and the empty tail as
+one countable family, so the front reads the carrier, tail, and endpoint rows
+without adding a host-level equality or quotient event comparison.
+\end{proof}
+
+\begin{theorem}[Measure root finite-support additivity readback]
+\label{thm:measure-root-finite-support-additivity-readback}
+For every pairwise-disjoint finite support spine exposed by
+\autoref{def:measure-root-finite-support-consumer-front}, the measure of the
+displayed finite union reads back to the $\RealUp$ finite sum of the displayed
+support values. The readback is obtained by induction on the support spine
+using the empty-zero row, finite disjoint-union additivity, and countable
+empty-tail readback.
+\end{theorem}
+\begin{proof}
+The base case is the empty support spine. The constant empty stream has empty
+countable union, and
+\autoref{thm:measure-empty-set-zero-from-sigma-additivity} classifies its
+measure endpoint with the additive zero in the $\RealUp$ $\AbGroupUp$ row.
+
+For the induction step, split a nonempty support spine into its head event and
+tail spine. Pairwise disjointness gives the displayed binary union row between
+the head and the finite union of the tail, while the induction hypothesis
+reads the tail union as the finite sum of the tail values.
+
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to the head and
+tail union. Additive congruence in the $\RealUp$ $\AbGroupUp$ row transports
+the tail readback through the right summand, and associativity identifies the
+result with the finite sum of the whole spine.
+
+The empty tail of the surrounding countable stream is handled by
+\autoref{thm:measure-finite-support-countable-readback}. Thus the finite
+union endpoint and the countable family endpoint agree with the same
+$\RealUp$ finite-support sum.
+\end{proof}
+
+\begin{theorem}[Measure root finite-support downstream exhaustion]
+\label{thm:measure-root-finite-support-downstream-exhaustion}
+$\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consume exactly the
+finite-support rows of
+\autoref{def:measure-root-finite-support-consumer-front} through
+\autoref{def:measure-root-consumer-package},
+\autoref{thm:measure-integral-consumer-rows},
+\autoref{thm:measure-probability-consumer-rows}, and
+\autoref{thm:measure-functionalanalysis-consumer-rows}. No downstream face
+receives host set equality, quotient event equality, a $\RealUp$ completeness
+row, or a standard bridge row from this front.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:measure-root-consumer-package}. Its outgoing rows are
+the root $\MeasureUp$ consumer rows built from covered events, endpoint
+classification, countable sums, head-tail readback, empty-zero, finite
+disjoint additivity, and relative-difference or normalization projections.
+
+For $\IntegralUp$, apply \autoref{thm:measure-integral-consumer-rows}. The
+integral face reads covered event rows, endpoint rows, countable-sum rows,
+head-tail readback, and finite disjoint-union readback; the finite-support
+front supplies exactly the finite spine and empty-tail rows among these.
+
+For $\ProbSpaceUp$, apply \autoref{thm:measure-probability-consumer-rows}. Its
+finite-support consumption is limited to the total-event normalization,
+empty-zero, and finite disjoint-union rows already present in the root
+consumer package.
+
+For $\FunctionalAnalysisUp$, apply
+\autoref{thm:measure-functionalanalysis-consumer-rows}. The functional
+analysis face reads nonnegative endpoint, monotone inclusion,
+relative-difference, and countable-sum classifier rows, and it uses the
+finite-support front only through their covered event and finite-sum
+projections.
+
+The tenth field of
+\autoref{def:measure-root-finite-support-consumer-front} excludes host set
+equality, quotient event equality, $\RealUp$ completeness, and standard
+bridge rows. Since each downstream theorem above is a projection of the same
+root consumer package, these three faces exhaust the finite-support consumer
+surface.
+\end{proof}
