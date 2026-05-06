@@ -11038,3 +11038,80 @@ This is a concrete closure theorem in the existing ConvexSetUp surface, not a ma
 
 ---
 
+### B-422 - InnerProduct orthogonality symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InnerProduct orthogonality symmetry |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If x and y are carried endpoints of an InnerProductUp BHist carrier and x perp_I y, then y perp_I x under the retained scalar-zero classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/64_innerproduct_namecert_construction.tex`
+
+Rationale:
+InnerProduct/Hilbert geometry is under-represented in the BOARD scan, while the paper has enough local structure for a precise theorem. The carrier records conjugate symmetry and scalar-zero exactness at papers/bedc/parts/concrete_instances/64_innerproduct_namecert_construction.tex:23-31; orthogonality is defined as scalar-zero classification of the inner-product endpoint at :324-337; the only companion theorems are zero-left, zero-right, and representative transport at :339-407. A focused grep found no labeled orthogonality-symmetry theorem and no BOARD entry for InnerProduct or orthogonality.
+
+---
+
+
+### B-423 - AbelianCat hom zero morphism uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AbelianCat hom zero morphism uniqueness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a hom row H(A,B) of an AbelianCatUp surface carries a morphism u that is a two-sided additive identity for hom addition, then u is hom-classified with the displayed zero morphism 0_A,B.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+AbelianCatUp has no BOARD target hits, but its paper surface is substantial and currently mostly obligation packaging. The carrier selects a visible zero morphism row at papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex:25 and hom-wise AbGroupUp enrichment at :29-31. The existing additive/biproduct theorem reads the displayed zero row into biproduct equations at :211-233, but focused grep found no zero-morphism uniqueness theorem. This is a concrete hom-level consequence using the already-developed AbGroup identity/cancellation infrastructure rather than another carrier transport package.
+
+---
+
+
+### B-424 - DerivedCat roof identity unit laws
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | DerivedCat roof identity unit laws |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a DerivedCatUp roof ledger represents a morphism r, then composing r with the displayed identity roof on either side is classified with r by the generated zigzag classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/138_derivedcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
+
+Rationale:
+DerivedCatUp is a quiet homological-algebra island with no BOARD hits. The file defines the visible localization interface, generated zigzag classifier, and roof composition obligations at papers/bedc/parts/concrete_instances/138_derivedcat_namecert_construction.tex:9-16. It proves composition descent along classifier-equivalent roofs at :47-57, but there is no companion identity-unit theorem for represented roofs. The claim is a local categorical law for the existing localization carrier, not a new derived-category survey.
+
+---
+
