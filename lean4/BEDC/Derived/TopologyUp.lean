@@ -355,6 +355,29 @@ theorem BHistSubspaceOpen_carrier_transport (T : BHistIndexedOpenCarrier)
   · intro subK
     exact And.intro restrictedSame.left (Iff.mpr stable subK.right)
 
+theorem BHistSubspaceOpen_boundary_closure (T : BHistIndexedOpenCarrier)
+    (boundary : BHistIndexedBoundaryOpen T) {S : BHist -> Prop} :
+    (forall {h : BHist}, UnaryHistory h -> ((S h ∧ T.OpenAt boundary.bottom h) ↔ False)) ∧
+      (forall {h : BHist}, UnaryHistory h -> ((S h ∧ T.OpenAt boundary.top h) ↔ S h)) := by
+  constructor
+  · intro h unaryH
+    have bottomAt : T.OpenAt boundary.bottom h <-> False := boundary.bottom_law unaryH
+    constructor
+    · intro subBottom
+      exact Iff.mp bottomAt subBottom.right
+    · intro impossible
+      exact False.elim impossible
+  · intro h unaryH
+    have topAt : T.OpenAt boundary.top h <-> True := boundary.top_law unaryH
+    constructor
+    · intro subTop
+      exact subTop.left
+    · intro inSubspace
+      apply And.intro
+      · exact inSubspace
+      · apply Iff.mpr topAt
+        constructor
+
 theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 : A) :
     hsame (ι a0) BHist.Empty ->
       forall h : BHist,
