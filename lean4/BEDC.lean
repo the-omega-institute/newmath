@@ -160,6 +160,7 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
+import BEDC.Derived.ComplexLimitUp.ConditionalUnique
 import BEDC.Derived.ComplexLimitUp.ComponentAssembly
 import BEDC.Derived.ComplexLimitUp.Constant
 import BEDC.Derived.ComplexLimitUp.Difference
@@ -172,6 +173,7 @@ import BEDC.Derived.ComplexLimitUp.Product
 import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
+import BEDC.Derived.MeasureUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
@@ -182,7 +184,6 @@ import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
-import BEDC.Derived.MeasureUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
@@ -349,6 +350,8 @@ import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
 import BEDC.Derived.FpsUp.MultiplicativeMonoid
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
+import BEDC.Derived.FpsUp.PublicAlgebraInterface
+import BEDC.Derived.FpsUp.RingUpTailAlgebra
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
@@ -393,6 +396,7 @@ import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.RealUp.Index
+import BEDC.Derived.InnerProductUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
