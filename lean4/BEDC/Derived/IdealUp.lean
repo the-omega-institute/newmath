@@ -163,4 +163,92 @@ theorem FiniteIdealMeet_closure_rows
                 · intro i memberI
                   exact (familyAbsorb memberI carrierR (meetX.right i memberI)).right
 
+theorem IdealZeroPredicate_ideal_closure
+    {Carrier : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
+    {zero : BHist}
+    {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (zeroCarrier : Carrier zero)
+    (addClosed : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y))
+    (negClosed : forall {x : BHist}, Carrier x -> Carrier (neg x))
+    (mulClosed : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y))
+    (zeroClassified : Classifier zero zero)
+    (addZeroClosed :
+      forall {x y : BHist}, Classifier x zero -> Classifier y zero ->
+        Classifier (add x y) zero)
+    (negZeroClosed : forall {x : BHist}, Classifier x zero -> Classifier (neg x) zero)
+    (mulZeroClosed :
+      forall {x y : BHist}, Classifier x zero -> Classifier y zero ->
+        Classifier (mul x y) zero)
+    (zeroTransport :
+      forall {x y : BHist}, Classifier x zero -> Classifier x y -> Classifier y zero)
+    (leftAbsorbZero :
+      forall {r x : BHist}, Carrier r -> Classifier x zero -> Classifier (mul r x) zero)
+    (rightAbsorbZero :
+      forall {r x : BHist}, Carrier r -> Classifier x zero -> Classifier (mul x r) zero) :
+    (forall {x : BHist}, (Carrier x ∧ Classifier x zero) -> Carrier x) ∧
+      (Carrier zero ∧ Classifier zero zero) ∧
+      (forall {x y : BHist}, (Carrier x ∧ Classifier x zero) ->
+        (Carrier y ∧ Classifier y zero) ->
+          Carrier (add x y) ∧ Classifier (add x y) zero) ∧
+      (forall {x : BHist}, (Carrier x ∧ Classifier x zero) ->
+        Carrier (neg x) ∧ Classifier (neg x) zero) ∧
+      (forall {x y : BHist}, (Carrier x ∧ Classifier x zero) ->
+        (Carrier y ∧ Classifier y zero) ->
+          Carrier (mul x y) ∧ Classifier (mul x y) zero) ∧
+      (forall {x y : BHist}, (Carrier x ∧ Classifier x zero) ->
+        Classifier x y -> Carrier y ∧ Classifier y zero) ∧
+      (forall {r x : BHist}, Carrier r -> (Carrier x ∧ Classifier x zero) ->
+        (Carrier (mul r x) ∧ Classifier (mul r x) zero) ∧
+          (Carrier (mul x r) ∧ Classifier (mul x r) zero)) := by
+  constructor
+  · intro x zeroIdealX
+    exact zeroIdealX.left
+  · constructor
+    · exact And.intro zeroCarrier zeroClassified
+    · constructor
+      · intro x y zeroIdealX zeroIdealY
+        exact And.intro (addClosed zeroIdealX.left zeroIdealY.left)
+          (addZeroClosed zeroIdealX.right zeroIdealY.right)
+      · constructor
+        · intro x zeroIdealX
+          exact And.intro (negClosed zeroIdealX.left) (negZeroClosed zeroIdealX.right)
+        · constructor
+          · intro x y zeroIdealX zeroIdealY
+            exact And.intro (mulClosed zeroIdealX.left zeroIdealY.left)
+              (mulZeroClosed zeroIdealX.right zeroIdealY.right)
+          · constructor
+            · intro x y zeroIdealX classifiedXY
+              have carrierY : Carrier y :=
+                NameCert.carrier_respects_equiv cert classifiedXY zeroIdealX.left
+              exact And.intro carrierY (zeroTransport zeroIdealX.right classifiedXY)
+            · intro r x carrierR zeroIdealX
+              exact And.intro
+                (And.intro (mulClosed carrierR zeroIdealX.left)
+                  (leftAbsorbZero carrierR zeroIdealX.right))
+                (And.intro (mulClosed zeroIdealX.left carrierR)
+                  (rightAbsorbZero carrierR zeroIdealX.right))
+
+theorem IdealQuotientKernel_endpoint_transport
+    {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
+    {sub : BHist -> BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (subCongr :
+      forall {x x' y y' : BHist}, Classifier x x' -> Classifier y y' ->
+        Classifier (sub x y) (sub x' y'))
+    (I_transport : forall {u v : BHist}, I u -> Classifier u v -> I v)
+    {x y x' y' : BHist} :
+    (Carrier x ∧ Carrier y ∧ I (sub x y)) ->
+      Classifier x x' -> Classifier y y' ->
+        Carrier x' ∧ Carrier y' ∧ I (sub x' y') := by
+  intro kernelXY classifiedXX classifiedYY
+  have carrierX' : Carrier x' :=
+    NameCert.carrier_respects_equiv cert classifiedXX kernelXY.left
+  have carrierY' : Carrier y' :=
+    NameCert.carrier_respects_equiv cert classifiedYY kernelXY.right.left
+  have classifiedSub : Classifier (sub x y) (sub x' y') :=
+    subCongr classifiedXX classifiedYY
+  exact And.intro carrierX' (And.intro carrierY' (I_transport kernelXY.right.right classifiedSub))
+
 end BEDC.Derived.IdealUp
