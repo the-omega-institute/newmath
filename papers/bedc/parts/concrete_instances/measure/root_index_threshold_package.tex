@@ -1,0 +1,113 @@
+\begin{definition}[Measure root index threshold source]
+\label{def:measure-root-index-threshold-source}
+The $\MeasureUp$ root index threshold source is the $\mathsf{BHist}$-indexed
+source surface whose rows are read from the public carrier of
+\autoref{def:measureup-carrier-surface} and the root source seal of
+\autoref{def:measure-root-shared-endpoint-consumer-seal}. For each carried
+history it fixes an event carrier, a public measurable-event classifier, a
+$\RealUp$-valued endpoint row $\mu$, the empty event, finite disjoint-union
+rows, countable indexed-union rows, countable-sum endpoint rows, and the
+visible ledger that records which $\mathsf{BHist}$ event row supports each
+endpoint.
+
+The source is indexed only by the displayed $\mathsf{BHist}$ carrier and its
+componentwise classifier. It contains no host set equality, no quotient event
+equality, no analytic completion object, and no $\StdBridge$ row.
+\end{definition}
+
+\begin{theorem}[Measure root index carrier threshold]
+\label{thm:measure-root-index-carrier-threshold}
+The source of \autoref{def:measure-root-index-threshold-source} projects the
+$\MeasureUp$ event carrier, the public event-classifier transport row, the
+empty-event row, and the visible ledger rows needed by the root threshold. Each
+projection is a row of the same $\mathsf{BHist}$-indexed source, and endpoint
+movement is read only through the $\RealUp$ classifier.
+\end{theorem}
+\begin{proof}
+Start from the carrier surface of \autoref{def:measureup-carrier-surface}.
+Its displayed rows supply the event carrier, measurable-event predicate,
+measure endpoint, and carrier transport along the public classifier.
+
+Apply \autoref{thm:measure-obligation-carrier-transport}. This carries the
+measurable-family, empty-event, union, relative-difference, endpoint, and
+countable-sum rows along the same $\mathsf{BHist}$ classifier without adding
+host equality.
+
+The visible ledger is the root public ledger of
+\autoref{thm:measure-root-public-event-coverage-threshold}. The shared
+endpoint boundary is sealed by
+\autoref{thm:measure-root-shared-endpoint-coverage}, so endpoint transport is
+read through the existing $\RealUp$ row rather than through a separate event
+identity.
+\end{proof}
+
+\begin{theorem}[Measure root index additivity threshold]
+\label{thm:measure-root-index-additivity-threshold}
+For the source of \autoref{def:measure-root-index-threshold-source}, finite
+disjoint additivity and countable indexed additivity are read from the same
+root source. The finite row is the two-step finite-additivity package, and the
+countable row is the sigma-additive comparison for a pairwise-disjoint
+countable indexed family:
+$$
+\mu(U)\sim_R\Sigma_\mu(E_\bullet).
+$$
+\end{theorem}
+\begin{proof}
+Project the empty-event, binary-union, disjointness, endpoint, head-tail, and
+countable-sum rows from the source. These rows are available together by
+\autoref{thm:measure-certificate-obligation-threshold} and are public at the
+root by \autoref{thm:measure-root-public-event-coverage-threshold}.
+
+For finite additivity, apply
+\autoref{thm:measure-two-step-finite-additivity-package}. Its empty-zero,
+null-event, ordered binary-union, and symmetric binary-union rows all use the
+same visible carrier and $\RealUp$ endpoint classifier.
+
+For countable indexed additivity, apply
+\autoref{thm:measure-root-public-countable-additivity-threshold}. It reads the
+pairwise-disjoint indexed family, the countable union $U$, and the
+countable-sum endpoint $\Sigma_\mu(E_\bullet)$ from the same root threshold
+source and gives the displayed comparison.
+
+The continuity-from-below package of
+\autoref{thm:measure-continuity-from-below-package} uses these same rows for
+its layer construction and endpoint readback. Thus finite and countable
+additivity are not separate inputs; both are projections of the single
+$\mathsf{BHist}$-indexed source.
+\end{proof}
+
+\begin{theorem}[Measure root index downstream threshold]
+\label{thm:measure-root-index-downstream-threshold}
+The chapters $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$
+consume exactly the root index threshold source of
+\autoref{def:measure-root-index-threshold-source}. They receive the public
+event carrier, classifier transport, empty-event, finite disjoint-additivity,
+countable indexed-additivity, countable-sum endpoint, and visible-ledger rows,
+and they receive no host set equality, quotient event equality, analytic
+completion row, or $\StdBridge$ row from $\MeasureUp$.
+\end{theorem}
+\begin{proof}
+First package the source as the root deps-ready threshold of
+\autoref{def:measure-root-deps-ready-threshold}. The carrier rows are the rows
+of \autoref{thm:measure-root-index-carrier-threshold}, and the additive rows
+are the rows of \autoref{thm:measure-root-index-additivity-threshold}.
+
+Apply \autoref{thm:measure-root-consumer-boundary-threshold}. It identifies
+the root package consumed by $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$ and excludes quotient event equality, host set
+equality, and standard bridge rows.
+
+Now read the three consumer faces separately. The integral face is
+\autoref{thm:measure-integral-consumer-rows}, the probability face is
+\autoref{thm:measure-probability-consumer-rows}, and the
+functional-analysis face is
+\autoref{thm:measure-functionalanalysis-consumer-rows}. Each face is a
+projection of the same source rows, with no additional carrier.
+
+Finally apply \autoref{thm:measure-root-shared-endpoint-deps-ready-seal}.
+That seal keeps shared $\RealUp$ endpoint rows at the root and keeps
+probability normalization, integral head-tail readback, and
+functional-analysis order rows on their outgoing consumer faces. Therefore
+the downstream chapters consume exactly this threshold package and nothing
+beyond the named public rows.
+\end{proof}
