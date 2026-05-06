@@ -10,6 +10,9 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
+def RandomVarTotalDefectEvent (sourceTotal chosenPreimage defect : BHist) : Prop :=
+  Cont chosenPreimage defect sourceTotal
+
 theorem RandomVarTotalPreimage_composition_exactness
     {sourceTotal middleTotal targetTotal middlePreimage compositePreimage : BHist} :
     UnaryHistory sourceTotal -> UnaryHistory middleTotal -> hsame targetTotal BHist.Empty ->
