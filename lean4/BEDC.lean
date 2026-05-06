@@ -247,10 +247,13 @@ import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
+import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.IdealUp.AmbientCarrier
+import BEDC.Derived.IdealUp.QuotientKernel
 import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.IdealUp.QuotientKernelScope
+import BEDC.Derived.OdeUp
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
@@ -305,6 +308,7 @@ import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.MonoidalCatUp
+import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.ManifoldUp
