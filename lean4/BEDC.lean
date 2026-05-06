@@ -182,6 +182,7 @@ import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
+import BEDC.Derived.BundleUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
 import BEDC.Derived.HolomorphicUp.IteratedTransport
