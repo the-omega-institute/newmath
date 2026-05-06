@@ -104,7 +104,20 @@ def main() -> int:
     target = compute_target(cp_data)
     signals = target.pop("_signals")
 
-    config = json.loads(CONFIG.read_text())
+    # Tolerate missing config file: sync daemon's stash/restore cycles
+    # have been observed deleting it. The orchestrator falls back to
+    # built-in defaults when the file is missing, so a missing CONFIG
+    # is recoverable: we just write a fresh one with the autotune
+    # values + empty seed for the rest.
+    try:
+        config = json.loads(CONFIG.read_text())
+    except FileNotFoundError:
+        config = {
+            "phase_b_timeout": 3600,
+            "phase_c_timeout": 6000,
+            "paper_review_timeout": 1800,
+            "paper_revise_timeout": 3600,
+        }
     keys = ("paper", "lean", "lean_lake")
 
     diffs = []
