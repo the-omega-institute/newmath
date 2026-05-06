@@ -146,6 +146,22 @@ theorem MeasureEmptyUnion_right_unit {event empty union : BHist} :
     cont_hsame_transport (hsame_refl event) emptySame (hsame_refl union) eventUnion
   exact cont_right_unit_result transportedUnion
 
+theorem MeasureZeroBHistClassifier_empty_union_comm {event left right : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty -> Cont event BHist.Empty left ->
+      Cont BHist.Empty event right -> MeasureZeroBHistClassifier left right := by
+  intro eventClassified leftRow rightRow
+  have leftEvent : hsame left event :=
+    cont_right_unit_result leftRow
+  have rightEvent : hsame right event :=
+    cont_left_unit_result rightRow
+  have leftZero : MeasureZeroBHistCarrier left :=
+    hsame_trans leftEvent eventClassified.left
+  have rightZero : MeasureZeroBHistCarrier right :=
+    hsame_trans rightEvent eventClassified.left
+  have sameEndpoints : hsame left right :=
+    hsame_trans leftEvent (hsame_symm rightEvent)
+  exact And.intro leftZero (And.intro rightZero sameEndpoints)
+
 theorem MeasureNestedDifference_package
     {event firstDiff middle secondDiff total valueEvent valueFirstDiff valueMiddle
       valueSecondDiff valueTotal firstSum totalSum : BHist} :

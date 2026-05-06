@@ -11,6 +11,12 @@ def SheafBHistPointGermLedger
     (point openHist sectionHist germ : BHist) : Prop :=
   UnaryHistory point ∧ UnaryHistory openHist ∧ Cont openHist sectionHist germ
 
+def SheafBHistPointGermComparison
+    (point openA sectA germA openB sectB germB common : BHist) : Prop :=
+  UnaryHistory point ∧ UnaryHistory openA ∧ UnaryHistory openB ∧ UnaryHistory common ∧
+    hsame common openA ∧ hsame common openB ∧ Cont common sectA germA ∧
+      Cont common sectB germB ∧ hsame germA germB
+
 theorem SheafBHistPointGermLedger_restriction_readback
     {point openHist sectionHist germ restrictedOpen restrictedGerm : BHist} :
     SheafBHistPointGermLedger point openHist sectionHist germ ->
@@ -26,5 +32,40 @@ theorem SheafBHistPointGermLedger_restriction_readback
   exact And.intro
     (And.intro ledger.left (And.intro restrictedOpenUnary restrictedRow))
     sameGerm
+
+theorem SheafBHistPointGermComparison_trans
+    {point openA openB openC sectA sectB sectC germA germB germC common : BHist} :
+    SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
+      SheafBHistPointGermComparison point openB sectB germB openC sectC germC common ->
+        SheafBHistPointGermComparison point openA sectA germA openC sectC germC common := by
+  intro first second
+  exact And.intro first.left
+    (And.intro first.right.left
+      (And.intro second.right.right.left
+        (And.intro first.right.right.right.left
+          (And.intro first.right.right.right.right.left
+            (And.intro second.right.right.right.right.right.left
+              (And.intro first.right.right.right.right.right.right.left
+                (And.intro second.right.right.right.right.right.right.right.left
+                  (hsame_trans first.right.right.right.right.right.right.right.right
+                    second.right.right.right.right.right.right.right.right))))))))
+
+theorem SheafBHistPointGermLedger_shared_open_classifier_transitivity
+    {point openA openB openC sectionA sectionB sectionC germA germB germC : BHist} :
+    SheafBHistPointGermLedger point openA sectionA germA ->
+      SheafBHistPointGermLedger point openB sectionB germA ->
+        SheafBHistPointGermLedger point openB sectionB germB ->
+          SheafBHistPointGermLedger point openC sectionC germB ->
+            UnaryHistory sectionC -> Cont openA sectionC germC ->
+              SheafBHistPointGermLedger point openA sectionC germC ∧
+                hsame germA germB ∧ UnaryHistory germC := by
+  intro rowA sharedA sharedB _rowC sectionCUnary directAC
+  have sameAB : hsame germA germB :=
+    cont_deterministic sharedA.right.right sharedB.right.right
+  have germCUnary : UnaryHistory germC :=
+    unary_cont_closed rowA.right.left sectionCUnary directAC
+  exact And.intro
+    (And.intro rowA.left (And.intro rowA.right.left directAC))
+    (And.intro sameAB germCUnary)
 
 end BEDC.Derived.SheafUp
