@@ -584,6 +584,48 @@ $$
 Composing this with $S\sim_R\mu(A)+T$ and with $\mu(A\cup B)\sim_R S$ yields the displayed classification.
 \end{proof}
 
+\begin{theorem}[Measure empty-union right unit]
+\label{thm:measure-empty-union-right-unit}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A\in\mathcal{A}$, and let $A\cup\varnothing$ be the measurable binary union row supplied by the $\sigma$-algebra row. Suppose $\varnothing\in\mathcal{A}$, and suppose the $\MeasureUp$ certificate supplies the sigma-additivity, head-tail, and countable-sum stability rows used in \autoref{thm:measure-finite-disjoint-union-additivity}. If the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row with zero $0_R$, then
+$$
+\mu(A\cup\varnothing)\sim_R\mu(A).
+$$
+\end{theorem}
+\begin{proof}
+The events $A$ and $\varnothing$ are disjoint, and the displayed binary union
+row is measurable. Apply
+\autoref{thm:measure-finite-disjoint-union-additivity} with
+$B=\varnothing$ to obtain
+$$
+\mu(A\cup\varnothing)\sim_R\mu(A)+\mu(\varnothing).
+$$
+
+By \autoref{thm:measure-empty-set-zero-from-sigma-additivity},
+$\mu(\varnothing)\sim_R0_R$. Addition congruence in the additive
+$\AbGroupUp$ row transports the right summand to $0_R$, and the right-unit
+law gives $\mu(A)+0_R\sim_R\mu(A)$. Transitivity of $\sim_R$ yields the
+displayed comparison.
+\end{proof}
+
+\begin{theorem}[Measure disjoint-union symmetric readback]
+\label{thm:measure-disjoint-union-symmetry}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A,B\in\mathcal{A}$ be disjoint, and let $A\cup B$ be the measurable binary union supplied by the $\sigma$-algebra row. Suppose $\varnothing\in\mathcal{A}$, and suppose the $\MeasureUp$ certificate supplies the sigma-additivity, head-tail, and countable-sum stability rows used in \autoref{thm:measure-finite-disjoint-union-additivity}. If the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row, then
+$$
+\mu(A\cup B)\sim_R\mu(B)+\mu(A).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to the
+disjoint measurable pair $A,B$. This gives
+$$
+\mu(A\cup B)\sim_R\mu(A)+\mu(B).
+$$
+
+The additive $\AbGroupUp$ row supplies commutativity for $+$. Hence
+$\mu(A)+\mu(B)\sim_R\mu(B)+\mu(A)$, and composing the two comparisons gives
+the stated symmetric readback.
+\end{proof}
+
 \begin{theorem}[Measure countable zero tail canonical]
 \label{thm:measure-countable-zero-tail-canonical}
 For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, write $0_R$ for the additive zero in the target $\RealUp$ row, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $F_\bullet$ be the constant-empty measurable sequence $F_n:=\varnothing$. Suppose $\varnothing\in\mathcal{A}$, the sequence is read by the $\sigma$-additivity row of \autoref{thm:measure-obligation-sigma-additive-row}, the countable-sum classifier is stable under pointwise $\sim_R$-classification, and the target $\RealUp$ addition is carried by the additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier}. Then the canonical countable endpoint of the all-empty sequence is classified with zero:
@@ -656,6 +698,8 @@ inclusion row of \autoref{thm:measure-monotone-under-measurable-inclusion}, and
 the measure consequence theorems
 \autoref{thm:measure-empty-set-zero-from-sigma-additivity},
 \autoref{thm:measure-finite-disjoint-union-additivity},
+\autoref{thm:measure-empty-union-right-unit},
+\autoref{thm:measure-disjoint-union-symmetry},
 \autoref{thm:measure-countable-zero-tail-canonical},
 \autoref{thm:measure-finite-three-support-countable-readback},
 \autoref{thm:measure-triple-disjoint-union-additivity}, and
@@ -676,16 +720,17 @@ classification needed by the measure consequences, while the ledger exactness
 obligation identifies all hidden witnesses with their visible rows.
 
 Finally include the nonnegative value row, the measurable-inclusion
-monotonicity row, and the empty-zero, finite disjoint-union, zero-tail, finite
-three-support, triple disjoint-union, and relative-difference consequence
-theorems as the core theorem rows of the package. The downstream chapters named
-in the statement consume only this package surface: $\IntegralUp$ uses the
-measurable event, nonnegative endpoint, monotone inclusion,
-relative-difference, and countable-sum rows,
+monotonicity row, and the empty-zero, finite disjoint-union, empty-union,
+symmetric-readback, zero-tail, finite three-support, triple disjoint-union, and
+relative-difference consequence theorems as the core theorem rows of the
+package. The downstream chapters named in the statement consume only this
+package surface: $\IntegralUp$ uses the measurable event, nonnegative endpoint,
+monotone inclusion, relative-difference, and countable-sum rows,
 $\ProbSpaceUp$ uses the empty and disjoint-union rows, and
 $\FunctionalAnalysisUp$ uses the $\RealUp$ value classifier and additive
 compatibility rows.
 \end{proof}
 
+\input{parts/concrete_instances/measure/finite_additivity_readback}
 \input{parts/concrete_instances/measure/zero_bhist_surface}
 \input{parts/concrete_instances/measure/downstream_row_coverage}
