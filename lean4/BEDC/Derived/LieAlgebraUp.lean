@@ -113,4 +113,38 @@ theorem LieAlgebraSingleton_adjoint_action_additive_linearity
   exact And.intro leftEmpty
     (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
+theorem LieAlgebraSingletonAdjoint_commutator_identity
+    {x y z yz xy xz x_yz y_xz commutator target : BHist} :
+    LieAlgebraSingletonCarrier x -> LieAlgebraSingletonCarrier y ->
+      LieAlgebraSingletonCarrier z -> Cont y z yz -> Cont x y xy -> Cont x z xz ->
+        Cont x yz x_yz -> Cont y xz y_xz -> Cont x_yz y_xz commutator ->
+          Cont xy z target ->
+            hsame commutator target ∧ LieAlgebraSingletonCarrier commutator ∧
+              LieAlgebraSingletonCarrier target ∧ UnaryHistory commutator ∧
+                UnaryHistory target := by
+  intro carrierX carrierY carrierZ yzRow xyRow xzRow xYzRow yXzRow commutatorRow targetRow
+  have yzEmpty : hsame yz BHist.Empty :=
+    cont_respects_hsame carrierY carrierZ yzRow (cont_left_unit BHist.Empty)
+  have xyEmpty : hsame xy BHist.Empty :=
+    cont_respects_hsame carrierX carrierY xyRow (cont_left_unit BHist.Empty)
+  have xzEmpty : hsame xz BHist.Empty :=
+    cont_respects_hsame carrierX carrierZ xzRow (cont_left_unit BHist.Empty)
+  have xYzEmpty : hsame x_yz BHist.Empty :=
+    cont_respects_hsame carrierX yzEmpty xYzRow (cont_left_unit BHist.Empty)
+  have yXzEmpty : hsame y_xz BHist.Empty :=
+    cont_respects_hsame carrierY xzEmpty yXzRow (cont_left_unit BHist.Empty)
+  have commutatorEmpty : hsame commutator BHist.Empty :=
+    cont_respects_hsame xYzEmpty yXzEmpty commutatorRow (cont_left_unit BHist.Empty)
+  have targetEmpty : hsame target BHist.Empty :=
+    cont_respects_hsame xyEmpty carrierZ targetRow (cont_left_unit BHist.Empty)
+  have sameCommutatorTarget : hsame commutator target :=
+    hsame_trans commutatorEmpty (hsame_symm targetEmpty)
+  have commutatorUnary : UnaryHistory commutator :=
+    unary_transport unary_empty (hsame_symm commutatorEmpty)
+  have targetUnary : UnaryHistory target :=
+    unary_transport unary_empty (hsame_symm targetEmpty)
+  exact And.intro sameCommutatorTarget
+    (And.intro commutatorEmpty
+      (And.intro targetEmpty (And.intro commutatorUnary targetUnary)))
+
 end BEDC.Derived.LieAlgebraUp
