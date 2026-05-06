@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ComputableUp
@@ -69,5 +70,47 @@ theorem ComputableBoundedSim_composition {PF PG n bF m bG k : BHist} :
         (And.intro leftRun.right.left
           (And.intro boundUnary
             (And.intro rightRun.right.right.right.left composedCont)))))
+
+theorem ComputableUnaryIdentityGraph_empty_bound_certificate :
+    exists C : ComputableBoundedGraphCertificate,
+      C.Graph = (fun n m : BHist => UnaryHistory n ∧ UnaryHistory m ∧ hsame n m) ∧
+        C.program = BHist.Empty ∧
+          (forall {n m : BHist}, C.Graph n m ->
+            ComputableBoundedSim C.program n (C.bound n) m) ∧
+            (forall {n m : BHist}, ComputableBoundedSim C.program n (C.bound n) m ->
+              C.Graph n m) := by
+  let C : ComputableBoundedGraphCertificate := {
+    Graph := fun n m : BHist => UnaryHistory n ∧ UnaryHistory m ∧ hsame n m
+    program := BHist.Empty
+    bound := fun _n : BHist => BHist.Empty
+    program_unary := unary_empty
+    bound_unary := by
+      intro _n _unaryN
+      exact unary_empty
+    graph_to_sim := by
+      intro n m graph
+      have sameNM : hsame n m := graph.right.right
+      exact And.intro unary_empty
+        (And.intro graph.left
+          (And.intro unary_empty
+            (And.intro graph.right.left
+              (cont_result_hsame_transport (cont_right_unit n) sameNM))))
+    sim_to_graph := by
+      intro n m sim
+      have sameMN : hsame m n :=
+        cont_right_unit_result sim.right.right.right.right
+      exact And.intro sim.right.left
+        (And.intro sim.right.right.right.left (hsame_symm sameMN))
+  }
+  exact Exists.intro C
+    (And.intro rfl
+      (And.intro rfl
+        (And.intro
+          (by
+            intro n m graph
+            exact C.graph_to_sim graph)
+          (by
+            intro n m sim
+            exact C.sim_to_graph sim))))
 
 end BEDC.Derived.ComputableUp
