@@ -1,0 +1,123 @@
+\begin{definition}[Differential-form downstream obligation inventory]
+\label{def:diffform-downstream-obligation-inventory}
+The downstream obligation inventory for $\DiffFormUp$ is the ten-field
+boundary used when $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ consume the
+differential-form surface:
+\begin{enumerate}
+  \item traditional target: $\DiffFormUp$ as the boundary source for
+  $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$;
+  \item BEDC source: $BHist$, $\hsame$, $\Cont$,
+  $\mathsf{ProbeBundle}$, $\NameCert_{\ManifoldUp}$, and
+  $\NameCert_{\TensorProductUp}$;
+  \item carrier: $\mathsf{DiffFormBHistCarrier}_{M,T}$;
+  \item classifier: $\sim_{\DiffFormUp}$;
+  \item stability obligations: carrier $\hsame$ transport, form classifier
+  stability, scalar endpoint transport, and exterior-input classifier
+  stability;
+  \item ledger: only degree, probe, tensor, scalar, antisymmetry, and source
+  rows may be projected;
+  \item core theorem: the carrier, exterior-input, and consumer-boundary rows
+  displayed in this file;
+  \item exactness: row exhaustion of the displayed carrier and
+  exterior-input packages;
+  \item standard bridge: absent data;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+This inventory is a boundary statement. It supplies the rows that later
+chapters may consume, and it does not assert $d^2=0$, closedness,
+nondegeneracy, contact nonintegrability, or any standard bridge.
+\end{definition}
+
+\begin{theorem}[Differential-form downstream carrier-source obligation]
+\label{thm:diffform-downstream-carrier-source-obligation}
+Every downstream consumer of a $\DiffFormUp$ carrier row may project only the
+six carrier coordinates
+$$
+(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)
+$$
+and the source scope
+$$
+BHist,\ \hsame,\ \Cont,\ \mathsf{ProbeBundle},\
+\NameCert_{\ManifoldUp},\ \NameCert_{\TensorProductUp}.
+$$
+No $\DeRhamUp$, $\SymplecticUp$, or $\ContactUp$ consumer obtains an additional
+carrier coordinate, hidden classifier, operator row, or geometric law from the
+$\DiffFormUp$ carrier alone.
+\end{theorem}
+\begin{proof}
+Project the carrier row by
+\autoref{def:diffform-bhist-form-carrier}. A carried form is exactly the
+six-tuple $(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$, so the degree,
+probe-bundle, tensor, scalar endpoint, antisymmetry, and source-ledger entries
+are the full carrier surface.
+
+Next apply \autoref{thm:diffform-source-scope}. The source ledger for any
+accepted carrier row is restricted to $BHist$, $\hsame$, $\Cont$,
+$\mathsf{ProbeBundle}$, $\NameCert_{\ManifoldUp}$, and
+$\NameCert_{\TensorProductUp}$.
+
+Combining the carrier projection with the source-scope projection exhausts
+what a downstream consumer can read. Operator identities and geometric laws
+are not carrier coordinates and are not named by the source ledger, so they
+cannot be projected from the carrier alone.
+\end{proof}
+
+\begin{theorem}[Differential-form downstream exterior-input obligation]
+\label{thm:diffform-downstream-exterior-input-obligation}
+An accepted exterior-derivative input package exposes only the source carried
+row, the output carried row, the one-step degree continuation ledger, the
+probe transport ledger, the $\TensorProductUp$ tensor transport ledger, the
+retained scalar endpoint transport, and the restricted source ledger. It
+exposes no $d^2$ row, closedness row, nondegeneracy row, contact
+nonintegrability row, or second-derivative law.
+\end{theorem}
+\begin{proof}
+Unpack
+\autoref{def:diffform-exterior-derivative-visible-input-package}. The package
+lists the source and output carried rows, the unary degree histories, the
+displayed one-step continuation $\Cont(d,\Eone(\emp),d^+)$, the probe
+transport rows, the tensor row, the scalar endpoint comparison, and the
+operator-owned source ledger.
+
+Transport stability is exactly the row supplied by
+\autoref{thm:diffform-exterior-derivative-input-classifier-stability}. It
+keeps the package accepted under componentwise $\hsame$ transport and
+preserves the retained scalar endpoint comparison as the scalar comparison of
+the transported package.
+
+The displayed list contains no row for $d^2$, closedness, nondegeneracy,
+contact nonintegrability, or a second application of the exterior derivative.
+By exhausting the visible package fields, those laws remain outside the
+$\DiffFormUp$ exterior-input obligation.
+\end{proof}
+
+\begin{theorem}[Differential-form downstream consumer boundary]
+\label{thm:diffform-downstream-consumer-boundary}
+The chapters $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ consume only the
+displayed $\DiffFormUp$ carrier, source, and exterior-input rows of
+\autoref{def:diffform-downstream-obligation-inventory}. Each such chapter must
+supply its own operator law or geometric law: $d^2=0$ for de Rham structure,
+closedness and nondegeneracy for symplectic structure, and contact
+nonintegrability for contact structure.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:diffform-downstream-carrier-source-obligation}. It bounds every
+carrier projection by the six displayed carrier coordinates and the six named
+BEDC sources.
+
+Next use \autoref{thm:diffform-downstream-exterior-input-obligation}. It
+permits an exterior-derivative consumer to read the source and output carried
+rows, one-step degree bookkeeping, probe and tensor transport, scalar endpoint
+transport, and the restricted source ledger, but not $d^2$, closedness,
+nondegeneracy, or contact nonintegrability.
+
+Finally apply
+\autoref{thm:diffform-exterior-derivative-downstream-scope}. That theorem
+identifies $\DiffFormUp$ as the carrier, classifier, exterior-algebra
+substrate, degree-raise candidate row, and endpoint-transport substrate for
+$\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$. Composing it with the two
+obligation rows above leaves exactly the displayed DiffForm rows available to
+downstream consumers, so their operator and geometric laws must be supplied in
+their own certificate surfaces.
+\end{proof}
