@@ -415,6 +415,23 @@ theorem RealAnalyticLocalStream_obligations_package {zero zero' : BHist}
     exact RealAnalyticComplexAbsPartSum_pointwise_result_unary_transport zeroUnary sameZero
       modulusUnary modulusSame unaryN source target
 
+theorem RealAnalyticRealCompletionDependencySurface_local_result_unary {zero result : BHist}
+    {c modulus : BHist -> BHist} :
+    UnaryHistory zero ->
+      (forall {n : BHist}, UnaryHistory n -> UnaryHistory (c n)) ->
+        (forall {n : BHist}, UnaryHistory n -> UnaryHistory (modulus n)) ->
+          (exists n : BHist,
+            ComplexPartSum zero c n result \/ ComplexAbsPartSum zero modulus n result) ->
+            UnaryHistory result := by
+  intro zeroUnary termUnary modulusUnary localSurface
+  cases localSurface with
+  | intro n surface =>
+      cases surface with
+      | inl partSum =>
+          exact ComplexPartSum_result_unary zeroUnary termUnary partSum
+      | inr absPartSum =>
+          exact ComplexAbsPartSum_result_unary zeroUnary modulusUnary absPartSum
+
 theorem RealAnalyticExp_local_witness_unary {x bound modulus y : BHist} :
     RealAnalyticExp x bound modulus y ->
       UnaryHistory bound ∧ UnaryHistory modulus ∧
@@ -462,6 +479,24 @@ theorem RealAnalyticExp_product_witness_unary {x y bx bynd mx my ex ey prod : BH
                       yLocal.right.right.right
                   exact And.intro exUnary (And.intro eyUnary
                     (unary_cont_closed exUnary eyUnary product))
+
+theorem RealAnalyticLogExpInverse_supplied_boundary_unary {x y e bound modulus : BHist}
+    {bisect M : BHist -> BHist} :
+    RealAnalyticLog x y bisect M -> RealAnalyticExp y bound modulus e -> hsame e x ->
+      UnaryHistory e ∧ UnaryHistory x ∧ UnaryHistory y := by
+  intro logData expData sameEX
+  have expWitness := RealAnalyticExp_local_witness_unary expData
+  have yUnary : UnaryHistory y :=
+    ComplexHistoryCarrier_unary logData.right.left.right.left
+  cases expWitness.right.right with
+  | intro _n witnessN =>
+      cases witnessN with
+      | intro _S localData =>
+        have eUnary : UnaryHistory e :=
+          unary_cont_closed localData.right.left expWitness.right.left localData.right.right.right
+        have xUnary : UnaryHistory x :=
+          unary_transport eUnary sameEX
+        exact And.intro eUnary (And.intro xUnary yUnary)
 
 theorem real_analytic_certificate_boundary {zero : BHist} {c modulus : BHist -> BHist} :
     SemanticNameCert
