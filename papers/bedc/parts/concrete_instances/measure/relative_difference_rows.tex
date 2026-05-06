@@ -192,3 +192,54 @@ $$
 \mu(A\setminus A)\sim_R0_R.
 $$
 \end{proof}
+
+\begin{theorem}[Measure binary-union subadditivity]
+\label{thm:measure-binary-union-subadditivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$
+classifier of \autoref{def:real-classifier-specification}. Let
+$A,B\in\mathcal{A}$ be displayed measurable events in one carried fiber, and
+let $U\in\mathcal{A}$ be the displayed binary union of $A$ and $B$. Suppose
+the public binary-union readback displays $A\subseteq U$ and, for the
+relative-difference event $D:=U\setminus A$ supplied by
+\autoref{def:measure-complement-difference-row}, displays $D\subseteq B$. If
+the certificate supplies the finite disjoint-union additivity row, the
+nonnegative measure-value row, and the RealAlgOrder additive order row with
+classifier-stable addition monotonicity, then
+$$
+\mu(U)\le_R\mu(A)+\mu(B).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-relative-difference-additivity} to the displayed
+inclusion $A\subseteq U$. With $D:=U\setminus A$, the relative-difference row
+supplies measurability of $D$, disjointness of $A$ and $D$, and the readback
+$A\cup D\sim_M U$. The finite disjoint-union additivity row therefore gives
+$$
+\mu(U)\sim_R\mu(A)+\mu(D).
+$$
+
+The binary-union exclusion readback displays $D\subseteq B$. Apply
+\autoref{thm:measure-monotone-under-measurable-inclusion} to this inclusion.
+Its proof consumes the relative-difference row for $B\setminus D$, finite
+disjoint-union additivity, the nonnegative value row for the remaining piece,
+and the RealAlgOrder additive order row, yielding
+$$
+\mu(D)\le_R\mu(B).
+$$
+
+Use the addition-monotonicity component of the same RealAlgOrder row with the
+fixed left summand $\mu(A)$. It transports the last comparison through
+addition and gives
+$$
+\mu(A)+\mu(D)\le_R\mu(A)+\mu(B).
+$$
+
+Finally transport the left endpoint of this order comparison across
+$\mu(U)\sim_R\mu(A)+\mu(D)$ by the $\sim_R$-stability of the RealAlgOrder order
+row. The resulting displayed comparison is
+$$
+\mu(U)\le_R\mu(A)+\mu(B).
+$$
+\end{proof}
