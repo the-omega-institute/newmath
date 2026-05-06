@@ -141,3 +141,54 @@ any such collection repacks as
 $\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ without adding quotient or host-level
 structure.
 \end{proof}
+
+\begin{theorem}[Banach zero bounded linear operator carrier]
+\label{thm:banach-zero-bounded-linear-operator-carrier}
+Let $C,D$ be $\BanachUp$ candidates as in \autoref{def:banach-complete-normed-carrier}, with vector carriers $C_V,D_V$, classifiers $\sim_C,\sim_D$, zero endpoints $0_C,0_D$, norms $\nu_C,\nu_D$, and norm-induced distances $d_C,d_D$. Assume the candidate ledgers expose the source and target vector-zero rows, including the target additive-zero and scalar-zero rows, and a RealUp zero bound endpoint $0_{\RealUp}$ whose rows include
+$$
+0_{\RealUp}\ge 0
+\quad\text{and}\quad
+0_{\RealUp}\cdot r\ \text{classified with}\ 0_{\RealUp}
+$$
+for every carried norm endpoint $r$. Define the zero endpoint map
+$$
+Z_{C,D}:C_V\to D_V,\qquad Z_{C,D}(x):=0_D.
+$$
+Let $\Lambda_0$ be the visible ledger containing the source endpoint row, the target zero endpoint row, the source and target norm rows, the target classifier reflexivity row at $0_D$, the target additive-zero and scalar-zero rows, and the RealUp zero nonnegativity, multiplication, order-reflexivity, and classifier-transport rows. Then
+$$
+\mathsf{BanachBLOp}(C,D,Z_{C,D},0_{\RealUp},\Lambda_0)
+$$
+is carried.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:banach-bounded-linear-operator-carrier}. For every carried source endpoint $x:C_V$, the endpoint value of the displayed map is $Z_{C,D}(x)=0_D$. The target vector-zero row carries $0_D$ in $D_V$, so the target endpoint row required by the operator carrier is present.
+
+For classifier-respect, suppose $x\sim_C x'$ and both source endpoints are carried. Both images are the same target zero endpoint. The target classifier reflexivity row gives $0_D\sim_D0_D$, hence
+$$
+Z_{C,D}(x)\sim_D Z_{C,D}(x').
+$$
+
+For additivity, let $x,y:C_V$ be carried. The source vector rows carry $x+_C y$, so the left endpoint is again $0_D$. The right endpoint is
+$$
+Z_{C,D}(x)+_D Z_{C,D}(y)=0_D+_D0_D.
+$$
+The target additive-zero law classifies $0_D+_D0_D$ with $0_D$; symmetry of the target vector classifier gives the required comparison
+$$
+Z_{C,D}(x+_C y)\sim_D Z_{C,D}(x)+_D Z_{C,D}(y).
+$$
+
+For homogeneity, let $a$ be a carried RealUp scalar endpoint and let $x:C_V$ be carried. The source scalar-action row carries $a\cdot_C x$, so the left endpoint is $0_D$. The right endpoint is $a\cdot_D0_D$. The target scalar-zero row classifies $a\cdot_D0_D$ with $0_D$, and classifier symmetry gives
+$$
+Z_{C,D}(a\cdot_C x)\sim_D a\cdot_DZ_{C,D}(x).
+$$
+
+It remains to verify the bound row. The RealUp zero bound ledger gives $0_{\RealUp}\ge0$. For a carried source endpoint $x$, the $\NormUp$ positive-definiteness row contained in the target Banach candidate of \autoref{def:banach-complete-normed-carrier} classifies $\nu_D(0_D)$ with $0_{\RealUp}$; this is the zero case of the metric obligation recorded in \autoref{thm:banach-metric-induced-by-norm}. Since $Z_{C,D}(x)=0_D$, this is the left side of the bound. The RealUp multiplication row classifies $0_{\RealUp}\cdot\nu_C(x)$ with $0_{\RealUp}$. Order reflexivity at $0_{\RealUp}$, transported across these two RealUp classifier comparisons, gives
+$$
+\nu_D(Z_{C,D}(x))\le 0_{\RealUp}\cdot\nu_C(x).
+$$
+
+The rows just assembled are exactly the classifier, additive, homogeneous, bound, and ledger rows demanded by \autoref{def:banach-bounded-linear-operator-carrier}. Repacking them with the displayed endpoint map and the bound endpoint $0_{\RealUp}$ yields the carried row
+$$
+\mathsf{BanachBLOp}(C,D,Z_{C,D},0_{\RealUp},\Lambda_0).
+$$
+\end{proof}
