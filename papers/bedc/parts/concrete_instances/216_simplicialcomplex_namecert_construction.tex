@@ -311,3 +311,86 @@ $$
 Combining the three comparisons gives the claimed chain conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexIntersection\_face\_dimension\_grading}
+
+\begin{definition}[Simplicial union carrier rows]
+\label{def:simplicialcomplex-union-carrier-rows}
+Let $K$ and $L$ be $\SimplicialComplexUp$ finite face carriers over the same finite vertex source $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}. Assume that both carriers use the same simplex-code source $S:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_S$, and that their face-incidence rows are read through one displayed relation
+$$
+\mathsf{Face}:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}.
+$$
+The simplicial union predicate is
+$$
+\mathsf{Simplex}_{K\cup L}(z):=
+\mathsf{Simplex}_K(z)\vee\mathsf{Simplex}_L(z).
+$$
+For a finite spine $js:\mathsf{HistSpine}$, the finite enumeration row for the union is
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cup L}),
+$$
+in the sense of \autoref{def:finset-spine-enumerates-predicate}. The inherited face relation is
+$$
+\mathsf{Face}_{K\cup L}(\rho,\sigma):=\mathsf{Face}(\rho,\sigma).
+$$
+\end{definition}
+
+\begin{theorem}[Simplicial union carrier is face closed]
+\label{thm:simplicialcomplex-union-carrier-face-closed}
+Let $K$ and $L$ share the simplex-code source, classifier, and face relation as in \autoref{def:simplicialcomplex-union-carrier-rows}. Let $js:\mathsf{HistSpine}$ satisfy
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cup L}).
+$$
+Then the union rows carry the finite enumeration, face closure, and inherited face transitivity:
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cup L}),
+$$
+$$
+\forall \tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Simplex}_{K\cup L}(\sigma)\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\to
+\mathsf{Simplex}_{K\cup L}(\tau),
+$$
+and
+$$
+\forall \rho\,\tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Face}_{K\cup L}(\rho,\tau)\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\to
+\mathsf{Face}_{K\cup L}(\rho,\sigma).
+$$
+Moreover, every two-step face chain in the union satisfies
+$$
+\mathsf{Simplex}_{K\cup L}(\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\rho,\tau)
+\to
+\mathsf{Simplex}_{K\cup L}(\tau)
+\land
+\mathsf{Simplex}_{K\cup L}(\rho)
+\land
+\mathsf{Face}_{K\cup L}(\rho,\sigma).
+$$
+\end{theorem}
+\begin{proof}
+The finite-enumeration row is exactly the displayed hypothesis, with the predicate named in \autoref{def:simplicialcomplex-union-carrier-rows} and the enumeration predicate supplied by \autoref{def:finset-spine-enumerates-predicate}.
+
+For face closure, fix $\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cup L}(\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma).
+$$
+Unfolding the union predicate gives either $\mathsf{Simplex}_K(\sigma)$ or $\mathsf{Simplex}_L(\sigma)$, and unfolding the inherited relation gives $\mathsf{Face}(\tau,\sigma)$. In the $K$ case, the simplicial closure row of \autoref{def:simplicialcomplex-finite-face-carrier} gives $\mathsf{Simplex}_K(\tau)$, hence $\mathsf{Simplex}_{K\cup L}(\tau)$. In the $L$ case, the same closure row for $L$ gives $\mathsf{Simplex}_L(\tau)$, hence again $\mathsf{Simplex}_{K\cup L}(\tau)$.
+
+For inherited face transitivity, fix $\rho,\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Face}_{K\cup L}(\rho,\tau)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma).
+$$
+Unfold the inherited relation to read these as $\mathsf{Face}(\rho,\tau)$ and $\mathsf{Face}(\tau,\sigma)$. The face-incidence row of $K$ is the $\PosetUp$ relation row from \autoref{def:poset-carrier} packaged by \autoref{def:simplicialcomplex-finite-face-carrier}; its transitivity field composes the two displayed face incidences and yields $\mathsf{Face}(\rho,\sigma)$. Folding the inherited relation gives $\mathsf{Face}_{K\cup L}(\rho,\sigma)$.
+
+For the two-step chain statement, start with the displayed chain hypothesis. The face-closure row just proved gives $\mathsf{Simplex}_{K\cup L}(\tau)$ from the upper face incidence. Applying the same row again to $\mathsf{Simplex}_{K\cup L}(\tau)$ and $\mathsf{Face}_{K\cup L}(\rho,\tau)$ gives $\mathsf{Simplex}_{K\cup L}(\rho)$. The inherited transitivity row gives $\mathsf{Face}_{K\cup L}(\rho,\sigma)$. Combining these three conclusions proves the final conjunction.
+\end{proof}
