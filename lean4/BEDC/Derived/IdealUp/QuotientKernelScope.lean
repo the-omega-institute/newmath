@@ -30,4 +30,25 @@ theorem IdealZeroAndWholeQuotientKernel_scope
       · intro x y kernelXY
         exact And.intro kernelXY.left kernelXY.right.left
 
+theorem IdealQuotientKernel_product_difference_membership
+    {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
+    {add mul sub : BHist -> BHist -> BHist} {a a' b b' : BHist}
+    (cert : NameCert Carrier Classifier)
+    (idealAdd : forall {x y : BHist}, I x -> I y -> I (add x y))
+    (idealTransport : forall {x y : BHist}, I x -> Classifier x y -> I y)
+    (idealAbsorb :
+      forall {r x : BHist}, Carrier r -> I x -> I (mul r x) ∧ I (mul x r))
+    (productDifference :
+      Classifier (add (mul (sub a a') b) (mul a' (sub b b')))
+        (sub (mul a b) (mul a' b'))) :
+    Carrier b -> Carrier a' -> I (sub a a') -> I (sub b b') ->
+      I (sub (mul a b) (mul a' b')) := by
+  intro carrierB carrierA' diffA diffB
+  have _certified : NameCert Carrier Classifier := cert
+  have rightAbsorbed : I (mul (sub a a') b) :=
+    (idealAbsorb carrierB diffA).right
+  have leftAbsorbed : I (mul a' (sub b b')) :=
+    (idealAbsorb carrierA' diffB).left
+  exact idealTransport (idealAdd rightAbsorbed leftAbsorbed) productDifference
+
 end BEDC.Derived.IdealUp
