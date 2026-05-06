@@ -46,6 +46,65 @@ interface, and it is used by the product and inverse rows inherited from
 commutativity itself only needs the center witness for $x$ at the chosen test
 history $y$.
 \end{proof}
+\begin{theorem}[Group singleton public operation surface]
+\label{thm:group-singleton-public-operation-surface}
+For the concrete singleton history group instance of
+\autoref{def:concrete-singleton-history-group-instance}, the public carrier is
+$A_{\emp}$, multiplication is $\mathsf{append}$, unit is $\emp$, inverse is the
+constant operation $h\mapsto\emp$, and the public classifier is $R_{\emp}$.
+This surface is packaged by the following four clauses.
+\begin{enumerate}
+  \item Multiplication, unit, and inverse endpoints remain in the carrier
+  $A_{\emp}$ and are classified by $R_{\emp}$ whenever their inputs are carried.
+
+  \item Every public expression generated from carried endpoints by
+  multiplication, unit, and inverse has readback classified with $\emp$.
+
+  \item Left and right singleton append contexts preserve and reflect the
+  public classifier by the existing append-context cancellation rows.
+
+  \item The source, pattern, and ledger predicates expose only singleton
+  carrier witnesses and append or inverse expression provenance. Hence the
+  public surface admits no endpoint outside $A_{\emp}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier, classifier, multiplication, unit, and inverse are exactly the
+objects named in \autoref{def:concrete-singleton-history-group-instance}.
+Theorem~\ref{thm:group-singleton-history-semantic-namecert} packages them as
+the singleton-history $\mathsf{SemanticNameCert}$ for $\GroupUp$, so the source
+and classifier fields of the public surface are not additional data.
+
+For the endpoint clauses, use
+Theorem~\ref{thm:concrete-singleton-history-group-laws} together with the
+singleton endpoint readback row recorded by
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$. Multiplication
+closure carries $\mathsf{append}(h,k)$ from carried inputs; the unit row carries
+$\emp$; inverse closure carries the constant inverse endpoint $\emp$; and the
+readback row classifies each generated endpoint against $\emp$ by $R_{\emp}$.
+
+Public expressions are built by induction on the expression tree. The base
+case is a carried endpoint, whose singleton witness reads back to $\emp$. The
+unit and inverse cases use the constant endpoint $\emp$. The multiplication
+case applies multiplication closure to the two inducted carrier witnesses and
+then composes their readback classifiers through the append law supplied by the
+same checked singleton group rows.
+
+For contextual visibility, apply
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} to the left
+append contexts. The right-context row in the same singleton block gives the
+corresponding suffix form, and the two-sided row combines the two orientations.
+Thus wrapping a public endpoint by singleton append contexts neither creates
+nor hides a classifier witness.
+
+Finally, the no-hidden-leakage clause is just the exactness content of the
+singleton certificate. Source predicates expose carrier witnesses
+$A_{\emp}(h)$, pattern predicates expose only the empty endpoint and append
+shape used by the generated expression, and ledger rows record the concrete
+append or constant-inverse provenance. Any admitted public endpoint therefore
+carries a witness to $A_{\emp}$, so no endpoint outside the singleton carrier
+is admitted by this operation surface.
+\end{proof}
 \begin{closurestatus}{\GroupUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The center abelian normal package over a BEDC history-level group source, with center carrier, $\hsame$ classifier, inherited product and inverse rows, and the cited group stability fields.}
