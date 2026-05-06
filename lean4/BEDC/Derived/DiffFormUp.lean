@@ -156,6 +156,37 @@ theorem DiffFormRootDegreeClassifier_coverage {ScalarCarrier : BHist -> Prop}
       (t := tensor) (s := scalar) (a := antisym) (l := ledger) scalarCert probeIn scalarCarrier
   exact And.intro coordinateRows classifierRows
 
+theorem DiffFormRootDegreeClassifier_transport
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
+      ledger' : BHist} :
+    InBundle probe probes -> InBundle probe' probes -> ScalarCarrier scalar ->
+      ScalarClassifier scalar scalar' -> UnaryHistory degree -> UnaryHistory probe ->
+        Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+          hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+            hsame degree degree' -> hsame probe probe' -> hsame tensor tensor' ->
+              hsame scalar scalar' -> hsame antisym antisym' -> hsame ledger ledger' ->
+                (UnaryHistory degree' ∧ UnaryHistory probe' ∧ UnaryHistory tensor' ∧
+                  UnaryHistory scalar' ∧
+                    hsame ledger'
+                      (append degree'
+                        (append probe' (append tensor' (append scalar' antisym'))))) ∧
+                  DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar
+                    antisym ledger degree' probe' tensor' scalar' antisym' ledger' := by
+  intro probeIn probeIn' _scalarCarrier scalarClass degreeUnary probeUnary tensorRoute
+    antisymUnary scalarRoute ledgerRoute sameDegree sameProbe sameTensor sameScalar sameAntisym
+    sameLedger
+  have transportedRows :=
+    DiffFormBHistCarrier_hsame_transport sameDegree sameProbe sameTensor sameScalar sameAntisym
+      sameLedger degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have classifierRows :
+      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger
+        degree' probe' tensor' scalar' antisym' ledger' :=
+    ⟨probeIn, probeIn', sameDegree, sameProbe, sameTensor, scalarClass, sameAntisym,
+      sameLedger⟩
+  exact And.intro transportedRows classifierRows
+
 def DiffFormExteriorDerivativeLedger
     (omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source :
       BHist) :

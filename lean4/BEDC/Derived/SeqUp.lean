@@ -15,6 +15,14 @@ def SeqPointwiseClassifier (PointCarrier : BHist -> Prop)
   forall {n : BHist}, UnaryHistory n ->
     PointCarrier (s n) ∧ PointCarrier (t n) ∧ PointClassifier (s n) (t n)
 
+theorem SeqPointwiseClassifier_target_source
+    {PointCarrier : BHist -> Prop} {PointClassifier : BHist -> BHist -> Prop}
+    {s t : BHist -> BHist} :
+    SeqPointwiseClassifier PointCarrier PointClassifier s t ->
+      SeqRootSource PointCarrier t := by
+  intro pointwise n unaryN
+  exact (pointwise unaryN).right.left
+
 theorem SeqPointwiseClassifier_rows {PointCarrier : BHist -> Prop}
     {PointClassifier : BHist -> BHist -> Prop} (cert : NameCert PointCarrier PointClassifier)
     {s t u : BHist -> BHist} :
