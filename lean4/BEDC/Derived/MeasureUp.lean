@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.MeasureUp
@@ -133,6 +134,26 @@ theorem MeasureSelfDifference_zero_law {event diff union value sum : BHist} :
   have eventRightUnit : Cont event diff event :=
     cont_result_hsame_transport eventUnion unionEvent
   exact cont_right_unit_unique eventRightUnit
+
+theorem MeasureNestedDifference_package
+    {event firstDiff middle secondDiff total valueEvent valueFirstDiff valueMiddle
+      valueSecondDiff valueTotal firstSum totalSum : BHist} :
+    Cont event firstDiff middle -> Cont middle secondDiff total ->
+      hsame valueEvent event -> hsame valueFirstDiff firstDiff -> hsame valueMiddle middle ->
+        hsame valueSecondDiff secondDiff -> hsame valueTotal total ->
+          Cont valueEvent valueFirstDiff firstSum ->
+            Cont firstSum valueSecondDiff totalSum ->
+              hsame firstSum valueMiddle ∧ hsame totalSum valueTotal := by
+  intro firstRow secondRow sameEvent sameFirstDiff sameMiddle sameSecondDiff sameTotal
+    firstValueRow secondValueRow
+  have firstSumMiddle : hsame firstSum middle :=
+    cont_respects_hsame sameEvent sameFirstDiff firstValueRow firstRow
+  have transportedSecondRow : Cont firstSum valueSecondDiff valueTotal :=
+    cont_hsame_transport (hsame_symm firstSumMiddle) (hsame_symm sameSecondDiff)
+      (hsame_symm sameTotal) secondRow
+  have totalSumValueTotal : hsame totalSum valueTotal :=
+    cont_deterministic secondValueRow transportedSecondRow
+  exact And.intro (hsame_trans firstSumMiddle (hsame_symm sameMiddle)) totalSumValueTotal
 
 theorem MeasureZeroBHist_sigma_additivity (events : Nat -> BHist) :
     (forall n : Nat, MeasureZeroBHistCarrier (events n)) -> forall n : Nat,

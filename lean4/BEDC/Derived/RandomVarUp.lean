@@ -78,6 +78,22 @@ theorem RandomVarTotalReadbackCertificate_carried_bridge_chosen_preimage_exactne
   · intro chosenExact
     exact cont_result_hsame_transport chosenReadback chosenExact
 
+theorem RandomVarTotalDefectEvent_vanishing_total_exactness_iff
+    {sourceTotal chosenPreimage defect : BHist} :
+    RandomVarTotalDefectEvent sourceTotal chosenPreimage defect ->
+      (hsame chosenPreimage sourceTotal ↔ hsame defect BHist.Empty) := by
+  intro defectEvent
+  constructor
+  · intro chosenExact
+    have transportedEvent : Cont sourceTotal defect sourceTotal :=
+      cont_hsame_transport chosenExact (hsame_refl defect) (hsame_refl sourceTotal) defectEvent
+    exact cont_right_unit_unique transportedEvent
+  · intro defectEmpty
+    have rightUnitEvent : Cont chosenPreimage BHist.Empty sourceTotal :=
+      cont_hsame_transport (hsame_refl chosenPreimage) defectEmpty (hsame_refl sourceTotal)
+        defectEvent
+    exact hsame_symm (cont_right_unit_result rightUnitEvent)
+
 theorem RandomVarTotalReadbackCertificate_total_target_reflection_criterion
     {targetTotal sourceTotal chosenPreimage targetEvent eventPreimage : BHist} :
     RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
@@ -153,5 +169,21 @@ theorem RandomVarPreimage_empty_event_exactness
   have preimageTarget : hsame preimage targetEmpty :=
     cont_right_unit_result preimageReadback
   exact hsame_trans preimageTarget (hsame_trans targetEmptyZero (hsame_symm sourceEmptyZero))
+
+theorem RandomVarTotalDefectEvent_vanishing_total_defect_iff
+    {sourceTotal chosenPreimage defect : BHist} :
+    RandomVarTotalDefectEvent sourceTotal chosenPreimage defect ->
+      (hsame chosenPreimage sourceTotal ↔ hsame defect BHist.Empty) := by
+  intro defectEvent
+  constructor
+  · intro chosenExact
+    have rightUnitAtTotal : Cont chosenPreimage BHist.Empty sourceTotal :=
+      cont_result_hsame_transport (cont_right_unit chosenPreimage) chosenExact
+    exact cont_left_cancel defectEvent rightUnitAtTotal
+  · intro defectEmpty
+    have eventAsRightUnit : Cont chosenPreimage BHist.Empty sourceTotal :=
+      cont_hsame_transport (hsame_refl chosenPreimage) defectEmpty (hsame_refl sourceTotal)
+        defectEvent
+    exact hsame_symm (cont_right_unit_result eventAsRightUnit)
 
 end BEDC.Derived.RandomVarUp
