@@ -28,4 +28,16 @@ theorem QuantumChannelAffineMixtureSpine_finite_closure
   | mix leftSpine rightSpine route leftChannel rightChannel =>
       exact binaryClosed leftChannel rightChannel route
 
+theorem QuantumChannelSingleton_identity_channel_cptp {rho image : BHist} :
+    UnaryHistory rho -> hsame rho BHist.Empty -> Cont BHist.Empty rho image ->
+      QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) image ∧
+        hsame image rho ∧ hsame image BHist.Empty := by
+  intro unaryRho rhoEmpty identityCont
+  have imageRho : hsame image rho := cont_left_unit_result identityCont
+  have imageEmpty : hsame image BHist.Empty := hsame_trans imageRho rhoEmpty
+  have unaryImage : UnaryHistory image := unary_transport unaryRho (hsame_symm imageRho)
+  exact And.intro
+    (QuantumChannelAffineMixtureSpine.atom imageEmpty unaryImage)
+    (And.intro imageRho imageEmpty)
+
 end BEDC.Derived.QuantumChannelUp
