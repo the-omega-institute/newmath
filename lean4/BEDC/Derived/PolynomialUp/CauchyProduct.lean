@@ -159,4 +159,51 @@ theorem PolynomialSingletonEval_rawMul_classified {alpha : BHist} {xs ys : List 
           exact And.intro leftEmpty
             (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
+theorem PolynomialSingletonRawMul_commutative_classified {xs ys : List BHist} :
+    BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs xs ->
+      BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier ys ys ->
+        PolynomialSingletonClassifier
+            (PolynomialSingletonAddFold (PolynomialSingletonRawMul xs ys)) BHist.Empty ∧
+          PolynomialSingletonClassifier
+              (PolynomialSingletonAddFold (PolynomialSingletonRawMul ys xs)) BHist.Empty ∧
+            hsame (append (PolynomialSingletonAddFold (PolynomialSingletonRawMul xs ys))
+                BHist.Empty)
+              (append (PolynomialSingletonAddFold (PolynomialSingletonRawMul ys xs))
+                BHist.Empty) := by
+  intro classifiedXs classifiedYs
+  have zeroXs : PolynomialZeroRemainder xs :=
+    BEDC.Derived.PolynomialUp.PolynomialZeroRemainder_singleton_classifier_self
+      classifiedXs
+  have zeroYs : PolynomialZeroRemainder ys :=
+    BEDC.Derived.PolynomialUp.PolynomialZeroRemainder_singleton_classifier_self
+      classifiedYs
+  have productXYZero : PolynomialZeroRemainder (PolynomialSingletonRawMul xs ys) :=
+    PolynomialSingletonRawMul_zero_remainder zeroXs zeroYs
+  have productYXZero : PolynomialZeroRemainder (PolynomialSingletonRawMul ys xs) :=
+    PolynomialSingletonRawMul_zero_remainder zeroYs zeroXs
+  have foldXYEmpty :
+      hsame (PolynomialSingletonAddFold (PolynomialSingletonRawMul xs ys)) BHist.Empty :=
+    PolynomialSingletonAddFold_zero_remainder_empty productXYZero
+  have foldYXEmpty :
+      hsame (PolynomialSingletonAddFold (PolynomialSingletonRawMul ys xs)) BHist.Empty :=
+    PolynomialSingletonAddFold_zero_remainder_empty productYXZero
+  have classifiedXY :
+      PolynomialSingletonClassifier
+        (PolynomialSingletonAddFold (PolynomialSingletonRawMul xs ys)) BHist.Empty :=
+    PolynomialZeroRemainder_addFold_empty_classified productXYZero
+  have classifiedYX :
+      PolynomialSingletonClassifier
+        (PolynomialSingletonAddFold (PolynomialSingletonRawMul ys xs)) BHist.Empty :=
+    PolynomialZeroRemainder_addFold_empty_classified productYXZero
+  have appendXYEmpty :
+      hsame (append (PolynomialSingletonAddFold (PolynomialSingletonRawMul xs ys))
+        BHist.Empty) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro foldXYEmpty (hsame_refl BHist.Empty))
+  have appendYXEmpty :
+      hsame (append (PolynomialSingletonAddFold (PolynomialSingletonRawMul ys xs))
+        BHist.Empty) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro foldYXEmpty (hsame_refl BHist.Empty))
+  exact And.intro classifiedXY
+    (And.intro classifiedYX (hsame_trans appendXYEmpty (hsame_symm appendYXEmpty)))
+
 end BEDC.Derived.PolynomialUp

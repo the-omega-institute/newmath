@@ -1,0 +1,150 @@
+\section{Measure root countable relative-difference bridge}
+\label{sec:measure-root-countable-relative-difference-bridge}
+
+\begin{definition}[MeasureUp root countable relative-difference bridge]
+\label{def:measure-root-countable-relative-difference-bridge}
+The $\MeasureUp$ root countable relative-difference bridge is the ten-field
+paper target that binds StreamName-indexed countable event families, displayed
+relative differences, and downstream analysis consumers on one root surface:
+\begin{enumerate}
+  \item traditional target: a countable measurable family whose visible rows
+  include displayed relative differences and real endpoint comparisons;
+  \item BEDC source: $\MeasureUp$, $\StreamNameUp$, $\RealUp$,
+  $\mathsf{BHist}$, and the history classifier $\hsame$;
+  \item carrier: StreamName-indexed measurable-event rows together with
+  pairwise relative-difference witnesses for covered inclusions of displayed
+  event histories;
+  \item classifier: transported event-row classification along $\hsame$,
+  pointwise StreamName observation classification, and $\RealUp$ endpoint
+  classification for values and sums;
+  \item stability rows: carrier transport, countable-additivity transport,
+  relative-difference transport, and endpoint transport through the same
+  visible ledger;
+  \item ledger: indices, displayed events, complements and differences,
+  pairwise-disjoint witnesses, countable unions, countable sums, and
+  $\RealUp$ endpoints attached to the event rows they certify;
+  \item core theorem list:
+  \autoref{thm:measure-root-countable-relative-difference-carrier},
+  \autoref{thm:measure-root-countable-relative-difference-additivity}, and
+  \autoref{thm:measure-root-countable-relative-difference-consumer-unblock};
+  \item exactness: coverage, soundness, and completeness are exactly those of
+  the displayed countable-family, relative-difference, endpoint, and consumer
+  rows named by the bridge;
+  \item standard bridge: none;
+  \item status: paper target for $\mathsf{BEDC.Derived.MeasureUp}$.
+\end{enumerate}
+The bridge is a root obligation package. It does not assert host
+sigma-algebra equality, quotient event equality, analytic completion, or a
+$\StdBridge$ row.
+\end{definition}
+
+\begin{theorem}[Measure root countable relative-difference carrier]
+\label{thm:measure-root-countable-relative-difference-carrier}
+The bridge of
+\autoref{def:measure-root-countable-relative-difference-bridge} exposes the
+source event row, the countable StreamName-indexed family row, the
+relative-difference row, and the attached $\RealUp$ endpoint histories on the
+same $\mathsf{BHist}$ ledger.
+\end{theorem}
+\begin{proof}
+Read the BEDC source, carrier, and ledger fields of
+\autoref{def:measure-root-countable-relative-difference-bridge}. They name
+the carried $\MeasureUp$ root row, the $\StreamNameUp$ countable family, the
+displayed relative-difference witnesses, and the endpoint histories before
+any consumer projection is formed.
+
+Apply \autoref{def:measure-root-countable-obligation-triple}. Its carrier and
+ledger clauses expose the carried measure code, StreamName endpoint family,
+event membership, pairwise disjointness, countable union, endpoint value, and
+countable-sum witnesses on visible $\mathsf{BHist}$ rows.
+
+Next apply \autoref{thm:measure-root-real-stream-event-obligation} and
+\autoref{thm:measure-root-event-classifier-stability}. These rows identify
+the same event histories with StreamName observation names and $\RealUp$
+endpoint comparisons, and they keep the event classifier stable under
+componentwise $\hsame$ transport.
+
+Finally apply
+\autoref{thm:measure-relative-difference-disjoint-decomposition}. The
+relative-difference theorem supplies the displayed difference event, its
+measurability row, and the disjoint decomposition row for each covered
+inclusion. Repacking these projections gives the stated carrier surface and
+adds no external event equality or completion principle.
+\end{proof}
+
+\begin{theorem}[Measure root countable relative-difference additivity]
+\label{thm:measure-root-countable-relative-difference-additivity}
+For every covered StreamName-indexed countable event family in the bridge of
+\autoref{def:measure-root-countable-relative-difference-bridge}, endpoint
+comparison is obtained by combining the root countable-additivity row with
+the finite relative-difference decomposition row and $\RealUp$ classifier
+transport.
+\end{theorem}
+\begin{proof}
+Start with a covered StreamName-indexed family from the bridge ledger. The
+family rows carry event membership, pairwise disjointness, a visible
+countable union, endpoint values, and a countable-sum witness on the same
+$\mathsf{BHist}$ surface.
+
+Apply \autoref{thm:measure-root-countable-additivity-scope}. It confines the
+countable disjoint-additivity obligation to displayed event families,
+StreamName observation names, $\RealUp$ endpoint sums, and visible ledger
+rows, so the union endpoint is compared with the countable sum inside the
+root surface.
+
+For each covered inclusion used by the family, apply
+\autoref{thm:measure-relative-difference-additivity}. The finite
+relative-difference row compares the larger endpoint with the sum of the
+smaller endpoint and the displayed difference endpoint, using only the
+relative-difference decomposition supplied on the event ledger.
+
+Apply \autoref{thm:measure-root-countable-disjoint-additivity-public-row}.
+Its public row transports the countable endpoint comparison through the
+$\RealUp$ classifier and keeps the countable sum attached to the displayed
+family endpoints.
+
+The two comparisons share the same endpoint classifier field of the bridge.
+Thus the endpoint comparison visible to consumers is precisely the
+combination of countable additivity, finite relative-difference additivity,
+and $\RealUp$ classifier transport, with no host sigma-algebra equality or
+completion principle introduced.
+\end{proof}
+
+\begin{theorem}[Measure root countable relative-difference consumer unblock]
+\label{thm:measure-root-countable-relative-difference-consumer-unblock}
+The $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consumers may
+read exactly the bridge rows exposed by
+\autoref{def:measure-root-countable-relative-difference-bridge}: displayed
+event rows, StreamName-indexed countable-family rows, finite readback rows,
+relative-difference rows, endpoint rows, countable-sum rows, normalization
+rows where named, monotone rows where named, and no host set equality or
+completion principle.
+\end{theorem}
+\begin{proof}
+Project the consumer-facing ledger from
+\autoref{def:measure-root-countable-relative-difference-bridge}. The exactness
+field restricts the outgoing rows to the displayed event, countable-family,
+relative-difference, endpoint, and countable-sum rows already carried by the
+root bridge.
+
+For $\IntegralUp$, apply \autoref{thm:measure-integral-consumer-rows}. The
+integral consumer reads covered measurable-event rows, $\RealUp$ endpoint
+classifier rows, countable-sum endpoint rows, head-tail readback rows, and
+finite disjoint-union readback rows from the same public $\MeasureUp$ package.
+
+For $\ProbSpaceUp$, apply \autoref{thm:measure-probability-consumer-rows}.
+The probability consumer reads the total-event normalization row together
+with empty-zero and finite disjoint-union rows; it does not receive the
+countable-family rows as an independent analytic completion.
+
+For $\FunctionalAnalysisUp$, apply
+\autoref{thm:measure-functionalanalysis-consumer-rows}. The functional
+analysis consumer reads only the nonnegative endpoint, monotone inclusion,
+relative-difference, and countable-sum classifier rows exposed by
+$\MeasureUp$.
+
+Combining the three projections gives the downstream threshold carried by
+the bridge. Each consumer reads exactly its named rows from the shared
+countable relative-difference ledger, and none obtains host set equality,
+quotient event equality, analytic completion, or a $\StdBridge$ row.
+\end{proof}
