@@ -1,0 +1,775 @@
+\chapter{A Concrete Naming Certificate for $\SheafUp$}
+\label{ch:concrete-instances-sheaf-namecert}
+
+The sheaf interface $\SheafUp$ packages a presheaf satisfying the locality and gluing axioms over open covers. It depends on $\NameCert_{\PreSheafUp}$ (\autoref{ch:concrete-instances-presheaf-namecert}) and $\NameCert_{\TopologyUp}$ (\autoref{ch:concrete-instances-topology-namecert}), and is the substrate for ringed-space and scheme certificates.
+
+\section{Carrier definition}
+\label{sec:sheaf-carrier}
+
+\section{The certificate}
+\label{sec:sheaf-certificate}
+
+\begin{definition}[Indexed section presheaf carrier]
+\label{def:sheaf-indexed-section-presheaf-carrier}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ in the sense of \autoref{def:topology-indexed-open-carrier}. Write
+$$
+j\le_{\mathcal{T}} i
+:\Longleftrightarrow
+\forall x:X,\ \mathsf{OpenAt}(j,x)\Longrightarrow\mathsf{OpenAt}(i,x)
+$$
+for inclusion of indexed opens. An indexed section presheaf carrier for $\PreSheafUp$ over $\mathcal{T}$ is a tuple
+$$
+\mathcal{P}=(\mathsf{Sec},\sim,\rho,\mathsf{Eqv},\mathsf{Id},\mathsf{Comp},\mathsf{Res})
+$$
+with the following data. For every open index $i:\mathsf{OpenIx}$ there is a section carrier $\mathsf{Sec}(i)$ and a classifier $\sim_i$ on $\mathsf{Sec}(i)$; the field $\mathsf{Eqv}$ says that each $\sim_i$ is reflexive, symmetric, and transitive. For every inclusion $j\le_{\mathcal{T}} i$ there is a restriction map
+$$
+\rho_{i,j}:\mathsf{Sec}(i)\to\mathsf{Sec}(j).
+$$
+The identity field says $\rho_{i,i}(s)\sim_i s$ for every $s:\mathsf{Sec}(i)$, and the composition field says that whenever $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$,
+$$
+\rho_{j,k}(\rho_{i,j}(s))\sim_k\rho_{i,k}(s)
+$$
+for every $s:\mathsf{Sec}(i)$. The restriction classifier-stability field says that, for every inclusion $j\le_{\mathcal{T}}i$ and every $s,t:\mathsf{Sec}(i)$,
+$$
+s\sim_i t
+\Longrightarrow
+\rho_{i,j}(s)\sim_j\rho_{i,j}(t).
+$$
+This is the section-level concrete form of the contravariant restriction data described in \autoref{ch:concrete-instances-presheaf-namecert}.
+\end{definition}
+
+\begin{definition}[Indexed sheaf cover, compatibility, and locality]
+\label{def:sheaf-indexed-cover-compatibility-locality}
+Let $\mathcal{P}$ be an indexed section presheaf carrier over $\mathcal{T}$ as in \autoref{def:sheaf-indexed-section-presheaf-carrier}. An indexed open cover of an open index $i:\mathsf{OpenIx}$ is a tuple $\mathcal{U}=(A,\iota,h,\gamma)$ consisting of an indexing type $A$, a family $\iota:A\to\mathsf{OpenIx}$, inclusion witnesses
+$$
+h_a:\iota(a)\le_{\mathcal{T}}i
+$$
+for all $a:A$, and the pointwise cover law
+$$
+\gamma:
+\forall x:X,\ \mathsf{OpenAt}(i,x)\Longrightarrow
+\exists a:A,\ \mathsf{OpenAt}(\iota(a),x).
+$$
+For a family $s_a:\mathsf{Sec}(\iota(a))$, compatibility over $\mathcal{U}$ means that for all $a,b:A$ the two restrictions to the indexed intersection agree:
+$$
+\rho_{\iota(a),\iota(a)\wedge_{\TopologyUp}\iota(b)}(s_a)
+\sim_{\iota(a)\wedge_{\TopologyUp}\iota(b)}
+\rho_{\iota(b),\iota(a)\wedge_{\TopologyUp}\iota(b)}(s_b),
+$$
+where the needed inclusions are supplied by the finite-intersection law of \autoref{def:topology-indexed-open-carrier}. A sheaf locality field for $\mathcal{P}$ says that, for every such cover $\mathcal{U}$ of $i$ and every pair $g,h:\mathsf{Sec}(i)$,
+$$
+\bigl(\forall a:A,\ \rho_{i,\iota(a)}(g)\sim_{\iota(a)}\rho_{i,\iota(a)}(h)\bigr)
+\Longrightarrow
+g\sim_i h.
+$$
+A sheaf gluing field says that every compatible local family over $\mathcal{U}$ has a section $g:\mathsf{Sec}(i)$ whose restriction to each $\iota(a)$ is classifier-equal to $s_a$. An indexed sheaf carrier for $\SheafUp$ is an indexed section presheaf carrier equipped with both of these fields.
+\end{definition}
+
+\begin{definition}[Stable sheaf restriction row]
+\label{def:sheaf-stable-restriction-row}
+Let $\mathcal{P}$ be an indexed section presheaf carrier over $\mathcal{T}$ as in \autoref{def:sheaf-indexed-section-presheaf-carrier}. A stable sheaf restriction row for $\mathcal{P}$ is the field saying that classifier equality is preserved by every restriction: for every inclusion $j\le_{\mathcal{T}} i$ and every pair $s,t:\mathsf{Sec}(i)$,
+$$
+s\sim_i t
+\Longrightarrow
+\rho_{i,j}(s)\sim_j\rho_{i,j}(t).
+$$
+Thus section classifiers transport along the indexed open restriction maps carried by the presheaf surface.
+\end{definition}
+
+\begin{theorem}[Sheaf carrier support obligation]
+\label{thm:sheaf-carrier-support-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Then the carrier support exposed by $\mathcal{S}$ is only the indexed section presheaf carrier over the $\TopologyUp$ open-index surface, together with the sheaf locality and gluing fields. Concretely, every carrier row is one of the section carriers $\mathsf{Sec}(i)$, section classifiers $\sim_i$, equivalence fields, restriction maps $\rho_{i,j}$, identity and composition laws, indexed open-cover data, compatible local-family predicates, locality implications, or gluing witnesses described in \autoref{def:sheaf-indexed-section-presheaf-carrier} and \autoref{def:sheaf-indexed-cover-compatibility-locality}.
+\end{theorem}
+\begin{proof}
+Project the indexed section presheaf component of $\mathcal{S}$. Its displayed rows are precisely the open-indexed section carriers, classifiers, equivalence witnesses, restriction maps, and restriction identity and composition laws of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
+
+Project the sheaf component of $\mathcal{S}$. By \autoref{def:sheaf-indexed-cover-compatibility-locality}, this contributes only indexed open covers, compatible local families, the locality field, and the gluing field. No additional carrier row is introduced beyond those two displayed interfaces, so the asserted carrier support is exhausted by their projections.
+\end{proof}
+
+\begin{theorem}[Sheaf classifier transport obligation]
+\label{thm:sheaf-classifier-transport-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$, and suppose its indexed section presheaf carrier carries a stable sheaf restriction row in the sense of \autoref{def:sheaf-stable-restriction-row}. Then section classifiers transport through every restriction. Moreover, for every indexed open cover $\mathcal{U}=(A,\iota,h,\gamma)$ of $i$ and every pair $g,h':\mathsf{Sec}(i)$,
+$$
+\bigl(\forall a:A,\ \rho_{i,\iota(a)}(g)\sim_{\iota(a)}\rho_{i,\iota(a)}(h')\bigr)
+\Longrightarrow
+g\sim_i h'.
+$$
+Thus restriction stability gives classifier transport along the presheaf maps, and sheaf locality turns coverwise classifier equality back into classifier equality on the covered open.
+\end{theorem}
+\begin{proof}
+For a single inclusion $j\le_{\mathcal{T}} i$, the transport claim is exactly the stable restriction row of \autoref{def:sheaf-stable-restriction-row}: a classifier equality $s\sim_i t$ restricts to $\rho_{i,j}(s)\sim_j\rho_{i,j}(t)$. The source and target classifiers are those supplied by the section presheaf carrier, and their reflexive, symmetric, and transitive behavior is supplied by the equivalence field of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
+
+For a cover $\mathcal{U}$, assume the displayed coverwise equality of the restrictions of $g$ and $h'$. This is exactly the antecedent required by the sheaf locality field in \autoref{def:sheaf-indexed-cover-compatibility-locality}. Applying that field over the same indexed cover gives $g\sim_i h'$, which is the global classifier equality claimed.
+\end{proof}
+
+\begin{theorem}[Sheaf cover ledger exactness obligation]
+\label{thm:sheaf-cover-ledger-exactness-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. An accepted cover and gluing ledger row for $\mathcal{S}$ consists exactly of indexed open-cover data $\mathcal{U}=(A,\iota,h,\gamma)$, the finite-intersection rows of the $\TopologyUp$ carrier, a compatible local section family $s_a:\mathsf{Sec}(\iota(a))$, and a global section $g:\mathsf{Sec}(i)$ with displayed restriction equalities
+$$
+\forall a:A,\quad \rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a.
+$$
+The ledger uses no host open-cover equality and no quotient primitive: all comparison data is expressed through indexed opens, restriction maps, and the section classifiers of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
+\end{theorem}
+\begin{proof}
+Unfold the indexed open cover and compatibility clauses in \autoref{def:sheaf-indexed-cover-compatibility-locality}. The cover ledger records only the indexing type $A$, the open-index map $\iota$, the inclusion witnesses $h_a:\iota(a)\le_{\mathcal{T}}i$, and the pointwise cover law $\gamma$. Compatibility is recorded by restricting local sections to the finite-intersection index supplied by the $\TopologyUp$ carrier and comparing them with the classifier on that intersection.
+
+Unfold the gluing clause of the same definition. A gluing ledger row adds a section $g:\mathsf{Sec}(i)$ and the displayed restriction equalities against the compatible family. The theorem \autoref{thm:sheaf-global-restrictions-compatible-local-family} checks that restrictions of a global section produce a compatible local family, while \autoref{thm:sheaf-gluing-uniqueness-from-locality} checks that two displayed gluings of the same compatible family are classifier-equal.
+
+The two definitions just unfolded contain no host-side equality of open covers and no quotient constructor. Their comparison mechanism is the indexed inclusion relation $j\le_{\mathcal{T}} i$, the finite-intersection row of the topology carrier, the restriction maps, and the section classifiers. Hence the listed rows are exact for the accepted cover and gluing ledger.
+\end{proof}
+
+\begin{definition}[Sheaf BHist cover nerve ledger]
+\label{def:sheaf-bhist-cover-nerve-ledger}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ whose point carrier is $\mathsf{BHist}$, whose membership classifier is $\mathsf{OpenAt}$, and whose finite-intersection index is written $\wedge_{\TopologyUp}$. Let $\mathcal{S}$ be an indexed sheaf carrier over $\mathcal{T}$, and let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of $i:\mathsf{OpenIx}$. The $\mathsf{BHist}$ cover nerve ledger of $\mathcal{U}$ is the finite-intersection ledger surface with the following rows.
+\begin{enumerate}
+\item For each $a:A$, the member row is the indexed open $\iota(a)$ with its inclusion witness $h_a:\iota(a)\le_{\mathcal{T}}i$ and its visible membership predicate $\mathsf{OpenAt}(\iota(a),b)$ for $b:\mathsf{BHist}$.
+\item For each $a,b:A$, the pair-overlap row is $k_{a,b}:=\iota(a)\wedge_{\TopologyUp}\iota(b)$, together with the two finite-intersection projections $k_{a,b}\le_{\mathcal{T}}\iota(a)$ and $k_{a,b}\le_{\mathcal{T}}\iota(b)$ and the two restriction rows from $\mathsf{Sec}(\iota(a))$ and $\mathsf{Sec}(\iota(b))$ to $\mathsf{Sec}(k_{a,b})$.
+\item For each $a,b,c:A$, the triple-overlap row is $\ell_{a,b,c}:=k_{a,b}\wedge_{\TopologyUp}\iota(c)$, together with the finite-intersection projections $\ell_{a,b,c}\le_{\mathcal{T}}k_{a,b}$ and $\ell_{a,b,c}\le_{\mathcal{T}}\iota(c)$ and the restriction rows obtained by composing through $k_{a,b}$ or directly from any member whose inclusion route is displayed.
+\end{enumerate}
+The ledger contains only $\mathsf{OpenAt}$ rows, finite-intersection projections, inclusion witnesses, presheaf restriction rows, section classifiers, and visible $\mathsf{BHist}$ provenance. It does not identify cover presentations by host equality and does not quotient overlap rows.
+\end{definition}
+
+\begin{theorem}[Sheaf BHist cover nerve overlap projections]
+\label{thm:sheaf-bhist-cover-nerve-overlap-projections}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ on $\mathsf{BHist}$, let $\mathcal{S}$ be an indexed sheaf carrier over $\mathcal{T}$, and let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of $i:\mathsf{OpenIx}$. For a local family $s_a:\mathsf{Sec}(\iota(a))$, compatibility over $\mathcal{U}$ is exactly the assertion that every pair-overlap row of the $\mathsf{BHist}$ cover nerve ledger carries classifier equality between the two projected restrictions:
+$$
+\forall a,b:A,\quad
+\rho_{\iota(a),k_{a,b}}(s_a)
+\sim_{k_{a,b}}
+\rho_{\iota(b),k_{a,b}}(s_b),
+$$
+where $k_{a,b}:=\iota(a)\wedge_{\TopologyUp}\iota(b)$ and the inclusions are the finite-intersection projections of \autoref{def:topology-indexed-open-carrier}.
+\end{theorem}
+\begin{proof}
+Unfold the compatibility predicate in \autoref{def:sheaf-indexed-cover-compatibility-locality}. Its only comparison clauses are indexed by pairs $a,b:A$, and each clause restricts $s_a$ and $s_b$ to the common intersection $\iota(a)\wedge_{\TopologyUp}\iota(b)$ before comparing them by the section classifier at that intersection.
+
+Unfold the cover nerve ledger of \autoref{def:sheaf-bhist-cover-nerve-ledger}. Its pair-overlap rows are exactly the same indices $k_{a,b}$, with the same two finite-intersection projections supplied by \autoref{def:topology-indexed-open-carrier}. Therefore every compatibility clause is a classifier equality on one pair-overlap ledger row.
+
+Conversely, assume every pair-overlap ledger row carries the displayed classifier equality. Reading those rows through the same two projections gives precisely the clauses required by \autoref{def:sheaf-indexed-cover-compatibility-locality}. Restriction composition is not extra data here; it only confirms that any displayed route to $k_{a,b}$ reads as the same section classifier row as the direct pair-overlap restriction.
+\end{proof}
+
+\begin{theorem}[Sheaf BHist cover nerve gluing readback]
+\label{thm:sheaf-bhist-cover-nerve-gluing-readback}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ on $\mathsf{BHist}$, let $\mathcal{S}$ be an indexed sheaf carrier over $\mathcal{T}$, and let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of $i:\mathsf{OpenIx}$. Suppose $s_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$ and $g:\mathsf{Sec}(i)$ is a gluing section with
+$$
+\forall a:A,\quad \rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a.
+$$
+Then the $\mathsf{BHist}$ cover nerve ledger reads $g$ back to the local family on every member row and to the induced compatible family on every pair-overlap row. Explicitly, for every $a:A$,
+$$
+\rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a,
+$$
+and for every $a,b:A$, writing $k_{a,b}:=\iota(a)\wedge_{\TopologyUp}\iota(b)$,
+$$
+\rho_{\iota(a),k_{a,b}}(\rho_{i,\iota(a)}(g))
+\sim_{k_{a,b}}
+\rho_{\iota(a),k_{a,b}}(s_a)
+$$
+and
+$$
+\rho_{\iota(b),k_{a,b}}(\rho_{i,\iota(b)}(g))
+\sim_{k_{a,b}}
+\rho_{\iota(b),k_{a,b}}(s_b).
+$$
+Consequently the two restrictions of $g$ to each pair-overlap ledger row recover the same classifier row as the compatible family there.
+\end{theorem}
+\begin{proof}
+The member readback is the gluing equality displayed in the statement. It is exactly the gluing clause of \autoref{def:sheaf-indexed-cover-compatibility-locality} evaluated at the member row $\iota(a)$.
+
+For a pair $a,b:A$, write $k=\iota(a)\wedge_{\TopologyUp}\iota(b)$. The finite-intersection field of \autoref{def:topology-indexed-open-carrier} supplies $k\le_{\mathcal{T}}\iota(a)$ and $k\le_{\mathcal{T}}\iota(b)$, which are the two pair-overlap projections recorded by \autoref{def:sheaf-bhist-cover-nerve-ledger}.
+
+Transport the gluing equality $\rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a$ along $k\le_{\mathcal{T}}\iota(a)$ using the restriction classifier-stability field from \autoref{def:sheaf-indexed-section-presheaf-carrier}. This gives the first pair-overlap readback equality. The same transport along $k\le_{\mathcal{T}}\iota(b)$ gives the second one.
+
+It remains to compare the two readings of $g$ on $k$. Restriction composition identifies the restriction of $\rho_{i,\iota(a)}(g)$ to $k$ and the restriction of $\rho_{i,\iota(b)}(g)$ to $k$ with the direct restriction $\rho_{i,k}(g)$, up to the classifier $\sim_k$. The compatibility of $s_a$ gives the corresponding equality between the two local-family restrictions. Transitivity and symmetry of $\sim_k$ combine these rows, so the pair-overlap ledger reads the gluing section back to the same classifier row as the compatible local family.
+\end{proof}
+
+\begin{theorem}[Sheaf NameCert carrier obligation]
+\label{thm:sheaf-namecert-carrier-obligation}
+Every indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$ determines the carrier-facing rows required by the $\NameCert_{\SheafUp}$ template. The rows are fixed as follows.
+\begin{enumerate}
+\item The traditional target is sheaf-theoretic section data over open covers.
+\item The BEDC source is the presheaf restriction source of $\PreSheafUp$ together with the indexed-open source of $\TopologyUp$.
+\item The carrier is the indexed section presheaf of \autoref{def:sheaf-indexed-section-presheaf-carrier}, equipped with the locality and gluing fields of \autoref{def:sheaf-indexed-cover-compatibility-locality}.
+\item The classifier row is the family of section classifiers $\sim_i$.
+\item The stability row is supplied by the restriction identity, restriction composition, restriction classifier-stability, and classifier-equivalence fields.
+\item The ledger is the displayed data of covers, intersections, inclusion witnesses, and restriction maps.
+\item The exactness row is visible cover-local readback: compatible local sections glue to a global section and locality identifies any two global readbacks with the same cover restrictions.
+\item The standard bridge row is absent; this certificate surface records the BEDC sheaf interface without claiming an external set-theoretic sheaf bridge.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unpack the indexed sheaf carrier. Its presheaf part is exactly the tuple $\mathcal{P}=(\mathsf{Sec},\sim,\rho,\mathsf{Eqv},\mathsf{Id},\mathsf{Comp},\mathsf{Res})$ of \autoref{def:sheaf-indexed-section-presheaf-carrier}, so the carrier, classifier, and restriction-stability rows are not extra data: they are the displayed section carriers, displayed section classifiers, and the identity, composition, equivalence, and restriction classifier-stability fields.
+
+Unpack the cover part. The topology side contributes open indices, inclusions, and finite-intersection witnesses by \autoref{def:topology-indexed-open-carrier}; the presheaf side contributes contravariant restriction scope by \autoref{ch:concrete-instances-presheaf-namecert}. The remaining sheaf fields in \autoref{def:sheaf-indexed-cover-compatibility-locality} are precisely locality and gluing over those covers, which give the visible cover-local readback row and leave no separate standard-bridge row to construct.
+\end{proof}
+
+\begin{theorem}[Sheaf restriction stability obligation]
+\label{thm:sheaf-restriction-stability-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. For inclusions $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$, restriction identity and restriction composition keep every section row inside the displayed classifier family. Explicitly, for $s:\mathsf{Sec}(i)$ one has
+$$
+\rho_{i,i}(s)\sim_i s
+$$
+and
+$$
+\rho_{j,k}(\rho_{i,j}(s))\sim_k\rho_{i,k}(s).
+$$
+When $k$ is an indexed intersection supplied by the finite-intersection field of \autoref{def:topology-indexed-open-carrier}, the same restriction-composition statement applies to the two induced inclusion chains, so cover restrictions remain stable under the topology intersection witnesses.
+\end{theorem}
+\begin{proof}
+The first displayed relation is the identity field of the indexed section presheaf carrier in \autoref{def:sheaf-indexed-section-presheaf-carrier}. The second displayed relation is the composition field for the chain $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$. Both conclusions land in the classifier specified by the target open index, namely $\sim_i$ for identity and $\sim_k$ for composition.
+
+For the intersection case, use \autoref{def:topology-indexed-open-carrier} to obtain the open-index intersection and its two projection inclusions. Combining either projection with a cover inclusion gives one of the admissible chains governed by the contravariant restriction interface of \autoref{ch:concrete-instances-presheaf-namecert}. Applying the same composition field to those chains gives stability on every displayed intersection row.
+\end{proof}
+
+\begin{theorem}[Sheaf locality and gluing NameCert obligation]
+\label{thm:sheaf-locality-gluing-namecert-obligation}
+For an indexed sheaf carrier $\mathcal{S}$ for $\SheafUp$, the locality and gluing fields supply the certificate rows consumed by \autoref{thm:sheaf-gluing-uniqueness-from-locality}, \autoref{thm:sheaf-global-restrictions-compatible-local-family}, and \autoref{cor:sheaf-gluing-global-restrictions-idempotent}. Namely, every compatible local family over an indexed open cover has a global readback section, and locality identifies any two global sections whose restrictions agree on every cover member.
+\end{theorem}
+\begin{proof}
+Fix an indexed cover $\mathcal{U}=(A,\iota,h,\gamma)$ of $i$ and a compatible family $s_a:\mathsf{Sec}(\iota(a))$. The cover and compatibility predicates are those of \autoref{def:sheaf-indexed-cover-compatibility-locality}; their intersection clauses are meaningful because \autoref{def:topology-indexed-open-carrier} supplies finite-intersection witnesses, and their restriction clauses live in the contravariant presheaf scope of \autoref{ch:concrete-instances-presheaf-namecert}.
+
+Apply the gluing field to obtain a section $g:\mathsf{Sec}(i)$ whose restrictions classify as the family $s_a$. Apply the locality field to any pair of such global sections whose memberwise restrictions agree; this is exactly the premise used by \autoref{thm:sheaf-gluing-uniqueness-from-locality}. The compatibility theorem uses the same restriction-composition row on intersections, and the idempotence corollary repacks gluing plus uniqueness for the local family obtained from one global section.
+\end{proof}
+
+\begin{theorem}[SheafUp BHist obligation surface]
+\label{thm:sheaf-bhist-obligation-surface}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ whose point carrier is $\mathsf{BHist}$, with classifier $\hsame$, membership row $\mathsf{OpenAt}$, and finite-intersection index $\wedge_{\TopologyUp}$. Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over $\mathcal{T}$ in the sense of \autoref{def:sheaf-indexed-section-presheaf-carrier} and \autoref{def:sheaf-indexed-cover-compatibility-locality}. Then $\mathcal{S}$ supplies the $\SheafUp$ carrier, section classifiers, restriction maps, restriction identity, restriction composition, indexed-cover rows, compatibility predicate, locality field, gluing field, and visible $\mathsf{BHist}$ ledger rows required by the paper-side $\NameCert_{\SheafUp}$ obligation surface. The exposed data depend only on $\NameCert_{\PreSheafUp}$, $\NameCert_{\TopologyUp}$, the row $\mathsf{OpenAt}$, the finite-intersection rows of $\mathcal{T}$, and the classifier-equivalence fields on the section carriers.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier rows from the indexed section presheaf carrier. For each open index $i$, the section carrier $\mathsf{Sec}(i)$ and classifier $\sim_i$ are visible, and the equivalence field supplies the reflexive, symmetric, and transitive classifier rules required by the certificate surface.
+
+Project the restriction rows from the same tuple. The identity and composition fields are exactly the $\PreSheafUp$ restriction identity and restriction composition obligations, with inclusions interpreted through the indexed-open preorder $j\le_{\mathcal{T}}i$ defined by $\mathsf{OpenAt}$. The finite-intersection row of $\mathcal{T}$ supplies the common target index used in compatibility checks.
+
+Finally project the cover, compatibility, locality, and gluing rows from \autoref{def:sheaf-indexed-cover-compatibility-locality}. The visible ledger is $\mathsf{BHist}$-scoped because every open membership and every inclusion witness is expressed by $\mathsf{OpenAt}$ on $\mathsf{BHist}$, and no host powerset equality is part of the exposed surface.
+\end{proof}
+
+\begin{theorem}[SheafUp restriction hsame transport obligation]
+\label{thm:sheaf-restriction-hsame-transport-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over a $\mathsf{BHist}$-scoped indexed open topology carrier $\mathcal{T}$. Suppose a second displayed carrier is obtained by componentwise $\hsame$ transport of the topology row $\mathsf{OpenAt}$, the section carriers and classifiers, the restriction maps, and the indexed-cover rows. Then restriction compatibility, locality, and gluing for $\mathcal{S}$ transport to the displayed carrier. In particular, a compatible family remains compatible after transport, a locality hypothesis on transported restrictions yields transported classifier equality of global sections, and a gluing witness transports to a gluing witness for the transported local family.
+\end{theorem}
+\begin{proof}
+Transport the topology row first. The $\TopologyUp$ membership-stability field moves each occurrence of $\mathsf{OpenAt}(i,h)$ across the displayed $\hsame$ witness, so the inclusion witnesses $j\le_{\mathcal{T}}i$ and the cover law for $\mathcal{U}=(A,\iota,\eta,\gamma)$ remain valid after transport.
+
+Next transport the section rows. The componentwise transport hypothesis identifies each section carrier, classifier, and restriction map with its transported counterpart. Compatibility is a conjunction of classifier equalities after restricting to the finite-intersection index, so it follows by applying the transported restriction rows and then reading the section classifier equivalence fields in the transported carrier.
+
+For locality, begin with transported agreement of two global sections on every cover member. Move that agreement back along the componentwise classifier transport, apply the locality field of $\mathcal{S}$, and transport the resulting global classifier equality forward. For gluing, transport the compatible family back, apply the gluing field of $\mathcal{S}$ to obtain a global section, and transport that witness and its restriction equalities forward.
+\end{proof}
+
+\begin{theorem}[SheafUp cover gluing NameCert export]
+\label{thm:sheaf-cover-gluing-namecert-export}
+The $\mathsf{BHist}$-scoped surface of \autoref{thm:sheaf-bhist-obligation-surface}, together with the transport obligation of \autoref{thm:sheaf-restriction-hsame-transport-obligation}, the uniqueness theorem \autoref{thm:sheaf-gluing-uniqueness-from-locality}, and the global-restriction compatibility theorem \autoref{thm:sheaf-global-restrictions-compatible-local-family}, assembles the paper-side $\NameCert_{\SheafUp}$ obligation surface consumed by $\RingedSpaceUp$ and $\SchemeUp$. The exported surface provides sheaf carrier data, restriction coherence, cover compatibility, locality, gluing, uniqueness up to section classifier equality, and compatibility of restrictions of global sections; it claims no standard bridge and no external powerset equality.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:sheaf-bhist-obligation-surface}. It supplies the carrier, classifier, restriction, cover, compatibility, locality, gluing, and visible ledger rows over $\mathsf{BHist}$, all routed through $\NameCert_{\PreSheafUp}$ and $\NameCert_{\TopologyUp}$.
+
+Use \autoref{thm:sheaf-restriction-hsame-transport-obligation} to make those rows stable under the componentwise $\hsame$ transports seen by downstream chapters. This gives $\RingedSpaceUp$ and $\SchemeUp$ a transport discipline for topology membership through $\mathsf{OpenAt}$ and for section equality through the displayed section classifiers.
+
+The gluing consequences are then the two local theorems already present in the chapter. Apply \autoref{thm:sheaf-gluing-uniqueness-from-locality} for uniqueness of a glued global section up to the section classifier, and apply \autoref{thm:sheaf-global-restrictions-compatible-local-family} for compatibility of the local family obtained by restricting a global section.
+
+Combining these rows gives exactly the paper-side $\NameCert_{\SheafUp}$ obligation surface needed by the dependent ringed-space and scheme certificates. Since every cited row stays inside indexed opens, $\mathsf{OpenAt}$, $\hsame$, and section classifiers, the package contains neither a standard sheaf bridge nor an equality of host powersets.
+\end{proof}
+
+\begin{theorem}[Sheaf gluing uniqueness from locality]
+\label{thm:sheaf-gluing-uniqueness-from-locality}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of an open index $i:\mathsf{OpenIx}$, and let $s_a:\mathsf{Sec}(\iota(a))$ be a compatible local family over $\mathcal{U}$. If $g,h:\mathsf{Sec}(i)$ both restrict to that family on every cover member, in the sense that
+$$
+\forall a:A,\quad \rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a
+$$
+and
+$$
+\forall a:A,\quad \rho_{i,\iota(a)}(h)\sim_{\iota(a)}s_a,
+$$
+then the two cover-global sections are classifier-equal:
+$$
+g\sim_i h.
+$$
+Thus the gluing supplied by the $\SheafUp$ carrier is unique up to the section classifier on the covered open.
+\end{theorem}
+\begin{proof}
+Fix a cover member $a:A$. The first restriction hypothesis gives
+$$
+\rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a.
+$$
+The second restriction hypothesis gives
+$$
+\rho_{i,\iota(a)}(h)\sim_{\iota(a)}s_a.
+$$
+By symmetry of the section classifier on $\mathsf{Sec}(\iota(a))$, supplied by the equivalence field of \autoref{def:sheaf-indexed-section-presheaf-carrier}, this yields
+$$
+s_a\sim_{\iota(a)}\rho_{i,\iota(a)}(h).
+$$
+Transitivity of the same classifier then gives
+$$
+\rho_{i,\iota(a)}(g)\sim_{\iota(a)}\rho_{i,\iota(a)}(h).
+$$
+Since $a$ was arbitrary, the restrictions of $g$ and $h$ agree on every member of $\mathcal{U}$. Applying the sheaf locality field from \autoref{def:sheaf-indexed-cover-compatibility-locality} gives $g\sim_i h$.
+\end{proof}
+
+\begin{theorem}[Sheaf global restrictions form a compatible local family]
+\label{thm:sheaf-global-restrictions-compatible-local-family}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of an open index $i:\mathsf{OpenIx}$, and let $g:\mathsf{Sec}(i)$. Define the local family $s_a:\mathsf{Sec}(\iota(a))$ by
+$$
+s_a=\rho_{i,\iota(a)}(g).
+$$
+Then $s_a$ is compatible over $\mathcal{U}$ in the sense of \autoref{def:sheaf-indexed-cover-compatibility-locality}. Explicitly, for every $a,b:A$, putting $k_{a,b}:=\iota(a)\wedge_{\TopologyUp}\iota(b)$, one has
+$$
+\rho_{\iota(a),k_{a,b}}(\rho_{i,\iota(a)}(g))
+\sim_{k_{a,b}}
+\rho_{\iota(b),k_{a,b}}(\rho_{i,\iota(b)}(g)),
+$$
+where the restriction maps use the inclusions supplied by the finite-intersection field and the cover inclusions $h_a$ and $h_b$.
+\end{theorem}
+\begin{proof}
+Fix $a,b:A$ and write $k=\iota(a)\wedge_{\TopologyUp}\iota(b)$. The finite-intersection field of \autoref{def:topology-indexed-open-carrier} gives
+$$
+\mathsf{OpenAt}(k,x)
+\Longrightarrow
+\bigl(\mathsf{OpenAt}(\iota(a),x)\wedge\mathsf{OpenAt}(\iota(b),x)\bigr)
+$$
+for every $x:X$. Projecting the two components gives inclusions $k\le_{\mathcal{T}}\iota(a)$ and $k\le_{\mathcal{T}}\iota(b)$. Together with the cover inclusions $h_a:\iota(a)\le_{\mathcal{T}} i$ and $h_b:\iota(b)\le_{\mathcal{T}} i$, these are the two chains needed for presheaf restriction composition.
+
+Apply the composition field of \autoref{def:sheaf-indexed-section-presheaf-carrier} to the chain $k\le_{\mathcal{T}}\iota(a)\le_{\mathcal{T}}i$ and the section $g$. This gives
+$$
+\rho_{\iota(a),k}(\rho_{i,\iota(a)}(g))
+\sim_k
+\rho_{i,k}(g).
+$$
+Applying the same composition field to $k\le_{\mathcal{T}}\iota(b)\le_{\mathcal{T}}i$ gives
+$$
+\rho_{\iota(b),k}(\rho_{i,\iota(b)}(g))
+\sim_k
+\rho_{i,k}(g).
+$$
+By symmetry of the section classifier on $\mathsf{Sec}(k)$, supplied by the equivalence field of \autoref{def:sheaf-indexed-section-presheaf-carrier}, the second displayed relation yields
+$$
+\rho_{i,k}(g)
+\sim_k
+\rho_{\iota(b),k}(\rho_{i,\iota(b)}(g)).
+$$
+Transitivity of the same classifier combines this with the first displayed relation and gives
+$$
+\rho_{\iota(a),k}(\rho_{i,\iota(a)}(g))
+\sim_k
+\rho_{\iota(b),k}(\rho_{i,\iota(b)}(g)).
+$$
+Since $a$ and $b$ were arbitrary, this is exactly compatibility of the family $a\mapsto\rho_{i,\iota(a)}(g)$ over $\mathcal{U}$ as defined in \autoref{def:sheaf-indexed-cover-compatibility-locality}.
+\end{proof}
+
+\begin{corollary}[Sheaf gluing of global restrictions is idempotent]
+\label{cor:sheaf-gluing-global-restrictions-idempotent}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,\eta,\gamma)$ be an indexed open cover of an open index $i:\mathsf{OpenIx}$, and let $g:\mathsf{Sec}(i)$. Define the local family $s_a:\mathsf{Sec}(\iota(a))$ by
+$$
+s_a=\rho_{i,\iota(a)}(g).
+$$
+If $h:\mathsf{Sec}(i)$ is a gluing of this family, in the sense that
+$$
+\forall a:A,\quad \rho_{i,\iota(a)}(h)\sim_{\iota(a)}s_a,
+$$
+then
+$$
+h\sim_i g.
+$$
+\end{corollary}
+\begin{proof}
+By \autoref{thm:sheaf-global-restrictions-compatible-local-family}, the family $s_a$ is compatible over $\mathcal{U}$. For each $a:A$, the displayed definition of $s_a$ and reflexivity of the classifier on $\mathsf{Sec}(\iota(a))$, supplied by \autoref{def:sheaf-indexed-section-presheaf-carrier}, give
+$$
+\rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a.
+$$
+The gluing hypothesis gives
+$$
+\rho_{i,\iota(a)}(h)\sim_{\iota(a)}s_a
+$$
+for the same $a$. Since $a$ was arbitrary, both cover-global sections $h$ and $g$ restrict to the compatible local family $s_a$ on every member of $\mathcal{U}$. Applying \autoref{thm:sheaf-gluing-uniqueness-from-locality} with $h$ as the first cover-global section and $g$ as the second gives $h\sim_i g$.
+\end{proof}
+
+\begin{theorem}[Sheaf restriction classifier transport]
+\label{thm:sheaf-restriction-classifier-transport}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. For every inclusion $j\le_{\mathcal{T}}i$ and every pair $s,t:\mathsf{Sec}(i)$, classifier equality on the larger open transports along restriction:
+$$
+s\sim_i t
+\Longrightarrow
+\rho_{i,j}(s)\sim_j\rho_{i,j}(t).
+$$
+Thus restriction rows are morphisms of the local section classifiers.
+\end{theorem}
+\begin{proof}
+The indexed sheaf carrier contains the indexed section presheaf carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}. Apply its restriction classifier-stability field to the inclusion $j\le_{\mathcal{T}}i$ and the given classifier row $s\sim_i t$.
+\end{proof}
+
+\begin{theorem}[Sheaf compatible-family stability]
+\label{thm:sheaf-gluing-compatible-family-stability}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of an open index $i:\mathsf{OpenIx}$. Suppose $s_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$ and $t_a:\mathsf{Sec}(\iota(a))$ is a second local family with
+$$
+\forall a:A,\quad t_a\sim_{\iota(a)}s_a.
+$$
+Then $t_a$ is compatible over $\mathcal{U}$. Explicitly, for all $a,b:A$, writing $k_{a,b}:=\iota(a)\wedge_{\TopologyUp}\iota(b)$, one has
+$$
+\rho_{\iota(a),k_{a,b}}(t_a)
+\sim_{k_{a,b}}
+\rho_{\iota(b),k_{a,b}}(t_b).
+$$
+\end{theorem}
+\begin{proof}
+Fix $a,b:A$ and write $k=\iota(a)\wedge_{\TopologyUp}\iota(b)$. The finite-intersection field of \autoref{def:topology-indexed-open-carrier} supplies the inclusions $k\le_{\mathcal{T}}\iota(a)$ and $k\le_{\mathcal{T}}\iota(b)$ needed to restrict both local sections to the overlap.
+
+Apply \autoref{thm:sheaf-restriction-classifier-transport} to the classifier row $t_a\sim_{\iota(a)}s_a$ along $k\le_{\mathcal{T}}\iota(a)$. This gives
+$$
+\rho_{\iota(a),k}(t_a)
+\sim_k
+\rho_{\iota(a),k}(s_a).
+$$
+Apply the same transport row to $t_b\sim_{\iota(b)}s_b$ along $k\le_{\mathcal{T}}\iota(b)$, and then use symmetry of the classifier on $\mathsf{Sec}(k)$, to get
+$$
+\rho_{\iota(b),k}(s_b)
+\sim_k
+\rho_{\iota(b),k}(t_b).
+$$
+
+The compatibility of the original family gives
+$$
+\rho_{\iota(a),k}(s_a)
+\sim_k
+\rho_{\iota(b),k}(s_b).
+$$
+Transitivity of $\sim_k$ first composes the transported $a$-side row with the original compatibility row, and then composes the result with the reversed transported $b$-side row. The resulting row is exactly
+$$
+\rho_{\iota(a),k}(t_a)
+\sim_k
+\rho_{\iota(b),k}(t_b).
+$$
+Since $a$ and $b$ were arbitrary, the family $t_a$ is compatible over $\mathcal{U}$.
+\end{proof}
+
+\begin{theorem}[Sheaf cover refinement obligation]
+\label{thm:sheaf-cover-refinement-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$. A displayed refinement of $\mathcal{V}$ through $\mathcal{U}$ is a map $r:B\to A$ together with inclusion witnesses
+$$
+\epsilon_b:\kappa(b)\le_{\mathcal{T}}\iota(r(b))
+$$
+for every $b:B$, compatible with the two cover rows in the sense that the composite inclusion $\kappa(b)\le_{\mathcal{T}}\iota(r(b))\le_{\mathcal{T}}i$ is the displayed route from the refined cover member to $i$. This is a certificate-level obligation only over the indexed-open inclusion relation of \autoref{def:sheaf-indexed-cover-compatibility-locality} and the carrier rows of \autoref{def:topology-indexed-open-carrier}; it introduces no host powerset equality of covers and no quotient comparison between cover presentations.
+\end{theorem}
+\begin{proof}
+Unpack the two cover rows. The original cover supplies $h_a:\iota(a)\le_{\mathcal{T}}i$, and the refined cover supplies $q_b:\kappa(b)\le_{\mathcal{T}}i$. A refinement chooses, for each refined row $b$, an original row $r(b)$ together with the displayed inclusion $\epsilon_b:\kappa(b)\le_{\mathcal{T}}\iota(r(b))$.
+
+The topology carrier already gives the meaning of $\le_{\mathcal{T}}$ as indexed-open inclusion and supplies the finite-intersection rows used by the sheaf compatibility predicate. Therefore the refinement datum is fully expressed by the map $r$ and the witnesses $\epsilon_b$, with the target cover inclusion $h_{r(b)}$ recording the route onward to $i$.
+
+No comparison of host open subsets is used. All later transport across the refinement is forced to pass through $\epsilon_b$, restriction composition, and the section classifiers of the indexed presheaf carrier.
+\end{proof}
+
+\begin{theorem}[Sheaf compatible family pullback along refinement]
+\label{thm:sheaf-refinement-compatible-family-pullback}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$, and let $(r,\epsilon)$ be a displayed refinement of $\mathcal{V}$ through $\mathcal{U}$ in the sense of \autoref{thm:sheaf-cover-refinement-obligation}. If $s_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$, then the pulled-back family
+$$
+t_b:=\rho_{\iota(r(b)),\kappa(b)}(s_{r(b)})
+$$
+is compatible over $\mathcal{V}$. Explicitly, for every $b,c:B$, writing $m_{b,c}:=\kappa(b)\wedge_{\TopologyUp}\kappa(c)$, one has
+$$
+\rho_{\kappa(b),m_{b,c}}(t_b)
+\sim_{m_{b,c}}
+\rho_{\kappa(c),m_{b,c}}(t_c).
+$$
+\end{theorem}
+\begin{proof}
+Fix $b,c:B$ and write $m=\kappa(b)\wedge_{\TopologyUp}\kappa(c)$. The finite-intersection field of \autoref{def:topology-indexed-open-carrier} gives $m\le_{\mathcal{T}}\kappa(b)$ and $m\le_{\mathcal{T}}\kappa(c)$. Composing these with the refinement inclusions gives routes $m\le_{\mathcal{T}}\iota(r(b))$ and $m\le_{\mathcal{T}}\iota(r(c))$.
+
+Use restriction composition on the chain $m\le_{\mathcal{T}}\kappa(b)\le_{\mathcal{T}}\iota(r(b))$. It identifies the left restriction of $t_b$ with the direct restriction of $s_{r(b)}$ to $m$, up to the classifier $\sim_m$. The same argument on the $c$ side identifies the right restriction of $t_c$ with the direct restriction of $s_{r(c)}$ to $m$.
+
+The original compatibility of $s_a$ over $\mathcal{U}$ gives equality after restricting $s_{r(b)}$ and $s_{r(c)}$ to the overlap $\iota(r(b))\wedge_{\TopologyUp}\iota(r(c))$. Since $m$ lies inside both original cover members by the refinement inclusions and the finite-intersection projections, restriction composition transports that compatibility row down to $m$.
+
+Finally, transitivity of $\sim_m$ composes the two restriction-composition rows with the transported original compatibility row. The resulting equality is precisely the compatibility clause for $t_b$ and $t_c$ over the refined cover $\mathcal{V}$.
+\end{proof}
+
+\begin{theorem}[Sheaf gluing descends along refined covers]
+\label{thm:sheaf-refinement-gluing-descent}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of $i:\mathsf{OpenIx}$, and let $(r,\epsilon)$ be a displayed refinement of $\mathcal{V}$ through $\mathcal{U}$. Suppose $s_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$ and $g:\mathsf{Sec}(i)$ glues it:
+$$
+\forall a:A,\quad \rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a.
+$$
+Then $g$ glues the pulled-back family $t_b:=\rho_{\iota(r(b)),\kappa(b)}(s_{r(b)})$ over $\mathcal{V}$:
+$$
+\forall b:B,\quad \rho_{i,\kappa(b)}(g)\sim_{\kappa(b)}t_b.
+$$
+\end{theorem}
+\begin{proof}
+Fix $b:B$. The gluing row over $\mathcal{U}$ gives
+$$
+\rho_{i,\iota(r(b))}(g)\sim_{\iota(r(b))}s_{r(b)}.
+$$
+Apply restriction classifier transport along the refinement inclusion $\epsilon_b:\kappa(b)\le_{\mathcal{T}}\iota(r(b))$ to obtain equality after restriction to $\kappa(b)$.
+
+Restriction composition on the chain $\kappa(b)\le_{\mathcal{T}}\iota(r(b))\le_{\mathcal{T}}i$ identifies the restriction of $\rho_{i,\iota(r(b))}(g)$ to $\kappa(b)$ with the direct restriction $\rho_{i,\kappa(b)}(g)$. By definition, the restriction of $s_{r(b)}$ along the same refinement inclusion is $t_b$.
+
+Transitivity of the classifier on $\mathsf{Sec}(\kappa(b))$ composes the composition row with the transported gluing row. Since $b$ was arbitrary, the displayed equality holds for every member of $\mathcal{V}$, so $g$ glues the pulled-back family over the refined cover.
+\end{proof}
+
+\begin{theorem}[Sheaf locality detection under refinement]
+\label{thm:sheaf-refinement-locality-detection}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of $i:\mathsf{OpenIx}$, and let $(r,\epsilon)$ be a displayed refinement of $\mathcal{V}$ through $\mathcal{U}$. Suppose $g,h':\mathsf{Sec}(i)$ satisfy refined-cover equality
+$$
+\forall b:B,\quad \rho_{i,\kappa(b)}(g)\sim_{\kappa(b)}\rho_{i,\kappa(b)}(h').
+$$
+Assume moreover that every original cover member is detected by its refinement rows: for every $a:A$, the subfamily of indices $b:B$ with $r(b)=a$ is an indexed open cover of $\iota(a)$ through the inclusions $\epsilon_b:\kappa(b)\le_{\mathcal{T}}\iota(a)$. Then locality over $\mathcal{U}$ gives
+$$
+g\sim_i h'.
+$$
+\end{theorem}
+\begin{proof}
+Fix $a:A$. By the detection hypothesis, the rows with $r(b)=a$ form an indexed cover of $\iota(a)$. For each such row $b$, the refined equality compares the direct restrictions of $g$ and $h'$ to $\kappa(b)$.
+
+Restriction composition on $\kappa(b)\le_{\mathcal{T}}\iota(a)\le_{\mathcal{T}}i$ rewrites those direct restrictions as the restrictions of $\rho_{i,\iota(a)}(g)$ and $\rho_{i,\iota(a)}(h')$ along $\epsilon_b$. Thus the two sections $\rho_{i,\iota(a)}(g)$ and $\rho_{i,\iota(a)}(h')$ agree on every member of the detected cover of $\iota(a)$.
+
+Apply the sheaf locality field of \autoref{def:sheaf-indexed-cover-compatibility-locality} on this detected cover of $\iota(a)$. It gives
+$$
+\rho_{i,\iota(a)}(g)\sim_{\iota(a)}\rho_{i,\iota(a)}(h').
+$$
+Since $a$ was arbitrary, these equalities hold over all members of $\mathcal{U}$.
+
+Applying the same locality field over the original cover $\mathcal{U}$ yields $g\sim_i h'$, which is the claimed global classifier equality.
+\end{proof}
+
+\begin{theorem}[Sheaf refined-cover gluing uniqueness]
+\label{thm:sheaf-refined-cover-gluing-uniqueness}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of $i:\mathsf{OpenIx}$, and let $(r,\epsilon)$ be a displayed refinement of $\mathcal{V}$ through $\mathcal{U}$. Let $s_a:\mathsf{Sec}(\iota(a))$ be compatible over $\mathcal{U}$, and write
+$$
+t_b:=\rho_{\iota(r(b)),\kappa(b)}(s_{r(b)})
+$$
+for its pulled-back family over $\mathcal{V}$. Suppose $g,h':\mathsf{Sec}(i)$ both glue this pulled-back family:
+$$
+\forall b:B,\quad \rho_{i,\kappa(b)}(g)\sim_{\kappa(b)}t_b,
+\qquad
+\forall b:B,\quad \rho_{i,\kappa(b)}(h')\sim_{\kappa(b)}t_b.
+$$
+Assume moreover that every original cover member is detected by its refinement rows in the sense of \autoref{thm:sheaf-refinement-locality-detection}. Then
+$$
+g\sim_i h'.
+$$
+\end{theorem}
+\begin{proof}
+Fix $b:B$. The first gluing row compares $\rho_{i,\kappa(b)}(g)$ with $t_b$, and the second compares $\rho_{i,\kappa(b)}(h')$ with the same section $t_b$.
+
+Use symmetry of the classifier on $\mathsf{Sec}(\kappa(b))$ to reverse the second equality, then transitivity to obtain
+$$
+\rho_{i,\kappa(b)}(g)\sim_{\kappa(b)}\rho_{i,\kappa(b)}(h').
+$$
+Since $b$ was arbitrary, this is refined-cover equality of $g$ and $h'$ over $\mathcal{V}$.
+
+Apply \autoref{thm:sheaf-refinement-locality-detection} to this refined-cover equality and to the displayed detection hypothesis for the rows with $r(b)=a$. It returns the global classifier equality $g\sim_i h'$.
+\end{proof}
+
+\begin{theorem}[Sheaf refined-cover exactness obligation]
+\label{thm:sheaf-refined-cover-exactness-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of $i:\mathsf{OpenIx}$, and let $(r,\epsilon)$ be a displayed refinement of $\mathcal{V}$ through $\mathcal{U}$. For every compatible family $s_a:\mathsf{Sec}(\iota(a))$ over $\mathcal{U}$, the pulled-back family $t_b:=\rho_{\iota(r(b)),\kappa(b)}(s_{r(b)})$ satisfies the following three exactness rows.
+\begin{enumerate}
+\item The family $t_b$ is compatible over $\mathcal{V}$.
+\item Every gluing $g:\mathsf{Sec}(i)$ of $s_a$ over $\mathcal{U}$ also glues $t_b$ over $\mathcal{V}$.
+\item If every original cover member is detected by its refinement rows, then any two sections $g,h':\mathsf{Sec}(i)$ gluing $t_b$ over $\mathcal{V}$ satisfy $g\sim_i h'$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first row is exactly \autoref{thm:sheaf-refinement-compatible-family-pullback}: compatibility of the original family transports along the displayed refinement.
+
+The second row is exactly \autoref{thm:sheaf-refinement-gluing-descent}: a section gluing the original family restricts to a gluing of the pulled-back family over the refined cover.
+
+The third row is \autoref{thm:sheaf-refined-cover-gluing-uniqueness}. Its hypotheses are precisely two displayed gluings of the same pulled-back family, plus the locality-detection row for the refinement fibers over each original cover member.
+\end{proof}
+
+\begin{theorem}[Sheaf NameCert refinement exactness export]
+\label{thm:sheaf-namecert-refinement-exactness-export}
+The paper-side obligation surface $\NameCert_{\SheafUp}$ exports refined-cover exactness over indexed opens. Concretely, for any indexed sheaf carrier over an indexed open topology carrier, every displayed refinement of indexed covers carries compatible families forward, descends original gluings to refined gluings, and makes any two refined gluings of the same pulled-back family globally classifier-equal whenever the original members are detected by their refinement rows. This exported row uses only $\TopologyUp$, $\PreSheafUp$, restriction composition, section classifiers, locality, and gluing; it does not use host powerset equality or quotient comparison.
+\end{theorem}
+\begin{proof}
+Project the carrier row from \autoref{def:sheaf-indexed-section-presheaf-carrier}. This supplies the open-indexed section carriers, classifiers, restriction maps, restriction composition, and classifier transport used in the refinement arguments.
+
+Project the cover, compatibility, locality, and gluing rows from \autoref{def:sheaf-indexed-cover-compatibility-locality}. These rows supply indexed covers, overlap compatibility, the local-to-global classifier implication, and displayed gluing witnesses.
+
+Assemble the export by applying \autoref{thm:sheaf-refined-cover-exactness-obligation}. Its three rows are already expressed in the projected data, so $\NameCert_{\SheafUp}$ exposes a single refined-cover exactness obligation to downstream ringed-space and scheme certificates without adding a host-level cover comparison.
+\end{proof}
+
+\begin{theorem}[Sheaf refinement composition obligation]
+\label{thm:sheaf-refinement-composition-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$, $\mathcal{V}=(B,\kappa,q,\delta)$, and $\mathcal{W}=(C,\lambda,p,\omega)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$. Suppose $(r,\epsilon)$ is a displayed refinement of $\mathcal{V}$ through $\mathcal{U}$ and $(s,\eta)$ is a displayed refinement of $\mathcal{W}$ through $\mathcal{V}$:
+$$
+r:B\to A,\qquad
+\epsilon_b:\kappa(b)\le_{\mathcal{T}}\iota(r(b)),
+$$
+$$
+s:C\to B,\qquad
+\eta_c:\lambda(c)\le_{\mathcal{T}}\kappa(s(c)).
+$$
+Then the composite map $r\circ s:C\to A$ together with the composite inclusions
+$$
+\theta_c:\lambda(c)\le_{\mathcal{T}}\iota(r(s(c)))
+$$
+is a displayed refinement of $\mathcal{W}$ through $\mathcal{U}$. The cover row for $\mathcal{W}$ remains the pointwise indexed-open implication
+$$
+\forall x:X,\quad \mathsf{OpenAt}(i,x)\Longrightarrow\exists c:C,\ \mathsf{OpenAt}(\lambda(c),x),
+$$
+and the route onward to $i$ is the inclusion chain $\lambda(c)\le_{\mathcal{T}}\kappa(s(c))\le_{\mathcal{T}}\iota(r(s(c)))\le_{\mathcal{T}}i$.
+\end{theorem}
+\begin{proof}
+For each $c:C$, the refinement row $(s,\eta)$ gives $\eta_c:\lambda(c)\le_{\mathcal{T}}\kappa(s(c))$. The refinement row $(r,\epsilon)$ gives $\epsilon_{s(c)}:\kappa(s(c))\le_{\mathcal{T}}\iota(r(s(c)))$.
+
+Transitivity of indexed-open inclusion in the topology carrier composes these two rows and gives the displayed inclusion $\theta_c:\lambda(c)\le_{\mathcal{T}}\iota(r(s(c)))$.
+
+The cover data of $\mathcal{W}$ are not changed. Its row $\omega$ still says that every point of the ambient open $i$ lies in some indexed member $\lambda(c)$, expressed by the displayed $\mathsf{OpenAt}$ implication. Together with the map $r\circ s$ and the inclusions $\theta_c$, this is exactly the refinement obligation of \autoref{thm:sheaf-cover-refinement-obligation} for $\mathcal{W}$ through $\mathcal{U}$.
+\end{proof}
+
+\begin{theorem}[Sheaf compatible-family pullback composes over refinements]
+\label{thm:sheaf-refinement-pullback-composition}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$, $\mathcal{V}=(B,\kappa,q,\delta)$, and $\mathcal{W}=(C,\lambda,p,\omega)$ be indexed open covers of $i:\mathsf{OpenIx}$. Let $(r,\epsilon):\mathcal{V}\to\mathcal{U}$ and $(s,\eta):\mathcal{W}\to\mathcal{V}$ be displayed refinements, and let $(r\circ s,\theta):\mathcal{W}\to\mathcal{U}$ be their composite refinement from \autoref{thm:sheaf-refinement-composition-obligation}. If $u_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$, define
+$$
+v_b:=\rho_{\iota(r(b)),\kappa(b)}(u_{r(b)})
+$$
+and
+$$
+w_c:=\rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)}).
+$$
+Then $w_c$ is classifier-equal to the one-step pullback
+$$
+z_c:=\rho_{\iota(r(s(c))),\lambda(c)}(u_{r(s(c))})
+$$
+for every $c:C$, and the family $w_c$ is compatible over $\mathcal{W}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sheaf-refinement-compatible-family-pullback} to the refinement $(r,\epsilon)$. It gives compatibility of the family $v_b$ over $\mathcal{V}$.
+
+Apply the same theorem to the refinement $(s,\eta)$ and the compatible family $v_b$. This gives compatibility of the tower-pulled family $w_c$ over $\mathcal{W}$.
+
+It remains to compare the two descriptions of the local section at $c:C$. By definition, $w_c$ restricts $u_{r(s(c))}$ first along $\kappa(s(c))\le_{\mathcal{T}}\iota(r(s(c)))$ and then along $\lambda(c)\le_{\mathcal{T}}\kappa(s(c))$. Restriction composition for the indexed section presheaf carrier identifies this two-step restriction with the direct restriction along the composite inclusion $\theta_c$.
+
+The classifier on $\mathsf{Sec}(\lambda(c))$ supplies symmetry and transitivity, so the restriction-composition row gives $w_c\sim_{\lambda(c)}z_c$. Since compatibility of $w_c$ was already obtained from the second pullback application, the composite tower pullback is compatible over $\mathcal{W}$ and agrees with the one-step pullback along $(r\circ s,\theta)$.
+\end{proof}
+
+\begin{theorem}[Sheaf gluing descent composes over refinement towers]
+\label{thm:sheaf-refinement-gluing-composition}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$, $\mathcal{V}=(B,\kappa,q,\delta)$, and $\mathcal{W}=(C,\lambda,p,\omega)$ be indexed open covers of $i:\mathsf{OpenIx}$. Let $(r,\epsilon):\mathcal{V}\to\mathcal{U}$ and $(s,\eta):\mathcal{W}\to\mathcal{V}$ be displayed refinements, with composite $(r\circ s,\theta):\mathcal{W}\to\mathcal{U}$. Suppose $u_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$ and $g:\mathsf{Sec}(i)$ glues it:
+$$
+\forall a:A,\quad \rho_{i,\iota(a)}(g)\sim_{\iota(a)}u_a.
+$$
+Then $g$ glues the composite pulled-back family over $\mathcal{W}$:
+$$
+\forall c:C,\quad
+\rho_{i,\lambda(c)}(g)
+\sim_{\lambda(c)}
+\rho_{\iota(r(s(c))),\lambda(c)}(u_{r(s(c))}).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sheaf-refinement-gluing-descent} to $(r,\epsilon)$ and the gluing row for $g$. This shows that $g$ glues the pulled-back family $v_b:=\rho_{\iota(r(b)),\kappa(b)}(u_{r(b)})$ over $\mathcal{V}$.
+
+Apply \autoref{thm:sheaf-refinement-gluing-descent} again to $(s,\eta)$ and the displayed gluing of $v_b$. This shows that $g$ glues the two-step pulled-back family $w_c:=\rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)})$ over $\mathcal{W}$.
+
+By \autoref{thm:sheaf-refinement-pullback-composition}, $w_c$ is classifier-equal to the one-step pullback $\rho_{\iota(r(s(c))),\lambda(c)}(u_{r(s(c))})$ for every $c:C$. Transitivity of the classifier on $\mathsf{Sec}(\lambda(c))$ composes this comparison with the two-step gluing row, giving the displayed gluing row for the composite refinement.
+\end{proof}
+
+\begin{definition}[Sheaf displayed common refinement span]
+\label{def:sheaf-displayed-common-refinement-span}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$. A displayed common refinement span from $\mathcal{U}$ to $\mathcal{V}$ is a tuple
+$$
+\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)
+$$
+where $C$ is an indexing type, $\lambda:C\to\mathsf{OpenIx}$ is an indexed-open family, $r:C\to A$ and $s:C\to B$ choose the displayed members of the two covers, and for every $c:C$ there are inclusion witnesses
+$$
+\epsilon_c:\lambda(c)\le_{\mathcal{T}}\iota(r(c)),
+\qquad
+\zeta_c:\lambda(c)\le_{\mathcal{T}}\kappa(s(c)).
+$$
+The row $\omega$ says that $\lambda$ itself is an indexed open cover of $i$, with member inclusions obtained through either composite $\lambda(c)\le_{\mathcal{T}}\iota(r(c))\le_{\mathcal{T}}i$ or $\lambda(c)\le_{\mathcal{T}}\kappa(s(c))\le_{\mathcal{T}}i$, and with the pointwise cover law
+$$
+\forall x:X,\ \mathsf{OpenAt}(i,x)\Longrightarrow\exists c:C,\ \mathsf{OpenAt}(\lambda(c),x).
+$$
+Thus the common refinement is displayed entirely inside indexed opens, inclusion rows, and presheaf restriction rows; it contains no host-level equality of covers.
+\end{definition}
+
+\begin{theorem}[Sheaf displayed common refinement gives paired refinements]
+\label{thm:sheaf-displayed-common-refinement-span}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of $i:\mathsf{OpenIx}$. If $\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)$ is a displayed common refinement span from $\mathcal{U}$ to $\mathcal{V}$ in the sense of \autoref{def:sheaf-displayed-common-refinement-span}, then $\mathcal{W}$ is a displayed refinement of its cover through $\mathcal{U}$ and also a displayed refinement of its cover through $\mathcal{V}$:
+$$
+(r,\epsilon):\mathcal{W}\to\mathcal{U},
+\qquad
+(s,\zeta):\mathcal{W}\to\mathcal{V}.
+$$
+Both refinements are in the sense of \autoref{thm:sheaf-cover-refinement-obligation}.
+\end{theorem}
+\begin{proof}
+Unpack the displayed span. Its row $\omega$ makes $\lambda:C\to\mathsf{OpenIx}$ an indexed cover of $i$, so $\mathcal{W}$ has the cover side required to be the refined cover in \autoref{thm:sheaf-cover-refinement-obligation}.
+
+The first projection consists of the map $r:C\to A$ together with the inclusions $\epsilon_c:\lambda(c)\le_{\mathcal{T}}\iota(r(c))$. These are exactly the displayed refinement rows from $\mathcal{W}$ through $\mathcal{U}$, with the route onward to $i$ supplied by the cover inclusion $h_{r(c)}$.
+
+The second projection is identical with $\mathcal{V}$ in place of $\mathcal{U}$: the map $s:C\to B$ and the inclusions $\zeta_c:\lambda(c)\le_{\mathcal{T}}\kappa(s(c))$ form the displayed refinement rows, with the cover inclusion $q_{s(c)}$ supplying the route to $i$.
+\end{proof}
+
+\begin{theorem}[Sheaf common refinement gluing invariance]
+\label{thm:sheaf-common-refinement-gluing-invariance}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of $i:\mathsf{OpenIx}$, and let $\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)$ be a displayed common refinement span from $\mathcal{U}$ to $\mathcal{V}$. Let $u_a:\mathsf{Sec}(\iota(a))$ be compatible over $\mathcal{U}$ and let $v_b:\mathsf{Sec}(\kappa(b))$ be compatible over $\mathcal{V}$. Suppose their pullbacks to $\mathcal{W}$ are classifier-equal:
+$$
+\forall c:C,\quad
+\rho_{\iota(r(c)),\lambda(c)}(u_{r(c)})
+\sim_{\lambda(c)}
+\rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)}).
+$$
+If $g:\mathsf{Sec}(i)$ glues $u_a$ over $\mathcal{U}$ and $h':\mathsf{Sec}(i)$ glues $v_b$ over $\mathcal{V}$, then
+$$
+g\sim_i h'.
+$$
+\end{theorem}
+\begin{proof}
+Project the common refinement span by \autoref{thm:sheaf-displayed-common-refinement-span}. This gives the displayed refinement $(r,\epsilon)$ from $\mathcal{W}$ through $\mathcal{U}$ and the displayed refinement $(s,\zeta)$ from $\mathcal{W}$ through $\mathcal{V}$.
+
+Apply \autoref{thm:sheaf-refinement-gluing-descent} to the first refinement and the gluing row for $g$. The result says that $g$ glues the pulled-back family
+$$
+c\mapsto \rho_{\iota(r(c)),\lambda(c)}(u_{r(c)})
+$$
+over $\mathcal{W}$.
+
+Apply the same descent theorem to the second refinement and the gluing row for $h'$. This says that $h'$ glues the pulled-back family
+$$
+c\mapsto \rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)})
+$$
+over $\mathcal{W}$. The displayed classifier equality between the two pulled-back families lets the compatible-family stability row \autoref{thm:sheaf-gluing-compatible-family-stability} replace the second family by the first one without changing the gluing comparison.
+
+Now both $g$ and $h'$ are displayed gluings of the same compatible family over the indexed cover $\mathcal{W}$. Apply \autoref{thm:sheaf-gluing-uniqueness-from-locality} over $\mathcal{W}$ to obtain $g\sim_i h'$.
+\end{proof}
+
+\begin{theorem}[Sheaf cover presentation exactness]
+\label{thm:sheaf-cover-presentation-exactness}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$. Let $\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)$ be a displayed common refinement span from $\mathcal{U}$ to $\mathcal{V}$. Suppose a compatible family $u_a:\mathsf{Sec}(\iota(a))$ over $\mathcal{U}$ and a compatible family $v_b:\mathsf{Sec}(\kappa(b))$ over $\mathcal{V}$ agree after pullback to $\mathcal{W}$:
+$$
+\forall c:C,\quad
+\rho_{\iota(r(c)),\lambda(c)}(u_{r(c)})
+\sim_{\lambda(c)}
+\rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)}).
+$$
+Then any global section class determined by gluing $u_a$ over $\mathcal{U}$ is the same classifier class as any global section class determined by gluing $v_b$ over $\mathcal{V}$. Equivalently, if $g,h':\mathsf{Sec}(i)$ are displayed gluings of the two families, then $g\sim_i h'$. The exactness row uses only indexed cover presentations, displayed common refinement, restriction transport, and the classifiers $\sim_j$; it does not compare host powersets and does not form a quotient of cover presentations.
+\end{theorem}
+\begin{proof}
+Choose displayed gluings $g:\mathsf{Sec}(i)$ and $h':\mathsf{Sec}(i)$ for the two compatible families. The hypotheses give exactly the common-refinement equality of the two pulled-back local families.
+
+Apply \autoref{thm:sheaf-common-refinement-gluing-invariance} to $\mathcal{U}$, $\mathcal{V}$, the displayed common refinement $\mathcal{W}$, the two compatible families, their pulled-back equality, and the two displayed gluing rows. It returns $g\sim_i h'$.
+
+Since the argument never leaves the indexed cover ledger, the conclusion identifies the two global classifier classes without choosing a preferred cover presentation, comparing powersets of host opens, or adding any quotient primitive.
+\end{proof}
+
+\begin{theorem}[Sheaf NameCert obligation surface]
+\label{thm:sheaf-namecert-obligation-surface}
+The concrete $\SheafUp$ certificate surface is the following ten-field obligation surface.
+\begin{enumerate}
+\item The traditional target is a sheaf of sections over indexed opens of an indexed topology carrier.
+\item The BEDC source data are $\TopologyUp$ together with $\PreSheafUp$.
+\item The carrier is the indexed section presheaf carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
+\item The classifier family is the open-indexed relation $\sim_i$ on $\mathsf{Sec}(i)$.
+\item The stability obligations are classifier equivalence, identity restriction, composition of restriction, restriction classifier transport, locality, gluing, uniqueness of gluing, compatibility of global restrictions, compatible-family stability, cover-refinement transport, refined-cover exactness, refinement tower composition, displayed common-refinement comparison, and cover-presentation exactness.
+\item The ledger consists of open-cover indices, cover-member inclusions, finite-intersection overlap indices, and restriction rows to those overlaps.
+\item The core theorem list is \autoref{thm:sheaf-restriction-classifier-transport}, \autoref{thm:sheaf-gluing-compatible-family-stability}, \autoref{thm:sheaf-cover-refinement-obligation}, \autoref{thm:sheaf-refinement-compatible-family-pullback}, \autoref{thm:sheaf-refinement-gluing-descent}, \autoref{thm:sheaf-refinement-locality-detection}, \autoref{thm:sheaf-refined-cover-gluing-uniqueness}, \autoref{thm:sheaf-refined-cover-exactness-obligation}, \autoref{thm:sheaf-namecert-refinement-exactness-export}, \autoref{thm:sheaf-refinement-composition-obligation}, \autoref{thm:sheaf-refinement-pullback-composition}, \autoref{thm:sheaf-refinement-gluing-composition}, \autoref{thm:sheaf-displayed-common-refinement-span}, \autoref{thm:sheaf-common-refinement-gluing-invariance}, \autoref{thm:sheaf-cover-presentation-exactness}, \autoref{thm:sheaf-gluing-uniqueness-from-locality}, \autoref{thm:sheaf-global-restrictions-compatible-local-family}, and \autoref{cor:sheaf-gluing-global-restrictions-idempotent}.
+\item Exactness is locality together with existence and uniqueness of gluing for compatible local families, stable under displayed common refinement of indexed cover presentations.
+\item There is no standard bridge attached to this surface.
+\item The status is a paper-side obligation surface for downstream certificates using $\NameCert_{\SheafUp}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Rows one through four are the data fixed by \autoref{def:sheaf-indexed-section-presheaf-carrier} and \autoref{def:sheaf-indexed-cover-compatibility-locality}: indexed opens come from $\TopologyUp$, section carriers and contravariant restriction rows come from $\PreSheafUp$, and classifier equality is indexed by the same opens as the section carriers.
+
+Row five is exactly the list of fields and consequences exposed in this section. Equivalence, identity, composition, and restriction transport are part of the carrier surface; locality and gluing are the sheaf fields; uniqueness, compatible global restrictions, idempotence of global gluing, compatible-family stability, cover-refinement transport, refined-cover exactness, refinement tower composition, common-refinement comparison, and cover-presentation exactness are the theorem rows cited in row seven.
+
+Rows six through ten record how downstream constructions consume the surface. A ringed-space or scheme certificate can name cover indices, overlaps, refinement maps, common-refinement spans, and restriction rows without choosing a standard-model bridge; the exactness content available to it is precisely local detection plus existence and uniqueness of gluing, stable under passing to displayed refined covers, refinement towers, and comparison of two cover presentations through a displayed common refinement.
+\end{proof}
+
