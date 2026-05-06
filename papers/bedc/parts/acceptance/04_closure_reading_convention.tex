@@ -53,16 +53,19 @@ $\DeterminantUp$ & $\scopedClosure$ & singleton determinant certificate         
 $\HomologyUp$    & $\scopedClosure$ & singleton cycle certificate                              & $\theoremCheckedV$\\
 $\CohomologyUp$  & $\scopedClosure$ & singleton cocycle certificate                            & $\theoremCheckedV$\\
 $\PrimeUp$       & $\scopedClosure$ & prime semantic certificate                               & $\theoremCheckedV$\\
-$\RealUp$        & $\scopedClosure$ & rational embedding constant certificate                  & $\theoremCheckedV$\\
+$\DyadicRatCore$ & $\scopedClosure$ & dyadic obligation faces and finite ledger                & $\unformalizedV$\\
+$\StreamNameUp$  & $\scopedClosure$ & rational stream-name public certificate                  & $\theoremCheckedV$\\
+$\RegSeqRat$     & $\scopedClosure$ & rational-stream certificate spine                        & $\theoremCheckedV$\\
+$\RealUp$        & $\publicClosure$ & public rational-stream export                            & $\theoremCheckedV$\\
 \bottomrule
 \end{longtable}
 
-\begin{remark}[Why every entry is $\scopedClosure$]
+\begin{remark}[How to read the closure entries]
 \label{rem:why-all-scoped}
-Every present BEDC chapter closes a precise, paper-recorded scope; none claims the full traditional object as a theorem package, and none has yet exhibited a paper-level standard bridge with all six fields argued. The closure axis grade therefore stops at $\scopedClosure$ across the manuscript. Upgrades to $\publicClosure$ require chapters that exhibit a public-object surface with constructors, readback, endpoint exactness, normal form, and a no-hidden-leakage statement; upgrades to $\bridgedClosure$ require a paper-level standard bridge per \autoref{ch:acceptance-bridge}. Each chapter's closurestatus block names the upgrade path explicitly.
+Most present BEDC entries close a precise, paper-recorded scope, while a chapter that exhibits a public-object surface may carry $\publicClosure$. The table above is only a derived orientation aid; the binding closure grade is read from the object's own closurestatus block. Grades above $\scopedClosure$ require the corresponding public or bridge surface described in \autoref{ch:acceptance-bridge}, and each closurestatus block names its own scope and upgrade path explicitly.
 \end{remark}
 
-\begin{remark}[Verification axis is uniform but not constraining]
+\begin{remark}[How to read the verification entries]
 \label{rem:verification-axis-uniform}
-Every present chapter is at $\theoremCheckedV$ on the verification axis: each closurestatus block names a Lean target that resolves under \texttt{lean4/BEDC/} and that \texttt{lake build} accepts. The audit script of \autoref{lem:audit-reflects-verification} is responsible for keeping this uniform; the closure axis grade is independent.
+The verification entries are likewise a derived reading of the current closurestatus blocks. A $\theoremCheckedV$ entry means the block names a Lean target that resolves under \texttt{lean4/BEDC/} and that \texttt{lake build} accepts; an $\unformalizedV$ entry records that the paper boundary has not yet reached that checked Lean grade. The audit script of \autoref{lem:audit-reflects-verification} is responsible for marker resolution, while the closure axis grade remains independent.
 \end{remark}

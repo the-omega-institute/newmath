@@ -155,6 +155,59 @@ def ManifoldAtlasClassifier
   hsame base base' ∧ hsame index index' ∧ hsame domain domain' ∧ hsame chart chart' ∧
     hsame transition transition'
 
+theorem ManifoldAtlasPackage_semantic_name_certificate :
+    SemanticNameCert
+      (fun transition : BHist =>
+        ∃ base index domain chart : BHist, ManifoldAtlasPackage base index domain chart transition)
+      (fun transition : BHist =>
+        ∃ base index domain chart : BHist, ManifoldAtlasPackage base index domain chart transition)
+      (fun transition : BHist =>
+        ∃ base index domain chart : BHist, ManifoldAtlasPackage base index domain chart transition)
+      (fun left right : BHist =>
+        (∃ base index domain chart : BHist, ManifoldAtlasPackage base index domain chart left) ∧
+          (∃ base index domain chart : BHist, ManifoldAtlasPackage base index domain chart right) ∧
+            hsame left right) := by
+  let AtlasTransition := fun transition : BHist =>
+    ∃ base index domain chart : BHist, ManifoldAtlasPackage base index domain chart transition
+  have emptyAtlas : AtlasTransition BHist.Empty := by
+    exact Exists.intro BHist.Empty
+      (Exists.intro BHist.Empty
+        (Exists.intro BHist.Empty
+          (Exists.intro BHist.Empty
+            (And.intro unary_empty
+              (And.intro unary_empty
+                (And.intro unary_empty
+                  (And.intro unary_empty
+                    (And.intro unary_empty
+                      (And.intro (cont_left_unit BHist.Empty)
+                        (cont_left_unit BHist.Empty))))))))))
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty emptyAtlas
+      equiv_refl := by
+        intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      equiv_symm := by
+        intro left right classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro left mid right classifiedLM classifiedMR
+        exact And.intro classifiedLM.left
+          (And.intro classifiedMR.right.left
+            (hsame_trans classifiedLM.right.right classifiedMR.right.right))
+      carrier_respects_equiv := by
+        intro left right classified _carrierLeft
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro transition carrier
+      exact carrier
+    ledger_sound := by
+      intro transition carrier
+      exact carrier
+  }
+
 theorem ManifoldAtlasPackage_classifier_transport
     {base index domain chart transition base' index' domain' chart' transition' : BHist} :
     ManifoldAtlasPackage base index domain chart transition ->
