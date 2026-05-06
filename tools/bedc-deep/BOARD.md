@@ -11410,3 +11410,133 @@ ProbSpaceUp currently proves complement mass additivity and complement mass as o
 
 ---
 
+### B-436 - MonoidalCat tensor preserves composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MonoidalCat tensor preserves composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the singleton MonoidalCatUp tensor instance, composable hom rows f,f' and g,g' imply (f \otimes g) followed by (f' \otimes g') is classifier-equal to (f' \circ f) \otimes (g' \circ g).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/159_monoidalcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/category/carrier_and_hom_laws.tex`
+
+Rationale:
+This is a concrete missing bifunctoriality law in an existing MonoidalCat chapter, not a marker or verification-axis item. It is distinct from existing BOARD category/functor/natural-transformation targets because it concerns tensor interchange inside the monoidal category certificate surface.
+
+---
+
+
+### B-437 - AbelianCat kernel and cokernel factor uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AbelianCat kernel and cokernel factor uniqueness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an AbelianCatUp kernel-cokernel carrier, two factor arrows through the same kernel row that classify to the same zeroing morphism are classifier-equal, and dually for cokernel cofactor arrows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
+
+Rationale:
+This is a concrete uniqueness target for an existing AbelianCat certificate surface. It is not covered by the listed paper labels, and it is distinct from existing BOARD entries because it targets universal factor/cofactor uniqueness rather than functorial composition or general category carrier closure.
+
+---
+
+
+### B-438 - Distribution pushforward finite additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Distribution pushforward finite additivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If X is a carried RandomVarUp map and B,C are disjoint target measurable events with union U, then the DistributionUp pushforward satisfies mu_X(U) classifier-equal to mu_X(B)+mu_X(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/certificate_theorems.tex`
+
+Rationale:
+This fills a direct measure-certificate gap for DistributionUp by combining existing RandomVar preimage union exactness with Measure finite disjoint-union additivity. It is a concrete closure theorem and has no close duplicate among existing BOARD entries or listed paper labels.
+
+---
+
+
+### B-439 - RandomVar preimage complement exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | RandomVar preimage complement exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If X is a carried RandomVarUp map and B^c is the target complement or relative-difference row for B, then X^{-1}(B^c) is source-event-classifier equal to the corresponding source complement or relative difference of X^{-1}(B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+This is a concrete missing companion to the existing RandomVar preimage union exactness theorem. It stays within the measurable-preimage certificate surface, is not already named in the provided paper coverage, and is distinct from existing BOARD targets.
+
+---
+
+
+### B-440 - CompleteMetric limit tolerance weakening
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CompleteMetric limit tolerance weakening |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If CompleteMetricLimitWitness(X,s,mu,l,L) holds and convergence bounds are weakened by supplied RatUp comparisons epsilon <= epsilon', then the same data repack as a CompleteMetricLimitWitness with weakened bound ledgers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/106_completemetric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex`
+
+Rationale:
+This is a focused monotonicity theorem for the CompleteMetric witness interface, analogous to an existing TotallyBounded result but not a duplicate of it. It is a concrete certificate-repacking result with clear local inputs and no matching listed paper label.
+
+---
+
