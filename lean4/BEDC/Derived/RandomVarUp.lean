@@ -68,6 +68,22 @@ theorem RandomVarTotalReadbackCertificate_carried_bridge_chosen_preimage_exactne
   · intro chosenExact
     exact cont_result_hsame_transport chosenReadback chosenExact
 
+theorem RandomVarTotalDefectEvent_vanishing_total_exactness_iff
+    {sourceTotal chosenPreimage defect : BHist} :
+    RandomVarTotalDefectEvent sourceTotal chosenPreimage defect ->
+      (hsame chosenPreimage sourceTotal ↔ hsame defect BHist.Empty) := by
+  intro defectEvent
+  constructor
+  · intro chosenExact
+    have transportedEvent : Cont sourceTotal defect sourceTotal :=
+      cont_hsame_transport chosenExact (hsame_refl defect) (hsame_refl sourceTotal) defectEvent
+    exact cont_right_unit_unique transportedEvent
+  · intro defectEmpty
+    have rightUnitEvent : Cont chosenPreimage BHist.Empty sourceTotal :=
+      cont_hsame_transport (hsame_refl chosenPreimage) defectEmpty (hsame_refl sourceTotal)
+        defectEvent
+    exact hsame_symm (cont_right_unit_result rightUnitEvent)
+
 theorem RandomVarPreimage_disjoint_binary_union_exactness
     {B C U_T A_B A_C A_U U_S : BHist} :
     hsame A_B B -> hsame A_C C -> hsame A_U U_T -> Cont B C U_T ->
