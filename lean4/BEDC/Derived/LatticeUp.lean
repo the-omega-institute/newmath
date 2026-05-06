@@ -356,6 +356,21 @@ theorem LatticeSingletonJoin_least_upper_bound_empty_iff {h k z : BHist} :
       (And.intro zCarrier
         (PreorderPrefixLE_of_hsame (hsame_trans bounds.right.right (hsame_symm zCarrier))))
 
+ theorem LatticeSingletonJoin_directed_assoc_comparison_from_bounds {x y z : BHist} :
+    LatticeSingletonCarrier x -> LatticeSingletonCarrier y -> LatticeSingletonCarrier z ->
+      LatticeSingletonLE (LatticeSingletonJoin (LatticeSingletonJoin x y) z)
+        (LatticeSingletonJoin x (LatticeSingletonJoin y z)) ∧
+        hsame (LatticeSingletonJoin (LatticeSingletonJoin x y) z) BHist.Empty ∧
+        hsame (LatticeSingletonJoin x (LatticeSingletonJoin y z)) BHist.Empty := by
+  intro _carrierX _carrierY _carrierZ
+  have leftEmpty : hsame (LatticeSingletonJoin (LatticeSingletonJoin x y) z) BHist.Empty :=
+    hsame_refl BHist.Empty
+  have rightEmpty : hsame (LatticeSingletonJoin x (LatticeSingletonJoin y z)) BHist.Empty :=
+    hsame_refl BHist.Empty
+  exact And.intro
+    (LatticeSingletonLE_empty_endpoints_iff.mpr (And.intro leftEmpty rightEmpty))
+    (And.intro leftEmpty rightEmpty)
+
 theorem LatticeSingletonLE_continuation_result_left_carriers_iff {h k r : BHist} :
     Cont h k r ->
       (LatticeSingletonLE r h ↔ LatticeSingletonCarrier h ∧ LatticeSingletonCarrier k) := by

@@ -1,6 +1,7 @@
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.BundleUp
@@ -8,7 +9,108 @@ namespace BEDC.Derived.BundleUp
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+
+def BundleLocalTrivCocyclePkg
+    (base total projection fibre ledger : BHist) (trivializations transitions : ProbeBundle BHist) :
+    Prop :=
+  UnaryHistory base ∧ UnaryHistory total ∧ UnaryHistory projection ∧ UnaryHistory fibre ∧
+    UnaryHistory ledger ∧ Cont base total projection ∧ Cont projection fibre ledger ∧
+      (∀ {row : BHist}, InBundle row trivializations -> UnaryHistory row) ∧
+        (∀ {row : BHist}, InBundle row transitions -> UnaryHistory row)
+
+theorem BundleLocalTrivPkg_transition_cocycle_ledger_closure
+    {base total projection fibre ledger tij tjk tik composed displayed : BHist}
+    {trivializations transitions : ProbeBundle BHist} :
+    BundleLocalTrivCocyclePkg base total projection fibre ledger trivializations transitions ->
+      InBundle tij transitions ->
+      InBundle tjk transitions ->
+      InBundle tik transitions ->
+      Cont tij tjk composed ->
+      Cont tik ledger displayed ->
+        hsame displayed (append tik ledger) ∧ UnaryHistory composed ∧ UnaryHistory displayed := by
+  intro package tijInTransitions tjkInTransitions tikInTransitions composedReadback displayedReadback
+  have ledgerUnary : UnaryHistory ledger :=
+    package.right.right.right.right.left
+  have transitionRowsUnary :
+      ∀ {row : BHist}, InBundle row transitions -> UnaryHistory row :=
+    package.right.right.right.right.right.right.right.right
+  have tijUnary : UnaryHistory tij :=
+    transitionRowsUnary tijInTransitions
+  have tjkUnary : UnaryHistory tjk :=
+    transitionRowsUnary tjkInTransitions
+  have tikUnary : UnaryHistory tik :=
+    transitionRowsUnary tikInTransitions
+  have composedUnary : UnaryHistory composed :=
+    unary_cont_closed tijUnary tjkUnary composedReadback
+  have displayedUnary : UnaryHistory displayed :=
+    unary_cont_closed tikUnary ledgerUnary displayedReadback
+  exact And.intro displayedReadback (And.intro composedUnary displayedUnary)
+
+def BundleLocalTrivSemanticPkg
+    (base total projection fiber ledger : BHist)
+    (trivRows transitionRows : ProbeBundle BHist) : Prop :=
+  Cont base total ledger ∧ InBundle projection trivRows ∧ InBundle fiber transitionRows
+
+theorem BundleLocalTrivPkg_semantic_name_certificate :
+    SemanticNameCert
+      (fun ledger : BHist =>
+        ∃ base total projection fiber : BHist, ∃ trivRows transitionRows : ProbeBundle BHist,
+          BundleLocalTrivSemanticPkg base total projection fiber ledger trivRows transitionRows)
+      (fun ledger : BHist =>
+        ∃ base total projection fiber : BHist, ∃ trivRows transitionRows : ProbeBundle BHist,
+          BundleLocalTrivSemanticPkg base total projection fiber ledger trivRows transitionRows)
+      (fun ledger : BHist =>
+        ∃ base total projection fiber : BHist, ∃ trivRows transitionRows : ProbeBundle BHist,
+          BundleLocalTrivSemanticPkg base total projection fiber ledger trivRows transitionRows)
+      (fun left right : BHist =>
+        (∃ base total projection fiber : BHist, ∃ trivRows transitionRows : ProbeBundle BHist,
+          BundleLocalTrivSemanticPkg base total projection fiber left trivRows transitionRows) ∧
+        (∃ base total projection fiber : BHist, ∃ trivRows transitionRows : ProbeBundle BHist,
+          BundleLocalTrivSemanticPkg base total projection fiber right trivRows transitionRows) ∧
+        hsame left right) := by
+  let singletonRows : ProbeBundle BHist := ProbeBundle.Bcons BHist.Empty ProbeBundle.Bnil
+  let carrier : BHist -> Prop := fun ledger : BHist =>
+    ∃ base total projection fiber : BHist, ∃ trivRows transitionRows : ProbeBundle BHist,
+      BundleLocalTrivSemanticPkg base total projection fiber ledger trivRows transitionRows
+  have emptyPkg : BundleLocalTrivSemanticPkg BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty singletonRows singletonRows := by
+    exact And.intro (cont_left_unit BHist.Empty)
+      (And.intro (inBundle_cons_self BHist.Empty ProbeBundle.Bnil)
+        (inBundle_cons_self BHist.Empty ProbeBundle.Bnil))
+  have emptyCarrier : carrier BHist.Empty :=
+    Exists.intro BHist.Empty
+      (Exists.intro BHist.Empty
+        (Exists.intro BHist.Empty
+          (Exists.intro BHist.Empty
+            (Exists.intro singletonRows (Exists.intro singletonRows emptyPkg)))))
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+      equiv_refl := by
+        intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 inductive BundleLocalTrivBundle : ProbeBundle BHist -> Prop where
   | bnil : BundleLocalTrivBundle .Bnil
@@ -268,5 +370,16 @@ theorem BundleLocalTrivPkg_projection_rows {base total projection fibre ledger r
                             (Or.inr
                               (Or.inr
                                 (Or.inr (Or.inr (Or.inr memberTransitions)))))
+
+theorem BundleLocalTrivPkg_trivialization_scope {base total projection fibre ledger row : BHist}
+    {triv transitions : ProbeBundle BHist} :
+    InBundle row triv ->
+      InBundle row (BundleLocalTrivPkgRows base total projection fibre ledger triv transitions) := by
+  intro memberTriv
+  exact Or.inr
+    (Or.inr
+      (Or.inr
+        (Or.inr
+          (Iff.mpr inBundle_bundleAppend_iff (Or.inl memberTriv)))))
 
 end BEDC.Derived.BundleUp
