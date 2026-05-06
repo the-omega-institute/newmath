@@ -56,6 +56,181 @@ $\RootSystemUp$ certificate is allowed to consume.
 \section{The certificate}
 \label{sec:innerproduct-certificate}
 
+\begin{definition}[InnerProduct BHist source data]
+\label{def:innerproduct-bhist-source}
+An $\InnerProductUp$ BHist source consists of a displayed $\VecSpaceUp$
+BHist carrier $C_V:\mathsf{BHist}\to\mathsf{Prop}$ with classifier
+$\sim_V$, scalar data carried by the scalar source retained from
+$\FieldUp$ and $\VecSpaceUp$, and a binary row
+$$
+\langle-,-\rangle:C_V\times C_V\to C_{\mathsf{scal}}
+$$
+whose endpoints are scalar histories. The source also displays conjugation on
+the scalar side, the scalar classifier $\sim_{\mathsf{scal}}$, and the
+certificate rows asserting conjugate symmetry, positivity, linearity in each
+admitted argument, and transport through $\sim_V$ and
+$\sim_{\mathsf{scal}}$.
+
+All rows are BHist rows. Thus the form does not land in a host field or a
+quotient object; it lands in the scalar histories already exposed by the
+field and vector-space certificates.
+\end{definition}
+
+\begin{theorem}[InnerProduct BHist carrier row]
+\label{thm:innerproduct-bhist-carrier-row}
+For an $\InnerProductUp$ BHist source, the public carrier row is exactly the
+$\VecSpaceUp$ BHist carrier $C_V$ together with the displayed scalar-valued
+form row $\langle-,-\rangle$. No further point carrier is introduced by the
+inner-product certificate.
+\end{theorem}
+\begin{proof}
+Project the vector-space component of
+\autoref{def:innerproduct-bhist-source}. It already supplies the carried
+predicate $C_V$, the classifier $\sim_V$, vector addition, vector zero,
+vector negation, scalar action, and scalar source.
+
+Project the form component. Its domain is the displayed pair carrier
+$C_V\times C_V$, and its codomain is the retained scalar history carrier
+$C_{\mathsf{scal}}$. These two projections are exactly the carrier row and
+the additional scalar-valued row named by $\InnerProductUp$.
+\end{proof}
+
+\begin{theorem}[InnerProduct symmetry and positivity row]
+\label{thm:innerproduct-symmetry-positivity-row}
+For an $\InnerProductUp$ BHist source, conjugate symmetry and positivity are
+certificate fields over the retained scalar classifier. For carried histories
+$x,y:C_V$, the symmetry row classifies
+$$
+\langle x,y\rangle
+\sim_{\mathsf{scal}}
+\overline{\langle y,x\rangle},
+$$
+and the positivity row is a displayed scalar-history witness for
+$\langle x,x\rangle$ together with the exact zero-classification clause. These
+rows do not use host order, quotient equality, or an external positivity
+predicate.
+\end{theorem}
+\begin{proof}
+Unpack the symmetry field of
+\autoref{def:innerproduct-bhist-source}. It compares the scalar endpoint
+$\langle x,y\rangle$ with the conjugated scalar endpoint
+$\overline{\langle y,x\rangle}$ using $\sim_{\mathsf{scal}}$.
+
+Unpack the positivity field. Its witness is recorded as scalar-history data
+for the diagonal endpoint $\langle x,x\rangle$, and its zero clause is stated
+by the same retained scalar classifier. Since both fields are projections of
+the displayed source, no host order or quotient equality is added.
+\end{proof}
+
+\begin{theorem}[InnerProduct VecSpace linearity row]
+\label{thm:innerproduct-vecspace-linearity-row}
+For an $\InnerProductUp$ BHist source, additivity and scalar compatibility in
+each admitted argument are read through the $\VecSpaceUp$ addition row,
+scalar-action row, and classifier transport. Thus the clauses comparing
+$$
+\langle x+_V y,z\rangle
+\quad\text{with}\quad
+\langle x,z\rangle+_{\mathsf{scal}}\langle y,z\rangle
+$$
+and
+$$
+\langle a\cdot_V x,y\rangle
+\quad\text{with}\quad
+a\cdot_{\mathsf{scal}}\langle x,y\rangle
+$$
+are scalar-classifier rows over the same carried inputs, with the conjugate
+argument handled by the displayed conjugation row when the source uses that
+side as the conjugate-linear argument.
+\end{theorem}
+\begin{proof}
+Read addition and scalar action from the embedded $\VecSpaceUp$ row. Closure
+places $x+_V y$ and $a\cdot_V x$ back in $C_V$, so the inner-product row can
+be evaluated at the displayed endpoints.
+
+Read scalar addition, scalar multiplication, and conjugation from the retained
+scalar source. The linearity fields compare the resulting scalar endpoints by
+$\sim_{\mathsf{scal}}$.
+
+If representatives of the vector or scalar inputs are changed within their
+classifiers, use the transport fields of the vector-space source and the
+scalar source before applying the displayed linearity row. The conclusion is
+therefore a row over the existing $\VecSpaceUp$ operations, not a separate
+algebraic structure.
+\end{proof}
+
+\begin{theorem}[InnerProduct classifier transport row]
+\label{thm:innerproduct-classifier-transport-row}
+For an $\InnerProductUp$ BHist source, if $x\sim_Vx'$ and $y\sim_Vy'$ for
+carried histories $x,y,x',y':C_V$, then the scalar endpoints of the
+inner-product row transport through the retained scalar classifier:
+$$
+\langle x,y\rangle
+\sim_{\mathsf{scal}}
+\langle x',y'\rangle.
+$$
+\end{theorem}
+\begin{proof}
+Project the pair-transport field from
+\autoref{def:innerproduct-bhist-source}. Its hypotheses are exactly the two
+vector classifier witnesses $x\sim_Vx'$ and $y\sim_Vy'$.
+
+The field returns a scalar classifier witness between the two displayed
+inner-product endpoints. Since the codomain classifier is
+$\sim_{\mathsf{scal}}$, the transported endpoint remains in the retained
+scalar source.
+\end{proof}
+
+\begin{theorem}[InnerProduct Hilbert boundary row]
+\label{thm:innerproduct-hilbert-boundary-row}
+A $\HilbertUp$ certificate may consume from an $\InnerProductUp$ BHist source
+only the carrier $C_V$, classifier $\sim_V$, linearity rows, conjugate
+symmetry row, positivity row, scalar endpoint row, and classifier transport
+row. Completeness, Cauchy-limit selection, and Banach metric closure are not
+part of the $\InnerProductUp$ boundary.
+\end{theorem}
+\begin{proof}
+The Hilbert carrier definition in
+\autoref{def:hilbert-compatible-inner-product-banach-carrier} asks the
+inner-product side for vector carrier sharing, the scalar-valued form,
+linearity, symmetry, positivity, and transport. These are precisely the rows
+displayed in \autoref{def:innerproduct-bhist-source}.
+
+The same Hilbert definition obtains completeness from its Banach row. Hence
+no completeness or Cauchy-limit field can be projected from the inner-product
+source, and the boundary available to $\HilbertUp$ is exactly the displayed
+inner-product surface.
+\end{proof}
+
+\begin{theorem}[InnerProduct root certificate row]
+\label{thm:innerproduct-root-certificate-row}
+The carrier row of \autoref{thm:innerproduct-bhist-carrier-row}, the
+symmetry and positivity row of
+\autoref{thm:innerproduct-symmetry-positivity-row}, the linearity row of
+\autoref{thm:innerproduct-vecspace-linearity-row}, the classifier transport
+row of \autoref{thm:innerproduct-classifier-transport-row}, and the Hilbert
+boundary row of \autoref{thm:innerproduct-hilbert-boundary-row} assemble the
+paper-side $\NameCert_{\InnerProductUp}$ obligation surface.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:innerproduct-bhist-source} for the source package. Its first
+projection gives the vector-space carrier and scalar source, and
+\autoref{thm:innerproduct-bhist-carrier-row} records that no second point
+carrier is present.
+
+Use \autoref{thm:innerproduct-symmetry-positivity-row} and
+\autoref{thm:innerproduct-vecspace-linearity-row} for the algebraic rows of
+the form. These rows are all scalar-history comparisons under
+$\sim_{\mathsf{scal}}$.
+
+Use \autoref{thm:innerproduct-classifier-transport-row} for representative
+stability. Use \autoref{thm:innerproduct-hilbert-boundary-row} for the
+downstream boundary consumed by $\HilbertUp$.
+
+Together these projections supply carrier, classifier, exactness, stability,
+and ledger provenance for the $\InnerProductUp$ naming certificate, with
+bridge status left unclaimed.
+\end{proof}
+
 \begin{theorem}[Inner-product carrier transport obligation]
 \label{thm:innerproduct-carrier-transport-obligation}
 Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in

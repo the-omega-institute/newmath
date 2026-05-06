@@ -23,6 +23,37 @@ def BHistCarriesOpen (T : BHistIndexedOpenCarrier) (i : T.OpenIx)
     (U : BHist -> Prop) : Prop :=
   forall {x : BHist}, UnaryHistory x -> (U x <-> T.OpenAt i x)
 
+def BHistPullbackOpen (f : BHist -> BHist) (U : BHist -> Prop) (y : BHist) :
+    Prop :=
+  U (f y)
+
+def BHistPullbackCarriesOpen (T : BHistIndexedOpenCarrier) (f : BHist -> BHist)
+    (i : T.OpenIx) (U : BHist -> Prop) : Prop :=
+  forall {y : BHist}, UnaryHistory y -> UnaryHistory (f y) ->
+    (BHistPullbackOpen f U y <-> T.OpenAt i (f y))
+
+theorem BHistPullbackOpen_finite_meet (T : BHistIndexedOpenCarrier)
+    {f : BHist -> BHist} {i j : T.OpenIx} {U V : BHist -> Prop} :
+    BHistPullbackCarriesOpen T f i U ->
+      BHistPullbackCarriesOpen T f j V ->
+        BHistPullbackCarriesOpen T f (T.meet i j) (fun x : BHist => U x ∧ V x) := by
+  intro carryU carryV y unaryY unaryImage
+  have uAt : BHistPullbackOpen f U y <-> T.OpenAt i (f y) :=
+    carryU unaryY unaryImage
+  have vAt : BHistPullbackOpen f V y <-> T.OpenAt j (f y) :=
+    carryV unaryY unaryImage
+  have meetAt : T.OpenAt (T.meet i j) (f y) <->
+      (T.OpenAt i (f y) ∧ T.OpenAt j (f y)) :=
+    T.meet_law unaryImage
+  constructor
+  · intro pullbackBoth
+    have openU : T.OpenAt i (f y) := Iff.mp uAt pullbackBoth.left
+    have openV : T.OpenAt j (f y) := Iff.mp vAt pullbackBoth.right
+    exact Iff.mpr meetAt (And.intro openU openV)
+  · intro openMeet
+    have openBoth : T.OpenAt i (f y) ∧ T.OpenAt j (f y) := Iff.mp meetAt openMeet
+    exact And.intro (Iff.mpr uAt openBoth.left) (Iff.mpr vAt openBoth.right)
+
 structure BHistIndexedBoundaryOpen (T : BHistIndexedOpenCarrier) where
   bottom : T.OpenIx
   top : T.OpenIx
@@ -92,6 +123,56 @@ theorem BHistIndexedOpen_finite_intersection_closure (T : BHistIndexedOpenCarrie
       have openY : T.OpenAt (T.meet i j) y := Iff.mp carryY bothY
       have openX : T.OpenAt (T.meet i j) x := Iff.mpr stable openY
       exact Iff.mpr carryX openX
+
+theorem BHistPullbackOpen_finite_meet_transport (T : BHistIndexedOpenCarrier)
+    {i j : T.OpenIx} {U V : BHist -> Prop} {f : BHist -> BHist}
+    (mapUnary : forall {y : BHist}, UnaryHistory y -> UnaryHistory (f y))
+    (mapSame :
+      forall {y z : BHist}, UnaryHistory y -> UnaryHistory z -> hsame y z ->
+        hsame (f y) (f z))
+    (carryU : BHistCarriesOpen T i U) (carryV : BHistCarriesOpen T j V) :
+    (forall {y : BHist}, UnaryHistory y ->
+      ((U (f y) ∧ V (f y)) <-> T.OpenAt (T.meet i j) (f y))) ∧
+      (forall {y z : BHist}, UnaryHistory y -> UnaryHistory z -> hsame y z ->
+        ((U (f y) ∧ V (f y)) <-> (U (f z) ∧ V (f z)))) := by
+  have meetCarry :
+      forall {y : BHist}, UnaryHistory y ->
+        ((U (f y) ∧ V (f y)) <-> T.OpenAt (T.meet i j) (f y)) := by
+    intro y unaryY
+    have unaryFY : UnaryHistory (f y) := mapUnary unaryY
+    have carryUY : U (f y) <-> T.OpenAt i (f y) := carryU unaryFY
+    have carryVY : V (f y) <-> T.OpenAt j (f y) := carryV unaryFY
+    have meetAt :
+        T.OpenAt (T.meet i j) (f y) <-> T.OpenAt i (f y) ∧ T.OpenAt j (f y) :=
+      T.meet_law unaryFY
+    constructor
+    · intro both
+      exact Iff.mpr meetAt (And.intro (Iff.mp carryUY both.left) (Iff.mp carryVY both.right))
+    · intro openMeet
+      have openBoth : T.OpenAt i (f y) ∧ T.OpenAt j (f y) := Iff.mp meetAt openMeet
+      exact And.intro (Iff.mpr carryUY openBoth.left) (Iff.mpr carryVY openBoth.right)
+  constructor
+  · exact meetCarry
+  · intro y z unaryY unaryZ sameYZ
+    have unaryFY : UnaryHistory (f y) := mapUnary unaryY
+    have unaryFZ : UnaryHistory (f z) := mapUnary unaryZ
+    have sameF : hsame (f y) (f z) := mapSame unaryY unaryZ sameYZ
+    have stable :
+        T.OpenAt (T.meet i j) (f y) <-> T.OpenAt (T.meet i j) (f z) :=
+      T.membership_stable unaryFY unaryFZ sameF
+    have carryY : (U (f y) ∧ V (f y)) <-> T.OpenAt (T.meet i j) (f y) :=
+      meetCarry unaryY
+    have carryZ : (U (f z) ∧ V (f z)) <-> T.OpenAt (T.meet i j) (f z) :=
+      meetCarry unaryZ
+    constructor
+    · intro bothY
+      have openY : T.OpenAt (T.meet i j) (f y) := Iff.mp carryY bothY
+      have openZ : T.OpenAt (T.meet i j) (f z) := Iff.mp stable openY
+      exact Iff.mpr carryZ openZ
+    · intro bothZ
+      have openZ : T.OpenAt (T.meet i j) (f z) := Iff.mp carryZ bothZ
+      have openY : T.OpenAt (T.meet i j) (f y) := Iff.mpr stable openZ
+      exact Iff.mpr carryY openY
 
 def BHistGeneratedOpenExact (T : BHistIndexedOpenCarrier) (U : BHist -> Prop) :
     Prop :=
@@ -391,6 +472,55 @@ theorem BHistSubspaceOpen_carrier_transport (T : BHistIndexedOpenCarrier)
     exact And.intro restrictedSame.right.left (Iff.mp stable subH.right)
   · intro subK
     exact And.intro restrictedSame.left (Iff.mpr stable subK.right)
+
+theorem BHistSubspaceOpen_boundary_closure (T : BHistIndexedOpenCarrier)
+    (boundary : BHistIndexedBoundaryOpen T) {S : BHist -> Prop} :
+    (forall {h : BHist}, UnaryHistory h -> ((S h ∧ T.OpenAt boundary.bottom h) ↔ False)) ∧
+      (forall {h : BHist}, UnaryHistory h -> ((S h ∧ T.OpenAt boundary.top h) ↔ S h)) := by
+  constructor
+  · intro h unaryH
+    have bottomAt : T.OpenAt boundary.bottom h <-> False := boundary.bottom_law unaryH
+    constructor
+    · intro subBottom
+      exact Iff.mp bottomAt subBottom.right
+    · intro impossible
+      exact False.elim impossible
+  · intro h unaryH
+    have topAt : T.OpenAt boundary.top h <-> True := boundary.top_law unaryH
+    constructor
+    · intro subTop
+      exact subTop.left
+    · intro inSubspace
+      apply And.intro
+      · exact inSubspace
+      · apply Iff.mpr topAt
+        constructor
+
+theorem BHistSubspaceOpen_finite_intersection (T : BHistIndexedOpenCarrier)
+    {S : BHist -> Prop} {i j : T.OpenIx} {h : BHist} :
+    UnaryHistory h ->
+      ((S h ∧ T.OpenAt (T.meet i j) h) <->
+        ((S h ∧ T.OpenAt i h) ∧ (S h ∧ T.OpenAt j h))) := by
+  intro unaryH
+  have meetAt : T.OpenAt (T.meet i j) h <-> T.OpenAt i h ∧ T.OpenAt j h :=
+    T.meet_law unaryH
+  constructor
+  · intro subMeet
+    have openBoth : T.OpenAt i h ∧ T.OpenAt j h := Iff.mp meetAt subMeet.right
+    exact And.intro
+      (And.intro subMeet.left openBoth.left)
+      (And.intro subMeet.left openBoth.right)
+  · intro subBoth
+    have openMeet : T.OpenAt (T.meet i j) h :=
+      Iff.mpr meetAt (And.intro subBoth.left.right subBoth.right.right)
+    exact And.intro subBoth.left.left openMeet
+
+theorem BHistSubspaceOpen_finite_intersection_closure (T : BHistIndexedOpenCarrier)
+    {S : BHist -> Prop} {i j : T.OpenIx} {h : BHist} :
+    UnaryHistory h ->
+      ((S h ∧ T.OpenAt (T.meet i j) h) <->
+        ((S h ∧ T.OpenAt i h) ∧ (S h ∧ T.OpenAt j h))) :=
+  BHistSubspaceOpen_finite_intersection T
 
 theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 : A) :
     hsame (ι a0) BHist.Empty ->
