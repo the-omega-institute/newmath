@@ -181,6 +181,21 @@ theorem BHistLedgerPublicOpenTree_meet_ledger_constructor (T : BHistIndexedOpenC
     BHistLedgerPublicOpenTree.meet leftTree rightTree
   exact And.intro meetTree (BHistPublicOpenTree_carries_open T meetTree)
 
+theorem BHistLedgerGeneratedOpen_row_coverage (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} {ledger : BHist} :
+    BHistLedgerPublicOpenTree T i U ledger ->
+      BHistGeneratedOpenExact T U ∧ BHistCarriesOpen T i U ∧
+        (exists r : BHist, BHistLedgerPublicOpenTree T i U r) ∧
+          (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+            (U x <-> U y)) := by
+  intro tree
+  have carries : BHistCarriesOpen T i U :=
+    BHistPublicOpenTree_carries_open T tree
+  exact And.intro (Exists.intro i carries)
+    (And.intro carries
+      (And.intro (Exists.intro ledger tree)
+        (BHistCarriesOpen_classifier_transport T carries)))
+
 theorem BHistUnaryTopologyDepsReady_obligation_package (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} :
     BHistUnaryTopologyLedgerRow T i U -> BHistUnaryTopologyLedgerRow T j V ->
