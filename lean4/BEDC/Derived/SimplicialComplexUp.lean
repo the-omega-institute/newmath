@@ -204,4 +204,52 @@ theorem SimplicialComplexUnion_face_chain_closure (simplices : ProbeBundle BHist
     (And.intro simplexRho
       (And.intro faceRhoSigma (And.intro tauListed rhoListed)))
 
+theorem SimplicialComplexUnion_face_dimension_grading (simplices : ProbeBundle BHist)
+    {SimplexK SimplexL : BHist -> Prop} {Face : BHist -> BHist -> Prop}
+    (listed : forall {s : BHist}, SimplexK s ∨ SimplexL s -> InBundle s simplices)
+    (faceClosedK :
+      forall {tau sigma : BHist}, SimplexK sigma -> Face tau sigma -> SimplexK tau)
+    (faceClosedL :
+      forall {tau sigma : BHist}, SimplexL sigma -> Face tau sigma -> SimplexL tau)
+    (faceTrans :
+      forall {rho tau sigma : BHist}, Face rho tau -> Face tau sigma -> Face rho sigma)
+    (dim : BHist -> Nat)
+    (dimMonoK :
+      forall {alpha beta : BHist},
+        SimplexK alpha -> SimplexK beta -> Face alpha beta -> dim alpha <= dim beta)
+    (dimMonoL :
+      forall {alpha beta : BHist},
+        SimplexL alpha -> SimplexL beta -> Face alpha beta -> dim alpha <= dim beta)
+    {rho tau sigma : BHist} :
+    SimplexK sigma ∨ SimplexL sigma -> Face tau sigma -> Face rho tau ->
+      dim rho <= dim tau ∧ dim tau <= dim sigma ∧ dim rho <= dim sigma := by
+  intro simplexSigma faceTauSigma faceRhoTau
+  have faceRhoSigma : Face rho sigma :=
+    faceTrans faceRhoTau faceTauSigma
+  cases simplexSigma with
+  | inl simplexSigmaK =>
+      have simplexTauK : SimplexK tau :=
+        faceClosedK simplexSigmaK faceTauSigma
+      have simplexRhoK : SimplexK rho :=
+        faceClosedK simplexTauK faceRhoTau
+      have dimRhoTau : dim rho <= dim tau :=
+        dimMonoK simplexRhoK simplexTauK faceRhoTau
+      have dimTauSigma : dim tau <= dim sigma :=
+        dimMonoK simplexTauK simplexSigmaK faceTauSigma
+      have dimRhoSigma : dim rho <= dim sigma :=
+        dimMonoK simplexRhoK simplexSigmaK faceRhoSigma
+      exact And.intro dimRhoTau (And.intro dimTauSigma dimRhoSigma)
+  | inr simplexSigmaL =>
+      have simplexTauL : SimplexL tau :=
+        faceClosedL simplexSigmaL faceTauSigma
+      have simplexRhoL : SimplexL rho :=
+        faceClosedL simplexTauL faceRhoTau
+      have dimRhoTau : dim rho <= dim tau :=
+        dimMonoL simplexRhoL simplexTauL faceRhoTau
+      have dimTauSigma : dim tau <= dim sigma :=
+        dimMonoL simplexTauL simplexSigmaL faceTauSigma
+      have dimRhoSigma : dim rho <= dim sigma :=
+        dimMonoL simplexRhoL simplexSigmaL faceRhoSigma
+      exact And.intro dimRhoTau (And.intro dimTauSigma dimRhoSigma)
+
 end BEDC.Derived.SimplicialComplexUp
