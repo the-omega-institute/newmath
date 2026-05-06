@@ -59,4 +59,41 @@ theorem ModN_nz_quotient_certificate {modulus : BHist} :
       exact source
   }
 
+theorem ModNQuotient_singleton_operation_descent_rows {modulus : BHist}
+    (modulusUnary : UnaryHistory modulus) :
+    (forall {h k : BHist}, ModNQuotientCarrier modulus h -> ModNQuotientCarrier modulus k ->
+      ModNQuotientCarrier modulus (RingSingletonAdd h k) ∧
+        ModNQuotientCarrier modulus (RingSingletonMul h k)) ∧
+    (forall {h : BHist}, ModNQuotientCarrier modulus h ->
+      ModNQuotientCarrier modulus (RingSingletonNeg h)) ∧
+    (forall {h h' k k' : BHist}, ModNQuotientClassifier modulus h h' ->
+      ModNQuotientClassifier modulus k k' ->
+        ModNQuotientClassifier modulus (RingSingletonAdd h k) (RingSingletonAdd h' k')) ∧
+    (forall {h h' k k' : BHist}, ModNQuotientClassifier modulus h h' ->
+      ModNQuotientClassifier modulus k k' ->
+        ModNQuotientClassifier modulus (RingSingletonMul h k) (RingSingletonMul h' k')) ∧
+    (forall {h h' : BHist}, ModNQuotientClassifier modulus h h' ->
+      ModNQuotientClassifier modulus (RingSingletonNeg h) (RingSingletonNeg h')) := by
+  have emptyRingCarrier : RingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyCarrier : ModNQuotientCarrier modulus BHist.Empty :=
+    And.intro modulusUnary emptyRingCarrier
+  have emptyClassifier : ModNQuotientClassifier modulus BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier
+      (And.intro emptyCarrier
+        (And.intro emptyRingCarrier (And.intro emptyRingCarrier (hsame_refl BHist.Empty))))
+  constructor
+  · intro h k _carrierH _carrierK
+    exact And.intro emptyCarrier emptyCarrier
+  constructor
+  · intro h _carrierH
+    exact emptyCarrier
+  constructor
+  · intro h h' k k' _sameHH' _sameKK'
+    exact emptyClassifier
+  constructor
+  · intro h h' k k' _sameHH' _sameKK'
+    exact emptyClassifier
+  · intro h h' _sameHH'
+    exact emptyClassifier
+
 end BEDC.Derived.ModNUp
