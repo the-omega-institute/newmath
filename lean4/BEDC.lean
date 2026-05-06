@@ -200,6 +200,7 @@ import BEDC.Derived.TopologyUp.Core
 import BEDC.Derived.TopologyUp.Singleton
 import BEDC.Derived.TopologyUp
 import BEDC.Derived.TopologyUp.GeneratedOpenExactness
+import BEDC.Derived.TopologyUp.LedgerCoverage
 import BEDC.Derived.TopologyUp.PullbackOpenCertificate
 import BEDC.Derived.TopologyUp.PullbackOpenTransport
 import BEDC.Derived.ComplexTopologyUp
