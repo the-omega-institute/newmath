@@ -316,6 +316,18 @@ theorem AbelianCatZeroBiproductKernelSurface_rows
   exact And.intro S.zero_hom
     (And.intro S.add_carrier (And.intro S.kernel_row S.factor_row))
 
+theorem AbelianCatZeroBiproductKernelSurface_zero_object_transport
+    (S : AbelianCatZeroBiproductKernelSurface) {zero' : BHist} :
+    hsame S.zero zero' ->
+      CategoryHomCarrier S.source S.target zero' ∧ Cont zero' S.add S.kernel := by
+  intro sameZero
+  have zeroHom : CategoryHomCarrier S.source S.target zero' :=
+    CategoryHomCarrier_hsame_transport (hsame_refl S.source) (hsame_refl S.target) sameZero
+      S.zero_hom
+  have kernelRow : Cont zero' S.add S.kernel :=
+    cont_hsame_transport sameZero (hsame_refl S.add) (hsame_refl S.kernel) S.kernel_row
+  exact And.intro zeroHom kernelRow
+
 theorem AbelianCatZeroBiproductKernelSurface_zero_object_boundary
     (S : AbelianCatZeroBiproductKernelSurface) :
     CategoryHomCarrier S.source S.target S.zero ∧ UnaryHistory S.zero ∧
