@@ -267,3 +267,88 @@ To prove $\mathsf{FinSetSubset}_{E,\sim_E}(I^+,K)$, keep the finite spine from t
 
 Pair $\mathsf{Ind}_M(I^+)$ with this subset row and apply the defining equivalence for $\mathsf{Ind}_{M|K}$ to obtain $\mathsf{Ind}_{M|K}(I^+)$. The selected $x$, the predicate $I^+$, the witnesses $J(x)$, $\neg I(x)$, $K(x)$, the insertion row, and the restricted independence of $I^+$ are exactly the restricted exchange row.
 \end{proof}
+
+\begin{lemma}[FinSetUp subset rows compose over one ground]
+\label{lem:matroid-finset-subset-row-composition}
+Fix a ground predicate $E:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_E$. For predicates $A,B,C:\mathsf{BHist}\to\mathsf{Prop}$, if
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(A,B)
+\qquad\text{and}\qquad
+\mathsf{FinSetSubset}_{E,\sim_E}(B,C)
+$$
+hold, then
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(A,C)
+$$
+holds.
+\end{lemma}
+\begin{proof}
+Unpack \autoref{def:matroid-finset-subset-and-intersection}. The first subset row supplies a finite spine $as$ with
+$$
+\mathsf{FinSetSpineEnumerates}_{E,\sim_E}(as,A)
+$$
+and an inclusion $A(z)\to B(z)$ for every $z:\mathsf{BHist}$. The second subset row supplies an inclusion $B(z)\to C(z)$ for every $z:\mathsf{BHist}$. Keep the same finite spine $as$ as the enumeration witness for $A$. For the inclusion row, fix $z$ and assume $A(z)$. The first inclusion gives $B(z)$, and the second gives $C(z)$. This is exactly $\mathsf{FinSetSubset}_{E,\sim_E}(A,C)$.
+\end{proof}
+
+\begin{theorem}[Matroid restrictions compose to direct restriction]
+\label{thm:matroid-restrictions-compose-direct-restriction}
+Fix a $\MatroidUp$ independent-set certificate over a ground predicate $E:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_E$ and naming certificate $\mathsf{cert}:\NameCert(E,\sim_E)$. Let $\mathsf{Ind}_M$ be its independent-family row, with fields $\mathsf{finite}_M$, $\mathsf{empty}_M$, and $\mathsf{hereditary}_M$ as in \autoref{def:matroid-independence-certificate-surface}. Assume also the ambient exchange row
+$$
+\mathsf{MatroidExchangeRow}_{E,\sim_E,\mathsf{FinSetCardLt}}(\mathsf{Ind}_M).
+$$
+Let $K,L:\mathsf{BHist}\to\mathsf{Prop}$ satisfy
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(K,E)
+\qquad\text{and}\qquad
+\mathsf{FinSetSubset}_{E,\sim_E}(L,K).
+$$
+Let $\mathsf{Ind}_{M|K}$ and $\mathsf{Ind}_{(M|K)|L}$ be predicate families such that
+$$
+\forall I.\;
+\mathsf{Ind}_{M|K}(I)\Longleftrightarrow
+\mathsf{Ind}_M(I)\land\mathsf{FinSetSubset}_{E,\sim_E}(I,K)
+$$
+and
+$$
+\forall I.\;
+\mathsf{Ind}_{(M|K)|L}(I)\Longleftrightarrow
+\mathsf{Ind}_{M|K}(I)\land\mathsf{FinSetSubset}_{E,\sim_E}(I,L).
+$$
+Then, for every predicate $I:\mathsf{BHist}\to\mathsf{Prop}$,
+$$
+\mathsf{Ind}_{(M|K)|L}(I)\Longleftrightarrow
+\mathsf{Ind}_M(I)\land\mathsf{FinSetSubset}_{E,\sim_E}(I,L),
+$$
+and the iterated restriction satisfies the direct restricted row package
+$$
+\mathsf{MatroidRestrictionRows}_{E,\sim_E,L,\mathsf{FinSetCardLt}}
+(\mathsf{Ind}_M,\mathsf{Ind}_{(M|K)|L}).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{lem:matroid-finset-subset-row-composition}, the displayed subset rows for $L\subseteq K$ and $K\subseteq E$ compose to
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(L,E).
+$$
+Fix $I:\mathsf{BHist}\to\mathsf{Prop}$. For the forward implication, assume $\mathsf{Ind}_{(M|K)|L}(I)$. The second displayed defining equivalence gives
+$$
+\mathsf{Ind}_{M|K}(I)\land\mathsf{FinSetSubset}_{E,\sim_E}(I,L).
+$$
+Applying the first displayed defining equivalence to the first component gives $\mathsf{Ind}_M(I)$. Pairing this ambient independence with the retained subset row $\mathsf{FinSetSubset}_{E,\sim_E}(I,L)$ gives the direct restriction condition.
+
+For the reverse implication, assume
+$$
+\mathsf{Ind}_M(I)\land\mathsf{FinSetSubset}_{E,\sim_E}(I,L).
+$$
+The subset row $\mathsf{FinSetSubset}_{E,\sim_E}(I,L)$ composes with $\mathsf{FinSetSubset}_{E,\sim_E}(L,K)$ by \autoref{lem:matroid-finset-subset-row-composition}, giving
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(I,K).
+$$
+The first defining equivalence therefore gives $\mathsf{Ind}_{M|K}(I)$ from $\mathsf{Ind}_M(I)$ and this subset row. Pairing $\mathsf{Ind}_{M|K}(I)$ with the original subset row $\mathsf{FinSetSubset}_{E,\sim_E}(I,L)$ and applying the second defining equivalence gives $\mathsf{Ind}_{(M|K)|L}(I)$.
+
+Thus the displayed direct equivalence holds for every $I$. Apply \autoref{thm:matroid-restriction-certificate} with $L$ as the finite restriction predicate, using the composed row $\mathsf{FinSetSubset}_{E,\sim_E}(L,E)$ and the direct equivalence just proved. The result is exactly
+$$
+\mathsf{MatroidRestrictionRows}_{E,\sim_E,L,\mathsf{FinSetCardLt}}
+(\mathsf{Ind}_M,\mathsf{Ind}_{(M|K)|L}).
+$$
+\end{proof}
