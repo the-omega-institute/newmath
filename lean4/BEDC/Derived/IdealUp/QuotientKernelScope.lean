@@ -5,6 +5,17 @@ namespace BEDC.Derived.IdealUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 
+theorem IdealZeroKernel_contained_in_whole_kernel
+    {Carrier : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
+    {zero : BHist} {sub : BHist -> BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    {x y : BHist} :
+    (Carrier x ∧ Carrier y ∧ Carrier (sub x y) ∧ Classifier (sub x y) zero) ->
+      Carrier x ∧ Carrier y := by
+  intro kernelRows
+  have _certified : NameCert Carrier Classifier := cert
+  exact And.intro kernelRows.left kernelRows.right.left
+
 theorem IdealZeroAndWholeQuotientKernel_scope
     {Carrier : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
     {zero : BHist} {add : BHist -> BHist -> BHist} {neg : BHist -> BHist}
