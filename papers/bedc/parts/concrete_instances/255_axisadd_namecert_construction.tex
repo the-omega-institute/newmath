@@ -77,6 +77,7 @@ Source, pattern, classifier, stability, and ledger fields are supplied by the pr
 \label{cor:axisaddup-licensed-not-primitive}
 The interface \(\AxisAddUp\) is licensed by \(\mathsf{NameCert}_{\AxisAddUp}\). It is not a primitive operation of the finite kernel.
 \end{corollary}
+\leanchecked{BEDC.Derived.AxisZeckendorf.AxisAdd.AxisAdd\_semantic\_name\_certificate}
 
 \section{Horizon obligations}
 
@@ -88,6 +89,16 @@ If \(\mathsf{ZeroSpine}(h)\), \(\mathsf{ZeroSpine}(k)\), and \(\ContR(h, k, r)\)
 \end{theorem}
 \leanchecked{BEDC.Derived.AxisZeckendorf.AxisAdd.AxisAddCont\_result\_zeroSpine}
 \leanvariant{BEDC.Derived.AxisZeckendorf.AxisAdd.AxisAdd\_cont\_result\_zeroSpine}
+
+\begin{theorem}[Result determinacy on the zero-spine]
+\label{thm:axisadd-result-determinacy}
+If $\mathsf{ZeroSpine}(h)$, $\mathsf{ZeroSpine}(k)$, $\ContR(h, k, r)$, and $\ContR(h, k, r')$, then $\HSame(r, r')$. Equivalently, two displayed $\mathsf{AxisAddPattern}$ witnesses over the same ordered source $(h, k)$ determine an $\mathsf{AxisAddClassifier}$ witness between their results.
+\end{theorem}
+\begin{proof}
+Apply the finite-kernel continuation determinacy theorem to the two continuation witnesses over the same ordered source. It yields $\HSame(r, r')$ for the displayed results.
+
+Unfold the $\mathsf{AxisAddPattern}$ and $\mathsf{AxisAddClassifier}$ specifications. The zero-spine source witnesses and the two continuation witnesses supply the pattern fields, and the determinacy result supplies the classifier equality row.
+\end{proof}
 
 \begin{theorem}[Right unit on the zero-spine]
 \label{thm:axisadd-right-unit}
@@ -110,3 +121,13 @@ For every zero-spine history \(h\), \(\ContR(h, \emp, h)\).
 \begin{remark}[Distinct from \(\AddUp\)]
 \(\AxisAddUp\) and \(\AddUp\) act on different carriers: the first uses \(\mathsf{ZeroSpine}\), the second uses \(\mathsf{Unary}\). The two are kernel-distinct, by Theorem~\ref{thm:axisnat-natup-kernel-distinct}; identification across the two carriers requires the bridge of Chapter~\ref{ch:concrete-instances-unary-direction-bridge}.
 \end{remark}
+
+\begin{closurestatus}{\AxisAddUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds only the zero-spine source, continuation pattern, classifier, stability rows, ledger, and result-determinacy obligation surface for $\AxisAddUp$.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.AxisZeckendorf.AxisAdd.axisAdd\_namecert}
+  \bridgestatus{none}
+  \notclaimed{It does not close the full public arithmetic algebra for $\AxisAddUp$ beyond the displayed zero-spine rows.}
+  \upgradepath{A checked zero-spine result-determinacy theorem and its classifier packaging are required before the chapter reaches the next closure grade.}
+\end{closurestatus}

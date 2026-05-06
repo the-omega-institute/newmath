@@ -31,22 +31,24 @@ The stability certificate consists of:
 
 \begin{definition}[Complex-limit ledger policy]
 \label{def:cplx-lim-ledger-policy}
-The ledger policy records:
+The checked ledger policy records:
 \begin{enumerate}
   \item composition of moduli under pointwise sum (\autoref{thm:cplx-lim-sum});
-  \item composition of moduli under scalar multiplication (\autoref{thm:cplx-lim-scalar});
   \item composition of moduli under pointwise product (\autoref{thm:cplx-lim-product});
   \item componentwise limit assembly from supplied component witnesses (\autoref{thm:cplx-limit-from-component-limits}).
 \end{enumerate}
 \end{definition}
+The scalar multiplication law of \autoref{thm:cplx-lim-scalar} is a paper-side proof obligation parameterized by supplied unary shift evidence, and is not part of the checked ledger policy until a matching Lean target is present.
 
 \begin{theorem}[Concrete \(\ComplexLimitUp\) naming certificate]
 \label{thm:complex-limit-namecert}
-The data $(\mathsf{CplxLim}, \mathsf{CplxRegSeq}, \hsame, \mathsf{CplxLimStabilityCert}, \mathsf{CplxLimLedgerPolicy})$ of \autoref{def:cplx-lim-source-specification}--\autoref{def:cplx-lim-ledger-policy} forms a naming certificate over $\Hist$ for the complex-limit interface $\ComplexLimitUp$. The certificate is functional (\autoref{thm:cplx-lim-unique}), closed under linear combinations and products (\autoref{thm:cplx-lim-sum}--\autoref{thm:cplx-lim-product}), and supports componentwise limit assembly when component limit witnesses are part of the input (\autoref{thm:cplx-limit-from-component-limits}).
+The data $(\mathsf{CplxLim}, \mathsf{CplxRegSeq}, \hsame, \mathsf{CplxLimStabilityCert}, \mathsf{CplxLimLedgerPolicy})$ of \autoref{def:cplx-lim-source-specification}--\autoref{def:cplx-lim-ledger-policy} forms a naming certificate over $\Hist$ for the complex-limit interface $\ComplexLimitUp$. The checked certificate is functional (\autoref{thm:cplx-lim-unique}), closed under pointwise sum and product (\autoref{thm:cplx-lim-sum} and \autoref{thm:cplx-lim-product}), and supports componentwise limit assembly when component limit witnesses are part of the input (\autoref{thm:cplx-limit-from-component-limits}). Scalar multiplication remains a paper-side obligation parameterized by the supplied unary shift witness of \autoref{thm:cplx-lim-scalar}.
 \end{theorem}
 \leanchecked{BEDC.Derived.ComplexLimitUp.complex\_limit\_name\_certificate}
 \begin{proof}[Sketch]
-The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). Functionality is \autoref{thm:cplx-lim-unique}. Linear-combination closure is \autoref{thm:cplx-lim-sum} and \autoref{thm:cplx-lim-scalar}; product closure is \autoref{thm:cplx-lim-product}. Componentwise limit assembly is \autoref{thm:cplx-limit-from-component-limits}. The certificate uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$, so its Lean targets fall under the project's axiom-purity gate.
+The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). Functionality is \autoref{thm:cplx-lim-unique}. Checked additive closure is \autoref{thm:cplx-lim-sum}; checked product closure is \autoref{thm:cplx-lim-product}. Componentwise limit assembly is \autoref{thm:cplx-limit-from-component-limits}.
+
+The scalar row is retained only as the paper-side obligation of \autoref{thm:cplx-lim-scalar}, whose statement explicitly requires a unary shift witness. It is not counted as checked certificate data by this Lean marker. The certificate uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$, so its Lean targets fall under the project's axiom-purity gate.
 \end{proof}
 
 \begin{theorem}[Semantic \(\ComplexLimitUp\) naming certificate]
