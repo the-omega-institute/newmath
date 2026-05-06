@@ -283,7 +283,9 @@ import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
+import BEDC.Derived.BundleUp
 import BEDC.Derived.LieAlgebraUp
+import BEDC.Derived.LieGroupUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.IdentityTransitionBoundary
 import BEDC.Derived.ManifoldUp.IdentityTransitionReadback
