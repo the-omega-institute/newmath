@@ -6,5 +6,138 @@ The Lie-group interface $\LieGroupUp$ packages a group carrier whose underlying 
 \section{Carrier definition}
 \label{sec:liegroup-carrier}
 
+\begin{definition}[Singleton smooth group carrier]
+\label{def:liegroup-singleton-smooth-group-carrier}
+The concrete $\LieGroupUp$ carrier is the shared singleton history carrier
+$$
+L_{\emp}(h):\Longleftrightarrow \hsame(h,\emp)
+$$
+on $\mathsf{BHist}$. Its group rows are the singleton $\GroupUp$ rows
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{inv}(h):=\emp,\qquad
+e:=\emp,
+$$
+with classifier
+$$
+R_{\emp}(h,k):\Longleftrightarrow
+L_{\emp}(h)\wedge L_{\emp}(k)\wedge \hsame(h,k).
+$$
+Its smooth-manifold rows are the singleton $\ManifoldUp$ chart rows with the
+one chart $\chi_{\emp}$, top domain $L_{\emp}$, constant value $0_{\RealUp}$,
+and the self-overlap constant transition. Thus the algebraic carrier and the
+manifold carrier are the same predicate on histories, not two transported
+copies.
+\end{definition}
+
 \section{The certificate}
 \label{sec:liegroup-certificate}
+
+\begin{theorem}[LieGroup singleton carrier obligation]
+\label{thm:liegroup-singleton-carrier-obligation}
+The carrier $L_{\emp}$ of
+\autoref{def:liegroup-singleton-smooth-group-carrier} simultaneously supplies
+the $\GroupUp$ singleton carrier and classifier rows and the $\ManifoldUp$
+singleton chart rows. Concretely, every accepted history is classified with
+$\emp$ by $R_{\emp}$, multiplication and inverse stay inside $L_{\emp}$, and
+the sole chart domain is exactly the same carried predicate $L_{\emp}$.
+\end{theorem}
+\begin{proof}
+For the algebraic side, unfold
+\autoref{def:liegroup-singleton-smooth-group-carrier}. The carrier,
+classifier, multiplication, unit, and inverse rows are exactly the rows used by
+\autoref{thm:group-singleton-history-semantic-namecert}; the checked Lean row
+is
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$.
+
+For the manifold side, the chart-domain row is the singleton empty-chart row
+of \autoref{thm:manifold-singleton-chart-coverage}. Its carried predicate is
+$\hsame(h,\emp)$, which is definitionally the same predicate as $L_{\emp}$.
+
+The two sides therefore share the same history carrier and the same restricted
+$\hsame$ classifier. Projection from the group row gives the algebraic carrier
+and classifier fields, while projection from the manifold row gives the chart
+domain, chart value, and singleton atlas fields.
+\end{proof}
+
+\begin{theorem}[LieGroup singleton operation smoothness obligation]
+\label{thm:liegroup-singleton-operation-smoothness-obligation}
+For histories carried by $L_{\emp}$, both $\mathsf{mul}$ and $\mathsf{inv}$ of
+\autoref{def:liegroup-singleton-smooth-group-carrier} are smooth operations in
+the singleton atlas. Every accepted multiplication result and every accepted
+inverse result is classifier-equal to $\emp$, so each operation is read by the
+sole chart as a constant transition on the singleton overlap.
+\end{theorem}
+\begin{proof}
+Start with multiplication. If $L_{\emp}(h)$ and $L_{\emp}(k)$ hold, the group
+singleton laws identify $\mathsf{append}(h,k)$ with $\emp$ and keep the result
+inside the singleton carrier. This is the multiplication-closure row of
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$.
+
+For inverse, $\mathsf{inv}(h)$ is definitionally $\emp$. The inverse-closure
+row of the same group theorem gives the carrier witness, and the classifier
+row identifies the result with the unit endpoint.
+
+Now read both operations through the manifold atlas. By
+\autoref{thm:manifold-singleton-chart-coverage}, every carried input and every
+accepted output lies in the only chart domain and has the constant chart value
+$0_{\RealUp}$. The overlap transition is therefore the singleton constant
+transition of \autoref{thm:manifold-singleton-transition-smoothness}, whose
+checked Lean row is
+$\mathsf{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_smoothness}$.
+\end{proof}
+
+\begin{theorem}[LieGroup singleton NameCert obligation surface]
+\label{thm:liegroup-singleton-namecert-obligation}
+The rows of
+\autoref{def:liegroup-singleton-smooth-group-carrier},
+\autoref{thm:liegroup-singleton-carrier-obligation}, and
+\autoref{thm:liegroup-singleton-operation-smoothness-obligation} assemble the
+paper-side $\NameCert_{\LieGroupUp}$ obligation surface for the singleton
+smooth group carrier.
+\begin{description}
+\item[Traditional target.] The one-point Lie group.
+\item[BEDC source.] $\mathsf{BHist}$ with distinguished empty history $\emp$.
+\item[Carrier.] The predicate $L_{\emp}(h)$, equivalently $\hsame(h,\emp)$.
+\item[Classifier.] The restricted singleton classifier $R_{\emp}$.
+\item[Stability.] Carrier transport, group operation closure, chart-domain
+transport, chart-value constancy, and transition-row constancy.
+\item[Ledger.] The rows $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{append}$, $\emp$, the singleton $\GroupUp$ laws, the singleton
+$\ManifoldUp$ chart, and the singleton constant transition.
+\item[Core theorem list.]
+\autoref{thm:group-singleton-history-semantic-namecert},
+\autoref{thm:manifold-singleton-namecert-obligation-package},
+\autoref{thm:liegroup-singleton-carrier-obligation}, and
+\autoref{thm:liegroup-singleton-operation-smoothness-obligation}.
+\item[Exactness.] A Lie-group operation row is accepted only when its carrier,
+classifier, chart-domain, and transition witnesses all reduce to the displayed
+singleton rows.
+\item[No standard bridge.] The surface contains no $\StdBridge$ row.
+\item[Status.] A paper-side $\NameCert_{\LieGroupUp}$ obligation target under
+$\mathsf{BEDC.Derived.LieGroupUp}$.
+\end{description}
+\end{theorem}
+\begin{proof}
+The carrier theorem supplies the shared object boundary: one predicate
+$L_{\emp}$ is both the group carrier and the manifold point carrier. This
+prevents any separate transport problem between algebraic and smooth rows.
+
+The group rows are inherited from
+\autoref{thm:group-singleton-history-semantic-namecert}, backed by
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$. They give
+inhabitance, multiplication closure, inverse closure, unit laws, and inverse
+laws for the append operation with constant inverse.
+
+The manifold rows are inherited from
+\autoref{thm:manifold-singleton-namecert-obligation-package}, backed by
+$\mathsf{BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert}$ and
+the singleton transition smoothness row. They give the sole chart domain,
+constant chart value, and constant self-overlap transition.
+
+The operation-smoothness theorem ties these projections together. Once a group
+operation result is accepted, it is again classifier-equal to $\emp$, hence it
+is read by the only chart as the same constant endpoint. Repacking the listed
+fields gives exactly the ten rows displayed in the statement, with no standard
+bridge component claimed.
+\end{proof}

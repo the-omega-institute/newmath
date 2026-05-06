@@ -642,6 +642,55 @@ def _grade_lag(grade: str | None, order: list[str], threshold: str) -> int:
     return max(0, tgt - cur)
 
 
+def _inflight_paper_attack_chapters() -> set[str]:
+    """Scan `.worktrees/paper_P*/` for working-tree changes touching
+    `concrete_instances/<chapter>...` files. Returns the set of chapter
+    names currently being attacked by in-flight paper rounds whose
+    edits have NOT yet been committed.
+
+    `_recent_paper_attack_chapter_counts` only sees committed work,
+    so paper rounds dispatched within the last few minutes (still in
+    Phase REVISE) are invisible to it. With paper=8 concurrent and
+    only ~10 root-unblock candidates, multiple rounds dispatched in
+    the same minute all picked the same `top_root_unblocks[0]`,
+    each writing identical `\\label{thm:<chapter>-...}` content that
+    collided at merge time.
+
+    This in-flight scan complements the recency-counter: a chapter
+    currently being edited by ANY paper worktree is rotated out of
+    the next root_unblock dispatch, even before its first commit
+    lands. Cheap (~10ms): one `git status --porcelain` per paper
+    worktree.
+    """
+    chapters: set[str] = set()
+    worktrees_dir = ROOT / ".worktrees"
+    if not worktrees_dir.is_dir():
+        return chapters
+    pat = re.compile(
+        r"concrete_instances/(?:\d+_)?([a-z][a-z0-9_]*?)(?:_namecert|/|\.tex)"
+    )
+    for wt in worktrees_dir.glob("paper_P*"):
+        try:
+            out = subprocess.run(
+                ["git", "status", "--porcelain"],
+                cwd=str(wt), capture_output=True, text=True,
+                check=False, timeout=5,
+            ).stdout
+        except Exception:
+            continue
+        for line in out.splitlines():
+            # Status format: 2-char status + space + path. May also have
+            # rename arrows; just grab everything after first whitespace.
+            parts = line.strip().split(None, 1)
+            if len(parts) != 2:
+                continue
+            path = parts[1]
+            m = pat.search(path)
+            if m:
+                chapters.add(m.group(1))
+    return chapters
+
+
 def _recent_paper_attack_chapter_counts(window_minutes: int = 30) -> dict[str, int]:
     """Count, per chapter, how many DISTINCT recent commits modified
     files under that chapter's paper paths.
@@ -722,10 +771,12 @@ def compute_root_unblocks(horizons: dict[str, dict],
     `top_root_unblocks` has at least ~10 entries.
 
     Returns sorted list `[{name, thms, deps, unblock_count, file_paper,
-    recent_attacks}, ...]` descending by unblock_count, only entries
-    with `unblock_count > 0` AND `recent_attacks < recent_attack_threshold`.
+    recent_attacks, inflight}, ...]` descending by unblock_count, only entries
+    with `unblock_count > 0`, `recent_attacks < recent_attack_threshold`,
+    AND `not inflight` (some other paper worktree is currently editing).
     """
     recent = _recent_paper_attack_chapter_counts(window_minutes=30)
+    inflight = _inflight_paper_attack_chapters()
     candidates: list[dict] = []
     for n, info in horizons.items():
         if info.get("closed"):
@@ -754,6 +805,10 @@ def compute_root_unblocks(horizons: dict[str, dict],
             if other_blockers == 0:
                 unblock += 1
         if unblock <= 0:
+            continue
+        if n in inflight:
+            # Another paper worktree is currently editing this chapter;
+            # any new round picking it would write duplicate labels.
             continue
         recent_count = recent.get(n, 0)
         if recent_count >= recent_attack_threshold:
