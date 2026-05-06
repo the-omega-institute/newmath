@@ -137,6 +137,7 @@ import BEDC.Derived.OptionUp.EndpointSemanticFields
 import BEDC.Derived.OptionUp.Pattern
 import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
+import BEDC.Derived.OdeUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
@@ -202,6 +203,7 @@ import BEDC.Derived.TopologyUp
 import BEDC.Derived.TopologyUp.GeneratedOpenExactness
 import BEDC.Derived.TopologyUp.LedgerCoverage
 import BEDC.Derived.TopologyUp.PullbackOpenCertificate
+import BEDC.Derived.TopologyUp.PublicCertificate
 import BEDC.Derived.TopologyUp.PullbackOpenTransport
 import BEDC.Derived.TopologyUp.PublicOpenCertificate
 import BEDC.Derived.ComplexTopologyUp
@@ -295,6 +297,7 @@ import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.LatticeUp.MeetAbsorption
+import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
