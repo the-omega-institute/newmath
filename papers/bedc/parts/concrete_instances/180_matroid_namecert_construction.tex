@@ -352,3 +352,27 @@ $$
 (\mathsf{Ind}_M,\mathsf{Ind}_{(M|K)|L}).
 $$
 \end{proof}
+
+\begin{lemma}[FinSetUp intersection projects to the right factor]
+\label{lem:matroid-finset-intersection-right-subset}
+Fix a ground predicate $E:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_E$. For predicates $I,K,J:\mathsf{BHist}\to\mathsf{Prop}$, if
+$$
+\mathsf{FinSetIntersection}_{E,\sim_E}(J;I,K)
+$$
+holds, then
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(J,K)
+$$
+holds. This is the finite-set form of the right lower-bound role for intersection over the common $\FinSetUp$ ground, read from the exact membership row in \autoref{def:matroid-finset-subset-and-intersection}.
+\end{lemma}
+\begin{proof}
+Unpack \autoref{def:matroid-finset-subset-and-intersection}. The intersection hypothesis supplies a finite spine $zs$ with
+$$
+\mathsf{FinSetSpineEnumerates}_{E,\sim_E}(zs,J)
+$$
+and a pointwise equivalence
+$$
+\forall z:\mathsf{BHist}.\;J(z)\Longleftrightarrow I(z)\land K(z).
+$$
+To prove $\mathsf{FinSetSubset}_{E,\sim_E}(J,K)$, keep the same finite spine $zs$ as the finite-set witness for $J$. It remains only to prove the inclusion row. Fix $z:\mathsf{BHist}$ and assume $J(z)$. The forward half of the displayed pointwise equivalence gives $I(z)\land K(z)$, and projecting its second component gives $K(z)$. Thus every member of $J$ is a member of $K$, with the finite-spine witness already supplied.
+\end{proof}
