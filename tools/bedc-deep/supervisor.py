@@ -546,19 +546,19 @@ def trigger_paper_review(*, no_dev_sync: bool = False) -> None:
 
 
 def trigger_oracle_board_refill() -> None:
-    """Ask oracle (with project-attached PDF) for new BOARD candidates.
+    """Ask oracle in the BEDC Project for new BOARD candidates.
 
     Complementary to auto_discovery probe: probe finds mechanical gaps via
-    codex static scan, oracle_board_refill leverages the full PDF + research
-    intuition to suggest deeper directions. Run when BOARD unfinished count
-    is low and probe alone isn't refilling.
+    codex static scan, oracle_board_refill uses the Project's attached paper
+    context plus research intuition to suggest deeper directions. Run when
+    BOARD unfinished count is low and probe alone isn't refilling.
     """
     supervisor_log("triggering oracle_board_refill")
     log_path = SUPERVISOR_LOG_DIR / f"refill_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(SCRIPT_DIR / "oracle_board_refill.py")],
+            ["python3", str(SCRIPT_DIR / "oracle_board_refill.py"), "--no-attach-pdf"],
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
