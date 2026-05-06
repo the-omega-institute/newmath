@@ -141,4 +141,16 @@ theorem DiffFormExteriorDerivativeLedger_hsame_transport_degree_raise
   cases sameSource
   exact And.intro ledger (DiffFormExteriorDerivativeLedger_degree_raise ledger)
 
+theorem DiffFormExteriorDerivative_scalar_transport_boundary
+    {ScalarClassifier : BHist -> BHist -> Prop} {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
+      ledger' : BHist} :
+    DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger degree'
+      probe' tensor' scalar' antisym' ledger' ->
+      ScalarClassifier scalar scalar' ∧ hsame ledger ledger' := by
+  intro classified
+  exact And.intro
+    classified.right.right.right.right.right.left
+    classified.right.right.right.right.right.right.right
+
 end BEDC.Derived.DiffFormUp

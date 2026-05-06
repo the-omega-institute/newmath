@@ -181,6 +181,7 @@ import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
+import BEDC.Derived.SeqUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.ZetaBasicUp
