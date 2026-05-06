@@ -556,6 +556,26 @@ The bilinearity of complex multiplication gives \(\mathsf{CplxDist}(c \cdot s(n)
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_prepend\_constant\_closed}
 
+\begin{theorem}[Complex limit two-sided unary context closure]
+\label{thm:complex-limit-two-sided-unary-context-closure}
+Let $p,q:\mathsf{BHist}$ be unary. If $\mathsf{CplxLim}(s,N,z,M)$ holds, then
+the two-sided contexted sequence
+$n\mapsto\mathsf{append}(p,\mathsf{append}(s(n),q))$ has complex limit
+$\mathsf{append}(p,\mathsf{append}(z,q))$ with the same regularity modulus $N$
+and limit modulus $M$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:complex-limit-append-constant-closed} with suffix $q$.
+This gives a complex limit for $n\mapsto\mathsf{append}(s(n),q)$ at endpoint
+$\mathsf{append}(z,q)$, keeping both moduli unchanged.
+
+Next apply the checked prefix limit closure with prefix $p$ to the suffixed
+limit. The resulting endpoint is
+$\mathsf{append}(p,\mathsf{append}(z,q))$, and the resulting sequence is exactly
+$n\mapsto\mathsf{append}(p,\mathsf{append}(s(n),q))$, again with the same
+regularity and limit moduli.
+\end{proof}
+
 \begin{theorem}[Limit respects pointwise product with quadratic modulus]
 \label{thm:cplx-lim-product}
 If \(\mathsf{CplxLim}(s, N_s, z_s, M_s)\) and \(\mathsf{CplxLim}(t, N_t, z_t, M_t)\) with both target points bounded \(\mathsf{CplxMod}(z_s, B_s)\), \(\mathsf{CplxMod}(z_t, B_t)\), then the pointwise product \(s \otimes t\) satisfies \(\mathsf{CplxLim}(s \otimes t, N', z_s \cdot z_t, M')\) with quadratic modulus \(M'(k) := \max(M_s(k + B_t + 1), M_t(k + B_s + 1))\).
@@ -590,4 +610,3 @@ Apply \autoref{lem:cplx-component-limit-assembly} to obtain the candidate point 
 
 Define $z^* := (x^*, y^*)$ and $M^* := M^\sharp$. The distance predicate of \autoref{def:cplx-distance} reduces the desired limit statement to the modulus packaging supplied in the assembly lemma, and uniqueness is only the already stated consequence of \autoref{thm:cplx-lim-unique}.
 \end{proof}
-
