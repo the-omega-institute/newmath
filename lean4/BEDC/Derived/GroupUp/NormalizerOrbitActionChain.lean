@@ -98,4 +98,36 @@ theorem GroupSingletonNormalizerOrbit_action_path_iff {s x y z : BHist} :
       exact And.intro (actedXYIff.mpr basePath.left) (actedYZIff.mpr basePath.right)
   · exact actedXZIff
 
+theorem GroupSingletonNormalizerOrbit_action_conjugator_independence {s t x y z : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier t -> GroupSingletonCarrier x ->
+      GroupSingletonCarrier y -> GroupSingletonCarrier z ->
+      ((GroupSingletonNormalizerOrbit (append (append s x) BHist.Empty)
+            (append (append s y) BHist.Empty) ∧
+          GroupSingletonNormalizerOrbit (append (append s y) BHist.Empty)
+            (append (append s z) BHist.Empty)) <->
+        (GroupSingletonNormalizerOrbit (append (append t x) BHist.Empty)
+            (append (append t y) BHist.Empty) ∧
+          GroupSingletonNormalizerOrbit (append (append t y) BHist.Empty)
+            (append (append t z) BHist.Empty))) ∧
+      (GroupSingletonNormalizerOrbit (append (append s x) BHist.Empty)
+          (append (append s z) BHist.Empty) <->
+        GroupSingletonNormalizerOrbit (append (append t x) BHist.Empty)
+          (append (append t z) BHist.Empty)) := by
+  intro carrierS carrierT carrierX carrierY carrierZ
+  have pathS :=
+    GroupSingletonNormalizerOrbit_action_path_iff carrierS carrierX carrierY carrierZ
+  have pathT :=
+    GroupSingletonNormalizerOrbit_action_path_iff carrierT carrierX carrierY carrierZ
+  constructor
+  · constructor
+    · intro path
+      exact pathT.left.mpr (pathS.left.mp path)
+    · intro path
+      exact pathS.left.mpr (pathT.left.mp path)
+  · constructor
+    · intro orbit
+      exact pathT.right.mpr (pathS.right.mp orbit)
+    · intro orbit
+      exact pathS.right.mpr (pathT.right.mp orbit)
+
 end BEDC.Derived.GroupUp

@@ -11279,3 +11279,53 @@ The claim is a concrete categorical law for the existing DerivedCatUp localizati
 
 ---
 
+### B-431 - RealAnalytic cosine addition formula row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | RealAnalytic cosine addition formula row |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If z is the RealAlgOrder endpoint for x+y and the supplied trigonometric limit witnesses, RealAlgOrder product/difference rows, product-stability rows, even-parity regular-rational Cauchy-product comparison, and limit-uniqueness classifier rows are present, then RealClassifier(c_z, c_x*c_y - s_x*s_y) for Cos(z,c_z), Cos(x,c_x), Cos(y,c_y), Sin(x,s_x), and Sin(y,s_y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/real/13_real_alg_order_interface.tex`
+
+Rationale:
+This is a concrete theorem-row target in the existing RealAnalyticUp surface. The paper already has the sine addition row and later assumes both sine and cosine addition-formula rows, but the cosine counterpart is not present as its own labeled theorem. It is not a marker, closurestatus, or abstract transport echo, and the landing file is a non-hub concrete_instances file well below the line cap. The two codex proposals are the same target, with the accepted wording using the sharper even-parity Cauchy-product comparison.
+
+---
+
+### B-432 - Simplicial face-chain dimension monotonicity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Simplicial face-chain dimension monotonicity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a SimplicialComplexUp finite face carrier K with dimension-grading data, Simplex_K(sigma) and Face_K(rho,tau) and Face_K(tau,sigma) imply dim_K(rho) <= dim_K(tau) and dim_K(tau) <= dim_K(sigma).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+The target lands directly in the existing SimplicialComplexUp concrete-instance chapter: the current surface already has face-chain closure and mentions dimension-grading data, but it has no labeled theorem extracting monotonicity along a two-step face chain. It is not a BOARD duplicate and is distinct from the existing face-chain closure theorem because it concerns the dimension row rather than carrier closure or face transitivity.
+
+---
+
