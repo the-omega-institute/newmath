@@ -333,12 +333,56 @@ the two semantic predicates.
 The interface \(\NatUp\) is licensed by \(\mathsf{NameCert}_{\NatUp}\). It is not a primitive object of the finite kernel.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Unary.nat\_up\_licensed\_not\_primitive}
+
+\begin{theorem}[NatUp unary standard bridge]
+\label{thm:natup-unary-standard-bridge}
+The unary-history certificate for $\NatUp$ carries a conservative standard
+bridge to finite unary words and their natural-number length readback. The
+bridge sends $\emp$ to zero, sends $\Eone(h)$ to the successor of the readback
+of $h$, admits no $\Ezero$ branch, identifies $h\hsame k$ on unary histories
+exactly when the external readback lengths are equal, and sends a unary
+continuation $\Cont(h,t,k)$ to addition of the readback length of $t$ to the
+readback length of $h$.
+\end{theorem}
+\begin{proof}
+Define the decode field by unary-generation induction. The base generator reads
+$\emp$ as zero. The one-extension generator reads $\Eone(h)$ as the successor
+of the already decoded tail. The no-zero-extension lemma excludes an $\Ezero$
+case, so every decoded value is obtained from a finite unary word and no other
+BEDC history is admitted by the bridge carrier.
+
+The encode field sends an external finite unary word back to its BEDC unary
+history by the same two constructors. Induction on the word gives the
+decode-encode round trip, while induction on the unary-history generator gives
+the encode-decode round trip up to $h\hsame k$. The semantic NameCert theorem
+supplies the source, pattern, and ledger preservation needed to keep these
+witnesses inside the licensed $\NatUp$ surface.
+
+For exactness, use strict-prefix and continuation transport. If two unary
+histories are $h\hsame k$, the readback induction transports the same length
+across the endpoint identification. Conversely, if the readback lengths agree,
+unary prefix trichotomy leaves only the sameness branch: either strict-prefix
+branch would add a nonempty unary tail and hence a positive successor length on
+one side. Thus $\hsame$ matches equality of external readback lengths.
+
+For continuation, induct on the unary tail. The empty tail gives addition by
+zero. A one-headed tail applies the induction hypothesis and then one-extension
+supplies the successor step on the result. The zero-headed case is ruled out by
+unary no-zero-extension. Therefore unary $\Cont$ tails read as addition of
+finite unary lengths, and the theorem-preservation list is limited to these
+constructor, equality, and continuation clauses.
+
+The no-host-leak field follows because the bridge uses the external
+natural-number model only in these encode, decode, round-trip, and preservation
+fields, while the BEDC public surface remains the unary-history NameCert
+grounded by $\mathsf{nat\_up\_semantic\_name\_certificate}$.
+\end{proof}
 \begin{closurestatus}{\NatUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public $\NatUp$ surface is the unary-history semantic NameCert over BEDC histories, with classifier $\msame$ on marks and $\hsame$ on histories as displayed above.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public $\NatUp$ surface is the unary-history semantic NameCert over BEDC histories together with the paper-side standard bridge to finite unary words and natural-number length readback.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.FKernel.Unary.nat\_up\_semantic\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{Full Peano natural-number theory: induction principle as a closed theorem schema, primitive recursion with computation rules, totality of arithmetic operations.}
-  \upgradepath{A standard bridge from unary histories to the external natural-number model, together with recursion and arithmetic law interfaces, is the next obligation.}
+  \bridgestatus{paperBridge}
+  \notclaimed{Full Peano arithmetic, recursion computation rules, arithmetic operation bridges, and mature arithmetic theorem inventories remain outside this closure.}
+  \upgradepath{The next grade requires Peano induction, primitive recursion with computation rules, and operation bridges for addition, multiplication, and order.}
 \end{closurestatus}
