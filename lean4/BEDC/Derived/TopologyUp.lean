@@ -1,4 +1,5 @@
 import BEDC.Derived.TopologyUp.Core
+import BEDC.Derived.TopologyUp.FiniteBaseNeighborhood
 import BEDC.Derived.TopologyUp.Singleton
 
 namespace BEDC.Derived.TopologyUp
@@ -8,6 +9,10 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+
+def BHistIndexedNeighborhood (T : BHistIndexedOpenCarrier) (x : BHist) (i : T.OpenIx) :
+    Prop :=
+  UnaryHistory x ∧ T.OpenAt i x
 
 def TopologyNeighborhood (T : BHistIndexedOpenCarrier) (x : BHist) (i : T.OpenIx) :
     Prop :=
@@ -214,6 +219,48 @@ theorem BHistFiniteBaseNeighborhood_bundleAppend_carries_intersection
     exact Iff.mp meetCarries (Iff.mp appendSplit appendNeighborhood)
   · intro openMeet
     exact Iff.mpr appendSplit (Iff.mpr meetCarries openMeet)
+
+theorem BHistFiniteBaseNeighborhoodCarrier_metric_generated_namecert_surface
+    (ball : BHist -> BHist -> Prop)
+    (ballStable :
+      forall {indices : ProbeBundle BHist} {i x y : BHist}, InBundle i indices ->
+        UnaryHistory x -> UnaryHistory y -> hsame x y -> (ball i x <-> ball i y))
+    {indices : ProbeBundle BHist} {ledger : BHist} (unaryLedger : UnaryHistory ledger) :
+    BHistUnaryTopologyLedgerRow (BHistFiniteBaseNeighborhoodCarrier ball ballStable) indices
+        (BHistFiniteBaseNeighborhood indices ball) ∧
+      BHistGeneratedOpenExact (BHistFiniteBaseNeighborhoodCarrier ball ballStable)
+        (BHistFiniteBaseNeighborhood indices ball) ∧
+        (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+          (BHistFiniteBaseNeighborhood indices ball x <->
+            BHistFiniteBaseNeighborhood indices ball y)) ∧
+          (forall {left right : ProbeBundle BHist},
+            (BHistFiniteBaseNeighborhoodCarrier ball ballStable).meet left right =
+              bundleAppend left right) := by
+  let T : BHistIndexedOpenCarrier := BHistFiniteBaseNeighborhoodCarrier ball ballStable
+  have carries : BHistCarriesOpen T indices (BHistFiniteBaseNeighborhood indices ball) := by
+    intro x _unaryX
+    constructor
+    · intro neighborhood
+      exact neighborhood
+    · intro openAt
+      exact openAt
+  have row :
+      BHistUnaryTopologyLedgerRow T indices (BHistFiniteBaseNeighborhood indices ball) :=
+    BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries
+  have generated :
+      BHistGeneratedOpenExact T (BHistFiniteBaseNeighborhood indices ball) :=
+    Exists.intro indices carries
+  have transport :
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (BHistFiniteBaseNeighborhood indices ball x <->
+          BHistFiniteBaseNeighborhood indices ball y) := by
+    intro x y unaryX unaryY sameXY
+    exact T.membership_stable unaryX unaryY sameXY
+  have meetEquation :
+      forall {left right : ProbeBundle BHist}, T.meet left right = bundleAppend left right := by
+    intro left right
+    rfl
+  exact And.intro row (And.intro generated (And.intro transport meetEquation))
 
 theorem BHistLedgerPublicOpenTree_meet_ledger_constructor (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} {leftLedger rightLedger : BHist} :
