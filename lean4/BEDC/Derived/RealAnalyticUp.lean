@@ -232,6 +232,24 @@ theorem RealAnalyticComplexPartSum_index_result_unary {zero : BHist} {c : BHist 
       exact And.intro (unary_e1_closed ih.left)
         (unary_cont_closed ih.right (termUnary ih.left) stepContinuation)
 
+theorem RealAnalyticTrigPart_pair_index_result_unary
+    {zero n sinResult cosResult pairResult : BHist} {sinTerm cosTerm : BHist -> BHist}
+    (zeroUnary : UnaryHistory zero)
+    (sinUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (sinTerm m))
+    (cosUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (cosTerm m)) :
+    RealAnalyticTrigPart zero sinTerm cosTerm n sinResult cosResult pairResult ->
+      UnaryHistory n ∧ UnaryHistory sinResult ∧ UnaryHistory cosResult ∧
+        UnaryHistory pairResult := by
+  intro trigPart
+  have sinIndexResult :=
+    RealAnalyticComplexPartSum_index_result_unary zeroUnary sinUnary trigPart.left
+  have cosIndexResult :=
+    RealAnalyticComplexPartSum_index_result_unary zeroUnary cosUnary trigPart.right.left
+  exact And.intro sinIndexResult.left
+    (And.intro sinIndexResult.right
+      (And.intro cosIndexResult.right
+        (unary_cont_closed sinIndexResult.right cosIndexResult.right trigPart.right.right)))
+
 theorem RealAnalyticComplexPartSum_closed_pointwise_index_result_unary_transport {zero zero' : BHist}
     {c d : BHist -> BHist} {n S T : BHist}
     (zeroUnary : UnaryHistory zero)
