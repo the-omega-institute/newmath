@@ -54,6 +54,103 @@ classifier composes the ordered finite readback with this commutativity row
 and gives the symmetric readback.
 \end{proof}
 
+\begin{theorem}[Measure empty-union right unit]
+\label{thm:measure-empty-union-right-unit}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A\in\mathcal{A}$, and let $A\cup\varnothing$ be the measurable binary union row supplied by the $\sigma$-algebra row. Suppose $\varnothing\in\mathcal{A}$, and suppose the $\MeasureUp$ certificate supplies the sigma-additivity, head-tail, and countable-sum stability rows used in \autoref{thm:measure-finite-disjoint-union-additivity}. If the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row with zero $0_R$, then
+$$
+\mu(A\cup\varnothing)\sim_R\mu(A).
+$$
+\end{theorem}
+\begin{proof}
+The events $A$ and $\varnothing$ are disjoint, and the displayed binary union
+row is measurable. Apply
+\autoref{thm:measure-finite-disjoint-union-additivity} with
+$B=\varnothing$ to obtain
+$$
+\mu(A\cup\varnothing)\sim_R\mu(A)+\mu(\varnothing).
+$$
+
+By \autoref{thm:measure-empty-set-zero-from-sigma-additivity},
+$\mu(\varnothing)\sim_R0_R$. Addition congruence in the additive
+$\AbGroupUp$ row transports the right summand to $0_R$, and the right-unit
+law gives $\mu(A)+0_R\sim_R\mu(A)$. Transitivity of $\sim_R$ yields the
+displayed comparison.
+\end{proof}
+
+\begin{theorem}[Measure disjoint-union symmetric readback]
+\label{thm:measure-disjoint-union-symmetry}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A,B\in\mathcal{A}$ be disjoint, and let $A\cup B$ be the measurable binary union supplied by the $\sigma$-algebra row. Suppose $\varnothing\in\mathcal{A}$, and suppose the $\MeasureUp$ certificate supplies the sigma-additivity, head-tail, and countable-sum stability rows used in \autoref{thm:measure-finite-disjoint-union-additivity}. If the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row, then
+$$
+\mu(A\cup B)\sim_R\mu(B)+\mu(A).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to the
+disjoint measurable pair $A,B$. This gives
+$$
+\mu(A\cup B)\sim_R\mu(A)+\mu(B).
+$$
+
+The additive $\AbGroupUp$ row supplies commutativity for $+$. Hence
+$\mu(A)+\mu(B)\sim_R\mu(B)+\mu(A)$, and composing the two comparisons gives
+the stated symmetric readback.
+\end{proof}
+
+\begin{theorem}[Measure countable zero tail canonical]
+\label{thm:measure-countable-zero-tail-canonical}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, write $0_R$ for the additive zero in the target $\RealUp$ row, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $F_\bullet$ be the constant-empty measurable sequence $F_n:=\varnothing$. Suppose $\varnothing\in\mathcal{A}$, the sequence is read by the $\sigma$-additivity row of \autoref{thm:measure-obligation-sigma-additive-row}, the countable-sum classifier is stable under pointwise $\sim_R$-classification, and the target $\RealUp$ addition is carried by the additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier}. Then the canonical countable endpoint of the all-empty sequence is classified with zero:
+$$
+\Sigma_\mu(F_\bullet)\sim_R0_R.
+$$
+\end{theorem}
+\begin{proof}
+Apply the $\sigma$-additivity row to the all-empty measurable sequence. Its countable union is the empty event, so the row gives a classifier comparison between $\mu(\varnothing)$ and $\Sigma_\mu(F_\bullet)$.
+
+The zero endpoint theorem \autoref{thm:measure-empty-set-zero-from-sigma-additivity} classifies $\mu(\varnothing)$ with $0_R$. The $\RealUp$ classifier fields from \autoref{def:real-classifier-specification} compose the two comparisons and orient the result toward the countable endpoint.
+
+Countable-sum classifier stability makes this endpoint independent of the chosen constant-empty presentation. The additive $\AbGroupUp$ row supplies the zero endpoint used by the comparison, so the all-empty countable sum has the canonical classification displayed above.
+\end{proof}
+
+\begin{theorem}[Measure finite three-support countable readback]
+\label{thm:measure-finite-three-support-countable-readback}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, write $0_R$ for the additive zero in the target $\RealUp$ row, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $E_\bullet$ be a pairwise-disjoint measurable sequence such that $E_n=\varnothing$ for every $n\geq3$. Suppose the $\MeasureUp$ certificate supplies $\sigma$-additivity for pairwise-disjoint measurable sequences, classifier-stable head-tail readback and pointwise classifier stability for the resulting countable $\RealUp$ sums, and the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row. Then
+$$
+\Sigma_\mu(E_\bullet)\sim_R(\mu(E_0)+\mu(E_1))+\mu(E_2).
+$$
+\end{theorem}
+\begin{proof}
+Let
+$$
+S:=\Sigma_\mu(E_\bullet),\qquad
+T:=\Sigma_\mu(E_{\bullet+1}),\qquad
+U:=\Sigma_\mu(E_{\bullet+2}),\qquad
+V:=\Sigma_\mu(E_{\bullet+3}).
+$$
+
+Apply head-tail readback to the original sequence, to the once-shifted sequence, and to the twice-shifted sequence. These comparisons classify $S$ with $\mu(E_0)+T$, classify $T$ with $\mu(E_1)+U$, and classify $U$ with $\mu(E_2)+V$.
+
+The three-shifted tail is the all-empty sequence by the support hypothesis. Pointwise countable-sum stability transports $V$ to the canonical empty-sequence endpoint, and \autoref{thm:measure-countable-zero-tail-canonical} classifies that endpoint with $0_R$.
+
+Use additive congruence from \autoref{def:abgroup-carrier} to transport the comparison $V\sim_R0_R$ through the third head-tail equation. The right-unit law reads $\mu(E_2)+0_R$ as $\mu(E_2)$, so $U\sim_R\mu(E_2)$.
+
+Transport this comparison through the second and first head-tail equations. Associativity from the additive $\AbGroupUp$ row rewrites $\mu(E_0)+(\mu(E_1)+\mu(E_2))$ as $(\mu(E_0)+\mu(E_1))+\mu(E_2)$, giving the displayed classification.
+\end{proof}
+
+\begin{theorem}[Measure triple disjoint-union additivity]
+\label{thm:measure-triple-disjoint-union-additivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A,B,C\in\mathcal{A}$ be pairwise disjoint. Suppose the measurable binary-union rows display $A\cup B\in\mathcal{A}$ and $(A\cup B)\cup C\in\mathcal{A}$, and suppose the $\MeasureUp$ certificate supplies $\sigma$-additivity for pairwise-disjoint measurable sequences, classifier-stable head-tail readback and pointwise classifier stability for the resulting countable $\RealUp$ sums, and the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row. Then
+$$
+\mu((A\cup B)\cup C)\sim_R(\mu(A)+\mu(B))+\mu(C).
+$$
+\end{theorem}
+\begin{proof}
+Define $E_0:=A$, $E_1:=B$, $E_2:=C$, and $E_n:=\varnothing$ for every $n\geq3$. The displayed measurable rows make each term measurable, and pairwise disjointness of $A,B,C$ is the only nonempty disjointness check.
+
+The countable union of this sequence is the displayed event $(A\cup B)\cup C$. Applying $\sigma$-additivity gives a classifier comparison between $\mu((A\cup B)\cup C)$ and $\Sigma_\mu(E_\bullet)$.
+
+The finite three-support readback theorem \autoref{thm:measure-finite-three-support-countable-readback} classifies $\Sigma_\mu(E_\bullet)$ with $(\mu(E_0)+\mu(E_1))+\mu(E_2)$. Substituting the three displayed heads and composing the $\RealUp$ classifier comparisons gives the claimed triple disjoint-union additivity.
+\end{proof}
+
 \begin{theorem}[Measure two-step finite-additivity package]
 \label{thm:measure-two-step-finite-additivity-package}
 The $\MeasureUp$ finite-additivity readback surface consists of the empty-zero
