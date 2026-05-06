@@ -41,6 +41,7 @@ import lifecycle
 import stage0_quickpath
 import codex_track  # v2 codex track
 import board_spawn  # v2 BOARD spawn gate
+import board_archive
 from locks import file_lock
 
 
@@ -297,8 +298,7 @@ DEFAULT_CANDIDATE_NOVELTY_THRESHOLD = 6
 
 
 def existing_target_ids() -> list[str]:
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    return re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+    return board_archive.existing_target_ids(include_archive=True)
 
 
 def next_target_id() -> str:
@@ -344,11 +344,7 @@ def append_candidates_to_board(
     if not candidates:
         return accepted
     with file_lock("board"):
-        existing_titles = set()
-        for line in BOARD_PATH.read_text(encoding="utf-8").splitlines():
-            m = re.match(r"^### B-\d+\s+-\s+(.+)$", line)
-            if m:
-                existing_titles.add(m.group(1).strip().lower())
+        existing_titles = board_archive.existing_target_titles(include_archive=True)
         appended_blocks: list[str] = []
         for cand in candidates:
             try:
@@ -373,8 +369,7 @@ def append_candidates_to_board(
 
 def next_target_id_with_local(existing_titles: set, already_accepted: list[str]) -> str:
     """Compute next B-XX id including in-flight accepted ids from this batch."""
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    ids = re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+    ids = board_archive.existing_target_ids(include_archive=True)
     ids.extend(already_accepted)
     nums = [int(i.split("-")[1]) for i in ids if i.startswith("B-")]
     next_num = (max(nums) + 1) if nums else 1

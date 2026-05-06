@@ -80,8 +80,10 @@ def render_server(s: dict) -> str:
 
 def render_board() -> str:
     from dispatch_bedc_target import parse_board
+    import board_archive
     targets = parse_board()
-    total = len(targets)
+    active_total = len(targets)
+    archived_completed = len(board_archive.parse_board_file(board_archive.COMPLETED_BOARD_PATH))
     finished = 0
     in_progress = 0
     pending = 0
@@ -92,8 +94,12 @@ def render_board() -> str:
             in_progress += 1
         else:
             pending += 1
+    finished_total = finished + archived_completed
     out = [
-        f"  total: {total}   finished: {finished}   in_progress: {in_progress}   pending: {pending}",
+        (
+            f"  active: {active_total}   finished: {finished_total} "
+            f"(archived={archived_completed})   in_progress: {in_progress}   pending: {pending}"
+        ),
     ]
     return "\n".join(out)
 

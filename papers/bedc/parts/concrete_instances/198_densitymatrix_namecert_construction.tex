@@ -91,3 +91,123 @@ which is exactly the endpoint named by the binary bracketing clause.
 
 The induction covers every recursive affine bracketing packaged by $\mathsf{DensAffSpine}_H(xs,\lambda,\rho_{\mathrm{mix}})$. Hence the finite mixture endpoint $\rho_{\mathrm{mix}}$ satisfies $\mathsf{Dens}_H(\rho_{\mathrm{mix}})$.
 \end{proof}
+
+\begin{definition}[DensityMatrix restricted classifier]
+\label{def:densitymatrix-restricted-classifier}
+Let $H$ be a $\HilbertUp$ carrier. Write $\sim_{\mathsf{TC}(H)}$ for the trace-class classifier inherited from the $\OperatorIdealUp$ boundary of \autoref{thm:operatorideal-densitymatrix-trace-class-boundary}. The density-matrix classifier is the restricted trace-class classifier
+$$
+T\sim_{\mathsf{Dens}(H)}S
+:\Longleftrightarrow
+\mathsf{Dens}_H(T)\land\mathsf{Dens}_H(S)\land
+T\sim_{\mathsf{TC}(H)}S.
+$$
+Thus a density classifier comparison records both density-carrier endpoints and the underlying trace-class classifier comparison.
+\end{definition}
+
+\begin{lemma}[DensityMatrix binary constant affine exactness]
+\label{lem:densitymatrix-binary-constant-affine-exactness}
+Let $H$ be a $\HilbertUp$ carrier, and use the notation of \autoref{def:densitymatrix-restricted-classifier}. Let $\rho,\sigma,\rho_0\in\mathsf{TC}(H)$ and let $a,b$ be real scalar coefficients. Put
+$$
+E:=(a\odot_H\rho)+_{\mathsf{TC}(H)}(b\odot_H\sigma).
+$$
+If
+$$
+\mathsf{Dens}_H(E)
+\land
+\rho\sim_{\mathsf{Dens}(H)}\rho_0
+\land
+\sigma\sim_{\mathsf{Dens}(H)}\rho_0
+\land
+(a+b)\sim_{\RealUp}1_{\RealUp},
+$$
+then
+$$
+E\sim_{\mathsf{Dens}(H)}\rho_0.
+$$
+\end{lemma}
+\begin{proof}
+Unpack \autoref{def:densitymatrix-restricted-classifier} for the two input density-classifier comparisons. They give the density carrier of $\rho_0$ and trace-class classifier comparisons
+$$
+\rho\sim_{\mathsf{TC}(H)}\rho_0,
+\qquad
+\sigma\sim_{\mathsf{TC}(H)}\rho_0.
+$$
+By \autoref{thm:operatorideal-densitymatrix-trace-class-boundary}, the trace-class carrier inherits the real scalar action, vector addition, and trace-class classifier from the operator-ideal and Hilbert module surface. Reading that surface through \autoref{def:vecspace-stability-certificate} and \autoref{def:module-stability-certificate}, scalar-action congruence and additive congruence give
+$$
+E\sim_{\mathsf{TC}(H)}
+(a\odot_H\rho_0)+_{\mathsf{TC}(H)}(b\odot_H\rho_0).
+$$
+The scalar-distributivity row over scalar addition gives the reverse comparison from the displayed sum to the single scalar action:
+$$
+(a\odot_H\rho_0)+_{\mathsf{TC}(H)}(b\odot_H\rho_0)
+\sim_{\mathsf{TC}(H)}
+((a+b)\odot_H\rho_0).
+$$
+Scalar-action congruence applied to $(a+b)\sim_{\RealUp}1_{\RealUp}$ and classifier reflexivity of the carried endpoint $\rho_0$ gives
+$$
+((a+b)\odot_H\rho_0)
+\sim_{\mathsf{TC}(H)}
+(1_{\RealUp}\odot_H\rho_0).
+$$
+The scalar unit law in the same module surface gives
+$$
+(1_{\RealUp}\odot_H\rho_0)\sim_{\mathsf{TC}(H)}\rho_0.
+$$
+Transitivity of the trace-class classifier composes the four displayed comparisons into
+$$
+E\sim_{\mathsf{TC}(H)}\rho_0.
+$$
+Pair this comparison with the assumed carrier $\mathsf{Dens}_H(E)$ and the carrier of $\rho_0$ obtained from either input density-classifier comparison. Folding \autoref{def:densitymatrix-restricted-classifier} gives $E\sim_{\mathsf{Dens}(H)}\rho_0$.
+\end{proof}
+
+\begin{theorem}[DensityMatrix constant affine-spine exactness]
+\label{thm:densitymatrix-constant-affine-spine-exactness}
+Let $H$ be a $\HilbertUp$ carrier, and use the notation of \autoref{def:densitymatrix-restricted-classifier}. Let $xs:\mathsf{ListCarrier}(\mathsf{TC}(H))$ be a finite trace-class spine, let $\lambda:\mathsf{ListCarrier}(\RealUp)$ be a finite real-weight spine, and let $\rho_{\mathrm{mix}},\rho_0\in\mathsf{TC}(H)$. If
+$$
+\mathsf{Dens}_H(\rho_0)
+\land
+\mathsf{DensAffSpine}_H(xs,\lambda,\rho_{\mathrm{mix}})
+\land
+\Bigl(\forall i:\mathsf{Pos}(xs).\;
+\mathsf{entry}_{xs}(i)\sim_{\mathsf{Dens}(H)}\rho_0\Bigr),
+$$
+then
+$$
+\rho_{\mathrm{mix}}\sim_{\mathsf{Dens}(H)}\rho_0.
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{DensAffSpine}_H(xs,\lambda,\rho_{\mathrm{mix}})$ by \autoref{def:densitymatrix-affine-mixture-spine}. This is the finite affine-spine datum of \autoref{def:convexset-finite-affine-spine-data} specialized to the concrete density carrier $\mathsf{Dens}_H$, the trace-class scalar action $\odot_H$, and trace-class addition $+_{\mathsf{TC}(H)}$. It contains a local bracketing witness $\mathsf{Bracket}_{\mathsf{Dens}_H}(xs,\lambda,\rho_{\mathrm{mix}})$.
+
+Prove the stronger statement for every displayed sub-bracketing: if every leaf displayed in that sub-spine is density-classifier equal to $\rho_0$, then the sub-bracketing endpoint is density-classifier equal to $\rho_0$. Induct on the local bracketing witness.
+
+In the singleton clause, the endpoint is the displayed leaf $\rho$. The finite-position hypothesis applied to the unique displayed position gives
+$$
+\rho\sim_{\mathsf{Dens}(H)}\rho_0,
+$$
+which is exactly the endpoint claim.
+
+In the binary-extension clause, write the endpoint as
+$$
+E=(a\odot_H\rho)+_{\mathsf{TC}(H)}(b\odot_H\tau).
+$$
+The head position of the displayed cons spine gives
+$$
+\rho\sim_{\mathsf{Dens}(H)}\rho_0.
+$$
+The tail positions inherit the same leafwise hypothesis, so the induction hypothesis gives
+$$
+\tau\sim_{\mathsf{Dens}(H)}\rho_0.
+$$
+The binary bracketing clause supplies $\mathsf{Dens}_H(\rho)$, the nonnegative coefficient rows, the local unit-sum comparison $(a+b)\sim_{\RealUp}1_{\RealUp}$, and the tail bracketing witness. Since the induction hypothesis includes $\mathsf{Dens}_H(\tau)$ through \autoref{def:densitymatrix-restricted-classifier}, the specialized binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row}, concretely proved for density matrices in \autoref{lem:densitymatrix-binary-convex-closure}, gives
+$$
+\mathsf{Dens}_H(E).
+$$
+Now apply \autoref{lem:densitymatrix-binary-constant-affine-exactness} to $\rho$, $\tau$, $\rho_0$, $a$, and $b$. The result is
+$$
+E\sim_{\mathsf{Dens}(H)}\rho_0,
+$$
+which is the endpoint claim for the binary node.
+
+The induction applies to the full bracketing witness packaged by the original affine-spine datum. Therefore the endpoint $\rho_{\mathrm{mix}}$ is density-classifier equal to the fixed carried density matrix $\rho_0$.
+\end{proof}
