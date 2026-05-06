@@ -8,3 +8,49 @@ The random-variable interface $\RandomVarUp$ packages a measurable function from
 
 \section{The certificate}
 \label{sec:randomvar-certificate}
+
+\begin{theorem}[RandomVar preimage preserves disjoint binary unions]
+\label{thm:randomvar-preimage-disjoint-binary-union-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $B,C,U_T$ be target events such that $B,C,U_T\in\mathcal{A}_T$ and the displayed target binary-union row reads $U_T$ as $B\cup C$:
+$$
+t\in U_T\quad\Longleftrightarrow\quad t\in B\ \text{or}\ t\in C.
+$$
+Assume $B$ and $C$ are disjoint: for every carried target point $t$, simultaneous witnesses $t\in B$ and $t\in C$ are eliminated. Let
+$$
+A_B:=X^{-1}(B),\qquad A_C:=X^{-1}(C),\qquad A_U:=X^{-1}(U_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage, then $A_B,A_C,A_U\in\mathcal{A}_S$. Moreover, if $U_S$ is the source binary union of $A_B$ and $A_C$ supplied by the source $\MeasureUp$ sigma-algebra row of \autoref{thm:measure-sigma-algebra-obligations}, then
+$$
+U_S\in\mathcal{A}_S,\qquad A_U\sim_{\mathcal{A}_S}U_S,
+$$
+and $A_B$ and $A_C$ are disjoint source events.
+\end{theorem}
+\begin{proof}
+The measurable-preimage row of the $\RandomVarUp$ certificate applies to the three target measurable events $B,C,U_T$. This gives $A_B,A_C,A_U\in\mathcal{A}_S$.
+
+Since the source probability space inherits its measurable family from the underlying $\MeasureUp$ carrier, \autoref{thm:measure-sigma-algebra-obligations} supplies the binary-union row for the measurable pair $A_B,A_C$. Let $U_S$ be that displayed source union. Its row gives $U_S\in\mathcal{A}_S$ and the membership readback
+$$
+s\in U_S\quad\Longleftrightarrow\quad s\in A_B\ \text{or}\ s\in A_C.
+$$
+
+It remains to compare $A_U$ with $U_S$ through the source event classifier. For a carried source point $s$, unfold the preimage rows:
+$$
+s\in A_U\quad\Longleftrightarrow\quad X(s)\in U_T.
+$$
+The target binary-union readback gives
+$$
+X(s)\in U_T\quad\Longleftrightarrow\quad X(s)\in B\ \text{or}\ X(s)\in C.
+$$
+Unfolding the two preimage rows again gives
+$$
+X(s)\in B\ \text{or}\ X(s)\in C
+\quad\Longleftrightarrow\quad
+s\in A_B\ \text{or}\ s\in A_C.
+$$
+The source binary-union readback identifies the right side with $s\in U_S$. Thus $A_U$ and $U_S$ have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+A_U\sim_{\mathcal{A}_S}U_S.
+$$
+
+Finally suppose $s$ has witnesses $s\in A_B$ and $s\in A_C$. Unfolding preimage gives witnesses $X(s)\in B$ and $X(s)\in C$. The displayed target disjointness row for $B$ and $C$ eliminates such a pair, so no carried source point can inhabit both $A_B$ and $A_C$. Hence the preimage pair is disjoint.
+\end{proof}
