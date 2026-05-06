@@ -80,4 +80,28 @@ theorem DistributionPushforward_relative_difference_additivity
     cont_respects_hsame (hsame_symm pushBClass) (hsame_symm pushDClass) sourceSum pushSumCont
   exact hsame_trans pushAClass sourcePushSum
 
+theorem DistributionPushforward_monotone_under_target_inclusion
+    {sourceB sourceD sourceA pushB pushD pushA pushSum : BHist} :
+    Cont sourceB sourceD sourceA -> hsame pushA sourceA -> hsame pushB sourceB ->
+      hsame pushD sourceD -> Cont pushB pushD pushSum -> UnaryHistory pushD ->
+        exists witness : BHist, Cont pushB witness pushA ∧ UnaryHistory witness := by
+  intro sourceSum pushAClass pushBClass pushDClass pushSumCont pushDUnary
+  have pushAFromSum : hsame pushA pushSum :=
+    DistributionPushforward_relative_difference_additivity sourceSum pushAClass pushBClass
+      pushDClass pushSumCont
+  have pushDToPushA : Cont pushB pushD pushA :=
+    cont_result_hsame_transport pushSumCont (hsame_symm pushAFromSum)
+  exact Exists.intro pushD (And.intro pushDToPushA pushDUnary)
+
+theorem DistributionPushforward_nonnegative_value_inheritance
+    {sourceValue pushedValue witness : BHist} :
+    UnaryHistory sourceValue -> Cont sourceValue BHist.Empty witness ->
+      hsame pushedValue witness -> UnaryHistory pushedValue ∧ hsame pushedValue sourceValue := by
+  intro sourceNonnegative sourceReadback pushedWitness
+  have witnessSource : hsame witness sourceValue :=
+    cont_right_unit_result sourceReadback
+  have pushedSource : hsame pushedValue sourceValue :=
+    hsame_trans pushedWitness witnessSource
+  exact And.intro (unary_transport sourceNonnegative (hsame_symm pushedSource)) pushedSource
+
 end BEDC.Derived.DistributionUp

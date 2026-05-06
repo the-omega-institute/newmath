@@ -14,6 +14,10 @@ def MeasureZeroBHistCarrier (h : BHist) : Prop :=
 def MeasureZeroBHistClassifier (h k : BHist) : Prop :=
   MeasureZeroBHistCarrier h ∧ MeasureZeroBHistCarrier k ∧ hsame h k
 
+def MeasureZeroBHistPrefix (events : Nat -> BHist) : Nat -> BHist
+  | Nat.zero => BHist.Empty
+  | Nat.succ n => append (MeasureZeroBHistPrefix events n) (events n)
+
 theorem MeasureZeroBHist_carrier_classifier_stability
     {h k event endpoint endpoint' : BHist} :
     MeasureZeroBHistCarrier h ->
@@ -121,5 +125,28 @@ theorem MeasureZeroBHist_semantic_name_certificate :
       intro _h source
       exact source
   }
+
+theorem MeasureSelfDifference_zero_law {event diff union value sum : BHist} :
+    Cont event diff union -> hsame union event -> Cont value diff sum -> hsame sum value ->
+      hsame diff BHist.Empty := by
+  intro eventUnion unionEvent valueSum sumValue
+  have eventRightUnit : Cont event diff event :=
+    cont_result_hsame_transport eventUnion unionEvent
+  exact cont_right_unit_unique eventRightUnit
+
+theorem MeasureZeroBHist_sigma_additivity (events : Nat -> BHist) :
+    (forall n : Nat, MeasureZeroBHistCarrier (events n)) -> forall n : Nat,
+      Cont (MeasureZeroBHistPrefix events n) (events n)
+          (MeasureZeroBHistPrefix events (Nat.succ n)) ∧
+        MeasureZeroBHistCarrier (MeasureZeroBHistPrefix events (Nat.succ n)) := by
+  intro eventsZero n
+  constructor
+  · rfl
+  · induction n with
+    | zero =>
+        exact cont_respects_hsame (hsame_refl BHist.Empty) (eventsZero Nat.zero) rfl
+          (cont_left_unit BHist.Empty)
+    | succ n ih =>
+        exact cont_respects_hsame ih (eventsZero (Nat.succ n)) rfl (cont_left_unit BHist.Empty)
 
 end BEDC.Derived.MeasureUp
