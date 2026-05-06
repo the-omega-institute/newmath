@@ -16,6 +16,19 @@ def ImageFiniteNetLedger
     UnaryHistory epsilon ∧ UnaryHistory ledger ∧
       BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier source map target delta epsilon ledger
 
+theorem ImageFiniteNetLedger_singleton_target_bundle
+    {source map target delta epsilon ledger : BHist} {sourceBundle : ProbeBundle BHist} :
+    InBundle source sourceBundle -> UnaryHistory delta -> UnaryHistory epsilon ->
+      UnaryHistory ledger ->
+        BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier source map target delta epsilon ledger ->
+          exists targetBundle : ProbeBundle BHist,
+            ImageFiniteNetLedger source map target delta epsilon sourceBundle targetBundle ledger := by
+  intro sourceMembership deltaUnary epsilonUnary ledgerUnary carrier
+  exact ⟨ProbeBundle.Bcons target ProbeBundle.Bnil,
+    And.intro sourceMembership
+      (And.intro (inBundle_cons_self target ProbeBundle.Bnil)
+        (And.intro deltaUnary (And.intro epsilonUnary (And.intro ledgerUnary carrier))))⟩
+
 def ImageLocatedRefinementLedger
     (source map target modulus epsilon delta imageSubset imageLocated imageFinite imageIntermediate
       imageCompact finalImageLocated finalImageIntermediate finalImageCompact : BHist) : Prop :=
