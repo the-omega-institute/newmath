@@ -302,4 +302,28 @@ theorem SimplicialComplexUnion_face_dimension_grading_rows (simplices : ProbeBun
       SimplicialComplexUnion_face_dimension_grading simplices listed faceClosedK
         faceClosedL faceTrans dim dimMonoK dimMonoL simplexSigma faceTauSigma faceRhoTau
 
+theorem SimplicialComplexUnion_face_dimension_grading_surface (simplices : ProbeBundle BHist)
+    {SimplexK SimplexL : BHist -> Prop} {Face : BHist -> BHist -> Prop}
+    (listed : forall {s : BHist}, SimplexK s ∨ SimplexL s -> InBundle s simplices)
+    (faceClosedK :
+      forall {tau sigma : BHist}, SimplexK sigma -> Face tau sigma -> SimplexK tau)
+    (faceClosedL :
+      forall {tau sigma : BHist}, SimplexL sigma -> Face tau sigma -> SimplexL tau)
+    (faceTrans :
+      forall {rho tau sigma : BHist}, Face rho tau -> Face tau sigma -> Face rho sigma)
+    (dim : BHist -> Nat)
+    (dimMonoK :
+      forall {alpha beta : BHist},
+        SimplexK alpha -> SimplexK beta -> Face alpha beta -> dim alpha <= dim beta)
+    (dimMonoL :
+      forall {alpha beta : BHist},
+        SimplexL alpha -> SimplexL beta -> Face alpha beta -> dim alpha <= dim beta) :
+    (forall {alpha beta : BHist},
+      SimplexK beta ∨ SimplexL beta -> Face alpha beta -> dim alpha <= dim beta) ∧
+      (forall {rho tau sigma : BHist},
+        SimplexK sigma ∨ SimplexL sigma -> Face tau sigma -> Face rho tau ->
+          dim rho <= dim tau ∧ dim tau <= dim sigma ∧ dim rho <= dim sigma) :=
+  SimplicialComplexUnion_face_dimension_grading_rows simplices listed faceClosedK
+    faceClosedL faceTrans dim dimMonoK dimMonoL
+
 end BEDC.Derived.SimplicialComplexUp

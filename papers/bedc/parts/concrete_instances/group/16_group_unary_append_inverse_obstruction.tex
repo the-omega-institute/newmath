@@ -41,6 +41,68 @@ $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
 \leanchecked{BEDC.Derived.GroupUp.MonoidHistoryClassifier\_unary\_append\_unit\_product\_factor\_exactness}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_unit\_product\_factor\_exactness}
 
+\begin{theorem}[Unary append group subcarrier unit collapse]
+\label{thm:unary-append-group-subcarrier-unit-collapse}
+Let $C:\mathsf{BHist}\to\mathsf{Prop}$ be a concrete unary subcarrier, and let
+$i:\mathsf{BHist}\to\mathsf{BHist}$ be an inverse witness. Assume
+$$
+\begin{array}{ll}
+\text{\rm carrier:} &
+\forall h:\mathsf{BHist},\ C(h)\Rightarrow \mathsf{UnaryHistory}(h),\\
+\text{\rm unit:} & C(\emp),\\
+\text{\rm append closure:} &
+\forall h,k:\mathsf{BHist},\
+C(h)\Rightarrow C(k)\Rightarrow C(\mathsf{append}(h,k)),\\
+\text{\rm inverse closure:} &
+\forall h:\mathsf{BHist},\
+C(h)\Rightarrow C(i(h)),\\
+\text{\rm inverse products:} &
+\forall h:\mathsf{BHist},\
+C(h)\Rightarrow{}\\
+&\quad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,i(h)),\emp)\land{}\\
+&\quad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(i(h),h),\emp).
+\end{array}
+$$
+Then every carried element lies in the empty-unit classifier fiber:
+$$
+\forall h:\mathsf{BHist},\
+C(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Fix $h:\mathsf{BHist}$ with $C(h)$. The inverse-product hypothesis gives the
+right-inverse classifier row
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,i(h)),\emp).
+$$
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness} in the forward
+direction to this row. The resulting conjunction has left factor
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp)$, which is
+the required unit-fiber conclusion for the chosen carried element.
+
+The left-inverse row, append closure, inverse closure, and explicit unit field
+remain part of the concrete group-interface scope. They certify that $C$ is
+being tested as a carried unary append instance, while the collapse argument
+itself only needs the right inverse and the unit-product factor exactness
+theorem.
+\end{proof}
+
+Fit: the traditional target is the append-inverse group interface; the BEDC
+source is $C\subseteq\mathsf{UnaryHistory}$; the carrier is $C$; the classifier
+is inherited from $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$;
+stability is supplied by append closure and inverse closure; the ledger is the
+inverse witness $i$; the core theorem is this collapse block together with
+\autoref{thm:unary-append-unit-product-factor-exactness}; exactness is
+unit-fiber collapse; the downstream consumers are $\GroupUp$ and
+$\QuotientGroupUp$; the status is $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Full unary append inverse obstruction]
 \label{thm:full-unary-append-inverse-obstruction}
 There is no total inverse operation on the full unary-history append carrier:
