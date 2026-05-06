@@ -357,4 +357,21 @@ theorem DiffFormDegreeProbeAligned_hsame_transport
   cases sameDegree
   exact And.intro aligned (DiffFormDegreeProbeAligned_bundleAppend_cont_unary aligned)
 
+theorem DiffFormZeroDegree_wedge_cont_unit_boundary {d : BHist}
+    {bundle : ProbeBundle BHist} :
+    DegreeProbeAligned d bundle ->
+      DegreeProbeAligned d (bundleAppend (ProbeBundle.Bnil : ProbeBundle BHist) bundle) ∧
+        DegreeProbeAligned d (bundleAppend bundle (ProbeBundle.Bnil : ProbeBundle BHist)) ∧
+          Cont BHist.Empty d d ∧ Cont d BHist.Empty d := by
+  intro aligned
+  have rightAligned :
+      DegreeProbeAligned d (bundleAppend bundle (ProbeBundle.Bnil : ProbeBundle BHist)) := by
+    induction aligned with
+    | nil =>
+        exact DegreeProbeAligned.nil
+    | cons tailAligned ih =>
+        exact DegreeProbeAligned.cons ih
+  exact And.intro aligned
+    (And.intro rightAligned (And.intro (cont_left_unit d) (cont_right_unit d)))
+
 end BEDC.Derived.DiffFormUp
