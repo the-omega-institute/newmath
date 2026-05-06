@@ -162,6 +162,31 @@ theorem SubgroupCentralizerQuotientKernel_centralizer_endpoint_invariance
       BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_two_sided_centralizer_endpoint_mul_closed_from_empty_unit
         assocC leftId rightId mulCongr leftInv rightInv kernel centralC centralD
 
+theorem SubgroupCentralizerQuotientKernel_centralizer_representative_step
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x c : BHist} :
+    SubgroupCentralizerNormalizer mul inv a x -> SubgroupCentralizerCarrier mul a c ->
+      SubgroupCentralizerQuotientKernel mul inv a x (mul x c) ∧
+        SubgroupCentralizerQuotientKernel mul inv a (mul x c) x := by
+  intro normalizesX centralC
+  have diagonal : SubgroupCentralizerQuotientKernel mul inv a x x :=
+    SubgroupCentralizerNormalizer_kernel_classifier_refl
+      assocC leftId rightId mulCongr leftInv rightInv normalizesX
+  have rightStep : SubgroupCentralizerQuotientKernel mul inv a x (mul x c) :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_right_endpoint_right_centralizer_mul_closed_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv diagonal centralC
+  have leftStep : SubgroupCentralizerQuotientKernel mul inv a (mul x c) x :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_left_endpoint_right_centralizer_mul_closed_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv diagonal centralC
+  exact And.intro rightStep leftStep
+
 protected theorem SubgroupCentralizerQuotientKernel_centralizer_endpoint_mul_invariant_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

@@ -257,6 +257,7 @@ import BEDC.Derived.IdealUp.QuotientKernel
 import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.IdealUp.QuotientKernelScope
 import BEDC.Derived.IdealUp.PrincipalGenerated
+import BEDC.Derived.IdealUp.PredicateRows
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
