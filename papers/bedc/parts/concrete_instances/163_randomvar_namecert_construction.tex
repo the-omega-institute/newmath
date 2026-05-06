@@ -106,3 +106,74 @@ D_X\sim_{\mathcal{A}_S}D_S.
 $$
 The measurable, disjointness, and binary-union statements are the corresponding fields of the same source relative-difference ledger.
 \end{proof}
+
+\begin{theorem}[RandomVar preimage complement and relative-difference exactness]
+\label{thm:randomvar-preimage-complement-difference-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\Omega_S$ and $\Omega_T$ for the source and target total events, write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $A$ and $B$ be target events in one carried target fiber with $A,B\in\mathcal{A}_T$, and suppose the public target readback displays $B\subseteq A$. Suppose the target complement/relative-difference row of \autoref{def:measure-complement-difference-row} supplies a measurable event
+$$
+D_T:=A\setminus B
+$$
+with public membership readback
+$$
+t\in D_T\quad\Longleftrightarrow\quad t\in A\ \text{and}\ t\notin B.
+$$
+Define source preimages
+$$
+A_S:=X^{-1}(A),\qquad B_S:=X^{-1}(B),\qquad D_X:=X^{-1}(D_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage, then $A_S,B_S,D_X\in\mathcal{A}_S$, and the public source readback displays $B_S\subseteq A_S$. Let $D_S:=A_S\setminus B_S$ be the source relative-difference event supplied by the source $\MeasureUp$ complement/relative-difference row. Then
+$$
+D_S\in\mathcal{A}_S,\qquad D_X\sim_{\mathcal{A}_S}D_S.
+$$
+In the complement case, take the ambient event $A$ to be $\Omega_T$ and write $B_T^{\complement}:=\Omega_T\setminus B$. If the same $\RandomVarUp$ row identifies $X^{-1}(\Omega_T)$ with $\Omega_S$ through the source event classifier, with source-event transport read through \autoref{thm:semantic-namecert-pattern-ledger-transport}, and if $B_S^{\complement}:=\Omega_S\setminus B_S$ is the source complement event supplied by the source complement/relative-difference row, then
+$$
+X^{-1}(B_T^{\complement})\sim_{\mathcal{A}_S}B_S^{\complement}.
+$$
+The two classifications are certified with the corresponding source relative-difference ledgers: the second component is disjoint from $B_S$, and its displayed binary union with $B_S$ is classified as the ambient source event.
+\end{theorem}
+\begin{proof}
+The measurable-preimage row of the $\RandomVarUp$ certificate applies to the three target measurable events $A$, $B$, and $D_T$. This gives
+$$
+A_S,B_S,D_X\in\mathcal{A}_S.
+$$
+
+To read the source inclusion, fix a carried source point $s$ with a witness $s\in B_S$. The preimage readback for $B$ gives $X(s)\in B$. The displayed target inclusion $B\subseteq A$ gives $X(s)\in A$, and the preimage readback for $A$ gives $s\in A_S$. Hence the public source readback displays $B_S\subseteq A_S$.
+
+Apply the source complement/relative-difference row of \autoref{def:measure-complement-difference-row} to this displayed source inclusion. It supplies the measurable event $D_S:=A_S\setminus B_S$, the disjointness witness for $B_S$ and $D_S$, and the binary-union readback classifying $B_S\cup D_S$ as $A_S$. Its relative-difference readback is
+$$
+s\in D_S\quad\Longleftrightarrow\quad s\in A_S\ \text{and}\ s\notin B_S.
+$$
+
+For every carried source point $s$, the displayed rows give
+$$
+\begin{aligned}
+s\in D_X
+&\Longleftrightarrow X(s)\in D_T\\
+&\Longleftrightarrow X(s)\in A\ \text{and}\ X(s)\notin B\\
+&\Longleftrightarrow s\in A_S\ \text{and}\ s\notin B_S\\
+&\Longleftrightarrow s\in D_S.
+\end{aligned}
+$$
+The first and third equivalences are the preimage readbacks, the second is the target relative-difference readback, and the last is the source relative-difference readback. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+D_X\sim_{\mathcal{A}_S}D_S.
+$$
+
+Now take $A=\Omega_T$ and $D_T=B_T^{\complement}$. The source ambient preimage is $A_S=X^{-1}(\Omega_T)$, and the source-event transport is the one cited in \autoref{thm:semantic-namecert-pattern-ledger-transport}. For every carried source point $s$, the total-preimage classifier gives
+$$
+s\in A_S\quad\Longleftrightarrow\quad s\in\Omega_S.
+$$
+The source complement event $B_S^{\complement}:=\Omega_S\setminus B_S$ has readback
+$$
+s\in B_S^{\complement}\quad\Longleftrightarrow\quad s\in\Omega_S\ \text{and}\ s\notin B_S.
+$$
+Combining these two readbacks with the relative-difference computation above gives
+$$
+s\in X^{-1}(B_T^{\complement})\quad\Longleftrightarrow\quad s\in B_S^{\complement}
+$$
+for every carried source point $s$. The same source event-classifier component, using the source-event transport of \autoref{thm:semantic-namecert-pattern-ledger-transport}, therefore yields
+$$
+X^{-1}(B_T^{\complement})\sim_{\mathcal{A}_S}B_S^{\complement}.
+$$
+The disjointness and binary-union statements are the corresponding ledger fields of the source complement/relative-difference row.
+\end{proof}
