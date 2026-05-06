@@ -224,4 +224,19 @@ theorem RandomVarPreimage_countable_union_exactness
         (append_assoc x (RandomVarPreimageUnionFold xs)
           (RandomVarPreimageUnionFold right)).symm
 
+theorem RandomVarTerminalPreimage_exactness_coverage_iff
+    {sourceTotal chosenPreimage : BHist} :
+    UnaryHistory sourceTotal ->
+      ((forall {h gap : BHist}, UnaryHistory h -> Cont h gap sourceTotal ->
+          Cont h gap chosenPreimage) <-> hsame chosenPreimage sourceTotal) := by
+  intro sourceUnary
+  constructor
+  · intro coverage
+    have sourceCoverage : Cont sourceTotal BHist.Empty chosenPreimage :=
+      coverage sourceUnary (cont_right_unit sourceTotal)
+    exact cont_right_unit_result sourceCoverage
+  · intro chosenExact
+    intro h gap _unaryH sourceCoverage
+    exact cont_result_hsame_transport sourceCoverage (hsame_symm chosenExact)
+
 end BEDC.Derived.RandomVarUp
