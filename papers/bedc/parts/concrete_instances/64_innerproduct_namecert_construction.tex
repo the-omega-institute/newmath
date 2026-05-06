@@ -755,3 +755,41 @@ which is $(r\cdot_V y)\perp_I x$ by
 \autoref{thm:innerproduct-orthogonality-symmetry-row}, now to the carried pair
 $r\cdot_V y$ and $x$, gives $x\perp_I(r\cdot_V y)$.
 \end{proof}
+
+\begin{theorem}[InnerProduct orthogonal additive inverse closure]
+\label{thm:innerproduct-orthogonal-additive-inverse-closure}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. For carried vector endpoints
+$x,y:C_V$, if $x\perp_I y$, then the displayed additive inverse $-_V y$ is
+carried and
+$$
+x\perp_I(-_V y).
+$$
+\end{theorem}
+\begin{proof}
+The embedded $\VecSpaceUp$ row retains its additive $\AbGroupUp$ carrier by
+\autoref{cor:vecspace-additive-carrier-projection}, so the inverse-closure row
+carries $-_V y$.
+
+Let $\eta=-_{\mathbb{K}}1_{\mathbb{K}}$. The retained scalar source carries
+$\eta$ by \autoref{def:field-source-specification} and \autoref{def:ring-carrier}.
+The module rows of \autoref{def:module-stability-certificate} identify
+$\eta\cdot_V y$ with the displayed inverse: scalar unit changes $y$ to
+$1_{\mathbb{K}}\cdot_V y$, scalar distributivity over scalar addition changes
+$(\eta+_{\mathbb{K}}1_{\mathbb{K}})\cdot_V y$ to
+$(\eta\cdot_V y)+_V(1_{\mathbb{K}}\cdot_V y)$, the additive inverse law retained
+by \autoref{def:ring-stability-certificate} collapses
+$\eta+_{\mathbb{K}}1_{\mathbb{K}}$ to $0_{\mathbb{K}}$, and
+\autoref{thm:module-zero-action-annihilation} collapses $0_{\mathbb{K}}\cdot_V y$
+to $0_V$. Thus $\eta\cdot_V y$ is a left additive inverse of $y$. The displayed
+inverse row gives $y+_V(-_V y)\sim_V 0_V$, and
+\autoref{thm:group-left-right-inverse-uniqueness}, read in the additive
+$\AbGroupUp$ reduct, gives $\eta\cdot_V y\sim_V -_V y$.
+
+Apply \autoref{thm:innerproduct-orthogonality-right-scalar-action-closure} to
+the carried scalar $\eta$ and the hypothesis $x\perp_I y$. It gives
+$x\perp_I(\eta\cdot_V y)$. Transport this orthogonality witness along
+$\eta\cdot_V y\sim_V -_V y$ by
+\autoref{thm:innerproduct-orthogonality-transport-row}, keeping the left endpoint
+fixed by reflexivity. The result is $x\perp_I(-_V y)$.
+\end{proof}
