@@ -71,6 +71,14 @@ def CatLimitLimCone (L D lambda : BHist) : Prop :=
       (∀ {X chi m n cm cn : BHist}, CatLimitConeMor X L D m chi lambda cm ->
         CatLimitConeMor X L D n chi lambda cn -> hsame m n)
 
+theorem CatLimitLimCone_endomorphism_rigidity {L D lambda a composite : BHist} :
+    CatLimitLimCone L D lambda ->
+      CatLimitConeMor L L D a lambda lambda composite -> hsame a BHist.Empty := by
+  intro limit cone
+  have idCone : CatLimitConeMor L L D BHist.Empty lambda lambda lambda :=
+    CatLimitConeMor_identity limit.left
+  exact limit.right.right cone idCone
+
 theorem CatLimitLimCone_comparison_identities {L L' D lambda lambda' : BHist} :
     CatLimitLimCone L D lambda -> CatLimitLimCone L' D lambda' ->
       ∃ u v cL cL' cu cv : BHist,
