@@ -93,60 +93,55 @@ theorem MonoidalCatSingleton_associator_unitors {x y z left right leftUnit right
             (cont_deterministic rightUnitCont (cont_right_unit x))))))
 
 theorem MonoidalCatSingleton_tensor_preserves_composition
-    {a0 a1 a2 c0 c1 c2 f f' g g' leftComp rightComp : BHist} :
-    CategoryHomCarrier a0 a1 f -> CategoryHomCarrier a1 a2 f' ->
-      CategoryHomCarrier c0 c1 g -> CategoryHomCarrier c1 c2 g' ->
-        Cont (append f g) (append f' g') leftComp ->
-          Cont (append f f') (append g g') rightComp ->
-            CategoryHomCarrier (append a0 c0) (append a2 c2) leftComp ∧
-              CategoryHomCarrier (append a0 c0) (append a2 c2) rightComp ∧
-                hsame leftComp rightComp := by
-  intro leftF leftF' rightG rightG' leftRel rightRel
-  have tensorF :
+    {a0 a1 a2 c0 c1 c2 f fPrime g gPrime : BHist} :
+    CategoryHomCarrier a0 a1 f ->
+      CategoryHomCarrier a1 a2 fPrime ->
+        CategoryHomCarrier c0 c1 g ->
+          CategoryHomCarrier c1 c2 gPrime ->
+            CategoryHomCarrier (append a0 c0) (append a2 c2)
+                (append (append f g) (append fPrime gPrime)) ∧
+              CategoryHomCarrier (append a0 c0) (append a2 c2)
+                (append (append f fPrime) (append g gPrime)) ∧
+                hsame (append (append f g) (append fPrime gPrime))
+                  (append (append f fPrime) (append g gPrime)) := by
+  intro fCarrier fPrimeCarrier gCarrier gPrimeCarrier
+  have fgTensor :
       CategoryHomCarrier (append a0 c0) (append a1 c1) (append f g) :=
-    (MonoidalCatSingleton_tensor_carrier leftF rightG).right
-  have tensorF' :
-      CategoryHomCarrier (append a1 c1) (append a2 c2) (append f' g') :=
-    (MonoidalCatSingleton_tensor_carrier leftF' rightG').right
-  have leftCarrier :
-      CategoryHomCarrier (append a0 c0) (append a2 c2) leftComp :=
-    CategoryHomCarrier_comp_closed tensorF tensorF' leftRel
-  have componentF :
-      CategoryHomCarrier a0 a2 (append f f') :=
-    CategoryHomCarrier_comp_closed leftF leftF' (cont_intro rfl)
-  have componentG :
-      CategoryHomCarrier c0 c2 (append g g') :=
-    CategoryHomCarrier_comp_closed rightG rightG' (cont_intro rfl)
-  have rightTensor :
-      CategoryHomCarrier (append a0 c0) (append a2 c2) (append (append f f') (append g g')) :=
-    (MonoidalCatSingleton_tensor_carrier componentF componentG).right
-  have rightCarrier :
-      CategoryHomCarrier (append a0 c0) (append a2 c2) rightComp := by
-    cases rightRel
-    exact rightTensor
-  have leftSameRaw :
-      hsame leftComp (append (append f g) (append f' g')) :=
-    leftRel
-  have componentSwap :
-      hsame (append (append f g) (append f' g')) (append (append f f') (append g g')) := by
+    (MonoidalCatSingleton_tensor_carrier fCarrier gCarrier).right
+  have fPrimeGPrimeTensor :
+      CategoryHomCarrier (append a1 c1) (append a2 c2) (append fPrime gPrime) :=
+    (MonoidalCatSingleton_tensor_carrier fPrimeCarrier gPrimeCarrier).right
+  have tensorThenComposite :
+      CategoryHomCarrier (append a0 c0) (append a2 c2)
+        (append (append f g) (append fPrime gPrime)) :=
+    CategoryHomCarrier_comp_closed fgTensor fPrimeGPrimeTensor (cont_intro rfl)
+  have fThenFPrime :
+      CategoryHomCarrier a0 a2 (append f fPrime) :=
+    CategoryHomCarrier_comp_closed fCarrier fPrimeCarrier (cont_intro rfl)
+  have gThenGPrime :
+      CategoryHomCarrier c0 c2 (append g gPrime) :=
+    CategoryHomCarrier_comp_closed gCarrier gPrimeCarrier (cont_intro rfl)
+  have compositeThenTensor :
+      CategoryHomCarrier (append a0 c0) (append a2 c2)
+        (append (append f fPrime) (append g gPrime)) :=
+    (MonoidalCatSingleton_tensor_carrier fThenFPrime gThenGPrime).right
+  have displayedSame :
+      hsame (append (append f g) (append fPrime gPrime))
+        (append (append f fPrime) (append g gPrime)) := by
     calc
-      append (append f g) (append f' g')
-          = append f (append g (append f' g')) :=
-            append_assoc f g (append f' g')
-      _ = append f (append (append g f') g') :=
-            congrArg (append f) (append_assoc g f' g').symm
-      _ = append f (append (append f' g) g') :=
-            congrArg (fun x => append f (append x g'))
-              (unary_append_comm_hsame rightG.right.right.left leftF'.right.right.left)
-      _ = append f (append f' (append g g')) :=
-            congrArg (append f) (append_assoc f' g g')
-      _ = append (append f f') (append g g') :=
-            (append_assoc f f' (append g g')).symm
-  have rightSameRaw :
-      hsame (append (append f f') (append g g')) rightComp :=
-    hsame_symm rightRel
-  exact
-    And.intro leftCarrier
-      (And.intro rightCarrier (hsame_trans (hsame_trans leftSameRaw componentSwap) rightSameRaw))
+      append (append f g) (append fPrime gPrime)
+          = append f (append g (append fPrime gPrime)) :=
+            append_assoc f g (append fPrime gPrime)
+      _ = append f (append (append g fPrime) gPrime) :=
+            congrArg (append f) (append_assoc g fPrime gPrime).symm
+      _ = append f (append (append fPrime g) gPrime) :=
+            congrArg (fun x => append f (append x gPrime))
+              (unary_append_comm gCarrier.right.right.left fPrimeCarrier.right.right.left)
+      _ = append f (append fPrime (append g gPrime)) :=
+            congrArg (append f) (append_assoc fPrime g gPrime)
+      _ = append (append f fPrime) (append g gPrime) :=
+            (append_assoc f fPrime (append g gPrime)).symm
+  exact And.intro tensorThenComposite
+    (And.intro compositeThenTensor displayedSame)
 
 end BEDC.Derived.MonoidalCatUp

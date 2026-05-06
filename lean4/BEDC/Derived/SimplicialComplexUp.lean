@@ -61,7 +61,7 @@ theorem SimplicialFaceCarrier_face_chain_closure {simplices : ProbeBundle BHist}
       exact sigmaCarrier.right (faceTrans nuFaceRho rhoFaceSigma)
   exact And.intro tauCarrier (And.intro rhoCarrier rhoFaceSigma)
 
-theorem SimplicialComplexFace_chain_dimension_monotonicity (simplices : ProbeBundle BHist)
+theorem SimplicialComplexFace_dimension_chain_monotonicity (simplices : ProbeBundle BHist)
     {Simplex : BHist -> Prop} {Face : BHist -> BHist -> Prop}
     (listed : forall {s : BHist}, Simplex s -> InBundle s simplices)
     (faceClosed :
@@ -70,21 +70,24 @@ theorem SimplicialComplexFace_chain_dimension_monotonicity (simplices : ProbeBun
       forall {rho tau sigma : BHist}, Face rho tau -> Face tau sigma -> Face rho sigma)
     (dim : BHist -> Nat)
     (dimMono :
-      forall {alpha beta : BHist}, Simplex alpha -> Simplex beta -> Face alpha beta ->
-        dim alpha <= dim beta)
+      forall {alpha beta : BHist},
+        Simplex alpha -> Simplex beta -> Face alpha beta -> dim alpha <= dim beta)
     {rho tau sigma : BHist} :
     Simplex sigma -> Face rho tau -> Face tau sigma ->
       dim rho <= dim tau ∧ dim tau <= dim sigma ∧ dim rho <= dim sigma := by
   intro simplexSigma faceRhoTau faceTauSigma
-  have closure :=
+  have chain :=
     SimplicialComplexFace_chain_closure simplices listed faceClosed faceTrans
       simplexSigma faceTauSigma faceRhoTau
-  have simplexTau : Simplex tau := closure.left
-  have simplexRho : Simplex rho := closure.right.left
-  have faceRhoSigma : Face rho sigma := closure.right.right.left
-  exact
-    And.intro (dimMono simplexRho simplexTau faceRhoTau)
-      (And.intro (dimMono simplexTau simplexSigma faceTauSigma)
-        (dimMono simplexRho simplexSigma faceRhoSigma))
+  have simplexTau : Simplex tau := chain.left
+  have simplexRho : Simplex rho := chain.right.left
+  have faceRhoSigma : Face rho sigma := chain.right.right.left
+  have dimRhoTau : dim rho <= dim tau :=
+    dimMono simplexRho simplexTau faceRhoTau
+  have dimTauSigma : dim tau <= dim sigma :=
+    dimMono simplexTau simplexSigma faceTauSigma
+  have dimRhoSigma : dim rho <= dim sigma :=
+    dimMono simplexRho simplexSigma faceRhoSigma
+  exact And.intro dimRhoTau (And.intro dimTauSigma dimRhoSigma)
 
 end BEDC.Derived.SimplicialComplexUp
