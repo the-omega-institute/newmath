@@ -438,6 +438,7 @@ Fix a carried row $r$ and assume $\mathsf{same}_C(x,y)$. We distinguish the six 
 
 These cases exhaust the generated-open ledger by \autoref{thm:topology-generated-open-row-coverage}, hence every row witness carrying $U$ is classifier-stable.
 \end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistGeneratedOpen\_classifier\_transport}
 
 \begin{theorem}[Generated-open classification completeness]
 \label{thm:topology-generated-open-classification-completeness}
@@ -508,5 +509,23 @@ Classification soundness is \autoref{thm:topology-generated-open-classification-
 
 Classification completeness is \autoref{thm:topology-generated-open-classification-completeness}, with the binary admission step isolated in \autoref{thm:topology-generated-open-binary-meet-admission}. The exactness package is therefore closed under the certificate meet operation by a visible BHist row, with no appeal to an external powerset constructor.
 \end{proof}
+
+\begin{theorem}[Metric-generated TopologyUp public certificate]
+\label{thm:topology-metric-generated-public-certificate}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}, with indexed arbitrary-union witnesses and indexed boundary open witnesses. Then $\mathcal{G}$ exports the public $\NameCert_{\TopologyUp}$ surface for downstream consumers: the displayed $\MetricSpaceUp$ carrier $C$ and classifier $\mathsf{same}_C$ come from \autoref{thm:topology-metric-generated-namecert-surface}, while row coverage, classification soundness, and classification completeness for the generated opens come from \autoref{thm:topology-generated-open-six-row-exactness-package}. The exported ledger rows are exactly singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, empty open, and whole open.
+
+Downstream use of this certificate is restricted to the displayed $\MetricSpaceUp$ carrier, the $\RealUp$ ordered-radius comparison, the $\RatUp$ and $\RealUp$ positive-radius ledgers, the indexed union witnesses, the boundary witnesses, and the visible BHist ledger rows. It admits no external powerset row and no quotient carrier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topology-metric-generated-namecert-surface} to the metric-generated source. This supplies the carrier, classifier, classifier-stability rows, singleton metric-ball row, finite-list intersection row, generated-open meet row, union row, boundary rows, and visible ledger discipline for the concrete $\NameCert_{\TopologyUp}$ obligation surface.
+
+Apply \autoref{thm:topology-generated-open-six-row-exactness-package} to the same source. Its three components provide the row coverage, classification soundness, and classification completeness clauses for $\mathsf{GenOpenExact}_{\mathcal{G}}$, and its statement restricts exactness to the six displayed rows.
+
+Read the indexed boundary witness data through \autoref{def:topology-indexed-boundary-open-witnesses}. The distinguished bottom and top indices account for the empty-open and whole-open rows, so those boundary clauses are part of the exported certificate rather than separate powerset choices.
+
+Packaging these pieces gives the public downstream surface: carrier and classifier data from the obligation-surface theorem, exactness from the six-row package, boundary rows from the indexed witnesses, and provenance from the BHist ledger. The only exported carrier is $C$, and every accepted open predicate is carried by one of the displayed indexed rows, so quotient carriers and external powerset rows have no entry point into the certificate.
+\end{proof}
+
+Fit: traditional target, indexed topology opens; BEDC source, $\MetricSpaceUp$ with $\RealUp$ and $\RatUp$ radius ledgers; carrier choice, the displayed metric carrier $C$; classifier choice, $\mathsf{same}_C$; stability obligations, indexed-open transport along $\mathsf{same}_C$; ledger, the six visible BHist rows; core theorem list, \autoref{thm:topology-metric-generated-namecert-surface} and \autoref{thm:topology-generated-open-six-row-exactness-package}; exactness predicate, $\mathsf{GenOpenExact}_{\mathcal{G}}$; standard bridge status, the usual metric-generated topology surface; status, public paper certificate for downstream $\TopologyUp$ use.
 
 \begin{definition}[Indexed boundary open witnesses]
