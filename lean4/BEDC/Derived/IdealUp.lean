@@ -163,4 +163,107 @@ theorem FiniteIdealMeet_closure_rows
                 · intro i memberI
                   exact (familyAbsorb memberI carrierR (meetX.right i memberI)).right
 
+theorem RingMapIdealPreimage_closure_rows
+    {CarrierS CarrierT J : BHist -> Prop}
+    {ClassifierS ClassifierT : BHist -> BHist -> Prop}
+    {zeroS zeroT : BHist}
+    {addS mulS addT mulT : BHist -> BHist -> BHist}
+    {negS negT f : BHist -> BHist}
+    (sourceCert : NameCert CarrierS ClassifierS)
+    (targetCert : NameCert CarrierT ClassifierT)
+    (sourceZero : CarrierS zeroS)
+    (sourceAdd : forall {x y : BHist}, CarrierS x -> CarrierS y -> CarrierS (addS x y))
+    (sourceNeg : forall {x : BHist}, CarrierS x -> CarrierS (negS x))
+    (sourceMul : forall {x y : BHist}, CarrierS x -> CarrierS y -> CarrierS (mulS x y))
+    (mapCarrier : forall {x : BHist}, CarrierS x -> CarrierT (f x))
+    (mapClassifier :
+      forall {x y : BHist}, CarrierS x -> CarrierS y -> ClassifierS x y ->
+        ClassifierT (f x) (f y))
+    (mapZero : ClassifierT (f zeroS) zeroT)
+    (mapAdd :
+      forall {x y : BHist}, CarrierS x -> CarrierS y ->
+        ClassifierT (f (addS x y)) (addT (f x) (f y)))
+    (mapNeg :
+      forall {x : BHist}, CarrierS x -> ClassifierT (f (negS x)) (negT (f x)))
+    (mapMul :
+      forall {x y : BHist}, CarrierS x -> CarrierS y ->
+        ClassifierT (f (mulS x y)) (mulT (f x) (f y)))
+    (idealSupport : forall {x : BHist}, J x -> CarrierT x)
+    (idealZero : J zeroT)
+    (idealAdd : forall {x y : BHist}, J x -> J y -> J (addT x y))
+    (idealNeg : forall {x : BHist}, J x -> J (negT x))
+    (idealMul : forall {x y : BHist}, J x -> J y -> J (mulT x y))
+    (idealTransport : forall {x y : BHist}, J x -> ClassifierT x y -> J y)
+    (idealAbsorb :
+      forall {r x : BHist}, CarrierT r -> J x -> J (mulT r x) ∧ J (mulT x r)) :
+    (let Preimage : BHist -> Prop := fun x => CarrierS x ∧ J (f x);
+      (forall {x : BHist}, Preimage x -> CarrierS x) ∧
+        Preimage zeroS ∧
+        (forall {x y : BHist}, Preimage x -> Preimage y -> Preimage (addS x y)) ∧
+        (forall {x : BHist}, Preimage x -> Preimage (negS x)) ∧
+        (forall {x y : BHist}, Preimage x -> Preimage y -> Preimage (mulS x y)) ∧
+        (forall {x y : BHist}, Preimage x -> ClassifierS x y -> Preimage y) ∧
+        (forall {r x : BHist}, CarrierS r -> Preimage x ->
+          Preimage (mulS r x) ∧ Preimage (mulS x r))) := by
+  dsimp
+  constructor
+  · intro x preimageX
+    exact preimageX.left
+  · constructor
+    · constructor
+      · exact sourceZero
+      · have sameTargetZero : ClassifierT zeroT (f zeroS) :=
+          NameCert.equiv_symm targetCert mapZero
+        exact idealTransport idealZero sameTargetZero
+    · constructor
+      · intro x y preimageX preimageY
+        constructor
+        · exact sourceAdd preimageX.left preimageY.left
+        · have mappedSum : J (addT (f x) (f y)) :=
+            idealAdd preimageX.right preimageY.right
+          have sameSum : ClassifierT (addT (f x) (f y)) (f (addS x y)) :=
+            NameCert.equiv_symm targetCert (mapAdd preimageX.left preimageY.left)
+          exact idealTransport mappedSum sameSum
+      · constructor
+        · intro x preimageX
+          constructor
+          · exact sourceNeg preimageX.left
+          · have mappedNeg : J (negT (f x)) := idealNeg preimageX.right
+            have sameNeg : ClassifierT (negT (f x)) (f (negS x)) :=
+              NameCert.equiv_symm targetCert (mapNeg preimageX.left)
+            exact idealTransport mappedNeg sameNeg
+        · constructor
+          · intro x y preimageX preimageY
+            constructor
+            · exact sourceMul preimageX.left preimageY.left
+            · have mappedProduct : J (mulT (f x) (f y)) :=
+                idealMul preimageX.right preimageY.right
+              have sameProduct : ClassifierT (mulT (f x) (f y)) (f (mulS x y)) :=
+                NameCert.equiv_symm targetCert (mapMul preimageX.left preimageY.left)
+              exact idealTransport mappedProduct sameProduct
+          · constructor
+            · intro x y preimageX sameXY
+              have carrierY : CarrierS y :=
+                NameCert.carrier_respects_equiv sourceCert sameXY preimageX.left
+              have sameImage : ClassifierT (f x) (f y) :=
+                mapClassifier preimageX.left carrierY sameXY
+              exact And.intro carrierY (idealTransport preimageX.right sameImage)
+            · intro r x carrierR preimageX
+              have carrierFX : CarrierT (f x) := idealSupport preimageX.right
+              have carrierFR : CarrierT (f r) := mapCarrier carrierR
+              have targetAbsorb : J (mulT (f r) (f x)) ∧ J (mulT (f x) (f r)) :=
+                idealAbsorb carrierFR preimageX.right
+              constructor
+              · constructor
+                · exact sourceMul carrierR preimageX.left
+                · have sameLeft : ClassifierT (mulT (f r) (f x)) (f (mulS r x)) :=
+                    NameCert.equiv_symm targetCert (mapMul carrierR preimageX.left)
+                  exact idealTransport targetAbsorb.left sameLeft
+              · constructor
+                · exact sourceMul preimageX.left carrierR
+                · have targetRight : J (mulT (f x) (f r)) := targetAbsorb.right
+                  have sameRight : ClassifierT (mulT (f x) (f r)) (f (mulS x r)) :=
+                    NameCert.equiv_symm targetCert (mapMul preimageX.left carrierR)
+                  exact idealTransport targetRight sameRight
+
 end BEDC.Derived.IdealUp
