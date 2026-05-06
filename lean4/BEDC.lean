@@ -282,9 +282,10 @@ import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
-import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.ManifoldUp
+import BEDC.Derived.ManifoldUp.ChartDomainCarrierTransport
+import BEDC.Derived.ManifoldUp.TransitionCoherenceLedger
 import BEDC.Derived.ManifoldUp.IdentityTransitionBoundary
 import BEDC.Derived.ManifoldUp.IdentityTransitionReadback
 import BEDC.Derived.ManifoldUp.AtlasSurface
