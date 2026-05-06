@@ -17,6 +17,14 @@ inductive OperatorIdealTraceClassCarrier (T : BHist) : Prop where
   | mk (support : BHist) :
       UnaryHistory support -> Cont support BHist.Empty T -> OperatorIdealTraceClassCarrier T
 
+theorem OperatorIdealTraceClass_support_readback {T : BHist} :
+    OperatorIdealTraceClassCarrier T -> exists support : BHist, UnaryHistory support ∧
+      Cont support BHist.Empty T := by
+  intro carrier
+  cases carrier with
+  | mk support supportUnary supportVisible =>
+      exact ⟨support, supportUnary, supportVisible⟩
+
 theorem OperatorIdealTraceClass_finite_context_closure {T result : BHist} :
     OperatorIdealTraceClassCarrier T -> OperatorIdealBoundedContextAction T result ->
       OperatorIdealTraceClassCarrier result := by
@@ -83,6 +91,30 @@ theorem OperatorIdealTraceClass_binary_linear_combination_closure
             OperatorIdealTraceClassCarrier.mk _
               (unary_cont_closed scalarUnaryA scalarUnaryB addScalars)
               (cont_right_unit _)
+
+theorem OperatorIdealBoundedContextAction_consumer_context_exhaustion {T result : BHist} :
+    OperatorIdealTraceClassCarrier T -> OperatorIdealBoundedContextAction T result ->
+      OperatorIdealTraceClassCarrier result ∧
+        (hsame result T ∨
+          exists A : BHist, exists U : BHist,
+            UnaryHistory A ∧ OperatorIdealBoundedContextAction T U ∧
+              (Cont A U result ∨ Cont U A result)) := by
+  intro carrier action
+  constructor
+  · exact OperatorIdealTraceClass_finite_context_closure carrier action
+  · induction action with
+    | id =>
+        exact Or.inl (hsame_refl _)
+    | left unaryA step rel _ =>
+        exact Or.inr
+          (Exists.intro _
+            (Exists.intro _
+              (And.intro unaryA (And.intro step (Or.inl rel)))))
+    | right unaryA step rel _ =>
+        exact Or.inr
+          (Exists.intro _
+            (Exists.intro _
+              (And.intro unaryA (And.intro step (Or.inr rel)))))
 
 theorem OperatorIdealTraceClass_additive_closure_row {T S sum neg : BHist} :
     OperatorIdealTraceClassCarrier BHist.Empty ∧
