@@ -92,4 +92,32 @@ theorem BHistGeneratedOpen_semantic_name_certificate (T : BHistIndexedOpenCarrie
       exact And.intro generated sourceH.right
   }
 
+theorem BHistGeneratedOpen_six_row_exactness_package
+    (T : BHistIndexedOpenCarrier) {i j : T.OpenIx} {U V : BHist -> Prop} :
+    BHistUnaryTopologyLedgerRow T i U ->
+      BHistUnaryTopologyLedgerRow T j V ->
+        BHistGeneratedOpenExact T U /\
+          BHistGeneratedOpenExact T V /\
+            BHistGeneratedOpenExact T (fun x : BHist => U x /\ V x) /\
+              (exists ledger : BHist, UnaryHistory ledger) /\
+                (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+                  (U x <-> U y)) := by
+  intro rowU rowV
+  have exactUAndTransport := BHistUnaryTopologyLedgerRow_generated_open_exactness T rowU
+  have exactVAndTransport := BHistUnaryTopologyLedgerRow_generated_open_exactness T rowV
+  have meetExact :=
+    (BHistGeneratedOpen_binary_meet_admission T exactUAndTransport.left
+      exactVAndTransport.left).left
+  have ledgerWitness : exists ledger : BHist, UnaryHistory ledger := by
+    cases rowU with
+    | singletonMetricBall ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | finiteListIntersection ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | binaryGeneratedMeet ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | arbitraryUnion ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | bottom ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | top ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+  exact And.intro exactUAndTransport.left
+    (And.intro exactVAndTransport.left
+      (And.intro meetExact (And.intro ledgerWitness exactUAndTransport.right)))
+
 end BEDC.Derived.TopologyUp

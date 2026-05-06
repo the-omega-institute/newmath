@@ -6,6 +6,14 @@ namespace BEDC.Derived.SimplicialComplexUp
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 
+structure SimplicialComplexFiniteFaceCarrier : Type where
+  support : ProbeBundle BHist
+  Simplex : BHist -> Prop
+  Face : BHist -> BHist -> Prop
+  listed : forall {s : BHist}, Simplex s -> InBundle s support
+  face_closed : forall {tau sigma : BHist}, Simplex sigma -> Face tau sigma -> Simplex tau
+  face_trans : forall {rho tau sigma : BHist}, Face rho tau -> Face tau sigma -> Face rho sigma
+
 theorem SimplicialComplexFace_chain_closure (simplices : ProbeBundle BHist)
     {Simplex : BHist -> Prop} {Face : BHist -> BHist -> Prop}
     (listed : forall {s : BHist}, Simplex s -> InBundle s simplices)
