@@ -34,6 +34,27 @@ theorem BHistUnaryTopologyLedgerRow_generated_open_exactness
       exact And.intro (Exists.intro i carries)
         (BHistCarriesOpen_classifier_transport T carries)
 
+theorem TopologyPublicOpenTree_generated_open_exactness (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} :
+    TopologyPublicOpenTree T i U ->
+      BHistGeneratedOpenExact T U ∧
+        (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+          (U x <-> U y)) := by
+  intro tree
+  have carries : BHistCarriesOpen T i U := by
+    induction tree with
+    | basic carried =>
+        exact carried
+    | binaryMeet leftTree rightTree leftCarries rightCarries =>
+        exact (BHistIndexedOpen_finite_intersection_closure T leftCarries rightCarries).left
+    | arbitraryUnion children unionLaw childCarries =>
+        exact (BHistIndexedOpen_arbitrary_union_closure T unionLaw childCarries).left
+    | bottom boundary =>
+        exact (BHistIndexedOpen_boundary_closure T boundary).left
+    | top boundary =>
+        exact (BHistIndexedOpen_boundary_closure T boundary).right.left
+  exact And.intro (Exists.intro i carries) (BHistCarriesOpen_classifier_transport T carries)
+
 theorem BHistGeneratedOpen_semantic_name_certificate (T : BHistIndexedOpenCarrier)
     {U : BHist -> Prop} (generated : BHistGeneratedOpenExact T U)
     (source : exists h : BHist, UnaryHistory h ∧ U h) :
