@@ -2,7 +2,9 @@ import BEDC.Derived.TopologyUp.Core
 
 namespace BEDC.Derived.TopologyUp
 
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
@@ -23,6 +25,24 @@ def TopologySingletonMeet (i j : BHist) : BHist :=
   | BHist.e1 _, BHist.Empty => BHist.e0 BHist.Empty
   | BHist.e1 _, BHist.e0 _ => BHist.e0 BHist.Empty
   | BHist.e1 _, BHist.e1 _ => BHist.e0 BHist.Empty
+
+theorem TopologySingleton_boundary_open_laws :
+    (forall h : BHist, TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <-> False) ∧
+      (forall h : BHist,
+        TopologySingletonOpenAt BHist.Empty h <-> TopologySingletonCarrier h) := by
+  constructor
+  · intro h
+    constructor
+    · intro openH
+      exact not_hsame_e0_empty openH.left
+    · intro impossible
+      exact False.elim impossible
+  · intro h
+    constructor
+    · intro openH
+      exact openH.right
+    · intro carrierH
+      exact And.intro (hsame_refl BHist.Empty) carrierH
 
 theorem TopologySingleton_semantic_name_certificate :
     SemanticNameCert TopologySingletonCarrier TopologySingletonCarrier TopologySingletonCarrier
@@ -57,19 +77,7 @@ theorem TopologySingleton_semantic_name_certificate :
         intro h sourceH
         exact sourceH
     }
-  · constructor
-    · intro h
-      constructor
-      · intro openH
-        exact not_hsame_e0_empty openH.left
-      · intro impossible
-        exact False.elim impossible
-    · intro h
-      constructor
-      · intro openH
-        exact openH.right
-      · intro carrierH
-        exact And.intro (hsame_refl BHist.Empty) carrierH
+  · exact TopologySingleton_boundary_open_laws
 
 theorem TopologySingleton_boundary_open_laws :
     (forall h : BHist, TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <-> False) ∧
