@@ -113,3 +113,29 @@ It remains to handle the two cross cases. If $M(e)$ and $N(e')$ hold, the left d
 
 The graph-edge row and the no-shared-vertex row are precisely $\mathsf{MatchingEdgeSet}_G(U)$ by \autoref{def:matching-carrier-and-finite-edge-subset}.
 \end{proof}
+
+\begin{theorem}[Empty edge predicate matching]
+\label{thm:empty-edge-predicate-is-matching}
+Let $G$ be a $\GraphUp$ carrier with vertex predicate $\mathsf{Vert}_G$, edge predicate $\mathsf{Edge}_G$, incidence predicate $\mathsf{Inc}_G$, and edge classifier $\sim_E$. Let $Z:\mathsf{BHist}\to\mathsf{Prop}$ be an edge-selection predicate satisfying
+$$
+\forall e:\mathsf{BHist}.\;Z(e)\to\bot.
+$$
+Then
+$$
+\mathsf{MatchingEdgeSet}_G(Z).
+$$
+In particular, the empty predicate $M_\varnothing(e)\Longleftrightarrow\bot$ is a $\MatchingUp$ edge set in $G$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:matching-carrier-and-finite-edge-subset}. The matching claim has two rows: graph-edge support for every selected edge, and the no-shared-vertex implication for pairs of selected edges.
+
+For graph-edge support, fix $e:\mathsf{BHist}$ and assume $Z(e)$. The displayed emptiness row gives $\bot$, and hence gives $\mathsf{Edge}_G(e)$.
+
+For the no-shared-vertex row, fix $e,e',v:\mathsf{BHist}$ and assume
+$$
+Z(e)\land Z(e')\land\mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e').
+$$
+The first component gives $Z(e)$, so the displayed emptiness row again gives a contradiction. Therefore the required conclusion $e\sim_E e'$ follows. These two vacuous rows are exactly $\mathsf{MatchingEdgeSet}_G(Z)$.
+
+Taking $Z=M_\varnothing$, the defining equivalence $M_\varnothing(e)\Longleftrightarrow\bot$ supplies $M_\varnothing(e)\to\bot$ for every $e$, so the displayed result applies to the empty edge predicate.
+\end{proof}
