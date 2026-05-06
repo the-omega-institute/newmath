@@ -28,4 +28,15 @@ theorem ConvexSetSingletonAffineSpine_closure {xs : List BHist} {z : BHist} :
                   exact hsame_trans continuation (append_eq_empty_iff.mpr
                     (And.intro xEmpty tailEmpty))
 
+theorem ConvexSetSingletonAffineSpine_midpoint_closure {x y endpoint : BHist} :
+    hsame x BHist.Empty -> hsame y BHist.Empty -> Cont x y endpoint ->
+      ConvexSetSingletonAffineSpine [x, y] endpoint ∧ hsame endpoint BHist.Empty := by
+  intro xEmpty yEmpty endpointRow
+  have tailSpine : ConvexSetSingletonAffineSpine [y] y :=
+    And.intro yEmpty (Exists.intro BHist.Empty
+      (And.intro (hsame_refl BHist.Empty) (cont_right_unit y)))
+  have spine : ConvexSetSingletonAffineSpine [x, y] endpoint :=
+    And.intro xEmpty (Exists.intro y (And.intro tailSpine endpointRow))
+  exact And.intro spine (ConvexSetSingletonAffineSpine_closure spine)
+
 end BEDC.Derived.ConvexSetUp

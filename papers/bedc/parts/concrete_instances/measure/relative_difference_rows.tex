@@ -1,0 +1,150 @@
+\begin{theorem}[Measure nonnegative value obligation]
+\label{thm:measure-nonnegative-value-obligation}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, every
+displayed measurable event $E$ has a visible RealAlgOrder row
+$$
+\mathsf{NonNeg}_R(\mu(E)).
+$$
+If the $\MeasureUp$ classifier transports $E$ to a displayed measurable event
+$E'$ and classifies the endpoints by $\mu(E)\sim_R\mu(E')$, then the same
+classifier transport carries $\mathsf{NonNeg}_R(\mu(E))$ to
+$\mathsf{NonNeg}_R(\mu(E'))$.
+\end{theorem}
+\begin{proof}
+Project the nonnegative measure-value clause of the $\MeasureUp$ carrier
+surface at the displayed measurable event $E$. This supplies the public row
+$\mathsf{NonNeg}_R(\mu(E))$ attached to the same ledger entry as the endpoint
+$\mu(E)$.
+
+For classifier transport, use the endpoint comparison supplied by
+\autoref{def:measure-classifier-specification}. The nonnegative row is stable
+under $\sim_R$ by definition, so the transported endpoint $\mu(E')$ receives
+the row $\mathsf{NonNeg}_R(\mu(E'))$. No order on host representatives is
+consulted.
+\end{proof}
+
+\begin{theorem}[Measure monotone under measurable inclusion]
+\label{thm:measure-monotone-under-measurable-inclusion}
+Let $A$ and $B$ be displayed measurable events in a $\MeasureUp$ carrier. If
+the displayed measurable-difference row witnesses inclusion by presenting a
+measurable event $C$ with $B=A\sqcup C$, then the finite disjoint-union
+additivity row, the nonnegative value row for $\mu(C)$, and the RealAlgOrder
+additive order row classify
+$$
+\mu(A)\le_R\mu(B).
+$$
+\end{theorem}
+\begin{proof}
+Read the displayed measurable-difference row as the package of a measurable
+event $C$, a disjointness witness between $A$ and $C$, and a classifier
+identification of $B$ with the displayed disjoint union $A\sqcup C$.
+
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to $A$ and $C$.
+It gives the endpoint classification
+$$
+\mu(A\sqcup C)\sim_R\mu(A)+\mu(C).
+$$
+Transport this comparison along the displayed identification
+$B\sim_M A\sqcup C$ and the endpoint classifier row, obtaining
+$\mu(B)\sim_R\mu(A)+\mu(C)$.
+
+Now project \autoref{thm:measure-nonnegative-value-obligation} at $C$ to get
+$\mathsf{NonNeg}_R(\mu(C))$. The RealAlgOrder additive order row says that
+adding a nonnegative right summand classifies the left summand below the sum,
+so it yields $\mu(A)\le_R\mu(A)+\mu(C)$.
+
+Finally transport the right endpoint of that order comparison across
+$\mu(B)\sim_R\mu(A)+\mu(C)$ using the $\sim_R$-stability of the RealAlgOrder
+order row. The result is the displayed classification
+$\mu(A)\le_R\mu(B)$.
+\end{proof}
+
+\begin{theorem}[Measure complement row transport]
+\label{thm:measure-complement-row-transport}
+Let $M$ and $N$ be $\MeasureUp$ carriers as in
+\autoref{def:measure-carrier-specification}, and suppose
+$M\sim_{\MeasureUp}N$ through the public classifier of
+\autoref{def:measure-classifier-specification}. If $A$ and $B$ are displayed
+measurable events of $M$ with displayed inclusion $B\subseteq A$, then the
+complement/relative-difference row of
+\autoref{def:measure-complement-difference-row} transports the event
+$A\setminus B$, its measurable witness, its disjointness witness against $B$,
+its binary-union readback $B\cup(A\setminus B)\sim_M A$, and its $\RealUp$
+measure endpoint to the corresponding row of $N$.
+\end{theorem}
+\begin{proof}
+Project the public classifier into its componentwise $\hsame$ fields. These
+fields transport the carried fiber, the two event presentations, their
+measurable witnesses, and the displayed inclusion witness from $M$ to $N$.
+
+Apply the stability clause in
+\autoref{def:measure-complement-difference-row} to those transported inputs.
+It returns the target relative-difference event together with the measurable,
+disjointness, and binary-union readback fields.
+
+The remaining endpoint comparison is the value component of the same row. Read
+that component through $\mathsf{RealConstantHistoryClassifier}$ and then
+through the $\RealUp$ classifier supplied by
+\autoref{def:real-classifier-specification}.
+\end{proof}
+
+\begin{theorem}[Measure relative-difference disjoint decomposition]
+\label{thm:measure-relative-difference-disjoint-decomposition}
+Let $M$ be a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Let
+$A$ and $B$ be displayed measurable events in the same carried fiber, and
+suppose the public event readback displays $B\subseteq A$. Then the
+complement/relative-difference row supplies a measurable event
+$A\setminus B$ such that $B$ and $A\setminus B$ are disjoint and the binary
+union $B\cup(A\setminus B)$ is classified as $A$ in the public $\MeasureUp$
+event classifier.
+\end{theorem}
+\begin{proof}
+Read the complement/relative-difference row of
+\autoref{def:measure-complement-difference-row} at the carried fiber of $M$.
+The hypotheses give exactly the row inputs: two measurable events and a
+displayed inclusion $B\subseteq A$ in that fiber.
+
+Project the row. Its first projection is the measurable event
+$A\setminus B$. The next projections are the disjointness witness for $B$ and
+$A\setminus B$ and the binary-union readback classifying
+$B\cup(A\setminus B)$ as $A$.
+
+These projections are already ledger rows of the public carrier surface, so no
+host-level set subtraction or quotient equality is introduced.
+\end{proof}
+
+\begin{theorem}[Measure relative-difference additivity]
+\label{thm:measure-relative-difference-additivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$
+classifier of \autoref{def:real-classifier-specification}. Let
+$A,B\in\mathcal{A}$ be displayed events in the same carried fiber, and suppose
+the public event readback displays $B\subseteq A$. If the certificate supplies
+the complement/relative-difference row of
+\autoref{def:measure-complement-difference-row} and the hypotheses of
+\autoref{thm:measure-finite-disjoint-union-additivity} for the pair
+$B,A\setminus B$, then
+$$
+\mu(A)\sim_R\mu(B)+\mu(A\setminus B).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:measure-relative-difference-disjoint-decomposition} to the
+displayed inclusion $B\subseteq A$. This gives measurability of
+$A\setminus B$, disjointness of $B$ and $A\setminus B$, and the binary-union
+readback classifying $B\cup(A\setminus B)$ as $A$.
+
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to the disjoint
+pair $B$ and $A\setminus B$. The theorem gives
+$$
+\mu(B\cup(A\setminus B))\sim_R\mu(B)+\mu(A\setminus B).
+$$
+
+Use the binary-union readback from the relative-difference row to transport the
+left endpoint from $\mu(B\cup(A\setminus B))$ to $\mu(A)$ through the
+$\MeasureUp$ event classifier and then through the $\RealUp$ value classifier.
+Composing that endpoint transport with the finite disjoint-union comparison
+gives the displayed finite difference law.
+\end{proof}
