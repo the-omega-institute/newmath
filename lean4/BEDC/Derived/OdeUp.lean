@@ -36,6 +36,20 @@ def OdeLocalFlowSource (t0 x0 p v ell t1 x1 : BHist) : Prop :=
     UnaryHistory ell ∧ UnaryHistory t1 ∧ UnaryHistory x1 ∧
       Cont t0 x0 p ∧ Cont p v ell ∧ Cont t1 ell x1
 
+theorem OdeLocalFlowSource_vector_field_carrier_stability
+    {t0 x0 p v ell t1 x1 v' ell' : BHist} :
+    OdeLocalFlowSource t0 x0 p v ell t1 x1 -> hsame v v' -> Cont p v' ell' ->
+      UnaryHistory v ∧ UnaryHistory v' ∧ hsame ell ell' := by
+  intro source sameVector transportedStep
+  have vectorUnary : UnaryHistory v := source.right.right.right.left
+  have transportedVectorUnary : UnaryHistory v' :=
+    unary_transport vectorUnary sameVector
+  have sourceStep : Cont p v ell :=
+    source.right.right.right.right.right.right.right.right.left
+  have sameEll : hsame ell ell' :=
+    cont_respects_hsame (hsame_refl p) sameVector sourceStep transportedStep
+  exact And.intro vectorUnary (And.intro transportedVectorUnary sameEll)
+
 theorem OdeLocalFlowSource_picard_continuation_scope
     {t0 x0 p v ell t1 x1 p2 v2 ell2 t2 x2 : BHist} :
     OdeLocalFlowSource t0 x0 p v ell t1 x1 →
