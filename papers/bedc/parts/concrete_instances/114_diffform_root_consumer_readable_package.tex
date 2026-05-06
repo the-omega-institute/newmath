@@ -1,0 +1,119 @@
+\section{DiffForm root consumer-readable package}
+\label{sec:diffform-root-consumer-readable-package}
+
+\begin{definition}[DiffForm root consumer-readable package]
+\label{def:diffform-root-consumer-readable-package}
+The root consumer-readable package for $\DiffFormUp$ is the ten-field
+interface
+$$
+\mathsf{DiffFormRootConsumerPackage}_{M,T}.
+$$
+Its fields are:
+\begin{enumerate}
+  \item traditional target: finite-degree differential forms as consumed by
+  downstream exterior-calculus chapters;
+  \item BEDC source: $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+  $\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$;
+  \item carrier: the six-coordinate surface consisting of the carried form
+  row, degree history, probe bundle, tensor source row, manifold source row,
+  and $\Cont$ route history;
+  \item classifier: the displayed relation $\sim_{\DiffFormUp}$ on the
+  carried root surface;
+  \item stability: carrier transport, classifier stability,
+  degree-probe alignment transport, wedge routing, and exterior-input
+  routing;
+  \item ledger: exactly the histories and source rows named in the carrier,
+  together with the wedge and exterior-input boundary rows;
+  \item core theorem list:
+  \autoref{thm:diffform-root-bhist-carrier-obligation},
+  \autoref{thm:diffform-root-bhist-classifier-stability-obligation},
+  \autoref{thm:diffform-root-bhist-ledger-exactness-obligation}, and
+  \autoref{thm:diffform-root-bhist-downstream-boundary};
+  \item exactness boundary: no consumer receives a row outside the boundary
+  exhausted by \autoref{def:diffform-root-bhist-namecert-surface};
+  \item absent bridge: no standard bridge or quotient bridge is exported;
+  \item status: $(\obligationClosure,\unformalizedV)$.
+\end{enumerate}
+The package is only a reader-facing projection of
+\autoref{def:diffform-root-bhist-namecert-surface}; it introduces no
+additional exterior law.
+\end{definition}
+
+\begin{theorem}[DiffForm root consumer carrier projection]
+\label{thm:diffform-root-consumer-carrier-projection}
+Every consumer read of
+\autoref{def:diffform-root-consumer-readable-package} projects only the
+six-coordinate carrier consisting of the carried form row, degree history,
+probe bundle, tensor source row, manifold source row, and $\Cont$ route
+history, together with the displayed classifier $\sim_{\DiffFormUp}$.
+\end{theorem}
+\begin{proof}
+Unpack the package definition. Its carrier and classifier fields are copied
+from \autoref{def:diffform-root-bhist-namecert-surface}, so a consumer read
+has no independent carrier coordinate to inspect.
+
+Apply \autoref{thm:diffform-root-bhist-carrier-obligation}. The root
+obligation supplies exactly the carried form row, the aligned degree and
+probe entries, and the two source NameCert rows named by the package.
+
+It remains to exclude hidden classifier data. Apply
+\autoref{thm:diffform-root-bhist-classifier-stability-obligation}; classifier
+transport preserves the displayed root rows and does not create a tangent,
+quotient, standard-object, or external classifier coordinate. Hence the
+consumer projection is exactly the six-coordinate carrier plus
+$\sim_{\DiffFormUp}$.
+\end{proof}
+
+\begin{theorem}[DiffForm root consumer operation routing]
+\label{thm:diffform-root-consumer-operation-routing}
+Every wedge read and every exterior-input read through
+\autoref{def:diffform-root-consumer-readable-package} routes only through the
+root wedge boundary row and the root exterior-input boundary row already
+listed by \autoref{def:diffform-root-bhist-namecert-surface}.
+\end{theorem}
+\begin{proof}
+Begin with a wedge read. The package ledger names the wedge row only as part
+of the root surface, so the read is routed through the wedge boundary
+component already exposed by
+\autoref{def:diffform-root-bhist-namecert-surface}.
+
+For an exterior-input read, use the same ledger field. The exterior input is
+the root input row carried by the displayed $BHist$, $\hsame$, $\Cont$,
+$\mathsf{ProbeBundle}$, $\NameCert_{\ManifoldUp}$, and
+$\NameCert_{\TensorProductUp}$ source data.
+
+Apply \autoref{thm:diffform-root-bhist-ledger-exactness-obligation}. Its
+ledger exactness statement says that the visible operation witnesses are
+only degree histories, probe bundles, tensor and manifold source rows, wedge
+rows, exterior-derivative input rows, and $\Cont$ route histories. Therefore
+the consumer package has no separate operation-routing surface.
+\end{proof}
+
+\begin{theorem}[DiffForm root consumer NameCert boundary]
+\label{thm:diffform-root-consumer-namecert-boundary}
+The downstream chapters $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ may
+cite \autoref{def:diffform-root-consumer-readable-package} as the root
+$\NameCert_{\DiffFormUp}$ boundary. This citation supplies the carrier,
+classifier, stability, ledger, wedge-routing, exterior-input, and source
+NameCert rows named there, but supplies no $d^2=0$, closedness,
+nondegeneracy, contact nonintegrability, quotient, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Start from a downstream citation by $\DeRhamUp$, $\SymplecticUp$, or
+$\ContactUp$. Apply
+\autoref{thm:diffform-root-bhist-downstream-boundary}; every such read
+factors through the carried row, classifier row, degree-probe alignment,
+wedge routing, exterior-input routing, source NameCert rows, and $\Cont$
+route histories of the root surface.
+
+Now replace the root surface by the consumer package. The definition of
+\autoref{def:diffform-root-consumer-readable-package} lists exactly those
+fields and names the same core theorem list, so the downstream citation is a
+readable package citation rather than a new source of structure.
+
+Finally apply
+\autoref{thm:diffform-root-bhist-ledger-exactness-obligation}. Since the
+root ledger has no row for $d^2=0$, closedness, nondegeneracy, contact
+nonintegrability, quotienting, or a standard bridge, none of those
+obligations can be received from the package.
+\end{proof}

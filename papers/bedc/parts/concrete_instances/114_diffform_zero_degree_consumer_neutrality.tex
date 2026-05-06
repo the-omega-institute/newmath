@@ -1,0 +1,95 @@
+\begin{definition}[Differential-form zero-degree consumer-neutrality surface]
+\label{def:diffform-zero-degree-consumer-neutrality-surface}
+Fix $\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$ sources
+$M,T$ as in \autoref{def:diffform-bhist-form-carrier}. The differential-form
+zero-degree consumer-neutrality surface is the zero-degree scalar boundary row
+of \autoref{def:diffform-zero-degree-scalar-boundary}, read together with the
+shared rows visible to every downstream consumer:
+\begin{enumerate}
+  \item the carried $BHist$ row, its $\hsame$ ledger, and the displayed
+  $\Cont$ unit rows on the empty degree history;
+  \item the empty probe spine $\mathsf{ProbeBundle.Bnil}$ and its absence of
+  probe membership rows;
+  \item the $\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$
+  source ledgers supplying the manifold and tensor endpoints;
+  \item the retained scalar endpoint classifier row;
+  \item the empty antisymmetry ledger and the source ledger rows recorded by
+  the boundary coordinate $\lambda_0$.
+\end{enumerate}
+This surface is a shared root-face package only. It contains the data needed to
+reuse the scalar $0$-form boundary, but it does not add a consumer-specific
+law row.
+\end{definition}
+
+\begin{theorem}[Differential-form zero-degree shared consumer face]
+\label{thm:diffform-zero-degree-shared-consumer-face}
+The zero-degree consumer-neutrality surface of
+\autoref{def:diffform-zero-degree-consumer-neutrality-surface} lies wholly in
+the shared root face consumed by $\DeRhamUp$, $\SymplecticUp$, and
+$\ContactUp$.
+\end{theorem}
+\begin{proof}
+Unpack the surface through
+\autoref{def:diffform-zero-degree-consumer-neutrality-surface}. Its probe
+coordinate is $\mathsf{ProbeBundle.Bnil}$, so
+\autoref{thm:diffform-zero-degree-empty-probe-exhaustion} removes every
+probe-indexed membership row from the exported data.
+
+The remaining classifier information is exactly the retained scalar endpoint
+and the visible source-ledger comparisons by
+\autoref{thm:diffform-zero-degree-scalar-classifier-readback}. These rows are
+carried $BHist$, classifier, scalar endpoint, empty antisymmetry, wedge-unit,
+and source-ledger rows.
+
+Apply \autoref{thm:diffform-root-consumer-face-coverage}. The shared root
+face is precisely the face that may be consumed by the three downstream
+chapters without assigning a row to a consumer-specific law. Hence the whole
+zero-degree surface lies in that shared face.
+\end{proof}
+
+\begin{theorem}[Differential-form zero-degree consumer law separation]
+\label{thm:diffform-zero-degree-consumer-law-separation}
+The zero-degree consumer-neutrality surface exports no $d^2=0$ row, no
+closedness row, no nondegeneracy row, and no contact nonintegrability row.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:diffform-zero-degree-shared-consumer-face}, the surface lies
+inside the shared root face. Apply
+\autoref{thm:diffform-root-consumer-face-disjointness}: nilpotence is owned by
+$\DeRhamUp$, closedness and nondegeneracy by $\SymplecticUp$, and contact
+nonintegrability by $\ContactUp$.
+
+It remains to check that the wedge contribution does not smuggle in one of
+those laws. The wedge row available at zero degree is only the $\Cont$ unit
+boundary of
+\autoref{thm:diffform-zero-degree-wedge-cont-unit-boundary}. That theorem
+identifies the empty probe and empty degree contribution of the scalar
+endpoint; it supplies no exterior-derivative square, no symplectic closedness
+or nondegeneracy clause, and no contact nonintegrability clause.
+
+Therefore every law row named in the statement remains outside the exported
+zero-degree surface.
+\end{proof}
+
+\begin{theorem}[Differential-form zero-degree deps-ready consumer seal]
+\label{thm:diffform-zero-degree-deps-ready-consumer-seal}
+The definition
+\autoref{def:diffform-zero-degree-consumer-neutrality-surface}, the shared
+consumer-face theorem
+\autoref{thm:diffform-zero-degree-shared-consumer-face}, and the consumer law
+separation theorem
+\autoref{thm:diffform-zero-degree-consumer-law-separation} form the citable
+zero-degree shared package for the $\DeRhamUp$, $\SymplecticUp$, and
+$\ContactUp$ consumers.
+\end{theorem}
+\begin{proof}
+The definition names the exact rows carried by the scalar $0$-form boundary.
+The shared consumer-face theorem places those rows in the common root face
+seen by the three downstream chapters.
+
+The consumer law separation theorem records the complementary exclusion:
+nilpotence, closedness, nondegeneracy, and contact nonintegrability are not
+part of the zero-degree root package. Thus downstream consumers may cite this
+package for the shared zero-degree boundary while keeping their own laws
+separate.
+\end{proof}
