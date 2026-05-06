@@ -112,4 +112,33 @@ theorem DiffFormExteriorDerivativeLedger_degree_raise
   exact And.intro ledger.right.right.left
     (And.intro ledger.right.right.right.left ledger.right.right.right.right.left)
 
+theorem DiffFormExteriorDerivativeLedger_hsame_transport_degree_raise
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source omega2
+      domega2 d2 dplus2 probe2 probe2' tensor2 tensor2' scalar2 scalar2' antisym2 source2 :
+      BHist} :
+    hsame omega omega2 -> hsame domega domega2 -> hsame d d2 -> hsame dplus dplus2 ->
+      hsame probe probe2 -> hsame probe' probe2' -> hsame tensor tensor2 ->
+        hsame tensor' tensor2' -> hsame scalar scalar2 -> hsame scalar' scalar2' ->
+          hsame antisym antisym2 -> hsame source source2 ->
+            DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor'
+              scalar scalar' antisym source ->
+              DiffFormExteriorDerivativeLedger omega2 domega2 d2 dplus2 probe2 probe2'
+                tensor2 tensor2' scalar2 scalar2' antisym2 source2 ∧ UnaryHistory d2 ∧
+                  UnaryHistory dplus2 ∧ Cont d2 (BHist.e1 BHist.Empty) dplus2 := by
+  intro sameOmega sameDomega sameDegree sameRaised sameProbe sameProbe' sameTensor
+    sameTensor' sameScalar sameScalar' sameAntisym sameSource ledger
+  cases sameOmega
+  cases sameDomega
+  cases sameDegree
+  cases sameRaised
+  cases sameProbe
+  cases sameProbe'
+  cases sameTensor
+  cases sameTensor'
+  cases sameScalar
+  cases sameScalar'
+  cases sameAntisym
+  cases sameSource
+  exact And.intro ledger (DiffFormExteriorDerivativeLedger_degree_raise ledger)
+
 end BEDC.Derived.DiffFormUp
