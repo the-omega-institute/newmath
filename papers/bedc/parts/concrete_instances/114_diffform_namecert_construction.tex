@@ -195,6 +195,70 @@ sources. The standard-bridge slot in
 there is no additional bridge ledger to accept.
 \end{proof}
 
+\begin{theorem}[Differential-form classifier reflexivity obligation]
+\label{thm:diffform-classifier-reflexivity-obligation}
+Every row carried by $\mathsf{DiffFormBHistCarrier}_{M,T}$ satisfies its own
+$\DiffFormUp$ classifier:
+$$
+\omega\sim_{\DiffFormUp}\omega.
+$$
+Equivalently, the BHist row accepted by the displayed carrier gives a
+reflexive NameCert classifier row for the $\DiffFormUp$ certificate over the
+fixed $\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$ sources.
+\end{theorem}
+\begin{proof}
+Unpack the classifier in \autoref{def:diffform-bhist-form-classifier}. The
+degree, tensor, antisymmetry, and source-ledger clauses are all reflexive
+$\hsame$ comparisons between the corresponding visible $\mathsf{BHist}$ rows.
+
+For each matched multilinear probe row in the displayed $\mathsf{ProbeBundle}$,
+the scalar endpoint is compared with itself by reflexivity of the scalar-source
+classifier retained by the upstream $\NameCert_{\ManifoldUp}$ and
+$\NameCert_{\TensorProductUp}$ data. These componentwise reflexivity clauses
+are exactly the clauses required by the $\DiffFormUp$ classifier.
+\end{proof}
+
+\begin{theorem}[Differential-form classifier symmetry obligation]
+\label{thm:diffform-classifier-symmetry-obligation}
+For rows carried by $\mathsf{DiffFormBHistCarrier}_{M,T}$, the classifier of
+\autoref{def:diffform-bhist-form-classifier} is symmetric: if
+$\omega\sim_{\DiffFormUp}\eta$, then $\eta\sim_{\DiffFormUp}\omega$.
+\end{theorem}
+\begin{proof}
+Unpack the given classifier row through
+\autoref{def:diffform-bhist-form-classifier}. The degree comparison and the
+tensor, antisymmetry, and source-ledger comparisons are visible $\hsame$
+relations on $\mathsf{BHist}$ rows, so symmetry of $\hsame$ reverses each of
+those clauses.
+
+The matched scalar endpoints are compared by the scalar-source classifier
+retained from the $\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$
+sources. Reversing that retained classifier comparison at each bundled
+$\mathsf{ProbeBundle}$ row gives the scalar clause for
+$\eta\sim_{\DiffFormUp}\omega$, and the reversed $\hsame$ ledger clauses supply
+the remaining classifier fields.
+\end{proof}
+
+\begin{theorem}[Differential-form classifier transitivity obligation]
+\label{thm:diffform-classifier-transitivity-obligation}
+For rows carried by $\mathsf{DiffFormBHistCarrier}_{M,T}$, the classifier of
+\autoref{def:diffform-bhist-form-classifier} is transitive: if
+$\omega\sim_{\DiffFormUp}\eta$ and $\eta\sim_{\DiffFormUp}\theta$, then
+$\omega\sim_{\DiffFormUp}\theta$.
+\end{theorem}
+\begin{proof}
+Unpack the two classifier rows using
+\autoref{def:diffform-bhist-form-classifier}. Transitivity of $\hsame$ composes
+the degree comparisons, and the same transitive $\hsame$ composition applies
+to the tensor, antisymmetry, and source-ledger $\mathsf{BHist}$ rows.
+
+For each matched multilinear row in the common $\mathsf{ProbeBundle}$ surface,
+compose the scalar endpoint comparisons through the scalar-source classifier
+retained by $\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$. The
+composed scalar clauses and the composed $\hsame$ clauses give precisely the
+classifier fields required for $\omega\sim_{\DiffFormUp}\theta$.
+\end{proof}
+
 \begin{theorem}[Differential-form carrier hsame transport]
 \label{thm:diffform-carrier-hsame-transport}
 Let $\omega$ be a row accepted by
