@@ -255,6 +255,7 @@ import BEDC.Derived.IdealUp.AmbientCarrier
 import BEDC.Derived.IdealUp.QuotientKernel
 import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.IdealUp.QuotientKernelScope
+import BEDC.Derived.IdealUp.PrincipalGenerated
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
@@ -304,6 +305,7 @@ import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.LatticeUp.MeetAbsorption
 import BEDC.Derived.LatticeUp.ModularComparison
+import BEDC.Derived.LatticeUp.Monotonicity
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
