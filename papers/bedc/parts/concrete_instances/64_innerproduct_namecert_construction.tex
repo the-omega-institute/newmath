@@ -6,6 +6,53 @@ The inner-product interface $\InnerProductUp$ packages a vector space together w
 \section{Carrier definition}
 \label{sec:innerproduct-carrier}
 
+\begin{definition}[Inner-product BHist carrier]
+\label{def:innerproduct-bhist-carrier}
+An inner-product $\mathsf{BHist}$ carrier is a displayed package over a
+source $\NameCert_{\VecSpaceUp}$. It consists of the following rows:
+\begin{enumerate}
+  \item a vector carrier $V:\mathsf{BHist}\to\mathsf{Prop}$;
+  \item a vector classifier $\sim_V$ on carried vector histories;
+  \item the vector addition, vector zero, vector negation, and scalar-action
+  rows inherited from the displayed $\VecSpaceUp$ source;
+  \item a scalar endpoint classifier $\sim_{\mathbb{K}}$ supplied by the
+  scalar side of the $\VecSpaceUp$ source;
+  \item an inner-product endpoint row
+  $\langle-,-\rangle_{\InnerProductUp}:V\times V\to\mathsf{BHist}$ whose
+  values are carried by the scalar endpoint source;
+  \item a conjugate-symmetry row identifying
+  $\langle x,y\rangle_{\InnerProductUp}$ with the conjugate scalar endpoint
+  of $\langle y,x\rangle_{\InnerProductUp}$;
+  \item sesquilinear rows for vector addition in the additive argument and
+  scalar-action compatibility in the scalar argument, all classified by
+  $\sim_{\mathbb{K}}$;
+  \item a positive-definite row saying that
+  $\langle x,x\rangle_{\InnerProductUp}$ is nonnegative and that its scalar
+  zero classification holds exactly when $x\sim_V 0_V$;
+  \item a visible ledger recording the $\VecSpaceUp$ source row, every scalar
+  endpoint classifier used by the form, the operation rows consumed by the
+  sesquilinear clauses, and the positive-definite witness row.
+\end{enumerate}
+The carrier is therefore a named $\mathsf{BHist}$ display, not a host
+inner-product space. Downstream certificates read vector endpoints, scalar
+endpoints, and form values only through these displayed rows.
+\end{definition}
+
+\begin{definition}[Inner-product BHist classifier]
+\label{def:innerproduct-bhist-classifier}
+Two carried inner-product rows are classified exactly when all visible source
+rows match. Their vector carriers and vector classifiers agree through the
+same $\NameCert_{\VecSpaceUp}$ source; their scalar endpoint classifiers agree
+on every displayed value of $\langle-,-\rangle_{\InnerProductUp}$; and the
+addition, zero, negation, scalar-action, conjugate-symmetry, sesquilinear,
+positive-definite, and ledger rows match componentwise by $\hsame$.
+
+Thus the classifier does not identify two inner-product packages by an
+external isometry. It identifies them only by equality of the displayed BEDC
+rows that a later $\HilbertUp$, $\RiemannianMetricUp$, $\FourierUp$, or
+$\RootSystemUp$ certificate is allowed to consume.
+\end{definition}
+
 \section{The certificate}
 \label{sec:innerproduct-certificate}
 
@@ -182,4 +229,141 @@ downstream boundary consumed by $\HilbertUp$.
 Together these projections supply carrier, classifier, exactness, stability,
 and ledger provenance for the $\InnerProductUp$ naming certificate, with
 bridge status left unclaimed.
+\end{proof}
+
+\begin{theorem}[Inner-product carrier transport obligation]
+\label{thm:innerproduct-carrier-transport-obligation}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. If $x\sim_V x'$ and $y\sim_V y'$,
+then the vector carrier rows, scalar endpoint rows, inner-product endpoint
+row, conjugate-symmetry row, sesquilinear rows, positive-definite row, and
+ledger entries of $I$ transport componentwise by $\hsame$ from $(x,y)$ to
+$(x',y')$.
+\end{theorem}
+\begin{proof}
+Start with the $\VecSpaceUp$ source row inside $I$. Its carrier and classifier
+transport move $x$ to $x'$ and $y$ to $y'$ while preserving the displayed
+vector addition, zero, negation, and scalar-action rows.
+
+Next apply the scalar endpoint classifier row to the two displayed values
+$\langle x,y\rangle_{\InnerProductUp}$ and
+$\langle x',y'\rangle_{\InnerProductUp}$. The inner-product classifier of
+\autoref{def:innerproduct-bhist-classifier} requires these scalar endpoints to
+be classified by the same $\sim_{\mathbb{K}}$ row, so the form endpoint
+transports with the vector representatives.
+
+Finally transport the proof rows attached to that endpoint. Conjugate
+symmetry, both sesquilinear rows, positivity, and ledger provenance are stored
+as displayed rows in the carrier. Since classification is componentwise
+$\hsame$ on those rows, each witness is copied to the transported package
+without introducing any external inner-product-space equality.
+\end{proof}
+
+\begin{theorem}[Inner-product sesquilinear source obligation]
+\label{thm:innerproduct-sesquilinear-source-obligation}
+Every sesquilinear clause of an inner-product $\mathsf{BHist}$ carrier is
+sourced from its displayed $\VecSpaceUp$ and scalar rows. Additivity uses the
+vector addition row and the scalar addition classifier from the scalar
+endpoint source; scalar-action compatibility uses the displayed scalar action
+and the scalar multiplication, conjugation, and endpoint classifier rows from
+the same source ledger.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:innerproduct-bhist-carrier}. The only
+vector operations available to the form are the $\VecSpaceUp$ rows listed in
+the carrier: addition, zero, negation, and scalar action. The additivity
+clause is therefore stated over the displayed vector addition row and is
+classified on the scalar side by $\sim_{\mathbb{K}}$.
+
+For scalar compatibility, the scalar used in the vector action is the same
+scalar endpoint read by the $\VecSpaceUp$ source. The scalar multiplication
+and conjugation rows used to express sesquilinearity are ledger entries over
+that scalar source, and the resulting equality of form values is again
+classified by $\sim_{\mathbb{K}}$.
+
+The ledger records each operation row consumed in these clauses. Hence a
+certificate consumer can reconstruct the additivity and scalar-action
+compatibility obligations from displayed BEDC rows alone, with no appeal to a
+host field or a host vector space.
+\end{proof}
+
+\begin{theorem}[Inner-product positive-definite obligation]
+\label{thm:innerproduct-positive-definite-obligation}
+For every carried vector endpoint $x$ in an inner-product $\mathsf{BHist}$
+carrier, the self-value $\langle x,x\rangle_{\InnerProductUp}$ is classified
+as a nonnegative scalar endpoint. Moreover the self-value is classified as the
+scalar zero endpoint if and only if $x$ is classified by $\sim_V$ with the
+displayed vector zero row $0_V$.
+\end{theorem}
+\begin{proof}
+Read the self-value row from
+\autoref{def:innerproduct-bhist-carrier}. Its positive-definite entry
+contains the nonnegative scalar endpoint witness for
+$\langle x,x\rangle_{\InnerProductUp}$, and the scalar classifier used for
+that witness is the scalar endpoint classifier $\sim_{\mathbb{K}}$ already
+stored in the carrier.
+
+For the zero direction, assume the self-value is classified as the scalar zero
+endpoint. The positive-definite row includes the exactness clause converting
+that scalar classification into the vector classifier equality $x\sim_V 0_V$.
+
+For the converse direction, assume $x\sim_V 0_V$. The carrier-transport
+obligation transports the self-value row along this vector classification,
+and the positive-definite row at the displayed zero endpoint supplies the
+scalar zero classification. Combining these two displayed rows gives the
+required scalar endpoint classification for $\langle x,x\rangle_{\InnerProductUp}$.
+\end{proof}
+
+\begin{theorem}[Inner-product NameCert obligation surface]
+\label{thm:innerproduct-namecert-obligation-surface}
+The carrier of \autoref{def:innerproduct-bhist-carrier}, the classifier of
+\autoref{def:innerproduct-bhist-classifier}, carrier transport, sesquilinear
+source tracking, positive definiteness, and the visible ledger assemble the
+paper-side $\NameCert_{\InnerProductUp}$ obligation surface. Its ten roadmap
+fields are:
+\begin{enumerate}
+  \item traditional target: a vector space equipped with a positive-definite
+  sesquilinear form;
+  \item BEDC source: $\mathsf{BHist}$;
+  \item carrier choice: the displayed vector carrier $V$ over
+  $\NameCert_{\VecSpaceUp}$;
+  \item classifier choice: componentwise agreement of the vector, scalar,
+  form, law, and ledger rows;
+  \item stability obligations: carrier transport, scalar endpoint transport,
+  conjugate symmetry, sesquilinearity, and positive-definite transport;
+  \item ledger: the $\VecSpaceUp$ source, scalar endpoint classifier,
+  operation rows, form row, law rows, and positivity witness;
+  \item core theorem list:
+  \autoref{thm:innerproduct-carrier-transport-obligation},
+  \autoref{thm:innerproduct-sesquilinear-source-obligation}, and
+  \autoref{thm:innerproduct-positive-definite-obligation};
+  \item exactness predicate: scalar zero self-value exactly matches
+  vector-classifier equality to $0_V$;
+  \item standard bridge: none;
+  \item status: paper obligation surface.
+\end{enumerate}
+No standard Hilbert-space bridge is claimed by this surface.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:innerproduct-bhist-carrier} for the public carrier field. It
+names the vector carrier, vector classifier, scalar endpoint classifier,
+inner-product row, law rows, positive-definite row, and ledger over a single
+$\VecSpaceUp$ source.
+
+Use \autoref{def:innerproduct-bhist-classifier} for the classifier field. It
+requires componentwise agreement of exactly the rows exposed by the carrier,
+so downstream consumers receive the same vector, scalar, form, and ledger
+surface after classification.
+
+Use \autoref{thm:innerproduct-carrier-transport-obligation} for the stability
+field, \autoref{thm:innerproduct-sesquilinear-source-obligation} for the
+operation-source field, and
+\autoref{thm:innerproduct-positive-definite-obligation} for exactness of the
+self-value row.
+
+The remaining roadmap fields are read directly from the same displayed
+ledger: the target is the named positive-definite sesquilinear form, the BEDC
+source is $\mathsf{BHist}$, and the bridge field is explicitly empty. Thus
+$\NameCert_{\InnerProductUp}$ is available as a paper-side obligation surface
+without importing host Hilbert-space structure.
 \end{proof}
