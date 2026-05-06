@@ -1,4 +1,5 @@
 import BEDC.Derived.GroupUp
+import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.ManifoldUp
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
@@ -8,6 +9,7 @@ import BEDC.FKernel.Unary.History
 namespace BEDC.Derived.LieGroupUp
 
 open BEDC.Derived.GroupUp
+open BEDC.Derived.LieAlgebraUp
 open BEDC.Derived.ManifoldUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
@@ -368,5 +370,50 @@ theorem LieGroupSingleton_conjugation_smooth {s x sx conj chart : BHist} :
   exact And.intro conjCarrier
     (And.intro conjClassified
       (And.intro chartEmpty (unary_transport unary_empty (hsame_symm chartEmpty))))
+
+theorem LieGroupSingleton_conjugation_action_law {s t x : BHist} :
+    LieGroupSingletonCarrier s -> LieGroupSingletonCarrier t -> LieGroupSingletonCarrier x ->
+      LieGroupSingletonClassifier
+        (append (append s (append (append t x) BHist.Empty)) BHist.Empty)
+        (append (append (append s t) x) BHist.Empty) := by
+  intro carrierS carrierT carrierX
+  have txEmpty : hsame (append t x) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro carrierT carrierX)
+  have txTailEmpty : hsame (append (append t x) BHist.Empty) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro txEmpty (hsame_refl BHist.Empty))
+  have leftInnerEmpty :
+      hsame (append s (append (append t x) BHist.Empty)) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro carrierS txTailEmpty)
+  have leftCarrier :
+      LieGroupSingletonCarrier
+        (append (append s (append (append t x) BHist.Empty)) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro leftInnerEmpty (hsame_refl BHist.Empty))
+  have stEmpty : hsame (append s t) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro carrierS carrierT)
+  have rightInnerEmpty : hsame (append (append s t) x) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro stEmpty carrierX)
+  have rightCarrier :
+      LieGroupSingletonCarrier (append (append (append s t) x) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro rightInnerEmpty (hsame_refl BHist.Empty))
+  exact And.intro leftCarrier
+    (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
+theorem LieGroupSingleton_adjoint_readback {s tangent chart : BHist} :
+    LieGroupSingletonCarrier s ->
+      BEDC.Derived.LieAlgebraUp.LieAlgebraSingletonCarrier tangent ->
+        Cont BHist.Empty tangent chart ->
+          BEDC.Derived.LieAlgebraUp.LieAlgebraSingletonCarrier chart ∧
+            hsame chart BHist.Empty ∧ UnaryHistory chart := by
+  intro carrierS tangentCarrier chartRow
+  have singletonEndpoint : hsame (append s tangent) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro carrierS tangentCarrier)
+  have tangentEmpty : hsame tangent BHist.Empty :=
+    (append_eq_empty_iff.mp singletonEndpoint).right
+  have chartTangent : hsame chart tangent :=
+    cont_left_unit_result chartRow
+  have chartEmpty : hsame chart BHist.Empty :=
+    hsame_trans chartTangent tangentEmpty
+  exact And.intro chartEmpty
+    (And.intro chartEmpty (unary_transport unary_empty (hsame_symm chartEmpty)))
 
 end BEDC.Derived.LieGroupUp
