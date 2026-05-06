@@ -699,3 +699,59 @@ $(y+_V z)\perp_I x$. A final application of
 \autoref{thm:innerproduct-orthogonality-symmetry-row}, now to the carried pair
 $(y+_V z,x)$, gives $x\perp_I (y+_V z)$.
 \end{proof}
+
+\begin{theorem}[InnerProduct orthogonality right scalar-action closure]
+\label{thm:innerproduct-orthogonality-right-scalar-action-closure}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. Let $x,y:C_V$ be carried vector
+endpoints, and let $r:C_{\mathsf{scal}}$ be a carried scalar endpoint from the
+retained scalar source. If $x\perp_I y$, then $r\cdot_V y$ is carried and
+$$
+x\perp_I (r\cdot_V y).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{thm:innerproduct-orthogonality-symmetry-row}, the hypothesis
+$x\perp_I y$ gives $y\perp_I x$. Unpacking this conclusion with
+\autoref{def:innerproduct-orthogonality-row} gives the scalar-zero classifier
+witness
+$$
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+
+The embedded $\VecSpaceUp$ row carries the scalar-action endpoint
+$r\cdot_V y$: scalar-action closure is one of the module stability rows retained
+by \autoref{def:vecspace-stability-certificate} and
+\autoref{def:module-stability-certificate}. Hence the inner-product endpoint
+$\langle r\cdot_V y,x\rangle_{\InnerProductUp}$ is defined in the same carrier.
+
+Apply the scalar-action compatibility component of
+\autoref{thm:innerproduct-vecspace-linearity-row} to the carried scalar $r$ and
+vector endpoints $y$ and $x$. It gives a retained scalar-classifier comparison
+between
+$$
+\langle r\cdot_V y,x\rangle_{\InnerProductUp}
+\quad\text{and}\quad
+r\cdot_{\mathbb{K}}\langle y,x\rangle_{\InnerProductUp}.
+$$
+Inside the retained scalar source, the ring rows listed in
+\autoref{def:ring-stability-certificate} are exactly the hypotheses needed for
+\autoref{thm:ring-zero-classifier-factor-absorption}. Applying that absorption
+row to the zero-classified factor $\langle y,x\rangle_{\InnerProductUp}$ and the
+multiplier $r$ gives
+$$
+r\cdot_{\mathbb{K}}\langle y,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+
+Compose the scalar-action compatibility comparison with this zero-product
+classification by \autoref{thm:namecert-equivalence-transitivity}. The result is
+$$
+\langle r\cdot_V y,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}0_{\mathbb{K}},
+$$
+which is $(r\cdot_V y)\perp_I x$ by
+\autoref{def:innerproduct-orthogonality-row}. A second application of
+\autoref{thm:innerproduct-orthogonality-symmetry-row}, now to the carried pair
+$r\cdot_V y$ and $x$, gives $x\perp_I(r\cdot_V y)$.
+\end{proof}

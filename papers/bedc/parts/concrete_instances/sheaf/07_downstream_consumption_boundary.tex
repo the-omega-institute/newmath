@@ -1,0 +1,64 @@
+\section{Downstream consumption boundary}
+\label{sec:sheaf-downstream-consumption-boundary}
+
+\begin{definition}[Sheaf downstream consumption boundary]
+\label{def:sheaf-downstream-consumption-boundary}
+The downstream consumption boundary exported by $\SheafUp$ to $\RingedSpaceUp$ and $\SchemeUp$ is the following ten-field boundary.
+\begin{enumerate}
+\item The traditional target is an open-indexed sheaf of sections over an indexed open topology carrier.
+\item The BEDC source chapters are $\TopologyUp$, $\PreSheafUp$, and $\NameCert$.
+\item The carrier row is the indexed section presheaf carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
+\item The classifier row is the section classifier family $\sim_i$ on $\mathsf{Sec}(i)$ from the same carrier.
+\item The locality and gluing rows are the indexed-cover compatibility, locality, and gluing fields of \autoref{def:sheaf-indexed-cover-compatibility-locality}.
+\item The cover ledger is the indexed cover row: cover indices, cover-member maps, inclusion witnesses, pointwise cover membership, and finite-intersection overlap rows.
+\item The refinement ledger is the displayed refinement, refinement-tower, and common-refinement surface used by \autoref{thm:sheaf-cover-presentation-exactness}.
+\item The restricted-open ledger is the slice carrier and its inherited restriction, locality, and gluing rows from \autoref{thm:sheaf-restricted-open-namecert-surface}.
+\item The base-change ledger is the displayed base-change square and its cover-pullback, gluing-pullback, and common-refinement rows from \autoref{thm:sheaf-base-change-namecert-obligation-surface}.
+\item The exactness row is cover presentation exactness together with restricted common-refinement invariance, and no standard bridge is attached to this boundary.
+\end{enumerate}
+This boundary is the only sheaf-side interface available to downstream chapters: it names indexed sections, section classifiers, displayed cover rows, displayed refinements, restricted opens, and displayed base change, but it does not import a host-space model of sheaves.
+\end{definition}
+
+\begin{theorem}[Ringed-space consumption obligation]
+\label{thm:sheaf-ringedspace-consumption-obligation}
+The $\RingedSpaceUp$ certificate consumes exactly the $\SheafUp$ carrier, section classifier, restriction stability, cover-gluing exactness, restricted-open surface, and base-change surface listed in \autoref{def:sheaf-downstream-consumption-boundary}, together with the $\CommRingUp$ rows asserting that the section carriers and stalk rows carry commutative-ring structure. On the sheaf side, every row required by $\RingedSpaceUp$ is one of:
+\begin{enumerate}
+\item the indexed section carriers $\mathsf{Sec}(i)$ and classifiers $\sim_i$;
+\item restriction identity, restriction composition, and restriction classifier transport;
+\item locality, gluing, and cover-presentation exactness for indexed covers;
+\item the restricted-open surface below a named open;
+\item the displayed base-change surface for inverse-image and cover-pullback rows.
+\end{enumerate}
+No further sheaf row is needed to state the paper-side ringed-space certificate boundary.
+\end{theorem}
+\begin{proof}
+The carrier and classifier rows are the first projections of the $\SheafUp$ boundary. They are the section carriers and section classifiers of \autoref{def:sheaf-indexed-section-presheaf-carrier}, while restriction identity, restriction composition, and classifier transport are the stability rows already exported in \autoref{thm:sheaf-cover-gluing-namecert-export}.
+
+For local ringed-space data, restrict the sheaf to each displayed open. The required open-local carrier, classifier, restriction, locality, gluing, and no-bridge rows are exactly the restricted-open surface of \autoref{thm:sheaf-restricted-open-namecert-surface}.
+
+For inverse-image or change-of-base comparisons, use the displayed base-change surface of \autoref{thm:sheaf-base-change-namecert-obligation-surface}. The remaining rows mentioned in the statement are the commutative-ring and stalk rows supplied on the $\CommRingUp$ side; they do not ask $\SheafUp$ for any host powerset equality, cover quotient, external sheaf model, or standard bridge.
+\end{proof}
+
+\begin{theorem}[Scheme consumption obligation]
+\label{thm:sheaf-scheme-consumption-obligation}
+The $\SchemeUp$ certificate consumes the same $\SheafUp$ downstream boundary only through a cover by affine or ringed-space charts and the $\CommRingUp$ spectra rows attached to those charts. Concretely, each chart reads the sheaf rows through \autoref{thm:sheaf-ringedspace-consumption-obligation}; compatibility across chart overlaps uses the cover-presentation exactness and common-refinement gluing invariance rows of $\SheafUp$.
+\end{theorem}
+\begin{proof}
+On each affine or ringed-space chart, apply \autoref{thm:sheaf-ringedspace-consumption-obligation}. This identifies the sheaf-side data available to the chart as the carrier, classifier, restriction stability, cover-gluing exactness, restricted-open surface, and base-change surface in \autoref{def:sheaf-downstream-consumption-boundary}.
+
+On overlaps between charts, compare the two displayed cover presentations through a displayed common refinement. The equality of glued section classes is supplied by \autoref{thm:sheaf-cover-presentation-exactness}, and the comparison of two gluings after passing to a common refinement is supplied by \autoref{thm:sheaf-common-refinement-gluing-invariance}.
+
+The affine and spectra content is therefore external to the sheaf boundary: it comes from the ringed-space chart and $\CommRingUp$ spectra rows. The sheaf chapter contributes only the displayed indexed-cover, restricted-open, and base-change rows already enumerated in the boundary.
+\end{proof}
+
+\begin{theorem}[Sheaf downstream consumption exhaustion]
+\label{thm:sheaf-downstream-consumption-exhaustion}
+Every $\SheafUp$ row used by $\RingedSpaceUp$ and $\SchemeUp$ in the two downstream consumption obligations is one of the rows in \autoref{def:sheaf-downstream-consumption-boundary}. Consequently, the downstream chapters import no host powerset equality of opens, no quotient of cover presentations, no external sheaf model, and no bridge closure from $\SheafUp$.
+\end{theorem}
+\begin{proof}
+For $\RingedSpaceUp$, inspect \autoref{thm:sheaf-ringedspace-consumption-obligation}. Its sheaf-side rows are precisely the carrier, classifier, restriction-stability, cover-gluing, restricted-open, and base-change entries of \autoref{def:sheaf-downstream-consumption-boundary}. The commutative-ring and stalk rows named there are not sheaf rows.
+
+For $\SchemeUp$, inspect \autoref{thm:sheaf-scheme-consumption-obligation}. Each chart first passes through the ringed-space consumption obligation, and every overlap comparison is discharged by cover-presentation exactness or common-refinement gluing invariance, both already included in the boundary's refinement and exactness rows.
+
+Thus the union of sheaf rows consumed by the two downstream chapters is exhausted by the ten-field boundary. Since the boundary itself excludes host powerset equality, cover quotients, external sheaf models, and standard bridges, none of those structures is imported downstream through $\SheafUp$.
+\end{proof}

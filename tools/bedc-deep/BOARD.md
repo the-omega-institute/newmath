@@ -11672,3 +11672,29 @@ This belongs in the error-correcting-code chapter. A standard coding theory coro
 
 ---
 
+### B-446 - InnerProduct orthogonal additive inverse closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | InnerProduct orthogonal additive inverse closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under an \InnerProductUp setup, if carried vector endpoints satisfy x\perp_I y, then the displayed vector inverse -_V y is carried and x\perp_I (-_V y) under the retained scalar-zero classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/64_innerproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+
+Rationale:
+The target is a concrete closure theorem for the existing InnerProduct orthogonality surface. It is not a BOARD duplicate and is not already present as a labeled theorem: the paper has zero-left, zero-right, transport, symmetry, and additivity rows, but no additive-inverse closure row for orthogonality. The proof should land directly from the VecSpace inverse row, inner-product sesquilinearity, and scalar zero stability, so it is scoped and useful without being a marker or verification-axis item.
+
+---
+
