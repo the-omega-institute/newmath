@@ -344,6 +344,7 @@ import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
+import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
