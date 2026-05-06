@@ -491,6 +491,26 @@ theorem DiffFormDegreeProbeSupport_transport
     (And.intro probeIn
       (And.intro tensorUnary (And.intro scalarUnary ledgerSame)))
 
+theorem DiffFormRootDegreeProbeFace_stability
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym' ledger' :
+      BHist} {bundle : ProbeBundle BHist} :
+    DiffFormBHistClassifier hsame bundle degree probe tensor scalar antisym ledger degree' probe'
+        tensor' scalar' antisym' ledger' ->
+      DegreeProbeAligned degree bundle ->
+        (UnaryHistory degree ∧ InBundle probe bundle ∧ UnaryHistory tensor ∧
+          UnaryHistory scalar ∧
+            hsame ledger (append degree (append probe (append tensor (append scalar antisym))))) ->
+          DegreeProbeAligned degree' bundle ∧ UnaryHistory degree' ∧ InBundle probe' bundle ∧
+            UnaryHistory tensor' ∧ UnaryHistory scalar' ∧
+              hsame ledger'
+                (append degree' (append probe' (append tensor' (append scalar' antisym')))) := by
+  intro classified aligned support
+  have alignedTarget :=
+    DiffFormDegreeProbeAligned_hsame_transport aligned classified.right.right.left
+  have supportTarget :=
+    DiffFormDegreeProbeSupport_transport classified support
+  exact And.intro alignedTarget.left supportTarget
+
 theorem DiffFormZeroDegree_wedge_cont_unit_boundary {d : BHist}
     {bundle : ProbeBundle BHist} :
     DegreeProbeAligned d bundle ->
