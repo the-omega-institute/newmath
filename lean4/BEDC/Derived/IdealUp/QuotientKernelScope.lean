@@ -62,6 +62,42 @@ theorem IdealQuotientKernel_product_difference_membership
     (idealAbsorb carrierA' diffB).left
   exact idealTransport (idealAdd rightAbsorbed leftAbsorbed) productDifference
 
+theorem IdealWholePredicate_closure_rows
+    {Carrier : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
+    {zero : BHist} {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (zeroCarrier : Carrier zero)
+    (addCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y))
+    (negCarrier : forall {x : BHist}, Carrier x -> Carrier (neg x))
+    (mulCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y)) :
+    (forall {x : BHist}, Carrier x -> Carrier x) ∧
+      Carrier zero ∧
+      (forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y)) ∧
+      (forall {x : BHist}, Carrier x -> Carrier (neg x)) ∧
+      (forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y)) ∧
+      (forall {x y : BHist}, Carrier x -> Classifier x y -> Carrier y) ∧
+      (forall {r x : BHist},
+        Carrier r -> Carrier x -> Carrier (mul r x) ∧ Carrier (mul x r)) := by
+  constructor
+  · intro _x carrierX
+    exact carrierX
+  · constructor
+    · exact zeroCarrier
+    · constructor
+      · intro x y carrierX carrierY
+        exact addCarrier carrierX carrierY
+      · constructor
+        · intro x carrierX
+          exact negCarrier carrierX
+        · constructor
+          · intro x y carrierX carrierY
+            exact mulCarrier carrierX carrierY
+          · constructor
+            · intro x y carrierX classifiedXY
+              exact cert.carrier_respects_equiv classifiedXY carrierX
+            · intro r x carrierR carrierX
+              exact And.intro (mulCarrier carrierR carrierX) (mulCarrier carrierX carrierR)
+
 theorem IdealSumQuotientKernel_diagonal_transport_scope
     {I J : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
     {zero : BHist} {add sub : BHist -> BHist -> BHist}
