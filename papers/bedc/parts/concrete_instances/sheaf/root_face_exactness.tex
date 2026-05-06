@@ -1,0 +1,60 @@
+\begin{definition}[Sheaf root face exactness source]
+\label{def:sheaf-root-face-exactness-source}
+The $\SheafUp$ root face exactness source is the four-face package obtained from the $\mathsf{BHist}$ root-unblock source, the cover-nerve export surface, and the consumer-threshold projection source. It is read over $\mathsf{BHist}$ histories, $\hsame$ transport, optional $\Cont$ route histories, the $\TopologyUp$ indexed-open carrier, the $\PreSheafUp$ restriction carrier, and the $\NameCert_{\SheafUp}$ obligation rows.
+\begin{enumerate}
+\item The cover-membership face consists of accepted cover rows, member witnesses $\mathsf{OpenAt}(\iota(a),b)$, finite-intersection overlap rows, and $\hsame$-stable history transport from \autoref{def:sheaf-bhist-cover-nerve-ledger}.
+\item The restriction-route face consists of the section carriers $\mathsf{Sec}(i)$, classifiers $\sim_i$, restrictions $\rho_{i,j}$, identity rows, composition rows, classifier transport, and optional $\Cont$ route-history associativity rows.
+\item The locality, gluing, and refinement exactness face consists of compatible local-family predicates, gluing witnesses, locality comparison, displayed cover refinement, refinement pullback, refinement gluing descent, displayed common-refinement comparison, and cover-presentation exactness.
+\item The downstream projection face consists only of the $\RingedSpaceUp$ local-ring projection, the $\SchemeUp$ affine-chart gluing projection, and the topology pullback projection named in \autoref{def:sheaf-root-consumer-threshold-projection-source}.
+\end{enumerate}
+The package contains no host powerset equality of open covers, no cover quotient, no stalk quotient, no external sheafification operation, and no $\StdBridge$ field.
+\end{definition}
+
+\begin{theorem}[Sheaf root face classifier coverage]
+\label{thm:sheaf-root-face-classifier-coverage}
+Every row of the root-unblock source of \autoref{def:sheaf-root-unblock-bedc-source} and every row of the cover-nerve export surface of \autoref{def:sheaf-root-cover-nerve-export-surface} lands in exactly one of the first three faces of \autoref{def:sheaf-root-face-exactness-source}. The downstream projection face receives only projections of those faces and adds no root carrier, root classifier, or root exactness row.
+\end{theorem}
+\begin{proof}
+For the cover rows, read the cover ledger in \autoref{def:sheaf-bhist-cover-nerve-ledger}. The accepted cover, cover-member witness, finite-intersection overlap, pair-overlap projection, and $\hsame$ membership transport rows are precisely the cover-membership face. The exhaustion and projection theorems \autoref{thm:sheaf-root-cover-nerve-membership-exhaustion} and \autoref{thm:sheaf-bhist-cover-nerve-overlap-projections} show that no additional cover row is required.
+
+For the restriction rows, use \autoref{thm:sheaf-root-unblock-restriction-stability-obligation} and \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability}. Their identity, composition, classifier-preservation, two-step route, and optional $\Cont$ history clauses are exactly the restriction-route face.
+
+For the exactness rows, use \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}, \autoref{thm:sheaf-refinement-compatible-family-pullback}, \autoref{thm:sheaf-refinement-gluing-descent}, \autoref{thm:sheaf-refined-cover-exactness-obligation}, and \autoref{thm:sheaf-cover-presentation-exactness}. These rows cover locality, gluing, displayed refinement, common-refinement comparison, and cover-presentation exactness, so they land in the locality, gluing, and refinement exactness face.
+
+Finally compare with the consumer-threshold source of \autoref{def:sheaf-root-consumer-threshold-projection-source}. Its ringed-space, scheme, and topology pullback rows cite the same carrier, classifier, cover, restriction, and exactness rows through projection, so they occupy the downstream projection face rather than adding root data.
+\end{proof}
+
+\begin{theorem}[Sheaf root face gluing exactness]
+\label{thm:sheaf-root-face-gluing-exactness}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over a $\mathsf{BHist}$-scoped indexed open topology carrier $\mathcal{T}$, and let $\mathcal{U}=(A,\iota,h,\gamma)$ be an accepted indexed cover of $i:\mathsf{OpenIx}$. For every compatible local family $s_a:\mathsf{Sec}(\iota(a))$, locality plus gluing plus refinement exactness gives a $\NameCert_{\SheafUp}$-consumable exactness row:
+\begin{enumerate}
+\item a global section $g:\mathsf{Sec}(i)$ restricts to the local family;
+\item any two global readbacks whose cover restrictions agree are classifier-equal in $\sim_i$;
+\item after any displayed refinement or displayed common refinement, the pulled-back local families determine the same global classifier class.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Begin with the compatible local family over $\mathcal{U}$. The gluing field in \autoref{def:sheaf-indexed-cover-compatibility-locality} supplies a global section $g:\mathsf{Sec}(i)$ and the displayed member equalities $\rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a$.
+
+Use locality from the same definition for uniqueness. If two global readbacks agree on every member row, locality returns classifier equality in $\sim_i$; the same argument is packaged by \autoref{thm:sheaf-gluing-uniqueness-from-locality}.
+
+Now pass to a displayed refinement. The compatibility row is transported by \autoref{thm:sheaf-refinement-compatible-family-pullback}, and the gluing row descends by \autoref{thm:sheaf-refinement-gluing-descent}. The combined refined-cover statement is \autoref{thm:sheaf-refined-cover-exactness-obligation}.
+
+For comparison of two cover presentations, use the displayed common-refinement surface of \autoref{def:sheaf-displayed-common-refinement-span}. The invariance theorem \autoref{thm:sheaf-common-refinement-gluing-invariance}, together with \autoref{thm:sheaf-cover-presentation-exactness}, identifies the two resulting global classifier classes.
+
+All cited steps use indexed covers, $\mathsf{BHist}$ membership, $\hsame$ transport, section classifiers, restriction composition, and optional $\Cont$ route histories. Therefore the exactness row is consumable by $\NameCert_{\SheafUp}$ without adding a host cover comparison or quotient row.
+\end{proof}
+
+\begin{theorem}[Sheaf root face downstream separation]
+\label{thm:sheaf-root-face-downstream-separation}
+The $\RingedSpaceUp$, $\SchemeUp$, and topology pullback consumers receive only projections of the four faces of \autoref{def:sheaf-root-face-exactness-source}. Consumer-specific rows such as local-ring structure, affine-chart spectra data, and displayed pullback-open choices do not feed back into the root $\SheafUp$ carrier, root classifier, cover ledger, restriction-route face, or locality and gluing exactness face.
+\end{theorem}
+\begin{proof}
+For $\RingedSpaceUp$, apply \autoref{thm:sheaf-root-consumer-ringedspace-projection}. Its sheaf-side input is the indexed section carrier, section classifier, restriction stability, point-germ readback, restricted-open rows, and base-change rows projected from the root source. The commutative-ring and local-ring rows are supplied outside the sheaf root.
+
+For $\SchemeUp$, apply \autoref{thm:sheaf-root-consumer-scheme-projection}. Each chart first reads the ringed-space projection, while affine-chart and spectra data remain chart-side data. The sheaf contribution is only cover-presentation exactness and common-refinement comparison already present in the root exactness face.
+
+For topology pullback consumers, apply \autoref{thm:sheaf-root-consumer-pullback-projection} and \autoref{thm:sheaf-topology-pullback-cover-row}. The pullback row transports cover membership, compatible families, gluing, and common refinements through the displayed base-change surface, but it does not introduce a ringed-space local-ring row or a scheme affine-chart row.
+
+The downstream consumption boundary of \autoref{def:sheaf-downstream-consumption-boundary} and the exhaustion theorem \autoref{thm:sheaf-downstream-consumption-exhaustion} close the separation. They state that consumers can only read the listed sheaf-side projections, so consumer-specific structure cannot be returned as a new root $\SheafUp$ obligation.
+\end{proof}
