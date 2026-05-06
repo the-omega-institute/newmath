@@ -225,6 +225,21 @@ theorem DistributionPushforward_monotone_under_target_inclusion
     cont_result_hsame_transport pushSumCont (hsame_symm pushAFromSum)
   exact Exists.intro pushD (And.intro pushDToPushA pushDUnary)
 
+theorem DistributionPushforward_monotone_events
+    {sourceB sourceD sourceA pushB pushD pushA pushSum : BHist} :
+    UnaryHistory sourceB -> UnaryHistory pushD -> Cont sourceB sourceD sourceA ->
+      hsame pushA sourceA -> hsame pushB sourceB -> hsame pushD sourceD ->
+        Cont pushB pushD pushSum -> UnaryHistory pushB ∧ PreorderPrefixLE pushB pushA := by
+  intro sourceBUnary pushDUnary sourceSum pushAClass pushBClass pushDClass pushSumCont
+  have pushBUnary : UnaryHistory pushB :=
+    unary_transport sourceBUnary (hsame_symm pushBClass)
+  have pushAFromSum : hsame pushA pushSum :=
+    DistributionPushforward_relative_difference_additivity sourceSum pushAClass pushBClass
+      pushDClass pushSumCont
+  have pushDToPushA : Cont pushB pushD pushA :=
+    cont_result_hsame_transport pushSumCont (hsame_symm pushAFromSum)
+  exact And.intro pushBUnary (Exists.intro pushD (And.intro pushDUnary pushDToPushA))
+
 theorem DistributionPushforward_probability_bounds
     {event gap sourceTotal sourceTotalMass pushedEvent pushedTotal probabilityUnit pushedSum :
       BHist} :

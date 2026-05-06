@@ -25,6 +25,16 @@ theorem OperatorIdealTraceClass_support_readback {T : BHist} :
   | mk support supportUnary supportVisible =>
       exact ⟨support, supportUnary, supportVisible⟩
 
+theorem OperatorIdealTraceClass_root_carrier_classifier_threshold {T : BHist} :
+    OperatorIdealTraceClassCarrier T -> exists support : BHist, UnaryHistory support ∧
+      Cont support BHist.Empty T ∧ hsame T support := by
+  intro carrier
+  cases carrier with
+  | mk support supportUnary supportVisible =>
+      have endpointSame : hsame T support :=
+        cont_deterministic supportVisible (cont_right_unit support)
+      exact ⟨support, supportUnary, supportVisible, endpointSame⟩
+
 theorem OperatorIdealTraceClass_finite_context_closure {T result : BHist} :
     OperatorIdealTraceClassCarrier T -> OperatorIdealBoundedContextAction T result ->
       OperatorIdealTraceClassCarrier result := by

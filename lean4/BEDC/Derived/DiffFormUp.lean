@@ -117,6 +117,38 @@ theorem DiffFormBHistClassifier_transitivity_obligation
                 (hsame_trans leftRows.right.right.right.right.right.right.right
                   rightRows.right.right.right.right.right.right.right)))))))
 
+theorem DiffFormBHistClassifier_hsame_component_stability
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {d p t s a l d' p' t' s' a' l' d2 p2 t2 s2 a2 l2 d3 p3 t3 s3 a3 l3 :
+      BHist} :
+    InBundle p2 probes -> InBundle p3 probes -> hsame d2 d -> hsame p2 p ->
+      hsame t2 t -> ScalarClassifier s2 s -> hsame a2 a -> hsame l2 l ->
+        DiffFormBHistClassifier ScalarClassifier probes d p t s a l d' p' t' s' a' l' ->
+          hsame d' d3 -> hsame p' p3 -> hsame t' t3 -> ScalarClassifier s' s3 ->
+            hsame a' a3 -> hsame l' l3 ->
+              DiffFormBHistClassifier ScalarClassifier probes d2 p2 t2 s2 a2 l2 d3 p3 t3
+                s3 a3 l3 := by
+  intro probeLeft probeRight sameDLeft samePLeft sameTLeft sameScalarLeft sameALeft
+    sameLLeft rows sameDRight samePRight sameTRight sameScalarRight sameARight sameLRight
+  exact And.intro probeLeft
+    (And.intro probeRight
+      (And.intro (hsame_trans sameDLeft (hsame_trans rows.right.right.left sameDRight))
+        (And.intro
+          (hsame_trans samePLeft (hsame_trans rows.right.right.right.left samePRight))
+          (And.intro
+            (hsame_trans sameTLeft (hsame_trans rows.right.right.right.right.left sameTRight))
+            (And.intro
+              (NameCert.equiv_trans scalarCert sameScalarLeft
+                (NameCert.equiv_trans scalarCert rows.right.right.right.right.right.left
+                  sameScalarRight))
+              (And.intro
+                (hsame_trans sameALeft
+                  (hsame_trans rows.right.right.right.right.right.right.left sameARight))
+                (hsame_trans sameLLeft
+                  (hsame_trans rows.right.right.right.right.right.right.right
+                    sameLRight))))))))
+
 theorem DiffFormExteriorDerivative_degree_raise_ledger
     {degree probe tensor scalar antisym ledger targetDegree : BHist} :
     UnaryHistory degree -> UnaryHistory probe -> Cont degree probe tensor ->
