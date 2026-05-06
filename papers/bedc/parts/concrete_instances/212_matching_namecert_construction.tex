@@ -73,3 +73,43 @@ e\sim_E e'.
 $$
 These two rows are exactly $\mathsf{MatchingEdgeSet}_G(N)$ by \autoref{def:matching-carrier-and-finite-edge-subset}.
 \end{proof}
+
+\begin{theorem}[Matching compatible union closure]
+\label{thm:matching-compatible-union-closure}
+Let $G$ be a $\GraphUp$ carrier with edge classifier $\sim_E$. Let $M,N:\mathsf{BHist}\to\mathsf{Prop}$ be edge predicates, and define the pointwise union predicate $U:\mathsf{BHist}\to\mathsf{Prop}$ by
+$$
+U(e)\Longleftrightarrow M(e)\vee N(e).
+$$
+Assume
+$$
+\mathsf{MatchingEdgeSet}_G(M)
+\qquad\text{and}\qquad
+\mathsf{MatchingEdgeSet}_G(N),
+$$
+and assume the cross-incident compatibility condition
+$$
+\forall e,e',v:\mathsf{BHist}.\;
+\bigl((M(e)\land N(e'))\vee(N(e)\land M(e'))\bigr)
+\land \mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e')
+\to e\sim_E e'.
+$$
+Then
+$$
+\mathsf{MatchingEdgeSet}_G(U).
+$$
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:matching-carrier-and-finite-edge-subset}. The matching hypotheses for $M$ and $N$ each supply a graph-edge row and a no-shared-vertex row.
+
+For the graph-edge row of $U$, fix $e:\mathsf{BHist}$ and assume $U(e)$. By the defining display for $U$, either $M(e)$ or $N(e)$ holds. In the first case, the graph-edge row for $M$ gives $\mathsf{Edge}_G(e)$. In the second case, the graph-edge row for $N$ gives $\mathsf{Edge}_G(e)$.
+
+For the no-shared-vertex row of $U$, fix $e,e',v:\mathsf{BHist}$ and assume
+$$
+U(e)\land U(e')\land\mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e').
+$$
+The two $U$-memberships split into four cases. If $M(e)$ and $M(e')$ hold, the no-shared-vertex row for $M$, together with the same vertex and incidence witnesses, gives $e\sim_E e'$. If $N(e)$ and $N(e')$ hold, the no-shared-vertex row for $N$ gives $e\sim_E e'$.
+
+It remains to handle the two cross cases. If $M(e)$ and $N(e')$ hold, the left disjunct in the cross-incident compatibility hypothesis applies to the same $e,e',v$ and gives $e\sim_E e'$. If $N(e)$ and $M(e')$ hold, the right disjunct applies directly and gives $e\sim_E e'$. Thus every pair of $U$-selected edges incident to the same carried vertex is classified by $\sim_E$ as the same edge.
+
+The graph-edge row and the no-shared-vertex row are precisely $\mathsf{MatchingEdgeSet}_G(U)$ by \autoref{def:matching-carrier-and-finite-edge-subset}.
+\end{proof}
