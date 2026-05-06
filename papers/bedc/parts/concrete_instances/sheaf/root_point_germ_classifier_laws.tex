@@ -1,0 +1,68 @@
+\begin{definition}[Sheaf root stalk-free point-germ source]
+\label{def:sheaf-root-stalk-free-germ-source}
+The $\SheafUp$ root stalk-free point-germ source is the following ten-field source over $\mathsf{BHist}$.
+\begin{enumerate}
+\item The topology field is the $\TopologyUp$ indexed-open carrier of \autoref{def:topology-indexed-open-carrier}, with open indices, membership rows $\mathsf{OpenAt}(i,b)$, inclusion rows $j\le_{\mathcal{T}}i$, identity inclusions, and finite-intersection rows $i\wedge_{\TopologyUp}j$.
+\item The presheaf field is the $\PreSheafUp$ indexed section carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}, with section carriers $\mathsf{Sec}(i)$, restriction rows $\rho_{i,j}$, restriction identity, restriction composition, and restriction classifier-stability.
+\item The sheaf field is the $\SheafUp$ locality and gluing surface over the same indexed topology and presheaf carrier.
+\item The naming field is the root $\NameCert_{\SheafUp}$ obligation surface, read from the carrier, classifier, locality, gluing, refinement, and exactness rows already exposed by the indexed sheaf carrier.
+\item The history field is the point carrier $\mathsf{BHist}$ together with $\hsame$-stable transport of displayed membership rows.
+\item The point-germ ledger field is the displayed ledger of \autoref{def:sheaf-bhist-point-germ-ledger}; a row over $b:\mathsf{BHist}$ is a triple $(i,o_i,s)$ with $o_i:\mathsf{OpenAt}(i,b)$ and $s:\mathsf{Sec}(i)$.
+\item The common-neighborhood field is supplied by finite intersections in the topology carrier, including the projections from $i\wedge_{\TopologyUp}j$ to $i$ and $j$ and the displayed membership witness obtained from the two input membership rows.
+\item The restriction-comparison field compares two point-germ rows only after restricting their sections to a displayed common neighborhood and applying the section classifier $\sim_k$ there.
+\item The classifier-law field uses the reflexivity, symmetry, and transitivity rows of the section classifier on each $\mathsf{Sec}(k)$, together with restriction identity and restriction composition, to move comparisons across displayed neighborhoods.
+\item The boundary field exports no host point carrier, no host stalk quotient, no quotient of section representatives, and no powerset equality of opens; all point-germ evidence remains inside indexed opens, $\mathsf{BHist}$ membership, restrictions, finite intersections, section classifiers, and $\hsame$ transport.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sheaf root point-germ classifier reflexivity]
+\label{thm:sheaf-root-point-germ-classifier-reflexive}
+Every displayed point-germ row in the source of \autoref{def:sheaf-root-stalk-free-germ-source} compares to itself. Concretely, if $(i,o_i,s)$ is a row over $b:\mathsf{BHist}$ in the sense of \autoref{def:sheaf-bhist-point-germ-ledger}, then the comparison from $(i,o_i,s)$ to $(i,o_i,s)$ is witnessed by the common neighborhood $i$, the identity inclusions $i\le_{\mathcal{T}}i$, the membership row $o_i$, and the identity classifier row
+$$
+\rho_{i,i}(s)\sim_i\rho_{i,i}(s).
+$$
+\end{theorem}
+\begin{proof}
+Use the row's own indexed open as the displayed common neighborhood. The two projections required by \autoref{def:sheaf-bhist-point-germ-ledger} are both the identity inclusion $i\le_{\mathcal{T}}i$, and the membership witness is the row's own witness $o_i:\mathsf{OpenAt}(i,b)$.
+
+It remains to fill the classifier comparison after restriction. The identity restriction field of \autoref{def:sheaf-indexed-section-presheaf-carrier} identifies $\rho_{i,i}(s)$ with $s$ in the section classifier on $\mathsf{Sec}(i)$, and the reflexivity field of that classifier gives $\rho_{i,i}(s)\sim_i\rho_{i,i}(s)$. This is exactly the displayed comparison row.
+\end{proof}
+
+\begin{theorem}[Sheaf root point-germ classifier symmetry]
+\label{thm:sheaf-root-point-germ-classifier-symmetric}
+The displayed point-germ comparison in the source of \autoref{def:sheaf-root-stalk-free-germ-source} is symmetric. If rows $(i,o_i,s)$ and $(j,o_j,t)$ over the same $b:\mathsf{BHist}$ compare on a displayed common neighborhood $k$ with projections
+$$
+k\le_{\mathcal{T}}i,
+\qquad
+k\le_{\mathcal{T}}j,
+\qquad
+o_k:\mathsf{OpenAt}(k,b),
+$$
+and classifier row
+$$
+\rho_{i,k}(s)\sim_k\rho_{j,k}(t),
+$$
+then the reverse comparison from $(j,o_j,t)$ to $(i,o_i,s)$ is witnessed by the same $k$, the projections swapped, the same membership row $o_k$, and the symmetric classifier row
+$$
+\rho_{j,k}(t)\sim_k\rho_{i,k}(s).
+$$
+\end{theorem}
+\begin{proof}
+Keep the displayed common neighborhood $k$. The comparison definition asks only for a neighborhood below the two source opens and a membership row at $b$, so the same witness $o_k$ remains valid and the two projections are read in the opposite order.
+
+The only row whose direction changes is the section classifier comparison on $\mathsf{Sec}(k)$. Apply the symmetry field of the classifier supplied by \autoref{def:sheaf-indexed-section-presheaf-carrier} to the given row $\rho_{i,k}(s)\sim_k\rho_{j,k}(t)$. The result is $\rho_{j,k}(t)\sim_k\rho_{i,k}(s)$, so the swapped neighborhood data form the reverse point-germ comparison.
+\end{proof}
+
+\begin{theorem}[Sheaf root point-germ classifier equivalence boundary]
+\label{thm:sheaf-root-point-germ-classifier-equivalence-boundary}
+On the displayed point-germ rows of \autoref{def:sheaf-root-stalk-free-germ-source}, the comparison relation of \autoref{def:sheaf-bhist-point-germ-ledger} is an equivalence relation. Reflexivity is supplied by \autoref{thm:sheaf-root-point-germ-classifier-reflexive}, symmetry by \autoref{thm:sheaf-root-point-germ-classifier-symmetric}, and transitivity by \autoref{thm:sheaf-bhist-point-germ-comparison-transitivity}. The resulting equivalence boundary exports only displayed rows and comparison witnesses over indexed neighborhoods; it exports no stalk quotient, no host point carrier, and no quotient carrier of point-germ classes.
+\end{theorem}
+\begin{proof}
+For reflexivity, apply \autoref{thm:sheaf-root-point-germ-classifier-reflexive} to the displayed row. The witness is its own indexed open, with identity restriction and the section classifier's reflexivity row.
+
+For symmetry, apply \autoref{thm:sheaf-root-point-germ-classifier-symmetric} to any displayed comparison witness. This keeps the same common neighborhood and reverses only the two projection slots and the section classifier row.
+
+For transitivity, take two composable displayed comparison witnesses between rows over the same $b:\mathsf{BHist}$. Apply \autoref{thm:sheaf-bhist-point-germ-comparison-transitivity}; its finite-intersection construction supplies the refined common neighborhood and composes the restricted classifier rows.
+
+These three clauses are stated entirely in the ledger language of \autoref{def:sheaf-bhist-point-germ-ledger}. Since \autoref{def:sheaf-root-stalk-free-germ-source} contains no host stalk carrier and no quotient operation, the equivalence relation is the boundary relation available to downstream consumers, not a construction of stalk elements.
+\end{proof}
