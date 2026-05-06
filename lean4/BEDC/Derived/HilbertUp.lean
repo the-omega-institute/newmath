@@ -240,4 +240,26 @@ def HilbertSingletonProjectionWitness (m p : BHist) : Prop :=
           RealConstantHistoryClassifier (HilbertSingletonInnerProduct m p)
             (BHist.e1 (BHist.e1 BHist.Empty))
 
+def HilbertSingletonProjection (_h : BHist) : BHist :=
+  BHist.Empty
+
+theorem HilbertSingletonProjection_idempotence {h : BHist} :
+    VecSpaceSingletonCarrier h ->
+      VecSpaceSingletonClassifier (HilbertSingletonProjection (HilbertSingletonProjection h))
+          (HilbertSingletonProjection h) ∧
+        RealConstantHistoryClassifier
+          (HilbertSingletonInnerProduct (HilbertSingletonProjection h)
+            (HilbertSingletonProjection (HilbertSingletonProjection h)))
+          (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro _carrierH
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have projectionClassified :
+      VecSpaceSingletonClassifier (HilbertSingletonProjection (HilbertSingletonProjection h))
+        (HilbertSingletonProjection h) := by
+    unfold HilbertSingletonProjection
+    exact And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  have innerRows :=
+    HilbertSingleton_constant_inner_product_transport projectionClassified projectionClassified
+  exact And.intro projectionClassified innerRows.left
+
 end BEDC.Derived.HilbertUp
