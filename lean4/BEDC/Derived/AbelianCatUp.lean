@@ -281,4 +281,14 @@ theorem AbelianCatZeroBiproductKernelSurface_rows
   exact And.intro S.zero_hom
     (And.intro S.add_carrier (And.intro S.kernel_row S.factor_row))
 
+theorem AbelianCatZeroBiproductKernelSurface_zero_object_boundary
+    (S : AbelianCatZeroBiproductKernelSurface) :
+    CategoryHomCarrier S.source S.target S.zero ∧ UnaryHistory S.zero ∧
+      GroupSingletonCarrier S.add ∧ UnaryHistory S.add ∧ Cont S.zero S.add S.kernel := by
+  have zeroUnary : UnaryHistory S.zero := S.zero_hom.right.right.left
+  have addUnary : UnaryHistory S.add :=
+    unary_transport unary_empty (hsame_symm S.add_carrier)
+  exact And.intro S.zero_hom
+    (And.intro zeroUnary (And.intro S.add_carrier (And.intro addUnary S.kernel_row)))
+
 end BEDC.Derived.AbelianCatUp
