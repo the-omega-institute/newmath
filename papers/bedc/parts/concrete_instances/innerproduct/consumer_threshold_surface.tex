@@ -1,0 +1,138 @@
+\section{Consumer threshold surface}
+\label{sec:innerproduct-consumer-threshold-surface}
+
+\begin{definition}[InnerProduct consumer threshold source]
+\label{def:innerproduct-consumer-threshold-source}
+The $\InnerProductUp$ consumer threshold source is the NameCert-facing
+package through which later certificates read inner-product data. It has the
+following ten fields:
+\begin{enumerate}
+  \item traditional target: inner-product geometry over a vector space;
+  \item BEDC source: the displayed $\NameCert_{\VecSpaceUp}$ source, its
+  retained scalar and field rows, and the $\NameCert$ ledger discipline;
+  \item vector carrier: a predicate
+  $C_V:\mathsf{BHist}\to\mathsf{Prop}$;
+  \item vector classifier: the displayed classifier $\sim_V$ on carried
+  vector histories;
+  \item scalar endpoint classifier: the retained scalar classifier on all
+  scalar endpoints read by the form;
+  \item form row: the scalar-valued endpoint row
+  $\langle-,-\rangle_{\InnerProductUp}:C_V\times C_V\to C_{\mathsf{scal}}$;
+  \item law rows: conjugate symmetry, sesquilinearity, positivity, and form
+  endpoint transport;
+  \item ledger rows: scalar endpoints, $\hsame$ transport, optional $\Cont$
+  route histories, and the orthogonality rows visible to consumers;
+  \item source factorization: every carrier, classifier, scalar, form, law,
+  transport, and ledger projection factors through
+  \autoref{def:innerproduct-bhist-carrier},
+  \autoref{def:innerproduct-bhist-source}, and
+  \autoref{def:innerproduct-root-threshold-source};
+  \item exclusion boundary: Banach completeness, topology, host Hilbert
+  carriers, and Cauchy-limit selectors are not fields of this source.
+\end{enumerate}
+Thus $\HilbertUp$, $\FourierUp$, $\RiemannianMetricUp$, and $\RootSystemUp$
+receive a single inner-product threshold package rather than separate echoes
+of the root rows.
+\end{definition}
+
+\begin{theorem}[InnerProduct consumer carrier and form scope]
+\label{thm:innerproduct-consumer-carrier-form-scope}
+Every carrier, classifier, scalar endpoint, and form read from the consumer
+threshold source of \autoref{def:innerproduct-consumer-threshold-source}
+factors through the $\mathsf{BHist}$ carrier of
+\autoref{def:innerproduct-bhist-carrier}, the source rows of
+\autoref{def:innerproduct-bhist-source}, and the root threshold source of
+\autoref{def:innerproduct-root-threshold-source}. No consumer can read a
+second vector carrier, a second scalar endpoint source, or a host
+inner-product-space form from this package.
+\end{theorem}
+\begin{proof}
+Start with the carrier field. By
+\autoref{thm:innerproduct-bhist-carrier-row}, the public carrier row is the
+displayed $\VecSpaceUp$ BHist carrier $C_V$ together with the scalar-valued
+form endpoint row. The consumer threshold source names this same row as its
+vector carrier and does not list any other point carrier.
+
+Next read the scalar and form fields from
+\autoref{def:innerproduct-bhist-source}. The form endpoint lands in the
+retained scalar history carrier and is classified by the retained scalar
+classifier. By
+\autoref{thm:innerproduct-root-vecspace-scalar-exposure}, these vector and
+scalar projections exhaust the vector-scalar part of the root surface.
+
+Finally apply \autoref{thm:innerproduct-root-threshold-form-exactness}. The
+form law rows exposed at the consumer boundary are the form, law, and
+transport rows of \autoref{def:innerproduct-root-threshold-source}. Since the
+consumer threshold source is defined by projecting those root threshold rows,
+every consumer carrier or form read factors through the three cited source
+objects.
+\end{proof}
+
+\begin{theorem}[InnerProduct consumer positivity and orthogonality scope]
+\label{thm:innerproduct-consumer-positive-orthogonality-scope}
+The positivity and orthogonality data exported by
+\autoref{def:innerproduct-consumer-threshold-source} are exactly the
+positive-definite scalar-zero classification row and the orthogonality closure
+rows built from \autoref{def:innerproduct-orthogonality-row}. They add no
+host positivity predicate and no independent Hilbert-space orthogonality
+relation.
+\end{theorem}
+\begin{proof}
+For positivity, use
+\autoref{thm:innerproduct-positive-definite-obligation}. The diagonal
+self-value $\langle x,x\rangle_{\InnerProductUp}$ is classified as the scalar
+zero endpoint exactly when $x$ is classified with the displayed vector zero
+row. This is the positive row exposed by
+\autoref{thm:innerproduct-root-threshold-form-exactness}.
+
+For orthogonality, unfold
+\autoref{def:innerproduct-orthogonality-row}. The statement $x\perp_I y$ is
+the scalar-zero classification of
+$\langle x,y\rangle_{\InnerProductUp}$. The zero-left, zero-right, and
+transport rows are
+\autoref{thm:innerproduct-zero-left-orthogonal-row},
+\autoref{thm:innerproduct-zero-right-orthogonal-row}, and
+\autoref{thm:innerproduct-orthogonality-transport-row}.
+
+The closure rows available to downstream consumers are the rows of the
+orthogonality closure surface:
+\autoref{thm:innerproduct-orthogonality-symmetry-row},
+\autoref{thm:innerproduct-orthogonal-additivity-row},
+\autoref{thm:innerproduct-orthogonality-right-scalar-action-closure}, and
+\autoref{thm:innerproduct-orthogonal-additive-inverse-closure}. Each row is
+proved from the scalar-zero definition of orthogonality and the displayed
+inner-product law rows. Therefore the consumer threshold exports exactly
+scalar-zero positivity and the orthogonality rows derived from it.
+\end{proof}
+
+\begin{theorem}[InnerProduct consumer Hilbert threshold package]
+\label{thm:innerproduct-consumer-hilbert-threshold-package}
+The $\HilbertUp$ certificate consumes from
+\autoref{def:innerproduct-consumer-threshold-source} only the
+inner-product-side threshold rows: vector carrier and classifier, retained
+scalar endpoints, the form row, conjugate symmetry, sesquilinearity,
+positivity, form transport, orthogonality, and ledger provenance. Its Banach
+metric, completeness row, topology, and Cauchy-limit selector remain external.
+The $\FourierUp$, $\RiemannianMetricUp$, and $\RootSystemUp$ consumers are
+restricted to the same form, law, transport, and ledger rows.
+\end{theorem}
+\begin{proof}
+For the Hilbert input, apply
+\autoref{thm:innerproduct-root-threshold-orthogonality-consumption}. It
+states that the Hilbert-facing geometric data are the scalar-valued form rows
+and the orthogonality row derived from them, while Banach metric,
+completeness, and Cauchy-limit rows come from a separate dependency.
+
+For the named non-Hilbert consumers, apply
+\autoref{thm:innerproduct-root-threshold-downstream-coverage}. It restricts
+$\FourierUp$, $\RiemannianMetricUp$, and $\RootSystemUp$ to the vector,
+scalar, form, law, transport, orthogonality, and ledger rows of the same root
+threshold source.
+
+The consumer threshold source is the single package that exposes those root
+threshold rows to downstream certificates. Its exclusion boundary lists no
+Banach completeness, topology, host Hilbert carrier, or Cauchy-limit selector.
+Hence every named consumer reads only the inner-product threshold rows, and
+all completeness or topology structure remains outside
+$\NameCert_{\InnerProductUp}$.
+\end{proof}
