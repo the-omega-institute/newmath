@@ -147,7 +147,7 @@ $$
 $$
 \end{lemma}
 \leanchecked{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_exactness}
-\leanchecked{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_simulation\_exactness}
+\leanvariant{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_simulation\_exactness}
 \begin{proof}
 Assume first $\mathsf{Id}_{\NatUp}(n,m)$. By \autoref{def:computable-unary-classifier-identity-graph}, the histories $n$ and $m$ are unary and $n\hsame m$. Use the one-entry $\SeqUp$ trace indexed by the empty bound $\beta_{\mathsf{id}}(n)=\emp$. Its zero-prefix entry is the initial configuration of $P_{\mathsf{id}}$ on $n$, which is already halted by \autoref{def:computable-halted-unary-identity-code}. There are no nontrivial one-step extensions in the empty prefix interval. The endpoint is the same halted row, and its classifier readout accepts $m$ because $n\hsame m$. Hence the trace satisfies \autoref{def:computable-bounded-simulation-witness}.
 
@@ -199,3 +199,13 @@ Apply \autoref{thm:computable-composition-bounded-simulation}. Its construction 
 
 It remains to record that the interface is still a partial graph interface. If a certified component accepts two outputs over the same unary input, \autoref{thm:computable-bounded-graph-single-valuedness} expands both accepted rows to simulations at the same ledger bound and applies output determinacy, yielding $\hsame$-classified outputs. Therefore the middle row used by the composite is determined up to the $\NatUp$ classifier, and the resulting accepted output row is controlled by the same single-valuedness clause instead of by an unconstrained relation.
 \end{proof}
+
+\begin{closurestatus}{\ComputableUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter binds the bounded simulation witness, bounded graph certificate, composition, single-valuedness, identity graph, empty-bound identity code, and identity bounded graph certificate.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_certificate}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close total computability, universal machines, halting decidability, recursion theory, or standard bridge claims.}
+  \upgradepath{Scoped closure requires the full carrier, classifier, stability, and ledger obligation set for general bounded graph certificates.}
+\end{closurestatus}
