@@ -703,7 +703,7 @@ def build_dependency_graph() -> dict:
 
     # critical_path data, but only for regions we know about
     cp_data: dict[str, dict] = {}
-    for entry in cp.get("top", []) + cp.get("rest", []) + cp.get("saturated", []):
+    for entry in cp.get("top", []):
         name = entry.get("name", "")
         if name in all_regions:
             cp_data[name] = entry
@@ -842,6 +842,14 @@ def main() -> int:
             entry for entry in cp.get("top", [])
             if entry.get("name", "") in valid_region_ids
         ][:15],
+        "top_root_unblocks": [
+            entry for entry in cp.get("top_root_unblocks", [])
+            if entry.get("name", "") in valid_region_ids
+        ][:10],
+        "top_transitions": cp.get("top_transitions", {}),
+        "closed_horizons": cp.get("closed_horizons", {}),
+        "open_horizons": cp.get("open_horizons", 0),
+        "granularity": cp.get("granularity", "chapter"),
     }
 
     (DATA_DIR / "status.json").write_text(json.dumps(status, indent=2), encoding="utf-8")
