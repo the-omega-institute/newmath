@@ -144,12 +144,60 @@ For transitivity, restricted witnesses $h\sim_{S_P}k$ and $k\sim_{S_P}r$ are par
 Carrier transport for $S_P$ is exactly \autoref{lem:subtype-carrier-restricted-classifier-closure}. These five rows are the inhabitedness, reflexivity, symmetry, transitivity, and carrier-transport fields required by \autoref{def:lean-carrier-naming-certificate}.
 \end{proof}
 
+\begin{theorem}[SubtypeUp carrier-source obligation]
+\label{thm:subtype-obligation-carrier-source}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a parent $\NameCert(S,\sim_S)$, let $P:\mathsf{BHist}\to\mathsf{Prop}$ be a predicate stable under the parent classifier, and let $s_0:\mathsf{BHist}$ be a displayed endpoint with $S(s_0)\land P(s_0)$. The carrier row for $\SubtypeUp$ is exactly
+$$
+S_P(h)\Longleftrightarrow S(h)\land P(h).
+$$
+The source data are the parent certificate $\NameCert(S,\sim_S)$, the predicate $P$, the displayed endpoint $s_0$, and the stability of $P$ under $\sim_S$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:subtype-restricted-classifier}. The subtype carrier is introduced as the predicate cut of the parent carrier by $P$, so membership in $S_P$ is precisely the pair consisting of parent membership in $S$ and the predicate witness.
+
+The endpoint row is supplied by $s_0$: its two witnesses are the two components needed for $S_P(s_0)$. Predicate stability is not extra carrier data; it is the transport hypothesis that makes the carrier row usable across the restricted classifier.
+\end{proof}
+
+\begin{theorem}[SubtypeUp restricted-classifier obligation]
+\label{thm:subtype-obligation-restricted-classifier}
+Under the hypotheses of \autoref{thm:subtype-obligation-carrier-source}, the restricted classifier row for carried subtype endpoints is exactly
+$$
+h\sim_{S_P}k\Longleftrightarrow h\sim_S k.
+$$
+The parent projection row sends a restricted classifier witness to the parent witness, and the inclusion row sends a parent witness between carried subtype endpoints to the restricted witness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:subtype-classifier-reflects-parent-classifier}. Its forward direction is the parent projection row: a restricted comparison contains the parent comparison between the displayed endpoints.
+
+Its reverse direction is the inclusion row: once the two endpoints are carried by $S_P$, a parent classifier witness is already the restricted classifier witness by the definition of the subtype classifier.
+\end{proof}
+
+\begin{theorem}[SubtypeUp predicate-transport obligation]
+\label{thm:subtype-obligation-predicate-transport}
+Under the hypotheses of \autoref{thm:subtype-obligation-carrier-source}, parent carrier transport together with stability of $P$ transports the subtype carrier across the restricted classifier: if $S_P(h)$ and $h\sim_{S_P}k$, then $S_P(k)$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{lem:subtype-carrier-restricted-classifier-closure}. That lemma separates the two transported components: the parent certificate transports $S(h)$ to $S(k)$ along the parent classifier, and stability of $P$ transports the predicate witness.
+
+By \autoref{thm:subtype-obligation-restricted-classifier}, the restricted comparison supplies exactly the parent comparison needed by both transports. Pairing the transported parent carrier witness with the transported predicate witness gives $S_P(k)$.
+\end{proof}
+
+\begin{theorem}[SubtypeUp NameCert surface obligation]
+\label{thm:subtype-obligation-namecert-surface}
+The carrier row of \autoref{thm:subtype-obligation-carrier-source}, the restricted-classifier rows of \autoref{thm:subtype-obligation-restricted-classifier}, the endpoint row, and the transport row of \autoref{thm:subtype-obligation-predicate-transport} assemble the displayed $\NameCert(S_P,\sim_{S_P})$ surface for $\SubtypeUp$. The ten-field template entries are: parent carrier $S$, parent classifier $\sim_S$, parent certificate $\NameCert(S,\sim_S)$, predicate $P$, predicate-stability row, restricted carrier $S_P$, restricted classifier $\sim_{S_P}$, displayed endpoint $s_0$, parent-projection row, and carrier-transport row.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:subtype-obligation-carrier-source} for the carrier and endpoint rows, \autoref{thm:subtype-obligation-restricted-classifier} for the parent-projection and inclusion rows, and \autoref{thm:subtype-obligation-predicate-transport} for carrier transport.
+
+These are exactly the rows consumed by \autoref{thm:subtype-restricted-classifier-namecert}. Applying that theorem repacks the rows into the public $\NameCert(S_P,\sim_{S_P})$ surface, with the ten displayed entries recording the source data and the exactness maps used by the construction.
+\end{proof}
+
 \begin{closurestatus}{\SubtypeUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation packet consists of the subtype carrier row, classifier projection row, NameCert transport row, and the existing restricted classifier NameCert inside the parent $\NameCert_{\SetUp}$ predicate scope.}
+  \scopeclosed{This obligation packet binds the parent NameCert carrier $S$, predicate $P$, restricted carrier $S_P$, restricted classifier, classifier-closure lemma, and the displayed SubtypeRestrictedClassifier NameCert surface.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.SubtypeUp.SubtypeRestrictedClassifier\_nameCert}
   \bridgestatus{none}
   \notclaimed{This packet does not close full SetUp bridges, quotient-style subtype extensionality, or standard-model subtype bridges.}
-  \upgradepath{Scoped closure requires discharging the recorded carrier, classifier, predicate-stability, parent-projection, and transport rows inside the stated $\SetUp$/$\NameCert$/$\mathsf{BHist}$ scope.}
+  \upgradepath{Scoped closure requires binding these obligations explicitly to the parent $\NameCert$ carrier-transport field and the restricted-classifier primitive scope.}
 \end{closurestatus}
