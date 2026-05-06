@@ -50,12 +50,138 @@ and stability is exactly the existing component transport and vertical
 composition package. These are the listed bridge fields.
 \end{proof}
 
+\begin{definition}[NatTrans functor-category prefix carrier]
+\label{def:nattrans-functor-category-prefix-carrier}
+The prefix functor-category carrier for $\NatTransUp$ has unary prefix
+histories as objects. A hom row from object prefix $p$ to object prefix $q$
+is the component family
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta_a)$, one row for every
+unary object $a$. The displayed source and target of the $a$-component are
+$\mathsf{append}(p,a)$ and $\mathsf{append}(q,a)$, and the component morphism
+is the concrete target-category row
+$\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(q,a),\eta_a)$.
+The hom classifier is the componentwise
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ row, so equality of hom
+rows is read by $\hsame$ on every displayed component history.
+\end{definition}
+
+\begin{theorem}[NatTrans functor-category identity and composition]
+\label{thm:nattrans-functor-category-identity-and-composition}
+For the prefix functor-category carrier of
+\autoref{def:nattrans-functor-category-prefix-carrier}, each prefix object
+$p$ carries an identity hom row whose $a$-component is the empty
+component/identity semantic certificate at
+$\mathsf{append}(p,a)$. If $\eta:p\Rightarrow q$ and $\theta:q\Rightarrow r$
+are hom rows, their composite is the componentwise vertical composite
+$\theta_a \circ \eta_a$. Associativity and the left and right unit laws are
+the componentwise laws inherited from the checked prefix component carrier and
+the classifier rows.
+\end{theorem}
+\begin{proof}
+The object row is already a unary prefix history, and the identity component
+at $a$ is the identity morphism row for
+$\mathsf{append}(p,a)$. The semantic NameCert certificate for the prefix
+component classifier reads this row as the empty identity component, so every
+component belongs to the hom carrier from $p$ to $p$.
+
+For composition, take the vertical composite in the target-category hom
+carrier at each unary object $a$. The source and target boundaries line up
+because the two component rows end and begin at the shared prefix
+$q$ after the same object suffix $a$ is appended.
+
+The associativity and unit equations are then checked componentwise. The
+classifier for hom rows is componentwise $\hsame$, and the component carrier
+already supplies vertical composition closure, so the category laws reduce to
+the corresponding checked classifier rows at every unary object.
+\end{proof}
+
+\begin{definition}[NatTrans prefix natural-isomorphism carrier]
+\label{def:nattrans-prefix-natural-isomorphism-carrier}
+A prefix natural isomorphism from $p$ to $q$ is a pair of component families
+$\eta:p\Rightarrow q$ and $\epsilon:q\Rightarrow p$ in the prefix
+functor-category carrier such that, for every unary object $a$, both vertical
+composites $\epsilon_a \circ \eta_a$ and $\eta_a \circ \epsilon_a$ classify
+as the empty identity component at the corresponding appended histories
+$\mathsf{append}(p,a)$ and $\mathsf{append}(q,a)$.
+\end{definition}
+
+\begin{theorem}[NatTrans natural-isomorphism obligation package]
+\label{thm:nattrans-natural-isomorphism-obligation-package}
+The prefix natural-isomorphism surface carries the NameCert obligation rows
+for carrier, classifier, stability, inverse, ledger, exactness, and
+no-host-leak. Its carrier is
+\autoref{def:nattrans-prefix-natural-isomorphism-carrier}; its classifier is
+the componentwise prefix component classifier in both directions; stability is
+given by component transport and vertical composition; the inverse row swaps
+the two component families; the ledger is the two functor ledgers together
+with the forward and reverse component morphism ledgers; exactness is the
+componentwise identity-composite condition; and no-host-leak follows because
+all rows are built from $\CategoryUp$, $\FunctorUp$, $\NatTransUp$,
+$\mathsf{UnaryHistory}$, $\Cont$, and the displayed component histories.
+\end{theorem}
+\begin{proof}
+The carrier and classifier rows are obtained by unpacking
+\autoref{def:nattrans-prefix-natural-isomorphism-carrier}. Each direction is
+a prefix natural-transformation hom row, and each component is classified by
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ or
+$\mathsf{NatTransPrefixComponentClassifier}_{q,p,a}$.
+
+Stability is componentwise. Transport preserves the displayed component
+carrier, and vertical composition closes the composites used in the identity
+conditions. Swapping the forward and reverse families gives the inverse row,
+because the two identity-composite requirements are symmetric in the displayed
+definition.
+
+The ledger and exactness rows are the public rows already present in the
+component-family surface. The only histories recorded are the two prefix
+functor ledgers and the forward and reverse component morphism ledgers, and
+the exactness condition says precisely that the two displayed vertical
+composites classify as empty identity components at every unary object. No
+additional host datum is introduced.
+\end{proof}
+
+\begin{theorem}[NatTrans mature package inventory]
+\label{thm:nattrans-mature-package-inventory}
+The public $\NatTransUp$ paper surface contains the mature package inventory
+for the prefix natural-transformation instance: component-family data,
+naturality readback, identity transformations, vertical composition,
+horizontal composition, whiskering and prewhiskering rows, whiskering
+preservation, horizontal-vertical interchange, the prefix standard bridge of
+\autoref{thm:nattrans-prefix-standard-bridge}, the functor-category carrier
+and laws of
+\autoref{def:nattrans-functor-category-prefix-carrier} and
+\autoref{thm:nattrans-functor-category-identity-and-composition}, and the
+natural-isomorphism carrier and obligation package of
+\autoref{def:nattrans-prefix-natural-isomorphism-carrier} and
+\autoref{thm:nattrans-natural-isomorphism-obligation-package}.
+\end{theorem}
+\begin{proof}
+Read the inventory by grouping the public rows already established in the
+chapter. The component-family carrier, componentwise classifier, naturality
+readback, identity transformation, vertical composition, horizontal
+composition, whiskering, prewhiskering, preservation, and interchange rows
+give the public natural-transformation surface.
+
+The bridge row is supplied by
+\autoref{thm:nattrans-prefix-standard-bridge}. The functor-category object,
+hom, identity, and composition rows are supplied by
+\autoref{def:nattrans-functor-category-prefix-carrier} and
+\autoref{thm:nattrans-functor-category-identity-and-composition}.
+
+Finally, the natural-isomorphism rows are supplied by
+\autoref{def:nattrans-prefix-natural-isomorphism-carrier} and
+\autoref{thm:nattrans-natural-isomorphism-obligation-package}. These rows
+are all expressed through the existing BEDC carriers, classifiers, ledgers,
+and component histories, so the listed package is closed as a current paper
+surface.
+\end{proof}
+
 \begin{closurestatus}{\NatTransUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The public natural-transformation interface covers component-family data, naturality readback, identity transformations, vertical and horizontal composition, functor whiskering and prewhiskering, horizontal-vertical interchange, whiskering preservation, componentwise classifier rows grounded by the prefix component classifier certificate, and the prefix standard bridge theorem.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public natural-transformation interface covers component-family data, naturality readback, identity transformations, opposite and double-opposite rows, vertical and horizontal composition, functor whiskering and prewhiskering, horizontal identity reductions, horizontal-vertical interchange, whiskering preservation, componentwise classifier rows grounded by the prefix component classifier certificate, the prefix standard bridge theorem, the functor-category prefix carrier and laws, and the prefix natural-isomorphism package.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_semanticNameCert}
   \bridgestatus{paperBridge}
-  \notclaimed{Natural isomorphisms, full functor-category closure, adjunction units and counits, and arbitrary representable bridges are outside this chapter's closure claim.}
-  \upgradepath{$\matureClosure$ requires full functor-category examples, natural-isomorphism rows, and bridge-checked Lean targets.}
+  \notclaimed{Natural-isomorphism equivalence, adjunction units and counits, arbitrary representable bridges, Lean bridge checks for the functor-category and natural-isomorphism rows, and $\bridgeCheckedV$ targets are outside this chapter's closure claim.}
+  \upgradepath{A stronger bridge status requires formal bridge verification and Lean targets for the functor-category laws and natural-isomorphism obligation package.}
 \end{closurestatus}

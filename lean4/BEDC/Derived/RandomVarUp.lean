@@ -3,12 +3,14 @@ import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Bundle
 
 namespace BEDC.Derived.RandomVarUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.FKernel.Bundle
 
 def RandomVarTotalDefectEvent (sourceTotal chosenPreimage defect : BHist) : Prop :=
   Cont chosenPreimage defect sourceTotal
@@ -179,20 +181,20 @@ theorem RandomVarPreimage_empty_event_exactness
     cont_right_unit_result preimageReadback
   exact hsame_trans preimageTarget (hsame_trans targetEmptyZero (hsame_symm sourceEmptyZero))
 
-theorem RandomVarTotalDefectEvent_vanishing_total_defect_iff
-    {sourceTotal chosenPreimage defect : BHist} :
-    RandomVarTotalDefectEvent sourceTotal chosenPreimage defect ->
-      (hsame chosenPreimage sourceTotal ↔ hsame defect BHist.Empty) := by
-  intro defectEvent
-  constructor
-  · intro chosenExact
-    have rightUnitAtTotal : Cont chosenPreimage BHist.Empty sourceTotal :=
-      cont_result_hsame_transport (cont_right_unit chosenPreimage) chosenExact
-    exact cont_left_cancel defectEvent rightUnitAtTotal
-  · intro defectEmpty
-    have eventAsRightUnit : Cont chosenPreimage BHist.Empty sourceTotal :=
-      cont_hsame_transport (hsame_refl chosenPreimage) defectEmpty (hsame_refl sourceTotal)
-        defectEvent
-    exact hsame_symm (cont_right_unit_result eventAsRightUnit)
+def RandomVarPreimageUnionFold : ProbeBundle BHist -> BHist
+  | ProbeBundle.Bnil => BHist.Empty
+  | ProbeBundle.Bcons x xs => append x (RandomVarPreimageUnionFold xs)
+
+theorem RandomVarPreimage_countable_union_exactness
+    (left right : ProbeBundle BHist) :
+    hsame (RandomVarPreimageUnionFold (bundleAppend left right))
+      (append (RandomVarPreimageUnionFold left) (RandomVarPreimageUnionFold right)) := by
+  induction left with
+  | Bnil =>
+      exact (append_empty_left (RandomVarPreimageUnionFold right)).symm
+  | Bcons x xs ih =>
+      exact (congrArg (append x) ih).trans
+        (append_assoc x (RandomVarPreimageUnionFold xs)
+          (RandomVarPreimageUnionFold right)).symm
 
 end BEDC.Derived.RandomVarUp
