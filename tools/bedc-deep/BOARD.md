@@ -12333,3 +12333,130 @@ Definition evidence: the CPTP carrier is defined at papers/bedc/parts/concrete_i
 
 ---
 
+### B-471 - \label{ch:capstones-reasoning-by-contradiction-boundary}
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | \label{ch:capstones-reasoning-by-contradiction-boundary} |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+\label{ch:capstones-reasoning-by-contradiction-boundary}
+
+Local inputs:
+- `papers/bedc/parts/capstones/reasoning_by_contradiction_boundary.tex`
+
+Rationale:
+Surfaced from paper gap scan: open_prose at papers/bedc/parts/capstones/reasoning_by_contradiction_boundary.tex:4.
+
+Snippet:
+\label{ch:capstones-reasoning-by-contradiction-boundary}
+
+BEDC accepts certain forms of reasoning by contradiction and rejects others, and the boundary is not a stylistic preference but a structural one. The permitted patterns -- proving a negation by deriving falsity from the assumption, eliminating double negation on a decidable proposition, refuting a false existence claim by exhibiting a counterexample to its witness -- all operate within the closed ground loop and never touch the meta level. The forbidden patterns -- proving an existence statement by contradiction, eliminating double negation on an undecidable proposition, splitting on the law of excluded middle for a predicate over the carrier of naming certificates -- all, on inspection, reduce to a single underlying move: closing the meta-level self-reference loop that \autoref{ch:capstones-reflection-and-limits}'s two-loops theorem requires to remain open. This chapter (i) catalogues the permitted refutation patterns as they appear in \autoref{ch:core-relational-extension-and-continuation}'s extension and continuation calculus, (ii) catalogues the forbidden patterns and traces each to its meta-closure consequence via a Tarski-style fragment of the truth predicate, (iii) states the unifying theorem that every forbidden pattern implements meta-closure, and (iv) records that the boundary thus identified is the same boundary that separates the closed ground loop from the open meta loop, with the halting capstone (\autoref{ch:capstones-halting-as-form-of-distinction-limit}) as the canonical sibling instance.
+
+\section{Permitted refutation patterns}
+\label{sec:reasoning-by-contradiction-permitted}
+
+\begin{definition}[Permitted refutation pattern]
+\label{def:reasoning-permitted-pattern}
+A \emph{permitted refutation pattern} is a derivation rule of the form ``from $A \Rightarrow \bot$, conclude $\neg A$'' or one of its decidable specialisations, where the derivation of $\bot$ uses only $\Cont$, $\hsame$, $\msame$, and the closure laws of a fixed naming certificate. The conclusion $\neg A$ is read as the BEDC predicate ``every witness of $A$ produces $\bot$ inside the certificate's classifier'', not as ``$A$ holds in no possible world''.
+\end{definition}
+
+\begin{example}[Negation by derived falsity]
+\label{ex:reasoning-negation-by-falsity}
+The kernel theorem $\neg \msame(\bzero, \bone)$ of \autoref{ch:core-raw-marks-and-mark-sameness} is a permitted refutation. Assuming a witness $w$ of $\msame(\bzero, \bone)$ produces $\bot$ by inversion on the constructor pattern: $\msame$ is a closed inductive whose only constructor identifies a mark with itself, and the constructors of $\Mark$ are different. The derivation never leaves the inductive carrier of $\Mark$ and never appeals to a meta-level predicate.
+
+---
+
+
+### B-472 - \label{ch:capstones-reflection-and-limits}
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | \label{ch:capstones-reflection-and-limits} |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+\label{ch:capstones-reflection-and-limits}
+
+Local inputs:
+- `papers/bedc/parts/capstones/reflection_and_limits.tex`
+
+Rationale:
+Surfaced from paper gap scan: open_prose at papers/bedc/parts/capstones/reflection_and_limits.tex:4.
+
+Snippet:
+\label{ch:capstones-reflection-and-limits}
+
+This chapter answers one question: in what precise senses does BEDC describe itself, and where does each sense fail? The answer is two-fold and the asymmetry between the two halves is the main mathematical content. At the ground, the primitive distinction between two raw marks is \emph{self-instantiating}: stating it is already an act of it. This is a closed loop, and it must close for the rest of BEDC to begin. At the meta-level, the naming-certificate framework can internally describe the structure of any well-founded formal system, the host calculus of inductive constructions included. This second loop must remain open: closing it would, by Tarski undefinability, force inconsistency.
+
+The two loops together characterise what kind of foundation BEDC is. The chapter develops them in turn. \autoref{sec:reflection-ground-loop} isolates the ground loop. \autoref{sec:reflection-def-as-classifier} establishes the correspondence between formal definition and classifier choice. \autoref{sec:reflection-inductive-internalisation} interprets closed inductive types as classifier closures inside BEDC. \autoref{sec:reflection-self-description} extends the interpretation to a structural copy of the host calculus. \autoref{sec:reflection-limit} fixes the Tarski-M\"unchhausen boundary. \autoref{sec:reflection-two-loops} contrasts the closed ground loop with the open meta loop and locates BEDC's specific contribution to foundations.
+
+\section{The primitive distinction as generative loop}
+\label{sec:reflection-ground-loop}
+
+\begin{definition}[Form of distinction]
+\label{def:form-of-distinction}
+Let $\bzero$ and $\bone$ denote the two raw marks of \autoref{def:raw-marks}. The \emph{form of distinction} is the closed inductive judgment generating $\Mark$, given by the two formation rules of \autoref{ch:core-raw-marks-and-mark-sameness} together with the kernel-level recognition that $\bzero$ and $\bone$ are not the same constructor. The form is the data of: two formal tokens, and the capacity to tell them apart.
+\end{definition}
+
+\begin{remark}[Self-instantiation]
+
+---
+
+
+### B-473 - \begin{remark}[Structure-existence boundary]
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | \begin{remark}[Structure-existence boundary] |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+\begin{remark}[Structure-existence boundary]
+\label{rem:reflection-structure-existence-boundary}
+The internal $\mathrm{CIC}^{*}$ of \autoref{thm:internal-cic-interpretation} is a \emph{structural} reproduction of the host calculus. It is not the host calculus considered as a runtime: every Lean proof of every theorem appearing in this manuscript is checked by an external Lean kernel, which is itself implemented in a programming language whose semantics is not BEDC-internal. The isomorphism between $\mathrm{CIC}^{*}$ and the host CIC holds at the level of formal structure; it does not hold at t
+
+Local inputs:
+- `papers/bedc/parts/capstones/reflection_and_limits.tex`
+
+Rationale:
+Surfaced from paper gap scan: open_prose at papers/bedc/parts/capstones/reflection_and_limits.tex:111.
+
+Snippet:
+\begin{remark}[Structure-existence boundary]
+\label{rem:reflection-structure-existence-boundary}
+The internal $\mathrm{CIC}^{*}$ of \autoref{thm:internal-cic-interpretation} is a \emph{structural} reproduction of the host calculus. It is not the host calculus considered as a runtime: every Lean proof of every theorem appearing in this manuscript is checked by an external Lean kernel, which is itself implemented in a programming language whose semantics is not BEDC-internal. The isomorphism between $\mathrm{CIC}^{*}$ and the host CIC holds at the level of formal structure; it does not hold at the level of executing the structure. No formal system can include the runtime that interprets it. This boundary is the formal content of the M\"unchhausen impossibility: the bootstrap remains open at the runtime level even when it is closed at the structural level.
+\end{remark}
+
+\begin{remark}[Tarski undefinability]
+\label{rem:reflection-tarski-undefinability}
+The self-description of \autoref{cor:bedc-self-description} is a description of the formal structure of BEDC inside BEDC; it is not a definition of a BEDC truth predicate inside BEDC. By Tarski undefinability, every formal system rich enough to describe its own syntactic structure cannot define its own truth predicate. BEDC is no exception, and \autoref{cor:bedc-self-description} does not attempt this. Recovering truth requires a metalanguage strictly stronger than the language being described, and that metalanguage is again hosted externally.
+\end{remark}
+
+\section{The two loops of BEDC}
+\label{sec:reflection-two-loops}
+
+\begin{theorem}[Closed ground loop and open meta loop]
+\label{thm:two-loops}
+
+---
+
