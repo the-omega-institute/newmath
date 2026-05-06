@@ -90,4 +90,15 @@ theorem DiffFormBHistClassifier_trans
       hsame_trans left.right.right.right.right.right.right.right.right.right.right
         right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem DiffFormExteriorDerivative_scalar_transport_boundary
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
+      ledger' : BHist} :
+    DiffFormBHistClassifier degree probe tensor scalar antisym ledger degree' probe' tensor'
+      scalar' antisym' ledger' ->
+      hsame scalar scalar' ∧ hsame ledger ledger' := by
+  intro classified
+  exact And.intro
+    classified.right.right.right.right.right.right.right.right.left
+    classified.right.right.right.right.right.right.right.right.right.right
+
 end BEDC.Derived.DiffFormUp
