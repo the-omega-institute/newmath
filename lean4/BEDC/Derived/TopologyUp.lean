@@ -8,6 +8,10 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def BHistIndexedNeighborhood (T : BHistIndexedOpenCarrier) (x : BHist) (i : T.OpenIx) :
+    Prop :=
+  UnaryHistory x ∧ T.OpenAt i x
+
 def TopologySingletonIndexedOpenCarrier : BHistIndexedOpenCarrier := {
   OpenIx := BHist
   OpenAt := TopologySingletonOpenAt
