@@ -303,6 +303,7 @@ import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.LatticeUp.MeetAbsorption
+import BEDC.Derived.LatticeUp.ModularComparison
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
