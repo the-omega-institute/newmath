@@ -1,0 +1,125 @@
+\section{DiffForm root consumer entry}
+\label{sec:diffform-root-consumer-entry}
+
+\begin{definition}[DiffForm root consumer entry source]
+\label{def:diffform-root-consumer-entry-source}
+The $\DiffFormUp$ root consumer entry source is the tuple
+$$
+\mathsf{DiffFormRootConsumerEntry}_{M,T}.
+$$
+Its entries are the $BHist$ carrier and classifier rows of
+\autoref{def:diffform-root-bhist-namecert-surface}, the root consumer carrier
+readback of \autoref{thm:diffform-root-consumer-carrier-readback}, the wedge
+input readback of
+\autoref{thm:diffform-root-consumer-wedge-input-readback}, the
+exterior-derivative input row covered by
+\autoref{thm:diffform-exterior-derivative-consumer-coverage}, and the
+downstream consumer boundary packaged by
+\autoref{thm:diffform-root-cross-consumer-threshold-package}. The entry
+source contains no row for $d^2=0$, closedness, nondegeneracy, contact
+nonintegrability, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[DiffForm root consumer entry carrier]
+\label{thm:diffform-root-consumer-entry-carrier}
+Every carrier or classifier read admitted by
+\autoref{def:diffform-root-consumer-entry-source} factors through the root
+$BHist$ surface of \autoref{def:diffform-root-bhist-namecert-surface}. The
+only carrier projected to a downstream consumer is
+$\mathsf{DiffFormBHistCarrier}_{M,T}$, and the only classifier projected to a
+downstream consumer is the displayed $\sim_{\DiffFormUp}$ classifier.
+\end{theorem}
+\begin{proof}
+Start with the entry tuple. Its carrier and classifier coordinates are
+defined to be the root $BHist$ rows of
+\autoref{def:diffform-root-bhist-namecert-surface}.
+
+Apply \autoref{thm:diffform-root-bhist-carrier-obligation}. It projects the
+carried form row, degree-probe alignment row, manifold source row, and tensor
+source row from the displayed root surface.
+
+Now apply \autoref{thm:diffform-root-consumer-carrier-readback}. That
+readback theorem states that every threshold consumer reads exactly the
+six-coordinate carrier and displayed classifier, with no additional carrier
+coordinate, replacement classifier, operator law, or standard bridge. The
+carrier entry therefore factors through precisely the advertised root
+surface.
+\end{proof}
+
+\begin{theorem}[DiffForm root consumer entry wedge]
+\label{thm:diffform-root-consumer-entry-wedge}
+Every wedge input read admitted by
+\autoref{def:diffform-root-consumer-entry-source} is covered by the root
+consumer threshold certificate. Its visible data are probe append, $\Cont$
+tensor and degree ledgers, antisymmetry ledgers, scalar endpoint transport,
+and source-ledger projections from the $\DiffFormUp$ root.
+\end{theorem}
+\begin{proof}
+Read the wedge coordinate of the entry source. By definition it is the wedge
+input readback of
+\autoref{thm:diffform-root-consumer-wedge-input-readback}.
+
+Next use the cross-consumer threshold package
+\autoref{thm:diffform-root-cross-consumer-threshold-package}. The package
+assigns exported downstream rows to de Rham, symplectic, contact, or shared
+root faces while keeping downstream laws outside the shared root face.
+
+Combining these two rows gives exactly the visible wedge surface: probe
+append, $\Cont$ tensor and degree ledgers, antisymmetry ledgers, scalar
+endpoint transport, and source-ledger projections. No wedge input read can
+project a de Rham, symplectic, or contact law from the root entry.
+\end{proof}
+
+\begin{theorem}[DiffForm root consumer entry derivative]
+\label{thm:diffform-root-consumer-entry-derivative}
+Every exterior-derivative input read admitted by
+\autoref{def:diffform-root-consumer-entry-source} routes through the
+manifold-tensor source envelope of
+\autoref{def:diffform-manifold-tensor-source-envelope}. The route supplies
+carrier, classifier, degree-shift, wedge-input, endpoint-transport,
+source-ledger, and downstream boundary data, but it does not assert $d^2=0$.
+\end{theorem}
+\begin{proof}
+Begin with the exterior-derivative entry. It is the input row covered by
+\autoref{thm:diffform-exterior-derivative-consumer-coverage}.
+
+Use \autoref{thm:diffform-manifold-tensor-source-scope} to identify the
+source envelope. Carrier and classifier witnesses in that envelope come only
+from the displayed $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$ rows.
+
+Now apply \autoref{thm:diffform-exterior-derivative-consumer-coverage}. The
+coverage theorem routes the accepted exterior-derivative input through the
+carrier, classifier, degree-shift, wedge-input, endpoint-transport,
+source-ledger, and downstream boundary surface. Its statement leaves
+nilpotence to the downstream chapter, so the entry source supplies input data
+without claiming $d^2=0$.
+\end{proof}
+
+\begin{theorem}[DiffForm root consumer entry threshold]
+\label{thm:diffform-root-consumer-entry-threshold}
+The carrier, wedge, and exterior-derivative projections of
+\autoref{def:diffform-root-consumer-entry-source} form the root entry
+threshold for $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$. Downstream
+consumers may cite this entry threshold for their shared $\DiffFormUp$ input
+surface, while their nilpotence, closedness, nondegeneracy, contact
+nonintegrability, and bridge obligations remain outside the root entry.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:diffform-root-consumer-entry-carrier}. It supplies the
+shared carrier and classifier surface from the root $BHist$ NameCert rows.
+
+Next use \autoref{thm:diffform-root-consumer-entry-wedge}. It supplies the
+shared wedge input surface through the root consumer threshold certificate.
+
+Then use \autoref{thm:diffform-root-consumer-entry-derivative}. It supplies
+the exterior-derivative input route through the manifold-tensor source
+envelope, without importing $d^2=0$ into $\DiffFormUp$.
+
+Finally apply
+\autoref{thm:diffform-root-cross-consumer-threshold-package}. The package
+places the de Rham, symplectic, and contact laws in their consumer faces and
+keeps the shared carrier, classifier, wedge, scalar endpoint, and
+source-ledger rows in the root face. The three projections therefore assemble
+as the advertised root entry threshold.
+\end{proof}
