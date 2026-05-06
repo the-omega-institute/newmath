@@ -221,6 +221,7 @@ import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ResidueUp
@@ -344,6 +345,7 @@ import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
+import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
