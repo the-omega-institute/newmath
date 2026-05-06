@@ -4,6 +4,7 @@ namespace BEDC.Derived.TopologyUp
 
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
 
 theorem BHistFiniteBaseNeighborhood_append_decomposition
     (left right : ProbeBundle BHist) (ball : BHist -> BHist -> Prop) (x : BHist) :
@@ -28,5 +29,15 @@ theorem BHistFiniteBaseNeighborhood_append_decomposition
         exact split.left i inLeft
     | inr inRight =>
         exact split.right i inRight
+
+structure BHistFiniteBaseNeighborhoodRow (T : BHistIndexedOpenCarrier)
+    (indices : ProbeBundle BHist) (ball : BHist -> BHist -> Prop) (x : BHist) where
+  point_unary : UnaryHistory x
+  neighborhood : BHistFiniteBaseNeighborhood indices ball x
+  index : T.OpenIx
+  carries : BHistCarriesOpen T index (BHistFiniteBaseNeighborhood indices ball)
+  ledger : BHist
+  ledger_unary : UnaryHistory ledger
+  row : BHistUnaryTopologyLedgerRow T index (BHistFiniteBaseNeighborhood indices ball)
 
 end BEDC.Derived.TopologyUp

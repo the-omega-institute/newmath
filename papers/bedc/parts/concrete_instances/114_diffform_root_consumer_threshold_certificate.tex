@@ -1,0 +1,125 @@
+\section{DiffForm root consumer threshold certificate}
+\label{sec:diffform-root-consumer-threshold-certificate}
+
+\begin{definition}[Differential-form root consumer threshold certificate]
+\label{def:diffform-root-consumer-threshold-certificate}
+Fix the $\NameCert_{\ManifoldUp}$ source $M$ and the
+$\NameCert_{\TensorProductUp}$ source $T$ used by
+\autoref{def:diffform-bhist-form-carrier}. The differential-form root
+consumer threshold certificate is the following ten-field surface:
+\begin{enumerate}
+  \item the ambient $BHist$ history carrier for all displayed form rows;
+  \item the $\hsame$ transport relation on degree, tensor, scalar endpoint,
+  antisymmetry, and source-ledger histories;
+  \item the $\Cont$ continuation ledger for ordered tensor concatenation and
+  degree bookkeeping;
+  \item the $\mathsf{ProbeBundle}$ spine of tangent-probe names;
+  \item the upstream $\NameCert_{\ManifoldUp}$ source for tangent probes and
+  scalar endpoint data;
+  \item the upstream $\NameCert_{\TensorProductUp}$ source for multilinear
+  tensor rows;
+  \item the six-coordinate carrier
+  $\mathsf{DiffFormBHistCarrier}_{M,T}(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$
+  of \autoref{def:diffform-bhist-form-carrier};
+  \item the displayed classifier $\sim_{\DiffFormUp}$ of
+  \autoref{def:diffform-bhist-form-classifier};
+  \item the wedge and exterior-input rows consisting of tensor concatenation,
+  probe-bundle append, degree bookkeeping, antisymmetry ledgers, scalar
+  endpoint transport, and source-ledger projections;
+  \item the downstream consumer slots for $\DeRhamUp$, $\ContactUp$, and
+  $\SymplecticUp$.
+\end{enumerate}
+The certificate explicitly excludes $d^2=0$, closedness, nondegeneracy,
+contact nonintegrability, and any standard bridge.
+\end{definition}
+
+\begin{theorem}[Differential-form root consumer carrier readback]
+\label{thm:diffform-root-consumer-carrier-readback}
+Every consumer admitted by the
+\autoref{def:diffform-root-consumer-threshold-certificate} reads exactly the
+six-coordinate carrier
+$$
+(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)
+$$
+and the displayed classifier $\sim_{\DiffFormUp}$ from
+\autoref{def:diffform-bhist-form-classifier}. No downstream consumer slot may
+read an additional carrier coordinate, replacement classifier, operator law,
+or standard bridge from the $\DiffFormUp$ root.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:diffform-root-unblock-carrier-classifier-scope}. It reads the
+root surface through \autoref{def:diffform-bhist-form-carrier} and
+\autoref{def:diffform-bhist-form-classifier}, so the only carrier available
+to a consumer is the displayed six-tuple and the only classifier available is
+the displayed $\DiffFormUp$ classifier.
+
+Next apply \autoref{thm:diffform-root-export-carrier-classifier-threshold}.
+The export threshold states the same carrier and classifier boundary at the
+public root table, with no seventh carrier coordinate and no replacement
+classifier.
+
+Finally use \autoref{thm:diffform-namecert-obligation-surface}. The exported
+NameCert surface lists carrier, classifier, transport, wedge, exterior-input,
+and downstream scope rows, and it names no standard bridge or downstream
+operator law. Therefore every threshold consumer reads exactly the stated
+carrier and classifier surface.
+\end{proof}
+
+\begin{theorem}[Differential-form root consumer wedge input readback]
+\label{thm:diffform-root-consumer-wedge-input-readback}
+Every accepted wedge or exterior-input consumer row admitted by the
+\autoref{def:diffform-root-consumer-threshold-certificate} reads only probe
+append, $\Cont$ tensor and degree ledgers, antisymmetry ledgers, scalar
+endpoint transport, and source ledgers from the displayed
+$\DiffFormUp$ root surface.
+\end{theorem}
+\begin{proof}
+Start with the wedge side. Apply
+\autoref{thm:diffform-root-unblock-wedge-cont-closure}. It identifies wedge
+closure with probe-bundle concatenation, visible tensor concatenation through
+$\Cont$, degree bookkeeping, and the displayed antisymmetry ledger.
+
+Next read the exterior-input boundary through
+\autoref{thm:diffform-root-unblock-derham-input-consumption} and
+\autoref{thm:diffform-derham-input-boundary}. These rows allow
+exterior-input consumers to inspect carried input and output rows, degree
+shift, wedge-input stability, scalar endpoint transport, and the restricted
+source ledger.
+
+The export side contributes no broader input. By
+\autoref{thm:diffform-namecert-obligation-surface} and
+\autoref{thm:diffform-root-export-wedge-threshold}, the NameCert root exports
+the wedge ledger and exterior-input rows only through those displayed
+histories. Hence accepted wedge and exterior-input consumers read exactly the
+stated probe, continuation, antisymmetry, scalar, and source surfaces.
+\end{proof}
+
+\begin{theorem}[Differential-form root consumer downstream law separation]
+\label{thm:diffform-root-consumer-downstream-law-separation}
+The downstream slots of the
+\autoref{def:diffform-root-consumer-threshold-certificate} are input slots
+only. $\DeRhamUp$, $\ContactUp$, and $\SymplecticUp$ must supply their
+operator and geometric laws in their own certificate surfaces; the
+$\DiffFormUp$ root certificate does not project $d^2=0$, closedness,
+nondegeneracy, contact nonintegrability, or any standard bridge.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:diffform-root-unblock-derham-input-consumption} to identify the
+consumer boundary at the root-unblock surface. It permits downstream chapters
+to consume degree, wedge, antisymmetry, scalar endpoint, and source-ledger
+rows, while leaving their laws outside the DiffForm root.
+
+Then apply \autoref{thm:diffform-namecert-obligation-surface} together with
+the boundary rows
+\autoref{thm:diffform-exterior-derivative-downstream-scope},
+\autoref{thm:diffform-downstream-consumer-boundary}, and
+\autoref{thm:diffform-root-export-downstream-law-separation}. These rows give
+the same separation at the NameCert and export surfaces.
+
+Thus the consumer threshold is citable by $\DeRhamUp$, $\ContactUp$, and
+$\SymplecticUp$ as a root input certificate, but each downstream chapter must
+close its own nilpotence, closedness, nondegeneracy, nonintegrability, or
+bridge obligations within its own surface.
+\end{proof}
