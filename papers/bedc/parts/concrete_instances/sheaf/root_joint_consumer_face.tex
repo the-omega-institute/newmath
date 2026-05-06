@@ -1,0 +1,60 @@
+\begin{definition}[Sheaf root joint consumer face]
+\label{def:sheaf-root-joint-consumer-face}
+The $\SheafUp$ root joint consumer face is the shared $\mathsf{BHist}$-indexed projection package assembled from the projection seal of \autoref{def:sheaf-root-consumer-projection-seal}, the consumer-threshold projection source of \autoref{def:sheaf-root-consumer-threshold-projection-source}, the root face exactness source of \autoref{def:sheaf-root-face-exactness-source}, and the downstream consumption boundary of \autoref{def:sheaf-downstream-consumption-boundary}. It has one root package and three read-only consumer faces: the $\RingedSpaceUp$ local-ring face, the $\SchemeUp$ affine-chart face, and the topology pullback face. Each face reads the same $\mathsf{BHist}$-scoped sheaf root rows for section carriers, section classifiers, restriction transport, cover-gluing exactness, restricted opens, displayed base change, cover presentations, and displayed common refinements.
+\end{definition}
+
+\begin{theorem}[Sheaf root joint consumer face exhaustion]
+\label{thm:sheaf-root-joint-consumer-face-exhaustion}
+Every sheaf-side row visible through the joint consumer face of \autoref{def:sheaf-root-joint-consumer-face} to $\RingedSpaceUp$, $\SchemeUp$, or topology pullback consumers is one of the following rows: indexed section carrier, section classifier, restriction identity, restriction composition, restriction classifier transport, cover-locality and cover-gluing exactness, restricted-open carrier and inherited sheaf rows, displayed base-change transport, cover-presentation exactness, or displayed common-refinement comparison. No other sheaf-side row is exported by the joint face.
+\end{theorem}
+\begin{proof}
+Split over the three projections named in \autoref{def:sheaf-root-consumer-projection-seal}.
+
+For the $\RingedSpaceUp$ projection, apply \autoref{thm:sheaf-root-ringedspace-local-ring-projection-seal}. Its sheaf-side reads are the section carrier, classifier, restriction-stability, cover-gluing, restricted-open, and base-change rows. The root face coverage theorem \autoref{thm:sheaf-root-face-classifier-coverage} places the carrier, classifier, and restriction rows inside the first three faces of the root exactness source.
+
+For the $\SchemeUp$ projection, apply \autoref{thm:sheaf-root-scheme-affine-chart-projection-seal}. Chart-wise reads factor through the ringed-space projection, and the only additional sheaf-side comparisons are cover-presentation exactness and displayed common-refinement comparison. These are exactly the locality, gluing, and refinement rows supplied by \autoref{thm:sheaf-root-face-gluing-exactness}.
+
+For the topology pullback projection, apply \autoref{thm:sheaf-root-topology-pullback-projection-seal}. The available rows are pulled-back cover membership, restriction-route stability, compatible-family transport, gluing pullback, and displayed common-refinement transport along the base-change surface.
+
+Finally use \autoref{thm:sheaf-downstream-consumption-exhaustion}. It exhausts downstream sheaf reads by the carrier, classifier, restriction, cover-gluing, restricted-open, base-change, refinement, and exactness rows already listed in the statement, so the joint consumer face exports no further sheaf-side row.
+\end{proof}
+
+\begin{theorem}[Sheaf root joint consumer face noninterference]
+\label{thm:sheaf-root-joint-consumer-face-noninterference}
+None of the three consumer projections of \autoref{def:sheaf-root-joint-consumer-face} exports another consumer's private data back into the $\SheafUp$ root face. The $\RingedSpaceUp$ projection does not return private algebraic or local-ring rows to the root face; the $\SchemeUp$ projection does not return private affine-chart, spectra, or chart-ring rows; and the topology pullback projection does not return private pullback-open choices or consumer-specific pullback witnesses to the root face.
+\end{theorem}
+\begin{proof}
+For $\RingedSpaceUp$, the projection seal \autoref{thm:sheaf-root-ringedspace-local-ring-projection-seal} says that commutative-ring and local-ring data are supplied outside $\SheafUp$. Thus those algebraic rows are read by the consumer only after the sheaf-side projection has been fixed.
+
+For $\SchemeUp$, the projection seal \autoref{thm:sheaf-root-scheme-affine-chart-projection-seal} keeps spectra data and chart-ring data outside $\SheafUp$. The scheme face reads sheaf rows through chart-wise ringed-space projections and common-refinement comparisons, but it does not add a chart carrier, chart classifier, or spectra row to the root package.
+
+For topology pullback, the projection seal \autoref{thm:sheaf-root-topology-pullback-projection-seal} restricts the face to displayed base-change, cover pullback, gluing pullback, and common-refinement transport. It explicitly does not read the ringed-space local-ring face or the scheme affine-chart face.
+
+The separation theorem \autoref{thm:sheaf-root-face-downstream-separation} identifies all three consumers as projections of the same four root faces. Together with \autoref{thm:sheaf-downstream-consumption-exhaustion}, this prevents consumer-specific algebraic, chart, or pullback data from re-entering the $\SheafUp$ carrier, classifier, cover ledger, restriction-route face, or locality and gluing exactness face.
+\end{proof}
+
+\begin{theorem}[Sheaf root joint consumer face NameCert boundary]
+\label{thm:sheaf-root-joint-consumer-face-namecert-boundary}
+The joint consumer face of \autoref{def:sheaf-root-joint-consumer-face} exposes the following ten-field $\NameCert_{\SheafUp}$ boundary.
+\begin{enumerate}
+\item The traditional target is the sheaf-side consumer projection package read by ringed spaces, schemes, and topology pullback consumers.
+\item The BEDC sources are $\TopologyUp$, $\PreSheafUp$, and $\NameCert$.
+\item The carrier field is the indexed section presheaf carrier $\mathsf{Sec}(i)$ and its restricted-open or displayed base-change readbacks.
+\item The classifier field is the section classifier relation $\sim_i$ and its restricted-open or displayed base-change transports.
+\item The stability field consists of restriction identity, restriction composition, classifier transport, locality, gluing, refinement transport, and base-change transport.
+\item The ledger field consists of the $\mathsf{BHist}$ cover nerve, cover-member rows, overlap rows, $\hsame$ transport, and optional route histories.
+\item The exactness field consists of the joint exhaustion row of \autoref{thm:sheaf-root-joint-consumer-face-exhaustion} and the joint noninterference row of \autoref{thm:sheaf-root-joint-consumer-face-noninterference}.
+\item The downstream-use field consists exactly of the $\RingedSpaceUp$ local-ring face, the $\SchemeUp$ affine-chart face, and the topology pullback face.
+\item The boundary exports no host powerset equality, cover quotient, stalk quotient, external sheafification operation, or consumer-private root data.
+\item No standard bridge is attached to this boundary.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Begin with the root consumer-threshold projection source of \autoref{def:sheaf-root-consumer-threshold-projection-source}. It already names the traditional consumer target, the single threshold source, the carrier and classifier rows, the restriction row, the three consumer projection rows, the ledger and exactness row, and the absent standard-bridge field.
+
+The root face exactness source of \autoref{def:sheaf-root-face-exactness-source} refines these fields into cover-membership, restriction-route, locality-gluing-refinement, and downstream projection faces. Use \autoref{thm:sheaf-root-face-classifier-coverage} for carrier, classifier, cover ledger, and restriction-route coverage, and use \autoref{thm:sheaf-root-face-gluing-exactness} for locality, gluing, refinement, cover-presentation, and base-change exactness.
+
+The projection seals identify the downstream-use field. Apply \autoref{thm:sheaf-root-ringedspace-local-ring-projection-seal}, \autoref{thm:sheaf-root-scheme-affine-chart-projection-seal}, and \autoref{thm:sheaf-root-topology-pullback-projection-seal} to split the boundary into the three consumer faces.
+
+It remains to justify exactness and exclusion. The joint exhaustion theorem \autoref{thm:sheaf-root-joint-consumer-face-exhaustion} supplies the listed public sheaf rows, while the joint noninterference theorem \autoref{thm:sheaf-root-joint-consumer-face-noninterference} and the downstream separation theorem \autoref{thm:sheaf-root-face-downstream-separation} remove consumer-private algebraic, chart, and pullback rows from the root face. The downstream consumption exhaustion theorem \autoref{thm:sheaf-downstream-consumption-exhaustion} then leaves no standard bridge, host powerset equality, cover quotient, stalk quotient, or external sheafification operation in the boundary.
+\end{proof}

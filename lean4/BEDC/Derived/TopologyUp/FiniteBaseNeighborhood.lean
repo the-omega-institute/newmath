@@ -92,6 +92,39 @@ theorem BHistFiniteBaseNeighborhoodCarrier_singleton_row (ball : BHist -> BHist 
   · intro openNeighborhood
     exact openNeighborhood
 
+theorem BHistFiniteBaseNeighborhoodCarrier_meet_scope_rows (ball : BHist -> BHist -> Prop)
+    (ballStable :
+      forall {indices : ProbeBundle BHist} {i x y : BHist}, InBundle i indices ->
+        UnaryHistory x -> UnaryHistory y -> hsame x y -> (ball i x <-> ball i y)) :
+    (forall {indices : ProbeBundle BHist} {x : BHist},
+      (BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt indices x <->
+        BHistFiniteBaseNeighborhood indices ball x) ∧
+      (forall {left right : ProbeBundle BHist} {x : BHist},
+        (BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt
+          ((BHistFiniteBaseNeighborhoodCarrier ball ballStable).meet left right) x <->
+            BHistFiniteBaseNeighborhood (bundleAppend left right) ball x) ∧
+      (forall {left right : ProbeBundle BHist} {x : BHist},
+        (BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt
+          ((BHistFiniteBaseNeighborhoodCarrier ball ballStable).meet left right) x <->
+            (BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt left x ∧
+              (BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt right x) := by
+  constructor
+  · intro indices x
+    constructor
+    · intro neighborhood
+      exact neighborhood
+    · intro neighborhood
+      exact neighborhood
+  · constructor
+    · intro left right x
+      constructor
+      · intro neighborhood
+        exact neighborhood
+      · intro neighborhood
+        exact neighborhood
+    · intro left right x
+      exact BHistFiniteBaseNeighborhood_append_decomposition left right ball x
+
 theorem BHistFiniteBaseNeighborhoodCarrier_indexed_open_laws
     (ball : BHist -> BHist -> Prop)
     (ballStable :
