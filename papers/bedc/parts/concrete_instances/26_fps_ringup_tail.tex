@@ -322,3 +322,42 @@ For the multiplicative spine, apply \autoref{thm:fps-cauchy-product-multiplicati
 
 The distributive rows are exactly the two conclusions of \autoref{thm:fps-cauchy-product-distributes-over-fps-addition}, read with the same pointwise addition and Cauchy product. The zero absorption rows are exactly \autoref{thm:fps-zero-series-cauchy-product-absorption-over-ringup-scalars}. Combining these four cited theorem rows yields the displayed RingUp-scoped tail package for downstream formal-power-series algebra.
 \end{proof}
+
+\begin{theorem}[FPS singleton empty-history semantic certificate]
+\label{thm:fps-singleton-empty-history-semantic-certificate}
+The singleton empty-history formal-power-series carrier
+$A_{\emp}(h):=h\hsame\emp$ on $\mathsf{BHist}$, together with the classifier
+$$
+\rho_{\emp}(h,k):=A_{\emp}(h)\land A_{\emp}(k)\land h\hsame k,
+$$
+forms the semantic naming certificate for the terminal formal-power-series
+history object. The RingUp tail algebra package of
+\autoref{thm:fps-ringup-tail-algebra-package} is read over this same
+$\mathsf{BHist}$ carrier/classifier surface when the terminal FPS object is
+used; it does not introduce a second formal-power-series interface.
+\end{theorem}
+\begin{proof}
+The singleton carrier and classifier are the encoded
+$\mathsf{BHist}$ data of \autoref{thm:fps-singleton-empty-history-semantic-namecert}.
+The Lean-checked certificate
+$\mathsf{FpsSingletonEmptyHistory\_semanticNameCert}$ supplies the semantic
+name-certificate fields for exactly this carrier/classifier pair.
+
+The tail algebra package in \autoref{thm:fps-ringup-tail-algebra-package}
+assembles the additive, multiplicative, distributive, and zero-absorption rows
+over one shared formal-power-series carrier and pointwise classifier. Reading
+that package at the terminal singleton object therefore keeps the algebra rows
+on the same $\mathsf{BHist}$ naming surface certified above, rather than
+passing through a separate FPS naming interface.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistory\_semanticNameCert}
+
+\begin{closurestatus}{FormalPowerSeriesUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The singleton empty-history FPS carrier/classifier on $\mathsf{BHist}$ and the RingUp tail package read over that same carrier/classifier surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FpsUp.FpsSingletonEmptyHistory\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{Arbitrary formal power series over general rings, non-terminal coefficient carriers, analytic convergence, radii of convergence, or completed topological algebra.}
+  \upgradepath{A stronger grade requires the full carrier, classifier, stability, and ledger obligation set for general $\FormalPowerSeriesUp(R)$.}
+\end{closurestatus}
