@@ -1,0 +1,152 @@
+\begin{definition}[Measure root seed obligation front]
+\label{def:measure-root-seed-obligation-front}
+The $\MeasureUp$ root seed obligation front is the ten-field surface that
+places the root measure certificate before its downstream consumers:
+\begin{enumerate}
+  \item traditional target: a constructive measure space whose measurable
+  predicates form a $\sigma$-algebra and whose measure takes values in
+  $\RealUp$;
+  \item BEDC source: $\mathsf{BHist}$ presentations, the certificate
+  $\NameCert_{\RealUp}$, and the additive $\AbGroupUp$ row on real endpoints;
+  \item carrier: the predicate $\mathsf{MeasCode}$ on $\mathsf{BHist}$;
+  \item classifier: the root classifier $\sim_M$ on measure codes, with
+  endpoint comparisons read through the $\RealUp$ classifier $\sim_R$;
+  \item stability rows: transport of $\mathsf{MeasCode}$, visible event
+  rows, measurable-family rows, endpoint rows, countable-sum rows, and
+  head-tail readback along $\sim_M$ and componentwise $\hsame$;
+  \item ledger rows: measurable membership, relative-difference,
+  disjointness, endpoint-value, and countable-sum witnesses attached to the
+  visible $\mathsf{BHist}$ rows they justify;
+  \item core theorem list:
+  \autoref{thm:measure-root-carrier-classifier-public-obligation},
+  \autoref{thm:measure-root-sigma-additive-public-obligation}, and
+  \autoref{thm:measure-root-downstream-unblock-package};
+  \item exactness: visible-row exhaustion by
+  \autoref{def:measure-event-row-coverage} and
+  \autoref{thm:measure-ledger-exactness-obligation};
+  \item standard bridge: no $\StdBridge$ is asserted at this paper site;
+  \item status: $\seedClosure$ on the theory axis, with the theorem-shaped
+  target surface for $\formalTargetV$ under $\mathsf{BEDC.Derived.MeasureUp}$.
+\end{enumerate}
+This front is read through the carrier rows of
+\autoref{def:measure-sigma-algebra-carrier-surface}, the certificate rows of
+\autoref{def:measure-certificate-surface}, the root public surface of
+\autoref{def:measure-root-namecert-public-surface}, and the root consumer
+package of \autoref{def:measure-root-consumer-package}.
+\end{definition}
+
+\begin{theorem}[Measure root seed carrier-classifier obligation]
+\label{thm:measure-root-seed-carrier-classifier-obligation}
+The seed front of \autoref{def:measure-root-seed-obligation-front} supplies
+the root carrier and classifier obligation for $\MeasureUp$. If
+$h,k:\mathsf{BHist}$ satisfy $\mathsf{MeasCode}(h)$ and $h\sim_M k$, then the
+front transports $\mathsf{MeasCode}(k)$, every displayed event row, every
+ledger row, and every $\RealUp$ endpoint comparison attached to the carried
+measure code. The endpoint movement is always read through
+$\NameCert_{\RealUp}$ and the classifier $\sim_R$, while event movement is
+read through componentwise $\hsame$ on the $\mathsf{BHist}$ rows.
+\end{theorem}
+\begin{proof}
+Start from the carrier and classifier fields of
+\autoref{def:measure-root-seed-obligation-front}. They are the
+$\mathsf{MeasCode}$ and $\sim_M$ fields of
+\autoref{def:measure-certificate-surface}, read over the visible rows listed
+in \autoref{def:measure-sigma-algebra-carrier-surface}.
+
+Apply \autoref{thm:measure-obligation-carrier-transport}. It transports the
+carried measure code and permits every displayed row indexed by that code to
+be read at the target history $k$ after the $\sim_M$ comparison is supplied.
+
+Next apply \autoref{thm:measure-root-carrier-classifier-public-obligation}.
+Its public form identifies the transported rows as the root carrier,
+classifier, ledger, and endpoint rows of the $\MeasureUp$ surface. The event
+rows move by their componentwise $\hsame$ witnesses, and the endpoint rows
+move through $\NameCert_{\RealUp}$ and $\sim_R$.
+
+Finally use the root exactness clause from
+\autoref{thm:measure-ledger-exactness-obligation}. Since every consumed
+membership, relative-difference, disjointness, value, and countable-sum
+witness is attached to a visible row, the transported visible rows exhaust the
+root carrier-classifier obligation.
+\end{proof}
+
+\begin{theorem}[Measure root seed sigma-additive obligation]
+\label{thm:measure-root-seed-sigma-additive-obligation}
+The seed front of \autoref{def:measure-root-seed-obligation-front} supplies
+the root sigma-additive obligation for $\MeasureUp$. For every covered
+pairwise-disjoint measurable sequence $E_\bullet$ in a carried
+$\mathsf{BHist}$ fiber with covered countable union $U$, the front supplies
+the comparison
+$$
+\mu(U)\sim_R\Sigma_\mu(E_\bullet).
+$$
+It also supplies the empty-zero, finite disjoint-union, relative-difference,
+head-tail, and countable-sum classifier rows needed to read this comparison
+through the additive $\AbGroupUp$ real row.
+\end{theorem}
+\begin{proof}
+Project the sigma-algebra, countable-union, countable-sum, head-tail, and
+classifier-stability rows from \autoref{def:measure-certificate-surface}. The
+coverage predicate of \autoref{def:measure-event-row-coverage} places the
+sequence $E_\bullet$, its union $U$, its disjointness witness, and its
+endpoint rows in the visible $\mathsf{BHist}$ ledger.
+
+Apply \autoref{thm:measure-root-sigma-additive-public-obligation}. Its first
+conclusion is precisely the displayed comparison
+$\mu(U)\sim_R\Sigma_\mu(E_\bullet)$, with both endpoints classified through
+$\sim_R$.
+
+The same public obligation invokes
+\autoref{thm:measureup-sigma-additive-certificate-obligations},
+\autoref{thm:measure-empty-set-zero-from-sigma-additivity},
+\autoref{thm:measure-finite-disjoint-union-additivity}, and
+\autoref{thm:measure-relative-difference-additivity}. These rows provide the
+empty-zero, finite readback, relative-difference, head-tail, and
+countable-sum classifier consequences.
+
+The additive structure used in those readbacks is the $\AbGroupUp$ real row
+named in \autoref{def:measure-root-seed-obligation-front}. Thus the
+sigma-additive obligation is a root $\mathsf{BHist}$ and $\RealUp$ endpoint
+statement, not a separate host-level measure-space equality.
+\end{proof}
+
+\begin{theorem}[Measure root seed consumer threshold]
+\label{thm:measure-root-seed-consumer-threshold}
+The seed front of \autoref{def:measure-root-seed-obligation-front} reaches
+the root consumer threshold for $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$. The threshold exports exactly the covered
+measurable-event rows, $\RealUp$ endpoint classifier rows, countable-sum
+rows, head-tail readback, empty-zero, finite disjoint-union readback,
+relative-difference additivity, monotone inclusion, nonnegative endpoint,
+total-event normalization, and the explicit no-$\StdBridge$ row exposed by
+the root $\MeasureUp$ package.
+\end{theorem}
+\begin{proof}
+Begin with the root public surface of
+\autoref{def:measure-root-namecert-public-surface} and the root consumer
+package of \autoref{def:measure-root-consumer-package}. Together they expose
+the $\mathsf{BHist}$ event ledger, the $\sim_M$ carrier classifier, and the
+$\NameCert_{\RealUp}$ endpoint classifier rows named by the seed front.
+
+Apply \autoref{thm:measure-root-downstream-unblock-package}. It packages the
+carrier-classifier rows of
+\autoref{thm:measure-root-carrier-classifier-public-obligation} with the
+sigma-additive rows of
+\autoref{thm:measure-root-sigma-additive-public-obligation}, while keeping
+the standard-bridge field absent.
+
+For the three outgoing faces, apply
+\autoref{thm:measure-integral-consumer-rows},
+\autoref{thm:measure-probability-consumer-rows}, and
+\autoref{thm:measure-functionalanalysis-consumer-rows}. These theorems read
+the integral, probability, and functional-analysis projections from the same
+root consumer package and list the rows each projection may consume.
+
+Finally compare those projections with
+\autoref{thm:measure-root-bhist-real-endpoint-threshold},
+\autoref{thm:measure-root-bhist-probspace-threshold}, and
+\autoref{thm:measure-root-bhist-integral-functional-threshold}. The threshold
+contains no host set equality, quotient event equality, analytic completion
+object, or $\StdBridge$ field, so the exported consumer surface is exactly the
+one stated above.
+\end{proof}

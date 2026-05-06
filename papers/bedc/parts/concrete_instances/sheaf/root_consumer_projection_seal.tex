@@ -1,0 +1,40 @@
+\begin{definition}[SheafUp root consumer projection seal]
+\label{def:sheaf-root-consumer-projection-seal}
+The $\SheafUp$ root consumer projection seal is the three-consumer package assembled from the consumer-threshold projection source of \autoref{def:sheaf-root-consumer-threshold-projection-source}, the root face exactness source of \autoref{def:sheaf-root-face-exactness-source}, and the downstream consumption boundary of \autoref{def:sheaf-downstream-consumption-boundary}. Its three public projections are the $\RingedSpaceUp$ local-ring projection, the $\SchemeUp$ affine-chart projection, and the topology pullback projection. Each projection is a read-only face of the same $\mathsf{BHist}$-indexed sheaf root package, and none of the projections exports host powerset equality, cover quotients, stalk quotients, external sheafification, or standard bridge closure.
+\end{definition}
+
+\begin{theorem}[SheafUp RingedSpace local-ring projection seal]
+\label{thm:sheaf-root-ringedspace-local-ring-projection-seal}
+The $\RingedSpaceUp$ local-ring face of \autoref{def:sheaf-root-consumer-projection-seal} may read only the $\SheafUp$ section carriers, section classifiers, restriction stability rows, cover-gluing exactness rows, restricted-open rows, and displayed base-change rows. The commutative-ring and local-ring data used by the consumer are supplied from $\CommRingUp$ outside $\SheafUp$. Through this sealed projection, the consumer cannot read host powerset equality of opens, cover quotients, stalk quotients, external sheafification, or standard bridge closure.
+\end{theorem}
+\begin{proof}
+The consumer-threshold source of \autoref{def:sheaf-root-consumer-threshold-projection-source} names the ringed-space projection row as a face of the root threshold package. Its existing projection theorem \autoref{thm:sheaf-root-consumer-ringedspace-projection} identifies exactly the section carrier, classifier, restriction, point-germ readback, restricted-open, and base-change rows available to $\RingedSpaceUp$.
+
+The root face coverage and exactness results \autoref{thm:sheaf-root-face-classifier-coverage}, \autoref{thm:sheaf-root-face-gluing-exactness}, and \autoref{thm:sheaf-root-face-downstream-separation} show that these rows are projections of the root cover-membership, restriction-route, and locality-gluing-refinement faces. They add no root carrier and no consumer-specific exactness row.
+
+Finally, \autoref{thm:sheaf-downstream-consumption-exhaustion} exhausts the downstream sheaf-side reads. The local-ring and commutative-ring structure therefore enters only from $\CommRingUp$, while host powerset equality, cover quotients, stalk quotients, external sheafification, and standard bridge closure remain outside the sealed projection.
+\end{proof}
+
+\begin{theorem}[SheafUp Scheme affine-chart projection seal]
+\label{thm:sheaf-root-scheme-affine-chart-projection-seal}
+The $\SchemeUp$ affine-chart face of \autoref{def:sheaf-root-consumer-projection-seal} may read affine-chart gluing only through cover-presentation rows, displayed common-refinement rows, and the $\RingedSpaceUp$ projection rows sealed in \autoref{thm:sheaf-root-ringedspace-local-ring-projection-seal}. Spectra data and chart-ring data are supplied outside $\SheafUp$. Through this sealed projection, the consumer cannot read host powerset equality of opens, cover quotients, stalk quotients, external sheafification, or standard bridge closure.
+\end{theorem}
+\begin{proof}
+The consumer-threshold source of \autoref{def:sheaf-root-consumer-threshold-projection-source} names the scheme projection row as chart-wise access through ringed-space projections, cover-presentation exactness, and common-refinement comparison. The existing projection theorem \autoref{thm:sheaf-root-consumer-scheme-projection} supplies this chart-wise reading of the same threshold source.
+
+The root face exactness package then separates the sheaf rows from chart data. By \autoref{thm:sheaf-root-face-classifier-coverage} and \autoref{thm:sheaf-root-face-gluing-exactness}, cover-presentation comparison and common-refinement invariance are already part of the locality, gluing, and refinement exactness face; by \autoref{thm:sheaf-root-face-downstream-separation}, chart-local spectra and ring rows do not feed back into the root sheaf package.
+
+Apply \autoref{thm:sheaf-downstream-consumption-exhaustion} to the scheme consumption boundary. Every sheaf row consumed by $\SchemeUp$ is already listed there, so spectra data, chart-ring data, host powerset equality, cover quotients, stalk quotients, external sheafification, and standard bridge closure are not supplied by $\SheafUp$.
+\end{proof}
+
+\begin{theorem}[SheafUp topology pullback projection seal]
+\label{thm:sheaf-root-topology-pullback-projection-seal}
+The topology pullback face of \autoref{def:sheaf-root-consumer-projection-seal} may read only pulled-back cover membership, restriction-route stability, compatible-family transport, gluing pullback, and common-refinement transport along the displayed base-change surface. It does not read the $\RingedSpaceUp$ local-ring face or the $\SchemeUp$ affine-chart face, and it exports no host powerset equality, cover quotient, stalk quotient, external sheafification, or standard bridge closure.
+\end{theorem}
+\begin{proof}
+The consumer-threshold source of \autoref{def:sheaf-root-consumer-threshold-projection-source} names the topology pullback projection as the displayed base-change face. The existing projection theorem \autoref{thm:sheaf-root-consumer-pullback-projection} identifies the available rows as cover pullback, gluing pullback, pulled-back common refinement, and classifier transport along the displayed square.
+
+The root face coverage and exactness rows control those reads. Use \autoref{thm:sheaf-root-face-classifier-coverage} for cover membership and restriction-route stability, and use \autoref{thm:sheaf-root-face-gluing-exactness} for compatible-family transport, gluing pullback, and common-refinement comparison.
+
+The separation theorem \autoref{thm:sheaf-root-face-downstream-separation}, together with \autoref{thm:sheaf-downstream-consumption-exhaustion}, removes the other two consumer faces from the topology pullback projection. Thus the pullback consumer receives only the displayed base-change rows and no host powerset equality, cover quotient, stalk quotient, external sheafification, or standard bridge closure.
+\end{proof}
