@@ -4,6 +4,18 @@ namespace BEDC.Derived.IdealUp
 
 open BEDC.FKernel.Hist
 
+theorem IdealAmbientCarrier_quotient_kernel_exactness
+    {Carrier : BHist -> Prop} {sub : BHist -> BHist -> BHist}
+    (subCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (sub x y))
+    {x y : BHist} :
+    ((Carrier x ∧ Carrier y ∧ Carrier (sub x y)) <-> (Carrier x ∧ Carrier y)) := by
+  constructor
+  · intro kernelRows
+    exact And.intro kernelRows.left kernelRows.right.left
+  · intro carrierRows
+    exact And.intro carrierRows.left
+      (And.intro carrierRows.right (subCarrier carrierRows.left carrierRows.right))
+
 theorem IdealQuotientKernel_multiplication_descent
     {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
     {mul sub add : BHist -> BHist -> BHist}

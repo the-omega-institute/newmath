@@ -39,4 +39,22 @@ theorem ConvexSetSingletonAffineSpine_midpoint_closure {x y endpoint : BHist} :
     And.intro xEmpty (Exists.intro y (And.intro tailSpine endpointRow))
   exact And.intro spine (ConvexSetSingletonAffineSpine_closure spine)
 
+def ConvexSetPointwiseIntersection (C D : BHist -> Prop) (z : BHist) : Prop :=
+  C z ∧ D z
+
+theorem ConvexSetPointwiseIntersection_affine_combination_closure
+    {C D NonNeg : BHist -> Prop} {ClassifierF : BHist -> BHist -> Prop}
+    {addF scalarAct addV : BHist -> BHist -> BHist} {oneF a b x y : BHist} :
+    (forall {a b x y : BHist}, C x -> C y -> NonNeg a -> NonNeg b ->
+      ClassifierF (addF a b) oneF -> C (addV (scalarAct a x) (scalarAct b y))) ->
+      (forall {a b x y : BHist}, D x -> D y -> NonNeg a -> NonNeg b ->
+        ClassifierF (addF a b) oneF -> D (addV (scalarAct a x) (scalarAct b y))) ->
+        ConvexSetPointwiseIntersection C D x -> ConvexSetPointwiseIntersection C D y ->
+          NonNeg a -> NonNeg b -> ClassifierF (addF a b) oneF ->
+            ConvexSetPointwiseIntersection C D (addV (scalarAct a x) (scalarAct b y)) := by
+  intro cClosed dClosed xInIntersection yInIntersection nonnegA nonnegB unitSum
+  exact And.intro
+    (cClosed xInIntersection.left yInIntersection.left nonnegA nonnegB unitSum)
+    (dClosed xInIntersection.right yInIntersection.right nonnegA nonnegB unitSum)
+
 end BEDC.Derived.ConvexSetUp
