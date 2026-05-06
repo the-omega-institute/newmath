@@ -1,0 +1,70 @@
+\section{The certificate}
+
+\begin{definition}[Complex-limit source specification]
+\label{def:cplx-lim-source-specification}
+The source specification on \(\Hist\) restricts to pairs \(((s, N), (z, M))\) such that \(\mathsf{CplxRegSeq}(s, N)\) and \(\mathsf{CplxLim}(s, N, z, M)\). The generator is the complex-limit predicate of \autoref{def:cplx-lim}.
+\end{definition}
+\leandef{BEDC.Derived.ComplexLimitUp.ComplexLimitSourceSpec}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimitSourceSpec\_constant}
+
+\begin{definition}[Complex-limit pattern specification]
+\label{def:cplx-lim-pattern-specification}
+The pattern of \(\ComplexLimitUp\) is regular-sequence-bounded convergence: for an input regular complex sequence \((s, N)\), the pattern is the family of distances \(\mathsf{CplxDist}(s(n), z, D)\) restricted to \(n\) above the modulus threshold \(M(k)\) at each unary level \(k\).
+\end{definition}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimitPatternSpec\_of\_limit}
+
+\begin{definition}[Complex-limit classifier specification]
+\label{def:cplx-lim-classifier-specification}
+The classifier on complex-limit carriers is \(\hsame\) componentwise: two complex-limit witnesses classify together iff their target points agree under \(\hsame\) on both real and imaginary components.
+\end{definition}
+
+\begin{definition}[Complex-limit stability certificate]
+\label{def:cplx-lim-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item closure of \(\mathsf{CplxLim}\) under \(\hsame\) on each rational-history component of the limit point (\autoref{lem:cplx-lim-hsame});
+  \item transport of regular-sequence status under pointwise \(\hsame\) on each member of the sequence;
+  \item compatibility of the modulus function with \(\hsame\) on its unary inputs and outputs.
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_stability\_certificate\_fields}
+
+\begin{definition}[Complex-limit ledger policy]
+\label{def:cplx-lim-ledger-policy}
+The ledger policy records:
+\begin{enumerate}
+  \item composition of moduli under pointwise sum (\autoref{thm:cplx-lim-sum});
+  \item composition of moduli under scalar multiplication (\autoref{thm:cplx-lim-scalar});
+  \item composition of moduli under pointwise product (\autoref{thm:cplx-lim-product});
+  \item componentwise limit assembly from supplied component witnesses (\autoref{thm:cplx-limit-from-component-limits}).
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Concrete \(\ComplexLimitUp\) naming certificate]
+\label{thm:complex-limit-namecert}
+The data $(\mathsf{CplxLim}, \mathsf{CplxRegSeq}, \hsame, \mathsf{CplxLimStabilityCert}, \mathsf{CplxLimLedgerPolicy})$ of \autoref{def:cplx-lim-source-specification}--\autoref{def:cplx-lim-ledger-policy} forms a naming certificate over $\Hist$ for the complex-limit interface $\ComplexLimitUp$. The certificate is functional (\autoref{thm:cplx-lim-unique}), closed under linear combinations and products (\autoref{thm:cplx-lim-sum}--\autoref{thm:cplx-lim-product}), and supports componentwise limit assembly when component limit witnesses are part of the input (\autoref{thm:cplx-limit-from-component-limits}).
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexLimitUp.complex\_limit\_name\_certificate}
+\begin{proof}[Sketch]
+The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). Functionality is \autoref{thm:cplx-lim-unique}. Linear-combination closure is \autoref{thm:cplx-lim-sum} and \autoref{thm:cplx-lim-scalar}; product closure is \autoref{thm:cplx-lim-product}. Componentwise limit assembly is \autoref{thm:cplx-limit-from-component-limits}. The certificate uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$, so its Lean targets fall under the project's axiom-purity gate.
+\end{proof}
+
+\begin{theorem}[Semantic \(\ComplexLimitUp\) naming certificate]
+\label{thm:complex-limit-semantic-namecert}
+The concrete certificate of \autoref{thm:complex-limit-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier is a \(\Hist\)-predicate, the classifier is a restriction of \(\hsame\) to complex-history components, and every closure law is given by an explicit constructive proof with explicit modulus pasting.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_semanticNameCert}
+\begin{proof}[Sketch]
+Direct verification of the four \(\NameCert\) field types using the constructions of this chapter. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.complex\_limit\_semantic\_name\_certificate}
+
+\begin{closurestatus}{\ComplexLimitUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The closed scope is the concrete $\mathsf{BHist}$ source, regular-sequence pattern, componentwise $\hsame$ classifier, stability fields, ledger policy, constant-sequence row, pointwise closure rows, and explicit modulus rows displayed for $\ComplexLimitUp$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ComplexLimitUp.complex\_limit\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close completeness of complex Cauchy sequences, standard complex-analysis bridge theorems, or choice-based extraction of limit points.}
+  \upgradepath{The next grade requires public bridge rows and certified existence data for the component limit witnesses.}
+\end{closurestatus}
