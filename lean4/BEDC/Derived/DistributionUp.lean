@@ -49,6 +49,22 @@ theorem DistributionPushforwardWitness_total_mass_unit
   exact And.intro (hsame_trans pushedSourceMass sourceMassUnit)
     (hsame_trans chosenSourceMass sourceMassSource)
 
+theorem DistributionPushforward_row
+    {targetEvent sourcePreimage sourceValue pushedValue : BHist} :
+    Cont targetEvent BHist.Empty sourcePreimage ->
+      Cont sourcePreimage BHist.Empty sourceValue ->
+        hsame pushedValue sourceValue ->
+          hsame sourcePreimage targetEvent ∧
+            hsame sourceValue sourcePreimage ∧ hsame pushedValue targetEvent := by
+  intro preimageRow sourceValueRow pushedSourceValue
+  have preimageTarget : hsame sourcePreimage targetEvent :=
+    cont_right_unit_result preimageRow
+  have sourceValuePreimage : hsame sourceValue sourcePreimage :=
+    cont_right_unit_result sourceValueRow
+  have pushedTarget : hsame pushedValue targetEvent :=
+    hsame_trans pushedSourceValue (hsame_trans sourceValuePreimage preimageTarget)
+  exact And.intro preimageTarget (And.intro sourceValuePreimage pushedTarget)
+
 theorem DistributionPushforward_empty_target_event_zero_mass
     {targetEmpty sourceEmpty sourceValue pushValue : BHist} :
     hsame targetEmpty BHist.Empty -> hsame sourceEmpty BHist.Empty ->
