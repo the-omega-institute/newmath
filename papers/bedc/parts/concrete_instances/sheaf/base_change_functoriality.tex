@@ -1,0 +1,75 @@
+\section{Sheaf base-change functoriality}
+\label{sec:sheaf-base-change-functoriality}
+
+\begin{definition}[Sheaf composable base-change squares]
+\label{def:sheaf-composable-base-change-squares}
+Let $\mathcal{T}$, $\mathcal{T}'$, and $\mathcal{T}''$ be indexed open topology carriers, and let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over $\mathcal{T}$. Let
+$$
+\mathcal{T}''\xrightarrow{g}\mathcal{T}'\xrightarrow{f}\mathcal{T}
+$$
+be displayed base-change squares in the sense of \autoref{def:sheaf-displayed-base-change-square}. The two squares are composable when the following rows assemble into the displayed square $\mathcal{T}''\to\mathcal{T}$:
+\begin{enumerate}
+\item the open-index map is the composite $f\circ g$ and preserves finite intersections by composing the finite-intersection rows of $g$ and $f$;
+\item the represented inverse-image row for a target open $i$ identifies the source open $i''$ with the two-step inverse image obtained first in $\mathcal{T}'$ and then in $\mathcal{T}''$;
+\item cover ledgers compose pointwise: an indexed cover $\mathcal{U}$ of $i$ pulls back to a cover $\mathcal{U}'$ of $i'$ and then to a cover $\mathcal{U}''$ of $i''$ with the same index type and the same member order;
+\item inclusion rows compose from each member $\iota''(a)$ through $\iota'(a)$ to $\iota(a)$, and the route to the target open is the composite of the two displayed routes;
+\item memberwise pullback rows for sections, overlaps, and common-refinement members are classifier-equal to the corresponding rows read directly along the composite square.
+\end{enumerate}
+Thus a composable pair is not extra carrier data. It is the assertion that the displayed index maps, inverse-image representatives, finite-intersection rows, cover ledgers, inclusion rows, and memberwise pullback rows form the same downstream-readable base-change surface as the one-step square.
+\end{definition}
+
+\begin{theorem}[Sheaf base-change identity square neutrality]
+\label{thm:sheaf-base-change-identity-square-neutrality}
+For an indexed sheaf carrier $\mathcal{S}$ over $\mathcal{T}$, the identity displayed base-change square on $\mathcal{T}$ preserves the cover, restriction, gluing, and common-refinement rows of \autoref{thm:sheaf-base-change-namecert-obligation-surface}. In particular, reading the $\NameCert_{\SheafUp}$ obligation surface through the identity square gives the same indexed cover members, overlap witnesses, restriction composites, displayed gluing rows, and common-refinement comparisons as reading the surface directly.
+\end{theorem}
+\begin{proof}
+The identity square uses the identity map on open indices. Its inverse-image representative for an open $i$ is $i$ itself, and its displayed cover pullback sends each cover member $\iota(a)$ to the same indexed member with the same inclusion row.
+
+Cover compatibility follows because the overlap of two unchanged members is the original finite intersection. Restriction identity in the indexed section carrier identifies each pulled-back local section with the section already present in the target cover ledger.
+
+For gluing, \autoref{thm:sheaf-base-change-gluing-pullback} specializes to the identity restriction path. The displayed row is therefore classifier-equal to the original gluing row by restriction identity and classifier reflexivity.
+
+For common refinements, the displayed span, the refinement maps, and the member inclusions are unchanged. Applying \autoref{thm:sheaf-base-change-common-refinement-invariance} along the identity square returns the same comparison row, and \autoref{thm:sheaf-cover-presentation-exactness} reads the same global classifier class.
+\end{proof}
+
+\begin{theorem}[Sheaf base-change cover-pullback composition]
+\label{thm:sheaf-base-change-cover-pullback-composition}
+Let $\mathcal{T}''\xrightarrow{g}\mathcal{T}'\xrightarrow{f}\mathcal{T}$ be composable displayed base-change squares from \autoref{def:sheaf-composable-base-change-squares}. Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed cover of $i$ in $\mathcal{T}$. Pulling $\mathcal{U}$ through the composite square gives the same cover-member witnesses, member inclusion routes, finite-intersection overlap rows, and compatible local-family rows as pulling $\mathcal{U}$ first through $f$ and then through $g$, up to the classifier identifications recorded by the composable-square rows.
+\end{theorem}
+\begin{proof}
+Start with a compatible family over $\mathcal{U}$. Apply \autoref{thm:sheaf-base-change-cover-pullback-compatibility} to the square $f$. This gives a compatible displayed family over the pulled-back cover $\mathcal{U}'$ in $\mathcal{T}'$.
+
+Apply the same theorem to $g$ and the compatible family over $\mathcal{U}'$. The result is a compatible family over the two-step cover $\mathcal{U}''$ in $\mathcal{T}''$.
+
+By \autoref{def:sheaf-composable-base-change-squares}, the composite square has the same cover index type $A$, the same displayed member order, and the same member inclusion route as the two-step cover ledger. Its finite-intersection preservation row is the composite of the two overlap rows.
+
+Restriction composition identifies the two-step section pullback with the direct pullback along the composite route. Classifier transport then replaces the two-step overlap comparisons by the one-step comparisons, so the downstream cover-pullback surface is the same in both readings.
+\end{proof}
+
+\begin{theorem}[Sheaf base-change gluing pullback composition]
+\label{thm:sheaf-base-change-gluing-pullback-composition}
+Let $\mathcal{T}''\xrightarrow{g}\mathcal{T}'\xrightarrow{f}\mathcal{T}$ be composable displayed base-change squares from \autoref{def:sheaf-composable-base-change-squares}. Let $\mathcal{U}$ be an indexed cover of $i$ and let $u_a$ be a compatible local family glued by $s:\mathsf{Sec}(i)$. The displayed gluing row transported along the composite square is classifier-equal to the row obtained by first transporting the gluing row along $f$ and then transporting the resulting row along $g$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sheaf-base-change-gluing-pullback} to $f$. It transports the gluing row for $s$ to a displayed gluing row over the cover pulled back to $\mathcal{T}'$.
+
+Apply \autoref{thm:sheaf-base-change-gluing-pullback} again to $g$. This transports the intermediate gluing row to the two-step pulled-back cover over $\mathcal{T}''$.
+
+The composability rows identify the source open of the one-step composite square with the two-step represented inverse image. They also identify each pulled-back cover member and member inclusion route with the corresponding two-step member route.
+
+Restriction composition in the sheaf carrier identifies the restriction of $s$ along the composite route with the successive restrictions through the intermediate open. Classifier transport along the displayed member identifications converts the two-step gluing comparison into the direct composite-square comparison, giving the claimed classifier equality of gluing rows.
+\end{proof}
+
+\begin{theorem}[Sheaf base-change common-refinement composition]
+\label{thm:sheaf-base-change-common-refinement-composition}
+Let $\mathcal{T}''\xrightarrow{g}\mathcal{T}'\xrightarrow{f}\mathcal{T}$ be composable displayed base-change squares from \autoref{def:sheaf-composable-base-change-squares}. Let $\mathcal{U}$ and $\mathcal{V}$ be indexed cover presentations of $i$ whose compatible local families agree on a displayed common refinement. The common-refinement comparison obtained after pulling through the composite square agrees with the comparison obtained after successive pullbacks through $f$ and $g$. Consequently the global classifier class supplied by \autoref{thm:sheaf-cover-presentation-exactness} is independent of whether downstream consumers read the composite square in one step or as the two displayed squares.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sheaf-base-change-common-refinement-invariance} to $f$. This produces pulled-back cover presentations over $\mathcal{T}'$ and transports the displayed common-refinement comparison to the intermediate common refinement.
+
+Apply the same theorem to $g$. The intermediate comparison becomes a comparison over the two-step pulled-back common refinement in $\mathcal{T}''$.
+
+The composable-square definition identifies the one-step pulled-back covers, refinement maps, member inclusions, and finite-intersection rows with their two-step counterparts. In particular, each common-refinement member has the same downstream restriction route after composing the displayed inclusion rows.
+
+Restriction composition and classifier transport move the two-step comparison to the direct composite comparison. Then \autoref{thm:sheaf-cover-presentation-exactness} reads either comparison as the same global classifier class over the represented source open, so the common-refinement surface is independent of the chosen displayed factorization.
+\end{proof}

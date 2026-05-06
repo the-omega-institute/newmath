@@ -6,5 +6,65 @@ The sequence interface $\SeqUp$ packages a function $\NatUp \to A$ for a fixed n
 \section{Carrier definition}
 \label{sec:seq-carrier}
 
+\begin{definition}[SeqUp root BHist source]
+\label{def:sequp-root-bhist-source}
+Fix a certified point carrier $\NameCert(A,\sim_A)$ and the unary-index certificate $\NameCert_{\NatUp}$. A $\SeqUp$ root BHist source over $A$ is a BHist-indexed observation function $s:\Hist\to\Hist$ together with the following finite BEDC evidence:
+\begin{enumerate}
+  \item an index witness saying that each admitted index $n$ is a $\NatUp$ unary history, equivalently $\mathsf{UnaryHistory}(n)$;
+  \item a point carrier witness $A(s(n))$ for every admitted unary index $n$;
+  \item an optional modulus or boundedness ledger whose entries are themselves unary histories and whose use is named by downstream consumers.
+\end{enumerate}
+Its ten-field fit is: traditional target sequences over a certified carrier; BEDC source $\NameCert_{\NatUp}$ together with $\NameCert(A,\sim_A)$; carrier the displayed BHist observation source with point carrier evidence; classifier the pointwise $\sim_A$ classifier of \autoref{def:sequp-pointwise-classifier}; stability inherited indexwise from the two source certificates; ledger the index witness, point carrier witnesses, and optional modulus or boundedness row; core theorem list \autoref{thm:sequp-carrier-classifier-obligations}, \autoref{thm:sequp-pointwise-transport-obligation}, and \autoref{thm:sequp-downstream-boundary}; exactness point observation equality only up to the source classifier; standard bridge absent; status paper-level substrate for the derived namespace $\mathsf{BEDC.Derived.SeqUp}$.
+\end{definition}
+
+\begin{definition}[SeqUp pointwise classifier]
+\label{def:sequp-pointwise-classifier}
+For two $\SeqUp$ root BHist sources $s$ and $t$ over the same $\NameCert(A,\sim_A)$, define $s\sim_{\SeqUp(A)}t$ iff every unary index has source carrier witnesses for both point observations and a source-classifier witness between them:
+$$
+s\sim_{\SeqUp(A)}t
+\quad\Longleftrightarrow\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\Rightarrow
+\bigl(A(s(n))\wedge A(t(n))\wedge s(n)\sim_A t(n)\bigr).
+$$
+No convergence, summability, completeness, or host-function extensionality is part of this classifier.
+\end{definition}
+
 \section{The certificate}
 \label{sec:seq-certificate}
+
+\begin{theorem}[SeqUp carrier and classifier obligations]
+\label{thm:sequp-carrier-classifier-obligations}
+For every certified point carrier $\NameCert(A,\sim_A)$ and every $\SeqUp$ root BHist source $s$ over $A$, the source supplies the point carrier projection $A(s(n))$ at each unary index $n$. The pointwise classifier $\sim_{\SeqUp(A)}$ is reflexive, symmetric, and transitive on carried $\SeqUp$ sources, with all three witnesses inherited indexwise from the reflexivity, symmetry, and transitivity fields of $\NameCert(A,\sim_A)$.
+\end{theorem}
+
+\begin{proof}
+For the carrier projection, unfold \autoref{def:sequp-root-bhist-source}. The second displayed field gives $A(s(n))$ whenever the index witness supplies $\mathsf{UnaryHistory}(n)$.
+
+For reflexivity, fix a carried source $s$ and a unary index $n$. The carrier projection gives $A(s(n))$, and the reflexivity field of $\NameCert(A,\sim_A)$ gives $s(n)\sim_A s(n)$.
+
+For symmetry, use the same unary index. A witness of $s\sim_{\SeqUp(A)}t$ contains $A(s(n))$, $A(t(n))$, and $s(n)\sim_A t(n)$; applying source symmetry gives $t(n)\sim_A s(n)$ while retaining the two carrier witnesses.
+
+For transitivity, combine the two pointwise witnesses at the same unary index. Their source-classifier components are composable by transitivity in $\NameCert(A,\sim_A)$, and their carrier components provide the carried endpoints required by \autoref{def:sequp-pointwise-classifier}.
+\end{proof}
+
+\begin{theorem}[SeqUp pointwise transport obligation]
+\label{thm:sequp-pointwise-transport-obligation}
+Let $s$ and $t$ be $\SeqUp$ root BHist sources over $\NameCert(A,\sim_A)$. If $s\sim_{\SeqUp(A)}t$ and $s$ is carried pointwise, then $t$ is carried pointwise. Equivalently, for every unary index $n$, the source carrier witness $A(s(n))$ transports along the point classifier witness $s(n)\sim_A t(n)$ to a carrier witness $A(t(n))$.
+\end{theorem}
+
+\begin{proof}
+Fix a unary index $n$. Project the pointwise classifier witness of \autoref{def:sequp-pointwise-classifier}; it supplies $A(s(n))$, $A(t(n))$, and $s(n)\sim_A t(n)$.
+
+The named transport obligation uses only the carrier-transport field of the point certificate. Apply carrier transport in $\NameCert(A,\sim_A)$ to the carried source endpoint $A(s(n))$ and the classifier witness $s(n)\sim_A t(n)$. The result is $A(t(n))$.
+\end{proof}
+
+\begin{theorem}[SeqUp downstream boundary]
+\label{thm:sequp-downstream-boundary}
+Every downstream consumer of $\SeqUp$, including $\SeriesUp$, $\ConvergenceRadiusUp$, and analytic-limit certificates, may read only the following data from a $\SeqUp$ source: point observations $s(n)$, unary index evidence $\mathsf{UnaryHistory}(n)$, pointwise classifier transport along $\sim_{\SeqUp(A)}$, and the optional modulus or boundedness ledger named in \autoref{def:sequp-root-bhist-source}. Such a consumer may not infer convergence, summability, holomorphicity, completeness, or any host-function principle from $\SeqUp$ alone.
+\end{theorem}
+
+\begin{proof}
+Unfold the carrier definition and classifier definition. The carrier exposes a BHist observation function, unary-index evidence, point carrier evidence, and an optional unary-valued ledger; the classifier exposes exactly the pointwise source-classifier witnesses.
+
+The analytic properties listed in the statement are absent from the ten-field fit: exactness is point observation equality up to $\sim_A$, the standard bridge is absent, and the ledger is limited to index and modulus or boundedness evidence. Therefore any consumer requiring convergence, summability, holomorphicity, completeness, or a host-function principle must introduce that requirement in its own certificate rather than extracting it from $\SeqUp$.
+\end{proof}
