@@ -66,6 +66,24 @@ theorem BHistFiniteBaseNeighborhoodCarrier_singleton_row (ball : BHist -> BHist 
   · intro openNeighborhood
     exact openNeighborhood
 
+theorem BHistFiniteBaseNeighborhoodCarrier_singleton_ball_carries (ball : BHist -> BHist -> Prop)
+    (ballStable :
+      forall {indices : ProbeBundle BHist} {i x y : BHist}, InBundle i indices ->
+        UnaryHistory x -> UnaryHistory y -> hsame x y -> (ball i x <-> ball i y))
+    (p ledger : BHist) (unaryLedger : UnaryHistory ledger) :
+    BHistUnaryTopologyLedgerRow (BHistFiniteBaseNeighborhoodCarrier ball ballStable)
+      (ProbeBundle.Bcons p ProbeBundle.Bnil) (fun x : BHist => ball p x) := by
+  apply BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger
+  intro x unaryX
+  constructor
+  · intro ballAt
+    intro i inSingleton
+    have iEqP : i = p := Iff.mp inBundle_singleton_iff inSingleton
+    cases iEqP
+    exact ballAt
+  · intro neighborhood
+    exact neighborhood p (inBundle_cons_self p ProbeBundle.Bnil)
+
 structure BHistFiniteBaseNeighborhoodRow (T : BHistIndexedOpenCarrier)
     (indices : ProbeBundle BHist) (ball : BHist -> BHist -> Prop) (x : BHist) where
   point_unary : UnaryHistory x
