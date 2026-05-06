@@ -84,4 +84,37 @@ theorem OperatorIdealTraceClass_binary_linear_combination_closure
               (unary_cont_closed scalarUnaryA scalarUnaryB addScalars)
               (cont_right_unit _)
 
+theorem OperatorIdealTraceClass_additive_closure_row {T S sum neg : BHist} :
+    OperatorIdealTraceClassCarrier BHist.Empty ∧
+      (OperatorIdealTraceClassCarrier T -> OperatorIdealTraceClassCarrier S ->
+        Cont T S sum -> OperatorIdealTraceClassCarrier sum) ∧
+      (OperatorIdealTraceClassCarrier T -> Cont BHist.Empty T neg ->
+        OperatorIdealTraceClassCarrier neg) := by
+  constructor
+  · exact OperatorIdealTraceClassCarrier.mk BHist.Empty unary_empty (cont_right_unit BHist.Empty)
+  · constructor
+    · intro carrierT carrierS sumRel
+      cases carrierT with
+      | mk supportT supportUnaryT supportVisibleT =>
+          cases carrierS with
+          | mk supportS supportUnaryS supportVisibleS =>
+              have sameT : hsame T supportT :=
+                cont_deterministic supportVisibleT (cont_right_unit supportT)
+              cases sameT
+              have sameS : hsame S supportS :=
+                cont_deterministic supportVisibleS (cont_right_unit supportS)
+              cases sameS
+              exact OperatorIdealTraceClassCarrier.mk sum
+                (unary_cont_closed supportUnaryT supportUnaryS sumRel)
+                (cont_right_unit sum)
+    · intro carrierT negRel
+      cases carrierT with
+      | mk supportT supportUnaryT supportVisibleT =>
+          have sameT : hsame T supportT :=
+            cont_deterministic supportVisibleT (cont_right_unit supportT)
+          cases sameT
+          exact OperatorIdealTraceClassCarrier.mk neg
+            (unary_cont_closed unary_empty supportUnaryT negRel)
+            (cont_right_unit neg)
+
 end BEDC.Derived.OperatorIdealUp
