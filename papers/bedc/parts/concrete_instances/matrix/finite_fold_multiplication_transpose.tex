@@ -80,3 +80,43 @@ $$
 $$
 Since $i$ and $j$ were arbitrary, the pointwise classifier of \autoref{def:matrix-classifier-specification} packages these scalar comparisons as $(X^{\mathsf{T}})^{\mathsf{T}}\sim_{\mathrm{Mat}}X$. The dimension and scalar-source ledger is unchanged after the two coordinate swaps, as recorded by \autoref{def:matrix-ledger-policy}.
 \end{proof}
+
+\begin{theorem}[Matrix transpose preserves matrix addition]
+\label{thm:matrix-transpose-preserves-addition}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$ and addition $+_R$. Let $n,m:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. For carried matrices
+$$
+A,B:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
+$$
+assume matrix addition on each matching $\MatrixUp$ carrier is the pointwise operation
+$$
+(X+Y)_{u,v}:=X_{u,v}+_R Y_{u,v}
+$$
+for matching indices $u,v$, using the addition closure row of \autoref{def:matrix-stability-certificate}. Then $(A+B)^{\mathsf{T}}$ and $A^{\mathsf{T}}+B^{\mathsf{T}}$ are carried $\MatrixUp$ matrices over $\mathsf{Fin}(m)\times\mathsf{Fin}(n)$, and
+$$
+(A+B)^{\mathsf{T}}\sim_{\mathrm{Mat}}A^{\mathsf{T}}+B^{\mathsf{T}}.
+$$
+\end{theorem}
+\begin{proof}
+The addition closure row of \autoref{def:matrix-stability-certificate} carries $A+B$ over $\mathsf{Fin}(n)\times\mathsf{Fin}(m)$. Applying \autoref{def:matrix-transpose-certified-scalar-carrier} carries $(A+B)^{\mathsf{T}}$ over $\mathsf{Fin}(m)\times\mathsf{Fin}(n)$: at the transposed index $(j,i)$ its scalar witness is the carriedness witness for $(A+B)_{i,j}$ supplied by the matrix pattern of \autoref{def:matrix-pattern-specification}.
+
+The same transpose definition carries $A^{\mathsf{T}}$ and $B^{\mathsf{T}}$ over $\mathsf{Fin}(m)\times\mathsf{Fin}(n)$. Applying the pointwise addition closure row in that swapped matrix carrier carries $A^{\mathsf{T}}+B^{\mathsf{T}}$. The ledger records the same scalar source and the exchanged finite index witnesses, as in \autoref{def:matrix-ledger-policy}.
+
+It remains to compare entries. Fix $j:\mathsf{Fin}(m)$ and $i:\mathsf{Fin}(n)$. Expanding the transpose and pointwise addition clauses gives
+$$
+((A+B)^{\mathsf{T}})_{j,i}=(A+B)_{i,j}=A_{i,j}+_R B_{i,j}.
+$$
+Expanding the transposed pointwise sum gives
+$$
+(A^{\mathsf{T}}+B^{\mathsf{T}})_{j,i}=(A^{\mathsf{T}})_{j,i}+_R(B^{\mathsf{T}})_{j,i}=A_{i,j}+_R B_{i,j}.
+$$
+The two displayed endpoints are the same carried scalar sum, so scalar classifier reflexivity gives
+$$
+((A+B)^{\mathsf{T}})_{j,i}
+\sim_R
+(A^{\mathsf{T}}+B^{\mathsf{T}})_{j,i}.
+$$
+Since $j$ and $i$ were arbitrary, the pointwise classifier of \autoref{def:matrix-classifier-specification} packages these scalar comparisons as
+$$
+(A+B)^{\mathsf{T}}\sim_{\mathrm{Mat}}A^{\mathsf{T}}+B^{\mathsf{T}}.
+$$
+\end{proof}
