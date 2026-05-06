@@ -87,6 +87,120 @@ checked Lean row is
 $\mathsf{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_smoothness}$.
 \end{proof}
 
+\begin{definition}[LieGroup singleton translation and conjugation rows]
+\label{def:liegroup-singleton-translation-and-conjugation-rows}
+For a carried singleton parameter $s$ and carried singleton input $x$, the
+action rows attached to
+\autoref{def:liegroup-singleton-smooth-group-carrier} are
+$$
+\mathsf{Left}_s(x):=\mathsf{mul}(s,x),\qquad
+\mathsf{Right}_s(x):=\mathsf{mul}(x,s),
+$$
+$$
+\mathsf{Conj}_s(x):=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+The adjoint readback row is the differential of $\mathsf{Conj}_s$ at $\emp$,
+read on the singleton tangent carrier as the constant zero endomap of the
+singleton $\LieAlgebraUp$ carrier. Thus translation, conjugation, and adjoint
+readback all use the same carried predicate $L_{\emp}$ and the same singleton
+chart endpoint.
+\end{definition}
+
+\begin{theorem}[LieGroup singleton left-translation smoothness]
+\label{thm:liegroup-singleton-left-translation-smooth}
+If $L_{\emp}(s)$ and $L_{\emp}(x)$ hold, then
+$\mathsf{Left}_s(x)$ from
+\autoref{def:liegroup-singleton-translation-and-conjugation-rows} is carried by
+$L_{\emp}$, is classified by the singleton classifier with endpoint $\emp$, and
+is read in the singleton atlas as the constant smooth transition on the sole
+overlap.
+\end{theorem}
+\begin{proof}
+The group row of
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$ gives closure of
+$\mathsf{mul}(s,x)$ under the singleton carrier whenever both inputs are carried
+by $L_{\emp}$. This is exactly the left-translation carrier row after unfolding
+\autoref{def:liegroup-singleton-translation-and-conjugation-rows}.
+
+By \autoref{thm:liegroup-singleton-carrier-obligation}, the carried group result
+is the same object as the singleton manifold point. Therefore the sole chart
+domain accepts the result and reads it at the constant endpoint $0_{\RealUp}$.
+
+The overlap transition is the singleton constant transition supplied by
+\autoref{thm:manifold-singleton-transition-smoothness}. Hence the left
+translation is smooth as a singleton-atlas self-map.
+\end{proof}
+
+\begin{theorem}[LieGroup singleton right-translation smoothness]
+\label{thm:liegroup-singleton-right-translation-smooth}
+If $L_{\emp}(s)$ and $L_{\emp}(x)$ hold, then
+$\mathsf{Right}_s(x)$ from
+\autoref{def:liegroup-singleton-translation-and-conjugation-rows} is carried by
+$L_{\emp}$, is classified by the singleton classifier with endpoint $\emp$, and
+is read in the singleton atlas as the constant smooth transition on the sole
+overlap.
+\end{theorem}
+\begin{proof}
+The multiplication-closure row of
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$ applies symmetrically
+to $\mathsf{mul}(x,s)$. Since $L_{\emp}(x)$ and $L_{\emp}(s)$ hold, the
+right-translation value remains inside the singleton carrier.
+
+The carrier identification in
+\autoref{thm:liegroup-singleton-carrier-obligation} then moves this accepted
+group value into the singleton chart domain without changing the predicate being
+used. The classifier endpoint is still $\emp$.
+
+Finally, \autoref{thm:manifold-singleton-transition-smoothness} reads the only
+self-overlap as a constant smooth transition. Thus the right translation is a
+smooth singleton-atlas self-map.
+\end{proof}
+
+\begin{theorem}[LieGroup singleton conjugation smoothness]
+\label{thm:liegroup-singleton-conjugation-smooth}
+If $L_{\emp}(s)$ and $L_{\emp}(x)$ hold, then
+$\mathsf{Conj}_s(x)$ from
+\autoref{def:liegroup-singleton-translation-and-conjugation-rows} is carried by
+$L_{\emp}$, classified with endpoint $\emp$, and read by the singleton atlas as a
+constant smooth self-map.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:liegroup-singleton-left-translation-smooth} to $s$ and $x$. The
+result $\mathsf{mul}(s,x)$ is carried by $L_{\emp}$ and is read in the singleton
+chart as the constant endpoint.
+
+Next use the inverse-closure row from
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$ on the carried
+parameter $s$. Since $\mathsf{inv}(s)$ is definitionally $\emp$, it is also
+accepted by the singleton carrier and classifier.
+
+Apply the right-translation row
+\autoref{thm:liegroup-singleton-right-translation-smooth} to the carried value
+$\mathsf{mul}(s,x)$ and the carried inverse $\mathsf{inv}(s)$. The resulting
+history is precisely $\mathsf{Conj}_s(x)$ after unfolding the definition, so it
+is carried, classified with $\emp$, and read as the singleton constant smooth
+self-map.
+\end{proof}
+
+\begin{theorem}[LieGroup singleton adjoint readback]
+\label{thm:liegroup-singleton-adjoint-readback}
+For every carried singleton parameter $s$, the differential at $\emp$ of the
+singleton conjugation row $\mathsf{Conj}_s$ is the constant zero endomap on the
+singleton tangent carrier, equivalently on the singleton $\LieAlgebraUp$ carrier.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:liegroup-singleton-conjugation-smooth}, conjugation by any
+carried singleton parameter is read in the unique chart as a constant self-map
+at endpoint $0_{\RealUp}$. A constant singleton chart map has the zero tangent
+readback on the sole tangent point.
+
+The $\LieAlgebraUp$ singleton rows identify the Lie-algebra carrier with the same
+singleton tangent carrier at $\emp$. Therefore the conjugation differential is
+the constant zero endomap on that carrier, which is exactly the adjoint readback
+row.
+\end{proof}
+
 \begin{theorem}[LieGroup singleton NameCert obligation surface]
 \label{thm:liegroup-singleton-namecert-obligation}
 The rows of
@@ -101,15 +215,21 @@ smooth group carrier.
 \item[Carrier.] The predicate $L_{\emp}(h)$, equivalently $\hsame(h,\emp)$.
 \item[Classifier.] The restricted singleton classifier $R_{\emp}$.
 \item[Stability.] Carrier transport, group operation closure, chart-domain
-transport, chart-value constancy, and transition-row constancy.
+transport, chart-value constancy, transition-row constancy, left and right
+translation smoothness, conjugation smoothness, and adjoint readback constancy.
 \item[Ledger.] The rows $\mathsf{BHist}$, $\hsame$, $\Cont$,
 $\mathsf{append}$, $\emp$, the singleton $\GroupUp$ laws, the singleton
-$\ManifoldUp$ chart, and the singleton constant transition.
+$\ManifoldUp$ chart, the singleton constant transition, translation rows,
+conjugation rows, and the zero singleton adjoint readback.
 \item[Core theorem list.]
 \autoref{thm:group-singleton-history-semantic-namecert},
 \autoref{thm:manifold-singleton-namecert-obligation-package},
 \autoref{thm:liegroup-singleton-carrier-obligation}, and
-\autoref{thm:liegroup-singleton-operation-smoothness-obligation}.
+\autoref{thm:liegroup-singleton-operation-smoothness-obligation},
+\autoref{thm:liegroup-singleton-left-translation-smooth},
+\autoref{thm:liegroup-singleton-right-translation-smooth},
+\autoref{thm:liegroup-singleton-conjugation-smooth}, and
+\autoref{thm:liegroup-singleton-adjoint-readback}.
 \item[Exactness.] A Lie-group operation row is accepted only when its carrier,
 classifier, chart-domain, and transition witnesses all reduce to the displayed
 singleton rows.
