@@ -1,0 +1,92 @@
+\section{Displayed base change surface}
+\label{sec:sheaf-base-change-surface}
+
+\begin{definition}[Sheaf displayed base-change square]
+\label{def:sheaf-displayed-base-change-square}
+Let $\mathcal{T}$ and $\mathcal{T}'$ be indexed open topology carriers, and let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over $\mathcal{T}$. A displayed base-change square from $\mathcal{T}'$ to $\mathcal{T}$ consists of:
+\begin{enumerate}
+\item a map of indexed open carriers $f:\mathsf{OpenIx}'\to\mathsf{OpenIx}$ preserving finite intersections, cover ledgers, and inclusion rows;
+\item a target open $i:\mathsf{OpenIx}$ and a source open $i':\mathsf{OpenIx}'$;
+\item a displayed inverse-image row saying that $f^{-1}(i)$ is represented by $i'$ in the source carrier;
+\item for every indexed cover $\mathcal{U}=(A,\iota,h,\gamma)$ of $i$, a displayed pulled-back cover $\mathcal{U}'=(A,\iota',h',\gamma')$ of $i'$ with the same index type $A$;
+\item for every $a:A$, a carrier row identifying $f(\iota'(a))$ with $\iota(a)$ below $i$, together with the induced restriction path from $i'$ to $\iota'(a)$.
+\end{enumerate}
+The square is displayed: it records the index map, the represented inverse image, and the memberwise cover pullback without replacing the indexed-open carrier by a powerset model or adding a quotient of covers.
+\end{definition}
+
+\begin{theorem}[Sheaf base-change cover-pullback compatibility]
+\label{thm:sheaf-base-change-cover-pullback-compatibility}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over $\mathcal{T}$, and let $f:\mathcal{T}'\to\mathcal{T}$ be a displayed base-change square as in \autoref{def:sheaf-displayed-base-change-square}. Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed cover of $i$, let $\mathcal{U}'=(A,\iota',h',\gamma')$ be its displayed pulled-back cover of $i'$, and let $u_a:\mathsf{Sec}(\iota(a))$ be compatible over $\mathcal{U}$. Then the pulled-back local family
+$$
+u'_a:=\rho_{\iota(a),f(\iota'(a))}(u_a)
+$$
+is compatible over the displayed cover $\mathcal{U}'$ after the carrier identification $f(\iota'(a))\cong\iota(a)$ supplied by the square.
+\end{theorem}
+\begin{proof}
+Unfold compatibility over $\mathcal{U}'$. For two members $a,b:A$, the source overlap is represented by the finite intersection of $\iota'(a)$ and $\iota'(b)$ in $\mathcal{T}'$.
+
+The base-change square preserves finite intersections, so applying $f$ sends this source overlap to the target overlap of $\iota(a)$ and $\iota(b)$ below $i$. The displayed carrier rows identify the two restriction paths from $\iota(a)$ and $\iota(b)$ to that target overlap with the images of the corresponding source paths.
+
+Use the compatibility row for $u_a$ and $u_b$ on the target overlap. Restriction composition in the indexed sheaf carrier transports this equality along the displayed source paths, and restriction classifier transport replaces each transported section by the displayed pullback $u'_a$ and $u'_b$. This is exactly the required compatibility row over $\mathcal{U}'$.
+\end{proof}
+
+\begin{theorem}[Sheaf base-change gluing pullback]
+\label{thm:sheaf-base-change-gluing-pullback}
+Let $f:\mathcal{T}'\to\mathcal{T}$ be a displayed base-change square from \autoref{def:sheaf-displayed-base-change-square}. Let $\mathcal{U}$ be an indexed cover of $i$ and let $\mathcal{U}'$ be its displayed pulled-back cover of $i'$. Suppose $u_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$ and $g:\mathsf{Sec}(i)$ glues $u_a$ over $\mathcal{U}$:
+$$
+\forall a:A,\quad
+\rho_{i,\iota(a)}(g)\sim_{\iota(a)}u_a.
+$$
+Then the displayed pullback $g':=\rho_{i,f(i')}(g)$ glues the pulled-back family $u'_a$ over $\mathcal{U}'$ after transporting along the represented inverse-image row $f^{-1}(i)\simeq i'$.
+\end{theorem}
+\begin{proof}
+Fix $a:A$. The gluing row for $g$ restricts $g$ from $i$ to $\iota(a)$ and compares it with $u_a$.
+
+Transport this row through the displayed base-change square. The inverse-image row represents the source target by $i'$, and the member row represents the pulled-back member by $\iota'(a)$. Restriction composition identifies the path from $g'$ to $\iota'(a)$ with the target path from $g$ through $\iota(a)$ followed by the displayed carrier transport.
+
+Apply restriction classifier transport to the original gluing equality along that path. The right-hand side is precisely the displayed pulled-back section $u'_a$, and the left-hand side is the restriction of $g'$ to the pulled-back member. Since $a$ was arbitrary, these rows give the displayed gluing of the pulled-back family over $\mathcal{U}'$.
+\end{proof}
+
+\begin{theorem}[Sheaf base-change common-refinement invariance]
+\label{thm:sheaf-base-change-common-refinement-invariance}
+Let $f:\mathcal{T}'\to\mathcal{T}$ be a displayed base-change square from \autoref{def:sheaf-displayed-base-change-square}. Let $\mathcal{U}$ and $\mathcal{V}$ be indexed cover presentations of the same target open $i$, with compatible families $u_a$ and $v_b$. Let $\mathcal{W}$ be a displayed common refinement on which the two presentations agree:
+$$
+\forall c:C,\quad
+\rho_{\iota(r(c)),\lambda(c)}(u_{r(c)})
+\sim_{\lambda(c)}
+\rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)}).
+$$
+Then the displayed base-changed cover presentations over $i'$ agree after the pulled-back displayed common refinement. Consequently their glued global classifier classes over the represented source open are the same whenever the corresponding displayed gluings exist.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sheaf-base-change-cover-pullback-compatibility} to $\mathcal{U}$ and to $\mathcal{V}$. This gives compatible pulled-back families over the two displayed source covers.
+
+Pull back the common refinement ledger $\mathcal{W}$ along the same square. Finite-intersection preservation and the memberwise carrier rows give a displayed common refinement between the two source cover presentations, with the same refinement maps $r$ and $s$ on indices.
+
+Transport the target equality on $\mathcal{W}$ along this pulled-back common refinement. Restriction composition and classifier transport identify the transported rows with the two source pulled-back families restricted to the pulled-back refinement members.
+
+Now apply \autoref{thm:sheaf-cover-presentation-exactness} to the two source cover presentations and their pulled-back common refinement. It returns equality of the global classifier classes determined by the two displayed gluings over $i'$.
+\end{proof}
+
+\begin{theorem}[Sheaf base-change NameCert obligation surface]
+\label{thm:sheaf-base-change-namecert-obligation-surface}
+For every displayed base-change square of indexed open carriers, the $\SheafUp$ base-change surface supplies the following $\NameCert_{\SheafUp}$ obligation rows for downstream ringed-space and scheme consumers.
+\begin{enumerate}
+\item carrier: the restricted-open carrier of \autoref{def:sheaf-restricted-open-carrier}, read at the represented source open $i'$;
+\item classifier: the inherited sheaf classifier $\sim_j$ on every displayed source open below $i'$;
+\item stability: restriction identity, composition, classifier transport, and restricted-open stability from \autoref{thm:sheaf-restricted-open-namecert-surface}, together with cover-pullback compatibility from \autoref{thm:sheaf-base-change-cover-pullback-compatibility};
+\item ledger: the base-change square of \autoref{def:sheaf-displayed-base-change-square}, its displayed cover pullback rows, pulled-back common refinements, and the refinement ledgers used by \autoref{thm:sheaf-refinement-compatible-family-pullback};
+\item exactness: gluing pullback from \autoref{thm:sheaf-base-change-gluing-pullback}, refinement gluing descent from \autoref{thm:sheaf-refinement-gluing-descent}, and common-refinement invariance from \autoref{thm:sheaf-base-change-common-refinement-invariance} together with \autoref{thm:sheaf-cover-presentation-exactness};
+\item standard bridge: absent, as in \autoref{thm:sheaf-restricted-open-namecert-surface}.
+\end{enumerate}
+Thus base change is exposed as a paper-side obligation surface on indexed opens, not as a host-space powerset construction, and downstream certificates can cite it for cover pullback, gluing pullback, and common-refinement invariance.
+\end{theorem}
+\begin{proof}
+The carrier and classifier rows are inherited from \autoref{def:sheaf-restricted-open-carrier}. The represented source open $i'$ determines the same fixed-open slice used by restricted-open consumers, so no new section carrier or classifier is introduced.
+
+The stability and ledger rows are exactly the displayed data of \autoref{def:sheaf-displayed-base-change-square}. Cover members, overlaps, and refinement maps remain indexed rows, while \autoref{thm:sheaf-restricted-open-namecert-surface} supplies the ambient restricted-open stability and \autoref{thm:sheaf-refinement-compatible-family-pullback} supplies refinement pullback inside the ledger.
+
+The exactness row combines the three base-change obligations. Cover-pullback compatibility is \autoref{thm:sheaf-base-change-cover-pullback-compatibility}; gluing pullback is \autoref{thm:sheaf-base-change-gluing-pullback}; common-refinement invariance is \autoref{thm:sheaf-base-change-common-refinement-invariance}, with \autoref{thm:sheaf-refinement-gluing-descent} and \autoref{thm:sheaf-cover-presentation-exactness} providing the existing sheaf exactness rows that the surface reuses.
+
+Finally, the restricted-open surface already records that no standard bridge is attached. The base-change square only displays how indexed rows move across source and target opens, so it adds no bridge row and remains a paper-side $\NameCert_{\SheafUp}$ obligation surface for downstream certificates.
+\end{proof}

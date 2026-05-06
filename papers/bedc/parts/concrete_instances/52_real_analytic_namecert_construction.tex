@@ -387,3 +387,49 @@ Thus the tuple has the shape of a naming-certificate candidate exactly when the 
 \label{cor:real-analytic-primitive-boundary}
 $\RealAnalyticUp$ is not a BEDC primitive, and this chapter alone does not license it as an available naming certificate. Its admissible use requires the supplied Real and Completion rows named in \autoref{thm:real-analytic-certificate-boundary}.
 \end{corollary}
+
+\begin{lemma}[Odd trigonometric Cauchy-product coefficient split]
+\label{lem:real-analytic-odd-trig-cauchy-product-split}
+For $\RealUp$-histories $x$ and $y$ and unary degree $n$, assume supplied $\RealAlgOrder$ rows for addition, products, powers, factorial-denominator inverses, signs, and the binomial expansion of $(x+y)^{2n+1}$. Then the degree-$2n+1$ coefficient of the regular rational Cauchy product
+$$
+\mathsf{SinPart}(x,\cdot,\cdot)\mathsf{CosPart}(y,\cdot,\cdot)
++
+\mathsf{CosPart}(x,\cdot,\cdot)\mathsf{SinPart}(y,\cdot,\cdot)
+$$
+is classified with the degree-$2n+1$ coefficient of $\mathsf{SinPart}(x+y,\cdot,\cdot)$.
+\end{lemma}
+\begin{proof}
+Expand the first product into the odd-in-$x$, even-in-$y$ terms
+$$
+(-1)^{i+j}\frac{x^{2i+1}y^{2j}}{(2i+1)!(2j)!},
+$$
+and expand the second product into the even-in-$x$, odd-in-$y$ terms
+$$
+(-1)^{i+j}\frac{x^{2i}y^{2j+1}}{(2i)!(2j+1)!}.
+$$
+On the degree-$2n+1$ slice, both products have $i+j=n$, so all signs are $(-1)^n$. The supplied factorial-denominator rows move every term to the common denominator $(2n+1)!$. The first family contributes the binomial terms in which the exponent of $x$ is odd, and the second family contributes the binomial terms in which the exponent of $x$ is even. These two disjoint parity classes exhaust the binomial expansion of $(x+y)^{2n+1}$. After multiplication by the common sign $(-1)^n$ and the common denominator inverse, the displayed coefficient is classified with the corresponding coefficient of $\mathsf{SinPart}(x+y,\cdot,\cdot)$.
+\end{proof}
+
+\begin{theorem}[Sine addition formula row]
+\label{thm:real-analytic-sin-add}
+For $\RealUp$-histories $x$ and $y$, let $z$ be the endpoint supplied by the $\RealAlgOrder$ addition row for $x+y$. Assume supplied trigonometric limit witnesses for $\mathsf{Sin}(x,s_x)$, $\mathsf{Cos}(x,c_x)$, $\mathsf{Sin}(y,s_y)$, $\mathsf{Cos}(y,c_y)$, and $\mathsf{Sin}(z,s_z)$. Assume supplied $\RealAlgOrder$ rows naming the product endpoints $s_x\cdot c_y$ and $c_x\cdot s_y$ and their sum, product-stability rows saying that these endpoints are the $\RealUp$ limits of the corresponding Cauchy-product streams, and a regular-rational Cauchy-product comparison whose coefficient part is \autoref{lem:real-analytic-odd-trig-cauchy-product-split} and whose tail estimates use the modulus of \autoref{lem:real-analytic-trig-cauchy}. If the supplied limit-uniqueness classifier rows compare that product-sum stream with $\mathsf{SinPart}(z,\cdot,\cdot)$ at their real-history limits, then
+$$
+\RealClassifier(s_z, s_x\cdot c_y + c_x\cdot s_y).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:real-analytic-sin-cos}, the five trigonometric witnesses expose regular rational stream names for the sine and cosine partial sums of $x$, $y$, and $z$. The addition row identifies $z$ as the $\RealUp$ endpoint for $x+y$, while the product and sum rows make the right-hand endpoint $s_x\cdot c_y+c_x\cdot s_y$ meaningful inside the same $\RealAlgOrder$ interface.
+
+Product stability transports the four input trigonometric limits through the two displayed products and then through the final sum. Thus the right-hand endpoint is the $\RealUp$ limit of the regular rational stream obtained from
+$$
+\mathsf{SinPart}(x,\cdot,\cdot)\mathsf{CosPart}(y,\cdot,\cdot)
++
+\mathsf{CosPart}(x,\cdot,\cdot)\mathsf{SinPart}(y,\cdot,\cdot).
+$$
+The supplied Cauchy-product comparison identifies this stream with the $\mathsf{SinPart}(z,\cdot,\cdot)$ stream: its finite coefficient calculation is the odd-parity split of \autoref{lem:real-analytic-odd-trig-cauchy-product-split}, and its tails are bounded by the trigonometric Cauchy modulus of \autoref{lem:real-analytic-trig-cauchy} after passing to a common unary precision.
+
+The two real-history endpoints are therefore limits of classified regular rational stream names. Applying the supplied limit-uniqueness classifier row gives
+$$
+\RealClassifier(s_z, s_x\cdot c_y + c_x\cdot s_y).
+$$
+\end{proof}
