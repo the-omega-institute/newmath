@@ -61,6 +61,17 @@ theorem AxisAddCont_result_zeroSpine {h k r : BHist} :
       | intro r0 witness =>
           exact witness.left ▸ ZeroSpine.step (ih witness.right)
 
+theorem AxisAddCont_right_unit_zeroSpine {h : BHist} :
+    ZeroSpine h -> AxisAddPatternSpec h BHist.Empty h ∧
+      AxisAddClassifierSpec h BHist.Empty h h := by
+  intro spineH
+  have emptySpine : ZeroSpine BHist.Empty := ZeroSpine.empty
+  have rightUnit : Cont h BHist.Empty h := cont_right_unit h
+  have pattern : AxisAddPatternSpec h BHist.Empty h :=
+    And.intro spineH (And.intro emptySpine rightUnit)
+  exact And.intro pattern
+    (And.intro pattern (And.intro pattern (hsame_refl h)))
+
 theorem AxisAddCont_associative_zeroSpine {a b c ab bc left right : BHist} :
     ZeroSpine a -> ZeroSpine b -> ZeroSpine c ->
       Cont a b ab -> Cont b c bc -> Cont ab c left -> Cont a bc right ->
