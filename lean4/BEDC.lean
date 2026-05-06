@@ -284,6 +284,7 @@ import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.ManifoldUp
+import BEDC.Derived.ManifoldUp.IdentityTransitionReadback
 import BEDC.Derived.ManifoldUp.AtlasSurface
 import BEDC.Derived.ManifoldUp.OverlapIdentityTransition
 import BEDC.Derived.ManifoldUp.IdentityTransition
