@@ -10,6 +10,9 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
+def RandomVarTotalDefectEvent (sourceTotal chosenPreimage defect : BHist) : Prop :=
+  Cont chosenPreimage defect sourceTotal
+
 theorem RandomVarTotalPreimage_composition_exactness
     {sourceTotal middleTotal targetTotal middlePreimage compositePreimage : BHist} :
     UnaryHistory sourceTotal -> UnaryHistory middleTotal -> hsame targetTotal BHist.Empty ->
@@ -90,5 +93,14 @@ theorem RandomVarPreimage_relative_difference_exactness
   have targetDiffSourceDiff : hsame D_T D_S :=
     cont_left_cancel targetDifference sourceAtTarget
   exact hsame_trans sameDiffTarget targetDiffSourceDiff
+
+theorem RandomVarPreimage_empty_event_exactness
+    {targetEmpty sourceEmpty preimage : BHist} :
+    hsame targetEmpty BHist.Empty -> hsame sourceEmpty BHist.Empty ->
+      Cont targetEmpty BHist.Empty preimage -> hsame preimage sourceEmpty := by
+  intro targetEmptyZero sourceEmptyZero preimageReadback
+  have preimageTarget : hsame preimage targetEmpty :=
+    cont_right_unit_result preimageReadback
+  exact hsame_trans preimageTarget (hsame_trans targetEmptyZero (hsame_symm sourceEmptyZero))
 
 end BEDC.Derived.RandomVarUp
