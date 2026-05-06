@@ -105,6 +105,27 @@ theorem RandomVarTotalDefectEvent_vanishing_total_exactness_iff
         defectEvent
     exact hsame_symm (cont_right_unit_result rightUnitEvent)
 
+theorem RandomVarTerminalPreimage_coverage_defect_iff
+    {sourceTotal chosenPreimage defect : BHist} :
+    UnaryHistory sourceTotal -> RandomVarTotalDefectEvent sourceTotal chosenPreimage defect ->
+      ((forall {h gap : BHist}, UnaryHistory h -> Cont h gap sourceTotal ->
+          Cont h gap chosenPreimage) ↔ hsame defect BHist.Empty) := by
+  intro _sourceUnary defectEvent
+  constructor
+  · intro coverage
+    have chosenExact : hsame chosenPreimage sourceTotal :=
+      cont_deterministic
+        (coverage (h := sourceTotal) (gap := BHist.Empty) _sourceUnary
+          (cont_right_unit sourceTotal))
+        (cont_right_unit sourceTotal)
+    exact (RandomVarTotalDefectEvent_vanishing_total_exactness_iff defectEvent).mp
+      chosenExact
+  · intro defectEmpty
+    have chosenExact : hsame chosenPreimage sourceTotal :=
+      (RandomVarTotalDefectEvent_vanishing_total_exactness_iff defectEvent).mpr defectEmpty
+    intro h gap _sourceUnary sourceCoverage
+    exact cont_result_hsame_transport sourceCoverage (hsame_symm chosenExact)
+
 theorem RandomVarTerminalPreimage_no_loss_boundary
     {sourceTotal chosenPreimage defect : BHist} {Covers : BHist -> BHist -> Prop} :
     RandomVarTotalDefectEvent sourceTotal chosenPreimage defect ->
@@ -247,5 +268,20 @@ theorem RandomVarPreimage_countable_union_exactness
       exact (congrArg (append x) ih).trans
         (append_assoc x (RandomVarPreimageUnionFold xs)
           (RandomVarPreimageUnionFold right)).symm
+
+theorem RandomVarTerminalPreimage_exactness_coverage_iff
+    {sourceTotal chosenPreimage : BHist} :
+    UnaryHistory sourceTotal ->
+      ((forall {h gap : BHist}, UnaryHistory h -> Cont h gap sourceTotal ->
+          Cont h gap chosenPreimage) <-> hsame chosenPreimage sourceTotal) := by
+  intro sourceUnary
+  constructor
+  · intro coverage
+    have sourceCoverage : Cont sourceTotal BHist.Empty chosenPreimage :=
+      coverage sourceUnary (cont_right_unit sourceTotal)
+    exact cont_right_unit_result sourceCoverage
+  · intro chosenExact
+    intro h gap _unaryH sourceCoverage
+    exact cont_result_hsame_transport sourceCoverage (hsame_symm chosenExact)
 
 end BEDC.Derived.RandomVarUp

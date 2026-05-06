@@ -139,6 +139,23 @@ theorem TotallyBoundedProbeBundleNet_finite_union {X Y : BHist -> Prop} {eps : B
                               (right := right)).mpr (Or.inr pData.left),
                             d, distanceData.left, distanceData.right⟩
 
+theorem TotallyBoundedProbeBundleNet_append_membership_separation
+    {X Y : BHist -> Prop} {eps : BHist} {left right : ProbeBundle BHist} {p : BHist} :
+    TotallyBoundedProbeBundleNet X eps left -> TotallyBoundedProbeBundleNet Y eps right ->
+      InBundle p (bundleAppend left right) ->
+        (InBundle p left ∧ X p) ∨ (InBundle p right ∧ Y p) := by
+  intro leftNet rightNet inAppended
+  cases leftNet with
+  | intro _epsCarrier leftRest =>
+      cases rightNet with
+      | intro _epsCarrierRight rightRest =>
+          cases (inBundle_bundleAppend_iff (p := p) (left := left) (right := right)).mp
+              inAppended with
+          | inl inLeft =>
+              exact Or.inl (And.intro inLeft (leftRest.left inLeft))
+          | inr inRight =>
+              exact Or.inr (And.intro inRight (rightRest.left inRight))
+
 theorem TotallyBoundedProbeBundleNet_subcarrier_restriction {X Y : BHist -> Prop}
     {eps : BHist} {bundle : ProbeBundle BHist}
     (inclusion : forall {y : BHist}, Y y -> X y)
