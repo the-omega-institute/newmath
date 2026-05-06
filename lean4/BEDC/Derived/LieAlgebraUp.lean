@@ -137,4 +137,38 @@ theorem LieAlgebraSingletonAdjoint_scalar_endpoint_closure {r x y ry left xy rig
   exact And.intro leftRight
     (And.intro leftEmpty (And.intro rightEmpty (And.intro leftUnary rightUnary)))
 
+theorem LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity
+    {x z y xz left xy zy right : BHist} :
+    VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier z -> VecSpaceSingletonCarrier y ->
+      Cont x z xz -> Cont xz y left -> Cont x y xy -> Cont z y zy ->
+        Cont xy zy right -> VecSpaceSingletonClassifier left right := by
+  intro carrierX carrierZ carrierY xzRow leftRow xyRow zyRow rightRow
+  have xzEmpty : hsame xz BHist.Empty := by
+    cases carrierX
+    cases carrierZ
+    cases xzRow
+    rfl
+  have leftEmpty : hsame left BHist.Empty := by
+    cases xzEmpty
+    cases carrierY
+    cases leftRow
+    rfl
+  have xyEmpty : hsame xy BHist.Empty := by
+    cases carrierX
+    cases carrierY
+    cases xyRow
+    rfl
+  have zyEmpty : hsame zy BHist.Empty := by
+    cases carrierZ
+    cases carrierY
+    cases zyRow
+    rfl
+  have rightEmpty : hsame right BHist.Empty := by
+    cases xyEmpty
+    cases zyEmpty
+    cases rightRow
+    rfl
+  exact And.intro leftEmpty
+    (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
 end BEDC.Derived.LieAlgebraUp

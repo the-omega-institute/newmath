@@ -226,6 +226,7 @@ import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
+import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
@@ -282,6 +283,8 @@ import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.IdentityTransitionBoundary
+import BEDC.Derived.ManifoldUp.TransitionCoherence
+import BEDC.Derived.ManifoldUp.ScopedBoundary
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.RatUp
