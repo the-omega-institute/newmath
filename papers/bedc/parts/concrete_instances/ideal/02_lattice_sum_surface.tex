@@ -224,3 +224,47 @@ Now regard the displayed relation $Q_K(x,y)$ as the quotient-kernel source packa
 
 Apply \autoref{thm:ideal-quotient-kernel-absorption-closure} with $I$ there specialized to $K$ here. Its left output gives $Q_K(r\cdot_R x,r\cdot_R y)$, its right output gives $Q_K(x\cdot_R r,y\cdot_R r)$, and together they give the claimed absorption closure for the ideal-sum quotient kernel.
 \end{proof}
+
+\begin{theorem}[Ideal sum quotient-ring export surface]
+\label{thm:ideal-sum-quotientring-export-surface}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over $R$, set $K:=I+_RJ$ as in \autoref{def:ideal-sum-predicate}, and define
+$$
+x-_R y:=x+_R(-_R y),
+\qquad
+Q_K(x,y)\Longleftrightarrow C(x)\land C(y)\land K(x-_R y).
+$$
+Assume the ambient ring certificate supplies the subtraction, carrier, classifier, and multiplication-difference rows required in \autoref{thm:ideal-sum-quotient-kernel-absorption-closure}. Then the ideal-sum predicate $K$ exports the full quotient-free kernel surface consumed by $\QuotientRingUp$:
+\begin{enumerate}
+\item diagonal exactness for every carried endpoint $x$:
+$$
+C(x)\Longrightarrow Q_K(x,x);
+$$
+\item endpoint transport along the RingUp classifier:
+$$
+Q_K(x,y)\land x\sim_Rx'\land y\sim_Ry'\Longrightarrow Q_K(x',y');
+$$
+\item additive representative descent:
+$$
+Q_K(a,a')\land Q_K(b,b')\Longrightarrow Q_K(a+_Rb,a'+_Rb');
+$$
+\item negation representative descent:
+$$
+Q_K(a,a')\Longrightarrow Q_K(-_Ra,-_Ra');
+$$
+\item multiplication representative descent:
+$$
+Q_K(a,a')\land Q_K(b,b')\Longrightarrow Q_K(a\cdot_Rb,a'\cdot_Rb');
+$$
+\item ambient left and right multiplication closure:
+$$
+C(r)\land Q_K(x,y)\Longrightarrow Q_K(r\cdot_Rx,r\cdot_Ry)\land Q_K(x\cdot_Rr,y\cdot_Rr).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:ideal-sum-closure} to the two input ideal certificates. This turns the concrete predicate $K:=I+_RJ$ into an $\IdealUp$ predicate over the same $\RingUp$ data, with the carrier, additive, negation, multiplication, classifier-transport, and two-sided absorption rows required by \autoref{sec:ideal-certificate}.
+
+Next instantiate \autoref{thm:ideal-quotientring-export-surface} with this predicate $K$. That theorem supplies the five generic quotient-ring rows: diagonal exactness, endpoint transport, additive descent, negation descent, and multiplication descent for the concrete relation $Q_K(x,y)\Longleftrightarrow C(x)\land C(y)\land K(x-_R y)$.
+
+Finally apply \autoref{thm:ideal-sum-quotient-kernel-absorption-closure}. Its conclusion is exactly the ambient left and right multiplication closure row for $Q_K$, using the same subtraction package and the same specialized ideal-sum predicate $K$.
+\end{proof}

@@ -131,6 +131,18 @@ theorem ComplexPartSum_pointwise_append_partials {a b : BHist -> BHist} {n SA SB
                         ((congrArg (append _) (append_assoc _ _ _)).trans
                           (append_assoc _ _ _).symm))))))
 
+theorem ComplexPartSum_pointwise_append_partials_unique {a b : BHist -> BHist}
+    {n SA SB T : BHist}
+    (aUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (a m))
+    (bUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (b m)) :
+    ComplexPartSum BHist.Empty a n SA -> ComplexPartSum BHist.Empty b n SB ->
+      ComplexPartSum BHist.Empty (fun m : BHist => append (a m) (b m)) n T ->
+        hsame T (append SA SB) := by
+  intro left right target
+  have canonical :=
+    ComplexPartSum_pointwise_append_partials aUnary bUnary left right
+  exact hsame_symm (ComplexPartSum_deterministic canonical target)
+
 theorem ComplexTermSeqCarrier_pointwise_append_components {c d : BHist -> BHist} :
     ComplexTermSeqCarrier c -> ComplexTermSeqCarrier d ->
       ComplexTermSeqCarrier (fun n : BHist => append (c n) (d n)) ∧
