@@ -72,106 +72,6 @@ CondExpUp is described as the L2 projection of an integrable random variable ont
 
 ---
 
-### B-485 - Simplicial union carrier face closure
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | Simplicial union carrier face closure |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-If finite simplicial carriers K and L share the simplex-code source, classifier, and face relation, and js enumerates the pointwise union predicate Simplex_K or Simplex_L, then the union predicate is face-closed and inherits face transitivity.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
-
-Rationale:
-This is a concrete closure counterpart to the existing simplicial intersection carrier results. It belongs cleanly in the simplicial-complex chapter, has a direct implication shape, and does not duplicate any current BOARD target or listed paper theorem.
-
----
-
-### B-486 - Unitary conjugation channel composition law
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (codex) |
-| Object | Unitary conjugation channel composition law |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-Under the QuantumChannelUp and UnitaryGroupUp setup on a Hilbert carrier H, carried unitary automorphisms U and V imply that Ad_U composed with Ad_V is the QuantumChannel endpoint classified by Ad_{U\circ V}.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/197_unitarygroup_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/69_hilbert_namecert_construction.tex`
-
-Rationale:
-The candidate is a concrete implication landing directly in the existing quantum-channel surface. It is distinct from the paper's current QuantumChannel composition closure and Unitary conjugation is a QuantumChannel theorem: those establish channel closure and single-unitary conjugation, but do not state the endpoint-identification law for the composite conjugation channel against the product unitary. It is not marker-only, not a BOARD duplicate, and the main landing file is below the line cap.
-
----
-
-### B-487 - Simplicial union face dimension grading
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (codex) |
-| Object | Simplicial union face dimension grading |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 6/10 |
-
-Problem:
-If K and L share a face relation and a common grading row, then every face chain in Simplex_{K\cup L} inherits the carried dimension comparisons by case analysis on the upper simplex branch.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
-
-Rationale:
-This is a concrete closure-style simplicial-complex theorem that lands in the same surface as B-485 without duplicating it: B-485 covers face closure and face transitivity for the union carrier, while this target adds the inherited grading/face-dimension monotonicity row. The claim is a single implication under shared carrier, face, and grading setup, and it is not marker-only or verification-axis work.
-
----
-
-
-### B-488 - Simplicial union append enumeration
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (codex) |
-| Object | Simplicial union append enumeration |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 6/10 |
-
-Problem:
-If ks enumerates Simplex_K and ls enumerates Simplex_L under the shared simplex-code source and classifier, then ks++ls enumerates Simplex_{K\cup L}.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
-
-Rationale:
-This is a concrete enumeration lemma for the simplicial union carrier and is a useful sibling/prerequisite to B-485 rather than a duplicate of its face-closure theorem. It has a precise implication shape, stays within the concrete_instances chapter, and supplies a natural construction of the union enumeration object assumed by the existing BOARD target.
-
----
-
 ### B-489 - Hash collision-freeness excludes second preimages
 
 | field | value |
@@ -195,7 +95,6 @@ Rationale:
 This is a concrete security-facing obstruction theorem over the existing HashUp transcript surface. It is not a BOARD duplicate and not already packaged in the paper labels: existing rows convert second-preimage success to collision success, while this target names the collision-free budget and closes the impossibility consequence as a reusable theorem.
 
 ---
-
 
 ### B-490 - PublicKey certified ciphertext plaintext uniqueness
 
@@ -221,7 +120,6 @@ This is a concrete inversion theorem for certified ciphertext rows, distinct fro
 
 ---
 
-
 ### B-491 - Banach bounded-operator bound weakening
 
 | field | value |
@@ -245,7 +143,6 @@ Rationale:
 This fills a useful budget-monotonicity gap in the Banach bounded-linear-operator surface. It is not just classifier transport: it constructs a reusable weakened operator-bound carrier row from RealUp order transitivity, norm nonnegativity, and multiplication monotonicity.
 
 ---
-
 
 ### B-492 - Simplicial union inherits dimension grading
 
@@ -271,7 +168,6 @@ This is a distinct union-side counterpart to the existing intersection dimension
 
 ---
 
-
 ### B-493 - Network-flow residual cut capacity determinacy
 
 | field | value |
@@ -295,4 +191,3 @@ Rationale:
 This is a compact determinacy theorem over the existing NetworkFlowUp residual-exhaustion surface. Existing paper content proves each residual exhaustion cut capacity equals FlowValue(F); this target packages the certificate-independence consequence, which is distinct from optimality.
 
 ---
-
