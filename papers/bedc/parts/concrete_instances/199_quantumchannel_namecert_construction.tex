@@ -318,3 +318,101 @@ $$
 $$
 which is the asserted density-matrix output clause.
 \end{proof}
+
+\begin{theorem}[QuantumChannel composition associativity law]
+\label{thm:quantumchannel-composition-associativity-law}
+Let $H$, $K$, $L$, and $J$ be $\HilbertUp$ carriers with trace-class spaces $\mathsf{TC}(H)$, $\mathsf{TC}(K)$, $\mathsf{TC}(L)$, and $\mathsf{TC}(J)$. Write $\sim_{\mathsf{TC}(J)}$ for the classifier on the final trace-class module inherited from the operator-ideal certificate. If
+$$
+\mathsf{QChan}_{H,K}(\Phi),
+\qquad
+\mathsf{QChan}_{K,L}(\Psi),
+\qquad
+\mathsf{QChan}_{L,J}(\Theta),
+$$
+then both bracketings of the triple composite are carried by $\QuantumChannelUp(H,J)$:
+$$
+\mathsf{QChan}_{H,J}((\Theta\circ\Psi)\circ\Phi)
+\qquad\text{and}\qquad
+\mathsf{QChan}_{H,J}(\Theta\circ(\Psi\circ\Phi)).
+$$
+Their underlying map-code endpoints are related by the pointwise $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(J))$ classifier:
+$$
+(\Theta\circ\Psi)\circ\Phi
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(J))}
+\Theta\circ(\Psi\circ\Phi).
+$$
+Equivalently, every carried trace-class endpoint $T:\mathsf{TC}(H)$ satisfies
+$$
+((\Theta\circ\Psi)\circ\Phi)(T)
+\sim_{\mathsf{TC}(J)}
+(\Theta\circ(\Psi\circ\Phi))(T).
+$$
+Moreover, every carried density-matrix input is sent to carried density-matrix outputs by both bracketings:
+$$
+\mathsf{Dens}_H(\rho)
+\Longrightarrow
+\mathsf{Dens}_J(((\Theta\circ\Psi)\circ\Phi)(\rho))
+\land
+\mathsf{Dens}_J((\Theta\circ(\Psi\circ\Phi))(\rho)).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:quantumchannel-composition-closure} to $\Phi$ and $\Psi$. This gives
+$$
+\mathsf{QChan}_{H,L}(\Psi\circ\Phi).
+$$
+Applying the same theorem to $\Psi\circ\Phi$ and $\Theta$ gives
+$$
+\mathsf{QChan}_{H,J}(\Theta\circ(\Psi\circ\Phi)).
+$$
+In the other bracketing, first apply \autoref{thm:quantumchannel-composition-closure} to $\Psi$ and $\Theta$, obtaining
+$$
+\mathsf{QChan}_{K,J}(\Theta\circ\Psi).
+$$
+Applying the same theorem to $\Phi$ and $\Theta\circ\Psi$ gives
+$$
+\mathsf{QChan}_{H,J}((\Theta\circ\Psi)\circ\Phi).
+$$
+By \autoref{def:quantumchannel-cptp-carrier}, these two carrier conclusions include the carried $\LinearMapUp$ map-code row, complete positivity for every finite ancilla, and trace preservation on $\mathsf{TC}(H)$.
+
+It remains to compare the two carried map-code endpoints. Unpack the three channel hypotheses by \autoref{def:quantumchannel-cptp-carrier}. Their first rows are carried $\LinearMapUp$ map-codes, read concretely as the module-linear packages of \autoref{def:module-linearmap-certificate-package} through \autoref{def:linearmap-carrier}. The trace-class carriers are module carriers over the common scalar source inherited from the $\OperatorIdealUp$ and $\HilbertUp$ dependency surfaces cited in \autoref{ch:concrete-instances-densitymatrix-namecert}. Applying \autoref{thm:module-linearmap-composition-associativity-certificate} with
+$$
+M=\mathsf{TC}(H),\qquad
+N=\mathsf{TC}(K),\qquad
+P=\mathsf{TC}(L),\qquad
+Q=\mathsf{TC}(J),
+$$
+and with $f=\Phi$, $g=\Psi$, and $k=\Theta$, gives the pointwise $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(J))$ classifier comparison
+$$
+(\Theta\circ\Psi)\circ\Phi
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(J))}
+\Theta\circ(\Psi\circ\Phi).
+$$
+This is exactly the classifier specified in \autoref{def:linearmap-classifier-specification}: it is pointwise comparison in the final trace-class classifier, together with the two carried map-code endpoints already supplied by the two channel-carrier conclusions above.
+
+Concretely, let $T$ be a carried trace-class endpoint of $\mathsf{TC}(H)$. The output-closure rows of the three input channel map-codes make $\Phi(T)$ carried in $\mathsf{TC}(K)$, $\Psi(\Phi(T))$ carried in $\mathsf{TC}(L)$, and $\Theta(\Psi(\Phi(T)))$ carried in $\mathsf{TC}(J)$. Both bracketed composites evaluate to this same endpoint:
+$$
+((\Theta\circ\Psi)\circ\Phi)(T)
+=
+\Theta(\Psi(\Phi(T)))
+=
+(\Theta\circ(\Psi\circ\Phi))(T).
+$$
+Classifier reflexivity for the final trace-class module therefore gives
+$$
+((\Theta\circ\Psi)\circ\Phi)(T)
+\sim_{\mathsf{TC}(J)}
+(\Theta\circ(\Psi\circ\Phi))(T),
+$$
+which is the displayed pointwise form.
+
+Finally assume $\mathsf{Dens}_H(\rho)$. Applying \autoref{lem:quantumchannel-densitymatrix-image} to the channel $\mathsf{QChan}_{H,J}((\Theta\circ\Psi)\circ\Phi)$ gives
+$$
+\mathsf{Dens}_J(((\Theta\circ\Psi)\circ\Phi)(\rho)).
+$$
+Applying the same lemma to $\mathsf{QChan}_{H,J}(\Theta\circ(\Psi\circ\Phi))$ gives
+$$
+\mathsf{Dens}_J((\Theta\circ(\Psi\circ\Phi))(\rho)).
+$$
+These are the two asserted density-output clauses.
+\end{proof}
