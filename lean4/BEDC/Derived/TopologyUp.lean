@@ -8,6 +8,18 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def TopologyNeighborhood (T : BHistIndexedOpenCarrier) (x : BHist) (i : T.OpenIx) :
+    Prop :=
+  T.OpenAt i x
+
+theorem TopologyNeighborhood_finite_intersection (T : BHistIndexedOpenCarrier)
+    {i j : T.OpenIx} {x : BHist} :
+    UnaryHistory x ->
+      (TopologyNeighborhood T x (T.meet i j) <->
+        (TopologyNeighborhood T x i ∧ TopologyNeighborhood T x j)) := by
+  intro unaryX
+  exact T.meet_law unaryX
+
 def TopologySingletonIndexedOpenCarrier : BHistIndexedOpenCarrier := {
   OpenIx := BHist
   OpenAt := TopologySingletonOpenAt
