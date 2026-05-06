@@ -1,9 +1,11 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.TopologyUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 structure BHistIndexedOpenCarrier where
@@ -255,6 +257,41 @@ theorem TopologySingleton_boundary_open_laws :
       exact openH.right
     · intro carrierH
       exact And.intro (hsame_refl BHist.Empty) carrierH
+
+theorem TopologySingleton_semantic_name_certificate :
+    SemanticNameCert TopologySingletonCarrier TopologySingletonCarrier TopologySingletonCarrier
+      (fun h k : BHist => TopologySingletonCarrier h ∧ TopologySingletonCarrier k ∧ hsame h k) ∧
+      (forall h : BHist, TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <-> False) ∧
+      (forall h : BHist,
+        TopologySingletonOpenAt BHist.Empty h <-> TopologySingletonCarrier h) := by
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty (hsame_refl BHist.Empty)
+        equiv_refl := by
+          intro h carrierH
+          exact And.intro carrierH (And.intro carrierH (hsame_refl h))
+        equiv_symm := by
+          intro h k classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro h k r classifiedHK classifiedKR
+          exact And.intro classifiedHK.left
+            (And.intro classifiedKR.right.left
+              (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+        carrier_respects_equiv := by
+          intro h k classified _carrierH
+          exact classified.right.left
+      }
+      pattern_sound := by
+        intro h sourceH
+        exact sourceH
+      ledger_sound := by
+        intro h sourceH
+        exact sourceH
+    }
+  · exact TopologySingleton_boundary_open_laws
 
 theorem TopologySingleton_finite_intersection_laws
     {i j h : BHist}
