@@ -167,6 +167,29 @@ theorem BanachSingleton_norm_distance_zero_exactness {x y : BHist} :
     (And.intro carrierX.left (And.intro carrierY.left sameXY))
     sameXY
 
+theorem BanachSingleton_root_norm_metric_obligation {h k d : BHist} :
+    BanachSingletonCarrier h -> BanachSingletonCarrier k -> MetricDistanceWitness h k d ->
+      hsame d BHist.Empty ∧ BanachSingletonClassifier h k ∧
+        MetricDistanceWitness h k BHist.Empty := by
+  intro carrierH carrierK distance
+  have hEndpoints :
+      hsame h BHist.Empty ∧ hsame BHist.Empty BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := h) (y := BHist.Empty)).mp carrierH.right
+  have kEndpoints :
+      hsame k BHist.Empty ∧ hsame BHist.Empty BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := k) (y := BHist.Empty)).mp carrierK.right
+  have emptyDistance : MetricDistanceWitness h k BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := h) (y := k)).mpr
+      (And.intro hEndpoints.left kEndpoints.left)
+  have sameDistance : hsame d BHist.Empty :=
+    MetricDistanceWitness_hsame_result_deterministic
+      (hsame_refl h) (hsame_refl k) distance emptyDistance
+  have sameHK : hsame h k :=
+    hsame_trans hEndpoints.left (hsame_symm kEndpoints.left)
+  have classified : BanachSingletonClassifier h k :=
+    And.intro carrierH (And.intro carrierK sameHK)
+  exact And.intro sameDistance (And.intro classified emptyDistance)
+
 theorem BanachSingleton_limit_classifier_uniqueness
     {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
     CompleteMetricLimitWitness BanachSingletonCarrier s M0 l0 ->
