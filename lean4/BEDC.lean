@@ -281,6 +281,7 @@ import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.ManifoldUp
+import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.ScopedBoundary
 import BEDC.Derived.PolynomialUp.CauchyProduct
