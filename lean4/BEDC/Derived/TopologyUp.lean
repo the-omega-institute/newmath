@@ -222,6 +222,64 @@ theorem BHistUnaryTopologyDepsReady_obligation_package (T : BHistIndexedOpenCarr
     | top ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
   exact And.intro transportU (And.intro meetClosure ledgerWitness)
 
+theorem BHistUnaryTopologyLedgerRow_metric_generated_obligation_surface
+    (T : BHistIndexedOpenCarrier) {i j : T.OpenIx} {U V : BHist -> Prop} :
+    BHistUnaryTopologyLedgerRow T i U -> BHistUnaryTopologyLedgerRow T j V ->
+      (BHistGeneratedOpenExact T U ∧
+          (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+            (U x <-> U y))) ∧
+        (BHistGeneratedOpenExact T V ∧
+          (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+            (V x <-> V y))) ∧
+        BHistCarriesOpen T (T.meet i j) (fun x : BHist => U x ∧ V x) ∧
+        BHistGeneratedOpenExact T (fun x : BHist => U x ∧ V x) ∧
+        (exists ledger : BHist, UnaryHistory ledger) := by
+  intro rowU rowV
+  have transportU :
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (U x <-> U y) :=
+    BHistUnaryTopologyLedgerRow_classifier_transport T rowU
+  have transportV :
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (V x <-> V y) :=
+    BHistUnaryTopologyLedgerRow_classifier_transport T rowV
+  have carriesU : BHistCarriesOpen T i U := by
+    cases rowU with
+    | singletonMetricBall _ _ carries => exact carries
+    | finiteListIntersection _ _ carries => exact carries
+    | binaryGeneratedMeet _ _ carries => exact carries
+    | arbitraryUnion _ _ carries => exact carries
+    | bottom _ _ carries => exact carries
+    | top _ _ carries => exact carries
+  have carriesV : BHistCarriesOpen T j V := by
+    cases rowV with
+    | singletonMetricBall _ _ carries => exact carries
+    | finiteListIntersection _ _ carries => exact carries
+    | binaryGeneratedMeet _ _ carries => exact carries
+    | arbitraryUnion _ _ carries => exact carries
+    | bottom _ _ carries => exact carries
+    | top _ _ carries => exact carries
+  have meetClosure :=
+    BHistIndexedOpen_finite_intersection_closure (T := T) (i := i) (j := j)
+      (U := U) (V := V) carriesU carriesV
+  have exactU : BHistGeneratedOpenExact T U :=
+    Exists.intro i carriesU
+  have exactV : BHistGeneratedOpenExact T V :=
+    Exists.intro j carriesV
+  have exactMeet : BHistGeneratedOpenExact T (fun x : BHist => U x ∧ V x) :=
+    Exists.intro (T.meet i j) meetClosure.left
+  have ledgerWitness : exists ledger : BHist, UnaryHistory ledger := by
+    cases rowU with
+    | singletonMetricBall ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | finiteListIntersection ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | binaryGeneratedMeet ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | arbitraryUnion ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | bottom ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | top ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+  exact And.intro (And.intro exactU transportU)
+    (And.intro (And.intro exactV transportV)
+      (And.intro meetClosure.left (And.intro exactMeet ledgerWitness)))
+
 theorem BHistFiniteBaseNeighborhood_singleton_ledger_coverage
     (T : BHistIndexedOpenCarrier) (ball : BHist -> BHist -> Prop)
     {center ledger : BHist} {i : T.OpenIx}
