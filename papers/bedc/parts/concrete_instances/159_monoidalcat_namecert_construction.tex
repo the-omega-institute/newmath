@@ -39,6 +39,34 @@ For hom rows, first use the endpoint stability law package of \autoref{cor:categ
 The resulting composite row has exactly the source $\mathsf{append}(a,c)$, target $\mathsf{append}(b,d)$, and displayed morphism $\mathsf{append}(f,g)$ required by the tensor carrier surface.
 \end{proof}
 
+\begin{theorem}[MonoidalCat singleton tensor bifunctor laws]
+\label{thm:monoidalcat-singleton-tensor-bifunctor-laws}
+In the singleton tensor instance of \autoref{def:monoidalcat-singleton-tensor-instance}, tensor preserves the displayed identity and composition laws of the unary-continuation category. For every carried unary object $a$, tensoring the empty identity hom with any displayed hom row on either side preserves the $\mathsf{CategoryHomCarrier}$ classifier up to the empty-continuation unit laws.
+
+If
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\quad
+\mathsf{CategoryHomCarrier}(b,c,g),\quad
+\mathsf{CategoryHomCarrier}(a,c,fg),\quad
+\ContR(f,g,fg)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}(a',b',f'),\quad
+\mathsf{CategoryHomCarrier}(b',c',g'),\quad
+\mathsf{CategoryHomCarrier}(a',c',f'g'),\quad
+\ContR(f',g',f'g')
+$$
+are two composable displayed hom pairs, then the tensor composite built from $\mathsf{append}(f,f')$ and $\mathsf{append}(g,g')$ is classified as the same composite hom row as the tensor of the displayed composites, namely $\mathsf{append}(fg,f'g')$ from $\mathsf{append}(a,a')$ to $\mathsf{append}(c,c')$.
+\end{theorem}
+\begin{proof}
+For identities, the empty hom is the canonical displayed identity supplied by \texttt{CategoryHomCarrier\_empty\_identity}. Tensoring it on the left reduces by \texttt{cont\_left\_unit}, and tensoring it on the right reduces by \texttt{cont\_right\_unit}. Transport along the resulting $\hsame$ rows leaves the same displayed hom carrier.
+
+For composition, first apply \autoref{thm:monoidalcat-singleton-tensor-carrier} to the two left factors, obtaining a displayed tensor hom from $\mathsf{append}(a,a')$ to $\mathsf{append}(b,b')$ over $\mathsf{append}(f,f')$. Apply it again to the two right factors, obtaining a displayed tensor hom from $\mathsf{append}(b,b')$ to $\mathsf{append}(c,c')$ over $\mathsf{append}(g,g')$.
+
+Now apply the category composition closure theorem \autoref{thm:category-hom-carrier-comp-closed} to these two tensor hom rows. Continuation associativity compares the composite history of $\mathsf{append}(f,f')$ followed by $\mathsf{append}(g,g')$ with the history $\mathsf{append}(fg,f'g')$ obtained by first composing $f$ with $g$ and $f'$ with $g'$. Transitivity of $\hsame$ transports the closed composite carrier across this comparison, giving the required bifunctorial composition law.
+\end{proof}
+
 \begin{theorem}[MonoidalCat singleton associator and unitors]
 \label{thm:monoidalcat-singleton-associator-unitors}
 For carried unary histories $x$, $y$, and $z$ in the singleton tensor instance, the displayed histories $(x\otimes y)\otimes z$ and $x\otimes(y\otimes z)$ are related by $\hsame$. The displayed histories $\emp\otimes x$ and $x\otimes\emp$ are each related to $x$ by $\hsame$ on the same concrete $\mathsf{BHist}$ carrier.
@@ -71,9 +99,9 @@ The singleton tensor instance assembles the following paper-side $\NameCert_{\Mo
   \item BEDC source: $\CategoryUp$, $\ContR$, $\hsame$, and $\mathsf{CategoryHomCarrier}$.
   \item Carrier: unary $\mathsf{BHist}$ objects and continuation hom histories.
   \item Classifier: $\hsame$ on displayed object and hom histories.
-  \item Stability: tensor carrier closure, associator rows, unitor rows, pentagon coherence, and triangle coherence.
+  \item Stability: tensor carrier closure, tensor identity and composition preservation, associator rows, unitor rows, pentagon coherence, and triangle coherence.
   \item Ledger: tensor tails and the two coherence-path ledgers.
-  \item Core theorem list: \autoref{thm:monoidalcat-singleton-tensor-carrier}, \autoref{thm:monoidalcat-singleton-associator-unitors}, \autoref{thm:monoidalcat-singleton-coherence-laws}, and \autoref{thm:category-unary-continuation-stability-law-package}.
+  \item Core theorem list: \autoref{thm:monoidalcat-singleton-tensor-carrier}, \autoref{thm:monoidalcat-singleton-tensor-bifunctor-laws}, \autoref{thm:monoidalcat-singleton-associator-unitors}, \autoref{thm:monoidalcat-singleton-coherence-laws}, and \autoref{thm:category-unary-continuation-stability-law-package}.
   \item Exactness: classifier equality of the displayed coherence paths.
   \item Standard bridge: absent.
   \item Status: paper-side obligation surface.
@@ -82,7 +110,7 @@ The singleton tensor instance assembles the following paper-side $\NameCert_{\Mo
 \begin{proof}
 The carrier and classifier fields are supplied by the unary-continuation category and its $\mathsf{CategoryHomCarrier}$ rows. The tensor field is the append operation in \autoref{def:monoidalcat-singleton-tensor-instance}.
 
-The stability fields are discharged by \autoref{thm:monoidalcat-singleton-tensor-carrier} and \autoref{thm:monoidalcat-singleton-associator-unitors}. The coherence fields are discharged by \autoref{thm:monoidalcat-singleton-coherence-laws}.
+The stability fields are discharged by \autoref{thm:monoidalcat-singleton-tensor-carrier}, \autoref{thm:monoidalcat-singleton-tensor-bifunctor-laws}, and \autoref{thm:monoidalcat-singleton-associator-unitors}. The coherence fields are discharged by \autoref{thm:monoidalcat-singleton-coherence-laws}.
 
 The ledger records only the displayed continuation tails and the two coherence paths. Exactness is the statement that the two paths in each coherence diagram are equal under $\hsame$, and no standard external monoidal-category bridge is asserted here.
 \end{proof}
