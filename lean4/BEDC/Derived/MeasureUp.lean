@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.MeasureUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 def MeasureZeroBHistCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
@@ -74,5 +76,35 @@ theorem MeasureCountableZeroTail_canonical {tail endpoint : BHist} :
   have endpointEmpty : hsame endpoint BHist.Empty :=
     hsame_trans endpointTail tailEmpty
   exact And.intro tailEmpty (And.intro endpointEmpty endpointTail)
+
+theorem MeasureZeroBHist_semantic_name_certificate :
+    SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
+      MeasureZeroBHistCarrier MeasureZeroBHistClassifier := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty (hsame_refl BHist.Empty)
+      equiv_refl := by
+        intro h hCarrier
+        exact And.intro hCarrier (And.intro hCarrier (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _hCarrier
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 end BEDC.Derived.MeasureUp
