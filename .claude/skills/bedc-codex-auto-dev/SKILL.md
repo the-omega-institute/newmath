@@ -91,6 +91,33 @@ disown
 
 The sync daemon runs `tools/sync_with_auto_dev.py` every 10 min (600s). Purpose: the two orchestrators only sync inside their own worktrees — they never push commits made directly on the main checkout (e.g. SKILL.md / prompt edits / hub splits done in this session). Without the daemon, those commits sit local until you remember to push. With the daemon, they get bidirectionally merged + pushed within 10 min. On conflict, the script invokes codex inside the worktree to resolve. When the main checkout is already on `codex-auto-dev` and clean (the typical case), the script degrades to a `git fetch + ff-only pull + push` — cheap, no merge commit churn.
 
+Concurrency autotune daemon (fourth default-launched component):
+
+```bash
+mkdir -p $REPO/scripts/logs && \
+nohup bash -c '
+  while true; do
+    ts=$(date "+%Y-%m-%d %H:%M:%S")
+    echo "[autotune] $ts tick"
+    python3 $REPO/tools/auto_tune_concurrency.py 2>&1
+    sleep 300
+  done
+' >> $REPO/scripts/logs/autotune_daemon.log 2>&1 &
+disown
+```
+
+`tools/auto_tune_concurrency.py` reads `critical_path.py` JSON output (top size, root_unblocks count) and resizes `.pipeline_parallel.json`'s `paper` / `lean` / `lean_lake` keys to match available work supply. Formula: `lean = clamp(top_size, 3, 15)` (no buffer — observed in 2026-05-06 session that `top_size + 3` caused chapter dogpile when supply was tight; multiple workers picked overlapping `BHist*_classifier_transport` neighbors and produced dup-decl lake-build failures); `paper = clamp(root_unblocks + 4, 3, 8)`; `lean_lake = clamp(lean // 5, 1, 3)`. Hot-reload — every round dispatch reads the JSON. Without autotune, static concurrency settings drift out of phase with the changing dep tree as paper rounds unlock chapters and oversubscribe lean workers, burning Phase B / lake build budget on collisions.
+
+BASE auto-heal daemon (fifth default-launched component):
+
+```bash
+mkdir -p $REPO/scripts/logs && \
+nohup python3 $REPO/tools/auto_heal_base.py >> $REPO/scripts/logs/auto_heal.log 2>&1 &
+disown
+```
+
+`tools/auto_heal_base.py` runs every 15 min (`AUTO_HEAL_INTERVAL_SECONDS` env override, default 900s). Cycle: fetch + ff codex-auto-dev → run `bedc_ci.py audit` → if dup paper labels detected on BASE, invoke codex with `HEAL_DUP_LABELS_PROMPT` to delete the redundant copy (canonical-site rules: hub vs sibling, semantic stem matching). Codex commits the cleanup directly on main checkout, daemon pushes to origin. Without this, a single duplicate-label commit on BASE stalls every subsequent round in audit-fail / SHALLOW-GROWTH cooldown loops indefinitely (observed 2026-05-06: 9 cooldowns × 180s + 36 SHALLOW lints over 30 min before manual surgery resolved). Skips when the working tree is dirty or branch isn't codex-auto-dev — never fights a human edit.
+
 ### Verify restart success (two-step, never skip)
 
 After launching, run **two sequential one-shot checks** before declaring the restart healthy. Skipping either check has bitten the operator.
@@ -98,10 +125,10 @@ After launching, run **two sequential one-shot checks** before declaring the res
 **Step 1 — process check:**
 
 ```bash
-ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py' | grep -v grep
+ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py|auto_tune_concurrency|auto_heal_base' | grep -v grep
 ```
 
-All three processes (paper orchestrator, lean orchestrator, sync daemon) must appear with `PPID=1` (init). If `PPID` is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If any one is missing entirely, the script crashed before it ever wrote a log line — go read the relevant log tail to see the import / argparse error.
+All five processes (paper orchestrator, lean orchestrator, sync daemon, autotune daemon, auto-heal daemon) must appear with `PPID=1` (init). If `PPID` is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If any one is missing entirely, the script crashed before it ever wrote a log line — go read the relevant log tail to see the import / argparse error.
 
 **Step 2 — progress check:**
 
@@ -131,6 +158,8 @@ Concurrency is read from `<repo>/.pipeline_parallel.json` on every round dispatc
 
 Memory floor is the binding constraint, not CPU — each codex-exec child is ~50–100 MB; each `lake build` is ~1–1.5 GB. With `lean_lake: 3` and 16 GB RAM, leaving `paper + lean ≤ ~20` keeps `vm_stat` "free" above 0.5 GB. The orchestrator's memory_guard kicks in only when `swap > 16 GB AND avail < 1.5 GB`, so the JSON file is your knob, not the guard.
 
+**Autotune daemon overrides static settings.** Once `tools/auto_tune_concurrency.py` is launched (5th default daemon, see Start section), it re-writes `paper` / `lean` / `lean_lake` every 300s based on critical_path supply. Manual edits get overwritten on the next tick. To override autotune, either kill the autotune daemon first or change its constants (`LEAN_BUFFER` / `PAPER_BUFFER` / clamp ranges) and let it pick up the new formula. The `lean = top_size` (no buffer) formula is empirical; raising `LEAN_BUFFER` reintroduces chapter dogpile at low supply. Lowering autotune `*_MAX` constants is the right way to cap concurrency under sustained memory pressure.
+
 ## Monitor (read-only, never owns the orchestrator)
 
 Monitors `tail -F` the log files the detached orchestrators write to. They are pure observers — killing, swapping, or re-launching a Monitor never touches the orchestrator process.
@@ -158,8 +187,9 @@ Default to a single **active error watch** that tails BOTH log files at once and
 tail -F $REPO/papers/bedc/scripts/logs/orchestrator.log \
        $REPO/lean4/scripts/logs/orchestrator.log \
        $REPO/scripts/logs/sync_daemon.log \
+       $REPO/scripts/logs/auto_heal.log \
   | grep -E --line-buffered \
-      'Round FAILED|Merge failed —|3 consecutive failures|Codex did not complete|Codex could not resolve|\[recovery\]\s+(queued|picking|RECOVERED|unrecoverable|codex crashed|stopped)|Pre-merge hard gate failed|STALE MARKER|SHALLOW GROWTH|Phase B failed:|Phase C failed:|Phase D failed:|Traceback|^[^:]+:\s+\bException:|builder.*FAIL|deps_ready_relaxed.*[Tt]rue|closure_mark|memory_guard.*PAUSE|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)'
+      'Round FAILED|Merge failed —|3 consecutive failures|Codex did not complete|Codex could not resolve|\[recovery\]\s+(queued|picking|RECOVERED|unrecoverable|codex crashed|stopped)|Pre-merge hard gate failed|STALE MARKER|SHALLOW GROWTH|Phase B failed:|Phase C failed:|Phase D failed:|Traceback|^[^:]+:\s+\bException:|builder.*FAIL|deps_ready_relaxed.*[Tt]rue|closure_mark|memory_guard.*PAUSE|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|\[heal\] .*(detected|committed|push failed)'
 ```
 
 Use `persistent: true`. Describe as `BEDC active error watch`.
@@ -461,6 +491,24 @@ Concrete autonomous-action examples this skill has handled:
 - 2026-05-04 commit `6d9b6c1b7`: `\closureat` binary closure end-to-end. preamble macro + phase_review v2.6 / phase_revise v2.6 `closure_mark` target kind + critical_path closure-aware ranking (drops the heuristic `thms >= 10` cap in favor of explicit AcceptGate certification). First chapter closed: BoolUp (P1859, same day).
 - 2026-05-04 commit `8099c89de`: fix CLOSUREAT_RE greedy bug — first-pass regex captured `t` instead of `checkedCert` because `[^}]*\\?(\w+)Str` was greedy past the leading backslash. Tighter regex `\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}` is whitespace-tolerant + accepts both `\BoolUp` and `BoolUp`.
 - 2026-05-04 commit `574fb6863`: NAME_RE accept underscores so `46_zeta_basic_namecert_construction.tex` resolves to canonical `zeta_basic` instead of literal-filename horizon (had been polluting `top` with malformed entries like `file_lean=46ZetaBasicNamecertConstruction.texUp.lean`).
+- 2026-05-05 commit `610751890`: phase_b v5.7 → v5.8 / phase_review v3.1 → v3.2. Removed grade-axis `(none) → ...` skip rule that wedged 64/66 grade=null open chapters (lean side wouldn't pick a chapter without `closurestatus` block; paper side wouldn't propose one because `next_axis` algorithm defaulted to `formal_status`). Both prompts now treat null grades as normal work.
+- 2026-05-06 commit `09925c910`: critical_path `top_root_unblocks` field + phase_review v3.3 root-unblock HARD GATE. After bedc-deep merged 200+ external chapters whose dep tree roots (banach / fieldext / topology / manifold / finset) were thms=0 paper stubs, ~145/205 open chapters became dep-blocked. New `compute_root_unblocks(threshold)` enumerates chapters whose `thms < threshold` are SINGLE-blocker for ≥1 downstream; phase_review HARD GATE forces 1 of N targets to attack the highest-leverage entry.
+- 2026-05-06 commit `e2e2d7391`: critical_path `recent_attack_threshold=3` rotation in `top_root_unblocks`, then `4c41cbd8e` tightened to `recent_attack_threshold=1` + added `_inflight_paper_attack_chapters()` scanning `.worktrees/paper_P*/` for uncommitted edits. With paper=8 concurrent and ~10 root candidates, the v3.3 HARD GATE pulled all paper rounds into the same `top_root_unblocks[0]` (manifold dogpile: 18/30 targets in a 2h window). codex writes deterministic obligation labels for the same chapter+task prompt, so even 2 simultaneous rounds produce identical `\label{thm:<chapter>-...}` collisions. Threshold=1 + in-flight scan ensures concurrent rounds spread across distinct roots.
+- 2026-05-06 commit `4e2a4d8a9`: `deps_ready` uses `max(thms, labels)` instead of just `thms`. Paper rounds were writing rich obligation surfaces (e.g. bundle: 9 `\begin{theorem}` + 9 `\label`) but no `\leanchecked` markers yet, so `dep.thms` stayed 0 and downstream chapters stayed dep-blocked despite the chapter being paper-ready. New `extract_horizons` field `labels` counts paper obligation labels in chapter's full include closure; `deps_ready` treats EITHER threshold-crossing as ready. Result: top_size jumped 8 → 25 within one tick.
+- 2026-05-06 commit `a21fc21d2`: `auto_tune_concurrency` LEAN_BUFFER 3 → 0. With `lean = top_size + 3`, when supply was tight (top_size=7 / lean=10) the 3 extra workers necessarily picked overlapping chapters, producing dup-decl lake-build failures (NumFieldUp / FieldExtUp). `lean = top_size` makes worker count exactly match supply; sibling claim lock keeps them non-overlapping. Lean grows with paper unblocks.
+- 2026-05-06 commit `1d12c4fad`: phase_c v5.8 → v5.9 added "target-exclusive theorems (HARD GATE)". After R3045/R3049 produced identical 6-error SHALLOW GROWTH from codex writing parameter-echo neighbor theorems (`BHistCarriesOpen_classifier_transport` + 4 `BHist*_classifier_transport` siblings), prompt now mandates every new declaration must be a Phase B target, target-helper, or `<target>_<suffix>` prereq. Concrete BHist*_classifier_transport rejection example included.
+- 2026-05-06 commit `fa0334da2`: lean conflict_resolve.txt deletion-aware rule. After my fix `f23474528` (deleting stuck dup `TopologySingleton_boundary_open_laws`) was reverted by R3058's merge resolution (codex kept "ours" = older version with deleted theorem still present), prompt now explicitly says: deletion in BASE is deliberate cleanup, prefer the deletion side over "keep both".
+- 2026-05-06 commit `a075c2ef0`: `tools/auto_heal_base.py` daemon (15min cycle). Detects stuck dup paper labels via `bedc_ci.py audit`, invokes codex with canonical-site rules to remove the redundant copy, commits + pushes. Without this, manual surgery is the only path out of audit-fail / cooldown loops on BASE-stuck dups (observed: 9 cooldowns × 180s + 36 SHALLOW lints / 30 min before manual delete of `_diffform_derham_boundary_consumption.tex` and `TopologySingleton_boundary_open_laws`).
+
+### When manual BASE surgery is still needed (auto-heal limits)
+
+`auto_heal_base.py` covers `bedc_ci.py audit` dup labels. It does NOT cover:
+
+1. **Dup-conclusion theorem stuck on BASE**: `phase_d_lint.py::detect_shallow_growth_patterns` only scans round-added decls (it diffs `<base-branch>..HEAD`), so a BASE-resident pair doesn't appear in any single round's diff but every round's merge re-introduces the lint when its added theorem has a conclusion that overlaps with one already there. Symptom: 5+ rounds in 30 min reporting the same `SHALLOW GROWTH PATTERN: ... duplicate theorem conclusion in <A> and <B>` where neither A nor B is in the round's own diff. Manual fix: delete one declaration in main checkout, inline its uses where needed, lake build, commit, push. Future improvement: extend `detect_shallow_growth_patterns` to scan `lean4/BEDC/` instead of just `<base>..HEAD`, and let `auto_heal_base.py` invoke codex on a finding.
+
+2. **In-flight rounds dispatched against stale BASE / stale prompt**: when you push a fix targeting a known stuck pattern, in-flight rounds (10-30 minutes deep into Phase B/C) still carry the old BASE in their worktree. Their merge-resolution may RE-INTRODUCE the just-deleted item via "keep both" (the conflict_resolve.txt deletion-aware rule mitigates but doesn't eliminate). If lean SUCCESS rate stays ≤1/30min and `[cooldown] 3 consecutive failures` keeps firing, the in-flight pool is poisoned. Resolution: stop the lean orchestrator (`python3 lean4/scripts/codex_formalize.py --stop`), wait 30s, force-kill any lingering codex children (`pkill -TERM -f 'codex exec.*round_R'`), force-kill the orchestrator if `--stop` didn't drain (`pkill -TERM -f codex_formalize.py`), then relaunch fresh. New round dispatch will use the new BASE + new prompt. Cost: lose in-flight rounds' codex compute (~30 min × N workers), but their success rate against poisoned BASE is near 0 anyway. Paper orchestrator usually doesn't need restart unless the same poisoning is hitting paper labels.
+
+3. **Stale paper marker referencing removed lean target**: `auto_heal_base.py` doesn't yet detect `unresolved Lean markers` audit reports. When `bedc_ci.py audit` reports `[bedc-ci] unresolved Lean markers: papers/bedc/parts/.../X.tex:N leanchecked -> BEDC.<...>.<name>` and `<name>` is missing under `lean4/BEDC/`, the marker either references a not-yet-implemented target (legitimate pending work) or a deleted target (real stale). Distinguishing requires checking whether any round commit deleted the named declaration recently. Manual triage for now.
 
 ### Harness design principles
 

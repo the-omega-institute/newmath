@@ -54,6 +54,60 @@ selected offset; core theorem
 equivalence; standard bridge overlapping finite RegSeqRat observation
 intervals; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream finite-window overlap boundary readback package]
+\label{thm:real-stream-window-overlap-boundary-readback-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices $n,m,r$,
+and histories $a,b,z_X,z_Y:\Hist$, assume
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+r)$,
+$\hsame(x(n+m),\Eone(a))$, and $\hsame(y(n+m),\Eone(b))$. Then the shared
+boundary endpoint at $n+m$ carries the following package:
+\begin{enumerate}
+\item $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$;
+\item $\mathsf{RealStreamWindowClassifier}(x,y,n+m,r)$;
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$;
+\item $\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$;
+\item $\mathsf{PositiveUnaryDenominator}(x(n+m))\land
+\mathsf{PositiveUnaryDenominator}(y(n+m))$;
+\item $\mathsf{UnaryHistory}(x(n+m))\land
+\mathsf{UnaryHistory}(y(n+m))\land
+(\hsame(x(n+m),\emp)\to\mathsf{False})\land
+(\hsame(y(n+m),\emp)\to\mathsf{False})$;
+\item $(\hsame(x(n+m),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y(n+m),\Ezero(z_Y))\to\mathsf{False})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply the forward direction of
+\autoref{thm:real-stream-window-overlap-partition} to the wide window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+r)$. This produces the left
+window over $(n,m)$ and the right overlapping window over $(n+m,r)$.
+
+The shared boundary is the selected offset $m$ inside the wide window. Since
+$m\le m+r$, \autoref{thm:real-stream-window-selected-full-shape-readback-package}
+applies to the wide window with $k=m$ and to the displayed one-extension
+comparisons at $x(n+m)$ and $y(n+m)$.
+
+That selected readback package gives
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$, the two unary tail
+witnesses with $\hsame(a,b)$, the positive denominator rows, the unary and
+nonempty endpoint rows, and the two zero-head exclusions. Repack these rows
+with the two windows obtained from the overlap partition.
+\end{proof}
+
+The ten-field fit is: traditional target shared boundaries of finite RegSeqRat
+observation intervals; BEDC source RealUp finite windows, RatUp endpoint
+classifier, and StreamNameUp observation schedule; carrier rational-observation
+streams; classifier $\mathsf{RealStreamWindowClassifier}$ with the selected
+boundary RatUp package; stability by overlap partition and selected endpoint
+readback; ledger anchor, left radius, right radius, shared endpoint, and
+displayed one-extension witnesses; core theorems
+\autoref{thm:real-stream-window-overlap-partition} and
+\autoref{thm:real-stream-window-selected-full-shape-readback-package};
+exactness the displayed boundary package; standard bridge RealUp finite-window
+exhaustion boundary for RegSeqRat finite observations; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream finite-window three-piece partition]
 \label{thm:real-stream-window-three-piece-partition}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices
@@ -99,3 +153,141 @@ theorem \autoref{thm:real-stream-window-three-piece-partition}; exactness
 equivalence between the wide window and the three chained windows; standard
 bridge finite observation interval refinement for RealUp; status
 $\mathsf{ProofTarget}$.
+
+\begin{definition}[Real stream finite-window partition spine]
+\label{def:real-stream-window-partition-spine}
+For a rational-observation anchor $n$ and a total finite bound $w$, a nonempty
+$\mathsf{BEDC}$ finite partition spine is a finite $\mathsf{BHist}$-coded chain
+$P$ of unary radius histories $a_0,\ldots,a_{q-1}:\Hist$ together with endpoint
+continuation rows. Its numeric radii $r_i$ are the unary lengths displayed by
+the $a_i$, its segment anchors are
+$$
+n_0=n,\qquad n_{i+1}=n_i+(r_i+1),
+$$
+and its accumulated displayed bound is
+$$
+w=r_0+1+r_1+1+\cdots+1+r_{q-1}.
+$$
+The singleton spine has accumulated bound $r_0$ and one segment at the original
+anchor. The successor spine appends one unary radius $a_i$ by a native unary
+$\mathsf{append}$ display and a $\mathsf{Cont}$ row from the previous endpoint
+anchor to the next endpoint anchor. Thus every segment named by $P$ is a
+concrete RealUp finite window
+$\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i)$, and the final accumulated
+anchor is obtained only by repeated unary $\mathsf{append}$ and $\mathsf{Cont}$
+composition.
+\end{definition}
+
+\begin{theorem}[Real stream finite-window partition fold]
+\label{thm:real-stream-window-finite-partition-fold}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, a
+total bound $w$, and a certified finite partition spine $P$ over $(n,w)$ with
+segments $(n_i,r_i)$, the total window classifier is equivalent to the
+conjunction of the segment classifiers named by $P$:
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,w)
+\Longleftrightarrow
+\bigwedge_{(n_i,r_i)\in P}
+\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i).
+$$
+For the singleton spine, the right side is the single segment classifier.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the certified partition spine $P$.
+
+In the singleton case, the spine definition identifies the total bound with the
+single segment radius. The right side is the same
+$\mathsf{RealStreamWindowClassifier}(x,y,n,r_0)$ row, so the displayed
+equivalence is reflexive.
+
+For the successor step, write the predecessor spine as $P_0$ with accumulated
+bound $u$ and final anchor $n+u+1$ in the displayed unary continuation ledger.
+The new certified unary radius is $r$, so the successor spine displays the
+total bound as $u+1+r$ and names the new final segment
+$\mathsf{RealStreamWindowClassifier}(x,y,n+(u+1),r)$.
+
+For the forward direction of the successor step, apply
+\autoref{thm:real-stream-window-adjacent-partition} to the total window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,u+1+r)$. This gives the predecessor
+wide window $\mathsf{RealStreamWindowClassifier}(x,y,n,u)$ and the new final
+segment. Apply the induction hypothesis to the predecessor wide window to
+obtain every segment classifier named by $P_0$, then conjoin that list with the
+new final segment.
+
+For the reverse direction, assume the conjunction over the successor spine.
+Project the predecessor segment conjunction and the new final segment. The
+induction hypothesis repacks the predecessor segment conjunction into
+$\mathsf{RealStreamWindowClassifier}(x,y,n,u)$. Apply the reverse direction of
+\autoref{thm:real-stream-window-adjacent-partition} to this predecessor window
+and the new final segment, producing
+$\mathsf{RealStreamWindowClassifier}(x,y,n,u+1+r)$.
+
+The three-segment case is the displayed consistency check: taking a spine with
+three radii $m,r,s$ reduces the induction twice and gives exactly
+\autoref{thm:real-stream-window-three-piece-partition}. Its two displayed cut
+points are the first two successor anchors in the finite spine ledger.
+\end{proof}
+
+The ten-field fit is: traditional target finite RegSeqRat observation partition
+coverage; BEDC source $\mathsf{RealStreamWindowClassifier}$ plus
+$\mathsf{RatHistoryClassifier}$ endpoint rows and $\mathsf{Cont}$ with unary
+anchors; carrier rational-observation streams; classifier
+$\mathsf{RealStreamWindowClassifier}$ over a certified finite partition spine;
+stability by adjacent partition, induction on the $\mathsf{BHist}$ spine, and
+unary anchor continuation; ledger total bound, segment radii, accumulated
+anchors, continuation rows, and endpoint classifiers; core theorem
+\autoref{thm:real-stream-window-finite-partition-fold}; exactness the displayed
+fold equivalence; standard bridge RealUp and RegSeqRat finite observation
+coverage; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RealUp finite-window partition read surface]
+\label{thm:realup-window-partition-read-surface}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, a
+total bound $w$, and a certified finite partition spine $P$ over $(n,w)$ with
+segments $(n_i,r_i)$, the total window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,w)$ and the conjunction of segment
+windows
+$$
+\bigwedge_{(n_i,r_i)\in P}
+\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i)
+$$
+expose the same scoped $\RealUp$ certificate boundary rows. These rows are
+exactly the endpoint $\RatUp$ classifiers, positive unary denominator rows,
+nonempty unary endpoint rows, common e-one tail readback wherever the endpoints
+are displayed as one-headed, finite $\mathsf{RealLedgerPolicy}$ rows,
+DyadicRatCore observation rows, $\RegSeqRat$ spine rows, $\StreamNameUp$ request
+names, $\mathsf{UnaryHistory}$ witnesses, and $\hsame$ transport rows named by
+the certified window spine. Neither presentation reads quotient data, a
+completion object, a metric-completeness certificate, arithmetic or order
+closure, Classical data, or a standard bridge.
+\end{theorem}
+\begin{proof}
+First transport between the two window presentations. Apply
+\autoref{thm:real-stream-window-finite-partition-fold}; the total classifier at
+$(n,w)$ is equivalent to the finite conjunction of the segment classifiers named
+by $P$.
+
+Now read the total presentation through the scoped boundary. Apply
+\autoref{thm:realup-scoped-finite-window-read-surface} to the total window. It
+identifies the endpoint $\RatUp$ rows, denominator rows, common e-one tail
+readback, finite ledger rows, dyadic source rows, stream-name rows, unary
+history witnesses, and $\hsame$ transport rows available at the total window.
+
+For each segment $(n_i,r_i)$ supplied by the partition spine, apply
+\autoref{thm:realup-scoped-finite-window-read-surface} again to the segment
+window $\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i)$. The partition-spine
+ledger records that the segment anchors and radii are obtained from the same
+unary radius histories, $\mathsf{append}$ displays, and $\mathsf{Cont}$ rows
+used to display the total bound, so the segment reads name only the finite
+endpoint and dyadic source rows already named by the total presentation.
+
+It remains to identify the primitive boundary. Apply
+\autoref{thm:realup-finite-window-exhaustion-obligation} for the endpoint
+package and dyadic finite-window source exhaustion. Apply
+\autoref{thm:realup-stream-prefix-scoped-obligation-package} for the carrier,
+classifier, stability, ledger, and seal rows of the primitive stream-prefix
+boundary. These two packages contain exactly the rows listed in the statement
+and exclude quotient, completion, metric-completeness, arithmetic, order,
+Classical, and standard-bridge data, so the partitioned and total presentations
+have the same scoped $\RealUp$ read surface.
+\end{proof}

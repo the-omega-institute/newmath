@@ -1,0 +1,83 @@
+\section{Public Open Derivation Trees}
+\label{sec:topology-public-open-derivation-tree}
+
+\begin{definition}[Topology public open derivation tree]
+\label{def:topology-public-open-derivation-tree}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$, equipped with indexed arbitrary-union witnesses and indexed boundary open witnesses. A topology public open derivation tree for a predicate $U:X\to\mathsf{Prop}$ is a finite rooted certificate, written $\mathsf{PubOpenTree}_{\mathcal{T}}(U)$, whose root is a topology public open row
+$$
+(i,U,h_i,\lambda_i)
+$$
+in the sense of \autoref{def:topology-public-open-row}. The root therefore carries both a $\mathsf{BHist}$ ledger row $\lambda_i$ and a witness
+$$
+h_i:\mathsf{CarriesOpen}_{\mathcal{T}}(i,U).
+$$
+The allowed root constructors are exactly the following six cases.
+\begin{enumerate}
+\item A singleton metric-ball constructor carries a displayed singleton ball row and has no open subtrees.
+\item A finite-list intersection constructor carries a finite list of public open derivation trees and a ledger row whose carried index is the displayed finite-list meet of their root indices.
+\item A binary generated-open meet constructor carries two public open derivation trees, their root indices $i$ and $j$, and the carried meet index $i\wedge_{\TopologyUp}j$.
+\item An arbitrary-union constructor carries an index family $A$, a family of public open derivation trees indexed by $A$, and the supplied union index carrying the pointwise union of their root predicates.
+\item A bottom constructor carries the boundary row $\bot_{\TopologyUp}$ and the empty predicate.
+\item A top constructor carries the boundary row $\top_{\TopologyUp}$ and the whole carrier predicate.
+\end{enumerate}
+No other constructor is part of $\mathsf{PubOpenTree}_{\mathcal{T}}$. Thus every accepted public open exposes the structural induction data that produced its carried index, not merely the final ledger entry.
+\end{definition}
+\leandef{BEDC.Derived.TopologyUp.BHistPublicOpenTree}
+\leandef{BEDC.Derived.TopologyUp.TopologyPublicOpenTree}
+
+\begin{theorem}[Topology public open derivation tree coverage]
+\label{thm:topology-public-open-derivation-tree-coverage}
+Let $\mathcal{T}$ be either the metric-generated topology carrier $\mathcal{T}_{d,\mathsf{ball}}$ of \autoref{def:topology-metric-generated-carrier} with the public rows covered by \autoref{thm:topology-metric-generated-public-open-row-coverage}, or the singleton empty-history topology carrier of \autoref{def:topology-singleton-empty-history-carrier} with the public rows covered by \autoref{thm:topology-singleton-public-open-row-coverage}. Then every topology public open row for $\mathcal{T}$ determines a topology public open derivation tree for the same predicate and the same carried root index.
+\end{theorem}
+\begin{proof}
+Proceed by cases on the public row supplied by the relevant coverage theorem.
+
+For a singleton metric ball, the metric-generated coverage theorem supplies the singleton index, its carrying equation, and the singleton metric-ball ledger row. These are exactly the root data for the singleton constructor.
+
+For a finite-list intersection, take the displayed finite list of already admitted public rows. Build the subtrees recursively from those rows, and use the finite-list intersection ledger row at the root together with its carried index and $\mathsf{CarriesOpen}$ witness.
+
+For a binary generated-open meet, build the two input subtrees from the two public generated-open rows. The root is the meet row whose index is $i\wedge_{\TopologyUp}j$, with the carrying witness supplied by \autoref{thm:topology-indexed-open-finite-intersection}.
+
+For an arbitrary union, build the indexed family of subtrees pointwise. The supplied union index and the carrying equation from \autoref{thm:topology-indexed-open-arbitrary-union} form the root.
+
+For bottom and top, use the boundary rows supplied by \autoref{thm:topology-indexed-open-boundary-closure}. In the singleton carrier these are the displayed bottom and top rows of \autoref{thm:topology-singleton-boundary-open-laws}; in the metric-generated carrier they are the boundary rows recorded by \autoref{thm:topology-metric-generated-public-open-row-coverage}. These cases exhaust the six constructors of \autoref{def:topology-public-open-derivation-tree}.
+\end{proof}
+
+\begin{theorem}[Topology public open derivation tree transport]
+\label{thm:topology-public-open-derivation-tree-transport}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$, equipped with indexed arbitrary-union witnesses and indexed boundary open witnesses. If $\tau:\mathsf{PubOpenTree}_{\mathcal{T}}(U)$ and $\mathsf{same}_X(x,y)$, then membership in the root predicate transports along the carrier classifier:
+$$
+U(x)\Longleftrightarrow U(y).
+$$
+Moreover, the proof is obtained by structural induction on $\tau$, so each subtree contributes the transport witness for the constructor that consumes it.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistPublicOpenTree\_classifier\_transport}
+\leanchecked{BEDC.Derived.TopologyUp.TopologyPublicOpenTree\_classifier\_transport}
+\begin{proof}
+Induct on the derivation tree $\tau$.
+
+In the singleton metric-ball case, the root is already a topology public open row. Apply \autoref{thm:topology-public-open-row-classifier-transport} to its carrying witness and ledger row.
+
+In the finite-list intersection case, use the induction hypotheses for each child row. The finite-list meet is assembled by repeated applications of \autoref{thm:topology-indexed-open-finite-intersection}; each step transports the carried intersection along $\mathsf{same}_X$.
+
+In the binary generated-open meet case, apply the two induction hypotheses to the input trees. Then apply \autoref{thm:topology-indexed-open-finite-intersection} to the two carried root indices, obtaining transport for the pointwise meet.
+
+In the arbitrary-union case, apply the induction hypothesis pointwise to the indexed family of subtrees. The supplied union index is then repacked through \autoref{thm:topology-indexed-open-arbitrary-union}, which transports the existential membership predicate under the same classifier.
+
+In the bottom and top cases, apply \autoref{thm:topology-indexed-open-boundary-closure}. The empty predicate transports vacuously, and the whole carrier predicate transports by the displayed boundary law. These six cases are all constructors of the tree, so the induction closes the root transport claim.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistPublicOpenTree\_root\_classifier\_transport}
+
+\begin{theorem}[Topology public open derivation tree NameCert surface]
+\label{thm:topology-public-open-derivation-tree-namecert-surface}
+For the metric-generated and singleton topology sources of \autoref{thm:topology-metric-generated-public-open-row-coverage} and \autoref{thm:topology-singleton-public-open-row-coverage}, the derivation tree interface repacks the public $\NameCert_{\TopologyUp}$ surface into downstream structural data. Every accepted public open exposes its carrier $X$, classifier $\mathsf{same}_X$, root index $i$, carrying witness $h_i:\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$, visible $\mathsf{BHist}$ ledger row $\lambda_i$, and the constructor spine producing $i$. Consequently BanachUp, ManifoldUp, ComplexTopologyUp, and SheafUp consumers may perform induction on public opens through $\mathsf{PubOpenTree}_{\mathcal{T}}$ rather than treating open predicates as host powersets.
+\end{theorem}
+\begin{proof}
+Start from a downstream public open row. By \autoref{thm:topology-public-open-derivation-tree-coverage}, it has a derivation tree with the same root predicate and root index.
+
+The root of the tree is the original public row, so it preserves the carrier, classifier, carrying witness, and $\mathsf{BHist}$ ledger row required by the $\NameCert_{\TopologyUp}$ surface. The constructors below the root record exactly which topology operation supplied the row.
+
+Transport across the surface is supplied by \autoref{thm:topology-public-open-derivation-tree-transport}. Finite intersections, binary meets, arbitrary unions, and boundary rows are therefore available as induction cases with their carried indices still visible.
+
+These are precisely the data used by downstream chapters when they consume topology opens: BanachUp reads open balls and generated neighbourhoods, ManifoldUp reads chart-domain opens, ComplexTopologyUp reads metric-generated complex opens, and SheafUp reads indexed covers and finite overlaps. Since each consumer receives a constructor spine together with the public row, the topology surface is repacked as structural induction data rather than as an external powerset of opens.
+\end{proof}

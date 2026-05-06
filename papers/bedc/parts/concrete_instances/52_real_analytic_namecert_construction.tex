@@ -10,6 +10,8 @@ This chapter records the proof obligations for the constructive transcendental p
 \label{def:real-analytic-leibniz-partial-sum}
 For unary index \(n\), the Leibniz partial sum predicate \(\mathsf{LeibPart}(n, S_n)\) holds when \(S_n\) is the explicit \(\RatUp\)-history obtained by summing the first \(n\) terms of \(\sum_{k \geq 0} (-1)^k / (2k+1)\) via unary recursion using \(\RatUp\) addition and signed-fraction subtraction.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticLeibnizPartialSum}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticLeibnizPartSum}
 
 \begin{lemma}[Leibniz alternating-series Cauchy modulus]
 \label{lem:real-analytic-leibniz-cauchy}
@@ -18,11 +20,17 @@ The sequence of partial sums \(S_n\) is a \(\RegSeqRat\)-Cauchy sequence with ex
 \begin{proof}
 Pair adjacent terms after index \(N(k)\); each pair has magnitude bounded by the next omitted term \(1/(2N(k)+1)\). The alternating bound gives \(|4 S_m - 4 S_n| \leq 4/(2N(k)+1) < 2^{-k}\) for the chosen \(N(k)\).
 \end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticLeibnizPartSum\_index\_result\_unary}
 
 \begin{definition}[Constructive \(\pi\)]
 \label{def:real-analytic-pi}
 $\mathsf{Pi}$ is a $\RealUp$-history candidate only together with a supplied limit witness from the Phase Real and Completion obligations, applied to the $\RegSeqRat$ Cauchy data of \autoref{lem:real-analytic-leibniz-cauchy} for the rescaled sequence $(4 S_n)_n$. The local data of this chapter is the $\RegSeqRat$ name and its explicit modulus inherited from the alternating-series bound.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticPiBoundary}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticPiBoundary\_leibniz\_index\_result\_unary}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticPiLocalData}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticPiCandidate}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticPi}
 
 \begin{theorem}[Series variant equivalence boundary]
 \label{thm:real-analytic-series-variant-equivalence-boundary}
@@ -50,6 +58,7 @@ $\RegSeqRat$ classifier witness between the source streams and the two limit
 witnesses, and returns the displayed conclusion
 $\mathsf{RealClassifier}(r_1,r_2)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticLeibnizPartSum\_pointwise\_hsame\_deterministic}
 
 \section{Constructive exponential}
 \label{sec:real-analytic-exp}
@@ -58,6 +67,7 @@ $\mathsf{RealClassifier}(r_1,r_2)$.
 \label{def:real-analytic-exp-part}
 For \(\RealUp\)-history \(x\) and unary index \(n\), the predicate \(\mathsf{ExpPart}(x, n, S_n)\) holds when \(S_n\) is the partial sum \(\sum_{k=0}^{n} x^k / k!\) computed by unary recursion: powers \(x^k\) via iterated \(\RealUp\) multiplication, factorials \(k!\) via the unary factorial of \(\PrimeUp\) (\autoref{ch:concrete-instances-prime-namecert}), and division as \(\RealUp\)-multiplicative inverse against the positive unary denominator.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticExpPart}
 
 \begin{lemma}[Real-analytic complex partial-sum indices are unary]
 \label{lem:real-analytic-complex-part-sum-index-unary}
@@ -84,6 +94,7 @@ predecessor partial-sum witness supplies unaryness of the predecessor index,
 the term hypothesis supplies unaryness of the next term, and unary continuation
 closure gives the successor result.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticLeibnizPartSum\_successor\_result\_deterministic}
 
 \begin{theorem}[Real-analytic complex partial-sum indices and results are unary]
 \label{thm:real-analytic-complex-part-sum-index-result-unary}
@@ -196,6 +207,7 @@ target unary transport theorem to the two closed computations. The zero
 comparison, source modulus unaryness, and pointwise comparison
 $m(i)\hsame m'(i)$ at unary indices give $\mathsf{UnaryHistory}(T)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexAbsPartSum\_closed\_pointwise\_index\_result\_unary\_transport}
 
 \begin{theorem}[Real-analytic local stream unary package]
 \label{thm:real-analytic-local-stream-obligations-only}
@@ -225,6 +237,7 @@ row, the $\RealUp$ limit witness row, and the limit-uniqueness classifier row
 remain the separate supplied hypotheses of
 \autoref{thm:real-analytic-certificate-boundary}.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticLocalStream\_obligations\_package}
 \begin{proof}
 For the complex closed-source clause, apply
 \autoref{thm:real-analytic-complex-part-sum-index-result-unary}. Its hypotheses
@@ -257,16 +270,19 @@ For every \(\RealUp\)-history \(x\) with \(|x| \leq B\) (explicit unary upper bo
 \begin{proof}
 For \(n \geq 2B\), the ratio of successive terms \(|x|/(n+1)\) is bounded by \(1/2\), so the tail majorizes a geometric series with ratio \(1/2\). The geometric-series modulus \(2^{-(n - 2B)}\) gives the explicit \(N(k)\) above.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticExp\_local\_witness\_unary}
 
 \begin{definition}[Constructive \(\exp\)]
 \label{def:real-analytic-exp}
 For a $\RealUp$-history $x$, $\mathsf{Exp}(x, y)$ holds in this chapter only relative to a supplied $\RealUp$ limit witness from the Phase Real and Completion obligations for the partial sums $\mathsf{ExpPart}(x, \cdot, \cdot)$ and the Cauchy modulus of \autoref{lem:real-analytic-exp-cauchy}. The local witness includes the explicit input bound $B$ and the modulus $N$.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticExp}
 
 \begin{theorem}[Exponential additivity]
 \label{thm:real-analytic-exp-add}
 For $\RealUp$-histories $x$ and $y$, assume supplied $\RealAlgOrder$ rows for $x+y$, products in $\RealUp$, powers $x^k$, $y^k$, and $(x+y)^k$, the unary factorial-denominator inverses, and the Cauchy-product comparison between the partial sums of $\mathsf{ExpPart}(x+y,\cdot,\cdot)$ and the product of the partial sums for $x$ and $y$. Assume also supplied $\RealUp$ limit witnesses and their limit-uniqueness classifier rows for $\mathsf{Exp}(x,e_x)$, $\mathsf{Exp}(y,e_y)$, and $\mathsf{Exp}(x+y,e_{x+y})$. Under exactly these rows, $\mathsf{RealClassifier}(e_{x+y}, e_x \cdot e_y)$ holds.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticExp\_product\_witness\_unary}
 \begin{proof}
 The $\RealAlgOrder$ rows make the finite algebraic comparison meaningful: addition supplies $x+y$, multiplication supplies the product side, powers and factorial-denominator inverses supply the displayed exponential terms, and the Cauchy-product row compares the two regular rational partial-sum families.
 
@@ -280,6 +296,7 @@ The three supplied $\RealUp$ limit witnesses place those regular rational famili
 \label{def:real-analytic-log}
 For a positive $\RealUp$-history $x$ (i.e.\ apartness witness $x \neq 0$ with positive sign), $\mathsf{Log}(x, y)$ holds in this chapter only relative to a supplied $\RealUp$ limit witness for the dyadic bisection sequence on unary precision $k$: at each precision, locate the dyadic-rational interval $[y_k, y_k + 2^{-k}]$ such that $\exp(y_k) \leq x < \exp(y_k + 2^{-k})$ (decidable on rational representations using \autoref{def:real-analytic-exp}), and assemble the local $\RegSeqRat$ data with modulus $N(k) = k + \lceil \log_2(1/x) \rceil$.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticLog}
 
 \begin{theorem}[Logarithm is the inverse of \(\exp\) on positives]
 \label{thm:real-analytic-log-exp-inverse}
@@ -295,6 +312,7 @@ The supplied uniqueness rows then identify the real-history value of $\exp(y)$ w
 \label{thm:real-analytic-log-unary}
 For positive unary natural $n$, assume supplied rational-embedding rows sending the unary numeral $\Eone^n(\emp)$ into the positive $\RealUp$ carrier, supplied positivity and apartness rows for that embedded value, supplied dyadic bisection rows with the modulus determined by the unary length of $n$, and supplied $\RealUp$ limit uniqueness rows for the resulting $\mathsf{Log}(\Eone^n(\emp),y_n)$ witness. Under these rows, $y_n$ is the constructive $\log n$ input used by the Dirichlet term construction (\autoref{ch:concrete-instances-dirichlet-series-namecert}).
 \end{theorem}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticLog\_hsame\_transport\_value\_unary}
 \begin{proof}
 The rational-embedding rows place the unary numeral inside $\RealUp$ with the required positive sign data. The bisection rows then specialize \autoref{def:real-analytic-log} to this embedded value and supply the precision modulus determined by the unary length of $n$.
 
@@ -308,6 +326,7 @@ The supplied limit witness and uniqueness rows turn the bisection stream into th
 \label{def:real-analytic-trig-part}
 For \(\RealUp\)-history \(x\) and unary index \(n\), \(\mathsf{SinPart}(x, n, S_n)\) and \(\mathsf{CosPart}(x, n, C_n)\) are the partial sums \(\sum_{k=0}^{n} (-1)^k x^{2k+1}/(2k+1)!\) and \(\sum_{k=0}^{n} (-1)^k x^{2k}/(2k)!\) respectively, computed by unary recursion as in \autoref{def:real-analytic-exp-part}.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticTrigPart}
 
 \begin{lemma}[Trigonometric Cauchy modulus]
 \label{lem:real-analytic-trig-cauchy}
@@ -318,6 +337,7 @@ For every \(\RealUp\)-history \(x\) with \(|x| \leq B\), the partial sums \(\mat
 \label{def:real-analytic-sin-cos}
 $\mathsf{Sin}(x, s)$ and $\mathsf{Cos}(x, c)$ hold in this chapter only relative to supplied $\RealUp$ limit witnesses from the Phase Real and Completion obligations for $\mathsf{SinPart}(x, \cdot, \cdot)$ and $\mathsf{CosPart}(x, \cdot, \cdot)$ respectively, using the explicit Cauchy moduli of \autoref{lem:real-analytic-trig-cauchy}.
 \end{definition}
+\leandef{BEDC.Derived.RealAnalyticUp.RealAnalyticSinCosCandidate}
 
 \begin{theorem}[Pythagorean identity]
 \label{thm:real-analytic-pythagorean}
@@ -354,6 +374,7 @@ Suppose the following machine-checked rows are supplied for the analytic constru
 \end{enumerate}
 Under these supplied rows, the tuple $(\mathsf{Pi}, \mathsf{Exp}, \mathsf{Log}, \mathsf{Sin}, \mathsf{Cos})$, with sources, classifiers, stability obligations, ledgers, and standard bridges, is a $\NameCert(\RealAnalyticUp)$ candidate over $\RealUp$. Without those supplied rows, this chapter exports only the displayed proof obligations and explicit-modulus scaffolds.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealAnalyticUp.real\_analytic\_certificate\_boundary}
 \begin{proof}
 The local constructions provide regular rational stream data: the Leibniz rescaling for $\pi$, the exponential power-series family, the bisection presentation of $\log$, and the sine and cosine power-series families. Their moduli are explicit unary functions, so they can be passed to the $\StreamNameUp$ and $\RegSeqRat$ rows once those rows are available.
 
@@ -366,3 +387,99 @@ Thus the tuple has the shape of a naming-certificate candidate exactly when the 
 \label{cor:real-analytic-primitive-boundary}
 $\RealAnalyticUp$ is not a BEDC primitive, and this chapter alone does not license it as an available naming certificate. Its admissible use requires the supplied Real and Completion rows named in \autoref{thm:real-analytic-certificate-boundary}.
 \end{corollary}
+
+\begin{lemma}[Odd trigonometric Cauchy-product coefficient split]
+\label{lem:real-analytic-odd-trig-cauchy-product-split}
+For $\RealUp$-histories $x$ and $y$ and unary degree $n$, assume supplied $\RealAlgOrder$ rows for addition, products, powers, factorial-denominator inverses, signs, and the binomial expansion of $(x+y)^{2n+1}$. Then the degree-$2n+1$ coefficient of the regular rational Cauchy product
+$$
+\mathsf{SinPart}(x,\cdot,\cdot)\mathsf{CosPart}(y,\cdot,\cdot)
++
+\mathsf{CosPart}(x,\cdot,\cdot)\mathsf{SinPart}(y,\cdot,\cdot)
+$$
+is classified with the degree-$2n+1$ coefficient of $\mathsf{SinPart}(x+y,\cdot,\cdot)$.
+\end{lemma}
+\begin{proof}
+Expand the first product into the odd-in-$x$, even-in-$y$ terms
+$$
+(-1)^{i+j}\frac{x^{2i+1}y^{2j}}{(2i+1)!(2j)!},
+$$
+and expand the second product into the even-in-$x$, odd-in-$y$ terms
+$$
+(-1)^{i+j}\frac{x^{2i}y^{2j+1}}{(2i)!(2j+1)!}.
+$$
+On the degree-$2n+1$ slice, both products have $i+j=n$, so all signs are $(-1)^n$. The supplied factorial-denominator rows move every term to the common denominator $(2n+1)!$. The first family contributes the binomial terms in which the exponent of $x$ is odd, and the second family contributes the binomial terms in which the exponent of $x$ is even. These two disjoint parity classes exhaust the binomial expansion of $(x+y)^{2n+1}$. After multiplication by the common sign $(-1)^n$ and the common denominator inverse, the displayed coefficient is classified with the corresponding coefficient of $\mathsf{SinPart}(x+y,\cdot,\cdot)$.
+\end{proof}
+
+\begin{theorem}[Sine addition formula row]
+\label{thm:real-analytic-sin-add}
+For $\RealUp$-histories $x$ and $y$, let $z$ be the endpoint supplied by the $\RealAlgOrder$ addition row for $x+y$. Assume supplied trigonometric limit witnesses for $\mathsf{Sin}(x,s_x)$, $\mathsf{Cos}(x,c_x)$, $\mathsf{Sin}(y,s_y)$, $\mathsf{Cos}(y,c_y)$, and $\mathsf{Sin}(z,s_z)$. Assume supplied $\RealAlgOrder$ rows naming the product endpoints $s_x\cdot c_y$ and $c_x\cdot s_y$ and their sum, product-stability rows saying that these endpoints are the $\RealUp$ limits of the corresponding Cauchy-product streams, and a regular-rational Cauchy-product comparison whose coefficient part is \autoref{lem:real-analytic-odd-trig-cauchy-product-split} and whose tail estimates use the modulus of \autoref{lem:real-analytic-trig-cauchy}. If the supplied limit-uniqueness classifier rows compare that product-sum stream with $\mathsf{SinPart}(z,\cdot,\cdot)$ at their real-history limits, then
+$$
+\RealClassifier(s_z, s_x\cdot c_y + c_x\cdot s_y).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:real-analytic-sin-cos}, the five trigonometric witnesses expose regular rational stream names for the sine and cosine partial sums of $x$, $y$, and $z$. The addition row identifies $z$ as the $\RealUp$ endpoint for $x+y$, while the product and sum rows make the right-hand endpoint $s_x\cdot c_y+c_x\cdot s_y$ meaningful inside the same $\RealAlgOrder$ interface.
+
+Product stability transports the four input trigonometric limits through the two displayed products and then through the final sum. Thus the right-hand endpoint is the $\RealUp$ limit of the regular rational stream obtained from
+$$
+\mathsf{SinPart}(x,\cdot,\cdot)\mathsf{CosPart}(y,\cdot,\cdot)
++
+\mathsf{CosPart}(x,\cdot,\cdot)\mathsf{SinPart}(y,\cdot,\cdot).
+$$
+The supplied Cauchy-product comparison identifies this stream with the $\mathsf{SinPart}(z,\cdot,\cdot)$ stream: its finite coefficient calculation is the odd-parity split of \autoref{lem:real-analytic-odd-trig-cauchy-product-split}, and its tails are bounded by the trigonometric Cauchy modulus of \autoref{lem:real-analytic-trig-cauchy} after passing to a common unary precision.
+
+The two real-history endpoints are therefore limits of classified regular rational stream names. Applying the supplied limit-uniqueness classifier row gives
+$$
+\RealClassifier(s_z, s_x\cdot c_y + c_x\cdot s_y).
+$$
+\end{proof}
+
+\begin{lemma}[Even trigonometric Cauchy-product coefficient split]
+\label{lem:real-analytic-even-trig-cauchy-product-split}
+For $\RealUp$-histories $x$ and $y$ and unary degree $n$, assume supplied $\RealAlgOrder$ rows for addition, products, differences, powers, factorial-denominator inverses, signs, and the binomial expansion of $(x+y)^{2n}$. Then the degree-$2n$ coefficient of the regular rational Cauchy-product difference
+$$
+\mathsf{CosPart}(x,\cdot,\cdot)\mathsf{CosPart}(y,\cdot,\cdot)
+-
+\mathsf{SinPart}(x,\cdot,\cdot)\mathsf{SinPart}(y,\cdot,\cdot)
+$$
+is classified with the degree-$2n$ coefficient of $\mathsf{CosPart}(x+y,\cdot,\cdot)$. The odd total-degree slices on both sides are empty by parity.
+\end{lemma}
+\begin{proof}
+Expand the cosine-cosine product into the even-in-$x$, even-in-$y$ terms
+$$
+(-1)^{i+j}\frac{x^{2i}y^{2j}}{(2i)!(2j)!},
+$$
+and expand the sine-sine product into the odd-in-$x$, odd-in-$y$ terms
+$$
+(-1)^{i+j}\frac{x^{2i+1}y^{2j+1}}{(2i+1)!(2j+1)!}.
+$$
+On the degree-$2n$ slice, the cosine-cosine product has $i+j=n$, so every sign is $(-1)^n$. The sine-sine product has $i+j=n-1$ when $n>0$, so its sign is $(-1)^{n-1}$; the displayed subtraction changes this to $(-1)^n$. For $n=0$, the sine-sine contribution is empty.
+
+The supplied factorial-denominator rows move every nonempty term to the common denominator $(2n)!$. The cosine-cosine family contributes the binomial terms in which the exponent of $x$ is even, and the subtracted sine-sine family contributes the binomial terms in which the exponent of $x$ is odd. These two parity classes partition the binomial expansion of $(x+y)^{2n}$. After multiplication by the common sign $(-1)^n$ and the common denominator inverse, the displayed coefficient is classified with the corresponding coefficient of $\mathsf{CosPart}(x+y,\cdot,\cdot)$.
+
+No odd total degree can arise from an even-even product or an odd-odd product, and $\mathsf{CosPart}(x+y,\cdot,\cdot)$ has only even powers. Hence the odd slices are empty on both sides.
+\end{proof}
+
+\begin{theorem}[Cosine addition formula row]
+\label{thm:real-analytic-cos-add}
+For $\RealUp$-histories $x$ and $y$, let $z$ be the endpoint supplied by the $\RealAlgOrder$ addition row for $x+y$. Assume supplied trigonometric limit witnesses for $\mathsf{Cos}(z,c_z)$, $\mathsf{Cos}(x,c_x)$, $\mathsf{Cos}(y,c_y)$, $\mathsf{Sin}(x,s_x)$, and $\mathsf{Sin}(y,s_y)$. Assume supplied $\RealAlgOrder$ rows naming the product endpoints $c_x\cdot c_y$ and $s_x\cdot s_y$ and the displayed difference $c_x\cdot c_y-s_x\cdot s_y$, product-stability rows saying that the two product endpoints are the $\RealUp$ limits of the corresponding Cauchy-product streams, and the supplied difference row saying that $c_x\cdot c_y-s_x\cdot s_y$ is the $\RealUp$ limit of their pointwise difference. Assume also a regular-rational Cauchy-product comparison whose coefficient part is \autoref{lem:real-analytic-even-trig-cauchy-product-split} and whose tail estimates use the modulus of \autoref{lem:real-analytic-trig-cauchy}. If the supplied limit-uniqueness classifier rows compare that product-difference stream with $\mathsf{CosPart}(z,\cdot,\cdot)$ at their real-history limits, then
+$$
+\RealClassifier(c_z, c_x\cdot c_y - s_x\cdot s_y).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:real-analytic-sin-cos}, the five trigonometric witnesses expose regular rational stream names for the cosine partial sums of $z$, $x$, and $y$, and for the sine partial sums of $x$ and $y$. The addition row identifies $z$ as the $\RealUp$ endpoint for $x+y$. The operation rows are the addition, negation, and multiplication rows exposed by the $\RealAlgOrder$ interface of \autoref{def:realalgorder-concrete-interface}; they make the right-hand endpoint $c_x\cdot c_y-s_x\cdot s_y$ meaningful in the same real-history interface.
+
+Product stability transports the input trigonometric limits through the two products $c_x\cdot c_y$ and $s_x\cdot s_y$. The supplied difference row then transports those product limits through the displayed subtraction. Thus the right-hand endpoint is the $\RealUp$ limit of the regular rational stream obtained from
+$$
+\mathsf{CosPart}(x,\cdot,\cdot)\mathsf{CosPart}(y,\cdot,\cdot)
+-
+\mathsf{SinPart}(x,\cdot,\cdot)\mathsf{SinPart}(y,\cdot,\cdot).
+$$
+The supplied Cauchy-product comparison identifies this stream with the $\mathsf{CosPart}(z,\cdot,\cdot)$ stream: its finite coefficient calculation is the even-parity split of \autoref{lem:real-analytic-even-trig-cauchy-product-split}, and its tails are bounded by the trigonometric Cauchy modulus of \autoref{lem:real-analytic-trig-cauchy} after passing to a common unary precision.
+
+The two real-history endpoints are therefore limits of classified regular rational stream names. Applying the supplied limit-uniqueness classifier row gives
+$$
+\RealClassifier(c_z, c_x\cdot c_y - s_x\cdot s_y).
+$$
+\end{proof}

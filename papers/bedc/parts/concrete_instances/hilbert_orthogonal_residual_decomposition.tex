@@ -1,0 +1,66 @@
+\begin{theorem}[Hilbert singleton orthogonal complement collapse]
+\label{thm:hilbert-singleton-orthogonal-complement-collapse}
+For the carrier of
+\autoref{def:hilbert-singleton-empty-history-carrier}, any displayed vector
+endpoint orthogonal to the singleton carried surface is classified by
+$\rho_{\emp}$ with $\emp$. Conversely, every carried endpoint has the
+zero inner-product row against every carried endpoint:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle m,n\rangle_{\emp},0_{\mathsf{Real}}^{c})
+$$
+for carried histories $m,n:\mathsf{BHist}$. Thus the displayed orthogonal
+complement of the singleton carrier collapses to the singleton endpoint.
+\end{theorem}
+\begin{proof}
+First identify the source surface. By
+\autoref{thm:hilbert-singleton-source-compatibility}, the Hilbert carrier,
+the singleton vector-space carrier, and the Banach carrier all expose the
+same predicate $A_{\emp}$ and classifier $\rho_{\emp}$.
+
+Now apply
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse}. Any
+displayed vector endpoint on this singleton vector-space surface is therefore
+classified by $\rho_{\emp}$ with $\emp$; there is no separate vector endpoint
+available for an orthogonal-complement row.
+
+For the converse direction, take carried endpoints $m,n:\mathsf{BHist}$.
+\autoref{thm:hilbert-singleton-universal-orthogonality} reads their
+inner-product endpoint as $0_{\mathsf{Real}}^{c}$ under
+$\mathsf{RealConstantHistoryClassifier}$, so every carried endpoint is
+orthogonal to every other carried endpoint in the singleton Hilbert display.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton projection-residual decomposition]
+\label{thm:hilbert-singleton-projection-residual-decomposition}
+Let $s$ be an accepted regular Cauchy stream in the Hilbert singleton carrier,
+and let $p$ be a Hilbert singleton projection witness for its carried
+endpoint. Then $p$ decomposes the endpoint into its unique
+$\rho_{\emp}$-classified projection plus a residual whose inner-product row is
+orthogonal to the singleton carrier and whose norm endpoint is
+$0_{\mathsf{Real}}^{c}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_residual\_decomposition}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingleton\_projection\_residual\_decomposition}
+\begin{proof}
+Use \autoref{thm:hilbert-singleton-projection-uniqueness} to read the
+projection witness against the complete singleton Hilbert surface. Any other
+limit or projection witness for the same accepted stream is identified with
+$p$ by $\rho_{\emp}$.
+
+The projection component is therefore the singleton endpoint classified by
+$\rho_{\emp}$ with $\emp$. The complete normed certificate
+\autoref{thm:hilbert-singleton-complete-normed-certificate} supplies the
+matching Banach limit row and the norm-induced constant RealUp zero endpoint.
+
+It remains to identify the residual row. Since both the carried endpoint and
+the projection component lie on the singleton carrier,
+\autoref{thm:hilbert-singleton-universal-orthogonality} classifies the
+inner-product row of the residual comparison with $0_{\mathsf{Real}}^{c}$.
+
+\autoref{thm:hilbert-singleton-orthogonal-complement-collapse} then collapses
+the residual endpoint itself to the singleton classifier. Its norm endpoint is
+read back as $0_{\mathsf{Real}}^{c}$ by the complete normed certificate, so
+the projection plus residual display is the unique singleton decomposition
+with zero orthogonal residual.
+\end{proof}

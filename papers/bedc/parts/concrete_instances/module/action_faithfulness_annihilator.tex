@@ -1,0 +1,193 @@
+\begin{definition}[Classifier-faithful scalar action and action annihilator]
+\label{def:module-action-faithful-annihilator}
+Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar-ring classifier, $\sim_M$ for the module classifier, $0_R$ and $0_M$ for the two zero endpoints, $+_R$ and $+_M$ for the two additions, and $\odot$ for scalar action. For a carried scalar $r:R$, let $L_r(m):=r\odot m$.
+
+The pointwise classifier equality of the action endomorphisms determined by $r$ and $s$ is
+$$
+\mathsf{ActEq}_{R,M}(r,s)\Longleftrightarrow
+\forall m:M,\ L_r(m)\sim_M L_s(m).
+$$
+The action is classifier-faithful when
+$$
+\mathsf{FaithAct}_{R,M}\Longleftrightarrow
+\forall r,s:R,\ \mathsf{ActEq}_{R,M}(r,s)\Longrightarrow r\sim_R s.
+$$
+The action annihilator predicate is
+$$
+\mathsf{Ann}_M(r)\Longleftrightarrow
+\forall m:M,\ r\odot m\sim_M 0_M.
+$$
+The predicate body is the annihilator; no ideal carrier is introduced.
+\end{definition}
+
+\begin{lemma}[Pointwise action equality gives difference annihilator]
+\label{lem:module-pointwise-action-equality-difference-annihilator}
+Under the notation of \autoref{def:module-action-faithful-annihilator}, if
+$\mathsf{ActEq}_{R,M}(r,s)$, then
+$$
+\mathsf{Ann}_M(r+_R(-s)).
+$$
+\end{lemma}
+\begin{proof}
+Fix a carried module endpoint $m:M$. Scalar distributivity over scalar addition from \autoref{def:module-stability-certificate} gives
+$$
+(r+_R(-s))\odot m\sim_M (r\odot m)+_M((-s)\odot m).
+$$
+The same distributivity row at $s$ gives
+$$
+(s+_R(-s))\odot m\sim_M (s\odot m)+_M((-s)\odot m).
+$$
+The scalar additive right-inverse row of \autoref{thm:ring-add-right-inverse}, read in the scalar source supplied by \autoref{def:module-source-specification}, classifies $s+_R(-s)$ with $0_R$. Scalar-action congruence from \autoref{def:module-stability-certificate}, followed by \autoref{thm:module-zero-action-annihilation}, gives
+$$
+(s+_R(-s))\odot m\sim_M 0_M.
+$$
+Composing this with the symmetry of the preceding distributivity comparison yields
+$$
+(s\odot m)+_M((-s)\odot m)\sim_M 0_M.
+$$
+Now use the hypothesis $\mathsf{ActEq}_{R,M}(r,s)$ at $m$. Module additive congruence, from the additive $\AbGroupUp$ component in \autoref{def:module-source-specification}, transports the first summand and gives
+$$
+(r\odot m)+_M((-s)\odot m)\sim_M (s\odot m)+_M((-s)\odot m).
+$$
+Transitivity with the last zero comparison gives
+$$
+(r\odot m)+_M((-s)\odot m)\sim_M 0_M.
+$$
+Finally compose with the scalar-distributivity comparison for $r+_R(-s)$ to obtain
+$$
+(r+_R(-s))\odot m\sim_M 0_M.
+$$
+Since $m$ was arbitrary, $\mathsf{Ann}_M(r+_R(-s))$ holds.
+\end{proof}
+
+\begin{theorem}[Module faithful action iff zero annihilator]
+\label{thm:module-faithful-action-iff-zero-annihilator}
+Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. With the notation of \autoref{def:module-action-faithful-annihilator}, the scalar action is classifier-faithful exactly when the only scalar whose action annihilates every carried module endpoint is the scalar zero:
+$$
+\mathsf{FaithAct}_{R,M}
+\Longleftrightarrow
+\forall r:R,\ \mathsf{Ann}_M(r)\Longrightarrow r\sim_R 0_R.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{FaithAct}_{R,M}$. Let $r:R$ satisfy $\mathsf{Ann}_M(r)$. For every carried $m:M$, the annihilator hypothesis gives
+$$
+r\odot m\sim_M 0_M.
+$$
+By \autoref{thm:module-zero-action-annihilation}, the zero scalar action gives
+$$
+0_R\odot m\sim_M 0_M.
+$$
+Classifier symmetry and transitivity compose these two comparisons into
+$$
+r\odot m\sim_M 0_R\odot m.
+$$
+Thus $\mathsf{ActEq}_{R,M}(r,0_R)$, and classifier-faithfulness gives $r\sim_R 0_R$.
+
+Conversely, assume
+$$
+\forall t:R,\ \mathsf{Ann}_M(t)\Longrightarrow t\sim_R 0_R.
+$$
+Let $r,s:R$ and assume $\mathsf{ActEq}_{R,M}(r,s)$. By \autoref{lem:module-pointwise-action-equality-difference-annihilator},
+$$
+\mathsf{Ann}_M(r+_R(-s)).
+$$
+The assumed zero-annihilator condition therefore gives
+$$
+r+_R(-s)\sim_R 0_R.
+$$
+Applying the left-to-right direction of the scalar-ring difference exactness theorem \autoref{thm:ring-additive-difference-zero-exact}, read through the certified scalar $\RingUp$ source of \autoref{def:module-source-specification}, yields
+$$
+r\sim_R s.
+$$
+Therefore $\mathsf{FaithAct}_{R,M}$ holds, and the two conditions are equivalent.
+\end{proof}
+
+\begin{theorem}[Module action annihilator IdealUp predicate]
+\label{thm:module-action-annihilator-ideal-predicate}
+Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. Write $C_R$ for the scalar-ring carrier predicate, $\sim_R$ for the scalar-ring classifier, $0_R$ for scalar zero, $+_R$ for scalar addition, $-_R$ for scalar additive inverse, $\cdot_R$ for scalar multiplication, $\sim_M$ for the module classifier, $0_M$ for module zero, $+_M$ for module addition, and $\odot$ for scalar action. With $\mathsf{Ann}_M$ as in \autoref{def:module-action-faithful-annihilator}, set
+$$
+I_M(r)\Longleftrightarrow C_R(r)\land\mathsf{Ann}_M(r).
+$$
+Then $I_M$ is an $\IdealUp$ predicate over the scalar $\RingUp(R)$ source. Explicitly, $I_M$ has carrier support and the rows
+$$
+I_M(0_R),\qquad
+I_M(r)\land I_M(s)\Longrightarrow I_M(r+_R s),\qquad
+I_M(r)\Longrightarrow I_M(-_R r),
+$$
+$$
+I_M(r)\land I_M(s)\Longrightarrow I_M(r\cdot_R s),\qquad
+I_M(r)\land r\sim_R r'\Longrightarrow I_M(r'),
+$$
+and, for every scalar endpoint $a$ with $C_R(a)$,
+$$
+I_M(r)\Longrightarrow I_M(a\cdot_R r)\land I_M(r\cdot_R a).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:module-source-specification}, the scalar source of the module certificate is a certified $\RingUp(R)$, and the module source contains a certified additive $\AbGroupUp(M)$. The first conjunct in the definition of $I_M$ is the carrier-support row. The scalar source carries $0_R$, sums, additive inverses, and products; carrier transport along $\sim_R$ is supplied by the naming-certificate core in \autoref{def:lean-carrier-naming-certificate}.
+
+For zero membership, fix a carried module endpoint $m:M$. The zero-action theorem \autoref{thm:module-zero-action-annihilation} gives
+$$
+0_R\odot m\sim_M0_M.
+$$
+Since $m$ was arbitrary and $0_R$ is carried by the scalar source, $I_M(0_R)$ holds.
+
+For classifier transport, assume $I_M(r)$ and $r\sim_R r'$. Carrier transport gives $C_R(r')$. For every carried $m:M$, classifier reflexivity gives $m\sim_Mm$, and scalar-action congruence from \autoref{def:module-stability-certificate} gives
+$$
+r\odot m\sim_M r'\odot m.
+$$
+The annihilator component of $I_M(r)$ gives $r\odot m\sim_M0_M$. Symmetry and transitivity of the module classifier, composed by \autoref{thm:namecert-equivalence-transitivity}, therefore give $r'\odot m\sim_M0_M$. Thus $I_M(r')$ holds.
+
+For additive closure, assume $I_M(r)$ and $I_M(s)$, and fix a carried module endpoint $m:M$. Scalar distributivity over scalar addition from \autoref{def:module-stability-certificate} gives
+$$
+(r+_R s)\odot m\sim_M(r\odot m)+_M(s\odot m).
+$$
+The two annihilator witnesses give $r\odot m\sim_M0_M$ and $s\odot m\sim_M0_M$. Module additive congruence transports the right side to $0_M+_M0_M$, and the additive zero row in the $\AbGroupUp(M)$ source reduces $0_M+_M0_M$ to $0_M$. Hence
+$$
+(r+_R s)\odot m\sim_M0_M.
+$$
+Together with scalar additive closure carrying $r+_R s$, this proves $I_M(r+_R s)$.
+
+For additive inverse closure, assume $I_M(r)$ and fix a carried $m:M$. The scalar additive left-inverse row in the scalar $\RingUp$ source gives $(-_R r)+_R r\sim_R0_R$. Scalar-action congruence and \autoref{thm:module-zero-action-annihilation} give
+$$
+((-_R r)+_R r)\odot m\sim_M0_R\odot m\sim_M0_M.
+$$
+Scalar distributivity over scalar addition also gives
+$$
+((-_R r)+_R r)\odot m\sim_M((-_R r)\odot m)+_M(r\odot m).
+$$
+Thus
+$$
+((-_R r)\odot m)+_M(r\odot m)\sim_M0_M.
+$$
+The annihilator witness gives $r\odot m\sim_M0_M$, so module additive congruence and the right-zero row in the additive module source give
+$$
+((-_R r)\odot m)+_M(r\odot m)\sim_M((-_R r)\odot m)+_M0_M\sim_M(-_R r)\odot m.
+$$
+Symmetry and transitivity now yield $(-_R r)\odot m\sim_M0_M$. Since the scalar inverse closure row carries $-_R r$, this proves $I_M(-_R r)$.
+
+For two-sided absorption, assume $I_M(r)$ and $C_R(a)$, and fix a carried module endpoint $m:M$. The scalar multiplication closure row carries $a\cdot_R r$ and $r\cdot_R a$. For the left product, scalar associativity from \autoref{def:module-stability-certificate} gives, in the displayed orientation after classifier symmetry if needed,
+$$
+(a\cdot_R r)\odot m\sim_Ma\odot(r\odot m).
+$$
+The annihilator witness for $r$ gives $r\odot m\sim_M0_M$. Scalar-action congruence transports this comparison under the carried scalar $a$, and \autoref{thm:module-zero-action-annihilation} gives
+$$
+a\odot(r\odot m)\sim_Ma\odot0_M\sim_M0_M.
+$$
+Therefore $I_M(a\cdot_R r)$ holds.
+
+For the right product, scalar-action closure carries $a\odot m$ as a module endpoint. Scalar associativity gives
+$$
+(r\cdot_R a)\odot m\sim_Mr\odot(a\odot m).
+$$
+Applying the annihilator witness for $r$ to the carried module endpoint $a\odot m$ gives
+$$
+r\odot(a\odot m)\sim_M0_M.
+$$
+Thus $I_M(r\cdot_R a)$ holds.
+
+For internal multiplication, assume $I_M(r)$ and $I_M(s)$. The carrier component of $I_M(s)$ gives $C_R(s)$, so the right-absorption row just proved, applied with $a=s$, gives $I_M(r\cdot_R s)$.
+
+These are precisely the carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and two-sided absorption rows required by the $\IdealUp$ certificate in \autoref{sec:ideal-certificate}.
+\end{proof}

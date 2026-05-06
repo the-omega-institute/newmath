@@ -380,6 +380,7 @@ composite carrier and the displayed endpoint-certificate equality
 $\hsame(source,cert)$. The resulting four history-sameness conclusions, together
 with the composite carrier just constructed, assemble the stated conjunction.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_composite\_endpoint\_cert\_cycle\_exactness}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_composite\_endpoint\_cycle\_exactness}
 
 \begin{theorem}[Continuous function carrier prefix exactness]
@@ -636,111 +637,13 @@ pair of carriers together with the three $\hsame$ conclusions. The standard
 bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_composition\_associative\_certificate\_synchronization}
+
 \input{parts/concrete_instances/34_continuous_namecert_function_carrier_sync}
 
-\begin{theorem}[Continuous function carrier sixfold left-right synchronization]
-\label{thm:continuous-function-carrier-sixfold-left-right-synchronization}
-For BHist histories
-$source,mid_1,mid_2,mid_3,mid_4,mid_5,target,f,g,h,k,l,m,fg,fgh,fghk,
-fghkl,lm,klm,hklm,ghklm,map_L,map_R,mod_F,mod_G,mod_H,mod_K,mod_l,
-mod_m,mod_{FG},mod_{FGH},mod_{FGHK},mod_{FGHKL},mod_{LM},mod_{KLM},
-mod_{HKLM},mod_{GHKLM},mod_L,mod_R,cert_F,cert_G,cert_H,cert_K,cert_l,
-cert_m,cert_{FG},cert_{FGH},cert_{FGHK},cert_{FGHKL},cert_{LM},
-cert_{KLM},cert_{HKLM},cert_{GHKLM},cert_L,cert_R$, suppose the six
-one-step carriers
-$$
-\begin{array}{l}
-\mathsf{ContinuousFunctionCarrier}(source,f,mid_1,mod_F,cert_F),\\
-\mathsf{ContinuousFunctionCarrier}(mid_1,g,mid_2,mod_G,cert_G),\\
-\mathsf{ContinuousFunctionCarrier}(mid_2,h,mid_3,mod_H,cert_H),\\
-\mathsf{ContinuousFunctionCarrier}(mid_3,k,mid_4,mod_K,cert_K),\\
-\mathsf{ContinuousFunctionCarrier}(mid_4,l,mid_5,mod_l,cert_l),\\
-\mathsf{ContinuousFunctionCarrier}(mid_5,m,target,mod_m,cert_m)
-\end{array}
-$$
-hold. Suppose also that the left-deep ledgers
-$$
-\begin{array}{lll}
-\mathsf{Cont}(f,g,fg),&
-\mathsf{Cont}(mod_F,mod_G,mod_{FG}),&
-\mathsf{Cont}(mid_2,mod_{FG},cert_{FG}),\\
-\mathsf{Cont}(fg,h,fgh),&
-\mathsf{Cont}(mod_{FG},mod_H,mod_{FGH}),&
-\mathsf{Cont}(mid_3,mod_{FGH},cert_{FGH}),\\
-\mathsf{Cont}(fgh,k,fghk),&
-\mathsf{Cont}(mod_{FGH},mod_K,mod_{FGHK}),&
-\mathsf{Cont}(mid_4,mod_{FGHK},cert_{FGHK}),\\
-\mathsf{Cont}(fghk,l,fghkl),&
-\mathsf{Cont}(mod_{FGHK},mod_l,mod_{FGHKL}),&
-\mathsf{Cont}(mid_5,mod_{FGHKL},cert_{FGHKL}),\\
-\mathsf{Cont}(fghkl,m,map_L),&
-\mathsf{Cont}(mod_{FGHKL},mod_m,mod_L),&
-\mathsf{Cont}(target,mod_L,cert_L)
-\end{array}
-$$
-hold, and that the right-deep ledgers
-$$
-\begin{array}{lll}
-\mathsf{Cont}(l,m,lm),&
-\mathsf{Cont}(mod_l,mod_m,mod_{LM}),&
-\mathsf{Cont}(target,mod_{LM},cert_{LM}),\\
-\mathsf{Cont}(k,lm,klm),&
-\mathsf{Cont}(mod_K,mod_{LM},mod_{KLM}),&
-\mathsf{Cont}(target,mod_{KLM},cert_{KLM}),\\
-\mathsf{Cont}(h,klm,hklm),&
-\mathsf{Cont}(mod_H,mod_{KLM},mod_{HKLM}),&
-\mathsf{Cont}(target,mod_{HKLM},cert_{HKLM}),\\
-\mathsf{Cont}(g,hklm,ghklm),&
-\mathsf{Cont}(mod_G,mod_{HKLM},mod_{GHKLM}),&
-\mathsf{Cont}(target,mod_{GHKLM},cert_{GHKLM}),\\
-\mathsf{Cont}(f,ghklm,map_R),&
-\mathsf{Cont}(mod_F,mod_{GHKLM},mod_R),&
-\mathsf{Cont}(target,mod_R,cert_R)
-\end{array}
-$$
-hold. Then the left-deep and right-deep composite carriers agree at the
-public graph, modulus, and certificate histories:
-$$
-\begin{array}{l}
-\mathsf{ContinuousFunctionCarrier}(source,map_L,target,mod_L,cert_L)\land\\
-\mathsf{ContinuousFunctionCarrier}(source,map_R,target,mod_R,cert_R)\land\\
-\hsame(map_L,map_R)\land\hsame(mod_L,mod_R)\land\hsame(cert_L,cert_R).
-\end{array}
-$$
-\end{theorem}
-\begin{proof}
-First build the left-deep carrier. Repeatedly apply
-Theorem~\ref{thm:continuous-function-carrier-comp-closed} along the displayed
-$fg$, $fgh$, $fghk$, $fghkl$, and $map_L$ graph ledgers, using the matching
-modulus and certificate-continuation ledgers at each stage. This gives
-$\mathsf{ContinuousFunctionCarrier}(source,map_L,target,mod_L,cert_L)$.
+\input{parts/concrete_instances/34_continuous_namecert_function_carrier_sixfold}
 
-The right-deep carrier is built from the other end of the same chain. Compose
-the $l$ and $m$ carriers, then compose successively with the $k$, $h$, $g$,
-and $f$ carriers through the displayed $lm$, $klm$, $hklm$, $ghklm$, and
-$map_R$ ledgers. The result is
-$\mathsf{ContinuousFunctionCarrier}(source,map_R,target,mod_R,cert_R)$.
+\input{parts/concrete_instances/34_continuous_namecert_function_carrier_certificate_semantic}
 
-For graph synchronization, apply
-$\mathsf{BEDC.FKernel.Cont.cont\_assoc\_six}$ to the common graph spine
-$f,g,h,k,l,m$. The left-deep spine ends at $map_L$ and the right-deep spine
-ends at $map_R$, so sixfold continuation associativity yields
-$\hsame(map_L,map_R)$.
+\input{parts/concrete_instances/34_continuous_namecert_function_carrier_parallel_determinacy}
 
-For modulus synchronization, apply the same kernel theorem to
-$mod_F,mod_G,mod_H,mod_K,mod_l,mod_m$. The displayed modulus ledgers present
-the same sixfold spine with endpoints $mod_L$ and $mod_R$, giving
-$\hsame(mod_L,mod_R)$.
-
-It remains to compare the terminal certificates. The ledgers
-$\mathsf{Cont}(target,mod_L,cert_L)$ and
-$\mathsf{Cont}(target,mod_R,cert_R)$ share the same target source.
-Continuation respect for $\hsame$, with reflexivity on $target$ and the
-recovered modulus sameness, identifies the terminal certificates and gives
-$\hsame(cert_L,cert_R)$.
-
-The ten-field certificate fit is the same concrete carrier ledger as in the
-fourfold and fivefold synchronization results. The stability field is sixfold
-left-right bracketing synchronization, and the exactness field is the pair of
-constructed carriers together with the three $\hsame$ conclusions.
-\end{proof}
+\input{parts/concrete_instances/34_continuous_namecert_function_carrier_closurestatus}

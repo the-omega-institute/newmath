@@ -1,0 +1,141 @@
+\section{Atlas Obligation Inventory}
+\label{sec:manifold-atlas-obligation-inventory}
+
+\begin{definition}[Manifold atlas obligation inventory]
+\label{def:manifold-atlas-obligation-inventory}
+The atlas obligation inventory for $\mathsf{ManAtlasPkg}$ is the ten-field
+$\NameCert_{\ManifoldUp}$ template whose rows are fixed as follows.
+\begin{enumerate}
+\item The traditional target is a finite-atlas manifold: a topological carrier
+equipped with finitely many chart domains, chart maps into finite
+$(\RealUp)$ coordinate windows, and transition data on visible overlaps.
+\item The BEDC source is $\mathsf{BHist}$ together with the already named
+$\TopologyUp$ carrier surface, the $\RealUp$ coordinate rows, and the
+$\RealAnalyticUp$ local transition rows.
+\item The carrier is the predicate $\mathsf{ManAtlasPkg}(P)$ of
+\autoref{def:manifold-chart-atlas-carrier} on package histories $P$.
+\item The classifier is componentwise $\hsame$ on the topological carrier, the
+finite chart-index history, chart-domain rows, chart-map rows, coordinate
+histories, and transition ledgers.
+\item The stability field consists of transport of the carrier, chart domains,
+chart maps, coordinate rows, and transition ledgers along those componentwise
+$\hsame$ witnesses.
+\item The ledger records the $\TopologyUp$ carried-open rows, finite
+intersection rows for pairwise and triple overlaps, $\RealUp$ coordinate rows,
+and $\RealAnalyticUp$ certificates for each displayed transition.
+\item The core theorem list is
+\autoref{thm:manifoldup-chart-cover-coverage},
+\autoref{thm:manifoldup-chart-domain-carrier-transport},
+\autoref{thm:manifoldup-chart-domain-intersection-open},
+\autoref{thm:manifoldup-overlap-transition-source-carried},
+\autoref{thm:manifoldup-triple-overlap-open-composition-scope},
+\autoref{thm:manifoldup-atlas-transition-composition},
+\autoref{thm:manifoldup-transition-ledger-stability},
+\autoref{thm:manifold-overlap-identity-transition},
+\autoref{thm:manifold-overlap-inverse-transition}, and
+\autoref{thm:manifold-triple-overlap-cocycle}.
+\item Exactness is visible-atlas readback: every accepted carrier, classifier,
+domain, coordinate, overlap, transition, and coherence row is one of the
+displayed rows of $\mathsf{ManAtlasPkg}$.
+\item The standard bridge row is absent.
+\item The boundary package is the scoped surface of
+\autoref{def:manifold-scoped-boundary-package}, with field coverage supplied
+by \autoref{thm:manifold-scoped-field-coverage}.
+\end{enumerate}
+\end{definition}
+\leandef{BEDC.Derived.ManifoldUp.ManifoldAtlasObligationInventory}
+
+\begin{theorem}[Manifold atlas carrier-classifier obligation]
+\label{thm:manifold-atlas-carrier-classifier-obligation}
+For every atlas package history $P$, the carrier and classifier slots of the
+inventory in \autoref{def:manifold-atlas-obligation-inventory} are fixed by
+\autoref{def:manifold-chart-atlas-carrier}: the carrier slot is exactly
+$\mathsf{ManAtlasPkg}(P)$, and the classifier slot is componentwise $\hsame$
+on the displayed carrier, chart-index, chart-domain, chart-map, coordinate,
+and transition-ledger rows.
+\end{theorem}
+\begin{proof}
+Unpack the inventory definition. Its carrier row names
+$\mathsf{ManAtlasPkg}(P)$ and points back to
+\autoref{def:manifold-chart-atlas-carrier}, so there is no second carrier
+predicate to choose.
+
+Unpack \autoref{def:manifold-chart-atlas-carrier}. The classifier row there is
+componentwise $\hsame$ on the same topological carrier history, finite
+chart-index history, chart-domain rows, chart-map rows, and transition ledger
+rows that appear in the inventory.
+
+The two projections therefore read the same $\mathsf{BHist}$ package fields in
+the same order. Carrier equality is definitional readback of
+$\mathsf{ManAtlasPkg}$, and classifier equality is componentwise readback of
+the displayed $\hsame$ witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldAtlasPackage\_classifier\_transport}
+
+\begin{theorem}[Manifold atlas chart-domain transition obligation]
+\label{thm:manifold-atlas-chart-domain-transition-obligation}
+For every package $P$ satisfying $\mathsf{ManAtlasPkg}(P)$, the inventory of
+\autoref{def:manifold-atlas-obligation-inventory} supplies the chart-cover,
+domain-transport, pairwise-overlap, triple-overlap, and transition-ledger
+obligations from the existing $\ManifoldUp$ theorem surface.
+\end{theorem}
+\begin{proof}
+The chart-cover row is
+\autoref{thm:manifoldup-chart-cover-coverage}. It projects, for each carried
+point history in the $\TopologyUp$ carrier, a finite chart index and a
+displayed chart-domain witness.
+
+The domain-transport row is
+\autoref{thm:manifoldup-chart-domain-carrier-transport}. It transports
+membership in a displayed chart domain along the $\TopologyUp$ carrier
+classifier, with the chart-domain row itself compared by componentwise
+$\hsame$.
+
+The pairwise overlap row is
+\autoref{thm:manifoldup-chart-domain-intersection-open}, and the transition
+source row is
+\autoref{thm:manifoldup-overlap-transition-source-carried}. Together they turn
+each displayed overlap into a carried $\TopologyUp$ finite intersection with
+finite $\RealUp$ source and target coordinate rows.
+
+The triple-overlap and transition-ledger rows are
+\autoref{thm:manifoldup-triple-overlap-open-composition-scope},
+\autoref{thm:manifoldup-atlas-transition-composition}, and
+\autoref{thm:manifoldup-transition-ledger-stability}. These rows provide the
+iterated finite-intersection source, the $\RealAnalyticUp$ composition witness,
+and componentwise $\hsame$ stability for the visible transition ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldAtlasPackage\_transition\_closure}
+
+\begin{theorem}[Manifold atlas NameCert exactness obligation]
+\label{thm:manifold-atlas-namecert-exactness-obligation}
+Every package satisfying the inventory of
+\autoref{def:manifold-atlas-obligation-inventory} and the scoped boundary of
+\autoref{def:manifold-scoped-boundary-package} has visible-atlas exactness:
+its public $\NameCert_{\ManifoldUp}$ fields are exactly the carrier,
+classifier, stability, ledger, theorem-list, exactness, and absent-bridge rows
+listed in the inventory, with no additional chart, coordinate, overlap, or
+transition row outside the displayed $\mathsf{ManAtlasPkg}$ surface.
+\end{theorem}
+\begin{proof}
+First project the carrier and classifier by
+\autoref{thm:manifold-atlas-carrier-classifier-obligation}. The public carrier
+is $\mathsf{ManAtlasPkg}$, and the public classifier is the componentwise
+$\hsame$ row over the displayed atlas fields.
+
+Next project the chart, domain, overlap, and transition obligations by
+\autoref{thm:manifold-atlas-chart-domain-transition-obligation}. These
+projections account for the chart cover, domain transport, pairwise overlap,
+triple overlap, transition composition, and transition-ledger stability rows.
+
+Now apply \autoref{def:manifold-scoped-boundary-package}. Its exactness row
+accepts only the visible chart cover, domain, coordinate, overlap, transition,
+and coherence rows of $\mathsf{ManAtlasPkg}$, and its standard bridge row is
+absent.
+
+Finally apply \autoref{thm:manifold-scoped-field-coverage}. The scoped field
+coverage theorem says that the visible fields are precisely the carrier,
+componentwise classifier, chart cover, domain transport, overlap sources,
+transition-ledger stability, and coherence rows already named above. Hence the
+ledger is exhausted by the inventory and no hidden atlas field remains.
+\end{proof}

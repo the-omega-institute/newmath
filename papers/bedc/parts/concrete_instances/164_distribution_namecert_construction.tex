@@ -8,3 +8,155 @@ The distribution interface $\DistributionUp$ packages the pushforward measure of
 
 \section{The certificate}
 \label{sec:distribution-certificate}
+
+\begin{theorem}[Distribution pushforward total mass is the probability unit]
+\label{thm:distribution-pushforward-total-mass-unit}
+Let $X$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a $\MeasureUp$ target as in \autoref{sec:measure-carrier}. Write $\Omega_S$ for the source total event, $\Omega_T$ for the target total event, $\mathcal{A}_S,\mathcal{A}_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure as in \autoref{sec:distribution-carrier}, $1_R$ for the probability unit, and $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Suppose:
+\begin{itemize}
+\item $\Omega_S\in\mathcal{A}_S$ and $\Omega_T\in\mathcal{A}_T$;
+\item the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} identifies the target-total preimage as the source total event,
+$$
+X^{-1}(\Omega_T)=\Omega_S;
+$$
+\item the $\DistributionUp$ pushforward row of \autoref{sec:distribution-certificate} gives, at every target measurable event $B\in\mathcal{A}_T$,
+$$
+\mu_X(B)\sim_R\mu_S(X^{-1}(B));
+$$
+\item the $\ProbSpaceUp$ total-mass row of \autoref{sec:probspace-certificate} gives
+$$
+\mu_S(\Omega_S)\sim_R1_R.
+$$
+\end{itemize}
+Then
+$$
+\mu_X(\Omega_T)\sim_R1_R.
+$$
+\end{theorem}
+\begin{proof}
+Apply the pushforward row to the target total event $B:=\Omega_T$. Since $\Omega_T\in\mathcal{A}_T$, this gives
+$$
+\mu_X(\Omega_T)\sim_R\mu_S(X^{-1}(\Omega_T)).
+$$
+The random-variable target-total row identifies $X^{-1}(\Omega_T)$ with $\Omega_S$ as a measurable source event, and source-event transport through \autoref{thm:semantic-namecert-pattern-ledger-transport} permits the source-measure value to be read at the transported event. Thus the preceding comparison reads
+$$
+\mu_X(\Omega_T)\sim_R\mu_S(\Omega_S).
+$$
+The probability-space total-mass row gives
+$$
+\mu_S(\Omega_S)\sim_R1_R.
+$$
+The relation $\sim_R$ is the $\RealUp$ classifier, hence its transitivity field composes these two classifications and yields
+$$
+\mu_X(\Omega_T)\sim_R1_R.
+$$
+\end{proof}
+
+\begin{theorem}[Distribution empty target event has zero mass]
+\label{thm:distribution-empty-target-event-zero-mass}
+Let $X$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a $\MeasureUp$ target as in \autoref{sec:measure-carrier}. Write $\varnothing_S$ and $\varnothing_T$ for the source and target empty events, $\mathcal{A}_S,\mathcal{A}_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure as in \autoref{sec:distribution-carrier}, $0_R$ for the additive zero in $\RealUp$, and $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Suppose:
+\begin{itemize}
+\item $\varnothing_S\in\mathcal{A}_S$ and $\varnothing_T\in\mathcal{A}_T$;
+\item the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} identifies the target-empty preimage as the source empty event,
+$$
+X^{-1}(\varnothing_T)=\varnothing_S;
+$$
+\item the $\DistributionUp$ pushforward row of \autoref{sec:distribution-certificate} gives, at every target measurable event $B\in\mathcal{A}_T$,
+$$
+\mu_X(B)\sim_R\mu_S(X^{-1}(B));
+$$
+\item the source $\MeasureUp$ certificate and the shared $\RealUp$ additive $\AbGroupUp$ row satisfy the hypotheses of \autoref{thm:measure-empty-set-zero-from-sigma-additivity} for $\mathcal{A}_S,\mu_S,\varnothing_S$, with additive zero $0_R$.
+\end{itemize}
+Then
+$$
+\mu_X(\varnothing_T)\sim_R0_R.
+$$
+\end{theorem}
+\begin{proof}
+Apply the pushforward row to the target empty event $B:=\varnothing_T$. Since $\varnothing_T\in\mathcal{A}_T$, this gives
+$$
+\mu_X(\varnothing_T)\sim_R\mu_S(X^{-1}(\varnothing_T)).
+$$
+The random-variable target-empty row identifies $X^{-1}(\varnothing_T)$ with $\varnothing_S$ as a measurable source event, and source-event transport through \autoref{thm:semantic-namecert-pattern-ledger-transport} permits the source-measure value to be read at the transported event. Thus the preceding comparison reads
+$$
+\mu_X(\varnothing_T)\sim_R\mu_S(\varnothing_S).
+$$
+By \autoref{thm:measure-empty-set-zero-from-sigma-additivity} applied to the source $\MeasureUp$ instance,
+$$
+\mu_S(\varnothing_S)\sim_R0_R.
+$$
+The relation $\sim_R$ is the $\RealUp$ classifier, hence its transitivity field composes these two classifications and yields
+$$
+\mu_X(\varnothing_T)\sim_R0_R.
+$$
+\end{proof}
+
+\begin{theorem}[Distribution pushforward finite disjoint-union additivity]
+\label{thm:distribution-pushforward-finite-disjoint-union-additivity}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a $\MeasureUp$ target as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure as in \autoref{sec:distribution-carrier}, and $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $B,C,U_T$ be target events such that $B,C,U_T\in\mathcal{A}_T$ and the displayed target binary-union row reads $U_T$ as $B\cup C$:
+$$
+t\in U_T\quad\Longleftrightarrow\quad t\in B\ \text{or}\ t\in C.
+$$
+Assume $B$ and $C$ are disjoint. Define
+$$
+A_B:=X^{-1}(B),\qquad A_C:=X^{-1}(C),\qquad A_U:=X^{-1}(U_T).
+$$
+Let $U_S$ be the source binary union of $A_B$ and $A_C$ supplied by the source $\MeasureUp$ sigma-algebra row. Suppose:
+\begin{itemize}
+\item the $\RandomVarUp$ measurable-preimage row and the source sigma-algebra row satisfy the hypotheses of \autoref{thm:randomvar-preimage-disjoint-binary-union-exactness} for $B,C,U_T$;
+\item the $\DistributionUp$ pushforward row of \autoref{sec:distribution-certificate} gives, at every target measurable event $E\in\mathcal{A}_T$,
+$$
+\mu_X(E)\sim_R\mu_S(X^{-1}(E));
+$$
+\item the source $\MeasureUp$ certificate and the shared $\RealUp$ additive $\AbGroupUp$ row satisfy the hypotheses of \autoref{thm:measure-finite-disjoint-union-additivity} for the disjoint measurable pair $A_B,A_C$ and its measurable binary union $U_S$;
+\item source-event transport through \autoref{thm:semantic-namecert-pattern-ledger-transport} permits $\mu_S$ to be read across the source event classifier supplied by \autoref{def:measure-classifier-specification}.
+\end{itemize}
+Then
+$$
+\mu_X(U_T)\sim_R\mu_X(B)+\mu_X(C).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:randomvar-preimage-disjoint-binary-union-exactness} to the displayed target union $U_T=B\cup C$. It gives
+$$
+A_B,A_C,A_U\in\mathcal{A}_S,
+$$
+identifies $U_S$ as a measurable source binary union, classifies the target-union preimage with that source union,
+$$
+A_U\sim_{\mathcal{A}_S}U_S,
+$$
+and shows that $A_B$ and $A_C$ are disjoint source events.
+
+Apply the pushforward row to $U_T$, $B$, and $C$. This gives
+$$
+\mu_X(U_T)\sim_R\mu_S(A_U),
+$$
+$$
+\mu_X(B)\sim_R\mu_S(A_B),\qquad \mu_X(C)\sim_R\mu_S(A_C).
+$$
+The source-event comparison $A_U\sim_{\mathcal{A}_S}U_S$, read through the source measure ledger by \autoref{thm:semantic-namecert-pattern-ledger-transport}, gives
+$$
+\mu_S(A_U)\sim_R\mu_S(U_S).
+$$
+
+Since $A_B$ and $A_C$ are disjoint measurable source events and $U_S$ is their measurable binary union, \autoref{thm:measure-finite-disjoint-union-additivity} applied to the source $\MeasureUp$ carrier yields
+$$
+\mu_S(U_S)\sim_R\mu_S(A_B)+\mu_S(A_C).
+$$
+Transitivity of the $\RealUp$ classifier composes the three comparisons into
+$$
+\mu_X(U_T)\sim_R\mu_S(A_B)+\mu_S(A_C).
+$$
+
+By symmetry of $\sim_R$, the pushforward comparisons for $B$ and $C$ also read
+$$
+\mu_S(A_B)\sim_R\mu_X(B),\qquad \mu_S(A_C)\sim_R\mu_X(C).
+$$
+The additive congruence field of the shared $\RealUp$ additive $\AbGroupUp$ row transports these two comparisons through $+$, giving
+$$
+\mu_S(A_B)+\mu_S(A_C)\sim_R\mu_X(B)+\mu_X(C).
+$$
+A final transitivity step gives
+$$
+\mu_X(U_T)\sim_R\mu_X(B)+\mu_X(C).
+$$
+\end{proof}

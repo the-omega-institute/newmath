@@ -1,0 +1,133 @@
+\begin{definition}[FPS threefold Cauchy split spines]
+\label{def:fps-threefold-cauchy-split-spines}
+Let $R$ be read as a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, addition $+_R$, multiplication $\cdot_R$, zero endpoint $0_R$, and finite additive fold $\mathsf{fold}_{+,R}$. For coefficient sequences $F,G,H:\NatUp\to R$ and unary index $n$, define the left and right threefold split spines by
+$$
+\mathsf{TripSp}^{\ell}_n(F,G,H)
+:=
+\mathsf{concat}_{(a,k)\in\mathsf{Split}(n)}
+\mathsf{map}_{(i,j)\in\mathsf{Split}(a)}
+\bigl((F_i\cdot_R G_j)\cdot_R H_k\bigr)
+$$
+and
+$$
+\mathsf{TripSp}^{r}_n(F,G,H)
+:=
+\mathsf{concat}_{(i,c)\in\mathsf{Split}(n)}
+\mathsf{map}_{(j,k)\in\mathsf{Split}(c)}
+\bigl(F_i\cdot_R(G_j\cdot_R H_k)\bigr).
+$$
+The left spine enumerates witnesses $(i,j,k)$ through $(i+j)+k=n$; the right spine enumerates the same triples through $i+(j+k)=n$.
+\end{definition}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonThreefoldCauchySplitSpines}
+
+\begin{lemma}[FPS threefold Cauchy split reassociation]
+\label{lem:fps-threefold-cauchy-split-reassociation}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read through \autoref{prop:commring-forgets-ring-certificate} as a $\RingUp(R)$ certificate. For carried coefficient sequences $F,G,H:\NatUp\to R$ and unary index $n$, the two threefold split folds of \autoref{def:fps-threefold-cauchy-split-spines} are scalar-classified:
+$$
+\mathsf{fold}_{+,R}\bigl(\mathsf{TripSp}^{\ell}_n(F,G,H)\bigr)
+\sim_R
+\mathsf{fold}_{+,R}\bigl(\mathsf{TripSp}^{r}_n(F,G,H)\bigr).
+$$
+\end{lemma}
+\begin{proof}
+The split spine $\mathsf{Split}(n)$ of \autoref{def:fps-cauchy-coefficient-spine} is finite. Hence each displayed spine in \autoref{def:fps-threefold-cauchy-split-spines} is a finite concatenation of finite split spines. Its entries are carried scalars because the coefficient sequences are carried and the multiplication closure row is retained by \autoref{def:ring-stability-certificate}.
+
+The left indexing data are quadruples $((a,k),(i,j))$ with $a+k=n$ and $i+j=a$. Sending this data to $(i,j,k)$ gives a triple with $(i+j)+k=n$. The right indexing data are quadruples $((i,c),(j,k))$ with $i+c=n$ and $j+k=c$. Sending this data to $(i,j,k)$ gives a triple with $i+(j+k)=n$. Unary additive associativity for the $\NatUp$ split recursion identifies these two triple predicates, and the two reconstructions
+$$
+(i,j,k)\mapsto((i+j,k),(i,j)),
+\qquad
+(i,j,k)\mapsto((i,j+k),(j,k))
+$$
+are inverse on the displayed split witnesses.
+
+Apply the split-spine instance of the two-index finite fold swap certificate of \autoref{def:two-index-finite-fold-swap-certificate} to this finite reindexing. It reduces the comparison of the two iterated folds to the pointwise scalar comparison attached to a fixed triple $(i,j,k)$. For that triple, the retained multiplicative associativity row in \autoref{def:ring-stability-certificate} gives
+$$
+(F_i\cdot_R G_j)\cdot_R H_k
+\sim_R
+F_i\cdot_R(G_j\cdot_R H_k).
+$$
+The fold-swap certificate and \autoref{thm:finite-additive-fold-congruence-coefficient-lists} lift these pointwise comparisons through the finite spines. This is the displayed scalar classification.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonThreefoldCauchySplitSpines\_classifier}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonThreefoldCauchySplitSpines\_reassociation}
+
+\begin{theorem}[FPS Cauchy product associativity from CommRing scalars]
+\label{thm:fps-cauchy-product-associativity-from-commring-scalars}
+Let $R$ carry a $\CommRingUp(R)$ certificate. In the $\FormalPowerSeriesUp(R)$ interface, let $\sim_{\mathrm{fps}}$ be the pointwise classifier of \autoref{def:fps-classifier-specification}. For carried coefficient sequences $F,G,H:\NatUp\to R$,
+$$
+\forall n:\NatUp,\quad
+\bigl((F\odot_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H\bigr)_n
+\sim_R
+\bigl(F\odot_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H)\bigr)_n.
+$$
+Consequently,
+$$
+(F\odot_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H
+\sim_{\mathrm{fps}}
+F\odot_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H).
+$$
+\end{theorem}
+\begin{proof}
+Read the scalar certificate as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. This keeps the scalar classifier, zero endpoint, addition, multiplication, additive abelian-group rows, multiplication congruence, the distributive rows, and multiplicative associativity from \autoref{def:ring-stability-certificate}. The finite additive fold is the fold used in \autoref{def:fps-cauchy-coefficient-spine}.
+
+Fix $n:\NatUp$. By \autoref{def:fps-cauchy-coefficient-spine}, the left-associated coefficient is
+$$
+\mathsf{fold}_{+,R}\bigl(\mathsf{CauchySp}_n(F\odot_{\mathrm{fps}}G,H)\bigr).
+$$
+For a split $(a,k)\in\mathsf{Split}(n)$, the corresponding summand is
+$$
+(F\odot_{\mathrm{fps}}G)_a\cdot_R H_k.
+$$
+Unfolding the inner product at $a$ gives
+$$
+\mathsf{fold}_{+,R}\bigl(\mathsf{CauchySp}_a(F,G)\bigr)\cdot_R H_k.
+$$
+The right-multiplication half of \autoref{lem:scalar-product-distributes-across-finite-additive-folds} classifies this endpoint with the inner finite fold over
+$$
+\mathsf{map}_{(i,j)\in\mathsf{Split}(a)}
+\bigl((F_i\cdot_R G_j)\cdot_R H_k\bigr).
+$$
+Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} over the outer split spine lifts these inner comparisons and gives
+$$
+\bigl((F\odot_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H\bigr)_n
+\sim_R
+\mathsf{fold}_{+,R}\bigl(\mathsf{TripSp}^{\ell}_n(F,G,H)\bigr).
+$$
+
+The right-associated coefficient expands similarly:
+$$
+\bigl(F\odot_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H)\bigr)_n
+=
+\mathsf{fold}_{+,R}\bigl(\mathsf{CauchySp}_n(F,G\odot_{\mathrm{fps}}H)\bigr).
+$$
+For a split $(i,c)\in\mathsf{Split}(n)$, the summand is
+$$
+F_i\cdot_R(G\odot_{\mathrm{fps}}H)_c.
+$$
+Unfolding the inner product at $c$ and applying the left-multiplication half of \autoref{lem:scalar-product-distributes-across-finite-additive-folds} classifies this summand with the inner fold over
+$$
+\mathsf{map}_{(j,k)\in\mathsf{Split}(c)}
+\bigl(F_i\cdot_R(G_j\cdot_R H_k)\bigr).
+$$
+Finite-fold congruence over the outer split spine gives
+$$
+\bigl(F\odot_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H)\bigr)_n
+\sim_R
+\mathsf{fold}_{+,R}\bigl(\mathsf{TripSp}^{r}_n(F,G,H)\bigr).
+$$
+
+By \autoref{lem:fps-threefold-cauchy-split-reassociation},
+$$
+\mathsf{fold}_{+,R}\bigl(\mathsf{TripSp}^{\ell}_n(F,G,H)\bigr)
+\sim_R
+\mathsf{fold}_{+,R}\bigl(\mathsf{TripSp}^{r}_n(F,G,H)\bigr).
+$$
+Classifier transitivity composes the left expansion, this threefold split comparison, and the symmetry of the right expansion, giving
+$$
+\bigl((F\odot_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H\bigr)_n
+\sim_R
+\bigl(F\odot_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H)\bigr)_n.
+$$
+Since $n$ was arbitrary, the pointwise classifier specification of \autoref{def:fps-classifier-specification} yields the displayed $\FormalPowerSeriesUp$ classifier judgment. The closure of the two products is the Cauchy-product closure field listed in \autoref{def:fps-stability-certificate}, and all folds are finite at the fixed coefficient index.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyProduct\_carried\_assoc\_continuation\_classifier}

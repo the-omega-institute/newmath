@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """BEDC bedc-deep supervisor — outer loop that keeps the pipeline alive.
 
+Mission: keep the paper-research pipeline deriving correct, local BEDC
+theorem-site content, refilling BOARD from vetted discovery, and surfacing
+closure follow-up candidates without mixing them into theorem writeback.
+
 Wraps `oracle_client.py --loop` and adds:
   1. Server health: ensure bedc_oracle_server.py is running on :8767.
   2. Stale cleanup: prune dead .in_progress markers each pass.
@@ -9,7 +13,8 @@ Wraps `oracle_client.py --loop` and adds:
   5. Curator: trigger after a batch of new completions.
   6. Tab health: alert when queue_waiting_for_browser_agent stays stuck.
   7. Auto-commit: detect changes in papers/bedc/parts/ and BOARD.md, push.
-  8. Claude progress review (tier 3): periodic claude -p over the state +
+  8. Loning watch: fetch-and-report remote pipeline/closure discipline changes.
+  9. Claude progress review (tier 3): periodic claude -p over the state +
      server snapshot, with recommend_probe / recommend_curator auto-applied.
 
 Stop the supervisor by creating tools/bedc-deep/.stop or sending SIGINT.
@@ -40,6 +45,7 @@ ORACLE_SERVER_URL = "http://localhost:8767"
 SERVER_SCRIPT = SCRIPT_DIR / "bedc_oracle_server.py"
 ORACLE_CLIENT = SCRIPT_DIR / "oracle_client.py"
 AUTO_DISCOVERY = SCRIPT_DIR / "auto_discovery.py"
+LONING_WATCH = SCRIPT_DIR / "loning_watch.py"
 
 DEFAULT_PARALLEL = 3
 DEFAULT_POLL_INTERVAL = 60
@@ -50,6 +56,7 @@ DEFAULT_PAPER_REVIEW_COOLDOWN_HOURS = 3
 DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
+DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 TAB_STUCK_THRESHOLD_S = 300
 COMPLETIONS_PER_CURATOR = 5
@@ -169,7 +176,8 @@ def stage2_reject_clusters(min_count: int = 3) -> dict[str, int]:
     Returns dict of category → count when count >= min_count.
     Categories are normalized: 'item N' (hygiene checklist item N),
     'build_invariant' (label / undefined macro), 'content_duplication',
-    'non_latex_trailing'.
+    'non_latex_trailing', 'line_cap', 'bad_target_file',
+    'undefined_macro'.
     """
     if not STATE_DIR.exists():
         return {}
@@ -194,10 +202,25 @@ def stage2_reject_clusters(min_count: int = 3) -> dict[str, int]:
                 cat = "build_invariant"
             elif "content duplication" in r:
                 cat = "content_duplication"
+            elif "800" in r or "line cap" in r or "far past" in r or "would exceed" in r:
+                cat = "line_cap"
+            elif "does not exist" in r and ("target" in r or "file" in r):
+                cat = "bad_target_file"
+            elif "undefined control sequence" in r or "undefined macro" in r:
+                cat = "undefined_macro"
             elif "non-latex" in r or "trailing" in r:
                 cat = "non_latex_trailing"
             counts[cat] = counts.get(cat, 0) + 1
     return {k: v for k, v in counts.items() if v >= min_count}
+
+
+def stage2_reject_advice(clusters: dict[str, int]) -> str:
+    cats = set(clusters)
+    if cats and cats <= {"line_cap", "bad_target_file"}:
+        return "consider splitting or rerouting target files"
+    if cats and cats <= {"undefined_macro", "build_invariant"}:
+        return "consider hardening compile-hygiene checks"
+    return "consider hardening WRITE_PAPER_LATEX prompt"
 
 
 def macos_notify(title: str, body: str) -> None:
@@ -453,8 +476,9 @@ def git_sync_dev() -> bool:
     return False
 
 
-def trigger_probe() -> None:
-    git_sync_dev()
+def trigger_probe(*, no_dev_sync: bool = False) -> None:
+    if not no_dev_sync:
+        git_sync_dev()
     supervisor_log("triggering auto_discovery probe")
     # Capture output so silent crashes (e.g. prompt format() KeyError) are
     # visible in the supervisor logs instead of vanishing into DEVNULL.
@@ -470,14 +494,15 @@ def trigger_probe() -> None:
         )
 
 
-def trigger_curriculum_probe() -> None:
+def trigger_curriculum_probe(*, no_dev_sync: bool = False) -> None:
     """Curriculum-aware probe — find textbook-classical theorems missing
     from started chapters. Complements `probe` (internal symmetry gaps)
     and `oracle_board_refill` (deep structural / classification theorems).
     Same architecture as probe but with a different prompt that asks for
     'what would a standard textbook on this object also cover'.
     """
-    git_sync_dev()
+    if not no_dev_sync:
+        git_sync_dev()
     supervisor_log("triggering auto_discovery curriculum probe")
     log_path = SUPERVISOR_LOG_DIR / f"curriculum_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -491,7 +516,7 @@ def trigger_curriculum_probe() -> None:
         )
 
 
-def trigger_paper_review() -> None:
+def trigger_paper_review(*, no_dev_sync: bool = False) -> None:
     """Editorial-referee audit (paper-driven discovery, gated by our
     judge). Complements `probe` (internal symmetry), `curriculum`
     (textbook-classical), and `oracle_board_refill` (PDF-attached deep
@@ -499,7 +524,8 @@ def trigger_paper_review() -> None:
     board_judge so candidates land on BOARD only after the same
     fit/novelty/dedup thresholds.
     """
-    git_sync_dev()
+    if not no_dev_sync:
+        git_sync_dev()
     supervisor_log("triggering auto_discovery paper_review")
     log_path = SUPERVISOR_LOG_DIR / f"paper_review_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -534,8 +560,45 @@ def trigger_oracle_board_refill() -> None:
         )
 
 
-def trigger_curator() -> None:
-    git_sync_dev()
+def run_loning_watch() -> dict | None:
+    """Fetch-and-report loning-side pipeline/closure changes.
+
+    This intentionally does not call git_sync_dev(): the watch path observes
+    remote integration branches and writes state/human-inbox notes only.
+    """
+    try:
+        proc = subprocess.run(
+            ["python3", str(LONING_WATCH)],
+            cwd=str(REPO_ROOT),
+            text=True,
+            capture_output=True,
+            timeout=180,
+        )
+    except subprocess.TimeoutExpired:
+        supervisor_log("loning_watch: timed out")
+        return None
+    except OSError as exc:
+        supervisor_log(f"loning_watch: failed to launch: {exc}")
+        return None
+    if proc.returncode != 0:
+        err = (proc.stderr or proc.stdout or "").strip()
+        supervisor_log(f"loning_watch: rc={proc.returncode} {err[:300]}")
+        return None
+    try:
+        data = json.loads(proc.stdout.strip().splitlines()[-1])
+    except (IndexError, json.JSONDecodeError):
+        supervisor_log(f"loning_watch: output not JSON: {(proc.stdout or '')[:300]}")
+        return None
+    supervisor_log(
+        f"loning_watch: refs={len(data.get('refs_checked') or [])} "
+        f"new={data.get('new_commits')} relevant={data.get('relevant_commits')}"
+    )
+    return data
+
+
+def trigger_curator(*, no_dev_sync: bool = False) -> None:
+    if not no_dev_sync:
+        git_sync_dev()
     supervisor_log("triggering auto_discovery curator")
     subprocess.Popen(
         ["python3", str(AUTO_DISCOVERY), "curator", "--append"],
@@ -690,6 +753,10 @@ def main() -> int:
     parser.add_argument("--oracle-refill-cooldown-hours", type=float, default=DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS,
                         help="Cooldown between oracle_board_refill runs. Triggered alongside probe when BOARD is low water; "
                              "leverages project-attached PDF for deeper candidate suggestions.")
+    parser.add_argument("--loning-watch-minutes", type=float, default=DEFAULT_LONING_WATCH_MINUTES,
+                        help="Cooldown between fetch-and-report checks of loning-side integration branches.")
+    parser.add_argument("--no-loning-watch", action="store_true",
+                        help="Disable loning-side fetch-and-report monitoring.")
     parser.add_argument("--no-claude-review", action="store_true")
     # --pi-version was removed when v0 retired; accept-and-ignore for any
     # call sites still passing it.
@@ -728,6 +795,7 @@ def main() -> int:
     last_claude_review_ts = 0.0
     last_oracle_refill_ts = 0.0
     last_paper_review_ts = 0.0
+    last_loning_watch_ts = 0.0
     last_completed_count = board_completed_count()
     last_tab_alert_ts = 0.0
     inner: subprocess.Popen | None = None
@@ -778,15 +846,15 @@ def main() -> int:
             since_paper_review_h = (_now() - last_paper_review_ts) / 3600.0
             if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
-                trigger_probe()
+                trigger_probe(no_dev_sync=args.no_dev_sync)
                 last_probe_ts = _now()
             if unfinished < args.low_water and since_curriculum_h > supervisor_state["curriculum_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
-                trigger_curriculum_probe()
+                trigger_curriculum_probe(no_dev_sync=args.no_dev_sync)
                 last_curriculum_ts = _now()
             if unfinished < args.low_water and since_paper_review_h > supervisor_state["paper_review_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
-                trigger_paper_review()
+                trigger_paper_review(no_dev_sync=args.no_dev_sync)
                 last_paper_review_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
@@ -797,7 +865,7 @@ def main() -> int:
             since_curator_h = (_now() - last_curator_ts) / 3600.0
             if done_now - last_completed_count >= COMPLETIONS_PER_CURATOR and since_curator_h > supervisor_state["curator_cooldown_hours"]:
                 supervisor_log(f"completions delta={done_now - last_completed_count} → curator")
-                trigger_curator()
+                trigger_curator(no_dev_sync=args.no_dev_sync)
                 last_curator_ts = _now()
                 last_completed_count = done_now
 
@@ -806,13 +874,19 @@ def main() -> int:
                     supervisor_log("tab health: queue_waiting_for_browser_agent > 5min — verify ChatGPT tabs ACTIVE")
                     macos_notify(
                         "BEDC supervisor: tab stuck",
-                        "ChatGPT tab stuck > 5 min — open https://chatgpt.com/?bedc=1 and click Start",
+                        "ChatGPT tab stuck > 5 min — open https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start",
                     )
                     last_tab_alert_ts = _now()
 
             clusters = stage2_reject_clusters()
             if clusters:
-                supervisor_log(f"stage2 reject clusters: {clusters} — consider hardening WRITE_PAPER_LATEX prompt")
+                supervisor_log(f"stage2 reject clusters: {clusters} — {stage2_reject_advice(clusters)}")
+
+            if not args.no_loning_watch:
+                since_loning_watch_m = (_now() - last_loning_watch_ts) / 60.0
+                if since_loning_watch_m > args.loning_watch_minutes:
+                    run_loning_watch()
+                    last_loning_watch_ts = _now()
 
             if not args.no_auto_commit:
                 try:

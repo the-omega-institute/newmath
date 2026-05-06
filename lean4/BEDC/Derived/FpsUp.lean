@@ -144,6 +144,16 @@ theorem FpsSingletonCauchyProduct_constant_coefficient {F G : BHist} :
     (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
     (cont_right_unit BHist.Empty)
 
+theorem FpsSingletonCauchyProduct_left_distrib_classifier {F G H : BHist} :
+    FpsSingletonClassifier (FpsSingletonMul F (FpsSingletonAdd G H))
+        (FpsSingletonAdd (FpsSingletonMul F G) (FpsSingletonMul F H)) ∧
+      Cont (FpsSingletonMul F G) (FpsSingletonMul F H)
+        (FpsSingletonAdd (FpsSingletonMul F G) (FpsSingletonMul F H)) := by
+  have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro
+    (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+    (cont_right_unit BHist.Empty)
+
 theorem FpsSingletonEmptyHistoryClassifier_append_split_empty_iff {p q h : BHist} :
     FpsSingletonEmptyHistoryClassifier (BEDC.FKernel.Cont.append p q) h ↔
       hsame p BHist.Empty ∧ hsame q BHist.Empty ∧ FpsSingletonEmptyHistoryCarrier h := by
@@ -403,8 +413,217 @@ theorem FpsSingletonCauchyProduct_comm_classifier {xs ys : List BHist} :
       (hsame_trans (append_empty_right (FpsSingletonAddFold ys)) rightEmpty)
       (hsame_trans congruence.right (hsame_symm reverseSame)))
 
+theorem FpsSingletonCauchyProduct_distributes_over_addition_classifier {F G H : BHist} :
+    FpsSingletonClassifier (FpsSingletonMul F (FpsSingletonAdd G H))
+        (FpsSingletonAdd (FpsSingletonMul F G) (FpsSingletonMul F H)) ∧
+      FpsSingletonClassifier (FpsSingletonMul (FpsSingletonAdd F G) H)
+        (FpsSingletonAdd (FpsSingletonMul F H) (FpsSingletonMul G H)) ∧
+      hsame (FpsSingletonMul F (FpsSingletonAdd G H)) BHist.Empty ∧
+        hsame (FpsSingletonMul (FpsSingletonAdd F G) H) BHist.Empty := by
+  have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassifier : FpsSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  exact And.intro emptyClassifier
+    (And.intro emptyClassifier
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
+
+theorem FpsSingletonPointwiseAdditionCoeff_comm_classifier {F G n : BHist} :
+    FpsSingletonClassifier (FpsSingletonPointwiseAdditionCoeff F G n)
+        (FpsSingletonPointwiseAdditionCoeff G F n) ∧
+      hsame (FpsSingletonPointwiseAdditionCoeff F G n) BHist.Empty ∧
+        hsame (FpsSingletonPointwiseAdditionCoeff G F n) BHist.Empty := by
+  have leftEmpty :
+      hsame (FpsSingletonPointwiseAdditionCoeff F G n) BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have rightEmpty :
+      hsame (FpsSingletonPointwiseAdditionCoeff G F n) BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  exact And.intro
+    (And.intro leftEmpty
+      (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty))))
+    (And.intro leftEmpty rightEmpty)
+
+theorem FpsSingletonPointwiseAdditionCoeff_associativity {F G H n : BHist} :
+    FpsSingletonClassifier
+        (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n)
+        (FpsSingletonPointwiseAdditionCoeff F
+          (FpsSingletonPointwiseAdditionCoeff G H n) n) ∧
+      hsame
+        (append
+          (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n)
+          BHist.Empty)
+        (append
+          (FpsSingletonPointwiseAdditionCoeff F
+            (FpsSingletonPointwiseAdditionCoeff G H n) n)
+          BHist.Empty) := by
+  have leftCoeffEmpty :
+      hsame
+        (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n)
+        BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have rightCoeffEmpty :
+      hsame
+        (FpsSingletonPointwiseAdditionCoeff F
+          (FpsSingletonPointwiseAdditionCoeff G H n) n)
+        BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have displayedSame :
+      hsame
+        (append
+          (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n)
+          BHist.Empty)
+        (append
+          (FpsSingletonPointwiseAdditionCoeff F
+            (FpsSingletonPointwiseAdditionCoeff G H n) n)
+          BHist.Empty) :=
+    hsame_trans
+      (append_empty_right
+        (FpsSingletonPointwiseAdditionCoeff (FpsSingletonPointwiseAdditionCoeff F G n) H n))
+      (hsame_trans leftCoeffEmpty
+        (hsame_symm
+          (hsame_trans
+            (append_empty_right
+              (FpsSingletonPointwiseAdditionCoeff F
+                (FpsSingletonPointwiseAdditionCoeff G H n) n))
+            rightCoeffEmpty)))
+  exact And.intro
+    (And.intro leftCoeffEmpty
+      (And.intro rightCoeffEmpty (hsame_trans leftCoeffEmpty (hsame_symm rightCoeffEmpty))))
+    displayedSame
+
+theorem FpsSingletonPointwiseAdditionCoeff_assoc_classifier {F G H n : BHist} :
+    FpsSingletonClassifier
+        (FpsSingletonPointwiseAdditionCoeff (FpsSingletonAdd F G) H n)
+        (FpsSingletonPointwiseAdditionCoeff F (FpsSingletonAdd G H) n) ∧
+      hsame (FpsSingletonPointwiseAdditionCoeff (FpsSingletonAdd F G) H n)
+        BHist.Empty ∧
+        hsame (FpsSingletonPointwiseAdditionCoeff F (FpsSingletonAdd G H) n)
+          BHist.Empty := by
+  have leftEmpty :
+      hsame (FpsSingletonPointwiseAdditionCoeff (FpsSingletonAdd F G) H n)
+        BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have rightEmpty :
+      hsame (FpsSingletonPointwiseAdditionCoeff F (FpsSingletonAdd G H) n)
+        BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  exact And.intro
+    (And.intro leftEmpty
+      (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty))))
+    (And.intro leftEmpty rightEmpty)
+
+theorem FpsSingletonCauchyProduct_zero_index_spine {F G : BHist} :
+    FpsSingletonAddFoldSpineCarrier
+        [FpsSingletonMul (FpsSingletonCoeff F BHist.Empty) (FpsSingletonCoeff G BHist.Empty)] ∧
+      FpsSingletonClassifier
+        (FpsSingletonAddFold
+          [FpsSingletonMul (FpsSingletonCoeff F BHist.Empty) (FpsSingletonCoeff G BHist.Empty)])
+        (FpsSingletonMul (FpsSingletonCoeff F BHist.Empty)
+          (FpsSingletonCoeff G BHist.Empty)) := by
+  have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro (And.intro emptyCarrier (hsame_refl BHist.Empty))
+    (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+
 def FpsSingletonThreefoldCauchySplitSpines (xs ys zs : List BHist) : BHist × BHist :=
   (append (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys)) (FpsSingletonAddFold zs),
     append (FpsSingletonAddFold xs) (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs)))
+
+theorem FpsSingletonThreefoldCauchySplitSpines_classifier {xs ys zs : List BHist} :
+    FpsSingletonAddFoldSpineCarrier xs ->
+      FpsSingletonAddFoldSpineCarrier ys ->
+        FpsSingletonAddFoldSpineCarrier zs ->
+          FpsSingletonClassifier (FpsSingletonThreefoldCauchySplitSpines xs ys zs).1
+            (FpsSingletonThreefoldCauchySplitSpines xs ys zs).2 ∧
+          hsame (FpsSingletonThreefoldCauchySplitSpines xs ys zs).1 BHist.Empty ∧
+          hsame (FpsSingletonThreefoldCauchySplitSpines xs ys zs).2 BHist.Empty := by
+  intro xsSpine ysSpine zsSpine
+  have xsEmpty : hsame (FpsSingletonAddFold xs) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty xsSpine
+  have ysEmpty : hsame (FpsSingletonAddFold ys) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty ysSpine
+  have zsEmpty : hsame (FpsSingletonAddFold zs) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty zsSpine
+  have leftEmpty :
+      hsame (FpsSingletonThreefoldCauchySplitSpines xs ys zs).1 BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro xsEmpty ysEmpty)) zsEmpty)
+  have rightEmpty :
+      hsame (FpsSingletonThreefoldCauchySplitSpines xs ys zs).2 BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro xsEmpty (append_eq_empty_iff.mpr (And.intro ysEmpty zsEmpty)))
+  exact And.intro
+    (And.intro leftEmpty
+      (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty))))
+    (And.intro leftEmpty rightEmpty)
+
+theorem FpsSingletonThreefoldCauchySplitSpines_reassociation {xs ys zs : List BHist} :
+    FpsSingletonAddFoldSpineCarrier xs ->
+      FpsSingletonAddFoldSpineCarrier ys ->
+        FpsSingletonAddFoldSpineCarrier zs ->
+          hsame (append (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+            (FpsSingletonAddFold zs))
+            (append (FpsSingletonAddFold xs)
+              (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs))) := by
+  intro xsSpine ysSpine zsSpine
+  have xEmpty : hsame (FpsSingletonAddFold xs) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty xsSpine
+  have yEmpty : hsame (FpsSingletonAddFold ys) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty ysSpine
+  have zEmpty : hsame (FpsSingletonAddFold zs) BHist.Empty :=
+    FpsSingletonAddFold_spine_carrier_empty zsSpine
+  have xyEmpty : hsame (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+      BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro xEmpty yEmpty)
+  have yzEmpty : hsame (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs))
+      BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro yEmpty zEmpty)
+  have leftEmpty :
+      hsame (append (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+        (FpsSingletonAddFold zs)) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro xyEmpty zEmpty)
+  have rightEmpty :
+      hsame (append (FpsSingletonAddFold xs)
+        (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs))) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro xEmpty yzEmpty)
+  exact hsame_trans leftEmpty (hsame_symm rightEmpty)
+
+theorem FpsSingletonCauchyProduct_carried_assoc_continuation_classifier
+    {xs ys zs : List BHist} {left right : BHist} :
+    FpsSingletonAddFoldSpineCarrier xs ->
+      FpsSingletonAddFoldSpineCarrier ys ->
+        FpsSingletonAddFoldSpineCarrier zs ->
+          Cont (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+              (FpsSingletonAddFold zs) left ->
+            Cont (FpsSingletonAddFold xs)
+              (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs)) right ->
+              FpsSingletonClassifier left right := by
+  intro xsSpine ysSpine zsSpine leftCont rightCont
+  have splitClassifier :=
+    FpsSingletonThreefoldCauchySplitSpines_classifier xsSpine ysSpine zsSpine
+  have reassoc :=
+    FpsSingletonThreefoldCauchySplitSpines_reassociation xsSpine ysSpine zsSpine
+  have leftCanonical :
+      Cont (append (FpsSingletonAddFold xs) (FpsSingletonAddFold ys))
+        (FpsSingletonAddFold zs) (FpsSingletonThreefoldCauchySplitSpines xs ys zs).1 := by
+    rfl
+  have rightCanonical :
+      Cont (FpsSingletonAddFold xs)
+        (append (FpsSingletonAddFold ys) (FpsSingletonAddFold zs))
+        (FpsSingletonThreefoldCauchySplitSpines xs ys zs).2 := by
+    rfl
+  have leftSame : hsame left (FpsSingletonThreefoldCauchySplitSpines xs ys zs).1 :=
+    cont_deterministic leftCont leftCanonical
+  have rightSame : hsame right (FpsSingletonThreefoldCauchySplitSpines xs ys zs).2 :=
+    cont_deterministic rightCont rightCanonical
+  exact
+    And.intro (hsame_trans leftSame splitClassifier.right.left)
+      (And.intro (hsame_trans rightSame splitClassifier.right.right)
+        (hsame_trans leftSame (hsame_trans reassoc (hsame_symm rightSame))))
 
 end BEDC.Derived.FpsUp

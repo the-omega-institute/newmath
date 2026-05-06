@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.7 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.10 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -188,13 +188,13 @@ Each open chapter has TWO axes of closure progress, both read from the chapter's
 
 A chapter is "retired" from the critical path only when it reaches `(scopedClosure, theoremCheckedV)` simultaneously. Until then it remains in `top`.
 
-The `critical_path.py` JSON output now includes per-chapter `theory_grade` / `formal_grade` / `theory_grade_next` / `formal_grade_next` / `next_axis` / `next_grade_transition`. Use these fields to pick a target SHAPE that advances the chapter's formal grade by exactly one step. **Lean R-rounds focus on the formal axis**; paper P-rounds handle theory closure. If `next_axis == "theory_closure"`, the chapter's formal axis is already ahead — pick a different chapter from `top` whose formal axis still lags.
+The `critical_path.py` JSON output now includes per-chapter `theory_grade` / `formal_grade` / `theory_grade_next` / `formal_grade_next` / `next_axis` / `next_grade_transition`. Use these fields to pick a target SHAPE that advances the chapter's formal grade by exactly one step. **Lean R-rounds focus on the formal axis**; paper P-rounds handle theory closure.
 
 ### Formal-axis transition templates (target shape per step)
 
 | Current → Next | Required target shape |
 |---|---|
-| `(none) → unformalizedV` | NO Lean target. The chapter has no closurestatus block; emit no targets here, let a paper round propose the block. Skip this chapter and pick another from `top`. |
+| `(none) → formal work` | Chapter has NO `closurestatus` block yet (`theory_grade` and `formal_grade` are both null). This is the majority of open chapters today and is a NORMAL lean target. Treat as `unformalizedV → formalTargetV` or `formalTargetV → encodedDefV` depending on what's already in the lean file: if `file_lean` does not yet exist or has no carrier `def`, add a `\leandef{X}` marker for a kernel-anchored carrier; if a carrier exists, add `\leanchecked{X}` markers for one or more unmarked paper theorems. Do NOT skip just because the closurestatus block is missing — paper P-rounds register the block on their own schedule, and lean does not need to wait for it before adding markers. |
 | `unformalizedV → formalTargetV` | Add a `\leanstmt{X}` marker for at least one paper theorem in the chapter, where X is a NEW Lean declaration with body `:= by sorry`-equivalent (statement only) — but BEDC has 0-sorry invariant, so use `theorem T : <prop> := <existing_thm>` if a related thm exists, else skip and let formalTargetV transition wait for a real theorem-checked round. |
 | `formalTargetV → encodedDefV` | Add a `\leandef{X}` marker for chapter's CARRIER definition. X should be a `def` or `inductive` whose body uses BEDC kernel constructors (`BHist`, `Cont`, `hsame`, `UnaryHistory`, `NameCert`). Provides the chapter's mathematical encoding. |
 | `encodedDefV → scaffoldCheckedV` | Add 1-3 `\leanchecked{X}` markers for theorems that depend on the chapter's carrier definition. Each X is a real theorem whose proof uses BEDC kernel + the carrier's `def`. Multiple sibling files are fine; pick siblings with high `sibling_effective_unmarked`. |
@@ -203,11 +203,16 @@ The `critical_path.py` JSON output now includes per-chapter `theory_grade` / `fo
 | `auditCleanV → axiomCleanV` | Refactor any theorem in the chapter that pulls in `Classical.choice` / `Quot.sound` / `propext` via `simp [iff]` / classical reasoning. Replace with explicit `Iff.mp` / `Iff.mpr` / case analysis. Verify with `bedc_ci.py axiom-purity --strict`. |
 | `axiomCleanV → bridgeCheckedV` | Prove a bridge theorem connecting the chapter's concrete BHist instance to its abstract interface (`<X>Up` schema). Last grade — chapter is mature. |
 
-### Skip rule
+### Skip rule (narrow — applies only when both grades are non-null)
 
-If `next_axis == "theory_closure"`, the chapter is bottlenecked on PAPER side, not lean. Skip and pick a chapter where `next_axis == "formal_status"`. If ALL of `top[0..2]` have `next_axis == "theory_closure"`, emit `{"targets": []}` — paper rounds need to catch up first.
+The skip rule is for chapters that already HAVE a `closurestatus` block (`theory_grade` and `formal_grade` both non-null). Two cases:
 
-Each target's JSON MUST include a `grade_transition` field that quotes the chapter's `next_grade_transition` from critical_path output. Phase D will not enforce this currently but Phase C uses it to pick the right marker family (`\leandef` for encodedDefV, `\leanchecked` for theoremCheckedV, etc).
+- If `next_axis == "theory_closure"` AND `formal_grade` is non-null, the chapter's formal axis is already ahead of its theory axis — paper P-rounds need to catch up first. Skip and pick a chapter where `next_axis == "formal_status"`, OR a chapter where both grades are null (those are always lean-eligible per the `(none) → formal work` row above).
+- If `formal_grade` is null but `theory_grade` is non-null (rare — paper wrote a closurestatus block without any lean marker yet), this counts as `next_axis == "formal_status"`; treat as `unformalizedV → formalTargetV` or `formalTargetV → encodedDefV` per the table.
+
+Empty-targets escape `{"targets": []}` is for the genuine corner case where every accessible chapter has both grades non-null AND every accessible front is theory-bottlenecked. This is exceedingly rare today (most chapters are still `(none, none)`). DO NOT emit empty targets just because top[0..2] have null grades — null grades are normal lean work.
+
+Each target's JSON MUST include a `grade_transition` field that quotes the chapter's `next_grade_transition` from critical_path output. Phase D will not enforce this currently but Phase C uses it to pick the right marker family (`\leandef` for encodedDefV, `\leanchecked` for theoremCheckedV, etc). For null-grade chapters, set `grade_transition` to `"(no block) -> formalTargetV"` or `"(no block) -> encodedDefV"` depending on whether the round adds `\leanstmt`/`\leanchecked` or `\leandef`.
 
 ## Critical-path discovery (HARD GATE)
 

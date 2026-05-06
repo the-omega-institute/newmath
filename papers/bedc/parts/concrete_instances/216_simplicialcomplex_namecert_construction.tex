@@ -8,3 +8,133 @@ The simplicial-complex interface $\SimplicialComplexUp$ packages a finite collec
 
 \section{The certificate}
 \label{sec:simplicialcomplex-certificate}
+
+\begin{definition}[SimplicialComplexUp finite face carrier]
+\label{def:simplicialcomplex-finite-face-carrier}
+Fix a finite vertex source $V:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_V$. A $\SimplicialComplexUp$ finite face carrier $K$ over $(V,\sim_V)$ consists of a simplex-code source $S_K:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_K$, a finite spine $ks:\mathsf{HistSpine}$, a carried-simplex predicate $\mathsf{Simplex}_K:\mathsf{BHist}\to\mathsf{Prop}$, a face-incidence relation
+$$
+\mathsf{Face}_K:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop},
+$$
+and a dimension-grading row on carried simplices.
+
+The finite-simplex row is
+$$
+\mathsf{FinSetSpineEnumerates}_{S_K,\sim_K}(ks,\mathsf{Simplex}_K),
+$$
+using the $\FinSetUp$ enumeration predicate of \autoref{def:finset-spine-enumerates-predicate}. The face-incidence row is the $\PosetUp$ relation on simplex codes supplied by \autoref{def:poset-carrier}; in particular it includes the transitivity field
+$$
+\forall \rho\,\tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Face}_K(\rho,\tau)\land\mathsf{Face}_K(\tau,\sigma)
+\to
+\mathsf{Face}_K(\rho,\sigma).
+$$
+The simplicial closure row says that faces of carried simplices are carried:
+$$
+\forall \tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Simplex}_K(\sigma)\land\mathsf{Face}_K(\tau,\sigma)
+\to
+\mathsf{Simplex}_K(\tau).
+$$
+Thus the carrier uses the finite inventory from \autoref{ch:concrete-instances-finset-namecert} and the transitive face-order row from \autoref{ch:concrete-instances-poset-namecert}.
+\end{definition}
+
+\begin{theorem}[Simplicial face-chain closure]
+\label{thm:simplicialcomplex-face-chain-closure}
+Let $K$ be a $\SimplicialComplexUp$ finite face carrier over $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}. For histories $\rho,\tau,\sigma:\mathsf{BHist}$, if
+$$
+\mathsf{Simplex}_K(\sigma)
+\land
+\mathsf{Face}_K(\tau,\sigma)
+\land
+\mathsf{Face}_K(\rho,\tau),
+$$
+then
+$$
+\mathsf{Simplex}_K(\tau)
+\land
+\mathsf{Simplex}_K(\rho)
+\land
+\mathsf{Face}_K(\rho,\sigma).
+$$
+In particular, a face of a face of a carried simplex is again carried by $K$ and is a face of the original simplex.
+\end{theorem}
+\begin{proof}
+Unpack the carrier rows from \autoref{def:simplicialcomplex-finite-face-carrier}. The displayed hypotheses give the carried upper simplex $\mathsf{Simplex}_K(\sigma)$, the first face incidence $\mathsf{Face}_K(\tau,\sigma)$, and the second face incidence $\mathsf{Face}_K(\rho,\tau)$.
+
+Apply the simplicial closure row to $\mathsf{Simplex}_K(\sigma)$ and $\mathsf{Face}_K(\tau,\sigma)$. This gives
+$$
+\mathsf{Simplex}_K(\tau).
+$$
+Apply the same closure row again to this carried simplex and $\mathsf{Face}_K(\rho,\tau)$. This gives
+$$
+\mathsf{Simplex}_K(\rho).
+$$
+
+The face-incidence relation is the $\PosetUp$ row of the carrier. Its transitivity field, cited in \autoref{def:poset-carrier}, composes $\mathsf{Face}_K(\rho,\tau)$ with $\mathsf{Face}_K(\tau,\sigma)$ and yields
+$$
+\mathsf{Face}_K(\rho,\sigma).
+$$
+Combining the carried intermediate simplex, the carried lower simplex, and the composite face-incidence witness gives the displayed conjunction.
+\end{proof}
+
+\begin{definition}[Simplicial face dimension grading row]
+\label{def:simplicialcomplex-face-dimension-grading-row}
+Let $K$ be a $\SimplicialComplexUp$ finite face carrier over $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}. A face dimension grading row for $K$ consists of a grading map
+$$
+\dim_K:\mathsf{BHist}\to\mathbb{N}
+$$
+and the carried-face monotonicity field
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_K(\alpha)\land
+\mathsf{Simplex}_K(\beta)\land
+\mathsf{Face}_K(\alpha,\beta)
+\to
+\dim_K(\alpha)\le \dim_K(\beta).
+$$
+Thus the dimension comparison is asserted on the carried endpoints of the face relation supplied by the $\PosetUp$ row.
+\end{definition}
+
+\begin{theorem}[Simplicial face-chain dimension monotonicity]
+\label{thm:simplicialcomplex-face-chain-dimension-monotonicity}
+Let $K$ be a $\SimplicialComplexUp$ finite face carrier over $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}, equipped with a face dimension grading row $\dim_K$ in the sense of \autoref{def:simplicialcomplex-face-dimension-grading-row}. For histories $\rho,\tau,\sigma:\mathsf{BHist}$, if
+$$
+\mathsf{Simplex}_K(\sigma)
+\land
+\mathsf{Face}_K(\rho,\tau)
+\land
+\mathsf{Face}_K(\tau,\sigma),
+$$
+then
+$$
+\dim_K(\rho)\le\dim_K(\tau)
+\land
+\dim_K(\tau)\le\dim_K(\sigma)
+\land
+\dim_K(\rho)\le\dim_K(\sigma).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the displayed hypothesis. Apply \autoref{thm:simplicialcomplex-face-chain-closure}, whose proof uses the simplicial closure row of \autoref{def:simplicialcomplex-finite-face-carrier} and the transitive $\PosetUp$ face row of \autoref{def:poset-carrier}. This gives
+$$
+\mathsf{Simplex}_K(\tau)
+\land
+\mathsf{Simplex}_K(\rho)
+\land
+\mathsf{Face}_K(\rho,\sigma).
+$$
+
+Apply the carried-face monotonicity field of \autoref{def:simplicialcomplex-face-dimension-grading-row} to $\rho$ and $\tau$, using $\mathsf{Simplex}_K(\rho)$, $\mathsf{Simplex}_K(\tau)$, and $\mathsf{Face}_K(\rho,\tau)$. This yields
+$$
+\dim_K(\rho)\le\dim_K(\tau).
+$$
+Apply the same field to $\tau$ and $\sigma$, using $\mathsf{Simplex}_K(\tau)$, $\mathsf{Simplex}_K(\sigma)$, and $\mathsf{Face}_K(\tau,\sigma)$. This yields
+$$
+\dim_K(\tau)\le\dim_K(\sigma).
+$$
+Finally apply the same field to the composite face incidence $\mathsf{Face}_K(\rho,\sigma)$ together with the carried endpoints $\mathsf{Simplex}_K(\rho)$ and $\mathsf{Simplex}_K(\sigma)$. This yields
+$$
+\dim_K(\rho)\le\dim_K(\sigma).
+$$
+The three displayed comparisons are exactly the claimed conjunction.
+\end{proof}

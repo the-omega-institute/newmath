@@ -1,8 +1,10 @@
-import BEDC.Derived.ProdUp.PairRepresentation
+import BEDC.Derived.ProdUp.ComponentwiseRefinement
 
 namespace BEDC.Derived.ProdUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 inductive ProdHistoryLedgerChain (Left Right : BHist -> Prop) : BHist -> BHist -> Prop where
   | step {rho z : BHist} :
@@ -125,6 +127,58 @@ theorem ProdHistoryLedgerChain_shared_raw_visible_classifier {Left Right : BHist
     (ProdHistoryClassifier_symm leftEnvelope.right.left)
     rightEnvelope.right.left
 
+theorem ProdHistoryLedgerChain_boundary_classifier_decomposition
+    {Left Right : BHist -> Prop} {rho z : BHist} :
+    ProdHistoryLedgerChain Left Right rho z ->
+      (∃ l r : BHist, Left l ∧ Right r ∧ Cont l r z) ∧
+        (((ProdHistoryLedgerPolicy Left Right rho z) ∨
+            ∃ v : BHist,
+              ProdHistoryLedgerPolicy Left Right rho v ∧
+                ProdHistoryClassifier Left Right v z) ∧
+          ((ProdHistoryLedgerPolicy Left Right rho z) ∨
+            ∃ v : BHist,
+              ProdHistoryClassifier Left Right rho v ∧
+                ProdHistoryLedgerPolicy Left Right v z)) := by
+  intro chain
+  induction chain with
+  | step ledger =>
+      have visibleCarrier :=
+        ProdHistoryLedgerPolicy_visible_carrier ledger
+      exact And.intro visibleCarrier
+        (And.intro (Or.inl ledger) (Or.inl ledger))
+  | cons ledger tail tailData =>
+      have tailEnvelope := ProdHistoryLedgerChain_envelope_closure tail
+      have rawVisibleClassifier :=
+        ProdHistoryLedgerPolicy_raw_visible_classifier ledger
+      have terminalClassifier :=
+        ProdHistoryClassifier_trans rawVisibleClassifier tailEnvelope.right.left
+      have terminalPolicy :=
+        tailData.right.right
+      cases terminalPolicy with
+      | inl lastLedger =>
+          exact And.intro tailData.left
+            (And.intro
+              (Or.inr
+                (Exists.intro _
+                  (And.intro ledger tailEnvelope.right.left)))
+              (Or.inr
+                (Exists.intro _
+                  (And.intro rawVisibleClassifier lastLedger))))
+      | inr tailWitness =>
+          cases tailWitness with
+          | intro v data =>
+              exact And.intro tailData.left
+                (And.intro
+                  (Or.inr
+                    (Exists.intro _
+                      (And.intro ledger tailEnvelope.right.left)))
+                  (Or.inr
+                    (Exists.intro v
+                      (And.intro
+                        (ProdHistoryClassifier_trans rawVisibleClassifier
+                          data.left)
+                        data.right))))
+
 theorem ProdHistoryLedgerPolicy_visible_empty_component_exposure {Left Right : BHist -> Prop}
     {rho : BHist} :
     ProdHistoryLedgerPolicy Left Right rho BHist.Empty ->
@@ -206,5 +260,25 @@ theorem ProdHistoryLedgerChain_componentwise_classifier_endpoint_equivalence
     · intro classifier
       exact ProdComponentHistoryClassifier_hsame_transport
         (hsame_refl w) (hsame_symm sameRhoZ) classifier
+
+theorem ProdHistoryLedgerChain_public_certificate_component_readback
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) {rho z l r : BHist} :
+    ProdHistoryLedgerChain Left Right rho z ->
+      ProdPairRep Left Right rho l r ->
+        SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)
+            (ProdHistoryCarrier Left Right)
+            (ProdComponentHistoryClassifier Left Right LeftEq RightEq) ∧
+          ProdHistoryClassifier Left Right rho z ∧
+            ∃ l' r' : BHist,
+              ProdPairRep Left Right z l' r' ∧ LeftEq l l' ∧ RightEq r r' := by
+  intro chain repRho
+  have certificate :=
+    ProdComponentHistoryClassifier_semantic_name_certificate leftCert rightCert coherent
+  have envelope := ProdHistoryLedgerChain_envelope_closure chain
+  have readback :=
+    ProdHistoryLedgerChain_displayed_component_readback coherent chain repRho
+  exact And.intro certificate (And.intro envelope.right.left readback)
 
 end BEDC.Derived.ProdUp

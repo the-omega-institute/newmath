@@ -1,0 +1,104 @@
+The ten-field fit is as follows. The traditional target is Banach space. The
+BEDC source is the singleton $\NormUp$ carrier, the $\CompleteMetricUp$
+singleton limit witness, and the RealUp constant zero endpoint. The carrier is
+the singleton normed history carrier. The classifier is $\rho_{\emp}$ on
+vectors and $\hsame$ on displayed limit histories. Stability is supplied by
+$\NormUp$ transport and $\mathsf{CompleteMetricLimitWitness}$ transport. The
+ledger records the norm-zero endpoint, metric-distance rows, the Cauchy
+modulus, and the limit rows. The core theorem list is
+\autoref{thm:banach-norm-induced-metric-compatibility},
+\autoref{thm:banach-regular-cauchy-limit-witness}, and
+\autoref{thm:banach-limit-classifier-uniqueness}. Exactness is the equivalence
+between zero distance and the singleton classifier. The standard bridge field
+is the singleton surface of
+\autoref{def:banach-singleton-standard-bridge-surface}. The status is a paper
+proof target for the namespace $\mathsf{BEDC.Derived.BanachUp}$.
+
+\begin{theorem}[Banach norm-distance zero exactness]
+\label{thm:banach-norm-distance-zero-exactness}
+Let $X$ be a concrete Banach carrier and let
+$\mathsf{BanachMetricWitness}_X(x,y,d)$ be a displayed norm-induced distance
+row. If the $\RealUp$ classifier identifies $d$ with the zero real endpoint,
+then the Banach point classifier identifies the carried representatives $x$
+and $y$.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_norm\_distance\_zero\_exactness}
+\begin{proof}
+Unfold the carrier in \autoref{def:banach-concrete-carrier}. The metric row
+is not independent data: it records carried representatives $x$ and $y$, a
+displayed difference history, and the $\NormUp$ value of that difference as
+the real endpoint $d$.
+
+Use the input RealUp zero classification to read the norm value of the
+difference as zero. The positive-definiteness row of $\NormUp$ then reflects
+this zero norm back to the vector-history classifier, so the displayed
+difference history is classified with the vector zero.
+
+The vector-space zero-difference law turns that classifier row into equality
+of the two carried representatives in the Banach point classifier. Repacking
+the carried representatives, difference row, and norm ledger along $\hsame$
+gives the required classifier comparison between $x$ and $y$.
+\end{proof}
+
+\begin{theorem}[Banach complete-metric limit uniqueness]
+\label{thm:banach-limit-uniqueness}
+Let $X$ be a concrete Banach carrier, and let $s$ be a regular Cauchy
+$\StreamNameUp$ stream over $X$ for the norm-induced metric. If
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)
+$$
+and
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu',\ell',L')
+$$
+are two displayed limit rows for the same stream, then the Banach point
+classifier identifies the carried limit histories $L$ and $L'$.
+\end{theorem}
+\begin{proof}
+First read both displayed rows through
+\autoref{def:completemetric-limit-witness}. They give carried limit histories
+$L$ and $L'$, convergence moduli, and norm-induced late-distance rows from
+the same regular Cauchy stream to each candidate limit.
+
+The previous theorem supplies the separated-metric zero-distance field for
+the Banach metric: whenever a displayed
+$\mathsf{BanachMetricWitness}_X(u,v,d)$ has zero RealUp distance, the Banach
+point classifier identifies $u$ and $v$.
+
+Apply
+\autoref{thm:completemetric-limit-witness-uniqueness} to the two
+complete-metric limit rows using that separatedness field. The complete-metric
+uniqueness theorem returns classifier equality of the two limit histories, and
+the classifier is exactly the $\hsame$-based Banach point classifier fixed in
+\autoref{def:banach-concrete-carrier}.
+\end{proof}
+
+\begin{theorem}[Banach regular Cauchy stream transport]
+\label{thm:banach-cauchy-stream-transport}
+Let $X$ be a concrete Banach carrier. Componentwise $\hsame$ transport of a
+regular Cauchy $\StreamNameUp$ stream over $X$, its observation rows, modulus
+histories, candidate limit histories, norm-distance rows, and $\RatUp$
+comparison ledgers preserves the displayed Banach complete-metric witness
+package.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_regular\_cauchy\_stream\_transport}
+\begin{proof}
+Transport the Banach carrier fields first. By
+\autoref{thm:banach-hsame-transport}, the carried representatives, norm rows,
+metric rows, stream observations, modulus histories, limit histories, and
+late-observation ledgers remain a concrete Banach carrier package after
+componentwise $\hsame$ transport.
+
+Next transport the complete-metric row. Apply
+\autoref{thm:completemetric-limit-witness-stability} to the transported
+$\StreamNameUp$ observations, modulus history, candidate limit, distance
+histories, and $\RatUp$ comparison rows. Its conclusion is the transported
+$\mathsf{CompleteMetricLimitWitness}$ row for the same norm-induced metric
+shape.
+
+Finally combine the two transported packages. The Banach transport theorem
+keeps the metric rows induced by the transported norm ledgers, and the
+complete-metric stability theorem keeps the regular Cauchy and convergence
+fields aligned with those rows. Repacking the fields gives the preserved
+Banach complete-metric witness package.
+\end{proof}

@@ -1,0 +1,74 @@
+\begin{definition}[Metric finite-base neighbourhood row]
+\label{def:topology-metric-finite-base-neighborhood-row}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}, with carrier $C$ and indexed topology carrier $\mathcal{T}_{d,\mathsf{ball}}$. For a point $x:C$, a metric finite-base neighbourhood row at $x$ is data
+$$
+(I,x,h_I,\kappa_I)
+$$
+where $I:\mathsf{FinList}(\mathsf{BallData}_d)$, the membership witness is
+$$
+h_I:\mathsf{OpenAt}_{d,\mathsf{ball}}(I,x),
+$$
+the carrying equation is the finite-list pointwise law
+$$
+\mathsf{OpenAt}_{d,\mathsf{ball}}(I,z)
+\Longleftrightarrow
+\forall b\in I,\ \mathsf{MetricOpenBall}_d(b)(z)
+$$
+for every $z:C$, and $\kappa_I$ is the visible $\mathsf{BHist}$ ledger row naming the finite-list intersection constructor of $\mathcal{G}$. The row is public neighbourhood data because it exposes the point $x$, the finite index $I$, its membership witness at $x$, its carrying equation, and the ledger constructor that admits the row.
+\end{definition}
+
+\begin{theorem}[Metric finite-base neighbourhood decomposition]
+\label{thm:topology-metric-finite-base-neighborhood-decomposition}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}, and let $I:\mathsf{FinList}(\mathsf{BallData}_d)$ be a finite list of metric ball data. For every $x:C$,
+$$
+\mathsf{Nbhd}_{\mathcal{T}_{d,\mathsf{ball}}}(x,I)
+\Longleftrightarrow
+\forall b\in I,\ \mathsf{MetricOpenBall}_d(b)(x).
+$$
+Equivalently, the finite-base neighbourhood row at $x$ exists exactly when every displayed ball datum in $I$ contains $x$.
+\end{theorem}
+\begin{proof}
+Unfold the neighbourhood predicate of \autoref{def:topology-neighborhood-interface} for the indexed carrier $\mathcal{T}_{d,\mathsf{ball}}$. The left side becomes $\mathsf{OpenAt}_{d,\mathsf{ball}}(I,x)$.
+
+Unfold the metric finite-ball index object of \autoref{def:metric-finite-ball-indexed-topology}. Its membership predicate for a finite list is exactly the assertion that every ball datum in the list contains the point.
+
+Refolding this displayed law gives the stated equivalence. The row formulation in \autoref{def:topology-metric-finite-base-neighborhood-row} then packages the same witness together with the carrying equation and the finite-list intersection ledger row.
+\end{proof}
+
+\begin{theorem}[Metric finite-base neighbourhood classifier transport]
+\label{thm:topology-metric-finite-base-neighborhood-classifier-transport}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}. For every finite list $I:\mathsf{FinList}(\mathsf{BallData}_d)$ and points $x,y:C$,
+$$
+\mathsf{same}_C(x,y)
+\Longrightarrow
+\bigl(
+\mathsf{Nbhd}_{\mathcal{T}_{d,\mathsf{ball}}}(x,I)
+\Longleftrightarrow
+\mathsf{Nbhd}_{\mathcal{T}_{d,\mathsf{ball}}}(y,I)
+\bigr).
+$$
+Thus membership in a metric finite-base neighbourhood row is transported by the carrier classifier.
+\end{theorem}
+\begin{proof}
+The theorem \autoref{thm:metric-balls-instantiate-indexed-topology-opens} supplies the indexed-open carrier $\mathcal{T}_{d,\mathsf{ball}}$ from the metric ball data. In particular, finite-list open membership is stable along $\mathsf{same}_C$.
+
+Apply \autoref{thm:topology-neighborhood-classifier-transport} to this indexed carrier and to the fixed index $I$. Its conclusion is exactly the displayed equivalence between the two neighbourhood predicates.
+
+The decomposition theorem \autoref{thm:topology-metric-finite-base-neighborhood-decomposition} identifies these neighbourhood predicates with finite-list ball containment at $x$ and $y$, so the transported predicate is the public finite-base neighbourhood row rather than an unindexed open subset.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhood\_classifier\_transport}
+
+\begin{theorem}[Metric finite-base neighbourhood ledger coverage]
+\label{thm:topology-metric-finite-base-neighborhood-ledger-coverage}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. For every finite list $I:\mathsf{FinList}(\mathsf{BallData}_d)$ and point $x:C$, a metric finite-base neighbourhood row at $x$ is admitted by $\mathsf{GenOpenExact}_{\mathcal{G}}$ through the finite-list intersection constructor. Its visible data are the index $I$, the carrying equation for $\mathsf{OpenAt}_{d,\mathsf{ball}}(I,-)$, the membership witness at $x$, and the corresponding $\mathsf{BHist}$ ledger row. No external powerset row is exposed.
+\end{theorem}
+\begin{proof}
+Start with the finite list $I$ and read it as the metric finite-ball index of \autoref{def:metric-finite-ball-indexed-topology}. Its displayed predicate is $\mathsf{OpenAt}_{d,\mathsf{ball}}(I,-)$, with the carrying equation of \autoref{def:topology-metric-finite-base-neighborhood-row}.
+
+The finite-list constructor row is the finite-base intersection row described by \autoref{thm:topology-metric-base-intersection}. It records the finite metric-ball inputs, the concatenated finite-list index used by the certificate operation, and the carrying equation for the resulting intersection predicate.
+
+Apply \autoref{thm:topology-generated-open-classification-completeness} to this finite-list intersection row. The exactness package of \autoref{def:topology-generated-open-exactness} therefore admits the carried predicate through the finite-list intersection constructor.
+
+Finally apply the row-coverage direction of \autoref{thm:topology-generated-open-six-row-exactness-package}. It restricts every admitted generated-open witness to the displayed six-row ledger, so the neighbourhood row exposes the finite index, carrying equation, point membership witness, and $\mathsf{BHist}$ provenance, with no route through an external powerset row.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhood\_finiteListIntersection\_ledger\_coverage}

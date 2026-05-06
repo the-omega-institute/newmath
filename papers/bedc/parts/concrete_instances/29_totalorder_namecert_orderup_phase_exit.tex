@@ -1,0 +1,456 @@
+\section{OrderUp Phase Exit}
+\label{sec:totalorder-orderup-phase-exit}
+
+\begin{theorem}[Unary prefix OrderUp phase exit package]
+\label{thm:unary-prefix-orderup-phase-exit-package}
+The concrete L7 $\OrderUp$ package over $\mathsf{BHist}$ is the unary-prefix
+package with carrier $\mathsf{UnaryHistory}$, classifier $\rho_{\mathsf{u}}$,
+and order relation $\le_{\mathsf{u}}$. Its preorder, antisymmetry, and
+constructive comparison rows are inherited from the concrete $\TotalOrderUp$
+surface exposed in
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. Its finite
+bounded-interval coverage is the interval-collapse statement of
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}. Its endpoint
+classifier uniqueness is the two-endpoint readback of
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique}.
+
+Consequently, the scoped Full Nat Arithmetic $\OrderUp$ phase object can be
+consumed as a single package consisting of the carrier
+$\mathsf{UnaryHistory}$, classifier $\rho_{\mathsf{u}}$, relation
+$\le_{\mathsf{u}}$, inherited preorder and antisymmetry rows, constructive
+comparison rows, finite bounded-interval coverage for carried finite spines,
+and classifier uniqueness of selected interval endpoints. This package
+introduces no second order relation and asserts no classical trichotomy.
+\end{theorem}
+\begin{proof}
+First expose the $\OrderUp$ surface. Apply
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. The consumer
+sees the same concrete $\mathsf{UnaryHistory}$ carrier, the same classifier
+$\rho_{\mathsf{u}}$, and the same relation $\le_{\mathsf{u}}$ that were used
+by the unary $\TotalOrderUp$ certificate.
+
+The order-law rows are therefore projections of the existing certificate. The
+reflexivity, transitivity, and antisymmetry rows come from the prefix
+$\POSetUp$ part of the $\TotalOrderUp$ package, while the comparison row is
+the constructive strict-left, same, or strict-right branch partition recorded
+there.
+
+Next project the finite bounds. For a nonempty finite carried spine, apply
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}. It supplies
+selected endpoints $m$ and $M$ such that every member of the spine lies between
+$m$ and $M$ under $\le_{\mathsf{u}}$.
+
+Finally project endpoint uniqueness. Apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} to any two
+finite extrema interval witness records over the same carried spine. The lower
+endpoints are classified by $\rho_{\mathsf{u}}$, and the upper endpoints are
+classified by $\rho_{\mathsf{u}}$.
+
+These projected rows are exactly the phase-exit data needed by the Full Nat
+Arithmetic consumer for $\OrderUp$: one concrete carrier, one classifier, one
+order relation, finite interval coverage, and endpoint classifier uniqueness.
+All rows are inherited from the unary prefix $\TotalOrderUp$ construction, so
+the package does not create another order and does not replace constructive
+comparison by classical trichotomy.
+\end{proof}
+
+\subsection{OrderUp obligation set}
+\label{sec:totalorder-orderup-obligation-set}
+
+\begin{theorem}[Unary prefix OrderUp carrier obligation]
+\label{thm:unary-prefix-orderup-carrier-obligation}
+The carrier row of the Full Nat Arithmetic $\OrderUp$ phase package is exactly
+$\mathsf{UnaryHistory}$ over the ambient kernel history type $\mathsf{BHist}$.
+It introduces no second carrier and no quotient carrier.
+\end{theorem}
+\begin{proof}
+Use the phase-exit package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. Its carrier component
+is named explicitly as $\mathsf{UnaryHistory}$, and the ambient object is the
+same $\mathsf{BHist}$ history used by the unary-prefix construction.
+
+The theorem is therefore the carrier projection of that package: the consumer
+receives the listed carried histories and no additional carrier row.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp classifier obligation]
+\label{thm:unary-prefix-orderup-classifier-obligation}
+The classifier row of the Full Nat Arithmetic $\OrderUp$ phase package is the
+same endpoint classifier $\rho_{\mathsf{u}}$ used by the unary-prefix
+$\TotalOrderUp$ surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-prefix-orderup-phase-exit-package}. The theorem names
+$\rho_{\mathsf{u}}$ as the package classifier and says that it is inherited from
+the concrete unary-prefix $\TotalOrderUp$ surface.
+
+Thus the $\OrderUp$ consumer reads endpoint sameness through the already exposed
+unary classifier rather than through a separate phase-specific classifier.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp relation obligation]
+\label{thm:unary-prefix-orderup-relation-obligation}
+The order-relation row of the Full Nat Arithmetic $\OrderUp$ phase package is
+the same concrete unary-prefix relation $\le_{\mathsf{u}}$ exposed by the
+unary-prefix $\TotalOrderUp$ surface on $\mathsf{UnaryHistory}$ endpoints. It
+introduces no second comparison relation, no host Nat order, and no quotient
+order.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-prefix-orderup-phase-exit-package}. The package
+statement explicitly names $\le_{\mathsf{u}}$ as the order relation consumed by
+the Full Nat Arithmetic $\OrderUp$ phase.
+
+The source of that row is
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. The phase
+package projects the relation from this unary-prefix $\TotalOrderUp$
+certificate, so the consumer receives the exposed relation itself and no
+additional comparison relation.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp preorder obligation]
+\label{thm:unary-prefix-orderup-preorder-obligation}
+On carried endpoints, reflexivity and transitivity of $\le_{\mathsf{u}}$ are
+the preorder rows inherited from
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}.
+\end{theorem}
+\begin{proof}
+First expose the unary-prefix $\TotalOrderUp$ certificate by applying
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. Its
+$\POSetUp$ component supplies reflexivity and transitivity for the relation
+$\le_{\mathsf{u}}$ on $\mathsf{UnaryHistory}$ endpoints.
+
+Then project those rows through
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. The projected relation
+is still $\le_{\mathsf{u}}$, so the preorder data has exactly the same domain
+and classifier boundary as in the source certificate.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp antisymmetry obligation]
+\label{thm:unary-prefix-orderup-antisymmetry-obligation}
+If two carried endpoints compare in both directions under $\le_{\mathsf{u}}$,
+then their endpoints are classified together by $\rho_{\mathsf{u}}$.
+\end{theorem}
+\begin{proof}
+Apply the antisymmetry row supplied by
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. That row
+identifies two-sided $\le_{\mathsf{u}}$ comparison with the endpoint classifier
+used by the unary-prefix order.
+
+Finally use \autoref{thm:unary-prefix-orderup-phase-exit-package} to read this
+row inside the $\OrderUp$ package. Since the package keeps the same classifier
+$\rho_{\mathsf{u}}$, the classified endpoint equality is the required one.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp constructive comparison obligation]
+\label{thm:unary-prefix-orderup-constructive-comparison-obligation}
+Every carried pair of endpoints admits strict-left, same, or strict-right
+comparison data for $\le_{\mathsf{u}}$, as supplied by the unary-prefix
+$\TotalOrderUp$ surface. This obligation asserts constructive comparison data
+and does not assert classical trichotomy.
+\end{theorem}
+\begin{proof}
+Use the comparison row of
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. For each
+carried pair, that row gives one of the constructive branches: strict-left,
+same, or strict-right.
+
+The phase-exit package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package} transports the same row to
+the $\OrderUp$ consumer. Because the package states that it asserts no
+classical trichotomy, the obligation is exactly the constructive branch data.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp finite interval coverage obligation]
+\label{thm:unary-prefix-orderup-finite-interval-coverage-obligation}
+Every nonempty carried finite spine has selected lower and upper endpoints
+under $\le_{\mathsf{u}}$, supplied by
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}.
+\end{theorem}
+\begin{proof}
+Start with a nonempty finite spine whose entries are carried by
+$\mathsf{UnaryHistory}$. Apply
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse} to obtain selected
+endpoints $m$ and $M$.
+
+The conclusion of the interval-collapse theorem says that every member of the
+spine lies between those selected endpoints under $\le_{\mathsf{u}}$. This is
+the finite-interval coverage row consumed by the phase-exit package.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp endpoint uniqueness obligation]
+\label{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}
+Competing selected lower and upper endpoints over the same nonempty carried
+finite spine are classified by $\rho_{\mathsf{u}}$, as read back from
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique}.
+\end{theorem}
+\begin{proof}
+Take two finite extrema interval witness records over the same carried finite
+spine. Apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} to compare their
+selected lower endpoints and their selected upper endpoints.
+
+The readback theorem classifies both endpoint comparisons through
+$\rho_{\mathsf{u}}$. Therefore the $\OrderUp$ package has endpoint uniqueness
+only up to the declared unary-prefix classifier, which is the phase classifier
+of \autoref{thm:unary-prefix-orderup-phase-exit-package}.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp exactness obligation]
+\label{thm:unary-prefix-orderup-exactness-obligation}
+On carried unary endpoints $h$ and $k$, the $\OrderUp$ classifier row
+$\rho_{\mathsf{u}}$ is exact for two-sided $\le_{\mathsf{u}}$ comparison:
+$$
+\rho_{\mathsf{u}}(h,k)
+\quad\text{if and only if}\quad
+h\le_{\mathsf{u}}k\land k\le_{\mathsf{u}}h.
+$$
+This exactness row uses the same carrier, classifier, and relation tuple as the
+unary-prefix $\TotalOrderUp$ surface and introduces no quotient equality.
+\end{theorem}
+\begin{proof}
+First expose the concrete phase package by
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. It identifies the
+$\OrderUp$ carrier with $\mathsf{UnaryHistory}$, the classifier with
+$\rho_{\mathsf{u}}$, and the relation with $\le_{\mathsf{u}}$.
+
+Project the same tuple back to the inherited unary-prefix $\TotalOrderUp$
+surface of \autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}.
+There is no transport across a new carrier or a new relation; the consumer is
+reading the original preorder classifier boundary.
+
+Apply \autoref{thm:poset-prefix-classifier-exactness}. Its forward direction
+turns classifier sameness into the two prefix comparisons, and its reverse
+direction turns the two comparisons back into the carrier-aware classifier.
+Under the package projection, that equivalence is precisely the displayed
+$\rho_{\mathsf{u}}$ exactness row for $\OrderUp$.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp ledger obligation]
+\label{thm:unary-prefix-orderup-ledger-obligation}
+The Full Nat Arithmetic $\OrderUp$ ledger records exactly the concrete unary
+carrier witnesses, the selected constructive comparison branch, the finite
+interval endpoint witnesses, and the endpoint-readback comparisons. All entries
+are stated over $\mathsf{BHist}$, $\mathsf{ListCarrier}$, and $\Cont$ data. The
+ledger contains no quotient carrier, no host order, and no unrecorded classical
+comparison principle.
+\end{theorem}
+\begin{proof}
+Begin with the phase package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. Its ledger boundary is
+the displayed $\mathsf{UnaryHistory}$ carrier over $\mathsf{BHist}$, the
+classifier $\rho_{\mathsf{u}}$, the relation $\le_{\mathsf{u}}$, and the
+constructive comparison branch selected by the inherited unary-prefix
+$\TotalOrderUp$ surface.
+
+Next read the finite-spine part through
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}. For a nonempty
+$\mathsf{ListCarrier}$ spine, the ledger keeps the membership witnesses, the
+selected lower and upper endpoints, and the two bounding comparisons against
+each listed entry.
+
+Finally apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique}. This supplies
+the endpoint-readback comparisons showing that competing lower endpoints and
+competing upper endpoints are classified by $\rho_{\mathsf{u}}$.
+
+Combining these rows gives exactly the advertised ledger: every recorded item is
+a BEDC history, finite-list, or continuation witness already present in the
+unary-prefix package, and none of the rows appeal to a quotient carrier or an
+external host order.
+\end{proof}
+
+\begin{theorem}[OrderUp carrier and classifier obligation]
+\label{thm:orderup-carrier-classifier-obligation}
+The concrete carrier for the unary-prefix $\OrderUp$ phase object is
+$\mathsf{UnaryHistory}$. Its classifier is $\rho_{\mathsf{u}}$, and its order
+relation is $\le_{\mathsf{u}}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-prefix-orderup-phase-exit-package}. The phase-exit
+package exposes the same carried objects as
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}: unary
+histories are the carrier, $\rho_{\mathsf{u}}$ is the classifier used to read
+them, and $\le_{\mathsf{u}}$ is the only order relation exported to
+$\OrderUp$.
+\end{proof}
+
+\begin{theorem}[OrderUp preorder and antisymmetry obligation]
+\label{thm:orderup-preorder-antisymmetry-obligation}
+On carried unary histories, $\le_{\mathsf{u}}$ is reflexive and transitive.
+If two carried unary histories lie below each other under $\le_{\mathsf{u}}$,
+then their endpoints land in the same $\rho_{\mathsf{u}}$ classifier class.
+\end{theorem}
+\begin{proof}
+First project the order rows from the concrete unary-prefix total-order
+certificate through
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. The
+$\OrderUp$ phase package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package} exports those rows
+without introducing another relation.
+
+Reflexivity and transitivity are the preorder rows of the inherited
+$\le_{\mathsf{u}}$ surface. Antisymmetry is read in the classifier used by the
+same package: mutual $\le_{\mathsf{u}}$ comparison identifies the carried
+unary histories up to $\rho_{\mathsf{u}}$, which is the equality notion exposed
+to the phase consumer.
+\end{proof}
+
+\begin{theorem}[OrderUp constructive comparison obligation]
+\label{thm:orderup-constructive-comparison-obligation}
+For any two carried unary histories, the $\OrderUp$ comparison data gives one
+of the strict-left, same, or strict-right branches from the unary-prefix
+total-order package. The phase object exports this constructive branch data
+and exports no classical trichotomy principle.
+\end{theorem}
+\begin{proof}
+Use the comparison row supplied by
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup} and
+projected into $\OrderUp$ by
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. The branch names and
+their witnesses are the concrete unary-prefix strict-left, same, and
+strict-right alternatives.
+
+Because the exported row is this constructive package row, the consumer
+receives only the witnessed branch split. No additional excluded-middle or
+classical trichotomy statement is part of the $\OrderUp$ phase object.
+\end{proof}
+
+\begin{theorem}[OrderUp finite-interval and endpoint obligation]
+\label{thm:orderup-finite-interval-endpoint-obligation}
+Every nonempty finite carried unary spine has lower and upper bounds under
+$\le_{\mathsf{u}}$. Moreover, for any two endpoint-witness records for the
+same carried spine, their lower endpoints are $\rho_{\mathsf{u}}$-equivalent
+and their upper endpoints are $\rho_{\mathsf{u}}$-equivalent.
+\end{theorem}
+\begin{proof}
+First obtain finite interval coverage from
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}. For a nonempty
+finite carried spine, it supplies selected lower and upper unary endpoints
+with every carried member lying between them under $\le_{\mathsf{u}}$.
+
+Next apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} to two
+endpoint-witness records over the same carried spine. The theorem identifies
+the selected lower endpoints through $\rho_{\mathsf{u}}$ and likewise
+identifies the selected upper endpoints through $\rho_{\mathsf{u}}$.
+
+Together with the phase package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}, these are precisely the
+finite-interval and endpoint-uniqueness obligations exported by the concrete
+unary-prefix $\OrderUp$ object.
+\end{proof}
+
+\begin{theorem}[OrderUp exactness and ledger scope]
+\label{thm:orderup-exactness-ledger-scope}
+The unary-prefix $\OrderUp$ package is exact at each exported row. Its carrier
+is exactly $\mathsf{UnaryHistory}$; its classifier is exactly
+$\rho_{\mathsf{u}}$; and its order relation is exactly the single exported
+$\le_{\mathsf{u}}$ row. Its finite-interval coverage is precisely the bounded
+interval collapse of
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}, and its endpoint
+ledger uniqueness is precisely the two-endpoint classifier readback of
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique}. The package
+exports no host Nat order row, no quotient order row, and no classical
+trichotomy row.
+\end{theorem}
+\begin{proof}
+Begin with the phase-exit package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. Its named surface fixes
+the carrier as $\mathsf{UnaryHistory}$, the classifier as
+$\rho_{\mathsf{u}}$, and the relation as $\le_{\mathsf{u}}$.
+
+The carrier, classifier, and relation exactness claims are the three direct
+row projections recorded in
+\autoref{thm:unary-prefix-orderup-carrier-obligation},
+\autoref{thm:unary-prefix-orderup-classifier-obligation}, and
+\autoref{thm:unary-prefix-orderup-relation-obligation}. These are repacked in
+\autoref{thm:orderup-carrier-classifier-obligation} as the public carrier,
+classifier, and relation face of the same package.
+
+The order-law ledger is inherited without changing that face. Reflexivity and
+transitivity come from \autoref{thm:unary-prefix-orderup-preorder-obligation},
+antisymmetry from
+\autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, and the witnessed
+comparison row from
+\autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}. The
+combined public statement is
+\autoref{thm:orderup-preorder-antisymmetry-obligation} together with
+\autoref{thm:orderup-constructive-comparison-obligation}.
+
+Finally apply
+\autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation} and
+\autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}. These are
+the finite-interval collapse and endpoint uniqueness rows, summarized by
+\autoref{thm:orderup-finite-interval-endpoint-obligation}. Since every row is
+projected from the single phase-exit package, the scope contains only
+$\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$; there is
+no additional host Nat order, quotient order, or classical trichotomy row to
+export.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp scoped dependency package]
+\label{thm:unary-prefix-orderup-scoped-dependency-package}
+The Full Nat Arithmetic $\OrderUp$ package is scoped over the concrete tuple
+$(\mathsf{BHist},\mathsf{UnaryHistory},\rho_{\mathsf{u}},\le_{\mathsf{u}})$.
+Its endpoint objects are $\mathsf{BHist}$ histories compared through $\hsame$;
+its carrier row is exactly $\mathsf{UnaryHistory}$; its order row is exactly
+the unary-prefix relation $\le_{\mathsf{u}}$; its finite carried spines are
+the $\mathsf{ListCarrier}$ spines; and $\Cont$ is used only for the
+finite-spine ledger rows that record the carried membership, selected endpoint,
+and bounding-comparison witnesses.
+
+The ten-field fit is carrier $\mathsf{UnaryHistory}$, classifier
+$\rho_{\mathsf{u}}$, relation $\le_{\mathsf{u}}$, preorder, antisymmetry,
+constructive comparison, finite interval coverage, endpoint uniqueness,
+exactness, and ledger scope. These ten rows are exactly the obligations
+packaged by
+\autoref{thm:orderup-carrier-classifier-obligation},
+\autoref{thm:orderup-preorder-antisymmetry-obligation},
+\autoref{thm:orderup-constructive-comparison-obligation},
+\autoref{thm:orderup-finite-interval-endpoint-obligation}, and
+\autoref{thm:unary-prefix-orderup-exactness-obligation}, with the ledger
+boundary stated by \autoref{thm:orderup-exactness-ledger-scope}. Therefore the
+package has a single scoped dependency boundary and introduces no host Nat
+order, quotient order, second classifier, or classical trichotomy row.
+\end{theorem}
+\begin{proof}
+First project the carrier, classifier, and relation from
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. This supplies the
+concrete tuple
+$(\mathsf{BHist},\mathsf{UnaryHistory},\rho_{\mathsf{u}},\le_{\mathsf{u}})$
+and fixes endpoint comparison at the $\mathsf{BHist}$ and $\hsame$ boundary.
+
+Next read the order-law rows from the inherited unary-prefix total-order
+surface. The preorder, antisymmetry, and constructive comparison data are
+provided by
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup} and are
+summarized for the $\OrderUp$ consumer by
+\autoref{thm:orderup-preorder-antisymmetry-obligation} and
+\autoref{thm:orderup-constructive-comparison-obligation}.
+
+For finite carried spines, apply
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}. It supplies the
+finite interval coverage over $\mathsf{ListCarrier}$ data, and
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} supplies the
+endpoint uniqueness readback for competing lower and upper endpoint records.
+
+It remains to identify the exactness and ledger boundary. Apply
+\autoref{thm:poset-prefix-classifier-exactness} for the two-sided
+$\le_{\mathsf{u}}$ exactness of $\rho_{\mathsf{u}}$, and use
+\autoref{thm:orderup-exactness-ledger-scope} to keep $\Cont$ confined to the
+finite-spine ledger rows. The listed projections are precisely the carrier,
+classifier, relation, preorder, antisymmetry, comparison, interval coverage,
+endpoint uniqueness, exactness, and ledger obligations, so they form one
+scoped dependency package.
+\end{proof}
+
+\begin{closurestatus}{\OrderUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The obligation frontier is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-carrier-obligation}, \autoref{thm:unary-prefix-orderup-classifier-obligation}, \autoref{thm:unary-prefix-orderup-relation-obligation}, \autoref{thm:unary-prefix-orderup-preorder-obligation}, \autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, \autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}, \autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation}, \autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}, \autoref{thm:unary-prefix-orderup-exactness-obligation}, \autoref{thm:unary-prefix-orderup-ledger-obligation}, \autoref{thm:orderup-carrier-classifier-obligation}, \autoref{thm:orderup-preorder-antisymmetry-obligation}, \autoref{thm:orderup-constructive-comparison-obligation}, and \autoref{thm:orderup-finite-interval-endpoint-obligation} spelling out the carrier, classifier, relation, preorder, antisymmetry, constructive comparison, finite interval coverage, endpoint uniqueness, exactness, and ledger rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.PreorderUp.preorder\_prefix\_stability\_certificate\_fields}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim a checked Lean OrderUp namespace, an audit-clean formal target, classical trichotomy, or full traditional order theory.}
+  \upgradepath{$\publicClosure$ requires a public-facing $\OrderUp$ export theorem that packages the scoped unary-prefix carrier, classifier, relation, exactness, and ledger rows as the cited phase object.}
+\end{closurestatus}

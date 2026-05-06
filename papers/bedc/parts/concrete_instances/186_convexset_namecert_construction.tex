@@ -8,3 +8,225 @@ The convex-set interface $\ConvexSetUp$ packages a subset of a vector-space carr
 
 \section{The certificate}
 \label{sec:convexset-certificate}
+
+\begin{definition}[ConvexSet binary affine-combination row]
+\label{def:convexset-binary-affine-combination-row}
+For a $\ConvexSetUp$ certificate over a scalar $\FieldUp(F)$ and a vector
+carrier from $\VecSpaceUp(F,V)$, write $C$ for the convex carrier,
+$\sim_F$ for the scalar classifier, $+_F$ for scalar addition, $1_F$ for the
+scalar unit, $\mathsf{NonNeg}_F$ for the nonnegative-scalar predicate, $\odot$
+for the scalar action, and $+_V$ for vector addition. The binary
+affine-combination row is the certificate field saying that, for all
+$a,b:F$ and all carried points $x,y:V$,
+$$
+C(x)\land C(y)\land \mathsf{NonNeg}_F(a)\land \mathsf{NonNeg}_F(b)
+\land (a+_F b)\sim_F 1_F
+\Longrightarrow
+C\bigl((a\odot x)+_V(b\odot y)\bigr).
+$$
+This is the two-point instance of the convex closure advertised in the
+$\ConvexSetUp$ carrier description, using the scalar and action data supplied
+by the $\VecSpaceUp$ and $\AffineSpaceUp$ dependencies.
+\end{definition}
+
+\begin{theorem}[ConvexSet midpoint closure from affine-combination row]
+\label{thm:convexset-midpoint-affine-combination-closure}
+Let a $\ConvexSetUp$ certificate be given with notation as in
+\autoref{def:convexset-binary-affine-combination-row}. If $x$ and $y$ are
+carried by the convex carrier, $h$ is a nonnegative scalar, and the scalar sum
+$h+_F h$ is classified as the scalar unit,
+$$
+C(x)\land C(y)\land \mathsf{NonNeg}_F(h)\land (h+_F h)\sim_F 1_F,
+$$
+then the affine midpoint endpoint is carried by the same convex carrier:
+$$
+C\bigl((h\odot x)+_V(h\odot y)\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ConvexSetUp.ConvexSetSingletonAffineSpine\_midpoint\_closure}
+\begin{proof}
+Apply the binary affine-combination row of
+\autoref{def:convexset-binary-affine-combination-row} with both scalar
+coefficients equal to $h$. The two point-carrier hypotheses supply $C(x)$ and
+$C(y)$. The single nonnegative hypothesis supplies both coefficient
+nonnegativity clauses, since the row asks separately for
+$\mathsf{NonNeg}_F(h)$ on the left coefficient and on the right coefficient.
+The displayed classifier hypothesis is exactly the coefficient-sum clause
+$(h+_F h)\sim_F 1_F$. The row therefore returns
+$C\bigl((h\odot x)+_V(h\odot y)\bigr)$, which is the claimed midpoint carrier
+closure.
+\end{proof}
+
+\begin{theorem}[ConvexSet affine-combination row order symmetry]
+\label{thm:convexset-affine-combination-row-order-symmetric}
+Let a $\ConvexSetUp$ certificate be given over a scalar $\FieldUp(F)$ and a
+vector carrier from $\VecSpaceUp(F,V)$, with notation as in
+\autoref{def:convexset-binary-affine-combination-row}. For scalars $a,b:F$
+and points $x,y:V$, assume the scalar additive commutativity row inherited from
+the scalar field certificate supplies the comparison
+$$
+(b+_F a)\sim_F(a+_F b).
+$$
+If
+$$
+C(x)\land C(y)\land \mathsf{NonNeg}_F(a)\land \mathsf{NonNeg}_F(b)
+\land (a+_F b)\sim_F 1_F,
+$$
+then the swapped affine endpoint is carried by the same convex carrier:
+$$
+C\bigl((b\odot y)+_V(a\odot x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The scalar part of the field certificate retains the additive abelian-group
+rows listed through \autoref{def:ring-stability-certificate} and
+\autoref{def:abgroup-stability-certificate}, so the displayed scalar additive
+commutativity comparison is an available classifier edge for these two
+coefficients. The scalar classifier is a naming-certificate classifier, and
+\autoref{thm:namecert-equivalence-transitivity} composes this comparison with
+the coefficient-sum hypothesis $(a+_F b)\sim_F1_F$. Hence
+$$
+(b+_F a)\sim_F1_F.
+$$
+Apply the binary affine-combination row of
+\autoref{def:convexset-binary-affine-combination-row} with left coefficient
+$b$, right coefficient $a$, left point $y$, and right point $x$. The carrier
+hypotheses provide $C(y)$ and $C(x)$ in the required order. The nonnegativity
+hypotheses provide $\mathsf{NonNeg}_F(b)$ and $\mathsf{NonNeg}_F(a)$ in the
+required order. The transitive scalar comparison above is exactly the reversed
+coefficient-sum premise. The row therefore returns
+$C\bigl((b\odot y)+_V(a\odot x)\bigr)$.
+\end{proof}
+
+\begin{definition}[ConvexSet finite affine-spine data]
+\label{def:convexset-finite-affine-spine-data}
+Let a $\ConvexSetUp$ certificate be given with notation as in
+\autoref{def:convexset-binary-affine-combination-row}. Also write $0_F$ for
+the scalar zero and $\cdot_F$ for scalar multiplication. For a finite scalar
+spine $\lambda:\mathsf{ListCarrier}(F)$, write $\mathsf{sum}_F(\lambda)$ for
+the finite recursive scalar sum
+$$
+\mathsf{sum}_F(\mathsf{nil})=0_F,
+\qquad
+\mathsf{sum}_F(\mathsf{cons}(a,\lambda'))=a+_F\mathsf{sum}_F(\lambda').
+$$
+For a finite point spine $xs:\mathsf{ListCarrier}(V)$, a finite scalar-weight
+spine $\lambda:\mathsf{ListCarrier}(F)$, and an endpoint $z:V$, define
+$\mathsf{ConvAffSpine}_C(xs,\lambda,z)$ to mean the conjunction of the
+following two data.
+
+First, the global finite-weight readback says that the point spine and weight
+spine have the same finite positions, every displayed point is carried, every
+displayed scalar weight is nonnegative, and the finite scalar sum is classified
+as the scalar unit:
+$$
+\exists \theta:\mathsf{Pos}(xs)\cong\mathsf{Pos}(\lambda).\;
+\Bigl(\forall i:\mathsf{Pos}(xs).\;
+C(\mathsf{entry}_{xs}(i))\land
+\mathsf{NonNeg}_F(\mathsf{entry}_{\lambda}(\theta(i)))\Bigr)
+\land \mathsf{sum}_F(\lambda)\sim_F1_F.
+$$
+Second, the endpoint $z$ is obtained from those leaves by the least local
+binary bracketing relation $\mathsf{Bracket}_C(xs,\lambda,z)$ generated by the
+following clauses:
+\begin{enumerate}
+  \item singleton: if $C(x)$, $\mathsf{NonNeg}_F(a)$, and $a\sim_F1_F$, then
+  $$
+  \mathsf{Bracket}_C(\mathsf{cons}(x,\mathsf{nil}),
+  \mathsf{cons}(a,\mathsf{nil}),x);
+  $$
+  \item binary extension: if $C(x)$, $\mathsf{NonNeg}_F(a)$,
+  $\mathsf{NonNeg}_F(b)$, $(a+_F b)\sim_F1_F$, and
+  $\mathsf{Bracket}_C(ys,\mu,y)$, then
+  $$
+  \mathsf{Bracket}_C\bigl(\mathsf{cons}(x,ys),
+  \mathsf{cons}(a,b\cdot_F\mu),
+  (a\odot x)+_V(b\odot y)\bigr),
+  $$
+  where $b\cdot_F\mu$ denotes pointwise scalar multiplication of the tail
+  weight spine.
+\end{enumerate}
+Thus $\mathsf{ConvAffSpine}_C(xs,\lambda,z)$ records both the visible finite
+unit-sum weight spine and the recursively bracketed affine endpoint built from
+binary affine-combination rows.
+\end{definition}
+\leandef{BEDC.Derived.ConvexSetUp.ConvexSetSingletonAffineSpine}
+
+\begin{theorem}[ConvexSet finite affine-spine closure]
+\label{thm:convexset-finite-affine-spine-closure}
+Let a $\ConvexSetUp$ certificate be given over a scalar $\FieldUp(F)$ and a
+vector carrier from $\VecSpaceUp(F,V)$, with notation as in
+\autoref{def:convexset-binary-affine-combination-row}. For every finite point
+spine $xs:\mathsf{ListCarrier}(V)$, finite scalar-weight spine
+$\lambda:\mathsf{ListCarrier}(F)$, and endpoint $z:V$, if
+$$
+\mathsf{ConvAffSpine}_C(xs,\lambda,z)
+$$
+holds, then the recursively bracketed affine endpoint is carried by the convex
+carrier:
+$$
+C(z).
+$$
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:convexset-finite-affine-spine-data}. The finite-weight
+readback supplies the advertised carried-point, nonnegative-weight, and
+unit-sum scalar spine. The carrier conclusion is proved by induction on the
+local bracketing witness $\mathsf{Bracket}_C(xs,\lambda,z)$.
+
+In the singleton clause, the endpoint is the displayed point $x$, and the
+clause itself supplies $C(x)$. Hence the endpoint is carried.
+
+In the binary-extension clause, the induction hypothesis applied to the tail
+bracketing witness gives $C(y)$. The current clause supplies $C(x)$,
+$\mathsf{NonNeg}_F(a)$, $\mathsf{NonNeg}_F(b)$, and the local unit-sum
+comparison $(a+_F b)\sim_F1_F$. Applying the binary affine-combination row of
+\autoref{def:convexset-binary-affine-combination-row} to the carried points
+$x,y$ and coefficients $a,b$ gives
+$$
+C\bigl((a\odot x)+_V(b\odot y)\bigr).
+$$
+This endpoint is exactly the endpoint named by the binary-extension clause.
+The induction therefore covers every recursively bracketed finite affine-spine
+witness, so $C(z)$ holds.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvexSetUp.ConvexSetSingletonAffineSpine\_closure}
+
+\begin{definition}[ConvexSet pointwise intersection carrier]
+\label{def:convexset-pointwise-intersection-carrier}
+Let two $\ConvexSetUp$ certificates be given over the same scalar $\FieldUp(F)$ and the same vector carrier from $\VecSpaceUp(F,V)$, using the same scalar classifier $\sim_F$, scalar addition $+_F$, scalar unit $1_F$, nonnegative predicate $\mathsf{NonNeg}_F$, scalar action $\odot$, and vector addition $+_V$. Write $C,D:V\to\mathsf{Prop}$ for their convex carriers. The pointwise intersection carrier $C\cap_{\ConvexSetUp}D$ is the predicate on $V$ defined by
+$$
+(C\cap_{\ConvexSetUp}D)(z)\Longleftrightarrow C(z)\land D(z).
+$$
+\end{definition}
+
+\begin{theorem}[ConvexSet pointwise intersection affine-combination closure]
+\label{thm:convexset-pointwise-intersection-affine-combination-closure}
+Let two $\ConvexSetUp$ certificates be given as in \autoref{def:convexset-pointwise-intersection-carrier}. Assume each certificate supplies the binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row} for its own convex carrier, and write $K:=C\cap_{\ConvexSetUp}D$. For all $a,b:F$ and $x,y:V$, if
+$$
+K(x)\land K(y)\land \mathsf{NonNeg}_F(a)\land \mathsf{NonNeg}_F(b)
+\land (a+_F b)\sim_F 1_F,
+$$
+then
+$$
+K\bigl((a\odot x)+_V(b\odot y)\bigr).
+$$
+Thus the pointwise intersection satisfies the same nonnegative unit-sum binary affine-combination closure row over the common $\FieldUp$ and $\VecSpaceUp$ data.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:convexset-pointwise-intersection-carrier}. From $K(x)$ obtain $C(x)$ and $D(x)$, and from $K(y)$ obtain $C(y)$ and $D(y)$. The scalar hypotheses are shared by the two input certificates because the scalar classifier, scalar addition, scalar unit, nonnegative predicate, scalar action, and vector addition are the common data named in the definition.
+
+Apply the binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row} for the carrier $C$ to the coefficients $a,b$ and the carried points $x,y$. The projected carrier hypotheses, the two nonnegativity hypotheses, and the unit-sum classifier hypothesis give
+$$
+C\bigl((a\odot x)+_V(b\odot y)\bigr).
+$$
+Apply the same row for the carrier $D$ with the same coefficients and points. The other projected carrier hypotheses and the same scalar hypotheses give
+$$
+D\bigl((a\odot x)+_V(b\odot y)\bigr).
+$$
+Pairing these two carrier conclusions and folding \autoref{def:convexset-pointwise-intersection-carrier} gives
+$$
+K\bigl((a\odot x)+_V(b\odot y)\bigr),
+$$
+which is exactly the displayed binary affine-combination closure row for the intersection carrier.
+\end{proof}

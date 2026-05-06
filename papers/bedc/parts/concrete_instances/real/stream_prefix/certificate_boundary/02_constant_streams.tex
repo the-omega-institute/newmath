@@ -1,0 +1,103 @@
+\begin{theorem}[RegSeqRat constant stream spine]
+\label{thm:regseqrat-constant-stream-spine}
+For every history $d:\Hist$, a carrier
+$\mathsf{RatHistoryCarrier}(d)$ supplies a $\RegSeqRat$ stream certificate spine
+for $\mathsf{RatConstStream}_d$. The spine consists of the
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)$ row, the self
+$\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_d)$ row, and a constant regularity ledger: at any two
+certified unary observation indices, both exposed endpoints are the same
+$\RatUp$ point $d$, and every dyadic-tolerance request is discharged by RatUp
+classifier reflexivity.
+\end{theorem}
+\begin{proof}
+Apply the carrier half of
+\autoref{thm:rat-stream-name-constant-point-exactness} from right to left to
+the displayed $\mathsf{RatHistoryCarrier}(d)$. This gives the stream-name
+carrier row for $\mathsf{RatConstStream}_d$.
+
+For the classifier row, unfold
+Definition~\ref{def:real-unary-observation-stream-classifier}. A certified
+unary observation $n$ reads
+$\mathsf{RatConstStream}_d(n)=d$, so the required pointwise
+$\mathsf{RatHistoryClassifier}(\mathsf{RatConstStream}_d(n),
+\mathsf{RatConstStream}_d(n))$ is RatUp classifier reflexivity at the supplied
+carrier of $d$.
+
+The regularity ledger is constant. Given any two certified unary observation
+indices, the point-exactness theorem identifies both exposed endpoints with
+the same RatUp point $d$. Thus the two observations have the same carrier, and
+each dyadic tolerance request compares $d$ with itself, again by RatUp
+reflexivity. These rows are exactly the data named in
+Definition~\ref{def:regseqrat-stream-certificate-spine}.
+\end{proof}
+
+\begin{theorem}[RegSeqRat reindexed constant stream spine]
+\label{thm:regseqrat-reindexed-constant-stream-spine}
+For histories $d,e:\Hist$ and observation schedules $r,q:\Hist\to\Hist$,
+$\mathsf{RatHistoryCarrier}(d)$ supplies $\RegSeqRat$ stream certificate
+spines for both $\mathsf{RatConstStream}_d\circ r$ and
+$\mathsf{RatConstStream}_d$. If $\mathsf{RatHistoryClassifier}(d,e)$ is
+supplied, then the two independently reindexed constant streams
+$\mathsf{RatConstStream}_d\circ r$ and
+$\mathsf{RatConstStream}_e\circ q$ carry compatible $\RegSeqRat$ stream
+certificate spines and the classifier row
+$\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q)$.
+\end{theorem}
+\begin{proof}
+First build the carried stream rows. Apply
+\autoref{thm:rat-stream-name-independent-reindexed-constant-classifier} to the
+carrier row of $d$ to obtain the stream-name carrier for
+$\mathsf{RatConstStream}_d\circ r$, and apply
+\autoref{thm:regseqrat-constant-stream-spine} to the same carrier row to obtain
+the unreindexed constant-stream spine.
+
+The regularity ledger for $\mathsf{RatConstStream}_d\circ r$ is the same
+constant ledger used in \autoref{thm:regseqrat-constant-stream-spine}. At any
+certified unary observation index, the schedule $r$ is read before the constant
+stream is evaluated, and the exposed endpoint is still $d$. Thus every dyadic
+tolerance request again compares the RatUp point $d$ with itself and is
+discharged by RatUp classifier reflexivity.
+
+Now suppose $\mathsf{RatHistoryClassifier}(d,e)$ is supplied. Its endpoint
+carrier rows provide the corresponding constant regularity ledgers for the
+$d$-stream and the $e$-stream. The StreamNameUp classifier row follows from
+\autoref{thm:rat-stream-name-independent-reindexed-constant-classifier}, while
+\autoref{thm:real-constant-independent-reindexed-stream-bridge} reads the same
+point classifier as the RealUp unary-observation stream classifier for the two
+independently reindexed constant streams.
+
+Combining these rows gives the two compatible $\RegSeqRat$ spines together with
+the displayed $\mathsf{RealUnaryStreamClassifier}$ row. No quotient,
+completion, or host real structure is used.
+\end{proof}
+
+\begin{theorem}[RegSeqRat constant stream seal classifier package]
+\label{thm:regseqrat-constant-stream-seal-classifier-package}
+Let $X$ and $Y$ be sealed $\RealUp$ candidates exposing
+$\mathsf{RatConstStream}_d\circ r$ and
+$\mathsf{RatConstStream}_e\circ q$, respectively. If the two exposed streams
+carry the compatible $\RegSeqRat$ stream certificate spines supplied by
+\autoref{thm:regseqrat-reindexed-constant-stream-spine}, and if the seal
+records the displayed row
+$\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q)$, then the seal exports the RealUp
+observation classifier required by
+\autoref{def:real-classifier-specification}.
+\end{theorem}
+\begin{proof}
+Project the two exposed rational-observation streams from the $\RealUp$ seals.
+By hypothesis, the two streams already carry the $\RegSeqRat$ spines produced
+for the independently reindexed constant streams.
+
+Use the classifier row supplied by
+\autoref{thm:regseqrat-reindexed-constant-stream-spine}. It is exactly the
+$\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q)$ row recorded by the seal.
+
+Finally apply \autoref{thm:regseqrat-realup-seal-consumes-stream-spine} to the
+two spines and the displayed stream classifier. The conclusion is precisely
+the RealUp observation classifier named in
+\autoref{def:real-classifier-specification}.
+\end{proof}

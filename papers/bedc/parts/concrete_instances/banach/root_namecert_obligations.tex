@@ -1,0 +1,131 @@
+\begin{definition}[Banach root obligation source]
+\label{def:banach-root-obligation-source}
+The Banach root obligation source is the paper-side source tuple whose carrier
+row is the concrete Banach carrier of \autoref{def:banach-concrete-carrier}.
+Its distinguished concrete instance is the singleton carrier of
+\autoref{def:banach-singleton-empty-history-instance}. Its metric row is the
+norm-induced Banach metric witness of
+\autoref{thm:banach-norm-induced-metric-compatibility}, and its completion row
+is the complete-metric interface of
+\autoref{def:banach-complete-metric-namecert-interface}.
+
+Thus the root source names one surface object: a carried history predicate, the
+$\hsame$ classifier on representatives, the norm-induced metric ledger, and
+the regular Cauchy complete-metric witness family read at the Banach surface.
+\end{definition}
+
+\begin{theorem}[Banach root carrier-classifier obligation]
+\label{thm:banach-root-carrier-classifier-obligation}
+The Banach root obligation source of
+\autoref{def:banach-root-obligation-source} supplies the carried history
+predicate and the classifier transport field required by the
+$\NameCert_{\BanachUp}$ surface. For the singleton root, the carried predicate
+is the singleton empty-history carrier, and every accepted classifier
+comparison transports the displayed carrier, vector, norm, and metric rows.
+\end{theorem}
+\begin{proof}
+Start with the source tuple of
+\autoref{def:banach-root-obligation-source}. Its carrier component is the
+concrete Banach carrier of \autoref{def:banach-concrete-carrier}, so the
+history predicate and the displayed norm rows are already part of the root
+data.
+
+For classifier transport, apply
+\autoref{thm:banach-hsame-transport}. It moves carried representatives, norm
+rows, induced metric rows, stream observations, modulus histories, limits, and
+late-observation ledgers componentwise along $\hsame$.
+
+In the singleton root, the carrier and classifier are fixed by
+\autoref{def:banach-singleton-empty-history-instance} and
+\autoref{thm:singleton-empty-history-norm-carrier-classifier}. Hence the
+transport relation collapses to the singleton carrier comparison while still
+preserving every displayed Banach row.
+\end{proof}
+\leanchecked{BEDC.Derived.BanachUp.BanachRoot\_carrier\_classifier\_obligation}
+
+\begin{theorem}[Banach root norm-metric obligation]
+\label{thm:banach-root-norm-metric-obligation}
+The metric row carried by the Banach root obligation source is exactly the
+norm-induced metric witness, and this row is stable under the Banach carrier
+classifier. In the singleton root, the displayed distance between carried
+histories $m,n:\mathsf{BHist}$ is the RealUp zero endpoint row precisely along
+the singleton classifier comparison $\rho_{\emp}(m,n)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_root\_norm\_metric\_obligation}
+\begin{proof}
+The metric component of the root source is defined to be the norm-induced
+Banach metric row. Applying
+\autoref{thm:banach-norm-induced-metric-compatibility} identifies the
+singleton instance of this row with the constant RealUp zero endpoint exactly
+on the singleton classifier comparison.
+
+For a general Banach candidate, apply
+\autoref{thm:banach-metric-induced-by-norm}. It reads the distance predicate
+as the norm of a vector difference and supplies the metric laws demanded by the
+complete-metric surface.
+
+Stability under replacement of representatives is the content of
+\autoref{thm:banach-classifier-transport-obligation}. The norm values and the
+induced distances transport across the vector classifier, so the same metric
+row remains valid after the carrier classifier is applied.
+\end{proof}
+
+\begin{theorem}[Banach root completion obligation]
+\label{thm:banach-root-completion-obligation}
+Every regular Cauchy $\StreamNameUp$ input accepted by the Banach root
+obligation source has a carried Banach limit. Any two displayed limits for the
+same accepted input are equal up to the Banach classifier, and in the singleton
+root this classifier is the singleton empty-history classifier.
+\end{theorem}
+\begin{proof}
+First read the accepted input through the complete-normed carrier surface.
+\autoref{thm:banach-regular-cauchy-completion-obligation} supplies the
+carried limit endpoint, convergence modulus, and uniqueness row for regular
+Cauchy inputs over the induced metric.
+
+Next place that displayed limit at the NameCert boundary. Apply
+\autoref{thm:banach-complete-metric-namecert-coupling}; the complete-metric
+row is accepted only through the Banach metric witness, so the produced package
+does not leave the root surface.
+
+For uniqueness in the concrete singleton root, apply
+\autoref{thm:banach-singleton-limit-namecert-uniqueness}. It converts any two
+Banach-surface complete-metric rows for the same stream into an $\hsame$
+comparison of limits, and then into the singleton vector classifier
+$\rho_{\emp}$.
+\end{proof}
+
+\begin{theorem}[Banach root NameCert surface]
+\label{thm:banach-root-namecert-surface}
+The Banach root obligation source assembles the paper-side
+$\NameCert_{\BanachUp}$ surface. Its fields are the concrete carrier,
+the $\hsame$ classifier on carried representatives, the norm-induced metric
+row, the regular Cauchy completion row, the visible ledger for stream,
+modulus, limit, norm, distance, and comparison histories, and an absent
+standard-bridge slot. No ordinary Banach-space bridge is claimed by this root
+surface.
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are supplied by
+\autoref{thm:banach-root-carrier-classifier-obligation}. They bind the root
+surface to the carried history predicate and to componentwise $\hsame$
+transport rather than to an external quotient.
+
+The metric field is supplied by
+\autoref{thm:banach-root-norm-metric-obligation}. It identifies the Banach
+distance slot with the norm-induced metric witness and records that this row
+is stable under classifier transport.
+
+The completion field is supplied by
+\autoref{thm:banach-root-completion-obligation}. It turns every accepted
+regular Cauchy stream into a carried limit and records uniqueness up to the
+Banach classifier.
+
+The ledger fields are exactly the rows named in
+\autoref{def:banach-root-obligation-source}: carrier histories, stream
+observations, modulus histories, limit histories, norm rows, distance rows,
+and rational comparison rows. Since the source names no ordinary
+Banach-space bridge, the standard-bridge row is absent and the root surface is
+the concrete BEDC obligation package used by downstream Hilbert, topology, and
+bounded-operator consumers.
+\end{proof}

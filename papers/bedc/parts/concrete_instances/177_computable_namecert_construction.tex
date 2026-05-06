@@ -8,3 +8,168 @@ The computable-function interface $\ComputableUp$ packages partial functions $\m
 
 \section{The certificate}
 \label{sec:computable-certificate}
+
+\begin{definition}[Bounded simulation witness for $\ComputableUp$]
+\label{def:computable-bounded-simulation-witness}
+Fix a deterministic Turing-machine code $P$ whose input and output tapes carry unary $\NatUp$ histories. For unary histories $n$, $B$, and $m$, the judgment
+$$
+  \mathsf{BoundedSim}(P,n,B,m)
+$$
+means that there is a $\SeqUp$ trace $C$ of configurations indexed by the unary prefixes of $B$ such that:
+\begin{enumerate}
+  \item the zero-prefix entry is the initial configuration of $P$ on input $n$;
+  \item every one-step extension in the prefix interval follows the transition relation of $P$, with halted configurations allowed to repeat;
+  \item the endpoint entry at bound $B$ is halted and reads back the unary output $m$.
+\end{enumerate}
+The trace is a $\SeqUp$ object in the sense of \autoref{ch:concrete-instances-seq-namecert}, while the bound and output are unary histories in the sense of \autoref{def:unary-history-judgment}. Thus $B$ is an upper bound, not an exact running time.
+\end{definition}
+
+\begin{definition}[Bounded $\ComputableUp$ graph certificate]
+\label{def:computable-bounded-graph-certificate}
+For a partial graph $F\subseteq\NatUp\times\NatUp$, a bounded $\ComputableUp$ graph certificate consists of a deterministic machine code $P_F$ and a $\SeqUp$ unary-bound modulus $\beta_F$ such that, for all unary $n$ and $m$,
+$$
+  F(n,m)\Longleftrightarrow \mathsf{BoundedSim}(P_F,n,\beta_F(n),m),
+$$
+and any two bounded simulations for the same input return $\hsame$-classified output histories. The modulus value $\beta_F(n)$ is part of the certificate ledger, so each accepted graph value carries its displayed time-step bound.
+\end{definition}
+\leanstmt{BEDC.Derived.ComputableUp.ComputableBoundedGraphCertificate}
+
+\begin{theorem}[Computable composition by bounded simulation]
+\label{thm:computable-composition-bounded-simulation}
+Let $F$ and $G$ be partial $\NatUp$ graphs carrying bounded $\ComputableUp$ graph certificates $(P_F,\beta_F)$ and $(P_G,\beta_G)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. Suppose $F(n,m)$ is witnessed by
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m)
+$$
+and $G(m,k)$ is witnessed by
+$$
+  \mathsf{BoundedSim}(P_G,m,\beta_G(m),k).
+$$
+Then there is a unary history $B$ and a deterministic composite machine code $P_{G\circ F}$ such that
+$$
+  \mathsf{BoundedSim}(P_{G\circ F},n,B,k).
+$$
+Consequently the composite graph
+$$
+  (G\circ F)(n,k) := \exists m:\NatUp,\ F(n,m)\ \text{and}\ G(m,k)
+$$
+has a certified bounded simulation returning $k$ on input $n$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComputableUp.ComputableBoundedSim\_composition}
+\begin{proof}
+Write $b_F:=\beta_F(n)$ and $b_G:=\beta_G(m)$. Since the two certificates are $\SeqUp$ unary-bound moduli over the $\NatUp$ source, $b_F$ and $b_G$ are unary histories. Apply the continuation rules of \autoref{def:continuation-relation} to choose a history $B$ with $\ContR(b_F,b_G,B)$. By unary closure under continuation from \autoref{prop:unary-repetition-closed-under-continuation}, $B$ is unary.
+
+Define $P_{G\circ F}$ as the phase machine that first runs $P_F$ on the input tape, reads the halted unary output as the next input tape, and then runs $P_G$. The phase boundary is exact: the endpoint row of the first bounded trace is halted with output $m$, which is precisely the initial input required by the second bounded trace.
+
+Build a $\SeqUp$ trace over the unary prefixes of $B$ by prefix recursion along the displayed continuation witness $\ContR(b_F,b_G,B)$. On the first segment, indexed by prefixes of $b_F$, use the trace supplied by $\mathsf{BoundedSim}(P_F,n,b_F,m)$. At the boundary $b_F$, the first trace is already halted with output $m$ by \autoref{def:computable-bounded-simulation-witness}. On the second segment, indexed as the continuation of $b_F$ by prefixes of $b_G$, use the trace supplied by $\mathsf{BoundedSim}(P_G,m,b_G,k)$.
+
+The transition rows are valid in all cases. Inside the first segment they are the transition rows of $P_F$; inside the second segment they are the transition rows of $P_G$; at the boundary they are the phase switch of $P_{G\circ F}$. Halted-state repetition in \autoref{def:computable-bounded-simulation-witness} permits the first bounded run to occupy its whole bound before the second phase begins. The endpoint of the composite bound corresponds to the endpoint of the $G$ trace, so it is halted with output $k$. Hence the assembled trace is a witness of $\mathsf{BoundedSim}(P_{G\circ F},n,B,k)$.
+\end{proof}
+
+\begin{theorem}[Computable bounded graph certificate is functional]
+\label{thm:computable-bounded-graph-certificate-functional}
+Let $F\subseteq\NatUp\times\NatUp$ be a partial graph carrying a bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. For unary histories $n$, $m$, and $m'$, if $F(n,m)$ and $F(n,m')$ both hold, then $m$ and $m'$ are classified as the same $\NatUp$ output:
+$$
+  m\hsame m'.
+$$
+\end{theorem}
+\begin{proof}
+Apply the graph-equivalence clause of the bounded certificate to the first graph membership. It converts $F(n,m)$ into a bounded simulation witness
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m).
+$$
+Apply the same clause to the second graph membership, obtaining
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m').
+$$
+These are bounded simulations for the same deterministic machine code, the same input history, and the same displayed bound, because the bound is the certificate modulus value $\beta_F(n)$. The output-determinacy clause of \autoref{def:computable-bounded-graph-certificate} therefore compares their endpoint readbacks and yields $m\hsame m'$. By the unary classifier specification of \autoref{def:unary-classifier-specification}, this is exactly sameness of the two $\NatUp$ output classes.
+\end{proof}
+
+\begin{theorem}[Computable bounded graph single-valuedness]
+\label{thm:computable-bounded-graph-single-valuedness}
+Let $F\subseteq\NatUp\times\NatUp$ carry a bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. For unary histories $n$, $m$, and $m'$, if $F(n,m)$ and $F(n,m')$ both hold, then the two accepted rows expand to bounded simulations at the same displayed certificate bound,
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m)
+  \quad\text{and}\quad
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m'),
+$$
+and their output histories are classified together:
+$$
+  m\hsame m'.
+$$
+Thus a bounded $\ComputableUp$ graph certificate makes the accepted output over each unary input single-valued up to the $\NatUp$ history classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComputableUp.ComputableBoundedSim\_same\_bound\_output\_deterministic}
+\begin{proof}
+Unpack the bounded graph certificate of \autoref{def:computable-bounded-graph-certificate}. Its graph-equivalence field states, for every unary input and unary output, that graph membership is equivalent to bounded simulation by the certified machine at the certified bound:
+$$
+  F(n,x)\Longleftrightarrow \mathsf{BoundedSim}(P_F,n,\beta_F(n),x).
+$$
+Apply this field with $x=m$ to the accepted row $F(n,m)$, obtaining
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m).
+$$
+Apply the same field with $x=m'$ to the accepted row $F(n,m')$, obtaining
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m').
+$$
+The two simulations now have the same deterministic code $P_F$, the same unary input $n$, and the same displayed ledger bound $\beta_F(n)$. The output-determinacy field of the same bounded graph certificate says that any two bounded simulations for one input return $\hsame$-classified output histories. Applying that field to the two displayed simulation witnesses gives $m\hsame m'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComputableUp.ComputableBoundedGraphCertificate\_single\_valuedness}
+
+\begin{definition}[Unary classifier identity graph]
+\label{def:computable-unary-classifier-identity-graph}
+The identity graph on $\NatUp$ histories is the partial graph
+$$
+  \mathsf{Id}_{\NatUp}(n,m)
+  :\Longleftrightarrow
+  \UnaryHistory(n)\land\UnaryHistory(m)\land n\hsame m.
+$$
+Its equality content is the unary classifier of \autoref{def:unary-classifier-specification}, not host equality of history terms.
+\end{definition}
+
+\begin{definition}[Halted unary identity code with empty bound]
+\label{def:computable-halted-unary-identity-code}
+Let $P_{\mathsf{id}}$ be the one-state deterministic machine code whose unique state is halted. On unary input $n$, its initial configuration already carries $n$ on the output tape. Its halted readout is the $\NatUp$ classifier readout: a unary output history $m$ is read at that row exactly when $n\hsame m$. The halted-state repeat row is the only transition row. Define the displayed bound modulus by
+$$
+  \beta_{\mathsf{id}}(n):=\emp.
+$$
+This is the constant-empty $\SeqUp$ unary-bound modulus, since $\emp$ is unary by \autoref{def:unary-history-judgment}.
+\end{definition}
+
+\begin{lemma}[Identity empty-bound simulation exactness]
+\label{lem:computable-identity-empty-bound-simulation-exactness}
+For unary histories $n$ and $m$,
+$$
+  \mathsf{BoundedSim}(P_{\mathsf{id}},n,\beta_{\mathsf{id}}(n),m)
+  \Longleftrightarrow
+  \mathsf{Id}_{\NatUp}(n,m).
+$$
+\end{lemma}
+\begin{proof}
+Assume first $\mathsf{Id}_{\NatUp}(n,m)$. By \autoref{def:computable-unary-classifier-identity-graph}, the histories $n$ and $m$ are unary and $n\hsame m$. Use the one-entry $\SeqUp$ trace indexed by the empty bound $\beta_{\mathsf{id}}(n)=\emp$. Its zero-prefix entry is the initial configuration of $P_{\mathsf{id}}$ on $n$, which is already halted by \autoref{def:computable-halted-unary-identity-code}. There are no nontrivial one-step extensions in the empty prefix interval. The endpoint is the same halted row, and its classifier readout accepts $m$ because $n\hsame m$. Hence the trace satisfies \autoref{def:computable-bounded-simulation-witness}.
+
+Conversely, assume $\mathsf{BoundedSim}(P_{\mathsf{id}},n,\beta_{\mathsf{id}}(n),m)$. Since the displayed bound is $\emp$, the endpoint row is the zero-prefix row. By \autoref{def:computable-bounded-simulation-witness}, that row is the initial configuration of $P_{\mathsf{id}}$ on $n$ and is halted with readout $m$. The readout clause of \autoref{def:computable-halted-unary-identity-code} gives $n\hsame m$, and the simulation witness supplies the unary input and unary output histories. Therefore $\mathsf{Id}_{\NatUp}(n,m)$ by \autoref{def:computable-unary-classifier-identity-graph}.
+\end{proof}
+
+\begin{theorem}[Computable identity bounded graph certificate]
+\label{thm:computable-identity-bounded-graph-certificate}
+The pair $(P_{\mathsf{id}},\beta_{\mathsf{id}})$ is a bounded $\ComputableUp$ graph certificate for $\mathsf{Id}_{\NatUp}$. In particular, for all unary histories $n$ and $m$,
+$$
+  \mathsf{Id}_{\NatUp}(n,m)
+  \Longleftrightarrow
+  \mathsf{BoundedSim}(P_{\mathsf{id}},n,\beta_{\mathsf{id}}(n),m),
+$$
+and any two bounded simulations for the same unary input return $\hsame$-classified output histories.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_certificate}
+\begin{proof}
+The program field is the deterministic halted code $P_{\mathsf{id}}$ from \autoref{def:computable-halted-unary-identity-code}. The bound field is the constant-empty $\SeqUp$ unary-bound modulus $\beta_{\mathsf{id}}$; its value is part of the certificate ledger and is unary for every unary input.
+
+The graph-equivalence field is exactly \autoref{lem:computable-identity-empty-bound-simulation-exactness}, read in both directions. For output determinacy, let
+$$
+  \mathsf{BoundedSim}(P_{\mathsf{id}},n,\beta_{\mathsf{id}}(n),m)
+  \quad\text{and}\quad
+  \mathsf{BoundedSim}(P_{\mathsf{id}},n,\beta_{\mathsf{id}}(n),m')
+$$
+be two bounded simulations for the same unary input. Applying the reverse direction of \autoref{lem:computable-identity-empty-bound-simulation-exactness} gives $\mathsf{Id}_{\NatUp}(n,m)$ and $\mathsf{Id}_{\NatUp}(n,m')$. Unfolding \autoref{def:computable-unary-classifier-identity-graph} gives $n\hsame m$ and $n\hsame m'$. Symmetry and transitivity of history-sameness from \autoref{thm:history-sameness-equivalence} yield $m\hsame m'$. These are precisely the fields required by \autoref{def:computable-bounded-graph-certificate}.
+\end{proof}

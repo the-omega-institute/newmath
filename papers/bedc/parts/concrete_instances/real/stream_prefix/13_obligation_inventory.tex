@@ -1,0 +1,129 @@
+\begin{theorem}[Real stream-prefix carrier obligation]
+\label{thm:real-stream-prefix-carrier-obligation}
+A RealUp stream-prefix candidate satisfies the carrier face only when every
+selected rational-observation endpoint exposes the RatUp endpoint carrier rows
+through the $\RegSeqRat$ spine. Concretely, for rational-observation streams
+$x,y:\mathbb{N}\to\Hist$ and a certified finite prefix, the candidate carrier
+must contain the $\mathsf{RatHistoryCarrier}(x(i))$ and
+$\mathsf{RatHistoryCarrier}(y(i))$ rows for each certified endpoint $i$ named
+by the prefix, and those rows must be the endpoint rows read from
+Definition~\ref{def:regseqrat-stream-certificate-spine},
+\autoref{thm:regseqrat-carrier-obligation}, and the prefix endpoint and
+readback blocks of \autoref{thm:real-stream-prefix-classifier-endpoint}.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:regseqrat-stream-certificate-spine}. Its carrier
+ledger is indexed by certified unary observations and supplies the rational
+stream-name carrier together with endpoint rational-history carrier rows.
+
+Apply \autoref{thm:regseqrat-carrier-obligation} to identify those endpoint
+rows as the RatUp carrier face demanded by the spine. For a finite prefix,
+\autoref{thm:real-stream-prefix-classifier-endpoint} selects the endpoint
+classifier at the displayed prefix index, and the prefix readback blocks keep
+that selected endpoint attached to the same observation row.
+
+Thus a RealUp stream-prefix carrier cannot use an external carrier datum: the
+visible endpoint carriers are exactly the
+$\mathsf{RatHistoryCarrier}$ rows projected from the certified unary
+observation spine and read back at the selected prefix endpoints.
+\end{proof}
+
+\begin{theorem}[Real stream-prefix classifier obligation]
+\label{thm:real-stream-prefix-classifier-obligation}
+The classifier face required by the RealUp certificate boundary is supplied by
+the pair of predicates $\mathsf{RealStreamClassifier}$ and
+$\mathsf{RealStreamPrefixClassifier}$. For rational-observation streams
+$x,y:\mathbb{N}\to\Hist$, the global classifier gives every finite prefix by
+\autoref{thm:real-stream-finite-prefix-exactness}, each finite prefix exposes
+its selected endpoint by
+\autoref{thm:real-stream-prefix-classifier-endpoint}, and the global
+classifier rows are closed under the symmetry and transitivity operations of
+\autoref{thm:real-stream-classifier-symmetry} and
+\autoref{thm:real-stream-classifier-transitivity}.
+\end{theorem}
+\begin{proof}
+Start with a global $\mathsf{RealStreamClassifier}(x,y)$ row. Apply
+\autoref{thm:real-stream-finite-prefix-exactness} in the forward direction to
+obtain $\mathsf{RealStreamPrefixClassifier}(x,y,n)$ for every selected finite
+prefix $n$.
+
+For a chosen prefix, apply
+\autoref{thm:real-stream-prefix-classifier-endpoint}. This projects the
+RatUp endpoint classifier
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$, so the finite classifier carries
+the same endpoint face required by the certificate boundary.
+
+Conversely, the reverse direction of
+\autoref{thm:real-stream-finite-prefix-exactness} repacks the family of finite
+prefix classifiers into the global stream classifier. Symmetry and
+transitivity are then the global operations supplied by
+\autoref{thm:real-stream-classifier-symmetry} and
+\autoref{thm:real-stream-classifier-transitivity}, with endpoint projection
+returning to the finite face whenever the boundary asks for a selected row.
+\end{proof}
+
+\begin{theorem}[Real stream-prefix stability obligation]
+\label{thm:real-stream-prefix-stability-obligation}
+The RealUp stream-prefix stability face is closed under $\hsame$ transport,
+unary-context wrapping, and selected continuation packages. More precisely,
+\autoref{thm:real-stream-prefix-classifier-hsame-transport},
+\autoref{thm:real-stream-prefix-unary-context-closed},
+\autoref{thm:real-stream-classifier-hsame-transport}, and
+\autoref{thm:real-stream-classifier-selected-continuation-full-shape-package}
+preserve the endpoint classifier rows used by
+$\mathsf{RealStreamPrefixClassifier}$ and repack them as the corresponding
+global $\mathsf{RealStreamClassifier}$ rows when all finite prefixes are
+available.
+\end{theorem}
+\begin{proof}
+For finite prefixes, apply
+\autoref{thm:real-stream-prefix-classifier-hsame-transport} to transport each
+selected endpoint classifier along the two pointwise $\hsame$ comparisons.
+Apply \autoref{thm:real-stream-prefix-unary-context-closed} when the endpoints
+are wrapped by unary prefix and tail contexts; the induction in that theorem
+keeps every endpoint RatUp classifier in the prefix ledger.
+
+For global stream rows, apply
+\autoref{thm:real-stream-classifier-hsame-transport}. It transports the
+pointwise classifier family and therefore preserves the global classifier face
+seen by finite-prefix exactness.
+
+For selected continuations, apply
+\autoref{thm:real-stream-classifier-selected-continuation-full-shape-package}.
+It supplies the endpoint shape, denominator, unary, and exclusion rows attached
+to the same selected continuation data. Repacking through
+\autoref{thm:real-stream-finite-prefix-exactness} identifies the finite prefix
+and global classifier faces, so all displayed stability operations preserve
+the RealUp classifier rows.
+\end{proof}
+
+\begin{theorem}[Real stream-prefix ledger and seal obligation]
+\label{thm:real-stream-prefix-ledger-seal-obligation}
+Finite observation windows, dyadic ledger rows, and the $\RegSeqRat$ seal are
+sufficient for the visible RealUp seal obligation. The ledger is the finite
+policy of Definition~\ref{def:real-ledger-policy}; its classifier stability is
+the package of
+\autoref{thm:real-unary-stream-classifier-stability-package}; its scoped
+stream-name interface is
+\autoref{thm:regseqrat-streamname-scoped-interface}; and the seal is consumed
+by \autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation} without any
+quotient or completion datum.
+\end{theorem}
+\begin{proof}
+Gather the finite observation rows named by
+Definition~\ref{def:real-ledger-policy}. They record the selected window
+indices, dyadic comparison witnesses, regularity certificates, and classifier
+comparison certificates used by the RealUp boundary.
+
+Apply \autoref{thm:real-unary-stream-classifier-stability-package} to keep the
+unary stream classifier stable across the recorded observations. Then apply
+\autoref{thm:regseqrat-streamname-scoped-interface} to read those observations
+as the scoped $\RegSeqRat$ stream-name interface, including the RatUp endpoint
+rows exposed by the spine.
+
+Finally, apply
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation}. The theorem
+consumes exactly the dyadic ledger rows and the scoped stream-name interface,
+so the visible RealUp seal follows without quotient representatives, metric
+completion data, or any carrier outside the $\RegSeqRat$ spine.
+\end{proof}

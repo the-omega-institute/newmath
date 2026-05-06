@@ -9,6 +9,7 @@ This chapter gives a concrete naming-certificate construction for the predicate 
 \label{def:zeta-val}
 For complex history \(s\) with \(\neg \hsame(s, \Eone(\emp))\) (i.e.\ \(s \neq 1\)), the predicate \(\mathsf{ZetaVal}(s, z)\) holds when \(z\) is the unique complex history obtained by evaluating the analytically continued \(\zeta\) at \(s\) (cite \autoref{ch:concrete-instances-zeta-continuation}).
 \end{definition}
+\leandef{BEDC.Derived.ZetaZerosUp.ZetaVal}
 
 \begin{lemma}[\(\zeta\)-value well-defined]
 \label{lem:zeta-val-well-defined}
@@ -17,11 +18,13 @@ For every \(s\) with \(s \neq 1\), \(\mathsf{ZetaVal}(s, z)\) determines a uniqu
 \begin{proof}
 Direct uniqueness from the analytic continuation operation of \(\ZetaContUp\).
 \end{proof}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaVal\_well\_defined}
 
 \begin{definition}[Zero predicate]
 \label{def:zeta-zero}
 The predicate \(\mathsf{ZetaZero}(s)\) holds when there exists \(z\) with \(\mathsf{ZetaVal}(s, z)\) and \(\hsame\) holds on both real components of \(z\) and the zero complex history.
 \end{definition}
+\leandef{BEDC.Derived.ZetaZerosUp.ZetaZero}
 
 \begin{theorem}[Zero complex history carrier]
 \label{thm:zeta-zero-complex-history-carrier}
@@ -53,6 +56,7 @@ At \(s = -2n\) with \(n \geq 1\), \(\sin(\pi s / 2) = \sin(-n \pi) = 0\) constru
 \label{def:nontrivial-zero}
 The predicate \(\mathsf{NontrivialZero}(s)\) holds when both \(\mathsf{ZetaZero}(s)\) and \(\mathsf{InCritStrip}(s)\) (\autoref{ch:concrete-instances-critical-strip-namecert}).
 \end{definition}
+\leandef{BEDC.Derived.ZetaZerosUp.NontrivialZero}
 
 \begin{theorem}[Non-trivial zeros lie in the strip]
 \label{thm:nontrivial-zero-in-strip}
@@ -61,6 +65,8 @@ For every \(s\) with \(\mathsf{NontrivialZero}(s)\), \(\mathsf{InCritStrip}(s)\)
 \begin{proof}[Sketch]
 \(\zeta\)'s non-vanishing on \(\Re(s) > 1\) gives the right boundary; the functional equation reduces \(\Re(s) \leq 0\) to \(\Re(s) \geq 1\); the explicit trivial-zero witnesses cover the negative even integers exactly.
 \end{proof}
+\leanchecked{BEDC.Derived.ZetaZerosUp.NontrivialZeroWitness\_continuation\_contradicts\_zero\_source}
+\leanchecked{BEDC.Derived.ZetaZerosUp.NontrivialZero\_in\_crit\_strip}
 
 \section{Closure laws}
 
@@ -100,6 +106,8 @@ The pattern is the joint predicate \(\mathsf{ZetaVal}(s, z) \wedge \hsame(z, \em
 \label{def:zeta-zero-classifier-spec}
 Two zero witnesses at the same \(s\) are classified together when their underlying \(\mathsf{ZetaVal}\) witnesses agree under \(\hsame\) on the zero complex history.
 \end{definition}
+\leandef{BEDC.Derived.ZetaZerosUp.ZetaZeroClassifierSpec}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroClassifierSpec\_zero\_anchor\_pair}
 
 \begin{theorem}[Zeta zero pattern classifies the zero result]
 \label{thm:zeta-zero-pattern-spec-zero-result-classifier}
@@ -234,11 +242,13 @@ pattern witnesses.
 \label{def:zeta-zero-stability-cert}
 The stability certificate consists of $\hsame$-respect of $\mathsf{ZetaZero}$, conjugate symmetry of zeros, and supplied boundary exclusion data: zeta boundary non-vanishing witnesses on $\Re(s)=1$, trivial-zero witnesses at negative even integers, and explicit right-half-plane exclusion witnesses for the chosen source interface.
 \end{definition}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaBoundaryNonvanishingWitness\_sigma\_nonempty}
 
 \begin{definition}[Zeta zero ledger policy]
 \label{def:zeta-zero-ledger-policy}
 The ledger policy records: (i) trivial zeros at $s = -2n$ for unary $n \geq 1$, (ii) boundary and right-half-plane exclusion only when the corresponding witness data is supplied, (iii) conjugate symmetry, (iv) the explicit zero classifier under $\hsame$. The ledger explicitly notes that exhaustive enumeration of non-trivial zeros is not constructively decidable from finite-precision data --- that gap is what RH (\autoref{ch:capstones-riemann-hypothesis}) addresses.
 \end{definition}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroLedgerPolicy\_boundary\_nonvanishing\_readback}
 
 \begin{theorem}[Concrete \(\ZetaZerosUp\) naming certificate]
 \label{thm:zeta-zeros-namecert}

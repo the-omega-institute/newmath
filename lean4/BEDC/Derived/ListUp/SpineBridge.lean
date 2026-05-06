@@ -1,5 +1,6 @@
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.SpineCoherence
 
 namespace BEDC.Derived.ListUp
@@ -15,6 +16,18 @@ def ListSpineBridgeClassifier (A : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
 
 def ListSpineHistoryCarrier (A : BHist -> Prop) (h : BHist) : Prop :=
   exists xs : ListCarrier BHist, ListSpineRep A h xs
+
+theorem ListSpineRep_self_classifier {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert A Rel) {p : BHist} {xs : ListCarrier BHist} :
+    ListSpineRep A p xs -> ListClassifierSpec Rel xs xs := by
+  intro rep
+  induction rep with
+  | nil _endpoint =>
+      constructor
+  | cons head _tail _spine _endpoint ih =>
+      constructor
+      · exact cert.equiv_refl head
+      · exact ih
 
 protected theorem ListSpineBridgeClassifier_stability_from_cons_boundary {A : BHist -> Prop}
     {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
@@ -141,5 +154,70 @@ theorem ListSpineBridgeClassifier_public_prefix_append_left_cancel {A : BHist ->
                     exact Exists.intro ys
                       (Exists.intro zs
                         (And.intro tailLeftRep (And.intro tailRightRep tails)))
+
+theorem ListSpineRep_cons_boundary_length_deterministic {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop}
+    (boundary :
+      forall {m a a' t t' p p' : BHist} {xs xs' : ListCarrier BHist},
+        A a -> A a' -> ListSpineRep A t xs -> ListSpineRep A t' xs' ->
+          Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+            hsame m (BHist.e1 p') -> Rel a a' ∧ ListClassifierSpec Rel xs xs')
+    {m : BHist} {xs ys : ListCarrier BHist} :
+    ListSpineRep A m xs -> ListSpineRep A m ys -> xs.length = ys.length := by
+  intro repX repY
+  have coherent :
+      forall {h : BHist} {xs ys : ListCarrier BHist},
+        ListSpineRep A h xs -> ListSpineRep A h ys -> ListClassifierSpec Rel xs ys :=
+    BEDC.Derived.ListUp.ListSpineRep_coherent_from_cons_boundary boundary
+  exact ListClassifierSpec_length_eq (coherent repX repY)
+
+theorem ListSpineBridgeClassifier_public_cons_readback_deterministic {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop}
+    (boundary :
+      forall {m a a' t t' p p' : BHist} {xs xs' : ListCarrier BHist},
+        A a -> A a' -> ListSpineRep A t xs -> ListSpineRep A t' xs' ->
+          Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+            hsame m (BHist.e1 p') -> Rel a a' ∧ ListClassifierSpec Rel xs xs')
+    {m a a' t t' p p' : BHist} :
+    A a -> A a' -> ListSpineHistoryCarrier A t -> ListSpineHistoryCarrier A t' ->
+      Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+        hsame m (BHist.e1 p') -> Rel a a' ∧ ListSpineBridgeClassifier A Rel t t' := by
+  intro sourceA sourceA' carrierT carrierT' leftCont rightCont sameLeft sameRight
+  cases carrierT with
+  | intro xs repT =>
+      cases carrierT' with
+      | intro xs' repT' =>
+          have readback :=
+            boundary sourceA sourceA' repT repT' leftCont rightCont sameLeft sameRight
+          exact And.intro readback.left
+            (Exists.intro xs
+              (Exists.intro xs'
+                (And.intro repT (And.intro repT' readback.right))))
+
+theorem ListSpineBridgeClassifier_represented_spine_alignment {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (coherent :
+      forall {h : BHist} {xs ys : ListCarrier BHist},
+        ListSpineRep A h xs -> ListSpineRep A h ys -> ListClassifierSpec Rel xs ys)
+    {h k : BHist} {xs0 ys0 : ListCarrier BHist} :
+    ListSpineRep A h xs0 -> ListSpineRep A k ys0 ->
+      ListSpineBridgeClassifier A Rel h k -> ListClassifierSpec Rel xs0 ys0 := by
+  intro repH repK bridge
+  cases bridge with
+  | intro xs bridgeTail =>
+      cases bridgeTail with
+      | intro ys bridgeData =>
+          cases bridgeData with
+          | intro repHX bridgeRest =>
+              cases bridgeRest with
+              | intro repKY classifiedBridge =>
+                  have classifiedLeft : ListClassifierSpec Rel xs0 xs :=
+                    coherent repH repHX
+                  have classifiedRight : ListClassifierSpec Rel ys ys0 :=
+                    coherent repKY repK
+                  exact ListClassifierSpec_trans_from_nameCert cert
+                    (ListClassifierSpec_trans_from_nameCert cert classifiedLeft
+                      classifiedBridge)
+                    classifiedRight
 
 end BEDC.Derived.ListUp

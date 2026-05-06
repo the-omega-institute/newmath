@@ -225,6 +225,7 @@ $$
 $$
 This is the Cauchy product in low-coefficient-first Horner form: the cons clause expresses $(a+Xx)y=ay+X(xy)$.
 \end{definition}
+\leandef{BEDC.Derived.PolynomialUp.PolynomialSingletonRawMul}
 
 \begin{lemma}[Horner evaluation of scalar-multiplied coefficient spines]
 \label{lem:horner-evaluation-raw-scalar-product}
@@ -235,6 +236,7 @@ $$
 $$
 \end{lemma}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_rawScale\_classified}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_raw\_scale\_empty\_classified}
 \begin{proof}
 Induct on the finite spine $y$ from \autoref{def:list-carrier}. In the nil case, both the scalar-multiple spine and its Horner value are $0_R$. The target endpoint is $a\cdot0_R$, and the zero-multiplication row in \autoref{def:ring-stability-certificate}, with symmetry of $\sim_R$, gives the displayed comparison.
 
@@ -280,6 +282,7 @@ $$
 $$
 The additive left-zero row in \autoref{def:ring-stability-certificate} classifies this endpoint with $\alpha\cdot\mathsf{eval}_{\alpha,R}(x)$.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_coefficient\_shift}
 
 \begin{lemma}[Horner evaluation respects raw polynomial multiplication]
 \label{lem:horner-evaluation-raw-multiplicative}
@@ -321,6 +324,7 @@ $$
 $$
 transitivity gives the required cons-case endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_rawMul\_classified}
 
 \begin{theorem}[Polynomial evaluation is multiplicative]
 \label{thm:polynomial-evaluation-multiplicative-homomorphism}
@@ -461,3 +465,4 @@ $$
 $$
 Classifier transitivity composes these two comparisons, and substituting $x=\mathsf{cons}(a,t)$ gives the displayed formula.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_zero\_constant\_term}

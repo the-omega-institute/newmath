@@ -6,5 +6,790 @@ The inner-product interface $\InnerProductUp$ packages a vector space together w
 \section{Carrier definition}
 \label{sec:innerproduct-carrier}
 
+\begin{definition}[Inner-product BHist carrier]
+\label{def:innerproduct-bhist-carrier}
+An inner-product $\mathsf{BHist}$ carrier is a displayed package over a
+source $\NameCert_{\VecSpaceUp}$. It consists of the following rows:
+\begin{enumerate}
+  \item a vector carrier $V:\mathsf{BHist}\to\mathsf{Prop}$;
+  \item a vector classifier $\sim_V$ on carried vector histories;
+  \item the vector addition, vector zero, vector negation, and scalar-action
+  rows inherited from the displayed $\VecSpaceUp$ source;
+  \item a scalar endpoint classifier $\sim_{\mathbb{K}}$ supplied by the
+  scalar side of the $\VecSpaceUp$ source;
+  \item an inner-product endpoint row
+  $\langle-,-\rangle_{\InnerProductUp}:V\times V\to\mathsf{BHist}$ whose
+  values are carried by the scalar endpoint source;
+  \item a conjugate-symmetry row identifying
+  $\langle x,y\rangle_{\InnerProductUp}$ with the conjugate scalar endpoint
+  of $\langle y,x\rangle_{\InnerProductUp}$;
+  \item sesquilinear rows for vector addition in the additive argument and
+  scalar-action compatibility in the scalar argument, all classified by
+  $\sim_{\mathbb{K}}$;
+  \item a positive-definite row saying that
+  $\langle x,x\rangle_{\InnerProductUp}$ is nonnegative and that its scalar
+  zero classification holds exactly when $x\sim_V 0_V$;
+  \item a visible ledger recording the $\VecSpaceUp$ source row, every scalar
+  endpoint classifier used by the form, the operation rows consumed by the
+  sesquilinear clauses, and the positive-definite witness row.
+\end{enumerate}
+The carrier is therefore a named $\mathsf{BHist}$ display, not a host
+inner-product space. Downstream certificates read vector endpoints, scalar
+endpoints, and form values only through these displayed rows.
+\end{definition}
+
+\begin{definition}[Inner-product BHist classifier]
+\label{def:innerproduct-bhist-classifier}
+Two carried inner-product rows are classified exactly when all visible source
+rows match. Their vector carriers and vector classifiers agree through the
+same $\NameCert_{\VecSpaceUp}$ source; their scalar endpoint classifiers agree
+on every displayed value of $\langle-,-\rangle_{\InnerProductUp}$; and the
+addition, zero, negation, scalar-action, conjugate-symmetry, sesquilinear,
+positive-definite, and ledger rows match componentwise by $\hsame$.
+
+Thus the classifier does not identify two inner-product packages by an
+external isometry. It identifies them only by equality of the displayed BEDC
+rows that a later $\HilbertUp$, $\RiemannianMetricUp$, $\FourierUp$, or
+$\RootSystemUp$ certificate is allowed to consume.
+\end{definition}
+
 \section{The certificate}
 \label{sec:innerproduct-certificate}
+
+\begin{definition}[InnerProduct BHist source data]
+\label{def:innerproduct-bhist-source}
+An $\InnerProductUp$ BHist source consists of a displayed $\VecSpaceUp$
+BHist carrier $C_V:\mathsf{BHist}\to\mathsf{Prop}$ with classifier
+$\sim_V$, scalar data carried by the scalar source retained from
+$\FieldUp$ and $\VecSpaceUp$, and a binary row
+$$
+\langle-,-\rangle:C_V\times C_V\to C_{\mathsf{scal}}
+$$
+whose endpoints are scalar histories. The source also displays conjugation on
+the scalar side, the scalar classifier $\sim_{\mathsf{scal}}$, and the
+certificate rows asserting conjugate symmetry, positivity, linearity in each
+admitted argument, and transport through $\sim_V$ and
+$\sim_{\mathsf{scal}}$.
+
+All rows are BHist rows. Thus the form does not land in a host field or a
+quotient object; it lands in the scalar histories already exposed by the
+field and vector-space certificates.
+\end{definition}
+
+\begin{theorem}[InnerProduct BHist carrier row]
+\label{thm:innerproduct-bhist-carrier-row}
+For an $\InnerProductUp$ BHist source, the public carrier row is exactly the
+$\VecSpaceUp$ BHist carrier $C_V$ together with the displayed scalar-valued
+form row $\langle-,-\rangle$. No further point carrier is introduced by the
+inner-product certificate.
+\end{theorem}
+\begin{proof}
+Project the vector-space component of
+\autoref{def:innerproduct-bhist-source}. It already supplies the carried
+predicate $C_V$, the classifier $\sim_V$, vector addition, vector zero,
+vector negation, scalar action, and scalar source.
+
+Project the form component. Its domain is the displayed pair carrier
+$C_V\times C_V$, and its codomain is the retained scalar history carrier
+$C_{\mathsf{scal}}$. These two projections are exactly the carrier row and
+the additional scalar-valued row named by $\InnerProductUp$.
+\end{proof}
+
+\begin{theorem}[InnerProduct symmetry and positivity row]
+\label{thm:innerproduct-symmetry-positivity-row}
+For an $\InnerProductUp$ BHist source, conjugate symmetry and positivity are
+certificate fields over the retained scalar classifier. For carried histories
+$x,y:C_V$, the symmetry row classifies
+$$
+\langle x,y\rangle
+\sim_{\mathsf{scal}}
+\overline{\langle y,x\rangle},
+$$
+and the positivity row is a displayed scalar-history witness for
+$\langle x,x\rangle$ together with the exact zero-classification clause. These
+rows do not use host order, quotient equality, or an external positivity
+predicate.
+\end{theorem}
+\begin{proof}
+Unpack the symmetry field of
+\autoref{def:innerproduct-bhist-source}. It compares the scalar endpoint
+$\langle x,y\rangle$ with the conjugated scalar endpoint
+$\overline{\langle y,x\rangle}$ using $\sim_{\mathsf{scal}}$.
+
+Unpack the positivity field. Its witness is recorded as scalar-history data
+for the diagonal endpoint $\langle x,x\rangle$, and its zero clause is stated
+by the same retained scalar classifier. Since both fields are projections of
+the displayed source, no host order or quotient equality is added.
+\end{proof}
+
+\begin{theorem}[InnerProduct VecSpace linearity row]
+\label{thm:innerproduct-vecspace-linearity-row}
+For an $\InnerProductUp$ BHist source, additivity and scalar compatibility in
+each admitted argument are read through the $\VecSpaceUp$ addition row,
+scalar-action row, and classifier transport. Thus the clauses comparing
+$$
+\langle x+_V y,z\rangle
+\quad\text{with}\quad
+\langle x,z\rangle+_{\mathsf{scal}}\langle y,z\rangle
+$$
+and
+$$
+\langle a\cdot_V x,y\rangle
+\quad\text{with}\quad
+a\cdot_{\mathsf{scal}}\langle x,y\rangle
+$$
+are scalar-classifier rows over the same carried inputs, with the conjugate
+argument handled by the displayed conjugation row when the source uses that
+side as the conjugate-linear argument.
+\end{theorem}
+\begin{proof}
+Read addition and scalar action from the embedded $\VecSpaceUp$ row. Closure
+places $x+_V y$ and $a\cdot_V x$ back in $C_V$, so the inner-product row can
+be evaluated at the displayed endpoints.
+
+Read scalar addition, scalar multiplication, and conjugation from the retained
+scalar source. The linearity fields compare the resulting scalar endpoints by
+$\sim_{\mathsf{scal}}$.
+
+If representatives of the vector or scalar inputs are changed within their
+classifiers, use the transport fields of the vector-space source and the
+scalar source before applying the displayed linearity row. The conclusion is
+therefore a row over the existing $\VecSpaceUp$ operations, not a separate
+algebraic structure.
+\end{proof}
+
+\begin{theorem}[InnerProduct classifier transport row]
+\label{thm:innerproduct-classifier-transport-row}
+For an $\InnerProductUp$ BHist source, if $x\sim_Vx'$ and $y\sim_Vy'$ for
+carried histories $x,y,x',y':C_V$, then the scalar endpoints of the
+inner-product row transport through the retained scalar classifier:
+$$
+\langle x,y\rangle
+\sim_{\mathsf{scal}}
+\langle x',y'\rangle.
+$$
+\end{theorem}
+\begin{proof}
+Project the pair-transport field from
+\autoref{def:innerproduct-bhist-source}. Its hypotheses are exactly the two
+vector classifier witnesses $x\sim_Vx'$ and $y\sim_Vy'$.
+
+The field returns a scalar classifier witness between the two displayed
+inner-product endpoints. Since the codomain classifier is
+$\sim_{\mathsf{scal}}$, the transported endpoint remains in the retained
+scalar source.
+\end{proof}
+
+\begin{theorem}[InnerProduct Hilbert boundary row]
+\label{thm:innerproduct-hilbert-boundary-row}
+A $\HilbertUp$ certificate may consume from an $\InnerProductUp$ BHist source
+only the carrier $C_V$, classifier $\sim_V$, linearity rows, conjugate
+symmetry row, positivity row, scalar endpoint row, classifier transport row,
+and the derived orthogonality row of
+\autoref{def:innerproduct-orthogonality-row} together with its zero-left,
+zero-right, and transport laws. Completeness, Cauchy-limit selection, and
+Banach metric closure are not part of the $\InnerProductUp$ boundary.
+\end{theorem}
+\begin{proof}
+The Hilbert carrier definition in
+\autoref{def:hilbert-compatible-inner-product-banach-carrier} asks the
+inner-product side for vector carrier sharing, the scalar-valued form,
+linearity, symmetry, positivity, and transport. These are precisely the rows
+displayed in \autoref{def:innerproduct-bhist-source}.
+
+The same Hilbert definition obtains completeness from its Banach row. The
+orthogonality predicate is obtained from the scalar-zero classification of
+the inner-product endpoint, and its zero and transport laws are supplied by
+\autoref{thm:innerproduct-zero-left-orthogonal-row},
+\autoref{thm:innerproduct-zero-right-orthogonal-row}, and
+\autoref{thm:innerproduct-orthogonality-transport-row}. Hence no
+completeness or Cauchy-limit field can be projected from the inner-product
+source, and the boundary available to $\HilbertUp$ is exactly the displayed
+inner-product surface.
+\end{proof}
+
+\begin{theorem}[InnerProduct root certificate row]
+\label{thm:innerproduct-root-certificate-row}
+The carrier row of \autoref{thm:innerproduct-bhist-carrier-row}, the
+symmetry and positivity row of
+\autoref{thm:innerproduct-symmetry-positivity-row}, the linearity row of
+\autoref{thm:innerproduct-vecspace-linearity-row}, the classifier transport
+row of \autoref{thm:innerproduct-classifier-transport-row}, and the Hilbert
+boundary row of \autoref{thm:innerproduct-hilbert-boundary-row} assemble the
+paper-side $\NameCert_{\InnerProductUp}$ obligation surface.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:innerproduct-bhist-source} for the source package. Its first
+projection gives the vector-space carrier and scalar source, and
+\autoref{thm:innerproduct-bhist-carrier-row} records that no second point
+carrier is present.
+
+Use \autoref{thm:innerproduct-symmetry-positivity-row} and
+\autoref{thm:innerproduct-vecspace-linearity-row} for the algebraic rows of
+the form. These rows are all scalar-history comparisons under
+$\sim_{\mathsf{scal}}$.
+
+Use \autoref{thm:innerproduct-classifier-transport-row} for representative
+stability. Use \autoref{thm:innerproduct-hilbert-boundary-row} for the
+downstream boundary consumed by $\HilbertUp$.
+
+Together these projections supply carrier, classifier, exactness, stability,
+and ledger provenance for the $\InnerProductUp$ naming certificate, with
+bridge status left unclaimed.
+\end{proof}
+
+\begin{theorem}[Inner-product carrier transport obligation]
+\label{thm:innerproduct-carrier-transport-obligation}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. If $x\sim_V x'$ and $y\sim_V y'$,
+then the vector carrier rows, scalar endpoint rows, inner-product endpoint
+row, conjugate-symmetry row, sesquilinear rows, positive-definite row, and
+ledger entries of $I$ transport componentwise by $\hsame$ from $(x,y)$ to
+$(x',y')$.
+\end{theorem}
+\begin{proof}
+Start with the $\VecSpaceUp$ source row inside $I$. Its carrier and classifier
+transport move $x$ to $x'$ and $y$ to $y'$ while preserving the displayed
+vector addition, zero, negation, and scalar-action rows.
+
+Next apply the scalar endpoint classifier row to the two displayed values
+$\langle x,y\rangle_{\InnerProductUp}$ and
+$\langle x',y'\rangle_{\InnerProductUp}$. The inner-product classifier of
+\autoref{def:innerproduct-bhist-classifier} requires these scalar endpoints to
+be classified by the same $\sim_{\mathbb{K}}$ row, so the form endpoint
+transports with the vector representatives.
+
+Finally transport the proof rows attached to that endpoint. Conjugate
+symmetry, both sesquilinear rows, positivity, and ledger provenance are stored
+as displayed rows in the carrier. Since classification is componentwise
+$\hsame$ on those rows, each witness is copied to the transported package
+without introducing any external inner-product-space equality.
+\end{proof}
+
+\begin{theorem}[Inner-product sesquilinear source obligation]
+\label{thm:innerproduct-sesquilinear-source-obligation}
+Every sesquilinear clause of an inner-product $\mathsf{BHist}$ carrier is
+sourced from its displayed $\VecSpaceUp$ and scalar rows. Additivity uses the
+vector addition row and the scalar addition classifier from the scalar
+endpoint source; scalar-action compatibility uses the displayed scalar action
+and the scalar multiplication, conjugation, and endpoint classifier rows from
+the same source ledger.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:innerproduct-bhist-carrier}. The only
+vector operations available to the form are the $\VecSpaceUp$ rows listed in
+the carrier: addition, zero, negation, and scalar action. The additivity
+clause is therefore stated over the displayed vector addition row and is
+classified on the scalar side by $\sim_{\mathbb{K}}$.
+
+For scalar compatibility, the scalar used in the vector action is the same
+scalar endpoint read by the $\VecSpaceUp$ source. The scalar multiplication
+and conjugation rows used to express sesquilinearity are ledger entries over
+that scalar source, and the resulting equality of form values is again
+classified by $\sim_{\mathbb{K}}$.
+
+The ledger records each operation row consumed in these clauses. Hence a
+certificate consumer can reconstruct the additivity and scalar-action
+compatibility obligations from displayed BEDC rows alone, with no appeal to a
+host field or a host vector space.
+\end{proof}
+
+\begin{theorem}[Inner-product positive-definite obligation]
+\label{thm:innerproduct-positive-definite-obligation}
+For every carried vector endpoint $x$ in an inner-product $\mathsf{BHist}$
+carrier, the self-value $\langle x,x\rangle_{\InnerProductUp}$ is classified
+as a nonnegative scalar endpoint. Moreover the self-value is classified as the
+scalar zero endpoint if and only if $x$ is classified by $\sim_V$ with the
+displayed vector zero row $0_V$.
+\end{theorem}
+\begin{proof}
+Read the self-value row from
+\autoref{def:innerproduct-bhist-carrier}. Its positive-definite entry
+contains the nonnegative scalar endpoint witness for
+$\langle x,x\rangle_{\InnerProductUp}$, and the scalar classifier used for
+that witness is the scalar endpoint classifier $\sim_{\mathbb{K}}$ already
+stored in the carrier.
+
+For the zero direction, assume the self-value is classified as the scalar zero
+endpoint. The positive-definite row includes the exactness clause converting
+that scalar classification into the vector classifier equality $x\sim_V 0_V$.
+
+For the converse direction, assume $x\sim_V 0_V$. The carrier-transport
+obligation transports the self-value row along this vector classification,
+and the positive-definite row at the displayed zero endpoint supplies the
+scalar zero classification. Combining these two displayed rows gives the
+required scalar endpoint classification for $\langle x,x\rangle_{\InnerProductUp}$.
+\end{proof}
+
+\begin{definition}[InnerProduct orthogonality row]
+\label{def:innerproduct-orthogonality-row}
+For carried $\mathsf{BHist}$ vector endpoints $x,y$ from
+\autoref{def:innerproduct-bhist-carrier}, write $x\perp_I y$ exactly when
+the scalar endpoint $\langle x,y\rangle_{\InnerProductUp}$ is classified by
+the retained scalar classifier with the displayed scalar zero endpoint:
+$$
+x\perp_I y
+\quad\Longleftrightarrow\quad
+\langle x,y\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+This is a row of the $\InnerProductUp$ carrier, not a host Hilbert-space
+orthogonality relation.
+\end{definition}
+
+\begin{theorem}[InnerProduct zero-left orthogonality row]
+\label{thm:innerproduct-zero-left-orthogonal-row}
+For every carried vector endpoint $x$ in an inner-product $\mathsf{BHist}$
+carrier, the displayed vector zero row is orthogonal to $x$:
+$$
+0_V\perp_I x.
+$$
+\end{theorem}
+\begin{proof}
+Read the displayed vector zero endpoint $0_V$ from the embedded
+$\VecSpaceUp$ row and evaluate the inner-product endpoint row at $(0_V,x)$.
+
+The sesquilinearity row for scalar action compares
+$\langle 0_{\mathbb{K}}\cdot_V 0_V,x\rangle_{\InnerProductUp}$ with
+$0_{\mathbb{K}}\cdot_{\mathbb{K}}\langle 0_V,x\rangle_{\InnerProductUp}$.
+The vector zero row classifies $0_{\mathbb{K}}\cdot_V 0_V$ with $0_V$, and
+the scalar zero law classifies the displayed scalar product with
+$0_{\mathbb{K}}$.
+
+Transport these two comparisons through the scalar endpoint classifier.
+By \autoref{def:innerproduct-orthogonality-row}, the resulting scalar-zero
+classification is exactly $0_V\perp_I x$.
+\end{proof}
+
+\begin{theorem}[InnerProduct zero-right orthogonality row]
+\label{thm:innerproduct-zero-right-orthogonal-row}
+For every carried vector endpoint $x$ in an inner-product $\mathsf{BHist}$
+carrier, $x$ is orthogonal to the displayed vector zero row:
+$$
+x\perp_I 0_V.
+$$
+\end{theorem}
+\begin{proof}
+Apply the conjugate-symmetry row to compare
+$\langle x,0_V\rangle_{\InnerProductUp}$ with the conjugate scalar endpoint
+of $\langle 0_V,x\rangle_{\InnerProductUp}$.
+
+By \autoref{thm:innerproduct-zero-left-orthogonal-row},
+$\langle 0_V,x\rangle_{\InnerProductUp}$ is classified with
+$0_{\mathbb{K}}$. The scalar zero endpoint is fixed by the displayed
+conjugation row, so the conjugated endpoint is also classified with
+$0_{\mathbb{K}}$.
+
+Use transitivity of the retained scalar classifier to combine the symmetry
+comparison with this scalar-zero classification. The definition of
+$\perp_I$ then gives $x\perp_I 0_V$.
+\end{proof}
+
+\begin{theorem}[InnerProduct orthogonality transport row]
+\label{thm:innerproduct-orthogonality-transport-row}
+For carried vector endpoints $x,y,x',y'$ in an inner-product
+$\mathsf{BHist}$ carrier, if $x\sim_V x'$, $y\sim_V y'$, and $x\perp_I y$,
+then $x'\perp_I y'$.
+\end{theorem}
+\begin{proof}
+Unpack $x\perp_I y$ using
+\autoref{def:innerproduct-orthogonality-row}. This gives a scalar classifier
+witness from $\langle x,y\rangle_{\InnerProductUp}$ to the displayed scalar
+zero endpoint.
+
+Apply \autoref{thm:innerproduct-classifier-transport-row} to the vector
+classifier witnesses $x\sim_V x'$ and $y\sim_V y'$. It supplies a scalar
+classifier comparison between $\langle x,y\rangle_{\InnerProductUp}$ and
+$\langle x',y'\rangle_{\InnerProductUp}$.
+
+Combine that comparison with the scalar-zero witness by transitivity of
+$\sim_{\mathbb{K}}$. The resulting classification of
+$\langle x',y'\rangle_{\InnerProductUp}$ with $0_{\mathbb{K}}$ is precisely
+$x'\perp_I y'$ by \autoref{def:innerproduct-orthogonality-row}.
+\end{proof}
+
+\begin{theorem}[Inner-product NameCert obligation surface]
+\label{thm:innerproduct-namecert-obligation-surface}
+The carrier of \autoref{def:innerproduct-bhist-carrier}, the classifier of
+\autoref{def:innerproduct-bhist-classifier}, carrier transport, sesquilinear
+source tracking, positive definiteness, and the visible ledger assemble the
+paper-side $\NameCert_{\InnerProductUp}$ obligation surface. Its ten roadmap
+fields are:
+\begin{enumerate}
+  \item traditional target: a vector space equipped with a positive-definite
+  sesquilinear form;
+  \item BEDC source: $\mathsf{BHist}$;
+  \item carrier choice: the displayed vector carrier $V$ over
+  $\NameCert_{\VecSpaceUp}$;
+  \item classifier choice: componentwise agreement of the vector, scalar,
+  form, law, and ledger rows;
+  \item stability obligations: carrier transport, scalar endpoint transport,
+  conjugate symmetry, sesquilinearity, and positive-definite transport;
+  \item ledger: the $\VecSpaceUp$ source, scalar endpoint classifier,
+  operation rows, form row, law rows, and positivity witness;
+  \item core theorem list:
+  \autoref{thm:innerproduct-carrier-transport-obligation},
+  \autoref{thm:innerproduct-sesquilinear-source-obligation}, and
+  \autoref{thm:innerproduct-positive-definite-obligation};
+  the orthogonality rows are
+  \autoref{thm:innerproduct-zero-left-orthogonal-row},
+  \autoref{thm:innerproduct-zero-right-orthogonal-row}, and
+  \autoref{thm:innerproduct-orthogonality-transport-row};
+  \item exactness predicate: scalar zero self-value exactly matches
+  vector-classifier equality to $0_V$;
+  \item standard bridge: none;
+  \item status: paper obligation surface.
+\end{enumerate}
+No standard Hilbert-space bridge is claimed by this surface.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:innerproduct-bhist-carrier} for the public carrier field. It
+names the vector carrier, vector classifier, scalar endpoint classifier,
+inner-product row, law rows, positive-definite row, and ledger over a single
+$\VecSpaceUp$ source.
+
+Use \autoref{def:innerproduct-bhist-classifier} for the classifier field. It
+requires componentwise agreement of exactly the rows exposed by the carrier,
+so downstream consumers receive the same vector, scalar, form, and ledger
+surface after classification.
+
+Use \autoref{thm:innerproduct-carrier-transport-obligation} for the stability
+field, \autoref{thm:innerproduct-sesquilinear-source-obligation} for the
+operation-source field, and
+\autoref{thm:innerproduct-positive-definite-obligation} for exactness of the
+self-value row. Use
+\autoref{def:innerproduct-orthogonality-row},
+\autoref{thm:innerproduct-zero-left-orthogonal-row},
+\autoref{thm:innerproduct-zero-right-orthogonal-row}, and
+\autoref{thm:innerproduct-orthogonality-transport-row} for the orthogonality
+surface consumed by downstream Hilbert rows.
+
+The remaining roadmap fields are read directly from the same displayed
+ledger: the target is the named positive-definite sesquilinear form, the BEDC
+source is $\mathsf{BHist}$, and the bridge field is explicitly empty. Thus
+$\NameCert_{\InnerProductUp}$ is available as a paper-side obligation surface
+without importing host Hilbert-space structure.
+\end{proof}
+
+\begin{definition}[InnerProduct root dependency surface]
+\label{def:innerproduct-root-dependency-surface}
+The $\InnerProductUp$ root dependency surface is the displayed tuple consisting
+of the $\VecSpaceUp$ carrier and classifier of
+\autoref{def:innerproduct-bhist-carrier}, the retained scalar endpoint source,
+the inner-product endpoint row, the conjugate-symmetry row, the sesquilinear
+rows, the positive-definite exactness row, the classifier transport row, and
+the visible ledger. It is the exact dependency package exported by
+$\InnerProductUp$ to later certificates: every projected component is one of
+these displayed rows, and no completeness, Banach metric, ambient topology, or
+host Hilbert-space row is part of the tuple.
+\end{definition}
+
+\begin{theorem}[InnerProduct root vector-scalar exposure]
+\label{thm:innerproduct-root-vecspace-scalar-exposure}
+Every consumer of the root surface of
+\autoref{def:innerproduct-root-dependency-surface} can project exactly the
+vector carrier and classifier, the vector addition, zero, negation, and scalar
+action rows, the scalar endpoint classifier, and the scalar operation rows
+already named in \autoref{def:innerproduct-bhist-carrier} and
+\autoref{def:innerproduct-bhist-source}. No separate vector carrier or scalar
+endpoint source is exposed.
+\end{theorem}
+\begin{proof}
+Project the vector portion of the root surface. By
+\autoref{thm:innerproduct-bhist-carrier-row}, this projection is the displayed
+$\VecSpaceUp$ BHist carrier $C_V$ together with its classifier $\sim_V$, vector
+operations, scalar action row, and scalar-valued form row.
+
+Project the scalar portion from the same source tuple. The scalar endpoint
+classifier and scalar operation rows are the retained rows of
+\autoref{def:innerproduct-bhist-source}; if a representative changes, apply
+\autoref{thm:innerproduct-carrier-transport-obligation} to transport the
+displayed form and operation rows through the exposed classifiers.
+
+These projections exhaust the vector-scalar part of
+\autoref{def:innerproduct-root-dependency-surface}. Since the definition lists
+only displayed carrier, classifier, operation, scalar endpoint, form, law, and
+ledger rows, there is no second vector carrier or scalar endpoint source to
+project.
+\end{proof}
+
+\begin{theorem}[InnerProduct root form-law exposure]
+\label{thm:innerproduct-root-form-law-exposure}
+For the root surface of \autoref{def:innerproduct-root-dependency-surface},
+conjugate symmetry, sesquilinearity, positive definiteness, and form endpoint
+transport are exactly the law rows exposed by the surface. A consumer may read
+those rows, and only those rows, as the inner-product law interface.
+\end{theorem}
+\begin{proof}
+The conjugate-symmetry and positivity rows are the rows identified by
+\autoref{thm:innerproduct-symmetry-positivity-row}. They compare scalar
+histories under the retained scalar classifier and do not introduce a host
+scalar field.
+
+The additive and scalar-action compatibility rows are the sesquilinear rows
+identified by \autoref{thm:innerproduct-vecspace-linearity-row}. Their inputs
+are the exposed vector operations and scalar endpoint operations from the root
+surface.
+
+Positive-definite exactness is the row supplied by
+\autoref{thm:innerproduct-positive-definite-obligation}, and endpoint
+transport is the row supplied by
+\autoref{thm:innerproduct-classifier-transport-row}. Together these rows are
+precisely the law entries named in
+\autoref{def:innerproduct-root-dependency-surface}; all remaining entries of
+the root surface are carrier, source, classifier, or ledger entries.
+\end{proof}
+
+\begin{theorem}[InnerProduct root Hilbert consumption surface]
+\label{thm:innerproduct-root-hilbert-consumption-surface}
+A $\HilbertUp$ dependency may consume the root surface of
+\autoref{def:innerproduct-root-dependency-surface} together with its separate
+Banach and completeness row. A $\FourierUp$, $\RiemannianMetricUp$, or
+$\RootSystemUp$ dependency may consume only the vector, scalar, form, law, and
+ledger rows of the same root surface.
+\end{theorem}
+\begin{proof}
+For $\HilbertUp$, apply \autoref{thm:innerproduct-hilbert-boundary-row}. It
+allows the Hilbert certificate to read the carrier, classifier, scalar-valued
+form, linearity, conjugate symmetry, positivity, scalar endpoint, and transport
+rows from $\InnerProductUp$.
+
+The vector and scalar projections used by this boundary are exactly the ones
+identified by \autoref{thm:innerproduct-root-vecspace-scalar-exposure}. The
+form and law projections are exactly the ones identified by
+\autoref{thm:innerproduct-root-form-law-exposure}.
+
+Completeness and Cauchy-limit selection are not projected from
+$\InnerProductUp$; they must enter through the separate Banach and completeness
+row of the Hilbert dependency. The non-Hilbert consumers named in the statement
+therefore receive only the root surface rows for vector, scalar, form, law, and
+ledger data, with no Banach or completeness projection.
+\end{proof}
+
+\begin{theorem}[InnerProduct orthogonality symmetry row]
+\label{thm:innerproduct-orthogonality-symmetry-row}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. For carried vector endpoints
+$x,y:C_V$, the orthogonality row defined by the retained scalar-zero
+classifier is symmetric:
+$$
+x\perp_I y
+\quad\Longleftrightarrow\quad
+y\perp_I x.
+$$
+\end{theorem}
+\begin{proof}
+Assume first that $x\perp_I y$. By
+\autoref{def:innerproduct-orthogonality-row}, this is the scalar-zero
+classification
+$$
+\langle x,y\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+Apply the conjugate-symmetry row from
+\autoref{thm:innerproduct-symmetry-positivity-row} with the two endpoints
+ordered as $(y,x)$. It gives
+$$
+\langle y,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+\overline{\langle x,y\rangle_{\InnerProductUp}}.
+$$
+The scalar endpoint source retained in
+\autoref{def:innerproduct-bhist-source} supplies classifier transport for the
+displayed conjugation row. Applying that row to the scalar-zero classification
+of $\langle x,y\rangle_{\InnerProductUp}$ gives
+$$
+\overline{\langle x,y\rangle_{\InnerProductUp}}
+\sim_{\mathbb{K}}
+\overline{0_{\mathbb{K}}}.
+$$
+The same scalar source fixes the zero endpoint under conjugation, the
+scalar-side row used in \autoref{thm:innerproduct-zero-right-orthogonal-row},
+so
+$$
+\overline{0_{\mathbb{K}}}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+Composing these three scalar classifier witnesses by
+\autoref{thm:namecert-equivalence-transitivity} gives
+$$
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+By \autoref{def:innerproduct-orthogonality-row}, this is $y\perp_I x$.
+
+For the converse implication, assume $y\perp_I x$. The same definition gives
+$$
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+Apply the conjugate-symmetry row with endpoints ordered as $(x,y)$, transport
+this scalar-zero witness through the displayed conjugation row, use the
+zero-fix row for conjugation, and compose the scalar classifier witnesses by
+\autoref{thm:namecert-equivalence-transitivity}. The result is
+$$
+\langle x,y\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}},
+$$
+which is exactly $x\perp_I y$ by
+\autoref{def:innerproduct-orthogonality-row}.
+\end{proof}
+
+\begin{theorem}[InnerProduct orthogonal additivity row]
+\label{thm:innerproduct-orthogonal-additivity-row}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. For carried vector endpoints
+$x,y,z:C_V$, if $x\perp_I y$ and $x\perp_I z$, then the displayed vector sum
+$y+_V z$ is carried and
+$$
+x\perp_I (y+_V z).
+$$
+\end{theorem}
+\begin{proof}
+The embedded $\VecSpaceUp$ row in
+\autoref{def:innerproduct-bhist-carrier} supplies closure of the displayed
+vector addition, so $y+_V z$ is carried. Apply
+\autoref{thm:innerproduct-orthogonality-symmetry-row} to the two hypotheses
+$x\perp_I y$ and $x\perp_I z$. This gives
+$$
+y\perp_I x
+\qquad\text{and}\qquad
+z\perp_I x.
+$$
+By \autoref{def:innerproduct-orthogonality-row}, these two facts are exactly the
+scalar-zero classifications
+$$
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}
+\qquad\text{and}\qquad
+\langle z,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+
+Use the additive part of \autoref{thm:innerproduct-vecspace-linearity-row} in
+the displayed first argument, with second endpoint $x$. It compares the
+inner-product endpoint of the vector sum with the scalar sum:
+$$
+\langle y+_V z,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathsf{scal}}
+\langle z,x\rangle_{\InnerProductUp}.
+$$
+The retained scalar source of \autoref{def:innerproduct-bhist-source} is the
+$\FieldUp$ scalar coordinate. By \autoref{def:field-source-specification},
+\autoref{prop:commring-forgets-ring-certificate}, and
+\autoref{def:ring-stability-certificate}, its unchanged scalar classifier has
+addition congruence, additive zero laws, and classifier transitivity. Therefore
+the two scalar-zero witnesses above transport through scalar addition to give
+$$
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathsf{scal}}
+\langle z,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+0_{\mathbb{K}}+_{\mathsf{scal}}0_{\mathbb{K}}
+\sim_{\mathbb{K}}
+0_{\mathbb{K}}.
+$$
+This is the scalar addition component of
+\autoref{thm:ring-zero-classifier-two-sided-ideal-package}, read in the retained
+scalar classifier.
+
+Composing the inner-product linearity comparison with this scalar-zero
+classification by \autoref{thm:namecert-equivalence-transitivity} gives
+$$
+\langle y+_V z,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+0_{\mathbb{K}}.
+$$
+By \autoref{def:innerproduct-orthogonality-row}, this is
+$(y+_V z)\perp_I x$. A final application of
+\autoref{thm:innerproduct-orthogonality-symmetry-row}, now to the carried pair
+$(y+_V z,x)$, gives $x\perp_I (y+_V z)$.
+\end{proof}
+
+\begin{theorem}[InnerProduct orthogonality right scalar-action closure]
+\label{thm:innerproduct-orthogonality-right-scalar-action-closure}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. Let $x,y:C_V$ be carried vector
+endpoints, and let $r:C_{\mathsf{scal}}$ be a carried scalar endpoint from the
+retained scalar source. If $x\perp_I y$, then $r\cdot_V y$ is carried and
+$$
+x\perp_I (r\cdot_V y).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{thm:innerproduct-orthogonality-symmetry-row}, the hypothesis
+$x\perp_I y$ gives $y\perp_I x$. Unpacking this conclusion with
+\autoref{def:innerproduct-orthogonality-row} gives the scalar-zero classifier
+witness
+$$
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+
+The embedded $\VecSpaceUp$ row carries the scalar-action endpoint
+$r\cdot_V y$: scalar-action closure is one of the module stability rows retained
+by \autoref{def:vecspace-stability-certificate} and
+\autoref{def:module-stability-certificate}. Hence the inner-product endpoint
+$\langle r\cdot_V y,x\rangle_{\InnerProductUp}$ is defined in the same carrier.
+
+Apply the scalar-action compatibility component of
+\autoref{thm:innerproduct-vecspace-linearity-row} to the carried scalar $r$ and
+vector endpoints $y$ and $x$. It gives a retained scalar-classifier comparison
+between
+$$
+\langle r\cdot_V y,x\rangle_{\InnerProductUp}
+\quad\text{and}\quad
+r\cdot_{\mathbb{K}}\langle y,x\rangle_{\InnerProductUp}.
+$$
+Inside the retained scalar source, the ring rows listed in
+\autoref{def:ring-stability-certificate} are exactly the hypotheses needed for
+\autoref{thm:ring-zero-classifier-factor-absorption}. Applying that absorption
+row to the zero-classified factor $\langle y,x\rangle_{\InnerProductUp}$ and the
+multiplier $r$ gives
+$$
+r\cdot_{\mathbb{K}}\langle y,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+
+Compose the scalar-action compatibility comparison with this zero-product
+classification by \autoref{thm:namecert-equivalence-transitivity}. The result is
+$$
+\langle r\cdot_V y,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}0_{\mathbb{K}},
+$$
+which is $(r\cdot_V y)\perp_I x$ by
+\autoref{def:innerproduct-orthogonality-row}. A second application of
+\autoref{thm:innerproduct-orthogonality-symmetry-row}, now to the carried pair
+$r\cdot_V y$ and $x$, gives $x\perp_I(r\cdot_V y)$.
+\end{proof}
+
+\begin{theorem}[InnerProduct orthogonal additive inverse closure]
+\label{thm:innerproduct-orthogonal-additive-inverse-closure}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. For carried vector endpoints
+$x,y:C_V$, if $x\perp_I y$, then the displayed additive inverse $-_V y$ is
+carried and
+$$
+x\perp_I(-_V y).
+$$
+\end{theorem}
+\begin{proof}
+The embedded $\VecSpaceUp$ row retains its additive $\AbGroupUp$ carrier by
+\autoref{cor:vecspace-additive-carrier-projection}, so the inverse-closure row
+carries $-_V y$.
+
+Let $\eta=-_{\mathbb{K}}1_{\mathbb{K}}$. The retained scalar source carries
+$\eta$ by \autoref{def:field-source-specification} and \autoref{def:ring-carrier}.
+The module rows of \autoref{def:module-stability-certificate} identify
+$\eta\cdot_V y$ with the displayed inverse: scalar unit changes $y$ to
+$1_{\mathbb{K}}\cdot_V y$, scalar distributivity over scalar addition changes
+$(\eta+_{\mathbb{K}}1_{\mathbb{K}})\cdot_V y$ to
+$(\eta\cdot_V y)+_V(1_{\mathbb{K}}\cdot_V y)$, the additive inverse law retained
+by \autoref{def:ring-stability-certificate} collapses
+$\eta+_{\mathbb{K}}1_{\mathbb{K}}$ to $0_{\mathbb{K}}$, and
+\autoref{thm:module-zero-action-annihilation} collapses $0_{\mathbb{K}}\cdot_V y$
+to $0_V$. Thus $\eta\cdot_V y$ is a left additive inverse of $y$. The displayed
+inverse row gives $y+_V(-_V y)\sim_V 0_V$, and
+\autoref{thm:group-left-right-inverse-uniqueness}, read in the additive
+$\AbGroupUp$ reduct, gives $\eta\cdot_V y\sim_V -_V y$.
+
+Apply \autoref{thm:innerproduct-orthogonality-right-scalar-action-closure} to
+the carried scalar $\eta$ and the hypothesis $x\perp_I y$. It gives
+$x\perp_I(\eta\cdot_V y)$. Transport this orthogonality witness along
+$\eta\cdot_V y\sim_V -_V y$ by
+\autoref{thm:innerproduct-orthogonality-transport-row}, keeping the left endpoint
+fixed by reflexivity. The result is $x\perp_I(-_V y)$.
+\end{proof}

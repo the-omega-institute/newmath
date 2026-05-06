@@ -1,0 +1,307 @@
+\begin{theorem}[Singleton manifold carrier topology scope]
+\label{thm:manifold-singleton-carrier-topology-scope}
+For histories $h,k:\mathsf{BHist}$, if $C_{\emp}(h)$ and $\hsame(h,k)$ hold,
+then $C_{\emp}(k)$ holds. Moreover the inherited indexed $\TopologyUp$ boundary
+surface has the exact scope:
+$$
+\mathsf{OpenAt}(\top_{\TopologyUp},h)\Longleftrightarrow C_{\emp}(h)
+$$
+and
+$$
+\mathsf{OpenAt}(\bot_{\TopologyUp},h)\Longleftrightarrow \bot.
+$$
+Consequently the top open transports along the restricted $\hsame$ classifier,
+and the bottom open contributes no carried point.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingletonCarrier\_topology\_scope}
+\begin{proof}
+Unfold $C_{\emp}$ from
+\autoref{def:manifold-singleton-empty-chart-package}. A witness
+$C_{\emp}(h)$ is exactly $\hsame(h,\emp)$. Compose it with the supplied
+$\hsame(h,k)$ using symmetry and transitivity of $\hsame$, with orientation
+chosen so that the endpoint is $\hsame(k,\emp)$. This is the carrier witness
+$C_{\emp}(k)$.
+
+For the topology scope, use the indexed boundary open witnesses of
+\autoref{def:topology-indexed-boundary-open-witnesses} and the boundary closure
+of \autoref{thm:topology-indexed-open-boundary-closure}. The top index carries
+the whole displayed carrier predicate, which in this instance is $C_{\emp}$,
+while the bottom index carries the empty predicate.
+
+The transport statement is then the same membership-stability field from
+\autoref{def:topology-indexed-open-carrier}, specialized to the top boundary
+index. The bottom clause has no point to transport because its carried
+predicate is $\bot$.
+\end{proof}
+
+\begin{theorem}[Singleton manifold chart coverage]
+\label{thm:manifold-singleton-chart-coverage}
+The one-chart atlas $\{\chi_{\emp}\}$ of
+\autoref{def:manifold-singleton-empty-chart-package} covers exactly the
+carried histories:
+$$
+h\in\mathsf{dom}(\chi_{\emp})
+\Longleftrightarrow
+C_{\emp}(h).
+$$
+For every such $h$, the chart exposes the same constant zero endpoint of
+$\RealUp$:
+$$
+\chi_{\emp}(h)=0_{\RealUp}.
+$$
+The chart-domain ledger is therefore the top-open witness together with the
+$C_{\emp}$ witness, and the chart-value ledger is the real constant endpoint
+row.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_chart\_coverage}
+\begin{proof}
+By definition of the atlas in
+\autoref{def:manifold-singleton-empty-chart-package}, the domain of
+$\chi_{\emp}$ is the distinguished top open of the inherited indexed topology
+surface. Apply
+\autoref{thm:manifold-singleton-carrier-topology-scope} to identify this
+membership with $C_{\emp}(h)$.
+
+For the value statement, unfold the chart map. It is the constant map whose
+target is the displayed zero endpoint of $\RealUp$. No property of $h$ is used
+except membership in the top domain, so the same endpoint is exposed for every
+carried history.
+
+The ledger statement is just the pairing of these two witnesses. Domain
+coverage records the top-open row and its $C_{\emp}$ readback; value coverage
+records the real endpoint row supplied by the local constant stream boundary.
+\end{proof}
+
+\begin{theorem}[Singleton manifold transition smoothness]
+\label{thm:manifold-singleton-transition-smoothness}
+Every nonempty chart overlap in the singleton atlas is the self-overlap of
+$\chi_{\emp}$. On that overlap the transition map is simultaneously the
+identity transition on the displayed singleton domain and the constant
+$0_{\RealUp}$ transition on the target endpoint. This transition is accepted by
+the real-analytic local constant stream boundary.
+\end{theorem}
+\begin{proof}
+There is only one chart in the atlas, so any overlap whose two chart names are
+present must be the pair $(\chi_{\emp},\chi_{\emp})$. The domain side is the
+top open, hence \autoref{thm:manifold-singleton-chart-coverage} identifies the
+overlap points exactly with $C_{\emp}$.
+
+On the carrier side, two points in the overlap are classified by the restricted
+$\hsame$ relation. Since every carried point is $\hsame$ to $\emp$, transitivity
+identifies all visible overlap histories with the same singleton point.
+
+On the target side, both charts expose $0_{\RealUp}$. The transition therefore
+has no varying real argument: it is the identity when read on the singleton
+domain and the constant zero map when read on the real endpoint. The
+$\RealAnalyticUp$ local constant stream boundary accepts exactly this constant
+map, so the overlap transition supplies the required smoothness row.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_smoothness}
+
+\begin{theorem}[Singleton manifold chart-index exhaustion]
+\label{thm:manifold-singleton-chart-index-exhaustion}
+Every chart index in the singleton atlas of
+\autoref{def:manifold-singleton-empty-chart-package} is the displayed chart
+$\chi_{\emp}$. Consequently every chart-domain row, chart-value row, and
+overlap row in that atlas factors through $\chi_{\emp}$ as its source chart and
+through $\chi_{\emp}$ as its target chart whenever a target chart is displayed.
+\end{theorem}
+\begin{proof}
+Unfold the atlas row of
+\autoref{def:manifold-singleton-empty-chart-package}. Its chart-index field is
+the one-element displayed atlas whose sole constructor is the row named
+$\chi_{\emp}$.
+
+Project any visible chart-index row from this finite atlas. Since the atlas has
+no second constructor, the projected row is definitionally the displayed
+$\chi_{\emp}$ row.
+
+The chart-domain and chart-value ledgers are indexed by this same chart row, so
+their projections factor through $\chi_{\emp}$. An overlap row is indexed by a
+pair of visible chart rows; applying the same exhaustion to both projections
+gives the pair $(\chi_{\emp},\chi_{\emp})$.
+\end{proof}
+
+\begin{theorem}[Singleton manifold domain exactness]
+\label{thm:manifold-singleton-domain-exactness}
+Every displayed chart-domain witness in the singleton atlas of
+\autoref{def:manifold-singleton-empty-chart-package} is the top-open witness.
+For every $h:\mathsf{BHist}$, membership in that displayed domain is equivalent
+to $C_{\emp}(h)$, while the bottom-open row carries no point.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_domain\_exactness}
+\begin{proof}
+Apply \autoref{thm:manifold-singleton-chart-index-exhaustion} to reduce an
+arbitrary displayed chart-domain row to the domain row of $\chi_{\emp}$. By
+construction this domain is the top open of the inherited $\TopologyUp$
+surface.
+
+\autoref{thm:manifold-singleton-carrier-topology-scope} identifies top-open
+membership with $C_{\emp}(h)$ for every history $h$ and identifies the bottom
+open with $\bot$. Thus the top domain is exactly the carried singleton
+predicate, and the bottom row contributes no carried point.
+
+\autoref{thm:manifold-singleton-chart-coverage} reads the same top-open witness
+as the chart-domain ledger witness for $\chi_{\emp}$. Since no other chart
+index exists, every displayed chart-domain witness has this exact readback.
+\end{proof}
+
+\begin{theorem}[Singleton manifold transition-ledger exhaustion]
+\label{thm:manifold-singleton-transition-ledger-exhaustion}
+Every displayed transition ledger entry in the singleton atlas of
+\autoref{def:manifold-singleton-empty-chart-package} factors through the sole
+self-overlap of $\chi_{\emp}$. Its source and target are the constant
+$0_{\RealUp}$ endpoint, and the entry is accepted exactly by the
+real-analytic local constant stream boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_ledger\_exhaustion}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldTransitionCoherenceLedger\_singleton\_exhaustion}
+\begin{proof}
+Use \autoref{thm:manifold-singleton-chart-index-exhaustion} on the two chart
+indices of a displayed transition ledger entry. Both indices are
+$\chi_{\emp}$, so the entry factors through the sole self-overlap.
+
+By \autoref{thm:manifold-singleton-domain-exactness}, the overlap domain is the
+top-open row read exactly as $C_{\emp}$. There is no bottom-open contribution
+and no second domain row on which another transition could be displayed.
+
+Apply \autoref{thm:manifold-singleton-transition-smoothness}. On this
+self-overlap both chart values are the constant endpoint $0_{\RealUp}$, and
+the only accepted smoothness row is the $\RealAnalyticUp$ local constant stream
+boundary. This is exactly the displayed transition ledger entry.
+\end{proof}
+
+\begin{theorem}[Singleton manifold NameCert obligation package]
+\label{thm:manifold-singleton-namecert-obligation-package}
+The rows of
+\autoref{def:manifold-singleton-empty-chart-package},
+\autoref{thm:manifold-singleton-carrier-topology-scope},
+\autoref{thm:manifold-singleton-chart-coverage},
+\autoref{thm:manifold-singleton-transition-smoothness},
+\autoref{thm:manifold-singleton-chart-index-exhaustion},
+\autoref{thm:manifold-singleton-domain-exactness}, and
+\autoref{thm:manifold-singleton-transition-ledger-exhaustion} assemble the
+paper-side $\NameCert_{\ManifoldUp}$ obligation package for the singleton
+empty-chart construction.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert}
+\begin{proof}
+The traditional target row is the one-point smooth manifold. The BEDC source
+row is $\mathsf{BHist}$ with the displayed empty history, and the carrier row
+is the predicate $C_{\emp}$. The classifier row is $\hsame$ restricted to that
+carrier.
+
+The stability rows are supplied by the carrier transport in
+\autoref{thm:manifold-singleton-carrier-topology-scope}, the top and bottom
+boundary rows inherited from $\TopologyUp$, the chart coverage statement of
+\autoref{thm:manifold-singleton-chart-coverage}, and the transition statement
+of \autoref{thm:manifold-singleton-transition-smoothness}.
+
+Chart-index exhaustion supplies the finite atlas readback: every chart-domain,
+chart-value, and overlap row is indexed by $\chi_{\emp}$. Domain exactness
+identifies the displayed chart domain with the top-open $C_{\emp}$ witness and
+keeps the bottom-open row empty. Transition-ledger exhaustion identifies the
+only transition row as the self-overlap constant transition.
+
+The ledger records $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$,
+$\Cont$, the indexed $\TopologyUp$ boundary rows, the $\RealUp$ constant
+endpoint, and the $\RealAnalyticUp$ constant-map boundary. These are precisely
+the rows named in the construction package, with no hidden atlas component.
+
+The core theorem list is the displayed carrier, coverage, smoothness,
+exactness, and ledger-exhaustion rows of this section. The standard bridge row
+is absent, and the resulting status is a paper-side obligation target for the
+Lean declaration
+$\mathsf{BEDC.Derived.ManifoldUp.SingletonEmptyChart\_name\_certificate}$.
+\end{proof}
+
+\begin{definition}[Singleton manifold atlas ledger]
+\label{def:manifold-singleton-atlas-ledger}
+The singleton manifold atlas ledger is the $\mathsf{BHist}$ package determined
+by the carrier $C_{\emp}$ of
+\autoref{def:manifold-singleton-empty-chart-package}, the single chart index
+$\chi_{\emp}$, the top-open chart domain supplied by $\TopologyUp$, the constant
+$0_{\RealUp}$ endpoint supplied by $\RealUp$, and the
+$\RealAnalyticUp$ local constant transition row. Its ten-field template is:
+\begin{description}
+\item[Traditional target.] The one-point smooth manifold.
+\item[BEDC source.] $\mathsf{BHist}$ with distinguished history $\emp$.
+\item[Carrier.] The predicate $C_{\emp}(h)$, equivalently $\hsame(h,\emp)$.
+\item[Classifier.] The relation $\hsame$ restricted to $C_{\emp}$.
+\item[Stability obligations.] Carrier transport, top-open membership transport,
+chart-domain readback, chart-value constancy, and transition-row constancy.
+\item[Ledger.] The rows
+$\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, the indexed
+$\TopologyUp$ boundary rows, the $\RealUp$ zero endpoint, and the
+$\RealAnalyticUp$ constant-map row.
+\item[Core theorem list.]
+\autoref{thm:manifold-singleton-carrier-topology-scope},
+\autoref{thm:manifold-singleton-chart-coverage},
+\autoref{thm:manifold-singleton-transition-smoothness}, and
+\autoref{thm:manifold-singleton-namecert-obligation-package}.
+\item[Exactness.] The only accepted domain witness is the top-open
+$C_{\emp}$ witness, and the only accepted overlap transition is the
+self-overlap constant transition.
+\item[No standard bridge.] The ledger contains no $\StdBridge$ row.
+\item[Status.] A paper-side $\NameCert_{\ManifoldUp}$ obligation target for
+later formalization under $\mathsf{BEDC.Derived.ManifoldUp}$.
+\end{description}
+\end{definition}
+
+\begin{theorem}[Singleton manifold atlas index exhaustion]
+\label{thm:manifold-singleton-atlas-index-exhaustion}
+In the singleton manifold atlas ledger of
+\autoref{def:manifold-singleton-atlas-ledger}, every visible chart-index row is
+the sole index $\chi_{\emp}$. Every nonempty overlap row is the pair
+$(\chi_{\emp},\chi_{\emp})$, and every accepted chart-domain witness is exactly
+the top-open $C_{\emp}$ witness.
+\end{theorem}
+\begin{proof}
+Unfold the atlas ledger of
+\autoref{def:manifold-singleton-atlas-ledger} and the construction package of
+\autoref{def:manifold-singleton-empty-chart-package}. The chart-index field is
+the displayed singleton list, so any visible chart row has the unique name
+$\chi_{\emp}$.
+
+With only one chart name available, a nonempty overlap can have no index pair
+other than $(\chi_{\emp},\chi_{\emp})$. The overlap is nonempty exactly when its
+domain side admits a carried history, and the only domain side exposed by the
+construction is the inherited top open.
+
+Apply
+\autoref{thm:manifold-singleton-carrier-topology-scope} to identify that
+top-open membership with $C_{\emp}$. Then apply
+\autoref{thm:manifold-singleton-chart-coverage} to read the same witness as
+the chart-domain ledger row, proving that no second chart-domain witness is
+present.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_atlas\_index\_exhaustion}
+
+\begin{theorem}[Singleton manifold chart-value transport]
+\label{thm:manifold-singleton-chart-value-transport}
+Let $h,k:\mathsf{BHist}$. If $C_{\emp}(h)$, $C_{\emp}(k)$, and $\hsame(h,k)$
+hold, then the chart-value ledger transports the value
+$\chi_{\emp}(h)=0_{\RealUp}$ to the value $\chi_{\emp}(k)=0_{\RealUp}$. Under
+the same transport, the transition ledger remains the
+$\RealAnalyticUp$ constant-map row for the self-overlap
+$(\chi_{\emp},\chi_{\emp})$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_chart\_value\_transport}
+\begin{proof}
+Use the carrier witnesses to read both $h$ and $k$ as histories in
+$C_{\emp}$. The relation $\hsame(h,k)$ supplies the classifier transport
+between them, and symmetry and transitivity of $\hsame$ keep the transport
+inside the singleton carrier.
+
+Apply \autoref{thm:manifold-singleton-chart-coverage} to the carried history
+$h$. The chart value is the constant endpoint $0_{\RealUp}$. Apply the same
+coverage theorem to the carried history $k$; the target endpoint is again
+$0_{\RealUp}$, so the chart-value ledger has transported the displayed value
+without changing the real row.
+
+Finally apply
+\autoref{thm:manifold-singleton-transition-smoothness}. Since the atlas has
+only the self-overlap $(\chi_{\emp},\chi_{\emp})$ and both chart readings are
+the same constant endpoint, the transition ledger is still the
+$\RealAnalyticUp$ local constant map row.
+\end{proof}

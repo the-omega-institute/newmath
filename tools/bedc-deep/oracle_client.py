@@ -94,7 +94,16 @@ def print_status_hint(server_url: str) -> dict:
     if status.get("diagnosis") == "queue_waiting_for_browser_agent":
         print("[status] queued work has no active BEDC ChatGPT tab.", flush=True)
         print("[status] install userscript: tools/bedc-deep/bedc_oracle_macos.user.js", flush=True)
-        print("[status] open: https://chatgpt.com/?bedc=1 and click Start in the BEDC panel", flush=True)
+        print("[status] open: https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start in the BEDC panel", flush=True)
+    elif status.get("diagnosis") == "queue_waiting_for_compatible_agent":
+        print(
+            f"[status] active BEDC tabs are older than {status.get('required_script_version', 'required version')}; "
+            "update tools/bedc-deep/bedc_oracle_macos.user.js and refresh Project tabs.",
+            flush=True,
+        )
+    elif status.get("diagnosis") == "queue_waiting_for_project_agent":
+        print("[status] active BEDC tab is not inside the BEDC ChatGPT Project.", flush=True)
+        print("[status] open: https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start in the BEDC panel", flush=True)
     return status
 
 
@@ -175,7 +184,7 @@ def wait_for_recent_agent(server_url: str, seconds: int, poll_interval: int) -> 
     deadline = time.time() + seconds
     while time.time() < deadline:
         status = print_status_hint(server_url)
-        if status.get("active_recent_agents"):
+        if status.get("project_active_poll_agents"):
             return True
         time.sleep(max(1, poll_interval))
     return False
@@ -210,7 +219,7 @@ def poll_result(
                 status = server_status(server_url)
                 print(f"[wait:{task_id}] {status_line(status)}", flush=True)
                 if status.get("diagnosis") == "queue_waiting_for_browser_agent":
-                    print("[wait] no active BEDC ChatGPT tab is polling; start one with https://chatgpt.com/?bedc=1", flush=True)
+                    print("[wait] no active BEDC ChatGPT tab is polling; start one with https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1", flush=True)
             except Exception as exc:
                 print(f"[wait:{task_id}] status unavailable: {exc}", flush=True)
             next_status_at = now + max(1, status_interval)
@@ -590,7 +599,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
         ):
             raise SystemExit(
                 "no active BEDC ChatGPT tab appeared before preflight timeout; "
-                "open https://chatgpt.com/?bedc=1 and click Start"
+                "open https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start"
             )
 
         # Initial prompt: lean v2 if no prior turns, else cursor pending or rebuild
@@ -847,6 +856,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "rejection_reasons": list(result.rejection_reasons),
                 "compile_errors": list(getattr(result, "compile_errors", None) or []),
                 "error": result.error,
+                "closure_candidate": getattr(result, "closure_candidate", None) or {},
             }
             stage2_attempts.append(attempt_record)
             if result.appended and result.compile_ok:
@@ -956,6 +966,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "compile_ok": last.get("compile_ok", False),
                 "rejection_reasons": last.get("rejection_reasons", []),
                 "error": last.get("error", ""),
+                "closure_candidate": last.get("closure_candidate", {}),
                 "attempts": stage2_attempts,
             }
         write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))

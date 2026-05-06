@@ -412,6 +412,8 @@ A complex series \(c\) converges absolutely with bound \(M\) and modulus \(N : \
 \label{lem:abs-conv-implies-conv}
 If \(\mathsf{AbsConv}(c, M, N)\) holds, the complex partial sums \((S_n)_n\) form a regular complex Cauchy sequence with the same modulus \(N\), and hence have an explicit complex-history limit \(S\) by Cauchy completeness (\autoref{ch:concrete-instances-complex-limit-namecert}).
 \end{lemma}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsConv\_complexSeriesConv}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsConv\_complexSeriesConv\_of\_pointwise\_hsame}
 \begin{proof}[Sketch]
 The triangle inequality on each segment of consecutive partial sums bounds \(|S_n - S_m|\) by \(|M_n - M_m|\). Apply the modulus from absolute convergence directly.
 \end{proof}
@@ -470,6 +472,7 @@ For complex term sequences \(a, b\), the Cauchy product \(c = a \star b\) is the
 \label{thm:cauchy-product-conv}
 If \(\mathsf{AbsConv}(a, M_a, N_a)\) and \(\mathsf{AbsConv}(b, M_b, N_b)\) hold, then \(\mathsf{AbsConv}(a \star b, M_a \cdot M_b, N_{ab})\) holds with explicit modulus \(N_{ab}\) computed from \(N_a, N_b, M_a, M_b\). Moreover the sum of the Cauchy product equals the product of sums: \(\sum (a \star b) = (\sum a) \cdot (\sum b)\).
 \end{theorem}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.CauchyProduct\_result\_unary}
 \begin{proof}[Sketch]
 Reorder partial sums into a triangular block structure. Absolute convergence justifies the reordering with explicit modulus pasting.
 \end{proof}
@@ -480,6 +483,7 @@ Reorder partial sums into a triangular block structure. Absolute convergence jus
 \label{lem:linearity-of-conv}
 If \(\mathsf{ComplexSeriesConv}(a, S_a)\) and \(\mathsf{ComplexSeriesConv}(b, S_b)\), and \(\alpha, \beta\) are complex histories, then \(\mathsf{ComplexSeriesConv}(\alpha a + \beta b, \alpha S_a + \beta S_b)\) with explicit modulus pasting.
 \end{lemma}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_pointwise\_append\_partials}
 \begin{proof}[Sketch]
 Pointwise scalar multiple and pointwise sum of regular sequences remain regular with combined modulus.
 \end{proof}
@@ -498,16 +502,23 @@ Absolute convergence ensures that any reordering converges to the same limit wit
 \label{def:complex-series-source-spec}
 The source specification on \(\ComplexUp\)-term-sequences carries the constraint \(\mathsf{ComplexSeriesConv}(c, S)\) for some \(S\). Its generator is the complex partial-sum predicate.
 \end{definition}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexSeriesConv\_pointwise\_source\_limit\_transport}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexSeriesSourceSpec}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexSeriesSourceSpec\_limit\_carrier}
 
 \begin{definition}[Complex series pattern specification]
 \label{def:complex-series-pattern-spec}
 The pattern of \(\ComplexSeriesUp\) is regular Cauchy partial-sum convergence: a sequence \(c\) is admissible when its partial-sum sequence is regular Cauchy with explicit modulus.
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexSeriesPatternSpec}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexSeriesPatternSpec\_complexSeriesConv}
 
 \begin{definition}[Complex series classifier specification]
 \label{def:complex-series-classifier-spec}
 Two convergent complex series are classified together when their limits agree under \(\hsame\) on both real components.
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexSeriesClassifierSpec}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexSeriesClassifierSpec\_limit\_transport}
 
 \begin{definition}[Complex series stability certificate]
 \label{def:complex-series-stability-cert}
@@ -519,6 +530,7 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_term\_hsame\_transport}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexSeriesConv\_limit\_transport\_successor\_step}
 
 \begin{definition}[Complex series ledger policy]
 \label{def:complex-series-ledger-policy}
@@ -534,6 +546,7 @@ The ledger policy records:
 \label{thm:complex-series-namecert}
 The five fields \((\mathsf{ComplexSeriesSourceSpec}, \mathsf{ComplexSeriesPatternSpec}, \mathsf{ComplexSeriesClassifierSpec}, \mathsf{ComplexSeriesStabilityCert}, \mathsf{ComplexSeriesLedgerPolicy})\) form a naming certificate over \(\Hist\) for the complex series interface \(\ComplexSeriesUp\).
 \end{theorem}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.complex\_series\_name\_certificate}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). All conversions between term sequence, partial-sum sequence, modulus, and limit are explicit unary functions, so the certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\) --- its Lean targets fall under the project's axiom-purity gate.
 \end{proof}
@@ -546,4 +559,107 @@ The concrete certificate of \autoref{thm:complex-series-namecert} satisfies the 
 \leanchecked{BEDC.Derived.ComplexSeriesUp.complex\_series\_semantic\_name\_certificate}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
+\end{proof}
+
+\begin{lemma}[Pointwise sum is a complex term sequence]
+\label{lem:complex-term-seq-pointwise-addition}
+Let $c,d:\Hist\to\Hist$ be complex term sequences in the sense of \autoref{def:complex-term-seq}, and define their pointwise sum by
+$$
+(c\oplus d)(m):=\mathsf{append}(c(m),d(m)),
+$$
+as in \autoref{def:cplx-pointwise-sum}. Then $c\oplus d$ is again a complex term sequence.
+\end{lemma}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexTermSeqCarrier\_pointwise\_append}
+\begin{proof}
+Fix a unary index $m$. Name the two term histories by fresh history variables $C_m$ and $D_m$, with $C_m=c(m)$ and $D_m=d(m)$. The term-sequence hypotheses give complex-history carriers for $C_m$ and $D_m$. By \autoref{thm:complex-history-carrier-unary}, $D_m$ is unary. The canonical append relation supplies a history $A_m$ such that
+$$
+\Cont(C_m,D_m,A_m)
+\quad\text{and}\quad
+A_m\hsame\mathsf{append}(C_m,D_m).
+$$
+This continuation witness falls under complex carrier unary continuation closure from \autoref{thm:complex-history-carrier-unary-continuation-closed}, so the named pointwise result $(c\oplus d)(m)$ is a complex-history carrier. Since $m$ was arbitrary among unary indices, the pointwise-sum family is a complex term sequence.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexTermSeqCarrier\_pointwise\_append\_components}
+
+\begin{theorem}[Complex partial sums commute with pointwise addition]
+\label{thm:complex-part-sum-pointwise-addition}
+Let $c,d:\Hist\to\Hist$ be complex term sequences, let $(c\oplus d)(m):=\mathsf{append}(c(m),d(m))$, and let $z_c,z_d,z_\oplus:\Hist$ be unary base histories with
+$$
+z_\oplus\hsame\mathsf{append}(z_c,z_d).
+$$
+If $n$ is unary and
+$$
+\mathsf{ComplexPartSum}(z_c,c,n,S_c)
+\quad\text{and}\quad
+\mathsf{ComplexPartSum}(z_d,d,n,S_d)
+$$
+hold, then there is a history $S_\oplus$ such that
+$$
+\mathsf{ComplexPartSum}(z_\oplus,c\oplus d,n,S_\oplus)
+\land
+S_\oplus\hsame\mathsf{append}(S_c,S_d).
+$$
+Moreover every closed partial sum $T$ of $c\oplus d$ at the same index satisfies
+$$
+\mathsf{ComplexPartSum}(z_\oplus,c\oplus d,n,T)
+\Longrightarrow
+T\hsame\mathsf{append}(S_c,S_d).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{lem:complex-term-seq-pointwise-addition}, $c\oplus d$ is a complex term sequence. Prove the displayed existence statement by unary induction on $n$, uniformly in the two input partial-sum witnesses.
+
+In the base case $n=\emp$, index-case inversion from \autoref{lem:complex-part-sum-index-cases} identifies $S_c$ with $z_c$ and $S_d$ with $z_d$. The zero constructor gives
+$$
+\mathsf{ComplexPartSum}(z_\oplus,c\oplus d,\emp,z_\oplus).
+$$
+The base comparison $z_\oplus\hsame\mathsf{append}(z_c,z_d)$, append congruence from \autoref{thm:external-append-hsame-congruence}, and the two endpoint identifications give $z_\oplus\hsame\mathsf{append}(S_c,S_d)$.
+
+For the successor case $n=\Eone(m)$, invert the two input partial-sum witnesses with \autoref{lem:complex-part-sum-index-cases}. This exposes predecessor sums $P_c,P_d$, bound term histories $C_m,D_m$ with $C_m\hsame c(m)$ and $D_m\hsame d(m)$, and continuations
+$$
+\Cont(P_c,C_m,S_c)
+\quad\text{and}\quad
+\Cont(P_d,D_m,S_d).
+$$
+The induction hypothesis at $m$ gives $P_\oplus$ with
+$$
+\mathsf{ComplexPartSum}(z_\oplus,c\oplus d,m,P_\oplus)
+\land
+P_\oplus\hsame\mathsf{append}(P_c,P_d).
+$$
+Let $A_m$ be the bound pointwise-sum term history supplied by the canonical append evidence
+$$
+\Cont(C_m,D_m,A_m)
+\quad\text{and}\quad
+A_m\hsame\mathsf{append}(C_m,D_m).
+$$
+Let $S_\oplus$ be the fresh successor history supplied by
+$$
+\Cont(P_\oplus,A_m,S_\oplus).
+$$
+The step constructor for \autoref{def:complex-part-sum} gives the closed partial sum for $c\oplus d$ at $\Eone(m)$.
+
+It remains to compare this result with the sum of the two displayed successor results. The term-sequence hypotheses and \autoref{thm:complex-history-carrier-unary} make $C_m$ and $D_m$ unary, while \autoref{thm:complex-part-sum-result-unary} makes $P_c$ and $P_d$ unary. Associativity of unary continuation from \autoref{lem:unary-continuation-associativity} and commutativity from \autoref{thm:unary-cont-comm} give the middle-four comparison
+$$
+\mathsf{append}(\mathsf{append}(P_c,P_d),\mathsf{append}(C_m,D_m))
+\hsame
+\mathsf{append}(\mathsf{append}(P_c,C_m),\mathsf{append}(P_d,D_m)).
+$$
+The comparison $P_\oplus\hsame\mathsf{append}(P_c,P_d)$ and the term comparison $A_m\hsame\mathsf{append}(C_m,D_m)$ put the continuation witness for $S_\oplus$ in the same source and right-history class as the canonical append continuation to the left endpoint; \autoref{thm:continuation-determinacy-up-to-history-sameness} gives the corresponding $\hsame$ comparison.
+
+The two displayed continuation witnesses for $S_c$ and $S_d$ are compared with the canonical append continuations by \autoref{thm:continuation-determinacy-up-to-history-sameness}, yielding
+$$
+\mathsf{append}(P_c,C_m)\hsame S_c
+\quad\text{and}\quad
+\mathsf{append}(P_d,D_m)\hsame S_d.
+$$
+Applying \autoref{thm:external-append-hsame-congruence} to these two comparisons gives
+$$
+\mathsf{append}(\mathsf{append}(P_c,C_m),\mathsf{append}(P_d,D_m))
+\hsame
+\mathsf{append}(S_c,S_d).
+$$
+Transitivity with the comparison for $S_\oplus$ and the middle-four comparison gives the required comparison for $S_\oplus$.
+
+Finally, let $T$ be any closed partial sum of $c\oplus d$ at $n$. The determinacy theorem \autoref{lem:complex-part-sum-well-defined} compares $T$ with the constructed $S_\oplus$; transitivity with the comparison already proved gives $T\hsame\mathsf{append}(S_c,S_d)$.
 \end{proof}

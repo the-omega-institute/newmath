@@ -1,0 +1,103 @@
+\begin{theorem}[DyadicRatCore carrier and classifier obligations]
+\label{thm:dyadic-rat-core-carrier-classifier-obligations}
+The carrier and classifier obligations for DyadicRatCore are the certificate
+boundary whose carrier row is
+$\mathsf{DyadicRatCoreObservationRow}(d)$ from
+\autoref{def:dyadic-rat-core-observation-row}, whose classifier row is
+$\mathsf{RatHistoryClassifier}(d,e)$ transported through
+\autoref{thm:dyadic-rat-core-observation-row-classifier-transport}, and whose
+source package is the scoped boundary of
+\autoref{thm:dyadic-rat-core-scoped-source-package}. Concretely, for each
+endpoint history $d:\Hist$, the carrier obligation reads exactly the
+$\mathsf{RatHistoryCarrier}(d)$ row, the
+$\mathsf{PositiveUnaryDenominator}(d)$ row, and the dyadic-radius token already
+recorded by the $\RegSeqRat$ ledger. For each classifier comparison
+$\mathsf{RatHistoryClassifier}(d,e)$, the classifier obligation transports
+that three-field row along $\hsame(d,e)$ and repacks no additional completion,
+quotient, or external metric datum.
+\end{theorem}
+\begin{proof}
+Unpack the definition of the observation row. The carrier face is precisely the
+triple named in \autoref{def:dyadic-rat-core-observation-row}: a RatUp endpoint
+carrier, a positive unary denominator row, and the dyadic-radius token from the
+regularity ledger.
+
+Now use \autoref{thm:dyadic-rat-core-scoped-source-package}. It identifies the
+source of every such row as the RatUp endpoint history together with the
+$\RegSeqRat$ observation request, so the carrier obligation has no independent
+object outside that scoped package.
+
+For the classifier face, apply
+\autoref{thm:dyadic-rat-core-observation-row-classifier-transport}. The
+$\mathsf{RatHistoryClassifier}$ comparison supplies the $\hsame$ transport of
+the endpoint carrier, denominator row, and dyadic token, which is exactly the
+DyadicRatCore classifier obligation.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore arithmetic-stability obligations]
+\label{thm:dyadic-rat-core-arithmetic-stability-obligations}
+The arithmetic-stability obligations for DyadicRatCore are the finite
+certificate rows required to read dyadic rational endpoint arithmetic through
+the BEDC source package. They consist of operation rows for dyadic addition,
+negation, subtraction, multiplication, and positive-denominator division;
+classifier congruence rows showing that $\mathsf{RatHistoryClassifier}$ and
+$\hsame$ transport carry equivalent inputs to equivalent operation outputs;
+denominator-preservation rows showing that the
+$\mathsf{PositiveUnaryDenominator}$ face remains in the DyadicRatCore carrier
+after each operation; and finite ledger provenance rows tying every requested
+operation to the dyadic observation ledger consumed by the $\RegSeqRat$
+regularity check. These are obligations for formal proof targets over the
+existing RatUp, StreamNameUp, $\mathsf{BHist}$, $\hsame$, and dyadic ledger
+interfaces; they do not assert arithmetic laws beyond that certificate
+inventory.
+\end{theorem}
+\begin{proof}
+Read every operation input as a DyadicRatCore observation row using
+\autoref{thm:dyadic-rat-core-carrier-classifier-obligations}. This exposes the
+RatUp carrier, the positive denominator row, and the dyadic-radius token at
+each endpoint.
+
+The operation row is then a finite BEDC request over the same endpoint
+histories. RatUp supplies the rational endpoint operation, StreamNameUp keeps
+the requested stream observation name stable, and the dyadic ledger records the
+finite observation request consumed downstream by $\RegSeqRat$.
+
+Classifier congruence is the same transport pattern used for the carrier and
+classifier boundary. The $\mathsf{RatHistoryClassifier}$ comparison and
+$\hsame$ denominator transport carry equivalent inputs to the corresponding
+operation outputs, while denominator preservation keeps the result inside the
+DyadicRatCore observation-row format.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore radius, distance, and absolute-value obligations]
+\label{thm:dyadic-rat-core-radius-distance-obligations}
+The monotone dyadic-radius, distance, and absolute-value obligations for
+DyadicRatCore are the certificate rows consumed by $\RegSeqRat$ regularity and
+by the $\RealUp$ sealing boundary. The radius obligation states that
+strengthening a finite dyadic-radius request preserves the same RatUp endpoint
+carrier and transports only the ledger token. The distance obligation states
+that dyadic endpoint distance is read from two
+$\mathsf{DyadicRatCoreObservationRow}$ inputs, is stable under
+$\mathsf{RatHistoryClassifier}$ and $\hsame$ transport, and records its output
+in the same finite ledger. The absolute-value obligation is the unary instance
+of the same pattern: it reads one endpoint row, preserves positive-denominator
+and classifier compatibility, and exposes the output row required by the
+$\RegSeqRat$ regularity spine before $\RealUp$ sealing.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and classifier package of
+\autoref{thm:dyadic-rat-core-carrier-classifier-obligations}. It gives the
+endpoint rows and their $\mathsf{RatHistoryClassifier}$ transport inside
+$\mathsf{BHist}$ and $\hsame$.
+
+For radius monotonicity, refine the finite dyadic request in the ledger. The
+RatUp endpoint carrier and the positive-denominator face remain fixed, while
+the dyadic-radius token is replaced by the stronger certified request used by
+the $\RegSeqRat$ regularity spine.
+
+For distance and absolute value, use the same operation-row shape as in
+\autoref{thm:dyadic-rat-core-arithmetic-stability-obligations}. The binary
+distance row and the unary absolute-value row read only DyadicRatCore carrier
+data, preserve classifier compatibility under $\hsame$, and expose exactly the
+finite output rows consumed by the RealUp sealing interface.
+\end{proof}

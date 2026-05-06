@@ -347,6 +347,52 @@ theorem MetricDistanceWitness_triangle_bilateral_empty_edge_collapse
       (And.intro zEmpty
         (And.intro dxyzEmpty (And.intro depthZero emptyWitness))))
 
+theorem MetricDistanceWitness_two_sided_empty_triangle_witness_exactness
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dxy BHist.Empty ->
+        hsame dyz BHist.Empty ->
+          hsame dxyz BHist.Empty ∧ MetricDistanceWitness BHist.Empty BHist.Empty dxyz ∧
+            MetricDistanceWitness BHist.Empty z dxyz ∧
+              MetricDistanceWitness x BHist.Empty dxyz := by
+  intro xy yz xyz dxyEmpty dyzEmpty
+  have collapsed :=
+    MetricDistanceWitness_triangle_bilateral_empty_edge_collapse xy yz xyz dxyEmpty dyzEmpty
+  have leftBoundary :
+      MetricDistanceWitness BHist.Empty z dxyz :=
+    MetricDistanceWitness_triangle_left_empty_boundary_witness xy yz xyz dxyEmpty
+  have rightBoundary :
+      MetricDistanceWitness x BHist.Empty dxyz :=
+    MetricDistanceWitness_triangle_right_empty_boundary_witness xy yz xyz dyzEmpty
+  exact And.intro collapsed.right.right.right.left
+    (And.intro collapsed.right.right.right.right.right
+      (And.intro leftBoundary rightBoundary))
+
+theorem MetricDistanceWitness_two_sided_empty_triangle_boundary_package
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dxy BHist.Empty ->
+        hsame dyz BHist.Empty ->
+          hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame z BHist.Empty ∧
+            hsame dxyz BHist.Empty ∧ MetricDistanceWitness BHist.Empty BHist.Empty dxyz := by
+  intro xy yz xyz dxyEmpty dyzEmpty
+  have leftCollapse :
+      hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame dxyz z ∧ hsame dyz z :=
+    MetricDistanceWitness_triangle_left_distance_empty_collapse xy yz xyz dxyEmpty
+  have rightCollapse :
+      hsame y BHist.Empty ∧ hsame z BHist.Empty ∧ hsame dxy x ∧ hsame dxyz x :=
+    MetricDistanceWitness_triangle_right_distance_empty_collapse xy yz xyz dyzEmpty
+  have dxyzEmpty : hsame dxyz BHist.Empty :=
+    hsame_trans leftCollapse.right.right.left rightCollapse.right.left
+  have emptyWitness : MetricDistanceWitness BHist.Empty BHist.Empty dxyz :=
+    MetricDistanceWitness_hsame_fields_transport (hsame_refl BHist.Empty)
+      (hsame_refl BHist.Empty) (hsame_symm dxyzEmpty)
+      ((MetricDistanceWitness_empty_distance_iff (x := BHist.Empty) (y := BHist.Empty)).mpr
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
+  exact And.intro leftCollapse.left
+    (And.intro leftCollapse.right.left
+      (And.intro rightCollapse.right.left (And.intro dxyzEmpty emptyWitness)))
+
 theorem MetricDistanceWitness_visible_context_triangle_depth_zero_collapse
     {p q x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
@@ -476,5 +522,21 @@ theorem MetricDistanceWitness_triangle_nonempty_spine_iff_nonempty_distance
                     exact nonemptyDxy emptySpine.right.right.right.left
                 | inr nonemptyDyz =>
                     exact nonemptyDyz emptySpine.right.right.right.right
+
+theorem MetricDistanceWitness_visible_context_triangle_nonempty_spine_iff_nonempty_distance
+    {p q x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        ((hsame dxyz BHist.Empty -> False) ↔
+          (hsame x BHist.Empty -> False) ∨ (hsame y BHist.Empty -> False) ∨
+            (hsame z BHist.Empty -> False) ∨ (hsame dxy BHist.Empty -> False) ∨
+              (hsame dyz BHist.Empty -> False)) := by
+  intro visible yz xyz
+  have visibleData :
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y dxy :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp visible
+  exact MetricDistanceWitness_triangle_nonempty_spine_iff_nonempty_distance
+    visibleData.right.right yz xyz
 
 end BEDC.Derived.MetricUp

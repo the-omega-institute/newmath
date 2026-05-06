@@ -1,0 +1,83 @@
+\begin{theorem}[Continuous modulus chain prefix closure]
+\label{thm:continuous-modulus-chain-prefix-closed}
+For histories $p,s,\delta_1,\delta_2,t$, a unary prefix on the source and
+target preserves a two-link continuous modulus chain:
+$$
+\mathsf{UnaryHistory}(p)
+\Longrightarrow
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t)
+\Longrightarrow
+\mathsf{ContinuousModulusChain}(p \cdot s,\delta_1,\delta_2,p \cdot t).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the chain into unary endpoint data and a middle history $m$ with
+continuations $m=s\cdot\delta_1$ and $t=m\cdot\delta_2$. Use $p\cdot m$ as the
+middle history for the prefixed chain. Unary append closure supplies the
+prefixed endpoints, and continuation associativity prefixes both ledger
+equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_prefix\_closed}
+
+\begin{theorem}[Continuous modulus chain prefix exactness]
+\label{thm:continuous-modulus-chain-prefix-iff}
+For histories $p,s,\delta_1,\delta_2,t$, prefixing both endpoints of a
+two-link continuous modulus chain is exact:
+$$
+\mathsf{ContinuousModulusChain}(p\cdot s,\delta_1,\delta_2,p\cdot t)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t).
+$$
+The traditional target is prefix-stable uniform-modulus data. The BEDC source
+is $BHist$ with $\mathsf{Cont}$, the carrier is
+$\mathsf{ContinuousModulusChain}$, and the classifier is $\mathsf{hsame}$. The
+stability obligation is prefix exactness. The ledger records source, two
+precision histories, middle, and target continuations. The core theorem is
+this exactness statement, the exactness predicate is the displayed iff, the
+standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the prefixed chain. Unary append
+factorization gives unary $p$ and unary $s$. Let the unprefixed middle be
+$s\cdot\delta_1$.
+
+The first continuation ledger, together with associativity, identifies the
+prefixed middle as $p\cdot(s\cdot\delta_1)$. The second continuation ledger
+then has a common visible prefix $p$ on both sides. Associativity and left
+cancellation recover the unprefixed second continuation from
+$s\cdot\delta_1$ through $\delta_2$ to $t$. These data assemble
+$\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t)$, paired with unary
+$p$.
+
+For the reverse direction, take unary $p$ together with the unprefixed chain
+and apply Theorem~\ref{thm:continuous-modulus-chain-prefix-closed}. This gives
+the prefixed chain from $p\cdot s$ through the same two precision histories to
+$p\cdot t$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_prefix\_iff}
+
+\begin{theorem}[Continuous modulus chain suffix exactness]
+\label{thm:continuous-modulus-chain-suffix-iff}
+For histories $p,s,\delta_1,\delta_2,t$, suffixing the second modulus and the
+target of a two-link continuous modulus chain is exact:
+$$
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2\cdot p,t\cdot p)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the suffixed chain and derive the unary
+middle history from the first continuation. The second continuation is a
+continuous modulus witness from the middle history through
+$\delta_2\cdot p$ to $t\cdot p$. Apply
+Theorem~\ref{thm:continuous-modulus-witness-suffix-iff} to remove the common
+right suffix from that second leg, then rebuild the original two-link chain.
+
+For the reverse direction, apply
+Theorem~\ref{thm:continuous-modulus-witness-suffix-iff} to the second leg of
+the chain and reuse the same middle history and first continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_suffix\_iff}

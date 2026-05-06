@@ -6,14 +6,14 @@ allowlist (run_probe / run_curator / restart_inner / adjust_cooldown).
 v1 widens the surface significantly and gates every non-routine action
 through a two-stage judge:
 
-    PI agent (claude) proposes plan
+    PI agent proposes plan (Claude preferred, Codex fallback)
         ↓
     For each proposed action:
         ├─ codex_evaluator  scores 0-10 across 4 dimensions
         ├─ redline_check    deterministic Python: file paths, operation
         │                   type, branch identity (must be
         │                   bedc-claim-packet-pipeline)
-        └─ claude_judge     independent second opinion
+        └─ final_judge      independent second opinion
         ↓
     Action executes iff all three pass
 
@@ -153,6 +153,8 @@ def _extract_json_object(text: str) -> Optional[dict]:
 
 
 def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
+    if os.environ.get("BEDC_DISABLE_CLAUDE"):
+        return (False, "claude disabled by BEDC_DISABLE_CLAUDE", -2)
     if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
         return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -236,6 +238,40 @@ def _codex_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, 
     if not raw:
         raw = stdout
     return (rc == 0, raw, rc)
+
+
+def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
+    ok, stdout, rc = _claude_exec(prompt, timeout=PI_TIMEOUT_S, log_tag="pi_v1_review")
+    if ok:
+        parsed = _extract_json_object(stdout)
+        if parsed:
+            parsed.setdefault("_review_source", "claude")
+            return (True, parsed, "claude", stdout)
+        claude_error = "claude output was not JSON"
+    else:
+        claude_error = f"claude unavailable rc={rc}: {stdout[:500]}"
+
+    fallback_prompt = (
+        "Claude is unavailable for this BEDC PI review. Act as the PI agent "
+        "for this single cycle and return the same JSON schema exactly. Keep "
+        "the plan conservative: prefer no action or routine actions unless the "
+        "snapshot shows a concrete blocker.\n\n"
+        f"Claude failure context: {claude_error}\n\n"
+        f"{prompt}"
+    )
+    ok, raw, rc = _codex_exec(
+        fallback_prompt,
+        timeout=PI_TIMEOUT_S,
+        log_tag="pi_v1_review_codex_fallback",
+    )
+    if not ok:
+        return (False, None, "codex_fallback", raw)
+    parsed = _extract_json_object(raw)
+    if not parsed:
+        return (False, None, "codex_fallback", raw)
+    parsed.setdefault("_review_source", "codex_fallback")
+    parsed.setdefault("_fallback_reason", claude_error[:500])
+    return (True, parsed, "codex_fallback", raw)
 
 
 # ---------------------------------------------------------------------------
@@ -472,12 +508,49 @@ def _run_claude_judge(*, action: dict, snapshot: dict, pi_rationale: str,
         codex_verdict=_safe(json.dumps(codex_verdict, ensure_ascii=False, indent=2)[:5000]),
         redline_verdict=_safe(json.dumps(redline_verdict, ensure_ascii=False, indent=2)[:2000]),
     )
-    ok, stdout, _rc = _claude_exec(prompt, timeout=300, log_tag=f"pi_claude_judge_{action.get('action','x')}")
+    ok, stdout, rc = _claude_exec(prompt, timeout=300, log_tag=f"pi_claude_judge_{action.get('action','x')}")
+    if ok:
+        parsed = _extract_json_object(stdout)
+        if parsed:
+            parsed.setdefault("judge_source", "claude")
+            return parsed
+        claude_error = "claude judge output was not JSON"
+    else:
+        claude_error = f"claude judge unavailable rc={rc}: {stdout[:500]}"
+
+    fallback_prompt = (
+        "Claude is unavailable for the final PI action judge. Act as an "
+        "independent second-pass judge for this single action. You already "
+        "have the first Codex evaluator verdict in the prompt, so do not "
+        "rubber-stamp it; apply a stricter, skeptical review and return the "
+        "same JSON schema exactly.\n\n"
+        f"Claude failure context: {claude_error}\n\n"
+        f"{prompt}"
+    )
+    ok, raw, codex_rc = _codex_exec(
+        fallback_prompt,
+        timeout=300,
+        log_tag=f"pi_final_judge_codex_fallback_{action.get('action','x')}",
+    )
     if not ok:
-        return {"approve": False, "rationale": "claude judge unreachable", "raw": stdout[:500]}
-    parsed = _extract_json_object(stdout)
+        return {
+            "approve": False,
+            "judge_source": "codex_fallback",
+            "rationale": "final judge fallback unreachable",
+            "raw": raw[:500],
+            "error": f"codex rc={codex_rc}; {claude_error}",
+        }
+    parsed = _extract_json_object(raw)
     if not parsed:
-        return {"approve": False, "rationale": "claude judge output not JSON", "raw": stdout[:500]}
+        return {
+            "approve": False,
+            "judge_source": "codex_fallback",
+            "rationale": "final judge fallback output not JSON",
+            "raw": raw[:500],
+            "error": claude_error,
+        }
+    parsed.setdefault("judge_source", "codex_fallback")
+    parsed.setdefault("claude_error", claude_error[:500])
     return parsed
 
 
@@ -511,7 +584,7 @@ def gauntlet(action: dict, snapshot: dict, pi_rationale: str) -> GauntletResult:
     if not claude.get("approve"):
         return GauntletResult(
             pass_all=False, redline=redline_dict, codex=codex, claude=claude,
-            summary=f"claude rejected: {claude.get('rationale','')[:200]}",
+            summary=f"{claude.get('judge_source', 'claude')} rejected: {claude.get('rationale','')[:200]}",
         )
     return GauntletResult(
         pass_all=True, redline=redline_dict, codex=codex, claude=claude,
@@ -775,10 +848,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
     template = PI_V1_PROMPT_PATH.read_text(encoding="utf-8")
     snapshot_blob = json.dumps(snapshot, ensure_ascii=False, indent=2)
     prompt = template.format(snapshot=_safe(snapshot_blob[:30000]))
-    ok, stdout, _rc = _claude_exec(prompt, timeout=PI_TIMEOUT_S, log_tag="pi_v1_review")
-    plan: dict | None = None
-    if ok:
-        plan = _extract_json_object(stdout)
+    ok, plan, review_source, stdout = _run_pi_planner(prompt)
 
     applied: list[dict] = []
     inbox: list[str] = []
@@ -795,6 +865,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
                 "redline": gr.redline,
                 "codex_approve": gr.codex.get("approve"),
                 "claude_approve": gr.claude.get("approve"),
+                "final_judge_source": gr.claude.get("judge_source"),
                 "pass_all": gr.pass_all,
                 "summary": gr.summary,
             })
@@ -828,6 +899,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
     record = {
         "ts": _now_iso(),
         "ok": ok,
+        "review_source": review_source,
         "snapshot_summary": {
             "branch": snapshot.get("current_branch"),
             "completion_rates": snapshot.get("completion_rates"),
@@ -848,7 +920,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         "plan": plan,
         "applied": applied,
         "inbox_items_appended": inbox,
-        "claude_stdout_truncated": (stdout or "")[:8000],
+        "review_stdout_truncated": (stdout or "")[:8000],
     })
     return plan
 

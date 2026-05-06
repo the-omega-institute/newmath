@@ -649,6 +649,7 @@ Thus the two trim computations take the same branch. In the dropped-head branch,
 
 These cases exhaust the structural classifier witness by \autoref{thm:list-classifier-case-exactness}. Finally, \autoref{def:polynomial-classifier-specification} reads the resulting finite-spine classifier as structural sameness of the two normalized polynomial representatives.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonAddFold\_common\_spine\_zero\_remainder\_hsame}
 
 \begin{definition}[Polynomial raw addition comparison data]
 \label{def:polynomial-raw-add-comparison-data}
@@ -683,6 +684,7 @@ $$
 \mathsf{PolySame}_R(\mathsf{radd}_R(x,y{++}z),\mathsf{radd}_R(x,y)).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonRawAdd\_left\_zero\_tail\_addFold\_invariance}
 \begin{proof}
 The nil spine is a zero remainder by the nil clause of \autoref{def:classified-zero-remainder-spine}. Consider the left-input statement. The recursion in \autoref{def:polynomial-raw-add-comparison-data} scans the two raw sums coefficient by coefficient. Induct on the displayed finite spines, first through the common prefix $x$ and then through the zero remainder $z$ after $x$ is exhausted.
 
@@ -727,6 +729,7 @@ $$
 $$
 Substituting $p_0=\mathsf{trim}_R(p)$ and $q_0=\mathsf{trim}_R(q)$, this is exactly the asserted polynomial classifier comparison.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonRawAdd\_two\_sided\_trim\_compatibility}
 
 \begin{proposition}[Polynomial raw addition right zero-tail invariance]
 \label{prop:polynomial-raw-add-right-zero-tail-invariance}
@@ -741,7 +744,5 @@ $$
 Apply \autoref{lem:polynomial-raw-add-zero-tail-trim-stability} with $x=p$, $y=q$, and $z=t$, and read its second displayed conclusion. The hypothesis on $t$ is exactly the classified zero-tail condition from \autoref{def:classified-zero-remainder-spine}; \autoref{def:polynomial-raw-add-comparison-data} identifies the displayed relation as the normalized polynomial classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonRawAdd\_right\_zero\_tail\_addFold\_invariance}
-
 \input{parts/concrete_instances/25_polynomial_singleton_normal_form_boundary}
-\input{parts/concrete_instances/25_polynomial_literal_addtrim}
-\input{parts/concrete_instances/25_polynomial_literal_multiplication}
+\input{parts/concrete_instances/25_polynomial_literals}

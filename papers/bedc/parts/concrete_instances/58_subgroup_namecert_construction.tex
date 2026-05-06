@@ -561,6 +561,7 @@ For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying t
 \end{enumerate}
 Thus the singleton fiber of the group unit carries a $\SubgroupUp$ certificate over the inherited classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupTrivialCarrier\_certificate}
 \begin{proof}
 The semantic classifier row is inherited from $\hsame$. Reflexivity on a carried endpoint $x$ packages the carrier witness $\mathsf{Triv}_G(x)$ twice with $x\hsame x$. Symmetry and transitivity unpack the stored $\hsame$ comparisons, apply the corresponding ambient law, and repack the endpoint carrier fields already present in the classifier witnesses.
 
@@ -682,4 +683,50 @@ $R_{H\leq G}(\mathsf{inv}(x),\mathsf{inv}(y))$.
 These are exactly the semantic classifier, identity, product, inverse,
 carrier-transport, multiplication-classifier, and inverse-classifier rows of a
 $\SubgroupUp$ certificate over the original ambient group $G$.
+\end{proof}
+
+\begin{theorem}[Subgroup one-step criterion]
+\label{thm:subgroup-one-step-criterion}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ with operation $\mathsf{mul}$, unit $e$, inverse operation $\mathsf{inv}$, and ambient classifier $\hsame$, assume the monoid stability rows of \autoref{def:monoid-stability-certificate} and the inverse rows of \autoref{def:group-stability-certificate}. Let $P:\mathsf{BHist}\to\mathsf{Prop}$ be a carrier predicate, and let the inherited restricted classifier be
+$$
+R_P(x,y):\Longleftrightarrow P(x)\land P(y)\land x\hsame y.
+$$
+Assume:
+\begin{enumerate}
+\item $P$ is inhabited: $P(a)$ for some $a:\mathsf{BHist}$.
+\item $P$ is stable under the ambient classifier: if $P(x)$ and $x\hsame y$, then $P(y)$.
+\item $P$ is closed under the one-step relative product: if $P(x)$ and $P(y)$, then $P(\mathsf{mul}(x,\mathsf{inv}(y)))$.
+\end{enumerate}
+Then the carrier $P$ with classifier $R_P$ satisfies the concrete $\SubgroupUp$ identity, product, inverse, and carrier-transport rows:
+\begin{enumerate}
+\item $P(e)$.
+\item If $P(x)$ and $P(y)$, then $P(\mathsf{mul}(x,y))$.
+\item If $P(x)$, then $P(\mathsf{inv}(x))$.
+\item If $P(x)$ and $x\hsame y$, then $P(y)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Choose an inhabitant $a$ with $P(a)$. The relative-product row applied to $a$ and $a$ gives $P(\mathsf{mul}(a,\mathsf{inv}(a)))$. The right inverse row from \autoref{def:group-stability-certificate} identifies this endpoint with $e$:
+$$
+\mathsf{mul}(a,\mathsf{inv}(a))\hsame e.
+$$
+Classifier stability for $P$ transports the witness to $P(e)$, proving the identity row.
+
+For inverse closure, assume $P(x)$. The identity row gives $P(e)$, so the relative-product row applied to $e$ and $x$ gives $P(\mathsf{mul}(e,\mathsf{inv}(x)))$. The left identity row from \autoref{def:monoid-stability-certificate} gives
+$$
+\mathsf{mul}(e,\mathsf{inv}(x))\hsame\mathsf{inv}(x),
+$$
+and carrier stability transports the witness to $P(\mathsf{inv}(x))$.
+
+For product closure, assume $P(x)$ and $P(y)$. The inverse row just obtained gives $P(\mathsf{inv}(y))$. Apply the relative-product row to $x$ and $\mathsf{inv}(y)$ to get
+$$
+P(\mathsf{mul}(x,\mathsf{inv}(\mathsf{inv}(y)))).
+$$
+By \autoref{thm:group-left-inverse-involutive}, $\mathsf{inv}(\mathsf{inv}(y))\hsame y$. Multiplication congruence from \autoref{def:monoid-stability-certificate}, together with reflexivity on $x$, gives
+$$
+\mathsf{mul}(x,\mathsf{inv}(\mathsf{inv}(y)))\hsame\mathsf{mul}(x,y).
+$$
+Carrier stability transports the displayed witness to $P(\mathsf{mul}(x,y))$.
+
+The transport row is exactly the classifier-stability hypothesis on $P$. These four conclusions are the carrier rows in the $\SubgroupUp$ row format used in \autoref{thm:subgroup-centralizer-certificate-target} and \autoref{thm:subgroup-trivial-certificate}.
 \end{proof}

@@ -710,3 +710,87 @@ x+_M(-_M y)\sim_M y+_M(-_M y).
 $$
 Apply \autoref{thm:group-right-cancellation} in the source additive group reduct obtained from \autoref{prop:module-forgets-abgroup-certificate} and \autoref{prop:abgroup-forgets-group-certificate}. Cancelling the common carried summand $-_M y$ gives $x\sim_My$, which is classifier-injectivity.
 \end{proof}
+
+\begin{theorem}[Module LinearMap pointwise sum commutativity]
+\label{thm:module-linearmap-pointwise-sum-commutativity}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_N$ for the module classifier on $N$ and $+_N$ for module addition. For functions $f,g:M\to N$, define $h,k:M\to N$ by
+$$
+h(x):=f(x)+_N g(x),
+\qquad
+k(x):=g(x)+_N f(x).
+$$
+If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,N;g),
+$$
+then both pointwise sums carry certificates
+$$
+\mathsf{LinearMapCert}_R(M,N;h)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,N;k),
+$$
+and they are related by the pointwise $\LinearMapUp(M,N)$ classifier:
+$$
+h\sim_{\LinearMapUp(M,N)}k.
+$$
+Equivalently, for every carried $x:M$,
+$$
+f(x)+_N g(x)\sim_N g(x)+_N f(x).
+$$
+The ten-field fit is: traditional target commutativity of pointwise addition in $\operatorname{Hom}_R(M,N)$; BEDC source the two displayed $\mathsf{LinearMapCert}_R$ packages over common $\ModuleUp$ certificates; carrier the two pointwise-sum functions $h$ and $k$; classifier the pointwise target classifier from \autoref{def:linearmap-classifier-specification}; stability pointwise-sum closure and target additive commutativity; ledger the two input function identifiers, the two pointwise-sum ledgers, and the target additive-commutativity ledger at each carried source endpoint; core theorem this block; exactness predicate the displayed $\LinearMapUp(M,N)$ classifier comparison; standard bridge the usual commutative addition law on module homomorphisms; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-linearmap-pointwise-sum-certificate} to the ordered pair $(f,g)$. This gives the certificate for $h$. Apply the same theorem to the ordered pair $(g,f)$. This gives the certificate for $k$.
+
+It remains to prove the classifier comparison. By \autoref{def:linearmap-classifier-specification}, the $\LinearMapUp(M,N)$ classifier is pointwise comparison in the target module classifier, together with the two carried map-code endpoints. The two endpoint certificate clauses are the certificates for $h$ and $k$ just obtained.
+
+Fix a carried source endpoint $x:M$. Unpacking the two input certificates by \autoref{def:module-linearmap-certificate-package}, output closure for $f$ and for $g$ makes $f(x)$ and $g(x)$ carried in $N$. By \autoref{prop:module-forgets-abgroup-certificate}, the additive part of the target module is an $\AbGroupUp(N)$ certificate with the same operation $+_N$ and classifier $\sim_N$. The commutativity row listed in \autoref{def:abgroup-stability-certificate} therefore gives
+$$
+f(x)+_N g(x)\sim_N g(x)+_N f(x).
+$$
+By the definitions of $h$ and $k$, this is exactly
+$$
+h(x)\sim_Nk(x).
+$$
+Since $x$ was arbitrary, \autoref{def:linearmap-classifier-specification} packages these pointwise target comparisons, together with the two carried endpoint certificates, as
+$$
+h\sim_{\LinearMapUp(M,N)}k.
+$$
+The ledger is the pair of pointwise-sum ledgers supplied by \autoref{thm:module-linearmap-pointwise-sum-certificate}, plus the target additive-commutativity ledger in the abelian-group reduct of $N$, matching \autoref{def:linearmap-ledger-policy}.
+\end{proof}
+
+\begin{theorem}[Module zero LinearMap certificate]
+\label{thm:module-zero-linearmap-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the module classifiers, $+_M$ and $+_N$ for module addition, $0_M$ and $0_N$ for module zero, and $\odot_M$ and $\odot_N$ for scalar action. Let $z:M\to N$ be a function. Assume that for every carried $x:M$, the output $z(x)$ is carried in $N$ and
+$$
+z(x)\sim_N0_N.
+$$
+Then
+$$
+\mathsf{LinearMapCert}_R(M,N;z)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unpack the two module certificates through \autoref{def:module-certificate-obligations} and read the required rows through \autoref{def:module-linearmap-certificate-package}. The carried-output part of the hypothesis is the output-closure row. Since $0_M$ is carried by the additive source of $M$, the same pointwise zero row at $x=0_M$ gives $z(0_M)\sim_N0_N$, which is zero preservation.
+
+For source-classifier descent, assume $x\sim_My$ between carried source endpoints. The pointwise zero row gives $z(x)\sim_N0_N$ and $z(y)\sim_N0_N$. Classifier symmetry from \autoref{def:lean-carrier-naming-certificate}, followed by transitivity from \autoref{thm:namecert-equivalence-transitivity}, gives $z(x)\sim_Nz(y)$.
+
+For additivity, let $x$ and $y$ be carried in $M$. Source additive closure makes $x+_M y$ carried, so $z(x+_M y)\sim_N0_N$. The target additive congruence row from \autoref{def:module-stability-certificate} transports the two zero comparisons for $z(x)$ and $z(y)$ to
+$$
+z(x)+_N z(y)\sim_N0_N+_N0_N\sim_N0_N,
+$$
+where the second comparison is the target additive unit row retained by \autoref{prop:module-forgets-abgroup-certificate}. Symmetry and transitivity compose this with $z(x+_M y)\sim_N0_N$, yielding
+$$
+z(x+_M y)\sim_N z(x)+_N z(y).
+$$
+
+For scalar compatibility, let $r:R$ be carried and let $x:M$ be carried. Source scalar-action closure makes $r\odot_M x$ carried, so $z(r\odot_M x)\sim_N0_N$. Scalar-action congruence in the target module, using scalar reflexivity for $r$ and $z(x)\sim_N0_N$, gives $r\odot_N z(x)\sim_N r\odot_N0_N$. The zero-action annihilation theorem \autoref{thm:module-zero-action-annihilation}, applied in $N$, gives $r\odot_N0_N\sim_N0_N$. Symmetry and transitivity therefore give
+$$
+z(r\odot_M x)\sim_N r\odot_N z(x).
+$$
+
+The pointwise classifier for maps $M\to N$ is the one in \autoref{def:linearmap-classifier-specification}. The ledger records the function identifier $z$, the pointwise zero witnesses, the target additive and scalar-action congruence rows, the target zero-action row, and the classifier symmetry and transitivity witnesses, matching \autoref{def:linearmap-ledger-policy}. Hence the carrier, source, pattern, classifier, stability, and ledger obligations of \autoref{def:linearmap-certificate-obligations} are satisfied for $z$.
+\end{proof}

@@ -1,0 +1,154 @@
+\chapter{A Concrete Naming Certificate for $\BanachUp$}
+\label{ch:concrete-instances-banach-namecert}
+
+The Banach-space interface $\BanachUp$ packages a normed vector space carrier together with a regular Cauchy completeness witness in the metric induced by the norm. It depends on $\NameCert_{\NormUp}$ (\autoref{ch:concrete-instances-norm-namecert}) and the real-completeness capstone (\autoref{ch:capstones-real-completeness}), and supplies the substrate for $\NameCert_{\HilbertUp}$ and the operator certificates downstream.
+
+\section{Carrier definition}
+\label{sec:banach-carrier}
+
+\begin{definition}[Concrete Banach carrier]\label{def:banach-concrete-carrier}
+A concrete Banach carrier is a history predicate $X:\Hist\to\mathsf{Prop}$
+together with the $\NormUp$ carrier and classifier data supplied by
+$\NameCert_{\NormUp}$, a displayed norm value row for each carried history,
+and the metric predicate induced by that norm:
+$$
+\mathsf{BanachMetricWitness}_X(x,y,d)
+$$
+means that $x$ and $y$ are carried by $X$, their difference history is a
+$\NormUp$ vector-history row, and $d$ is the $\RealUp$ norm value assigned to
+that difference. The point classifier of the carrier is not a quotient:
+carried representatives are identified by $\hsame$ transport of the displayed
+vector, norm-value, and metric rows.
+
+The completeness field is a family which assigns, to every regular Cauchy
+$\StreamNameUp$ stream $s$ over $X$ for the norm-induced metric, histories
+$\mu_s,\ell_s,L_s$ such that
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)
+$$
+holds. Thus the Banach datum is the tuple consisting of the carried
+$\NormUp$ structure, the induced metric ledger, the $\hsame$ classifier on
+representatives, and the displayed limit-witness family for all regular
+Cauchy stream names over $X$.
+\end{definition}
+
+\begin{definition}[Complete normed-history Banach carrier]
+\label{def:banach-complete-normed-carrier}
+A $\BanachUp$ candidate is a $\VecSpaceUp$ carrier $C_V$ with vector
+classifier $\sim_V$, zero endpoint $0_V$, additive difference operation
+$x-_V y$, and scalar source read over $\NameCert_{\RealUp}$, together with a
+$\NormUp$ norm
+$$
+\nu:C_V\to \RealUp
+$$
+whose classifier is the RealUp classifier. Its induced distance predicate is
+the RealUp value
+$$
+d_\nu(x,y):=\nu(x-_V y)
+$$
+on carried vector endpoints $x,y:C_V$. A regular Cauchy completion witness for
+the candidate is a row assigning to every regular Cauchy sequence
+$(X,\mu):\mathbb{N}\to C_V$ for $d_\nu$ a carried limit endpoint
+$\lim_\nu(X,\mu):C_V$, a convergence modulus, and a uniqueness certificate up
+to $\sim_V$.
+
+The BEDC source is $\NameCert_{\NormUp}$ together with the real-completeness
+capstone of \autoref{ch:capstones-real-completeness}. The carrier choice is
+$C_V$, the classifier is $\sim_V$, the stability obligations are norm transport
+and Cauchy-sequence transport across $\sim_V$, the ledger records all moduli and
+proof-index data used by the norm and completion rows, and the status is
+$\mathsf{ProofTarget}$.
+\end{definition}
+
+\begin{definition}[Singleton empty-history Banach carrier]
+\label{def:banach-singleton-empty-history-instance}
+The concrete $\BanachUp$ carrier is the singleton empty-history norm instance
+of \autoref{def:singleton-empty-history-norm-instance}. Its vector carrier is
+$A_{\emp}$, its vector classifier is $\rho_{\emp}$, its norm is
+$\nu_{\emp}$, and its metric distance is the constant RealUp zero endpoint
+$$
+d_{\emp}(m,n):=0_{\mathsf{Real}}^{c}
+$$
+for all displayed vector histories $m,n:\mathsf{BHist}$. The metric
+classifier on all displayed distances is
+$\mathsf{RealConstantHistoryClassifier}$.
+
+A certified regular Cauchy stream $s$ in this metric is assigned the limit
+$\emp$. Its convergence witness sends every requested real precision to the
+same singleton carrier endpoint: each term of $s$ is $\rho_{\emp}$-classified
+with $\emp$, and each displayed distance to the limit is
+$\mathsf{RealConstantHistoryClassifier}$-classified with
+$0_{\mathsf{Real}}^{c}$.
+\end{definition}
+
+\begin{theorem}[Banach singleton carrier semantic NameCert]
+\label{thm:banach-singleton-carrier-semantic-namecert}
+The singleton Banach carrier of
+\autoref{def:banach-singleton-empty-history-instance}, equipped with the
+classifier which relates two carried histories exactly when their carried
+rows are present and the histories are $\hsame$-classified, forms a
+$\mathsf{SemanticNameCert}$ for the singleton Banach surface. Its inhabited
+carrier is witnessed by $\emp$; its reflexive, symmetric, and transitive
+classifier fields are the corresponding $\hsame$ rows; its carrier transport
+field is the carrier projection of the classifier triple; and its pattern and
+ledger soundness fields are identity reads of the carried singleton Banach
+rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingletonCarrier\_semanticNameCert}
+\begin{proof}
+Use \autoref{def:banach-singleton-empty-history-instance} to read the carried
+object as the singleton empty-history norm carrier together with its
+norm-induced empty-distance metric row. The inhabited carrier row is the
+history $\emp$, with its singleton vector row and the
+$\mathsf{MetricDistanceWitness}(\emp,\emp,\emp)$ row supplied by empty-distance
+exactness.
+
+The classifier row is the carried pair together with $\hsame$. Hence
+reflexivity, symmetry, and transitivity are the corresponding $\hsame$
+operations, with the carried rows retained on each side of the comparison.
+Carrier preservation is projection from the classifier triple: an accepted
+comparison already contains both endpoint carrier witnesses.
+
+Finally apply
+\autoref{thm:banach-singleton-empty-history-carrier-classifier}. It identifies
+the singleton Banach carrier, classifier, norm rows, and constant-zero metric
+rows. The pattern and ledger soundness clauses therefore read back the same
+carried singleton rows, with no additional transport beyond the displayed
+$\hsame$ comparison and the empty-distance metric witness.
+\end{proof}
+
+\begin{theorem}[Banach norm-induced metric compatibility]
+\label{thm:banach-norm-induced-metric-compatibility}
+For the singleton empty-history $\NormUp$ instance of
+\autoref{def:singleton-empty-history-norm-instance}, read through the
+singleton metric carrier and the relation
+$\mathsf{MetricDistanceWitness}$, the induced Banach metric row is the
+constant RealUp zero endpoint row. Concretely, for carried vector histories
+$m,n:\mathsf{BHist}$, the Banach distance between $m$ and $n$ is classified by
+$0_{\mathsf{Real}}^{c}$ exactly when
+$$
+\rho_{\emp}(m,n)
+$$
+holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_metric\_distance\_empty\_iff\_classifier}
+\begin{proof}
+First identify the singleton vector endpoints. By
+\autoref{thm:singleton-empty-history-norm-carrier-classifier}, any two carried
+vectors in the singleton norm instance are related by $\rho_{\emp}$, and their
+constant norm endpoints are related by the RealUp constant-history
+classifier.
+
+The zero side is exact by
+\autoref{thm:singleton-empty-history-norm-zero-exactness}. Thus the displayed
+norm value of the singleton difference is classified by
+$0_{\mathsf{Real}}^{c}$ exactly when the underlying vector endpoint is
+classified with the singleton zero vector.
+
+Finally read the same endpoint row through the metric carrier. The metric row
+with empty distance is equivalent, by
+\autoref{thm:metric-distance-witness-empty-distance-iff}, to both endpoints
+being $\hsame$ to $\emp$. The singleton vector classifier is precisely the
+collapse relation on those carried endpoints, so the norm-zero row and the
+empty-distance metric row classify the same pairs $m,n$.
+\end{proof}

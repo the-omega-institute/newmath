@@ -64,6 +64,7 @@ to the origin.
 \label{def:part-sum-power-series}
 For a power series \((a, z_0)\) and a complex history \(z\), the partial sum predicate \(\mathsf{PartSum}(a, z_0, z, n, S_n)\) is the unary-indexed family of complex histories obtained by summing the first \(n\) terms \(a_k (z - z_0)^k\) via explicit unary recursion, using the complex multiplication and addition of \autoref{ch:concrete-instances-complex-namecert}.
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesPartSum}
 
 \begin{lemma}[Partial sums are complex histories]
 \label{lem:part-sum-complex}
@@ -72,7 +73,7 @@ For every power series \((a, z_0)\), every complex history \(z\), and every unar
 \begin{proof}
 By unary induction on \(n\), using totality and functionality of complex multiplication and addition.
 \end{proof}
-\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesComplexPartSum\_exists\_unique}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_constant\_coeff\_partSum\_exists\_unique}
 
 \section{Geometric bound predicate}
 
@@ -508,11 +509,14 @@ If \(\mathsf{ConvRad}(a, R)\), then the term-wise derivative coefficients \(b_n 
 \begin{proof}[Sketch]
 For \(r' < r < R\), \(|b_n| r'^n \leq (n+1) |a_{n+1}| r'^n\); pull out a factor of \((r'/r)^n\) using \(\mathsf{GeomBound}(a, r, K)\) and bound \(n (r'/r)^n\) by an explicit polynomial-times-geometric majorant.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_successor\_coefficients\_closed}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_coefficient\_tail\_closed}
 
 \begin{lemma}[Cauchy product radius]
 \label{lem:cauchy-product-radius}
 If \(\mathsf{ConvRad}(a, R_a)\) and \(\mathsf{ConvRad}(b, R_b)\), then the Cauchy product \(c_n = \sum_{k=0}^n a_k b_{n-k}\) satisfies \(\mathsf{ConvRad}(c, R)\) with \(R \geq \min(R_a, R_b)\) and explicit \(K(r)\) computed from \(K_a, K_b\).
 \end{lemma}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_cauchy\_product\_row\_closed}
 \begin{proof}[Sketch]
 Triangular pasting of geometric bounds; constant inflation by a factor of \((n+1)\) absorbed into the geometric majorant.
 \end{proof}
@@ -523,22 +527,28 @@ Triangular pasting of geometric bounds; constant inflation by a factor of \((n+1
 \label{def:conv-rad-source-spec}
 The source specification is the predicate \(\mathsf{ConvRad}(a, R)\) on power series carriers paired with a unary radius candidate.
 \end{definition}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadSourceSpec\_powerSeries\_append\_prepend\_closed}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadSourceSpec\_powerSeries\_geomBound\_readback}
 
 \begin{definition}[Convergence radius pattern specification]
 \label{def:conv-rad-pattern-spec}
 The pattern is the supremum-of-geometric-bound predicate, computed through \(\mathsf{GeomBound}\).
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRadPatternSpec}
 
 \begin{definition}[Convergence radius classifier specification]
 \label{def:conv-rad-classifier-spec}
 Two convergence radii are classified together when they agree under \(\hsame\) on the rational representation of the radius.
 \end{definition}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadRadiusClassifierSpec\_powerSeries\_witness}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRadClassifierSpec}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadClassifierSpec\_radius\_transport}
 
 \begin{definition}[Convergence radius stability certificate]
 \label{def:conv-rad-stability-cert}
 The stability certificate consists of \(\hsame\)-respect of \(\mathsf{ConvRad}\) on coefficient input, transport of constant-witness functions, and compatibility with the geometric-bound predicate under \(\hsame\) on radii.
 \end{definition}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_stability\_certificate\_fields}
 
 \begin{definition}[Convergence radius ledger policy]
 \label{def:conv-rad-ledger-policy}
@@ -546,6 +556,7 @@ The ledger policy records the analytic obligations for term-by-term
 differentiation, Cauchy product, absolute convergence inside the open disk, and
 the Cauchy-Hadamard limsup characterization.
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRadLedgerPolicy}
 
 \begin{theorem}[Concrete $\ConvergenceRadiusUp$ certificate-obligation package]
 \label{thm:conv-rad-namecert}
@@ -574,6 +585,7 @@ certificate target. The differentiation, Cauchy-product, absolute-convergence,
 and Cauchy-Hadamard rows are ledger-policy obligations in this chapter, not
 premises of the checked semantic NameCert target.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.conv\_rad\_name\_certificate}
 
 \begin{theorem}[Semantic $\ConvergenceRadiusUp$ naming certificate]
 \label{thm:conv-rad-semantic-namecert}
@@ -635,6 +647,8 @@ $$
 $$
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRadCoefficientRingInclusion}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCoefficientRingInclusion\_pointwise\_classifier}
 
 \begin{theorem}[Convergence radius monotonicity under coefficient-ring inclusion]
 \label{thm:conv-rad-coefficient-ring-inclusion-monotone}
@@ -674,6 +688,7 @@ This is the Cauchy--Hadamard item in \autoref{def:conv-rad-ledger-policy}. It
 is a ledger-policy row, not one of the checked carrier, classifier, transport,
 or closure rows of \autoref{thm:conv-rad-namecert}.
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRadCauchyHadamardExactnessRow}
 
 \begin{definition}[Convergence-radius checked-row reduct]
 \label{def:convrad-checked-row-reduct}
@@ -697,6 +712,7 @@ constrained only on $\mathcal Q_{\mathrm{chk}}$; analytic ledger rows such as
 $\mathsf{CHExact}(a,R)$ are not constrained unless the ledger policy of
 \autoref{def:conv-rad-ledger-policy} is also supplied.
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct}
 
 \begin{theorem}[Checked convergence-radius rows do not force Cauchy--Hadamard]
 \label{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}
@@ -746,3 +762,4 @@ checked rows alone forced $\mathsf{CHExact}(a,R)$, any two interpretations that
 agree on all rows used by the derivation would agree on that conclusion.
 Applying this to $\Pi_{+}$ and $\Pi_{-}$ gives the displayed contradiction.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_checked\_rows\_do\_not\_force\_cauchy\_hadamard}

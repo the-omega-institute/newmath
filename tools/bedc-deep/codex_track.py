@@ -225,6 +225,8 @@ class RedlineResult:
 
 
 def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
+    if os.environ.get("BEDC_DISABLE_CLAUDE"):
+        return (False, "claude disabled by BEDC_DISABLE_CLAUDE", -2)
     if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
         return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -283,6 +285,33 @@ def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str,
     return (rc == 0, stdout, rc)
 
 
+def _codex_json_fallback(
+    prompt: str,
+    *,
+    timeout: int,
+    log_tag: str,
+    role_note: str,
+) -> tuple[bool, dict, str, str]:
+    fallback_prompt = (
+        f"{role_note}\n"
+        "Act as an independent fallback gate. Preserve the exact same checks "
+        "and acceptance threshold as the original prompt, return only the "
+        "requested JSON object, and do not edit files.\n\n"
+        f"{prompt}"
+    )
+    result = codex_orchestrator.codex_exec(
+        fallback_prompt,
+        timeout=timeout,
+        log_tag=f"{log_tag}_codex_fallback",
+    )
+    if not result.ok:
+        return (False, {}, result.raw_output, result.error or f"codex rc={result.rc}")
+    parsed = result.parsed or _extract_json_object(result.raw_output) or {}
+    if not parsed:
+        return (False, {}, result.raw_output, "codex fallback output was not JSON")
+    return (True, parsed, result.raw_output, "")
+
+
 def _redline_check(
     *,
     target: BedcTarget,
@@ -301,10 +330,39 @@ def _redline_check(
     log_tag = f"codex_redline_{target.target_id}"
     ok, stdout, rc = _claude_exec(prompt, timeout=DEFAULT_REDLINE_TIMEOUT, log_tag=log_tag)
     if not ok:
-        return RedlineResult(False, {}, stdout, error=f"claude rc={rc}: {stdout[:400]}")
+        fallback_ok, parsed, fallback_stdout, fallback_error = _codex_json_fallback(
+            prompt,
+            timeout=DEFAULT_REDLINE_TIMEOUT,
+            log_tag=log_tag,
+            role_note=(
+                "Claude is unavailable for the BEDC codex-track redline check. "
+                "Run the same lightweight hygiene and safety redline as an "
+                "independent Codex fallback."
+            ),
+        )
+        if fallback_ok:
+            return RedlineResult(True, parsed, fallback_stdout)
+        return RedlineResult(
+            False,
+            {},
+            stdout,
+            error=f"claude rc={rc}: {stdout[:400]}; codex fallback: {fallback_error[:400]}",
+        )
     parsed = _extract_json_object(stdout) or {}
     if not parsed:
-        return RedlineResult(False, {}, stdout, error="claude output was not JSON")
+        fallback_ok, parsed, fallback_stdout, fallback_error = _codex_json_fallback(
+            prompt,
+            timeout=DEFAULT_REDLINE_TIMEOUT,
+            log_tag=log_tag,
+            role_note=(
+                "Claude returned non-JSON for the BEDC codex-track redline "
+                "check. Run the same lightweight hygiene and safety redline as "
+                "an independent Codex fallback."
+            ),
+        )
+        if fallback_ok:
+            return RedlineResult(True, parsed, fallback_stdout)
+        return RedlineResult(False, {}, stdout, error=f"claude output was not JSON; codex fallback: {fallback_error[:400]}")
     return RedlineResult(True, parsed, stdout)
 
 

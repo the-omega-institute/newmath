@@ -1,0 +1,117 @@
+\section{Chart Coordinate Transport}
+\label{sec:manifold-coordinate-transport}
+
+\begin{definition}[ManifoldUp chart-coordinate transport row]
+\label{def:manifoldup-chart-coordinate-transport-row}
+Let $P$ be a $\mathsf{BHist}$ package with $\mathsf{ManAtlasPkg}(P)$, let
+$i$ be a chart index in the finite atlas history, and let $x,y$ be carried
+points of the underlying $\TopologyUp$ carrier. A chart-coordinate transport
+row for $P,i,x,y$ consists of the following displayed data.
+\begin{enumerate}
+\item A chart-domain witness $\mathsf{Dom}_i(x)$ and a $\TopologyUp$
+classifier witness carrying $x$ to $y$.
+\item The transported chart-domain witness $\mathsf{Dom}_i(y)$ in the same
+indexed-open row.
+\item A finite $\RealUp$ coordinate history
+$\varphi_i(x)=(r_1,\ldots,r_{n_i})$ exposed by the chart map at $x$.
+\item A finite $\RealUp$ coordinate history
+$\varphi_i(y)=(s_1,\ldots,s_{n_i})$ exposed by the same chart map at $y$.
+\item For each coordinate slot $a$ in the finite chart output, a
+$\RealUp$ classifier witness relating $r_a$ and $s_a$.
+\end{enumerate}
+Equivalently, the row is the visible coordinate-transport projection of
+$\mathsf{ManAtlasPkg}(P)$ along a $\TopologyUp$ carrier comparison: it records
+the chart index, the transported chart-domain membership, the two finite
+coordinate outputs, and the coordinatewise real classifiers.
+\end{definition}
+\leanstmt{BEDC.Derived.ManifoldUp.ManifoldChartCoordinateTransportRow}
+
+\begin{theorem}[ManifoldUp chart-coordinate carrier transport]
+\label{thm:manifoldup-chart-coordinate-carrier-transport}
+Let $P$ be a $\mathsf{BHist}$ package with $\mathsf{ManAtlasPkg}(P)$. If $i$
+is a displayed chart index, $x$ and $y$ are carried points related by the
+$\TopologyUp$ carrier classifier, and $\mathsf{Dom}_i(x)$ holds, then there
+exists a chart-coordinate transport row for $P,i,x,y$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_chart\_coordinate\_carrier\_transport}
+\begin{proof}
+Unpack $\mathsf{ManAtlasPkg}(P)$ by
+\autoref{def:manifold-chart-atlas-carrier}. The atlas carrier supplies the
+finite chart-index history, the indexed-open chart-domain row
+$\mathsf{Dom}_i$, the chart map $\varphi_i$, and the finite $\RealUp$
+coordinate histories read by that chart map on its domain.
+
+Apply \autoref{thm:manifoldup-chart-domain-carrier-transport} to the given
+$\TopologyUp$ classifier witness between $x$ and $y$. This transports the
+domain evidence $\mathsf{Dom}_i(x)$ to the displayed membership
+$\mathsf{Dom}_i(y)$ without changing the chart index or leaving the inherited
+topological carrier.
+
+Evaluate the same chart-map row at the two displayed domain witnesses. The
+atlas classifier row is componentwise on chart maps and real-coordinate
+histories, so each coordinate in $\varphi_i(x)$ is related to the corresponding
+coordinate in $\varphi_i(y)$ by the $\RealUp$ classifier. These projections are
+exactly the fields of
+\autoref{def:manifoldup-chart-coordinate-transport-row}.
+\end{proof}
+
+\begin{theorem}[ManifoldUp chart-coordinate classifier determinacy]
+\label{thm:manifoldup-chart-coordinate-classifier-determinacy}
+Let $P$ be a $\mathsf{BHist}$ package with $\mathsf{ManAtlasPkg}(P)$, let
+$i$ be a displayed chart index, and let $x,y$ be carried points related by the
+$\TopologyUp$ carrier classifier. Any two chart-coordinate transport rows for
+the same $P,i,x,y$ have coordinate outputs that are coordinatewise classified
+by the $\RealUp$ classifier at both endpoints, and their endpoint comparison
+witnesses classify the same finite coordinate pairs.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldChartCoordinateTransportRow\_coordinate\_determinacy}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_chart\_coordinate\_classifier\_determinacy}
+\begin{proof}
+Both rows project from the same atlas package and the same chart index. By
+\autoref{def:manifold-chart-atlas-carrier}, the chart-domain row and chart-map
+row are components of the visible $\mathsf{ManAtlasPkg}$ ledger, not separate
+set-level choices.
+
+At the source endpoint, the two rows evaluate the same chart map on the same
+displayed domain membership $\mathsf{Dom}_i(x)$. The componentwise classifier
+for chart-map histories therefore relates their finite coordinate outputs by
+the $\RealUp$ classifier in every coordinate slot.
+
+At the transported endpoint, both rows use
+\autoref{thm:manifoldup-chart-domain-carrier-transport} with the same
+$\TopologyUp$ endpoint comparison to obtain $\mathsf{Dom}_i(y)$. Evaluating the
+same chart-map row at that transported membership gives finite coordinate
+outputs that are again coordinatewise classified by $\RealUp$. The comparison
+witnesses in the two rows are precisely the coordinate projections of these
+two endpoint classifications.
+\end{proof}
+
+\begin{theorem}[ManifoldUp chart-coordinate ledger exactness]
+\label{thm:manifoldup-chart-coordinate-ledger-exactness}
+For every package $P$ with $\mathsf{ManAtlasPkg}(P)$, the visible coordinate
+transport ledger of $P$ consists exactly of the chart index, the transported
+chart-domain row, the finite coordinate output at each endpoint, and the
+coordinatewise $\RealUp$ classifier witnesses. It contains no unrecorded
+set-level chart equality or extra chart-identification datum.
+\end{theorem}
+\begin{proof}
+The forward reading is by projection from
+\autoref{def:manifold-chart-atlas-carrier}. A coordinate-transport row can only
+use the finite chart-index history, the indexed-open chart-domain rows, the
+chart-map coordinate histories, and the componentwise classifier rows that the
+atlas package exposes.
+
+The transported domain component is exactly the output of
+\autoref{thm:manifoldup-chart-domain-carrier-transport}. The coordinate
+components are exactly the two finite $\RealUp$ histories obtained by
+evaluating the displayed chart map at the source and transported endpoint. The
+comparison components are exactly the coordinate projections of the
+$\RealUp$ classifier.
+
+Conversely, any tuple with those displayed fields is a chart-coordinate
+transport row by
+\autoref{def:manifoldup-chart-coordinate-transport-row}. Since the definition
+lists no chart-equality field and the atlas carrier classifier is
+componentwise on the recorded chart rows, no hidden set-level chart equality is
+available in the ledger.
+\end{proof}

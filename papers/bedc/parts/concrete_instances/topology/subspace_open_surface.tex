@@ -1,0 +1,77 @@
+\begin{definition}[BHist subspace open surface]
+\label{def:topology-bhist-subspace-open-surface}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ whose carrier is $\mathsf{BHist}$, with classifier $\mathsf{same}_X$, index object $\mathsf{OpenIx}$, membership predicate $\mathsf{OpenAt}$, and meet operation $\wedge_{\TopologyUp}$. A $\mathsf{BHist}$ subspace open surface is specified by a carrier predicate
+$$
+S:\mathsf{BHist}\to\mathsf{Prop}
+$$
+together with the restricted classifier
+$$
+\mathsf{same}_S(h,k):\Longleftrightarrow S(h)\wedge S(k)\wedge \mathsf{same}_X(h,k)
+$$
+and the restricted indexed-open membership predicate
+$$
+\mathsf{SubOpenAt}(i,h):\Longleftrightarrow S(h)\wedge \mathsf{OpenAt}(i,h).
+$$
+The subspace surface keeps the same index object $\mathsf{OpenIx}$, the same meet operation $i,j\mapsto i\wedge_{\TopologyUp}j$, and the same visible ledger rows as the ambient carrier.
+
+Its ten-field fit is: traditional target subspace topology on a displayed subset; BEDC source $\mathsf{BHist}$; carrier choice $S$; classifier choice $\mathsf{same}_S$; stability obligations inherited from $\mathcal{T}$ by projecting to $\mathsf{same}_X$; ledger unchanged from the ambient open index; core theorem list consisting of carrier transport, finite intersections, arbitrary unions, boundary rows, and public certificate packaging; exactness predicate $\mathsf{SubOpenAt}(i,h)\Longleftrightarrow S(h)\wedge\mathsf{OpenAt}(i,h)$; standard bridge none; status $\mathsf{ProofTarget}$ for the paper-side $\NameCert_{\TopologyUp}$ obligation surface.
+\end{definition}
+
+\begin{theorem}[Subspace open carrier transport]
+\label{thm:topology-subspace-open-carrier-transport}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $\mathsf{BHist}$, and let $S:\mathsf{BHist}\to\mathsf{Prop}$ determine the subspace surface of \autoref{def:topology-bhist-subspace-open-surface}. For every open index $i:\mathsf{OpenIx}$ and histories $h,k:\mathsf{BHist}$,
+$$
+\mathsf{same}_S(h,k)
+\Longrightarrow
+\bigl(\mathsf{SubOpenAt}(i,h)\Longleftrightarrow\mathsf{SubOpenAt}(i,k)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{same}_S(h,k)$. By \autoref{def:topology-bhist-subspace-open-surface}, this supplies $S(h)$, $S(k)$, and a carrier-classifier witness $\mathsf{same}_X(h,k)$.
+
+For the forward direction, unfold $\mathsf{SubOpenAt}(i,h)$ to obtain $S(h)$ and $\mathsf{OpenAt}(i,h)$. The membership-stability field of \autoref{def:topology-indexed-open-carrier}, applied to $\mathsf{same}_X(h,k)$ and the fixed index $i$, transports $\mathsf{OpenAt}(i,h)$ to $\mathsf{OpenAt}(i,k)$. Pair this transported membership with the already displayed $S(k)$.
+
+The reverse direction is identical with the same stability equivalence read from $k$ back to $h$. Pair the transported ambient membership with the displayed $S(h)$ to recover $\mathsf{SubOpenAt}(i,h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistSubspaceOpen\_carrier\_transport}
+
+\begin{theorem}[Subspace finite-intersection closure]
+\label{thm:topology-subspace-finite-intersection-closure}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $\mathsf{BHist}$, and let $S:\mathsf{BHist}\to\mathsf{Prop}$ determine the subspace surface of \autoref{def:topology-bhist-subspace-open-surface}. For all indices $i,j:\mathsf{OpenIx}$ and histories $h:\mathsf{BHist}$,
+$$
+\mathsf{SubOpenAt}(i\wedge_{\TopologyUp}j,h)
+\Longleftrightarrow
+\bigl(\mathsf{SubOpenAt}(i,h)\wedge\mathsf{SubOpenAt}(j,h)\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistSubspaceOpen\_finite\_intersection}
+\begin{proof}
+Unfold the restricted membership predicate from \autoref{def:topology-bhist-subspace-open-surface}. The left side gives $S(h)$ together with $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,h)$.
+
+For the forward direction, apply the finite-intersection field of \autoref{def:topology-indexed-open-carrier} to split the ambient membership into $\mathsf{OpenAt}(i,h)$ and $\mathsf{OpenAt}(j,h)$. Pair each ambient membership with the same displayed $S(h)$, giving $\mathsf{SubOpenAt}(i,h)$ and $\mathsf{SubOpenAt}(j,h)$.
+
+For the reverse direction, unpack the two restricted memberships. Either one supplies $S(h)$, while their ambient components supply $\mathsf{OpenAt}(i,h)$ and $\mathsf{OpenAt}(j,h)$. The finite-intersection field of \autoref{def:topology-indexed-open-carrier} combines the ambient components into $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,h)$, and pairing with $S(h)$ gives the restricted meet membership.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistSubspaceOpen\_finite\_intersection\_closure}
+
+\begin{theorem}[Subspace TopologyUp obligation surface]
+\label{thm:topology-subspace-namecert-obligation-surface}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $\mathsf{BHist}$, equipped with indexed arbitrary-union witnesses for every indexed family of ambient opens and indexed boundary open witnesses $\bot_{\TopologyUp}$ and $\top_{\TopologyUp}$. Let $S:\mathsf{BHist}\to\mathsf{Prop}$ determine the subspace surface of \autoref{def:topology-bhist-subspace-open-surface}. Then the restricted carrier $S$, the classifier $\mathsf{same}_S$, the restricted predicate $\mathsf{SubOpenAt}$, the inherited index ledger, finite intersections, arbitrary unions restricted by the same $S$, the empty and whole-of-subspace boundary rows, and the visible $\mathsf{BHist}$ provenance assemble a paper-side $\NameCert_{\TopologyUp}$ obligation surface.
+\end{theorem}
+\begin{proof}
+The carrier row is the predicate $S$ over $\mathsf{BHist}$. The classifier row is $\mathsf{same}_S$, which exposes both endpoint membership in the carrier and the ambient classifier witness. The transport row is exactly \autoref{thm:topology-subspace-open-carrier-transport}.
+
+Finite intersections are supplied by \autoref{thm:topology-subspace-finite-intersection-closure}. The subspace surface uses the same meet index $i\wedge_{\TopologyUp}j$ as the ambient carrier, while the proof duplicates the displayed $S(h)$ component instead of selecting a host subset.
+
+For arbitrary unions, keep the same family of indices $\iota:A\to\mathsf{OpenIx}$ and let $u$ be the ambient union witness. At a history $h$, the restricted union predicate is:
+
+$$
+S(h)\wedge\exists a:A,\ \mathsf{OpenAt}(\iota(a),h).
+$$
+The ambient union row converts $\mathsf{OpenAt}(u,h)$ to the displayed existential, and the subspace row pairs that ambient membership with the same $S(h)$. Inversion projects $S(h)$ and the existential witness, then uses the ambient union row in the reverse direction.
+
+For boundary rows, the empty subspace open is carried by $\bot_{\TopologyUp}$ because $\mathsf{SubOpenAt}(\bot_{\TopologyUp},h)$ reduces to $S(h)\wedge\mathsf{False}$. The whole-of-subspace row is carried by $\top_{\TopologyUp}$ because $\mathsf{SubOpenAt}(\top_{\TopologyUp},h)$ reduces to $S(h)\wedge\mathsf{True}$, hence to $S(h)$.
+
+The ledger row records that every accepted subspace open keeps the ambient open index and adds only the visible carrier proof $S(h)$ at membership sites. Thus the certificate consumer sees the $\mathsf{BHist}$ carrier predicate, classifier transport, finite-intersection closure, arbitrary-union closure, boundary rows, and provenance, which is precisely the paper-side $\NameCert_{\TopologyUp}$ obligation surface.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistSubspaceOpen\_boundary\_closure}

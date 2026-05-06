@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v3.1 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v3.3 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -174,11 +174,17 @@ A chapter retires from the critical path only when it reaches `(scopedClosure, t
 
 A `closure_mark` review target proposes adding a `\closureat{<X>Up}{<strength>Str}[BEDC.<...>.<theorem>]` line to the chapter — that's the binary closure marker the audit reads. closure_mark targets register the transition, but the underlying content (obligation/scope/public/bridge work) must already exist. Do NOT propose closure_mark for a chapter that hasn't done the prior-grade content work.
 
-### Skip rule
+### Skip rule (narrow — applies only when both grades are non-null)
 
-If `next_axis == "formal_status"` for a chapter, that chapter is bottlenecked on LEAN side. Skip it for paper rounds — pick a chapter where `next_axis == "theory_closure"`. If ALL of `top[0..2]` have `next_axis == "formal_status"`, emit `{"targets": []}` — let lean rounds catch up.
+The skip rule only applies to chapters that ALREADY have a `closurestatus` block (`theory_grade` non-null AND `formal_grade` non-null). For those:
 
-Each target's JSON MAY include a `grade_transition` field quoting `next_grade_transition`. Phase Revise uses it to scope the diff (don't add prose unrelated to the named transition).
+- If `next_axis == "formal_status"` AND `theory_grade` is non-null, the chapter's theory axis is already ahead of its formal axis — lean R-rounds need to catch up first. Skip it for paper rounds — pick a chapter where `next_axis == "theory_closure"`, OR a chapter where both grades are null (those are always paper-eligible per the `(none) → seedClosure` row above).
+
+For chapters with `theory_grade` null (the majority today — the `closurestatus` block has not been written yet), paper P-rounds are ALWAYS eligible. The `(none) → seedClosure` template row IS the paper work for these chapters: write the closurestatus block. Do NOT skip a null-grade chapter just because `critical_path.py` happens to compute `next_axis == "formal_status"` for it (the computation defaults to `formal_status` when both grades are null because the formal-axis order is longer; this is a critical_path internal detail and does NOT mean paper should skip).
+
+Empty-targets escape `{"targets": []}` is reserved for the genuine corner case where every accessible chapter has both grades non-null AND every accessible front is lean-bottlenecked. This is exceedingly rare today.
+
+Each target's JSON MAY include a `grade_transition` field quoting `next_grade_transition`. Phase Revise uses it to scope the diff (don't add prose unrelated to the named transition). For null-grade chapters the transition is `"(no block) -> seedClosure"`.
 
 ## Critical-path discovery (HARD GATE)
 
@@ -205,6 +211,28 @@ The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (
 Pick `<theorem>` from the chapter's already-`\leanchecked` set, in priority order: (1) `*semanticNameCert` / `*_semantic_name_certificate`, (2) `*_name_certificate`, (3) `*_stability_certificate_fields`, (4) `*_laws`. `bedc_ci.py audit` rejects a `closure_mark` whose `\leantarget` doesn't resolve to a real Lean declaration. Closure proposals always rank ahead of new theory_extensions for the same chapter — adding the closurestatus block retires the chapter from `critical_path.top` and frees Phase B to attack new fronts. To detect closure-eligible chapters: from the critical_path output, check chapters with `thms >= 10` that are still in `top`; their NameCert is likely complete and just needs the explicit closurestatus block.
 
 If a top-3 chapter is technically blocked (its schema explicitly notes infrastructure not yet in BEDC), record the blocker in `evidence` and use `top[3..]` instead. Do NOT silently fall back to depth-refinement of saturated horizons (Bool / Option / Sum / Prod / List / Rat / Tagged Option / Framed List).
+
+## Root-of-tree unblock priority (HARD GATE)
+
+`critical_path.py` JSON also emits `top_root_unblocks`: chapters with `thms < deps_ready_threshold` that are blocking the largest fan-outs of downstream chapters. Each entry has shape:
+
+```json
+{
+  "name": "<chapter>",
+  "thms": <current marker count>,
+  "unblock_count": <downstream chapters this chapter alone unblocks>,
+  "deps": [...],
+  "file_paper": "papers/bedc/parts/concrete_instances/<...>.tex"
+}
+```
+
+These are typically root-of-tree paper stubs (5-10 lines, no `\input`, no `\label`) that external commits referenced as dependencies but never gave obligation theorem blocks. Without obligation content, lean cannot register `\leanchecked` markers → downstream chapters stay `deps_ready=False` → `critical_path.top` stays starved (currently ~12 sibling fronts vs 200+ open horizons). Attacking root stubs has 5-10x fan-out leverage compared to depth-refining already-rich chapters.
+
+**HARD GATE**: if `top_root_unblocks` is non-empty AND its first entry has `unblock_count >= 3`, AT LEAST 1 of the proposed targets MUST be `kind = "theory_extension"` on a chapter from `top_root_unblocks[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff must add at least 3 `\begin{theorem}` / `\begin{definition}` blocks with `\label{thm:<chapter>-...}` so the chapter's `thms` crosses `deps_ready_threshold`. Theorem statements should mention BEDC kernel constructs (`BHist`, `Cont`, `hsame`, `NameCert`, `UnaryHistory`) and articulate the chapter's NameCert obligations as the schema would have demanded had the chapter been written by hand.
+
+`closure_mark` targets do NOT satisfy this gate — they bump closurestatus axis, not `thms`. The two HARD GATES (top[0..2] and top_root_unblocks[0..2]) compose: a 3-target round can satisfy both with 1 top-3 target + 1 root-unblock target + 1 free slot.
+
+If `top_root_unblocks` is empty (every dep tree root is already at `thms >= threshold`), this gate is vacuous and may be skipped.
 
 ## Theme saturation (HARD GATE)
 

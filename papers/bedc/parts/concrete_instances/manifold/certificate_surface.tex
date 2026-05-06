@@ -1,0 +1,470 @@
+\section{The certificate}
+\label{sec:manifold-certificate}
+
+\begin{theorem}[Manifold chart endpoint coverage]
+\label{thm:manifold-chart-endpoint-coverage}
+For a charted carrier package $\mathcal{M}$ as in
+\autoref{def:manifold-charted-carrier}, every displayed chart row exposes the
+following endpoint data:
+\begin{enumerate}
+\item the underlying $\TopologyUp$ carrier row $X(x)$ and the classifier
+$\mathsf{same}_X$ supplied by $\mathcal{T}$;
+\item the witnessed open row
+$\mathsf{CarriesOpen}_{\mathcal{T}}(\mathsf{domIx}(a),\mathsf{Dom}_a)$ for the
+chart domain;
+\item the finite $\RealUp$ coordinate output
+$\mathsf{coord}_a(x)=(r_1,\ldots,r_{n(a)})$;
+\item the visible atlas ledger entry recording $a$, $\mathsf{domIx}(a)$,
+$x$, and the coordinate list.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the charted carrier package of
+\autoref{def:manifold-charted-carrier}. The first fields are exactly the
+predicate $X$ on $\mathsf{BHist}$ and the indexed open topology carrier
+$\mathcal{T}$, so the $\TopologyUp$ carrier and classifier are obtained by
+projection.
+
+For a fixed atlas index $a$, the same unfolding exposes the domain predicate
+$\mathsf{Dom}_a$, the chosen open index $\mathsf{domIx}(a)$, and the carrying
+equation for that open. This is the chart-domain open witness required by the
+certificate.
+
+Finally project the chart map field. Its output is already a finite list of
+$\RealUp$ coordinate histories, and the atlas index plus open index are
+retained in the package ledger. No quotient or hidden atlas representative is
+introduced, so the displayed tuple is the visible readback of the chart row.
+\end{proof}
+
+\begin{theorem}[Manifold transition classifier stability]
+\label{thm:manifold-transition-classifier-stability}
+Let $\mathcal{M}$ be a charted carrier package. Suppose $x,y:\mathsf{BHist}$
+are carried points with $\mathsf{same}_X(x,y)$, and suppose the atlas domains
+$\mathsf{Dom}_a$ and $\mathsf{Dom}_b$ carry $x$ through their witnessed open
+indices. Then the overlap transition row
+$\mathsf{Trans}_{a,b}(x)$ transports to the corresponding row at $y$ using:
+\begin{enumerate}
+\item the topology carrier classifier and membership-stability field of
+\autoref{def:topology-indexed-open-carrier};
+\item the two carrying equations for
+$\mathsf{CarriesOpen}_{\mathcal{T}}(\mathsf{domIx}(a),\mathsf{Dom}_a)$ and
+$\mathsf{CarriesOpen}_{\mathcal{T}}(\mathsf{domIx}(b),\mathsf{Dom}_b)$;
+\item the $\RealUp$ classifier on each coordinate of
+$\mathsf{coord}_a(-)$ and $\mathsf{coord}_b(-)$;
+\item the supplied $\RealAnalyticUp$ local transport rows from
+\autoref{thm:real-analytic-certificate-boundary}.
+\end{enumerate}
+Consequently the transported source and target coordinate lists represent the
+same overlap transition in the atlas ledger.
+\end{theorem}
+\begin{proof}
+Begin with the topology side. The carrying equation for
+$\mathsf{domIx}(a)$ converts $\mathsf{Dom}_a(x)$ into
+$\mathsf{OpenAt}(\mathsf{domIx}(a),x)$. The membership-stability field of
+\autoref{def:topology-indexed-open-carrier}, applied to
+$\mathsf{same}_X(x,y)$, transports this open membership to $y$, and the same
+carrying equation converts it back to $\mathsf{Dom}_a(y)$.
+
+Repeat the identical argument for $b$. This supplies the transported overlap
+witness $\mathsf{Dom}_a(y)\wedge\mathsf{Dom}_b(y)$, so the transition ledger
+has the same atlas indices at the transported point.
+
+Project the coordinate fields from
+\autoref{def:manifold-charted-carrier}. Their stability clauses give
+coordinatewise $\RealUp$ classifier witnesses from
+$\mathsf{coord}_a(x)$ to $\mathsf{coord}_a(y)$ and from
+$\mathsf{coord}_b(x)$ to $\mathsf{coord}_b(y)$.
+
+The transition row itself is one of the real-analytic rows supplied at the
+boundary of \autoref{thm:real-analytic-certificate-boundary}. Apply that row
+to the transported overlap witness and the coordinatewise $\RealUp$ classifier
+witnesses. The result is the transition row at $y$, classified by the same
+visible atlas ledger entry.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_classifier\_stability}
+
+\begin{theorem}[Manifold charted NameCert surface]
+\label{thm:manifold-charted-namecert-surface}
+A charted carrier package $\mathcal{M}$ as in
+\autoref{def:manifold-charted-carrier}, together with
+\autoref{thm:manifold-chart-endpoint-coverage} and
+\autoref{thm:manifold-transition-classifier-stability}, assembles the
+paper-side $\NameCert_{\ManifoldUp}$ obligation surface. Its fields are the
+$\mathsf{BHist}$ point carrier $X$, the $\TopologyUp$ classifier
+$\mathsf{same}_X$, the finite atlas ledger, chart-domain open witnesses,
+finite $\RealUp$ coordinate outputs, overlap-transition stability rows, and an
+explicit statement that no standard bridge is claimed.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldAtlasPackage\_semanticNameCert}
+\begin{proof}
+Unfold the NameCert template fields against
+\autoref{def:manifold-charted-carrier}. The traditional target is a charted
+manifold, the BEDC source is $\mathsf{BHist}$ equipped with the topology
+carrier $\mathcal{T}$ and the finite atlas data, the carrier is $X$, and the
+classifier is $\mathsf{same}_X$.
+
+Endpoint coverage supplies the public readback rows: each chart exposes its
+carried point, witnessed open domain, finite coordinate output, and atlas
+ledger entry. These are exactly the carrier, source, and ledger fields needed
+by the certificate surface.
+
+Transition classifier stability supplies the stability field. It transports
+overlap rows along the topology classifier, uses the two chart-domain carrying
+equations to keep the point inside both domains, and then invokes the
+$\RealUp$ and $\RealAnalyticUp$ rows for coordinate and smooth-transition
+transport.
+
+The exactness policy is visible-ledger exactness: a manifold chart row is
+accepted only through the displayed atlas index, open witness, coordinate
+output, and transition row. The standard bridge field is absent, so the
+assembled surface is a BEDC paper-side NameCert obligation package rather than
+a bridge to an external manifold library.
+\end{proof}
+
+\begin{theorem}[Manifold chart-transition classifier stability]
+\label{thm:manifold-chart-transition-classifier-stability}
+Let $P$ and $Q$ be $\mathsf{BHist}$ packages. Suppose
+$\mathsf{ManAtlasPkg}(P)$ holds and the data of $P$ and $Q$ are related
+componentwise by $\hsame$: the topological carrier histories are $\hsame$, the
+finite chart-index histories are $\hsame$, corresponding chart-domain rows are
+$\hsame$, corresponding chart-map rows are $\hsame$, and corresponding
+real-analytic transition ledgers are $\hsame$. Then
+$\mathsf{ManAtlasPkg}(Q)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{ManAtlasPkg}(P)$ using
+\autoref{def:manifold-chart-atlas-carrier}. The package supplies the
+$\TopologyUp$ carrier row for $M$, the finite chart-index row, all chart-domain
+and chart-map rows, and the overlap transition ledgers.
+
+Transport the topological carrier by the supplied $\hsame$ comparison of the
+carrier histories. Transport the finite chart-index row in the same way. For
+each chart index, transport the domain predicate and the chart-map row by the
+componentwise $\hsame$ hypotheses.
+
+For each chart pair, transport the real-coordinate transition ledger and the
+constructively smooth transition certificate by the corresponding
+real-analytic $\hsame$ row. Repack the transported topology, chart, map,
+overlap, and smoothness rows. These are exactly the fields required by
+\autoref{def:manifold-chart-atlas-carrier} for
+$\mathsf{ManAtlasPkg}(Q)$.
+\end{proof}
+
+\begin{theorem}[ManifoldUp transition ledger stability]
+\label{thm:manifoldup-transition-ledger-stability}
+Let $P$ and $Q$ be $\mathsf{BHist}$ packages. Suppose
+$\mathsf{ManAtlasPkg}(P)$ holds and the atlas rows of $P$ and $Q$ are related
+componentwise by $\hsame$: the carrier histories, finite chart-index histories,
+indexed-open domain rows, coordinate histories, and real-analytic transition
+ledgers are all related. Then the transition ledger of $P$ transports to a
+transition ledger for $Q$.
+\end{theorem}
+\begin{proof}
+Start with a displayed transition row of $P$ for chart indices $i,j$. It
+contains the overlap membership boundary, the coordinate-change history, and
+the $\RealAnalyticUp$ local transition certificate.
+
+Transport the two chart-domain rows by componentwise $\hsame$. The
+$\TopologyUp$ indexed-open membership stability clause transports the overlap
+predicate because it is the conjunction of the two transported domain
+memberships.
+
+Transport the source and target coordinate histories by their componentwise
+$\hsame$ rows. The real-analytic transport boundary then carries the local
+transition certificate across the transported coordinate histories.
+
+Repack the transported overlap, coordinate-change history, and real-analytic
+certificate. The result is the corresponding transition ledger row for $Q$.
+\end{proof}
+
+\begin{theorem}[Manifold atlas overlap coverage]
+\label{thm:manifold-atlas-overlap-coverage}
+Every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$ exposes, for
+each chart pair $i,j$ in its finite chart-index history, a domain-overlap row
+$$
+\mathsf{Overlap}_{ij}(x)
+:\Longleftrightarrow
+\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)
+$$
+on the topological carrier and the corresponding constructively smooth
+$\RealUp$ transition ledger from $\varphi_i$-coordinates to
+$\varphi_j$-coordinates on that overlap.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldAtlasPackage\_pairwise\_overlap\_readback}
+\begin{proof}
+Unpack the carried atlas package by
+\autoref{def:manifold-chart-atlas-carrier}. The finite chart-index row gives
+the admissible chart pairs, while the chart-domain rows give the two predicates
+$\mathsf{Dom}_i$ and $\mathsf{Dom}_j$ over the same topological carrier.
+
+For a fixed pair $i,j$, form the overlap row by conjunction of the two domain
+memberships. The topology ledger records the carrier support of both domains,
+so the overlap row is a predicate on the same topological carrier $M$.
+
+The package ledger contains, for this same pair, the transition row
+$\mathsf{Trans}_{ij}$. Its real-coordinate part records the source and target
+$\RealUp$ coordinate histories, and its real-analytic part records the
+constructively smooth transition certificate on the displayed overlap. Project
+these two ledger components to obtain the claimed coverage row.
+\end{proof}
+
+\begin{definition}[Manifold transition coherence ledger]
+\label{def:manifold-transition-coherence-ledger}
+For a carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$, the transition
+coherence ledger is the sub-ledger of $\mathsf{ManAtlasPkg}(P)$ whose rows are
+indexed by one, two, and three chart names in the finite chart-index history.
+It contains the following displayed entries.
+\begin{enumerate}
+\item For every chart $i$, the row $\mathsf{IdTrans}_i$ is carried on the
+self-overlap $\mathsf{Overlap}_{ii}$ supplied by $\TopologyUp$ and classifies
+the transition $\mathsf{Trans}_{ii}$ by the identity coordinate history row on
+$\varphi_i$.
+\item For every chart pair $i,j$, the row $\mathsf{InvTrans}_{ij}$ is carried
+on the overlap transported between $\mathsf{Overlap}_{ij}$ and
+$\mathsf{Overlap}_{ji}$ by the $\TopologyUp$ overlap rows, and classifies the
+two composites $\mathsf{Trans}_{ji}\circ\mathsf{Trans}_{ij}$ and
+$\mathsf{Trans}_{ij}\circ\mathsf{Trans}_{ji}$ by the corresponding
+$\mathsf{IdTrans}$ rows.
+\item For every chart triple $i,j,k$, the row $\mathsf{Cocycle}_{ijk}$ is
+carried on the triple-overlap predicate
+$$
+\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)\wedge\mathsf{Dom}_k(x),
+$$
+and classifies $\mathsf{Trans}_{jk}\circ\mathsf{Trans}_{ij}$ and
+$\mathsf{Trans}_{ik}$ by the same real-analytic transition row from
+$\varphi_i$-coordinates to $\varphi_k$-coordinates.
+\end{enumerate}
+Each entry is a visible ledger row over $\TopologyUp$ carried-overlap
+transport, $\RealUp$ coordinate histories, and the real-analytic classifier
+rows already exposed by the atlas package.
+\end{definition}
+\leandef{BEDC.Derived.ManifoldUp.ManifoldTransitionCoherenceLedger}
+
+\begin{theorem}[Manifold overlap identity transition]
+\label{thm:manifold-overlap-identity-transition}
+Every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$ exposes, for
+each chart $i$, a self-overlap transition row $\mathsf{Trans}_{ii}$ on
+$\mathsf{Overlap}_{ii}$. This row is classified by $\mathsf{IdTrans}_i$ in the
+transition coherence ledger, so its coordinate action is the identity
+real-coordinate row on $\varphi_i$ over the carried self-overlap.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldTransitionCoherenceLedger\_identity\_transition\_readback}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_overlap\_identity\_transition}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldTransitionCoherenceLedger\_identity\_transition\_empty}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldTransitionCoherenceLedger\_identity\_transition}
+\begin{proof}
+Unpack $\mathsf{ManAtlasPkg}(P)$ by
+\autoref{def:manifold-chart-atlas-carrier}. The finite chart-index row admits
+the pair $(i,i)$, and \autoref{thm:manifold-atlas-overlap-coverage} identifies
+the carried domain as $\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_i(x)$ on the
+underlying $\TopologyUp$ carrier.
+
+Project the self row from
+\autoref{def:manifold-transition-coherence-ledger}. Its source and target
+coordinate histories are both the displayed list $\varphi_i(x)$, transported
+through the same carried-overlap row.
+
+The real-analytic classifier component of $\mathsf{IdTrans}_i$ is the identity
+coordinate row. Repacking that classifier with the self-overlap transport gives
+the displayed $\mathsf{Trans}_{ii}$ transition classified as the identity on
+$\varphi_i$.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldTransitionCoherenceLedger\_identity\_transition\_boundary}
+
+\begin{theorem}[Manifold overlap inverse transition]
+\label{thm:manifold-overlap-inverse-transition}
+Every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$ exposes, for
+each chart pair $i,j$, inverse transition rows on the carried overlap. The
+composite $\mathsf{Trans}_{ji}\circ\mathsf{Trans}_{ij}$ is classified by
+$\mathsf{IdTrans}_i$ on the $i$-coordinate overlap, and the composite
+$\mathsf{Trans}_{ij}\circ\mathsf{Trans}_{ji}$ is classified by
+$\mathsf{IdTrans}_j$ on the $j$-coordinate overlap.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_inverse\_boundary}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_overlap\_inverse\_transition}
+\begin{proof}
+Unpack the two pairwise overlap rows using
+\autoref{thm:manifold-atlas-overlap-coverage}. The row for $(i,j)$ carries
+$\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)$, while the row for $(j,i)$ carries
+the same two domain memberships in the reversed order.
+
+Use the $\TopologyUp$ carried-overlap transport to identify those two overlap
+readbacks. This gives a common domain on which both transition ledgers can be
+composed without changing the carried point or the chart-domain witnesses.
+
+Project $\mathsf{InvTrans}_{ij}$ from
+\autoref{def:manifold-transition-coherence-ledger}. Its real-analytic
+classifier rows state exactly that the two displayed composites classify to
+the relevant identity rows. Together with
+\autoref{thm:manifold-overlap-identity-transition}, these projected rows give
+the two claimed inverse identities on the carried overlap.
+\end{proof}
+
+\begin{theorem}[Manifold triple-overlap cocycle]
+\label{thm:manifold-triple-overlap-cocycle}
+Every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$ exposes, for
+each chart triple $i,j,k$, a cocycle row on the carried triple overlap. On that
+overlap, $\mathsf{Trans}_{jk}\circ\mathsf{Trans}_{ij}$ and
+$\mathsf{Trans}_{ik}$ are classified by the same real-analytic transition row
+from $\varphi_i$-coordinates to $\varphi_k$-coordinates.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_coherence\_rows\_empty}
+\begin{proof}
+Start from the three pairwise overlap rows supplied by
+\autoref{thm:manifold-atlas-overlap-coverage}. Their $\TopologyUp$ domain
+components restrict to the same carried triple-overlap predicate
+$\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)\wedge\mathsf{Dom}_k(x)$.
+
+Transport the pairwise transition ledgers to this common triple-overlap
+domain. The source of $\mathsf{Trans}_{ij}$ is the $\varphi_i$ coordinate row,
+its target is the $\varphi_j$ row, and the source of $\mathsf{Trans}_{jk}$ is
+the same $\varphi_j$ row after $\RealUp$ coordinate-history transport.
+
+Project $\mathsf{Cocycle}_{ijk}$ from
+\autoref{def:manifold-transition-coherence-ledger}. Its real-analytic
+classifier component identifies the composite
+$\mathsf{Trans}_{jk}\circ\mathsf{Trans}_{ij}$ with the direct transition
+$\mathsf{Trans}_{ik}$ as the same transition row from $\varphi_i$ to
+$\varphi_k$. Repacking that classifier with the common carried-overlap domain
+gives the displayed cocycle obligation.
+\end{proof}
+
+\begin{theorem}[ManifoldUp transition-coherence exhaustion]
+\label{thm:manifoldup-transition-coherence-exhaustion}
+For every carried atlas package $P$ with $\mathsf{ManAtlasPkg}(P)$, every row
+of the transition coherence ledger of
+\autoref{def:manifold-transition-coherence-ledger} is one of the displayed
+one-chart identity rows, two-chart inverse-composite rows, or three-chart
+cocycle rows. In each case its source is a carried $\TopologyUp$ overlap or
+triple-overlap, its endpoints are finite $\RealUp$ coordinate histories, and
+its classifier is the real-analytic transition row already exposed by the
+atlas ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldTransitionCoherenceLedger\_exhaustion}
+\begin{proof}
+Unpack the transition coherence ledger of
+\autoref{def:manifold-transition-coherence-ledger}. Its indexing data is the
+finite chart-index history carried by $\mathsf{ManAtlasPkg}(P)$, so each
+ledger row has one chart name, an ordered chart pair, or an ordered chart
+triple as its visible index.
+
+In the one-index case, the row is $\mathsf{IdTrans}_i$. Apply
+\autoref{thm:manifold-overlap-identity-transition}. The source is the
+self-overlap $\mathsf{Overlap}_{ii}$ carried by $\TopologyUp$, the two
+endpoints are the same finite $\RealUp$ coordinate history $\varphi_i$, and
+the classifier is the identity real-analytic transition row exposed in the
+atlas ledger.
+
+In the two-index case, the row is $\mathsf{InvTrans}_{ij}$. Apply
+\autoref{thm:manifold-overlap-inverse-transition}. The source is the carried
+overlap transported between $\mathsf{Overlap}_{ij}$ and
+$\mathsf{Overlap}_{ji}$, the endpoints are the finite coordinate histories
+$\varphi_i$ and $\varphi_j$, and the two composites classify through the
+identity rows already exposed by the atlas transition ledger.
+
+In the three-index case, the row is $\mathsf{Cocycle}_{ijk}$. Apply
+\autoref{thm:manifold-triple-overlap-cocycle}. The source is the carried
+triple-overlap predicate, the endpoints are the finite coordinate histories
+$\varphi_i$, $\varphi_j$, and $\varphi_k$, and the composite transition and
+direct transition are classified by the same real-analytic row from
+$\varphi_i$ to $\varphi_k$.
+
+These three cases exhaust the constructors displayed in
+\autoref{def:manifold-transition-coherence-ledger}. Repack the resulting
+carrier, endpoint, and classifier witnesses through
+\autoref{thm:manifold-namecert-obligation-surface} to obtain the advertised
+$\ManifoldUp$ ledger boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldScopedBoundaryPackage\_transition\_coherence\_rows}
+
+\begin{theorem}[Manifold name-certificate obligation surface]
+\label{thm:manifold-namecert-obligation-surface}
+The carrier definition of
+\autoref{def:manifold-chart-atlas-carrier}, together with
+\autoref{thm:manifold-chart-transition-classifier-stability} and
+\autoref{thm:manifold-atlas-overlap-coverage},
+\autoref{thm:manifold-overlap-identity-transition},
+\autoref{thm:manifold-overlap-inverse-transition}, and
+\autoref{thm:manifold-triple-overlap-cocycle}, assembles the paper-side
+$\ManifoldUp$ obligation surface. The surface consists of a topological carrier,
+a finite chart atlas, chart classifier stability, overlap coverage,
+transition-smoothness rows, identity transitions, inverse transition
+composites, triple-overlap cocycles, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+The carrier definition supplies the named source object:
+$\TopologyUp$ rows for the base carrier, $\RealUp$ coordinate rows for chart
+targets, finite chart-index data, chart domains, chart maps, and transition
+ledgers.
+
+\autoref{thm:manifold-chart-transition-classifier-stability} supplies the
+classifier-stability obligation for the whole package, because every public
+field is transported by the componentwise $\hsame$ classifier specified in the
+carrier definition.
+
+\autoref{thm:manifold-atlas-overlap-coverage} supplies the overlap and
+transition-smoothness obligations. The absence of a standard bridge is already
+part of the carrier definition.
+
+It remains to account for atlas compatibility. The coherence ledger of
+\autoref{def:manifold-transition-coherence-ledger} records the self,
+reversed-pair, and triple-overlap rows. The identity row is exposed by
+\autoref{thm:manifold-overlap-identity-transition}; the inverse composite rows
+are exposed by \autoref{thm:manifold-overlap-inverse-transition}; and the
+triple-overlap cocycle row is exposed by
+\autoref{thm:manifold-triple-overlap-cocycle}.
+
+These rows use the same $\TopologyUp$ carried-overlap transport, the same
+$\RealUp$ coordinate histories, and the same real-analytic classifier ledger as
+the pairwise transition rows. Repacking them with the carrier, classifier, and
+stability fields gives exactly the $\ManifoldUp$ paper obligation surface
+listed in the theorem statement.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldAtlasSurfaceClassifier\_endpoints}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldAtlasPackage\_semantic\_name\_certificate}
+
+\begin{theorem}[Manifold name-certificate obligation threshold]
+\label{thm:manifoldup-namecert-obligation-threshold}
+The carrier definition of
+\autoref{def:manifold-chart-atlas-carrier}, together with
+\autoref{thm:manifoldup-chart-cover-coverage},
+\autoref{thm:manifoldup-chart-domain-carrier-transport},
+\autoref{thm:manifoldup-atlas-transition-composition}, and
+\autoref{thm:manifoldup-transition-ledger-stability}, assembles the paper-side
+$\ManifoldUp$ $\NameCert$ obligation threshold. The threshold consists of the
+carrier, classifier, chart cover, chart-domain transport, transition
+composition, transition-ledger stability, and the visible atlas ledger.
+\end{theorem}
+\begin{proof}
+The carrier definition supplies the named source object:
+$\TopologyUp$ rows for the base carrier, $\RealUp$ coordinate rows for chart
+targets, finite chart-index data, indexed-open chart domains, coordinate
+histories, and transition ledgers.
+
+\autoref{thm:manifoldup-chart-cover-coverage} supplies the cover obligation by
+projecting, for every carried point, an index and domain membership from the
+visible atlas ledger.
+
+\autoref{thm:manifoldup-chart-domain-carrier-transport} supplies the
+classifier boundary for chart-domain membership. The same componentwise
+$\hsame$ classifier transports the carrier, domains, coordinate histories, and
+ledger rows named in the definition.
+
+\autoref{thm:manifoldup-atlas-transition-composition} supplies the atlas
+composition obligation, and
+\autoref{thm:manifoldup-transition-ledger-stability} supplies stability of the
+visible transition ledger under transported chart rows. The absence of a
+standard bridge is already part of the carrier definition, so the assembled
+object is exactly the $\ManifoldUp$ $\NameCert$ obligation threshold listed in
+the theorem statement.
+\end{proof}
+
+\begin{closurestatus}{\ManifoldUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The singleton empty-chart ManifoldUp certificate together with the finite-atlas paper obligation surface over $\mathsf{BHist}$, $\TopologyUp$, $\RealUp$, and $\RealAnalyticUp$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{General smooth-manifold theory, arbitrary atlas machine verification, external manifold-library equivalence, tangent bundles, forms, integration, or de Rham theorems.}
+  \upgradepath{$\publicClosure$ requires a single exported ManifoldUp public theorem for the atlas interface and a checked bridge only after the standard model rows are explicitly supplied.}
+\end{closurestatus}

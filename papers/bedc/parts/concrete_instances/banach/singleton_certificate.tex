@@ -1,0 +1,146 @@
+\section{The certificate}
+\label{sec:banach-certificate}
+
+\begin{theorem}[Singleton empty-history Banach carrier and classifier]
+\label{thm:banach-singleton-empty-history-carrier-classifier}
+For the concrete $\BanachUp$ carrier of
+\autoref{def:banach-singleton-empty-history-instance}, every carried Banach
+vector is an $A_{\emp}$ vector, every pair of carried Banach vectors is
+$\rho_{\emp}$-classified, and every displayed norm or metric distance is
+classified by $\mathsf{RealConstantHistoryClassifier}$ at the constant zero
+RealUp endpoint $0_{\mathsf{Real}}^{c}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingletonEmptyHistory\_carrier\_classifier}
+\begin{proof}
+The Banach carrier is definitionally the carrier of the singleton
+empty-history norm instance. Apply
+\autoref{thm:singleton-empty-history-norm-carrier-classifier}. It supplies the
+$A_{\emp}$ carrier row, the $\rho_{\emp}$ classifier row for carried vectors,
+and the constant-real classifier row for the norm endpoints.
+
+For the metric row, unfold $d_{\emp}$. Both distance endpoints are the same
+constant $0_{\mathsf{Real}}^{c}$, so the RealUp constant classifier row
+already used in
+\autoref{thm:singleton-empty-history-norm-carrier-classifier} supplies the
+displayed distance classification.
+
+The vector endpoint collapse needed by downstream certificates is exactly
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse}; it identifies
+all carried endpoints with $\emp$ under $\rho_{\emp}$.
+\end{proof}
+
+\begin{theorem}[Singleton empty-history Banach Cauchy completeness]
+\label{thm:banach-singleton-empty-history-cauchy-completeness}
+Every regular Cauchy sequence in the singleton empty-history Banach carrier of
+\autoref{def:banach-singleton-empty-history-instance} has the constant limit
+$\emp$. For every carried term $s_i$ in the sequence, the convergence rows are
+$$
+\rho_{\emp}(s_i,\emp)
+\quad\text{and}\quad
+\mathsf{RealConstantHistoryClassifier}(d_{\emp}(s_i,\emp),0_{\mathsf{Real}}^{c}).
+$$
+\end{theorem}
+\begin{proof}
+The regular Cauchy hypothesis supplies carried terms in the norm carrier. By
+\autoref{thm:singleton-empty-history-norm-laws}, that norm carrier is closed
+over the singleton vector-space endpoint data and has the constant-zero norm
+law package.
+
+Apply \autoref{thm:singleton-empty-history-vecspace-endpoint-collapse} to each
+carried term $s_i$ and to the singleton endpoint $\emp$. This gives
+$\rho_{\emp}(s_i,\emp)$, so the chosen limit is accepted by the vector
+classifier without any search over candidate limits.
+
+It remains to verify the metric convergence rows. Unfold $d_{\emp}$: every
+distance to the limit is definitionally $0_{\mathsf{Real}}^{c}$. The zero
+exactness theorem
+\autoref{thm:singleton-empty-history-norm-zero-exactness} supplies the same
+constant-real zero boundary used by the norm, and the RealUp constant
+classifier gives
+$\mathsf{RealConstantHistoryClassifier}(d_{\emp}(s_i,\emp),0_{\mathsf{Real}}^{c})$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_singleton\_observation\_empty\_distance}
+
+\begin{theorem}[Singleton empty-history Banach NameCert obligations]
+\label{thm:banach-singleton-empty-history-namecert-obligations}
+The data of \autoref{def:banach-singleton-empty-history-instance} instantiate
+the local $\BanachUp$ naming-certificate obligation set: carrier,
+classifier, norm laws, metric Cauchy completeness, and ledger provenance are
+all supplied by the singleton empty-history $\NormUp$ package and the
+constant-limit completeness witness above.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingletonCarrier\_semanticNameCert}
+\begin{proof}
+Use \autoref{thm:banach-singleton-empty-history-carrier-classifier} for the
+carrier and classifier rows. Its Banach carrier is the same $A_{\emp}$ carrier
+as the singleton $\NormUp$ instance, and its metric classifier is the
+constant-real classifier on $0_{\mathsf{Real}}^{c}$.
+
+Use \autoref{thm:singleton-empty-history-norm-laws} for the norm-law rows and
+\autoref{thm:singleton-empty-history-norm-zero-exactness} for exactness at the
+zero norm endpoint. These rows are already stated over the displayed
+$\nu_{\emp}$ norm and the same singleton vector carrier.
+
+Finally, use
+\autoref{thm:banach-singleton-empty-history-cauchy-completeness} for metric
+Cauchy completeness. The ledger is inherited from
+\autoref{def:singleton-empty-history-norm-instance}: singleton vector-space
+source, RatUp zero witness, e-one constant-real seal, and the explicit
+constant-limit rule sending certified Cauchy streams to $\emp$.
+\end{proof}
+
+\begin{theorem}[Banach regular Cauchy limit witness]
+\label{thm:banach-regular-cauchy-limit-witness}
+Every regular Cauchy stream carried by the singleton norm-induced Banach
+metric has a row
+$$
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,\emp,\emp,L_{\emp})
+$$
+whose selected limit is $\emp$, whose modulus history is $\emp$, and whose
+late-observation ledgers are the empty-distance rows transported through
+\autoref{thm:banach-norm-induced-metric-compatibility}.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_complete\_metric\_limit\_empty\_witness}
+\begin{proof}
+Unfold the carried observations of the singleton norm-induced metric. Each
+observation of the regular Cauchy stream is a carried singleton vector
+history, hence collapses to $\emp$ by the singleton vector classifier.
+
+Use the selected singleton limit. The complete-metric singleton construction
+of \autoref{thm:singleton-complete-metric-laws} supplies the carried limit
+$\emp$, the empty modulus, and the convergence ledger with rows
+$\mathsf{MetricDistanceWitness}(s(n),\emp,\emp)$ for every late observation.
+
+Transport those metric rows back to the norm-induced presentation. By
+\autoref{thm:banach-norm-induced-metric-compatibility}, the empty-distance
+metric rows are exactly the rows whose norm endpoint is classified by the
+constant RealUp zero endpoint. These transported ledgers are the required
+$L_{\emp}$ family, so the displayed package is a
+$\mathsf{CompleteMetricLimitWitness}$ for the singleton Banach stream.
+\end{proof}
+
+\begin{theorem}[Banach limit classifier uniqueness]
+\label{thm:banach-limit-classifier-uniqueness}
+For any singleton normed stream $s$, any two Banach limit witnesses
+$$
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,\mu_0,\ell_0,L_0)
+\quad\text{and}\quad
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,\mu_1,\ell_1,L_1)
+$$
+have limits related by $\hsame(\ell_0,\ell_1)$, and therefore by the
+singleton vector classifier $\rho_{\emp}(\ell_0,\ell_1)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_limit\_classifier\_uniqueness}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_limit\_classifier\_unique}
+\begin{proof}
+Apply \autoref{thm:completemetric-limit-witness-uniqueness} to the two
+displayed limit witnesses for the same stream. In the singleton carrier the
+separated point classifier is empty-history sameness, so the uniqueness
+conclusion gives $\hsame(\ell_0,\ell_1)$.
+
+It remains to read the same relation as a vector classifier row. Both limits
+are carried singleton histories in their respective witness rows. Applying
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse} to the two
+carried limits collapses them to the singleton endpoint and repacks their
+$\hsame$ relation as $\rho_{\emp}(\ell_0,\ell_1)$.
+\end{proof}

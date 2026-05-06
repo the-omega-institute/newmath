@@ -1,0 +1,35 @@
+\begin{theorem}[Continuous function carrier certificate semantic naming certificate]
+\label{thm:continuous-function-carrier-certificate-semantic-namecert}
+For BHist histories $source,map,target,modulus,cert$, any carrier witness
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$ induces
+the semantic naming certificate
+$$
+\mathsf{SemanticNameCert}(C,C,C,\hsame),
+\qquad
+C(c) :=
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,c).
+$$
+Thus the certificate-slot carrier, pattern, and ledger are all the displayed
+fiber $c\mapsto\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,c)$,
+and the classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The displayed carrier gives the source witness for the semantic certificate at
+the point $cert$. This is exactly the inhabited source field for the fiber $C$.
+
+The classifier fields are the standard $\hsame$ rows. Reflexivity classifies
+each displayed certificate with itself, symmetry reverses a displayed
+classification, and transitivity composes two displayed classifications.
+
+Carrier transport is confined to the certificate slot. Keep $source$, $map$,
+$target$, and $modulus$ fixed by $\hsame$ reflexivity, use the supplied
+$\hsame$ comparison of certificate histories, and apply
+\autoref{thm:continuous-function-carrier-hsame-transport} to transport the
+continuous function carrier along that comparison.
+
+The pattern and ledger predicates are the same fiber $C$ as the source
+predicate. Their soundness and completeness maps are therefore identity
+projections, so the semantic naming certificate is repacked from the preceding
+fields.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_certificate\_semanticNameCert}

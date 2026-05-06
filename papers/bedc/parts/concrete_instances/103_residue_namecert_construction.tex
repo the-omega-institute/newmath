@@ -218,3 +218,19 @@ $\mathsf{ResiduePoleData}(f_q,z_0,r,p,g,I_q,\rho)$ holds, with the two displayed
 continuations.
 \end{proof}
 \leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_integral\_suffix\_closure}
+
+\begin{theorem}[Residue pole data result determinism]
+\label{thm:residue-pole-data-result-determinism}
+If two residue pole data witnesses share the displayed pole histories $z_0,r,p,g,I,\rho$ and have function histories $f$ and $f'$, so that
+$$
+\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)
+\quad\text{and}\quad
+\mathsf{ResiduePoleData}(f',z_0,r,p,g,I,\rho),
+$$
+then $f\hsame f'$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_result\_determinism\_with\_continuations}
+\begin{proof}
+Unpack both residue pole data witnesses using \autoref{def:residue-pole-data}. The first witness exposes a continuation ledger $C:\Cont(I,\rho,f)$, and the second exposes a continuation ledger $C':\Cont(I,\rho,f')$. Apply \autoref{thm:cont-transport-result-classified} to $C$ and $C'$ with the reflexive endpoint comparisons $I\hsame I$, $\rho\hsame\rho$, and $f\hsame f$. The transported first ledger has the same source, right endpoint, and result as $C$, while the classification clause compares that result with the result of $C'$. Hence $f\hsame f'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_result\_determinism}

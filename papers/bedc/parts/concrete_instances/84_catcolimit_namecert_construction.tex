@@ -30,6 +30,7 @@ $$
 $$
 It consists of a $D$-cocone $\kappa$ with vertex $K$ and the couniversal field that every $D$-cocone $\chi$ with vertex $X$ admits a morphism $m:K\to X$ satisfying $\operatorname{CoconeMor}_{D}(\kappa,\chi;m)$, with any two such morphisms classified by $\operatorname{MorEq}_{\mathcal C}(K,X;-,-)$.
 \end{definition}
+\leandef{BEDC.Derived.CatColimitUp.CatColimitCoconeMor}
 
 \begin{lemma}[Composition closure for cocone morphisms]\label{lem:catcolimit-cocone-morphism-composite-closure}
 Let $\kappa,\mu,\nu$ be $D$-cocones with vertices $K,M,N$. Suppose
@@ -86,6 +87,7 @@ $$
 $$
 Since $j$ was arbitrary, the component witnesses $r_j$ assemble the component ledger for $\operatorname{CoconeMor}_{D}(\kappa,\nu;h)$.
 \end{proof}
+\leanchecked{BEDC.Derived.CatColimitUp.CatColimitCoconeMor\_comp\_closed}
 
 \begin{lemma}[Identity cocone morphism]\label{lem:catcolimit-cocone-identity-comparison}
 If $\kappa$ is a $D$-cocone with vertex $K$, then
@@ -93,6 +95,7 @@ $$
 \operatorname{CoconeMor}_{D}(\kappa,\kappa;1_K).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.CatColimitUp.CatColimitCoconeMor\_empty\_identity}
 \begin{proof}
 The identity field of the $\CategoryUp$ certificate gives $\operatorname{Mor}_{\mathcal C}(K,K;1_K)$. Fix an object $j$ of $\mathcal J$. The unit field for the component $\kappa_j:D(j)\to K$ supplies a composite $c_j:D(j)\to K$ with
 $$
@@ -104,6 +107,8 @@ $$
 $$
 These witnesses, indexed by the objects of $\mathcal J$, give the cocone-morphism ledger for $\operatorname{CoconeMor}_{D}(\kappa,\kappa;1_K)$.
 \end{proof}
+\leanchecked{BEDC.Derived.CatColimitUp.CatColimitCoconeMor\_identity}
+\leanchecked{BEDC.Derived.CatColimitUp.CatColimitCoconeMor\_identity\_comparison}
 
 \begin{proposition}[Colimiting-cocone endomorphism rigidity]\label{prop:catcolimit-colimiting-cocone-endomorphism-rigidity}
 If
@@ -172,6 +177,8 @@ $$
 \operatorname{MorEq}_{\mathcal C}(C',C';c_{C'},1_{C'}).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.CatColimitUp.CatColimitCoconeMor\_composite\_endomorphisms\_empty}
+\leanchecked{BEDC.Derived.CatColimitUp.CatColimitLimCocone\_comparison\_identities}
 \begin{proof}
 Apply the universal existence field of $\operatorname{ColimCocone}_{D}(C,\kappa)$ to the $D$-cocone $\kappa'$ with vertex $C'$. This supplies a morphism $u:C\to C'$ and a cocone-morphism ledger
 $$
@@ -221,4 +228,190 @@ Now \autoref{prop:catcolimit-colimiting-cocone-endomorphism-rigidity}, applied t
 $$
 \operatorname{MorEq}_{\mathcal C}(C',C';c_{C'},1_{C'}).
 $$
+\end{proof}
+
+\begin{theorem}[Cocone morphism classifier descent through natural-transformation prewhiskering]
+\label{thm:catcolimit-cocone-morphism-nattrans-prewhiskering-descent}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations. Let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams, and let $\beta:E\Rightarrow D$ be a certified $\NatTransUp$ carrier with components $\beta_j:E(j)\to D(j)$. Let $\kappa$ and $\mu$ be $D$-cocones with vertices $K$ and $M$, and let $\kappa^{\beta}$ and $\mu^{\beta}$ be the corresponding $E$-cocones obtained by precomposing each cocone leg with the component of $\beta$:
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),K;\beta_j,\kappa_j,\kappa^{\beta}_j)
+\qquad\text{and}\qquad
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),M;\beta_j,\mu_j,\mu^{\beta}_j)
+$$
+for every object $j$ of $\mathcal J$, with image endpoints read through the certified endpoint-transport fields. If
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\mu;f),
+$$
+then
+$$
+\operatorname{CoconeMor}_{E}(\kappa^{\beta},\mu^{\beta};f).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CatColimitUp.CatColimitCoconeMor\_nattrans\_prewhiskering\_descent}
+\begin{proof}
+By \autoref{def:nattrans-carrier}, each $\beta_j$ is a displayed morphism $E(j)\to D(j)$ in $\mathcal C$, and the naturality row is the cocone-prewhiskering ledger that makes the displayed component families $\kappa^{\beta}$ and $\mu^{\beta}$ into $E$-cocones. If an object image is represented by a classified endpoint rather than by a literal endpoint, the source-target replacement row of \autoref{def:functor-stability-certificate} and the endpoint-indexed transport fields of \autoref{def:category-stability-certificate} reindex the component morphisms before the following composition ledgers are formed.
+
+Unpack $\operatorname{CoconeMor}_{D}(\kappa,\mu;f)$ using \autoref{def:catcolimit-fixed-diagram-cocone-comparison-data}. It gives the vertex morphism field $\operatorname{Mor}_{\mathcal C}(K,M;f)$ and, for each object $j$ of $\mathcal J$, a displayed composite $d_j:D(j)\to M$ such that
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),K,M;\kappa_j,f,d_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),M;d_j,\mu_j).
+$$
+The same vertex morphism field is the vertex morphism required for $\operatorname{CoconeMor}_{E}(\kappa^{\beta},\mu^{\beta};f)$.
+
+Fix $j$. Composition closure in \autoref{def:category-stability-certificate} supplies a composite $s_j:E(j)\to M$ of $\kappa^{\beta}_j$ followed by $f$:
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),K,M;\kappa^{\beta}_j,f,s_j).
+$$
+It also supplies a composite $t_j:E(j)\to M$ of $\beta_j$ followed by $d_j$:
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),M;\beta_j,d_j,t_j).
+$$
+Associativity in the same category certificate, applied to
+$$
+E(j)\xrightarrow{\beta_j}D(j)\xrightarrow{\kappa_j}K\xrightarrow{f}M,
+$$
+compares the two bracketings and gives
+$$
+\operatorname{MorEq}_{\mathcal C}(E(j),M;s_j,t_j).
+$$
+
+The component classifier from the original cocone morphism gives $d_j\sim\mu_j$ at the endpoint pair $(D(j),M)$. Composition congruence with the fixed left factor $\beta_j$, together with the displayed definition of $\mu^{\beta}_j$, transports this comparison to
+$$
+\operatorname{MorEq}_{\mathcal C}(E(j),M;t_j,\mu^{\beta}_j).
+$$
+Transitivity of the morphism classifier in \autoref{def:category-stability-certificate} composes the last two comparisons and yields
+$$
+\operatorname{MorEq}_{\mathcal C}(E(j),M;s_j,\mu^{\beta}_j).
+$$
+
+Thus, for the fixed object $j$, the composite $s_j$ supplies the required $E$-cocone-morphism component ledger for $f$ from $\kappa^{\beta}$ to $\mu^{\beta}$. Since $j$ was arbitrary, these ledgers assemble with the already supplied vertex morphism field into $\operatorname{CoconeMor}_{E}(\kappa^{\beta},\mu^{\beta};f)$.
+\end{proof}
+
+\begin{corollary}[CatColimit comparison-fiber collapse]\label{cor:catcolimit-comparison-fiber-collapse}
+Let $D:\mathcal J\to\mathcal C$ be a fixed certified $\FunctorUp$ diagram in a $\CategoryUp$ certificate $\mathcal C$. Let $\kappa$ be a $D$-cocone with vertex $C$, and let $\kappa'$ be a $D$-cocone with vertex $C'$. If
+$$
+\operatorname{ColimCocone}_{D}(C,\kappa)
+$$
+and if $u_1,u_2:C\to C'$ satisfy
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa';u_1)
+$$
+and
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\kappa';u_2),
+$$
+then
+$$
+\operatorname{MorEq}_{\mathcal C}(C,C';u_1,u_2).
+$$
+\end{corollary}
+\begin{proof}
+Unpack the certified colimiting-cocone field from \autoref{def:catcolimit-fixed-diagram-cocone-comparison-data}. Its uniqueness clause says that, for every $D$-cocone $\chi$ with vertex $X$, any two morphisms $m_1,m_2:C\to X$ satisfying
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\chi;m_1)
+$$
+and
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\chi;m_2)
+$$
+are classified by
+$$
+\operatorname{MorEq}_{\mathcal C}(C,X;m_1,m_2).
+$$
+Apply this clause with $\chi=\kappa'$, $X=C'$, $m_1=u_1$, and $m_2=u_2$. The two displayed cocone-morphism ledgers are exactly the hypotheses, so the required classifier is
+$$
+\operatorname{MorEq}_{\mathcal C}(C,C';u_1,u_2).
+$$
+\end{proof}
+
+\begin{theorem}[CatColimit transport along pointwise certified diagram equivalence]
+\label{thm:catcolimit-transport-pointwise-certified-diagram-equivalence}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations, and let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams. Suppose $(\alpha,\beta)$ is a pointwise certified diagram equivalence between $D$ and $E$ in the sense of \autoref{def:catlimit-pointwise-certified-diagram-equivalence}. If
+$$
+\operatorname{ColimCocone}_{D}(K,\kappa)
+$$
+holds, and if $\kappa^E$ is the component family obtained by certified composition
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),K;\beta_j,\kappa_j,\kappa^E_j)
+$$
+for every object $j$ of $\mathcal J$, with endpoints read through the certified source-target replacement fields, then
+$$
+\operatorname{ColimCocone}_{E}(K,\kappa^E).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:catlimit-pointwise-certified-diagram-equivalence}, the components $\alpha_j:D(j)\to E(j)$ and $\beta_j:E(j)\to D(j)$ are certified $\NatTransUp$ component morphisms, and their pointwise composites are classified with the corresponding identities. Thus for every object $j$ there are composites
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),E(j),D(j);\alpha_j,\beta_j,d_j)
+\quad\text{and}\quad
+\operatorname{MorEq}_{\mathcal C}(D(j),D(j);d_j,1_{D(j)}),
+$$
+and
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),E(j);\beta_j,\alpha_j,e_j)
+\quad\text{and}\quad
+\operatorname{MorEq}_{\mathcal C}(E(j),E(j);e_j,1_{E(j)}).
+$$
+The component-carrier and endpoint replacement rows are those of \autoref{def:nattrans-carrier}, \autoref{def:functor-stability-certificate}, and \autoref{def:category-stability-certificate}.
+
+First verify that $\kappa^E$ is an $E$-cocone. For a displayed morphism $u:j\to k$ of $\mathcal J$, the $E$-cocone law compares the composite of $E(u)$ followed by $\kappa^E_k$ with $\kappa^E_j$. The defining composite for $\kappa^E_k$ and associativity identify the first bracketing with the chain
+$$
+E(j)\xrightarrow{E(u)}E(k)\xrightarrow{\beta_k}D(k)\xrightarrow{\kappa_k}K.
+$$
+Naturality of $\beta$ compares $E(u)$ followed by $\beta_k$ with $\beta_j$ followed by $D(u)$. Composition congruence with the fixed right factor $\kappa_k$, followed by the $D$-cocone law for $\kappa$, compares this chain with
+$$
+E(j)\xrightarrow{\beta_j}D(j)\xrightarrow{\kappa_j}K,
+$$
+which is $\kappa^E_j$ by definition. Transitivity of the morphism classifier gives the $E$-cocone component row for $\kappa^E$.
+
+Let $\chi$ be any $E$-cocone with vertex $X$. Define a $D$-component family $\chi^D$ by
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),E(j),X;\alpha_j,\chi_j,\chi^D_j)
+$$
+for every object $j$. Naturality of $\alpha$, the $E$-cocone law for $\chi$, associativity, and composition congruence show that $\chi^D$ is a $D$-cocone with vertex $X$: for $u:j\to k$, the composite of $D(u)$ followed by $\alpha_k$ followed by $\chi_k$ is classified with the composite of $\alpha_j$ followed by $E(u)$ followed by $\chi_k$, and then with $\alpha_j$ followed by $\chi_j$.
+
+The universal existence field of $\operatorname{ColimCocone}_{D}(K,\kappa)$ applied to this $D$-cocone supplies a morphism $m:K\to X$ such that
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\chi^D;m).
+$$
+Unpacking \autoref{def:catcolimit-fixed-diagram-cocone-comparison-data}, for each object $j$ there is a composite $r_j:D(j)\to X$ with
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),K,X;\kappa_j,m,r_j)
+$$
+and
+$$
+\operatorname{MorEq}_{\mathcal C}(D(j),X;r_j,\chi^D_j).
+$$
+Let $s_j:E(j)\to X$ be a composite of $\kappa^E_j$ followed by $m$. Associativity compares $s_j$ with the composite of $\beta_j$ followed by $r_j$. Composition congruence with the fixed left factor $\beta_j$ transports $r_j\sim\chi^D_j$ to a comparison between $\beta_j$ followed by $r_j$ and $\beta_j$ followed by $\chi^D_j$. Since $\chi^D_j$ is the composite of $\alpha_j$ followed by $\chi_j$, associativity rewrites the latter as $(\beta_j;\alpha_j);\chi_j$. The $E(j)$ identity row of the pointwise equivalence, composed with the fixed right factor $\chi_j$, and the left identity row of the $\CategoryUp$ certificate classify this composite with $\chi_j$. Transitivity gives
+$$
+\operatorname{MorEq}_{\mathcal C}(E(j),X;s_j,\chi_j).
+$$
+The vertex morphism field for $m$ is already present in $\operatorname{CoconeMor}_{D}(\kappa,\chi^D;m)$. Hence
+$$
+\operatorname{CoconeMor}_{E}(\kappa^E,\chi;m),
+$$
+which is the universal existence field required for the $E$-cocone $\kappa^E$.
+
+It remains to verify universal uniqueness. Let $m,n:K\to X$ both satisfy
+$$
+\operatorname{CoconeMor}_{E}(\kappa^E,\chi;m)
+\quad\text{and}\quad
+\operatorname{CoconeMor}_{E}(\kappa^E,\chi;n).
+$$
+For $m$, unpack the first $E$-cocone-morphism ledger. For each object $j$ there is a composite $a_j:E(j)\to X$ of $\kappa^E_j$ followed by $m$ classified with $\chi_j$. Composition congruence with the fixed left factor $\alpha_j$ gives a comparison between $\alpha_j$ followed by $a_j$ and $\alpha_j$ followed by $\chi_j$. Using the defining composite $\kappa^E_j=\beta_j;\kappa_j$ and associativity, the left side is classified with $(\alpha_j;\beta_j);\kappa_j;m$. The $D(j)$ identity row of the pointwise equivalence, composed first with $\kappa_j$ and then with $m$, and the left identity rows of $\mathcal C$, classify this with $\kappa_j;m$. The right side is $\chi^D_j$ by definition. Thus the component rows assemble with the vertex morphism field from the $E$-cocone morphism to give
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\chi^D;m).
+$$
+The same construction applied to the ledger for $n$ gives
+$$
+\operatorname{CoconeMor}_{D}(\kappa,\chi^D;n).
+$$
+The universal uniqueness field of $\operatorname{ColimCocone}_{D}(K,\kappa)$, applied to the $D$-cocone $\chi^D$ and these two cocone morphisms, yields
+$$
+\operatorname{MorEq}_{\mathcal C}(K,X;m,n).
+$$
+This is exactly the uniqueness field for $\operatorname{ColimCocone}_{E}(K,\kappa^E)$.
 \end{proof}

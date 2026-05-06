@@ -1,0 +1,117 @@
+\begin{definition}[Differential-form admissible root row]
+\label{def:diffform-admissible-root-row}
+For fixed sources $\NameCert_{\ManifoldUp}$ and
+$\NameCert_{\TensorProductUp}$, an admissible $\DiffFormUp$ root row is exactly
+the visible BEDC tuple
+$$
+(BHist,\hsame,\Cont,\mathsf{ProbeBundle},
+\NameCert_{\ManifoldUp},\NameCert_{\TensorProductUp},
+\mathsf{Carr},\mathsf{Class},\mathsf{Wedge},\mathsf{Der})
+$$
+where $\mathsf{Carr}$ is the carrier row of
+\autoref{def:diffform-bhist-form-carrier}, $\mathsf{Class}$ is the classifier
+row of \autoref{def:diffform-bhist-form-classifier}, $\mathsf{Wedge}$ is the
+visible family consisting of \autoref{thm:diffform-wedge-ledger-coverage},
+\autoref{def:diffform-wedge-probe-concatenation-ledger},
+\autoref{def:diffform-wedge-associator-ledger}, and
+\autoref{def:diffform-wedge-degree-ledger}, and $\mathsf{Der}$ is the
+exterior-derivative input family consisting of
+\autoref{def:diffform-exterior-derivative-candidate-row} and
+\autoref{thm:diffform-exterior-derivative-input-output-ledger-exactness}.
+No further carrier, classifier, closedness, nilpotence, nondegeneracy, contact
+nonintegrability, or bridge row is part of the root row.
+\end{definition}
+
+\begin{theorem}[Differential-form root-row carrier scope]
+\label{thm:diffform-root-row-carrier-scope}
+Every admissible root row of \autoref{def:diffform-admissible-root-row}
+exposes only the carried form rows of
+\autoref{def:diffform-bhist-form-carrier}, the classifier rows of
+\autoref{def:diffform-bhist-form-classifier}, and the source boundary of
+\autoref{thm:diffform-source-scope} on its carrier side.
+\end{theorem}
+\begin{proof}
+Unpack the root row. Its carrier coordinate is named as
+$\mathsf{Carr}$ and is definitionally the row of
+\autoref{def:diffform-bhist-form-carrier}; its classifier coordinate is
+$\mathsf{Class}$ and is definitionally the row of
+\autoref{def:diffform-bhist-form-classifier}.
+
+Project the carried row through \autoref{thm:diffform-source-scope}. The only
+structural sources available to the carrier and classifier are $BHist$,
+$\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$.
+
+The definition of the root row contains no second carrier slot and no
+additional classifier slot. Hence every carrier-side read factors through the
+two displayed definitions and the cited source boundary.
+\end{proof}
+
+\begin{theorem}[Differential-form root-row wedge scope]
+\label{thm:diffform-root-row-wedge-scope}
+Every wedge use admitted by \autoref{def:diffform-admissible-root-row} is
+limited to \autoref{thm:diffform-wedge-ledger-coverage},
+\autoref{def:diffform-wedge-probe-concatenation-ledger},
+\autoref{def:diffform-wedge-associator-ledger}, and
+\autoref{def:diffform-wedge-degree-ledger}.
+\end{theorem}
+\begin{proof}
+Inspect the $\mathsf{Wedge}$ coordinate of the root row. It is declared as the
+four displayed wedge rows and no operator law beyond those rows.
+
+The coverage theorem supplies the admitted tensor concatenation surface. The
+probe-concatenation ledger records the probe spine, the associator ledger
+records parenthesized tensor transport, and the degree ledger records the
+visible unary degree bookkeeping.
+
+Since the root row has no other wedge coordinate, any downstream wedge read
+must choose one of these four rows. A Leibniz rule, closedness row, or
+nilpotence row is therefore not present in the $\DiffFormUp$ root surface.
+\end{proof}
+
+\begin{theorem}[Differential-form root-row derivative scope]
+\label{thm:diffform-root-row-derivative-scope}
+Every exterior-derivative input admitted by
+\autoref{def:diffform-admissible-root-row} is one of the candidate rows of
+\autoref{def:diffform-exterior-derivative-candidate-row} together with the
+exactness rows of
+\autoref{thm:diffform-exterior-derivative-input-output-ledger-exactness}.
+\end{theorem}
+\begin{proof}
+Read the $\mathsf{Der}$ coordinate. It lists the candidate row definition and
+the input-output ledger exactness theorem as the complete exterior-derivative
+input family.
+
+The candidate row supplies only the source carried row, target carried row,
+degree entries, one-step continuation row, probe bundle, tensor row, scalar
+endpoint, antisymmetry ledger, and source ledger. The exactness theorem then
+states that accepted input-output use is exhausted by those visible rows.
+
+No additional derivative law is declared in the root row. Thus a second
+derivative identity, closedness assertion, or bridge comparison must come from
+a consumer certificate rather than from $\DiffFormUp$.
+\end{proof}
+
+\begin{theorem}[Differential-form root-row downstream boundary]
+\label{thm:diffform-root-row-downstream-boundary}
+The chapters $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ may consume the
+$\DiffFormUp$ surface only through the admissible root row of
+\autoref{def:diffform-admissible-root-row}. They must supply closedness,
+nondegeneracy, and contact nonintegrability in their own certificates.
+\end{theorem}
+\begin{proof}
+Combine the three scope projections above. The carrier projection gives only
+the carrier, classifier, and source rows; the wedge projection gives only the
+four wedge ledgers; the derivative projection gives only the candidate rows
+and input-output exactness rows.
+
+A $\DeRhamUp$ consumer may therefore read the displayed exterior-derivative
+input family, but it receives no $d^2=0$ or closedness row. A
+$\SymplecticUp$ consumer may read carried forms and wedge ledgers, but it
+receives no nondegeneracy row.
+
+A $\ContactUp$ consumer may read the same carrier, wedge, and derivative
+surface, but it receives no contact nonintegrability row. These three
+geometric obligations are not coordinates of the admissible root row, so each
+must be certified on the consuming surface itself.
+\end{proof}

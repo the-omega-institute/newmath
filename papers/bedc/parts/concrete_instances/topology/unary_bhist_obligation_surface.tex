@@ -1,0 +1,69 @@
+\begin{definition}[Unary BHist indexed topology source]
+\label{def:topology-unary-bhist-source}
+The unary $\mathsf{BHist}$ indexed topology source for $\TopologyUp$ fixes the point object to the BEDC history carrier together with the unary carrier predicate
+$$
+C_{\mathsf{un}}(x):\Longleftrightarrow \UnaryHistory(x).
+$$
+Its carrier classifier is the history classifier $\hsame(x,y)$ restricted to points satisfying $C_{\mathsf{un}}$. The source data are an index object $\mathsf{OpenIx}_{\mathsf{un}}$, a displayed membership predicate
+$$
+\mathsf{OpenAt}_{\mathsf{un}}:\mathsf{OpenIx}_{\mathsf{un}}\times\mathsf{BHist}\to\mathsf{Prop},
+$$
+a meet operation $i,j\mapsto i\wedge_{\TopologyUp}j$, indexed arbitrary-union witnesses, boundary indices $\bot_{\TopologyUp}$ and $\top_{\TopologyUp}$, and visible $\mathsf{BHist}$ ledger rows for each admitted open.
+
+The fields satisfy the indexed-open laws of \autoref{def:topology-indexed-open-carrier} on unary points: every $\mathsf{OpenAt}_{\mathsf{un}}(i,-)$ transports along $\hsame$, the meet index carries pointwise conjunction, the union witness carries pointwise indexed union, and the boundary indices carry the empty and whole unary predicates. A public open row is admitted only with a carried index and a ledger constructor naming one of the six rows of \autoref{def:topology-public-open-row}.
+\end{definition}
+
+\begin{theorem}[Unary indexed membership transport]
+\label{thm:topology-unary-membership-transport-obligation}
+Let $\mathcal{U}$ be the unary $\mathsf{BHist}$ indexed topology source of \autoref{def:topology-unary-bhist-source}. If an index $i:\mathsf{OpenIx}_{\mathsf{un}}$ carries a public unary predicate $U:\mathsf{BHist}\to\mathsf{Prop}$, then for all histories $x,y:\mathsf{BHist}$,
+$$
+\UnaryHistory(x)
+\Longrightarrow
+\UnaryHistory(y)
+\Longrightarrow
+\hsame(x,y)
+\Longrightarrow
+\bigl(U(x)\Longleftrightarrow U(y)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume the two unary carrier witnesses, the classifier witness $\hsame(x,y)$, and a carrying equation $h_i:\mathsf{CarriesOpen}_{\mathcal{U}}(i,U)$. The definition of the unary source says that the classifier of the indexed topology carrier is exactly the restricted $\hsame$ route on $\mathsf{BHist}$.
+
+Unfold the carrying equation at $x$ and $y$. It converts $U(x)$ and $U(y)$ into $\mathsf{OpenAt}_{\mathsf{un}}(i,x)$ and $\mathsf{OpenAt}_{\mathsf{un}}(i,y)$.
+
+The membership-stability field in \autoref{def:topology-unary-bhist-source}, read as the indexed-open stability field of \autoref{def:topology-indexed-open-carrier}, transports $\mathsf{OpenAt}_{\mathsf{un}}(i,-)$ along the displayed $\hsame(x,y)$ witness. Composing the two carrying equations with this transport gives the stated membership equivalence for $U$.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistPublicOpenTree\_unary\_membership\_transport}
+
+\begin{theorem}[Unary topology constructor ledger coverage]
+\label{thm:topology-unary-constructor-ledger-coverage}
+For the unary $\mathsf{BHist}$ indexed topology source of \autoref{def:topology-unary-bhist-source}, every admitted unary indexed open is carried by exactly one visible constructor row among singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, bottom, or top. The row exposes its carried index, its pointwise carrying equation, and its $\mathsf{BHist}$ provenance tag.
+\end{theorem}
+\begin{proof}
+Unfold the admission clause in \autoref{def:topology-unary-bhist-source}. It accepts a public unary open only as a topology public open row in the sense of \autoref{def:topology-public-open-row}, so an admitted row already contains an index, a carrying equation, and a ledger constructor.
+
+The constructor alternatives are the six alternatives listed in \autoref{def:topology-public-open-row}. Metric-generated singleton and finite-list rows are the coverage rows of \autoref{thm:topology-metric-generated-public-open-row-coverage}. Singleton bottom, top, meet, and union rows are the coverage rows of \autoref{thm:topology-singleton-public-open-row-coverage}.
+
+For composite rows, the downstream coverage theorem \autoref{thm:topology-downstream-open-constructor-coverage} identifies the same six constructor names and rules out any unindexed open predicate. Since the unary source records the constructor as a visible tagged ledger row, two different constructor names are not the same row of the source ledger; hence each admitted unary open has exactly the displayed row that introduced it.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyLedgerRow\_constructor\_coverage}
+
+\begin{theorem}[Topology deps-ready obligation package]
+\label{thm:topology-deps-ready-obligation-package}
+The unary $\mathsf{BHist}$ source of \autoref{def:topology-unary-bhist-source}, the transport theorem \autoref{thm:topology-unary-membership-transport-obligation}, the ledger coverage theorem \autoref{thm:topology-unary-constructor-ledger-coverage}, and the finite-intersection, arbitrary-union, and boundary closure theorems
+$$
+\autoref{thm:topology-indexed-open-finite-intersection},\qquad
+\autoref{thm:topology-indexed-open-arbitrary-union},\qquad
+\autoref{thm:topology-indexed-open-boundary-closure}
+$$
+assemble the paper-side $\TopologyUp$ obligation package consumed by $\ContinuousMapUp$, $\BanachUp$, $\ManifoldUp$, and $\ComplexTopologyUp$. A downstream consumer receives only the unary carrier $C_{\mathsf{un}}$, the restricted $\hsame$ classifier, a carried-open index, the carrying equation, the finite-intersection and arbitrary-union constructors, the boundary constructors, and the visible constructor ledger.
+\end{theorem}
+\begin{proof}
+The source definition fixes the downstream carrier and classifier: points are $\mathsf{BHist}$ histories satisfying $\UnaryHistory$, and all point transport is through the restricted $\hsame$ classifier. The theorem \autoref{thm:topology-unary-membership-transport-obligation} is the exported membership-transport rule for every carried unary open.
+
+Closure under finite intersections is the indexed-open theorem \autoref{thm:topology-indexed-open-finite-intersection}. Closure under arbitrary unions is \autoref{thm:topology-indexed-open-arbitrary-union}. Boundary opens are supplied by \autoref{thm:topology-indexed-open-boundary-closure}. These three theorems operate on the same carried-index interface named in the unary source.
+
+It remains to identify the public provenance that dependent chapters may cite. The coverage theorem \autoref{thm:topology-unary-constructor-ledger-coverage} restricts every admitted unary open to one visible constructor row, while \autoref{thm:topology-downstream-open-constructor-coverage} and the metric-generated and singleton coverage rows identify the same constructor list on the exported topology surface.
+
+Combining these fields gives the advertised obligation package. Continuous maps use the transported membership row for preimage obligations; Banach and manifold certificates use the carried-open closure rows for neighbourhood and chart domains; the complex-topology certificate uses the same unary-carried interface for its topological side. No clause constructs a standard topological-space object or replaces $\hsame$ by host equality.
+\end{proof}

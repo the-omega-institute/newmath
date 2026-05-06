@@ -129,4 +129,52 @@ theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_reverse_em
       ⟨reverseCentral.1, reverseCentral.2.1, hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩
   exact ⟨collapse.2.1, reverseEmpty, collapse.2.2.1, collapse.2.2.2⟩
 
+theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_two_sided_empty_boundary_package
+    {p q p' q' x y dxy dyx : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness (append p' y) (append x q') (append (append p' dyx) q') ->
+        MetricDistanceDepth dxy = 0 ->
+          MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+              (append (append p BHist.Empty) q) ∧
+            MetricDistanceWitness (append p' BHist.Empty) (append BHist.Empty q')
+              (append (append p' BHist.Empty) q') ∧
+              MetricDistanceDepth dyx = 0 ∧ hsame x BHist.Empty ∧ hsame y BHist.Empty := by
+  intro forward reverse depthZero
+  have collapse :=
+    MetricDistanceWitness_prefix_independent_symmetric_zero_depth_collapse
+      (p := p) (q := q) (p' := p') (q' := q') (x := x) (y := y)
+      (dxy := dxy) (dyx := dyx) forward reverse depthZero
+  have forwardCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp forward
+  have forwardEmpty :
+      MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+        (append (append p BHist.Empty) q) :=
+    (MetricDistanceWitness_visible_context_empty_distance_iff (p := p) (q := q)
+      (x := BHist.Empty) (y := BHist.Empty)).mpr
+      ⟨forwardCentral.1, forwardCentral.2.1, hsame_refl BHist.Empty,
+        hsame_refl BHist.Empty⟩
+  have reversePackage :=
+    MetricDistanceWitness_prefix_independent_symmetric_zero_depth_reverse_empty_boundary_package
+      (p := p) (q := q) (p' := p') (q' := q') (x := x) (y := y)
+      (dxy := dxy) (dyx := dyx) forward reverse depthZero
+  exact
+    ⟨forwardEmpty, reversePackage.2.1, reversePackage.1, collapse.2.2.1, collapse.2.2.2⟩
+
+theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_reverse_distance_continuation_result
+    {p q p' q' x y dxy dyx l mid out : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness (append p' y) (append x q') (append (append p' dyx) q') ->
+        MetricDistanceDepth dxy = 0 -> Cont l dyx mid -> Cont mid dxy out ->
+          hsame out l := by
+  intro forward reverse depthZero leftCont rightCont
+  have collapse :=
+    MetricDistanceWitness_prefix_independent_symmetric_zero_depth_collapse
+      (p := p) (q := q) (p' := p') (q' := q') (x := x) (y := y)
+      (dxy := dxy) (dyx := dyx) forward reverse depthZero
+  exact
+    MetricDistanceWitness_prefix_independent_symmetric_zero_depth_distance_continuation_result
+      (p := p') (q := q') (p' := p) (q' := q) (x := y) (y := x)
+      (dxy := dyx) (dyx := dxy) reverse forward collapse.right.left leftCont rightCont
+
 end BEDC.Derived.MetricUp

@@ -1,0 +1,122 @@
+\section{Finite Extrema Interval Uniqueness}
+\label{sec:totalorder-finite-extrema-interval-unique}
+
+\begin{definition}[Concrete unary finite extrema interval witness]
+\label{def:totalorder-prefix-finite-extrema-interval-witness}
+For a finite BEDC-history spine $L:\mathsf{ListCarrier}(\mathsf{BHist})$, a
+pair $(m,M)$ is a concrete unary finite extrema interval witness when
+$$
+\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m,M)
+:=
+\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m)
+\land
+\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M).
+$$
+The carrier side condition is the same finite-carrier list hypothesis used by
+the minimum and maximum witness predicates.
+\end{definition}
+
+\begin{theorem}[Concrete unary prefix finite extrema interval uniqueness]
+\label{thm:totalorder-prefix-finite-extrema-interval-unique}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite BEDC-history
+spine in the helper of \autoref{def:list-carrier}. Assume every entry of $L$ is
+carried by $\mathsf{Carrier}_{\mathsf{u}}$ for the concrete $\TotalOrderUp$
+certificate of \autoref{thm:concrete-unary-prefix-totalorder-namecert}:
+$$
+\forall x.\; x\in L\to \mathsf{Carrier}_{\mathsf{u}}(x).
+$$
+If $(m,M)$ and $(m',M')$ satisfy
+$\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m,M)$ and
+$\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m',M')$, then
+$$
+\rho_{\mathsf{u}}(m,m')
+\land
+\rho_{\mathsf{u}}(M,M').
+$$
+
+The per-object fields are: traditional target finite closed interval endpoint
+uniqueness in a constructive total order; BEDC source finite
+$\mathsf{ListCarrier}$ spines and unary $\TotalOrderUp$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; relation
+$\le_{\mathsf{u}}$; stability obligations finite minimum and maximum
+classifier uniqueness; ledger the two interval witness records and their four
+endpoint witness projections; core theorem this interval uniqueness block;
+exactness paired classifier equality of lower and upper endpoint readbacks;
+standard bridge finite unary-word interval endpoint uniqueness; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the two interval witness records using
+\autoref{def:totalorder-prefix-finite-extrema-interval-witness}. The first
+record supplies a minimum witness for $m$ and a maximum witness for $M$ over
+$L$; the second supplies a minimum witness for $m'$ and a maximum witness for
+$M'$ over the same finite spine.
+
+Apply
+\autoref{thm:totalorder-prefix-finite-minimum-classifier-unique} to the two
+minimum witness rows for $m$ and $m'$, together with the nonempty and carrier
+hypotheses on $L$. This gives the lower-endpoint classifier agreement
+$\rho_{\mathsf{u}}(m,m')$.
+
+Apply
+\autoref{thm:totalorder-prefix-finite-maximum-classifier-unique} to the two
+maximum witness rows for $M$ and $M'$, again over the same carried finite
+spine. This gives the upper-endpoint classifier agreement
+$\rho_{\mathsf{u}}(M,M')$.
+
+Pair the two classifier conclusions. The resulting statement is a concrete
+two-endpoint interval readback: changing the selected witnesses may change the
+visible histories, but only within $\rho_{\mathsf{u}}$ at the lower endpoint
+and within $\rho_{\mathsf{u}}$ at the upper endpoint.
+\end{proof}
+
+\begin{theorem}[Concrete unary prefix finite extrema interval certificate]
+\label{thm:totalorder-prefix-finite-extrema-interval-certificate}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite BEDC-history
+spine in the helper of \autoref{def:list-carrier}. Assume every entry of $L$ is
+carried by $\mathsf{Carrier}_{\mathsf{u}}$ for the concrete $\TotalOrderUp$
+certificate of \autoref{thm:concrete-unary-prefix-totalorder-namecert}:
+$$
+\forall x.\; x\in L\to \mathsf{Carrier}_{\mathsf{u}}(x).
+$$
+Then there exist histories $m,M$ such that
+$$
+\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m,M)
+$$
+holds and every other interval witness $(m',M')$ over the same spine satisfies
+$$
+\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m',M')
+\to
+\bigl(\rho_{\mathsf{u}}(m,m')\land\rho_{\mathsf{u}}(M,M')\bigr).
+$$
+
+The per-object fields are: traditional target finite closed interval extraction
+in a constructive total order; BEDC source finite $\mathsf{ListCarrier}$ spines
+plus unary $\TotalOrderUp$; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier
+$\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; stability finite extrema
+existence plus interval endpoint uniqueness; ledger selected lower and upper
+witnesses; core theorem this block; exactness classifier-stable interval
+endpoints; standard bridge finite unary-word closed interval; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Invoke \autoref{thm:totalorder-prefix-finite-extrema-certificate} on the
+nonempty carried finite spine $L$. It supplies selected histories $m$ and $M$
+together with the minimum witness row for $m$, the maximum witness row for $M$,
+and the classifier-stability clauses attached to those selected rows.
+
+Repack the selected lower and upper witness rows through
+\autoref{def:totalorder-prefix-finite-extrema-interval-witness}. This gives
+$\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m,M)$ for the selected
+pair.
+
+Now let $(m',M')$ be any other pair satisfying
+$\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m',M')$. Apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} to the selected
+interval witness and the competing interval witness over the same $L$.
+
+The uniqueness theorem returns
+$\rho_{\mathsf{u}}(m,m')\land\rho_{\mathsf{u}}(M,M')$. Thus the selected
+finite interval exists and its lower and upper endpoints are classifier-stable
+against every other interval witness for the same carried finite spine.
+\end{proof}

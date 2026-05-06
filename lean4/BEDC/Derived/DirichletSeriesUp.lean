@@ -8,9 +8,18 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexLimitUp
+open BEDC.Derived.ComplexUp
 
 def DirichletTerm (coeff : BHist -> BHist) (n s : BHist) : BHist :=
   append (coeff n) s
+
+theorem DirichletTerm_complex_carrier_well_defined {coeff : BHist -> BHist} {n s : BHist} :
+    UnaryHistory n -> ComplexHistoryCarrier (coeff n) -> ComplexHistoryCarrier s ->
+      ComplexHistoryCarrier (DirichletTerm coeff n s) := by
+  intro _unaryN coeffCarrier sCarrier
+  unfold DirichletTerm
+  exact ComplexHistoryCarrier_append_unary_closed coeffCarrier
+    (ComplexHistoryCarrier_unary sCarrier)
 
 inductive DirichletPartSum (term : BHist -> BHist -> BHist) (s : BHist) :
     BHist -> BHist -> Prop where
@@ -271,6 +280,20 @@ theorem DirichletSeriesIndex_append_unary_tail_nonempty {n tail : BHist} :
 def DirichletPositiveIndex (n : BHist) : Prop :=
   exists tail : BHist, UnaryHistory tail /\ n = BHist.e1 tail
 
+theorem DirichletTerm_positive_index_append_hsame_transport
+    {coeff coeff' : BHist -> BHist} {n n' s s' t t' : BHist} :
+    DirichletPositiveIndex n -> DirichletPositiveIndex n' ->
+      hsame t (append (coeff n) s) -> hsame t' (append (coeff' n') s') ->
+        hsame (coeff n) (coeff' n') -> hsame s s' ->
+          hsame t t' ∧ hsame t (DirichletTerm coeff n s) ∧
+            hsame t' (DirichletTerm coeff' n' s') := by
+  intro _positiveN _positiveN' sameT sameT' sameCoeff sameS
+  have sameTerms : hsame (append (coeff n) s) (append (coeff' n') s') := by
+    exact hsame_trans (congrArg (fun x : BHist => append x s) sameCoeff)
+      (congrArg (append (coeff' n')) sameS)
+  exact And.intro (hsame_trans sameT (hsame_trans sameTerms (hsame_symm sameT')))
+    (And.intro sameT sameT')
+
 def DirichletCoefficient_completely_multiplicative (coeff : BHist -> BHist) : Prop :=
   hsame (coeff (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) ∧
     forall {m n : BHist}, DirichletPositiveIndex m -> DirichletPositiveIndex n ->
@@ -406,6 +429,108 @@ def DirichletSeriesConv (term : BHist -> BHist -> BHist) (s S : BHist) : Prop :=
     (forall n : BHist, UnaryHistory n -> DirichletPartSum term s n (ps n)) /\
       ComplexLimit ps N S M
 
+def DirichletClassifierSpec (term : BHist -> BHist -> BHist) (s S T : BHist) : Prop :=
+  DirichletSeriesConv term s S ∧ hsame S T
+
+theorem DirichletClassifierSpec_limit_transport {term : BHist -> BHist -> BHist}
+    {s S T U : BHist} :
+    DirichletClassifierSpec term s S T -> hsame T U ->
+      exists ps : BHist -> BHist, exists N : BHist -> BHist, exists M : BHist -> BHist,
+        (forall n : BHist, UnaryHistory n -> DirichletPartSum term s n (ps n)) ∧
+          ComplexLimit ps N U M ∧ DirichletClassifierSpec term s S U := by
+  intro classified sameTU
+  cases classified with
+  | intro conv sameST =>
+      cases conv with
+      | intro ps convRest =>
+          cases convRest with
+          | intro N convRest =>
+              cases convRest with
+              | intro M data =>
+                  have sameSU : hsame S U := hsame_trans sameST sameTU
+                  exact Exists.intro ps
+                    (Exists.intro N
+                      (Exists.intro M
+                        (And.intro data.left
+                          (And.intro (ComplexLimit_hsame_transport sameSU data.right)
+                            (And.intro
+                              (Exists.intro ps
+                                (Exists.intro N
+                                  (Exists.intro M (And.intro data.left data.right))))
+                              sameSU)))))
+
+def DirichletSeriesClassifierSpec (term : BHist -> BHist -> BHist)
+    (s S T : BHist) : Prop :=
+  DirichletSeriesConv term s S ∧ DirichletSeriesConv term s T ∧ hsame S T
+
+theorem DirichletSeriesClassifierSpec_limit_transport
+    {term : BHist -> BHist -> BHist} {s S T witness : BHist} :
+    UnaryHistory witness -> Cont S witness T -> hsame S T -> DirichletSeriesConv term s S ->
+      DirichletSeriesClassifierSpec term s S T := by
+  intro _witnessUnary _continuation sameST convergence
+  cases convergence with
+  | intro ps convergenceRest =>
+      cases convergenceRest with
+      | intro N convergenceRest =>
+          cases convergenceRest with
+          | intro M data =>
+              have transported : DirichletSeriesConv term s T :=
+                Exists.intro ps
+                  (Exists.intro N
+                    (Exists.intro M
+                      (And.intro data.left
+                        (ComplexLimit_hsame_transport sameST data.right))))
+              exact And.intro
+                (Exists.intro ps (Exists.intro N (Exists.intro M data)))
+                (And.intro transported sameST)
+
+def AbsConvAbscissa (term : BHist -> BHist -> BHist) (sigma : BHist) : Prop :=
+  UnaryHistory sigma ∧ exists witness : BHist, UnaryHistory witness ∧
+    forall {s S : BHist}, ComplexHistoryCarrier s -> DirichletSeriesConv term s S ->
+      Cont sigma witness S -> ComplexHistoryCarrier S
+
+def DirichletSourceSpec
+    (term : BHist -> BHist -> BHist) (s sigma witness S : BHist) : Prop :=
+  AbsConvAbscissa term sigma ∧ ComplexHistoryCarrier s ∧ DirichletSeriesConv term s S ∧
+    UnaryHistory witness ∧ Cont sigma witness S
+
+theorem AbsConvAbscissa_witness_result_carrier
+    {term : BHist -> BHist -> BHist} {sigma s S : BHist} :
+    AbsConvAbscissa term sigma -> ComplexHistoryCarrier s -> DirichletSeriesConv term s S ->
+      exists witness : BHist, UnaryHistory witness ∧
+        (Cont sigma witness S -> ComplexHistoryCarrier S) := by
+  intro abscissa sourceCarrier convergence
+  cases abscissa with
+  | intro _sigmaUnary witnessRow =>
+      cases witnessRow with
+      | intro witness witnessData =>
+          exact Exists.intro witness
+            (And.intro witnessData.left
+              (fun continuation =>
+                have resultCarrier : ComplexHistoryCarrier S :=
+                  witnessData.right sourceCarrier convergence continuation
+                resultCarrier))
+
+theorem DirichletSourceSpec_result_carrier
+    {term : BHist -> BHist -> BHist} {s sigma witness S : BHist} :
+    DirichletSourceSpec term s sigma witness S -> ComplexHistoryCarrier S := by
+  intro source
+  cases source.right.right.left with
+  | intro ps convRest =>
+      cases convRest with
+      | intro N convRest =>
+          cases convRest with
+          | intro M convData =>
+              exact convData.right.right.left
+
+theorem DirichletSourceSpec_witness_result_carrier
+    {term : BHist -> BHist -> BHist} {s sigma witness S : BHist} :
+    DirichletSourceSpec term s sigma witness S ->
+      ∃ witness : BHist, UnaryHistory witness ∧
+        (Cont sigma witness S -> ComplexHistoryCarrier S) := by
+  intro source
+  exact AbsConvAbscissa_witness_result_carrier source.left source.right.left source.right.right.left
+
 theorem dirichlet_semantic_name_certificate {term : BHist -> BHist -> BHist}
     {s S : BHist} :
     DirichletSeriesConv term s S ->
@@ -444,6 +569,35 @@ theorem dirichlet_semantic_name_certificate {term : BHist -> BHist -> BHist}
     ledger_sound := by
       intro _h source
       exact source
+  }
+
+theorem dirichlet_name_certificate {term : BHist -> BHist -> BHist} {s S : BHist}
+    (conv : DirichletSeriesConv term s S) :
+    NameCert (DirichletSeriesConv term s) hsame := by
+  exact {
+    carrier_inhabited := Exists.intro S conv
+    equiv_refl := by
+      intro h _carrier
+      exact hsame_refl h
+    equiv_symm := by
+      intro h k same
+      exact hsame_symm same
+    equiv_trans := by
+      intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    carrier_respects_equiv := by
+      intro h k same carrier
+      cases carrier with
+      | intro ps rest =>
+          cases rest with
+          | intro N rest =>
+              cases rest with
+              | intro M data =>
+                  exact Exists.intro ps
+                    (Exists.intro N
+                      (Exists.intro M
+                        (And.intro data.left
+                          (ComplexLimit_hsame_transport same data.right))))
   }
 
 end BEDC.Derived.DirichletSeriesUp

@@ -284,6 +284,16 @@ def extract_horizons() -> dict[str, dict]:
         deps = {m.group(1).lower() for m in UP_REF_RE.finditer(full_text)}
         deps.discard(name)
         thms = len(LEAN_MARKER_RE.findall(full_text))
+        # `labels` counts paper obligation `\label{thm|def|...}` slugs in
+        # the chapter's full include closure. Distinct from `thms` (lean
+        # markers): paper writes obligations first, lean catches up
+        # later. `deps_ready` uses `max(thms, labels)` so a chapter with
+        # paper obligation content is treated as "ready" downstream
+        # before its lean side has filled in markers — otherwise root
+        # chapters with rich paper obligations but no lean markers stay
+        # in dep-blocked limbo.
+        labels = len({f"{m.group(1)}:{m.group(2)}"
+                      for m in PAPER_LABEL_FULL_RE.finditer(full_text)})
         retired, theory_grade, formal_grade, lean_target = (
             is_chapter_retired_from_horizon(full_text, name)
         )
@@ -300,6 +310,7 @@ def extract_horizons() -> dict[str, dict]:
             "name": name,
             "deps": sorted(deps),
             "thms": thms,
+            "labels": labels,
             "closed_at": closed_at,
             "closed": retired,
             "closure_grounding": lean_target,
@@ -470,11 +481,29 @@ def transitive_downstream(horizons: dict[str, dict]) -> dict[str, int]:
 
 def deps_ready(name: str, horizons: dict[str, dict],
                 threshold: int = DEFAULT_DEPS_READY_THRESHOLD) -> bool:
-    """All declared deps must already have >= threshold theorems."""
+    """All declared deps must already have `>= threshold` of EITHER
+    lean markers (`thms`) OR paper obligation labels (`labels`).
+
+    Why max() instead of just `thms`: paper rounds write obligation
+    `\\label{thm:...}` blocks ahead of lean rounds adding
+    `\\leanchecked` markers. With strict `thms` check, a chapter
+    with rich paper obligation surface (e.g. bundle: 9 \\begin{theorem}
+    + 9 \\label) but 0 lean markers stays dep-blocked, blocking 5+
+    downstream chapters from entering critical_path.top. By the time
+    lean catches up the obligation surface may have moved on.
+
+    Using max(thms, labels) treats paper-written obligations as
+    "ready downstream" — the dep chapter has enough content that
+    lean rounds can now form lean targets against it.
+    """
     for d in horizons[name]["deps"]:
         if d not in horizons:
             continue  # external (e.g. a kernel object); ignore
-        if horizons[d]["thms"] < threshold:
+        ready = max(
+            horizons[d].get("thms", 0),
+            horizons[d].get("labels", 0),
+        )
+        if ready < threshold:
             return False
     return True
 
@@ -642,6 +671,191 @@ def _grade_lag(grade: str | None, order: list[str], threshold: str) -> int:
     return max(0, tgt - cur)
 
 
+def _inflight_paper_attack_chapters() -> set[str]:
+    """Scan `.worktrees/paper_P*/` for working-tree changes touching
+    `concrete_instances/<chapter>...` files. Returns the set of chapter
+    names currently being attacked by in-flight paper rounds whose
+    edits have NOT yet been committed.
+
+    `_recent_paper_attack_chapter_counts` only sees committed work,
+    so paper rounds dispatched within the last few minutes (still in
+    Phase REVISE) are invisible to it. With paper=8 concurrent and
+    only ~10 root-unblock candidates, multiple rounds dispatched in
+    the same minute all picked the same `top_root_unblocks[0]`,
+    each writing identical `\\label{thm:<chapter>-...}` content that
+    collided at merge time.
+
+    This in-flight scan complements the recency-counter: a chapter
+    currently being edited by ANY paper worktree is rotated out of
+    the next root_unblock dispatch, even before its first commit
+    lands. Cheap (~10ms): one `git status --porcelain` per paper
+    worktree.
+    """
+    chapters: set[str] = set()
+    worktrees_dir = ROOT / ".worktrees"
+    if not worktrees_dir.is_dir():
+        return chapters
+    pat = re.compile(
+        r"concrete_instances/(?:\d+_)?([a-z][a-z0-9_]*?)(?:_namecert|/|\.tex)"
+    )
+    for wt in worktrees_dir.glob("paper_P*"):
+        try:
+            out = subprocess.run(
+                ["git", "status", "--porcelain"],
+                cwd=str(wt), capture_output=True, text=True,
+                check=False, timeout=5,
+            ).stdout
+        except Exception:
+            continue
+        for line in out.splitlines():
+            # Status format: 2-char status + space + path. May also have
+            # rename arrows; just grab everything after first whitespace.
+            parts = line.strip().split(None, 1)
+            if len(parts) != 2:
+                continue
+            path = parts[1]
+            m = pat.search(path)
+            if m:
+                chapters.add(m.group(1))
+    return chapters
+
+
+def _recent_paper_attack_chapter_counts(window_minutes: int = 30) -> dict[str, int]:
+    """Count, per chapter, how many DISTINCT recent commits modified
+    files under that chapter's paper paths.
+
+    Used to dedupe `top_root_unblocks`: if 6 paper rounds in the last
+    30 min all already attacked `manifold`, the chapter probably has
+    enough in-flight work; rotate it out of the suggestion list so
+    other root chapters (hilbert / topology / numfield) get airtime.
+    Without this, v3.3's HARD GATE pulls every paper round to the
+    same top_root_unblocks[0] entry, producing duplicate-label storms
+    on merge. (Observed: 18/30 paper targets all attacked `manifold`
+    in a recent 2h window; 8 dup-label audit fails per round followed.)
+
+    Path → chapter mapping examples:
+      papers/bedc/parts/concrete_instances/74_manifold_namecert_construction.tex
+        → "manifold"
+      papers/bedc/parts/concrete_instances/manifold/singleton_empty_chart.tex
+        → "manifold"
+    """
+    counts: dict[str, int] = {}
+    try:
+        out = subprocess.run(
+            ["git", "log", "--all",
+             f"--since={window_minutes} minutes ago",
+             "--name-only", "--pretty=format:%H END_OF_COMMIT"],
+            cwd=str(ROOT), capture_output=True, text=True,
+            check=True, timeout=10,
+        ).stdout
+    except Exception:
+        return counts
+    seen_in_commit: set[str] = set()
+    for line in out.splitlines():
+        if "END_OF_COMMIT" in line or not line.strip():
+            for c in seen_in_commit:
+                counts[c] = counts.get(c, 0) + 1
+            seen_in_commit = set()
+            continue
+        # Match either `<n>_<chapter>_namecert_*` (numbered hub or sibling)
+        # or `<chapter>/<sibling>.tex` (subdirectory under concrete_instances).
+        m = re.search(
+            r"concrete_instances/(?:\d+_)?([a-z][a-z0-9_]*?)(?:_namecert|/|\.tex)",
+            line,
+        )
+        if m:
+            # Strip trailing `_namecert_*` / sibling suffixes so the matched
+            # token is the canonical lowercase chapter name.
+            seen_in_commit.add(m.group(1))
+    for c in seen_in_commit:
+        counts[c] = counts.get(c, 0) + 1
+    return counts
+
+
+def compute_root_unblocks(horizons: dict[str, dict],
+                            threshold: int,
+                            *, recent_attack_threshold: int = 1) -> list[dict]:
+    """Identify chapters whose `thms < threshold` are blocking the most
+    downstream chapters from becoming `deps_ready`. These are the
+    "root-of-tree" stubs that paper P-rounds should attack first to
+    unblock large fan-outs.
+
+    For each candidate root R (open, non-schema, `thms < threshold`),
+    count how many OTHER open non-schema chapters M satisfy:
+      - R ∈ M.deps
+      - every other dep of M (besides R) is already at `thms >= threshold`
+    i.e. R is the SINGLE remaining blocker for M. Lifting R to ready
+    immediately unblocks `unblock_count` downstream chapters.
+
+    Recency filter: chapters that already have
+    `recent_attack_threshold` or more commits in the last 30 min are
+    rotated OUT of the output, so concurrent paper rounds spread their
+    attention across the root tree instead of dogpiling the top entry.
+    `recent_attack_threshold=1` empirically required: codex deterministically
+    writes the SAME obligation labels for the same chapter+task prompt,
+    so even 2 concurrent rounds attacking the same root chapter produce
+    duplicate `\\label{thm:<chapter>-...}` collisions. Threshold=1 means
+    a chapter is rotated out the moment one commit lands; with paper=8
+    workers, this still leaves enough chapters in rotation as long as
+    `top_root_unblocks` has at least ~10 entries.
+
+    Returns sorted list `[{name, thms, deps, unblock_count, file_paper,
+    recent_attacks, inflight}, ...]` descending by unblock_count, only entries
+    with `unblock_count > 0`, `recent_attacks < recent_attack_threshold`,
+    AND `not inflight` (some other paper worktree is currently editing).
+    """
+    recent = _recent_paper_attack_chapter_counts(window_minutes=30)
+    inflight = _inflight_paper_attack_chapters()
+    candidates: list[dict] = []
+    for n, info in horizons.items():
+        if info.get("closed"):
+            continue
+        if n in SCHEMA_ONLY_HORIZONS:
+            continue
+        if info.get("thms", 0) >= threshold:
+            continue
+        # Count downstream chapters where n is the SINGLE remaining blocker.
+        unblock = 0
+        for m, mh in horizons.items():
+            if m == n or mh.get("closed"):
+                continue
+            if m in SCHEMA_ONLY_HORIZONS:
+                continue
+            if n not in mh.get("deps", []):
+                continue
+            other_blockers = 0
+            for d in mh["deps"]:
+                if d == n:
+                    continue
+                if d not in horizons:
+                    continue  # external (kernel) — assume ready
+                if horizons[d].get("thms", 0) < threshold:
+                    other_blockers += 1
+            if other_blockers == 0:
+                unblock += 1
+        if unblock <= 0:
+            continue
+        if n in inflight:
+            # Another paper worktree is currently editing this chapter;
+            # any new round picking it would write duplicate labels.
+            continue
+        recent_count = recent.get(n, 0)
+        if recent_count >= recent_attack_threshold:
+            # Already getting heavy attention from concurrent rounds;
+            # rotate out so other roots get a turn.
+            continue
+        candidates.append({
+            "name": n,
+            "thms": info.get("thms", 0),
+            "deps": info.get("deps", []),
+            "unblock_count": unblock,
+            "recent_attacks": recent_count,
+            "file_paper": info.get("file_paper"),
+        })
+    candidates.sort(key=lambda r: (-r["unblock_count"], r["thms"], r["name"]))
+    return candidates
+
+
 def main() -> int:
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
@@ -674,15 +888,22 @@ def main() -> int:
         elif not info.get("closed"):
             open_count += 1
 
+    # Compute root-unblock candidates against the EFFECTIVE threshold
+    # (post-relaxation) so the suggestion list matches what _rank_at_threshold
+    # actually filtered against.
+    effective_threshold = relaxed_at if relaxed_at is not None else strict
+    root_unblocks = compute_root_unblocks(horizons, effective_threshold)
+
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "deps_ready_threshold": strict,
-        "deps_ready_threshold_used": relaxed_at if relaxed_at is not None else strict,
+        "deps_ready_threshold_used": effective_threshold,
         "deps_ready_relaxed": relaxed_at is not None,
         "closed_horizons": closed_count,
         "open_horizons": open_count,
         "granularity": "sibling",
         "top": rolled[:25],
+        "top_root_unblocks": root_unblocks[:10],
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0

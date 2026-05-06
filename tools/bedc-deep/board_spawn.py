@@ -31,6 +31,7 @@ from typing import Optional
 
 from dispatch_bedc_target import SCRIPT_DIR, REPO_ROOT, BOARD_PATH
 from locks import file_lock
+import codex_orchestrator
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -98,6 +99,8 @@ def _extract_json_object(text: str) -> Optional[dict]:
 
 
 def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
+    if os.environ.get("BEDC_DISABLE_CLAUDE"):
+        return (False, "claude disabled by BEDC_DISABLE_CLAUDE", -2)
     if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
         return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -151,6 +154,33 @@ def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str,
     (LOG_DIR / f"{log_tag}_{ts}.stdout.txt").write_text(stdout or "", encoding="utf-8")
     (LOG_DIR / f"{log_tag}_{ts}.stderr.txt").write_text(stderr or "", encoding="utf-8")
     return (rc == 0, stdout, rc)
+
+
+def _codex_json_fallback(
+    prompt: str,
+    *,
+    timeout: int,
+    log_tag: str,
+    role_note: str,
+) -> tuple[bool, dict, str, str]:
+    fallback_prompt = (
+        f"{role_note}\n"
+        "Act as the independent fallback BOARD judge. Preserve the same "
+        "fit/novelty thresholds, reject when uncertain, return only the JSON "
+        "object requested by the original prompt, and do not edit files.\n\n"
+        f"{prompt}"
+    )
+    result = codex_orchestrator.codex_exec(
+        fallback_prompt,
+        timeout=timeout,
+        log_tag=f"{log_tag}_codex_fallback",
+    )
+    if not result.ok:
+        return (False, {}, result.raw_output, result.error or f"codex rc={result.rc}")
+    parsed = result.parsed or _extract_json_object(result.raw_output) or {}
+    if not parsed:
+        return (False, {}, result.raw_output, "codex fallback output was not JSON")
+    return (True, parsed, result.raw_output, "")
 
 
 # ---------------------------------------------------------------------------
@@ -236,10 +266,33 @@ def _judge_candidates(
     log_tag = "board_judge"
     ok, stdout, rc = _claude_exec(prompt, timeout=DEFAULT_JUDGE_TIMEOUT, log_tag=log_tag)
     if not ok:
-        return ([], [], f"claude judge rc={rc}: {stdout[:300]}")
-    parsed = _extract_json_object(stdout)
+        fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
+            prompt,
+            timeout=DEFAULT_JUDGE_TIMEOUT,
+            log_tag=log_tag,
+            role_note=(
+                "Claude is unavailable for the BEDC BOARD spawn judge. "
+                "Interpret the original prompt's 'claude evaluation' as this "
+                "fallback gate's independent second-pass evaluation."
+            ),
+        )
+        if not fallback_ok:
+            return ([], [], f"claude judge rc={rc}: {stdout[:300]}; codex fallback: {fallback_error[:300]}")
+    else:
+        parsed = _extract_json_object(stdout)
     if not parsed:
-        return ([], [], "claude judge output was not JSON")
+        fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
+            prompt,
+            timeout=DEFAULT_JUDGE_TIMEOUT,
+            log_tag=log_tag,
+            role_note=(
+                "Claude returned non-JSON for the BEDC BOARD spawn judge. "
+                "Interpret the original prompt's 'claude evaluation' as this "
+                "fallback gate's independent second-pass evaluation."
+            ),
+        )
+        if not fallback_ok:
+            return ([], [], f"claude judge output was not JSON; codex fallback: {fallback_error[:300]}")
     accepted = parsed.get("accepted_candidates") or []
     rejected = parsed.get("rejected_candidates") or []
     return (accepted if isinstance(accepted, list) else [],

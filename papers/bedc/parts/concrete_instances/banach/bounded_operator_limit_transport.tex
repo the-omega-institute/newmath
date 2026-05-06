@@ -1,0 +1,148 @@
+\begin{definition}[Banach bounded linear operator limit comparison]
+\label{def:banach-bounded-linear-operator-limit-comparison}
+Let $C,D$ be $\BanachUp$ candidates, let
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ be a carried bounded-linear operator
+row, and let $s$ be a regular Cauchy $\StreamNameUp$ stream over the
+norm-induced metric of $C$ with observations $X_n$. A bounded-linear operator
+limit comparison datum is the BEDC package
+$$
+\mathsf{BanachBLOpLimit}(C,D,T,K,\Lambda,s,\mu,\ell,L,s_T,\mu_T,\ell_T,L_T)
+$$
+consisting of the source complete-metric limit witness
+$$
+\mathsf{CompleteMetricLimitWitness}(C,s,\mu,\ell,L),
+$$
+the pointwise target stream $s_T$ with observations $T(X_n)$, the displayed
+target limit history $\ell_T:=T(\ell)$, a target complete-metric limit witness
+$$
+\mathsf{CompleteMetricLimitWitness}(D,s_T,\mu_T,\ell_T,L_T),
+$$
+and the visible operator ledger $\Lambda$ recording the source endpoint row,
+target endpoint row, source and target norm rows, additive and scalar
+compatibility rows, bound endpoint $K$, and bound-comparison rows used to
+turn source late-distance estimates into target late-distance estimates.
+\end{definition}
+
+\begin{theorem}[Bounded linear operator transports limit witnesses]
+\label{thm:banach-bounded-linear-operator-limit-witness-transport}
+Let $C,D$ be $\BanachUp$ candidates, let
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ be carried, and let
+$$
+\mathsf{CompleteMetricLimitWitness}(C,s,\mu,\ell,L)
+$$
+be a source limit witness for a regular Cauchy $\StreamNameUp$ stream $s$ over
+the norm-induced metric of $C$. Then the pointwise stream $s_T$ with
+observations $T(s(n))$ admits a complete-metric limit witness over $D$ with
+limit history $T(\ell)$. The witness is the target component of
+\autoref{def:banach-bounded-linear-operator-limit-comparison}.
+\end{theorem}
+\begin{proof}
+First build the target stream. Apply
+\autoref{thm:banach-bounded-linear-operator-cauchy-transport} to the carried
+operator row and the source regular Cauchy stream. Its conclusion supplies the
+regular Cauchy $\StreamNameUp$ stream whose observations are $T(s(n))$, with
+target endpoint rows read from $\Lambda$.
+
+Next transport the candidate limit endpoint. The source witness carries
+$\ell$ as a point of $C$, and the target endpoint row of
+\autoref{def:banach-bounded-linear-operator-carrier} carries $T(\ell)$ as a
+point of $D$. The same ledger supplies the target norm row and all classifier
+transport needed to read $T(\ell)$ at the Banach point surface.
+
+It remains to assemble convergence. Fix a positive target tolerance. Use the
+RealUp bound row for $K$ to choose a positive source tolerance whose product
+with $K$ is below the requested target tolerance. The source
+$\mathsf{CompleteMetricLimitWitness}$ gives a threshold after which
+$d_C(s(n),\ell)$ is below that source tolerance.
+
+For every late observation, apply
+\autoref{thm:banach-bounded-linear-operator-lipschitz} to $s(n)$ and $\ell$.
+The displayed estimate
+$$
+d_D(T(s(n)),T(\ell))\le K\cdot d_C(s(n),\ell)
+$$
+combines with the source convergence bound and the RealUp comparison chosen
+above. Repacking the target stream, target limit, late-distance rows, and
+comparison ledgers gives the required
+$\mathsf{CompleteMetricLimitWitness}(D,s_T,\mu_T,T(\ell),L_T)$.
+\end{proof}
+
+\begin{theorem}[Bounded linear operator limit commutation]
+\label{thm:banach-bounded-linear-operator-limit-commutation}
+Let $C,D$ be $\BanachUp$ candidates, let
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ be carried, and suppose $s$ has source
+limit witness
+$$
+\mathsf{CompleteMetricLimitWitness}(C,s,\mu,\ell,L).
+$$
+If a target complete-metric witness
+$$
+\mathsf{CompleteMetricLimitWitness}(D,s_T,\mu',\ell',L')
+$$
+is supplied for the pointwise stream $s_T(n)=T(s(n))$, then the Banach point
+classifier of $D$ identifies $\ell'$ with $T(\ell)$.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:banach-bounded-linear-operator-limit-witness-transport} to the
+source limit witness. This constructs a target complete-metric limit witness
+for the same pointwise stream $s_T$ whose displayed limit history is
+$T(\ell)$.
+
+Now compare the two target witnesses. The supplied witness has limit
+$\ell'$, while the transported witness has limit $T(\ell)$; both are
+complete-metric limit witnesses for the same target stream over the same
+Banach carrier $D$.
+
+Apply \autoref{thm:banach-limit-uniqueness}. Its separatedness input is the
+Banach norm-distance zero exactness already recorded for the target carrier,
+and its conclusion is exactly the $D$-point classifier relation between
+$\ell'$ and $T(\ell)$.
+\end{proof}
+
+\begin{theorem}[Bounded linear operator limit NameCert surface]
+\label{thm:banach-bounded-linear-operator-limit-namecert-surface}
+For $\BanachUp$ candidates $C,D$, the comparison datum of
+\autoref{def:banach-bounded-linear-operator-limit-comparison}, together with
+\autoref{thm:banach-bounded-linear-operator-limit-witness-transport} and
+\autoref{thm:banach-bounded-linear-operator-limit-commutation}, assembles the
+paper-side naming-certificate surface for bounded-linear operator limits. The
+carrier is the displayed pair of source and target
+$\mathsf{CompleteMetricLimitWitness}$ rows connected by the operator ledger
+$\Lambda$; the classifier is componentwise $\hsame$ transport of the source
+stream, source limit, pointwise target stream, target limit, bound row, and
+late-distance ledgers; stability is inherited from the Banach,
+$\CompleteMetricUp$, $\StreamNameUp$, $\RealUp$, and $\NormUp$ rows; exactness
+is the classification of any supplied target limit with $T(\ell)$; and the
+ledger fields are the visible operator, norm, stream, limit, distance, and
+bound-comparison rows.
+\end{theorem}
+\begin{proof}
+The carrier field is the package displayed in
+\autoref{def:banach-bounded-linear-operator-limit-comparison}. It names the
+source Banach carrier, target Banach carrier, bounded-linear operator row,
+source complete-metric witness, pointwise target stream, transported limit,
+target complete-metric witness, and the visible operator ledger.
+
+The classifier field is componentwise transport. Banach endpoint transport
+moves source and target carried points, $\NormUp$ transport moves norm and
+metric rows, $\StreamNameUp$ transport moves observations and moduli, RealUp
+transport moves the bound and order comparisons, and
+$\CompleteMetricUp$ transport repacks the transported late-distance ledgers as
+complete-metric witnesses.
+
+The stability field is the witness-transport theorem. Apply
+\autoref{thm:banach-bounded-linear-operator-limit-witness-transport}; it
+turns the source convergence row, the Cauchy transport row, and the Lipschitz
+estimate into the target complete-metric witness with limit $T(\ell)$.
+
+The exactness field is the commutation theorem. Apply
+\autoref{thm:banach-bounded-linear-operator-limit-commutation}; it compares
+any supplied target witness for the pointwise stream with the transported
+witness and returns the target Banach classifier relation to $T(\ell)$.
+
+Thus the bounded-linear operator surface now exposes the standard limit
+transport obligation using only the existing Banach, CompleteMetricUp,
+StreamNameUp, RealUp, and NormUp certificate rows, with no additional
+parameter-transport schema.
+\end{proof}

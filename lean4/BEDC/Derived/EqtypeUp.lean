@@ -113,6 +113,26 @@ theorem EqtypeClassCarrier_visible_context_e0_anchor_e1_tail_absurd
     EqtypeClassCarrier_visible_context_anchor_readback carrier sameVisible
   exact not_hsame_e1_e0 mixed
 
+theorem EqtypeClassCarrier_anchor_hsame_transport {anchor anchor' h : BHist} :
+    EqtypeClassCarrier anchor h -> hsame anchor anchor' ->
+      EqtypeClassCarrier anchor' h ∧ hsame (append h BHist.Empty) anchor' := by
+  intro carrier sameAnchor
+  have transported : EqtypeClassCarrier anchor' h :=
+    hsame_trans carrier sameAnchor
+  have endpoint : hsame (append h BHist.Empty) anchor' :=
+    hsame_trans (append_empty_right h) transported
+  exact ⟨transported, endpoint⟩
+
+theorem EqtypeClassCarrier_transitive {anchor h h' : BHist} :
+    EqtypeClassCarrier anchor h -> EqtypeClassCarrier h h' ->
+      EqtypeClassCarrier anchor h' ∧ hsame (append h' BHist.Empty) anchor := by
+  intro carrier step
+  have transported : EqtypeClassCarrier anchor h' :=
+    hsame_trans step carrier
+  have endpoint : hsame (append h' BHist.Empty) anchor :=
+    hsame_trans (append_empty_right h') transported
+  exact ⟨transported, endpoint⟩
+
 theorem EqtypeClass_semanticNameCert {anchor : BHist} :
     SemanticNameCert (EqtypeClassCarrier anchor) (EqtypeClassCarrier anchor)
       (EqtypeClassCarrier anchor) hsame := by

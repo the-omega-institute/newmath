@@ -16,6 +16,84 @@ def GammaPoleLocus (s : BHist) : Prop :=
 def GammaDomainCore (s apart : BHist) : Prop :=
   ComplexHistoryCarrier s ∧ UnaryHistory apart ∧ (GammaPoleLocus s -> False)
 
+theorem GammaPoleLocus_shape_partition (s : BHist) :
+    (GammaPoleLocus s ∧ ∃ n : BHist, UnaryHistory n ∧
+      hsame s (append (BHist.e1 n) (BHist.e1 BHist.Empty))) ∨
+      (GammaPoleLocus s -> False) := by
+  have unaryPartition :
+      forall h : BHist, UnaryHistory h ∨ (UnaryHistory h -> False) := by
+    intro h
+    induction h with
+    | Empty =>
+        exact Or.inl unary_empty
+    | e0 h _ =>
+        exact Or.inr unary_no_zero_extension
+    | e1 h ih =>
+        cases ih with
+        | inl unaryH =>
+            exact Or.inl (unary_e1_closed unaryH)
+        | inr notUnaryH =>
+            exact Or.inr (fun unaryTail => notUnaryH (unary_e1_inversion unaryTail))
+  cases s with
+  | Empty =>
+      exact Or.inr (by
+        intro pole
+        cases pole with
+        | intro n data =>
+            exact not_hsame_emp_e1 data.right)
+  | e0 s =>
+      exact Or.inr (by
+        intro pole
+        cases pole with
+        | intro n data =>
+            exact not_hsame_e0_e1 data.right)
+  | e1 s =>
+      cases s with
+      | Empty =>
+          exact Or.inr (by
+            intro pole
+            cases pole with
+            | intro n data =>
+                exact not_hsame_emp_e1 (hsame_e1_iff.mp data.right))
+      | e0 s =>
+          exact Or.inr (by
+            intro pole
+            cases pole with
+            | intro n data =>
+                exact not_hsame_e0_e1 (hsame_e1_iff.mp data.right))
+      | e1 s =>
+          cases unaryPartition s with
+          | inl unaryS =>
+              have witness : hsame (BHist.e1 (BHist.e1 s))
+                  (append (BHist.e1 s) (BHist.e1 BHist.Empty)) :=
+                hsame_refl (BHist.e1 (BHist.e1 s))
+              exact Or.inl
+                (And.intro (Exists.intro s (And.intro unaryS witness))
+                  (Exists.intro s (And.intro unaryS witness)))
+          | inr notUnaryS =>
+              exact Or.inr (by
+                intro pole
+                cases pole with
+                | intro n data =>
+                    have sameTail : hsame s n :=
+                      hsame_e1_iff.mp (hsame_e1_iff.mp data.right)
+                    exact notUnaryS (unary_transport data.left (hsame_symm sameTail)))
+
+inductive GammaFactorial : BHist -> BHist -> Prop where
+  | zero : GammaFactorial BHist.Empty (BHist.e1 BHist.Empty)
+  | step {n m r : BHist} :
+      GammaFactorial n m -> Cont (BHist.e1 n) m r -> GammaFactorial (BHist.e1 n) r
+
+theorem GammaFactorial_unary_result {n m : BHist} :
+    GammaFactorial n m -> UnaryHistory n ∧ UnaryHistory m := by
+  intro factorial
+  induction factorial with
+  | zero =>
+      exact And.intro unary_empty (unary_e1_closed unary_empty)
+  | step previous stepContinuation ih =>
+      exact And.intro (unary_e1_closed ih.left)
+        (unary_cont_closed (unary_e1_closed ih.left) ih.right stepContinuation)
+
 theorem GammaPoleLocus_complex_carrier_witness {s : BHist} :
     GammaPoleLocus s ->
       ∃ n : BHist,

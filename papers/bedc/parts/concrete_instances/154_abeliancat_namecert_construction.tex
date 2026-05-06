@@ -6,5 +6,413 @@ The abelian-category interface $\AbelianCatUp$ packages an additive category in 
 \section{Carrier definition}
 \label{sec:abeliancat-carrier}
 
+\begin{definition}[AbelianCatUp additive kernel-cokernel carrier]
+\label{def:abeliancat-additive-kernel-cokernel-carrier}
+An $\AbelianCatUp$ additive kernel-cokernel carrier is a concrete
+$\mathsf{BHist}$ package
+$$
+\mathcal A=(\mathcal C,\mathcal H,\mathcal Z,\mathcal B,\mathcal G,\mathcal K,
+\mathcal Q,\mathcal F)
+$$
+with the following displayed rows.
+\begin{enumerate}
+  \item $\mathcal C$ is a $\CategoryUp$ carrier and classifier row, with object
+  carrier, morphism carrier, identity rows, composition rows, associativity,
+  unit laws, and componentwise $\hsame$ transport.
+  \item $\mathcal H(A,B)$ is the visible hom carrier row for each displayed pair
+  of objects $A,B$, classified by the morphism classifier inherited from
+  $\mathcal C$.
+  \item $\mathcal Z(A,B)$ gives the visible zero morphism row $0_{A,B}:A\to B$.
+  \item $\mathcal B(A,B)$ gives the visible binary biproduct rows for $A$ and
+  $B$, including the object $A\oplus B$, projections, injections, and their
+  four classifier equations.
+  \item $\mathcal G(A,B)$ is an $\AbGroupUp$ enrichment row on
+  $\mathcal H(A,B)$, with addition, zero, inverse, commutativity, and classifier
+  congruence displayed in the hom row.
+  \item $\mathcal K(f)$ gives, for every visible morphism $f:A\to B$, an object
+  $\ker(f)$, a morphism $k_f:\ker(f)\to A$, a zero-composite row, and the
+  universal factorisation ledger through $k_f$.
+  \item $\mathcal Q(f)$ gives, for every visible morphism $f:A\to B$, an object
+  $\operatorname{coker}(f)$, a morphism $q_f:B\to\operatorname{coker}(f)$, a
+  zero-composite row, and the universal cofactorisation ledger through $q_f$.
+  \item $\mathcal F(f)$ is the visible epi--mono factorisation ledger for $f$,
+  displaying image and coimage objects, the quotient-side arrow, the
+  inclusion-side arrow, the canonical comparison, and the classifier row saying
+  that the recomposed morphism is $f$.
+\end{enumerate}
+No object in this carrier is supplied by an external quotient or hidden
+subobject classifier. The kernel, cokernel, image, coimage, and comparison
+objects are selected rows of the same $\mathsf{BHist}$ package.
+\end{definition}
+
+\begin{theorem}[AbelianCatUp carrier classifier obligation]
+\label{thm:abeliancat-carrier-classifier-obligation}
+Let $\mathcal A$ be an $\AbelianCatUp$ additive kernel-cokernel carrier. If two
+presentations of $\mathcal A$ are related by componentwise $\hsame$ on the
+$\CategoryUp$ carrier, on every hom carrier, on every zero, biproduct,
+$\AbGroupUp$ enrichment, kernel, cokernel, image, coimage, comparison, and
+factorisation row, then the package carrier and every displayed row are
+transported to a classified presentation of the same $\AbelianCatUp$ carrier.
+\end{theorem}
+\begin{proof}
+Start with the $\CategoryUp$ carrier row. Its object, morphism, identity, and
+composition classifiers are part of $\mathcal C$, so componentwise $\hsame$
+transports the category carrier and the source and target data of each visible
+morphism.
+
+For each pair of transported objects $A,B$, the hom row
+$\mathcal H(A,B)$ is classified by the transported morphism classifier. The
+zero row, biproduct object, projections, and injections are displayed rows over
+the same endpoints, so the $\CategoryUp$ identity, composition, and classifier
+stability fields transport their typing and equations.
+
+It remains to transport the additive and exactness rows. The
+$\AbGroupUp$ enrichment supplies $\hsame$-stable addition, zero, inverse, and
+commutativity on each hom row. The kernel, cokernel, image, coimage, comparison,
+and factorisation ledgers are rows indexed by visible morphisms, so transporting
+the morphism row transports the indexed ledger row and its displayed
+composition equations. Repacking these transported projections gives the same
+$\AbelianCatUp$ carrier presentation.
+\end{proof}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatAdditiveCarrier\_classifier\_transport}
+
+\begin{theorem}[AbelianCatUp additive zero-biproduct obligation]
+\label{thm:abeliancat-additive-zero-biproduct-obligation}
+For an $\AbelianCatUp$ additive kernel-cokernel carrier $\mathcal A$, the zero
+morphisms, hom-row addition, and binary biproduct projections and injections
+are exactly the visible additive rows inherited from
+$\NameCert_{\AbGroupUp}$ on each hom carrier and from
+$\NameCert_{\CategoryUp}$ on identities, composition, and biproduct equations.
+\end{theorem}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatAdditiveCarrier\_zero\_biproduct\_rows}
+\begin{proof}
+Fix displayed objects $A$ and $B$. The hom row $\mathcal H(A,B)$ carries the
+$\AbGroupUp$ enrichment row $\mathcal G(A,B)$, so its zero element is the
+displayed zero morphism $0_{A,B}$ and its binary operation is the displayed
+hom-addition row. The $\AbGroupUp$ classifier congruence field supplies the
+transport of these rows under hom-classifier equivalence.
+
+The biproduct row $\mathcal B(A,B)$ is a $\CategoryUp$ row: it supplies the
+object $A\oplus B$, projections, injections, and the four equations expressed
+by the category morphism classifier. The zero morphisms appearing in those
+equations are the same $\mathcal Z$ rows selected by the hom
+$\AbGroupUp$ zero fields.
+
+Thus the additive part is not an extra semantic layer. The hom addition and
+zero rows are the $\AbGroupUp$ visible operation rows, and the biproduct
+typing and equations are the $\CategoryUp$ visible composition rows applied to
+the displayed projections and injections.
+\end{proof}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatAdditiveCarrier\_additive\_readback}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatKernelCokernelCarrier\_zero\_biproduct\_readback}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatAdditiveCarrier\_zero\_additive\_kernel\_boundary}
+
+\begin{theorem}[AbelianCatUp kernel-cokernel factorisation obligation]
+\label{thm:abeliancat-kernel-cokernel-factorization-obligation}
+For every visible morphism $f:A\to B$ in an $\AbelianCatUp$ additive
+kernel-cokernel carrier, the package exposes kernel, cokernel, image, coimage,
+canonical comparison, and epi--mono factorisation rows. The classified
+factorisation of $f$ is obtained from these rows and no hidden quotient object
+or external subobject is used.
+\end{theorem}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatKernelCokernelCarrier\_factorization\_rows}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatKernelCokernel\_visible\_factorization}
+\begin{proof}
+Project the kernel row $\mathcal K(f)$. It contains $\ker(f)$, the morphism
+$k_f:\ker(f)\to A$, the zero-composite classifier for $f\circ k_f$, and the
+factorisation ledger for every displayed morphism whose composite with $f$ is
+classified as zero.
+
+Project the cokernel row $\mathcal Q(f)$. It contains
+$\operatorname{coker}(f)$, the morphism
+$q_f:B\to\operatorname{coker}(f)$, the zero-composite classifier for
+$q_f\circ f$, and the cofactorisation ledger for every displayed morphism out
+of $B$ whose precomposition with $f$ is classified as zero.
+
+The image, coimage, comparison, and epi--mono factorisation data are the
+visible rows of $\mathcal F(f)$. Category composition stability types the
+recomposition, while the factorisation classifier row identifies that
+recomposition with $f$. Since every object and arrow used in the argument is a
+projection of $\mathcal K(f)$, $\mathcal Q(f)$, or $\mathcal F(f)$, the proof
+does not appeal to any object outside the displayed $\mathsf{BHist}$ package.
+\end{proof}
+
 \section{The certificate}
 \label{sec:abeliancat-certificate}
+
+\begin{definition}[AbelianCatUp zero-biproduct-kernel surface]
+\label{def:abeliancat-zero-biproduct-kernel-surface}
+The $\AbelianCatUp$ zero-biproduct-kernel surface over $\mathsf{BHist}$ is the
+displayed obligation package carried by an
+$\AbelianCatUp$ additive kernel-cokernel carrier $\mathcal A$. It consists of
+the following rows.
+\begin{enumerate}
+  \item The $\CategoryUp$ object and morphism carriers, with identity,
+  composition, associativity, unit, source, target, and morphism-classifier
+  rows.
+  \item For each displayed object pair $A,B$, a hom carrier
+  $\mathcal H(A,B)$ and an $\AbGroupUp$ classifier on that hom row, including
+  visible addition, zero, inverse, commutativity, and additive classifier
+  congruence.
+  \item A zero-object row $0_{\mathcal A}$ with displayed maps
+  $0_{\mathcal A}\to A$ and $A\to 0_{\mathcal A}$ classified through the
+  inherited $\CategoryUp$ morphism classifier.
+  \item For each displayed pair $A,B$, a binary biproduct row
+  $A\oplus B$ with projections, injections, the two diagonal identity rows,
+  and the two off-diagonal zero rows read in the hom-wise $\AbGroupUp$
+  classifiers.
+  \item For each visible morphism $f:A\to B$, a kernel row
+  $\ker(f)\xrightarrow{k_f}A$ with zero-composite and universal
+  factorisation ledger entries.
+  \item For each visible morphism $f:A\to B$, a cokernel row
+  $B\xrightarrow{q_f}\operatorname{coker}(f)$ with zero-composite and
+  universal cofactorisation ledger entries.
+  \item An exactness row whose image, coimage, canonical comparison, and
+  epi--mono recomposition entries are visible projections of the same
+  $\mathsf{BHist}$ package.
+  \item A ledger provenance row recording the source row for every carrier,
+  classifier, structural map, universal witness, and recomposition certificate
+  used by the preceding rows.
+\end{enumerate}
+This surface is a $\NameCert_{\AbelianCatUp}$ obligation interface: it names
+the rows downstream category and homological chapters may consume.
+\end{definition}
+\leanstmt{BEDC.Derived.AbelianCatUp.AbelianCatZeroBiproductKernelSurface}
+
+\begin{theorem}[AbelianCatUp zero-object obligation]
+\label{thm:abeliancat-zero-object-obligation}
+For the surface of
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}, the zero-object row is
+classifier-stable. If $A$ and $A'$ are related by the $\CategoryUp$
+object classifier, then the displayed rows $0_{\mathcal A}\to A$,
+$A\to 0_{\mathcal A}$, $0_{\mathcal A}\to A'$, and
+$A'\to 0_{\mathcal A}$ are related by the inherited morphism classifier, and
+the two composites through $0_{\mathcal A}$ are read as hom-wise
+$\AbGroupUp$ zero elements.
+\end{theorem}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatZeroBiproductKernelSurface\_zero\_object\_transport}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatZeroBiproductKernelSurface\_zero\_object\_boundary}
+\begin{proof}
+The zero object itself is a displayed carrier row of the same
+$\mathsf{BHist}$ package as the $\CategoryUp$ object carrier. Transporting
+$A$ to $A'$ along the object classifier therefore transports the source and
+target typing of the two visible maps attached to $0_{\mathcal A}$.
+
+The morphism classifier of $\CategoryUp$ then transports the two maps and
+their composites. When a composite is viewed inside a hom row, the
+$\AbGroupUp$ classifier on that hom row identifies the displayed composite
+with the listed zero element.
+
+Thus classifier stability is obtained by projecting the object row, then the
+morphism row, then the hom-wise zero classifier. No object outside the
+displayed carrier is introduced.
+\end{proof}
+
+\begin{theorem}[AbelianCatUp biproduct additive hom obligation]
+\label{thm:abeliancat-biproduct-additive-hom-obligation}
+For the surface of
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}, each binary
+biproduct row preserves the hom-wise $\AbGroupUp$ structure. The projections
+and injections of $A\oplus B$ are classified morphisms, their diagonal
+composites are the hom-wise additive identity rows, and their off-diagonal
+composites are the hom-wise zero rows.
+\end{theorem}
+\begin{proof}
+Fix displayed objects $A$ and $B$. The biproduct row supplies the object
+$A\oplus B$ together with projections and injections typed by the
+$\CategoryUp$ source and target rows.
+
+Composition in $\CategoryUp$ types the four projection-injection composites.
+The two diagonal composites are classified as the identity rows in the
+appropriate hom carriers, while the two off-diagonal composites are classified
+as the zero rows selected by the hom-wise $\AbGroupUp$ structures.
+
+The additive compatibility is therefore hom-local. Each equation is read
+inside a single $\mathcal H(X,Y)$, and the $\AbGroupUp$ classifier congruence
+transports addition, zero, and inverse across the same morphism classifier that
+types the biproduct maps.
+\end{proof}
+
+\begin{theorem}[AbelianCatUp kernel-cokernel obligation]
+\label{thm:abeliancat-kernel-cokernel-obligation}
+For the surface of
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}, kernel and cokernel
+rows are stable under the $\CategoryUp$ morphism classifier. If visible
+morphisms $f$ and $g$ are related by that classifier, then the displayed rows
+$\ker(f)$, $k_f$, $\operatorname{coker}(f)$, and $q_f$ transport to the
+corresponding rows for $g$ together with their zero-composite and universal
+ledger entries.
+\end{theorem}
+\begin{proof}
+Begin with a classifier relation between the visible morphisms $f$ and $g$.
+The kernel and cokernel rows are indexed by visible morphism rows, so transport
+along the morphism classifier carries the index $f$ to the index $g$.
+
+For kernels, this transport carries the object $\ker(f)$, the map $k_f$, the
+zero-composite row for $f\circ k_f$, and the factorisation ledger through
+$k_f$. The target statement for $g$ is exactly the transported indexed row.
+
+For cokernels, the same argument is dual at the displayed-row level: the object
+$\operatorname{coker}(f)$, the map $q_f$, the zero-composite row for
+$q_f\circ f$, and the cofactorisation ledger transport along the same
+morphism-classifier relation.
+\end{proof}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatKernelCokernelCarrier\_classifier\_transport}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatAdditiveCarrier\_factor\_unary\_closure}
+
+\begin{theorem}[AbelianCatUp exact-sequence obligation]
+\label{thm:abeliancat-exact-sequence-obligation}
+For the surface of
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}, the exactness row is
+read only through displayed kernel and cokernel factorisation classifiers.
+Every exact-sequence assertion in the surface is a statement about the listed
+kernel, cokernel, image, coimage, comparison, and recomposition rows of the
+same $\mathsf{BHist}$ package.
+\end{theorem}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatKernelCokernel\_recomposition\_audit\_row}
+\leanchecked{BEDC.Derived.AbelianCatUp.AbelianCatAdditiveCarrier\_factor\_append\_readback}
+\begin{proof}
+An exactness assertion is first reduced to the visible morphism whose image and
+coimage rows are listed in the package. The kernel and cokernel rows provide
+the zero-composite classifiers and the universal ledger entries required to
+factor through those rows.
+
+The image, coimage, and comparison entries are then projected from the
+factorisation ledger. Their recomposition row is typed by $\CategoryUp$
+composition and classified as the original visible morphism by the displayed
+recomposition classifier.
+
+Consequently the exactness predicate has no separate hidden carrier. It is a
+reading discipline for the kernel, cokernel, image, coimage, comparison, and
+factorisation rows already present in the surface.
+\end{proof}
+
+\begin{theorem}[AbelianCatUp NameCert obligation package]
+\label{thm:abeliancat-namecert-obligation-package}
+The surface of
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}, together with
+\autoref{thm:abeliancat-zero-object-obligation},
+\autoref{thm:abeliancat-biproduct-additive-hom-obligation},
+\autoref{thm:abeliancat-kernel-cokernel-obligation}, and
+\autoref{thm:abeliancat-exact-sequence-obligation}, repacks as the paper-side
+$\NameCert_{\AbelianCatUp}$ obligation package for downstream category and
+homological chapters.
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are the first two rows of
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}. They expose the
+$\CategoryUp$ object and morphism rows, the hom carriers, and the hom-wise
+$\AbGroupUp$ classifiers.
+
+The structural stability fields are supplied by the four obligation theorems.
+The zero-object theorem gives the classifier-stable zero-object row; the
+biproduct theorem gives the additive hom compatibility of projections and
+injections; the kernel-cokernel theorem gives stability of universal rows under
+the morphism classifier; the exact-sequence theorem restricts exactness to the
+displayed factorisation classifiers.
+
+The ledger field is the final row of the surface. Repacking these projections
+gives a single $\NameCert_{\AbelianCatUp}$ obligation package whose consumer
+chapters cite concrete rows rather than an unspecified abelian-category
+interface.
+\end{proof}
+
+\begin{theorem}[AbelianCatUp NameCert obligation surface]
+\label{thm:abeliancat-namecert-obligation-surface}
+An $\AbelianCatUp$ additive kernel-cokernel carrier $\mathcal A$ satisfying
+\autoref{thm:abeliancat-carrier-classifier-obligation},
+\autoref{thm:abeliancat-additive-zero-biproduct-obligation}, and
+\autoref{thm:abeliancat-kernel-cokernel-factorization-obligation} supplies the
+following ten-field $\NameCert_{\AbelianCatUp}$ obligation surface.
+\begin{enumerate}
+  \item Traditional target: an abelian category with additive hom groups,
+  binary biproducts, kernels, cokernels, and canonical epi--mono
+  factorisations.
+  \item BEDC source: the concrete $\mathsf{BHist}$ package of
+  \autoref{def:abeliancat-additive-kernel-cokernel-carrier}.
+  \item Carrier: the displayed object and morphism rows of the
+  $\CategoryUp$ component together with the visible hom carriers.
+  \item Classifier: the componentwise $\hsame$ classifier on objects,
+  morphisms, hom elements, additive rows, kernel rows, cokernel rows, and
+  factorisation rows.
+  \item Stability obligations: $\CategoryUp$ composition and identity
+  stability, $\AbGroupUp$ hom-addition stability, biproduct equation
+  stability, and componentwise $\hsame$ transport.
+  \item Ledger: source, hom, zero, addition, biproduct, kernel, cokernel,
+  image, coimage, comparison, and epi--mono factorisation provenance rows.
+  \item Core theorem list:
+  \autoref{thm:abeliancat-carrier-classifier-obligation},
+  \autoref{thm:abeliancat-additive-zero-biproduct-obligation}, and
+  \autoref{thm:abeliancat-kernel-cokernel-factorization-obligation}.
+  \item Exactness predicate: every visible morphism has displayed kernel,
+  cokernel, image, coimage, comparison, and classified recomposition rows.
+  \item Absent standard bridge: no external category of abelian groups,
+  modules, sheaves, or complexes is identified here.
+  \item Status: $\mathsf{ProofTarget}$ for a later Lean theorem in
+  $\mathsf{BEDC.Derived.AbelianCatUp}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier, classifier, and stability fields are projections of
+\autoref{def:abeliancat-additive-kernel-cokernel-carrier}. The transport
+requirement is exactly
+\autoref{thm:abeliancat-carrier-classifier-obligation}, which repacks
+componentwise $\hsame$ transport across the category, hom, additive, kernel,
+cokernel, and factorisation rows.
+
+The additive entries of the surface are supplied by
+\autoref{thm:abeliancat-additive-zero-biproduct-obligation}. That theorem
+identifies the hom addition and zero morphism rows with the
+$\NameCert_{\AbGroupUp}$ visible operation rows and identifies the biproduct
+typing and equations with the $\NameCert_{\CategoryUp}$ visible composition
+rows.
+
+The exactness and ledger entries are supplied by
+\autoref{thm:abeliancat-kernel-cokernel-factorization-obligation}. For each
+visible morphism it projects kernel, cokernel, image, coimage, comparison, and
+recomposition rows from the package and records that no hidden quotient object
+is used. These three projections assemble the stated ten-field
+$\NameCert_{\AbelianCatUp}$ obligation surface.
+\end{proof}
+
+\begin{theorem}[AbelianCatUp hom zero morphism uniqueness]
+\label{thm:abeliancat-hom-zero-morphism-uniqueness}
+Let $\mathcal A$ be an $\AbelianCatUp$ additive kernel-cokernel carrier and
+view its zero-biproduct-kernel surface as in
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}. Fix displayed objects
+$A$ and $B$. Write $\mathcal H(A,B)$ for the displayed hom carrier,
+$\sim_{A,B}$ for its inherited hom classifier, $+_{A,B}$ for its displayed hom
+addition, and $0_{A,B}$ for its displayed zero morphism. If a carried morphism
+$u\in\mathcal H(A,B)$ satisfies
+$$
+u+_{A,B}f\sim_{A,B}f
+\qquad\text{and}\qquad
+f+_{A,B}u\sim_{A,B}f
+$$
+for every carried $f\in\mathcal H(A,B)$, then
+$$
+u\sim_{A,B}0_{A,B}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom row selected by
+\autoref{def:abeliancat-additive-kernel-cokernel-carrier}. It carries the
+$\AbGroupUp$ enrichment row $\mathcal G(A,B)$. By
+\autoref{thm:abeliancat-additive-zero-biproduct-obligation}, the addition
+operation of this enrichment is $+_{A,B}$ and its identity element is the
+displayed zero morphism $0_{A,B}$.
+
+Apply \autoref{prop:abgroup-forgets-group-certificate} to the enrichment and
+then \autoref{prop:group-forgets-monoid-certificate} to the resulting group
+reduct. The retained monoid certificate has the same carrier
+$\mathcal H(A,B)$, the same classifier $\sim_{A,B}$, the same operation
+$+_{A,B}$, and identity $0_{A,B}$. Hence the monoid right-identity row says
+that $0_{A,B}$ is a right identity for every carried hom element.
+
+The first displayed hypothesis says that $u$ is a left identity for every
+carried hom element. Since $u$ is carried and $0_{A,B}$ is carried by the zero
+row, the inputs of \autoref{thm:monoid-history-classifier-identity-unique} are
+satisfied with $e=u$ and $e'=0_{A,B}$. Its conclusion is exactly
+$u\sim_{A,B}0_{A,B}$, because the monoid reduct did not change the hom
+classifier.
+\end{proof}

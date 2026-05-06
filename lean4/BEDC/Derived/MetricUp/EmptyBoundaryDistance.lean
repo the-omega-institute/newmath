@@ -288,4 +288,37 @@ theorem MetricDistanceWitness_empty_boundary_visible_context_witness_splice
   exact And.intro lCarrier
     (And.intro rCarrier (And.intro (unary_cont_closed lCarrier rCarrier spliced) spliced))
 
+theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_witness_depth
+    {p q d l r mid out : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) ->
+      UnaryHistory l -> UnaryHistory r -> Cont l d mid -> Cont mid r out ->
+        MetricDistanceWitness l r out ∧
+          MetricDistanceDepth out = MetricDistanceDepth l + MetricDistanceDepth r := by
+  intro visible lCarrier rCarrier leftCont rightCont
+  have witness : MetricDistanceWitness l r out :=
+    MetricDistanceWitness_empty_boundary_visible_context_witness_splice visible lCarrier rCarrier
+      leftCont rightCont
+  exact And.intro witness (MetricDistanceWitness_depth_add witness)
+
+theorem MetricDistanceWitness_empty_boundary_visible_context_canonical_splice_package
+    {p q d l r mid out out' : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) ->
+      UnaryHistory l -> UnaryHistory r -> Cont l d mid -> Cont mid r out -> Cont l r out' ->
+        MetricDistanceWitness l r out ∧ hsame out out' ∧
+          MetricDistanceDepth out = MetricDistanceDepth l + MetricDistanceDepth r := by
+  intro visible lCarrier rCarrier leftCont rightCont displayed
+  have witness : MetricDistanceWitness l r out :=
+    MetricDistanceWitness_empty_boundary_visible_context_witness_splice visible lCarrier rCarrier
+      leftCont rightCont
+  have sameOut : hsame out out' :=
+    MetricDistanceWitness_empty_boundary_visible_context_continuation_splice_hsame visible
+      leftCont rightCont displayed
+  have depth :
+      MetricDistanceDepth out = MetricDistanceDepth l + MetricDistanceDepth r :=
+    MetricDistanceWitness_empty_boundary_visible_context_continuation_depth_add visible lCarrier
+      rCarrier leftCont rightCont
+  exact And.intro witness (And.intro sameOut depth)
+
 end BEDC.Derived.MetricUp

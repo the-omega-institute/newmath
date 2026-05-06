@@ -1,0 +1,213 @@
+\begin{theorem}[RegSeqRat dyadic ledger and RealUp seal obligation]
+\label{thm:regseqrat-dyadic-ledger-and-real-seal-obligation}
+The dyadic-ledger and $\RealUp$ seal obligation for $\RegSeqRat$ consists of
+finite unary observation indices, the endpoint $\RatUp$ rows read at those
+indices, the dyadic-tolerance witnesses used by regularity, and the seal export
+of the recorded $\mathsf{RealUnaryStreamClassifier}$ row. Whenever sealed
+$\RealUp$ candidates expose streams satisfying the $\RegSeqRat$ spine and
+record their stream comparison row, the seal exports the RealUp observation
+classifier required by \autoref{def:real-classifier-specification}.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:regseqrat-stream-certificate-spine}. Its ledger is
+finite at the level of requested unary observations and dyadic-tolerance
+checks, and each ledger entry is backed by endpoint $\RatUp$ carrier and
+classifier rows.
+
+The constant ledger is supplied by
+\autoref{thm:regseqrat-constant-stream-spine}. The general endpoint and
+transport rows are supplied by
+\autoref{thm:regseqrat-stream-classifier-stability-spine}, while
+\autoref{thm:regseqrat-stream-spine-scoped-package} gathers the ledger,
+classifier, constant, and transport faces as one scoped certificate package.
+
+Finally apply \autoref{thm:regseqrat-realup-seal-consumes-stream-spine}. The
+seal reads the already recorded
+$\mathsf{RealUnaryStreamClassifier}$ row and exports exactly the observation
+classifier required by the RealUp boundary, without adding quotient or
+completion data.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore obligation boundary package]
+\label{thm:dyadic-rat-core-obligation-boundary-package}
+The DyadicRatCore obligation boundary consists exactly of the carrier,
+classifier, arithmetic-stability, monotone-radius, distance and absolute-value,
+operation-stability, finite-ledger extraction, and $\RegSeqRat$ seal faces
+listed in this section. Its carrier face is
+\autoref{thm:dyadic-rat-core-carrier-obligation}; its classifier face is
+\autoref{thm:dyadic-rat-core-classifier-obligation}; its dyadic arithmetic
+face is \autoref{thm:dyadic-rat-core-arithmetic-stability-obligation}; its
+monotone-radius face is
+\autoref{thm:dyadic-rat-core-monotone-radius-obligation}; its distance and
+absolute-value face is
+\autoref{thm:dyadic-rat-core-distance-absolute-obligation}; its operation
+stability face is
+\autoref{thm:dyadic-rat-core-operation-stability-obligation}; its finite
+ledger extraction face is
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction}; and
+its downstream seal face is
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation}.
+
+No face in this package reads a quotient, a completion object, Classical data,
+or an external metric primitive. Every named face is read from $\mathsf{BHist}$,
+$\hsame$, RatUp endpoint histories, StreamNameUp request names, the
+DyadicRatCore observation row, and the finite dyadic ledger consumed by
+$\RegSeqRat$ and $\RealUp$.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier faces first. Apply
+\autoref{thm:dyadic-rat-core-carrier-obligation} and
+\autoref{thm:dyadic-rat-core-classifier-obligation}. These identify the
+endpoint rows, their $\hsame$ transport, and the RatUp positive-denominator
+source used by the observation row.
+
+Next read the stability inventory. Apply
+\autoref{thm:dyadic-rat-core-arithmetic-stability-obligation},
+\autoref{thm:dyadic-rat-core-monotone-radius-obligation},
+\autoref{thm:dyadic-rat-core-distance-absolute-obligation}, and
+\autoref{thm:dyadic-rat-core-operation-stability-obligation}. Together they
+cover the dyadic arithmetic, radius refinement, distance, absolute-value, and
+operation rows without adding a separate metric carrier.
+
+Finally read the ledger and seal faces. Apply
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction} for the
+finite family of endpoint rows, and apply
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation} for the
+$\RegSeqRat$ ledger consumed by the $\RealUp$ seal.
+
+The cited theorem list exhausts the displayed boundary: each clause is one of
+the named faces above, and the proofs of those faces read only $\mathsf{BHist}$,
+$\hsame$, endpoint histories, request names, observation rows, and finite
+ledger entries. Hence the package has no quotient, completion object,
+Classical datum, or external metric primitive as an input.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore scoped primitive dependency package]
+\label{thm:dyadic-rat-core-scoped-primitive-dependency-package}
+Each DyadicRatCore obligation face in
+\autoref{thm:dyadic-rat-core-obligation-boundary-package} is scoped over
+exactly $\mathsf{BHist}$, $\hsame$, the $\RatUp$ endpoint carrier and
+classifier rows, $\mathsf{PositiveUnaryDenominator}$, $\StreamNameUp$ unary
+request names, the DyadicRatCore observation row, and the finite dyadic ledger
+consumed by $\RegSeqRat$ and $\RealUp$. The carrier, classifier,
+arithmetic-stability, monotone-radius, distance and absolute-value,
+operation-stability, finite-ledger extraction, and $\RegSeqRat$ seal faces use
+no quotient, completion object, Classical datum, or external metric primitive.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier faces. Apply
+\autoref{thm:dyadic-rat-core-carrier-obligation} and
+\autoref{thm:dyadic-rat-core-classifier-obligation}. These faces read
+$\mathsf{BHist}$ endpoint histories, $\hsame$ transport, the $\RatUp$ carrier
+and classifier rows, $\mathsf{PositiveUnaryDenominator}$, and the
+DyadicRatCore observation row of
+\autoref{def:dyadic-rat-core-observation-row}.
+
+Next read the dyadic stability faces. Apply
+\autoref{thm:dyadic-rat-core-arithmetic-stability-obligation},
+\autoref{thm:dyadic-rat-core-monotone-radius-obligation},
+\autoref{thm:dyadic-rat-core-distance-absolute-obligation}, and
+\autoref{thm:dyadic-rat-core-operation-stability-obligation}. Their operation
+inputs and outputs remain endpoint observation rows, while the radius,
+distance, and absolute-value clauses use only the positive-denominator and
+dyadic-radius ledger tokens already present in the scoped source package of
+\autoref{thm:dyadic-rat-core-scoped-source-package}.
+
+The finite-ledger face is supplied by
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction}. It
+uses $\StreamNameUp$ unary request names only to select finitely many endpoint
+observations, then exposes the same DyadicRatCore observation rows and dyadic
+ledger entries at those selected names.
+
+Finally apply \autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation}.
+The $\RegSeqRat$ seal consumes the recorded stream spine and the finite dyadic
+ledger exported by the previous faces; the $\RealUp$ observation classifier is
+therefore read from the existing $\mathsf{RealUnaryStreamClassifier}$ row.
+
+These four readings exhaust the face list of
+\autoref{thm:dyadic-rat-core-obligation-boundary-package}. Every dependency is
+either a primitive BEDC history, an $\hsame$ transport, a $\RatUp$ endpoint row,
+a unary request name, an observation-row field, or a finite ledger entry already
+licensed by the cited face theorem. No cited face introduces a quotient,
+completion object, Classical datum, or external metric primitive.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore scoped closure boundary]
+\label{thm:dyadic-rat-core-scoped-closure-boundary}
+Every DyadicRatCore obligation face is scoped over RatUp endpoint histories,
+$\mathsf{PositiveUnaryDenominator}$, $\RegSeqRat$ unary observation requests,
+$\mathsf{UnaryHistory}$, $\hsame$ transport, $\Cont$/FKernel unary context
+laws, $\mathsf{DyadicRatCoreObservationRow}$, and the finite dyadic ledger
+consumed by the $\RegSeqRat$ seal. No quotient, completion object, Classical
+data, external metric primitive, $\RealUp$ completeness, or standard bridge is
+part of this scope.
+\end{theorem}
+\begin{proof}
+Begin with the scoped source package
+\autoref{thm:dyadic-rat-core-scoped-source-package}. It supplies the RatUp
+endpoint histories, the $\mathsf{PositiveUnaryDenominator}$ rows, the
+observation row, and the dyadic-radius token used by the later ledger.
+
+Next enumerate the obligation faces. Apply
+\autoref{thm:dyadic-rat-core-carrier-obligation},
+\autoref{thm:dyadic-rat-core-classifier-obligation},
+\autoref{thm:dyadic-rat-core-operation-stability-obligation},
+\autoref{thm:dyadic-rat-core-monotone-radius-obligation}, and
+\autoref{thm:dyadic-rat-core-distance-absolute-obligation}. These faces read
+only the endpoint rows, $\mathsf{UnaryHistory}$ request names, $\hsame$
+transport, and the $\Cont$/FKernel unary context laws.
+
+Finally read the finite ledger and downstream seal. Apply
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction} to
+extract the finite dyadic ledger from the observation row, and apply
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation} to show that
+the $\RegSeqRat$ seal consumes exactly that finite ledger.
+
+The preceding list exhausts the named faces of
+\autoref{thm:dyadic-rat-core-obligation-boundary-package}. Since each face has
+already been bound to the displayed primitive dependency chain, the scoped
+boundary contains no quotient, completion object, Classical datum, external
+metric primitive, $\RealUp$ completeness claim, or standard bridge.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore public observation package]
+\label{thm:dyadicratcore-public-observation-package}
+The public DyadicRatCore package exports exactly the observation-row carrier,
+classifier, arithmetic-stability, monotone-radius, distance and absolute-value,
+operation-stability, finite-ledger extraction, and $\RegSeqRat$ seal faces of
+\autoref{thm:dyadic-rat-core-obligation-boundary-package}. Its primitive scope is
+fixed by \autoref{thm:dyadic-rat-core-scoped-primitive-dependency-package} and
+\autoref{thm:dyadic-rat-core-scoped-closure-boundary}. Thus the public package
+has no quotient, completion object, Classical datum, external metric primitive,
+$\RealUp$ completeness claim, or standard bridge.
+\end{theorem}
+\begin{proof}
+First read the face inventory from
+\autoref{thm:dyadic-rat-core-obligation-boundary-package}. It lists the carrier,
+classifier, arithmetic-stability, monotone-radius, distance and absolute-value,
+operation-stability, finite-ledger extraction, and $\RegSeqRat$ seal faces as the
+whole DyadicRatCore boundary.
+
+Next read the primitive dependency boundary from
+\autoref{thm:dyadic-rat-core-scoped-primitive-dependency-package}. That theorem
+binds every listed face to $\mathsf{BHist}$, $\hsame$, the $\RatUp$ endpoint
+rows, $\mathsf{PositiveUnaryDenominator}$, $\StreamNameUp$ request names, the
+DyadicRatCore observation row, and the finite dyadic ledger consumed by
+$\RegSeqRat$ and $\RealUp$.
+
+Finally apply \autoref{thm:dyadic-rat-core-scoped-closure-boundary}. Since the
+public observation package exports only the already listed faces over the
+already fixed primitive scope, it carries no quotient, completion object,
+Classical datum, external metric primitive, $\RealUp$ completeness claim, or
+standard bridge.
+\end{proof}
+
+\begin{closurestatus}{\DyadicRatCore}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:dyadicratcore-public-observation-package} witnesses the public DyadicRatCore observation package over $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp request names, the DyadicRatCore observation row, and the finite dyadic ledger consumed by $\RegSeqRat$ and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RealUp.DyadicRatCore\_scoped\_source\_package}
+  \bridgestatus{none}
+  \notclaimed{This boundary does not close RealUp completeness, full DyadicRatCore arithmetic, metric completeness, standard bridges, or a checked Lean implementation.}
+  \upgradepath{A stronger grade requires a Lean formalization target for the public observation package and bridge rows relating it to a standard interface.}
+\end{closurestatus}

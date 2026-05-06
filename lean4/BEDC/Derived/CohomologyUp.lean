@@ -71,6 +71,12 @@ theorem CohomologyCocycle_predicate_semanticNameCert {d : BHist -> BHist} {axis 
       exact source
   }
 
+theorem CohomologyCocycle_hsame_transport {d : BHist -> BHist}
+    (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) {h k : BHist} :
+    hsame (d h) BHist.Empty -> hsame h k -> hsame (d k) BHist.Empty := by
+  intro source same
+  exact hsame_trans (hsame_symm (dCongr same)) source
+
 theorem CohomologyCocycle_axis_right_cancel {d : BHist -> BHist} {axis h : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
     hsame (d (append h axis)) BHist.Empty -> hsame (d h) BHist.Empty := by

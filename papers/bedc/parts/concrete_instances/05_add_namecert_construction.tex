@@ -141,6 +141,7 @@ Let the typed naming-certificate template of \autoref{def:typed-naming-certifica
   \mathsf{License}(\UnaryContMonoidUp).
 \]
 \end{theorem}
+\leanchecked{BEDC.Derived.AddUp.AddUnaryContinuationMonoid\_activation\_package}
 \begin{proof}
 By \autoref{def:typed-naming-certificate}, a derived interface is licensed by a certificate once its source, pattern, classifier, stability, and ledger fields are supplied. The assumed \(\NameCert(\Unary,\hsame)\) provides the carrier-and-classifier core described in \autoref{def:lean-carrier-naming-certificate}. The source is the ordered unary source with a continuation witness from \autoref{def:additive-source-specification}; the pattern is unary continuation from \autoref{def:additive-pattern-specification}; the classifier is \(\hsame\) on continuation results from \autoref{def:additive-classifier-specification}; and the ledger is the recorded pair of unary inputs together with the continuation witness from \autoref{def:additive-stability-and-ledger-policy}. Pattern soundness sends each source witness to the displayed unary continuation pattern, and ledger soundness records the same source witness in the ledger policy.
 
@@ -154,6 +155,7 @@ For histories \(h\), \(k\), \(r\), and \(r'\), if \(\mathsf{AddSource}(h,k,r)\) 
 \begin{proof}
 By \autoref{def:additive-source-specification}, the first source witness supplies unary inputs \(h\) and \(k\) together with \(\ContR(h,k,r)\). The second source witness has the same ordered input pair, so it supplies the same unary inputs together with \(\ContR(h,k,r')\). The determinacy field listed in \autoref{def:additive-stability-certificate} applies to these two continuation witnesses and gives \(\HSame(r,r')\). By \autoref{def:additive-classifier-specification}, \(\mathsf{AddClassifier}\) classifies additive outputs precisely by \(\HSame\) of their generated result histories, so this witness is \(\mathsf{AddClassifier}(r,r')\).
 \end{proof}
+\leanchecked{BEDC.FKernel.Unary.AddSourceSpec\_same\_source\_classifier}
 
 \begin{theorem}[Core additive stability does not imply swapped commutativity]
 \label{thm:core-additive-stability-not-swapped-commutative}
@@ -185,6 +187,7 @@ Associativity follows by cases on the left factor. If $x=e$, then $(e\star y)\st
 
 The swapped-source field fails. The table gives $\Gamma(p,q,p)$ and $\Gamma(q,p,q)$, but the equality classifier does not identify $p$ and $q$. Thus the fields used for the monoid-like activation in \autoref{thm:unary-continuation-monoid-activation} do not force the swapped-source additive commutativity field.
 \end{proof}
+\leanchecked{BEDC.Derived.AddUp.AddUpThreePoint\_unital\_graph\_not\_swapped\_commutative}
 
 \begin{theorem}[Unary continuation monoid activation from stability]
 \label{thm:unary-continuation-monoid-activation-from-stability}
@@ -227,6 +230,7 @@ Use the cover $t=e$ or $t=u$ for each carrier element $t$. If $x=e$, the left-un
 
 The only remaining case is $x=u$ and $y=u$. In that case both ordered products are the same expression $u\star u$, so $x\star y=y\star x$ by reflexivity of equality. Combining this product equality with the two graph witnesses gives $z=z'$. The conclusion is exactly the swapped-source comparison not supplied by the monoid-like fields of \autoref{def:additive-stability-certificate}. In contrast, \autoref{thm:core-additive-stability-not-swapped-commutative} shows that three carrier elements suffice for an equality-classified unital deterministic graph to fail that comparison.
 \end{proof}
+\leanchecked{BEDC.Derived.AddUp.AddUpTwoPoint\_unital\_graph\_swapped\_commutative}
 
 \begin{theorem}[Unary continuation activation without commutativity]
 \label{thm:unary-continuation-activation-without-commutativity}
@@ -274,6 +278,7 @@ $$
 $$
 No associativity premise is needed.
 \end{theorem}
+\leanchecked{BEDC.Derived.AddUp.AddUpTwoPoint\_unital\_continuation\_commutativity}
 \begin{proof}
 The source role of \autoref{def:additive-source-specification} treats a continuation source as an ordered pair together with a continuation witness, and the classifier role of \autoref{def:additive-classifier-specification} compares generated results by $\hsame$. In the equality-classified instance of the carrier certificate of \autoref{def:lean-carrier-naming-certificate}, proving $\hsame(r,r')$ is the same as proving $r=r'$.
 

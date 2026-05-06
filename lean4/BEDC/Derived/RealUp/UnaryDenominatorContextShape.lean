@@ -74,6 +74,71 @@ theorem RealStreamClassifier_transported_unary_denominator_context_closed
   exact RealStreamClassifier_unary_denominator_context_closed transported pXUnary tXUnary
     sameP sameT pXCont oXCont pYCont oYCont
 
+theorem RealSelectedTransport_common_rational_classifier_class
+    {x x' y y' pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat}
+    {a a' b b' : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y ->
+          (forall i : Nat, UnaryHistory (pX i)) ->
+            (forall i : Nat, UnaryHistory (tX i)) ->
+              (forall i : Nat, hsame (pX i) (pY i)) ->
+                (forall i : Nat, hsame (tX i) (tY i)) ->
+                  (forall i : Nat, Cont (pX i) (x' i) (mX i)) ->
+                    (forall i : Nat, Cont (mX i) (tX i) (oX i)) ->
+                      (forall i : Nat, Cont (pY i) (y' i) (mY i)) ->
+                        (forall i : Nat, Cont (mY i) (tY i) (oY i)) ->
+                          hsame (oX n) (BHist.e1 a) ->
+                            hsame (oX n) (BHist.e1 a') ->
+                              hsame (oY n) (BHist.e1 b) ->
+                                hsame (oY n) (BHist.e1 b') ->
+                                  hsame (x' n) (BHist.e1 a) ->
+                                    hsame (y' n) (BHist.e1 b) ->
+                                      RatHistoryClassifier (oX n) (BHist.e1 a) ∧
+                                        RatHistoryClassifier (oY n) (BHist.e1 a) ∧
+                                          RatHistoryClassifier (x' n) (BHist.e1 a) ∧
+                                            RatHistoryClassifier (y' n) (BHist.e1 a) ∧
+                                              RatHistoryClassifier (BHist.e1 a')
+                                                (BHist.e1 a) ∧
+                                                RatHistoryClassifier (BHist.e1 b)
+                                                  (BHist.e1 a) ∧
+                                                  RatHistoryClassifier (BHist.e1 b')
+                                                    (BHist.e1 a) := by
+  intro sameX sameY classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont
+    oYCont sameOX sameOX' sameOY sameOY' sameX' sameY'
+  have contextClassified : RealStreamClassifier oX oY :=
+    RealStreamClassifier_transported_unary_denominator_context_closed sameX sameY classified
+      pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont
+  have displayed : RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
+    RatHistoryClassifier_hsame_transport sameOX sameOY (contextClassified n)
+  have centered : RatHistoryClassifier (BHist.e1 a) (BHist.e1 a) :=
+    RatHistoryClassifier_trans displayed (RatHistoryClassifier_symm displayed)
+  have outXClass : RatHistoryClassifier (oX n) (BHist.e1 a) :=
+    RatHistoryClassifier_hsame_transport (hsame_symm sameOX) (hsame_refl (BHist.e1 a))
+      centered
+  have outYClass : RatHistoryClassifier (oY n) (BHist.e1 a) :=
+    RatHistoryClassifier_hsame_transport (hsame_symm sameOY) (hsame_refl (BHist.e1 a))
+      (RatHistoryClassifier_symm displayed)
+  have sourceXClass : RatHistoryClassifier (x' n) (BHist.e1 a) :=
+    RatHistoryClassifier_hsame_transport (hsame_symm sameX') (hsame_refl (BHist.e1 a))
+      centered
+  have sourceYClass : RatHistoryClassifier (y' n) (BHist.e1 a) :=
+    RatHistoryClassifier_hsame_transport (hsame_symm sameY') (hsame_refl (BHist.e1 a))
+      (RatHistoryClassifier_symm displayed)
+  have aPrimeClass : RatHistoryClassifier (BHist.e1 a') (BHist.e1 a) :=
+    RatHistoryClassifier_hsame_transport sameOX' (hsame_refl (BHist.e1 a))
+      outXClass
+  have bClass : RatHistoryClassifier (BHist.e1 b) (BHist.e1 a) :=
+    RatHistoryClassifier_symm displayed
+  have bPrimeClass : RatHistoryClassifier (BHist.e1 b') (BHist.e1 a) :=
+    RatHistoryClassifier_hsame_transport sameOY' (hsame_refl (BHist.e1 a))
+      outYClass
+  exact And.intro outXClass
+    (And.intro outYClass
+      (And.intro sourceXClass
+        (And.intro sourceYClass
+          (And.intro aPrimeClass (And.intro bClass bPrimeClass)))))
+
 theorem RealStreamClassifier_unary_denominator_context_appended_e0_tail_absurd
     {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat}
     {dX dY zX zY : BHist} :

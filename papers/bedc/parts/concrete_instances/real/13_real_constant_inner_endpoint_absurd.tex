@@ -452,6 +452,7 @@ $$
 \hsame(h,\Eone(p\cdot\Ezero(z))).
 $$
 \end{definition}
+\leandef{BEDC.Derived.RealUp.MalformedRealSealedDenom}
 
 \begin{theorem}[Real constant classifier no malformed sealed denominator displays]
 \label{thm:real-constant-classifier-no-malformed-sealed-denominator-displays}
@@ -556,3 +557,86 @@ e-zero, and appended e-zero sealed denominators; core theorem
 \autoref{thm:real-constant-classifier-no-transported-malformed-sealed-denominator-displays};
 exactness exclusion of malformed transported endpoints; standard bridge
 constant rational real names; status $\mathsf{ProofTarget}$.
+
+\begin{definition}[Real constant malformed endpoint display]
+\label{def:real-constant-malformed-endpoint-display}
+For a history $h:\mathsf{BHist}$, the predicate
+$\mathsf{MalformedRealEndpoint}(h)$ records exactly the reusable endpoint
+displays excluded by the RealUp constant classifier: an outer empty endpoint,
+an outer e-zero endpoint, or a sealed malformed denominator display.
+$$
+\mathsf{MalformedRealEndpoint}(h)
+:=
+\hsame(h,\emp)
+\lor
+\exists t:\mathsf{BHist},\
+\hsame(h,\Ezero(t))
+\lor
+\mathsf{MalformedRealSealedDenom}(h).
+$$
+\end{definition}
+
+\begin{theorem}[Real constant classifier no transported malformed endpoint displays]
+\label{thm:real-constant-classifier-no-transported-malformed-endpoint-displays}
+For histories $h,k,h',k':\mathsf{BHist}$, constant real-history classifier
+exclusion of malformed endpoint displays survives endpoint $\hsame$ transport:
+$$
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\hsame(h,h')
+\Longrightarrow
+\hsame(k,k')
+\Longrightarrow
+\bigl(\mathsf{MalformedRealEndpoint}(h')\Longrightarrow\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{MalformedRealEndpoint}(k')\Longrightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{MalformedRealEndpoint}$ at the transported left endpoint.
+In the outer empty case, compose $\hsame(h,h')$ with
+$\hsame(h',\emp)$ by $\hsame$ transitivity. Transport the classifier along this
+left endpoint display and a reflexive right endpoint display, then apply the
+left-empty clause of
+\autoref{thm:real-constant-history-classifier-invalid-endpoint-absurd}.
+
+In the outer e-zero case, use the displayed witness $t$ and compose
+$\hsame(h,h')$ with $\hsame(h',\Ezero(t))$. Transport the classifier to an
+exact classifier with left endpoint $\Ezero(t)$, then apply the left e-zero
+clause of
+\autoref{thm:real-constant-history-classifier-invalid-endpoint-absurd}.
+
+In the sealed denominator case, apply the left projection of
+\autoref{thm:real-constant-classifier-no-transported-malformed-sealed-denominator-displays}
+to the original classifier, the two endpoint transport rows, and the displayed
+$\mathsf{MalformedRealSealedDenom}(h')$ witness.
+
+Unfold $\mathsf{MalformedRealEndpoint}$ at the transported right endpoint.
+In the outer empty case, compose $\hsame(k,k')$ with
+$\hsame(k',\emp)$ by $\hsame$ transitivity. Transport the classifier along a
+reflexive left endpoint display and this right endpoint display, then apply
+the right-empty clause of
+\autoref{thm:real-constant-history-classifier-invalid-endpoint-absurd}.
+
+In the outer e-zero case, use the displayed witness $t$ and compose
+$\hsame(k,k')$ with $\hsame(k',\Ezero(t))$. Transport the classifier to an
+exact classifier with right endpoint $\Ezero(t)$, then apply the right e-zero
+clause of
+\autoref{thm:real-constant-history-classifier-invalid-endpoint-absurd}.
+
+In the sealed denominator case, apply the right projection of
+\autoref{thm:real-constant-classifier-no-transported-malformed-sealed-denominator-displays}
+to the original classifier, the two endpoint transport rows, and the displayed
+$\mathsf{MalformedRealSealedDenom}(k')$ witness.
+\end{proof}
+
+The ten-field fit is: traditional target RealUp constant endpoint hygiene;
+BEDC source $\mathsf{BHist}$, $\hsame$, and the RealUp constant classifier;
+carrier $\mathsf{BHist}$; classifier
+$\mathsf{RealConstantHistoryClassifier}$; stability row endpoint $\hsame$
+transport; ledger outer empty, outer e-zero, and malformed sealed denominator
+displays on transported endpoints; core theorem
+\autoref{thm:real-constant-classifier-no-transported-malformed-endpoint-displays};
+exactness no transported malformed RealUp constant endpoint display on either
+endpoint; downstream bridge RealUp NameCert endpoint sanity; status
+$\mathsf{ProofTarget}$.
