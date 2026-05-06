@@ -197,6 +197,9 @@ import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.TopologyUp
+import BEDC.Derived.TopologyUp.Core
+import BEDC.Derived.TopologyUp.PublicTree
+import BEDC.Derived.TopologyUp.Singleton
 import BEDC.Derived.TopologyUp.PullbackOpenCertificate
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
@@ -536,6 +539,7 @@ import BEDC.Derived.CategoryUp.SplitEpi
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CatColimitUp
+import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
