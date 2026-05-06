@@ -63,6 +63,16 @@ theorem AxisAddCont_result_zeroSpine {h k r : BHist} :
       | intro r0 witness =>
           exact witness.left ▸ ZeroSpine.step (ih witness.right)
 
+theorem AxisAddCont_result_determinacy {h k r rPrime : BHist} :
+    ZeroSpine h -> ZeroSpine k -> Cont h k r -> Cont h k rPrime ->
+      AxisAddClassifierSpec h k r rPrime := by
+  intro spineH spineK contR contRPrime
+  have patternR : AxisAddPatternSpec h k r :=
+    And.intro spineH (And.intro spineK contR)
+  have patternRPrime : AxisAddPatternSpec h k rPrime :=
+    And.intro spineH (And.intro spineK contRPrime)
+  exact And.intro patternR (And.intro patternRPrime (cont_deterministic contR contRPrime))
+
 theorem AxisAddCont_right_unit_zeroSpine {h : BHist} :
     ZeroSpine h -> AxisAddPatternSpec h BHist.Empty h ∧
       AxisAddClassifierSpec h BHist.Empty h h := by

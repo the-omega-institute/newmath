@@ -114,8 +114,43 @@ theorem PrefixFunctorCarrier_split_epimorphism_preserves {p a b f : BHist} :
                       exact
                         Exists.intro g
                           (Exists.intro prefId
-                            (Exists.intro prefComp
+                          (Exists.intro prefComp
                               (And.intro (prefixCarrier.hom_preserves splitData.left)
                                 prefData)))
+
+theorem CategorySplitMonomorphism_composition_closed {a b c f g u s t sf tg l lu : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier b a s ->
+      Cont f s sf -> hsame sf BHist.Empty -> CategoryHomCarrier c b t -> Cont g t tg ->
+        hsame tg BHist.Empty -> Cont f g u -> Cont t s l -> Cont u l lu ->
+          CategorySplitMonomorphism a c u := by
+  intro fCarrier gCarrier sCarrier sfRel sfEmpty tCarrier tgRel tgEmpty fgRel tsRel luRel
+  have uCarrier : CategoryHomCarrier a c u :=
+    CategoryHomCarrier_comp_closed fCarrier gCarrier fgRel
+  have lCarrier : CategoryHomCarrier c a l :=
+    CategoryHomCarrier_comp_closed tCarrier sCarrier tsRel
+  have idCarrier : CategoryHomCarrier a a BHist.Empty :=
+    CategoryHomCarrier_empty_identity fCarrier.left
+  cases sfRel
+  have fEmpty : f = BHist.Empty := (append_eq_empty_iff.mp sfEmpty).left
+  have sEmpty : s = BHist.Empty := (append_eq_empty_iff.mp sfEmpty).right
+  cases tgRel
+  have gEmpty : g = BHist.Empty := (append_eq_empty_iff.mp tgEmpty).left
+  have tEmpty : t = BHist.Empty := (append_eq_empty_iff.mp tgEmpty).right
+  cases fEmpty
+  cases sEmpty
+  cases gEmpty
+  cases tEmpty
+  cases fgRel
+  cases tsRel
+  cases luRel
+  exact
+    Exists.intro BHist.Empty
+      (Exists.intro BHist.Empty
+        (Exists.intro BHist.Empty
+          (And.intro uCarrier
+            (And.intro lCarrier
+              (And.intro idCarrier
+                (And.intro (cont_right_unit BHist.Empty)
+                  (And.intro idCarrier rfl)))))))
 
 end BEDC.Derived.FunctorUp

@@ -36,6 +36,60 @@ For compatibility with the classifier, apply \autoref{thm:fps-cauchy-product-cla
 The associativity law is \autoref{thm:fps-cauchy-product-associativity-over-ringup-scalars}, read over the same scalar certificate, pointwise classifier, and coefficient rule. The theorem first carries the two intermediate products by \autoref{def:fps-stability-certificate}, then identifies the two associated products under $\sim_{\mathrm{fps}}$. These three clauses are exactly the multiplicative semigroup interface required downstream.
 \end{proof}
 
+\begin{definition}[FPS Cauchy product unit series]
+\label{def:fps-cauchy-product-unit-series}
+Let $R$ carry a $\RingUp(R)$ certificate with multiplicative unit endpoint $1_R$ and additive zero endpoint $0_R$. The Cauchy-product unit series $1_{\mathrm{fps}}:\NatUp\to R$ is the coefficient sequence determined by
+$$
+(1_{\mathrm{fps}})_0:=1_R
+$$
+and
+$$
+(1_{\mathrm{fps}})_{\mathsf{succ}(n)}:=0_R
+$$
+for every unary index $n:\NatUp$.
+\end{definition}
+
+\begin{theorem}[FPS Cauchy product unit laws]
+\label{thm:fps-cauchy-product-unit-laws}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, multiplicative unit endpoint $1_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive fold $\mathsf{fold}_{+,R}$. Assume the scalar classifier equivalence fields, zero self-classification, additive congruence, additive zero rows, multiplication closure, multiplication congruence, left and right multiplicative unit rows, and left and right zero multiplication rows retained in \autoref{def:ring-stability-certificate}. Let the $\FormalPowerSeriesUp(R)$ interface use the pointwise classifier $\sim_{\mathrm{fps}}$ of \autoref{def:fps-classifier-specification} and the Cauchy coefficient rule of \autoref{def:fps-cauchy-coefficient-spine}, read over these $\RingUp$ operations. If $F:\NatUp\to R$ is carried, then $1_{\mathrm{fps}}$ is carried, the products $1_{\mathrm{fps}}\odot_{\mathrm{fps}}F$ and $F\odot_{\mathrm{fps}}1_{\mathrm{fps}}$ are carried, and
+$$
+1_{\mathrm{fps}}\odot_{\mathrm{fps}}F\sim_{\mathrm{fps}}F
+\qquad\text{and}\qquad
+F\odot_{\mathrm{fps}}1_{\mathrm{fps}}\sim_{\mathrm{fps}}F.
+$$
+\end{theorem}
+\begin{proof}
+The unit series is carried coefficientwise. At index $0$, the coefficient is $1_R$, carried by the multiplicative monoid source inside the $\RingUp$ certificate. At every successor index, the coefficient is $0_R$, carried by the zero endpoint row retained in \autoref{def:ring-stability-certificate}. The Cauchy-product closure row in \autoref{def:fps-stability-certificate} then carries both products.
+
+For the left unit law, fix a unary index $n$. If $n=0$, \autoref{lem:fps-zero-index-cauchy-spine} reduces the product coefficient to the singleton fold on $(1_{\mathrm{fps}})_0\cdot_R F_0$. The coefficient rule of \autoref{def:fps-cauchy-product-unit-series} reads this as $1_R\cdot_R F_0$, and the scalar multiplicative left-unit row from \autoref{def:ring-stability-certificate} classifies it with $F_0$. The singleton finite-fold endpoint is transported by the scalar additive zero row and classifier transitivity.
+
+Now let $n=\mathsf{succ}(m)$. The finite split recursion for $\mathsf{Split}(n)$ has exactly one summand whose left index is $0$ and all remaining summands have successor left index. The head summand is $1_R\cdot_R F_n$ and is classified with $F_n$ by the scalar left-unit row. Every remaining summand has the form $(1_{\mathrm{fps}})_{\mathsf{succ}(i)}\cdot_R F_j$, hence $0_R\cdot_R F_j$, and the left zero multiplication row classifies it with $0_R$.
+
+The zero-summand part of the tail is folded to $0_R$ by \autoref{thm:zero-convolution-summands-fold-zero}. Additive fold congruence transports the pointwise comparisons through the finite split spine, and the additive right-zero row removes the folded zero tail. Thus $(1_{\mathrm{fps}}\odot_{\mathrm{fps}}F)_n\sim_R F_n$.
+
+For the right unit law, the zero index is analogous: \autoref{lem:fps-zero-index-cauchy-spine} gives the singleton fold on $F_0\cdot_R(1_{\mathrm{fps}})_0$, the unit-series coefficient rule reads the right factor as $1_R$, and the scalar right-unit row classifies the coefficient with $F_0$.
+
+At $n=\mathsf{succ}(m)$, the finite split recursion has exactly one summand whose right index is $0$ and all remaining summands have successor right index. The head summand is $F_n\cdot_R1_R$ and is classified with $F_n$ by the scalar right-unit row. Each remaining summand is $F_i\cdot_R0_R$, classified with $0_R$ by the right zero multiplication row. The same zero-summand fold theorem, additive fold congruence, and additive zero row collapse the tail.
+
+Since $n$ was arbitrary in both directions, \autoref{def:fps-classifier-specification} packages the coefficientwise scalar comparisons as the two displayed $\FormalPowerSeriesUp$ classifier judgments.
+\end{proof}
+
+\begin{theorem}[FPS Cauchy product multiplicative monoid laws]
+\label{thm:fps-cauchy-product-multiplicative-monoid-laws}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, multiplicative unit endpoint $1_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive fold $\mathsf{fold}_{+,R}$. Let the $\FormalPowerSeriesUp(R)$ carrier be the coefficientwise carrier of \autoref{def:fps-carrier}, let its classifier be the pointwise classifier $\sim_{\mathrm{fps}}$ of \autoref{def:fps-classifier-specification}, let its multiplication be the Cauchy product of \autoref{def:fps-cauchy-coefficient-spine}, and let its unit be $1_{\mathrm{fps}}$ from \autoref{def:fps-cauchy-product-unit-series}. For carried coefficient sequences, these data form the concrete multiplicative monoid interface consumed by the algebraic formal-power-series layer:
+\begin{enumerate}
+  \item If $F$ and $G$ are carried, then $F\odot_{\mathrm{fps}}G$ is carried.
+  \item If $F\sim_{\mathrm{fps}}F'$ and $G\sim_{\mathrm{fps}}G'$, then $F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}F'\odot_{\mathrm{fps}}G'$.
+  \item $(F\odot_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H\sim_{\mathrm{fps}}F\odot_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H)$.
+  \item $1_{\mathrm{fps}}$ is carried, and $1_{\mathrm{fps}}\odot_{\mathrm{fps}}F\sim_{\mathrm{fps}}F$ and $F\odot_{\mathrm{fps}}1_{\mathrm{fps}}\sim_{\mathrm{fps}}F$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first three clauses are exactly \autoref{thm:fps-cauchy-product-multiplicative-semigroup-laws}, read over the displayed carrier, classifier, and Cauchy-product coefficient rule.
+
+The unit carrier and the two unit comparisons are \autoref{thm:fps-cauchy-product-unit-laws}. That theorem supplies the coefficientwise split at zero and successor indices, reduces the off-axis Cauchy summands by scalar zero multiplication, collapses the folded zero tails, and repackages the remaining coefficient comparisons by the pointwise classifier of \autoref{def:fps-classifier-specification}. Together with the semigroup clauses, these fields are the required multiplicative monoid surface.
+\end{proof}
+
 \begin{lemma}[FPS zero-index Cauchy spine]\label{lem:fps-zero-index-cauchy-spine}
 Let $R$ carry a $\RingUp(R)$ certificate with multiplication $\cdot_R$. For coefficient sequences $F,G:\NatUp\to R$, the split spine used by \autoref{def:fps-cauchy-coefficient-spine} at the zero index is the singleton split $\mathsf{Split}(0)=\mathsf{cons}((0,0),\mathsf{nil})$. Consequently, $\mathsf{CauchySp}_0(F,G)=\mathsf{cons}(F_0\cdot_R G_0,\mathsf{nil})$.
 \end{lemma}
