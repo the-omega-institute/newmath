@@ -91,4 +91,13 @@ theorem RandomVarPreimage_relative_difference_exactness
     cont_left_cancel targetDifference sourceAtTarget
   exact hsame_trans sameDiffTarget targetDiffSourceDiff
 
+theorem RandomVarPreimage_empty_event_exactness
+    {targetEmpty sourceEmpty preimage : BHist} :
+    hsame targetEmpty BHist.Empty -> hsame sourceEmpty BHist.Empty ->
+      Cont targetEmpty BHist.Empty preimage -> hsame preimage sourceEmpty := by
+  intro targetEmptyZero sourceEmptyZero preimageReadback
+  have preimageTarget : hsame preimage targetEmpty :=
+    cont_right_unit_result preimageReadback
+  exact hsame_trans preimageTarget (hsame_trans targetEmptyZero (hsame_symm sourceEmptyZero))
+
 end BEDC.Derived.RandomVarUp
