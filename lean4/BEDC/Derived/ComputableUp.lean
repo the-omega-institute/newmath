@@ -74,6 +74,33 @@ theorem ComputableBoundedSim_composition {PF PG n bF m bG k : BHist} :
           (And.intro boundUnary
             (And.intro rightRun.right.right.right.left composedCont)))))
 
+theorem ComputableBoundedSim_composition_associativity
+    {PF PG PH n bF m bG k bH l : BHist} :
+    ComputableBoundedSim PF n bF m -> ComputableBoundedSim PG m bG k ->
+      ComputableBoundedSim PH k bH l ->
+        exists BL : BHist, exists BR : BHist,
+          ComputableBoundedSim (append (append PF PG) PH) n BL l ∧
+            ComputableBoundedSim (append PF (append PG PH)) n BR l ∧
+              hsame BL BR ∧
+                hsame (append (append PF PG) PH) (append PF (append PG PH)) := by
+  intro runF runG runH
+  cases ComputableBoundedSim_composition runF runG with
+  | intro BFG fgData =>
+      cases ComputableBoundedSim_composition fgData.right.right runH with
+      | intro BL leftData =>
+          cases ComputableBoundedSim_composition runG runH with
+          | intro BGH ghData =>
+              cases ComputableBoundedSim_composition runF ghData.right.right with
+              | intro BR rightData =>
+                  have sameBounds : hsame BL BR :=
+                    cont_left_cancel leftData.right.right.right.right.right.right
+                      rightData.right.right.right.right.right.right
+                  exact Exists.intro BL
+                    (Exists.intro BR
+                      (And.intro leftData.right.right
+                        (And.intro rightData.right.right
+                          (And.intro sameBounds (append_assoc PF PG PH)))))
+
 theorem ComputableUnaryIdentityGraph_empty_bound_simulation_iff {n m : BHist} :
     ComputableBoundedSim BHist.Empty n BHist.Empty m <->
       (UnaryHistory n ∧ UnaryHistory m ∧ hsame n m) := by
