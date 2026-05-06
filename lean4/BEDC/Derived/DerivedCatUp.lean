@@ -167,4 +167,53 @@ theorem DerivedCatVisibleLocalizationClassifier_composition_descent
     (And.intro leftCompUnary
       (And.intro rightCompUnary (And.intro witnessLeftUnary witnessRightUnary)))
 
+theorem DerivedCatVisibleLocalizationClassifier_roof_identity_units
+    {roof leftComposite rightComposite leftWitness rightWitness : BHist} :
+    DerivedCatVisibleLocalizationCarrier roof -> Cont BHist.Empty roof leftComposite ->
+      Cont roof BHist.Empty rightComposite -> Cont leftComposite roof leftWitness ->
+        Cont rightComposite roof rightWitness ->
+          DerivedCatVisibleLocalizationClassifier leftComposite roof ∧
+            DerivedCatVisibleLocalizationClassifier rightComposite roof ∧
+              UnaryHistory leftComposite ∧ UnaryHistory rightComposite ∧
+                UnaryHistory leftWitness ∧ UnaryHistory rightWitness := by
+  intro roofCarrier leftIdentity rightIdentity leftWitnessCont rightWitnessCont
+  have roofUnary : UnaryHistory roof :=
+    DerivedCatVisibleLocalizationCarrier_unary roofCarrier
+  have leftCompositeUnary : UnaryHistory leftComposite :=
+    unary_cont_closed unary_empty roofUnary leftIdentity
+  have rightCompositeUnary : UnaryHistory rightComposite :=
+    unary_cont_closed roofUnary unary_empty rightIdentity
+  have leftWitnessUnary : UnaryHistory leftWitness :=
+    unary_cont_closed leftCompositeUnary roofUnary leftWitnessCont
+  have rightWitnessUnary : UnaryHistory rightWitness :=
+    unary_cont_closed rightCompositeUnary roofUnary rightWitnessCont
+  have leftCompositeCarrier : DerivedCatVisibleLocalizationCarrier leftComposite :=
+    Exists.intro BHist.Empty
+      (Exists.intro leftComposite
+        (Exists.intro BHist.Empty
+          (And.intro leftCompositeUnary
+            (And.intro unary_empty
+              (And.intro leftCompositeUnary
+                (And.intro unary_empty
+                  (And.intro (cont_right_unit leftComposite)
+                    (cont_right_unit leftComposite))))))))
+  have rightCompositeCarrier : DerivedCatVisibleLocalizationCarrier rightComposite :=
+    Exists.intro BHist.Empty
+      (Exists.intro rightComposite
+        (Exists.intro BHist.Empty
+          (And.intro rightCompositeUnary
+            (And.intro unary_empty
+              (And.intro rightCompositeUnary
+                (And.intro unary_empty
+                  (And.intro (cont_right_unit rightComposite)
+                    (cont_right_unit rightComposite))))))))
+  exact And.intro
+    (DerivedCatVisibleLocalizationClassifier.category_step leftCompositeCarrier roofCarrier
+      leftWitnessCont leftWitnessUnary)
+    (And.intro
+      (DerivedCatVisibleLocalizationClassifier.category_step rightCompositeCarrier roofCarrier
+        rightWitnessCont rightWitnessUnary)
+      (And.intro leftCompositeUnary
+        (And.intro rightCompositeUnary (And.intro leftWitnessUnary rightWitnessUnary))))
+
 end BEDC.Derived.DerivedCatUp
