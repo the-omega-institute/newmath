@@ -1,0 +1,141 @@
+\section{Countable-name root surface}
+\label{sec:measure-countable-name-root-unblock}
+
+\begin{definition}[Measure countable-name root-unblock surface]
+\label{def:measure-countable-name-root-unblock-surface}
+The $\MeasureUp$ countable-name root-unblock surface is the ten-field
+obligation surface obtained by reading the root public $\MeasureUp$ package
+through the StreamName endpoint family and the downstream consumer rows. Its
+fields are:
+\begin{enumerate}
+  \item traditional target: constructive measure names whose visible events
+  are counted by StreamName observations and whose values are classified
+  $\RealUp$ endpoints;
+  \item BEDC source: $\MeasureUp$, $\StreamNameUp$, $\RealUp$,
+  $\mathsf{BHist}$, the history classifier $\hsame$, and the root
+  $\NameCert$ surfaces cited by \autoref{def:measure-root-namecert-public-surface};
+  \item carrier choice: a carried $\mathsf{BHist}$ measure code containing
+  the visible event rows, measurable witnesses, sigma-algebra rows,
+  $\RealUp$ endpoint map, StreamName endpoint stream, and countable-sum rows;
+  \item classifier choice: event-row $\hsame$ transport together with the
+  $\RealUp$ endpoint classifier and the pointwise StreamName classifier;
+  \item stability obligations: carrier transport, measurable-row transport,
+  sigma-additivity transport, and countable-sum classifier stability;
+  \item ledger: hidden event membership rows, measurable witnesses,
+  countable-family indices, disjointness witnesses, countable-union rows, and
+  endpoint stream rows;
+  \item core theorem list:
+  \autoref{thm:measure-countable-name-carrier-classifier-obligation},
+  \autoref{thm:measure-countable-name-sigma-additivity-export}, and
+  \autoref{thm:measure-countable-name-analysis-consumer-package};
+  \item exactness predicate: coverage, soundness, and completeness for the
+  visible event rows named by \autoref{def:measure-event-row-coverage};
+  \item standard bridge: no $\StdBridge$ row is asserted at this paper site;
+  \item status: unformalized paper target for the future
+  $\mathsf{BEDC.Derived.MeasureUp}$ namespace.
+\end{enumerate}
+The surface is only a package of displayed rows. It does not identify event
+carriers by host set equality and does not quotient measure codes.
+\end{definition}
+
+\begin{theorem}[Measure countable-name carrier-classifier obligation]
+\label{thm:measure-countable-name-carrier-classifier-obligation}
+The countable-name root-unblock surface of
+\autoref{def:measure-countable-name-root-unblock-surface} exports exactly the
+$\MeasureUp$ carrier transport, event-row classifier transport, and
+StreamName endpoint classifier transport needed by downstream analysis
+chapters. These rows are the projections of
+\autoref{thm:measure-obligation-carrier-transport},
+\autoref{thm:measure-carrier-classifier-obligation}, and
+\autoref{thm:measure-streamname-endpoint-carrier-classifier}.
+\end{theorem}
+\begin{proof}
+First project the carried measure code from the countable-name surface. The
+carrier is a $\mathsf{BHist}$ measure code, so
+\autoref{thm:measure-obligation-carrier-transport} moves the carrier proof
+and rereads the measurable-family, sigma-algebra, endpoint, sigma-additivity,
+head-tail, and countable-sum rows at the transported history.
+
+Next project the public classifier row. Apply
+\autoref{thm:measure-carrier-classifier-obligation}; its componentwise
+$\hsame$ projections transport the visible event rows and their measurable
+witnesses, while the $\RealUp$ classifier transports the corresponding
+endpoint values.
+
+Finally project the StreamName endpoint stream. Apply
+\autoref{thm:measure-streamname-endpoint-carrier-classifier}. It transports
+the observation carrier and the pointwise measurable-event and endpoint rows
+at every unary index. Repacking these three projections gives the displayed
+carrier-classifier obligation and adds no host equality or quotient row.
+\end{proof}
+
+\begin{theorem}[Measure countable-name sigma-additivity export]
+\label{thm:measure-countable-name-sigma-additivity-export}
+For every visible pairwise-disjoint $\mathsf{BHist}$ event stream in the
+countable-name root-unblock surface, the sigma-additivity comparison read by
+$\MeasureUp$ is the same $\RealUp$ endpoint comparison read by the
+StreamName-indexed countable-sum row. The export is obtained from
+\autoref{thm:measureup-sigma-additive-certificate-obligations},
+\autoref{thm:measure-streamname-countable-additivity-scope}, and
+\autoref{thm:measure-obligation-countable-sum-classifier-stability}.
+\end{theorem}
+\begin{proof}
+Project the visible StreamName-indexed event family from
+\autoref{def:measure-countable-name-root-unblock-surface}. Its ledger rows
+provide the unary indices, the covered measurable event at each index, the
+pairwise-disjointness witness, and the displayed countable-union row.
+
+Apply \autoref{thm:measureup-sigma-additive-certificate-obligations} to the
+same covered family. The theorem reads the certificate-level sigma-additivity
+row and produces the $\RealUp$ comparison between the measure of the union and
+the countable endpoint sum.
+
+Now read the family as a StreamName endpoint family. By
+\autoref{thm:measure-streamname-countable-additivity-scope}, countable
+additivity factors only through the endpoint stream, the displayed
+sigma-additivity row, and countable-sum classifier stability.
+
+It remains to compare transported endpoint streams. Apply
+\autoref{thm:measure-obligation-countable-sum-classifier-stability}; pointwise
+$\RealUp$ endpoint comparisons assemble into the classifier comparison of the
+two countable sums. Repacking these rows gives the stated sigma-additivity
+export for disjoint visible $\mathsf{BHist}$ event streams.
+\end{proof}
+
+\begin{theorem}[Measure countable-name analysis consumer package]
+\label{thm:measure-countable-name-analysis-consumer-package}
+The countable-name root-unblock surface supplies the common $\MeasureUp$
+package consumed by $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$. The package consists of the carrier-classifier rows
+of \autoref{thm:measure-countable-name-carrier-classifier-obligation}, the
+sigma-additivity export of
+\autoref{thm:measure-countable-name-sigma-additivity-export}, and the
+consumer rows of \autoref{thm:measure-integral-consumer-rows},
+\autoref{thm:measure-probability-consumer-rows}, and
+\autoref{thm:measure-functionalanalysis-consumer-rows}.
+\end{theorem}
+\begin{proof}
+Begin with the carrier-classifier obligation. It supplies the transported
+measure code, visible event rows, measurable witnesses, endpoint rows, and
+StreamName point rows that the three analysis consumers may name.
+
+Next attach the sigma-additivity export. This gives the countable union
+comparison and countable-sum classifier stability for every visible disjoint
+event stream in the same $\mathsf{BHist}$ ledger.
+
+For $\IntegralUp$, apply \autoref{thm:measure-integral-consumer-rows}. The
+consumer receives the covered measurable-event rows, endpoint classifier rows,
+countable-sum rows, head-tail readback, and finite disjoint-union readback
+already present in the countable-name surface.
+
+For $\ProbSpaceUp$, apply \autoref{thm:measure-probability-consumer-rows}. The
+consumer reads the total-event normalization row together with empty-zero and
+finite disjoint-union rows, all from the same root package.
+
+For $\FunctionalAnalysisUp$, apply
+\autoref{thm:measure-functionalanalysis-consumer-rows}. The consumer reads
+only nonnegative endpoint, monotone inclusion, relative-difference, and
+countable-sum classifier rows. Repacking the three projections gives one
+analysis consumer package and still exposes no host set equality, quotient
+event equality, or $\StdBridge$ row.
+\end{proof}
