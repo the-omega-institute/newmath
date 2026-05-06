@@ -44,4 +44,21 @@ theorem IdealAmbientCarrier_closure_rows
             · intro r x carrierR carrierX
               exact And.intro (carrierMul carrierR carrierX) (carrierMul carrierX carrierR)
 
+theorem IdealAmbientCarrier_quotient_kernel_carrier_exactness
+    {Carrier : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
+    {sub : BHist -> BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (carrierSub : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (sub x y))
+    {x y : BHist} :
+    (Carrier x ∧ Carrier y ∧ Carrier (sub x y)) ↔ Carrier x ∧ Carrier y := by
+  constructor
+  · intro quotientCarrier
+    exact And.intro quotientCarrier.left quotientCarrier.right.left
+  · intro endpoints
+    have carrierX : Carrier x :=
+      NameCert.carrier_respects_equiv cert (NameCert.equiv_refl cert endpoints.left)
+        endpoints.left
+    exact And.intro carrierX
+      (And.intro endpoints.right (carrierSub carrierX endpoints.right))
+
 end BEDC.Derived.IdealUp
