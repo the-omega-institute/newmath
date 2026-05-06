@@ -220,4 +220,34 @@ theorem ListSpineBridgeClassifier_represented_spine_alignment {A : BHist -> Prop
                       classifiedBridge)
                     classifiedRight
 
+theorem ListSpineBridgeClassifier_nil_classifier_inversion {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (coherent :
+      forall {h : BHist} {xs ys : ListCarrier BHist},
+        ListSpineRep A h xs -> ListSpineRep A h ys -> ListClassifierSpec Rel xs ys)
+    {h k : BHist} {xs ys : ListCarrier BHist} :
+    (ListSpineRep A h [] -> ListSpineRep A k ys ->
+      ListSpineBridgeClassifier A Rel h k -> ys = []) ∧
+      (ListSpineRep A h xs -> ListSpineRep A k [] ->
+        ListSpineBridgeClassifier A Rel h k -> xs = []) := by
+  constructor
+  · intro repNil repY bridge
+    have classified :
+        ListClassifierSpec Rel ([] : ListCarrier BHist) ys :=
+      ListSpineBridgeClassifier_represented_spine_alignment cert coherent repNil repY bridge
+    cases ys with
+    | nil =>
+        rfl
+    | cons _ _ =>
+        cases classified
+  · intro repX repNil bridge
+    have classified :
+        ListClassifierSpec Rel xs ([] : ListCarrier BHist) :=
+      ListSpineBridgeClassifier_represented_spine_alignment cert coherent repX repNil bridge
+    cases xs with
+    | nil =>
+        rfl
+    | cons _ _ =>
+        cases classified
+
 end BEDC.Derived.ListUp
