@@ -89,4 +89,43 @@ theorem AxisAdd_cont_result_zeroSpine {h k r : BHist} :
       cases contHK
       exact ZeroSpine.step (tailClosed rfl)
 
+theorem AxisAddCont_commutative_zeroSpine_shift (h : BHist) {k : BHist} :
+    ZeroSpine k -> hsame (append (BHist.e0 h) k) (BHist.e0 (append h k)) := by
+  intro spineK
+  induction spineK with
+  | empty =>
+      rfl
+  | step _spineTail ih =>
+      exact congrArg BHist.e0 ih
+
+theorem AxisAddCont_commutative_zeroSpine_append {h k : BHist} :
+    ZeroSpine h -> ZeroSpine k -> hsame (append h k) (append k h) := by
+  intro spineH spineK
+  induction spineK generalizing h with
+  | empty =>
+      exact (append_empty_right h).trans (append_empty_left h).symm
+  | step spineTail ih =>
+      rename_i kTail
+      cases h with
+      | Empty =>
+          exact (append_empty_left (BHist.e0 _)).trans (append_empty_right (BHist.e0 _)).symm
+      | e0 hTail =>
+          have spineHTail : ZeroSpine hTail := zeroSpine_e0_inversion spineH
+          have leftShift := AxisAddCont_commutative_zeroSpine_shift hTail spineTail
+          have rightShift :
+              hsame (append (BHist.e0 kTail) hTail) (BHist.e0 (append kTail hTail)) :=
+            AxisAddCont_commutative_zeroSpine_shift kTail spineHTail
+          exact congrArg BHist.e0
+            (hsame_trans leftShift
+              (hsame_trans (congrArg BHist.e0 (ih spineHTail)) (hsame_symm rightShift)))
+      | e1 hTail =>
+          exact False.elim (zeroSpine_no_e1_extension spineH)
+
+theorem AxisAddCont_commutative_zeroSpine {h k rHK rKH : BHist} :
+    ZeroSpine h -> ZeroSpine k -> Cont h k rHK -> Cont k h rKH -> hsame rHK rKH := by
+  intro spineH spineK contHK contKH
+  cases contHK
+  cases contKH
+  exact AxisAddCont_commutative_zeroSpine_append spineH spineK
+
 end BEDC.Derived.AxisZeckendorf.AxisAdd
