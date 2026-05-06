@@ -61,6 +61,13 @@ Method:
      line outside theorem / proof / definition environments that is not body
      prose.
    - "Chinese characters in LaTeX" → translate to English.
+   - "closurestatus" / "theoryclosure" / "formalstatus" / "leantarget" →
+     remove the chapter-retirement / verification-axis block entirely.
+     If that was the only content, set `verdict=escalate` because this lane
+     cannot repair marker-only work into a theorem.
+   - "parameter-transport echo" / "source-equivalence repackaging" →
+     STOP. This is a substance failure, not a surface fix. Set
+     `verdict=escalate` with reason "invalid parameter-echo target".
 
 2. Apply ALL applicable fixes in this round. Do not leave any rejection
    reason unaddressed unless it is the special-case `topic mismatch` or
@@ -73,6 +80,9 @@ Method:
    - No manual proof markers.
    - `\autoref` not `\ref`.
    - English only.
+   - No `closurestatus` / `\theoryclosure` / `\formalstatus` /
+     `\leantarget`.
+   - No abstract carrier/classifier parameter-transport echo.
 
 4. Score yourself on `audit_score` 0-10 (post-fix self-rating):
    - 0-3: I could not address several rejections, escalate.
@@ -112,7 +122,8 @@ Return only one JSON object on stdout:
 Hard rules — `content` must NOT contain any of:
 "Q.E.D.", "QED", "\qed", "\square", "新增", "修订", "本次", "本轮",
 "vNNN-", "previously", "we extend", "we now revise", "patch", "increment",
-"legacy", "supersede".
+"legacy", "supersede", "closurestatus", "\theoryclosure", "\formalstatus",
+"\leantarget".
 
 Do not introduce NEW theorems / lemmas / definitions in corrective mode.
 The content set is fixed; only the presentation moves.

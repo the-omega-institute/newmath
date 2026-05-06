@@ -8,6 +8,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.ContinuousUp
 open BEDC.Derived.ContinuousMapUp
 
 theorem FilterPrincipalSuffix_unary_intersection_closed
@@ -390,5 +391,33 @@ theorem FilterPrincipalSuffix_continuousMap_image_package
     exact hsame_trans sameTargetRightImage (cont_deterministic imageRightRel displayed)
   · intro z displayed
     exact hsame_trans sameTargetMeetImage (cont_deterministic imageMeetRel displayed)
+
+theorem FilterPrincipalSuffix_continuousMap_image_point_determinacy
+    {base map target modulus cert distance suffix sourcePoint targetPoint target0 target1
+        modulus0 modulus1 cert0 cert1 distance0 distance1 : BHist} :
+    ContinuousMapCarrier base map target modulus cert distance -> UnaryHistory suffix ->
+      Cont base suffix sourcePoint -> Cont target suffix targetPoint ->
+        ContinuousMapCarrier sourcePoint map target0 modulus0 cert0 distance0 ->
+          ContinuousMapCarrier sourcePoint map target1 modulus1 cert1 distance1 ->
+            hsame target0 target1 ∧ hsame targetPoint target0 ∧ hsame targetPoint target1 := by
+  intro baseCarrier suffixCarrier sourceSuffix targetSuffix image0 image1
+  have baseReadback :=
+    ContinuousFunctionCarrier_graph_modulus_cont_readback baseCarrier.left
+  have image0Readback :=
+    ContinuousFunctionCarrier_graph_modulus_cont_readback image0.left
+  have image1Readback :=
+    ContinuousFunctionCarrier_graph_modulus_cont_readback image1.left
+  have mapCarrier : UnaryHistory map := baseCarrier.left.right.right.left
+  have sameTarget0Point :
+      hsame target0 targetPoint :=
+    FilterPrincipalSuffix_unary_commuting_square suffixCarrier mapCarrier
+      sourceSuffix baseReadback.left image0Readback.left targetSuffix
+  have sameTarget1Point :
+      hsame target1 targetPoint :=
+    FilterPrincipalSuffix_unary_commuting_square suffixCarrier mapCarrier
+      sourceSuffix baseReadback.left image1Readback.left targetSuffix
+  exact And.intro
+    (hsame_trans sameTarget0Point (hsame_symm sameTarget1Point))
+    (And.intro (hsame_symm sameTarget0Point) (hsame_symm sameTarget1Point))
 
 end BEDC.Derived.FilterUp

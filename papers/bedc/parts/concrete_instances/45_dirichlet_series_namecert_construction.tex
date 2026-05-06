@@ -85,9 +85,11 @@ component.
 \label{lem:dir-term-well-defined}
 For every \((a, n, s)\) with positive unary \(n\) and complex history \(s\), \(\mathsf{DirTerm}(a, n, s, t_n)\) determines a unique complex history \(t_n\) up to \(\hsame\).
 \end{lemma}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletTerm\_complex\_carrier\_well\_defined}
 \begin{proof}
 Constructive existence and uniqueness of \(\log n\) on positive unary \(n\); composition with constructive complex \(\exp\) and complex multiplication.
 \end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletTerm\_positive\_index\_append\_hsame\_transport}
 
 \begin{definition}[Dirichlet partial sum]
 \label{def:dir-part-sum}
@@ -363,6 +365,7 @@ part $q$ fail to admit any such uniform bound. All uses of order in the
 predicate are therefore supplied by displayed real-history comparison witnesses,
 not inferred from distinctness of candidates.
 \end{definition}
+\leandef{BEDC.Derived.DirichletSeriesUp.AbsConvAbscissa}
 
 \begin{theorem}[Abscissa is unique]
 \label{thm:abs-conv-abscissa-unique}
@@ -417,11 +420,13 @@ Term-wise complex differentiability of \(n^{-s}\) gives derivative \(-(\log n) n
 \label{def:completely-multiplicative}
 A coefficient sequence \(a\) is completely multiplicative when \(a_1 = \Eone(\emp)\) and for all positive unary \(m, n\), \(a_{m \cdot n} = a_m \cdot a_n\) (product in \(\ComplexUp\)).
 \end{definition}
+\leandef{BEDC.Derived.DirichletSeriesUp.DirichletCoefficient\_completely\_multiplicative}
 
 \begin{theorem}[Euler product]
 \label{thm:euler-product}
 If \(a\) is completely multiplicative and \(\Re(s) > \sigma_a\), the Dirichlet series factors as the explicit Euler product \(\sum a_n n^{-s} = \prod_p (1 - a_p p^{-s})^{-1}\) over primes \(p\) (in the sense of \(\PrimeUp\), \autoref{ch:concrete-instances-prime-namecert}). The product converges absolutely with explicit modulus over compact sub-half-planes.
 \end{theorem}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletCoefficient\_completely\_multiplicative\_product\_nonempty}
 \begin{proof}[Sketch]
 Group terms by prime factorization (\(\mathsf{factorization\_exists}\) of \autoref{ch:concrete-instances-prime-namecert}); the geometric series \(\sum_{k} (a_p p^{-s})^k\) gives the local factor at each prime.
 \end{proof}
@@ -432,6 +437,8 @@ Group terms by prime factorization (\(\mathsf{factorization\_exists}\) of \autor
 \label{def:dir-source-spec}
 The source specification on \((a, s)\) carries the constraint \(\mathsf{AbsConvAbscissa}(a, \sigma_a)\) and \(\Re(s) > \sigma_a\).
 \end{definition}
+\leandef{BEDC.Derived.DirichletSeriesUp.DirichletSourceSpec}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletSourceSpec\_witness\_result\_carrier}
 
 \begin{definition}[Dirichlet pattern specification]
 \label{def:dir-pattern-spec}
@@ -443,6 +450,9 @@ The pattern is the regular Cauchy partial-sum predicate of \autoref{ch:concrete-
 \label{def:dir-classifier-spec}
 Two convergent Dirichlet series at the same \(s\) are classified together when their limits agree under \(\hsame\) on both real components.
 \end{definition}
+\leandef{BEDC.Derived.DirichletSeriesUp.DirichletClassifierSpec}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletClassifierSpec\_limit\_transport}
+\leandef{BEDC.Derived.DirichletSeriesUp.DirichletSeriesClassifierSpec}
 
 \begin{definition}[Dirichlet stability certificate]
 \label{def:dir-stability-cert}
@@ -459,6 +469,7 @@ The ledger policy records: (i) absolute convergence in the open half-plane, (ii)
 \label{thm:dirichlet-namecert}
 The five fields above form a naming certificate over \(\Hist\) for the Dirichlet series interface \(\DirichletSeriesUp\).
 \end{theorem}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.dirichlet\_name\_certificate}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}

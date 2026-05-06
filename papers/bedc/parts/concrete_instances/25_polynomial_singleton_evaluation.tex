@@ -1,0 +1,19 @@
+\begin{proof}
+Put $s=\mathsf{cons}(c,\mathsf{nil})$. First compute the unnormalized Horner value. The cons and nil recursion clauses in \autoref{def:polynomial-horner-evaluation} identify
+$$
+\mathsf{eval}_{\alpha,R}(s)=c+\alpha\cdot0_R.
+$$
+The right zero-absorption half of \autoref{thm:ring-zero-absorption-from-distributivity} gives
+$$
+\alpha\cdot0_R\sim_R0_R.
+$$
+Classifier reflexivity for $c$ and addition congruence from \autoref{def:ring-stability-certificate} give
+$$
+c+\alpha\cdot0_R\sim_Rc+0_R.
+$$
+The additive right-zero theorem \autoref{thm:ring-add-right-zero} gives $c+0_R\sim_Rc$, and transitivity yields
+$$
+\mathsf{eval}_{\alpha,R}(s)\sim_Rc.
+$$
+By \autoref{def:polynomial-horner-evaluation}, $\mathsf{Eval}_{\alpha,R}(s)=\mathsf{eval}_{\alpha,R}(\mathsf{trim}_R(s))$. The one-coefficient trimming boundary in \autoref{def:polynomial-normalized-singleton-representative}, read with \autoref{def:polynomial-stability-certificate}, has exactly the empty zero branch and the retained singleton branch. In the empty zero branch, $c\sim_R0_R$ and $\mathsf{trim}_R(s)=\mathsf{nil}$; the nil Horner equation gives $\mathsf{Eval}_{\alpha,R}(s)=0_R$, and classifier symmetry gives $0_R\sim_Rc$. In the retained singleton branch, $\mathsf{trim}_R(s)=s$, so the raw computation above is the required normalized comparison. These are the two canonical trim branches for a singleton coefficient spine.
+\end{proof}

@@ -156,6 +156,46 @@ theorem TaggedOptionMapRel_common_target_visible_source_completion {S T : BHist 
                 exact Exists.intro a
                   (And.intro data.left (And.intro data.right.right.left relAY))
 
+theorem TaggedOptionMapRel_R_corner_classifier_coherence {S T : BHist -> Prop}
+    {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (reflects : TaggedOptionPayloadDescentReflectsSource S delta)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (relS_symm : forall {a b : BHist}, RelS a b -> RelS b a)
+    (relS_trans : forall {a b c : BHist}, RelS a b -> RelS b c -> RelS a c)
+    {h r k a c b : BHist} :
+    TaggedOptionMapRel S T delta h k ->
+      TaggedOptionMapRel S T delta r k ->
+        S a -> S c -> hsame h (BHist.e1 a) -> hsame r (BHist.e1 c) ->
+          hsame k (BHist.e1 b) -> RelS a c := by
+  intro mapH mapR sourceA sourceC sameHA sameRC _sameKB
+  have sourceClass : TaggedOptionHistoryClassifier S RelS h r :=
+    TaggedOptionMapRel_common_target_source_classification delta reflects mapH mapR
+  cases sourceClass with
+  | inl absent =>
+      exact False.elim
+        (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.left) sameHA))
+  | inr present =>
+      cases present with
+      | intro x present =>
+          cases present with
+          | intro y data =>
+              have sameAX : hsame a x :=
+                hsame_e1_iff.mp
+                  (hsame_trans (hsame_symm sameHA) data.right.right.left)
+              have sameYC : hsame y c :=
+                hsame_e1_iff.mp
+                  (hsame_trans (hsame_symm data.right.right.right.left) sameRC)
+              have relAX : RelS a x :=
+                source_hsame sourceA data.left sameAX
+              have relXY : RelS x y :=
+                relS_symm (relS_symm data.right.right.right.right)
+              have relAY : RelS a y :=
+                relS_trans relAX relXY
+              have relYC : RelS y c :=
+                source_hsame data.right.left sourceC sameYC
+              exact relS_trans relAY relYC
+
 theorem TaggedOptionMapRel_common_source_visible_target_payload_classification
     {S T : BHist -> Prop} {RelS RelT : BHist -> BHist -> Prop}
     (delta : DescentCertificate BHist BHist RelS RelT) (certT : NameCert T RelT)

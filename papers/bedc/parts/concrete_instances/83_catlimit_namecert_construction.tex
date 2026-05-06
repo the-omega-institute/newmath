@@ -22,6 +22,7 @@ A certified limiting cone is written
 $$\operatorname{LimCone}_{D}(L,\lambda).$$
 It consists of a $D$-cone $\lambda$ with apex $L$ and the universal field that every $D$-cone $\chi$ with apex $X$ admits a morphism $m:X\to L$ satisfying $\operatorname{ConeMor}_{D}(\chi,\lambda;m)$, with any two such morphisms classified by $\operatorname{MorEq}_{\mathcal C}(X,L;-,-)$.
 \end{definition}
+\leandef{BEDC.Derived.CatLimitUp.CatLimitConeMor}
 
 \begin{lemma}[Composition closure for cone morphisms]\label{lem:catlimit-cone-morphism-composite-closure}
 Let $\lambda,\mu,\nu$ be $D$-cones with apexes $L,M,N$. Suppose
@@ -54,17 +55,44 @@ across right composition by $f$, giving a classifier comparison between the comp
 $$\operatorname{MorEq}_{\mathcal C}(L,D(j);r_j,\lambda_j).$$
 Since the object $j$ was arbitrary, the component witnesses $r_j$ assemble the component ledger for $\operatorname{ConeMor}_{D}(\lambda,\nu;h)$.
 \end{proof}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_comp\_closed}
 
 \begin{lemma}[Identity cone morphism]\label{lem:catlimit-cone-identity-comparison}
 If $\lambda$ is a $D$-cone with apex $L$, then
 $$\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L).$$
 \end{lemma}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_empty\_identity}
 \begin{proof}
 The identity field of the $\CategoryUp$ certificate gives $\operatorname{Mor}_{\mathcal C}(L,L;1_L)$. Fix an object $j$ of $\mathcal J$. The unit field for the component $\lambda_j:L\to D(j)$ supplies a composite $c_j:L\to D(j)$ with
 $$\operatorname{Comp}_{\mathcal C}(L,L,D(j);1_L,\lambda_j,c_j)$$
 and
 $$\operatorname{MorEq}_{\mathcal C}(L,D(j);c_j,\lambda_j).$$
 These witnesses, indexed by the objects of $\mathcal J$, give the cone-morphism ledger for $\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_identity}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_identity\_comparison}
+
+\begin{theorem}[Fixed-diagram cone-morphism category package]\label{thm:catlimit-cone-morphism-category-package}
+For a fixed certified diagram $D:\mathcal J\to\mathcal C$ in a $\CategoryUp$ certificate, the data whose objects are $D$-cones and whose arrows from $\lambda$ to $\mu$ are witnesses of
+$$\operatorname{ConeMor}_{D}(\lambda,\mu;f)$$
+has the certified category surface induced by $\mathcal C$. The identity arrow at a cone $\lambda$ is supplied by
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L),$$
+and a composable pair
+$$\operatorname{ConeMor}_{D}(\lambda,\mu;f),\qquad
+\operatorname{ConeMor}_{D}(\mu,\nu;g)$$
+together with
+$$\operatorname{Comp}_{\mathcal C}(L,M,N;f,g,h)$$
+supplies the composite arrow
+$$\operatorname{ConeMor}_{D}(\lambda,\nu;h).$$
+Moreover, composition of cone morphisms is stable under the morphism classifier inherited from $\operatorname{MorEq}_{\mathcal C}$: replacing any displayed arrow or component composite by a parallel $\operatorname{MorEq}_{\mathcal C}$-classified representative gives a classified representative of the same cone-morphism composite.
+\end{theorem}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_comp\_classifier\_transport}
+\begin{proof}
+The identity row is exactly \autoref{lem:catlimit-cone-identity-comparison}. For every $D$-cone $\lambda$ with apex $L$, that lemma supplies the certified morphism $1_L:L\to L$ and the component ledger proving $\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L)$.
+
+For composition, take cone morphisms $\lambda\to\mu$ and $\mu\to\nu$ represented by $f$ and $g$, and take a certified composite witness $\operatorname{Comp}_{\mathcal C}(L,M,N;f,g,h)$. Applying \autoref{lem:catlimit-cone-morphism-composite-closure} gives the required cone-morphism ledger $\operatorname{ConeMor}_{D}(\lambda,\nu;h)$.
+
+It remains to record stability under the inherited classifier. The proof of \autoref{lem:catlimit-cone-morphism-composite-closure} uses the associativity field of $\CategoryUp$ to compare the two component-composite parenthesizations and the classifier-congruence field to transport $\operatorname{MorEq}_{\mathcal C}$ across right composition. Those same fields show that replacing $f$, $g$, $h$, or any component composite by a parallel $\operatorname{MorEq}_{\mathcal C}$ representative preserves the displayed cone-morphism composite up to the same classifier.
 \end{proof}
 
 \begin{proposition}[Limiting-cone endomorphism rigidity]\label{prop:catlimit-limiting-cone-endomorphism-rigidity}
@@ -75,6 +103,7 @@ $$\operatorname{ConeMor}_{D}(\lambda,\lambda;a),$$
 then
 $$\operatorname{MorEq}_{\mathcal C}(L,L;a,1_L).$$
 \end{proposition}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitLimCone\_endomorphism\_rigidity}
 \begin{proof}
 By \autoref{lem:catlimit-cone-identity-comparison}, the identity morphism satisfies
 $$\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L).$$
@@ -104,6 +133,7 @@ $$\operatorname{MorEq}_{\mathcal C}(L,L;c_L,1_L)$$
 and
 $$\operatorname{MorEq}_{\mathcal C}(L',L';c_{L'},1_{L'}).$$
 \end{theorem}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitLimCone\_comparison\_identities}
 \begin{proof}
 Apply the universal existence field of $\operatorname{LimCone}_{D}(L',\lambda')$ to the $D$-cone $\lambda$ with apex $L$. This supplies a morphism $u:L\to L'$ and a cone-morphism ledger
 $$\operatorname{ConeMor}_{D}(\lambda,\lambda';u).$$
@@ -145,6 +175,7 @@ $$\operatorname{ConeMor}_{D}(\lambda',\lambda;v_2),$$
 then
 $$\operatorname{MorEq}_{\mathcal C}(L',L;v_1,v_2).$$
 \end{corollary}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitLimCone\_comparison\_fiber\_collapse}
 \begin{proof}
 The two morphisms $u_1,u_2:L\to L'$ are cone morphisms from the same source cone $\lambda$ to the same limiting cone $\lambda'$. The universal uniqueness field of $\operatorname{LimCone}_{D}(L',\lambda')$ applied to the source cone $\lambda$ gives
 $$\operatorname{MorEq}_{\mathcal C}(L,L';u_1,u_2).$$
@@ -246,6 +277,7 @@ $$
 $$
 This is exactly the uniqueness field required for $\operatorname{LimCone}_{E}(L,\lambda^E)$.
 \end{proof}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitLimCone\_transport\_pointwise\_equiv}
 
 \begin{theorem}[Cone morphism classifier descent through natural-transformation whiskering]
 \label{thm:catlimit-cone-morphism-nattrans-whiskering-descent}
@@ -264,6 +296,7 @@ $$
 \operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_nattrans\_whiskering\_descent}
 \begin{proof}
 By \autoref{def:nattrans-carrier}, each $\alpha_j$ is a displayed morphism $D(j)\to E(j)$ in $\mathcal C$, and the naturality row is the cone-whiskering ledger that makes the displayed component families $\lambda^\alpha$ and $\mu^\alpha$ into $E$-cones. If any object image is represented by a classified endpoint rather than by a literal endpoint, the source-target replacement row of \autoref{def:functor-stability-certificate} and the endpoint-indexed transport fields of \autoref{def:category-stability-certificate} reindex the component morphisms before the following composition ledgers are formed.
 
@@ -309,3 +342,60 @@ $$
 
 Thus, for the fixed object $j$, the composite $s_j$ supplies the required $E$-cone-morphism component ledger for $f$ from $\lambda^\alpha$ to $\mu^\alpha$. Since $j$ was arbitrary, these ledgers assemble with the already supplied apex morphism field into $\operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f)$.
 \end{proof}
+
+\begin{theorem}[CatLimit transported limiting-cone comparison]
+\label{thm:catlimit-transported-limiting-cone-comparison}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations, and let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams. Suppose $(\alpha,\beta)$ is a pointwise certified diagram equivalence between $D$ and $E$ in the sense of \autoref{def:catlimit-pointwise-certified-diagram-equivalence}. Let
+$$
+\operatorname{LimCone}_{D}(L,\lambda)
+$$
+be a certified limiting $D$-cone, and let $\lambda^E$ be the transported $E$-cone obtained from the certified component composites
+$$
+\operatorname{Comp}_{\mathcal C}(L,D(j),E(j);\lambda_j,\alpha_j,\lambda^E_j)
+$$
+for every object $j$ of $\mathcal J$. If
+$$
+\operatorname{LimCone}_{E}(M,\mu)
+$$
+is an independently certified limiting $E$-cone, then there exist comparison morphisms
+$$
+u:L\to M
+\qquad\text{and}\qquad
+v:M\to L
+$$
+such that
+$$
+\operatorname{ConeMor}_{E}(\lambda^E,\mu;u)
+\qquad\text{and}\qquad
+\operatorname{ConeMor}_{E}(\mu,\lambda^E;v).
+$$
+Moreover, there are composite results $c_L:L\to L$ and $c_M:M\to M$ satisfying
+$$
+\operatorname{Comp}_{\mathcal C}(L,M,L;u,v,c_L)
+\qquad\text{and}\qquad
+\operatorname{Comp}_{\mathcal C}(M,L,M;v,u,c_M)
+$$
+with
+$$
+\operatorname{MorEq}_{\mathcal C}(L,L;c_L,1_L)
+\qquad\text{and}\qquad
+\operatorname{MorEq}_{\mathcal C}(M,M;c_M,1_M).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:catlimit-transport-pointwise-certified-diagram-equivalence} to the pointwise certified diagram equivalence $(\alpha,\beta)$ and to the limiting $D$-cone $\operatorname{LimCone}_{D}(L,\lambda)$. The displayed component-composite ledgers for $\lambda^E$ are exactly the input required by that transport theorem, so it gives
+$$
+\operatorname{LimCone}_{E}(L,\lambda^E).
+$$
+
+Now both limiting cones are read over the single certified diagram $E$:
+$$
+\operatorname{LimCone}_{E}(L,\lambda^E)
+\qquad\text{and}\qquad
+\operatorname{LimCone}_{E}(M,\mu).
+$$
+Apply \autoref{thm:catlimit-universal-cones-comparison-identities} to these two $E$-limiting cones. It supplies the comparison morphisms $u:L\to M$ and $v:M\to L$, the two cone-morphism ledgers over $E$, and composite results $c_L$ and $c_M$ for the two apex composites.
+
+The identity classifiers produced by that comparison theorem are also classified in the target category certificate $\mathcal C$ while the cone-morphism ledgers are indexed by $E$. Hence the composites $u;v$ and $v;u$ are classified, under $\operatorname{MorEq}_{\mathcal C}$, as the respective identity morphisms $1_L$ and $1_M$ in precisely the transported target-diagram context claimed above.
+\end{proof}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitLimCone\_transported\_comparison}

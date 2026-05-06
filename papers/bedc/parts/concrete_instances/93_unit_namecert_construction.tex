@@ -163,3 +163,46 @@ transport follows from the target carrier endpoint already present in the
 classifier witness.
 \end{proof}
 \leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_semanticNameCert}
+
+\begin{theorem}[Unit terminal map uniqueness]
+\label{thm:unit-terminal-map-uniqueness}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let
+$R_S:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be its source
+classifier, and let $\mathcal{N}_S:\NameCert(S,R_S)$ be a source naming
+certificate in the sense of \autoref{def:lean-carrier-naming-certificate}. For
+maps $f,g:\mathsf{BHist}\to\mathsf{BHist}$, assume
+$$
+\forall a:\mathsf{BHist},\ S(a)\Longrightarrow \mathsf{UnitHistoryCarrier}(f(a))
+$$
+and
+$$
+\forall a:\mathsf{BHist},\ S(a)\Longrightarrow \mathsf{UnitHistoryCarrier}(g(a)).
+$$
+Then every carried source endpoint has classified unit images:
+$$
+\forall a:\mathsf{BHist},\ S(a)\Longrightarrow
+\mathsf{UnitHistoryClassifier}(f(a),g(a)).
+$$
+\end{theorem}
+\begin{proof}
+Fix a carried source endpoint $a$ with witness $s:S(a)$. The two preservation
+hypotheses give unit-carrier witnesses for $f(a)$ and $g(a)$. By
+\autoref{thm:unit-history-carrier-empty-iff}, these witnesses identify both
+images with $\emp$:
+$$
+f(a)\hsame\emp
+\qquad\text{and}\qquad
+g(a)\hsame\emp.
+$$
+Symmetry turns the second identification into $\emp\hsame g(a)$, and
+transitivity gives $f(a)\hsame g(a)$. The definition of the classifier in
+\autoref{def:unit-history-classifier} is exactly the conjunction of the two
+unit-carrier witnesses and this $\hsame$ relation. Hence
+$\mathsf{UnitHistoryClassifier}(f(a),g(a))$ holds. Since $a$ and $s$ were
+arbitrary, the displayed universal statement follows. The source certificate
+$\mathcal{N}_S$ fixes the certified source context; no source-classifier
+compatibility is needed because both images land in the concrete unit carrier
+of \autoref{def:unit-history-carrier}.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_terminal\_map\_uniqueness}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_terminal\_map\_unique}

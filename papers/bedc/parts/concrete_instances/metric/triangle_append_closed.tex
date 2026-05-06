@@ -502,6 +502,7 @@ $\mathsf{MetricDistanceWitness}(y,z,d_{yz})$ and
 $\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$. The result is exactly the
 displayed equivalence.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_triangle\_nonempty\_spine\_iff\_nonempty\_distance}
 
 \begin{theorem}[Metric distance witness triangle append context closure]
 \label{thm:metric-distance-witness-triangle-append-context-closed}
@@ -743,57 +744,4 @@ carriers across these classifiers, and
 continuation ledger while keeping the contextual result fixed. Repacking the
 transported carriers with this ledger gives the displayed witness
 $\mathsf{MetricDistanceWitness}(p\cdot x',e\cdot q,(p\cdot d_{xyz})\cdot q)$.
-\end{proof}
-
-\begin{definition}[Metric ball budget predicate]
-\label{def:metric-ball-budget-predicate}
-For a certified $\MetricSpaceUp$ setup on a carrier $X$ with distance
-$d:X\times X\to\RealUp$, a ball-budget structure supplies an ordered-real
-comparison $\le_{\mathsf R}$ on $\RealUp$, an addition operation $+$ on
-$\RealUp$, a transitivity field for $\le_{\mathsf R}$, and a two-sided
-addition-monotonicity field saying that $a\le_{\mathsf R} a'$ and
-$b\le_{\mathsf R} b'$ entail $a+b\le_{\mathsf R} a'+b'$. Relative to this
-chosen budget structure, the closed ball-budget predicate is
-$$
-\mathsf{MetricBallBudget}_d(x,y;r) :\Longleftrightarrow d(x,y)\le_{\mathsf R} r.
-$$
-\end{definition}
-
-\begin{theorem}[Metric ball budget composition]
-\label{thm:metric-ball-budget-composition}
-Let $X$ be a carrier equipped with the $\MetricSpaceUp$ certificate obligations
-of \autoref{def:metric-certificate-obligations}, and let
-$d:X\times X\to\RealUp$ be its certified distance. Assume also the ball-budget
-ordered-real fields of \autoref{def:metric-ball-budget-predicate}: the
-comparison $\le_{\mathsf R}$, addition $+$, budget-transitivity, and two-sided
-budget-addition-monotonicity. For $x,y,z:X$ and budgets $r,s:\RealUp$,
-$$
-\mathsf{MetricBallBudget}_d(x,y;r)\Longrightarrow
-\mathsf{MetricBallBudget}_d(y,z;s)\Longrightarrow
-\mathsf{MetricBallBudget}_d(x,z;r+s).
-$$
-Equivalently,
-$$
-d(x,y)\le_{\mathsf R} r\Longrightarrow d(y,z)\le_{\mathsf R} s\Longrightarrow d(x,z)\le_{\mathsf R} r+s.
-$$
-\end{theorem}
-\begin{proof}
-Unfold \autoref{def:metric-ball-budget-predicate}. The two premises are the
-budget comparisons $d(x,y)\le_{\mathsf R} r$ and
-$d(y,z)\le_{\mathsf R} s$. The triangle-inequality field of
-\autoref{def:metric-stability-certificate} gives
-$$
-d(x,z)\le_{\mathsf R} d(x,y)+d(y,z).
-$$
-
-Apply the supplied two-sided budget-addition-monotonicity field to the two
-budget premises. This gives
-$$
-d(x,y)+d(y,z)\le_{\mathsf R} r+s.
-$$
-
-Apply the supplied budget-transitivity field to the triangle inequality and
-the displayed budget bound. This yields $d(x,z)\le_{\mathsf R} r+s$.
-Refolding \autoref{def:metric-ball-budget-predicate} gives the closed
-ball-budget conclusion.
 \end{proof}

@@ -603,3 +603,73 @@ This is impossible because $\mathcal E$ uses equality as its morphism classifier
 
 Thus the naturality classifier for $\alpha$ in $\mathcal D$ cannot be transported through $H_1$. This is exactly the transport step used in \autoref{thm:functor-whiskering-nattrans-certificate} and, at the functor level, in \autoref{thm:functor-composite-preservation-witnesses}. If raw identity and raw composition preservation were enough for $\FunctorUp$ composition certification, applying that rule to $H\circ 1_{\mathcal D}$, with $1_{\mathcal D}$ supplied by \autoref{thm:identity-functor-namecert}, would certify the same raw map $H$ and hence the missing classifier transport $Q\sim_{\mathcal D}P\Rightarrow H_1(Q)\sim_{\mathcal E}H_1(P)$. The displayed failure in $\mathcal E$ contradicts that conclusion.
 \end{proof}
+
+\begin{theorem}[Split monomorphisms are left-cancellative]
+\label{thm:category-split-monomorphism-left-cancellative}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying
+\autoref{def:category-certificate-obligations}. Let $f:a\to b$ be a split
+monomorphism in $\mathcal C$ with left-inverse witness $g:b\to a$ in the
+sense of \autoref{def:category-split-monomorphism}. If $u,v:x\to a$ are
+displayed morphisms and $p,q:x\to b$ are displayed composites with
+$$
+\mathsf{Comp}_{\mathcal C}(u,f,p),
+\qquad
+\mathsf{Comp}_{\mathcal C}(v,f,q),
+$$
+and if $p\sim_{\mathcal C}q$ in the morphism classifier at $(x,b)$, then
+$u\sim_{\mathcal C}v$ in the morphism classifier at $(x,a)$.
+\end{theorem}
+\begin{proof}
+Unpack the split-monomorphism witness. It supplies displayed hom-carriers for
+$f$ and $g$, an identity display $i_a:a\to a$, and a composite display
+$c:a\to a$ such that
+$$
+\mathsf{Comp}_{\mathcal C}(f,g,c)
+\qquad\text{and}\qquad
+c\sim_{\mathcal C} i_a.
+$$
+The displayed morphisms $u$ and $v$, together with composition closure in
+\autoref{def:category-stability-certificate}, make $p$ and $q$ hom-carriers
+from $x$ to $b$.
+
+Let $r_u:x\to a$ and $r_v:x\to a$ be composites of $p$ and $q$ followed by
+$g$:
+$$
+\mathsf{Comp}_{\mathcal C}(p,g,r_u),
+\qquad
+\mathsf{Comp}_{\mathcal C}(q,g,r_v).
+$$
+Composition congruence with the fixed factor $g$ transports the hypothesis
+$p\sim_{\mathcal C}q$ to
+$$
+r_u\sim_{\mathcal C} r_v.
+$$
+
+Apply associativity to the chain
+$$
+x\xrightarrow{u}a\xrightarrow{f}b\xrightarrow{g}a.
+$$
+It compares $r_u=g\circ_{\mathcal C}(f\circ_{\mathcal C}u)$ with the
+composite of $u$ followed by $c=g\circ_{\mathcal C}f$. Since
+$c\sim_{\mathcal C}i_a$, composition congruence with the fixed factor $u$
+compares this latter composite with the composite of $u$ followed by $i_a$.
+The target-identity law then classifies that composite with $u$. Hence
+$$
+r_u\sim_{\mathcal C}u.
+$$
+The same argument applied to
+$$
+x\xrightarrow{v}a\xrightarrow{f}b\xrightarrow{g}a
+$$
+gives
+$$
+r_v\sim_{\mathcal C}v.
+$$
+
+The morphism-classifier equivalence laws, recorded in the classifier and
+stability rows of the $\CategoryUp$ certificate, compose the comparison
+$u\sim_{\mathcal C}r_u$, the transported comparison
+$r_u\sim_{\mathcal C}r_v$, and the comparison $r_v\sim_{\mathcal C}v$.
+Therefore $u\sim_{\mathcal C}v$ at the endpoint pair $(x,a)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.CategorySplitMonomorphism\_left\_cancellative}

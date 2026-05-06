@@ -1,0 +1,235 @@
+\chapter{A Concrete Naming Certificate for $\AffineVarUp$}
+\label{ch:concrete-instances-affinevar-namecert}
+
+The affine-variety interface $\AffineVarUp$ packages the zero-locus of a finite system of polynomial equations in the affine $n$-space of a commutative-ring carrier. It depends on $\NameCert_{\CommRingUp}$ (\autoref{ch:concrete-instances-commring-namecert}) and $\NameCert_{\PolynomialUp}$ (\autoref{ch:concrete-instances-polynomial-namecert}).
+
+\section{Carrier definition}
+\label{sec:affinevar-carrier}
+
+\section{The certificate}
+\label{sec:affinevar-certificate}
+
+\begin{definition}[Affine finite-family zero-locus]
+\label{def:affine-finite-family-zero-locus}
+Fix a $\NameCert_{\CommRingUp}$ with scalar classifier $\sim_R$ and scalar zero $0_R$. Fix a dimension $n$, an affine point carrier $\mathsf{AffPoint}_{R,n}:\mathsf{BHist}\to\mathsf{Prop}$, and a polynomial evaluation row $\mathsf{Eval}_{R,n}(p,x,y)$ for polynomial-code histories over that affine $n$-space. Let $\mathsf{PolyCode}_{R,n}(p)$ denote the polynomial-code carrier read from the normalized finite coefficient-sequence substrate of \autoref{def:polynomial-carrier}.
+
+For a polynomial code $p$ and point history $x$, define the zero-evaluation predicate by
+$$
+\mathsf{PolyEvalZero}_{R,n}(p,x)
+\Longleftrightarrow
+\mathsf{PolyCode}_{R,n}(p)\land
+\exists y:\mathsf{BHist}.\;
+\mathsf{Eval}_{R,n}(p,x,y)\land y\sim_R 0_R.
+$$
+For a finite BEDC-history spine $F:\mathsf{HistSpine}$ of polynomial codes, define the affine finite-family zero-locus carrier by
+$$
+\mathsf{V}_{R,n}(F)(x)
+\Longleftrightarrow
+\mathsf{AffPoint}_{R,n}(x)\land
+\forall i:\mathsf{Pos}(F).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x).
+$$
+This is the finite-equation carrier used by the concrete $\AffineVarUp$ presentation: the point row is shared by the ambient affine space, while the equation row is read from the finite polynomial spine.
+\end{definition}
+
+\begin{theorem}[Affine zero-locus intersection by equation concatenation]
+\label{thm:affine-zero-locus-intersection-equation-concatenation}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F,G:\mathsf{HistSpine}$ be finite polynomial-family spines over the same affine $n$-space. For every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(F{++}G)(x)
+\Longleftrightarrow
+\mathsf{V}_{R,n}(F)(x)\land\mathsf{V}_{R,n}(G)(x).
+$$
+In particular, if $x$ is classified in both zero-loci $\mathsf{V}_{R,n}(F)$ and $\mathsf{V}_{R,n}(G)$, then $x$ is classified in the zero-locus of the concatenated polynomial family $F{++}G$.
+\end{theorem}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_intersection\_concat}
+\begin{proof}
+Unfold \autoref{def:affine-finite-family-zero-locus}. The finite-spine append split is the positional form underlying \autoref{lem:finset-enummem-append-split}: a position of $F{++}G$ is either a left position coming from $F$ or a right position coming from $G$, and the corresponding readback is respectively $\mathsf{entry}_{F}$ or $\mathsf{entry}_{G}$.
+
+For the forward implication, assume $\mathsf{V}_{R,n}(F{++}G)(x)$. Its first component gives $\mathsf{AffPoint}_{R,n}(x)$. To prove $\mathsf{V}_{R,n}(F)(x)$, keep this same affine-point witness and fix a position $i:\mathsf{Pos}(F)$. Embed $i$ as the left position of $F{++}G$. The appended-family zero row gives
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F{++}G}(\iota_F(i)),x),
+$$
+and the left-readback clause identifies this entry with $\mathsf{entry}_{F}(i)$. This proves the required equation row for $F$. The proof for $G$ is identical, using the right position embedding $\iota_G(j):\mathsf{Pos}(F{++}G)$ for each $j:\mathsf{Pos}(G)$. Thus both $\mathsf{V}_{R,n}(F)(x)$ and $\mathsf{V}_{R,n}(G)(x)$ hold.
+
+For the reverse implication, assume $\mathsf{V}_{R,n}(F)(x)\land\mathsf{V}_{R,n}(G)(x)$. The affine-point component for the concatenated zero-locus is the one supplied by the $F$ component. Now fix a position $k:\mathsf{Pos}(F{++}G)$. By the same finite-spine append split, $k$ is either a left position $\iota_F(i)$ or a right position $\iota_G(j)$. In the left case, the equation row of $\mathsf{V}_{R,n}(F)(x)$ gives $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x)$, which is the required row for $\mathsf{entry}_{F{++}G}(k)$. In the right case, the equation row of $\mathsf{V}_{R,n}(G)(x)$ gives $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{G}(j),x)$, again with the required readback equality for the appended spine.
+
+The affine-point witness and this case analysis over every position of $F{++}G$ repack as $\mathsf{V}_{R,n}(F{++}G)(x)$, giving the displayed equivalence and the stated intersection implication.
+\end{proof}
+
+\begin{theorem}[Affine empty-family zero-locus is the ambient affine space]
+\label{thm:affine-empty-family-zero-locus-full-space}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $\mathsf{nil}:\mathsf{HistSpine}$ denote the empty finite polynomial-family spine. For every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(\mathsf{nil})(x)
+\Longleftrightarrow
+\mathsf{AffPoint}_{R,n}(x).
+$$
+In particular, $\mathsf{AffPoint}_{R,n}(x)$ implies $\mathsf{V}_{R,n}(\mathsf{nil})(x)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_empty\_family\_iff}
+\begin{proof}
+Unfold \autoref{def:affine-finite-family-zero-locus}. The forward implication is projection from the defining conjunction, since every zero-locus point carries its ambient affine-point witness.
+
+For the reverse implication, assume $\mathsf{AffPoint}_{R,n}(x)$. It remains only to supply the equation row
+$$
+\forall i:\mathsf{Pos}(\mathsf{nil}).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{\mathsf{nil}}(i),x).
+$$
+The nil finite spine has no positions, by the finite-spine nil clause of \autoref{def:list-spine-representation} and the empty-position reading used in \autoref{lem:finset-enummem-append-split}. Hence this universal row has no instances to check. Pairing the given affine-point witness with the empty equation row gives $\mathsf{V}_{R,n}(\mathsf{nil})(x)$.
+\end{proof}
+
+\begin{definition}[Affine finite-family equation inclusion]
+\label{def:affine-finite-family-equation-inclusion}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, for finite polynomial-family spines $F,G:\mathsf{HistSpine}$ over the same affine $n$-space, write
+$$
+\mathsf{EqFamIncl}(F,G)
+\Longleftrightarrow
+\forall i:\mathsf{Pos}(F).\;
+\exists j:\mathsf{Pos}(G).\;
+\mathsf{entry}_{F}(i)=\mathsf{entry}_{G}(j).
+$$
+This is the position-readback form of saying that every equation occurrence read from $F$ is also read from $G$; it uses the same finite-position convention as \autoref{def:finset-enumeration-membership}.
+\end{definition}
+\leandef{BEDC.Derived.AffineVarUp.AffineFiniteFamilyEquationInclusion}
+
+\begin{lemma}[Equation rows restrict along finite-family inclusion]
+\label{lem:affine-equation-rows-restrict-along-family-inclusion}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F,G:\mathsf{HistSpine}$ be finite polynomial-family spines over the same affine $n$-space. If $\mathsf{EqFamIncl}(F,G)$ holds, then for every point history $x:\mathsf{BHist}$,
+$$
+\left(\forall j:\mathsf{Pos}(G).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{G}(j),x)\right)
+\Longrightarrow
+\left(\forall i:\mathsf{Pos}(F).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x)\right).
+$$
+\end{lemma}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyEquationRows\_restrict}
+\begin{proof}
+Assume $\mathsf{EqFamIncl}(F,G)$ and assume the displayed equation row for $G$. Fix $i:\mathsf{Pos}(F)$. By \autoref{def:affine-finite-family-equation-inclusion}, choose $j:\mathsf{Pos}(G)$ with
+$$
+\mathsf{entry}_{F}(i)=\mathsf{entry}_{G}(j).
+$$
+The equation row for $G$ at $j$ gives
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{G}(j),x).
+$$
+Transport this predicate across the displayed readback equality to obtain
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x).
+$$
+Since $i$ was arbitrary, the required equation row for $F$ follows.
+\end{proof}
+
+\begin{theorem}[Affine finite-family inclusion reverses zero-loci]
+\label{thm:affine-finite-family-inclusion-reverses-zero-loci}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F,G:\mathsf{HistSpine}$ be finite polynomial-family spines over the same affine $n$-space. If $\mathsf{EqFamIncl}(F,G)$ holds, then for every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(G)(x)
+\Longrightarrow
+\mathsf{V}_{R,n}(F)(x).
+$$
+Thus the affine finite-family zero-locus assignment is contravariant with respect to finite-position equation inclusion.
+\end{theorem}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_inclusion\_contravariant}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_inclusion\_reverse}
+\begin{proof}
+Assume $\mathsf{EqFamIncl}(F,G)$ and fix $x:\mathsf{BHist}$ with $\mathsf{V}_{R,n}(G)(x)$. Unfold \autoref{def:affine-finite-family-zero-locus}. The zero-locus witness for $G$ consists of an ambient witness
+$$
+\mathsf{AffPoint}_{R,n}(x)
+$$
+and an equation row
+$$
+\forall j:\mathsf{Pos}(G).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{G}(j),x).
+$$
+Keep the same ambient witness for $F$. The equation row for $F$ is supplied by \autoref{lem:affine-equation-rows-restrict-along-family-inclusion}, applied to the displayed inclusion and the displayed equation row for $G$. Pairing these two components gives $\mathsf{V}_{R,n}(F)(x)$.
+\end{proof}
+
+\begin{definition}[Affine equation head insertion]
+\label{def:affine-equation-head-insertion}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, for a polynomial-code history $p:\mathsf{BHist}$ and a finite polynomial-family spine $F:\mathsf{HistSpine}$, define the affine equation insertion spine by
+$$
+\mathsf{insert}_{\mathrm{eq}}(p,F):=\mathsf{cons}(p,F).
+$$
+Thus insertion places the displayed equation as the head row and leaves the original finite equation family as the tail spine.
+\end{definition}
+\leandef{BEDC.Derived.AffineVarUp.AffineEquationHeadInsertion}
+
+\begin{lemma}[Affine zero-loci contain occurred equation rows]
+\label{lem:affine-zero-locus-occurred-equation-row}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F:\mathsf{HistSpine}$ be a finite polynomial-family spine, and let $p,x:\mathsf{BHist}$. If
+$$
+\mathsf{SpineMember}(p,F)
+\qquad\text{and}\qquad
+\mathsf{V}_{R,n}(F)(x)
+$$
+hold, then
+$$
+\mathsf{PolyEvalZero}_{R,n}(p,x)
+$$
+holds.
+\end{lemma}
+\begin{proof}
+By \autoref{lem:finset-spine-member-position-readback}, the occurrence $\mathsf{SpineMember}(p,F)$ supplies a position $j:\mathsf{Pos}(F)$ with
+$$
+\mathsf{entry}_{F}(j)=p.
+$$
+Unfolding \autoref{def:affine-finite-family-zero-locus} in $\mathsf{V}_{R,n}(F)(x)$ gives the equation row
+$$
+\forall i:\mathsf{Pos}(F).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x).
+$$
+Evaluating this row at $j$ gives $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(j),x)$. Rewriting along $\mathsf{entry}_{F}(j)=p$ gives the displayed zero-evaluation predicate for $p$ at $x$.
+\end{proof}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_occurred\_equation\_row}
+
+\begin{theorem}[Affine duplicate equation insertion invariance]
+\label{thm:affine-duplicate-equation-insertion-invariance}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F:\mathsf{HistSpine}$ be a finite polynomial-family spine, and let $p,x:\mathsf{BHist}$. If
+$$
+\mathsf{SpineMember}(p,F)
+$$
+holds, then
+$$
+\mathsf{V}_{R,n}(\mathsf{insert}_{\mathrm{eq}}(p,F))(x)
+\Longleftrightarrow
+\mathsf{V}_{R,n}(F)(x).
+$$
+Equivalently, placing at the head a polynomial equation that already occurs in the finite equation spine does not change the affine finite-family zero-locus predicate.
+\end{theorem}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_duplicate\_head\_insert}
+\begin{proof}
+Use \autoref{def:affine-equation-head-insertion} to read $\mathsf{insert}_{\mathrm{eq}}(p,F)$ as $\mathsf{cons}(p,F)$.
+
+For the forward implication, assume $\mathsf{V}_{R,n}(\mathsf{cons}(p,F))(x)$. Unfold \autoref{def:affine-finite-family-zero-locus}. The affine-point witness is the first component of the cons-spine zero-locus witness. For the equation row of $F$, fix $i:\mathsf{Pos}(F)$ and view it as the tail position of $\mathsf{cons}(p,F)$. The cons-position readback from the finite-spine clauses of \autoref{def:list-spine-representation} identifies this tail entry with $\mathsf{entry}_{F}(i)$. The equation row of $\mathsf{V}_{R,n}(\mathsf{cons}(p,F))(x)$ at that tail position therefore gives $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x)$. Since $i$ was arbitrary, these data repack as $\mathsf{V}_{R,n}(F)(x)$.
+
+For the reverse implication, assume $\mathsf{V}_{R,n}(F)(x)$. Unfold \autoref{def:affine-finite-family-zero-locus}. The affine-point component for $\mathsf{cons}(p,F)$ is the one supplied by $\mathsf{V}_{R,n}(F)(x)$. It remains to verify every equation row of the cons spine. A position of $\mathsf{cons}(p,F)$ is either the head position or a tail position. In the head case, \autoref{lem:affine-zero-locus-occurred-equation-row}, applied to the displayed occurrence of $p$ in $F$ and to $\mathsf{V}_{R,n}(F)(x)$, gives $\mathsf{PolyEvalZero}_{R,n}(p,x)$, which is exactly the head equation row. In the tail case, the position is inherited from some $i:\mathsf{Pos}(F)$, and the tail readback is $\mathsf{entry}_{F}(i)$. The equation row of $\mathsf{V}_{R,n}(F)(x)$ at $i$ gives the required predicate for that tail entry.
+
+The affine-point witness and the head-or-tail verification of every cons-spine position repack as $\mathsf{V}_{R,n}(\mathsf{cons}(p,F))(x)$, and hence as $\mathsf{V}_{R,n}(\mathsf{insert}_{\mathrm{eq}}(p,F))(x)$.
+\end{proof}
+
+\begin{theorem}[Affine mutual family inclusion gives equal zero-loci]
+\label{thm:affine-mutual-family-inclusion-equal-zero-loci}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F,G:\mathsf{HistSpine}$ be finite polynomial-family spines over the same affine $n$-space. If both
+$$
+\mathsf{EqFamIncl}(F,G)
+\qquad\text{and}\qquad
+\mathsf{EqFamIncl}(G,F)
+$$
+hold, then for every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(F)(x)
+\Longleftrightarrow
+\mathsf{V}_{R,n}(G)(x).
+$$
+Thus mutually included finite affine equation presentations classify exactly the same zero-locus points.
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{EqFamIncl}(F,G)$ and $\mathsf{EqFamIncl}(G,F)$, and fix a point history $x:\mathsf{BHist}$. To prove the forward implication, assume $\mathsf{V}_{R,n}(F)(x)$. Apply \autoref{thm:affine-finite-family-inclusion-reverses-zero-loci} to the inclusion $\mathsf{EqFamIncl}(G,F)$, with the ordered pair of families read as $(G,F)$. Since inclusion reverses zero-loci, this gives $\mathsf{V}_{R,n}(G)(x)$.
+
+For the reverse implication, assume $\mathsf{V}_{R,n}(G)(x)$. Apply \autoref{thm:affine-finite-family-inclusion-reverses-zero-loci} to the inclusion $\mathsf{EqFamIncl}(F,G)$, with the ordered pair of families read as $(F,G)$. This gives $\mathsf{V}_{R,n}(F)(x)$.
+
+The two implications together give the displayed equivalence for the fixed $x$, and $x$ was arbitrary.
+\end{proof}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_mutual\_inclusion\_iff}

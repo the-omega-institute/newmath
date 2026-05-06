@@ -302,6 +302,33 @@ to the reverse-tail history while keeping the source and target endpoints fixed.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_tail\_comm\_closed}
 
+\begin{theorem}[Category hom carrier tail-comm continuation readback]
+\label{thm:category-hom-carrier-tail-comm-cont-readback}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $fg$ and $gf$ are the two
+displayed tail continuation composites. Then every displayed hom-carrier
+$z:a\to c$ recovers both continuation ledgers:
+$$
+\ContR(f,g,z)\wedge\ContR(g,f,z).
+$$
+\end{theorem}
+\begin{proof}
+Tail-comm public readback compares the displayed carrier $z:a\to c$ with the
+two closed tail carriers. From the forward closed carrier it gives
+$\HSame(fg,z)$, and from the reverse closed carrier it gives $\HSame(gf,z)$.
+
+The composite-tail exactness theorem for hom-carriers then reads the forward
+ledger from the displayed carrier itself: since $f:a\to b$, $g:b\to c$, and
+$z:a\to c$ is displayed, the exact characterization converts that carrier
+into $\ContR(f,g,z)$.
+
+For the reverse order, transport the given continuation ledger
+$\ContR(g,f,gf)$ along $\HSame(gf,z)$ using finite-kernel history-same
+transport for continuation results. This yields $\ContR(g,f,z)$, and the two
+recovered ledgers form the required conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_tail\_comm\_cont\_readback}
+
 \begin{theorem}[Category hom carrier history-same transport]
 \label{thm:category-hom-carrier-hsame-transport}
 For the unary-continuation category, if source objects, target objects, and

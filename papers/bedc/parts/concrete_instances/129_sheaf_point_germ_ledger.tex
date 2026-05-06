@@ -1,0 +1,168 @@
+\begin{definition}[Sheaf BHist point-germ ledger]
+\label{def:sheaf-bhist-point-germ-ledger}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ whose point carrier is $\mathsf{BHist}$, whose membership row is $\mathsf{OpenAt}$, and whose finite-intersection index is written $\wedge_{\TopologyUp}$. Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over $\mathcal{T}$.
+
+For $b:\mathsf{BHist}$, a displayed point-germ row over $b$ is a triple
+$$
+(i,o_i,s)
+$$
+where $i:\mathsf{OpenIx}$, $o_i:\mathsf{OpenAt}(i,b)$, and $s:\mathsf{Sec}(i)$. Two rows $(i,o_i,s)$ and $(j,o_j,t)$ compare over $b$ when there is a displayed common neighborhood $k:\mathsf{OpenIx}$ with
+$$
+k\le_{\mathcal{T}}i,
+\qquad
+k\le_{\mathcal{T}}j,
+\qquad
+\mathsf{OpenAt}(k,b),
+$$
+and classifier equality after restriction:
+$$
+\rho_{i,k}(s)\sim_k\rho_{j,k}(t).
+$$
+The point-germ ledger is the collection of these rows and comparisons, with common neighborhoods supplied by the finite-intersection rows of $\mathcal{T}$ and all section comparison performed by the classifiers $\sim_k$.
+\end{definition}
+
+\begin{theorem}[Sheaf BHist point-germ carrier scope]
+\label{thm:sheaf-bhist-point-germ-carrier-scope}
+The point-germ ledger of \autoref{def:sheaf-bhist-point-germ-ledger} exposes no carrier beyond the $\mathsf{BHist}$ point row, the membership row $\mathsf{OpenAt}$, indexed opens, finite-intersection rows, presheaf restrictions, and the section classifiers of the indexed sheaf carrier. In particular, each ledger row over $b:\mathsf{BHist}$ is determined by an indexed open containing $b$ and a section on that open, and each comparison is determined by a displayed common neighborhood below the two opens together with one classifier equality after restriction.
+\end{theorem}
+\begin{proof}
+Unfold the displayed point-germ row. Its components are exactly $b:\mathsf{BHist}$, an indexed open $i$, a membership witness $o_i:\mathsf{OpenAt}(i,b)$, and a section $s:\mathsf{Sec}(i)$.
+
+Unfold the comparison row. It asks only for a common index $k$ below the two source opens, a membership witness $\mathsf{OpenAt}(k,b)$, and the classifier row $\rho_{i,k}(s)\sim_k\rho_{j,k}(t)$.
+
+The existence of a canonical common-neighborhood shape is supplied by the finite-intersection field of \autoref{def:topology-indexed-open-carrier}, while restriction maps and section classifiers are exactly the rows of \autoref{def:sheaf-indexed-section-presheaf-carrier}. No host stalk, quotient carrier, or powerset equality is used by either the row data or the comparison data.
+\end{proof}
+
+\begin{theorem}[Sheaf BHist point-germ restriction readback]
+\label{thm:sheaf-bhist-point-germ-restriction-readback}
+Let $(i,o_i,s)$ be a displayed point-germ row over $b:\mathsf{BHist}$ in the sense of \autoref{def:sheaf-bhist-point-germ-ledger}. If $j\le_{\mathcal{T}}i$ and $o_j:\mathsf{OpenAt}(j,b)$, then the restricted row
+$$
+(j,o_j,\rho_{i,j}(s))
+$$
+compares to the original row over the common neighborhood $j$. Explicitly, the comparison is witnessed by $j\le_{\mathcal{T}}i$, the identity inclusion $j\le_{\mathcal{T}}j$, the membership row $o_j$, and the identity classifier row
+$$
+\rho_{j,j}(\rho_{i,j}(s))\sim_j\rho_{i,j}(s).
+$$
+\end{theorem}
+\begin{proof}
+The hypotheses give the restricted point-germ row: the target open is $j$, the visible membership witness is $o_j$, and the section is the ambient restriction $\rho_{i,j}(s)$.
+
+Use $j$ itself as the displayed common neighborhood. One projection is the given inclusion $j\le_{\mathcal{T}}i$, the other is the identity inclusion $j\le_{\mathcal{T}}j$, and the point witness is $o_j$.
+
+It remains only to supply the classifier equality required by \autoref{def:sheaf-bhist-point-germ-ledger}. The identity field of \autoref{def:sheaf-indexed-section-presheaf-carrier} applied to the section $\rho_{i,j}(s):\mathsf{Sec}(j)$ gives $\rho_{j,j}(\rho_{i,j}(s))\sim_j\rho_{i,j}(s)$, which is exactly the comparison row.
+\end{proof}
+
+\begin{theorem}[Sheaf BHist point-germ gluing readback]
+\label{thm:sheaf-bhist-point-germ-gluing-readback}
+Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of $i:\mathsf{OpenIx}$ for an indexed sheaf carrier $\mathcal{S}$ over a $\mathsf{BHist}$-scoped topology carrier $\mathcal{T}$. Suppose $s_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$ and $g:\mathsf{Sec}(i)$ is a gluing section with
+$$
+\forall a:A,\quad \rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a.
+$$
+For every $b:\mathsf{BHist}$ with $o_i:\mathsf{OpenAt}(i,b)$, the cover law supplies $a:A$ and $o_a:\mathsf{OpenAt}(\iota(a),b)$, and the point-germ row $(i,o_i,g)$ reads back through that member:
+$$
+(i,o_i,g)
+$$
+compares over $b$ to
+$$
+(\iota(a),o_a,s_a).
+$$
+If $g'$ is another gluing section for the same compatible local family, then locality gives $g\sim_i g'$, so the resulting point-germ readback is unique up to the same section classifier and its restrictions to displayed common neighborhoods.
+\end{theorem}
+\begin{proof}
+Apply the cover law $\gamma$ to $b$ and $o_i$. It returns a cover member $a:A$ together with $o_a:\mathsf{OpenAt}(\iota(a),b)$.
+
+Use $\iota(a)$ as the common neighborhood for the two point-germ rows. The projection $\iota(a)\le_{\mathcal{T}}i$ is the cover inclusion $h_a$, the projection $\iota(a)\le_{\mathcal{T}}\iota(a)$ is the identity inclusion, and the membership witness is $o_a$.
+
+The gluing row gives $\rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a$. Combining this with the identity restriction row $\rho_{\iota(a),\iota(a)}(s_a)\sim_{\iota(a)}s_a$, using symmetry and transitivity of the classifier on $\mathsf{Sec}(\iota(a))$, gives the comparison required by \autoref{def:sheaf-bhist-point-germ-ledger}.
+
+For uniqueness, let $g'$ be another gluing of the same compatible family. Apply \autoref{thm:sheaf-gluing-uniqueness-from-locality} to the two displayed gluing rows to obtain $g\sim_i g'$. The restriction classifier-stability field of \autoref{def:sheaf-indexed-section-presheaf-carrier} transports this equality to any displayed common neighborhood used in the point-germ ledger, so the readback does not depend on the chosen gluing representative beyond the existing section classifier.
+\end{proof}
+
+\begin{theorem}[Sheaf BHist point-germ comparison transitivity]
+\label{thm:sheaf-bhist-point-germ-comparison-transitivity}
+Let $(i,o_i,s)$, $(j,o_j,t)$, and $(\ell,o_\ell,u)$ be displayed point-germ rows over the same $b:\mathsf{BHist}$ in the sense of \autoref{def:sheaf-bhist-point-germ-ledger}. Suppose the first two rows compare on a displayed common neighborhood $k$:
+$$
+k\le_{\mathcal{T}}i,
+\qquad
+k\le_{\mathcal{T}}j,
+\qquad
+o_k:\mathsf{OpenAt}(k,b),
+$$
+with
+$$
+\alpha:\rho_{i,k}(s)\sim_k\rho_{j,k}(t),
+$$
+and suppose the last two rows compare on a displayed common neighborhood $m$:
+$$
+m\le_{\mathcal{T}}j,
+\qquad
+m\le_{\mathcal{T}}\ell,
+\qquad
+o_m:\mathsf{OpenAt}(m,b),
+$$
+with
+$$
+\beta:\rho_{j,m}(t)\sim_m\rho_{\ell,m}(u).
+$$
+Put
+$$
+n:=k\wedge_{\TopologyUp}m.
+$$
+Then $n$ is a displayed common neighborhood below $i$ and $\ell$ at $b$, and the first and third rows compare there:
+$$
+\rho_{i,n}(s)\sim_n\rho_{\ell,n}(u).
+$$
+\end{theorem}
+\begin{proof}
+The finite-intersection field of \autoref{def:topology-indexed-open-carrier} gives, for every $x:\mathsf{BHist}$,
+$$
+\mathsf{OpenAt}(n,x)
+\Longleftrightarrow
+\bigl(\mathsf{OpenAt}(k,x)\wedge\mathsf{OpenAt}(m,x)\bigr).
+$$
+The forward implication, followed by projection, gives inclusions $n\le_{\mathcal{T}}k$ and $n\le_{\mathcal{T}}m$. At $x=b$, the reverse implication applied to $o_k$ and $o_m$ gives $o_n:\mathsf{OpenAt}(n,b)$. Composing the pointwise inclusions gives $n\le_{\mathcal{T}}i$ and $n\le_{\mathcal{T}}\ell$; composing with $k\le_{\mathcal{T}}j$ and with $m\le_{\mathcal{T}}j$ gives the two chains to $j$ used below.
+
+Restrict the comparison row $\alpha$ along $n\le_{\mathcal{T}}k$ by the classifier-stability field of \autoref{def:sheaf-indexed-section-presheaf-carrier}. This gives
+$$
+\rho_{k,n}(\rho_{i,k}(s))
+\sim_n
+\rho_{k,n}(\rho_{j,k}(t)).
+$$
+The composition field of the same presheaf carrier, applied to $n\le_{\mathcal{T}}k\le_{\mathcal{T}}i$ and to $n\le_{\mathcal{T}}k\le_{\mathcal{T}}j$, gives
+$$
+\rho_{k,n}(\rho_{i,k}(s))\sim_n\rho_{i,n}(s)
+$$
+and
+$$
+\rho_{k,n}(\rho_{j,k}(t))\sim_n\rho_{j,n}(t).
+$$
+Symmetry and transitivity of the classifier $\sim_n$ therefore yield
+$$
+\rho_{i,n}(s)\sim_n\rho_{j,n}(t).
+$$
+
+Restrict the comparison row $\beta$ along $n\le_{\mathcal{T}}m$. The classifier-stability field gives
+$$
+\rho_{m,n}(\rho_{j,m}(t))
+\sim_n
+\rho_{m,n}(\rho_{\ell,m}(u)).
+$$
+The composition field for $n\le_{\mathcal{T}}m\le_{\mathcal{T}}j$ and $n\le_{\mathcal{T}}m\le_{\mathcal{T}}\ell$ gives
+$$
+\rho_{m,n}(\rho_{j,m}(t))\sim_n\rho_{j,n}(t)
+$$
+and
+$$
+\rho_{m,n}(\rho_{\ell,m}(u))\sim_n\rho_{\ell,n}(u).
+$$
+Again using symmetry and transitivity of $\sim_n$, obtain
+$$
+\rho_{j,n}(t)\sim_n\rho_{\ell,n}(u).
+$$
+
+Transitivity of $\sim_n$ combines the last displayed row with $\rho_{i,n}(s)\sim_n\rho_{j,n}(t)$ and gives
+$$
+\rho_{i,n}(s)\sim_n\rho_{\ell,n}(u).
+$$
+Together with the witnesses $n\le_{\mathcal{T}}i$, $n\le_{\mathcal{T}}\ell$, and $o_n:\mathsf{OpenAt}(n,b)$, this is exactly the point-germ comparison row required by \autoref{def:sheaf-bhist-point-germ-ledger}.
+\end{proof}

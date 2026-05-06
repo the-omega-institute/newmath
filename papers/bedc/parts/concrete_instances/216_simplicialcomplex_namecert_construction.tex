@@ -1,0 +1,580 @@
+\chapter{A Concrete Naming Certificate for $\SimplicialComplexUp$}
+\label{ch:concrete-instances-simplicialcomplex-namecert}
+
+The simplicial-complex interface $\SimplicialComplexUp$ packages a finite collection of simplices closed under taking faces, with face-incidence and dimension-grading data. It depends on $\NameCert_{\FinSetUp}$ (\autoref{ch:concrete-instances-finset-namecert}) and $\NameCert_{\PosetUp}$ (\autoref{ch:concrete-instances-poset-namecert}).
+
+\section{Carrier definition}
+\label{sec:simplicialcomplex-carrier}
+
+\section{The certificate}
+\label{sec:simplicialcomplex-certificate}
+
+\begin{definition}[SimplicialComplexUp finite face carrier]
+\label{def:simplicialcomplex-finite-face-carrier}
+Fix a finite vertex source $V:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_V$. A $\SimplicialComplexUp$ finite face carrier $K$ over $(V,\sim_V)$ consists of a simplex-code source $S_K:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_K$, a finite spine $ks:\mathsf{HistSpine}$, a carried-simplex predicate $\mathsf{Simplex}_K:\mathsf{BHist}\to\mathsf{Prop}$, a face-incidence relation
+$$
+\mathsf{Face}_K:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop},
+$$
+and a dimension-grading row on carried simplices.
+
+The finite-simplex row is
+$$
+\mathsf{FinSetSpineEnumerates}_{S_K,\sim_K}(ks,\mathsf{Simplex}_K),
+$$
+using the $\FinSetUp$ enumeration predicate of \autoref{def:finset-spine-enumerates-predicate}. The face-incidence row is the $\PosetUp$ relation on simplex codes supplied by \autoref{def:poset-carrier}; in particular it includes the transitivity field
+$$
+\forall \rho\,\tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Face}_K(\rho,\tau)\land\mathsf{Face}_K(\tau,\sigma)
+\to
+\mathsf{Face}_K(\rho,\sigma).
+$$
+The simplicial closure row says that faces of carried simplices are carried:
+$$
+\forall \tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Simplex}_K(\sigma)\land\mathsf{Face}_K(\tau,\sigma)
+\to
+\mathsf{Simplex}_K(\tau).
+$$
+Thus the carrier uses the finite inventory from \autoref{ch:concrete-instances-finset-namecert} and the transitive face-order row from \autoref{ch:concrete-instances-poset-namecert}.
+\end{definition}
+\leandef{BEDC.Derived.SimplicialComplexUp.SimplicialComplexFiniteFaceCarrier}
+
+\begin{theorem}[Simplicial face-chain closure]
+\label{thm:simplicialcomplex-face-chain-closure}
+Let $K$ be a $\SimplicialComplexUp$ finite face carrier over $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}. For histories $\rho,\tau,\sigma:\mathsf{BHist}$, if
+$$
+\mathsf{Simplex}_K(\sigma)
+\land
+\mathsf{Face}_K(\tau,\sigma)
+\land
+\mathsf{Face}_K(\rho,\tau),
+$$
+then
+$$
+\mathsf{Simplex}_K(\tau)
+\land
+\mathsf{Simplex}_K(\rho)
+\land
+\mathsf{Face}_K(\rho,\sigma).
+$$
+In particular, a face of a face of a carried simplex is again carried by $K$ and is a face of the original simplex.
+\end{theorem}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexFace\_chain\_closure}
+\leanvariant{BEDC.Derived.SimplicialComplexUp.SimplicialFaceCarrier\_face\_chain\_closure}
+\begin{proof}
+Unpack the carrier rows from \autoref{def:simplicialcomplex-finite-face-carrier}. The displayed hypotheses give the carried upper simplex $\mathsf{Simplex}_K(\sigma)$, the first face incidence $\mathsf{Face}_K(\tau,\sigma)$, and the second face incidence $\mathsf{Face}_K(\rho,\tau)$.
+
+Apply the simplicial closure row to $\mathsf{Simplex}_K(\sigma)$ and $\mathsf{Face}_K(\tau,\sigma)$. This gives
+$$
+\mathsf{Simplex}_K(\tau).
+$$
+Apply the same closure row again to this carried simplex and $\mathsf{Face}_K(\rho,\tau)$. This gives
+$$
+\mathsf{Simplex}_K(\rho).
+$$
+
+The face-incidence relation is the $\PosetUp$ row of the carrier. Its transitivity field, cited in \autoref{def:poset-carrier}, composes $\mathsf{Face}_K(\rho,\tau)$ with $\mathsf{Face}_K(\tau,\sigma)$ and yields
+$$
+\mathsf{Face}_K(\rho,\sigma).
+$$
+Combining the carried intermediate simplex, the carried lower simplex, and the composite face-incidence witness gives the displayed conjunction.
+\end{proof}
+
+\begin{definition}[Simplicial face dimension grading row]
+\label{def:simplicialcomplex-face-dimension-grading-row}
+Let $K$ be a $\SimplicialComplexUp$ finite face carrier over $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}. A face dimension grading row for $K$ consists of a grading map
+$$
+\dim_K:\mathsf{BHist}\to\mathbb{N}
+$$
+and the carried-face monotonicity field
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_K(\alpha)\land
+\mathsf{Simplex}_K(\beta)\land
+\mathsf{Face}_K(\alpha,\beta)
+\to
+\dim_K(\alpha)\le \dim_K(\beta).
+$$
+Thus the dimension comparison is asserted on the carried endpoints of the face relation supplied by the $\PosetUp$ row.
+\end{definition}
+
+\begin{theorem}[Simplicial face-chain dimension monotonicity]
+\label{thm:simplicialcomplex-face-chain-dimension-monotonicity}
+Let $K$ be a $\SimplicialComplexUp$ finite face carrier over $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}, equipped with a face dimension grading row $\dim_K$ in the sense of \autoref{def:simplicialcomplex-face-dimension-grading-row}. For histories $\rho,\tau,\sigma:\mathsf{BHist}$, if
+$$
+\mathsf{Simplex}_K(\sigma)
+\land
+\mathsf{Face}_K(\rho,\tau)
+\land
+\mathsf{Face}_K(\tau,\sigma),
+$$
+then
+$$
+\dim_K(\rho)\le\dim_K(\tau)
+\land
+\dim_K(\tau)\le\dim_K(\sigma)
+\land
+\dim_K(\rho)\le\dim_K(\sigma).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexFace\_dimension\_chain\_monotonicity}
+\begin{proof}
+Unpack the displayed hypothesis. Apply \autoref{thm:simplicialcomplex-face-chain-closure}, whose proof uses the simplicial closure row of \autoref{def:simplicialcomplex-finite-face-carrier} and the transitive $\PosetUp$ face row of \autoref{def:poset-carrier}. This gives
+$$
+\mathsf{Simplex}_K(\tau)
+\land
+\mathsf{Simplex}_K(\rho)
+\land
+\mathsf{Face}_K(\rho,\sigma).
+$$
+
+Apply the carried-face monotonicity field of \autoref{def:simplicialcomplex-face-dimension-grading-row} to $\rho$ and $\tau$, using $\mathsf{Simplex}_K(\rho)$, $\mathsf{Simplex}_K(\tau)$, and $\mathsf{Face}_K(\rho,\tau)$. This yields
+$$
+\dim_K(\rho)\le\dim_K(\tau).
+$$
+Apply the same field to $\tau$ and $\sigma$, using $\mathsf{Simplex}_K(\tau)$, $\mathsf{Simplex}_K(\sigma)$, and $\mathsf{Face}_K(\tau,\sigma)$. This yields
+$$
+\dim_K(\tau)\le\dim_K(\sigma).
+$$
+Finally apply the same field to the composite face incidence $\mathsf{Face}_K(\rho,\sigma)$ together with the carried endpoints $\mathsf{Simplex}_K(\rho)$ and $\mathsf{Simplex}_K(\sigma)$. This yields
+$$
+\dim_K(\rho)\le\dim_K(\sigma).
+$$
+The three displayed comparisons are exactly the claimed conjunction.
+\end{proof}
+
+\begin{definition}[Simplicial intersection carrier rows]
+\label{def:simplicialcomplex-intersection-carrier-rows}
+Let $K$ and $L$ be $\SimplicialComplexUp$ finite face carriers over the same finite vertex source $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}. Assume that both carriers use the same simplex-code source $S:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_S$, and that their face-incidence rows are read through one displayed relation
+$$
+\mathsf{Face}:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}.
+$$
+The simplicial intersection predicate is
+$$
+\mathsf{Simplex}_{K\cap L}(z):=
+\mathsf{Simplex}_K(z)\land\mathsf{Simplex}_L(z).
+$$
+For a finite spine $js:\mathsf{HistSpine}$, the finite enumeration row for the intersection is
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cap L}),
+$$
+in the sense of \autoref{def:finset-spine-enumerates-predicate}. The inherited face relation is
+$$
+\mathsf{Face}_{K\cap L}(\rho,\sigma):=\mathsf{Face}(\rho,\sigma).
+$$
+\end{definition}
+\leandef{BEDC.Derived.SimplicialComplexUp.SimplicialComplexIntersectionCarrier}
+
+\begin{theorem}[Simplicial intersection carrier is face closed]
+\label{thm:simplicialcomplex-intersection-carrier-face-closed}
+Let $K$ and $L$ share the simplex-code source, classifier, and face relation as in \autoref{def:simplicialcomplex-intersection-carrier-rows}. Let $js:\mathsf{HistSpine}$ satisfy
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cap L}).
+$$
+Then the intersection rows carry the finite enumeration, face closure, and inherited face transitivity:
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cap L}),
+$$
+$$
+\forall \tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Simplex}_{K\cap L}(\sigma)\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\to
+\mathsf{Simplex}_{K\cap L}(\tau),
+$$
+and
+$$
+\forall \rho\,\tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Face}_{K\cap L}(\rho,\tau)\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\to
+\mathsf{Face}_{K\cap L}(\rho,\sigma).
+$$
+Moreover, every two-step face chain in the intersection satisfies
+$$
+\mathsf{Simplex}_{K\cap L}(\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\rho,\tau)
+\to
+\mathsf{Simplex}_{K\cap L}(\tau)
+\land
+\mathsf{Simplex}_{K\cap L}(\rho)
+\land
+\mathsf{Face}_{K\cap L}(\rho,\sigma).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexIntersectionCarrier\_face\_chain\_closure}
+\begin{proof}
+The finite-enumeration row is exactly the displayed hypothesis, with the predicate named in \autoref{def:simplicialcomplex-intersection-carrier-rows} and the enumeration predicate supplied by \autoref{def:finset-spine-enumerates-predicate}.
+
+For face closure, fix $\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cap L}(\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma).
+$$
+Unfolding the intersection predicate gives $\mathsf{Simplex}_K(\sigma)$ and $\mathsf{Simplex}_L(\sigma)$, and unfolding the inherited relation gives $\mathsf{Face}(\tau,\sigma)$. The simplicial closure row of $K$ from \autoref{def:simplicialcomplex-finite-face-carrier} gives $\mathsf{Simplex}_K(\tau)$. The same closure row for $L$ gives $\mathsf{Simplex}_L(\tau)$. Pairing these two conclusions folds back to
+$$
+\mathsf{Simplex}_{K\cap L}(\tau).
+$$
+
+For inherited face transitivity, fix $\rho,\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Face}_{K\cap L}(\rho,\tau)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma).
+$$
+Unfold the inherited relation to read these as $\mathsf{Face}(\rho,\tau)$ and $\mathsf{Face}(\tau,\sigma)$. The face-incidence row of $K$ is the $\PosetUp$ relation row from \autoref{def:poset-carrier} packaged by \autoref{def:simplicialcomplex-finite-face-carrier}; its transitivity field composes the two displayed face incidences and yields $\mathsf{Face}(\rho,\sigma)$. Folding the inherited relation gives $\mathsf{Face}_{K\cap L}(\rho,\sigma)$.
+
+For the two-step chain statement, start with the displayed chain hypothesis. The face-closure row just proved gives $\mathsf{Simplex}_{K\cap L}(\tau)$ from the upper face incidence. Applying the same row again to $\mathsf{Simplex}_{K\cap L}(\tau)$ and $\mathsf{Face}_{K\cap L}(\rho,\tau)$ gives $\mathsf{Simplex}_{K\cap L}(\rho)$. The inherited transitivity row gives $\mathsf{Face}_{K\cap L}(\rho,\sigma)$. Combining these three conclusions proves the final conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexIntersection\_face\_chain\_closure}
+
+\begin{theorem}[Simplicial intersection inherits face dimension grading]
+\label{thm:simplicialcomplex-intersection-inherits-face-dimension-grading}
+Let $K$ and $L$ be $\SimplicialComplexUp$ finite face carriers over the same finite vertex source $(V,\sim_V)$, sharing the simplex-code source, classifier, and face relation as in \autoref{def:simplicialcomplex-intersection-carrier-rows}. Let $d:\mathsf{BHist}\to\mathbb{N}$ be a common face-dimension grading map: its $K$-row and $L$-row are
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_K(\alpha)\land
+\mathsf{Simplex}_K(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+d(\alpha)\le d(\beta),
+$$
+and
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_L(\alpha)\land
+\mathsf{Simplex}_L(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+d(\alpha)\le d(\beta).
+$$
+Then the intersection predicate and inherited face relation satisfy the face-dimension grading row
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_{K\cap L}(\alpha)\land
+\mathsf{Simplex}_{K\cap L}(\beta)\land
+\mathsf{Face}_{K\cap L}(\alpha,\beta)
+\to
+d(\alpha)\le d(\beta).
+$$
+Moreover, every two-step face chain in the intersection satisfies
+$$
+\mathsf{Simplex}_{K\cap L}(\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\rho,\tau)
+\to
+d(\rho)\le d(\tau)
+\land
+d(\tau)\le d(\sigma)
+\land
+d(\rho)\le d(\sigma).
+$$
+\end{theorem}
+\begin{proof}
+For the one-step grading row, fix histories $\alpha,\beta:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cap L}(\alpha)\land
+\mathsf{Simplex}_{K\cap L}(\beta)\land
+\mathsf{Face}_{K\cap L}(\alpha,\beta).
+$$
+Unfolding the intersection predicate from \autoref{def:simplicialcomplex-intersection-carrier-rows} gives $\mathsf{Simplex}_K(\alpha)$, $\mathsf{Simplex}_L(\alpha)$, $\mathsf{Simplex}_K(\beta)$, and $\mathsf{Simplex}_L(\beta)$. Unfolding the inherited face relation gives $\mathsf{Face}(\alpha,\beta)$. The $K$-row of the common grading map, which is the carried-face monotonicity field of \autoref{def:simplicialcomplex-face-dimension-grading-row} read through the shared relation, gives
+$$
+d(\alpha)\le d(\beta).
+$$
+The $L$-row applies to the same unfolded face incidence and the $L$-endpoints, giving the identical comparison for the same map $d$. Hence the displayed intersection row holds.
+
+For the two-step assertion, fix $\rho,\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cap L}(\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\rho,\tau).
+$$
+Unfolding gives $\mathsf{Simplex}_K(\sigma)$ and $\mathsf{Simplex}_L(\sigma)$, together with $\mathsf{Face}(\tau,\sigma)$ and $\mathsf{Face}(\rho,\tau)$. The simplicial closure row of \autoref{def:simplicialcomplex-finite-face-carrier} gives $\mathsf{Simplex}_K(\tau)$ and $\mathsf{Simplex}_L(\tau)$, hence $\mathsf{Simplex}_{K\cap L}(\tau)$. Applying the same closure rows to $\mathsf{Face}(\rho,\tau)$ gives $\mathsf{Simplex}_K(\rho)$ and $\mathsf{Simplex}_L(\rho)$, hence $\mathsf{Simplex}_{K\cap L}(\rho)$. The transitivity field of the shared $\PosetUp$ face row from \autoref{def:poset-carrier}, packaged by \autoref{def:simplicialcomplex-finite-face-carrier}, composes $\mathsf{Face}(\rho,\tau)$ with $\mathsf{Face}(\tau,\sigma)$ and gives $\mathsf{Face}(\rho,\sigma)$, which folds back to $\mathsf{Face}_{K\cap L}(\rho,\sigma)$.
+
+Apply the inherited one-step grading row to $(\rho,\tau)$, to $(\tau,\sigma)$, and to $(\rho,\sigma)$. These three applications give
+$$
+d(\rho)\le d(\tau),
+$$
+$$
+d(\tau)\le d(\sigma),
+$$
+and
+$$
+d(\rho)\le d(\sigma).
+$$
+Combining the three comparisons gives the claimed chain conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexIntersection\_face\_dimension\_grading}
+
+\begin{definition}[Simplicial union carrier rows]
+\label{def:simplicialcomplex-union-carrier-rows}
+Let $K$ and $L$ be $\SimplicialComplexUp$ finite face carriers over the same finite vertex source $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}. Assume that both carriers use the same simplex-code source $S:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_S$, and that their face-incidence rows are read through one displayed relation
+$$
+\mathsf{Face}:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}.
+$$
+The simplicial union predicate is
+$$
+\mathsf{Simplex}_{K\cup L}(z):=
+\mathsf{Simplex}_K(z)\vee\mathsf{Simplex}_L(z).
+$$
+For a finite spine $js:\mathsf{HistSpine}$, the finite enumeration row for the union is
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cup L}),
+$$
+in the sense of \autoref{def:finset-spine-enumerates-predicate}. The inherited face relation is
+$$
+\mathsf{Face}_{K\cup L}(\rho,\sigma):=\mathsf{Face}(\rho,\sigma).
+$$
+\end{definition}
+
+\begin{theorem}[Simplicial union carrier is face closed]
+\label{thm:simplicialcomplex-union-carrier-face-closed}
+Let $K$ and $L$ share the simplex-code source, classifier, and face relation as in \autoref{def:simplicialcomplex-union-carrier-rows}. Let $js:\mathsf{HistSpine}$ satisfy
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cup L}).
+$$
+Then the union rows carry the finite enumeration, face closure, and inherited face transitivity:
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cup L}),
+$$
+$$
+\forall \tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Simplex}_{K\cup L}(\sigma)\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\to
+\mathsf{Simplex}_{K\cup L}(\tau),
+$$
+and
+$$
+\forall \rho\,\tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Face}_{K\cup L}(\rho,\tau)\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\to
+\mathsf{Face}_{K\cup L}(\rho,\sigma).
+$$
+Moreover, every two-step face chain in the union satisfies
+$$
+\mathsf{Simplex}_{K\cup L}(\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\rho,\tau)
+\to
+\mathsf{Simplex}_{K\cup L}(\tau)
+\land
+\mathsf{Simplex}_{K\cup L}(\rho)
+\land
+\mathsf{Face}_{K\cup L}(\rho,\sigma).
+$$
+\end{theorem}
+\begin{proof}
+The finite-enumeration row is exactly the displayed hypothesis, with the predicate named in \autoref{def:simplicialcomplex-union-carrier-rows} and the enumeration predicate supplied by \autoref{def:finset-spine-enumerates-predicate}.
+
+For face closure, fix $\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cup L}(\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma).
+$$
+Unfolding the union predicate gives either $\mathsf{Simplex}_K(\sigma)$ or $\mathsf{Simplex}_L(\sigma)$, and unfolding the inherited relation gives $\mathsf{Face}(\tau,\sigma)$. In the $K$ case, the simplicial closure row of \autoref{def:simplicialcomplex-finite-face-carrier} gives $\mathsf{Simplex}_K(\tau)$, hence $\mathsf{Simplex}_{K\cup L}(\tau)$. In the $L$ case, the same closure row for $L$ gives $\mathsf{Simplex}_L(\tau)$, hence again $\mathsf{Simplex}_{K\cup L}(\tau)$.
+
+For inherited face transitivity, fix $\rho,\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Face}_{K\cup L}(\rho,\tau)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma).
+$$
+Unfold the inherited relation to read these as $\mathsf{Face}(\rho,\tau)$ and $\mathsf{Face}(\tau,\sigma)$. The face-incidence row of $K$ is the $\PosetUp$ relation row from \autoref{def:poset-carrier} packaged by \autoref{def:simplicialcomplex-finite-face-carrier}; its transitivity field composes the two displayed face incidences and yields $\mathsf{Face}(\rho,\sigma)$. Folding the inherited relation gives $\mathsf{Face}_{K\cup L}(\rho,\sigma)$.
+
+For the two-step chain statement, start with the displayed chain hypothesis. The face-closure row just proved gives $\mathsf{Simplex}_{K\cup L}(\tau)$ from the upper face incidence. Applying the same row again to $\mathsf{Simplex}_{K\cup L}(\tau)$ and $\mathsf{Face}_{K\cup L}(\rho,\tau)$ gives $\mathsf{Simplex}_{K\cup L}(\rho)$. The inherited transitivity row gives $\mathsf{Face}_{K\cup L}(\rho,\sigma)$. Combining these three conclusions proves the final conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexUnion\_face\_chain\_closure}
+
+\begin{theorem}[Simplicial union append enumeration]
+\label{thm:simplicialcomplex-union-append-enumeration}
+Let $K$ and $L$ share the simplex-code source and classifier used for the simplicial union predicate in \autoref{def:simplicialcomplex-union-carrier-rows}. Let $ks,ls:\mathsf{HistSpine}$ be finite BEDC-history spines. If
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(ks,\mathsf{Simplex}_K)
+\qquad\text{and}\qquad
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(ls,\mathsf{Simplex}_L)
+$$
+hold, then the appended spine enumerates the simplicial union predicate:
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(ks{++}ls,\mathsf{Simplex}_{K\cup L}).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finset-spine-concatenation-enumerates-union} with the shared simplex-code source $S$, classifier $\sim_S$, finite spines $ks$ and $ls$, and predicates $\mathsf{Simplex}_K$ and $\mathsf{Simplex}_L$. The two displayed enumeration hypotheses are exactly its two inputs, so it gives
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}
+(ks{++}ls,\lambda z.\;\mathsf{Simplex}_K(z)\vee\mathsf{Simplex}_L(z)).
+$$
+By \autoref{def:simplicialcomplex-union-carrier-rows}, the predicate on the right is precisely $\mathsf{Simplex}_{K\cup L}$. Rewriting the displayed conclusion by this definition gives
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(ks{++}ls,\mathsf{Simplex}_{K\cup L}),
+$$
+which is the claimed appended enumeration row.
+\end{proof}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexUnion\_append\_enumeration}
+
+\begin{theorem}[Simplicial union inherits face dimension grading]
+\label{thm:simplicialcomplex-union-inherits-face-dimension-grading}
+Let $K$ and $L$ be $\SimplicialComplexUp$ finite face carriers over the same finite vertex source $(V,\sim_V)$, sharing the simplex-code source, classifier, and face relation as in \autoref{def:simplicialcomplex-union-carrier-rows}. Let $d:\mathsf{BHist}\to\mathbb{N}$ be a common face-dimension grading map: its $K$-row and $L$-row are
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_K(\alpha)\land
+\mathsf{Simplex}_K(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+d(\alpha)\le d(\beta),
+$$
+and
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_L(\alpha)\land
+\mathsf{Simplex}_L(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+d(\alpha)\le d(\beta).
+$$
+Then the union predicate and inherited face relation satisfy the face-dimension grading row
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_{K\cup L}(\alpha)\land
+\mathsf{Simplex}_{K\cup L}(\beta)\land
+\mathsf{Face}_{K\cup L}(\alpha,\beta)
+\to
+d(\alpha)\le d(\beta).
+$$
+Moreover, every two-step face chain in the union satisfies
+$$
+\mathsf{Simplex}_{K\cup L}(\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\rho,\tau)
+\to
+$$
+$$
+d(\rho)\le d(\tau)
+\land
+d(\tau)\le d(\sigma)
+\land
+d(\rho)\le d(\sigma).
+$$
+\end{theorem}
+\begin{proof}
+The face-closure and inherited-transitivity rows for the union surface are the rows isolated in \autoref{thm:simplicialcomplex-union-carrier-face-closed}. For the grading comparison, keep the branch of the upper simplex visible.
+
+For the one-step grading row, fix histories $\alpha,\beta:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cup L}(\alpha)\land
+\mathsf{Simplex}_{K\cup L}(\beta)\land
+\mathsf{Face}_{K\cup L}(\alpha,\beta).
+$$
+Unfolding \autoref{def:simplicialcomplex-union-carrier-rows} gives $\mathsf{Face}(\alpha,\beta)$ and a branch for the upper endpoint $\beta$. If $\mathsf{Simplex}_K(\beta)$ holds, the simplicial closure row of $K$ from \autoref{def:simplicialcomplex-finite-face-carrier} gives $\mathsf{Simplex}_K(\alpha)$ from $\mathsf{Face}(\alpha,\beta)$. The $K$-grading row then gives $d(\alpha)\le d(\beta)$. If $\mathsf{Simplex}_L(\beta)$ holds, the same argument with the closure row of $L$ gives $\mathsf{Simplex}_L(\alpha)$, and the $L$-grading row gives $d(\alpha)\le d(\beta)$. Thus the displayed union grading row holds.
+
+For the two-step chain statement, fix $\rho,\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cup L}(\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\rho,\tau).
+$$
+Unfolding the inherited relation gives $\mathsf{Face}(\tau,\sigma)$ and $\mathsf{Face}(\rho,\tau)$. Case-analyze the upper simplex branch $\mathsf{Simplex}_{K\cup L}(\sigma)$.
+
+If $\mathsf{Simplex}_K(\sigma)$ holds, the closure row of $K$ gives $\mathsf{Simplex}_K(\tau)$, and applying it again gives $\mathsf{Simplex}_K(\rho)$. The transitivity field of the shared $\PosetUp$ face row from \autoref{def:poset-carrier}, packaged by \autoref{def:simplicialcomplex-finite-face-carrier}, composes the two face incidences and gives $\mathsf{Face}(\rho,\sigma)$. Applying the $K$-grading row to $(\rho,\tau)$, $(\tau,\sigma)$, and $(\rho,\sigma)$ gives
+$$
+d(\rho)\le d(\tau),
+$$
+$$
+d(\tau)\le d(\sigma),
+$$
+and
+$$
+d(\rho)\le d(\sigma).
+$$
+
+If $\mathsf{Simplex}_L(\sigma)$ holds, the identical branch argument using the closure row of $L$ gives $\mathsf{Simplex}_L(\tau)$ and $\mathsf{Simplex}_L(\rho)$; the same shared transitivity field gives $\mathsf{Face}(\rho,\sigma)$; and the $L$-grading row applied to the same three face incidences gives the same three displayed comparisons. Combining the three comparisons in either upper branch proves the chain conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexUnion\_face\_dimension\_grading}
+
+\begin{lemma}[Simplicial union finite face-closed carrier inherits face dimension grading]\label{lem:simplicialcomplex-union-finite-face-closed-inherits-face-dimension-grading}
+Let $K$ and $L$ be $\SimplicialComplexUp$ finite face carriers over the same finite vertex source $(V,\sim_V)$, sharing the simplex-code source, classifier, and face relation as in \autoref{def:simplicialcomplex-union-carrier-rows}. Let $d:\mathsf{BHist}\to\mathbb{N}$ be a common face-dimension grading map: its $K$-row and $L$-row are
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\
+\mathsf{Simplex}_K(\alpha)\land
+\mathsf{Simplex}_K(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+ d(\alpha)\le d(\beta),
+$$
+and
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\
+\mathsf{Simplex}_L(\alpha)\land
+\mathsf{Simplex}_L(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+ d(\alpha)\le d(\beta).
+$$
+Let $js:\mathsf{HistSpine}$ satisfy
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cup L}),
+$$
+and assume face closure and inherited transitivity:
+$$
+\forall \tau\,\sigma:\mathsf{BHist}.\
+\mathsf{Simplex}_{K\cup L}(\sigma)\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\to
+\mathsf{Simplex}_{K\cup L}(\tau),
+$$
+$$
+\forall \rho\,\tau\,\sigma:\mathsf{BHist}.\
+\mathsf{Face}_{K\cup L}(\rho,\tau)\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\to
+\mathsf{Face}_{K\cup L}(\rho,\sigma).
+$$
+For histories $\alpha,\beta:\mathsf{BHist}$, if
+$$
+\mathsf{Simplex}_{K\cup L}(\alpha)\land
+\mathsf{Simplex}_{K\cup L}(\beta)\land
+\mathsf{Face}_{K\cup L}(\alpha,\beta),
+$$
+then
+$$
+d(\alpha)\le d(\beta).
+$$
+Moreover, for histories $\rho,\tau,\sigma:\mathsf{BHist}$, if
+$$
+\mathsf{Simplex}_{K\cup L}(\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\rho,\tau),
+$$
+then
+$$
+d(\rho)\le d(\tau)
+\land
+ d(\tau)\le d(\sigma)
+\land
+ d(\rho)\le d(\sigma).
+$$
+\end{lemma}
+\begin{proof}
+Apply \autoref{thm:simplicialcomplex-union-inherits-face-dimension-grading}. Its one-step and two-step conclusions are exactly the two graded comparison claims for the union predicate and inherited face relation over the same shared carrier rows from \autoref{def:simplicialcomplex-union-carrier-rows}. The finite and face-closed hypotheses identify the finite face-closed context in which this application is intended, and therefore the two displayed implications are the target inequalities.
+\end{proof}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexUnion\_face\_dimension\_grading\_rows}
+\leanchecked{BEDC.Derived.SimplicialComplexUp.SimplicialComplexUnion\_face\_dimension\_grading\_surface}

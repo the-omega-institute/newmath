@@ -7,14 +7,14 @@ quickly because it can only spot patterns that were ALREADY visible in
 paper structure. Once those are filled, codex says "no candidates"
 indefinitely.
 
-Oracle has the full paper PDF (project-attached) and mathematical research
-intuition. It can suggest deeper directions: structural / classification /
+Oracle receives the current paper PDF and uses mathematical research
+intuition to suggest deeper directions: structural / classification /
 rigidity theorems, obstruction results, multi-scale induction closures.
 This script invokes that capability directly.
 
 Flow:
-  1. Build prompt: oracle_board_refill.txt + existing BOARD content +
-     all paper \\label values (so oracle skips already-proven things).
+  1. Build prompt: oracle_board_refill.txt + compact BOARD context +
+     paper_index.json coverage summary (so oracle skips already-proven things).
   2. Submit as a fresh oracle task via the oracle_server (same channel as
      normal pipeline tasks — the userscript handles upload routing).
   3. Poll for response (with reasonable timeout).
@@ -34,6 +34,7 @@ when unfinished count drops below threshold.
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
 import re
@@ -44,11 +45,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import board_context
+import paper_index
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "state" / "board_refill_logs"
+DEFAULT_ATTACH_PDF = REPO_ROOT / "papers" / "bedc" / "main.pdf"
 ORACLE_SERVER = "http://localhost:8767"
 REFILL_TAG = "bedc-deep-board-refill"
 REFILL_TASK_PREFIX = "bedc_board_refill_"
@@ -85,6 +90,19 @@ def _http_get(url: str, timeout: int = 10) -> dict:
         return json.loads(resp.read().decode("utf-8"), strict=False)
 
 
+def _encode_pdf_for_attach(pdf_path: Path | None) -> tuple[str, str]:
+    if pdf_path is None:
+        return ("", "")
+    p = pdf_path if pdf_path.is_absolute() else REPO_ROOT / pdf_path
+    if not p.exists():
+        return ("", "")
+    try:
+        b64 = base64.b64encode(p.read_bytes()).decode("ascii")
+    except OSError:
+        return ("", "")
+    return (b64, p.name)
+
+
 def _has_refill_in_server(status: dict) -> bool:
     for task in status.get("queued_tasks") or []:
         if task.get("tag") == REFILL_TAG:
@@ -98,29 +116,7 @@ def _has_refill_in_server(status: dict) -> bool:
 
 
 def _board_content() -> str:
-    p = SCRIPT_DIR / "BOARD.md"
-    return p.read_text(encoding="utf-8") if p.exists() else "(empty)"
-
-
-def _scan_paper_labels(limit: int = 600) -> str:
-    """Quick scan of papers/bedc/parts/**/*.tex for theorem-flavored labels."""
-    parts = REPO_ROOT / "papers" / "bedc" / "parts"
-    if not parts.exists():
-        return "(no parts/ found)"
-    pat = re.compile(r"\\label\{(thm|lem|prop|cor|def):([^}]+)\}")
-    labels: list[str] = []
-    for path in parts.rglob("*.tex"):
-        try:
-            text = path.read_text(encoding="utf-8", errors="replace")
-        except OSError:
-            continue
-        for m in pat.finditer(text):
-            labels.append(f"{m.group(1)}:{m.group(2)}")
-    labels = sorted(set(labels))
-    if len(labels) > limit:
-        labels = labels[:limit]
-        labels.append(f"... ({len(labels) - limit} more truncated)")
-    return "\n".join(labels)
+    return board_context.build_board_prompt_context()
 
 
 def _extract_json_object(text: str) -> Optional[dict]:
@@ -173,10 +169,10 @@ def _extract_json_object(text: str) -> Optional[dict]:
 def build_refill_prompt() -> str:
     template = (PROMPTS_DIR / "oracle_board_refill.txt").read_text(encoding="utf-8")
     board = _board_content()
-    labels = _scan_paper_labels()
+    paper_coverage = paper_index.render_prompt_summary(max_chars=12000)
     return template.format(
-        board_content=_safe(board[:30000]),
-        paper_labels=_safe(labels),
+        board_content=_safe(board),
+        paper_labels=_safe(paper_coverage),
     )
 
 
@@ -185,10 +181,14 @@ def build_refill_prompt() -> str:
 # ---------------------------------------------------------------------------
 
 
-def submit_refill(server_url: str, prompt: str) -> dict:
+def submit_refill(
+    server_url: str,
+    prompt: str,
+    *,
+    attach_pdf: Path | None = None,
+) -> dict:
     """Submit as a NEW oracle task (no conversation_id) so userscript opens
-    a fresh chat in the BEDC Project (which has the PDF attached at project
-    level). The oracle then sees the PDF + our refill prompt."""
+    a fresh chat in the BEDC Project and uploads the current paper PDF."""
     task_id = f"bedc_board_refill_{int(time.time() * 1000)}"
     payload = {
         "task_id": task_id,
@@ -196,6 +196,20 @@ def submit_refill(server_url: str, prompt: str) -> dict:
         "model": "chatgpt-5.5-pro",
         "tag": REFILL_TAG,
     }
+    pdf_b64, pdf_name = _encode_pdf_for_attach(attach_pdf)
+    if pdf_b64:
+        payload["pdf_base64"] = pdf_b64
+        payload["pdf_name"] = pdf_name
+        print(
+            f"[board_refill] attaching PDF {pdf_name} "
+            f"({len(pdf_b64) * 0.75 / 1024:.0f} KB)",
+            flush=True,
+        )
+    elif attach_pdf is not None:
+        print(
+            f"[board_refill] WARN: requested PDF attachment missing or unreadable: {attach_pdf}",
+            flush=True,
+        )
     req = urllib.request.Request(
         f"{server_url}/submit",
         data=json.dumps(payload).encode("utf-8"),
@@ -242,7 +256,7 @@ def poll_result(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Ask oracle for new BOARD candidates via Project-attached PDF",
+        description="Ask oracle for new BOARD candidates with the current paper PDF",
     )
     parser.add_argument("--server", default=ORACLE_SERVER)
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT)
@@ -253,6 +267,10 @@ def main() -> int:
                         help="Submit even when no active BEDC browser tab is polling.")
     parser.add_argument("--allow-duplicate-refill", action="store_true",
                         help="Submit even when another board-refill task is queued or active.")
+    parser.add_argument("--attach-pdf", default=str(DEFAULT_ATTACH_PDF),
+                        help="PDF to upload with the refill task; default: papers/bedc/main.pdf")
+    parser.add_argument("--no-attach-pdf", action="store_true",
+                        help="Do not upload a PDF with the refill task.")
     args = parser.parse_args()
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -277,16 +295,16 @@ def main() -> int:
                 flush=True,
             )
             return 0
-        if not status.get("active_recent_agents"):
+        if not status.get("project_active_poll_agents"):
             if not args.allow_queue_without_tabs:
                 print(
-                    "[board_refill] no active BEDC ChatGPT tabs polling; "
+                    "[board_refill] no compatible BEDC Project tabs polling; "
                     "skipping submit instead of queueing.",
                     flush=True,
                 )
                 return 0
             print(
-                f"[board_refill] WARN: no active ChatGPT tabs polling. "
+                f"[board_refill] WARN: no compatible BEDC Project tabs polling. "
                 f"Submit will queue but won't dispatch. Open the BEDC Project "
                 f"tabs first.",
                 flush=True,
@@ -295,7 +313,8 @@ def main() -> int:
         print(f"[board_refill] server unreachable at {args.server}: {exc}", flush=True)
         return 1
 
-    submit_resp = submit_refill(args.server, prompt)
+    attach_pdf = None if args.no_attach_pdf else Path(args.attach_pdf)
+    submit_resp = submit_refill(args.server, prompt, attach_pdf=attach_pdf)
     if "error" in submit_resp:
         print(f"[board_refill] submit failed: {submit_resp['error']}", flush=True)
         return 1

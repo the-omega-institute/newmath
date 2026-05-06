@@ -1,0 +1,111 @@
+\begin{definition}[Banach complete-metric NameCert interface]
+\label{def:banach-complete-metric-namecert-interface}
+For a concrete Banach carrier $X$ of
+\autoref{def:banach-concrete-carrier}, a stream name $s$, a modulus history
+$M$, and a displayed limit history $\ell$, the Banach complete-metric
+$\NameCert$ interface is the predicate
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,M,\ell)
+$$
+read over the norm-induced Banach metric rows. Its visible ledger consists of
+the carrier row $X$, the carried observations of $s$, the modulus row $M$, the
+carried limit row $\ell$, and the late-observation distance ledgers named as
+$\mathsf{BanachMetricWitness}_X(s(n),\ell,d_{n,\varepsilon})$ together with the
+corresponding $\RatUp$ comparison rows.
+
+Equivalently, the displayed row
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,M,\ell,L)
+$$
+is accepted at the Banach surface exactly when every metric-distance component
+of $L$ is presented by the norm-induced Banach ledger
+$\mathsf{BanachMetricWitness}_X$ rather than by an anonymous metric row. Thus
+the public interface exposes the same carrier $X$, stream $s$, modulus $M$,
+limit $\ell$, and convergence ledgers consumed by $\NameCert_{\CompleteMetricUp}$.
+\end{definition}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_singleton\_observation\_package}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_empty\_limit\_rat\_positive}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_row\_result\_alignment}
+
+\begin{theorem}[Banach complete-metric NameCert coupling]
+\label{thm:banach-complete-metric-namecert-coupling}
+Let $X$ be a concrete Banach carrier, let $s$ be a regular Cauchy
+$\StreamNameUp$ stream over the norm-induced metric
+$\mathsf{BanachMetricWitness}_X$, let $M$ be its displayed modulus, and let
+$\ell$ be a displayed limit. Carrier transport along $\hsame$, together with a
+displayed Banach-surface row
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,M,\ell,L),
+$$
+yields the $\mathsf{SemanticNameCert}$ package for the predicate
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,M)
+$$
+on limit histories. The coupling depends on
+\autoref{def:banach-concrete-carrier}, \autoref{thm:banach-hsame-transport},
+\autoref{thm:banach-complete-metric-witness-exactness}, and the complete-metric
+certificate theorem
+$\mathsf{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_name\_certificate}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_empty\_modulus\_observation\_metric\_row}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_observation\_distance\_deterministic}
+\begin{proof}
+Unpack the concrete Banach carrier. Its carrier component supplies the
+$\hsame$ transport operation on carried vector histories, and its norm component
+identifies each induced distance row with a displayed
+$\mathsf{BanachMetricWitness}_X$ row.
+
+Next transport the complete-metric data componentwise. Use
+\autoref{thm:banach-hsame-transport} for the stream observations, modulus
+history, limit history, threshold rows, metric-distance rows, and $\RatUp$
+comparison rows. The result is still a Banach carrier package because the
+transported metric rows are repacked through the norm-induced ledger.
+
+Now invoke the complete-metric NameCert constructor represented on the Lean
+side by
+$\mathsf{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_name\_certificate}$.
+Its carrier-transport input is the Banach carrier transport just extracted, and
+its witness input is the displayed row of
+\autoref{def:banach-complete-metric-namecert-interface}.
+
+Finally apply \autoref{thm:banach-complete-metric-witness-exactness}. It
+ensures that no metric row has left the Banach surface: every distance ledger
+used by the complete-metric package is the same norm-distance row displayed as
+$\mathsf{BanachMetricWitness}_X$. Repacking these rows gives the required
+$\mathsf{SemanticNameCert}$ for
+$\mathsf{CompleteMetricLimitWitness}(X,s,M)$.
+\end{proof}
+
+\begin{theorem}[Banach singleton limit NameCert uniqueness]
+\label{thm:banach-singleton-limit-namecert-uniqueness}
+In the singleton empty-history Banach carrier of
+\autoref{def:banach-singleton-empty-history-instance}, any two Banach-surface
+complete-metric rows for the same stream,
+$$
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,M_0,\ell_0,L_0)
+\quad\text{and}\quad
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,M_1,\ell_1,L_1),
+$$
+have $\hsame(\ell_0,\ell_1)$ limits. Consequently the two displayed vector
+limits are classified by the singleton vector classifier
+$\rho_{\emp}(\ell_0,\ell_1)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_singleton\_classifier\_distance}
+\begin{proof}
+First read both displayed rows through the interface of
+\autoref{def:banach-complete-metric-namecert-interface}. The carrier predicate
+is $C_{\emp}$, so each limit row is a singleton empty-history endpoint and each
+metric-distance row is the constant zero Banach metric row.
+
+Apply the complete-metric singleton uniqueness theorem
+$\mathsf{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_singleton\_uniqueness}$
+to the two rows for the same stream. It returns
+$\hsame(\ell_0,\ell_1)$ because the complete-metric carrier is the singleton
+predicate $h\mapsto\hsame(h,\emp)$.
+
+It remains to read that relation at the vector endpoint surface. The singleton
+Banach carrier is the singleton norm carrier, so
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse} converts the
+two carried limit endpoints and their $\hsame$ relation into the classifier row
+$\rho_{\emp}(\ell_0,\ell_1)$.
+\end{proof}

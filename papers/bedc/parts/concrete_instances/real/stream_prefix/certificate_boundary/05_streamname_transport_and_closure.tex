@@ -1,0 +1,465 @@
+\begin{theorem}[Real unary stream classifier stability package]
+\label{thm:real-unary-stream-classifier-stability-package}
+For rational-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameCarrier}(u),
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t),\quad
+\mathsf{RealUnaryStreamClassifier}(t,u),
+$$
+and suppose the endpoint transports are pointwise over unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then the same BEDC unary observation rows supply the following stability
+package:
+\begin{enumerate}
+  \item $\mathsf{RatStreamNameClassifier}(s,t)$.
+  \item $\mathsf{RealUnaryStreamClassifier}(s,s)$,
+  $\mathsf{RealUnaryStreamClassifier}(t,s)$, and
+  $\mathsf{RealUnaryStreamClassifier}(s,u)$.
+  \item For every certified unary observation $n$, both endpoint RatUp carrier
+  rows $\mathsf{RatHistoryCarrier}(s(n))$ and
+  $\mathsf{RatHistoryCarrier}(t(n))$.
+  \item $\mathsf{RealUnaryStreamClassifier}(s',t')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-carrier},
+Definition~\ref{def:rat-stream-name-classifier}, and
+Definition~\ref{def:real-unary-observation-stream-classifier}. After this
+unfolding, both StreamNameUp and RealUp classifier rows are the same pointwise
+RatUp classifier over histories $n$ equipped with
+$\mathsf{UnaryHistory}(n)$.
+
+The first conclusion is therefore just the displayed
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ read under the StreamNameUp
+classifier name. For $\mathsf{RealUnaryStreamClassifier}(s,s)$, fix a
+certified observation $n$; the carrier row for $s$ gives
+$\mathsf{RatHistoryCarrier}(s(n))$, and RatUp classifier reflexivity gives the
+required point classifier at that observation.
+
+For the reversed classifier $\mathsf{RealUnaryStreamClassifier}(t,s)$, read the
+point classifier from $\mathsf{RealUnaryStreamClassifier}(s,t)$ and apply RatUp
+classifier symmetry. For $\mathsf{RealUnaryStreamClassifier}(s,u)$, read the
+two point classifiers from the assumptions at the same certified observation
+and compose them by RatUp classifier transitivity.
+
+For endpoint carriers, fix a certified unary observation $n$ and unpack the
+RatUp classifier obtained from $\mathsf{RealUnaryStreamClassifier}(s,t)$ at
+that observation. Its endpoint data are precisely
+$\mathsf{RatHistoryCarrier}(s(n))$ and $\mathsf{RatHistoryCarrier}(t(n))$.
+
+For transport, fix the same certified observation $n$. Apply
+$\mathsf{RatHistoryClassifier\_hsame\_transport}$ to the point classifier from
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ and to the two pointwise $\hsame$
+witnesses from $s,t$ to $s',t'$. Repacking the transported point classifier
+over all certified unary observations gives
+$\mathsf{RealUnaryStreamClassifier}(s',t')$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_stability\_package}
+
+\begin{theorem}[Real unary stream-name transported classifier]
+\label{thm:real-unary-streamname-transported-classifier}
+For rational-observation maps $s,t,s',t':\Hist\to\Hist$, suppose
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RealUnaryStreamClassifier}(s,t),
+$$
+and suppose the endpoint transports are pointwise over unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then $\mathsf{RatStreamNameClassifier}(s',t')$.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-carrier},
+Definition~\ref{def:rat-stream-name-classifier}, and
+Definition~\ref{def:real-unary-observation-stream-classifier}. The
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row supplies the RatUp point
+classifier at each certified unary observation, while the two displayed
+carrier hypotheses supply the endpoint stream carriers before transport.
+
+Fix a certified unary observation $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. Apply
+\autoref{thm:rat-history-classifier-hsame-transport} to the RatUp point
+classifier read from $\mathsf{RealUnaryStreamClassifier}(s,t)$ at $(n,\nu)$
+and to the two pointwise $\hsame$ witnesses from $s,t$ to $s',t'$. This gives
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$.
+
+Read the endpoint carrier fields of this transported RatUp classifier. The
+left field gives $\mathsf{RatHistoryCarrier}(s'(n))$ and the right field gives
+$\mathsf{RatHistoryCarrier}(t'(n))$. Since $(n,\nu)$ was arbitrary, these
+fields build $\mathsf{RatStreamNameCarrier}(s')$ and
+$\mathsf{RatStreamNameCarrier}(t')$.
+
+The same transported RatUp point classifier, again for arbitrary $(n,\nu)$,
+supplies the pointwise classifier row of
+$\mathsf{RatStreamNameClassifier}(s',t')$. Repack that pointwise row with the
+two transported stream carriers to obtain the claimed StreamNameUp
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_transport}
+
+\begin{theorem}[RegSeqRat stream-name scoped interface]
+\label{thm:regseqrat-streamname-scoped-interface}
+For rational-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameCarrier}(u),
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t),\quad
+\mathsf{RealUnaryStreamClassifier}(t,u),
+$$
+and suppose the endpoint transports are pointwise over unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then these rows determine a scoped $\RegSeqRat$ interface package containing:
+\begin{enumerate}
+  \item $\mathsf{RatStreamNameClassifier}(s,t)$.
+  \item $\mathsf{RealUnaryStreamClassifier}(s,s)$,
+  $\mathsf{RealUnaryStreamClassifier}(t,s)$, and
+  $\mathsf{RealUnaryStreamClassifier}(s,u)$.
+  \item For every certified unary observation $n$, endpoint $\RatUp$
+  carrier rows for $s(n)$ and $t(n)$.
+  \item $\mathsf{RealUnaryStreamClassifier}(s',t')$.
+  \item $\mathsf{RatStreamNameClassifier}(s',t')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:real-unary-stream-classifier-stability-package} to
+the three stream-name carrier rows, the two RealUp unary classifier rows, and
+the two pointwise $\hsame$ transport rows. Its conclusions supply the
+StreamNameUp classifier for $(s,t)$, the reflexive, reversed, and composed
+RealUp unary classifier rows, the endpoint $\RatUp$ carrier rows at every
+certified unary observation, and the transported RealUp unary classifier
+for $(s',t')$.
+
+It remains to obtain the transported StreamNameUp classifier. Apply
+Theorem~\ref{thm:real-unary-streamname-transported-classifier} with the same
+carrier rows for $s$ and $t$, the same
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row, and the same pointwise
+$\hsame$ transports from $s,t$ to $s',t'$. This yields
+$\mathsf{RatStreamNameClassifier}(s',t')$, which is the final row of the
+scoped $\RegSeqRat$ interface package.
+\end{proof}
+
+The ten-field fit is: traditional target transport of a unary real stream-name
+classifier; BEDC source StreamNameUp read through the RealUp unary classifier;
+carrier the transported RatUp endpoint carrier rows for $s'$ and $t'$;
+classifier the transported RatUp point classifier; stability pointwise
+$\hsame$ transport along unary observations; ledger the observation witness
+and the two endpoint transport witnesses; core theorem this block; exactness
+$\mathsf{RatStreamNameClassifier}(s',t')$ rather than only
+$\mathsf{RealUnaryStreamClassifier}(s',t')$; standard bridge the downstream
+RealUp certificate boundary; status $\mathsf{ProofTarget}$.
+
+\begin{definition}[Real ledger policy]
+\label{def:real-ledger-policy}
+Record finite stream observations, dyadic comparison witnesses, regularity certificates, and classifier comparison certificates when sameness is used.
+\end{definition}
+
+\begin{definition}[RealUp certificate obligations]
+\label{def:real-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the required fields for using the interface name $\RealUp$.
+\end{definition}
+
+\paragraph{Primitive boundary.}
+$\RealUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:real-zero-axiom-note}
+The interface avoids quotient machinery. It does not use $\mathsf{Quot.sound}$; sameness is carried by dyadic comparison certificates and the $\RegSeqRat$ classifier.
+\end{remark}
+
+\begin{theorem}[RealUp carrier and classifier obligations]
+\label{thm:realup-obligation-carrier-classifier}
+The $\RealUp$ carrier and classifier obligation set consists exactly of the
+sealed $\RegSeqRat$ stream spine, the constant-history carrier
+$\mathsf{RealConstantHistoryCarrier}$, the endpoint $\RatUp$ carrier rows, and
+the classifier row
+$\mathsf{RealConstantHistoryClassifier}$ or
+$\mathsf{RealUnaryStreamClassifier}$ read through
+\autoref{def:real-carrier},
+\autoref{def:real-constant-history-carrier},
+\autoref{def:real-classifier-specification}, and
+\autoref{def:regseqrat-stream-certificate-spine}. This is the carrier and
+classifier part of the $\RealUp$ obligation boundary.
+\end{theorem}
+\begin{proof}
+Use the roadmap ten-field template with traditional target $\RealUp$. The
+BEDC source is the DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, and $\RatUp$
+interface over $\Hist$; no quotient carrier is introduced outside those
+named interfaces.
+
+The carrier choice is the sealed $\RegSeqRat$ stream spine together with
+$\mathsf{RealConstantHistoryCarrier}$ and the endpoint $\RatUp$ carrier rows.
+Definitions~\ref{def:real-carrier} and
+\ref{def:real-constant-history-carrier} name the constant-history side, while
+Definition~\ref{def:regseqrat-stream-certificate-spine} names the stream
+spine being sealed.
+
+The classifier choice is read from
+Definition~\ref{def:real-classifier-specification}: constants use
+$\mathsf{RealConstantHistoryClassifier}$ and unary stream observations use
+$\mathsf{RealUnaryStreamClassifier}$. Stability obligations, ledger rows,
+core theorem list, and exactness predicate are not supplied by this block;
+they are the remaining $\RealUp$ obligations. No standard bridge is claimed,
+and the status of this theorem is the paper-side carrier and classifier
+obligation inventory.
+\end{proof}
+
+\begin{theorem}[RealUp stability and transport obligations]
+\label{thm:realup-obligation-stability-transport}
+The $\RealUp$ stability obligation set is supplied by the
+constant-history classifier equivalence fields, endpoint transport, unary
+stream classifier stability, the stream-name transported classifier, and
+$\RegSeqRat$ transport. Concretely, the required rows are those supplied by
+\autoref{thm:real-constant-history-classifier-equivalence-fields},
+\autoref{thm:real-constant-history-classifier-endpoint-transport},
+\autoref{thm:real-unary-stream-classifier-stability-package}, and
+\autoref{thm:real-unary-streamname-transported-classifier}, read over the
+same $\Hist$-indexed DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, and
+$\RatUp$ sources.
+\end{theorem}
+\begin{proof}
+The traditional target is again $\RealUp$, with BEDC source
+DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, and $\RatUp$ over $\Hist$.
+The carrier choice and classifier choice are the rows fixed in
+\autoref{thm:realup-obligation-carrier-classifier}; this proof names the
+stability and transport rows attached to them.
+
+For the constant-history face, apply
+\autoref{thm:real-constant-history-classifier-equivalence-fields} to obtain
+the reflexive, symmetric, and transitive classifier fields, and apply
+\autoref{thm:real-constant-history-classifier-endpoint-transport} to move the
+endpoint classifier along $\hsame$ rows.
+
+For the unary stream face, apply
+\autoref{thm:real-unary-stream-classifier-stability-package}. It gives the
+StreamNameUp classifier, the reflexive, reversed, and composed
+$\RealUp$ unary classifier rows, endpoint $\RatUp$ carrier rows, and
+transport of $\mathsf{RealUnaryStreamClassifier}$ along pointwise $\hsame$.
+
+Finally, apply
+\autoref{thm:real-unary-streamname-transported-classifier} to read the
+transported RealUp unary classifier as the transported StreamNameUp
+classifier. The ledger and seal are left to the ledger theorem below, the
+exactness predicate is classifier preservation along the displayed
+transports, no standard bridge is claimed, and the status is the paper-side
+stability and transport obligation inventory.
+\end{proof}
+
+\begin{theorem}[RealUp ledger and seal obligations]
+\label{thm:realup-obligation-seal-ledger}
+The $\RealUp$ ledger obligation is exactly the finite unary-observation
+ledger together with the dyadic-tolerance requests consumed by the
+$\RealUp$ seal. The ledger rows are those named in
+\autoref{def:real-ledger-policy}, and the seal consumes precisely the scoped
+$\RegSeqRat$ spine supplied by
+\autoref{thm:regseqrat-stream-spine-scoped-package} through
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine}.
+\end{theorem}
+\begin{proof}
+Use the same roadmap template. The traditional target is $\RealUp$; the BEDC
+source is the DyadicRatCore and $\RegSeqRat$ stream data over $\Hist$, read
+through $\StreamNameUp$ names and endpoint $\RatUp$ rows. The carrier and
+classifier choices are the rows fixed by
+\autoref{thm:realup-obligation-carrier-classifier}.
+
+The ledger is the finite policy of
+\autoref{def:real-ledger-policy}: stream observations, dyadic comparison
+witnesses, regularity certificates, and classifier comparison certificates.
+These are the only ledger rows available to the seal.
+
+Apply \autoref{thm:regseqrat-stream-spine-scoped-package} to collect the
+scoped $\RegSeqRat$ carrier, classifier, stability, and finite ledger faces.
+Then apply \autoref{thm:regseqrat-realup-seal-consumes-stream-spine}; the
+seal reads that scoped spine and its dyadic-tolerance requests without adding
+another source of data.
+
+The core theorem list is the scoped spine theorem followed by the seal
+consumption theorem. The exactness predicate is equality of consumed data:
+the $\RealUp$ seal consumes the finite unary-observation ledger and the
+dyadic-tolerance requests displayed by the spine. No standard bridge is
+claimed, and the status is the paper-side ledger, seal, and
+$\RegSeqRat$-consumption obligation inventory.
+\end{proof}
+
+\begin{theorem}[RealUp scoped certificate boundary]
+\label{thm:realup-scoped-certificate-boundary}
+The scoped $\RealUp$ certificate boundary is exactly the package formed from
+\autoref{thm:realup-obligation-carrier-classifier},
+\autoref{thm:realup-obligation-stability-transport},
+\autoref{thm:realup-obligation-seal-ledger},
+\autoref{thm:real-stream-prefix-carrier-obligation},
+\autoref{thm:real-stream-prefix-classifier-obligation},
+\autoref{thm:real-stream-prefix-stability-obligation}, and
+\autoref{thm:real-stream-prefix-ledger-seal-obligation}. Its primitives are
+DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$,
+$\mathsf{UnaryHistory}$, $\hsame$ transport,
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.
+Within this boundary every carrier, classifier, stability, transport, ledger,
+and seal face is read from the same $\Hist$-indexed stream spine and finite
+ledger. The boundary contains no quotient data, completion data, arithmetic or
+order closure, metric-completeness certificate, or standard-bridge data.
+\end{theorem}
+\begin{proof}
+We first collect the direct $\RealUp$ obligation faces. Apply
+\autoref{thm:realup-obligation-carrier-classifier} for the sealed
+$\RegSeqRat$ carrier and the constant-history and unary stream classifiers.
+Apply \autoref{thm:realup-obligation-stability-transport} for $\hsame$
+transport, endpoint transport, and unary stream classifier stability. Apply
+\autoref{thm:realup-obligation-seal-ledger} for the finite ledger and the seal
+that consumes the scoped stream spine.
+
+We then identify those faces with the stream-prefix obligation inventory.
+Apply \autoref{thm:real-stream-prefix-carrier-obligation} for the
+DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, and $\RatUp$ carrier source.
+Apply \autoref{thm:real-stream-prefix-classifier-obligation} for the
+constant-history and unary stream classifier source. Apply
+\autoref{thm:real-stream-prefix-stability-obligation} for the pointwise
+$\hsame$ stability rows. Apply
+\autoref{thm:real-stream-prefix-ledger-seal-obligation} for the finite
+ledger policy and seal rows.
+
+The two collections name the same data, because every row is indexed by the
+same $\Hist$ stream spine and every ledger entry is one of the finite
+$\mathsf{RealLedgerPolicy}$ entries consumed by the seal. Thus the package is
+scoped over the displayed BEDC primitives rather than over an external real
+object.
+
+Nothing in the construction supplies quotient representatives, a completion
+object, arithmetic or order laws, metric completeness, or a standard bridge.
+Those data are outside the scoped certificate boundary claimed here.
+\end{proof}
+
+\begin{theorem}[RealUp public certificate export]
+\label{thm:realup-public-certificate-export}
+The public $\NameCert_{\RealUp}$ surface exported to downstream L10 chapters is
+exactly the package consisting of
+\autoref{thm:realup-scoped-certificate-boundary},
+\autoref{thm:realup-scoped-finite-window-read-surface}, the scoped
+$\RegSeqRat$ stream-name interface of
+\autoref{thm:regseqrat-streamname-scoped-interface}, the DyadicRatCore
+observation rows, $\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.
+Downstream chapters may cite this theorem as the public $\RealUp$ certificate
+boundary for carrier, classifier, stability, transport, finite observation,
+ledger, and seal data. The exported surface contains no completeness theorem,
+arithmetic or order closure, metric-completeness certificate, or standard
+bridge.
+\end{theorem}
+\begin{proof}
+Start with the scoped certificate boundary. Apply
+\autoref{thm:realup-scoped-certificate-boundary}; it gathers the
+DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$,
+$\mathsf{UnaryHistory}$, $\hsame$ transport, constant-history carrier,
+constant-history classifier, unary stream classifier, and finite ledger policy
+as one $\Hist$-indexed $\RealUp$ boundary.
+
+Next attach the finite read surface. Apply
+\autoref{thm:realup-scoped-finite-window-read-surface}; it says that selected
+finite $\RealUp$ observation windows read exactly the same carrier/classifier,
+stability/transport, finite ledger, dyadic source, stream-name, endpoint, and
+seal rows, and no quotient, completion, arithmetic, order, Classical, or
+standard-bridge datum.
+
+Finally package the source interfaces exposed to downstream chapters. The
+scoped $\RegSeqRat$ stream-name interface of
+\autoref{thm:regseqrat-streamname-scoped-interface} supplies the stream-name
+classifier, reflexive, reversed, composed, endpoint, and transported
+classifier rows. The DyadicRatCore observation rows and the named
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$ rows are
+therefore precisely the public $\NameCert_{\RealUp}$ surface. Since each row is
+already inside the scoped boundary or the finite read surface, downstream L10
+chapters may cite this theorem as the public $\RealUp$ certificate boundary
+without reconstructing the package.
+\end{proof}
+
+\begin{theorem}[RealUp public export through the StreamNameUp public interface]
+\label{thm:realup-public-export-through-streamname-public-interface}
+The public $\NameCert_{\RealUp}$ surface of
+\autoref{thm:realup-public-certificate-export} factors its countable-name
+component through the public $\StreamNameUp$ export package of
+\autoref{thm:streamname-public-interface-export-package} and factors its
+finite-window component through
+\autoref{thm:realup-finite-window-export-through-streamname-interface}. After
+these two factorizations, the remaining public $\RealUp$ rows are exactly the
+DyadicRatCore observation rows, the $\RegSeqRat$ spine rows, the $\RatUp$
+endpoint rows, $\mathsf{UnaryHistory}$, $\hsame$ transport,
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.
+
+The factorized public surface still contains no quotient datum, completion
+datum, arithmetic or order closure, metric-completeness certificate, Classical
+datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:realup-public-certificate-export}. It identifies the
+public $\NameCert_{\RealUp}$ boundary as the scoped $\RealUp$ certificate
+boundary together with the selected finite-window read surface, the
+$\RegSeqRat$ stream-name interface, the DyadicRatCore observation rows, and the
+named constant-history, unary-stream, transport, endpoint, and ledger rows.
+
+Next isolate the public stream-name package. Apply
+\autoref{thm:streamname-public-interface-export-package}; its countable-name
+side supplies the $\mathsf{RatStreamNameCarrier}$,
+$\mathsf{RatStreamNameClassifier}$, RatUp pointwise rows, constant stream rows,
+reindexing and RatUp-preserving map stability, and unary reindexing composition
+used by the $\RealUp$ export.
+
+For finite observations, apply
+\autoref{thm:realup-finite-window-export-through-streamname-interface}. It
+identifies the selected finite $\RealUp$ read surface with the public
+$\StreamNameUp$ finite-window interface and leaves only the listed dyadic,
+$\RegSeqRat$, endpoint, unary-history, $\hsame$, and ledger rows outside the
+stream-name factor.
+
+Finally use \autoref{thm:regseqrat-streamname-scoped-interface} and
+\autoref{thm:dyadicratcore-public-observation-package}. The former supplies the
+regular rational-stream spine and transported stream-name rows consumed by
+$\RealUp$, while the latter supplies the DyadicRatCore observation package.
+Thus the public export factors through the two StreamNameUp interfaces and the
+unfactored rows are precisely the displayed $\RealUp$ carrier, classifier,
+transport, endpoint, history, and ledger rows.
+\end{proof}
+
+\begin{closurestatus}{\RegSeqRat}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The rational-stream certificate spine binds $\RatUp$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealUnaryStreamClassifier}$, the dyadic-tolerance ledger, and the $\RealUp$ seal as the visible $\RegSeqRat$ scope.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_stability\_package}
+  \bridgestatus{none}
+  \notclaimed{The scope does not close $\RealUp$ completeness, $\RealUp$ arithmetic or order, full $\DyadicRatCore$ arithmetic, metric completeness, or any standard bridge.}
+  \upgradepath{A stronger closure grade requires public $\RealUp$ arithmetic, order, completeness, and standard-bridge certificates beyond this rational-stream certificate boundary.}
+\end{closurestatus}
+
+\begin{closurestatus}{\RealUp}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:realup-scoped-certificate-boundary} and \autoref{thm:realup-public-certificate-export} witness the public $\RealUp$ certificate export over DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealConstantHistoryCarrier}$, $\mathsf{RealConstantHistoryClassifier}$, $\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealUp.RealConstantHistory\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{This block does not close $\RealUp$ completeness, arithmetic or order closure, metric completeness, or any standard bridge.}
+  \upgradepath{A stronger grade requires a bridge theorem relating this public $\RealUp$ export to the later standard or metric interface.}
+\end{closurestatus}

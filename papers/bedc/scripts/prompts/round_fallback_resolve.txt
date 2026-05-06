@@ -13,7 +13,7 @@ will retry the merge automatically after you exit cleanly.
 cd {worktree}
 git status --porcelain                 # working tree should be clean before exit
 git log --oneline {base_branch}..HEAD  # confirm own-round commits still here
-cd papers/bedc && make 2>&1 | tail -50 # PDF build break?
+cd papers/bedc && make check 2>&1 | tail -50 # PDF build break? (`make check` = single -draftmode pass, ~half the time; switch to full `make` once syntax is clean to also catch \autoref / TOC issues)
 cd ../.. && python3 lean4/scripts/bedc_ci.py audit 2>&1 | tail -30
 python3 tools/check-axioms.py 2>&1 | tail -3
 ```

@@ -50,3 +50,52 @@ Since $i$ and $k$ were arbitrary, \autoref{def:matrix-classifier-specification} 
 \end{proof}
 
 This certificate fits the standard ten-field reading as follows. The traditional target is zero absorption for finite matrix multiplication. The BEDC source is $\MatrixUp$ over $\RingUp$ and $\NatUp$. The carrier is the finite table carrier on $\mathsf{Fin}(n)\times\mathsf{Fin}(m)$. The classifier is the pointwise scalar classifier. Stability consists of matrix multiplication closure together with scalar zero multiplication and additive fold closure. The ledger keeps the row, inner, column, and scalar-source witnesses fixed and records scalar-zero provenance. The core theorem is \autoref{thm:finite-fold-matrix-zero-multiplication-law}. Exactness is the pointwise zero endpoint $Z_{n,p}$. The standard bridge is the usual finite matrix interpretation of carried tables and finite scalar folds. The formalization status is $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Finite-fold zero matrix additive identity]
+\label{thm:finite-fold-zero-matrix-additive-identity}
+Let $R$ carry a scalar $\RingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, and addition $+_R$. Assume the scalar source carries $0_R$, and assume the scalar classifier equivalence fields, addition closure, and scalar additive left-zero and right-zero laws retained in \autoref{def:ring-stability-certificate}. Let $n,m:\NatUp$, and consider the $\MatrixUp$ carrier of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. Let
+$$
+A:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R
+$$
+be a carried matrix, and let $Z_{n,m}$ be the zero matrix datum of \autoref{def:finite-fold-zero-matrix-data}. Assume matrix addition is the pointwise operation
+$$
+(X+Y)_{i,j}:=X_{i,j}+_R Y_{i,j}
+$$
+using the addition closure row of \autoref{def:matrix-stability-certificate}. Then $A+Z_{n,m}$ and $Z_{n,m}+A$ are carried $\MatrixUp$ matrices over $\mathsf{Fin}(n)\times\mathsf{Fin}(m)$, and
+$$
+A+Z_{n,m}\sim_{\mathrm{Mat}}A
+\qquad\text{and}\qquad
+Z_{n,m}+A\sim_{\mathrm{Mat}}A.
+$$
+Consequently,
+$$
+A+Z_{n,m}\sim_{\mathrm{Mat}}Z_{n,m}+A.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonZero\_additive\_identity}
+\begin{proof}
+The zero matrix datum of \autoref{def:finite-fold-zero-matrix-data} carries $Z_{n,m}$ pointwise from the carried scalar zero endpoint. Since $A$ is carried, the addition closure row of \autoref{def:matrix-stability-certificate} carries both pointwise sums $A+Z_{n,m}$ and $Z_{n,m}+A$.
+
+By \autoref{def:matrix-classifier-specification}, it remains to compare entries. Fix $i:\mathsf{Fin}(n)$ and $j:\mathsf{Fin}(m)$. The pointwise addition rule and the definition of $Z_{n,m}$ give
+$$
+(A+Z_{n,m})_{i,j}=A_{i,j}+_R 0_R.
+$$
+The scalar additive right-zero law retained in \autoref{def:ring-stability-certificate} classifies this endpoint with $A_{i,j}$, so
+$$
+(A+Z_{n,m})_{i,j}\sim_R A_{i,j}.
+$$
+For the other order, the same pointwise rule gives
+$$
+(Z_{n,m}+A)_{i,j}=0_R+_R A_{i,j}.
+$$
+The scalar additive left-zero law classifies this endpoint with $A_{i,j}$, hence
+$$
+(Z_{n,m}+A)_{i,j}\sim_R A_{i,j}.
+$$
+Since $i$ and $j$ were arbitrary, \autoref{def:matrix-classifier-specification} packages the two entrywise scalar comparisons as the displayed matrix classifier witnesses against $A$. Applying scalar symmetry to the second entrywise comparison and scalar transitivity with the first gives
+$$
+(A+Z_{n,m})_{i,j}\sim_R (Z_{n,m}+A)_{i,j}
+$$
+for every index pair, so the same pointwise classifier packages the final displayed consequence. The dimensions, row witness, column witness, and scalar source are unchanged, as recorded by \autoref{def:matrix-ledger-policy}.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_zero\_prefix\_absorption}

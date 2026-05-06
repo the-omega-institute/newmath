@@ -12,10 +12,24 @@ Two parallel formalization rounds modified shared files:
 
 ## Instructions
 1. For each conflicted file, read it and resolve the conflict markers
-2. The resolution strategy is ALWAYS "keep both sides' additions"
+2. The resolution strategy is USUALLY "keep both sides' additions" (BUT see deletion rule below)
 3. For BEDC.lean: merge all import lines (union, no duplicates)
 4. For IMPLEMENTATION_PLAN.md: keep both rounds' Phase entries
 5. For .tex files: keep all \leanverified lines
+
+## Deletion-aware rule (critical)
+
+If one conflict side DELETED a `theorem` / `def` / `lemma` declaration (or a paper `\begin` ... `\end` theorem-block with a `\label`) and the other side kept it or modified it, **prefer the deletion**: drop the declaration in the resolved file. Rationale:
+
+- A deletion in BASE_BRANCH (the "incoming" side during merge) is a deliberate cleanup — typically removing a duplicate-conclusion theorem caught by `phase_d_lint.py`, or a stuck dup label caught by `bedc_ci.py audit`.
+- The "ours" side (this round) is older code dispatched before the deletion landed. Its version is stale.
+- Re-adding the deleted declaration via "keep both" recreates the original problem (lake build dup-decl, `SHALLOW GROWTH PATTERN` lint, `duplicate paper labels` audit) and the next round will hit the same wall.
+
+To detect this case: when one side has the declaration and the other has `<<<<<<<` immediately followed by content NOT containing that declaration name, the side without the name is the deletion. Trust the deletion.
+
+If the deletion appears semantically wrong (e.g. the declaration is referenced elsewhere in your round's diff), re-implement the referenced uses inline using the surviving theorem's content rather than re-adding the deleted declaration.
+
+## Completion
 6. After resolving, run: git add <file> for each resolved file
 7. Then run: git commit --no-edit  (this completes the merge — do not amend its message)
 8. Do NOT run git push

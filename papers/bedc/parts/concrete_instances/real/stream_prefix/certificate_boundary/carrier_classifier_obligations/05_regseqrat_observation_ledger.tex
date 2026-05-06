@@ -1,0 +1,165 @@
+\begin{theorem}[RegSeqRat dyadic observation coverage]
+\label{thm:regseqrat-dyadic-observation-coverage}
+Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ stream certificate spine, and let
+$n$ be a certified $\mathsf{UnaryHistory}$ observation index of that spine. Then
+the exposed endpoint $s(n)$ has a DyadicRatCore observation row in the sense of
+\autoref{def:dyadic-rat-core-observation-row}. Moreover, if a stream classifier
+is transported pointwise along $\hsame$ to a target endpoint $s'(n)$, then the
+same pointwise transport carries this DyadicRatCore observation row to
+$s'(n)$.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:regseqrat-stream-certificate-spine}. At the
+certified observation index $n$, \autoref{thm:regseqrat-carrier-obligation}
+supplies the endpoint $\mathsf{RatHistoryCarrier}(s(n))$ row and the
+dyadic-tolerance witness recorded in the regularity ledger.
+
+The positive-denominator component is read from the RatUp carrier interface:
+\autoref{thm:rat-history-carrier-positive-denominator-equivalence} converts the
+endpoint carrier row into $\mathsf{PositiveUnaryDenominator}(s(n))$. These
+three pieces are exactly the DyadicRatCore observation row of
+\autoref{def:dyadic-rat-core-observation-row}.
+
+For the transported endpoint, apply
+\autoref{thm:regseqrat-classifier-obligation} to recover the pointwise
+$\mathsf{RatHistoryClassifier}$ row carried by the stream classifier. Its
+$\hsame$ comparison transports the endpoint carrier/classifier face through the
+existing $\mathsf{RatHistoryClassifier}$ transport, and
+\autoref{thm:rat-positive-unary-denominator-hsame-transport} transports the
+positive-denominator row to $s'(n)$.
+
+The dyadic-radius token is attached to the same certified observation request
+in the spine ledger, so no additional completion or quotient datum is needed.
+Thus the transported package is again a DyadicRatCore observation row.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore observation row finite-ledger extraction]
+\label{thm:dyadic-rat-core-observation-row-finite-ledger-extraction}
+Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ stream certificate spine. For every
+finite BEDC ledger bundle $L$ of certified $\mathsf{UnaryHistory}$ observation
+requests in that spine, there is a finite family indexed by the entries
+$n\in L$ whose $n$-th member is a
+$\mathsf{DyadicRatCoreObservationRow}(s(n))$ in the sense of
+\autoref{def:dyadic-rat-core-observation-row}. This family is read from the
+DyadicRatCore scoped source package of
+\autoref{thm:dyadic-rat-core-scoped-source-package}; its carrier and classifier
+faces are precisely the $\RegSeqRat$ carrier and classifier obligations of
+\autoref{thm:regseqrat-carrier-obligation} and
+\autoref{thm:regseqrat-classifier-obligation}.
+
+Moreover, if a stream classifier transports the spine pointwise to a target
+stream $s':\Hist\to\Hist$, then the same finite family transports endpointwise:
+for each certified request $n\in L$, the transported endpoint row is a
+$\mathsf{DyadicRatCoreObservationRow}(s'(n))$.
+\end{theorem}
+\begin{proof}
+Induct on the finite ledger bundle $L$. The empty bundle has no certified
+observation entry, so the indexed family and its transported endpoint family
+are empty.
+
+For a cons bundle, write the displayed head request as the certified
+$\mathsf{UnaryHistory}$ observation index $n$ and write $L'$ for the remaining
+finite bundle. Apply
+\autoref{thm:regseqrat-dyadic-observation-coverage} to the head request in the
+$\RegSeqRat$ spine. It supplies the row
+$\mathsf{DyadicRatCoreObservationRow}(s(n))$ by unpacking
+\autoref{def:dyadic-rat-core-observation-row}, with the carrier datum supplied
+by \autoref{thm:regseqrat-carrier-obligation} and the classifier transport
+datum supplied by \autoref{thm:regseqrat-classifier-obligation}.
+
+The source package identification in
+\autoref{thm:dyadic-rat-core-scoped-source-package} says that no additional
+ledger face is used beyond these certified unary observation entries. Therefore
+the tail induction hypothesis extracts the finite family over $L'$ from the
+same spine and transports it along the same pointwise classifier.
+
+Adjoin the head row to the tail family. The transported head row is provided by
+the transported clause of
+\autoref{thm:regseqrat-dyadic-observation-coverage}, and the transported tail is
+the induction hypothesis. Hence the cons bundle extracts and transports the
+claimed finite family endpointwise.
+\end{proof}
+
+\begin{theorem}[RegSeqRat constant and transport obligation]
+\label{thm:regseqrat-constant-and-transport-obligation}
+The constant and transport obligations for $\RegSeqRat$ are the inhabitation of
+the constant rational-observation stream and pointwise $\hsame$ transport of
+stream classifiers. For every $d:\Hist$ with
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatConstStream}_d$ carries a
+$\RegSeqRat$ spine. If $s,t$ are classified streams and $s',t'$ are pointwise
+$\hsame$ transports over certified unary observations, then the transported
+stream-name classifier $\mathsf{RatStreamNameClassifier}(s',t')$ is part of
+the same obligation set.
+\end{theorem}
+\begin{proof}
+Definition~\ref{def:regseqrat-stream-certificate-spine} identifies the
+constant case as a spine over a stream-name carrier plus a regularity ledger.
+Apply \autoref{thm:regseqrat-constant-stream-spine} to the supplied
+$\mathsf{RatHistoryCarrier}(d)$; the resulting ledger is constant at every
+certified unary observation.
+
+For transport, apply
+\autoref{thm:regseqrat-stream-classifier-stability-spine} to the two endpoint
+$\hsame$ rows. It supplies the transported pointwise $\RatUp$ classifiers and
+repackages them as $\mathsf{RatStreamNameClassifier}(s',t')$.
+
+The scoped package
+\autoref{thm:regseqrat-stream-spine-scoped-package} places the constant and
+transport clauses in one certificate package, and
+\autoref{thm:regseqrat-realup-seal-consumes-stream-spine} shows that these
+clauses are sufficient for the downstream RealUp seal to consume the stream
+classifier.
+\end{proof}
+
+\begin{theorem}[RegSeqRat public rational-stream interface]
+\label{thm:regseqrat-public-rational-stream-interface}
+A $\RegSeqRat$ public rational-stream interface is exactly the package formed
+from \autoref{thm:regseqrat-dyadic-observation-coverage},
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction},
+\autoref{thm:regseqrat-constant-and-transport-obligation},
+\autoref{thm:regseqrat-streamname-scoped-interface}, and
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation}. Its public
+template has the following ten fields:
+\begin{enumerate}
+  \item the traditional target is the regular rational Cauchy stream spine;
+  \item the BEDC source is DyadicRatCore plus StreamNameUp plus RatUp over
+  $\Hist$;
+  \item the carrier is the $\RegSeqRat$ stream certificate spine;
+  \item the classifier is the pointwise
+  $\mathsf{RealUnaryStreamClassifier}$ and
+  $\mathsf{RatStreamNameClassifier}$ row;
+  \item stability is the family of pointwise $\hsame$ transport rows;
+  \item the ledger consists of finite unary observation requests and
+  dyadic-tolerance tokens;
+  \item the core theorem list is the five cited blocks above;
+  \item exactness says the RealUp seal consumes exactly those finite rows;
+  \item no standard bridge datum is part of the interface;
+  \item the status is a paper-side public interface target.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Collect the five cited packages in the displayed order. The first package
+supplies DyadicRatCore observation coverage at each certified unary request,
+the second extracts finite ledger families from any selected observation
+bundle, and the third supplies the constant stream and pointwise transport
+obligations.
+
+For every selected observation, use
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction}. It
+turns the finite unary ledger entries and dyadic-tolerance tokens into endpoint
+DyadicRatCore rows, and its transported clause carries the same rows along the
+chosen pointwise $\hsame$ comparison.
+
+Next use \autoref{thm:regseqrat-streamname-scoped-interface}. It supplies the
+stream-name interface, the classifier transport row, and the endpoint carrier
+rows needed to read the $\mathsf{RealUnaryStreamClassifier}$ and
+$\mathsf{RatStreamNameClassifier}$ components pointwise.
+
+Finally apply
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation}. The seal
+obligation identifies the data consumed by RealUp with the same finite
+observation rows already extracted from the $\RegSeqRat$ ledger. Therefore the
+package exposes the stated public rational-stream interface without quotient,
+completion, metric-completeness, arithmetic/order, Classical, or standard
+bridge data.
+\end{proof}

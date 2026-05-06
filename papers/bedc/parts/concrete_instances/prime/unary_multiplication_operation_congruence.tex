@@ -1,0 +1,32 @@
+\begin{theorem}[Unary multiplication operation congruence]
+\label{thm:unary-multiplication-operation-congruence}
+Let $d$, $d'$, $q$, $q'$, $n$, and $n'$ be histories. If
+$\mathsf{NatMul}(d,q,n)$, $\hsame(d,d')$, $\hsame(q,q')$, and
+$\hsame(n,n')$, then $\mathsf{NatMul}(d',q',n')$.
+
+Moreover, the transported multiplicand $d'$ and multiplier $q'$ are unary
+histories, and every result $m$ of $\mathsf{NatMul}(d',q',m)$ is classified
+with $n'$ by $\hsame(m,n')$. For the per-object certificate template, this
+statement is the concrete $\mathsf{MulUp}$ stability-obligation row for the
+operation relation under transported multiplicand, multiplier, and result
+classifiers, with its formal target intended under
+$\mathsf{BEDC.Derived.PrimeUp}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_operation\_congruence}
+\begin{proof}
+Apply the multiplicand transport theorem to the given product and
+$\hsame(d,d')$. This gives unary evidence for $d'$ and a product
+$\mathsf{NatMul}(d',q,n)$. Apply the multiplier transport theorem to that
+product and $\hsame(q,q')$, producing unary evidence for $q'$ and a product
+$\mathsf{NatMul}(d',q',n)$.
+
+Apply the result transport theorem to this last product and $\hsame(n,n')$.
+The result is the displayed product $\mathsf{NatMul}(d',q',n')$, with the
+same unary multiplicand evidence already carried by the transported product
+and the unary multiplier evidence obtained in the previous paragraph.
+
+For the uniqueness clause, compare any other witness
+$\mathsf{NatMul}(d',q',m)$ with the transported witness
+$\mathsf{NatMul}(d',q',n')$ by \autoref{lem:nat-mul-functional}, using unary
+evidence for the transported multiplicand $d'$. This yields $\hsame(m,n')$.
+\end{proof}

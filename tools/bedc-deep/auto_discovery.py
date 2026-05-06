@@ -31,6 +31,7 @@ import subprocess
 import codex_orchestrator
 import killo_golden_writeback
 import board_spawn
+import board_context
 from locks import file_lock
 from oracle_client import (
     BOARD_PATH,
@@ -50,7 +51,7 @@ PROBE_TIMEOUT = 1800
 REVIEW_TIMEOUT = 1800
 CURATOR_TIMEOUT = 2400
 COMPLETED_SUMMARY_LIMIT = 8000
-BOARD_INCLUDE_LIMIT = 30000
+BOARD_INCLUDE_LIMIT = 16000
 
 
 def _now_iso() -> str:
@@ -105,8 +106,7 @@ def _now_tag() -> str:
 
 
 def _board_text() -> str:
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    return text[:BOARD_INCLUDE_LIMIT]
+    return board_context.build_board_prompt_context(max_chars=BOARD_INCLUDE_LIMIT)
 
 
 def _completed_summary() -> str:
@@ -148,10 +148,33 @@ def _run_claude_audit(template_path: Path, log_tag: str, **format_kwargs) -> tup
     prompt = template.format(**safe_kwargs)
     ok, stdout, rc = killo_golden_writeback.claude_exec(prompt, timeout=PROBE_TIMEOUT, log_tag=log_tag)
     if not ok:
-        return (False, [], [], f"claude exec rc={rc}: {stdout[:400]}")
-    parsed = _extract_json_object(stdout)
+        fallback_ok, parsed, _fallback_stdout, fallback_error = killo_golden_writeback.codex_json_fallback(
+            prompt,
+            timeout=PROBE_TIMEOUT,
+            log_tag=log_tag,
+            role_note=(
+                "Claude is unavailable for this BEDC discovery audit. Run the "
+                "same paper-scan candidate discovery as a conservative Codex "
+                "fallback; prefer fewer, better-evidenced candidates."
+            ),
+        )
+        if not fallback_ok:
+            return (False, [], [], f"claude exec rc={rc}: {stdout[:400]}; codex fallback: {fallback_error[:400]}")
+    else:
+        parsed = _extract_json_object(stdout)
     if not parsed:
-        return (False, [], [], "claude output was not JSON")
+        fallback_ok, parsed, _fallback_stdout, fallback_error = killo_golden_writeback.codex_json_fallback(
+            prompt,
+            timeout=PROBE_TIMEOUT,
+            log_tag=log_tag,
+            role_note=(
+                "Claude returned non-JSON for this BEDC discovery audit. Run "
+                "the same paper-scan candidate discovery as a conservative "
+                "Codex fallback; prefer fewer, better-evidenced candidates."
+            ),
+        )
+        if not fallback_ok:
+            return (False, [], [], f"claude output was not JSON; codex fallback: {fallback_error[:400]}")
     candidates = parsed.get("candidates") or []
     rejected = parsed.get("rejected") or []
     if not isinstance(candidates, list) or not isinstance(rejected, list):

@@ -346,25 +346,14 @@ theorem ContinuousMapCarrier_prefix_canonical_distance_closed
       ContinuousMapCarrier (append p source) map (append p target) modulus (append p cert)
         (append (append p source) (append p target)) := by
   intro prefixCarrier carrier
-  have functionCarrier :
-      ContinuousFunctionCarrier (append p source) map (append p target) modulus
-        (append p cert) :=
-    ContinuousFunctionCarrier_prefix_closed prefixCarrier carrier.left
-  cases carrier with
-  | intro baseFunction _distanceWitness =>
-      cases baseFunction with
-      | intro sourceCarrier rest =>
-          cases rest with
-          | intro targetCarrier _functionRest =>
-              exact
-                And.intro functionCarrier
-                  (And.intro (unary_append_closed prefixCarrier sourceCarrier)
-                    (And.intro (unary_append_closed prefixCarrier targetCarrier)
-                      (And.intro
-                        (unary_append_closed
-                          (unary_append_closed prefixCarrier sourceCarrier)
-                          (unary_append_closed prefixCarrier targetCarrier))
-                        (cont_intro rfl))))
+  exact
+    And.intro (ContinuousFunctionCarrier_prefix_closed prefixCarrier carrier.left)
+      (And.intro (unary_append_closed prefixCarrier carrier.left.left)
+        (And.intro (unary_append_closed prefixCarrier carrier.left.right.left)
+          (And.intro
+            (unary_append_closed (unary_append_closed prefixCarrier carrier.left.left)
+              (unary_append_closed prefixCarrier carrier.left.right.left))
+            (cont_intro rfl))))
 
 theorem ContinuousMapCarrier_prefix_canonical_distance_deterministic
     {p source map target modulus cert distance distance' : BHist} :
@@ -396,9 +385,23 @@ theorem ContinuousMapCarrier_prefix_canonical_distance_exactness
         ContinuousMapCarrier (append p source) map (append p target) modulus (append p cert)
           (append (append p source) (append p target)) :=
       ContinuousMapCarrier_prefix_canonical_distance_closed prefixCarrier carrier
-    exact
-      ContinuousMapCarrier_canonical_distance_exactness.mpr
-        (And.intro canonical.left sameDistance)
+    exact ContinuousMapCarrier_canonical_distance_exactness.mpr
+      (And.intro canonical.left sameDistance)
+
+theorem ContinuousMapCarrier_prefixed_canonical_distance_package
+    {p source map target modulus cert distance displayed : BHist} :
+    UnaryHistory p -> ContinuousMapCarrier source map target modulus cert distance ->
+      ContinuousMapCarrier (append p source) map (append p target) modulus (append p cert)
+          (append (append p source) (append p target)) ∧
+        (ContinuousMapCarrier (append p source) map (append p target) modulus (append p cert)
+            displayed -> hsame displayed (append (append p source) (append p target))) ∧
+          (ContinuousMapCarrier (append p source) map (append p target) modulus (append p cert)
+              displayed ↔
+            hsame displayed (append (append p source) (append p target))) := by
+  intro prefixCarrier carrier
+  exact And.intro (ContinuousMapCarrier_prefix_canonical_distance_closed prefixCarrier carrier)
+    (And.intro (ContinuousMapCarrier_prefix_canonical_distance_deterministic prefixCarrier carrier)
+      (ContinuousMapCarrier_prefix_canonical_distance_exactness prefixCarrier carrier))
 
 theorem ContinuousMapFunctionCarrier_metric_graph_exactness
     {source map target modulus cert dist : BHist} :

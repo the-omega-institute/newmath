@@ -1,0 +1,174 @@
+\chapter{A Concrete Naming Certificate for $\RootSystemUp$}
+\label{ch:concrete-instances-rootsystem-namecert}
+
+The root-system interface $\RootSystemUp$ packages a finite set of nonzero vectors in a finite-dimensional inner-product space closed under the reflections they generate, with integer Cartan pairings. It depends on $\NameCert_{\InnerProductUp}$ (\autoref{ch:concrete-instances-innerproduct-namecert}), $\NameCert_{\FinSetUp}$ (\autoref{ch:concrete-instances-finset-namecert}), and $\NameCert_{\IntUp}$ (\autoref{ch:concrete-instances-int-namecert}), and is the combinatorial backbone of semisimple Lie-algebra classification.
+
+\section{Carrier definition}
+\label{sec:rootsystem-carrier}
+
+\begin{definition}[RootSystem BHist certificate surface]
+\label{def:rootsystem-bhist-certificate-surface}
+A $\RootSystemUp$ BHist certificate surface is a displayed package with the
+following ten fields:
+\begin{enumerate}
+  \item the traditional target is a finite root system: a finite set of
+  nonzero vectors in an inner-product vector carrier, closed under the
+  displayed root reflections, with integer Cartan pairings;
+  \item the BEDC source is the product of the visible
+  $\InnerProductUp$, $\FinSetUp$, and $\IntUp$ certificate surfaces;
+  \item the vector carrier $V:\mathsf{BHist}\to\mathsf{Prop}$ and vector
+  classifier $\sim_V$ are inherited from the $\InnerProductUp$ source;
+  \item the root carrier is a finite root-row predicate
+  $R:\mathsf{BHist}\to\mathsf{Prop}$ over $V$, presented by a
+  $\FinSetUp$ enumeration whose entries are carried by $V$;
+  \item the public root classifier combines the inner-product vector
+  classifier $\sim_V$ with the finite-set membership classifier, so two
+  root rows match only when their displayed vector representatives and
+  finite-support rows match;
+  \item each root row records a nonzero witness, expressed as failure of the
+  vector-zero classification under $\sim_V$;
+  \item for carried roots $\alpha$ and $\beta$, the reflection row displays a
+  carried vector $s_\alpha(\beta)$ together with a $\Cont$ route witnessing
+  that the row is computed from the inner-product and vector-space
+  operations;
+  \item for carried roots $\alpha$ and $\beta$, the Cartan endpoint row
+  displays an $\IntUp$-carried history
+  $c_{\alpha,\beta}$ for the pairing
+  $2\langle\beta,\alpha\rangle/\langle\alpha,\alpha\rangle$;
+  \item the stability rows transport nonzero witnesses, reflection closure,
+  Cartan pairing endpoints, and ledger descent through the root classifier
+  and $\hsame$;
+  \item the ledger records finite support, nonzero witnesses, reflection
+  routes, and integer Cartan endpoints, with every row descending to the
+  displayed sources named in the second field.
+\end{enumerate}
+The surface therefore names a finite root-row certificate inside BEDC
+histories. It does not name an ambient Lie algebra, a Weyl group, or a
+classification theorem.
+\end{definition}
+
+\section{The certificate}
+\label{sec:rootsystem-certificate}
+
+\begin{theorem}[RootSystem nonzero finite carrier obligation]
+\label{thm:rootsystem-nonzero-finiteness-obligation}
+For a $\RootSystemUp$ BHist certificate surface, the public root carrier
+exposes only the $\FinSetUp$ finite row $R$ of nonzero
+$\InnerProductUp$ vectors. Every displayed root history is an entry of the
+finite-support row, is carried by the inner-product vector carrier $V$, and
+has a recorded witness that it is not classified as the vector zero by
+$\sim_V$.
+\end{theorem}
+\begin{proof}
+Project the finite root-row predicate from
+\autoref{def:rootsystem-bhist-certificate-surface}. The fourth field gives
+the $\FinSetUp$ enumeration, and its entries are explicitly carried by the
+vector carrier inherited from $\InnerProductUp$.
+
+Project the nonzero row from the sixth field. It is attached to each displayed
+entry of the finite-support row and is stated through the vector classifier
+$\sim_V$. Thus a public root has no access path except through the finite
+enumeration and the nonzero witness recorded beside that entry.
+\end{proof}
+\leanchecked{BEDC.Derived.RootSystemUp.RootSystemFiniteSupportCarrier\_nonzero\_rows}
+\leanchecked{BEDC.Derived.RootSystemUp.RootSystemFiniteSupportCarrier\_project\_rows}
+
+\begin{theorem}[RootSystem carrier classifier obligation]
+\label{thm:rootsystem-carrier-classifier-obligation}
+For a $\RootSystemUp$ BHist certificate surface, root-carrier transport is
+exactly transport along the inherited vector classifier and the finite-set
+membership classifier. If two root rows have $\hsame$ finite-support entries
+and their vector representatives are classified by $\sim_V$, then all visible
+carrier data of the two root rows agree by the public root classifier.
+\end{theorem}
+\begin{proof}
+Unpack the classifier field of
+\autoref{def:rootsystem-bhist-certificate-surface}. It has two visible
+components: the $\InnerProductUp$ vector classifier on representatives and
+the $\FinSetUp$ classifier on the finite membership presentation.
+
+Use the $\hsame$ witness on the finite-support entries to identify the
+displayed rows selected from the enumeration. Use the vector classifier
+witness to transport the inherited vector-carrier facts and the attached
+nonzero witness. Combining these two projections is precisely the public
+root classifier described by the fifth field.
+\end{proof}
+\leanchecked{BEDC.Derived.RootSystemUp.RootSystemFiniteSupportCarrier\_classifier\_transport}
+
+\begin{theorem}[RootSystem reflection closure obligation]
+\label{thm:rootsystem-reflection-closure-obligation}
+For a $\RootSystemUp$ BHist certificate surface and carried roots
+$\alpha$ and $\beta$, each displayed reflection row sends $\beta$ to a
+carried root $s_\alpha(\beta)$. The closure witness uses the recorded
+$\Cont$ route for the reflected vector and the inherited inner-product vector
+classifier transport; no external reflection action is added.
+\end{theorem}
+\begin{proof}
+Read the reflection row from the seventh field of
+\autoref{def:rootsystem-bhist-certificate-surface}. It supplies both the
+reflected vector history $s_\alpha(\beta)$ and the $\Cont$ route expressing
+how that history is built from the displayed inner-product and vector-space
+operations.
+
+Apply the vector-carrier and classifier transport rows inherited from
+$\InnerProductUp$ along that route. The reflection-closure component of the
+surface then identifies the reflected vector with an entry of the finite root
+row. Since membership is classified by the public root classifier, the result
+is a carried root row rather than a host-level vector equality.
+\end{proof}
+\leanchecked{BEDC.Derived.RootSystemUp.RootSystemReflectionClosure\_result\_unary}
+
+\begin{theorem}[RootSystem Cartan ledger obligation]
+\label{thm:rootsystem-cartan-ledger-obligation}
+For a $\RootSystemUp$ BHist certificate surface and carried roots
+$\alpha$ and $\beta$, each Cartan endpoint $c_{\alpha,\beta}$ is an
+$\IntUp$-carried history. If the input root rows are transported by the
+public root classifier, the corresponding Cartan endpoints transport through
+the $\IntUp$ classifier and the ledger records the same integer endpoint row.
+\end{theorem}
+\begin{proof}
+Project the Cartan endpoint row from the eighth field of
+\autoref{def:rootsystem-bhist-certificate-surface}. Its codomain is the
+integer-history carrier supplied by $\NameCert_{\IntUp}$, so the endpoint is
+not merely a scalar quotient in the inner-product source.
+
+Transport the two input roots through the public root classifier. The
+stability field carries the numerator, denominator, and displayed integer
+endpoint through the inherited vector and scalar classifiers and then through
+the $\IntUp$ classifier. The ledger component records this transported
+endpoint beside the same pair of root rows, which gives stable integer Cartan
+data.
+\end{proof}
+\leanchecked{BEDC.Derived.RootSystemUp.RootSystemCartanLedger\_cont\_transport}
+
+\begin{theorem}[RootSystem NameCert obligation surface]
+\label{thm:rootsystem-namecert-obligation-surface}
+The nonzero finite carrier obligation of
+\autoref{thm:rootsystem-nonzero-finiteness-obligation}, the carrier
+classifier obligation of
+\autoref{thm:rootsystem-carrier-classifier-obligation}, the reflection
+closure obligation of
+\autoref{thm:rootsystem-reflection-closure-obligation}, and the Cartan ledger
+obligation of \autoref{thm:rootsystem-cartan-ledger-obligation} assemble the
+paper-side $\NameCert_{\RootSystemUp}$ obligation surface. This surface does
+not claim Weyl-group closure, Lie-algebra classification, or standard bridge
+closure.
+\end{theorem}
+\begin{proof}
+Start from the certificate surface of
+\autoref{def:rootsystem-bhist-certificate-surface}. The finite root-row
+carrier and its nonzero witnesses are supplied by
+\autoref{thm:rootsystem-nonzero-finiteness-obligation}.
+
+The public classifier and its $\hsame$ transport behavior are supplied by
+\autoref{thm:rootsystem-carrier-classifier-obligation}. The reflection rows
+and their closure under carried roots are supplied by
+\autoref{thm:rootsystem-reflection-closure-obligation}.
+
+Finally, the integer Cartan endpoints and their ledger stability are supplied
+by \autoref{thm:rootsystem-cartan-ledger-obligation}. These four projections
+cover carrier, classifier, stability, and ledger data for the naming
+certificate. The listed exclusions are separate downstream interfaces, so
+they are not packaged into this $\RootSystemUp$ surface.
+\end{proof}
+\leanchecked{BEDC.Derived.RootSystemUp.RootSystemFiniteSupport\_semanticNameCert}

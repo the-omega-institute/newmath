@@ -66,6 +66,21 @@ theorem NatMul_multiplier_hsame_transport {d q q' n : BHist} :
   cases sameMultiplier
   exact And.intro (NatMul_right_unary mul) mul
 
+theorem NatMul_operation_congruence {d d' q q' n n' : BHist} :
+    NatMul d q n -> hsame d d' -> hsame q q' -> hsame n n' ->
+      NatMul d' q' n' ∧ UnaryHistory d' ∧ UnaryHistory q' ∧
+        (forall {m : BHist}, NatMul d' q' m -> hsame m n') := by
+  intro mul sameD sameQ sameN
+  have shiftedD := NatMul_multiplicand_hsame_transport sameD mul
+  have shiftedQ := NatMul_multiplier_hsame_transport shiftedD.right sameQ
+  have shiftedN := NatMul_result_hsame_transport shiftedQ.right sameN
+  exact And.intro shiftedN.right
+    (And.intro shiftedD.left
+      (And.intro shiftedQ.left
+        (by
+          intro m mulM
+          exact NatMul_functional shiftedD.left mulM shiftedN.right)))
+
 theorem NatMul_append_multiplier_right_factor {d w q n e r : BHist} :
     UnaryHistory d -> UnaryHistory q -> NatMul d w n -> NatMul d (append w q) r ->
       Cont n e r -> NatMul d q e := by

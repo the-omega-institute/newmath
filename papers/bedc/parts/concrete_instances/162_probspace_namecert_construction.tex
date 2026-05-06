@@ -1,0 +1,118 @@
+\chapter{A Concrete Naming Certificate for $\ProbSpaceUp$}
+\label{ch:concrete-instances-probspace-namecert}
+
+The probability-space interface $\ProbSpaceUp$ packages a measure space whose total measure is the unit. It depends on $\NameCert_{\MeasureUp}$ (\autoref{ch:concrete-instances-measure-namecert}) and $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}).
+
+\section{Carrier definition}
+\label{sec:probspace-carrier}
+
+\section{The certificate}
+\label{sec:probspace-certificate}
+
+\begin{theorem}[ProbSpace complement mass additivity]
+\label{thm:probspace-complement-mass-additivity}
+For a $\ProbSpaceUp$ carrier as in \autoref{sec:probspace-carrier}, write $\Omega$ for its total event, $\mathcal{A}$ for the designated $\sigma$-algebra inherited from the underlying $\MeasureUp$ carrier, $\mu$ for its $\RealUp$-valued measure map, $1_R$ for the probability unit selected by the $\ProbSpaceUp$ total-mass row, and $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A,A^\complement\in\mathcal{A}$ be disjoint measurable events whose measurable binary union is the total event $\Omega$. Suppose $\varnothing\in\mathcal{A}$, the underlying $\MeasureUp$ certificate supplies $\sigma$-additivity for every pairwise-disjoint measurable sequence, classifier-stable head-tail readback and pointwise classifier stability for the resulting countable $\RealUp$ sums, and the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row with zero $0_R$. If the $\ProbSpaceUp$ total-mass row gives
+$$
+\mu(\Omega)\sim_R1_R,
+$$
+then
+$$
+\mu(A)+\mu(A^\complement)\sim_R1_R.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ProbSpaceUp.ProbSpaceComplementMass\_additive\_readback}
+\begin{proof}
+Let $U:=A\cup A^\complement$ be the measurable binary union supplied by the $\sigma$-algebra row. By hypothesis, $U=\Omega$. Applying \autoref{thm:measure-finite-disjoint-union-additivity} to the disjoint pair $A,A^\complement$ gives
+$$
+\mu(U)\sim_R\mu(A)+\mu(A^\complement).
+$$
+Reading $U$ as $\Omega$ gives
+$$
+\mu(\Omega)\sim_R\mu(A)+\mu(A^\complement).
+$$
+The probability-space total-mass row gives
+$$
+\mu(\Omega)\sim_R1_R.
+$$
+The classifier $\sim_R$ is the $\RealUp$ classifier, so its symmetry and transitivity fields compose these two comparisons. Symmetry of the finite-additivity comparison gives
+$$
+\mu(A)+\mu(A^\complement)\sim_R\mu(\Omega),
+$$
+and transitivity with the total-mass comparison yields
+$$
+\mu(A)+\mu(A^\complement)\sim_R1_R.
+$$
+\end{proof}
+
+\begin{theorem}[ProbSpace complement mass as one minus event mass]
+\label{thm:probspace-complement-mass-one-minus}
+For a $\ProbSpaceUp$ carrier as in \autoref{sec:probspace-carrier}, write $\Omega$ for its total event, $\mathcal{A}$ for the designated $\sigma$-algebra inherited from the underlying $\MeasureUp$ carrier, $\mu$ for its $\RealUp$-valued measure map, $1_R$ for the probability unit selected by the $\ProbSpaceUp$ total-mass row, and $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A,A^\complement\in\mathcal{A}$ be disjoint measurable events whose measurable binary union is the total event $\Omega$. Suppose $\varnothing\in\mathcal{A}$, the underlying $\MeasureUp$ certificate supplies $\sigma$-additivity for every pairwise-disjoint measurable sequence, classifier-stable head-tail readback and pointwise classifier stability for the resulting countable $\RealUp$ sums, and the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row with zero $0_R$ and inverse operation $-$. If the $\ProbSpaceUp$ total-mass row gives
+$$
+\mu(\Omega)\sim_R1_R,
+$$
+then
+$$
+\mu(A^\complement)\sim_R1_R+(-\mu(A)).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ProbSpaceUp.ProbSpaceComplementMass\_right\_solution}
+\leanvariant{BEDC.Derived.ProbSpaceUp.ProbSpaceComplementMass\_one\_minus\_singleton}
+\begin{proof}
+By \autoref{thm:probspace-complement-mass-additivity} applied to the displayed pair and these hypotheses,
+$$
+\mu(A)+\mu(A^\complement)\sim_R1_R.
+$$
+The additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} contains the same carrier classifier $\sim_R$, the same addition $+$, the zero $0_R$, the inverse operation $-$, addition congruence, and commutativity. By \autoref{prop:abgroup-forgets-group-certificate}, omitting the commutativity field leaves a $\GroupUp$ row for the same data.
+
+Use the commutativity field to exchange the two summands:
+$$
+\mu(A^\complement)+\mu(A)\sim_R\mu(A)+\mu(A^\complement).
+$$
+Transitivity with the complement-additivity comparison gives the right-multiplication equation
+$$
+\mu(A^\complement)+\mu(A)\sim_R1_R.
+$$
+Now read \autoref{thm:group-right-mul-equation-solution} in the retained additive group, with multiplication written as $+$, inverse written as $-$, $x=\mu(A^\complement)$, $a=\mu(A)$, and $b=1_R$. It solves the displayed equation as
+$$
+\mu(A^\complement)\sim_R1_R+(-\mu(A)).
+$$
+\end{proof}
+
+\begin{theorem}[ProbSpace monotone event bounds]
+\label{thm:probspace-monotone-event-bounds}
+For a $\ProbSpaceUp$ carrier obtained from the probability substrate of \autoref{thm:measure-probability-substrate-obligations}, write $\Omega$ for its total event, $\mathcal{A}$ for the displayed measurable-event family inherited from the underlying $\MeasureUp$ carrier, $\mu$ for its $\RealUp$-valued measure map, $1_R$ for the endpoint selected by the total-mass row, and $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A,B\in\mathcal{A}$ be displayed events in the same carried fiber, and suppose the public event readback displays
+$$
+A\subseteq B\subseteq\Omega.
+$$
+Assume the inherited complement/relative-difference rows give the two measurable decompositions required by \autoref{thm:measure-monotone-under-measurable-inclusion}, and that the target RealAlgOrder order row is stable under $\sim_R$ and transitive. If the total-mass row gives
+$$
+\mu(\Omega)\sim_R1_R,
+$$
+then
+$$
+\mu(A)\le_R\mu(B),\qquad \mu(B)\le_R1_R,\qquad \mu(A)\le_R1_R.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ProbSpaceUp.ProbSpaceMonotoneEvent\_bounds}
+\begin{proof}
+By \autoref{thm:measure-probability-substrate-obligations}, the $\ProbSpaceUp$ consumer reads the same displayed measurable events, relative-difference rows, finite-additivity rows, nonnegative value rows, and RealAlgOrder additive order rows as the underlying $\MeasureUp$ package, with the total-event row and unit endpoint added by the probability surface. The total-mass comparison is the normalization row isolated in \autoref{thm:measure-probability-normalization-row}.
+
+Apply the inherited complement/relative-difference row of \autoref{def:measure-complement-difference-row} to the displayed inclusion $A\subseteq B$. It supplies a measurable event $B\setminus A$, disjointness from $A$, and a binary-union readback classifying $A\cup(B\setminus A)$ as $B$. These are exactly the decomposition inputs for \autoref{thm:measure-monotone-under-measurable-inclusion}, so the inherited MeasureUp monotonicity row gives
+$$
+\mu(A)\le_R\mu(B).
+$$
+
+Apply the same row to the displayed inclusion $B\subseteq\Omega$. It supplies $\Omega\setminus B$ and a disjoint decomposition of $\Omega$ with first summand $B$. A second application of \autoref{thm:measure-monotone-under-measurable-inclusion} gives
+$$
+\mu(B)\le_R\mu(\Omega).
+$$
+
+The total-mass row gives $\mu(\Omega)\sim_R1_R$. Stability of the RealAlgOrder order row under the $\RealUp$ classifier transports the right endpoint of the last comparison across this classifier equality, yielding
+$$
+\mu(B)\le_R1_R.
+$$
+Finally, transitivity of the same order row composes $\mu(A)\le_R\mu(B)$ with $\mu(B)\le_R1_R$, and gives
+$$
+\mu(A)\le_R1_R.
+$$
+\end{proof}

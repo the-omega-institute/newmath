@@ -25,4 +25,16 @@ theorem CompactNetTwoStepFactor_composed_closed
           factorData.right compositeRel
       exact (CompactNetWitness_prefix_iff.mp prefixed).right
 
+theorem CompactNetTwoStepFactor_gluing_package {center precision extra composite net refined :
+    BHist} :
+    CompactNetWitness center precision net -> CompactNetWitness net extra refined ->
+      UnaryHistory precision -> UnaryHistory extra -> Cont precision extra composite ->
+        CompactNetTwoStepFactor center precision extra refined ∧
+          CompactNetWitness center composite refined := by
+  intro first second precisionCarrier extraCarrier compositeRel
+  have factor : CompactNetTwoStepFactor center precision extra refined :=
+    Exists.intro net (And.intro first second)
+  exact And.intro factor
+    (CompactNetTwoStepFactor_composed_closed precisionCarrier extraCarrier compositeRel factor)
+
 end BEDC.Derived.CompactUp

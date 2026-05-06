@@ -106,4 +106,35 @@ theorem FieldApartTailFactor_singleton_context_exclusion {L R y x endpoint : BHi
     Iff.mp (FieldSingletonClassifier_append_context_cancel_iff carrierL carrierR) classified
   exact FieldApartTailFactor_empty_endpoint_exclusion factor exposed.left apartX
 
+theorem FieldApartTailFactor_hsame_transport_continuation_package {y y' x x' : BHist} :
+    FieldApartTailFactor y x -> hsame y y' -> hsame x x' ->
+      FieldApartTailFactor y' x' ∧
+        (forall {q z : BHist}, Cont y' q z -> FieldApartTailFactor z x') := by
+  intro factor sameY sameX
+  induction factor generalizing y' x' with
+  | emptyContext leftCont rightCont leftEmpty rightEmpty =>
+      have transportedFactor :
+          FieldApartTailFactor y' x' :=
+        FieldApartTailFactor_empty_context_hsame_transport leftCont rightCont leftEmpty rightEmpty
+          (hsame_refl _) sameX (hsame_refl _) (hsame_refl _) sameY
+      exact
+        ⟨transportedFactor,
+          fun continuation => FieldApartTailFactor.carriedTail transportedFactor continuation⟩
+  | carriedTail factor tailCont ih =>
+      cases sameY
+      cases sameX
+      have transportedFactor : FieldApartTailFactor _ _ :=
+        FieldApartTailFactor.carriedTail factor tailCont
+      exact
+        ⟨transportedFactor,
+          fun continuation => FieldApartTailFactor.carriedTail transportedFactor continuation⟩
+  | exposedFactor tailCont =>
+      cases sameY
+      cases sameX
+      have transportedFactor : FieldApartTailFactor _ _ :=
+        FieldApartTailFactor.exposedFactor tailCont
+      exact
+        ⟨transportedFactor,
+          fun continuation => FieldApartTailFactor.carriedTail transportedFactor continuation⟩
+
 end BEDC.Derived.FieldUp

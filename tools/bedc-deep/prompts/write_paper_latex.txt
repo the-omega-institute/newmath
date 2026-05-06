@@ -104,6 +104,17 @@ CRITICAL constraints (will cause auto-rejection downstream if violated):
   These are added later by a separate pipeline once the corresponding Lean
   target lands; including them here will fail the project's Lean drift audit.
 
+- Do NOT include `closurestatus` blocks or field macros such as
+  `\theoryclosure`, `\formalstatus`, `\leantarget`, `\bridgestatus`,
+  `\notclaimed`, or `\upgradepath`. B writes theorem-shaped paper content;
+  chapter-retirement and verification-axis evidence are handled elsewhere.
+
+- Do NOT write parameter-transport echo theorems: abstract
+  carrier/classifier equivalence followed by field-by-field transport or
+  source-equivalence repackaging. If the target reduces to that shape,
+  respond with `DUPLICATE_OF` if already covered, or explain obstruction by
+  returning no LaTeX block.
+
 - Do NOT use iteration vocabulary in prose:
   "we extend", "we now revise", "patch", "increment", "new section",
   "新增", "修订", "本次", "本轮", "vNNN-", "legacy", "supersede", "previously".

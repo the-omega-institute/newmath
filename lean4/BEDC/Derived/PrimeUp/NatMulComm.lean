@@ -89,4 +89,39 @@ theorem NatMul_assoc_hsame {a b c ab left bc right : BHist} :
       congrArg (fun x => bwordLength a * x) (NatMul_bwordLength mulBC).symm
     _ = bwordLength right := (NatMul_bwordLength mulRight).symm
 
+theorem NatMul_unary_mulup_certificate :
+    (∀ {d q : BHist}, UnaryHistory d -> UnaryHistory q ->
+      ∃ n : BHist, UnaryHistory n ∧ NatMul d q n) ∧
+    (∀ {d q n : BHist}, UnaryHistory d -> NatMul d q n -> UnaryHistory n) ∧
+    (∀ {d q n m : BHist}, UnaryHistory d -> NatMul d q n -> NatMul d q m ->
+      hsame n m) ∧
+    (∀ {q n : BHist}, UnaryHistory q -> NatMul (BHist.e1 BHist.Empty) q n ->
+      hsame n q) ∧
+    (∀ {d n : BHist}, NatMul d (BHist.e1 BHist.Empty) n -> hsame n d) ∧
+    (∀ {d q n m : BHist}, UnaryHistory d -> UnaryHistory q -> NatMul d q n ->
+      NatMul q d m -> hsame n m) ∧
+    (∀ {a b c ab left bc right : BHist},
+      UnaryHistory a -> UnaryHistory b -> UnaryHistory c -> NatMul a b ab ->
+        NatMul ab c left -> NatMul b c bc -> NatMul a bc right -> hsame left right) := by
+  constructor
+  · intro d q dUnary qUnary
+    exact NatMul_total dUnary qUnary
+  · constructor
+    · intro d q n dUnary mul
+      exact NatMul_result_unary dUnary mul
+    · constructor
+      · intro d q n m dUnary left right
+        exact NatMul_functional dUnary left right
+      · constructor
+        · intro q n qUnary mul
+          exact NatMul_unit_left_hsame qUnary mul
+        · constructor
+          · intro d n mul
+            exact NatMul_unit_right_hsame mul
+          · constructor
+            · intro d q n m dUnary qUnary left right
+              exact NatMul_comm_hsame dUnary qUnary left right
+            · intro a b c ab left bc right aUnary bUnary cUnary mulAB mulLeft mulBC mulRight
+              exact NatMul_assoc_hsame aUnary bUnary cUnary mulAB mulLeft mulBC mulRight
+
 end BEDC.Derived.PrimeUp

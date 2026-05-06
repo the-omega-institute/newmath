@@ -41,6 +41,8 @@ import lifecycle
 import stage0_quickpath
 import codex_track  # v2 codex track
 import board_spawn  # v2 BOARD spawn gate
+import board_archive
+import candidate_inbox
 from locks import file_lock
 
 
@@ -94,7 +96,16 @@ def print_status_hint(server_url: str) -> dict:
     if status.get("diagnosis") == "queue_waiting_for_browser_agent":
         print("[status] queued work has no active BEDC ChatGPT tab.", flush=True)
         print("[status] install userscript: tools/bedc-deep/bedc_oracle_macos.user.js", flush=True)
-        print("[status] open: https://chatgpt.com/?bedc=1 and click Start in the BEDC panel", flush=True)
+        print("[status] open: https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start in the BEDC panel", flush=True)
+    elif status.get("diagnosis") == "queue_waiting_for_compatible_agent":
+        print(
+            f"[status] active BEDC tabs are older than {status.get('required_script_version', 'required version')}; "
+            "update tools/bedc-deep/bedc_oracle_macos.user.js and refresh Project tabs.",
+            flush=True,
+        )
+    elif status.get("diagnosis") == "queue_waiting_for_project_agent":
+        print("[status] active BEDC tab is not inside the BEDC ChatGPT Project.", flush=True)
+        print("[status] open: https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start in the BEDC panel", flush=True)
     return status
 
 
@@ -175,7 +186,7 @@ def wait_for_recent_agent(server_url: str, seconds: int, poll_interval: int) -> 
     deadline = time.time() + seconds
     while time.time() < deadline:
         status = print_status_hint(server_url)
-        if status.get("active_recent_agents"):
+        if status.get("project_active_poll_agents"):
             return True
         time.sleep(max(1, poll_interval))
     return False
@@ -210,7 +221,7 @@ def poll_result(
                 status = server_status(server_url)
                 print(f"[wait:{task_id}] {status_line(status)}", flush=True)
                 if status.get("diagnosis") == "queue_waiting_for_browser_agent":
-                    print("[wait] no active BEDC ChatGPT tab is polling; start one with https://chatgpt.com/?bedc=1", flush=True)
+                    print("[wait] no active BEDC ChatGPT tab is polling; start one with https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1", flush=True)
             except Exception as exc:
                 print(f"[wait:{task_id}] status unavailable: {exc}", flush=True)
             next_status_at = now + max(1, status_interval)
@@ -288,8 +299,7 @@ DEFAULT_CANDIDATE_NOVELTY_THRESHOLD = 6
 
 
 def existing_target_ids() -> list[str]:
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    return re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+    return board_archive.existing_target_ids(include_archive=True)
 
 
 def next_target_id() -> str:
@@ -334,38 +344,53 @@ def append_candidates_to_board(
     accepted: list[str] = []
     if not candidates:
         return accepted
+    screened = candidate_inbox.screen_candidates(
+        candidates,
+        source="direct_append",
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
+    )
+    if screened.rejected:
+        candidate_inbox.record_rejections(screened.rejected, mode="direct_append")
     with file_lock("board"):
-        existing_titles = set()
-        for line in BOARD_PATH.read_text(encoding="utf-8").splitlines():
-            m = re.match(r"^### B-\d+\s+-\s+(.+)$", line)
-            if m:
-                existing_titles.add(m.group(1).strip().lower())
+        existing_titles = board_archive.existing_target_titles(include_archive=True)
         appended_blocks: list[str] = []
-        for cand in candidates:
+        promoted_candidates: list[dict] = []
+        late_rejections: list[dict] = []
+        for cand in screened.accepted:
             try:
                 fit = int(cand.get("fit_score", 0))
                 nov = int(cand.get("novelty", 0))
             except (TypeError, ValueError):
+                late_rejections.append({**cand, "reason": "non_int_score"})
                 continue
             if fit < fit_threshold or nov < novelty_threshold:
+                late_rejections.append({**cand, "reason": f"below_threshold fit={fit} nov={nov}"})
                 continue
             title = cand.get("title", "").strip()
-            if not title or title.lower() in existing_titles:
+            if not title:
+                late_rejections.append({**cand, "reason": "missing_title"})
+                continue
+            if title.lower() in existing_titles:
+                late_rejections.append({**cand, "reason": "duplicate_title_race"})
                 continue
             new_id = next_target_id_with_local(existing_titles, accepted)
             appended_blocks.append(render_candidate_entry(new_id, cand))
             existing_titles.add(title.lower())
             accepted.append(new_id)
+            promoted_candidates.append(cand)
         if appended_blocks:
             original = BOARD_PATH.read_text(encoding="utf-8").rstrip()
             write_text(BOARD_PATH, original + "\n" + "\n".join(appended_blocks) + "\n")
+            candidate_inbox.record_board_promotions(promoted_candidates, accepted, mode="direct_append")
+        if late_rejections:
+            candidate_inbox.record_rejections(late_rejections, mode="direct_append")
     return accepted
 
 
 def next_target_id_with_local(existing_titles: set, already_accepted: list[str]) -> str:
     """Compute next B-XX id including in-flight accepted ids from this batch."""
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    ids = re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+    ids = board_archive.existing_target_ids(include_archive=True)
     ids.extend(already_accepted)
     nums = [int(i.split("-")[1]) for i in ids if i.startswith("B-")]
     next_num = (max(nums) + 1) if nums else 1
@@ -590,7 +615,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
         ):
             raise SystemExit(
                 "no active BEDC ChatGPT tab appeared before preflight timeout; "
-                "open https://chatgpt.com/?bedc=1 and click Start"
+                "open https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start"
             )
 
         # Initial prompt: lean v2 if no prior turns, else cursor pending or rebuild
@@ -847,6 +872,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "rejection_reasons": list(result.rejection_reasons),
                 "compile_errors": list(getattr(result, "compile_errors", None) or []),
                 "error": result.error,
+                "closure_candidate": getattr(result, "closure_candidate", None) or {},
             }
             stage2_attempts.append(attempt_record)
             if result.appended and result.compile_ok:
@@ -956,6 +982,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "compile_ok": last.get("compile_ok", False),
                 "rejection_reasons": last.get("rejection_reasons", []),
                 "error": last.get("error", ""),
+                "closure_candidate": last.get("closure_candidate", {}),
                 "attempts": stage2_attempts,
             }
         write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))

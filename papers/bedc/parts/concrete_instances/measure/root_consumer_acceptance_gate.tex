@@ -1,0 +1,121 @@
+\begin{definition}[Measure root consumer acceptance gate]
+\label{def:measure-root-consumer-acceptance-gate}
+The $\MeasureUp$ root consumer acceptance gate is the downstream package whose
+source side is the root index threshold source of
+\autoref{def:measure-root-index-threshold-source} and whose outgoing side is
+the three-face consumer classifier of
+\autoref{def:measure-root-consumer-face-classifier}. Its accepted rows are
+exactly the following rows:
+\begin{enumerate}
+  \item the visible $\mathsf{BHist}$ event ledger and componentwise
+  measurable-event classifier rows covered by
+  \autoref{def:measure-event-row-coverage};
+  \item the $\RealUp$ endpoint classifier rows attached to measure values,
+  finite readbacks, countable sums, probability normalization, and
+  functional-analysis order comparisons;
+  \item the finite disjoint-additivity rows and countable indexed-additivity
+  rows projected by
+  \autoref{thm:measure-root-index-additivity-threshold};
+  \item the integral, probability, and functional-analysis consumer faces of
+  \autoref{thm:measure-root-consumer-face-coverage}.
+\end{enumerate}
+The gate contains no host set equality, no quotient event equality, no analytic
+completion object, and no $\StdBridge$ row. Those exclusions are part of the
+accepted package, so a downstream chapter may cite this gate without reopening
+the root carrier or adding a standard bridge surface.
+\end{definition}
+
+\begin{theorem}[Measure root consumer acceptance coverage]
+\label{thm:measure-root-consumer-acceptance-coverage}
+Every row accepted by
+\autoref{def:measure-root-consumer-acceptance-gate} is covered by the event-row
+coverage predicate of \autoref{def:measure-event-row-coverage}, the carrier
+threshold of \autoref{thm:measure-root-index-carrier-threshold}, and the
+additivity threshold of \autoref{thm:measure-root-index-additivity-threshold}.
+Thus the acceptance gate exposes no downstream row outside the visible
+$\mathsf{BHist}$ ledger, the public $\MeasureUp$ carrier classifier, the
+$\RealUp$ endpoint classifier, and the finite or countable additive rows
+already present at the root.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:measure-root-consumer-acceptance-gate}. Its source side is
+the root index threshold source, and its outgoing side is only the named
+three-face consumer classifier.
+
+Apply \autoref{def:measure-event-row-coverage} to the event part. This places
+measurable events, empty events, binary unions, countable unions,
+disjointness witnesses, measure endpoints, countable sums, and head-tail
+readback rows on visible $\mathsf{BHist}$ ledger entries.
+
+Next use \autoref{thm:measure-root-index-carrier-threshold}. It supplies the
+public event carrier, classifier transport, empty-event row, visible ledger,
+and $\RealUp$ endpoint classifier used by every accepted row.
+
+Finally apply \autoref{thm:measure-root-index-additivity-threshold}. The
+finite disjoint-additivity and countable indexed-additivity rows of the gate
+are projections of the same root source, so no accepted row requires a host
+set equality, quotient event equality, analytic completion object, or
+$\StdBridge$ row.
+\end{proof}
+
+\begin{theorem}[Measure root consumer acceptance separation]
+\label{thm:measure-root-consumer-acceptance-separation}
+Inside the acceptance gate of
+\autoref{def:measure-root-consumer-acceptance-gate}, the integral,
+probability, and functional-analysis faces overlap only on the shared
+$\mathsf{BHist}$ event ledger and the shared $\RealUp$ endpoint classifier
+rows. Probability normalization remains on the probability face, countable-sum
+and head-tail readback remain on the integral face, and relative-difference,
+monotone-inclusion, and nonnegative endpoint rows remain on the
+functional-analysis face.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:measure-root-consumer-face-coverage}. It assigns
+every outgoing consumer row to the integral face, probability face,
+functional-analysis face, or to the shared root rows seen through those faces.
+
+Then apply \autoref{thm:measure-root-consumer-face-disjointness}. That result
+identifies the only allowed intersections as the visible $\mathsf{BHist}$
+ledger rows and the shared $\RealUp$ endpoint classifier rows.
+
+The definition of the acceptance gate adds no fourth consumer face and no
+carrier-level equality row. Therefore the face separation already proved for
+the consumer classifier is preserved inside the gate: each consumer-specific
+row stays on its own outgoing face, while the shared rows are exactly the
+root ledger and endpoint-classifier rows.
+\end{proof}
+
+\begin{theorem}[Measure root consumer acceptance downstream package]
+\label{thm:measure-root-consumer-acceptance-downstream-package}
+The chapters $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$
+consume exactly the acceptance gate of
+\autoref{def:measure-root-consumer-acceptance-gate}. Equivalently, their
+downstream $\MeasureUp$ input is the single package consisting of root carrier
+coverage, finite and countable additivity, shared endpoint classification,
+face separation, and the explicit exclusions of host set equality, quotient
+event equality, analytic completion, and $\StdBridge$ rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:measure-root-index-downstream-threshold}. It says
+that $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consume the
+root index threshold source and receive no host set equality, quotient event
+equality, analytic completion row, or $\StdBridge$ row from $\MeasureUp$.
+
+For the probability consumer, apply
+\autoref{thm:measure-root-bhist-probspace-threshold}. The accepted
+$\ProbSpaceUp$ face is exactly the total-event normalization, empty-zero,
+finite-additivity, and $\RealUp$ endpoint normalization surface.
+
+For the integral and functional-analysis consumers, apply
+\autoref{thm:measure-root-bhist-integral-functional-threshold}. The accepted
+faces are exactly the measurable-event, nonnegative endpoint,
+monotone-inclusion, relative-difference, finite-readback, countable-sum, and
+continuity-from-below rows exposed by the root $\MeasureUp$ package.
+
+Finally combine those consumer projections with
+\autoref{thm:measure-root-consumer-acceptance-coverage} and
+\autoref{thm:measure-root-consumer-acceptance-separation}. Coverage supplies
+the common root ledger and additive source, and separation keeps every
+consumer-specific row on its named face. Hence the three downstream chapters
+consume the single acceptance gate and no row outside it.
+\end{proof}

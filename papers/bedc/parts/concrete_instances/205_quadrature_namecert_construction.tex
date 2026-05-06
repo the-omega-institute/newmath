@@ -1,0 +1,166 @@
+\chapter{A Concrete Naming Certificate for $\QuadratureUp$}
+\label{ch:concrete-instances-quadrature-namecert}
+
+The numerical-quadrature interface $\QuadratureUp$ packages a finite weighted sum approximating an integral on a compact interval, classified by exactness degree (trapezoid, Simpson, Gauss-Legendre). It depends on $\NameCert_{\IntegralUp}$ (\autoref{ch:concrete-instances-integral-namecert}) and $\NameCert_{\FinSetUp}$ (\autoref{ch:concrete-instances-finset-namecert}).
+
+\section{Carrier definition}
+\label{sec:quadrature-carrier}
+
+\section{The certificate}
+\label{sec:quadrature-certificate}
+
+\begin{definition}[Quadrature finite weighted exactness degree]
+\label{def:quadrature-finite-weighted-exactness-degree}
+Fix a scalar carrier $R$ with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, multiplication $\cdot$, canonical polynomial trim $\mathsf{trim}_R$, and Horner evaluation $\mathsf{Eval}_{\alpha,R}$ as in \autoref{def:polynomial-horner-evaluation}. A finite weighted $\QuadratureUp$ rule over $R$ is a tuple
+$$
+Q=(xs,\alpha,\omega,\mathcal I_Q)
+$$
+where $xs$ is the finite $\FinSetUp$ index spine for the nodes, $\alpha_i$ and $\omega_i$ are carried scalar endpoints for each $i:\mathsf{Pos}(xs)$, and $\mathcal I_Q(p)$ is the scalar endpoint supplied by the $\IntegralUp$ row for the polynomial code $p$ on the fixed compact interval. Its quadrature sum on a finite coefficient spine $p:\mathsf{ListCarrier}(R)$ is
+$$
+\mathsf{QSum}_Q(p):=
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}
+\bigl(i\mapsto \omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p)\bigr).
+$$
+The pointwise exactness predicate is
+$$
+\mathsf{QExact}_Q(p)\Longleftrightarrow
+\mathsf{QSum}_Q(p)\sim_R\mathcal I_Q(p).
+$$
+For a unary degree bound $n:\NatUp$, define
+$$
+\mathsf{PolyDegLe}_R(p,n)
+\Longleftrightarrow
+\forall k:\NatUp.\;
+\mathsf{NatUnaryStrictPrefix}(n,k)
+\Longrightarrow
+\mathsf{trim}_R(p)[k]\sim_R0_R.
+$$
+The quadrature exactness-degree predicate is
+$$
+\mathsf{QuadratureExactUpTo}_R(Q,n)
+\Longleftrightarrow
+\forall p:\mathsf{ListCarrier}(R).\;
+\mathsf{PolyDegLe}_R(p,n)
+\Longrightarrow
+\mathsf{QExact}_Q(p).
+$$
+Finally, the degree-bound comparison used by this $\QuadratureUp$ classifier is
+$$
+\mathsf{DegBoundLe}(e,d)
+\Longleftrightarrow
+\forall k:\NatUp.\;
+\mathsf{NatUnaryStrictPrefix}(d,k)
+\Longrightarrow
+\mathsf{NatUnaryStrictPrefix}(e,k).
+$$
+This is the unary BEDC reading of the ordinary inequality $e\leq d$: every coefficient index above $d$ is also above $e$.
+\end{definition}
+
+\begin{lemma}[Polynomial degree windows are nested]
+\label{lem:quadrature-polynomial-degree-window-inclusion}
+With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, if $\mathsf{DegBoundLe}(e,d)$ holds, then every polynomial code with degree at most $e$ also has degree at most $d$:
+$$
+\mathsf{PolyDegLe}_R(p,e)
+\Longrightarrow
+\mathsf{PolyDegLe}_R(p,d).
+$$
+\end{lemma}
+\begin{proof}
+Unfold $\mathsf{PolyDegLe}_R$ and $\mathsf{DegBoundLe}$. Assume $\mathsf{PolyDegLe}_R(p,e)$ and fix $k:\NatUp$ with $\mathsf{NatUnaryStrictPrefix}(d,k)$. The degree-bound comparison sends this strict-prefix witness to $\mathsf{NatUnaryStrictPrefix}(e,k)$. Applying the degree-at-most-$e$ hypothesis at this $k$ gives
+$$
+\mathsf{trim}_R(p)[k]\sim_R0_R.
+$$
+This is precisely the coefficient condition required for $\mathsf{PolyDegLe}_R(p,d)$.
+\end{proof}
+
+\begin{theorem}[Quadrature exactness degree weakening]
+\label{thm:quadrature-exactness-degree-weakening}
+Let $Q$ be a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of \autoref{def:quadrature-finite-weighted-exactness-degree}. For unary degree bounds $e,d:\NatUp$, if
+$$
+\mathsf{QuadratureExactUpTo}_R(Q,d)
+\qquad\text{and}\qquad
+\mathsf{DegBoundLe}(e,d)
+$$
+hold, then the same rule is exact on every polynomial of degree at most $e$:
+$$
+\mathsf{QuadratureExactUpTo}_R(Q,e).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the target exactness predicate. Fix a finite coefficient spine $p:\mathsf{ListCarrier}(R)$ and assume $\mathsf{PolyDegLe}_R(p,e)$. By \autoref{lem:quadrature-polynomial-degree-window-inclusion}, the degree-bound comparison gives $\mathsf{PolyDegLe}_R(p,d)$. The exactness hypothesis at degree $d$ applies to this same polynomial code and returns
+$$
+\mathsf{QExact}_Q(p).
+$$
+Unfolding $\mathsf{QExact}_Q$ identifies this row as
+$$
+\mathsf{QSum}_Q(p)\sim_R\mathcal I_Q(p),
+$$
+which is the required exactness row for $p$ under the degree-$e$ predicate. Since $p$ was arbitrary, $\mathsf{QuadratureExactUpTo}_R(Q,e)$ holds. The finite node spine, the weights, and the integral endpoint map are the original components of $Q$ throughout.
+\end{proof}
+
+\begin{theorem}[Quadrature degree-bound comparison is transitive]
+\label{thm:quadrature-degree-bound-comparison-transitive}
+With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, the unary degree-bound comparison used by the $\QuadratureUp$ exactness-degree classifier is transitive. For unary degree bounds $e,d,c:\NatUp$, if
+$$
+\mathsf{DegBoundLe}(e,d)
+\qquad\text{and}\qquad
+\mathsf{DegBoundLe}(d,c)
+$$
+hold, then
+$$
+\mathsf{DegBoundLe}(e,c)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{DegBoundLe}$. To prove $\mathsf{DegBoundLe}(e,c)$, fix $k:\NatUp$ and assume
+$$
+\mathsf{NatUnaryStrictPrefix}(c,k).
+$$
+The comparison $\mathsf{DegBoundLe}(d,c)$ sends this witness to
+$$
+\mathsf{NatUnaryStrictPrefix}(d,k).
+$$
+Applying $\mathsf{DegBoundLe}(e,d)$ to that witness gives
+$$
+\mathsf{NatUnaryStrictPrefix}(e,k).
+$$
+This is exactly the strict-prefix condition required at the index $k$ for $\mathsf{DegBoundLe}(e,c)$. Since $k$ was arbitrary, the comparison from $e$ to $c$ holds.
+\end{proof}
+
+\begin{theorem}[Quadrature degree-bound comparison is reflexive]
+\label{thm:quadrature-degree-bound-comparison-reflexive}
+With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, the exactness-degree comparison used by the $\QuadratureUp$ classifier is reflexive. For every unary degree bound $d:\NatUp$,
+$$
+\mathsf{DegBoundLe}(d,d)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{DegBoundLe}$ at the pair $(d,d)$. The required statement is
+$$
+\forall k:\NatUp.\;
+\mathsf{NatUnaryStrictPrefix}(d,k)
+\Longrightarrow
+\mathsf{NatUnaryStrictPrefix}(d,k).
+$$
+Fix $k:\NatUp$ and assume $\mathsf{NatUnaryStrictPrefix}(d,k)$. The conclusion is the same strict-prefix witness. Since $k$ was arbitrary, the displayed universal clause holds, and therefore $\mathsf{DegBoundLe}(d,d)$ holds.
+\end{proof}
+
+\begin{proposition}[Quadrature degree-bound comparison preorder rows]
+\label{prop:quadrature-degree-bound-comparison-preorder-rows}
+With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, the unary degree-bound comparison attached to the $\QuadratureUp$ exactness-degree classifier supplies the reflexive and transitive rows on unary bounds:
+$$
+\forall d:\NatUp.\;\mathsf{DegBoundLe}(d,d)
+$$
+and
+$$
+\forall e,d,c:\NatUp.\;
+\mathsf{DegBoundLe}(e,d)\Longrightarrow
+\mathsf{DegBoundLe}(d,c)\Longrightarrow
+\mathsf{DegBoundLe}(e,c).
+$$
+\end{proposition}
+\begin{proof}
+The reflexive row is \autoref{thm:quadrature-degree-bound-comparison-reflexive}. The transitive row is \autoref{thm:quadrature-degree-bound-comparison-transitive}. Both rows use the same concrete predicate $\mathsf{DegBoundLe}$ from \autoref{def:quadrature-finite-weighted-exactness-degree}, so together they give the stated preorder data for the $\QuadratureUp$ degree-bound classifier.
+\end{proof}

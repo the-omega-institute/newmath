@@ -106,6 +106,50 @@ theorem RealStreamClassifier_transported_contextual_displayed_e1_classifier_pack
                         (And.intro endpointPackage.right.right.right.right.right.right.right.left
                           endpointPackage.right.right.right.right.right.right.right.right.left)))))))))))
 
+theorem RealStreamClassifier_transported_contextual_displayed_e1_appended_tail_exclusion_package
+    {x x' y y' prefX prefY tailX tailY midX midY outX outY : Nat -> BHist}
+    {n : Nat} {a b dX dY zX zY : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y -> UnaryHistory (prefX n) -> UnaryHistory (tailX n) ->
+          hsame (prefX n) (prefY n) -> hsame (tailX n) (tailY n) ->
+            Cont (prefX n) (x' n) (midX n) -> Cont (midX n) (tailX n) (outX n) ->
+              Cont (prefY n) (y' n) (midY n) -> Cont (midY n) (tailY n) (outY n) ->
+                hsame (outX n) (BHist.e1 a) -> hsame (outY n) (BHist.e1 b) ->
+                  RatHistoryClassifier (outX n) (outY n) ∧
+                    RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) ∧ UnaryHistory a ∧
+                      UnaryHistory b ∧ hsame a b ∧ PositiveUnaryDenominator (outX n) ∧
+                        PositiveUnaryDenominator (outY n) ∧ UnaryHistory (outX n) ∧
+                          UnaryHistory (outY n) ∧ (hsame (outX n) BHist.Empty -> False) ∧
+                            (hsame (outY n) BHist.Empty -> False) ∧
+                              (hsame (outX n) (BHist.e0 zX) -> False) ∧
+                                (hsame (outY n) (BHist.e0 zY) -> False) ∧
+                                  (hsame (outX n) (append dX (BHist.e0 zX)) -> False) ∧
+                                    (hsame (outY n) (append dY (BHist.e0 zY)) -> False) := by
+  intro sameX sameY classified prefUnary tailUnary prefSame tailSame prefCont outXCont
+    prefYCont outYCont outXOne outYOne
+  have package := RealStreamClassifier_transported_contextual_displayed_e1_classifier_package
+    (zX := zX) (zY := zY) sameX sameY classified prefUnary tailUnary prefSame tailSame
+    prefCont outXCont prefYCont outYCont outXOne outYOne
+  exact ⟨package.left, package.right.left, package.right.right.left,
+    package.right.right.right.left, package.right.right.right.right.left,
+    package.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.right.right.right.left,
+    package.right.right.right.right.right.right.right.right.right.right.right.right,
+    (fun sameAppendedZero =>
+      PositiveUnaryDenominator_append_e0_tail_absurd
+        (PositiveUnaryDenominator_hsame_transport sameAppendedZero
+          package.right.right.right.right.right.left)),
+    (fun sameAppendedZero =>
+      PositiveUnaryDenominator_append_e0_tail_absurd
+        (PositiveUnaryDenominator_hsame_transport sameAppendedZero
+          package.right.right.right.right.right.right.left))⟩
+
 theorem RealStreamClassifier_transported_contextual_e1_tail_determinacy
     {x x' y y' prefX prefY tailX tailY midX midY outX outY : Nat -> BHist}
     {n : Nat} {a a' b b' : BHist} :

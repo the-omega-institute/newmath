@@ -1,0 +1,143 @@
+\chapter{A Concrete Naming Certificate for $\MatchingUp$}
+\label{ch:concrete-instances-matching-namecert}
+
+The graph-matching interface $\MatchingUp$ packages a subset of edges in a graph carrier with no shared vertex, together with the maximum-matching / minimum-vertex-cover duality on bipartite graphs. It depends on $\NameCert_{\GraphUp}$ (\autoref{ch:concrete-instances-graph-namecert}) and $\NameCert_{\FinSetUp}$ (\autoref{ch:concrete-instances-finset-namecert}).
+
+\section{Carrier definition}
+\label{sec:matching-carrier}
+
+\section{The certificate}
+\label{sec:matching-certificate}
+
+\begin{definition}[Matching carrier and finite edge subset]
+\label{def:matching-carrier-and-finite-edge-subset}
+Fix a $\GraphUp$ carrier $G$. Write $\mathsf{Vert}_G(v)$ for vertex membership, $\mathsf{Edge}_G(e)$ for edge membership, $\mathsf{Inc}_G(v,e)$ for incidence of a vertex with an edge, and $\sim_E$ for the edge classifier used by the $\FinSetUp$ presentation of graph edges. For an edge predicate $M:\mathsf{BHist}\to\mathsf{Prop}$, define
+$$
+\mathsf{MatchingEdgeSet}_G(M)
+\Longleftrightarrow
+\bigl(\forall e:\mathsf{BHist}.\;M(e)\to\mathsf{Edge}_G(e)\bigr)
+\land
+\bigl(\forall e,e',v:\mathsf{BHist}.\;
+M(e)\land M(e')\land\mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e')
+\to e\sim_E e'\bigr).
+$$
+Thus a matching edge predicate is a graph-edge subset whose selected edges have no shared incident vertex except along the edge classifier. For edge predicates $N$ and $M$, define
+$$
+\mathsf{FinSetEdgeSubset}_{G,\sim_E}(N,M)
+\Longleftrightarrow
+\exists xs:\mathsf{HistSpine}.\;
+\mathsf{FinSetSpineEnumerates}_{\mathsf{Edge}_G,\sim_E}(xs,N)
+\land
+\forall e:\mathsf{BHist}.\;N(e)\to M(e).
+$$
+The first component is the finite enumeration witness supplied by the $\FinSetUp$ machinery of \autoref{def:finset-spine-enumerates-predicate}; the second component is ordinary edge-subset inclusion into $M$.
+\end{definition}
+\leandef{BEDC.Derived.MatchingUp.MatchingEdgeSet}
+\leandef{BEDC.Derived.MatchingUp.FinSetEdgeSubset}
+
+\begin{theorem}[Matching finite-subset closure]
+\label{thm:matching-finite-subset-closure}
+Let $G$ be a $\GraphUp$ carrier with edge classifier $\sim_E$. If $M,N:\mathsf{BHist}\to\mathsf{Prop}$ satisfy
+$$
+\mathsf{MatchingEdgeSet}_G(M)
+\qquad\text{and}\qquad
+\mathsf{FinSetEdgeSubset}_{G,\sim_E}(N,M),
+$$
+then
+$$
+\mathsf{MatchingEdgeSet}_G(N).
+$$
+Equivalently, every $\FinSetUp$ edge subset of a $\MatchingUp$ edge set is again a $\MatchingUp$ edge set in the same $\GraphUp$ carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.MatchingUp.MatchingEdgeSet\_finite\_subset\_closed}
+\begin{proof}
+Unpack \autoref{def:matching-carrier-and-finite-edge-subset}. The matching hypothesis for $M$ supplies two rows: first, every $M$-edge is a graph edge of $G$; second, any two $M$-edges incident to the same carried vertex are classified by $\sim_E$ as the same edge. The finite-subset hypothesis supplies a finite spine $xs$ with
+$$
+\mathsf{FinSetSpineEnumerates}_{\mathsf{Edge}_G,\sim_E}(xs,N)
+$$
+and an inclusion row
+$$
+\forall e:\mathsf{BHist}.\;N(e)\to M(e).
+$$
+The spine witness records that $N$ is the $\FinSetUp$ edge subset; the hereditary argument uses the displayed inclusion row.
+
+To prove the graph-edge row for $N$, fix $e$ and assume $N(e)$. The inclusion row gives $M(e)$, and the graph-edge row for $M$ gives $\mathsf{Edge}_G(e)$.
+
+To prove the no-shared-vertex row for $N$, fix $e,e',v$ and assume
+$$
+N(e)\land N(e')\land\mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e').
+$$
+The inclusion row gives $M(e)$ and $M(e')$. Keeping the same vertex and incidence witnesses, apply the no-shared-vertex row for $M$ to obtain
+$$
+e\sim_E e'.
+$$
+These two rows are exactly $\mathsf{MatchingEdgeSet}_G(N)$ by \autoref{def:matching-carrier-and-finite-edge-subset}.
+\end{proof}
+
+\begin{theorem}[Matching compatible union closure]
+\label{thm:matching-compatible-union-closure}
+Let $G$ be a $\GraphUp$ carrier with edge classifier $\sim_E$. Let $M,N:\mathsf{BHist}\to\mathsf{Prop}$ be edge predicates, and define the pointwise union predicate $U:\mathsf{BHist}\to\mathsf{Prop}$ by
+$$
+U(e)\Longleftrightarrow M(e)\vee N(e).
+$$
+Assume
+$$
+\mathsf{MatchingEdgeSet}_G(M)
+\qquad\text{and}\qquad
+\mathsf{MatchingEdgeSet}_G(N),
+$$
+and assume the cross-incident compatibility condition
+$$
+\forall e,e',v:\mathsf{BHist}.\;
+\bigl((M(e)\land N(e'))\vee(N(e)\land M(e'))\bigr)
+\land \mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e')
+\to e\sim_E e'.
+$$
+Then
+$$
+\mathsf{MatchingEdgeSet}_G(U).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MatchingUp.MatchingEdgeSet\_compatible\_union\_closed}
+\begin{proof}
+Unpack \autoref{def:matching-carrier-and-finite-edge-subset}. The matching hypotheses for $M$ and $N$ each supply a graph-edge row and a no-shared-vertex row.
+
+For the graph-edge row of $U$, fix $e:\mathsf{BHist}$ and assume $U(e)$. By the defining display for $U$, either $M(e)$ or $N(e)$ holds. In the first case, the graph-edge row for $M$ gives $\mathsf{Edge}_G(e)$. In the second case, the graph-edge row for $N$ gives $\mathsf{Edge}_G(e)$.
+
+For the no-shared-vertex row of $U$, fix $e,e',v:\mathsf{BHist}$ and assume
+$$
+U(e)\land U(e')\land\mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e').
+$$
+The two $U$-memberships split into four cases. If $M(e)$ and $M(e')$ hold, the no-shared-vertex row for $M$, together with the same vertex and incidence witnesses, gives $e\sim_E e'$. If $N(e)$ and $N(e')$ hold, the no-shared-vertex row for $N$ gives $e\sim_E e'$.
+
+It remains to handle the two cross cases. If $M(e)$ and $N(e')$ hold, the left disjunct in the cross-incident compatibility hypothesis applies to the same $e,e',v$ and gives $e\sim_E e'$. If $N(e)$ and $M(e')$ hold, the right disjunct applies directly and gives $e\sim_E e'$. Thus every pair of $U$-selected edges incident to the same carried vertex is classified by $\sim_E$ as the same edge.
+
+The graph-edge row and the no-shared-vertex row are precisely $\mathsf{MatchingEdgeSet}_G(U)$ by \autoref{def:matching-carrier-and-finite-edge-subset}.
+\end{proof}
+
+\begin{theorem}[Empty edge predicate matching]
+\label{thm:empty-edge-predicate-is-matching}
+Let $G$ be a $\GraphUp$ carrier with vertex predicate $\mathsf{Vert}_G$, edge predicate $\mathsf{Edge}_G$, incidence predicate $\mathsf{Inc}_G$, and edge classifier $\sim_E$. Let $Z:\mathsf{BHist}\to\mathsf{Prop}$ be an edge-selection predicate satisfying
+$$
+\forall e:\mathsf{BHist}.\;Z(e)\to\bot.
+$$
+Then
+$$
+\mathsf{MatchingEdgeSet}_G(Z).
+$$
+In particular, the empty predicate $M_\varnothing(e)\Longleftrightarrow\bot$ is a $\MatchingUp$ edge set in $G$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:matching-carrier-and-finite-edge-subset}. The matching claim has two rows: graph-edge support for every selected edge, and the no-shared-vertex implication for pairs of selected edges.
+
+For graph-edge support, fix $e:\mathsf{BHist}$ and assume $Z(e)$. The displayed emptiness row gives $\bot$, and hence gives $\mathsf{Edge}_G(e)$.
+
+For the no-shared-vertex row, fix $e,e',v:\mathsf{BHist}$ and assume
+$$
+Z(e)\land Z(e')\land\mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e').
+$$
+The first component gives $Z(e)$, so the displayed emptiness row again gives a contradiction. Therefore the required conclusion $e\sim_E e'$ follows. These two vacuous rows are exactly $\mathsf{MatchingEdgeSet}_G(Z)$.
+
+Taking $Z=M_\varnothing$, the defining equivalence $M_\varnothing(e)\Longleftrightarrow\bot$ supplies $M_\varnothing(e)\to\bot$ for every $e$, so the displayed result applies to the empty edge predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.MatchingUp.MatchingEdgeSet\_e0\_empty\_absurd\_predicate}

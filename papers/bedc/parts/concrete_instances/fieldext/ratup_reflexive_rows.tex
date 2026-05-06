@@ -1,0 +1,325 @@
+\section{The certificate}
+\label{sec:fieldext-certificate}
+
+\input{parts/concrete_instances/fieldext/ratup_reflexive_certificate}
+
+\begin{theorem}[RatUp reflexive FieldExt operation-table coverage]
+\label{thm:fieldext-ratup-reflexive-operation-table-coverage}
+For the concrete package of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}, every base-field
+row, ambient-field row, vector addition row, vector zero row, vector negation
+row, and scalar-action row is read from
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary} over
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$. The
+base-field and ambient-field operation tables are the same concrete
+$\FieldUp(\RatUp)$ operation table, while the vector-space additive rows and
+scalar-action row are the corresponding additive and multiplication rows of
+that table.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexiveEmbedding\_denominator\_package}
+\begin{proof}
+Unfold Definition~\ref{def:fieldext-reflexive-extension-carrier}. The
+embedding $\iota_{\mathsf{Rat}}$ is the identity on $\mathsf{BHist}$, so the
+base and ambient endpoints are not transported to a distinct carrier or
+classifier.
+
+Read \autoref{thm:ratup-fieldup-assembled-certificate-boundary} once for the
+base field and once for the ambient field. Both readings use
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and the concrete
+RatUp operation table.
+
+For the vector-space rows, apply
+\autoref{prop:vecspace-module-fragment-projection} to retain the scalar action
+and module-shaped compatibility from the FieldUp multiplication and
+distributivity rows. Then apply
+\autoref{cor:vecspace-additive-carrier-projection} to retain the vector
+addition, zero, negation, carrier, and classifier. Thus the FieldExt operation
+table introduces no row outside the displayed RatUp FieldUp table.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive scalar-action readback]
+\label{thm:fieldext-ratup-reflexive-scalar-action-readback}
+For the concrete package of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}, the $\FieldExtUp$
+scalar action is exactly the multiplication row of the concrete
+$\FieldUp(\RatUp)$ certificate. For every scalar endpoint
+$r:\mathsf{BHist}$ and vector endpoint $m:\mathsf{BHist}$ carried by
+$\mathsf{RatHistoryCarrier}$, the scalar-action endpoint
+$r\odot_{\mathsf{Rat}} m$ is the FieldUp product endpoint
+$r\cdot_{\mathsf{Rat}} m$, and classifier stability is the multiplication
+congruence row already included in
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary}.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_scalar\_action\_readback}
+\begin{proof}
+Unfold the scalar action in
+Definition~\ref{def:fieldext-reflexive-extension-carrier}. It is defined to be
+the $\FieldUp(\RatUp)$ multiplication row, with no change of carrier,
+classifier, or endpoint domain.
+
+The assembled FieldUp certificate supplies multiplication closure and
+multiplication classifier congruence over $\mathsf{RatHistoryClassifier}$.
+Because the scalar classifier, vector classifier, and ambient-field classifier
+are all the same RatUp classifier, the congruence row repacks directly as
+scalar-action stability for the reflexive $\FieldExtUp$ package.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive FieldExt ledger provenance coverage]
+\label{thm:fieldext-ratup-reflexive-ledger-provenance-coverage}
+For the concrete package of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}, the source,
+pattern, classifier, stability, exactness, and ledger rows are exhausted by the
+identity embedding row, the single concrete $\FieldUp(\RatUp)$ operation table,
+and the self-vector-space projection over $\mathsf{RatHistoryCarrier}$. No
+additional carrier, classifier, scalar-action table, or ledger source is
+introduced by the reflexive $\FieldExtUp$ reading.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexiveEmbedding\_scalar\_action\_cont\_readback}
+\begin{proof}
+The identity embedding row is
+\autoref{thm:fieldext-reflexive-embedding-transport}. It fixes endpoint
+transport, classifier transport, and operation transport to the unchanged
+RatUp carrier and classifier.
+
+The field and operation-table rows are supplied by
+\autoref{thm:fieldext-ratup-reflexive-operation-table-coverage}. The
+scalar-action readback is
+\autoref{thm:fieldext-ratup-reflexive-scalar-action-readback}, so the
+vector-space scalar action uses exactly the multiplication row already present
+in the concrete FieldUp table.
+
+Finally apply \autoref{thm:fieldext-reflexive-vector-space-package} and
+\autoref{thm:fieldext-reflexive-certificate-obligations}. These package the
+self-vector-space projection, exact endpoint classification, and ledger
+provenance as the displayed $\FieldExtUp$ $\NameCert$ obligations. Hence every
+ledger row named by the reflexive FieldExt certificate is traced to the
+identity embedding, the RatUp FieldUp certificate, or the self-vector-space
+projection.
+\end{proof}
+
+\begin{definition}[RatUp reflexive exactness and ledger interface]
+\label{def:fieldext-reflexive-exactness-ledger-interface}
+For the concrete data of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}, the
+$\FieldExtUp$ exactness and ledger surface is fixed by the single RatUp
+history source. The base-field carrier, ambient-field carrier, vector
+carrier, and scalar carrier are all $\mathsf{RatHistoryCarrier}$, and all
+endpoint comparisons use $\mathsf{RatHistoryClassifier}$.
+
+The embedding row is the identity map
+$\iota_{\mathsf{Rat}}(h):=h$. The base and ambient field operation rows are
+the rows of the concrete $\FieldUp(\RatUp)$ table, and the scalar action is
+the same table read through multiplication:
+$$
+r\cdot_{\mathsf{Rat}} m :=
+\mathsf{RatUpFieldMul}(r,m).
+$$
+Thus the ledger has no separate extension source: it consists of the RatUp
+FieldUp operation table, the identity embedding row, and the self
+vector-space row over the same classifier.
+\end{definition}
+\leandef{BEDC.Derived.FieldExtUp.FieldExtRatReflexiveExactnessLedgerInterface}
+\leandef{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_exactness\_ledger\_interface}
+
+\begin{theorem}[RatUp reflexive exact endpoint classification]
+\label{thm:fieldext-reflexive-exact-endpoint-classification}
+For the concrete data of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}, every displayed
+base-field endpoint, ambient-field endpoint, identity-embedding endpoint,
+and scalar-action endpoint is classified by
+$\mathsf{RatHistoryClassifier}$ against the RatUp endpoint named by the
+same concrete operation row. In particular, the reflexive extension has one
+exact classifier surface for field operations, embedding transport, and
+self scalar action.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexiveEmbedding\_classifier\_endpoint\_package}
+\begin{proof}
+The base and ambient field endpoints are read from the same concrete
+$\FieldUp(\RatUp)$ certificate. Apply
+Theorem~\ref{thm:ratup-fieldup-assembled-certificate-boundary} to obtain the
+operation-table rows over $\mathsf{RatHistoryCarrier}$ and
+$\mathsf{RatHistoryClassifier}$.
+
+The identity-embedding endpoints are handled by
+Theorem~\ref{thm:fieldext-reflexive-embedding-transport}. Since
+$\iota_{\mathsf{Rat}}$ is the identity on $\mathsf{BHist}$, the embedded
+endpoint and the source endpoint are the same carried history, compared by
+the RatUp classifier.
+
+The scalar-action endpoints are handled by
+Theorem~\ref{thm:fieldext-reflexive-vector-space-package}. Its scalar action
+is FieldUp multiplication, so the scalar-action endpoint is classified by
+the same multiplication congruence and endpoint row already present in the
+RatUp FieldUp certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_exact\_endpoint\_classification}
+
+\begin{theorem}[RatUp reflexive ledger provenance]
+\label{thm:fieldext-reflexive-ledger-provenance}
+For the concrete data of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}, every
+$\FieldExtUp$ ledger row is inherited from one of three displayed sources:
+the single RatUp $\FieldUp$ operation table, the identity embedding row
+$\iota_{\mathsf{Rat}}$, or the self-vector-space row whose scalar action is
+RatUp multiplication. No ledger row uses a carrier, classifier, operation
+endpoint, or scalar-action endpoint outside
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+The operation-table provenance is the concrete RatUp FieldUp certificate of
+Theorem~\ref{thm:ratup-fieldup-assembled-certificate-boundary}. The base
+field and ambient field read that certificate with identical carrier,
+classifier, and operation endpoints.
+
+The embedding provenance is
+Theorem~\ref{thm:fieldext-reflexive-embedding-transport}. It supplies the
+identity carrier row, the identity classifier row, and the preservation of
+the displayed field operations without adding a second source.
+
+The self-vector-space provenance is
+Theorem~\ref{thm:fieldext-reflexive-vector-space-package}. It uses the
+FieldUp additive rows for vector addition, zero, and negation, and uses the
+FieldUp multiplication row as scalar action. These are exactly the remaining
+ledger rows required by the reflexive $\FieldExtUp$ package.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_ledger\_provenance}
+
+\begin{theorem}[RatUp reflexive public NameCert interface]
+\label{thm:fieldext-reflexive-public-namecert-interface}
+The RatUp reflexive construction exposes the public paper-side
+$\FieldExtUp$ $\NameCert$ interface with carrier
+$\mathsf{RatHistoryCarrier}$, classifier
+$\mathsf{RatHistoryClassifier}$, identity embedding
+$\iota_{\mathsf{Rat}}$, base and ambient $\FieldUp(\RatUp)$ certificates,
+self-vector-space rows, exact endpoint classification, and ledger
+provenance over the RatUp operation table.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_public\_name\_certificate}
+\begin{proof}
+The carrier and classifier are fixed by
+Definition~\ref{def:fieldext-reflexive-extension-carrier}. The base and
+ambient field certificates are the two readings of
+Theorem~\ref{thm:ratup-fieldup-assembled-certificate-boundary}.
+
+The stability component is supplied by
+Theorem~\ref{thm:fieldext-reflexive-embedding-transport}, and the
+vector-space component is supplied by
+Theorem~\ref{thm:fieldext-reflexive-vector-space-package}. Together they
+give the identity embedding and self scalar-action surface.
+
+The exactness and ledger interface is
+Definition~\ref{def:fieldext-reflexive-exactness-ledger-interface}. Its two
+coverage theorems,
+Theorems~\ref{thm:fieldext-reflexive-exact-endpoint-classification} and
+\ref{thm:fieldext-reflexive-ledger-provenance}, assemble the remaining
+public rows into the displayed $\FieldExtUp$ $\NameCert$ interface.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_semantic\_name\_certificate}
+
+\begin{theorem}[RatUp reflexive FieldExt source-pattern lock]
+\label{thm:fieldext-ratup-reflexive-source-pattern-lock}
+For the reflexive package of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}, every displayed
+source and pattern field is fixed by the concrete RatUp data already named in
+Definition~\ref{def:ratup-fieldup-concrete-source-tuple} and certified by
+Theorem~\ref{thm:ratup-fieldup-assembled-certificate-boundary}. The base field
+carrier, ambient field carrier, and vector carrier are
+$\mathsf{RatHistoryCarrier}$ over $\mathsf{BHist}$; the field classifier,
+extension classifier, and vector classifier are
+$\mathsf{RatHistoryClassifier}$; the embedding is the identity map
+$\iota_{\mathsf{Rat}}(h):=h$; the scalar action is the
+$\FieldUp(\RatUp)$ multiplication row; and the ledger source is the same
+concrete FieldUp source tuple on both endpoints.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexiveEmbedding\_ledger\_source\_lock}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_source\_pattern\_lock}
+\begin{proof}
+Unfold Definition~\ref{def:fieldext-reflexive-extension-carrier}. Its base
+field, ambient field, and vector carrier clauses are not separate choices:
+each names $\mathsf{RatHistoryCarrier}$ over $\mathsf{BHist}$, and each
+classifier clause names $\mathsf{RatHistoryClassifier}$.
+
+The embedding row is locked by
+Theorem~\ref{thm:fieldext-reflexive-embedding-transport}. Since
+$\iota_{\mathsf{Rat}}$ is identity on $\mathsf{BHist}$, the source endpoint
+and the displayed embedded endpoint are the same RatUp history.
+
+The vector and action rows are locked by
+Theorem~\ref{thm:fieldext-reflexive-vector-space-package}. It reads vector
+addition, zero, and negation from the additive FieldUp rows and reads scalar
+action from FieldUp multiplication. Hence the package has no carrier,
+classifier, embedding, action, or ledger source outside the RatUp FieldUp
+certificate boundary.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive FieldExt operation-table source coverage]
+\label{thm:fieldext-ratup-reflexive-operation-table-source-coverage}
+In the reflexive FieldExt package of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}, the zero, one,
+addition, negation, multiplication, apartness, and proof-indexed inverse rows
+of the base and ambient fields are read from the same concrete
+$\FieldUp(\RatUp)$ operation table. The vector addition, vector zero, vector
+negation, and scalar-action rows are read from that same table: the vector
+additive rows are the FieldUp additive rows, and scalar action is the FieldUp
+multiplication row over $\mathsf{RatHistoryCarrier}$ and
+$\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_embedded\_scalar\_action\_source\_readback}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_operation\_table\_source\_coverage}
+\begin{proof}
+Apply Theorem~\ref{thm:ratup-fieldup-assembled-certificate-boundary}. It
+provides the concrete $\FieldUp(\RatUp)$ operation table over
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$, including
+zero, one, addition, negation, multiplication, apartness, and the
+proof-indexed inverse.
+
+The reflexive package reads the same certificate twice, once as the base field
+and once as the ambient field. Therefore every displayed field-operation row
+on either endpoint has the same operation-table source.
+
+For the vector part, use
+Theorem~\ref{thm:fieldext-reflexive-vector-space-package}. Its self-vector-space
+package takes vector addition, zero, and negation from the FieldUp additive
+rows and takes scalar action from FieldUp multiplication. Thus the complete
+operation surface of the reflexive FieldExt package is covered by the single
+RatUp FieldUp operation table.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive FieldExt certificate row exhaustion]
+\label{thm:fieldext-ratup-reflexive-certificate-row-exhaustion}
+For the concrete data of
+Definition~\ref{def:fieldext-reflexive-extension-carrier}, every displayed
+$\FieldExtUp$ source, pattern, classifier, stability, exactness,
+scalar-action, and ledger row for the RatUp reflexive package is covered by
+exactly one of the following concrete row families:
+\begin{enumerate}
+  \item the two reads of the $\FieldUp(\RatUp)$ endpoint certificate from
+  Theorem~\ref{thm:ratup-fieldup-assembled-certificate-boundary};
+  \item the identity embedding row of
+  Theorem~\ref{thm:fieldext-reflexive-embedding-transport};
+  \item the self-vector-space and scalar-action row of
+  Theorem~\ref{thm:fieldext-reflexive-vector-space-package}.
+\end{enumerate}
+No additional carrier, classifier, operation table, exactness source, or
+ledger source is used by the reflexive certificate.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtRatReflexive\_certificate\_row\_exhaustion}
+\begin{proof}
+The source and pattern clauses are fixed by
+Theorem~\ref{thm:fieldext-ratup-reflexive-source-pattern-lock}. It assigns the
+base field, ambient field, vector carrier, classifiers, identity embedding,
+scalar action, and ledger source to the concrete RatUp FieldUp data.
+
+The operation clauses are covered by
+Theorem~\ref{thm:fieldext-ratup-reflexive-operation-table-source-coverage}. It
+accounts for the two field endpoint reads and for the vector additive and
+scalar-action rows read from the same operation table.
+
+Finally apply
+Theorem~\ref{thm:fieldext-reflexive-certificate-obligations}. Its obligation
+list consists only of the base and ambient FieldUp certificates, identity
+embedding stability and exactness, self-vector-space compatibility,
+scalar-action congruence, exact endpoint classification, and ledger
+provenance. These are precisely the three row families listed above, so the
+displayed RatUp reflexive FieldExt certificate has no uncovered row.
+\end{proof}

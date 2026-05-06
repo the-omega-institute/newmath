@@ -1,0 +1,95 @@
+\begin{definition}[Measure root consumer package]
+\label{def:measure-root-consumer-package}
+The $\MeasureUp$ root consumer package is the root NameCert public surface of
+\autoref{def:measure-root-namecert-public-surface} read together with the
+downstream package of
+\autoref{thm:measure-root-downstream-unblock-package}. Its consumers receive
+only covered measurable-event rows, $\RealUp$ endpoint classifier rows,
+countable-sum endpoint rows, head-tail readback, empty-zero, finite
+disjoint-union readback, relative-difference additivity, monotone inclusion,
+nonnegative endpoint, and the explicit no-$\StdBridge$ row exposed by that
+public $\MeasureUp$ package.
+\end{definition}
+
+\begin{theorem}[Measure integral consumer rows]
+\label{thm:measure-integral-consumer-rows}
+The root consumer package of
+\autoref{def:measure-root-consumer-package} supplies $\IntegralUp$ with
+exactly the covered measurable-event rows, $\RealUp$ endpoint classifier rows,
+countable-sum endpoint rows, head-tail readback rows, and finite
+disjoint-union readback rows exposed by $\MeasureUp$. No host set equality,
+quotient event equality, probability normalization row, functional-analysis
+order row, or standard bridge row is added to the integral consumer surface.
+\end{theorem}
+\begin{proof}
+Project the root NameCert public surface from
+\autoref{def:measure-root-consumer-package}. Its coverage predicate is
+\autoref{def:measure-event-row-coverage}, so every event row visible to the
+consumer is one of the displayed measurable-event rows of the $\MeasureUp$
+surface.
+
+Apply \autoref{thm:measure-root-downstream-unblock-package}. This exposes the
+covered event rows, $\RealUp$ endpoint rows, countable-sum rows, head-tail
+readback, and finite disjoint-union readback as the public downstream package.
+
+Now apply \autoref{thm:measure-integral-premeasure-consumption}. Its
+$\IntegralUp$ projection consumes exactly those rows from the same public
+package. Repacking that projection with the root consumer package gives the
+claimed integral consumer surface, and the exactness predicate rules out every
+row not named in the statement.
+\end{proof}
+
+\begin{theorem}[Measure probability consumer rows]
+\label{thm:measure-probability-consumer-rows}
+The root consumer package of
+\autoref{def:measure-root-consumer-package} supplies $\ProbSpaceUp$ with the
+total-event normalization row together with the empty-zero and finite
+disjoint-union rows exposed by $\MeasureUp$. No integral countable-sum
+endpoint row, functional-analysis relative-difference package, quotient event
+equality, or standard bridge row is added to the probability consumer surface.
+\end{theorem}
+\begin{proof}
+Project the empty-zero and finite disjoint-union rows from
+\autoref{thm:measure-root-downstream-unblock-package}. These are already
+public rows of the root consumer package, because the package includes the
+root NameCert surface and its downstream repacking.
+
+Apply \autoref{thm:measure-probability-normalization-row}. The theorem reads
+the total-event endpoint and the unit-mass comparison through the same
+$\MeasureUp$ public surface, and it consumes the empty-zero and finite
+disjoint-union rows already projected above.
+
+Repack the total-event normalization row with those two additive rows. The
+event-row exactness clause of
+\autoref{def:measure-root-consumer-package} leaves no additional event
+identity, countable-sum endpoint, functional-analysis order, or
+$\StdBridge$ row in the $\ProbSpaceUp$ consumer surface.
+\end{proof}
+
+\begin{theorem}[Measure functional-analysis consumer rows]
+\label{thm:measure-functionalanalysis-consumer-rows}
+The root consumer package of
+\autoref{def:measure-root-consumer-package} supplies $\FunctionalAnalysisUp$
+only with the nonnegative endpoint, monotone inclusion, relative-difference,
+and countable-sum classifier rows exposed by $\MeasureUp$. It does not add
+integral premeasure rows, probability normalization rows, quotient event
+equality, host set equality, or a standard bridge row.
+\end{theorem}
+\begin{proof}
+Start from the $\MeasureUp$ analysis substrate rows already present in the
+root consumer package. The nonnegative endpoint, monotone inclusion,
+relative-difference, and countable-sum classifier rows are the analysis rows
+visible through the public root surface.
+
+Apply \autoref{thm:measure-functionalanalysis-substrate-obligations}. Its
+$\FunctionalAnalysisUp$ projection consumes exactly those four row families:
+nonnegative endpoints, monotone inclusion, relative-difference additivity,
+and countable-sum classifier stability.
+
+Finally repack the projection through
+\autoref{thm:measure-root-downstream-unblock-package}. The downstream
+exactness predicate keeps the consumer boundary at the named row families, so
+the functional-analysis surface gains neither integral rows, probability
+normalization rows, quotient event equality, host set equality, nor a
+$\StdBridge$ row.
+\end{proof}

@@ -1,0 +1,270 @@
+\section{Real algebra and order boundary}
+\label{sec:realalgorder-concrete-interface}
+
+\begin{definition}[Concrete RealAlgOrder interface]
+\label{def:realalgorder-concrete-interface}
+The concrete seed for $\RealAlgOrder$ is the constant rational RealUp
+subcarrier supplied by
+\autoref{thm:real-constant-rational-embedding-certificate}. Its carrier is
+$\mathsf{RealConstantHistoryCarrier}$, its classifier is
+$\mathsf{RealConstantHistoryClassifier}$, and each algebra or order row is a
+$\mathsf{BHist}$ relation obtained by applying the corresponding RatUp witness
+before the e-one RealUp embedding. The rows are:
+\begin{enumerate}
+  \item addition:
+  $\mathsf{RatAddRow}(d,e,o)$ is transported to
+  $\mathsf{RealAlgAddRow}(\Eone(d),\Eone(e),\Eone(o))$;
+  \item negation:
+  $\mathsf{RatNegRow}(d,o)$ is transported to
+  $\mathsf{RealAlgNegRow}(\Eone(d),\Eone(o))$;
+  \item multiplication:
+  $\mathsf{RatMulRow}(d,e,o)$ is transported to
+  $\mathsf{RealAlgMulRow}(\Eone(d),\Eone(e),\Eone(o))$;
+  \item absolute value:
+  $\mathsf{RatAbsRow}(d,o)$ is transported to
+  $\mathsf{RealAlgAbsRow}(\Eone(d),\Eone(o))$;
+  \item nonnegative comparison:
+  $\mathsf{RatNonnegativeRow}(d)$ is transported to
+  $\mathsf{RealAlgNonnegativeRow}(\Eone(d))$;
+  \item strict apartness:
+  $\mathsf{RatApartRow}(d,e)$ is transported to
+  $\mathsf{RealAlgApartRow}(\Eone(d),\Eone(e))$.
+\end{enumerate}
+Thus the interface is a constant-rational boundary object: it names only the
+operation and order rows whose rational endpoints are already certified by
+RatUp and whose RealUp endpoints are the constant e-one seals.
+\end{definition}
+
+\begin{theorem}[RealAlgOrder constant carrier and classifier obligations]
+\label{thm:realalgorder-constant-carrier-classifier-obligations}
+Let $d,e:\Hist$. The carrier and classifier face of the constant-rational
+$\RealAlgOrder$ boundary consists of the two transported rows
+$$
+\mathsf{RatHistoryCarrier}(d)
+\Longrightarrow
+\mathsf{RealConstantHistoryCarrier}(\Eone(d))
+$$
+and
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\Longrightarrow
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)).
+$$
+These rows are stable under the e-one classifier readback of
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}: every displayed
+Real constant classifier comparison between e-one endpoints reads back to the
+RatUp classifier comparison used by the source rows.
+\end{theorem}
+\begin{proof}
+Begin with the embedding certificate. Apply
+\autoref{thm:real-constant-rational-embedding-certificate} to the rational
+endpoint $d$; its carrier component is exactly the passage from
+$\mathsf{RatHistoryCarrier}(d)$ to
+$\mathsf{RealConstantHistoryCarrier}(\Eone(d))$.
+
+Next read the classifier component of the same certificate at the pair
+$(d,e)$. The RatUp classifier row is transported first to the constant
+stream-name comparison and then to the e-one RealUp constant comparison, giving
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$.
+
+Finally apply \autoref{thm:real-constant-history-classifier-e1-iff-rat} in the
+reverse readback direction. The displayed Real constant classifier comparison
+is therefore the same rational classifier datum that RatUp classifier transport
+uses for stability of the source carrier and classifier rows.
+\end{proof}
+
+\begin{theorem}[RealAlgOrder constant algebra row obligations]
+\label{thm:realalgorder-constant-algebra-row-obligations}
+Let $d,e,o:\Hist$. The algebra face of the constant-rational $\RealAlgOrder$
+boundary consists of the four transported operation rows
+$$
+\begin{array}{rcl}
+\mathsf{RatAddRow}(d,e,o) &\Longrightarrow&
+\mathsf{RealAlgAddRow}(\Eone(d),\Eone(e),\Eone(o)),\\
+\mathsf{RatNegRow}(d,o) &\Longrightarrow&
+\mathsf{RealAlgNegRow}(\Eone(d),\Eone(o)),\\
+\mathsf{RatMulRow}(d,e,o) &\Longrightarrow&
+\mathsf{RealAlgMulRow}(\Eone(d),\Eone(e),\Eone(o)),\\
+\mathsf{RatAbsRow}(d,o) &\Longrightarrow&
+\mathsf{RealAlgAbsRow}(\Eone(d),\Eone(o)).
+\end{array}
+$$
+Classifier congruence for these rows is read back through
+$\mathsf{RealConstantHistoryClassifier}$ to the RatUp classifier transport on
+the rational endpoints.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-constant-rational-embedding-certificate} to fix the
+constant-rational bridge for the displayed endpoints. It supplies the e-one
+RealUp seals for $d$, $e$, and $o$, with carrier and classifier data inherited
+from their RatUp histories.
+
+For each algebra row, apply the corresponding RatUp witness before embedding.
+The addition, negation, multiplication, and absolute-value witnesses therefore
+remain rational ledger rows, while their visible endpoints become the
+displayed e-one RealUp constants.
+
+It remains to account for classifier congruence. Apply
+\autoref{thm:real-constant-history-classifier-e1-iff-rat} to any displayed
+Real constant classifier comparison among the inputs or output. The result is
+the RatUp classifier comparison required by RatUp classifier transport, and the
+embedding certificate repacks the transported witness as the corresponding
+$\RealAlgOrder$ algebra row.
+\end{proof}
+
+\begin{theorem}[RealAlgOrder constant order and apartness obligations]
+\label{thm:realalgorder-constant-order-apartness-obligations}
+Let $d,e:\Hist$. The order face of the constant-rational $\RealAlgOrder$
+boundary consists of the two transported rows
+$$
+\mathsf{RatNonnegativeRow}(d)
+\Longrightarrow
+\mathsf{RealAlgNonnegativeRow}(\Eone(d))
+$$
+and
+$$
+\mathsf{RatApartRow}(d,e)
+\Longrightarrow
+\mathsf{RealAlgApartRow}(\Eone(d),\Eone(e)).
+$$
+This boundary records nonnegative and strict-apartness obligations only. It
+does not assert trichotomy, least-upper-bound completeness, Cauchy
+completeness, or any total order law beyond the supplied RatUp rows.
+\end{theorem}
+\begin{proof}
+First expose the constant endpoints through
+\autoref{thm:real-constant-rational-embedding-certificate}. The same
+rational-to-Real passage used for the carrier and algebra rows supplies the
+e-one endpoints on which the nonnegative and apartness rows are displayed.
+
+Next transport the two RatUp order rows. A supplied
+$\mathsf{RatNonnegativeRow}(d)$ gives the displayed
+$\mathsf{RealAlgNonnegativeRow}(\Eone(d))$, and a supplied
+$\mathsf{RatApartRow}(d,e)$ gives
+$\mathsf{RealAlgApartRow}(\Eone(d),\Eone(e))$.
+
+Finally read classifier movement back through
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. The readback
+produces the RatUp classifier comparisons consumed by RatUp classifier
+transport, so stability of nonnegative and apartness rows is inherited only on
+the constant-rational boundary. No trichotomy or completeness datum is present
+in the transported rows.
+\end{proof}
+
+\begin{theorem}[Constant rational RealAlgOrder boundary]
+\label{thm:realalgorder-constant-rational-order-boundary}
+Let $d,e,o:\Hist$. The RatUp carrier, classifier, nonnegative, and apartness
+rows transported through the constant rational embedding give well-formed
+$\RealAlgOrder$ rows on embedded RealUp constants:
+$$
+\mathsf{RatHistoryCarrier}(d)
+\Longrightarrow
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)),
+$$
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\Longrightarrow
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)),
+$$
+and every supplied RatUp row
+$\mathsf{RatAddRow}$, $\mathsf{RatNegRow}$, $\mathsf{RatMulRow}$,
+$\mathsf{RatAbsRow}$, $\mathsf{RatNonnegativeRow}$, or
+$\mathsf{RatApartRow}$ with output history $o$ transports to the corresponding
+$\RealAlgOrder$ row on the embedded constants. These transported rows are
+stable under $\mathsf{RealConstantHistoryClassifier}$ on all displayed RealUp
+constant endpoints.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-constant-rational-embedding-certificate} to expose the
+carrier and classifier chains from RatUp histories to StreamNameUp constant
+streams and then to e-one RealUp constants. The carrier row gives
+$\mathsf{RealConstantHistoryCarrier}(\Eone(d))$ from
+$\mathsf{RatHistoryCarrier}(d)$, and the classifier row gives
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$ from
+$\mathsf{RatHistoryClassifier}(d,e)$.
+
+For each algebra or order row, apply the corresponding RatUp witness before
+embedding. Addition, negation, multiplication, absolute value, nonnegative
+comparison, and strict apartness therefore keep their rational ledger as the
+hidden source and receive e-one RealUp endpoints as their public boundary.
+
+It remains to check stability under the RealUp constant classifier. Read a
+classifier comparison back to the RatUp classifier at the e-one endpoint by
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. RatUp classifier
+transport moves the chosen algebra or order witness along the exposed rational
+comparison, and the constant rational embedding certificate repacks the result
+as the corresponding RealUp constant row.
+\end{proof}
+
+The intended Lean target shape for this boundary is
+\texttt{BEDC.Derived.RealAlgOrderUp.constant\_rational\_order\_boundary}.
+
+\begin{theorem}[RealAlgOrder constant rational scoped certificate]
+\label{thm:realalgorder-constant-rational-scoped-certificate}
+The constant-rational $\RealAlgOrder$ package is scoped exactly by
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, the RatUp
+operation and order rows, $\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$, $\mathsf{BHist}$, $\hsame$,
+\autoref{thm:real-constant-rational-embedding-certificate}, and
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. More precisely,
+it forms a ten-field scoped certificate with the following fields:
+\begin{enumerate}
+  \item traditional target: the constant rational real algebra and order
+  surface of $\RealAlgOrder$;
+  \item BEDC source: $\RatUp+\StreamNameUp+\RealUp$ restricted to RealUp
+  constant rational endpoints over $\mathsf{BHist}$ and $\hsame$;
+  \item carrier: $\mathsf{RealConstantHistoryCarrier}$;
+  \item classifier: $\mathsf{RealConstantHistoryClassifier}$;
+  \item stability: every displayed Real constant classifier comparison reads
+  back to the RatUp classifier row by
+  \autoref{thm:real-constant-history-classifier-e1-iff-rat};
+  \item ledger: the hidden rational operation or order row remains the RatUp
+  row, while the visible endpoint is sealed by the e-one RealUp constant
+  embedding of \autoref{thm:real-constant-rational-embedding-certificate};
+  \item carrier and classifier theorem:
+  \autoref{thm:realalgorder-constant-carrier-classifier-obligations};
+  \item algebra theorem:
+  \autoref{thm:realalgorder-constant-algebra-row-obligations};
+  \item order and apartness theorems:
+  \autoref{thm:realalgorder-constant-order-apartness-obligations} and
+  \autoref{thm:realalgorder-constant-rational-order-boundary};
+  \item exactness: no completeness row, trichotomy row, metric row, topology
+  row, or standard-bridge row is consumed.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First project the four RealAlgOrder boundary theorems. The carrier and
+classifier component comes from
+\autoref{thm:realalgorder-constant-carrier-classifier-obligations}; the
+algebra component comes from
+\autoref{thm:realalgorder-constant-algebra-row-obligations}; the order and
+apartness component comes from
+\autoref{thm:realalgorder-constant-order-apartness-obligations}; and the
+combined boundary comes from
+\autoref{thm:realalgorder-constant-rational-order-boundary}.
+
+Next expose the permitted source for each projected component. The only public
+Real endpoints are $\Eone(d)$-sealed rational histories supplied by
+\autoref{thm:real-constant-rational-embedding-certificate}. The only hidden
+operation and order rows are the RatUp rows named in the concrete interface,
+and the only ambient history relation used to move them is $\hsame$ on
+$\mathsf{BHist}$.
+
+Finally read every Real constant classifier move back to RatUp through
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. This gives exactly
+the RatUp classifier comparison required by the projected carrier,
+classifier, algebra, order, and apartness rows, and no proof step asks for
+completeness, trichotomy, metric structure, topology, or a standard bridge.
+\end{proof}
+
+The intended Lean target shape for this certificate is
+\texttt{BEDC.Derived.RealAlgOrderUp.constant\_rational\_scoped\_certificate}.
+
+\begin{closurestatus}{\RealAlgOrder}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:realalgorder-constant-rational-scoped-certificate} binds RatUp, StreamNameUp, RealUp constant rational endpoints, $\mathsf{BHist}$, $\hsame$, and classifier transport for carrier, classifier, algebra, order, and apartness rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This boundary does not claim complete real arithmetic, trichotomy, completeness, metric or topological consequences, or a standard bridge.}
+  \upgradepath{A formal verification grade requires a Lean theorem for the scoped certificate while preserving the independent paper and Lean axes.}
+\end{closurestatus}

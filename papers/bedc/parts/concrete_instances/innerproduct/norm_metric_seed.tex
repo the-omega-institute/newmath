@@ -1,0 +1,101 @@
+\begin{definition}[InnerProduct norm-metric seed source]
+\label{def:innerproduct-norm-metric-seed-source}
+The $\InnerProductUp$ norm-metric seed source is the $\mathsf{BHist}$ vector
+carrier and classifier of \autoref{def:innerproduct-bhist-source} together
+with the scalar-valued diagonal endpoint row
+$$
+\|x\|_{I}^{2}:=\langle x,x\rangle_{\InnerProductUp}.
+$$
+Its scalar-zero classifier row is the positive-definite exactness row of
+\autoref{thm:innerproduct-positive-definite-obligation}: the diagonal
+endpoint is classified with the displayed scalar zero exactly when the vector
+endpoint is classified with the displayed vector zero. Its threshold law rows
+are the form endpoint transport, classifier transport, scalar endpoint source,
+and visible ledger rows exposed by
+\autoref{def:innerproduct-root-threshold-source}.
+
+This seed is therefore a BHist-rooted norm-squared interface. It names the
+diagonal scalar endpoint and the zero exactness row needed by later
+$\NormUp$ and $\HilbertUp$ consumers, while leaving ordinary norm extraction,
+metric completion, Cauchy-limit selection, topology, and host Hilbert carrier
+data outside the source.
+\end{definition}
+
+\begin{theorem}[InnerProduct norm-squared carrier row]
+\label{thm:innerproduct-norm-squared-carrier-row}
+For every carried vector endpoint $x$ of the $\InnerProductUp$ BHist source,
+the norm-metric seed source carries the scalar endpoint
+$\|x\|_{I}^{2}=\langle x,x\rangle_{\InnerProductUp}$. If
+$x\sim_V x'$, then the two scalar endpoints
+$\|x\|_{I}^{2}$ and $\|x'\|_{I}^{2}$ are classified by the retained scalar
+classifier.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:innerproduct-norm-metric-seed-source}. The carried vector
+endpoint $x$ lies in the vector carrier of
+\autoref{def:innerproduct-bhist-source}, and the diagonal form row evaluates
+at $(x,x)$ with codomain in the retained scalar endpoint source.
+
+For transport, use the form endpoint transport row listed in
+\autoref{thm:innerproduct-root-threshold-form-exactness}. Apply it to the two
+vector classifier witnesses $x\sim_V x'$ and $x\sim_V x'$, once for each
+argument of the diagonal pair.
+
+The resulting scalar-classifier witness compares
+$\langle x,x\rangle_{\InnerProductUp}$ with
+$\langle x',x'\rangle_{\InnerProductUp}$. Repack these endpoints through the
+definition of $\|-\|_{I}^{2}$ in the seed source.
+\end{proof}
+
+\begin{theorem}[InnerProduct norm zero classifier exactness]
+\label{thm:innerproduct-norm-zero-classifier-exactness}
+For every carried vector endpoint $x$ of the $\InnerProductUp$ BHist source,
+the scalar endpoint $\|x\|_{I}^{2}$ is classified with the displayed scalar
+zero endpoint exactly when $x$ is classified by $\sim_V$ with the displayed
+vector zero endpoint $0_V$.
+\end{theorem}
+\begin{proof}
+Unfold the norm-metric seed source so that $\|x\|_{I}^{2}$ is the diagonal
+form endpoint $\langle x,x\rangle_{\InnerProductUp}$.
+
+In the forward direction, assume that this scalar endpoint is classified with
+the displayed scalar zero. Apply
+\autoref{thm:innerproduct-positive-definite-obligation} to convert the
+scalar-zero classification into the vector classifier witness $x\sim_V 0_V$.
+
+In the reverse direction, assume $x\sim_V 0_V$. The same positive-definite
+obligation supplies the converse scalar-zero classification for the diagonal
+endpoint. Repack that scalar witness as the zero classification of
+$\|x\|_{I}^{2}$ in \autoref{def:innerproduct-norm-metric-seed-source}.
+\end{proof}
+
+\begin{theorem}[InnerProduct norm-metric seed downstream boundary]
+\label{thm:innerproduct-norm-metric-seed-downstream-boundary}
+The downstream interfaces $\NormUp$ and $\HilbertUp$ may consume from the
+$\InnerProductUp$ side only the norm-squared seed of
+\autoref{def:innerproduct-norm-metric-seed-source} together with the existing
+inner-product threshold rows of
+\autoref{def:innerproduct-root-threshold-source}. They do not receive Banach
+completeness, a Cauchy-limit selector, topology, or a host Hilbert carrier
+from this seed.
+\end{theorem}
+\begin{proof}
+For the norm-squared endpoint, use
+\autoref{thm:innerproduct-norm-squared-carrier-row}. It supplies exactly the
+scalar diagonal endpoint and its classifier transport along the vector
+classifier.
+
+For zero exactness, use
+\autoref{thm:innerproduct-norm-zero-classifier-exactness}. It identifies
+scalar-zero classification of the diagonal endpoint with vector-zero
+classification and adds no ordinary norm value or completion row.
+
+Finally compare the seed with the root threshold source. By
+\autoref{def:innerproduct-root-threshold-source}, the remaining consumable
+inner-product rows are the vector carrier and classifier, scalar endpoint
+source, form law rows, positive-definite exactness, classifier transport,
+orthogonality row, and ledger. Since neither this definition nor
+\autoref{def:innerproduct-norm-metric-seed-source} lists Banach completeness,
+Cauchy-limit selection, topology, or a host Hilbert carrier, those rows cannot
+be consumed from the $\InnerProductUp$ seed boundary.
+\end{proof}

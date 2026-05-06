@@ -1,0 +1,553 @@
+\chapter{A Concrete Naming Certificate for $\TopologyUp$}
+\label{ch:concrete-instances-topology-namecert}
+
+The topology interface $\TopologyUp$ packages a carrier with a family of open subsets closed under finite intersections and arbitrary unions, certified by an explicit indexing of opens. It generalises $\NameCert_{\MetricSpaceUp}$ (\autoref{ch:concrete-instances-metric-namecert}) by dropping the located-distance requirement and supplies the substrate for $\NameCert_{\BanachUp}$, $\NameCert_{\ManifoldUp}$, and the topological side of $\NameCert_{\ComplexTopologyUp}$ (\autoref{ch:concrete-instances-complex-topology-namecert}).
+
+\section{Carrier definition}
+\label{sec:topology-carrier}
+
+\section{The certificate}
+\label{sec:topology-certificate}
+
+\begin{definition}[Indexed open topology carrier]
+\label{def:topology-indexed-open-carrier}
+An indexed open topology carrier for $\TopologyUp$ is a tuple
+$\mathcal{T}=(X,\mathsf{same}_X,\mathsf{OpenIx},\mathsf{OpenAt},\wedge_{\TopologyUp})$ consisting of a carrier $X$, a carrier classifier $\mathsf{same}_X$, an index object $\mathsf{OpenIx}$, a membership predicate
+$$
+\mathsf{OpenAt}:\mathsf{OpenIx}\times X\to\mathsf{Prop},
+$$
+and a binary operation $i,j\mapsto i\wedge_{\TopologyUp}j$ on $\mathsf{OpenIx}$. The classifier plays the role isolated in \autoref{def:metric-classifier-specification}; for every index $i$ it transports open membership by
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl(\mathsf{OpenAt}(i,x)\Longleftrightarrow\mathsf{OpenAt}(i,y)\bigr).
+$$
+The finite-intersection field is the exact pointwise law
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(\mathsf{OpenAt}(i,x)\wedge\mathsf{OpenAt}(j,x)\bigr).
+$$
+Thus the index operation is part of the certificate data of \autoref{sec:topology-certificate}, not an external selection of an open subset.
+\end{definition}
+
+\begin{definition}[Indexed open carried predicate]
+\label{def:topology-indexed-open-carried-predicate}
+For an indexed open topology carrier $\mathcal{T}$ and a predicate $U:X\to\mathsf{Prop}$, an index $i:\mathsf{OpenIx}$ carries $U$, written $\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$, when it gives the pointwise classifier
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)
+:\Longleftrightarrow
+\forall x:X,\quad U(x)\Longleftrightarrow\mathsf{OpenAt}(i,x).
+$$
+A witnessed open of $\TopologyUp$ is such a pair $(i,h_i)$, with $h_i:\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$.
+\end{definition}
+
+\begin{definition}[Topology neighbourhood interface]
+\label{def:topology-neighborhood-interface}
+For an indexed open topology carrier $\mathcal{T}$ over $X$, the neighbourhood predicate of a point $x:X$ at an open index $i:\mathsf{OpenIx}$ is
+$$
+\mathsf{Nbhd}_{\mathcal{T}}(x,i)
+:\Longleftrightarrow
+\mathsf{OpenAt}(i,x).
+$$
+This row is indexed-open data: it records membership in the displayed index of $\mathcal{T}$ and does not select an external powerset element.
+\end{definition}
+\leandef{BEDC.Derived.TopologyUp.BHistIndexedNeighborhood}
+\leandef{BEDC.Derived.TopologyUp.TopologyNeighborhood}
+
+\begin{theorem}[Neighbourhood open membership]
+\label{thm:topology-neighborhood-open-membership}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. If an index $i:\mathsf{OpenIx}$ carries a predicate $U:X\to\mathsf{Prop}$, then for every point $x:X$,
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)
+\Longrightarrow
+\bigl(\mathsf{Nbhd}_{\mathcal{T}}(x,i)\Longleftrightarrow U(x)\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistIndexedOpen\_neighborhood\_semantic\_name\_certificate}
+\begin{proof}
+Assume $h_i:\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$ and fix $x:X$. By \autoref{def:topology-neighborhood-interface}, $\mathsf{Nbhd}_{\mathcal{T}}(x,i)$ is exactly $\mathsf{OpenAt}(i,x)$.
+
+The carrying equation of \autoref{def:topology-indexed-open-carried-predicate} gives $U(x)\Longleftrightarrow\mathsf{OpenAt}(i,x)$. Reading this equivalence in the opposite direction gives the displayed neighbourhood membership law.
+\end{proof}
+
+\begin{theorem}[Neighbourhood classifier transport]
+\label{thm:topology-neighborhood-classifier-transport}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. For every open index $i:\mathsf{OpenIx}$ and points $x,y:X$,
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl(\mathsf{Nbhd}_{\mathcal{T}}(x,i)\Longleftrightarrow\mathsf{Nbhd}_{\mathcal{T}}(y,i)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{same}_X(x,y)$. Unfolding \autoref{def:topology-neighborhood-interface} reduces the claim to transport of $\mathsf{OpenAt}(i,-)$.
+
+The membership-stability field of \autoref{def:topology-indexed-open-carrier}, applied to the fixed index $i$, gives exactly $\mathsf{OpenAt}(i,x)\Longleftrightarrow\mathsf{OpenAt}(i,y)$.
+\end{proof}
+
+\begin{theorem}[Neighbourhood finite-intersection]
+\label{thm:topology-neighborhood-finite-intersection}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. For every pair of open indices $i,j:\mathsf{OpenIx}$ and every point $x:X$,
+$$
+\mathsf{Nbhd}_{\mathcal{T}}(x,i\wedge_{\TopologyUp}j)
+\Longleftrightarrow
+\bigl(\mathsf{Nbhd}_{\mathcal{T}}(x,i)\wedge\mathsf{Nbhd}_{\mathcal{T}}(x,j)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the neighbourhood predicate of \autoref{def:topology-neighborhood-interface}. The desired statement becomes
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(\mathsf{OpenAt}(i,x)\wedge\mathsf{OpenAt}(j,x)\bigr).
+$$
+
+This is precisely the finite-intersection field included in the indexed open topology carrier of \autoref{def:topology-indexed-open-carrier}.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.TopologyNeighborhood\_finite\_intersection}
+
+\begin{theorem}[Topology indexed open finite-intersection closure]
+\label{thm:topology-indexed-open-finite-intersection}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. If indices $i,j:\mathsf{OpenIx}$ carry predicates $U,V:X\to\mathsf{Prop}$, then the certificate index $i\wedge_{\TopologyUp}j$ carries the finite intersection $U\cap V$:
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}}(j,V)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}}(i\wedge_{\TopologyUp}j,U\cap V),
+$$
+where $(U\cap V)(x)$ means $U(x)\wedge V(x)$. Equivalently, for every point $x:X$ the finite-intersection witness has the introduction and inversion form
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(U(x)\wedge V(x)\bigr),
+$$
+and this carried intersection transports under the carrier classifier:
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl((U(x)\wedge V(x))\Longleftrightarrow(U(y)\wedge V(y))\bigr).
+$$
+This is the $\TopologyUp$ closure step whose concrete complex instance is used in \autoref{thm:cplx-topo-finite-intersection}.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistIndexedOpen\_finite\_intersection\_closure}
+\begin{proof}
+Assume $h_U:\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$ and $h_V:\mathsf{CarriesOpen}_{\mathcal{T}}(j,V)$. Fix $x:X$. The finite-intersection field of \autoref{def:topology-indexed-open-carrier} gives
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(\mathsf{OpenAt}(i,x)\wedge\mathsf{OpenAt}(j,x)\bigr).
+$$
+The two carry witnesses give $U(x)\Longleftrightarrow\mathsf{OpenAt}(i,x)$ and $V(x)\Longleftrightarrow\mathsf{OpenAt}(j,x)$. Composing these three equivalences gives
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(U(x)\wedge V(x)\bigr),
+$$
+which is precisely the pointwise carrying equation for $U\cap V$ after reversing the displayed equivalence.
+
+For classifier transport, assume $\mathsf{same}_X(x,y)$. Convert $U(x)\wedge V(x)$ to $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)$ by the carrying equation just proved. The membership-stability field of \autoref{def:topology-indexed-open-carrier} transports this to $\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,y)$, and the carrying equation at $y$ converts back to $U(y)\wedge V(y)$. The reverse implication is identical with the same stability equivalence read in the opposite direction.
+\end{proof}
+
+\begin{definition}[Indexed arbitrary-union open witness]
+\label{def:topology-indexed-arbitrary-union-witness}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$, and let $A$ be an indexing type. For a family of open indices $\iota:A\to\mathsf{OpenIx}$, an index $u:\mathsf{OpenIx}$ is an indexed arbitrary-union witness for $\iota$, written $\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)$, when it carries exactly the pointwise union of the indexed open memberships:
+$$
+\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)
+:\Longleftrightarrow
+\forall x:X,\quad
+\mathsf{OpenAt}(u,x)
+\Longleftrightarrow
+\exists a:A,\ \mathsf{OpenAt}(\iota(a),x).
+$$
+This is the arbitrary-union counterpart to the finite-intersection operation in \autoref{def:topology-indexed-open-carrier}.
+\end{definition}
+
+\begin{theorem}[Topology indexed open arbitrary-union closure]
+\label{thm:topology-indexed-open-arbitrary-union}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. Let $A$ be an indexing type, let $\iota:A\to\mathsf{OpenIx}$ be a family of open indices, and let $U_a:X\to\mathsf{Prop}$ be predicates indexed by $a:A$. Put $U_{\cup}:X\to\mathsf{Prop}$ for the predicate
+$$
+U_{\cup}(x):\Longleftrightarrow \exists a:A,\ U_a(x).
+$$
+If $u:\mathsf{OpenIx}$ is an indexed arbitrary-union witness for $\iota$ and each $\iota(a)$ carries $U_a$, then $u$ carries $U_{\cup}$:
+$$
+\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)
+\Longrightarrow
+\bigl(\forall a:A,\ \mathsf{CarriesOpen}_{\mathcal{T}}(\iota(a),U_a)\bigr)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}}(u,U_{\cup}).
+$$
+Equivalently, for every point $x:X$ the supplied union index has the introduction and inversion form
+$$
+\mathsf{OpenAt}(u,x)
+\Longleftrightarrow
+\exists a:A,\ U_a(x),
+$$
+and the union predicate transports under the carrier classifier:
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl((\exists a:A,\ U_a(x))\Longleftrightarrow(\exists a:A,\ U_a(y))\bigr).
+$$
+This is the generic $\TopologyUp$ indexed-family closure law whose concrete complex instance appears in \autoref{thm:cplx-topo-union}.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistIndexedOpen\_arbitrary\_union\_closure}
+\begin{proof}
+Assume $h_{\cup}:\mathsf{UnionIx}_{\mathcal{T}}(u,\iota)$ and $h_{\mathrm{car}}:\forall a:A,\ \mathsf{CarriesOpen}_{\mathcal{T}}(\iota(a),U_a)$. Fix $x:X$. If $U_{\cup}(x)$ holds, choose $a:A$ with $U_a(x)$. The carry witness $h_{\mathrm{car}}(a)$ gives $\mathsf{OpenAt}(\iota(a),x)$, hence $\exists a:A,\ \mathsf{OpenAt}(\iota(a),x)$. The arbitrary-union witness $h_{\cup}$ converts this existential open membership into $\mathsf{OpenAt}(u,x)$.
+
+Conversely, if $\mathsf{OpenAt}(u,x)$ holds, then $h_{\cup}$ gives some $a:A$ with $\mathsf{OpenAt}(\iota(a),x)$. The carry witness $h_{\mathrm{car}}(a)$ converts this membership back into $U_a(x)$, hence $U_{\cup}(x)$. Since $x$ was arbitrary, this proves $\mathsf{CarriesOpen}_{\mathcal{T}}(u,U_{\cup})$, and reversing the displayed equivalence gives the pointwise introduction and inversion form.
+
+For classifier transport, assume $\mathsf{same}_X(x,y)$. The carrying equation just proved converts $\exists a:A,\ U_a(x)$ to $\mathsf{OpenAt}(u,x)$. The membership-stability field of \autoref{def:topology-indexed-open-carrier}, applied to the index $u$, transports this to $\mathsf{OpenAt}(u,y)$, and the carrying equation at $y$ converts it to $\exists a:A,\ U_a(y)$. The reverse implication uses the same stability equivalence in the opposite direction.
+\end{proof}
+
+\begin{definition}[Metric finite-ball indexed topology]
+\label{def:metric-finite-ball-indexed-topology}
+Let $C$ be a carrier equipped with the $\MetricSpaceUp$ carrier data of \autoref{def:metric-carrier}, with classifier $\mathsf{same}_C$ and distance $d:C\times C\to\RealUp$. Fix a strict ordered-real comparison $<_{\mathsf R}$ on $\RealUp$ and a positive-radius predicate $\mathsf{PosRadius}_{\mathsf R}$. A metric ball datum is a triple $b=(c_b,r_b,\rho_b)$ with $c_b:C$, $r_b:\RealUp$, and $\rho_b:\mathsf{PosRadius}_{\mathsf R}(r_b)$. Its open-ball predicate is
+$$
+\mathsf{MetricOpenBall}_d(b)(x)
+:\Longleftrightarrow
+ d(c_b,x)<_{\mathsf R}r_b.
+$$
+The metric finite-ball index object is $\mathsf{FinList}(\mathsf{BallData}_d)$. For a finite list $I$ of ball data, set
+$$
+\mathsf{OpenAt}_{d,\mathsf{ball}}(I,x)
+:\Longleftrightarrow
+\forall b\in I,\ \mathsf{MetricOpenBall}_d(b)(x).
+$$
+The index operation $I\wedge_{\TopologyUp}J$ is finite-list concatenation $I\mathbin{+\!\!+}J$. Together with the carrier $C$ and classifier $\mathsf{same}_C$, these data are denoted $\mathcal{T}_{d,\mathsf{ball}}$.
+\end{definition}
+\leandef{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhoodCarrier}
+
+\begin{theorem}[Metric balls instantiate indexed topology opens]
+\label{thm:metric-balls-instantiate-indexed-topology-opens}
+Let $C$, $\mathsf{same}_C$, $d$, $<_{\mathsf R}$, and $\mathsf{PosRadius}_{\mathsf R}$ be as in \autoref{def:metric-finite-ball-indexed-topology}. Assume the classifier field of \autoref{def:metric-classifier-specification}: if $\mathsf{same}_C(x,y)$, then $d(c,x)$ and $d(c,y)$ have the same real classifier for every fixed center $c:C$. Assume also that $<_{\mathsf R}$ is stable under that real classifier in its left argument. Then the finite-ball data of \autoref{def:metric-finite-ball-indexed-topology} form an indexed open topology carrier for $\TopologyUp$ in the sense of \autoref{def:topology-indexed-open-carrier}. For every ball datum $b=(c,r,\rho)$, the singleton index $\mathsf{single}(b)$ carries the metric ball:
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}
+(\mathsf{single}(b),\mathsf{MetricOpenBall}_d(b)).
+$$
+Equivalently, for all $x:C$,
+$$
+\mathsf{MetricOpenBall}_d(b)(x)
+\Longleftrightarrow
+\mathsf{OpenAt}_{d,\mathsf{ball}}(\mathsf{single}(b),x),
+$$
+and this ball membership transports under the metric carrier classifier:
+$$
+\mathsf{same}_C(x,y)
+\Longrightarrow
+(\mathsf{MetricOpenBall}_d(b)(x)\Longleftrightarrow\mathsf{MetricOpenBall}_d(b)(y)).
+$$
+\end{theorem}
+\begin{proof}
+First prove classifier transport for one ball datum $b=(c,r,\rho)$. If $\mathsf{same}_C(x,y)$ holds, the metric classifier field gives a real classifier witness between $d(c,x)$ and $d(c,y)$. Stability of $<_{\mathsf R}$ under that real classifier gives
+$$
+d(c,x)<_{\mathsf R}r
+\Longleftrightarrow
+ d(c,y)<_{\mathsf R}r.
+$$
+Unfolding the definition of $\mathsf{MetricOpenBall}_d(b)$ gives the displayed transport equivalence.
+
+For a finite list $I$, apply the one-ball transport equivalence to each ball datum in $I$. Thus the predicate $\mathsf{OpenAt}_{d,\mathsf{ball}}(I,-)$ transports under $\mathsf{same}_C$, which is the membership-stability field required in \autoref{def:topology-indexed-open-carrier}.
+
+The finite-intersection law is the finite-list membership split:
+$$
+\forall b\in I\mathbin{+\!\!+}J,\ \mathsf{MetricOpenBall}_d(b)(x)
+\Longleftrightarrow
+\bigl((\forall b\in I,\ \mathsf{MetricOpenBall}_d(b)(x))\wedge
+(\forall b\in J,\ \mathsf{MetricOpenBall}_d(b)(x))\bigr).
+$$
+After refolding $\mathsf{OpenAt}_{d,\mathsf{ball}}$, this is exactly
+$$
+\mathsf{OpenAt}_{d,\mathsf{ball}}(I\wedge_{\TopologyUp}J,x)
+\Longleftrightarrow
+(\mathsf{OpenAt}_{d,\mathsf{ball}}(I,x)\wedge
+\mathsf{OpenAt}_{d,\mathsf{ball}}(J,x)).
+$$
+
+For the singleton index, finite-list membership has exactly one component, so
+$$
+\mathsf{MetricOpenBall}_d(b)(x)
+\Longleftrightarrow
+\mathsf{OpenAt}_{d,\mathsf{ball}}(\mathsf{single}(b),x).
+$$
+This is the carrying equation of \autoref{def:topology-indexed-open-carried-predicate}. The final classifier-transport statement is the one-ball transport equivalence already proved.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhoodCarrier\_indexed\_open\_laws}
+\leanchecked{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhoodCarrier\_singleton\_ball\_carries}
+\leanchecked{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhood\_singleton\_ledger\_coverage}
+
+\begin{definition}[Metric-generated topology source]
+\label{def:topology-metric-generated-carrier}
+A metric-generated topology source for $\TopologyUp$ consists of a certified $\MetricSpaceUp$ carrier $C$ with classifier $\mathsf{same}_C$, a distance witness $\mathsf{MetricDistanceWitness}(d)$ for $d:C\times C\to\RealUp$, a strict ordered-real comparison $<_{\mathsf R}$, and positive-radius ledgers for both $\RatUp$ and $\RealUp$ radii. Its basic index rows are singleton metric balls $b=(c_b,r_b,\rho_b)$ as in \autoref{def:metric-finite-ball-indexed-topology}. Its finite-base rows are finite lists of such ball data, with intersection represented by finite-list concatenation. Its union rows are indexed arbitrary-union witnesses in the sense of \autoref{def:topology-indexed-arbitrary-union-witness}. Its boundary rows are distinguished empty and whole indices as in \autoref{def:topology-indexed-boundary-open-witnesses}.
+
+The resulting topology carrier is $\mathcal{T}_{d,\mathsf{ball}}$ from \autoref{def:metric-finite-ball-indexed-topology}. The source ledger records, for every public open, the BHist row naming whether the open is a singleton metric ball, a finite-list intersection of metric balls, a binary generated-open meet of already carried generated opens, an arbitrary union of already carried metric opens, the empty open, or the whole open.
+\end{definition}
+
+\begin{theorem}[Metric-generated topology carrier scope]
+\label{thm:topology-metric-generated-carrier-scope}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}. Then the BEDC source, carrier choice, classifier choice, and operation rows of $\mathcal{G}$ are exactly the $\MetricSpaceUp$ carrier $C$, the carrier classifier $\mathsf{same}_C$, the distance witness $\mathsf{MetricDistanceWitness}(d)$, the ordered $\RealUp$ comparison $<_{\mathsf R}$, positive $\RatUp$ and $\RealUp$ radius ledgers, finite-list metric-ball indices, indexed union witnesses, and boundary indices. No open row is selected from an external powerset or quotient.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhoodCarrier\_scope\_rows}
+\begin{proof}
+Unfold the metric-generated source of \autoref{def:topology-metric-generated-carrier}. Its first row is the certified metric carrier $C$ with classifier $\mathsf{same}_C$, followed by the distance witness, ordered-real comparison, and positive-radius ledgers named in the statement.
+
+Unfold the topology carrier $\mathcal{T}_{d,\mathsf{ball}}$ from \autoref{def:metric-finite-ball-indexed-topology}. The open index object is $\mathsf{FinList}(\mathsf{BallData}_d)$, the membership predicate is finite-list ball membership, and finite intersection is finite-list concatenation.
+
+The remaining source rows are exactly the indexed arbitrary-union witnesses and the boundary indices named in \autoref{def:topology-metric-generated-carrier}. Since every admitted open is introduced through one of these rows, the construction has no separate powerset selection and no quotient carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhoodCarrier\_meet\_scope\_rows}
+
+\begin{theorem}[Metric-generated topology classifier scope]
+\label{thm:topology-metric-generated-classifier-scope}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}. Singleton metric balls, finite-list intersections, binary generated-open meets, supplied arbitrary unions, and boundary opens all transport membership along the metric carrier classifier $\mathsf{same}_C$. Thus every classifier-stability obligation exposed by the metric-generated $\TopologyUp$ source is discharged by the displayed indexed-open rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyLedgerRow\_classifier\_transport}
+\begin{proof}
+Singleton metric balls transport along $\mathsf{same}_C$ by \autoref{thm:topology-metric-base-open-transport}. That theorem also identifies each singleton ball index as a carried open of $\mathcal{T}_{d,\mathsf{ball}}$.
+
+Finite intersections transport by \autoref{thm:topology-metric-base-intersection}. Its conclusion applies the generic finite-intersection classifier transport to the concatenated finite-list index.
+
+Binary generated-open meets transport by \autoref{thm:topology-indexed-open-finite-intersection}, applied to the carried indices of the two admitted generated opens.
+
+Supplied arbitrary unions transport by \autoref{thm:topology-indexed-open-arbitrary-union}. Boundary opens transport by \autoref{thm:topology-indexed-open-boundary-closure}. These rows cover exactly the public open constructors named by the metric-generated source, so no additional classifier-stability field is required.
+\end{proof}
+
+\begin{theorem}[Metric-generated topology ledger scope]
+\label{thm:topology-metric-generated-ledger-scope}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}, equipped with indexed arbitrary-union witnesses and indexed boundary open witnesses. Every public open admitted by $\mathcal{G}$ carries a visible BHist provenance row of exactly one of the displayed constructors: singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, empty open, or whole open. Composite rows preserve the constructor provenance of their inputs, and no unindexed open is admitted.
+\end{theorem}
+\begin{proof}
+The ledger sentence in \autoref{def:topology-generated-open-exactness} assigns a BHist row to every public open accepted by the generated-open package. The possible row names are precisely singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, empty open, and whole open.
+
+The constructor rows used by \autoref{thm:topology-metric-generated-namecert-surface} give the corresponding witnesses. Singleton metric-ball rows come from \autoref{thm:topology-metric-base-open-transport}, finite-list intersection rows from \autoref{thm:topology-metric-base-intersection}, binary generated-open meet rows from \autoref{thm:topology-indexed-open-finite-intersection}, arbitrary-union rows from \autoref{thm:topology-indexed-open-arbitrary-union}, and boundary rows from \autoref{thm:topology-indexed-open-boundary-closure}.
+
+For a composite row, the certificate records both the outer constructor and the input rows it combines. Therefore the provenance visible at the public surface remains one of the displayed constructor rows, and an open predicate without an index and ledger row is not admitted by $\mathcal{G}$.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistLedgerPublicOpenTree\_meet\_ledger\_constructor}
+
+\begin{theorem}[Metric-generated base-open transport]
+\label{thm:topology-metric-base-open-transport}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}. For every metric ball datum $b=(c,r,\rho)$ and points $x,y:C$, metric classifier equality of the points transports basic open membership:
+$$
+\mathsf{same}_C(x,y)
+\Longrightarrow
+\bigl(\mathsf{MetricOpenBall}_d(b)(x)\Longleftrightarrow\mathsf{MetricOpenBall}_d(b)(y)\bigr).
+$$
+Equivalently, the singleton index $\mathsf{single}(b)$ carries the metric ball in the indexed topology carrier $\mathcal{T}_{d,\mathsf{ball}}$:
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}
+(\mathsf{single}(b),\mathsf{MetricOpenBall}_d(b)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the construction of $\mathcal{T}_{d,\mathsf{ball}}$ from \autoref{def:metric-finite-ball-indexed-topology}. Its carrier, classifier, finite-list indices, and membership predicate are exactly the rows named by the metric-generated source.
+
+The transport field is supplied by \autoref{thm:metric-balls-instantiate-indexed-topology-opens}. That theorem uses the metric point classifier and the ordered-real stability ledger to transport the inequality $d(c,x)<_{\mathsf R}r$ to $d(c,y)<_{\mathsf R}r$.
+
+The same theorem states the singleton carrying equation, while \autoref{def:topology-indexed-open-carrier} and \autoref{def:topology-indexed-open-carried-predicate} identify that equation as a carried open of the $\TopologyUp$ indexed carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistMetricBaseOpen\_singleton\_ledger\_coverage}
+
+\begin{theorem}[Metric-generated finite-base intersection]
+\label{thm:topology-metric-base-intersection}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}. Let $I$ and $J$ be finite lists of metric ball data, and let $U_I,V_J:C\to\mathsf{Prop}$ be the predicates carried by $I$ and $J$ in $\mathcal{T}_{d,\mathsf{ball}}$. Then the concatenated finite list $I\mathbin{+\!\!+}J$ carries the generated finite-base intersection:
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}(I,U_I)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}(J,V_J)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}
+(I\mathbin{+\!\!+}J,U_I\cap V_J).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhood\_bundleAppend\_carries\_intersection}
+\begin{proof}
+The metric-generated source uses finite lists as the index object and finite-list concatenation as the operation $I\wedge_{\TopologyUp}J$. Thus $I\mathbin{+\!\!+}J$ is the certificate index named by the finite-intersection row of \autoref{def:metric-finite-ball-indexed-topology}.
+
+Apply \autoref{thm:topology-indexed-open-finite-intersection} to the indexed open carrier $\mathcal{T}_{d,\mathsf{ball}}$ supplied by \autoref{thm:metric-balls-instantiate-indexed-topology-opens}. The two carrying hypotheses for $I$ and $J$ are repacked into the carried predicate $U_I\cap V_J$.
+
+The classifier transport for the resulting intersection is the transport conclusion of \autoref{thm:topology-indexed-open-finite-intersection}, specialized to the metric classifier $\mathsf{same}_C$.
+\end{proof}
+
+\begin{theorem}[Metric-generated TopologyUp obligation surface]
+\label{thm:topology-metric-generated-namecert-surface}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}, equipped with indexed arbitrary-union witnesses for all families of generated metric opens and indexed boundary open witnesses $\bot_{\TopologyUp}$ and $\top_{\TopologyUp}$. Then $\mathcal{G}$ supplies the concrete $\NameCert_{\TopologyUp}$ obligation surface: the metric carrier $C$, classifier transport for metric-basic opens, singleton metric-ball coverage, finite intersections by concatenated ball lists, binary meets of already carried generated opens, arbitrary unions by supplied union indices, empty and whole opens by boundary indices, and a visible BHist ledger naming the constructor row used for each carried open.
+\end{theorem}
+\begin{proof}
+The carrier row is $C$ with classifier $\mathsf{same}_C$. By \autoref{def:topology-metric-generated-carrier} and \autoref{def:metric-finite-ball-indexed-topology}, these data form the indexed topology carrier $\mathcal{T}_{d,\mathsf{ball}}$.
+
+Singleton metric-ball coverage and classifier transport are supplied by \autoref{thm:topology-metric-base-open-transport}. This gives the base-open row of the certificate without selecting opens from an external powerset.
+
+Finite intersections are supplied by \autoref{thm:topology-metric-base-intersection}. The certificate index for the intersection is the concatenated finite list, so the ledger names the finite-list constructor and the two source rows it combines.
+
+Binary generated-open meets are supplied by the indexed-open finite-intersection operation on the carried indices of already admitted generated opens. The ledger row records both source witnesses and the meet index, so the composite open remains inside the visible certificate surface.
+
+Arbitrary unions are supplied by the indexed union witnesses of the source and repacked through \autoref{thm:topology-indexed-open-arbitrary-union}. Boundary opens are supplied by the distinguished indices and the closure theorem of \autoref{thm:topology-indexed-open-boundary-closure}.
+
+The remaining obligation is provenance. The source ledger records one BHist row for each accepted open predicate: singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, empty open, or whole open. These rows account for the carrier, classifier, base coverage, closure, boundary, and ledger fields of the concrete $\NameCert_{\TopologyUp}$ surface.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistFiniteBaseNeighborhoodCarrier\_metric\_generated\_namecert\_surface}
+\leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyLedgerRow\_metric\_generated\_obligation\_surface}
+
+\begin{definition}[Generated-open exactness package]
+\label{def:topology-generated-open-exactness}
+Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}, with carrier $C$, classifier $\mathsf{same}_C$, indexed topology carrier $\mathcal{T}_{d,\mathsf{ball}}$, indexed arbitrary-union witnesses, and indexed boundary open witnesses. A predicate $U:C\to\mathsf{Prop}$ is admitted by the generated-open exactness package, written $\mathsf{GenOpenExact}_{\mathcal{G}}(U)$, exactly when there is a visible BHist ledger row $r$ carrying $U$ and $r$ is one of the six constructor rows:
+$$
+\begin{gathered}
+\mathsf{singleton\ metric\ ball},\qquad
+\mathsf{finite\mbox{-}list\ intersection},\qquad
+\mathsf{binary\ generated\mbox{-}open\ meet},\\
+\mathsf{arbitrary\ union},\qquad
+\mathsf{empty\ open},\qquad
+\mathsf{whole\ open}.
+\end{gathered}
+$$
+Equivalently, $U$ is admitted iff some row $r$ of these six forms supplies an index $i_r:\mathsf{OpenIx}$ and a carrying equation
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}(i_r,U).
+$$
+The binary generated-open meet row has, as displayed data, two admitted generated-open witnesses for $U$ and $V$, their carried indices $i_U$ and $i_V$, and the meet index $i_U\wedge_{\TopologyUp}i_V$ carrying $U\cap V$.
+
+The package has the following ten fields. The traditional target is the indexed family of topology opens. The BEDC source is $\MetricSpaceUp$ together with $\RealUp$ and $\RatUp$ positive-radius ledgers and the BHist ledger rows. The carrier is $C$. The classifier is $\mathsf{same}_C$. Stability is indexed-open membership transport along $\mathsf{same}_C$. The ledger is exactly the six-row constructor ledger displayed above. The core theorem list is \autoref{thm:topology-generated-open-row-coverage}, \autoref{thm:topology-generated-open-classification-soundness}, and \autoref{thm:topology-generated-open-classification-completeness}. The exactness predicate is the conjunction of row coverage, classification soundness, and classification completeness. The standard bridge is the usual metric-generated topology obtained from open balls, finite intersections, binary generated-open meets, arbitrary unions, and boundary opens. The status is a paper proof target for the $\TopologyUp$ exactness contract.
+\end{definition}
+\leandef{BEDC.Derived.TopologyUp.BHistGeneratedOpenExact}
+
+\begin{theorem}[Generated-open row coverage]
+\label{thm:topology-generated-open-row-coverage}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. If $U:C\to\mathsf{Prop}$ satisfies $\mathsf{GenOpenExact}_{\mathcal{G}}(U)$, then $U$ has a visible ledger witness of one of the six displayed row forms: singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, empty open, or whole open. In particular, no external powerset row and no unindexed open predicate is admitted by the exactness package.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistGeneratedOpenExact\_row\_coverage}
+\begin{proof}
+Unfold $\mathsf{GenOpenExact}_{\mathcal{G}}(U)$ from \autoref{def:topology-generated-open-exactness}. The definition admits $U$ only by exhibiting a BHist row $r$, an index $i_r$, and a carrying equation for $U$.
+
+The same definition restricts $r$ to the six constructor rows listed in the metric-generated ledger. Therefore the witness is a singleton metric-ball row, a finite-list intersection row, a binary generated-open meet row, an arbitrary-union row, an empty-open row, or a whole-open row.
+
+An external powerset row is not among these constructors. Since admission is by one of the displayed rows together with a carried index, an unindexed predicate has no route into $\mathsf{GenOpenExact}_{\mathcal{G}}$.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistGeneratedOpenExact\_public\_open\_witness}
+\leanchecked{BEDC.Derived.TopologyUp.BHistLedgerGeneratedOpen\_row\_coverage}
+
+\begin{theorem}[Generated-open classification soundness]
+\label{thm:topology-generated-open-classification-soundness}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. If a visible generated-open row $r$ carries $U:C\to\mathsf{Prop}$, then $U$ transports under the metric carrier classifier:
+$$
+\mathsf{same}_C(x,y)
+\Longrightarrow
+\bigl(U(x)\Longleftrightarrow U(y)\bigr).
+$$
+The transport is obtained by cases on the row constructor named by $r$.
+\end{theorem}
+\begin{proof}
+Fix a carried row $r$ and assume $\mathsf{same}_C(x,y)$. We distinguish the six possible constructors supplied by \autoref{def:topology-generated-open-exactness}.
+
+\begin{enumerate}
+\item If $r$ is a singleton metric-ball row, use \autoref{thm:topology-metric-base-open-transport}. Its transport clause moves the metric-ball inequality along $\mathsf{same}_C$, and its carrying equation identifies that ball predicate with $U$.
+
+\item If $r$ is a finite-list intersection row, use \autoref{thm:topology-metric-base-intersection}. The theorem supplies the concatenated finite-list carrier for the intersection and gives classifier transport for the carried intersection predicate.
+
+\item If $r$ is a binary generated-open meet row, unpack the two carried generated-open inputs and their indices $i_U,i_V$. Apply \autoref{thm:topology-indexed-open-finite-intersection} to the indexed carrier $\mathcal{T}_{d,\mathsf{ball}}$; the meet index $i_U\wedge_{\TopologyUp}i_V$ carries the pointwise intersection and transports it along $\mathsf{same}_C$.
+
+\item If $r$ is an arbitrary-union row, use \autoref{thm:topology-indexed-open-arbitrary-union}. The union index carries the supplied family union, and the theorem transports the existential membership predicate through the same carrier classifier.
+
+\item If $r$ is the empty-open row, use \autoref{thm:topology-indexed-open-boundary-closure}. The bottom boundary index carries the empty predicate, so both directions of the displayed equivalence are vacuous after transport.
+
+\item If $r$ is the whole-open row, again use \autoref{thm:topology-indexed-open-boundary-closure}. The top boundary index carries the whole carrier predicate, and the theorem gives classifier transport for that carried predicate.
+\end{enumerate}
+
+These cases exhaust the generated-open ledger by \autoref{thm:topology-generated-open-row-coverage}, hence every row witness carrying $U$ is classifier-stable.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistGeneratedOpen\_classifier\_transport}
+
+\begin{theorem}[Generated-open classification completeness]
+\label{thm:topology-generated-open-classification-completeness}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. Singleton metric balls, finite-list intersections of metric-ball rows, binary finite intersections of carried generated opens, supplied arbitrary unions of carried generated opens, the empty open, and the whole open are all admitted by $\mathsf{GenOpenExact}_{\mathcal{G}}$. In each case, the admission witness is the corresponding visible BHist ledger row.
+\end{theorem}
+\begin{proof}
+For a singleton metric ball, choose the singleton metric-ball row. Its index is $\mathsf{single}(b)$, and the carrying equation is supplied by \autoref{thm:topology-metric-base-open-transport}.
+
+For a finite-list intersection of metric-ball rows, choose the finite-list intersection row. The row records the two finite-list indices and the concatenated finite-list index, and \autoref{thm:topology-metric-base-intersection} supplies the carrying equation for the intersection predicate.
+
+For a binary finite intersection of carried generated opens, unpack the two generated-open witnesses to obtain their carried indices $i_U$ and $i_V$. Choose the binary generated-open meet row. The generic closure theorem \autoref{thm:topology-indexed-open-finite-intersection} supplies the carrying equation for $i_U\wedge_{\TopologyUp}i_V$ and the predicate $U\cap V$.
+
+For a supplied arbitrary union, choose the arbitrary-union row. The supplied union index and the family of carried generated opens are repacked by \autoref{thm:topology-indexed-open-arbitrary-union}, giving the carrying equation required by \autoref{def:topology-generated-open-exactness}.
+
+For the empty open and the whole open, choose the two boundary rows. The bottom and top indices carry these predicates by \autoref{thm:topology-indexed-open-boundary-closure}.
+
+Each chosen row is one of the six visible constructors in the exactness package, so each listed predicate satisfies $\mathsf{GenOpenExact}_{\mathcal{G}}$.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.TopologyPublicOpenTree\_generated\_open\_exactness}
+
+\begin{theorem}[Generated-open binary meet row]
+\label{thm:topology-generated-open-binary-meet-row}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. If $U,V:C\to\mathsf{Prop}$ have generated-open exactness witnesses, then those witnesses determine a visible binary generated-open meet row. Its data are carried indices $i_U,i_V:\mathsf{OpenIx}$ for $U$ and $V$ and the meet index $i_U\wedge_{\TopologyUp}i_V$ carrying $U\cap V$:
+$$
+\mathsf{GenOpenExact}_{\mathcal{G}}(U)
+\Longrightarrow
+\mathsf{GenOpenExact}_{\mathcal{G}}(V)
+\Longrightarrow
+\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}(i_U\wedge_{\TopologyUp}i_V,U\cap V).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistGeneratedOpenExact\_binary\_meet\_row}
+\begin{proof}
+Unpack the generated-open witness for $U$. By \autoref{def:topology-generated-open-exactness}, it supplies a visible ledger row, an index $i_U$, and a carrying equation $\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}(i_U,U)$.
+
+Unpack the generated-open witness for $V$ in the same way, obtaining $i_V$ and $\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}(i_V,V)$.
+
+Apply \autoref{thm:topology-indexed-open-finite-intersection} to these two carried indices in the indexed topology carrier $\mathcal{T}_{d,\mathsf{ball}}$. The theorem returns exactly the carrying equation for $i_U\wedge_{\TopologyUp}i_V$ and the predicate $U\cap V$.
+
+The binary generated-open meet row records the two source generated-open witnesses, the two displayed indices, and this meet-index carrying equation. Therefore the row is visible in the BHist ledger rather than an unrecorded powerset construction.
+\end{proof}
+
+\begin{theorem}[Generated-open binary meet admission]
+\label{thm:topology-generated-open-binary-meet-admission}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. For predicates $U,V:C\to\mathsf{Prop}$,
+$$
+\mathsf{GenOpenExact}_{\mathcal{G}}(U)
+\Longrightarrow
+\mathsf{GenOpenExact}_{\mathcal{G}}(V)
+\Longrightarrow
+\mathsf{GenOpenExact}_{\mathcal{G}}(U\cap V).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistGeneratedOpen\_binary\_meet\_admission}
+\begin{proof}
+Assume generated-open exactness witnesses for $U$ and $V$. By \autoref{thm:topology-generated-open-binary-meet-row}, these witnesses determine the binary generated-open meet row with index $i_U\wedge_{\TopologyUp}i_V$ carrying $U\cap V$.
+
+Choose that row as the admission witness in \autoref{def:topology-generated-open-exactness}. Since the binary generated-open meet is one of the six displayed constructor rows, the predicate $U\cap V$ satisfies $\mathsf{GenOpenExact}_{\mathcal{G}}$.
+\end{proof}
+
+\begin{theorem}[Generated-open six-row exactness package]
+\label{thm:topology-generated-open-six-row-exactness-package}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}. The row coverage theorem, classification soundness theorem, and classification completeness theorem for $\mathsf{GenOpenExact}_{\mathcal{G}}$ range over exactly the six-row ledger: singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, empty open, and whole open. This package admits no external powerset row.
+\end{theorem}
+\begin{proof}
+Row coverage is \autoref{thm:topology-generated-open-row-coverage}: every admitted predicate has one of the six displayed row witnesses and no unindexed predicate is accepted.
+
+Classification soundness is \autoref{thm:topology-generated-open-classification-soundness}. Its proof treats all six row constructors, including the binary generated-open meet row through the indexed finite-intersection theorem.
+
+Classification completeness is \autoref{thm:topology-generated-open-classification-completeness}, with the binary admission step isolated in \autoref{thm:topology-generated-open-binary-meet-admission}. The exactness package is therefore closed under the certificate meet operation by a visible BHist row, with no appeal to an external powerset constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistGeneratedOpen\_six\_row\_exactness\_package}
+
+\begin{theorem}[Metric-generated TopologyUp public certificate]
+\label{thm:topology-metric-generated-public-certificate}
+Let $\mathcal{G}$ be a metric-generated topology source equipped as in \autoref{def:topology-generated-open-exactness}, with indexed arbitrary-union witnesses and indexed boundary open witnesses. Then $\mathcal{G}$ exports the public $\NameCert_{\TopologyUp}$ surface for downstream consumers: the displayed $\MetricSpaceUp$ carrier $C$ and classifier $\mathsf{same}_C$ come from \autoref{thm:topology-metric-generated-namecert-surface}, while row coverage, classification soundness, and classification completeness for the generated opens come from \autoref{thm:topology-generated-open-six-row-exactness-package}. The exported ledger rows are exactly singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, empty open, and whole open.
+
+Downstream use of this certificate is restricted to the displayed $\MetricSpaceUp$ carrier, the $\RealUp$ ordered-radius comparison, the $\RatUp$ and $\RealUp$ positive-radius ledgers, the indexed union witnesses, the boundary witnesses, and the visible BHist ledger rows. It admits no external powerset row and no quotient carrier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topology-metric-generated-namecert-surface} to the metric-generated source. This supplies the carrier, classifier, classifier-stability rows, singleton metric-ball row, finite-list intersection row, generated-open meet row, union row, boundary rows, and visible ledger discipline for the concrete $\NameCert_{\TopologyUp}$ obligation surface.
+
+Apply \autoref{thm:topology-generated-open-six-row-exactness-package} to the same source. Its three components provide the row coverage, classification soundness, and classification completeness clauses for $\mathsf{GenOpenExact}_{\mathcal{G}}$, and its statement restricts exactness to the six displayed rows.
+
+Read the indexed boundary witness data through \autoref{def:topology-indexed-boundary-open-witnesses}. The distinguished bottom and top indices account for the empty-open and whole-open rows, so those boundary clauses are part of the exported certificate rather than separate powerset choices.
+
+Packaging these pieces gives the public downstream surface: carrier and classifier data from the obligation-surface theorem, exactness from the six-row package, boundary rows from the indexed witnesses, and provenance from the BHist ledger. The only exported carrier is $C$, and every accepted open predicate is carried by one of the displayed indexed rows, so quotient carriers and external powerset rows have no entry point into the certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistGeneratedOpen\_semantic\_name\_certificate}
+
+Fit: traditional target, indexed topology opens; BEDC source, $\MetricSpaceUp$ with $\RealUp$ and $\RatUp$ radius ledgers; carrier choice, the displayed metric carrier $C$; classifier choice, $\mathsf{same}_C$; stability obligations, indexed-open transport along $\mathsf{same}_C$; ledger, the six visible BHist rows; core theorem list, \autoref{thm:topology-metric-generated-namecert-surface} and \autoref{thm:topology-generated-open-six-row-exactness-package}; exactness predicate, $\mathsf{GenOpenExact}_{\mathcal{G}}$; standard bridge status, the usual metric-generated topology surface; status, public paper certificate for downstream $\TopologyUp$ use.
+
+\begin{definition}[Indexed boundary open witnesses]

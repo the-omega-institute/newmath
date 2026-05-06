@@ -98,3 +98,89 @@ scalar endpoint as $A_{i,j}\cdot_RB_{j,k}$. Fold congruence from
 \autoref{thm:finite-additive-fold-congruence-coefficient-lists} compares the two
 folds, and the pointwise matrix classifier packages the transpose law.
 \end{proof}
+
+\begin{theorem}[Matrix addition commutativity from scalar additive commutativity]
+\label{thm:matrix-addition-commutativity-from-scalar-additive-commutativity}
+Let $R$ carry a scalar $\RingUp(R)$ certificate with classifier $\sim_R$ and addition $+_R$. Assume the additive abelian-group rows retained in \autoref{def:ring-stability-certificate}, in particular the scalar additive commutativity row
+$$
+a+_R b\sim_R b+_R a
+$$
+for all carried scalar endpoints $a,b$. Let $n,m:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. For carried matrices
+$$
+A,B:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
+$$
+assume matrix addition is the pointwise operation
+$$
+(X+Y)_{i,j}:=X_{i,j}+_R Y_{i,j}
+$$
+using the addition closure row of \autoref{def:matrix-stability-certificate}. Then both $A+B$ and $B+A$ are carried matrices and
+$$
+A+B\sim_{\mathrm{Mat}}B+A.
+$$
+\end{theorem}
+\begin{proof}
+The addition closure row of \autoref{def:matrix-stability-certificate} carries $A+B$ from the carried inputs $A$ and $B$, and carries $B+A$ from the same inputs in the opposite order.
+
+By \autoref{def:matrix-classifier-specification}, it remains to compare corresponding scalar entries. Fix $i:\mathsf{Fin}(n)$ and $j:\mathsf{Fin}(m)$. Since $A$ and $B$ are carried matrices, the entries $A_{i,j}$ and $B_{i,j}$ are carried scalar endpoints. The pointwise addition rule gives
+$$
+(A+B)_{i,j}=A_{i,j}+_R B_{i,j}
+$$
+and
+$$
+(B+A)_{i,j}=B_{i,j}+_R A_{i,j}.
+$$
+The scalar additive commutativity row retained in \autoref{def:ring-stability-certificate} gives
+$$
+A_{i,j}+_R B_{i,j}\sim_R B_{i,j}+_R A_{i,j}.
+$$
+Substituting the two pointwise addition clauses gives
+$$
+(A+B)_{i,j}\sim_R(B+A)_{i,j}.
+$$
+Since $i$ and $j$ were arbitrary, \autoref{def:matrix-classifier-specification} packages these entrywise scalar comparisons as
+$$
+A+B\sim_{\mathrm{Mat}}B+A.
+$$
+The dimensions and scalar source are unchanged throughout, and \autoref{def:matrix-ledger-policy} records the same row and column witnesses for the two pointwise sums.
+\end{proof}
+
+\begin{theorem}[Matrix addition associativity from scalar additive associativity]
+\label{thm:matrix-addition-associativity-from-scalar-additive-associativity}
+Let $R$ carry a scalar $\RingUp(R)$ certificate with classifier $\sim_R$ and addition $+_R$. Assume the additive abelian-group rows retained in \autoref{def:ring-stability-certificate}, in particular the scalar additive associativity row
+$$
+(a+_R b)+_R c\sim_R a+_R(b+_R c)
+$$
+for all carried scalar endpoints $a,b,c$. Let $n,m:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. For carried matrices
+$$
+A,B,C:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
+$$
+assume matrix addition is the pointwise operation
+$$
+(X+Y)_{i,j}:=X_{i,j}+_R Y_{i,j}
+$$
+using the addition closure row of \autoref{def:matrix-stability-certificate}. Then $A+B$, $B+C$, $(A+B)+C$, and $A+(B+C)$ are carried matrices, and
+$$
+(A+B)+C\sim_{\mathrm{Mat}}A+(B+C).
+$$
+\end{theorem}
+\begin{proof}
+The addition closure row of \autoref{def:matrix-stability-certificate} carries $A+B$ and $B+C$ from the carried inputs. Applying the same row once more carries $(A+B)+C$ and $A+(B+C)$.
+
+By \autoref{def:matrix-classifier-specification}, it remains to compare corresponding scalar entries. Fix $i:\mathsf{Fin}(n)$ and $j:\mathsf{Fin}(m)$. Since $A$, $B$, and $C$ are carried matrices, the entries $A_{i,j}$, $B_{i,j}$, and $C_{i,j}$ are carried scalar endpoints. The pointwise addition rule gives
+$$
+((A+B)+C)_{i,j}=(A_{i,j}+_R B_{i,j})+_R C_{i,j}
+$$
+and
+$$
+(A+(B+C))_{i,j}=A_{i,j}+_R(B_{i,j}+_R C_{i,j}).
+$$
+The scalar additive associativity row retained in \autoref{def:ring-stability-certificate} therefore gives
+$$
+((A+B)+C)_{i,j}\sim_R(A+(B+C))_{i,j}.
+$$
+Since $i$ and $j$ were arbitrary, \autoref{def:matrix-classifier-specification} packages these entrywise scalar comparisons as
+$$
+(A+B)+C\sim_{\mathrm{Mat}}A+(B+C).
+$$
+The row and column witnesses are unchanged throughout, so \autoref{def:matrix-ledger-policy} records the same dimension ledger for the two parenthesized pointwise sums.
+\end{proof}

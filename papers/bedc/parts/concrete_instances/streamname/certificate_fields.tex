@@ -60,6 +60,7 @@ history-sameness witnesses at $(n,\nu)$. The transported carrier rows and the
 transported pointwise classifier row repack as
 $\mathsf{RatStreamNameClassifier}(s',t')$.
 \end{proof}
+
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields}
 
 \begin{theorem}[Rational stream-name observation one-tail pair readback]
@@ -109,6 +110,7 @@ $$
 (\hsame(t(n),\Ezero(z_t))\to\mathsf{False}).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameClassifier\_observation\_shape\_exclusions}
 \begin{proof}
 Read the stream-name classifier at the certified observation $(n,\nu)$, where
 $\nu:\mathsf{UnaryHistory}(n)$. Apply
@@ -157,6 +159,7 @@ Then the following selected-observation endpoint package holds:
   \hsame(a,b)$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameClassifier\_observation\_full\_endpoint\_package}
 \begin{proof}
 Unpack \autoref{def:rat-stream-name-classifier} at the certified observation
 $(n,\nu)$, where $\nu:\mathsf{UnaryHistory}(n)$. The pointwise row gives
@@ -221,6 +224,7 @@ $$
 (\hsame(t'(n),\Ezero(z_t))\to\mathsf{False}).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameClassifier\_transported\_observation\_shape\_exclusions}
 \begin{proof}
 Read the stream-name classifier at the certified observation $(n,\nu)$, where
 $\nu:\mathsf{UnaryHistory}(n)$. This gives the point classifier
@@ -441,6 +445,47 @@ RatUp classifier rows repack exactly as
 $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name finite windows exhaust the classifier]
+\label{thm:rat-stream-name-finite-window-exhausts-classifier}
+For certified observation maps $s,t:\Hist\to\Hist$,
+$$
+\mathsf{RatStreamNameClassifier}(s,t)
+\Longleftrightarrow
+\forall n:\Hist,\ \mathsf{UnaryHistory}(n)\to
+\mathsf{RatStreamNameFiniteWindowClassifier}
+(s,t,\Bcons(n,\Bnil)).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameFiniteWindowClassifier\_exhausts\_classifier}
+\begin{proof}
+For the forward implication, fix a certified unary observation $n$. Apply
+\autoref{thm:rat-stream-name-finite-window-from-classifier} to the full
+stream-name classifier and to the singleton bundle $\Bcons(n,\Bnil)$. This
+gives the required finite-window classifier at that observation.
+
+For the reverse implication, fix a certified unary observation $n$. The
+singleton-window hypothesis at $n$, together with the head membership of
+$n$ in $\Bcons(n,\Bnil)$ from
+\autoref{def:bundle-generation}, gives
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+The carrier fields of this RatUp classifier provide
+$\mathsf{RatHistoryCarrier}(s(n))$ and
+$\mathsf{RatHistoryCarrier}(t(n))$. Since $n$ was arbitrary, these fields
+assemble the two stream-name carriers, and the same pointwise RatUp classifier
+rows assemble $\mathsf{RatStreamNameClassifier}(s,t)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite-window exhaustion; BEDC source
+$\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$; carrier the existing stream-name
+carrier rows for $s$ and $t$; classifier the existing pointwise stream-name
+classifier row; stability singleton-window coverage over certified unary
+observations; ledger the singleton observation bundle $\Bcons(n,\Bnil)$;
+core theorem \autoref{thm:rat-stream-name-finite-window-from-classifier};
+exactness singleton membership in the probe bundle; downstream
+$\RealUp/\RegSeqRat$ finite-prefix consumption; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rational stream-name finite-window coverage after certified reindexing and point maps]
 \label{thm:rat-stream-name-finite-window-reindexed-map-coverage}
 For certified observation maps $s,t,r:\Hist\to\Hist$, a history point map
@@ -540,6 +585,117 @@ cases yield the same required conclusion
 $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name finite-window selected zero-head exclusion]
+\label{thm:rat-stream-name-finite-window-selected-zero-head-exclusion}
+For certified observation maps $s,t:\Hist\to\Hist$, a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, an observation history $n$, and histories
+$z_s,z_t:\Hist$, suppose
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}),
+\quad
+\mathsf{InBundle}(n,\mathcal{P}),
+\quad
+\mathsf{UnaryHistory}(n).
+$$
+Then the selected finite-window endpoints cannot be zero-headed:
+$$
+(\hsame(s(n),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t(n),\Ezero(z_t))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier} at the
+selected observation $n$, its bundle membership, and its unary witness. This
+produces the selected RatUp point classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to this
+selected classifier. The result supplies positive-denominator witnesses for
+both selected endpoint histories $s(n)$ and $t(n)$.
+
+For the left endpoint, assume a displayed zero-headed comparison
+$\hsame(s(n),\Ezero(z_s))$. Transport the positive-denominator witness for
+$s(n)$ along that comparison by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}. The transported
+witness contradicts \autoref{thm:rat-positive-denominator-e0-absurd}.
+
+For the right endpoint, the same argument applied to
+$\hsame(t(n),\Ezero(z_t))$ transports the positive-denominator witness for
+$t(n)$ to a zero-headed denominator witness, again contradicting
+\autoref{thm:rat-positive-denominator-e0-absurd}. These two contradictions
+give the displayed conjunction.
+\end{proof}
+
+The compact ten-field fit is: traditional target finite rational observation
+endpoint sanity; BEDC source $\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$;
+carrier observation maps; classifier finite-window restriction; ledger
+selected probe observation; exactness selected RatUp point classification;
+downstream $\RealUp/\RegSeqRat$ selected endpoint normalization; standard
+bridge ordinary finite rational stream endpoints; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rational stream-name finite-window selected full endpoint package]
+\label{thm:rat-stream-name-finite-window-selected-full-endpoint-package}
+For certified observation maps $s,t:\Hist\to\Hist$, a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, an observation history $n$, and histories
+$a,b,z_s,z_t:\Hist$, suppose
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}),
+\quad
+\mathsf{InBundle}(n,\mathcal{P}),
+\quad
+\mathsf{UnaryHistory}(n),
+$$
+and suppose the selected observations are displayed as one-extension endpoints
+$$
+\hsame(s(n),\Eone(a))\quad\text{and}\quad \hsame(t(n),\Eone(b)).
+$$
+Then the selected finite-window endpoints carry the full endpoint package:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+  \item $\mathsf{PositiveUnaryDenominator}(s(n))\land
+  \mathsf{PositiveUnaryDenominator}(t(n))$.
+  \item $\mathsf{UnaryHistory}(s(n))\land\mathsf{UnaryHistory}(t(n))$.
+  \item $(\hsame(s(n),\emp)\to\mathsf{False})\land
+  (\hsame(t(n),\emp)\to\mathsf{False})$.
+  \item $(\hsame(s(n),\Ezero(z_s))\to\mathsf{False})\land
+  (\hsame(t(n),\Ezero(z_t))\to\mathsf{False})$.
+  \item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land
+  \hsame(a,b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier} at the
+selected observation $n$, its bundle membership, and its unary witness. This
+gives the selected point classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to this
+selected classifier. Then apply
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to the
+two positive-denominator witnesses. These rows give the two positive
+denominators, the two unary endpoint histories, and the two exclusions against
+$\emp$.
+
+It remains to exclude zero-headed displays. If
+$\hsame(s(n),\Ezero(z_s))$ holds, transport the positive-denominator witness for
+$s(n)$ along that sameness by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}, then contradict
+\autoref{thm:rat-positive-denominator-e0-absurd}. The same argument applied to
+$t(n)$ and $z_t$ gives the second zero-headed exclusion.
+
+For the one-tail readback, transport the selected point classifier across the
+two displayed one-extension endpoint comparisons, using
+\autoref{thm:rat-history-classifier-hsame-transport}. The transported
+classifier is $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+
+Apply \autoref{thm:rat-history-classifier-e1-tail-unary-iff} in the forward
+direction to read back $\mathsf{UnaryHistory}(a)$,
+$\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$. The selected classifier, shape
+rows, zero-headed exclusions, and one-tail readback rows are exactly the listed
+endpoint package.
+\end{proof}
+
 \begin{theorem}[Rational stream-name finite-window stability fields]
 \label{thm:rat-stream-name-finite-window-stability-fields}
 For certified observation maps $s,t,u,s',t':\Hist\to\Hist$ and a probe bundle
@@ -597,6 +753,7 @@ the same bundled unary observation. RatUp point classifier transport along
 these two $\hsame$ rows gives
 $\mathsf{RatHistoryClassifier}(s'(n),t'(n))$.
 \end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameFiniteWindowClassifier\_stability\_fields}
 
 The ten-field fit is: traditional target finite rational observation-window
 stability; BEDC source $\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$; carrier

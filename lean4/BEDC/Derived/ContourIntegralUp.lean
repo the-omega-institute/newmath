@@ -59,4 +59,27 @@ theorem PLContourSegment_hsame_transport {gamma gamma' : BHist} :
                           (And.intro z1Carrier z0z1'))))
                     gammaUnary'
 
+inductive PLContour : BHist -> Prop where
+  | segment {gamma : BHist} : PLContourSegment gamma -> PLContour gamma
+  | concat {left right out : BHist} :
+      PLContour left -> PLContour right -> Cont left right out -> PLContour out
+
+theorem PLContour_concat_closed {left right out : BHist} :
+    PLContour left -> PLContour right -> Cont left right out -> PLContour out ∧ UnaryHistory out := by
+  intro leftContour rightContour join
+  let rec contourUnary : {gamma : BHist} -> PLContour gamma -> UnaryHistory gamma
+    | _, PLContour.segment segment =>
+        by
+          cases PLContourSegment_unary_result segment with
+          | intro _z0 rest =>
+              cases rest with
+              | intro _z1 data =>
+                  exact data.right.right.right
+    | _, PLContour.concat leftContour rightContour leftRight =>
+        unary_cont_closed (contourUnary leftContour) (contourUnary rightContour) leftRight
+  have leftUnary : UnaryHistory left := contourUnary leftContour
+  have rightUnary : UnaryHistory right := contourUnary rightContour
+  exact And.intro (PLContour.concat leftContour rightContour join)
+    (unary_cont_closed leftUnary rightUnary join)
+
 end BEDC.Derived.ContourIntegralUp

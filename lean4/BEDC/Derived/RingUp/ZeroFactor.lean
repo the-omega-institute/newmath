@@ -61,6 +61,40 @@ theorem ring_zero_classifier_signed_factor_absorption
   exact ⟨plainAbsorption.left, plainAbsorption.right,
     signedAbsorption.left, signedAbsorption.right⟩
 
+theorem ring_zero_classifier_negated_product_annihilation
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (negCongr : forall {a b : BHist}, hsame a b -> hsame (neg a) (neg b))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    {x y : BHist} :
+    hsame x BHist.Empty ->
+      hsame (neg (mul x y)) BHist.Empty ∧ hsame (neg (mul y x)) BHist.Empty := by
+  intro xEmpty
+  have signedAbsorption :=
+    ring_zero_classifier_signed_factor_absorption addAssoc addComm zeroLeft negLeft addCongr
+      mulCongr negCongr leftDistrib rightDistrib (x := x) (y := y) xEmpty
+  have negLeftProduct :
+      hsame (mul (neg x) y) (neg (mul x y)) :=
+    ring_mul_neg_left_eq_neg_mul addAssoc addComm zeroLeft negLeft addCongr mulCongr
+      leftDistrib rightDistrib x y
+  have negRightProduct :
+      hsame (mul y (neg x)) (neg (mul y x)) :=
+    ring_mul_neg_right_eq_neg_mul addAssoc addComm zeroLeft negLeft addCongr mulCongr
+      leftDistrib rightDistrib y x
+  exact And.intro
+    (hsame_trans (hsame_symm negLeftProduct) signedAbsorption.left)
+    (hsame_trans (hsame_symm negRightProduct) signedAbsorption.right.left)
+
 theorem ring_zero_classifier_two_sided_ideal_package {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))

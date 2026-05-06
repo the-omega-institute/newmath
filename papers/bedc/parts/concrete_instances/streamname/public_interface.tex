@@ -1,0 +1,229 @@
+\begin{theorem}[StreamNameUp public countable-name interface]
+\label{thm:streamname-public-countable-name-interface}
+The public $\StreamNameUp$ interface over $\mathsf{BHist}$ exports exactly the
+countable rational stream-name data assembled from $\UnaryHistory$, $\hsame$,
+$\RatUp$, and the stream carrier/classifier rows.  Its carrier is
+$\mathsf{RatStreamNameCarrier}$, its classifier is
+$\mathsf{RatStreamNameClassifier}$, and its public rows are precisely the
+RatUp pointwise carrier/classifier fields, the constant stream witness, empty
+constant-stream point exactness, constant point exactness, reindexing and
+RatUp-preserving map stability, and the composition law for unary observation
+reindexing.
+
+Equivalently, a downstream chapter may cite this interface as a single
+countable-name package whose exported surface consists of
+\autoref{thm:rat-stream-name-certificate-fields},
+\autoref{thm:rat-stream-name-constant-witness},
+\autoref{thm:rat-const-stream-empty-point-exactness},
+\autoref{thm:rat-stream-name-constant-point-exactness},
+\autoref{thm:rat-stream-name-reindexing-and-map-stability}, and
+\autoref{thm:rat-stream-name-reindexing-composition-law}.  The export does
+not supply quotient representatives, completion data, RealUp completeness,
+metric data, or a standard bridge.
+\end{theorem}
+
+\begin{proof}
+The carrier and classifier fields are the two unfolded stream rows in
+\autoref{thm:rat-stream-name-certificate-fields}.  That theorem also supplies
+the pointwise RatUp equivalence and transport clauses over every certified
+unary observation in $\mathsf{BHist}$, so the public package does not introduce
+any classifier beyond $\mathsf{RatStreamNameClassifier}$.
+
+The inhabited constant-name row is
+\autoref{thm:rat-stream-name-constant-witness}.  Empty observation exactness
+comes from \autoref{thm:rat-const-stream-empty-point-exactness}, and pointwise
+constant exactness comes from
+\autoref{thm:rat-stream-name-constant-point-exactness}.  These three rows
+identify the visible constant stream data with the underlying $\RatUp$ seed
+without adding any quotient representative or completion object.
+
+The structural action rows are exactly
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} and
+\autoref{thm:rat-stream-name-reindexing-composition-law}.  The first handles a
+single unary observation reindexer together with a RatUp-preserving history
+map, while the second handles composition of such reindexers.  Repacking these
+six named rows gives the public countable-name interface and leaves all
+completion, metric, RealUp-completeness, and standard-bridge claims outside
+the export.
+\end{proof}
+
+\begin{theorem}[StreamNameUp public finite-window interface]
+\label{thm:streamname-public-finite-window-interface}
+The public finite-window surface of $\StreamNameUp$ over $\mathsf{BHist}$
+consists exactly of
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ together with the pointwise
+carrier/classifier rows, classifier-to-window coverage, singleton-window
+exhaustion, certified reindexing and point-map coverage, finite-window
+structural laws, the selected full endpoint package, and finite-window
+stability fields, together with the empty-window vacuity boundary.
+
+Equivalently, downstream $\RealUp$ and $\RegSeqRat$ boundary theorems may cite
+this interface as a single finite-window package whose exported rows are
+\autoref{thm:streamname-public-countable-name-interface},
+\autoref{thm:rat-stream-name-finite-window-from-classifier},
+\autoref{thm:rat-stream-name-finite-window-exhausts-classifier},
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage},
+\autoref{thm:rat-stream-name-finite-window-structural-laws},
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package},
+\autoref{thm:rat-stream-name-finite-window-stability-fields}, and
+\autoref{thm:streamname-public-empty-window-vacuity}.  The export does not
+supply RealUp completion, RegSeqRat regularity, metric completeness, or a
+standard bridge.
+\end{theorem}
+
+\begin{proof}
+The public countable-name spine is
+\autoref{thm:streamname-public-countable-name-interface}.  It fixes the carrier
+and classifier as $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$, and it exposes the pointwise RatUp
+carrier/classifier rows over certified unary observations in $\mathsf{BHist}$.
+
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier}.  The
+finite-window classifier is exactly the restriction of the stream-name
+classifier to bundled certified unary observations.  Thus
+\autoref{thm:rat-stream-name-finite-window-from-classifier} projects every
+public stream-name classifier to an arbitrary probe bundle, while
+\autoref{thm:rat-stream-name-finite-window-exhausts-classifier} uses singleton
+probe windows to recover the full pointwise classifier.
+
+The action rows are the certified reindexing and point-map coverage theorem
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage} and the
+structural laws in
+\autoref{thm:rat-stream-name-finite-window-structural-laws}.  Bundle membership
+provides the restriction, append, and recomposition cases, so no additional
+finite-window carrier or classifier is introduced.
+
+For selected endpoints, apply
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package} to a
+chosen bundled unary observation.  The result reads back the RatUp point
+classifier, positive denominator rows, unary endpoint rows, endpoint
+nonemptiness, zero-headed exclusion, and one-tail agreement package needed by
+finite boundary consumers.
+
+Finally,
+\autoref{thm:rat-stream-name-finite-window-stability-fields} reuses RatUp
+point classifier reflexivity, symmetry, transitivity, and $\hsame$ transport at
+each bundled observation.  Repacking these named rows gives precisely the
+finite-window interface consumed by downstream $\RealUp$ and $\RegSeqRat$
+boundary theorems.  The empty bundle boundary is supplied by
+the closed bundle-generation case for $\Bnil$: no membership constructor can
+feed an endpoint classifier row.  Completion, regularity, metric, and bridge
+claims are left outside the package.
+\end{proof}
+
+\begin{theorem}[StreamNameUp empty finite-window vacuity]
+\label{thm:streamname-public-empty-window-vacuity}
+For certified observation maps $s,t:\Hist\to\Hist$,
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\Bnil)$ holds.
+Equivalently, the public finite-window interface has a neutral empty
+observation boundary: it contributes no RatUp endpoint classifier rows and no
+finite-observation ledger token.
+\end{theorem}
+
+\begin{proof}
+Unfold
+Definition~\ref{def:rat-stream-name-finite-window-classifier}.  It remains to
+show that every certified unary observation bundled in $\Bnil$ receives a
+RatUp point classifier.
+
+Fix $n:\Hist$ together with
+$\mathsf{InBundle}(n,\Bnil)$ and $\mathsf{UnaryHistory}(n)$.  By
+Definition~\ref{def:bundle-generation}, $\Bnil$ has no membership
+constructors, and the Lean bundle inversion theorem
+$\mathsf{BEDC.FKernel.Bundle.inBundle\_nil\_elim}$ eliminates the displayed
+membership witness.
+
+The desired point classifier follows from this contradiction.  Hence the
+empty finite window is neutral: it imposes no endpoint RatUp classifier row and
+records no finite observation in the ledger.
+\end{proof}
+
+The empty-window certificate fit has ten fields: traditional target empty
+finite observation window; BEDC source $\StreamNameUp$ plus
+$\mathsf{ProbeBundle}$; carrier certified observation maps; classifier
+finite-window pointwise RatUp classification; stability vacuous; ledger empty;
+core theorem
+\autoref{thm:streamname-public-empty-window-vacuity}; exactness no bundled
+observations; standard bridge empty finite prefix; status
+$\mathsf{ProofTarget}$.
+
+The certificate template has ten fields: traditional target certified
+countable rational-observation names; BEDC source $\RatUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{RatStreamNameCarrier}$; classifier
+$\mathsf{RatStreamNameClassifier}$; stability obligations as the fields of
+\autoref{thm:rat-stream-name-certificate-fields}, the reindexing and mapped
+stream stability clauses from
+\autoref{thm:rat-stream-name-reindexing-and-map-stability}, the composed
+reindexing stability law from
+\autoref{thm:rat-stream-name-reindexing-composition-law}, the constant stream
+witness from \autoref{thm:rat-stream-name-constant-witness},
+constant reindexing classification from
+\autoref{thm:rat-stream-name-constant-reindexing-classifier}, and
+constant-point exactness from
+\autoref{thm:rat-stream-name-constant-point-exactness} and
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness};
+ledger finite observation index plus pointwise rational witnesses, and for a
+constant stream the hidden constant seed together with the observation index;
+core theorems
+\autoref{thm:rat-stream-name-certificate-fields} and
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} and
+\autoref{thm:rat-stream-name-reindexing-composition-law} and
+\autoref{thm:rat-stream-name-constant-witness} and
+\autoref{thm:rat-stream-name-constant-reindexing-classifier} and
+\autoref{thm:rat-stream-name-constant-point-exactness} and
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness};
+exactness pointwise over the RatUp classifier; standard bridge ordinary
+rational streams; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[StreamNameUp public interface export package]
+\label{thm:streamname-public-interface-export-package}
+The public $\StreamNameUp$ export over $\mathsf{BHist}$ is exactly the union of
+\autoref{thm:streamname-public-countable-name-interface} and
+\autoref{thm:streamname-public-finite-window-interface}.  Its exported
+countable-name rows are the carrier $\mathsf{RatStreamNameCarrier}$, the
+classifier $\mathsf{RatStreamNameClassifier}$, the pointwise RatUp
+carrier/classifier fields, the constant stream rows, reindexing and
+RatUp-preserving map stability, and unary reindexing composition.  Its
+exported finite-window rows are
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, finite-window
+coverage/exhaustion, certified reindexing and point-map coverage, finite-window
+structural laws, the selected endpoint package, and finite-window stability
+fields, together with empty-window vacuity.
+
+No further rows are part of this public $\StreamNameUp$ package: it excludes
+RegSeqRat regularity, RealUp completion and completeness, metric completeness,
+arithmetic and order closure, and standard-bridge data.
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:streamname-public-countable-name-interface}.  It fixes the
+carrier and classifier as $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ and lists the pointwise RatUp
+carrier/classifier rows, constant stream rows, reindexing and RatUp-preserving
+map stability, and reindexing composition.  These are precisely the
+countable-name rows of the public export.
+
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It adds
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, window restriction,
+coverage/exhaustion, certified reindexing and point-map coverage, the
+finite-window structural laws, selected endpoint package, stability rows, and
+the empty finite-window boundary.  These are precisely the finite-window rows
+of the public export.
+
+The two cited public theorems list all exported rows and both leave completion,
+regularity, metric, arithmetic/order, and bridge structure outside their
+claims.  Repacking their rows therefore gives a public $\StreamNameUp$
+interface package, not a $\RealUp$ completion theorem or a $\RegSeqRat$
+regularity theorem.
+\end{proof}
+
+\begin{closurestatus}{\StreamNameUp}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:streamname-public-interface-export-package} gives the public $\StreamNameUp$ export over RatUp observations: pointwise carrier/classifier rows, reindexing stability, constant streams, finite-window coverage/exhaustion, selected endpoint packages, empty-window vacuity, and finite-window stability.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields}
+  \bridgestatus{none}
+  \notclaimed{Dyadic regular Cauchy completion, full RealUp arithmetic/order, metric completeness, standard-bridge data, or general compact/continuous-map theory.}
+  \upgradepath{$\bridgedClosure$ requires a conservative standard bridge for the public $\StreamNameUp$ export.}
+\end{closurestatus}

@@ -449,14 +449,17 @@ If \(\mathsf{CplxDiffAt}(f, z, f')\) with modulus \(\delta_f\) and \(\mathsf{Cpl
 \begin{proof}
 The difference quotient of \(f + g\) decomposes into the sum of the two individual difference quotients. The pasted modulus halves each error budget at precision \(k+1\), giving total error below \(2^{-k}\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_sum\_append\_derivative\_carrier}
 
 \begin{lemma}[Scalar rule]
 \label{lem:cplx-diff-scalar}
 If \(\mathsf{CplxDiffAt}(f, z, f')\) with modulus \(\delta_f\) and \(c\) is a complex history, then \(\mathsf{CplxDiffAt}(c \cdot f, z, c \cdot f')\) with modulus \(k \mapsto \delta_f(k + |c|)\), where \(|c|\) is an explicit unary upper bound on the modulus of \(c\).
 \end{lemma}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_scalar\_append\_derivative\_carrier}
 \begin{proof}
 Linear scaling of the difference quotient absorbs \(c\); the modulus pastes by adding the explicit bound on \(|c|\) at each precision.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_prepend\_complex\_scalar\_closed}
 
 \begin{lemma}[Product rule with Leibniz modulus pasting]
 \label{lem:cplx-diff-product}
@@ -490,11 +493,13 @@ For a complex-valued function-history \(f\), write \(f = u + i \cdot v\) where t
 \label{def:partial-real}
 For a real-valued function-history \(u\) on the complex carrier and a complex history \(z = (x, y)\), the partial derivative with respect to the real coordinate, \(\mathsf{PartialReal}(u, z, p)\), is the data of an explicit modulus \(\delta : \mathsf{Unary} \to \mathsf{Unary}\) such that for every unary precision \(k\) and every real history \(t\) with \(0 < |t| < 2^{-\delta(k)}\), the difference \(\bigl(u(x + t, y) - u(x, y)\bigr)/t\) is within \(2^{-k}\) of \(p\) as a real-modulus comparison.
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.PartialReal}
 
 \begin{definition}[One-variable imaginary partial derivative]
 \label{def:partial-imag}
 \(\mathsf{PartialImag}(u, z, q)\) is defined analogously with respect to the imaginary coordinate: the difference \(\bigl(u(x, y + s) - u(x, y)\bigr)/s\) approaches \(q\) under the modulus \(\delta\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.PartialImag}
 
 \begin{lemma}[Uniqueness of real-coordinate partials]
 \label{lem:partial-unique}
@@ -503,6 +508,7 @@ The real and imaginary partial derivatives of \autoref{def:partial-real} and \au
 \begin{proof}
 The argument is the one-variable specialization of \autoref{lem:cplx-diff-at-unique}: triangle-inequality combination of the two moduli halves the precision budget.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.PartialDerivative\_hsame\_input\_unique}
 
 \section{Cauchy--Riemann equations, constructive form}
 
@@ -538,16 +544,22 @@ Combine \autoref{thm:cauchy-riemann-forward} and \autoref{thm:cauchy-riemann-bac
 \label{def:cplx-diff-source-specification}
 The source specification carries a complex function-history \(f\), a complex history \(z\), and a candidate derivative \(f'\), constrained by \(\mathsf{CplxDiffAt}(f, z, f')\) of \autoref{def:cplx-diff-at}. The generator is the explicit modulus \(\delta\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffSourceSpec}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffSourceSpec\_of\_diff}
 
 \begin{definition}[Complex-differentiability pattern specification]
 \label{def:cplx-diff-pattern-specification}
 The pattern of \(\ComplexDiffUp\) is the explicit difference-quotient witness of \autoref{def:cplx-diff-quot}: for an input \((f, z, h)\) with \(\mathsf{CplxNonZero}(h)\), the pattern is the unique \(q\) with \(\mathsf{CplxDiffQuot}(f, z, h, q)\), parametrically in the precision \(k\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffPatternSpec}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffPatternSpec\_witness\_readback}
 
 \begin{definition}[Complex-differentiability classifier specification]
 \label{def:cplx-diff-classifier-specification}
 The classifier on the differentiability carrier is \(\hsame\) lifted to the triple \((f, z, f')\): two triples classify together iff each component is \(\hsame\)-equal as a history (with the function-history part compared on its rational-pair representation).
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffClassifierSpec}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffClassifierSpec\_hsame\_transport\_witness}
 
 \begin{definition}[Complex-differentiability stability certificate]
 \label{def:cplx-diff-stability-certificate}
@@ -558,6 +570,7 @@ The stability certificate consists of:
   \item compatibility of the difference-quotient pattern with \(\hsame\) (\autoref{lem:cplx-diff-quot-hsame}).
 \end{enumerate}
 \end{definition}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiff\_stability\_certificate\_fields}
 
 \begin{definition}[Complex-differentiability ledger policy]
 \label{def:cplx-diff-ledger-policy}
@@ -568,11 +581,14 @@ The ledger policy records:
   \item explicit modulus pasting laws so that any finite combination of differentiable pieces yields an explicit composite modulus.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffLedgerPolicy}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffLedgerPolicy\_of\_diff}
 
 \begin{theorem}[Concrete \(\ComplexDiffUp\) naming certificate]
 \label{thm:complex-diff-namecert}
 The data \((\mathsf{CplxDiffAt}, \mathsf{CplxDiffQuot}, \hsame, \mathsf{CplxDiffStabilityCert}, \mathsf{CplxDiffLedgerPolicy})\) of \autoref{def:cplx-diff-source-specification}--\autoref{def:cplx-diff-ledger-policy} forms a naming certificate over \(\Hist\) for the complex-differentiability interface \(\ComplexDiffUp\). The certificate is constructive (every modulus is an explicit unary function), unique-up-to-\(\hsame\) on the derivative slot, and closed under sum, scalar, product, and chain rule.
 \end{theorem}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.complex\_diff\_name\_certificate}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). Constructivity is explicit in the modulus data of \autoref{def:cplx-diff-at}. Uniqueness is \autoref{lem:cplx-diff-at-unique}. The four closure laws are \autoref{lem:cplx-diff-sum}--\autoref{lem:cplx-diff-chain}. The Cauchy--Riemann coupling sits inside the ledger policy as a derived fact, not as an additional axiom. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}

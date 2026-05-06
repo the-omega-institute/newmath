@@ -1,0 +1,108 @@
+\begin{definition}[Measure root deps-ready threshold]
+\label{def:measure-root-deps-ready-threshold}
+The hub-counted $\MeasureUp$ root deps-ready threshold package is the public
+surface of \autoref{def:measure-root-namecert-public-surface}, the downstream
+package of \autoref{thm:measure-root-downstream-unblock-package}, and the
+consumer package of \autoref{def:measure-root-consumer-package}. It is counted
+at the $\MeasureUp$ root because it exposes the public rows required before
+$\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ may consume the
+measure surface.
+\end{definition}
+
+\begin{theorem}[Measure root public event coverage threshold]
+\label{thm:measure-root-public-event-coverage-threshold}
+The root deps-ready threshold package of
+\autoref{def:measure-root-deps-ready-threshold} exposes only covered
+measurable-event rows, the empty-event row, binary-union rows, countable-union
+rows, complement and relative-difference rows, disjoint-sequence rows,
+$\RealUp$ endpoint rows, and countable-sum rows. Every such row is a visible
+$\mathsf{BHist}$ ledger row of the public $\MeasureUp$ surface, and no
+uncovered event carrier, quotient event equality, host set equality, analytic
+completion object, or $\StdBridge$ row is present in the threshold package.
+\end{theorem}
+\begin{proof}
+Start from the event-row coverage predicate of
+\autoref{def:measure-event-row-coverage}. Its enumerated rows are exactly the
+measurable events, empty event, binary and countable unions, disjointness
+witnesses, $\RealUp$ endpoints, countable sums, and head-tail readback rows
+available to a downstream certificate.
+
+Apply \autoref{thm:measure-root-carrier-classifier-public-obligation}. This
+projects the same rows from the root public surface and transports them along
+the componentwise $\hsame$ classifier. The complement and
+relative-difference rows are read through the carrier surface fields already
+included in that public obligation.
+
+Finally apply \autoref{thm:measure-measurable-family-exactness}. Its
+coverage, soundness, and completeness clauses identify the visible ledger rows
+as the whole measurable-family interface, so the threshold package contains
+only the displayed public event and endpoint rows.
+\end{proof}
+
+\begin{theorem}[Measure root public countable-additivity threshold]
+\label{thm:measure-root-public-countable-additivity-threshold}
+For every covered pairwise-disjoint measurable sequence $E_\bullet$ with
+covered countable union $U$, the root deps-ready threshold package supplies
+the comparison
+$$
+\mu(U)\sim_R\Sigma_\mu(E_\bullet).
+$$
+The empty-zero row $\mu(\varnothing)\sim_R0_R$ and finite disjoint-union
+readback are part of the same public package, because they are consequences
+of the sigma-additive $\MeasureUp$ rows exposed at the root threshold.
+\end{theorem}
+\begin{proof}
+Project the covered sequence, its countable union, its pairwise-disjointness
+witness, and its countable-sum endpoint from the root deps-ready threshold
+package. These are public rows by
+\autoref{thm:measure-root-public-event-coverage-threshold}.
+
+Apply \autoref{thm:measure-root-sigma-additive-public-obligation}. Its
+sigma-additive projection gives the displayed comparison
+$\mu(U)\sim_R\Sigma_\mu(E_\bullet)$ for the covered pairwise-disjoint
+sequence.
+
+Next apply \autoref{thm:measure-empty-set-zero-from-sigma-additivity}. The
+empty event and all-empty sequence are covered rows of the same threshold
+package, so the zero endpoint is read back without adding a separate carrier.
+
+Finally apply \autoref{thm:measure-finite-disjoint-union-additivity}. The
+binary-union, disjointness, endpoint, and additive $\AbGroupUp$ rows are
+already public at the threshold, so the finite disjoint-union comparison is
+repacked into the same public countable-additivity package.
+\end{proof}
+
+\begin{theorem}[Measure root consumer boundary threshold]
+\label{thm:measure-root-consumer-boundary-threshold}
+The root deps-ready threshold package of
+\autoref{def:measure-root-deps-ready-threshold} is exactly the root
+$\MeasureUp$ surface consumed by $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$. It exposes the rows named by those three consumers
+and excludes quotient event equality, host set equality, and standard bridge
+rows.
+\end{theorem}
+\begin{proof}
+First project the root consumer package from
+\autoref{def:measure-root-deps-ready-threshold}. This gives the same public
+surface and downstream package used by
+\autoref{def:measure-root-consumer-package}.
+
+Apply \autoref{thm:measure-integral-consumer-rows} to read the
+$\IntegralUp$ boundary. It consumes exactly the covered measurable-event,
+$\RealUp$ endpoint, countable-sum, head-tail, and finite disjoint-union rows
+from the root package.
+
+Apply \autoref{thm:measure-probability-consumer-rows} to read the
+$\ProbSpaceUp$ boundary. It consumes the total-event normalization row
+together with the empty-zero and finite disjoint-union rows exposed by the
+same root package.
+
+Apply \autoref{thm:measure-functionalanalysis-consumer-rows} to read the
+$\FunctionalAnalysisUp$ boundary. It consumes only the nonnegative endpoint,
+monotone inclusion, relative-difference, and countable-sum classifier rows.
+
+The exclusions are common to the three projections: each cited consumer-row
+theorem rules out quotient event equality, host set equality where relevant,
+and any $\StdBridge$ row. The threshold package is therefore exactly the
+shared root surface for these consumers and nothing beyond that surface.
+\end{proof}

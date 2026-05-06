@@ -1,0 +1,121 @@
+\begin{definition}[Measure root consumer face classifier]
+\label{def:measure-root-consumer-face-classifier}
+The consumer face classifier of the $\MeasureUp$ root threshold is the
+three-face partition of the consumer rows in
+\autoref{def:measure-root-bhist-consumer-threshold}. The integral face is the
+$\IntegralUp$ projection of \autoref{thm:measure-integral-consumer-rows}: it
+contains covered measurable-event rows, $\RealUp$ endpoint classifier rows,
+countable-sum endpoint rows, head-tail readback rows, and finite
+disjoint-union readback rows. The probability face is the $\ProbSpaceUp$
+projection of \autoref{thm:measure-probability-consumer-rows}: it contains
+the total-event normalization row, empty-zero row, and finite
+disjoint-union row. The functional-analysis face is the
+$\FunctionalAnalysisUp$ projection of
+\autoref{thm:measure-functionalanalysis-consumer-rows}: it contains
+nonnegative endpoint rows, monotone-inclusion rows, relative-difference rows,
+and countable-sum classifier rows.
+
+Rows common to more than one face are classified as shared root rows only
+when they are the displayed $\mathsf{BHist}$ event-ledger rows or the
+$\RealUp$ endpoint classifier rows already present at the root
+$\MeasureUp$ surface. No face classifier row is a host set equality,
+quotient event equality, analytic completion object, or $\StdBridge$ row.
+\end{definition}
+
+\begin{theorem}[Measure root consumer face coverage]
+\label{thm:measure-root-consumer-face-coverage}
+Every consumer row projected by
+\autoref{def:measure-root-consumer-package} belongs to one of the three faces
+of \autoref{def:measure-root-consumer-face-classifier}. Thus each outgoing
+consumer row is classified as integral, probability, functional-analysis, or
+as a shared root $\mathsf{BHist}$ event-ledger or $\RealUp$ endpoint row
+seen through those faces.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:measure-root-consumer-package}. Its consumer rows are
+the public root surface together with the downstream package of
+\autoref{thm:measure-root-downstream-unblock-package}.
+
+Apply \autoref{thm:measure-integral-consumer-rows},
+\autoref{thm:measure-probability-consumer-rows}, and
+\autoref{thm:measure-functionalanalysis-consumer-rows}. These three theorems
+list the complete rows consumed by $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$ from that same root package.
+
+Finally use \autoref{def:measure-root-consumer-face-classifier}. The
+classifier names exactly those three outgoing projections and assigns their
+common event-ledger and endpoint rows to the shared root part, so every row
+projected by the consumer package has one of the displayed face labels.
+\end{proof}
+
+\begin{theorem}[Measure root consumer face disjointness]
+\label{thm:measure-root-consumer-face-disjointness}
+The integral, probability, and functional-analysis faces of
+\autoref{def:measure-root-consumer-face-classifier} overlap only on the
+shared root $\mathsf{BHist}$ event ledger and the shared $\RealUp$ endpoint
+classifier. The total-event probability-normalization row remains specific
+to the probability face, the countable-sum endpoint and head-tail readback
+rows remain specific to the integral face, and the relative-difference and
+monotone-inclusion rows remain specific to the functional-analysis face.
+\end{theorem}
+\begin{proof}
+First read the three outgoing projections through the consumer-row theorems.
+\autoref{thm:measure-integral-consumer-rows} gives the integral rows,
+\autoref{thm:measure-probability-consumer-rows} gives the probability rows,
+and \autoref{thm:measure-functionalanalysis-consumer-rows} gives the
+functional-analysis rows.
+
+The only rows those projections are allowed to share are the displayed
+covered event rows and $\RealUp$ endpoint classifier rows already present in
+the root $\MeasureUp$ package. This is exactly the shared-root clause in
+\autoref{def:measure-root-consumer-face-classifier}.
+
+Now apply
+\autoref{thm:measure-root-consumer-projection-separation}. The separation
+theorem makes the three consumer projections one-way outputs from the root
+surface and prevents any consumer-specific row from becoming a root
+hypothesis.
+
+The exclusions in the three consumer-row theorems then keep the remaining
+rows face-specific: probability normalization is absent from the integral and
+functional-analysis surfaces, countable-sum endpoint and head-tail readback
+rows are absent from the probability surface, and relative-difference plus
+monotone-inclusion rows are absent from the probability consumer surface and
+do not become integral premeasure rows.
+\end{proof}
+
+\begin{theorem}[Measure root cross-consumer threshold package]
+\label{thm:measure-root-cross-consumer-threshold-package}
+The face classifier of
+\autoref{def:measure-root-consumer-face-classifier}, the coverage result of
+\autoref{thm:measure-root-consumer-face-coverage}, the disjointness result of
+\autoref{thm:measure-root-consumer-face-disjointness}, and the deps-ready
+package of \autoref{thm:measure-root-deps-ready-public-package} form the root
+consumer threshold for $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$. This threshold exposes the shared $\mathsf{BHist}$
+event ledger and shared $\RealUp$ endpoint classifier once, exposes each
+consumer-specific row only on its own face, and keeps all outgoing faces from
+serving as inputs to the root $\MeasureUp$ obligations.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:measure-root-deps-ready-public-package} to fix the public
+root package. It supplies the orientation surface, the $\mathsf{BHist}$
+threshold, and the downstream projections needed by the three consumers.
+
+Next apply \autoref{thm:measure-root-consumer-face-coverage}. This assigns
+every outgoing row of the consumer package to the integral, probability, or
+functional-analysis face, with shared event-ledger and endpoint rows read at
+the root.
+
+Then apply \autoref{thm:measure-root-consumer-face-disjointness}. The
+face-specific probability-normalization, countable-sum, head-tail,
+relative-difference, and monotone-inclusion rows remain on their named
+consumer faces.
+
+Finally apply
+\autoref{thm:measure-root-consumer-projection-separation}. Since the
+consumer rows are outgoing projections and not hypotheses for the root
+carrier, classifier, coverage, additivity, continuity, or endpoint-family
+obligations, the packaged classifier is a root consumer threshold rather than
+a justification loop for $\MeasureUp$.
+\end{proof}

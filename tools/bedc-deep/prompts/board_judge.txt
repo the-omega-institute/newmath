@@ -13,8 +13,8 @@ fit_score and novelty, and decide which deserve their own BOARD entry.
 Existing BOARD.md (existing target ids and Object names):
 {board_content}
 
-Existing paper coverage (paper-side `\label{{thm|lem|def|prop|cor:...}}` already
-present — for prior_art dedup):
+Existing paper coverage from `tools/bedc-deep/state/paper_index.json`
+(paper-side labels, landing-file safety, hub files, and line-cap summary):
 {paper_coverage}
 
 codex / paper_review candidate list:
@@ -45,15 +45,30 @@ For each candidate, run the following audit:
    candidate. If the candidate is already proven in the paper, drop with
    reason "already_in_paper".
 
-5. **fit_score (0-10)**. How well does it land in the existing BEDC theory
+5. **Lane compatibility**. Drop marker-only, Lean verification-axis, and
+   `closurestatus` candidates. B writes theorem / lemma / proposition /
+   definition blocks only; it does not retire chapters or attach Lean
+   verification evidence.
+
+6. **Anti-parameter-echo**. Drop candidates that merely transport an
+   abstract carrier/classifier equivalence through fields or restate a
+   source-equivalence theorem under a new name. Keep concrete closure,
+   inversion, coverage, determinacy, uniqueness, bridge, or obstruction
+   targets.
+
+7. **Landing-file safety**. If `local_inputs` points only at a hub file
+   mostly made of `\input{{...}}` lines, or at a file already near the
+   800-line cap with no child-file landing path, drop as too risky.
+
+8. **fit_score (0-10)**. How well does it land in the existing BEDC theory
    surface? 10 = directly fills a known gap; 7 = clearly belongs in scope;
    4 = marginal; 0 = out of scope.
 
-6. **novelty (0-10)**. How distinct is it from all existing BOARD entries
+9. **novelty (0-10)**. How distinct is it from all existing BOARD entries
    AND paper content combined? 10 = entirely new direction; 7 = new but
    in a known sub-area; 4 = adjacent to existing work; 0 = duplicate.
 
-7. **maker/checker dual judgment**. For each candidate:
+10. **maker/checker dual judgment**. For each candidate:
    - codex's evaluation (already present in candidate's source — codex
      wouldn't have surfaced it without finding value)
    - your independent claude evaluation (this gate)

@@ -28,6 +28,10 @@ Hygiene checklist (all must pass):
 3. No marker macros: `\leanchecked`, `\leanvariant`, `\leansorryd`,
    `\leanstmt`, `\leandef`.
 
+3b. No `closurestatus` blocks or field macros: `\theoryclosure`,
+    `\formalstatus`, `\leantarget`, `\bridgestatus`, `\notclaimed`,
+    `\upgradepath`. This lane writes theorem-shaped content only.
+
 4. At least one of: `\begin{{theorem}}`, `\begin{{lemma}}`,
    `\begin{{proposition}}`, `\begin{{definition}}`, `\begin{{corollary}}`,
    each with a `\label{{...}}`.
@@ -101,10 +105,16 @@ Hygiene checklist (all must pass):
     `\begin{{theorem}}` reachable via Grep. If missing: REJECT with
     "needs <env>:<concept>-inversion to be added before this proof works".
 
-9. Inline Lean snippets (if any) contain no `axiom`, no `sorry`, no
+18. Anti-parameter-echo. Reject theorem statements whose only mathematical
+    content is abstract carrier/classifier equivalence transporting fields,
+    source-equivalence sequels, or field-by-field repackaging. The accepted
+    block must prove a concrete closure, inversion, coverage, determinacy,
+    uniqueness, bridge, or obstruction claim about the target's BEDC object.
+
+19. Inline Lean snippets (if any) contain no `axiom`, no `sorry`, no
    `import Mathlib`.
 
-10. LaTeX content is English. No Chinese characters in the LaTeX.
+20. LaTeX content is English. No Chinese characters in the LaTeX.
 
 Process:
 
@@ -113,14 +123,14 @@ b. Verify {target_tex_file} exists and is a concrete body file. If not,
    pick a better one by reading the chapters under
    `{repo_root}/papers/bedc/parts/`. Choose by topic match.
 c. Count current target file lines; estimate appended size; verify <= 800.
-d. Run all 17 hygiene items against the raw LaTeX. Use the granted tools
+d. Run all 20 hygiene items against the raw LaTeX. Use the granted tools
    (Read / Grep / Glob / Bash(grep)) to verify autoref existence and to
    look up adjacent style for relation usage. The Python pre-scan has
    already populated "Blocking issues" with mechanically-detectable
    problems; you handle the judgement layer.
 e. If any item fails AND the failure is in the auto-fix scope (item 14
    typo case), apply the auto-fix in the emitted content and proceed.
-f. If any item fails OUTSIDE auto-fix scope (items 15, 16, 17 — semantic
+f. If any item fails OUTSIDE auto-fix scope (items 15, 16, 17, 18 — semantic
    misuse), emit verdict=reject with specific reasons. The corrective
    track will use your rejection_reasons as the prompt for the next
    oracle attempt — be precise: name the relation, quote the phrase,

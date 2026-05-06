@@ -440,6 +440,38 @@ theorem ProdComponentHistoryClassifier_semantic_name_certificate
       exact carrier
   }
 
+theorem ProdComponentHistoryClassifier_displayed_ledger_semantic_name_certificate
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) :
+    SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)
+      (ProdDisplayedPairLedger Left Right)
+      (ProdComponentHistoryClassifier Left Right LeftEq RightEq) := by
+  exact {
+    core := ProdComponentHistoryClassifier_name_certificate leftCert rightCert coherent
+    pattern_sound := by
+      intro _h carrier
+      exact carrier
+    ledger_sound := by
+      intro h carrier
+      exact
+        (ProdDisplayedPairLedger_exact_and_transport
+          (Left := Left) (Right := Right) (h := h) (k := h)).left.mpr carrier
+  }
+
+theorem ProdComponentHistoryClassifier_self_readback_iff
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq) {h : BHist} :
+    ProdComponentHistoryClassifier Left Right LeftEq RightEq h h ↔
+      ProdHistoryCarrier Left Right h := by
+  constructor
+  · intro classifier
+    exact (ProdComponentHistoryClassifier_endpoint_carriers classifier).left
+  · intro carrier
+    exact
+      ProdComponentHistoryClassifier_carrier_reflexivity_from_source_certificates
+        leftCert rightCert carrier
+
 theorem ProdComponentHistoryClassifier_singleton_endpoint_exactness
     {l0 r0 h k : BHist} :
     ProdComponentHistoryClassifier (SingletonHistorySource l0) (SingletonHistorySource r0)

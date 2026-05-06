@@ -39,4 +39,19 @@ theorem ListSpineRep_cons_endpoint_shape {A : BHist -> Prop} {h a : BHist}
       exact Exists.intro _ (Exists.intro _ (And.intro head
         (And.intro tail (And.intro ledger endpoint))))
 
+theorem ListSpineRep_append_representation {A : BHist -> Prop} {h k : BHist}
+    {xs ys : ListCarrier BHist} :
+    ListSpineRep A h xs -> ListSpineRep A k ys ->
+      exists r : BHist, ListSpineRep A r (xs ++ ys) := by
+  intro left right
+  induction left with
+  | nil _endpoint =>
+      exact Exists.intro k right
+  | cons head _tail _spine _endpoint tailAppend =>
+      cases tailAppend with
+      | intro r rep =>
+          exact Exists.intro _
+            (ListSpineRep.cons head rep (cont_intro rfl)
+              (hsame_refl _))
+
 end BEDC.Derived.ListUp

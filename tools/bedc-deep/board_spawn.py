@@ -31,6 +31,11 @@ from typing import Optional
 
 from dispatch_bedc_target import SCRIPT_DIR, REPO_ROOT, BOARD_PATH
 from locks import file_lock
+import codex_orchestrator
+import board_archive
+import board_context
+import candidate_inbox
+import paper_index
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -98,6 +103,8 @@ def _extract_json_object(text: str) -> Optional[dict]:
 
 
 def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
+    if os.environ.get("BEDC_DISABLE_CLAUDE"):
+        return (False, "claude disabled by BEDC_DISABLE_CLAUDE", -2)
     if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
         return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -153,6 +160,33 @@ def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str,
     return (rc == 0, stdout, rc)
 
 
+def _codex_json_fallback(
+    prompt: str,
+    *,
+    timeout: int,
+    log_tag: str,
+    role_note: str,
+) -> tuple[bool, dict, str, str]:
+    fallback_prompt = (
+        f"{role_note}\n"
+        "Act as the independent fallback BOARD judge. Preserve the same "
+        "fit/novelty thresholds, reject when uncertain, return only the JSON "
+        "object requested by the original prompt, and do not edit files.\n\n"
+        f"{prompt}"
+    )
+    result = codex_orchestrator.codex_exec(
+        fallback_prompt,
+        timeout=timeout,
+        log_tag=f"{log_tag}_codex_fallback",
+    )
+    if not result.ok:
+        return (False, {}, result.raw_output, result.error or f"codex rc={result.rc}")
+    parsed = result.parsed or _extract_json_object(result.raw_output) or {}
+    if not parsed:
+        return (False, {}, result.raw_output, "codex fallback output was not JSON")
+    return (True, parsed, result.raw_output, "")
+
+
 # ---------------------------------------------------------------------------
 # Existing BOARD / paper coverage discovery
 # ---------------------------------------------------------------------------
@@ -160,16 +194,11 @@ def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str,
 
 def _existing_board_titles() -> set[str]:
     """Lowercased existing target titles for dedup."""
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    titles: set[str] = set()
-    for m in re.finditer(r"^### (B-\d+)\s+-\s+(.+)$", text, flags=re.MULTILINE):
-        titles.add(m.group(2).strip().lower())
-    return titles
+    return board_archive.existing_target_titles(include_archive=True)
 
 
 def _existing_board_ids() -> list[str]:
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    return re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+    return board_archive.existing_target_ids(include_archive=True)
 
 
 def _next_target_id(also_accepted: list[str]) -> str:
@@ -177,23 +206,6 @@ def _next_target_id(also_accepted: list[str]) -> str:
     nums = [int(i.split("-")[1]) for i in ids if i.startswith("B-")]
     next_num = (max(nums) + 1) if nums else 1
     return f"B-{next_num:02d}"
-
-
-def _scan_paper_labels() -> list[str]:
-    """Quick scan of papers/bedc/parts/**/*.tex for \\label{thm|lem|prop|cor|def:...}"""
-    labels: list[str] = []
-    parts = REPO_ROOT / "papers" / "bedc" / "parts"
-    if not parts.exists():
-        return labels
-    pat = re.compile(r"\\label\{(thm|lem|prop|cor|def):([^}]+)\}")
-    for path in parts.rglob("*.tex"):
-        try:
-            text = path.read_text(encoding="utf-8", errors="replace")
-        except OSError:
-            continue
-        for m in pat.finditer(text):
-            labels.append(f"{m.group(1)}:{m.group(2)}")
-    return labels
 
 
 # ---------------------------------------------------------------------------
@@ -220,15 +232,14 @@ def _judge_candidates(
         return ([], [], "")
 
     template = (PROMPTS_DIR / "board_judge.txt").read_text(encoding="utf-8")
-    board_content = BOARD_PATH.read_text(encoding="utf-8")
-    paper_labels = _scan_paper_labels()
-    paper_coverage_blob = "\n".join(sorted(set(paper_labels))[:400])  # cap
+    board_content = board_context.build_board_prompt_context()
+    paper_coverage_blob = paper_index.render_prompt_summary(max_chars=12000)
 
     codex_blob = json.dumps(codex_candidates, ensure_ascii=False, indent=2)
     oracle_blob = json.dumps(oracle_candidates, ensure_ascii=False, indent=2)
 
     prompt = template.format(
-        board_content=_safe(board_content[:30000]),
+        board_content=_safe(board_content),
         paper_coverage=_safe(paper_coverage_blob[:20000]),
         codex_candidates=_safe(codex_blob),
         oracle_candidates=_safe(oracle_blob),
@@ -236,10 +247,33 @@ def _judge_candidates(
     log_tag = "board_judge"
     ok, stdout, rc = _claude_exec(prompt, timeout=DEFAULT_JUDGE_TIMEOUT, log_tag=log_tag)
     if not ok:
-        return ([], [], f"claude judge rc={rc}: {stdout[:300]}")
-    parsed = _extract_json_object(stdout)
+        fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
+            prompt,
+            timeout=DEFAULT_JUDGE_TIMEOUT,
+            log_tag=log_tag,
+            role_note=(
+                "Claude is unavailable for the BEDC BOARD spawn judge. "
+                "Interpret the original prompt's 'claude evaluation' as this "
+                "fallback gate's independent second-pass evaluation."
+            ),
+        )
+        if not fallback_ok:
+            return ([], [], f"claude judge rc={rc}: {stdout[:300]}; codex fallback: {fallback_error[:300]}")
+    else:
+        parsed = _extract_json_object(stdout)
     if not parsed:
-        return ([], [], "claude judge output was not JSON")
+        fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
+            prompt,
+            timeout=DEFAULT_JUDGE_TIMEOUT,
+            log_tag=log_tag,
+            role_note=(
+                "Claude returned non-JSON for the BEDC BOARD spawn judge. "
+                "Interpret the original prompt's 'claude evaluation' as this "
+                "fallback gate's independent second-pass evaluation."
+            ),
+        )
+        if not fallback_ok:
+            return ([], [], f"claude judge output was not JSON; codex fallback: {fallback_error[:300]}")
     accepted = parsed.get("accepted_candidates") or []
     rejected = parsed.get("rejected_candidates") or []
     return (accepted if isinstance(accepted, list) else [],
@@ -309,20 +343,23 @@ def spawn_from_candidates(
     if not codex_candidates and not oracle_candidates:
         return BoardSpawnResult(ok=True)
 
-    # Step 1: dedup vs existing BOARD titles (cheap pre-filter).
-    existing_titles = _existing_board_titles()
-    def _alive(c: dict) -> bool:
-        title = (c.get("title") or "").strip().lower()
-        return bool(title) and title not in existing_titles
-
-    codex_alive = [c for c in codex_candidates if _alive(c)]
-    oracle_alive = [c for c in oracle_candidates if _alive(c)]
-    cheap_drops = (
-        [{**c, "source": "codex", "reason": "duplicate_title_in_board"}
-         for c in codex_candidates if not _alive(c)]
-        + [{**c, "source": "oracle", "reason": "duplicate_title_in_board"}
-           for c in oracle_candidates if not _alive(c)]
+    # Step 1: runtime inbox + deterministic pre-gate. This keeps the active
+    # BOARD as an execution queue instead of a proposal/memory sink.
+    codex_screen = candidate_inbox.screen_candidates(
+        codex_candidates,
+        source="codex",
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
     )
+    oracle_screen = candidate_inbox.screen_candidates(
+        oracle_candidates,
+        source="oracle",
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
+    )
+    codex_alive = codex_screen.accepted
+    oracle_alive = oracle_screen.accepted
+    cheap_drops = codex_screen.rejected + oracle_screen.rejected
 
     if not codex_alive and not oracle_alive:
         print(
@@ -371,15 +408,18 @@ def spawn_from_candidates(
                 local_acc.append(tid)
                 appended_ids.append(tid)
             _atomic_append_to_board(blocks)
+            candidate_inbox.record_board_promotions(final_accepted, appended_ids, mode="board_spawn")
 
     print(
         f"[board_spawn] accepted={len(final_accepted)} rejected={len(rejected) + len(threshold_drops) + len(cheap_drops)}",
         flush=True,
     )
+    all_rejected = cheap_drops + rejected + threshold_drops
+    candidate_inbox.record_rejections(all_rejected, mode="board_spawn")
     return BoardSpawnResult(
         ok=True,
         accepted=final_accepted,
-        rejected=cheap_drops + rejected + threshold_drops,
+        rejected=all_rejected,
         appended_ids=appended_ids,
     )
 

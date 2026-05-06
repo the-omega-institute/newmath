@@ -1,0 +1,100 @@
+\begin{theorem}[Metric distance witness semantic name certificate]
+\label{thm:metric-distance-witness-semantic-namecert}
+For unary endpoint histories $x,y$, the concrete distance-witness predicate
+$d\mapsto\mathsf{MetricDistanceWitness}(x,y,d)$ carries a semantic naming
+certificate whose source, pattern, and ledger predicates are the same concrete
+witness predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The carrier witness is the concrete distance history $x\cdot y$. Unary append
+closure supplies its unary carrier witness, and the continuation field is the
+reflexive ledger $\ContR(x,y,x\cdot y)$. The classifier fields are the
+reflexive, symmetric, and transitive laws for $\hsame$. Carrier transport is
+history-sameness transport of the concrete distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert}
+
+\begin{definition}[MetricSpace ledger policy]
+\label{def:metric-ledger-policy}
+Record carrier witnesses and the real ledger of each distance value.
+\end{definition}
+
+\begin{definition}[\(\MetricSpaceUp\) certificate obligations]
+\label{def:metric-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MetricSpaceUp\).
+\end{definition}
+\leandef{BEDC.Derived.MetricUp.MetricCertificateObligations}
+
+\begin{definition}[Metric ball budget predicate]
+\label{def:metric-ball-budget-predicate}
+For a certified $\MetricSpaceUp$ setup on a carrier $X$ with distance
+$d:X\times X\to\RealUp$, a ball-budget structure supplies an ordered-real
+comparison $\le_{\mathsf R}$ on $\RealUp$, an addition operation $+$ on
+$\RealUp$, a transitivity field for $\le_{\mathsf R}$, and a two-sided
+addition-monotonicity field saying that $a\le_{\mathsf R} a'$ and
+$b\le_{\mathsf R} b'$ entail $a+b\le_{\mathsf R} a'+b'$. Relative to this
+chosen budget structure, the closed ball-budget predicate is
+$$
+\mathsf{MetricBallBudget}_d(x,y;r) :\Longleftrightarrow d(x,y)\le_{\mathsf R} r.
+$$
+\end{definition}
+\leandef{BEDC.Derived.MetricUp.MetricBallBudget}
+
+\begin{theorem}[Metric ball budget composition]
+\label{thm:metric-ball-budget-composition}
+Let $X$ be a carrier equipped with the $\MetricSpaceUp$ certificate obligations
+of \autoref{def:metric-certificate-obligations}, and let
+$d:X\times X\to\RealUp$ be its certified distance. Assume also the ball-budget
+ordered-real fields of \autoref{def:metric-ball-budget-predicate}: the
+comparison $\le_{\mathsf R}$, addition $+$, budget-transitivity, and two-sided
+budget-addition-monotonicity. For $x,y,z:X$ and budgets $r,s:\RealUp$,
+$$
+\mathsf{MetricBallBudget}_d(x,y;r)\Longrightarrow
+\mathsf{MetricBallBudget}_d(y,z;s)\Longrightarrow
+\mathsf{MetricBallBudget}_d(x,z;r+s).
+$$
+Equivalently,
+$$
+d(x,y)\le_{\mathsf R} r\Longrightarrow d(y,z)\le_{\mathsf R} s\Longrightarrow d(x,z)\le_{\mathsf R} r+s.
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:metric-ball-budget-predicate}. The two premises are the
+budget comparisons $d(x,y)\le_{\mathsf R} r$ and
+$d(y,z)\le_{\mathsf R} s$. The triangle-inequality field of
+\autoref{def:metric-stability-certificate} gives
+$$
+d(x,z)\le_{\mathsf R} d(x,y)+d(y,z).
+$$
+
+Apply the supplied two-sided budget-addition-monotonicity field to the two
+budget premises. This gives
+$$
+d(x,y)+d(y,z)\le_{\mathsf R} r+s.
+$$
+
+Apply the supplied budget-transitivity field to the triangle inequality and
+the displayed budget bound. This yields $d(x,z)\le_{\mathsf R} r+s$.
+Refolding \autoref{def:metric-ball-budget-predicate} gives the closed
+ball-budget conclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricBallBudget\_composition}
+
+\paragraph{Primitive boundary.}
+\(\MetricSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+\input{parts/concrete_instances/32_metric_empty_boundary_visible_context_distance_empty}
+
+\begin{closurestatus}{\MetricSpaceUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The concrete BHist metric-distance witness certificate for unary endpoints, with source, pattern, ledger, and classifier all bound to the displayed witness predicate and $\hsame$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary metric spaces, completeness, compactness, or standard metric-space bridges.}
+  \upgradepath{A stronger grade requires an explicit standard metric interpretation and a bridge-checked correspondence between the public metric surface and this BHist witness certificate.}
+\end{closurestatus}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:metric-zero-axiom-note}
+Replaces decidable equality with apartness and explicit real-modulus inequalities.
+\end{remark}

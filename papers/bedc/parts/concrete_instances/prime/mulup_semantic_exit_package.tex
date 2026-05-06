@@ -1,0 +1,568 @@
+\begin{theorem}[Concrete unary multiplication MulUp certificate spine]
+\label{thm:unary-multiplication-mulup-certificate}
+The concrete unary multiplication candidate for $\mathsf{MulUp}$ uses carrier
+$\mathsf{UnaryHistory}$ over $\mathsf{BHist}$, classifier $\hsame$, operation
+relation $\mathsf{NatMul}$, and unit $\Eone(\emp)$. Its certificate spine is the
+following finite law package.
+\begin{enumerate}
+\item Totality: for unary histories $d$ and $q$, there is a unary $n$ with
+$\mathsf{NatMul}(d,q,n)$.
+\item Result closure: every $\mathsf{NatMul}(d,q,n)$ with unary $d$ has unary
+result $n$.
+\item Functionality: any two results of $\mathsf{NatMul}(d,q,-)$ for unary
+inputs are $\hsame$.
+\item Unit laws: $\mathsf{NatMul}(\Eone(\emp),q,n)$ gives $n\hsame q$, and
+$\mathsf{NatMul}(d,\Eone(\emp),n)$ gives $n\hsame d$.
+\item Commutativity: products $\mathsf{NatMul}(d,q,n)$ and
+$\mathsf{NatMul}(q,d,m)$ over unary inputs have $n\hsame m$.
+\item Associativity: for unary $a$, $b$, and $c$, products
+$\mathsf{NatMul}(a,b,ab)$, $\mathsf{NatMul}(ab,c,\ell)$,
+$\mathsf{NatMul}(b,c,bc)$, and $\mathsf{NatMul}(a,bc,r)$ have
+$\ell\hsame r$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier, classifier, operation, and unit are the concrete objects already
+used by $\mathsf{NatMul}$. Totality, result closure, functionality, the two unit
+laws, and commutativity are exactly the checked unary multiplication laws in
+this section.
+
+For associativity, induct on the middle multiplication spine. The base case is
+the zero multiplier. The successor case rewrites the right-associated product
+as an appended multiplier product, applies
+\autoref{thm:natmul-append-continuation-closure}, and then uses functionality
+to compare it with the displayed left-associated result.
+\end{proof}
+
+\begin{theorem}[Unary multiplication MulUp semantic exit package]
+\label{thm:unary-multiplication-mulup-semantic-exit-package}
+For unary histories $d$ and $q$, the result carrier
+$\mathsf{NatMul}(d,q,-)$ has a $\mathsf{SemanticNameCert}$ with classifier
+$\hsame$. Together with the concrete carrier $\mathsf{UnaryHistory}$ over
+$\mathsf{BHist}$, classifier $\hsame$, operation relation $\mathsf{NatMul}$,
+unit $\Eone(\emp)$, totality, result closure, functionality, the two unit
+laws, commutativity, and associativity, this supplies the $\mathsf{MulUp}$
+phase exit package over $\mathsf{BHist}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-multiplication-mulup-certificate} for the algebraic
+spine. Its rows are precisely the concrete carrier, classifier, operation,
+unit, totality, result closure, functionality, left and right unit laws,
+commutativity, and associativity for unary multiplication.
+
+The result carrier certificate is the checked
+$\mathsf{NatMul\_result\_semanticNameCert}$ theorem. It takes the unary inputs
+$d$ and $q$ and returns a $\mathsf{SemanticNameCert}$ for the predicate
+$\mathsf{NatMul}(d,q,-)$ with classifier $\hsame$.
+
+The dependency list is therefore the checked multiplication family
+$\mathsf{NatMul\_total}$, $\mathsf{NatMul\_result\_unary}$,
+$\mathsf{NatMul\_functional}$, $\mathsf{NatMul\_unit\_left\_hsame}$,
+$\mathsf{NatMul\_unit\_right\_hsame}$, $\mathsf{NatMul\_comm\_hsame}$,
+$\mathsf{NatMul\_assoc\_hsame}$, and the result-name certificate. These rows
+are exactly the finite exit data needed for the full natural-arithmetic phase
+object to consume $\mathsf{MulUp}$ as a single semantic package.
+\end{proof}
+\begin{closurestatus}{\MulUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The unary-history multiplication package over $\mathsf{BHist}$: carrier $\mathsf{UnaryHistory}$, classifier $\hsame$, relation $\mathsf{NatMul}$, unit $\Eone(\emp)$, totality, result closure, functionality, unit laws, commutativity, associativity, and result semantic name certificate.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.PrimeUp.NatMul\_result\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{Ordered semiring interaction, cancellation laws, order compatibility, distributivity with addition, or a standard-model bridge for multiplication.}
+  \upgradepath{$\matureClosure$ requires the multiplication package to be connected with $\AddUp$ and $\OrderUp$ through distributivity, cancellation or order-side laws where appropriate, and a standard-model bridge.}
+\end{closurestatus}
+
+\begin{lemma}[Unit left multiplication reads back the multiplier]
+\label{lem:nat-mul-unit-left-hsame}
+For every unary history $q$, if $\mathsf{NatMul}(\Eone(\emp), q, n)$, then $\hsame(n,q)$.
+\end{lemma}
+\begin{proof}
+Induct on the concrete multiplication derivation for $q$. The zero case is immediate. In the successor case, unary inversion exposes the tail multiplier, the induction hypothesis identifies the previous product with that tail, and determinacy of $\Cont$ identifies the final appended unit with the canonical successor.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_left\_hsame}
+
+\begin{lemma}[Unit right multiplication reads back the multiplicand]
+\label{lem:natmul-unit-right-hsame}
+For every history $d$, if $\mathsf{NatMul}(d,\Eone(\emp),n)$, then
+$\hsame(n,d)$.
+\end{lemma}
+\begin{proof}
+Invert the successor multiplication witness at multiplier $\Eone(\emp)$. Its
+predecessor multiplier is $\emp$, so the predecessor product is the zero
+constructor result $\emp$. The final continuation is therefore the empty-left
+append of $d$, which identifies the result with $d$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_right\_hsame}
+
+\begin{lemma}[Unit right multiplication iff]
+\label{lem:nat-mul-unit-right-iff}
+For every unary history $d$, multiplication on the right by the unit history
+returns exactly the multiplicand up to history-sameness:
+$$
+\mathsf{UnaryHistory}(d)
+\Longrightarrow
+\bigl(\mathsf{NatMul}(d,\Eone(\emp),n)\Longleftrightarrow \hsame(n,d)\bigr).
+$$
+\end{lemma}
+\begin{proof}
+The forward direction is
+\autoref{lem:natmul-unit-right-hsame}. For the reverse direction, reduce along
+the displayed history-sameness. The zero multiplication constructor gives
+$\mathsf{NatMul}(d,\emp,\emp)$ from the unary carrier, and the successor
+constructor appends $d$ to the empty product using the left-unit continuation
+law.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_right\_iff}
+
+\begin{theorem}[Unary multiplication two-sided unit exactness]
+\label{thm:natmul-two-sided-unit-exactness}
+For unary histories $q$ and $d$, left and right multiplication by the unit
+history $\Eone(\emp)$ are exact up to history-sameness:
+$$
+\mathsf{NatMul}(\Eone(\emp),q,n)\Longleftrightarrow \hsame(n,q)
+$$
+and
+$$
+\mathsf{NatMul}(d,\Eone(\emp),n)\Longleftrightarrow \hsame(n,d).
+$$
+\end{theorem}
+\begin{proof}
+For the left-hand equivalence, the forward direction is
+\autoref{lem:nat-mul-unit-left-hsame}. For the reverse direction, transport
+along the displayed $\hsame(n,q)$ identification and apply the closed unit-left
+multiplication theorem $\mathsf{NatMul\_unit\_left\_closed}$.
+
+For the right-hand equivalence, apply
+\autoref{lem:nat-mul-unit-right-iff}. Its statement is exactly the right unit
+exactness claim for unary multiplicands.
+\end{proof}
+
+\begin{theorem}[Unit multiplication result forces unit factors]
+\label{thm:natmul-unit-result-factors-unit}
+If a unary multiplication witness returns the unit history, then both the
+multiplicand and the multiplier are the unit history:
+$$
+\mathsf{NatMul}(d,q,\Eone(\emp))
+\Longrightarrow
+\HSame(d,\Eone(\emp))\wedge \HSame(q,\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Invert the multiplication witness at the unit result. The zero constructor is
+impossible. In the successor case, continuation inversion at an \(\Eone\)
+result either makes the multiplicand empty, contradicting empty-left
+multiplication, or exposes a one-headed multiplicand whose tail continuation
+has empty result. Empty-result inversion then forces that tail and the
+predecessor product to be empty, so the multiplier tail is empty by the
+nonempty-multiplicand empty-result exactness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_result\_factors\_unit}
+
+\begin{lemma}[\(\Ezero\)-multiplier exclusion]
+\label{thm:natmul-e0-multiplier-absurd}
+No unary multiplication witness has an \(\Ezero\)-headed multiplier:
+for all histories \(d,q,n\), \(\mathsf{NatMul}(d,\Ezero(q),n)\) is impossible.
+\end{lemma}
+\begin{proof}
+By constructor inversion on the closed relation \(\mathsf{NatMul}\): its
+multiplier argument is generated only by \(\emp\) and \(\Eone\)-successor cases.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_e0\_multiplier\_absurd}
+
+\begin{theorem}[Unary multiplication zero-headed component impossibility]
+\label{thm:natmul-zero-headed-component-absurd}
+If \(\mathsf{NatMul}(d,q,n)\) holds, then none of \(d\), \(q\), or \(n\) can
+be a zero-headed history.
+\end{theorem}
+\begin{proof}
+The multiplication witness exposes unary evidence for the multiplicand,
+multiplier, and result. Each possible zero-headed equality contradicts the
+corresponding unary-history witness by the zero-extension exclusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_zero\_headed\_component\_absurd}
+
+\begin{theorem}[Empty multiplier exactness for unary multiplication]
+\label{thm:natmul-empty-right-iff}
+For all histories $d,n$,
+$$
+\mathsf{NatMul}(d,\emp,n)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(d)\land \hsame(n,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction inverts the closed $\mathsf{NatMul}$ witness. The only
+constructor with empty multiplier is the empty-multiplier row, which records
+the unary field for $d$ and returns the empty result. Conversely, if $d$ is
+unary and $n\hsame\emp$, identify the endpoint with $\emp$ and apply the
+empty-multiplier constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_right\_iff}
+
+\begin{theorem}[Empty multiplicand exactness for unary multiplication]
+\label{thm:natmul-empty-left-iff}
+For all histories $q,n$,
+$$
+\mathsf{NatMul}(\emp,q,n)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(q)\land \hsame(n,\emp).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, every closed multiplication witness carries a unary
+multiplier, and empty-left multiplication has empty result by induction over
+the witness.
+
+Conversely, identify the displayed result with $\emp$ and induct on the unary
+history $q$. The empty case is the zero constructor for
+$\mathsf{NatMul}(\emp,\emp,\emp)$. A zero-headed unary case is impossible. In
+the $\Eone$ case, apply the induction hypothesis to the tail and then append
+one empty block using the successor constructor together with
+$\Cont(\emp,\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_left\_iff}
+
+\begin{theorem}[Nonempty multiplicand and empty multiplication result]
+\label{thm:natmul-nonempty-multiplicand-empty-result-iff}
+For every unary multiplicand $d$ with $d\not\hsame\emp$, the empty-result
+case of $\mathsf{NatMul}(d,q,\emp)$ is equivalent to the empty multiplier
+$q\hsame\emp$.
+\end{theorem}
+\begin{proof}
+The forward direction inverts the $\mathsf{NatMul}$ derivation. The zero
+constructor gives the empty multiplier. A successor constructor would include
+a continuation $\Cont(n,d,\emp)$; empty-result inversion for $\Cont$ forces
+$d\hsame\emp$, contradicting the nonempty multiplicand hypothesis. The reverse
+direction is the zero constructor after identifying $q$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_multiplicand\_empty\_result\_iff}
+
+\begin{lemma}[Empty unary multiplication result exposes an empty factor]
+\label{lem:natmul-empty-result-factor-empty-or-multiplier-empty}
+If \(\mathsf{NatMul}(d,q,\emp)\), then either the multiplicand is empty
+\(d\hsame\emp\), or the multiplier is empty \(q\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Invert the closed multiplication witness. The zero constructor has multiplier
+\(\emp\). A successor constructor ends with a continuation \(\Cont(n,d,\emp)\),
+and empty-result inversion for \(\Cont\) forces \(d\hsame\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_result\_factor\_empty\_or\_multiplier\_empty}
+
+\begin{theorem}[Unary multiplication empty result iff an input is empty]
+\label{thm:natmul-empty-result-factor-empty-or-multiplier-empty-iff}
+If \(\mathsf{NatMul}(d,q,n)\), then
+\[
+n\hsame\emp
+\Longleftrightarrow
+d\hsame\emp \vee q\hsame\emp .
+\]
+\end{theorem}
+\begin{proof}
+For the forward implication, transport the displayed result equality to the
+empty-result case and apply
+\autoref{lem:natmul-empty-result-factor-empty-or-multiplier-empty}.
+
+For the converse implication, split on the empty input. If the multiplicand is
+empty, \autoref{lem:natmul-empty-left-result-empty} identifies the product
+result with \(\emp\). If the multiplier is empty, the empty-right
+multiplication iff gives the canonical empty product for the same multiplicand;
+functionality of \(\mathsf{NatMul}\) identifies the displayed result with that
+empty product.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_result\_iff\_factor\_empty\_or\_multiplier\_empty}
+
+\begin{theorem}[Successor multiplication result equal to factor exposes an empty input]
+\label{thm:nat-mul-succ-result-eq-factor-empty-or-multiplier-empty}
+If \(d\) is unary, \(\mathsf{NatMul}(d,\Eone(q),n)\), and
+\(n\hsame d\), then either \(d\hsame\emp\) or \(q\hsame\emp\).
+\end{theorem}
+\begin{proof}
+Invert the successor multiplication to obtain a predecessor product
+\(\mathsf{NatMul}(d,q,p)\) and a continuation \(\Cont(p,d,n)\). Transport that
+continuation across \(n\hsame d\), then cancel its common right factor against
+the displayed unit continuation \(\Cont(\emp,d,d)\). This gives \(p\hsame\emp\).
+Transport the predecessor product to empty result and apply the empty-result
+factor split.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_eq\_factor\_empty\_or\_multiplier\_empty}
+
+\begin{theorem}[Nonempty unary multiplication factors have nonempty result]
+\label{thm:natmul-nonempty-factors-result-not-empty}
+If neither \(d\) nor \(q\) is history-same to \(\emp\), then no witness
+\(\mathsf{NatMul}(d,q,n)\) can have \(n\hsame\emp\).
+\end{theorem}
+\begin{proof}
+Transport the result equality to the empty-result case and apply the preceding
+empty-result factor theorem. Its two alternatives are exactly the two excluded
+empty-factor cases.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_factors\_result\_not\_empty}
+
+\begin{theorem}[Append-continuation multiplication empty result split]
+\label{thm:natmul-append-cont-empty-result-empty-factors-iff}
+Let \(d\) be unary and not history-same to \(\emp\). If
+\(\mathsf{NatMul}(d,w,n)\), \(\mathsf{NatMul}(d,q,e)\), and
+\(\mathsf{Cont}(n,e,r)\), then \(r\hsame\emp\) exactly when both
+\(w\hsame\emp\) and \(q\hsame\emp\).
+\end{theorem}
+\begin{proof}
+Append-continuation closure first gives a multiplication witness for
+\(\mathsf{append}(w,q)\) with result \(r\). The nonempty-multiplicand
+empty-result theorem reduces the empty result to an empty appended multiplier,
+and append empty-result exactness splits that condition into the two factors.
+The converse builds the empty appended multiplier and uses multiplication
+functionality to identify the continuation result with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_cont\_empty\_result\_empty\_factors\_iff}
+
+\begin{theorem}[Successor multiplicand appends the multiplier]
+\label{thm:natmul-succ-multiplicand-append-multiplier-total}
+If $\mathsf{NatMul}(d,q,n)$, then there is a unary history $r$ such that
+$\ContR(n,q,r)$ and
+$\mathsf{NatMul}(\Eone(d),q,r)$.
+\end{theorem}
+\begin{proof}
+Induct on the concrete multiplication witness. The empty multiplier case
+chooses $r=\emp$. In the successor case, the induction hypothesis displays
+the predecessor result as the continuation of the old product by the
+predecessor multiplier. The final multiplication step appends $d$, while the
+successor multiplicand step appends $\Eone(d)$. Associativity of
+continuation and commutativity of unary append exchange the predecessor
+multiplier with $d$, giving the displayed continuation by $\Eone(q)$ and the
+successor-multiplicand multiplication witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_multiplicand\_append\_multiplier\_total}
+
+\begin{lemma}[Append multiplier right factor readback]
+\label{lem:nat-mul-append-multiplier-right-factor}
+Let $d$ and $q$ be unary histories. If $\mathsf{NatMul}(d,w,n)$ and
+$\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$ hold, and if $\ContR(n,e,r)$
+displays $e$ as the right factor of the result continuation, then
+$\mathsf{NatMul}(d,q,e)$.
+\end{lemma}
+\begin{proof}
+Use totality of unary multiplication to build a product $e'$ for $d$ and $q$.
+Append-continuation closure then produces a product for
+$\mathsf{append}(w,q)$ with result $\mathsf{append}(n,e')$. Functionality of
+$\mathsf{NatMul}$ identifies this result with the displayed $r$. Transport the
+continuation $\ContR(n,e',\mathsf{append}(n,e'))$ across that result equality,
+left-cancel it against $\ContR(n,e,r)$, and transport the product for $q$ from
+$e'$ to $e$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_right\_factor}
+
+\begin{lemma}[Append multiplier left factor readback]
+\label{lem:nat-mul-append-multiplier-left-factor}
+Let $d$ and $w$ be unary histories. If $\mathsf{NatMul}(d,q,e)$ and
+$\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$ hold, and if $\ContR(n,e,r)$
+displays $n$ as the left factor of the result continuation, then
+$\mathsf{NatMul}(d,w,n)$.
+\end{lemma}
+\begin{proof}
+Use totality of unary multiplication to build a product $n'$ for $d$ and $w$.
+Append-continuation closure combines this product with the supplied product for
+$q$, producing a product for $\mathsf{append}(w,q)$ with result
+$\mathsf{append}(n',e)$. Functionality of $\mathsf{NatMul}$ identifies that
+result with the displayed $r$. Transport the continuation
+$\ContR(n',e,\mathsf{append}(n',e))$ across this result equality, right-cancel
+it against $\ContR(n,e,r)$, and transport the product for $w$ from $n'$ to $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_left\_factor}
+
+\begin{theorem}[Append multiplier result deterministic]
+\label{thm:natmul-append-multiplier-result-deterministic}
+Let $d$ be unary. If $\mathsf{NatMul}(d,w,n)$ and $\mathsf{NatMul}(d,q,e)$
+are displayed factor products, $\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$ is
+a product over the appended multiplier, and $\Cont(n,e,z)$ displays the
+combined result, then $r\hsame z$.
+\end{theorem}
+\begin{proof}
+Append-continuation multiplication closure combines the two factor products
+along $\Cont(n,e,z)$, producing a multiplication witness for
+$\mathsf{append}(w,q)$ with result $z$. Functionality of
+$\mathsf{NatMul}$ for the unary multiplicand $d$ compares this constructed
+witness with the displayed appended-multiplier witness and identifies the two
+results.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_result\_deterministic}
+
+\begin{definition}[Divisibility relation]
+\label{def:nat-divides}
+For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
+\end{definition}
+\leandef{BEDC.Derived.PrimeUp.NatDivides}
+
+\begin{theorem}[Divisibility result unary carrier]
+\label{thm:nat-divides-result-unary}
+If $\mathsf{NatDivides}(d,n)$ holds, then $n$ is a unary history.
+\end{theorem}
+\begin{proof}
+Unpack the quotient witness. The multiplication witness exposes unary $d$,
+and multiplication result closure then proves the result history $n$ unary.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_result\_unary}
+
+\begin{lemma}[Divisibility result cases]
+\label{lem:nat-divides-result-cases}
+Every witness of \(\mathsf{NatDivides}(d,n)\) is either an empty-result
+witness, with \(n\hsame\emp\) and \(d\) unary, or a successor-product witness:
+there is a predecessor \(n_0\) with \(\mathsf{NatDivides}(d,n_0)\) and
+\(\Cont(n_0,d,n)\).
+\end{lemma}
+\begin{proof}
+Unpack the explicit quotient in the divisibility witness. If its
+\(\mathsf{NatMul}\) witness is zero, the result is empty and the multiplicand
+field gives unary \(d\). If it is a successor witness, unary inversion on the
+quotient supplies a unary predecessor quotient, and the predecessor
+multiplication witness repackages as \(\mathsf{NatDivides}(d,n_0)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_result\_cases}
+
+\begin{theorem}[Divisibility zero-headed component impossibility]
+\label{thm:nat-divides-zero-headed-component-absurd}
+If \(\mathsf{NatDivides}(d,n)\) holds, then neither the divisor \(d\) nor the
+dividend \(n\) can be a zero-headed history.
+\end{theorem}
+\begin{proof}
+Unpack the explicit quotient \(q\) in the divisibility witness. The underlying
+\(\mathsf{NatMul}(d,q,n)\) witness rules out zero-headed multiplicand,
+multiplier, and result components. Applying that impossibility to the divisor
+or dividend component gives the claim.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_zero\_headed\_component\_absurd}
+
+\begin{lemma}[Empty left divisibility has empty result]
+\label{lem:natdivides-empty-left-result-empty}
+If \(\mathsf{NatDivides}(\emp,n)\), then \(n\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Unpack the quotient witness for divisibility. Its multiplication field is a
+witness of \(\mathsf{NatMul}(\emp,q,n)\), so empty-left multiplication
+exactness identifies the result \(n\) with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_left\_result\_empty}
+
+\begin{theorem}[Successor-result divisors have positive shape]
+\label{thm:natdivides-successor-result-divisor-positive-shape}
+If \(\mathsf{NatDivides}(d,\Eone(n))\), then \(d\) has positive unary shape:
+there is a unary history \(t\) with \(d\hsame\Eone(t)\).
+\end{theorem}
+\begin{proof}
+Unpack the divisibility witness and read the unaryness of \(d\) from its
+multiplication field. If \(d\) were empty, empty-left divisibility would force
+\(\Eone(n)\hsame\emp\), contradicting successor non-emptiness. The \(e0\)
+case is excluded by unary-history inversion. Hence \(d\) is \(e1\)-headed, and
+the unary tail is obtained by unary inversion.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_successor\_result\_divisor\_positive\_shape}
+
+\begin{theorem}[Nonempty-result divisors have positive shape]
+\label{thm:nat-divides-nonempty-result-divisor-positive-shape}
+If \(\mathsf{NatDivides}(d,n)\), \(n\) is unary, and
+\(n\not\hsame\emp\), then \(d\) has positive unary shape: there is a unary
+history \(t\) with \(d\hsame\Eone(t)\).
+\end{theorem}
+\begin{proof}
+Unpack the quotient witness in \(\mathsf{NatDivides}(d,n)\) and read the
+unaryness of \(d\) from its multiplication field. If \(d\hsame\emp\), then
+empty-left divisibility forces \(n\hsame\emp\), contradicting the displayed
+nonempty result. The \(e0\)-headed case is excluded by unary-history inversion,
+so the divisor is \(e1\)-headed and unary inversion supplies the tail carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_nonempty\_result\_divisor\_positive\_shape}
+
+\begin{theorem}[Empty-left divisibility exactness]
+\label{thm:nat-divides-empty-left-iff}
+For every history $n$, divisibility by the empty unary history holds exactly
+when the result is empty:
+$$
+\mathsf{NatDivides}(\emp,n)\Longleftrightarrow \hsame(n,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is empty-left divisibility result exactness. For the
+reverse implication, identify $n$ with $\emp$; then the empty quotient and the
+zero multiplication constructor witness $\mathsf{NatDivides}(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_left\_iff}
+
+\begin{lemma}[Empty right divisibility is unary carrier]
+\label{thm:natdivides-empty-right-iff}
+For any history $d$, $\mathsf{NatDivides}(d,\emp)$ holds exactly when $d$ is a
+unary history.
+\end{lemma}
+\begin{proof}
+In the forward direction, unpack the quotient witness; its multiplication
+field carries the unary multiplicand field for $d$. In the reverse direction,
+use the empty quotient and the zero constructor of $\mathsf{NatMul}$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_right\_iff}
+
+\begin{theorem}[Unit-left divisibility is unary carrier]
+\label{thm:natdivides-unit-left-iff}
+For any history $n$, $\mathsf{NatDivides}(\Eone(\emp),n)$ holds exactly when
+$n$ is a unary history.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the quotient witness $q$. Multiplication by
+the unit identifies the result with $q$, and unaryness transports across that
+endpoint identification. Conversely, the unit-divisibility half of reflexivity
+gives $\mathsf{NatDivides}(\Eone(\emp),n)$ for every unary $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_unit\_left\_iff}
+
+\begin{theorem}[Unit-right divisibility exactness]
+\label{thm:nat-divides-unit-right-iff}
+For any history $d$, $\mathsf{NatDivides}(d,\Eone(\emp))$ holds exactly when
+$d\hsame\Eone(\emp)$.
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the quotient witness and apply unit-result
+multiplication factor exactness: both factors of a product equal to
+\(\Eone(\emp)\) are the unary unit. Conversely, identify \(d\) with the unary
+unit and use reflexive divisibility for the unit history.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_unit\_right\_iff}
+
+\begin{lemma}[Divisibility is reflexive on the unit and on every unary history]
+\label{lem:divides-reflexive}
+For every unary \(n\), \(\mathsf{NatDivides}(\Eone(\emp), n)\) and \(\mathsf{NatDivides}(n, n)\).
+\end{lemma}
+\begin{proof}
+The unit case takes \(q = n\) in \(\mathsf{NatMul}(\Eone(\emp), n, n)\) by induction. The self-divisibility case takes \(q = \Eone(\emp)\) and uses the continuation unit at the empty quotient.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_reflexive}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_unit\_self\_reflexive}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_reflexive\_pair}
+
+\begin{lemma}[Divisibility is transitive]
+\label{lem:divides-transitive}
+If \(\mathsf{NatDivides}(d, e)\) and \(\mathsf{NatDivides}(e, n)\), then \(\mathsf{NatDivides}(d, n)\).
+\end{lemma}
+\begin{proof}
+From the witnessing quotients \(q_1\) with \(\mathsf{NatMul}(d, q_1, e)\) and \(q_2\) with \(\mathsf{NatMul}(e, q_2, n)\), the composite quotient is \(q_1 \cdot q_2\), itself constructed as a unary history by \autoref{lem:nat-mul-total}.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_transitive}
+
+\begin{theorem}[Unary divisibility partial-order certificate]
+\label{thm:nat-divides-partial-order-certificate}
+On unary histories, $\mathsf{NatDivides}$ is reflexive and transitive, and it is
+antisymmetric modulo $\hsame$: for unary histories $d$, $e$, and $n$,
+$\mathsf{NatDivides}(d,d)$,
+$\mathsf{NatDivides}(d,e) \wedge \mathsf{NatDivides}(e,n) \Rightarrow
+\mathsf{NatDivides}(d,n)$, and
+$\mathsf{NatDivides}(d,e) \wedge \mathsf{NatDivides}(e,d) \Rightarrow
+d\hsame e$.
+\end{theorem}
+\begin{proof}
+The reflexive clause is \autoref{lem:divides-reflexive}, and the transitive
+clause is \autoref{lem:divides-transitive}. The antisymmetric clause is
+\autoref{thm:nat-divides-antisymmetry-hsame}.
+
+This is a paper-level bundled certificate rather than a distinct Lean marker
+site: the three checked laws are consumed together by bounded divisor search,
+Euclid's lemma, and factorization uniqueness as the order-like interface for
+unary divisibility.
+\end{proof}

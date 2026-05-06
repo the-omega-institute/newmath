@@ -1,0 +1,784 @@
+\chapter{A Concrete Naming Certificate for $\RandomVarUp$}
+\label{ch:concrete-instances-randomvar-namecert}
+
+The random-variable interface $\RandomVarUp$ packages a measurable function from a probability space to a target measure space. It depends on $\NameCert_{\ProbSpaceUp}$ (\autoref{ch:concrete-instances-probspace-namecert}) and $\NameCert_{\MeasureUp}$ (\autoref{ch:concrete-instances-measure-namecert}).
+
+\section{Carrier definition}
+\label{sec:randomvar-carrier}
+
+\section{The certificate}
+\label{sec:randomvar-certificate}
+
+\begin{theorem}[RandomVar preimage preserves disjoint binary unions]
+\label{thm:randomvar-preimage-disjoint-binary-union-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $B,C,U_T$ be target events such that $B,C,U_T\in\mathcal{A}_T$ and the displayed target binary-union row reads $U_T$ as $B\cup C$:
+$$
+t\in U_T\quad\Longleftrightarrow\quad t\in B\ \text{or}\ t\in C.
+$$
+Assume $B$ and $C$ are disjoint: for every carried target point $t$, simultaneous witnesses $t\in B$ and $t\in C$ are eliminated. Let
+$$
+A_B:=X^{-1}(B),\qquad A_C:=X^{-1}(C),\qquad A_U:=X^{-1}(U_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage, then $A_B,A_C,A_U\in\mathcal{A}_S$. Moreover, if $U_S$ is the source binary union of $A_B$ and $A_C$ supplied by the source $\MeasureUp$ sigma-algebra row of \autoref{thm:measure-sigma-algebra-obligations}, then
+$$
+U_S\in\mathcal{A}_S,\qquad A_U\sim_{\mathcal{A}_S}U_S,
+$$
+and $A_B$ and $A_C$ are disjoint source events.
+\end{theorem}
+\begin{proof}
+The measurable-preimage row of the $\RandomVarUp$ certificate applies to the three target measurable events $B,C,U_T$. This gives $A_B,A_C,A_U\in\mathcal{A}_S$.
+
+Since the source probability space inherits its measurable family from the underlying $\MeasureUp$ carrier, \autoref{thm:measure-sigma-algebra-obligations} supplies the binary-union row for the measurable pair $A_B,A_C$. Let $U_S$ be that displayed source union. Its row gives $U_S\in\mathcal{A}_S$ and the membership readback
+$$
+s\in U_S\quad\Longleftrightarrow\quad s\in A_B\ \text{or}\ s\in A_C.
+$$
+
+It remains to compare $A_U$ with $U_S$ through the source event classifier. For a carried source point $s$, unfold the preimage rows:
+$$
+s\in A_U\quad\Longleftrightarrow\quad X(s)\in U_T.
+$$
+The target binary-union readback gives
+$$
+X(s)\in U_T\quad\Longleftrightarrow\quad X(s)\in B\ \text{or}\ X(s)\in C.
+$$
+Unfolding the two preimage rows again gives
+$$
+X(s)\in B\ \text{or}\ X(s)\in C
+\quad\Longleftrightarrow\quad
+s\in A_B\ \text{or}\ s\in A_C.
+$$
+The source binary-union readback identifies the right side with $s\in U_S$. Thus $A_U$ and $U_S$ have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+A_U\sim_{\mathcal{A}_S}U_S.
+$$
+
+Finally suppose $s$ has witnesses $s\in A_B$ and $s\in A_C$. Unfolding preimage gives witnesses $X(s)\in B$ and $X(s)\in C$. The displayed target disjointness row for $B$ and $C$ eliminates such a pair, so no carried source point can inhabit both $A_B$ and $A_C$. Hence the preimage pair is disjoint.
+\end{proof}
+
+\begin{theorem}[RandomVar preimage relative-difference exactness]
+\label{thm:randomvar-preimage-relative-difference-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $A$ and $B$ be target events in one carried target fiber with $A,B\in\mathcal{A}_T$, and suppose the public target readback displays $B\subseteq A$. Suppose the target complement/relative-difference row of \autoref{def:measure-complement-difference-row} supplies a measurable event
+$$
+D_T:=A\setminus B
+$$
+with public membership readback
+$$
+t\in D_T\quad\Longleftrightarrow\quad t\in A\ \text{and}\ t\notin B.
+$$
+Define source preimages
+$$
+A_S:=X^{-1}(A),\qquad B_S:=X^{-1}(B),\qquad D_X:=X^{-1}(D_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage, then $A_S,B_S,D_X\in\mathcal{A}_S$, and the public source readback displays $B_S\subseteq A_S$. Let $D_S$ be the source relative-difference event $A_S\setminus B_S$ supplied by the source $\MeasureUp$ complement/relative-difference row. Then
+$$
+D_S\in\mathcal{A}_S,\qquad D_X\sim_{\mathcal{A}_S}D_S,
+$$
+and the equality is certified with the source relative-difference ledger: $B_S$ and $D_S$ are disjoint, and the displayed source binary union $B_S\cup D_S$ is classified as $A_S$.
+\end{theorem}
+\begin{proof}
+The target complement/relative-difference row gives the measurable target event $D_T$. Applying the measurable-preimage row of the $\RandomVarUp$ certificate to $A$, $B$, and $D_T$ gives
+$$
+A_S,B_S,D_X\in\mathcal{A}_S.
+$$
+
+To read the source inclusion, fix a carried source point $s$ with a witness $s\in B_S$. The preimage readback for $B$ gives $X(s)\in B$. The displayed target inclusion $B\subseteq A$ gives $X(s)\in A$, and the preimage readback for $A$ gives $s\in A_S$. Hence the public source readback displays $B_S\subseteq A_S$.
+
+Apply the source complement/relative-difference row of \autoref{def:measure-complement-difference-row}, equivalently the row projected in \autoref{thm:measure-relative-difference-disjoint-decomposition}, to the displayed source inclusion $B_S\subseteq A_S$. It supplies the measurable event $D_S:=A_S\setminus B_S$, the disjointness witness for $B_S$ and $D_S$, and the binary-union readback classifying $B_S\cup D_S$ as $A_S$. Its relative-difference readback is
+$$
+s\in D_S\quad\Longleftrightarrow\quad s\in A_S\ \text{and}\ s\notin B_S.
+$$
+
+It remains to compare $D_X$ with $D_S$. For every carried source point $s$, the displayed rows give
+$$
+\begin{aligned}
+s\in D_X
+&\Longleftrightarrow X(s)\in D_T\\
+&\Longleftrightarrow X(s)\in A\ \text{and}\ X(s)\notin B\\
+&\Longleftrightarrow s\in A_S\ \text{and}\ s\notin B_S\\
+&\Longleftrightarrow s\in D_S.
+\end{aligned}
+$$
+The first and third equivalences are the preimage readbacks, the second is the target relative-difference readback, and the last is the source relative-difference readback.
+
+Thus $D_X$ and $D_S$ have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+D_X\sim_{\mathcal{A}_S}D_S.
+$$
+The measurable, disjointness, and binary-union statements are the corresponding fields of the same source relative-difference ledger.
+\end{proof}
+
+\begin{theorem}[RandomVar preimage complement and relative-difference exactness]
+\label{thm:randomvar-preimage-complement-difference-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\Omega_S$ and $\Omega_T$ for the source and target total events, write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $A$ and $B$ be target events in one carried target fiber with $A,B\in\mathcal{A}_T$, and suppose the public target readback displays $B\subseteq A$. Suppose the target complement/relative-difference row of \autoref{def:measure-complement-difference-row} supplies a measurable event
+$$
+D_T:=A\setminus B
+$$
+with public membership readback
+$$
+t\in D_T\quad\Longleftrightarrow\quad t\in A\ \text{and}\ t\notin B.
+$$
+Define source preimages
+$$
+A_S:=X^{-1}(A),\qquad B_S:=X^{-1}(B),\qquad D_X:=X^{-1}(D_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage, then $A_S,B_S,D_X\in\mathcal{A}_S$, and the public source readback displays $B_S\subseteq A_S$. Let $D_S:=A_S\setminus B_S$ be the source relative-difference event supplied by the source $\MeasureUp$ complement/relative-difference row. Then
+$$
+D_S\in\mathcal{A}_S,\qquad D_X\sim_{\mathcal{A}_S}D_S.
+$$
+In the complement case, take the ambient event $A$ to be $\Omega_T$ and write $B_T^{\complement}:=\Omega_T\setminus B$. If the same $\RandomVarUp$ row identifies $X^{-1}(\Omega_T)$ with $\Omega_S$ through the source event classifier, with source-event transport read through \autoref{thm:semantic-namecert-pattern-ledger-transport}, and if $B_S^{\complement}:=\Omega_S\setminus B_S$ is the source complement event supplied by the source complement/relative-difference row, then
+$$
+X^{-1}(B_T^{\complement})\sim_{\mathcal{A}_S}B_S^{\complement}.
+$$
+The two classifications are certified with the corresponding source relative-difference ledgers: the second component is disjoint from $B_S$, and its displayed binary union with $B_S$ is classified as the ambient source event.
+\end{theorem}
+\begin{proof}
+The measurable-preimage row of the $\RandomVarUp$ certificate applies to the three target measurable events $A$, $B$, and $D_T$. This gives
+$$
+A_S,B_S,D_X\in\mathcal{A}_S.
+$$
+
+To read the source inclusion, fix a carried source point $s$ with a witness $s\in B_S$. The preimage readback for $B$ gives $X(s)\in B$. The displayed target inclusion $B\subseteq A$ gives $X(s)\in A$, and the preimage readback for $A$ gives $s\in A_S$. Hence the public source readback displays $B_S\subseteq A_S$.
+
+Apply the source complement/relative-difference row of \autoref{def:measure-complement-difference-row} to this displayed source inclusion. It supplies the measurable event $D_S:=A_S\setminus B_S$, the disjointness witness for $B_S$ and $D_S$, and the binary-union readback classifying $B_S\cup D_S$ as $A_S$. Its relative-difference readback is
+$$
+s\in D_S\quad\Longleftrightarrow\quad s\in A_S\ \text{and}\ s\notin B_S.
+$$
+
+For every carried source point $s$, the displayed rows give
+$$
+\begin{aligned}
+s\in D_X
+&\Longleftrightarrow X(s)\in D_T\\
+&\Longleftrightarrow X(s)\in A\ \text{and}\ X(s)\notin B\\
+&\Longleftrightarrow s\in A_S\ \text{and}\ s\notin B_S\\
+&\Longleftrightarrow s\in D_S.
+\end{aligned}
+$$
+The first and third equivalences are the preimage readbacks, the second is the target relative-difference readback, and the last is the source relative-difference readback. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+D_X\sim_{\mathcal{A}_S}D_S.
+$$
+
+Now take $A=\Omega_T$ and $D_T=B_T^{\complement}$. The source ambient preimage is $A_S=X^{-1}(\Omega_T)$, and the source-event transport is the one cited in \autoref{thm:semantic-namecert-pattern-ledger-transport}. For every carried source point $s$, the total-preimage classifier gives
+$$
+s\in A_S\quad\Longleftrightarrow\quad s\in\Omega_S.
+$$
+The source complement event $B_S^{\complement}:=\Omega_S\setminus B_S$ has readback
+$$
+s\in B_S^{\complement}\quad\Longleftrightarrow\quad s\in\Omega_S\ \text{and}\ s\notin B_S.
+$$
+Combining these two readbacks with the relative-difference computation above gives
+$$
+s\in X^{-1}(B_T^{\complement})\quad\Longleftrightarrow\quad s\in B_S^{\complement}
+$$
+for every carried source point $s$. The same source event-classifier component, using the source-event transport of \autoref{thm:semantic-namecert-pattern-ledger-transport}, therefore yields
+$$
+X^{-1}(B_T^{\complement})\sim_{\mathcal{A}_S}B_S^{\complement}.
+$$
+The disjointness and binary-union statements are the corresponding ledger fields of the source complement/relative-difference row.
+\end{proof}
+
+\begin{theorem}[RandomVar preimage of the empty event is empty]
+\label{thm:randomvar-preimage-empty-event-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\varnothing_S$ and $\varnothing_T$ for the source and target empty events, write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Suppose the source and target empty-event rows supplied by \autoref{thm:measure-sigma-algebra-obligations} give
+$$
+\varnothing_S\in\mathcal{A}_S,\qquad \varnothing_T\in\mathcal{A}_T,
+$$
+and their displayed public readbacks eliminate every carried membership witness in the corresponding empty event. Let
+$$
+A_\varnothing:=X^{-1}(\varnothing_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to a source measurable preimage with membership readback, then
+$$
+A_\varnothing\in\mathcal{A}_S,\qquad A_\varnothing\sim_{\mathcal{A}_S}\varnothing_S.
+$$
+\end{theorem}
+\begin{proof}
+The target empty event is measurable, so the measurable-preimage row of the $\RandomVarUp$ certificate applies to $\varnothing_T$. This gives
+$$
+A_\varnothing\in\mathcal{A}_S.
+$$
+
+It remains to compare $A_\varnothing$ with the source empty event through the source event classifier. Fix a carried source point $s$. The preimage readback gives
+$$
+s\in A_\varnothing\quad\Longleftrightarrow\quad X(s)\in\varnothing_T.
+$$
+Because $X$ is carried, $X(s)$ is a carried target point. Hence any witness $s\in A_\varnothing$ reads as a witness $X(s)\in\varnothing_T$, and the target empty-event row eliminates it. By empty elimination this gives the implication from $s\in A_\varnothing$ to $s\in\varnothing_S$.
+
+Conversely, any witness $s\in\varnothing_S$ is eliminated by the source empty-event row. By empty elimination this gives the implication from $s\in\varnothing_S$ to $s\in A_\varnothing$. Therefore, for every carried source point $s$,
+$$
+s\in A_\varnothing\quad\Longleftrightarrow\quad s\in\varnothing_S.
+$$
+The two events have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+A_\varnothing\sim_{\mathcal{A}_S}\varnothing_S.
+$$
+\end{proof}
+
+\begin{definition}[Total-readback certificate for a carried RandomVarUp]
+\label{def:randomvar-total-readback-certificate}
+Let $S,T$ be BEDC event interfaces with event carriers $\mathcal E_S,\mathcal E_T$, event classifiers
+$$
+A\simeq_S A',\qquad B\simeq_T B',
+$$
+measurability predicates $\mathsf{Meas}_S,\mathsf{Meas}_T$, and total events
+$$
+\Omega_S\in\mathcal E_S,\qquad \Omega_T\in\mathcal E_T.
+$$
+A carried $\RandomVarUp$ map $X:S\to T$ is said to carry a total-readback certificate if it is equipped with a BEDC preimage readback relation
+$$
+\mathsf{Pre}_X(B,A)
+\qquad
+(B\in\mathcal E_T,\ A\in\mathcal E_S)
+$$
+and a chosen readback endpoint $\operatorname{pre}_X(B)\in\mathcal E_S$ satisfying
+$$
+\mathsf{Pre}_X(B,\operatorname{pre}_X(B))
+$$
+for each target event $B$, together with the following four clauses:
+$$
+\begin{aligned}
+&\text{\emph{target-total measurability:}}
+&&\mathsf{Meas}_T(\Omega_T),\\
+&\text{\emph{measurable-preimage readback:}}
+&&\mathsf{Meas}_T(B)\wedge \mathsf{Pre}_X(B,A)\Longrightarrow \mathsf{Meas}_S(A),\\
+&\text{\emph{classifier-determinacy of readback:}}
+&&B\simeq_T C,\ \mathsf{Pre}_X(B,A),\ \mathsf{Pre}_X(C,A')
+   \Longrightarrow A\simeq_S A',\\
+&\text{\emph{carried-total bridge:}}
+&&\mathsf{Pre}_X(\Omega_T,\Omega_S).
+\end{aligned}
+$$
+The object $\operatorname{pre}_X(\Omega_T)$ is the BEDC source endpoint denoted informally by
+$$
+X^{-1}(\Omega_T).
+$$
+\end{definition}
+
+\begin{theorem}[RandomVar total-event preimage exactness]
+\label{thm:randomvar-total-event-preimage-exactness}
+Under the total-readback certificate of \autoref{def:randomvar-total-readback-certificate}, the chosen total-target preimage is source-measurable and source-event-classifier equal to the source total event:
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr)
+\quad\text{and}\quad
+\operatorname{pre}_X(\Omega_T)\simeq_S \Omega_S.
+$$
+\end{theorem}
+\begin{proof}
+The chosen readback clause gives
+$$
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)).
+$$
+Since $\mathsf{Meas}_T(\Omega_T)$, measurable-preimage readback yields
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+For classifier exactness, apply classifier-determinacy to the reflexive target-classifier witness
+$$
+\Omega_T\simeq_T\Omega_T,
+$$
+the chosen readback
+$$
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)),
+$$
+and the carried-total bridge
+$$
+\mathsf{Pre}_X(\Omega_T,\Omega_S).
+$$
+The conclusion is precisely
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+\end{proof}
+
+\begin{theorem}[Terminal readback uniqueness over the target total event]
+\label{thm:randomvar-terminal-readback-uniqueness-total-event}
+Assume the total-readback certificate of \autoref{def:randomvar-total-readback-certificate}. If $A\in\mathcal E_S$ is any source event satisfying
+$$
+\mathsf{Pre}_X(\Omega_T,A),
+$$
+then
+$$
+A\simeq_S\Omega_S.
+$$
+Consequently, if $A,A'$ are two source events with
+$$
+\mathsf{Pre}_X(\Omega_T,A),\qquad \mathsf{Pre}_X(\Omega_T,A'),
+$$
+then
+$$
+A\simeq_S A'.
+$$
+\end{theorem}
+\begin{proof}
+Apply classifier-determinacy to
+$$
+\Omega_T\simeq_T\Omega_T,
+\qquad
+\mathsf{Pre}_X(\Omega_T,A),
+\qquad
+\mathsf{Pre}_X(\Omega_T,\Omega_S).
+$$
+This gives $A\simeq_S\Omega_S$. The same argument gives $A'\simeq_S\Omega_S$. By symmetry and transitivity of the source event-classifier,
+$$
+A\simeq_S\Omega_S\simeq_S A',
+$$
+hence $A\simeq_SA'$.
+\end{proof}
+
+\begin{proposition}[Exactness and the carried-total bridge under source-endpoint closure]
+\label{prop:randomvar-total-exactness-carried-bridge-equivalence}
+Assume the data of \autoref{def:randomvar-total-readback-certificate} except possibly the carried-total bridge. Suppose moreover that the readback relation is closed under source-event classifier replacement:
+$$
+\mathsf{Pre}_X(B,A)\wedge A\simeq_S A'
+\Longrightarrow
+\mathsf{Pre}_X(B,A').
+$$
+Then the following are equivalent:
+$$
+\mathsf{Pre}_X(\Omega_T,\Omega_S)
+\quad\Longleftrightarrow\quad
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+\end{proposition}
+\begin{proof}
+The forward implication is the classifier part of \autoref{thm:randomvar-total-event-preimage-exactness}.
+Conversely, suppose
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+The chosen readback clause supplies
+$$
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)).
+$$
+By source-endpoint closure of $\mathsf{Pre}_X$ along the displayed classifier witness, with source-event transport read through \autoref{thm:semantic-namecert-pattern-ledger-transport}, this readback transports to
+$$
+\mathsf{Pre}_X(\Omega_T,\Omega_S).
+$$
+Thus the carried-total bridge is not an additional hidden axiom once the chosen total preimage is already classifier-exact and readback is closed under source-classifier replacement.
+\end{proof}
+
+\begin{theorem}[Minimal obstruction to total-event exactness]
+\label{thm:randomvar-minimal-obstruction-total-event-exactness}
+Assume $X:S\to T$ has chosen readbacks and classifier-determinacy of readback. If
+$$
+\mathsf{Meas}_T(\Omega_T),\qquad
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)),\qquad
+\mathsf{Pre}_X(\Omega_T,\Omega_S)
+$$
+all hold, then
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+Equivalently, any failure of
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S
+$$
+forces failure of at least one of the following three certificate components:
+$$
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)),\qquad
+\mathsf{Pre}_X(\Omega_T,\Omega_S),\qquad
+\text{classifier-determinacy of }\mathsf{Pre}_X.
+$$
+If in addition measurable-preimage readback is available, then failure of
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr)
+$$
+forces failure of at least one of
+$$
+\mathsf{Meas}_T(\Omega_T),\qquad
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)),\qquad
+\text{measurable-preimage readback}.
+$$
+\end{theorem}
+\begin{proof}
+The first assertion is exactly the classifier-determinacy argument of \autoref{thm:randomvar-total-event-preimage-exactness}, stripped to its minimal hypotheses. Its contrapositive is the stated obstruction claim.
+For the measurability assertion, if
+$$
+\mathsf{Meas}_T(\Omega_T)
+\quad\text{and}\quad
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T))
+$$
+hold, measurable-preimage readback gives
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+Therefore failure of this conclusion forces failure of one of the three displayed premises.
+\end{proof}
+
+\begin{theorem}[Composition preserves total-event preimage exactness with a composite ledger]
+\label{thm:randomvar-composition-preserves-total-event-preimage-exactness}
+Let
+$$
+X:S\to T,
+\qquad
+Y:T\to U
+$$
+be carried $\RandomVarUp$ maps with preimage readback relations
+$$
+\mathsf{Pre}_X,
+\qquad
+\mathsf{Pre}_Y.
+$$
+Define the composite readback ledger by
+$$
+\mathsf{Pre}_{Y\circ X}(C,A)
+\quad:\Longleftrightarrow\quad
+\exists B\in\mathcal E_T\ 
+\bigl(\mathsf{Pre}_Y(C,B)\wedge \mathsf{Pre}_X(B,A)\bigr).
+$$
+Assume:
+$$
+\mathsf{Pre}_Y(\Omega_U,\Omega_T),
+\qquad
+\mathsf{Pre}_X(\Omega_T,\Omega_S),
+$$
+both component readbacks satisfy classifier-determinacy, and both satisfy measurable-preimage readback. If
+$$
+\mathsf{Meas}_U(\Omega_U),
+$$
+then
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_{Y\circ X}(\Omega_U)\bigr)
+\quad\text{and}\quad
+\operatorname{pre}_{Y\circ X}(\Omega_U)\simeq_S\Omega_S.
+$$
+\end{theorem}
+\begin{proof}
+Let
+$$
+A:=\operatorname{pre}_{Y\circ X}(\Omega_U).
+$$
+By chosen composite readback,
+$$
+\mathsf{Pre}_{Y\circ X}(\Omega_U,A).
+$$
+Hence there exists $B\in\mathcal E_T$ such that
+$$
+\mathsf{Pre}_Y(\Omega_U,B),
+\qquad
+\mathsf{Pre}_X(B,A).
+$$
+Since $\mathsf{Meas}_U(\Omega_U)$, measurable-preimage readback for $Y$ gives
+$$
+\mathsf{Meas}_T(B).
+$$
+Then measurable-preimage readback for $X$ gives
+$$
+\mathsf{Meas}_S(A).
+$$
+It remains to prove classifier exactness. The displayed carried-total bridges produce a composite total bridge:
+$$
+\mathsf{Pre}_{Y\circ X}(\Omega_U,\Omega_S)
+$$
+with intermediate witness $B=\Omega_T$.
+We first record composite classifier-determinacy. Suppose
+$$
+\mathsf{Pre}_{Y\circ X}(C,A_1),
+\qquad
+\mathsf{Pre}_{Y\circ X}(C,A_2).
+$$
+Choose intermediate witnesses $B_1,B_2$ with
+$$
+\mathsf{Pre}_Y(C,B_1),\quad \mathsf{Pre}_X(B_1,A_1),
+$$
+$$
+\mathsf{Pre}_Y(C,B_2),\quad \mathsf{Pre}_X(B_2,A_2).
+$$
+Classifier-determinacy for $Y$, applied to $C\simeq_U C$, gives
+$$
+B_1\simeq_T B_2.
+$$
+Classifier-determinacy for $X$, applied to this target-event classifier witness and the two $X$-readbacks, gives
+$$
+A_1\simeq_S A_2.
+$$
+Thus the composite readback is classifier-deterministic.
+Apply this composite classifier-determinacy to
+$$
+\mathsf{Pre}_{Y\circ X}(\Omega_U,A)
+\quad\text{and}\quad
+\mathsf{Pre}_{Y\circ X}(\Omega_U,\Omega_S).
+$$
+The result is
+$$
+A\simeq_S\Omega_S,
+$$
+that is,
+$$
+\operatorname{pre}_{Y\circ X}(\Omega_U)\simeq_S\Omega_S.
+$$
+\end{proof}
+
+\begin{definition}[Total-defect event of a RandomVarUp]
+\label{def:randomvar-total-defect-event}
+Assume the source event interface carries BEDC Boolean event operations
+$$
+\bot_S,
+\qquad
+A\mapsto A^{\complement},
+\qquad
+A\wedge A'
+$$
+with classifier-stable Boolean exactness. For a carried $\RandomVarUp$ map $X:S\to T$, define the total-defect event
+$$
+\mathfrak D_X
+:=
+\Omega_S\wedge\bigl(\operatorname{pre}_X(\Omega_T)\bigr)^{\complement}.
+$$
+It is the source-side ledger of histories for which the target-total readback fails to cover the source total event.
+\end{definition}
+
+\begin{theorem}[Total-event exactness is equivalent to vanishing total defect]
+\label{thm:randomvar-total-event-exactness-vanishing-total-defect}
+Assume the source Boolean event interface satisfies the classifier-exact total-complement law
+$$
+A\simeq_S\Omega_S
+\quad\Longleftrightarrow\quad
+\Omega_S\wedge A^{\complement}\simeq_S\bot_S
+$$
+for every source-measurable event $A$. If
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr),
+$$
+then
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S
+\quad\Longleftrightarrow\quad
+\mathfrak D_X\simeq_S\bot_S.
+$$
+In particular, under the hypotheses of \autoref{thm:randomvar-total-event-preimage-exactness},
+$$
+\mathfrak D_X\simeq_S\bot_S.
+$$
+\end{theorem}
+\begin{proof}
+Put
+$$
+A=\operatorname{pre}_X(\Omega_T).
+$$
+By definition,
+$$
+\mathfrak D_X=\Omega_S\wedge A^{\complement}.
+$$
+Since $A$ is source-measurable, the classifier-exact total-complement law applies and gives
+$$
+A\simeq_S\Omega_S
+\quad\Longleftrightarrow\quad
+\Omega_S\wedge A^{\complement}\simeq_S\bot_S.
+$$
+Substituting the definition of $\mathfrak D_X$ gives the asserted equivalence. Under \autoref{thm:randomvar-total-event-preimage-exactness}, $A\simeq_S\Omega_S$; hence $\mathfrak D_X\simeq_S\bot_S$.
+\end{proof}
+
+\begin{theorem}[Total-target reflection criterion]
+\label{thm:randomvar-total-target-reflection-criterion}
+Let $X:S\to T$ satisfy the total-readback certificate of \autoref{def:randomvar-total-readback-certificate}. Suppose $X$ is target-total reflective, meaning that for every target-measurable event $B$,
+$$
+\operatorname{pre}_X(B)\simeq_S\Omega_S
+\Longrightarrow
+B\simeq_T\Omega_T.
+$$
+Then, for every target-measurable $B$,
+$$
+\operatorname{pre}_X(B)\simeq_S\Omega_S
+\quad\Longleftrightarrow\quad
+B\simeq_T\Omega_T.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is exactly target-total reflectivity.
+Conversely, assume $B\simeq_T\Omega_T$. The chosen readbacks provide
+$$
+\mathsf{Pre}_X(B,\operatorname{pre}_X(B)),
+\qquad
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)).
+$$
+Classifier-determinacy of readback applied to $B\simeq_T\Omega_T$ yields
+$$
+\operatorname{pre}_X(B)\simeq_S\operatorname{pre}_X(\Omega_T).
+$$
+By \autoref{thm:randomvar-total-event-preimage-exactness},
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+Transitivity of $\simeq_S$ gives
+$$
+\operatorname{pre}_X(B)\simeq_S\Omega_S.
+$$
+\end{proof}
+
+\begin{theorem}[Source coverage induced by total-event exactness]
+\label{thm:randomvar-source-coverage-induced-by-total-event-exactness}
+Let $\Vdash_S(h,A)$ denote source-event incidence of a carried source history $h$ in a source event $A$. Assume incidence respects the source event classifier:
+$$
+A\simeq_S A'\ \wedge\ \Vdash_S(h,A)
+\Longrightarrow
+\Vdash_S(h,A'),
+$$
+and assume the source total event covers every carried source history:
+$$
+\mathsf{Src}_S(h)\Longrightarrow \Vdash_S(h,\Omega_S).
+$$
+Under the total-readback certificate of \autoref{def:randomvar-total-readback-certificate},
+$$
+\mathsf{Src}_S(h)
+\Longrightarrow
+\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Let $\mathsf{Src}_S(h)$. By total coverage,
+$$
+\Vdash_S(h,\Omega_S).
+$$
+By \autoref{thm:randomvar-total-event-preimage-exactness},
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+Symmetry gives
+$$
+\Omega_S\simeq_S\operatorname{pre}_X(\Omega_T).
+$$
+Incidence transport along this classifier witness, read through \autoref{thm:semantic-namecert-pattern-ledger-transport}, yields
+$$
+\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+\end{proof}
+
+\begin{proposition}[Partiality obstruction detected by the target-total preimage]
+\label{prop:randomvar-partiality-obstruction-target-total-preimage}
+Assume source-event incidence is classifier-stable and $\Omega_S$ covers every carried source history as in \autoref{thm:randomvar-source-coverage-induced-by-total-event-exactness}. If there exists a carried source history $h$ such that
+$$
+\mathsf{Src}_S(h)
+\quad\text{and}\quad
+\neg\,\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr),
+$$
+then $X$ cannot carry a total-readback certificate satisfying \autoref{def:randomvar-total-readback-certificate}.
+Equivalently, any carried $\RandomVarUp$ total-readback certificate forces the target-total preimage to cover the entire source carrier.
+\end{proposition}
+\begin{proof}
+Suppose, toward contradiction, that $X$ carries the certificate of \autoref{def:randomvar-total-readback-certificate}. Then \autoref{thm:randomvar-source-coverage-induced-by-total-event-exactness} applies and gives
+$$
+\mathsf{Src}_S(h)
+\Longrightarrow
+\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+For the displayed $h$, this contradicts
+$$
+\neg\,\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+Thus no such total-readback certificate can exist.
+\end{proof}
+
+\begin{corollary}[Terminal preimage exactness is the unique no-loss boundary condition]
+\label{cor:randomvar-terminal-preimage-exactness-unique-no-loss-boundary}
+Assume the source Boolean defect law of \autoref{thm:randomvar-total-event-exactness-vanishing-total-defect} and the source incidence discipline of \autoref{thm:randomvar-source-coverage-induced-by-total-event-exactness}. For a carried $\RandomVarUp$ map $X:S\to T$ satisfying measurable-preimage readback, the following three statements are equivalent whenever the relevant events are source-measurable:
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S,
+$$
+$$
+\mathfrak D_X\simeq_S\bot_S,
+$$
+$$
+\forall h\ \bigl(\mathsf{Src}_S(h)\Longrightarrow \Vdash_S(h,\operatorname{pre}_X(\Omega_T))\bigr),
+$$
+provided the source event classifier is incidence-complete in the following sense:
+$$
+\Bigl(\forall h\,[\mathsf{Src}_S(h)\Rightarrow(\Vdash_S(h,A)\Longleftrightarrow \Vdash_S(h,A'))]\Bigr)
+\Longrightarrow
+A\simeq_S A'.
+$$
+\end{corollary}
+\begin{proof}
+The equivalence between
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S
+$$
+and
+$$
+\mathfrak D_X\simeq_S\bot_S
+$$
+is \autoref{thm:randomvar-total-event-exactness-vanishing-total-defect}.
+If
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S,
+$$
+then the coverage statement follows by the proof of \autoref{thm:randomvar-source-coverage-induced-by-total-event-exactness}.
+Conversely, assume
+$$
+\forall h\ \bigl(\mathsf{Src}_S(h)\Rightarrow \Vdash_S(h,\operatorname{pre}_X(\Omega_T))\bigr).
+$$
+Since $\Omega_S$ covers every carried source history, for every $h$ with $\mathsf{Src}_S(h)$ both
+$$
+\Vdash_S(h,\Omega_S)
+\quad\text{and}\quad
+\Vdash_S(h,\operatorname{pre}_X(\Omega_T))
+$$
+hold. Hence, on the source carrier,
+$$
+\Vdash_S(h,\operatorname{pre}_X(\Omega_T))
+\Longleftrightarrow
+\Vdash_S(h,\Omega_S).
+$$
+Incidence-completeness of the event classifier gives
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+Therefore all three conditions are equivalent.
+\end{proof}
+
+\begin{theorem}[RandomVar countable preimage union exactness]
+\label{thm:randomvar-countable-preimage-union-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $B_\bullet$ be a target measurable-event sequence, so $B_n\in\mathcal{A}_T$ for every $n:\mathbb{N}$, and let $U_T\in\mathcal{A}_T$ be the displayed target countable-union row
+$$
+t\in U_T\quad\Longleftrightarrow\quad \exists n:\mathbb{N}\ \ t\in B_n.
+$$
+For each $n$, set
+$$
+A_n:=X^{-1}(B_n),
+\qquad
+A_U:=X^{-1}(U_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage with membership readback, then $A_U\in\mathcal{A}_S$ and $A_n\in\mathcal{A}_S$ for every $n$. Let $U_S$ be the source countable union of the measurable sequence $A_\bullet$ supplied by the source $\MeasureUp$ sigma-algebra row of \autoref{thm:measure-sigma-algebra-obligations}. Then
+$$
+U_S\in\mathcal{A}_S,\qquad A_U\sim_{\mathcal{A}_S}U_S.
+$$
+Moreover, if $B_\bullet$ is pairwise disjoint in the target carried fiber, meaning that for $m\ne n$ no carried target point has witnesses in both $B_m$ and $B_n$, then $A_\bullet$ is pairwise disjoint in the source carried fiber.
+\end{theorem}
+\begin{proof}
+The measurable-preimage row applies to $U_T$ and to each target event $B_n$. Hence
+$$
+A_U\in\mathcal{A}_S,\qquad A_n\in\mathcal{A}_S\quad\text{for every }n:\mathbb{N}.
+$$
+Thus $A_\bullet$ is a source measurable sequence. The source $\MeasureUp$ sigma-algebra row supplies its countable union $U_S$, with $U_S\in\mathcal{A}_S$ and membership readback
+$$
+s\in U_S\quad\Longleftrightarrow\quad \exists n:\mathbb{N}\ \ s\in A_n.
+$$
+
+Fix a carried source point $s$. The preimage and target countable-union readbacks give
+$$
+s\in A_U
+\quad\Longleftrightarrow\quad
+X(s)\in U_T
+\quad\Longleftrightarrow\quad
+\exists n:\mathbb{N}\ \ X(s)\in B_n.
+$$
+For each index $n$, the preimage readback for $B_n$ gives
+$$
+X(s)\in B_n\quad\Longleftrightarrow\quad s\in A_n.
+$$
+Therefore
+$$
+s\in A_U
+\quad\Longleftrightarrow\quad
+\exists n:\mathbb{N}\ \ s\in A_n
+\quad\Longleftrightarrow\quad
+s\in U_S.
+$$
+The two events have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this is exactly
+$$
+A_U\sim_{\mathcal{A}_S}U_S.
+$$
+
+Assume $B_\bullet$ is pairwise disjoint. Let $m,n:\mathbb{N}$ with $m\ne n$, and suppose a carried source point $s$ has witnesses $s\in A_m$ and $s\in A_n$. The two preimage readbacks give witnesses $X(s)\in B_m$ and $X(s)\in B_n$. Since $X(s)$ is a carried target point, target pairwise disjointness eliminates this pair. Hence no carried source point can inhabit both $A_m$ and $A_n$ for distinct $m,n$, which is exactly pairwise disjointness of $A_\bullet$ in the source fiber.
+\end{proof}

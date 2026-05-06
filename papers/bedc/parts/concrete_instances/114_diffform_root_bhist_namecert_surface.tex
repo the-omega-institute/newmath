@@ -1,0 +1,144 @@
+\begin{definition}[Differential-form root BHist NameCert surface]
+\label{def:diffform-root-bhist-namecert-surface}
+The root $BHist$ NameCert surface for $\DiffFormUp$ is the ten-field
+obligation surface
+$$
+\mathsf{DiffFormRootBHistNameCert}_{M,T}.
+$$
+Its fields are:
+\begin{enumerate}
+  \item traditional target: finite-degree differential forms;
+  \item BEDC source: $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+  $\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$;
+  \item carrier: $\mathsf{DiffFormBHistCarrier}_{M,T}$;
+  \item classifier: $\sim_{\DiffFormUp}$;
+  \item stability rows: carrier transport, degree-probe alignment transport,
+  wedge degree routing, and exterior-derivative input routing;
+  \item ledger: degree histories, probe bundles, tensor rows, manifold rows,
+  and $\Cont$ route histories;
+  \item core theorem list:
+  \autoref{thm:diffform-root-bhist-carrier-obligation},
+  \autoref{thm:diffform-root-bhist-classifier-stability-obligation},
+  \autoref{thm:diffform-root-bhist-ledger-exactness-obligation}, and
+  \autoref{thm:diffform-root-bhist-downstream-boundary};
+  \item exactness boundary: the exhaustion rows of
+  \autoref{def:diffform-boundary-exhaustion-source};
+  \item standard bridge: absent;
+  \item status: $(\obligationClosure,\unformalizedV)$.
+\end{enumerate}
+The surface contains no row for $d^2=0$, closedness, nondegeneracy, contact
+nonintegrability, a de Rham quotient, or a standard-object bridge.
+\end{definition}
+
+\begin{theorem}[Differential-form root BHist carrier obligation]
+\label{thm:diffform-root-bhist-carrier-obligation}
+Every admissible root row of \autoref{def:diffform-admissible-root-row}
+supplies the carrier $\mathsf{DiffFormBHistCarrier}_{M,T}$, the
+degree-probe alignment row, the manifold source row
+$\NameCert_{\ManifoldUp}$, and the tensor source row
+$\NameCert_{\TensorProductUp}$ displayed by
+\autoref{def:diffform-root-bhist-namecert-surface}.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:diffform-admissible-root-row}. Its carrier coordinate is
+the carried form row of \autoref{def:diffform-bhist-form-carrier}, and its
+source coordinates are exactly the displayed manifold and tensor NameCert
+rows.
+
+Apply
+\autoref{thm:diffform-boundary-exhaustion-carrier-coverage}. The boundary
+exhaustion theorem identifies the visible carrier and classifier rows with
+the root source rows and excludes tangent-space, alternating-map, quotient, or
+external classifier carriers.
+
+It remains to bind the degree and probe entries. Apply
+\autoref{thm:diffform-degree-probe-alignment-carrier-refinement}; the carried
+row supplies the unary degree history and the $\mathsf{ProbeBundle}$ spine
+over the same tensor input reading. Repack these projections as the carrier
+field of \autoref{def:diffform-root-bhist-namecert-surface}.
+\end{proof}
+
+\begin{theorem}[Differential-form root BHist classifier stability obligation]
+\label{thm:diffform-root-bhist-classifier-stability-obligation}
+Classifier transport along $\sim_{\DiffFormUp}$ preserves the carrier,
+degree-probe alignment, wedge routing, and exterior-derivative input rows of
+\autoref{def:diffform-root-bhist-namecert-surface}.
+\end{theorem}
+\begin{proof}
+First transport the carried row. Apply
+\autoref{thm:diffform-carrier-hsame-transport} to the displayed histories;
+the transported endpoint remains a carried
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ row over the same BEDC source surface.
+
+Next transport the degree-probe alignment. Apply
+\autoref{thm:diffform-degree-probe-alignment-transport}; the $\hsame$ degree
+comparison and transported $\mathsf{ProbeBundle}$ spine rebuild the aligned
+row at the target endpoint.
+
+Finally read the operation boundary. Apply
+\autoref{thm:diffform-wedge-derivative-boundary-compatibility}. The common
+wedge and exterior-input rows are exactly the carried form, unary degree,
+probe, tensor, scalar endpoint, antisymmetry, source, and classifier rows
+already transported. Hence classifier stability preserves all operation
+routing named by the root surface.
+\end{proof}
+
+\begin{theorem}[Differential-form root BHist ledger exactness obligation]
+\label{thm:diffform-root-bhist-ledger-exactness-obligation}
+The visible ledger witnesses of
+\autoref{def:diffform-root-bhist-namecert-surface} are exactly degree
+histories, probe bundles, tensor source rows, manifold source rows, wedge
+rows, exterior-derivative input rows, and $\Cont$ route histories. No
+closedness, nondegeneracy, nilpotence, contact nonintegrability, quotient, or
+standard bridge row is a ledger witness of the root surface.
+\end{theorem}
+\begin{proof}
+Begin with the carrier side. Apply
+\autoref{thm:diffform-boundary-exhaustion-carrier-coverage}; it restricts the
+carrier and classifier ledger entries to the displayed root rows over
+$BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, and the two source
+NameCert rows.
+
+Now read the operation side. Apply
+\autoref{thm:diffform-boundary-exhaustion-wedge-derivative-routing}; the
+wedge, antisymmetry, degree, and exterior-derivative entries are exactly the
+visible ledger rows named by the root obligation and input-output exactness
+statements.
+
+Finally apply
+\autoref{thm:diffform-boundary-exhaustion-downstream-export}. Downstream
+export is exhausted by the same carrier, classifier, wedge, antisymmetry,
+exterior-input, transport, and source-ledger rows. Since none of the cited
+exhaustion theorems contains a row for closedness, nondegeneracy, nilpotence,
+contact nonintegrability, quotienting, or a standard bridge, the displayed
+ledger is exact.
+\end{proof}
+
+\begin{theorem}[Differential-form root BHist downstream boundary]
+\label{thm:diffform-root-bhist-downstream-boundary}
+The chapters $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ consume
+$\DiffFormUp$ only through the root surface of
+\autoref{def:diffform-root-bhist-namecert-surface}. Their downstream reads
+factor through the carried row, classifier row, degree-probe alignment, wedge
+routing, exterior-input routing, source NameCert rows, and $\Cont$ route
+histories named there.
+\end{theorem}
+\begin{proof}
+Start from an arbitrary downstream read. Apply
+\autoref{thm:diffform-downstream-boundary-exhaustion}; every read by
+$\DeRhamUp$, $\SymplecticUp$, or $\ContactUp$ factors through the carrier and
+classifier rows, exterior-input rows, wedge rows, antisymmetry rows, and
+downstream scope rows listed in the boundary package.
+
+For exterior input, apply
+\autoref{thm:diffform-exterior-input-root-closure}. It repacks every accepted
+input row into the root-visible carrier, output carrier, successor-degree
+continuation, transported probe bundle, transported tensor row, scalar
+endpoint comparison, and source ledger.
+
+Finally apply \autoref{thm:diffform-root-row-downstream-boundary}. The
+admissible root row supplies no $d^2=0$, closedness, nondegeneracy, contact
+nonintegrability, or bridge row, so those obligations cannot be projected
+from $\DiffFormUp$. The only remaining reads are precisely the fields of
+\autoref{def:diffform-root-bhist-namecert-surface}.
+\end{proof}

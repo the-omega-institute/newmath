@@ -62,6 +62,22 @@ theorem ContinuousFunctionCarrier_endpoint_cert_cycle_exactness
     (And.intro tails.right
       (And.intro sameTargetSource (hsame_symm sameEndpoint)))
 
+theorem ContinuousFunctionCarrier_composite_endpoint_cert_cycle_exactness
+    {source middle target f g fg modF modG modFG certF certG cert : BHist} :
+    ContinuousFunctionCarrier source f middle modF certF ->
+      ContinuousFunctionCarrier middle g target modG certG ->
+        Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
+          hsame source cert ->
+            ContinuousFunctionCarrier source fg target modFG cert ∧
+              hsame fg BHist.Empty ∧ hsame modFG BHist.Empty ∧ hsame target source ∧
+                hsame cert source := by
+  intro first second fgRel modRel certRel sameEndpoint
+  have composite :
+      ContinuousFunctionCarrier source fg target modFG cert :=
+    ContinuousFunctionCarrier_comp_closed first second fgRel modRel certRel
+  exact And.intro composite
+    (ContinuousFunctionCarrier_endpoint_cert_cycle_exactness composite sameEndpoint)
+
 theorem ContinuousModulusChain_empty_second_witness {source first second target : BHist} :
     ContinuousModulusChain source first second target -> hsame second BHist.Empty ->
       ContinuousModulusWitness source first target := by

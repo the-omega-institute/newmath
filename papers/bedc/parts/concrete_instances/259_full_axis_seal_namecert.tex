@@ -1,0 +1,125 @@
+\chapter{A Concrete Naming Certificate for \(\FullAxisUp\)}
+\label{ch:concrete-instances-full-axis-seal-namecert}
+
+This chapter records a prefix-thread seal interface over the \(\Ezero\)-spine. \(\FullAxisUp\) is NOT a metric or Cauchy completion: its boundary token \(\Eone(\Ezero(\emp))\) is a finite history, not a limit object, and the chapter explicitly disclaims any reading of the boundary as an infinity. The Cauchy / Real / Topology readings remain in the existing \(\CompleteMetricUp\) and related chapters; \(\FullAxisUp\) is a structural seal, not a metric completion.
+
+\section{The prefix thread}
+
+\begin{definition}[Prefix thread]
+\label{def:prefix-thread}
+A prefix thread \(T\) is a history-membership predicate \(T.\mathsf{member}\) that contains \(\emp\) and is closed under \(\Ezero\)-extension.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.PrefixThread}
+
+\begin{definition}[Zero-spine prefix thread]
+\label{def:zero-spine-prefix-thread}
+The zero-spine prefix thread \(\mathsf{ZSpineThread}\) takes \(T.\mathsf{member} := \mathsf{ZeroSpine}\), with empty membership from Lemma~\ref{lem:zero-spine-empty-base} and \(\Ezero\)-step from Lemma~\ref{lem:zero-spine-closure-under-zero-extension}.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.zeroSpinePrefixThread}
+
+\section{Seal certificate}
+
+\begin{definition}[Seal certificate over a prefix thread]
+\label{def:seal-certificate}
+A seal certificate \(\mathsf{SealCert}(T)\) records the structural seal data for a prefix thread \(T\): directedness, monotonicity, prefix-closure, and a ledger policy. The first three fields are skeleton-grade; the ledger field is a horizon obligation queued for the formalize pipeline.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.SealCert}
+\leanvariant{BEDC.Derived.AxisZeckendorf.FullAxis.zeroSpineSealCert}
+
+\section{The boundary marker}
+
+\begin{definition}[Boundary marker \(\mathtt{boundary\_01}\)]
+\label{def:axiszeckendorf-boundary-01}
+The boundary marker is the finite history
+$$
+  \mathtt{boundary\_01}
+  := \Eone(\Ezero(\emp)).
+$$
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.boundary\_01}
+
+\begin{theorem}[Boundary marker is not on the zero-spine]
+\label{thm:boundary-01-not-zero-spine}
+\(\mathsf{ZeroSpine}(\mathtt{boundary\_01})\) does not hold.
+\end{theorem}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.boundary\_01\_not\_zeroSpine}
+\begin{proof}
+\(\mathtt{boundary\_01}\) has top constructor \(\Eone\); apply zero-spine no-one-extension.
+\end{proof}
+
+\begin{remark}[Boundary marker is finite, not an infinity]
+The boundary marker is a finite history of length two. It does NOT denote a limit, an infinity, or a transfinite stage. Any reading that promotes \(\mathtt{boundary\_01}\) to an infinity is explicitly rejected (cf.\ Chapter~\ref{ch:concrete-instances-axis-zeckendorf-cannot-claim}).
+\end{remark}
+
+\section{The certificate}
+
+\begin{definition}[Full-axis source specification]
+\label{def:fullaxis-source-specification}
+For a prefix thread \(T\), the source specification \(\mathsf{FullAxisSource}(T)\) consists of histories \(h\) with \(T.\mathsf{member}(h)\).
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisSourceSpec}
+
+\begin{definition}[Full-axis pattern specification]
+\label{def:fullaxis-pattern-specification}
+For a prefix thread \(T\), the pattern specification \(\mathsf{FullAxisPattern}(T)\) is repeated \(\Ezero\)-extension within \(T\).
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisPatternSpec}
+
+\begin{definition}[Full-axis classifier specification]
+\label{def:fullaxis-classifier-specification}
+For a prefix thread \(T\), the classifier specification \(\mathsf{FullAxisClassifier}(T)\) classifies pairs of \(T\)-members by joint thread membership.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisClassifierSpec}
+
+\begin{definition}[Full-axis stability certificate]
+\label{def:fullaxis-stability-certificate}
+For a prefix thread \(T\), the stability certificate \(\mathsf{FullAxisStability}(T)\) bundles the seal certificate \(\mathsf{SealCert}(T)\) with the explicit declaration that boundary tokens are finite, not limits.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisStabilityCert}
+
+\begin{definition}[Full-axis ledger policy]
+\label{def:fullaxis-ledger-policy}
+The ledger policy \(\mathsf{FullAxisLedger}\) retains the prefix thread and every visible thread-member as part of the construction history of the seal.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisLedgerPolicy}
+
+\begin{theorem}[Concrete \(\FullAxisUp\) naming certificate]
+\label{thm:concrete-fullaxis-namecert}
+The tuple
+$$
+  \mathsf{NameCert}_{\FullAxisUp}
+  :=
+  (\mathsf{FullAxisSource},
+   \mathsf{FullAxisPattern},
+   \mathsf{FullAxisClassifier},
+   \mathsf{FullAxisStability},
+   \mathsf{FullAxisLedger})
+$$
+specialised to the zero-spine prefix thread forms a valid naming certificate for the derived seal interface \(\FullAxisUp\).
+\end{theorem}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.fullAxis\_namecert}
+\begin{proof}
+The five fields are supplied by the preceding definitions, instantiated at \(T = \mathsf{ZSpineThread}\). Stability includes the seal certificate together with the boundary-finite declaration.
+\end{proof}
+
+\begin{corollary}[\(\FullAxisUp\) is licensed, not primitive]
+\label{cor:fullaxis-licensed-not-primitive}
+The interface \(\FullAxisUp\) is licensed by \(\mathsf{NameCert}_{\FullAxisUp}\). It is a structural seal, not a metric completion, and it is not a primitive object of the finite kernel.
+\end{corollary}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxis\_semantic\_name\_certificate}
+
+\section{Horizon obligations}
+
+\begin{theorem}[Boundary-finite witness, horizon]
+\label{thm:fullaxis-boundary-marker-not-limit}
+For every prefix thread \(T\), the seal does not equate any thread-member with a non-thread history that purports to be a limit object.
+\end{theorem}
+
+\begin{theorem}[Distinct from \(\RealUp\), horizon]
+\label{thm:fullaxis-not-real-horizon}
+\(\FullAxisUp\) does not entail any of the algebraic operations of \(\RealUp\) (Cauchy, limit uniqueness, field structure).
+\end{theorem}
+
+\begin{remark}[Where Real is licensed]
+The Cauchy / Real route is licensed inside the \(\CompleteMetricUp\) and \(\RealUp\) chapters. \(\FullAxisUp\) does not enter that route; any attempt to identify the two interfaces requires a separate bridge.
+\end{remark}

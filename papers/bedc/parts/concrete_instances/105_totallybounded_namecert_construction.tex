@@ -62,6 +62,7 @@ target endpoints. Both histories classify with $\emp$, so the empty-distance
 exactness row supplies the same metric coverage after transport, and the closed
 bundle branch is unchanged.
 \end{proof}
+\leanchecked{BEDC.Derived.TotallyBoundedUp.SingletonMetricTotallyBounded\_laws}
 
 The ten-field fit is: traditional target total boundedness by finite
 $\varepsilon$-nets; BEDC source $\MetricSpaceUp$ over $\mathsf{BHist}$; carrier
@@ -96,6 +97,7 @@ The finite carrier is the closed $\mathsf{ProbeBundle}$ inductive together
 with the displayed $\mathsf{InBundle}$ coverage rows. It is not an external
 enumeration of centers, and no host-level list is exposed as certificate data.
 \end{definition}
+\leandef{BEDC.Derived.TotallyBoundedUp.TotallyBoundedProbeBundleNet}
 
 \begin{theorem}[Totally bounded ProbeBundle net coverage stability]
 \label{thm:totallybounded-probebundle-net-coverage-stability}
@@ -112,6 +114,7 @@ classifier, then the same $\mathsf{ProbeBundle}$ $\mathcal{P}$ with the
 transported ledgers is again a valid totally bounded net for the transported
 tolerance history.
 \end{theorem}
+\leanchecked{BEDC.Derived.TotallyBoundedUp.TotallyBoundedProbeBundleNet\_coverage\_hsame\_transport}
 \begin{proof}
 Proceed by induction on the closed $\mathsf{ProbeBundle}$ spine. In the
 $\Bnil$ case there is no bundled probe row to transport, and any accepted
@@ -154,6 +157,7 @@ histories, $\mathsf{MetricDistanceWitness}$ rows, and $\RatUp$ bound rows form
 the paper-level $\NameCert$ target for $\TotallyBoundedUp$ over a
 $\MetricSpaceUp$ carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.TotallyBoundedUp.TotallyBoundedProbeBundleNet\_name\_certificate}
 \begin{proof}
 The source field is the underlying $\MetricSpaceUp$ carrier together with its
 accepted point histories and metric-distance classifier. The pattern field is
@@ -175,3 +179,228 @@ soundness, pattern soundness, classifier stability, and ledger soundness are
 all witnessed by the displayed carrier and stability theorem. This is the
 required current paper target for $\NameCert_{\TotallyBoundedUp}$.
 \end{proof}
+
+\begin{theorem}[Totally bounded ProbeBundle net tolerance weakening]
+\label{thm:totallybounded-probebundle-net-tolerance-weakening}
+Let $X$ be a metric BEDC carrier whose distance rows are encoded by
+$\mathsf{MetricDistanceWitness}$, and write $\delta\le_{\RatUp}\eta$ for a
+visible non-strict $\RatUp$ comparison ledger. Suppose
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)
+$$
+holds in the sense of \autoref{def:totallybounded-probebundle-net-carrier}.
+If $\varepsilon'$ is a positive $\NameCert_{\RatUp}$ tolerance history and
+$\theta:\varepsilon\le_{\RatUp}\varepsilon'$ is supplied, then the row
+$net_{\varepsilon'}$ obtained from $net$ by reusing the same closed
+$\mathsf{ProbeBundle}$ spine, bundled centers, radius histories,
+$\mathsf{InBundle}$ rows, source-point probe selections, and
+$\mathsf{MetricDistanceWitness}$ rows, and by replacing each displayed bound
+$d\le_{\RatUp}\varepsilon$ with its transitive composite
+$d\le_{\RatUp}\varepsilon'$, satisfies
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon',\mathcal{P},net_{\varepsilon'}).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.TotallyBoundedUp.TotallyBoundedProbeBundleNet\_tolerance\_weakening}
+\begin{proof}
+Unpack the accepted row for $net$. It contains the positive tolerance row for
+$\varepsilon$, the closed $\mathsf{ProbeBundle}$ carrier $\mathcal{P}$, the
+center and positive-radius ledgers attached to each bundled probe, and, for
+each source-point history $x$ carried by $X$, a bundled probe $p$, a distance
+history $d$, a row $\mathsf{MetricDistanceWitness}(x,c_p,d)$, and a comparison
+ledger $d\le_{\RatUp}\varepsilon$.
+
+To build the row at $\varepsilon'$, use the supplied positive tolerance row for
+$\varepsilon'$. The closed bundle, the $\mathsf{InBundle}$ membership rows, the
+center histories, and the radius histories are copied verbatim from $net$.
+These clauses of \autoref{def:totallybounded-probebundle-net-carrier} do not
+mention the upper tolerance except through its positivity row.
+
+Now fix a carried source-point history $x$. Read from $net$ the same bundled
+probe $p$, the same center $c_p$, the same distance history $d$, and the same
+metric row $\mathsf{MetricDistanceWitness}(x,c_p,d)$. The original coverage
+comparison gives $d\le_{\RatUp}\varepsilon$. Compose this comparison on the
+right with $\theta:\varepsilon\le_{\RatUp}\varepsilon'$ by the transitivity
+field of the non-strict $\RatUp$ comparison ledger. The resulting row is
+$d\le_{\RatUp}\varepsilon'$.
+
+Thus every source point keeps its original bundled probe and metric-distance
+witness, while only the final rational upper-bound ledger is weakened from
+$\varepsilon$ to $\varepsilon'$. All fields required by the totally bounded
+ProbeBundle net carrier are therefore present for
+$\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon',\mathcal{P},net_{\varepsilon'})$.
+\end{proof}
+
+\begin{definition}[Subcarrier-restricted TotallyBounded ProbeBundle net]
+\label{def:totallybounded-probebundle-net-subcarrier-restriction}
+Let $X:\mathsf{BHist}\to\mathsf{Prop}$ be a metric BEDC carrier with
+$\mathsf{MetricDistanceWitness}$ rows, and let
+$Y:\mathsf{BHist}\to\mathsf{Prop}$ be a subcarrier of $X$ with inclusion
+$$
+\iota_Y:\forall y:\mathsf{BHist}.\;Y(y)\to X(y).
+$$
+Given a row
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)
+$$
+in the sense of \autoref{def:totallybounded-probebundle-net-carrier}, the
+subcarrier-restricted row
+$$
+\mathsf{TotallyBoundedProbeBundleNet}_{X\downarrow Y}(\varepsilon,\mathcal{P},net|_Y)
+$$
+keeps the positive tolerance history, the closed $\mathsf{ProbeBundle}$
+$\mathcal{P}$, every bundled center history $c_p$ carried by $X$, every
+positive radius history $r_p$, and every $\mathsf{InBundle}(p,\mathcal{P})$
+row from $net$, while replacing the source-point coverage clause by the same
+clause quantified only over histories carried by $Y$.
+\end{definition}
+
+\begin{theorem}[Totally bounded ProbeBundle net subcarrier restriction]
+\label{thm:totallybounded-probebundle-net-subcarrier-restriction}
+Let $X$ be a metric BEDC carrier whose distance rows are encoded by
+$\mathsf{MetricDistanceWitness}$, and let $Y$ be a classifier-stable subcarrier
+of $X$. Thus there are rows
+$$
+\iota_Y:\forall y:\mathsf{BHist}.\;Y(y)\to X(y)
+$$
+and
+$$
+\sigma_Y:\forall y y':\mathsf{BHist}.\;Y(y)\to y\sim_X y'\to Y(y'),
+$$
+where $\sim_X$ is the metric classifier of \autoref{def:metric-classifier-specification}.
+If
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)
+$$
+holds, then the row obtained by restricting only the source-point coverage
+quantifier satisfies
+$$
+\mathsf{TotallyBoundedProbeBundleNet}_{X\downarrow Y}(\varepsilon,\mathcal{P},net|_Y).
+$$
+Moreover, if every bundled center is also carried by $Y$,
+$$
+\forall p:\mathsf{BHist}.\;\mathsf{InBundle}(p,\mathcal{P})\to Y(c_p),
+$$
+then the same restricted row is an ordinary
+$\mathsf{TotallyBoundedProbeBundleNet}(Y,\varepsilon,\mathcal{P},net|_Y)$ for
+the induced metric subcarrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.TotallyBoundedUp.TotallyBoundedProbeBundleNet\_subcarrier\_restriction}
+\begin{proof}
+Unpack the accepted row for
+$\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P},net)$ using
+\autoref{def:totallybounded-probebundle-net-carrier}. It supplies the positive
+$\NameCert_{\RatUp}$ tolerance history $\varepsilon$, the closed
+$\mathsf{ProbeBundle}$ spine $\mathcal{P}$, the bundled center histories
+$c_p$ carried by $X$, the positive radius histories $r_p$, and the coverage row
+for every source-point history carried by $X$.
+
+The subcarrier-restricted row keeps all bundle-indexed data unchanged. The
+positive tolerance row, the closed bundle spine, the
+$\mathsf{InBundle}(p,\mathcal{P})$ witnesses, the ambient center rows
+$X(c_p)$, and the radius rows are exactly the rows already present in $net$.
+These clauses do not inspect whether the covered source point is taken from
+$X$ or from the subcarrier $Y$.
+
+It remains to verify coverage for a carried point of $Y$. Fix
+$y:\mathsf{BHist}$ with $Y(y)$. The inclusion row gives $X(y)$. Applying the
+coverage clause of $net$ to this ambient source point gives a bundled probe
+$p$, a membership row $\mathsf{InBundle}(p,\mathcal{P})$, a distance history
+$d_p$, a metric row
+$$
+\mathsf{MetricDistanceWitness}(y,c_p,d_p),
+$$
+and a rational comparison ledger
+$$
+d_p\leq_{\RatUp}\varepsilon.
+$$
+The restricted row uses precisely these witnesses for the same point $y$.
+Thus every $Y$-carried point is covered by the same closed bundle
+$\mathcal{P}$ with the same distance and bound ledgers.
+
+The classifier-stability row $\sigma_Y$ records that the induced carrier is a
+legitimate classifier-stable subcarrier: replacing a $Y$-carried endpoint by an
+ambient-classified endpoint keeps it in $Y$. No center or distance ledger is
+altered by this restriction step.
+
+If the additional center-carrier rows
+$\forall p.\;\mathsf{InBundle}(p,\mathcal{P})\to Y(c_p)$ are supplied, then the
+only remaining difference between the relative row and the ordinary
+$\mathsf{TotallyBoundedProbeBundleNet}$ row over $Y$ disappears. Replace each
+ambient center clause $X(c_p)$ by the supplied subcarrier center clause
+$Y(c_p)$, and keep the same positive tolerance, bundle spine, radius rows,
+coverage witnesses, metric-distance rows, and rational bound ledgers. These are
+exactly the fields required for
+$\mathsf{TotallyBoundedProbeBundleNet}(Y,\varepsilon,\mathcal{P},net|_Y)$.
+\end{proof}
+
+\begin{lemma}[ProbeBundle append membership row separation]
+\label{lem:probebundle-append-membership-row-separation}
+Let $\mathcal{P}_X$ and $\mathcal{P}_Y$ be closed $\mathsf{ProbeBundle}$ spines. For every probe history $p$, a visible membership row
+$$
+\mathsf{InBundle}(p,\mathsf{bundleAppend}(\mathcal{P}_X,\mathcal{P}_Y))
+$$
+determines either a left membership row $\mathsf{InBundle}(p,\mathcal{P}_X)$ or a right membership row $\mathsf{InBundle}(p,\mathcal{P}_Y)$. Conversely, every left or right membership row injects into the appended bundle. The alternatives are row alternatives: if the same probe name occurs on both sides, the left and right ledger branches remain distinct membership rows.
+\end{lemma}
+\begin{proof}
+Induct on the closed spine $\mathcal{P}_X$. If $\mathcal{P}_X=\Bnil$, then $\mathsf{bundleAppend}(\Bnil,\mathcal{P}_Y)$ is $\mathcal{P}_Y$. Thus an appended membership row is exactly a right membership row, and the converse right injection is the identity. There is no left membership row in the empty bundle.
+
+For the cons case write $\mathcal{P}_X=\Bcons(q,\mathcal{P}_0)$. A membership row in
+$$
+\mathsf{InBundle}(p,\mathsf{bundleAppend}(\Bcons(q,\mathcal{P}_0),\mathcal{P}_Y))
+$$
+is either the head equality row $p=q$ or a tail row in $\mathsf{bundleAppend}(\mathcal{P}_0,\mathcal{P}_Y)$. The head equality gives the left membership row in $\Bcons(q,\mathcal{P}_0)$. For a tail row, apply the induction hypothesis. A left-tail result is reinserted by the tail constructor of $\mathsf{InBundle}$ for $\Bcons(q,\mathcal{P}_0)$, and a right result remains a right membership row in $\mathcal{P}_Y$.
+
+The converse injections are obtained by the same constructors. A left head row maps to the appended head row. A left tail row first injects into $\mathsf{bundleAppend}(\mathcal{P}_0,\mathcal{P}_Y)$ by the induction hypothesis and then into the appended cons tail. A right row first injects into $\mathsf{bundleAppend}(\mathcal{P}_0,\mathcal{P}_Y)$ and then into the appended cons tail. This proves both directions and keeps duplicated probe names separated by their visible branch rows.
+\end{proof}
+
+\begin{theorem}[Finite union of totally bounded ProbeBundle nets]
+\label{thm:totallybounded-probebundle-net-finite-union}
+Let $X,Y:\mathsf{BHist}\to\mathsf{Prop}$ be metric BEDC carriers over the same $\mathsf{MetricDistanceWitness}$ rows and the same metric classifier of \autoref{def:metric-classifier-specification}. Define the union carrier by
+$$
+(X\cup Y)(z):\Longleftrightarrow X(z)\vee Y(z).
+$$
+Assume
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_X,net_X)
+\quad\text{and}\quad
+\mathsf{TotallyBoundedProbeBundleNet}(Y,\varepsilon,\mathcal{P}_Y,net_Y)
+$$
+in the sense of \autoref{def:totallybounded-probebundle-net-carrier}. Let
+$$
+\mathcal{P}_{X\cup Y}:=\mathsf{bundleAppend}(\mathcal{P}_X,\mathcal{P}_Y).
+$$
+Then the union carrier $X\cup Y$ carries a totally bounded ProbeBundle net at the same tolerance $\varepsilon$ with probe bundle $\mathcal{P}_{X\cup Y}$. Its ledger $net_{X\cup Y}$ is obtained by reading each appended membership row through \autoref{lem:probebundle-append-membership-row-separation}: left rows use the corresponding fields of $net_X$, and right rows use the corresponding fields of $net_Y$.
+\end{theorem}
+\begin{proof}
+Unpack the two accepted rows by \autoref{def:totallybounded-probebundle-net-carrier}. The row $net_X$ supplies a positive $\NameCert_{\RatUp}$ tolerance history $\varepsilon$, the closed bundle $\mathcal{P}_X$, center histories, positive radius histories, and coverage rows for all points carried by $X$. The row $net_Y$ supplies the same fields over $Y$ and $\mathcal{P}_Y$ at the same tolerance history. Use either positive-tolerance row for the union net.
+
+The finite carrier of the union net is the closed spine $\mathsf{bundleAppend}(\mathcal{P}_X,\mathcal{P}_Y)$. Since $\mathsf{bundleAppend}$ is generated by recursion on the left closed $\mathsf{ProbeBundle}$ spine, the result is again a closed $\mathsf{ProbeBundle}$.
+
+Fix an appended probe row
+$$
+\alpha:\mathsf{InBundle}(p,\mathcal{P}_{X\cup Y}).
+$$
+By \autoref{lem:probebundle-append-membership-row-separation}, $\alpha$ is read as either a left row $\alpha_X:\mathsf{InBundle}(p,\mathcal{P}_X)$ or a right row $\alpha_Y:\mathsf{InBundle}(p,\mathcal{P}_Y)$. In the left case, copy from $net_X$ the center history, positive radius history, and center-carrier row attached to $\alpha_X$; the center is carried by $X\cup Y$ by the left union injection. In the right case, copy the corresponding fields from $net_Y$ and use the right union injection. If the same probe name appears in both bundles, these are still two ledger branches selected by the visible membership row, so no side-disjointness assumption is required.
+
+It remains to verify coverage. Let $z$ be a history carried by $X\cup Y$. If $X(z)$ holds, the coverage clause of $net_X$ supplies a probe $p$, a row $\mathsf{InBundle}(p,\mathcal{P}_X)$, a center history, a distance history $d$, a metric row
+$$
+\mathsf{MetricDistanceWitness}(z,c_p,d),
+$$
+and a rational comparison ledger $d\leq_{\RatUp}\varepsilon$. Inject the left membership row into $\mathsf{InBundle}(p,\mathcal{P}_{X\cup Y})$ using \autoref{lem:probebundle-append-membership-row-separation}, and keep the same center, distance, metric witness, and bound ledger. The center-carrier row is promoted from $X$ to $X\cup Y$ by the left union injection.
+
+If $Y(z)$ holds, apply the same argument to $net_Y$, inject the right membership row into the appended bundle, and promote the center-carrier row by the right union injection. Thus every source point of $X\cup Y$ is covered by a bundled center in $\mathcal{P}_{X\cup Y}$ at distance bounded by the same tolerance $\varepsilon$. All fields required by \autoref{def:totallybounded-probebundle-net-carrier} are present for
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X\cup Y,\varepsilon,\mathcal{P}_{X\cup Y},net_{X\cup Y}).
+$$
+\end{proof}
+\leanchecked{BEDC.Derived.TotallyBoundedUp.TotallyBoundedProbeBundleNet\_finite\_union}
+\begin{closurestatus}{\TotallyBoundedUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The totally bounded ProbeBundle-net certificate over $\MetricSpaceUp$ and $\RatUp$ positive tolerance rows, closed $\mathsf{ProbeBundle}$ spines, $\mathsf{InBundle}$ membership, $\mathsf{MetricDistanceWitness}$ coverage transport, tolerance weakening, subcarrier restriction, and finite union.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.TotallyBoundedUp.TotallyBoundedProbeBundleNet\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{Open-cover compactness, sequential compactness, and choice-like finite-subcover principles are not claimed.}
+  \upgradepath{$\publicClosure$ requires exported constructors and bridge rows consumed by $\CompactMetricUp$ and $\ContinuousMapUp$.}
+\end{closurestatus}

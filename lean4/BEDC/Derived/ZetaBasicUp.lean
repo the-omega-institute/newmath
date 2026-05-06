@@ -4,13 +4,40 @@ namespace BEDC.Derived.ZetaBasicUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexUp
+open BEDC.Derived.ComplexLimitUp
 open BEDC.Derived.DirichletSeriesUp
 
 def ZetaBasicUnitTerm (_n s : BHist) : BHist := BHist.e1 s
 
 def ZetaBasicPartSum (s n z : BHist) : Prop :=
   DirichletPartSum ZetaBasicUnitTerm s n z
+
+def ZetaBasic (s z : BHist) : Prop :=
+  DirichletSeriesConv ZetaBasicUnitTerm s z
+
+def ZetaBasicClassifierSpec (s z z' : BHist) : Prop :=
+  ZetaBasic s z ∧ hsame z z'
+
+def ZetaBasicSourceSpec (s : BHist) : Prop := UnaryHistory s
+
+def ZetaBasicPatternSpec (s n z : BHist) : Prop :=
+  UnaryHistory n ∧ ZetaBasicPartSum s n z ∧ hsame (ZetaBasicUnitTerm n s) (BHist.e1 s)
+
+def ZetaBasicLedgerPolicy (s z : BHist) : Prop :=
+  ZetaBasicSourceSpec s ∧ ZetaBasic s z ∧ ComplexHistoryCarrier z ∧
+    exists n p : BHist, UnaryHistory n ∧ ZetaBasicPartSum s n p
+
+theorem ZetaBasicSourceSpec_unit_term_carrier {s : BHist} :
+    ZetaBasicSourceSpec s ->
+      UnaryHistory (ZetaBasicUnitTerm BHist.Empty s) ∧
+        (hsame (ZetaBasicUnitTerm BHist.Empty s) BHist.Empty -> False) := by
+  intro source
+  unfold ZetaBasicSourceSpec at source
+  unfold ZetaBasicUnitTerm
+  exact And.intro (unary_e1_closed source) not_hsame_e1_empty
 
 theorem ZetaBasicPartSum_unary_result {s n z : BHist} :
     UnaryHistory s -> UnaryHistory n -> ZetaBasicPartSum s n z -> UnaryHistory z := by
@@ -43,6 +70,25 @@ theorem ZetaBasicPartSum_successor_result_nonempty {s n z : BHist} :
       have endpoints := cont_empty_result_inversion emptyStep
       exact not_hsame_e1_empty endpoints.right
 
+theorem ZetaBasicPartSum_successor_nonempty_name_certificate {s n z : BHist}
+    (sum : ZetaBasicPartSum s (BHist.e1 n) z) :
+    NameCert
+      (fun result : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧ (hsame result BHist.Empty -> False))
+      hsame := by
+  constructor
+  · exact Exists.intro z
+      (And.intro sum (ZetaBasicPartSum_successor_result_nonempty sum))
+  · intro result _source
+    exact hsame_refl result
+  · intro result result' sameResult
+    exact hsame_symm sameResult
+  · intro result result' result'' sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro result result' sameResult source
+    cases sameResult
+    exact source
+
 theorem ZetaBasicPartSum_positive_index_result_nonempty {s n z : BHist} :
     DirichletPositiveIndex n -> ZetaBasicPartSum s n z ->
       (hsame z BHist.Empty -> False) := by
@@ -62,6 +108,54 @@ theorem ZetaBasicPartSum_successor_step_inversion {s n z : BHist} :
   | step previousSum stepCont =>
       unfold ZetaBasicUnitTerm at stepCont
       exact Exists.intro _ (And.intro previousSum stepCont)
+
+theorem ZetaBasicClassifierSpec_successor_limit_transport {s z z' z'' n P Q : BHist} :
+    ZetaBasicClassifierSpec s z z' -> hsame z' z'' -> ZetaBasicPartSum s n P ->
+      Cont P (ZetaBasicUnitTerm n s) Q ->
+        ((exists ps : BHist -> BHist, exists N : BHist -> BHist, exists M : BHist -> BHist,
+          (forall k : BHist, UnaryHistory k -> ZetaBasicPartSum s k (ps k)) ∧
+            ComplexLimit ps N z'' M) ∧ ZetaBasicPartSum s (BHist.e1 n) Q ∧
+              ZetaBasicClassifierSpec s z z'') := by
+  intro classified sameZTarget partialSum stepCont
+  cases classified with
+  | intro basic sameZClassified =>
+      cases basic with
+      | intro ps basicRest =>
+          cases basicRest with
+          | intro N basicRest =>
+              cases basicRest with
+              | intro M data =>
+                  have sameZTransported : hsame z z'' := hsame_trans sameZClassified sameZTarget
+                  exact And.intro
+                    (Exists.intro ps
+                      (Exists.intro N
+                        (Exists.intro M
+                          (And.intro data.left
+                            (ComplexLimit_hsame_transport sameZTransported data.right)))))
+                    (And.intro (DirichletPartSum.step partialSum stepCont)
+                      (And.intro
+                        (Exists.intro ps
+                          (Exists.intro N
+                            (Exists.intro M (And.intro data.left data.right))))
+                        sameZTransported))
+
+theorem ZetaBasicPatternSpec_successor_step_inversion {s n z : BHist} :
+    ZetaBasicPatternSpec s (BHist.e1 n) z ->
+      ∃ previous : BHist, ZetaBasicPatternSpec s n previous ∧ Cont previous (BHist.e1 s) z := by
+  intro pattern
+  have step := ZetaBasicPartSum_successor_step_inversion pattern.right.left
+  cases step with
+  | intro previous previousData =>
+      have unaryN : UnaryHistory n := unary_e1_inversion pattern.left
+      exact Exists.intro previous
+        (And.intro (And.intro unaryN (And.intro previousData.left (hsame_refl _)))
+          previousData.right)
+
+theorem ZetaBasicLedgerPolicy_carrier_fields {s z : BHist} :
+    ZetaBasicLedgerPolicy s z ->
+      ZetaBasicSourceSpec s ∧ ZetaBasic s z ∧ ComplexHistoryCarrier z := by
+  intro ledger
+  exact And.intro ledger.left (And.intro ledger.right.left ledger.right.right.left)
 
 theorem ZetaBasicPartSum_empty_source_successor_result_shape {n z : BHist} :
     ZetaBasicPartSum BHist.Empty (BHist.e1 n) z ->
@@ -164,5 +258,99 @@ theorem ZetaBasicPartSum_successor_source_result_nonempty_transport {s t n z : B
             (And.intro targetSum
               (And.intro stepData.right.right
                 (ZetaBasicPartSum_successor_result_nonempty targetSum)))
+
+theorem ZetaBasicPatternSpec_successor_source_hsame_transport {s t n z : BHist} :
+    hsame s t -> ZetaBasicPatternSpec s (BHist.e1 n) z ->
+      exists u : BHist, ZetaBasicPatternSpec t (BHist.e1 n) u ∧ hsame z u ∧
+        (hsame u BHist.Empty -> False) := by
+  intro sameST pattern
+  have transported :=
+    ZetaBasicPartSum_successor_source_result_nonempty_transport sameST pattern.right.left
+  cases transported with
+  | intro u data =>
+      exact Exists.intro u
+        (And.intro
+          (And.intro pattern.left
+            (And.intro data.left (hsame_refl (ZetaBasicUnitTerm (BHist.e1 n) t))))
+          (And.intro data.right.left data.right.right))
+
+theorem ZetaBasic_semanticNameCert {s z : BHist} :
+    ZetaBasic s z ->
+      SemanticNameCert (ZetaBasic s) (ZetaBasic s) (ZetaBasic s) hsame := by
+  intro basic
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro z basic
+      equiv_refl := by
+        intro result _source
+        exact hsame_refl result
+      equiv_symm := by
+        intro result result' sameResult
+        exact hsame_symm sameResult
+      equiv_trans := by
+        intro result result' result'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro result result' sameResult source
+        cases source with
+        | intro ps sourceRest =>
+            cases sourceRest with
+            | intro N sourceRest =>
+                cases sourceRest with
+                | intro M sourceData =>
+                    exact Exists.intro ps
+                      (Exists.intro N
+                        (Exists.intro M
+                          (And.intro sourceData.left
+                            (ComplexLimit_hsame_transport sameResult sourceData.right))))
+    }
+    pattern_sound := by
+      intro _result source
+      exact source
+    ledger_sound := by
+      intro _result source
+      exact source
+  }
+
+theorem zeta_basic_semantic_name_certificate {s n z : BHist}
+    (sum : ZetaBasicPartSum s (BHist.e1 n) z) :
+    SemanticNameCert
+      (fun result : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧ (hsame result BHist.Empty -> False))
+      (fun result : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧ (hsame result BHist.Empty -> False))
+      (fun result : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧ (hsame result BHist.Empty -> False))
+      (fun result result' : BHist =>
+        ZetaBasicPartSum s (BHist.e1 n) result ∧
+          ZetaBasicPartSum s (BHist.e1 n) result' ∧ hsame result result') := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro z
+        (And.intro sum (ZetaBasicPartSum_successor_result_nonempty sum))
+      equiv_refl := by
+        intro result source
+        exact And.intro source.left (And.intro source.left (hsame_refl result))
+      equiv_symm := by
+        intro result result' classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro result result' result'' leftClass rightClass
+        exact And.intro leftClass.left
+          (And.intro rightClass.right.left
+            (hsame_trans leftClass.right.right rightClass.right.right))
+      carrier_respects_equiv := by
+        intro result result' classified _source
+        exact And.intro classified.right.left
+          (ZetaBasicPartSum_successor_result_nonempty classified.right.left)
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
 
 end BEDC.Derived.ZetaBasicUp

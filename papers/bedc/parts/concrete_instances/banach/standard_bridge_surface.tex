@@ -1,0 +1,105 @@
+\begin{definition}[Singleton Banach standard bridge surface]
+\label{def:banach-singleton-standard-bridge-surface}
+The standard comparison object for the singleton Banach certificate is the
+one-point complete normed vector space $B_{\star}=\{\star\}$ over the one-point
+scalar action, with zero vector $\star$, zero norm
+$\lVert\star\rVert=0_{\mathsf{Real}}^{c}$, zero metric
+$d_{\star}(\star,\star)=0_{\mathsf{Real}}^{c}$, and the unique complete-metric
+limit operation sending every regular Cauchy stream to $\star$.
+
+The BEDC side is the singleton empty-history carrier of
+\autoref{def:banach-singleton-empty-history-instance}. Its carrier is
+$A_{\emp}$, its classifier is $\rho_{\emp}$, its norm and metric endpoints are
+the constant RealUp zero endpoint, and its convergence rows are the displayed
+$\mathsf{CompleteMetricLimitWitness}$ rows supplied by
+\autoref{thm:banach-regular-cauchy-limit-witness}. The bridge maps every
+carried BEDC vector history to $\star$, and maps $\star$ back to $\emp$ with
+the carrier, norm, metric, and limit ledgers read through the singleton
+classifier.
+\end{definition}
+
+\begin{theorem}[Singleton Banach bridge soundness]
+\label{thm:banach-singleton-standard-bridge-soundness}
+Every carried BEDC singleton Banach row of
+\autoref{def:banach-singleton-empty-history-instance} maps to the unique point
+$\star$ of $B_{\star}$. Under this map, the displayed vector is classified by
+$\rho_{\emp}$, its norm and induced metric distance are the constant RealUp
+zero endpoint, and every regular Cauchy stream carries complete-metric
+convergence data to the constant standard limit $\star$.
+\end{theorem}
+\begin{proof}
+First collapse the carried vector row. By
+\autoref{thm:banach-singleton-empty-history-carrier-classifier}, every carried
+Banach vector lies in $A_{\emp}$ and every pair of carried singleton vectors is
+$\rho_{\emp}$-classified. The bridge therefore has only one possible standard
+image, namely $\star$.
+
+Next read the metric data. The norm-induced compatibility theorem
+\autoref{thm:banach-norm-induced-metric-compatibility} identifies the
+singleton Banach metric row with the constant RealUp zero endpoint exactly on
+the same classifier row. Thus the standard norm and standard distance both
+receive the zero value required by $B_{\star}$.
+
+Finally transport the convergence ledger. For a regular Cauchy stream,
+\autoref{thm:banach-regular-cauchy-limit-witness} supplies a displayed
+$\mathsf{CompleteMetricLimitWitness}$ row whose selected limit, modulus
+history, and late-distance rows are all singleton rows. Applying the bridge to
+each component sends that row to the unique complete-metric limit datum of the
+one-point standard object.
+\end{proof}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_standard\_bridge\_soundness}
+
+\begin{theorem}[Singleton Banach bridge completeness]
+\label{thm:banach-singleton-standard-bridge-completeness}
+The unique standard point $\star$ maps back to $\emp$ and reconstructs the
+singleton BEDC Banach surface: carrier $A_{\emp}$, classifier $\rho_{\emp}$,
+constant zero norm, constant zero metric, and the singleton
+$\mathsf{CompleteMetricLimitWitness}$ family.
+\end{theorem}
+\begin{proof}
+Unpack the bridge surface of
+\autoref{def:banach-singleton-standard-bridge-surface}. Its reverse map sends
+the only standard point to $\emp$, and the BEDC carrier row is precisely the
+singleton empty-history carrier of
+\autoref{def:banach-singleton-empty-history-instance}.
+
+The reconstructed completeness data are the singleton data. Apply
+\autoref{thm:banach-singleton-empty-history-cauchy-completeness}: every
+regular Cauchy stream in the singleton Banach metric has selected limit
+$\emp$, and every distance to that limit is classified by the constant RealUp
+zero endpoint.
+
+It remains to identify the displayed limit row chosen by the bridge with any
+other singleton limit presentation. Use
+\autoref{thm:banach-singleton-limit-namecert-uniqueness}; it gives
+$\hsame$-equality of singleton Banach limits, and the singleton classifier
+repackages that equality as $\rho_{\emp}$. Hence the reverse image reconstructs
+the same carrier, norm, metric, and limit witness surface.
+\end{proof}
+
+\begin{theorem}[Singleton Banach bridge roundtrip]
+\label{thm:banach-singleton-standard-bridge-roundtrip}
+For the bridge of
+\autoref{def:banach-singleton-standard-bridge-surface}, the composite
+BEDC-to-standard-to-BEDC is $\rho_{\emp}$ on carried singleton histories, and
+the composite standard-to-BEDC-to-standard is the identity on the one-point
+complete normed vector space $B_{\star}$.
+\end{theorem}
+\begin{proof}
+For the BEDC composite, start with a carried singleton Banach history. The
+soundness theorem
+\autoref{thm:banach-singleton-standard-bridge-soundness} sends it to the
+unique standard point $\star$, and the completeness theorem
+\autoref{thm:banach-singleton-standard-bridge-completeness} sends $\star$ back
+to $\emp$ with the singleton carrier and zero ledgers.
+
+The classifier comparison is exactly the singleton collapse. By
+\autoref{thm:banach-singleton-empty-history-carrier-classifier}, every carried
+source history is $\rho_{\emp}$-classified with $\emp$, so the BEDC composite
+acts as $\rho_{\emp}$ on carried histories.
+
+For the standard composite, there is only one point of $B_{\star}$. The reverse
+map selects $\emp$, and soundness maps that BEDC point back to $\star$. Since
+$\star$ is the unique standard point, the composite is the identity on the
+one-point complete normed vector space.
+\end{proof}

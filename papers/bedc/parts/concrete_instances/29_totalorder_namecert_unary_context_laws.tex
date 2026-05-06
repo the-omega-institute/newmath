@@ -453,6 +453,66 @@ The $\TotalOrderUp$ schema is represented by this concrete $\mathsf{BHist}$
 carrier and explicit comparison data, giving later Lean formalization a
 $\mathsf{BHist}$-anchored target rather than an abstract parameter schema.
 
+\begin{theorem}[Concrete unary prefix total order supplies arithmetic $\OrderUp$]
+\label{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}
+The tuple of \autoref{def:concrete-unary-prefix-totalorder-instance}, read
+through the naming certificate of
+\autoref{thm:concrete-unary-prefix-totalorder-namecert}, supplies the L7
+$\OrderUp$ comparison interface on unary histories. The carrier is
+$\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$, the classifier is
+$\rho_{\mathsf{u}}$, the preorder relation is $\le_{\mathsf{u}}$, and the
+three comparison branches are
+$\mathsf{NatUnaryStrictPrefix}(h,k)$, $\rho_{\mathsf{u}}(h,k)$, and
+$\mathsf{NatUnaryStrictPrefix}(k,h)$.
+
+The reflexivity, transitivity, and antisymmetry rows are exactly the concrete
+prefix $\POSetUp$ rows. The constructive total comparison row is the branch
+partition of \autoref{thm:concrete-unary-prefix-totalorder-laws} and
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. The
+classifier exactness row is the middle-branch equivalence of
+\autoref{thm:poset-prefix-classifier-exactness}: on carried unary histories,
+$\rho_{\mathsf{u}}(h,k)$ holds exactly when $h\le_{\mathsf{u}}k$ and
+$k\le_{\mathsf{u}}h$. Thus the stronger concrete $\TotalOrderUp$ naming
+certificate supplies the arithmetic $\OrderUp$ consumer without introducing a
+second order relation.
+\end{theorem}
+\begin{proof}
+Start with the concrete prefix $\POSetUp$ certificate supplied by
+\autoref{thm:concrete-unary-prefix-poset-namecert}. Its carrier is
+$\mathsf{UnaryHistory}$, its classifier is $\rho_{\mathsf{u}}$, and its
+relation is the concrete prefix preorder $\le_{\mathsf{u}}$. The reflexive,
+transitive, and antisymmetric order laws are therefore already available as the
+order rows consumed by $\OrderUp$.
+
+The comparison ledger is supplied by the total-order package. Apply
+\autoref{thm:concrete-unary-prefix-totalorder-laws} for the total comparison
+law and
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} for the
+exclusive strict-left, same, and strict-right branch partition. These are the
+three branches displayed in the statement.
+
+The branch data are stable under the BEDC contexts used by the concrete
+certificate. Apply
+\autoref{thm:concrete-unary-prefix-totalorder-branch-transport} to transport
+the selected branch through common contexts, and apply
+\autoref{thm:totalorder-branch-two-sided-context-equivalence} when the consumer
+needs the two-sided contextual reading.
+
+It remains to identify the same branch with the preorder classifier. On carried
+unary histories, \autoref{thm:poset-prefix-classifier-exactness} says that
+$\rho_{\mathsf{u}}(h,k)$ is equivalent to the two opposing comparisons
+$h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$. This is exactly the classifier
+exactness row required by the $\OrderUp$ consumer.
+
+Finally, read these rows through
+\autoref{thm:concrete-unary-prefix-totalorder-namecert}. The public consumer
+uses the existing $\mathsf{UnaryHistory}$ carrier, $\rho_{\mathsf{u}}$
+classifier, and $\le_{\mathsf{u}}$ preorder, together with the inherited
+strict-left and strict-right branch names. This is a reuse of the concrete
+prefix order already certified above; it is not a new primitive order and it
+does not assert classical trichotomy.
+\end{proof}
+
 \begin{theorem}[Concrete unary prefix total-order finite minimum selector]
 \label{thm:totalorder-prefix-finite-minimum-selector}
 Let $L$ be a nonempty finite spine of histories in the finite-list helper of
@@ -643,4 +703,56 @@ From the entry-carrier hypothesis, the membership rows give carrier witnesses fo
 By \autoref{def:concrete-unary-prefix-totalorder-instance}, these comparisons are the concrete prefix relation of the unary total-order package. The exact middle-branch row of \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}, equivalently the $\POSetUp$ classifier exactness of \autoref{thm:poset-prefix-classifier-exactness} in this notation, sends the carried opposing comparisons to $\rho_{\mathsf{u}}(M,N)$.
 
 The strict-left and strict-right branches of the total comparison ledger are therefore excluded by the incompatibility clauses of \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. Together with the existence selector of \autoref{thm:totalorder-prefix-finite-maximum-index-selector}, this gives a classifier-stable finite maximum readback for every nonempty finite carried spine.
+\end{proof}
+
+\begin{theorem}[Concrete unary prefix finite extrema certificate]
+\label{thm:totalorder-prefix-finite-extrema-certificate}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite BEDC-history
+spine in the helper of \autoref{def:list-carrier}. Assume every entry of $L$ is
+carried by $\mathsf{Carrier}_{\mathsf{u}}$ for the concrete $\TotalOrderUp$
+certificate of \autoref{thm:concrete-unary-prefix-totalorder-namecert}:
+$$
+\forall x.\; x\in L\to \mathsf{Carrier}_{\mathsf{u}}(x).
+$$
+Then there are histories $m$ and $M$ such that
+$$
+\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m)
+\land
+\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M)
+$$
+and the selected readbacks are classifier-stable: every other minimum witness
+$m'$ satisfying $\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m')$ obeys
+$\rho_{\mathsf{u}}(m,m')$, and every other maximum witness $M'$ satisfying
+$\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M')$ obeys
+$\rho_{\mathsf{u}}(M,M')$.
+
+The per-object fields are: traditional target finite extrema in a constructive
+total order; BEDC source finite $\mathsf{ListCarrier}$ spines and unary
+$\TotalOrderUp$; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier
+$\rho_{\mathsf{u}}$; stability selector existence plus classifier uniqueness;
+ledger the selected minimum and maximum witnesses; core theorem this finite
+extrema certificate; exactness classifier uniqueness of extrema; standard
+bridge finite unary-word extrema; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:totalorder-prefix-finite-minimum-selector} to the nonempty
+carried spine $L$. This gives an entry $m\in L$ whose lower-bound row is exactly
+$\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m)$ after repacking through
+\autoref{def:totalorder-prefix-finite-minimum-witness}.
+
+Apply \autoref{thm:totalorder-prefix-finite-maximum-index-selector} to the same
+carried spine. Its membership index and selected entry give a history $M\in L$
+whose upper-bound row is exactly
+$\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M)$ after repacking through
+\autoref{def:totalorder-prefix-finite-maximum-witness}.
+
+For any competing minimum witness $m'$, apply
+\autoref{thm:totalorder-prefix-finite-minimum-classifier-unique} to the two
+minimum witness records for $m$ and $m'$. The result is the displayed classifier
+agreement $\rho_{\mathsf{u}}(m,m')$.
+
+For any competing maximum witness $M'$, apply
+\autoref{thm:totalorder-prefix-finite-maximum-classifier-unique} to the two
+maximum witness records for $M$ and $M'$. This gives
+$\rho_{\mathsf{u}}(M,M')$, completing the paired finite-extrema certificate.
 \end{proof}

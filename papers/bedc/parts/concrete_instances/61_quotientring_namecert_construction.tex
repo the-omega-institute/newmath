@@ -29,6 +29,8 @@ $$
 $$
 Thus the multiplication operation on the $\QuotientRingUp$ coset carrier is representative-independent.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientRingUp.QuotientRingIdealCoset\_mul\_descends}
+\leanchecked{BEDC.Derived.QuotientRingUp.QuotientRingIdealCoset\_multiplication\_descent}
 \begin{proof}
 Unfold \autoref{def:quotientring-ideal-coset-relation}. Set $d_a:=a-_R a'$ and $d_b:=b-_R b'$. The two coset hypotheses give $I(d_a)$ and $I(d_b)$, together with the carrier witnesses for $a,a',b,b'$.
 
@@ -71,6 +73,7 @@ $$
 $$
 by \autoref{def:quotientring-ideal-coset-relation}.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientRingUp.QuotientRingIdealCoset\_multiplication\_descends}
 
 \begin{theorem}[QuotientRing additive descent to ideal cosets]
 \label{thm:quotientring-additive-descent}
@@ -88,6 +91,8 @@ $$
 $$
 Thus the additive part of the $\QuotientRingUp$ coset carrier is representative-independent.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientRingUp.QuotientRingIdealCoset\_additive\_descent}
+\leanchecked{BEDC.Derived.QuotientRingUp.QuotientRingIdealCoset\_add\_descends}
 \begin{proof}
 Unfold \autoref{def:quotientring-ideal-coset-relation}. Set
 $$
@@ -202,4 +207,45 @@ $$
 a+_R(((-_R b)+_R b)+_R(-_R c)).
 $$
 The middle pair collapses to $0_R$ by the additive left-inverse row, and the additive left-zero row reduces the tail to $-_R c$. Thus the expression is classified with $a+_R(-_R c)$, namely $a-_R c$. Classifier transport for $I$ gives $I(a-_R c)$. Repacking this with $C(a)$ and $C(c)$ gives $a\equiv_I c$.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientRingUp.QuotientRingIdealCosetRelation\_equivalence\_rows}
+
+\begin{theorem}[QuotientRing zero coset classification]
+\label{thm:quotientring-zero-coset-classification}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$, with carrier row supplying $C(0_R)$. Let $I$ be an $\IdealUp$ object over $R$, written as a carried predicate $I(x)$, and write $x-_R y$ for $x+_R(-_R y)$ as in \autoref{def:quotientring-ideal-coset-relation}. Assume the ideal certificate includes classifier transport as specified in \autoref{sec:ideal-certificate}:
+$$
+\forall x,y,\; I(x)\land x\sim_R y\Longrightarrow I(y).
+$$
+Then for every endpoint $a$,
+$$
+a\equiv_I 0_R \Longleftrightarrow C(a)\land I(a).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.QuotientRingUp.QuotientRingIdealCoset\_zero\_classification}
+\begin{proof}
+Fix $a$. We first record the conditional comparison with the zero difference. Suppose $C(a)$ and set $d_0:=a-_R 0_R$. The additive inverse of zero comparison from \autoref{thm:ring-neg-zero}, read in the additive component of $R$, gives
+$$
+-_R 0_R\sim_R 0_R.
+$$
+Addition congruence from \autoref{def:ring-stability-certificate}, with the left summand $a$ fixed, gives
+$$
+a+_R(-_R 0_R)\sim_R a+_R0_R.
+$$
+The additive right-zero law \autoref{thm:ring-add-right-zero} gives
+$$
+a+_R0_R\sim_R a.
+$$
+By transitivity of the carrier classifier from \autoref{def:lean-carrier-naming-certificate},
+$$
+d_0\sim_R a.
+$$
+Thus, whenever $C(a)$ is available, $a-_R 0_R\sim_R a$.
+
+For the forward implication, assume $a\equiv_I 0_R$. Unfolding \autoref{def:quotientring-ideal-coset-relation} gives $C(a)$, $C(0_R)$, and $I(a-_R 0_R)$. Applying the comparison just proved under this $C(a)$ and then the ideal classifier-transport row gives $I(a)$. Hence $C(a)\land I(a)$.
+
+For the reverse implication, assume $C(a)\land I(a)$. The carrier row gives $C(0_R)$. Apply classifier symmetry from \autoref{def:lean-carrier-naming-certificate} to the displayed comparison $d_0\sim_R a$, obtaining
+$$
+a\sim_R d_0.
+$$
+The ideal classifier-transport row carries $I(a)$ across this edge, so $I(d_0)$, equivalently $I(a-_R 0_R)$. Repacking $C(a)$, $C(0_R)$, and this membership through \autoref{def:quotientring-ideal-coset-relation} yields $a\equiv_I 0_R$.
 \end{proof}

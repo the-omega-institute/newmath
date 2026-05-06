@@ -1,0 +1,204 @@
+\begin{definition}[Hilbert singleton orthogonal projection row]
+\label{def:hilbert-singleton-orthogonal-projection-row}
+The concrete orthogonal-projection row over the Hilbert singleton carrier is
+the map
+$$
+\pi_{\emp}(h):=\emp .
+$$
+Its ledger surface is the carrier $A_{\emp}$ of
+\autoref{def:hilbert-singleton-empty-history-carrier}, the classifier
+$\rho_{\emp}$, the singleton norm row $\nu_{\emp}$, the constant zero
+inner-product row $\langle-,-\rangle_{\emp}$, and the Banach singleton
+completion row of \autoref{def:banach-singleton-empty-history-instance}. The
+row therefore selects the unique carried endpoint $\emp$ and records every
+norm, distance, and inner-product readback through
+$\mathsf{RealConstantHistoryClassifier}$ at $0_{\mathsf{Real}}^{c}$.
+\end{definition}
+
+\begin{theorem}[Hilbert singleton projection carried endpoint]
+\label{thm:hilbert-singleton-projection-carried-endpoint}
+For every carried $h:\mathsf{BHist}$ in the Hilbert singleton carrier, the
+projection endpoint $\pi_{\emp}(h)$ is carried, the classifier row
+$\rho_{\emp}(h,\pi_{\emp}(h))$ holds, and the norm, distance, and
+inner-product endpoints exposed by this projection row are classified with
+$0_{\mathsf{Real}}^{c}$. Concretely,
+$$
+\mathsf{RealConstantHistoryClassifier}(\nu_{\emp}(\pi_{\emp}(h)),
+0_{\mathsf{Real}}^{c}),
+\quad
+\mathsf{RealConstantHistoryClassifier}(d_{\emp}(h,\pi_{\emp}(h)),
+0_{\mathsf{Real}}^{c}),
+\quad
+\mathsf{RealConstantHistoryClassifier}
+  (\langle h-\pi_{\emp}(h),\pi_{\emp}(h)\rangle_{\emp},
+   0_{\mathsf{Real}}^{c})
+$$
+are the endpoint rows carried by $\NameCert_{\HilbertUp}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_carried\_endpoint}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingleton\_projection\_carried\_endpoint}
+\begin{proof}
+Unfold \autoref{def:hilbert-singleton-orthogonal-projection-row}. The
+projection endpoint is definitionally $\emp$, and
+\autoref{def:hilbert-singleton-empty-history-carrier} identifies $\emp$ as
+the carried endpoint of the Hilbert singleton carrier.
+
+The classifier claim follows from
+\autoref{thm:hilbert-singleton-source-compatibility}. The Hilbert carrier,
+NormUp carrier, and Banach carrier expose the same singleton classifier
+$\rho_{\emp}$, so every carried $h$ is compared with the selected endpoint
+$\emp$ by the same row.
+
+For the endpoint readbacks, apply
+\autoref{thm:hilbert-singleton-endpoint-readback}. It classifies the singleton
+norm endpoint, the Banach distance endpoint, and the inner-product row through
+$\mathsf{RealConstantHistoryClassifier}$ at $0_{\mathsf{Real}}^{c}$. Since
+$\pi_{\emp}(h)$ is $\emp$, the residual row is one of the displayed singleton
+inner-product rows.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton projection idempotence]
+\label{thm:hilbert-singleton-projection-idempotence}
+For every carried $h:\mathsf{BHist}$ in the Hilbert singleton carrier,
+$$
+\rho_{\emp}(\pi_{\emp}(\pi_{\emp}(h)),\pi_{\emp}(h))
+$$
+holds. Moreover the residual inner-product row
+$$
+\langle \pi_{\emp}(h)-\pi_{\emp}(\pi_{\emp}(h)),\pi_{\emp}(h)\rangle_{\emp}
+$$
+is classified with $0_{\mathsf{Real}}^{c}$ by
+$\mathsf{RealConstantHistoryClassifier}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_idempotence}
+\begin{proof}
+Unfold the projection row twice. Both $\pi_{\emp}(h)$ and
+$\pi_{\emp}(\pi_{\emp}(h))$ are the selected endpoint $\emp$.
+
+The classifier statement is therefore the singleton reflexive comparison
+inside $\rho_{\emp}$, using the common carrier and classifier surface of
+\autoref{thm:hilbert-singleton-source-compatibility}.
+
+The residual inner-product expression has only singleton endpoints. Apply
+\autoref{thm:hilbert-singleton-endpoint-readback}, which reads every displayed
+inner-product endpoint in this package as the constant RealUp zero endpoint.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton projection-residual zero package]
+\label{thm:hilbert-singleton-projection-idempotent-residual-zero-package}
+For every carried $h:\mathsf{BHist}$ in the Hilbert singleton carrier, set
+$p:=\pi_{\emp}(h)$ and $p':=\pi_{\emp}(p)$. Then the projected endpoints are
+classified by
+$$
+\rho_{\emp}(p',p).
+$$
+Moreover the norm endpoints of $p$, of $p'$, and of the residual display
+$h-p$ are classified with $0_{\mathsf{Real}}^{c}$:
+$$
+\mathsf{RealConstantHistoryClassifier}(\nu_{\emp}(p),0_{\mathsf{Real}}^{c})
+$$
+$$
+\mathsf{RealConstantHistoryClassifier}(\nu_{\emp}(p'),0_{\mathsf{Real}}^{c})
+$$
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\|\!h-p\!\|_{\langle,\rangle_{\emp}},0_{\mathsf{Real}}^{c})
+$$
+The residual inner-product rows used by the projection ledger are also
+classified with $0_{\mathsf{Real}}^{c}$:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle h-p,p\rangle_{\emp},0_{\mathsf{Real}}^{c})
+$$
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle p-p',p\rangle_{\emp},0_{\mathsf{Real}}^{c})
+$$
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle h-p,p'\rangle_{\emp},0_{\mathsf{Real}}^{c})
+$$
+Thus the singleton projection row packages idempotence, zero norm readback,
+and zero orthogonal residual as one reusable projection obligation.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:hilbert-singleton-orthogonal-projection-row}. The
+projection sends every carried endpoint to $\emp$, so both $p$ and $p'$ are
+the selected endpoint of the Hilbert singleton carrier. The carried endpoint
+row is supplied by
+\autoref{thm:hilbert-singleton-projection-carried-endpoint}.
+
+Apply \autoref{thm:hilbert-singleton-projection-idempotence}. It gives the
+displayed classifier $\rho_{\emp}(p',p)$ and reads the idempotence residual
+inner-product row
+$\langle p-p',p\rangle_{\emp}$ as the constant RealUp zero endpoint.
+
+For the norm endpoints, use
+\autoref{thm:hilbert-singleton-endpoint-readback} for $p$ and $p'$ and use
+\autoref{thm:hilbert-singleton-projection-residual-decomposition} for the
+residual display. Since every displayed endpoint lies on the singleton
+carrier, each norm row is classified with $0_{\mathsf{Real}}^{c}$.
+
+Finally apply \autoref{thm:hilbert-singleton-universal-orthogonality} to the
+carried singleton endpoints appearing in the residual ledger. It classifies
+the rows $\langle h-p,p\rangle_{\emp}$ and
+$\langle h-p,p'\rangle_{\emp}$ with $0_{\mathsf{Real}}^{c}$, completing the
+projection-residual zero package.
+\end{proof}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_residual\_zero\_package}
+
+\begin{theorem}[Hilbert singleton orthogonal projection NameCert surface]
+\label{thm:hilbert-singleton-orthogonal-projection-namecert-surface}
+The row of
+\autoref{def:hilbert-singleton-orthogonal-projection-row}, together with
+\autoref{thm:hilbert-singleton-source-compatibility},
+\autoref{thm:hilbert-singleton-endpoint-readback},
+\autoref{thm:hilbert-singleton-projection-carried-endpoint},
+\autoref{thm:hilbert-singleton-projection-idempotence}, and
+\autoref{thm:hilbert-singleton-projection-uniqueness}, forms the paper-side
+singleton orthogonal-projection obligation surface for
+$\NameCert_{\HilbertUp}$. Its carrier is $A_{\emp}$, its classifier is
+$\rho_{\emp}$, its selected projection is $\pi_{\emp}$, its endpoint ledger is
+the zero norm, distance, and inner-product row, and its completeness source is
+the Banach singleton completion row. This surface asserts only the singleton
+projection obligation and does not claim a general projection theorem or a
+standard bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_semantic\_name\_certificate}
+\begin{proof}
+The carrier and classifier fields are fixed by
+\autoref{thm:hilbert-singleton-source-compatibility}. They identify the
+Hilbert singleton carrier with $A_{\emp}$ and its comparison row with
+$\rho_{\emp}$.
+
+The concrete projection field is
+\autoref{def:hilbert-singleton-orthogonal-projection-row}. The carried endpoint
+and zero endpoint readbacks are supplied by
+\autoref{thm:hilbert-singleton-projection-carried-endpoint}; these are the
+NameCert rows that state the projection lives on the singleton Hilbert
+surface.
+
+Idempotence is supplied by
+\autoref{thm:hilbert-singleton-projection-idempotence}. It records that
+projecting the selected endpoint again returns the same $\rho_{\emp}$-class
+and that the residual inner-product row remains classified with
+$0_{\mathsf{Real}}^{c}$.
+
+The uniqueness field is
+\autoref{thm:hilbert-singleton-projection-uniqueness}. It compares any two
+limit or projection witnesses by $\rho_{\emp}$, so the selected projection row
+is the unique singleton endpoint in the certificate surface. The endpoint
+classification used by all these rows is
+\autoref{thm:hilbert-singleton-endpoint-readback}, and the completion source is
+\autoref{def:banach-singleton-empty-history-instance}.
+\end{proof}
+
+\begin{closurestatus}{\HilbertUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The singleton Hilbert certificate is closed exactly over the carrier $A_{\emp}$, classifier $\rho_{\emp}$, projection endpoint $\pi_{\emp}$, Banach singleton completion row, NormUp zero row, and constant inner-product zero row.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{It does not close general Hilbert spaces, the spectral theorem, arbitrary orthogonal projections, or standard bridges.}
+  \upgradepath{The next grade requires public Hilbert-space constructors and bridge rows connecting arbitrary closed-subspace projections to the standard bridge interface.}
+\end{closurestatus}

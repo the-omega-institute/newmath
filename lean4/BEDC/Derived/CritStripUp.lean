@@ -58,6 +58,17 @@ def InCritStrip (sigma : BHist) : Prop :=
   NatUnaryStrictPrefix BHist.Empty sigma ∧
     NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty)
 
+def CritStripSourceSpec (h : BHist) : Prop :=
+  hsame h BHist.Empty ∧ (InCritStrip h -> False)
+
+def CompactSubStrip (epsilon T s : BHist) : Prop :=
+  InCritStrip s ∧ UnaryHistory epsilon ∧ UnaryHistory T
+
+theorem CompactSubStrip_empty_unit_obstruction_decidable (epsilon T s : BHist) :
+    CompactSubStrip epsilon T s -> False := by
+  intro compact
+  exact CritStripOpenInterval_empty_unit_absurd compact.left.left compact.left.right
+
 def InCritStrip_open_interval_decidable (sigma : BHist) :
     Decidable
       (NatUnaryStrictPrefix BHist.Empty sigma ∧
@@ -85,6 +96,10 @@ theorem InCritStrip_boundary_excluded {sigma : BHist} :
     cases sameUnit
     exact NatUnaryStrictPrefix_asymm strip.right strip.right
 
+theorem CritStripSourceSpec_empty_boundary : CritStripSourceSpec BHist.Empty := by
+  exact And.intro (hsame_refl BHist.Empty)
+    (fun strip => (InCritStrip_boundary_excluded strip).left (hsame_refl BHist.Empty))
+
 theorem InCritStrip_hsame_transport_boundary_exclusion {sigma sigma' : BHist} :
     InCritStrip sigma -> hsame sigma sigma' ->
       InCritStrip sigma' ∧ (hsame sigma' BHist.Empty -> False) ∧
@@ -105,6 +120,10 @@ theorem InCritStrip_hsame_transport_boundary_exclusion {sigma sigma' : BHist} :
 
 def CritStripComplexCarrier (s sigma tau : BHist) : Prop :=
   RatHistoryCarrier sigma ∧ RatHistoryCarrier tau ∧ Cont sigma tau s ∧ InCritStrip sigma
+
+def CritStripClassifierSpec (s t sigma sigma' tau tau' : BHist) : Prop :=
+  CritStripComplexCarrier s sigma tau ∧ CritStripComplexCarrier t sigma' tau' ∧
+    hsame sigma sigma' ∧ hsame tau tau'
 
 theorem CritStripComplexCarrier_not_empty {s sigma tau : BHist} :
     CritStripComplexCarrier s sigma tau -> hsame s BHist.Empty -> False := by
@@ -149,6 +168,19 @@ theorem CritStripComplexCarrier_hsame_transport {s s' sigma sigma' tau tau' : BH
     (And.intro transportedCont
       (CritStripComplexCarrier_strict_interval_absurd transportedCarrier).right)
 
+theorem CritStripStabilityCert_fields :
+    (forall {sigma sigma' : BHist}, InCritStrip sigma -> hsame sigma sigma' ->
+      InCritStrip sigma' ∧ (hsame sigma' BHist.Empty -> False) ∧
+        (hsame sigma' (BHist.e1 BHist.Empty) -> False)) ∧
+      (forall {s s' sigma sigma' tau tau' : BHist}, hsame s s' -> hsame sigma sigma' ->
+        hsame tau tau' -> CritStripComplexCarrier s sigma tau ->
+          CritStripComplexCarrier s' sigma' tau' ∧ Cont sigma' tau' s' ∧ False) := by
+  constructor
+  · intro sigma sigma' strip sameSigma
+    exact InCritStrip_hsame_transport_boundary_exclusion strip sameSigma
+  · intro s s' sigma sigma' tau tau' sameS sameSigma sameTau carrier
+    exact CritStripComplexCarrier_hsame_transport sameS sameSigma sameTau carrier
+
 theorem CritStripComplexCarrier_component_boundary_exclusion {s sigma tau : BHist} :
     CritStripComplexCarrier s sigma tau ->
       (hsame sigma BHist.Empty -> False) ∧
@@ -161,6 +193,34 @@ theorem CritStripComplexCarrier_component_boundary_exclusion {s sigma tau : BHis
       (And.intro
         (RatHistoryCarrier_not_empty carrier.right.left)
         (CritStripComplexCarrier_not_empty carrier)))
+
+theorem CritStripClassifierSpec_component_transport
+    {s t sigma sigma' tau tau' u v rho rho' ups ups' : BHist} :
+    hsame s u -> hsame t v -> hsame sigma rho -> hsame sigma' rho' ->
+      hsame tau ups -> hsame tau' ups' ->
+        CritStripClassifierSpec s t sigma sigma' tau tau' ->
+          CritStripClassifierSpec u v rho rho' ups ups' ∧ Cont rho ups u ∧
+            Cont rho' ups' v := by
+  intro sameS sameT sameSigma sameSigma' sameTau sameTau' classified
+  cases classified with
+  | intro leftCarrier rest =>
+      cases rest with
+      | intro rightCarrier sameComponents =>
+          have transportedLeft :=
+            CritStripComplexCarrier_hsame_transport sameS sameSigma sameTau leftCarrier
+          have transportedRight :=
+            CritStripComplexCarrier_hsame_transport sameT sameSigma' sameTau' rightCarrier
+          have sameRhoRho' : hsame rho rho' :=
+            hsame_trans (hsame_symm sameSigma)
+              (hsame_trans sameComponents.left sameSigma')
+          have sameUpsUps' : hsame ups ups' :=
+            hsame_trans (hsame_symm sameTau)
+              (hsame_trans sameComponents.right sameTau')
+          exact And.intro
+            (And.intro transportedLeft.left
+              (And.intro transportedRight.left
+                (And.intro sameRhoRho' sameUpsUps')))
+            (And.intro transportedLeft.right.left transportedRight.right.left)
 
 theorem CritStripEmptyBoundary_semanticNameCert :
     SemanticNameCert
@@ -184,6 +244,50 @@ theorem CritStripEmptyBoundary_semanticNameCert :
         hsame_trans (hsame_symm same) carrier.left
       exact And.intro sameEmpty
         (fun strip => (InCritStrip_boundary_excluded strip).left sameEmpty)
+  · intro _h source
+    exact source
+  · intro _h source
+    exact source
+
+theorem crit_strip_name_certificate :
+    NameCert (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+        (fun h k : BHist => hsame h k) ∧
+      (forall {s sigma tau : BHist}, CritStripComplexCarrier s sigma tau -> False) := by
+  constructor
+  · exact CritStripEmptyBoundary_semanticNameCert.core
+  · intro s sigma tau carrier
+    exact (CritStripComplexCarrier_strict_interval_absurd carrier).right
+
+theorem crit_strip_semantic_name_certificate :
+    SemanticNameCert
+      (fun h : BHist =>
+        hsame h BHist.Empty ∧
+          (forall sigma tau : BHist, CritStripComplexCarrier h sigma tau -> False))
+      (fun h : BHist =>
+        hsame h BHist.Empty ∧
+          (forall sigma tau : BHist, CritStripComplexCarrier h sigma tau -> False))
+      (fun h : BHist =>
+        hsame h BHist.Empty ∧
+          (forall sigma tau : BHist, CritStripComplexCarrier h sigma tau -> False))
+      hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty
+        (And.intro (hsame_refl BHist.Empty)
+          (fun _sigma _tau carrier =>
+            (CritStripComplexCarrier_strict_interval_absurd carrier).right))
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      have sameEmpty : hsame k BHist.Empty :=
+        hsame_trans (hsame_symm same) carrier.left
+      exact And.intro sameEmpty
+        (fun _sigma _tau obstruction =>
+          (CritStripComplexCarrier_strict_interval_absurd obstruction).right)
   · intro _h source
     exact source
   · intro _h source

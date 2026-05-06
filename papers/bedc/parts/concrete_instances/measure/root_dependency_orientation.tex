@@ -1,0 +1,136 @@
+\begin{definition}[Measure root dependency orientation surface]
+\label{def:measure-root-dependency-orientation-surface}
+The $\MeasureUp$ root dependency orientation surface is the root
+$\mathsf{BHist}$ package whose carrier is $\mathsf{MCarrier}$ and whose
+classifier is the componentwise $\MeasureUp$ classifier transported by
+$\hsame$. Its sequence rows are indexed only by unary observations
+$n:\mathsf{BHist}$ with $\mathsf{UnaryHistory}(n)$, and its continuation rows
+are the $\Cont$ rows used to keep event presentations, relative-difference
+witnesses, countable-union witnesses, and countable-sum endpoints in the same
+visible ledger.
+
+The input certificates of the surface are exactly the following rows:
+\begin{enumerate}
+  \item $\NameCert_{\RealUp}$ for displayed endpoint classifiers, zero
+  endpoints, order comparisons, and countable-sum endpoint comparisons;
+  \item the additive real rows already named by
+  \autoref{def:measure-sigma-algebra-carrier-surface} and
+  \autoref{def:measure-root-namecert-public-surface};
+  \item $\NameCert_{\StreamNameUp}$ only where the endpoint-family rows of
+  \autoref{def:measure-streamname-endpoint-family} are used.
+\end{enumerate}
+No row from $\IntegralUp$, $\ProbSpaceUp$, or $\FunctionalAnalysisUp$ is an
+input certificate for this root surface. Those objects are reachable only
+through the downstream consumer package.
+\end{definition}
+
+\begin{theorem}[Measure root input dependency scope]
+\label{thm:measure-root-input-dependency-scope}
+The carrier, classifier, event coverage, finite additivity,
+sigma-additivity, continuity-from-below, and endpoint-family rows of
+$\MeasureUp$ are proved from the orientation surface of
+\autoref{def:measure-root-dependency-orientation-surface}, the BEDC kernel
+constructs $\mathsf{BHist}$, $\hsame$, and $\Cont$, the named
+$\NameCert_{\RealUp}$ and additive real rows, and the
+$\NameCert_{\StreamNameUp}$ rows at endpoint-family sites. They are not
+proved from any $\IntegralUp$, $\ProbSpaceUp$, or $\FunctionalAnalysisUp$
+consumer row.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier rows from
+\autoref{thm:measure-root-namecert-carrier-classifier}. The carrier is the
+displayed $\mathsf{MCarrier}$ row over $\mathsf{BHist}$, and classifier
+movement is the componentwise $\hsame$ transport built into the root
+NameCert surface.
+
+Next apply \autoref{thm:measure-root-namecert-stability-exactness}. Its
+stability and exactness projections say that every visible event witness,
+relative-difference witness, countable-union witness, and endpoint witness is
+read from the displayed ledger and transported only through the root
+classifier, $\Cont$, and the $\RealUp$ endpoint classifier.
+
+The finite-additivity, sigma-additivity, and continuity-from-below rows are
+then read through the public additive and countable-sum rows cited by the
+measure surface. Endpoint-family rows use
+\autoref{def:measure-streamname-endpoint-family}, so the only extra
+certificate at those sites is $\NameCert_{\StreamNameUp}$.
+
+Finally compare the resulting root package with
+\autoref{thm:measure-root-downstream-unblock-package}. That theorem exports
+rows from $\MeasureUp$ to the three downstream consumers; it does not import
+consumer rows back into the carrier, classifier, additivity, continuity, or
+endpoint-family obligations. Hence the listed root obligations have precisely
+the input scope stated above.
+\end{proof}
+
+\begin{theorem}[Measure root consumer projection separation]
+\label{thm:measure-root-consumer-projection-separation}
+The $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ rows exposed in
+\autoref{def:measure-root-consumer-package} are projections out of the root
+$\MeasureUp$ package. They cannot be used as hypotheses for the root carrier,
+classifier, event-coverage, additivity, continuity-from-below, or
+endpoint-family obligations of $\MeasureUp$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:measure-root-consumer-package}. The definition reads
+the root NameCert public surface together with the downstream package of
+\autoref{thm:measure-root-downstream-unblock-package}; its consumer rows are
+therefore projections from an already assembled root surface.
+
+For the three consumers, apply
+\autoref{thm:measure-root-downstream-unblock-package}. The integral face
+receives measurable-event, endpoint, countable-sum, head-tail, and finite
+readback rows; the probability face receives total-event normalization,
+empty-zero, and finite-additivity rows; the functional-analysis face receives
+nonnegative endpoint, monotone inclusion, relative-difference, and
+countable-sum classifier rows.
+
+Now return to the root obligations named in
+\autoref{def:measure-root-dependency-orientation-surface}. Their hypotheses
+are $\mathsf{BHist}$, $\hsame$, $\Cont$, $\NameCert_{\RealUp}$, the additive
+real rows, and endpoint-family $\NameCert_{\StreamNameUp}$ rows. None of the
+three consumer projections appears among those hypotheses.
+
+The exactness row of \autoref{def:measure-root-consumer-package} keeps the
+consumer boundary one-way: downstream rows may cite the root package, but
+root proof obligations cite only the orientation surface and its named input
+certificates. This separates the projections from the hypotheses used to
+build $\MeasureUp$.
+\end{proof}
+
+\begin{theorem}[Measure root deps-ready public package]
+\label{thm:measure-root-deps-ready-public-package}
+The orientation surface of
+\autoref{def:measure-root-dependency-orientation-surface} together with the
+threshold package of \autoref{def:measure-root-bhist-consumer-threshold}
+forms the public deps-ready $\MeasureUp$ package for $\IntegralUp$,
+$\ProbSpaceUp$, and $\FunctionalAnalysisUp$. This package exposes exactly the
+root $\mathsf{BHist}$ carrier and classifier rows, $\RealUp$ endpoint rows,
+additive and continuity rows, endpoint-family rows, the downstream consumer
+projections, and the no-$\StdBridge$ boundary recorded by the threshold.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:measure-root-dependency-orientation-surface} to fix the root
+input face. It supplies the carrier orientation over $\mathsf{BHist}$,
+classifier transport by $\hsame$, continuation discipline through $\Cont$,
+and the only external certificates allowed at root input sites.
+
+Apply \autoref{thm:measure-root-input-dependency-scope}. This proves that the
+root carrier, classifier, coverage, additivity, continuity-from-below, and
+endpoint-family rows are obtained before any downstream consumer projection is
+used.
+
+Next combine those rows with
+\autoref{def:measure-root-bhist-consumer-threshold}. The threshold package
+lists the visible event ledger, endpoint comparisons, additive rows,
+exactness row, and the three downstream consumer faces, while excluding host
+set equality, quotient event equality, analytic completion objects, and
+standard bridges.
+
+Finally apply
+\autoref{thm:measure-root-consumer-projection-separation}. It identifies the
+consumer faces as outgoing projections only. Repacking the input face and the
+threshold face therefore gives a public deps-ready package that downstream
+analysis chapters may consume without using those chapters to justify the
+root $\MeasureUp$ obligations.
+\end{proof}

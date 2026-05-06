@@ -1,0 +1,115 @@
+\input{parts/concrete_instances/measure/relative_difference_rows}
+
+\begin{theorem}[Measure root relative-difference consumer surface]
+\label{thm:measure-root-relative-difference-consumer-surface}
+The $\MeasureUp$ root consumer package of
+\autoref{def:measure-root-consumer-package} exposes the finite
+relative-difference surface consisting of:
+\begin{enumerate}
+  \item the relative-difference decomposition row of
+  \autoref{thm:measure-relative-difference-disjoint-decomposition};
+  \item the relative-difference additivity row of
+  \autoref{thm:measure-relative-difference-additivity};
+  \item the self-difference zero row of
+  \autoref{thm:measure-self-difference-zero-law}.
+\end{enumerate}
+Each exposed row is read only through the root NameCert carrier rows,
+measurable-event classifier rows, and $\RealUp$ endpoint classifier rows of the
+same package.
+\end{theorem}
+\begin{proof}
+Unpack the root consumer package in
+\autoref{def:measure-root-consumer-package}. Its public surface includes the
+root NameCert surface and the downstream package of
+\autoref{thm:measure-root-downstream-unblock-package}, so the measurable-event
+rows, finite disjoint-union rows, and $\RealUp$ endpoint classifier rows are
+available to consumers.
+
+Apply
+\autoref{thm:measure-relative-difference-disjoint-decomposition}. It consumes a
+displayed measurable inclusion and returns the visible measurable
+relative-difference event, the disjointness witness, and the binary-union
+readback against the original event.
+
+Apply \autoref{thm:measure-relative-difference-additivity} to the same exposed
+row family. It composes the decomposition row with finite disjoint-union
+additivity and endpoint transport, giving the public additive comparison.
+
+Finally apply \autoref{thm:measure-self-difference-zero-law} at a reflexive
+displayed inclusion. Since all required rows are already rows of the root
+consumer package, the zero self-difference row is exposed without adding host
+set subtraction, quotient event equality, or a standard bridge row.
+\end{proof}
+
+\begin{theorem}[Measure root finite monotonicity consumer package]
+\label{thm:measure-root-finite-monotone-consumer-package}
+The $\MeasureUp$ root consumer package of
+\autoref{def:measure-root-consumer-package} makes measurable-inclusion
+monotonicity available to $\IntegralUp$ and $\FunctionalAnalysisUp$. Concretely,
+the monotone row
+\autoref{thm:measure-monotone-under-measurable-inclusion} is part of the same
+consumer boundary that supplies the $\IntegralUp$ rows of
+\autoref{thm:measure-integral-consumer-rows} and the $\FunctionalAnalysisUp$
+rows of \autoref{thm:measure-functionalanalysis-consumer-rows}.
+\end{theorem}
+\begin{proof}
+Project the root consumer package through
+\autoref{def:measure-root-consumer-package}. The package exposes the
+nonnegative endpoint rows, finite disjoint-union rows, and RealAlgOrder
+additive order row needed by measurable-inclusion monotonicity.
+
+Apply \autoref{thm:measure-monotone-under-measurable-inclusion}. Its proof
+reads the displayed measurable-difference row, applies finite disjoint-union
+additivity, and transports the resulting endpoint comparison through the
+classifier-stable order row.
+
+The $\IntegralUp$ consumer projection of
+\autoref{thm:measure-integral-consumer-rows} reads exactly the covered
+measurable-event, endpoint, countable-sum, head-tail, and finite
+disjoint-union rows from the same root package. The monotone row is therefore
+available at the shared measure boundary used by the integral premeasure
+surface.
+
+The $\FunctionalAnalysisUp$ projection of
+\autoref{thm:measure-functionalanalysis-consumer-rows} explicitly consumes the
+nonnegative endpoint, monotone inclusion, relative-difference, and
+countable-sum classifier rows. Hence the same monotone inclusion row is
+available to the functional-analysis consumer surface, with no extra quotient
+event equality or host set equality.
+\end{proof}
+
+\begin{theorem}[Measure root subadditivity consumer boundary]
+\label{thm:measure-root-subadditivity-consumer-boundary}
+For a $\MeasureUp$ carrier read through the root consumer package of
+\autoref{def:measure-root-consumer-package}, binary-union subadditivity is a
+public finite-measure consequence:
+$$
+\mu(A\cup B)\le_R\mu(A)+\mu(B).
+$$
+The consequence is obtained by composing the binary-union subadditivity row of
+\autoref{thm:measure-binary-union-subadditivity} with the downstream unblock
+package of \autoref{thm:measure-root-downstream-unblock-package} and the root
+consumer rows of \autoref{thm:measure-integral-consumer-rows} and
+\autoref{thm:measure-functionalanalysis-consumer-rows}.
+\end{theorem}
+\begin{proof}
+Start with the root downstream package of
+\autoref{thm:measure-root-downstream-unblock-package}. It exposes the covered
+measurable-event rows, $\RealUp$ endpoint rows, empty-zero row, finite
+disjoint-union row, relative-difference row, and nonnegative endpoint row
+through the root consumer surface.
+
+Apply \autoref{thm:measure-binary-union-subadditivity}. The theorem consumes
+exactly those finite-measure rows: relative-difference additivity for
+$U\setminus A$, measurable-inclusion monotonicity for the inclusion of that
+difference into $B$, and RealAlgOrder addition monotonicity for the final
+endpoint comparison.
+
+The integral consumer rows of \autoref{thm:measure-integral-consumer-rows} and
+the functional-analysis consumer rows of
+\autoref{thm:measure-functionalanalysis-consumer-rows} are projections of the
+same root package. Repacking the binary-union comparison through those
+projections makes the displayed finite subadditivity row public at the
+downstream consumer boundary, without adding a standard bridge or host-level
+event equality.
+\end{proof}

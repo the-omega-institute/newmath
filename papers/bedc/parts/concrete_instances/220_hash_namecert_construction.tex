@@ -1,0 +1,192 @@
+\chapter{A Concrete Naming Certificate for $\HashUp$}
+\label{ch:concrete-instances-hash-namecert}
+
+The hash-function interface $\HashUp$ packages a deterministic finite-output map with collision-resistance, preimage-resistance, and second-preimage-resistance certificates against a bounded adversary. It depends on $\NameCert_{\FuncUp}$ (\autoref{ch:concrete-instances-funcobj-namecert}) and $\NameCert_{\FinSetUp}$ (\autoref{ch:concrete-instances-finset-namecert}).
+
+\section{Carrier definition}
+\label{sec:hash-carrier}
+
+\section{The certificate}
+\label{sec:hash-certificate}
+
+\begin{definition}[Hash evaluation and success transcripts]
+\label{def:hash-evaluation-success-transcripts}
+Let $\mathcal H$ be a $\HashUp$ certificate as in \autoref{sec:hash-carrier} and \autoref{sec:hash-certificate}. Its carrier data consist of a message carrier $\mathsf{Msg}_{\mathcal H}$ with message classifier $\sigma_{\mathcal H}$, a finite digest carrier $\mathsf{Dig}_{\mathcal H}$ with digest classifier $\rho_{\mathcal H}$ from the finite-output $\FinSetUp$ presentation of \autoref{ch:concrete-instances-finset-namecert}, and a deterministic function row supplied by the $\FuncUp$ substrate of \autoref{ch:concrete-instances-funcobj-namecert}. Write
+$$
+\mathsf{HashEval}_{\mathcal H}(m,d)
+$$
+for the row witness that $m$ is a carried message, $d$ is a carried digest, and the hash row of $\mathcal H$ evaluates $m$ to the digest representative $d$.
+
+For message histories $x$ and $x'$, define successful second-preimage transcript by
+$$
+\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')
+\Longleftrightarrow
+\exists d,d':\mathsf{BHist}.\;
+\mathsf{HashEval}_{\mathcal H}(x,d)\land
+\mathsf{HashEval}_{\mathcal H}(x',d')\land
+\neg\sigma_{\mathcal H}(x,x')\land
+\rho_{\mathcal H}(d',d).
+$$
+Define successful collision transcript for the ordered pair $(x,x')$ by
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')
+\Longleftrightarrow
+\exists d,d':\mathsf{BHist}.\;
+\mathsf{HashEval}_{\mathcal H}(x,d)\land
+\mathsf{HashEval}_{\mathcal H}(x',d')\land
+\neg\sigma_{\mathcal H}(x,x')\land
+\rho_{\mathcal H}(d,d').
+$$
+The two predicates use the same evaluation row; the digest-classifier orientation is the only difference.
+\end{definition}
+\leandef{BEDC.Derived.HashUp.HashEvalTranscript}
+
+\begin{theorem}[Hash second-preimage success induces collision]
+\label{thm:hash-second-preimage-success-induces-collision}
+Let $\mathcal H$ be a $\HashUp$ certificate whose finite-output digest classifier is supplied by its $\NameCert_{\FinSetUp}$ component. For message histories $x$ and $x'$, every successful second-preimage transcript for base message $x$ and returned message $x'$ induces a successful collision transcript for the ordered pair $(x,x')$ over the same hash row:
+$$
+\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')
+\Longrightarrow
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x').
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.HashUp.HashSecondPreimageSuccess\_induces\_collision}
+\begin{proof}
+Unfold \autoref{def:hash-evaluation-success-transcripts}. A second-preimage success transcript gives digest histories $d$ and $d'$ with the two evaluation row witnesses
+$$
+\mathsf{HashEval}_{\mathcal H}(x,d)
+\qquad\text{and}\qquad
+\mathsf{HashEval}_{\mathcal H}(x',d'),
+$$
+the message distinction witness $\neg\sigma_{\mathcal H}(x,x')$, and the digest-classifier comparison $\rho_{\mathcal H}(d',d)$. The digest classifier is the classifier of the finite-output naming certificate from \autoref{ch:concrete-instances-finset-namecert}, so the classifier-symmetry field of \autoref{def:lean-carrier-naming-certificate} reverses the displayed comparison and gives
+$$
+\rho_{\mathcal H}(d,d').
+$$
+Using the same digest witnesses $d,d'$, the same two evaluation row witnesses, and the same message distinction witness, this is exactly the collision predicate over the same $\mathsf{HashEval}_{\mathcal H}$ row in \autoref{def:hash-evaluation-success-transcripts}.
+\end{proof}
+
+\begin{theorem}[Hash collision success is symmetric]
+\label{thm:hash-collision-success-symmetric}
+Let $\mathcal H$ be a $\HashUp$ certificate whose message classifier $\sigma_{\mathcal H}$ and finite-output digest classifier $\rho_{\mathcal H}$ have the classifier-symmetry fields supplied by their naming-certificate components. For message histories $x$ and $x'$, every successful collision transcript for the ordered pair $(x,x')$ induces a successful collision transcript for the ordered pair $(x',x)$ over the same hash-evaluation row:
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')
+\Longrightarrow
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x',x).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.HashUp.HashCollisionSuccess\_symmetric}
+\begin{proof}
+Unfold \autoref{def:hash-evaluation-success-transcripts}. A collision transcript for $(x,x')$ gives digest histories $d$ and $d'$ with evaluation row witnesses
+$$
+\mathsf{HashEval}_{\mathcal H}(x,d)
+\qquad\text{and}\qquad
+\mathsf{HashEval}_{\mathcal H}(x',d'),
+$$
+the message distinction witness $\neg\sigma_{\mathcal H}(x,x')$, and the digest comparison $\rho_{\mathcal H}(d,d')$.
+
+The digest-classifier symmetry field from \autoref{def:lean-carrier-naming-certificate} reverses the digest comparison to
+$$
+\rho_{\mathcal H}(d',d).
+$$
+For the reversed message distinction, suppose $\sigma_{\mathcal H}(x',x)$ held. The message-classifier symmetry field would give $\sigma_{\mathcal H}(x,x')$, contradicting the displayed witness $\neg\sigma_{\mathcal H}(x,x')$. Hence
+$$
+\neg\sigma_{\mathcal H}(x',x).
+$$
+Using the swapped digest witnesses $d'$ and $d$, the two original evaluation row witnesses read in the opposite order, the reversed message distinction, and the reversed digest comparison, the definition repacks exactly as $\mathsf{HashCollisionSuccess}_{\mathcal H}(x',x)$ over the same $\mathsf{HashEval}_{\mathcal H}$ row.
+\end{proof}
+
+\begin{theorem}[Hash collision transcript symmetry]
+\label{thm:hash-collision-transcript-symmetry}
+Let $\mathcal H$ be a $\HashUp$ certificate whose message classifier $\sigma_{\mathcal H}$ and finite-output digest classifier $\rho_{\mathcal H}$ have the classifier-symmetry fields supplied by their naming-certificate components. For message histories $x$ and $x'$, every successful collision transcript for the ordered pair $(x,x')$ induces a successful collision transcript for the ordered pair $(x',x)$ over the same two hash-evaluation rows:
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')
+\Longrightarrow
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x',x).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.HashUp.HashCollisionTranscript\_symmetric}
+\begin{proof}
+Unfold \autoref{def:hash-evaluation-success-transcripts}. A collision transcript for $(x,x')$ gives digest histories $d$ and $d'$ with evaluation row witnesses
+$$
+\mathsf{HashEval}_{\mathcal H}(x,d)
+\qquad\text{and}\qquad
+\mathsf{HashEval}_{\mathcal H}(x',d'),
+$$
+the message distinction witness $\neg\sigma_{\mathcal H}(x,x')$, and the digest comparison $\rho_{\mathcal H}(d,d')$.
+
+The digest-classifier symmetry field from \autoref{def:lean-carrier-naming-certificate}, applied through the finite-output $\FinSetUp$ component cited in \autoref{ch:concrete-instances-finset-namecert}, reverses the digest comparison to
+$$
+\rho_{\mathcal H}(d',d).
+$$
+For the reversed message distinction, suppose $\sigma_{\mathcal H}(x',x)$ held. The message-classifier symmetry field from the same naming-certificate discipline would give $\sigma_{\mathcal H}(x,x')$, contradicting $\neg\sigma_{\mathcal H}(x,x')$. Hence
+$$
+\neg\sigma_{\mathcal H}(x',x).
+$$
+Using the swapped digest witnesses $d'$ and $d$, the two original evaluation row witnesses read in the opposite order, the reversed message distinction, and the reversed digest comparison, the definition repacks exactly as $\mathsf{HashCollisionSuccess}_{\mathcal H}(x',x)$ over the same two $\mathsf{HashEval}_{\mathcal H}$ rows.
+\end{proof}
+
+\begin{theorem}[Hash collision success induces reversed second-preimage]
+\label{thm:hash-collision-success-induces-reversed-second-preimage}
+Let $\mathcal H$ be a $\HashUp$ certificate whose message classifier $\sigma_{\mathcal H}$ has the classifier-symmetry field supplied by its naming-certificate component. For message histories $x$ and $x'$, every successful collision transcript for the ordered pair $(x,x')$ induces a successful second-preimage transcript for base message $x'$ and returned message $x$ over the same two hash-evaluation rows:
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')
+\Longrightarrow
+\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x',x).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.HashUp.HashCollisionSuccess\_induces\_reversed\_second\_preimage}
+\begin{proof}
+Unfold \autoref{def:hash-evaluation-success-transcripts}. A collision transcript for $(x,x')$ gives digest histories $d$ and $d'$ with the two evaluation row witnesses
+$$
+\mathsf{HashEval}_{\mathcal H}(x,d)
+\qquad\text{and}\qquad
+\mathsf{HashEval}_{\mathcal H}(x',d'),
+$$
+the message distinction witness $\neg\sigma_{\mathcal H}(x,x')$, and the digest comparison
+$$
+\rho_{\mathcal H}(d,d').
+$$
+To build the second-preimage transcript for $(x',x)$, take the digest witness for the base message $x'$ to be $d'$ and the digest witness for the returned message $x$ to be $d$. The two displayed evaluation row witnesses then occur in the required reversed order, and the required digest condition is still
+$$
+\rho_{\mathcal H}(d,d'),
+$$
+which is the collision digest comparison itself.
+
+It remains only to reverse the message distinction. Suppose $\sigma_{\mathcal H}(x',x)$ held. The message-classifier symmetry field from \autoref{def:lean-carrier-naming-certificate} would give $\sigma_{\mathcal H}(x,x')$, contradicting $\neg\sigma_{\mathcal H}(x,x')$. Hence
+$$
+\neg\sigma_{\mathcal H}(x',x).
+$$
+Using the swapped digest witnesses $d'$ and $d$, the same two hash-evaluation rows, the reversed message distinction, and the unchanged digest comparison, the definition repacks exactly as $\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x',x)$.
+\end{proof}
+
+\begin{definition}[Hash collision-freeness]
+\label{def:hash-collision-freeness}
+Let $\mathcal H$ be a $\HashUp$ certificate as in \autoref{sec:hash-carrier} and \autoref{sec:hash-certificate}. For histories $x$ and $x'$, define
+$$
+\mathsf{CollFreeH}_{\mathcal H}(x,x')
+\Longleftrightarrow
+\neg\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x').
+$$
+\end{definition}
+\leandef{BEDC.Derived.HashUp.HashCollisionFree}
+
+\begin{theorem}[Hash collision-freeness excludes second-preimage success]
+\label{thm:hash-collision-freeness-excludes-second-preimage}
+Let $\mathcal H$ be a $\HashUp$ certificate whose finite-output digest classifier is supplied by its $\NameCert_{\FinSetUp}$ component. For message histories $x$ and $x'$, if
+$$
+\mathsf{CollFreeH}_{\mathcal H}(x,x') \land \mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')
+$$
+holds, then
+$$
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{CollFreeH}_{\mathcal H}(x,x')$, so it is enough to show $\neg\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')$.
+By \autoref{thm:hash-second-preimage-success-induces-collision}, the assumed second-preimage success gives
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x').
+$$
+This directly contradicts the displayed collision-freeness hypothesis, so the conjunction is inconsistent.
+\end{proof}
+\leanchecked{BEDC.Derived.HashUp.HashCollisionFree\_excludes\_second\_preimage\_success}

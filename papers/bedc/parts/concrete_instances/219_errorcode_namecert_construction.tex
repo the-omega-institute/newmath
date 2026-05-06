@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\ErrorCodeUp$}
+\label{ch:concrete-instances-errorcode-namecert}
+
+The error-correcting-code interface $\ErrorCodeUp$ packages a subset of $\mathbb{F}_q^n$ at minimum Hamming distance $d$ together with encoder, syndrome, and decoder data correcting up to $\lfloor (d-1)/2 \rfloor$ errors. It depends on $\NameCert_{\FieldUp}$ (\autoref{ch:concrete-instances-field-namecert}) and $\NameCert_{\VecSpaceUp}$ (\autoref{ch:concrete-instances-vecspace-namecert}).
+
+\section{Carrier definition}
+\label{sec:errorcode-carrier}
+
+\section{The certificate}
+\label{sec:errorcode-certificate}
+
+\begin{definition}[ErrorCode minimum-distance decoding interface]
+\label{def:errorcode-minimum-distance-decoding-interface}
+An $\ErrorCodeUp$ certificate over the field certificate of \autoref{ch:concrete-instances-field-namecert} and the vector-space certificate of \autoref{ch:concrete-instances-vecspace-namecert} carries the following metric data. Its ambient words are histories of the certified vector space $\mathbb{F}_q^n$. It has a codeword predicate $\mathsf{Code}_{\mathcal C}(x)$, a code classifier $\rho_{\mathcal C}(x,y)$ on codeword histories, and a Hamming-distance row
+$$
+\Delta_{\mathcal C}(x,y)\in\mathbb{N}.
+$$
+The Hamming row is symmetric and satisfies the triangle inequality on ambient word histories. The minimum-distance field for a positive natural number $d$ is recorded in the constructive direction
+$$
+\mathsf{Code}_{\mathcal C}(x)\land
+\mathsf{Code}_{\mathcal C}(y)\land
+\Delta_{\mathcal C}(x,y)<d
+\Longrightarrow
+\rho_{\mathcal C}(x,y).
+$$
+The decoding-radius field records the natural number
+$$
+t=\lfloor(d-1)/2\rfloor.
+$$
+A word $r$ is within decoding radius $t$ of a codeword $c$ when $\Delta_{\mathcal C}(c,r)\le t$.
+\end{definition}
+\leanstmt{BEDC.Derived.ErrorCodeUp.ErrorCodeMinimumDistanceInterface}
+
+\begin{lemma}[Half minimum-distance radius bound]
+\label{lem:errorcode-half-minimum-distance-radius-bound}
+Let $d$ be a positive natural number and let $t=\lfloor(d-1)/2\rfloor$. Then $2t<d$.
+\end{lemma}
+\begin{proof}
+The floor relation gives $t\le(d-1)/2$. Multiplying by $2$ gives $2t\le d-1$. Positivity of $d$ gives $d-1<d$. Thus $2t<d$.
+\end{proof}
+
+\begin{theorem}[ErrorCode unique decoding radius]
+\label{thm:errorcode-unique-decoding-radius}
+Let $\mathcal C$ be an $\ErrorCodeUp$ certificate with Hamming-distance row $\Delta_{\mathcal C}$, codeword predicate $\mathsf{Code}_{\mathcal C}$, code classifier $\rho_{\mathcal C}$, positive minimum distance $d$, and decoding radius $t=\lfloor(d-1)/2\rfloor$ as in \autoref{def:errorcode-minimum-distance-decoding-interface}. Let $c_1$, $c_2$, and $r$ be ambient word histories. If $\mathsf{Code}_{\mathcal C}(c_1)$, $\mathsf{Code}_{\mathcal C}(c_2)$, and
+$$
+\Delta_{\mathcal C}(c_1,r)\le t
+\quad\text{and}\quad
+\Delta_{\mathcal C}(c_2,r)\le t,
+$$
+then $c_1$ and $c_2$ are code-classifier equal:
+$$
+\rho_{\mathcal C}(c_1,c_2).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ErrorCodeUp.ErrorCode\_unique\_decoding\_radius}
+\begin{proof}
+The Hamming triangle row gives
+$$
+\Delta_{\mathcal C}(c_1,c_2)
+\le
+\Delta_{\mathcal C}(c_1,r)+\Delta_{\mathcal C}(r,c_2).
+$$
+By symmetry, $\Delta_{\mathcal C}(r,c_2)=\Delta_{\mathcal C}(c_2,r)$, so the two radius bounds give
+$$
+\Delta_{\mathcal C}(c_1,c_2)
+\le
+t+t
+=
+2t.
+$$
+By \autoref{lem:errorcode-half-minimum-distance-radius-bound}, $2t<d$. Hence
+$$
+\Delta_{\mathcal C}(c_1,c_2)<d.
+$$
+The minimum-distance field in \autoref{def:errorcode-minimum-distance-decoding-interface} sends two carried codeword histories at Hamming distance below $d$ to a code-classifier witness. Applying that field to the codeword witnesses for $c_1$ and $c_2$ yields $\rho_{\mathcal C}(c_1,c_2)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ErrorCodeUp.ErrorCodeMetricReceivedWithinZero\_unique\_decoding\_empty}
+\leanchecked{BEDC.Derived.ErrorCodeUp.ErrorCodeMinimumDistanceInterface\_unique\_decoding\_radius}
+\leanchecked{BEDC.Derived.ErrorCodeUp.ErrorCodeSingleton\_unique\_decoding\_radius}
+
+\begin{corollary}[ErrorCode smaller-radius uniqueness]
+\label{cor:errorcode-smaller-radius-uniqueness}
+Let $\mathcal C$ be an $\ErrorCodeUp$ certificate with Hamming-distance row $\Delta_{\mathcal C}$, codeword predicate $\mathsf{Code}_{\mathcal C}$, code classifier $\rho_{\mathcal C}$, positive minimum distance $d$, and decoding radius $t=\lfloor(d-1)/2\rfloor$ as in \autoref{def:errorcode-minimum-distance-decoding-interface}. Let $s$ be a natural number with $s\le t$. For ambient word histories $c_1$, $c_2$, and $r$, suppose $\mathsf{Code}_{\mathcal C}(c_1)$ and $\mathsf{Code}_{\mathcal C}(c_2)$, and suppose
+$$
+\Delta_{\mathcal C}(c_1,r)\le s
+\quad\text{and}\quad
+\Delta_{\mathcal C}(c_2,r)\le s.
+$$
+Then $c_1$ and $c_2$ are code-classifier equal:
+$$
+\rho_{\mathcal C}(c_1,c_2).
+$$
+\end{corollary}
+\begin{proof}
+Transitivity of the natural-number order composes the first radius bound with $s\le t$ and gives
+$$
+\Delta_{\mathcal C}(c_1,r)\le t.
+$$
+The same order-transitivity step composes the second radius bound with $s\le t$ and gives
+$$
+\Delta_{\mathcal C}(c_2,r)\le t.
+$$
+The two codeword witnesses and these two enlarged radius bounds are exactly the hypotheses of \autoref{thm:errorcode-unique-decoding-radius}. Applying that theorem yields $\rho_{\mathcal C}(c_1,c_2)$.
+\end{proof}

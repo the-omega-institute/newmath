@@ -1,0 +1,194 @@
+\begin{definition}[Banach bounded linear operator carrier]
+\label{def:banach-bounded-linear-operator-carrier}
+Let $C$ and $D$ be $\BanachUp$ candidates with vector carriers $C_V,D_V$,
+classifiers $\sim_C,\sim_D$, norms $\nu_C,\nu_D$, and induced distances
+$d_C,d_D$. A Banach bounded linear operator carrier from $C$ to $D$ is a BEDC
+history predicate
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+on endpoint maps $T:C_V\to D_V$, RealUp bound endpoints $K$, and visible
+ledger histories $\Lambda$ such that the following rows are carried.
+\begin{enumerate}
+\item The map respects vector classifiers: if $x\sim_C x'$ and both
+endpoints are carried by $C_V$, then $T(x)\sim_D T(x')$.
+\item The map respects the vector operations:
+$T(x+_C y)\sim_D T(x)+_D T(y)$ and
+$T(a\cdot_C x)\sim_D a\cdot_D T(x)$ for every carried RealUp scalar endpoint
+$a$ and carried source endpoints $x,y$.
+\item The RealUp bound row records $K\ge 0$ and
+$$
+\nu_D(T(x))\le K\cdot\nu_C(x)
+$$
+for every carried source endpoint $x:C_V$.
+\item The ledger $\Lambda$ records the source endpoint row, target endpoint
+row, source and target norm rows, scalar row, additive and homogeneity
+compatibility rows, and the bound witness used for each carried input.
+\end{enumerate}
+The classifier on operator representatives is $\hsame$ transport of the
+endpoint map together with $\RealUp$ transport of the bound and componentwise
+transport of the ledger rows.
+\end{definition}
+
+\begin{theorem}[Bounded linear operator Lipschitz obligation]
+\label{thm:banach-bounded-linear-operator-lipschitz}
+For $\BanachUp$ candidates $C,D$, any carried row
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ satisfies the metric Lipschitz
+obligation
+$$
+d_D(Tx,Ty)\le K\cdot d_C(x,y)
+$$
+for all carried source endpoints $x,y:C_V$. The distance rows are the
+norm-induced rows of \autoref{thm:banach-metric-induced-by-norm}.
+\end{theorem}
+\begin{proof}
+First read the two distances through
+\autoref{thm:banach-metric-induced-by-norm}. The source distance is the
+RealUp norm endpoint $\nu_C(x-_C y)$, and the target distance is
+$\nu_D(Tx-_D Ty)$.
+
+Use the additive compatibility row in
+\autoref{def:banach-bounded-linear-operator-carrier}. It transports the target
+difference $Tx-_D Ty$ to the endpoint $T(x-_C y)$ under the target vector
+classifier, and the $\NormUp$ transport row moves $\nu_D$ across that
+classifier comparison.
+
+Apply the bound row of the operator carrier to the carried source difference
+$x-_C y$. This gives
+$$
+\nu_D(T(x-_C y))\le K\cdot\nu_C(x-_C y).
+$$
+Substituting the norm-induced distance rows gives the displayed Lipschitz
+obligation.
+\end{proof}
+
+\begin{theorem}[Bounded linear operator preserves regular Cauchy streams]
+\label{thm:banach-bounded-linear-operator-cauchy-transport}
+Let $C,D$ be $\BanachUp$ candidates and let
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ be carried. If
+$(X,\mu):\mathbb{N}\to C_V$ is a regular Cauchy $\StreamNameUp$ stream for the
+source distance $d_C$, then the pointwise stream $T\circ X$ is a regular
+Cauchy $\StreamNameUp$ stream for the target distance $d_D$. Its carried
+observation rows are obtained by applying the target endpoint field of
+$\Lambda$, and its modulus is obtained from $\mu$ by feeding each target
+tolerance through the RealUp bound comparison for $K$.
+\end{theorem}
+\begin{proof}
+The observation rows are immediate from the operator ledger: for each carried
+source endpoint $X_n$, the target endpoint row records that $T(X_n)$ is
+carried by $D_V$. Classifier-respect transports any source stream
+identifications to target stream identifications, so the pointwise stream is
+accepted by the target vector classifier.
+
+It remains to show the Cauchy estimate. For a requested positive target
+tolerance, use the RealUp order and multiplication rows to choose a positive
+source tolerance whose product with $K$ is bounded by the requested target
+tolerance. Feed that source tolerance into the source modulus $\mu$.
+
+For indices past the returned bound, the source Cauchy row gives a bound on
+$d_C(X_m,X_n)$. Apply
+\autoref{thm:banach-bounded-linear-operator-lipschitz} to $X_m$ and $X_n$,
+then compose the RealUp inequalities. The resulting target distance row is
+$$
+d_D(TX_m,TX_n)\le K\cdot d_C(X_m,X_n),
+$$
+and the chosen tolerance comparison turns it into the regular Cauchy row for
+the transported stream.
+\end{proof}
+
+\begin{theorem}[Banach bounded linear operator NameCert obligations]
+\label{thm:banach-bounded-linear-operator-namecert-obligations}
+For any pair of $\BanachUp$ candidates $C,D$, the carrier of
+\autoref{def:banach-bounded-linear-operator-carrier}, together with
+\autoref{thm:banach-bounded-linear-operator-lipschitz} and
+\autoref{thm:banach-bounded-linear-operator-cauchy-transport}, assembles the
+paper-side naming-certificate obligation set for the Banach bounded-linear
+operator surface. The carrier is $\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$, the
+classifier is $\hsame$ transport of maps, bounds, and ledgers, stability is
+classifier transport through source and target Banach carriers, exactness is
+the equivalence between displayed operator rows and the additive, homogeneous,
+bounded endpoint action they record, and the ledger fields are precisely the
+source endpoint, target endpoint, norm, scalar, compatibility, and bound
+witness rows.
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are those of
+\autoref{def:banach-bounded-linear-operator-carrier}. They are stated over
+the already certified Banach carriers $C$ and $D$, so source endpoints, target
+endpoints, norm values, and distance rows are all read through the existing
+$\NameCert_{\BanachUp}$ obligations.
+
+The stability fields are obtained by componentwise classifier transport. A
+source classifier comparison is transported through $T$ by the first carrier
+row; additive and scalar compatibility are transported by the vector
+classifier rows of $C$ and $D$; and the RealUp bound is transported by the
+bound endpoint classifier.
+
+The metric-use field is supplied by
+\autoref{thm:banach-bounded-linear-operator-lipschitz}. It converts the
+operator bound into the target distance estimate consumed by downstream
+metric and Hilbert arguments.
+
+The stream field is supplied by
+\autoref{thm:banach-bounded-linear-operator-cauchy-transport}. It records that
+regular Cauchy stream names remain regular Cauchy after pointwise application
+of the operator, with the source modulus transformed by the RealUp bound row.
+
+Finally, exactness follows by unfolding the displayed carrier. Every accepted
+operator row contains precisely the endpoint map, classifier-respect row,
+additive row, scalar row, RealUp bound row, and visible provenance ledger; and
+any such collection repacks as
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ without adding quotient or host-level
+structure.
+\end{proof}
+
+\begin{theorem}[Banach zero bounded linear operator carrier]
+\label{thm:banach-zero-bounded-linear-operator-carrier}
+Let $C,D$ be $\BanachUp$ candidates as in \autoref{def:banach-complete-normed-carrier}, with vector carriers $C_V,D_V$, classifiers $\sim_C,\sim_D$, zero endpoints $0_C,0_D$, norms $\nu_C,\nu_D$, and norm-induced distances $d_C,d_D$. Assume the candidate ledgers expose the source and target vector-zero rows, including the target additive-zero and scalar-zero rows, and a RealUp zero bound endpoint $0_{\RealUp}$ whose rows include
+$$
+0_{\RealUp}\ge 0
+\quad\text{and}\quad
+0_{\RealUp}\cdot r\ \text{classified with}\ 0_{\RealUp}
+$$
+for every carried norm endpoint $r$. Define the zero endpoint map
+$$
+Z_{C,D}:C_V\to D_V,\qquad Z_{C,D}(x):=0_D.
+$$
+Let $\Lambda_0$ be the visible ledger containing the source endpoint row, the target zero endpoint row, the source and target norm rows, the target classifier reflexivity row at $0_D$, the target additive-zero and scalar-zero rows, and the RealUp zero nonnegativity, multiplication, order-reflexivity, and classifier-transport rows. Then
+$$
+\mathsf{BanachBLOp}(C,D,Z_{C,D},0_{\RealUp},\Lambda_0)
+$$
+is carried.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:banach-bounded-linear-operator-carrier}. For every carried source endpoint $x:C_V$, the endpoint value of the displayed map is $Z_{C,D}(x)=0_D$. The target vector-zero row carries $0_D$ in $D_V$, so the target endpoint row required by the operator carrier is present.
+
+For classifier-respect, suppose $x\sim_C x'$ and both source endpoints are carried. Both images are the same target zero endpoint. The target classifier reflexivity row gives $0_D\sim_D0_D$, hence
+$$
+Z_{C,D}(x)\sim_D Z_{C,D}(x').
+$$
+
+For additivity, let $x,y:C_V$ be carried. The source vector rows carry $x+_C y$, so the left endpoint is again $0_D$. The right endpoint is
+$$
+Z_{C,D}(x)+_D Z_{C,D}(y)=0_D+_D0_D.
+$$
+The target additive-zero law classifies $0_D+_D0_D$ with $0_D$; symmetry of the target vector classifier gives the required comparison
+$$
+Z_{C,D}(x+_C y)\sim_D Z_{C,D}(x)+_D Z_{C,D}(y).
+$$
+
+For homogeneity, let $a$ be a carried RealUp scalar endpoint and let $x:C_V$ be carried. The source scalar-action row carries $a\cdot_C x$, so the left endpoint is $0_D$. The right endpoint is $a\cdot_D0_D$. The target scalar-zero row classifies $a\cdot_D0_D$ with $0_D$, and classifier symmetry gives
+$$
+Z_{C,D}(a\cdot_C x)\sim_D a\cdot_DZ_{C,D}(x).
+$$
+
+It remains to verify the bound row. The RealUp zero bound ledger gives $0_{\RealUp}\ge0$. For a carried source endpoint $x$, the $\NormUp$ positive-definiteness row contained in the target Banach candidate of \autoref{def:banach-complete-normed-carrier} classifies $\nu_D(0_D)$ with $0_{\RealUp}$; this is the zero case of the metric obligation recorded in \autoref{thm:banach-metric-induced-by-norm}. Since $Z_{C,D}(x)=0_D$, this is the left side of the bound. The RealUp multiplication row classifies $0_{\RealUp}\cdot\nu_C(x)$ with $0_{\RealUp}$. Order reflexivity at $0_{\RealUp}$, transported across these two RealUp classifier comparisons, gives
+$$
+\nu_D(Z_{C,D}(x))\le 0_{\RealUp}\cdot\nu_C(x).
+$$
+
+The rows just assembled are exactly the classifier, additive, homogeneous, bound, and ledger rows demanded by \autoref{def:banach-bounded-linear-operator-carrier}. Repacking them with the displayed endpoint map and the bound endpoint $0_{\RealUp}$ yields the carried row
+$$
+\mathsf{BanachBLOp}(C,D,Z_{C,D},0_{\RealUp},\Lambda_0).
+$$
+\end{proof}

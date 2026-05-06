@@ -63,6 +63,8 @@ D. **Hygiene** (these are corrective-retry fixable; verdict
    - no `\part` / `\chapter` / `\section` / `\subsection` / etc. openers
    - no `\leanchecked` / `\leanvariant` / `\leansorryd` / `\leandef` /
      `\leanstmt` macros
+   - no `closurestatus` / `\theoryclosure` / `\formalstatus` /
+     `\leantarget` blocks
    - no iteration vocabulary (`we extend`, `修订`, `新增`, `本次`,
      `本轮`, `vNNN-`, etc.)
    - English LaTeX content only
@@ -70,10 +72,16 @@ D. **Hygiene** (these are corrective-retry fixable; verdict
 E. **Depth honesty**. If codex's `depth_self_assessment` is `"shallow"`
    or codex's `verdict` is `"needs_deep"`, the verdict is `escalate`.
 
+F. **Anti-parameter-echo**. If the statement only transports an abstract
+   carrier/classifier equivalence through fields, or repackages a
+   source-equivalence theorem under a new name, verdict is `escalate` with
+   reason `invalid_parameter_echo_target`.
+
 Hard rejection tokens — `content` must NOT contain any of:
 "Q.E.D.", "QED", "\qed", "\square", "新增", "修订", "本次", "本轮",
 "vNNN-", "previously", "we extend", "we now revise", "patch",
-"increment", "legacy", "supersede".
+"increment", "legacy", "supersede", "closurestatus", "\theoryclosure",
+"\formalstatus", "\leantarget".
 
 Return only one JSON object matching this schema. No markdown fence, no
 prose outside JSON:

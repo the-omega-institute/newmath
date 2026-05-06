@@ -1,0 +1,123 @@
+\begin{definition}[Zero BHist MeasureUp exactness surface]
+\label{def:measure-zero-bhist-exactness-surface}
+The zero $\mathsf{BHist}$ exactness surface for $\MeasureUp$ is the following
+ten-field concrete surface.
+\begin{enumerate}
+  \item carrier row:
+  $\mathsf{ZeroMeasureCode}(h)\Longleftrightarrow \hsame(h,\emp)$;
+  \item carrier classifier: $h\sim_0 k$ is the displayed $\hsame(h,k)$ row;
+  \item measurable-event inventory: the accepted event row is exactly the
+  singleton empty-event row whose visible event code is classified with
+  $\emp$;
+  \item empty ledger: the empty-event membership witness is attached to that
+  singleton row;
+  \item union ledger: every binary-union, countable-union, and disjointness
+  witness accepted by the surface is attached to the same singleton row;
+  \item value endpoint: the measure endpoint of every accepted event is the
+  constant $\RealUp$ zero endpoint $0_R$;
+  \item countable-sum endpoint: the countable-sum endpoint of every accepted
+  measurable sequence is the constant $\RealUp$ endpoint $0_R$;
+  \item countable-sum classifier: pointwise zero endpoint classification
+  transports accepted countable-sum endpoints through $\sim_R$;
+  \item codomain package: endpoint reflexivity, symmetry, transitivity, and
+  zero classification are read from $\NameCert_{\RealUp}$;
+  \item additive package: head-tail readback and zero-sum compatibility are
+  read from the additive $\AbGroupUp$ zero laws for $0_R$.
+\end{enumerate}
+No row in this surface contains an event carrier other than $\mathsf{BHist}$,
+a classifier other than $\hsame$ and $\sim_R$, or a countable-sum witness
+other than the visible constant-zero endpoint row.
+\end{definition}
+
+\begin{theorem}[Zero BHist event row coverage]
+\label{thm:measure-zero-bhist-event-row-coverage}
+For the zero $\mathsf{BHist}$ exactness surface of
+\autoref{def:measure-zero-bhist-exactness-surface}, every accepted measurable
+event row, empty-event row, binary-union row, countable-union row, disjointness
+row, value row, and countable-sum row is the visible singleton empty-event
+ledger row together with the constant endpoint $0_R$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier and measurable-event inventory. A carried history satisfies
+$\mathsf{ZeroMeasureCode}$ exactly when it is classified with $\emp$, and the
+only accepted event presentation is the singleton empty-event row in that
+fiber.
+
+The empty-event row is therefore already covered. A binary-union row or a
+countable-union row has no second visible event code to select: each input is
+the empty-event row, and the accepted output is again the empty-event row.
+The associated disjointness witness is attached to this same visible row.
+
+For value rows, the endpoint field sends every accepted event to $0_R$. For
+countable-sum rows, the endpoint field sends every accepted sequence to the
+constant endpoint $0_R$. Thus every row consumed by the zero surface is read
+from the singleton empty-event ledger row and its attached $\RealUp$ zero
+endpoint.
+\end{proof}
+
+\begin{theorem}[Zero BHist countable-sum classifier stability]
+\label{thm:measure-zero-bhist-countable-sum-classifier-stability}
+For the zero $\mathsf{BHist}$ exactness surface of
+\autoref{def:measure-zero-bhist-exactness-surface}, let
+$E_\bullet$ and $F_\bullet$ be accepted measurable sequences. If every
+endpoint comparison is the pointwise zero classification
+$$
+\mu_0(E_n)\sim_R\mu_0(F_n),
+$$
+then their countable-sum endpoints transport through the $\RealUp$ classifier:
+$$
+\Sigma_0(E_\bullet)\sim_R\Sigma_0(F_\bullet).
+$$
+Both endpoints on the displayed comparison are the constant endpoint $0_R$.
+\end{theorem}
+\begin{proof}
+Read the countable-sum endpoint field of
+\autoref{def:measure-zero-bhist-exactness-surface}. For every accepted
+measurable sequence, the selected countable-sum endpoint is the constant
+$\RealUp$ zero endpoint $0_R$.
+
+The pointwise hypothesis says that each visible summand endpoint is classified
+with the corresponding zero endpoint in the other sequence. Since the aggregate
+endpoint field ignores no hidden analytic completion and always selects
+$0_R$, the target aggregate endpoint is also $0_R$.
+
+The comparison is therefore the reflexive classifier row of
+$\NameCert_{\RealUp}$ at $0_R$. This gives
+$\Sigma_0(E_\bullet)\sim_R\Sigma_0(F_\bullet)$ and supplies the countable-sum
+classifier stability row for the zero surface.
+\end{proof}
+
+\begin{theorem}[Zero BHist concrete exactness package]
+\label{thm:measure-zero-bhist-concrete-exactness-package}
+The zero $\mathsf{BHist}$ exactness surface of
+\autoref{def:measure-zero-bhist-exactness-surface}, together with
+\autoref{thm:measure-zero-bhist-event-row-coverage},
+\autoref{thm:measure-zero-bhist-countable-sum-classifier-stability},
+\autoref{thm:measure-zero-bhist-carrier-classifier-stability},
+\autoref{thm:measure-zero-bhist-sigma-additivity}, and
+\autoref{thm:measure-zero-bhist-namecert-package}, forms a concrete
+$\MeasureUp$ root-unblock package for the zero $\mathsf{BHist}$ carrier.
+\end{theorem}
+\begin{proof}
+First project the surface fields. The carrier is
+$\mathsf{ZeroMeasureCode}$, the carrier classifier is $\hsame$, the event
+inventory is the singleton empty-event row, and the value and countable-sum
+endpoints are both the constant endpoint $0_R$.
+
+The event-row coverage theorem exhausts the visible ledger: measurable events,
+unions, disjointness rows, value rows, and countable-sum rows are all attached
+to the singleton empty-event row. The countable-sum classifier theorem supplies
+the endpoint transport row for accepted measurable sequences.
+
+The carrier-classifier theorem supplies transport of carried histories and
+measure endpoints. The sigma-additivity theorem supplies the countable-union
+comparison and the head-tail zero readback through the additive $\AbGroupUp$
+laws. The NameCert package theorem repacks those rows as the concrete
+$\MeasureUp$ obligation package.
+
+Combining these projections gives a single root surface that downstream
+$\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ constructions may
+cite: event coverage, countable-sum classifier stability, sigma-additivity,
+carrier stability, and NameCert packaging are all exposed by the same concrete
+zero $\mathsf{BHist}$ carrier.
+\end{proof}

@@ -745,38 +745,4 @@ $\hsame(d,e)$.
 \end{proof}
 \input{parts/concrete_instances/metric/triangle_append_closed}
 \input{parts/concrete_instances/metric/triangle_empty_distance_collapses}
-
-\begin{theorem}[Metric distance witness semantic name certificate]
-\label{thm:metric-distance-witness-semantic-namecert}
-For unary endpoint histories $x,y$, the concrete distance-witness predicate
-$d\mapsto\mathsf{MetricDistanceWitness}(x,y,d)$ carries a semantic naming
-certificate whose source, pattern, and ledger predicates are the same concrete
-witness predicate and whose classifier is $\hsame$.
-\end{theorem}
-\begin{proof}
-The carrier witness is the concrete distance history $x\cdot y$. Unary append
-closure supplies its unary carrier witness, and the continuation field is the
-reflexive ledger $\ContR(x,y,x\cdot y)$. The classifier fields are the
-reflexive, symmetric, and transitive laws for $\hsame$. Carrier transport is
-history-sameness transport of the concrete distance witness.
-\end{proof}
-\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert}
-
-\begin{definition}[MetricSpace ledger policy]
-\label{def:metric-ledger-policy}
-Record carrier witnesses and the real ledger of each distance value.
-\end{definition}
-
-\begin{definition}[\(\MetricSpaceUp\) certificate obligations]
-\label{def:metric-certificate-obligations}
-The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MetricSpaceUp\).
-\end{definition}
-
-\paragraph{Primitive boundary.}
-\(\MetricSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
-\input{parts/concrete_instances/32_metric_empty_boundary_visible_context_distance_empty}
-
-\begin{remark}[Zero-axiom encoding note]
-\label{rem:metric-zero-axiom-note}
-Replaces decidable equality with apartness and explicit real-modulus inequalities.
-\end{remark}
+\input{parts/concrete_instances/metric/closure_marker}

@@ -53,6 +53,7 @@ Decidable from \(\hsame\)-decidability on rational representations of unary hist
 \label{def:compact-sub-strip}
 For unary \(\epsilon\) (with \(\epsilon < 1/2\)) and unary \(T\), the compact sub-strip predicate \(\mathsf{CompactSubStrip}(\epsilon, T, s)\) holds when \(\epsilon \leq \sigma \leq 1 - \epsilon\) (rational comparisons) and \(|t| \leq T\) (modulus comparison on the imaginary part).
 \end{definition}
+\leandef{BEDC.Derived.CritStripUp.CompactSubStrip}
 
 \begin{lemma}[Compact sub-strip decidable]
 \label{lem:compact-sub-strip-decidable}
@@ -61,6 +62,7 @@ For every \((\epsilon, T, s)\), \(\mathsf{CompactSubStrip}(\epsilon, T, s)\) is 
 \begin{proof}
 Each bound is a decidable rational comparison.
 \end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CompactSubStrip\_empty\_unit\_obstruction\_decidable}
 
 \begin{theorem}[Boundary excluded]
 \label{thm:boundary-excluded}
@@ -193,6 +195,8 @@ the strict interval obstruction applies.
 \label{def:crit-strip-source-spec}
 The source specification on complex history \(s\) carries the constraint \(\mathsf{InCritStrip}(s)\) or its complement at the boundary.
 \end{definition}
+\leandef{BEDC.Derived.CritStripUp.CritStripSourceSpec}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripSourceSpec\_empty\_boundary}
 
 \begin{definition}[Critical strip pattern specification]
 \label{def:crit-strip-pattern-spec}
@@ -203,11 +207,14 @@ The pattern is the conjunction of the two strict-prefix inequalities on the rati
 \label{def:crit-strip-classifier-spec}
 Two strip-membership witnesses are classified together when they agree under \(\hsame\) on both real and imaginary components.
 \end{definition}
+\leandef{BEDC.Derived.CritStripUp.CritStripClassifierSpec}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripClassifierSpec\_component\_transport}
 
 \begin{definition}[Critical strip stability certificate]
 \label{def:crit-strip-stability-cert}
 The stability certificate consists of \(\hsame\)-respect of \(\mathsf{InCritStrip}\), \(\mathsf{OnCritLine}\), and \(\mathsf{CompactSubStrip}\); transport of all three under \(\hsame\) on each component.
 \end{definition}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripStabilityCert\_fields}
 
 \begin{definition}[Critical strip ledger policy]
 \label{def:crit-strip-ledger-policy}
@@ -230,6 +237,7 @@ $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no
 $\mathsf{propext}$, so the certificate's Lean targets fall under the project's
 axiom-purity gate.
 \end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.crit\_strip\_name\_certificate}
 
 \begin{theorem}[Critical strip empty boundary semantic certificate]
 \label{thm:crit-strip-empty-boundary-semantic-namecert}
@@ -260,3 +268,4 @@ finite-unary $\CritStripUp$ boundary.
 Direct verification of the four $\NameCert$ field types using the boundary
 constructions and the empty-carrier theorem of this chapter.
 \end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.crit\_strip\_semantic\_name\_certificate}

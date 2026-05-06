@@ -69,3 +69,52 @@ The same boundary, applied to the predicate ``the continuation chain from $h$ in
 \label{rem:reasoning-three-axioms-sibling}
 The chapter is also the discipline-side complement of \autoref{ch:capstones-three-axioms-one-closure}: the three axioms classified there as ``unwitnessed-$\exists$ acceptance'' instantiate the first forbidden pattern at the term, type, and proposition layers respectively. Refusing the forbidden patterns at the proof level and refusing the three axioms at the foundation level are two faces of the same refusal of meta closure.
 \end{remark}
+
+\begin{definition}[Certificate-indexed truth branch]
+\label{def:reasoning-certificate-indexed-truth-branch}
+Let $\mathcal C$ be the carrier of all naming certificates. For a predicate $Q:\mathcal C\to\mathsf{Prop}$, a \emph{certificate-indexed truth branch} for $Q$ is a family
+$$
+\mathsf{Branch}_Q:\forall N:\mathcal C,\; Q(N)\vee\neg Q(N).
+$$
+When $Q$ ranges over certificate-level statements represented by the certificate carrier, such a branch is a truth-predicate fragment at the $\NameCert$ stratum: it chooses, inside the certificate layer, a positive witness or a refutation for each represented statement.
+\end{definition}
+
+\begin{lemma}[Excluded-middle branches are always double-negated]
+\label{lem:reasoning-excluded-middle-branch-double-negated}
+For every proposition $A$, there is a constructive derivation of $\neg\neg(A\vee\neg A)$.
+\end{lemma}
+
+\begin{proof}
+Assume $u:\neg(A\vee\neg A)$. Define $n_A:\neg A$ by sending a witness $a:A$ to $u(\mathsf{inl}(a))$. Then $\mathsf{inr}(n_A)$ is a witness of $A\vee\neg A$, so $u(\mathsf{inr}(n_A))$ gives $\bot$. Thus every assumed refutation of $A\vee\neg A$ produces $\bot$, which is exactly $\neg\neg(A\vee\neg A)$.
+\end{proof}
+
+\begin{theorem}[Forbidden contradiction schemas produce certificate truth branches]
+\label{thm:reasoning-forbidden-schemas-produce-certificate-truth-branches}
+Let $\mathcal C$ be the carrier of all naming certificates. The following three uniform schemas each imply a certificate-indexed truth branch for every predicate $Q:\mathcal C\to\mathsf{Prop}$:
+\begin{enumerate}
+\item the existential-by-contradiction schema $\neg\forall h:\Hist,\neg R(h)\Rightarrow\exists h:\Hist,R(h)$ for arbitrary history predicates $R$;
+\item the double-negation schema $\neg\neg A\Rightarrow A$ for propositions not supplied with a decidability row;
+\item the excluded-middle schema $Q(N)\vee\neg Q(N)$ for predicates over $N:\mathcal C$.
+\end{enumerate}
+Consequently each forbidden pattern of \autoref{def:reasoning-forbidden-pattern}, when admitted uniformly as a certificate-level derivation rule, closes the open meta loop of \autoref{thm:two-loops} by supplying the truth-predicate fragment forbidden by \autoref{rem:reflection-tarski-undefinability}.
+\end{theorem}
+
+\begin{proof}
+Fix a predicate $Q:\mathcal C\to\mathsf{Prop}$ and a certificate $N:\mathcal C$. Put
+$$
+A_N := Q(N)\vee\neg Q(N).
+$$
+By \autoref{lem:reasoning-excluded-middle-branch-double-negated}, there is a constructive witness $d_N:\neg\neg A_N$.
+
+For the existential-by-contradiction schema, define a history predicate
+$$
+R_N(h) := \hsame(h,\emp)\land A_N.
+$$
+If $u:\forall h:\Hist,\neg R_N(h)$, then $u(\emp)$ refutes $R_N(\emp)$. But the empty-history rule in \autoref{def:history-sameness} supplies $\hsame(\emp,\emp)$, so any $a:A_N$ gives a witness $(\hsame(\emp,\emp),a)$ of $R_N(\emp)$, contradicting $u(\emp)$. Hence $u$ implies $\neg A_N$, and this contradicts $d_N$. Therefore $\neg\forall h:\Hist,\neg R_N(h)$ holds. Applying the existential-by-contradiction schema gives $\exists h:\Hist,R_N(h)$, and projecting the second component of its witness gives $A_N$.
+
+For the double-negation schema, apply the schema directly to the proposition $A_N$. The premise $d_N:\neg\neg A_N$ is constructive, and the schema returns $A_N$.
+
+For the excluded-middle schema over $\mathcal C$, the instance at $N$ and $Q$ is exactly $A_N$.
+
+Thus each of the three schemas supplies $Q(N)\vee\neg Q(N)$. Since $N$ was arbitrary, each supplies the family $\mathsf{Branch}_Q$ of \autoref{def:reasoning-certificate-indexed-truth-branch}. When $Q$ ranges over certificate-level statements represented by $\mathcal C$, this family is a $\NameCert$-level truth-predicate fragment. By \autoref{rem:reflection-tarski-undefinability}, such a fragment is precisely what BEDC's self-description cannot internalize as its own truth predicate; by \autoref{thm:two-loops}, keeping that layer open is the consistency side of the two-loops boundary. Therefore uniformly admitting any forbidden schema implements meta closure.
+\end{proof}

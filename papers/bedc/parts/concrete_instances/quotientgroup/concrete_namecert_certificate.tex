@@ -294,62 +294,6 @@ carrier's centralizer field.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_representative\_continuation\_classifier\_iff}
 
-\begin{theorem}[Centralizer coset representative context classifier]
-\label{thm:quotientgroup-centralizer-coset-representative-context-classifier}
-If $\emp$ and $\mathsf{repr}$ centralize $a$ and $\mathsf{repr}\hsame\emp$,
-then for histories $l,h,r,k:\mathsf{BHist}$ the representative
-centralizer-coset classifier of a three-part append context is equivalent to
-the four component representative carriers:
-$$
-\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\mathsf{repr},
-  \mathsf{append}(l,\mathsf{append}(h,r)),k)
-\Longleftrightarrow
-\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},l)\wedge
-\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},h)\wedge
-\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},r)\wedge
-\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},k).
-$$
-The ten-field fit is: traditional target representative-level decomposition of
-a centralizer coset classifier across a three-part append context; BEDC source
-$\SubgroupUp$, $\QuotientGroupUp$, $\mathsf{append}$, and $\hsame$; carrier
-centralizer-coset histories; classifier
-$\mathsf{CentralizerCosetClassifier}$; stability from empty-representative
-classifier transport, empty-representative context splitting, and carrier
-transport along $\mathsf{repr}\hsame\emp$; ledger the empty representative
-bridge plus the four endpoint carrier witnesses; core theorem this block;
-exactness the displayed iff; downstream consumer nested quotient-coset context
-normalization; status $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-For the forward direction, apply
-\autoref{thm:quotientgroup-centralizer-coset-empty-representative-transport} to
-transport the representative classifier to the empty representative. Unfold
-\autoref{def:quotientgroup-centralizer-coset-classifier}. The left endpoint is
-the empty-representative carrier of
-$\mathsf{append}(l,\mathsf{append}(h,r))$, and the right endpoint is the
-empty-representative carrier of $k$.
-
-Apply
-\autoref{thm:quotientgroup-centralizer-coset-empty-representative-context} to
-split the left endpoint into empty-representative carriers for $l$, $h$, and
-$r$. Then apply
-\autoref{thm:quotientgroup-centralizer-coset-carrier-empty-representative-transport}
-to transport those three carriers, and the right endpoint carrier for $k$, back
-to the representative carrier.
-
-Conversely, transport the four representative carriers to empty-representative
-carriers with
-\autoref{thm:quotientgroup-centralizer-coset-carrier-empty-representative-transport}.
-The reverse direction of
-\autoref{thm:quotientgroup-centralizer-coset-empty-representative-context}
-rebuilds the empty-representative carrier of the nested append endpoint.
-Together with the empty-representative carrier of $k$, the unfolded classifier
-is obtained by composing both endpoint comparisons through $\emp$. Transporting
-back with
-\autoref{thm:quotientgroup-centralizer-coset-empty-representative-transport}
-gives the representative classifier.
-\end{proof}
-
 \begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
 \label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
@@ -778,9 +722,10 @@ $$
 \mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,y,h_2)
 \Longrightarrow
 \mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{mul}(x,y),
-  \mathsf{mul}(h_1,h_2)).
+\mathsf{mul}(h_1,h_2)).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_representative\_product\_closure}
 \begin{proof}
 Unfold \autoref{def:quotientgroup-centralizer-coset-carrier}. The first
 carrier witness gives $Z_a(x)$ together with $h_1\hsame x$, and the second

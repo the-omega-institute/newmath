@@ -53,3 +53,42 @@ The decidability and stability assumptions are the formation and transport rows
 for the $\SubtypeUp$ carrier; the restricted classifier itself carries no data
 beyond the parent comparison.
 \end{proof}
+
+\begin{lemma}[Subtype carrier closed under restricted classifier]
+\label{lem:subtype-carrier-restricted-classifier-closure}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a parent $\NameCert_{\SetUp}$ with classifier $\sim_S$, and let $\mathsf{cert}:\NameCert(S,\sim_S)$. Let $P:\mathsf{BHist}\to\mathsf{Prop}$ be a decidable predicate stable under the parent classifier, in the sense that for all $x,y:\mathsf{BHist}$,
+$$
+S(x)\land P(x)\land x\sim_S y\Longrightarrow P(y).
+$$
+In the predicate presentation of \autoref{def:subtype-restricted-classifier}, write
+$$
+S_P(h)\Longleftrightarrow S(h)\land P(h),
+\qquad
+h\sim_{S_P}k\Longleftrightarrow h\sim_S k.
+$$
+If $S_P(h)$ and $h\sim_{S_P}k$, then $S_P(k)$.
+\end{lemma}
+\leanchecked{BEDC.Derived.SubtypeUp.SubtypeRestrictedCarrier\_classifier\_closed}
+\begin{proof}
+Unfold $S_P(h)$ to obtain $S(h)$ and $P(h)$. Unfold the restricted classifier to read the comparison as $h\sim_S k$. The carrier-transport field of $\mathsf{cert}$, one of the fields listed in \autoref{def:lean-carrier-naming-certificate}, transports $S(h)$ along this comparison and gives $S(k)$. Stability of $P$ under the same parent comparison gives $P(k)$. Pairing $S(k)$ with $P(k)$ gives $S_P(k)$.
+\end{proof}
+
+\begin{theorem}[Subtype restricted classifier NameCert]
+\label{thm:subtype-restricted-classifier-namecert}
+Under the hypotheses and notation of \autoref{lem:subtype-carrier-restricted-classifier-closure}, assume that the subtype carrier has a displayed endpoint, so there is an $s_0:\mathsf{BHist}$ with $S(s_0)$ and $P(s_0)$. Then the $\SubtypeUp$ carrier $S_P$ with the restricted classifier $\sim_{S_P}$ forms a Lean carrier naming certificate:
+$$
+\NameCert(S_P,\sim_{S_P}).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.SubtypeUp.SubtypeRestrictedClassifier\_nameCert}
+\begin{proof}
+Inhabitedness is witnessed by $s_0$, since $S(s_0)$ and $P(s_0)$ are exactly the two components of $S_P(s_0)$.
+
+For reflexivity, let $h$ be carried by $S_P$. Then $S(h)$ holds, so the reflexivity field of $\mathsf{cert}$ gives $h\sim_S h$. By the classifier clause of \autoref{def:subtype-restricted-classifier}, this is $h\sim_{S_P}h$.
+
+For symmetry, a restricted witness $h\sim_{S_P}k$ is the parent witness $h\sim_S k$. The symmetry field of $\mathsf{cert}$ gives $k\sim_S h$, hence $k\sim_{S_P}h$.
+
+For transitivity, restricted witnesses $h\sim_{S_P}k$ and $k\sim_{S_P}r$ are parent witnesses $h\sim_S k$ and $k\sim_S r$. The transitivity field of $\mathsf{cert}$ composes them to $h\sim_S r$, which is the restricted witness $h\sim_{S_P}r$.
+
+Carrier transport for $S_P$ is exactly \autoref{lem:subtype-carrier-restricted-classifier-closure}. These five rows are the inhabitedness, reflexivity, symmetry, transitivity, and carrier-transport fields required by \autoref{def:lean-carrier-naming-certificate}.
+\end{proof}

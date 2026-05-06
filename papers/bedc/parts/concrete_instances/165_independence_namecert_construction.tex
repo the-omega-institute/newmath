@@ -1,0 +1,200 @@
+\chapter{A Concrete Naming Certificate for $\IndependenceUp$}
+\label{ch:concrete-instances-independence-namecert}
+
+The independence interface $\IndependenceUp$ packages the property that the joint distribution of a finite family of random variables factors as the product of marginals. It depends on $\NameCert_{\RandomVarUp}$ (\autoref{ch:concrete-instances-randomvar-namecert}) and $\NameCert_{\DistributionUp}$ (\autoref{ch:concrete-instances-distribution-namecert}).
+
+\section{Carrier definition}
+\label{sec:independence-carrier}
+
+\section{The certificate}
+\label{sec:independence-certificate}
+
+\begin{definition}[Finite factorisation row for IndependenceUp]
+\label{def:independence-finite-factorisation-row}
+Let $S$ be a carried $\ProbSpaceUp$ source, let $I$ be a finite index carrier supplied by a $\FinSetUp$ certificate, and let
+$$
+X_i:S\to T_i\qquad (i\in I)
+$$
+be a finite family of carried $\RandomVarUp$ maps as in \autoref{sec:randomvar-carrier}. For each $i$, write $\mu_i$ for the $\DistributionUp$ pushforward measure of $X_i$ as in \autoref{sec:distribution-carrier}, and write $\mu_X^J$ for the displayed joint $\DistributionUp$ endpoint of the tuple family. A finite factorisation row for $\IndependenceUp$ consists of the following data:
+\begin{enumerate}
+\item for every finite family of measurable target events $B=(B_i)_{i\in I}$, a product-cylinder event $\operatorname{Cyl}_X(B)$ in the joint target, read by
+$$
+s\in X^{-1}(\operatorname{Cyl}_X(B))
+\Longleftrightarrow
+\forall i\in I.\;X_i(s)\in B_i;
+$$
+\item a finite $\RealUp$ product fold $\Pi_R$ on the marginal-value spine
+$$
+\mathsf{MargSp}_X(B)(i):=\mu_i(B_i),
+$$
+using the multiplication and classifier rows of the $\RealUp$ commutative ring surface of \autoref{def:ring-stability-certificate} and \autoref{def:commring-stability-certificate};
+\item the joint-distribution factorisation row
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B))
+$$
+for every such measurable event family $B$, where $\sim_R$ is the $\RealUp$ classifier of \autoref{def:real-classifier-specification}.
+\end{enumerate}
+This is the concrete paper-side factorisation surface carried by $\IndependenceUp$ in \autoref{sec:independence-carrier} and \autoref{sec:independence-certificate}.
+\end{definition}
+
+\begin{lemma}[Finite RealUp product fold is invariant under certified reindexing]
+\label{lem:realup-finite-product-permutation-readback}
+Let $xs$ and $ys$ be finite spines of carried $\RealUp$ endpoints, and let
+$$
+\rho:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)
+$$
+be a certified finite-position bijection in the sense of \autoref{def:finset-classifier-preserving-enumeration-permutation}. If each matched pair satisfies
+$$
+\mathsf{entry}_{xs}(i)\sim_R\mathsf{entry}_{ys}(\rho(i)),
+$$
+then the finite product fold $\Pi_R$ satisfies
+$$
+\Pi_R(xs)\sim_R\Pi_R(ys).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the target spine $ys$. If $ys$ is empty, the certified inverse position map forces $\mathsf{Pos}(xs)$ to be empty as well. Both product folds are the multiplicative unit endpoint, so the $\RealUp$ classifier reflexivity row gives the claim.
+
+In the cons case, write the head of $ys$ as $b$ and its tail as $t$. Let $i_0:=\rho^{-1}(\operatorname{head})$ be the source position matched with the target head. Removing $i_0$ from the source position spine and removing the head from $ys$ leaves a certified finite-position bijection between the residual source spine and $t$; this is the same inverse-map data used in \autoref{lem:finset-enum-position-bijection-inversion}, restricted away from the matched pair.
+
+By the induction hypothesis, the product of the residual source spine is classified with $\Pi_R(t)$. The matched-pair hypothesis gives
+$$
+\mathsf{entry}_{xs}(i_0)\sim_R b.
+$$
+Multiplication congruence from \autoref{def:ring-stability-certificate} transports these two comparisons to the product of the selected head and the residual product. It remains only to compare the original source fold with the fold in which the selected occurrence $i_0$ is placed first. A finite sequence of adjacent swaps moves $i_0$ to the head of the source spine; each adjacent swap is justified by multiplicative commutativity from \autoref{def:commring-stability-certificate}, multiplicative associativity from \autoref{def:ring-stability-certificate}, and classifier transitivity. Hence the original source product is classified with $\mathsf{entry}_{xs}(i_0)\cdot_R\Pi_R(\text{residual})$, while the target product is classified with $b\cdot_R\Pi_R(t)$. The preceding congruence and transitivity give
+$$
+\Pi_R(xs)\sim_R\Pi_R(ys).
+$$
+\end{proof}
+
+\begin{theorem}[Independence finite reindexing invariance]
+\label{thm:independence-finite-reindexing-invariance}
+Let $I$ be a finite $\FinSetUp$ index carrier, let $\pi:I\cong I$ be a $\PermutationUp$ certified bijection as in \autoref{sec:permutation-carrier}, and let $(X_i)_{i\in I}$ be a finite family of carried $\RandomVarUp$ maps over one carried $\ProbSpaceUp$ source. Suppose the family carries the finite factorisation row of \autoref{def:independence-finite-factorisation-row}. Define the reindexed family and marginals by
+$$
+X_i^{\pi}:=X_{\pi(i)},\qquad \mu_i^{\pi}:=\mu_{\pi(i)}.
+$$
+For every reindexed measurable event family $B=(B_i)_{i\in I}$, define the pulled-back original event family
+$$
+C_j:=B_{\pi^{-1}(j)}.
+$$
+Let the reindexed joint $\DistributionUp$ endpoint be read through the same product-cylinder ledger, so that the cylinder for $X^{\pi}$ at $B$ is classified with the cylinder for $X$ at $C$. Then the reindexed family also carries the finite $\IndependenceUp$ factorisation row:
+$$
+\mu_{X^{\pi}}^J(\operatorname{Cyl}_{X^{\pi}}(B))
+\sim_R
+\Pi_R(\mathsf{MargSp}_{X^{\pi}}(B)).
+$$
+\end{theorem}
+\begin{proof}
+Fix a measurable reindexed event family $B=(B_i)_{i\in I}$ and put $C_j:=B_{\pi^{-1}(j)}$. Since $\pi$ is a certified bijection, every target index $j$ has the unique source index $\pi^{-1}(j)$ and every source index $i$ is sent to $\pi(i)$. For each carried sample point $s$, the cylinder readbacks give
+$$
+s\in X^{-1}_{\pi}(\operatorname{Cyl}_{X^{\pi}}(B))
+\Longleftrightarrow
+\forall i\in I.\;X_{\pi(i)}(s)\in B_i
+\Longleftrightarrow
+\forall j\in I.\;X_j(s)\in B_{\pi^{-1}(j)}
+\Longleftrightarrow
+s\in X^{-1}(\operatorname{Cyl}_{X}(C)).
+$$
+Thus the reindexed cylinder and the original cylinder have the same displayed source-event readback. The $\DistributionUp$ pushforward row of \autoref{sec:distribution-certificate}, read through the event transport of \autoref{thm:semantic-namecert-pattern-ledger-transport}, gives
+$$
+\mu_{X^{\pi}}^J(\operatorname{Cyl}_{X^{\pi}}(B))
+\sim_R
+\mu_X^J(\operatorname{Cyl}_{X}(C)).
+$$
+
+Apply the original $\IndependenceUp$ factorisation row from \autoref{def:independence-finite-factorisation-row} to the event family $C$. This yields
+$$
+\mu_X^J(\operatorname{Cyl}_{X}(C))
+\sim_R
+\Pi_R(\mathsf{MargSp}_{X}(C)).
+$$
+
+It remains to compare the two marginal products. The original marginal spine at a position $j$ has entry
+$$
+\mathsf{MargSp}_{X}(C)(j)=\mu_j(C_j)=\mu_j(B_{\pi^{-1}(j)}),
+$$
+while the reindexed marginal spine at $i$ has entry
+$$
+\mathsf{MargSp}_{X^{\pi}}(B)(i)=\mu_i^{\pi}(B_i)=\mu_{\pi(i)}(B_i).
+$$
+Using the inverse certified bijection $j\mapsto\pi^{-1}(j)$ from \autoref{lem:finset-enum-position-bijection-inversion}, the entry at $j$ in the original spine is matched with the entry at $\pi^{-1}(j)$ in the reindexed spine, and these two entries are the same marginal endpoint. Classifier reflexivity gives the matched-entry comparison. Therefore \autoref{lem:realup-finite-product-permutation-readback} gives
+$$
+\Pi_R(\mathsf{MargSp}_{X}(C))
+\sim_R
+\Pi_R(\mathsf{MargSp}_{X^{\pi}}(B)).
+$$
+
+Transitivity of the $\RealUp$ classifier from \autoref{def:real-classifier-specification} composes the reindexed joint comparison, the original factorisation row, and the finite-product reindexing comparison. Hence
+$$
+\mu_{X^{\pi}}^J(\operatorname{Cyl}_{X^{\pi}}(B))
+\sim_R
+\Pi_R(\mathsf{MargSp}_{X^{\pi}}(B)).
+$$
+Since $B$ was arbitrary, the reindexed family carries the stated finite $\IndependenceUp$ factorisation row.
+\end{proof}
+
+\begin{theorem}[Independence\textsuperscript{$\uparrow$} measurable-image bridge for two variables]
+\label{thm:independence-measurable-image-bridge}
+Let $S$ be a carried $\ProbSpaceUp$ source.
+Let
+$$
+X:S\to T,
+Y:S\to U
+$$
+be carried $\RandomVarUp$ maps as in \autoref{sec:randomvar-carrier}, and suppose the pair $(X,Y)$ carries the binary finite factorisation row of $\IndependenceUp$ from \autoref{def:independence-finite-factorisation-row}.
+Let
+$$
+f:T\to T',\qquad g:U\to U'$$
+be carried $\RandomVarUp$ maps satisfying the readable preimage row of \autoref{sec:randomvar-certificate}.
+Assume for every target-measurable $C_0\in\mathcal A_{T'}$ and $C_1\in\mathcal A_{U'}$ that the pullbacks
+$$
+A_0:=f^{-1}(C_0)\in\mathcal A_T,\qquad
+A_1:=g^{-1}(C_1)\in\mathcal A_U
+$$
+are readable and satisfy
+$$
+t\in A_0\Longleftrightarrow f(t)\in C_0,
+\qquad
+u\in A_1\Longleftrightarrow g(\nu)\in C_1.
+$$
+Define the compositions
+$$
+H:=f\circ X,\qquad K:=g\circ Y
+$$
+and write $\mu_H,\mu_K,\mu_{H,K}^J$ for their pushforwards.
+
+Fix measurable $C_0\in\mathcal A_{T'}$ and $C_1\in\mathcal A_{U'}$.
+For every carried source point $s$ the readable preimage clauses give
+$$
+s\in H^{-1}(C_0)\Longleftrightarrow X(s)\in A_0,
+\qquad
+s\in K^{-1}(C_1)\Longleftrightarrow Y(s)\in A_1,
+$$
+and hence
+$$
+s\in \operatorname{Cyl}_{(H,K)}(C_0,C_1)
+\Longleftrightarrow
+\operatorname{Cyl}_{(X,Y)}(A_0,A_1).
+$$
+Applying the distribution pushforward row of \autoref{sec:distribution-certificate} to the two displayed cylinder events gives
+$$
+\mu_{H,K}^J\bigl(\operatorname{Cyl}_{(H,K)}(C_0,C_1)\bigr)\sim_R
+\mu_{(X,Y)}^J\bigl(\operatorname{Cyl}_{(X,Y)}(A_0,A_1)\bigr),
+$$
+$$
+\mu_H(C_0)\sim_R\mu_X(A_0),\qquad
+\mu_K(C_1)\sim_R\mu_Y(A_1).
+$$
+The factorisation row of $(X,Y)$ from \autoref{def:independence-finite-factorisation-row} yields
+$$
+\mu_{(X,Y)}^J\bigl(\operatorname{Cyl}_{(X,Y)}(A_0,A_1)\bigr)\sim_R
+\mu_X(A_0)\cdot_R\mu_Y(A_1).
+$$
+Transitivity of $\sim_R$ then gives
+$$
+\mu_{H,K}^J\bigl(\operatorname{Cyl}_{(H,K)}(C_0,C_1)\bigr)
+\sim_R
+\mu_H(C_0)\cdot_R\mu_K(C_1).
+$$
+Since $C_0,C_1$ were arbitrary measurable events, this is exactly the binary finite factorisation equation for the pair $(H,K)$. Therefore $f\circ X$ is independent of $g\circ Y$ under $\IndependenceUp$.
+\end{theorem}

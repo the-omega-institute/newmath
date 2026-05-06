@@ -1,0 +1,365 @@
+\begin{definition}[Banach bounded linear operator composition carrier]
+\label{def:banach-bounded-linear-operator-composition-carrier}
+Let $C,D,E$ be $\BanachUp$ candidates with vector carriers $C_V,D_V,E_V$,
+classifiers $\sim_C,\sim_D,\sim_E$, norms $\nu_C,\nu_D,\nu_E$, and
+norm-induced distances $d_C,d_D,d_E$. Given carried rows
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+and
+$$
+\mathsf{BanachBLOp}(D,E,S,L,\Gamma),
+$$
+their composition carrier is
+$$
+\mathsf{BanachBLOp}(C,E,S\circ T,L\cdot K,\Gamma\star\Lambda).
+$$
+Here $S\circ T$ is the endpoint map $x\mapsto S(Tx)$, the RealUp bound row is
+the product endpoint $L\cdot K$, and the visible ledger
+$\Gamma\star\Lambda$ is the ordered concatenation of the source-to-middle
+operator rows, the middle-to-target operator rows, and the RealUp
+multiplication and order rows used to compare the composite bound.
+\end{definition}
+
+\begin{theorem}[Bounded linear operator composition Lipschitz]
+\label{thm:banach-bounded-linear-operator-composition-lipschitz}
+For $\BanachUp$ candidates $C,D,E$, carried rows
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ and
+$\mathsf{BanachBLOp}(D,E,S,L,\Gamma)$ satisfy the composite estimate
+$$
+d_E(S(Tx),S(Ty))\le (L\cdot K)\cdot d_C(x,y)
+$$
+for all carried source endpoints $x,y:C_V$. The distance rows are the
+norm-induced rows of \autoref{thm:banach-metric-induced-by-norm}, and the
+final comparison is the RealUp multiplication/order row associating the two
+operator bounds with the source distance.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:banach-bounded-linear-operator-lipschitz} to the carried
+row $\mathsf{BanachBLOp}(D,E,S,L,\Gamma)$ and the middle endpoints $Tx,Ty$.
+This gives the target estimate
+$$
+d_E(S(Tx),S(Ty))\le L\cdot d_D(Tx,Ty).
+$$
+
+Apply \autoref{thm:banach-bounded-linear-operator-lipschitz} again to
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ and the source endpoints $x,y$. The
+middle distance is bounded by
+$$
+d_D(Tx,Ty)\le K\cdot d_C(x,y).
+$$
+
+Use the nonnegative bound rows for $L$ and $K$, monotonicity of RealUp
+multiplication, and associativity of the displayed product endpoint. The
+ordered comparison transports
+$L\cdot d_D(Tx,Ty)$ across the second estimate and rewrites the resulting
+$L\cdot(K\cdot d_C(x,y))$ as $(L\cdot K)\cdot d_C(x,y)$. Repacking the two
+operator ledgers gives the displayed composite Lipschitz row.
+\end{proof}
+
+\begin{theorem}[Bounded linear operator composition preserves regular Cauchy streams]
+\label{thm:banach-bounded-linear-operator-composition-cauchy-transport}
+For $\BanachUp$ candidates $C,D,E$, carried rows
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ and
+$\mathsf{BanachBLOp}(D,E,S,L,\Gamma)$ transport every regular Cauchy
+$\StreamNameUp$ stream over $C$ to a regular Cauchy $\StreamNameUp$ stream
+over $E$ by pointwise application of $S\circ T$. The transported observation
+rows and modulus ledger are the result of first applying the $T$ transport
+and then applying the $S$ transport.
+\end{theorem}
+\begin{proof}
+Start with a regular Cauchy stream $(X,\mu):\mathbb{N}\to C_V$. Apply
+\autoref{thm:banach-bounded-linear-operator-cauchy-transport} to
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$. The result is the pointwise stream
+$T\circ X$ over $D$, with carried observation rows and a modulus transformed
+through the RealUp bound row for $K$.
+
+Apply \autoref{thm:banach-bounded-linear-operator-cauchy-transport} a second
+time to $\mathsf{BanachBLOp}(D,E,S,L,\Gamma)$ and the transported middle
+stream. The result is the stream $S\circ(T\circ X)$ over $E$, with its
+observation rows transported through the target endpoint fields of
+$\Gamma$.
+
+Finally identify $S\circ(T\circ X)$ with $(S\circ T)\circ X$ by endpoint
+definition, and concatenate the two visible ledgers. The RealUp
+multiplication/order rows combine the two modulus transformations into the
+single composite bound $L\cdot K$, so the final stream is regular Cauchy for
+the target distance $d_E$.
+\end{proof}
+
+\begin{theorem}[Banach bounded linear operator composition NameCert obligations]
+\label{thm:banach-bounded-linear-operator-composition-namecert-obligations}
+For $\BanachUp$ candidates $C,D,E$, the carrier of
+\autoref{def:banach-bounded-linear-operator-composition-carrier}, together
+with
+\autoref{thm:banach-bounded-linear-operator-composition-lipschitz} and
+\autoref{thm:banach-bounded-linear-operator-composition-cauchy-transport},
+assembles the paper-side $\NameCert$ obligation set for composed Banach
+bounded linear operators. The carrier is
+$\mathsf{BanachBLOp}(C,E,S\circ T,L\cdot K,\Gamma\star\Lambda)$, the
+classifier is componentwise $\hsame$ transport of maps and ledgers together
+with RealUp transport of the product bound, stability is inherited through
+the two operator carriers, exactness is the equivalence between the displayed
+composite rows and the two-stage endpoint action, and the ledger records the
+source, middle, target, classifier, compatibility, bound, and stream rows.
+\end{theorem}
+\begin{proof}
+The carrier field is exactly
+\autoref{def:banach-bounded-linear-operator-composition-carrier}. Its endpoint
+map is $S\circ T$, its bound endpoint is $L\cdot K$, and its ledger is the
+ordered concatenation $\Gamma\star\Lambda$.
+
+Classifier transport is obtained in two stages. The first operator row moves
+source classifier comparisons through $T$, and the second operator row moves
+the resulting middle comparisons through $S$. RealUp classifier transport
+keeps the product bound $L\cdot K$ stable, while componentwise $\hsame$
+transport keeps the concatenated ledger aligned with the two endpoint maps.
+
+The Lipschitz field is
+\autoref{thm:banach-bounded-linear-operator-composition-lipschitz}, and the
+regular-Cauchy field is
+\autoref{thm:banach-bounded-linear-operator-composition-cauchy-transport}.
+These are the metric and stream obligations required for downstream operator
+certificates.
+
+Exactness follows by unfolding the composite carrier. Any accepted composite
+row contains precisely the two accepted operator rows, the composed endpoint
+map, the RealUp product bound, and the visible concatenated ledger. Conversely,
+those fields repack as
+$\mathsf{BanachBLOp}(C,E,S\circ T,L\cdot K,\Gamma\star\Lambda)$, so the
+composition surface adds no host-level quotient or unrecorded operation row.
+\end{proof}
+
+\begin{theorem}[Banach bounded linear operator composition closure]
+\label{thm:banach-bounded-linear-operator-composition-closure}
+Let $C,D,E$ be $\BanachUp$ candidates with vector carriers $C_V,D_V,E_V$,
+classifiers $\sim_C,\sim_D,\sim_E$, norms $\nu_C,\nu_D,\nu_E$, and
+norm-induced distances $d_C,d_D,d_E$. If
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+and
+$$
+\mathsf{BanachBLOp}(D,E,S,L,\Gamma)
+$$
+are carried, then the endpoint composite $S\circ T:C_V\to E_V$ is carried by
+$$
+\mathsf{BanachBLOp}(C,E,S\circ T,L\cdot K,\Gamma\star\Lambda).
+$$
+The composed ledger $\Gamma\star\Lambda$ records the two operator ledgers and
+the RealUp multiplication, monotonicity, associativity, and non-negativity
+rows needed for the product bound $L\cdot K$.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingletonBoundedLinearOperator\_composition\_closure}
+\begin{proof}
+Unfold the operator carrier of
+\autoref{def:banach-bounded-linear-operator-carrier}. For a carried source
+endpoint $x:C_V$, the target endpoint row of $\Lambda$ carries $T(x):D_V$.
+The target endpoint row of $\Gamma$ then carries $S(Tx):E_V$, which is the
+endpoint value of $(S\circ T)(x)$.
+
+For classifier-respect, suppose $x\sim_C x'$ with both source endpoints
+carried. The classifier row of $\Lambda$ gives $T(x)\sim_D T(x')$. Applying
+the classifier row of $\Gamma$ gives $S(Tx)\sim_E S(Tx')$, which is the
+classifier row for the composite endpoint map.
+
+For additivity, let $x,y:C_V$ be carried. The additive row of $\Lambda$ gives
+$$
+T(x+_C y)\sim_D T(x)+_D T(y).
+$$
+Both middle endpoints in this comparison are carried by the $D$ vector
+carrier, so the classifier-respect row of $\Gamma$ transports it to
+$$
+S(T(x+_C y))\sim_E S(T(x)+_D T(y)).
+$$
+The additive row of $\Gamma$, applied to the carried middle endpoints $T(x)$
+and $T(y)$, gives
+$$
+S(T(x)+_D T(y))\sim_E S(Tx)+_E S(Ty).
+$$
+Transitivity of the target vector classifier yields
+$$
+(S\circ T)(x+_C y)\sim_E (S\circ T)(x)+_E(S\circ T)(y).
+$$
+
+For homogeneity, let $a$ be a carried RealUp scalar endpoint and let
+$x:C_V$ be carried. The scalar row of $\Lambda$ gives
+$$
+T(a\cdot_C x)\sim_D a\cdot_D T(x).
+$$
+Transport this comparison through the classifier row of $\Gamma$, then apply
+the scalar row of $\Gamma$ to the carried middle endpoint $T(x)$. The target
+classifier transitivity row gives
+$$
+(S\circ T)(a\cdot_C x)\sim_E a\cdot_E(S\circ T)(x).
+$$
+
+It remains to verify the product bound. The non-negativity rows in the two
+operator carriers give $K\ge 0$ and $L\ge 0$, so the RealUp multiplication row
+carries $L\cdot K\ge 0$. For a carried source endpoint $x$, the bound row of
+$\Gamma$ applied to the carried middle endpoint $T(x)$ gives
+$$
+\nu_E(S(Tx))\le L\cdot\nu_D(Tx).
+$$
+The bound row of $\Lambda$ gives
+$$
+\nu_D(Tx)\le K\cdot\nu_C(x).
+$$
+Using $L\ge 0$, RealUp multiplication monotonicity transports the second
+comparison to
+$$
+L\cdot\nu_D(Tx)\le L\cdot(K\cdot\nu_C(x)).
+$$
+RealUp associativity identifies the right-hand side with
+$(L\cdot K)\cdot\nu_C(x)$. Composing the displayed inequalities gives
+$$
+\nu_E((S\circ T)(x))\le (L\cdot K)\cdot\nu_C(x),
+$$
+which is the bound row required for
+$\mathsf{BanachBLOp}(C,E,S\circ T,L\cdot K,\Gamma\star\Lambda)$.
+
+The ledger clause is exactly the ordered concatenation described in
+\autoref{def:banach-bounded-linear-operator-composition-carrier}: it keeps the
+source-to-middle endpoint, classifier, linearity, and bound rows from
+$\Lambda$, the middle-to-target rows from $\Gamma$, and the RealUp product
+rows used above. These rows are precisely the fields of
+\autoref{def:banach-bounded-linear-operator-carrier} for the composite
+endpoint map, so the displayed composite operator carrier is carried.
+\end{proof}
+
+\begin{theorem}[Banach bounded linear operator composition associativity]
+\label{thm:banach-bounded-linear-operator-composition-associative}
+Let $B,C,D,E$ be $\BanachUp$ candidates with vector carriers
+$B_V,C_V,D_V,E_V$ and carried bounded linear operator rows
+$$
+\mathsf{BanachBLOp}(B,C,T,K,\Lambda),
+$$
+$$
+\mathsf{BanachBLOp}(C,D,S,L,\Gamma),
+$$
+and
+$$
+\mathsf{BanachBLOp}(D,E,R,M,\Omega).
+$$
+Then the two iterated composite carriers
+$$
+\mathsf{BanachBLOp}(B,E,(R\circ S)\circ T,(M\cdot L)\cdot K,
+(\Omega\star\Gamma)\star\Lambda)
+$$
+and
+$$
+\mathsf{BanachBLOp}(B,E,R\circ(S\circ T),M\cdot(L\cdot K),
+\Omega\star(\Gamma\star\Lambda))
+$$
+classify the same carried Banach bounded linear operator row after endpoint
+composition associativity identifies $((R\circ S)\circ T)(x)$ with
+$(R\circ(S\circ T))(x)$ for every carried source endpoint $x$, RealUp
+multiplication associativity identifies the two bound endpoints, and ledger
+associativity identifies the two ordered concatenations of the
+source-to-middle, middle-to-target, and target-to-final rows.
+\end{theorem}
+\begin{proof}
+First form the left-associated carrier. Apply
+\autoref{thm:banach-bounded-linear-operator-composition-closure} to the rows
+for $S$ and $R$, obtaining
+$\mathsf{BanachBLOp}(C,E,R\circ S,M\cdot L,\Omega\star\Gamma)$. Applying the
+same closure theorem to this row and the row for $T$ gives the displayed
+carrier with endpoint map $(R\circ S)\circ T$, bound $(M\cdot L)\cdot K$, and
+ledger $(\Omega\star\Gamma)\star\Lambda$.
+
+Next form the right-associated carrier. Apply
+\autoref{thm:banach-bounded-linear-operator-composition-closure} to the rows
+for $T$ and $S$, obtaining
+$\mathsf{BanachBLOp}(B,D,S\circ T,L\cdot K,\Gamma\star\Lambda)$. Applying the
+closure theorem to this row and the row for $R$ gives the displayed carrier
+with endpoint map $R\circ(S\circ T)$, bound $M\cdot(L\cdot K)$, and ledger
+$\Omega\star(\Gamma\star\Lambda)$.
+
+Unfold the composition carrier of
+\autoref{def:banach-bounded-linear-operator-composition-carrier}. For a
+carried source endpoint $x:B_V$, both endpoint maps compute to $R(S(Tx))$.
+Thus the endpoint classifiers compare the same target endpoint after
+definitionally reassociating composition.
+
+The metric and stream fields are the same obligations in the two bracketings.
+\autoref{thm:banach-bounded-linear-operator-composition-lipschitz} supplies
+the composite Lipschitz row at each binary step, and RealUp multiplication
+associativity rewrites $((M\cdot L)\cdot K)\cdot d_B(x,y)$ to
+$(M\cdot(L\cdot K))\cdot d_B(x,y)$. Likewise,
+\autoref{thm:banach-bounded-linear-operator-composition-cauchy-transport}
+transports regular Cauchy streams by pointwise application of the same
+endpoint map $x\mapsto R(S(Tx))$.
+
+Finally, the visible ledgers contain exactly the rows from $\Lambda$,
+$\Gamma$, and $\Omega$ together with the RealUp product and order rows used
+by the two applications of composition closure. Ledger associativity
+identifies $(\Omega\star\Gamma)\star\Lambda$ with
+$\Omega\star(\Gamma\star\Lambda)$ as the same ordered source-middle-target
+record, so the two displayed carriers classify the same Banach bounded linear
+operator row.
+\end{proof}
+
+\begin{theorem}[Banach bounded linear operator identity units]
+\label{thm:banach-bounded-linear-operator-identity-units}
+Let $C,D$ be $\BanachUp$ candidates with vector carriers $C_V,D_V$, classifiers $\sim_C,\sim_D$, norms $\nu_C,\nu_D$, and norm-induced distances $d_C,d_D$. Let
+$$
+\operatorname{id}_C:C_V\to C_V,\qquad \operatorname{id}_C(x):=x,
+$$
+and
+$$
+\operatorname{id}_D:D_V\to D_V,\qquad \operatorname{id}_D(y):=y.
+$$
+Assume the carried operator row
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+and assume that the source and target identity maps carry the unit bound:
+$$
+\mathsf{BanachBLOp}(C,C,\operatorname{id}_C,1_{\RealUp},\mathcal{I}_C),
+\qquad
+\mathsf{BanachBLOp}(D,D,\operatorname{id}_D,1_{\RealUp},\mathcal{I}_D).
+$$
+Assume also that the identity ledgers are unit ledgers for $\Lambda$: the RealUp multiplication rows classify $K\cdot1_{\RealUp}$ and $1_{\RealUp}\cdot K$ with $K$, and the ordered ledgers $\Lambda\star\mathcal{I}_C$ and $\mathcal{I}_D\star\Lambda$ componentwise transport back to $\Lambda$ by collapsing only the displayed identity endpoint rows and these RealUp multiplication-unit rows. Then the two unit composites are carried:
+$$
+\mathsf{BanachBLOp}(C,D,T\circ\operatorname{id}_C,K\cdot1_{\RealUp},\Lambda\star\mathcal{I}_C)
+$$
+and
+$$
+\mathsf{BanachBLOp}(C,D,\operatorname{id}_D\circ T,1_{\RealUp}\cdot K,\mathcal{I}_D\star\Lambda).
+$$
+Moreover both composite operator representatives are classified with the original representative by the Banach bounded-operator classifier of \autoref{def:banach-bounded-linear-operator-carrier}:
+$$
+(T\circ\operatorname{id}_C,K\cdot1_{\RealUp},\Lambda\star\mathcal{I}_C)
+\sim_{\mathrm{op}(C,D)}(T,K,\Lambda)
+$$
+and
+$$
+(\operatorname{id}_D\circ T,1_{\RealUp}\cdot K,\mathcal{I}_D\star\Lambda)
+\sim_{\mathrm{op}(C,D)}(T,K,\Lambda).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:banach-bounded-linear-operator-composition-closure} to the carried source identity row and the carried row for $T$. With the middle object equal to $C$, the composite endpoint map is $T\circ\operatorname{id}_C$, the product bound is $K\cdot1_{\RealUp}$, and the concatenated ledger is $\Lambda\star\mathcal{I}_C$. This gives the displayed right unit carrier.
+
+Apply the same composition-closure theorem to the carried row for $T$ and the carried target identity row. With the middle object equal to $D$, the composite endpoint map is $\operatorname{id}_D\circ T$, the product bound is $1_{\RealUp}\cdot K$, and the concatenated ledger is $\mathcal{I}_D\star\Lambda$. This gives the displayed left unit carrier.
+
+It remains to identify the two composites with the original representative. Unfold the operator classifier specified in \autoref{def:banach-bounded-linear-operator-carrier}. Its comparison has three visible fields: endpoint-map comparison, RealUp bound comparison, and componentwise ledger transport.
+
+For every carried source endpoint $x:C_V$, the right unit endpoint computes as
+$$
+(T\circ\operatorname{id}_C)(x)=T(\operatorname{id}_C(x))=T(x),
+$$
+and the left unit endpoint computes as
+$$
+(\operatorname{id}_D\circ T)(x)=\operatorname{id}_D(T(x))=T(x).
+$$
+The target vector classifier reflexivity row therefore supplies the endpoint-map component of both operator-classifier comparisons.
+
+The RealUp bound component is exactly the assumed multiplication-unit transport:
+$$
+K\cdot1_{\RealUp}\sim_{\RealUp}K,
+\qquad
+1_{\RealUp}\cdot K\sim_{\RealUp}K.
+$$
+The ledger component is exactly the unit-ledger hypothesis: $\Lambda\star\mathcal{I}_C$ and $\mathcal{I}_D\star\Lambda$ transport componentwise to $\Lambda$ after the identity endpoint rows and the RealUp unit rows are collapsed. These three components are precisely the fields of the Banach bounded-operator classifier, so both unit composites are classified with $(T,K,\Lambda)$.
+\end{proof}

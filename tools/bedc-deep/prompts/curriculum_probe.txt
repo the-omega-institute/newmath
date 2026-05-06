@@ -16,6 +16,9 @@ Pipeline lane (what bedc-deep does):
 - Reads `papers/bedc/parts/*.tex` and `lean4/BEDC/*.lean` (no edits during audit)
 - Output is a NEW LaTeX block (theorem with complete proof) appended into an
   existing chapter file under papers/bedc/parts/
+- Does NOT add verification markers or `closurestatus` blocks. This lane
+  proposes theorem-shaped paper content; Lean verification and chapter
+  retirement are handled elsewhere.
 - Operates within the eight existing chapters: core / proof_obligations /
   concrete_instances / hardening / formalization / proof_sprint / proof_standing /
   project_governance
@@ -38,6 +41,15 @@ A genuine open target must satisfy ALL:
 6. **Closes in 1-3 codex rounds without needing oracle escalation**.
    This is the most important constraint, and the main reason candidates
    from prior runs were timing out for an hour. See size discipline below.
+7. NOT a parameter-transport echo. Do not propose abstract carrier /
+   classifier equivalence restatements, source-equivalence sequels, or
+   field-by-field repackaging theorems. Prefer a concrete constructor,
+   closure, inversion, coverage, determinacy, uniqueness, or obstruction
+   lemma.
+8. Lands in a concrete body file, not a hub. If the obvious chapter file
+   mostly contains `\input{{...}}` lines, target one of its child files.
+   Avoid files already at or above 760 lines unless the candidate is a
+   smaller prerequisite fitting an existing child file.
 
 ## Size discipline — STEPPING STONES BEFORE HEADLINES
 
@@ -214,6 +226,9 @@ Audit method (execute thoroughly — many tool calls expected):
 4. Reject candidates that are:
    - Internal symmetry gaps (those belong to `theory_probe`).
    - Pure renamings or notation variants of existing theorems.
+   - Marker-only, `closurestatus`, or Lean verification work.
+   - Parameter-transport echoes over abstract carriers / classifiers.
+   - Hub-file or near-line-cap append targets.
    - Cross-chapter integration (those belong to `curator`).
    - Research-level or exotic results outside textbook standard.
    - Already in BOARD by another title.

@@ -1,0 +1,42 @@
+\begin{theorem}[RealUp finite-window exhaustion obligation]
+\label{thm:realup-finite-window-exhaustion-obligation}
+At the RealUp obligation boundary, the finite-window observation field is
+supplied by the conjunction of
+$\mathsf{RealStreamClassifier\_finite\_prefix\_endpoint\_denominator\_package}$,
+$\mathsf{RealStreamPrefixClassifier\_truncated\_endpoint\_denominator\_package}$,
+$\mathsf{RealStreamPrefixClassifier\_truncated\_endpoint\_common\_e1\_tail\_readback}$,
+and the $\mathsf{RegSeqRat}$ finite-window dyadic source exhaustion package.
+Consequently every selected finite $\RealUp$ observation window exposes
+endpoint $\RatUp$ classifiers, positive unary denominators, nonempty unary
+endpoint rows, common e-one tail readback, and exactly the
+$\mathsf{DyadicRatCore}$ source rows consumed by the $\RealUp$ seal, with no
+data outside the carriers, classifiers, stability rows, and ledger rows listed
+in \autoref{def:realup-obligation-boundary}.
+\end{theorem}
+\begin{proof}
+First collect the endpoint denominator face. Apply
+\autoref{thm:real-stream-classifier-finite-prefix-endpoint-denominator-package}
+to the selected finite prefix. It supplies the endpoint $\RatUp$ classifier,
+the positive unary denominator witnesses, the unary endpoint rows, and the
+nonempty endpoint exclusions needed at the selected observation.
+
+Next pass to truncated prefixes. Apply the truncated endpoint denominator
+package recorded by
+\autoref{thm:real-stream-prefix-finite-tail-transported-endpoint-denominator-package}.
+This transports the same endpoint denominator data through the finite tail
+presentation used by the stream-prefix carrier and classifier rows.
+
+Now read the selected one-headed tails. Apply
+\autoref{thm:real-stream-prefix-truncated-endpoint-common-e1-tail-readback};
+the truncated endpoint package gives the hypotheses needed to expose common
+e-one tails at the two selected endpoint histories.
+
+Finally identify the consumed source rows. Apply
+\autoref{thm:regseqrat-finite-window-dyadic-source-exhaustion}. It states that
+the selected bounded RegSeqRat observation reads exactly the two
+$\mathsf{DyadicRatCoreObservationRow}$ endpoint sources and the scoped
+carrier, classifier, stability, and finite ledger faces named by the dyadic
+source package. These are precisely the rows allowed by
+\autoref{def:realup-obligation-boundary}; hence the finite-window observation
+field consumes no data outside that boundary.
+\end{proof}

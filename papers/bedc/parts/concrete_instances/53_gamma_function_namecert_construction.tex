@@ -159,6 +159,7 @@ For every complex history \(s\) and unary precision \(k\), the question ``does \
 \begin{proof}
 Compare the rational real-part history \(\mathsf{Re}(s)\) against the finite list of negative-integer candidates \(\{0, -1, -2, \ldots, -K\}\) where \(K\) is the unary length of \(\mathsf{Re}(s)\) at precision \(k\). All comparisons are decidable on rational representations by \(\mathsf{NatUnaryStrictPrefix}\) (\autoref{ch:concrete-instances-nat-namecert}). The imaginary-part check uses the same strict-prefix decidability.
 \end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_shape\_partition}
 
 \section{Gamma at unary positive integers via factorial}
 \label{sec:gamma-positive-integers}
@@ -167,6 +168,7 @@ Compare the rational real-part history \(\mathsf{Re}(s)\) against the finite lis
 \label{def:gamma-factorial}
 For unary \(n \geq \emp\), \(\mathsf{Factorial}(n, m)\) holds when \(m\) is the unary product \(1 \cdot 2 \cdots n\) computed by unary recursion: \(\mathsf{Factorial}(\emp, \Eone(\emp))\) and \(\mathsf{Factorial}(\Eone(p), m)\) iff there exists \(m'\) with \(\mathsf{Factorial}(p, m')\) and \(m = \Eone(p) \cdot m'\) under unary multiplication (\(\PrimeUp\), \autoref{ch:concrete-instances-prime-namecert}).
 \end{definition}
+\leandef{BEDC.Derived.GammaUp.GammaFactorial}
 
 \begin{theorem}[Gamma at positive integers equals factorial]
 \label{thm:gamma-positive-integer}
@@ -175,6 +177,7 @@ For unary \(n \geq \emp\), \(\mathsf{Gamma}(n + \Eone(\emp), z)\) holds with \(\
 \begin{proof}
 Direct unfolding of \autoref{def:gamma-factorial} together with the recurrence \(\Gamma(s+1) = s\,\Gamma(s)\) of \autoref{thm:gamma-recurrence} below, applied unary-inductively starting from \(\Gamma(1) = 1\) (the empty-product base case).
 \end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaFactorial\_unary\_result}
 
 \begin{remark}[Factorial used by the zeta functional equation]
 The functional equation \(\zeta(s) = 2^s \pi^{s-1} \sin(\pi s/2) \Gamma(1-s) \zeta(1-s)\) (\autoref{ch:concrete-instances-zeta-continuation}) requires \(\Gamma(1-s)\) at \(s = -2n\) (negative even integers), which is \(\Gamma(1+2n) = (2n)!\). \autoref{thm:gamma-positive-integer} supplies this value as a closed unary expression.
@@ -191,6 +194,7 @@ P_N \;=\; \frac{1}{s} \prod_{n=1}^{N} \left(1 + \frac{1}{n}\right)^{s} \left(1 +
 $$
 computed by unary recursion using complex multiplication, division (legitimate by \(\mathsf{GammaDom}(s)\) supplying \(\mathsf{CplxNonZero}\) at every factor), and the constructive complex \(\exp\) of \autoref{ch:concrete-instances-real-analytic-namecert} for the rational power \((1 + 1/n)^s = \exp(s \log(1 + 1/n))\).
 \end{definition}
+\leandef{BEDC.Derived.GammaFunctionUp.GammaWeierstrassPart}
 
 \begin{lemma}[Weierstrass product Cauchy modulus on the Gamma domain]
 \label{lem:gamma-weierstrass-cauchy}
@@ -199,11 +203,13 @@ For every \(s\) with \(\mathsf{GammaDom}(s)\) at apartness precision \(k_0\), th
 \begin{proof}
 Take logarithms of consecutive partial products: \(\log(P_{N+1}/P_N) = s \log(1 + 1/N) - \log(1 + s/N)\). Taylor-expand both logarithms via \(\log(1 + u) = u - u^2/2 + O(u^3)\) using the constructive \(\log\) of \autoref{def:real-analytic-log}; the leading \(s/N\) terms cancel and the residual is of order \(|s|^2/N^2\), giving an explicit geometric tail bound. The modulus \(N(k)\) is the precision at which the geometric tail falls below \(2^{-k}\).
 \end{proof}
+\leanchecked{BEDC.Derived.GammaFunctionUp.GammaWeierstrassCauchyModulus\_constant}
 
 \begin{definition}[Constructive Gamma]
 \label{def:gamma}
 For \(s\) with \(\mathsf{GammaDom}(s)\), \(\mathsf{Gamma}(s, z)\) holds when \(z\) is the complex limit certificate of \autoref{lem:gamma-weierstrass-cauchy} via the \(\ComplexLimitUp\) construction of \autoref{ch:concrete-instances-complex-limit-namecert}, applied to the partial products \((P_N)_N\). The witness includes the apartness precision \(k_0\), the modulus \(N\), and the limit \(z\).
 \end{definition}
+\leandef{BEDC.Derived.GammaFunctionUp.Gamma}
 
 \begin{theorem}[Gamma is holomorphic on the Gamma domain]
 \label{thm:gamma-holomorphic}
@@ -212,6 +218,7 @@ For \(s\) with \(\mathsf{GammaDom}(s)\), \(\mathsf{Gamma}(s, z)\) holds when \(z
 \begin{proof}
 Term-wise complex differentiability of each Weierstrass factor follows from the constructive \(\exp\) and \(\log\) being holomorphic in their arguments (\autoref{ch:concrete-instances-real-analytic-namecert}). Uniform convergence of the partial products on a compact sub-domain of \(\mathsf{GammaDom}\) is the geometric-tail bound of \autoref{lem:gamma-weierstrass-cauchy}. Apply the holomorphic-limit closure of \(\HolomorphicUp\) (\autoref{ch:concrete-instances-holomorphic-namecert}).
 \end{proof}
+\leanchecked{BEDC.Derived.GammaFunctionUp.Gamma\_holomorphic\_limit\_certificate\_readback}
 
 \section{Functional equation \(\Gamma(s+1) = s\,\Gamma(s)\)}
 \label{sec:gamma-recurrence}
@@ -223,6 +230,7 @@ For every \(s\) with \(\mathsf{GammaDom}(s)\) and \(\mathsf{GammaDom}(s + \Eone(
 \begin{proof}
 Compare the Weierstrass partial products of \(\Gamma(s+1)\) and \(s \cdot \Gamma(s)\): the index-shift identity \(P_N(s+1) = (s/(N+1)) \cdot s \cdot P_N(s) \cdot \text{(small correction)}\) emerges term by term from the explicit factor formula. The small correction is bounded by \autoref{lem:gamma-weierstrass-cauchy}; the limits agree by uniqueness of \(\ComplexLimitUp\).
 \end{proof}
+\leanchecked{BEDC.Derived.GammaFunctionUp.Gamma\_recurrence\_limit\_pair\_carriers}
 
 \begin{theorem}[Gamma at \(1\)]
 \label{thm:gamma-at-one}
@@ -250,6 +258,8 @@ at the Gamma boundary carries the following certificate data:
   \item an apartness witness showing that $\mathsf{CplxSin}(\mathsf{Pi}\cdot s)$ is a valid denominator on the displayed domain.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.GammaFunctionUp.Gamma\_reflection\_boundary\_certificate}
+\leanchecked{BEDC.Derived.GammaFunctionUp.Gamma\_reflection\_boundary\_certificate\_data}
 \begin{proof}
 The two Gamma factors are already supplied by the closed Gamma construction: unfold \autoref{def:gamma} at $s$ and at $\Eone(\emp)-s$, then read off the partial products of \autoref{def:gamma-weierstrass-part}. Apply \autoref{lem:gamma-weierstrass-cauchy} to each domain witness and take the larger unary bound as the common modulus.
 
@@ -284,6 +294,7 @@ The pole-locus apartness of \autoref{def:gamma-domain} together with the Weierst
 \label{cor:gamma-licensed-not-primitive}
 \(\GammaUp\) is licensed by the constructive Weierstrass product on \(\ComplexUp\) over \(\RealAnalyticUp\) and \(\PrimeUp\). It is not a primitive of the BEDC kernel.
 \end{corollary}
+\leanchecked{BEDC.Derived.GammaFunctionUp.gamma\_function\_semantic\_name\_certificate}
 
 \begin{remark}[Schema-only horizon discharge]
 \label{rem:gamma-schema-horizon-discharge}
@@ -313,6 +324,7 @@ N_s(k)\hsame N_t(k).
 $$
 Now fix $k$ and unary indices $m,n$ accepted above $N_s(k)$ in the threshold clause of \autoref{def:cplx-regseq}. In the equality branch, compose the equality with $N_s(k)\hsame N_t(k)$. In the strict-prefix branch, unpack \autoref{def:nat-unary-strict-prefix} and transport the same nonempty unary tail across the endpoint comparison by \autoref{thm:nat-unary-strict-prefix-cont-hsame-transport}. Thus $m$ and $n$ are accepted above $N_t(k)$ as well. The regularity witness for $(P^t,N_t)$ supplies the required complex-distance bound, and the distance history is unchanged. Since $k,m,n$ were arbitrary, $(P^t,N_s)$ is regular with the transported source modulus.
 \end{proof}
+\leanchecked{BEDC.Derived.GammaFunctionUp.GammaWeierstrassCauchyModulus\_hsame\_transport}
 
 \begin{theorem}[Gamma limit certificate hsame transport]
 \label{thm:gamma-limit-certificate-hsame-transport}
@@ -339,3 +351,14 @@ $$
 $$
 If the target limit certificate is presented through another endpoint $z_t$, \autoref{thm:cplx-lim-unique} and \autoref{def:cplx-lim-classifier-specification} classify $z_t$ with $z$ componentwise, and \autoref{lem:cplx-lim-hsame} transports the limit row to the endpoint $z$. Repacking \autoref{def:gamma} with $D_t$, $P^t$, $N_s$, $M_s$, and this limit row gives $\mathsf{Gamma}(t,z)$.
 \end{proof}
+\leanchecked{BEDC.Derived.GammaFunctionUp.GammaLimitCertificate\_hsame\_transport}
+
+\begin{closurestatus}{\GammaUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter closes exactly the Gamma-domain core, the Weierstrass partial-product carrier, the transported Cauchy modulus, the limit-certificate transport, and the semantic NameCert over ComplexUp histories.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.GammaFunctionUp.gamma\_function\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{It does not close meromorphic continuation, the reflection-formula equality, or an external Euler or Bohr-Mollerup bridge.}
+  \upgradepath{The next grade requires checked recurrence, Gamma at 1, holomorphicity, and reflection boundary as exported public operations.}
+\end{closurestatus}

@@ -259,6 +259,34 @@ theorem RatHistoryLedgerPolicy_shared_raw_context_e1_pair_readback
     RatHistoryClassifier_hsame_transport sameLeft sameRight contextClassifier
   exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
 
+theorem RatHistoryLedgerPolicy_shared_raw_contextual_zero_extension_endpoint_exclusion
+    {rho v v' p pv pv' t tv tv' z z' : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryLedgerPolicy rho v' ->
+      UnaryHistory p -> hsame p pv -> hsame p pv' ->
+        UnaryHistory t -> hsame t tv -> hsame t tv' ->
+          (hsame (append pv (append v tv)) (BHist.e0 z) -> False) ∧
+            (hsame (append pv' (append v' tv')) (BHist.e0 z') -> False) := by
+  intro leftLedger rightLedger prefUnary samePref samePref' tailUnary sameTail sameTail'
+  have contextClassifier :
+      RatHistoryClassifier (append pv (append v tv)) (append pv' (append v' tv')) :=
+    RatHistoryLedgerPolicy_shared_raw_contextual_visible_classifier leftLedger rightLedger
+      prefUnary samePref samePref' tailUnary sameTail sameTail'
+  constructor
+  · intro sameLeftZero
+    have displayed :
+        RatHistoryClassifier (BHist.e0 z) (append pv' (append v' tv')) :=
+      RatHistoryClassifier_hsame_transport sameLeftZero
+        (hsame_refl (append pv' (append v' tv'))) contextClassifier
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z)
+      (d := append pv' (append v' tv'))).left displayed
+  · intro sameRightZero
+    have displayed :
+        RatHistoryClassifier (append pv (append v tv)) (BHist.e0 z') :=
+      RatHistoryClassifier_hsame_transport
+        (hsame_refl (append pv (append v tv))) sameRightZero contextClassifier
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z')
+      (d := append pv (append v tv))).right displayed
+
 theorem RatHistoryClassifier_unary_context_zero_extension_endpoint_absurd
     {d e prefD prefE tailD tailE leftZero rightZero : BHist} :
     RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->

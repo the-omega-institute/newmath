@@ -1,0 +1,137 @@
+\begin{theorem}[Real constant-tail carrier and classifier obligations]
+\label{thm:real-constant-tail-obligation-carrier-classifier}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+The appended-tail histories $D$ and $E$ provide the RealUp constant-tail
+carrier obligation, and the four bridge rows
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E))
+$$
+provide the classifier obligation through RatUp, StreamNameUp, unary RealUp,
+and constant-history RealUp.
+\end{theorem}
+\begin{proof}
+The carrier is the concrete BEDC history carrier already used by the
+constant-tail readback package: $D$ and $E$ are obtained by BEDC append from
+the visible denominator heads $d,e$ and their displayed e-one tails.
+
+For the classifier obligation, apply
+\autoref{thm:real-constant-appended-tail-rational-stream-bridge-readback}.
+Its four named rows are exactly $A$, $B$, $U$, and $C$ under the displayed
+definitions of $D$ and $E$.
+
+The denominator package readback is sharpened by
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness}.
+Thus the same concrete carriers support all four classifier faces without
+changing the history endpoints or the observation maps.
+\end{proof}
+
+\begin{theorem}[Real constant-tail stability and ledger obligations]
+\label{thm:real-constant-tail-obligation-stability-ledger}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+The appended-tail denominator package, the head-tail agreement equivalence,
+and the malformed sealed-denominator exclusion provide the RealUp
+constant-tail stability and ledger obligations: the ledger records the visible
+heads $d,e$, the displayed e-one tails $tail_D,tail_E$, the zero witnesses
+$z_D,z_E$, and the appended e-zero witnesses $u_D,u_E$, while stability is
+transport along $A$, $B$, $U$, and $C$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness}
+to identify the denominator package with the simultaneous bridge rows
+$A\land B\land U\land C$. This supplies the package ledger: rational
+classifier, positive denominators, unary heads and tails, nonempty exclusions,
+zero exclusions, and endpoint sameness.
+
+The head-tail transport is
+\autoref{thm:real-constant-appended-tail-bridge-head-tail-agreement-equivalence}.
+It states that, under any selected bridge row, agreement of the visible heads
+and agreement of the displayed e-one tails determine each other.
+
+The sealed-denominator side of the ledger is
+\autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}.
+It rules out the sealed empty, sealed inner e-zero, and sealed appended
+e-zero displays at both endpoints. These rows are stable because the bridge
+package recovers them from each of $A$, $B$, $U$, and $C$.
+\end{proof}
+
+\begin{theorem}[Real constant-tail seal and exactness obligation]
+\label{thm:real-constant-tail-obligation-seal-exactness}
+For histories $d,e,tail_D,tail_E,u_D,u_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+If $\hsame(tail_D,tail_E)$, then the combined denominator-sanity exactness
+theorem supplies the seal and exactness obligation consumed by the RealUp
+constant-name boundary of \autoref{ch:concrete-instances-real-namecert}: the
+sanity package for $D$ and $E$ is exact for the same four bridge rows
+$A,B,U,C$, and therefore no malformed sealed denominator can pass through the
+constant-tail boundary.
+\end{theorem}
+\begin{proof}
+The exactness source is
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-sanity-exactness}.
+Under the displayed tail agreement, it identifies the combined sanity package
+$S(D,E,u_D,u_E,z_D,z_E)$ with $A\land B\land U\land C$.
+
+The $Q$ component of $S$ is the full denominator-tail package from
+\autoref{thm:real-constant-appended-tail-bridge-full-denominator-tail-package}.
+It contains the denominator package, appended e-zero exclusions, and matched
+head equality required by the constant-name boundary.
+
+The $M$ component of $S$ is the malformed sealed-denominator exclusion from
+\autoref{thm:real-constant-appended-tail-bridge-malformed-sealed-denominator-exclusion}.
+Together these two components give the seal exactness row: every bridge
+classifier recovers the same sealed-denominator sanity, and the sanity package
+recovers the bridge classifiers.
+\end{proof}

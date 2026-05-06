@@ -78,6 +78,7 @@ Compose the two history-sameness witnesses by transitivity through the hidden
 seed $d$. The result is
 $\hsame(\mathsf{RatConstStream}_d(m),\mathsf{RatConstStream}_d(n))$.
 \end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatConstStream\_certified\_observation\_determinacy}
 
 \begin{theorem}[Rational stream-name constant reindexing classifier]
 \label{thm:rat-stream-name-constant-reindexing-classifier}
@@ -156,6 +157,7 @@ the right endpoint ignores $q(n)$ and evaluates to $e$. Thus the supplied
 $\mathsf{RatHistoryClassifier}(d,e)$ is already the required pointwise
 classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_independent\_reindexed\_constant\_classifier}
 
 \begin{theorem}[Rational stream-name independently reindexed constant point exactness]
 \label{thm:rat-stream-name-independent-reindexed-constant-point-exactness}
@@ -196,6 +198,7 @@ and the point classifier between $d$ and $e$. At every certified unary
 observation, the two stream endpoints again reduce to $d$ and $e$, so the same
 point classifier repacks into the stream-name classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_independent\_reindexed\_constant\_point\_exactness}
 
 \begin{theorem}[Rational constant stream empty-observation exactness]
 \label{thm:rat-const-stream-empty-point-exactness}
@@ -312,6 +315,40 @@ $k$, the supplied $\mathsf{RatHistoryClassifier}(h,k)$ witness is exactly the
 required pointwise classifier at that observation.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_constant\_point\_exactness}
+
+\begin{theorem}[Rational stream-name constant finite-window exactness]
+\label{thm:rat-stream-name-constant-finite-window-exactness}
+For histories $h,k:\Hist$ and a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, if the bundle contains a certified unary
+observation,
+$$
+\exists n:\Hist,\ \mathsf{InBundle}(n,\mathcal{P})\land
+\mathsf{UnaryHistory}(n),
+$$
+then the finite-window classifier on the two constant streams is exactly the
+hidden RatUp classifier:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(\mathsf{RatConstStream}_h,
+\mathsf{RatConstStream}_k,\mathcal{P})
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatStreamNameFiniteWindowClassifier}$ and the two constant
+streams. In the forward direction, use the assumed bundled unary observation
+$n$; applying the finite-window classifier at this inhabited probe reads the
+point classifier between $\mathsf{RatConstStream}_h(n)$ and
+$\mathsf{RatConstStream}_k(n)$, which is exactly
+$\mathsf{RatHistoryClassifier}(h,k)$.
+
+In the reverse direction, fix an arbitrary bundled unary observation $m$.
+After unfolding the constant streams, the supplied hidden endpoint classifier
+$\mathsf{RatHistoryClassifier}(h,k)$ is already the required point classifier
+at $m$. Since $m$ was arbitrary among bundled unary observations, the
+finite-window classifier follows.
+\end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameFiniteWindowClassifier\_constant\_exactness}
 
 \begin{theorem}[Rational stream-name constant bridge package]
 \label{thm:rat-stream-name-constant-bridge-package}
@@ -659,32 +696,3 @@ together with the pointwise RatUp witnesses, and the exactness field is
 pointwise over the RatUp classifier. These ten rows are precisely the public
 $\StreamNameUp$ certificate assembled from the named component theorems.
 \end{proof}
-
-The certificate template has ten fields: traditional target certified
-countable rational-observation names; BEDC source $\RatUp$ over
-$\mathsf{BHist}$; carrier $\mathsf{RatStreamNameCarrier}$; classifier
-$\mathsf{RatStreamNameClassifier}$; stability obligations as the fields of
-\autoref{thm:rat-stream-name-certificate-fields}, the reindexing and mapped
-stream stability clauses from
-\autoref{thm:rat-stream-name-reindexing-and-map-stability}, the composed
-reindexing stability law from
-\autoref{thm:rat-stream-name-reindexing-composition-law}, the constant stream
-witness from \autoref{thm:rat-stream-name-constant-witness},
-constant reindexing classification from
-\autoref{thm:rat-stream-name-constant-reindexing-classifier}, and
-constant-point exactness from
-\autoref{thm:rat-stream-name-constant-point-exactness} and
-\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness};
-ledger finite observation index plus pointwise rational witnesses, and for a
-constant stream the hidden constant seed together with the observation index;
-core theorems
-\autoref{thm:rat-stream-name-certificate-fields} and
-\autoref{thm:rat-stream-name-reindexing-and-map-stability} and
-\autoref{thm:rat-stream-name-reindexing-composition-law} and
-\autoref{thm:rat-stream-name-constant-witness} and
-\autoref{thm:rat-stream-name-constant-reindexing-classifier} and
-\autoref{thm:rat-stream-name-constant-point-exactness} and
-\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness};
-exactness pointwise over the RatUp classifier; standard bridge ordinary
-rational streams; status
-$\mathsf{ProofTarget}$.

@@ -1,0 +1,423 @@
+\begin{theorem}[Norm-induced metric completeness]
+\label{thm:banach-norm-metric-completeness}
+For every concrete Banach carrier $X$ of
+\autoref{def:banach-concrete-carrier}, the supplied family of
+$\mathsf{CompleteMetricLimitWitness}$ rows makes the norm-induced metric on
+$X$ complete: every regular Cauchy $\StreamNameUp$ stream over $X$ for
+$\mathsf{BanachMetricWitness}_X$ has a carried limit history, an explicit
+modulus history, and late-observation distance ledgers bounded by each
+positive $\RatUp$ tolerance.
+\end{theorem}
+\begin{proof}
+Unfold the carrier tuple in \autoref{def:banach-concrete-carrier}. A regular
+Cauchy stream over $X$ is already part of the input shape accepted by the
+completeness field: its observations are carried by the $\NormUp$ carrier and
+its pairwise distance rows are exactly the displayed
+$\mathsf{BanachMetricWitness}_X$ rows obtained from norm values.
+
+Apply the displayed completeness family to the stream. It returns the modulus
+history, the carried limit history, and the late-observation ledger family
+appearing in
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)$. By
+\autoref{def:completemetric-limit-witness}, those rows are precisely the
+complete-metric convergence data for the metric carrier.
+
+The norm side supplies no hidden quotient step. The classifier used at the
+limit is $\hsame$ transport on representatives, so the returned rows remain
+inside the same BEDC history carrier and are accepted as the completeness
+witness for the norm-induced metric.
+\end{proof}
+
+\begin{theorem}[Banach norm-induced metric obligations]
+\label{thm:banach-metric-induced-by-norm}
+For any $\BanachUp$ candidate of
+\autoref{def:banach-complete-normed-carrier}, the distance predicate
+$d_\nu(x,y)=\nu(x-_V y)$ satisfies the $\MetricSpaceUp$ witness obligations on
+the vector carrier $C_V$: it is RealUp-valued and non-negative, it is zero
+exactly on $\sim_V$-classified endpoints, it is symmetric, and it satisfies the
+triangle inequality
+$$
+d_\nu(x,z)\le d_\nu(x,y)+d_\nu(y,z)
+$$
+for carried $x,y,z:C_V$.
+\end{theorem}
+\begin{proof}
+The RealUp carrier and non-negativity rows are exactly the codomain and
+non-negativity clauses of the supplied $\NormUp$ norm. For carried endpoints
+$x$ and $y$, the vector-space difference $x-_V y$ is carried by the
+$\VecSpaceUp$ additive stability rows, so applying $\nu$ gives a carried
+RealUp distance.
+
+Zero exactness is the positive-definiteness clause of $\NormUp$ applied to the
+difference endpoint $x-_V y$. The vector-space additive inverse and zero laws
+identify $x-_V y$ with $0_V$ exactly when $x\sim_V y$, and classifier transport
+converts this vector statement into the displayed distance-zero statement.
+
+For symmetry, the vector-space inverse law identifies $x-_V y$ with the
+additive inverse of $y-_V x$. The $\NormUp$ absolute-homogeneity row for the
+scalar $-1$ and the RealUp absolute-value row $|-1|=1$ show that the two norm
+values are classified by the RealUp classifier.
+
+For the triangle inequality, use the vector identity
+$x-_V z\sim_V (x-_V y)+_V(y-_V z)$. Norm transport moves $\nu$ across this
+classifier comparison, and the triangle-inequality row of $\NormUp$ bounds the
+right-hand side by $\nu(x-_V y)+\nu(y-_V z)$. This is the required
+$\MetricSpaceUp$ triangle row for $d_\nu$.
+\end{proof}
+
+\begin{theorem}[Banach classifier transport obligation]
+\label{thm:banach-classifier-transport-obligation}
+For any $\BanachUp$ candidate of
+\autoref{def:banach-complete-normed-carrier}, if $x\sim_V x'$ and
+$y\sim_V y'$ with all four endpoints carried by $C_V$, then the norm values and
+induced distances transport:
+$$
+\mathsf{RealClassifier}(\nu(x),\nu(x'))
+$$
+and
+$$
+\mathsf{RealClassifier}(d_\nu(x,y),d_\nu(x',y')).
+$$
+\end{theorem}
+\begin{proof}
+The first displayed row is the norm-transport stability obligation contained
+in the $\NormUp$ certificate. It reads the vector classifier comparison
+$x\sim_V x'$ and returns the RealUp classifier comparison between the two norm
+values.
+
+For the distance row, apply the $\VecSpaceUp$ congruence laws to the two input
+classifier comparisons. They transport additive inverse and addition, giving
+$x-_V y\sim_V x'-_V y'$ in the vector classifier.
+
+Applying the same norm-transport row to this difference comparison yields
+$\mathsf{RealClassifier}(\nu(x-_V y),\nu(x'-_V y'))$. Unfolding the definition
+of $d_\nu$ on both sides gives the stated distance transport.
+\end{proof}
+
+\begin{theorem}[Banach regular Cauchy completion obligation]
+\label{thm:banach-regular-cauchy-completion-obligation}
+For any $\BanachUp$ candidate of
+\autoref{def:banach-complete-normed-carrier}, every regular Cauchy sequence
+$(X,\mu):\mathbb{N}\to C_V$ for the induced metric $d_\nu$ has the supplied
+limit endpoint $\lim_\nu(X,\mu):C_V$. The endpoint comes with an explicit
+convergence modulus for $d_\nu$, and any two endpoints satisfying the same
+regular Cauchy limit specification are classified by $\sim_V$.
+\end{theorem}
+\begin{proof}
+The regular Cauchy input contains a carried vector endpoint $X_n$ at each
+index and a modulus $\mu$ witnessing that the distances
+$d_\nu(X_m,X_n)$ enter every requested positive RealUp tolerance after
+$\mu(\varepsilon)$. By
+\autoref{thm:banach-metric-induced-by-norm}, these distances are legitimate
+$\MetricSpaceUp$ distances.
+
+The completion row in the carrier definition is then applied directly to
+$(X,\mu)$. It returns the carried endpoint $\lim_\nu(X,\mu)$, the convergence
+modulus, and the ledger entries recording the modulus calls and the norm rows
+used to read each distance.
+
+If $p$ and $q$ are two carried endpoints satisfying the same limit
+specification, the real-completeness capstone supplies uniqueness of the
+RealUp distance-to-zero limit for the two difference sequences
+$X_n-_V p$ and $X_n-_V q$. The vector-space subtraction identity rewrites
+$p-_V q$ through those two tails, and the positive-definiteness row of
+$\NormUp$ reflects distance zero back to $p\sim_V q$.
+\end{proof}
+
+\begin{theorem}[Banach zero-sequence limit obligation]
+\label{thm:banach-zero-sequence-limit-obligation}
+For any $\BanachUp$ candidate of
+\autoref{def:banach-complete-normed-carrier}, the constant sequence
+$Z_n=0_V$ is regular Cauchy for the induced metric $d_\nu$, and its supplied
+completion endpoint is classified with the vector zero:
+$$
+\lim_\nu(Z,\mu_0)\sim_V 0_V
+$$
+for the constant zero modulus $\mu_0$.
+\end{theorem}
+\begin{proof}
+The vector zero endpoint is carried by the $\VecSpaceUp$ zero row, so the
+constant sequence $Z_n=0_V$ is a sequence in $C_V$. For any pair of indices,
+$Z_m-_V Z_n$ is classified with $0_V$ by the additive identity and inverse
+laws.
+
+Positive definiteness and norm transport convert that vector zero comparison
+into RealUp distance zero. Thus every requested tolerance is met by the
+constant modulus $\mu_0$, and the sequence is regular Cauchy for $d_\nu$.
+
+Apply
+\autoref{thm:banach-regular-cauchy-completion-obligation} to obtain the
+completion endpoint and its convergence modulus. The endpoint $0_V$ itself
+satisfies the same limit specification by the preceding distance-zero row, so
+the uniqueness part of the completion obligation classifies
+$\lim_\nu(Z,\mu_0)$ with $0_V$.
+\end{proof}
+
+\begin{theorem}[Banach certificate obligation assembly]
+\label{thm:banach-certificate-obligation-assembly}
+The data of a $\BanachUp$ candidate in
+\autoref{def:banach-complete-normed-carrier}, together with the four obligation
+rows of
+\autoref{thm:banach-metric-induced-by-norm},
+\autoref{thm:banach-classifier-transport-obligation},
+\autoref{thm:banach-regular-cauchy-completion-obligation}, and
+\autoref{thm:banach-zero-sequence-limit-obligation}, assemble the paper-side
+$\NameCert_{\BanachUp}$ obligation set. Its carrier is $C_V$, its classifier is
+$\sim_V$, its metric witness is $d_\nu$, its stability rows are vector
+classifier transport through $\nu$ and $d_\nu$, its ledger is the norm ledger
+together with all regular Cauchy moduli and proof indices, and its completion
+row is the supplied $\lim_\nu$ operation with uniqueness up to $\sim_V$.
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are copied from the underlying
+$\VecSpaceUp$ certificate, and the norm field is copied from the supplied
+$\NormUp$ certificate. By
+\autoref{thm:banach-metric-induced-by-norm}, the expression
+$d_\nu(x,y)=\nu(x-_V y)$ supplies the metric witness expected by
+$\MetricSpaceUp$.
+
+The stability fields are the transport rows of
+\autoref{thm:banach-classifier-transport-obligation}. They show that both
+norm values and induced distances are invariant under the vector classifier,
+which is the exact endpoint-respect condition required by the naming
+certificate.
+
+The completion fields are supplied by
+\autoref{thm:banach-regular-cauchy-completion-obligation}. The special zero
+row of \autoref{thm:banach-zero-sequence-limit-obligation} anchors the
+certificate at the vector zero and records that the completion operation agrees
+with the vector structure on the constant zero sequence.
+
+Combining these rows gives the ten-field fit: traditional target Banach
+spaces; BEDC source $\NameCert_{\NormUp}$ plus the RealUp completion capstone;
+carrier $C_V$; classifier $\sim_V$; stability norm and distance transport;
+ledger norm provenance, moduli, and proof indices; core theorem the completion
+obligation; exactness zero distance iff vector classifier equality; standard
+bridge ordinary complete normed vector spaces; status $\mathsf{ProofTarget}$.
+\end{proof}
+
+\begin{theorem}[$\hsame$ transport of Banach carriers]
+\label{thm:banach-hsame-transport}
+Let $X$ be a concrete Banach carrier. If carried representatives, norm rows,
+metric rows, regular Cauchy stream observations, modulus histories, limit
+histories, and late-observation ledgers are transported componentwise along
+$\hsame$, then the transported package is again a concrete Banach carrier.
+The transported carrier preserves the $\NormUp$ classifier fields and the
+complete-metric limit-witness fields.
+\end{theorem}
+\begin{proof}
+Unpack the Banach carrier as the tuple of \autoref{def:banach-concrete-carrier}.
+The first component is the $\NameCert_{\NormUp}$ carrier package, so its
+carrier, classifier, norm value, and algebraic law rows transport along the
+given $\hsame$ histories by the stability fields of that certificate.
+
+The metric row is induced from the transported norm row. Transport the two
+endpoints, the displayed difference history, and the $\RealUp$ norm value;
+then repack these transported ledgers as
+$\mathsf{BanachMetricWitness}_X$ for the transported representatives.
+
+For the completeness component, apply
+\autoref{thm:completemetric-limit-witness-stability}. The hypotheses named in
+the theorem are exactly the transported stream observations, modulus history,
+limit history, thresholds, distance histories, and $\RatUp$ comparison rows.
+The result is a transported
+$\mathsf{CompleteMetricLimitWitness}(X,s',\mu',\ell',L')$.
+
+Combining the transported norm package, the induced metric row, and the
+transported complete-metric witness family gives the transported concrete
+Banach carrier. Since every field was moved by $\hsame$ and then repacked
+componentwise, the norm and limit-witness fields are preserved exactly in the
+paper-side classifier.
+\end{proof}
+
+\begin{theorem}[Complete-metric witness exactness for Banach carriers]
+\label{thm:banach-complete-metric-witness-exactness}
+For a concrete Banach carrier $X$, the displayed predicate
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)
+$$
+is exact for regular Cauchy streams over the norm-induced metric. Coverage
+holds because every accepted regular Cauchy stream receives such a row from
+the Banach completeness family. Soundness holds because any displayed row
+contains carried observations, a carried limit, metric-distance rows, and
+$\RatUp$ convergence bounds. Completeness holds because the real-completeness
+capstone supplies the diagonal regular-Cauchy limit rows consumed by
+$\NameCert_{\CompleteMetricUp}$.
+\end{theorem}
+\begin{proof}
+For coverage, start with an accepted regular Cauchy stream over $X$. The last
+field of \autoref{def:banach-concrete-carrier} assigns the histories
+$\mu_s,\ell_s,L_s$ and the row
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)$, so the displayed
+predicate covers the stream.
+
+For soundness, unfold \autoref{def:completemetric-limit-witness}. A displayed
+row contains the carried-observation ledger, the explicit modulus, the carried
+limit, the threshold history for each positive tolerance, and the metric
+distance and $\RatUp$ comparison rows for every late observation. Since the
+metric row is $\mathsf{BanachMetricWitness}_X$, each distance is a norm value
+of a difference history supplied by $\NameCert_{\NormUp}$.
+
+For completeness of the displayed predicate, use the real-completeness
+capstone through the $\CompleteMetricUp$ interface. The capstone supplies the
+diagonal regular-Cauchy limit construction, while
+\autoref{thm:completemetric-limit-witness-namecert-target} packages the
+stream, modulus, limit, metric-distance rows, and rational bounds as a
+complete-metric witness. Replacing the metric-distance rows by their
+norm-induced representatives gives the Banach witness without changing the
+BEDC histories being transported.
+\end{proof}
+
+\begin{theorem}[Banach norm-induced metric row]
+\label{thm:banach-norm-induced-metric-row}
+Let $X$ be a concrete Banach carrier. For carried histories $x,y$ and a
+displayed $\NormUp$ difference row with RealUp norm-value endpoint $d$, the row
+$$
+\mathsf{BanachMetricWitness}_X(x,y,d)
+$$
+is exactly the metric-distance row consumed by $\CompleteMetricUp$. If the
+endpoints, difference history, and RealUp norm value are transported along
+$\hsame$, the transported row is again the same CompleteMetricUp
+metric-distance row for the transported endpoints.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:banach-concrete-carrier}. Its metric predicate is defined
+by the carried endpoints, the displayed $\NormUp$ difference history, and the
+RealUp norm value of that difference, so no further quotient or hidden
+classifier layer is inserted before the CompleteMetricUp metric slot.
+
+The endpoint and difference-history transport clauses are the classifier and
+carrier stability fields already present in the $\NormUp$ certificate. They
+move carried vector histories and their displayed difference rows along
+$\hsame$ without changing the represented BEDC history data.
+
+The RealUp value row transports by the norm-value stability supplied by the
+same $\NormUp$ certificate. Repacking the transported endpoints, transported
+difference row, and transported RealUp value gives
+$\mathsf{BanachMetricWitness}_X(x',y',d')$, which is precisely the transported
+CompleteMetricUp distance row.
+\end{proof}
+
+\begin{theorem}[Banach regular Cauchy stream input]
+\label{thm:banach-regular-cauchy-stream-input}
+Let $X$ be a concrete Banach carrier. A regular Cauchy $\StreamNameUp$ stream
+whose observations are carried by $X$ and whose pairwise distance observations
+are rows
+$$
+\mathsf{BanachMetricWitness}_X(s_m,s_n,d_{m,n})
+$$
+is an admissible input for the completeness family in
+\autoref{def:banach-concrete-carrier}. Its stream observations, modulus
+history, pairwise norm-distance rows, and $\RatUp$ rational bounds are exactly
+the CompleteMetricUp regular-Cauchy input shape.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_regular\_cauchy\_stream\_input}
+\begin{proof}
+The stream supplies carried observations in $X$, and each displayed
+pairwise-distance row is a Banach metric row. By
+\autoref{thm:banach-norm-induced-metric-row}, each of those rows is already the
+metric-distance row expected by the CompleteMetricUp interface.
+
+The regular Cauchy modulus is the same history used by CompleteMetricUp: for
+each positive $\RatUp$ tolerance it returns the threshold after which all
+displayed pairwise distances are bounded by that tolerance. The rational-bound
+ledgers therefore require no reshaping beyond listing them with the stream
+indices and tolerance history.
+
+Repacking the carried observations, the modulus history, the Banach
+metric-distance rows, and the $\RatUp$ comparisons gives precisely the input
+accepted by the completeness family in \autoref{def:banach-concrete-carrier}.
+\end{proof}
+
+\begin{theorem}[Banach real-completeness limit consumption]
+\label{thm:banach-real-completeness-limit-consumption}
+Let $X$ be a concrete Banach carrier and let $s$ be a regular Cauchy stream
+admissible by \autoref{thm:banach-regular-cauchy-stream-input}. When the Phase
+Real and completion diagonal-limit capstone supplies the regular-Cauchy limit
+rows for the norm-distance stream, then
+\autoref{thm:completemetric-limit-witness-namecert-target} converts the
+modulus, carried limit $\ell$, BanachMetricWitness distance rows, and $\RatUp$
+bounds into
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L).
+$$
+\end{theorem}
+\begin{proof}
+First convert the stream into CompleteMetricUp input form by
+\autoref{thm:banach-regular-cauchy-stream-input}. This identifies every
+pairwise Banach distance with the corresponding CompleteMetricUp
+metric-distance row through
+\autoref{thm:banach-norm-induced-metric-row}.
+
+The real-completeness capstone supplies the diagonal regular-Cauchy limit
+rows for the RealUp norm-distance data. These rows provide the carried limit,
+the convergence modulus, the late-observation distance histories, and the
+positive $\RatUp$ comparison bounds demanded by the CompleteMetricUp target.
+
+Apply \autoref{thm:completemetric-limit-witness-namecert-target} to this
+modulus, limit, distance ledger, and rational-bound ledger. Since the
+distance ledger has already been identified with the Banach norm-induced
+metric row, the resulting witness is
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)$ for the original
+Banach stream.
+\end{proof}
+
+\begin{theorem}[Banach NameCert obligation package]
+\label{thm:banach-namecert-obligation-package}
+The data of \autoref{def:banach-concrete-carrier}, together with
+\autoref{thm:banach-norm-metric-completeness},
+\autoref{thm:banach-hsame-transport}, and
+\autoref{thm:banach-complete-metric-witness-exactness},
+\autoref{thm:banach-norm-induced-metric-row},
+\autoref{thm:banach-regular-cauchy-stream-input}, and
+\autoref{thm:banach-real-completeness-limit-consumption}, assemble the
+paper-side $\NameCert_{\BanachUp}$ obligation package. Its fields are the
+$\NormUp$ carrier, the $\hsame$ classifier on representatives, the
+norm-induced metric ledger, the concrete metric-distance rows, the regular
+Cauchy input shape, the capstone-to-limit consumption row, the
+complete-metric limit-witness family, the transport stability clauses, the
+exactness clauses for displayed regular Cauchy limits, and the visible ledger
+policy inherited from
+$\NameCert_{\NormUp}$ and $\NameCert_{\CompleteMetricUp}$.
+\end{theorem}
+\begin{proof}
+The carrier field is the predicate $X:\Hist\to\mathsf{Prop}$ equipped with
+the displayed $\NormUp$ data and the induced
+$\mathsf{BanachMetricWitness}_X$ relation of
+\autoref{def:banach-concrete-carrier}. The classifier field is $\hsame$
+transport on representatives, so the certificate compares histories by
+visible representative transport rather than by a host quotient.
+
+The stability field is supplied by
+\autoref{thm:banach-hsame-transport}. It moves the norm rows, metric rows,
+stream rows, modulus histories, limit histories, and late-observation ledgers
+componentwise and then repacks them as the same Banach carrier structure.
+
+The completeness and exactness fields are supplied by
+\autoref{thm:banach-norm-metric-completeness} and
+\autoref{thm:banach-complete-metric-witness-exactness}. These theorems show
+that every regular Cauchy stream over the norm-induced metric has a displayed
+$\mathsf{CompleteMetricLimitWitness}$ row, and that every such row has exactly
+the carried observations, carried limit, norm-distance rows, and rational
+comparison bounds demanded by $\NameCert_{\CompleteMetricUp}$.
+
+The concrete witness-row boundary is supplied by
+\autoref{thm:banach-norm-induced-metric-row} and
+\autoref{thm:banach-regular-cauchy-stream-input}. The first theorem identifies
+the norm-induced Banach metric row with the CompleteMetricUp distance slot,
+and the second theorem repacks regular Cauchy streams with Banach distance
+rows into the input shape expected by the completeness family.
+
+The limit-consumption boundary is supplied by
+\autoref{thm:banach-real-completeness-limit-consumption}. It records that the
+real-completeness capstone rows are consumed through
+\autoref{thm:completemetric-limit-witness-namecert-target} to produce the
+displayed $\mathsf{CompleteMetricLimitWitness}$ row for the Banach stream.
+
+The ledger field is the union of the visible rows already named by
+$\NameCert_{\NormUp}$ with the stream, modulus, threshold, distance, and
+comparison rows of $\NameCert_{\CompleteMetricUp}$. The real-completeness
+capstone supplies the limit construction consumed by the complete-metric
+side, so all fields of the $\NameCert_{\BanachUp}$ obligation package are
+accounted for constructively.
+\end{proof}

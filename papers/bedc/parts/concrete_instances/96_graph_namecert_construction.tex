@@ -6,5 +6,417 @@ The graph interface $\GraphUp$ packages a vertex carrier from $\NameCert_{\SetUp
 \section{Carrier definition}
 \label{sec:graph-carrier}
 
+\begin{definition}[Cont adjacency graph carrier]
+\label{def:graph-cont-adjacency-carrier}
+The concrete $\GraphUp$ source is the BEDC history carrier
+$\mathsf{BHist}$ restricted to $\mathsf{UnaryHistory}$, with vertex classifier
+$\hsame$ on unary histories. For histories $h,k,g:\mathsf{BHist}$ define
+$$
+\mathsf{GraphEdge}(h,k,g)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(h)\land
+\mathsf{UnaryHistory}(k)\land
+\Cont(h,k,g).
+$$
+This predicate reads a BEDC continuation row as a directed adjacency edge from
+source vertex $h$ to target vertex $k$, with visible edge-result history $g$.
+The graph carrier template fields are:
+\begin{enumerate}
+\item the traditional target is a directed graph;
+\item the BEDC source is $\mathsf{BHist}$ with
+$\mathsf{UnaryHistory}$ vertices and $\Cont$ rows;
+\item the vertex carrier is $\mathsf{UnaryHistory}$;
+\item the vertex classifier is $\hsame$ restricted to unary histories;
+\item the stability obligations are unary transport along $\hsame$ and
+$\Cont$ transport along $\hsame$ in all three displayed histories;
+\item the ledger is the visible triple $(h,k,g)$ together with the two unary
+endpoint witnesses and the $\Cont(h,k,g)$ row;
+\item the core theorem list is endpoint coverage, edge classifier transport,
+cancellative row readback, unit rows, two-step path composition, and the
+assembled $\GraphUp$ obligation surface;
+\item the exactness predicate is row inversion for $\mathsf{GraphEdge}$;
+\item the standard bridge is absent;
+\item the status is paper proof target.
+\end{enumerate}
+The edge classifier between two rows is the componentwise relation
+$$
+(h,k,g)\sim_{\mathsf{Graph}}(h',k',g')
+:\Longleftrightarrow
+\hsame(h,h')\wedge
+\hsame(k,k')\wedge
+\hsame(g,g').
+$$
+Thus edge sameness is entirely visible in the BEDC ledger; no hidden graph
+structure participates in classification.
+\end{definition}
+\leandef{BEDC.Derived.GraphUp.GraphContEdge}
+
 \section{The certificate}
 \label{sec:graph-certificate}
+
+\begin{theorem}[Graph edge endpoint coverage]
+\label{thm:graph-cont-edge-endpoint-coverage}
+For histories $h,k,g:\mathsf{BHist}$, every row
+$\mathsf{GraphEdge}(h,k,g)$ exposes its carried source vertex, carried target
+vertex, and continuation witness:
+$$
+\mathsf{GraphEdge}(h,k,g)
+\Longrightarrow
+\mathsf{UnaryHistory}(h)\land
+\mathsf{UnaryHistory}(k)\land
+\Cont(h,k,g).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:graph-cont-adjacency-carrier}. The graph edge predicate is
+defined as exactly the conjunction of the source unary witness, the target
+unary witness, and the continuation row. Projection from that conjunction gives
+the three displayed fields.
+\end{proof}
+
+\begin{theorem}[Graph edge classifier transport]
+\label{thm:graph-cont-edge-classifier-transport}
+Let $h,k,g,h',k',g':\mathsf{BHist}$. If
+$\mathsf{GraphEdge}(h,k,g)$ holds and
+$$
+\hsame(h,h')\land
+\hsame(k,k')\land
+\hsame(g,g')
+$$
+holds, then unary-history transport on the endpoints and
+$\mathsf{cont\_hsame\_transport}$ on the continuation row give
+$$
+\mathsf{GraphEdge}(h',k',g').
+$$
+The original and transported rows are classified by
+$(h,k,g)\sim_{\mathsf{Graph}}(h',k',g')$.
+\end{theorem}
+\leanchecked{BEDC.Derived.GraphUp.GraphEdge\_classifier\_transport}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_classifier\_transport}
+\begin{proof}
+Unpack $\mathsf{GraphEdge}(h,k,g)$ by
+\autoref{def:graph-cont-adjacency-carrier}. This yields
+$\mathsf{UnaryHistory}(h)$, $\mathsf{UnaryHistory}(k)$, and $\Cont(h,k,g)$.
+
+Unpack the classifier witnesses. Unary-history transport along $\hsame(h,h')$
+and $\hsame(k,k')$ carries the two endpoint witnesses to
+$\mathsf{UnaryHistory}(h')$ and $\mathsf{UnaryHistory}(k')$.
+
+Apply $\mathsf{cont\_hsame\_transport}$ to the three $\hsame$ witnesses and the
+row $\Cont(h,k,g)$. This produces $\Cont(h',k',g')$.
+
+Repack the two transported unary witnesses and the transported continuation
+row by \autoref{def:graph-cont-adjacency-carrier}. The final classifier claim
+is just the same three $\hsame$ witnesses read through the componentwise edge
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_classifier\_transport}
+
+\begin{theorem}[Graph Cont edge row inversion]
+\label{thm:graph-cont-edge-row-inversion}
+Let $h,k,g,h',k',g':\mathsf{BHist}$. For displayed graph rows:
+\begin{enumerate}
+\item if $\mathsf{GraphEdge}(h,k,g)$, $\mathsf{GraphEdge}(h',k,g)$, and the
+target/result pair is shared, then $\hsame(h,h')$ by
+$\mathsf{cont\_right\_cancel}$;
+\item if $\mathsf{GraphEdge}(h,k,g)$, $\mathsf{GraphEdge}(h,k',g)$, and the
+source/result pair is shared, then $\hsame(k,k')$ by
+$\mathsf{cont\_left\_cancel}$;
+\item if $\mathsf{GraphEdge}(h,k,g)$ and $\mathsf{GraphEdge}(h,k,g')$ share
+the same source and target, then $\hsame(g,g')$ by
+$\mathsf{cont\_deterministic}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:graph-cont-adjacency-carrier} in each displayed row. The
+endpoint witnesses are retained as carrier data, and the continuation component
+is the BEDC kernel row $\Cont(-,-,-)$.
+
+For the shared target/result clause, apply
+$\mathsf{cont\_right\_cancel}$ to the two exposed continuation rows. This
+reads back the two possible sources as $\hsame$.
+
+For the shared source/result clause, apply
+$\mathsf{cont\_left\_cancel}$ to the two exposed continuation rows. This reads
+back the two possible targets as $\hsame$.
+
+For the shared source/target clause, apply
+$\mathsf{cont\_deterministic}$ to the two exposed continuation rows. This
+classifies the two visible edge results by $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_row\_inversion}
+
+\begin{theorem}[Graph Cont unit loop laws]
+\label{thm:graph-cont-unit-loop}
+For every unary vertex $h:\mathsf{BHist}$, the graph relation contains the two
+displayed unit rows
+$$
+\mathsf{GraphEdge}(\mathsf{BHist.Empty},h,h)
+$$
+and
+$$
+\mathsf{GraphEdge}(h,\mathsf{BHist.Empty},h).
+$$
+Moreover, a row $\mathsf{GraphEdge}(\mathsf{BHist.Empty},h,g)$ reads its
+result back to $h$ by $\mathsf{cont\_left\_unit}$ and
+$\mathsf{cont\_left\_unit\_iff}$, and a row
+$\mathsf{GraphEdge}(h,\mathsf{BHist.Empty},g)$ reads its result back to $h$ by
+$\mathsf{cont\_right\_unit}$ and $\mathsf{cont\_right\_unit\_iff}$.
+\end{theorem}
+\begin{proof}
+Use the unary empty witness for $\mathsf{BHist.Empty}$ and the given unary
+witness for $h$. The left unit law $\mathsf{cont\_left\_unit}$ supplies
+$\Cont(\mathsf{BHist.Empty},h,h)$, and the right unit law
+$\mathsf{cont\_right\_unit}$ supplies $\Cont(h,\mathsf{BHist.Empty},h)$.
+
+Repack each continuation row with its two unary endpoint witnesses by
+\autoref{def:graph-cont-adjacency-carrier}. This gives the two displayed graph
+unit rows.
+
+For readback, unfold an arbitrary left-unit or right-unit graph row to expose
+its continuation component. The corresponding iff theorem,
+$\mathsf{cont\_left\_unit\_iff}$ or $\mathsf{cont\_right\_unit\_iff}$,
+identifies exactly the histories whose result is classified with $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_unit\_loop}
+
+\begin{theorem}[Graph Cont two-step composition]
+\label{thm:graph-cont-two-step-composition}
+Let $h,k,l,hk,kl:\mathsf{BHist}$. If
+$\mathsf{GraphEdge}(h,k,hk)$ and $\mathsf{GraphEdge}(k,l,kl)$ hold, then there
+are histories $left,right:\mathsf{BHist}$ such that
+$$
+\mathsf{GraphEdge}(hk,l,left),
+$$
+$$
+\mathsf{GraphEdge}(h,kl,right),
+$$
+and
+$$
+\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two input graph edges. This exposes unary witnesses for $h$, $k$,
+and $l$, together with continuation rows $\Cont(h,k,hk)$ and
+$\Cont(k,l,kl)$.
+
+Unary closure for continuation results carries the first row to a unary witness
+for $hk$ and the second row to a unary witness for $kl$. These witnesses make
+the two composite endpoints eligible for the graph carrier.
+
+Apply $\mathsf{cont\_assoc\_exists\_hsame}$ to the two continuation rows. It
+produces histories $left$ and $right$ with rows $\Cont(hk,l,left)$ and
+$\Cont(h,kl,right)$ and with $\hsame(left,right)$.
+
+Repack the two produced continuation rows with the unary endpoint witnesses by
+\autoref{def:graph-cont-adjacency-carrier}. The result is the displayed pair of
+two-step graph edges together with their $\hsame$ result comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_two\_step\_composition}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_composition\_closure}
+
+\begin{theorem}[GraphUp NameCert surface]
+\label{thm:graph-cont-namecert-surface}
+The carrier definition in \autoref{def:graph-cont-adjacency-carrier}, together
+with \autoref{thm:graph-cont-edge-endpoint-coverage} and
+\autoref{thm:graph-cont-edge-classifier-transport},
+\autoref{thm:graph-cont-edge-row-inversion},
+\autoref{thm:graph-cont-unit-loop}, and
+\autoref{thm:graph-cont-two-step-composition}, assembles the paper-side
+$\GraphUp$ obligation surface: vertex carrier $\mathsf{UnaryHistory}$, vertex
+classifier $\hsame$ restricted to unary histories, edge relation
+$\mathsf{GraphEdge}$, endpoint coverage, edge transport, cancellative readback,
+unit rows, two-step path composition, and the visible $\Cont$ ledger. The
+standard bridge field is absent from this surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.GraphUp.GraphCont\_namecert\_surface}
+\leanchecked{BEDC.Derived.GraphUp.GraphContNameCert\_surface}
+\begin{proof}
+The definition supplies the concrete BEDC source, the vertex carrier, the
+restricted vertex classifier, the edge relation, the visible ledger, and the
+declared absence of a standard bridge. It also names the exactness predicate as
+row inversion for $\mathsf{GraphEdge}$.
+
+\autoref{thm:graph-cont-edge-endpoint-coverage} gives that inversion principle
+in the direction used by downstream graph certificates: every edge row exposes
+both carried endpoints and its $\Cont$ witness.
+
+\autoref{thm:graph-cont-edge-classifier-transport} supplies the stability
+surface. It transports the two endpoint carrier witnesses along $\hsame$ and
+transports the continuation row along $\mathsf{cont\_hsame\_transport}$, then
+repackages the transported row as another $\mathsf{GraphEdge}$ witness.
+
+\autoref{thm:graph-cont-edge-row-inversion} supplies cancellative readback for
+rows sharing a target/result pair or a source/result pair, and determinacy for
+rows sharing a source/target pair.
+
+\autoref{thm:graph-cont-unit-loop} supplies the two empty-endpoint unit rows and
+their result readback principles. \autoref{thm:graph-cont-two-step-composition}
+supplies path composition by associativity of $\Cont$ up to $\hsame$.
+
+These clauses are precisely the listed $\GraphUp$ paper obligations, so the
+chapter exposes the carrier, classifier, edge, coverage, transport, readback,
+unit, composition, and ledger surface required by $\TreeUp$ and downstream
+combinatorial certificates.
+\end{proof}
+
+\begin{theorem}[Graph empty-tail identity edge]
+\label{thm:graph-cont-edge-empty-tail-identity}
+For every history $h:\mathsf{BHist}$, if $\mathsf{UnaryHistory}(h)$, then
+$$
+\mathsf{GraphEdge}(h,\emp,h).
+$$
+Its ten-field fit is: traditional target identity graph edge; BEDC source
+$\mathsf{BHist}$, $\mathsf{UnaryHistory}$, and $\Cont$; carrier
+$\mathsf{GraphEdge}$; classifier componentwise $\hsame$; endpoint fields the
+two displayed unary witnesses; stability inherited from
+$\mathsf{cont\_hsame\_transport}$; ledger $(h,\emp,h)$; exactness by endpoint
+coverage and continuation determinacy; standard bridge absent; status proof
+target.
+\end{theorem}
+\begin{proof}
+Use $\mathsf{UnaryHistory}(h)$ for the source endpoint. The empty history is a
+unary history by the empty unary constructor, so it supplies the target
+endpoint.
+
+The continuation row is the right-unit row $\Cont(h,\emp,h)$, also named
+$\mathsf{cont\_right\_unit}$. Repacking these three fields through
+\autoref{def:graph-cont-adjacency-carrier} gives the displayed
+$\mathsf{GraphEdge}$ row.
+\end{proof}
+
+\begin{theorem}[Graph edge result determinacy]
+\label{thm:graph-cont-edge-result-determinacy}
+For histories $h,k,g,g':\mathsf{BHist}$, if
+$\mathsf{GraphEdge}(h,k,g)$ and $\mathsf{GraphEdge}(h,k,g')$, then
+$$
+\hsame(g,g').
+$$
+Its ten-field fit is: traditional target graph edge-result determinacy; BEDC
+source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, and $\Cont$; carrier
+$\mathsf{GraphEdge}$; classifier componentwise $\hsame$; endpoint fields read
+from the two edge rows; stability inherited from continuation transport;
+ledger the two rows $(h,k,g)$ and $(h,k,g')$; exactness by endpoint coverage
+and continuation determinacy up to $\hsame$; standard bridge absent; status
+proof target.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:graph-cont-edge-endpoint-coverage} to both edge rows. This
+projects the two continuation witnesses $\Cont(h,k,g)$ and $\Cont(h,k,g')$
+from the graph carrier.
+
+Apply $\mathsf{cont\_deterministic}$, equivalently
+$\mathsf{cont\_determinacy\_up\_to\_hsame\_spine}$, to the two continuation
+rows with the same source and the same visible target. The resulting
+classification is exactly $\hsame(g,g')$.
+\end{proof}
+
+\begin{theorem}[Graph visible-tail step closure]
+\label{thm:graph-cont-edge-visible-tail-step-closure}
+For histories $h,k,g:\mathsf{BHist}$, suppose $\mathsf{GraphEdge}(h,k,g)$ and
+suppose the visible-tail constructors preserve unary history at the target and
+result positions:
+$$
+\mathsf{UnaryHistory}(\Ezero(k))\land
+\mathsf{UnaryHistory}(\Ezero(g))\land
+\mathsf{UnaryHistory}(\Eone(k))\land
+\mathsf{UnaryHistory}(\Eone(g)).
+$$
+Then
+$$
+\mathsf{GraphEdge}(h,\Ezero(k),\Ezero(g))
+\land
+\mathsf{GraphEdge}(h,\Eone(k),\Eone(g)).
+$$
+Its ten-field fit is: traditional target visible-tail graph closure; BEDC
+source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, and $\Cont$; carrier
+$\mathsf{GraphEdge}$; classifier componentwise $\hsame$; endpoint fields the
+source row plus the supplied visible-tail unary rows; stability inherited from
+the two continuation step rules; ledger the two stepped triples; exactness by
+endpoint coverage and continuation determinacy; standard bridge absent; status
+proof target.
+\end{theorem}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_visible\_tail\_step\_closure}
+\begin{proof}
+First project the original edge by
+\autoref{thm:graph-cont-edge-endpoint-coverage}. This gives
+$\mathsf{UnaryHistory}(h)$ and the continuation row $\Cont(h,k,g)$.
+
+For the zero-tail branch, use the supplied unary rows
+$\mathsf{UnaryHistory}(\Ezero(k))$ and $\mathsf{UnaryHistory}(\Ezero(g))$.
+Apply the zero continuation step rule to $\Cont(h,k,g)$, obtaining
+$\Cont(h,\Ezero(k),\Ezero(g))$. Repack these three fields as
+$\mathsf{GraphEdge}(h,\Ezero(k),\Ezero(g))$.
+
+For the one-tail branch, use the supplied unary rows
+$\mathsf{UnaryHistory}(\Eone(k))$ and $\mathsf{UnaryHistory}(\Eone(g))$.
+Apply the one continuation step rule to $\Cont(h,k,g)$, obtaining
+$\Cont(h,\Eone(k),\Eone(g))$. Repack these three fields as
+$\mathsf{GraphEdge}(h,\Eone(k),\Eone(g))$.
+\end{proof}
+
+\begin{theorem}[Graph Cont three-step path reassociation]
+\label{thm:graph-cont-three-step-path-reassociation}
+Let $h,k,l,m,hk,kl,lm:\mathsf{BHist}$. In the concrete $\GraphUp$ carrier of \autoref{def:graph-cont-adjacency-carrier}, if
+$$
+\mathsf{GraphEdge}(h,k,hk),\qquad
+\mathsf{GraphEdge}(k,l,kl),\qquad
+\mathsf{GraphEdge}(l,m,lm)
+$$
+hold, then there are histories $hkl,klm,left,right:\mathsf{BHist}$ such that
+$$
+\mathsf{GraphEdge}(hk,l,hkl),\qquad
+\mathsf{GraphEdge}(hkl,m,left),
+$$
+$$
+\mathsf{GraphEdge}(k,lm,klm),\qquad
+\mathsf{GraphEdge}(h,klm,right),
+$$
+and
+$$
+\hsame(left,right).
+$$
+Thus the visible endpoints of the left-associated and right-associated three-step graph paths are classified by $\hsame$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:graph-cont-two-step-composition} to the first two input rows. Choose witnesses $hkl$ and $hkl_R$ with
+$$
+\mathsf{GraphEdge}(hk,l,hkl),\qquad
+\mathsf{GraphEdge}(h,kl,hkl_R),\qquad
+\hsame(hkl,hkl_R).
+$$
+Retain the row $\mathsf{GraphEdge}(hk,l,hkl)$ as the left middle edge.
+
+Apply \autoref{thm:graph-cont-two-step-composition} to the second and third input rows. Choose witnesses $klm_L$ and $klm$ with
+$$
+\mathsf{GraphEdge}(kl,m,klm_L),\qquad
+\mathsf{GraphEdge}(k,lm,klm),\qquad
+\hsame(klm_L,klm).
+$$
+Retain the row $\mathsf{GraphEdge}(k,lm,klm)$ as the right middle edge.
+
+Apply \autoref{thm:graph-cont-two-step-composition} to $\mathsf{GraphEdge}(hk,l,hkl)$ and the third input row. This gives witnesses $left$ and $mid_L$ such that
+$$
+\mathsf{GraphEdge}(hkl,m,left),\qquad
+\mathsf{GraphEdge}(hk,lm,mid_L),\qquad
+\hsame(left,mid_L).
+$$
+
+Apply \autoref{thm:graph-cont-two-step-composition} to the first input row and $\mathsf{GraphEdge}(k,lm,klm)$. This gives witnesses $mid_R$ and $right$ such that
+$$
+\mathsf{GraphEdge}(hk,lm,mid_R),\qquad
+\mathsf{GraphEdge}(h,klm,right),\qquad
+\hsame(mid_R,right).
+$$
+
+The two middle rows $\mathsf{GraphEdge}(hk,lm,mid_L)$ and $\mathsf{GraphEdge}(hk,lm,mid_R)$ have the same displayed source and target. By \autoref{thm:graph-cont-edge-result-determinacy},
+$$
+\hsame(mid_L,mid_R).
+$$
+Transitivity of $\hsame$ combines $\hsame(left,mid_L)$, $\hsame(mid_L,mid_R)$, and $\hsame(mid_R,right)$ to give
+$$
+\hsame(left,right).
+$$
+The retained graph rows are exactly the displayed left-associated and right-associated path rows.
+\end{proof}

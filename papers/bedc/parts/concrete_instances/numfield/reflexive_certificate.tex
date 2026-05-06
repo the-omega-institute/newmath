@@ -1,0 +1,574 @@
+\section{The certificate}
+\label{sec:numfield-certificate}
+
+\begin{theorem}[NumFieldUp reflexive rational source scope]
+\label{thm:numfield-reflexive-rational-source-scope}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, every
+source, carrier, classifier, stability, ledger, exactness, and absent standard
+bridge field of the paper-side $\NumFieldUp$ surface is fixed by the displayed
+RatUp and FieldExtUp rows. The source is the concrete RatUp $\FieldUp$ table,
+the carrier is $\mathsf{RatHistoryCarrier}$, the classifier is
+$\mathsf{RatHistoryClassifier}$, stability is the identity-embedding and
+self-vector-space stability of the reflexive FieldExtUp row, exactness is
+endpoint classification by $\mathsf{RatHistoryClassifier}$, the ledger is the
+RatUp operation-table ledger, and no standard bridge to host number fields is
+claimed.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_source\_scope}
+\begin{proof}
+Unfold \autoref{def:numfield-reflexive-rational-field-extension-carrier}. The
+carrier is just the reflexive field-extension carrier of
+\autoref{def:fieldext-reflexive-extension-carrier}, so the base and ambient
+history predicates, classifiers, and embedding row are the RatUp rows already
+used by FieldExtUp.
+
+Use
+\autoref{thm:fieldext-ratup-reflexive-operation-table-coverage} to account for
+the field operations. It says that the base-field operations, ambient-field
+operations, vector addition, vector zero, vector negation, and scalar action
+are all read from the single RatUp $\FieldUp$ operation table.
+
+Next apply
+\autoref{thm:fieldext-reflexive-exact-endpoint-classification} and
+\autoref{thm:fieldext-reflexive-ledger-provenance}. These identify every
+displayed endpoint with the RatUp classifier class named by the row and record
+the ledger provenance inside the RatUp operation table.
+
+Finally use
+\autoref{thm:fieldext-reflexive-public-namecert-interface} together with the
+RatUp certificate chapter. The public FieldExtUp interface supplies the
+visible extension surface, and the RatUp certificate supplies the rational
+source rows. Since the NumFieldUp carrier only re-reads these rows and adds no
+bridge tuple, the standard bridge field remains absent.
+\end{proof}
+
+\begin{theorem}[NumFieldUp reflexive rational finite-extension witness]
+\label{thm:numfield-reflexive-rational-finite-extension-witness}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the
+finite-extension witness data are the singleton basis data over the reflexive
+FieldExtUp vector-space row. The basis list is the one-row unary basis
+$[\mathbf{1}_{\mathsf{Rat}}]$, every carried ambient endpoint $m$ has the
+coordinate row $m\cdot\mathbf{1}_{\mathsf{Rat}}$, and coordinate equality is
+classified by $\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_finite\_extension\_witness}
+\begin{proof}
+Read the vector-space part of the reflexive FieldExtUp package from
+\autoref{def:fieldext-reflexive-extension-carrier}. Its ambient vector carrier
+is $\mathsf{RatHistoryCarrier}$, its scalar carrier is the same RatUp carrier,
+and its scalar action is RatUp multiplication.
+
+The singleton basis row chooses the RatUp unit endpoint as the only basis
+vector. For a carried ambient endpoint $m$, use the scalar $m$ and the basis
+vector $\mathbf{1}_{\mathsf{Rat}}$; the multiplication row in the RatUp
+$\FieldUp$ table classifies the product with $m$.
+
+Apply
+\autoref{thm:fieldext-ratup-reflexive-operation-table-coverage} for coverage of
+the multiplication and scalar-action rows. Then apply
+\autoref{thm:fieldext-reflexive-exact-endpoint-classification} to read the
+coordinate endpoint in the same $\mathsf{RatHistoryClassifier}$ class. Thus
+the degree witness is the displayed singleton basis over the reflexive
+FieldExtUp vector-space row.
+\end{proof}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_finite\_basis\_witness}
+
+\begin{theorem}[RatUp reflexive NumField coordinate determinacy]
+\label{thm:numfield-reflexive-rational-coordinate-determinacy}
+For $m,\mathit{coord}:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(m)$ and $\Cont(m,\emp,\mathit{coord})$, then the
+coordinate readback is determined inside the RatUp classifier:
+$\mathsf{RatHistoryClassifier}(\mathit{coord},m)$. The same row also forces
+$\mathsf{RatHistoryCarrier}(\mathsf{FieldExtSingletonEmbedding}(m))$ and
+$\mathsf{RatHistoryClassifier}(\mathsf{FieldExtSingletonEmbedding}(m),m)$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness}. The witness
+identifies the displayed coordinate row for a carried endpoint $m$ with
+$m\cdot\mathbf{1}_{\mathsf{Rat}}$ over the singleton basis.
+
+The right-unit continuation $\Cont(m,\emp,\mathit{coord})$ reads that product as
+the RatUp endpoint named by $m$. Hence the coordinate endpoint remains in the
+$\mathsf{RatHistoryClassifier}$ class of $m$.
+
+For the embedded endpoint, use the identity embedding row in
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}. It does not
+change the $\mathsf{BHist}$ endpoint, so the RatUp carrier predicate and the
+same classifier row apply to
+$\mathsf{FieldExtSingletonEmbedding}(m)$.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive NumField basis row exhaustion]
+\label{thm:numfield-reflexive-rational-basis-row-exhaustion}
+Every accepted basis display in
+\autoref{def:numfield-reflexive-rational-field-extension-carrier} is the
+singleton rational unit row $[\mathbf{1}_{\mathsf{Rat}}]$. Every coordinate
+readback is classified by
+\autoref{thm:numfield-reflexive-rational-coordinate-determinacy}. Thus the
+RatUp reflexive $\NumFieldUp$ carrier admits no second basis vector and no
+classifier row beyond $\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexiveSingletonBasisRow\_support\_exactness}
+\begin{proof}
+First use
+\autoref{thm:numfield-reflexive-rational-source-scope}. It fixes the
+$\NumFieldUp$ source to the RatUp and FieldExtUp rows and leaves the finite
+basis field as the displayed singleton unary basis.
+
+Next apply
+\autoref{thm:numfield-reflexive-rational-coordinate-determinacy}. For each
+carried coordinate readback, the right-unit row and the identity embedding keep
+the coordinate in the RatUp classifier class of the source endpoint.
+
+Finally apply \autoref{thm:numfield-rat-reflexive-ledger-exactness}. Its row
+exhaustion says that the FieldExt rows are already exhausted by the RatUp
+reflexive certificate and that the NumField contribution is only the singleton
+basis row. Therefore neither a second basis vector nor an additional classifier
+row is accepted.
+\end{proof}
+
+\begin{theorem}[RatUp reflexive NumField degree-one public package]
+\label{thm:numfield-reflexive-rational-degree-one-public-package}
+The RatUp reflexive carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the source
+scope of \autoref{thm:numfield-reflexive-rational-source-scope}, the
+finite-extension witness of
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness}, the
+basis-row exhaustion of
+\autoref{thm:numfield-reflexive-rational-basis-row-exhaustion}, and the ledger
+exactness of \autoref{thm:numfield-rat-reflexive-ledger-exactness} form the
+public degree-one $\NameCert_{\NumFieldUp}$ package. The package exposes carrier
+$\mathsf{RatHistoryCarrier}$, classifier $\mathsf{RatHistoryClassifier}$, the
+identity embedding, the singleton basis, RatUp scalar action, visible ledger
+exactness, and no standard bridge.
+\end{theorem}
+\begin{proof}
+Start with the source certificate
+\autoref{thm:rat-history-semantic-name-certificate}. It supplies the concrete
+RatUp carrier, classifier, operation table, exact endpoint classification, and
+ledger rows consumed by the number-field surface.
+
+Next apply
+\autoref{thm:fieldext-reflexive-public-namecert-interface}. This repacks the
+same RatUp source as the reflexive FieldExtUp public interface, including the
+identity embedding and self-vector-space scalar action.
+
+Use
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness} and
+\autoref{thm:numfield-reflexive-rational-basis-row-exhaustion} for the
+degree-one part. These results identify the only basis display with the
+singleton rational unit row and classify every coordinate readback by the RatUp
+classifier.
+
+Finally combine
+\autoref{thm:numfield-reflexive-rational-source-scope} with
+\autoref{thm:numfield-rat-reflexive-ledger-exactness}. The former fixes the
+visible $\NumFieldUp$ fields and the absent standard bridge, while the latter
+shows that the ledger contains no row beyond the RatUp reflexive FieldExt table
+and the singleton basis row. Repacking these fields gives the stated public
+degree-one $\NameCert_{\NumFieldUp}$ package.
+\end{proof}
+
+\begin{definition}[NumFieldUp RatUp reflexive singleton basis row]
+\label{def:numfieldup-rat-reflexive-singleton-basis-row}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the singleton
+basis row is the FieldExtUp vector-space singleton row. Its support is the
+one-element FieldExt vector carrier entry named by
+$\mathsf{FieldSingletonOne}:=\mathsf{BHist.Empty}$.
+
+The RatUp data in the row live only in coordinate readback. For each carried
+$m:\mathsf{BHist}$, a coordinate endpoint $coord:\mathsf{BHist}$ is accepted
+when $\mathsf{Cont}\ m\ \mathsf{BHist.Empty}\ coord$ holds, and the embedded
+ambient endpoint is $\mathsf{FieldExtSingletonEmbedding}\ m$. Thus the basis
+support is a FieldExt singleton-vector support, while the coordinate endpoint
+and the embedded endpoint are the RatUp-classified rows attached to $m$.
+\end{definition}
+\leandef{BEDC.Derived.NumFieldUp.NumFieldRatReflexiveSingletonBasisRow}
+
+\begin{theorem}[NumFieldUp RatUp reflexive basis carrier boundary]
+\label{thm:numfieldup-rat-reflexive-basis-carried}
+In the singleton basis row of
+\autoref{def:numfieldup-rat-reflexive-singleton-basis-row}, the basis support is
+carried by the FieldExtUp singleton vector carrier. The paper does not assert
+$\mathsf{RatHistoryCarrier}\ \mathsf{BHist.Empty}$ for that support. RatUp
+carrier hypotheses apply to coordinate endpoints and to embedded ambient
+endpoints, not to the bare FieldExt singleton vector marker.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_basis\_support\_boundary}
+\begin{proof}
+Unfold the singleton basis row of
+\autoref{def:numfieldup-rat-reflexive-singleton-basis-row}. The displayed
+support entry is
+$\mathsf{FieldSingletonOne}:=\mathsf{BHist.Empty}$, so its carrier obligation is
+the FieldExt singleton vector carrier obligation.
+
+The RatUp carrier predicate is read on the coordinate side. For a carried
+$m:\mathsf{BHist}$, the accepted coordinate row has
+$\mathsf{Cont}\ m\ \mathsf{BHist.Empty}\ coord$, and the embedded endpoint is
+$\mathsf{FieldExtSingletonEmbedding}\ m$. Apply
+$\mathsf{RatHistoryCarrier\_not\_empty}$ to separate this coordinate-side
+RatUp carrier from any assertion that $\mathsf{BHist.Empty}$ itself is a RatUp
+history carrier endpoint.
+\end{proof}
+
+\begin{theorem}[NumFieldUp RatUp reflexive coordinate exactness span]
+\label{thm:numfieldup-rat-reflexive-coordinate-exactness}
+Let $h,k,c,d:\mathsf{BHist}$. If
+$\mathsf{RatHistoryClassifier}\ h\ k$,
+$\mathsf{Cont}\ h\ \mathsf{BHist.Empty}\ c$, and
+$\mathsf{Cont}\ k\ \mathsf{BHist.Empty}\ d$, then
+$\mathsf{RatHistoryClassifier}\ c\ d$ and
+$\mathsf{RatHistoryClassifier}\ (\mathsf{FieldExtSingletonEmbedding}\ h)
+(\mathsf{FieldExtSingletonEmbedding}\ k)$.
+\end{theorem}
+\begin{proof}
+Apply $\mathsf{cont\_right\_unit\_result}$ to the two coordinate readbacks. This
+identifies $c$ with $h$ and $d$ with $k$ in the history classifier class named by
+right multiplication with the empty endpoint.
+
+Next use $\mathsf{RatHistoryClassifier\_hsame\_transport}$ to transport the
+given classifier $\mathsf{RatHistoryClassifier}\ h\ k$ across these two
+right-unit identifications. This yields
+$\mathsf{RatHistoryClassifier}\ c\ d$.
+
+For the embedded endpoints, apply
+$\mathsf{FieldExtRatReflexive\_exact\_endpoint\_classification}$ to the same
+classifier input. The reflexive FieldExt embedding is the singleton embedding
+row, so the embedded histories
+$\mathsf{FieldExtSingletonEmbedding}\ h$ and
+$\mathsf{FieldExtSingletonEmbedding}\ k$ remain in the same RatUp classifier
+class.
+\end{proof}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_coordinate\_exactness\_span}
+
+\begin{theorem}[NumFieldUp reflexive rational coordinate readback uniqueness]
+\label{thm:numfield-reflexive-rational-coordinate-readback-uniqueness}
+For $m,c_0,c_1:\mathsf{BHist}$, assume
+$\mathsf{RatHistoryCarrier}(m)$,
+$\mathsf{Cont}(m,\emp,c_0)$, and $\mathsf{Cont}(m,\emp,c_1)$. Then
+$\mathsf{RatHistoryClassifier}(c_0,c_1)$, and both
+$\mathsf{RatHistoryClassifier}(c_0,m)$ and
+$\mathsf{RatHistoryClassifier}(c_1,m)$ hold. Thus the singleton coordinate
+row attached to a carried RatUp endpoint is determined by the endpoint itself.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_coordinate\_readback\_pair\_determinacy}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_coordinate\_embedding\_pair\_readback}
+\begin{proof}
+Apply the continuation right-unit law
+\autoref{thm:continuation-right-unit} to $m$. The supplied continuations
+$\mathsf{Cont}(m,\emp,c_0)$ and $\mathsf{Cont}(m,\emp,c_1)$ are therefore
+right-unit readbacks of the same history, so continuation determinacy
+identifies $c_0$ with $m$ and $c_1$ with $m$ up to $\hsame$.
+
+Transport the RatUp carrier row along these two $\hsame$ identifications. The
+RatUp semantic name certificate reads endpoint sameness through
+$\mathsf{RatHistoryClassifier}$, so the transported rows give
+$\mathsf{RatHistoryClassifier}(c_0,m)$ and
+$\mathsf{RatHistoryClassifier}(c_1,m)$.
+
+Finally compose the two classifier identifications through $m$. Transitivity
+of the RatUp classifier gives $\mathsf{RatHistoryClassifier}(c_0,c_1)$, which
+is the required uniqueness of degree-one coordinate readback.
+\end{proof}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_coordinate\_readback\_uniqueness}
+
+\begin{theorem}[NumFieldUp reflexive rational embedding-coordinate compatibility]
+\label{thm:numfield-reflexive-rational-embedding-coordinate-compatibility}
+For $m,c_0:\mathsf{BHist}$, assume
+$\mathsf{RatHistoryCarrier}(m)$ and $\mathsf{Cont}(m,\emp,c_0)$. Then
+$\mathsf{RatHistoryClassifier}(\mathsf{FieldExtSingletonEmbedding}(m),c_0)$.
+Equivalently, the identity embedding row consumed from the reflexive
+FieldExtUp package is classified with the singleton coordinate row used by the
+degree-one NumFieldUp package.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_embedding\_coordinate\_classifier}
+\begin{proof}
+Use
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness} for the
+singleton finite-extension surface. It identifies the basis as the one-vector
+RatUp basis and reads the coordinate of a carried endpoint through the same
+$\mathsf{RatHistoryClassifier}$ row.
+
+Unfold the displayed identity embedding from
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}. The
+embedding endpoint $\mathsf{FieldExtSingletonEmbedding}(m)$ is the same RatUp
+history endpoint $m$ read through the FieldExtUp identity embedding row.
+
+Apply
+\autoref{thm:numfield-reflexive-rational-coordinate-readback-uniqueness} to
+the carried endpoint $m$, the supplied coordinate $c_0$, and the right-unit
+coordinate $m$. The resulting classifier comparison identifies $c_0$ with
+$m$, and the identity-embedding display identifies
+$\mathsf{FieldExtSingletonEmbedding}(m)$ with the same classifier class.
+\end{proof}
+
+\begin{theorem}[NumFieldUp reflexive rational degree-one row exhaustion]
+\label{thm:numfield-reflexive-rational-degree-one-row-exhaustion}
+Every displayed finite-basis, coordinate, embedding, scalar-action, operation,
+exactness, and ledger row admitted by
+\autoref{def:numfield-rat-reflexive-carrier} is either one of the exhausted
+RatUp reflexive FieldExtUp rows or the singleton degree-one coordinate row.
+The singleton row is classified by
+\autoref{thm:numfield-reflexive-rational-coordinate-readback-uniqueness} and
+is compatible with the identity embedding by
+\autoref{thm:numfield-reflexive-rational-embedding-coordinate-compatibility}.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:numfield-rat-reflexive-carrier}. The carrier contains the
+RatUp reflexive FieldExtUp source pattern together with one finite-basis
+field: the singleton basis vector, its coordinate readback, and the
+coordinate classifier row.
+
+For the FieldExt part, apply
+\autoref{thm:fieldext-ratup-reflexive-certificate-row-exhaustion}. This
+exhausts the base-field row, ambient-field row, identity embedding row,
+self-vector-space row, scalar-action row, operation-table row, exactness row,
+and ledger provenance row by the concrete RatUp $\FieldUp$ table.
+
+It remains to account for the basis field. The basis list has one displayed
+entry, the RatUp unit vector, and every coordinate readback is a right-unit
+continuation from the carried endpoint. The coordinate uniqueness theorem
+classifies any two such readbacks in the same
+$\mathsf{RatHistoryClassifier}$ class.
+
+The embedding-coordinate compatibility theorem then identifies the singleton
+coordinate row with the identity embedding row. Hence the extra NumFieldUp
+surface adds exactly one degree-one coordinate row and no further
+finite-basis, embedding, scalar-action, exactness, or ledger row.
+\end{proof}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_degree\_one\_row\_exhaustion}
+
+\begin{definition}[NumFieldUp reflexive singleton basis coordinate surface]
+\label{def:numfield-reflexive-singleton-basis-coordinate-surface}
+The reflexive singleton-basis coordinate surface for $\NumFieldUp$ fixes the
+concrete BEDC source as RatUp together with the reflexive $\FieldExtUp$ row of
+\autoref{def:fieldext-reflexive-extension-carrier}. Its carrier is
+$\mathsf{RatHistoryCarrier}$, its classifier is
+$\mathsf{RatHistoryClassifier}$, and its finite-basis row is the one-element
+row $\mathbf{1}_{\mathsf{Rat}}$.
+
+For each carried ambient endpoint $m:\mathsf{BHist}$, the coordinate readback
+is $m$ itself and the reconstruction endpoint is the scalar-action product
+$m\cdot\mathbf{1}_{\mathsf{Rat}}$. The ledger is inherited from the RatUp
+operation table and the reflexive FieldExtUp row, and the surface is a
+paper-proof target without a standard bridge to an external number-field
+representation.
+\end{definition}
+
+\begin{theorem}[NumFieldUp reflexive singleton basis exhaustion]
+\label{thm:numfield-reflexive-singleton-basis-exhaustion}
+For the coordinate surface of
+\autoref{def:numfield-reflexive-singleton-basis-coordinate-surface}, every
+accepted finite-basis row in the carrier is either the unique unit-basis row
+$\mathbf{1}_{\mathsf{Rat}}$ or a coordinate row over
+$\mathsf{RatHistoryClassifier}$. In particular, no accepted basis,
+coordinate, reconstruction, exactness, or ledger row has a coordinate source
+outside the RatUp history carrier and classifier.
+\end{theorem}
+\begin{proof}
+Unfold
+\autoref{def:numfield-reflexive-singleton-basis-coordinate-surface}. The
+surface only exposes the RatUp source, the reflexive FieldExtUp row, and the
+one-element basis field $\mathbf{1}_{\mathsf{Rat}}$.
+
+Apply
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness}. It
+identifies the finite-extension witness with the displayed singleton basis and
+reads each coordinate as the carried ambient endpoint $m$ over
+$\mathsf{RatHistoryClassifier}$.
+
+For the rows inherited from FieldExtUp, apply
+\autoref{thm:fieldext-ratup-reflexive-certificate-row-exhaustion}. This
+exhausts the carrier, classifier, embedding, scalar-action, operation,
+exactness, and ledger rows by the RatUp reflexive FieldExtUp certificate.
+
+Finally use the RatUp semantic certificate
+\autoref{thm:rat-history-semantic-name-certificate}. It makes every accepted
+rational endpoint and endpoint comparison a RatUp history-classifier row.
+Thus the only remaining finite-basis row is the unit singleton, and every
+coordinate readback is classified by $\mathsf{RatHistoryClassifier}$.
+\end{proof}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexiveSingletonBasisRow\_coordinate\_transport}
+
+\begin{theorem}[NumFieldUp reflexive embedding coordinate compatibility]
+\label{thm:numfield-reflexive-embedding-coordinate-compatibility}
+For the coordinate surface of
+\autoref{def:numfield-reflexive-singleton-basis-coordinate-surface}, each
+carried ambient endpoint $m:\mathsf{BHist}$ has both its identity embedding
+coordinate $m$ and its reconstructed endpoint
+$m\cdot\mathbf{1}_{\mathsf{Rat}}$ classified by
+$\mathsf{RatHistoryClassifier}$. The embedding coordinate and the
+reconstruction endpoint therefore live on the same RatUp classifier surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_embedding\_coordinate\_product\_compatibility}
+\begin{proof}
+Read the embedding and vector-space rows from the reflexive FieldExtUp public
+interface in \autoref{thm:fieldext-reflexive-public-namecert-interface}. In
+the reflexive row, the embedding is the identity on
+$\mathsf{RatHistoryCarrier}$ and the scalar action is RatUp multiplication.
+
+Use
+\autoref{thm:fieldext-ratup-reflexive-operation-table-coverage}. The
+operation-table coverage includes the multiplication row that interprets the
+scalar-action product $m\cdot\mathbf{1}_{\mathsf{Rat}}$ inside the RatUp
+operation ledger.
+
+The right-unit row of the RatUp $\FieldUp$ certificate identifies the product
+with the original endpoint $m$. Since
+\autoref{thm:rat-history-semantic-name-certificate} supplies the RatUp
+history classifier for the endpoint $m$, the same classifier also classifies
+the reconstructed product endpoint.
+\end{proof}
+
+\begin{theorem}[NumFieldUp reflexive degree-one basis exhaustion]
+\label{thm:numfield-reflexive-degree-one-basis-exhaustion}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the complete
+finite basis surface is the singleton unary row. Its only displayed basis
+endpoint is the RatUp unit endpoint $\mathbf{1}_{\mathsf{Rat}}$, every basis
+comparison is classified by $\mathsf{RatHistoryClassifier}$, and no
+polynomial-root row, primitive-element row, or host-field row belongs to the
+basis surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_degree\_one\_coordinate\_transport}
+\begin{proof}
+Unfold
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}. The finite
+basis field is the basis component of the checked singleton witness in
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness}; it has one
+displayed endpoint and uses the same RatUp classifier as the ambient endpoint
+carrier.
+
+The operation coverage is inherited from
+\autoref{thm:fieldext-ratup-reflexive-operation-table-coverage}. It accounts
+for the RatUp multiplication row used by the scalar action and leaves no
+separate operation table for a root, primitive element, or host field.
+
+Finally apply
+\autoref{thm:fieldext-ratup-reflexive-certificate-row-exhaustion}. The
+FieldExt rows are exhausted by the RatUp base and ambient certificates, the
+identity embedding, and the self-vector-space rows. Projecting the remaining
+basis component gives exactly the singleton unit row and the
+$\mathsf{RatHistoryClassifier}$ comparison row.
+\end{proof}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_degree\_one\_basis\_endpoint}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldRatReflexive\_degree\_one\_basis\_exhaustion}
+
+\begin{theorem}[NumFieldUp reflexive coordinate readback determinacy]
+\label{thm:numfield-reflexive-coordinate-readback-determinacy}
+Let $m:\mathsf{BHist}$ be a carried ambient endpoint in the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}. If
+$c,c':\mathsf{BHist}$ are displayed coordinate histories whose coordinate rows
+read back through $\Cont(m,\mathsf{BHist.Empty},c)$ and
+$\Cont(m,\mathsf{BHist.Empty},c')$, then $c$ and $c'$ are both
+$\mathsf{RatHistoryClassifier}$-equivalent to $m$. Consequently $c$ and $c'$
+are $\mathsf{RatHistoryClassifier}$-equivalent to each other.
+\end{theorem}
+\begin{proof}
+Use the singleton finite-extension witness of
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness} on the first
+displayed coordinate row. The witness reads the coordinate as the scalar $m$
+against the unique basis vector $\mathbf{1}_{\mathsf{Rat}}$, so RatUp
+multiplication classifies the endpoint $c$ with $m$.
+
+Apply the same witness to the second displayed coordinate row. The same
+singleton basis and scalar-action row classify $c'$ with $m$ through
+$\mathsf{RatHistoryClassifier}$.
+
+The RatUp classifier laws are the semantic certificate laws supplied by
+\autoref{thm:rat-history-semantic-name-certificate}. Symmetry turns the first
+classification into the needed direction when necessary, and transitivity
+combines the two classifications to obtain the displayed equivalence between
+$c$ and $c'$.
+\end{proof}
+
+\begin{theorem}[NumFieldUp reflexive finite-extension exactness package]
+\label{thm:numfield-reflexive-finite-extension-exactness-package}
+The concrete finite-extension part consumed by $\NumFieldUp$ in
+\autoref{def:numfield-reflexive-rational-field-extension-carrier} is exhausted
+by the identity embedding, the singleton basis of
+\autoref{thm:numfield-reflexive-degree-one-basis-exhaustion}, the
+coordinate-readback determinacy row of
+\autoref{thm:numfield-reflexive-coordinate-readback-determinacy}, the RatUp
+scalar-action row, and the RatUp/FieldExt ledger rows. No additional
+finite-extension clause is available to downstream $\NumFieldUp$ consumers.
+\end{theorem}
+\begin{proof}
+Start with the concrete carrier consumption statement
+\autoref{thm:numfield-reflexive-fieldext-consumption}. It identifies the
+underlying FieldExt surface as the RatUp reflexive extension with identity
+embedding and self-vector-space scalar action.
+
+The source side is fixed by
+\autoref{thm:numfield-reflexive-rational-source-scope}. It says that the
+rational carrier, classifier, stability, exactness, and bridge status are read
+from the RatUp and FieldExt rows already named there.
+
+For the finite basis field, apply
+\autoref{thm:numfield-reflexive-degree-one-basis-exhaustion}. For coordinate
+readback, apply
+\autoref{thm:numfield-reflexive-coordinate-readback-determinacy}. These two
+rows isolate the singleton basis endpoint and the deterministic coordinate
+classifier used by every carried ambient endpoint.
+
+Finally combine those rows with
+\autoref{thm:numfield-rat-reflexive-ledger-exactness}. The ledger theorem
+exhausts the FieldExt rows and the singleton basis row, so repacking with the
+identity embedding and RatUp scalar action gives the exact finite-extension
+package consumed by $\NumFieldUp$.
+\end{proof}
+\begin{theorem}[NumFieldUp reflexive rational NameCert obligation package]
+\label{thm:numfield-reflexive-rational-namecert-obligation-package}
+The carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the source
+scope of \autoref{thm:numfield-reflexive-rational-source-scope}, and the
+finite-extension witness of
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness}, together
+with the coordinate uniqueness, embedding-coordinate compatibility, and
+degree-one row exhaustion of
+\autoref{thm:numfield-reflexive-rational-coordinate-readback-uniqueness},
+\autoref{thm:numfield-reflexive-rational-embedding-coordinate-compatibility},
+and \autoref{thm:numfield-reflexive-rational-degree-one-row-exhaustion},
+assemble the paper-side $\NameCert_{\NumFieldUp}$ obligation package. The
+package consists of the RatUp rational source, the reflexive FieldExtUp
+extension carrier, the identity embedding, the singleton finite basis, the
+RatUp classifier exactness row, the RatUp operation-table ledger, and an
+absent standard-bridge field.
+\end{theorem}
+\leanchecked{BEDC.Derived.NumFieldUp.NumFieldReflexiveRational\_namecert\_obligation\_package}
+\begin{proof}
+Use
+\autoref{def:numfield-reflexive-rational-field-extension-carrier} for the
+public carrier field. It names the same $\mathsf{BHist}$ carrier and
+classifier as RatUp and imports the reflexive FieldExtUp embedding and
+vector-space rows.
+
+Use \autoref{thm:numfield-reflexive-rational-source-scope} for source,
+classifier, stability, exactness, ledger, and standard-bridge status. Its rows
+are precisely the RatUp and FieldExtUp rows cited there.
+
+Use
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness} for the
+finite-extension field. The singleton basis supplies a concrete degree witness
+and the coordinate exactness remains RatUp classifier exactness.
+
+Use
+\autoref{thm:numfield-reflexive-rational-coordinate-readback-uniqueness},
+\autoref{thm:numfield-reflexive-rational-embedding-coordinate-compatibility},
+and \autoref{thm:numfield-reflexive-rational-degree-one-row-exhaustion} for
+the reusable degree-one surface. These clauses show that right-unit coordinate
+readback is unique, the identity embedding sits in the same RatUp classifier
+class as the singleton coordinate, and the displayed rows are exhausted by the
+FieldExt table plus that singleton coordinate row.
+
+The public NameCert interface of
+\autoref{thm:fieldext-reflexive-public-namecert-interface} packages the
+underlying extension surface, while the RatUp certificate chapter supplies the
+rational source certificate. Repacking those rows with the singleton basis
+gives the displayed paper-side $\NameCert_{\NumFieldUp}$ obligation package
+and introduces no parameter-transport schema.
+\end{proof}

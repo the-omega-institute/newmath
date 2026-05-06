@@ -1,0 +1,105 @@
+\begin{definition}[Differential-form root consumer face classifier]
+\label{def:diffform-root-consumer-face-classifier}
+Fix the root export threshold source of
+\autoref{def:diffform-root-export-threshold-source}. Its consumer face
+classifier partitions the exported rows into three consumer faces and one
+shared root face.
+\begin{enumerate}
+  \item The $\DeRhamUp$ face contains the exterior-derivative candidate and
+  input rows, the one-step degree-shift row, the wedge-input stability row, and
+  the downstream exterior-derivative scope row.
+  \item The $\SymplecticUp$ face contains the carried form rows, wedge ledgers,
+  antisymmetry ledgers, scalar endpoint rows, and Manifold/TensorProduct source
+  ledgers needed to state a symplectic input surface. It excludes closedness and
+  nondegeneracy.
+  \item The $\ContactUp$ face contains the same carried-form, wedge-ledger, and
+  derivative-input surface needed to state contact data. It excludes contact
+  nonintegrability.
+  \item The shared root face consists only of the six-coordinate $BHist$
+  carrier, the displayed $\DiffFormUp$ classifier, wedge ledger rows, scalar
+  endpoint rows, and the $\ManifoldUp/\TensorProductUp$ source ledgers.
+\end{enumerate}
+Rows not named in these four clauses are not exported from the
+$\DiffFormUp$ root threshold.
+\end{definition}
+
+\begin{theorem}[Differential-form root consumer face coverage]
+\label{thm:diffform-root-consumer-face-coverage}
+Every row exported by \autoref{def:diffform-root-export-threshold-source} to
+$\DeRhamUp$, $\SymplecticUp$, or $\ContactUp$ belongs to exactly one of the
+three consumer faces of
+\autoref{def:diffform-root-consumer-face-classifier}, or to the explicitly
+shared root face. No exported row lies outside those four faces.
+\end{theorem}
+\begin{proof}
+Project the exported root table with
+\autoref{thm:diffform-root-export-namecert-threshold}. It lists the complete
+threshold surface as the six-coordinate carrier, the displayed classifier,
+wedge ledgers, the exterior-derivative input boundary, and the downstream
+consumer separation.
+
+Next apply \autoref{thm:diffform-downstream-consumer-boundary}. The de Rham
+consumer receives the exterior-input and degree-shift surface, while the
+symplectic and contact consumers receive the carried form, wedge, antisymmetry,
+scalar endpoint, and source-ledger surface needed to state their own data.
+
+Finally apply
+\autoref{thm:diffform-boundary-exhaustion-downstream-export}. The
+exhaustion statement says every downstream row is one of the displayed carrier,
+classifier, wedge, antisymmetry, exterior-input, transport, source-ledger, or
+downstream rows. Matching these rows against the four clauses of
+\autoref{def:diffform-root-consumer-face-classifier} gives coverage, and the
+last sentence of that definition excludes any fifth face.
+\end{proof}
+
+\begin{theorem}[Differential-form root consumer face disjointness]
+\label{thm:diffform-root-consumer-face-disjointness}
+The consumer-specific laws separated by the
+\autoref{def:diffform-root-consumer-face-classifier} are disjoint:
+nilpotence remains $\DeRhamUp$-specific, closedness and nondegeneracy remain
+$\SymplecticUp$-specific, and contact nonintegrability remains
+$\ContactUp$-specific. Only carried $BHist$ rows, classifier rows, wedge
+ledgers, scalar endpoint rows, and source ledgers may be shared across
+consumer faces.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:diffform-root-export-downstream-law-separation}. It
+states that the $\DiffFormUp$ root threshold exports no $d^2=0$, closedness,
+nondegeneracy, or contact nonintegrability row. Those rows therefore cannot
+belong to the shared root face.
+
+Now use \autoref{thm:diffform-downstream-consumer-boundary}. That boundary
+assigns $d^2=0$ to the de Rham certificate surface, closedness and
+nondegeneracy to the symplectic certificate surface, and contact
+nonintegrability to the contact certificate surface. Hence the laws themselves
+are pairwise consumer-specific.
+
+The rows allowed to cross consumer faces are exactly the displayed carrier,
+classifier, wedge, scalar endpoint, and source-ledger rows named in the shared
+root face of \autoref{def:diffform-root-consumer-face-classifier}. Since the
+law rows are absent from the root export threshold, no consumer-specific law is
+shared by the classifier.
+\end{proof}
+
+\begin{theorem}[Differential-form root cross-consumer threshold package]
+\label{thm:diffform-root-cross-consumer-threshold-package}
+The definition
+\autoref{def:diffform-root-consumer-face-classifier}, the coverage theorem
+\autoref{thm:diffform-root-consumer-face-coverage}, and the disjointness
+theorem \autoref{thm:diffform-root-consumer-face-disjointness} form the
+cross-consumer root threshold package for the $\DiffFormUp$ surface consumed by
+$\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$.
+\end{theorem}
+\begin{proof}
+The classifier supplies the four faces: de Rham, symplectic, contact, and the
+shared root face.
+
+Coverage then shows that every exported downstream row is assigned to one of
+those faces. Disjointness shows that the downstream laws remain outside the
+shared root face and are owned by the corresponding consumer chapters.
+
+Together these two properties make the root export threshold citable as a
+single cross-consumer package: downstream chapters can reuse the shared root
+rows without reading nilpotence, closedness, nondegeneracy, or contact
+nonintegrability back into the $\DiffFormUp$ root.
+\end{proof}

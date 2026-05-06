@@ -1,0 +1,466 @@
+\begin{theorem}[Singleton field extension as a vector space over its base]
+\label{thm:fieldext-singleton-vector-space-over-base}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, the extension
+carrier read as $\mathsf{VecSpaceSingletonCarrier}$ with scalar action
+$\mathsf{VecSpaceSingletonSmul}$ satisfies the $\VecSpaceUp$ row over the base
+$\FieldUp$ source. Moreover, for every base scalar $r:\mathsf{BHist}$ and
+extension vector endpoint $m:\mathsf{BHist}$ carried by
+$\mathsf{VecSpaceSingletonCarrier}$, scalar multiplication by the embedded
+scalar agrees, up to the singleton classifier, with singleton field
+multiplication in the extension field.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_vector\_space\_over\_base}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_vector\_action\_field\_mul\_context\_readback}
+\begin{proof}
+The vector-space rows are exactly
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws}, applied to the same
+scalar carrier, vector carrier, and classifier displayed in
+Definition~\ref{def:fieldext-singleton-empty-history-instance}. Its semantic
+certificate packaging is recorded by
+Theorem~\ref{thm:singleton-empty-history-vecspace-semantic-certificate}.
+
+The scalar-action endpoint collapses to $\emp$ by
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}. The
+extension-field multiplication endpoint also collapses to $\emp$ by
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}.
+
+Since both endpoints are carried by $A_{\emp}$ and identified with the same
+empty-history endpoint, the classifier $\rho_{\emp}$ relates the scalar-action
+endpoint to the extension-field multiplication endpoint. This gives the
+compatibility of embedded scalar multiplication with the singleton extension
+field product.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingletonVectorSpace\_smul\_mul\_compatible}
+
+\begin{theorem}[Singleton FieldExt embedded scalar-action collapse]
+\label{thm:fieldext-singleton-embedded-scalar-action-collapse}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, let
+$r,m:\mathsf{BHist}$ be carried by $A_{\emp}$. The vector-space scalar action of
+the embedded singleton scalar $\iota_{\emp}(r)$ on $m$ and the singleton
+extension-field multiplication endpoint for $r$ and $m$ lie in the same
+$\rho_{\emp}$ class.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:fieldext-singleton-vector-space-over-base}. It gives
+the semantic compatibility statement between embedded scalar multiplication and
+extension-field multiplication for carried scalar and vector endpoints.
+
+The vector-space action endpoint collapses to $\emp$ by
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}. The
+extension-field multiplication endpoint collapses to $\emp$ by
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}.
+
+Since both endpoints are carried by $A_{\emp}$ and both collapse to the same
+empty-history endpoint, the shared classifier $\rho_{\emp}$ relates them.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_scalar\_action\_mul\_endpoint\_classified}
+
+\begin{definition}[Singleton field-extension ledger policy]
+\label{def:fieldext-singleton-ledger-policy}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, the endpoint
+ledger records exactly the base carrier $A_{\emp}$, the extension carrier
+$A_{\emp}$, the vector carrier $A_{\emp}$, the identity embedding
+$\iota_{\emp}(h):=h$, the singleton field operations on the base and
+extension fields, the singleton vector action over the base field, and
+empty-history endpoint provenance for each displayed row.
+
+The ledger classifier attached to every carrier, embedding, field-operation,
+and vector-action endpoint is the concrete classifier
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+No additional endpoint object is recorded by the singleton field-extension
+certificate.
+\end{definition}
+\leandef{BEDC.Derived.FieldExtUp.FieldExtSingletonLedgerPolicy}
+
+\begin{theorem}[Singleton field-extension carrier coincidence]
+\label{thm:fieldext-singleton-carrier-coincidence}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance} and the ledger
+policy of Definition~\ref{def:fieldext-singleton-ledger-policy}, the base
+field carrier, extension field carrier, and vector carrier are all
+$A_{\emp}$. The embedding $\iota_{\emp}$ preserves and reflects carrier
+membership:
+$$
+A_{\emp}(h)
+\quad\text{if and only if}\quad
+A_{\emp}(\iota_{\emp}(h)).
+$$
+Every displayed classifier in the field-extension certificate is the concrete
+$\rho_{\emp}$ classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingletonCarrier\_coincidence}
+\begin{proof}
+Unfold the concrete carrier definition and the ledger policy. The three carrier
+slots are all assigned the same singleton predicate $A_{\emp}$, so the carrier
+coincidence is definitional.
+
+The embedding is the identity on histories. Hence preserving and reflecting
+carrier membership both reduce to the same assertion $A_{\emp}(h)$.
+
+The classifier rows are the rows already used by
+Theorem~\ref{thm:fieldext-singleton-embedding-obligations} and
+Theorem~\ref{thm:fieldext-singleton-vector-space-over-base}. Each row is
+displayed with the same concrete predicate $\rho_{\emp}$, so no transport
+across distinct classifiers is required.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingletonLedgerPolicy\_carrier\_coincidence}
+
+\begin{theorem}[Singleton identity field-extension tower composition]
+\label{thm:fieldext-singleton-identity-tower-composition}
+Compose two copies of the singleton field-extension certificate of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, both governed
+by the ledger policy of Definition~\ref{def:fieldext-singleton-ledger-policy}.
+The composite tower again has base carrier $A_{\emp}$, middle carrier
+$A_{\emp}$, top carrier $A_{\emp}$, identity composite embedding
+$\iota_{\emp}\circ\iota_{\emp}=\iota_{\emp}$, singleton field-operation rows,
+and the same singleton vector-space-over-base scalar action. All embedding and
+scalar-action rows in the composite tower are classified by $\rho_{\emp}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingletonEmbedding\_identity\_tower\_package}
+\begin{proof}
+The embedding part follows from
+Theorem~\ref{thm:fieldext-singleton-embedding-obligations}. Since both
+embeddings are the identity on $\mathsf{BHist}$, their composite is again the
+identity embedding $\iota_{\emp}$.
+
+The field-operation rows in the base, middle, and top fields collapse to the
+same singleton endpoint by
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}. Thus tower
+composition introduces no field endpoint beyond the empty-history endpoint.
+
+The scalar-action rows are supplied by
+Theorem~\ref{thm:fieldext-singleton-vector-space-over-base}. The endpoint
+collapse for the singleton vector action is exactly
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}, so the
+composite tower keeps the same $\rho_{\emp}$ classifier on its action rows.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_identity\_tower\_continuation\_classified}
+
+\begin{theorem}[Singleton field-extension exact endpoint ledger]
+\label{thm:fieldext-singleton-exact-endpoint-ledger}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance} and the ledger
+policy of Definition~\ref{def:fieldext-singleton-ledger-policy}, every
+embedding endpoint, every extension-field operation endpoint, and every
+vector-space-over-base action endpoint recorded in the ledger collapses to the
+empty history $\emp$ and is classified by $\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+For embedding endpoints, apply
+Theorem~\ref{thm:fieldext-singleton-embedding-obligations}. The embedding is
+the identity, so the only carried endpoint is the same singleton history
+already classified by $\rho_{\emp}$.
+
+For extension-field operation endpoints, apply
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}. The zero,
+one, addition, negation, multiplication, and proof-indexed inverse rows all
+collapse to $\emp$ in the singleton field table.
+
+For vector-space-over-base action endpoints, use
+Theorem~\ref{thm:fieldext-singleton-vector-space-over-base} together with
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}. The
+scalar action collapses to the same empty-history endpoint as the compatible
+extension-field multiplication row.
+
+The ledger policy records no further endpoint kind. Therefore every recorded
+endpoint row in the singleton field-extension certificate is exact at $\emp$
+and classified by $\rho_{\emp}$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingletonLedgerPolicy\_exact\_endpoint\_ledger}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_exact\_endpoint\_ledger}
+
+\begin{theorem}[Singleton field-extension certificate obligation package]
+\label{thm:fieldext-singleton-certificate-obligation-package}
+The concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance} assemble the
+paper-side $\FieldExtUp$ obligation package: base field source, extension
+field source, embedding stability and exactness, vector-space-over-base row,
+exact endpoint classification, and inherited ledger provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_certificate\_obligation\_package}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_semantic\_name\_certificate}
+\begin{proof}
+The source field certificate and extension field certificate are both supplied
+by Theorem~\ref{thm:singleton-empty-history-field-schema-certificate}, because
+the base and extension field carriers are the same singleton field package.
+
+Embedding stability is supplied by
+Theorem~\ref{thm:fieldext-singleton-embedding-obligations}. It records carrier
+preservation, classifier preservation, and preservation of the singleton field
+operations up to $\mathsf{FieldSingletonClassifier}$. Exactness is the same
+identity-on-$\mathsf{BHist}$ fact: every carried base endpoint is already the
+extension endpoint named by $\iota_{\emp}$.
+
+Vector-space-over-base compatibility is supplied by
+Theorem~\ref{thm:fieldext-singleton-vector-space-over-base}, whose
+vector-space component is the law package of
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws}. Its paper-side
+semantic packaging is recorded by
+Theorem~\ref{thm:singleton-empty-history-vecspace-semantic-certificate}.
+
+Exactness and ledger provenance are supplied by
+Theorems~\ref{thm:fieldext-singleton-exact-endpoint-classification} and
+\ref{thm:fieldext-singleton-ledger-provenance}. These clauses assemble the
+listed $\FieldExtUp$ $\NameCert$ obligations for the concrete singleton
+field-extension carrier.
+\end{proof}
+
+\begin{definition}[Singleton field-extension exactness and ledger interface]
+\label{def:fieldext-singleton-exactness-ledger-interface}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, the
+$\FieldExtUp$ exactness and ledger interface is read entirely through the
+singleton carrier $A_{\emp}$ and classifier $\rho_{\emp}$. Thus the displayed
+base-field carrier, extension-field carrier, identity embedding endpoint,
+vector scalar-action endpoint, and extension-field multiplication endpoint
+all have the same source $A_{\emp}$, and every endpoint comparison used by
+the certificate is a $\rho_{\emp}$ row over that source.
+\end{definition}
+
+\begin{theorem}[Singleton field-extension exact endpoint classification]
+\label{thm:fieldext-singleton-exact-endpoint-classification}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, every displayed
+base-field operation endpoint, every displayed extension-field operation
+endpoint, the vector scalar-action endpoint, and the identity embedding
+endpoint are carried by $A_{\emp}$ and classified with $\emp$ by
+$\rho_{\emp}$. In particular, the operation table of the base field, the
+operation table of the extension field, and the scalar-action table of the
+extension vector space have one exact endpoint class.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_exact\_endpoint\_classification}
+\begin{proof}
+For the base and extension field operation endpoints, apply
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}. Both
+field structures in
+Definition~\ref{def:fieldext-singleton-empty-history-instance} use the same
+singleton $\FieldUp$ operation table.
+
+For the vector scalar-action endpoint, apply
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}. Its
+scalar-action clause reads the endpoint as $\emp$ over the same
+$A_{\emp}$ and $\rho_{\emp}$.
+
+The embedding endpoint is immediate from $\iota_{\emp}(h):=h$. If $h$ is
+carried by $A_{\emp}$, then the singleton carrier identifies $h$ with
+$\emp$, and unfolding $\rho_{\emp}$ gives the displayed classifier row.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension ledger provenance]
+\label{thm:fieldext-singleton-ledger-provenance}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, the
+$\FieldExtUp$ ledger records only the identity embedding row together with
+the singleton field and vector-space provenance rows. The field rows are the
+two copies of the singleton empty-history field certificate, the vector row is
+the singleton empty-history vector-space semantic certificate, and the
+embedding row is the identity stability package for $\iota_{\emp}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_ledger\_provenance}
+\begin{proof}
+The two field ledger rows are supplied by
+Theorem~\ref{thm:singleton-empty-history-field-schema-certificate}, once for
+the base field and once for the extension field. The two uses have identical
+carrier, classifier, and singleton operation endpoints.
+
+The vector-space provenance row is supplied by
+Theorem~\ref{thm:singleton-empty-history-vecspace-semantic-certificate}. It
+uses the same scalar source, vector source, classifier, and empty-history
+scalar-action endpoint as the displayed $\FieldExtUp$ data.
+
+The embedding row is supplied by
+Theorem~\ref{thm:fieldext-singleton-embedding-obligations}. Since
+$\iota_{\emp}$ is the identity on histories, no additional ledger source is
+introduced beyond the singleton field and vector-space rows.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_ledger\_provenance}
+
+\begin{theorem}[Singleton field-extension certificate projections]
+\label{thm:fieldext-singleton-certificate-projections}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, the
+$\FieldExtUp$ certificate has the following three projections over the shared
+singleton carrier $A_{\emp}$ and classifier $\rho_{\emp}$:
+\begin{enumerate}
+  \item its source-field projection is the singleton $\FieldUp$
+  certificate on $A_{\emp}$;
+  \item its extension-field projection is the singleton $\FieldUp$
+  certificate on the same $A_{\emp}$;
+  \item its vector-space projection is the singleton $\VecSpaceUp$-over-base
+  certificate whose scalar carrier, vector carrier, and endpoint classifier
+  are again $A_{\emp}$ and $\rho_{\emp}$.
+\end{enumerate}
+The embedding row connecting the first two projections is the identity map
+$\iota_{\emp}(h):=h$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_certificate\_projections}
+\begin{proof}
+The source and extension projections use the same displayed singleton field
+data. Apply
+Theorem~\ref{thm:singleton-empty-history-field-schema-certificate} once for
+the source field and once for the extension field.
+
+The vector-space projection is the semantic singleton vector-space package.
+Apply Theorem~\ref{thm:singleton-empty-history-vecspace-semantic-certificate}
+with the scalar carrier, vector carrier, and classifier specified in
+Definition~\ref{def:fieldext-singleton-empty-history-instance}.
+
+The projection map from the source field into the extension field is
+$\iota_{\emp}$. By its definition, it is the identity on histories, so it
+preserves the displayed carrier and classifier rows without introducing a
+second endpoint choice.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension operation readback exactness]
+\label{thm:fieldext-singleton-operation-readback-exactness}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, every zero, one,
+addition, negation, multiplication, proof-indexed inverse, and scalar-action
+endpoint in the singleton field-extension package reads back to the singleton
+empty-history endpoint. Each such endpoint is classified by $\rho_{\emp}$
+against the corresponding embedded source-field endpoint or extension-field
+endpoint displayed by the $\FieldExtUp$ package.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingletonOperation\_readback\_exactness}
+\begin{proof}
+For the field operations, apply
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}. It
+collapses zero, one, addition, negation, multiplication, and the
+proof-indexed inverse endpoint to the singleton empty-history endpoint.
+
+The embedding comparison is supplied by
+Theorem~\ref{thm:fieldext-singleton-embedding-obligations}. Since the embedding is
+the identity on histories, the embedded source endpoint and the corresponding
+extension-field endpoint are compared by the same classifier
+$\rho_{\emp}$.
+
+For scalar action, apply
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse} to read
+the vector-space action endpoint as the singleton empty-history endpoint.
+Then apply
+Theorem~\ref{thm:fieldext-singleton-vector-space-over-base} to identify
+that scalar-action endpoint with the matching extension-field multiplication
+endpoint up to $\rho_{\emp}$.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension nonzero domain absurdity]
+\label{thm:fieldext-singleton-nonzero-domain-absurd}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, no base-field
+or extension-field proof-indexed inverse domain is inhabited. Equivalently,
+if $a:\mathsf{BHist}$ is carried by the singleton field carrier and
+$\mathsf{FieldSingletonNonZero}(a)$ is the displayed nonzero premise used by
+the base or extension field inverse row, then contradiction follows from the
+singleton carrier collapse of $a$ to $\emp$.
+\end{theorem}
+\begin{proof}
+Unfold the concrete singleton nonzero predicate. Its witness simultaneously
+places $a$ at the empty history endpoint and at the endpoint
+$\mathsf{e0}(\emp)$.
+
+The singleton carrier clause supplies the collapse of the same history to
+$\emp$. Composing the two endpoint identifications gives
+$\emp \sim \mathsf{e0}(\emp)$ in the history classifier.
+
+This is impossible by the constructor no-confusion principle for $\mathsf{BHist}$:
+the empty history constructor and the one-step empty-marker constructor are
+distinct. Hence the assumed nonzero proof parameter has no inhabitant, both
+for the source field and for the extension field, because those two projected
+fields use the same singleton carrier and the same singleton nonzero
+predicate.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension inverse-row vacuous exactness]
+\label{thm:fieldext-singleton-inverse-row-vacuous-exactness}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, every
+proof-indexed inverse obligation in the source field and in the extension
+field is exact. The exactness is vacuous: before any inverse endpoint can be
+chosen, its nonzero proof parameter belongs to the empty domain identified in
+Theorem~\ref{thm:fieldext-singleton-nonzero-domain-absurd}.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingletonInverse\_row\_vacuous\_exactness}
+\begin{proof}
+Fix any displayed inverse obligation in either projected singleton field. Its
+input consists of a history $a$ together with a proof that
+$\mathsf{FieldSingletonNonZero}(a)$ holds.
+
+Apply Theorem~\ref{thm:fieldext-singleton-nonzero-domain-absurd} to that proof
+parameter. The resulting contradiction closes the obligation immediately, so
+no separate endpoint case for inverse evaluation remains.
+
+The same argument covers the base and extension projections because
+Definition~\ref{def:fieldext-singleton-empty-history-instance} gives them the
+same singleton field data. Thus every proof-indexed inverse source,
+stability, and exactness row is exact over an empty domain.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension inverse ledger coverage]
+\label{thm:fieldext-singleton-inverse-ledger-coverage}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, the inverse
+rows in the $\FieldExtUp$ source, stability, exactness, and ledger fields are
+covered by the same empty-domain class. They introduce no endpoint beyond the
+singleton field operation table already used for the zero, one, addition,
+negation, and multiplication rows.
+\end{theorem}
+\begin{proof}
+The source and extension inverse rows first reduce to their proof-indexed
+nonzero premises. By
+Theorem~\ref{thm:fieldext-singleton-inverse-row-vacuous-exactness}, those
+premises are uninhabited, so the corresponding inverse obligations are exact
+without selecting a new endpoint.
+
+For the remaining operation rows, apply
+Theorem~\ref{thm:fieldext-singleton-operation-readback-exactness}. It assigns
+all displayed field endpoints to the singleton empty-history operation table
+and compares them by $\rho_{\emp}$.
+
+Finally combine this empty-domain inverse class with
+Theorem~\ref{thm:fieldext-singleton-exactness-ledger-coverage}. The ledger
+coverage therefore contains the identity embedding row, the singleton field
+operation table row, the singleton vector-space scalar-action row, and no
+additional inverse endpoint class.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_inverse\_ledger\_coverage}
+
+\begin{theorem}[Singleton field-extension exactness and ledger coverage]
+\label{thm:fieldext-singleton-exactness-ledger-coverage}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-empty-history-instance}, every
+$\FieldExtUp$ source row, pattern row, classifier row, stability row,
+exactness row, and ledger row is covered by exactly one of the following
+provenance classes: the identity embedding row, the singleton field operation
+table row, or the singleton vector-space scalar-action row.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingleton\_exactness\_ledger\_coverage}
+\begin{proof}
+First take the projected certificate rows from
+Theorem~\ref{thm:fieldext-singleton-certificate-projections}. These account
+for the source-field, extension-field, and vector-space certificate surfaces
+over the common $A_{\emp}$ and $\rho_{\emp}$.
+
+Next use
+Theorem~\ref{thm:fieldext-singleton-operation-readback-exactness}. It assigns
+the field operation endpoints to the singleton field operation table row and
+the scalar-action endpoints to the singleton vector-space scalar-action row,
+with all endpoint comparisons made by $\rho_{\emp}$.
+
+It remains to account for the cross-carrier rows. The identity embedding row
+from Definition~\ref{def:fieldext-singleton-empty-history-instance} and
+Theorem~\ref{thm:fieldext-singleton-embedding-obligations} covers carrier
+preservation, classifier preservation, and embedded source-operation
+stability.
+
+Finally apply
+Theorem~\ref{thm:fieldext-singleton-certificate-obligation-package}. Its assembled
+$\FieldExtUp$ $\NameCert$ obligation list is precisely the union of these
+three provenance classes, so the source, pattern, classifier, stability,
+exactness, and ledger rows are all covered.
+\end{proof}

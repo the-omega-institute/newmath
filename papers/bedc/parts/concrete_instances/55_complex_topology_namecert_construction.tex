@@ -222,6 +222,30 @@ descended open-disk gap witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_visible\_radius\_gap\_cases}
 
+\begin{theorem}[Open-disk two visible-radius descent]
+\label{thm:cplx-topo-open-disk-gap-two-visible-radius-descent}
+If a concrete complex-topology open-disk gap witness has visible radius
+$\Eone(\Eone(r))$, then either the gap is empty and the point is
+$\hsame$ to $\Eone(\Eone(r))$, or the gap is visible with tail $g_0$ and
+the descended witness over $\Eone(r)$ further splits into the empty-tail
+endpoint case, where the point is $\hsame$ to $\Eone(r)$, or a visible
+tail $g_1$ carrying an open-disk gap witness over $r$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:cplx-topo-open-disk-gap-visible-radius-gap-cases}
+to the displayed open-disk witness with radius $\Eone(\Eone(r))$. Its
+empty-gap branch gives the first alternative directly, with the point
+identified with the displayed radius endpoint.
+
+In the visible-gap branch, write the exposed gap as $\Eone(g_0)$ and keep
+the descended open-disk gap witness over $\Eone(r)$. Apply
+Theorem~\ref{thm:cplx-topo-open-disk-gap-visible-radius-gap-cases} again
+to that descended witness. The empty branch yields the endpoint case
+$z\hsame\Eone(r)$, while the visible branch writes $g_0$ as $\Eone(g_1)$
+and supplies the open-disk gap witness over $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_visible\_radius\_double\_descent}
+
 \begin{theorem}[Open-disk gap unary suffix transport]
 \label{thm:cplx-topo-open-disk-gap-unary-suffix-transport}
 If a complex-topology open-disk gap witness has boundary ledger
@@ -269,6 +293,9 @@ If \(\mathsf{IsOpen}(U_1)\) and \(\mathsf{IsOpen}(U_2)\), then \(\mathsf{IsOpen}
 \begin{proof}
 Combine the two interior-disk witnesses by taking the minimum unary radius pointwise; the minimum is decidable on unary representations.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenSet\_intersection\_witness\_closed}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenSet\_intersection\_radius\_witnesses\_nonempty}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenSet\_intersection\_witnesses}
 
 \begin{theorem}[Arbitrary union of open sets is open]
 \label{thm:cplx-topo-union}
@@ -286,11 +313,14 @@ Membership in the union is by case analysis on \(I\); each case provides the int
 \label{def:cplx-topo-dyadic-net}
 For a complex-set predicate \(K\) and unary precision \(k\), a dyadic \(2^{-k}\)-net is a finite list of complex histories \([z_1, \ldots, z_N]\) such that for every \(z\) with \(K(z)\), there exists an index \(i \leq N\) with \(\mathsf{OpenDisk}(z_i, 2^{-k}, z)\). The net function \(\mathsf{Net}_K : \mathsf{Unary} \to \mathsf{List}(\ComplexUp)\) is required to be a total explicit function on the precision domain.
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyDyadicNet}
 
 \begin{definition}[Compact subset]
 \label{def:cplx-topo-compact}
 \(\mathsf{IsCompact}(K)\) holds when \(K\) is bounded (contained in some \(\mathsf{ClosedDisk}(\emp, R)\) for explicit unary \(R\)) and possesses an explicit dyadic \(2^{-k}\)-net for every unary precision \(k\) (i.e.\ a witnessing total function \(\mathsf{Net}_K : \mathsf{Unary} \to \mathsf{List}(\ComplexUp)\)).
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCompact}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCompact\_precision\_radius\_not\_empty}
 
 \begin{theorem}[Closed disk is compact]
 \label{thm:cplx-topo-closed-disk-compact}
@@ -319,6 +349,7 @@ The half-plane predicate is a finite intersection of closed half-planes, each co
 \label{def:cplx-topo-density}
 For a center \(z_c \in \ComplexUp\) and an open set \(U\) with \(U(z_c)\), a quantitative density witness inside \(U\) is an explicit sequence \(\mathsf{Cluster} : \mathsf{Unary} \to \ComplexUp\) of distinct points \((z_n)_n\) with \(U(z_n)\), \(z_n \neq z_c\), and \(|z_n - z_c| \leq 2^{-n}\) for every unary \(n\). The witness is a total explicit function on the precision domain.
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyDensityWitness}
 
 \begin{theorem}[Open disks contain quantitative cluster sequences]
 \label{thm:cplx-topo-open-disk-clustering}
@@ -327,6 +358,8 @@ For every \(z_0\) and unary \(r > 0\), the open disk \(\mathsf{OpenDisk}(z_0, r)
 \begin{proof}
 Construct the sequence by explicit unary recursion. The membership condition holds because the point lies at distance \(2^{-n} r / 2 < r\) from \(z_0\); distinctness holds because the offset is non-empty unary for each \(n\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_density\_witness\_with\_boundary}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_constant\_density\_witness}
 
 \begin{remark}[Clustering for the constructive identity theorem]
 The quantitative density witness of \autoref{def:cplx-topo-density} is the precise data required by the constructive identity theorem of \autoref{ch:concrete-instances-holomorphic-namecert}: two holomorphic functions agreeing on an explicit cluster sequence agree on a smaller open disk. This chapter supplies the witness type that the holomorphy chapter consumes.
@@ -339,6 +372,7 @@ The quantitative density witness of \autoref{def:cplx-topo-density} is the preci
 \label{def:cplx-topo-domain-compat}
 For two open sets \(D_1, D_2\) and an overlap region \(U\), \(\mathsf{DomCompat}(D_1, D_2, U)\) holds when \(\mathsf{IsOpen}(U)\), \(U \subseteq D_1 \cap D_2\) with explicit intersection-membership witness, and \(U\) contains an open disk \(\mathsf{OpenDisk}(z_c, r_c)\) with quantitative density witness \(\mathsf{Cluster}(z_c, U)\) of \autoref{def:cplx-topo-density}.
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyDomainCompat}
 
 \begin{remark}[Domain compatibility consumed by analytic continuation]
 \autoref{ch:concrete-instances-analytic-continuation} requires exactly this data to invoke the constructive identity theorem when extending a holomorphic function across overlapping domains; the present definition fixes the schema so the analytic-continuation chapter cites a single canonical interface.
@@ -374,3 +408,193 @@ Each carrier predicate is closed inductive over \(\ComplexUp\)-histories with de
 \label{rem:cplx-topo-discharge-forward-refs}
 The open-disk, compact-half-plane, cluster-sequence, and domain-compatibility witnesses inline-defined or implicitly used in \autoref{ch:concrete-instances-holomorphic-namecert}, \autoref{ch:concrete-instances-contour-integral}, \autoref{ch:concrete-instances-analytic-continuation}, and \autoref{ch:concrete-instances-zeta-basic-namecert} are now anchored at the present \(\ComplexTopologyUp\) certificate. Future restructuring should re-export the inline \(\mathsf{OpenDisk}\) from \(\mathsf{BEDC.Derived.HolomorphicUp}\) as an alias of the canonical \(\mathsf{BEDC.Derived.ComplexTopologyUp.OpenDisk}\).
 \end{remark}
+
+\begin{definition}[Certified subdisk radius]
+\label{def:holo-certified-subdisk-radius}
+For unary radii $r'$ and $r$, a certified subdisk radius from $r'$ to $r$ is a unary history $e$ together with a radius-continuation ledger $\ContR(r',e,r)$. We write this datum as $\mathsf{Subradius}(r',r;e)$. The empty tail is the equality case.
+\end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCertifiedSubradius}
+
+\begin{lemma}[Certified subdisk radii compose]
+\label{lem:holo-certified-subdisk-radius-compose}
+If $\mathsf{Subradius}(r_0,r_1;e_0)$ and $\mathsf{Subradius}(r_1,r_2;e_1)$, then $\mathsf{Subradius}(r_0,r_2;e_0\cdot e_1)$.
+\end{lemma}
+\begin{proof}
+Unpack the two subradius certificates. Unary append closure makes $e_0\cdot e_1$ unary. Associativity of $\ContR$ composes $\ContR(r_0,e_0,r_1)$ with $\ContR(r_1,e_1,r_2)$ and gives $\ContR(r_0,e_0\cdot e_1,r_2)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCertifiedSubradius\_comp}
+
+\begin{theorem}[HoloOnDisk subdisk restriction]
+\label{thm:holo-on-disk-subdisk-restriction}
+Let $f : \ComplexUp \to \ComplexUp$, let $z_0$ be a complex center history, and let $r'$ and $r$ be unary radii. If $\mathsf{HoloOnDisk}(f,z_0,r)$ is witnessed by a displayed $\HolomorphicUp$ seed witness $W$ with uniform modulus ledger $\delta_r$, and if $\mathsf{Subradius}(r',r;e)$ is certified, then $\mathsf{HoloOnDisk}(f,z_0,r')$ is witnessed by a subdisk witness $W\!\restriction_e$.
+
+More explicitly, for every point $z$ and displayed smaller-disk gap $g'$,
+$$
+\mathsf{OpenDisk}(z_0,r',z,g')\land\mathsf{Subradius}(r',r;e)
+\Longrightarrow
+\mathsf{OpenDisk}(z_0,r,z,g'\cdot e).
+$$
+The restricted modulus is obtained by reading every smaller boundary gap through this inclusion:
+$$
+\delta_{r'}(k,g') := \delta_r(k,g'\cdot e).
+$$
+If the parent witness uses a displayed large-disk gap $g$ instead of $g'\cdot e$, then $g\hsame g'\cdot e$ by \autoref{thm:open-disk-radius-extension-gap-public-readback}, so the modulus and derivative ledgers transport along the stability field of \autoref{def:holo-stability-cert}. The classifier on $W\!\restriction_e$ is the parent pointwise classifier restricted to points admitted by $\mathsf{OpenDisk}(z_0,r',-)$; its radius slot is $r'$ on both restricted representatives, and the comparison back to $W$ is recorded by the subradius ledger $e$. The ledger of $W\!\restriction_e$ keeps the same function history, center history, pointwise complex-differentiability data, derivative-recursion data, Taylor data, Cauchy-bound data, and identity data, with each disk-local admission transported through the subradius certificate.
+\end{theorem}
+\begin{proof}
+Unpack the seed predicate of \autoref{def:holo-on-disk}. The parent witness $W$ supplies, for every $z$ admitted by $\mathsf{OpenDisk}(z_0,r,z)$ and every unary precision $k$, the corresponding complex-differentiability witness controlled by $\delta_r$ and the displayed boundary gap.
+
+Now fix $z$, $k$, and a smaller-disk gap $g'$ with $\mathsf{OpenDisk}(z_0,r',z,g')$. The subradius certificate gives a unary $e$ and $\ContR(r',e,r)$. Applying \autoref{thm:open-disk-radius-extension-closed} to the smaller open disk gives $\mathsf{OpenDisk}(z_0,r,z)$. In gap form, \autoref{thm:open-disk-radius-extension-gap-public-readback} reads the large boundary as the appended gap $g'\cdot e$, up to $\hsame$ against any displayed parent gap. Therefore the parent holomorphic witness applies at the same point $z$ and precision $k$.
+
+Define the restricted modulus by $\delta_{r'}(k,g')=\delta_r(k,g'\cdot e)$. The input $g'\cdot e$ is unary by unary append closure, so this is a total unary modulus ledger. If a canonical parent gap is chosen differently, the public readback theorem gives the required $\hsame$ comparison, and \autoref{def:holo-stability-cert} transports the modulus and differentiability witness across that comparison.
+
+All remaining fields are inherited by narrowing the domain of quantification. The function history and center history are unchanged. Disk-gap ledgers are sent to the parent disk by $g'\mapsto g'\cdot e$. Any ledger entry indexed by a further subradius of $r'$ is read in the parent ledger by composing that subradius with $e$ using \autoref{lem:holo-certified-subdisk-radius-compose}. The pointwise classifier clause of \autoref{def:holo-classifier-spec} is therefore exactly the parent pointwise classifier after the open-disk inclusion, while the restricted radius data are compared by reflexivity inside the smaller carrier and related to the parent carrier by the retained subradius ledger. These data satisfy the source, classifier, and ledger fields of \autoref{def:holo-source-spec}, \autoref{def:holo-classifier-spec}, and \autoref{def:holo-ledger-policy} for radius $r'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_subradius\_inclusion}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_certified\_subradius\_public\_readback}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_subradius\_inclusion\_readback}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCertifiedSubradius\_openDiskGap\_extension\_gap\_readback}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCertifiedSubradius\_open\_disk\_gap\_public\_readback}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_subradius\_extension\_public\_readback}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_certified\_subradius\_extension}
+
+\begin{theorem}[HoloOnDisk additive closure]
+\label{thm:holo-on-disk-additive-closure}
+In the $\HolomorphicUp$ seed setup, let $f,g:\ComplexUp\to\ComplexUp$, let $z_0$ be a complex history, and let $r$ be a unary radius. Suppose $\mathsf{HoloOnDisk}(f,z_0,r)$ and $\mathsf{HoloOnDisk}(g,z_0,r)$ are witnessed by uniform modulus data
+$$
+(\delta_f,D_f,L_f)\qquad\text{and}\qquad(\delta_g,D_g,L_g),
+$$
+where $D_f(z)$ and $D_g(z)$ are the derivative histories selected at a point $z$ and $L_f,L_g$ are the corresponding disk-gap ledgers. Assume the witnesses are compatible in the following sense: for every boundary witness $\mathsf{OpenDisk}(z_0,r,z,gap)$, both $L_f$ and $L_g$ read the displayed $gap$ up to $\hsame$ and use it as the second input of their uniform moduli. Define
+$$
+D_{f+g}(z):=D_f(z)+D_g(z),
+\qquad
+\delta_{f+g}(k,gap):=\max(\delta_f(k+1,gap),\delta_g(k+1,gap)).
+$$
+Then the pointwise complex sum satisfies
+$$
+\mathsf{HoloOnDisk}(f+g,z_0,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two $\mathsf{HoloOnDisk}$ witnesses using \autoref{def:holo-on-disk}. Fix a point $z$ and a boundary witness $\mathsf{OpenDisk}(z_0,r,z,gap)$. The $f$-witness supplies $\mathsf{CplxDiffAt}(f,z,D_f(z))$ with the one-variable modulus $k\mapsto\delta_f(k,gap)$, and the $g$-witness supplies $\mathsf{CplxDiffAt}(g,z,D_g(z))$ with the one-variable modulus $k\mapsto\delta_g(k,gap)$.
+
+If either source witness presents an $\hsame$-equivalent boundary gap rather than the displayed $gap$, compatibility identifies it with $gap$. The open-disk transport theorem \autoref{lem:holomorphic-open-disk-hsame-transport} keeps the same disk membership, and full pointwise differentiability transport \autoref{lem:cplx-diff-at-full-hsame-transport} moves the corresponding differentiability witness to the displayed point and displayed gap representative.
+
+Apply the complex differentiability sum rule \autoref{lem:cplx-diff-sum} at this fixed point. It gives
+$$
+\mathsf{CplxDiffAt}(f+g,z,D_f(z)+D_g(z))
+$$
+with modulus $k\mapsto\max(\delta_f(k+1,gap),\delta_g(k+1,gap))$, which is exactly $k\mapsto\delta_{f+g}(k,gap)$. The proof of \autoref{lem:cplx-diff-sum} decomposes the difference quotient of $f+g$ into the sum of the two source quotients and uses the shifted precision $k+1$ on each side, so the pasted error is below the requested precision $k$.
+
+The construction is uniform in $z$ and in the displayed boundary gap. The center $z_0$, the radius $r$, and the open-disk witness are unchanged, while the output ledger records the two source ledgers, the common gap ledger, the pointwise complex-sum quotient ledger, and the pasted unary modulus $\delta_{f+g}$. The stability seed field of \autoref{def:holo-stability-cert} transports these ledgers along $\hsame$, and the ledger composition principle \autoref{cor:ledger-composition-principle} supplies the composite ledger for the sum witness.
+
+Thus every point of the disk carries complex differentiability of $f+g$ with the displayed uniform modulus and derivative selector $D_{f+g}$. By \autoref{def:holo-on-disk}, this is precisely $\mathsf{HoloOnDisk}(f+g,z_0,r)$.
+\end{proof}
+
+\begin{definition}[Certified holomorphic dense-sequence agreement]
+\label{def:holo-dense-sequence-agreement}
+Let $f,g:\ComplexUp\to\ComplexUp$, let $z_0$ be a complex center, let $r$ be a unary radius, and let $z_c$ be a complex history in $\mathsf{OpenDisk}(z_0,r)$. The predicate
+$$
+\mathsf{HoloDenseSeqEq}(f,g,z_0,r,z_c,s)
+$$
+holds when $s:\UnaryHistory\to\ComplexUp$ is the quantitative density witness of \autoref{def:cplx-topo-density} for the open set $\mathsf{OpenDisk}(z_0,r)$ centered at $z_c$, and every unary index carries the pointwise classifier
+$$
+\forall n,\ \UnaryHistory(n)\Longrightarrow \ComplexClassifier(f(s(n)),g(s(n))).
+$$
+\end{definition}
+
+\begin{definition}[Certified smaller holomorphic disk]
+\label{def:holo-certified-smaller-disk}
+For a complex center $w$, unary radius $\rho$, ambient disk $\mathsf{OpenDisk}(z_0,r)$, and cluster center $z_c$, the predicate
+$$
+\mathsf{HoloSubDisk}(w,\rho;z_0,r,z_c)
+$$
+holds when every point of $\mathsf{OpenDisk}(w,\rho)$ is carried into $\mathsf{OpenDisk}(z_0,r)$, and for every such point $y$ there is a finite list of centers $c_0,\ldots,c_N$ and unary radii $\eta_0,\ldots,\eta_N$ with $c_0=z_c$, $y\in\mathsf{OpenDisk}(c_N,\eta_N)$, each $\mathsf{OpenDisk}(c_i,\eta_i)$ contained in $\mathsf{OpenDisk}(z_0,r)$, and each consecutive pair carrying a $\mathsf{DomCompat}$ overlap in the sense of \autoref{def:cplx-topo-domain-compat}. The overlap witness includes the quantitative cluster sequence supplied by \autoref{thm:cplx-topo-open-disk-clustering}.
+\end{definition}
+
+\begin{lemma}[Cluster zeros force a local holomorphic zero classifier]
+\label{lem:holo-cluster-zeros-local-zero-classifier}
+Let $h:\ComplexUp\to\ComplexUp$ satisfy $\mathsf{HoloOnDisk}(h,z_0,r)$. If $s$ is a quantitative density witness for $\mathsf{OpenDisk}(z_0,r)$ centered at $z_c$ and
+$$
+\forall n,\ \UnaryHistory(n)\Longrightarrow \ComplexClassifier(h(s(n)),\mathsf{0}_{\ComplexUp}),
+$$
+then there is a unary radius $\eta$ with $\mathsf{OpenDisk}(z_c,\eta)\subseteq\mathsf{OpenDisk}(z_0,r)$ such that
+$$
+\forall y,\ \mathsf{OpenDisk}(z_c,\eta,y)\Longrightarrow \ComplexClassifier(h(y),\mathsf{0}_{\ComplexUp}).
+$$
+\end{lemma}
+\begin{proof}
+The holomorphic seed predicate of \autoref{def:holo-on-disk} gives a uniform complex-differentiability modulus at every point of the ambient disk. At $z_c$, the iterated-derivative and power-series clauses listed in \autoref{def:holo-core-theorem-obligations} give Taylor coefficients $a_m$ and a unary convergence radius $\eta$ whose open disk is contained in $\mathsf{OpenDisk}(z_0,r)$.
+
+The coefficients are classified by zero by unary induction on $m$. For $m=0$, the density witness gives $s(n)\to z_c$ with explicit modulus, and the displayed zero classifier on $h(s(n))$ transports through the continuity part of the holomorphic modulus, so $h(z_c)$ is classified by $\mathsf{0}_{\ComplexUp}$. For the successor step, assume $a_0,\ldots,a_{m-1}$ are classified by zero. On every cluster point $s(n)\neq z_c$, the $m$-th normalized Taylor remainder is defined; the numerator is classified by zero because $h(s(n))$ is zero and the lower Taylor terms are zero. The differentiability modulus identifies the limit of these normalized remainders with $a_m$, while the constant-zero quotient sequence has limit $\mathsf{0}_{\ComplexUp}$. The uniqueness classifier of $\ComplexLimitUp$ therefore gives $\ComplexClassifier(a_m,\mathsf{0}_{\ComplexUp})$.
+
+For any $y\in\mathsf{OpenDisk}(z_c,\eta)$, every finite Taylor partial sum at $y$ is classified by $\mathsf{0}_{\ComplexUp}$ because all coefficients are. The power-series convergence witness and complex-limit uniqueness identify the value $h(y)$ with that zero limit.
+\end{proof}
+
+\begin{theorem}[Holo dense-sequence identity classifier]
+\label{thm:holo-dense-sequence-identity-classifier}
+Let $f,g:\ComplexUp\to\ComplexUp$ satisfy $\mathsf{HoloOnDisk}(f,z_0,r)$ and $\mathsf{HoloOnDisk}(g,z_0,r)$. If $\mathsf{HoloDenseSeqEq}(f,g,z_0,r,z_c,s)$ and $\mathsf{HoloSubDisk}(w,\rho;z_0,r,z_c)$ hold, then the restrictions of $f$ and $g$ to the certified smaller disk are identified by the $\HolomorphicUp$ classifier:
+$$
+\forall y,\ \mathsf{OpenDisk}(w,\rho,y)\Longrightarrow \ComplexClassifier(f(y),g(y)).
+$$
+\end{theorem}
+\begin{proof}
+Form the certified difference $h=f-g$ using the $\ComplexUp$ additive inverse and addition operations. The closure clause in \autoref{def:holo-core-theorem-obligations} gives $\mathsf{HoloOnDisk}(h,z_0,r)$. The dense-sequence agreement predicate of \autoref{def:holo-dense-sequence-agreement} gives $\ComplexClassifier(f(s(n)),g(s(n)))$ at every unary index, and additive cancellation in $\ComplexUp$ rewrites this as $\ComplexClassifier(h(s(n)),\mathsf{0}_{\ComplexUp})$.
+
+Apply \autoref{lem:holo-cluster-zeros-local-zero-classifier} at $z_c$. This gives an initial open disk on which $h$ is classified by zero. Fix $y\in\mathsf{OpenDisk}(w,\rho)$. The certified smaller-disk predicate of \autoref{def:holo-certified-smaller-disk} supplies a finite chain of open disks from the initial disk to a terminal disk containing $y$, all contained in $\mathsf{OpenDisk}(z_0,r)$ and with consecutive disks related by $\mathsf{DomCompat}$ overlaps.
+
+Induct along the finite chain. Suppose $h$ is zero on the current disk. The next overlap carries, by \autoref{def:cplx-topo-domain-compat} and \autoref{thm:cplx-topo-open-disk-clustering}, a quantitative cluster sequence lying in the current disk and in the next disk. Hence $h$ is zero on that cluster. Restricting the ambient holomorphic witness to the next disk is allowed by open-disk transport and the stability clause of \autoref{def:holo-stability-cert}. Applying \autoref{lem:holo-cluster-zeros-local-zero-classifier} inside the next disk makes $h$ zero there. The terminal disk contains $y$, so $\ComplexClassifier(h(y),\mathsf{0}_{\ComplexUp})$.
+
+Finally, the definition of $h=f-g$ and cancellation in the additive group of $\ComplexUp$ convert $\ComplexClassifier(h(y),\mathsf{0}_{\ComplexUp})$ into $\ComplexClassifier(f(y),g(y))$. This is exactly the pointwise component required by the holomorphic classifier seed field of \autoref{def:holo-classifier-spec}; the compatible disk data are supplied by \autoref{def:holo-certified-smaller-disk}.
+\end{proof}
+
+\begin{theorem}[HoloOnDisk nested subdisk functoriality]
+\label{thm:holo-on-disk-nested-subdisk-functoriality}
+Let $f:\ComplexUp\to\ComplexUp$, let $z_0$ be a complex center history, and let $r_2$, $r_1$, and $r_0$ be unary radii. Let $W$ be a displayed $\HolomorphicUp$ seed witness for $\mathsf{HoloOnDisk}(f,z_0,r_0)$ with uniform modulus ledger $\delta_{r_0}$. Suppose
+$$
+\mathsf{Subradius}(r_1,r_0;e_0)\qquad\text{and}\qquad
+\mathsf{Subradius}(r_2,r_1;e_1).
+$$
+Let $W_1:=W\!\restriction_{e_0}$ be the restricted witness on $r_1$, let $W_{21}:=W_1\!\restriction_{e_1}$ be the iterated restricted witness on $r_2$, and let $W_{20}:=W\!\restriction_{e_1\cdot e_0}$ be the direct restricted witness obtained from the composed subradius certificate. Then $W_{21}$ and $W_{20}$ are compared by the $\HolomorphicUp$ classifier over $\mathsf{HoloOnDisk}(f,z_0,r_2)$.
+
+More explicitly, for every displayed smaller-disk gap $g''$ and every unary precision $k$, let
+$$
+d_{21}:=\delta_{r_0}(k,(g''\cdot e_1)\cdot e_0),
+\qquad
+ d_{20}:=\delta_{r_0}(k,g''\cdot(e_1\cdot e_0))
+$$
+be the displayed parent ledger-result histories. The iterated and direct modulus ledgers read the parent ledger as
+$$
+\delta_{W_{21}}(k,g'')=
+\delta_{r_1}(k,g''\cdot e_1)=d_{21},
+\qquad
+\delta_{W_{20}}(k,g'')=d_{20},
+\qquad
+d_{21}\hsame d_{20}.
+$$
+The final classifier is the associativity comparison from \autoref{thm:continuation-associativity-up-to-hsame-proof-standing} together with continuation transport by \autoref{thm:cont-hsame-transport}. If the public composed tail is displayed as $e_0\cdot e_1$, unary append commutativity supplies a classifier from $e_1\cdot e_0$ to $e_0\cdot e_1$; the corresponding continuation comparison is carried by \autoref{thm:add-unary-continuation-hsame-transport} and \autoref{thm:cont-hsame-transport}, and the same classifier comparison applies to the direct witness $W\!\restriction_{e_0\cdot e_1}$.
+\end{theorem}
+\begin{proof}
+Unpack the two certified subradius data. They supply unary histories $e_0$ and $e_1$ together with radius ledgers $\ContR(r_1,e_0,r_0)$ and $\ContR(r_2,e_1,r_1)$. Applying \autoref{lem:holo-certified-subdisk-radius-compose}, with its three radius variables read as $r_2$, $r_1$, and $r_0$, gives the composed certificate $\mathsf{Subradius}(r_2,r_0;e_1\cdot e_0)$.
+
+The first restriction theorem \autoref{thm:holo-on-disk-subdisk-restriction} constructs $W_1$ and defines its modulus by
+$$
+\delta_{r_1}(k,g'):=\delta_{r_0}(k,g'\cdot e_0).
+$$
+Applying the same theorem to $W_1$ along $e_1$ constructs $W_{21}$ and gives
+$$
+\delta_{W_{21}}(k,g'')=
+\delta_{r_1}(k,g''\cdot e_1)=
+\delta_{r_0}(k,(g''\cdot e_1)\cdot e_0).
+$$
+The direct restriction along the composed subradius certificate constructs $W_{20}$ with
+$$
+\delta_{W_{20}}(k,g'')=
+\delta_{r_0}(k,g''\cdot(e_1\cdot e_0)).
+$$
+Let $d_{21}$ and $d_{20}$ denote these two displayed parent ledger-result histories. History-append associativity, as classified by \autoref{thm:continuation-associativity-up-to-hsame-proof-standing}, compares $(g''\cdot e_1)\cdot e_0$ with $g''\cdot(e_1\cdot e_0)$, and \autoref{thm:cont-hsame-transport} carries the corresponding continuation ledger across that comparison. The stability seed field of \autoref{def:holo-stability-cert} then reads the parent modulus and the corresponding differentiability witness through the two displayed parent gaps, giving $d_{21}\hsame d_{20}$.
+
+The same comparison controls disk admission. Given $z$ with a displayed $r_2$-gap $g''$, the iterated route records the radius-$r_1$ boundary gap $g''\cdot e_1$ and then the radius-$r_0$ parent gap $(g''\cdot e_1)\cdot e_0$. The direct route records the parent gap $g''\cdot(e_1\cdot e_0)$. These two parent gaps are classified by \autoref{thm:continuation-associativity-up-to-hsame-proof-standing}, and \autoref{thm:cont-hsame-transport} carries the continuation ledger across the classifier. Any alternative displayed parent gap is classified against them by the public readback theorem \autoref{thm:open-disk-radius-extension-gap-public-readback}, with the displayed result comparison carried by \autoref{thm:cont-transport-result-classified}. Thus both witnesses invoke the same parent holomorphic data after the gap comparison.
+
+All remaining ledger fields are inherited from the same parent witness $W$: the function history, center history, derivative-recursion data, Taylor data, Cauchy-bound data, and identity data are unchanged. Their disk-local indices are related exactly by the two gap maps just compared. Hence the pointwise-function clause and the compatible disk-data clause of \autoref{def:holo-classifier-spec} hold for $W_{21}$ and $W_{20}$ over the radius $r_2$, with the inherited ledger policy of \autoref{def:holo-ledger-policy}. If the composed tail is displayed as $e_0\cdot e_1$, unary append commutativity supplies the classifier from $e_1\cdot e_0$ to that public display; applying \autoref{thm:add-unary-continuation-hsame-transport} and \autoref{thm:cont-hsame-transport} carries the relevant continuation ledgers to that display before the same argument is applied.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCertifiedSubradius\_nested\_gap\_readback}

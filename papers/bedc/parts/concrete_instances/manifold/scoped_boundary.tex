@@ -1,0 +1,152 @@
+\section{Scoped Manifold Boundary}
+\label{sec:manifold-scoped-boundary}
+
+\begin{definition}[Manifold scoped boundary package]
+\label{def:manifold-scoped-boundary-package}
+A scoped $\ManifoldUp$ boundary package is a ten-field
+$\NameCert_{\ManifoldUp}$ template whose object is the chart-atlas carrier of
+\autoref{def:manifold-chart-atlas-carrier} with the following displayed rows.
+\begin{enumerate}
+\item The traditional target is a finite-atlas smooth manifold with visible
+chart domains, coordinate maps, and transition rows.
+\item The BEDC source is $\mathsf{BHist}$ equipped with the previously named
+$\TopologyUp$, $\RealUp$, and $\RealAnalyticUp$ certificate surfaces.
+\item The carrier is the predicate $\mathsf{ManAtlasPkg}(P)$ on package
+histories $P$.
+\item The classifier is componentwise $\hsame$ on the topological carrier,
+finite chart-index history, chart-domain rows, chart-map rows, coordinate
+histories, and transition ledgers.
+\item The stability field is chart-domain transport along the $\TopologyUp$
+carrier classifier, together with transition-ledger stability under
+componentwise $\hsame$.
+\item The coherence field contains the identity, inverse, and cocycle rows of
+\autoref{def:manifold-transition-coherence-ledger}.
+\item The ledger contains topology rows, real-coordinate rows, pairwise
+overlap rows, and finite-intersection triple-overlap rows.
+\item The core theorem list is
+\autoref{thm:manifoldup-chart-cover-coverage},
+\autoref{thm:manifoldup-chart-domain-carrier-transport},
+\autoref{thm:manifoldup-overlap-transition-source-carried},
+\autoref{thm:manifoldup-triple-overlap-open-composition-scope},
+\autoref{thm:manifoldup-transition-ledger-stability},
+\autoref{thm:manifold-overlap-identity-transition},
+\autoref{thm:manifold-overlap-inverse-transition},
+\autoref{thm:manifold-triple-overlap-cocycle}, and
+\autoref{thm:manifold-singleton-namecert-obligation-package}.
+\item Exactness is visible-atlas readback: accepted chart cover, domain,
+coordinate, overlap, and transition rows are exactly the displayed rows of
+$\mathsf{ManAtlasPkg}$, and the singleton instance reads the sole self-overlap
+transition as its complete transition ledger.
+\item The standard bridge row is absent, and the package is a paper-side
+formalization target under $\mathsf{BEDC.Derived.ManifoldUp}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Manifold scoped field coverage]
+\label{thm:manifold-scoped-field-coverage}
+Every package satisfying the scoped boundary of
+\autoref{def:manifold-scoped-boundary-package} exposes exactly the following
+visible fields: the $\mathsf{ManAtlasPkg}$ carrier, the componentwise
+$\hsame$ classifier, chart cover, chart-domain transport, pairwise overlap
+source, triple-overlap source, transition-ledger stability, identity rows,
+inverse rows, and cocycle rows.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier from
+\autoref{def:manifold-scoped-boundary-package}. The carrier is the same
+$\mathsf{ManAtlasPkg}$ predicate defined in
+\autoref{def:manifold-chart-atlas-carrier}, and the classifier is its
+componentwise $\hsame$ row.
+
+The chart-cover and chart-domain transport fields are supplied by
+\autoref{thm:manifoldup-chart-cover-coverage} and
+\autoref{thm:manifoldup-chart-domain-carrier-transport}. The pairwise overlap
+source is supplied by
+\autoref{thm:manifoldup-overlap-transition-source-carried}, and the
+triple-overlap source is supplied by
+\autoref{thm:manifoldup-triple-overlap-open-composition-scope}.
+
+The transition-ledger stability field is exactly
+\autoref{thm:manifoldup-transition-ledger-stability}. The identity, inverse,
+and cocycle fields are projected from the coherence ledger by
+\autoref{thm:manifold-overlap-identity-transition},
+\autoref{thm:manifold-overlap-inverse-transition}, and
+\autoref{thm:manifold-triple-overlap-cocycle}.
+
+No additional field is available from the scoped boundary definition. Its
+exactness clause accepts only the displayed atlas, topology, coordinate,
+overlap, transition, and coherence rows, so the listed fields are precisely
+the public boundary of the package.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldScopedBoundaryPackage\_field\_coverage}
+
+\begin{theorem}[Manifold scoped transition-source determinacy]
+\label{thm:manifold-scoped-transition-source-determinacy}
+In every package satisfying
+\autoref{def:manifold-scoped-boundary-package}, each displayed transition row
+$\mathsf{Trans}_{ij}$ is sourced on the carried open
+$\mathsf{domIx}(i)\wedge_{\TopologyUp}\mathsf{domIx}(j)$. For each displayed
+composite from $i$ to $k$ through $j$, the source is the iterated
+$\TopologyUp$ finite-intersection triple-overlap carrying
+$$
+x\longmapsto
+\mathsf{Dom}_i(x)\wedge\mathsf{Dom}_j(x)\wedge\mathsf{Dom}_k(x).
+$$
+There is no hidden set-level intersection behind either source.
+\end{theorem}
+\begin{proof}
+For the pairwise source, apply
+\autoref{thm:manifoldup-chart-domain-intersection-open}. It identifies the
+overlap predicate for $i$ and $j$ with the carried open
+$\mathsf{domIx}(i)\wedge_{\TopologyUp}\mathsf{domIx}(j)$ in the same
+$\TopologyUp$ carrier.
+
+Then apply
+\autoref{thm:manifoldup-overlap-transition-source-carried}. The theorem states
+that every displayed $\mathsf{Trans}_{ij}$ ledger row uses that carried open as
+its source, with finite $\RealUp$ coordinate rows exposed on both ends.
+
+For a composite through $j$, build the triple source by
+\autoref{thm:manifoldup-triple-overlap-open-composition-scope}. The iterated
+finite-intersection index carries the displayed triple conjunction, and the
+two transition ledgers restrict to that same source before composition.
+
+Finally use \autoref{thm:manifold-triple-overlap-cocycle}. The cocycle row
+classifies the displayed composite and the direct $i$ to $k$ transition on the
+same carried triple-overlap source. Since each step is read through
+$\TopologyUp$ carried-open rows, no unrecorded set intersection is introduced.
+\end{proof}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldScopedBoundaryPackage\_triple\_overlap\_source\_determinacy}
+
+\begin{theorem}[Singleton manifold scoped boundary instance]
+\label{thm:manifold-singleton-scoped-boundary-instance}
+The singleton package
+\autoref{def:manifold-singleton-empty-chart-package} instantiates the scoped
+boundary package of \autoref{def:manifold-scoped-boundary-package}. Its carrier
+is $C_{\emp}$, its chart domain is the top-open row, its coordinate row is the
+constant $0_{\RealUp}$ endpoint, and its complete transition ledger is the sole
+self-overlap transition.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldSingleton\_scoped\_boundary\_instance}
+\begin{proof}
+The carrier and topology rows are supplied by
+\autoref{thm:manifold-singleton-carrier-topology-scope}. They identify the
+restricted $\hsame$ classifier on $C_{\emp}$ and read the top-open row exactly
+as the carried singleton predicate.
+
+\autoref{thm:manifold-singleton-chart-coverage} supplies the chart-cover row
+and the constant $0_{\RealUp}$ coordinate readback. The domain-exactness field
+is supplied by \autoref{thm:manifold-singleton-domain-exactness}, which leaves
+no second displayed chart-domain witness.
+
+The transition ledger is supplied by
+\autoref{thm:manifold-singleton-transition-ledger-exhaustion}. Every displayed
+transition factors through the sole self-overlap of $\chi_{\emp}$, with source
+and target the constant $0_{\RealUp}$ endpoint.
+
+Repack these rows with
+\autoref{thm:manifold-singleton-namecert-obligation-package}. They match the
+ten scoped-boundary fields: traditional singleton target, BEDC source,
+carrier, classifier, stability, coherence, ledger, core theorem list,
+exactness, and absent standard bridge.
+\end{proof}

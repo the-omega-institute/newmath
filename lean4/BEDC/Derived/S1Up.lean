@@ -24,6 +24,10 @@ def SOneComponentClassifier (x y e p x' y' e' p' : BHist) : Prop :=
   SOneHistoryCarrier x y e p ∧ SOneHistoryCarrier x' y' e' p' ∧ hsame x x' ∧
     hsame y y'
 
+def SOneSourceSpec (x y equation point : BHist) : Prop :=
+  SOneHistoryCarrier x y equation point ∧ SOneProductHistoryCarrier point ∧
+    hsame equation SOneUnitHistory ∧ Cont x y point
+
 theorem SOneHistoryCarrier_rational_components {h : BHist} :
     SOneProductHistoryCarrier h →
       ∃ x y dx dy : BHist,
@@ -271,6 +275,13 @@ theorem SOneHistoryCarrier_public_readback {x y equation point : BHist} :
                                         (And.intro sameY
                                           (And.intro dyCarrier pointCont)))))))
 
+theorem SOneSourceSpec_history_carrier_fields {x y equation point : BHist} :
+    SOneHistoryCarrier x y equation point -> SOneSourceSpec x y equation point := by
+  intro carrier
+  have readback := SOneHistoryCarrier_public_readback carrier
+  exact And.intro carrier
+    (And.intro readback.left (And.intro readback.right.left carrier.right.right.right))
+
 theorem SOneComponentClassifier_public_readback {x y e p x' y' e' p' : BHist} :
     SOneComponentClassifier x y e p x' y' e' p' ->
       SOneProductHistoryCarrier p' ∧ hsame e' SOneUnitHistory ∧
@@ -433,6 +444,22 @@ theorem SOneHistoryCarrier_component_classifier_ledger_determinacy
                             (hsame_trans leftEquationUnit (hsame_symm rightEquationUnit))
                             (cont_respects_hsame sameX sameY leftPoint rightPoint)
 
+def SOneLedgerPolicy (x y e p x' y' e' p' : BHist) : Prop :=
+  SOneComponentClassifier x y e p x' y' e' p' ∧ hsame e e' ∧ hsame p p' ∧
+    Cont x y p ∧ Cont x' y' p'
+
+theorem SOneLedgerPolicy_component_readback {x y e p x' y' e' p' : BHist} :
+    SOneComponentClassifier x y e p x' y' e' p' ->
+      SOneLedgerPolicy x y e p x' y' e' p' := by
+  intro classifier
+  have ledger :=
+    SOneHistoryCarrier_component_classifier_ledger_determinacy classifier.left
+      classifier.right.left classifier.right.right.left classifier.right.right.right
+  exact And.intro classifier
+    (And.intro ledger.left
+      (And.intro ledger.right
+        (And.intro classifier.left.right.right.right classifier.right.left.right.right.right)))
+
 theorem SOneComponentClassifier_full_readback_package {x y e p x' y' e' p' : BHist} :
     SOneComponentClassifier x y e p x' y' e' p' ->
       (SOneProductHistoryCarrier p ∧ hsame e SOneUnitHistory ∧
@@ -561,26 +588,5 @@ theorem SOneHistoryCarrier_e1_components_unit_equation_classifier
   exact And.intro readback.left
     (And.intro readback.right.left
       (And.intro equationClassifier readback.right.right.right))
-
-theorem SOneComponentClassifier_visible_source_unit_equation_package
-    {dx dy equationTail t x' y' e' p' : BHist} :
-    SOneComponentClassifier (BHist.e1 dx) (BHist.e1 dy) (BHist.e1 equationTail)
-      (BHist.e1 t) x' y' e' p' ->
-      (RatHistoryCarrier dx ∧ RatHistoryCarrier dy ∧
-        RatHistoryClassifier equationTail (BHist.e1 BHist.Empty) ∧
-          Cont (BHist.e1 dx) dy t) ∧
-        (hsame (BHist.e1 equationTail) e' ∧ hsame (BHist.e1 t) p') ∧
-          (SOneProductHistoryCarrier p' ∧ hsame e' SOneUnitHistory ∧
-            ∃ dx' dy' : BHist,
-              hsame x' (BHist.e1 dx') ∧ RatHistoryCarrier dx' ∧
-                hsame y' (BHist.e1 dy') ∧ RatHistoryCarrier dy' ∧ Cont x' y' p') := by
-  intro classifier
-  have sourceReadback :=
-    SOneHistoryCarrier_e1_components_unit_equation_classifier classifier.left
-  have ledgerDeterminacy :=
-    SOneHistoryCarrier_component_classifier_ledger_determinacy classifier.left
-      classifier.right.left classifier.right.right.left classifier.right.right.right
-  have targetReadback := SOneComponentClassifier_public_readback classifier
-  exact And.intro sourceReadback (And.intro ledgerDeterminacy targetReadback)
 
 end BEDC.Derived.S1Up

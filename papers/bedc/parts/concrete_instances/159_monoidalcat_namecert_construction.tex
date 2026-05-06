@@ -1,0 +1,154 @@
+\chapter{A Concrete Naming Certificate for $\MonoidalCatUp$}
+\label{ch:concrete-instances-monoidalcat-namecert}
+
+The monoidal-category interface $\MonoidalCatUp$ packages a category with a tensor-product bifunctor, unit object, and coherent associator and unitor isomorphisms. It depends on $\NameCert_{\CategoryUp}$ (\autoref{ch:concrete-instances-category-namecert}).
+
+\section{Carrier definition}
+\label{sec:monoidalcat-carrier}
+
+\section{The certificate}
+\label{sec:monoidalcat-certificate}
+
+\begin{definition}[MonoidalCat singleton tensor instance]
+\label{def:monoidalcat-singleton-tensor-instance}
+The singleton $\mathsf{BHist}$ monoidal-category instance uses the unary-continuation category of \autoref{thm:category-unary-continuation-stability-law-package} as its underlying $\CategoryUp$ carrier. Its objects are carried unary histories, its displayed hom rows are $\mathsf{CategoryHomCarrier}(a,b,f)$ rows, and its tensor is continuation append:
+$$
+a\otimes b := \mathsf{append}(a,b),\qquad
+f\otimes g := \mathsf{append}(f,g).
+$$
+The unit object is $\emp$. The associator row from $(x\otimes y)\otimes z$ to $x\otimes(y\otimes z)$ and the left and right unitor rows from $\emp\otimes x$ and $x\otimes\emp$ to $x$ are the $\hsame$ witnesses supplied by continuation associativity and the empty-continuation unit laws on the displayed $\mathsf{BHist}$ rows.
+\end{definition}
+\leandef{BEDC.Derived.MonoidalCatUp.MonoidalCatSingletonTensor}
+
+\begin{theorem}[MonoidalCat singleton tensor carrier]
+\label{thm:monoidalcat-singleton-tensor-carrier}
+In the singleton tensor instance of \autoref{def:monoidalcat-singleton-tensor-instance}, tensoring carried unary objects remains a carried unary object. If
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}(c,d,g)
+$$
+are displayed hom histories, then the tensor hom history $\mathsf{append}(f,g)$ is carried by the same unary-continuation hom surface from $\mathsf{append}(a,c)$ to $\mathsf{append}(b,d)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_tensor\_carrier}
+\begin{proof}
+Unary object closure is the ordinary append closure for unary $\mathsf{BHist}$ rows.
+
+For hom rows, first use the endpoint stability law package of \autoref{cor:category-hom-carrier-stability-law-package} to read both displayed morphisms as continuation tails over their endpoints. Then apply \autoref{thm:category-hom-carrier-comp-closed} to the compatible tail rows after appending the source and target endpoints.
+
+The resulting composite row has exactly the source $\mathsf{append}(a,c)$, target $\mathsf{append}(b,d)$, and displayed morphism $\mathsf{append}(f,g)$ required by the tensor carrier surface.
+\end{proof}
+
+\begin{theorem}[MonoidalCat singleton tensor preserves identity homs]
+\label{thm:monoidalcat-singleton-tensor-identity-hom}
+In the singleton tensor instance of \autoref{def:monoidalcat-singleton-tensor-instance}, let $a$ and $b$ be carried unary objects. The tensor of the identity hom histories $\emp:a\to a$ and $\emp:b\to b$ is classified as the identity hom on $a\otimes b$. Concretely, $\mathsf{append}(\emp,\emp)$ is $\hsame$ to $\emp$, and the row gives
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(a,b),\mathsf{append}(a,b),\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_tensor\_identity\_hom}
+\begin{proof}
+The identity rows for $a$ and $b$ are the empty continuation rows supplied by \autoref{thm:category-unary-continuation-stability-law-package}. Unary append closure gives the tensor object $\mathsf{append}(a,b)$ as a carried unary object.
+
+Tensoring the two displayed identity histories gives $\mathsf{append}(\emp,\emp)$. The empty-continuation unit laws of \autoref{thm:concrete-history-monoid-laws} identify this displayed history with $\emp$ by $\hsame$.
+
+Transport the identity row on $\mathsf{append}(a,b)$ along that $\hsame$ classifier row. The resulting displayed hom carrier is exactly $\mathsf{CategoryHomCarrier}(\mathsf{append}(a,b),\mathsf{append}(a,b),\emp)$, so the tensor preserves identity hom histories on the concrete singleton carrier.
+\end{proof}
+
+\begin{theorem}[MonoidalCat singleton associator and unitors]
+\label{thm:monoidalcat-singleton-associator-unitors}
+For carried unary histories $x$, $y$, and $z$ in the singleton tensor instance, the displayed histories $(x\otimes y)\otimes z$ and $x\otimes(y\otimes z)$ are related by $\hsame$. The displayed histories $\emp\otimes x$ and $x\otimes\emp$ are each related to $x$ by $\hsame$ on the same concrete $\mathsf{BHist}$ carrier.
+\end{theorem}
+\begin{proof}
+The associator row is continuation associativity applied to the three visible tails $x$, $y$, and $z$. Both bracketings reduce to the same iterated continuation history, so the classifier row is the corresponding $\hsame$ witness.
+
+For the left unitor, use the left empty-continuation law to identify $\mathsf{append}(\emp,x)$ with $x$. For the right unitor, use the right empty-continuation law to identify $\mathsf{append}(x,\emp)$ with $x$.
+
+The category continuation-morphism tail theorems transport these three $\hsame$ rows through the displayed hom carrier, so the associator and both unitors live on the concrete unary-continuation category rather than on an external categorical carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_associator\_unitors}
+
+\begin{theorem}[MonoidalCat singleton coherence laws]
+\label{thm:monoidalcat-singleton-coherence-laws}
+In the singleton tensor instance, the pentagon and triangle diagrams commute under the morphism classifier. For any carried unary histories appearing in either diagram, the two displayed paths have $\hsame$-equal classifier rows because both paths reduce to the same iterated $\ContR$ tail.
+\end{theorem}
+\begin{proof}
+For the pentagon, expand each edge into the associator row of \autoref{thm:monoidalcat-singleton-associator-unitors}. The two boundary paths are the two standard ways to reassociate a fourfold continuation tail, and the category fourfold associativity witness \autoref{thm:category-hom-carrier-fourfold-assoc-witness} identifies their displayed histories by $\hsame$.
+
+For the triangle, expand the associator and the two unitor rows. The left path and the right path both normalize to the same twofold continuation tail after applying the empty-continuation unit laws.
+
+Finally compose the classifier rows by transitivity of $\hsame$. The displayed hom carrier is preserved along the comparison by the category stability law package, so the commuting diagrams are certified inside the BEDC morphism classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_coherence\_laws}
+
+\begin{theorem}[MonoidalCat NameCert obligation surface]
+\label{thm:monoidalcat-namecert-obligation-surface}
+The singleton tensor instance assembles the following paper-side $\NameCert_{\MonoidalCatUp}$ obligation surface:
+\begin{enumerate}
+  \item Traditional target: a monoidal category.
+  \item BEDC source: $\CategoryUp$, $\ContR$, $\hsame$, and $\mathsf{CategoryHomCarrier}$.
+  \item Carrier: unary $\mathsf{BHist}$ objects and continuation hom histories.
+  \item Classifier: $\hsame$ on displayed object and hom histories.
+  \item Stability: tensor carrier closure, identity-hom preservation, composition preservation, associator rows, unitor rows, pentagon coherence, and triangle coherence.
+  \item Ledger: tensor tails and the two coherence-path ledgers.
+  \item Core theorem list: \autoref{thm:monoidalcat-singleton-tensor-carrier}, \autoref{thm:monoidalcat-singleton-tensor-identity-hom}, \autoref{thm:monoidalcat-singleton-tensor-preserves-composition}, \autoref{thm:monoidalcat-singleton-associator-unitors}, \autoref{thm:monoidalcat-singleton-coherence-laws}, and \autoref{thm:category-unary-continuation-stability-law-package}.
+  \item Exactness: classifier equality of the displayed coherence paths.
+  \item Standard bridge: absent.
+  \item Status: paper-side obligation surface.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are supplied by the unary-continuation category and its $\mathsf{CategoryHomCarrier}$ rows. The tensor field is the append operation in \autoref{def:monoidalcat-singleton-tensor-instance}.
+
+The stability fields are discharged by \autoref{thm:monoidalcat-singleton-tensor-carrier}, \autoref{thm:monoidalcat-singleton-tensor-identity-hom}, \autoref{thm:monoidalcat-singleton-tensor-preserves-composition}, and \autoref{thm:monoidalcat-singleton-associator-unitors}. The coherence fields are discharged by \autoref{thm:monoidalcat-singleton-coherence-laws}.
+
+The ledger records only the displayed continuation tails and the two coherence paths. Exactness is the statement that the two paths in each coherence diagram are equal under $\hsame$, and no standard external monoidal-category bridge is asserted here.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_semantic\_name\_certificate}
+
+\begin{theorem}[MonoidalCat singleton tensor preserves composition]
+\label{thm:monoidalcat-singleton-tensor-preserves-composition}
+In the singleton tensor instance of \autoref{def:monoidalcat-singleton-tensor-instance}, suppose
+$$
+\mathsf{CategoryHomCarrier}(a_0,a_1,f),\quad
+\mathsf{CategoryHomCarrier}(a_1,a_2,f'),\quad
+\mathsf{CategoryHomCarrier}(c_0,c_1,g),\quad
+\mathsf{CategoryHomCarrier}(c_1,c_2,g')
+$$
+are two composable pairs of displayed hom rows. Then the tensor composite and the tensor of component composites are both displayed hom rows from $\mathsf{append}(a_0,c_0)$ to $\mathsf{append}(a_2,c_2)$, and their morphism classifiers agree:
+$$
+\begin{gathered}
+\mathsf{CategoryHomCarrier}
+  (\mathsf{append}(a_0,c_0),\mathsf{append}(a_2,c_2),
+   \mathsf{append}(\mathsf{append}(f,g),\mathsf{append}(f',g'))),\\
+\mathsf{CategoryHomCarrier}
+  (\mathsf{append}(a_0,c_0),\mathsf{append}(a_2,c_2),
+   \mathsf{append}(\mathsf{append}(f,f'),\mathsf{append}(g,g'))),\\
+\HSame(\mathsf{append}(\mathsf{append}(f,g),\mathsf{append}(f',g')),
+       \mathsf{append}(\mathsf{append}(f,f'),\mathsf{append}(g,g'))).
+\end{gathered}
+$$
+Equivalently, $(f\otimes g)$ followed by $(f'\otimes g')$ is classifier-equal to $(f'\circ f)\otimes(g'\circ g)$ in the concrete singleton $\MonoidalCatUp$ certificate.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_tensor\_preserves\_composition}
+\begin{proof}
+By \autoref{thm:monoidalcat-singleton-tensor-carrier}, the tensor rows $\mathsf{append}(f,g)$ and $\mathsf{append}(f',g')$ are hom-carriers from $\mathsf{append}(a_0,c_0)$ to $\mathsf{append}(a_1,c_1)$ and from $\mathsf{append}(a_1,c_1)$ to $\mathsf{append}(a_2,c_2)$. Applying \autoref{thm:category-hom-carrier-comp-closed} to these two tensor rows gives the first displayed carrier.
+
+Applying \autoref{thm:category-hom-carrier-comp-closed} to the pair $f,f'$ gives the component composite $\mathsf{append}(f,f')$ from $a_0$ to $a_2$, and applying it to $g,g'$ gives $\mathsf{append}(g,g')$ from $c_0$ to $c_2$. A second use of \autoref{thm:monoidalcat-singleton-tensor-carrier} gives the second displayed carrier.
+
+It remains to compare the displayed morphism histories. The four input hom-carrier rows expose unary membership of $f$, $f'$, $g$, and $g'$. Hence \autoref{thm:unary-commutativity-refined}, applied to the canonical append continuations for $g$ followed by $f'$ and for $f'$ followed by $g$, gives
+$$
+\HSame(\mathsf{append}(g,f'),\mathsf{append}(f',g)).
+$$
+Repeated use of \autoref{thm:continuation-associativity} identifies the tensor composite with
+$$
+\mathsf{append}(f,\mathsf{append}(\mathsf{append}(g,f'),g'))
+$$
+and identifies the tensor of component composites with
+$$
+\mathsf{append}(f,\mathsf{append}(\mathsf{append}(f',g),g')).
+$$
+The reverse direction of \autoref{thm:append-hsame-common-context-cancel}, with common left context $f$ and common right context $g'$, transports the middle comparison into the two displayed fourfold histories. Transitivity of $\HSame$ with the two associativity comparisons gives the required classifier equality.
+\end{proof}

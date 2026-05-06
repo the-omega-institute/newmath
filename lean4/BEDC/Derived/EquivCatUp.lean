@@ -224,6 +224,31 @@ theorem EquivCatAdjunction_empty_roundtrip_target_prefix_hsame_transport
         hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩
   exact And.intro transported (And.intro transported.left transported.right.left)
 
+theorem EquivCatAdjunction_empty_roundtrip_source_prefix_hsame_transport
+    {p p' q a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p q a unit counit left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty -> hsame p p' ->
+        AdjunctionUnitCounitCarrier p' q a BHist.Empty BHist.Empty BHist.Empty BHist.Empty ∧
+          NatTransPrefixComponentCarrier p' q a BHist.Empty ∧
+            NatTransPrefixComponentCarrier q p' a BHist.Empty := by
+  intro carrier leftEmpty rightEmpty samePP'
+  have boundary :=
+    EquivCatAdjunction_empty_roundtrip_prefix_determinacy carrier leftEmpty rightEmpty
+  have componentData :=
+    (NatTransPrefixComponentCarrier_empty_identity_iff (p := p) (q := q) (a := a)).mp
+      boundary.right.right.right.left
+  have p'Carrier : UnaryHistory p' :=
+    unary_transport componentData.left samePP'
+  have sameP'Q : hsame p' q :=
+    hsame_trans (hsame_symm samePP') boundary.left
+  have transported :
+      AdjunctionUnitCounitCarrier p' q a BHist.Empty BHist.Empty BHist.Empty BHist.Empty :=
+    (AdjunctionUnitCounitCarrier_empty_components_iff
+      (p := p') (q := q) (a := a) (left := BHist.Empty) (right := BHist.Empty)).mpr
+      ⟨p'Carrier, componentData.right.left, componentData.right.right.left, sameP'Q,
+        hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩
+  exact And.intro transported (And.intro transported.left transported.right.left)
+
 theorem EquivCatCycleIdentityCarrier_semanticNameCert {a b f g : BHist}
     (left : CategoryHomCarrier a b f) (right : CategoryHomCarrier b a g) :
     SemanticNameCert

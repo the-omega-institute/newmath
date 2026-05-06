@@ -9,6 +9,7 @@ This chapter gives a concrete naming-certificate construction for the Riemann ze
 \label{def:zeta-basic}
 For complex history \(s\) and complex history \(z\), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds when \(z\) is the explicit complex-history limit of the Dirichlet partial sums of the constant-unit coefficient sequence \(a_n = \Eone(\emp)\) at \(s\); equivalently, \(\mathsf{ZetaBasic}(s, z)\) is the specialization of the \(\DirichletSeriesUp\) carrier (\autoref{ch:concrete-instances-dirichlet-series-namecert}) at unit coefficients.
 \end{definition}
+\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasic}
 
 \begin{definition}[Unit Dirichlet part sum]
 \label{def:zeta-basic-part-sum}
@@ -224,31 +225,41 @@ Direct specialization of \autoref{thm:half-plane-holomorphic} of \(\DirichletSer
 \label{def:zeta-basic-source-spec}
 The source specification on \(s\) carries the constraint \(\Re(s) > 1\) (decidable on the rational representation).
 \end{definition}
+\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicSourceSpec}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicSourceSpec\_unit\_term\_carrier}
 
 \begin{definition}[Zeta basic pattern specification]
 \label{def:zeta-basic-pattern-spec}
 The pattern is the unit-coefficient Dirichlet partial-sum convergence predicate, equivalently the Euler-product convergence predicate.
 \end{definition}
+\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicPatternSpec}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPatternSpec\_successor\_step\_inversion}
 
 \begin{definition}[Zeta basic classifier specification]
 \label{def:zeta-basic-classifier-spec}
 Two \(\zeta\)-values at the same \(s\) are classified together when they agree under \(\hsame\) on both real components.
 \end{definition}
+\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicClassifierSpec}
 
 \begin{definition}[Zeta basic stability certificate]
 \label{def:zeta-basic-stability-cert}
 The stability certificate consists of \(\hsame\)-respect on \(s\), transport of partial-sum modulus under \(\hsame\), and equivalence of the Dirichlet-sum and Euler-product values.
 \end{definition}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicClassifierSpec\_successor\_limit\_transport}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPatternSpec\_successor\_source\_hsame\_transport}
 
 \begin{definition}[Zeta basic ledger policy]
 \label{def:zeta-basic-ledger-policy}
 The ledger policy records: (i) abscissa exactly 1, (ii) Euler product factorization, (iii) non-vanishing on the half-plane with explicit lower bound, (iv) holomorphicity over compact sub-half-planes.
 \end{definition}
+\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicLedgerPolicy}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicLedgerPolicy\_carrier\_fields}
 
 \begin{theorem}[Concrete \(\ZetaBasicUp\) naming certificate]
 \label{thm:zeta-basic-namecert}
 The five fields above form a naming certificate over \(\Hist\) for the basic \(\zeta\) interface \(\ZetaBasicUp\) on \(\Re(s) > 1\).
 \end{theorem}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_nonempty\_name\_certificate}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}
@@ -257,6 +268,8 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:zeta-basic-semantic-namecert}
 The concrete certificate of \autoref{thm:zeta-basic-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
 \end{theorem}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasic\_semanticNameCert}
+\leanchecked{BEDC.Derived.ZetaBasicUp.zeta\_basic\_semantic\_name\_certificate}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}

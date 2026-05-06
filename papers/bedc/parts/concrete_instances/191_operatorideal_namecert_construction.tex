@@ -1,0 +1,359 @@
+\chapter{A Concrete Naming Certificate for $\OperatorIdealUp$}
+\label{ch:concrete-instances-operatorideal-namecert}
+
+The operator-ideal interface $\OperatorIdealUp$ packages a two-sided ideal of bounded operators on a Hilbert space carrier (compact, trace class, Hilbert-Schmidt). It depends on $\NameCert_{\HilbertUp}$ (\autoref{ch:concrete-instances-hilbert-namecert}) and $\NameCert_{\IdealUp}$ (\autoref{ch:concrete-instances-ideal-namecert}).
+
+\section{Carrier definition}
+\label{sec:operatorideal-carrier}
+
+\begin{definition}[OperatorIdeal Hilbert source surface]
+\label{def:operatorideal-hilbert-source-surface}
+Let $H$ be a $\HilbertUp$ carrier supplied by $\NameCert_{\HilbertUp}$, with Hilbert carrier predicate $C_H$, classifier $\sim_H$, vector addition, additive inverse, zero, scalar action, and inner-product norm rows. Let $\mathsf{Op}_H(T)$ be a $\mathsf{BHist}$ predicate whose endpoints are bounded $\LinearMapUp(H,H)$ map-codes. The operator-ideal source surface over $H$ is the ten-field $\NameCert_{\OperatorIdealUp}$ inventory with the following rows.
+\begin{enumerate}
+\item The traditional target is a two-sided ideal of bounded Hilbert operators on $H$.
+\item The BEDC source is $\NameCert_{\HilbertUp}$ together with $\NameCert_{\IdealUp}$ read over the bounded-operator composition ring on $H$.
+\item The carrier is the predicate $\mathsf{Op}_H$ on bounded-operator rows $H\to H$.
+\item The classifier is inherited from the Hilbert and linear-map classifier: $T\sim_{\mathsf{Op}(H)}S$ means pointwise $\sim_H$ agreement on every carried Hilbert endpoint after both map-codes are certified bounded and linear.
+\item The stability rows are the bounded zero operator, addition, negation, scalar action where the Hilbert module row is consumed, and composition on the left and on the right by every carried bounded operator.
+\item The ledger records the Hilbert source certificate, the $\LinearMapUp(H,H)$ row, the ideal-membership witness for the selected predicate, and the two composition witnesses for left and right multiplication.
+\item The core theorem rows are the carrier support, additive closure, two-sided absorption, and downstream trace-class boundary rows in \autoref{sec:operatorideal-certificate}.
+\item Exactness is row exhaustion: an accepted operator-ideal endpoint exposes only the Hilbert source, bounded linear-map row, ideal membership, classifier transport, additive rows, scalar rows, and the two bounded composition witnesses displayed here.
+\item The standard bridge row is absent at this paper site.
+\item The boundary package is the trace-class-ready operator-ideal surface consumed by $\DensityMatrixUp$, $\NuclearUp$, and $\QuantumChannelUp$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Trace-class operator-ideal carrier]
+\label{def:operatorideal-trace-class-carrier}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{Op}_H$ be the bounded-operator carrier from \autoref{def:operatorideal-hilbert-source-surface}. A trace-class carrier over $H$ is the subcarrier
+$$
+\mathsf{TC}(H)(T)
+:\Longleftrightarrow
+\mathsf{Op}_H(T)\land \mathsf{TraceClassIdeal}_H(T),
+$$
+where $\mathsf{TraceClassIdeal}_H$ is an $\IdealUp$ predicate over the bounded-operator composition ring carried by $\mathsf{Op}_H$. Its classifier is the restriction of $\sim_{\mathsf{Op}(H)}$, and its ledger contains the bounded-operator witness for $T$ together with the $\IdealUp$ membership witness $\mathsf{TraceClassIdeal}_H(T)$.
+\end{definition}
+
+\section{The certificate}
+\label{sec:operatorideal-certificate}
+
+\begin{theorem}[OperatorIdeal carrier support row]
+\label{thm:operatorideal-carrier-support-row}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. If $\mathsf{TC}(H)(T)$, then $T$ is carried by the bounded-operator carrier over $H$:
+$$
+\mathsf{TC}(H)(T)\Longrightarrow \mathsf{Op}_H(T).
+$$
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:operatorideal-trace-class-carrier}. A trace-class witness is a pair consisting of the bounded-operator row $\mathsf{Op}_H(T)$ and an $\IdealUp$ membership witness $\mathsf{TraceClassIdeal}_H(T)$.
+
+Projecting the first component gives the displayed bounded-operator carrier support. No analytic trace row is used; the result is exactly the support projection from the carrier definition.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal additive closure row]
+\label{thm:operatorideal-additive-closure-row}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. The $\OperatorIdealUp$ certificate supplies the trace-class zero, additive, and negation rows:
+$$
+\mathsf{TC}(H)(0_H),
+$$
+$$
+\mathsf{TC}(H)(T)\land\mathsf{TC}(H)(S)\Longrightarrow \mathsf{TC}(H)(T+_H S),
+$$
+and
+$$
+\mathsf{TC}(H)(T)\Longrightarrow \mathsf{TC}(H)(-_H T).
+$$
+\end{theorem}
+\begin{proof}
+Read $\mathsf{TC}(H)$ as the $\IdealUp$ predicate $\mathsf{TraceClassIdeal}_H$ over the bounded-operator composition ring from \autoref{def:operatorideal-trace-class-carrier}. The zero row of the $\IdealUp$ predicate gives membership of the bounded zero operator; the bounded-operator surface of \autoref{def:operatorideal-hilbert-source-surface} supplies its $\mathsf{Op}_H$ carrier witness.
+
+For addition, two trace-class witnesses project to two ideal-membership witnesses. The additive closure row of $\NameCert_{\IdealUp}$ gives membership for $T+_H S$, while the bounded linear-map rows inherited from $\HilbertUp$ and $\LinearMapUp$ carry the sum as a bounded operator.
+
+For negation, project the additive inverse row of the same $\IdealUp$ predicate and pair it with the bounded negation row from the operator surface. These paired rows are precisely the three displayed $\mathsf{TC}(H)$ clauses.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal two-sided absorption row]
+\label{thm:operatorideal-two-sided-absorption-row}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. If $A$ is a carried bounded operator on $H$ and $T$ is trace-class on $H$, then both composites are trace-class:
+$$
+\mathsf{Op}_H(A)\land\mathsf{TC}(H)(T)
+\Longrightarrow
+\mathsf{TC}(H)(A\circ T)\land\mathsf{TC}(H)(T\circ A).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.OperatorIdealUp.OperatorIdealTraceClass\_two\_sided\_absorption\_row}
+\begin{proof}
+Unpack the trace-class witness for $T$. It supplies the bounded-operator row $\mathsf{Op}_H(T)$ and the ideal-membership row $\mathsf{TraceClassIdeal}_H(T)$.
+
+The input $\mathsf{Op}_H(A)$ is exactly the ambient carried endpoint required by the two-sided absorption field of $\NameCert_{\IdealUp}$ over the bounded-operator composition ring. Projecting that field gives ideal membership for both $A\circ T$ and $T\circ A$.
+
+The bounded composition rows of \autoref{def:operatorideal-hilbert-source-surface} carry the two composites as bounded $\LinearMapUp(H,H)$ map-codes. Pairing these carrier witnesses with the two projected ideal-membership witnesses gives $\mathsf{TC}(H)(A\circ T)$ and $\mathsf{TC}(H)(T\circ A)$.
+\end{proof}
+
+\begin{theorem}[DensityMatrix trace-class dependency boundary]
+\label{thm:operatorideal-densitymatrix-trace-class-boundary}
+The downstream $\DensityMatrixUp$ and $\QuantumChannelUp$ chapters may consume from $\OperatorIdealUp(H)$ only the trace-class carrier $\mathsf{TC}(H)$ of \autoref{def:operatorideal-trace-class-carrier}, its classifier transport from $\sim_{\mathsf{Op}(H)}$, the zero, addition, negation, and real scalar/module rows inherited through $\HilbertUp$ and $\LinearMapUp$, and the two-sided absorption row of \autoref{thm:operatorideal-two-sided-absorption-row}. Positivity rows, trace rows, and trace-one rows belong to the downstream chapters themselves. This boundary does not claim compactness, a spectral theorem, trace existence, or a standard operator-algebra bridge.
+\end{theorem}
+\begin{proof}
+Inspect the ten-field surface in \autoref{def:operatorideal-hilbert-source-surface}. Its exactness field says that an operator-ideal endpoint exposes only the Hilbert source, bounded linear-map row, ideal membership, classifier transport, additive rows, scalar rows, and left and right bounded-composition witnesses.
+
+The trace-class carrier in \autoref{def:operatorideal-trace-class-carrier} further restricts that surface to the $\IdealUp$ predicate $\mathsf{TraceClassIdeal}_H$. Therefore the support, additive, and absorption theorems above are the available projections for downstream use.
+
+The positivity predicate $\mathsf{Pos}_H$, the trace functional $\operatorname{Tr}_H$, and the trace-one equation are not fields of either displayed OperatorIdeal inventory. They are introduced only when $\DensityMatrixUp$ and $\QuantumChannelUp$ state their own carrier and certificate rows, so none of compactness, spectral decomposition, trace existence, or a standard bridge is exported by this chapter.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal trace-class scalar closure]
+\label{thm:operatorideal-trace-class-scalar-closure}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. Let $a$ be a carried $\RealUp$ scalar endpoint for the Hilbert module action. Write $M_a:H\to H$ for the bounded Hilbert scalar-action endomorphism carried by the scalar row of \autoref{def:operatorideal-hilbert-source-surface},
+$$
+M_a(x):=a\cdot_H x,
+$$
+and let the induced trace-class scalar action on operators be
+$$
+a\odot_H T:=M_a\circ T.
+$$
+Then trace-class membership is closed under this scalar action:
+$$
+\mathsf{TC}(H)(T)\Longrightarrow\mathsf{TC}(H)(a\odot_H T).
+$$
+\end{theorem}
+\begin{proof}
+The carried scalar hypothesis gives a certified scalar-action row on the Hilbert module surface. Read as a map in the bounded-operator composition ring, that row carries the homothety $M_a$ as a bounded $\LinearMapUp(H,H)$ endpoint; in the notation of \autoref{def:operatorideal-hilbert-source-surface}, this is the ambient witness $\mathsf{Op}_H(M_a)$.
+
+Now assume $\mathsf{TC}(H)(T)$. By \autoref{def:operatorideal-trace-class-carrier}, this witness consists of a bounded-operator carrier row $\mathsf{Op}_H(T)$ and an ideal-membership row $\mathsf{TraceClassIdeal}_H(T)$ inside the bounded-operator composition ring.
+
+Apply \autoref{thm:operatorideal-two-sided-absorption-row} with the carried ambient operator $A=M_a$. The left absorption component gives
+$$
+\mathsf{TC}(H)(M_a\circ T),
+$$
+while the right component gives $\mathsf{TC}(H)(T\circ M_a)$ and is not needed here.
+
+The displayed definition of the inherited scalar action identifies $M_a\circ T$ with $a\odot_H T$. The classifier-transport row for the ideal predicate in \autoref{thm:ideal-classifier-transport-obligation} carries the obtained trace-class witness across that endpoint identity, giving
+$$
+\mathsf{TC}(H)(a\odot_H T).
+$$
+\end{proof}
+
+\begin{definition}[OperatorIdeal root BHist threshold source]
+\label{def:operatorideal-root-bhist-threshold-source}
+Let $H$ be a $\HilbertUp$ carrier and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. The root $\mathsf{BHist}$ threshold source for $\OperatorIdealUp(H)$ is the ten-field package with the following rows.
+\begin{enumerate}
+\item The traditional target is the two-sided operator ideal surface on Hilbert carriers.
+\item The BEDC source is $\NameCert_{\HilbertUp}$, $\LinearMapUp$, $\IdealUp$, and the ambient $\NameCert$ discipline for row transport.
+\item The carrier row is the bounded Hilbert-operator carrier $\mathsf{Op}_H$ together with its trace-class subcarrier $\mathsf{TC}(H)$.
+\item The classifier row is $\sim_{\mathsf{Op}(H)}$, read as pointwise $\sim_H$ agreement after the two endpoints are certified as bounded $\LinearMapUp(H,H)$ codes.
+\item The stability rows are bounded zero, addition, negation, real scalar action, left composition by a carried bounded operator, and right composition by a carried bounded operator.
+\item The ledger rows are the Hilbert source certificate, the bounded linear-map certificate, the $\IdealUp$ membership witness $\mathsf{TraceClassIdeal}_H$, and the two bounded-composition witnesses.
+\item The core rows are the support, additive closure, two-sided absorption, scalar closure, and downstream-boundary theorems of \autoref{sec:operatorideal-certificate}.
+\item Exactness is row exhaustion: no endpoint accepted at this threshold exposes a field beyond the carrier, classifier, stability, ledger, and core rows displayed here.
+\item The standard bridge row is absent.
+\item The downstream consumers are $\DensityMatrixUp$, $\NuclearUp$, and $\QuantumChannelUp$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[OperatorIdeal root carrier-classifier threshold]
+\label{thm:operatorideal-root-bhist-carrier-classifier-threshold}
+Let $H$ be a $\HilbertUp$ carrier. The root $\mathsf{BHist}$ threshold source of \autoref{def:operatorideal-root-bhist-threshold-source} exposes only bounded Hilbert-operator endpoints coded by $\mathsf{BHist}$, pointwise classifier transport inherited from the Hilbert and $\LinearMapUp$ rows, and trace-class support through $\mathsf{TC}(H)$. In particular,
+$$
+\mathsf{TC}(H)(T)\Longrightarrow \mathsf{Op}_H(T),
+$$
+and every classifier comparison at this threshold is a $\sim_{\mathsf{Op}(H)}$ comparison between certified bounded $\LinearMapUp(H,H)$ endpoints.
+\end{theorem}
+\begin{proof}
+Unpack the root threshold source in \autoref{def:operatorideal-root-bhist-threshold-source}. Its carrier row is exactly the bounded Hilbert-operator predicate $\mathsf{Op}_H$ plus the trace-class subcarrier $\mathsf{TC}(H)$, while its classifier row is the pointwise Hilbert classifier transported along certified bounded linear maps.
+
+Projecting \autoref{def:operatorideal-hilbert-source-surface} gives the $\mathsf{BHist}$-coded bounded operator surface and its $\sim_{\mathsf{Op}(H)}$ classifier. Projecting \autoref{def:operatorideal-trace-class-carrier} gives the trace-class pair consisting of $\mathsf{Op}_H(T)$ and $\mathsf{TraceClassIdeal}_H(T)$.
+
+The displayed support implication is precisely \autoref{thm:operatorideal-carrier-support-row}. Since the root exactness row admits no further carrier or classifier field, these are the only carrier-classifier rows visible at the threshold.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal root ideal-absorption threshold]
+\label{thm:operatorideal-root-bhist-ideal-absorption-threshold}
+Let $H$ be a $\HilbertUp$ carrier. Through the trace-class carrier $\mathsf{TC}(H)$, the root $\mathsf{BHist}$ threshold exposes exactly the $\IdealUp$ rows needed for zero, addition, negation, real scalar closure, and two-sided absorption by carried bounded operators:
+$$
+\mathsf{TC}(H)(0_H),
+$$
+$$
+\mathsf{TC}(H)(T)\land\mathsf{TC}(H)(S)\Longrightarrow \mathsf{TC}(H)(T+_H S),
+$$
+$$
+\mathsf{TC}(H)(T)\Longrightarrow \mathsf{TC}(H)(-_H T),
+$$
+$$
+\mathsf{TC}(H)(T)\Longrightarrow\mathsf{TC}(H)(a\odot_H T),
+$$
+and
+$$
+\mathsf{Op}_H(A)\land\mathsf{TC}(H)(T)
+\Longrightarrow
+\mathsf{TC}(H)(A\circ T)\land\mathsf{TC}(H)(T\circ A).
+$$
+\end{theorem}
+\begin{proof}
+The trace-class carrier of \autoref{def:operatorideal-trace-class-carrier} packages a bounded $\LinearMapUp(H,H)$ endpoint together with the $\IdealUp$ membership predicate $\mathsf{TraceClassIdeal}_H$. The root ledger of \autoref{def:operatorideal-root-bhist-threshold-source} records that membership row and the left and right bounded-composition witnesses.
+
+The zero, addition, and negation clauses are exactly the three projections supplied by \autoref{thm:operatorideal-additive-closure-row}. They use the IdealUp membership row paired with the bounded operator rows from the Hilbert and linear-map source.
+
+The scalar clause is \autoref{thm:operatorideal-trace-class-scalar-closure}: the carried scalar action is read as a bounded endomorphism and then absorbed on the left. The final displayed clause is \autoref{thm:operatorideal-two-sided-absorption-row}, applied to the carried ambient operator $A$ and the trace-class endpoint $T$.
+
+The exactness row in the root source excludes any further ideal operation at this threshold. Thus the displayed additive, scalar, and absorption clauses are the full ideal surface available through $\mathsf{TC}(H)$.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal root downstream-face boundary]
+\label{thm:operatorideal-root-bhist-downstream-face-boundary}
+The downstream chapters $\DensityMatrixUp$, $\NuclearUp$, and $\QuantumChannelUp$ may consume from the root $\mathsf{BHist}$ threshold for $\OperatorIdealUp(H)$ only the carrier $\mathsf{TC}(H)$, the classifier transport $\sim_{\mathsf{Op}(H)}$, the zero, addition, negation, scalar, and two-sided absorption rows, and the bounded Hilbert source ledger. They receive no positivity row, no trace row, no trace-one row, no compactness row, no spectral-theorem row, no trace-existence row, and no standard bridge row from this package.
+\end{theorem}
+\begin{proof}
+Start with the exactness field of \autoref{def:operatorideal-root-bhist-threshold-source}. It lists the carrier, classifier, stability, ledger, and core rows and states that no accepted endpoint exposes anything beyond those rows.
+
+The carrier and classifier part is fixed by \autoref{thm:operatorideal-root-bhist-carrier-classifier-threshold}. The ideal-operation part is fixed by \autoref{thm:operatorideal-root-bhist-ideal-absorption-threshold}: zero, addition, negation, scalar closure, and two-sided absorption are the available trace-class rows.
+
+The earlier dependency boundary \autoref{thm:operatorideal-densitymatrix-trace-class-boundary} already separates $\DensityMatrixUp$ and $\QuantumChannelUp$ from positivity, trace, trace-one, compactness, spectral, trace-existence, and standard bridge claims. The root source names $\NuclearUp$ as a consumer of the same $\mathsf{TC}(H)$ face, so the identical boundary applies to that consumer as well.
+\end{proof}
+
+\begin{theorem}[Trace-class binary linear-combination closure]
+\label{thm:operatorideal-trace-class-binary-linear-combination-closure}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. Write $+_{\mathsf{TC}(H)}$ for the trace-class addition inherited from the operator-ideal additive row, and use the real trace-class scalar action $\odot_H$ of \autoref{thm:operatorideal-trace-class-scalar-closure}. Let $T$ and $S$ be operator endpoints, and let $a$ and $b$ be carried $\RealUp$ scalar endpoints for the Hilbert module action. If
+$$
+\mathsf{TC}(H)(T)\land\mathsf{TC}(H)(S),
+$$
+then
+$$
+\mathsf{TC}(H)\bigl((a\odot_H T)+_{\mathsf{TC}(H)}(b\odot_H S)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume the two trace-class witnesses. Applying \autoref{thm:operatorideal-trace-class-scalar-closure} to the carried scalar $a$ and the endpoint $T$ gives
+$$
+\mathsf{TC}(H)(a\odot_H T).
+$$
+Applying the same scalar-closure row to the carried scalar $b$ and the endpoint $S$ gives
+$$
+\mathsf{TC}(H)(b\odot_H S).
+$$
+
+The operation $+_{\mathsf{TC}(H)}$ is the restriction of the bounded-operator addition row named in \autoref{def:operatorideal-hilbert-source-surface} to endpoints carrying the trace-class predicate of \autoref{def:operatorideal-trace-class-carrier}. Therefore the additive closure row of \autoref{thm:operatorideal-additive-closure-row}, applied to the two scalar-multiple witnesses displayed above, gives
+$$
+\mathsf{TC}(H)\bigl((a\odot_H T)+_{\mathsf{TC}(H)}(b\odot_H S)\bigr).
+$$
+Only the trace-class ideal membership, scalar closure, and additive closure rows are used; positivity, trace, and trace-one rows remain outside this operator-ideal claim.
+\end{proof}
+
+\begin{definition}[OperatorIdeal trace-class consumer spine source]
+\label{def:operatorideal-trace-class-consumer-spine-source}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. The trace-class consumer spine for $\OperatorIdealUp(H)$ is the concrete downstream-facing package with the following rows.
+\begin{enumerate}
+\item The carrier row is $\mathsf{TC}(H)$.
+\item The classifier row is the restricted operator classifier $\sim_{\mathsf{Op}(H)}$ on certified bounded $\LinearMapUp(H,H)$ endpoints.
+\item The algebra rows are the trace-class zero endpoint, addition, negation, real scalar action $\odot_H$, and binary linear-combination closure.
+\item The absorption rows are left and right composition by any carried bounded Hilbert operator.
+\item The ledger row is the bounded Hilbert source ledger: the $\NameCert_{\HilbertUp}$ carrier, the bounded $\LinearMapUp(H,H)$ certificate, the trace-class $\IdealUp$ membership witness, and the two bounded-composition witnesses.
+\item The only consumer slots are $\DensityMatrixUp$, $\NuclearUp$, and $\QuantumChannelUp$.
+\end{enumerate}
+No positivity, trace, trace-one, nuclearity, complete-positivity, compactness, spectral, trace-existence, or standard bridge row is part of this source.
+\end{definition}
+
+\begin{theorem}[OperatorIdeal trace-class consumer spine coverage]
+\label{thm:operatorideal-trace-class-consumer-spine-coverage}
+Every row of the trace-class consumer spine of \autoref{def:operatorideal-trace-class-consumer-spine-source} is covered by the root $\mathsf{BHist}$ threshold source of \autoref{def:operatorideal-root-bhist-threshold-source}, the carrier-classifier threshold of \autoref{thm:operatorideal-root-bhist-carrier-classifier-threshold}, the ideal-absorption threshold of \autoref{thm:operatorideal-root-bhist-ideal-absorption-threshold}, and the binary linear-combination closure of \autoref{thm:operatorideal-trace-class-binary-linear-combination-closure}.
+\end{theorem}
+\begin{proof}
+We first build the carrier and classifier part of the spine. The source in \autoref{def:operatorideal-root-bhist-threshold-source} names $\mathsf{TC}(H)$ as the trace-class subcarrier over bounded Hilbert operators, and \autoref{thm:operatorideal-root-bhist-carrier-classifier-threshold} identifies the visible classifier as $\sim_{\mathsf{Op}(H)}$ on certified bounded $\LinearMapUp(H,H)$ endpoints.
+
+Next we build the algebra and absorption rows. The zero, addition, negation, scalar action, and two-sided composition rows are exactly the displayed rows of \autoref{thm:operatorideal-root-bhist-ideal-absorption-threshold}. The binary linear-combination row is \autoref{thm:operatorideal-trace-class-binary-linear-combination-closure}, which repacks scalar closure and addition into the two-term downstream form.
+
+It remains to account for the ledger and consumer slots. The ledger row is one of the named rows of \autoref{def:operatorideal-root-bhist-threshold-source}: it records the Hilbert source certificate, the bounded linear-map certificate, the trace-class ideal-membership witness, and the two bounded-composition witnesses. The same source names $\DensityMatrixUp$, $\NuclearUp$, and $\QuantumChannelUp$ as the downstream consumers, so every spine row is a projection of the cited root package and its displayed threshold theorems.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal trace-class consumer row separation]
+\label{thm:operatorideal-trace-class-consumer-row-separation}
+The trace-class consumer spine of \autoref{def:operatorideal-trace-class-consumer-spine-source} contains none of the following downstream rows:
+\begin{enumerate}
+\item positivity, trace, and trace-one rows for $\DensityMatrixUp$;
+\item nuclearity and trace-existence rows for $\NuclearUp$;
+\item complete-positivity and standard bridge rows for $\QuantumChannelUp$;
+\item compactness and spectral rows for analytic refinements of the trace-class face.
+\end{enumerate}
+Each listed row must be supplied by the corresponding consumer chapter rather than imported from $\OperatorIdealUp(H)$.
+\end{theorem}
+\begin{proof}
+Inspect the source rows in \autoref{def:operatorideal-trace-class-consumer-spine-source}. The enumerated spine contains only $\mathsf{TC}(H)$, the restricted classifier $\sim_{\mathsf{Op}(H)}$, the zero, addition, negation, scalar, binary linear-combination, and two-sided absorption rows, together with the bounded Hilbert ledger and the three consumer slots.
+
+The same absence is forced by the upstream boundary. \autoref{thm:operatorideal-root-bhist-downstream-face-boundary} states that the root threshold sends no positivity, trace, trace-one, compactness, spectral, trace-existence, or standard bridge row downstream. The definition of the spine is a subpackage of that boundary, so it cannot contain a row excluded by the root face.
+
+For nuclearity and complete positivity, the separation is by row name and dependency. Nuclearity is not one of the ideal-membership, bounded-composition, additive, scalar, carrier, or classifier rows in the spine. Complete positivity is likewise absent because the spine contains no matrix-amplification or positive-cone preservation row. Therefore the named analytic and quantum rows must be supplied by $\DensityMatrixUp$, $\NuclearUp$, and $\QuantumChannelUp$ at their own paper sites.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal trace-class consumer exhaustion]
+\label{thm:operatorideal-trace-class-consumer-exhaustion}
+Every allowed downstream use of $\OperatorIdealUp(H)$ by $\DensityMatrixUp$, $\NuclearUp$, or $\QuantumChannelUp$ factors through exactly the trace-class carrier and classifier rows, the additive, scalar, and absorption rows, the binary linear-combination closure, and the bounded Hilbert source ledger displayed in \autoref{def:operatorideal-trace-class-consumer-spine-source}.
+\end{theorem}
+\begin{proof}
+Let a downstream use be accepted by one of the three consumer slots in \autoref{def:operatorideal-trace-class-consumer-spine-source}. By the definition of the slot, the use must read an endpoint through $\mathsf{TC}(H)$, compare endpoints through $\sim_{\mathsf{Op}(H)}$, apply one of the displayed algebra or absorption rows, or inspect the bounded Hilbert ledger.
+
+The factorization is obtained by cases on that row access. Carrier and classifier accesses factor through \autoref{thm:operatorideal-root-bhist-carrier-classifier-threshold}. Zero, addition, negation, scalar action, and two-sided absorption factor through \autoref{thm:operatorideal-root-bhist-ideal-absorption-threshold}. A two-term scalar linear combination factors through \autoref{thm:operatorideal-trace-class-binary-linear-combination-closure}. Ledger access factors through the ledger row of \autoref{def:operatorideal-root-bhist-threshold-source}.
+
+No remaining case exists. The exactness clause of \autoref{def:operatorideal-root-bhist-threshold-source} says that the root threshold exposes no row beyond its carrier, classifier, stability, ledger, and core rows, and \autoref{thm:operatorideal-trace-class-consumer-row-separation} removes the analytic and quantum rows from the spine. Thus every allowed downstream use is exhausted by the listed carrier, classifier, operation, absorption, closure, and ledger factors.
+\end{proof}
+
+\begin{definition}[OperatorIdeal bounded-context action spine]
+\label{def:operatorideal-bounded-context-action-spine}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. A bounded-context action spine over $H$ is the finite freely generated context package $\mathsf{BCtx}_H$ with the following constructors:
+\begin{enumerate}
+\item the identity context $\mathsf{id}_{\mathsf{BCtx}}$;
+\item if $K\in\mathsf{BCtx}_H$ and $\mathsf{Op}_H(A)$, the left-composition context $\mathsf{L}_A(K)$;
+\item if $K\in\mathsf{BCtx}_H$ and $\mathsf{Op}_H(A)$, the right-composition context $\mathsf{R}_A(K)$.
+\end{enumerate}
+Its endpoint action on a trace-class input $T$ is defined by structural recursion:
+$$
+\mathsf{id}_{\mathsf{BCtx}}[T]=T,
+$$
+$$
+\mathsf{L}_A(K)[T]=A\circ K[T],
+$$
+and
+$$
+\mathsf{R}_A(K)[T]=K[T]\circ A.
+$$
+Thus $\mathsf{BCtx}_H$ records exactly a finite list of certified bounded Hilbert-operator compositions around a trace-class endpoint, with no positivity, trace, nuclearity, complete-positivity, compactness, spectral, or bridge row.
+\end{definition}
+
+\begin{theorem}[OperatorIdeal trace-class finite context closure]
+\label{thm:operatorideal-trace-class-finite-context-closure}
+Let $H$ be a $\HilbertUp$ carrier, let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}, and let $K\in\mathsf{BCtx}_H$ be a bounded-context action spine of \autoref{def:operatorideal-bounded-context-action-spine}. If $\mathsf{TC}(H)(T)$, then the endpoint obtained by applying $K$ to $T$ is again trace-class:
+$$
+\mathsf{TC}(H)(T)\Longrightarrow \mathsf{TC}(H)(K[T]).
+$$
+\end{theorem}
+\begin{proof}
+Proceed by structural induction on the bounded-context action spine $K$.
+
+In the identity case, the endpoint action is $\mathsf{id}_{\mathsf{BCtx}}[T]=T$. The required trace-class witness is exactly the input witness $\mathsf{TC}(H)(T)$.
+
+For the left-composition step, write the context as $\mathsf{L}_A(K_0)$ with $\mathsf{Op}_H(A)$. The induction hypothesis gives $\mathsf{TC}(H)(K_0[T])$. Apply the left component of \autoref{thm:operatorideal-two-sided-absorption-row} to the carried bounded operator $A$ and the trace-class endpoint $K_0[T]$; the result is
+$$
+\mathsf{TC}(H)(A\circ K_0[T]).
+$$
+By the endpoint action defining $\mathsf{L}_A(K_0)[T]$, this is the desired witness for $\mathsf{TC}(H)(\mathsf{L}_A(K_0)[T])$.
+
+For the right-composition step, write the context as $\mathsf{R}_A(K_0)$ with $\mathsf{Op}_H(A)$. The induction hypothesis again gives $\mathsf{TC}(H)(K_0[T])$. Apply the right component of \autoref{thm:operatorideal-two-sided-absorption-row} to $A$ and $K_0[T]$ to obtain
+$$
+\mathsf{TC}(H)(K_0[T]\circ A).
+$$
+The endpoint action for $\mathsf{R}_A(K_0)$ identifies this endpoint with $\mathsf{R}_A(K_0)[T]$. These three cases exhaust the finite spine constructors.
+\end{proof}
+\leanchecked{BEDC.Derived.OperatorIdealUp.OperatorIdealTraceClass\_finite\_context\_closure}
+
+\begin{theorem}[OperatorIdeal consumer context exhaustion]
+\label{thm:operatorideal-consumer-context-exhaustion}
+Every downstream use by $\DensityMatrixUp$, $\NuclearUp$, or $\QuantumChannelUp$ that starts from a trace-class endpoint and repeatedly composes it with finitely many carried bounded Hilbert operators factors through the bounded-context action spine of \autoref{def:operatorideal-bounded-context-action-spine} and the finite context closure theorem of \autoref{thm:operatorideal-trace-class-finite-context-closure}.
+\end{theorem}
+\begin{proof}
+Let the downstream use be accepted by one of the consumer slots of \autoref{def:operatorideal-trace-class-consumer-spine-source}, and assume that its operator action consists only of finitely many left or right compositions by carried bounded Hilbert operators.
+
+First encode the action as a bounded-context spine. The empty list of compositions is the identity constructor. Adding a left composition by a carried $\mathsf{Op}_H(A)$ applies the constructor $\mathsf{L}_A$, and adding a right composition by the same kind of carried operator applies the constructor $\mathsf{R}_A$. Finite repetition therefore builds an element $K\in\mathsf{BCtx}_H$ whose endpoint action is the downstream endpoint.
+
+Next apply \autoref{thm:operatorideal-trace-class-finite-context-closure}. Starting from the input witness $\mathsf{TC}(H)(T)$, the theorem gives $\mathsf{TC}(H)(K[T])$, so the finite bounded-context action preserves the trace-class carrier exposed to the consumer.
+
+It remains to account for the consumer rows. Carrier, classifier, additive, scalar, binary linear-combination, absorption, and ledger accesses are exactly the rows exhausted by \autoref{thm:operatorideal-trace-class-consumer-exhaustion}. The repeated-composition part of such an access is the bounded-context spine just constructed, while analytic rows remain absent by \autoref{thm:operatorideal-trace-class-consumer-row-separation}. Hence no allowed $\DensityMatrixUp$, $\NuclearUp$, or $\QuantumChannelUp$ bounded-context use lies outside the displayed spine and closure package.
+\end{proof}

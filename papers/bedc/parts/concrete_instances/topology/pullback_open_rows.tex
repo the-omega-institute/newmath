@@ -1,0 +1,149 @@
+\begin{definition}[BHist pullback open row]
+\label{def:topology-bhist-pullback-open-row}
+Let $\mathcal{T}_X$ be an indexed open topology carrier for $\TopologyUp$ over $X$, and let $(i,U,h_i,\lambda_i)$ be a topology public open row in the sense of \autoref{def:topology-public-open-row}. Let $Y$ be a $\mathsf{BHist}$-carried source with classifier $\mathsf{same}_Y$, and let
+$$
+f:Y\to X
+$$
+be a displayed $\mathsf{BHist}$ map respecting classifiers:
+$$
+\mathsf{same}_Y(y_0,y_1)
+\Longrightarrow
+\mathsf{same}_X(f(y_0),f(y_1)).
+$$
+The BHist pullback open row of $(i,U,h_i,\lambda_i)$ along $f$ is the row
+$$
+(i,U\circ f,h_i\circ f,\lambda_i^{f})
+$$
+whose pulled-back predicate is
+$$
+(U\circ f)(y):\Longleftrightarrow U(f(y)).
+$$
+The carried-index route remains the same target index $i$ viewed through the displayed map $f$: the carrying equation at $y:Y$ is obtained by applying $h_i$ at $f(y)$, and the ledger row $\lambda_i^{f}$ records the original visible $\mathsf{BHist}$ provenance together with the map row for $f$.
+\end{definition}
+
+\begin{theorem}[Topology pullback open row classifier transport]
+\label{thm:topology-pullback-open-row-classifier-transport}
+Let $(i,U,h_i,\lambda_i)$ be a topology public open row of $\mathcal{T}_X$ over $X$, and let $f:Y\to X$ be a classifier-respecting $\mathsf{BHist}$ map as in \autoref{def:topology-bhist-pullback-open-row}. Then membership in the pulled-back predicate transports along the source classifier:
+$$
+\mathsf{same}_Y(y_0,y_1)
+\Longrightarrow
+\bigl((U\circ f)(y_0)\Longleftrightarrow(U\circ f)(y_1)\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistPullbackOpen\_classifier\_transport\_surface}
+\begin{proof}
+Assume $\mathsf{same}_Y(y_0,y_1)$. The map row for $f$ sends this source classifier witness to $\mathsf{same}_X(f(y_0),f(y_1))$.
+
+Apply \autoref{thm:topology-public-open-row-classifier-transport} to the public open row of \autoref{def:topology-public-open-row}. It transports $U(f(y_0))$ to $U(f(y_1))$ along the obtained target classifier witness.
+
+Unfold the pulled-back predicate of \autoref{def:topology-bhist-pullback-open-row}. The displayed equivalence is exactly membership transport for $U\circ f$ on the source carrier.
+\end{proof}
+
+\begin{theorem}[Topology pullback open row finite-meet]
+\label{thm:topology-pullback-open-row-finite-meet}
+Let $(i,U,h_i,\lambda_i)$ and $(j,V,h_j,\lambda_j)$ be topology public open rows of the same indexed open topology carrier $\mathcal{T}_X$, and let $f:Y\to X$ be a classifier-respecting $\mathsf{BHist}$ map. Pullback commutes with the displayed finite meet:
+$$
+\bigl((U\cap V)\circ f\bigr)(y)
+\Longleftrightarrow
+\bigl((U\circ f)(y)\wedge(V\circ f)(y)\bigr)
+$$
+for every $y:Y$, and the carried index for this pulled-back meet is $i\wedge_{\TopologyUp}j$ with ledger provenance obtained from the finite-meet row and the two pulled-back source rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistPullbackOpen\_finite\_meet\_transport}
+\leanchecked{BEDC.Derived.TopologyUp.BHistPullbackOpen\_finite\_meet}
+\begin{proof}
+Apply \autoref{thm:topology-indexed-open-finite-intersection} to the target carried indices $i$ and $j$ and the carrying witnesses from \autoref{def:topology-public-open-row}. It gives the target meet index $i\wedge_{\TopologyUp}j$ carrying the pointwise predicate $U\cap V$.
+
+Now evaluate the carrying equation at the target point $f(y)$. The left side is membership of $(U\cap V)(f(y))$, and the theorem identifies it with $U(f(y))\wedge V(f(y))$.
+
+Unfold precomposition. The resulting statement is exactly $((U\cap V)\circ f)(y)$ if and only if $(U\circ f)(y)\wedge(V\circ f)(y)$. The ledger is the visible $\mathsf{BHist}$ row that records the finite-meet constructor together with the two pulled-back input rows.
+\end{proof}
+
+\begin{theorem}[Topology pullback NameCert obligation surface]
+\label{thm:topology-pullback-namecert-obligation-surface}
+Let $\mathcal{T}_X$ be a $\NameCert_{\TopologyUp}$ obligation package over $X$ as in \autoref{thm:topology-namecert-obligation-package}, and let $f:Y\to X$ be a classifier-respecting $\mathsf{BHist}$ map from a displayed source carrier $Y$. The pullback rows of \autoref{def:topology-bhist-pullback-open-row} assemble the downstream pullback-open obligation surface: the source carrier $Y$, the source classifier $\mathsf{same}_Y$, the carried-index equation obtained by evaluating target carrying witnesses after $f$, finite-meet preservation from \autoref{thm:topology-pullback-open-row-finite-meet}, classifier transport from \autoref{thm:topology-pullback-open-row-classifier-transport}, and visible $\mathsf{BHist}$ ledger provenance for the map row and the target open row.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistPullbackOpen\_semantic\_name\_certificate}
+\begin{proof}
+The carrier and classifier are the displayed source rows $Y$ and $\mathsf{same}_Y$. The map row for $f$ is the only route used to move a source classifier witness into the target classifier.
+
+For each carried target open, \autoref{def:topology-bhist-pullback-open-row} gives the pulled-back predicate and the carried-index equation by applying the target witness at $f(y)$. Classifier transport is then exactly \autoref{thm:topology-pullback-open-row-classifier-transport}.
+
+For finite meets, use \autoref{thm:topology-pullback-open-row-finite-meet}. It applies the target finite-intersection row of \autoref{thm:topology-indexed-open-finite-intersection} before precomposition, so no host powerset open is selected on $Y$.
+
+Finally invoke the package shape of \autoref{thm:topology-namecert-obligation-package}. Its carrier, classifier, finite-meet, and ledger clauses are preserved by the displayed pullback rows, with provenance recording both the target public open row and the $\mathsf{BHist}$ map row.
+\end{proof}
+
+\begin{theorem}[Topology pullback open row arbitrary union]
+\label{thm:topology-pullback-open-row-arbitrary-union}
+Let $\mathcal{T}_X$ be an indexed open topology carrier for $\TopologyUp$ over $X$. Let $A$ be an indexing type, and for each $a:A$ let
+$$
+\mathcal{R}_a=(\iota(a),U_a,h_a,\lambda_a)
+$$
+be a topology public open row of $\mathcal{T}_X$ in the sense of \autoref{def:topology-public-open-row}. Assume that $u:\mathsf{OpenIx}$ has an indexed arbitrary-union witness for the target index family,
+$$
+h_{\cup}:\mathsf{UnionIx}_{\mathcal{T}_X}(u,\iota).
+$$
+Put $U_{\cup}:X\to\mathsf{Prop}$ and $U_a^{f},U_{\cup}^{f}:Y\to\mathsf{Prop}$ by
+$$
+U_{\cup}(x):\Longleftrightarrow \exists a:A,\ U_a(x),
+$$
+$$
+U_a^{f}(y):\Longleftrightarrow U_a(f(y)),
+$$
+and
+$$
+U_{\cup}^{f}(y):\Longleftrightarrow U_{\cup}(f(y)).
+$$
+Let $Y$ be a $\mathsf{BHist}$-carried source with classifier $\mathsf{same}_Y$, let $f:Y\to X$ be a displayed $\mathsf{BHist}$ map respecting classifiers as in \autoref{def:topology-bhist-pullback-open-row}, and let $\lambda_{\cup}$ be a visible $\mathsf{BHist}$ ledger row naming the arbitrary-union constructor. Then the arbitrary-union public row $(u,U_{\cup},h_u,\lambda_{\cup})$, with $h_u$ supplied by \autoref{thm:topology-indexed-open-arbitrary-union}, has BHist pullback row
+$$
+(u,U_{\cup}^{f},h_u\circ f,\lambda_{\cup}^{f}),
+$$
+and for every $y:Y$ its carried-index equation is
+$$
+\mathsf{OpenAt}(u,f(y))
+\Longleftrightarrow
+\exists a:A,\ U_a^{f}(y).
+$$
+Equivalently,
+$$
+U_{\cup}^{f}(y)
+\Longleftrightarrow
+\exists a:A,\ U_a^{f}(y).
+$$
+Thus the pulled-back arbitrary-union row carries the pointwise existential union of the pulled-back public open predicates.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistPullbackOpen\_arbitrary\_union}
+\begin{proof}
+For each $a:A$, the public-row data of \autoref{def:topology-public-open-row} give
+$$
+h_a:\mathsf{CarriesOpen}_{\mathcal{T}_X}(\iota(a),U_a).
+$$
+Apply \autoref{thm:topology-indexed-open-arbitrary-union} to $h_{\cup}$ and the family $a\mapsto h_a$. This gives
+$$
+h_u:\mathsf{CarriesOpen}_{\mathcal{T}_X}(u,U_{\cup}).
+$$
+Together with the ledger row $\lambda_{\cup}$, this makes $(u,U_{\cup},h_u,\lambda_{\cup})$ a topology public open row by \autoref{def:topology-public-open-row}. Since $f$ respects classifiers, \autoref{def:topology-bhist-pullback-open-row} forms its BHist pullback row with predicate $U_{\cup}^{f}$ and carried equation obtained by evaluating $h_u$ at $f(y)$.
+
+Fix $y:Y$. The union witness of \autoref{def:topology-indexed-arbitrary-union-witness}, evaluated at $f(y)$, gives
+$$
+\mathsf{OpenAt}(u,f(y))
+\Longleftrightarrow
+\exists a:A,\ \mathsf{OpenAt}(\iota(a),f(y)).
+$$
+If the left side holds, choose $a:A$ with $\mathsf{OpenAt}(\iota(a),f(y))$. Reading the carrying equation $h_a$ at $f(y)$ in the reverse direction gives $U_a(f(y))$, hence $U_a^{f}(y)$. Conversely, if $U_a^{f}(y)$ holds for some $a:A$, the definition of $U_a^{f}$ gives $U_a(f(y))$, the carrying equation $h_a$ gives $\mathsf{OpenAt}(\iota(a),f(y))$, and the union witness gives $\mathsf{OpenAt}(u,f(y))$.
+
+This proves
+$$
+\mathsf{OpenAt}(u,f(y))
+\Longleftrightarrow
+\exists a:A,\ U_a^{f}(y).
+$$
+The definition of $U_{\cup}$ gives $U_{\cup}(f(y))\Longleftrightarrow \exists a:A,\ U_a(f(y))$, and the definitions of $U_{\cup}^{f}$ and $U_a^{f}$ rewrite this as
+$$
+U_{\cup}^{f}(y)
+\Longleftrightarrow
+\exists a:A,\ U_a^{f}(y).
+$$
+Therefore the BHist pullback row for the target arbitrary-union public row carries precisely the pointwise existential union of the pulled-back family.
+\end{proof}
