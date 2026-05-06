@@ -322,6 +322,24 @@ theorem ManifoldAtlasPackage_transition_composition_readback
     hsame_trans sameTransitionLeft (append_assoc base index chart)
   exact And.intro sameTransitionNested (And.intro sameTransitionLeft transitionUnary)
 
+structure ManifoldAtlasObligationInventory where
+  base : BHist
+  index : BHist
+  domain : BHist
+  chart : BHist
+  transition : BHist
+  package : ManifoldAtlasPackage base index domain chart transition
+  semanticCertificate :
+    SemanticNameCert ManifoldSingletonCarrier ManifoldSingletonCarrier ManifoldSingletonCarrier
+      (fun h k : BHist =>
+        ManifoldSingletonCarrier h ∧ ManifoldSingletonCarrier k ∧ hsame h k)
+  classifierTransport :
+    forall {base' index' domain' chart' transition' : BHist},
+      ManifoldAtlasClassifier base index domain chart transition base' index' domain' chart'
+        transition' ->
+        ManifoldAtlasPackage base' index' domain' chart' transition'
+  transitionReadback : hsame transition (append base (append index chart))
+
 def ManifoldScopedBoundaryPackage (carrier i j k pair triple : BHist) : Prop :=
   UnaryHistory carrier ∧ UnaryHistory i ∧ UnaryHistory j ∧ UnaryHistory k ∧
     Cont i j pair ∧ Cont pair k triple
