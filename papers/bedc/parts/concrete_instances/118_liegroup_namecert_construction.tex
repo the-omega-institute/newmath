@@ -87,12 +87,133 @@ checked Lean row is
 $\mathsf{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_smoothness}$.
 \end{proof}
 
+\begin{definition}[LieGroup singleton public smooth group package]
+\label{def:liegroup-singleton-public-smooth-group-package}
+The public smooth group package underlying the singleton
+$\NameCert_{\LieGroupUp}$ has BEDC source $\mathsf{BHist}$, carrier
+$L_{\emp}$, classifier $R_{\emp}$, multiplication graph
+$$
+\mathsf{mul}(h,k)=\mathsf{append}(h,k),
+$$
+inverse
+$$
+\mathsf{inv}(h)=\emp,
+$$
+and unit $\emp$. The smooth rows use the singleton chart $\chi_{\emp}$ on the
+same carrier predicate, with constant chart value $0_{\RealUp}$ and self-overlap
+transition certified by $\Cont$. Thus every public algebraic operation is read
+through the displayed BEDC operation rows rather than through an external
+standard-space representative.
+\end{definition}
+
+\begin{theorem}[LieGroup singleton classifier transport]
+\label{thm:liegroup-singleton-classifier-transport}
+For the package of
+\autoref{def:liegroup-singleton-public-smooth-group-package}, classifier
+equivalence is congruent for multiplication and inverse. If $R_{\emp}(h,h')$
+and $R_{\emp}(k,k')$, then
+$$
+R_{\emp}(\mathsf{mul}(h,k),\mathsf{mul}(h',k')).
+$$
+If $R_{\emp}(h,h')$, then
+$$
+R_{\emp}(\mathsf{inv}(h),\mathsf{inv}(h')).
+$$
+\end{theorem}
+\begin{proof}
+Project the endpoint carrier witnesses from $R_{\emp}(h,h')$ and
+$R_{\emp}(k,k')$. Each projection gives membership in $L_{\emp}$ together with
+an $\hsame$ path to the empty endpoint.
+
+For multiplication, the singleton group laws identify both
+$\mathsf{append}(h,k)$ and $\mathsf{append}(h',k')$ with $\emp$ while keeping
+both results in $L_{\emp}$. The classifier row is then the pair of carrier
+witnesses plus the $\hsame$ comparison obtained by transitivity through
+$\emp$.
+
+For inverse, both operation outputs are definitionally $\emp$. Reflexivity gives
+the carrier witnesses and the endpoint comparison, so the restricted classifier
+$R_{\emp}$ holds for the two inverse outputs.
+\end{proof}
+
+\begin{theorem}[LieGroup singleton chart operation readback]
+\label{thm:liegroup-singleton-chart-operation-readback}
+The multiplication and inverse outputs covered by
+\autoref{thm:liegroup-singleton-classifier-transport} are read by the singleton
+chart as the constant endpoint $0_{\RealUp}$. Consequently their chart
+self-overlap row is the same singleton transition row certified for
+$\ManifoldUp$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:liegroup-singleton-classifier-transport} to obtain the
+classifier witnesses for the operation outputs. In each case the classifier
+contains the carrier predicate $L_{\emp}$ for the output history.
+
+Apply \autoref{thm:manifold-singleton-chart-coverage} to those carrier
+witnesses. The unique chart $\chi_{\emp}$ reads every carried endpoint as the
+constant value $0_{\RealUp}$, so multiplication and inverse have the same chart
+readback.
+
+Finally apply \autoref{thm:manifold-singleton-transition-smoothness}. Since the
+only overlap is the singleton self-overlap and both chart values are constant,
+the operation readback has exactly the displayed transition row.
+\end{proof}
+
+\begin{theorem}[LieGroup singleton public NameCert export]
+\label{thm:liegroup-singleton-public-namecert-export}
+The public $\NameCert_{\LieGroupUp}$ surface for the singleton smooth group
+exports the following ten fields.
+\begin{description}
+\item[Traditional target.] The one-point Lie group.
+\item[BEDC source.] $\mathsf{BHist}$ with distinguished empty history $\emp$.
+\item[Carrier.] The predicate $L_{\emp}(h)$.
+\item[Classifier.] The restricted classifier $R_{\emp}(h,k)$.
+\item[Algebraic rows.] Multiplication $\mathsf{append}$, inverse $\emp$, unit
+$\emp$, and the singleton $\GroupUp$ laws.
+\item[Smooth rows.] The singleton $\ManifoldUp$ chart $\chi_{\emp}$, constant
+value $0_{\RealUp}$, and the singleton transition row.
+\item[Classifier transport.] Multiplication and inverse preserve $R_{\emp}$ as
+in \autoref{thm:liegroup-singleton-classifier-transport}.
+\item[Smooth operation congruence.] Operation outputs related by the classifier
+have the same chart readback and transition row as in
+\autoref{thm:liegroup-singleton-chart-operation-readback}.
+\item[Exactness.] Every accepted public row reduces to $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{append}$, $\emp$, the displayed singleton
+$\GroupUp$ laws, and the displayed singleton $\ManifoldUp$ chart and transition.
+\item[Bridge and status.] No $\StdBridge$ row is claimed; the paper-side target
+is under $\mathsf{BEDC.Derived.LieGroupUp}$.
+\end{description}
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are supplied by
+\autoref{def:liegroup-singleton-smooth-group-carrier}, and the public operation
+symbols are fixed in
+\autoref{def:liegroup-singleton-public-smooth-group-package}.
+
+The algebraic rows are the singleton $\GroupUp$ laws. They give the endpoint
+carrier facts and identify multiplication and inverse outputs with $\emp$.
+
+The smooth rows are the singleton $\ManifoldUp$ rows. Chart coverage reads every
+accepted endpoint as $0_{\RealUp}$, and transition smoothness gives the constant
+self-overlap row.
+
+The transport and smooth-operation congruence rows are exactly
+\autoref{thm:liegroup-singleton-classifier-transport} and
+\autoref{thm:liegroup-singleton-chart-operation-readback}. Repacking these rows
+gives the ten-field public certificate surface, with exactness reduced to the
+listed singleton BEDC data and with no standard bridge component.
+\end{proof}
+
 \begin{theorem}[LieGroup singleton NameCert obligation surface]
 \label{thm:liegroup-singleton-namecert-obligation}
 The rows of
 \autoref{def:liegroup-singleton-smooth-group-carrier},
+\autoref{def:liegroup-singleton-public-smooth-group-package},
 \autoref{thm:liegroup-singleton-carrier-obligation}, and
-\autoref{thm:liegroup-singleton-operation-smoothness-obligation} assemble the
+\autoref{thm:liegroup-singleton-operation-smoothness-obligation},
+\autoref{thm:liegroup-singleton-classifier-transport},
+\autoref{thm:liegroup-singleton-chart-operation-readback}, and
+\autoref{thm:liegroup-singleton-public-namecert-export} assemble the
 paper-side $\NameCert_{\LieGroupUp}$ obligation surface for the singleton
 smooth group carrier.
 \begin{description}
@@ -100,8 +221,10 @@ smooth group carrier.
 \item[BEDC source.] $\mathsf{BHist}$ with distinguished empty history $\emp$.
 \item[Carrier.] The predicate $L_{\emp}(h)$, equivalently $\hsame(h,\emp)$.
 \item[Classifier.] The restricted singleton classifier $R_{\emp}$.
-\item[Stability.] Carrier transport, group operation closure, chart-domain
-transport, chart-value constancy, and transition-row constancy.
+\item[Stability.] Carrier transport, group operation closure, classifier
+transport for multiplication and inverse, chart-domain transport, chart-value
+constancy, smooth multiplication congruence, smooth inverse congruence, and
+transition-row constancy.
 \item[Ledger.] The rows $\mathsf{BHist}$, $\hsame$, $\Cont$,
 $\mathsf{append}$, $\emp$, the singleton $\GroupUp$ laws, the singleton
 $\ManifoldUp$ chart, and the singleton constant transition.
@@ -109,7 +232,10 @@ $\ManifoldUp$ chart, and the singleton constant transition.
 \autoref{thm:group-singleton-history-semantic-namecert},
 \autoref{thm:manifold-singleton-namecert-obligation-package},
 \autoref{thm:liegroup-singleton-carrier-obligation}, and
-\autoref{thm:liegroup-singleton-operation-smoothness-obligation}.
+\autoref{thm:liegroup-singleton-operation-smoothness-obligation},
+\autoref{thm:liegroup-singleton-classifier-transport},
+\autoref{thm:liegroup-singleton-chart-operation-readback}, and
+\autoref{thm:liegroup-singleton-public-namecert-export}.
 \item[Exactness.] A Lie-group operation row is accepted only when its carrier,
 classifier, chart-domain, and transition witnesses all reduce to the displayed
 singleton rows.
