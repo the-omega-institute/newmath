@@ -118,4 +118,13 @@ theorem PrefixFunctorCarrier_split_epimorphism_preserves {p a b f : BHist} :
                               (And.intro (prefixCarrier.hom_preserves splitData.left)
                                 prefData)))
 
+theorem CategorySplitMonomorphism_left_cancellative {a b x f u v fu fv : BHist} :
+    CategorySplitMonomorphism a b f -> CategoryHomCarrier x a u ->
+      CategoryHomCarrier x a v -> Cont u f fu -> Cont v f fv -> hsame fu fv ->
+        hsame u v := by
+  intro _splitMono _left _right leftComposite rightComposite sameComposite
+  cases leftComposite
+  cases rightComposite
+  exact append_right_cancel (k := f) sameComposite
+
 end BEDC.Derived.FunctorUp

@@ -210,6 +210,7 @@ import BEDC.Derived.TopologyUp.PullbackOpenCertificate
 import BEDC.Derived.TopologyUp.PublicCertificate
 import BEDC.Derived.TopologyUp.PullbackOpenTransport
 import BEDC.Derived.TopologyUp.PublicOpenCertificate
+import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -218,6 +219,7 @@ import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ResidueUp
