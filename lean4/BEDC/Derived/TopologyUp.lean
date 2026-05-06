@@ -21,6 +21,14 @@ def BHistCarriesOpen (T : BHistIndexedOpenCarrier) (i : T.OpenIx)
     (U : BHist -> Prop) : Prop :=
   forall {x : BHist}, UnaryHistory x -> (U x <-> T.OpenAt i x)
 
+inductive BHistPublicOpenTree (T : BHistIndexedOpenCarrier) :
+    T.OpenIx -> (BHist -> Prop) -> Prop where
+  | singleton : forall {i : T.OpenIx} {U : BHist -> Prop},
+      BHistCarriesOpen T i U -> BHistPublicOpenTree T i U
+  | meet : forall {i j : T.OpenIx} {U V : BHist -> Prop},
+      BHistPublicOpenTree T i U -> BHistPublicOpenTree T j V ->
+        BHistPublicOpenTree T (T.meet i j) (fun h : BHist => U h ∧ V h)
+
 structure BHistIndexedBoundaryOpen (T : BHistIndexedOpenCarrier) where
   bottom : T.OpenIx
   top : T.OpenIx
@@ -51,6 +59,27 @@ theorem BHistCarriesOpen_classifier_transport (T : BHistIndexedOpenCarrier)
     have openX : T.OpenAt i x :=
       Iff.mpr stable openY
     exact Iff.mpr carryX openX
+
+theorem BHistPublicOpenTree_root_classifier_transport (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} :
+    BHistPublicOpenTree T i U ->
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  intro tree
+  induction tree with
+  | singleton carries =>
+      intro x y unaryX unaryY sameXY
+      exact BHistCarriesOpen_classifier_transport T carries unaryX unaryY sameXY
+  | meet leftTree rightTree leftTransport rightTransport =>
+      intro x y unaryX unaryY sameXY
+      have leftStable : _ :=
+        leftTransport unaryX unaryY sameXY
+      have rightStable : _ :=
+        rightTransport unaryX unaryY sameXY
+      constructor
+      · intro rootX
+        exact And.intro (Iff.mp leftStable rootX.left) (Iff.mp rightStable rootX.right)
+      · intro rootY
+        exact And.intro (Iff.mpr leftStable rootY.left) (Iff.mpr rightStable rootY.right)
 
 theorem BHistIndexedOpen_finite_intersection_closure (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} :
