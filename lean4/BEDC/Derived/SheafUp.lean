@@ -50,4 +50,22 @@ theorem SheafBHistPointGermComparison_trans
                   (hsame_trans first.right.right.right.right.right.right.right.right
                     second.right.right.right.right.right.right.right.right))))))))
 
+theorem SheafBHistPointGermLedger_shared_open_classifier_transitivity
+    {point openA openB openC sectionA sectionB sectionC germA germB germC : BHist} :
+    SheafBHistPointGermLedger point openA sectionA germA ->
+      SheafBHistPointGermLedger point openB sectionB germA ->
+        SheafBHistPointGermLedger point openB sectionB germB ->
+          SheafBHistPointGermLedger point openC sectionC germB ->
+            UnaryHistory sectionC -> Cont openA sectionC germC ->
+              SheafBHistPointGermLedger point openA sectionC germC ∧
+                hsame germA germB ∧ UnaryHistory germC := by
+  intro rowA sharedA sharedB _rowC sectionCUnary directAC
+  have sameAB : hsame germA germB :=
+    cont_deterministic sharedA.right.right sharedB.right.right
+  have germCUnary : UnaryHistory germC :=
+    unary_cont_closed rowA.right.left sectionCUnary directAC
+  exact And.intro
+    (And.intro rowA.left (And.intro rowA.right.left directAC))
+    (And.intro sameAB germCUnary)
+
 end BEDC.Derived.SheafUp
