@@ -134,6 +134,16 @@ theorem ModN_nz_quotient_certificate {modulus : BHist} :
       exact source
   }
 
+theorem ModNQuotient_concrete_namecert_scope {modulus : BHist} :
+    UnaryHistory modulus ->
+      SemanticNameCert (ModNQuotientCarrier modulus) (ModNQuotientCarrier modulus)
+          (ModNQuotientCarrier modulus) (ModNQuotientClassifier modulus) ∧
+        (forall {h : BHist}, ModNQuotientCarrier modulus h ->
+          ModNQuotientClassifier modulus h h) := by
+  intro modulusUnary
+  have rows := ModNQuotientClassifier_concrete_rows (modulus := modulus) modulusUnary
+  exact And.intro (ModN_nz_quotient_certificate modulusUnary) rows.left
+
 theorem ModNQuotient_singleton_operation_descent_rows {modulus : BHist}
     (modulusUnary : UnaryHistory modulus) :
     (forall {h k : BHist}, ModNQuotientCarrier modulus h -> ModNQuotientCarrier modulus k ->
