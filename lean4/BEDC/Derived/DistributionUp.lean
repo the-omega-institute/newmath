@@ -3,6 +3,7 @@ import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.Derived.RandomVarUp
+import BEDC.Derived.PreorderUp
 
 namespace BEDC.Derived.DistributionUp
 
@@ -10,6 +11,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.RandomVarUp
+open BEDC.Derived.PreorderUp
 
 theorem DistributionPushforward_total_mass_unit
     {sourceTotal targetTotal sourceMass pushedMass unitMass : BHist} :
@@ -92,6 +94,31 @@ theorem DistributionPushforward_monotone_under_target_inclusion
   have pushDToPushA : Cont pushB pushD pushA :=
     cont_result_hsame_transport pushSumCont (hsame_symm pushAFromSum)
   exact Exists.intro pushD (And.intro pushDToPushA pushDUnary)
+
+theorem DistributionPushforward_probability_bounds
+    {event gap sourceTotal sourceTotalMass pushedEvent pushedTotal probabilityUnit pushedSum :
+      BHist} :
+    UnaryHistory event -> UnaryHistory gap -> Cont event gap sourceTotal ->
+      Cont sourceTotal BHist.Empty sourceTotalMass -> hsame pushedEvent event ->
+        hsame pushedTotal sourceTotalMass -> hsame sourceTotalMass probabilityUnit ->
+          Cont pushedEvent gap pushedSum -> hsame pushedTotal pushedSum ->
+            UnaryHistory pushedEvent ∧ PreorderPrefixLE pushedEvent probabilityUnit := by
+  intro eventUnary gapUnary eventGap sourceMassReadback pushedEventEvent pushedTotalMass
+  intro sourceMassUnit pushedSumCont pushedTotalSum
+  have pushedEventUnary : UnaryHistory pushedEvent :=
+    unary_transport eventUnary (hsame_symm pushedEventEvent)
+  have sourceTotalUnary : UnaryHistory sourceTotal :=
+    unary_cont_closed eventUnary gapUnary eventGap
+  have sourceMassUnary : UnaryHistory sourceTotalMass :=
+    unary_transport sourceTotalUnary (hsame_symm (cont_right_unit_result sourceMassReadback))
+  have pushedTotalUnary : UnaryHistory pushedTotal :=
+    unary_transport sourceMassUnary (hsame_symm pushedTotalMass)
+  have pushedSumUnit : hsame pushedSum probabilityUnit :=
+    hsame_trans (hsame_symm pushedTotalSum) (hsame_trans pushedTotalMass sourceMassUnit)
+  have pushedSumUnitCont : Cont pushedEvent gap probabilityUnit :=
+    cont_result_hsame_transport pushedSumCont pushedSumUnit
+  exact And.intro pushedEventUnary
+    (Exists.intro gap (And.intro gapUnary pushedSumUnitCont))
 
 theorem DistributionPushforward_nonnegative_value_inheritance
     {sourceValue pushedValue witness : BHist} :

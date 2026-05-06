@@ -68,6 +68,17 @@ theorem RandomVarTotalReadbackCertificate_carried_bridge_chosen_preimage_exactne
   · intro chosenExact
     exact cont_result_hsame_transport chosenReadback chosenExact
 
+theorem RandomVarTotalReadbackCertificate_total_target_reflection_criterion
+    {targetTotal sourceTotal chosenPreimage targetEvent eventPreimage : BHist} :
+    RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+      Cont targetEvent BHist.Empty eventPreimage ->
+        hsame targetEvent targetTotal -> hsame eventPreimage sourceTotal := by
+  intro readbackCert eventReadback eventTarget
+  have targetReadback : Cont targetTotal BHist.Empty eventPreimage :=
+    cont_hsame_transport eventTarget (hsame_refl BHist.Empty) (hsame_refl eventPreimage)
+      eventReadback
+  exact cont_deterministic targetReadback readbackCert.carried_total_bridge
+
 theorem RandomVarPreimage_disjoint_binary_union_exactness
     {B C U_T A_B A_C A_U U_S : BHist} :
     hsame A_B B -> hsame A_C C -> hsame A_U U_T -> Cont B C U_T ->
