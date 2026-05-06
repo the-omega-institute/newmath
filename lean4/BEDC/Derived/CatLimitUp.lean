@@ -35,6 +35,32 @@ theorem CatLimitConeMor_comp_closed {L M N D f g fg lambda mu nu cLM cMN cLN : B
             (And.intro compTarget
             (hsame_trans sameCLNCLM left.right.right.right.right.right)))))
 
+theorem CatLimitConeMor_comp_classifier_transport {L M N D f f' g g' fg' lambda mu nu cLM cMN cLN' : BHist} :
+    CatLimitConeMor L M D f lambda mu cLM ->
+      CatLimitConeMor M N D g mu nu cMN ->
+        hsame f f' -> hsame g g' -> Cont f' g' fg' -> Cont fg' nu cLN' ->
+          CatLimitConeMor L N D fg' lambda nu cLN' := by
+  intro left right sameF sameG compFG targetComp
+  have leftMoved : CatLimitConeMor L M D f' lambda mu cLM :=
+    And.intro (CategoryHomCarrier_hsame_transport (hsame_refl L) (hsame_refl M) sameF left.left)
+      (And.intro left.right.left
+        (And.intro left.right.right.left
+          (And.intro left.right.right.right.left
+            (And.intro
+              (cont_hsame_transport sameF (hsame_refl mu) (hsame_refl cLM)
+                left.right.right.right.right.left)
+              left.right.right.right.right.right))))
+  have rightMoved : CatLimitConeMor M N D g' mu nu cMN :=
+    And.intro (CategoryHomCarrier_hsame_transport (hsame_refl M) (hsame_refl N) sameG right.left)
+      (And.intro right.right.left
+        (And.intro right.right.right.left
+          (And.intro right.right.right.right.left
+            (And.intro
+              (cont_hsame_transport sameG (hsame_refl nu) (hsame_refl cMN)
+                right.right.right.right.right.left)
+              right.right.right.right.right.right))))
+  exact CatLimitConeMor_comp_closed leftMoved rightMoved compFG targetComp
+
 theorem CatLimitConeMor_identity {L D lambda : BHist} :
     CategoryHomCarrier L D lambda ->
       CatLimitConeMor L L D BHist.Empty lambda lambda lambda := by
