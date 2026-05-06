@@ -88,6 +88,36 @@ def NumFieldRatReflexiveSingletonBasisRow (h coord support : BHist) : Prop :=
 def NumFieldRatReflexiveClassifier (h k : BHist) : Prop :=
   NumFieldRatReflexiveCarrier h ∧ NumFieldRatReflexiveCarrier k ∧ RatHistoryClassifier h k
 
+theorem NumFieldRatReflexiveSingletonBasisRow_coordinate_transport
+    {h k coordH coordK supportH supportK : BHist} :
+    RatHistoryClassifier h k -> NumFieldRatReflexiveSingletonBasisRow h coordH supportH ->
+      NumFieldRatReflexiveSingletonBasisRow k coordK supportK ->
+        RatHistoryClassifier coordH coordK ∧ hsame supportH supportK ∧
+          Cont h BHist.Empty coordH ∧ Cont k BHist.Empty coordK ∧
+            RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+  intro classified basisH basisK
+  have coordHClassified : RatHistoryClassifier coordH h :=
+    basisH.right.right.right.left
+  have coordKClassified : RatHistoryClassifier coordK k :=
+    basisK.right.right.right.left
+  have coordTransport : RatHistoryClassifier coordH coordK :=
+    RatHistoryClassifier_trans coordHClassified
+      (RatHistoryClassifier_trans classified (RatHistoryClassifier_symm coordKClassified))
+  have supportSame : hsame supportH supportK := by
+    cases basisH.left
+    cases basisK.left
+    rfl
+  have coordHReadback : Cont h BHist.Empty coordH :=
+    basisH.right.right.left
+  have coordKReadback : Cont k BHist.Empty coordK :=
+    basisK.right.right.left
+  have endpointClassified :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) :=
+    (FieldExtRatReflexive_exact_endpoint_classification classified).right.right
+  exact And.intro coordTransport
+    (And.intro supportSame
+      (And.intro coordHReadback (And.intro coordKReadback endpointClassified)))
+
 theorem NumFieldReflexiveRational_fieldext_scope {h r m action : BHist} :
     NumFieldRatReflexiveCarrier h -> RatHistoryCarrier r -> RatHistoryCarrier m ->
       Cont (FieldExtSingletonEmbedding r) m action ->
@@ -156,6 +186,59 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     unfold FieldExtSingletonEmbedding
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
+
+theorem NumFieldReflexiveRational_embedding_coordinate_classifier {m coord : BHist} :
+    RatHistoryCarrier m -> Cont m BHist.Empty coord ->
+      RatHistoryClassifier (FieldExtSingletonEmbedding m) coord ∧ RatHistoryClassifier coord m ∧
+        RatHistoryCarrier (FieldExtSingletonEmbedding m) ∧ RatHistoryCarrier coord := by
+  intro carrierM coordinateReadback
+  have witness :=
+    NumFieldReflexiveRational_finite_extension_witness carrierM coordinateReadback
+  have embeddedCoord : RatHistoryClassifier (FieldExtSingletonEmbedding m) coord :=
+    RatHistoryClassifier_trans witness.right.right (RatHistoryClassifier_symm witness.left)
+  exact And.intro embeddedCoord
+    (And.intro witness.left (And.intro witness.right.left witness.left.left))
+
+theorem NumFieldReflexiveRational_coordinate_readback_pair_determinacy {m c0 c1 : BHist} :
+    RatHistoryCarrier m -> Cont m BHist.Empty c0 -> Cont m BHist.Empty c1 ->
+      RatHistoryClassifier c0 c1 ∧ RatHistoryClassifier c0 m ∧ RatHistoryClassifier c1 m := by
+  intro carrierM readback0 readback1
+  have sameC0M : hsame c0 m :=
+    cont_right_unit_result readback0
+  have sameC1M : hsame c1 m :=
+    cont_right_unit_result readback1
+  have carrierC0 : RatHistoryCarrier c0 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC0M) carrierM
+  have carrierC1 : RatHistoryCarrier c1 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC1M) carrierM
+  have classifiedC0M : RatHistoryClassifier c0 m :=
+    And.intro carrierC0 (And.intro carrierM sameC0M)
+  have classifiedC1M : RatHistoryClassifier c1 m :=
+    And.intro carrierC1 (And.intro carrierM sameC1M)
+  have classifiedMC1 : RatHistoryClassifier m c1 :=
+    RatHistoryClassifier_symm classifiedC1M
+  have classifiedC0C1 : RatHistoryClassifier c0 c1 :=
+    RatHistoryClassifier_trans classifiedC0M classifiedMC1
+  exact And.intro classifiedC0C1 (And.intro classifiedC0M classifiedC1M)
+
+theorem NumFieldReflexiveRational_coordinate_readback_uniqueness {m c0 c1 : BHist} :
+    RatHistoryCarrier m -> Cont m BHist.Empty c0 -> Cont m BHist.Empty c1 ->
+      RatHistoryClassifier c0 c1 ∧ RatHistoryClassifier c0 m ∧
+        RatHistoryClassifier c1 m := by
+  intro carrierM leftReadback rightReadback
+  have sameC0M : hsame c0 m := cont_right_unit_result leftReadback
+  have sameC1M : hsame c1 m := cont_right_unit_result rightReadback
+  have c0Carrier : RatHistoryCarrier c0 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC0M) carrierM
+  have c1Carrier : RatHistoryCarrier c1 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC1M) carrierM
+  have c0M : RatHistoryClassifier c0 m :=
+    And.intro c0Carrier (And.intro carrierM sameC0M)
+  have c1M : RatHistoryClassifier c1 m :=
+    And.intro c1Carrier (And.intro carrierM sameC1M)
+  have c0c1 : RatHistoryClassifier c0 c1 :=
+    RatHistoryClassifier_trans c0M (RatHistoryClassifier_symm c1M)
+  exact And.intro c0c1 (And.intro c0M c1M)
 
 theorem NumFieldReflexiveRational_singleton_basis_transport {h basis coord : BHist} :
     NumFieldRatReflexiveCarrier h -> RatHistoryCarrier basis ->
@@ -410,6 +493,20 @@ theorem NumFieldRatReflexive_classifier_transport {h k r m out coord : BHist} :
           (And.intro fieldRows.right.right.right.right.left
             (And.intro fieldRows.right.right.right.right.right coordClassifier)))))
 
+theorem NumFieldRatReflexive_coordinate_exactness_span {h k c d : BHist} :
+    RatHistoryClassifier h k -> Cont h BHist.Empty c -> Cont k BHist.Empty d ->
+      RatHistoryClassifier c d ∧
+        RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+  intro classified readbackH readbackK
+  have sameCH : hsame c h :=
+    cont_right_unit_result readbackH
+  have sameDK : hsame d k :=
+    cont_right_unit_result readbackK
+  have coordinateClassified : RatHistoryClassifier c d :=
+    RatHistoryClassifier_hsame_transport (hsame_symm sameCH) (hsame_symm sameDK) classified
+  have locked := FieldExtRatReflexiveEmbedding_ledger_source_lock classified
+  exact And.intro coordinateClassified locked.right.right.left
+
 theorem NumFieldRatReflexive_ledger_exactness
     {h k r r' m m' product action coord : BHist} :
     RatHistoryClassifier h k -> RatHistoryClassifier r r' -> RatHistoryClassifier m m' ->
@@ -540,5 +637,42 @@ theorem NumFieldRatReflexive_fieldext_scope {h k r m product action : BHist} :
   have ledgerRows :=
     FieldExtRatReflexive_ledger_coverage classifiedHK carrierR carrierM productCont actionCont
   exact And.intro certRows.left ledgerRows
+
+theorem NumFieldReflexiveRational_coordinate_embedding_pair_readback {m c0 c1 emb0 emb1 : BHist} :
+    RatHistoryCarrier m -> Cont m BHist.Empty c0 -> Cont m BHist.Empty c1 ->
+      Cont BHist.Empty c0 emb0 -> Cont BHist.Empty c1 emb1 ->
+        RatHistoryClassifier c0 c1 ∧ RatHistoryClassifier emb0 emb1 ∧
+          RatHistoryClassifier emb0 m ∧ RatHistoryClassifier emb1 m ∧
+            RatHistoryCarrier emb0 ∧ RatHistoryCarrier emb1 := by
+  intro carrierM c0Readback c1Readback emb0Readback emb1Readback
+  have sameC0M : hsame c0 m :=
+    cont_right_unit_result c0Readback
+  have sameC1M : hsame c1 m :=
+    cont_right_unit_result c1Readback
+  have carrierC0 : RatHistoryCarrier c0 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC0M) carrierM
+  have carrierC1 : RatHistoryCarrier c1 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameC1M) carrierM
+  have sameEmb0C0 : hsame emb0 c0 :=
+    cont_left_unit_result emb0Readback
+  have sameEmb1C1 : hsame emb1 c1 :=
+    cont_left_unit_result emb1Readback
+  have carrierEmb0 : RatHistoryCarrier emb0 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameEmb0C0) carrierC0
+  have carrierEmb1 : RatHistoryCarrier emb1 :=
+    RatHistoryCarrier_hsame_transport (hsame_symm sameEmb1C1) carrierC1
+  have sameC0C1 : hsame c0 c1 :=
+    hsame_trans sameC0M (hsame_symm sameC1M)
+  have sameEmb0Emb1 : hsame emb0 emb1 :=
+    hsame_trans sameEmb0C0 (hsame_trans sameC0C1 (hsame_symm sameEmb1C1))
+  have sameEmb0M : hsame emb0 m :=
+    hsame_trans sameEmb0C0 sameC0M
+  have sameEmb1M : hsame emb1 m :=
+    hsame_trans sameEmb1C1 sameC1M
+  exact And.intro (And.intro carrierC0 (And.intro carrierC1 sameC0C1))
+    (And.intro (And.intro carrierEmb0 (And.intro carrierEmb1 sameEmb0Emb1))
+      (And.intro (And.intro carrierEmb0 (And.intro carrierM sameEmb0M))
+        (And.intro (And.intro carrierEmb1 (And.intro carrierM sameEmb1M))
+          (And.intro carrierEmb0 carrierEmb1))))
 
 end BEDC.Derived.NumFieldUp
