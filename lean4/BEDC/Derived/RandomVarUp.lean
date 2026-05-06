@@ -163,6 +163,19 @@ theorem RandomVarTotalReadbackCertificate_terminal_readback_uniqueness
     cont_deterministic alternateReadback cert.chosen_readback
   exact And.intro sameAlternateSource sameAlternateChosen
 
+theorem RandomVarTotalReadbackCertificate_partiality_obstruction
+    {targetTotal sourceTotal chosenPreimage h : BHist} :
+    RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+      UnaryHistory h ->
+        Cont h BHist.Empty sourceTotal ->
+          (Cont h BHist.Empty chosenPreimage -> False) -> False := by
+  intro cert _sourceUnary sourceCoverage chosenNoncoverage
+  have chosenSource : hsame chosenPreimage sourceTotal :=
+    cont_deterministic cert.chosen_readback cert.carried_total_bridge
+  have chosenCoverage : Cont h BHist.Empty chosenPreimage :=
+    cont_result_hsame_transport sourceCoverage (hsame_symm chosenSource)
+  exact chosenNoncoverage chosenCoverage
+
 theorem RandomVarPreimage_empty_event_exactness
     {targetEmpty sourceEmpty preimage : BHist} :
     hsame targetEmpty BHist.Empty -> hsame sourceEmpty BHist.Empty ->
