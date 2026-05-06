@@ -171,6 +171,36 @@ theorem LieAlgebraSingletonAdjoint_commutator_identity
     (And.intro commutatorEmpty
       (And.intro targetEmpty (And.intro commutatorUnary targetUnary)))
 
+protected theorem LieAlgebraSingletonAdjoint_derivation_from_jacobi
+    {x y z yz xy xz left rightLeft rightRight rhs : BHist} :
+    LieAlgebraSingletonCarrier x -> LieAlgebraSingletonCarrier y ->
+      LieAlgebraSingletonCarrier z -> Cont y z yz -> Cont x y xy -> Cont x z xz ->
+        Cont x yz left -> Cont xy z rightLeft -> Cont y xz rightRight ->
+          Cont rightLeft rightRight rhs ->
+            hsame left rhs ∧ LieAlgebraSingletonCarrier left ∧
+              LieAlgebraSingletonCarrier rhs ∧ UnaryHistory left ∧ UnaryHistory rhs := by
+  intro carrierX carrierY carrierZ yzRow xyRow xzRow leftRow rightLeftRow rightRightRow rhsRow
+  have yzEmpty : hsame yz BHist.Empty :=
+    cont_respects_hsame carrierY carrierZ yzRow (cont_left_unit BHist.Empty)
+  have xyEmpty : hsame xy BHist.Empty :=
+    cont_respects_hsame carrierX carrierY xyRow (cont_left_unit BHist.Empty)
+  have xzEmpty : hsame xz BHist.Empty :=
+    cont_respects_hsame carrierX carrierZ xzRow (cont_left_unit BHist.Empty)
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame carrierX yzEmpty leftRow (cont_left_unit BHist.Empty)
+  have rightLeftEmpty : hsame rightLeft BHist.Empty :=
+    cont_respects_hsame xyEmpty carrierZ rightLeftRow (cont_left_unit BHist.Empty)
+  have rightRightEmpty : hsame rightRight BHist.Empty :=
+    cont_respects_hsame carrierY xzEmpty rightRightRow (cont_left_unit BHist.Empty)
+  have rhsEmpty : hsame rhs BHist.Empty :=
+    cont_respects_hsame rightLeftEmpty rightRightEmpty rhsRow (cont_left_unit BHist.Empty)
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rhsUnary : UnaryHistory rhs :=
+    unary_transport unary_empty (hsame_symm rhsEmpty)
+  exact And.intro (hsame_trans leftEmpty (hsame_symm rhsEmpty))
+    (And.intro leftEmpty (And.intro rhsEmpty (And.intro leftUnary rhsUnary)))
+
 theorem LieAlgebraSingletonAdjoint_scalar_linearity {r x y left xy right : BHist} :
     VecSpaceSingletonCarrier r -> VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y ->
       Cont x (VecSpaceSingletonSmul r y) left -> Cont x y xy -> Cont r xy right ->
