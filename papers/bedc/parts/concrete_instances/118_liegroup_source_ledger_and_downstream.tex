@@ -1,0 +1,90 @@
+\begin{theorem}[LieGroup singleton source lock]
+\label{thm:liegroup-singleton-source-lock}
+The singleton $\LieGroupUp$ source uses the single predicate
+$L_{\emp}(h):\Longleftrightarrow \hsame(h,\emp)$ as the $\GroupUp$ carrier,
+the $\ManifoldUp$ point and chart-domain carrier, and the $\LieGroupUp$
+carrier. Its classifier is the same restricted $\hsame$ row
+$R_{\emp}(h,k)$ from \autoref{def:liegroup-singleton-smooth-group-carrier};
+no transported second source, auxiliary carrier, or duplicate classifier is
+introduced.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:liegroup-singleton-smooth-group-carrier}. The displayed
+predicate $L_{\emp}$ is the only carrier predicate named there, and the
+classifier is the displayed restricted row $R_{\emp}$.
+
+Project the singleton group rows from
+\autoref{thm:group-singleton-history-semantic-namecert}. These rows use
+$\mathsf{BHist}$, $\emp$, $\mathsf{append}$, constant inverse, and the
+restricted $\hsame$ classifier; their checked source is
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$.
+
+Project the singleton chart rows from
+\autoref{thm:manifold-singleton-namecert-obligation-package}. The chart
+domain is the same predicate $\hsame(h,\emp)$, the chart value is constant,
+and the overlap row is the singleton transition row.
+
+Thus both projected packages identify their visible carrier with
+$L_{\emp}$. The $\LieGroupUp$ package is assembled by sharing that predicate
+and classifier rather than by transporting data across a second source.
+\end{proof}
+
+\begin{theorem}[LieGroup singleton exact ledger]
+\label{thm:liegroup-singleton-exact-ledger}
+For the singleton $\LieGroupUp$ package, the accepted ledger consists exactly
+of $\mathsf{BHist}$, $\hsame$, $\emp$, $\mathsf{append}/\Cont$, the singleton
+$\GroupUp$ laws, the singleton chart domain and chart value, and the
+singleton constant transition row. It excludes any standard bridge, any host
+smooth-manifold equality, any extra carrier, and any external topology row.
+\end{theorem}
+\begin{proof}
+The source-lock theorem fixes the boundary of the ledger: all carrier and
+classifier rows are projections of the one history predicate $L_{\emp}$ and
+the restricted $\hsame$ relation.
+
+The algebraic entries are exactly the singleton $\GroupUp$ rows. They are
+supplied by \autoref{thm:group-singleton-history-semantic-namecert} and
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$, namely
+$\mathsf{BHist}$, $\hsame$, $\emp$, $\mathsf{append}$, $\Cont$, and the
+singleton group laws.
+
+The smooth entries are exactly the singleton $\ManifoldUp$ rows. They are
+supplied by \autoref{thm:manifold-singleton-namecert-obligation-package},
+$\mathsf{BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert}$, and
+$\mathsf{BEDC.Derived.ManifoldUp.ManifoldSingleton\_transition\_smoothness}$:
+the singleton chart domain, constant chart value, and constant transition.
+
+Finally,
+\autoref{thm:liegroup-singleton-operation-smoothness-obligation} accounts for
+the operation rows by reading multiplication and inverse through the same
+singleton atlas. No cited row provides a $\StdBridge$, host equality of smooth
+manifolds, an additional carrier predicate, or an external topology, so none
+belongs to the accepted ledger.
+\end{proof}
+
+\begin{theorem}[LieGroup singleton downstream export]
+\label{thm:liegroup-singleton-downstream-export}
+The packages $\ExpMapUp$, $\AdjointRepUp$, $\RootSystemUp$, and
+representation certificates may consume the singleton $\LieGroupUp$ package
+only through the exported carrier, classifier, operation, chart, and
+transition rows. The singleton package makes no downstream claim of
+connectedness, completeness, nontrivial Lie algebra, or standard bridge.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:liegroup-singleton-source-lock}, every visible carrier and
+classifier row of the singleton $\LieGroupUp$ package is a projection of the
+shared history predicate $L_{\emp}$ and the restricted $\hsame$ classifier.
+These are the only source rows a dependent certificate can name.
+
+By \autoref{thm:liegroup-singleton-exact-ledger}, the remaining visible rows
+are precisely the group operation rows, singleton chart rows, and singleton
+transition row. The NameCert surface in
+\autoref{thm:liegroup-singleton-namecert-obligation} repacks those rows as the
+public obligation surface for $\LieGroupUp$.
+
+Therefore any $\ExpMapUp$, $\AdjointRepUp$, $\RootSystemUp$, or
+representation certificate built over this singleton source can project only
+those exported rows. Since the ledger contains no connectedness, completeness,
+nontrivial Lie-algebra, or $\StdBridge$ row, no downstream consumer receives
+such a claim from this package.
+\end{proof}
