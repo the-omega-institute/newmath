@@ -456,6 +456,41 @@ theorem DiffFormDegreeProbeSupport_carrier_admissibility
       (And.intro coordinateRows.right.right.left
         (And.intro coordinateRows.right.right.right.left coordinateRows.right.right.right.right)))
 
+theorem DiffFormDegreeProbeSupport_transport
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym' ledger' :
+      BHist} {bundle : ProbeBundle BHist} :
+    DiffFormBHistClassifier hsame bundle degree probe tensor scalar antisym ledger degree' probe'
+        tensor' scalar' antisym' ledger' ->
+      (UnaryHistory degree ∧ InBundle probe bundle ∧ UnaryHistory tensor ∧
+          UnaryHistory scalar ∧
+            hsame ledger (append degree (append probe (append tensor (append scalar antisym))))) ->
+        UnaryHistory degree' ∧ InBundle probe' bundle ∧ UnaryHistory tensor' ∧
+          UnaryHistory scalar' ∧
+            hsame ledger'
+              (append degree' (append probe' (append tensor' (append scalar' antisym')))) := by
+  intro classified support
+  have degreeUnary : UnaryHistory degree' :=
+    unary_transport support.left classified.right.right.left
+  have probeIn : InBundle probe' bundle :=
+    classified.right.left
+  have tensorUnary : UnaryHistory tensor' :=
+    unary_transport support.right.right.left classified.right.right.right.right.left
+  have scalarUnary : UnaryHistory scalar' :=
+    unary_transport support.right.right.right.left classified.right.right.right.right.right.left
+  have ledgerSame :
+      hsame ledger'
+        (append degree' (append probe' (append tensor' (append scalar' antisym')))) := by
+    cases classified.right.right.left
+    cases classified.right.right.right.left
+    cases classified.right.right.right.right.left
+    cases classified.right.right.right.right.right.left
+    cases classified.right.right.right.right.right.right.left
+    cases classified.right.right.right.right.right.right.right
+    exact support.right.right.right.right
+  exact And.intro degreeUnary
+    (And.intro probeIn
+      (And.intro tensorUnary (And.intro scalarUnary ledgerSame)))
+
 theorem DiffFormZeroDegree_wedge_cont_unit_boundary {d : BHist}
     {bundle : ProbeBundle BHist} :
     DegreeProbeAligned d bundle ->
