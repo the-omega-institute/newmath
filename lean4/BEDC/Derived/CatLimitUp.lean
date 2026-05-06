@@ -4,6 +4,7 @@ namespace BEDC.Derived.CatLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.Derived.CategoryUp
 
 def CatLimitConeMor (L M D f lambda mu composite : BHist) : Prop :=
@@ -125,6 +126,19 @@ theorem CatLimitLimCone_comparison_identities {L L' D lambda lambda' : BHist} :
                                   (And.intro uvRel
                                     (And.intro vuRel
                                       (And.intro uvEmpty vuEmpty))))))))))
+
+theorem CatLimitLimCone_comparison_fiber_collapse
+    {L L' D lambda lambda' u1 u2 v1 v2 cu1 cu2 cv1 cv2 : BHist} :
+    CatLimitLimCone L D lambda -> CatLimitLimCone L' D lambda' ->
+      CatLimitConeMor L L' D u1 lambda lambda' cu1 ->
+        CatLimitConeMor L L' D u2 lambda lambda' cu2 ->
+          CatLimitConeMor L' L D v1 lambda' lambda cv1 ->
+            CatLimitConeMor L' L D v2 lambda' lambda cv2 ->
+              hsame u1 u2 ∧ hsame v1 v2 ∧ UnaryHistory u1 ∧ UnaryHistory v1 := by
+  intro leftLimit rightLimit u1Cone u2Cone v1Cone v2Cone
+  exact And.intro (rightLimit.right.right u1Cone u2Cone)
+    (And.intro (leftLimit.right.right v1Cone v2Cone)
+      (And.intro u1Cone.left.right.right.left v1Cone.left.right.right.left))
 
 theorem CatLimitConeMor_nattrans_whiskering_descent
     {L M D E f lambda mu alpha lambdaAlpha muAlpha d s : BHist} :
