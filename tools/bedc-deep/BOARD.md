@@ -163,3 +163,28 @@ Rationale:
 This is a substantive conditional-expectation law for nested sigma-algebras that is not redundant with self-idempotence: it enables filtration-consistent rewriting and bridges distribution pushforward to conditional projection calculus.
 
 ---
+
+### B-499 - Finite family measurable-image independence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Finite family measurable-image independence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For any finite index family of random variables that is independent under IndependenceUp, if each component map has readable-product preimage transport, then applying those maps to each component yields a finite family that is again independent.
+
+Local inputs:
+- (auto-spawn — no specific inputs declared)
+
+Rationale:
+This is a concrete, one-shot implication that is not marker-only and sits in existing independent/random-variable infrastructure. It is a natural and valuable closure extension beyond the pairwise measurable-image law already present, enabling finite-family transport of independence without repeated ad hoc rewrites. It is distinct enough from the current board item on the binary case while remaining on-target for BEDC.
+
+---
+
