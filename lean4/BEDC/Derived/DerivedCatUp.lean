@@ -9,6 +9,22 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
+theorem DerivedCatLocalizationRoof_carrier_obligation
+    {object morph weak roof localized : BHist} :
+    UnaryHistory object -> UnaryHistory morph -> UnaryHistory weak -> Cont object morph roof ->
+      Cont roof weak localized ->
+        UnaryHistory roof ∧ UnaryHistory localized ∧
+          hsame localized (append (append object morph) weak) := by
+  intro objectUnary morphUnary weakUnary roofRow localizedRow
+  have roofUnary : UnaryHistory roof :=
+    unary_cont_closed objectUnary morphUnary roofRow
+  have localizedUnary : UnaryHistory localized :=
+    unary_cont_closed roofUnary weakUnary localizedRow
+  have localizedReadback : hsame localized (append (append object morph) weak) := by
+    cases roofRow
+    exact localizedRow
+  exact And.intro roofUnary (And.intro localizedUnary localizedReadback)
+
 def DerivedCatVisibleLocalizationCarrier (h : BHist) : Prop :=
   ∃ object morphism quasi : BHist,
     UnaryHistory h ∧ UnaryHistory object ∧ UnaryHistory morphism ∧ UnaryHistory quasi ∧
@@ -102,5 +118,53 @@ theorem DerivedCatVisibleLocalizationClassifier_name_certificate :
     }
   · intro h k classified
     exact (DerivedCatVisibleLocalizationClassifier_endpoints classified).right.right
+
+theorem DerivedCatVisibleLocalizationClassifier_composition_descent
+    {left left' right right' leftComp rightComp witnessLeft witnessRight : BHist} :
+    DerivedCatVisibleLocalizationClassifier left left' ->
+      DerivedCatVisibleLocalizationClassifier right right' -> Cont left right leftComp ->
+        Cont left' right' rightComp -> Cont leftComp rightComp witnessLeft ->
+          Cont rightComp leftComp witnessRight ->
+            DerivedCatVisibleLocalizationClassifier leftComp rightComp ∧ UnaryHistory leftComp ∧
+              UnaryHistory rightComp ∧ UnaryHistory witnessLeft ∧ UnaryHistory witnessRight := by
+  intro leftClassified rightClassified leftComposition rightComposition witnessLeftComposition
+    witnessRightComposition
+  have leftEndpoints := DerivedCatVisibleLocalizationClassifier_endpoints leftClassified
+  have rightEndpoints := DerivedCatVisibleLocalizationClassifier_endpoints rightClassified
+  have leftUnary : UnaryHistory left := leftEndpoints.right.right.left
+  have leftPrimeUnary : UnaryHistory left' := leftEndpoints.right.right.right
+  have rightUnary : UnaryHistory right := rightEndpoints.right.right.left
+  have rightPrimeUnary : UnaryHistory right' := rightEndpoints.right.right.right
+  have leftCompUnary : UnaryHistory leftComp :=
+    unary_cont_closed leftUnary rightUnary leftComposition
+  have rightCompUnary : UnaryHistory rightComp :=
+    unary_cont_closed leftPrimeUnary rightPrimeUnary rightComposition
+  have witnessLeftUnary : UnaryHistory witnessLeft :=
+    unary_cont_closed leftCompUnary rightCompUnary witnessLeftComposition
+  have witnessRightUnary : UnaryHistory witnessRight :=
+    unary_cont_closed rightCompUnary leftCompUnary witnessRightComposition
+  have leftCompCarrier : DerivedCatVisibleLocalizationCarrier leftComp :=
+    Exists.intro BHist.Empty
+      (Exists.intro leftComp
+        (Exists.intro BHist.Empty
+          (And.intro leftCompUnary
+            (And.intro unary_empty
+              (And.intro leftCompUnary
+                (And.intro unary_empty
+                  (And.intro (cont_right_unit leftComp) (cont_right_unit leftComp))))))))
+  have rightCompCarrier : DerivedCatVisibleLocalizationCarrier rightComp :=
+    Exists.intro BHist.Empty
+      (Exists.intro rightComp
+        (Exists.intro BHist.Empty
+          (And.intro rightCompUnary
+            (And.intro unary_empty
+              (And.intro rightCompUnary
+                (And.intro unary_empty
+                  (And.intro (cont_right_unit rightComp) (cont_right_unit rightComp))))))))
+  exact And.intro
+    (DerivedCatVisibleLocalizationClassifier.category_step leftCompCarrier rightCompCarrier
+      witnessLeftComposition witnessLeftUnary)
+    (And.intro leftCompUnary
+      (And.intro rightCompUnary (And.intro witnessLeftUnary witnessRightUnary)))
 
 end BEDC.Derived.DerivedCatUp
