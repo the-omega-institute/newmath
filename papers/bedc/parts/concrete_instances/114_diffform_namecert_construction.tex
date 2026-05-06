@@ -559,78 +559,7 @@ $\DiffFormUp$ carrier. Therefore a downstream $\DeRhamUp$, $\SymplecticUp$, or
 $\ContactUp$ certificate must state those rows in its own surface.
 \end{proof}
 
-\begin{definition}[Differential-form exterior-derivative input row]
-\label{def:diffform-exterior-derivative-input-row}
-An accepted $\DiffFormUp$ input row for a downstream exterior-derivative
-candidate is the visible BEDC package
-$$
-(\omega,\eta,d,d^+,\kappa,\mathcal{P},\tau,\sigma,\alpha,\lambda)
-$$
-where $\omega$ is the source carried form row, $\eta$ is the target carried form
-row, $d$ is the source unary degree row, $d^+$ is the target unary degree row,
-and $\kappa$ is the one-step continuation row
-$$
-\Cont(d,\Eone(\emp),d^+).
-$$
-The remaining entries are the carried $\mathsf{ProbeBundle}$ row
-$\mathcal{P}$, multilinear $\TensorProductUp$ tensor row $\tau$, retained
-scalar endpoint row $\sigma$, antisymmetry ledger $\alpha$, and source ledger
-$\lambda$ exposed by \autoref{thm:diffform-derham-input-boundary}. This input
-row is only admissible data for an exterior-derivative candidate; it carries no
-claim that $d^2=0$.
-\end{definition}
-
-\begin{theorem}[Differential-form exterior-derivative degree-shift boundary]
-\label{thm:diffform-exterior-derivative-degree-shift-boundary}
-Every accepted input row of
-\autoref{def:diffform-exterior-derivative-input-row} exposes exactly the source
-degree $d$, the target degree $d^+$, and the one-step continuation ledger
-$\Cont(d,\Eone(\emp),d^+)$ as its degree-raising boundary. The boundary
-may also cite the wedge degree ledger of \autoref{def:diffform-wedge-degree-ledger}
-when the same source participates in a wedge row, but it asserts no
-exterior-derivative identity.
-\end{theorem}
-\begin{proof}
-Unpack the accepted input row. Its displayed degree entries are $d$, $d^+$, and
-the continuation row $\kappa$, so the degree-raising boundary is already visible
-as BHist data.
-
-The source form row is one of the carried rows bounded by
-\autoref{thm:diffform-derham-input-boundary}. Thus a downstream consumer can
-read its unary degree row, probe bundle, tensor row, scalar endpoint,
-antisymmetry ledger, and source ledger without importing any operator law.
-
-When the same form is used in a wedge row, the compatible degree bookkeeping is
-the ledger of \autoref{def:diffform-wedge-degree-ledger}. That ledger supplies
-only degree provenance for the wedge, so repacking it with the one-step row
-still leaves $d^2=0$ outside the $\DiffFormUp$ boundary.
-\end{proof}
-
-\begin{theorem}[Differential-form exterior-derivative scalar-transport boundary]
-\label{thm:diffform-exterior-derivative-scalar-transport-boundary}
-Let $R$ and $R'$ be accepted input rows of
-\autoref{def:diffform-exterior-derivative-input-row}. If their source form rows
-are related componentwise by $\hsame$ on probe bundles, tensor rows,
-antisymmetry ledgers, and source ledgers, and if the retained scalar classifier
-relates their scalar endpoint rows, then the accepted scalar endpoint part of
-$R$ transports to the accepted scalar endpoint part of $R'$.
-\end{theorem}
-\begin{proof}
-First transport the source carried form. The componentwise $\hsame$ hypotheses
-are exactly the carrier entries used by
-\autoref{thm:diffform-carrier-hsame-transport}, so the transported source form
-row remains accepted by the $\DiffFormUp$ carrier.
-
-Next preserve the classifier row. By
-\autoref{thm:diffform-form-classifier-stability}, the scalar endpoint clause in
-the form classifier is stable under the same componentwise transport.
-
-Finally apply the scalar endpoint boundary itself. The scalar part of an
-accepted input row is the retained scalar classifier entry bounded by
-\autoref{thm:diffform-scalar-endpoint-transport}. Therefore the scalar endpoint
-accepted for $R$ transports to the corresponding accepted scalar endpoint for
-$R'$ without adding a new exterior-derivative law.
-\end{proof}
+\input{parts/concrete_instances/114_diffform_exterior_derivative_boundary.tex}
 
 \begin{theorem}[Differential-form NameCert obligation surface]
 \label{thm:diffform-namecert-obligation-surface}
@@ -638,11 +567,13 @@ The paper-side $\NameCert_{\DiffFormUp}$ obligation surface consists exactly
 of the carrier of \autoref{def:diffform-bhist-form-carrier}, the classifier
 of \autoref{def:diffform-bhist-form-classifier}, carrier transport,
 classifier stability, wedge ledger coverage, the wedge associator ledger, the
-wedge degree ledger, wedge degree classifier stability, the antisymmetry
-permutation ledger, the de Rham input boundary of
+wedge degree ledger, wedge degree classifier stability, the exterior-derivative
+candidate ledger, its degree-raise and wedge-input stability rows, the
+antisymmetry permutation ledger, the de Rham input boundary of
 \autoref{thm:diffform-derham-input-boundary}, and the downstream scope row of
 \autoref{thm:diffform-exterior-derivative-downstream-scope}. It asserts no
-standard bridge beyond these BEDC rows.
+standard bridge beyond these BEDC rows and no identity $d^2=0$, closedness,
+nondegeneracy, or contact nonintegrability.
 \end{theorem}
 \begin{proof}
 The carrier and classifier fields are the two displayed definitions. Carrier
@@ -660,6 +591,13 @@ ledger is \autoref{thm:diffform-wedge-degree-classifier-stability}.
 Antisymmetry is not hidden in the wedge operation: it is the explicit
 permutation ledger retained in every carrier row.
 
+The exterior-derivative candidate interface is the visible package of
+\autoref{def:diffform-exterior-derivative-candidate-ledger}. Its degree
+bookkeeping is
+\autoref{thm:diffform-exterior-derivative-degree-raise-ledger}, and its
+transport along the wedge-input classifier is
+\autoref{thm:diffform-exterior-derivative-wedge-input-stability}.
+
 The remaining exported row is the downstream scope for exterior derivative
 consumers, bounded by \autoref{thm:diffform-derham-input-boundary}. Since all
 fields are stated with $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
@@ -674,8 +612,10 @@ Downstream exterior-derivative chapters may use a $\DiffFormUp$ row only
 through its degree row, its carried $\mathsf{ProbeBundle}$ of tangent probes,
 its multilinear $\TensorProductUp$ tensor row, its scalar endpoint classifier,
 its antisymmetry ledger, wedge ledger coverage, the wedge associator ledger,
-and the wedge degree ledger. In particular, the DiffForm surface supplies the
-carrier, classifier, and exterior-algebra substrate for $\DeRhamUp$,
+the wedge degree ledger, and the exterior-derivative candidate ledger of
+\autoref{def:diffform-exterior-derivative-candidate-ledger}. In particular, the
+DiffForm surface supplies the carrier, classifier, exterior-algebra substrate,
+degree-raise candidate row, and endpoint transport substrate for $\DeRhamUp$,
 $\SymplecticUp$, and $\ContactUp$, but it does not by itself assert $d^2=0$,
 closedness, nondegeneracy, or contact nonintegrability.
 \end{theorem}
@@ -688,13 +628,100 @@ The exterior derivative needs the degree row and the multilinear scalar
 endpoint surface in order to state degree raising and scalar endpoint
 transport. Those rows are available from the carrier and classifier; the
 wedge degree ledger supplies the visible input-degree bookkeeping allowed at
-the de Rham boundary. Stability is supplied by the two transport theorems and
-\autoref{thm:diffform-wedge-degree-classifier-stability}.
+the de Rham boundary. The candidate ledger of
+\autoref{def:diffform-exterior-derivative-candidate-ledger} supplies the
+positive output-carrier and successor-degree row allowed at that boundary.
+Stability is supplied by the two transport theorems,
+\autoref{thm:diffform-wedge-degree-classifier-stability}, and
+\autoref{thm:diffform-exterior-derivative-wedge-input-stability}.
 
 The identities $d^2=0$, closedness, nondegeneracy, and contact
 nonintegrability require additional operator or geometric rows. They are not
 fields of the $\DiffFormUp$ surface, so downstream chapters must state and
 certify them in their own $\NameCert$ surfaces.
+\end{proof}
+
+\begin{definition}[Differential-form exterior-derivative visible input package]
+\label{def:diffform-exterior-derivative-visible-input-package}
+Let
+$$
+\omega=(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)
+$$
+be a source row carried by $\mathsf{DiffFormBHistCarrier}_{M,T}$, and let
+$$
+D\omega=(d^+,\mathcal{P}^+,\tau^+,\sigma^+,\alpha^+,\lambda^+)
+$$
+be a carried output candidate. The package
+$\mathsf{DiffFormExteriorInput}_{M,T}(\omega,D\omega)$ is accepted exactly
+when its visible provenance consists of the two displayed $\DiffFormUp$
+carrier rows, the unary degree rows $\mathsf{UnaryHistory}(d)$ and
+$\mathsf{UnaryHistory}(d^+)$, the degree-raising continuation row
+$$
+\Cont(d,\Eone(\emp),d^+),
+$$
+the transported $\mathsf{ProbeBundle}$ rows connecting $\mathcal{P}$ with
+$\mathcal{P}^+$, the retained $\TensorProductUp$ tensor row for the
+multilinear output candidate, the retained scalar classifier comparison
+between the source and output scalar endpoints, and the operator-owned source
+ledger recording that these rows are the only inputs supplied to the
+exterior-derivative construction. The package asserts no row for $d^2=0$,
+closedness, nondegeneracy, or contact nonintegrability.
+\end{definition}
+
+\begin{theorem}[Differential-form exterior-derivative degree successor ledger]
+\label{thm:diffform-exterior-derivative-degree-successor-ledger}
+Every package accepted by
+$\mathsf{DiffFormExteriorInput}_{M,T}(\omega,D\omega)$ exposes the source
+degree row $\mathsf{UnaryHistory}(d)$, the output degree row
+$\mathsf{UnaryHistory}(d^+)$, and the visible successor continuation row
+$$
+\Cont(d,\Eone(\emp),d^+).
+$$
+These are the only degree rows made available to a downstream
+exterior-derivative consumer by the package.
+\end{theorem}
+\begin{proof}
+Unpack the accepted package of
+\autoref{def:diffform-exterior-derivative-visible-input-package}. Its degree
+fields are listed as the two unary-history rows and the displayed
+$\Cont(d,\Eone(\emp),d^+)$ row.
+
+The source and output are carried rows of
+\autoref{def:diffform-bhist-form-carrier}, so their degree components are
+visible BHist carrier entries rather than hidden operator data. Applying the
+source-scope boundary of \autoref{thm:diffform-source-scope} shows that no
+other degree provenance may be imported through this package.
+\end{proof}
+
+\begin{theorem}[Differential-form exterior-derivative input classifier stability]
+\label{thm:diffform-exterior-derivative-input-classifier-stability}
+Let $\mathsf{DiffFormExteriorInput}_{M,T}(\omega,D\omega)$ be accepted. If
+the source and output carrier rows are transported componentwise by $\hsame$
+to $\omega'$ and $D\omega'$, then
+$\mathsf{DiffFormExteriorInput}_{M,T}(\omega',D\omega')$ is accepted. Under
+the same transport, the retained scalar endpoint comparison between the
+source and output scalar endpoints remains the scalar comparison carried by
+the transported package.
+\end{theorem}
+\begin{proof}
+First transport the two carrier rows. By
+\autoref{thm:diffform-carrier-hsame-transport}, the transported source
+$\omega'$ and transported output $D\omega'$ remain accepted
+$\DiffFormUp$ carrier rows.
+
+Next transport the classifier data. Apply
+\autoref{thm:diffform-form-classifier-stability} to the componentwise
+$\hsame$ comparisons of the two carrier rows. The degree rows, probe bundles,
+tensor rows, antisymmetry ledgers, and operator-owned source ledger remain the
+same visible rows up to $\hsame$, and the successor continuation row
+$\Cont(d,\Eone(\emp),d^+)$ transports to the corresponding continuation row
+for the transported degree endpoints.
+
+Finally, apply \autoref{thm:diffform-scalar-endpoint-transport}. The retained
+scalar endpoint comparison in the accepted package is preserved by the same
+componentwise transport, so the transported rows reassemble as
+$\mathsf{DiffFormExteriorInput}_{M,T}(\omega',D\omega')$ with its scalar
+comparison still visible.
 \end{proof}
 
 \begin{theorem}[Differential-form source scope]
