@@ -59,4 +59,29 @@ theorem OperatorIdealTraceClass_two_sided_absorption_row {A T left right : BHist
     (OperatorIdealTraceClass_finite_context_closure carrierT leftAction)
     (OperatorIdealTraceClass_finite_context_closure carrierT rightAction)
 
+theorem OperatorIdealTraceClass_binary_linear_combination_closure
+    {a b T S aT bS result : BHist} :
+    UnaryHistory a -> UnaryHistory b -> OperatorIdealTraceClassCarrier T ->
+      OperatorIdealTraceClassCarrier S -> Cont a T aT -> Cont b S bS ->
+        Cont aT bS result -> OperatorIdealTraceClassCarrier result := by
+  intro unaryA unaryB carrierT carrierS scalarA scalarB addScalars
+  cases carrierT with
+  | mk supportT supportUnaryT supportVisibleT =>
+      cases carrierS with
+      | mk supportS supportUnaryS supportVisibleS =>
+          have supportTClass : hsame T supportT :=
+            cont_deterministic supportVisibleT (cont_right_unit supportT)
+          cases supportTClass
+          have scalarUnaryA : UnaryHistory aT :=
+            unary_cont_closed unaryA supportUnaryT scalarA
+          have supportSClass : hsame S supportS :=
+            cont_deterministic supportVisibleS (cont_right_unit supportS)
+          cases supportSClass
+          have scalarUnaryB : UnaryHistory bS :=
+            unary_cont_closed unaryB supportUnaryS scalarB
+          exact
+            OperatorIdealTraceClassCarrier.mk _
+              (unary_cont_closed scalarUnaryA scalarUnaryB addScalars)
+              (cont_right_unit _)
+
 end BEDC.Derived.OperatorIdealUp
