@@ -191,3 +191,131 @@ Rationale:
 This is a compact determinacy theorem over the existing NetworkFlowUp residual-exhaustion surface. Existing paper content proves each residual exhaustion cut capacity equals FlowValue(F); this target packages the certificate-independence consequence, which is distinct from optimality.
 
 ---
+
+### B-494 - Distribution↑ continuity-from-below pushforward bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Distribution↑ continuity-from-below pushforward bridge |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If preimages under RandomVarUp preserve increasing unions and the source MeasureUp has continuity-from-below, then for any increasing target-measurable sequence (B_n) with union B, the pushforward satisfies μ_X(B) = lim_n μ_X(B_n).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+
+Rationale:
+This is a clean, concrete closure statement that is not a rephrasing of existing sigma-additivity; it exercises the monotone-limit axis of DistributionUp behavior and should be a useful bridge lemma for later limit-based arguments in MeasureUp/DistributionUp interoperability.
+
+---
+
+
+### B-495 - Distribution↑ null-completion random-variable descent
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Distribution↑ null-completion random-variable descent |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If for every target-measurable B, the symmetric difference X^{-1}(B) △ Y^{-1}(B) is μ_S-null, then for every target-measurable B, the pushforward measures satisfy μ_X(B) ∼ μ_Y(B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+
+Rationale:
+This provides a concrete determinacy/stability theorem converting a.s. transport-level equality of RandomVarUp maps into distribution-level equality, which is a meaningful obstruction and reuse point for security-relevant and stochastic reasoning.
+
+---
+
+
+### B-496 - Independence↑ measurable-image bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Independence↑ measurable-image bridge |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If X and Y are independent under IndependenceUp and maps f,g satisfy the readable-product preimage setup on RandomVarUp, then f ∘ X is independent of g ∘ Y.
+
+Local inputs:
+- (auto-spawn — no specific inputs declared)
+
+Rationale:
+This is a distinct, high-value propagation law for independence across measurable images, directly connecting independence, random-variable transport, and measurable readback structure; it is nontrivial relative to current board targets and extends closure behavior rather than duplicating existing single-object statements.
+
+---
+
+
+### B-497 - Measure↑ Dynkin closure from Distribution↑ generator agreement
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Measure↑ Dynkin closure from Distribution↑ generator agreement |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If μ_X and ν agree on a π-system that generates the target measurable class and both satisfy target countable disjoint-union sigma-additivity, then μ_X and ν classify equal on every generated measurable event.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex`
+
+Rationale:
+This gives a principled uniqueness transfer from generators to full sigma closure in the Distribution↑ vs Measure↑ interface and is foundational for downstream determinacy/comparison results; it is broader and structurally different from the existing finite/countable distribution rows.
+
+---
+
+
+### B-498 - CondExp↑ pushforward tower compatibility
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CondExp↑ pushforward tower compatibility |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If G ⊆ H are sub-sigma structures and CondExpUp has the projection setup on H and G, then E_{μ_X}(E_{μ_X}(Z | H) | G) = E_{μ_X}(Z | G).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/166_condexp_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+
+Rationale:
+This is a substantive conditional-expectation law for nested sigma-algebras that is not redundant with self-idempotence: it enables filtration-consistent rewriting and bridges distribution pushforward to conditional projection calculus.
+
+---
+
