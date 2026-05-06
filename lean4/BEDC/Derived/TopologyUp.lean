@@ -176,6 +176,15 @@ def BHistGeneratedOpenExact (T : BHistIndexedOpenCarrier) (U : BHist -> Prop) :
     Prop :=
   exists i : T.OpenIx, BHistCarriesOpen T i U
 
+theorem BHistGeneratedOpen_classifier_transport (T : BHistIndexedOpenCarrier)
+    {U : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  intro generated x y unaryX unaryY sameXY
+  cases generated with
+  | intro i carries =>
+      exact BHistCarriesOpen_classifier_transport T carries unaryX unaryY sameXY
+
 theorem BHistGeneratedOpen_binary_meet_admission (T : BHistIndexedOpenCarrier)
     {U V : BHist -> Prop} :
     BHistGeneratedOpenExact T U ->
