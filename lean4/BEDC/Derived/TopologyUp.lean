@@ -347,6 +347,29 @@ theorem BHistGeneratedOpen_binary_meet_admission (T : BHistIndexedOpenCarrier)
               (U := U) (V := V) carryU carryV
           exact And.intro (Exists.intro (T.meet i j) closure.left) closure.right
 
+theorem BHistGeneratedOpenExact_binary_meet_row (T : BHistIndexedOpenCarrier)
+    {U V : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      BHistGeneratedOpenExact T V ->
+        exists i : T.OpenIx, exists j : T.OpenIx, exists ledger : BHist,
+          hsame ledger BHist.Empty ∧
+            BHistCarriesOpen T i U ∧
+              BHistCarriesOpen T j V ∧
+                BHistCarriesOpen T (T.meet i j) (fun x : BHist => U x ∧ V x) := by
+  intro exactU exactV
+  cases exactU with
+  | intro i carryU =>
+      cases exactV with
+      | intro j carryV =>
+          have closure :=
+            BHistIndexedOpen_finite_intersection_closure (T := T) (i := i) (j := j)
+              (U := U) (V := V) carryU carryV
+          exact Exists.intro i
+            (Exists.intro j
+              (Exists.intro BHist.Empty
+                (And.intro (hsame_refl BHist.Empty)
+                  (And.intro carryU (And.intro carryV closure.left)))))
+
 theorem BHistIndexedOpen_arbitrary_union_closure (T : BHistIndexedOpenCarrier)
     {A : Type} {u : T.OpenIx} {ι : A -> T.OpenIx} {U : A -> BHist -> Prop} :
     (forall {x : BHist}, UnaryHistory x ->
@@ -390,6 +413,46 @@ theorem BHistIndexedOpen_arbitrary_union_closure (T : BHistIndexedOpenCarrier)
       have openY : T.OpenAt u y := Iff.mp carryY existsY
       have openX : T.OpenAt u x := Iff.mpr stable openY
       exact Iff.mpr carryX openX
+
+theorem BHistPullbackOpen_arbitrary_union (T : BHistIndexedOpenCarrier)
+    {A : Type} {u : T.OpenIx} {ι : A -> T.OpenIx} {U : A -> BHist -> Prop}
+    {f : BHist -> BHist}
+    (mapUnary : forall {y : BHist}, UnaryHistory y -> UnaryHistory (f y))
+    (unionLaw : forall {x : BHist}, UnaryHistory x ->
+      (T.OpenAt u x <-> exists a : A, T.OpenAt (ι a) x))
+    (carries : forall a : A, BHistCarriesOpen T (ι a) (U a)) :
+    (forall {y : BHist}, UnaryHistory y ->
+      (BHistPullbackOpen f (fun x : BHist => exists a : A, U a x) y <->
+        exists a : A, BHistPullbackOpen f (U a) y)) ∧
+      BHistPullbackCarriesOpen T f u (fun x : BHist => exists a : A, U a x) := by
+  constructor
+  · intro y unaryY
+    constructor
+    · intro existsU
+      cases existsU with
+      | intro a uaFY =>
+          exact Exists.intro a uaFY
+    · intro existsPullback
+      cases existsPullback with
+      | intro a uaFY =>
+          exact Exists.intro a uaFY
+  · intro y unaryY unaryImage
+    have unaryFY : UnaryHistory (f y) := mapUnary unaryY
+    have unionAt : T.OpenAt u (f y) <-> exists a : A, T.OpenAt (ι a) (f y) :=
+      unionLaw unaryFY
+    constructor
+    · intro existsU
+      cases existsU with
+      | intro a uaFY =>
+          have carryA : U a (f y) <-> T.OpenAt (ι a) (f y) := carries a unaryFY
+          have openA : T.OpenAt (ι a) (f y) := Iff.mp carryA uaFY
+          exact Iff.mpr unionAt (Exists.intro a openA)
+    · intro openUnion
+      have existsOpen : exists a : A, T.OpenAt (ι a) (f y) := Iff.mp unionAt openUnion
+      cases existsOpen with
+      | intro a openA =>
+          have carryA : U a (f y) <-> T.OpenAt (ι a) (f y) := carries a unaryFY
+          exact Exists.intro a (Iff.mpr carryA openA)
 
 theorem BHistIndexedOpen_boundary_closure (T : BHistIndexedOpenCarrier)
     (boundary : BHistIndexedBoundaryOpen T) :

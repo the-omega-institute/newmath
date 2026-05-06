@@ -374,3 +374,45 @@ recomposition rows from the package and records that no hidden quotient object
 is used. These three projections assemble the stated ten-field
 $\NameCert_{\AbelianCatUp}$ obligation surface.
 \end{proof}
+
+\begin{theorem}[AbelianCatUp hom zero morphism uniqueness]
+\label{thm:abeliancat-hom-zero-morphism-uniqueness}
+Let $\mathcal A$ be an $\AbelianCatUp$ additive kernel-cokernel carrier and
+view its zero-biproduct-kernel surface as in
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}. Fix displayed objects
+$A$ and $B$. Write $\mathcal H(A,B)$ for the displayed hom carrier,
+$\sim_{A,B}$ for its inherited hom classifier, $+_{A,B}$ for its displayed hom
+addition, and $0_{A,B}$ for its displayed zero morphism. If a carried morphism
+$u\in\mathcal H(A,B)$ satisfies
+$$
+u+_{A,B}f\sim_{A,B}f
+\qquad\text{and}\qquad
+f+_{A,B}u\sim_{A,B}f
+$$
+for every carried $f\in\mathcal H(A,B)$, then
+$$
+u\sim_{A,B}0_{A,B}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom row selected by
+\autoref{def:abeliancat-additive-kernel-cokernel-carrier}. It carries the
+$\AbGroupUp$ enrichment row $\mathcal G(A,B)$. By
+\autoref{thm:abeliancat-additive-zero-biproduct-obligation}, the addition
+operation of this enrichment is $+_{A,B}$ and its identity element is the
+displayed zero morphism $0_{A,B}$.
+
+Apply \autoref{prop:abgroup-forgets-group-certificate} to the enrichment and
+then \autoref{prop:group-forgets-monoid-certificate} to the resulting group
+reduct. The retained monoid certificate has the same carrier
+$\mathcal H(A,B)$, the same classifier $\sim_{A,B}$, the same operation
+$+_{A,B}$, and identity $0_{A,B}$. Hence the monoid right-identity row says
+that $0_{A,B}$ is a right identity for every carried hom element.
+
+The first displayed hypothesis says that $u$ is a left identity for every
+carried hom element. Since $u$ is carried and $0_{A,B}$ is carried by the zero
+row, the inputs of \autoref{thm:monoid-history-classifier-identity-unique} are
+satisfied with $e=u$ and $e'=0_{A,B}$. Its conclusion is exactly
+$u\sim_{A,B}0_{A,B}$, because the monoid reduct did not change the hom
+classifier.
+\end{proof}
