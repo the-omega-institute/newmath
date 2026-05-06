@@ -294,3 +294,64 @@ The factorization is obtained by cases on that row access. Carrier and classifie
 
 No remaining case exists. The exactness clause of \autoref{def:operatorideal-root-bhist-threshold-source} says that the root threshold exposes no row beyond its carrier, classifier, stability, ledger, and core rows, and \autoref{thm:operatorideal-trace-class-consumer-row-separation} removes the analytic and quantum rows from the spine. Thus every allowed downstream use is exhausted by the listed carrier, classifier, operation, absorption, closure, and ledger factors.
 \end{proof}
+
+\begin{definition}[OperatorIdeal bounded-context action spine]
+\label{def:operatorideal-bounded-context-action-spine}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. A bounded-context action spine over $H$ is the finite freely generated context package $\mathsf{BCtx}_H$ with the following constructors:
+\begin{enumerate}
+\item the identity context $\mathsf{id}_{\mathsf{BCtx}}$;
+\item if $K\in\mathsf{BCtx}_H$ and $\mathsf{Op}_H(A)$, the left-composition context $\mathsf{L}_A(K)$;
+\item if $K\in\mathsf{BCtx}_H$ and $\mathsf{Op}_H(A)$, the right-composition context $\mathsf{R}_A(K)$.
+\end{enumerate}
+Its endpoint action on a trace-class input $T$ is defined by structural recursion:
+$$
+\mathsf{id}_{\mathsf{BCtx}}[T]=T,
+$$
+$$
+\mathsf{L}_A(K)[T]=A\circ K[T],
+$$
+and
+$$
+\mathsf{R}_A(K)[T]=K[T]\circ A.
+$$
+Thus $\mathsf{BCtx}_H$ records exactly a finite list of certified bounded Hilbert-operator compositions around a trace-class endpoint, with no positivity, trace, nuclearity, complete-positivity, compactness, spectral, or bridge row.
+\end{definition}
+
+\begin{theorem}[OperatorIdeal trace-class finite context closure]
+\label{thm:operatorideal-trace-class-finite-context-closure}
+Let $H$ be a $\HilbertUp$ carrier, let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}, and let $K\in\mathsf{BCtx}_H$ be a bounded-context action spine of \autoref{def:operatorideal-bounded-context-action-spine}. If $\mathsf{TC}(H)(T)$, then the endpoint obtained by applying $K$ to $T$ is again trace-class:
+$$
+\mathsf{TC}(H)(T)\Longrightarrow \mathsf{TC}(H)(K[T]).
+$$
+\end{theorem}
+\begin{proof}
+Proceed by structural induction on the bounded-context action spine $K$.
+
+In the identity case, the endpoint action is $\mathsf{id}_{\mathsf{BCtx}}[T]=T$. The required trace-class witness is exactly the input witness $\mathsf{TC}(H)(T)$.
+
+For the left-composition step, write the context as $\mathsf{L}_A(K_0)$ with $\mathsf{Op}_H(A)$. The induction hypothesis gives $\mathsf{TC}(H)(K_0[T])$. Apply the left component of \autoref{thm:operatorideal-two-sided-absorption-row} to the carried bounded operator $A$ and the trace-class endpoint $K_0[T]$; the result is
+$$
+\mathsf{TC}(H)(A\circ K_0[T]).
+$$
+By the endpoint action defining $\mathsf{L}_A(K_0)[T]$, this is the desired witness for $\mathsf{TC}(H)(\mathsf{L}_A(K_0)[T])$.
+
+For the right-composition step, write the context as $\mathsf{R}_A(K_0)$ with $\mathsf{Op}_H(A)$. The induction hypothesis again gives $\mathsf{TC}(H)(K_0[T])$. Apply the right component of \autoref{thm:operatorideal-two-sided-absorption-row} to $A$ and $K_0[T]$ to obtain
+$$
+\mathsf{TC}(H)(K_0[T]\circ A).
+$$
+The endpoint action for $\mathsf{R}_A(K_0)$ identifies this endpoint with $\mathsf{R}_A(K_0)[T]$. These three cases exhaust the finite spine constructors.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal consumer context exhaustion]
+\label{thm:operatorideal-consumer-context-exhaustion}
+Every downstream use by $\DensityMatrixUp$, $\NuclearUp$, or $\QuantumChannelUp$ that starts from a trace-class endpoint and repeatedly composes it with finitely many carried bounded Hilbert operators factors through the bounded-context action spine of \autoref{def:operatorideal-bounded-context-action-spine} and the finite context closure theorem of \autoref{thm:operatorideal-trace-class-finite-context-closure}.
+\end{theorem}
+\begin{proof}
+Let the downstream use be accepted by one of the consumer slots of \autoref{def:operatorideal-trace-class-consumer-spine-source}, and assume that its operator action consists only of finitely many left or right compositions by carried bounded Hilbert operators.
+
+First encode the action as a bounded-context spine. The empty list of compositions is the identity constructor. Adding a left composition by a carried $\mathsf{Op}_H(A)$ applies the constructor $\mathsf{L}_A$, and adding a right composition by the same kind of carried operator applies the constructor $\mathsf{R}_A$. Finite repetition therefore builds an element $K\in\mathsf{BCtx}_H$ whose endpoint action is the downstream endpoint.
+
+Next apply \autoref{thm:operatorideal-trace-class-finite-context-closure}. Starting from the input witness $\mathsf{TC}(H)(T)$, the theorem gives $\mathsf{TC}(H)(K[T])$, so the finite bounded-context action preserves the trace-class carrier exposed to the consumer.
+
+It remains to account for the consumer rows. Carrier, classifier, additive, scalar, binary linear-combination, absorption, and ledger accesses are exactly the rows exhausted by \autoref{thm:operatorideal-trace-class-consumer-exhaustion}. The repeated-composition part of such an access is the bounded-context spine just constructed, while analytic rows remain absent by \autoref{thm:operatorideal-trace-class-consumer-row-separation}. Hence no allowed $\DensityMatrixUp$, $\NuclearUp$, or $\QuantumChannelUp$ bounded-context use lies outside the displayed spine and closure package.
+\end{proof}
