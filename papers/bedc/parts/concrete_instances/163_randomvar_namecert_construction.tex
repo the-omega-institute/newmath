@@ -54,3 +54,55 @@ $$
 
 Finally suppose $s$ has witnesses $s\in A_B$ and $s\in A_C$. Unfolding preimage gives witnesses $X(s)\in B$ and $X(s)\in C$. The displayed target disjointness row for $B$ and $C$ eliminates such a pair, so no carried source point can inhabit both $A_B$ and $A_C$. Hence the preimage pair is disjoint.
 \end{proof}
+
+\begin{theorem}[RandomVar preimage relative-difference exactness]
+\label{thm:randomvar-preimage-relative-difference-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $A$ and $B$ be target events in one carried target fiber with $A,B\in\mathcal{A}_T$, and suppose the public target readback displays $B\subseteq A$. Suppose the target complement/relative-difference row of \autoref{def:measure-complement-difference-row} supplies a measurable event
+$$
+D_T:=A\setminus B
+$$
+with public membership readback
+$$
+t\in D_T\quad\Longleftrightarrow\quad t\in A\ \text{and}\ t\notin B.
+$$
+Define source preimages
+$$
+A_S:=X^{-1}(A),\qquad B_S:=X^{-1}(B),\qquad D_X:=X^{-1}(D_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage, then $A_S,B_S,D_X\in\mathcal{A}_S$, and the public source readback displays $B_S\subseteq A_S$. Let $D_S$ be the source relative-difference event $A_S\setminus B_S$ supplied by the source $\MeasureUp$ complement/relative-difference row. Then
+$$
+D_S\in\mathcal{A}_S,\qquad D_X\sim_{\mathcal{A}_S}D_S,
+$$
+and the equality is certified with the source relative-difference ledger: $B_S$ and $D_S$ are disjoint, and the displayed source binary union $B_S\cup D_S$ is classified as $A_S$.
+\end{theorem}
+\begin{proof}
+The target complement/relative-difference row gives the measurable target event $D_T$. Applying the measurable-preimage row of the $\RandomVarUp$ certificate to $A$, $B$, and $D_T$ gives
+$$
+A_S,B_S,D_X\in\mathcal{A}_S.
+$$
+
+To read the source inclusion, fix a carried source point $s$ with a witness $s\in B_S$. The preimage readback for $B$ gives $X(s)\in B$. The displayed target inclusion $B\subseteq A$ gives $X(s)\in A$, and the preimage readback for $A$ gives $s\in A_S$. Hence the public source readback displays $B_S\subseteq A_S$.
+
+Apply the source complement/relative-difference row of \autoref{def:measure-complement-difference-row}, equivalently the row projected in \autoref{thm:measure-relative-difference-disjoint-decomposition}, to the displayed source inclusion $B_S\subseteq A_S$. It supplies the measurable event $D_S:=A_S\setminus B_S$, the disjointness witness for $B_S$ and $D_S$, and the binary-union readback classifying $B_S\cup D_S$ as $A_S$. Its relative-difference readback is
+$$
+s\in D_S\quad\Longleftrightarrow\quad s\in A_S\ \text{and}\ s\notin B_S.
+$$
+
+It remains to compare $D_X$ with $D_S$. For every carried source point $s$, the displayed rows give
+$$
+\begin{aligned}
+s\in D_X
+&\Longleftrightarrow X(s)\in D_T\\
+&\Longleftrightarrow X(s)\in A\ \text{and}\ X(s)\notin B\\
+&\Longleftrightarrow s\in A_S\ \text{and}\ s\notin B_S\\
+&\Longleftrightarrow s\in D_S.
+\end{aligned}
+$$
+The first and third equivalences are the preimage readbacks, the second is the target relative-difference readback, and the last is the source relative-difference readback.
+
+Thus $D_X$ and $D_S$ have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+D_X\sim_{\mathcal{A}_S}D_S.
+$$
+The measurable, disjointness, and binary-union statements are the corresponding fields of the same source relative-difference ledger.
+\end{proof}
