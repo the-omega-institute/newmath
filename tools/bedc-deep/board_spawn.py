@@ -247,7 +247,7 @@ def _judge_candidates(
         return ([], [], "")
 
     template = (PROMPTS_DIR / "board_judge.txt").read_text(encoding="utf-8")
-    board_content = board_context.build_board_prompt_context(max_chars=30000)
+    board_content = board_context.build_board_prompt_context()
     paper_labels = _scan_paper_labels()
     paper_coverage_blob = "\n".join(sorted(set(paper_labels))[:400])  # cap
 

@@ -17,7 +17,7 @@ from dispatch_bedc_target import BOARD_PATH, SCRIPT_DIR, BedcTarget, parse_board
 
 
 STATE_DIR = SCRIPT_DIR / "state"
-DEFAULT_MAX_CHARS = 30000
+DEFAULT_MAX_CHARS = 16000
 
 
 def _target_state(target: BedcTarget) -> str:
