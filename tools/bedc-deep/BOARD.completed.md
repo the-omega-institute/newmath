@@ -12381,3 +12381,102 @@ Rationale:
 This is a concrete two-sided unit law for an existing Banach operator composition surface. Existing coverage includes carrier and composition structure but not the identity-unit theorem, and the target is not duplicated by any current BOARD entry.
 
 ---
+
+### B-485 - Simplicial union carrier face closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Simplicial union carrier face closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If finite simplicial carriers K and L share the simplex-code source, classifier, and face relation, and js enumerates the pointwise union predicate Simplex_K or Simplex_L, then the union predicate is face-closed and inherits face transitivity.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+
+Rationale:
+This is a concrete closure counterpart to the existing simplicial intersection carrier results. It belongs cleanly in the simplicial-complex chapter, has a direct implication shape, and does not duplicate any current BOARD target or listed paper theorem.
+
+---
+
+### B-486 - Unitary conjugation channel composition law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Unitary conjugation channel composition law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the QuantumChannelUp and UnitaryGroupUp setup on a Hilbert carrier H, carried unitary automorphisms U and V imply that Ad_U composed with Ad_V is the QuantumChannel endpoint classified by Ad_{U\circ V}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/197_unitarygroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/69_hilbert_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete implication landing directly in the existing quantum-channel surface. It is distinct from the paper's current QuantumChannel composition closure and Unitary conjugation is a QuantumChannel theorem: those establish channel closure and single-unitary conjugation, but do not state the endpoint-identification law for the composite conjugation channel against the product unitary. It is not marker-only, not a BOARD duplicate, and the main landing file is below the line cap.
+
+---
+
+### B-487 - Simplicial union face dimension grading
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Simplicial union face dimension grading |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If K and L share a face relation and a common grading row, then every face chain in Simplex_{K\cup L} inherits the carried dimension comparisons by case analysis on the upper simplex branch.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+
+Rationale:
+This is a concrete closure-style simplicial-complex theorem that lands in the same surface as B-485 without duplicating it: B-485 covers face closure and face transitivity for the union carrier, while this target adds the inherited grading/face-dimension monotonicity row. The claim is a single implication under shared carrier, face, and grading setup, and it is not marker-only or verification-axis work.
+
+---
+
+### B-488 - Simplicial union append enumeration
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Simplicial union append enumeration |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If ks enumerates Simplex_K and ls enumerates Simplex_L under the shared simplex-code source and classifier, then ks++ls enumerates Simplex_{K\cup L}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+
+Rationale:
+This is a concrete enumeration lemma for the simplicial union carrier and is a useful sibling/prerequisite to B-485 rather than a duplicate of its face-closure theorem. It has a precise implication shape, stays within the concrete_instances chapter, and supplies a natural construction of the union enumeration object assumed by the existing BOARD target.
+
+---

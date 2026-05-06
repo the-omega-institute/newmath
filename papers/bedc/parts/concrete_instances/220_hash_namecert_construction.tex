@@ -158,3 +158,33 @@ $$
 $$
 Using the swapped digest witnesses $d'$ and $d$, the same two hash-evaluation rows, the reversed message distinction, and the unchanged digest comparison, the definition repacks exactly as $\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x',x)$.
 \end{proof}
+
+\begin{definition}[Hash collision-freeness]
+\label{def:hash-collision-freeness}
+Let $\mathcal H$ be a $\HashUp$ certificate as in \autoref{sec:hash-carrier} and \autoref{sec:hash-certificate}. For histories $x$ and $x'$, define
+$$
+\mathsf{CollFreeH}_{\mathcal H}(x,x')
+\Longleftrightarrow
+\neg\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x').
+$$
+\end{definition}
+
+\begin{theorem}[Hash collision-freeness excludes second-preimage success]
+\label{thm:hash-collision-freeness-excludes-second-preimage}
+Let $\mathcal H$ be a $\HashUp$ certificate whose finite-output digest classifier is supplied by its $\NameCert_{\FinSetUp}$ component. For message histories $x$ and $x'$, if
+$$
+\mathsf{CollFreeH}_{\mathcal H}(x,x') \land \mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')
+$$
+holds, then
+$$
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{CollFreeH}_{\mathcal H}(x,x')$, so it is enough to show $\neg\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')$.
+By \autoref{thm:hash-second-preimage-success-induces-collision}, the assumed second-preimage success gives
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x').
+$$
+This directly contradicts the displayed collision-freeness hypothesis, so the conjunction is inconsistent.
+\end{proof}
