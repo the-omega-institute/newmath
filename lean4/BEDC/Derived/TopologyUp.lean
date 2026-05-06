@@ -10,6 +10,10 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
+def BHistIndexedNeighborhood (T : BHistIndexedOpenCarrier) (x : BHist) (i : T.OpenIx) :
+    Prop :=
+  UnaryHistory x ∧ T.OpenAt i x
+
 def TopologyNeighborhood (T : BHistIndexedOpenCarrier) (x : BHist) (i : T.OpenIx) :
     Prop :=
   T.OpenAt i x
@@ -116,6 +120,214 @@ theorem BHistUnaryTopologyLedgerRow_classifier_transport (T : BHistIndexedOpenCa
       exact BHistCarriesOpen_classifier_transport T carries
   | top ledger unaryLedger carries =>
       exact BHistCarriesOpen_classifier_transport T carries
+
+def BHistUnaryTopologyLedgerRow_constructorTag (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} (row : BHistUnaryTopologyLedgerRow T i U)
+    (tag : BHist) : Prop :=
+  (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+    exists carries : BHistCarriesOpen T i U,
+      row = BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries ∧
+        hsame tag BHist.Empty) ∨
+  (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+    exists carries : BHistCarriesOpen T i U,
+      row = BHistUnaryTopologyLedgerRow.finiteListIntersection ledger unaryLedger carries ∧
+        hsame tag (BHist.e0 BHist.Empty)) ∨
+  (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+    exists carries : BHistCarriesOpen T i U,
+      row = BHistUnaryTopologyLedgerRow.binaryGeneratedMeet ledger unaryLedger carries ∧
+        hsame tag (BHist.e1 BHist.Empty)) ∨
+  (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+    exists carries : BHistCarriesOpen T i U,
+      row = BHistUnaryTopologyLedgerRow.arbitraryUnion ledger unaryLedger carries ∧
+        hsame tag (BHist.e0 (BHist.e0 BHist.Empty))) ∨
+  (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+    exists carries : BHistCarriesOpen T i U,
+      row = BHistUnaryTopologyLedgerRow.bottom ledger unaryLedger carries ∧
+        hsame tag (BHist.e0 (BHist.e1 BHist.Empty))) ∨
+  (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+    exists carries : BHistCarriesOpen T i U,
+      row = BHistUnaryTopologyLedgerRow.top ledger unaryLedger carries ∧
+        hsame tag (BHist.e1 (BHist.e0 BHist.Empty)))
+
+theorem BHistUnaryTopologyLedgerRow_constructor_tag_no_confusion
+    (T : BHistIndexedOpenCarrier) {i : T.OpenIx} {U : BHist -> Prop}
+    (row : BHistUnaryTopologyLedgerRow T i U) :
+    (BHistUnaryTopologyLedgerRow_constructorTag T row BHist.Empty ∨
+      BHistUnaryTopologyLedgerRow_constructorTag T row (BHist.e0 BHist.Empty) ∨
+      BHistUnaryTopologyLedgerRow_constructorTag T row (BHist.e1 BHist.Empty) ∨
+      BHistUnaryTopologyLedgerRow_constructorTag T row (BHist.e0 (BHist.e0 BHist.Empty)) ∨
+      BHistUnaryTopologyLedgerRow_constructorTag T row (BHist.e0 (BHist.e1 BHist.Empty)) ∨
+      BHistUnaryTopologyLedgerRow_constructorTag T row (BHist.e1 (BHist.e0 BHist.Empty))) ∧
+      (hsame BHist.Empty (BHist.e0 BHist.Empty) -> False) ∧
+      (hsame BHist.Empty (BHist.e1 BHist.Empty) -> False) ∧
+      (hsame BHist.Empty (BHist.e0 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame BHist.Empty (BHist.e0 (BHist.e1 BHist.Empty)) -> False) ∧
+      (hsame BHist.Empty (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 BHist.Empty) (BHist.e1 BHist.Empty) -> False) ∧
+      (hsame (BHist.e0 BHist.Empty) (BHist.e0 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 BHist.Empty) (BHist.e0 (BHist.e1 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 BHist.Empty) (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e1 BHist.Empty) (BHist.e0 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e1 BHist.Empty) (BHist.e0 (BHist.e1 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e1 BHist.Empty) (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 (BHist.e0 BHist.Empty))
+        (BHist.e0 (BHist.e1 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 (BHist.e0 BHist.Empty))
+        (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 (BHist.e1 BHist.Empty))
+        (BHist.e1 (BHist.e0 BHist.Empty)) -> False) := by
+  have pairwise :
+      (hsame BHist.Empty (BHist.e0 BHist.Empty) -> False) ∧
+      (hsame BHist.Empty (BHist.e1 BHist.Empty) -> False) ∧
+      (hsame BHist.Empty (BHist.e0 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame BHist.Empty (BHist.e0 (BHist.e1 BHist.Empty)) -> False) ∧
+      (hsame BHist.Empty (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 BHist.Empty) (BHist.e1 BHist.Empty) -> False) ∧
+      (hsame (BHist.e0 BHist.Empty) (BHist.e0 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 BHist.Empty) (BHist.e0 (BHist.e1 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 BHist.Empty) (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e1 BHist.Empty) (BHist.e0 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e1 BHist.Empty) (BHist.e0 (BHist.e1 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e1 BHist.Empty) (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 (BHist.e0 BHist.Empty))
+        (BHist.e0 (BHist.e1 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 (BHist.e0 BHist.Empty))
+        (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+      (hsame (BHist.e0 (BHist.e1 BHist.Empty))
+        (BHist.e1 (BHist.e0 BHist.Empty)) -> False) := by
+    constructor
+    · exact not_hsame_emp_e0
+    · constructor
+      · exact not_hsame_emp_e1
+      · constructor
+        · intro same
+          cases same
+        · constructor
+          · intro same
+            cases same
+          · constructor
+            · intro same
+              cases same
+            · constructor
+              · exact not_hsame_e0_e1
+              · constructor
+                · intro same
+                  cases same
+                · constructor
+                  · intro same
+                    cases same
+                  · constructor
+                    · intro same
+                      cases same
+                    · constructor
+                      · exact not_hsame_e1_e0
+                      · constructor
+                        · exact not_hsame_e1_e0
+                        · constructor
+                          · intro same
+                            cases same
+                          · constructor
+                            · intro same
+                              cases same
+                            · constructor
+                              · exact not_hsame_e0_e1
+                              · exact not_hsame_e0_e1
+  cases row with
+  | singletonMetricBall ledger unaryLedger carries =>
+      have witness :
+          exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+            exists carries : BHistCarriesOpen T i U,
+              BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries =
+                BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries ∧
+                hsame BHist.Empty BHist.Empty :=
+        Exists.intro ledger
+          (Exists.intro unaryLedger
+            (Exists.intro carries (And.intro rfl (hsame_refl BHist.Empty))))
+      have tagged : BHistUnaryTopologyLedgerRow_constructorTag T
+          (BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries) BHist.Empty :=
+        Or.inl witness
+      exact And.intro (Or.inl tagged) pairwise
+  | finiteListIntersection ledger unaryLedger carries =>
+      have witness :
+          exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+            exists carries : BHistCarriesOpen T i U,
+              BHistUnaryTopologyLedgerRow.finiteListIntersection ledger unaryLedger carries =
+                BHistUnaryTopologyLedgerRow.finiteListIntersection ledger unaryLedger carries ∧
+                hsame (BHist.e0 BHist.Empty) (BHist.e0 BHist.Empty) :=
+        Exists.intro ledger
+          (Exists.intro unaryLedger
+            (Exists.intro carries (And.intro rfl (hsame_refl (BHist.e0 BHist.Empty)))))
+      have tagged : BHistUnaryTopologyLedgerRow_constructorTag T
+          (BHistUnaryTopologyLedgerRow.finiteListIntersection ledger unaryLedger carries)
+          (BHist.e0 BHist.Empty) :=
+        Or.inr (Or.inl witness)
+      exact And.intro (Or.inr (Or.inl tagged)) pairwise
+  | binaryGeneratedMeet ledger unaryLedger carries =>
+      have witness :
+          exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+            exists carries : BHistCarriesOpen T i U,
+              BHistUnaryTopologyLedgerRow.binaryGeneratedMeet ledger unaryLedger carries =
+                BHistUnaryTopologyLedgerRow.binaryGeneratedMeet ledger unaryLedger carries ∧
+                hsame (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+        Exists.intro ledger
+          (Exists.intro unaryLedger
+            (Exists.intro carries (And.intro rfl (hsame_refl (BHist.e1 BHist.Empty)))))
+      have tagged : BHistUnaryTopologyLedgerRow_constructorTag T
+          (BHistUnaryTopologyLedgerRow.binaryGeneratedMeet ledger unaryLedger carries)
+          (BHist.e1 BHist.Empty) :=
+        Or.inr (Or.inr (Or.inl witness))
+      exact And.intro (Or.inr (Or.inr (Or.inl tagged))) pairwise
+  | arbitraryUnion ledger unaryLedger carries =>
+      have witness :
+          exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+            exists carries : BHistCarriesOpen T i U,
+              BHistUnaryTopologyLedgerRow.arbitraryUnion ledger unaryLedger carries =
+                BHistUnaryTopologyLedgerRow.arbitraryUnion ledger unaryLedger carries ∧
+                hsame (BHist.e0 (BHist.e0 BHist.Empty))
+                  (BHist.e0 (BHist.e0 BHist.Empty)) :=
+        Exists.intro ledger
+          (Exists.intro unaryLedger
+            (Exists.intro carries
+              (And.intro rfl (hsame_refl (BHist.e0 (BHist.e0 BHist.Empty))))))
+      have tagged : BHistUnaryTopologyLedgerRow_constructorTag T
+          (BHistUnaryTopologyLedgerRow.arbitraryUnion ledger unaryLedger carries)
+          (BHist.e0 (BHist.e0 BHist.Empty)) :=
+        Or.inr (Or.inr (Or.inr (Or.inl witness)))
+      exact And.intro (Or.inr (Or.inr (Or.inr (Or.inl tagged)))) pairwise
+  | bottom ledger unaryLedger carries =>
+      have witness :
+          exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+            exists carries : BHistCarriesOpen T i U,
+              BHistUnaryTopologyLedgerRow.bottom ledger unaryLedger carries =
+                BHistUnaryTopologyLedgerRow.bottom ledger unaryLedger carries ∧
+                hsame (BHist.e0 (BHist.e1 BHist.Empty))
+                  (BHist.e0 (BHist.e1 BHist.Empty)) :=
+        Exists.intro ledger
+          (Exists.intro unaryLedger
+            (Exists.intro carries
+              (And.intro rfl (hsame_refl (BHist.e0 (BHist.e1 BHist.Empty))))))
+      have tagged : BHistUnaryTopologyLedgerRow_constructorTag T
+          (BHistUnaryTopologyLedgerRow.bottom ledger unaryLedger carries)
+          (BHist.e0 (BHist.e1 BHist.Empty)) :=
+        Or.inr (Or.inr (Or.inr (Or.inr (Or.inl witness))))
+      exact And.intro (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl tagged))))) pairwise
+  | top ledger unaryLedger carries =>
+      have witness :
+          exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+            exists carries : BHistCarriesOpen T i U,
+              BHistUnaryTopologyLedgerRow.top ledger unaryLedger carries =
+                BHistUnaryTopologyLedgerRow.top ledger unaryLedger carries ∧
+                hsame (BHist.e1 (BHist.e0 BHist.Empty))
+                  (BHist.e1 (BHist.e0 BHist.Empty)) :=
+        Exists.intro ledger
+          (Exists.intro unaryLedger
+            (Exists.intro carries
+              (And.intro rfl (hsame_refl (BHist.e1 (BHist.e0 BHist.Empty))))))
+      have tagged : BHistUnaryTopologyLedgerRow_constructorTag T
+          (BHistUnaryTopologyLedgerRow.top ledger unaryLedger carries)
+          (BHist.e1 (BHist.e0 BHist.Empty)) :=
+        Or.inr (Or.inr (Or.inr (Or.inr (Or.inr witness))))
+      exact And.intro (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr tagged))))) pairwise
 
 theorem BHistIndexedOpen_neighborhood_semantic_name_certificate
     (T : BHistIndexedOpenCarrier) {i : T.OpenIx}
