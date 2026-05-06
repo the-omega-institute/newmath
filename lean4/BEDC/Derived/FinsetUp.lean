@@ -270,6 +270,26 @@ theorem FinsetEnumerationPermutation_trans
               (And.intro pData.left
                 (NameCert.equiv_trans cert qData.right pData.right))
 
+theorem FinsetEnumerationPermutation_symm
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert A Rel) {xs ys : ProbeBundle BHist} :
+    FinsetEnumerationPermutation A Rel xs ys ->
+      FinsetEnumerationPermutation A Rel ys xs := by
+  intro permutation
+  constructor
+  · intro q memberYs
+    cases permutation.right memberYs with
+    | intro p pData =>
+        have relPQ : Rel p q := NameCert.equiv_symm cert pData.right
+        exact Exists.intro p
+          (And.intro pData.left (NameCert.equiv_symm cert relPQ))
+  · intro p memberXs
+    cases permutation.left memberXs with
+    | intro q qData =>
+        have relQP : Rel q p := NameCert.equiv_symm cert qData.right
+        exact Exists.intro q
+          (And.intro qData.left (NameCert.equiv_symm cert relQP))
+
 theorem FinsetEnumerationClassifier_permutation_invariant
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
     {left right : ProbeBundle BHist}
