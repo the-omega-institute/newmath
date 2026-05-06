@@ -1,0 +1,141 @@
+\begin{definition}[Differential-form root source obligation package]
+\label{def:diffform-root-source-obligation-package}
+The root source obligation package for $\DiffFormUp$ is the following
+per-object template, read over the certificate section
+\autoref{sec:diffform-certificate}.
+\begin{enumerate}
+  \item The traditional target is the differential-form surface of
+  antisymmetric multilinear tangent probes equipped with wedge.
+  \item The BEDC source language is $\mathsf{BHist}$, with comparison rows
+  supplied by $\hsame$.
+  \item Continuation rows are exactly the visible $\Cont$ rows attached to
+  tensor concatenation, wedge degree bookkeeping, and the exported
+  exterior-derivative input boundary.
+  \item Probe data are finite $\mathsf{ProbeBundle}$ rows over the tangent
+  source surface.
+  \item The upstream certificate sources are
+  $\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$.
+  \item The carrier choice is
+  $\mathsf{DiffFormBHistCarrier}_{M,T}$ of
+  \autoref{def:diffform-bhist-form-carrier}.
+  \item The classifier choice is $\sim_{\DiffFormUp}$ of
+  \autoref{def:diffform-bhist-form-classifier}.
+  \item Stability obligations are the carrier transport, classifier
+  stability, wedge probe transport, wedge associator transport, wedge degree
+  stability, antisymmetry transport, and exterior-derivative input transport
+  rows already displayed in the chapter.
+  \item The source ledger is the visible ledger over $BHist$, $\hsame$,
+  $\Cont$, $\mathsf{ProbeBundle}$, $\NameCert_{\ManifoldUp}$, and
+  $\NameCert_{\TensorProductUp}$.
+  \item The core theorem list consists of carrier obligation, classifier
+  obligation, ledger exactness, classifier reflexivity, wedge ledger
+  coverage, wedge probe concatenation coverage, wedge associator closure,
+  wedge degree stability, and the exported input-boundary statements.
+  \item The exactness predicate is ledger exhaustion: every accepted root row
+  is one of the displayed carrier, classifier, continuation, probe, upstream
+  certificate, wedge, antisymmetry, or input-boundary rows.
+  \item The standard bridge slot is absent, and the current status is a
+  paper-side root obligation surface rather than a standard-object bridge.
+\end{enumerate}
+No closedness predicate, nondegeneracy predicate, contact predicate, or
+$d^2=0$ row belongs to this root source package.
+\end{definition}
+
+\begin{theorem}[Differential-form root carrier source obligation]
+\label{thm:diffform-root-carrier-source-obligation}
+Every admitted root $\DiffFormUp$ row factors through the six displayed
+carrier coordinates
+$$
+(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)
+$$
+of \autoref{def:diffform-bhist-form-carrier} and through the upstream
+$\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$ certificate
+rows. The root carrier has no host tangent-space carrier and no external
+alternating-map carrier outside those displayed BEDC sources.
+\end{theorem}
+\begin{proof}
+Unpack the carrier definition. A row accepted by
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ is presented by the six histories
+$(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$, and the acceptance clauses name
+only degree, probe, tensor, scalar endpoint, antisymmetry, and source-ledger
+data.
+
+The probe coordinate is read through the tangent-source rows retained by
+$\NameCert_{\ManifoldUp}$. The tensor and continuation coordinates are read
+through $\NameCert_{\TensorProductUp}$, while the scalar endpoint classifier is
+the scalar classifier retained by the same upstream sources.
+
+Finally inspect the source ledger $\lambda$. It records the names $M$ and $T$
+and the five visible carrier components already listed. Since no acceptance
+clause constructs another carrier, a host tangent-space object or an external
+alternating-map object has no entry point into the root row.
+\end{proof}
+
+\begin{theorem}[Differential-form root wedge operation obligation]
+\label{thm:diffform-root-wedge-operation-obligation}
+The wedge operation obligation for root $\DiffFormUp$ rows is exactly the
+visible concatenation, degree-additivity, associator, and
+classifier-stability ledger supplied by
+\autoref{thm:diffform-wedge-ledger-coverage},
+\autoref{def:diffform-wedge-probe-concatenation-ledger},
+\autoref{thm:diffform-wedge-probe-concatenation-coverage},
+\autoref{thm:diffform-wedge-probe-concatenation-classifier-stability},
+\autoref{def:diffform-wedge-associator-ledger},
+\autoref{thm:diffform-wedge-associator-closure},
+\autoref{def:diffform-wedge-degree-ledger}, and
+\autoref{thm:diffform-wedge-degree-classifier-stability}.
+\end{theorem}
+\begin{proof}
+Read wedge admission first. The coverage theorem
+\autoref{thm:diffform-wedge-ledger-coverage} bounds the operation by the two
+input carrier rows, the concatenated tensor row, the output scalar endpoint,
+the inherited antisymmetry data, and the displayed source ledger.
+
+Next read the probe and degree ledgers. The probe spine is the visible
+concatenation ledger of
+\autoref{def:diffform-wedge-probe-concatenation-ledger}, with coverage and
+classifier transport supplied by
+\autoref{thm:diffform-wedge-probe-concatenation-coverage} and
+\autoref{thm:diffform-wedge-probe-concatenation-classifier-stability}. The
+degree row is the unary-history ledger of
+\autoref{def:diffform-wedge-degree-ledger}, and its classifier transport is
+\autoref{thm:diffform-wedge-degree-classifier-stability}.
+
+It remains to account for parenthesizing. The associator data are exactly the
+visible ledger of \autoref{def:diffform-wedge-associator-ledger}, and closure
+under the carried classifier is supplied by
+\autoref{thm:diffform-wedge-associator-closure}. These cited rows exhaust the
+operation obligation, so no additional wedge source is being assumed.
+\end{proof}
+
+\begin{theorem}[Differential-form root source ledger obligation]
+\label{thm:diffform-root-source-ledger-obligation}
+All accepted source ledger entries for the root $\DiffFormUp$ package are
+exhausted by $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$ rows. No
+standard bridge, closedness predicate, nondegeneracy predicate, contact
+predicate, or $d^2=0$ row is part of the root obligation.
+\end{theorem}
+\begin{proof}
+Begin with the root package of
+\autoref{def:diffform-root-source-obligation-package}. Its source language,
+comparison rows, continuation rows, probe rows, and upstream certificate rows
+are explicitly listed as $BHist$, $\hsame$, $\Cont$,
+$\mathsf{ProbeBundle}$, $\NameCert_{\ManifoldUp}$, and
+$\NameCert_{\TensorProductUp}$.
+
+The carrier and classifier definitions do not widen that list.
+\autoref{def:diffform-bhist-form-carrier} exposes only the six carried
+coordinates and their upstream sources, while
+\autoref{def:diffform-bhist-form-classifier} uses only $\hsame$ and the
+retained scalar classifier. The core ledger exactness statement
+\autoref{thm:diffform-bhist-ledger-exactness-obligation} gives the same
+exhaustion for the core certificate rows.
+
+The remaining root operation rows are wedge rows. By
+\autoref{thm:diffform-root-wedge-operation-obligation}, these are the visible
+concatenation, degree, associator, and classifier-stability ledgers already
+named above. None of those ledgers contains a standard bridge, a closedness
+predicate, a nondegeneracy predicate, a contact predicate, or a two-step
+exterior-derivative identity.
+\end{proof}
