@@ -6,10 +6,12 @@ infinity object; the negative theorem `boundary_01_not_infinity` records
 this. Cauchy / Real / Topology readings are deferred horizons.
 -/
 import BEDC.Derived.AxisZeckendorf.Spine
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.AxisZeckendorf.FullAxis
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.Derived.AxisZeckendorf.Spine
 
 def boundary_01 : BHist := BHist.e1 (BHist.e0 BHist.Empty)
@@ -76,5 +78,33 @@ theorem fullAxis_boundary_01_marker_not_limit : True := True.intro
 theorem fullAxis_not_real_horizon : True := True.intro
 
 theorem fullAxis_licensed_not_primitive : True := True.intro
+
+theorem FullAxis_semantic_name_certificate :
+    SemanticNameCert (FullAxisSourceSpec zeroSpinePrefixThread)
+      (FullAxisPatternSpec zeroSpinePrefixThread) (FullAxisLedgerPolicy zeroSpinePrefixThread)
+      (FullAxisClassifierSpec zeroSpinePrefixThread) := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty zeroSpinePrefixThread.empty_member
+      equiv_refl := by
+        intro h sourceH
+        exact And.intro sourceH sourceH
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right classified.left
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left classifiedKR.right
+      carrier_respects_equiv := by
+        intro h k classified _sourceH
+        exact classified.right
+    }
+    pattern_sound := by
+      intro h sourceH
+      exact sourceH
+    ledger_sound := by
+      intro h sourceH
+      exact sourceH
+  }
 
 end BEDC.Derived.AxisZeckendorf.FullAxis
