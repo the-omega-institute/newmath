@@ -21,4 +21,38 @@ theorem ComplexLimit_component_assembly_candidate_unary {real imag z Mx My Mshar
         (And.intro realCarrier (And.intro imagCarrier componentAssembly)))
   exact And.intro candidateCarrier (unary_cont_closed modulusX modulusY modulusAssembly)
 
+theorem ComplexLimit_from_component_limits {s N : BHist -> BHist}
+    {real imag Mx My Mstar : BHist} :
+    (forall {n : BHist}, UnaryHistory n -> ComplexHistoryCarrier (s n)) ->
+      ComplexRegularSequence s N ->
+        BEDC.Derived.RatUp.RatHistoryCarrier real ->
+          BEDC.Derived.RatUp.RatHistoryCarrier imag ->
+            UnaryHistory Mx ->
+              UnaryHistory My ->
+                Cont Mx My Mstar ->
+                  exists z : BHist,
+                    ComplexHistoryCarrier z ∧ UnaryHistory Mstar ∧
+                      ComplexLimit s N z (fun _ : BHist => Mstar) := by
+  intro sequenceCarrier regular realCarrier imagCarrier modulusX modulusY modulusAssembly
+  let z := append real imag
+  have zAssembly : Cont real imag z := cont_intro rfl
+  have assembled := ComplexLimit_component_assembly_candidate_unary realCarrier imagCarrier
+    zAssembly modulusX modulusY modulusAssembly
+  have limitModulus :
+      forall k n : BHist, UnaryHistory k -> UnaryHistory n -> Cont ((fun _ : BHist => Mstar) k) n n ->
+        exists d : BHist, ComplexDistance (s n) z d := by
+    intro _k n _unaryK unaryN _controlled
+    exact Exists.intro (append (s n) z)
+      (And.intro (ComplexHistoryCarrier_unary (sequenceCarrier unaryN))
+        (And.intro (ComplexHistoryCarrier_unary assembled.left)
+          (And.intro
+            (unary_append_closed
+              (ComplexHistoryCarrier_unary (sequenceCarrier unaryN))
+              (ComplexHistoryCarrier_unary assembled.left))
+            (Or.inl (cont_intro rfl)))))
+  exact Exists.intro z
+    (And.intro assembled.left
+      (And.intro assembled.right
+        (And.intro regular (And.intro assembled.left limitModulus))))
+
 end BEDC.Derived.ComplexLimitUp
