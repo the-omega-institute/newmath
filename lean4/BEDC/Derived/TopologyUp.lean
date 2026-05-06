@@ -369,4 +369,25 @@ theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 :
     | intro a openA =>
         exact And.intro (hsame_refl BHist.Empty) openA.right
 
+theorem TopologySingleton_union_case_split_ledger {A : Type} {ι : A -> BHist} :
+    ((forall a : A, hsame (ι a) (BHist.e0 BHist.Empty)) ∨
+      (exists a0 : A, hsame (ι a0) BHist.Empty)) ->
+      exists accepted : BHist,
+        (hsame accepted (BHist.e0 BHist.Empty) ∨ hsame accepted BHist.Empty) ∧
+          forall h : BHist,
+            TopologySingletonOpenAt accepted h <->
+              exists a : A, TopologySingletonOpenAt (ι a) h := by
+  intro ledger
+  cases ledger with
+  | inl allBottom =>
+      exact Exists.intro (BHist.e0 BHist.Empty)
+        (And.intro (Or.inl (hsame_refl (BHist.e0 BHist.Empty)))
+          (TopologySingleton_union_bottom_exactness ι allBottom))
+  | inr topMember =>
+      cases topMember with
+      | intro a0 topAt =>
+          exact Exists.intro BHist.Empty
+            (And.intro (Or.inr (hsame_refl BHist.Empty))
+              (TopologySingleton_union_top_exactness (ι := ι) a0 topAt))
+
 end BEDC.Derived.TopologyUp
