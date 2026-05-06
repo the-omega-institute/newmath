@@ -1,0 +1,306 @@
+\begin{definition}[Principal two-sided generated ideal predicate]
+\label{def:ideal-principal-generated-predicate}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $a$ be a carried generator, so $C(a)$. The principal two-sided generated ideal predicate $\langle a\rangle_R$ is the predicate on endpoints $z$ for which a finite $\mathsf{HistSpine}$ carries signed two-sided monomial rows
+$$
+\ell_i\cdot_R a\cdot_R r_i
+$$
+with $C(\ell_i)$ and $C(r_i)$ at every spine position $i$, together with sign rows, such that the $\RingUp$ finite additive fold of those signed rows is classifier-equal to $z$. The empty spine folds to $0_R$. The certificate ledger records the spine, the left and right coefficient rows, the sign rows, and the final classifier edge from the finite fold to $z$.
+\end{definition}
+\leandef{BEDC.Derived.IdealUp.IdealPrincipalGenerated}
+
+\begin{theorem}[Principal generated subtractive closure]
+\label{thm:ideal-principal-generated-subtractive-closure}
+Let $R$ carry a $\RingUp$ certificate, let $a$ be a carried generator, and let $\langle a\rangle_R$ be the predicate of \autoref{def:ideal-principal-generated-predicate}. Then $\langle a\rangle_R$ has carrier support, zero membership, additive closure, additive inverse closure, and classifier transport over the ambient $\RingUp$ data:
+$$
+\langle a\rangle_R(0_R),\qquad
+\langle a\rangle_R(x)\land \langle a\rangle_R(y)\Longrightarrow \langle a\rangle_R(x+_R y),\qquad
+\langle a\rangle_R(x)\Longrightarrow \langle a\rangle_R(-_R x),
+$$
+and
+$$
+\langle a\rangle_R(x)\land x\sim_R y\Longrightarrow \langle a\rangle_R(y),
+$$
+with every displayed membership carrying a RingUp endpoint carrier witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealPrincipalGenerated\_subtractive\_closure\_rows}
+\begin{proof}
+Carrier support is part of the final fold certificate: every signed monomial row is carried by the multiplication-closure rows, the finite additive fold is carried by the additive-closure rows, and classifier transport carries that support to the named endpoint $z$.
+
+For zero membership, take the empty spine. Its fold is $0_R$, and the final classifier edge is the reflexive edge at $0_R$.
+
+For additive closure, concatenate the two finite spines witnessing $x$ and $y$. The fold of the concatenated spine is classified, by RingUp finite-fold associativity, with the sum of the two earlier folds. Addition congruence then transports along the two final classifier edges and yields a final classifier edge to $x+_R y$.
+
+For additive inverse closure, reverse the signs in the spine witnessing $x$. The RingUp inverse and finite-fold rows classify the new fold with the additive inverse of the old fold, and inverse congruence transports the final edge to $-_R x$.
+
+For classifier transport, keep the same spine and compose its final classifier edge with the given edge $x\sim_R y$. The ledger data is unchanged, and the composed edge witnesses $\langle a\rangle_R(y)$.
+\end{proof}
+
+\begin{theorem}[Principal generated absorption closure]
+\label{thm:ideal-principal-generated-absorption-closure}
+Let $R$ carry a $\RingUp$ certificate, let $a$ be a carried generator, and let $\langle a\rangle_R$ be the predicate of \autoref{def:ideal-principal-generated-predicate}. If $t$ is carried, then $\langle a\rangle_R(x)$ implies both $\langle a\rangle_R(t\cdot_R x)$ and $\langle a\rangle_R(x\cdot_R t)$. Consequently, together with \autoref{thm:ideal-principal-generated-subtractive-closure}, the predicate $\langle a\rangle_R$ supplies the internal multiplication row required of an $\IdealUp$ predicate.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealPrincipalGenerated\_absorption\_closure\_rows}
+\begin{proof}
+Start with a finite signed spine witnessing $\langle a\rangle_R(x)$. For left absorption by a carried endpoint $t$, multiply every monomial row in the spine on the left by $t$.
+
+Associativity rewrites each row
+$$
+t\cdot_R(\ell_i\cdot_R a\cdot_R r_i)
+$$
+as
+$$
+(t\cdot_R\ell_i)\cdot_R a\cdot_R r_i.
+$$
+Carrier support for $t$ and $\ell_i$ gives $C(t\cdot_R\ell_i)$, while $C(r_i)$ is retained. Distributivity and the finite-fold multiplication rows classify the fold of the transformed spine with $t\cdot_R x$, after composing with the original final classifier edge.
+
+For right absorption, multiply every monomial row on the right by $t$. Associativity rewrites
+$$
+(\ell_i\cdot_R a\cdot_R r_i)\cdot_R t
+$$
+as
+$$
+\ell_i\cdot_R a\cdot_R(r_i\cdot_R t),
+$$
+and the multiplication-closure rows give $C(r_i\cdot_R t)$. The same distributivity and finite-fold argument supplies the final classifier edge to $x\cdot_R t$.
+
+Internal multiplication is then a consequence of right absorption: from $\langle a\rangle_R(x)$ and $\langle a\rangle_R(y)$, carrier support from \autoref{thm:ideal-principal-generated-subtractive-closure} gives $C(y)$, and right absorption by $y$ gives $\langle a\rangle_R(x\cdot_R y)$.
+\end{proof}
+
+\begin{theorem}[Principal generated full IdealUp closure]
+\label{thm:ideal-principal-generated-full-ideal-closure}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, let $a$ be a carried generator, and let $\langle a\rangle_R$ be the predicate of \autoref{def:ideal-principal-generated-predicate}. Then $\langle a\rangle_R$ supplies the full $\IdealUp$ predicate surface over $R$: carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and two-sided absorption by every carried ambient endpoint.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealPrincipalGenerated\_full\_ideal\_closure\_rows}
+\begin{proof}
+The carrier-support, zero-membership, additive-closure, additive-inverse, and classifier-transport rows are exactly the rows supplied by \autoref{thm:ideal-principal-generated-subtractive-closure}.
+
+The two-sided ambient absorption rows are exactly the left and right absorption rows supplied by \autoref{thm:ideal-principal-generated-absorption-closure}. The internal multiplication row is obtained there from right absorption together with carrier support for the second factor. These rows are precisely the row package required of an $\IdealUp$ predicate over the ambient $\RingUp$ certificate.
+\end{proof}
+
+\begin{theorem}[Principal generated quotient-kernel scope]
+\label{thm:ideal-principal-generated-quotient-kernel-scope}
+Let $R$ carry a $\RingUp$ certificate, let $a$ be a carried generator, and let $I:=\langle a\rangle_R$ be the predicate of \autoref{def:ideal-principal-generated-predicate}. The generated predicate supplies the quotient-free kernel surface consumed by $\QuotientRingUp$:
+$$
+Q_I(x,y)\Longleftrightarrow C(x)\land C(y)\land I(x-_R y).
+$$
+In particular, the diagonal and endpoint-transport rows for this surface are exactly the rows obtained by applying \autoref{thm:ideal-quotient-kernel-diagonal-exactness} and \autoref{thm:ideal-quotient-kernel-transport-surface} to $I$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:ideal-principal-generated-full-ideal-closure}, the predicate $I$ is an $\IdealUp$ predicate over the ambient ring certificate.
+
+Unfold \autoref{def:ideal-quotient-kernel-source-package} with this $I$. The displayed relation is therefore the same concrete quotient-free $\mathsf{BHist}$ kernel package used for every IdealUp predicate.
+
+Apply \autoref{thm:ideal-quotient-kernel-diagonal-exactness} to obtain diagonal exactness, and apply \autoref{thm:ideal-quotient-kernel-transport-surface} to obtain endpoint transport. No quotient carrier or extra quotient primitive is introduced before $\QuotientRingUp$ consumes the surface.
+\end{proof}
+\leanchecked{BEDC.Derived.IdealUp.IdealPrincipalGenerated\_quotient\_kernel\_scope}
+
+\begin{definition}[Ring map zero-fiber predicate]
+\label{def:ring-map-zero-fiber-predicate}
+Let $S$ and $T$ carry $\RingUp$ certificates, with carriers $C_S,C_T$, classifiers $\sim_S,\sim_T$, zeros $0_S,0_T$, additions $+_S,+_T$, additive inverses $-_S,-_T$, and multiplications $\cdot_S,\cdot_T$. For a function $f:S\to T$, the ring-map zero-fiber predicate on the source carrier is
+$$
+\mathsf{Ker}^{\mathrm{ring}}_f(x)\Longleftrightarrow C_S(x)\land f(x)\sim_T0_T.
+$$
+The first component records source-carrier evidence; the second records the target-zero classification.
+\end{definition}
+
+\begin{theorem}[Ring map zero fiber IdealUp closure]
+\label{thm:ring-map-zero-fiber-ideal-closure}
+Let $S$ and $T$ carry $\RingUp$ certificates as in \autoref{ch:concrete-instances-ring-namecert}, with notation as in \autoref{def:ring-map-zero-fiber-predicate}. Let $f:S\to T$ satisfy carrier preservation and classifier preservation on carried source endpoints:
+$$
+C_S(x)\Longrightarrow C_T(f(x))
+$$
+and
+$$
+C_S(x)\land C_S(y)\land x\sim_S y\Longrightarrow f(x)\sim_T f(y).
+$$
+Assume also that $f$ preserves zero, addition, additive inverse, and multiplication on carried source endpoints:
+$$
+f(0_S)\sim_T0_T,
+$$
+$$
+C_S(x)\land C_S(y)\Longrightarrow f(x+_S y)\sim_T f(x)+_T f(y),
+$$
+$$
+C_S(x)\Longrightarrow f(-_S x)\sim_T -_T f(x),
+$$
+and
+$$
+C_S(x)\land C_S(y)\Longrightarrow f(x\cdot_S y)\sim_T f(x)\cdot_T f(y).
+$$
+Then $K:=\mathsf{Ker}^{\mathrm{ring}}_f$ from \autoref{def:ring-map-zero-fiber-predicate} is an $\IdealUp$ predicate over the source ring $S$. Explicitly, $K$ has carrier support and the rows
+$$
+K(0_S),\qquad K(x)\land K(y)\Longrightarrow K(x+_S y),\qquad K(x)\Longrightarrow K(-_S x),
+$$
+$$
+K(x)\land K(y)\Longrightarrow K(x\cdot_S y),\qquad K(x)\land x\sim_S y\Longrightarrow K(y),
+$$
+and, for every $r$ with $C_S(r)$,
+$$
+K(x)\Longrightarrow K(r\cdot_S x)\land K(x\cdot_S r).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.RingMapZeroFiber\_ideal\_closure\_rows}
+\begin{proof}
+Unfold \autoref{def:ring-map-zero-fiber-predicate}. Carrier support is the first component of a $K$ witness.
+
+For zero, the source $\RingUp$ certificate carries $0_S$, and the zero-preservation row gives $f(0_S)\sim_T0_T$. Hence $K(0_S)$.
+
+For classifier transport, assume $K(x)$ and $x\sim_S y$. The source carrier-transport row from \autoref{def:lean-carrier-naming-certificate} gives $C_S(y)$. Classifier preservation gives $f(x)\sim_T f(y)$. Target classifier symmetry and \autoref{thm:namecert-equivalence-transitivity} compose this with the zero-fiber witness $f(x)\sim_T0_T$ to obtain $f(y)\sim_T0_T$. Thus $K(y)$.
+
+For additive closure, assume $K(x)$ and $K(y)$. Source additive closure carries $x+_S y$. Addition preservation gives
+$$
+f(x+_S y)\sim_T f(x)+_T f(y).
+$$
+Target addition congruence, applied to the two zero-fiber witnesses, gives
+$$
+f(x)+_T f(y)\sim_T0_T+_T0_T.
+$$
+The target additive zero row contained in \autoref{def:ring-stability-certificate} reduces $0_T+_T0_T$ to $0_T$. Transitivity gives $f(x+_S y)\sim_T0_T$, so $K(x+_S y)$.
+
+For additive inverse closure, assume $K(x)$. Source inverse closure carries $-_S x$. Additive-inverse preservation gives
+$$
+f(-_S x)\sim_T -_T f(x).
+$$
+Target inverse congruence transports $f(x)\sim_T0_T$ to $-_T f(x)\sim_T -_T0_T$, and \autoref{thm:ring-neg-zero}, read in the target additive component, identifies $-_T0_T$ with $0_T$. Composing the classifier edges yields $f(-_S x)\sim_T0_T$, hence $K(-_S x)$.
+
+For internal multiplication closure, assume $K(x)$ and $K(y)$. Source multiplication closure carries $x\cdot_S y$. Multiplication preservation gives
+$$
+f(x\cdot_S y)\sim_T f(x)\cdot_T f(y).
+$$
+Target multiplication congruence transports the two zero-fiber witnesses to
+$$
+f(x)\cdot_T f(y)\sim_T0_T\cdot_T0_T.
+$$
+The zero-product rows of \autoref{def:ring-stability-certificate} reduce $0_T\cdot_T0_T$ to $0_T$. Thus $K(x\cdot_S y)$.
+
+For left absorption, assume $K(x)$ and $C_S(r)$. Source multiplication closure carries $r\cdot_S x$, and multiplication preservation gives
+$$
+f(r\cdot_S x)\sim_T f(r)\cdot_T f(x).
+$$
+Carrier preservation gives $C_T(f(r))$. Target multiplication congruence transports the right factor along $f(x)\sim_T0_T$, and the target right zero-product row gives
+$$
+f(r)\cdot_T0_T\sim_T0_T.
+$$
+Therefore $K(r\cdot_S x)$. For right absorption, the same argument starts from
+$$
+f(x\cdot_S r)\sim_T f(x)\cdot_T f(r),
+$$
+transports the left factor along $f(x)\sim_T0_T$, and uses the target left zero-product row $0_T\cdot_T f(r)\sim_T0_T$. This gives $K(x\cdot_S r)$.
+
+The displayed carrier support, zero, additive, inverse, multiplicative, classifier-transport, and two-sided absorption rows are exactly the $\IdealUp$ certificate rows listed in \autoref{sec:ideal-certificate} for a predicate over the source $\RingUp$ certificate.
+\end{proof}
+
+\begin{definition}[Ideal quotient-kernel source package]
+\label{def:ideal-quotient-kernel-source-package}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ carried predicate over $R$, and write
+$$
+x-_R y:=x+_R(-_R y).
+$$
+The ideal quotient-kernel source package is the concrete $\mathsf{BHist}$ relation $Q_I$ on ring endpoints defined by
+$$
+Q_I(x,y)\Longleftrightarrow C(x)\land C(y)\land I(x-_R y).
+$$
+It is the quotient-free $\mathsf{BHist}$ relation later read as the ideal-coset relation in \autoref{def:quotientring-ideal-coset-relation}.
+\end{definition}
+\leandef{BEDC.Derived.IdealUp.IdealQuotientKernelSource}
+
+\begin{theorem}[Ideal quotient-kernel diagonal exactness]
+\label{thm:ideal-quotient-kernel-diagonal-exactness}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}, and let $I$ be an $\IdealUp$ carried predicate over $R$. Assume the ideal certificate supplies zero membership and classifier transport, and the ring certificate supplies the additive inverse and zero rows. If $C(x)$, then $Q_I(x,x)$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-quotient-kernel-source-package}. The two endpoint carrier witnesses are both the given evidence $C(x)$.
+
+It remains to show $I(x-_R x)$. By the additive inverse row in the underlying ring certificate, $x+_R(-_R x)$ is classified with $0_R$. The ideal zero row gives $I(0_R)$, and classifier symmetry orients the comparison from $0_R$ to $x-_R x$.
+
+Classifier transport for $I$ carries zero membership across this edge. Repacking the two carrier witnesses with the transported ideal membership gives $Q_I(x,x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.IdealUp.IdealQuotientKernel\_diagonal\_exactness}
+
+\begin{theorem}[Ideal quotient-kernel transport surface]
+\label{thm:ideal-quotient-kernel-transport-surface}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}, and let $I$ be an $\IdealUp$ carried predicate over $R$. Assume the ring certificate supplies carrier transport, additive inverse congruence, addition congruence, and the classifier-equivalence rows, and assume the ideal certificate supplies classifier transport. If $Q_I(x,y)$, $x\sim_R x'$, and $y\sim_R y'$, then $Q_I(x',y')$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-quotient-kernel-source-package}. From $Q_I(x,y)$ we have $C(x)$, $C(y)$, and $I(x-_R y)$.
+
+Carrier transport along $x\sim_R x'$ and $y\sim_R y'$ gives $C(x')$ and $C(y')$. Additive inverse congruence sends $y\sim_R y'$ to $-_R y\sim_R -_R y'$, and addition congruence combines this with $x\sim_R x'$ to obtain
+$$
+x-_R y\sim_R x'-_R y'.
+$$
+
+The ideal classifier-transport row carries $I(x-_R y)$ across this subtraction comparison, giving $I(x'-_R y')$. Pairing this membership with the transported carriers gives $Q_I(x',y')$.
+\end{proof}
+\leanchecked{BEDC.Derived.IdealUp.IdealQuotientKernel\_endpoint\_transport}
+
+\begin{theorem}[Ideal quotient-kernel multiplication descent]
+\label{thm:ideal-quotient-kernel-multiplication-descent}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}, and let $I$ be an $\IdealUp$ carried predicate over $R$. Assume the ring certificate supplies multiplication carrier rows and the product-difference classifier row, and assume the ideal certificate supplies classifier transport, additive closure, and left and right absorption by every carried endpoint. If $Q_I(a,a')$ and $Q_I(b,b')$, then the IdealUp rows give
+$$
+I((a\cdot_R b)-_R(a'\cdot_R b')).
+$$
+Together with the RingUp multiplication carrier rows, this repacks as
+$$
+Q_I(a\cdot_R b,a'\cdot_R b').
+$$
+Ten-field fit: traditional target quotient-kernel multiplication descent; BEDC source $\RingUp$ plus $\IdealUp$ over $\mathsf{BHist}$; carrier $Q_I$ endpoints; classifier $\sim_R$; stability absorption, additive closure, and classifier transport; ledger two representative differences and two absorbed products; core theorem this block; exactness the displayed repacking; standard bridge absent; status proof target.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealQuotientKernel\_multiplication\_descent}
+\begin{proof}
+Unfold \autoref{def:ideal-quotient-kernel-source-package}. From $Q_I(a,a')$ and $Q_I(b,b')$ we obtain carried endpoints $C(a)$, $C(a')$, $C(b)$, and $C(b')$, together with ideal memberships for the representative differences. Write
+$$
+d_a:=a-_R a',
+\qquad
+d_b:=b-_R b'.
+$$
+
+Right absorption applies $I(d_a)$ against the carried endpoint $b$, giving $I(d_a\cdot_R b)$. Left absorption applies $I(d_b)$ against the carried endpoint $a'$, giving $I(a'\cdot_R d_b)$. Additive closure combines these two absorbed products into membership of their ring sum.
+
+The product-difference classifier row identifies that sum with $(a\cdot_R b)-_R(a'\cdot_R b')$. Classifier transport for the ideal predicate carries the combined membership across this comparison, yielding
+$$
+I((a\cdot_R b)-_R(a'\cdot_R b')).
+$$
+
+Finally, multiplication carrier rows applied to $C(a),C(b)$ and to $C(a'),C(b')$ give the two product carrier witnesses. Pairing those witnesses with the transported product-difference membership is exactly $Q_I(a\cdot_R b,a'\cdot_R b')$.
+\end{proof}
+\leanchecked{BEDC.Derived.IdealUp.IdealQuotientKernel\_product\_difference\_membership}
+
+\begin{theorem}[Ideal quotient-ring export surface]
+\label{thm:ideal-quotientring-export-surface}
+Let $R$ carry a $\RingUp$ certificate and let $I$ be an $\IdealUp$ carried predicate over $R$, with $Q_I$ as in \autoref{def:ideal-quotient-kernel-source-package}. The IdealUp rows export the full quotient-free kernel surface consumed by $\QuotientRingUp$ in \autoref{ch:concrete-instances-quotientring-namecert}:
+\begin{enumerate}
+\item diagonal exactness for every carried endpoint $x$:
+$$
+C(x)\Longrightarrow Q_I(x,x);
+$$
+\item endpoint transport along the RingUp classifier:
+$$
+Q_I(x,y)\land x\sim_R x'\land y\sim_R y'\Longrightarrow Q_I(x',y');
+$$
+\item additive representative descent:
+$$
+Q_I(a,a')\land Q_I(b,b')\Longrightarrow Q_I(a+_R b,a'+_R b');
+$$
+\item negation representative descent:
+$$
+Q_I(a,a')\Longrightarrow Q_I(-_R a,-_R a');
+$$
+\item multiplication representative descent:
+$$
+Q_I(a,a')\land Q_I(b,b')\Longrightarrow Q_I(a\cdot_R b,a'\cdot_R b').
+$$
+\end{enumerate}
+The zero-fiber and preimage constructions of \autoref{def:ring-map-zero-fiber-predicate}, \autoref{thm:ring-map-zero-fiber-ideal-closure}, \autoref{def:ring-map-ideal-preimage-predicate}, and \autoref{thm:ring-map-ideal-preimage-ideal-closure} therefore produce concrete inputs to this same quotient-kernel surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealQuotientKernel\_export\_surface}
+\begin{proof}
+The diagonal component is exactly \autoref{thm:ideal-quotient-kernel-diagonal-exactness}. The endpoint-transport component is exactly \autoref{thm:ideal-quotient-kernel-transport-surface}.
+
+The additive component is the additive representative row of the same checked export surface. It combines the two input kernel witnesses by the ideal additive row, transports across the RingUp comparison between the sum of representative differences and the difference of sums, and repacks the two sum carriers. This is the surface used by \autoref{thm:quotientring-additive-descent}.
+
+The negation component is the negation representative row of the same checked export surface. It applies the ideal additive-inverse row to the representative difference, transports across the RingUp comparison between the negated difference and the difference of negated representatives, and repacks the two negated carriers.
+
+The multiplication component is exactly \autoref{thm:ideal-quotient-kernel-multiplication-descent}, which isolates the product-difference membership used in \autoref{thm:quotientring-multiplication-descends-to-cosets}.
+
+Together these five rows are the diagonal, endpoint transport, additive descent, negation descent, and multiplication descent projections returned by the checked Lean package. Thus an IdealUp predicate, including one obtained as a zero fiber or as a ring-map preimage, supplies the concrete quotient-kernel source required before any quotient carrier is formed.
+\end{proof}
