@@ -65,6 +65,7 @@ import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
+import BEDC.Derived.BundleUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -284,8 +285,12 @@ import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.LieAlgebraUp
-import BEDC.Derived.BundleUp
+import BEDC.Derived.LieGroupUp
 import BEDC.Derived.ManifoldUp
+import BEDC.Derived.ManifoldUp.SemanticNameCert
+import BEDC.Derived.DerivedCatUp
+import BEDC.Derived.ManifoldUp.ChartDomainCarrierTransport
+import BEDC.Derived.ManifoldUp.TransitionCoherenceLedger
 import BEDC.Derived.ManifoldUp.IdentityTransitionBoundary
 import BEDC.Derived.ManifoldUp.IdentityTransitionReadback
 import BEDC.Derived.ManifoldUp.AtlasSurface
@@ -406,7 +411,6 @@ import BEDC.Derived.GroupUp.AppendInverseObstruction
 import BEDC.Derived.GroupUp.InverseFiber
 import BEDC.Derived.GroupUp.InverseEmpty
 import BEDC.Derived.GroupUp.OppositeLaws
-import BEDC.Derived.LieGroupUp
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.AppendE1UnitKernelUnary
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
@@ -425,7 +429,6 @@ import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
-import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.RingUp.SingletonAppend
 import BEDC.Derived.RingUp.SingletonContinuation
@@ -544,7 +547,6 @@ import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.CategoryUp.AssocEmptyResult
 import BEDC.Derived.CategoryUp.FourfoldAssoc
 import BEDC.Derived.CategoryUp.OppositeAssoc
-import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
