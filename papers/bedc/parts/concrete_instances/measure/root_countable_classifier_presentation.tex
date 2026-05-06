@@ -1,0 +1,114 @@
+\begin{definition}[Measure root countable-classifier presentation]
+\label{def:measure-root-countable-classifier-presentation}
+The $\MeasureUp$ root countable-classifier presentation is the public
+countable-premeasure face whose visible carrier consists of $\mathsf{BHist}$
+event rows equipped with the $\hsame$ transport already exposed by
+\autoref{def:measure-root-countable-premeasure-front}.  Its countable-family
+input is read through $\StreamNameUp$ rows, so a family is displayed only by
+its stream name, its covered component event rows, and its covered union row.
+Its value side is read through $\RealUp$ endpoint classifiers: every event
+row, finite sum row, relative-difference row, continuity-from-below endpoint,
+and countable-sum row carries only the endpoint comparison supplied by
+$\NameCert_{\RealUp}$.
+
+The presentation ledger is the ledger of
+\autoref{def:measure-root-countable-premeasure-front} restricted to the rows
+needed by countable classification: carried event rows, measurable-witness
+transport, $\StreamNameUp$ component indices, disjointness rows, covered union
+rows, countable-sum endpoints, and $\RealUp$ classifier comparisons.  No host
+set equality, quotient event equality, analytic completion object, or
+consumer-specific classifier is part of this presentation.
+\end{definition}
+
+\begin{theorem}[Measure root countable-classifier carrier scope]
+\label{thm:measure-root-countable-classifier-carrier-scope}
+The presentation of
+\autoref{def:measure-root-countable-classifier-presentation} exposes only
+covered $\mathsf{BHist}$ event rows, $\RealUp$ endpoint rows, carrier
+transport, and classifier transport.  Every displayed row of the presentation
+is one of those four row classes, and each of those four classes is supplied
+by the countable-premeasure carrier obligation.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:measure-root-countable-premeasure-carrier-obligation}.  It fixes
+the carrier side of the countable-premeasure front as the covered
+$\mathsf{BHist}$ measurable-event rows and the $\RealUp$ endpoint classifiers
+attached to their values.
+
+The definition of
+\autoref{def:measure-root-countable-classifier-presentation} only renames that
+front as a countable-classifier surface.  Its $\StreamNameUp$ and
+countable-sum clauses are ledger clauses over the same displayed event rows,
+so they do not add a host row or an independent carrier.
+
+Thus the carrier scope is exhausted by the covered event rows, endpoint rows,
+carrier transport, and classifier transport already supplied by the cited
+obligation.
+\end{proof}
+
+\begin{theorem}[Measure root countable-classifier stability]
+\label{thm:measure-root-countable-classifier-stability}
+The presentation of
+\autoref{def:measure-root-countable-classifier-presentation} is stable under
+finite additivity, relative-difference transport, continuity from below, and
+countable-sum classifier comparison.  These four stability clauses are exactly
+the clauses obtained by composing the countable-premeasure additivity
+obligation, relative-difference additivity, the continuity-from-below package,
+and countable-sum classifier stability.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:measure-root-countable-premeasure-additivity-obligation}.  It
+supplies the root additivity row for the covered countable family and includes
+the finite readback needed for finite disjoint unions.
+
+For relative differences, apply
+\autoref{thm:measure-relative-difference-additivity} to the same carried
+event rows and $\RealUp$ endpoints.  This transports the value comparison
+through the displayed relative-difference row without adding a new classifier.
+
+For increasing unions, use
+\autoref{thm:measure-continuity-from-below-package}.  Its source rows are
+covered event rows and countable-family rows already present in the
+presentation ledger, and its endpoint output is a $\RealUp$ comparison.
+
+Finally apply
+\autoref{thm:measure-obligation-countable-sum-classifier-stability}.  It turns
+pointwise $\RealUp$ endpoint comparisons along the $\StreamNameUp$ family into
+the countable-sum endpoint comparison.  The four cited clauses therefore give
+all stability rows named by the presentation.
+\end{proof}
+
+\begin{theorem}[Measure root countable-classifier downstream interface]
+\label{thm:measure-root-countable-classifier-downstream-interface}
+The outgoing rows from
+\autoref{def:measure-root-countable-classifier-presentation} to
+$\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ are exactly the
+carrier rows, classifier rows, and stability rows named in
+\autoref{thm:measure-root-countable-classifier-carrier-scope} and
+\autoref{thm:measure-root-countable-classifier-stability}.  No downstream
+consumer receives an additional host equality, quotient equality, or
+completion row from the root presentation.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:measure-root-countable-premeasure-consumer-threshold}.  It fixes
+the $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consumer faces
+as projections of the countable-premeasure front.
+
+Next apply
+\autoref{thm:measure-root-premeasure-downstream-threshold-bridge}.  The bridge
+identifies the outgoing premeasure rows with the downstream threshold rows and
+keeps the consumer interface inside the same root ledger.
+
+The carrier and classifier part of that ledger is exactly the scope proved in
+\autoref{thm:measure-root-countable-classifier-carrier-scope}.  The
+additivity, relative-difference, continuity-from-below, and countable-sum
+part is exactly the stability package proved in
+\autoref{thm:measure-root-countable-classifier-stability}.
+
+Hence each named downstream chapter reads precisely those carrier,
+classifier, and stability rows, and no further row leaves the root
+countable-classifier presentation.
+\end{proof}
