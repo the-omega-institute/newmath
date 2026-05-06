@@ -285,6 +285,10 @@ import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.ManifoldUp
+import BEDC.Derived.ManifoldUp.SemanticNameCert
+import BEDC.Derived.DerivedCatUp
+import BEDC.Derived.ManifoldUp.ChartDomainCarrierTransport
+import BEDC.Derived.ManifoldUp.TransitionCoherenceLedger
 import BEDC.Derived.ManifoldUp.IdentityTransitionBoundary
 import BEDC.Derived.ManifoldUp.IdentityTransitionReadback
 import BEDC.Derived.ManifoldUp.AtlasSurface
