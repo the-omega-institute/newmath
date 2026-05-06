@@ -12227,3 +12227,109 @@ This is a concrete DistributionUp consequence, not a marker or verification-axis
 
 ---
 
+### B-467 - Matroid FinSet intersection right subset projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Matroid FinSet intersection right subset projection |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If J is a FinSetIntersection(J; I,K) over one ground, then FinSetSubset(J,K) holds under the same FinSetUp ground.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `lean4/BEDC/Derived/MatroidUp.lean`
+
+Rationale:
+Definition evidence: FinSetSubset and FinSetIntersection are introduced at papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex:12-31. The only projection theorem is the left factor projection, labeled lem:matroid-finset-intersection-left-subset at :59-72, and the independence theorem at :85-103 uses that left projection explicitly at :111-115. Lean mirrors only left-subset variants at lean4/BEDC/Derived/MatroidUp.lean:25, :59, and :141. Focused rg for 'right subset|right-subset|right projection|intersection projects to the right|intersection.*right.*subset' in the Matroid paper file and MatroidUp.lean returned 0 hits. This is a concrete one-side-without-dual gap, not a parameter-transport echo.
+
+---
+
+
+### B-468 - ConvexSet linear image finite affine-spine closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ConvexSet linear image finite affine-spine closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If f is carried by LinearMapUp(V,W) and ConvAffSpine over the image carrier f[C] has nonnegative unit-sum weights and endpoint z, then f[C](z) holds under the shared FieldUp, VecSpaceUp, and ConvexSetUp data.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `lean4/BEDC/Derived/ConvexSetUp.lean`
+
+Rationale:
+Definition evidence: the binary affine-combination row is at papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex:12-30, finite affine-spine data are at :102-152, and finite affine-spine closure for the original carrier is at :155-170. The classifier image carrier is defined at :235-241, and only binary image closure is proved at :244-256. Focused rg for 'linear.*image.*finite|finite.*linear.*image|image.*affine-spine|affine-spine.*image|linear-image.*spine' in the ConvexSet paper file and lean4/BEDC/Derived/ConvexSetUp.lean returned 0 hits; the Lean file has only singleton affine-spine entries at lean4/BEDC/Derived/ConvexSetUp.lean:8-31. The claim is a concrete closure theorem for a named image carrier, not generic transport.
+
+---
+
+
+### B-469 - Simplicial intersection inherits dimension grading
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Simplicial intersection inherits dimension grading |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If K and L share the simplex-code source, face relation, and a common face-dimension grading row, then Simplex_KcapL(alpha), Simplex_KcapL(beta), and Face_KcapL(alpha,beta) imply dim(alpha) <= dim(beta).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+- `lean4/BEDC/Derived/SimplicialComplexUp.lean`
+
+Rationale:
+Definition evidence: the finite face carrier records face-incidence and dimension-grading data at papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:12-38, the explicit face dimension grading row is at :82-98, and the intersection carrier rows are defined at :145-164. The existing intersection theorem at :166-205 proves enumeration, face closure, transitivity, and two-step face closure, but it does not mention dimension. Focused rg for 'intersection.*dimension|dimension.*intersection|grading.*intersection|intersection.*grading|intersection.*face.*dimension' in the SimplicialComplex paper file and lean4/BEDC/Derived/SimplicialComplexUp.lean returned 0 hits. Lean separately has face-chain dimension monotonicity at :64 and intersection face-chain closure at :93, confirming the missing combination.
+
+---
+
+
+### B-470 - QuantumChannel composition associativity law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | QuantumChannel composition associativity law |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If Phi, Psi, and Theta are composable QuantumChannelUp carriers, then both bracketed triple composites are QuantumChannelUp carriers and are pointwise classifier-equal as maps from the first trace-class carrier to the last.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+
+Rationale:
+Definition evidence: the CPTP carrier is defined at papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex:23-34, binary composition closure is proved at :59-75, and the identity channel is proved at :279-293. The Linearmap chapter already supplies the underlying module-linear associativity package at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:238-260, but no channel-level theorem lifts the CPTP and density-output rows through triple composition. Focused rg for 'QuantumChannel.*associat|QChan.*associat|channel.*composition.*associat|composition.*associat.*channel' in the QuantumChannel paper file returned 0 hits, and marker grep over that file returned 0 hits. This is a concrete composition law for an existing object, not a closurestatus or marker task.
+
+---
+
