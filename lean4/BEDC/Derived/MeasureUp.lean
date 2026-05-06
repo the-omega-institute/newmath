@@ -1,13 +1,17 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.NameCert
+import BEDC.Derived.PreorderUp
 
 namespace BEDC.Derived.MeasureUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
+open BEDC.Derived.PreorderUp
 
 def MeasureZeroBHistCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
@@ -135,6 +139,13 @@ theorem MeasureSelfDifference_zero_law {event diff union value sum : BHist} :
     cont_result_hsame_transport eventUnion unionEvent
   exact cont_right_unit_unique eventRightUnit
 
+theorem MeasureEmptyUnion_right_unit {event empty union : BHist} :
+    hsame empty BHist.Empty -> Cont event empty union -> hsame union event := by
+  intro emptySame eventUnion
+  have transportedUnion : Cont event BHist.Empty union :=
+    cont_hsame_transport (hsame_refl event) emptySame (hsame_refl union) eventUnion
+  exact cont_right_unit_result transportedUnion
+
 theorem MeasureNestedDifference_package
     {event firstDiff middle secondDiff total valueEvent valueFirstDiff valueMiddle
       valueSecondDiff valueTotal firstSum totalSum : BHist} :
@@ -154,6 +165,16 @@ theorem MeasureNestedDifference_package
   have totalSumValueTotal : hsame totalSum valueTotal :=
     cont_deterministic secondValueRow transportedSecondRow
   exact And.intro (hsame_trans firstSumMiddle (hsame_symm sameMiddle)) totalSumValueTotal
+
+theorem MeasureMeasurableInclusion_monotone
+    {base gap total valueBase valueGap valueTotal valueSum : BHist} :
+    UnaryHistory valueGap -> Cont base gap total -> hsame valueBase base ->
+      hsame valueGap gap -> hsame valueTotal total -> Cont valueBase valueGap valueSum ->
+        hsame valueSum valueTotal -> PreorderPrefixLE valueBase valueTotal := by
+  intro valueGapUnary baseGapTotal sameValueBase sameValueGap sameValueTotal valueRow sameSumTotal
+  have valueRowAtTotal : Cont valueBase valueGap valueTotal :=
+    cont_result_hsame_transport valueRow sameSumTotal
+  exact Exists.intro valueGap (And.intro valueGapUnary valueRowAtTotal)
 
 theorem MeasureZeroBHist_sigma_additivity (events : Nat -> BHist) :
     (forall n : Nat, MeasureZeroBHistCarrier (events n)) -> forall n : Nat,
