@@ -2,6 +2,7 @@ import BEDC.FKernel.Unary
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Bundle
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.PreorderUp
 
@@ -10,8 +11,35 @@ namespace BEDC.Derived.DistributionUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.FKernel.Bundle
 open BEDC.Derived.RandomVarUp
 open BEDC.Derived.PreorderUp
+
+def DistributionPushforwardCarrier
+    (sourcePreimage sourceMeasure : BHist -> BHist) (targetEvent pushed : BHist) : Prop :=
+  Cont targetEvent BHist.Empty (sourcePreimage targetEvent) ∧
+    Cont (sourcePreimage targetEvent) BHist.Empty
+      (sourceMeasure (sourcePreimage targetEvent)) ∧
+      hsame pushed (sourceMeasure (sourcePreimage targetEvent))
+
+theorem DistributionPushforwardCarrier_row
+    {sourcePreimage sourceMeasure : BHist -> BHist} {targetEvent pushed : BHist} :
+    UnaryHistory targetEvent ->
+      DistributionPushforwardCarrier sourcePreimage sourceMeasure targetEvent pushed ->
+        UnaryHistory (sourcePreimage targetEvent) ∧
+          UnaryHistory (sourceMeasure (sourcePreimage targetEvent)) ∧
+            hsame pushed (sourceMeasure (sourcePreimage targetEvent)) := by
+  intro targetUnary carrier
+  have preimageTarget : hsame (sourcePreimage targetEvent) targetEvent :=
+    cont_right_unit_result carrier.left
+  have preimageUnary : UnaryHistory (sourcePreimage targetEvent) :=
+    unary_transport targetUnary (hsame_symm preimageTarget)
+  have measurePreimage :
+      hsame (sourceMeasure (sourcePreimage targetEvent)) (sourcePreimage targetEvent) :=
+    cont_right_unit_result carrier.right.left
+  have measureUnary : UnaryHistory (sourceMeasure (sourcePreimage targetEvent)) :=
+    unary_transport preimageUnary (hsame_symm measurePreimage)
+  exact And.intro preimageUnary (And.intro measureUnary carrier.right.right)
 
 theorem DistributionPushforward_total_mass_unit
     {sourceTotal targetTotal sourceMass pushedMass unitMass : BHist} :
@@ -146,5 +174,21 @@ theorem DistributionPushforward_nonnegative_value_inheritance
   have pushedSource : hsame pushedValue sourceValue :=
     hsame_trans pushedWitness witnessSource
   exact And.intro (unary_transport sourceNonnegative (hsame_symm pushedSource)) pushedSource
+
+def DistributionPushforwardMassFold : ProbeBundle BHist -> BHist
+  | ProbeBundle.Bnil => BHist.Empty
+  | ProbeBundle.Bcons x xs => append x (DistributionPushforwardMassFold xs)
+
+theorem DistributionPushforward_countable_disjoint_sigma_additivity
+    (left right : ProbeBundle BHist) :
+    hsame (DistributionPushforwardMassFold (bundleAppend left right))
+      (append (DistributionPushforwardMassFold left) (DistributionPushforwardMassFold right)) := by
+  induction left with
+  | Bnil =>
+      exact (append_empty_left (DistributionPushforwardMassFold right)).symm
+  | Bcons x xs ih =>
+      exact (congrArg (append x) ih).trans
+        (append_assoc x (DistributionPushforwardMassFold xs)
+          (DistributionPushforwardMassFold right)).symm
 
 end BEDC.Derived.DistributionUp
