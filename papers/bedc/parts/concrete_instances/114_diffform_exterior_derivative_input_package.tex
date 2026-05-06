@@ -1,0 +1,171 @@
+\begin{definition}[Differential-form exterior-derivative candidate row]
+\label{def:diffform-exterior-derivative-candidate-row}
+Fix carried rows $\omega$ and $\eta$ of
+$\mathsf{DiffFormBHistCarrier}_{M,T}$. A differential-form
+exterior-derivative candidate row $D(\omega,\eta)$ is an accepted visible
+BHist package consisting exactly of the following data:
+\begin{enumerate}
+  \item the input carrier row $\omega$ and the output carrier row $\eta$;
+  \item the unary input degree row $d_\omega$, the unary output degree row
+  $d_\eta$, and the displayed one-step degree-raise ledger
+  $\Cont(d_\omega,\mathsf{one},d_\eta)$;
+  \item the transported tangent-probe bundle ledger from $\omega$ to $\eta$;
+  \item the transported $\TensorProductUp$ multilinear row ledger from the
+  input tensor row to the output tensor row;
+  \item the transported scalar endpoint ledger classified by the retained
+  scalar classifier of the manifold and tensor sources;
+  \item a source ledger naming only $BHist$, $\hsame$, $\Cont$,
+  $\mathsf{ProbeBundle}$, $\NameCert_{\ManifoldUp}$, and
+  $\NameCert_{\TensorProductUp}$ as admissible sources for the displayed
+  input-output package.
+\end{enumerate}
+This row is only the input-output surface for an exterior derivative supplied
+by a downstream certificate. It does not assert $d^2=0$, closedness,
+nondegeneracy, contact nonintegrability, or any second-derivative identity.
+\end{definition}
+
+\begin{theorem}[Differential-form exterior-derivative input-output ledger exactness]
+\label{thm:diffform-exterior-derivative-input-output-ledger-exactness}
+Every accepted $D(\omega,\eta)$ exposes exactly the input form row, the output
+form row, the degree-raise $\Cont$ ledger, the probe transport ledger, the
+$\TensorProductUp$ transport ledger, the scalar endpoint transport ledger,
+and the source ledger listed in
+\autoref{def:diffform-exterior-derivative-candidate-row}. No closedness,
+nondegeneracy, contact condition, or second-derivative identity can be
+projected from such a row.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:diffform-exterior-derivative-candidate-row}. The first
+two displayed fields are carried $\mathsf{DiffFormBHistCarrier}_{M,T}$ rows,
+and their carrier status is the same visible status transported by
+\autoref{thm:diffform-carrier-hsame-transport}.
+
+The output classifier is read only through
+\autoref{thm:diffform-form-classifier-stability}. The scalar endpoint entry is
+one of the displayed transport ledgers, so its admissible comparison is
+exactly the scalar endpoint transport of
+\autoref{thm:diffform-scalar-endpoint-transport}.
+
+The remaining provenance is the source ledger. By
+\autoref{thm:diffform-source-scope}, that ledger is restricted to $BHist$,
+$\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$. These are the
+only fields displayed by the candidate row, so exhausting the list gives the
+claimed input-output ledger surface and leaves the excluded geometric and
+operator identities unavailable.
+\end{proof}
+
+\begin{theorem}[Differential-form exterior-derivative candidate classifier transport]
+\label{thm:diffform-exterior-derivative-candidate-classifier-transport}
+Let $D(\omega,\eta)$ be an accepted exterior-derivative candidate row. Suppose
+$\omega'$ is related to $\omega$ by $\sim_{\DiffFormUp}$, and suppose every
+displayed degree, probe, tensor, scalar, and source ledger of
+$D(\omega,\eta)$ is transported componentwise by $\hsame$ and by the retained
+source classifiers named in the candidate source ledger. Then the transported
+output row $\eta'$ is related to $\eta$ by $\sim_{\DiffFormUp}$, and the
+transported package $D(\omega',\eta')$ is again an accepted
+exterior-derivative candidate row.
+\end{theorem}
+\begin{proof}
+Transport the input and output carrier rows through
+\autoref{thm:diffform-carrier-hsame-transport}. The hypothesis gives the
+componentwise $\hsame$ comparisons for the displayed degree, probe, tensor,
+scalar, and source ledgers, and the source ledger permits only the retained
+manifold and tensor classifiers for non-$\hsame$ endpoint comparisons.
+
+The scalar endpoint clause is transported by
+\autoref{thm:diffform-scalar-endpoint-transport}. The output form classifier
+then follows from \autoref{thm:diffform-form-classifier-stability}, applied to
+the transported degree, tensor, antisymmetry, scalar endpoint, and source
+ledger fields of $\eta$ and $\eta'$.
+
+It remains to rebuild the candidate row. Repack the transported input carrier,
+transported output carrier, transported one-step degree-raise $\Cont$ ledger,
+transported probe ledger, transported tensor ledger, transported scalar
+endpoint ledger, and the same restricted source ledger. This is exactly the
+field list of \autoref{def:diffform-exterior-derivative-candidate-row}, so
+$D(\omega',\eta')$ is accepted.
+\end{proof}
+
+\begin{definition}[Differential-form exterior-derivative visible input package]
+\label{def:diffform-exterior-derivative-visible-input-package}
+Let
+$$
+\omega=(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)
+$$
+be a source row carried by $\mathsf{DiffFormBHistCarrier}_{M,T}$, and let
+$$
+D\omega=(d^+,\mathcal{P}^+,\tau^+,\sigma^+,\alpha^+,\lambda^+)
+$$
+be a carried output candidate. The package
+$\mathsf{DiffFormExteriorInput}_{M,T}(\omega,D\omega)$ is accepted exactly
+when its visible provenance consists of the two displayed $\DiffFormUp$
+carrier rows, the unary degree rows $\mathsf{UnaryHistory}(d)$ and
+$\mathsf{UnaryHistory}(d^+)$, the degree-raising continuation row
+$$
+\Cont(d,\Eone(\emp),d^+),
+$$
+the transported $\mathsf{ProbeBundle}$ rows connecting $\mathcal{P}$ with
+$\mathcal{P}^+$, the retained $\TensorProductUp$ tensor row for the
+multilinear output candidate, the retained scalar classifier comparison
+between the source and output scalar endpoints, and the operator-owned source
+ledger recording that these rows are the only inputs supplied to the
+exterior-derivative construction. The package asserts no row for $d^2=0$,
+closedness, nondegeneracy, or contact nonintegrability.
+\end{definition}
+
+\begin{theorem}[Differential-form exterior-derivative degree successor ledger]
+\label{thm:diffform-exterior-derivative-degree-successor-ledger}
+Every package accepted by
+$\mathsf{DiffFormExteriorInput}_{M,T}(\omega,D\omega)$ exposes the source
+degree row $\mathsf{UnaryHistory}(d)$, the output degree row
+$\mathsf{UnaryHistory}(d^+)$, and the visible successor continuation row
+$$
+\Cont(d,\Eone(\emp),d^+).
+$$
+These are the only degree rows made available to a downstream
+exterior-derivative consumer by the package.
+\end{theorem}
+\begin{proof}
+Unpack the accepted package of
+\autoref{def:diffform-exterior-derivative-visible-input-package}. Its degree
+fields are listed as the two unary-history rows and the displayed
+$\Cont(d,\Eone(\emp),d^+)$ row.
+
+The source and output are carried rows of
+\autoref{def:diffform-bhist-form-carrier}, so their degree components are
+visible BHist carrier entries rather than hidden operator data. Applying the
+source-scope boundary of \autoref{thm:diffform-source-scope} shows that no
+other degree provenance may be imported through this package.
+\end{proof}
+
+\begin{theorem}[Differential-form exterior-derivative input classifier stability]
+\label{thm:diffform-exterior-derivative-input-classifier-stability}
+Let $\mathsf{DiffFormExteriorInput}_{M,T}(\omega,D\omega)$ be accepted. If
+the source and output carrier rows are transported componentwise by $\hsame$
+to $\omega'$ and $D\omega'$, then
+$\mathsf{DiffFormExteriorInput}_{M,T}(\omega',D\omega')$ is accepted. Under
+the same transport, the retained scalar endpoint comparison between the
+source and output scalar endpoints remains the scalar comparison carried by
+the transported package.
+\end{theorem}
+\begin{proof}
+First transport the two carrier rows. By
+\autoref{thm:diffform-carrier-hsame-transport}, the transported source
+$\omega'$ and transported output $D\omega'$ remain accepted
+$\DiffFormUp$ carrier rows.
+
+Next transport the classifier data. Apply
+\autoref{thm:diffform-form-classifier-stability} to the componentwise
+$\hsame$ comparisons of the two carrier rows. The degree rows, probe bundles,
+tensor rows, antisymmetry ledgers, and operator-owned source ledger remain the
+same visible rows up to $\hsame$, and the successor continuation row
+$\Cont(d,\Eone(\emp),d^+)$ transports to the corresponding continuation row
+for the transported degree endpoints.
+
+Finally, apply \autoref{thm:diffform-scalar-endpoint-transport}. The retained
+scalar endpoint comparison in the accepted package is preserved by the same
+componentwise transport, so the transported rows reassemble as
+$\mathsf{DiffFormExteriorInput}_{M,T}(\omega',D\omega')$ with its scalar
+comparison still visible.
+\end{proof}

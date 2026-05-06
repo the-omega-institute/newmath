@@ -11,10 +11,10 @@ classifier transport carries $\mathsf{NonNeg}_R(\mu(E))$ to
 $\mathsf{NonNeg}_R(\mu(E'))$.
 \end{theorem}
 \begin{proof}
-Project the measure nonnegative value row of
-\autoref{def:measure-nonnegative-value-row} at the displayed measurable event
-$E$. This supplies the public row $\mathsf{NonNeg}_R(\mu(E))$ attached to the
-same ledger entry as the endpoint $\mu(E)$.
+Project the nonnegative measure-value clause of the $\MeasureUp$ carrier
+surface at the displayed measurable event $E$. This supplies the public row
+$\mathsf{NonNeg}_R(\mu(E))$ attached to the same ledger entry as the endpoint
+$\mu(E)$.
 
 For classifier transport, use the endpoint comparison supplied by
 \autoref{def:measure-classifier-specification}. The nonnegative row is stable
@@ -147,4 +147,48 @@ left endpoint from $\mu(B\cup(A\setminus B))$ to $\mu(A)$ through the
 $\MeasureUp$ event classifier and then through the $\RealUp$ value classifier.
 Composing that endpoint transport with the finite disjoint-union comparison
 gives the displayed finite difference law.
+\end{proof}
+
+\begin{theorem}[Measure self-difference zero law]
+\label{thm:measure-self-difference-zero-law}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, write $x\sim_R y$ for the $\RealUp$ classifier
+of \autoref{def:real-classifier-specification}, and write $0_R$ for the
+additive zero in the target $\RealUp$ additive $\AbGroupUp$ row. Let
+$A\in\mathcal{A}$ be a displayed measurable event in one carried fiber.
+Suppose the public event readback supplies the reflexive inclusion
+$A\subseteq A$, the complement/relative-difference row of
+\autoref{def:measure-complement-difference-row} is applied to this inclusion
+and supplies the displayed event $A\setminus A$, and the hypotheses of
+\autoref{thm:measure-finite-disjoint-union-additivity} hold for the pair
+$A,A\setminus A$. If the target $\RealUp$ addition is carried by its additive
+$\AbGroupUp$ row, then
+$$
+\mu(A\setminus A)\sim_R0_R.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-relative-difference-additivity} to the displayed
+inclusion $A\subseteq A$ with $B=A$. The relative-difference row supplies the
+measurable event $A\setminus A$, its disjointness from $A$, and the
+binary-union readback $A\cup(A\setminus A)\sim_M A$, so the theorem gives
+$$
+\mu(A)\sim_R\mu(A)+\mu(A\setminus A).
+$$
+
+By symmetry of the $\RealUp$ classifier, this is the left-absorption comparison
+$$
+\mu(A)+\mu(A\setminus A)\sim_R\mu(A).
+$$
+
+By \autoref{prop:abgroup-forgets-group-certificate}, read the target additive
+$\AbGroupUp$ row as a group row with operation $+$, unit $0_R$, and classifier
+$\sim_R$. Its group component supplies associativity, left and right unit
+laws, addition congruence, and left inverses. Applying
+\autoref{thm:group-left-absorb-right-factor-unit} with $a=\mu(A)$ and
+$b=\mu(A\setminus A)$ forces the right summand to the unit, hence
+$$
+\mu(A\setminus A)\sim_R0_R.
+$$
 \end{proof}
