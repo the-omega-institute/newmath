@@ -11115,3 +11115,141 @@ DerivedCatUp is a quiet homological-algebra island with no BOARD hits. The file 
 
 ---
 
+### B-425 - RealAnalytic sine addition formula row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RealAnalytic sine addition formula row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If supplied RealAlgOrder rows, trigonometric limit witnesses, product-stability rows, and regular-rational Cauchy-product comparisons are present for x and y, then the sine endpoint for x+y is RealClassifier-equal to sin(x)cos(y)+cos(x)sin(y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/104_streamname_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/12_rat_namecert_construction.tex`
+
+Rationale:
+The RealAnalytic chapter is contentful but still has a missing middle row: it defines sine and cosine by supplied limit witnesses at papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex:337-338, proves Pythagorean and pi-multiple zero rows, and explicitly assumes sine/cosine addition-formula rows inside the pi-multiple proof at papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex:352-354. A focused BOARD/state scan found no RealAnalytic trig-addition target, so a single sine-addition implication would fill an advertised local obligation without duplicating the existing Pythagorean or pi-multiple theorems.
+
+---
+
+
+### B-426 - ShortestPath prefix optimality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ShortestPath prefix optimality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a nonnegative-weight ShortestPathUp witness certifies a path p as minimum from u to v and p factors through w as p1 followed by p2, then p1 is a ShortestPathUp witness from u to w.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+
+Rationale:
+The algorithmic graph slice is essentially unopened: papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex:4 promises weighted graphs, nonnegative weights, minimum total-weight paths, and Dijkstra/Bellman-Ford correctness, while the file only exposes carrier and certificate section labels at papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex:7 and papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex:10. Focused BOARD/state grep found no shortest-path target. Prefix optimality is a concrete first theorem for the advertised minimum-path classifier and stays inside the existing GraphUp/RealUp dependencies.
+
+---
+
+
+### B-427 - Simplicial face-chain closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Simplicial face-chain closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If K is a SimplicialComplexUp carrier, sigma is in K, tau is a face of sigma, and rho is a face of tau, then rho is in K and rho is a face of sigma.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+SimplicialComplexUp is a structural blindspot: papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:4 states finite simplices closed under faces with face-incidence and dimension-grading data, but the chapter currently stops at section labels at papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:7 and papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:10. A focused BOARD/state scan found no simplicial-complex target. The proposed face-chain implication uses the named FinSetUp and PosetUp dependencies and is stronger than merely restating a one-step face-closure field.
+
+---
+
+
+### B-428 - Quadrature exactness degree weakening
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Quadrature exactness degree weakening |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a QuadratureUp finite weighted rule is exact for every polynomial of degree at most d and e <= d, then the same rule is exact for every polynomial of degree at most e.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/101_integral_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+QuadratureUp is another unserved numerical-analysis interface: papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:4 says the classifier is exactness degree for finite weighted sums approximating integrals, and the chapter has only carrier/certificate section labels at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:7 and papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:10. Focused BOARD/state grep found no quadrature target. Downward closure of exactness degree is a compact monotonicity theorem that directly tests the advertised classifier without opening a broad numerical-methods survey.
+
+---
+
+
+### B-429 - LP feasible weak duality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LP feasible weak duality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If primal and dual LPDualityUp rows over an ordered field have feasible witnesses x and y, then the primal objective value at x is less than or classifier-equal to the dual objective value at y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/187_polytope_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/field/20_field_laws_and_certificate.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+
+Rationale:
+LPDualityUp advertises strong duality and complementary slackness over an ordered field at papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex:4, but focused BOARD/state grep found no LPDuality target and the local chapter is only a 10-line skeleton. Weak duality is the missing middle implication before any strong-duality certificate can be meaningful, and it is local to the existing ConvexSetUp, PolytopeUp, FieldUp, and TotalOrderUp dependencies.
+
+---
+
