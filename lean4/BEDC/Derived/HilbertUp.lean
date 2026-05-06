@@ -14,6 +14,7 @@ open BEDC.Derived.VecSpaceUp
 open BEDC.FKernel.Cont
 open BEDC.Derived.MetricUp
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def HilbertSingletonInnerProduct (_m _n : BHist) : BHist :=
@@ -261,5 +262,44 @@ theorem HilbertSingletonProjection_idempotence {h : BHist} :
   have innerRows :=
     HilbertSingleton_constant_inner_product_transport projectionClassified projectionClassified
   exact And.intro projectionClassified innerRows.left
+
+theorem HilbertSingletonProjection_semantic_name_certificate :
+    SemanticNameCert VecSpaceSingletonCarrier
+      (fun h : BHist => VecSpaceSingletonClassifier (HilbertSingletonProjection h) BHist.Empty)
+      (fun h : BHist =>
+        RealConstantHistoryClassifier (HilbertSingletonInnerProduct h (HilbertSingletonProjection h))
+          (BHist.e1 (BHist.e1 BHist.Empty)))
+      VecSpaceSingletonClassifier := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty (hsame_refl BHist.Empty)
+      equiv_refl := by
+        intro h carrierH
+        exact And.intro carrierH (And.intro carrierH (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k l classifiedHK classifiedKL
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKL.right.left
+            (hsame_trans classifiedHK.right.right classifiedKL.right.right))
+      carrier_respects_equiv := by
+        intro _h _k classified _carrierH
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro h carrierH
+      have endpoint := HilbertSingletonProjection_carried_endpoint carrierH
+      unfold HilbertSingletonProjection
+      exact And.intro endpoint.left
+        (And.intro endpoint.left (hsame_refl BHist.Empty))
+    ledger_sound := by
+      intro h carrierH
+      have endpoint := HilbertSingletonProjection_carried_endpoint carrierH
+      unfold HilbertSingletonProjection
+      exact endpoint.right.right.right
+  }
 
 end BEDC.Derived.HilbertUp
