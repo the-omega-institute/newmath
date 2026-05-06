@@ -6,8 +6,186 @@ The ideal interface $\IdealUp$ packages a sub-rng of a ring carrier closed under
 \section{Carrier definition}
 \label{sec:ideal-carrier}
 
+\begin{definition}[Ideal carried predicate rows]
+\label{def:ideal-carried-predicate-rows}
+Let $R$ carry a $\RingUp$ certificate over BEDC histories, with $\NameCert_{\RingUp}$ carrier predicate $C:\mathsf{BHist}\to\mathsf{Prop}$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. An $\IdealUp$ carried predicate over $R$ is a predicate
+$$
+I:\mathsf{BHist}\to\mathsf{Prop}
+$$
+together with the following certificate rows:
+\begin{enumerate}
+\item carrier support: $I(x)\Longrightarrow C(x)$;
+\item zero membership: $I(0_R)$;
+\item additive closure: $I(x)\land I(y)\Longrightarrow I(x+_R y)$;
+\item additive inverse closure: $I(x)\Longrightarrow I(-_R x)$;
+\item internal multiplication closure: $I(x)\land I(y)\Longrightarrow I(x\cdot_R y)$;
+\item classifier transport: $I(x)\land x\sim_R y\Longrightarrow I(y)$;
+\item left and right ambient absorption: for every carried ambient endpoint $r$ with $C(r)$,
+$$
+I(x)\Longrightarrow I(r\cdot_R x)\land I(x\cdot_R r).
+$$
+\end{enumerate}
+\end{definition}
+
 \section{The certificate}
 \label{sec:ideal-certificate}
+
+\begin{definition}[Ideal obligation inventory]
+\label{def:ideal-obligation-inventory}
+An $\IdealUp$ certificate over a fixed $\RingUp$ certificate is the ten-field
+$\NameCert_{\IdealUp}$ inventory whose rows are fixed as follows.
+\begin{enumerate}
+\item The traditional target is a two-sided ideal of a ring.
+\item The BEDC source is $\RingUp$ over $\mathsf{BHist}$, with the ambient
+carrier, classifier, addition, additive inverse, zero, and multiplication
+already named by the ring certificate.
+\item The carrier is a predicate $I:\mathsf{BHist}\to\mathsf{Prop}$ supported
+by the ambient ring carrier $C$.
+\item The classifier is inherited from the ambient ring classifier $\sim_R$.
+\item The stability rows are zero membership, additive closure, additive
+inverse closure, internal multiplication closure, classifier transport, and
+two-sided absorption by every carried ambient ring endpoint.
+\item The ledger records hidden membership witnesses for $I(x)$ and the
+ambient absorber witnesses $C(r)$ consumed by the two absorption rows.
+\item The core theorem list consists of
+\autoref{thm:ideal-carrier-support-row-obligation},
+\autoref{thm:ideal-zero-add-neg-obligation},
+\autoref{thm:ideal-classifier-absorption-obligation},
+\autoref{thm:ideal-intersection-closure},
+\autoref{thm:finite-ideal-intersection-closure}, and
+\autoref{thm:ring-map-ideal-preimage-ideal-closure}.
+\item Exactness is row exhaustion: the certificate consumes exactly the carrier
+support, zero, additive, inverse, internal multiplication, classifier
+transport, and two-sided absorption rows displayed here.
+\item The standard bridge row is absent at this paper site.
+\item The boundary package is the scoped $\IdealUp$ obligation surface used by
+quotient-ring, ideal-class, intersection, finite-meet, and preimage
+constructions.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Ideal carrier support obligation]
+\label{thm:ideal-carrier-support-row-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with ambient carrier
+$C$ and classifier $\sim_R$. Let $I:\mathsf{BHist}\to\mathsf{Prop}$ satisfy the
+inventory of \autoref{def:ideal-obligation-inventory}. Then the inventory
+supplies the carrier-support row
+$$
+I(x)\Longrightarrow C(x).
+$$
+Consequently every endpoint admitted by the ideal predicate is a carried
+$\RingUp$ endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier row of \autoref{def:ideal-obligation-inventory}. That row
+states that $I$ is supported by the ambient $\RingUp$ carrier $C$.
+
+Applying this projection to a membership witness $I(x)$ gives $C(x)$. The
+endpoint $x$ therefore lies in the same $\mathsf{BHist}$ carrier scope as the
+ambient ring operations and classifier $\sim_R$.
+\end{proof}
+
+\begin{theorem}[Ideal zero and additive obligations]
+\label{thm:ideal-zero-add-neg-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with addition
+$+_R$, additive inverse $-_R$, zero $0_R$, multiplication $\cdot_R$, ambient
+carrier $C$, and classifier $\sim_R$. Let
+$I:\mathsf{BHist}\to\mathsf{Prop}$ satisfy the inventory of
+\autoref{def:ideal-obligation-inventory}. Then the inventory supplies
+$$
+I(0_R),
+$$
+$$
+I(x)\land I(y)\Longrightarrow I(x+_R y),
+$$
+$$
+I(x)\Longrightarrow I(-_R x),
+$$
+and
+$$
+I(x)\land I(y)\Longrightarrow I(x\cdot_R y).
+$$
+\end{theorem}
+\begin{proof}
+Project the stability field of \autoref{def:ideal-obligation-inventory}. Its
+zero row is exactly $I(0_R)$, using the zero endpoint named by the surrounding
+$\RingUp$ certificate.
+
+The same stability field contains the additive closure and additive inverse
+rows. Projecting those rows gives closure under $+_R$ and $-_R$ for every pair
+or endpoint already carrying an $I$-membership witness.
+
+Finally project the internal multiplication row from the same inventory. Since
+the multiplication symbol $\cdot_R$ is the one named by the ambient $\RingUp$
+certificate, the resulting endpoint remains in the ring carrier scope supplied
+by the carrier-support row.
+\end{proof}
+
+\begin{theorem}[Ideal classifier and absorption obligations]
+\label{thm:ideal-classifier-absorption-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with carrier $C$,
+classifier $\sim_R$, and multiplication $\cdot_R$. Let
+$I:\mathsf{BHist}\to\mathsf{Prop}$ satisfy the inventory of
+\autoref{def:ideal-obligation-inventory}. Then the inventory supplies
+classifier transport
+$$
+I(x)\land x\sim_R y\Longrightarrow I(y)
+$$
+and two-sided absorption by every carried ambient ring endpoint:
+$$
+C(r)\land I(x)\Longrightarrow I(r\cdot_R x)\land I(x\cdot_R r).
+$$
+\end{theorem}
+\begin{proof}
+Project the classifier row and the classifier-transport stability row of
+\autoref{def:ideal-obligation-inventory}. The classifier row identifies the
+ideal comparison relation with the ambient $\RingUp$ classifier $\sim_R$, and
+the transport row carries $I$-membership along that comparison.
+
+Project the absorption rows from the same stability field. Given an ambient
+absorber witness $C(r)$ and an ideal membership witness $I(x)$, the left row
+gives $I(r\cdot_R x)$ and the right row gives $I(x\cdot_R r)$.
+
+The ledger row records exactly the membership witness for $x$ and the carried
+ambient witness for $r$ consumed in these projections, so no extra absorber or
+classifier datum is introduced outside the surrounding $\RingUp$ scope.
+\end{proof}
+
+\begin{theorem}[Ideal zero-membership obligation]
+\label{thm:ideal-zero-membership-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, with $\NameCert_{\RingUp}$ carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. If $I:\mathsf{BHist}\to\mathsf{Prop}$ is an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}, then the certificate contains the zero-membership row $I(0_R)$.
+\end{theorem}
+\begin{proof}
+Unpack the $\IdealUp$ carried-predicate data from \autoref{def:ideal-carried-predicate-rows}. The underlying predicate is explicitly a predicate on $\mathsf{BHist}$, while the zero endpoint $0_R$ is the zero row of the ambient $\RingUp$ certificate.
+
+Among the rows carried by the ideal certificate is the zero-membership row. Projecting that row gives exactly $I(0_R)$.
+\end{proof}
+
+\begin{theorem}[Ideal classifier-transport obligation]
+\label{thm:ideal-classifier-transport-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, with $\NameCert_{\RingUp}$ carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. If $I:\mathsf{BHist}\to\mathsf{Prop}$ is an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}, then its certificate contains the classifier-transport row
+$$
+I(x)\land x\sim_R y\Longrightarrow I(y).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the carried predicate rows. The endpoints $x$ and $y$ are BEDC histories, the relation $x\sim_R y$ is the classifier supplied by the ambient $\NameCert_{\RingUp}$, and $I$ is the $\mathsf{BHist}$ predicate being certified.
+
+The classifier-transport row listed in \autoref{def:ideal-carried-predicate-rows} is one of the fields of the $\IdealUp$ certificate. Projecting it and applying it to a membership witness $I(x)$ and the classifier comparison $x\sim_R y$ yields $I(y)$.
+\end{proof}
+
+\begin{theorem}[Ideal two-sided absorption obligation]
+\label{thm:ideal-two-sided-absorption-obligation}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, with $\NameCert_{\RingUp}$ carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. If $I:\mathsf{BHist}\to\mathsf{Prop}$ is an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}, then its certificate contains the left and right ambient absorption rows: for every carried ambient endpoint $r$ with $C(r)$,
+$$
+I(x)\Longrightarrow I(r\cdot_R x)\land I(x\cdot_R r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the $\IdealUp$ certificate rows from \autoref{def:ideal-carried-predicate-rows}. The ambient multiplier $r$ is not required to belong to the ideal predicate; it is only required to be carried by the $\RingUp$ carrier $C$ from the underlying $\NameCert_{\RingUp}$.
+
+The two-sided absorption row is part of the listed certificate surface. Projecting it at the carried endpoint $r$ and a membership witness $I(x)$ gives the pair of conclusions $I(r\cdot_R x)$ and $I(x\cdot_R r)$.
+\end{proof}
 
 \begin{definition}[Ideal intersection predicate]
 \label{def:ideal-intersection-predicate}
@@ -148,6 +326,58 @@ transports the left factor along $f(x)\sim_T0_T$, and uses the target left zero-
 The displayed carrier support, zero, additive, inverse, multiplicative, classifier-transport, and two-sided absorption rows are exactly the $\IdealUp$ certificate rows listed in \autoref{sec:ideal-certificate} for a predicate over the source $\RingUp$ certificate.
 \end{proof}
 
+\begin{definition}[Ideal quotient-kernel source package]
+\label{def:ideal-quotient-kernel-source-package}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ carried predicate over $R$, and write
+$$
+x-_R y:=x+_R(-_R y).
+$$
+The ideal quotient-kernel source package is the concrete $\mathsf{BHist}$ relation $Q_I$ on ring endpoints defined by
+$$
+Q_I(x,y)\Longleftrightarrow C(x)\land C(y)\land I(x-_R y).
+$$
+It is the quotient-free $\mathsf{BHist}$ relation later read as the ideal-coset relation in \autoref{def:quotientring-ideal-coset-relation}.
+\end{definition}
+
+\begin{theorem}[Ideal quotient-kernel diagonal exactness]
+\label{thm:ideal-quotient-kernel-diagonal-exactness}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}, and let $I$ be an $\IdealUp$ carried predicate over $R$. Assume the ideal certificate supplies zero membership and classifier transport, and the ring certificate supplies the additive inverse and zero rows. If $C(x)$, then $Q_I(x,x)$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-quotient-kernel-source-package}. The two endpoint carrier witnesses are both the given evidence $C(x)$.
+
+It remains to show $I(x-_R x)$. By the additive inverse row in the underlying ring certificate, $x+_R(-_R x)$ is classified with $0_R$. The ideal zero row gives $I(0_R)$, and classifier symmetry orients the comparison from $0_R$ to $x-_R x$.
+
+Classifier transport for $I$ carries zero membership across this edge. Repacking the two carrier witnesses with the transported ideal membership gives $Q_I(x,x)$.
+\end{proof}
+
+\begin{theorem}[Ideal quotient-kernel transport surface]
+\label{thm:ideal-quotient-kernel-transport-surface}
+Let $R$ carry a $\RingUp$ certificate with notation as in \autoref{def:ideal-quotient-kernel-source-package}, and let $I$ be an $\IdealUp$ carried predicate over $R$. Assume the ring certificate supplies carrier transport, additive inverse congruence, addition congruence, and the classifier-equivalence rows, and assume the ideal certificate supplies classifier transport. If $Q_I(x,y)$, $x\sim_R x'$, and $y\sim_R y'$, then $Q_I(x',y')$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-quotient-kernel-source-package}. From $Q_I(x,y)$ we have $C(x)$, $C(y)$, and $I(x-_R y)$.
+
+Carrier transport along $x\sim_R x'$ and $y\sim_R y'$ gives $C(x')$ and $C(y')$. Additive inverse congruence sends $y\sim_R y'$ to $-_R y\sim_R -_R y'$, and addition congruence combines this with $x\sim_R x'$ to obtain
+$$
+x-_R y\sim_R x'-_R y'.
+$$
+
+The ideal classifier-transport row carries $I(x-_R y)$ across this subtraction comparison, giving $I(x'-_R y')$. Pairing this membership with the transported carriers gives $Q_I(x',y')$.
+\end{proof}
+
+\begin{theorem}[Ideal quotient-ring export surface]
+\label{thm:ideal-quotientring-export-surface}
+Let $R$ carry a $\RingUp$ certificate and let $I$ be an $\IdealUp$ carried predicate over $R$, with $Q_I$ as in \autoref{def:ideal-quotient-kernel-source-package}. The IdealUp rows export the quotient-free kernel surface consumed by $\QuotientRingUp$ in \autoref{ch:concrete-instances-quotientring-namecert}: diagonal exactness for carried endpoints, transport along the RingUp classifier on both endpoints, and the two-sided absorption rows needed for representative-independent multiplication. The zero-fiber and preimage constructions of \autoref{def:ring-map-zero-fiber-predicate}, \autoref{thm:ring-map-zero-fiber-ideal-closure}, \autoref{def:ring-map-ideal-preimage-predicate}, and \autoref{thm:ring-map-ideal-preimage-ideal-closure} therefore produce concrete inputs to this same quotient-kernel surface.
+\end{theorem}
+\begin{proof}
+The diagonal component is exactly \autoref{thm:ideal-quotient-kernel-diagonal-exactness}. The endpoint-transport component is exactly \autoref{thm:ideal-quotient-kernel-transport-surface}.
+
+For multiplication, unfold $Q_I$. Representative changes provide ideal memberships $I(a-_R a')$ and $I(b-_R b')$. The right absorption row applies the first membership against the carried endpoint $b$, and the left absorption row applies the second membership against the carried endpoint $a'$. Additive closure and classifier transport then assemble the product-difference membership used in \autoref{thm:quotientring-multiplication-descends-to-cosets}.
+
+The same package also exposes the additive representative surface used by \autoref{thm:quotientring-additive-descent}, the equivalence surface used by \autoref{thm:quotientring-ideal-coset-equivalence}, and the zero-classification surface used by \autoref{thm:quotientring-zero-coset-classification}. Thus an IdealUp predicate, including one obtained as a zero fiber or as a ring-map preimage, supplies the concrete quotient-kernel source required before any quotient carrier is formed.
+\end{proof}
+
 \begin{definition}[Finite ideal-intersection predicate]
 \label{def:finite-ideal-intersection-predicate}
 Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $xs:\mathsf{HistSpine}$ be a finite BEDC-history spine, and let $\mathcal{I}$ assign to every position $i:\mathsf{Pos}(xs)$ a predicate $\mathcal{I}_i:\mathsf{BHist}\to\mathsf{Prop}$ over the same ring data. The finite relative intersection predicate is
@@ -158,6 +388,7 @@ C(x)\land \forall i:\mathsf{Pos}(xs).\;\mathcal{I}_i(x).
 $$
 The carrier conjunct makes the empty finite spine denote the ambient carried ring predicate, while a nonempty spine is the usual pointwise intersection of the displayed ideal predicates.
 \end{definition}
+\leandef{BEDC.Derived.IdealUp.FiniteIdealMeet}
 
 \begin{theorem}[Finite ideal intersection closure]
 \label{thm:finite-ideal-intersection-closure}
@@ -180,6 +411,7 @@ $$
 K(x)\Longrightarrow K(r\cdot_R x)\land K(x\cdot_R r).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.FiniteIdealMeet\_closure\_rows}
 \begin{proof}
 Unfold \autoref{def:finite-ideal-intersection-predicate}. The carrier support row is the first conjunct of $K(x)$.
 
