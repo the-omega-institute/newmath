@@ -34,6 +34,51 @@ and any two bounded simulations for the same input return $\hsame$-classified ou
 \end{definition}
 \leanstmt{BEDC.Derived.ComputableUp.ComputableBoundedGraphCertificate}
 
+\begin{theorem}[Computable carrier obligation]
+\label{thm:computable-carrier-obligation}
+Let $F\subseteq\NatUp\times\NatUp$ carry a bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. For every accepted graph row $F(n,m)$, the certificate exposes the unary source input $n$, the unary output $m$, the unary bound value $\beta_F(n)$, and a $\SeqUp$ trace carrier whose rows are configurations indexed by the unary prefixes of $\beta_F(n)$.
+\end{theorem}
+\begin{proof}
+Unpack the graph-equivalence clause in \autoref{def:computable-bounded-graph-certificate}. The accepted row $F(n,m)$ converts to a bounded simulation witness
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m).
+$$
+
+Now read the witness data from \autoref{def:computable-bounded-simulation-witness}. Its input and endpoint clauses supply the unary source and unary output histories. Its bound argument is the displayed modulus value $\beta_F(n)$, and the witness itself is a $\SeqUp$ trace of configurations over the unary prefix interval of that bound. These are exactly the carrier rows visible at the public certificate surface.
+\end{proof}
+
+\begin{theorem}[Computable classifier obligation]
+\label{thm:computable-classifier-obligation}
+Let $F\subseteq\NatUp\times\NatUp$ carry a bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$. Accepted outputs over the same unary input are classified by $\hsame$: if $F(n,m)$ and $F(n,m')$, then $m\hsame m'$. Moreover, the identity graph $\mathsf{Id}_{\NatUp}$ uses exactly the unary $\NatUp$ classifier, namely $n\hsame m$ between unary input and output histories.
+\end{theorem}
+\begin{proof}
+For the general certificate, apply \autoref{thm:computable-bounded-graph-single-valuedness}. It expands both accepted rows to bounded simulations at the same displayed bound and then applies the certificate's output-determinacy field, giving $m\hsame m'$.
+
+For the identity graph, unfold \autoref{def:computable-unary-classifier-identity-graph}. Its graph predicate is precisely unary source membership, unary output membership, and the classifier clause $n\hsame m$. By \autoref{def:unary-classifier-specification}, this is the $\NatUp$ unary classifier rather than host equality of history terms.
+\end{proof}
+
+\begin{theorem}[Computable stability obligation]
+\label{thm:computable-stability-obligation}
+The bounded $\ComputableUp$ certificate interface is stable under identity and bounded-simulation composition. The identity surface is the empty-bound certificate for $\mathsf{Id}_{\NatUp}$, and two certified rows $F(n,m)$ and $G(m,k)$ compose to a bounded simulation from $n$ to $k$ with an explicit phase boundary.
+\end{theorem}
+\begin{proof}
+Identity stability is witnessed by \autoref{thm:computable-identity-bounded-graph-certificate}. Its graph-equivalence field is supplied by \autoref{lem:computable-identity-empty-bound-simulation-exactness}, so the empty-bound halted code realizes exactly the unary classifier identity graph.
+
+Composition stability is \autoref{thm:computable-composition-bounded-simulation}. Given bounded simulations for $F(n,m)$ and $G(m,k)$, the proof concatenates their $\SeqUp$ traces along a displayed continuation witness and records the phase switch as part of the composite deterministic code. The resulting witness is again a bounded simulation, now from $n$ to $k$.
+\end{proof}
+
+\begin{theorem}[Computable ledger obligation]
+\label{thm:computable-ledger-obligation}
+The visible ledger of a bounded $\ComputableUp$ graph certificate consists of the deterministic program code, the displayed unary bound value, the $\SeqUp$ trace, the phase boundary used for composition, and the empty bound used for identity.
+\end{theorem}
+\begin{proof}
+The deterministic program code and displayed bound are the two certificate fields $(P_F,\beta_F)$ in \autoref{def:computable-bounded-graph-certificate}. For an accepted row $F(n,m)$, the graph-equivalence field exposes the concrete bound $\beta_F(n)$ and the bounded simulation witness at that bound.
+
+The trace ledger is the $\SeqUp$ configuration trace named in \autoref{def:computable-bounded-simulation-witness}. Its zero-prefix row, transition rows, halted repetitions, and endpoint row are the observable rows carried by the witness.
+
+For composition, \autoref{thm:computable-composition-bounded-simulation} records the phase machine $P_{G\circ F}$ and the boundary between the $F$ trace and the $G$ trace. For identity, \autoref{def:computable-halted-unary-identity-code} fixes the displayed bound to $\beta_{\mathsf{id}}(n)=\emp$, and \autoref{thm:computable-identity-bounded-graph-certificate} reads that empty-bound ledger as the identity certificate.
+\end{proof}
+
 \begin{theorem}[Computable composition by bounded simulation]
 \label{thm:computable-composition-bounded-simulation}
 Let $F$ and $G$ be partial $\NatUp$ graphs carrying bounded $\ComputableUp$ graph certificates $(P_F,\beta_F)$ and $(P_G,\beta_G)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. Suppose $F(n,m)$ is witnessed by
@@ -178,12 +223,34 @@ $$
 be two bounded simulations for the same unary input. Applying the reverse direction of \autoref{lem:computable-identity-empty-bound-simulation-exactness} gives $\mathsf{Id}_{\NatUp}(n,m)$ and $\mathsf{Id}_{\NatUp}(n,m')$. Unfolding \autoref{def:computable-unary-classifier-identity-graph} gives $n\hsame m$ and $n\hsame m'$. Symmetry and transitivity of history-sameness from \autoref{thm:history-sameness-equivalence} yield $m\hsame m'$. These are precisely the fields required by \autoref{def:computable-bounded-graph-certificate}.
 \end{proof}
 
+\begin{theorem}[Computable bounded graph identity and composition interface]
+\label{thm:computable-bounded-graph-identity-composition-interface}
+Bounded $\ComputableUp$ graph certificates provide an identity and composition interface for partial $\NatUp$ graphs. The identity object is the classifier identity graph $\mathsf{Id}_{\NatUp}$ of \autoref{def:computable-unary-classifier-identity-graph}, certified by \autoref{thm:computable-identity-bounded-graph-certificate}. If $F$ and $G$ carry bounded $\ComputableUp$ graph certificates and accepted rows $F(n,m)$ and $G(m,k)$ are displayed by their certified bounded simulations, then \autoref{thm:computable-composition-bounded-simulation} supplies a unary bound $B$ and a deterministic composite code $P_{G\circ F}$ with
+$$
+  \mathsf{BoundedSim}(P_{G\circ F},n,B,k).
+$$
+Moreover, \autoref{thm:computable-bounded-graph-single-valuedness} ensures that each certified component graph, and hence the composite graph assembled through its certified middle row, remains single-valued up to the $\NatUp$ history classifier rather than becoming a multivalued relation.
+\end{theorem}
+\begin{proof}
+The identity row is already a bounded graph certificate: \autoref{thm:computable-identity-bounded-graph-certificate} packages the halted identity code $P_{\mathsf{id}}$, the empty bound modulus $\beta_{\mathsf{id}}$, the exactness equivalence with $\mathsf{Id}_{\NatUp}$, and output determinacy. Thus $\mathsf{Id}_{\NatUp}$ is the neutral graph available at the certificate level, with equality interpreted through $n\hsame m$ by \autoref{def:computable-unary-classifier-identity-graph}.
+
+For composition, start from certified rows
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m)
+  \quad\text{and}\quad
+  \mathsf{BoundedSim}(P_G,m,\beta_G(m),k).
+$$
+Apply \autoref{thm:computable-composition-bounded-simulation}. Its construction chooses a continuation witness $\ContR(\beta_F(n),\beta_G(m),B)$ for the displayed bounds, concatenates the two $\SeqUp$ traces along that witness, and runs the phase code $P_{G\circ F}$ first through $P_F$ and then through $P_G$. The endpoint of the concatenated bound is the endpoint of the second trace, so it reads back $k$.
+
+It remains to record that the interface is still a partial graph interface. If a certified component accepts two outputs over the same unary input, \autoref{thm:computable-bounded-graph-single-valuedness} expands both accepted rows to simulations at the same ledger bound and applies output determinacy, yielding $\hsame$-classified outputs. Therefore the middle row used by the composite is determined up to the $\NatUp$ classifier, and the resulting accepted output row is controlled by the same single-valuedness clause instead of by an unconstrained relation.
+\end{proof}
+
 \begin{closurestatus}{\ComputableUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter binds the bounded simulation witness, bounded graph certificate, composition, single-valuedness, identity graph, empty-bound identity code, and identity bounded graph certificate.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The chapter records the carrier, classifier, stability, and ledger obligations for general bounded graph certificates.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_certificate}
   \bridgestatus{none}
   \notclaimed{The chapter does not close total computability, universal machines, halting decidability, recursion theory, or standard bridge claims.}
-  \upgradepath{Scoped closure requires the full carrier, classifier, stability, and ledger obligation set for general bounded graph certificates.}
+  \upgradepath{Scoped closure requires the carrier, classifier, stability, and ledger obligations to be discharged against the formal bounded graph certificate surface.}
 \end{closurestatus}
