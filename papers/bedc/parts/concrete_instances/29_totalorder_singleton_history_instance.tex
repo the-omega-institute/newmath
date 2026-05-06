@@ -1,0 +1,102 @@
+\section{Concrete Singleton History Instance}
+\label{sec:totalorder-singleton-history-instance}
+
+\begin{definition}[Total-order singleton history instance]
+\label{def:totalorder-singleton-history-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Use the
+singleton classifier already exposed by the surrounding concrete algebra
+instances:
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Define the concrete singleton order relation by
+$$
+h\le_{\bot}k:=A_{\emp}(h)\land A_{\emp}(k).
+$$
+The $h\le_{\bot}k$ witness records only that both endpoints lie in the
+displayed BEDC history singleton; it introduces no abstract carrier, no host
+order, and no second endpoint classifier.
+\end{definition}
+
+\begin{theorem}[Total-order singleton history laws]
+\label{thm:totalorder-singleton-history-laws}
+For the concrete package $(A_{\emp},\rho_{\emp},\le_{\bot})$ of
+\autoref{def:totalorder-singleton-history-instance}, the relation
+$\le_{\bot}$ is reflexive on carried histories, transitive on carried
+histories, antisymmetric under $\rho_{\emp}$, and total on carried histories:
+$$
+\forall h.\; A_{\emp}(h)\to h\le_{\bot}h,
+$$
+$$
+\forall h\,k\,r.\;
+(h\le_{\bot}k)\to(k\le_{\bot}r)\to h\le_{\bot}r,
+$$
+$$
+\forall h\,k.\;
+(h\le_{\bot}k)\to(k\le_{\bot}h)\to\rho_{\emp}(h,k),
+$$
+and
+$$
+\forall h\,k.\; A_{\emp}(h)\to A_{\emp}(k)\to
+(h\le_{\bot}k)\lor(k\le_{\bot}h).
+$$
+Thus the order laws are pinned to the concrete $\mathsf{BHist}$ singleton
+carrier rather than to a parameterized order surface.
+\end{theorem}
+\begin{proof}
+Reflexivity unfolds $h\le_{\bot}h$ and repeats the displayed carrier witness
+$A_{\emp}(h)$ in both endpoint slots.
+
+For transitivity, unfold the first comparison $h\le_{\bot}k$ to read the
+carrier witness for $h$, and unfold the second comparison $k\le_{\bot}r$ to
+read the carrier witness for $r$. Pairing these two facts gives
+$h\le_{\bot}r$.
+
+For antisymmetry, unfold the two comparisons to obtain $A_{\emp}(h)$ and
+$A_{\emp}(k)$. Since $A_{\emp}$ is the singleton source at $\emp$, these facts
+identify $h$ with $\emp$ and $k$ with $\emp$. Symmetry and transitivity of
+$\hsame$ compose the two endpoint witnesses into $\hsame(h,k)$, and the two
+carrier facts repackage the result as $\rho_{\emp}(h,k)$.
+
+For totality, the assumptions already give the two endpoint carrier witnesses.
+Choose the displayed left comparison $h\le_{\bot}k$ and pack those witnesses
+into the definition of $\le_{\bot}$.
+\end{proof}
+
+\begin{theorem}[TotalOrderUp singleton schema instantiation]
+\label{thm:totalorder-singleton-schema-instantiated}
+The concrete data
+$$
+(A_{\emp},\rho_{\emp},\le_{\bot})
+$$
+instantiate the $\TotalOrderUp$ schema over the fixed BEDC history carrier
+$\mathsf{BHist}$: the carrier is the singleton predicate $A_{\emp}$, the
+classifier is the singleton endpoint classifier $\rho_{\emp}$, the relation is
+the concrete endpoint-carrier relation $\le_{\bot}$, and the law rows are the
+reflexivity, transitivity, antisymmetry, and totality clauses of
+\autoref{thm:totalorder-singleton-history-laws}.
+
+Consequently, the $\TotalOrderUp$ proof target has a falsifiable
+$\mathsf{BHist}$-anchored carrier and relation instance. Machine checking can
+target the displayed singleton package directly, rather than discharging only
+abstract parameter fields.
+\end{theorem}
+\begin{proof}
+Read the carrier, classifier, and relation rows from
+\autoref{def:totalorder-singleton-history-instance}. They are concrete
+predicates and relations on $\mathsf{BHist}$, with the carrier pinned to the
+singleton endpoint $\emp$.
+
+Apply \autoref{thm:totalorder-singleton-history-laws} to obtain the preorder
+rows, the classifier antisymmetry row, and the total comparison row. These are
+exactly the order-law fields required by the $\TotalOrderUp$ schema after the
+schema variables are specialized to $A_{\emp}$, $\rho_{\emp}$, and
+$\le_{\bot}$.
+
+The resulting package is therefore not a restatement over fresh carriers or
+classifiers. Its witnesses are carried by the fixed singleton history source,
+and every comparison witness is a concrete assertion about the two displayed
+$\mathsf{BHist}$ endpoints.
+\end{proof}
