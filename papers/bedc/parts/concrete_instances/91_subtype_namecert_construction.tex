@@ -54,6 +54,57 @@ for the $\SubtypeUp$ carrier; the restricted classifier itself carries no data
 beyond the parent comparison.
 \end{proof}
 
+\begin{theorem}[Subtype carrier obligation row]
+\label{thm:subtype-carrier-obligation-row}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a parent $\NameCert_{\SetUp}$, and let $P:\mathsf{BHist}\to\mathsf{Prop}$ be a decidable predicate. In the predicate presentation of \autoref{def:subtype-restricted-classifier}, the carrier obligation for $\SubtypeUp$ is exactly
+$$
+S_P(h)\Longleftrightarrow S(h)\land P(h).
+$$
+Consequently a displayed endpoint $s_0:\mathsf{BHist}$ with $S(s_0)$ and $P(s_0)$ supplies the inhabitedness row
+$$
+S_P(s_0).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the carrier clause of \autoref{def:subtype-restricted-classifier}. A subtype endpoint is formed by pairing a parent-carrier witness with a predicate witness, so its predicate presentation is the conjunction $S(h)\land P(h)$.
+
+For inhabitedness, apply the same clause at $s_0$. The two displayed witnesses $S(s_0)$ and $P(s_0)$ are precisely the two components required to form $S_P(s_0)$.
+\end{proof}
+
+\begin{theorem}[Subtype classifier projection obligation]
+\label{thm:subtype-classifier-projection-obligation}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a parent $\NameCert_{\SetUp}$ with classifier $\sim_S$, and let $P:\mathsf{BHist}\to\mathsf{Prop}$. For all predicate-bearing endpoints $h,k:\mathsf{BHist}$, the classifier row for $\SubtypeUp$ is exactly
+$$
+h\sim_{S_P}k\Longleftrightarrow h\sim_S k.
+$$
+Thus parent projection and restricted-classifier introduction are the two classifier rows: a subtype classifier witness projects to the parent comparison, and a parent comparison between already formed subtype endpoints introduces the restricted classifier witness.
+\end{theorem}
+\begin{proof}
+Unfold the classifier clause in \autoref{def:subtype-restricted-classifier}. The restricted classifier stores no comparison datum apart from the parent comparison $h\sim_S k$.
+
+The forward direction is projection from the restricted witness to that parent witness. The reverse direction is introduction: once the endpoints are already certified by the carrier row, the parent witness is read as the restricted-classifier witness.
+\end{proof}
+
+\begin{theorem}[Subtype NameCert transport obligation]
+\label{thm:subtype-namecert-transport-obligation}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a parent $\NameCert_{\SetUp}$ with classifier $\sim_S$, and let $\mathsf{cert}:\NameCert(S,\sim_S)$. Let $P:\mathsf{BHist}\to\mathsf{Prop}$ be stable under the parent classifier, meaning that for all $h,k:\mathsf{BHist}$,
+$$
+S(h)\land P(h)\land h\sim_S k\Longrightarrow P(k).
+$$
+In the predicate presentation of \autoref{def:subtype-restricted-classifier}, parent carrier transport from $\mathsf{cert}$ together with predicate stability gives
+$$
+S_P(h)\to h\sim_{S_P}k\to S_P(k).
+$$
+This is the transport row consumed by \autoref{thm:subtype-restricted-classifier-namecert}.
+\end{theorem}
+\begin{proof}
+Unfold $S_P(h)$ by \autoref{thm:subtype-carrier-obligation-row}. This gives $S(h)$ and $P(h)$. Unfold the restricted classifier by \autoref{thm:subtype-classifier-projection-obligation}; the comparison is the parent witness $h\sim_S k$.
+
+The carrier-respect field of the parent $\NameCert(S,\sim_S)$ transports $S(h)$ along $h\sim_S k$ and gives $S(k)$. Apply the displayed predicate-stability hypothesis to $S(h)$, $P(h)$, and the same parent comparison to obtain $P(k)$.
+
+Pair $S(k)$ with $P(k)$ using the carrier row for $S_P(k)$. The resulting witness is the required transport row for the restricted certificate.
+\end{proof}
+
 \begin{lemma}[Subtype carrier closed under restricted classifier]
 \label{lem:subtype-carrier-restricted-classifier-closure}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a parent $\NameCert_{\SetUp}$ with classifier $\sim_S$, and let $\mathsf{cert}:\NameCert(S,\sim_S)$. Let $P:\mathsf{BHist}\to\mathsf{Prop}$ be a decidable predicate stable under the parent classifier, in the sense that for all $x,y:\mathsf{BHist}$,
