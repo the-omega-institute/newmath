@@ -39,6 +39,9 @@ theorem ConvexSetSingletonAffineSpine_midpoint_closure {x y endpoint : BHist} :
     And.intro xEmpty (Exists.intro y (And.intro tailSpine endpointRow))
   exact And.intro spine (ConvexSetSingletonAffineSpine_closure spine)
 
+def ConvexSetPointwiseIntersection (C D : BHist -> Prop) (z : BHist) : Prop :=
+  C z ∧ D z
+
 theorem ConvexSetPointwiseIntersection_affine_combination_closure
     {C D NonNeg : BHist -> Prop}
     {add scalarAdd scalarAction : BHist -> BHist -> BHist}
@@ -49,9 +52,9 @@ theorem ConvexSetPointwiseIntersection_affine_combination_closure
     (closedD :
       forall {a b x y : BHist}, D x -> D y -> NonNeg a -> NonNeg b ->
         hsame (scalarAdd a b) one -> D (add (scalarAction a x) (scalarAction b y))) :
-    C x ∧ D x -> C y ∧ D y -> NonNeg a -> NonNeg b -> hsame (scalarAdd a b) one ->
-      C (add (scalarAction a x) (scalarAction b y)) ∧
-        D (add (scalarAction a x) (scalarAction b y)) := by
+    ConvexSetPointwiseIntersection C D x -> ConvexSetPointwiseIntersection C D y ->
+      NonNeg a -> NonNeg b -> hsame (scalarAdd a b) one ->
+        ConvexSetPointwiseIntersection C D (add (scalarAction a x) (scalarAction b y)) := by
   intro xData yData nonnegA nonnegB unitSum
   exact And.intro
     (closedC xData.left yData.left nonnegA nonnegB unitSum)

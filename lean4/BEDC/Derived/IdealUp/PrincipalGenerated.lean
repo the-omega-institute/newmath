@@ -311,4 +311,45 @@ theorem IdealPrincipalGenerated_full_ideal_closure_rows
       subtractive.right.right.right.right,
       absorption.left⟩
 
+theorem IdealPrincipalGenerated_quotient_kernel_scope
+    {Carrier : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
+    {zero generator : BHist} {add mul sub : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (zeroCarrier : Carrier zero) (generatorCarrier : Carrier generator)
+    (addCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y))
+    (negCarrier : forall {x : BHist}, Carrier x -> Carrier (neg x))
+    (mulCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y))
+    (subDiagonal : forall {x : BHist}, Carrier x -> Classifier (sub x x) zero)
+    (subCongr :
+      forall {x x' y y' : BHist}, Classifier x x' -> Classifier y y' ->
+        Classifier (sub x y) (sub x' y')) :
+    (forall {x : BHist}, Carrier x ->
+      Carrier x ∧ Carrier x ∧
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg (sub x x)) ∧
+      (forall {x y x' y' : BHist},
+        Carrier x ∧ Carrier y ∧
+          IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg (sub x y) ->
+            Classifier x x' -> Classifier y y' ->
+              Carrier x' ∧ Carrier y' ∧
+                IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg
+                  (sub x' y')) := by
+  have subtractive :=
+    IdealPrincipalGenerated_subtractive_closure_rows (cert := cert)
+      (zeroCarrier := zeroCarrier) (generatorCarrier := generatorCarrier)
+      (addCarrier := addCarrier) (negCarrier := negCarrier) (mulCarrier := mulCarrier)
+  constructor
+  · intro x carrierX
+    exact
+      IdealQuotientKernel_diagonal_exactness (cert := cert)
+        (idealZero := subtractive.right.left)
+        (idealTransport := subtractive.right.right.right.right)
+        (subDiagonal := subDiagonal) carrierX
+  · intro x y x' y' kernelXY classifiedXX classifiedYY
+    exact
+      IdealQuotientKernel_endpoint_transport (cert := cert)
+        (subCongr := subCongr)
+        (I_transport := subtractive.right.right.right.right)
+        kernelXY classifiedXX classifiedYY
+
 end BEDC.Derived.IdealUp
