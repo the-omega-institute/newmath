@@ -258,12 +258,51 @@ e-one $\RealUp$ seal, so the certificate is scoped to the displayed
 $\mathsf{BHist}$ construction and asserts no standard bridge.
 \end{proof}
 
+\begin{corollary}[Singleton empty-history NormUp scoped certificate boundary]
+\label{cor:singleton-empty-history-norm-scoped-certificate-boundary}
+The data $A_{\emp}$, $\rho_{\emp}$, $\nu_{\emp}$,
+$\mathsf{RealConstantHistoryCarrier}$, and
+$\mathsf{RealConstantHistoryClassifier}$ supply the scoped singleton $\NormUp$
+certificate boundary over the concrete singleton empty-history vector-space
+source and the constant RealUp zero endpoint. The carrier and classifier rows
+are those of \autoref{thm:singleton-empty-history-norm-carrier-classifier}; the
+norm-law rows are those of
+\autoref{thm:singleton-empty-history-norm-laws}; and the positive-definite
+exactness row is
+\autoref{thm:singleton-empty-history-norm-zero-exactness}. Together with the
+ten-field surface of
+\autoref{thm:singleton-empty-history-norm-semantic-namecert-surface}, these rows
+determine the scoped $\NameCert_{\NormUp}$ boundary for this singleton
+instance.
+\end{corollary}
+\begin{proof}
+The carrier and classifier boundary is already assembled by
+\autoref{thm:singleton-empty-history-norm-carrier-classifier}. It places the
+singleton vector carrier $A_{\emp}$, the vector classifier $\rho_{\emp}$, the
+constant norm endpoint $\nu_{\emp}$, the Real constant carrier, and the Real
+constant classifier in the same displayed certificate scope.
+
+The law boundary is supplied by
+\autoref{thm:singleton-empty-history-norm-laws}. Its nonnegativity,
+positive-definiteness, absolute-homogeneity, and triangle rows are all read over
+the singleton empty-history vector-space source and the constant-rational
+RealUp zero boundary, so no additional carrier or classifier is introduced.
+
+The exactness boundary is
+\autoref{thm:singleton-empty-history-norm-zero-exactness}: the real
+constant-zero classifier for $\nu_{\emp}(m)$ is equivalent, on carried singleton
+vectors, to $\rho_{\emp}(m,\emp)$. The ten-field surface of
+\autoref{thm:singleton-empty-history-norm-semantic-namecert-surface} records
+exactly these rows as the source, carrier, classifier, stability, ledger, and
+exactness entries, with no standard bridge field asserted.
+\end{proof}
+
 \begin{closurestatus}{\NormUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The singleton empty-history norm over $\mathsf{BHist}$ is closed as a scoped $\NormUp$ certificate with the displayed vector carrier, norm endpoint carrier, stability rows, exact zero row, and finite ledger.}
+  \scopeclosed{Singleton empty-history norm over $\VecSpaceUp$ with constant RealUp zero endpoint, carried by $A_{\emp}$, $\rho_{\emp}$, $\nu_{\emp}$, $\mathsf{RealConstantHistoryCarrier}$, and $\mathsf{RealConstantHistoryClassifier}$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.NormUp.NormSingletonEmptyHistory\_laws}
   \bridgestatus{none}
-  \notclaimed{This chapter does not assert a public normed-space interface, completeness, analytic structure, or a standard-space bridge.}
-  \upgradepath{A stronger closure grade would require a public object surface or a checked standard bridge in addition to the scoped singleton certificate.}
+  \notclaimed{General normed spaces, Banach bridges, completeness, operator theory, nontrivial positive norms, or any standard host-space bridge.}
+  \upgradepath{$\publicClosure$ requires a public normed-vector-space surface with standard bridge rows for carrier readback, norm readback, exactness, and no-hidden-leakage.}
 \end{closurestatus}
