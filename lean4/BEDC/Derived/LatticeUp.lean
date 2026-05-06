@@ -533,6 +533,28 @@ theorem LatticeSingletonMeet_assoc_comparison_empty {h k z : BHist} :
       (And.intro emptyCarrier (PreorderPrefixLE_of_hsame (hsame_refl BHist.Empty))))
     emptyCarrier
 
+theorem LatticeSingletonJoinMeet_lower_comparison_empty {a b c : BHist} :
+    LatticeSingletonCarrier a -> LatticeSingletonCarrier b -> LatticeSingletonCarrier c ->
+      LatticeSingletonLE (LatticeSingletonJoin a (LatticeSingletonMeet b c))
+        (LatticeSingletonMeet (LatticeSingletonJoin a b) (LatticeSingletonJoin a c)) ∧
+      LatticeSingletonClassifier (LatticeSingletonJoin a (LatticeSingletonMeet b c))
+        (LatticeSingletonMeet (LatticeSingletonJoin a b) (LatticeSingletonJoin a c)) ∧
+      hsame (LatticeSingletonJoin a (LatticeSingletonMeet b c)) BHist.Empty ∧
+      hsame (LatticeSingletonMeet (LatticeSingletonJoin a b) (LatticeSingletonJoin a c))
+        BHist.Empty := by
+  intro _carrierA _carrierB _carrierC
+  have leftEmpty : hsame (LatticeSingletonJoin a (LatticeSingletonMeet b c)) BHist.Empty :=
+    hsame_refl BHist.Empty
+  have rightEmpty :
+      hsame (LatticeSingletonMeet (LatticeSingletonJoin a b) (LatticeSingletonJoin a c))
+        BHist.Empty :=
+    hsame_refl BHist.Empty
+  exact
+    And.intro (LatticeSingletonLE_empty_endpoints_iff.mpr (And.intro leftEmpty rightEmpty))
+      (And.intro
+        (LatticeSingletonClassifier_empty_endpoints_iff.mpr (And.intro leftEmpty rightEmpty))
+        (And.intro leftEmpty rightEmpty))
+
 theorem LatticeDirectedMeet_associativity_comparison_from_bounds
     {Carrier : BHist -> Prop}
     {Classifier Le : BHist -> BHist -> Prop}
