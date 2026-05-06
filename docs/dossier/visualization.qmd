@@ -213,6 +213,28 @@ format:
   }
   #detail .crit-list a:hover { background: #fdebe7; }
   #detail .crit-list .crit-meta { color: #888; font-size: 0.78rem; margin-left: 0.4rem; }
+  #detail .dyn-coverage {
+    font-size: 0.82rem; color: #2c3e50; margin-bottom: 0.55rem;
+    padding: 0.35rem 0.55rem; background: #f4faf6; border-radius: 3px;
+    border-left: 3px solid #27ae60; line-height: 1.45;
+  }
+  #detail .dyn-coverage .dyn-coverage-breakdown {
+    font-size: 0.74rem; color: #888; margin-top: 0.15rem;
+  }
+  #detail .dyn-section-title {
+    font-size: 0.78rem; font-weight: 600; color: #555;
+    margin-top: 0.55rem; margin-bottom: 0.25rem;
+  }
+  #detail .dyn-list a {
+    display: block; padding: 0.22rem 0.5rem; margin-bottom: 0.18rem;
+    background: #f4f7fa; border-left: 3px solid #3498db; cursor: pointer;
+    text-decoration: none; color: #222; font-size: 0.84rem;
+  }
+  #detail .dyn-list a:hover { background: #e7eef5; }
+  #detail .dyn-list .dyn-meta { color: #888; font-size: 0.74rem; margin-left: 0.35rem; }
+  #detail .dyn-list .dyn-empty {
+    color: #999; font-style: italic; font-size: 0.8rem; padding: 0.2rem 0.5rem;
+  }
   #detail .glossary-toggle {
     margin-top: 1rem; padding: 0.4rem 0.7rem; width: 100%;
     border: 1px solid #ccc; background: white; border-radius: 4px;
@@ -319,6 +341,15 @@ format:
     </div>
 
     <div class="legend">
+      <div data-i18n="dyn_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Closure pipeline</div>
+      <div id="dyn-coverage" class="dyn-coverage"></div>
+      <div data-i18n="unblock_title" class="dyn-section-title">Top unblock targets</div>
+      <div id="unblock-list" class="dyn-list"></div>
+      <div data-i18n="next_grade_title" class="dyn-section-title">Next grade transitions</div>
+      <div id="next-grade-list" class="dyn-list"></div>
+    </div>
+
+    <div class="legend">
       <div data-i18n="legend_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Legend</div>
       <div><span class="swatch circle" style="background:#c0392b;"></span><span data-i18n="legend_crit">Frontline (AI's current target)</span></div>
       <div><span class="swatch hex" style="background:#27ae60;"></span><span data-i18n="legend_closed">Closed (closurestatus declared)</span></div>
@@ -365,11 +396,24 @@ const I18N = {
     legend_prog: "In progress (theorems landing, no closurestatus yet)",
     legend_scaf: "Scaffold (paper only, Lean pending)",
     legend_schema: "Schema-only horizon (intentional)",
-    legend_shape: "Shape = theory-closure tier: ⬡ scoped, octagon public/bridged, ★ mature. Border = verification: dark for audit/axiom-clean, yellow halo for bridge-checked.",
+    legend_shape: "Shape = theory-closure tier: ellipse none → △ seed → ◇ obligation → ⬡ scoped → ⯃ public → tag bridged → ★ mature. Border = verification: dark for audit/axiom-clean, yellow halo for bridge-checked.",
     legend_size: "Size = total paper obligations (checked + stated).",
     filter_title: "Filters",
     filter_stubs: "Show stubs",
     crit_title: "Where AI is attacking now",
+    dyn_title: "Closure pipeline",
+    unblock_title: "Top unblock targets",
+    next_grade_title: "Next grade transitions",
+    dyn_coverage_label: "closed",
+    dyn_unblocks_meta: "unblocks",
+    dyn_none: "(none yet)",
+    tier_none: "(none)",
+    tier_seed: "seed",
+    tier_obligation: "obligation",
+    tier_scoped: "scoped",
+    tier_public: "public",
+    tier_bridged: "bridged",
+    tier_mature: "mature",
     footer_activity: "Monthly commits",
     sum_theorems: "theorems",
     sum_regions: "regions",
@@ -423,11 +467,24 @@ const I18N = {
     legend_prog: "进行中 (有定理在落, 尚未声明 closurestatus)",
     legend_scaf: "脚架 (仅论文, Lean 待补)",
     legend_schema: "Schema-only 视界 (有意为之)",
-    legend_shape: "形状 = 理论闭合等级: ⬡ scoped, 八边形 public/bridged, ★ mature. 边框 = 形式化验证: 深色 = audit/axiom-clean, 黄色光环 = bridge-checked.",
+    legend_shape: "形状 = 理论闭合等级: 椭圆 (无) → △ seed → ◇ obligation → ⬡ scoped → ⯃ public → tag bridged → ★ mature. 边框 = 形式化验证: 深色 = audit/axiom-clean, 黄色光环 = bridge-checked.",
     legend_size: "节点大小 = 论文 obligation 总数 (checked + stated).",
     filter_title: "过滤",
     filter_stubs: "显示空 stub",
     crit_title: "AI 当前攻坚位置",
+    dyn_title: "闭合流水线",
+    unblock_title: "高优先解锁目标",
+    next_grade_title: "近期可推进闭合等级",
+    dyn_coverage_label: "已闭合",
+    dyn_unblocks_meta: "解锁",
+    dyn_none: "(暂无)",
+    tier_none: "(无)",
+    tier_seed: "seed",
+    tier_obligation: "obligation",
+    tier_scoped: "scoped",
+    tier_public: "public",
+    tier_bridged: "bridged",
+    tier_mature: "mature",
     footer_activity: "每月提交数",
     sum_theorems: "定理",
     sum_regions: "领域",
@@ -676,13 +733,26 @@ function statusClass(node) {
   return "scaffold";
 }
 
+// Theory-closure tier → shape, one shape per tier:
+//   (none)              → ellipse
+//   seedClosure         → triangle
+//   obligationClosure   → diamond
+//   scopedClosure       → hexagon
+//   publicClosure       → octagon
+//   bridgedClosure      → tag       (octagon-like with one corner cut, "shipped")
+//   matureClosure       → star
+const TIER_SHAPE = {
+  seedClosure: "triangle",
+  obligationClosure: "diamond",
+  scopedClosure: "hexagon",
+  publicClosure: "octagon",
+  bridgedClosure: "tag",
+  matureClosure: "star",
+};
+
 function nodeShape(node) {
   if (node.id === "kernel") return "hexagon";
-  const tc = node.closed_theoryclosure;
-  if (tc === "matureClosure") return "star";
-  if (tc === "publicClosure" || tc === "bridgedClosure") return "octagon";
-  if (tc) return "hexagon";  // seed / obligation / scoped
-  return "ellipse";
+  return TIER_SHAPE[node.closed_theoryclosure] || "ellipse";
 }
 
 function nodeBorder(node, cls) {
@@ -1150,6 +1220,69 @@ function renderCritList() {
   }).join("");
 }
 
+// Tier rotation order matches critical_path.py phase_review v3.4: list
+// the highest-impact transition first so the panel surfaces "what just
+// became reachable" rather than rehashing the seed-tier dogpile.
+const TRANSITION_ORDER = [
+  "to_mature", "to_bridged", "to_public",
+  "to_scoped", "to_obligation", "to_seed",
+];
+
+function tierLabel(grade) {
+  if (!grade) return t("tier_none");
+  const key = "tier_" + grade.replace(/Closure$/, "");
+  return t(key) || grade;
+}
+
+function renderLatestDynamics() {
+  // Coverage gauge: closed / (closed + open) horizons.
+  const closed = STATUS.closed_horizons || {};
+  const closedTotal = Object.values(closed).reduce((s, v) => s + v, 0);
+  const openTotal = STATUS.open_horizons || 0;
+  const total = closedTotal + openTotal;
+  const pct = total ? ((closedTotal / total) * 100).toFixed(1) : "0";
+  const breakdown = Object.entries(closed)
+    .sort((a, b) => b[1] - a[1])
+    .map(([k, v]) => {
+      const tier = k.split("/")[0];
+      return `${v} ${tierLabel(tier)}`;
+    })
+    .join(" · ");
+  document.getElementById("dyn-coverage").innerHTML =
+    `<strong>${closedTotal}</strong> / ${total} ${t("dyn_coverage_label")} (${pct}%)` +
+    (breakdown ? `<div class="dyn-coverage-breakdown">${breakdown}</div>` : "");
+
+  // Top unblock targets: chapters whose closure unblocks the most downstream.
+  const unblocks = (STATUS.top_root_unblocks || []).slice(0, 5);
+  const unblockEl = document.getElementById("unblock-list");
+  unblockEl.innerHTML = unblocks.length
+    ? unblocks.map(u => {
+        const g = GLOSSARY[u.name];
+        const lbl = g ? g[LANG].label : u.name;
+        return `<a onclick="showNodeDetail('${u.name}')">${lbl}<span class="dyn-meta">· ${t("dyn_unblocks_meta")} ${u.unblock_count}</span></a>`;
+      }).join("")
+    : `<div class="dyn-empty">${t("dyn_none")}</div>`;
+
+  // Next grade transitions: top-1 from each tier in TRANSITION_ORDER.
+  const transitions = STATUS.top_transitions || {};
+  const flat = [];
+  for (const key of TRANSITION_ORDER) {
+    const list = transitions[key] || [];
+    if (list.length) flat.push(list[0]);
+    if (flat.length >= 5) break;
+  }
+  const nextEl = document.getElementById("next-grade-list");
+  nextEl.innerHTML = flat.length
+    ? flat.map(n => {
+        const g = GLOSSARY[n.name];
+        const lbl = g ? g[LANG].label : n.name;
+        const from = tierLabel(n.from_grade);
+        const to = tierLabel(n.to_grade);
+        return `<a onclick="showNodeDetail('${n.name}')">${lbl}<span class="dyn-meta">· ${from} → ${to}</span></a>`;
+      }).join("")
+    : `<div class="dyn-empty">${t("dyn_none")}</div>`;
+}
+
 function renderSpark() {
   const months = STATUS.monthly_activity || [];
   if (!months.length) return;
@@ -1181,6 +1314,7 @@ function renderAll() {
   buildFilterUI();
   applyFilters();
   renderCritList();
+  renderLatestDynamics();
   renderSpark();
   if (CY && CY.nodes(":selected").length) {
     showNodeDetail(CY.nodes(":selected")[0].id());
