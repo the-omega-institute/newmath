@@ -305,6 +305,16 @@ def BundleRowsUnary : ProbeBundle BHist -> Prop
   | .Bnil => True
   | .Bcons row tail => UnaryHistory row ∧ BundleRowsUnary tail
 
+theorem BundleRowsUnary_classifier_transport {rows rows' : ProbeBundle BHist} :
+    BundleRowsUnary rows -> BundleLocalTrivBundleClassifier rows rows' ->
+      BundleRowsUnary rows' := by
+  intro unaryRows classified
+  induction classified with
+  | bnil =>
+      exact unaryRows
+  | bcons sameRow sameTail ih =>
+      exact And.intro (unary_transport unaryRows.left sameRow) (ih unaryRows.right)
+
 def BundleLocalTrivPackage
     (base total projection fiber : BHist) (trivs transitions : ProbeBundle BHist)
     (ledger : BHist) : Prop :=
