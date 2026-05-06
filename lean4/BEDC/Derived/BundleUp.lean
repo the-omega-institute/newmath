@@ -374,7 +374,7 @@ theorem BundleLocalTrivPkg_projection_rows {base total projection fibre ledger r
 theorem BundleLocalTrivPkg_trivialization_scope {base total projection fibre ledger row : BHist}
     {triv transitions : ProbeBundle BHist} :
     InBundle row triv ->
-      InBundle row (BundleLocalTrivPkg base total projection fibre ledger triv transitions) := by
+      InBundle row (BundleLocalTrivPkgRows base total projection fibre ledger triv transitions) := by
   intro memberTriv
   exact Or.inr
     (Or.inr
