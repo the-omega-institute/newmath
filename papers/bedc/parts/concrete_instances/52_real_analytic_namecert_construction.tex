@@ -433,3 +433,53 @@ $$
 \RealClassifier(s_z, s_x\cdot c_y + c_x\cdot s_y).
 $$
 \end{proof}
+
+\begin{lemma}[Even trigonometric Cauchy-product coefficient split]
+\label{lem:real-analytic-even-trig-cauchy-product-split}
+For $\RealUp$-histories $x$ and $y$ and unary degree $n$, assume supplied $\RealAlgOrder$ rows for addition, products, differences, powers, factorial-denominator inverses, signs, and the binomial expansion of $(x+y)^{2n}$. Then the degree-$2n$ coefficient of the regular rational Cauchy-product difference
+$$
+\mathsf{CosPart}(x,\cdot,\cdot)\mathsf{CosPart}(y,\cdot,\cdot)
+-
+\mathsf{SinPart}(x,\cdot,\cdot)\mathsf{SinPart}(y,\cdot,\cdot)
+$$
+is classified with the degree-$2n$ coefficient of $\mathsf{CosPart}(x+y,\cdot,\cdot)$. The odd total-degree slices on both sides are empty by parity.
+\end{lemma}
+\begin{proof}
+Expand the cosine-cosine product into the even-in-$x$, even-in-$y$ terms
+$$
+(-1)^{i+j}\frac{x^{2i}y^{2j}}{(2i)!(2j)!},
+$$
+and expand the sine-sine product into the odd-in-$x$, odd-in-$y$ terms
+$$
+(-1)^{i+j}\frac{x^{2i+1}y^{2j+1}}{(2i+1)!(2j+1)!}.
+$$
+On the degree-$2n$ slice, the cosine-cosine product has $i+j=n$, so every sign is $(-1)^n$. The sine-sine product has $i+j=n-1$ when $n>0$, so its sign is $(-1)^{n-1}$; the displayed subtraction changes this to $(-1)^n$. For $n=0$, the sine-sine contribution is empty.
+
+The supplied factorial-denominator rows move every nonempty term to the common denominator $(2n)!$. The cosine-cosine family contributes the binomial terms in which the exponent of $x$ is even, and the subtracted sine-sine family contributes the binomial terms in which the exponent of $x$ is odd. These two parity classes partition the binomial expansion of $(x+y)^{2n}$. After multiplication by the common sign $(-1)^n$ and the common denominator inverse, the displayed coefficient is classified with the corresponding coefficient of $\mathsf{CosPart}(x+y,\cdot,\cdot)$.
+
+No odd total degree can arise from an even-even product or an odd-odd product, and $\mathsf{CosPart}(x+y,\cdot,\cdot)$ has only even powers. Hence the odd slices are empty on both sides.
+\end{proof}
+
+\begin{theorem}[Cosine addition formula row]
+\label{thm:real-analytic-cos-add}
+For $\RealUp$-histories $x$ and $y$, let $z$ be the endpoint supplied by the $\RealAlgOrder$ addition row for $x+y$. Assume supplied trigonometric limit witnesses for $\mathsf{Cos}(z,c_z)$, $\mathsf{Cos}(x,c_x)$, $\mathsf{Cos}(y,c_y)$, $\mathsf{Sin}(x,s_x)$, and $\mathsf{Sin}(y,s_y)$. Assume supplied $\RealAlgOrder$ rows naming the product endpoints $c_x\cdot c_y$ and $s_x\cdot s_y$ and the displayed difference $c_x\cdot c_y-s_x\cdot s_y$, product-stability rows saying that the two product endpoints are the $\RealUp$ limits of the corresponding Cauchy-product streams, and the supplied difference row saying that $c_x\cdot c_y-s_x\cdot s_y$ is the $\RealUp$ limit of their pointwise difference. Assume also a regular-rational Cauchy-product comparison whose coefficient part is \autoref{lem:real-analytic-even-trig-cauchy-product-split} and whose tail estimates use the modulus of \autoref{lem:real-analytic-trig-cauchy}. If the supplied limit-uniqueness classifier rows compare that product-difference stream with $\mathsf{CosPart}(z,\cdot,\cdot)$ at their real-history limits, then
+$$
+\RealClassifier(c_z, c_x\cdot c_y - s_x\cdot s_y).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:real-analytic-sin-cos}, the five trigonometric witnesses expose regular rational stream names for the cosine partial sums of $z$, $x$, and $y$, and for the sine partial sums of $x$ and $y$. The addition row identifies $z$ as the $\RealUp$ endpoint for $x+y$. The operation rows are the addition, negation, and multiplication rows exposed by the $\RealAlgOrder$ interface of \autoref{def:realalgorder-concrete-interface}; they make the right-hand endpoint $c_x\cdot c_y-s_x\cdot s_y$ meaningful in the same real-history interface.
+
+Product stability transports the input trigonometric limits through the two products $c_x\cdot c_y$ and $s_x\cdot s_y$. The supplied difference row then transports those product limits through the displayed subtraction. Thus the right-hand endpoint is the $\RealUp$ limit of the regular rational stream obtained from
+$$
+\mathsf{CosPart}(x,\cdot,\cdot)\mathsf{CosPart}(y,\cdot,\cdot)
+-
+\mathsf{SinPart}(x,\cdot,\cdot)\mathsf{SinPart}(y,\cdot,\cdot).
+$$
+The supplied Cauchy-product comparison identifies this stream with the $\mathsf{CosPart}(z,\cdot,\cdot)$ stream: its finite coefficient calculation is the even-parity split of \autoref{lem:real-analytic-even-trig-cauchy-product-split}, and its tails are bounded by the trigonometric Cauchy modulus of \autoref{lem:real-analytic-trig-cauchy} after passing to a common unary precision.
+
+The two real-history endpoints are therefore limits of classified regular rational stream names. Applying the supplied limit-uniqueness classifier row gives
+$$
+\RealClassifier(c_z, c_x\cdot c_y - s_x\cdot s_y).
+$$
+\end{proof}
