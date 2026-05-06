@@ -48,6 +48,15 @@ CONTEXT_BEFORE = 2
 CONTEXT_AFTER = 12
 MIN_RATIONALE_CHARS = 80
 TITLE_MAX_CHARS = 90
+NON_TARGET_PREFIXES = (
+    "\\label",
+    "\\chapter",
+    "\\section",
+    "\\subsection",
+    "\\subsubsection",
+    "\\begin{remark}",
+    "\\begin{example}",
+)
 
 
 @dataclass(frozen=True)
@@ -145,6 +154,28 @@ def _title_from_hit(hit: GapHit) -> str:
     return first_line[:TITLE_MAX_CHARS]
 
 
+def _first_substantive_line(snippet: str) -> str:
+    return next(
+        (ln.strip() for ln in snippet.splitlines() if ln.strip() and not ln.strip().startswith("%")),
+        "",
+    )
+
+
+def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
+    """Keep deterministic gap scans from turning structural prose into targets."""
+    title = str(candidate.get("title") or "").strip()
+    claim = str(candidate.get("concrete_claim") or "").strip()
+    first = _first_substantive_line(hit.snippet)
+    if hit.kind == "open_prose":
+        if first.startswith(NON_TARGET_PREFIXES):
+            return False
+        if title.startswith("\\") or claim.startswith(NON_TARGET_PREFIXES):
+            return False
+    if title.startswith("\\label") or title.startswith("\\begin{remark}"):
+        return False
+    return True
+
+
 def hit_to_candidate(hit: GapHit) -> dict:
     """Convert a GapHit to the candidate dict shape append_candidates_to_board expects."""
     title = _title_from_hit(hit)
@@ -188,7 +219,11 @@ def main() -> int:
     args = parser.parse_args()
 
     hits = scan_all()
-    candidates = [hit_to_candidate(h) for h in hits]
+    candidates = []
+    for hit in hits:
+        candidate = hit_to_candidate(hit)
+        if _is_substantive_gap(hit, candidate):
+            candidates.append(candidate)
     candidates = [
         c for c in candidates
         if c["fit_score"] >= args.min_fit and c["novelty"] >= args.min_novelty
