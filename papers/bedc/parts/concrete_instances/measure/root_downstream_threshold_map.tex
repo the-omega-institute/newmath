@@ -1,0 +1,104 @@
+\begin{definition}[Measure root downstream threshold map]
+\label{def:measure-root-downstream-threshold-map}
+The $\MeasureUp$ root downstream threshold map is the ten-field projection
+from the root domain-ready package of
+\autoref{def:measure-root-domain-ready-package} and the root index threshold
+source of \autoref{def:measure-root-index-threshold-source} to the three
+analysis consumers $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$:
+\begin{enumerate}
+  \item source package: the carrier-classifier, ledger, endpoint, additive,
+  exactness, and no-$\StdBridge$ rows of the root domain-ready package;
+  \item threshold source: the $\mathsf{BHist}$-indexed carrier, public
+  classifier, visible ledger, empty-event, finite-additivity, countable-
+  additivity, countable-sum endpoint, and boundary rows of the root index
+  threshold source;
+  \item carrier rows: the event carrier, measurable-event classifier, empty
+  event, finite unions, countable indexed unions, relative differences, and
+  disjointness witnesses;
+  \item classifier rows: componentwise $\hsame$ on $\mathsf{BHist}$ rows,
+  $\sim_M$ on carried measure codes, and $\NameCert_{\RealUp}$ comparison for
+  endpoint movement through $\sim_R$;
+  \item ledger rows: hidden membership, disjointness, countable-union,
+  relative-difference, endpoint-value, and countable-sum witnesses attached to
+  visible $\mathsf{BHist}$ rows;
+  \item finite-additivity rows: empty-zero, null-event, ordered binary-union,
+  symmetric binary-union, finite disjoint-union readback, and
+  relative-difference additivity;
+  \item countable-additivity rows: pairwise-disjoint indexed families,
+  countable unions, countable-sum endpoints, head-tail readback,
+  finite-support countable readback, and continuity from below;
+  \item endpoint rows: nonnegative $\RealUp$ endpoints, additive
+  $\AbGroupUp$ real transport, countable-sum endpoints, and the shared
+  endpoint boundary used by all three consumers;
+  \item outgoing consumer rows: the $\IntegralUp$, $\ProbSpaceUp$, and
+  $\FunctionalAnalysisUp$ faces displayed by
+  \autoref{def:measure-root-consumer-package};
+  \item boundary rows: absence of host set equality, quotient event equality,
+  analytic completion rows, and standard bridge rows.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Measure root threshold map carrier and additivity]
+\label{thm:measure-root-threshold-map-carrier-additivity}
+The threshold map of
+\autoref{def:measure-root-downstream-threshold-map} carries exactly the
+carrier-classifier rows of
+\autoref{thm:measure-root-domain-carrier-classifier-ready} and
+\autoref{thm:measure-root-index-carrier-threshold}, and exactly the finite
+and countable additivity rows of
+\autoref{thm:measure-root-domain-sigma-additive-ready} and
+\autoref{thm:measure-root-index-additivity-threshold}.
+\end{theorem}
+\begin{proof}
+Project carrier transport first. The domain-ready carrier-classifier theorem
+supplies carried $\MeasureUp$ codes, visible event rows, ledger rows, and
+$\RealUp$ endpoint rows, while the index carrier threshold supplies the same
+rows as projections of the $\mathsf{BHist}$-indexed source.
+
+Endpoint movement is then read through the $\RealUp$ classifier. The
+domain-ready package uses $\NameCert_{\RealUp}$ comparison, and the index
+threshold source seals endpoint movement through $\sim_R$ rather than through
+host event equality.
+
+Finally compose the finite and countable additivity faces through the common
+$\mathsf{BHist}$ source. The domain-ready sigma-additive theorem supplies
+empty-zero, finite disjoint-union readback, finite-support countable readback,
+relative-difference additivity, and continuity from below. The index
+additivity threshold supplies the finite and countable indexed rows of the
+same source, so the map contains exactly those additivity rows and no
+separate additive input.
+\end{proof}
+
+\begin{theorem}[Measure root threshold map consumer unblock]
+\label{thm:measure-root-threshold-map-consumer-unblock}
+The threshold map of
+\autoref{def:measure-root-downstream-threshold-map} supplies exactly the
+outgoing rows consumed by $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$. These are the downstream rows exposed by
+\autoref{thm:measure-root-domain-downstream-ready} and
+\autoref{thm:measure-root-index-downstream-threshold}, read through the
+consumer faces of \autoref{thm:measure-integral-consumer-rows},
+\autoref{thm:measure-probability-consumer-rows}, and
+\autoref{thm:measure-functionalanalysis-consumer-rows}.
+\end{theorem}
+\begin{proof}
+Read the $\IntegralUp$ face first. Its consumed rows are the covered
+measurable-event rows, $\RealUp$ endpoint classifier rows, countable-sum
+endpoint rows, head-tail readback rows, and finite disjoint-union readback
+rows supplied by the two root threshold sources.
+
+Read the $\ProbSpaceUp$ face next. It consumes total-event normalization,
+empty-zero, and finite disjoint-union readback, all projected from the same
+carrier, endpoint, and additive rows.
+
+Read the $\FunctionalAnalysisUp$ face separately. Its outgoing rows are the
+nonnegative endpoint, monotone inclusion, relative-difference, and
+countable-sum classifier rows exposed by the common root package.
+
+The exactness clauses in \autoref{def:measure-root-consumer-package} and
+\autoref{def:measure-root-index-threshold-source} exhaust the outgoing
+consumer boundary. Therefore host set equality, quotient event equality,
+analytic completion rows, and standard bridge rows are excluded from the
+threshold map.
+\end{proof}

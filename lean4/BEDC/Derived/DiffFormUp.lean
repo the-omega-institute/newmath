@@ -45,4 +45,49 @@ theorem DiffFormExteriorDerivative_degree_shift_boundary {d dPlus dPlus' : BHist
     unary_continuation_closure_up_to_hsame unaryD successorUnary shiftRow sameShift
   exact And.intro successorUnary targetUnary
 
+def DiffFormBHistClassifier
+    (degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym' ledger' :
+      BHist) : Prop :=
+  UnaryHistory degree ∧ UnaryHistory probe ∧ Cont degree probe tensor ∧
+    UnaryHistory degree' ∧ UnaryHistory probe' ∧ Cont degree' probe' tensor' ∧
+    hsame degree degree' ∧ hsame tensor tensor' ∧ hsame scalar scalar' ∧
+    hsame antisym antisym' ∧ hsame ledger ledger'
+
+theorem DiffFormBHistClassifier_symm
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym' ledger' :
+      BHist} :
+    DiffFormBHistClassifier degree probe tensor scalar antisym ledger degree' probe' tensor'
+      scalar' antisym' ledger' ->
+      DiffFormBHistClassifier degree' probe' tensor' scalar' antisym' ledger' degree probe
+        tensor scalar antisym ledger := by
+  intro classified
+  exact
+    ⟨classified.right.right.right.left, classified.right.right.right.right.left,
+      classified.right.right.right.right.right.left, classified.left, classified.right.left,
+      classified.right.right.left, hsame_symm classified.right.right.right.right.right.right.left,
+      hsame_symm classified.right.right.right.right.right.right.right.left,
+      hsame_symm classified.right.right.right.right.right.right.right.right.left,
+      hsame_symm classified.right.right.right.right.right.right.right.right.right.left,
+      hsame_symm classified.right.right.right.right.right.right.right.right.right.right⟩
+
+theorem DiffFormBHistClassifier_trans
+    {d p t s a l e q u r b m f x v y c n : BHist} :
+    DiffFormBHistClassifier d p t s a l e q u r b m ->
+      DiffFormBHistClassifier e q u r b m f x v y c n ->
+        DiffFormBHistClassifier d p t s a l f x v y c n := by
+  intro left right
+  exact
+    ⟨left.left, left.right.left, left.right.right.left, right.right.right.right.left,
+      right.right.right.right.right.left, right.right.right.right.right.right.left,
+      hsame_trans left.right.right.right.right.right.right.left
+        right.right.right.right.right.right.right.left,
+      hsame_trans left.right.right.right.right.right.right.right.left
+        right.right.right.right.right.right.right.right.left,
+      hsame_trans left.right.right.right.right.right.right.right.right.left
+        right.right.right.right.right.right.right.right.right.left,
+      hsame_trans left.right.right.right.right.right.right.right.right.right.left
+        right.right.right.right.right.right.right.right.right.right.left,
+      hsame_trans left.right.right.right.right.right.right.right.right.right.right
+        right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.DiffFormUp
