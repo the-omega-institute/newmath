@@ -462,6 +462,94 @@ Since $a$ was arbitrary, these equalities hold over all members of $\mathcal{U}$
 Applying the same locality field over the original cover $\mathcal{U}$ yields $g\sim_i h'$, which is the claimed global classifier equality.
 \end{proof}
 
+\begin{definition}[Sheaf displayed common refinement span]
+\label{def:sheaf-displayed-common-refinement-span}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$. A displayed common refinement span from $\mathcal{U}$ to $\mathcal{V}$ is a tuple
+$$
+\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)
+$$
+where $C$ is an indexing type, $\lambda:C\to\mathsf{OpenIx}$ is an indexed-open family, $r:C\to A$ and $s:C\to B$ choose the displayed members of the two covers, and for every $c:C$ there are inclusion witnesses
+$$
+\epsilon_c:\lambda(c)\le_{\mathcal{T}}\iota(r(c)),
+\qquad
+\zeta_c:\lambda(c)\le_{\mathcal{T}}\kappa(s(c)).
+$$
+The row $\omega$ says that $\lambda$ itself is an indexed open cover of $i$, with member inclusions obtained through either composite $\lambda(c)\le_{\mathcal{T}}\iota(r(c))\le_{\mathcal{T}}i$ or $\lambda(c)\le_{\mathcal{T}}\kappa(s(c))\le_{\mathcal{T}}i$, and with the pointwise cover law
+$$
+\forall x:X,\ \mathsf{OpenAt}(i,x)\Longrightarrow\exists c:C,\ \mathsf{OpenAt}(\lambda(c),x).
+$$
+Thus the common refinement is displayed entirely inside indexed opens, inclusion rows, and presheaf restriction rows; it contains no host-level equality of covers.
+\end{definition}
+
+\begin{theorem}[Sheaf displayed common refinement gives paired refinements]
+\label{thm:sheaf-displayed-common-refinement-span}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of $i:\mathsf{OpenIx}$. If $\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)$ is a displayed common refinement span from $\mathcal{U}$ to $\mathcal{V}$ in the sense of \autoref{def:sheaf-displayed-common-refinement-span}, then $\mathcal{W}$ is a displayed refinement of its cover through $\mathcal{U}$ and also a displayed refinement of its cover through $\mathcal{V}$:
+$$
+(r,\epsilon):\mathcal{W}\to\mathcal{U},
+\qquad
+(s,\zeta):\mathcal{W}\to\mathcal{V}.
+$$
+Both refinements are in the sense of \autoref{thm:sheaf-cover-refinement-obligation}.
+\end{theorem}
+\begin{proof}
+Unpack the displayed span. Its row $\omega$ makes $\lambda:C\to\mathsf{OpenIx}$ an indexed cover of $i$, so $\mathcal{W}$ has the cover side required to be the refined cover in \autoref{thm:sheaf-cover-refinement-obligation}.
+
+The first projection consists of the map $r:C\to A$ together with the inclusions $\epsilon_c:\lambda(c)\le_{\mathcal{T}}\iota(r(c))$. These are exactly the displayed refinement rows from $\mathcal{W}$ through $\mathcal{U}$, with the route onward to $i$ supplied by the cover inclusion $h_{r(c)}$.
+
+The second projection is identical with $\mathcal{V}$ in place of $\mathcal{U}$: the map $s:C\to B$ and the inclusions $\zeta_c:\lambda(c)\le_{\mathcal{T}}\kappa(s(c))$ form the displayed refinement rows, with the cover inclusion $q_{s(c)}$ supplying the route to $i$.
+\end{proof}
+
+\begin{theorem}[Sheaf common refinement gluing invariance]
+\label{thm:sheaf-common-refinement-gluing-invariance}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of $i:\mathsf{OpenIx}$, and let $\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)$ be a displayed common refinement span from $\mathcal{U}$ to $\mathcal{V}$. Let $u_a:\mathsf{Sec}(\iota(a))$ be compatible over $\mathcal{U}$ and let $v_b:\mathsf{Sec}(\kappa(b))$ be compatible over $\mathcal{V}$. Suppose their pullbacks to $\mathcal{W}$ are classifier-equal:
+$$
+\forall c:C,\quad
+\rho_{\iota(r(c)),\lambda(c)}(u_{r(c)})
+\sim_{\lambda(c)}
+\rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)}).
+$$
+If $g:\mathsf{Sec}(i)$ glues $u_a$ over $\mathcal{U}$ and $h':\mathsf{Sec}(i)$ glues $v_b$ over $\mathcal{V}$, then
+$$
+g\sim_i h'.
+$$
+\end{theorem}
+\begin{proof}
+Project the common refinement span by \autoref{thm:sheaf-displayed-common-refinement-span}. This gives the displayed refinement $(r,\epsilon)$ from $\mathcal{W}$ through $\mathcal{U}$ and the displayed refinement $(s,\zeta)$ from $\mathcal{W}$ through $\mathcal{V}$.
+
+Apply \autoref{thm:sheaf-refinement-gluing-descent} to the first refinement and the gluing row for $g$. The result says that $g$ glues the pulled-back family
+$$
+c\mapsto \rho_{\iota(r(c)),\lambda(c)}(u_{r(c)})
+$$
+over $\mathcal{W}$.
+
+Apply the same descent theorem to the second refinement and the gluing row for $h'$. This says that $h'$ glues the pulled-back family
+$$
+c\mapsto \rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)})
+$$
+over $\mathcal{W}$. The displayed classifier equality between the two pulled-back families lets the compatible-family stability row \autoref{thm:sheaf-gluing-compatible-family-stability} replace the second family by the first one without changing the gluing comparison.
+
+Now both $g$ and $h'$ are displayed gluings of the same compatible family over the indexed cover $\mathcal{W}$. Apply \autoref{thm:sheaf-gluing-uniqueness-from-locality} over $\mathcal{W}$ to obtain $g\sim_i h'$.
+\end{proof}
+
+\begin{theorem}[Sheaf cover presentation exactness]
+\label{thm:sheaf-cover-presentation-exactness}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$. Let $\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)$ be a displayed common refinement span from $\mathcal{U}$ to $\mathcal{V}$. Suppose a compatible family $u_a:\mathsf{Sec}(\iota(a))$ over $\mathcal{U}$ and a compatible family $v_b:\mathsf{Sec}(\kappa(b))$ over $\mathcal{V}$ agree after pullback to $\mathcal{W}$:
+$$
+\forall c:C,\quad
+\rho_{\iota(r(c)),\lambda(c)}(u_{r(c)})
+\sim_{\lambda(c)}
+\rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)}).
+$$
+Then any global section class determined by gluing $u_a$ over $\mathcal{U}$ is the same classifier class as any global section class determined by gluing $v_b$ over $\mathcal{V}$. Equivalently, if $g,h':\mathsf{Sec}(i)$ are displayed gluings of the two families, then $g\sim_i h'$. The exactness row uses only indexed cover presentations, displayed common refinement, restriction transport, and the classifiers $\sim_j$; it does not compare host powersets and does not form a quotient of cover presentations.
+\end{theorem}
+\begin{proof}
+Choose displayed gluings $g:\mathsf{Sec}(i)$ and $h':\mathsf{Sec}(i)$ for the two compatible families. The hypotheses give exactly the common-refinement equality of the two pulled-back local families.
+
+Apply \autoref{thm:sheaf-common-refinement-gluing-invariance} to $\mathcal{U}$, $\mathcal{V}$, the displayed common refinement $\mathcal{W}$, the two compatible families, their pulled-back equality, and the two displayed gluing rows. It returns $g\sim_i h'$.
+
+Since the argument never leaves the indexed cover ledger, the conclusion identifies the two global classifier classes without choosing a preferred cover presentation, comparing powersets of host opens, or adding any quotient primitive.
+\end{proof}
+
 \begin{theorem}[Sheaf NameCert obligation surface]
 \label{thm:sheaf-namecert-obligation-surface}
 The concrete $\SheafUp$ certificate surface is the following ten-field obligation surface.
@@ -470,10 +558,10 @@ The concrete $\SheafUp$ certificate surface is the following ten-field obligatio
 \item The BEDC source data are $\TopologyUp$ together with $\PreSheafUp$.
 \item The carrier is the indexed section presheaf carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
 \item The classifier family is the open-indexed relation $\sim_i$ on $\mathsf{Sec}(i)$.
-\item The stability obligations are classifier equivalence, identity restriction, composition of restriction, restriction classifier transport, locality, gluing, uniqueness of gluing, compatibility of global restrictions, compatible-family stability, and cover-refinement transport.
+\item The stability obligations are classifier equivalence, identity restriction, composition of restriction, restriction classifier transport, locality, gluing, uniqueness of gluing, compatibility of global restrictions, compatible-family stability, cover-refinement transport, displayed common-refinement comparison, and cover-presentation exactness.
 \item The ledger consists of open-cover indices, cover-member inclusions, finite-intersection overlap indices, and restriction rows to those overlaps.
-\item The core theorem list is \autoref{thm:sheaf-restriction-classifier-transport}, \autoref{thm:sheaf-gluing-compatible-family-stability}, \autoref{thm:sheaf-cover-refinement-obligation}, \autoref{thm:sheaf-refinement-compatible-family-pullback}, \autoref{thm:sheaf-refinement-gluing-descent}, \autoref{thm:sheaf-refinement-locality-detection}, \autoref{thm:sheaf-gluing-uniqueness-from-locality}, \autoref{thm:sheaf-global-restrictions-compatible-local-family}, and \autoref{cor:sheaf-gluing-global-restrictions-idempotent}.
-\item Exactness is locality together with existence and uniqueness of gluing for compatible local families.
+\item The core theorem list is \autoref{thm:sheaf-restriction-classifier-transport}, \autoref{thm:sheaf-gluing-compatible-family-stability}, \autoref{thm:sheaf-cover-refinement-obligation}, \autoref{thm:sheaf-refinement-compatible-family-pullback}, \autoref{thm:sheaf-refinement-gluing-descent}, \autoref{thm:sheaf-refinement-locality-detection}, \autoref{thm:sheaf-displayed-common-refinement-span}, \autoref{thm:sheaf-common-refinement-gluing-invariance}, \autoref{thm:sheaf-cover-presentation-exactness}, \autoref{thm:sheaf-gluing-uniqueness-from-locality}, \autoref{thm:sheaf-global-restrictions-compatible-local-family}, and \autoref{cor:sheaf-gluing-global-restrictions-idempotent}.
+\item Exactness is locality together with existence and uniqueness of gluing for compatible local families, stable under displayed common refinement of indexed cover presentations.
 \item There is no standard bridge attached to this surface.
 \item The status is a paper-side obligation surface for downstream certificates using $\NameCert_{\SheafUp}$.
 \end{enumerate}
@@ -481,7 +569,7 @@ The concrete $\SheafUp$ certificate surface is the following ten-field obligatio
 \begin{proof}
 Rows one through four are the data fixed by \autoref{def:sheaf-indexed-section-presheaf-carrier} and \autoref{def:sheaf-indexed-cover-compatibility-locality}: indexed opens come from $\TopologyUp$, section carriers and contravariant restriction rows come from $\PreSheafUp$, and classifier equality is indexed by the same opens as the section carriers.
 
-Row five is exactly the list of fields and consequences exposed in this section. Equivalence, identity, composition, and restriction transport are part of the carrier surface; locality and gluing are the sheaf fields; uniqueness, compatible global restrictions, idempotence of global gluing, compatible-family stability, and cover-refinement transport are the theorem rows cited in row seven.
+Row five is exactly the list of fields and consequences exposed in this section. Equivalence, identity, composition, and restriction transport are part of the carrier surface; locality and gluing are the sheaf fields; uniqueness, compatible global restrictions, idempotence of global gluing, compatible-family stability, cover-refinement transport, common-refinement comparison, and cover-presentation exactness are the theorem rows cited in row seven.
 
-Rows six through ten record how downstream constructions consume the surface. A ringed-space or scheme certificate can name cover indices, overlaps, refinement maps, and restriction rows without choosing a standard-model bridge; the exactness content available to it is precisely local detection plus existence and uniqueness of gluing, stable under passing to displayed refined covers.
+Rows six through ten record how downstream constructions consume the surface. A ringed-space or scheme certificate can name cover indices, overlaps, refinement maps, common-refinement spans, and restriction rows without choosing a standard-model bridge; the exactness content available to it is precisely local detection plus existence and uniqueness of gluing, stable under passing to displayed refined covers and under comparison of two cover presentations through a displayed common refinement.
 \end{proof}
