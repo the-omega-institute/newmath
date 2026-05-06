@@ -379,6 +379,50 @@ theorem RatStreamName_constant_point_exactness {h k : BHist} :
   exact And.intro (hsame_refl h)
     (And.intro (hsame_refl k) (And.intro carrierH classifierHK))
 
+theorem RatStreamName_independent_reindexed_constant_point_exactness
+    {h k : BHist} {r q : BHist -> BHist} :
+    (RatStreamNameCarrier (fun n : BHist => RatConstStream h (r n)) ↔
+      RatHistoryCarrier h) ∧
+      (RatStreamNameClassifier (fun n : BHist => RatConstStream h (r n))
+        (fun n : BHist => RatConstStream k (q n)) ↔ RatHistoryClassifier h k) := by
+  have carrierH :
+      RatStreamNameCarrier (fun n : BHist => RatConstStream h (r n)) ↔
+        RatHistoryCarrier h := by
+    constructor
+    · intro streamCarrier
+      have point := streamCarrier BHist.Empty unary_empty
+      change RatHistoryCarrier h at point
+      exact point
+    · intro ratCarrier n _nUnary
+      change RatHistoryCarrier h
+      exact ratCarrier
+  have carrierK :
+      RatStreamNameCarrier (fun n : BHist => RatConstStream k (q n)) ↔
+        RatHistoryCarrier k := by
+    constructor
+    · intro streamCarrier
+      have point := streamCarrier BHist.Empty unary_empty
+      change RatHistoryCarrier k at point
+      exact point
+    · intro ratCarrier n _nUnary
+      change RatHistoryCarrier k
+      exact ratCarrier
+  have classifierHK :
+      RatStreamNameClassifier (fun n : BHist => RatConstStream h (r n))
+        (fun n : BHist => RatConstStream k (q n)) ↔ RatHistoryClassifier h k := by
+    constructor
+    · intro streamClassifier
+      have point := streamClassifier.right.right BHist.Empty unary_empty
+      change RatHistoryClassifier h k at point
+      exact point
+    · intro ratClassifier
+      exact And.intro (Iff.mpr carrierH ratClassifier.left)
+        (And.intro (Iff.mpr carrierK ratClassifier.right.left)
+          (fun n _nUnary => by
+            change RatHistoryClassifier h k
+            exact ratClassifier))
+  exact And.intro carrierH classifierHK
+
 theorem RatStreamNameClassifier_observation_e1_pair_readback {s t : BHist -> BHist}
     {n a b : BHist} :
     RatStreamNameClassifier s t -> UnaryHistory n -> hsame (s n) (BHist.e1 a) ->
@@ -523,5 +567,34 @@ theorem RatStreamName_independent_reindexed_constant_classifier
               | e0 _ => exact ratClassifier
               | e1 _ => exact ratClassifier))
   exact And.intro pointSame (And.intro streamCarrier classifierLift)
+
+theorem RatStreamNameFiniteWindowClassifier_stability_fields
+    {s t u s' t' : BHist -> BHist} {bundle : ProbeBundle BHist} :
+    (forall {n : BHist}, InBundle n bundle -> UnaryHistory n -> RatHistoryCarrier (s n)) ->
+      RatStreamNameFiniteWindowClassifier s t bundle ->
+        RatStreamNameFiniteWindowClassifier t u bundle ->
+          (forall {n : BHist}, InBundle n bundle -> UnaryHistory n -> hsame (s n) (s' n)) ->
+            (forall {n : BHist}, InBundle n bundle -> UnaryHistory n -> hsame (t n) (t' n)) ->
+              RatStreamNameFiniteWindowClassifier s s bundle ∧
+                RatStreamNameFiniteWindowClassifier t s bundle ∧
+                  RatStreamNameFiniteWindowClassifier s u bundle ∧
+                    RatStreamNameFiniteWindowClassifier s' t' bundle := by
+  intro carrierS classifiedST classifiedTU sameSS' sameTT'
+  have selfS : RatStreamNameFiniteWindowClassifier s s bundle := by
+    intro n member nUnary
+    exact And.intro (carrierS member nUnary)
+      (And.intro (carrierS member nUnary) (hsame_refl (s n)))
+  have symmTS : RatStreamNameFiniteWindowClassifier t s bundle := by
+    intro n member nUnary
+    exact RatHistoryClassifier_symm (classifiedST n member nUnary)
+  have transSU : RatStreamNameFiniteWindowClassifier s u bundle := by
+    intro n member nUnary
+    exact RatHistoryClassifier_trans (classifiedST n member nUnary)
+      (classifiedTU n member nUnary)
+  have transportS'T' : RatStreamNameFiniteWindowClassifier s' t' bundle := by
+    intro n member nUnary
+    exact RatHistoryClassifier_hsame_transport (sameSS' member nUnary)
+      (sameTT' member nUnary) (classifiedST n member nUnary)
+  exact And.intro selfS (And.intro symmTS (And.intro transSU transportS'T'))
 
 end BEDC.Derived.StreamNameUp

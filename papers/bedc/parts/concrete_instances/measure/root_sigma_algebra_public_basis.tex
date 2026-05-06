@@ -1,0 +1,132 @@
+\begin{definition}[Measure root sigma-algebra public basis]
+\label{def:measure-root-sigma-algebra-public-basis}
+The $\MeasureUp$ root sigma-algebra public basis is the counted ten-field
+basis that exposes the public measurable-event and countable-additive rows
+available at the root:
+\begin{enumerate}
+  \item traditional target: a constructive sigma-algebra measure root whose
+  public rows name measurable events, complements, countable unions, the
+  empty event, endpoint values, and countable additive sums;
+  \item BEDC source: $\mathsf{BHist}$, componentwise $\hsame$,
+  $\NameCert_{\RealUp}$, $\StreamNameUp$, and the additive $\AbGroupUp$
+  real rows used for endpoint addition and countable endpoint sums;
+  \item carrier: the root predicate $\mathsf{MeasCode}$ on
+  $\mathsf{BHist}$;
+  \item classifier: the public measure classifier $\sim_M$, with endpoint
+  comparison read through $\NameCert_{\RealUp}$ and $\sim_R$;
+  \item stability rows: transport of measurable-event rows, complement
+  rows, countable-union rows, empty-event rows, endpoint rows, countable-sum
+  rows, and attached ledger witnesses along $\sim_M$ and componentwise
+  $\hsame$;
+  \item ledger: hidden measurable-event witnesses, complement witnesses,
+  countable-union witnesses, empty-event witnesses, endpoint-value witnesses,
+  disjointness witnesses, and countable-sum witnesses attached only to the
+  displayed rows they justify;
+  \item core theorem list:
+  \autoref{thm:measure-root-sigma-algebra-public-carrier},
+  \autoref{thm:measure-root-empty-event-zero-public-row}, and
+  \autoref{thm:measure-root-countable-disjoint-additivity-public-row};
+  \item exactness: every public carrier, classifier, empty-zero, and
+  countable disjoint-additivity assertion is exhausted by the displayed
+  rows of \autoref{def:measure-event-row-coverage};
+  \item standard bridge: no $\StdBridge$ is asserted or imported by this
+  basis;
+  \item status: paper proof target under
+  $\mathsf{BEDC.Derived.MeasureUp}$.
+\end{enumerate}
+No host set equality, quotient event equality, analytic completion object,
+or standard bridge is part of this basis.
+\end{definition}
+
+\begin{theorem}[Measure root sigma-algebra public carrier]
+\label{thm:measure-root-sigma-algebra-public-carrier}
+The basis of \autoref{def:measure-root-sigma-algebra-public-basis}
+transports the public sigma-algebra carrier face of $\MeasureUp$. If
+$h,k:\mathsf{BHist}$ satisfy $\mathsf{MeasCode}(h)$ and $h\sim_M k$, then
+the basis transports measurable-event rows, complement rows,
+countable-union rows, empty-event rows, endpoint rows, and attached ledger
+witnesses from $h$ to $k$.
+\end{theorem}
+\begin{proof}
+Start from the carrier face of
+\autoref{def:measure-root-sigma-algebra-public-basis}. Its carrier and
+classifier fields are the public $\mathsf{MeasCode}$ and $\sim_M$ rows, and
+its stability field names the event, complement, countable-union,
+empty-event, endpoint, and ledger rows to be transported.
+
+Apply \autoref{thm:measure-root-public-obligation-basis-carrier}. This
+supplies the carried $\mathsf{MeasCode}$ row, the visible event rows, the
+endpoint rows, the countable-family rows, and the attached ledger witnesses
+after the supplied comparison $h\sim_M k$.
+
+Next apply \autoref{thm:measure-root-countable-premeasure-carrier-obligation}.
+It reads the same transport through the countable-premeasure front, so the
+complement, countable-union, and empty-event rows remain attached to the
+public root ledger.
+
+Finally use \autoref{def:measure-event-row-coverage}. The coverage
+definition identifies which visible rows exhaust the public carrier face, so
+the transported witnesses remain row-attached and no host set equality,
+quotient event equality, analytic completion object, or standard bridge is
+introduced.
+\end{proof}
+
+\begin{theorem}[Measure root empty-event zero public row]
+\label{thm:measure-root-empty-event-zero-public-row}
+The basis of \autoref{def:measure-root-sigma-algebra-public-basis} exposes
+the empty measurable event as a public sigma-algebra row, and its
+$\RealUp$ endpoint is classified with the additive zero $0_R$ of the target
+$\AbGroupUp$ real row.
+\end{theorem}
+\begin{proof}
+Project the empty-event and endpoint fields of
+\autoref{def:measure-root-sigma-algebra-public-basis}. They place the
+empty measurable event, its measure endpoint, and the additive $0_R$ row in
+the same visible $\mathsf{BHist}$ ledger.
+
+Apply \autoref{thm:measure-root-public-obligation-basis-additivity}. It
+keeps the empty-zero row inside the public additive face of the
+$\MeasureUp$ root basis.
+
+Next apply \autoref{thm:measure-empty-set-zero-from-sigma-additivity}. The
+sigma-additivity row applied to the all-empty sequence classifies
+$\mu(\varnothing)$ with the additive zero in the target $\RealUp$ row.
+
+The finite-support empty-sequence zero row is recorded by
+\autoref{thm:measure-countable-zero-tail-canonical}. It keeps the
+countable endpoint of the all-empty $\StreamNameUp$ family classified with
+$0_R$, so the public empty-event row and its endpoint classification are
+visible without adding a completion object or standard bridge.
+\end{proof}
+
+\begin{theorem}[Measure root countable disjoint-additivity public row]
+\label{thm:measure-root-countable-disjoint-additivity-public-row}
+For every covered pairwise-disjoint $\StreamNameUp$-indexed family of
+measurable-event rows in the basis of
+\autoref{def:measure-root-sigma-algebra-public-basis}, there is a covered
+union row whose endpoint is classified with the countable $\RealUp$ sum of
+the endpoints of the family.
+\end{theorem}
+\begin{proof}
+Begin with a covered pairwise-disjoint $\StreamNameUp$-indexed family. By
+\autoref{def:measure-root-sigma-algebra-public-basis}, the family rows,
+their disjointness witnesses, their endpoint rows, and the countable-sum
+witness are all ledger-attached public rows.
+
+Apply \autoref{thm:measure-root-countable-premeasure-additivity-obligation}.
+It supplies the covered countable-union row and compares the union endpoint
+with the countable endpoint sum of the family.
+
+Next apply \autoref{thm:measure-root-public-obligation-basis-additivity}.
+This reads the same comparison through the public additive face, where the
+empty-zero, finite readback, relative-difference, countable
+disjoint-additivity, and countable-sum transport rows share the additive
+$\AbGroupUp$ real structure.
+
+Finally apply
+\autoref{thm:measure-obligation-countable-sum-classifier-stability}. The
+countable-sum classifier stability row transports pointwise
+$\RealUp$ endpoint comparisons to the countable sum, so the covered union
+endpoint is classified with the countable $\RealUp$ sum of the displayed
+endpoints and nothing outside the public basis is claimed.
+\end{proof}
