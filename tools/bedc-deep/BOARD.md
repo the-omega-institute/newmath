@@ -12777,3 +12777,30 @@ This is a concrete closure counterpart to the existing simplicial intersection c
 
 ---
 
+### B-486 - Unitary conjugation channel composition law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Unitary conjugation channel composition law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the QuantumChannelUp and UnitaryGroupUp setup on a Hilbert carrier H, carried unitary automorphisms U and V imply that Ad_U composed with Ad_V is the QuantumChannel endpoint classified by Ad_{U\circ V}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/197_unitarygroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/69_hilbert_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete implication landing directly in the existing quantum-channel surface. It is distinct from the paper's current QuantumChannel composition closure and Unitary conjugation is a QuantumChannel theorem: those establish channel closure and single-unitary conjugation, but do not state the endpoint-identification law for the composite conjugation channel against the product unitary. It is not marker-only, not a BOARD duplicate, and the main landing file is below the line cap.
+
+---
+
