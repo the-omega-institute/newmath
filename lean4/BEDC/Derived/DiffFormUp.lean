@@ -124,4 +124,100 @@ theorem DiffFormExteriorDerivative_scalar_transport_boundary
     classified.right.right.right.right.right.left
     classified.right.right.right.right.right.right.right
 
+theorem DiffFormExteriorDerivativeLedger_classifier_transport
+    {probes : ProbeBundle BHist}
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source
+      omega2 domega2 d2 dplus2 probe2 probe2' tensor2 tensor2' scalar2 scalar2'
+      antisym2 source2 : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor'
+      scalar scalar' antisym source ->
+    DiffFormBHistClassifier hsame probes d probe tensor scalar antisym source
+      d2 probe2 tensor2 scalar2 antisym2 source2 ->
+    hsame omega omega2 -> hsame domega domega2 -> hsame d d2 -> hsame dplus dplus2 ->
+    hsame probe' probe2' -> hsame tensor' tensor2' -> hsame scalar' scalar2' ->
+      DiffFormExteriorDerivativeLedger omega2 domega2 d2 dplus2 probe2 probe2'
+        tensor2 tensor2' scalar2 scalar2' antisym2 source2 := by
+  intro ledger classified sameOmega sameDomega sameD sameDplus sameProbe' sameTensor'
+    sameScalar'
+  have omegaUnary : UnaryHistory omega2 := unary_transport ledger.left sameOmega
+  have domegaUnary : UnaryHistory domega2 := unary_transport ledger.right.left sameDomega
+  have dUnary : UnaryHistory d2 := unary_transport ledger.right.right.left sameD
+  have dplusUnary : UnaryHistory dplus2 :=
+    unary_transport ledger.right.right.right.left sameDplus
+  have degreeCont : Cont d2 (BHist.e1 BHist.Empty) dplus2 := by
+    cases sameD
+    cases sameDplus
+    exact ledger.right.right.right.right.left
+  have probeSame : hsame probe2 probe2' :=
+    hsame_trans (hsame_symm classified.right.right.right.left)
+      (hsame_trans ledger.right.right.right.right.right.left sameProbe')
+  have tensorSame : hsame tensor2 tensor2' :=
+    hsame_trans (hsame_symm classified.right.right.right.right.left)
+      (hsame_trans ledger.right.right.right.right.right.right.left sameTensor')
+  have scalarSame : hsame scalar2 scalar2' :=
+    hsame_trans (hsame_symm classified.right.right.right.right.right.left)
+      (hsame_trans ledger.right.right.right.right.right.right.right.left sameScalar')
+  have antisymUnary : UnaryHistory antisym2 :=
+    unary_transport ledger.right.right.right.right.right.right.right.right.left
+      classified.right.right.right.right.right.right.left
+  have sourceUnary : UnaryHistory source2 :=
+    unary_transport ledger.right.right.right.right.right.right.right.right.right
+      classified.right.right.right.right.right.right.right
+  exact And.intro omegaUnary
+    (And.intro domegaUnary
+      (And.intro dUnary
+        (And.intro dplusUnary
+          (And.intro degreeCont
+            (And.intro probeSame
+              (And.intro tensorSame
+                (And.intro scalarSame
+                  (And.intro antisymUnary sourceUnary))))))))
+
+inductive DegreeProbeAligned : BHist -> ProbeBundle BHist -> Prop where
+  | nil : DegreeProbeAligned BHist.Empty ProbeBundle.Bnil
+  | cons {d : BHist} {p : BHist} {ps : ProbeBundle BHist} :
+      DegreeProbeAligned d ps -> DegreeProbeAligned (BHist.e1 d) (ProbeBundle.Bcons p ps)
+
+private theorem DiffFormDegreeProbeAligned_bundleAppend_cont_unary
+    {d : BHist} {bundle : ProbeBundle BHist} :
+    DegreeProbeAligned d bundle -> UnaryHistory d := by
+  intro aligned
+  induction aligned with
+  | nil =>
+      exact unary_empty
+  | cons tailAligned ih =>
+      exact unary_e1_closed ih
+
+private theorem DiffFormDegreeProbeAligned_bundleAppend_cont_transport
+    {d d' : BHist} {bundle : ProbeBundle BHist} :
+    DegreeProbeAligned d bundle -> hsame d d' -> DegreeProbeAligned d' bundle := by
+  intro aligned sameDegree
+  cases sameDegree
+  exact aligned
+
+private theorem DiffFormDegreeProbeAligned_bundleAppend_cont_append
+    {d e : BHist} {left right : ProbeBundle BHist} :
+    DegreeProbeAligned d left -> DegreeProbeAligned e right ->
+      DegreeProbeAligned (append e d) (bundleAppend left right) := by
+  intro leftAligned rightAligned
+  induction leftAligned with
+  | nil =>
+      exact rightAligned
+  | cons tailAligned ih =>
+      exact DegreeProbeAligned.cons ih
+
+theorem DiffFormDegreeProbeAligned_bundleAppend_cont
+    {d e out : BHist} {left right : ProbeBundle BHist} :
+    DegreeProbeAligned d left -> DegreeProbeAligned e right -> Cont d e out ->
+      DegreeProbeAligned out (bundleAppend left right) := by
+  intro leftAligned rightAligned route
+  cases route
+  have leftUnary : UnaryHistory d :=
+    DiffFormDegreeProbeAligned_bundleAppend_cont_unary leftAligned
+  have rightUnary : UnaryHistory e :=
+    DiffFormDegreeProbeAligned_bundleAppend_cont_unary rightAligned
+  exact DiffFormDegreeProbeAligned_bundleAppend_cont_transport
+    (DiffFormDegreeProbeAligned_bundleAppend_cont_append leftAligned rightAligned)
+    (unary_append_comm_hsame rightUnary leftUnary)
+
 end BEDC.Derived.DiffFormUp
