@@ -113,6 +113,30 @@ theorem LieAlgebraSingleton_adjoint_action_additive_linearity
   exact And.intro leftEmpty
     (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
+theorem LieAlgebraSingletonAdjoint_scalar_endpoint_closure {r x y ry left xy right : BHist} :
+    VecSpaceSingletonCarrier r -> VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y ->
+      Cont r y ry -> Cont x ry left -> Cont x y xy -> Cont r xy right ->
+        VecSpaceSingletonClassifier left right ∧ VecSpaceSingletonCarrier left ∧
+          VecSpaceSingletonCarrier right ∧ UnaryHistory left ∧ UnaryHistory right := by
+  intro carrierR carrierX carrierY ryRow leftRow xyRow rightRow
+  have ryEmpty : hsame ry BHist.Empty :=
+    cont_respects_hsame carrierR carrierY ryRow (cont_left_unit BHist.Empty)
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame carrierX ryEmpty leftRow (cont_left_unit BHist.Empty)
+  have xyEmpty : hsame xy BHist.Empty :=
+    cont_respects_hsame carrierX carrierY xyRow (cont_left_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame carrierR xyEmpty rightRow (cont_left_unit BHist.Empty)
+  have leftRight : VecSpaceSingletonClassifier left right :=
+    And.intro leftEmpty
+      (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right :=
+    unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro leftRight
+    (And.intro leftEmpty (And.intro rightEmpty (And.intro leftUnary rightUnary)))
+
 theorem LieAlgebraSingletonAdjoint_commutator_identity
     {x y z yz xy xz x_yz y_xz commutator target : BHist} :
     LieAlgebraSingletonCarrier x -> LieAlgebraSingletonCarrier y ->
