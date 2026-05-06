@@ -1,0 +1,130 @@
+\section{Root unblock obligation basis}
+\label{sec:innerproduct-root-unblock-obligation-basis}
+
+\begin{definition}[InnerProduct root obligation basis]
+\label{def:innerproduct-root-unblock-obligation-basis}
+The $\InnerProductUp$ root obligation basis is the root-facing
+$\mathsf{BHist}$ package with the following ten fields.
+\begin{enumerate}
+  \item The traditional target is the constructive inner-product interface:
+  a vector-space carrier equipped with a scalar-valued form, conjugate
+  symmetry, sesquilinearity, positive-definite zero exactness, and
+  orthogonality transport.
+  \item The BEDC source is $\NameCert_{\VecSpaceUp}$ together with the
+  scalar rows retained from $\FieldUp$.
+  \item The carrier is the displayed vector predicate
+  $C_V:\mathsf{BHist}\to\mathsf{Prop}$.
+  \item The classifiers are the vector endpoint classifier $\sim_V$ and the
+  scalar endpoint classifier $\sim_{\mathsf{scal}}$.
+  \item The form row is
+  $$
+  \langle-,-\rangle_{\InnerProductUp}:C_V\times C_V\to C_{\mathsf{scal}}.
+  $$
+  \item The stability obligations are form transport, conjugate symmetry,
+  sesquilinearity in the admitted arguments, positive-definite zero
+  exactness, and orthogonality transport.
+  \item The ledger rows are the vector source row, scalar source row, form
+  endpoint row, law rows, transport rows, orthogonality row, and downstream
+  consumer rows.
+  \item The core theorem list consists of
+  \autoref{thm:innerproduct-root-unblock-carrier-classifier},
+  \autoref{thm:innerproduct-root-unblock-form-laws}, and
+  \autoref{thm:innerproduct-root-unblock-downstream-threshold}.
+  \item Exactness means row exhaustion: every root consumer can read only the
+  rows listed in this basis, and each listed row is sourced from the displayed
+  $\mathsf{BHist}$ data.
+  \item There is no standard bridge field in this basis; its status is a
+  paper obligation surface for later formalization.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[InnerProduct root carrier-classifier unblock]
+\label{thm:innerproduct-root-unblock-carrier-classifier}
+The root obligation basis of
+\autoref{def:innerproduct-root-unblock-obligation-basis} exposes exactly the
+carrier $C_V$, the vector classifier $\sim_V$, the scalar endpoint classifier
+$\sim_{\mathsf{scal}}$, and the scalar-valued form endpoint row
+$\langle-,-\rangle_{\InnerProductUp}$. It introduces no second vector
+carrier, no extra point classifier, and no host scalar equality.
+\end{theorem}
+\begin{proof}
+Read the source field of
+\autoref{def:innerproduct-root-unblock-obligation-basis}. It names the
+embedded $\NameCert_{\VecSpaceUp}$ and the scalar rows retained from
+$\FieldUp$, which are the same source data displayed in
+\autoref{def:innerproduct-bhist-source}.
+
+Apply \autoref{thm:innerproduct-bhist-carrier-row}. This identifies the
+public carrier as the displayed predicate $C_V$ together with the
+scalar-valued form row, and it rules out any additional point carrier.
+
+Apply \autoref{thm:innerproduct-classifier-transport-row}. Its hypotheses and
+conclusion use exactly $\sim_V$ on vector endpoints and
+$\sim_{\mathsf{scal}}$ on scalar endpoints. Hence the basis exposes precisely
+the carrier, classifier, scalar endpoint classifier, and form endpoint rows
+listed in the statement.
+\end{proof}
+
+\begin{theorem}[InnerProduct root form-law unblock]
+\label{thm:innerproduct-root-unblock-form-laws}
+For the root obligation basis of
+\autoref{def:innerproduct-root-unblock-obligation-basis}, conjugate symmetry,
+sesquilinearity, positive-definite zero exactness, and orthogonality are all
+sourced from displayed $\mathsf{BHist}$ rows of the $\InnerProductUp$
+certificate. None of these laws is supplied by a host Hilbert space, quotient
+field, or ambient topology.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:innerproduct-symmetry-positivity-row} for conjugate symmetry
+and the positivity side of the diagonal law. These are scalar-history
+comparisons over the retained scalar classifier.
+
+Use \autoref{thm:innerproduct-vecspace-linearity-row} for the
+sesquilinearity rows. Their vector inputs come from the embedded
+$\VecSpaceUp$ operations, and their scalar outputs remain in the retained
+scalar endpoint source.
+
+Apply \autoref{thm:innerproduct-positive-definite-obligation}. It supplies
+the exact zero clause saying that the self-form endpoint is scalar-zero
+exactly at the displayed vector-zero classifier class.
+
+Finally unpack \autoref{def:innerproduct-orthogonality-row}. Orthogonality is
+the scalar-zero classification of the displayed form endpoint, so its
+transport and zero behavior are inherited from the same form and classifier
+rows. Thus every form law named by the basis is a displayed
+$\mathsf{BHist}$ row.
+\end{proof}
+
+\begin{theorem}[InnerProduct root downstream threshold unblock]
+\label{thm:innerproduct-root-unblock-downstream-threshold}
+The downstream certificates $\HilbertUp$, $\NormUp$, $\FourierUp$,
+$\RiemannianMetricUp$, and $\RootSystemUp$ may consume from
+\autoref{def:innerproduct-root-unblock-obligation-basis} only the carrier,
+classifier, scalar endpoint, form-law, orthogonality, and ledger rows listed
+there. They receive no Banach completeness, Cauchy-limit selector, ambient
+topology, or host Hilbert-space row from $\InnerProductUp$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:innerproduct-root-threshold-source}. It packages the
+carrier, classifier, scalar endpoint source, form row, form-law rows,
+orthogonality row, and ledger rows as the complete inner-product threshold
+surface.
+
+Apply \autoref{thm:innerproduct-root-threshold-orthogonality-consumption}.
+This separates the inner-product geometric rows consumed by $\HilbertUp$
+from the Banach metric, completeness, and Cauchy-limit rows supplied by the
+separate Banach dependency.
+
+Apply \autoref{thm:innerproduct-root-threshold-downstream-coverage}. It gives
+the same threshold coverage for $\HilbertUp$, $\FourierUp$,
+$\RiemannianMetricUp$, and $\RootSystemUp$, and it excludes Banach
+completeness, Cauchy-limit selection, ambient topology, and host Hilbert-space
+data from the $\InnerProductUp$ source.
+
+The $\NormUp$ consumer reads the same inner-product threshold through the norm
+and metric seed rows of \autoref{def:innerproduct-norm-metric-seed-source}.
+Those rows are generated from the form endpoint, positive-definite
+exactness, classifier transport, and ledger fields already listed in the
+basis. Therefore all five consumers are bounded by the same root obligation
+basis, with no additional downstream row projected from $\InnerProductUp$.
+\end{proof}
