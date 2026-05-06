@@ -288,3 +288,80 @@ $\ell_0\sim_X\ell_1$.
   \notclaimed{General metric completion, Banach-space completion, RealUp completeness, compactness, or an external standard bridge.}
   \upgradepath{$\publicClosure$ requires a public complete-metric interface with limit-selector readback, separated-limit exactness, operation descent, and no-hidden-leakage for convergence ledgers.}
 \end{closurestatus}
+
+\begin{theorem}[Complete metric limit witness tolerance weakening]
+\label{thm:completemetric-limit-witness-tolerance-weakening}
+Let $X$ be a certified $\MetricSpaceUp$ carrier over $\mathsf{BHist}$ whose
+distance rows are encoded by $\mathsf{MetricDistanceWitness}$, and write
+$\delta\le_{\RatUp}\eta$ for a visible non-strict $\RatUp$ comparison ledger.
+Suppose
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)
+$$
+holds in the sense of \autoref{def:completemetric-limit-witness}. Let
+$\Theta$ be a visible weakening ledger such that, for every positive target
+tolerance history $\eta$, it supplies a positive source tolerance history
+$\varepsilon_\eta$ and a comparison ledger
+$$
+\theta_\eta:\varepsilon_\eta\le_{\RatUp}\eta.
+$$
+Define $L^\Theta$ at $\eta$ by reusing the branch of $L$ at
+$\varepsilon_\eta$: the same threshold $N_{\varepsilon_\eta}$ displayed by
+$\mu$, the same late-observation distance histories $d_{n,\varepsilon_\eta}$,
+and the same rows
+$$
+\mathsf{MetricDistanceWitness}(s(n),\ell,d_{n,\varepsilon_\eta}),
+$$
+while replacing each displayed bound
+$$
+d_{n,\varepsilon_\eta}\le_{\RatUp}\varepsilon_\eta
+$$
+by its transitive composite with $\theta_\eta$. Then
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L^\Theta)
+$$
+holds for the weakened tolerance ledger family.
+\end{theorem}
+\begin{proof}
+Unpack the accepted row for
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)$ using
+\autoref{def:completemetric-limit-witness}. It supplies the carried stream
+name, the modulus history $\mu$, the carried limit history $\ell$, and, for
+every positive source tolerance history $\varepsilon$, a threshold
+$N_\varepsilon$ displayed by $\mu$. For every observation history $n$ beyond
+that threshold, it also supplies a distance history $d_{n,\varepsilon}$, a row
+$$
+\mathsf{MetricDistanceWitness}(s(n),\ell,d_{n,\varepsilon}),
+$$
+and a rational comparison ledger
+$$
+d_{n,\varepsilon}\le_{\RatUp}\varepsilon.
+$$
+
+Fix a positive target tolerance history $\eta$. The weakening ledger $\Theta$
+supplies a positive source tolerance $\varepsilon_\eta$ and the comparison row
+$\theta_\eta:\varepsilon_\eta\le_{\RatUp}\eta$. Read the original witness at
+that source tolerance. The threshold $N_{\varepsilon_\eta}$, the late-observation
+predicate, the distance history $d_{n,\varepsilon_\eta}$, and the metric-distance
+row from $s(n)$ to $\ell$ are copied unchanged into the target branch.
+
+Only the final upper-bound comparison is altered. For each late observation,
+the source branch gives
+$$
+d_{n,\varepsilon_\eta}\le_{\RatUp}\varepsilon_\eta.
+$$
+Composing this row on the right with
+$\theta_\eta:\varepsilon_\eta\le_{\RatUp}\eta$ by transitivity of the non-strict
+$\RatUp$ comparison ledger gives
+$$
+d_{n,\varepsilon_\eta}\le_{\RatUp}\eta.
+$$
+
+This argument is pointwise in the target tolerance history $\eta$. Hence every
+positive target tolerance has a displayed threshold and every late observation
+has a displayed metric-distance row bounded by that target tolerance. The
+carrier, stream, modulus, limit, threshold, and distance ledgers are exactly the
+rows required by \autoref{def:completemetric-limit-witness}, so the repacked
+family $L^\Theta$ is a complete metric limit witness for the same stream,
+modulus, and limit.
+\end{proof}

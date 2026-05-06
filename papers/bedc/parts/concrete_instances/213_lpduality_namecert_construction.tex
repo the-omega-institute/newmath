@@ -134,3 +134,54 @@ $$
 $$
 This is exactly the weak-duality comparison for the feasible primal and dual witnesses.
 \end{proof}
+
+\begin{corollary}[LPDuality weak-duality equality gives optimality]
+\label{cor:lpduality-weak-duality-equality-optimality}
+Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Suppose $x$ is primal feasible and $y$ is dual feasible, and suppose their objective endpoints are equal under the scalar classifier:
+$$
+\mathsf{PrFeas}_{A,b}(x)\land\mathsf{DuFeas}_{A,b,c}(y),
+\qquad
+\mathsf{PrObj}_{A,c}(x)\sim_F\mathsf{DuObj}_{b}(y).
+$$
+Then $x$ is primal optimal and $y$ is dual optimal in the row sense:
+$$
+\forall x'.\;\mathsf{PrFeas}_{A,b}(x')
+\Longrightarrow
+\mathsf{PrObj}_{A,c}(x')\preceq_F\mathsf{PrObj}_{A,c}(x),
+$$
+and
+$$
+\forall y'.\;\mathsf{DuFeas}_{A,b,c}(y')
+\Longrightarrow
+\mathsf{DuObj}_{b}(y)\preceq_F\mathsf{DuObj}_{b}(y').
+$$
+\end{corollary}
+\begin{proof}
+For the primal optimality clause, fix $x'$ with $\mathsf{PrFeas}_{A,b}(x')$. Applying \autoref{thm:lpduality-feasible-weak-duality} to $x'$ and the given dual feasible witness $y$ gives
+$$
+\mathsf{PrObj}_{A,c}(x')\preceq_F\mathsf{DuObj}_{b}(y).
+$$
+The scalar classifier is reflexive at $\mathsf{PrObj}_{A,c}(x')$, and symmetry of the displayed classifier equality gives
+$$
+\mathsf{DuObj}_{b}(y)\sim_F\mathsf{PrObj}_{A,c}(x).
+$$
+The classifier-stability row for $\preceq_F$ in \autoref{def:lpduality-finite-ordered-field-feasibility-row} transports the right endpoint of the weak-duality comparison, yielding
+$$
+\mathsf{PrObj}_{A,c}(x')\preceq_F\mathsf{PrObj}_{A,c}(x).
+$$
+Since $x'$ was arbitrary, the first universal clause follows.
+
+For the dual optimality clause, fix $y'$ with $\mathsf{DuFeas}_{A,b,c}(y')$. Applying \autoref{thm:lpduality-feasible-weak-duality} to the given primal feasible witness $x$ and $y'$ gives
+$$
+\mathsf{PrObj}_{A,c}(x)\preceq_F\mathsf{DuObj}_{b}(y').
+$$
+The displayed classifier equality gives
+$$
+\mathsf{PrObj}_{A,c}(x)\sim_F\mathsf{DuObj}_{b}(y),
+$$
+and reflexivity of the scalar classifier holds at $\mathsf{DuObj}_{b}(y')$. The same classifier-stability row transports the left endpoint of the weak-duality comparison, yielding
+$$
+\mathsf{DuObj}_{b}(y)\preceq_F\mathsf{DuObj}_{b}(y').
+$$
+Since $y'$ was arbitrary, the second universal clause follows.
+\end{proof}
