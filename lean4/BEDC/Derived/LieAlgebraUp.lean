@@ -1,5 +1,6 @@
 import BEDC.Derived.VecSpaceUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.LieAlgebraUp
@@ -8,6 +9,40 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.VecSpaceUp
+
+def LieAlgebraAdjointAction (acting endpoint result : BHist) : Prop :=
+  UnaryHistory acting ∧ UnaryHistory endpoint ∧ Cont acting endpoint result ∧ UnaryHistory result
+
+theorem LieAlgebraAdjointAction_additive_linearity
+    {acting y z yz left actionY actionZ rhs : BHist} :
+    hsame acting BHist.Empty ->
+      UnaryHistory y ->
+        UnaryHistory z ->
+          Cont y z yz ->
+            LieAlgebraAdjointAction acting yz left ->
+              LieAlgebraAdjointAction acting y actionY ->
+                LieAlgebraAdjointAction acting z actionZ ->
+                  Cont actionY actionZ rhs ->
+                    hsame left rhs ∧ UnaryHistory left ∧ UnaryHistory rhs := by
+  intro actingEmpty yUnary zUnary yzRow leftAction actionYAction actionZAction rhsRow
+  have yzUnary : UnaryHistory yz := unary_cont_closed yUnary zUnary yzRow
+  have leftRow : Cont acting yz left := leftAction.right.right.left
+  have actionYRow : Cont acting y actionY := actionYAction.right.right.left
+  have actionZRow : Cont acting z actionZ := actionZAction.right.right.left
+  have sameLeftYZ : hsame left yz := by
+    cases actingEmpty
+    exact cont_left_unit_result leftRow
+  have sameActionY : hsame actionY y := by
+    cases actingEmpty
+    exact cont_left_unit_result actionYRow
+  have sameActionZ : hsame actionZ z := by
+    cases actingEmpty
+    exact cont_left_unit_result actionZRow
+  have sameRhsYZ : hsame rhs yz :=
+    cont_respects_hsame sameActionY sameActionZ rhsRow yzRow
+  have rhsUnary : UnaryHistory rhs := unary_transport yzUnary (hsame_symm sameRhsYZ)
+  exact And.intro (hsame_trans sameLeftYZ (hsame_symm sameRhsYZ))
+    (And.intro leftAction.right.right.right rhsUnary)
 
 def LieAlgebraSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
@@ -73,6 +108,40 @@ theorem LieAlgebraSingleton_adjoint_action_additive_linearity
   have rightEmpty : hsame right BHist.Empty := by
     cases xyEmpty
     cases xzEmpty
+    cases rightRow
+    rfl
+  exact And.intro leftEmpty
+    (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
+theorem LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity
+    {x z y xz left xy zy right : BHist} :
+    VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier z -> VecSpaceSingletonCarrier y ->
+      Cont x z xz -> Cont xz y left -> Cont x y xy -> Cont z y zy ->
+        Cont xy zy right -> VecSpaceSingletonClassifier left right := by
+  intro carrierX carrierZ carrierY xzRow leftRow xyRow zyRow rightRow
+  have xzEmpty : hsame xz BHist.Empty := by
+    cases carrierX
+    cases carrierZ
+    cases xzRow
+    rfl
+  have leftEmpty : hsame left BHist.Empty := by
+    cases xzEmpty
+    cases carrierY
+    cases leftRow
+    rfl
+  have xyEmpty : hsame xy BHist.Empty := by
+    cases carrierX
+    cases carrierY
+    cases xyRow
+    rfl
+  have zyEmpty : hsame zy BHist.Empty := by
+    cases carrierZ
+    cases carrierY
+    cases zyRow
+    rfl
+  have rightEmpty : hsame right BHist.Empty := by
+    cases xyEmpty
+    cases zyEmpty
     cases rightRow
     rfl
   exact And.intro leftEmpty
