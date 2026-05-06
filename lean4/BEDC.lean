@@ -198,6 +198,8 @@ import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.TopologyUp
 import BEDC.Derived.TopologyUp.PullbackOpenCertificate
+import BEDC.Derived.TopologyUp.PublicCertificate
+import BEDC.Derived.TopologyUp.SingletonUnionSubspace
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -288,6 +290,7 @@ import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.LatticeUp.MeetAbsorption
+import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
