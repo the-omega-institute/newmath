@@ -1,0 +1,127 @@
+\section{Measure root countable obligation triple}
+\label{sec:measure-root-countable-obligation-triple}
+
+\begin{definition}[Measure root countable obligation triple]
+\label{def:measure-root-countable-obligation-triple}
+The $\MeasureUp$ root countable obligation triple is the ten-field target
+surface that packages the countable-name root rows into the three obligations
+visible to downstream analysis:
+\begin{enumerate}
+  \item traditional target: constructive countable measure names whose events
+  are visible through StreamName rows and whose values are $\RealUp$
+  endpoints;
+  \item BEDC source: $\MeasureUp$, $\StreamNameUp$, $\RealUp$,
+  $\mathsf{BHist}$, and the history classifier $\hsame$;
+  \item carrier: the carried measure code together with its StreamName
+  endpoint family, as exposed by
+  \autoref{def:measure-countable-name-root-unblock-surface};
+  \item classifier: event-row $\hsame$ transport together with the pointwise
+  StreamName classifier and the $\RealUp$ endpoint classifier;
+  \item stability rows: carrier transport, pointwise event-row transport,
+  endpoint transport, StreamName endpoint-family transport, and countable-sum
+  classifier stability;
+  \item ledger rows: event membership, pairwise disjointness, countable
+  union, endpoint value, and countable-sum witnesses attached to the visible
+  $\mathsf{BHist}$ rows they certify;
+  \item core theorem list:
+  \autoref{thm:measure-root-countable-carrier-obligation},
+  \autoref{thm:measure-root-countable-classifier-obligation}, and
+  \autoref{thm:measure-root-countable-additivity-obligation};
+  \item exactness: visible-row exhaustion through
+  \autoref{def:measure-event-row-coverage}, with no hidden event row consumed
+  outside the displayed ledger;
+  \item standard bridge: no $\StdBridge$ row is asserted at this paper site;
+  \item status: paper target for $\mathsf{BEDC.Derived.MeasureUp}$.
+\end{enumerate}
+The triple records only the root $\mathsf{BHist}$, StreamName, and $\RealUp$
+certificate rows. It does not assert host set equality, quotient event
+equality, analytic completion, or any standard bridge.
+\end{definition}
+
+\begin{theorem}[Measure root countable carrier obligation]
+\label{thm:measure-root-countable-carrier-obligation}
+The triple of \autoref{def:measure-root-countable-obligation-triple}
+projects the carrier support needed at the $\MeasureUp$ root. Its carrier
+rows are exactly the carried measure code and the StreamName endpoint-family
+carrier rows displayed by
+\autoref{def:measure-countable-name-root-unblock-surface}.
+\end{theorem}
+\begin{proof}
+Read the carrier field of
+\autoref{def:measure-root-countable-obligation-triple}. It names the carried
+$\mathsf{BHist}$ measure code and the StreamName endpoint family already
+fixed in \autoref{def:measure-countable-name-root-unblock-surface}.
+
+Apply \autoref{thm:measure-countable-name-carrier-classifier-obligation}.
+The first projection of that obligation is the transported $\MeasureUp$
+carrier row, and its StreamName projection is the endpoint-family carrier row
+at each visible unary index.
+
+The carrier projection uses only those displayed rows. No host set equality,
+quotient event equality, analytic completion object, or $\StdBridge$ row is
+introduced when the carried code and endpoint family are repacked as the root
+carrier obligation.
+\end{proof}
+
+\begin{theorem}[Measure root countable classifier obligation]
+\label{thm:measure-root-countable-classifier-obligation}
+The triple of \autoref{def:measure-root-countable-obligation-triple}
+projects the classifier support needed at the $\MeasureUp$ root. Its
+classifier rows are exactly event-row $\hsame$ transport, $\RealUp$ endpoint
+classification, and pointwise StreamName classifier transport from
+\autoref{thm:measure-countable-name-carrier-classifier-obligation}.
+\end{theorem}
+\begin{proof}
+Start with the classifier field of
+\autoref{def:measure-root-countable-obligation-triple}. It separates the
+event-row classifier, the endpoint classifier, and the StreamName pointwise
+classifier so that each row is read on its own certificate face.
+
+Apply \autoref{thm:measure-countable-name-carrier-classifier-obligation}.
+The event projection supplies componentwise $\hsame$ transport for visible
+$\mathsf{BHist}$ event rows and their measurable witnesses. The endpoint
+projection supplies the $\RealUp$ comparison of the corresponding values.
+
+The StreamName projection of the same theorem supplies pointwise classifier
+transport for the endpoint family at every visible index. Repacking these
+three projections gives the root countable classifier obligation and adds no
+host set equality, quotient event equality, analytic completion object, or
+$\StdBridge$ row.
+\end{proof}
+
+\begin{theorem}[Measure root countable additivity obligation]
+\label{thm:measure-root-countable-additivity-obligation}
+The triple of \autoref{def:measure-root-countable-obligation-triple}
+projects the countable-additivity support needed at the $\MeasureUp$ root.
+For every visible pairwise-disjoint event family $E_\bullet$ with visible
+countable union $U$, it supplies the $\RealUp$ comparison
+$$
+\mu(U)\sim_R\Sigma_\mu(E_\bullet).
+$$
+This comparison is the common projection of
+\autoref{thm:measure-countable-name-sigma-additivity-export} and the indexed
+additivity row of \autoref{thm:measure-root-index-additivity-threshold}.
+\end{theorem}
+\begin{proof}
+Project the visible event family from
+\autoref{def:measure-root-countable-obligation-triple}. Its ledger rows name
+the event-membership witnesses, pairwise-disjointness witness, countable
+union row, endpoint-value witnesses, and countable-sum witness in the same
+$\mathsf{BHist}$ surface.
+
+Apply \autoref{thm:measure-countable-name-sigma-additivity-export}. It reads
+the visible StreamName-indexed family through the $\MeasureUp$ certificate and
+produces the displayed comparison between the value of the union and the
+countable endpoint sum.
+
+Apply \autoref{thm:measure-root-index-additivity-threshold}. Its indexed
+additivity row reads the same pairwise-disjoint family, union, and countable
+sum from the root index threshold source, so the additivity comparison is
+shared by the countable-name and root-index surfaces.
+
+Exactness is supplied by the visible-row clause of the triple and by the
+coverage predicate named in \autoref{def:measure-event-row-coverage}. Thus
+the root additivity obligation consumes only displayed event, union, value,
+and countable-sum rows; it excludes host set equality, quotient event
+equality, analytic completion, and $\StdBridge$.
+\end{proof}
