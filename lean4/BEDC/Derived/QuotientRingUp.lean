@@ -80,6 +80,33 @@ theorem QuotientRingIdealCoset_zero_classification
     exact And.intro carrierAndIdeal.left
       (And.intro carrierZero (idealTransport carrierAndIdeal.right sameASub))
 
+theorem QuotientRingIdealCoset_additive_descent
+    {Carrier I : BHist -> Prop}
+    {Classifier : BHist -> BHist -> Prop}
+    {add sub : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    {a a' b b' : BHist}
+    (addCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y))
+    (negCarrier : forall {x : BHist}, Carrier x -> Carrier (neg x))
+    (idealAdd : forall {x y : BHist}, I x -> I y -> I (add x y))
+    (idealNeg : forall {x : BHist}, I x -> I (neg x))
+    (idealTransport : forall {x y : BHist}, I x -> Classifier x y -> I y)
+    (subAddClassified :
+      Classifier (add (sub a a') (sub b b')) (sub (add a b) (add a' b')))
+    (subNegClassified : Classifier (neg (sub a a')) (sub (neg a) (neg a')))
+    (cosetAA' : QuotientRingIdealCoset Carrier I sub a a')
+    (cosetBB' : QuotientRingIdealCoset Carrier I sub b b') :
+    QuotientRingIdealCoset Carrier I sub (add a b) (add a' b') ∧
+      QuotientRingIdealCoset Carrier I sub (neg a) (neg a') := by
+  constructor
+  · exact And.intro (addCarrier cosetAA'.left cosetBB'.left)
+      (And.intro (addCarrier cosetAA'.right.left cosetBB'.right.left)
+        (idealTransport (idealAdd cosetAA'.right.right cosetBB'.right.right)
+          subAddClassified))
+  · exact And.intro (negCarrier cosetAA'.left)
+      (And.intro (negCarrier cosetAA'.right.left)
+        (idealTransport (idealNeg cosetAA'.right.right) subNegClassified))
+
 theorem QuotientRingIdealCoset_add_descends
     {Carrier I : BHist -> Prop}
     {Classifier : BHist -> BHist -> Prop}
