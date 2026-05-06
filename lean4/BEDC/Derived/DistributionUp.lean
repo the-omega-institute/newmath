@@ -2,6 +2,7 @@ import BEDC.FKernel.Unary
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Bundle
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.PreorderUp
 
@@ -10,6 +11,7 @@ namespace BEDC.Derived.DistributionUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.FKernel.Bundle
 open BEDC.Derived.RandomVarUp
 open BEDC.Derived.PreorderUp
 
@@ -75,6 +77,22 @@ theorem DistributionPushforwardWitness_total_mass_unit
   exact And.intro (hsame_trans pushedSourceMass sourceMassUnit)
     (hsame_trans chosenSourceMass sourceMassSource)
 
+theorem DistributionPushforward_row
+    {targetEvent sourcePreimage sourceValue pushedValue : BHist} :
+    Cont targetEvent BHist.Empty sourcePreimage ->
+      Cont sourcePreimage BHist.Empty sourceValue ->
+        hsame pushedValue sourceValue ->
+          hsame sourcePreimage targetEvent ∧
+            hsame sourceValue sourcePreimage ∧ hsame pushedValue targetEvent := by
+  intro preimageRow sourceValueRow pushedSourceValue
+  have preimageTarget : hsame sourcePreimage targetEvent :=
+    cont_right_unit_result preimageRow
+  have sourceValuePreimage : hsame sourceValue sourcePreimage :=
+    cont_right_unit_result sourceValueRow
+  have pushedTarget : hsame pushedValue targetEvent :=
+    hsame_trans pushedSourceValue (hsame_trans sourceValuePreimage preimageTarget)
+  exact And.intro preimageTarget (And.intro sourceValuePreimage pushedTarget)
+
 theorem DistributionPushforward_empty_target_event_zero_mass
     {targetEmpty sourceEmpty sourceValue pushValue : BHist} :
     hsame targetEmpty BHist.Empty -> hsame sourceEmpty BHist.Empty ->
@@ -107,6 +125,23 @@ theorem DistributionPushforward_relative_difference_additivity
   have sourcePushSum : hsame sourceA pushSum :=
     cont_respects_hsame (hsame_symm pushBClass) (hsame_symm pushDClass) sourceSum pushSumCont
   exact hsame_trans pushAClass sourcePushSum
+
+theorem DistributionPushforward_complement_mass_decomposition
+    {targetTotal event complement pushedTotal pushedEvent pushedComplement pushedSum
+      probabilityUnit : BHist} :
+    Cont event complement targetTotal -> hsame pushedEvent event ->
+      hsame pushedComplement complement -> Cont pushedEvent pushedComplement pushedSum ->
+        hsame pushedTotal targetTotal -> hsame pushedTotal probabilityUnit ->
+          hsame pushedTotal pushedSum ∧ hsame probabilityUnit pushedSum := by
+  intro targetComplement pushedEventEvent pushedComplementComplement pushedComplementRow
+  intro pushedTotalTarget pushedTotalUnit
+  have targetPushedSum : hsame targetTotal pushedSum :=
+    cont_respects_hsame (hsame_symm pushedEventEvent)
+      (hsame_symm pushedComplementComplement) targetComplement pushedComplementRow
+  have pushedTotalPushedSum : hsame pushedTotal pushedSum :=
+    hsame_trans pushedTotalTarget targetPushedSum
+  exact And.intro pushedTotalPushedSum (hsame_trans (hsame_symm pushedTotalUnit)
+    pushedTotalPushedSum)
 
 theorem DistributionPushforward_monotone_under_target_inclusion
     {sourceB sourceD sourceA pushB pushD pushA pushSum : BHist} :
@@ -156,5 +191,21 @@ theorem DistributionPushforward_nonnegative_value_inheritance
   have pushedSource : hsame pushedValue sourceValue :=
     hsame_trans pushedWitness witnessSource
   exact And.intro (unary_transport sourceNonnegative (hsame_symm pushedSource)) pushedSource
+
+def DistributionPushforwardMassFold : ProbeBundle BHist -> BHist
+  | ProbeBundle.Bnil => BHist.Empty
+  | ProbeBundle.Bcons x xs => append x (DistributionPushforwardMassFold xs)
+
+theorem DistributionPushforward_countable_disjoint_sigma_additivity
+    (left right : ProbeBundle BHist) :
+    hsame (DistributionPushforwardMassFold (bundleAppend left right))
+      (append (DistributionPushforwardMassFold left) (DistributionPushforwardMassFold right)) := by
+  induction left with
+  | Bnil =>
+      exact (append_empty_left (DistributionPushforwardMassFold right)).symm
+  | Bcons x xs ih =>
+      exact (congrArg (append x) ih).trans
+        (append_assoc x (DistributionPushforwardMassFold xs)
+          (DistributionPushforwardMassFold right)).symm
 
 end BEDC.Derived.DistributionUp
