@@ -61,4 +61,14 @@ theorem DistributionPushforward_empty_target_event_zero_mass
       (cont_left_unit BHist.Empty)
   exact pushValueZero
 
+theorem DistributionPushforward_finite_disjoint_union_additivity
+    {sourceB sourceC sourceU pushedB pushedC pushedU pushedSum : BHist} :
+    Cont sourceB sourceC sourceU -> hsame pushedU sourceU -> hsame pushedB sourceB ->
+      hsame pushedC sourceC -> Cont pushedB pushedC pushedSum -> hsame pushedU pushedSum := by
+  intro sourceUnion pushedUnionSource pushedBSource pushedCSource pushedUnion
+  have sourcePushedUnion : hsame sourceU pushedSum :=
+    cont_respects_hsame (hsame_symm pushedBSource) (hsame_symm pushedCSource)
+      sourceUnion pushedUnion
+  exact hsame_trans pushedUnionSource sourcePushedUnion
+
 end BEDC.Derived.DistributionUp

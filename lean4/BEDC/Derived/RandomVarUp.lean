@@ -69,4 +69,15 @@ theorem RandomVarPreimage_disjoint_binary_union_exactness
       (hsame_trans (hsame_symm samePreimageB) (hsame_trans sameSource samePreimageC))
   exact And.intro (hsame_trans samePreimageUnion transportedUnion) sourceDisjoint
 
+theorem RandomVarPreimage_relative_difference_exactness
+    {A B D_T A_S B_S D_X D_S : BHist} :
+    hsame A_S A -> hsame B_S B -> hsame D_X D_T -> Cont B D_T A ->
+      Cont B_S D_S A_S -> hsame D_X D_S := by
+  intro sameSourceEndpoint sameSourceBase sameDiffTarget targetDifference sourceDifference
+  have sourceAtTarget : Cont B D_S A :=
+    cont_hsame_transport sameSourceBase (hsame_refl D_S) sameSourceEndpoint sourceDifference
+  have targetDiffSourceDiff : hsame D_T D_S :=
+    cont_left_cancel targetDifference sourceAtTarget
+  exact hsame_trans sameDiffTarget targetDiffSourceDiff
+
 end BEDC.Derived.RandomVarUp
