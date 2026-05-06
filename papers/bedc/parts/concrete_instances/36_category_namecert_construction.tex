@@ -349,14 +349,65 @@ the unit classification from \autoref{thm:category-hom-carrier-identity-square-c
 and endpoint transport from \autoref{thm:category-hom-carrier-hsame-transport}.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_opposite\_comp\_assoc\_closed}
+
+\begin{theorem}[Standard unary-continuation category bridge]
+\label{thm:category-standard-unary-continuation-bridge}
+The public unary-continuation $\CategoryUp$ export supplies a paper-level
+standard bridge to a host category interface, with six displayed fields:
+\begin{enumerate}
+  \item object translation reads host objects through
+  $\mathsf{UnaryHistory}$;
+  \item morphism translation reads host arrows through
+  $\mathsf{CategoryHomCarrier}$;
+  \item classifier compatibility is exactly endpoint and morphism comparison
+  by $\hsame$;
+  \item theorem correspondence pairs the host identity, composition,
+  associativity, and unit rows with the unary-continuation $\CategoryUp$ law
+  package;
+  \item reflection is restricted to displayed BEDC histories and their
+  hom-carrier witnesses;
+  \item the no-host-leak field asserts that host category structure is read
+  only through these BEDC predicates, with no host equality, primitive category
+  universe, or host carrier constructor entering the $\CategoryUp$ public
+  surface.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For objects, the bridge reads a host object only when the displayed BEDC
+history satisfies $\mathsf{UnaryHistory}$. For arrows, it reads a host morphism
+only when the displayed source, target, and arrow history satisfy
+$\mathsf{CategoryHomCarrier}$. The carrier exactness is the concrete
+hom-carrier and continuation-morphism tail correspondence of
+\autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence},
+and classifier compatibility is the same $\hsame$ relation already used by the
+object and morphism surfaces.
+
+The theorem-preservation field is the public unary-continuation stability law
+package of \autoref{thm:category-unary-continuation-stability-law-package}.
+Its identity, composition, associativity, and unit clauses are precisely the
+rows expected by the host category interface. The semantic certificate target
+$\mathsf{CategoryHomCarrier\_comp\_result\_semanticNameCert}$ supplies the
+displayed BEDC ledger for the composition-result name certificate, so the host
+composition row is reflected through the same BEDC source, pattern, ledger,
+and classifier fields.
+
+Reflection is therefore limited to histories displayed by
+$\mathsf{UnaryHistory}$ and morphism histories displayed by
+$\mathsf{CategoryHomCarrier}$. The bridge never asks the host for a primitive
+object equality, a primitive category universe, or an external morphism
+classifier; it only reads the host interface through the six BEDC predicates
+listed above. This is the paper-level no-host-leak argument required for the
+standard bridge.
+\end{proof}
+
 \begin{closurestatus}{\CategoryUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public unary-continuation $\CategoryUp$ export is closed over object carrier $\mathsf{UnaryHistory}$, hom-carrier $\mathsf{CategoryHomCarrier}$, identity witnesses, the composition relation, associativity and unit normal forms, endpoint transport, and the public readback and semantic certificate theorem sites cited in this chapter.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public unary-continuation $\CategoryUp$ export is closed over object carrier $\mathsf{UnaryHistory}$, hom-carrier $\mathsf{CategoryHomCarrier}$, identity witnesses, the composition relation, associativity and unit normal forms, endpoint transport, the public readback and semantic certificate theorem sites cited in this chapter, and the paper-level standard bridge of \autoref{thm:category-standard-unary-continuation-bridge}.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_semanticNameCert}
-  \bridgestatus{none}
-  \notclaimed{General category theory: arbitrary categories, functor categories, limits, colimits, adjunctions, equivalences, enriched categories, or categorical foundations.}
-  \upgradepath{$\bridgedClosure$ requires a standard bridge relating this public unary-continuation $\CategoryUp$ export to an external category interface, with no host equality or primitive category universe entering the BEDC public surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This bridge does not close general category theory, arbitrary categories, functor categories, limits, colimits, adjunctions, equivalences, enriched categories, categorical foundations, or machine-checked bridge verification.}
+  \upgradepath{$\matureClosure$ requires the full mature category-theorem inventory for the host interface; $\bridgeCheckedV$ separately requires machine checking the no-host-leak field.}
 \end{closurestatus}
 
 \begin{theorem}[Double opposite category certificate data identity]
