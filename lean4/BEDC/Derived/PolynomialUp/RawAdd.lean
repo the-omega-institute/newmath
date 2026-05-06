@@ -198,4 +198,232 @@ theorem PolynomialSingletonRawAdd_two_sided_trim_compatibility {xs ys tx ty : Li
     (hsame_trans leftData.left rightData)
     (cont_right_unit (PolynomialSingletonAddFold (PolynomialSingletonRawAdd xs ys)))
 
+private theorem PolynomialSingletonRawAdd_associative_classified_aux {xs ys zs : List BHist} :
+    BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs xs ->
+      BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier ys ys ->
+        BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier zs zs ->
+          BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+            (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd xs ys) zs)
+            (PolynomialSingletonRawAdd xs (PolynomialSingletonRawAdd ys zs)) := by
+  intro classifiedXS
+  induction xs generalizing ys zs with
+  | nil =>
+      intro classifiedYS classifiedZS
+      induction ys generalizing zs with
+      | nil =>
+          induction zs with
+          | nil =>
+              constructor
+          | cons z zs ih =>
+              cases classifiedZS with
+              | intro headZClassified tailZClassified =>
+                  change PolynomialSingletonClassifier (append BHist.Empty z)
+                      (append BHist.Empty (append BHist.Empty z)) ∧
+                    BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+                      (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd [] []) zs)
+                      (PolynomialSingletonRawAdd [] (PolynomialSingletonRawAdd [] zs))
+                  constructor
+                  · have leftCarrier :
+                        PolynomialSingletonCarrier (append BHist.Empty z) :=
+                      append_eq_empty_iff.mpr
+                        (And.intro (hsame_refl BHist.Empty) headZClassified.left)
+                    have rightCarrier :
+                        PolynomialSingletonCarrier (append BHist.Empty (append BHist.Empty z)) :=
+                      append_eq_empty_iff.mpr
+                        (And.intro (hsame_refl BHist.Empty)
+                          (append_eq_empty_iff.mpr
+                            (And.intro (hsame_refl BHist.Empty) headZClassified.left)))
+                    exact And.intro leftCarrier
+                      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+                  · exact ih tailZClassified
+      | cons y ys ih =>
+          cases classifiedYS with
+          | intro headYClassified tailYClassified =>
+              cases zs with
+              | nil =>
+                  change PolynomialSingletonClassifier
+                      (append (append BHist.Empty y) BHist.Empty)
+                      (append BHist.Empty (append y BHist.Empty)) ∧
+                    BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+                      (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd [] ys) [])
+                      (PolynomialSingletonRawAdd [] (PolynomialSingletonRawAdd ys []))
+                  constructor
+                  · have yzHead :
+                        PolynomialSingletonClassifier (append (append BHist.Empty y) BHist.Empty)
+                          (append BHist.Empty (append y BHist.Empty)) :=
+                      And.intro
+                        (append_eq_empty_iff.mpr
+                          (And.intro
+                            (append_eq_empty_iff.mpr
+                              (And.intro (hsame_refl BHist.Empty) headYClassified.left))
+                            (hsame_refl BHist.Empty)))
+                        (And.intro
+                          (append_eq_empty_iff.mpr
+                            (And.intro (hsame_refl BHist.Empty)
+                              (append_eq_empty_iff.mpr
+                                (And.intro headYClassified.left (hsame_refl BHist.Empty)))))
+                          (hsame_trans
+                            (append_eq_empty_iff.mpr
+                              (And.intro
+                                (append_eq_empty_iff.mpr
+                                  (And.intro (hsame_refl BHist.Empty) headYClassified.left))
+                                (hsame_refl BHist.Empty)))
+                            (hsame_symm
+                              (append_eq_empty_iff.mpr
+                                (And.intro (hsame_refl BHist.Empty)
+                                  (append_eq_empty_iff.mpr
+                                    (And.intro headYClassified.left
+                                      (hsame_refl BHist.Empty))))))))
+                    exact yzHead
+                  · exact ih tailYClassified (by constructor)
+              | cons z zs =>
+                  cases classifiedZS with
+                  | intro headZClassified tailZClassified =>
+                      change PolynomialSingletonClassifier (append (append BHist.Empty y) z)
+                          (append BHist.Empty (append y z)) ∧
+                        BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+                          (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd [] ys) zs)
+                          (PolynomialSingletonRawAdd [] (PolynomialSingletonRawAdd ys zs))
+                      constructor
+                      · have leftCarrier :
+                            PolynomialSingletonCarrier (append (append BHist.Empty y) z) :=
+                          append_eq_empty_iff.mpr
+                            (And.intro
+                              (append_eq_empty_iff.mpr
+                                (And.intro (hsame_refl BHist.Empty) headYClassified.left))
+                              headZClassified.left)
+                        have rightCarrier :
+                            PolynomialSingletonCarrier (append BHist.Empty (append y z)) :=
+                          append_eq_empty_iff.mpr
+                            (And.intro (hsame_refl BHist.Empty)
+                              (append_eq_empty_iff.mpr
+                                (And.intro headYClassified.left headZClassified.left)))
+                        exact And.intro leftCarrier
+                          (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+                      · exact ih tailYClassified tailZClassified
+  | cons x xs ih =>
+      intro classifiedYS classifiedZS
+      cases classifiedXS with
+      | intro headXClassified tailXClassified =>
+          cases ys with
+          | nil =>
+              cases zs with
+              | nil =>
+                  change PolynomialSingletonClassifier
+                      (append (append x BHist.Empty) BHist.Empty) (append x BHist.Empty) ∧
+                    BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+                      (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd xs []) [])
+                      (PolynomialSingletonRawAdd xs (PolynomialSingletonRawAdd [] []))
+                  constructor
+                  · have leftCarrier :
+                        PolynomialSingletonCarrier (append (append x BHist.Empty) BHist.Empty) :=
+                      append_eq_empty_iff.mpr
+                        (And.intro
+                          (append_eq_empty_iff.mpr
+                            (And.intro headXClassified.left (hsame_refl BHist.Empty)))
+                          (hsame_refl BHist.Empty))
+                    have rightCarrier :
+                        PolynomialSingletonCarrier (append x BHist.Empty) :=
+                      append_eq_empty_iff.mpr
+                        (And.intro headXClassified.left (hsame_refl BHist.Empty))
+                    exact And.intro leftCarrier
+                      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+                  · exact ih tailXClassified classifiedYS classifiedZS
+              | cons z zs =>
+                  cases classifiedZS with
+                  | intro headZClassified tailZClassified =>
+                      change PolynomialSingletonClassifier (append (append x BHist.Empty) z)
+                          (append x (append BHist.Empty z)) ∧
+                        BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+                          (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd xs []) zs)
+                          (PolynomialSingletonRawAdd xs (PolynomialSingletonRawAdd [] zs))
+                      constructor
+                      · have leftCarrier :
+                            PolynomialSingletonCarrier (append (append x BHist.Empty) z) :=
+                          append_eq_empty_iff.mpr
+                            (And.intro
+                              (append_eq_empty_iff.mpr
+                                (And.intro headXClassified.left (hsame_refl BHist.Empty)))
+                              headZClassified.left)
+                        have rightCarrier :
+                            PolynomialSingletonCarrier (append x (append BHist.Empty z)) :=
+                          append_eq_empty_iff.mpr
+                            (And.intro headXClassified.left
+                              (append_eq_empty_iff.mpr
+                                (And.intro (hsame_refl BHist.Empty) headZClassified.left)))
+                        exact And.intro leftCarrier
+                          (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+                      · exact ih tailXClassified classifiedYS tailZClassified
+          | cons y ys =>
+              cases classifiedYS with
+              | intro headYClassified tailYClassified =>
+                  cases zs with
+                  | nil =>
+                      change PolynomialSingletonClassifier (append (append x y) BHist.Empty)
+                          (append x (append y BHist.Empty)) ∧
+                        BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+                          (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd xs ys) [])
+                          (PolynomialSingletonRawAdd xs (PolynomialSingletonRawAdd ys []))
+                      constructor
+                      · have leftCarrier :
+                            PolynomialSingletonCarrier (append (append x y) BHist.Empty) :=
+                          append_eq_empty_iff.mpr
+                            (And.intro
+                              (append_eq_empty_iff.mpr
+                                (And.intro headXClassified.left headYClassified.left))
+                              (hsame_refl BHist.Empty))
+                        have rightCarrier :
+                            PolynomialSingletonCarrier (append x (append y BHist.Empty)) :=
+                          append_eq_empty_iff.mpr
+                            (And.intro headXClassified.left
+                              (append_eq_empty_iff.mpr
+                                (And.intro headYClassified.left (hsame_refl BHist.Empty))))
+                        exact And.intro leftCarrier
+                          (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+                      · exact ih tailXClassified tailYClassified classifiedZS
+                  | cons z zs =>
+                      cases classifiedZS with
+                      | intro headZClassified tailZClassified =>
+                          change PolynomialSingletonClassifier (append (append x y) z)
+                              (append x (append y z)) ∧
+                            BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+                              (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd xs ys) zs)
+                              (PolynomialSingletonRawAdd xs (PolynomialSingletonRawAdd ys zs))
+                          constructor
+                          · have leftCarrier :
+                                PolynomialSingletonCarrier (append (append x y) z) :=
+                              append_eq_empty_iff.mpr
+                                (And.intro
+                                  (append_eq_empty_iff.mpr
+                                    (And.intro headXClassified.left headYClassified.left))
+                                  headZClassified.left)
+                            have rightCarrier :
+                                PolynomialSingletonCarrier (append x (append y z)) :=
+                              append_eq_empty_iff.mpr
+                                (And.intro headXClassified.left
+                                  (append_eq_empty_iff.mpr
+                                    (And.intro headYClassified.left headZClassified.left)))
+                            exact And.intro leftCarrier
+                              (And.intro rightCarrier
+                                (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+                          · exact ih tailXClassified tailYClassified tailZClassified
+
+theorem PolynomialSingletonRawAdd_associative_classified {xs ys zs : List BHist} :
+    BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs xs ->
+      BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier ys ys ->
+        BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier zs zs ->
+          BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+              (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd xs ys) zs)
+              (PolynomialSingletonRawAdd xs (PolynomialSingletonRawAdd ys zs)) ∧
+            Cont (PolynomialSingletonAddFold
+                (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd xs ys) zs))
+              BHist.Empty
+              (PolynomialSingletonAddFold
+                (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd xs ys) zs)) := by
+  intro classifiedXS classifiedYS classifiedZS
+  exact And.intro
+    (PolynomialSingletonRawAdd_associative_classified_aux classifiedXS classifiedYS classifiedZS)
+    (cont_right_unit
+      (PolynomialSingletonAddFold (PolynomialSingletonRawAdd (PolynomialSingletonRawAdd xs ys) zs)))
+
 end BEDC.Derived.PolynomialUp
