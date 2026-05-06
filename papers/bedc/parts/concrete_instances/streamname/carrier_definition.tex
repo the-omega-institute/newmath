@@ -35,6 +35,43 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.StreamNameUp.RatStreamNameClassifier}
 
+\begin{theorem}[Rational stream-name carrier pointwise hsame transport]
+\label{thm:rat-stream-name-carrier-pointwise-hsame-transport}
+For certified observation maps $s,s':\Hist\to\Hist$, if
+$\mathsf{RatStreamNameCarrier}(s)$ and
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+$$
+then $\mathsf{RatStreamNameCarrier}(s')$.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-carrier}. It remains to show that
+each certified unary observation $n$ carries a rational-history witness for
+$s'(n)$.
+
+Fix such an observation, together with its unary witness $\nu$. The source
+carrier supplies $\mathsf{RatHistoryCarrier}(s(n))$ at this same observation
+index.
+
+The pointwise stability hypothesis supplies $\hsame(s(n),s'(n))$. Apply the
+RatUp carrier transport theorem
+$\mathsf{RatHistoryCarrier\_hsame\_transport}$ to the source
+rational-history carrier and this transport witness, obtaining
+$\mathsf{RatHistoryCarrier}(s'(n))$.
+
+Since the observation was arbitrary, the transported rational-history carrier
+rows repack into the universal carrier row for
+$\mathsf{RatStreamNameCarrier}(s')$.
+\end{proof}
+
+Ten-field fit: traditional target rational stream-name carrier transport; BEDC
+source RatUp plus StreamNameUp over $\mathsf{BHist}$; carrier
+$\mathsf{RatStreamNameCarrier}$; classifier untouched; stability pointwise
+$\hsame$; ledger the observation index and transport witness; core theorem
+\autoref{thm:rat-stream-name-carrier-pointwise-hsame-transport}; exactness
+preservation of the carrier predicate; standard bridge RegSeqRat/RealUp stream
+transport; status proof target.
+
 \begin{theorem}[Rational stream-name classifier unary context one-tail pair readback]
 \label{thm:rat-streamname-classifier-unary-context-e1-pair-readback}
 If $\mathsf{RatStreamNameClassifier}(s,t)$ holds at a unary observation $n$,

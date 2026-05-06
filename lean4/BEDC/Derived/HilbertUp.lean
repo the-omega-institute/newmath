@@ -302,4 +302,34 @@ theorem HilbertSingletonProjection_semantic_name_certificate :
       exact endpoint.right.right.right
   }
 
+theorem HilbertSingletonProjection_orthogonal_zero {m p n : BHist} :
+    HilbertSingletonProjectionWitness m p -> VecSpaceSingletonCarrier n ->
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct (VecSpaceSingletonSmul m p) n)
+        (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro projectionWitness carrierN
+  have smulClassified :
+      VecSpaceSingletonClassifier (VecSpaceSingletonSmul m p) BHist.Empty :=
+    (HilbertSingleton_projection_residual_decomposition projectionWitness.left
+      projectionWitness.right.right.left).right.left
+  have nClassified : VecSpaceSingletonClassifier n BHist.Empty :=
+    And.intro carrierN
+      (And.intro (hsame_refl BHist.Empty) carrierN)
+  exact (HilbertSingleton_constant_inner_product_transport smulClassified nClassified).left
+
+theorem HilbertSingletonProjection_uniqueness {m p q : BHist} :
+    HilbertSingletonProjectionWitness m p -> HilbertSingletonProjectionWitness m q ->
+      VecSpaceSingletonClassifier p q ∧
+        RealConstantHistoryClassifier (HilbertSingletonInnerProduct p q)
+          (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro projectionP projectionQ
+  have pClassified : VecSpaceSingletonClassifier p BHist.Empty :=
+    projectionP.right.right.left
+  have qClassified : VecSpaceSingletonClassifier q BHist.Empty :=
+    projectionQ.right.right.left
+  have pQClassified : VecSpaceSingletonClassifier p q :=
+    And.intro pClassified.left
+      (And.intro qClassified.left (hsame_trans pClassified.right.right (hsame_symm qClassified.left)))
+  have innerRows := HilbertSingleton_constant_inner_product_transport pQClassified pQClassified
+  exact And.intro pQClassified innerRows.left
+
 end BEDC.Derived.HilbertUp

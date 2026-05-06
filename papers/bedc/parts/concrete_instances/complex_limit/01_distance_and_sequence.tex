@@ -554,6 +554,23 @@ For a fixed complex history \(c\) with modulus bound \(C\) (i.e.\ \(\mathsf{Cplx
 \begin{proof}[Sketch]
 The bilinearity of complex multiplication gives \(\mathsf{CplxDist}(c \cdot s(n), c \cdot z, D)\) bounded by \(C \cdot \mathsf{CplxDist}(s(n), z, D')\); shift the modulus index by the unary discretized logarithm of \(C\) to absorb the scaling factor.
 \end{proof}
+
+\begin{theorem}[Complex limit constant prefix closure]
+\label{thm:complex-limit-prepend-constant-closed}
+Let $q:\mathsf{BHist}$ be unary. If $\mathsf{CplxLim}(s,N,z,M)$ holds, then
+the prefixed sequence $n\mapsto\mathsf{append}(q,s(n))$ has complex limit
+$\mathsf{append}(q,z)$ with the same regularity modulus $N$ and limit modulus
+$M$.
+\end{theorem}
+\begin{proof}
+Regularity is transported by the regular-sequence constant prefix closure. The
+limit carrier is closed by complex-history unary prefix closure.
+
+For every accepted modulus index, the original limit witness gives a complex
+distance from $s(n)$ to $z$. Applying constant prefix closure to that distance
+gives the canonical distance from $\mathsf{append}(q,s(n))$ to
+$\mathsf{append}(q,z)$.
+\end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_prepend\_constant\_closed}
 
 \begin{theorem}[Complex limit two-sided unary context closure]
