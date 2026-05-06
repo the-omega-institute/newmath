@@ -51,6 +51,15 @@ theorem RandomVarTotalReadbackCertificate_total_event_preimage_exactness
     cont_deterministic cert.chosen_readback cert.carried_total_bridge
   exact And.intro (unary_transport sourceUnary (hsame_symm chosenSource)) chosenSource
 
+theorem RandomVarTotalReadbackCertificate_source_coverage
+    {targetTotal sourceTotal chosenPreimage sourcePoint gap : BHist} :
+    RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+      Cont sourcePoint gap sourceTotal -> Cont sourcePoint gap chosenPreimage := by
+  intro cert sourceCoverage
+  have chosenSource : hsame chosenPreimage sourceTotal :=
+    cont_deterministic cert.chosen_readback cert.carried_total_bridge
+  exact cont_result_hsame_transport sourceCoverage (hsame_symm chosenSource)
+
 theorem RandomVarTotalReadbackCertificate_composition_total_event_preimage_exactness
     {omegaU omegaT omegaS preY preX preYX : BHist} :
     RandomVarTotalReadbackCertificate omegaU omegaT preY ->
@@ -175,6 +184,20 @@ theorem RandomVarTotalReadbackCertificate_partiality_obstruction
   have chosenCoverage : Cont h BHist.Empty chosenPreimage :=
     cont_result_hsame_transport sourceCoverage (hsame_symm chosenSource)
   exact chosenNoncoverage chosenCoverage
+
+theorem RandomVarTotalReadbackCertificate_minimal_obstruction
+    {targetTotal sourceTotal chosenPreimage : BHist} :
+    RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+      (UnaryHistory sourceTotal ->
+          UnaryHistory chosenPreimage ∧ hsame chosenPreimage sourceTotal) ∧
+        ((hsame chosenPreimage sourceTotal -> False) ->
+          RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage -> False) := by
+  intro cert
+  constructor
+  · intro sourceUnary
+    exact RandomVarTotalReadbackCertificate_total_event_preimage_exactness sourceUnary cert
+  · intro obstruction certAgain
+    exact obstruction (cont_deterministic certAgain.chosen_readback certAgain.carried_total_bridge)
 
 theorem RandomVarPreimage_empty_event_exactness
     {targetEmpty sourceEmpty preimage : BHist} :

@@ -10,6 +10,7 @@ namespace BEDC.Derived.DistributionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.FKernel.Bundle
 open BEDC.Derived.RandomVarUp
@@ -21,6 +22,11 @@ def DistributionPushforwardCarrier
     Cont (sourcePreimage targetEvent) BHist.Empty
       (sourceMeasure (sourcePreimage targetEvent)) ∧
       hsame pushed (sourceMeasure (sourcePreimage targetEvent))
+
+def DistributionPushforwardSourceSpec (pushed : BHist) : Prop :=
+  exists sourcePreimage sourceMeasure : BHist -> BHist, exists targetEvent : BHist,
+    UnaryHistory targetEvent ∧
+      DistributionPushforwardCarrier sourcePreimage sourceMeasure targetEvent pushed
 
 theorem DistributionPushforwardCarrier_row
     {sourcePreimage sourceMeasure : BHist -> BHist} {targetEvent pushed : BHist} :
@@ -40,6 +46,46 @@ theorem DistributionPushforwardCarrier_row
   have measureUnary : UnaryHistory (sourceMeasure (sourcePreimage targetEvent)) :=
     unary_transport preimageUnary (hsame_symm measurePreimage)
   exact And.intro preimageUnary (And.intro measureUnary carrier.right.right)
+
+theorem DistributionPushforwardCarrier_semantic_name_certificate :
+    SemanticNameCert DistributionPushforwardSourceSpec DistributionPushforwardSourceSpec
+      DistributionPushforwardSourceSpec hsame := by
+  have emptyCarrier :
+      DistributionPushforwardCarrier (fun h : BHist => h) (fun h : BHist => h) BHist.Empty
+        BHist.Empty :=
+    And.intro (cont_right_unit BHist.Empty)
+      (And.intro (cont_right_unit BHist.Empty) (hsame_refl BHist.Empty))
+  have emptySource : DistributionPushforwardSourceSpec BHist.Empty :=
+    Exists.intro (fun h : BHist => h)
+      (Exists.intro (fun h : BHist => h)
+        (Exists.intro BHist.Empty (And.intro unary_empty emptyCarrier)))
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty emptySource
+    · intro h _source
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same source
+      cases source with
+      | intro sourcePreimage source =>
+          cases source with
+          | intro sourceMeasure source =>
+              cases source with
+              | intro targetEvent source =>
+                  exact Exists.intro sourcePreimage
+                    (Exists.intro sourceMeasure
+                      (Exists.intro targetEvent
+                        (And.intro source.left
+                          (And.intro source.right.left
+                            (And.intro source.right.right.left
+                              (hsame_trans (hsame_symm same) source.right.right.right))))))
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 theorem DistributionPushforward_total_mass_unit
     {sourceTotal targetTotal sourceMass pushedMass unitMass : BHist} :
@@ -125,6 +171,23 @@ theorem DistributionPushforward_relative_difference_additivity
   have sourcePushSum : hsame sourceA pushSum :=
     cont_respects_hsame (hsame_symm pushBClass) (hsame_symm pushDClass) sourceSum pushSumCont
   exact hsame_trans pushAClass sourcePushSum
+
+theorem DistributionPushforward_complement_mass_decomposition
+    {targetTotal event complement pushedTotal pushedEvent pushedComplement pushedSum
+      probabilityUnit : BHist} :
+    Cont event complement targetTotal -> hsame pushedEvent event ->
+      hsame pushedComplement complement -> Cont pushedEvent pushedComplement pushedSum ->
+        hsame pushedTotal targetTotal -> hsame pushedTotal probabilityUnit ->
+          hsame pushedTotal pushedSum ∧ hsame probabilityUnit pushedSum := by
+  intro targetComplement pushedEventEvent pushedComplementComplement pushedComplementRow
+  intro pushedTotalTarget pushedTotalUnit
+  have targetPushedSum : hsame targetTotal pushedSum :=
+    cont_respects_hsame (hsame_symm pushedEventEvent)
+      (hsame_symm pushedComplementComplement) targetComplement pushedComplementRow
+  have pushedTotalPushedSum : hsame pushedTotal pushedSum :=
+    hsame_trans pushedTotalTarget targetPushedSum
+  exact And.intro pushedTotalPushedSum (hsame_trans (hsame_symm pushedTotalUnit)
+    pushedTotalPushedSum)
 
 theorem DistributionPushforward_monotone_under_target_inclusion
     {sourceB sourceD sourceA pushB pushD pushA pushSum : BHist} :
