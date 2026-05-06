@@ -394,3 +394,29 @@ Unfold the inherited relation to read these as $\mathsf{Face}(\rho,\tau)$ and $\
 
 For the two-step chain statement, start with the displayed chain hypothesis. The face-closure row just proved gives $\mathsf{Simplex}_{K\cup L}(\tau)$ from the upper face incidence. Applying the same row again to $\mathsf{Simplex}_{K\cup L}(\tau)$ and $\mathsf{Face}_{K\cup L}(\rho,\tau)$ gives $\mathsf{Simplex}_{K\cup L}(\rho)$. The inherited transitivity row gives $\mathsf{Face}_{K\cup L}(\rho,\sigma)$. Combining these three conclusions proves the final conjunction.
 \end{proof}
+
+\begin{theorem}[Simplicial union append enumeration]
+\label{thm:simplicialcomplex-union-append-enumeration}
+Let $K$ and $L$ share the simplex-code source and classifier used for the simplicial union predicate in \autoref{def:simplicialcomplex-union-carrier-rows}. Let $ks,ls:\mathsf{HistSpine}$ be finite BEDC-history spines. If
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(ks,\mathsf{Simplex}_K)
+\qquad\text{and}\qquad
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(ls,\mathsf{Simplex}_L)
+$$
+hold, then the appended spine enumerates the simplicial union predicate:
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(ks{++}ls,\mathsf{Simplex}_{K\cup L}).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finset-spine-concatenation-enumerates-union} with the shared simplex-code source $S$, classifier $\sim_S$, finite spines $ks$ and $ls$, and predicates $\mathsf{Simplex}_K$ and $\mathsf{Simplex}_L$. The two displayed enumeration hypotheses are exactly its two inputs, so it gives
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}
+(ks{++}ls,\lambda z.\;\mathsf{Simplex}_K(z)\vee\mathsf{Simplex}_L(z)).
+$$
+By \autoref{def:simplicialcomplex-union-carrier-rows}, the predicate on the right is precisely $\mathsf{Simplex}_{K\cup L}$. Rewriting the displayed conclusion by this definition gives
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(ks{++}ls,\mathsf{Simplex}_{K\cup L}),
+$$
+which is the claimed appended enumeration row.
+\end{proof}
