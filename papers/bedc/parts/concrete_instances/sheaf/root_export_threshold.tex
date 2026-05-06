@@ -1,0 +1,62 @@
+\begin{definition}[Sheaf root export BHist closure surface]
+\label{def:sheaf-root-export-bhist-closure-surface}
+The root export surface for $\SheafUp$ is the following ten-field $\mathsf{BHist}$-closed package carried by $\NameCert_{\SheafUp}$.
+\begin{enumerate}
+\item The traditional target is sheaves of sections over indexed opens.
+\item The BEDC source is the joint $\TopologyUp$ and $\PreSheafUp$ surface over $\mathsf{BHist}$, read through $\NameCert$.
+\item The history ledger is the cover-nerve ledger of \autoref{def:sheaf-bhist-cover-nerve-ledger}, with membership transport only through $\hsame$.
+\item The carrier is the indexed section presheaf of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
+\item The classifier is the open-indexed section classifier family $\sim_i$.
+\item The stability rows are identity, composition, restriction classifier transport, and route-history associativity when $\Cont$ rows are present.
+\item The cover ledger consists of indexed cover members, finite-intersection overlap rows, displayed refinement maps, and common-refinement spans.
+\item The exactness rows are locality, gluing, refinement pullback, refinement gluing descent, and common-refinement gluing invariance.
+\item The downstream threshold exports only these indexed-open, section, restriction, locality, gluing, and refinement rows.
+\item The standard bridge row is absent; no host powerset equality, cover quotient, stalk quotient, or external sheafification primitive is exported.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sheaf root export carrier scope]
+\label{thm:sheaf-root-export-carrier-scope}
+Let $\mathcal{T}$ be the $\TopologyUp$ indexed-open carrier and let $\mathcal{S}$ be the $\PreSheafUp$ indexed section carrier equipped with the sheaf locality and gluing rows. The root export surface of \autoref{def:sheaf-root-export-bhist-closure-surface} exposes exactly the following carrier data: open indices and inclusion rows from $\mathcal{T}$, indexed section carriers $\mathsf{Sec}(i)$, section classifiers $\sim_i$, restriction maps $\rho_{i,j}$, $\hsame$-stable $\mathsf{BHist}$ membership, and the cover-nerve ledger of \autoref{def:sheaf-bhist-cover-nerve-ledger}. It exports no carrier whose elements are host opens, quotiented covers, or external stalk representatives.
+\end{theorem}
+\begin{proof}
+Project the topology part first. The indexed-open carrier supplies open indices, inclusion rows, finite intersections, and the $\mathsf{OpenAt}$ membership predicate; \autoref{def:sheaf-bhist-cover-nerve-ledger} records those rows over $\mathsf{BHist}$ and allows membership transport only through $\hsame$.
+
+Project the presheaf part next. By \autoref{def:sheaf-indexed-section-presheaf-carrier}, the only section-level carrier rows are $\mathsf{Sec}(i)$, $\sim_i$, the restriction maps, and their identity, composition, equivalence, and classifier-transport fields.
+
+Finally use \autoref{thm:sheaf-carrier-support-obligation} and \autoref{thm:sheaf-root-unblock-cover-membership-obligation}. These identify the carrier support and cover membership obligations as indexed-open and $\mathsf{BHist}$-ledger data, so no host open carrier, cover quotient, or stalk representative is part of the export.
+\end{proof}
+
+\begin{theorem}[Sheaf root export stability and exactness package]
+\label{thm:sheaf-root-export-stability-exactness-package}
+For every indexed sheaf carrier $\mathcal{S}$ over an indexed-open carrier $\mathcal{T}$, the root export surface of \autoref{def:sheaf-root-export-bhist-closure-surface} packages the complete stability and exactness rows needed by downstream certificates:
+\begin{enumerate}
+\item cover-member witnesses and overlap projections from the $\mathsf{BHist}$ cover ledger;
+\item identity, composition, and restriction classifier-stability for section restrictions;
+\item locality and gluing exactness over indexed covers;
+\item refinement pullback and refined-cover gluing descent;
+\item common-refinement presentation exactness, including the restricted-open common-refinement rows below a fixed open.
+\end{enumerate}
+Every row is expressed in indexed opens, restriction maps, section classifiers, displayed refinements, common-refinement spans, $\Cont$ route histories when present, and $\hsame$-stable history membership.
+\end{theorem}
+\begin{proof}
+The cover-member and overlap rows are those of \autoref{thm:sheaf-root-unblock-cover-membership-obligation}, together with the pair-overlap projections of \autoref{thm:sheaf-bhist-cover-nerve-overlap-projections}. They keep the cover ledger internal to indexed opens and $\mathsf{BHist}$ cells.
+
+The restriction rows are exactly \autoref{thm:sheaf-root-unblock-restriction-stability-obligation}. Its identity, composition, classifier-stability, and optional $\Cont$ route-history clauses are the stability rows exported by the root package.
+
+The locality and gluing rows are supplied by \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}. Refinement contributes \autoref{thm:sheaf-refinement-compatible-family-pullback}, \autoref{thm:sheaf-refinement-gluing-descent}, and \autoref{thm:sheaf-refined-cover-exactness-obligation}.
+
+Common-refinement exactness is read from \autoref{thm:sheaf-common-refinement-gluing-invariance} and \autoref{thm:sheaf-cover-presentation-exactness}; below a fixed open it is read from \autoref{thm:sheaf-restricted-open-refinement-exactness-export}. These rows assemble the displayed package without adding any host-level cover equality or quotient comparison.
+\end{proof}
+
+\begin{theorem}[Sheaf root export downstream threshold]
+\label{thm:sheaf-root-export-downstream-threshold}
+The root export surface of \autoref{def:sheaf-root-export-bhist-closure-surface} is the carried $\NameCert_{\SheafUp}$ threshold available to $\RingedSpaceUp$, $\SchemeUp$, and restricted-open consumers. Such consumers receive only the indexed-open carrier, the section classifier family, restriction identity and composition rows, restriction classifier-stability rows, locality and gluing rows, the refinement ledger, common-refinement exactness, and the absent-standard-bridge row. In particular, they do not receive a standard bridge, host powerset cover equality, cover quotient, stalk quotient, or external sheafification operation from $\SheafUp$.
+\end{theorem}
+\begin{proof}
+For the global sheaf surface, apply \autoref{thm:sheaf-namecert-obligation-surface}, \autoref{thm:sheaf-root-cover-locality-gluing-obligation}, and \autoref{thm:sheaf-root-restriction-refinement-obligation}. These rows expose the carrier, classifier, restriction, locality, gluing, and refinement obligations already present in $\NameCert_{\SheafUp}$.
+
+For the local consumers, apply \autoref{thm:sheaf-restricted-open-namecert-surface} and \autoref{thm:sheaf-restricted-open-refinement-exactness-export}. They show that working below a fixed open reuses the same ambient section carriers, classifiers, restrictions, cover ledgers, and exactness rows.
+
+The negative part is part of the same export boundary. The root-unblock source of \autoref{def:sheaf-root-unblock-bedc-source} and the global obligation surface both state that no standard bridge or host-level cover comparison is exported, so ringed-space, scheme, and restricted-open chapters must cite the indexed threshold rather than reconstructing a larger classical sheaf interface.
+\end{proof}
