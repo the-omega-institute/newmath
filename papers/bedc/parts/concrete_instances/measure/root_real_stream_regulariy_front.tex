@@ -1,0 +1,156 @@
+\section{Measure root real-stream regularity front}
+\label{sec:measure-root-real-stream-regularity-front}
+
+The real-stream regularity front is the $\mathsf{BHist}$-anchored reading of
+the countable-premeasure root surface through the already certified
+$\StreamNameUp$ endpoint rows and $\RealUp$ endpoint comparisons. It records
+the exact rows that later analysis consumers may use without turning the
+$\MeasureUp$ root into a host measure-space schema.
+
+\begin{definition}[Measure root real-stream regularity front]
+\label{def:measure-root-real-stream-regularity-front}
+The $\MeasureUp$ root real-stream regularity front is the ten-field surface
+with the following data:
+\begin{enumerate}
+  \item traditional target: a constructive countable premeasure whose values
+  are exposed as regular real endpoints indexed by a countable stream name;
+  \item BEDC source: $\MeasureUp$, $\StreamNameUp$, $\RealUp$,
+  $\mathsf{BHist}$, and $\hsame$, restricted to the rows displayed by
+  \autoref{def:measure-root-countable-premeasure-front} and
+  \autoref{def:measure-streamname-endpoint-family};
+  \item carrier: covered measurable-event $\mathsf{BHist}$ rows, carried
+  $\MeasureUp$ codes, StreamName endpoint-family rows, and the $\RealUp$
+  endpoint rows attached to those observations;
+  \item classifier: componentwise $\hsame$ transport of event histories,
+  pointwise StreamName classifier transport, and $\RealUp$ endpoint comparison
+  for the values and countable sums;
+  \item stability rows: carrier transport, endpoint-family stability,
+  finite-readback stability, relative-difference stability, monotone-row
+  stability, and countable-sum classifier stability;
+  \item ledger: covered event rows, measurable witnesses, unary observation
+  names, pairwise-disjointness witnesses, countable-union rows, finite
+  readback rows, normalization rows, nonnegative rows, monotone rows, and
+  relative-difference rows;
+  \item core theorem list:
+  \autoref{thm:measure-root-countable-premeasure-carrier-obligation},
+  \autoref{thm:measure-streamname-endpoint-carrier-classifier},
+  \autoref{thm:measure-root-countable-premeasure-additivity-obligation},
+  \autoref{thm:measure-streamname-countable-additivity-scope},
+  \autoref{thm:measure-obligation-countable-sum-classifier-stability},
+  \autoref{thm:measure-root-countable-premeasure-consumer-threshold}, and
+  \autoref{thm:measure-streamname-downstream-consumer-boundary};
+  \item exactness: a row belongs to the front exactly when it is a displayed
+  countable-premeasure row over the same visible $\mathsf{BHist}$ ledger and
+  its StreamName observation carries the corresponding $\RealUp$ endpoint
+  comparison;
+  \item standard bridge boundary: no $\StdBridge$, host sigma-algebra equality,
+  quotient event equality, analytic completion object, or external
+  regular-measure theorem is part of the front;
+  \item status: the front is a paper-side real-stream regularity surface for
+  future $\mathsf{BHist}$ formalization targets in
+  $\mathsf{BEDC.Derived.MeasureUp}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Measure root real-stream carrier regularity]
+\label{thm:measure-root-real-stream-carrier-regularity}
+The front of \autoref{def:measure-root-real-stream-regularity-front}
+transports exactly the carried $\MeasureUp$ codes, the StreamName endpoint
+family rows, and the $\RealUp$ endpoint comparisons over the same
+$\mathsf{BHist}$ ledger. The carrier transport is the common projection of
+\autoref{thm:measure-root-countable-premeasure-carrier-obligation} and
+\autoref{thm:measure-streamname-endpoint-carrier-classifier}.
+\end{theorem}
+\begin{proof}
+Begin with a row of the real-stream regularity front. By the carrier and
+ledger fields of \autoref{def:measure-root-real-stream-regularity-front}, the
+row contains a covered measurable-event history, a carried $\MeasureUp$ code,
+a StreamName endpoint-family observation, and the attached $\RealUp$ endpoint
+comparison.
+
+Apply
+\autoref{thm:measure-root-countable-premeasure-carrier-obligation}. It
+transports the carried measure code, the covered event row, and the root
+endpoint classifier along the visible $\hsame$ comparison of
+$\mathsf{BHist}$ histories.
+
+Next apply
+\autoref{thm:measure-streamname-endpoint-carrier-classifier}. The StreamName
+observation map and its pointwise endpoint-family rows move over the same
+unary observations, so the transported event row and the transported real
+endpoint remain attached to the same stream position.
+
+Repack these projections into the carrier, classifier, and ledger fields of
+\autoref{def:measure-root-real-stream-regularity-front}. Since both source
+theorems expose only displayed $\mathsf{BHist}$ rows and $\RealUp$ classifier
+comparisons, the repacked front adds no host event equality or quotient row.
+\end{proof}
+
+\begin{theorem}[Measure root real-stream additivity regularity]
+\label{thm:measure-root-real-stream-additivity-regularity}
+Countable disjoint additivity on
+\autoref{def:measure-root-real-stream-regularity-front} is exactly the shared
+$\RealUp$ endpoint comparison obtained from
+\autoref{thm:measure-root-countable-premeasure-additivity-obligation},
+\autoref{thm:measure-streamname-countable-additivity-scope}, and
+\autoref{thm:measure-obligation-countable-sum-classifier-stability}.
+\end{theorem}
+\begin{proof}
+Project the countable family from the front ledger. Its component event rows,
+pairwise-disjointness witness, countable-union row, and countable-sum endpoint
+are the rows named in the countable-premeasure front and observed pointwise by
+the StreamName endpoint family.
+
+Apply
+\autoref{thm:measure-root-countable-premeasure-additivity-obligation}. This
+gives the root comparison between the value of the covered countable union and
+the countable sum of the component $\RealUp$ endpoints.
+
+Apply \autoref{thm:measure-streamname-countable-additivity-scope}. It reads
+the same comparison through the StreamName-indexed endpoint family and keeps
+the additivity row scoped to the displayed measurable sequence, its union row,
+and its countable-sum endpoint.
+
+Finally apply
+\autoref{thm:measure-obligation-countable-sum-classifier-stability}. Pointwise
+$\RealUp$ endpoint comparisons along the stream name repack into the
+countable-sum endpoint comparison, so countable disjoint additivity on the
+front is the shared $\RealUp$ comparison and not a separate analytic
+additivity object.
+\end{proof}
+
+\begin{theorem}[Measure root real-stream consumer regularity boundary]
+\label{thm:measure-root-real-stream-consumer-regularity-boundary}
+The $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consumers of
+\autoref{def:measure-root-real-stream-regularity-front} may consume only its
+covered-event, endpoint, countable-sum, finite-readback, normalization,
+nonnegative, monotone, and relative-difference rows. This boundary is the
+common projection of
+\autoref{thm:measure-root-countable-premeasure-consumer-threshold} and
+\autoref{thm:measure-streamname-downstream-consumer-boundary}.
+\end{theorem}
+\begin{proof}
+Start from the consumer field of
+\autoref{def:measure-root-real-stream-regularity-front}. It lists exactly the
+rows visible to downstream chapters: covered events, $\RealUp$ endpoint
+comparisons, countable sums, finite readback, normalization, nonnegative
+values, monotone inclusion, and relative differences.
+
+Apply
+\autoref{thm:measure-root-countable-premeasure-consumer-threshold}. It assigns
+covered-event, countable-sum, and finite-readback rows to $\IntegralUp$; the
+normalization endpoint to $\ProbSpaceUp$; and the nonnegative, monotone,
+relative-difference, and countable-sum stability rows to
+$\FunctionalAnalysisUp$.
+
+Now apply \autoref{thm:measure-streamname-downstream-consumer-boundary}. The
+StreamName endpoint family supplies only the indexed endpoint rows already
+named by the root consumer package, so each consumer receives the same rows
+through stream observations rather than through a larger event carrier.
+
+Repack the two projections as the front boundary. No consumer can read beyond
+the covered-event ledger, endpoint comparisons, countable-sum row,
+finite-readback row, normalization row, nonnegative row, monotone row, and
+relative-difference row, because the standard bridge boundary field excludes
+host equality, quotient equality, and analytic completion data.
+\end{proof}
