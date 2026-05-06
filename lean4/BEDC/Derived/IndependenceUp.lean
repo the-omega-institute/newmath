@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Bundle
 
 namespace BEDC.Derived.IndependenceUp
@@ -81,5 +82,34 @@ theorem IndependenceFiniteProduct_reindexing_readback
     intro z zInYs
     exact allXsEmpty z ((sameMembers z).mpr zInYs)
   exact IndependenceFiniteProduct_reindexing_readback_fold_empty allYsEmpty
+
+theorem IndependenceFiniteReindexing_invariance
+    {jointOriginal jointReindexed productOriginal productReindexed : BHist}
+    {originalMarginals reindexedMarginals : ProbeBundle BHist} :
+    (forall z : BHist, InBundle z originalMarginals <-> InBundle z reindexedMarginals) ->
+      hsame (IndependenceProductFold originalMarginals) BHist.Empty ->
+        IndependenceBinaryFactorization jointOriginal
+          (IndependenceProductFold originalMarginals) BHist.Empty productOriginal ->
+          hsame jointReindexed jointOriginal ->
+            Cont (IndependenceProductFold reindexedMarginals) BHist.Empty productReindexed ->
+              IndependenceBinaryFactorization jointReindexed
+                (IndependenceProductFold reindexedMarginals) BHist.Empty productReindexed := by
+  intro sameMembers originalFoldEmpty originalFactorization sameJoint reindexedProduct
+  constructor
+  · exact reindexedProduct
+  · have reindexedFoldEmpty : hsame (IndependenceProductFold reindexedMarginals) BHist.Empty :=
+      IndependenceFiniteProduct_reindexing_readback sameMembers originalFoldEmpty
+    have originalProductOriginalFold :
+        hsame productOriginal (IndependenceProductFold originalMarginals) :=
+      cont_right_unit_result originalFactorization.left
+    have originalProductEmpty : hsame productOriginal BHist.Empty :=
+      hsame_trans originalProductOriginalFold originalFoldEmpty
+    have originalJointEmpty : hsame jointOriginal BHist.Empty :=
+      hsame_trans originalFactorization.right originalProductEmpty
+    have reindexedJointEmpty : hsame jointReindexed BHist.Empty :=
+      hsame_trans sameJoint originalJointEmpty
+    have reindexedProductEmpty : hsame productReindexed BHist.Empty :=
+      hsame_trans (cont_right_unit_result reindexedProduct) reindexedFoldEmpty
+    exact hsame_trans reindexedJointEmpty (hsame_symm reindexedProductEmpty)
 
 end BEDC.Derived.IndependenceUp
