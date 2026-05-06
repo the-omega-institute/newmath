@@ -213,6 +213,46 @@ format:
   }
   #detail .crit-list a:hover { background: #fdebe7; }
   #detail .crit-list .crit-meta { color: #888; font-size: 0.78rem; margin-left: 0.4rem; }
+  #detail .legend-subhead {
+    font-size: 0.78rem; font-weight: 600; color: #555;
+    margin-top: 0.5rem; margin-bottom: 0.3rem;
+  }
+  #detail .legend-subhead.legend-subhead-tight { margin-top: 0.65rem; }
+  #detail .legend-tier-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.2rem 0.6rem; margin-bottom: 0.35rem;
+  }
+  #detail .legend-tier-grid .tier-cell {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.82rem; color: #333;
+  }
+  #detail .legend-tier-grid .tier-chip {
+    display: inline-block; width: 14px; height: 14px;
+    border: 1px solid rgba(0,0,0,0.15); border-radius: 50%;
+    flex-shrink: 0;
+  }
+  #detail .dyn-coverage {
+    font-size: 0.82rem; color: #2c3e50; margin-bottom: 0.55rem;
+    padding: 0.35rem 0.55rem; background: #f4faf6; border-radius: 3px;
+    border-left: 3px solid #27ae60; line-height: 1.45;
+  }
+  #detail .dyn-coverage .dyn-coverage-breakdown {
+    font-size: 0.74rem; color: #888; margin-top: 0.15rem;
+  }
+  #detail .dyn-section-title {
+    font-size: 0.78rem; font-weight: 600; color: #555;
+    margin-top: 0.55rem; margin-bottom: 0.25rem;
+  }
+  #detail .dyn-list a {
+    display: block; padding: 0.22rem 0.5rem; margin-bottom: 0.18rem;
+    background: #f4f7fa; border-left: 3px solid #3498db; cursor: pointer;
+    text-decoration: none; color: #222; font-size: 0.84rem;
+  }
+  #detail .dyn-list a:hover { background: #e7eef5; }
+  #detail .dyn-list .dyn-meta { color: #888; font-size: 0.74rem; margin-left: 0.35rem; }
+  #detail .dyn-list .dyn-empty {
+    color: #999; font-style: italic; font-size: 0.8rem; padding: 0.2rem 0.5rem;
+  }
   #detail .glossary-toggle {
     margin-top: 1rem; padding: 0.4rem 0.7rem; width: 100%;
     border: 1px solid #ccc; background: white; border-radius: 4px;
@@ -319,14 +359,33 @@ format:
     </div>
 
     <div class="legend">
+      <div data-i18n="dyn_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Closure pipeline</div>
+      <div id="dyn-coverage" class="dyn-coverage"></div>
+      <div data-i18n="unblock_title" class="dyn-section-title">Top unblock targets</div>
+      <div id="unblock-list" class="dyn-list"></div>
+      <div data-i18n="next_grade_title" class="dyn-section-title">Next grade transitions</div>
+      <div id="next-grade-list" class="dyn-list"></div>
+    </div>
+
+    <div class="legend">
       <div data-i18n="legend_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Legend</div>
+      <div class="legend-subhead" data-i18n="legend_color_head">Color = theory closure tier</div>
+      <div class="legend-tier-grid">
+        <div class="tier-cell"><span class="tier-chip" style="background:#f7dc6f;"></span><span class="tier-name" data-i18n="tier_seed">seed</span></div>
+        <div class="tier-cell"><span class="tier-chip" style="background:#f39c12;"></span><span class="tier-name" data-i18n="tier_obligation">obligation</span></div>
+        <div class="tier-cell"><span class="tier-chip" style="background:#27ae60;"></span><span class="tier-name" data-i18n="tier_scoped">scoped</span></div>
+        <div class="tier-cell"><span class="tier-chip" style="background:#e91e63;"></span><span class="tier-name" data-i18n="tier_public">public</span></div>
+        <div class="tier-cell"><span class="tier-chip" style="background:#2980b9;"></span><span class="tier-name" data-i18n="tier_bridged">bridged</span></div>
+        <div class="tier-cell"><span class="tier-chip" style="background:#7d3c98;"></span><span class="tier-name" data-i18n="tier_mature">mature</span></div>
+      </div>
+      <div class="legend-subhead legend-subhead-tight" data-i18n="legend_color_overrides">Overrides</div>
       <div><span class="swatch circle" style="background:#c0392b;"></span><span data-i18n="legend_crit">Frontline (AI's current target)</span></div>
-      <div><span class="swatch hex" style="background:#27ae60;"></span><span data-i18n="legend_closed">Closed (closurestatus declared)</span></div>
       <div><span class="swatch circle" style="background:#3498db;"></span><span data-i18n="legend_prog">In progress (theorems landing, no closurestatus yet)</span></div>
+      <div><span class="swatch circle" style="background:#34495e;"></span><span data-i18n="legend_schema">Schema-only horizon (intentional)</span></div>
       <div><span class="swatch circle" style="background:#bdc3c7;"></span><span data-i18n="legend_scaf">Scaffold (paper only, Lean pending)</span></div>
-      <div><span class="swatch circle" style="background:#8e44ad;"></span><span data-i18n="legend_schema">Schema-only horizon (intentional)</span></div>
-      <div class="legend-note" data-i18n="legend_shape">Shape encodes theory-closure tier: ⬡ scoped, octagon public/bridged, ★ mature. Border encodes verification: dark = audit/axiom-clean, yellow halo = bridge-checked.</div>
-      <div class="legend-note" data-i18n="legend_size">Size = total paper obligations (checked + stated).</div>
+      <div class="legend-subhead legend-subhead-tight" data-i18n="legend_shape_head">Shape = formal verification tier</div>
+      <div class="legend-note" data-i18n="legend_shape">○ unformalized · △ statement-only or in-progress · ⬡ theorem-checked · ★ audit / axiom / bridge clean</div>
+      <div class="legend-note" data-i18n="legend_size">Size = total paper obligations (checked + stated). Border = thick red for AI's current target.</div>
     </div>
 
     <button class="glossary-toggle" onclick="toggleGlossary()">
@@ -360,16 +419,31 @@ const I18N = {
     lang_label: "Language:",
     hint: "Click a node to see its bilingual entry, stats, and dependencies.",
     legend_title: "Legend",
+    legend_color_head: "Color = theory closure tier",
+    legend_color_overrides: "Overrides",
+    tier_seed: "seed",
+    tier_obligation: "obligation",
+    tier_scoped: "scoped",
+    tier_public: "public",
+    tier_bridged: "bridged",
+    tier_mature: "mature",
+    legend_shape_head: "Shape = formal verification tier",
     legend_crit: "Frontline (AI's current target)",
-    legend_closed: "Closed (closurestatus declared)",
     legend_prog: "In progress (theorems landing, no closurestatus yet)",
     legend_scaf: "Scaffold (paper only, Lean pending)",
     legend_schema: "Schema-only horizon (intentional)",
-    legend_shape: "Shape = theory-closure tier: ⬡ scoped, octagon public/bridged, ★ mature. Border = verification: dark for audit/axiom-clean, yellow halo for bridge-checked.",
-    legend_size: "Size = total paper obligations (checked + stated).",
+    legend_shape: "○ unformalized · △ statement-only or in-progress · ⬡ theorem-checked · ★ audit / axiom / bridge clean",
+    legend_size: "Size = total paper obligations (checked + stated). Border = thick red for AI's current target.",
     filter_title: "Filters",
     filter_stubs: "Show stubs",
     crit_title: "Where AI is attacking now",
+    dyn_title: "Closure pipeline",
+    unblock_title: "Top unblock targets",
+    next_grade_title: "Next grade transitions",
+    dyn_coverage_label: "closed",
+    dyn_unblocks_meta: "unblocks",
+    dyn_none: "(none yet)",
+    tier_none: "(none)",
     footer_activity: "Monthly commits",
     sum_theorems: "theorems",
     sum_regions: "regions",
@@ -418,16 +492,31 @@ const I18N = {
     lang_label: "语言:",
     hint: "点击节点查看双语词条, 统计和依赖关系.",
     legend_title: "图例",
+    legend_color_head: "颜色 = 理论闭合等级",
+    legend_color_overrides: "特殊态",
+    tier_seed: "seed (种子)",
+    tier_obligation: "obligation (义务)",
+    tier_scoped: "scoped (范围)",
+    tier_public: "public (公开)",
+    tier_bridged: "bridged (桥接)",
+    tier_mature: "mature (成熟)",
+    legend_shape_head: "形状 = 形式化验证等级",
     legend_crit: "前线 (AI 当前攻坚)",
-    legend_closed: "已闭合 (声明 closurestatus)",
     legend_prog: "进行中 (有定理在落, 尚未声明 closurestatus)",
     legend_scaf: "脚架 (仅论文, Lean 待补)",
     legend_schema: "Schema-only 视界 (有意为之)",
-    legend_shape: "形状 = 理论闭合等级: ⬡ scoped, 八边形 public/bridged, ★ mature. 边框 = 形式化验证: 深色 = audit/axiom-clean, 黄色光环 = bridge-checked.",
-    legend_size: "节点大小 = 论文 obligation 总数 (checked + stated).",
+    legend_shape: "○ 未形式化 · △ 仅陈述或进行中 · ⬡ 定理已证 · ★ audit / axiom / bridge clean",
+    legend_size: "节点大小 = 论文 obligation 总数 (checked + stated). 边框 = 红色粗边表示 AI 当前攻坚目标.",
     filter_title: "过滤",
     filter_stubs: "显示空 stub",
     crit_title: "AI 当前攻坚位置",
+    dyn_title: "闭合流水线",
+    unblock_title: "高优先解锁目标",
+    next_grade_title: "近期可推进闭合等级",
+    dyn_coverage_label: "已闭合",
+    dyn_unblocks_meta: "解锁",
+    dyn_none: "(暂无)",
+    tier_none: "(无)",
     footer_activity: "每月提交数",
     sum_theorems: "定理",
     sum_regions: "领域",
@@ -650,46 +739,91 @@ function toggleGlossary() {
 }
 
 // Two visual channels for the two-axis closurestatus framework:
-//   color = work state  (categorical: schema / crit / closed / progress / scaffold)
-//   shape = theory closure tier  (ellipse < hexagon < octagon < star)
-//   border = formal verification tier  (white < dark < yellow halo)
-// Today every closed region sits at scopedClosure × theoremCheckedV, so only
-// hexagons + white borders show up; the higher-tier shapes/borders are
-// reserved for when the data populates them.
+//   color  = theory closure tier — 6 distinct color families, plus 3
+//            categorical overrides (schema / crit / scaffold)
+//   shape  = formal verification tier (ellipse < triangle < hexagon < star).
+//            Triangle also catches "has theorems but no closurestatus
+//            declared" — the old standalone "progress blue" merged here,
+//            freeing blue for the bridged tier.
+//   border = AI-frontline emphasis (red for crit, white otherwise)
 const NODE_PALETTE = {
-  schema:   "#8e44ad",  // purple  — intentional schema-only horizon
-  crit:     "#c0392b",  // red     — AI's current target
-  closed:   "#27ae60",  // green   — closurestatus declared (incl. kernel)
-  progress: "#3498db",  // blue    — has theorems, no closurestatus yet
-  scaffold: "#bdc3c7",  // gray    — paper-only, Lean pending
+  // Theory-closure tier — six distinct hue families. We deliberately jump
+  // out of the green/teal family at `public` so scoped (green) and public
+  // (pink) read as completely different categories instead of "two
+  // shades of the same green". `bridged` stays in blue but bright enough
+  // to be legible on white; `progress` stays in the same blue family but
+  // visibly lighter (sky blue vs ocean blue).
+  seed:        "#f7dc6f",  // yellow       — germinating
+  obligation:  "#f39c12",  // orange       — committed
+  scoped:      "#27ae60",  // green        — anchor / current default
+  public:      "#e91e63",  // hot pink     — broader surface, jumps out of green family
+  bridged:     "#2980b9",  // ocean blue   — bridge surface
+  mature:      "#7d3c98",  // amethyst     — fully integrated
+  // Categorical overrides
+  progress:    "#3498db",  // sky blue     — has theorems, no closurestatus yet
+  schema:      "#34495e",  // dark slate   — intentional schema-only horizon
+  crit:        "#c0392b",  // red          — AI's current target
+  scaffold:    "#bdc3c7",  // light gray   — paper-only, Lean pending
+};
+
+const TIER_CLASS = {
+  seedClosure:       "seed",
+  obligationClosure: "obligation",
+  scopedClosure:     "scoped",
+  publicClosure:     "public",
+  bridgedClosure:    "bridged",
+  matureClosure:     "mature",
 };
 
 function statusClass(node) {
   if (node.schema_only) return "schema";
-  if (node.id === "kernel") return "closed";       // FKernel is closed by construction
   if (CRIT_SET.has(node.id)) return "crit";
-  if (node.closed_theoryclosure || node.closed_formalstatus) return "closed";
-  if ((node.checked || 0) > 0 || (node.stmt || 0) > 0 ||
-      (node.namecert_checked || 0) > 0 || (node.thms || 0) > 0) {
-    return "progress";
-  }
+  if (node.id === "kernel") return "scoped";       // kernel proven by construction
+  const tier = node.closed_theoryclosure;
+  if (tier && TIER_CLASS[tier]) return TIER_CLASS[tier];
+  // No closurestatus declared. Distinguish in-flight (theorems landing)
+  // from truly empty so the stub filter only hides the latter.
+  if (nodeHasProgress(node)) return "progress";
   return "scaffold";
 }
 
+function nodeHasProgress(node) {
+  return (node.checked || 0) > 0 || (node.stmt || 0) > 0 ||
+         (node.namecert_checked || 0) > 0 || (node.thms || 0) > 0;
+}
+
+// Formal-verification tier → shape, collapsed to 4 maximally distinguishable
+// silhouettes. The intermediate `formalTargetV / encodedDefV / scaffoldCheckedV`
+// tier collapses to triangle ("statement-only"); the three "audit-clean or
+// above" tiers collapse to star ("audit / axiom / bridge clean"). When a
+// chapter has Lean theorems but no closurestatus block yet, we also emit
+// triangle so "in-progress without declared closure" reads as
+// statement-level work, not as nothing.
+//   null / unformalizedV                                            → ellipse
+//   formalTargetV / encodedDefV / scaffoldCheckedV                  → triangle
+//   theoremCheckedV                                                 → hexagon
+//   auditCleanV / axiomCleanV / bridgeCheckedV                      → star
+const VERIF_SHAPE = {
+  unformalizedV:    "ellipse",
+  formalTargetV:    "triangle",
+  encodedDefV:      "triangle",
+  scaffoldCheckedV: "triangle",
+  theoremCheckedV:  "hexagon",
+  auditCleanV:      "star",
+  axiomCleanV:      "star",
+  bridgeCheckedV:   "star",
+};
+
 function nodeShape(node) {
-  if (node.id === "kernel") return "hexagon";
-  const tc = node.closed_theoryclosure;
-  if (tc === "matureClosure") return "star";
-  if (tc === "publicClosure" || tc === "bridgedClosure") return "octagon";
-  if (tc) return "hexagon";  // seed / obligation / scoped
+  if (node.id === "kernel") return "hexagon";  // kernel theorem-checked by construction
+  const verif = node.closed_formalstatus;
+  if (verif && VERIF_SHAPE[verif]) return VERIF_SHAPE[verif];
+  if (nodeHasProgress(node)) return "triangle";  // theorems landing, no closurestatus yet
   return "ellipse";
 }
 
 function nodeBorder(node, cls) {
   if (cls === "crit") return { stroke: "#7e1810", borderWidth: 3 };
-  const fs = node.closed_formalstatus;
-  if (fs === "bridgeCheckedV") return { stroke: "#f1c40f", borderWidth: 3 };
-  if (fs === "axiomCleanV" || fs === "auditCleanV") return { stroke: "#1c2833", borderWidth: 2 };
   return { stroke: "#ffffff", borderWidth: 2 };
 }
 
@@ -1150,6 +1284,69 @@ function renderCritList() {
   }).join("");
 }
 
+// Tier rotation order matches critical_path.py phase_review v3.4: list
+// the highest-impact transition first so the panel surfaces "what just
+// became reachable" rather than rehashing the seed-tier dogpile.
+const TRANSITION_ORDER = [
+  "to_mature", "to_bridged", "to_public",
+  "to_scoped", "to_obligation", "to_seed",
+];
+
+function tierLabel(grade) {
+  if (!grade) return t("tier_none");
+  const key = "tier_" + grade.replace(/Closure$/, "");
+  return t(key) || grade;
+}
+
+function renderLatestDynamics() {
+  // Coverage gauge: closed / (closed + open) horizons.
+  const closed = STATUS.closed_horizons || {};
+  const closedTotal = Object.values(closed).reduce((s, v) => s + v, 0);
+  const openTotal = STATUS.open_horizons || 0;
+  const total = closedTotal + openTotal;
+  const pct = total ? ((closedTotal / total) * 100).toFixed(1) : "0";
+  const breakdown = Object.entries(closed)
+    .sort((a, b) => b[1] - a[1])
+    .map(([k, v]) => {
+      const tier = k.split("/")[0];
+      return `${v} ${tierLabel(tier)}`;
+    })
+    .join(" · ");
+  document.getElementById("dyn-coverage").innerHTML =
+    `<strong>${closedTotal}</strong> / ${total} ${t("dyn_coverage_label")} (${pct}%)` +
+    (breakdown ? `<div class="dyn-coverage-breakdown">${breakdown}</div>` : "");
+
+  // Top unblock targets: chapters whose closure unblocks the most downstream.
+  const unblocks = (STATUS.top_root_unblocks || []).slice(0, 5);
+  const unblockEl = document.getElementById("unblock-list");
+  unblockEl.innerHTML = unblocks.length
+    ? unblocks.map(u => {
+        const g = GLOSSARY[u.name];
+        const lbl = g ? g[LANG].label : u.name;
+        return `<a onclick="showNodeDetail('${u.name}')">${lbl}<span class="dyn-meta">· ${t("dyn_unblocks_meta")} ${u.unblock_count}</span></a>`;
+      }).join("")
+    : `<div class="dyn-empty">${t("dyn_none")}</div>`;
+
+  // Next grade transitions: top-1 from each tier in TRANSITION_ORDER.
+  const transitions = STATUS.top_transitions || {};
+  const flat = [];
+  for (const key of TRANSITION_ORDER) {
+    const list = transitions[key] || [];
+    if (list.length) flat.push(list[0]);
+    if (flat.length >= 5) break;
+  }
+  const nextEl = document.getElementById("next-grade-list");
+  nextEl.innerHTML = flat.length
+    ? flat.map(n => {
+        const g = GLOSSARY[n.name];
+        const lbl = g ? g[LANG].label : n.name;
+        const from = tierLabel(n.from_grade);
+        const to = tierLabel(n.to_grade);
+        return `<a onclick="showNodeDetail('${n.name}')">${lbl}<span class="dyn-meta">· ${from} → ${to}</span></a>`;
+      }).join("")
+    : `<div class="dyn-empty">${t("dyn_none")}</div>`;
+}
+
 function renderSpark() {
   const months = STATUS.monthly_activity || [];
   if (!months.length) return;
@@ -1181,6 +1378,7 @@ function renderAll() {
   buildFilterUI();
   applyFilters();
   renderCritList();
+  renderLatestDynamics();
   renderSpark();
   if (CY && CY.nodes(":selected").length) {
     showNodeDetail(CY.nodes(":selected")[0].id());
