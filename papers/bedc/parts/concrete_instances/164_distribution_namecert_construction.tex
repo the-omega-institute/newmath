@@ -373,3 +373,169 @@ $$
 \mu_X(B)\le_R\mu_X(A).
 $$
 \end{proof}
+
+\begin{theorem}[Distribution pushforward countable disjoint-union sigma-additivity]
+\label{thm:distribution-pushforward-countable-disjoint-sigma-additivity}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map from a $\ProbSpaceUp$ source to a $\MeasureUp$ target. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure, $E\simeq_S F$ for the source event classifier, and $x\sim_R y$ for the $\RealUp$ classifier.
+Let $(B_n)_{n\in\mathbb N}$ be target events with $B_n\in\mathcal{A}_T$ for every $n$, and let $U_T\in\mathcal{A}_T$ be a displayed target countable union:
+$$
+t\in U_T\Longleftrightarrow \exists n\in\mathbb N,\, t\in B_n.
+$$
+Assume that the target row is pairwise disjoint: if $i\neq j$, no carried target point has simultaneous membership in $B_i$ and $B_j$.
+For each $n$, put $A_n:=X^{-1}(B_n)$ and put $A_U:=X^{-1}(U_T)$. Suppose the following rows are available.
+\begin{enumerate}
+\item The $\RandomVarUp$ measurable-preimage row sends every target measurable event in this display to a source measurable event and gives the public readback
+$$
+ s\in X^{-1}(E)\Longleftrightarrow X(s)\in E.
+$$
+\item The source countable-union row supplies the source measurable event
+$$
+U_S:=\bigvee\nolimits^S_{n\in\mathbb N}A_n\in\mathcal{A}_S,
+$$
+and the countable preimage-union bridge supplies the source event classifier comparison
+$$
+A_U\simeq_S U_S.
+$$
+\item The source $\MeasureUp$ surface is sigma-additive on displayed pairwise-disjoint source-measurable countable unions:
+$$
+\mu_S(U_S)\sim_R\sum_{n\in\mathbb N}\mu_S(A_n).
+$$
+\item The $\DistributionUp$ pushforward row reads every target measurable event $E\in\mathcal{A}_T$ by
+$$
+\mu_X(E)\sim_R\mu_S(X^{-1}(E)).
+$$
+\item The source measure is readable through the source event classifier:
+$$
+E\simeq_S F\Longrightarrow \mu_S(E)\sim_R\mu_S(F).
+$$
+\item The countable $\RealUp$ sum endpoint is stable under pointwise $\RealUp$ classifier comparison:
+$$
+\bigl(\forall n\in\mathbb N,\, r_n\sim_R q_n\bigr)\Longrightarrow\sum_{n\in\mathbb N}r_n\sim_R\sum_{n\in\mathbb N}q_n.
+$$
+\end{enumerate}
+Then the pushed-forward target measure classifies the displayed target countable disjoint union by the countable sum of the pushed-forward component measures:
+$$
+\mu_X(U_T)\sim_R\sum_{n\in\mathbb N}\mu_X(B_n).
+$$
+\end{theorem}
+\begin{proof}
+Invert the measurable-preimage row at $U_T$ and at each $B_n$. This gives $A_U\in\mathcal{A}_S$, gives $A_n\in\mathcal{A}_S$ for every $n$, and gives the readbacks
+$$
+s\in A_U\Longleftrightarrow X(s)\in U_T
+$$
+and
+$$
+s\in A_n\Longleftrightarrow X(s)\in B_n.
+$$
+The source countable-union row supplies $U_S\in\mathcal{A}_S$, and the countable preimage-union bridge gives
+$$
+A_U\simeq_S U_S.
+$$
+The source sequence $(A_n)_{n\in\mathbb N}$ is pairwise disjoint. Indeed, let $i\neq j$ and suppose that a carried source point $s$ has witnesses $s\in A_i$ and $s\in A_j$. The preimage readback for $B_i$ gives $X(s)\in B_i$, and the preimage readback for $B_j$ gives $X(s)\in B_j$. This contradicts the displayed target disjointness of $B_i$ and $B_j$.
+Hence the hypotheses of the source sigma-additivity row apply to $(A_n)$ and $U_S$, giving
+$$
+\mu_S(U_S)\sim_R\sum_{n\in\mathbb N}\mu_S(A_n).
+$$
+Apply the pushforward row to the target union $U_T$. Since $U_T\in\mathcal{A}_T$,
+$$
+\mu_X(U_T)\sim_R\mu_S(A_U).
+$$
+Read the source event comparison $A_U\simeq_S U_S$ through the source measure classifier-transport row. This gives
+$$
+\mu_S(A_U)\sim_R\mu_S(U_S).
+$$
+By transitivity of the $\RealUp$ classifier,
+$$
+\mu_X(U_T)\sim_R\mu_S(U_S).
+$$
+Composing this comparison with the source sigma-additivity comparison yields
+$$
+\mu_X(U_T)\sim_R\sum_{n\in\mathbb N}\mu_S(A_n).
+$$
+For each $n\in\mathbb N$, the pushforward row applied to the target measurable event $B_n$ gives
+$$
+\mu_X(B_n)\sim_R\mu_S(A_n).
+$$
+By symmetry of the $\RealUp$ classifier,
+$$
+\mu_S(A_n)\sim_R\mu_X(B_n).
+$$
+The countable-sum stability row applied to the pointwise comparisons gives
+$$
+\sum_{n\in\mathbb N}\mu_S(A_n)\sim_R\sum_{n\in\mathbb N}\mu_X(B_n).
+$$
+A final transitivity step for the $\RealUp$ classifier gives
+$$
+\mu_X(U_T)\sim_R\sum_{n\in\mathbb N}\mu_X(B_n).
+$$
+\end{proof}
+
+\begin{theorem}[Distribution pushforward continuity from below]\label{thm:distribution-pushforward-continuity-from-below}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in $\autoref{sec:randomvar-carrier}$, from a $\ProbSpaceUp$ source as in $\autoref{sec:probspace-carrier}$ to a target $\MeasureUp$ carrier as in $\autoref{sec:measure-carrier}$. Write $\mathcal A_S$ and $\mathcal A_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure as in $\autoref{sec:distribution-carrier}$, and $x\sim_R y$ for the $\RealUp$ classifier of $\autoref{def:real-classifier-specification}$. Let $(B_n)_{n\in\mathbb N}$ be target events with $B_n\in\mathcal A_T$ for every $n$, and suppose the target readback supplies both
+$$
+B_n\subseteq B_{n+1}\quad\text{for every }n\in\mathbb N,
+$$
+and
+$$
+B:=\bigcup_{n\in\mathbb N} B_n
+\qquad\text{with}
+\qquad
+t\in B\Longleftrightarrow \exists n\in\mathbb N,\ t\in B_n.
+$$
+For each $n$, let $A_n:=X^{-1}(B_n)$ and let $A_B:=X^{-1}(B)$. Suppose the hypotheses of $\autoref{thm:randomvar-countable-preimage-union-exactness}$ and $\autoref{thm:measure-continuity-from-below-package}$ are satisfied for this data, including source measurability and the source countable-union row
+$$
+U_S:=\bigvee\nolimits^S_{n\in\mathbb N} A_n\in\mathcal A_S
+\qquad\text{and}\qquad
+A_B\sim_{\mathcal A_S}U_S.
+$$
+Then
+$$
+\mu_X(B)\sim_R\lim_{n\to\infty}\mu_X(B_n).
+$$
+\end{theorem}
+\begin{proof}
+For each $n$, apply the measurable-preimage readback to get
+$$
+A_n\in\mathcal A_S,\qquad A_B\in\mathcal A_S.
+$$
+From the target inclusion row $B_n\subseteq B_{n+1}$ and the preimage readbacks
+$$
+s\in A_n\Longleftrightarrow X(s)\in B_n,
+\qquad s\in A_{n+1}\Longleftrightarrow X(s)\in B_{n+1},
+$$
+it follows pointwise that $A_n\subseteq A_{n+1}$. Hence $(A_n)_{n\in\mathbb N}$ is an increasing source measurable sequence.
+
+Apply $\autoref{thm:measure-continuity-from-below-package}$ to $(A_n)$ and its source union $U_S$. This provides a source disjoint layer chain with prefix readbacks
+$$
+\Sigma_\mu(D_0,\dots,D_n)\sim_R\mu_S(A_n)\quad\text{for every }n\in\mathbb N,
+$$
+and the endpoint comparison
+$$
+\mu_S(U_S)\sim_R\sum_{n\in\mathbb N}\mu_S(D_n).
+$$
+
+By the $\DistributionUp$ pushforward row of $\autoref{sec:distribution-certificate}$,
+$$
+\mu_X(B)\sim_R\mu_S(A_B),
+$$
+and for each $n$
+$$
+\mu_X(B_n)\sim_R\mu_S(A_n).
+$$
+Composing the first comparison with $A_B\sim_{\mathcal A_S}U_S$ through source measure transport gives
+$$
+\mu_X(B)\sim_R\mu_S(U_S).
+$$
+Combining this with the continuity-from-below endpoint row yields
+$$
+\mu_X(B)\sim_R\sum_{n\in\mathbb N}\mu_S(D_n).
+$$
+Together with the prefix readbacks, each finite prefix is also transport-equivalent to the pushed-forward target prefix value:
+$$
+\Sigma_\mu(D_0,\dots,D_n)\sim_R\mu_X(B_n)\quad\text{for every }n\in\mathbb N.
+$$
+By the continuity-from-below readback convention for this displayed chain, the endpoint on the right is exactly the monotone limit of the target pushed-forward prefix sequence, hence
+$$
+\mu_X(B)\sim_R\lim_{n\to\infty}\mu_X(B_n).
+$$
+\end{proof}

@@ -12480,3 +12480,154 @@ Rationale:
 This is a concrete enumeration lemma for the simplicial union carrier and is a useful sibling/prerequisite to B-485 rather than a duplicate of its face-closure theorem. It has a precise implication shape, stays within the concrete_instances chapter, and supplies a natural construction of the union enumeration object assumed by the existing BOARD target.
 
 ---
+
+### B-475 - Distribution pushforward sigma-additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Distribution pushforward sigma-additivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a DistributionUp pushforward is induced by a RandomVarUp map whose preimages preserve countable target unions and the source MeasureUp surface is sigma-additive, then the pushed-forward target measure classifies a countable disjoint union by the countable sum of the pushed-forward component measures.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+
+Rationale:
+Distribution currently has pushforward total mass at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:12, finite binary disjoint-union additivity at :93, monotonicity at :203 and :330, and relative-difference additivity at :250. The finite additivity proof explicitly consumes the binary RandomVar preimage theorem at 164_distribution_namecert_construction.tex:105, while the MeasureUp surface already provides countable-disjoint sigma-additivity at papers/bedc/parts/concrete_instances/measure/carrier_surface.tex:205-223 and countable-sum classifier stability at :237-246. Focused grep for `distribution.*countable|pushforward.*sigma` under parts returned 0 theorem labels; hits were roadmap prose and existing finite/binary distribution material. The distribution file is 375 lines, so it is a viable body-file target.
+
+---
+
+### B-478 - CondExp projection idempotence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | CondExp projection idempotence |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If CondExpUp(X,G) is the conditional expectation of an integrable RandomVarUp endpoint onto a sub-sigma-algebra G, then applying the same CondExpUp projection again is classifier-equal to the first conditional expectation under the HilbertUp L2 projection surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/166_condexp_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/69_hilbert_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/hilbert_orthogonal_projection_row.tex`
+
+Rationale:
+CondExpUp is described as the L2 projection of an integrable random variable onto the subspace measurable with respect to a sub-sigma-algebra at papers/bedc/parts/concrete_instances/166_condexp_namecert_construction.tex:4. That chapter has 10 lines, 0 theorem environments, and 0 Lean markers in the inventory. A related singleton Hilbert projection idempotence theorem exists at papers/bedc/parts/concrete_instances/hilbert_orthogonal_projection_row.tex:60-73, but focused grep for `condexp|conditional[- ]expect|tower law|tower property|conditional expectation.*idempot|condexp.*idempot` returned no CondExp theorem labels; hits were roadmap prose, dependency mentions in Bayesian/Martingale chapters, and the CondExp chapter header. The proposed result is the concrete idempotence law for the conditional-expectation object itself.
+
+---
+
+### B-489 - Hash collision-freeness excludes second preimages
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Hash collision-freeness excludes second preimages |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+In the HashUp setup, CollFreeH and HashSecondPreimageSuccessH(x,y) imply contradiction by converting second-preimage success into HashCollisionSuccessH(x,y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+
+Rationale:
+This is a concrete security-facing obstruction theorem over the existing HashUp transcript surface. It is not a BOARD duplicate and not already packaged in the paper labels: existing rows convert second-preimage success to collision success, while this target names the collision-free budget and closes the impossibility consequence as a reusable theorem.
+
+---
+
+### B-490 - PublicKey certified ciphertext plaintext uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | PublicKey certified ciphertext plaintext uniqueness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+In the PublicKeyUp setup, PKDecryptEncryptExactP and PKDecryptOutputDetP together with PKKeyGenP(pk,sk), PKCertifiedEncP(pk,m,c), and PKCertifiedEncP(pk,n,c) imply muP(m,n).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex`
+
+Rationale:
+This is a concrete inversion theorem for certified ciphertext rows, distinct from the existing decrypt-encrypt and arbitrary-decryption statements. It packages the consequence that one generated keypair and one certified ciphertext cannot certify two classifier-distinct plaintexts, using existing exactness and output determinacy rows.
+
+---
+
+### B-492 - Simplicial union inherits dimension grading
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Simplicial union inherits dimension grading |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If finite simplicial carriers K and L share the simplex-code source, face relation, and dimension map d, and the union predicate is finite and face-closed, then carried union faces and two-step face chains satisfy the inherited dimension inequalities.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+
+Rationale:
+This is a distinct union-side counterpart to the existing intersection dimension-grading theorem and to the active union face-closure target. It lands on a concrete finite simplicial carrier statement and gives a reusable grading row once the union carrier rows are in place.
+
+---
+
+### B-494 - Distribution↑ continuity-from-below pushforward bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Distribution↑ continuity-from-below pushforward bridge |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If preimages under RandomVarUp preserve increasing unions and the source MeasureUp has continuity-from-below, then for any increasing target-measurable sequence (B_n) with union B, the pushforward satisfies μ_X(B) = lim_n μ_X(B_n).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+
+Rationale:
+This is a clean, concrete closure statement that is not a rephrasing of existing sigma-additivity; it exercises the monotone-limit axis of DistributionUp behavior and should be a useful bridge lemma for later limit-based arguments in MeasureUp/DistributionUp interoperability.
+
+---
