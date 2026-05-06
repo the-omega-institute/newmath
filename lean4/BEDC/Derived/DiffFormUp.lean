@@ -294,4 +294,28 @@ theorem DiffFormExteriorDerivative_wedge_input_stability
       sameSource⟩
   exact ⟨transportedLedger, classifierRows⟩
 
+theorem DiffFormExteriorDerivativeLedger_degree_successor_nonempty
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar
+      scalar' antisym source ->
+      UnaryHistory d ∧ UnaryHistory dplus ∧ Cont d (BHist.e1 BHist.Empty) dplus ∧
+        (hsame dplus BHist.Empty -> False) := by
+  intro ledger
+  have degreeRows := DiffFormExteriorDerivativeLedger_degree_raise ledger
+  exact And.intro degreeRows.left
+    (And.intro degreeRows.right.left
+      (And.intro degreeRows.right.right
+        (by
+          intro raisedEmpty
+          cases degreeRows.right.right
+          exact not_hsame_e1_empty (append_eq_empty_iff.mp raisedEmpty).right)))
+
+theorem DiffFormDegreeProbeAligned_hsame_transport
+    {d d' : BHist} {bundle : ProbeBundle BHist} :
+    DegreeProbeAligned d bundle -> hsame d d' -> DegreeProbeAligned d' bundle ∧
+      UnaryHistory d' := by
+  intro aligned sameDegree
+  cases sameDegree
+  exact And.intro aligned (DiffFormDegreeProbeAligned_bundleAppend_cont_unary aligned)
+
 end BEDC.Derived.DiffFormUp
