@@ -76,6 +76,39 @@ theorem MatroidFinsetIntersection_left_subset
               exact (Iff.mp (pointwise z) memberJ).left
           exact And.intro subset finiteSpine
 
+theorem MatroidFinsetIntersection_right_subset
+    {E : BHist -> Prop} {Rel : BHist -> BHist -> Prop} {I K J : BHist -> Prop} :
+    MatroidFinsetIntersection E Rel J I K ->
+      MatroidFinsetSubset E Rel J K ∧
+        exists zs : ProbeBundle BHist, MatroidFinsetEnumerates E Rel zs J := by
+  intro intersection
+  cases intersection with
+  | intro zs data =>
+      cases data with
+      | intro enumerates pointwise =>
+          have finiteSpine :
+              exists zs : ProbeBundle BHist, MatroidFinsetEnumerates E Rel zs J :=
+            Exists.intro zs enumerates
+          have subset : MatroidFinsetSubset E Rel J K := by
+            constructor
+            · exact finiteSpine
+            · intro z memberJ
+              exact (Iff.mp (pointwise z) memberJ).right
+          exact And.intro subset finiteSpine
+
+theorem MatroidFinsetSubset_row_composition
+    {E : BHist -> Prop} {Rel : BHist -> BHist -> Prop} {A B C : BHist -> Prop} :
+    MatroidFinsetSubset E Rel A B -> MatroidFinsetSubset E Rel B C ->
+      (exists xs : ProbeBundle BHist, MatroidFinsetEnumerates E Rel xs A) ∧
+        MatroidFinsetSubset E Rel A C := by
+  intro subsetAB subsetBC
+  constructor
+  · exact subsetAB.left
+  · constructor
+    · exact subsetAB.left
+    · intro z memberA
+      exact subsetBC.right z (subsetAB.right z memberA)
+
 theorem MatroidFinsetIntersection_independence_preserved
     {E : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
     {I K J : BHist -> Prop} {Ind : (BHist -> Prop) -> Prop}
@@ -410,5 +443,54 @@ theorem MatroidRestrictionRows_exchange_support_boundary {E K I J : BHist -> Pro
                         (And.intro
                           (Exists.intro xs (And.intro insertRows.left supportInsideK))
                           xRows.right.right.right)))))
+
+theorem MatroidRestrictions_compose_direct_restriction
+    {E : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {Ind IndRestrK IndRestrL : (BHist -> Prop) -> Prop}
+    {K L : BHist -> Prop} {FinSetCardLt : (BHist -> Prop) -> (BHist -> Prop) -> Prop}
+    (cert : NameCert E Rel)
+    (subsetK : MatroidFinsetSubset E Rel K E)
+    (subsetL : MatroidFinsetSubset E Rel L K)
+    (finiteM : forall {I : BHist -> Prop}, Ind I ->
+      exists xs : ProbeBundle BHist, MatroidFinSetSpineEnumerates E Rel xs I)
+    (emptyM : Ind (fun _z : BHist => False))
+    (hereditaryM : forall {I J : BHist -> Prop},
+      Ind I -> MatroidFinsetSubset E Rel J I -> Ind J)
+    (exchangeM : MatroidExchangeRow E Rel FinSetCardLt Ind)
+    (restrictK : forall I : BHist -> Prop, IndRestrK I <->
+      Ind I ∧ MatroidFinsetSubset E Rel I K)
+    (restrictL : forall I : BHist -> Prop, IndRestrL I <->
+      IndRestrK I ∧ MatroidFinsetSubset E Rel I L) :
+    (forall I : BHist -> Prop, IndRestrL I <-> Ind I ∧ MatroidFinsetSubset E Rel I L) ∧
+      MatroidRestrictionRows E Rel L FinSetCardLt Ind IndRestrL := by
+  have subsetLE : MatroidFinsetSubset E Rel L E := by
+    constructor
+    · exact subsetL.left
+    · intro z memberL
+      exact subsetK.right z (subsetL.right z memberL)
+  have directRestrict :
+      forall I : BHist -> Prop, IndRestrL I <->
+        Ind I ∧ MatroidFinsetSubset E Rel I L := by
+    intro I
+    constructor
+    · intro independentL
+      have rowsL : IndRestrK I ∧ MatroidFinsetSubset E Rel I L :=
+        Iff.mp (restrictL I) independentL
+      exact ⟨(Iff.mp (restrictK I) rowsL.left).left, rowsL.right⟩
+    · intro directRows
+      apply Iff.mpr (restrictL I)
+      constructor
+      · apply Iff.mpr (restrictK I)
+        constructor
+        · exact directRows.left
+        · constructor
+          · exact directRows.right.left
+          · intro z memberI
+            exact subsetL.right z (directRows.right.right z memberI)
+      · exact directRows.right
+  exact
+    ⟨directRestrict,
+      MatroidRestrictionRows_certificate cert subsetLE finiteM emptyM hereditaryM exchangeM
+        directRestrict⟩
 
 end BEDC.Derived.MatroidUp

@@ -41,6 +41,8 @@ import lifecycle
 import stage0_quickpath
 import codex_track  # v2 codex track
 import board_spawn  # v2 BOARD spawn gate
+import board_archive
+import candidate_inbox
 from locks import file_lock
 
 
@@ -297,8 +299,7 @@ DEFAULT_CANDIDATE_NOVELTY_THRESHOLD = 6
 
 
 def existing_target_ids() -> list[str]:
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    return re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+    return board_archive.existing_target_ids(include_archive=True)
 
 
 def next_target_id() -> str:
@@ -343,38 +344,53 @@ def append_candidates_to_board(
     accepted: list[str] = []
     if not candidates:
         return accepted
+    screened = candidate_inbox.screen_candidates(
+        candidates,
+        source="direct_append",
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
+    )
+    if screened.rejected:
+        candidate_inbox.record_rejections(screened.rejected, mode="direct_append")
     with file_lock("board"):
-        existing_titles = set()
-        for line in BOARD_PATH.read_text(encoding="utf-8").splitlines():
-            m = re.match(r"^### B-\d+\s+-\s+(.+)$", line)
-            if m:
-                existing_titles.add(m.group(1).strip().lower())
+        existing_titles = board_archive.existing_target_titles(include_archive=True)
         appended_blocks: list[str] = []
-        for cand in candidates:
+        promoted_candidates: list[dict] = []
+        late_rejections: list[dict] = []
+        for cand in screened.accepted:
             try:
                 fit = int(cand.get("fit_score", 0))
                 nov = int(cand.get("novelty", 0))
             except (TypeError, ValueError):
+                late_rejections.append({**cand, "reason": "non_int_score"})
                 continue
             if fit < fit_threshold or nov < novelty_threshold:
+                late_rejections.append({**cand, "reason": f"below_threshold fit={fit} nov={nov}"})
                 continue
             title = cand.get("title", "").strip()
-            if not title or title.lower() in existing_titles:
+            if not title:
+                late_rejections.append({**cand, "reason": "missing_title"})
+                continue
+            if title.lower() in existing_titles:
+                late_rejections.append({**cand, "reason": "duplicate_title_race"})
                 continue
             new_id = next_target_id_with_local(existing_titles, accepted)
             appended_blocks.append(render_candidate_entry(new_id, cand))
             existing_titles.add(title.lower())
             accepted.append(new_id)
+            promoted_candidates.append(cand)
         if appended_blocks:
             original = BOARD_PATH.read_text(encoding="utf-8").rstrip()
             write_text(BOARD_PATH, original + "\n" + "\n".join(appended_blocks) + "\n")
+            candidate_inbox.record_board_promotions(promoted_candidates, accepted, mode="direct_append")
+        if late_rejections:
+            candidate_inbox.record_rejections(late_rejections, mode="direct_append")
     return accepted
 
 
 def next_target_id_with_local(existing_titles: set, already_accepted: list[str]) -> str:
     """Compute next B-XX id including in-flight accepted ids from this batch."""
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    ids = re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+    ids = board_archive.existing_target_ids(include_archive=True)
     ids.extend(already_accepted)
     nums = [int(i.split("-")[1]) for i in ids if i.startswith("B-")]
     next_num = (max(nums) + 1) if nums else 1

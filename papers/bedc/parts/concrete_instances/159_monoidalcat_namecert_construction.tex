@@ -18,6 +18,7 @@ f\otimes g := \mathsf{append}(f,g).
 $$
 The unit object is $\emp$. The associator row from $(x\otimes y)\otimes z$ to $x\otimes(y\otimes z)$ and the left and right unitor rows from $\emp\otimes x$ and $x\otimes\emp$ to $x$ are the $\hsame$ witnesses supplied by continuation associativity and the empty-continuation unit laws on the displayed $\mathsf{BHist}$ rows.
 \end{definition}
+\leandef{BEDC.Derived.MonoidalCatUp.MonoidalCatSingletonTensor}
 
 \begin{theorem}[MonoidalCat singleton tensor carrier]
 \label{thm:monoidalcat-singleton-tensor-carrier}
@@ -47,6 +48,7 @@ $$
 \mathsf{CategoryHomCarrier}(\mathsf{append}(a,b),\mathsf{append}(a,b),\emp).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_tensor\_identity\_hom}
 \begin{proof}
 The identity rows for $a$ and $b$ are the empty continuation rows supplied by \autoref{thm:category-unary-continuation-stability-law-package}. Unary append closure gives the tensor object $\mathsf{append}(a,b)$ as a carried unary object.
 
@@ -66,6 +68,7 @@ For the left unitor, use the left empty-continuation law to identify $\mathsf{ap
 
 The category continuation-morphism tail theorems transport these three $\hsame$ rows through the displayed hom carrier, so the associator and both unitors live on the concrete unary-continuation category rather than on an external categorical carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_associator\_unitors}
 
 \begin{theorem}[MonoidalCat singleton coherence laws]
 \label{thm:monoidalcat-singleton-coherence-laws}
@@ -78,6 +81,7 @@ For the triangle, expand the associator and the two unitor rows. The left path a
 
 Finally compose the classifier rows by transitivity of $\hsame$. The displayed hom carrier is preserved along the comparison by the category stability law package, so the commuting diagrams are certified inside the BEDC morphism classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_coherence\_laws}
 
 \begin{theorem}[MonoidalCat NameCert obligation surface]
 \label{thm:monoidalcat-namecert-obligation-surface}
@@ -102,6 +106,7 @@ The stability fields are discharged by \autoref{thm:monoidalcat-singleton-tensor
 
 The ledger records only the displayed continuation tails and the two coherence paths. Exactness is the statement that the two paths in each coherence diagram are equal under $\hsame$, and no standard external monoidal-category bridge is asserted here.
 \end{proof}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_semantic\_name\_certificate}
 
 \begin{theorem}[MonoidalCat singleton tensor preserves composition]
 \label{thm:monoidalcat-singleton-tensor-preserves-composition}
@@ -127,6 +132,7 @@ $$
 $$
 Equivalently, $(f\otimes g)$ followed by $(f'\otimes g')$ is classifier-equal to $(f'\circ f)\otimes(g'\circ g)$ in the concrete singleton $\MonoidalCatUp$ certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.MonoidalCatUp.MonoidalCatSingleton\_tensor\_preserves\_composition}
 \begin{proof}
 By \autoref{thm:monoidalcat-singleton-tensor-carrier}, the tensor rows $\mathsf{append}(f,g)$ and $\mathsf{append}(f',g')$ are hom-carriers from $\mathsf{append}(a_0,c_0)$ to $\mathsf{append}(a_1,c_1)$ and from $\mathsf{append}(a_1,c_1)$ to $\mathsf{append}(a_2,c_2)$. Applying \autoref{thm:category-hom-carrier-comp-closed} to these two tensor rows gives the first displayed carrier.
 

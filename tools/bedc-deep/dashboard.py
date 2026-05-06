@@ -80,8 +80,10 @@ def render_server(s: dict) -> str:
 
 def render_board() -> str:
     from dispatch_bedc_target import parse_board
+    import board_archive
     targets = parse_board()
-    total = len(targets)
+    active_total = len(targets)
+    archived_completed = len(board_archive.parse_board_file(board_archive.COMPLETED_BOARD_PATH))
     finished = 0
     in_progress = 0
     pending = 0
@@ -92,10 +94,27 @@ def render_board() -> str:
             in_progress += 1
         else:
             pending += 1
+    finished_total = finished + archived_completed
     out = [
-        f"  total: {total}   finished: {finished}   in_progress: {in_progress}   pending: {pending}",
+        (
+            f"  active: {active_total}   finished: {finished_total} "
+            f"(archived={archived_completed})   in_progress: {in_progress}   pending: {pending}"
+        ),
     ]
     return "\n".join(out)
+
+
+def render_candidate_inbox() -> str:
+    try:
+        import candidate_inbox
+        data = candidate_inbox.stats()
+    except Exception as exc:
+        return f"  unavailable: {exc}"
+    by_event = data.get("by_event") or {}
+    if not by_event:
+        return "  events: 0"
+    parts = [f"{k}={v}" for k, v in by_event.items()]
+    return f"  events: {data.get('events', 0)}   " + "   ".join(parts)
 
 
 def render_target_table() -> str:
@@ -200,6 +219,8 @@ def main() -> int:
     print(render_server(_safe_get_server()))
     print(_section("BOARD"))
     print(render_board())
+    print(_section("Candidate Inbox"))
+    print(render_candidate_inbox())
     print(_section("Target lifecycle"))
     print(render_target_table())
     print(_section("failure_kind histogram"))

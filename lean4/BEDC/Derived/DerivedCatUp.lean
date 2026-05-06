@@ -58,6 +58,24 @@ theorem DerivedCatVisibleLocalizationCarrier_unary {h : BHist} :
           | intro quasi rows =>
               exact rows.left
 
+theorem DerivedCatVisibleLocalizationCarrier_surface_rows
+    {h object morphism quasi : BHist} :
+    UnaryHistory h -> UnaryHistory object -> UnaryHistory morphism -> UnaryHistory quasi ->
+      Cont h object morphism -> Cont morphism quasi h ->
+        DerivedCatVisibleLocalizationCarrier h ∧ UnaryHistory h ∧
+          DerivedCatVisibleLocalizationClassifier h h := by
+  intro hUnary objectUnary morphismUnary quasiUnary firstRow secondRow
+  have carrierH : DerivedCatVisibleLocalizationCarrier h :=
+    Exists.intro object
+      (Exists.intro morphism
+        (Exists.intro quasi
+          (And.intro hUnary
+            (And.intro objectUnary
+              (And.intro morphismUnary
+                (And.intro quasiUnary (And.intro firstRow secondRow)))))))
+  exact And.intro carrierH
+    (And.intro hUnary (DerivedCatVisibleLocalizationClassifier.refl carrierH))
+
 theorem DerivedCatVisibleLocalizationClassifier_endpoints :
     forall {h k : BHist}, DerivedCatVisibleLocalizationClassifier h k ->
       DerivedCatVisibleLocalizationCarrier h ∧ DerivedCatVisibleLocalizationCarrier k ∧

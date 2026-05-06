@@ -59,6 +59,7 @@ The transport claims can be read either from the two carrying equations and the 
 \label{thm:topology-namecert-obligation-package}
 Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$, equipped with indexed arbitrary-union witnesses for every indexed family of opens and indexed boundary open witnesses $\bot_{\TopologyUp}$ and $\top_{\TopologyUp}$. Then the following data assemble the paper-side $\NameCert_{\TopologyUp}$ obligation package: the carrier and membership-stability classifier of \autoref{def:topology-indexed-open-carrier}, the carried-predicate interface of \autoref{def:topology-indexed-open-carried-predicate}, the finite-intersection closure of \autoref{thm:topology-indexed-open-finite-intersection}, the arbitrary-union closure of \autoref{thm:topology-indexed-open-arbitrary-union}, the boundary-open closure of \autoref{thm:topology-indexed-open-boundary-closure}, and the visible ledger policy recording the chosen open index, its carrying equation, and the constructor row used to obtain it.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.TopologyPublicOpenTree\_semantic\_name\_certificate}
 \begin{proof}
 The carrier row is $\mathcal{T}$ itself: it supplies $X$, $\mathsf{same}_X$, $\mathsf{OpenIx}$, $\mathsf{OpenAt}$, finite-intersection indexing, and pointwise membership stability. The carried-predicate row is exactly \autoref{def:topology-indexed-open-carried-predicate}, so every public open is represented by an index together with its pointwise carrying equation.
 
@@ -102,6 +103,7 @@ Composing these three equivalences gives $U(x)$ if and only if $U(y)$. The ledge
 \label{thm:topology-metric-generated-public-open-row-coverage}
 Let $\mathcal{G}$ be a metric-generated topology source as in \autoref{def:topology-metric-generated-carrier}, equipped with indexed arbitrary-union witnesses for generated metric opens and indexed boundary open witnesses. Every public open admitted by $\mathcal{G}$ determines a topology public open row for the carrier $\mathcal{T}_{d,\mathsf{ball}}$ of \autoref{def:topology-metric-generated-carrier}. Its index is the displayed generated-open index, its carrying equation is the corresponding $\mathsf{CarriesOpen}_{\mathcal{T}_{d,\mathsf{ball}}}$ witness, and its ledger row names one of the six constructors listed in \autoref{def:topology-public-open-row}.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistLedgerPublicOpenTree\_topology\_public\_open\_tree}
 \begin{proof}
 Proceed by cases on the constructor row recorded by the metric-generated source ledger.
 
@@ -120,6 +122,7 @@ For the empty and whole opens, use \autoref{thm:topology-indexed-open-boundary-c
 \label{thm:topology-singleton-public-open-row-coverage}
 For the singleton empty-history topology carrier of \autoref{def:topology-singleton-empty-history-carrier}, the two-row ledger admits topology public open rows for bottom, top, finite meets, and arbitrary unions. The carried predicates are exactly the displayed empty predicate, the singleton carrier predicate $C_{\emp}$, their finite meets under the two-row meet table, and the unions selected by the singleton union ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.TopologySingleton\_public\_open\_row\_coverage}
 \begin{proof}
 The bottom and top rows come from \autoref{thm:topology-singleton-boundary-open-laws}. They give the two boundary carrying equations, and their ledger rows name the empty-open and whole-open constructors.
 
@@ -279,6 +282,7 @@ Apply \autoref{thm:topology-singleton-union-case-split-ledger}. The all-bottom b
 
 The final arbitrary-union interface therefore repacks a recorded ledger alternative. It does not infer a top-present or top-absent dichotomy from the host logic.
 \end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.TopologySingleton\_arbitrary\_union\_laws}
 
 \begin{theorem}[Singleton topology NameCert obligation surface]
 \label{thm:topology-singleton-namecert-obligation-surface}
@@ -297,6 +301,7 @@ It remains to repack these rows into the public certificate shape. Apply \autore
 \label{thm:topology-downstream-open-constructor-coverage}
 Every public open row admitted by the metric-generated topology source of \autoref{def:topology-metric-generated-carrier} or by the singleton empty-history source of \autoref{def:topology-singleton-empty-history-carrier} is carried by an explicit $\mathsf{BHist}$ ledger constructor. The possible constructors are exactly a singleton metric-ball row, a finite-list intersection row, a binary generated-open meet row, an arbitrary-union witness row, the bottom row, or the top row. Thus a downstream chapter consuming a carried open receives a visible index, a pointwise carrying equation, and one of these constructor records, rather than an unindexed subset of the carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.TopologyDownstream\_open\_constructor\_coverage}
 \begin{proof}
 For the metric-generated source, inspect the ledger rows listed in \autoref{def:topology-metric-generated-carrier} and \autoref{def:topology-generated-open-exactness}. Singleton metric balls are carried by the base-open transport row of \autoref{thm:topology-metric-base-open-transport}. Finite-list intersections are carried by the finite-list intersection row of \autoref{thm:topology-metric-base-intersection}.
 
@@ -313,6 +318,7 @@ $$
 $$
 In particular, the exported rule does not identify opens by an external powerset equality: it transports the displayed predicate $U$ by converting through $\mathsf{OpenAt}(i,-)$ and then applying the certificate stability already present in the indexed-open carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistLedgerPublicOpenTree\_semantic\_name\_certificate}
 \begin{proof}
 Start with a carried row $(i,h_i)$ and a classifier witness $\mathsf{same}_X(x,y)$. The equation $h_i$ converts membership in the public predicate $U$ at $x$ into membership in $\mathsf{OpenAt}(i,x)$, and the membership-stability field of \autoref{def:topology-indexed-open-carrier} transports this to $\mathsf{OpenAt}(i,y)$. Applying $h_i$ at $y$ returns membership in $U(y)$.
 
@@ -332,3 +338,14 @@ The coverage theorem \autoref{thm:topology-downstream-open-constructor-coverage}
 
 Combining these clauses gives the advertised export surface for dependent chapters. Since none of the cited rows constructs a host topological-space value or proves equality with host powersets, the result is a certified carried-open interface only, not a standard-space bridge.
 \end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistLedgerPublicOpenTree\_downstream\_export\_surface}
+
+\begin{closurestatus}{\TopologyUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The indexed-open carrier and classifier, carried-open index, boundary rows, finite-intersection laws, arbitrary-union laws, generated-open ledger, singleton source, and downstream export surface are closed exactly for the displayed $\TopologyUp$ public rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.TopologyUp.BHistLedgerPublicOpenTree\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{It does not close standard topological-space bridges, quotient or powerset equality, RealUp completeness, metric completeness, or compactness.}
+  \upgradepath{The next grade requires a standard topological-space bridge with carrier readback, open-set readback, topology-law readback, and no-hidden-leakage for host-space consumers.}
+\end{closurestatus}

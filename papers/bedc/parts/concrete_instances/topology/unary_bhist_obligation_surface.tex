@@ -48,6 +48,43 @@ For composite rows, the downstream coverage theorem \autoref{thm:topology-downst
 \end{proof}
 \leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyLedgerRow\_constructor\_coverage}
 
+\begin{theorem}[Unary topology ledger constructor no-confusion]
+\label{thm:topology-unary-ledger-constructor-no-confusion}
+Let $\mathcal{U}$ be the unary $\mathsf{BHist}$ indexed topology source of \autoref{def:topology-unary-bhist-source}. For any unary public predicate $U:\mathsf{BHist}\to\mathsf{Prop}$ carried by an admitted visible $\mathsf{BHistUnaryTopologyLedgerRow}$, no row introduced by one of
+$$
+\mathsf{singletonMetricBall},\quad
+\mathsf{finiteListIntersection},\quad
+\mathsf{binaryGeneratedMeet},\quad
+\mathsf{arbitraryUnion},\quad
+\mathsf{bottom},\quad
+\mathsf{top}
+$$
+can also be introduced by a different named constructor from the same list while carrying the same predicate $U$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topology-unary-constructor-ledger-coverage} to reduce an admitted unary row to the six visible constructor alternatives listed in the statement. The closed inductive row type $\mathsf{BHistUnaryTopologyLedgerRow}$ has no additional public-open row form, so every admissible branch has one exposed outer constructor.
+
+Now invert the exposed constructor of the row. In the $\mathsf{singletonMetricBall}$ branch, constructor inversion rejects equality with each of the finite-list, binary-meet, arbitrary-union, bottom, and top branches. The same inversion argument applies to each remaining branch, because the outer constructor name is the first datum recovered from the closed ledger row before any carried index or pointwise carrying equation is read.
+
+Thus two derivations of the same visible row carrying the same predicate $U$ must expose the same constructor name. If the names are different, constructor no-confusion for the closed inductive ledger gives a contradiction, so an admitted unary row cannot have two different visible constructor origins.
+\end{proof}
+\leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyLedgerRow\_constructor\_tag\_no\_confusion}
+
+\begin{theorem}[Unary BHist topology public certificate]
+\label{thm:topology-unary-bhist-public-certificate}
+Let $\mathcal{U}$ be the unary $\mathsf{BHist}$ indexed topology source of \autoref{def:topology-unary-bhist-source}. Any visible $\mathsf{BHistUnaryTopologyLedgerRow}$ carrying a nonempty unary public predicate $U$ exports a $\mathsf{SemanticNameCert}$ whose carrier is $\UnaryHistory(h)\land U(h)$, whose pattern is $\mathsf{OpenAt}_{\mathsf{un}}(i,h)$, whose ledger records a unary $\mathsf{BHist}$ constructor row together with the carried index membership, and whose classifier is $\UnaryHistory(h)\land\UnaryHistory(k)\land\hsame(h,k)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyLedgerRow\_semantic\_name\_certificate}
+\begin{proof}
+Use \autoref{thm:topology-unary-constructor-ledger-coverage} to split the visible ledger row into its six possible constructors: singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, bottom, and top. In each branch the row supplies the same carried index $i$, a pointwise carrying equation between $U$ and $\mathsf{OpenAt}_{\mathsf{un}}(i,-)$ on unary histories, and the displayed $\mathsf{BHist}$ provenance tag.
+
+The source witness for nonempty $U$ gives the inhabited carrier clause for $\UnaryHistory(h)\land U(h)$. Reflexivity, symmetry, and transitivity of the certificate classifier are the corresponding $\hsame$ rules restricted to unary histories.
+
+For carrier transport, apply \autoref{thm:topology-unary-membership-transport-obligation}. The carrying equation converts a carrier point of $U$ into indexed-open membership at $i$, the source transport moves that membership along $\hsame$, and the carried-index equation converts it back to $U$ at the target unary history.
+
+Pattern soundness is the forward direction of the same carried-index equation. Ledger soundness packages the constructor branch selected above, the recorded unary provenance tag, and the indexed membership just obtained from the carrying equation. Thus every admitted unary public row exports the stated semantic certificate without adding an unindexed open predicate.
+\end{proof}
+
 \begin{theorem}[Topology deps-ready obligation package]
 \label{thm:topology-deps-ready-obligation-package}
 The unary $\mathsf{BHist}$ source of \autoref{def:topology-unary-bhist-source}, the transport theorem \autoref{thm:topology-unary-membership-transport-obligation}, the ledger coverage theorem \autoref{thm:topology-unary-constructor-ledger-coverage}, and the finite-intersection, arbitrary-union, and boundary closure theorems
@@ -58,6 +95,7 @@ $$
 $$
 assemble the paper-side $\TopologyUp$ obligation package consumed by $\ContinuousMapUp$, $\BanachUp$, $\ManifoldUp$, and $\ComplexTopologyUp$. A downstream consumer receives only the unary carrier $C_{\mathsf{un}}$, the restricted $\hsame$ classifier, a carried-open index, the carrying equation, the finite-intersection and arbitrary-union constructors, the boundary constructors, and the visible constructor ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyDepsReady\_obligation\_package}
 \begin{proof}
 The source definition fixes the downstream carrier and classifier: points are $\mathsf{BHist}$ histories satisfying $\UnaryHistory$, and all point transport is through the restricted $\hsame$ classifier. The theorem \autoref{thm:topology-unary-membership-transport-obligation} is the exported membership-transport rule for every carried unary open.
 

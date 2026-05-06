@@ -30,6 +30,33 @@ theorem BHistLedgerPublicOpenTree_constructor_exhaustion (T : BHistIndexedOpenCa
   | top boundary =>
       exact Or.inr (Or.inr (Or.inl (hsame_refl (BHist.e1 BHist.Empty))))
 
+theorem TopologyDownstream_open_constructor_coverage (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} {ledger : BHist} :
+    BHistLedgerPublicOpenTree T i U ledger ->
+      BHistCarriesOpen T i U ∧ BHistGeneratedOpenExact T U ∧
+        ((hsame ledger ledger) ∨
+          (exists leftLedger : BHist, exists rightLedger : BHist,
+            hsame ledger (BHist.e0 (append leftLedger rightLedger))) ∨
+          hsame ledger (BHist.e1 BHist.Empty) ∨ hsame ledger (BHist.e0 BHist.Empty)) := by
+  intro tree
+  have carries : BHistCarriesOpen T i U :=
+    BHistPublicOpenTree_carries_open T tree
+  have generated : BHistGeneratedOpenExact T U :=
+    Exists.intro i carries
+  have constructorCoverage :=
+    BHistLedgerPublicOpenTree_constructor_exhaustion T tree
+  have ledgerCoverage :
+      (hsame ledger ledger) ∨
+        (exists leftLedger : BHist, exists rightLedger : BHist,
+          hsame ledger (BHist.e0 (append leftLedger rightLedger))) ∨
+        hsame ledger (BHist.e1 BHist.Empty) ∨ hsame ledger (BHist.e0 BHist.Empty) := by
+    cases constructorCoverage with
+    | inl baseRow =>
+        exact Or.inl baseRow.right
+    | inr rest =>
+        exact Or.inr rest
+  exact And.intro carries (And.intro generated ledgerCoverage)
+
 theorem BHistFiniteBaseNeighborhood_finiteListIntersection_ledger_coverage
     (T : BHistIndexedOpenCarrier) (indices : ProbeBundle BHist)
     (ball : BHist -> BHist -> Prop) {i : T.OpenIx} {ledger : BHist}
@@ -50,5 +77,17 @@ theorem BHistFiniteBaseNeighborhood_finiteListIntersection_ledger_coverage
     · intro x y unaryX unaryY sameXY
       exact BHistFiniteBaseNeighborhood_classifier_transport indices ball ballStable
         unaryX unaryY sameXY
+
+theorem BHistMetricBaseOpen_singleton_ledger_coverage
+    (T : BHistIndexedOpenCarrier) {i : T.OpenIx} {U : BHist -> Prop} {ledger : BHist}
+    (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+    BHistUnaryTopologyLedgerRow T i U ∧ BHistGeneratedOpenExact T U ∧
+      (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (U x <-> U y)) := by
+  constructor
+  · exact BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries
+  · constructor
+    · exact Exists.intro i carries
+    · exact BHistCarriesOpen_classifier_transport T carries
 
 end BEDC.Derived.TopologyUp

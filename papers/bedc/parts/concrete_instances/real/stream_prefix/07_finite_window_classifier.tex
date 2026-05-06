@@ -179,6 +179,65 @@ $\mathsf{UnaryOffsetLe}(k,w)$. The result is precisely the RatUp endpoint
 classifier at $\mathsf{append}(a,k)$.
 \end{proof}
 
+\begin{theorem}[Real unary stream window finite-probe coverage]
+\label{thm:real-unary-stream-window-finite-probe-coverage}
+For observation maps $s,t:\Hist\to\Hist$, a unary anchor $a:\Hist$, a bound
+$w:\Hist$, and a probe bundle $\mathcal{P}:\mathsf{ProbeBundle}$, suppose
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)
+$$
+and suppose that every bundled certified unary observation lies below the
+window bound:
+$$
+\forall n:\Hist,
+\mathsf{InBundle}(n,\mathcal{P})\to
+\mathsf{UnaryHistory}(n)\to
+\mathsf{UnaryOffsetLe}(n,w).
+$$
+Then the shifted observation maps export a StreamName finite probe window:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}
+(\lambda n.\,s(\mathsf{append}(a,n)),
+\lambda n.\,t(\mathsf{append}(a,n)),
+\mathcal{P}).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier}. Fix a
+bundled certified unary observation $n$ with
+$\mathsf{InBundle}(n,\mathcal{P})$ and $\mathsf{UnaryHistory}(n)$.
+
+The admissibility hypothesis consumes exactly these two rows and produces the
+offset witness $\mathsf{UnaryOffsetLe}(n,w)$. Apply
+\autoref{lem:real-unary-stream-window-endpoint-projection} to the Real unary
+window classifier and this offset witness.
+
+The projected endpoint classifier is
+$$
+\mathsf{RatHistoryClassifier}
+(s(\mathsf{append}(a,n)),t(\mathsf{append}(a,n))).
+$$
+
+This is the required StreamName finite-window row for the shifted observation
+maps at the chosen bundled unary observation. Since the bundled observation was
+arbitrary, the displayed rows repack into
+$\mathsf{RatStreamNameFiniteWindowClassifier}
+(\lambda n.\,s(\mathsf{append}(a,n)),
+\lambda n.\,t(\mathsf{append}(a,n)),\mathcal{P})$.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation-window bridge;
+BEDC source $\mathsf{RealUp}$ plus $\mathsf{StreamNameUp}$ plus
+$\mathsf{RatUp}$ plus $\mathsf{ProbeBundle}$; carrier the shifted observation
+maps $n\mapsto s(\mathsf{append}(a,n))$ and
+$n\mapsto t(\mathsf{append}(a,n))$; classifier
+$\mathsf{RatStreamNameFiniteWindowClassifier}$; stability inherited from the
+Real window endpoint row; ledger anchor, bound, bundle membership, and offset
+witness; core theorem
+\autoref{thm:real-unary-stream-window-finite-probe-coverage}; exactness the
+bundled offsets are exactly consumed pointwise; standard bridge
+$\mathsf{RegSeqRat}$ finite-prefix consumption; status $\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target finite observation windows for RealUp
 streams; BEDC source $\mathsf{RealUnaryStreamClassifier}$ plus
 $\mathsf{RatHistoryClassifier}$ plus $\mathsf{UnaryHistory}$ plus $\ContR$;

@@ -68,3 +68,73 @@ The uniqueness half is locality. If two global readbacks restrict to classifier-
 
 Refinement and presentation changes are handled by the existing refinement rows \autoref{thm:sheaf-refinement-gluing-descent}, \autoref{thm:sheaf-refined-cover-exactness-obligation}, \autoref{thm:sheaf-common-refinement-gluing-invariance}, and \autoref{thm:sheaf-cover-presentation-exactness}. Each row uses displayed cover maps, common refinements, restriction stability, $\Cont$ route histories when present, and $\hsame$-stable membership; none introduces a quotient of cover presentations.
 \end{proof}
+
+\begin{definition}[Sheaf root cover-nerve export surface]
+\label{def:sheaf-root-cover-nerve-export-surface}
+The root cover-nerve export surface for $\SheafUp$ is the three-row $\mathsf{BHist}$-scoped certificate surface consumed by downstream chapters.
+\begin{enumerate}
+\item The traditional target is sheaves over indexed opens, read through section carriers on a cover nerve rather than through host open covers.
+\item The BEDC source chapters are $\TopologyUp$, $\PreSheafUp$, and $\NameCert$.
+\item The carrier is the family of indexed sections over $\mathsf{BHist}$ opens, using $\mathsf{Sec}(i)$ from \autoref{def:sheaf-indexed-section-presheaf-carrier} for each open index $i$.
+\item The classifier family is the displayed section relation $\sim_i$ on $\mathsf{Sec}(i)$.
+\item The stability rows are restriction identity, restriction composition, classifier transport, and optional $\Cont$ route-history transport.
+\item The ledger rows are cover-member cells, pair-overlap cells, and route-history cells in the $\mathsf{BHist}$ cover nerve of \autoref{def:sheaf-bhist-cover-nerve-ledger}.
+\item The exactness rows are cover membership, restriction route stability, and locality/gluing.
+\item The cover-membership row sends every accepted $\mathsf{OpenAt}(i,b)$ cell to a displayed cover member and its pair-overlap ledger context.
+\item The downstream export is exactly the rows listed here: $\RingedSpaceUp$, $\SchemeUp$, and topology pullback consumers receive no host cover equality, cover quotient, stalk quotient, or external sheafification operation.
+\item There is no standard bridge in this surface.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sheaf root cover-nerve membership exhaustion]
+\label{thm:sheaf-root-cover-nerve-membership-exhaustion}
+Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an accepted cover row of an indexed open $i$ over the $\mathsf{BHist}$ topology ledger. Every displayed cell $\mathsf{OpenAt}(i,b)$ in this accepted cover has a cover-member witness and a pair-overlap row inside the $\mathsf{BHist}$ cover nerve:
+$$
+\forall b:\mathsf{BHist},\
+\mathsf{OpenAt}(i,b)
+\Longrightarrow
+\exists a:A,\ \mathsf{OpenAt}(\iota(a),b)
+$$
+and for every second member $a':A$ the ledger also contains the finite-intersection row for $\iota(a)\wedge_{\TopologyUp}\iota(a')$ with its two projections to the participating members.
+\end{theorem}
+\begin{proof}
+Apply the cover-membership obligation of \autoref{thm:sheaf-root-unblock-cover-membership-obligation}. It reads the accepted cover row as a $\mathsf{BHist}$-indexed implication from an ambient displayed cell to a cover-member witness, so every $\mathsf{OpenAt}(i,b)$ cell is exhausted by a displayed member $\iota(a)$.
+
+The pair-overlap row is then the overlap projection surface of \autoref{thm:sheaf-bhist-cover-nerve-overlap-projections}, unpacked inside the cover-nerve ledger of \autoref{def:sheaf-bhist-cover-nerve-ledger}. For each pair $a,a':A$, the finite-intersection row supplies the overlap index and the two projections back to $\iota(a)$ and $\iota(a')$.
+
+Because the ledger transports membership only by $\hsame$, this exhaustion stays scoped to $\mathsf{BHist}$ cells and indexed opens. No host cover equality or quotient of cover presentations is introduced.
+\end{proof}
+
+\begin{theorem}[Sheaf root cover-nerve restriction route stability]
+\label{thm:sheaf-root-cover-nerve-restriction-route-stability}
+Let $\mathcal{S}$ be the indexed section carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier} over an indexed open topology carrier. One-step and two-step restrictions preserve section classifiers:
+$$
+s\sim_i t
+\Longrightarrow
+\rho_{i,j}(s)\sim_j\rho_{i,j}(t),
+\qquad
+\rho_{j,k}(\rho_{i,j}(s))\sim_k\rho_{i,k}(s)
+$$
+for every displayed chain $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$. Optional $\Cont$ route histories compare route witnesses only and do not alter the target classifier $\sim_j$ or $\sim_k$.
+\end{theorem}
+\begin{proof}
+The first displayed row is the restriction classifier-transport field of \autoref{def:sheaf-indexed-section-presheaf-carrier}. It is also the one-step stability clause isolated by \autoref{thm:sheaf-root-unblock-restriction-stability-obligation}.
+
+For the two-step row, apply the composition field of the same carrier to the chain $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$. The comparison lands in $\sim_k$, so the direct restriction and the composed restriction have the same target classifier.
+
+If a $\Cont$ history is present, use the route-history part of \autoref{thm:sheaf-root-unblock-restriction-stability-obligation}. Those histories record associativity of displayed routes; they do not change the open index of the restricted section, hence cannot change the classifier family consumed downstream.
+\end{proof}
+
+\begin{theorem}[Sheaf root cover-nerve downstream coverage]
+\label{thm:sheaf-root-cover-nerve-downstream-coverage}
+The downstream consumers $\RingedSpaceUp$, $\SchemeUp$, and topology pullback constructions receive exactly the rows of \autoref{def:sheaf-root-cover-nerve-export-surface}: cover-member cells, pair-overlap cells, one-step and two-step restriction stability rows, optional $\Cont$ route histories, and locality/gluing exactness rows. They receive no host cover equality, cover quotient, stalk quotient, or external sheafification operation.
+\end{theorem}
+\begin{proof}
+The carrier part is fixed by \autoref{def:sheaf-indexed-section-presheaf-carrier}: downstream chapters can read only indexed section carriers, section classifiers, restrictions, and the identity, composition, and classifier-transport rows attached to them.
+
+The cover part is fixed by \autoref{def:sheaf-bhist-cover-nerve-ledger} and \autoref{thm:sheaf-root-cover-nerve-membership-exhaustion}. These provide cover-member cells and pair-overlap cells over $\mathsf{BHist}$, with overlap projections supplied by \autoref{thm:sheaf-bhist-cover-nerve-overlap-projections}.
+
+The exactness part is the union of the three root obligations. Cover membership comes from \autoref{thm:sheaf-root-unblock-cover-membership-obligation}; restriction route stability comes from \autoref{thm:sheaf-root-unblock-restriction-stability-obligation}; locality and gluing come from \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}.
+
+Those cited rows are precisely the rows listed in \autoref{def:sheaf-root-cover-nerve-export-surface}. Since none of them introduces host cover equality, a cover quotient, a stalk quotient, or an external sheafification operation, no downstream consumer obtains such a row from this export surface.
+\end{proof}

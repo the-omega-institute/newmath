@@ -53,3 +53,147 @@ The additive and inverse representative-independence rows are \autoref{thm:quoti
 By \autoref{def:modn-nz-quotient-presentation}, $\ModNUp(n)$ is this quotient-ring presentation with no classifier-changing map inserted. Therefore every field of $\NameCert_{\ModNUp(n)}$ is the corresponding field of $\NameCert_{\QuotientRingUp(R_{\mathbb{Z}},I_n)}$. In particular, the classifier field is copied. The first displayed equivalence is this field identity, and the second is exactly \autoref{def:quotientring-ideal-coset-relation} unfolded at $R_{\mathbb{Z}}$ and $I_n$.
 \end{proof}
 \leanchecked{BEDC.Derived.ModNUp.ModN\_nz\_quotient\_certificate}
+
+\begin{definition}[Concrete ModN BHist carrier and classifier]
+\label{def:modn-concrete-bhist-carrier-classifier}
+For a unary modulus history $m:\mathsf{BHist}$, define the concrete ModN
+carrier and classifier by
+$$
+\mathsf{ModNCarrier}_m(h):=\mathsf{UnaryHistory}(m)\land
+\mathsf{RingSingletonCarrier}(h)
+$$
+and
+$$
+\mathsf{ModNClassifier}_m(h,k):=
+\mathsf{ModNCarrier}_m(h)\land
+\mathsf{ModNCarrier}_m(k)\land
+\mathsf{RingSingletonClassifier}(h,k).
+$$
+Equivalently, these are the paper names for the Lean objects
+$\mathsf{ModNQuotientCarrier}(m,h)$ and
+$\mathsf{ModNQuotientClassifier}(m,h,k)$.
+\end{definition}
+
+\begin{theorem}[Concrete ModN classifier rows]
+\label{thm:modn-concrete-classifier-rows}
+For each unary modulus history $m:\mathsf{BHist}$, the classifier
+$\mathsf{ModNClassifier}_m$ satisfies the following concrete rows:
+\begin{enumerate}
+  \item if $\mathsf{ModNCarrier}_m(h)$, then
+  $\mathsf{ModNClassifier}_m(h,h)$;
+  \item if $\mathsf{ModNClassifier}_m(h,k)$, then
+  $\mathsf{ModNClassifier}_m(k,h)$;
+  \item if $\mathsf{ModNClassifier}_m(h,k)$ and
+  $\mathsf{ModNClassifier}_m(k,l)$, then
+  $\mathsf{ModNClassifier}_m(h,l)$;
+  \item if $\mathsf{ModNClassifier}_m(h,k)$ and
+  $\mathsf{ModNCarrier}_m(h)$, then $\mathsf{ModNCarrier}_m(k)$.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.ModNUp.ModNQuotientClassifier\_concrete\_rows}
+\begin{proof}
+Unfold \autoref{def:modn-concrete-bhist-carrier-classifier}. The modulus
+component of every carrier witness is the same
+$\mathsf{UnaryHistory}(m)$ proof, so no modulus data is transformed by the
+classifier rows.
+
+For reflexivity, keep the carrier witness for $h$ on both endpoints and use
+the reflexivity row of the singleton $\RingUp$ classifier on the
+$\mathsf{RingSingletonCarrier}(h)$ component.
+
+For symmetry and transitivity, project the two endpoint carriers from the
+given $\mathsf{ModNClassifier}_m$ hypotheses. The remaining relation fields
+are exactly the symmetry and transitivity rows for
+$\mathsf{RingSingletonClassifier}$, then the original unary modulus witness is
+repacked into each endpoint carrier.
+
+Carrier transport is a projection: the right endpoint carrier is already a
+field of $\mathsf{ModNClassifier}_m(h,k)$.
+\end{proof}
+
+\begin{theorem}[Concrete ModN singleton operation descent rows]
+\label{thm:modn-singleton-operation-descent-rows}
+For each unary modulus history $m:\mathsf{BHist}$, the singleton ring
+operations preserve $\mathsf{ModNCarrier}_m$ and descend through
+$\mathsf{ModNClassifier}_m$:
+\begin{enumerate}
+  \item if $\mathsf{ModNCarrier}_m(h)$ and
+  $\mathsf{ModNCarrier}_m(k)$, then
+  $\mathsf{ModNCarrier}_m(\mathsf{RingSingletonAdd}(h,k))$ and
+  $\mathsf{ModNCarrier}_m(\mathsf{RingSingletonMul}(h,k))$;
+  \item if $\mathsf{ModNCarrier}_m(h)$, then
+  $\mathsf{ModNCarrier}_m(\mathsf{RingSingletonNeg}(h))$;
+  \item if $\mathsf{ModNClassifier}_m(h,h')$ and
+  $\mathsf{ModNClassifier}_m(k,k')$, then
+  $\mathsf{ModNClassifier}_m(\mathsf{RingSingletonAdd}(h,k),
+  \mathsf{RingSingletonAdd}(h',k'))$;
+  \item under the same classifier hypotheses,
+  $\mathsf{ModNClassifier}_m(\mathsf{RingSingletonMul}(h,k),
+  \mathsf{RingSingletonMul}(h',k'))$;
+  \item if $\mathsf{ModNClassifier}_m(h,h')$, then
+  $\mathsf{ModNClassifier}_m(\mathsf{RingSingletonNeg}(h),
+  \mathsf{RingSingletonNeg}(h'))$.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.ModNUp.ModNQuotientCarrier\_singleton\_operation\_descent\_rows}
+\leanchecked{BEDC.Derived.ModNUp.ModNQuotient\_singleton\_operation\_descent\_rows}
+\leanvariant{BEDC.Derived.ModNUp.ModNQuotientSingleton\_operation\_descent\_rows}
+\begin{proof}
+Unfold the ModN carrier. Preservation of the modulus component is immediate:
+each output carrier keeps the same $\mathsf{UnaryHistory}(m)$ witness carried by
+the input endpoints.
+
+The $\RingUp$ singleton operation laws supply the history component. Addition,
+negation, and multiplication all return the singleton ring endpoint, so the
+$\mathsf{RingSingletonCarrier}$ field is obtained from the singleton closure
+rows of \autoref{thm:singleton-empty-history-ring-laws}.
+
+For descent, project the $\mathsf{RingSingletonClassifier}$ fields from the two
+ModN classifier hypotheses. The singleton $\RingUp$ congruence rows identify
+the add, multiply, and negated outputs under
+$\mathsf{RingSingletonClassifier}$.
+
+Finally, pair those singleton classifier witnesses with the output carriers
+just constructed. This repacks the result in the definition of
+$\mathsf{ModNClassifier}_m$.
+\end{proof}
+
+\begin{theorem}[Concrete ModN NameCert scope]
+\label{thm:modn-concrete-namecert-scope}
+For every unary modulus history $m:\mathsf{BHist}$, the carrier
+$\mathsf{ModNCarrier}_m$, classifier $\mathsf{ModNClassifier}_m$, and singleton
+ring operations $\mathsf{RingSingletonAdd}$, $\mathsf{RingSingletonNeg}$, and
+$\mathsf{RingSingletonMul}$ form the concrete $\mathsf{BHist}$ scope consumed by
+\autoref{thm:modn-nz-quotient-certificate}. In that scope the quotient
+certificate reads exactly the carrier rows of
+\autoref{thm:modn-concrete-classifier-rows} and the operation rows of
+\autoref{thm:modn-singleton-operation-descent-rows}.
+\end{theorem}
+\begin{proof}
+Begin with a unary modulus witness for $m$ and unfold
+\autoref{def:modn-concrete-bhist-carrier-classifier}. The source, pattern, and
+ledger carriers are all the same predicate $\mathsf{ModNCarrier}_m$, so the
+core certificate fields are supplied by
+\autoref{thm:modn-concrete-classifier-rows}.
+
+Next use \autoref{thm:modn-singleton-operation-descent-rows} to fix the
+additive, inverse, and multiplicative output obligations. These rows ensure
+that operations remain inside the concrete carrier and that replacing
+classified representatives does not change the classified output.
+
+Only after those rows are in place, apply
+\autoref{thm:modn-nz-quotient-certificate}. The checked quotient certificate
+then packages the already fixed carrier, classifier, stability, and ledger
+fields as the displayed $\mathsf{NameCert}$ scope for $\ModNUp(m)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ModNUp.ModNQuotient\_concrete\_namecert\_scope}
+
+\begin{closurestatus}{\ModNUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter closes exactly the unary-modulus ModN scope over $\mathsf{ModNCarrier}_m$, $\mathsf{ModNClassifier}_m$, the singleton $\RingUp$ operations, quotient-ring descent rows, and the displayed $\mathsf{BHist}$ and $\hsame$ boundary.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ModNUp.ModNQuotient\_concrete\_namecert\_scope}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a standard bridge, full integer modulo arithmetic, or quotient primitives beyond the displayed $\mathsf{BHist}$ quotient certificate.}
+  \upgradepath{The next grade requires a public bridge from this $\mathsf{BHist}$ quotient scope to the standard $\mathbb{Z}/n\mathbb{Z}$ interface.}
+\end{closurestatus}

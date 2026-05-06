@@ -4,6 +4,7 @@ namespace BEDC.Derived.CatLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.Derived.CategoryUp
 
 def CatLimitConeMor (L M D f lambda mu composite : BHist) : Prop :=
@@ -33,6 +34,32 @@ theorem CatLimitConeMor_comp_closed {L M N D f g fg lambda mu nu cLM cMN cLN : B
         (And.intro cLNCarrier
             (And.intro compTarget
             (hsame_trans sameCLNCLM left.right.right.right.right.right)))))
+
+theorem CatLimitConeMor_comp_classifier_transport {L M N D f f' g g' fg' lambda mu nu cLM cMN cLN' : BHist} :
+    CatLimitConeMor L M D f lambda mu cLM ->
+      CatLimitConeMor M N D g mu nu cMN ->
+        hsame f f' -> hsame g g' -> Cont f' g' fg' -> Cont fg' nu cLN' ->
+          CatLimitConeMor L N D fg' lambda nu cLN' := by
+  intro left right sameF sameG compFG targetComp
+  have leftMoved : CatLimitConeMor L M D f' lambda mu cLM :=
+    And.intro (CategoryHomCarrier_hsame_transport (hsame_refl L) (hsame_refl M) sameF left.left)
+      (And.intro left.right.left
+        (And.intro left.right.right.left
+          (And.intro left.right.right.right.left
+            (And.intro
+              (cont_hsame_transport sameF (hsame_refl mu) (hsame_refl cLM)
+                left.right.right.right.right.left)
+              left.right.right.right.right.right))))
+  have rightMoved : CatLimitConeMor M N D g' mu nu cMN :=
+    And.intro (CategoryHomCarrier_hsame_transport (hsame_refl M) (hsame_refl N) sameG right.left)
+      (And.intro right.right.left
+        (And.intro right.right.right.left
+          (And.intro right.right.right.right.left
+            (And.intro
+              (cont_hsame_transport sameG (hsame_refl nu) (hsame_refl cMN)
+                right.right.right.right.right.left)
+              right.right.right.right.right.right))))
+  exact CatLimitConeMor_comp_closed leftMoved rightMoved compFG targetComp
 
 theorem CatLimitConeMor_identity {L D lambda : BHist} :
     CategoryHomCarrier L D lambda ->
@@ -69,6 +96,14 @@ def CatLimitLimCone (L D lambda : BHist) : Prop :=
       ∃ m composite : BHist, CatLimitConeMor X L D m chi lambda composite) ∧
       (∀ {X chi m n cm cn : BHist}, CatLimitConeMor X L D m chi lambda cm ->
         CatLimitConeMor X L D n chi lambda cn -> hsame m n)
+
+theorem CatLimitLimCone_endomorphism_rigidity {L D lambda a composite : BHist} :
+    CatLimitLimCone L D lambda ->
+      CatLimitConeMor L L D a lambda lambda composite -> hsame a BHist.Empty := by
+  intro limit cone
+  have idCone : CatLimitConeMor L L D BHist.Empty lambda lambda lambda :=
+    CatLimitConeMor_identity limit.left
+  exact limit.right.right cone idCone
 
 theorem CatLimitLimCone_comparison_identities {L L' D lambda lambda' : BHist} :
     CatLimitLimCone L D lambda -> CatLimitLimCone L' D lambda' ->
@@ -126,6 +161,19 @@ theorem CatLimitLimCone_comparison_identities {L L' D lambda lambda' : BHist} :
                                     (And.intro vuRel
                                       (And.intro uvEmpty vuEmpty))))))))))
 
+theorem CatLimitLimCone_comparison_fiber_collapse
+    {L L' D lambda lambda' u1 u2 v1 v2 cu1 cu2 cv1 cv2 : BHist} :
+    CatLimitLimCone L D lambda -> CatLimitLimCone L' D lambda' ->
+      CatLimitConeMor L L' D u1 lambda lambda' cu1 ->
+        CatLimitConeMor L L' D u2 lambda lambda' cu2 ->
+          CatLimitConeMor L' L D v1 lambda' lambda cv1 ->
+            CatLimitConeMor L' L D v2 lambda' lambda cv2 ->
+              hsame u1 u2 ∧ hsame v1 v2 ∧ UnaryHistory u1 ∧ UnaryHistory v1 := by
+  intro leftLimit rightLimit u1Cone u2Cone v1Cone v2Cone
+  exact And.intro (rightLimit.right.right u1Cone u2Cone)
+    (And.intro (leftLimit.right.right v1Cone v2Cone)
+      (And.intro u1Cone.left.right.right.left v1Cone.left.right.right.left))
+
 theorem CatLimitConeMor_nattrans_whiskering_descent
     {L M D E f lambda mu alpha lambdaAlpha muAlpha d s : BHist} :
     CatLimitConeMor L M D f lambda mu d -> CategoryHomCarrier D E alpha ->
@@ -148,5 +196,35 @@ theorem CatLimitConeMor_nattrans_whiskering_descent
       (And.intro lambdaAlphaCarrier
         (And.intro targetCarrier
           (And.intro targetRel (hsame_symm sameLambdaAlphaTarget)))))
+
+theorem CatLimitLimCone_transport_pointwise_equiv {L D E lambda lambdaE alpha beta : BHist} :
+    CatLimitLimCone L D lambda -> CategoryHomCarrier D E alpha ->
+      CategoryHomCarrier E D beta -> Cont lambda alpha lambdaE ->
+        hsame (append alpha beta) BHist.Empty -> hsame (append beta alpha) BHist.Empty ->
+          CatLimitLimCone L E lambdaE := by
+  intro limit alphaCarrier _betaCarrier lambdaAlpha alphaBetaEmpty _betaAlphaEmpty
+  have alphaEmpty : alpha = BHist.Empty := (append_eq_empty_iff.mp alphaBetaEmpty).left
+  cases alphaEmpty
+  have sameED : hsame E D := cont_deterministic alphaCarrier.right.right.right (cont_right_unit D)
+  cases sameED
+  cases lambdaAlpha
+  exact limit
+
+theorem CatLimitLimCone_transported_comparison
+    {L M D E lambda lambdaE mu alpha beta : BHist} :
+    CatLimitLimCone L D lambda -> CategoryHomCarrier D E alpha ->
+      CategoryHomCarrier E D beta -> Cont lambda alpha lambdaE ->
+        hsame (append alpha beta) BHist.Empty -> hsame (append beta alpha) BHist.Empty ->
+          CatLimitLimCone M E mu ->
+            ∃ u v cL cM cu cv : BHist,
+              CatLimitConeMor L M E u lambdaE mu cu ∧
+                CatLimitConeMor M L E v mu lambdaE cv ∧
+                  Cont u v cL ∧ Cont v u cM ∧
+                    hsame cL BHist.Empty ∧ hsame cM BHist.Empty := by
+  intro limitD alphaCarrier betaCarrier lambdaTransport alphaBetaEmpty betaAlphaEmpty limitE
+  have transportedLimit : CatLimitLimCone L E lambdaE :=
+    CatLimitLimCone_transport_pointwise_equiv limitD alphaCarrier betaCarrier
+      lambdaTransport alphaBetaEmpty betaAlphaEmpty
+  exact CatLimitLimCone_comparison_identities transportedLimit limitE
 
 end BEDC.Derived.CatLimitUp

@@ -97,3 +97,70 @@ $$
 $$
 which is the required exactness row for $p$ under the degree-$e$ predicate. Since $p$ was arbitrary, $\mathsf{QuadratureExactUpTo}_R(Q,e)$ holds. The finite node spine, the weights, and the integral endpoint map are the original components of $Q$ throughout.
 \end{proof}
+
+\begin{theorem}[Quadrature degree-bound comparison is transitive]
+\label{thm:quadrature-degree-bound-comparison-transitive}
+With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, the unary degree-bound comparison used by the $\QuadratureUp$ exactness-degree classifier is transitive. For unary degree bounds $e,d,c:\NatUp$, if
+$$
+\mathsf{DegBoundLe}(e,d)
+\qquad\text{and}\qquad
+\mathsf{DegBoundLe}(d,c)
+$$
+hold, then
+$$
+\mathsf{DegBoundLe}(e,c)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{DegBoundLe}$. To prove $\mathsf{DegBoundLe}(e,c)$, fix $k:\NatUp$ and assume
+$$
+\mathsf{NatUnaryStrictPrefix}(c,k).
+$$
+The comparison $\mathsf{DegBoundLe}(d,c)$ sends this witness to
+$$
+\mathsf{NatUnaryStrictPrefix}(d,k).
+$$
+Applying $\mathsf{DegBoundLe}(e,d)$ to that witness gives
+$$
+\mathsf{NatUnaryStrictPrefix}(e,k).
+$$
+This is exactly the strict-prefix condition required at the index $k$ for $\mathsf{DegBoundLe}(e,c)$. Since $k$ was arbitrary, the comparison from $e$ to $c$ holds.
+\end{proof}
+
+\begin{theorem}[Quadrature degree-bound comparison is reflexive]
+\label{thm:quadrature-degree-bound-comparison-reflexive}
+With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, the exactness-degree comparison used by the $\QuadratureUp$ classifier is reflexive. For every unary degree bound $d:\NatUp$,
+$$
+\mathsf{DegBoundLe}(d,d)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{DegBoundLe}$ at the pair $(d,d)$. The required statement is
+$$
+\forall k:\NatUp.\;
+\mathsf{NatUnaryStrictPrefix}(d,k)
+\Longrightarrow
+\mathsf{NatUnaryStrictPrefix}(d,k).
+$$
+Fix $k:\NatUp$ and assume $\mathsf{NatUnaryStrictPrefix}(d,k)$. The conclusion is the same strict-prefix witness. Since $k$ was arbitrary, the displayed universal clause holds, and therefore $\mathsf{DegBoundLe}(d,d)$ holds.
+\end{proof}
+
+\begin{proposition}[Quadrature degree-bound comparison preorder rows]
+\label{prop:quadrature-degree-bound-comparison-preorder-rows}
+With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, the unary degree-bound comparison attached to the $\QuadratureUp$ exactness-degree classifier supplies the reflexive and transitive rows on unary bounds:
+$$
+\forall d:\NatUp.\;\mathsf{DegBoundLe}(d,d)
+$$
+and
+$$
+\forall e,d,c:\NatUp.\;
+\mathsf{DegBoundLe}(e,d)\Longrightarrow
+\mathsf{DegBoundLe}(d,c)\Longrightarrow
+\mathsf{DegBoundLe}(e,c).
+$$
+\end{proposition}
+\begin{proof}
+The reflexive row is \autoref{thm:quadrature-degree-bound-comparison-reflexive}. The transitive row is \autoref{thm:quadrature-degree-bound-comparison-transitive}. Both rows use the same concrete predicate $\mathsf{DegBoundLe}$ from \autoref{def:quadrature-finite-weighted-exactness-degree}, so together they give the stated preorder data for the $\QuadratureUp$ degree-bound classifier.
+\end{proof}

@@ -1,0 +1,134 @@
+\begin{definition}[Differential-form root boundary consumer package]
+\label{def:diffform-root-boundary-consumer-package}
+The differential-form root boundary consumer package is the tuple
+$$
+\mathsf{DiffFormRootBoundaryConsumer}_{M,T}.
+$$
+It has ten fields.
+\begin{enumerate}
+\item The source field is the pair
+$\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$ already exposed
+by the root $BHist$ surface.
+\item The carrier field is
+$\mathsf{DiffFormBHistCarrier}_{M,T}$.
+\item The classifier field is the displayed $\sim_{\DiffFormUp}$ classifier.
+\item The carrier-transport stability field is the
+$\hsame$ transport row of
+\autoref{thm:diffform-carrier-hsame-transport}.
+\item The classifier-stability field is the transported classifier row of
+\autoref{thm:diffform-form-classifier-stability}.
+\item The wedge-transport field is the wedge and derivative boundary
+compatibility row of
+\autoref{thm:diffform-wedge-derivative-boundary-compatibility}.
+\item The exterior-input transport field is the root closure row of
+\autoref{thm:diffform-exterior-input-root-closure}.
+\item The ledger field consists of
+$\mathsf{DiffFormDownstreamBoundary}_{M,T}$ from
+\autoref{def:diffform-root-downstream-boundary-package} together with the
+entry rows of \autoref{def:diffform-root-consumer-entry-source}.
+\item The exactness field says that these fields exhaust the shared rows
+consumed by $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$.
+\item The bridge-status field contains no standard bridge row and records the
+package as a proof target.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Differential-form root boundary consumer carrier scope]
+\label{thm:diffform-root-boundary-consumer-carrier-scope}
+Every carrier or classifier read admitted by
+$\mathsf{DiffFormRootBoundaryConsumer}_{M,T}$ factors through the root
+$BHist$ surface of \autoref{def:diffform-root-bhist-namecert-surface}, the
+entry carrier theorem
+\autoref{thm:diffform-root-consumer-entry-carrier}, and the carrier coverage
+theorem \autoref{thm:diffform-boundary-exhaustion-carrier-coverage}. In
+particular, the package exposes no carrier beyond
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ and no classifier beyond
+$\sim_{\DiffFormUp}$.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier fields of
+$\mathsf{DiffFormRootBoundaryConsumer}_{M,T}$. By definition, they are the
+carrier and classifier fields of
+\autoref{def:diffform-root-bhist-namecert-surface}.
+
+Apply \autoref{thm:diffform-root-consumer-entry-carrier}. It states that the
+root consumer entry projects exactly the root $BHist$ carrier and the
+displayed $\DiffFormUp$ classifier, with no replacement carrier and no
+downstream law.
+
+Apply \autoref{thm:diffform-boundary-exhaustion-carrier-coverage}. The
+coverage theorem identifies the carrier and classifier rows visible to
+downstream consumers with the displayed source rows. Therefore every carrier
+or classifier read of the package factors through the named root surface and
+through the two carrier-scope theorems.
+\end{proof}
+
+\begin{theorem}[Differential-form root boundary consumer classifier scope]
+\label{thm:diffform-root-boundary-consumer-classifier-scope}
+Componentwise $\hsame$ transport preserves
+$\mathsf{DiffFormRootBoundaryConsumer}_{M,T}$. The carrier field is preserved
+by \autoref{thm:diffform-carrier-hsame-transport}, the classifier field by
+\autoref{thm:diffform-form-classifier-stability}, the exterior-input field by
+\autoref{thm:diffform-exterior-input-root-closure}, and the shared wedge and
+derivative boundary field by
+\autoref{thm:diffform-wedge-derivative-boundary-compatibility}.
+\end{theorem}
+\begin{proof}
+Start with componentwise $\hsame$ data on the displayed source histories.
+For the carrier field, apply
+\autoref{thm:diffform-carrier-hsame-transport}. It transports the carried
+form row without changing the root source.
+
+For the classifier field, apply
+\autoref{thm:diffform-form-classifier-stability}. It gives stability of
+$\sim_{\DiffFormUp}$ under the same componentwise histories and keeps the
+classifier inside the root surface.
+
+For the exterior-input field, use
+\autoref{thm:diffform-exterior-input-root-closure}. That theorem repacks the
+accepted exterior-input rows into the downstream boundary package after the
+same transported carrier and classifier rows have been fixed.
+
+For the wedge and derivative boundary field, apply
+\autoref{thm:diffform-wedge-derivative-boundary-compatibility}. It identifies
+the common transported rows used by wedge admission and exterior-input
+admission. The ledger and exactness fields are defined from these transported
+rows, so the whole package is preserved.
+\end{proof}
+
+\begin{theorem}[Differential-form root boundary consumer exactness]
+\label{thm:diffform-root-boundary-consumer-exactness}
+Every $\DeRhamUp$, $\SymplecticUp$, or $\ContactUp$ read of the
+$\DiffFormUp$ shared root factors through
+$\mathsf{DiffFormRootBoundaryConsumer}_{M,T}$. No such read can project
+$d^2=0$, closedness, nondegeneracy, contact nonintegrability, nilpotence, or
+a bridge row from this package.
+\end{theorem}
+\begin{proof}
+First route carrier and classifier reads through
+\autoref{thm:diffform-root-boundary-consumer-carrier-scope}. This accounts
+for the shared carried-form row, the displayed $\DiffFormUp$ classifier, and
+the source certificates visible from $\NameCert_{\ManifoldUp}$ and
+$\NameCert_{\TensorProductUp}$.
+
+Next route exterior-input reads through
+\autoref{thm:diffform-exterior-input-root-closure}. The theorem places source
+carrier, output carrier, successor-degree continuation, transported probe
+rows, tensor rows, scalar endpoint comparison, and source ledger inside
+$\mathsf{DiffFormDownstreamBoundary}_{M,T}$.
+
+Now route wedge and mixed wedge-derivative reads through
+\autoref{thm:diffform-wedge-derivative-boundary-compatibility}. The common
+rows are exactly the carried form, unary degree row, wedge degree ledger,
+one-step exterior continuation ledger, transported probe, tensor, scalar
+endpoint, antisymmetry, source rows, and their classifier comparisons.
+
+Finally apply \autoref{thm:diffform-downstream-boundary-exhaustion} together
+with \autoref{thm:diffform-root-consumer-entry-threshold}. These theorems
+name $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ as the downstream
+consumers of the shared boundary and root-entry rows. Since the package
+contains exactly those ledgers and its bridge-status field contains no
+standard bridge, every downstream read factors through the package and none
+can project nilpotence, closedness, nondegeneracy, contact nonintegrability,
+or bridge structure from $\DiffFormUp$.
+\end{proof}

@@ -1,0 +1,131 @@
+\begin{definition}[Differential-form manifold-tensor source envelope]
+\label{def:diffform-manifold-tensor-source-envelope}
+The differential-form manifold-tensor source envelope is the visible BEDC
+package
+$$
+\mathsf{DiffFormSourceEnvelope}_{M,T}.
+$$
+Its rows are exactly the $BHist$ carrier rows of
+\autoref{def:diffform-bhist-form-carrier}, the classifier rows of
+\autoref{def:diffform-bhist-form-classifier}, the $\hsame$ transport rows used
+by the classifier, the $\Cont$ rows used by degree and wedge continuation, the
+displayed $\mathsf{ProbeBundle}$ spines, the tangent-probe rows certified by
+$\NameCert_{\ManifoldUp}$, and the multilinear tensor rows certified by
+$\NameCert_{\TensorProductUp}$. It also contains the wedge probe concatenation
+ledger of \autoref{def:diffform-wedge-probe-concatenation-ledger}, the
+degree-probe alignment rows of
+\autoref{def:diffform-degree-probe-alignment-row}, and the exterior-derivative
+input rows of \autoref{def:diffform-exterior-derivative-input-row}. The
+envelope has no field for nilpotence, closedness, nondegeneracy, contact
+nonintegrability, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Differential-form manifold-tensor source scope]
+\label{thm:diffform-manifold-tensor-source-scope}
+Every carrier witness and every classifier witness read from
+$\mathsf{DiffFormSourceEnvelope}_{M,T}$ is obtained only from the displayed
+$BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$ rows of
+\autoref{def:diffform-manifold-tensor-source-envelope}. No downstream
+$\DeRhamUp$, $\SymplecticUp$, or $\ContactUp$ law is a source for the
+$\DiffFormUp$ carrier or classifier.
+\end{theorem}
+\begin{proof}
+Unpack the envelope definition. Its carrier part is exactly the six-coordinate
+$BHist$ row of \autoref{def:diffform-bhist-form-carrier}; its classifier part
+is exactly the componentwise comparison of
+\autoref{def:diffform-bhist-form-classifier}. Those two rows expose the unary
+degree history, the visible probe bundle, the tensor row, the scalar endpoint,
+the antisymmetry ledger, and the source ledger.
+
+Project the manifold and tensor inputs. Tangent probes are read through the
+displayed $\mathsf{ProbeBundle}$ spine and the
+$\NameCert_{\ManifoldUp}$ source. Multilinear tensor rows are read through the
+same probe spine and the $\NameCert_{\TensorProductUp}$ source. The remaining
+classifier comparisons are $\hsame$ and retained $\Cont$ rows over the same
+BHist provenance.
+
+Finally compare this list with the downstream consumer face classifier of
+\autoref{def:diffform-root-consumer-face-classifier}. That classifier places
+nilpotence, closedness, nondegeneracy, and contact nonintegrability outside
+the shared root face. Hence carrier and classifier witnesses are sourced only
+from the envelope rows named above.
+\end{proof}
+
+\begin{theorem}[Differential-form wedge continuation input closure]
+\label{thm:diffform-wedge-continuation-input-closure}
+Let $\omega$ and $\eta$ be carried rows in
+$\mathsf{DiffFormSourceEnvelope}_{M,T}$. If their admitted wedge row is
+obtained through the visible continuation and probe append data, then the
+wedge input and output rows remain inside
+$\mathsf{DiffFormSourceEnvelope}_{M,T}$. The retained rows are the wedge probe
+concatenation ledger, the coverage row for its output probe bundle, and the
+degree-probe alignment row for the wedge output.
+\end{theorem}
+\begin{proof}
+Start with the two carried input rows. By
+\autoref{def:diffform-manifold-tensor-source-envelope}, each input row already
+carries its $BHist$ carrier witness, classifier witness, probe bundle,
+Manifold source row, TensorProduct source row, and degree-probe alignment row.
+
+Apply \autoref{def:diffform-wedge-probe-concatenation-ledger}. The wedge input
+is recorded by the two input ledgers, the two input probe spines, the output
+probe spine, and the tensor-concatenation provenance row. These are all rows
+named in the source envelope.
+
+Next apply \autoref{thm:diffform-wedge-probe-concatenation-coverage}. It
+identifies the output probe bundle as the visible append of the two input
+bundles and shows that every output probe comes from one of the two input
+spines. Thus the manifold and tensor source readings remain the same displayed
+source readings.
+
+Finally apply
+\autoref{thm:diffform-degree-probe-alignment-wedge-closure}. The output degree
+row and output probe bundle are aligned by the wedge continuation row. Repack
+the two input rows, the output append row, the tensor provenance, and the
+aligned degree-probe row into
+\autoref{def:diffform-manifold-tensor-source-envelope}. The wedge continuation
+therefore stays inside the source envelope.
+\end{proof}
+
+\begin{theorem}[Differential-form exterior-derivative consumer coverage]
+\label{thm:diffform-exterior-derivative-consumer-coverage}
+Every witness in $\mathsf{DiffFormSourceEnvelope}_{M,T}$ that satisfies the
+exterior-derivative input boundary supplies the downstream exterior-derivative
+consumer face for $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$. The supplied
+face is exactly the carrier, classifier, degree-shift, wedge-input,
+endpoint-transport, source-ledger, and downstream boundary surface already
+listed for those consumers, with no downstream law imported into
+$\DiffFormUp$.
+\end{theorem}
+\begin{proof}
+Begin with an envelope witness satisfying the exterior-derivative input
+boundary. The input boundary row is the visible package of
+\autoref{def:diffform-exterior-derivative-input-row}, and its downstream
+visible form is the package of
+\autoref{def:diffform-exterior-derivative-visible-input-package}.
+
+Use \autoref{thm:diffform-exterior-input-root-closure}. It repacks the source
+carrier, output carrier, successor-degree continuation, transported probe and
+tensor rows, scalar endpoint comparison, and restricted source ledger into
+$\mathsf{DiffFormDownstreamBoundary}_{M,T}$.
+
+Now combine the downstream boundary rows. The exterior-derivative scope row
+\autoref{thm:diffform-exterior-derivative-downstream-scope} names the carrier,
+classifier, degree-raise candidate, endpoint transport, and exterior-algebra
+substrate consumed downstream. The consumer boundary theorem
+\autoref{thm:diffform-downstream-consumer-boundary} identifies
+$\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ as the downstream consumers of
+that surface.
+
+Finally apply
+\autoref{thm:diffform-boundary-exhaustion-downstream-export}. It says the
+downstream export is exhausted by the carrier, classifier, wedge,
+antisymmetry, exterior-input, transport, source-ledger, and downstream rows.
+The consumer face classifier of
+\autoref{def:diffform-root-consumer-face-classifier} assigns those rows to the
+de Rham, symplectic, contact, or shared root faces. Thus every exterior-input
+envelope witness supplies the advertised downstream consumer face and still
+leaves nilpotence, closedness, nondegeneracy, and contact nonintegrability to
+the consuming chapters.
+\end{proof}

@@ -38,6 +38,7 @@ The ledger records the time cell, state cell, vector-field evaluation,
 Picard-step continuation route, and limit witness. It does not assert equality
 in any host function space.
 \end{definition}
+\leandef{BEDC.Derived.OdeUp.OdeLocalFlowRow}
 
 \section{The certificate}
 \label{sec:ode-certificate}
@@ -52,6 +53,7 @@ $t$ and $x$ by $t'$ and $x'$ with the corresponding $\NameCert_{\DerivativeUp}$
 and $\NameCert_{\BanachUp}$ classifier witnesses gives
 $F(t,x)\hsame F(t',x')$ in the endpoint classifier recorded by $\NameCert$.
 \end{theorem}
+\leanchecked{BEDC.Derived.OdeUp.OdeLocalFlowSource\_vector\_field\_carrier\_stability}
 \begin{proof}
 Unpack the local-flow source. The time cell is read through
 $\NameCert_{\DerivativeUp}$, and the state cell is read through
@@ -94,6 +96,8 @@ classified by the same $\NameCert$ surfaces. Thus the composite Picard route
 remains scoped to Banach states, derivative time cells, and $\hsame$
 transport; no ambient function-space carrier is introduced.
 \end{proof}
+\leanchecked{BEDC.Derived.OdeUp.OdeLocalFlowSource\_picard\_continuation\_scope}
+\leanchecked{BEDC.Derived.OdeUp.OdeLocalFlowRow\_picard\_continuation\_scope}
 
 \begin{theorem}[OdeUp root local-uniqueness classifier]
 \label{thm:ode-root-local-uniqueness-classifier}
@@ -105,6 +109,7 @@ transported through the shared $\NameCert_{\DerivativeUp}$,
 $\NameCert_{\BanachUp}$, $\Cont$, and $\hsame$ ledgers, then their endpoint
 state histories are related by the Banach classifier recorded in $\NameCert$.
 \end{theorem}
+\leanchecked{BEDC.Derived.OdeUp.OdeLocalFlow\_endpoint\_classifier\_deterministic}
 \begin{proof}
 Unpack the two local-flow witnesses into their common initial time-state cell,
 their vector-field evaluation ledgers, Picard-step histories, limit witnesses,
@@ -122,4 +127,64 @@ $\Cont(t_1,\ell,x_1)$ and $\Cont(t_1,\ell',x_1')$. Since the time endpoint is
 the same cell and the limit witnesses have just been classified together, the
 Banach endpoint classifier relates $x_1$ and $x_1'$. This is precisely the
 endpoint classifier exposed by the $\OdeUp$ source through $\NameCert$.
+\end{proof}
+
+\begin{theorem}[OdeUp local-flow concatenation endpoint determinacy]
+\label{thm:ode-local-flow-concatenation-endpoint-determinacy}
+Let $R_{01}$ and $R_{12}$ be $\OdeUp$ BHist local-flow rows over the same
+$\NameCert_{\DerivativeUp}$ and $\NameCert_{\BanachUp}$ surfaces:
+$$
+R_{01}=(t_0,x_0,t_1,x_1;v_{01},p_{01},\ell_{01}),\qquad
+R_{12}=(t_1,x_1,t_2,x_2;v_{12},p_{12},\ell_{12}).
+$$
+Assume the terminal time-state cell of $R_{01}$ is the initial time-state cell
+of $R_{12}$ in the derivative and Banach classifiers, so
+\autoref{thm:ode-root-picard-continuation-scope} supplies a composite Picard
+route. Write the resulting composite local-flow row as
+$$
+R_{02}^{\circ}=(t_0,x_0,t_2,x_2;v_{02}^{\circ},p_{02}^{\circ},\ell_{02}^{\circ}).
+$$
+If
+$$
+D_{02}=(t_0,x_0,t_2,y;v_{02},p_{02},\ell_{02})
+$$
+is any direct $\OdeUp$ local-flow row whose Lipschitz vector-field ledger is
+classified with the composite ledger,
+$$
+v_{02}^{\circ}\hsame v_{02},
+$$
+then the concatenated endpoint and the direct endpoint are related by the
+Banach endpoint classifier:
+$$
+x_2\sim_{\BanachUp}y,
+$$
+where $\sim_{\BanachUp}$ denotes the classifier supplied by
+$\NameCert_{\BanachUp}$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:ode-root-picard-continuation-scope}, the two adjacent Picard
+ledgers compose through the shared middle time-state cell inside the same
+$\NameCert_{\DerivativeUp}$ and $\NameCert_{\BanachUp}$ surfaces. Thus the
+composite row $R_{02}^{\circ}$ is a local-flow witness from the initial data
+$(t_0,x_0)$ to the endpoint state $x_2$ at time $t_2$.
+
+Unpacking \autoref{def:ode-bhist-local-flow-source}, the composite row exposes
+$$
+\Cont(t_0,x_0,p_{02}^{\circ}),\qquad
+\Cont(p_{02}^{\circ},v_{02}^{\circ},\ell_{02}^{\circ}),\qquad
+\Cont(t_2,\ell_{02}^{\circ},x_2).
+$$
+The direct row exposes the parallel chain
+$$
+\Cont(t_0,x_0,p_{02}),\qquad
+\Cont(p_{02},v_{02},\ell_{02}),\qquad
+\Cont(t_2,\ell_{02},y).
+$$
+The two witnesses have the same initial time cell, the same initial state
+cell, the same endpoint time cell, and the displayed Lipschitz vector-field
+ledger comparison $v_{02}^{\circ}\hsame v_{02}$. Therefore
+\autoref{thm:ode-root-local-uniqueness-classifier} applies to the composite
+row and the direct row. It classifies their endpoint state histories by the
+Banach classifier carried by $\NameCert_{\BanachUp}$. Those endpoint histories
+are exactly $x_2$ and $y$, giving $x_2\sim_{\BanachUp}y$.
 \end{proof}

@@ -77,3 +77,92 @@ The gluing row gives $\rho_{i,\iota(a)}(g)\sim_{\iota(a)}s_a$. Combining this wi
 
 For uniqueness, let $g'$ be another gluing of the same compatible family. Apply \autoref{thm:sheaf-gluing-uniqueness-from-locality} to the two displayed gluing rows to obtain $g\sim_i g'$. The restriction classifier-stability field of \autoref{def:sheaf-indexed-section-presheaf-carrier} transports this equality to any displayed common neighborhood used in the point-germ ledger, so the readback does not depend on the chosen gluing representative beyond the existing section classifier.
 \end{proof}
+
+\begin{theorem}[Sheaf BHist point-germ comparison transitivity]
+\label{thm:sheaf-bhist-point-germ-comparison-transitivity}
+Let $(i,o_i,s)$, $(j,o_j,t)$, and $(\ell,o_\ell,u)$ be displayed point-germ rows over the same $b:\mathsf{BHist}$ in the sense of \autoref{def:sheaf-bhist-point-germ-ledger}. Suppose the first two rows compare on a displayed common neighborhood $k$:
+$$
+k\le_{\mathcal{T}}i,
+\qquad
+k\le_{\mathcal{T}}j,
+\qquad
+o_k:\mathsf{OpenAt}(k,b),
+$$
+with
+$$
+\alpha:\rho_{i,k}(s)\sim_k\rho_{j,k}(t),
+$$
+and suppose the last two rows compare on a displayed common neighborhood $m$:
+$$
+m\le_{\mathcal{T}}j,
+\qquad
+m\le_{\mathcal{T}}\ell,
+\qquad
+o_m:\mathsf{OpenAt}(m,b),
+$$
+with
+$$
+\beta:\rho_{j,m}(t)\sim_m\rho_{\ell,m}(u).
+$$
+Put
+$$
+n:=k\wedge_{\TopologyUp}m.
+$$
+Then $n$ is a displayed common neighborhood below $i$ and $\ell$ at $b$, and the first and third rows compare there:
+$$
+\rho_{i,n}(s)\sim_n\rho_{\ell,n}(u).
+$$
+\end{theorem}
+\begin{proof}
+The finite-intersection field of \autoref{def:topology-indexed-open-carrier} gives, for every $x:\mathsf{BHist}$,
+$$
+\mathsf{OpenAt}(n,x)
+\Longleftrightarrow
+\bigl(\mathsf{OpenAt}(k,x)\wedge\mathsf{OpenAt}(m,x)\bigr).
+$$
+The forward implication, followed by projection, gives inclusions $n\le_{\mathcal{T}}k$ and $n\le_{\mathcal{T}}m$. At $x=b$, the reverse implication applied to $o_k$ and $o_m$ gives $o_n:\mathsf{OpenAt}(n,b)$. Composing the pointwise inclusions gives $n\le_{\mathcal{T}}i$ and $n\le_{\mathcal{T}}\ell$; composing with $k\le_{\mathcal{T}}j$ and with $m\le_{\mathcal{T}}j$ gives the two chains to $j$ used below.
+
+Restrict the comparison row $\alpha$ along $n\le_{\mathcal{T}}k$ by the classifier-stability field of \autoref{def:sheaf-indexed-section-presheaf-carrier}. This gives
+$$
+\rho_{k,n}(\rho_{i,k}(s))
+\sim_n
+\rho_{k,n}(\rho_{j,k}(t)).
+$$
+The composition field of the same presheaf carrier, applied to $n\le_{\mathcal{T}}k\le_{\mathcal{T}}i$ and to $n\le_{\mathcal{T}}k\le_{\mathcal{T}}j$, gives
+$$
+\rho_{k,n}(\rho_{i,k}(s))\sim_n\rho_{i,n}(s)
+$$
+and
+$$
+\rho_{k,n}(\rho_{j,k}(t))\sim_n\rho_{j,n}(t).
+$$
+Symmetry and transitivity of the classifier $\sim_n$ therefore yield
+$$
+\rho_{i,n}(s)\sim_n\rho_{j,n}(t).
+$$
+
+Restrict the comparison row $\beta$ along $n\le_{\mathcal{T}}m$. The classifier-stability field gives
+$$
+\rho_{m,n}(\rho_{j,m}(t))
+\sim_n
+\rho_{m,n}(\rho_{\ell,m}(u)).
+$$
+The composition field for $n\le_{\mathcal{T}}m\le_{\mathcal{T}}j$ and $n\le_{\mathcal{T}}m\le_{\mathcal{T}}\ell$ gives
+$$
+\rho_{m,n}(\rho_{j,m}(t))\sim_n\rho_{j,n}(t)
+$$
+and
+$$
+\rho_{m,n}(\rho_{\ell,m}(u))\sim_n\rho_{\ell,n}(u).
+$$
+Again using symmetry and transitivity of $\sim_n$, obtain
+$$
+\rho_{j,n}(t)\sim_n\rho_{\ell,n}(u).
+$$
+
+Transitivity of $\sim_n$ combines the last displayed row with $\rho_{i,n}(s)\sim_n\rho_{j,n}(t)$ and gives
+$$
+\rho_{i,n}(s)\sim_n\rho_{\ell,n}(u).
+$$
+Together with the witnesses $n\le_{\mathcal{T}}i$, $n\le_{\mathcal{T}}\ell$, and $o_n:\mathsf{OpenAt}(n,b)$, this is exactly the point-germ comparison row required by \autoref{def:sheaf-bhist-point-germ-ledger}.
+\end{proof}

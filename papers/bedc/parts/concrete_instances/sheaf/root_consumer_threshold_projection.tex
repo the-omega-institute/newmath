@@ -1,0 +1,53 @@
+\begin{definition}[Sheaf root consumer-threshold projection source]
+\label{def:sheaf-root-consumer-threshold-projection-source}
+The $\SheafUp$ root consumer-threshold projection source is the $\mathsf{BHist}$-indexed package obtained from \autoref{def:sheaf-root-threshold-certificate-source} by exposing three consumer faces: the $\RingedSpaceUp$ local-ring face, the $\SchemeUp$ affine-chart gluing face, and the topology pullback face. It is recorded by the following ten fields.
+\begin{enumerate}
+\item The traditional target is the sheaf-side data of a structure sheaf that can be read by ringed spaces, schemes, and pullback-open consumers.
+\item The BEDC source is the single threshold source of \autoref{def:sheaf-root-threshold-certificate-source}, not a separate host sheaf object.
+\item The carrier row is the indexed-open section carrier $\mathsf{Sec}(i)$, with restricted-open carriers and displayed source carriers obtained only by slicing or pulling back indexed opens.
+\item The classifier row is the section classifier family $\sim_i$, together with its restricted-open and displayed base-change readbacks.
+\item The restriction row is restriction identity, restriction composition, and classifier transport for every displayed inclusion used by the three consumers.
+\item The RingedSpaceUp projection row is the local-ring consumer surface: section carriers, section classifiers, ring-preserving restriction routes, point-germ local-ring readback, restricted-open rows, and base-change rows.
+\item The SchemeUp projection row is the affine-chart gluing surface: chart-wise ringed-space projections, displayed affine cover membership, overlap compatibility, and common-refinement comparison.
+\item The topology pullback projection row is the displayed base-change surface: cover pullback, gluing pullback, pulled-back common refinement, and classifier transport along the displayed square.
+\item The ledger and exactness row is the cover-nerve ledger, point-germ ledger, restricted-open ledger, refinement ledger, cover-presentation exactness, and base-change exactness already present in the threshold source.
+\item The standard-bridge field is absent: the projection source exports no host powerset cover equality, no cover quotient, no stalk quotient, no external sheafification operation, and no $\StdBridge$.
+\end{enumerate}
+Thus the same $\mathsf{BHist}$-indexed source is projected separately to the three consumer families without duplicating the sheaf root obligations.
+\end{definition}
+
+\begin{theorem}[Sheaf root RingedSpace consumer projection]
+\label{thm:sheaf-root-consumer-ringedspace-projection}
+The $\RingedSpaceUp$ local-ring consumer receives exactly the indexed sections, section classifiers, restriction identity, restriction composition, restriction transport, point-germ local-ring readback, restricted-open rows, and base-change rows of \autoref{def:sheaf-root-consumer-threshold-projection-source}. No additional sheaf carrier, cover comparison, stalk quotient, or standard bridge is available through this projection.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:sheaf-ringedspace-consumption-obligation}. Its sheaf-side list asks for section carriers, classifiers, restriction stability, cover-gluing exactness, restricted-open rows, and base-change rows, together with non-sheaf commutative-ring data supplied outside $\SheafUp$.
+
+The carrier and classifier entries are supplied by \autoref{thm:sheaf-root-threshold-carrier-classifier-obligation}. This gives the open-indexed section carrier, the classifier family, restriction identity and composition, classifier transport, $\mathsf{BHist}$ cover membership, and point-germ rows read on displayed neighborhoods.
+
+The exactness and transport entries are supplied by \autoref{thm:sheaf-root-threshold-gluing-refinement-obligation}. Locality, gluing, refinement pullback, restricted-open exactness, and displayed base-change exactness are already fields of the root threshold source, so the ringed-space projection is precisely the listed face of \autoref{def:sheaf-root-consumer-threshold-projection-source}.
+\end{proof}
+
+\begin{theorem}[Sheaf root Scheme consumer projection]
+\label{thm:sheaf-root-consumer-scheme-projection}
+The $\SchemeUp$ affine-chart gluing consumer receives the same threshold source by chart-wise $\RingedSpaceUp$ projection, followed by cover-presentation exactness and common-refinement exactness on chart overlaps. Thus affine-chart sections, overlap classifiers, glued section classes, and comparison across common refinements are all read from \autoref{def:sheaf-root-consumer-threshold-projection-source}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sheaf-scheme-consumption-obligation}. Each affine or ringed-space chart first reads the sheaf boundary through the ringed-space consumer, so the chart-wise carrier, classifier, restriction, restricted-open, point-germ, and base-change rows are the rows identified in \autoref{thm:sheaf-root-consumer-ringedspace-projection}.
+
+The coverage claim is \autoref{thm:sheaf-root-threshold-downstream-coverage-obligation}: every sheaf row consumed by $\SchemeUp$ is already covered by the threshold source. This keeps the chart gluing surface inside the same $\mathsf{BHist}$-indexed package.
+
+For independence of the chosen affine cover presentation, use \autoref{thm:sheaf-cover-presentation-exactness}. The displayed common refinement compares the pulled-back local families and identifies the resulting global classifier class, so no quotient of cover presentations or external sheaf model is introduced.
+\end{proof}
+
+\begin{theorem}[Sheaf root topology pullback consumer projection]
+\label{thm:sheaf-root-consumer-pullback-projection}
+Topology pullback consumers receive only the displayed base-change, cover-pullback, gluing-pullback, and common-refinement rows of \autoref{def:sheaf-root-consumer-threshold-projection-source}. These rows preserve pulled-back cover membership, compatible local-family predicates, glued section classifiers, and common-refinement comparison, without exporting the ringed-space local-ring face or the scheme affine-chart face.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:sheaf-topology-pullback-cover-row}. It identifies the consumer request as a displayed pullback of indexed cover rows: cover membership, restriction stability, and compatible local-family predicates are transported along the topology pullback-open rows.
+
+The complete base-change surface is \autoref{thm:sheaf-base-change-namecert-obligation-surface}. Its displayed square supplies cover pullback, gluing pullback, and common-refinement invariance using the same indexed-open carrier, classifier family, cover ledger, and refinement exactness fields recorded in \autoref{def:sheaf-root-consumer-threshold-projection-source}.
+
+Since this consumer reads only displayed source and target rows, the projection discards the ringed-space local-ring field and the scheme affine-chart field. What remains is exactly the base-change and common-refinement face of the root threshold source, with no host powerset cover comparison or standard bridge.
+\end{proof}

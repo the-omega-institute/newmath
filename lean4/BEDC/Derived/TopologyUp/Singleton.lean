@@ -26,6 +26,82 @@ def TopologySingletonMeet (i j : BHist) : BHist :=
   | BHist.e1 _, BHist.e0 _ => BHist.e0 BHist.Empty
   | BHist.e1 _, BHist.e1 _ => BHist.e0 BHist.Empty
 
+def TopologySingletonIndexedOpenCarrier : BHistIndexedOpenCarrier := {
+  OpenIx := BHist
+  OpenAt := TopologySingletonOpenAt
+  meet := TopologySingletonMeet
+  membership_stable := by
+    intro i x y _unaryX _unaryY sameXY
+    constructor
+    · intro openX
+      exact And.intro openX.left (hsame_trans (hsame_symm sameXY) openX.right)
+    · intro openY
+      exact And.intro openY.left (hsame_trans sameXY openY.right)
+  meet_law := by
+    intro i j x _unaryX
+    cases i with
+    | Empty =>
+        cases j with
+        | Empty =>
+            constructor
+            · intro openMeet
+              exact And.intro openMeet openMeet
+            · intro openBoth
+              exact openBoth.left
+        | e0 t =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e0_empty openBoth.right.left)
+        | e1 t =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e1_empty openBoth.right.left)
+    | e0 t =>
+        cases j with
+        | Empty =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e0_empty openBoth.left.left)
+        | e0 u =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e0_empty openBoth.left.left)
+        | e1 u =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e0_empty openBoth.left.left)
+    | e1 t =>
+        cases j with
+        | Empty =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e1_empty openBoth.left.left)
+        | e0 u =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e1_empty openBoth.left.left)
+        | e1 u =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e1_empty openBoth.left.left)
+}
+
 theorem TopologySingleton_semantic_name_certificate :
     SemanticNameCert TopologySingletonCarrier TopologySingletonCarrier TopologySingletonCarrier
       (fun h k : BHist => TopologySingletonCarrier h ∧ TopologySingletonCarrier k ∧ hsame h k) ∧
@@ -255,5 +331,38 @@ theorem TopologySingleton_union_case_split_ledger {A : Type} {ι : A -> BHist} :
           exact Exists.intro BHist.Empty
             (And.intro (Or.inr (hsame_refl BHist.Empty))
               (TopologySingleton_union_top_exactness (ι := ι) a0 topAt))
+
+theorem TopologySingleton_arbitrary_union_laws {A : Type} {ι : A -> BHist} :
+    ((forall a : A, hsame (ι a) (BHist.e0 BHist.Empty)) ∨
+      (exists a0 : A, hsame (ι a0) BHist.Empty)) ->
+      exists accepted : BHist,
+        (hsame accepted (BHist.e0 BHist.Empty) ∨ hsame accepted BHist.Empty) ∧
+          (forall h : BHist,
+            TopologySingletonOpenAt accepted h <->
+              exists a : A, TopologySingletonOpenAt (ι a) h) ∧
+            (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+              ((exists a : A, TopologySingletonOpenAt (ι a) x) <->
+                exists a : A, TopologySingletonOpenAt (ι a) y)) := by
+  intro ledger
+  cases TopologySingleton_union_case_split_ledger ledger with
+  | intro accepted acceptedData =>
+      exact Exists.intro accepted
+        (And.intro acceptedData.left
+          (And.intro acceptedData.right
+            (by
+              intro x y unaryX unaryY sameXY
+              constructor
+              · intro openX
+                cases openX with
+                | intro a openAX =>
+                    exact Exists.intro a
+                      (And.intro openAX.left
+                        (hsame_trans (hsame_symm sameXY) openAX.right))
+              · intro openY
+                cases openY with
+                | intro a openAY =>
+                    exact Exists.intro a
+                      (And.intro openAY.left
+                        (hsame_trans sameXY openAY.right)))))
 
 end BEDC.Derived.TopologyUp

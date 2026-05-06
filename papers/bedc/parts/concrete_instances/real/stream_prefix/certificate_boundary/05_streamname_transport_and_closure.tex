@@ -395,6 +395,55 @@ chapters may cite this theorem as the public $\RealUp$ certificate boundary
 without reconstructing the package.
 \end{proof}
 
+\begin{theorem}[RealUp public export through the StreamNameUp public interface]
+\label{thm:realup-public-export-through-streamname-public-interface}
+The public $\NameCert_{\RealUp}$ surface of
+\autoref{thm:realup-public-certificate-export} factors its countable-name
+component through the public $\StreamNameUp$ export package of
+\autoref{thm:streamname-public-interface-export-package} and factors its
+finite-window component through
+\autoref{thm:realup-finite-window-export-through-streamname-interface}. After
+these two factorizations, the remaining public $\RealUp$ rows are exactly the
+DyadicRatCore observation rows, the $\RegSeqRat$ spine rows, the $\RatUp$
+endpoint rows, $\mathsf{UnaryHistory}$, $\hsame$ transport,
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.
+
+The factorized public surface still contains no quotient datum, completion
+datum, arithmetic or order closure, metric-completeness certificate, Classical
+datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:realup-public-certificate-export}. It identifies the
+public $\NameCert_{\RealUp}$ boundary as the scoped $\RealUp$ certificate
+boundary together with the selected finite-window read surface, the
+$\RegSeqRat$ stream-name interface, the DyadicRatCore observation rows, and the
+named constant-history, unary-stream, transport, endpoint, and ledger rows.
+
+Next isolate the public stream-name package. Apply
+\autoref{thm:streamname-public-interface-export-package}; its countable-name
+side supplies the $\mathsf{RatStreamNameCarrier}$,
+$\mathsf{RatStreamNameClassifier}$, RatUp pointwise rows, constant stream rows,
+reindexing and RatUp-preserving map stability, and unary reindexing composition
+used by the $\RealUp$ export.
+
+For finite observations, apply
+\autoref{thm:realup-finite-window-export-through-streamname-interface}. It
+identifies the selected finite $\RealUp$ read surface with the public
+$\StreamNameUp$ finite-window interface and leaves only the listed dyadic,
+$\RegSeqRat$, endpoint, unary-history, $\hsame$, and ledger rows outside the
+stream-name factor.
+
+Finally use \autoref{thm:regseqrat-streamname-scoped-interface} and
+\autoref{thm:dyadicratcore-public-observation-package}. The former supplies the
+regular rational-stream spine and transported stream-name rows consumed by
+$\RealUp$, while the latter supplies the DyadicRatCore observation package.
+Thus the public export factors through the two StreamNameUp interfaces and the
+unfactored rows are precisely the displayed $\RealUp$ carrier, classifier,
+transport, endpoint, history, and ledger rows.
+\end{proof}
+
 \begin{closurestatus}{\RegSeqRat}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The rational-stream certificate spine binds $\RatUp$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealUnaryStreamClassifier}$, the dyadic-tolerance ledger, and the $\RealUp$ seal as the visible $\RegSeqRat$ scope.}
@@ -406,11 +455,11 @@ without reconstructing the package.
 \end{closurestatus}
 
 \begin{closurestatus}{\RealUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:realup-scoped-certificate-boundary} and \autoref{thm:realup-public-certificate-export} witness the public $\RealUp$ certificate export over DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealConstantHistoryCarrier}$, $\mathsf{RealConstantHistoryClassifier}$, $\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.RealUp.RealConstantHistory\_semanticNameCert}
-  \bridgestatus{none}
-  \notclaimed{This block does not close $\RealUp$ completeness, arithmetic or order closure, metric completeness, or any standard bridge.}
-  \upgradepath{A stronger grade requires a bridge theorem relating this public $\RealUp$ export to the later standard or metric interface.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:realup-scoped-certificate-boundary} and \autoref{thm:realup-public-certificate-export} witness the public $\RealUp$ certificate export over DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealConstantHistoryCarrier}$, $\mathsf{RealConstantHistoryClassifier}$, $\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$, while \autoref{thm:real-constant-rational-embedding-certificate} supplies the constant rational standard bridge over RatUp, StreamNameUp, and RealUp.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.RealUp.RealConstant\_rational\_embedding\_certificate}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{This block does not close $\RealUp$ completeness, full arithmetic or order, metric completeness, topology, or nonconstant $\RegSeqRat$ bridge rows.}
+  \upgradepath{$\matureClosure$ requires additional nonconstant $\RegSeqRat$ bridge rows and examples beyond the constant rational embedding.}
 \end{closurestatus}

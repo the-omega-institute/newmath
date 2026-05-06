@@ -14,6 +14,10 @@ def AffineFiniteFamilyZeroLocus (AffPoint : BHist -> Prop)
 def AffineFiniteFamilyEquationInclusion (F G : ProbeBundle BHist) : Prop :=
   forall {p : BHist}, InBundle p F -> InBundle p G
 
+def AffineEquationHeadInsertion (p : BHist) (F : ProbeBundle BHist) :
+    ProbeBundle BHist :=
+  ProbeBundle.Bcons p F
+
 theorem AffineFiniteFamilyZeroLocus_intersection_concat {AffPoint : BHist -> Prop}
     {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
     AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero (bundleAppend F G) x <->
@@ -110,5 +114,18 @@ theorem AffineFiniteFamilyZeroLocus_empty_family_iff {AffPoint : BHist -> Prop}
       (by
         intro p member
         exact False.elim (inBundle_nil_elim member))
+
+theorem AffineFiniteFamilyZeroLocus_mutual_inclusion_iff {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
+    AffineFiniteFamilyEquationInclusion F G ->
+      AffineFiniteFamilyEquationInclusion G F ->
+        (AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x <->
+          AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x) := by
+  intro inclFG inclGF
+  constructor
+  · intro locusF
+    exact AffineFiniteFamilyZeroLocus_inclusion_contravariant inclGF locusF
+  · intro locusG
+    exact AffineFiniteFamilyZeroLocus_inclusion_contravariant inclFG locusG
 
 end BEDC.Derived.AffineVarUp

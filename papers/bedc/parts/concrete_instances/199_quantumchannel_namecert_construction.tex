@@ -275,3 +275,405 @@ $$
 $$
 Applying \autoref{thm:densitymatrix-finite-affine-mixture-closure} to this target density affine spine gives $\mathsf{Dens}_K(\Phi(\rho_{\mathrm{mix}}))$.
 \end{proof}
+
+\begin{theorem}[QuantumChannel identity channel is CPTP]
+\label{thm:quantumchannel-identity-channel-cptp}
+Let $H$ be a $\HilbertUp$ carrier, and let $\operatorname{id}_{\mathsf{TC}(H)}:\mathsf{TC}(H)\to\mathsf{TC}(H)$ be the identity function on the trace-class carrier supplied by the $\OperatorIdealUp$ dependency of \autoref{ch:concrete-instances-densitymatrix-namecert}. Then
+$$
+\mathsf{QChan}_{H,H}(\operatorname{id}_{\mathsf{TC}(H)}).
+$$
+Moreover every carried density matrix is sent to the same carried density-matrix endpoint:
+$$
+\mathsf{Dens}_H(\rho)
+\Longrightarrow
+\operatorname{id}_{\mathsf{TC}(H)}(\rho)=\rho
+\land
+\mathsf{Dens}_H(\operatorname{id}_{\mathsf{TC}(H)}(\rho)).
+$$
+\end{theorem}
+\begin{proof}
+The trace-class carrier $\mathsf{TC}(H)$ is a module carrier over the scalar certificate used by the trace-class operator-ideal surface. Applying \autoref{thm:module-linearmap-identity-certificate} with $M=\mathsf{TC}(H)$ gives the module identity certificate for $\operatorname{id}_{\mathsf{TC}(H)}$. Read through \autoref{def:linearmap-carrier}, this is exactly the carried $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(H))$ map-code required as the first row of \autoref{def:quantumchannel-cptp-carrier}.
+
+For complete positivity, let $A$ be a finite ancilla Hilbert carrier and let $X$ be a positive trace-class operator on $A\otimes H$. The amplified identity map is the identity on the trace-class carrier over $A\otimes H$:
+$$
+(\operatorname{id}_A\otimes\operatorname{id}_{\mathsf{TC}(H)})(X)=X.
+$$
+The input $X$ is already positive trace-class on $A\otimes H$, and the target channel also has Hilbert carrier $H$. Hence the complete-positivity row of \autoref{def:quantumchannel-cptp-carrier} holds.
+
+For trace preservation, let $T\in\mathsf{TC}(H)$. Since the map is the identity on $\mathsf{TC}(H)$,
+$$
+\operatorname{Tr}_H(\operatorname{id}_{\mathsf{TC}(H)}(T))
+=
+\operatorname{Tr}_H(T).
+$$
+Thus the linear-map row, complete-positivity row, and trace-preservation row are precisely the three clauses of \autoref{def:quantumchannel-cptp-carrier}, so
+$$
+\mathsf{QChan}_{H,H}(\operatorname{id}_{\mathsf{TC}(H)})
+$$
+holds.
+
+Now assume $\mathsf{Dens}_H(\rho)$. The identity equation gives $\operatorname{id}_{\mathsf{TC}(H)}(\rho)=\rho$. Applying \autoref{lem:quantumchannel-densitymatrix-image} to the channel just constructed gives
+$$
+\mathsf{Dens}_H(\operatorname{id}_{\mathsf{TC}(H)}(\rho)),
+$$
+which is the asserted density-matrix output clause.
+\end{proof}
+
+\begin{theorem}[QuantumChannel composition associativity law]
+\label{thm:quantumchannel-composition-associativity-law}
+Let $H$, $K$, $L$, and $J$ be $\HilbertUp$ carriers with trace-class spaces $\mathsf{TC}(H)$, $\mathsf{TC}(K)$, $\mathsf{TC}(L)$, and $\mathsf{TC}(J)$. Write $\sim_{\mathsf{TC}(J)}$ for the classifier on the final trace-class module inherited from the operator-ideal certificate. If
+$$
+\mathsf{QChan}_{H,K}(\Phi),
+\qquad
+\mathsf{QChan}_{K,L}(\Psi),
+\qquad
+\mathsf{QChan}_{L,J}(\Theta),
+$$
+then both bracketings of the triple composite are carried by $\QuantumChannelUp(H,J)$:
+$$
+\mathsf{QChan}_{H,J}((\Theta\circ\Psi)\circ\Phi)
+\qquad\text{and}\qquad
+\mathsf{QChan}_{H,J}(\Theta\circ(\Psi\circ\Phi)).
+$$
+Their underlying map-code endpoints are related by the pointwise $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(J))$ classifier:
+$$
+(\Theta\circ\Psi)\circ\Phi
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(J))}
+\Theta\circ(\Psi\circ\Phi).
+$$
+Equivalently, every carried trace-class endpoint $T:\mathsf{TC}(H)$ satisfies
+$$
+((\Theta\circ\Psi)\circ\Phi)(T)
+\sim_{\mathsf{TC}(J)}
+(\Theta\circ(\Psi\circ\Phi))(T).
+$$
+Moreover, every carried density-matrix input is sent to carried density-matrix outputs by both bracketings:
+$$
+\mathsf{Dens}_H(\rho)
+\Longrightarrow
+\mathsf{Dens}_J(((\Theta\circ\Psi)\circ\Phi)(\rho))
+\land
+\mathsf{Dens}_J((\Theta\circ(\Psi\circ\Phi))(\rho)).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:quantumchannel-composition-closure} to $\Phi$ and $\Psi$. This gives
+$$
+\mathsf{QChan}_{H,L}(\Psi\circ\Phi).
+$$
+Applying the same theorem to $\Psi\circ\Phi$ and $\Theta$ gives
+$$
+\mathsf{QChan}_{H,J}(\Theta\circ(\Psi\circ\Phi)).
+$$
+In the other bracketing, first apply \autoref{thm:quantumchannel-composition-closure} to $\Psi$ and $\Theta$, obtaining
+$$
+\mathsf{QChan}_{K,J}(\Theta\circ\Psi).
+$$
+Applying the same theorem to $\Phi$ and $\Theta\circ\Psi$ gives
+$$
+\mathsf{QChan}_{H,J}((\Theta\circ\Psi)\circ\Phi).
+$$
+By \autoref{def:quantumchannel-cptp-carrier}, these two carrier conclusions include the carried $\LinearMapUp$ map-code row, complete positivity for every finite ancilla, and trace preservation on $\mathsf{TC}(H)$.
+
+It remains to compare the two carried map-code endpoints. Unpack the three channel hypotheses by \autoref{def:quantumchannel-cptp-carrier}. Their first rows are carried $\LinearMapUp$ map-codes, read concretely as the module-linear packages of \autoref{def:module-linearmap-certificate-package} through \autoref{def:linearmap-carrier}. The trace-class carriers are module carriers over the common scalar source inherited from the $\OperatorIdealUp$ and $\HilbertUp$ dependency surfaces cited in \autoref{ch:concrete-instances-densitymatrix-namecert}. Applying \autoref{thm:module-linearmap-composition-associativity-certificate} with
+$$
+M=\mathsf{TC}(H),\qquad
+N=\mathsf{TC}(K),\qquad
+P=\mathsf{TC}(L),\qquad
+Q=\mathsf{TC}(J),
+$$
+and with $f=\Phi$, $g=\Psi$, and $k=\Theta$, gives the pointwise $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(J))$ classifier comparison
+$$
+(\Theta\circ\Psi)\circ\Phi
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(J))}
+\Theta\circ(\Psi\circ\Phi).
+$$
+This is exactly the classifier specified in \autoref{def:linearmap-classifier-specification}: it is pointwise comparison in the final trace-class classifier, together with the two carried map-code endpoints already supplied by the two channel-carrier conclusions above.
+
+Concretely, let $T$ be a carried trace-class endpoint of $\mathsf{TC}(H)$. The output-closure rows of the three input channel map-codes make $\Phi(T)$ carried in $\mathsf{TC}(K)$, $\Psi(\Phi(T))$ carried in $\mathsf{TC}(L)$, and $\Theta(\Psi(\Phi(T)))$ carried in $\mathsf{TC}(J)$. Both bracketed composites evaluate to this same endpoint:
+$$
+((\Theta\circ\Psi)\circ\Phi)(T)
+=
+\Theta(\Psi(\Phi(T)))
+=
+(\Theta\circ(\Psi\circ\Phi))(T).
+$$
+Classifier reflexivity for the final trace-class module therefore gives
+$$
+((\Theta\circ\Psi)\circ\Phi)(T)
+\sim_{\mathsf{TC}(J)}
+(\Theta\circ(\Psi\circ\Phi))(T),
+$$
+which is the displayed pointwise form.
+
+Finally assume $\mathsf{Dens}_H(\rho)$. Applying \autoref{lem:quantumchannel-densitymatrix-image} to the channel $\mathsf{QChan}_{H,J}((\Theta\circ\Psi)\circ\Phi)$ gives
+$$
+\mathsf{Dens}_J(((\Theta\circ\Psi)\circ\Phi)(\rho)).
+$$
+Applying the same lemma to $\mathsf{QChan}_{H,J}(\Theta\circ(\Psi\circ\Phi))$ gives
+$$
+\mathsf{Dens}_J((\Theta\circ(\Psi\circ\Phi))(\rho)).
+$$
+These are the two asserted density-output clauses.
+\end{proof}
+
+\begin{definition}[Unitary trace-class conjugation map]
+\label{def:quantumchannel-unitary-conjugation-map}
+Let $H$ be a $\HilbertUp$ carrier and let $U:H\to H$ be an endpoint carried by the $\UnitaryGroupUp(H)$ carrier of \autoref{sec:unitarygroup-carrier}. Write $U^{-1}:H\to H$ for the inverse endpoint supplied by the same unitary automorphism row. For $T\in\mathsf{TC}(H)$ define the unitary trace-class conjugation expression by
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U(T):=U\circ T\circ U^{-1}.
+$$
+The expression is read in the bounded-operator composition ring over $H$ from \autoref{def:operatorideal-hilbert-source-surface}; its trace-class output closure is the first carrier row proved in \autoref{thm:unitary-conjugation-quantumchannel}.
+\end{definition}
+
+\begin{theorem}[Unitary conjugation is a QuantumChannel]
+\label{thm:unitary-conjugation-quantumchannel}
+Let $H$ be a $\HilbertUp$ carrier. If $U:H\to H$ is carried by the $\UnitaryGroupUp(H)$ automorphism carrier and $U^{-1}$ is its carried inverse, then the conjugation map of \autoref{def:quantumchannel-unitary-conjugation-map} is carried by $\QuantumChannelUp(H,H)$:
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U).
+$$
+Consequently every carried density matrix is sent to a carried density matrix:
+$$
+\mathsf{Dens}_H(\rho)\Longrightarrow \mathsf{Dens}_H(\operatorname{Ad}^{\mathsf{TC}}_U(\rho)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the $\UnitaryGroupUp$ carrier cited in \autoref{sec:unitarygroup-carrier}. The unitary witness supplies bounded $\LinearMapUp(H,H)$ endpoints $U$ and $U^{-1}$, the two inverse equations against the Hilbert identity, and the inner-product preservation row identifying $U^{-1}$ with the adjoint-side action of $U$. Hence both endpoints are carried bounded operators in the ambient operator surface $\mathsf{Op}_H$ of \autoref{def:operatorideal-hilbert-source-surface}.
+
+First prove trace-class output closure. Let $T\in\mathsf{TC}(H)$. Apply the right absorption half of \autoref{thm:operatorideal-two-sided-absorption-row} to the carried bounded operator $U^{-1}$ and the trace-class operator $T$. This gives $T\circ U^{-1}\in\mathsf{TC}(H)$. Apply the left absorption half of the same theorem to the carried bounded operator $U$ and this trace-class operator. The result is
+$$
+U\circ T\circ U^{-1}\in\mathsf{TC}(H),
+$$
+which is output closure for $\operatorname{Ad}^{\mathsf{TC}}_U$.
+
+The same bounded-composition rows give the linear-map package. Source-classifier descent follows from the operator-ideal classifier transport row, since composing on the left by the fixed carried bounded operator $U$ and on the right by the fixed carried bounded operator $U^{-1}$ preserves the pointwise bounded-operator classifier. For carried $T,S\in\mathsf{TC}(H)$ and a carried real scalar $a$, bilinearity of bounded-operator composition over the trace-class module gives
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U(T+_{\mathsf{TC}(H)}S)
+=
+\operatorname{Ad}^{\mathsf{TC}}_U(T)+_{\mathsf{TC}(H)}\operatorname{Ad}^{\mathsf{TC}}_U(S)
+$$
+and
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U(a\odot_H T)
+=
+a\odot_H\operatorname{Ad}^{\mathsf{TC}}_U(T).
+$$
+The zero row is the same calculation at the trace-class zero operator. These are the output-closure, descent, additive, scalar, and zero rows of \autoref{def:module-linearmap-certificate-package}, read through the concrete $\LinearMapUp$ carrier in \autoref{def:linearmap-carrier}. Thus $\operatorname{Ad}^{\mathsf{TC}}_U$ carries the required linear-map row in \autoref{def:quantumchannel-cptp-carrier}.
+
+For complete positivity, let $A$ be a finite ancilla Hilbert carrier and let $X$ be a positive trace-class operator on $A\otimes H$. Put
+$$
+V_A:=\operatorname{id}_A\otimes U,
+\qquad
+V_A^{-1}:=\operatorname{id}_A\otimes U^{-1}.
+$$
+The tensor row for Hilbert carriers makes $V_A$ a carried unitary automorphism of $A\otimes H$ with inverse $V_A^{-1}$. The amplified conjugation map is the corresponding bounded conjugation:
+$$
+(\operatorname{id}_A\otimes\operatorname{Ad}^{\mathsf{TC}}_U)(X)
+=
+V_A\circ X\circ V_A^{-1}.
+$$
+Trace-class membership of this amplified output follows from \autoref{thm:operatorideal-two-sided-absorption-row} on $A\otimes H$. For positivity, evaluate the quadratic-form predicate at an arbitrary carried vector $z$ of $A\otimes H$. The unitary inverse-adjoint row gives
+$$
+\langle V_A\circ X\circ V_A^{-1}z,z\rangle
+=
+\langle X(V_A^{-1}z),V_A^{-1}z\rangle.
+$$
+Since $X$ is positive and $V_A^{-1}z$ is again a carried Hilbert endpoint, the right side is nonnegative. Therefore the amplified output is positive trace-class on $A\otimes H$. As $A$ and $X$ were arbitrary, $\operatorname{Ad}^{\mathsf{TC}}_U$ is completely positive.
+
+For trace preservation, let $T\in\mathsf{TC}(H)$. The cyclic trace row for one trace-class factor and one carried bounded factor gives
+$$
+\begin{aligned}
+\operatorname{Tr}_H(\operatorname{Ad}^{\mathsf{TC}}_U(T))
+&=\operatorname{Tr}_H(U\circ (T\circ U^{-1}))\\
+&=\operatorname{Tr}_H((T\circ U^{-1})\circ U)\\
+&=\operatorname{Tr}_H(T\circ (U^{-1}\circ U))\\
+&=\operatorname{Tr}_H(T\circ \operatorname{id}_H)\\
+&=\operatorname{Tr}_H(T).
+\end{aligned}
+$$
+The last two equalities use the inverse equation supplied by the unitary automorphism row and the bounded-operator identity law.
+
+The carried linear-map row, complete-positivity row, and trace-preservation row are precisely the clauses of \autoref{def:quantumchannel-cptp-carrier}; hence
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U)
+$$
+holds. If $\mathsf{Dens}_H(\rho)$, applying \autoref{lem:quantumchannel-densitymatrix-image} to this channel gives
+$$
+\mathsf{Dens}_H(\operatorname{Ad}^{\mathsf{TC}}_U(\rho)),
+$$
+which is the asserted density-matrix endpoint preservation.
+\end{proof}
+
+\begin{theorem}[QuantumChannel identity composition unit laws]
+\label{thm:quantumchannel-identity-composition-unit-laws}
+Let $H$ and $K$ be $\HilbertUp$ carriers with trace-class spaces $\mathsf{TC}(H)$ and $\mathsf{TC}(K)$. Let $\operatorname{id}_{\mathsf{TC}(H)}$ and $\operatorname{id}_{\mathsf{TC}(K)}$ be the identity functions on these trace-class carriers, and write $\sim_{\mathsf{TC}(K)}$ for the target trace-class classifier inherited from the $\OperatorIdealUp$ dependency surface. If
+$$
+\mathsf{QChan}_{H,K}(\Phi),
+$$
+then both unit composites are carried by $\QuantumChannelUp(H,K)$:
+$$
+\mathsf{QChan}_{H,K}(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)})
+\qquad\text{and}\qquad
+\mathsf{QChan}_{H,K}(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi).
+$$
+Moreover both unit composites are related to $\Phi$ by the pointwise $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ classifier:
+$$
+\Phi\circ\operatorname{id}_{\mathsf{TC}(H)}
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))}
+\Phi
+\qquad\text{and}\qquad
+\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))}
+\Phi.
+$$
+Equivalently, every carried trace-class endpoint $T\in\mathsf{TC}(H)$ satisfies
+$$
+(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)})(T)
+\sim_{\mathsf{TC}(K)}
+\Phi(T)
+\qquad\text{and}\qquad
+(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi)(T)
+\sim_{\mathsf{TC}(K)}
+\Phi(T).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:quantumchannel-identity-channel-cptp} to $H$ and to $K$. This gives
+$$
+\mathsf{QChan}_{H,H}(\operatorname{id}_{\mathsf{TC}(H)})
+\qquad\text{and}\qquad
+\mathsf{QChan}_{K,K}(\operatorname{id}_{\mathsf{TC}(K)}).
+$$
+Applying \autoref{thm:quantumchannel-composition-closure} first to $\operatorname{id}_{\mathsf{TC}(H)}$ and $\Phi$ gives
+$$
+\mathsf{QChan}_{H,K}(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)}).
+$$
+Applying the same theorem to $\Phi$ and $\operatorname{id}_{\mathsf{TC}(K)}$ gives
+$$
+\mathsf{QChan}_{H,K}(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi).
+$$
+These are the two carried quantum-channel clauses.
+
+It remains to compare the underlying map-code endpoints. Unpack $\mathsf{QChan}_{H,K}(\Phi)$ by \autoref{def:quantumchannel-cptp-carrier}. Its first row carries the $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ map-code of \autoref{def:linearmap-carrier}. The trace-class carriers are module carriers over the scalar certificate inherited from the $\OperatorIdealUp$ and $\HilbertUp$ dependency surfaces cited in \autoref{ch:concrete-instances-densitymatrix-namecert}. Applying \autoref{thm:module-linearmap-identity-unit-laws} with
+$$
+M=\mathsf{TC}(H),
+\qquad
+N=\mathsf{TC}(K),
+\qquad
+f=\Phi,
+$$
+gives the two pointwise $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ classifier comparisons
+$$
+\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))}
+\Phi
+\qquad\text{and}\qquad
+\Phi\circ\operatorname{id}_{\mathsf{TC}(H)}
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))}
+\Phi.
+$$
+
+For the displayed pointwise form, let $T$ be a carried trace-class endpoint of $\mathsf{TC}(H)$. The output-closure row of the carried $\LinearMapUp$ map-code for $\Phi$ gives that $\Phi(T)$ is carried in $\mathsf{TC}(K)$. The identity equations give
+$$
+(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)})(T)=\Phi(T)
+\qquad\text{and}\qquad
+(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi)(T)=\Phi(T).
+$$
+Classifier reflexivity for the target trace-class module therefore gives
+$$
+(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)})(T)
+\sim_{\mathsf{TC}(K)}
+\Phi(T)
+\qquad\text{and}\qquad
+(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi)(T)
+\sim_{\mathsf{TC}(K)}
+\Phi(T).
+$$
+By \autoref{def:linearmap-classifier-specification}, these pointwise target-classifier comparisons are exactly the underlying $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ classifier relations.
+\end{proof}
+
+\begin{theorem}[Unitary conjugation channel composition law]
+\label{thm:unitary-conjugation-channel-composition-law}
+Let $H$ be a $\HilbertUp$ carrier. Let $U,V:H\to H$ be endpoints carried by the $\UnitaryGroupUp(H)$ automorphism carrier, with carried inverses $U^{-1}$ and $V^{-1}$. Let $W:=U\circ V$ be their unitary-group product endpoint, and let $W^{-1}:=V^{-1}\circ U^{-1}$ be the inverse endpoint supplied by the product row. Then the composite conjugation map and the product-unitary conjugation map are both carried quantum channels:
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)
+\qquad\text{and}\qquad
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_{W}).
+$$
+Moreover the composite channel endpoint is classified by the product-unitary endpoint:
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(H))}
+\operatorname{Ad}^{\mathsf{TC}}_{W}.
+$$
+Equivalently, writing $\sim_{\mathsf{TC}(H)}$ for the trace-class classifier inherited from the operator-ideal surface, every carried trace-class endpoint $T\in\mathsf{TC}(H)$ satisfies
+$$
+(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(T)
+\sim_{\mathsf{TC}(H)}
+\operatorname{Ad}^{\mathsf{TC}}_{U\circ V}(T).
+$$
+Consequently every carried density matrix is sent to carried density-matrix endpoints by both representatives:
+$$
+\mathsf{Dens}_H(\rho)
+\Longrightarrow
+\mathsf{Dens}_H((\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(\rho))
+\land
+\mathsf{Dens}_H(\operatorname{Ad}^{\mathsf{TC}}_{W}(\rho)).
+$$
+\end{theorem}
+\begin{proof}
+The $\UnitaryGroupUp(H)$ automorphism carrier cited in \autoref{sec:unitarygroup-carrier} is a group of Hilbert automorphisms. Thus its product row carries $W=U\circ V$, and the inverse row identifies the carried inverse of $W$ with $V^{-1}\circ U^{-1}$. Applying \autoref{thm:unitary-conjugation-quantumchannel} to $U$, to $V$, and to $W$ gives
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U),
+\qquad
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_V),
+\qquad
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_{W}).
+$$
+Apply \autoref{thm:quantumchannel-composition-closure} with $\Phi=\operatorname{Ad}^{\mathsf{TC}}_V$ and $\Psi=\operatorname{Ad}^{\mathsf{TC}}_U$. This gives the carried composite channel
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V).
+$$
+Together with the displayed $W$ clause, this proves the two quantum-channel carrier conclusions.
+
+It remains to identify the endpoints. Let $T$ be a carried endpoint of $\mathsf{TC}(H)$. By \autoref{def:quantumchannel-unitary-conjugation-map},
+$$
+(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(T)
+=
+U\circ (V\circ T\circ V^{-1})\circ U^{-1}.
+$$
+The bounded-operator composition ring over $H$ from \autoref{def:operatorideal-hilbert-source-surface} is associative on carried endpoints, and \autoref{thm:operatorideal-two-sided-absorption-row} supplies the trace-class carrier rows for each intermediate conjugation. Hence the displayed endpoint is classified in the trace-class carrier with
+$$
+(U\circ V)\circ T\circ (V^{-1}\circ U^{-1}).
+$$
+The product inverse row gives $W^{-1}=V^{-1}\circ U^{-1}$, while $W=U\circ V$ by definition. Therefore
+$$
+(U\circ V)\circ T\circ (V^{-1}\circ U^{-1})
+=
+W\circ T\circ W^{-1}
+=
+\operatorname{Ad}^{\mathsf{TC}}_{W}(T).
+$$
+Classifier reflexivity and classifier transport in the trace-class operator-ideal carrier give
+$$
+(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(T)
+\sim_{\mathsf{TC}(H)}
+\operatorname{Ad}^{\mathsf{TC}}_{W}(T).
+$$
+Since $T$ was arbitrary, \autoref{def:linearmap-classifier-specification} packages these pointwise trace-class comparisons, together with the two carried linear-map rows included in the two channel carrier conclusions by \autoref{def:quantumchannel-cptp-carrier}, as
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(H))}
+\operatorname{Ad}^{\mathsf{TC}}_{W}.
+$$
+
+Finally assume $\mathsf{Dens}_H(\rho)$. Applying \autoref{lem:quantumchannel-densitymatrix-image} to the composite channel gives
+$$
+\mathsf{Dens}_H((\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(\rho)).
+$$
+Applying the same lemma to $\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_{W})$ gives
+$$
+\mathsf{Dens}_H(\operatorname{Ad}^{\mathsf{TC}}_{W}(\rho)).
+$$
+These are the asserted density-matrix endpoint clauses.
+\end{proof}

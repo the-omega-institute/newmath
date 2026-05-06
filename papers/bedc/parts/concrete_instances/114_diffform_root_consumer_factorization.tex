@@ -1,0 +1,106 @@
+\section{DiffForm root consumer factorization}
+\label{sec:diffform-root-consumer-factorization}
+
+\begin{definition}[DiffForm root consumer factorization surface]
+\label{def:diffform-root-consumer-factorization-surface}
+The $\DiffFormUp$ root consumer factorization surface is the tuple
+$$
+\mathsf{DiffFormRootConsumerFactor}_{M,T}.
+$$
+Its coordinates are the entry source of
+\autoref{def:diffform-root-consumer-entry-source}, the carrier row of
+\autoref{thm:diffform-root-consumer-entry-carrier}, the wedge row of
+\autoref{thm:diffform-root-consumer-entry-wedge}, the exterior-derivative
+row of \autoref{thm:diffform-root-consumer-entry-derivative}, and the
+threshold row of \autoref{thm:diffform-root-consumer-entry-threshold}. The
+surface is a consumer-facing route table, not a downstream law table: it
+contains no row for $d^2=0$, closedness, nondegeneracy, contact
+nonintegrability, quotienting, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[DiffForm root carrier factorization]
+\label{thm:diffform-root-consumer-factorization-carrier}
+Every downstream carrier or classifier read from $\DiffFormUp$ factors
+through \autoref{def:diffform-root-consumer-factorization-surface}. The only
+carrier route is the root $BHist$ carrier
+$\mathsf{DiffFormBHistCarrier}_{M,T}$, and the only classifier route is the
+displayed $\sim_{\DiffFormUp}$ classifier bound by the root $BHist$ surface.
+\end{theorem}
+\begin{proof}
+Start with an arbitrary carrier or classifier read by $\DeRhamUp$,
+$\SymplecticUp$, or $\ContactUp$. Apply
+\autoref{thm:diffform-root-bhist-downstream-boundary}. It places every
+downstream read through the carried row, classifier row, degree-probe
+alignment, wedge routing, exterior-input routing, source NameCert rows, and
+$\Cont$ histories named by the root $BHist$ surface.
+
+Now apply \autoref{thm:diffform-root-consumer-entry-carrier}. This entry row
+identifies the consumer carrier coordinate with
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ and the consumer classifier coordinate
+with the displayed $\sim_{\DiffFormUp}$ classifier, with no replacement
+carrier or classifier.
+
+Finally read these two coordinates inside
+\autoref{def:diffform-root-consumer-factorization-surface}. Since the
+factorization surface contains the entry source and the carrier entry row,
+the downstream carrier and classifier read factors through exactly that
+surface.
+\end{proof}
+
+\begin{theorem}[DiffForm wedge and derivative factorization]
+\label{thm:diffform-root-consumer-factorization-wedge-derivative}
+Every downstream wedge read or exterior-derivative input read from
+$\DiffFormUp$ factors through
+\autoref{def:diffform-root-consumer-factorization-surface}. Wedge reads use
+the wedge-entry row, and exterior-derivative reads use the
+exterior-derivative entry row; neither route projects a downstream law from
+the $\DiffFormUp$ root.
+\end{theorem}
+\begin{proof}
+First consider a downstream wedge read. Apply
+\autoref{thm:diffform-root-consumer-entry-wedge}. It routes accepted wedge
+input through probe append, $\Cont$ tensor and degree ledgers,
+antisymmetry ledgers, scalar endpoint transport, and source-ledger
+projections from the $\DiffFormUp$ root.
+
+Next consider an exterior-derivative input read. Apply
+\autoref{thm:diffform-root-consumer-entry-derivative}. It routes the input
+through the manifold-tensor source envelope, supplying carrier, classifier,
+degree-shift, wedge-input, endpoint-transport, source-ledger, and downstream
+boundary data while leaving $d^2=0$ outside the root.
+
+Finally apply
+\autoref{thm:diffform-root-cross-consumer-threshold-package}. The package
+assigns the de Rham, symplectic, and contact laws to their consumer faces and
+keeps the shared carrier, classifier, wedge, scalar endpoint, and
+source-ledger rows in the root face. Since
+\autoref{def:diffform-root-consumer-factorization-surface} contains both
+entry rows and the threshold row, every wedge or exterior-input read factors
+through the shared surface.
+\end{proof}
+
+\begin{theorem}[DiffForm threshold consumer factorization]
+\label{thm:diffform-root-consumer-factorization-threshold}
+The three consumer faces $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ may
+cite only \autoref{def:diffform-root-consumer-factorization-surface} for
+their shared $\DiffFormUp$ input. Nilpotence, closedness, nondegeneracy, and
+contact nonintegrability must be supplied in the corresponding downstream
+chapters and are not projected by the $\DiffFormUp$ root.
+\end{theorem}
+\begin{proof}
+Begin with the shared input side. Apply
+\autoref{thm:diffform-root-consumer-entry-threshold}. It assembles the
+carrier, wedge, and exterior-derivative projections as the root entry
+threshold for $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$.
+
+Now apply
+\autoref{thm:diffform-root-cross-consumer-threshold-package}. It separates
+the shared root rows from the de Rham, symplectic, and contact law rows, so
+consumer chapters receive only the common input surface from $\DiffFormUp$.
+
+Finally apply \autoref{thm:diffform-root-bhist-downstream-boundary}. The root
+$BHist$ boundary excludes $d^2=0$, closedness, nondegeneracy, contact
+nonintegrability, and bridge rows from the $\DiffFormUp$ projection. Thus the
+three consumer faces may cite the shared factorization surface for input, and
+their own chapters must supply the corresponding downstream laws.
+\end{proof}

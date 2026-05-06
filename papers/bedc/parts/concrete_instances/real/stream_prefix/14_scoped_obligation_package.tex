@@ -72,6 +72,16 @@ BEDC source.
 \end{enumerate}
 \end{proof}
 
+\begin{closurestatus}{\RealUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The finite stream-prefix $\RealUp$ package over $\RegSeqRat$, $\StreamNameUp$, $\RatUp$ endpoint rows, $\mathsf{BHist}$, $\hsame$, $\mathsf{Cont}$, finite-window classifiers, dyadic ledger rows, and the displayed $\RealUp$ seal.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealUp.RealStreamClassifier\_finite\_prefix\_exactness}
+  \bridgestatus{none}
+  \notclaimed{RealUp completeness, full real algebra or order, metric completeness, and any standard bridge.}
+  \upgradepath{$\publicClosure$ requires a public $\RealUp$ certificate surface and bridge rows beyond the finite stream-prefix scope.}
+\end{closurestatus}
+
 \begin{theorem}[RealUp scoped window tail-transport package]
 \label{thm:realup-scoped-window-tail-transport-package}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices $n,m$, and
@@ -130,4 +140,76 @@ metric-completeness, Classical, arithmetic, order, and standard-bridge data
 outside that boundary. Repacking these two scoped statements with the
 transported finite-tail endpoint package gives the claimed transported tail
 window package.
+\end{proof}
+
+\begin{theorem}[RealUp partitioned window tail-transport package]
+\label{thm:realup-partitioned-window-tail-transport-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, a
+total finite bound $w$, and a certified finite partition spine $P$ over $(n,w)$
+with segments $(n_i,r_i)$, let $u_i,v_i:\Hist$ be transported histories at the
+segment endpoints. Assume the Real stream-prefix classifier through the anchor,
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n),
+$$
+the segment classifier conjunction,
+$$
+\bigwedge_{(n_i,r_i)\in P}
+\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i),
+$$
+pointwise unary anchors,
+$$
+\forall j,\ \mathsf{UnaryHistory}(x(j)),
+$$
+and endpoint transport rows for every segment,
+$$
+\forall (n_i,r_i)\in P,
+\hsame(x(n_i+r_i),u_i)\quad\text{and}\quad \hsame(y(n_i+r_i),v_i).
+$$
+Then every segment endpoint exposes the transported endpoint $\RatUp$
+classifier, positive unary denominator rows, unary endpoint rows, nonempty
+endpoint exclusions, common e-one tail readback whenever the transported
+endpoints are displayed as one-headed, finite $\mathsf{RealLedgerPolicy}$ rows,
+and DyadicRatCore endpoint source rows listed in
+\autoref{thm:realup-scoped-window-tail-transport-package}. Moreover, the total
+window presentation and the segment presentation expose the same finite ledger,
+DyadicRatCore source rows, $\RegSeqRat$ spine rows, $\StreamNameUp$ request
+names, $\mathsf{UnaryHistory}$ witnesses, and $\hsame$ transport rows of
+\autoref{thm:realup-window-partition-read-surface}. The combined package
+consumes no quotient, completion object, metric-completeness certificate,
+Classical datum, arithmetic or order closure, or standard bridge.
+\end{theorem}
+\begin{proof}
+First fix the ambient scoped boundary. Apply
+\autoref{thm:realup-stream-prefix-scoped-obligation-package}; it supplies the
+carrier, classifier, stability, ledger, and seal rows of the $\RealUp$
+stream-prefix site from the displayed $\RegSeqRat$, $\StreamNameUp$, $\RatUp$,
+$\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\mathsf{Cont}$, dyadic, and $\hsame$
+source rows.
+
+Next pass between the total and segmented windows. Apply
+\autoref{thm:real-stream-window-finite-partition-fold} to the certified spine
+$P$. The assumed segment classifier conjunction is the segmented presentation of
+the total window $\mathsf{RealStreamWindowClassifier}(x,y,n,w)$, and the same
+fold also recovers the segment conjunction from the total window when a consumer
+starts from the wide observation.
+
+Now identify the read surface. Apply
+\autoref{thm:realup-window-partition-read-surface}. It says that the total
+window and the partition presentation expose exactly the same finite ledger,
+DyadicRatCore source rows, stream-name requests, unary-history witnesses, and
+$\hsame$ transport rows, with no quotient, completion, metric-completeness,
+Classical, arithmetic, order, or standard-bridge datum.
+
+For each segment $(n_i,r_i)$ in $P$, apply
+\autoref{thm:realup-scoped-window-tail-transport-package} at the segment anchor
+with its endpoint histories $u_i$ and $v_i$. The segment classifier row, the
+pointwise unary anchors restricted to the segment, and the two endpoint
+transport rows give exactly the transported endpoint classifier, denominator,
+unary-endpoint, exclusion, common-tail, finite-ledger, and dyadic source rows
+named in that theorem.
+
+Finally repack the segmentwise transported endpoint rows with the shared
+partition read surface. The repacked certificate is a single finite observation
+package for partitioned $\RealUp$ windows, and every row it displays has already
+been read from the scoped BEDC boundary named above.
 \end{proof}
