@@ -1,8 +1,10 @@
-import BEDC.Derived.TopologyUp.Core
+import BEDC.Derived.TopologyUp
 
 namespace BEDC.Derived.TopologyUp
 
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
