@@ -158,4 +158,13 @@ theorem LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity
     unary_transport unary_empty (hsame_symm rightEmpty)
   exact And.intro classified (And.intro leftUnary rightUnary)
 
+theorem LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity_classifier
+    {x z y xz left xy zy right : BHist} :
+    VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier z -> VecSpaceSingletonCarrier y ->
+      Cont x z xz -> Cont xz y left -> Cont x y xy -> Cont z y zy ->
+        Cont xy zy right -> VecSpaceSingletonClassifier left right := by
+  intro carrierX carrierZ carrierY xzRow leftRow xyRow zyRow rightRow
+  exact (LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity
+    carrierX carrierZ carrierY xzRow leftRow xyRow zyRow rightRow).left
+
 end BEDC.Derived.LieAlgebraUp

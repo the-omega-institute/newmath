@@ -359,6 +359,23 @@ theorem NumFieldRatReflexive_fieldext_consumption {h r m product action : BHist}
     (And.intro operationRows.left
       (And.intro operationRows.right.left operationRows.right.right.left))
 
+theorem NumFieldReflexiveRational_degree_one_row_exhaustion {h coord basis product action : BHist} :
+    NumFieldRatReflexiveCarrier h -> RatHistoryCarrier basis -> Cont h BHist.Empty coord ->
+      Cont h basis product -> Cont (FieldExtSingletonEmbedding h) basis action ->
+        RatHistoryClassifier coord h ∧ RatHistoryClassifier product action ∧
+          RatHistoryCarrier product ∧ RatHistoryCarrier action ∧
+            RatHistoryClassifier (FieldExtSingletonEmbedding h) h := by
+  intro carrierH basisCarrier coordinateReadback productCont actionCont
+  have coordinateRows :=
+    NumFieldReflexiveRational_finite_extension_witness carrierH.left coordinateReadback
+  have fieldRows :=
+    NumFieldRatReflexive_fieldext_consumption carrierH carrierH.left basisCarrier productCont
+      actionCont
+  exact And.intro coordinateRows.left
+    (And.intro fieldRows.right.left
+      (And.intro fieldRows.right.right.left
+        (And.intro fieldRows.right.right.right coordinateRows.right.right)))
+
 theorem NumFieldRatReflexive_carrier_classifier {h k : BHist} :
     RatHistoryClassifier h k ->
       NumFieldRatReflexiveCarrier h ∧ NumFieldRatReflexiveCarrier k ∧
