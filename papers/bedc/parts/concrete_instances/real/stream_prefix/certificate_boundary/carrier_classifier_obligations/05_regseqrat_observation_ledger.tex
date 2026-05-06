@@ -110,3 +110,56 @@ transport clauses in one certificate package, and
 clauses are sufficient for the downstream RealUp seal to consume the stream
 classifier.
 \end{proof}
+
+\begin{theorem}[RegSeqRat public rational-stream interface]
+\label{thm:regseqrat-public-rational-stream-interface}
+A $\RegSeqRat$ public rational-stream interface is exactly the package formed
+from \autoref{thm:regseqrat-dyadic-observation-coverage},
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction},
+\autoref{thm:regseqrat-constant-and-transport-obligation},
+\autoref{thm:regseqrat-streamname-scoped-interface}, and
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation}. Its public
+template has the following ten fields:
+\begin{enumerate}
+  \item the traditional target is the regular rational Cauchy stream spine;
+  \item the BEDC source is DyadicRatCore plus StreamNameUp plus RatUp over
+  $\Hist$;
+  \item the carrier is the $\RegSeqRat$ stream certificate spine;
+  \item the classifier is the pointwise
+  $\mathsf{RealUnaryStreamClassifier}$ and
+  $\mathsf{RatStreamNameClassifier}$ row;
+  \item stability is the family of pointwise $\hsame$ transport rows;
+  \item the ledger consists of finite unary observation requests and
+  dyadic-tolerance tokens;
+  \item the core theorem list is the five cited blocks above;
+  \item exactness says the RealUp seal consumes exactly those finite rows;
+  \item no standard bridge datum is part of the interface;
+  \item the status is a paper-side public interface target.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Collect the five cited packages in the displayed order. The first package
+supplies DyadicRatCore observation coverage at each certified unary request,
+the second extracts finite ledger families from any selected observation
+bundle, and the third supplies the constant stream and pointwise transport
+obligations.
+
+For every selected observation, use
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction}. It
+turns the finite unary ledger entries and dyadic-tolerance tokens into endpoint
+DyadicRatCore rows, and its transported clause carries the same rows along the
+chosen pointwise $\hsame$ comparison.
+
+Next use \autoref{thm:regseqrat-streamname-scoped-interface}. It supplies the
+stream-name interface, the classifier transport row, and the endpoint carrier
+rows needed to read the $\mathsf{RealUnaryStreamClassifier}$ and
+$\mathsf{RatStreamNameClassifier}$ components pointwise.
+
+Finally apply
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation}. The seal
+obligation identifies the data consumed by RealUp with the same finite
+observation rows already extracted from the $\RegSeqRat$ ledger. Therefore the
+package exposes the stated public rational-stream interface without quotient,
+completion, metric-completeness, arithmetic/order, Classical, or standard
+bridge data.
+\end{proof}
