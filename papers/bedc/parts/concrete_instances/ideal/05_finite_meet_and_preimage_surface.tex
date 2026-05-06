@@ -114,3 +114,42 @@ For right absorption, the same data carry $x\cdot_S r$ in the source, and the ta
 
 The displayed carrier support, zero, additive, inverse, multiplicative, classifier-transport, and two-sided absorption rows are exactly the $\IdealUp$ certificate rows listed in \autoref{sec:ideal-certificate} for a predicate over the source $\RingUp$ certificate.
 \end{proof}
+
+\begin{theorem}[Ideal quotient-kernel absorption closure]
+\label{thm:ideal-quotient-kernel-absorption-closure}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ carried predicate over $R$, and define
+$$
+x-_R y:=x+_R(-_R y),
+\qquad
+Q_I(x,y)\Longleftrightarrow C(x)\land C(y)\land I(x-_R y).
+$$
+Assume the ring certificate supplies multiplication carrier closure, carrier transport, classifier symmetry, subtraction congruence, and the two absorption-difference rows
+$$
+(r\cdot_R x)-_R(r\cdot_R y)\sim_R r\cdot_R(x-_R y)
+$$
+and
+$$
+(x\cdot_R r)-_R(y\cdot_R r)\sim_R (x-_R y)\cdot_R r.
+$$
+Assume the ideal certificate supplies classifier transport and left and right absorption by every carried ring endpoint. Then
+$$
+C(r)\land Q_I(x,y)
+\Longrightarrow
+Q_I(r\cdot_R x,r\cdot_R y)\land Q_I(x\cdot_R r,y\cdot_R r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the displayed definition of $Q_I$. From $Q_I(x,y)$ obtain $C(x)$, $C(y)$, and $I(x-_R y)$. The multiplication carrier row applied to $C(r)$ with $C(x)$ and $C(y)$ gives the carried endpoints $C(r\cdot_R x)$, $C(r\cdot_R y)$, $C(x\cdot_R r)$, and $C(y\cdot_R r)$.
+
+For the left-multiplied pair, ideal left absorption gives $I(r\cdot_R(x-_R y))$ from $C(r)$ and $I(x-_R y)$. The left absorption-difference row compares $(r\cdot_R x)-_R(r\cdot_R y)$ with $r\cdot_R(x-_R y)$. Classifier symmetry orients this comparison from the absorbed representative difference to the displayed product difference, and ideal classifier transport yields
+$$
+I((r\cdot_R x)-_R(r\cdot_R y)).
+$$
+
+For the right-multiplied pair, ideal right absorption gives $I((x-_R y)\cdot_R r)$. The right absorption-difference row compares $(x\cdot_R r)-_R(y\cdot_R r)$ with $(x-_R y)\cdot_R r$. Again classifier symmetry orients the comparison for the ideal transport row, giving
+$$
+I((x\cdot_R r)-_R(y\cdot_R r)).
+$$
+
+Pair the first transported membership with $C(r\cdot_R x)$ and $C(r\cdot_R y)$ to obtain $Q_I(r\cdot_R x,r\cdot_R y)$. Pair the second transported membership with $C(x\cdot_R r)$ and $C(y\cdot_R r)$ to obtain $Q_I(x\cdot_R r,y\cdot_R r)$. These two witnesses are exactly the claimed ambient left and right multiplication closure for the ideal quotient-kernel relation.
+\end{proof}
