@@ -424,4 +424,53 @@ theorem MatroidRestrictionRows_exchange_support_boundary {E K I J : BHist -> Pro
                           (Exists.intro xs (And.intro insertRows.left supportInsideK))
                           xRows.right.right.right)))))
 
+theorem MatroidRestrictions_compose_direct_restriction
+    {E : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {Ind IndRestrK IndRestrL : (BHist -> Prop) -> Prop}
+    {K L : BHist -> Prop} {FinSetCardLt : (BHist -> Prop) -> (BHist -> Prop) -> Prop}
+    (cert : NameCert E Rel)
+    (subsetK : MatroidFinsetSubset E Rel K E)
+    (subsetL : MatroidFinsetSubset E Rel L K)
+    (finiteM : forall {I : BHist -> Prop}, Ind I ->
+      exists xs : ProbeBundle BHist, MatroidFinSetSpineEnumerates E Rel xs I)
+    (emptyM : Ind (fun _z : BHist => False))
+    (hereditaryM : forall {I J : BHist -> Prop},
+      Ind I -> MatroidFinsetSubset E Rel J I -> Ind J)
+    (exchangeM : MatroidExchangeRow E Rel FinSetCardLt Ind)
+    (restrictK : forall I : BHist -> Prop, IndRestrK I <->
+      Ind I ∧ MatroidFinsetSubset E Rel I K)
+    (restrictL : forall I : BHist -> Prop, IndRestrL I <->
+      IndRestrK I ∧ MatroidFinsetSubset E Rel I L) :
+    (forall I : BHist -> Prop, IndRestrL I <-> Ind I ∧ MatroidFinsetSubset E Rel I L) ∧
+      MatroidRestrictionRows E Rel L FinSetCardLt Ind IndRestrL := by
+  have subsetLE : MatroidFinsetSubset E Rel L E := by
+    constructor
+    · exact subsetL.left
+    · intro z memberL
+      exact subsetK.right z (subsetL.right z memberL)
+  have directRestrict :
+      forall I : BHist -> Prop, IndRestrL I <->
+        Ind I ∧ MatroidFinsetSubset E Rel I L := by
+    intro I
+    constructor
+    · intro independentL
+      have rowsL : IndRestrK I ∧ MatroidFinsetSubset E Rel I L :=
+        Iff.mp (restrictL I) independentL
+      exact ⟨(Iff.mp (restrictK I) rowsL.left).left, rowsL.right⟩
+    · intro directRows
+      apply Iff.mpr (restrictL I)
+      constructor
+      · apply Iff.mpr (restrictK I)
+        constructor
+        · exact directRows.left
+        · constructor
+          · exact directRows.right.left
+          · intro z memberI
+            exact subsetL.right z (directRows.right.right z memberI)
+      · exact directRows.right
+  exact
+    ⟨directRestrict,
+      MatroidRestrictionRows_certificate cert subsetLE finiteM emptyM hereditaryM exchangeM
+        directRestrict⟩
+
 end BEDC.Derived.MatroidUp

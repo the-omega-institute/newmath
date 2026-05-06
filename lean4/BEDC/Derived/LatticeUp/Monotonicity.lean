@@ -55,6 +55,26 @@ theorem LatticeSingletonMeet_monotone_empty {a a' b b' : BHist} :
       PreorderPrefixLE_of_hsame (hsame_trans meetEmpty (hsame_symm meetEmpty'))⟩
   exact ⟨meetLE, meetEmpty, meetEmpty'⟩
 
+theorem LatticeSingletonOperation_monotonicity_empty {a a' b b' c : BHist} :
+    LatticeSingletonCarrier a -> LatticeSingletonCarrier a' -> LatticeSingletonCarrier b ->
+      LatticeSingletonCarrier b' -> LatticeSingletonCarrier c -> LatticeSingletonLE a a' ->
+        LatticeSingletonLE b b' ->
+          LatticeSingletonLE (LatticeSingletonMeet a c) (LatticeSingletonMeet a' c) ∧
+          LatticeSingletonLE (LatticeSingletonMeet c a) (LatticeSingletonMeet c a') ∧
+          LatticeSingletonLE (LatticeSingletonJoin b c) (LatticeSingletonJoin b' c) ∧
+          LatticeSingletonLE (LatticeSingletonJoin c b) (LatticeSingletonJoin c b') ∧
+          hsame (LatticeSingletonMeet a c) BHist.Empty ∧
+          hsame (LatticeSingletonMeet c a) BHist.Empty ∧
+          hsame (LatticeSingletonJoin b c) BHist.Empty ∧
+          hsame (LatticeSingletonJoin c b) BHist.Empty := by
+  intro _carrierA _carrierA' _carrierB _carrierB' _carrierC _leAA' _leBB'
+  have emptyCarrier : LatticeSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyLE : LatticeSingletonLE BHist.Empty BHist.Empty :=
+    ⟨emptyCarrier, emptyCarrier, PreorderPrefixLE_of_hsame emptyCarrier⟩
+  exact
+    ⟨emptyLE, emptyLE, emptyLE, emptyLE, emptyCarrier, emptyCarrier, emptyCarrier,
+      emptyCarrier⟩
+
 theorem LatticeMeet_monotone_second_argument_from_directional_bounds
     {Carrier : BHist -> Prop}
     {Classifier Le : BHist -> BHist -> Prop}
