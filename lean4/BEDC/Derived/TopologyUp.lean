@@ -131,4 +131,56 @@ theorem BHistUnaryTopologyDepsReady_obligation_package (T : BHistIndexedOpenCarr
     | top ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
   exact And.intro transportU (And.intro meetClosure ledgerWitness)
 
+theorem BHistFiniteBaseNeighborhood_singleton_ledger_coverage
+    (T : BHistIndexedOpenCarrier) (ball : BHist -> BHist -> Prop)
+    {center ledger : BHist} {i : T.OpenIx}
+    (unaryLedger : UnaryHistory ledger)
+    (carries : BHistCarriesOpen T i (fun x : BHist => ball center x))
+    (ballStable :
+      forall {x y : BHist},
+        UnaryHistory x -> UnaryHistory y -> hsame x y -> (ball center x <-> ball center y)) :
+    BHistUnaryTopologyLedgerRow T i
+        (BHistFiniteBaseNeighborhood
+          (ProbeBundle.Bcons center (ProbeBundle.Bnil : ProbeBundle BHist)) ball) ∧
+      BHistGeneratedOpenExact T
+        (BHistFiniteBaseNeighborhood
+          (ProbeBundle.Bcons center (ProbeBundle.Bnil : ProbeBundle BHist)) ball) ∧
+        (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+          (BHistFiniteBaseNeighborhood
+              (ProbeBundle.Bcons center (ProbeBundle.Bnil : ProbeBundle BHist)) ball x <->
+            BHistFiniteBaseNeighborhood
+              (ProbeBundle.Bcons center (ProbeBundle.Bnil : ProbeBundle BHist)) ball y)) := by
+  let singleton : ProbeBundle BHist :=
+    ProbeBundle.Bcons center (ProbeBundle.Bnil : ProbeBundle BHist)
+  have singletonCarries :
+      BHistCarriesOpen T i (BHistFiniteBaseNeighborhood singleton ball) := by
+    intro x unaryX
+    have carryCenter : ball center x <-> T.OpenAt i x :=
+      carries unaryX
+    constructor
+    · intro neighborhood
+      exact Iff.mp carryCenter (neighborhood center (Or.inl rfl))
+    · intro openAt p inSingleton
+      cases inSingleton with
+      | inl samePCenter =>
+          cases samePCenter
+          exact Iff.mpr carryCenter openAt
+      | inr inNil =>
+          cases inNil
+  have singletonStable :
+      forall {b x y : BHist}, InBundle b singleton -> UnaryHistory x -> UnaryHistory y ->
+        hsame x y -> (ball b x <-> ball b y) := by
+    intro b x y inSingleton unaryX unaryY sameXY
+    cases inSingleton with
+    | inl sameBCenter =>
+        cases sameBCenter
+        exact ballStable unaryX unaryY sameXY
+    | inr inNil =>
+        cases inNil
+  constructor
+  · exact BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger singletonCarries
+  · constructor
+    · exact Exists.intro i singletonCarries
+    · exact BHistFiniteBaseNeighborhood_classifier_transport singleton ball singletonStable
+
 end BEDC.Derived.TopologyUp

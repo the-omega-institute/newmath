@@ -51,4 +51,39 @@ theorem IdealQuotientKernel_product_difference_membership
     (idealAbsorb carrierA' diffB).left
   exact idealTransport (idealAdd rightAbsorbed leftAbsorbed) productDifference
 
+theorem IdealSumQuotientKernel_diagonal_transport_scope
+    {I J : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
+    {zero : BHist} {add sub : BHist -> BHist -> BHist}
+    (cert : NameCert (fun _ : BHist => True) Classifier)
+    (I_zero : I zero) (J_zero : J zero)
+    (zeroDecomp : Classifier (sub zero zero) (add zero zero))
+    (subCongr :
+      forall {x x' y y' : BHist},
+        Classifier x x' -> Classifier y y' -> Classifier (sub x y) (sub x' y')) :
+    (let K : BHist -> Prop :=
+      fun z => exists u : BHist, exists v : BHist, I u ∧ J v ∧ Classifier z (add u v)
+     K (sub zero zero) ∧
+       forall {x y x' y' : BHist},
+        Classifier x x' -> Classifier y y' -> K (sub x y) -> K (sub x' y')) := by
+  constructor
+  · exact Exists.intro zero
+      (Exists.intro zero (And.intro I_zero (And.intro J_zero zeroDecomp)))
+  · intro x y x' y' sameXX' sameYY' kernelXY
+    cases kernelXY with
+    | intro u kernelU =>
+        cases kernelU with
+        | intro v kernelV =>
+            have sameSub :
+                Classifier (sub x y) (sub x' y') :=
+              subCongr sameXX' sameYY'
+            have sameSubTarget :
+                Classifier (sub x' y') (sub x y) :=
+              NameCert.equiv_symm cert sameSub
+            have sameTransport :
+                Classifier (sub x' y') (add u v) :=
+              NameCert.equiv_trans cert sameSubTarget kernelV.right.right
+            exact Exists.intro u
+              (Exists.intro v
+                (And.intro kernelV.left (And.intro kernelV.right.left sameTransport)))
+
 end BEDC.Derived.IdealUp
