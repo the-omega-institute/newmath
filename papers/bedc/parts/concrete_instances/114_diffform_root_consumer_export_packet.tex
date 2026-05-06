@@ -1,0 +1,119 @@
+\section{DiffForm root consumer export packet}
+\label{sec:diffform-root-consumer-export-packet}
+
+\begin{definition}[DiffForm root consumer export packet]
+\label{def:diffform-root-consumer-export-packet}
+The $\DiffFormUp$ root consumer export packet is the paper-side union
+$$
+\mathsf{DiffFormRootConsumerExport}_{M,T}.
+$$
+Its positive surface consists exactly of the root-unblock source surface of
+\autoref{def:diffform-root-unblock-source-surface}, the carrier and
+classifier scope theorem
+\autoref{thm:diffform-root-unblock-carrier-classifier-scope}, the wedge and
+$\Cont$ closure theorem
+\autoref{thm:diffform-root-unblock-wedge-cont-closure}, the exterior-input
+consumption theorem
+\autoref{thm:diffform-root-unblock-derham-input-consumption}, the consumer
+face classifier of \autoref{def:diffform-root-consumer-face-classifier}, the
+face exhaustion theorem
+\autoref{thm:diffform-root-consumer-face-exhaustion}, and the
+consumer-readable package of
+\autoref{def:diffform-root-consumer-readable-package} with its boundary
+theorem \autoref{thm:diffform-root-consumer-namecert-boundary}. The packet
+contains no row outside these cited root-unblock, face-classifier,
+face-exhaustion, and readable-package surfaces.
+\end{definition}
+
+\begin{theorem}[DiffForm root consumer export coverage]
+\label{thm:diffform-root-consumer-export-coverage}
+Every $\DeRhamUp$, $\ContactUp$, or $\SymplecticUp$ consumer row admitted at
+the $\DiffFormUp$ root factors through
+\autoref{def:diffform-root-consumer-export-packet}.
+\end{theorem}
+\begin{proof}
+Start with a consumer row admitted at the $\DiffFormUp$ root. By the source
+surface in \autoref{def:diffform-root-unblock-source-surface}, such a row may
+read only the displayed $BHist$, $\hsame$, $\Cont$, probe-bundle,
+$\NameCert_{\ManifoldUp}$, $\NameCert_{\TensorProductUp}$, carrier,
+classifier, wedge, and exterior-input coordinates.
+
+Apply \autoref{thm:diffform-root-unblock-derham-input-consumption}. It
+restricts $\DeRhamUp$, $\ContactUp$, and $\SymplecticUp$ consumers to the
+degree, wedge, antisymmetry, scalar endpoint, and source-ledger rows exposed
+by the root-unblock surface.
+
+Now apply \autoref{thm:diffform-root-consumer-face-exhaustion}. Every row
+exported by the root threshold is shared root data or belongs to exactly one
+of the de Rham, symplectic, and contact faces.
+
+Finally use
+\autoref{thm:diffform-root-consumer-namecert-boundary}. The downstream
+citation surface is the consumer-readable package named in
+\autoref{def:diffform-root-consumer-export-packet}, so the admitted consumer
+row factors through that packet and has no independent root route.
+\end{proof}
+
+\begin{theorem}[DiffForm root consumer export exactness]
+\label{thm:diffform-root-consumer-export-exactness}
+The packet
+\autoref{def:diffform-root-consumer-export-packet} exposes exactly the
+six-coordinate carrier, displayed classifier, wedge-continuation rows,
+antisymmetry ledger, scalar endpoint row, source ledger, and exterior-input
+rows named by the cited root-unblock and consumer-face surfaces.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier coordinates with
+\autoref{thm:diffform-root-unblock-carrier-classifier-scope}. The carrier is
+the six-coordinate row
+$$
+(d,\mathcal{P},\tau,\sigma,\alpha,\lambda),
+$$
+and the classifier reads only the displayed degree, tensor, scalar endpoint,
+antisymmetry, tensor-ledger, and source-ledger comparisons.
+
+Next project the operation rows with
+\autoref{thm:diffform-root-unblock-wedge-cont-closure}. Wedge admission reads
+only probe append, the $\Cont$ tensor ledger, degree bookkeeping, and the
+displayed antisymmetry ledger.
+
+The exterior side is supplied by
+\autoref{thm:diffform-root-unblock-derham-input-consumption}. It restricts
+exterior consumers to degree, wedge, antisymmetry, scalar endpoint, and
+source-ledger projections.
+
+Finally use
+\autoref{thm:diffform-root-consumer-face-exhaustion} and
+\autoref{thm:diffform-root-consumer-namecert-boundary}. Face exhaustion says
+there is no exported row beyond the shared root and three consumer faces, and
+the readable boundary repacks the same carrier, classifier, stability, ledger,
+wedge-routing, exterior-input, and source NameCert rows. Hence the packet is
+exactly the stated export surface.
+\end{proof}
+
+\begin{theorem}[DiffForm root consumer export no extra laws]
+\label{thm:diffform-root-consumer-export-no-extra-laws}
+The packet
+\autoref{def:diffform-root-consumer-export-packet} contains no $d^2=0$,
+closedness, nondegeneracy, contact nonintegrability, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First inspect the defining source surface
+\autoref{def:diffform-root-unblock-source-surface}. It explicitly contains no
+row for $d^2=0$, closedness, nondegeneracy, contact nonintegrability, or a
+standard bridge.
+
+Apply \autoref{thm:diffform-root-unblock-derham-input-consumption}. The
+theorem keeps de Rham nilpotence, symplectic closedness and nondegeneracy, and
+contact nonintegrability in the downstream certificate surfaces.
+
+Then apply \autoref{thm:diffform-root-consumer-face-exhaustion} together with
+\autoref{thm:diffform-root-consumer-boundary-exactness}. Exhaustion assigns
+every exported row to the shared root or a unique consumer face, while
+boundary exactness excludes the downstream law rows and any standard bridge.
+
+The readable package boundary
+\autoref{thm:diffform-root-consumer-namecert-boundary} names the same
+negative boundary. Therefore the export packet carries the root-unblocking
+surface and no extra exterior or geometric law.
+\end{proof}
