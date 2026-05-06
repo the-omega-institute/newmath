@@ -11304,3 +11304,28 @@ This is a concrete theorem-row target in the existing RealAnalyticUp surface. Th
 
 ---
 
+### B-432 - Simplicial face-chain dimension monotonicity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Simplicial face-chain dimension monotonicity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a SimplicialComplexUp finite face carrier K with dimension-grading data, Simplex_K(sigma) and Face_K(rho,tau) and Face_K(tau,sigma) imply dim_K(rho) <= dim_K(tau) and dim_K(tau) <= dim_K(sigma).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+The target lands directly in the existing SimplicialComplexUp concrete-instance chapter: the current surface already has face-chain closure and mentions dimension-grading data, but it has no labeled theorem extracting monotonicity along a two-step face chain. It is not a BOARD duplicate and is distinct from the existing face-chain closure theorem because it concerns the dimension row rather than carrier closure or face transitivity.
+
+---
+
