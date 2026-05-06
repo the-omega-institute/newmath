@@ -170,12 +170,44 @@ boundary contains no quotient, completion object, Classical datum, external
 metric primitive, $\RealUp$ completeness claim, or standard bridge.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore public observation package]
+\label{thm:dyadicratcore-public-observation-package}
+The public DyadicRatCore package exports exactly the observation-row carrier,
+classifier, arithmetic-stability, monotone-radius, distance and absolute-value,
+operation-stability, finite-ledger extraction, and $\RegSeqRat$ seal faces of
+\autoref{thm:dyadic-rat-core-obligation-boundary-package}. Its primitive scope is
+fixed by \autoref{thm:dyadic-rat-core-scoped-primitive-dependency-package} and
+\autoref{thm:dyadic-rat-core-scoped-closure-boundary}. Thus the public package
+has no quotient, completion object, Classical datum, external metric primitive,
+$\RealUp$ completeness claim, or standard bridge.
+\end{theorem}
+\begin{proof}
+First read the face inventory from
+\autoref{thm:dyadic-rat-core-obligation-boundary-package}. It lists the carrier,
+classifier, arithmetic-stability, monotone-radius, distance and absolute-value,
+operation-stability, finite-ledger extraction, and $\RegSeqRat$ seal faces as the
+whole DyadicRatCore boundary.
+
+Next read the primitive dependency boundary from
+\autoref{thm:dyadic-rat-core-scoped-primitive-dependency-package}. That theorem
+binds every listed face to $\mathsf{BHist}$, $\hsame$, the $\RatUp$ endpoint
+rows, $\mathsf{PositiveUnaryDenominator}$, $\StreamNameUp$ request names, the
+DyadicRatCore observation row, and the finite dyadic ledger consumed by
+$\RegSeqRat$ and $\RealUp$.
+
+Finally apply \autoref{thm:dyadic-rat-core-scoped-closure-boundary}. Since the
+public observation package exports only the already listed faces over the
+already fixed primitive scope, it carries no quotient, completion object,
+Classical datum, external metric primitive, $\RealUp$ completeness claim, or
+standard bridge.
+\end{proof}
+
 \begin{closurestatus}{\DyadicRatCore}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The DyadicRatCore obligation faces are bound to $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp request names, the DyadicRatCore observation row, and the finite dyadic ledger consumed by $\RegSeqRat$ and $\RealUp$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:dyadicratcore-public-observation-package} witnesses the public DyadicRatCore observation package over $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp request names, the DyadicRatCore observation row, and the finite dyadic ledger consumed by $\RegSeqRat$ and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.RealUp.DyadicRatCore\_scoped\_source\_package}
   \bridgestatus{none}
   \notclaimed{This boundary does not close RealUp completeness, full DyadicRatCore arithmetic, metric completeness, standard bridges, or a checked Lean implementation.}
-  \upgradepath{The next grade is a public DyadicRatCore package theorem, with a separate Lean formalization target for the boundary package.}
+  \upgradepath{A stronger grade requires a Lean formalization target for the public observation package and bridge rows relating it to a standard interface.}
 \end{closurestatus}
