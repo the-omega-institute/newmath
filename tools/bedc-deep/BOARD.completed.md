@@ -12356,3 +12356,28 @@ Rationale:
 This fills a concrete category-like unit gap in the quantum-channel surface after identity, composition, and associativity are already present. It is distinct from the Banach operator unit target because it concerns CPTP channel composition and pointwise channel classification.
 
 ---
+
+### B-481 - Banach bounded-operator identity units
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Banach bounded-operator identity units |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If BanachBLOp(C,D,T,K,Lambda) holds and the identity maps on C and D carry the unit bound, then T composed with id_C and id_D composed with T are carried and classify with T.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
+
+Rationale:
+This is a concrete two-sided unit law for an existing Banach operator composition surface. Existing coverage includes carrier and composition structure but not the identity-unit theorem, and the target is not duplicated by any current BOARD entry.
+
+---
