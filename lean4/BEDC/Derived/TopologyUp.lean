@@ -83,6 +83,45 @@ theorem BHistCarriesOpen_classifier_transport (T : BHistIndexedOpenCarrier)
       Iff.mpr stable openY
     exact Iff.mpr carryX openX
 
+inductive BHistPublicOpenTree (T : BHistIndexedOpenCarrier) : (BHist -> Prop) -> Type 1 where
+  | carried {U : BHist -> Prop} {i : T.OpenIx} :
+      BHistCarriesOpen T i U -> BHistPublicOpenTree T U
+  | meet {U V : BHist -> Prop} :
+      BHistPublicOpenTree T U -> BHistPublicOpenTree T V ->
+        BHistPublicOpenTree T (fun x : BHist => U x ∧ V x)
+  | union {A : Type} {U : A -> BHist -> Prop} :
+      (forall a : A, BHistPublicOpenTree T (U a)) ->
+        BHistPublicOpenTree T (fun x : BHist => exists a : A, U a x)
+
+theorem BHistPublicOpenTree_classifier_transport (T : BHistIndexedOpenCarrier)
+    {U : BHist -> Prop} (tree : BHistPublicOpenTree T U) :
+    forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  induction tree with
+  | carried carries =>
+      exact BHistCarriesOpen_classifier_transport T carries
+  | meet treeU treeV transportU transportV =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro bothX
+        exact And.intro
+          (Iff.mp (transportU unaryX unaryY sameXY) bothX.left)
+          (Iff.mp (transportV unaryX unaryY sameXY) bothX.right)
+      · intro bothY
+        exact And.intro
+          (Iff.mpr (transportU unaryX unaryY sameXY) bothY.left)
+          (Iff.mpr (transportV unaryX unaryY sameXY) bothY.right)
+  | union trees transports =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro witnessX
+        cases witnessX with
+        | intro a openX =>
+            exact Exists.intro a (Iff.mp (transports a unaryX unaryY sameXY) openX)
+      · intro witnessY
+        cases witnessY with
+        | intro a openY =>
+            exact Exists.intro a (Iff.mpr (transports a unaryX unaryY sameXY) openY)
+
 theorem BHistIndexedOpen_finite_intersection_closure (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} :
     BHistCarriesOpen T i U -> BHistCarriesOpen T j V ->
