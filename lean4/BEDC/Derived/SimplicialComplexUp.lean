@@ -136,6 +136,37 @@ theorem SimplicialComplexIntersection_face_chain_closure (simplices : ProbeBundl
     (And.intro simplexRho
       (And.intro faceRhoSigma (And.intro tauListed rhoListed)))
 
+theorem SimplicialComplexIntersection_face_closed_rows (simplices : ProbeBundle BHist)
+    {SimplexK SimplexL : BHist -> Prop} {Face : BHist -> BHist -> Prop}
+    (listed :
+      forall {s : BHist}, SimplexK s ∧ SimplexL s -> InBundle s simplices)
+    (faceClosedK :
+      forall {tau sigma : BHist}, SimplexK sigma -> Face tau sigma -> SimplexK tau)
+    (faceClosedL :
+      forall {tau sigma : BHist}, SimplexL sigma -> Face tau sigma -> SimplexL tau)
+    (faceTrans :
+      forall {rho tau sigma : BHist}, Face rho tau -> Face tau sigma -> Face rho sigma) :
+    (forall {s : BHist}, SimplexK s ∧ SimplexL s -> InBundle s simplices) ∧
+      (forall {tau sigma : BHist},
+        SimplexK sigma ∧ SimplexL sigma -> Face tau sigma -> SimplexK tau ∧ SimplexL tau) ∧
+      (forall {rho tau sigma : BHist}, Face rho tau -> Face tau sigma -> Face rho sigma) ∧
+      (forall {rho tau sigma : BHist},
+        SimplexK sigma ∧ SimplexL sigma -> Face tau sigma -> Face rho tau ->
+          (SimplexK tau ∧ SimplexL tau) ∧ (SimplexK rho ∧ SimplexL rho) ∧
+            Face rho sigma ∧ InBundle tau simplices ∧ InBundle rho simplices) := by
+  constructor
+  · exact listed
+  · constructor
+    · intro tau sigma simplexSigma faceTauSigma
+      exact And.intro (faceClosedK simplexSigma.left faceTauSigma)
+        (faceClosedL simplexSigma.right faceTauSigma)
+    · constructor
+      · exact faceTrans
+      · intro rho tau sigma simplexSigma faceTauSigma faceRhoTau
+        exact
+          SimplicialComplexIntersection_face_chain_closure simplices listed
+            faceClosedK faceClosedL faceTrans simplexSigma faceTauSigma faceRhoTau
+
 theorem SimplicialComplexIntersection_face_dimension_grading (simplices : ProbeBundle BHist)
     {SimplexK SimplexL : BHist -> Prop} {Face : BHist -> BHist -> Prop}
     (listed :
