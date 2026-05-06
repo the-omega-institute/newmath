@@ -137,38 +137,92 @@ theorem LieAlgebraSingletonAdjoint_scalar_endpoint_closure {r x y ry left xy rig
   exact And.intro leftRight
     (And.intro leftEmpty (And.intro rightEmpty (And.intro leftUnary rightUnary)))
 
+theorem LieAlgebraSingletonAdjoint_commutator_identity
+    {x y z yz xy xz x_yz y_xz commutator target : BHist} :
+    LieAlgebraSingletonCarrier x -> LieAlgebraSingletonCarrier y ->
+      LieAlgebraSingletonCarrier z -> Cont y z yz -> Cont x y xy -> Cont x z xz ->
+        Cont x yz x_yz -> Cont y xz y_xz -> Cont x_yz y_xz commutator ->
+          Cont xy z target ->
+            hsame commutator target ∧ LieAlgebraSingletonCarrier commutator ∧
+              LieAlgebraSingletonCarrier target ∧ UnaryHistory commutator ∧
+                UnaryHistory target := by
+  intro carrierX carrierY carrierZ yzRow xyRow xzRow xYzRow yXzRow commutatorRow targetRow
+  have yzEmpty : hsame yz BHist.Empty :=
+    cont_respects_hsame carrierY carrierZ yzRow (cont_left_unit BHist.Empty)
+  have xyEmpty : hsame xy BHist.Empty :=
+    cont_respects_hsame carrierX carrierY xyRow (cont_left_unit BHist.Empty)
+  have xzEmpty : hsame xz BHist.Empty :=
+    cont_respects_hsame carrierX carrierZ xzRow (cont_left_unit BHist.Empty)
+  have xYzEmpty : hsame x_yz BHist.Empty :=
+    cont_respects_hsame carrierX yzEmpty xYzRow (cont_left_unit BHist.Empty)
+  have yXzEmpty : hsame y_xz BHist.Empty :=
+    cont_respects_hsame carrierY xzEmpty yXzRow (cont_left_unit BHist.Empty)
+  have commutatorEmpty : hsame commutator BHist.Empty :=
+    cont_respects_hsame xYzEmpty yXzEmpty commutatorRow (cont_left_unit BHist.Empty)
+  have targetEmpty : hsame target BHist.Empty :=
+    cont_respects_hsame xyEmpty carrierZ targetRow (cont_left_unit BHist.Empty)
+  have sameCommutatorTarget : hsame commutator target :=
+    hsame_trans commutatorEmpty (hsame_symm targetEmpty)
+  have commutatorUnary : UnaryHistory commutator :=
+    unary_transport unary_empty (hsame_symm commutatorEmpty)
+  have targetUnary : UnaryHistory target :=
+    unary_transport unary_empty (hsame_symm targetEmpty)
+  exact And.intro sameCommutatorTarget
+    (And.intro commutatorEmpty
+      (And.intro targetEmpty (And.intro commutatorUnary targetUnary)))
+
+theorem LieAlgebraSingletonAdjoint_scalar_linearity {r x y left xy right : BHist} :
+    VecSpaceSingletonCarrier r -> VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y ->
+      Cont x (VecSpaceSingletonSmul r y) left -> Cont x y xy -> Cont r xy right ->
+        VecSpaceSingletonClassifier left right ∧ UnaryHistory left ∧ UnaryHistory right := by
+  intro carrierR carrierX carrierY leftRow xyRow rightRow
+  have smulEmpty : hsame (VecSpaceSingletonSmul r y) BHist.Empty :=
+    hsame_refl BHist.Empty
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame carrierX smulEmpty leftRow (cont_left_unit BHist.Empty)
+  have xyEmpty : hsame xy BHist.Empty :=
+    cont_respects_hsame carrierX carrierY xyRow (cont_left_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame carrierR xyEmpty rightRow (cont_left_unit BHist.Empty)
+  have classified : VecSpaceSingletonClassifier left right :=
+    And.intro leftEmpty (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right :=
+    unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro classified (And.intro leftUnary rightUnary)
+
 theorem LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity
+    {x z y xz left xy zy right : BHist} :
+    VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier z -> VecSpaceSingletonCarrier y ->
+      Cont x z xz -> Cont xz y left -> Cont x y xy -> Cont z y zy -> Cont xy zy right ->
+        VecSpaceSingletonClassifier left right ∧ UnaryHistory left ∧ UnaryHistory right := by
+  intro carrierX carrierZ carrierY xzRow leftRow xyRow zyRow rightRow
+  have xzEmpty : hsame xz BHist.Empty :=
+    cont_respects_hsame carrierX carrierZ xzRow (cont_left_unit BHist.Empty)
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame xzEmpty carrierY leftRow (cont_left_unit BHist.Empty)
+  have xyEmpty : hsame xy BHist.Empty :=
+    cont_respects_hsame carrierX carrierY xyRow (cont_left_unit BHist.Empty)
+  have zyEmpty : hsame zy BHist.Empty :=
+    cont_respects_hsame carrierZ carrierY zyRow (cont_left_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame xyEmpty zyEmpty rightRow (cont_left_unit BHist.Empty)
+  have classified : VecSpaceSingletonClassifier left right :=
+    And.intro leftEmpty (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+  have leftUnary : UnaryHistory left :=
+    unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right :=
+    unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro classified (And.intro leftUnary rightUnary)
+
+theorem LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity_classifier
     {x z y xz left xy zy right : BHist} :
     VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier z -> VecSpaceSingletonCarrier y ->
       Cont x z xz -> Cont xz y left -> Cont x y xy -> Cont z y zy ->
         Cont xy zy right -> VecSpaceSingletonClassifier left right := by
   intro carrierX carrierZ carrierY xzRow leftRow xyRow zyRow rightRow
-  have xzEmpty : hsame xz BHist.Empty := by
-    cases carrierX
-    cases carrierZ
-    cases xzRow
-    rfl
-  have leftEmpty : hsame left BHist.Empty := by
-    cases xzEmpty
-    cases carrierY
-    cases leftRow
-    rfl
-  have xyEmpty : hsame xy BHist.Empty := by
-    cases carrierX
-    cases carrierY
-    cases xyRow
-    rfl
-  have zyEmpty : hsame zy BHist.Empty := by
-    cases carrierZ
-    cases carrierY
-    cases zyRow
-    rfl
-  have rightEmpty : hsame right BHist.Empty := by
-    cases xyEmpty
-    cases zyEmpty
-    cases rightRow
-    rfl
-  exact And.intro leftEmpty
-    (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+  exact (LieAlgebraSingletonAdjoint_acting_endpoint_additive_linearity
+    carrierX carrierZ carrierY xzRow leftRow xyRow zyRow rightRow).left
 
 end BEDC.Derived.LieAlgebraUp

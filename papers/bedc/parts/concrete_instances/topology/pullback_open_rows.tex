@@ -69,3 +69,76 @@ For finite meets, use \autoref{thm:topology-pullback-open-row-finite-meet}. It a
 
 Finally invoke the package shape of \autoref{thm:topology-namecert-obligation-package}. Its carrier, classifier, finite-meet, and ledger clauses are preserved by the displayed pullback rows, with provenance recording both the target public open row and the $\mathsf{BHist}$ map row.
 \end{proof}
+
+\begin{theorem}[Topology pullback open row arbitrary union]
+\label{thm:topology-pullback-open-row-arbitrary-union}
+Let $\mathcal{T}_X$ be an indexed open topology carrier for $\TopologyUp$ over $X$. Let $A$ be an indexing type, and for each $a:A$ let
+$$
+\mathcal{R}_a=(\iota(a),U_a,h_a,\lambda_a)
+$$
+be a topology public open row of $\mathcal{T}_X$ in the sense of \autoref{def:topology-public-open-row}. Assume that $u:\mathsf{OpenIx}$ has an indexed arbitrary-union witness for the target index family,
+$$
+h_{\cup}:\mathsf{UnionIx}_{\mathcal{T}_X}(u,\iota).
+$$
+Put $U_{\cup}:X\to\mathsf{Prop}$ and $U_a^{f},U_{\cup}^{f}:Y\to\mathsf{Prop}$ by
+$$
+U_{\cup}(x):\Longleftrightarrow \exists a:A,\ U_a(x),
+$$
+$$
+U_a^{f}(y):\Longleftrightarrow U_a(f(y)),
+$$
+and
+$$
+U_{\cup}^{f}(y):\Longleftrightarrow U_{\cup}(f(y)).
+$$
+Let $Y$ be a $\mathsf{BHist}$-carried source with classifier $\mathsf{same}_Y$, let $f:Y\to X$ be a displayed $\mathsf{BHist}$ map respecting classifiers as in \autoref{def:topology-bhist-pullback-open-row}, and let $\lambda_{\cup}$ be a visible $\mathsf{BHist}$ ledger row naming the arbitrary-union constructor. Then the arbitrary-union public row $(u,U_{\cup},h_u,\lambda_{\cup})$, with $h_u$ supplied by \autoref{thm:topology-indexed-open-arbitrary-union}, has BHist pullback row
+$$
+(u,U_{\cup}^{f},h_u\circ f,\lambda_{\cup}^{f}),
+$$
+and for every $y:Y$ its carried-index equation is
+$$
+\mathsf{OpenAt}(u,f(y))
+\Longleftrightarrow
+\exists a:A,\ U_a^{f}(y).
+$$
+Equivalently,
+$$
+U_{\cup}^{f}(y)
+\Longleftrightarrow
+\exists a:A,\ U_a^{f}(y).
+$$
+Thus the pulled-back arbitrary-union row carries the pointwise existential union of the pulled-back public open predicates.
+\end{theorem}
+\begin{proof}
+For each $a:A$, the public-row data of \autoref{def:topology-public-open-row} give
+$$
+h_a:\mathsf{CarriesOpen}_{\mathcal{T}_X}(\iota(a),U_a).
+$$
+Apply \autoref{thm:topology-indexed-open-arbitrary-union} to $h_{\cup}$ and the family $a\mapsto h_a$. This gives
+$$
+h_u:\mathsf{CarriesOpen}_{\mathcal{T}_X}(u,U_{\cup}).
+$$
+Together with the ledger row $\lambda_{\cup}$, this makes $(u,U_{\cup},h_u,\lambda_{\cup})$ a topology public open row by \autoref{def:topology-public-open-row}. Since $f$ respects classifiers, \autoref{def:topology-bhist-pullback-open-row} forms its BHist pullback row with predicate $U_{\cup}^{f}$ and carried equation obtained by evaluating $h_u$ at $f(y)$.
+
+Fix $y:Y$. The union witness of \autoref{def:topology-indexed-arbitrary-union-witness}, evaluated at $f(y)$, gives
+$$
+\mathsf{OpenAt}(u,f(y))
+\Longleftrightarrow
+\exists a:A,\ \mathsf{OpenAt}(\iota(a),f(y)).
+$$
+If the left side holds, choose $a:A$ with $\mathsf{OpenAt}(\iota(a),f(y))$. Reading the carrying equation $h_a$ at $f(y)$ in the reverse direction gives $U_a(f(y))$, hence $U_a^{f}(y)$. Conversely, if $U_a^{f}(y)$ holds for some $a:A$, the definition of $U_a^{f}$ gives $U_a(f(y))$, the carrying equation $h_a$ gives $\mathsf{OpenAt}(\iota(a),f(y))$, and the union witness gives $\mathsf{OpenAt}(u,f(y))$.
+
+This proves
+$$
+\mathsf{OpenAt}(u,f(y))
+\Longleftrightarrow
+\exists a:A,\ U_a^{f}(y).
+$$
+The definition of $U_{\cup}$ gives $U_{\cup}(f(y))\Longleftrightarrow \exists a:A,\ U_a(f(y))$, and the definitions of $U_{\cup}^{f}$ and $U_a^{f}$ rewrite this as
+$$
+U_{\cup}^{f}(y)
+\Longleftrightarrow
+\exists a:A,\ U_a^{f}(y).
+$$
+Therefore the BHist pullback row for the target arbitrary-union public row carries precisely the pointwise existential union of the pulled-back family.
+\end{proof}
