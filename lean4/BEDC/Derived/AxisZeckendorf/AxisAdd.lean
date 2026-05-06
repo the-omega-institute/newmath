@@ -47,6 +47,20 @@ def axisAdd_namecert : AxisAddNameCert :=
     stability := axisAddStabilityCert
     ledger := AxisAddLedgerPolicy }
 
+theorem AxisAddCont_result_zeroSpine {h k r : BHist} :
+    ZeroSpine h -> ZeroSpine k -> Cont h k r -> ZeroSpine r := by
+  intro leftSpine rightSpine
+  induction rightSpine generalizing r with
+  | empty =>
+      intro rel
+      have same : hsame r h := cont_deterministic rel (cont_right_unit h)
+      exact zeroSpine_hsame_transport leftSpine (hsame_symm same)
+  | step innerSpine ih =>
+      intro rel
+      cases (cont_step_result_inversions.left rel) with
+      | intro r0 witness =>
+          exact witness.left ▸ ZeroSpine.step (ih witness.right)
+
 theorem axisAdd_licensed_not_primitive : True := True.intro
 
 theorem AxisAdd_cont_result_zeroSpine {h k r : BHist} :
