@@ -591,3 +591,89 @@ $$
 $$
 By \autoref{def:linearmap-classifier-specification}, these pointwise target-classifier comparisons are exactly the underlying $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ classifier relations.
 \end{proof}
+
+\begin{theorem}[Unitary conjugation channel composition law]
+\label{thm:unitary-conjugation-channel-composition-law}
+Let $H$ be a $\HilbertUp$ carrier. Let $U,V:H\to H$ be endpoints carried by the $\UnitaryGroupUp(H)$ automorphism carrier, with carried inverses $U^{-1}$ and $V^{-1}$. Let $W:=U\circ V$ be their unitary-group product endpoint, and let $W^{-1}:=V^{-1}\circ U^{-1}$ be the inverse endpoint supplied by the product row. Then the composite conjugation map and the product-unitary conjugation map are both carried quantum channels:
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)
+\qquad\text{and}\qquad
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_{W}).
+$$
+Moreover the composite channel endpoint is classified by the product-unitary endpoint:
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(H))}
+\operatorname{Ad}^{\mathsf{TC}}_{W}.
+$$
+Equivalently, writing $\sim_{\mathsf{TC}(H)}$ for the trace-class classifier inherited from the operator-ideal surface, every carried trace-class endpoint $T\in\mathsf{TC}(H)$ satisfies
+$$
+(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(T)
+\sim_{\mathsf{TC}(H)}
+\operatorname{Ad}^{\mathsf{TC}}_{U\circ V}(T).
+$$
+Consequently every carried density matrix is sent to carried density-matrix endpoints by both representatives:
+$$
+\mathsf{Dens}_H(\rho)
+\Longrightarrow
+\mathsf{Dens}_H((\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(\rho))
+\land
+\mathsf{Dens}_H(\operatorname{Ad}^{\mathsf{TC}}_{W}(\rho)).
+$$
+\end{theorem}
+\begin{proof}
+The $\UnitaryGroupUp(H)$ automorphism carrier cited in \autoref{sec:unitarygroup-carrier} is a group of Hilbert automorphisms. Thus its product row carries $W=U\circ V$, and the inverse row identifies the carried inverse of $W$ with $V^{-1}\circ U^{-1}$. Applying \autoref{thm:unitary-conjugation-quantumchannel} to $U$, to $V$, and to $W$ gives
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U),
+\qquad
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_V),
+\qquad
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_{W}).
+$$
+Apply \autoref{thm:quantumchannel-composition-closure} with $\Phi=\operatorname{Ad}^{\mathsf{TC}}_V$ and $\Psi=\operatorname{Ad}^{\mathsf{TC}}_U$. This gives the carried composite channel
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V).
+$$
+Together with the displayed $W$ clause, this proves the two quantum-channel carrier conclusions.
+
+It remains to identify the endpoints. Let $T$ be a carried endpoint of $\mathsf{TC}(H)$. By \autoref{def:quantumchannel-unitary-conjugation-map},
+$$
+(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(T)
+=
+U\circ (V\circ T\circ V^{-1})\circ U^{-1}.
+$$
+The bounded-operator composition ring over $H$ from \autoref{def:operatorideal-hilbert-source-surface} is associative on carried endpoints, and \autoref{thm:operatorideal-two-sided-absorption-row} supplies the trace-class carrier rows for each intermediate conjugation. Hence the displayed endpoint is classified in the trace-class carrier with
+$$
+(U\circ V)\circ T\circ (V^{-1}\circ U^{-1}).
+$$
+The product inverse row gives $W^{-1}=V^{-1}\circ U^{-1}$, while $W=U\circ V$ by definition. Therefore
+$$
+(U\circ V)\circ T\circ (V^{-1}\circ U^{-1})
+=
+W\circ T\circ W^{-1}
+=
+\operatorname{Ad}^{\mathsf{TC}}_{W}(T).
+$$
+Classifier reflexivity and classifier transport in the trace-class operator-ideal carrier give
+$$
+(\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(T)
+\sim_{\mathsf{TC}(H)}
+\operatorname{Ad}^{\mathsf{TC}}_{W}(T).
+$$
+Since $T$ was arbitrary, \autoref{def:linearmap-classifier-specification} packages these pointwise trace-class comparisons, together with the two carried linear-map rows included in the two channel carrier conclusions by \autoref{def:quantumchannel-cptp-carrier}, as
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(H))}
+\operatorname{Ad}^{\mathsf{TC}}_{W}.
+$$
+
+Finally assume $\mathsf{Dens}_H(\rho)$. Applying \autoref{lem:quantumchannel-densitymatrix-image} to the composite channel gives
+$$
+\mathsf{Dens}_H((\operatorname{Ad}^{\mathsf{TC}}_U\circ\operatorname{Ad}^{\mathsf{TC}}_V)(\rho)).
+$$
+Applying the same lemma to $\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_{W})$ gives
+$$
+\mathsf{Dens}_H(\operatorname{Ad}^{\mathsf{TC}}_{W}(\rho)).
+$$
+These are the asserted density-matrix endpoint clauses.
+\end{proof}
