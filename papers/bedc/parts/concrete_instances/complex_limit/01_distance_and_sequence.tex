@@ -549,10 +549,12 @@ Triangle inequality on \(\mathsf{CplxDist}((s \oplus t)(n), z_s + z_t, D)\): bou
 
 \begin{theorem}[Limit respects scalar multiplication by a fixed complex history]
 \label{thm:cplx-lim-scalar}
-For a fixed complex history \(c\) with modulus bound \(C\) (i.e.\ \(\mathsf{CplxMod}(c, C)\)), and a regular sequence with \(\mathsf{CplxLim}(s, N, z, M)\), the scaled sequence \(c \cdot s\) (componentwise rational-history multiplication) satisfies \(\mathsf{CplxLim}(c \cdot s, N, c \cdot z, M_c)\) with \(M_c(k) := M(k + \log_2(C+1))\) (where \(\log_2\) on unary histories is the standard unary discretized logarithm).
+For a fixed complex history $c$ with modulus bound $C$ (i.e.\ $\mathsf{CplxMod}(c, C)$), suppose a supplied unary shift witness $\sigma_C$ carries the certificate that every distance bound at precision $k+\sigma_C$, after multiplication by the fixed bound $C$, is a distance bound at precision $k$. If $\mathsf{CplxLim}(s, N, z, M)$ holds, then the scaled sequence $c \cdot s$ (componentwise rational-history multiplication) satisfies $\mathsf{CplxLim}(c \cdot s, N, c \cdot z, M_C)$ with $M_C(k) := M(k+\sigma_C)$.
 \end{theorem}
 \begin{proof}[Sketch]
-The bilinearity of complex multiplication gives \(\mathsf{CplxDist}(c \cdot s(n), c \cdot z, D)\) bounded by \(C \cdot \mathsf{CplxDist}(s(n), z, D')\); shift the modulus index by the unary discretized logarithm of \(C\) to absorb the scaling factor.
+Given $k$ and $n$ above $M_C(k)$, the original limit witness gives a distance certificate from $s(n)$ to $z$ at the shifted precision $k+\sigma_C$.
+
+Use the bilinearity rows for complex multiplication to transport this distance through left multiplication by $c$. The bound $\mathsf{CplxMod}(c,C)$ supplies the fixed scalar factor, and the certificate carried by $\sigma_C$ converts the resulting $C$-scaled distance into the required precision-$k$ bound. Repack the transported distance as the modulus clause for $\mathsf{CplxLim}(c \cdot s,N,c \cdot z,M_C)$.
 \end{proof}
 
 \begin{theorem}[Complex limit constant prefix closure]
