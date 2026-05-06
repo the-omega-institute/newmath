@@ -38,6 +38,7 @@ The ledger records the time cell, state cell, vector-field evaluation,
 Picard-step continuation route, and limit witness. It does not assert equality
 in any host function space.
 \end{definition}
+\leandef{BEDC.Derived.OdeUp.OdeLocalFlowRow}
 
 \section{The certificate}
 \label{sec:ode-certificate}
@@ -94,6 +95,8 @@ classified by the same $\NameCert$ surfaces. Thus the composite Picard route
 remains scoped to Banach states, derivative time cells, and $\hsame$
 transport; no ambient function-space carrier is introduced.
 \end{proof}
+\leanchecked{BEDC.Derived.OdeUp.OdeLocalFlowSource\_picard\_continuation\_scope}
+\leanchecked{BEDC.Derived.OdeUp.OdeLocalFlowRow\_picard\_continuation\_scope}
 
 \begin{theorem}[OdeUp root local-uniqueness classifier]
 \label{thm:ode-root-local-uniqueness-classifier}
@@ -105,6 +108,7 @@ transported through the shared $\NameCert_{\DerivativeUp}$,
 $\NameCert_{\BanachUp}$, $\Cont$, and $\hsame$ ledgers, then their endpoint
 state histories are related by the Banach classifier recorded in $\NameCert$.
 \end{theorem}
+\leanchecked{BEDC.Derived.OdeUp.OdeLocalFlow\_endpoint\_classifier\_deterministic}
 \begin{proof}
 Unpack the two local-flow witnesses into their common initial time-state cell,
 their vector-field evaluation ledgers, Picard-step histories, limit witnesses,

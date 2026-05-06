@@ -1,0 +1,146 @@
+\begin{definition}[Measure StreamName endpoint family]
+\label{def:measure-streamname-endpoint-family}
+A $\MeasureUp$ StreamName endpoint family over the sigma-algebra carrier
+surface of \autoref{def:measure-sigma-algebra-carrier-surface} is a
+certified observation map $s:\Hist\to\Hist$ together with a displayed
+$\mathsf{RatStreamNameCarrier}(s)$ row as in
+\autoref{def:rat-stream-name-carrier}. For every unary observation history
+$n$ with $\mathsf{UnaryHistory}(n)$, the point observation $s(n)$ carries:
+\begin{enumerate}
+  \item a $\MeasureUp$ measurable-event row covered by
+  \autoref{def:measure-event-row-coverage};
+  \item the associated $\RealUp$ endpoint row $\mu(s(n))$ read through the
+  endpoint classifier of \autoref{def:real-classifier-specification};
+  \item the pointwise StreamNameUp classifier row supplied by
+  \autoref{def:rat-stream-name-classifier};
+  \item the countable-sum endpoint row attached to the resulting
+  StreamName-indexed measurable family.
+\end{enumerate}
+The family exposes no host-level equality of event carriers. Its public data
+are exactly the unary $\mathsf{BHist}$ observation, the covered measurable
+event, its $\hsame$ transport row, and the corresponding $\RealUp$ endpoint
+classifier row.
+\end{definition}
+
+\begin{theorem}[Measure StreamName endpoint carrier-classifier]
+\label{thm:measure-streamname-endpoint-carrier-classifier}
+Every $\MeasureUp$ StreamName endpoint family supplies carrier transport for
+the StreamName observation map and pointwise classifier transport for its
+measurable-event and $\RealUp$ endpoint rows. The transport is the common
+projection of \autoref{def:rat-stream-name-carrier},
+\autoref{def:rat-stream-name-classifier},
+\autoref{thm:rat-stream-name-certificate-fields}, and
+\autoref{thm:measure-carrier-classifier-obligation}.
+\end{theorem}
+\begin{proof}
+Project the $\mathsf{RatStreamNameCarrier}(s)$ row from
+\autoref{def:measure-streamname-endpoint-family}. For a unary observation
+$n$, \autoref{def:rat-stream-name-carrier} reads $s(n)$ as the carried point
+history, and \autoref{def:rat-stream-name-classifier} identifies classifier
+transport pointwise at the same unary observation.
+
+Apply \autoref{thm:rat-stream-name-certificate-fields}. Its endpoint-carrier
+and transported-classifier fields move the stream carrier and the pointwise
+classifier row to the transported observation map.
+
+Now apply \autoref{thm:measure-carrier-classifier-obligation} at that point
+observation. The covered measurable-event row, the event ledger entry, and the
+$\RealUp$ endpoint comparison are all componentwise rows of the
+$\MeasureUp$ carrier surface, so they move along the same $\hsame$
+classifier.
+
+Repack the transported stream carrier, the transported covered event, and the
+transported endpoint comparison into the endpoint family surface of
+\autoref{def:measure-streamname-endpoint-family}. No quotient event equality
+or host carrier equality is introduced.
+\end{proof}
+
+\begin{theorem}[Measure StreamName endpoint stability]
+\label{thm:measure-streamname-endpoint-stability}
+Let $s,t:\Hist\to\Hist$ be two $\MeasureUp$ StreamName endpoint families. If
+$\mathsf{RatStreamNameClassifier}(s,t)$ holds and the endpoint family rows are
+transported pointwise by $\hsame$ at every unary observation, then measurable
+event witnesses and $\RealUp$ endpoint comparisons are preserved at every
+index.
+\end{theorem}
+\begin{proof}
+Fix a unary observation $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. The StreamName classifier gives the point
+classifier between $s(n)$ and $t(n)$ by
+\autoref{def:rat-stream-name-classifier}.
+
+The endpoint-family hypotheses attach a covered measurable-event row and a
+$\RealUp$ endpoint row to the source point observation. The pointwise
+$\hsame$ transport row moves the displayed event witness to the target point.
+
+Apply \autoref{thm:measure-carrier-classifier-obligation} to the moved point
+row. It transports the measurable-event witness and reads the measure value in
+the target presentation under the same $\RealUp$ endpoint classifier.
+
+Since the observation $n$ was arbitrary, the transported event witnesses and
+endpoint comparisons assemble pointwise over all unary observations. Repacking
+them gives stability of the whole StreamName endpoint family.
+\end{proof}
+
+\begin{theorem}[Measure StreamName countable-additivity scope]
+\label{thm:measure-streamname-countable-additivity-scope}
+For a $\MeasureUp$ StreamName endpoint family, the countable-additivity row of
+\autoref{def:measureup-countable-additivity-row} factors only through the
+StreamName-indexed endpoint family, the countable-sum classifier stability of
+\autoref{thm:measure-obligation-countable-sum-classifier-stability}, and the
+sigma-additivity obligation of \autoref{thm:measure-sigma-additivity-obligation}.
+\end{theorem}
+\begin{proof}
+Read the StreamName endpoint family pointwise. Each unary observation supplies
+a covered measurable-event row and its $\RealUp$ endpoint row, so the
+StreamName map gives the measurable sequence consumed by the
+countable-additivity row.
+
+Apply \autoref{thm:measure-sigma-additivity-obligation} to that displayed
+sequence, its pairwise-disjointness witness, and its countable-union row. The
+resulting comparison is exactly the $\RealUp$ classifier relation between the
+measure of the union and the countable endpoint sum.
+
+If the point endpoints are transported along another StreamName classifier,
+apply
+\autoref{thm:measure-obligation-countable-sum-classifier-stability}. It turns
+the pointwise $\RealUp$ endpoint comparisons into the classifier comparison
+between the two countable sums.
+
+Thus countable additivity reads no row beyond the StreamName endpoint family,
+the countable-sum stability row, and the displayed sigma-additivity row of
+$\MeasureUp$.
+\end{proof}
+
+\begin{theorem}[Measure StreamName downstream consumer boundary]
+\label{thm:measure-streamname-downstream-consumer-boundary}
+The $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consumers of
+\autoref{def:measure-root-consumer-package} read only the StreamName-indexed
+endpoint rows of \autoref{def:measure-streamname-endpoint-family} together
+with the root consumer rows already listed in
+\autoref{def:measure-root-consumer-package}.
+\end{theorem}
+\begin{proof}
+Project the root consumer package of
+\autoref{def:measure-root-consumer-package}. Its visible rows are the covered
+measurable-event rows, the $\RealUp$ endpoint classifier rows, the
+countable-sum endpoint rows, the finite readback rows, the relative-difference
+and order rows, and the no-$\StdBridge$ boundary.
+
+For $\IntegralUp$, the StreamName endpoint family supplies the covered
+measurable sequence and countable endpoint rows already named by the root
+consumer package. The finite and head-tail rows are then read from the same
+package, not from an additional event equality surface.
+
+For $\ProbSpaceUp$, the total-event and empty-zero rows are projections of the
+root package. A StreamName endpoint family may index the measurable rows it
+uses, but the probability consumer still receives only the normalization,
+empty-zero, and finite-additivity rows listed there.
+
+For $\FunctionalAnalysisUp$, the nonnegative, monotone,
+relative-difference, and countable-sum classifier rows are exactly the
+endpoint rows transported pointwise by
+\autoref{thm:measure-streamname-endpoint-stability}. Repacking the three
+consumer projections gives the stated boundary and adds no quotient event
+equality, host set equality, or standard bridge row.
+\end{proof}
