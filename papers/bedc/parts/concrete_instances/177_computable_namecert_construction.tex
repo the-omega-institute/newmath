@@ -34,6 +34,66 @@ and any two bounded simulations for the same input return $\hsame$-classified ou
 \end{definition}
 \leanstmt{BEDC.Derived.ComputableUp.ComputableBoundedGraphCertificate}
 
+\begin{theorem}[Computable bounded graph carrier obligation]
+\label{thm:computable-bounded-graph-carrier-obligation}
+Let $F\subseteq\NatUp\times\NatUp$ carry a bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. For every accepted row $F(n,m)$ with unary input and output histories, the row expands to the concrete carrier witness
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m).
+$$
+The input history $n$ and output history $m$ are $\NatUp$ unary histories, the displayed bound $\beta_F(n)$ is the $\SeqUp$ unary-bound modulus value supplied by the certificate, and the accepted row is represented by a $\SeqUp$ trace whose endpoint reads back $m$.
+\end{theorem}
+\begin{proof}
+Unpack the bounded graph certificate of \autoref{def:computable-bounded-graph-certificate}. Its graph-equivalence field converts the accepted row $F(n,m)$ into the displayed bounded simulation witness at the certificate code $P_F$ and the certificate bound $\beta_F(n)$.
+
+The remaining carrier data are exactly the fields of \autoref{def:computable-bounded-simulation-witness}. That definition requires unary $\NatUp$ input and output histories, indexes the run by the unary prefixes of the $\SeqUp$ bound value, and records the endpoint halted readback as $m$. Thus the accepted graph row carries no additional carrier beyond the deterministic code, the displayed modulus value, and the bounded trace.
+\end{proof}
+
+\begin{theorem}[Computable bounded graph classifier obligation]
+\label{thm:computable-bounded-graph-classifier-obligation}
+Let $F\subseteq\NatUp\times\NatUp$ carry a bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$. If $F(n,m)$ and $F(n,m')$ are accepted rows over the same unary input $n$, then the two output histories are classified by the displayed $\NatUp$ history classifier:
+$$
+  m\hsame m'.
+$$
+Consequently the accepted-row classifier of the bounded graph surface is inherited from $\hsame$, with reflexivity, symmetry, and transitivity supplied by the history-sameness equivalence.
+\end{theorem}
+\begin{proof}
+The single-valuedness statement of \autoref{thm:computable-bounded-graph-single-valuedness} applies to the two accepted rows. It expands both rows to bounded simulations at the same code $P_F$ and the same bound $\beta_F(n)$, then compares their endpoint readbacks by the output-determinacy field of the certificate.
+
+The comparison produced by that theorem is exactly $m\hsame m'$. The classifier laws needed on accepted rows are therefore not new structure: they are the reflexive, symmetric, and transitive laws for $\hsame$ from \autoref{thm:history-sameness-equivalence}, restricted to outputs that occur as certificate endpoint readbacks.
+\end{proof}
+
+\begin{theorem}[Computable bounded graph stability obligation]
+\label{thm:computable-bounded-graph-stability-obligation}
+The bounded $\ComputableUp$ graph surface contains the unary identity graph $\mathsf{Id}_{\NatUp}$. It is also closed under certified bounded composition in the following concrete sense: if $F$ and $G$ carry bounded graph certificates, $F(n,m)$ is witnessed by $\mathsf{BoundedSim}(P_F,n,\beta_F(n),m)$, and $G(m,k)$ is witnessed by $\mathsf{BoundedSim}(P_G,m,\beta_G(m),k)$, then the composite row has a deterministic bounded simulation witness
+$$
+  \mathsf{BoundedSim}(P_{G\circ F},n,B,k)
+$$
+for some unary history $B$.
+\end{theorem}
+\begin{proof}
+The identity part is supplied by \autoref{thm:computable-identity-bounded-graph-certificate}. It gives the halted identity code $P_{\mathsf{id}}$, the empty bound modulus $\beta_{\mathsf{id}}$, and the graph equivalence between $\mathsf{Id}_{\NatUp}$ and its bounded simulation rows.
+
+For composition, use the supplied intermediate row $m$ as the phase boundary. The two input witnesses give a run of $P_F$ from $n$ to $m$ and a run of $P_G$ from $m$ to $k$. \autoref{thm:computable-composition-bounded-simulation} concatenates those traces along a unary continuation bound and constructs the deterministic phase machine $P_{G\circ F}$.
+
+The conclusion is therefore a concrete bounded simulation row for the composite output $k$. This combines the identity certificate and the bounded-composition construction, so the stability surface records both the base object and the certified closure operation.
+\end{proof}
+
+\begin{theorem}[Computable bounded graph ledger obligation]
+\label{thm:computable-bounded-graph-ledger-obligation}
+For a bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$, the public ledger of an accepted row exposes exactly the deterministic code $P_F$, the displayed bound value $\beta_F(n)$, the $\SeqUp$ trace witnessing
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m),
+$$
+and the endpoint readback $m$. It does not export totality of $F$, minimal running time, universal-machine data, or decidability of halting outside the displayed bounded row.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:computable-bounded-graph-certificate}. The certificate fields are the deterministic code $P_F$, the modulus $\beta_F$, the equivalence between accepted rows and bounded simulations at $\beta_F(n)$, and the output-determinacy clause for simulations sharing one input.
+
+Inspect \autoref{def:computable-bounded-simulation-witness}. A witness is a $\SeqUp$ trace indexed by the displayed bound; it records the initial row, transition rows, halted endpoint, and unary output readback. These are exactly the ledger entries named in the statement.
+
+The excluded data do not occur in either definition. The single-valuedness theorem \autoref{thm:computable-bounded-graph-single-valuedness} adds only endpoint classifier determinacy for accepted rows over a fixed input; it does not add totality, optimality of the bound, universal-machine structure, or an unbounded halting decision procedure.
+\end{proof}
+
 \begin{theorem}[Computable composition by bounded simulation]
 \label{thm:computable-composition-bounded-simulation}
 Let $F$ and $G$ be partial $\NatUp$ graphs carrying bounded $\ComputableUp$ graph certificates $(P_F,\beta_F)$ and $(P_G,\beta_G)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. Suppose $F(n,m)$ is witnessed by
@@ -179,11 +239,11 @@ be two bounded simulations for the same unary input. Applying the reverse direct
 \end{proof}
 
 \begin{closurestatus}{\ComputableUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter binds the bounded simulation witness, bounded graph certificate, composition, single-valuedness, identity graph, empty-bound identity code, and identity bounded graph certificate.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The chapter binds the carrier, classifier, stability, and ledger obligation rows for bounded graph certificates, together with composition, single-valuedness, the identity graph, and the empty-bound identity certificate.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_certificate}
   \bridgestatus{none}
   \notclaimed{The chapter does not close total computability, universal machines, halting decidability, recursion theory, or standard bridge claims.}
-  \upgradepath{Scoped closure requires the full carrier, classifier, stability, and ledger obligation set for general bounded graph certificates.}
+  \upgradepath{Scoped closure requires a public carrier theorem tying arbitrary certified bounded graph rows to the wider computable-function surface.}
 \end{closurestatus}
