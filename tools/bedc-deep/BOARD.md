@@ -11913,3 +11913,137 @@ Root-system and Weyl-group territory is under-represented: BOARD/state hits ment
 
 ---
 
+### B-455 - RandomVar total-event preimage exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar total-event preimage exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a carried RandomVarUp map X:S->T with source total event Omega_S, target total event Omega_T, and measurable-preimage readback, preimage_X(Omega_T) is source-measurable and source-event-classifier equal to Omega_S.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+
+Rationale:
+Belongs in the RandomVar chapter. This is the standard inverse-image law f^{-1}(Y)=X from introductory set theory and probability texts, and it is already needed as an assumption by the Distribution total-mass theorem at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:17. The RandomVar chapter has union, relative-difference, and complement preimage theorems at papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex:13, :59, and :111, but no labeled total-preimage theorem. It should close directly from the total-event classifier/readback rows already used in the surrounding proofs.
+
+---
+
+
+### B-456 - RandomVar empty-event preimage exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar empty-event preimage exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a carried RandomVarUp map X:S->T with source empty event empty_S, target empty event empty_T, and measurable-preimage readback, preimage_X(empty_T) is source-measurable and source-event-classifier equal to empty_S.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+
+Rationale:
+Belongs in the RandomVar chapter. The theorem is the textbook inverse-image law f^{-1}(empty)=empty, used throughout measure-theory introductions before pushforward measures. It is presently only consumed as an assumption by the Distribution empty-target theorem at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:59, while papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex states only union, relative-difference, and complement preimage laws at :13, :59, and :111. The proof is a boundary readback argument, not new infrastructure.
+
+---
+
+
+### B-457 - Distribution nonnegative value inheritance
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Distribution nonnegative value inheritance |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a DistributionUp pushforward for X:S->T, every target measurable event B has nonnegative pushed-forward value mu_X(B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+Belongs in the Distribution chapter. Nonnegativity of a pushforward measure is a first-page theorem in standard measure/probability treatments. The source-side theorem is already present as Measure nonnegative value obligation at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:1, and Distribution currently has only total mass, empty target zero, and finite disjoint additivity at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:13, :55, and :94. The proof is just pushforward readback plus the existing measure nonnegativity row.
+
+---
+
+
+### B-458 - Distribution pushforward monotonicity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Distribution pushforward monotonicity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DistributionUp pushforward for X:S->T, if target measurable events B and C satisfy B subset C and the RandomVar preimage row supplies the corresponding source inclusion, then mu_X(B) <=_R mu_X(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+Belongs in the Distribution chapter. Monotonicity of pushforward measures is standard in Billingsley or Folland-style introductions. The needed ingredients already exist: RandomVar relative-difference exactness records the target-to-source inclusion behavior at papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex:59, and source Measure monotonicity is present at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:26. No labeled Distribution monotonicity theorem appears beside the existing Distribution theorems at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:13, :55, and :94.
+
+---
+
+
+### B-459 - Distribution relative-difference additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Distribution relative-difference additivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DistributionUp pushforward for X:S->T, if target events B subset A have a target relative-difference event A_minus_B and RandomVar preserves that relative difference, then mu_X(A) is classifier-equal to mu_X(B)+mu_X(A_minus_B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+Belongs in the Distribution chapter. The decomposition mu(A)=mu(B)+mu(A\B) for B subset A is a standard elementary measure theorem, and the pushforward version is the direct curricular next step after defining distributions. RandomVar relative-difference exactness is already a theorem at papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex:59, and Measure relative-difference additivity is present in papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex. The Distribution chapter has no relative-difference theorem among its current labels at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:13, :55, and :94, so this is closeable without new definitions.
+
+---
+
