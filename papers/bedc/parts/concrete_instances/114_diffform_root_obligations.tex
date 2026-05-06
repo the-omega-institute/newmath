@@ -1,0 +1,115 @@
+\begin{theorem}[Differential-form root source obligation]
+\label{thm:diffform-root-source-obligation}
+The root $\DiffFormUp$ chapter reads every displayed differential-form row
+only from $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$, as witnessed by
+the carrier of \autoref{def:diffform-bhist-form-carrier}. In particular, the
+root surface has no source row outside the six displayed entries
+$$
+(d,\mathcal{P},\tau,\sigma,\alpha,\lambda).
+$$
+\end{theorem}
+\begin{proof}
+Read the root chapter through the carrier definition. The row
+$(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$ displays the degree history, the
+probe bundle, the tensor row, the scalar endpoint, the antisymmetry ledger,
+and the source ledger.
+
+Each coordinate is sourced by one of the named BEDC rows. The degree,
+endpoint, antisymmetry, and provenance entries are $BHist$ rows; comparison
+and transport use $\hsame$; tensor concatenation uses $\Cont$; probe exposure
+uses $\mathsf{ProbeBundle}$; and the only upstream certificates are
+$\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$.
+
+No clause of \autoref{def:diffform-bhist-form-carrier} allocates another
+source. Therefore the root chapter may be scanned as exactly this displayed
+source surface.
+\end{proof}
+
+\begin{theorem}[Differential-form root carrier and classifier obligation]
+\label{thm:diffform-root-carrier-classifier-obligation}
+The carrier and classifier obligations visible at the $\DiffFormUp$ root are
+exactly the carrier of \autoref{def:diffform-bhist-form-carrier}, the
+classifier of \autoref{def:diffform-bhist-form-classifier}, carrier transport
+of \autoref{thm:diffform-carrier-hsame-transport}, and classifier stability
+of \autoref{thm:diffform-form-classifier-stability}. No further root
+classifier or carrier transport principle is exposed.
+\end{theorem}
+\begin{proof}
+The carrier obligation is the accepted BHist row of
+\autoref{def:diffform-bhist-form-carrier}. Its six displayed coordinates give
+the complete carrier data used by all later wedge and boundary rows.
+
+The classifier obligation is the comparison of
+\autoref{def:diffform-bhist-form-classifier}. It compares degrees by
+$\hsame$, matched tensor and ledger rows by visible BHist comparisons, and
+scalar endpoints by the retained scalar classifier from the upstream sources.
+
+The two stability obligations are precisely the transport theorem
+\autoref{thm:diffform-carrier-hsame-transport} and the classifier theorem
+\autoref{thm:diffform-form-classifier-stability}. Those results repack the
+same displayed rows after componentwise $\hsame$ transport, so the root
+obligation set contains no additional carrier or classifier field.
+\end{proof}
+
+\begin{theorem}[Differential-form root wedge ledger obligation]
+\label{thm:diffform-root-wedge-ledger-obligation}
+The wedge surface visible at the $\DiffFormUp$ root is exhausted by wedge
+ledger coverage in \autoref{thm:diffform-wedge-ledger-coverage}, the
+probe-concatenation ledger of
+\autoref{def:diffform-wedge-probe-concatenation-ledger}, the wedge-degree
+ledger of \autoref{def:diffform-wedge-degree-ledger}, and the associator
+ledger of \autoref{def:diffform-wedge-associator-ledger}. All four ledgers
+are rows over the displayed BEDC carrier and classifier surface.
+\end{theorem}
+\begin{proof}
+Start with an admitted wedge row. By
+\autoref{thm:diffform-wedge-ledger-coverage}, admission requires a visible
+$\TensorProductUp$ concatenation row joining the tensor components of the two
+carried inputs.
+
+The output probe data are then bounded by
+\autoref{def:diffform-wedge-probe-concatenation-ledger}; its coverage theorem
+identifies the output bundle as the displayed append of the two input probe
+spines. The degree data are bounded by
+\autoref{def:diffform-wedge-degree-ledger}, which records only the two input
+degree rows, the concatenation provenance, and the output unary degree row.
+
+Associativity is not a hidden algebraic law at the root. It is the displayed
+ledger of \autoref{def:diffform-wedge-associator-ledger}, with closure stated
+by \autoref{thm:diffform-wedge-associator-closure}. These four rows exhaust
+the wedge surface because each refers back to the same carried form rows and
+their visible $\hsame$, $\Cont$, probe, tensor, scalar, and antisymmetry
+ledgers.
+\end{proof}
+
+\begin{theorem}[Differential-form root exterior boundary obligation]
+\label{thm:diffform-root-exterior-boundary-obligation}
+Exterior-derivative consumers of $\DiffFormUp$ may use only the candidate
+ledger of \autoref{def:diffform-exterior-derivative-candidate-ledger}, the
+input row of \autoref{def:diffform-exterior-derivative-input-row}, and the
+boundary theorems already displayed for degree shift, scalar transport,
+wedge-input stability, and downstream scope. The identities $d^2=0$,
+closedness, nondegeneracy, and contact nonintegrability are outside this
+$\DiffFormUp$ root surface.
+\end{theorem}
+\begin{proof}
+First read the candidate ledger. It exposes an input carrier row, an output
+carrier row, the successor-degree continuation, and transported probe, tensor,
+and scalar endpoint rows. Its degree-raise theorem records only this
+degree-raising candidate data.
+
+Next read the accepted input row. The row of
+\autoref{def:diffform-exterior-derivative-input-row} supplies the source and
+target carried forms, the source and target degree rows, the one-step
+continuation, and the carrier ledgers exposed by the de Rham input boundary.
+
+Finally apply the boundary theorems already present in the chapter:
+\autoref{thm:diffform-exterior-derivative-wedge-input-stability},
+\autoref{thm:diffform-exterior-derivative-degree-shift-boundary},
+\autoref{thm:diffform-exterior-derivative-scalar-transport-boundary}, and
+\autoref{thm:diffform-exterior-derivative-downstream-scope}. These theorems
+permit downstream consumers to cite the displayed candidate and input
+ledgers, while leaving nilpotence, closedness, nondegeneracy, and contact
+nonintegrability to the downstream certificate surfaces.
+\end{proof}
