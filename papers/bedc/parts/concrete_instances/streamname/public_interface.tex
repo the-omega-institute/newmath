@@ -266,12 +266,56 @@ $\RealUp$ completion and completeness, metric completeness, arithmetic/order
 closure, and extra bridge structure, the interpretation is conservative.
 \end{proof}
 
+\begin{theorem}[StreamNameUp mature interface package]
+\label{thm:streamname-mature-interface-package}
+The mature paper package for $\StreamNameUp$ is the union of
+\autoref{thm:streamname-public-countable-name-interface},
+\autoref{thm:streamname-public-finite-window-interface},
+\autoref{thm:streamname-public-interface-export-package}, and
+\autoref{thm:streamname-standard-sequence-bridge}.  It presents the public
+carrier $\mathsf{RatStreamNameCarrier}$, classifier
+$\mathsf{RatStreamNameClassifier}$, finite-window classifier, constant stream
+rows, reindexing and RatUp-preserving map stability, finite-window stability,
+empty-window vacuity, and the conservative ordinary rational-sequence reading
+indexed by certified unary observations.
+
+This package does not include RegSeqRat regularity, $\RealUp$ completion or
+completeness, metric completeness, arithmetic or order closure, or
+machine-checked bridge data.
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:streamname-public-countable-name-interface}.  It fixes
+$\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ and supplies the pointwise RatUp
+carrier/classifier fields, constant stream rows, reindexing and
+RatUp-preserving map stability, and unary reindexing composition.
+
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It adds
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, finite-window
+coverage/exhaustion, certified reindexing and point-map coverage,
+finite-window structural laws, the selected endpoint package, finite-window
+stability fields, and the empty-window boundary.  The empty case is the
+vacuity theorem \autoref{thm:streamname-public-empty-window-vacuity}.
+
+Apply \autoref{thm:streamname-public-interface-export-package} to repack the
+countable-name and finite-window rows as the public export.  Apply
+\autoref{thm:streamname-standard-sequence-bridge} to read that export
+conservatively as ordinary rational-history sequences indexed by certified
+unary observations.
+
+The same four sites state the negative boundary: no RegSeqRat regularity,
+no $\RealUp$ completion or completeness, no metric completeness, no arithmetic
+or order closure, and no machine-checked bridge data.  Repacking exactly those
+rows gives the mature $\StreamNameUp$ paper package and no stronger claim.
+\end{proof}
+
 \begin{closurestatus}{\StreamNameUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:streamname-public-interface-export-package} gives the public $\StreamNameUp$ export, and \autoref{thm:streamname-standard-sequence-bridge} interprets that export conservatively as ordinary rational-history sequences indexed by certified unary observations.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:streamname-mature-interface-package} closes the public $\StreamNameUp$ export, finite-window surface, standard paper bridge, constant and reindexing rows, empty-window boundary, and conservative ordinary rational-sequence reading.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields}
   \bridgestatus{paperBridge}
   \notclaimed{Dyadic regular Cauchy completion, full RealUp arithmetic/order, metric completeness, machine-checked standard-bridge data, or general compact/continuous-map theory.}
-  \upgradepath{A stronger package would require checked bridge data and the omitted RegSeqRat, RealUp completion, metric, arithmetic/order, and compact-map layers.}
+  \upgradepath{$\bridgeCheckedV$ status requires machine-checked standard-bridge data and downstream RegSeqRat/RealUp consumers.}
 \end{closurestatus}
