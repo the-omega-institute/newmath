@@ -105,6 +105,18 @@ theorem FinsetEnumerationClassifier_trans
   · intro carried
     exact Iff.mpr (xy z) (Iff.mpr (yz z) carried)
 
+theorem FinsetEnumerationClassifier_symm
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {left right : ProbeBundle BHist} :
+    FinsetEnumerationClassifier A Rel left right ->
+      FinsetEnumerationClassifier A Rel right left := by
+  intro classified z
+  constructor
+  · intro carriedRight
+    exact Iff.mpr (classified z) carriedRight
+  · intro carriedLeft
+    exact Iff.mp (classified z) carriedLeft
+
 theorem FinsetEnumerationCarrier_bundleAppend_split
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
     {left right : ProbeBundle BHist} {a : BHist} :
