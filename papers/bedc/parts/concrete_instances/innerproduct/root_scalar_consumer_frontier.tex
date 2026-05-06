@@ -1,0 +1,92 @@
+\section{InnerProduct root scalar consumer frontier}
+\label{sec:innerproduct-root-scalar-consumer-frontier}
+
+\begin{theorem}[InnerProduct root scalar projection transport]
+\label{thm:innerproduct-root-scalar-projection-transport}
+In the root obligation basis of
+\autoref{def:innerproduct-root-unblock-obligation-basis}, the scalar endpoint
+of the form transports through the retained scalar classifier. Concretely, if
+$x\sim_Vx'$ and $y\sim_Vy'$ are vector-classifier witnesses for carried
+endpoints $x,y,x',y':C_V$, then the projected form endpoints satisfy
+$$
+\langle x,y\rangle_{\InnerProductUp}
+\sim_{\mathsf{scal}}
+\langle x',y'\rangle_{\InnerProductUp}.
+$$
+This projection uses only the root form row, the two vector-classifier
+witnesses, and the retained scalar classifier.
+\end{theorem}
+\begin{proof}
+Read the form endpoint and both classifiers from
+\autoref{def:innerproduct-root-unblock-obligation-basis}. The basis exposes
+the vector classifier $\sim_V$, the scalar classifier
+$\sim_{\mathsf{scal}}$, and the form endpoint row, with no additional scalar
+equality.
+
+Apply \autoref{thm:innerproduct-classifier-transport-row} to the two
+vector-classifier witnesses. Its conclusion is exactly a retained
+scalar-classifier witness between the two form endpoints. Thus form endpoint
+transport is a scalar projection of the root basis data.
+\end{proof}
+
+\begin{theorem}[InnerProduct root diagonal zero exactness]
+\label{thm:innerproduct-root-diagonal-zero-exactness}
+For every carried vector endpoint $x:C_V$ in the root obligation basis of
+\autoref{def:innerproduct-root-unblock-obligation-basis}, the diagonal
+self-value $\langle x,x\rangle_{\InnerProductUp}$ is classified as the scalar
+zero endpoint if and only if $x\sim_V0_V$. The equivalence is a
+$\mathsf{BHist}$ row statement: scalar-zero classification of the diagonal is
+exactly the displayed vector-zero classifier class.
+\end{theorem}
+\begin{proof}
+First read the diagonal endpoint from the form-law surface of
+\autoref{thm:innerproduct-root-unblock-form-laws}. This places
+$\langle x,x\rangle_{\InnerProductUp}$ inside the displayed scalar endpoint
+source and keeps its classifier equal to $\sim_{\mathsf{scal}}$.
+
+For the forward direction, assume that the diagonal endpoint is classified as
+scalar zero. Apply
+\autoref{thm:innerproduct-positive-definite-obligation}. Its exactness clause
+converts this scalar-zero classification into the vector-classifier witness
+$x\sim_V0_V$.
+
+For the reverse direction, assume $x\sim_V0_V$. The converse exactness clause
+of \autoref{thm:innerproduct-positive-definite-obligation}, together with the
+root form-law unblock row, returns the scalar-zero classification of
+$\langle x,x\rangle_{\InnerProductUp}$. Hence the diagonal zero test is exact
+at the root surface.
+\end{proof}
+
+\begin{theorem}[InnerProduct root Norm-Hilbert consumer frontier]
+\label{thm:innerproduct-root-norm-hilbert-consumer-frontier}
+The $\NormUp$ and $\HilbertUp$ consumers of an $\InnerProductUp$ root
+obligation basis may read only the following scalar-consumer frontier:
+the norm-squared diagonal endpoint $\|x\|_{I}^{2}=\langle x,x\rangle$,
+the diagonal zero exactness row, the orthogonality row, the carrier and
+classifier rows, and the visible ledger rows. They receive no completeness,
+topology, host Hilbert-space carrier, or Cauchy-limit selector from
+$\InnerProductUp$.
+\end{theorem}
+\begin{proof}
+For $\NormUp$, use \autoref{def:innerproduct-norm-metric-seed-source}. It
+defines the norm-squared seed from the diagonal form endpoint and lists the
+positive-definite exactness, classifier-transport, and ledger rows needed to
+consume that endpoint.
+
+Apply \autoref{thm:innerproduct-root-diagonal-zero-exactness} to identify
+the zero test of the norm-squared diagonal with the displayed vector-zero
+classifier class. Orthogonality is read from
+\autoref{def:innerproduct-orthogonality-row}, so it is also a scalar-zero
+classification of a displayed form endpoint.
+
+For $\HilbertUp$, apply
+\autoref{thm:innerproduct-root-threshold-orthogonality-consumption}. It
+separates the inner-product carrier, classifier, form, transport,
+orthogonality, and ledger rows from Banach metric and completeness data.
+
+Finally use \autoref{thm:innerproduct-root-unblock-downstream-threshold}.
+The stated root threshold contains no completeness field, topology field,
+host Hilbert-space carrier, or Cauchy-limit selector. Therefore the
+$\NormUp$ and $\HilbertUp$ consumer frontier is exactly the listed
+scalar-consumer surface.
+\end{proof}
