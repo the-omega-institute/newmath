@@ -54,6 +54,17 @@ theorem RandomVarTotalReadbackCertificate_composition_total_event_preimage_exact
   exact And.intro (hsame_trans compositeChosen (hsame_trans upperChosenTarget lowerTargetSource))
     (And.intro compositeChosen (And.intro upperChosenTarget lowerChosenSource))
 
+theorem RandomVarTotalReadbackCertificate_carried_bridge_chosen_preimage_exactness_iff
+    {targetTotal sourceTotal chosenPreimage : BHist} :
+    Cont targetTotal BHist.Empty chosenPreimage ->
+      (Cont targetTotal BHist.Empty sourceTotal ↔ hsame chosenPreimage sourceTotal) := by
+  intro chosenReadback
+  constructor
+  · intro carriedBridge
+    exact cont_deterministic chosenReadback carriedBridge
+  · intro chosenExact
+    exact cont_result_hsame_transport chosenReadback chosenExact
+
 theorem RandomVarPreimage_disjoint_binary_union_exactness
     {B C U_T A_B A_C A_U U_S : BHist} :
     hsame A_B B -> hsame A_C C -> hsame A_U U_T -> Cont B C U_T ->
