@@ -77,3 +77,28 @@ The minimum-distance field in \autoref{def:errorcode-minimum-distance-decoding-i
 \leanchecked{BEDC.Derived.ErrorCodeUp.ErrorCodeMetricReceivedWithinZero\_unique\_decoding\_empty}
 \leanchecked{BEDC.Derived.ErrorCodeUp.ErrorCodeMinimumDistanceInterface\_unique\_decoding\_radius}
 \leanchecked{BEDC.Derived.ErrorCodeUp.ErrorCodeSingleton\_unique\_decoding\_radius}
+
+\begin{corollary}[ErrorCode smaller-radius uniqueness]
+\label{cor:errorcode-smaller-radius-uniqueness}
+Let $\mathcal C$ be an $\ErrorCodeUp$ certificate with Hamming-distance row $\Delta_{\mathcal C}$, codeword predicate $\mathsf{Code}_{\mathcal C}$, code classifier $\rho_{\mathcal C}$, positive minimum distance $d$, and decoding radius $t=\lfloor(d-1)/2\rfloor$ as in \autoref{def:errorcode-minimum-distance-decoding-interface}. Let $s$ be a natural number with $s\le t$. For ambient word histories $c_1$, $c_2$, and $r$, suppose $\mathsf{Code}_{\mathcal C}(c_1)$ and $\mathsf{Code}_{\mathcal C}(c_2)$, and suppose
+$$
+\Delta_{\mathcal C}(c_1,r)\le s
+\quad\text{and}\quad
+\Delta_{\mathcal C}(c_2,r)\le s.
+$$
+Then $c_1$ and $c_2$ are code-classifier equal:
+$$
+\rho_{\mathcal C}(c_1,c_2).
+$$
+\end{corollary}
+\begin{proof}
+Transitivity of the natural-number order composes the first radius bound with $s\le t$ and gives
+$$
+\Delta_{\mathcal C}(c_1,r)\le t.
+$$
+The same order-transitivity step composes the second radius bound with $s\le t$ and gives
+$$
+\Delta_{\mathcal C}(c_2,r)\le t.
+$$
+The two codeword witnesses and these two enlarged radius bounds are exactly the hypotheses of \autoref{thm:errorcode-unique-decoding-radius}. Applying that theorem yields $\rho_{\mathcal C}(c_1,c_2)$.
+\end{proof}
