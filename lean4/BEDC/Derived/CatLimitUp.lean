@@ -184,4 +184,21 @@ theorem CatLimitLimCone_transport_pointwise_equiv {L D E lambda lambdaE alpha be
   cases lambdaAlpha
   exact limit
 
+theorem CatLimitLimCone_transported_comparison
+    {L M D E lambda lambdaE mu alpha beta : BHist} :
+    CatLimitLimCone L D lambda -> CategoryHomCarrier D E alpha ->
+      CategoryHomCarrier E D beta -> Cont lambda alpha lambdaE ->
+        hsame (append alpha beta) BHist.Empty -> hsame (append beta alpha) BHist.Empty ->
+          CatLimitLimCone M E mu ->
+            ∃ u v cL cM cu cv : BHist,
+              CatLimitConeMor L M E u lambdaE mu cu ∧
+                CatLimitConeMor M L E v mu lambdaE cv ∧
+                  Cont u v cL ∧ Cont v u cM ∧
+                    hsame cL BHist.Empty ∧ hsame cM BHist.Empty := by
+  intro limitD alphaCarrier betaCarrier lambdaTransport alphaBetaEmpty betaAlphaEmpty limitE
+  have transportedLimit : CatLimitLimCone L E lambdaE :=
+    CatLimitLimCone_transport_pointwise_equiv limitD alphaCarrier betaCarrier
+      lambdaTransport alphaBetaEmpty betaAlphaEmpty
+  exact CatLimitLimCone_comparison_identities transportedLimit limitE
+
 end BEDC.Derived.CatLimitUp

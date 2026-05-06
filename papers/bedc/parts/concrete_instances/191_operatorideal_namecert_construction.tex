@@ -237,3 +237,60 @@ $$
 $$
 Only the trace-class ideal membership, scalar closure, and additive closure rows are used; positivity, trace, and trace-one rows remain outside this operator-ideal claim.
 \end{proof}
+
+\begin{definition}[OperatorIdeal trace-class consumer spine source]
+\label{def:operatorideal-trace-class-consumer-spine-source}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. The trace-class consumer spine for $\OperatorIdealUp(H)$ is the concrete downstream-facing package with the following rows.
+\begin{enumerate}
+\item The carrier row is $\mathsf{TC}(H)$.
+\item The classifier row is the restricted operator classifier $\sim_{\mathsf{Op}(H)}$ on certified bounded $\LinearMapUp(H,H)$ endpoints.
+\item The algebra rows are the trace-class zero endpoint, addition, negation, real scalar action $\odot_H$, and binary linear-combination closure.
+\item The absorption rows are left and right composition by any carried bounded Hilbert operator.
+\item The ledger row is the bounded Hilbert source ledger: the $\NameCert_{\HilbertUp}$ carrier, the bounded $\LinearMapUp(H,H)$ certificate, the trace-class $\IdealUp$ membership witness, and the two bounded-composition witnesses.
+\item The only consumer slots are $\DensityMatrixUp$, $\NuclearUp$, and $\QuantumChannelUp$.
+\end{enumerate}
+No positivity, trace, trace-one, nuclearity, complete-positivity, compactness, spectral, trace-existence, or standard bridge row is part of this source.
+\end{definition}
+
+\begin{theorem}[OperatorIdeal trace-class consumer spine coverage]
+\label{thm:operatorideal-trace-class-consumer-spine-coverage}
+Every row of the trace-class consumer spine of \autoref{def:operatorideal-trace-class-consumer-spine-source} is covered by the root $\mathsf{BHist}$ threshold source of \autoref{def:operatorideal-root-bhist-threshold-source}, the carrier-classifier threshold of \autoref{thm:operatorideal-root-bhist-carrier-classifier-threshold}, the ideal-absorption threshold of \autoref{thm:operatorideal-root-bhist-ideal-absorption-threshold}, and the binary linear-combination closure of \autoref{thm:operatorideal-trace-class-binary-linear-combination-closure}.
+\end{theorem}
+\begin{proof}
+We first build the carrier and classifier part of the spine. The source in \autoref{def:operatorideal-root-bhist-threshold-source} names $\mathsf{TC}(H)$ as the trace-class subcarrier over bounded Hilbert operators, and \autoref{thm:operatorideal-root-bhist-carrier-classifier-threshold} identifies the visible classifier as $\sim_{\mathsf{Op}(H)}$ on certified bounded $\LinearMapUp(H,H)$ endpoints.
+
+Next we build the algebra and absorption rows. The zero, addition, negation, scalar action, and two-sided composition rows are exactly the displayed rows of \autoref{thm:operatorideal-root-bhist-ideal-absorption-threshold}. The binary linear-combination row is \autoref{thm:operatorideal-trace-class-binary-linear-combination-closure}, which repacks scalar closure and addition into the two-term downstream form.
+
+It remains to account for the ledger and consumer slots. The ledger row is one of the named rows of \autoref{def:operatorideal-root-bhist-threshold-source}: it records the Hilbert source certificate, the bounded linear-map certificate, the trace-class ideal-membership witness, and the two bounded-composition witnesses. The same source names $\DensityMatrixUp$, $\NuclearUp$, and $\QuantumChannelUp$ as the downstream consumers, so every spine row is a projection of the cited root package and its displayed threshold theorems.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal trace-class consumer row separation]
+\label{thm:operatorideal-trace-class-consumer-row-separation}
+The trace-class consumer spine of \autoref{def:operatorideal-trace-class-consumer-spine-source} contains none of the following downstream rows:
+\begin{enumerate}
+\item positivity, trace, and trace-one rows for $\DensityMatrixUp$;
+\item nuclearity and trace-existence rows for $\NuclearUp$;
+\item complete-positivity and standard bridge rows for $\QuantumChannelUp$;
+\item compactness and spectral rows for analytic refinements of the trace-class face.
+\end{enumerate}
+Each listed row must be supplied by the corresponding consumer chapter rather than imported from $\OperatorIdealUp(H)$.
+\end{theorem}
+\begin{proof}
+Inspect the source rows in \autoref{def:operatorideal-trace-class-consumer-spine-source}. The enumerated spine contains only $\mathsf{TC}(H)$, the restricted classifier $\sim_{\mathsf{Op}(H)}$, the zero, addition, negation, scalar, binary linear-combination, and two-sided absorption rows, together with the bounded Hilbert ledger and the three consumer slots.
+
+The same absence is forced by the upstream boundary. \autoref{thm:operatorideal-root-bhist-downstream-face-boundary} states that the root threshold sends no positivity, trace, trace-one, compactness, spectral, trace-existence, or standard bridge row downstream. The definition of the spine is a subpackage of that boundary, so it cannot contain a row excluded by the root face.
+
+For nuclearity and complete positivity, the separation is by row name and dependency. Nuclearity is not one of the ideal-membership, bounded-composition, additive, scalar, carrier, or classifier rows in the spine. Complete positivity is likewise absent because the spine contains no matrix-amplification or positive-cone preservation row. Therefore the named analytic and quantum rows must be supplied by $\DensityMatrixUp$, $\NuclearUp$, and $\QuantumChannelUp$ at their own paper sites.
+\end{proof}
+
+\begin{theorem}[OperatorIdeal trace-class consumer exhaustion]
+\label{thm:operatorideal-trace-class-consumer-exhaustion}
+Every allowed downstream use of $\OperatorIdealUp(H)$ by $\DensityMatrixUp$, $\NuclearUp$, or $\QuantumChannelUp$ factors through exactly the trace-class carrier and classifier rows, the additive, scalar, and absorption rows, the binary linear-combination closure, and the bounded Hilbert source ledger displayed in \autoref{def:operatorideal-trace-class-consumer-spine-source}.
+\end{theorem}
+\begin{proof}
+Let a downstream use be accepted by one of the three consumer slots in \autoref{def:operatorideal-trace-class-consumer-spine-source}. By the definition of the slot, the use must read an endpoint through $\mathsf{TC}(H)$, compare endpoints through $\sim_{\mathsf{Op}(H)}$, apply one of the displayed algebra or absorption rows, or inspect the bounded Hilbert ledger.
+
+The factorization is obtained by cases on that row access. Carrier and classifier accesses factor through \autoref{thm:operatorideal-root-bhist-carrier-classifier-threshold}. Zero, addition, negation, scalar action, and two-sided absorption factor through \autoref{thm:operatorideal-root-bhist-ideal-absorption-threshold}. A two-term scalar linear combination factors through \autoref{thm:operatorideal-trace-class-binary-linear-combination-closure}. Ledger access factors through the ledger row of \autoref{def:operatorideal-root-bhist-threshold-source}.
+
+No remaining case exists. The exactness clause of \autoref{def:operatorideal-root-bhist-threshold-source} says that the root threshold exposes no row beyond its carrier, classifier, stability, ledger, and core rows, and \autoref{thm:operatorideal-trace-class-consumer-row-separation} removes the analytic and quantum rows from the spine. Thus every allowed downstream use is exhausted by the listed carrier, classifier, operation, absorption, closure, and ledger factors.
+\end{proof}
