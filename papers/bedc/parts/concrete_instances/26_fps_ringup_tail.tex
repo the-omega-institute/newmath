@@ -147,3 +147,64 @@ $$
 
 Since $n$ was arbitrary, \autoref{def:fps-classifier-specification} packages the two coefficientwise scalar comparisons as the two displayed $\FormalPowerSeriesUp$ classifier judgments.
 \end{proof}
+
+\begin{theorem}[FPS zero series absorbs Cauchy product over RingUp scalars]
+\label{thm:fps-zero-series-cauchy-product-absorption-over-ringup-scalars}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive fold $\mathsf{fold}_{+,R}$. Assume the scalar classifier equivalence fields, zero self-classification, additive congruence, additive left-zero, multiplication closure, and left and right zero multiplication rows retained in \autoref{def:ring-stability-certificate}. Let the $\FormalPowerSeriesUp(R)$ interface use the pointwise classifier $\sim_{\mathrm{fps}}$ of \autoref{def:fps-classifier-specification}, the zero series $Z:=0_{\mathrm{fps}}$ of \autoref{def:fps-pointwise-additive-monoid-instance}, and the Cauchy coefficient rule of \autoref{def:fps-cauchy-coefficient-spine}, read over these $\RingUp$ operations. For every carried coefficient sequence $F:\NatUp\to R$, the two Cauchy products $Z\odot_{\mathrm{fps}}F$ and $F\odot_{\mathrm{fps}}Z$ are carried and
+$$
+Z\odot_{\mathrm{fps}}F\sim_{\mathrm{fps}}Z
+\qquad\text{and}\qquad
+F\odot_{\mathrm{fps}}Z\sim_{\mathrm{fps}}Z.
+$$
+Equivalently, for every unary coefficient index $n:\NatUp$,
+$$
+(Z\odot_{\mathrm{fps}}F)_n\sim_R Z_n
+\qquad\text{and}\qquad
+(F\odot_{\mathrm{fps}}Z)_n\sim_R Z_n.
+$$
+\end{theorem}
+\begin{proof}
+The zero series is carried coefficientwise because \autoref{def:fps-pointwise-additive-monoid-instance} gives $Z_n=0_R$ for every $n$, and the scalar zero self-classification row supplies the carried scalar endpoint. The Cauchy-product closure row in \autoref{def:fps-stability-certificate} therefore carries $Z\odot_{\mathrm{fps}}F$ and $F\odot_{\mathrm{fps}}Z$ from the carriedness of $Z$ and $F$.
+
+Fix $n:\NatUp$, and write $\mathsf{ZeroSp}_n$ for the finite spine indexed by $\mathsf{Split}(n)$ whose every displayed entry is $0_R$. For the left product, each split $(i,j)\in\mathsf{Split}(n)$ contributes the scalar summand
+$$
+Z_i\cdot_R F_j.
+$$
+The zero-series coefficient rule gives the scalar comparison $Z_i\sim_R0_R$. Together with scalar classifier reflexivity at $F_j$, the multiplication-congruence row retained in \autoref{def:ring-stability-certificate} compares $Z_i\cdot_R F_j$ with $0_R\cdot_R F_j$; the left zero multiplication row retained in \autoref{def:ring-stability-certificate} then classifies $0_R\cdot_R F_j$ with $0_R$. If the coefficient comparison, multiplication-congruence step, or zero multiplication row is read in the opposite orientation, classifier symmetry supplies the displayed orientation. Structural induction on the finite split spine, using the nil and cons clauses of \autoref{def:list-classifier-specification}, assembles these pointwise scalar comparisons into
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,\mathsf{CauchySp}_n(Z,F),\mathsf{ZeroSp}_n\bigr).
+$$
+Applying \autoref{thm:zero-convolution-summands-fold-zero} to this all-zero Cauchy summand witness gives
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(Z,F))\sim_R0_R.
+$$
+By the Cauchy coefficient rule in \autoref{def:fps-cauchy-coefficient-spine}, the left endpoint is $(Z\odot_{\mathrm{fps}}F)_n$. By the zero-series coefficient rule, $Z_n=0_R$. Hence
+$$
+(Z\odot_{\mathrm{fps}}F)_n\sim_RZ_n.
+$$
+
+For the right product, each split $(i,j)\in\mathsf{Split}(n)$ contributes
+$$
+F_i\cdot_R Z_j.
+$$
+The zero-series coefficient rule gives the scalar comparison $Z_j\sim_R0_R$. Together with scalar classifier reflexivity at $F_i$, the multiplication-congruence row retained in \autoref{def:ring-stability-certificate} compares $F_i\cdot_R Z_j$ with $F_i\cdot_R0_R$; the right zero multiplication row classifies $F_i\cdot_R0_R$ with $0_R$, again using classifier symmetry if a row is oriented oppositely. The same finite-spine induction over \autoref{def:list-classifier-specification} yields
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,\mathsf{CauchySp}_n(F,Z),\mathsf{ZeroSp}_n\bigr).
+$$
+A second application of \autoref{thm:zero-convolution-summands-fold-zero} gives
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F,Z))\sim_R0_R,
+$$
+which is exactly
+$$
+(F\odot_{\mathrm{fps}}Z)_n\sim_RZ_n
+$$
+after unfolding \autoref{def:fps-cauchy-coefficient-spine} and the coefficient rule for $Z$.
+
+Since $n$ was arbitrary, the pointwise classifier specification in \autoref{def:fps-classifier-specification} packages the two coefficientwise scalar comparisons as
+$$
+Z\odot_{\mathrm{fps}}F\sim_{\mathrm{fps}}Z
+\qquad\text{and}\qquad
+F\odot_{\mathrm{fps}}Z\sim_{\mathrm{fps}}Z.
+$$
+\end{proof}
