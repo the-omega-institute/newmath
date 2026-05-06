@@ -60,6 +60,24 @@ structure BHistIndexedBoundaryOpen (T : BHistIndexedOpenCarrier) where
   bottom_law : forall {x : BHist}, UnaryHistory x -> (T.OpenAt bottom x <-> False)
   top_law : forall {x : BHist}, UnaryHistory x -> (T.OpenAt top x <-> True)
 
+inductive TopologyPublicOpenTree (T : BHistIndexedOpenCarrier) :
+    T.OpenIx -> (BHist -> Prop) -> Prop where
+  | basic {i : T.OpenIx} {U : BHist -> Prop} :
+      BHistCarriesOpen T i U -> TopologyPublicOpenTree T i U
+  | binaryMeet {i j : T.OpenIx} {U V : BHist -> Prop} :
+      TopologyPublicOpenTree T i U -> TopologyPublicOpenTree T j V ->
+        TopologyPublicOpenTree T (T.meet i j) (fun x : BHist => U x ∧ V x)
+  | arbitraryUnion {A : Type} {u : T.OpenIx} {ι : A -> T.OpenIx}
+      {U : A -> BHist -> Prop} :
+      (forall a : A, TopologyPublicOpenTree T (ι a) (U a)) ->
+        (forall {x : BHist}, UnaryHistory x ->
+          (T.OpenAt u x <-> exists a : A, T.OpenAt (ι a) x)) ->
+          TopologyPublicOpenTree T u (fun x : BHist => exists a : A, U a x)
+  | bottom (boundary : BHistIndexedBoundaryOpen T) :
+      TopologyPublicOpenTree T boundary.bottom (fun _ : BHist => False)
+  | top (boundary : BHistIndexedBoundaryOpen T) :
+      TopologyPublicOpenTree T boundary.top (fun _ : BHist => True)
+
 theorem BHistCarriesOpen_classifier_transport (T : BHistIndexedOpenCarrier)
     {i : T.OpenIx} {U : BHist -> Prop} :
     BHistCarriesOpen T i U ->
@@ -177,6 +195,15 @@ theorem BHistPullbackOpen_finite_meet_transport (T : BHistIndexedOpenCarrier)
 def BHistGeneratedOpenExact (T : BHistIndexedOpenCarrier) (U : BHist -> Prop) :
     Prop :=
   exists i : T.OpenIx, BHistCarriesOpen T i U
+
+theorem BHistGeneratedOpen_classifier_transport (T : BHistIndexedOpenCarrier)
+    {U : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  intro generated x y unaryX unaryY sameXY
+  cases generated with
+  | intro i carries =>
+      exact BHistCarriesOpen_classifier_transport T carries unaryX unaryY sameXY
 
 theorem BHistGeneratedOpen_binary_meet_admission (T : BHistIndexedOpenCarrier)
     {U V : BHist -> Prop} :
@@ -302,6 +329,51 @@ theorem BHistIndexedOpen_boundary_closure (T : BHistIndexedOpenCarrier)
       have openX : T.OpenAt boundary.top x := Iff.mpr stable openY
       exact Iff.mpr topX openX
   exact And.intro bottomCarries (And.intro topCarries (And.intro falseStable trueStable))
+
+theorem TopologyPublicOpenTree_classifier_transport (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} :
+    TopologyPublicOpenTree T i U ->
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  intro tree
+  induction tree with
+  | basic carries =>
+      exact BHistCarriesOpen_classifier_transport T carries
+  | binaryMeet leftTree rightTree leftIH rightIH =>
+      intro x y unaryX unaryY sameXY
+      have leftStable := leftIH unaryX unaryY sameXY
+      have rightStable := rightIH unaryX unaryY sameXY
+      constructor
+      · intro bothX
+        exact And.intro (Iff.mp leftStable bothX.left) (Iff.mp rightStable bothX.right)
+      · intro bothY
+        exact And.intro (Iff.mpr leftStable bothY.left) (Iff.mpr rightStable bothY.right)
+  | arbitraryUnion children unionLaw childIH =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro existsX
+        cases existsX with
+        | intro a openAX =>
+            have stableA := childIH a unaryX unaryY sameXY
+            exact Exists.intro a (Iff.mp stableA openAX)
+      · intro existsY
+        cases existsY with
+        | intro a openAY =>
+            have stableA := childIH a unaryX unaryY sameXY
+            exact Exists.intro a (Iff.mpr stableA openAY)
+  | bottom boundary =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro falseX
+        cases falseX
+      · intro falseY
+        cases falseY
+  | top boundary =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro trueX
+        exact trueX
+      · intro trueY
+        exact trueY
 
 def TopologySingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
@@ -535,5 +607,26 @@ theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 :
     cases indexedOpen with
     | intro a openA =>
         exact And.intro (hsame_refl BHist.Empty) openA.right
+
+theorem TopologySingleton_union_case_split_ledger {A : Type} {ι : A -> BHist} :
+    ((forall a : A, hsame (ι a) (BHist.e0 BHist.Empty)) ∨
+      (exists a0 : A, hsame (ι a0) BHist.Empty)) ->
+      exists accepted : BHist,
+        (hsame accepted (BHist.e0 BHist.Empty) ∨ hsame accepted BHist.Empty) ∧
+          forall h : BHist,
+            TopologySingletonOpenAt accepted h <->
+              exists a : A, TopologySingletonOpenAt (ι a) h := by
+  intro ledger
+  cases ledger with
+  | inl allBottom =>
+      exact Exists.intro (BHist.e0 BHist.Empty)
+        (And.intro (Or.inl (hsame_refl (BHist.e0 BHist.Empty)))
+          (TopologySingleton_union_bottom_exactness ι allBottom))
+  | inr topMember =>
+      cases topMember with
+      | intro a0 topAt =>
+          exact Exists.intro BHist.Empty
+            (And.intro (Or.inr (hsame_refl BHist.Empty))
+              (TopologySingleton_union_top_exactness (ι := ι) a0 topAt))
 
 end BEDC.Derived.TopologyUp

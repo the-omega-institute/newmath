@@ -731,6 +731,20 @@ theorem IdealZeroPredicate_ideal_closure
                 (And.intro (mulClosed zeroIdealX.left carrierR)
                   (rightAbsorbZero carrierR zeroIdealX.right))
 
+theorem IdealQuotientKernel_diagonal_exactness
+    {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
+    {zero : BHist} {sub : BHist -> BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (idealZero : I zero)
+    (idealTransport : forall {u v : BHist}, I u -> Classifier u v -> I v)
+    (subDiagonal : forall {x : BHist}, Carrier x -> Classifier (sub x x) zero)
+    {x : BHist} :
+    Carrier x -> Carrier x ∧ Carrier x ∧ I (sub x x) := by
+  intro carrierX
+  have sameZeroSub : Classifier zero (sub x x) :=
+    NameCert.equiv_symm cert (subDiagonal carrierX)
+  exact And.intro carrierX (And.intro carrierX (idealTransport idealZero sameZeroSub))
+
 theorem IdealQuotientKernel_endpoint_transport
     {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
     {sub : BHist -> BHist -> BHist}
