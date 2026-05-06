@@ -39,4 +39,13 @@ theorem DistributionPushforward_empty_target_event_zero_mass
       (cont_left_unit BHist.Empty)
   exact pushValueZero
 
+theorem DistributionPushforward_relative_difference_additivity
+    {sourceB sourceD sourceA pushB pushD pushA pushSum : BHist} :
+    Cont sourceB sourceD sourceA -> hsame pushA sourceA -> hsame pushB sourceB ->
+      hsame pushD sourceD -> Cont pushB pushD pushSum -> hsame pushA pushSum := by
+  intro sourceSum pushAClass pushBClass pushDClass pushSumCont
+  have sourcePushSum : hsame sourceA pushSum :=
+    cont_respects_hsame (hsame_symm pushBClass) (hsame_symm pushDClass) sourceSum pushSumCont
+  exact hsame_trans pushAClass sourcePushSum
+
 end BEDC.Derived.DistributionUp
