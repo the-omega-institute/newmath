@@ -11,6 +11,9 @@ open BEDC.FKernel.Unary
 def ComputableBoundedSim (P n B m : BHist) : Prop :=
   UnaryHistory P ∧ UnaryHistory n ∧ UnaryHistory B ∧ UnaryHistory m ∧ Cont n B m
 
+def ComputableUnaryIdentityGraph (n m : BHist) : Prop :=
+  UnaryHistory n ∧ UnaryHistory m ∧ hsame n m
+
 structure ComputableBoundedGraphCertificate where
   Graph : BHist -> BHist -> Prop
   program : BHist
