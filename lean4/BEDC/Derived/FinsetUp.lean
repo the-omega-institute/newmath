@@ -239,6 +239,37 @@ theorem FinsetEnumerationCarrier_bundleAppend_union
           exact Or.inr (Iff.mpr (rightEnumerates z) carriedV)
     exact Iff.mpr FinsetEnumerationCarrier_append_split split
 
+def FinsetEnumerationPermutation
+    (_A : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
+    (left right : ProbeBundle BHist) : Prop :=
+  (forall {p : BHist}, InBundle p left -> exists q : BHist, InBundle q right ∧ Rel p q) ∧
+    (forall {q : BHist}, InBundle q right -> exists p : BHist, InBundle p left ∧ Rel q p)
+
+theorem FinsetEnumerationPermutation_trans
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert A Rel) {xs ys zs : ProbeBundle BHist} :
+    FinsetEnumerationPermutation A Rel xs ys ->
+      FinsetEnumerationPermutation A Rel ys zs ->
+        FinsetEnumerationPermutation A Rel xs zs := by
+  intro xy yz
+  constructor
+  · intro p memberXs
+    cases xy.left memberXs with
+    | intro q qData =>
+        cases yz.left qData.left with
+        | intro r rData =>
+            exact Exists.intro r
+              (And.intro rData.left
+                (NameCert.equiv_trans cert qData.right rData.right))
+  · intro r memberZs
+    cases yz.right memberZs with
+    | intro q qData =>
+        cases xy.right qData.left with
+        | intro p pData =>
+            exact Exists.intro p
+              (And.intro pData.left
+                (NameCert.equiv_trans cert qData.right pData.right))
+
 theorem FinsetEnumerationClassifier_permutation_invariant
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
     {left right : ProbeBundle BHist}
