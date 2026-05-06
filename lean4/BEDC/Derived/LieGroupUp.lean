@@ -134,6 +134,23 @@ theorem LieGroupSingleton_semantic_name_certificate :
 def LieGroupSingletonClassifier (h k : BHist) : Prop :=
   LieGroupSingletonCarrier h ∧ LieGroupSingletonCarrier k ∧ hsame h k
 
+theorem LieGroupSingleton_classifier_transport {h h' k k' : BHist} :
+    LieGroupSingletonClassifier h h' -> LieGroupSingletonClassifier k k' ->
+      LieGroupSingletonClassifier (append h k) (append h' k') ∧
+        LieGroupSingletonClassifier BHist.Empty BHist.Empty := by
+  intro classifiedH classifiedK
+  have productLeft : LieGroupSingletonCarrier (append h k) :=
+    append_eq_empty_iff.mpr (And.intro classifiedH.left classifiedK.left)
+  have productRight : LieGroupSingletonCarrier (append h' k') :=
+    append_eq_empty_iff.mpr (And.intro classifiedH.right.left classifiedK.right.left)
+  have productSame : hsame (append h k) (append h' k') :=
+    hsame_trans productLeft (hsame_symm productRight)
+  have emptyCarrier : LieGroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  exact And.intro
+    (And.intro productLeft (And.intro productRight productSame))
+    (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+
 theorem LieGroupSingleton_carrier_obligation :
     SemanticNameCert LieGroupSingletonCarrier LieGroupSingletonCarrier LieGroupSingletonCarrier
         LieGroupSingletonClassifier ∧
