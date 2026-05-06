@@ -1,4 +1,4 @@
-import BEDC.Derived.TopologyUp
+import BEDC.Derived.TopologyUp.Core
 
 namespace BEDC.Derived.TopologyUp
 
