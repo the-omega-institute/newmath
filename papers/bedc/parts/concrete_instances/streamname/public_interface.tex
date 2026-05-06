@@ -137,6 +137,47 @@ exactness pointwise over the RatUp classifier; standard bridge ordinary
 rational streams; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[StreamNameUp public interface export package]
+\label{thm:streamname-public-interface-export-package}
+The public $\StreamNameUp$ export over $\mathsf{BHist}$ is exactly the union of
+\autoref{thm:streamname-public-countable-name-interface} and
+\autoref{thm:streamname-public-finite-window-interface}.  Its exported
+countable-name rows are the carrier $\mathsf{RatStreamNameCarrier}$, the
+classifier $\mathsf{RatStreamNameClassifier}$, the pointwise RatUp
+carrier/classifier fields, the constant stream rows, reindexing and
+RatUp-preserving map stability, and unary reindexing composition.  Its
+exported finite-window rows are
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, finite-window
+coverage/exhaustion, certified reindexing and point-map coverage, finite-window
+structural laws, the selected endpoint package, and finite-window stability
+fields.
+
+No further rows are part of this public $\StreamNameUp$ package: it excludes
+RegSeqRat regularity, RealUp completion and completeness, metric completeness,
+arithmetic and order closure, and standard-bridge data.
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:streamname-public-countable-name-interface}.  It fixes the
+carrier and classifier as $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ and lists the pointwise RatUp
+carrier/classifier rows, constant stream rows, reindexing and RatUp-preserving
+map stability, and reindexing composition.  These are precisely the
+countable-name rows of the public export.
+
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It adds
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, window restriction,
+coverage/exhaustion, certified reindexing and point-map coverage, the
+finite-window structural laws, selected endpoint package, and stability rows.
+These are precisely the finite-window rows of the public export.
+
+The two cited public theorems list all exported rows and both leave completion,
+regularity, metric, arithmetic/order, and bridge structure outside their
+claims.  Repacking their rows therefore gives a public $\StreamNameUp$
+interface package, not a $\RealUp$ completion theorem or a $\RegSeqRat$
+regularity theorem.
+\end{proof}
+
 \begin{closurestatus}{\StreamNameUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The rational stream-name public certificate over RatUp observations, with pointwise carrier/classifier rows, reindexing stability, constant streams, and constant-point exactness.}
