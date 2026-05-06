@@ -1,0 +1,48 @@
+\begin{definition}[Sheaf consumer trace composition source]
+\label{def:sheaf-consumer-trace-composition-source}
+Let $T_1$ and $T_2$ be finite $\SheafUp$ consumer access traces of \autoref{def:sheaf-consumer-access-trace-source}. Their consumer trace composition $T_1 \mathbin{\star} T_2$ is the finite trace obtained by listing every constructor of $T_1$ in its given order and then listing every constructor of $T_2$ in its given order. The empty trace is a two-sided unit for this operation.
+
+The source of this operation is restricted to the same objects as the access trace grammar: $\mathsf{BHist}$ histories, $\hsame$ transport, optional $\Cont$ route histories, $\TopologyUp$ indexed opens, $\PreSheafUp$ section carriers, and $\NameCert_{\SheafUp}$ rows. No constructor of $T_1 \mathbin{\star} T_2$ may mention host powerset equality of opens, cover quotients, stalk quotients, external sheafification, or standard bridge rows except through the sealed consumer projections already present in \autoref{def:sheaf-consumer-access-trace-source}.
+\end{definition}
+
+\begin{theorem}[Sheaf consumer trace concatenation coverage]
+\label{thm:sheaf-consumer-trace-concatenation-coverage}
+For any finite traces $T_1$ and $T_2$ of \autoref{def:sheaf-consumer-access-trace-source}, every constructor in the composed trace $T_1 \mathbin{\star} T_2$ of \autoref{def:sheaf-consumer-trace-composition-source} lands in the same root face or sealed consumer projection that it occupied before composition.
+\end{theorem}
+\begin{proof}
+Proceed by the ordered list presentation of $T_1 \mathbin{\star} T_2$.
+
+For a constructor appearing in the first segment, apply \autoref{thm:sheaf-consumer-access-trace-face-coverage} to its occurrence in $T_1$. Its landing face is one of the root faces of \autoref{def:sheaf-root-face-exactness-source} or one of the sealed consumer projections of \autoref{def:sheaf-root-consumer-projection-seal}; the concatenation operation only preserves the occurrence and its order inside the first segment.
+
+For a constructor appearing in the second segment, apply the same coverage theorem to its occurrence in $T_2$. The first segment supplies no wrapper and no coercion around the second segment, so the second occurrence keeps the landing face it had before composition.
+
+Thus every constructor in the concatenated trace has exactly the face assigned to it by the original access trace coverage theorem.
+\end{proof}
+
+\begin{theorem}[Sheaf consumer trace composition no-feedback]
+\label{thm:sheaf-consumer-trace-composition-no-feedback}
+Composing finite $\RingedSpaceUp$, $\SchemeUp$, or topology pullback consumer traces by \autoref{def:sheaf-consumer-trace-composition-source} creates no additional $\SheafUp$ carrier row, classifier row, exactness row, or bridge row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:sheaf-consumer-access-trace-no-feedback} to the consumer constructors in $T_1$. Each $\RingedSpaceUp$, $\SchemeUp$, and topology pullback event reads through the sealed projection and contributes no root carrier, classifier, exactness, or bridge row.
+
+Apply the same theorem to the consumer constructors in $T_2$. The composition source merely places the second trace after the first, so no event in the second segment obtains a new sheaf row from the preceding segment.
+
+It remains to rule out feedback across the boundary between the two segments. By \autoref{thm:sheaf-root-face-downstream-separation}, consumer-specific algebraic, chart, and pullback data are outside the root sheaf faces. By \autoref{thm:sheaf-downstream-consumption-exhaustion}, all allowed downstream sheaf reads have already been exhausted by the listed root rows and sealed projections.
+
+Therefore the concatenation boundary carries only the finite order of reads. It supplies no constructor capable of manufacturing a further $\SheafUp$ carrier, classifier, exactness, or bridge row.
+\end{proof}
+
+\begin{theorem}[Sheaf consumer trace factorization composes]
+\label{thm:sheaf-consumer-trace-factorization-composes}
+Suppose two allowed downstream $\SheafUp$ accesses by $\RingedSpaceUp$, $\SchemeUp$, or topology pullback factor through finite traces $T_1$ and $T_2$ of \autoref{def:sheaf-consumer-access-trace-source}. Their sequential use factors through the composed trace $T_1 \mathbin{\star} T_2$ of \autoref{def:sheaf-consumer-trace-composition-source}.
+\end{theorem}
+\begin{proof}
+Choose the trace $T_1 \mathbin{\star} T_2$ by listing the constructors witnessing the first downstream access and then listing the constructors witnessing the second downstream access. This is a finite trace because both inputs are finite and the composition source is ordinary finite concatenation.
+
+The first access factors through the first segment by the assumed factorization of $T_1$. The second access factors through the second segment by the assumed factorization of $T_2$, and the preceding segment changes only the position of the second segment in the list.
+
+By \autoref{thm:sheaf-consumer-trace-concatenation-coverage}, every constructor in both segments still lands in its original root face or sealed projection. By \autoref{thm:sheaf-consumer-trace-composition-no-feedback}, the boundary between the two segments creates no additional sheaf row that would require another access constructor.
+
+The sequential downstream use is therefore represented by first reading along $T_1$ and then reading along $T_2$, which is exactly the composed finite trace.
+\end{proof}
