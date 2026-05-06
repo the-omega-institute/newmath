@@ -5,6 +5,9 @@ namespace BEDC.Derived.FpsUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+def FpsSingletonCoeffwiseInverse (_F : BHist) : BHist :=
+  BHist.Empty
+
 theorem FpsSingletonCoeffwiseInverse_zero_laws {F N n : BHist} :
     FpsSingletonCarrier F ->
       FpsSingletonClassifier N FpsSingletonZero ->
