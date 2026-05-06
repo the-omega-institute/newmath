@@ -355,3 +355,68 @@ Apply the one continuation step rule to $\Cont(h,k,g)$, obtaining
 $\Cont(h,\Eone(k),\Eone(g))$. Repack these three fields as
 $\mathsf{GraphEdge}(h,\Eone(k),\Eone(g))$.
 \end{proof}
+
+\begin{theorem}[Graph Cont three-step path reassociation]
+\label{thm:graph-cont-three-step-path-reassociation}
+Let $h,k,l,m,hk,kl,lm:\mathsf{BHist}$. In the concrete $\GraphUp$ carrier of \autoref{def:graph-cont-adjacency-carrier}, if
+$$
+\mathsf{GraphEdge}(h,k,hk),\qquad
+\mathsf{GraphEdge}(k,l,kl),\qquad
+\mathsf{GraphEdge}(l,m,lm)
+$$
+hold, then there are histories $hkl,klm,left,right:\mathsf{BHist}$ such that
+$$
+\mathsf{GraphEdge}(hk,l,hkl),\qquad
+\mathsf{GraphEdge}(hkl,m,left),
+$$
+$$
+\mathsf{GraphEdge}(k,lm,klm),\qquad
+\mathsf{GraphEdge}(h,klm,right),
+$$
+and
+$$
+\hsame(left,right).
+$$
+Thus the visible endpoints of the left-associated and right-associated three-step graph paths are classified by $\hsame$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:graph-cont-two-step-composition} to the first two input rows. Choose witnesses $hkl$ and $hkl_R$ with
+$$
+\mathsf{GraphEdge}(hk,l,hkl),\qquad
+\mathsf{GraphEdge}(h,kl,hkl_R),\qquad
+\hsame(hkl,hkl_R).
+$$
+Retain the row $\mathsf{GraphEdge}(hk,l,hkl)$ as the left middle edge.
+
+Apply \autoref{thm:graph-cont-two-step-composition} to the second and third input rows. Choose witnesses $klm_L$ and $klm$ with
+$$
+\mathsf{GraphEdge}(kl,m,klm_L),\qquad
+\mathsf{GraphEdge}(k,lm,klm),\qquad
+\hsame(klm_L,klm).
+$$
+Retain the row $\mathsf{GraphEdge}(k,lm,klm)$ as the right middle edge.
+
+Apply \autoref{thm:graph-cont-two-step-composition} to $\mathsf{GraphEdge}(hk,l,hkl)$ and the third input row. This gives witnesses $left$ and $mid_L$ such that
+$$
+\mathsf{GraphEdge}(hkl,m,left),\qquad
+\mathsf{GraphEdge}(hk,lm,mid_L),\qquad
+\hsame(left,mid_L).
+$$
+
+Apply \autoref{thm:graph-cont-two-step-composition} to the first input row and $\mathsf{GraphEdge}(k,lm,klm)$. This gives witnesses $mid_R$ and $right$ such that
+$$
+\mathsf{GraphEdge}(hk,lm,mid_R),\qquad
+\mathsf{GraphEdge}(h,klm,right),\qquad
+\hsame(mid_R,right).
+$$
+
+The two middle rows $\mathsf{GraphEdge}(hk,lm,mid_L)$ and $\mathsf{GraphEdge}(hk,lm,mid_R)$ have the same displayed source and target. By \autoref{thm:graph-cont-edge-result-determinacy},
+$$
+\hsame(mid_L,mid_R).
+$$
+Transitivity of $\hsame$ combines $\hsame(left,mid_L)$, $\hsame(mid_L,mid_R)$, and $\hsame(mid_R,right)$ to give
+$$
+\hsame(left,right).
+$$
+The retained graph rows are exactly the displayed left-associated and right-associated path rows.
+\end{proof}
