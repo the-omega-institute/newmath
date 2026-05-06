@@ -30,6 +30,42 @@ theorem BHistFiniteBaseNeighborhood_append_decomposition
     | inr inRight =>
         exact split.right i inRight
 
+def BHistFiniteBaseNeighborhoodCarrier (ball : BHist -> BHist -> Prop)
+    (ballStable :
+      forall {indices : ProbeBundle BHist} {i x y : BHist}, InBundle i indices ->
+        UnaryHistory x -> UnaryHistory y -> hsame x y -> (ball i x <-> ball i y)) :
+    BHistIndexedOpenCarrier := {
+  OpenIx := ProbeBundle BHist
+  OpenAt := fun indices x => BHistFiniteBaseNeighborhood indices ball x
+  meet := fun left right => bundleAppend left right
+  membership_stable := by
+    intro indices x y unaryX unaryY sameXY
+    exact
+      BHistFiniteBaseNeighborhood_classifier_transport indices ball
+        (by
+          intro i x y inIndices unaryX unaryY sameXY
+          exact ballStable (indices := indices) inIndices unaryX unaryY sameXY)
+        unaryX unaryY sameXY
+  meet_law := by
+    intro left right x unaryX
+    exact BHistFiniteBaseNeighborhood_append_decomposition left right ball x
+}
+
+theorem BHistFiniteBaseNeighborhoodCarrier_singleton_row (ball : BHist -> BHist -> Prop)
+    (ballStable :
+      forall {indices : ProbeBundle BHist} {i x y : BHist}, InBundle i indices ->
+        UnaryHistory x -> UnaryHistory y -> hsame x y -> (ball i x <-> ball i y))
+    {indices : ProbeBundle BHist} {ledger : BHist} (unaryLedger : UnaryHistory ledger) :
+    BHistUnaryTopologyLedgerRow (BHistFiniteBaseNeighborhoodCarrier ball ballStable)
+      indices (BHistFiniteBaseNeighborhood indices ball) := by
+  apply BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger
+  intro x unaryX
+  constructor
+  · intro neighborhood
+    exact neighborhood
+  · intro openNeighborhood
+    exact openNeighborhood
+
 structure BHistFiniteBaseNeighborhoodRow (T : BHistIndexedOpenCarrier)
     (indices : ProbeBundle BHist) (ball : BHist -> BHist -> Prop) (x : BHist) where
   point_unary : UnaryHistory x
