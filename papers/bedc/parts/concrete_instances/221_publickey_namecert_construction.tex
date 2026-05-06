@@ -152,3 +152,45 @@ $$
 It remains only to record carrier membership for the arbitrary endpoint. Unfolding $\mathsf{PKCertifiedEnc}_{\mathcal P}(pk,m,c)$ through \autoref{def:publickey-decrypt-encrypt-transcript-interface} gives $\mathsf{Msg}_{\mathcal P}(m)$. The classifier symmetry field from the same carrier naming certificate reverses $\mu_{\mathcal P}(d,m)$ to $\mu_{\mathcal P}(m,d)$, and its carrier-transport field carries $\mathsf{Msg}_{\mathcal P}(m)$ along that comparison to obtain $\mathsf{Msg}_{\mathcal P}(d)$. Pairing this carrier fact with $\mu_{\mathcal P}(d,m)$ proves the claim.
 \end{proof}
 \leanchecked{BEDC.Derived.PublicKeyUp.PublicKeyCertifiedEncryption\_arbitrary\_decryption}
+
+\begin{theorem}[PublicKey certified ciphertext plaintext uniqueness]
+\label{thm:publickey-certified-ciphertext-plaintext-uniqueness}
+Let $\mathcal P$ be a $\PublicKeyUp$ certificate with transcript rows as in \autoref{def:publickey-decrypt-encrypt-transcript-interface}, and assume $\mathsf{PKDecryptEncryptExact}_{\mathcal P}$ and $\mathsf{PKDecryptOutputDet}_{\mathcal P}$. For histories $pk$, $sk$, $m$, $n$, and $c$, if
+$$
+\mathsf{PKKeyGen}_{\mathcal P}(pk,sk)
+\qquad\text{and}
+\qquad
+\mathsf{PKCertifiedEnc}_{\mathcal P}(pk,m,c)
+\qquad\text{and}
+\qquad
+\mathsf{PKCertifiedEnc}_{\mathcal P}(pk,n,c),
+$$
+then the two certified plaintext endpoints are classifier-equal:
+$$
+\mu_{\mathcal P}(m,n).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:publickey-decrypt-encrypt-correctness} to $\mathsf{PKDecryptEncryptExact}_{\mathcal P}$, the generated keypair row, and the first certified-encryption hypothesis. This gives a history $d:\mathsf{BHist}$ with
+$$
+\mathsf{PKDecrypt}_{\mathcal P}(sk,c,d)\land\mu_{\mathcal P}(d,m).
+$$
+Apply the same theorem to the second certified-encryption hypothesis to obtain $e:\mathsf{BHist}$ with
+$$
+\mathsf{PKDecrypt}_{\mathcal P}(sk,c,e)\land\mu_{\mathcal P}(e,n).
+$$
+Apply \autoref{thm:publickey-decrypt-output-determinacy} to $\mathsf{PKDecryptOutputDet}_{\mathcal P}$, the generated keypair row, and the two decrypt rows. This yields
+$$
+\mu_{\mathcal P}(d,e).
+$$
+By the symmetry field of \autoref{def:lean-carrier-naming-certificate}, reverse $\mu_{\mathcal P}(d,m)$ to get $\mu_{\mathcal P}(m,d)$.
+
+Compose $\mu_{\mathcal P}(m,d)$ with $\mu_{\mathcal P}(d,e)$ using \autoref{thm:namecert-equivalence-transitivity} to obtain
+$$
+\mu_{\mathcal P}(m,e).
+$$
+Then compose $\mu_{\mathcal P}(m,e)$ with $\mu_{\mathcal P}(e,n)$, again by \autoref{thm:namecert-equivalence-transitivity}, to conclude
+$$
+\mu_{\mathcal P}(m,n).
+$$
+\end{proof}
