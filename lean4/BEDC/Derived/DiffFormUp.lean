@@ -1,4 +1,5 @@
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
@@ -287,5 +288,73 @@ theorem DiffFormDegreeProbeAligned_bundleAppend_cont
   exact DiffFormDegreeProbeAligned_bundleAppend_cont_transport
     (DiffFormDegreeProbeAligned_bundleAppend_cont_append leftAligned rightAligned)
     (unary_append_comm_hsame rightUnary leftUnary)
+
+theorem DiffFormExteriorDerivative_wedge_input_stability
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {omega omega' domega domega' d d' dplus dplus' probe probeA probe' probeB tensor tensorA
+      tensor' tensorB scalar scalarA scalar' scalarB antisym antisym' source source' : BHist} :
+    InBundle probe probes -> InBundle probeA probes -> hsame omega omega' ->
+      hsame domega domega' -> hsame d d' -> hsame dplus dplus' -> hsame probe probeA ->
+        hsame probe' probeB -> hsame tensor tensorA -> hsame tensor' tensorB ->
+          hsame scalar scalarA -> hsame scalar' scalarB -> hsame antisym antisym' ->
+            hsame source source' -> ScalarClassifier scalar scalarA ->
+              DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor'
+                scalar scalar' antisym source ->
+                DiffFormExteriorDerivativeLedger omega' domega' d' dplus' probeA probeB tensorA
+                    tensorB scalarA scalarB antisym' source' ∧
+                  DiffFormBHistClassifier ScalarClassifier probes d probe tensor scalar antisym
+                    source d' probeA tensorA scalarA antisym' source' := by
+  intro probeIn probeAIn sameOmega sameDomega sameD sameDplus sameProbe sameProbePrime
+    sameTensor sameTensorPrime sameScalar sameScalarPrime sameAntisym sameSource scalarClass ledger
+  have transportedTarget : Cont d' (BHist.e1 BHist.Empty) dplus' := by
+    exact cont_hsame_transport sameD (hsame_refl (BHist.e1 BHist.Empty)) sameDplus
+      ledger.right.right.right.right.left
+  have transportedLedger :
+      DiffFormExteriorDerivativeLedger omega' domega' d' dplus' probeA probeB tensorA tensorB
+        scalarA scalarB antisym' source' := by
+    exact ⟨unary_transport ledger.left sameOmega,
+      unary_transport ledger.right.left sameDomega,
+      unary_transport ledger.right.right.left sameD,
+      unary_transport ledger.right.right.right.left sameDplus,
+      transportedTarget,
+      hsame_trans (hsame_trans (hsame_symm sameProbe) ledger.right.right.right.right.right.left)
+        sameProbePrime,
+      hsame_trans (hsame_trans (hsame_symm sameTensor) ledger.right.right.right.right.right.right.left)
+        sameTensorPrime,
+      hsame_trans (hsame_trans (hsame_symm sameScalar)
+        ledger.right.right.right.right.right.right.right.left) sameScalarPrime,
+      unary_transport ledger.right.right.right.right.right.right.right.right.left sameAntisym,
+      unary_transport ledger.right.right.right.right.right.right.right.right.right sameSource⟩
+  have classifierRows :
+      DiffFormBHistClassifier ScalarClassifier probes d probe tensor scalar antisym source d' probeA
+        tensorA scalarA antisym' source' := by
+    exact ⟨probeIn, probeAIn, sameD, sameProbe, sameTensor, scalarClass, sameAntisym,
+      sameSource⟩
+  exact ⟨transportedLedger, classifierRows⟩
+
+theorem DiffFormExteriorDerivativeLedger_degree_successor_nonempty
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar
+      scalar' antisym source ->
+      UnaryHistory d ∧ UnaryHistory dplus ∧ Cont d (BHist.e1 BHist.Empty) dplus ∧
+        (hsame dplus BHist.Empty -> False) := by
+  intro ledger
+  have degreeRows := DiffFormExteriorDerivativeLedger_degree_raise ledger
+  exact And.intro degreeRows.left
+    (And.intro degreeRows.right.left
+      (And.intro degreeRows.right.right
+        (by
+          intro raisedEmpty
+          cases degreeRows.right.right
+          exact not_hsame_e1_empty (append_eq_empty_iff.mp raisedEmpty).right)))
+
+theorem DiffFormDegreeProbeAligned_hsame_transport
+    {d d' : BHist} {bundle : ProbeBundle BHist} :
+    DegreeProbeAligned d bundle -> hsame d d' -> DegreeProbeAligned d' bundle ∧
+      UnaryHistory d' := by
+  intro aligned sameDegree
+  cases sameDegree
+  exact And.intro aligned (DiffFormDegreeProbeAligned_bundleAppend_cont_unary aligned)
 
 end BEDC.Derived.DiffFormUp

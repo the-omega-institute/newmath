@@ -3,7 +3,9 @@ import BEDC.Derived.TopologyUp
 namespace BEDC.Derived.TopologyUp
 
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem TopologySingleton_public_open_row_coverage :

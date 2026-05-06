@@ -212,6 +212,7 @@ import BEDC.Derived.TopologyUp.PullbackOpenTransport
 import BEDC.Derived.TopologyUp.PublicOpenCertificate
 import BEDC.Derived.TopologyUp.PublicOpenWitness
 import BEDC.Derived.TopologyUp.PublicWitness
+import BEDC.Derived.TopologyUp.PublicWitnesses
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -220,6 +221,7 @@ import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ResidueUp
@@ -343,6 +345,7 @@ import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
+import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
@@ -352,6 +355,7 @@ import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RatUp.LedgerContextEquivalence
 import BEDC.Derived.RatUp.RepresentativeStabilityPackage
 import BEDC.Derived.StreamNameUp
+import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.EmptyRight
