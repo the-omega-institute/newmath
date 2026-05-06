@@ -1,0 +1,127 @@
+\begin{definition}[DiffForm root obligation source]
+\label{def:diffform-root-obligation-source}
+The $\DiffFormUp$ root obligation source is the visible tuple consisting of
+the $BHist$ carrier rows of
+\autoref{def:diffform-bhist-form-carrier}, the classifier rows of
+\autoref{def:diffform-bhist-form-classifier}, the source certificates
+$\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$, the wedge
+ledger rows of \autoref{thm:diffform-wedge-ledger-coverage}, the
+antisymmetry chain ledgers of
+\autoref{thm:diffform-antisymmetry-chain-classifier-stability}, and the
+exterior-derivative input rows named by
+\autoref{thm:diffform-exterior-derivative-input-output-ledger-exactness}.
+It exposes only those rows as the root surface for downstream consumers.
+\end{definition}
+
+\begin{theorem}[DiffForm root source transport obligation]
+\label{thm:diffform-root-source-transport-obligation}
+For the root obligation source of
+\autoref{def:diffform-root-obligation-source}, replacing every displayed
+carrier and classifier history by an $\hsame$-equal history preserves the
+accepted $\DiffFormUp$ source surface. In particular, the carrier and
+classifier parts of the tuple transport without changing the retained
+$\NameCert_{\ManifoldUp}$ or $\NameCert_{\TensorProductUp}$ sources.
+\end{theorem}
+\begin{proof}
+Start with the carrier component of the root tuple. Apply
+\autoref{thm:diffform-carrier-hsame-transport} to each displayed carried row;
+the retained manifold and tensor-product certificates are part of the same
+row, so no separate source replacement is introduced.
+
+Next transport the classifier component. Use
+\autoref{thm:diffform-form-classifier-stability} on the transported endpoints
+of each classifier row. The degree, tensor, scalar, antisymmetry, and
+source-ledger clauses are exactly the clauses exposed in
+\autoref{def:diffform-bhist-form-classifier}.
+
+Repack the transported carrier rows and transported classifier rows with the
+unchanged source certificates. This is precisely the accepted source surface
+specified by \autoref{def:diffform-root-obligation-source}.
+\end{proof}
+
+\begin{theorem}[DiffForm root wedge and antisymmetry obligation]
+\label{thm:diffform-root-wedge-antisymmetry-obligation}
+The root obligation source of
+\autoref{def:diffform-root-obligation-source} closes the visible wedge and
+antisymmetry obligations: every admitted wedge row carries the required
+tensor concatenation ledger, its probe concatenation classifier is stable,
+its associator row remains in the carried surface, and its antisymmetry chain
+is classified by the displayed chain ledger.
+\end{theorem}
+\begin{proof}
+First read the binary wedge row through
+\autoref{thm:diffform-wedge-ledger-coverage}. This supplies the visible
+$\TensorProductUp$ concatenation row and transports the two input form rows
+through the retained carrier and classifier surfaces.
+
+The probe part of the wedge is then controlled by
+\autoref{thm:diffform-wedge-probe-concatenation-classifier-stability}. It
+identifies the output probe bundle after transporting the two input bundles
+and keeps the wedge output classified under $\sim_{\DiffFormUp}$.
+
+For three carried rows, apply
+\autoref{thm:diffform-wedge-associator-closure}. The two parenthesized wedge
+surfaces are carried by the same visible associator ledger, so the root tuple
+contains the needed associativity comparison.
+
+Finally use
+\autoref{thm:diffform-antisymmetry-chain-classifier-stability}. The
+antisymmetry chain rows are part of the root source, and their classifier
+stability supplies the visible chain obligation for every transported wedge
+surface.
+\end{proof}
+
+\begin{theorem}[DiffForm root exterior-derivative boundary obligation]
+\label{thm:diffform-root-exterior-derivative-boundary-obligation}
+The exterior-derivative component of the root obligation source records only
+the admitted input and output rows for the exported derivative boundary. It
+does not assert closedness, nilpotence, or a de Rham quotient; it binds the
+candidate derivative row to the visible input/output ledger and to the wedge
+boundary row consumed by downstream wedge formulas.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:diffform-exterior-derivative-input-output-ledger-exactness}. It
+states that the exported derivative surface is exactly the displayed
+input/output ledger row, so the root tuple records no additional derivative
+law.
+
+Transport the candidate derivative classifier by
+\autoref{thm:diffform-exterior-derivative-candidate-classifier-transport}.
+This keeps the candidate row attached to the same carrier and classifier
+surface under $\hsame$ replacement of the displayed histories.
+
+The wedge-side boundary is then read from
+\autoref{thm:diffform-wedge-derivative-input-boundary}. That theorem supplies
+the only boundary row consumed by wedge formulas, and the root surface merely
+keeps that row available beside the input/output ledger.
+\end{proof}
+
+\begin{theorem}[DiffForm root NameCert surface]
+\label{thm:diffform-root-namecert-surface}
+The root obligation source of
+\autoref{def:diffform-root-obligation-source} presents a single
+$\NameCert_{\DiffFormUp}$ surface: source transport, wedge and antisymmetry
+transport, and exterior-derivative boundary exposure assemble into the
+displayed $\DiffFormUp$ obligation surface.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:diffform-root-source-transport-obligation} to bind the
+carrier and classifier rows to the retained
+$\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$ sources. This
+gives the source part of the root certificate.
+
+Use \autoref{thm:diffform-root-wedge-antisymmetry-obligation} for the wedge
+ledger, probe concatenation, associator, and antisymmetry chain fields. These
+are exactly the visible algebraic rows required by the differential-form
+certificate surface.
+
+Use \autoref{thm:diffform-root-exterior-derivative-boundary-obligation} for
+the exported derivative boundary. The derivative row is retained only as an
+input/output and wedge-boundary surface.
+
+Finally apply \autoref{thm:diffform-namecert-obligation-surface}. Its
+certificate surface contains the same source, wedge, antisymmetry, and
+exterior-derivative rows, so the three root obligations repack as the
+displayed $\NameCert_{\DiffFormUp}$ surface.
+\end{proof}
