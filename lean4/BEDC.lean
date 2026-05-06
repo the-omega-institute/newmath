@@ -183,6 +183,7 @@ import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
+import BEDC.Derived.BundleUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
 import BEDC.Derived.HolomorphicUp.IteratedTransport
@@ -284,7 +285,6 @@ import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
-import BEDC.Derived.BundleUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.ManifoldUp
@@ -430,7 +430,6 @@ import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
-import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.RingUp.SingletonAppend
 import BEDC.Derived.RingUp.SingletonContinuation
@@ -549,7 +548,6 @@ import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.CategoryUp.AssocEmptyResult
 import BEDC.Derived.CategoryUp.FourfoldAssoc
 import BEDC.Derived.CategoryUp.OppositeAssoc
-import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
