@@ -45,4 +45,18 @@ theorem OperatorIdealTraceClass_finite_context_closure {T result : BHist} :
               (unary_cont_closed supportUnary rightUnary rel)
               (cont_right_unit _)
 
+theorem OperatorIdealTraceClass_two_sided_absorption_row {A T left right : BHist} :
+    UnaryHistory A -> OperatorIdealTraceClassCarrier T -> Cont A T left -> Cont T A right ->
+      OperatorIdealTraceClassCarrier left ∧ OperatorIdealTraceClassCarrier right := by
+  intro unaryA carrierT leftCont rightCont
+  have leftAction : OperatorIdealBoundedContextAction T left :=
+    OperatorIdealBoundedContextAction.left unaryA
+      (OperatorIdealBoundedContextAction.id (T := T)) leftCont
+  have rightAction : OperatorIdealBoundedContextAction T right :=
+    OperatorIdealBoundedContextAction.right unaryA
+      (OperatorIdealBoundedContextAction.id (T := T)) rightCont
+  exact And.intro
+    (OperatorIdealTraceClass_finite_context_closure carrierT leftAction)
+    (OperatorIdealTraceClass_finite_context_closure carrierT rightAction)
+
 end BEDC.Derived.OperatorIdealUp

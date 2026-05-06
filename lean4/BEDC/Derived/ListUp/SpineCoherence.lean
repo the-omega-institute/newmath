@@ -5,6 +5,13 @@ namespace BEDC.Derived.ListUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+def ListConsBoundaryCoherent (A : BHist -> Prop)
+    (Rel : BHist -> BHist -> BHist -> Prop) : Prop :=
+  forall {m a a' t t' p p' : BHist} {xs xs' : ListCarrier BHist},
+    A a -> A a' -> ListSpineRep A t xs -> ListSpineRep A t' xs' ->
+      Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+        hsame m (BHist.e1 p') -> Rel m a a' ∧ ListClassifierSpec (Rel m) xs xs'
+
 protected theorem ListSpineRep_coherent_from_cons_boundary {A : BHist -> Prop}
     {Rel : BHist -> BHist -> Prop}
     (boundary :
