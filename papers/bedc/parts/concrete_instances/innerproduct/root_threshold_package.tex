@@ -1,0 +1,108 @@
+\begin{definition}[InnerProduct root threshold source]
+\label{def:innerproduct-root-threshold-source}
+The $\InnerProductUp$ root threshold source is the
+$\mathsf{BHist}$-indexed package obtained from
+\autoref{def:innerproduct-root-dependency-surface} by exposing precisely the
+rows needed before any $\HilbertUp$ Banach or completeness data is attached.
+It consists of the displayed $\VecSpaceUp$ carrier and classifier, the scalar
+endpoint source retained from the vector-space and field side, the
+scalar-valued form row
+$$
+\langle-,-\rangle_{\InnerProductUp}:C_V\times C_V\to C_{\mathsf{scal}},
+$$
+the conjugate-symmetry row, the sesquilinearity rows, the
+positive-definite exactness row, classifier transport for the form endpoints,
+the orthogonality row of \autoref{def:innerproduct-orthogonality-row}, and the
+visible ledger recording which vector, scalar, form, law, transport, and
+orthogonality rows are present.
+
+This source is a root threshold because it is complete for the
+inner-product-side rows consumed downstream while excluding Banach
+completeness, Cauchy-limit selection, ambient topology, and any host
+Hilbert-space structure.
+\end{definition}
+
+\begin{theorem}[InnerProduct root threshold form exactness]
+\label{thm:innerproduct-root-threshold-form-exactness}
+The root threshold source of
+\autoref{def:innerproduct-root-threshold-source} exposes the full
+inner-product form exactness surface. Conjugate symmetry, sesquilinearity,
+form endpoint transport, and positive-definite zero classification are the
+law rows of the root surface, and the positive-definite row identifies
+$\langle x,x\rangle_{\InnerProductUp}$ with the scalar zero endpoint exactly
+when $x$ is classified with the displayed vector zero.
+\end{theorem}
+\begin{proof}
+Read the form and law entries from
+\autoref{thm:innerproduct-root-form-law-exposure}. This theorem identifies
+conjugate symmetry, sesquilinearity, positive definiteness, and form endpoint
+transport as the exposed law interface of
+\autoref{def:innerproduct-root-dependency-surface}.
+
+The threshold source of \autoref{def:innerproduct-root-threshold-source} is
+the same root surface with the downstream rows named explicitly, so these
+form and transport rows are present in the threshold source.
+
+For the exact zero criterion, apply
+\autoref{thm:innerproduct-positive-definite-obligation}. It supplies the
+positive-definite row saying that the self-form scalar endpoint is classified
+as zero precisely in the displayed vector-zero case. This is the
+positive-definite exactness component listed in the threshold source.
+\end{proof}
+
+\begin{theorem}[InnerProduct root threshold orthogonality consumption]
+\label{thm:innerproduct-root-threshold-orthogonality-consumption}
+When $\HilbertUp$ consumes the inner-product side of the root threshold
+source, its geometric input is exhausted by the scalar-valued form rows and
+the orthogonality row derived from them. Its Banach metric, completeness, and
+Cauchy-limit rows come from the separate $\BanachUp$ dependency, not from the
+$\InnerProductUp$ threshold source.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:innerproduct-root-hilbert-consumption-surface}. It states
+that $\HilbertUp$ may read the root inner-product surface together with a
+separate Banach and completeness row.
+
+Inside the root threshold source, the Hilbert-facing geometric rows are the
+scalar-valued form, its law rows, classifier transport, and the
+orthogonality predicate of \autoref{def:innerproduct-orthogonality-row}. The
+orthogonality predicate is defined by scalar-zero classification of the form,
+so no independent host orthogonality relation is consumed.
+
+The same consumption theorem separates completeness and Cauchy-limit
+selection from $\InnerProductUp$. Those rows must be supplied by the Banach
+dependency, so they are outside the threshold source of
+\autoref{def:innerproduct-root-threshold-source}.
+\end{proof}
+
+\begin{theorem}[InnerProduct root threshold downstream coverage]
+\label{thm:innerproduct-root-threshold-downstream-coverage}
+The downstream interfaces $\HilbertUp$, $\FourierUp$,
+$\RiemannianMetricUp$, and $\RootSystemUp$ receive the inner-product rows
+they are allowed to consume from the single threshold source of
+\autoref{def:innerproduct-root-threshold-source}. The named threshold rows
+are the $\VecSpaceUp$ carrier and classifier, scalar endpoint source, form
+row, conjugate-symmetry row, sesquilinearity rows, positive-definite
+exactness row, classifier-transport row, orthogonality row, and visible
+ledger. No downstream consumer receives Banach completeness, Cauchy-limit
+selection, ambient topology, or a host Hilbert-space row from this source.
+\end{theorem}
+\begin{proof}
+For $\HilbertUp$, use
+\autoref{thm:innerproduct-root-threshold-orthogonality-consumption}. Its
+inner-product-side input is the form, law, transport, orthogonality, and
+ledger surface of the threshold source, while Banach and completeness rows
+come from the separate dependency.
+
+For $\FourierUp$, $\RiemannianMetricUp$, and $\RootSystemUp$, apply
+\autoref{thm:innerproduct-root-hilbert-consumption-surface} to the
+non-Hilbert consumers named there. They may consume only the vector, scalar,
+form, law, and ledger rows of the same root surface.
+
+Finally use the definition of
+\autoref{def:innerproduct-root-threshold-source} to read those rows as one
+package. Since the definition lists no Banach metric, completeness field,
+Cauchy-limit selector, ambient topology, or host Hilbert-space row, none of
+the four downstream interfaces can receive such a row from this threshold
+source.
+\end{proof}
