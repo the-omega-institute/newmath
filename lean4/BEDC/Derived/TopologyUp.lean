@@ -103,6 +103,23 @@ theorem BHistUnaryTopologyLedgerRow_classifier_transport (T : BHistIndexedOpenCa
   | top ledger unaryLedger carries =>
       exact BHistCarriesOpen_classifier_transport T carries
 
+theorem BHistCarriesOpen_membership_transport_route (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} {x y : BHist} :
+    BHistCarriesOpen T i U -> UnaryHistory x -> UnaryHistory y -> hsame x y -> U x ->
+      T.OpenAt i x ∧ T.OpenAt i y ∧ U y := by
+  intro carries unaryX unaryY sameXY ux
+  have carryX : U x <-> T.OpenAt i x :=
+    carries unaryX
+  have carryY : U y <-> T.OpenAt i y :=
+    carries unaryY
+  have stable : T.OpenAt i x <-> T.OpenAt i y :=
+    T.membership_stable unaryX unaryY sameXY
+  have openX : T.OpenAt i x :=
+    Iff.mp carryX ux
+  have openY : T.OpenAt i y :=
+    Iff.mp stable openX
+  exact And.intro openX (And.intro openY (Iff.mpr carryY openY))
+
 
 theorem BHistFiniteBaseNeighborhood_bundleAppend_carries_intersection
     (T : BHistIndexedOpenCarrier) (left right : ProbeBundle BHist)
@@ -321,5 +338,18 @@ theorem TopologySingleton_public_open_row_coverage :
         TopologySingletonCarrier :=
     BHistUnaryTopologyLedgerRow.top BHist.Empty unary_empty topCarries
   exact And.intro (And.intro bottomRow bottomCarries) (And.intro topRow topCarries)
+
+theorem BHistGeneratedOpenExact_public_open_witness (T : BHistIndexedOpenCarrier)
+    {U : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      exists i : T.OpenIx, exists ledger : BHist,
+        hsame ledger BHist.Empty ∧ BHistCarriesOpen T i U ∧ TopologyPublicOpenTree T i U := by
+  intro generated
+  cases generated with
+  | intro i carries =>
+      exact Exists.intro i
+        (Exists.intro BHist.Empty
+          (And.intro (hsame_refl BHist.Empty)
+            (And.intro carries (TopologyPublicOpenTree.basic carries))))
 
 end BEDC.Derived.TopologyUp
