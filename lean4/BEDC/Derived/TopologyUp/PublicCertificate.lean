@@ -280,4 +280,19 @@ theorem BHistLedgerPublicOpenTree_semantic_name_certificate (T : BHistIndexedOpe
       exact And.intro tree (Iff.mp (carries sourceH.left) sourceH.right)
   }
 
+theorem BHistLedgerPublicOpenTree_downstream_export_surface
+    (T : BHistIndexedOpenCarrier) {i : T.OpenIx} {U : BHist -> Prop} {ledger : BHist}
+    (tree : BHistLedgerPublicOpenTree T i U ledger)
+    (source : exists h : BHist, UnaryHistory h ∧ U h) :
+    SemanticNameCert (fun h : BHist => UnaryHistory h ∧ U h)
+      (fun h : BHist => T.OpenAt i h)
+      (fun h : BHist => BHistLedgerPublicOpenTree T i U ledger ∧ T.OpenAt i h)
+      (fun h k : BHist => UnaryHistory h ∧ UnaryHistory k ∧ hsame h k) ∧
+    BHistCarriesOpen T i U ∧
+    (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y)) := by
+  have carries : BHistCarriesOpen T i U := BHistPublicOpenTree_carries_open T tree
+  exact And.intro (BHistLedgerPublicOpenTree_semantic_name_certificate T tree source)
+    (And.intro carries
+      (BHistPublicOpenTree_unary_membership_transport T tree))
+
 end BEDC.Derived.TopologyUp

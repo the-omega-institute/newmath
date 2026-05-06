@@ -1,0 +1,126 @@
+\begin{definition}[Measure root regular value package]
+\label{def:measure-root-regular-value-package}
+A $\MeasureUp$ root regular value package is the following ten-field package.
+\begin{enumerate}
+  \item The traditional target is the finite regular measure-value surface:
+  finitely many measurable events, finite additivity on pairwise-disjoint
+  displayed supports, and zero absorption for null rows.
+  \item The BEDC source is $\MeasureUp$ over $\mathsf{BHist}$, with its
+  public event ledger read through $\NameCert_{\MeasureUp}$.
+  \item The endpoint source is $\RealUp$, using the value classifier
+  $\sim_R$ of \autoref{def:real-classifier-specification} and the additive
+  $\AbGroupUp$ row with zero endpoint $0_R$.
+  \item The countable row source is the $\StreamNameUp$ endpoint-family row
+  used to display countable measurable sequences and countable $\RealUp$
+  sum endpoints.
+  \item The carrier is a measurable-event predicate
+  $\mathcal{A}(h,E)$ on carried histories $h:\mathsf{BHist}$, together with a
+  finite displayed support spine $E_0,\ldots,E_{n-1}$.
+  \item The classifier transports the event spine by the $\MeasureUp$ event
+  classifier and transports the displayed values $\mu_h(E_i)$ by the
+  $\RealUp$ value classifier.
+  \item The stability obligations are finite additivity on pairwise-disjoint
+  displayed supports, zero and null-event absorption rows, carrier transport,
+  and countable-tail readback for finite-support sequences.
+  \item The ledger records the hidden support enumeration and the all-zero
+  tail after the displayed finite spine.
+  \item Exactness consists of finite coverage of every displayed support row,
+  soundness of each measured row against the $\MeasureUp$ carrier, and
+  completeness of the finite value endpoint against the displayed support.
+  \item The package status is $(\seedClosure,\formalTargetV)$: the paper
+  declares the root target shape, and no Lean marker is attached at this site.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Measure root finite regular value closure]
+\label{thm:measure-root-finite-regular-value-closure}
+Let $h:\mathsf{BHist}$ be carried by the $\MeasureUp$ surface, and let
+$E_0,\ldots,E_{n-1}$ be a finite displayed support spine of pairwise-disjoint
+measurable events in the $h$-fiber. Suppose the $\MeasureUp$ certificate
+supplies the existing finite-additivity row, the canonical countable-zero-tail
+row, and the root public countable-additivity threshold for the corresponding
+finite-support $\StreamNameUp$ sequence. Then the displayed values
+$\mu_h(E_0),\ldots,\mu_h(E_{n-1})$ and their finite $\RealUp$ endpoint form a
+carried root regular value package in the sense of
+\autoref{def:measure-root-regular-value-package}.
+\end{theorem}
+\begin{proof}
+First build the carrier spine. The hypotheses give measurable rows for every
+$E_i$, pairwise disjointness on the displayed finite support, and the
+finite-support $\StreamNameUp$ sequence whose tail is constantly empty.
+
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} along the finite
+spine. This gives the binary finite-additivity comparisons needed to fold the
+visible support values into one $\RealUp$ endpoint.
+
+Next read the countable presentation. By
+\autoref{thm:measure-countable-zero-tail-canonical}, the hidden tail after the
+finite support is classified with $0_R$, so the finite endpoint and the
+countable $\StreamNameUp$ endpoint name the same value under $\sim_R$.
+
+Finally apply
+\autoref{thm:measure-root-public-countable-additivity-threshold}. The public
+root threshold supplies the countable-additivity comparison for the carried
+sequence, and its coverage rows identify the displayed spine as the complete
+support ledger. These rows are exactly the carrier, classifier, stability,
+ledger, and exactness fields of
+\autoref{def:measure-root-regular-value-package}.
+\end{proof}
+
+\begin{theorem}[Measure root null absorption regularity]
+\label{thm:measure-root-null-absorption-regularity}
+Let a carried root regular value package be displayed over a finite
+pairwise-disjoint measurable support spine. If a further measurable event
+$N$ is classified by $\MeasureUp$ with the zero $\RealUp$ value $0_R$ and is
+disjoint from the displayed support, then adjoining $N$ preserves the same
+regular package endpoint under the $\MeasureUp$ value classifier.
+\end{theorem}
+\begin{proof}
+Start with the displayed package endpoint and the additional measurable row
+for $N$. The disjointness hypothesis makes the enlarged support spine a
+legitimate finite measurable spine in the same $\MeasureUp$ carrier.
+
+Apply \autoref{thm:measure-null-event-addition-neutral}. It identifies the
+finite endpoint after adjoining the null row with the original endpoint under
+the $\RealUp$ classifier.
+
+The zero endpoint used by that neutral row is grounded by
+\autoref{thm:measure-empty-set-zero-from-sigma-additivity}. This keeps the
+added value inside the same $\MeasureUp$ and $\RealUp$ package rows rather
+than introducing a separate analytic zero object.
+
+Finally use the carrier and classifier transport supplied by
+\autoref{thm:measure-carrier-and-classifier-stability}. The transported
+event witness and the transported value witness keep the enlarged spine on
+the same root regular value package endpoint.
+\end{proof}
+
+\begin{theorem}[Measure root regular value downstream package]
+\label{thm:measure-root-regular-value-downstream-package}
+Every carried root regular value package supplies the event row, the
+$\RealUp$ endpoint row, and the zero-tail countable-additivity row required by
+the $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consumer
+surfaces.
+\end{theorem}
+\begin{proof}
+Project the package fields of
+\autoref{def:measure-root-regular-value-package}. The carrier field gives the
+finite measurable-event ledger, the endpoint field gives the classified
+$\RealUp$ values, and the ledger field gives the hidden zero tail for the
+finite-support countable presentation.
+
+Apply \autoref{thm:measure-integral-consumer-rows}. The integral surface
+reads exactly the covered measurable-event rows, $\RealUp$ endpoint rows,
+countable-sum endpoint rows, head-tail readback rows, and finite
+disjoint-union readback rows.
+
+Apply \autoref{thm:measure-probability-consumer-rows}. The probability
+surface reads the empty-zero and finite disjoint-union rows already present in
+the same regular package.
+
+Apply \autoref{thm:measure-functionalanalysis-consumer-rows}. The
+functional-analysis surface reads the countable-sum classifier row and the
+endpoint order rows through the same $\MeasureUp$ carrier and $\RealUp$
+classifier. Therefore the regular value package supplies the common root rows
+needed by all three downstream consumers.
+\end{proof}
