@@ -1,0 +1,84 @@
+\section*{Zero BHist Terminal Standard Bridge}
+
+\begin{definition}[Zero BHist terminal standard measure reference]
+\label{def:measure-zero-bhist-terminal-standard-reference}
+The terminal standard measure reference for the zero $\mathsf{BHist}$
+$\MeasureUp$ surface is the one-row host-facing reference
+$T_{\mu=0}^{\ast}$. It has one visible event $\ast_E$, one visible value
+$0_T$, and one accepted history representative. Every event classifier in
+$T_{\mu=0}^{\ast}$ is terminal:
+$$
+\ast_E\sim_T\ast_E.
+$$
+The value map sends the unique event to $0_T$. Every displayed countable
+disjoint family in $T_{\mu=0}^{\ast}$ is read back to the same row: each member,
+its countable union, and the selected countable sum all have value $0_T$.
+
+The bridge ledger for $T_{\mu=0}^{\ast}$ is limited to the public zero
+$\mathsf{BHist}$ $\MeasureUp$ rows already displayed in
+\autoref{def:measure-zero-bhist-surface} and
+\autoref{def:measure-zero-bhist-exactness-surface}: the carried history is the
+empty $\mathsf{BHist}$ row, the event inventory is the singleton empty-event
+row, all union and disjointness rows are the same singleton row, the value
+endpoint is $0_R$, and the countable-sum endpoint is the constant $0_R$ row.
+\end{definition}
+
+\begin{theorem}[Zero BHist terminal standard bridge]
+\label{thm:measure-zero-bhist-terminal-standard-bridge}
+The public zero $\mathsf{BHist}$ $\MeasureUp$ NameCert surface of
+\autoref{thm:measure-zero-bhist-namecert-package} interprets in the terminal
+standard reference of
+\autoref{def:measure-zero-bhist-terminal-standard-reference}. Conversely, that
+terminal reference maps back to the same zero $\mathsf{BHist}$ carrier,
+classifier, zero event value, countable-additivity readback, exactness rows,
+and ledger rows displayed by the public $\MeasureUp$ surface. The bridge uses
+only the classifier rows on those displayed carriers; it does not assert host
+set equality, quotient event equality, analytic completion, or sigma-complete
+measure theory.
+\end{theorem}
+\begin{proof}
+For the BEDC-to-standard direction, apply the zero $\mathsf{BHist}$ surface of
+\autoref{def:measure-zero-bhist-surface}. The carrier row is
+$\mathsf{ZeroMeasureCode}(h)\Longleftrightarrow\hsame(h,\emp)$, the event
+inventory is the singleton empty-event row, and the value endpoint is always
+$0_R$. The carrier and classifier transport required to encode this surface in
+$T_{\mu=0}^{\ast}$ is exactly
+\autoref{thm:measure-zero-bhist-carrier-classifier-stability}.
+
+The countable-additivity field is read from
+\autoref{thm:measure-zero-bhist-sigma-additivity}. Since the terminal reference
+has one event row and one value row, a displayed countable disjoint family has
+only the constant empty-event presentation. Its countable union and selected
+countable sum therefore read back to the same zero row.
+
+For the standard-to-BEDC direction, choose the empty $\mathsf{BHist}$ carrier,
+the singleton empty-event row, and the constant $0_R$ endpoint for the unique
+standard event and value. Apply
+\autoref{thm:measure-zero-bhist-event-row-coverage} to cover every measurable,
+empty, binary-union, countable-union, disjointness, value, and countable-sum
+ledger row by that singleton surface.
+
+Exactness and NameCert preservation are the rows of
+\autoref{thm:measure-zero-bhist-concrete-exactness-package} and
+\autoref{thm:measure-zero-bhist-namecert-package}. The former packages event
+coverage, countable-sum classifier stability, carrier stability,
+sigma-additivity, and the NameCert rows into the concrete root surface; the
+latter is the public semantic certificate named by the $\MeasureUp$ export.
+
+Thus coverage, soundness, completeness, and ledger preservation are projections
+of the displayed zero rows. The bridge has no place to import host
+sigma-algebras, quotient events, analytic completions, or host set equality:
+the terminal reference has only $\ast_E$ and $0_T$, and every round-trip is the
+same classifier-mediated singleton row already present on the public
+$\MeasureUp$ surface.
+\end{proof}
+
+\begin{closurestatus}{\MeasureUp}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridged scope is exactly the zero-$\mathsf{BHist}$ public $\MeasureUp$ surface and its terminal standard measure reference, with carrier, classifier, zero event value, countable-additivity readback, exactness, ledger preservation, and the paper bridge of \autoref{thm:measure-zero-bhist-terminal-standard-bridge}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MeasureUp.MeasureZeroBHist\_semantic\_name\_certificate}
+  \bridgestatus{paperBridge}
+  \notclaimed{This block does not close full measure theory, host sigma-algebras, quotient event equality, analytic completion, probability spaces, or open-cover compactness.}
+  \upgradepath{Mature closure requires non-terminal examples and analysis consumer bridges.}
+\end{closurestatus}
