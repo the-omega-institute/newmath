@@ -67,6 +67,17 @@ theorem OperatorIdealTraceClass_two_sided_absorption_row {A T left right : BHist
     (OperatorIdealTraceClass_finite_context_closure carrierT leftAction)
     (OperatorIdealTraceClass_finite_context_closure carrierT rightAction)
 
+theorem OperatorIdealTraceClass_scalar_closure {a T result : BHist} :
+    UnaryHistory a -> OperatorIdealTraceClassCarrier T -> Cont a T result ->
+      OperatorIdealTraceClassCarrier result ∧ OperatorIdealBoundedContextAction T result := by
+  intro unaryA carrierT scalarCont
+  have scalarAction : OperatorIdealBoundedContextAction T result :=
+    OperatorIdealBoundedContextAction.left unaryA
+      (OperatorIdealBoundedContextAction.id (T := T)) scalarCont
+  exact And.intro
+    (OperatorIdealTraceClass_finite_context_closure carrierT scalarAction)
+    scalarAction
+
 theorem OperatorIdealTraceClass_binary_linear_combination_closure
     {a b T S aT bS result : BHist} :
     UnaryHistory a -> UnaryHistory b -> OperatorIdealTraceClassCarrier T ->
