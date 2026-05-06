@@ -31,6 +31,7 @@ import subprocess
 import codex_orchestrator
 import killo_golden_writeback
 import board_spawn
+import board_context
 from locks import file_lock
 from oracle_client import (
     BOARD_PATH,
@@ -105,8 +106,7 @@ def _now_tag() -> str:
 
 
 def _board_text() -> str:
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    return text[:BOARD_INCLUDE_LIMIT]
+    return board_context.build_board_prompt_context(max_chars=BOARD_INCLUDE_LIMIT)
 
 
 def _completed_summary() -> str:
