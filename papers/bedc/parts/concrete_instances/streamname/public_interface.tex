@@ -218,12 +218,60 @@ interface package, not a $\RealUp$ completion theorem or a $\RegSeqRat$
 regularity theorem.
 \end{proof}
 
+\begin{theorem}[StreamNameUp ordinary rational sequence bridge]
+\label{thm:streamname-standard-sequence-bridge}
+The public $\StreamNameUp$ rows over $\mathsf{BHist}$ admit a conservative
+ordinary-sequence interpretation indexed by certified unary observations.  In
+that interpretation, a stream is in
+$\mathsf{RatStreamNameCarrier}$ exactly when every indexed history lies in the
+pointwise $\RatUp$ carrier row, and two streams are related by
+$\mathsf{RatStreamNameClassifier}$ exactly when every indexed pair is related
+by the pointwise $\RatUp$ classifier row.  The finite-window classifier
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ is interpreted by the bundled
+finite prefix with the same pointwise classifier rows, with the empty prefix
+covered by the public vacuity law.  Constant streams and certified unary
+reindexing commute with this interpretation, and finite-window restriction is
+the ordinary prefix restriction of the same indexed rational-history sequence.
+
+The interpretation is conservative: it adds no quotient, completion, metric,
+or $\RealUp$ completeness claim beyond the public $\StreamNameUp$ package.
+\end{theorem}
+
+\begin{proof}
+Unpack \autoref{def:rat-stream-name-carrier} and
+\autoref{def:rat-stream-name-classifier}.  Their rows already describe an
+indexed family of rational histories together with the pointwise
+$\RatUp$ carrier and classifier obligations, so the ordinary-sequence carrier
+and classifier are obtained by reading those fields componentwise.
+
+Apply \autoref{thm:streamname-public-countable-name-interface}.  It supplies
+the public carrier/classifier rows, constant streams, unary reindexing, RatUp
+preserving maps, and reindexing composition.  These clauses give exactly the
+commutation laws for constants and certified unary reindexing under the
+ordinary-sequence reading.
+
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It supplies
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ together with finite-window
+restriction, coverage/exhaustion, certified reindexing and point-map coverage,
+selected endpoints, and finite-window stability.  The bundled finite prefix is
+therefore the ordinary prefix of the same indexed rational-history sequence,
+with the same pointwise classifier rows.
+
+Apply \autoref{thm:streamname-public-empty-window-vacuity} for the empty
+prefix case.  Finally apply
+\autoref{thm:streamname-public-interface-export-package} to identify these
+countable-name and finite-window rows as the full public $\StreamNameUp$
+package.  Since that package explicitly excludes RegSeqRat regularity,
+$\RealUp$ completion and completeness, metric completeness, arithmetic/order
+closure, and extra bridge structure, the interpretation is conservative.
+\end{proof}
+
 \begin{closurestatus}{\StreamNameUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:streamname-public-interface-export-package} gives the public $\StreamNameUp$ export over RatUp observations: pointwise carrier/classifier rows, reindexing stability, constant streams, finite-window coverage/exhaustion, selected endpoint packages, empty-window vacuity, and finite-window stability.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:streamname-public-interface-export-package} gives the public $\StreamNameUp$ export, and \autoref{thm:streamname-standard-sequence-bridge} interprets that export conservatively as ordinary rational-history sequences indexed by certified unary observations.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields}
-  \bridgestatus{none}
-  \notclaimed{Dyadic regular Cauchy completion, full RealUp arithmetic/order, metric completeness, standard-bridge data, or general compact/continuous-map theory.}
-  \upgradepath{$\bridgedClosure$ requires a conservative standard bridge for the public $\StreamNameUp$ export.}
+  \bridgestatus{paperBridge}
+  \notclaimed{Dyadic regular Cauchy completion, full RealUp arithmetic/order, metric completeness, machine-checked standard-bridge data, or general compact/continuous-map theory.}
+  \upgradepath{A stronger package would require checked bridge data and the omitted RegSeqRat, RealUp completion, metric, arithmetic/order, and compact-map layers.}
 \end{closurestatus}
