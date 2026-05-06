@@ -175,6 +175,18 @@ theorem RealAnalyticLog_hsame_transport_value_unary {x x' logValue logValue' : B
     (And.intro xCarrier' (And.intro limitValue' bisectUnary'))
     (ComplexHistoryCarrier_unary limitValue'.right.left)
 
+theorem RealAnalyticSuppliedLimitConsumption_boundary {s t N M : BHist -> BHist}
+    {r r' : BHist} :
+    (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->
+      hsame r r' -> ComplexLimit s N r M ->
+        ComplexLimit t N r' M ∧ ComplexHistoryCarrier r' := by
+  intro pointwise sameLimit limit
+  have transportedSequence : ComplexLimit t N r M :=
+    ComplexLimit_sequence_hsame_transport pointwise limit
+  have transportedLimit : ComplexLimit t N r' M :=
+    ComplexLimit_hsame_transport sameLimit transportedSequence
+  exact And.intro transportedLimit transportedLimit.right.left
+
 def RealAnalyticExp (x bound modulus y : BHist) : Prop :=
   ComplexHistoryCarrier x ∧ UnaryHistory bound ∧ UnaryHistory modulus ∧
     exists n S : BHist, UnaryHistory n ∧ RealAnalyticExpPart x n S ∧ Cont S modulus y
