@@ -1,0 +1,177 @@
+\section{Two-vector Gram boundary}
+\label{sec:innerproduct-two-vector-gram-boundary}
+
+\begin{definition}[InnerProduct two-vector Gram source]
+\label{def:innerproduct-two-vector-gram-source}
+The $\InnerProductUp$ two-vector Gram source is the $\mathsf{BHist}$ package
+obtained from \autoref{def:innerproduct-consumer-threshold-source} by fixing
+two carried vector endpoints $x,y:C_V$ and retaining the four scalar
+endpoints
+$$
+\langle x,x\rangle_{\InnerProductUp},\qquad
+\langle x,y\rangle_{\InnerProductUp},\qquad
+\langle y,x\rangle_{\InnerProductUp},\qquad
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+It has the following rows:
+\begin{enumerate}
+  \item vector carrier rows for the displayed endpoints $x$ and $y$ in the
+  carrier $C_V$ of \autoref{def:innerproduct-bhist-carrier};
+  \item vector classifier rows comparing replacement endpoints by the
+  displayed classifier $\sim_V$;
+  \item scalar classifier rows for the four displayed form values in the
+  retained scalar endpoint source;
+  \item form transport rows for each of the four ordered pairs $(x,x)$,
+  $(x,y)$, $(y,x)$, and $(y,y)$;
+  \item conjugate-symmetry rows identifying the two off-diagonal endpoints
+  through the retained scalar classifier and scalar conjugation;
+  \item diagonal positivity rows for the two self-values;
+  \item orthogonality rows reading the scalar-zero classification of
+  $\langle x,y\rangle_{\InnerProductUp}$ and
+  $\langle y,x\rangle_{\InnerProductUp}$;
+  \item ledger rows recording exactly the vector, scalar, form, transport,
+  conjugate-symmetry, positivity, and orthogonality sources used above.
+\end{enumerate}
+The source does not contain a host matrix, determinant, spectral row,
+topology, Banach completeness row, Cauchy-limit selector, or ambient
+Hilbert-space carrier. It is only the two-vector scalar-form packet exposed
+by the $\mathsf{BHist}$ inner-product source.
+\end{definition}
+
+\begin{theorem}[InnerProduct Gram carrier transport]
+\label{thm:innerproduct-gram-carrier-transport}
+Let $I$ be an $\InnerProductUp$ $\mathsf{BHist}$ source and let
+$x,y,x',y':C_V$ be carried vector endpoints. If $x\sim_V x'$ and
+$y\sim_V y'$, then every scalar endpoint in the two-vector Gram source
+transports through the retained scalar classifier:
+$$
+\langle x,x\rangle_{\InnerProductUp}
+\sim_{\mathsf{scal}}
+\langle x',x'\rangle_{\InnerProductUp},
+$$
+$$
+\langle x,y\rangle_{\InnerProductUp}
+\sim_{\mathsf{scal}}
+\langle x',y'\rangle_{\InnerProductUp},
+$$
+$$
+\langle y,x\rangle_{\InnerProductUp}
+\sim_{\mathsf{scal}}
+\langle y',x'\rangle_{\InnerProductUp},
+$$
+and
+$$
+\langle y,y\rangle_{\InnerProductUp}
+\sim_{\mathsf{scal}}
+\langle y',y'\rangle_{\InnerProductUp}.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two-vector Gram source of
+\autoref{def:innerproduct-two-vector-gram-source}. Its scalar endpoints are
+exactly the four ordered form evaluations displayed in the statement.
+
+For the first diagonal endpoint, apply
+\autoref{thm:innerproduct-classifier-transport-row} with the vector
+classifier witness $x\sim_V x'$ in both arguments. This transports
+$\langle x,x\rangle_{\InnerProductUp}$ to
+$\langle x',x'\rangle_{\InnerProductUp}$.
+
+For the first off-diagonal endpoint, apply
+\autoref{thm:innerproduct-classifier-transport-row} to $x\sim_V x'$ and
+$y\sim_V y'$. This transports
+$\langle x,y\rangle_{\InnerProductUp}$ to
+$\langle x',y'\rangle_{\InnerProductUp}$.
+
+For the reversed off-diagonal endpoint, apply the same transport row to
+$y\sim_V y'$ and $x\sim_V x'$. This transports
+$\langle y,x\rangle_{\InnerProductUp}$ to
+$\langle y',x'\rangle_{\InnerProductUp}$.
+
+For the second diagonal endpoint, apply the same transport row with
+$y\sim_V y'$ in both arguments. These four scalar classifier witnesses are
+precisely the form transport rows retained by the Gram source.
+\end{proof}
+
+\begin{theorem}[InnerProduct Gram symmetry and zero exactness]
+\label{thm:innerproduct-gram-symmetry-zero-exactness}
+For the two-vector Gram source of
+\autoref{def:innerproduct-two-vector-gram-source}, the off-diagonal
+scalar-zero rows are symmetric:
+$$
+\langle x,y\rangle_{\InnerProductUp}\sim_{\mathsf{scal}}0_{\mathsf{scal}}
+\quad\Longleftrightarrow\quad
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathsf{scal}}0_{\mathsf{scal}}.
+$$
+Its diagonal scalar-zero rows are exactly vector-zero classification:
+$$
+\langle x,x\rangle_{\InnerProductUp}\sim_{\mathsf{scal}}0_{\mathsf{scal}}
+\quad\Longleftrightarrow\quad
+x\sim_V 0_V,
+$$
+and
+$$
+\langle y,y\rangle_{\InnerProductUp}\sim_{\mathsf{scal}}0_{\mathsf{scal}}
+\quad\Longleftrightarrow\quad
+y\sim_V 0_V.
+$$
+\end{theorem}
+\begin{proof}
+For the off-diagonal row, unfold the orthogonality row
+\autoref{def:innerproduct-orthogonality-row}. The scalar-zero classification
+of $\langle x,y\rangle_{\InnerProductUp}$ is the assertion $x\perp_I y$, and
+the scalar-zero classification of $\langle y,x\rangle_{\InnerProductUp}$ is
+the assertion $y\perp_I x$.
+
+Apply \autoref{thm:innerproduct-orthogonality-symmetry-row}. It gives exactly
+$x\perp_I y$ if and only if $y\perp_I x$. Repacking through the displayed
+definition gives the symmetric off-diagonal zero row for the Gram source.
+
+For the $x$ diagonal row, identify
+$\langle x,x\rangle_{\InnerProductUp}$ with the norm-squared endpoint
+$\|x\|_{I}^{2}$ of \autoref{def:innerproduct-norm-metric-seed-source}. Then
+apply \autoref{thm:innerproduct-norm-zero-classifier-exactness} to obtain the
+equivalence with $x\sim_V 0_V$.
+
+For the $y$ diagonal row, use the same norm-squared seed with the endpoint
+$y$. A second application of
+\autoref{thm:innerproduct-norm-zero-classifier-exactness} gives the
+equivalence with $y\sim_V 0_V$. These are the two diagonal exactness rows
+retained by \autoref{def:innerproduct-two-vector-gram-source}.
+\end{proof}
+
+\begin{theorem}[InnerProduct Gram consumer boundary]
+\label{thm:innerproduct-gram-consumer-boundary}
+The downstream certificates $\HilbertUp$, $\FourierUp$,
+$\RiemannianMetricUp$, and $\RootSystemUp$ may consume from
+\autoref{def:innerproduct-two-vector-gram-source} only the two-vector
+carrier, the four scalar endpoints, the form transport rows, the
+conjugate-symmetry row, the positive-definite diagonal rows, the
+orthogonality rows, and the ledger rows. Banach completeness,
+Cauchy-limit selection, host Hilbert-space structure, determinants, and
+spectral rows are outside this Gram source.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:innerproduct-root-threshold-downstream-coverage}. It
+states that $\HilbertUp$, $\FourierUp$, $\RiemannianMetricUp$, and
+$\RootSystemUp$ receive only the vector, scalar, form, law, transport,
+orthogonality, and ledger rows of the root threshold source.
+
+Next apply
+\autoref{thm:innerproduct-consumer-hilbert-threshold-package}. It identifies
+the consumer-facing package as the same inner-product threshold surface and
+keeps Banach metric, completeness, topology, Cauchy-limit selection, and host
+Hilbert carrier data outside the $\InnerProductUp$ source.
+
+Inside that consumer-facing package, use
+\autoref{thm:innerproduct-gram-carrier-transport} for the four transported
+scalar endpoints and
+\autoref{thm:innerproduct-gram-symmetry-zero-exactness} for the symmetric
+off-diagonal zero row and the two diagonal zero-exactness rows.
+
+The definition of \autoref{def:innerproduct-two-vector-gram-source} lists no
+host matrix, determinant, spectral row, topology, completeness row,
+Cauchy-limit selector, or ambient Hilbert-space carrier. Therefore the named
+downstream certificates can cite this source only for the two-vector
+scalar-form packet and its displayed ledger.
+\end{proof}
