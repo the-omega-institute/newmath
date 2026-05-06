@@ -45,6 +45,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import board_context
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
@@ -113,8 +115,7 @@ def _has_refill_in_server(status: dict) -> bool:
 
 
 def _board_content() -> str:
-    p = SCRIPT_DIR / "BOARD.md"
-    return p.read_text(encoding="utf-8") if p.exists() else "(empty)"
+    return board_context.build_board_prompt_context()
 
 
 def _scan_paper_labels(limit: int = 600) -> str:
@@ -190,7 +191,7 @@ def build_refill_prompt() -> str:
     board = _board_content()
     labels = _scan_paper_labels()
     return template.format(
-        board_content=_safe(board[:30000]),
+        board_content=_safe(board),
         paper_labels=_safe(labels),
     )
 

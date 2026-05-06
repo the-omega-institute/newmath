@@ -162,6 +162,12 @@ def stale_cleanup() -> int:
     return cleanup_stale_claims()
 
 
+def board_archive_completed() -> int:
+    import board_archive
+    result = board_archive.prune_completed_board()
+    return result.moved
+
+
 def crash_retry_sweep() -> int:
     from lifecycle import reset_retriable
     return reset_retriable()
@@ -540,19 +546,19 @@ def trigger_paper_review(*, no_dev_sync: bool = False) -> None:
 
 
 def trigger_oracle_board_refill() -> None:
-    """Ask oracle (with project-attached PDF) for new BOARD candidates.
+    """Ask oracle in the BEDC Project for new BOARD candidates.
 
     Complementary to auto_discovery probe: probe finds mechanical gaps via
-    codex static scan, oracle_board_refill leverages the full PDF + research
-    intuition to suggest deeper directions. Run when BOARD unfinished count
-    is low and probe alone isn't refilling.
+    codex static scan, oracle_board_refill uses the Project's attached paper
+    context plus research intuition to suggest deeper directions. Run when
+    BOARD unfinished count is low and probe alone isn't refilling.
     """
     supervisor_log("triggering oracle_board_refill")
     log_path = SUPERVISOR_LOG_DIR / f"refill_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(SCRIPT_DIR / "oracle_board_refill.py")],
+            ["python3", str(SCRIPT_DIR / "oracle_board_refill.py"), "--no-attach-pdf"],
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -631,7 +637,12 @@ def commit_and_push_if_changed() -> bool:
     # working tree.
     from locks import file_lock
     with file_lock("paper_writes"):
-        diff = _git(["status", "--porcelain", "papers/bedc/parts", "tools/bedc-deep/BOARD.md"])
+        diff = _git([
+            "status", "--porcelain",
+            "papers/bedc/parts",
+            "tools/bedc-deep/BOARD.md",
+            "tools/bedc-deep/BOARD.completed.md",
+        ])
         if not diff.stdout.strip():
             return False
         files: list[str] = []
@@ -819,6 +830,10 @@ def main() -> int:
             cleaned = stale_cleanup()
             if cleaned:
                 supervisor_log(f"cleaned {cleaned} stale claims")
+
+            archived = board_archive_completed()
+            if archived:
+                supervisor_log(f"archived {archived} completed BOARD entries")
 
             retried = crash_retry_sweep()
             if retried:
