@@ -305,6 +305,7 @@ import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.LatticeUp.BoundUniqueness
+import BEDC.Derived.LatticeUp.Commutativity
 import BEDC.Derived.LatticeUp.DistributivityModular
 import BEDC.Derived.LatticeUp.DirectedBounds
 import BEDC.Derived.LatticeUp.MeetAbsorption
