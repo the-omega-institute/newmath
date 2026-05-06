@@ -71,8 +71,22 @@ theorem CompleteMetricLimitWitness_hsame_transport {X : BHist -> Prop}
             (hsame_refl d) distanceData.left,
           MetricDistanceWitness_cont_hsame_transport (streamTransport nUnary) sameLimit
             (hsame_refl d) distanceData.left,
-          RatHistoryClassifier_hsame_transport (hsame_refl d) (modulusTransport nUnary)
-            distanceData.right.right⟩
+        RatHistoryClassifier_hsame_transport (hsame_refl d) (modulusTransport nUnary)
+          distanceData.right.right⟩
+
+theorem CompleteMetricLimitWitness_tolerance_weakening {X : BHist -> Prop}
+    {s M eps : BHist -> BHist} {limit : BHist} :
+    (forall {n : BHist}, UnaryHistory n -> RatHistoryClassifier (M n) (eps n)) ->
+      CompleteMetricLimitWitness X s M limit ->
+        CompleteMetricLimitWitness X s eps limit := by
+  intro tolerance witness
+  constructor
+  · exact witness.left
+  · intro n nUnary source
+    cases witness.right nUnary source with
+    | intro d distanceData =>
+        exact ⟨d, distanceData.left, distanceData.right.left,
+          RatHistoryClassifier_trans distanceData.right.right (tolerance nUnary)⟩
 
 theorem CompleteMetricLimitWitness_distance_modulus_positive_denominators
     {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
