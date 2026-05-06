@@ -277,4 +277,69 @@ theorem DistributionPushforward_countable_disjoint_sigma_additivity
         (append_assoc x (DistributionPushforwardMassFold xs)
           (DistributionPushforwardMassFold right)).symm
 
+def DistributionPushforwardLayerPrefix (layers : Nat -> BHist) : Nat -> BHist
+  | Nat.zero => layers Nat.zero
+  | Nat.succ n => append (DistributionPushforwardLayerPrefix layers n) (layers (Nat.succ n))
+
+theorem DistributionPushforward_continuity_from_below_prefix_readback
+    {layers targetValues : Nat -> BHist} :
+    (forall n : Nat, UnaryHistory (layers n)) ->
+      (forall n : Nat, hsame (targetValues n) (DistributionPushforwardLayerPrefix layers n)) ->
+        forall n : Nat,
+          UnaryHistory (DistributionPushforwardLayerPrefix layers n) ∧
+            hsame (targetValues n) (DistributionPushforwardLayerPrefix layers n) ∧
+              PreorderPrefixLE (targetValues n) (targetValues (Nat.succ n)) := by
+  intro layersUnary targetReadback n
+  induction n with
+  | zero =>
+      have prefixUnary :
+          UnaryHistory (DistributionPushforwardLayerPrefix layers Nat.zero) :=
+        layersUnary Nat.zero
+      have currentReadback :
+          hsame (targetValues Nat.zero)
+            (DistributionPushforwardLayerPrefix layers Nat.zero) :=
+        targetReadback Nat.zero
+      have nextReadback :
+          hsame (targetValues (Nat.succ Nat.zero))
+            (DistributionPushforwardLayerPrefix layers (Nat.succ Nat.zero)) :=
+        targetReadback (Nat.succ Nat.zero)
+      have nextStep :
+          Cont (DistributionPushforwardLayerPrefix layers Nat.zero)
+            (layers (Nat.succ Nat.zero))
+            (DistributionPushforwardLayerPrefix layers (Nat.succ Nat.zero)) :=
+        cont_intro rfl
+      have prefixLE :
+          PreorderPrefixLE (targetValues Nat.zero) (targetValues (Nat.succ Nat.zero)) :=
+        Exists.intro (layers (Nat.succ Nat.zero))
+          (And.intro (layersUnary (Nat.succ Nat.zero))
+            (cont_hsame_transport (hsame_symm currentReadback)
+              (hsame_refl (layers (Nat.succ Nat.zero))) (hsame_symm nextReadback) nextStep))
+      exact And.intro prefixUnary (And.intro currentReadback prefixLE)
+  | succ n ih =>
+      have prefixUnary :
+          UnaryHistory (DistributionPushforwardLayerPrefix layers (Nat.succ n)) :=
+        unary_append_closed ih.left (layersUnary (Nat.succ n))
+      have currentReadback :
+          hsame (targetValues (Nat.succ n))
+            (DistributionPushforwardLayerPrefix layers (Nat.succ n)) :=
+        targetReadback (Nat.succ n)
+      have nextReadback :
+          hsame (targetValues (Nat.succ (Nat.succ n)))
+            (DistributionPushforwardLayerPrefix layers (Nat.succ (Nat.succ n))) :=
+        targetReadback (Nat.succ (Nat.succ n))
+      have nextStep :
+          Cont (DistributionPushforwardLayerPrefix layers (Nat.succ n))
+            (layers (Nat.succ (Nat.succ n)))
+            (DistributionPushforwardLayerPrefix layers (Nat.succ (Nat.succ n))) :=
+        cont_intro rfl
+      have prefixLE :
+          PreorderPrefixLE (targetValues (Nat.succ n))
+            (targetValues (Nat.succ (Nat.succ n))) :=
+        Exists.intro (layers (Nat.succ (Nat.succ n)))
+          (And.intro (layersUnary (Nat.succ (Nat.succ n)))
+            (cont_hsame_transport (hsame_symm currentReadback)
+              (hsame_refl (layers (Nat.succ (Nat.succ n)))) (hsame_symm nextReadback)
+              nextStep))
+      exact And.intro prefixUnary (And.intro currentReadback prefixLE)
+
 end BEDC.Derived.DistributionUp
