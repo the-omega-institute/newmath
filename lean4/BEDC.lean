@@ -146,7 +146,6 @@ import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ProdUp.EmptySourceExclusion
-import BEDC.Derived.BundleUp
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
@@ -211,6 +210,7 @@ import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
+import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
@@ -282,7 +282,6 @@ import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
-import BEDC.Derived.BundleUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -527,7 +526,6 @@ import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.CategoryUp.AssocEmptyResult
 import BEDC.Derived.CategoryUp.FourfoldAssoc
 import BEDC.Derived.CategoryUp.OppositeAssoc
-import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.FunctorUp
