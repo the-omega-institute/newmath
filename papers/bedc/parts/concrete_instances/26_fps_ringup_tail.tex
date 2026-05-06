@@ -58,6 +58,7 @@ $$
 F\odot_{\mathrm{fps}}1_{\mathrm{fps}}\sim_{\mathrm{fps}}F.
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyProduct\_unit\_laws}
 \begin{proof}
 The unit series is carried coefficientwise. At index $0$, the coefficient is $1_R$, carried by the multiplicative monoid source inside the $\RingUp$ certificate. At every successor index, the coefficient is $0_R$, carried by the zero endpoint row retained in \autoref{def:ring-stability-certificate}. The Cauchy-product closure row in \autoref{def:fps-stability-certificate} then carries both products.
 
@@ -167,6 +168,7 @@ $$
 N_n\sim_R -_R(F_n).
 $$
 \end{definition}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonCoeffwiseInverse}
 
 \begin{theorem}[FPS coefficientwise additive inverse zero laws]
 \label{thm:fps-coefficientwise-additive-inverse-zero-laws}
@@ -240,6 +242,7 @@ Apply \autoref{thm:fps-coefficientwise-additive-inverse-zero-laws} with $N=-_{\m
 
 Thus the ten fields just listed form a single concrete additive group interface for the downstream formal-power-series algebra layer: zero carrier, sum carrier, pointwise congruence, associativity, left zero, right zero, inverse carrier, inverse-data fit, right inverse-zero, and left inverse-zero.
 \end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonPointwiseAdditiveGroup\_laws}
 
 \begin{theorem}[FPS zero series absorbs Cauchy product over RingUp scalars]
 \label{thm:fps-zero-series-cauchy-product-absorption-over-ringup-scalars}
@@ -353,3 +356,13 @@ For the multiplicative spine, apply \autoref{thm:fps-cauchy-product-multiplicati
 
 The distributive rows are exactly the two conclusions of \autoref{thm:fps-cauchy-product-distributes-over-fps-addition}, read with the same pointwise addition and Cauchy product. The zero absorption rows are exactly \autoref{thm:fps-zero-series-cauchy-product-absorption-over-ringup-scalars}. Combining these four cited theorem rows yields the displayed RingUp-scoped tail package for downstream formal-power-series algebra.
 \end{proof}
+
+\begin{closurestatus}{\FormalPowerSeriesUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The FPS RingUp-tail package is closed exactly over $\RingUp$, $\NatUp$, the coefficientwise carrier, pointwise classifier, pointwise addition, coefficientwise inverse, Cauchy product, unit series, and finite-fold zero absorption rows displayed in this chapter.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FpsUp.FpsSingletonPointwiseAdditiveGroup\_laws}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic convergence, topology, completion, or bridges to standard formal-power-series libraries.}
+  \upgradepath{$\publicClosure$ requires one exported $\FormalPowerSeriesUp$ ring-interface theorem packaging the scoped rows.}
+\end{closurestatus}
