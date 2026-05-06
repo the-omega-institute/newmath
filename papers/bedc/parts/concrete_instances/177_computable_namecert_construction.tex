@@ -292,29 +292,32 @@ Apply \autoref{thm:computable-composition-bounded-simulation}. Its construction 
 It remains to record that the interface is still a partial graph interface. If a certified component accepts two outputs over the same unary input, \autoref{thm:computable-bounded-graph-single-valuedness} expands both accepted rows to simulations at the same ledger bound and applies output determinacy, yielding $\hsame$-classified outputs. Therefore the middle row used by the composite is determined up to the $\NatUp$ classifier, and the resulting accepted output row is controlled by the same single-valuedness clause instead of by an unconstrained relation.
 \end{proof}
 
-\begin{theorem}[Computable bounded graph scoped certificate surface]
-\label{thm:computable-bounded-graph-scoped-certificate-surface}
-A bounded $\ComputableUp$ graph certificate over $\NatUp$ has the following scoped public surface and no wider carrier surface inside this chapter. Its history objects are $\mathsf{BHist}$ rows consisting of unary source histories $n$, unary displayed bound histories $\beta_F(n)$, unary output histories $m$, and the $\SeqUp$ simulation trace indexed by the unary prefixes of $\beta_F(n)$. Its exactness field is exactly the displayed certificate equivalence
-$$
-  F(n,m)\Longleftrightarrow
-  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m),
-$$
-and its output classifier is single-valued up to $m\hsame m'$ for accepted outputs over the same unary source. The identity row is the bounded certificate for $\mathsf{Id}_{\NatUp}$, and composition is scoped by $\ContR$ phase boundaries between the displayed bounds of the two component traces.
+\begin{theorem}[Computable scoped bounded graph certificate surface]
+\label{thm:computable-scoped-bounded-graph-certificate-surface}
+A bounded $\ComputableUp$ graph certificate over a partial $\NatUp$ graph supplies the scoped certificate surface for the concrete BEDC objects $\UnaryHistory$, $\hsame$, $\SeqUp$, $\ContR$, $\mathsf{BoundedSim}$, and $\mathsf{ComputableBoundedGraphCertificate}$. For every certificate $(P_F,\beta_F)$ and every accepted row $F(n,m)$, the following rows are available at the displayed bound $\beta_F(n)$:
+\begin{enumerate}
+  \item carrier exposure: $\UnaryHistory(n)$, $\UnaryHistory(\beta_F(n))$, $\UnaryHistory(m)$, and the $\SeqUp$ trace used by $\mathsf{BoundedSim}(P_F,n,\beta_F(n),m)$;
+  \item classifier control: accepted outputs over the same unary input are single-valued up to $\hsame$, and the identity classifier is exactly the unary $\NatUp$ history classifier;
+  \item stability: the empty-bound identity certificate and bounded-simulation composition give identity and composition rows for certified partial graphs;
+  \item ledger exactness: graph membership is equivalent to $\mathsf{BoundedSim}(P_F,n,\beta_F(n),m)$ at the displayed certificate bound, with $\ContR$ recording the continuation row used by composition.
+\end{enumerate}
 \end{theorem}
 \begin{proof}
-The carrier scope is read from \autoref{def:computable-bounded-simulation-witness} and \autoref{def:computable-bounded-graph-certificate}. The first definition supplies the $\SeqUp$ trace over a unary prefix interval, while the second fixes the machine code $P_F$, the displayed bound modulus $\beta_F$, and the graph row being certified. Applying \autoref{thm:computable-bounded-graph-source-carrier-obligation} packages those data as $\mathsf{BHist}$ source, bound, trace, and output histories rather than as an unscoped host relation.
+The carrier row is \autoref{thm:computable-bounded-graph-source-carrier-obligation}. It exposes the unary source, displayed bound, output history, and $\SeqUp$ configuration trace from the bounded simulation witness, all at the certificate value $\beta_F(n)$.
 
-The classifier and ledger clauses are local to the same bounded certificate. \autoref{thm:computable-bounded-graph-classifier-stability-obligation} records transport through the $\NatUp$ history classifier, and \autoref{thm:computable-bounded-graph-ledger-exactness-obligation} records the exact iff with $\mathsf{BoundedSim}$ at the displayed value $\beta_F(n)$. Thus the surface exposes the certificate's own bound and trace; it does not quantify over hidden running times.
+The classifier row is \autoref{thm:computable-bounded-graph-classifier-stability-obligation} together with \autoref{thm:computable-bounded-graph-single-valuedness}. These results turn two accepted rows over the same certified source into $\hsame$-classified outputs. The identity classifier is supplied by \autoref{thm:computable-identity-bounded-graph-certificate}, whose empty-bound certificate realizes the graph $\mathsf{Id}_{\NatUp}$ through the unary history classifier.
 
-The operation rows are the checked rows already available in this section. \autoref{thm:computable-bounded-graph-single-valuedness} gives output single-valuedness up to $\hsame$. \autoref{thm:computable-identity-bounded-graph-certificate} supplies the identity through $\mathsf{Id}_{\NatUp}$. \autoref{thm:computable-composition-bounded-simulation} composes two bounded simulations by introducing the $\ContR$ phase boundary and concatenating the two $\SeqUp$ traces along that boundary. These clauses are exactly the carrier, exactness, classifier, identity, and composition surface stated above.
+The stability row uses the same identity certificate for the neutral graph and \autoref{thm:computable-composition-bounded-simulation} for composition. The composition theorem concatenates the two $\SeqUp$ traces along a $\ContR$ witness and returns a bounded simulation for the composite row.
+
+The ledger row is exactly \autoref{thm:computable-bounded-graph-ledger-exactness-obligation}. Its two directions identify the accepted graph row with $\mathsf{BoundedSim}(P_F,n,\beta_F(n),m)$ at the displayed bound, while the checked single-valuedness and identity certificate targets keep the ledger attached to a partial graph surface rather than to an unconstrained relation.
 \end{proof}
 
 \begin{closurestatus}{\ComputableUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:computable-bounded-graph-scoped-certificate-surface} binds the paper-side scope to BHist, UnaryHistory/NatUp, SeqUp traces, BoundedSim exactness, hsame output classification, identity, and ContR-composition rows.}
+  \scopeclosed{The closed scope is bounded graph certificates for partial $\NatUp$ graphs, with unary source, bound, and output histories, $\SeqUp$ simulation traces, $\hsame$ classifier control, and $\ContR$ composition witnesses.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ComputableUp.ComputableBoundedGraphCertificate\_single\_valuedness}
   \bridgestatus{none}
   \notclaimed{The chapter does not close total computability, universal machines, halting decidability, recursion theory, or standard bridge claims.}
-  \upgradepath{Public closure requires a public-object presentation for computable graphs and its standard bridge obligations.}
+  \upgradepath{Public closure requires a public computable-function surface and a standard bridge, not another scoped discharge for bounded graph certificates.}
 \end{closurestatus}
