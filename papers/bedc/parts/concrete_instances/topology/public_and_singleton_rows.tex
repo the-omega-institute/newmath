@@ -59,6 +59,7 @@ The transport claims can be read either from the two carrying equations and the 
 \label{thm:topology-namecert-obligation-package}
 Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$, equipped with indexed arbitrary-union witnesses for every indexed family of opens and indexed boundary open witnesses $\bot_{\TopologyUp}$ and $\top_{\TopologyUp}$. Then the following data assemble the paper-side $\NameCert_{\TopologyUp}$ obligation package: the carrier and membership-stability classifier of \autoref{def:topology-indexed-open-carrier}, the carried-predicate interface of \autoref{def:topology-indexed-open-carried-predicate}, the finite-intersection closure of \autoref{thm:topology-indexed-open-finite-intersection}, the arbitrary-union closure of \autoref{thm:topology-indexed-open-arbitrary-union}, the boundary-open closure of \autoref{thm:topology-indexed-open-boundary-closure}, and the visible ledger policy recording the chosen open index, its carrying equation, and the constructor row used to obtain it.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.TopologyPublicOpenTree\_semantic\_name\_certificate}
 \begin{proof}
 The carrier row is $\mathcal{T}$ itself: it supplies $X$, $\mathsf{same}_X$, $\mathsf{OpenIx}$, $\mathsf{OpenAt}$, finite-intersection indexing, and pointwise membership stability. The carried-predicate row is exactly \autoref{def:topology-indexed-open-carried-predicate}, so every public open is represented by an index together with its pointwise carrying equation.
 
@@ -314,6 +315,7 @@ $$
 $$
 In particular, the exported rule does not identify opens by an external powerset equality: it transports the displayed predicate $U$ by converting through $\mathsf{OpenAt}(i,-)$ and then applying the certificate stability already present in the indexed-open carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistLedgerPublicOpenTree\_semantic\_name\_certificate}
 \begin{proof}
 Start with a carried row $(i,h_i)$ and a classifier witness $\mathsf{same}_X(x,y)$. The equation $h_i$ converts membership in the public predicate $U$ at $x$ into membership in $\mathsf{OpenAt}(i,x)$, and the membership-stability field of \autoref{def:topology-indexed-open-carrier} transports this to $\mathsf{OpenAt}(i,y)$. Applying $h_i$ at $y$ returns membership in $U(y)$.
 

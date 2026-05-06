@@ -1,0 +1,144 @@
+\begin{definition}[Differential-form downstream boundary package]
+\label{def:diffform-root-downstream-boundary-package}
+The root downstream boundary package for $\DiffFormUp$ is the visible
+certificate surface
+$$
+\mathsf{DiffFormDownstreamBoundary}_{M,T}.
+$$
+It consists exactly of the carried-form rows of
+\autoref{def:diffform-bhist-form-carrier}, the classifier rows of
+\autoref{def:diffform-bhist-form-classifier}, the exterior-input rows of
+\autoref{def:diffform-exterior-derivative-visible-input-package}, the wedge
+rows supplied by \autoref{def:diffform-wedge-degree-ledger},
+\autoref{thm:diffform-wedge-ledger-coverage},
+\autoref{thm:diffform-wedge-probe-concatenation-coverage},
+\autoref{thm:diffform-wedge-probe-concatenation-classifier-stability}, and
+\autoref{thm:diffform-wedge-degree-classifier-stability}, the finite
+antisymmetry rows of \autoref{def:diffform-antisymmetry-chain-ledger}, and the
+downstream scope rows of
+\autoref{thm:diffform-exterior-derivative-downstream-scope},
+\autoref{thm:diffform-derham-input-boundary}, and
+\autoref{thm:diffform-wedge-derivative-input-boundary}. The package has no
+field for $d^2=0$, closedness, nondegeneracy, contact nonintegrability, or a
+standard bridge.
+\end{definition}
+
+\begin{theorem}[Differential-form exterior input root closure]
+\label{thm:diffform-exterior-input-root-closure}
+Every row of
+$\mathsf{DiffFormExteriorInput}_{M,T}(\omega,D\omega)$ that a downstream
+$\DeRhamUp$, $\SymplecticUp$, or $\ContactUp$ chapter may read is already a
+row of $\mathsf{DiffFormDownstreamBoundary}_{M,T}$. In particular, the
+source carrier, output carrier, successor-degree continuation, transported
+$\mathsf{ProbeBundle}$ rows, transported $\TensorProductUp$ tensor row,
+retained scalar endpoint comparison, and restricted source ledger are all
+root-visible rows, and no second exterior-derivative or closedness row is
+introduced by passing through the package.
+\end{theorem}
+\begin{proof}
+Unpack the exterior-input package of
+\autoref{def:diffform-exterior-derivative-visible-input-package}. Its source
+and output are carried form rows of
+\autoref{def:diffform-bhist-form-carrier}; its comparison clauses are exactly
+the $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\TensorProductUp$, scalar
+endpoint, and source-ledger rows listed there and in
+\autoref{def:diffform-bhist-form-classifier}.
+
+Repack those rows into
+\autoref{def:diffform-root-downstream-boundary-package}. The boundary package
+keeps the exterior-input row as a visible component, and it retains the
+classifier-stability interface through the same componentwise histories.
+
+Finally apply the downstream scope theorem
+\autoref{thm:diffform-exterior-derivative-downstream-scope}. That theorem
+allows downstream exterior-derivative chapters to consume the carrier,
+classifier, degree-raise candidate, endpoint transport, and exterior-algebra
+substrate, but it does not add a second derivative, closedness, nondegeneracy,
+or contact nonintegrability row. Thus exterior input closes at the root
+boundary package without importing any downstream law.
+\end{proof}
+
+\begin{theorem}[Differential-form wedge derivative boundary compatibility]
+\label{thm:diffform-wedge-derivative-boundary-compatibility}
+When a carried row participates both in an admitted wedge row and in an
+accepted exterior-input row, their common downstream boundary is exactly the
+intersection recorded by
+\autoref{thm:diffform-wedge-derivative-input-boundary} inside
+$\mathsf{DiffFormDownstreamBoundary}_{M,T}$. The common rows are the carried
+form row, its unary degree row, the wedge degree continuation ledger, the
+one-step exterior-derivative continuation ledger, the transported probe,
+tensor, scalar endpoint, antisymmetry, and source rows, and their
+$\sim_{\DiffFormUp}$ classifier comparisons.
+\end{theorem}
+\begin{proof}
+Read the wedge side first. Wedge admission is bounded by
+\autoref{thm:diffform-wedge-ledger-coverage}; the probe output is bounded by
+\autoref{thm:diffform-wedge-probe-concatenation-coverage}; the degree
+bookkeeping is the visible ledger of
+\autoref{def:diffform-wedge-degree-ledger}. Classifier transport for these
+rows is supplied by
+\autoref{thm:diffform-wedge-probe-concatenation-classifier-stability} and
+\autoref{thm:diffform-wedge-degree-classifier-stability}.
+
+Read the exterior-input side next. By
+\autoref{def:diffform-exterior-derivative-visible-input-package}, an accepted
+input exposes the source and output carried rows, the successor-degree
+continuation, transported probe and tensor rows, scalar endpoint comparison,
+and the operator-owned source ledger.
+
+Now apply \autoref{thm:diffform-wedge-derivative-input-boundary}. It states
+that the shared visible data are precisely the rows named by both readings,
+with no Leibniz rule and no nilpotence row. The antisymmetry portion is
+controlled by \autoref{def:diffform-antisymmetry-chain-ledger} and remains
+classifier-stable through the displayed $\DiffFormUp$ comparison rows.
+
+These rows are all components of
+\autoref{def:diffform-root-downstream-boundary-package}. Therefore the wedge
+and exterior-input interfaces are compatible at the downstream boundary
+without importing any closedness, nondegeneracy, contact nonintegrability, or
+operator-square assertion.
+\end{proof}
+
+\begin{theorem}[Differential-form downstream boundary exhaustion]
+\label{thm:diffform-downstream-boundary-exhaustion}
+The package $\mathsf{DiffFormDownstreamBoundary}_{M,T}$ exhausts the
+$\DiffFormUp$ root rows visible to $\DeRhamUp$, $\SymplecticUp$, and
+$\ContactUp$. Any downstream consumption of $\DiffFormUp$ must factor through
+the carrier and classifier rows, exterior-input rows, wedge rows,
+antisymmetry-chain rows, and the three downstream scope rows listed in
+\autoref{def:diffform-root-downstream-boundary-package}; no downstream
+consumer can project a closedness, nondegeneracy, contact nonintegrability,
+nilpotence, or bridge row from $\DiffFormUp$.
+\end{theorem}
+\begin{proof}
+Start with an arbitrary downstream read of a $\DiffFormUp$ row. The carrier
+and classifier projections are exhausted by
+\autoref{def:diffform-bhist-form-carrier},
+\autoref{def:diffform-bhist-form-classifier},
+\autoref{thm:diffform-carrier-hsame-transport}, and
+\autoref{thm:diffform-form-classifier-stability}. These rows mention only
+$BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$.
+
+For derivative input, apply
+\autoref{thm:diffform-exterior-input-root-closure}. It repacks every accepted
+exterior-input row into the boundary package and leaves all operator and
+geometric laws outside the root surface.
+
+For wedge interaction, apply
+\autoref{thm:diffform-wedge-derivative-boundary-compatibility}. It identifies
+the wedge-degree, probe-concatenation, antisymmetry, and exterior-input rows
+that can be shared at the downstream boundary, and it excludes the Leibniz
+and nilpotence rows.
+
+Finally use the downstream scope rows
+\autoref{thm:diffform-exterior-derivative-downstream-scope},
+\autoref{thm:diffform-derham-input-boundary}, and
+\autoref{thm:diffform-wedge-derivative-input-boundary}. They name
+$\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ as the downstream consumers
+and restrict their access to the same visible carrier, classifier, wedge,
+antisymmetry, exterior-input, transport, and source ledgers. Since
+\autoref{def:diffform-root-downstream-boundary-package} contains exactly
+those rows, every downstream read factors through it and no hidden row remains
+to be consumed.
+\end{proof}

@@ -8,6 +8,8 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def MonoidalCatSingletonTensor (h k : BHist) : BHist := append h k
+
 theorem MonoidalCatSingleton_tensor_carrier {a b c d f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier c d g ->
       UnaryHistory (append a c) ∧

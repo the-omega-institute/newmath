@@ -31,3 +31,56 @@ are exactly the scoped $\RealUp$ certificate boundary and excludes quotient,
 completion, arithmetic, order, metric-completeness, Classical, and
 standard-bridge data.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window export through StreamNameUp interface]
+\label{thm:realup-finite-window-export-through-streamname-interface}
+Every selected finite $\RealUp$ observation-window read surface of
+\autoref{thm:realup-scoped-finite-window-read-surface} factors its
+stream-name component through the public $\StreamNameUp$ finite-window interface
+of \autoref{thm:streamname-public-finite-window-interface}. Its stream-name
+component is exactly the $\mathsf{RatStreamNameFiniteWindowClassifier}$ surface
+with classifier-to-window coverage, singleton-window exhaustion, reindexing and
+point-map coverage, structural laws, the selected endpoint package, and
+finite-window stability fields.
+
+After this factorization, the remaining $\RealUp$ rows are only the
+DyadicRatCore observation rows, $\RegSeqRat$ spine rows, $\RatUp$ endpoint rows,
+$\mathsf{UnaryHistory}$, $\hsame$ transport, and
+$\mathsf{RealLedgerPolicy}$. The exported finite-window surface contains no
+quotient datum, completion datum, arithmetic or order operation,
+metric-completeness certificate, Classical datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+First identify the public stream-name finite-window surface. Apply
+\autoref{thm:streamname-public-finite-window-interface}: the
+$\StreamNameUp$ component available to downstream $\RealUp$ windows is the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ surface together with
+classifier-to-window coverage, singleton-window exhaustion, reindexing and
+point-map coverage, structural laws, the selected endpoint package, and
+finite-window stability fields.
+
+Next identify the selected $\RealUp$ read surface. Apply
+\autoref{thm:realup-scoped-finite-window-read-surface}; it says that selected
+finite observation windows read the DyadicRatCore source, $\RegSeqRat$ spine,
+$\StreamNameUp$ rows, $\RatUp$ endpoints, $\mathsf{UnaryHistory}$, $\hsame$
+transport, and finite $\mathsf{RealLedgerPolicy}$ rows, while excluding quotient,
+completion, arithmetic, order, metric-completeness, Classical, and
+standard-bridge data.
+
+The ten-field fit is: traditional target, finite $\RealUp$ observation export;
+BEDC source, DyadicRatCore plus $\StreamNameUp$, $\RegSeqRat$, and $\RatUp$ over
+$\mathsf{BHist}$; carrier, selected rational-observation windows; classifier,
+finite-window pointwise $\RatUp$ classification; stability, $\StreamNameUp$
+finite-window stability plus $\hsame$ transport; ledger, finite observation
+index plus $\mathsf{RealLedgerPolicy}$; core theorem, this block; exactness,
+factorization through the public finite-window interface; standard bridge, none;
+status, proof target.
+
+Finally repack the resulting rows as the downstream public certificate boundary.
+Apply \autoref{thm:realup-public-certificate-export}; the finite read surface
+and the scoped certificate boundary expose exactly the public $\RealUp$
+certificate rows named above. Since the $\StreamNameUp$ portion has already been
+identified with the public finite-window interface, the exported $\RealUp$
+finite-window surface factors through that interface and adds only the listed
+dyadic, stream-spine, endpoint, unary-history, transport, and ledger rows.
+\end{proof}
