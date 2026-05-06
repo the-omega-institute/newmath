@@ -166,6 +166,26 @@ $$
 Since $n$ was arbitrary, \autoref{def:fps-classifier-specification} packages the two coefficientwise scalar comparisons as the two displayed $\FormalPowerSeriesUp$ classifier judgments.
 \end{proof}
 
+\begin{theorem}[FPS pointwise additive group laws]
+\label{thm:fps-pointwise-additive-group-laws}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and scalar additive inverse operation $-_R$. Assume the scalar classifier equivalence, zero self-classification, addition closure, addition congruence, additive associativity, additive zero rows, additive inverse closure, and both scalar additive inverse laws retained in \autoref{def:ring-stability-certificate} and \autoref{thm:ring-add-right-inverse}. Then the data of \autoref{def:fps-pointwise-additive-monoid-instance}, together with the coefficientwise inverse operation $-_{\mathrm{fps}}$ of \autoref{def:fps-coefficientwise-additive-inverse}, form the concrete additive group interface on $\mathsf{FPSCarrier}_R$: $0_{\mathrm{fps}}$ is carried, $F\oplus_{\mathrm{fps}}G$ is carried whenever $F$ and $G$ are carried, $\oplus_{\mathrm{fps}}$ is pointwise congruent, $\oplus_{\mathrm{fps}}$ is associative under $\sim_{\mathrm{fps}}$, both zero laws hold under $\sim_{\mathrm{fps}}$, $-_{\mathrm{fps}}F$ is carried whenever $F$ is carried, $-_{\mathrm{fps}}F$ is coefficientwise inverse data for $F$, and both inverse-zero laws
+$$
+F\oplus_{\mathrm{fps}}(-_{\mathrm{fps}}F)\sim_{\mathrm{fps}}0_{\mathrm{fps}}
+\qquad\text{and}\qquad
+(-_{\mathrm{fps}}F)\oplus_{\mathrm{fps}}F\sim_{\mathrm{fps}}0_{\mathrm{fps}}
+$$
+hold for every carried coefficient sequence $F:\NatUp\to R$.
+\end{theorem}
+\begin{proof}
+The carrier, congruence, associativity, and zero-law fields are exactly the fields supplied by \autoref{thm:fps-pointwise-additive-monoid-laws}, read over the carrier, classifier, pointwise addition, and zero series fixed in \autoref{def:fps-pointwise-additive-monoid-instance}.
+
+It remains to fit the inverse operation into the same public algebra package. Let $F:\NatUp\to R$ be carried. For each coefficient index $n:\NatUp$, scalar additive inverse closure carries $-_R(F_n)$, so the coefficient rule $(-_{\mathrm{fps}}F)_n:= -_R(F_n)$ carries the whole sequence $-_{\mathrm{fps}}F$. The same coefficient rule, together with scalar classifier reflexivity at $-_R(F_n)$, makes $-_{\mathrm{fps}}F$ coefficientwise inverse data for $F$ in the sense of \autoref{def:fps-coefficientwise-additive-inverse}.
+
+Apply \autoref{thm:fps-coefficientwise-additive-inverse-zero-laws} with $N=-_{\mathrm{fps}}F$. Its hypotheses are precisely the retained scalar inverse, congruence, closure, and zero rows, plus the right inverse law \autoref{thm:ring-add-right-inverse}. The conclusion gives the two displayed inverse-zero laws under $\sim_{\mathrm{fps}}$.
+
+Thus the ten fields just listed form a single concrete additive group interface for the downstream formal-power-series algebra layer: zero carrier, sum carrier, pointwise congruence, associativity, left zero, right zero, inverse carrier, inverse-data fit, right inverse-zero, and left inverse-zero.
+\end{proof}
+
 \begin{theorem}[FPS zero series absorbs Cauchy product over RingUp scalars]
 \label{thm:fps-zero-series-cauchy-product-absorption-over-ringup-scalars}
 Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive fold $\mathsf{fold}_{+,R}$. Assume the scalar classifier equivalence fields, zero self-classification, additive congruence, additive left-zero, multiplication closure, and left and right zero multiplication rows retained in \autoref{def:ring-stability-certificate}. Let the $\FormalPowerSeriesUp(R)$ interface use the pointwise classifier $\sim_{\mathrm{fps}}$ of \autoref{def:fps-classifier-specification}, the zero series $Z:=0_{\mathrm{fps}}$ of \autoref{def:fps-pointwise-additive-monoid-instance}, and the Cauchy coefficient rule of \autoref{def:fps-cauchy-coefficient-spine}, read over these $\RingUp$ operations. For every carried coefficient sequence $F:\NatUp\to R$, the two Cauchy products $Z\odot_{\mathrm{fps}}F$ and $F\odot_{\mathrm{fps}}Z$ are carried and
