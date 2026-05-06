@@ -11698,3 +11698,135 @@ The target is a concrete closure theorem for the existing InnerProduct orthogona
 
 ---
 
+### B-447 - LP complementary slackness gives objective equality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LP complementary slackness gives objective equality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If an LPDualityUp ordered-field row has primal feasible x and dual feasible y, and the two termwise slack families satisfy c_j*x_j ~ beta_j(y)*x_j for all columns and y_i*alpha_i(x) ~ y_i*b_i for all rows, then PrObj(x) ~ DuObj(y) and the existing equality-optimality corollary applies under the same setup.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+
+Rationale:
+The LP row defines alpha_i, beta_j, feasibility, and objectives at papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex:38-68; weak duality is proved at lines 72-136 and equality-implies-optimality is only a corollary assuming objective equality at lines 138-187. Focused rg for "slack|complementary|strong[- ]duality" in this file returned only the introductory line 4, with no labeled theorem or lemma deriving equality from complementary slackness. This is not hidden under weak duality because the existing corollary consumes equality but does not prove it from rowwise slack equalities; the file is 187 lines and is a concrete body file.
+
+---
+
+
+### B-448 - Simplicial intersection carrier is face closed
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Simplicial intersection carrier is face closed |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If K and L are SimplicialComplexUp finite face carriers over the same simplex source and face relation, and J is a finite spine enumeration of the pointwise intersection Simplex_K and Simplex_L, then J is face closed and carries the inherited face transitivity under the same setup.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+The simplicial carrier records finite simplex enumeration, PosetUp face transitivity, and face closure at papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:12-39; existing theorems prove face-chain closure and dimension monotonicity for one carrier only at lines 41-78 and 98-140. Focused rg for "intersection|subcomplex" in the simplicial-complex file returned 0 hits, and the existing labels in the file are only the two chain/monotonicity claims. This is a concrete closure theorem for an existing object, not a parameter-transport echo, and the target file is 140 lines.
+
+---
+
+
+### B-449 - Quantum identity channel is CPTP
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Quantum identity channel is CPTP |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If H is a HilbertUp carrier and id_H is the module LinearMapUp identity on TC(H), then id_H is carried by QChan_{H,H} and sends every Dens_H input to a Dens_H output under QuantumChannelUp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+Rationale:
+QuantumChannelUp is defined as a LinearMapUp map plus complete-positivity and trace-preservation rows at papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex:23-34; the file proves density-matrix image at lines 36-57, composition closure at lines 59-118, and convex mixture closure later, but no identity-channel theorem. Focused rg for "identity.*quantum|quantum.*identity|identity channel|QChan.*id|cptp.*identity" across papers/bedc/parts/concrete_instances and lean4/BEDC returned only an unrelated "unit-sum identity" hit at line 219. The needed LinearMap identity certificate exists separately at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:189-199, so this is a concrete missing instance, not a marker-only task; the target file is 278 lines.
+
+---
+
+
+### B-450 - Matroid restrictions compose to direct restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Matroid restrictions compose to direct restriction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If K is a finite subset of the matroid ground E, L is a finite subset of K, Ind_{M|K} is the restriction of Ind_M to K, and Ind_{(M|K)|L} is the restriction of Ind_{M|K} to L, then Ind_{(M|K)|L}(I) iff Ind_M(I) and FinSetSubset(I,L), hence the direct restriction rows to L hold under the same MatroidUp setup.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `lean4/BEDC/Derived/MatroidUp.lean`
+
+Rationale:
+The restriction row package is defined at papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex:123-177, and the existing restriction certificate proves one-step restriction rows at lines 203-269. Focused rg for "restriction.*trans|restrict.*restrict|double.*restrict|direct.*restrict|restriction.*compose|compose.*restriction" in the matroid paper file and lean4/BEDC returned only the definition/proof lines in this file and unrelated ContinuousUp restriction-transitivity theorems, with no matroid restriction-composition theorem. The claim is a concrete composition law for the matroid restriction constructor using finite-subset composition, not merely transport of an arbitrary property; the target file is 269 lines.
+
+---
+
+
+### B-451 - Quadrature degree-bound comparison is transitive
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Quadrature degree-bound comparison is transitive |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If DegBoundLe(e,d) and DegBoundLe(d,c) hold for unary quadrature degree bounds, then DegBoundLe(e,c) holds under the QuadratureUp exactness-degree setup.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/101_integral_namecert_construction.tex`
+
+Rationale:
+Quadrature defines PolyDegLe, QuadratureExactUpTo, and DegBoundLe at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:12-57; it proves degree-window inclusion from one DegBoundLe at lines 59-74 and exactness weakening at lines 76-99. Focused rg for "DegBoundLe.*trans|degree.*trans|transitive.*degree|degree.*preorder|exactness.*equiv|mutual.*degree|Quadrature.*trans" in the quadrature file and lean4/BEDC returned no quadrature theorem, only an unrelated NumField degree-one theorem. This is a small but genuine structural theorem for the exactness-degree classifier, and the target file is 99 lines.
+
+---
+
