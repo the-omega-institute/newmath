@@ -14,6 +14,10 @@ def AffineFiniteFamilyZeroLocus (AffPoint : BHist -> Prop)
 def AffineFiniteFamilyEquationInclusion (F G : ProbeBundle BHist) : Prop :=
   forall {p : BHist}, InBundle p F -> InBundle p G
 
+def AffineEquationHeadInsertion (p : BHist) (F : ProbeBundle BHist) :
+    ProbeBundle BHist :=
+  ProbeBundle.Bcons p F
+
 theorem AffineFiniteFamilyZeroLocus_intersection_concat {AffPoint : BHist -> Prop}
     {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
     AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero (bundleAppend F G) x <->

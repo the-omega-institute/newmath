@@ -429,6 +429,39 @@ theorem RatStreamNameClassifier_observation_shape_exclusions {s t : BHist -> BHi
                   PositiveUnaryDenominator_e0_absurd
                     (PositiveUnaryDenominator_hsame_transport sameZero positives.right))))))))
 
+theorem RatStreamNameClassifier_transported_observation_shape_exclusions
+    {s t s' t' : BHist -> BHist} {n : BHist} :
+    RatStreamNameClassifier s t -> UnaryHistory n ->
+      (forall k : BHist, UnaryHistory k -> hsame (s k) (s' k)) ->
+        (forall k : BHist, UnaryHistory k -> hsame (t k) (t' k)) ->
+          PositiveUnaryDenominator (s' n) ∧ PositiveUnaryDenominator (t' n) ∧
+            UnaryHistory (s' n) ∧ UnaryHistory (t' n) ∧
+              (hsame (s' n) BHist.Empty -> False) ∧
+                (hsame (t' n) BHist.Empty -> False) ∧
+                  (forall z_s : BHist, hsame (s' n) (BHist.e0 z_s) -> False) ∧
+                    (forall z_t : BHist, hsame (t' n) (BHist.e0 z_t) -> False) := by
+  intro classified nUnary sameSS' sameTT'
+  have pointClassified : RatHistoryClassifier (s' n) (t' n) :=
+    RatHistoryClassifier_hsame_transport (sameSS' n nUnary) (sameTT' n nUnary)
+      (classified.right.right n nUnary)
+  have positives : PositiveUnaryDenominator (s' n) ∧ PositiveUnaryDenominator (t' n) :=
+    RatHistoryClassifier_positive_denominators pointClassified
+  have leftRows := PositiveUnaryDenominator_unary_and_nonempty positives.left
+  have rightRows := PositiveUnaryDenominator_unary_and_nonempty positives.right
+  exact And.intro positives.left
+    (And.intro positives.right
+      (And.intro leftRows.left
+        (And.intro rightRows.left
+          (And.intro leftRows.right
+            (And.intro rightRows.right
+              (And.intro
+                (fun z_s sameZero =>
+                  PositiveUnaryDenominator_e0_absurd
+                    (PositiveUnaryDenominator_hsame_transport sameZero positives.left))
+                (fun z_t sameZero =>
+                  PositiveUnaryDenominator_e0_absurd
+                    (PositiveUnaryDenominator_hsame_transport sameZero positives.right))))))))
+
 theorem RatStreamName_independent_reindexed_constant_classifier
     {d e : BHist} {r q : BHist -> BHist} :
     RatHistoryCarrier d ->
