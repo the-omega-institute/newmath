@@ -84,3 +84,66 @@ $$
 The scalar right-zero theorem \autoref{thm:ring-add-right-zero}, applied in the scalar ring to $F_n$, classifies this endpoint with $F_n$. Again \autoref{def:fps-classifier-specification} packages the coefficientwise comparisons as $F\oplus_{\mathrm{fps}}0_{\mathrm{fps}}\sim_{\mathrm{fps}}F$.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonPointwiseAdditiveMonoid\_laws}
+
+\begin{definition}[FPS coefficientwise additive inverse]
+\label{def:fps-coefficientwise-additive-inverse}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and scalar additive inverse operation $-_R$. For a carried coefficient sequence $F:\NatUp\to R$, the coefficientwise FPS inverse $-_{\mathrm{fps}}F$ is the coefficient sequence determined by
+$$
+(-_{\mathrm{fps}}F)_n:= -_R(F_n)
+$$
+for every unary index $n:\NatUp$. More generally, a sequence $N:\NatUp\to R$ is coefficientwise inverse data for $F$ when $N$ is carried and, for every $n:\NatUp$,
+$$
+N_n\sim_R -_R(F_n).
+$$
+\end{definition}
+
+\begin{theorem}[FPS coefficientwise additive inverse zero laws]
+\label{thm:fps-coefficientwise-additive-inverse-zero-laws}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and scalar additive inverse operation $-_R$. Assume the scalar classifier equivalence, zero self-classification, addition closure, addition congruence, additive inverse closure, and additive left inverse rows retained in \autoref{def:ring-stability-certificate}; assume also the scalar right inverse law of \autoref{thm:ring-add-right-inverse} for this addition and inverse. Let the $\FormalPowerSeriesUp(R)$ interface use the pointwise classifier $\sim_{\mathrm{fps}}$ of \autoref{def:fps-classifier-specification}, pointwise addition from \autoref{def:fps-pointwise-addition-coefficient}, and zero series $0_{\mathrm{fps}}$ from \autoref{def:fps-pointwise-additive-monoid-instance}. If $F:\NatUp\to R$ is carried and $N:\NatUp\to R$ is coefficientwise inverse data for $F$ in the sense of \autoref{def:fps-coefficientwise-additive-inverse}, then $F\oplus_{\mathrm{fps}}N$ and $N\oplus_{\mathrm{fps}}F$ are carried and
+$$
+F\oplus_{\mathrm{fps}}N\sim_{\mathrm{fps}}0_{\mathrm{fps}}
+\qquad\text{and}\qquad
+N\oplus_{\mathrm{fps}}F\sim_{\mathrm{fps}}0_{\mathrm{fps}}.
+$$
+Equivalently, for every unary coefficient index $n:\NatUp$,
+$$
+(F\oplus_{\mathrm{fps}}N)_n\sim_R(0_{\mathrm{fps}})_n
+\qquad\text{and}\qquad
+(N\oplus_{\mathrm{fps}}F)_n\sim_R(0_{\mathrm{fps}})_n.
+$$
+\end{theorem}
+\begin{proof}
+The definition of coefficientwise inverse data carries $N$. The pointwise addition closure row in \autoref{def:fps-stability-certificate} carries $F\oplus_{\mathrm{fps}}N$ and $N\oplus_{\mathrm{fps}}F$, and \autoref{thm:fps-pointwise-additive-monoid-laws} carries the zero series.
+
+Fix $n:\NatUp$. The inverse-data hypothesis gives
+$$
+N_n\sim_R -_R(F_n).
+$$
+By \autoref{def:fps-pointwise-addition-coefficient},
+$$
+(F\oplus_{\mathrm{fps}}N)_n=F_n+_R N_n.
+$$
+Scalar classifier reflexivity at $F_n$ and scalar addition congruence transport the inverse-data comparison under the common left summand:
+$$
+F_n+_R N_n\sim_R F_n+_R(-_R(F_n)).
+$$
+The scalar right inverse law \autoref{thm:ring-add-right-inverse} classifies the right endpoint with $0_R$. Since \autoref{def:fps-pointwise-additive-monoid-instance} gives $(0_{\mathrm{fps}})_n:=0_R$, transitivity gives
+$$
+(F\oplus_{\mathrm{fps}}N)_n\sim_R(0_{\mathrm{fps}})_n.
+$$
+
+For the other order, \autoref{def:fps-pointwise-addition-coefficient} gives
+$$
+(N\oplus_{\mathrm{fps}}F)_n=N_n+_R F_n.
+$$
+Scalar addition congruence transports the same inverse-data comparison under the common right summand:
+$$
+N_n+_R F_n\sim_R(-_R(F_n))+_R F_n.
+$$
+The scalar additive left inverse row retained in \autoref{def:ring-stability-certificate} classifies this endpoint with $0_R$, and the zero-series coefficient rule again gives $(0_{\mathrm{fps}})_n:=0_R$. Thus
+$$
+(N\oplus_{\mathrm{fps}}F)_n\sim_R(0_{\mathrm{fps}})_n.
+$$
+
+Since $n$ was arbitrary, \autoref{def:fps-classifier-specification} packages the two coefficientwise scalar comparisons as the two displayed $\FormalPowerSeriesUp$ classifier judgments.
+\end{proof}
