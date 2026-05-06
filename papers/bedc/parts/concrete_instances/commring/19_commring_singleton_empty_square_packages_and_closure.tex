@@ -186,14 +186,70 @@ arbitrary multiplier; core theorem this block; exactness square endpoints are
 two-sided zero annihilators; downstream consumer $\FieldUp$ square-apartness and
 zero-product exits; status $\mathsf{ProofTarget}$.
 
-\section{Scoped closure record}\label{sec:commring-scoped-closure-record}
+\section{Public closure record}\label{sec:commring-public-closure-record}
+
+\begin{theorem}[CommRing singleton public operation surface]
+\label{thm:commring-singleton-public-operation-surface}
+For the concrete singleton history commutative-ring instance of
+Definition~\ref{def:concrete-singleton-history-commring-instance}, the public
+carrier is $A_{\emp}$, the public classifier is $R_{\emp}$, and the public
+operation tuple is
+$$
+\mathsf{add}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{neg}(h):=\emp,\qquad
+0:=\emp,
+$$
+together with
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+1:=\emp .
+$$
+Every public expression generated from carried endpoints by $0$, $1$,
+unary negation, addition, and multiplication remains in $A_{\emp}$, and any
+two such expressions are classified by $R_{\emp}$ against the singleton
+endpoint $\emp$.
+\end{theorem}
+\begin{proof}
+The public carrier, classifier, and operation symbols are exactly the rows
+displayed in
+Definition~\ref{def:concrete-singleton-history-commring-instance}. The
+operation closure clauses for addition, negation, multiplication, and the
+distinguished constants are supplied by
+Theorem~\ref{thm:concrete-singleton-history-commring-laws}; the remaining
+schema rows and replacement stability are supplied by
+Theorem~\ref{thm:concrete-singleton-history-commring-full-schema-laws}.
+
+Proceed by induction on the generated public expression. The constant cases
+$0$ and $1$ are the empty endpoint. The negation case uses the constant
+endpoint $\emp$. The addition and multiplication cases use the append endpoint
+and the singleton append rows
+Theorems~\ref{thm:commring-singleton-classifier-append-left-carrier-iff},
+\ref{thm:commring-singleton-classifier-append-right-carrier-iff}, and
+\ref{thm:commring-singleton-empty-classifier-operation-context-carrier-package}
+to keep the visible endpoint inside $A_{\emp}$.
+
+For the classifier assertion, the induction hypotheses identify each generated
+endpoint with $\emp$. The append/context cancellation and split rows
+Theorems~\ref{thm:commring-singleton-classifier-append-context-cancel} and
+\ref{thm:commring-singleton-classifier-append-context-carrier-split} transport
+that endpoint classification through public operation contexts, while
+Theorem~\ref{thm:commring-singleton-classifier-append-commutativity-compatible}
+records the commutative multiplication row on the same singleton surface.
+
+Finally,
+Theorem~\ref{thm:concrete-singleton-history-commring-certificate-boundary}
+packages these carrier, classifier, operation, stability, ledger, exactness,
+and terminal-bridge rows as the concrete $\CommRingUp$ certificate boundary.
+Thus the instance exposes a public carrier/classifier/operation surface rather
+than only scoped singleton rows.
+\end{proof}
 
 \begin{closurestatus}{\CommRingUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{This chapter closes exactly the singleton empty-history CommRingUp carrier, classifier, constant operation tuple, multiplicative commutativity row, distributivity rows, and singleton certificate boundary over $\mathsf{BHist}$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{This chapter closes exactly the singleton empty-history CommRingUp public carrier $A_{\emp}$, classifier $R_{\emp}$, operation tuple $(\mathsf{add},\mathsf{neg},0,\mathsf{mul},1)$, operation-generated carrier closure, classifier surface, and singleton certificate boundary over $\mathsf{BHist}$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
   \bridgestatus{none}
   \notclaimed{This record does not close arbitrary commutative rings, integer-ring public closure, standard bridges, ideals, spectra, or field-level inverse data.}
-  \upgradepath{A stronger grade requires a public-object surface or a checked bridge tying the singleton CommRingUp certificate to the acceptance-bridge interface.}
+  \upgradepath{A stronger grade requires a conservative standard bridge tying the singleton CommRingUp public surface to the acceptance-bridge interface.}
 \end{closurestatus}

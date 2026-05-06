@@ -282,12 +282,43 @@ identified by $\HSame$, so the external readback has no additional component
 choice beyond the BEDC classifier.
 \end{proof}
 
+\begin{theorem}[Prefix Yoneda empty-component mature interface]
+\label{thm:yoneda-prefix-empty-component-mature-interface}
+For unary histories $p$ and $q$, the mature scoped interface of the prefix
+Yoneda object is exactly the prefix empty-component skeleton. Its carrier is
+$Y_p(q)$, its classifier is $\HSame$, its full-faithfulness clause is
+Theorem~\ref{thm:yoneda-prefix-empty-component-full-faithfulness}, its
+conservative paper bridge is
+Theorem~\ref{thm:yoneda-prefix-empty-component-standard-bridge}, and its
+semantic certificate is
+Theorem~\ref{thm:yoneda-representable-empty-component-family-semantic-namecert}.
+The scope is restricted to unary prefix histories and empty components.
+\end{theorem}
+\begin{proof}
+The carrier and classifier are fixed by the semantic certificate in
+Theorem~\ref{thm:yoneda-representable-empty-component-family-semantic-namecert}:
+the family $Y_p(q)$ is the empty-component representable family, and the
+classifier it exposes is $\HSame$.
+
+The fully faithful part is
+Theorem~\ref{thm:yoneda-prefix-empty-component-full-faithfulness}. It identifies
+the object-indexed carrier over all unary objects with $\HSame(p,q)$ and makes
+the displayed component history unique up to $\HSame$.
+
+The bridge part is
+Theorem~\ref{thm:yoneda-prefix-empty-component-standard-bridge}. Its encode and
+decode readings are conservative for the same unary-prefix carrier, so composing
+the semantic certificate, the full-faithfulness clause, and this bridge gives
+the stated mature interface without enlarging the domain. No step ranges beyond
+unary prefix histories or beyond empty components.
+\end{proof}
+
 \begin{closurestatus}{\YonedaUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The bridge is \autoref{thm:yoneda-prefix-empty-component-standard-bridge}, binding the prefix empty-component skeleton and the Yoneda semantic certificate to the $\FunctorUp$ prefix certificate and the $\NatTransUp$ component classifier.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper scope is exactly the checked semantic certificate, full-faithfulness, and paper bridge for the prefix empty-component skeleton.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_semanticNameCert}
   \bridgestatus{paperBridge}
-  \notclaimed{This chapter does not close the full arbitrary Yoneda lemma, presheaf categories beyond the prefix skeleton, density, enriched variants, or checked bridge targets.}
-  \upgradepath{$\matureClosure$ requires arbitrary representables, naturality in both variables, Yoneda bijection exactness, and checked bridge targets.}
+  \notclaimed{This chapter does not close the arbitrary Yoneda lemma, general presheaf categories, enriched variants, density, or checked bridge targets.}
+  \upgradepath{The next verification work is $\bridgeCheckedV$ for the bridge and non-prefix representables, not additional paper closure for this scoped skeleton.}
 \end{closurestatus}
