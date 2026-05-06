@@ -246,3 +246,83 @@ $$
 \mu_X(B)\le_R\mu_X(C).
 $$
 \end{proof}
+
+\begin{theorem}[Distribution pushforward relative-difference additivity]
+\label{thm:distribution-pushforward-relative-difference-additivity}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure as in \autoref{sec:distribution-carrier}, and $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A$ and $B$ be target events in one carried target fiber with $A,B\in\mathcal{A}_T$, and suppose the public target readback displays $B\subseteq A$. Suppose the target complement/relative-difference row of \autoref{def:measure-complement-difference-row} supplies a measurable target event
+$$
+D_T:=A\setminus B
+$$
+with public membership readback
+$$
+t\in D_T\quad\Longleftrightarrow\quad t\in A\ \text{and}\ t\notin B.
+$$
+Define source preimages
+$$
+A_S:=X^{-1}(A),\qquad B_S:=X^{-1}(B),\qquad D_X:=X^{-1}(D_T).
+$$
+Let $D_S:=A_S\setminus B_S$ be the source relative-difference event supplied by the source $\MeasureUp$ complement/relative-difference row once the source inclusion $B_S\subseteq A_S$ is displayed. Suppose:
+\begin{itemize}
+\item the $\RandomVarUp$ measurable-preimage row and the source complement/relative-difference row satisfy the hypotheses of \autoref{thm:randomvar-preimage-relative-difference-exactness} for $A,B,D_T$;
+\item the $\DistributionUp$ pushforward row of \autoref{sec:distribution-certificate} gives, at every target measurable event $E\in\mathcal{A}_T$,
+$$
+\mu_X(E)\sim_R\mu_S(X^{-1}(E));
+$$
+\item the source $\MeasureUp$ certificate and the shared $\RealUp$ additive $\AbGroupUp$ row satisfy the hypotheses of \autoref{thm:measure-relative-difference-additivity} for the displayed source inclusion $B_S\subseteq A_S$;
+\item source-event transport through \autoref{thm:semantic-namecert-pattern-ledger-transport} permits $\mu_S$ to be read across the source event classifier supplied by \autoref{def:measure-classifier-specification};
+\item the shared $\RealUp$ additive $\AbGroupUp$ row supplies addition congruence for $\sim_R$.
+\end{itemize}
+Then
+$$
+\mu_X(D_T)\sim_R\mu_S(D_S)
+$$
+and
+$$
+\mu_X(A)\sim_R\mu_X(B)+\mu_X(D_T).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:randomvar-preimage-relative-difference-exactness} to the displayed target inclusion $B\subseteq A$ and to the target relative-difference event $D_T$. It gives
+$$
+A_S,B_S,D_X\in\mathcal{A}_S,
+$$
+reads the target inclusion as the source inclusion $B_S\subseteq A_S$, supplies $D_S\in\mathcal{A}_S$, and classifies the preimage of the target difference with the source difference:
+$$
+D_X\sim_{\mathcal{A}_S}D_S.
+$$
+The same source relative-difference ledger states that $B_S$ and $D_S$ are disjoint and that the displayed binary union $B_S\cup D_S$ is classified as $A_S$.
+
+Apply the pushforward row to the three target measurable events $A$, $B$, and $D_T$. This gives
+$$
+\mu_X(A)\sim_R\mu_S(A_S),
+$$
+$$
+\mu_X(B)\sim_R\mu_S(B_S),\qquad \mu_X(D_T)\sim_R\mu_S(D_X).
+$$
+Transport the source measure endpoint across $D_X\sim_{\mathcal{A}_S}D_S$ using the source event ledger. Hence
+$$
+\mu_S(D_X)\sim_R\mu_S(D_S).
+$$
+Transitivity of the $\RealUp$ classifier composes the pushforward comparison for $D_T$ with this transport and yields
+$$
+\mu_X(D_T)\sim_R\mu_S(D_S).
+$$
+
+The source relative-difference ledger gives exactly the inputs for \autoref{thm:measure-relative-difference-additivity} in the source $\MeasureUp$ carrier. Therefore
+$$
+\mu_S(A_S)\sim_R\mu_S(B_S)+\mu_S(D_S).
+$$
+Composing with the pushforward comparison for $A$ gives
+$$
+\mu_X(A)\sim_R\mu_S(B_S)+\mu_S(D_S).
+$$
+
+By symmetry of $\sim_R$, the pushforward comparison for $B$ reads $\mu_S(B_S)\sim_R\mu_X(B)$, and the displayed endpoint comparison for $D_T$ reads $\mu_S(D_S)\sim_R\mu_X(D_T)$. Addition congruence in the shared $\RealUp$ additive $\AbGroupUp$ row transports these two endpoint comparisons through $+$, so
+$$
+\mu_S(B_S)+\mu_S(D_S)\sim_R\mu_X(B)+\mu_X(D_T).
+$$
+A final transitivity step gives
+$$
+\mu_X(A)\sim_R\mu_X(B)+\mu_X(D_T).
+$$
+\end{proof}
