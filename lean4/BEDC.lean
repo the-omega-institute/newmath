@@ -244,9 +244,12 @@ import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
+import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.IdealUp
+import BEDC.Derived.IdealUp.QuotientKernel
 import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.IdealUp.QuotientKernelScope
+import BEDC.Derived.OdeUp
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
