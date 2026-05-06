@@ -177,3 +177,40 @@ X^{-1}(B_T^{\complement})\sim_{\mathcal{A}_S}B_S^{\complement}.
 $$
 The disjointness and binary-union statements are the corresponding ledger fields of the source complement/relative-difference row.
 \end{proof}
+
+\begin{theorem}[RandomVar preimage of the empty event is empty]
+\label{thm:randomvar-preimage-empty-event-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\varnothing_S$ and $\varnothing_T$ for the source and target empty events, write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Suppose the source and target empty-event rows supplied by \autoref{thm:measure-sigma-algebra-obligations} give
+$$
+\varnothing_S\in\mathcal{A}_S,\qquad \varnothing_T\in\mathcal{A}_T,
+$$
+and their displayed public readbacks eliminate every carried membership witness in the corresponding empty event. Let
+$$
+A_\varnothing:=X^{-1}(\varnothing_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to a source measurable preimage with membership readback, then
+$$
+A_\varnothing\in\mathcal{A}_S,\qquad A_\varnothing\sim_{\mathcal{A}_S}\varnothing_S.
+$$
+\end{theorem}
+\begin{proof}
+The target empty event is measurable, so the measurable-preimage row of the $\RandomVarUp$ certificate applies to $\varnothing_T$. This gives
+$$
+A_\varnothing\in\mathcal{A}_S.
+$$
+
+It remains to compare $A_\varnothing$ with the source empty event through the source event classifier. Fix a carried source point $s$. The preimage readback gives
+$$
+s\in A_\varnothing\quad\Longleftrightarrow\quad X(s)\in\varnothing_T.
+$$
+Because $X$ is carried, $X(s)$ is a carried target point. Hence any witness $s\in A_\varnothing$ reads as a witness $X(s)\in\varnothing_T$, and the target empty-event row eliminates it. By empty elimination this gives the implication from $s\in A_\varnothing$ to $s\in\varnothing_S$.
+
+Conversely, any witness $s\in\varnothing_S$ is eliminated by the source empty-event row. By empty elimination this gives the implication from $s\in\varnothing_S$ to $s\in A_\varnothing$. Therefore, for every carried source point $s$,
+$$
+s\in A_\varnothing\quad\Longleftrightarrow\quad s\in\varnothing_S.
+$$
+The two events have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+A_\varnothing\sim_{\mathcal{A}_S}\varnothing_S.
+$$
+\end{proof}
