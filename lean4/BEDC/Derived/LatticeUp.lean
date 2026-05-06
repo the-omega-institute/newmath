@@ -521,6 +521,18 @@ theorem LatticeSingletonMeetJoin_idempotent_comm_classifier {h k : BHist} :
         (And.intro emptyClassified
           (And.intro emptyClassified (And.intro emptyCarrier emptyCarrier))))
 
+theorem LatticeSingletonMeet_assoc_comparison_empty {h k z : BHist} :
+    LatticeSingletonCarrier h -> LatticeSingletonCarrier k -> LatticeSingletonCarrier z ->
+      LatticeSingletonLE (LatticeSingletonMeet (LatticeSingletonMeet h k) z)
+        (LatticeSingletonMeet h (LatticeSingletonMeet k z)) ∧
+      hsame (LatticeSingletonMeet (LatticeSingletonMeet h k) z) BHist.Empty := by
+  intro _carrierH _carrierK _carrierZ
+  have emptyCarrier : LatticeSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro
+    (And.intro emptyCarrier
+      (And.intro emptyCarrier (PreorderPrefixLE_of_hsame (hsame_refl BHist.Empty))))
+    emptyCarrier
+
 theorem LatticeDirectedMeet_associativity_comparison_from_bounds
     {Carrier : BHist -> Prop}
     {Classifier Le : BHist -> BHist -> Prop}
