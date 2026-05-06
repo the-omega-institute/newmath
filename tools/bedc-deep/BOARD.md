@@ -11038,3 +11038,244 @@ This is a concrete closure theorem in the existing ConvexSetUp surface, not a ma
 
 ---
 
+### B-422 - InnerProduct orthogonality symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InnerProduct orthogonality symmetry |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If x and y are carried endpoints of an InnerProductUp BHist carrier and x perp_I y, then y perp_I x under the retained scalar-zero classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/64_innerproduct_namecert_construction.tex`
+
+Rationale:
+InnerProduct/Hilbert geometry is under-represented in the BOARD scan, while the paper has enough local structure for a precise theorem. The carrier records conjugate symmetry and scalar-zero exactness at papers/bedc/parts/concrete_instances/64_innerproduct_namecert_construction.tex:23-31; orthogonality is defined as scalar-zero classification of the inner-product endpoint at :324-337; the only companion theorems are zero-left, zero-right, and representative transport at :339-407. A focused grep found no labeled orthogonality-symmetry theorem and no BOARD entry for InnerProduct or orthogonality.
+
+---
+
+
+### B-423 - AbelianCat hom zero morphism uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AbelianCat hom zero morphism uniqueness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a hom row H(A,B) of an AbelianCatUp surface carries a morphism u that is a two-sided additive identity for hom addition, then u is hom-classified with the displayed zero morphism 0_A,B.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+AbelianCatUp has no BOARD target hits, but its paper surface is substantial and currently mostly obligation packaging. The carrier selects a visible zero morphism row at papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex:25 and hom-wise AbGroupUp enrichment at :29-31. The existing additive/biproduct theorem reads the displayed zero row into biproduct equations at :211-233, but focused grep found no zero-morphism uniqueness theorem. This is a concrete hom-level consequence using the already-developed AbGroup identity/cancellation infrastructure rather than another carrier transport package.
+
+---
+
+
+### B-424 - DerivedCat roof identity unit laws
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | DerivedCat roof identity unit laws |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a DerivedCatUp roof ledger represents a morphism r, then composing r with the displayed identity roof on either side is classified with r by the generated zigzag classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/138_derivedcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
+
+Rationale:
+DerivedCatUp is a quiet homological-algebra island with no BOARD hits. The file defines the visible localization interface, generated zigzag classifier, and roof composition obligations at papers/bedc/parts/concrete_instances/138_derivedcat_namecert_construction.tex:9-16. It proves composition descent along classifier-equivalent roofs at :47-57, but there is no companion identity-unit theorem for represented roofs. The claim is a local categorical law for the existing localization carrier, not a new derived-category survey.
+
+---
+
+### B-425 - RealAnalytic sine addition formula row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RealAnalytic sine addition formula row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If supplied RealAlgOrder rows, trigonometric limit witnesses, product-stability rows, and regular-rational Cauchy-product comparisons are present for x and y, then the sine endpoint for x+y is RealClassifier-equal to sin(x)cos(y)+cos(x)sin(y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/104_streamname_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/12_rat_namecert_construction.tex`
+
+Rationale:
+The RealAnalytic chapter is contentful but still has a missing middle row: it defines sine and cosine by supplied limit witnesses at papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex:337-338, proves Pythagorean and pi-multiple zero rows, and explicitly assumes sine/cosine addition-formula rows inside the pi-multiple proof at papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex:352-354. A focused BOARD/state scan found no RealAnalytic trig-addition target, so a single sine-addition implication would fill an advertised local obligation without duplicating the existing Pythagorean or pi-multiple theorems.
+
+---
+
+
+### B-426 - ShortestPath prefix optimality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ShortestPath prefix optimality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a nonnegative-weight ShortestPathUp witness certifies a path p as minimum from u to v and p factors through w as p1 followed by p2, then p1 is a ShortestPathUp witness from u to w.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+
+Rationale:
+The algorithmic graph slice is essentially unopened: papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex:4 promises weighted graphs, nonnegative weights, minimum total-weight paths, and Dijkstra/Bellman-Ford correctness, while the file only exposes carrier and certificate section labels at papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex:7 and papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex:10. Focused BOARD/state grep found no shortest-path target. Prefix optimality is a concrete first theorem for the advertised minimum-path classifier and stays inside the existing GraphUp/RealUp dependencies.
+
+---
+
+
+### B-427 - Simplicial face-chain closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Simplicial face-chain closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If K is a SimplicialComplexUp carrier, sigma is in K, tau is a face of sigma, and rho is a face of tau, then rho is in K and rho is a face of sigma.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+SimplicialComplexUp is a structural blindspot: papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:4 states finite simplices closed under faces with face-incidence and dimension-grading data, but the chapter currently stops at section labels at papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:7 and papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:10. A focused BOARD/state scan found no simplicial-complex target. The proposed face-chain implication uses the named FinSetUp and PosetUp dependencies and is stronger than merely restating a one-step face-closure field.
+
+---
+
+
+### B-428 - Quadrature exactness degree weakening
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Quadrature exactness degree weakening |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a QuadratureUp finite weighted rule is exact for every polynomial of degree at most d and e <= d, then the same rule is exact for every polynomial of degree at most e.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/101_integral_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+QuadratureUp is another unserved numerical-analysis interface: papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:4 says the classifier is exactness degree for finite weighted sums approximating integrals, and the chapter has only carrier/certificate section labels at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:7 and papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:10. Focused BOARD/state grep found no quadrature target. Downward closure of exactness degree is a compact monotonicity theorem that directly tests the advertised classifier without opening a broad numerical-methods survey.
+
+---
+
+
+### B-429 - LP feasible weak duality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LP feasible weak duality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If primal and dual LPDualityUp rows over an ordered field have feasible witnesses x and y, then the primal objective value at x is less than or classifier-equal to the dual objective value at y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/187_polytope_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/field/20_field_laws_and_certificate.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+
+Rationale:
+LPDualityUp advertises strong duality and complementary slackness over an ordered field at papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex:4, but focused BOARD/state grep found no LPDuality target and the local chapter is only a 10-line skeleton. Weak duality is the missing middle implication before any strong-duality certificate can be meaningful, and it is local to the existing ConvexSetUp, PolytopeUp, FieldUp, and TotalOrderUp dependencies.
+
+---
+
+### B-430 - DerivedCat roof associativity classifier law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | DerivedCat roof associativity classifier law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DerivedCatUp visible localization setup, if three displayed roof ledger rows are composable and the two left- and right-associated composite roof ledgers are formed, then those two composite ledgers are classified by the generated zigzag classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/138_derivedcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
+
+Rationale:
+The claim is a concrete categorical law for the existing DerivedCatUp localization surface: the paper already defines generated zigzag classifiers, roof ledgers, composition descent, and roof identity laws, but it does not state the companion associativity law for three displayed roof composites. It is distinct from the existing functor/category associativity BOARD entries because it lands at the derived-category roof-ledger layer and uses quasi-isomorphism zigzag classification, not only ordinary hom-carrier composition.
+
+---
+
