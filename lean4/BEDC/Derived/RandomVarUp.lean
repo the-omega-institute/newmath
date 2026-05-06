@@ -1,3 +1,6 @@
+import BEDC.FKernel.Unary
+import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 
@@ -5,6 +8,28 @@ namespace BEDC.Derived.RandomVarUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+
+theorem RandomVarTotalPreimage_composition_exactness
+    {sourceTotal middleTotal targetTotal middlePreimage compositePreimage : BHist} :
+    UnaryHistory sourceTotal -> UnaryHistory middleTotal -> hsame targetTotal BHist.Empty ->
+      hsame middleTotal BHist.Empty -> Cont middleTotal targetTotal middlePreimage ->
+        Cont sourceTotal middlePreimage compositePreimage ->
+          UnaryHistory compositePreimage ∧ hsame compositePreimage sourceTotal := by
+  intro sourceUnary _middleUnary targetEmpty middleEmpty middleReadback compositeReadback
+  have middleTargetEmpty : Cont middleTotal BHist.Empty middlePreimage :=
+    cont_hsame_transport (hsame_refl middleTotal) targetEmpty (hsame_refl middlePreimage)
+      middleReadback
+  have middlePreimageSame : hsame middlePreimage middleTotal :=
+    cont_right_unit_result middleTargetEmpty
+  have middlePreimageEmpty : hsame middlePreimage BHist.Empty :=
+    hsame_trans middlePreimageSame middleEmpty
+  have compositeRightUnit : Cont sourceTotal BHist.Empty compositePreimage :=
+    cont_hsame_transport (hsame_refl sourceTotal) middlePreimageEmpty
+      (hsame_refl compositePreimage) compositeReadback
+  have compositeSame : hsame compositePreimage sourceTotal :=
+    cont_right_unit_result compositeRightUnit
+  exact And.intro (unary_transport sourceUnary (hsame_symm compositeSame)) compositeSame
 
 structure RandomVarTotalReadbackCertificate
     (targetTotal sourceTotal chosenPreimage : BHist) : Prop where
@@ -28,6 +53,17 @@ theorem RandomVarTotalReadbackCertificate_composition_total_event_preimage_exact
     cont_deterministic lowerCert.chosen_readback lowerCert.carried_total_bridge
   exact And.intro (hsame_trans compositeChosen (hsame_trans upperChosenTarget lowerTargetSource))
     (And.intro compositeChosen (And.intro upperChosenTarget lowerChosenSource))
+
+theorem RandomVarTotalReadbackCertificate_carried_bridge_chosen_preimage_exactness_iff
+    {targetTotal sourceTotal chosenPreimage : BHist} :
+    Cont targetTotal BHist.Empty chosenPreimage ->
+      (Cont targetTotal BHist.Empty sourceTotal ↔ hsame chosenPreimage sourceTotal) := by
+  intro chosenReadback
+  constructor
+  · intro carriedBridge
+    exact cont_deterministic chosenReadback carriedBridge
+  · intro chosenExact
+    exact cont_result_hsame_transport chosenReadback chosenExact
 
 theorem RandomVarPreimage_disjoint_binary_union_exactness
     {B C U_T A_B A_C A_U U_S : BHist} :
