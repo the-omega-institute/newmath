@@ -161,4 +161,31 @@ theorem BanachSingleton_limit_classifier_unique
     (And.intro carrier0 (And.intro carrier1 sameLimits))
     distance
 
+theorem BanachSingleton_regular_cauchy_stream_transport {s s' M M' : BHist -> BHist}
+    {limit limit' : BHist} :
+    (forall {n : BHist}, UnaryHistory n -> hsame (s n) (s' n)) ->
+      (forall {n : BHist}, UnaryHistory n -> hsame (M n) (M' n)) ->
+        hsame limit limit' -> CompleteMetricLimitWitness BanachSingletonCarrier s M limit ->
+          CompleteMetricLimitWitness BanachSingletonCarrier s' M' limit' ∧
+            BanachSingletonClassifier limit limit' := by
+  intro streamTransport modulusTransport sameLimit witness
+  have carrierTransport :
+      forall {h k : BHist}, hsame h k -> BanachSingletonCarrier h ->
+        BanachSingletonCarrier k := by
+    intro h k sameHK carrierH
+    have sameKEmpty : hsame k BHist.Empty :=
+      hsame_trans (hsame_symm sameHK) carrierH.left
+    have metricK :
+        MetricDistanceWitness k BHist.Empty BHist.Empty :=
+      MetricDistanceWitness_empty_distance_iff.mpr
+        (And.intro sameKEmpty (hsame_refl BHist.Empty))
+    exact And.intro sameKEmpty metricK
+  have transported :
+      CompleteMetricLimitWitness BanachSingletonCarrier s' M' limit' :=
+    CompleteMetricLimitWitness_hsame_transport carrierTransport streamTransport
+      modulusTransport sameLimit witness
+  have classified : BanachSingletonClassifier limit limit' :=
+    And.intro witness.left (And.intro transported.left sameLimit)
+  exact And.intro transported classified
+
 end BEDC.Derived.BanachUp

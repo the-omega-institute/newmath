@@ -8,3 +8,129 @@ The linear-programming-duality interface $\LPDualityUp$ packages a primal/dual p
 
 \section{The certificate}
 \label{sec:lpduality-certificate}
+
+\begin{definition}[Finite $\LPDualityUp$ ordered-field feasibility row]
+\label{def:lpduality-finite-ordered-field-feasibility-row}
+An $\LPDualityUp$ row over an ordered field consists of finite row-position and column-position carriers $I$ and $J$, a scalar carrier $F$ equipped with the $\FieldUp$ operations and classifier of \autoref{ch:concrete-instances-field-namecert}, and a $\TotalOrderUp$ comparison on the same scalar carrier and classifier as in \autoref{ch:concrete-instances-totalorder-namecert}. Write $+_F$, $\cdot_F$, $0_F$, $\sim_F$, and $\preceq_F$ for these data, with $u\preceq_F v$ meaning that $u$ is less than or classifier-equal to $v$. The nonnegative scalar predicate is
+$$
+\mathsf{NonNeg}_F(a)\Longleftrightarrow 0_F\preceq_F a.
+$$
+The scalar order rows used by the certificate are classifier stability of $\preceq_F$,
+$$
+u\sim_Fu'\land v\sim_Fv'\land u\preceq_Fv
+\Longrightarrow u'\preceq_Fv',
+$$
+left and right multiplication monotonicity by nonnegative scalars,
+$$
+\mathsf{NonNeg}_F(a)\land u\preceq_Fv
+\Longrightarrow
+(a\cdot_Fu\preceq_Fa\cdot_Fv)
+\land
+(u\cdot_Fa\preceq_Fv\cdot_Fa),
+$$
+and finite-sum monotonicity over every finite position carrier $K$,
+$$
+\Bigl(\forall k\in K.\; r_k\preceq_Fs_k\Bigr)
+\Longrightarrow
+\sum_{k\in K}r_k\preceq_F\sum_{k\in K}s_k.
+$$
+
+For coefficients $A:I\times J\to F$, right-hand side $b:I\to F$, and cost vector $c:J\to F$, define
+$$
+\alpha_i(x):=\sum_{j\in J} A_{ij}\cdot_F x_j,
+\qquad
+\beta_j(y):=\sum_{i\in I} y_i\cdot_F A_{ij}.
+$$
+The finite distributivity and interchange row records the classifier comparison
+$$
+\sum_{j\in J}\beta_j(y)\cdot_Fx_j
+\sim_F
+\sum_{i\in I}y_i\cdot_F\alpha_i(x).
+$$
+The primal and dual feasible carriers, read as the row descriptions of the corresponding $\PolytopeUp$ feasible sets over the convex substrate of \autoref{ch:concrete-instances-convexset-namecert} and \autoref{ch:concrete-instances-polytope-namecert}, are
+$$
+\mathsf{PrFeas}_{A,b}(x)\Longleftrightarrow
+\Bigl(\forall j\in J.\;\mathsf{NonNeg}_F(x_j)\Bigr)
+\land
+\Bigl(\forall i\in I.\;\alpha_i(x)\preceq_F b_i\Bigr)
+$$
+and
+$$
+\mathsf{DuFeas}_{A,b,c}(y)\Longleftrightarrow
+\Bigl(\forall i\in I.\;\mathsf{NonNeg}_F(y_i)\Bigr)
+\land
+\Bigl(\forall j\in J.\;c_j\preceq_F\beta_j(y)\Bigr).
+$$
+The objective endpoints are
+$$
+\mathsf{PrObj}_{A,c}(x):=\sum_{j\in J} c_j\cdot_Fx_j,
+\qquad
+\mathsf{DuObj}_{b}(y):=\sum_{i\in I} y_i\cdot_Fb_i.
+$$
+\end{definition}
+
+\begin{theorem}[LPDuality feasible weak duality]
+\label{thm:lpduality-feasible-weak-duality}
+Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. If $x$ is primal feasible and $y$ is dual feasible,
+$$
+\mathsf{PrFeas}_{A,b}(x)\land\mathsf{DuFeas}_{A,b,c}(y),
+$$
+then the primal objective value at $x$ is less than or classifier-equal to the dual objective value at $y$:
+$$
+\mathsf{PrObj}_{A,c}(x)\preceq_F\mathsf{DuObj}_{b}(y).
+$$
+Equivalently, the $\TotalOrderUp$ comparison between the two objective endpoints cannot select the strict-right branch.
+\end{theorem}
+\begin{proof}
+Unpack the feasibility predicates of \autoref{def:lpduality-finite-ordered-field-feasibility-row}. From primal feasibility, for each row position $i\in I$ there is a constraint comparison
+$$
+\alpha_i(x)\preceq_F b_i,
+$$
+and from dual feasibility there is a nonnegativity witness $\mathsf{NonNeg}_F(y_i)$. Multiplication monotonicity by the nonnegative scalar $y_i$ gives
+$$
+y_i\cdot_F\alpha_i(x)\preceq_F y_i\cdot_Fb_i.
+$$
+Finite-sum monotonicity over $I$ yields
+$$
+\sum_{i\in I}y_i\cdot_F\alpha_i(x)
+\preceq_F
+\sum_{i\in I}y_i\cdot_Fb_i.
+$$
+The right-hand side is $\mathsf{DuObj}_{b}(y)$ by definition.
+
+From dual feasibility, for each column position $j\in J$ there is a comparison
+$$
+c_j\preceq_F\beta_j(y),
+$$
+and from primal feasibility there is a nonnegativity witness $\mathsf{NonNeg}_F(x_j)$. Right multiplication monotonicity by the nonnegative scalar $x_j$ gives
+$$
+c_j\cdot_Fx_j\preceq_F\beta_j(y)\cdot_Fx_j.
+$$
+Finite-sum monotonicity over $J$ yields
+$$
+\sum_{j\in J}c_j\cdot_Fx_j
+\preceq_F
+\sum_{j\in J}\beta_j(y)\cdot_Fx_j.
+$$
+The left-hand side is $\mathsf{PrObj}_{A,c}(x)$ by definition.
+
+The finite distributivity and interchange row gives the classifier comparison
+$$
+\sum_{j\in J}\beta_j(y)\cdot_Fx_j
+\sim_F
+\sum_{i\in I}y_i\cdot_F\alpha_i(x).
+$$
+Classifier stability of $\preceq_F$, applied to reflexivity at the left endpoint of this comparison, turns it into the order comparison
+$$
+\sum_{j\in J}\beta_j(y)\cdot_Fx_j
+\preceq_F
+\sum_{i\in I}y_i\cdot_F\alpha_i(x).
+$$
+Composing the three displayed comparisons by transitivity of the $\TotalOrderUp$ order gives
+$$
+\mathsf{PrObj}_{A,c}(x)
+\preceq_F
+\mathsf{DuObj}_{b}(y).
+$$
+This is exactly the weak-duality comparison for the feasible primal and dual witnesses.
+\end{proof}

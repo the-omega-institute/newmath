@@ -11115,3 +11115,298 @@ DerivedCatUp is a quiet homological-algebra island with no BOARD hits. The file 
 
 ---
 
+### B-425 - RealAnalytic sine addition formula row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RealAnalytic sine addition formula row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If supplied RealAlgOrder rows, trigonometric limit witnesses, product-stability rows, and regular-rational Cauchy-product comparisons are present for x and y, then the sine endpoint for x+y is RealClassifier-equal to sin(x)cos(y)+cos(x)sin(y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/104_streamname_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/12_rat_namecert_construction.tex`
+
+Rationale:
+The RealAnalytic chapter is contentful but still has a missing middle row: it defines sine and cosine by supplied limit witnesses at papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex:337-338, proves Pythagorean and pi-multiple zero rows, and explicitly assumes sine/cosine addition-formula rows inside the pi-multiple proof at papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex:352-354. A focused BOARD/state scan found no RealAnalytic trig-addition target, so a single sine-addition implication would fill an advertised local obligation without duplicating the existing Pythagorean or pi-multiple theorems.
+
+---
+
+
+### B-426 - ShortestPath prefix optimality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ShortestPath prefix optimality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a nonnegative-weight ShortestPathUp witness certifies a path p as minimum from u to v and p factors through w as p1 followed by p2, then p1 is a ShortestPathUp witness from u to w.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+
+Rationale:
+The algorithmic graph slice is essentially unopened: papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex:4 promises weighted graphs, nonnegative weights, minimum total-weight paths, and Dijkstra/Bellman-Ford correctness, while the file only exposes carrier and certificate section labels at papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex:7 and papers/bedc/parts/concrete_instances/214_shortestpath_namecert_construction.tex:10. Focused BOARD/state grep found no shortest-path target. Prefix optimality is a concrete first theorem for the advertised minimum-path classifier and stays inside the existing GraphUp/RealUp dependencies.
+
+---
+
+
+### B-427 - Simplicial face-chain closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Simplicial face-chain closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If K is a SimplicialComplexUp carrier, sigma is in K, tau is a face of sigma, and rho is a face of tau, then rho is in K and rho is a face of sigma.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+SimplicialComplexUp is a structural blindspot: papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:4 states finite simplices closed under faces with face-incidence and dimension-grading data, but the chapter currently stops at section labels at papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:7 and papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex:10. A focused BOARD/state scan found no simplicial-complex target. The proposed face-chain implication uses the named FinSetUp and PosetUp dependencies and is stronger than merely restating a one-step face-closure field.
+
+---
+
+
+### B-428 - Quadrature exactness degree weakening
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Quadrature exactness degree weakening |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a QuadratureUp finite weighted rule is exact for every polynomial of degree at most d and e <= d, then the same rule is exact for every polynomial of degree at most e.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/101_integral_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+QuadratureUp is another unserved numerical-analysis interface: papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:4 says the classifier is exactness degree for finite weighted sums approximating integrals, and the chapter has only carrier/certificate section labels at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:7 and papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:10. Focused BOARD/state grep found no quadrature target. Downward closure of exactness degree is a compact monotonicity theorem that directly tests the advertised classifier without opening a broad numerical-methods survey.
+
+---
+
+
+### B-429 - LP feasible weak duality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LP feasible weak duality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If primal and dual LPDualityUp rows over an ordered field have feasible witnesses x and y, then the primal objective value at x is less than or classifier-equal to the dual objective value at y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/187_polytope_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/field/20_field_laws_and_certificate.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+
+Rationale:
+LPDualityUp advertises strong duality and complementary slackness over an ordered field at papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex:4, but focused BOARD/state grep found no LPDuality target and the local chapter is only a 10-line skeleton. Weak duality is the missing middle implication before any strong-duality certificate can be meaningful, and it is local to the existing ConvexSetUp, PolytopeUp, FieldUp, and TotalOrderUp dependencies.
+
+---
+
+### B-430 - DerivedCat roof associativity classifier law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | DerivedCat roof associativity classifier law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DerivedCatUp visible localization setup, if three displayed roof ledger rows are composable and the two left- and right-associated composite roof ledgers are formed, then those two composite ledgers are classified by the generated zigzag classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/138_derivedcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
+
+Rationale:
+The claim is a concrete categorical law for the existing DerivedCatUp localization surface: the paper already defines generated zigzag classifiers, roof ledgers, composition descent, and roof identity laws, but it does not state the companion associativity law for three displayed roof composites. It is distinct from the existing functor/category associativity BOARD entries because it lands at the derived-category roof-ledger layer and uses quasi-isomorphism zigzag classification, not only ordinary hom-carrier composition.
+
+---
+
+### B-431 - RealAnalytic cosine addition formula row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | RealAnalytic cosine addition formula row |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If z is the RealAlgOrder endpoint for x+y and the supplied trigonometric limit witnesses, RealAlgOrder product/difference rows, product-stability rows, even-parity regular-rational Cauchy-product comparison, and limit-uniqueness classifier rows are present, then RealClassifier(c_z, c_x*c_y - s_x*s_y) for Cos(z,c_z), Cos(x,c_x), Cos(y,c_y), Sin(x,s_x), and Sin(y,s_y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/real/13_real_alg_order_interface.tex`
+
+Rationale:
+This is a concrete theorem-row target in the existing RealAnalyticUp surface. The paper already has the sine addition row and later assumes both sine and cosine addition-formula rows, but the cosine counterpart is not present as its own labeled theorem. It is not a marker, closurestatus, or abstract transport echo, and the landing file is a non-hub concrete_instances file well below the line cap. The two codex proposals are the same target, with the accepted wording using the sharper even-parity Cauchy-product comparison.
+
+---
+
+### B-432 - Simplicial face-chain dimension monotonicity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Simplicial face-chain dimension monotonicity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a SimplicialComplexUp finite face carrier K with dimension-grading data, Simplex_K(sigma) and Face_K(rho,tau) and Face_K(tau,sigma) imply dim_K(rho) <= dim_K(tau) and dim_K(tau) <= dim_K(sigma).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+The target lands directly in the existing SimplicialComplexUp concrete-instance chapter: the current surface already has face-chain closure and mentions dimension-grading data, but it has no labeled theorem extracting monotonicity along a two-step face chain. It is not a BOARD duplicate and is distinct from the existing face-chain closure theorem because it concerns the dimension row rather than carrier closure or face transitivity.
+
+---
+
+### B-433 - Measure binary union subadditivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Measure binary union subadditivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If A and B are displayed measurable events in a MeasureUp carrier with displayed binary union U, the relative-difference row for U\A, finite disjoint-union additivity, nonnegative measure values, and the RealAlgOrder additive order row, then mu(U) <=_R mu(A)+mu(B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/certificate_theorems.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+
+Rationale:
+The MeasureUp surface explicitly exposes binary union, complement/relative-difference, nonnegative value, and RealUp measure endpoint rows at papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex:36-50 and papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex:53-71. Existing consequences prove finite disjoint-union additivity at papers/bedc/parts/concrete_instances/measure/certificate_theorems.tex:167-173, monotonicity under inclusion at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:26-36, and relative-difference additivity at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:116-130, but a focused grep for subadd, Boole, countable sub, finite sub, union bound, and union-bound under the measure files returned 0 hits. This is a concrete inequality theorem about an existing MeasureUp object, naturally landing in the small relative-difference child file rather than the measure hub.
+
+---
+
+
+### B-434 - RandomVar preimage relative-difference exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar preimage relative-difference exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If B subset A are displayed target measurable events and X is a RandomVarUp map with measurable-preimage rows, then X^{-1}(A\B) is source-event-classifier equal to X^{-1}(A)\X^{-1}(B) with the source MeasureUp relative-difference ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+RandomVarUp has exactly one theorem label, the disjoint binary-union preimage exactness theorem at papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex:12-27. MeasureUp separately defines the complement/relative-difference row at papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex:53-71 and proves relative-difference disjoint decomposition at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:91-100. Focused grep for randomvar/preimage relative or difference returned only a proof sentence in the measure relative-difference transport theorem and no RandomVar theorem, so this is an open concrete closure property of the random-variable preimage operation rather than a marker or transport-only target.
+
+---
+
+
+### B-435 - ProbSpace monotone event bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ProbSpace monotone event bounds |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If A subset B subset Omega are displayed events in a ProbSpaceUp carrier, then mu(A) <=_R mu(B) and mu(B) <=_R 1_R under the inherited MeasureUp monotonicity and total-mass row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/downstream_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/analysis_seed_substrate.tex`
+
+Rationale:
+ProbSpaceUp currently proves complement mass additivity and complement mass as one minus event mass at papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex:12-23 and 47-57. The probability substrate states that ProbSpaceUp adds only a total-event row and unit-mass endpoint row on top of MeasureUp at papers/bedc/parts/concrete_instances/measure/analysis_seed_substrate.tex:44-52, while the normalization row is stated at papers/bedc/parts/concrete_instances/measure/downstream_rows.tex:65-80 and MeasureUp monotonicity is available at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:26-36. Focused grep for probability/probspace monotone, bound, event bound, and inclusion returned only an unrelated probability-boundary sentence, and the probspace label inventory has only the two complement-mass theorems, so the inclusion-to-unit bound is a genuine missing probability consequence.
+
+---
+
