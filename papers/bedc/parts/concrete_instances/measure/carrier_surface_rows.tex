@@ -1,0 +1,72 @@
+\begin{definition}[MeasureUp sigma-algebra carrier surface]
+\label{def:measure-sigma-algebra-carrier-surface}
+The $\MeasureUp$ sigma-algebra carrier surface is the following ten-field
+BEDC package.
+\begin{enumerate}
+  \item traditional target: a constructive measure space whose measurable
+  predicates form a $\sigma$-algebra and whose measure map takes values in
+  $\RealUp$;
+  \item BEDC source: $\mathsf{BHist}$ presentations, the certificate
+  $\NameCert_{\RealUp}$, and the additive $\AbGroupUp$ row on real histories;
+  \item carrier: a $\mathsf{BHist}$ package exposing measurable-event rows
+  for the empty event, binary union, countable union,
+  complement/relative-difference, disjoint sequence readback, and $\RealUp$
+  measure values;
+  \item classifier: componentwise $\hsame$ on the package rows, with the
+  $\RealUp$ classifier applied to the visible measure endpoints;
+  \item stability rows: transport for the empty event, binary union,
+  countable union, complement/relative-difference, disjoint sequence readback,
+  and $\RealUp$ measure values;
+  \item ledger rows: hidden measurable-set membership witnesses,
+  relative-difference witnesses, and countable-sum witnesses attached to the
+  visible rows they justify;
+  \item core theorem list:
+  \autoref{thm:measure-empty-set-zero-from-sigma-additivity},
+  \autoref{thm:measure-finite-disjoint-union-additivity}, and
+  \autoref{thm:measure-relative-difference-additivity};
+  \item exactness: visible row exhaustion, meaning every measurable-set,
+  disjointness, relative-difference, value, and countable-sum witness consumed
+  by the certificate is attached to one of the displayed rows;
+  \item standard bridge: no $\StdBridge$ is asserted at this paper site;
+  \item status: paper-side target for the $\MeasureUp$ NameCert obligation
+  package.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[MeasureUp certificate surface]
+\label{def:measure-certificate-surface}
+A $\MeasureUp$ certificate surface over the BEDC history substrate consists of the following data.
+\begin{enumerate}
+  \item a carrier predicate $\mathsf{MeasCode}:\mathsf{BHist}\to\mathsf{Prop}$ for histories that present measure codes;
+  \item a classifier $\sim_M:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ and a core $\NameCert(\mathsf{MeasCode},\sim_M)$, so membership in $\mathsf{MeasCode}$ transports along $\sim_M$ by the $\NameCert$ transport field;
+  \item a designated measurable-family predicate $\mathsf{MeasFam}$ on predicates $E:\mathsf{BHist}\to\mathsf{Prop}$, stable under the displayed classifier and under $\hsame$ on the endpoint histories that present the same event;
+  \item a $\RealUp$-valued endpoint map $\mu$ from measurable predicates to their measure endpoints, with equality of measurable presentations transported through the $\RealUp$ classifier $\sim_R$ of \autoref{def:real-classifier-specification};
+  \item a countable-sum endpoint $\Sigma_\mu(E_\bullet)$ for each measurable sequence $E_\bullet:\mathbb{N}\to(\mathsf{BHist}\to\mathsf{Prop})$;
+  \item $\sigma$-algebra rows asserting $\mathsf{MeasFam}(\varnothing)$, binary-union closure for disjoint measurable pairs, countable-union closure for measurable sequences, and complement/relative-difference closure for displayed inclusions of measurable events in the same carried fiber;
+  \item a $\sigma$-additivity row: whenever $E_\bullet$ is a pairwise-disjoint measurable sequence with countable union $U$, the comparison $\mu(U)\sim_R\Sigma_\mu(E_\bullet)$ holds;
+  \item a head-tail readback row: for every measurable sequence $E_\bullet$, the endpoint $\Sigma_\mu(E_\bullet)$ is classified with $\mu(E_0)+\Sigma_\mu(E_{\bullet+1})$ by the $\RealUp$ additive operation;
+  \item a countable-sum classifier row: pointwise classifier equality of measurable sequences transports their countable endpoints through $\sim_R$.
+\end{enumerate}
+The dependencies of the surface are exactly the BEDC objects named above: $\NameCert$ supplies carrier and classifier transport; $\mathsf{BHist}$ supplies the visible code substrate; $\hsame$ and $\Cont$ supply history sameness and continuation discipline for event presentations; $\RealUp$ supplies the codomain classifier; and the additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} supplies the addition, zero, congruence, and cancellation laws used by the displayed measure consequences.
+\end{definition}
+
+\begin{definition}[Measure complement and relative-difference row]
+\label{def:measure-complement-difference-row}
+For a $\MeasureUp$ certificate surface as in
+\autoref{def:measure-certificate-surface}, the complement/relative-difference
+row is the displayed carrier row with the following fields. Whenever
+$A$ and $B$ are measurable events in the same carried fiber and the public
+event readback displays $B\subseteq A$, the row supplies a measurable event
+$A\setminus B$ in that fiber. It also supplies a disjointness witness between
+$B$ and $A\setminus B$, a binary-union readback classifying
+$B\cup(A\setminus B)$ as $A$, and a $\RealUp$ endpoint row for
+$\mu(A\setminus B)$.
+
+The same row is stable under the public $\MeasureUp$ classifier. If
+componentwise $\hsame$ transports the carried fiber, the event presentations,
+and the inclusion witness from one package to another, the relative-difference
+event, its measurable witness, its disjointness witness, its binary-union
+readback, and its measure endpoint transport to the corresponding target
+package. The endpoint movement is read through the $\RealUp$ classifier
+$\sim_R$ supplied by \autoref{def:real-classifier-specification}.
+\end{definition}
