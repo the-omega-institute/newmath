@@ -39,6 +39,22 @@ theorem BHistUnaryTopologyLedgerRow_public_open_coverage (T : BHistIndexedOpenCa
         (Exists.intro ledger unaryLedger)
         (And.intro carries (TopologyPublicOpenTree.basic carries))
 
+theorem BHistLedgerPublicOpenTree_topology_public_open_tree (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} {ledger : BHist} :
+    BHistLedgerPublicOpenTree T i U ledger -> TopologyPublicOpenTree T i U := by
+  intro tree
+  induction tree with
+  | base carries =>
+      exact TopologyPublicOpenTree.basic carries
+  | meet leftTree rightTree leftPublic rightPublic =>
+      exact TopologyPublicOpenTree.binaryMeet leftPublic rightPublic
+  | union children unionLaw childPublic =>
+      exact TopologyPublicOpenTree.arbitraryUnion childPublic unionLaw
+  | bottom boundary =>
+      exact TopologyPublicOpenTree.bottom boundary
+  | top boundary =>
+      exact TopologyPublicOpenTree.top boundary
+
 theorem TopologyPublicOpenTree_semantic_name_certificate (T : BHistIndexedOpenCarrier)
     {i : T.OpenIx} {U : BHist -> Prop} (tree : TopologyPublicOpenTree T i U)
     (source : exists h : BHist, UnaryHistory h ∧ U h) :
