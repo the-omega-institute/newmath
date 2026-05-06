@@ -158,3 +158,34 @@ Apply \autoref{thm:ideal-quotient-kernel-diagonal-exactness} to $K$ for the diag
 The ten-field fit is: traditional target sum of two ideals; BEDC source $\RingUp$ plus two $\IdealUp$ predicates over $\mathsf{BHist}$; carrier the existential additive decomposition predicate; classifier $\sim_R$; stability \autoref{thm:ideal-sum-closure}; ledger decomposition witnesses; core theorem \autoref{thm:ideal-sum-closure}; exactness row exhaustion of the displayed witnesses; standard bridge absent; status $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.IdealUp.IdealSumQuotientKernel\_diagonal\_transport\_scope}
+
+\begin{theorem}[Ideal sum quotient-kernel absorption closure]
+\label{thm:ideal-sum-quotient-kernel-absorption-closure}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over $R$, set $K:=I+_RJ$ as in \autoref{def:ideal-sum-predicate}, and define
+$$
+x-_R y:=x+_R(-_R y),
+\qquad
+Q_K(x,y)\Longleftrightarrow C(x)\land C(y)\land K(x-_R y).
+$$
+Assume the ring certificate supplies multiplication carrier closure, carrier transport, classifier symmetry, subtraction congruence, and the absorption-difference rows
+$$
+(r\cdot_R x)-_R(r\cdot_R y)\sim_R r\cdot_R(x-_R y)
+$$
+and
+$$
+(x\cdot_R r)-_R(y\cdot_R r)\sim_R (x-_R y)\cdot_R r.
+$$
+Assume the two ideal certificates for $I$ and $J$ provide the rows listed in \autoref{sec:ideal-certificate}. Then
+$$
+C(r)\land Q_K(x,y)
+\Longrightarrow
+Q_K(r\cdot_R x,r\cdot_R y)\land Q_K(x\cdot_R r,y\cdot_R r).
+$$
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:ideal-sum-closure} to the two ideal certificates. This turns the concrete sum predicate $K:=I+_RJ$ into an $\IdealUp$ predicate over the same $\RingUp$ certificate, with carrier support, classifier transport, and two-sided absorption by every carried ring endpoint.
+
+Now regard the displayed relation $Q_K(x,y)$ as the quotient-kernel source package associated to this specialized ideal predicate. The hypotheses on multiplication carrier closure, carrier transport, classifier symmetry, subtraction congruence, and the two absorption-difference rows are exactly the ambient ring rows required by \autoref{thm:ideal-quotient-kernel-absorption-closure}.
+
+Apply \autoref{thm:ideal-quotient-kernel-absorption-closure} with $I$ there specialized to $K$ here. Its left output gives $Q_K(r\cdot_R x,r\cdot_R y)$, its right output gives $Q_K(x\cdot_R r,y\cdot_R r)$, and together they give the claimed absorption closure for the ideal-sum quotient kernel.
+\end{proof}
