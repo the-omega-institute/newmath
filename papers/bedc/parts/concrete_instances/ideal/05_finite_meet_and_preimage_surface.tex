@@ -50,6 +50,22 @@ For absorption, assume $K(x)$ and $C(r)$. The ring multiplication-closure row gi
 These are exactly the carrier, additive sub-rng, multiplicative sub-rng, classifier-stability, and two-sided ambient absorption rows required of an $\IdealUp$ predicate over the fixed $\RingUp$ certificate.
 \end{proof}
 
+\begin{theorem}[Finite ideal meet quotient-ring kernel scope]
+\label{thm:finite-ideal-meet-quotientring-kernel-scope}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $xs:\mathsf{HistSpine}$ be a finite BEDC-history spine, and let $\mathcal{I}$ assign to every position $i:\mathsf{Pos}(xs)$ a predicate $\mathcal{I}_i:\mathsf{BHist}\to\mathsf{Prop}$ over the same ring data. Assume that every indexed predicate $\mathcal{I}_i$ is an $\IdealUp$ predicate over these ring rows, and put
+$$
+K(x)\Longleftrightarrow \mathsf{FinIdealMeet}_{C,xs,\mathcal{I}}(x).
+$$
+Let $Q_K$ be the quotient-kernel source package of \autoref{def:ideal-quotient-kernel-source-package}. The package $Q_K$ has the same diagonal, endpoint-transport, and multiplication-descent scope as the quotient-kernel packages built from any other $\IdealUp$ predicate. Thus $\QuotientRingUp$ may consume finite intersections of ideals through the quotient-free kernel interface, with no finite-meet-specific quotient carrier or quotient primitive.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:finite-ideal-intersection-closure}, the predicate $K$ is an $\IdealUp$ predicate over the same $\RingUp$ certificate as the finite family $\mathcal{I}$. This supplies the carrier support, sub-rng, classifier-stability, and two-sided ambient absorption rows required by the quotient-kernel source package.
+
+Apply \autoref{thm:ideal-quotient-kernel-diagonal-exactness} to $K$ to obtain diagonal exactness. Apply \autoref{thm:ideal-quotient-kernel-transport-surface} to $K$ to obtain endpoint transport along $\sim_R$ for carried endpoints.
+
+Finally apply \autoref{thm:ideal-quotient-kernel-multiplication-descent} to $K$. The multiplication row is therefore the same product-difference membership row used by arbitrary $\IdealUp$ predicates, so the quotient-ring consumer reads the finite meet only through $Q_K(x,y)\Longleftrightarrow C(x)\land C(y)\land K(x-_R y)$.
+\end{proof}
+
 \begin{definition}[Ring map ideal preimage predicate]
 \label{def:ring-map-ideal-preimage-predicate}
 Let $S$ and $T$ carry $\RingUp$ certificates, with carriers $C_S,C_T$, classifiers $\sim_S,\sim_T$, zeros $0_S,0_T$, additions $+_S,+_T$, additive inverses $-_S,-_T$, and multiplications $\cdot_S,\cdot_T$. Let $J$ be an $\IdealUp$ carried predicate over $T$ in the sense of \autoref{sec:ideal-carrier}. For a function $f:S\to T$, the source-carried ideal preimage predicate is

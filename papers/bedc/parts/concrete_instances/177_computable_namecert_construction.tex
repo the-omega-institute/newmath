@@ -145,12 +145,14 @@ $$
   \mathsf{Id}_{\NatUp}(n,m).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_exactness}
 \leanchecked{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_simulation\_exactness}
 \begin{proof}
 Assume first $\mathsf{Id}_{\NatUp}(n,m)$. By \autoref{def:computable-unary-classifier-identity-graph}, the histories $n$ and $m$ are unary and $n\hsame m$. Use the one-entry $\SeqUp$ trace indexed by the empty bound $\beta_{\mathsf{id}}(n)=\emp$. Its zero-prefix entry is the initial configuration of $P_{\mathsf{id}}$ on $n$, which is already halted by \autoref{def:computable-halted-unary-identity-code}. There are no nontrivial one-step extensions in the empty prefix interval. The endpoint is the same halted row, and its classifier readout accepts $m$ because $n\hsame m$. Hence the trace satisfies \autoref{def:computable-bounded-simulation-witness}.
 
 Conversely, assume $\mathsf{BoundedSim}(P_{\mathsf{id}},n,\beta_{\mathsf{id}}(n),m)$. Since the displayed bound is $\emp$, the endpoint row is the zero-prefix row. By \autoref{def:computable-bounded-simulation-witness}, that row is the initial configuration of $P_{\mathsf{id}}$ on $n$ and is halted with readout $m$. The readout clause of \autoref{def:computable-halted-unary-identity-code} gives $n\hsame m$, and the simulation witness supplies the unary input and unary output histories. Therefore $\mathsf{Id}_{\NatUp}(n,m)$ by \autoref{def:computable-unary-classifier-identity-graph}.
 \end{proof}
+\leanchecked{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_simulation\_iff}
 
 \begin{theorem}[Computable identity bounded graph certificate]
 \label{thm:computable-identity-bounded-graph-certificate}
