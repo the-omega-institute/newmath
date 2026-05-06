@@ -1,0 +1,99 @@
+\begin{definition}[Sheaf restricted common-refinement ledger]
+\label{def:sheaf-restricted-common-refinement-ledger}
+Let $\mathcal{T}$ be a $\mathsf{BHist}$-scoped indexed open topology carrier for $\TopologyUp$, let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over $\mathcal{T}$, and fix an open index $i:\mathsf{OpenIx}$. Work in the restricted-open carrier $\mathcal{S}|_i$ of \autoref{def:sheaf-restricted-open-carrier}. For a restricted target $(j,\eta_j)$, let
+$$
+\mathcal{U}_{|i}=(A,\iota,\eta^\iota,h,\gamma),
+\qquad
+\mathcal{V}_{|i}=(B,\kappa,\eta^\kappa,q,\delta)
+$$
+be two indexed open covers of $(j,\eta_j)$, where each $\eta^\iota_a:\iota(a)\le_{\mathcal{T}} i$ and $\eta^\kappa_b:\kappa(b)\le_{\mathcal{T}} i$ records that the member lies below the fixed open $i$. A restricted common-refinement ledger from $\mathcal{U}_{|i}$ to $\mathcal{V}_{|i}$ is a tuple
+$$
+\mathcal{W}_{|i}=(C,\lambda,\eta^\lambda,r,s,\epsilon,\zeta,\omega)
+$$
+such that $C$ is an indexing type, $\lambda:C\to\mathsf{OpenIx}$ is an indexed-open family, every $\eta^\lambda_c:\lambda(c)\le_{\mathcal{T}} i$ lies below the fixed open, $r:C\to A$ and $s:C\to B$ choose members of the two covers, and
+$$
+\epsilon_c:\lambda(c)\le_{\mathcal{T}}\iota(r(c)),
+\qquad
+\zeta_c:\lambda(c)\le_{\mathcal{T}}\kappa(s(c))
+$$
+for every $c:C$. The row $\omega$ says that $\lambda$ is an indexed open cover of $j$, with member inclusions obtained by composing through either displayed leg and with pointwise cover law over $\mathsf{OpenAt}(j,x)$.
+
+Thus the ledger is a displayed common-refinement span entirely inside the slice below $i$: all carrier rows are restricted indices, all maps are inherited restrictions of $\mathcal{S}$, and all comparisons are made by the section classifiers of \autoref{def:sheaf-restricted-open-carrier}.
+\end{definition}
+
+\begin{theorem}[Sheaf restricted common-refinement pullback compatibility]
+\label{thm:sheaf-restricted-common-refinement-pullback-compatibility}
+Let $\mathcal{S}|_i$ be the restricted-open carrier of \autoref{def:sheaf-restricted-open-carrier}. Let $\mathcal{U}_{|i}$ and $\mathcal{V}_{|i}$ be restricted covers of a restricted target $(j,\eta_j)$, and let $\mathcal{W}_{|i}$ be a restricted common-refinement ledger between them in the sense of \autoref{def:sheaf-restricted-common-refinement-ledger}. If
+$$
+u_a:\mathsf{Sec}_{|i}(\iota(a),\eta^\iota_a)
+$$
+is compatible over $\mathcal{U}_{|i}$ and
+$$
+v_b:\mathsf{Sec}_{|i}(\kappa(b),\eta^\kappa_b)
+$$
+is compatible over $\mathcal{V}_{|i}$, then their pullbacks to the restricted common refinement are compatible families over $\mathcal{W}_{|i}$. Moreover, if the displayed comparison
+$$
+\forall c:C,\quad
+\rho^{|i}_{(\iota(r(c)),\eta^\iota_{r(c)}),(\lambda(c),\eta^\lambda_c)}(u_{r(c)})
+\sim_{|i,(\lambda(c),\eta^\lambda_c)}
+\rho^{|i}_{(\kappa(s(c)),\eta^\kappa_{s(c)}),(\lambda(c),\eta^\lambda_c)}(v_{s(c)})
+$$
+holds on $\mathcal{W}_{|i}$, then it is the same comparison as the ambient common-refinement comparison after forgetting only the witnesses to $i$.
+\end{theorem}
+\begin{proof}
+Unfold the restricted carrier using \autoref{def:sheaf-restricted-open-carrier}. The restricted section carriers and classifiers at $\iota(a)$, $\kappa(b)$, and $\lambda(c)$ are exactly the ambient carriers and classifiers at those open indices, and the restricted restriction maps are the ambient maps $\rho$.
+
+The restricted ledger of \autoref{def:sheaf-restricted-common-refinement-ledger} forgets to a displayed common-refinement span in the ambient sheaf. By \autoref{thm:sheaf-displayed-common-refinement-span}, its two projections are displayed refinements through $\mathcal{U}$ and $\mathcal{V}$.
+
+Apply the pullback part of the ambient refinement exactness surface to each projection. Equivalently, read \autoref{thm:sheaf-refinement-pullback-composition} with the identity tower on the displayed span: the pulled-back families are compatible over the common refinement, and the two-step and one-step restriction descriptions agree by classifier equality.
+
+Finally, \autoref{thm:sheaf-restricted-open-restriction-laws} identifies the restricted restriction composition and classifier transport rows with the ambient ones. Therefore the displayed equality in the restricted carrier is exactly the ambient equality on the same local sections, with the witnesses $\eta^\lambda_c$ recording only that the comparison remains below $i$.
+\end{proof}
+
+\begin{theorem}[Sheaf restricted common-refinement gluing invariance]
+\label{thm:sheaf-restricted-common-refinement-gluing-invariance}
+Let $\mathcal{S}|_i$ be the restricted-open carrier of \autoref{def:sheaf-restricted-open-carrier}. Let $\mathcal{U}_{|i}$ and $\mathcal{V}_{|i}$ be restricted covers of a restricted target $(j,\eta_j)$, and let $\mathcal{W}_{|i}$ be a restricted common-refinement ledger between them. Let $u_a$ and $v_b$ be compatible local families over those two restricted covers. Suppose their pullbacks to $\mathcal{W}_{|i}$ agree:
+$$
+\forall c:C,\quad
+\rho^{|i}_{(\iota(r(c)),\eta^\iota_{r(c)}),(\lambda(c),\eta^\lambda_c)}(u_{r(c)})
+\sim_{|i,(\lambda(c),\eta^\lambda_c)}
+\rho^{|i}_{(\kappa(s(c)),\eta^\kappa_{s(c)}),(\lambda(c),\eta^\lambda_c)}(v_{s(c)}).
+$$
+If $g:\mathsf{Sec}_{|i}(j,\eta_j)$ glues $u_a$ over $\mathcal{U}_{|i}$ and $h':\mathsf{Sec}_{|i}(j,\eta_j)$ glues $v_b$ over $\mathcal{V}_{|i}$, then
+$$
+g\sim_{|i,(j,\eta_j)}h'.
+$$
+\end{theorem}
+\begin{proof}
+First forget the target witnesses to $i$. By \autoref{def:sheaf-restricted-open-carrier}, the two restricted covers become ambient indexed covers of $j$, the local families are the same ambient section families, and the displayed gluings are ambient gluing rows.
+
+The common-refinement ledger becomes the ambient displayed span required by \autoref{thm:sheaf-displayed-common-refinement-span}. The agreement hypothesis is the ambient pullback comparison, because the restricted classifier at $(\lambda(c),\eta^\lambda_c)$ is $\sim_{\lambda(c)}$.
+
+Apply \autoref{thm:sheaf-common-refinement-gluing-invariance} to the two ambient covers, the ambient span, the two compatible families, their pullback comparison, and the two gluing rows. This gives $g\sim_j h'$ in the ambient sheaf.
+
+Return to the slice below $i$. The classifier at the restricted target $(j,\eta_j)$ is $\sim_j$, so the ambient conclusion is exactly the displayed restricted classifier equality. The locality and gluing rows used in this passage are the restricted rows of \autoref{thm:sheaf-restricted-open-locality-gluing} read through the carrier identification.
+\end{proof}
+
+\begin{theorem}[Sheaf restricted-open refinement exactness export]
+\label{thm:sheaf-restricted-open-refinement-exactness-export}
+For every fixed open index $i:\mathsf{OpenIx}$, the restricted-open carrier $\mathcal{S}|_i$ exports the local cover-presentation exactness surface consumed by $\RingedSpaceUp$ and $\SchemeUp$. Its rows are:
+\begin{enumerate}
+\item restricted carrier, classifier, and restriction laws from \autoref{def:sheaf-restricted-open-carrier} and \autoref{thm:sheaf-restricted-open-restriction-laws};
+\item restricted locality and gluing for covers below $i$ from \autoref{thm:sheaf-restricted-open-locality-gluing};
+\item restricted common-refinement ledgers below $i$ from \autoref{def:sheaf-restricted-common-refinement-ledger};
+\item pullback compatibility over a restricted common refinement from \autoref{thm:sheaf-restricted-common-refinement-pullback-compatibility};
+\item classifier equality of restricted gluings whose pulled-back families agree from \autoref{thm:sheaf-restricted-common-refinement-gluing-invariance}.
+\end{enumerate}
+The exported surface is local in the fixed open $i$, uses no host powerset equality of covers, and introduces no quotient comparison between cover presentations.
+\end{theorem}
+\begin{proof}
+The first two rows are already established by the restricted-open surface. Apply \autoref{def:sheaf-restricted-open-carrier} to identify the carriers, classifiers, and inherited restriction maps, then apply \autoref{thm:sheaf-restricted-open-restriction-laws} and \autoref{thm:sheaf-restricted-open-locality-gluing} for the restriction, locality, and gluing fields.
+
+The third row is the ledger of \autoref{def:sheaf-restricted-common-refinement-ledger}. It is exactly the ambient displayed common-refinement span of \autoref{thm:sheaf-displayed-common-refinement-span}, equipped with witnesses that every member remains below the fixed open $i$.
+
+For compatibility, use \autoref{thm:sheaf-restricted-common-refinement-pullback-compatibility}. The proof of that theorem reads the ambient refinement pullback composition row \autoref{thm:sheaf-refinement-pullback-composition} through the restricted carrier, so the local consumers see compatible pulled-back families without leaving the slice.
+
+For presentation independence, use \autoref{thm:sheaf-restricted-common-refinement-gluing-invariance}. It is the restricted form of \autoref{thm:sheaf-common-refinement-gluing-invariance}: two displayed gluings of compatible families with equal pullbacks to the restricted common refinement become classifier-equal at $(j,\eta_j)$.
+
+Combining these rows gives the local exactness surface required by ringed-space and scheme certificates. Every row is expressed in indexed opens, restricted inclusion witnesses, inherited restrictions, and section classifiers, so the export remains inside the BEDC sheaf certificate surface.
+\end{proof}
