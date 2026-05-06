@@ -84,6 +84,17 @@ theorem RandomVarTotalDefectEvent_vanishing_total_exactness_iff
         defectEvent
     exact hsame_symm (cont_right_unit_result rightUnitEvent)
 
+theorem RandomVarTotalReadbackCertificate_total_target_reflection_criterion
+    {targetTotal sourceTotal chosenPreimage targetEvent eventPreimage : BHist} :
+    RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+      Cont targetEvent BHist.Empty eventPreimage ->
+        hsame targetEvent targetTotal -> hsame eventPreimage sourceTotal := by
+  intro readbackCert eventReadback eventTarget
+  have targetReadback : Cont targetTotal BHist.Empty eventPreimage :=
+    cont_hsame_transport eventTarget (hsame_refl BHist.Empty) (hsame_refl eventPreimage)
+      eventReadback
+  exact cont_deterministic targetReadback readbackCert.carried_total_bridge
+
 theorem RandomVarPreimage_disjoint_binary_union_exactness
     {B C U_T A_B A_C A_U U_S : BHist} :
     hsame A_B B -> hsame A_C C -> hsame A_U U_T -> Cont B C U_T ->
@@ -109,6 +120,36 @@ theorem RandomVarPreimage_relative_difference_exactness
   have targetDiffSourceDiff : hsame D_T D_S :=
     cont_left_cancel targetDifference sourceAtTarget
   exact hsame_trans sameDiffTarget targetDiffSourceDiff
+
+theorem RandomVarPreimage_complement_difference_exactness
+    {omegaT omegaS preOmega B BTComp BS BComp preComp : BHist} :
+    RandomVarTotalReadbackCertificate omegaT omegaS preOmega -> hsame BS B ->
+      hsame preComp BTComp -> Cont B BTComp omegaT -> Cont BS BComp omegaS ->
+        hsame preComp BComp ∧ hsame preOmega omegaS := by
+  intro cert sameBase samePreComp targetComplement sourceComplement
+  have sameTotals : hsame omegaT omegaS :=
+    cont_deterministic (cont_right_unit omegaT) cert.carried_total_bridge
+  have targetComplementAtSourceTotal : Cont B BTComp omegaS :=
+    cont_result_hsame_transport targetComplement sameTotals
+  have sourceComplementAtTargetBase : Cont B BComp omegaS :=
+    cont_hsame_transport sameBase (hsame_refl BComp) (hsame_refl omegaS) sourceComplement
+  have sameTargetSourceComp : hsame BTComp BComp :=
+    cont_left_cancel targetComplementAtSourceTotal sourceComplementAtTargetBase
+  have samePreOmegaSource : hsame preOmega omegaS :=
+    cont_deterministic cert.chosen_readback cert.carried_total_bridge
+  exact And.intro (hsame_trans samePreComp sameTargetSourceComp) samePreOmegaSource
+
+theorem RandomVarTotalReadbackCertificate_terminal_readback_uniqueness
+    {targetTotal sourceTotal chosenPreimage alternatePreimage : BHist} :
+    RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+      Cont targetTotal BHist.Empty alternatePreimage ->
+        hsame alternatePreimage sourceTotal ∧ hsame alternatePreimage chosenPreimage := by
+  intro cert alternateReadback
+  have sameAlternateSource : hsame alternatePreimage sourceTotal :=
+    cont_deterministic alternateReadback cert.carried_total_bridge
+  have sameAlternateChosen : hsame alternatePreimage chosenPreimage :=
+    cont_deterministic alternateReadback cert.chosen_readback
+  exact And.intro sameAlternateSource sameAlternateChosen
 
 theorem RandomVarPreimage_empty_event_exactness
     {targetEmpty sourceEmpty preimage : BHist} :
