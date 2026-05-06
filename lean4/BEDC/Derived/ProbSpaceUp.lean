@@ -1,5 +1,6 @@
 import BEDC.FKernel.Unary
 import BEDC.Derived.GroupUp
+import BEDC.Derived.PreorderUp
 
 namespace BEDC.Derived.ProbSpaceUp
 
@@ -7,6 +8,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
+open BEDC.Derived.PreorderUp
 
 theorem ProbSpaceComplementMass_additive_readback {omega one event complement sum : BHist} :
     UnaryHistory event -> UnaryHistory complement -> Cont event complement sum ->
@@ -46,5 +48,29 @@ theorem ProbSpaceComplementMass_one_minus_singleton {omega one event complement 
   have sameComplementRhs : hsame complement rhs :=
     hsame_trans complementEmpty (hsame_symm rhsEmpty)
   exact And.intro sameComplementRhs (unary_transport complementCarrier sameComplementRhs)
+
+theorem ProbSpaceMonotoneEvent_bounds {event gap middle rest omega one : BHist} :
+    UnaryHistory event -> UnaryHistory gap -> UnaryHistory rest -> Cont event gap middle ->
+      Cont middle rest omega -> hsame omega one ->
+        PreorderPrefixLE event middle ∧ PreorderPrefixLE middle one ∧
+          PreorderPrefixLE event one ∧ UnaryHistory middle ∧ UnaryHistory omega := by
+  intro eventUnary gapUnary restUnary eventMiddle middleOmega sameOmegaOne
+  have middleUnary : UnaryHistory middle :=
+    unary_cont_closed eventUnary gapUnary eventMiddle
+  have omegaUnary : UnaryHistory omega :=
+    unary_cont_closed middleUnary restUnary middleOmega
+  have eventMiddleLE : PreorderPrefixLE event middle :=
+    Exists.intro gap (And.intro gapUnary eventMiddle)
+  have middleOmegaLE : PreorderPrefixLE middle omega :=
+    Exists.intro rest (And.intro restUnary middleOmega)
+  have omegaOneLE : PreorderPrefixLE omega one :=
+    PreorderPrefixLE_of_hsame sameOmegaOne
+  have middleOneLE : PreorderPrefixLE middle one :=
+    PreorderPrefixLE_trans middleOmegaLE omegaOneLE
+  have eventOneLE : PreorderPrefixLE event one :=
+    PreorderPrefixLE_trans eventMiddleLE middleOneLE
+  exact And.intro eventMiddleLE
+    (And.intro middleOneLE
+      (And.intro eventOneLE (And.intro middleUnary omegaUnary)))
 
 end BEDC.Derived.ProbSpaceUp
