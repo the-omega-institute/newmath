@@ -73,6 +73,128 @@ $\hsame$ and the displayed source classifiers.
 \section{The certificate}
 \label{sec:diffform-certificate}
 
+\begin{definition}[Differential-form BHist NameCert core rows]
+\label{def:diffform-bhist-namecert-core-rows}
+Fix a $\NameCert_{\ManifoldUp}$ source $M$ and a
+$\NameCert_{\TensorProductUp}$ source $T$ as in
+\autoref{def:diffform-bhist-form-carrier}. The $\DiffFormUp$ BHist
+NameCert core-row package consists of the following ten displayed template
+fields:
+\begin{enumerate}
+  \item the carrier row
+  $\mathsf{DiffFormBHistCarrier}_{M,T}$;
+  \item the classifier row $\sim_{\DiffFormUp}$ of
+  \autoref{def:diffform-bhist-form-classifier};
+  \item the componentwise $\hsame$ transport row for carried forms;
+  \item the degree history row $d$;
+  \item the tangent-probe $\mathsf{ProbeBundle}$ row $\mathcal{P}$;
+  \item the $\TensorProductUp$ multilinear row $\tau$;
+  \item the tensor-continuation ledger $\Cont$ attached to $\tau$;
+  \item the scalar endpoint classifier row retained from the upstream
+  manifold and tensor sources;
+  \item the antisymmetry permutation ledger $\alpha$;
+  \item the standard-bridge slot, fixed to absent data.
+\end{enumerate}
+These fields are read as template data for the certificate only. The package
+does not introduce an exterior-derivative row, a closedness predicate, a
+nondegeneracy predicate, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Differential-form BHist carrier obligation]
+\label{thm:diffform-bhist-carrier-obligation}
+The carrier row in
+\autoref{def:diffform-bhist-namecert-core-rows} is exhausted by the six
+coordinates
+$$
+(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)
+$$
+of \autoref{def:diffform-bhist-form-carrier}. In particular, accepting a
+$\DiffFormUp$ carrier row adds no seventh coordinate and no hidden source
+outside the displayed degree, probe-bundle, tensor, scalar-endpoint,
+antisymmetry, and source-ledger histories.
+\end{theorem}
+\begin{proof}
+Invert the acceptance predicate
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ displayed in
+\autoref{def:diffform-bhist-form-carrier}. A carried row is presented as the
+six-tuple $(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$, and each acceptance
+clause projects one of those six histories or one relation among histories
+already named by the tuple.
+
+The degree clause projects $d$, the bundled tangent-probe clause projects
+$\mathcal{P}$, the multilinear tensor clause projects $\tau$, the scalar
+endpoint clause projects $\sigma$, the permutation ledger clause projects
+$\alpha$, and the source-provenance clause projects $\lambda$. No clause has
+a constructor that allocates another coordinate.
+
+It remains to check that the core-row package of
+\autoref{def:diffform-bhist-namecert-core-rows} does not enlarge this
+carrier. Its transport, classifier, continuation, endpoint-classifier, and
+bridge slots refer back to the six displayed carrier histories and to
+upstream certificate sources. Thus carrier acceptance is exactly the six
+coordinate surface of \autoref{def:diffform-bhist-form-carrier}.
+\end{proof}
+
+\begin{theorem}[Differential-form BHist classifier obligation]
+\label{thm:diffform-bhist-classifier-obligation}
+The classifier row in
+\autoref{def:diffform-bhist-namecert-core-rows} uses only degree
+$\hsame$, matched tensor and scalar comparisons, and visible ledger
+$\hsame$. It introduces no classifier other than $\hsame$ on displayed BHist
+rows and the scalar classifier already retained by the manifold and tensor
+sources.
+\end{theorem}
+\begin{proof}
+Project the classifier definition from
+\autoref{def:diffform-bhist-form-classifier}. The first clause is exactly
+$\hsame(d,d')$, so degree comparison is a visible BHist comparison and not a
+new differential-form relation.
+
+For the tensor and scalar part, the statement quantifies only over matched
+bundled multilinear rows. The tensor match is the visible comparison of the
+displayed tensor histories, while the endpoint comparison is the retained
+scalar classifier $\sim_R$ supplied by the upstream scalar surface. The
+classifier therefore reuses source comparisons already present in $M$ and
+$T$.
+
+The remaining clauses are
+$\hsame(\alpha,\alpha')$, $\hsame(\tau,\tau')$, and
+$\hsame(\lambda,\lambda')$. These are visible ledger comparisons on the
+antisymmetry, tensor, and source-provenance histories. Hence every accepted
+classifier step is one of the claimed degree, matched tensor/scalar, or
+ledger comparisons.
+\end{proof}
+
+\begin{theorem}[Differential-form BHist ledger exactness obligation]
+\label{thm:diffform-bhist-ledger-exactness-obligation}
+Every ledger row accepted by the core-row package of
+\autoref{def:diffform-bhist-namecert-core-rows} is visible BHist provenance
+from $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$. No accepted
+ledger row may cite a hidden differential-form primitive or a standard bridge.
+\end{theorem}
+\begin{proof}
+First inspect the carrier ledger. By
+\autoref{def:diffform-bhist-form-carrier}, $\lambda$ records only the source
+names $M$ and $T$, the degree row, the probe bundle, the tensor row, the
+scalar endpoint row, and the antisymmetry rows. These are all BHist
+provenance entries or rows exported by the two named upstream certificates.
+
+Next inspect the tensor and probe ledgers. The probe data are a finite
+$\mathsf{ProbeBundle}$ spine whose tangent rows are supplied by
+$\NameCert_{\ManifoldUp}$. The tensor data are supplied by
+$\NameCert_{\TensorProductUp}$, and their ordered concatenations are recorded
+by $\Cont$. Thus the only tensor-continuation provenance admitted by the
+core package is visible continuation data over the displayed probe rows.
+
+Finally inspect the classifier and bridge slots. Classifier ledgers are
+$\hsame$ comparisons on degree, tensor, antisymmetry, and source histories,
+together with the scalar endpoint classifier retained from the upstream
+sources. The standard-bridge slot in
+\autoref{def:diffform-bhist-namecert-core-rows} is fixed to absent data, so
+there is no additional bridge ledger to accept.
+\end{proof}
+
 \begin{theorem}[Differential-form carrier hsame transport]
 \label{thm:diffform-carrier-hsame-transport}
 Let $\omega$ be a row accepted by
@@ -653,103 +775,14 @@ transported probe, tensor, antisymmetry, and source ledgers already present in
 the carried row.
 \end{proof}
 
-\begin{definition}[Differential-form antisymmetry chain ledger]
-\label{def:diffform-antisymmetry-chain-ledger}
-For carried rows
-$$
-\omega=(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)
-$$
-and
-$$
-\omega'=(d,\mathcal{P}',\tau',\sigma',\alpha',\lambda')
-$$
-in $\mathsf{DiffFormBHistCarrier}_{M,T}$, a differential-form antisymmetry
-chain ledger is a visible BHist row
-$\mathsf{AntiChain}_{\omega,\omega'}$ accepted by
-$\mathsf{DiffFormAntisymmetryChainLedger}_{M,T}$ exactly when it displays a
-finite spine of adjacent-swap rows
-$$
-\mathcal{P}=\mathcal{P}_0,\mathcal{P}_1,\ldots,\mathcal{P}_n=\mathcal{P}'
-$$
-over the carried $\mathsf{ProbeBundle}$, with one scalar endpoint row and one
-signed scalar comparison row recorded for each adjacent step
-$\mathcal{P}_i\leadsto\mathcal{P}_{i+1}$. Its accepted source rows are only
-$BHist$, $\hsame$, $\Cont$, the displayed $\mathsf{ProbeBundle}$ rows,
-$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$; the ledger does
-not contain any permutation oracle outside those rows.
-\end{definition}
+\input{parts/concrete_instances/114_diffform_antisymmetry_chain_ledger.tex}
 
-\begin{theorem}[Differential-form antisymmetry chain coverage]
-\label{thm:diffform-antisymmetry-chain-coverage}
-\label{thm:diffform-antisymmetry-chain-ledger-well-formedness}
-Every admitted finite permutation comparison between two carried
-$\DiffFormUp$ rows over the same degree row is accepted only through a
-differential-form antisymmetry chain ledger of
-\autoref{def:diffform-antisymmetry-chain-ledger}. In particular, each
-comparison row in the ledger is a visible adjacent-swap row, each adjacent
-swap has the reverse row supplied by
-\autoref{thm:diffform-adjacent-swap-involution-ledger}, and the composite
-comparison uses no source beyond $BHist$, $\hsame$, $\Cont$,
-$\mathsf{ProbeBundle}$, $\NameCert_{\ManifoldUp}$, and
-$\NameCert_{\TensorProductUp}$.
-\end{theorem}
-\begin{proof}
-Read the admitted permutation comparison inside the carrier row of
-\autoref{def:diffform-bhist-form-carrier}. The only place where
-antisymmetry data may enter a carried $\DiffFormUp$ row is the displayed
-ledger $\alpha$ together with the provenance ledger $\lambda$, so a
-permutation comparison without visible rows has no carrier witness.
-
-Induct on the displayed finite adjacent-swap spine. The empty spine compares
-the probe bundle with itself, and the endpoint comparison is the retained
-scalar classifier clause already present in
-\autoref{def:diffform-bhist-form-classifier}.
-
-For the cons step, the head row is one adjacent swap of neighboring carried
-probe slots. Apply
-\autoref{thm:diffform-adjacent-swap-involution-ledger} to obtain the reverse
-row and the scalar comparison returning the double swap to the original
-endpoint. The induction hypothesis supplies coverage for the tail of the
-chain, and $\hsame$ transitivity composes the visible BHist rows.
-
-All rows used in the construction are the rows listed in
-\autoref{def:diffform-antisymmetry-chain-ledger}. Therefore the finite
-permutation comparison is exhausted by the adjacent-swap ledger, with no
-hidden permutation rule or external classifier.
-\end{proof}
-
-\begin{theorem}[Differential-form antisymmetry chain classifier stability]
-\label{thm:diffform-antisymmetry-chain-classifier-stability}
-Let $\omega$ and $\eta$ be carried $\DiffFormUp$ rows whose permutation
-comparison is witnessed by a differential-form antisymmetry chain ledger. If
-$\omega$ and $\eta$ are transported componentwise by $\hsame$ comparisons on
-their degree rows, probe bundles, tensor rows, scalar endpoint rows,
-antisymmetry ledgers, and source ledgers, then the transported rows carry the
-transported antisymmetry chain ledger and remain compared by
-$\sim_{\DiffFormUp}$.
-\end{theorem}
-\begin{proof}
-First transport the two carrier rows by
-\autoref{thm:diffform-carrier-hsame-transport}. Componentwise $\hsame$
-comparisons carry the probe bundles, tensor rows, scalar endpoints,
-antisymmetry ledgers, and source ledgers to the transported rows while
-retaining the same manifold and tensor source certificates.
-
-Next transport the finite chain ledger. Each row of
-\autoref{def:diffform-antisymmetry-chain-ledger} is a visible BHist row, and
-each adjacent swap in the chain is a row over the transported
-$\mathsf{ProbeBundle}$. Transport the scalar endpoint comparison for each
-step through \autoref{thm:diffform-scalar-endpoint-transport}.
-
-Apply \autoref{thm:diffform-antisymmetry-chain-coverage} to the transported
-chain. The theorem identifies the transported finite permutation comparison
-as exactly the composite of adjacent swaps in the visible ledger, and it
-retains the reverse rows supplied by
-\autoref{thm:diffform-adjacent-swap-involution-ledger}.
-
-Finally apply \autoref{thm:diffform-form-classifier-stability}. The degree,
-tensor, antisymmetry, and source-ledger clauses are $\hsame$ clauses, while
-the scalar endpoint clause has already been transported through the retained
-scalar classifier. These clauses reassemble into the required
-$\sim_{\DiffFormUp}$ comparison for the transported rows.
-\end{proof}
+\begin{closurestatus}{\DiffFormUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The differential-form certificate surface is bound to the displayed $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$ sources.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_tensor\_semanticNameCert}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $d^2=0$, closedness, nondegeneracy, contact nonintegrability, or standard bridge closure.}
+  \upgradepath{Obligation closure requires the core rows to be formalized and connected to the wedge and exported exterior-derivative theorems.}
+\end{closurestatus}
