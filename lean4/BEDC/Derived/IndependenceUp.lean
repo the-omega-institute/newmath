@@ -12,6 +12,16 @@ def IndependenceProductFold : ProbeBundle BHist -> BHist
   | ProbeBundle.Bnil => BHist.Empty
   | ProbeBundle.Bcons x xs => append x (IndependenceProductFold xs)
 
+theorem IndependenceProductFold_bundleAppend (left right : ProbeBundle BHist) :
+    hsame (IndependenceProductFold (bundleAppend left right))
+      (append (IndependenceProductFold left) (IndependenceProductFold right)) := by
+  induction left with
+  | Bnil =>
+      exact (append_empty_left (IndependenceProductFold right)).symm
+  | Bcons x xs ih =>
+      exact (congrArg (append x) ih).trans
+        (append_assoc x (IndependenceProductFold xs) (IndependenceProductFold right)).symm
+
 def IndependenceBinaryFactorization (joint left right product : BHist) : Prop :=
   Cont left right product ∧ hsame joint product
 

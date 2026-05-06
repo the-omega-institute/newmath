@@ -2,6 +2,7 @@ import BEDC.FKernel.Unary
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Bundle
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.PreorderUp
 
@@ -10,6 +11,7 @@ namespace BEDC.Derived.DistributionUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.FKernel.Bundle
 open BEDC.Derived.RandomVarUp
 open BEDC.Derived.PreorderUp
 
@@ -130,5 +132,21 @@ theorem DistributionPushforward_nonnegative_value_inheritance
   have pushedSource : hsame pushedValue sourceValue :=
     hsame_trans pushedWitness witnessSource
   exact And.intro (unary_transport sourceNonnegative (hsame_symm pushedSource)) pushedSource
+
+def DistributionPushforwardMassFold : ProbeBundle BHist -> BHist
+  | ProbeBundle.Bnil => BHist.Empty
+  | ProbeBundle.Bcons x xs => append x (DistributionPushforwardMassFold xs)
+
+theorem DistributionPushforward_countable_disjoint_sigma_additivity
+    (left right : ProbeBundle BHist) :
+    hsame (DistributionPushforwardMassFold (bundleAppend left right))
+      (append (DistributionPushforwardMassFold left) (DistributionPushforwardMassFold right)) := by
+  induction left with
+  | Bnil =>
+      exact (append_empty_left (DistributionPushforwardMassFold right)).symm
+  | Bcons x xs ih =>
+      exact (congrArg (append x) ih).trans
+        (append_assoc x (DistributionPushforwardMassFold xs)
+          (DistributionPushforwardMassFold right)).symm
 
 end BEDC.Derived.DistributionUp
