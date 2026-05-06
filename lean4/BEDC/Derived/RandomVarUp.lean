@@ -105,6 +105,30 @@ theorem RandomVarTotalDefectEvent_vanishing_total_exactness_iff
         defectEvent
     exact hsame_symm (cont_right_unit_result rightUnitEvent)
 
+theorem RandomVarTerminalPreimage_no_loss_boundary
+    {sourceTotal chosenPreimage defect : BHist} {Covers : BHist -> BHist -> Prop} :
+    RandomVarTotalDefectEvent sourceTotal chosenPreimage defect ->
+      (forall {h event event' : BHist}, hsame event event' -> Covers h event ->
+        Covers h event') ->
+        (forall h : BHist, Covers h sourceTotal) ->
+          ((forall h : BHist, Covers h chosenPreimage) ->
+            hsame chosenPreimage sourceTotal) ->
+            (hsame chosenPreimage sourceTotal ↔ hsame defect BHist.Empty) ∧
+              (hsame chosenPreimage sourceTotal -> forall h : BHist,
+                Covers h chosenPreimage) ∧
+                ((forall h : BHist, Covers h chosenPreimage) ->
+                  hsame chosenPreimage sourceTotal) := by
+  intro defectEvent coverTransport sourceCoverage coverageComplete
+  have defectExact :
+      hsame chosenPreimage sourceTotal ↔ hsame defect BHist.Empty :=
+    RandomVarTotalDefectEvent_vanishing_total_exactness_iff defectEvent
+  constructor
+  · exact defectExact
+  · constructor
+    · intro sameChosen h
+      exact coverTransport (h := h) (hsame_symm sameChosen) (sourceCoverage h)
+    · exact coverageComplete
+
 theorem RandomVarTotalReadbackCertificate_total_target_reflection_criterion
     {targetTotal sourceTotal chosenPreimage targetEvent eventPreimage : BHist} :
     RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
