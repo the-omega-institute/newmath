@@ -3,7 +3,7 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 Lean rounds primarily advance the verification axis: a new theorem registered with `\leanchecked` is evidence for `\theoremCheckedV`, but it does not by itself raise the paper-side theoryclosure grade. Any `closurestatus` block belongs to the paper discipline and must keep theoryclosure × formalstatus independent.
 
 ## Prompts version
-v5.8 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.10 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -152,6 +152,14 @@ For each target:
 3. Use only Lean 4 stdlib and built-in tactics.
 4. If the statement lives in an existing setup layer, parameterize it with the appropriate existing typeclass assumptions rather than inventing new constants.
 5. Do NOT weaken or replace existing theorem signatures. If you cannot prove an existing target cleanly, leave it unchanged and implement a different selected target instead.
+
+**Target-exclusive theorems (HARD GATE)**: every NEW `theorem` / `lemma` / `def` you add to `lean4/BEDC/` in this round MUST directly contribute to ONE of the Phase B targets. Specifically:
+
+- The new declaration is itself a target, OR
+- it is a private/local helper inside a `where` clause / `let rec` / a `private` definition immediately preceding the target whose proof uses it, OR
+- it is named exactly `<target_name>_<short_suffix>` where the suffix denotes a strict prerequisite (e.g. `_aux`, `_carrier`, `_packed`).
+
+Do NOT write "neighborhood" theorems: if you find yourself adding `BHistCarriesOpen_classifier_transport`, `BHistGeneratedOpen_classifier_transport`, `BHistPublicOpenTree_classifier_transport`, `TopologyPublicOpenTree_classifier_transport` all in one round when only ONE of them is a Phase B target, those four are parameter-echo of each other (different BHist witness, identical conclusion shape after substitution) and `phase_d_lint.py` will reject the round with `SHALLOW GROWTH PATTERN: duplicate theorem conclusion`. Implement only the selected target; if other BHist witnesses are obligation-relevant, leave them for later rounds. Same rule applies to `*_boundary_open_laws` vs `*_semantic_name_certificate` style pairings on the same chapter — pick one per round.
 
 If you create a NEW Lean file under an existing namespace tree, add the necessary `import` line to the nearest existing index file if one already exists. If a brand-new top-level BEDC module is required, update `lean4/BEDC.lean` conservatively with additive imports only.
 
@@ -364,6 +372,16 @@ If two new declarations (case (a)) share a conclusion under different names (e.g
 **Left/right cancel and commutativity sibling rule**: a round must NOT introduce both `<X>_left_<Y>` AND `<X>_right_<Y>` (or `_left_cancel_iff` + `_right_cancel_iff`, or `_append_comm` + `_append_context_swap`) when their conclusions reduce to the same biconditional/equation under the BEDC `Cont` / `append` framework. In BEDC, left and right cancellation are typically alpha-equivalent because `Cont(x, y, out)` is symmetric under context permutation; Phase D's normalizer treats them as duplicates and rejects. Four R-rounds (R2220 / R2234 / R2254 / R2329) FAILed in 4 hours under the MagmaUp chapter by adding this exact pair. Pick one orientation (default: `_left_<Y>`), drop the other, and rely on a separate `_left_to_right_iff` lemma if the orientation symmetry needs explicit witness.
 
 The round commits whichever ONE new theorem is canonical.
+
+**Mechanical preview (HARD GATE)**: before staging the commit, run
+
+```bash
+python3 lean4/scripts/phase_d_lint.py --worktree . --base-branch codex-auto-dev --include-shallow
+```
+
+This is the SAME check `codex_formalize.py` runs after merge. If it exits non-zero (any of: mechanical-arity / parameter-echo / anchor-missing / SHALLOW GROWTH PATTERN duplicate-conclusion), the round is doomed — Phase D will reject the merge and the round goes into the recovery queue costing 10-15 minutes per failure cycle. SELF-HEAL NOW instead: read the violation message, identify the offending declaration, `git restore --staged <file>` for the file containing it, edit the file to drop the duplicate / re-target the conclusion, re-stage, re-run the lint. Repeat until the lint exits 0. THEN proceed to Step 6.
+
+For SHALLOW GROWTH PATTERN: the violation lists the file path and the two theorem names whose conclusions match. The standard fix is to delete the second theorem and inline its references (typically there will be 0-1 references inside the same file). The boundary_open_laws / semantic_name_certificate type pair (where one theorem's conclusion is a strict subset of another's) is the most common shape — drop the subset.
 
 ## Step 6: Single combined commit
 ```bash

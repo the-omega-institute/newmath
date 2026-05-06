@@ -1,0 +1,132 @@
+\section{DiffForm root-unblock obligations}
+\label{sec:diffform-root-unblock-obligations}
+
+\begin{definition}[Differential-form root-unblock source surface]
+\label{def:diffform-root-unblock-source-surface}
+Fix a $\NameCert_{\ManifoldUp}$ source $M$ and a
+$\NameCert_{\TensorProductUp}$ source $T$ whose tensor rows are read over the
+tangent-bundle histories of $M$. The $\DiffFormUp$ root-unblock source surface
+is the following ten-field BEDC surface:
+\begin{enumerate}
+  \item the ambient $\mathsf{BHist}$ history carrier for the displayed
+  differential-form rows;
+  \item the visible $\hsame$ transport relation on all degree, tensor,
+  scalar-endpoint, antisymmetry, and source-ledger histories;
+  \item the $\Cont$ ledger for ordered tensor concatenation and degree
+  continuation rows;
+  \item the $\mathsf{ProbeBundle}$ spine of tangent-probe names;
+  \item the upstream $\NameCert_{\ManifoldUp}$ source for tangent probes and
+  scalar endpoints;
+  \item the upstream $\NameCert_{\TensorProductUp}$ source for multilinear
+  tensor rows;
+  \item the six-coordinate carrier
+  $\mathsf{DiffFormBHistCarrier}_{M,T}(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$
+  of \autoref{def:diffform-bhist-form-carrier};
+  \item the classifier $\sim_{\DiffFormUp}$ of
+  \autoref{def:diffform-bhist-form-classifier};
+  \item the wedge rows consisting only of tensor concatenation, probe-bundle
+  append, wedge-degree bookkeeping, and the displayed antisymmetry ledger;
+  \item the exterior-input rows consumed by $\DeRhamUp$, $\ContactUp$, and
+  $\SymplecticUp$, restricted to degree, wedge, antisymmetry, scalar endpoint,
+  and source-ledger projections.
+\end{enumerate}
+The surface contains no row for $d^2=0$, closedness, nondegeneracy, contact
+nonintegrability, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Differential-form root-unblock carrier and classifier scope]
+\label{thm:diffform-root-unblock-carrier-classifier-scope}
+Every carrier and classifier row readable from the
+\autoref{def:diffform-root-unblock-source-surface} is determined by the
+displayed BEDC source surface. The carrier is the six-coordinate row
+$$
+(d,\mathcal{P},\tau,\sigma,\alpha,\lambda),
+$$
+and the classifier uses only degree $\hsame$, matched tensor and scalar
+comparisons, and visible $\hsame$ comparison of the tensor, antisymmetry, and
+source ledgers.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:diffform-bhist-form-carrier}. Its
+acceptance predicate lists only the degree row $d$, the probe bundle
+$\mathcal{P}$, the tensor row $\tau$, the scalar endpoint $\sigma$, the
+antisymmetry ledger $\alpha$, and the source ledger $\lambda$.
+
+Next project the classifier through
+\autoref{def:diffform-bhist-form-classifier}. Degree comparison is $\hsame$,
+matched tensor and scalar endpoints use the displayed tensor row and the
+retained scalar classifier from $M$ and $T$, and the ledger comparisons are
+$\hsame(\alpha,\alpha')$, $\hsame(\tau,\tau')$, and
+$\hsame(\lambda,\lambda')$.
+
+Finally use the carrier and classifier obligations
+\autoref{thm:diffform-bhist-carrier-obligation} and
+\autoref{thm:diffform-bhist-classifier-obligation}. They exhaust the same
+six-coordinate carrier and the same displayed classifier clauses, so no
+carrier or classifier datum can be read outside the ten-field root-unblock
+surface.
+\end{proof}
+
+\begin{theorem}[Differential-form root-unblock wedge continuation closure]
+\label{thm:diffform-root-unblock-wedge-cont-closure}
+The wedge input closure readable from the
+\autoref{def:diffform-root-unblock-source-surface} is exactly probe-bundle
+concatenation plus $\Cont$ ledger closure. An admitted wedge of carried rows
+may read the output probe spine from the append ledger and the tensor
+concatenation from $\Cont$, together with the displayed degree and
+antisymmetry rows; it may not read an exterior-derivative law or a downstream
+geometric law from wedge admission.
+\end{theorem}
+\begin{proof}
+Start with a wedge row admitted by
+\autoref{thm:diffform-wedge-ledger-coverage}. The admitted row requires a
+visible $\TensorProductUp$ concatenation of the two tensor components, and the
+continuation data for that concatenation are exactly $\Cont$ ledger entries
+over the displayed input rows.
+
+The probe part is then determined by
+\autoref{def:diffform-wedge-probe-concatenation-ledger} and
+\autoref{thm:diffform-wedge-probe-concatenation-coverage}. These rows identify
+the output probe bundle as the append of the two input $\mathsf{ProbeBundle}$
+spines, with no additional probe source.
+
+The remaining wedge-visible data are the unary degree bookkeeping of
+\autoref{def:diffform-wedge-degree-ledger} and the antisymmetry and associator
+ledgers bounded by \autoref{thm:diffform-wedge-associator-closure}. Hence
+wedge closure is precisely the displayed probe append together with the
+$\Cont$ tensor ledger and the already-carried degree and antisymmetry rows.
+\end{proof}
+
+\begin{theorem}[Differential-form root-unblock de Rham input consumption]
+\label{thm:diffform-root-unblock-derham-input-consumption}
+Every $\DeRhamUp$, $\ContactUp$, or $\SymplecticUp$ consumer of the
+\autoref{def:diffform-root-unblock-source-surface} may read only the degree
+row, wedge rows, antisymmetry ledger, scalar endpoint row, and source-ledger
+rows exposed there. In particular, de Rham exterior input may consume the
+degree-shift and wedge-input surfaces, while contact and symplectic consumers
+must supply their nonintegrability, closedness, and nondegeneracy laws in
+their own certificate surfaces.
+\end{theorem}
+\begin{proof}
+First read the de Rham boundary from
+\autoref{thm:diffform-derham-input-boundary}. It permits an
+exterior-derivative row to depend on the probe bundle, degree row, tensor row,
+scalar endpoint, and source ledger, and on the wedge probe and degree
+ledgers. It explicitly gives no $d^2=0$, closedness, nondegeneracy, or contact
+nonintegrability row.
+
+Next combine the exterior-input rows
+\autoref{def:diffform-exterior-derivative-input-row},
+\autoref{thm:diffform-exterior-derivative-degree-shift-boundary}, and
+\autoref{thm:diffform-exterior-derivative-wedge-input-stability}. They allow
+only one-step degree continuation, carried input and output rows, wedge-input
+transport, scalar endpoint transport, and the restricted source ledger.
+
+Finally apply the downstream boundary rows
+\autoref{thm:diffform-exterior-derivative-downstream-scope} and
+\autoref{thm:diffform-downstream-consumer-boundary}. These rows identify
+$\DeRhamUp$, $\ContactUp$, and $\SymplecticUp$ as consumers of the displayed
+DiffForm carrier, wedge, scalar, antisymmetry, and source data only. The
+operator and geometric laws therefore remain obligations of those downstream
+chapters, not projections from the DiffForm root-unblock surface.
+\end{proof}
