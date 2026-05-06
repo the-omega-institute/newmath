@@ -68,6 +68,29 @@ and
 $$\operatorname{MorEq}_{\mathcal C}(L,D(j);c_j,\lambda_j).$$
 These witnesses, indexed by the objects of $\mathcal J$, give the cone-morphism ledger for $\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L)$.
 \end{proof}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_identity\_comparison}
+
+\begin{theorem}[Fixed-diagram cone-morphism category package]\label{thm:catlimit-cone-morphism-category-package}
+For a fixed certified diagram $D:\mathcal J\to\mathcal C$ in a $\CategoryUp$ certificate, the data whose objects are $D$-cones and whose arrows from $\lambda$ to $\mu$ are witnesses of
+$$\operatorname{ConeMor}_{D}(\lambda,\mu;f)$$
+has the certified category surface induced by $\mathcal C$. The identity arrow at a cone $\lambda$ is supplied by
+$$\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L),$$
+and a composable pair
+$$\operatorname{ConeMor}_{D}(\lambda,\mu;f),\qquad
+\operatorname{ConeMor}_{D}(\mu,\nu;g)$$
+together with
+$$\operatorname{Comp}_{\mathcal C}(L,M,N;f,g,h)$$
+supplies the composite arrow
+$$\operatorname{ConeMor}_{D}(\lambda,\nu;h).$$
+Moreover, composition of cone morphisms is stable under the morphism classifier inherited from $\operatorname{MorEq}_{\mathcal C}$: replacing any displayed arrow or component composite by a parallel $\operatorname{MorEq}_{\mathcal C}$-classified representative gives a classified representative of the same cone-morphism composite.
+\end{theorem}
+\begin{proof}
+The identity row is exactly \autoref{lem:catlimit-cone-identity-comparison}. For every $D$-cone $\lambda$ with apex $L$, that lemma supplies the certified morphism $1_L:L\to L$ and the component ledger proving $\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L)$.
+
+For composition, take cone morphisms $\lambda\to\mu$ and $\mu\to\nu$ represented by $f$ and $g$, and take a certified composite witness $\operatorname{Comp}_{\mathcal C}(L,M,N;f,g,h)$. Applying \autoref{lem:catlimit-cone-morphism-composite-closure} gives the required cone-morphism ledger $\operatorname{ConeMor}_{D}(\lambda,\nu;h)$.
+
+It remains to record stability under the inherited classifier. The proof of \autoref{lem:catlimit-cone-morphism-composite-closure} uses the associativity field of $\CategoryUp$ to compare the two component-composite parenthesizations and the classifier-congruence field to transport $\operatorname{MorEq}_{\mathcal C}$ across right composition. Those same fields show that replacing $f$, $g$, $h$, or any component composite by a parallel $\operatorname{MorEq}_{\mathcal C}$ representative preserves the displayed cone-morphism composite up to the same classifier.
+\end{proof}
 
 \begin{proposition}[Limiting-cone endomorphism rigidity]\label{prop:catlimit-limiting-cone-endomorphism-rigidity}
 If
@@ -106,6 +129,7 @@ $$\operatorname{MorEq}_{\mathcal C}(L,L;c_L,1_L)$$
 and
 $$\operatorname{MorEq}_{\mathcal C}(L',L';c_{L'},1_{L'}).$$
 \end{theorem}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitLimCone\_comparison\_identities}
 \begin{proof}
 Apply the universal existence field of $\operatorname{LimCone}_{D}(L',\lambda')$ to the $D$-cone $\lambda$ with apex $L$. This supplies a morphism $u:L\to L'$ and a cone-morphism ledger
 $$\operatorname{ConeMor}_{D}(\lambda,\lambda';u).$$
@@ -266,6 +290,7 @@ $$
 \operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_nattrans\_whiskering\_descent}
 \begin{proof}
 By \autoref{def:nattrans-carrier}, each $\alpha_j$ is a displayed morphism $D(j)\to E(j)$ in $\mathcal C$, and the naturality row is the cone-whiskering ledger that makes the displayed component families $\lambda^\alpha$ and $\mu^\alpha$ into $E$-cones. If any object image is represented by a classified endpoint rather than by a literal endpoint, the source-target replacement row of \autoref{def:functor-stability-certificate} and the endpoint-indexed transport fields of \autoref{def:category-stability-certificate} reindex the component morphisms before the following composition ledgers are formed.
 
