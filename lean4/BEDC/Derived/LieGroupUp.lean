@@ -5,11 +5,129 @@ import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.LieGroupUp
 
-open BEDC.FKernel.Cont
-open BEDC.FKernel.Hist
-open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.ManifoldUp
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
+
+theorem LieGroupSingleton_semantic_name_certificate :
+    SemanticNameCert
+        (fun h : BHist => GroupSingletonCarrier h ∧ ManifoldSingletonCarrier h)
+        (fun h : BHist => GroupSingletonCarrier h ∧ ManifoldSingletonCarrier h)
+        (fun h : BHist => GroupSingletonCarrier h ∧ ManifoldSingletonCarrier h)
+        (fun h k : BHist =>
+          GroupSingletonCarrier h ∧ ManifoldSingletonCarrier h ∧
+            GroupSingletonCarrier k ∧ ManifoldSingletonCarrier k ∧ hsame h k) ∧
+      (forall {h k product : BHist}, GroupSingletonCarrier h -> GroupSingletonCarrier k ->
+        Cont h k product ->
+          GroupSingletonCarrier product ∧ ManifoldSingletonCarrier product ∧
+            UnaryHistory product) := by
+  have emptyCarrier :
+      GroupSingletonCarrier BHist.Empty ∧ ManifoldSingletonCarrier BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+        equiv_refl := by
+          intro h carrier
+          exact And.intro carrier.left
+            (And.intro carrier.right
+              (And.intro carrier.left (And.intro carrier.right (hsame_refl h))))
+        equiv_symm := by
+          intro h k classified
+          exact And.intro classified.right.right.left
+            (And.intro classified.right.right.right.left
+              (And.intro classified.left
+                (And.intro classified.right.left
+                  (hsame_symm classified.right.right.right.right))))
+        equiv_trans := by
+          intro h k r classifiedHK classifiedKR
+          exact And.intro classifiedHK.left
+            (And.intro classifiedHK.right.left
+              (And.intro classifiedKR.right.right.left
+                (And.intro classifiedKR.right.right.right.left
+                  (hsame_trans classifiedHK.right.right.right.right
+                    classifiedKR.right.right.right.right))))
+        carrier_respects_equiv := by
+          intro h k classified _source
+          exact And.intro classified.right.right.left classified.right.right.right.left
+      }
+      pattern_sound := by
+        intro h source
+        exact source
+      ledger_sound := by
+        intro h source
+        exact source
+    }
+  · intro h k product carrierH carrierK productRow
+    have productEmpty : hsame product BHist.Empty := by
+      exact productRow.trans (append_eq_empty_iff.mpr (And.intro carrierH carrierK))
+    exact And.intro productEmpty
+      (And.intro productEmpty (unary_transport unary_empty (hsame_symm productEmpty)))
+
+def LieGroupSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def LieGroupSingletonClassifier (h k : BHist) : Prop :=
+  LieGroupSingletonCarrier h ∧ LieGroupSingletonCarrier k ∧ hsame h k
+
+theorem LieGroupSingleton_carrier_obligation :
+    SemanticNameCert LieGroupSingletonCarrier LieGroupSingletonCarrier LieGroupSingletonCarrier
+        LieGroupSingletonClassifier ∧
+      (forall {h : BHist}, LieGroupSingletonCarrier h ->
+        GroupSingletonCarrier h ∧ ManifoldSingletonCarrier h ∧ UnaryHistory h) ∧
+      (forall {h k : BHist}, LieGroupSingletonCarrier h -> LieGroupSingletonCarrier k ->
+        LieGroupSingletonCarrier (GroupSingletonMul h k) ∧
+          LieGroupSingletonClassifier (GroupSingletonMul h k) BHist.Empty) ∧
+      (forall {h : BHist}, LieGroupSingletonCarrier h ->
+        LieGroupSingletonCarrier (GroupSingletonInv h) ∧
+          LieGroupSingletonClassifier (GroupSingletonInv h) BHist.Empty) := by
+  have emptyCarrier : LieGroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : LieGroupSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+        equiv_refl := by
+          intro h carrier
+          exact And.intro carrier (And.intro carrier (hsame_refl h))
+        equiv_symm := by
+          intro h k classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro h k r classifiedHK classifiedKR
+          exact And.intro classifiedHK.left
+            (And.intro classifiedKR.right.left
+              (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+        carrier_respects_equiv := by
+          intro h k classified _carrierH
+          exact classified.right.left
+      }
+      pattern_sound := by
+        intro h carrier
+        exact carrier
+      ledger_sound := by
+        intro h carrier
+        exact carrier
+    }
+  · constructor
+    · intro h carrier
+      exact And.intro carrier
+        (And.intro carrier (unary_transport unary_empty (hsame_symm carrier)))
+    · constructor
+      · intro h k carrierH carrierK
+        have productCarrier : LieGroupSingletonCarrier (GroupSingletonMul h k) := by
+          exact append_eq_empty_iff.mpr (And.intro carrierH carrierK)
+        exact And.intro productCarrier
+          (And.intro productCarrier
+            (And.intro emptyCarrier (hsame_trans productCarrier (hsame_symm emptyCarrier))))
+      · intro h _carrier
+        exact And.intro emptyCarrier emptyClassified
 
 theorem LieGroupSingletonOperation_smoothness {x y product inverse transition : BHist} :
     GroupSingletonCarrier x -> GroupSingletonCarrier y -> ManifoldSingletonCarrier x ->
