@@ -172,6 +172,20 @@ theorem RandomVarTotalReadbackCertificate_terminal_readback_uniqueness
     cont_deterministic alternateReadback cert.chosen_readback
   exact And.intro sameAlternateSource sameAlternateChosen
 
+theorem RandomVarTotalReadbackCertificate_minimal_obstruction
+    {targetTotal sourceTotal chosenPreimage : BHist} :
+    RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+      (UnaryHistory sourceTotal ->
+          UnaryHistory chosenPreimage ∧ hsame chosenPreimage sourceTotal) ∧
+        ((hsame chosenPreimage sourceTotal -> False) ->
+          RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage -> False) := by
+  intro cert
+  constructor
+  · intro sourceUnary
+    exact RandomVarTotalReadbackCertificate_total_event_preimage_exactness sourceUnary cert
+  · intro obstruction certAgain
+    exact obstruction (cont_deterministic certAgain.chosen_readback certAgain.carried_total_bridge)
+
 theorem RandomVarPreimage_empty_event_exactness
     {targetEmpty sourceEmpty preimage : BHist} :
     hsame targetEmpty BHist.Empty -> hsame sourceEmpty BHist.Empty ->

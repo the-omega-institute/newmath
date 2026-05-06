@@ -218,6 +218,52 @@ interface package, not a $\RealUp$ completion theorem or a $\RegSeqRat$
 regularity theorem.
 \end{proof}
 
+\begin{theorem}[StreamNameUp public scoped dependency package]
+\label{thm:streamname-public-scoped-dependency-package}
+The public $\StreamNameUp$ export has the following exact scoped dependency
+surface for downstream $\RegSeqRat$ and $\RealUp$ boundary theorems.  It is
+scoped over precisely
+$\mathsf{BHist}$, $\UnaryHistory$, $\hsame$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{RatStreamNameCarrier}$, $\mathsf{RatStreamNameClassifier}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{RatStreamNameFiniteWindowClassifier}$.
+
+Within that scope its exported rows are exactly the countable-name package,
+finite-window package, empty-window vacuity, constant-stream rows,
+reindexing and RatUp-preserving map stability, finite-window
+coverage/exhaustion, selected endpoint package, and finite-window stability
+fields.  No $\RegSeqRat$ regularity, $\RealUp$ seal, $\RealUp$ completeness,
+metric data, quotient representative, or standard bridge is part of this
+scoped export.
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:streamname-public-countable-name-interface}.  It fixes the
+history scope through $\mathsf{BHist}$, $\UnaryHistory$, and $\hsame$, and it
+exports the pointwise $\RatUp$ rows through $\mathsf{RatHistoryCarrier}$ and
+$\mathsf{RatHistoryClassifier}$ together with
+$\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatStreamNameClassifier}$.
+
+The same countable-name interface supplies the constant stream rows,
+reindexing rows, RatUp-preserving map stability, and unary reindexing
+composition.  These are the countable-name rows consumed downstream, and they
+do not introduce quotient representatives, metric data, or completion
+objects.
+
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It restricts
+the finite side to $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, then supplies finite-window
+coverage/exhaustion, certified reindexing and point-map coverage, structural
+laws, the selected endpoint package, and finite-window stability fields.
+
+Apply \autoref{thm:streamname-public-empty-window-vacuity} for the empty
+bundle boundary.  Repacking the three cited sites gives exactly the dependency
+surface available to $\RegSeqRat$ and $\RealUp$ boundary theorems: a public
+stream-name and finite-window package, with no regularity, seal,
+completeness, metric, quotient, or standard-bridge row added.
+\end{proof}
+
 \begin{theorem}[StreamNameUp ordinary rational sequence bridge]
 \label{thm:streamname-standard-sequence-bridge}
 The public $\StreamNameUp$ rows over $\mathsf{BHist}$ admit a conservative
