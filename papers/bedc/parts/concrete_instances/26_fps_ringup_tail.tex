@@ -302,3 +302,34 @@ F\odot_{\mathrm{fps}}Z\sim_{\mathrm{fps}}Z.
 $$
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonAddFold\_zero\_series\_absorption}
+
+\begin{theorem}[FPS Cauchy product distributes over pointwise addition]
+\label{thm:fps-cauchy-product-distributes-over-pointwise-addition}
+In the concrete singleton formal-power-series carrier, let $F$, $G$, and $H$ be singleton coefficient histories. Write $\oplus_{\mathrm{fps}}$ for pointwise addition and $\odot_{\mathrm{fps}}$ for the Cauchy product defined by the singleton coefficient spine. Then both distributed product comparisons are classified by $\mathsf{FpsSingletonClassifier}$:
+$$
+F\odot_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)
+\sim_{\mathsf{FpsSingletonClassifier}}
+(F\odot_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}(F\odot_{\mathrm{fps}}H)
+$$
+and
+$$
+(F\oplus_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H
+\sim_{\mathsf{FpsSingletonClassifier}}
+(F\odot_{\mathrm{fps}}H)\oplus_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H).
+$$
+Moreover, the two undistributed Cauchy-product endpoints
+$$
+F\odot_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)
+\qquad\text{and}\qquad
+(F\oplus_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H
+$$
+are each classified with the empty history endpoint.
+\end{theorem}
+\begin{proof}
+The pointwise addition interface in \autoref{def:fps-pointwise-additive-monoid-instance} supplies the singleton addition endpoints, and the Cauchy-product coefficient rule in \autoref{def:fps-cauchy-coefficient-spine} expresses each product coefficient as the finite additive fold over the split spine.
+
+In the singleton carrier, every displayed coefficient spine collapses to the empty history endpoint. The checked zero-series absorption row above gives the same empty endpoint for Cauchy products whose split spine has only empty scalar contributions, and the continuation endpoint rows identify the folded singleton coefficients with that endpoint.
+
+Applying these endpoint identifications on the left-distributive spine gives a classifier comparison between $F\odot_{\mathrm{fps}}(G\oplus_{\mathrm{fps}}H)$ and $(F\odot_{\mathrm{fps}}G)\oplus_{\mathrm{fps}}(F\odot_{\mathrm{fps}}H)$. The same argument on the right-distributive spine gives the comparison between $(F\oplus_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H$ and $(F\odot_{\mathrm{fps}}H)\oplus_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H)$. The singleton empty-carrier collapse also records the two undistributed product endpoints as classified with $\mathsf{BHist.Empty}$.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCauchyProduct\_distributes\_over\_addition\_classifier}
