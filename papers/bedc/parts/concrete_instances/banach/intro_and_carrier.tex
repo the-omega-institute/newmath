@@ -81,6 +81,42 @@ $\mathsf{RealConstantHistoryClassifier}$-classified with
 $0_{\mathsf{Real}}^{c}$.
 \end{definition}
 
+\begin{theorem}[Banach singleton carrier semantic NameCert]
+\label{thm:banach-singleton-carrier-semantic-namecert}
+The singleton Banach carrier of
+\autoref{def:banach-singleton-empty-history-instance}, equipped with the
+classifier which relates two carried histories exactly when their carried
+rows are present and the histories are $\hsame$-classified, forms a
+$\mathsf{SemanticNameCert}$ for the singleton Banach surface. Its inhabited
+carrier is witnessed by $\emp$; its reflexive, symmetric, and transitive
+classifier fields are the corresponding $\hsame$ rows; its carrier transport
+field is the carrier projection of the classifier triple; and its pattern and
+ledger soundness fields are identity reads of the carried singleton Banach
+rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachUp.BanachSingletonCarrier\_semanticNameCert}
+\begin{proof}
+Use \autoref{def:banach-singleton-empty-history-instance} to read the carried
+object as the singleton empty-history norm carrier together with its
+norm-induced empty-distance metric row. The inhabited carrier row is the
+history $\emp$, with its singleton vector row and the
+$\mathsf{MetricDistanceWitness}(\emp,\emp,\emp)$ row supplied by empty-distance
+exactness.
+
+The classifier row is the carried pair together with $\hsame$. Hence
+reflexivity, symmetry, and transitivity are the corresponding $\hsame$
+operations, with the carried rows retained on each side of the comparison.
+Carrier preservation is projection from the classifier triple: an accepted
+comparison already contains both endpoint carrier witnesses.
+
+Finally apply
+\autoref{thm:banach-singleton-empty-history-carrier-classifier}. It identifies
+the singleton Banach carrier, classifier, norm rows, and constant-zero metric
+rows. The pattern and ledger soundness clauses therefore read back the same
+carried singleton rows, with no additional transport beyond the displayed
+$\hsame$ comparison and the empty-distance metric witness.
+\end{proof}
+
 \begin{theorem}[Banach norm-induced metric compatibility]
 \label{thm:banach-norm-induced-metric-compatibility}
 For the singleton empty-history $\NormUp$ instance of
