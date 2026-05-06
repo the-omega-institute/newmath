@@ -12047,3 +12047,156 @@ Belongs in the Distribution chapter. The decomposition mu(A)=mu(B)+mu(A\B) for B
 
 ---
 
+### B-460 - OperatorIdeal trace-class scalar closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | OperatorIdeal trace-class scalar closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the OperatorIdeal trace-class setup, if T is carried by TC(H) and a is a carried scalar for the inherited Hilbert module action, then a times T is carried by TC(H).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+
+Rationale:
+This is a concrete closure row for an existing OperatorIdeal surface and it appears to support a visible downstream DensityMatrix dependency. It is not a marker, status, or parameter-echo target, and it is distinct from the existing BOARD entries and the listed paper labels.
+
+---
+
+
+### B-461 - ConvexSet linear-image affine closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ConvexSet linear-image affine closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under ConvexSetUp and LinearMapUp, if C has binary affine-combination closure and f is carried by the linear-map certificate, then the pointwise image f[C] has binary affine-combination closure.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+
+Rationale:
+This is a concrete image-closure theorem using the paper's ConvexSet and LinearMap rows. It is not duplicated by the existing finite affine-spine or intersection closure labels, and it lands cleanly in an existing concrete_instances surface.
+
+---
+
+
+### B-462 - Distribution pushforward monotone events
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Distribution pushforward monotone events |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under DistributionUp, RandomVarUp, and ProbSpaceUp, if B is a target measurable subevent of A for X, then mu_X(B) <= mu_X(A) under the target RealAlgOrder row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete composite consequence of the probability surface: pushforward measure, random-variable preimage exactness, and source monotonicity. It is not a duplicate of the existing total-mass, empty-event, or disjoint-union distribution rows.
+
+---
+
+
+### B-463 - Network-flow residual exhaustion optimality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Network-flow residual exhaustion optimality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under finite NetworkFlowUp feasibility, if a flow has a residual-cut augmenting-path exhaustion certificate, then the flow is maximal among feasible flows and its residual cut is minimal among finite cuts.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+
+Rationale:
+This is a focused certificate-consumption corollary that exposes the direct payload of residual exhaustion by composing existing network-flow results. It is concrete, scoped, and distinct from the existing BOARD targets.
+
+---
+
+
+### B-464 - Hash collision gives reversed second-preimage
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Hash collision gives reversed second-preimage |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under HashUp, if HashCollisionSuccess_H(x,x') holds, then HashSecondPreimageSuccess_H(x',x) holds over the same two hash-evaluation rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+
+Rationale:
+This is a concrete transcript bridge between two existing hash success predicates. It is not just collision symmetry or the already stated second-preimage-to-collision direction, and it makes a missing converse relation explicit.
+
+---
+
+
+### B-465 - Quadrature degree-bound reflexivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Quadrature degree-bound reflexivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under QuadratureUp, for every unary degree bound d, DegBoundLe(d,d) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+
+Rationale:
+This is small but valid certificate infrastructure for the paper-defined exactness-degree comparison. Existing weakening and transitivity rows do not by themselves provide the missing reflexive row, and no listed BOARD entry covers quadrature degree-bound structure.
+
+---
+

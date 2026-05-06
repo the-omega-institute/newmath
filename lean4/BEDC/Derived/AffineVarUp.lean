@@ -111,4 +111,17 @@ theorem AffineFiniteFamilyZeroLocus_empty_family_iff {AffPoint : BHist -> Prop}
         intro p member
         exact False.elim (inBundle_nil_elim member))
 
+theorem AffineFiniteFamilyZeroLocus_mutual_inclusion_iff {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
+    AffineFiniteFamilyEquationInclusion F G ->
+      AffineFiniteFamilyEquationInclusion G F ->
+        (AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x <->
+          AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x) := by
+  intro inclFG inclGF
+  constructor
+  · intro locusF
+    exact AffineFiniteFamilyZeroLocus_inclusion_contravariant inclGF locusF
+  · intro locusG
+    exact AffineFiniteFamilyZeroLocus_inclusion_contravariant inclFG locusG
+
 end BEDC.Derived.AffineVarUp
