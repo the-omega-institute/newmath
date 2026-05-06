@@ -232,6 +232,8 @@ import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
+import BEDC.Derived.RandomVarUp
+import BEDC.Derived.DistributionUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.FieldExtUp
