@@ -1,0 +1,57 @@
+\section{Identity-cover root package}
+\label{sec:sheaf-identity-cover-root-package}
+
+\begin{definition}[Sheaf identity-cover root package]
+\label{def:sheaf-identity-cover-root-package}
+For an indexed open $i$ in the $\SheafUp$ root-obligation surface, the identity-cover root package is the accepted one-member cover of $i$ with cover index type $\mathsf{Unit}$ and member map $\iota:\mathsf{Unit}\to\mathsf{OpenIx}$ constantly equal to $i$. Its membership row is the identity row on $\mathsf{OpenAt}(i,b)$ for each $b:\mathsf{BHist}$, its only overlap row is the finite-intersection cell $i\wedge_{\TopologyUp}i$, and its exposed restriction route is the identity restriction $\rho_{i,i}$.
+
+The package ledger is restricted to $\mathsf{BHist}$ membership cells, $\hsame$ transport of those cells, the self-overlap projections for $i\wedge_{\TopologyUp}i$, and the presheaf identity row identifying $\rho_{i,i}(s)$ with $s$ in the classifier $\sim_i$. It carries no host cover equality, cover quotient, stalk quotient, or external sheafification operation.
+\end{definition}
+
+\begin{theorem}[Sheaf identity-cover membership exactness]
+\label{thm:sheaf-identity-cover-membership-exactness}
+Let $i$ be an indexed open and let $\mathcal{U}_{\mathrm{id}}$ be the identity-cover root package of \autoref{def:sheaf-identity-cover-root-package}. For every $b:\mathsf{BHist}$, the displayed membership row is exact:
+$$
+\mathsf{OpenAt}(i,b)
+\Longleftrightarrow
+\exists a:\mathsf{Unit},\ \mathsf{OpenAt}(\iota(a),b).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, use the unique member of $\mathsf{Unit}$. Since $\iota$ is constantly $i$, the required displayed cover-member cell is the original cell $\mathsf{OpenAt}(i,b)$ read through the identity membership row.
+
+For the reverse direction, destruct the displayed witness $a:\mathsf{Unit}$. The member map again reads as $i$, so the cover-member cell is exactly a cell of $\mathsf{OpenAt}(i,b)$.
+
+Both directions stay inside the $\mathsf{BHist}$ ledger and use only $\hsame$ transport when a history cell is reindexed. No equality of ambient host covers is used.
+\end{proof}
+
+\begin{theorem}[Sheaf identity-cover restriction readback]
+\label{thm:sheaf-identity-cover-restriction-readback}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier, and let $\mathcal{U}_{\mathrm{id}}$ be the identity-cover root package of an indexed open $i$. For every section $s:\mathsf{Sec}(i)$, the restriction route exposed by $\mathcal{U}_{\mathrm{id}}$ is classifier-equal to $\rho_{i,i}(s)$ and hence classifier-equal to $s$ by the presheaf identity row:
+$$
+\rho^{\mathcal{U}_{\mathrm{id}}}(s)\sim_i\rho_{i,i}(s),
+\qquad
+\rho_{i,i}(s)\sim_i s.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the identity-cover root package. Its only cover member is $i$, and the route from the ambient open to that member is the identity route, so the exposed restriction readback is the displayed route $\rho_{i,i}(s)$.
+
+Apply the identity row of the indexed section presheaf carrier from \autoref{def:sheaf-indexed-section-presheaf-carrier}. That row identifies $\rho_{i,i}(s)$ with $s$ in the classifier $\sim_i$.
+
+The self-overlap cell $i\wedge_{\TopologyUp}i$ supplies no additional restriction target; it only records the overlap ledger row already attached to the identity route.
+\end{proof}
+
+\begin{theorem}[Sheaf identity-cover gluing collapse]
+\label{thm:sheaf-identity-cover-gluing-collapse}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier, and let $\mathcal{U}_{\mathrm{id}}$ be the identity-cover root package of an indexed open $i$. A compatible local family on $\mathcal{U}_{\mathrm{id}}$ is classifier-equivalent to exactly one global section over $i$: gluing supplies a global readback, and locality identifies any two global readbacks whose identity-cover restrictions agree.
+\end{theorem}
+\begin{proof}
+First apply the gluing part of \autoref{thm:sheaf-root-unblock-locality-gluing-obligation} to the compatible local family over $\mathcal{U}_{\mathrm{id}}$. This produces a global section $g:\mathsf{Sec}(i)$ whose restriction to the unique cover member agrees with the displayed local section.
+
+The agreement row is read back through \autoref{thm:sheaf-identity-cover-restriction-readback}. Because the only exposed route is $\rho_{i,i}$ and the presheaf identity row identifies $\rho_{i,i}(g)$ with $g$, the local family has no separate cover presentation beyond its single global readback.
+
+For uniqueness, take two global readbacks whose restrictions agree on the identity cover. The membership exactness row of \autoref{thm:sheaf-identity-cover-membership-exactness} reduces coverwise agreement to agreement on the lone $\mathsf{Unit}$ member, and \autoref{thm:sheaf-identity-cover-restriction-readback} turns that agreement into agreement of the two global sections over $i$.
+
+Apply the locality part of \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}. It returns classifier equality in $\sim_i$, so the compatible local family collapses to one global section up to the section classifier.
+\end{proof}
