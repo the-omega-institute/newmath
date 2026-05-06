@@ -34,6 +34,8 @@ from locks import file_lock
 import codex_orchestrator
 import board_archive
 import board_context
+import candidate_inbox
+import paper_index
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -206,23 +208,6 @@ def _next_target_id(also_accepted: list[str]) -> str:
     return f"B-{next_num:02d}"
 
 
-def _scan_paper_labels() -> list[str]:
-    """Quick scan of papers/bedc/parts/**/*.tex for \\label{thm|lem|prop|cor|def:...}"""
-    labels: list[str] = []
-    parts = REPO_ROOT / "papers" / "bedc" / "parts"
-    if not parts.exists():
-        return labels
-    pat = re.compile(r"\\label\{(thm|lem|prop|cor|def):([^}]+)\}")
-    for path in parts.rglob("*.tex"):
-        try:
-            text = path.read_text(encoding="utf-8", errors="replace")
-        except OSError:
-            continue
-        for m in pat.finditer(text):
-            labels.append(f"{m.group(1)}:{m.group(2)}")
-    return labels
-
-
 # ---------------------------------------------------------------------------
 # Judge: claude maker/checker on combined candidate list
 # ---------------------------------------------------------------------------
@@ -248,8 +233,7 @@ def _judge_candidates(
 
     template = (PROMPTS_DIR / "board_judge.txt").read_text(encoding="utf-8")
     board_content = board_context.build_board_prompt_context()
-    paper_labels = _scan_paper_labels()
-    paper_coverage_blob = "\n".join(sorted(set(paper_labels))[:400])  # cap
+    paper_coverage_blob = paper_index.render_prompt_summary(max_chars=12000)
 
     codex_blob = json.dumps(codex_candidates, ensure_ascii=False, indent=2)
     oracle_blob = json.dumps(oracle_candidates, ensure_ascii=False, indent=2)
@@ -359,20 +343,23 @@ def spawn_from_candidates(
     if not codex_candidates and not oracle_candidates:
         return BoardSpawnResult(ok=True)
 
-    # Step 1: dedup vs existing BOARD titles (cheap pre-filter).
-    existing_titles = _existing_board_titles()
-    def _alive(c: dict) -> bool:
-        title = (c.get("title") or "").strip().lower()
-        return bool(title) and title not in existing_titles
-
-    codex_alive = [c for c in codex_candidates if _alive(c)]
-    oracle_alive = [c for c in oracle_candidates if _alive(c)]
-    cheap_drops = (
-        [{**c, "source": "codex", "reason": "duplicate_title_in_board"}
-         for c in codex_candidates if not _alive(c)]
-        + [{**c, "source": "oracle", "reason": "duplicate_title_in_board"}
-           for c in oracle_candidates if not _alive(c)]
+    # Step 1: runtime inbox + deterministic pre-gate. This keeps the active
+    # BOARD as an execution queue instead of a proposal/memory sink.
+    codex_screen = candidate_inbox.screen_candidates(
+        codex_candidates,
+        source="codex",
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
     )
+    oracle_screen = candidate_inbox.screen_candidates(
+        oracle_candidates,
+        source="oracle",
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
+    )
+    codex_alive = codex_screen.accepted
+    oracle_alive = oracle_screen.accepted
+    cheap_drops = codex_screen.rejected + oracle_screen.rejected
 
     if not codex_alive and not oracle_alive:
         print(
@@ -421,15 +408,18 @@ def spawn_from_candidates(
                 local_acc.append(tid)
                 appended_ids.append(tid)
             _atomic_append_to_board(blocks)
+            candidate_inbox.record_board_promotions(final_accepted, appended_ids, mode="board_spawn")
 
     print(
         f"[board_spawn] accepted={len(final_accepted)} rejected={len(rejected) + len(threshold_drops) + len(cheap_drops)}",
         flush=True,
     )
+    all_rejected = cheap_drops + rejected + threshold_drops
+    candidate_inbox.record_rejections(all_rejected, mode="board_spawn")
     return BoardSpawnResult(
         ok=True,
         accepted=final_accepted,
-        rejected=cheap_drops + rejected + threshold_drops,
+        rejected=all_rejected,
         appended_ids=appended_ids,
     )
 

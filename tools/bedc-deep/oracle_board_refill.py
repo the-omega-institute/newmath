@@ -13,8 +13,8 @@ rigidity theorems, obstruction results, multi-scale induction closures.
 This script invokes that capability directly.
 
 Flow:
-  1. Build prompt: oracle_board_refill.txt + existing BOARD content +
-     all paper \\label values (so oracle skips already-proven things).
+  1. Build prompt: oracle_board_refill.txt + compact BOARD context +
+     paper_index.json coverage summary (so oracle skips already-proven things).
   2. Submit as a fresh oracle task via the oracle_server (same channel as
      normal pipeline tasks — the userscript handles upload routing).
   3. Poll for response (with reasonable timeout).
@@ -46,6 +46,7 @@ from pathlib import Path
 from typing import Optional
 
 import board_context
+import paper_index
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -118,27 +119,6 @@ def _board_content() -> str:
     return board_context.build_board_prompt_context()
 
 
-def _scan_paper_labels(limit: int = 600) -> str:
-    """Quick scan of papers/bedc/parts/**/*.tex for theorem-flavored labels."""
-    parts = REPO_ROOT / "papers" / "bedc" / "parts"
-    if not parts.exists():
-        return "(no parts/ found)"
-    pat = re.compile(r"\\label\{(thm|lem|prop|cor|def):([^}]+)\}")
-    labels: list[str] = []
-    for path in parts.rglob("*.tex"):
-        try:
-            text = path.read_text(encoding="utf-8", errors="replace")
-        except OSError:
-            continue
-        for m in pat.finditer(text):
-            labels.append(f"{m.group(1)}:{m.group(2)}")
-    labels = sorted(set(labels))
-    if len(labels) > limit:
-        labels = labels[:limit]
-        labels.append(f"... ({len(labels) - limit} more truncated)")
-    return "\n".join(labels)
-
-
 def _extract_json_object(text: str) -> Optional[dict]:
     """Robust scanner — same as elsewhere in pipeline."""
     text = (text or "").strip()
@@ -189,10 +169,10 @@ def _extract_json_object(text: str) -> Optional[dict]:
 def build_refill_prompt() -> str:
     template = (PROMPTS_DIR / "oracle_board_refill.txt").read_text(encoding="utf-8")
     board = _board_content()
-    labels = _scan_paper_labels()
+    paper_coverage = paper_index.render_prompt_summary(max_chars=12000)
     return template.format(
         board_content=_safe(board),
-        paper_labels=_safe(labels),
+        paper_labels=_safe(paper_coverage),
     )
 
 

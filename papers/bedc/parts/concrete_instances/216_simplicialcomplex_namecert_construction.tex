@@ -503,3 +503,72 @@ $$
 
 If $\mathsf{Simplex}_L(\sigma)$ holds, the identical branch argument using the closure row of $L$ gives $\mathsf{Simplex}_L(\tau)$ and $\mathsf{Simplex}_L(\rho)$; the same shared transitivity field gives $\mathsf{Face}(\rho,\sigma)$; and the $L$-grading row applied to the same three face incidences gives the same three displayed comparisons. Combining the three comparisons in either upper branch proves the chain conjunction.
 \end{proof}
+
+\begin{lemma}[Simplicial union finite face-closed carrier inherits face dimension grading]\label{lem:simplicialcomplex-union-finite-face-closed-inherits-face-dimension-grading}
+Let $K$ and $L$ be $\SimplicialComplexUp$ finite face carriers over the same finite vertex source $(V,\sim_V)$, sharing the simplex-code source, classifier, and face relation as in \autoref{def:simplicialcomplex-union-carrier-rows}. Let $d:\mathsf{BHist}\to\mathbb{N}$ be a common face-dimension grading map: its $K$-row and $L$-row are
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\
+\mathsf{Simplex}_K(\alpha)\land
+\mathsf{Simplex}_K(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+ d(\alpha)\le d(\beta),
+$$
+and
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\
+\mathsf{Simplex}_L(\alpha)\land
+\mathsf{Simplex}_L(\beta)\land
+\mathsf{Face}(\alpha,\beta)
+\to
+ d(\alpha)\le d(\beta).
+$$
+Let $js:\mathsf{HistSpine}$ satisfy
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cup L}),
+$$
+and assume face closure and inherited transitivity:
+$$
+\forall \tau\,\sigma:\mathsf{BHist}.\
+\mathsf{Simplex}_{K\cup L}(\sigma)\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\to
+\mathsf{Simplex}_{K\cup L}(\tau),
+$$
+$$
+\forall \rho\,\tau\,\sigma:\mathsf{BHist}.\
+\mathsf{Face}_{K\cup L}(\rho,\tau)\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\to
+\mathsf{Face}_{K\cup L}(\rho,\sigma).
+$$
+For histories $\alpha,\beta:\mathsf{BHist}$, if
+$$
+\mathsf{Simplex}_{K\cup L}(\alpha)\land
+\mathsf{Simplex}_{K\cup L}(\beta)\land
+\mathsf{Face}_{K\cup L}(\alpha,\beta),
+$$
+then
+$$
+d(\alpha)\le d(\beta).
+$$
+Moreover, for histories $\rho,\tau,\sigma:\mathsf{BHist}$, if
+$$
+\mathsf{Simplex}_{K\cup L}(\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cup L}(\rho,\tau),
+$$
+then
+$$
+d(\rho)\le d(\tau)
+\land
+ d(\tau)\le d(\sigma)
+\land
+ d(\rho)\le d(\sigma).
+$$
+\end{lemma}
+\begin{proof}
+Apply \autoref{thm:simplicialcomplex-union-inherits-face-dimension-grading}. Its one-step and two-step conclusions are exactly the two graded comparison claims for the union predicate and inherited face relation over the same shared carrier rows from \autoref{def:simplicialcomplex-union-carrier-rows}. The finite and face-closed hypotheses identify the finite face-closed context in which this application is intended, and therefore the two displayed implications are the target inequalities.
+\end{proof}
