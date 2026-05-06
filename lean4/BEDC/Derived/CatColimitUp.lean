@@ -33,4 +33,14 @@ theorem CatColimitCoconeMor_comp_closed {D K M N kappa mu nu f g fg cKM cMN cKN 
           (And.intro compSource
             (hsame_trans (hsame_symm sameCMNCKN) right.right.right.right.right.right)))))
 
+theorem CatColimitCoconeMor_identity_comparison {D K kappa : BHist} :
+    CategoryHomCarrier D K kappa ->
+      CatColimitCoconeMor D K K kappa kappa BHist.Empty kappa := by
+  intro componentCarrier
+  exact And.intro (CategoryHomCarrier_empty_identity componentCarrier.right.left)
+    (And.intro componentCarrier
+      (And.intro componentCarrier
+        (And.intro componentCarrier
+          (And.intro (cont_right_unit kappa) (hsame_refl kappa)))))
+
 end BEDC.Derived.CatColimitUp

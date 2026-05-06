@@ -21,6 +21,67 @@ def BHistCarriesOpen (T : BHistIndexedOpenCarrier) (i : T.OpenIx)
     (U : BHist -> Prop) : Prop :=
   forall {x : BHist}, UnaryHistory x -> (U x <-> T.OpenAt i x)
 
+inductive BHistUnaryTopologyLedgerRow (T : BHistIndexedOpenCarrier) :
+    T.OpenIx -> (BHist -> Prop) -> Prop where
+  | singletonMetricBall {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | finiteListIntersection {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | binaryGeneratedMeet {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | arbitraryUnion {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | bottom {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | top {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+
+theorem BHistUnaryTopologyLedgerRow_constructor_coverage (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} (row : BHistUnaryTopologyLedgerRow T i U) :
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.finiteListIntersection ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.binaryGeneratedMeet ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.arbitraryUnion ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.bottom ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.top ledger unaryLedger carries) := by
+  cases row with
+  | singletonMetricBall ledger unaryLedger carries =>
+      exact Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))
+  | finiteListIntersection ledger unaryLedger carries =>
+      exact Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl))))
+  | binaryGeneratedMeet ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))))
+  | arbitraryUnion ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl))))))
+  | bottom ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))))))
+  | top ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))))))
+
 def BHistPullbackOpen (f : BHist -> BHist) (U : BHist -> Prop) (y : BHist) :
     Prop :=
   U (f y)
