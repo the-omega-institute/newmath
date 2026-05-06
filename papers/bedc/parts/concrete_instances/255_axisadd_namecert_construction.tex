@@ -41,7 +41,7 @@ This is the kernel left-unit theorem of \(\ContR\) restricted to a zero-spine in
 
 \begin{definition}[Additive stability certificate (zero-spine)]
 \label{def:axisadd-stability-certificate}
-The stability certificate \(\mathsf{AxisAddStability}\) records the kernel left-unit on the zero-spine. The remaining fields (right unit, associativity, commutativity, determinacy, and zero-spine closure of the result) are horizon obligations whose paper-side proofs are queued for the codex formalize pipeline.
+The stability certificate \(\mathsf{AxisAddStability}\) records the checked zero-spine rows for left unit, right unit, result zero-spine closure, associativity, and commutativity. Determinacy is the remaining algebraic obligation for the certificate surface.
 \end{definition}
 \leandef{BEDC.Derived.AxisZeckendorf.AxisAdd.AxisAddStabilityCert}
 \leanvariant{BEDC.Derived.AxisZeckendorf.AxisAdd.axisAddStabilityCert}
@@ -70,7 +70,7 @@ forms a valid naming certificate for the derived additive interface \(\AxisAddUp
 \end{theorem}
 \leandef{BEDC.Derived.AxisZeckendorf.AxisAdd.axisAdd\_namecert}
 \begin{proof}
-Source, pattern, classifier, stability, and ledger fields are supplied by the preceding definitions. The stability field includes the kernel left-unit fact and explicitly carries the remaining algebraic obligations as horizon entries.
+Source, pattern, classifier, stability, and ledger fields are supplied by the preceding definitions. The stability field includes the checked zero-spine rows for left unit, right unit, result closure, associativity, and commutativity, with determinacy retained as the remaining algebraic obligation.
 \end{proof}
 
 \begin{corollary}[\(\AxisAddUp\) is licensed, not primitive]
@@ -80,7 +80,7 @@ The interface \(\AxisAddUp\) is licensed by \(\mathsf{NameCert}_{\AxisAddUp}\). 
 
 \section{Horizon obligations}
 
-The following theorems record the zero-spine closure already checked in Lean and the remaining algebraic horizon.
+The following theorems record the checked zero-spine law surface and determinacy horizon.
 
 \begin{theorem}[Continuation preserves zero-spine]
 \label{thm:axisadd-cont-preserves-zerospine}
