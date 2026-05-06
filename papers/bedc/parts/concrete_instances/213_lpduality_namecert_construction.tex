@@ -185,3 +185,89 @@ $$
 $$
 Since $y'$ was arbitrary, the second universal clause follows.
 \end{proof}
+
+\begin{theorem}[LPDuality complementary slackness gives objective equality]
+\label{thm:lpduality-complementary-slackness-objective-equality}
+Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Suppose $x$ is primal feasible and $y$ is dual feasible,
+$$
+\mathsf{PrFeas}_{A,b}(x)\land\mathsf{DuFeas}_{A,b,c}(y),
+$$
+and suppose the two complementary-slackness product families are classifier-equal termwise:
+$$
+\forall j\in J.\; c_j\cdot_Fx_j\sim_F\beta_j(y)\cdot_Fx_j,
+\qquad
+\forall i\in I.\; y_i\cdot_F\alpha_i(x)\sim_Fy_i\cdot_Fb_i.
+$$
+Then the primal and dual objective endpoints are classifier-equal,
+$$
+\mathsf{PrObj}_{A,c}(x)\sim_F\mathsf{DuObj}_{b}(y).
+$$
+Moreover, $x$ is primal optimal and $y$ is dual optimal in the row sense:
+$$
+\forall x'.\;\mathsf{PrFeas}_{A,b}(x')
+\Longrightarrow
+\mathsf{PrObj}_{A,c}(x')\preceq_F\mathsf{PrObj}_{A,c}(x),
+$$
+and
+$$
+\forall y'.\;\mathsf{DuFeas}_{A,b,c}(y')
+\Longrightarrow
+\mathsf{DuObj}_{b}(y)\preceq_F\mathsf{DuObj}_{b}(y').
+$$
+\end{theorem}
+\begin{proof}
+For each column position $j\in J$, order reflexivity gives
+$$
+c_j\cdot_Fx_j\preceq_Fc_j\cdot_Fx_j
+\qquad\text{and}\qquad
+\beta_j(y)\cdot_Fx_j\preceq_F\beta_j(y)\cdot_Fx_j.
+$$
+Transporting these reflexive comparisons by the classifier-stability row for $\preceq_F$ and by the displayed column slack equality, in both directions, gives
+$$
+c_j\cdot_Fx_j\preceq_F\beta_j(y)\cdot_Fx_j
+\qquad\text{and}\qquad
+\beta_j(y)\cdot_Fx_j\preceq_Fc_j\cdot_Fx_j.
+$$
+Finite-sum monotonicity over $J$ therefore yields the opposing comparisons
+$$
+\sum_{j\in J}c_j\cdot_Fx_j
+\preceq_F
+\sum_{j\in J}\beta_j(y)\cdot_Fx_j,
+\qquad
+\sum_{j\in J}\beta_j(y)\cdot_Fx_j
+\preceq_F
+\sum_{j\in J}c_j\cdot_Fx_j.
+$$
+Antisymmetry of the ordered-field order gives the classifier equality
+$$
+\mathsf{PrObj}_{A,c}(x)
+\sim_F
+\sum_{j\in J}\beta_j(y)\cdot_Fx_j.
+$$
+
+The same argument over the row positions uses the displayed row slack equality. For each $i\in I$, classifier stability transports the two reflexive order comparisons into
+$$
+y_i\cdot_F\alpha_i(x)\preceq_Fy_i\cdot_Fb_i
+\qquad\text{and}\qquad
+y_i\cdot_Fb_i\preceq_Fy_i\cdot_F\alpha_i(x).
+$$
+Finite-sum monotonicity over $I$, followed by antisymmetry, gives
+$$
+\sum_{i\in I}y_i\cdot_F\alpha_i(x)
+\sim_F
+\mathsf{DuObj}_{b}(y).
+$$
+
+The finite distributivity and interchange row in \autoref{def:lpduality-finite-ordered-field-feasibility-row} supplies
+$$
+\sum_{j\in J}\beta_j(y)\cdot_Fx_j
+\sim_F
+\sum_{i\in I}y_i\cdot_F\alpha_i(x).
+$$
+Transitivity of the scalar classifier composes the three displayed classifier equalities into
+$$
+\mathsf{PrObj}_{A,c}(x)\sim_F\mathsf{DuObj}_{b}(y).
+$$
+
+The feasibility hypotheses and this objective equality are precisely the hypotheses of \autoref{cor:lpduality-weak-duality-equality-optimality}. Applying that corollary gives the stated primal and dual optimality clauses.
+\end{proof}
