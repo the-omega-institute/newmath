@@ -1,0 +1,58 @@
+\begin{definition}[Sheaf root NameCert field inventory]
+\label{def:sheaf-root-namecert-field-inventory}
+The root $\NameCert_{\SheafUp}$ field inventory is the following ten-field surface.
+\begin{enumerate}
+\item The traditional target is a sheaf of sections over indexed opens, read over accepted indexed covers rather than host open-cover equality.
+\item The BEDC source is $\TopologyUp$ together with the $\PreSheafUp$ restriction surface.
+\item The carrier row is the indexed section family $\mathsf{Sec}(i)$ of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
+\item The classifier row is the open-indexed section classifier family $\sim_i$.
+\item The carrier-transport stability row keeps section carriers and classifiers aligned under the displayed indexed-open and $\mathsf{BHist}$ transport rows.
+\item The restriction-stability row consists of restriction identity, restriction composition, and classifier preservation by restriction.
+\item The locality row detects global classifier equality from memberwise classifier equality on an indexed cover.
+\item The gluing row supplies a global section readback for every compatible local family.
+\item The refinement-exactness row transports compatible families and gluing witnesses through displayed refinements and common refinements.
+\item The ledger and presentation row consists of indexed covers, common-refinement spans, and cover-presentation invariance; it carries no standard bridge.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sheaf root NameCert carrier and classifier fields]
+\label{thm:sheaf-root-namecert-carrier-classifier-fields}
+Let $\mathcal{T}$ be an indexed-open carrier for $\TopologyUp$, and let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over $\mathcal{T}$. Then the carrier, classifier, carrier-transport, and restriction-stability fields of \autoref{def:sheaf-root-namecert-field-inventory} are supplied by \autoref{def:sheaf-indexed-section-presheaf-carrier}, \autoref{def:sheaf-indexed-cover-compatibility-locality}, \autoref{thm:sheaf-carrier-support-obligation}, \autoref{thm:sheaf-classifier-transport-obligation}, and \autoref{thm:sheaf-restriction-stability-obligation}.
+\end{theorem}
+\begin{proof}
+Project the indexed section carrier from $\mathcal{S}$. By \autoref{def:sheaf-indexed-section-presheaf-carrier}, the visible carrier rows are the section families $\mathsf{Sec}(i)$, and the classifier rows are the relations $\sim_i$ with their equivalence fields.
+
+Apply \autoref{thm:sheaf-carrier-support-obligation}. It exhausts the carrier support by indexed sections, section classifiers, restriction maps, restriction identity and composition rows, indexed covers, compatibility predicates, locality, and gluing. Thus the root inventory has no additional carrier primitive to construct.
+
+Apply \autoref{thm:sheaf-classifier-transport-obligation} and \autoref{thm:sheaf-restriction-stability-obligation}. These provide classifier transport along restrictions, identity restriction, composition of two displayed restriction routes, and stability on finite-intersection rows supplied by $\TopologyUp$.
+
+Finally read the cover-facing source through \autoref{def:sheaf-indexed-cover-compatibility-locality}. It contributes only indexed covers and compatible local-family predicates, so the projected carrier and classifier fields repack exactly as the carrier, classifier, carrier-transport, and restriction-stability fields of the root inventory.
+\end{proof}
+
+\begin{theorem}[Sheaf root NameCert locality and gluing fields]
+\label{thm:sheaf-root-namecert-locality-gluing-fields}
+For an indexed sheaf carrier over $\mathcal{T}$, the locality and gluing fields of \autoref{def:sheaf-root-namecert-field-inventory} are supplied by \autoref{thm:sheaf-root-cover-locality-gluing-obligation}, \autoref{thm:sheaf-gluing-uniqueness-from-locality}, and \autoref{thm:sheaf-global-restrictions-compatible-local-family}.
+\end{theorem}
+\begin{proof}
+Begin with an indexed cover $\mathcal{U}=(A,\iota,h,\gamma)$ of an open index $i$ and a compatible local family $s_a:\mathsf{Sec}(\iota(a))$. The cover, overlap, and compatibility rows are exactly the rows of \autoref{def:sheaf-indexed-cover-compatibility-locality}.
+
+Apply \autoref{thm:sheaf-root-cover-locality-gluing-obligation}. It identifies locality and gluing as root $\NameCert_{\SheafUp}$ rows over the same indexed cover and the same classifier family $\sim_i$.
+
+The uniqueness side is then the projection of \autoref{thm:sheaf-gluing-uniqueness-from-locality}. Two global sections that display the same compatible local family are equal in the global classifier because locality detects equality from all cover members.
+
+The readback side is supplied by \autoref{thm:sheaf-global-restrictions-compatible-local-family}. Restricting a global section to the members of an indexed cover produces a compatible local family, so the gluing row and the locality row are closed under the named cover ledger.
+\end{proof}
+
+\begin{theorem}[Sheaf root NameCert refinement exactness fields]
+\label{thm:sheaf-root-namecert-refinement-exactness-fields}
+For an indexed sheaf carrier over $\mathcal{T}$, the refinement, common-refinement, and cover-presentation exactness fields of \autoref{def:sheaf-root-namecert-field-inventory} are supplied by \autoref{thm:sheaf-root-restriction-refinement-obligation}, \autoref{thm:sheaf-root-common-refinement-exactness-obligation}, \autoref{thm:sheaf-cover-presentation-exactness}, and \autoref{thm:sheaf-root-route-exactness-namecert-consumption}.
+\end{theorem}
+\begin{proof}
+Start with a displayed refinement of indexed covers. Apply \autoref{thm:sheaf-root-restriction-refinement-obligation}; it transports compatible local families and gluing rows along the refinement map using only displayed inclusion routes and restriction stability.
+
+For two cover presentations, pass to a displayed common-refinement span. Apply \autoref{thm:sheaf-root-common-refinement-exactness-obligation}; agreement after pullback to the common cover identifies the two global gluing classifier classes.
+
+Apply \autoref{thm:sheaf-cover-presentation-exactness}. This repacks the common-refinement comparison as invariance of the cover presentation itself, without adding host cover equality or a quotient of cover presentations.
+
+Finally apply \autoref{thm:sheaf-root-route-exactness-namecert-consumption}. The route-exactness row records the same inclusion and restriction-route comparisons as $\NameCert$-consumable ledger data, so the refinement and presentation fields close inside the root inventory of \autoref{def:sheaf-root-namecert-field-inventory}.
+\end{proof}

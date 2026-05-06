@@ -5,6 +5,11 @@ namespace BEDC.Derived.IdealUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 
+def IdealQuotientKernelSource (Carrier I : BHist -> Prop)
+    (Classifier : BHist -> BHist -> Prop) (sub : BHist -> BHist -> BHist)
+    (x y : BHist) : Prop :=
+  NameCert Carrier Classifier ∧ Carrier x ∧ Carrier y ∧ I (sub x y)
+
 theorem IdealAmbientCarrier_quotient_kernel_exactness
     {Carrier : BHist -> Prop} {sub : BHist -> BHist -> BHist}
     (subCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (sub x y))
