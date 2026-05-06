@@ -168,4 +168,40 @@ theorem SimplicialComplexIntersection_face_dimension_grading (simplices : ProbeB
     dimMonoK simplexRhoK simplexSigma.left faceRhoSigma
   exact And.intro dimRhoTau (And.intro dimTauSigma dimRhoSigma)
 
+theorem SimplicialComplexUnion_face_chain_closure (simplices : ProbeBundle BHist)
+    {SimplexK SimplexL : BHist -> Prop} {Face : BHist -> BHist -> Prop}
+    (listed : forall {s : BHist}, SimplexK s ∨ SimplexL s -> InBundle s simplices)
+    (faceClosedK :
+      forall {tau sigma : BHist}, SimplexK sigma -> Face tau sigma -> SimplexK tau)
+    (faceClosedL :
+      forall {tau sigma : BHist}, SimplexL sigma -> Face tau sigma -> SimplexL tau)
+    (faceTrans :
+      forall {rho tau sigma : BHist}, Face rho tau -> Face tau sigma -> Face rho sigma)
+    {rho tau sigma : BHist} :
+    SimplexK sigma ∨ SimplexL sigma -> Face tau sigma -> Face rho tau ->
+      (SimplexK tau ∨ SimplexL tau) ∧ (SimplexK rho ∨ SimplexL rho) ∧
+        Face rho sigma ∧ InBundle tau simplices ∧ InBundle rho simplices := by
+  intro simplexSigma faceTauSigma faceRhoTau
+  have simplexTau : SimplexK tau ∨ SimplexL tau := by
+    cases simplexSigma with
+    | inl simplexSigmaK =>
+        exact Or.inl (faceClosedK simplexSigmaK faceTauSigma)
+    | inr simplexSigmaL =>
+        exact Or.inr (faceClosedL simplexSigmaL faceTauSigma)
+  have simplexRho : SimplexK rho ∨ SimplexL rho := by
+    cases simplexTau with
+    | inl simplexTauK =>
+        exact Or.inl (faceClosedK simplexTauK faceRhoTau)
+    | inr simplexTauL =>
+        exact Or.inr (faceClosedL simplexTauL faceRhoTau)
+  have faceRhoSigma : Face rho sigma :=
+    faceTrans faceRhoTau faceTauSigma
+  have tauListed : InBundle tau simplices :=
+    listed simplexTau
+  have rhoListed : InBundle rho simplices :=
+    listed simplexRho
+  exact And.intro simplexTau
+    (And.intro simplexRho
+      (And.intro faceRhoSigma (And.intro tauListed rhoListed)))
+
 end BEDC.Derived.SimplicialComplexUp
