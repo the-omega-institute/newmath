@@ -11253,3 +11253,29 @@ LPDualityUp advertises strong duality and complementary slackness over an ordere
 
 ---
 
+### B-430 - DerivedCat roof associativity classifier law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | DerivedCat roof associativity classifier law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a DerivedCatUp visible localization setup, if three displayed roof ledger rows are composable and the two left- and right-associated composite roof ledgers are formed, then those two composite ledgers are classified by the generated zigzag classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/138_derivedcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
+
+Rationale:
+The claim is a concrete categorical law for the existing DerivedCatUp localization surface: the paper already defines generated zigzag classifiers, roof ledgers, composition descent, and roof identity laws, but it does not state the companion associativity law for three displayed roof composites. It is distinct from the existing functor/category associativity BOARD entries because it lands at the derived-category roof-ledger layer and uses quasi-isomorphism zigzag classification, not only ordinary hom-carrier composition.
+
+---
+
