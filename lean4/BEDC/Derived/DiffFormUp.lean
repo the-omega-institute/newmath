@@ -135,6 +135,27 @@ theorem DiffFormExteriorDerivative_degree_raise_ledger
   exact ⟨coordinateRows.left, targetUnary, targetRoute, coordinateRows.right.right.left,
     coordinateRows.right.right.right.left⟩
 
+theorem DiffFormRootDegreeClassifier_coverage {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger : BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory degree -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          (UnaryHistory degree ∧ UnaryHistory probe ∧ UnaryHistory tensor ∧
+            UnaryHistory scalar ∧
+              hsame ledger (append degree (append probe (append tensor (append scalar antisym))))) ∧
+            DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym
+              ledger degree probe tensor scalar antisym ledger := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have coordinateRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have classifierRows :=
+    DiffFormBHistClassifier_reflexivity_obligation (d := degree) (p := probe)
+      (t := tensor) (s := scalar) (a := antisym) (l := ledger) scalarCert probeIn scalarCarrier
+  exact And.intro coordinateRows classifierRows
+
 def DiffFormExteriorDerivativeLedger
     (omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source :
       BHist) :
