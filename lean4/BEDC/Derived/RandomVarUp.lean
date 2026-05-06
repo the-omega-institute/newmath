@@ -41,6 +41,16 @@ structure RandomVarTotalReadbackCertificate
   chosen_readback : Cont targetTotal BHist.Empty chosenPreimage
   carried_total_bridge : Cont targetTotal BHist.Empty sourceTotal
 
+theorem RandomVarTotalReadbackCertificate_total_event_preimage_exactness
+    {targetTotal sourceTotal chosenPreimage : BHist} :
+    UnaryHistory sourceTotal ->
+      RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+        UnaryHistory chosenPreimage ∧ hsame chosenPreimage sourceTotal := by
+  intro sourceUnary cert
+  have chosenSource : hsame chosenPreimage sourceTotal :=
+    cont_deterministic cert.chosen_readback cert.carried_total_bridge
+  exact And.intro (unary_transport sourceUnary (hsame_symm chosenSource)) chosenSource
+
 theorem RandomVarTotalReadbackCertificate_composition_total_event_preimage_exactness
     {omegaU omegaT omegaS preY preX preYX : BHist} :
     RandomVarTotalReadbackCertificate omegaU omegaT preY ->

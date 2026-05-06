@@ -15,6 +15,32 @@ open BEDC.FKernel.Bundle
 open BEDC.Derived.RandomVarUp
 open BEDC.Derived.PreorderUp
 
+def DistributionPushforwardCarrier
+    (sourcePreimage sourceMeasure : BHist -> BHist) (targetEvent pushed : BHist) : Prop :=
+  Cont targetEvent BHist.Empty (sourcePreimage targetEvent) ∧
+    Cont (sourcePreimage targetEvent) BHist.Empty
+      (sourceMeasure (sourcePreimage targetEvent)) ∧
+      hsame pushed (sourceMeasure (sourcePreimage targetEvent))
+
+theorem DistributionPushforwardCarrier_row
+    {sourcePreimage sourceMeasure : BHist -> BHist} {targetEvent pushed : BHist} :
+    UnaryHistory targetEvent ->
+      DistributionPushforwardCarrier sourcePreimage sourceMeasure targetEvent pushed ->
+        UnaryHistory (sourcePreimage targetEvent) ∧
+          UnaryHistory (sourceMeasure (sourcePreimage targetEvent)) ∧
+            hsame pushed (sourceMeasure (sourcePreimage targetEvent)) := by
+  intro targetUnary carrier
+  have preimageTarget : hsame (sourcePreimage targetEvent) targetEvent :=
+    cont_right_unit_result carrier.left
+  have preimageUnary : UnaryHistory (sourcePreimage targetEvent) :=
+    unary_transport targetUnary (hsame_symm preimageTarget)
+  have measurePreimage :
+      hsame (sourceMeasure (sourcePreimage targetEvent)) (sourcePreimage targetEvent) :=
+    cont_right_unit_result carrier.right.left
+  have measureUnary : UnaryHistory (sourceMeasure (sourcePreimage targetEvent)) :=
+    unary_transport preimageUnary (hsame_symm measurePreimage)
+  exact And.intro preimageUnary (And.intro measureUnary carrier.right.right)
+
 theorem DistributionPushforward_total_mass_unit
     {sourceTotal targetTotal sourceMass pushedMass unitMass : BHist} :
     UnaryHistory sourceTotal -> UnaryHistory sourceMass ->
