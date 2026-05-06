@@ -194,6 +194,15 @@ def BHistGeneratedOpenExact (T : BHistIndexedOpenCarrier) (U : BHist -> Prop) :
     Prop :=
   exists i : T.OpenIx, BHistCarriesOpen T i U
 
+theorem BHistGeneratedOpen_classifier_transport (T : BHistIndexedOpenCarrier)
+    {U : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  intro generated x y unaryX unaryY sameXY
+  cases generated with
+  | intro i carries =>
+      exact BHistCarriesOpen_classifier_transport T carries unaryX unaryY sameXY
+
 theorem BHistGeneratedOpen_binary_meet_admission (T : BHistIndexedOpenCarrier)
     {U V : BHist -> Prop} :
     BHistGeneratedOpenExact T U ->
@@ -499,6 +508,29 @@ theorem BHistSubspaceOpen_carrier_transport (T : BHistIndexedOpenCarrier)
   · intro subK
     exact And.intro restrictedSame.left (Iff.mpr stable subK.right)
 
+theorem BHistSubspaceOpen_boundary_closure (T : BHistIndexedOpenCarrier)
+    (boundary : BHistIndexedBoundaryOpen T) {S : BHist -> Prop} :
+    (forall {h : BHist}, UnaryHistory h -> ((S h ∧ T.OpenAt boundary.bottom h) ↔ False)) ∧
+      (forall {h : BHist}, UnaryHistory h -> ((S h ∧ T.OpenAt boundary.top h) ↔ S h)) := by
+  constructor
+  · intro h unaryH
+    have bottomAt : T.OpenAt boundary.bottom h <-> False := boundary.bottom_law unaryH
+    constructor
+    · intro subBottom
+      exact Iff.mp bottomAt subBottom.right
+    · intro impossible
+      exact False.elim impossible
+  · intro h unaryH
+    have topAt : T.OpenAt boundary.top h <-> True := boundary.top_law unaryH
+    constructor
+    · intro subTop
+      exact subTop.left
+    · intro inSubspace
+      apply And.intro
+      · exact inSubspace
+      · apply Iff.mpr topAt
+        constructor
+
 theorem BHistSubspaceOpen_finite_intersection (T : BHistIndexedOpenCarrier)
     {S : BHist -> Prop} {i j : T.OpenIx} {h : BHist} :
     UnaryHistory h ->
@@ -538,5 +570,26 @@ theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 :
     cases indexedOpen with
     | intro a openA =>
         exact And.intro (hsame_refl BHist.Empty) openA.right
+
+theorem TopologySingleton_union_case_split_ledger {A : Type} {ι : A -> BHist} :
+    ((forall a : A, hsame (ι a) (BHist.e0 BHist.Empty)) ∨
+      (exists a0 : A, hsame (ι a0) BHist.Empty)) ->
+      exists accepted : BHist,
+        (hsame accepted (BHist.e0 BHist.Empty) ∨ hsame accepted BHist.Empty) ∧
+          forall h : BHist,
+            TopologySingletonOpenAt accepted h <->
+              exists a : A, TopologySingletonOpenAt (ι a) h := by
+  intro ledger
+  cases ledger with
+  | inl allBottom =>
+      exact Exists.intro (BHist.e0 BHist.Empty)
+        (And.intro (Or.inl (hsame_refl (BHist.e0 BHist.Empty)))
+          (TopologySingleton_union_bottom_exactness ι allBottom))
+  | inr topMember =>
+      cases topMember with
+      | intro a0 topAt =>
+          exact Exists.intro BHist.Empty
+            (And.intro (Or.inr (hsame_refl BHist.Empty))
+              (TopologySingleton_union_top_exactness (ι := ι) a0 topAt))
 
 end BEDC.Derived.TopologyUp
