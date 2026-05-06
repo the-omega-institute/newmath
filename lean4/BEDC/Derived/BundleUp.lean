@@ -52,4 +52,15 @@ theorem BundleLocalTrivPkg_projection_rows {base total projection fibre ledger r
                               (Or.inr
                                 (Or.inr (Or.inr (Or.inr memberTransitions)))))
 
+theorem BundleLocalTrivPkg_trivialization_scope {base total projection fibre ledger row : BHist}
+    {triv transitions : ProbeBundle BHist} :
+    InBundle row triv ->
+      InBundle row (BundleLocalTrivPkg base total projection fibre ledger triv transitions) := by
+  intro memberTriv
+  exact Or.inr
+    (Or.inr
+      (Or.inr
+        (Or.inr
+          (Iff.mpr inBundle_bundleAppend_iff (Or.inl memberTriv)))))
+
 end BEDC.Derived.BundleUp
