@@ -1,0 +1,94 @@
+\begin{definition}[Differential-form wedge degree ledger]
+\label{def:diffform-wedge-degree-ledger}
+For carried form rows
+$$
+\omega=(d_\omega,\mathcal{P}_\omega,\tau_\omega,\sigma_\omega,\alpha_\omega,\lambda_\omega)
+$$
+and
+$$
+\eta=(d_\eta,\mathcal{P}_\eta,\tau_\eta,\sigma_\eta,\alpha_\eta,\lambda_\eta),
+$$
+a wedge degree ledger is the visible BHist row $\delta_{\omega,\eta}$ accepted
+by $\mathsf{DiffFormWedgeDegreeLedger}_{M,T}$ exactly when it displays the two
+input degree rows, an output degree row $d_{\omega\wedge\eta}$, and a
+continuation row
+$$
+\Cont(d_\omega,d_\eta,d_{\omega\wedge\eta})
+$$
+whose unary-history endpoint records the concatenation/addition of the two
+input degrees. The only accepted provenance for $\delta_{\omega,\eta}$ is the
+pair of input form ledgers $\lambda_\omega,\lambda_\eta$, the two
+$\mathsf{UnaryHistory}$ witnesses for $d_\omega$ and $d_\eta$, the displayed
+$\Cont$ row, the output $\mathsf{UnaryHistory}$ witness, and the tensor
+concatenation row used by the wedge ledger of
+\autoref{thm:diffform-wedge-ledger-coverage}.
+\end{definition}
+
+\begin{theorem}[Differential-form wedge degree classifier stability]
+\label{thm:diffform-wedge-degree-classifier-stability}
+Let $(\omega,\eta)$ and $(\omega',\eta')$ be two pairs of carried
+$\DiffFormUp$ rows with $\omega\sim_{\DiffFormUp}\omega'$ and
+$\eta\sim_{\DiffFormUp}\eta'$. If $\delta_{\omega,\eta}$ and
+$\delta_{\omega',\eta'}$ are the wedge degree ledgers of
+\autoref{def:diffform-wedge-degree-ledger}, and if the corresponding wedge
+rows are admitted by the wedge ledger coverage of
+\autoref{thm:diffform-wedge-ledger-coverage}, then
+$$
+\hsame(\delta_{\omega,\eta},\delta_{\omega',\eta'})
+$$
+and the wedge rows remain classified under $\sim_{\DiffFormUp}$.
+\end{theorem}
+\begin{proof}
+The classifier comparison on the two input form pairs includes $\hsame$
+comparisons on their degree rows by
+\autoref{def:diffform-bhist-form-classifier}. Transporting
+$\mathsf{UnaryHistory}$ along these comparisons gives the same unary degree
+witnesses for the two transported inputs.
+
+The displayed continuation row of
+\autoref{def:diffform-wedge-degree-ledger} is a BHist row. Continuation
+associativity and unit stability identify the output degree row obtained from
+the transported input degrees with the output degree row in the second wedge
+degree ledger, so the two degree ledgers are related by $\hsame$.
+
+For the remaining wedge fields, apply
+\autoref{thm:diffform-wedge-ledger-coverage}. The tensor concatenation row
+transports through the $\TensorProductUp$ classifier, and the scalar endpoint
+transports through the retained scalar classifier. Together with the degree
+ledger comparison above and the visible antisymmetry ledger transport, these
+rows repack as the required $\DiffFormUp$ classifier comparison for the wedge
+rows.
+\end{proof}
+
+\begin{theorem}[Differential-form de Rham input boundary]
+\label{thm:diffform-derham-input-boundary}
+Any $\DeRhamUp$ exterior-derivative row sourced from $\DiffFormUp$ may depend
+on the $\DiffFormUp$ source only through the carried $\mathsf{ProbeBundle}$,
+the unary degree row, the multilinear $\TensorProductUp$ tensor row, the scalar
+endpoint classifier, the antisymmetry ledger, wedge ledger coverage, and the
+wedge probe concatenation ledger of
+\autoref{def:diffform-wedge-probe-concatenation-ledger} together with the
+wedge degree ledger of \autoref{def:diffform-wedge-degree-ledger}. It cannot
+import $d^2=0$, closedness, nondegeneracy, or contact nonintegrability from
+the $\DiffFormUp$ certificate.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:diffform-bhist-form-carrier}. The rows
+visible to an exterior-derivative construction are the probe bundle, unary
+degree row, tensor row, scalar endpoint, antisymmetry ledger, and source
+ledger, all carried as BHist data.
+
+The wedge interfaces exported by $\DiffFormUp$ are exactly the tensor coverage
+of \autoref{thm:diffform-wedge-ledger-coverage}, the probe concatenation
+surface of \autoref{def:diffform-wedge-probe-concatenation-ledger}, and the
+degree ledger of \autoref{def:diffform-wedge-degree-ledger}. Their stability
+is supplied by
+\autoref{thm:diffform-wedge-probe-concatenation-classifier-stability} and
+\autoref{thm:diffform-wedge-degree-classifier-stability} together with the
+carrier and classifier stability theorems above.
+
+The identities $d^2=0$, closedness, nondegeneracy, and contact
+nonintegrability require operator or geometric rows not listed in the
+$\DiffFormUp$ carrier. Therefore a downstream $\DeRhamUp$, $\SymplecticUp$, or
+$\ContactUp$ certificate must state those rows in its own surface.
+\end{proof}
