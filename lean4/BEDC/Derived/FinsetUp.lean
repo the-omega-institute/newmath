@@ -245,6 +245,20 @@ def FinsetEnumerationPermutation
   (forall {p : BHist}, InBundle p left -> exists q : BHist, InBundle q right ∧ Rel p q) ∧
     (forall {q : BHist}, InBundle q right -> exists p : BHist, InBundle p left ∧ Rel q p)
 
+theorem FinsetEnumerationPermutation_refl
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    {xs : ProbeBundle BHist} (bundleCarrier : FinsetEnumerationBundle A xs) :
+    FinsetEnumerationPermutation A Rel xs xs := by
+  constructor
+  · intro p member
+    have sourceP : A p :=
+      FinsetEnumerationBundle_member_source_carried bundleCarrier member
+    exact Exists.intro p (And.intro member (NameCert.equiv_refl cert sourceP))
+  · intro p member
+    have sourceP : A p :=
+      FinsetEnumerationBundle_member_source_carried bundleCarrier member
+    exact Exists.intro p (And.intro member (NameCert.equiv_refl cert sourceP))
+
 theorem FinsetEnumerationPermutation_trans
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
     (cert : NameCert A Rel) {xs ys zs : ProbeBundle BHist} :
