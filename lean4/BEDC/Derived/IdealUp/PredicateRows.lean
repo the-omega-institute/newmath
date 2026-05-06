@@ -16,6 +16,16 @@ structure IdealCarriedPredicateRows (Carrier I : BHist -> Prop)
   transport : forall {x y : BHist}, I x -> Classifier x y -> I y
   absorb : forall {r x : BHist}, Carrier r -> I x -> I (mul r x) ∧ I (mul x r)
 
+structure IdealObligationInventory (Carrier I : BHist -> Prop)
+    (Classifier : BHist -> BHist -> Prop) (zero : BHist)
+    (add mul : BHist -> BHist -> BHist) (neg : BHist -> BHist) where
+  cert : NameCert Carrier Classifier
+  rows : IdealCarriedPredicateRows Carrier I Classifier zero add mul neg cert
+  carrier_zero : Carrier zero
+  add_carrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y)
+  neg_carrier : forall {x : BHist}, Carrier x -> Carrier (neg x)
+  mul_carrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y)
+
 theorem IdealCarriedPredicateRows_zero_add_neg_mul_rows
     {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop} {zero : BHist}
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
@@ -34,36 +44,61 @@ theorem IdealCarriedPredicateRows_zero_add_neg_mul_rows
       · intro x y memberX memberY
         exact (rows.absorb (rows.support memberY) memberX).right
 
-theorem IdealCarriedPredicateRows_support_transport_surface
+theorem IdealObligationInventory_classifier_absorption_rows
     {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop} {zero : BHist}
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
-    {cert : NameCert Carrier Classifier}
-    (rows : IdealCarriedPredicateRows Carrier I Classifier zero add mul neg cert) :
-    (forall {x : BHist}, I x -> Carrier x) ∧
-      (forall {x y : BHist}, I x -> Classifier x y -> Carrier y ∧ I y) := by
-  constructor
-  · exact rows.support
-  · intro x y memberX sameXY
-    have carrierX : Carrier x := rows.support memberX
-    have carrierY : Carrier y := cert.carrier_respects_equiv sameXY carrierX
-    have memberY : I y := rows.transport memberX sameXY
-    exact And.intro carrierY memberY
-
-theorem IdealCarriedPredicateRows_classifier_absorption_surface
-    {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop} {zero : BHist}
-    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
-    {cert : NameCert Carrier Classifier}
-    (rows : IdealCarriedPredicateRows Carrier I Classifier zero add mul neg cert) :
-    (forall {x y : BHist}, I x -> Classifier x y -> I y) ∧
+    (inventory : IdealObligationInventory Carrier I Classifier zero add mul neg) :
+    NameCert Carrier Classifier ∧
+      (forall {x y : BHist}, I x -> Classifier x y -> Carrier y ∧ I y) ∧
       (forall {r x : BHist}, Carrier r -> I x ->
-        Carrier (mul r x) ∧ I (mul r x) ∧ Carrier (mul x r) ∧ I (mul x r)) := by
+        (Carrier (mul r x) ∧ I (mul r x)) ∧ (Carrier (mul x r) ∧ I (mul x r))) := by
   constructor
-  · exact rows.transport
+  · exact inventory.cert
+  · constructor
+    · intro x y memberX classified
+      have carrierX : Carrier x := inventory.rows.support memberX
+      have carrierY : Carrier y :=
+        NameCert.carrier_respects_equiv inventory.cert classified carrierX
+      exact And.intro carrierY (inventory.rows.transport memberX classified)
+    · intro r x carrierR memberX
+      have carrierX : Carrier x := inventory.rows.support memberX
+      have absorbed := inventory.rows.absorb carrierR memberX
+      exact And.intro
+        (And.intro (inventory.mul_carrier carrierR carrierX) absorbed.left)
+        (And.intro (inventory.mul_carrier carrierX carrierR) absorbed.right)
+
+theorem IdealCarriedPredicateRows_semantic_name_certificate
+    {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop} {zero : BHist}
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    {cert : NameCert Carrier Classifier}
+    (rows : IdealCarriedPredicateRows Carrier I Classifier zero add mul neg cert) :
+    SemanticNameCert I I I Classifier ∧
+      (forall {r x : BHist}, Carrier r -> I x -> I (mul r x) ∧ I (mul x r)) := by
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro zero rows.zero_mem
+        equiv_refl := by
+          intro h memberH
+          exact NameCert.equiv_refl cert (rows.support memberH)
+        equiv_symm := by
+          intro h k sameHK
+          exact NameCert.equiv_symm cert sameHK
+        equiv_trans := by
+          intro h k r sameHK sameKR
+          exact NameCert.equiv_trans cert sameHK sameKR
+        carrier_respects_equiv := by
+          intro h k sameHK memberH
+          exact rows.transport memberH sameHK
+      }
+      pattern_sound := by
+        intro h sourceH
+        exact sourceH
+      ledger_sound := by
+        intro h sourceH
+        exact sourceH
+  }
   · intro r x carrierR memberX
-    have absorbed : I (mul r x) ∧ I (mul x r) := rows.absorb carrierR memberX
-    have carrierLeft : Carrier (mul r x) := rows.support absorbed.left
-    have carrierRight : Carrier (mul x r) := rows.support absorbed.right
-    exact And.intro carrierLeft
-      (And.intro absorbed.left (And.intro carrierRight absorbed.right))
+    exact rows.absorb carrierR memberX
 
 end BEDC.Derived.IdealUp
