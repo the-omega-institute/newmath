@@ -12598,3 +12598,209 @@ CondExpUp is described as the L2 projection of an integrable random variable ont
 
 ---
 
+### B-479 - Empty edge predicate is a matching
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Empty edge predicate is a matching |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a GraphUp carrier G, if the selected edge predicate is empty, then MatchingEdgeSet_G(empty) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `lean4/BEDC/Derived/MatchingUp.lean`
+
+Rationale:
+Belongs in concrete_instances MatchingUp. Introductory graph theory treats the empty edge set as the first matching before hereditary and union facts. The chapter defines MatchingEdgeSet_G(M) by edge support and a no-shared-vertex implication at papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex:12-23, and its only matching theorems are finite-subset closure at papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex:38 and compatible union closure at papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex:77. Focused search found no labeled empty-matching theorem or board entry. It closes in one round: both defining obligations are implications from the empty predicate, so the proof is vacuous and needs no new graph infrastructure.
+
+---
+
+### B-480 - Banach zero bounded-linear operator carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Banach zero bounded-linear operator carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under Banach candidates C and D with their vector zero rows and the RealUp zero bound row, the zero endpoint map C_V -> D_V is carried as BanachBLOp(C,D,0,0,Lambda0).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+
+Rationale:
+This is a concrete missing existence theorem for the Banach bounded-linear-operator carrier, not a marker or verification-status item. It is distinct from existing BOARD entries and from the listed paper coverage, and it supplies a base zero-operator row consumed by the later operator-ideal surface.
+
+---
+
+
+### B-481 - Banach bounded-operator identity units
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Banach bounded-operator identity units |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If BanachBLOp(C,D,T,K,Lambda) holds and the identity maps on C and D carry the unit bound, then T composed with id_C and id_D composed with T are carried and classify with T.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
+
+Rationale:
+This is a concrete two-sided unit law for an existing Banach operator composition surface. Existing coverage includes carrier and composition structure but not the identity-unit theorem, and the target is not duplicated by any current BOARD entry.
+
+---
+
+
+### B-482 - Trace-class binary linear-combination closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Trace-class binary linear-combination closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If TC(H)(T), TC(H)(S), and a,b are carried RealUp scalars, then TC(H)((a odot_H T) +_{TC(H)} (b odot_H S)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+
+Rationale:
+This packages existing trace-class additive and scalar closure into a concrete reusable binary linear-combination theorem used by downstream density-matrix surfaces. It is close to known closure rows but still distinct from the listed paper labels and existing BOARD targets.
+
+---
+
+
+### B-483 - DensityMatrix constant affine-spine exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | DensityMatrix constant affine-spine exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If DensAffSpine_H(xs,lambda,rho_mix) holds and every displayed density entry of xs is density-classifier equal to a fixed carried rho, then rho_mix is density-classifier equal to rho.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+
+Rationale:
+This is a concrete determinacy/exactness theorem for the existing density-matrix affine-spine construction. It is not a field-transport echo, and no existing BOARD item or listed paper label covers constant-spine endpoint exactness.
+
+---
+
+
+### B-484 - QuantumChannel identity composition units
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | QuantumChannel identity composition units |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If QChan_{H,K}(Phi) holds, then Phi composed with id_TC(H) and id_TC(K) composed with Phi are carried quantum channels and are pointwise classifier-equal to Phi.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+
+Rationale:
+This fills a concrete category-like unit gap in the quantum-channel surface after identity, composition, and associativity are already present. It is distinct from the Banach operator unit target because it concerns CPTP channel composition and pointwise channel classification.
+
+---
+
+
+### B-485 - Simplicial union carrier face closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Simplicial union carrier face closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If finite simplicial carriers K and L share the simplex-code source, classifier, and face relation, and js enumerates the pointwise union predicate Simplex_K or Simplex_L, then the union predicate is face-closed and inherits face transitivity.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/216_simplicialcomplex_namecert_construction.tex`
+
+Rationale:
+This is a concrete closure counterpart to the existing simplicial intersection carrier results. It belongs cleanly in the simplicial-complex chapter, has a direct implication shape, and does not duplicate any current BOARD target or listed paper theorem.
+
+---
+
+### B-486 - Unitary conjugation channel composition law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Unitary conjugation channel composition law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the QuantumChannelUp and UnitaryGroupUp setup on a Hilbert carrier H, carried unitary automorphisms U and V imply that Ad_U composed with Ad_V is the QuantumChannel endpoint classified by Ad_{U\circ V}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/197_unitarygroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/69_hilbert_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete implication landing directly in the existing quantum-channel surface. It is distinct from the paper's current QuantumChannel composition closure and Unitary conjugation is a QuantumChannel theorem: those establish channel closure and single-unitary conjugation, but do not state the endpoint-identification law for the composite conjugation channel against the product unitary. It is not marker-only, not a BOARD duplicate, and the main landing file is below the line cap.
+
+---
+
