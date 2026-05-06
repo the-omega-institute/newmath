@@ -1,0 +1,81 @@
+\section{DiffForm consumer boundary obligations}
+\label{sec:diffform-consumer-boundary-obligations}
+
+\begin{theorem}[DiffForm consumer source scope]
+\label{thm:diffform-consumer-source-scope}
+Every $\DeRhamUp$, $\ContactUp$, or $\SymplecticUp$ consumer row exported
+from $\DiffFormUp$ is a projection of the root-unblock source surface of
+\autoref{def:diffform-root-unblock-source-surface}. Hence such a row may read
+only $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, the
+$\ManifoldUp$ and $\TensorProductUp$ $\NameCert$ sources, the
+six-coordinate carrier, and the $\DiffFormUp$ classifier.
+\end{theorem}
+\begin{proof}
+Start from the displayed root-unblock source surface. Its entries list the
+only histories and certificates made available to downstream consumers, so a
+consumer row must be obtained by forgetting part of that displayed surface.
+
+Apply \autoref{thm:diffform-root-unblock-carrier-classifier-scope} to restrict
+the visible carrier and classifier data to the six-coordinate carrier and the
+$\DiffFormUp$ classifier.
+
+Finally apply
+\autoref{thm:diffform-root-bhist-ledger-exactness-obligation}. It identifies
+the exposed source ledger with the stated $BHist$, $\hsame$, $\Cont$,
+$\mathsf{ProbeBundle}$, $\ManifoldUp$, and $\TensorProductUp$ sources, leaving
+no additional source row for a downstream consumer to read.
+\end{proof}
+
+\begin{theorem}[DiffForm wedge degree ledger consumption]
+\label{thm:diffform-wedge-degree-ledger-consumption}
+Any $\DeRhamUp$, $\ContactUp$, or $\SymplecticUp$ consumer using a
+$\DiffFormUp$ wedge may consume the wedge degree ledger only through its
+$\mathsf{UnaryHistory}$ endpoints and the displayed
+$\Cont(d_{\omega},d_{\eta},d_{\mathrm{out}})$ row. This consumption rule is
+stable under $\hsame$ transport of the two input degree histories and the
+output degree history.
+\end{theorem}
+\begin{proof}
+Read the ledger in \autoref{def:diffform-wedge-degree-ledger}. The displayed
+data consist of the two input unary histories, the output unary history, and
+the single continuation row joining them.
+
+Classifier stability is then exactly
+\autoref{thm:diffform-wedge-degree-classifier-stability}: transporting the
+input form rows by $\hsame$ transports the degree histories and preserves the
+wedge classifier row.
+
+The root-unblock wedge closure of
+\autoref{thm:diffform-root-unblock-wedge-cont-closure} identifies the same
+continuation row as the wedge-visible $\Cont$ entry. Therefore a downstream
+consumer can use the wedge degree ledger only through those unary endpoints
+and that displayed continuation row, and the rule is invariant under
+$\hsame$ transport.
+\end{proof}
+
+\begin{theorem}[DiffForm exterior consumer boundary]
+\label{thm:diffform-exterior-consumer-boundary}
+The chapters $\DeRhamUp$, $\ContactUp$, and $\SymplecticUp$ must supply
+nilpotence, closedness, nondegeneracy, and contact nonintegrability in their
+own certificate surfaces. The $\DiffFormUp$ export supplies only
+carrier/classifier rows, wedge rows, degree rows, source rows, and the
+ledger data made visible by the preceding consumer-source and wedge-degree
+obligations.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diffform-consumer-source-scope}. This bounds every
+downstream consumer source to the displayed root-unblock carrier, classifier,
+history, continuation, probe, and NameCert rows.
+
+Next apply \autoref{thm:diffform-wedge-degree-ledger-consumption}. It bounds
+all wedge-degree use to unary-history endpoints and the visible continuation
+row, with no extra operator law.
+
+Finally combine these two bounds with
+\autoref{thm:diffform-root-unblock-derham-input-consumption} and
+\autoref{thm:diffform-derham-input-boundary}. Those rows already separate
+exterior-derivative input consumption from $d^2=0$, closedness,
+nondegeneracy, and contact nonintegrability. The listed geometric laws
+therefore remain obligations of the $\DeRhamUp$, $\ContactUp$, and
+$\SymplecticUp$ certificate surfaces rather than exports of $\DiffFormUp$.
+\end{proof}
