@@ -69,6 +69,7 @@ and
 $$\operatorname{MorEq}_{\mathcal C}(L,D(j);c_j,\lambda_j).$$
 These witnesses, indexed by the objects of $\mathcal J$, give the cone-morphism ledger for $\operatorname{ConeMor}_{D}(\lambda,\lambda;1_L)$.
 \end{proof}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_identity}
 \leanchecked{BEDC.Derived.CatLimitUp.CatLimitConeMor\_identity\_comparison}
 
 \begin{theorem}[Fixed-diagram cone-morphism category package]\label{thm:catlimit-cone-morphism-category-package}
@@ -336,4 +337,60 @@ $$
 $$
 
 Thus, for the fixed object $j$, the composite $s_j$ supplies the required $E$-cone-morphism component ledger for $f$ from $\lambda^\alpha$ to $\mu^\alpha$. Since $j$ was arbitrary, these ledgers assemble with the already supplied apex morphism field into $\operatorname{ConeMor}_{E}(\lambda^\alpha,\mu^\alpha;f)$.
+\end{proof}
+
+\begin{theorem}[CatLimit transported limiting-cone comparison]
+\label{thm:catlimit-transported-limiting-cone-comparison}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations, and let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams. Suppose $(\alpha,\beta)$ is a pointwise certified diagram equivalence between $D$ and $E$ in the sense of \autoref{def:catlimit-pointwise-certified-diagram-equivalence}. Let
+$$
+\operatorname{LimCone}_{D}(L,\lambda)
+$$
+be a certified limiting $D$-cone, and let $\lambda^E$ be the transported $E$-cone obtained from the certified component composites
+$$
+\operatorname{Comp}_{\mathcal C}(L,D(j),E(j);\lambda_j,\alpha_j,\lambda^E_j)
+$$
+for every object $j$ of $\mathcal J$. If
+$$
+\operatorname{LimCone}_{E}(M,\mu)
+$$
+is an independently certified limiting $E$-cone, then there exist comparison morphisms
+$$
+u:L\to M
+\qquad\text{and}\qquad
+v:M\to L
+$$
+such that
+$$
+\operatorname{ConeMor}_{E}(\lambda^E,\mu;u)
+\qquad\text{and}\qquad
+\operatorname{ConeMor}_{E}(\mu,\lambda^E;v).
+$$
+Moreover, there are composite results $c_L:L\to L$ and $c_M:M\to M$ satisfying
+$$
+\operatorname{Comp}_{\mathcal C}(L,M,L;u,v,c_L)
+\qquad\text{and}\qquad
+\operatorname{Comp}_{\mathcal C}(M,L,M;v,u,c_M)
+$$
+with
+$$
+\operatorname{MorEq}_{\mathcal C}(L,L;c_L,1_L)
+\qquad\text{and}\qquad
+\operatorname{MorEq}_{\mathcal C}(M,M;c_M,1_M).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:catlimit-transport-pointwise-certified-diagram-equivalence} to the pointwise certified diagram equivalence $(\alpha,\beta)$ and to the limiting $D$-cone $\operatorname{LimCone}_{D}(L,\lambda)$. The displayed component-composite ledgers for $\lambda^E$ are exactly the input required by that transport theorem, so it gives
+$$
+\operatorname{LimCone}_{E}(L,\lambda^E).
+$$
+
+Now both limiting cones are read over the single certified diagram $E$:
+$$
+\operatorname{LimCone}_{E}(L,\lambda^E)
+\qquad\text{and}\qquad
+\operatorname{LimCone}_{E}(M,\mu).
+$$
+Apply \autoref{thm:catlimit-universal-cones-comparison-identities} to these two $E$-limiting cones. It supplies the comparison morphisms $u:L\to M$ and $v:M\to L$, the two cone-morphism ledgers over $E$, and composite results $c_L$ and $c_M$ for the two apex composites.
+
+The identity classifiers produced by that comparison theorem are also classified in the target category certificate $\mathcal C$ while the cone-morphism ledgers are indexed by $E$. Hence the composites $u;v$ and $v;u$ are classified, under $\operatorname{MorEq}_{\mathcal C}$, as the respective identity morphisms $1_L$ and $1_M$ in precisely the transported target-diagram context claimed above.
 \end{proof}

@@ -11329,3 +11329,346 @@ The target lands directly in the existing SimplicialComplexUp concrete-instance 
 
 ---
 
+### B-433 - Measure binary union subadditivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Measure binary union subadditivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If A and B are displayed measurable events in a MeasureUp carrier with displayed binary union U, the relative-difference row for U\A, finite disjoint-union additivity, nonnegative measure values, and the RealAlgOrder additive order row, then mu(U) <=_R mu(A)+mu(B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/certificate_theorems.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+
+Rationale:
+The MeasureUp surface explicitly exposes binary union, complement/relative-difference, nonnegative value, and RealUp measure endpoint rows at papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex:36-50 and papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex:53-71. Existing consequences prove finite disjoint-union additivity at papers/bedc/parts/concrete_instances/measure/certificate_theorems.tex:167-173, monotonicity under inclusion at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:26-36, and relative-difference additivity at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:116-130, but a focused grep for subadd, Boole, countable sub, finite sub, union bound, and union-bound under the measure files returned 0 hits. This is a concrete inequality theorem about an existing MeasureUp object, naturally landing in the small relative-difference child file rather than the measure hub.
+
+---
+
+
+### B-434 - RandomVar preimage relative-difference exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar preimage relative-difference exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If B subset A are displayed target measurable events and X is a RandomVarUp map with measurable-preimage rows, then X^{-1}(A\B) is source-event-classifier equal to X^{-1}(A)\X^{-1}(B) with the source MeasureUp relative-difference ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+RandomVarUp has exactly one theorem label, the disjoint binary-union preimage exactness theorem at papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex:12-27. MeasureUp separately defines the complement/relative-difference row at papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex:53-71 and proves relative-difference disjoint decomposition at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:91-100. Focused grep for randomvar/preimage relative or difference returned only a proof sentence in the measure relative-difference transport theorem and no RandomVar theorem, so this is an open concrete closure property of the random-variable preimage operation rather than a marker or transport-only target.
+
+---
+
+
+### B-435 - ProbSpace monotone event bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ProbSpace monotone event bounds |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If A subset B subset Omega are displayed events in a ProbSpaceUp carrier, then mu(A) <=_R mu(B) and mu(B) <=_R 1_R under the inherited MeasureUp monotonicity and total-mass row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/downstream_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/analysis_seed_substrate.tex`
+
+Rationale:
+ProbSpaceUp currently proves complement mass additivity and complement mass as one minus event mass at papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex:12-23 and 47-57. The probability substrate states that ProbSpaceUp adds only a total-event row and unit-mass endpoint row on top of MeasureUp at papers/bedc/parts/concrete_instances/measure/analysis_seed_substrate.tex:44-52, while the normalization row is stated at papers/bedc/parts/concrete_instances/measure/downstream_rows.tex:65-80 and MeasureUp monotonicity is available at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:26-36. Focused grep for probability/probspace monotone, bound, event bound, and inclusion returned only an unrelated probability-boundary sentence, and the probspace label inventory has only the two complement-mass theorems, so the inclusion-to-unit bound is a genuine missing probability consequence.
+
+---
+
+### B-436 - MonoidalCat tensor preserves composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MonoidalCat tensor preserves composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the singleton MonoidalCatUp tensor instance, composable hom rows f,f' and g,g' imply (f \otimes g) followed by (f' \otimes g') is classifier-equal to (f' \circ f) \otimes (g' \circ g).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/159_monoidalcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/category/carrier_and_hom_laws.tex`
+
+Rationale:
+This is a concrete missing bifunctoriality law in an existing MonoidalCat chapter, not a marker or verification-axis item. It is distinct from existing BOARD category/functor/natural-transformation targets because it concerns tensor interchange inside the monoidal category certificate surface.
+
+---
+
+
+### B-437 - AbelianCat kernel and cokernel factor uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AbelianCat kernel and cokernel factor uniqueness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an AbelianCatUp kernel-cokernel carrier, two factor arrows through the same kernel row that classify to the same zeroing morphism are classifier-equal, and dually for cokernel cofactor arrows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
+
+Rationale:
+This is a concrete uniqueness target for an existing AbelianCat certificate surface. It is not covered by the listed paper labels, and it is distinct from existing BOARD entries because it targets universal factor/cofactor uniqueness rather than functorial composition or general category carrier closure.
+
+---
+
+
+### B-438 - Distribution pushforward finite additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Distribution pushforward finite additivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If X is a carried RandomVarUp map and B,C are disjoint target measurable events with union U, then the DistributionUp pushforward satisfies mu_X(U) classifier-equal to mu_X(B)+mu_X(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/certificate_theorems.tex`
+
+Rationale:
+This fills a direct measure-certificate gap for DistributionUp by combining existing RandomVar preimage union exactness with Measure finite disjoint-union additivity. It is a concrete closure theorem and has no close duplicate among existing BOARD entries or listed paper labels.
+
+---
+
+
+### B-439 - RandomVar preimage complement exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | RandomVar preimage complement exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If X is a carried RandomVarUp map and B^c is the target complement or relative-difference row for B, then X^{-1}(B^c) is source-event-classifier equal to the corresponding source complement or relative difference of X^{-1}(B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+This is a concrete missing companion to the existing RandomVar preimage union exactness theorem. It stays within the measurable-preimage certificate surface, is not already named in the provided paper coverage, and is distinct from existing BOARD targets.
+
+---
+
+
+### B-440 - CompleteMetric limit tolerance weakening
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CompleteMetric limit tolerance weakening |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If CompleteMetricLimitWitness(X,s,mu,l,L) holds and convergence bounds are weakened by supplied RatUp comparisons epsilon <= epsilon', then the same data repack as a CompleteMetricLimitWitness with weakened bound ledgers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/106_completemetric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/105_totallybounded_namecert_construction.tex`
+
+Rationale:
+This is a focused monotonicity theorem for the CompleteMetric witness interface, analogous to an existing TotallyBounded result but not a duplicate of it. It is a concrete certificate-repacking result with clear local inputs and no matching listed paper label.
+
+---
+
+### B-441 - InnerProduct orthogonal additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InnerProduct orthogonal additivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under an InnerProductUp BHist source, if x, y, and z are carried and x is orthogonal to y and to z, then x is orthogonal to y + z under the retained scalar-zero classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/64_innerproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_zero_product_and_signed_square.tex`
+
+Rationale:
+This belongs in the inner-product chapter. Orthogonal complements being closed under addition is a standard introductory linear algebra theorem. The chapter already has the carrier/source setup, row-linearity theorem, and orthogonality definition at papers/bedc/parts/concrete_instances/64_innerproduct_namecert_construction.tex:9, :59, :125, and :324, plus zero and transport/symmetry facts at :339, :363, :387, and :568. Focused scans find no theorem labelled for orthogonal additivity or subspace closure. The proof should close in 1-3 rounds by applying the existing row-linearity theorem and scalar zero-addition laws rather than building new infrastructure.
+
+---
+
+
+### B-442 - InnerProduct orthogonal scalar closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InnerProduct orthogonal scalar closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under an InnerProductUp BHist source, if x and y are carried, scalar r is carried, and x is orthogonal to y, then x is orthogonal to r * y under the retained scalar-zero classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/64_innerproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_zero_product_and_signed_square.tex`
+
+Rationale:
+This is another small textbook linear algebra lemma for the inner-product chapter: orthogonal complements are closed under scalar multiplication. The needed objects are already present: scalar compatibility is included in the inner-product row-linearity interface around papers/bedc/parts/concrete_instances/64_innerproduct_namecert_construction.tex:125, and orthogonality is defined at :324. Existing labelled theorems cover zero, transport, and symmetry, but focused scans show no theorem for scalar closure of orthogonality. The proof should only need the existing scalar-compatibility row and ring zero-absorption facts.
+
+---
+
+
+### B-443 - Lie bracket left-zero annihilation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lie bracket left-zero annihilation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a LieAlgebraUp certificate, if x is carried by the vector carrier, then [0_L, x]_L is carried and classifier-equal to 0_L.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+This belongs in the Lie algebra chapter and is a standard first consequence of bilinearity. The chapter introduces the Lie algebra as a vector space with an antisymmetric bilinear bracket at papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex:4 and has bracket-linearity theorems at :113, :135, :158, :180, and :238. Focused scans for zero-bracket and bracket-annihilation find no labelled theorem for [0, x] = 0. The proof is a small bilinearity/cancellation argument using already available vector-space and module zero infrastructure.
+
+---
+
+
+### B-444 - LP weak-duality equality gives optimality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LP weak-duality equality gives optimality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the LPDualityUp finite ordered-field row, if x is primal feasible, y is dual feasible, and PrObj(x) is scalar-classifier equal to DuObj(y), then every primal feasible x' has PrObj(x') <= PrObj(x) and every dual feasible y' has DuObj(y) <= DuObj(y').
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+
+Rationale:
+This belongs in the LP duality chapter. In standard linear programming texts, weak duality is immediately followed by the equality-implies-optimality corollary. The chapter defines the primal/dual feasibility and objective interface at papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex:12 and proves weak duality at :72, while focused scans show no LP optimality theorem. The proof should close by invoking thm:lpduality-feasible-weak-duality twice and transporting through the existing ordered scalar classifier.
+
+---
+
+
+### B-445 - ErrorCode smaller-radius uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ErrorCode smaller-radius uniqueness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under an ErrorCodeUp certificate with decoding radius t = floor((d - 1) / 2), if s <= t and two codewords are both within Hamming distance s of the same received word, then the two codewords are code-classifier equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/219_errorcode_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+This belongs in the error-correcting-code chapter. A standard coding theory corollary says a code that uniquely decodes up to radius t also uniquely decodes at every smaller radius. The chapter defines the decoding radius at papers/bedc/parts/concrete_instances/219_errorcode_namecert_construction.tex:26 and proves exact-radius uniqueness at :42, but focused scans find no smaller-radius or monotonicity corollary. The proof should be short: use Nat order transitivity to upgrade both distance bounds from s to t, then apply thm:errorcode-unique-decoding-radius.
+
+---
+
