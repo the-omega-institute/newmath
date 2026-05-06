@@ -306,6 +306,30 @@ Apply \autoref{thm:computable-composition-bounded-simulation}. Its construction 
 It remains to record that the interface is still a partial graph interface. If a certified component accepts two outputs over the same unary input, \autoref{thm:computable-bounded-graph-single-valuedness} expands both accepted rows to simulations at the same ledger bound and applies output determinacy, yielding $\hsame$-classified outputs. Therefore the middle row used by the composite is determined up to the $\NatUp$ classifier, and the resulting accepted output row is controlled by the same single-valuedness clause instead of by an unconstrained relation.
 \end{proof}
 
+\begin{theorem}[Computable bounded graph composition associativity]
+\label{thm:computable-bounded-graph-composition-associativity}
+Let $F$, $G$, and $H$ be partial $\NatUp$ graphs carrying bounded $\ComputableUp$ graph certificates $(P_F,\beta_F)$, $(P_G,\beta_G)$, and $(P_H,\beta_H)$. Suppose accepted rows $F(n,m)$, $G(m,k)$, and $H(k,l)$ are displayed by bounded simulations
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m),
+  \quad
+  \mathsf{BoundedSim}(P_G,m,\beta_G(m),k),
+  \quad
+  \mathsf{BoundedSim}(P_H,k,\beta_H(k),l).
+$$
+Then the two iterated composite rows $((H\circ G)\circ F)(n,l)$ and $(H\circ(G\circ F))(n,l)$ are represented by bounded simulations whose phase order is $P_F$ then $P_G$ then $P_H$. Their displayed bounds are compared by the associativity row of $\ContR$, and their endpoint output histories are classified by $\hsame$.
+\end{theorem}
+\begin{proof}
+For the left bracketing, first apply \autoref{thm:computable-composition-bounded-simulation} to the displayed $F$ and $G$ simulations. This gives a composite code $P_{G\circ F}$, a unary bound $B_{GF}$, and a continuation witness $\ContR(\beta_F(n),\beta_G(m),B_{GF})$. Apply \autoref{thm:computable-composition-bounded-simulation} again to the resulting $G\circ F$ simulation and the displayed $H$ simulation, obtaining a code for $(H\circ G)\circ F$ and a bound $B_L$ with $\ContR(B_{GF},\beta_H(k),B_L)$.
+
+For the right bracketing, first apply \autoref{thm:computable-composition-bounded-simulation} to the displayed $G$ and $H$ simulations. This gives a composite code $P_{H\circ G}$, a unary bound $B_{HG}$, and a continuation witness $\ContR(\beta_G(m),\beta_H(k),B_{HG})$. Apply \autoref{thm:computable-composition-bounded-simulation} again to the displayed $F$ simulation and the resulting $H\circ G$ simulation, obtaining a code for $H\circ(G\circ F)$ and a bound $B_R$ with $\ContR(\beta_F(n),B_{HG},B_R)$.
+
+Both constructions are built from the same concrete $BHist$ traces. The $\SeqUp$ carrier clauses in \autoref{def:computable-bounded-simulation-witness} supply the first trace segment for $P_F$, the second segment for $P_G$, and the third segment for $P_H$; only the parenthesizing of the continuation witnesses changes.
+
+The bound comparison is exactly the associativity clause for the continuation relation of \autoref{def:continuation-relation}, together with its unit rows for the empty-bound edge cases. Thus the left and right displayed bounds present the same three-phase continuation data, with phase order $P_F$, then $P_G$, then $P_H$.
+
+Finally, the endpoint row of either iterated simulation is the endpoint row of the $H$ trace. If two representatives for the same iterated composite row are produced through different middle histories, \autoref{thm:computable-bounded-graph-single-valuedness} first classifies the $G$ endpoints over $m$ and then the $H$ endpoints over $k$, yielding $\hsame$-classified final output histories. This is a three-certificate composition law over concrete $BHist$ traces, not transport between two abstract source presentations.
+\end{proof}
+
 \begin{theorem}[Computable scoped bounded graph certificate surface]
 \label{thm:computable-scoped-bounded-graph-certificate-surface}
 A bounded $\ComputableUp$ graph certificate over a partial $\NatUp$ graph supplies the scoped certificate surface for the concrete BEDC objects $\UnaryHistory$, $\hsame$, $\SeqUp$, $\ContR$, $\mathsf{BoundedSim}$, and $\mathsf{ComputableBoundedGraphCertificate}$. For every certificate $(P_F,\beta_F)$ and every accepted row $F(n,m)$, the following rows are available at the displayed bound $\beta_F(n)$:
@@ -328,7 +352,7 @@ The ledger row is exactly \autoref{thm:computable-bounded-graph-ledger-exactness
 
 \begin{closurestatus}{\ComputableUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The closed scope is bounded graph certificates for partial $\NatUp$ graphs, with unary source, bound, and output histories, $\SeqUp$ simulation traces, $\hsame$ classifier control, and $\ContR$ composition witnesses.}
+  \scopeclosed{The closed scope is the bounded graph certificate surface for partial $\NatUp$ graphs: $\UnaryHistory$ source, bound, and output histories, $\SeqUp$ simulation traces, $\ContR$ continuation comparison, $\hsame$ classifier control, identity, composition, associativity, and ledger exactness.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ComputableUp.ComputableBoundedGraphCertificate\_single\_valuedness}
   \bridgestatus{none}
