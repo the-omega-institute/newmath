@@ -130,6 +130,30 @@ theorem ProdPairRep_hsame_coherence {Left Right : BHist → Prop}
     ProdPairRep_hsame_transport repK (hsame_symm sameHK)
   exact coherent repH repKAtH
 
+theorem ProdCarrier_single_valued_displayed_pair_readback
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop} {h : BHist}
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) :
+    ProdHistoryCarrier Left Right h ->
+      exists l : BHist, exists r : BHist,
+        (Left l ∧ Right r ∧ Cont l r h) ∧
+        (exists l0 : BHist, exists r0 : BHist, Left l0 ∧ Right r0 ∧ Cont l0 r0 h) ∧
+        (forall {l' r' : BHist},
+          Left l' -> Right r' -> Cont l' r' h -> LeftEq l l' ∧ RightEq r r') := by
+  intro carrier
+  cases carrier with
+  | intro l rest =>
+      cases rest with
+      | intro r displayed =>
+          exact Exists.intro l
+            (Exists.intro r
+              (And.intro displayed
+                (And.intro
+                  (Exists.intro l (Exists.intro r displayed))
+                  (by
+                    intro l' r' leftCarrier rightCarrier contH
+                    exact coherent displayed
+                      (And.intro leftCarrier (And.intro rightCarrier contH))))))
+
 theorem ProdPairRep_e0_unit_coherence_absurd {Left Right : BHist -> Prop}
     (leftEmpty : Left BHist.Empty) (leftZero : Left (BHist.e0 BHist.Empty))
     (rightEmpty : Right BHist.Empty) (rightZero : Right (BHist.e0 BHist.Empty))

@@ -197,6 +197,7 @@ import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.TopologyUp
+import BEDC.Derived.TopologyUp.PullbackOpenCertificate
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -210,6 +211,7 @@ import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
+import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
@@ -237,6 +239,7 @@ import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.IdealUp.SumClosure
+import BEDC.Derived.IdealUp.QuotientKernelScope
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
@@ -402,8 +405,10 @@ import BEDC.Derived.SubgroupUp.IntersectionNormalizer
 import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.SubgroupUp.RelativeProduct
 import BEDC.Derived.SubgroupUp.QuotientKernelEndpoint
+import BEDC.Derived.SubgroupUp.Trivial
 import BEDC.Derived.QuotientGroupUp
 import BEDC.Derived.QuotientGroupUp.Continuation
+import BEDC.Derived.QuotientGroupUp.CentralizerCosetProduct
 import BEDC.Derived.QuotientGroupUp.EmptyRepresentativeVisible
 import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.AbGroupUp
@@ -527,6 +532,8 @@ import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.CategoryUp.AssocEmptyResult
 import BEDC.Derived.CategoryUp.FourfoldAssoc
 import BEDC.Derived.CategoryUp.OppositeAssoc
+import BEDC.Derived.CategoryUp.SplitEpi
+import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.FunctorUp
