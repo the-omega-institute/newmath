@@ -1,0 +1,77 @@
+\begin{definition}[Sheaf BHist triple-overlap route ledger]
+\label{def:sheaf-bhist-triple-overlap-route-ledger}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ on $\mathsf{BHist}$ with membership predicate $\mathsf{OpenAt}$, history classifier $\hsame$, and finite-intersection operation $\wedge_{\TopologyUp}$. Let $\mathcal{S}$ be an indexed sheaf carrier over $\mathcal{T}$, and let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of $i:\mathsf{OpenIx}$. For $a,b,c:A$, write
+$$
+k_{a,b}:=\iota(a)\wedge_{\TopologyUp}\iota(b),
+\qquad
+\ell_{a,b,c}:=k_{a,b}\wedge_{\TopologyUp}\iota(c).
+$$
+The $\mathsf{BHist}$ triple-overlap route ledger of $\mathcal{U}$ is the subledger of \autoref{def:sheaf-bhist-cover-nerve-ledger} whose rows are the member rows for $\iota(a)$, $\iota(b)$, and $\iota(c)$, the pair-overlap row $k_{a,b}$, the triple-overlap row $\ell_{a,b,c}$, the displayed projections from $\ell_{a,b,c}$ to each participating member through the available finite-intersection routes, the induced restriction maps into $\mathsf{Sec}(\ell_{a,b,c})$, and any optional $\Cont$ histories that certify equality of displayed route witnesses. Membership transport along the row is only the visible $\hsame$ transport on $\mathsf{BHist}$ cells:
+$$
+\mathsf{OpenAt}(\ell_{a,b,c},x)\wedge_{\TopologyUp} x\hsame y
+\Longrightarrow
+\mathsf{OpenAt}(\ell_{a,b,c},y).
+$$
+The ledger records route data, restriction targets, section classifiers, and $\mathsf{BHist}$ provenance. It does not add a quotient of cover presentations or a host-level equality between overlap routes.
+\end{definition}
+
+\begin{theorem}[Sheaf BHist triple-overlap route coherence]
+\label{thm:sheaf-bhist-triple-overlap-route-coherence}
+Let $\mathcal{T}$, $\mathcal{S}$, and $\mathcal{U}$ be as in \autoref{def:sheaf-bhist-triple-overlap-route-ledger}. For every $a,b,c:A$, every section $s:\mathsf{Sec}(\iota(a))$, and every two displayed routes from $\iota(a)$ to $\ell_{a,b,c}$ in the triple-overlap route ledger, the two induced restrictions have the same classifier at the triple-overlap row:
+$$
+\rho_{k_{a,b},\ell_{a,b,c}}\bigl(\rho_{\iota(a),k_{a,b}}(s)\bigr)
+\sim_{\ell_{a,b,c}}
+\rho_{\iota(a),\ell_{a,b,c}}(s).
+$$
+The same conclusion holds for the routes beginning at $\iota(b)$ and $\iota(c)$ whenever the corresponding projection route is displayed. Optional $\Cont$ histories compare only the route witnesses; they do not change the target carrier $\mathsf{Sec}(\ell_{a,b,c})$ or the classifier $\sim_{\ell_{a,b,c}}$.
+\end{theorem}
+\begin{proof}
+Unfold the triple-overlap route ledger. Its routes are the pair-overlap and triple-overlap projection rows already present in the cover nerve ledger of \autoref{def:sheaf-bhist-cover-nerve-ledger}, with projections read by \autoref{thm:sheaf-bhist-cover-nerve-overlap-projections}.
+
+Apply \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability} to the displayed chain $\ell_{a,b,c}\le_{\mathcal{T}}k_{a,b}\le_{\mathcal{T}}\iota(a)$. The two-step restriction and the direct displayed restriction land in the same carrier $\mathsf{Sec}(\ell_{a,b,c})$ and are compared by $\sim_{\ell_{a,b,c}}$.
+
+The arguments for $\iota(b)$ and $\iota(c)$ are the same after choosing the displayed finite-intersection projection route from the ledger. If a $\Cont$ history is attached, the cited route-stability theorem treats it as route provenance, so the classifier comparison at $\ell_{a,b,c}$ is unchanged.
+\end{proof}
+
+\begin{theorem}[Sheaf BHist triple-overlap compatible-family descent]
+\label{thm:sheaf-bhist-triple-overlap-compatible-family-descent}
+Let $\mathcal{T}$, $\mathcal{S}$, and $\mathcal{U}$ be as in \autoref{def:sheaf-bhist-triple-overlap-route-ledger}. If $s_a:\mathsf{Sec}(\iota(a))$ is compatible over $\mathcal{U}$, then for every $a,b,c:A$ the three restrictions of the local family to $\ell_{a,b,c}$ lie in one classifier class:
+$$
+\rho_{\iota(a),\ell_{a,b,c}}(s_a)
+\sim_{\ell_{a,b,c}}
+\rho_{\iota(b),\ell_{a,b,c}}(s_b),
+\qquad
+\rho_{\iota(a),\ell_{a,b,c}}(s_a)
+\sim_{\ell_{a,b,c}}
+\rho_{\iota(c),\ell_{a,b,c}}(s_c).
+$$
+Thus every compatible family descends from pair-overlap compatibility to a coherent triple-overlap row inside the $\mathsf{BHist}$ cover nerve.
+\end{theorem}
+\begin{proof}
+Start with pair-overlap compatibility from \autoref{thm:sheaf-bhist-cover-nerve-overlap-projections}. It gives the classifier equality between the restrictions of $s_a$ and $s_b$ on $k_{a,b}$.
+
+Restrict that equality along $\ell_{a,b,c}\le_{\mathcal{T}}k_{a,b}$. By \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability}, the transported equality is the same as the direct comparison of the two route restrictions to $\ell_{a,b,c}$. The route-coherence theorem \autoref{thm:sheaf-bhist-triple-overlap-route-coherence} identifies the composed and direct displays.
+
+For the comparison with $s_c$, use the pair-overlap rows for $(a,c)$ and $(b,c)$ and pull them to the displayed triple-overlap row. The finite-intersection projections and route-history clauses are those of \autoref{def:sheaf-bhist-triple-overlap-route-ledger}, so all comparisons land in $\sim_{\ell_{a,b,c}}$ on the single carrier $\mathsf{Sec}(\ell_{a,b,c})$.
+\end{proof}
+
+\begin{theorem}[Sheaf BHist triple-overlap downstream exactness]
+\label{thm:sheaf-bhist-triple-overlap-downstream-exactness}
+The downstream consumers $\RingedSpaceUp$, $\SchemeUp$, and topology pullback constructions may cite the triple-overlap route ledger as a closed three-face overlap package. For every accepted $\mathsf{BHist}$ cover row, the package consists of:
+\begin{enumerate}
+\item the triple-overlap index $\ell_{a,b,c}=(\iota(a)\wedge_{\TopologyUp}\iota(b))\wedge_{\TopologyUp}\iota(c)$ and its $\mathsf{OpenAt}$ membership rows, transported only by $\hsame$;
+\item the one-step and two-step restriction routes into $\mathsf{Sec}(\ell_{a,b,c})$, with optional $\Cont$ histories;
+\item the classifier coherence rows of \autoref{thm:sheaf-bhist-triple-overlap-route-coherence} and \autoref{thm:sheaf-bhist-triple-overlap-compatible-family-descent};
+\item the restricted-open exactness rows consumed below a fixed open.
+\end{enumerate}
+Consequently a consumer below a fixed open $i$ can pull the triple-overlap route package through restricted common refinements without reconstructing pairwise compatibility from prose and without adding a host cover quotient.
+\end{theorem}
+\begin{proof}
+The first three rows are read directly from \autoref{def:sheaf-bhist-triple-overlap-route-ledger}, \autoref{thm:sheaf-bhist-triple-overlap-route-coherence}, and \autoref{thm:sheaf-bhist-triple-overlap-compatible-family-descent}. They are all internal to $\mathsf{BHist}$ cells, indexed opens, restriction maps, and section classifiers.
+
+For passage through a refinement, apply \autoref{thm:sheaf-refinement-pullback-composition}. It identifies the one-step and two-step descriptions of pulled-back local sections, so the triple-overlap route comparisons survive along displayed refinement towers.
+
+For consumers working below a fixed open, apply \autoref{thm:sheaf-restricted-open-refinement-exactness-export}. Its restricted common-refinement surface is the same ambient carrier, restriction, classifier, and gluing data with the additional witness that every index remains below the fixed open.
+
+Combining these with \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability} gives the advertised downstream package. The conclusion is a reusable exactness row for three-face overlap routes; it introduces no new carrier beyond the existing cover nerve ledger and no comparison other than $\hsame$ on histories and $\sim_{\ell_{a,b,c}}$ on sections.
+\end{proof}
