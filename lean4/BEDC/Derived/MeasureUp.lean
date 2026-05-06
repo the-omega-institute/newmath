@@ -77,6 +77,21 @@ theorem MeasureCountableZeroTail_canonical {tail endpoint : BHist} :
     hsame_trans endpointTail tailEmpty
   exact And.intro tailEmpty (And.intro endpointEmpty endpointTail)
 
+theorem MeasureZeroBHist_relative_difference_zero_row {h event diff union endpoint : BHist} :
+    MeasureZeroBHistCarrier h -> MeasureZeroBHistClassifier event BHist.Empty ->
+      MeasureZeroBHistClassifier diff BHist.Empty -> Cont event diff union ->
+        hsame endpoint diff ->
+          MeasureZeroBHistCarrier diff ∧ MeasureZeroBHistClassifier union BHist.Empty ∧
+            hsame endpoint BHist.Empty := by
+  intro _histCarrier eventZero diffZero unionCont endpointDiff
+  have unionZero : hsame union BHist.Empty :=
+    cont_respects_hsame eventZero.left diffZero.left unionCont (cont_left_unit BHist.Empty)
+  have unionClassified : MeasureZeroBHistClassifier union BHist.Empty :=
+    And.intro unionZero (And.intro (hsame_refl BHist.Empty) unionZero)
+  have endpointZero : hsame endpoint BHist.Empty :=
+    hsame_trans endpointDiff diffZero.left
+  exact And.intro diffZero.left (And.intro unionClassified endpointZero)
+
 theorem MeasureZeroBHist_semantic_name_certificate :
     SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
       MeasureZeroBHistCarrier MeasureZeroBHistClassifier := by
