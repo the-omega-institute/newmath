@@ -177,6 +177,62 @@ faces. Thus the bounded RegSeqRat spine and the DyadicRatCore observation row
 exhaust the scoped source package at both endpoints.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window dyadic classifier transitivity coverage]
+\label{thm:regseqrat-finite-window-dyadic-classifier-transitivity-coverage}
+For observation maps $s,t,u:\Hist\to\Hist$, histories $a,w,k:\Hist$, and
+RegSeqRat stream certificate spines for $s$, $t$, and $u$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameCarrier}(u),\quad
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{RatStreamNameClassifier}(t,u),
+$$
+$$
+\mathsf{UnaryHistory}(a),\quad
+\mathsf{UnaryHistory}(w),\quad
+\mathsf{UnaryOffsetLe}(k,w).
+$$
+Let $n=\mathsf{append}(a,k)$. Then the composed selected bounded observation
+supplies
+$$
+\begin{array}{l}
+\mathsf{RealUnaryStreamWindowClassifier}(s,u,a,w)\land
+\mathsf{RatHistoryClassifier}(s(n),u(n))\land\\
+\mathsf{DyadicRatCoreObservationRow}(s(n))\land
+\mathsf{DyadicRatCoreObservationRow}(u(n)).
+\end{array}
+$$
+Moreover, the carrier, classifier, stability, and finite ledger faces read at
+$s(n)$ and $u(n)$ are exactly the faces named by
+\autoref{thm:dyadic-rat-core-scoped-source-package}.
+\end{theorem}
+\begin{proof}
+Apply the transitivity clause of
+\autoref{thm:rat-stream-name-certificate-fields} to the two displayed
+classifier rows. This composes
+$\mathsf{RatStreamNameClassifier}(s,t)$ and
+$\mathsf{RatStreamNameClassifier}(t,u)$ into
+$\mathsf{RatStreamNameClassifier}(s,u)$.
+
+Now apply
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage} to the pair
+$(s,u)$, the RegSeqRat spines for $s$ and $u$, the carrier rows for $s$ and
+$u$, the composed StreamNameUp classifier, and the unary anchor, bound, and
+offset. This yields the finite
+$\mathsf{RealUnaryStreamWindowClassifier}(s,u,a,w)$, the selected pointwise
+$\mathsf{RatHistoryClassifier}(s(n),u(n))$, and the endpoint dyadic rows for
+$s(n)$ and $u(n)$.
+
+Finally identify the source package faces. Apply
+\autoref{thm:dyadic-rat-core-scoped-source-package} to the two endpoint rows.
+The selected unary offset supplies the finite ledger index
+$n=\mathsf{append}(a,k)$, while the two endpoint RegSeqRat spines supply the
+carrier, classifier, and stability faces already named by the dyadic scoped
+source package. Hence the composed finite-window observation carries exactly
+the DyadicRatCore source package at the endpoints $s(n)$ and $u(n)$.
+\end{proof}
+
 \begin{theorem}[RegSeqRat finite-window dyadic transport package]
 \label{thm:regseqrat-finite-window-dyadic-transport-package}
 For observation maps $s,t,s',t':\Hist\to\Hist$ and histories $a,w,k:\Hist$,
