@@ -80,4 +80,48 @@ theorem QuotientRingIdealCoset_zero_classification
     exact And.intro carrierAndIdeal.left
       (And.intro carrierZero (idealTransport carrierAndIdeal.right sameASub))
 
+theorem QuotientRingIdealCoset_multiplication_descends
+    {Carrier Ideal : BHist -> Prop}
+    {Classifier : BHist -> BHist -> Prop}
+    {mul sub add : BHist -> BHist -> BHist}
+    {a aPrime b bPrime : BHist}
+    (cert : NameCert Carrier Classifier)
+    (mulCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y))
+    (idealAdd : forall {x y : BHist}, Ideal x -> Ideal y -> Ideal (add x y))
+    (idealTransport : forall {x y : BHist}, Ideal x -> Classifier x y -> Ideal y)
+    (idealAbsorb :
+      forall {r x : BHist}, Carrier r -> Ideal x -> Ideal (mul r x) ∧ Ideal (mul x r))
+    (productDifference :
+      Classifier (add (mul (sub a aPrime) b) (mul aPrime (sub b bPrime)))
+        (sub (mul a b) (mul aPrime bPrime))) :
+    QuotientRingIdealCoset Carrier Ideal sub a aPrime ->
+      QuotientRingIdealCoset Carrier Ideal sub b bPrime ->
+        QuotientRingIdealCoset Carrier Ideal sub (mul a b) (mul aPrime bPrime) := by
+  intro cosetA cosetB
+  have carrierA : Carrier a := cosetA.left
+  have carrierAPrime : Carrier aPrime := cosetA.right.left
+  have carrierB : Carrier b := cosetB.left
+  have carrierBPrime : Carrier bPrime := cosetB.right.left
+  have carrierAFromCert : Carrier a :=
+    NameCert.carrier_respects_equiv cert (NameCert.equiv_refl cert carrierA) carrierA
+  have carrierAPrimeFromCert : Carrier aPrime :=
+    NameCert.carrier_respects_equiv cert (NameCert.equiv_refl cert carrierAPrime) carrierAPrime
+  have carrierBFromCert : Carrier b :=
+    NameCert.carrier_respects_equiv cert (NameCert.equiv_refl cert carrierB) carrierB
+  have carrierBPrimeFromCert : Carrier bPrime :=
+    NameCert.carrier_respects_equiv cert (NameCert.equiv_refl cert carrierBPrime) carrierBPrime
+  have idealA : Ideal (sub a aPrime) := cosetA.right.right
+  have idealB : Ideal (sub b bPrime) := cosetB.right.right
+  have firstAbsorbed : Ideal (mul (sub a aPrime) b) :=
+    (idealAbsorb carrierBFromCert idealA).right
+  have secondAbsorbed : Ideal (mul aPrime (sub b bPrime)) :=
+    (idealAbsorb carrierAPrimeFromCert idealB).left
+  have combinedIdeal :
+      Ideal (add (mul (sub a aPrime) b) (mul aPrime (sub b bPrime))) :=
+    idealAdd firstAbsorbed secondAbsorbed
+  have productIdeal : Ideal (sub (mul a b) (mul aPrime bPrime)) :=
+    idealTransport combinedIdeal productDifference
+  exact And.intro (mulCarrier carrierAFromCert carrierBFromCert)
+    (And.intro (mulCarrier carrierAPrimeFromCert carrierBPrimeFromCert) productIdeal)
+
 end BEDC.Derived.QuotientRingUp

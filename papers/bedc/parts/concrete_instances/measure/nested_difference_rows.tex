@@ -1,0 +1,134 @@
+\begin{definition}[Measure nested-difference surface]
+\label{def:measure-nested-difference-surface}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, a
+nested-difference surface consists of displayed measurable events
+$A,B,C\in\mathcal{A}$ in one carried fiber, displayed inclusions
+$$
+A\subseteq B\subseteq C,
+$$
+the relative-difference rows $B\setminus A$ and $C\setminus B$ supplied by
+\autoref{def:measure-complement-difference-row}, and the disjointness witnesses
+for the pairs $A,B\setminus A$ and $B,C\setminus B$. It also records the
+binary-union readbacks
+$$
+A\cup(B\setminus A)\sim_M B
+$$
+and
+$$
+B\cup(C\setminus B)\sim_M C,
+$$
+together with their visible $\RealUp$ endpoints
+$$
+\mu(A),\quad \mu(B\setminus A),\quad \mu(B),\quad
+\mu(C\setminus B),\quad \mu(C).
+$$
+\end{definition}
+
+\begin{theorem}[Measure nested-difference readback]
+\label{thm:measure-nested-difference-readback}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$
+classifier of \autoref{def:real-classifier-specification}. Let
+$A,B\in\mathcal{A}$ be displayed events in the same carried fiber, and suppose
+the public event readback displays $A\subseteq B$. If the certificate supplies
+the complement/relative-difference row of
+\autoref{def:measure-complement-difference-row} and the hypotheses of
+\autoref{thm:measure-finite-disjoint-union-additivity} for the pair
+$A,B\setminus A$, then
+$$
+\mu(B)\sim_R\mu(A)+\mu(B\setminus A).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-relative-difference-disjoint-decomposition} to the
+displayed inclusion $A\subseteq B$. This supplies the measurable event
+$B\setminus A$, the disjointness witness for $A$ and $B\setminus A$, and the
+binary-union readback classifying $A\cup(B\setminus A)$ as $B$.
+
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to the displayed
+disjoint pair $A$ and $B\setminus A$. The row gives
+$$
+\mu(A\cup(B\setminus A))\sim_R\mu(A)+\mu(B\setminus A).
+$$
+
+Transport the left endpoint through the binary-union readback and then through
+the $\RealUp$ value classifier. Composing that transport with the finite
+disjoint-union comparison yields the stated readback for $\mu(B)$.
+\end{proof}
+
+\begin{theorem}[Measure two-stage nested union readback]
+\label{thm:measure-two-stage-nested-union-readback}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$
+classifier of \autoref{def:real-classifier-specification}. Let
+$A,B,C\in\mathcal{A}$ be displayed events in the same carried fiber, and
+suppose the public event readback displays
+$$
+A\subseteq B\subseteq C.
+$$
+If the certificate supplies the complement/relative-difference rows for these
+two displayed inclusions, the hypotheses of
+\autoref{thm:measure-finite-disjoint-union-additivity} for the pairs
+$A,B\setminus A$ and $B,C\setminus B$, and the target $\RealUp$ addition is
+carried by its additive $\AbGroupUp$ row, then
+$$
+\mu(C)\sim_R(\mu(A)+\mu(B\setminus A))+\mu(C\setminus B).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-nested-difference-readback} to the displayed
+inclusion $B\subseteq C$. This gives
+$$
+\mu(C)\sim_R\mu(B)+\mu(C\setminus B).
+$$
+
+Apply \autoref{thm:measure-nested-difference-readback} to the displayed
+inclusion $A\subseteq B$. This gives
+$$
+\mu(B)\sim_R\mu(A)+\mu(B\setminus A).
+$$
+
+Use additive congruence from the target $\RealUp$ additive $\AbGroupUp$ row to
+transport the left summand of $\mu(B)+\mu(C\setminus B)$ across the second
+comparison. Composing with the first comparison gives
+$$
+\mu(C)\sim_R(\mu(A)+\mu(B\setminus A))+\mu(C\setminus B),
+$$
+with the displayed parenthesizing read from the associativity row of
+\autoref{def:abgroup-carrier}.
+\end{proof}
+
+\begin{theorem}[Measure nested-difference package]
+\label{thm:measure-nested-difference-package}
+The $\MeasureUp$ nested-difference surface packages the following rows as the
+finite nested-inclusion surface consumed by $\ProbSpaceUp$, $\IntegralUp$, and
+$\FunctionalAnalysisUp$:
+\begin{enumerate}
+  \item a displayed inclusion pair $A\subseteq B$ with the event
+  $B\setminus A$;
+  \item the disjoint readback $A\cup(B\setminus A)\sim_M B$;
+  \item the endpoint readback
+  $\mu(B)\sim_R\mu(A)+\mu(B\setminus A)$;
+  \item a displayed inclusion chain $A\subseteq B\subseteq C$ with the two
+  rows $B\setminus A$ and $C\setminus B$;
+  \item the two-stage endpoint readback
+  $\mu(C)\sim_R(\mu(A)+\mu(B\setminus A))+\mu(C\setminus B)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first two fields are precisely the projections of
+\autoref{thm:measure-relative-difference-disjoint-decomposition} for the
+displayed pair $A\subseteq B$.
+
+The third field is
+\autoref{thm:measure-nested-difference-readback}. It composes the same
+relative-difference readback with finite disjoint-union additivity.
+
+For a chain $A\subseteq B\subseteq C$, apply the preceding field to
+$A\subseteq B$ and to $B\subseteq C$. Additive congruence and associativity in
+the target $\RealUp$ additive $\AbGroupUp$ row then give
+\autoref{thm:measure-two-stage-nested-union-readback}. These rows are exactly
+the finite nested-inclusion data needed by the downstream measure consumers.
+\end{proof}

@@ -1,12 +1,18 @@
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.TopologyUp
 
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+
+def BHistFiniteBaseNeighborhood (indices : ProbeBundle BHist)
+    (ball : BHist -> BHist -> Prop) (x : BHist) : Prop :=
+  forall i : BHist, InBundle i indices -> ball i x
 
 structure BHistIndexedOpenCarrier where
   OpenIx : Type
@@ -22,6 +28,67 @@ structure BHistIndexedOpenCarrier where
 def BHistCarriesOpen (T : BHistIndexedOpenCarrier) (i : T.OpenIx)
     (U : BHist -> Prop) : Prop :=
   forall {x : BHist}, UnaryHistory x -> (U x <-> T.OpenAt i x)
+
+inductive BHistUnaryTopologyLedgerRow (T : BHistIndexedOpenCarrier) :
+    T.OpenIx -> (BHist -> Prop) -> Prop where
+  | singletonMetricBall {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | finiteListIntersection {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | binaryGeneratedMeet {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | arbitraryUnion {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | bottom {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | top {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+
+theorem BHistUnaryTopologyLedgerRow_constructor_coverage (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} (row : BHistUnaryTopologyLedgerRow T i U) :
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.finiteListIntersection ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.binaryGeneratedMeet ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.arbitraryUnion ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.bottom ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.top ledger unaryLedger carries) := by
+  cases row with
+  | singletonMetricBall ledger unaryLedger carries =>
+      exact Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))
+  | finiteListIntersection ledger unaryLedger carries =>
+      exact Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl))))
+  | binaryGeneratedMeet ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))))
+  | arbitraryUnion ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl))))))
+  | bottom ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))))))
+  | top ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))))))
 
 def BHistPullbackOpen (f : BHist -> BHist) (U : BHist -> Prop) (y : BHist) :
     Prop :=
@@ -102,6 +169,25 @@ theorem BHistCarriesOpen_classifier_transport (T : BHistIndexedOpenCarrier)
     have openX : T.OpenAt i x :=
       Iff.mpr stable openY
     exact Iff.mpr carryX openX
+
+theorem BHistFiniteBaseNeighborhood_classifier_transport (indices : ProbeBundle BHist)
+    (ball : BHist -> BHist -> Prop) {x y : BHist}
+    (ballStable :
+      forall {i x y : BHist}, InBundle i indices -> UnaryHistory x -> UnaryHistory y ->
+        hsame x y -> (ball i x <-> ball i y)) :
+    UnaryHistory x -> UnaryHistory y -> hsame x y ->
+      (BHistFiniteBaseNeighborhood indices ball x <->
+        BHistFiniteBaseNeighborhood indices ball y) := by
+  intro unaryX unaryY sameXY
+  constructor
+  · intro neighborhoodX i inIndices
+    have stable : ball i x <-> ball i y :=
+      ballStable inIndices unaryX unaryY sameXY
+    exact Iff.mp stable (neighborhoodX i inIndices)
+  · intro neighborhoodY i inIndices
+    have stable : ball i x <-> ball i y :=
+      ballStable inIndices unaryX unaryY sameXY
+    exact Iff.mpr stable (neighborhoodY i inIndices)
 
 theorem BHistIndexedOpen_finite_intersection_closure (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} :
