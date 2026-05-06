@@ -1,0 +1,170 @@
+\begin{proposition}[Partiality obstruction detected by the target-total preimage]
+\label{prop:randomvar-partiality-obstruction-target-total-preimage}
+Assume source-event incidence is classifier-stable and $\Omega_S$ covers every carried source history as in \autoref{thm:randomvar-source-coverage-induced-by-total-event-exactness}. If there exists a carried source history $h$ such that
+$$
+\mathsf{Src}_S(h)
+\quad\text{and}\quad
+\neg\,\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr),
+$$
+then $X$ cannot carry a total-readback certificate satisfying \autoref{def:randomvar-total-readback-certificate}.
+Equivalently, any carried $\RandomVarUp$ total-readback certificate forces the target-total preimage to cover the entire source carrier.
+\end{proposition}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTotalReadbackCertificate\_partiality\_obstruction}
+\begin{proof}
+Suppose, toward contradiction, that $X$ carries the certificate of \autoref{def:randomvar-total-readback-certificate}. Then \autoref{thm:randomvar-source-coverage-induced-by-total-event-exactness} applies and gives
+$$
+\mathsf{Src}_S(h)
+\Longrightarrow
+\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+For the displayed $h$, this contradicts
+$$
+\neg\,\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+Thus no such total-readback certificate can exist.
+\end{proof}
+
+\begin{corollary}[Terminal preimage exactness is the unique no-loss boundary condition]
+\label{cor:randomvar-terminal-preimage-exactness-unique-no-loss-boundary}
+Assume the source Boolean defect law of \autoref{thm:randomvar-total-event-exactness-vanishing-total-defect} and the source incidence discipline of \autoref{thm:randomvar-source-coverage-induced-by-total-event-exactness}. For a carried $\RandomVarUp$ map $X:S\to T$ satisfying measurable-preimage readback, the following three statements are equivalent whenever the relevant events are source-measurable:
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S,
+$$
+$$
+\mathfrak D_X\simeq_S\bot_S,
+$$
+$$
+\forall h\ \bigl(\mathsf{Src}_S(h)\Longrightarrow \Vdash_S(h,\operatorname{pre}_X(\Omega_T))\bigr),
+$$
+provided the source event classifier is incidence-complete in the following sense:
+$$
+\Bigl(\forall h\,[\mathsf{Src}_S(h)\Rightarrow(\Vdash_S(h,A)\Longleftrightarrow \Vdash_S(h,A'))]\Bigr)
+\Longrightarrow
+A\simeq_S A'.
+$$
+\end{corollary}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTerminalPreimage\_no\_loss\_boundary}
+\leanvariant{BEDC.Derived.RandomVarUp.RandomVarTerminalPreimage\_coverage\_defect\_iff}
+\begin{proof}
+The equivalence between
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S
+$$
+and
+$$
+\mathfrak D_X\simeq_S\bot_S
+$$
+is \autoref{thm:randomvar-total-event-exactness-vanishing-total-defect}.
+If
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S,
+$$
+then the coverage statement follows by the proof of \autoref{thm:randomvar-source-coverage-induced-by-total-event-exactness}.
+Conversely, assume
+$$
+\forall h\ \bigl(\mathsf{Src}_S(h)\Rightarrow \Vdash_S(h,\operatorname{pre}_X(\Omega_T))\bigr).
+$$
+Since $\Omega_S$ covers every carried source history, for every $h$ with $\mathsf{Src}_S(h)$ both
+$$
+\Vdash_S(h,\Omega_S)
+\quad\text{and}\quad
+\Vdash_S(h,\operatorname{pre}_X(\Omega_T))
+$$
+hold. Hence, on the source carrier,
+$$
+\Vdash_S(h,\operatorname{pre}_X(\Omega_T))
+\Longleftrightarrow
+\Vdash_S(h,\Omega_S).
+$$
+Incidence-completeness of the event classifier gives
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+Therefore all three conditions are equivalent.
+\end{proof}
+
+\begin{theorem}[RandomVar countable preimage union exactness]
+\label{thm:randomvar-countable-preimage-union-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $B_\bullet$ be a target measurable-event sequence, so $B_n\in\mathcal{A}_T$ for every $n:\mathbb{N}$, and let $U_T\in\mathcal{A}_T$ be the displayed target countable-union row
+$$
+t\in U_T\quad\Longleftrightarrow\quad \exists n:\mathbb{N}\ \ t\in B_n.
+$$
+For each $n$, set
+$$
+A_n:=X^{-1}(B_n),
+\qquad
+A_U:=X^{-1}(U_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage with membership readback, then $A_U\in\mathcal{A}_S$ and $A_n\in\mathcal{A}_S$ for every $n$. Let $U_S$ be the source countable union of the measurable sequence $A_\bullet$ supplied by the source $\MeasureUp$ sigma-algebra row of \autoref{thm:measure-sigma-algebra-obligations}. Then
+$$
+U_S\in\mathcal{A}_S,\qquad A_U\sim_{\mathcal{A}_S}U_S.
+$$
+Moreover, if $B_\bullet$ is pairwise disjoint in the target carried fiber, meaning that for $m\ne n$ no carried target point has witnesses in both $B_m$ and $B_n$, then $A_\bullet$ is pairwise disjoint in the source carried fiber.
+\end{theorem}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarPreimage\_countable\_union\_exactness}
+\begin{proof}
+The measurable-preimage row applies to $U_T$ and to each target event $B_n$. Hence
+$$
+A_U\in\mathcal{A}_S,\qquad A_n\in\mathcal{A}_S\quad\text{for every }n:\mathbb{N}.
+$$
+Thus $A_\bullet$ is a source measurable sequence. The source $\MeasureUp$ sigma-algebra row supplies its countable union $U_S$, with $U_S\in\mathcal{A}_S$ and membership readback
+$$
+s\in U_S\quad\Longleftrightarrow\quad \exists n:\mathbb{N}\ \ s\in A_n.
+$$
+
+Fix a carried source point $s$. The preimage and target countable-union readbacks give
+$$
+s\in A_U
+\quad\Longleftrightarrow\quad
+X(s)\in U_T
+\quad\Longleftrightarrow\quad
+\exists n:\mathbb{N}\ \ X(s)\in B_n.
+$$
+For each index $n$, the preimage readback for $B_n$ gives
+$$
+X(s)\in B_n\quad\Longleftrightarrow\quad s\in A_n.
+$$
+Therefore
+$$
+s\in A_U
+\quad\Longleftrightarrow\quad
+\exists n:\mathbb{N}\ \ s\in A_n
+\quad\Longleftrightarrow\quad
+s\in U_S.
+$$
+The two events have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this is exactly
+$$
+A_U\sim_{\mathcal{A}_S}U_S.
+$$
+
+Assume $B_\bullet$ is pairwise disjoint. Let $m,n:\mathbb{N}$ with $m\ne n$, and suppose a carried source point $s$ has witnesses $s\in A_m$ and $s\in A_n$. The two preimage readbacks give witnesses $X(s)\in B_m$ and $X(s)\in B_n$. Since $X(s)$ is a carried target point, target pairwise disjointness eliminates this pair. Hence no carried source point can inhabit both $A_m$ and $A_n$ for distinct $m,n$, which is exactly pairwise disjointness of $A_\bullet$ in the source fiber.
+\end{proof}
+
+\begin{theorem}[RandomVar scoped closure package]
+\label{thm:randomvar-scoped-closure-package}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map from a displayed $\ProbSpaceUp$ source to a displayed $\MeasureUp$ target, with the source-event classifier transported through the certificate rows of \autoref{sec:randomvar-certificate} and with endpoint comparisons read through the relevant $\RealUp$ classifiers. The carried $\RandomVarUp$ surface supplies the following scoped package:
+\begin{enumerate}
+\item finite measurable-preimage exactness, including disjoint binary unions, relative differences, complements over the total event, and the empty event;
+\item total-event exactness for $\operatorname{pre}_X(\Omega_T)$, uniqueness of the total-readback boundary, and source coverage forced by the target-total preimage;
+\item terminal no-loss equivalence at the target total event; and
+\item countable measurable-preimage union exactness, with pairwise disjointness transported from the target sequence to the source sequence.
+\end{enumerate}
+This is the scoped carried preimage package available to downstream $\DistributionUp$, $\IndependenceUp$, and $\CondExpUp$ constructions over the same displayed source and target rows.
+\end{theorem}
+\begin{proof}
+The finite preimage rows are the checked component sites \autoref{thm:randomvar-preimage-disjoint-binary-union-exactness}, \autoref{thm:randomvar-preimage-relative-difference-exactness}, \autoref{thm:randomvar-preimage-complement-difference-exactness}, and \autoref{thm:randomvar-preimage-empty-event-exactness}. They share the same carried map $X$, the same source-event classifier, and the same measurable-preimage readback, so they form one finite exactness surface.
+
+For the total boundary, \autoref{thm:randomvar-total-event-preimage-exactness} identifies the target-total preimage with the source total event, \autoref{thm:randomvar-terminal-readback-uniqueness-total-event} gives uniqueness of the total-readback boundary, and \autoref{thm:randomvar-source-coverage-induced-by-total-event-exactness} turns the exactness row into source coverage by the target-total preimage. The no-loss boundary is the equivalence recorded in \autoref{cor:randomvar-terminal-preimage-exactness-unique-no-loss-boundary}.
+
+Finally, \autoref{thm:randomvar-countable-preimage-union-exactness} supplies the countable union row and transports pairwise disjointness from the target sequence to the source sequence. Collecting these rows gives exactly the carried measurable-preimage and total-readback package stated above; no additional bridge to standard probability spaces is used.
+\end{proof}
+
+\begin{closurestatus}{\RandomVarUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The carried measurable-preimage and total-readback surface is closed over the displayed $\ProbSpaceUp$ and $\MeasureUp$ rows, with source-event classifier transport and $\RealUp$ endpoint classifiers as displayed.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RandomVarUp.RandomVarPreimage\_countable\_union\_exactness}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close independence, conditional expectation, distributions beyond the preimage package, or standard probability-space bridges.}
+  \upgradepath{The next grade requires a public probability-object certificate together with bridge evidence for standard probability-space rows.}
+\end{closurestatus}
