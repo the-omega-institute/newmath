@@ -705,6 +705,7 @@ $$
 A\simeq_S A'.
 $$
 \end{corollary}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTerminalPreimage\_no\_loss\_boundary}
 \begin{proof}
 The equivalence between
 $$
@@ -743,59 +744,4 @@ $$
 Therefore all three conditions are equivalent.
 \end{proof}
 
-\begin{theorem}[RandomVar countable preimage union exactness]
-\label{thm:randomvar-countable-preimage-union-exactness}
-Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $B_\bullet$ be a target measurable-event sequence, so $B_n\in\mathcal{A}_T$ for every $n:\mathbb{N}$, and let $U_T\in\mathcal{A}_T$ be the displayed target countable-union row
-$$
-t\in U_T\quad\Longleftrightarrow\quad \exists n:\mathbb{N}\ \ t\in B_n.
-$$
-For each $n$, set
-$$
-A_n:=X^{-1}(B_n),
-\qquad
-A_U:=X^{-1}(U_T).
-$$
-If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage with membership readback, then $A_U\in\mathcal{A}_S$ and $A_n\in\mathcal{A}_S$ for every $n$. Let $U_S$ be the source countable union of the measurable sequence $A_\bullet$ supplied by the source $\MeasureUp$ sigma-algebra row of \autoref{thm:measure-sigma-algebra-obligations}. Then
-$$
-U_S\in\mathcal{A}_S,\qquad A_U\sim_{\mathcal{A}_S}U_S.
-$$
-Moreover, if $B_\bullet$ is pairwise disjoint in the target carried fiber, meaning that for $m\ne n$ no carried target point has witnesses in both $B_m$ and $B_n$, then $A_\bullet$ is pairwise disjoint in the source carried fiber.
-\end{theorem}
-\leanchecked{BEDC.Derived.RandomVarUp.RandomVarPreimage\_countable\_union\_exactness}
-\begin{proof}
-The measurable-preimage row applies to $U_T$ and to each target event $B_n$. Hence
-$$
-A_U\in\mathcal{A}_S,\qquad A_n\in\mathcal{A}_S\quad\text{for every }n:\mathbb{N}.
-$$
-Thus $A_\bullet$ is a source measurable sequence. The source $\MeasureUp$ sigma-algebra row supplies its countable union $U_S$, with $U_S\in\mathcal{A}_S$ and membership readback
-$$
-s\in U_S\quad\Longleftrightarrow\quad \exists n:\mathbb{N}\ \ s\in A_n.
-$$
-
-Fix a carried source point $s$. The preimage and target countable-union readbacks give
-$$
-s\in A_U
-\quad\Longleftrightarrow\quad
-X(s)\in U_T
-\quad\Longleftrightarrow\quad
-\exists n:\mathbb{N}\ \ X(s)\in B_n.
-$$
-For each index $n$, the preimage readback for $B_n$ gives
-$$
-X(s)\in B_n\quad\Longleftrightarrow\quad s\in A_n.
-$$
-Therefore
-$$
-s\in A_U
-\quad\Longleftrightarrow\quad
-\exists n:\mathbb{N}\ \ s\in A_n
-\quad\Longleftrightarrow\quad
-s\in U_S.
-$$
-The two events have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this is exactly
-$$
-A_U\sim_{\mathcal{A}_S}U_S.
-$$
-
-Assume $B_\bullet$ is pairwise disjoint. Let $m,n:\mathbb{N}$ with $m\ne n$, and suppose a carried source point $s$ has witnesses $s\in A_m$ and $s\in A_n$. The two preimage readbacks give witnesses $X(s)\in B_m$ and $X(s)\in B_n$. Since $X(s)$ is a carried target point, target pairwise disjointness eliminates this pair. Hence no carried source point can inhabit both $A_m$ and $A_n$ for distinct $m,n$, which is exactly pairwise disjointness of $A_\bullet$ in the source fiber.
-\end{proof}
+\input{parts/concrete_instances/163_randomvar_countable_preimage_union_exactness.tex}
