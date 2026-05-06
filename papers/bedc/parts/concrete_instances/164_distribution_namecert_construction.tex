@@ -280,6 +280,7 @@ $$
 \mathsf{NonNeg}_R(\mu_X(B)).
 $$
 \end{proof}
+\leanchecked{BEDC.Derived.DistributionUp.DistributionPushforward\_nonnegative\_value\_inheritance}
 
 \begin{theorem}[Distribution pushforward monotone under target inclusion]
 \label{thm:distribution-pushforward-monotone-under-target-inclusion}
@@ -671,12 +672,14 @@ $$
 \begin{theorem}[Distribution pushforward probability package]\label{thm:distribution-pushforward-borel-probability-package}
 Let $X:S\to T$ be a carried $\RandomVarUp$ map as in $\autoref{sec:randomvar-carrier}$, from a $\ProbSpaceUp$ source as in $\autoref{sec:probspace-carrier}$ to a target $\MeasureUp$ carrier as in $\autoref{sec:measure-carrier}$. Write $\mathcal A_T$ for the target measurable-event family, $\mu_X$ for the $\DistributionUp$ pushforward row on target events, $0_R$ and $1_R$ for the distinguished $\RealUp$ endpoints, and $\sim_R$ for the $\RealUp$ classifier.
 
+Assume that the hypotheses of $\autoref{thm:distribution-pushforward-total-mass-unit}$, $\autoref{thm:distribution-empty-target-event-zero-mass}$, $\autoref{thm:distribution-nonnegative-value-inheritance}$, $\autoref{thm:distribution-pushforward-monotone-events}$, $\autoref{thm:distribution-pushforward-finite-disjoint-union-additivity}$, $\autoref{thm:distribution-pushforward-relative-difference-additivity}$, $\autoref{thm:distribution-pushforward-countable-disjoint-sigma-additivity}$, and $\autoref{thm:distribution-pushforward-continuity-from-below}$ are all satisfied for this same displayed pushforward surface.
+
 Then $\mu_X$ is a probability-measure package on the target event surface: $\mu_X(T)\sim_R 1_R$; $\mu_X(\varnothing_T)\sim_R 0_R$; every $B\in\mathcal A_T$ has nonnegative $\RealUp$ endpoint; target inclusion is monotone; finite disjoint binary unions are additive; relative differences decompose additively; countable disjoint unions are sigma-additive; and increasing countable unions satisfy continuity from below.
 \end{theorem}
 \begin{proof}
-The unit row is exactly $\autoref{thm:distribution-pushforward-total-mass-unit}$, and the empty-event row is $\autoref{thm:distribution-empty-target-event-zero-mass}$. Nonnegativity of every target measurable value is inherited from the source by $\autoref{thm:distribution-nonnegative-value-inheritance}$.
+Under the simultaneous hypotheses, the unit row is the row supplied by $\autoref{thm:distribution-pushforward-total-mass-unit}$, and the empty-event row is supplied by $\autoref{thm:distribution-empty-target-event-zero-mass}$. Nonnegativity of every target measurable value is the component row from $\autoref{thm:distribution-nonnegative-value-inheritance}$.
 
-The order-sensitive rows are already carried on the target surface. Monotonicity follows from $\autoref{thm:distribution-pushforward-monotone-events}$, finite disjoint binary additivity from $\autoref{thm:distribution-pushforward-finite-disjoint-union-additivity}$, and relative-difference additivity from $\autoref{thm:distribution-pushforward-relative-difference-additivity}$.
+The order-sensitive rows are also part of the assumed component surface. Monotonicity is the row of $\autoref{thm:distribution-pushforward-monotone-events}$, finite disjoint binary additivity is the row of $\autoref{thm:distribution-pushforward-finite-disjoint-union-additivity}$, and relative-difference additivity is the row of $\autoref{thm:distribution-pushforward-relative-difference-additivity}$.
 
-For countable structure, use $\autoref{thm:distribution-pushforward-countable-disjoint-sigma-additivity}$ for disjoint target families and $\autoref{thm:distribution-pushforward-continuity-from-below}$ for increasing target families. These eight rows have the same carried map $X$, the same target event family $\mathcal A_T$, and the same displayed pushforward row $\mu_X$, so collecting them gives the announced probability-measure package on the target event surface.
+For countable structure, the assumed surface includes $\autoref{thm:distribution-pushforward-countable-disjoint-sigma-additivity}$ for disjoint target families and $\autoref{thm:distribution-pushforward-continuity-from-below}$ for increasing target families. These eight rows have the same carried map $X$, the same target event family $\mathcal A_T$, and the same displayed pushforward row $\mu_X$, so collecting the assumed component rows gives the announced probability-measure package on the target event surface.
 \end{proof}
