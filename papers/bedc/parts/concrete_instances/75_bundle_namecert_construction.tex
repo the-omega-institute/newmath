@@ -6,5 +6,129 @@ The bundle interface $\BundleUp$ packages a fibred carrier $E \to B$ with locall
 \section{Carrier definition}
 \label{sec:bundle-carrier}
 
+\begin{definition}[Bundle local-trivialization obligation surface]
+\label{def:bundle-local-trivialization-obligation-surface}
+The local-trivialization obligation surface for $\BundleUp$ is the ten-field
+$\NameCert_{\BundleUp}$ template whose rows are fixed as follows.
+\begin{enumerate}
+\item The traditional target is a fibred carrier $\pi:E\to B$ whose fibres are
+locally trivial over a fixed fibre model $F$.
+\item The BEDC source is $\NameCert_{\ManifoldUp}$ together with visible
+$\mathsf{BHist}$ histories for the base space, the total space, the projection,
+local trivializations, transition data, and the source ledger.
+\item The carrier is a $\mathsf{BHist}$ package
+$\mathsf{BundleLocalTrivPkg}(P)$ exposing a base manifold row $B$, a total
+manifold row $E$, a projection row $\pi$, a fibre-model row $F$, finite
+chart-trivialization $\mathsf{ProbeBundle}$ rows, transition rows on overlaps,
+and a ledger row recording the source of each displayed field.
+\item The retained manifold classifier from $\NameCert_{\ManifoldUp}$ classifies
+the base and total manifold rows.
+\item The remaining classifier is componentwise $\hsame$ on projection
+histories, fibre-model histories, trivialization $\mathsf{ProbeBundle}$ rows,
+transition rows, and source-ledger rows.
+\item Carrier stability transports $\mathsf{BundleLocalTrivPkg}$ packages along
+the retained manifold classifier on $B$ and $E$ and along componentwise
+$\hsame$ on every displayed bundle row.
+\item Projection compatibility says that transport of $\pi$ along the base and
+total classifiers remains the displayed projection row between the transported
+manifold rows.
+\item Transition congruence says that if two overlapping trivialization rows
+are transported by componentwise $\hsame$, then the corresponding transition
+row is transported to the displayed transition row over the transported
+overlap.
+\item Ledger descent says that every transported carrier, projection,
+trivialization, fibre-model, and transition row keeps the same source entry
+after replacing its fields by classified histories.
+\item Exactness is visible local-trivialization readback: every accepted
+$\NameCert_{\BundleUp}$ field is one of the carrier, classifier, stability,
+projection, transition, ledger, and readback rows above. The standard bridge
+row is absent.
+\end{enumerate}
+\end{definition}
+
 \section{The certificate}
 \label{sec:bundle-certificate}
+
+\begin{theorem}[Bundle carrier projection obligation]
+\label{thm:bundle-carrier-projection-obligation}
+Every carried row of $\mathsf{BundleLocalTrivPkg}(P)$ exposes exactly the
+base manifold row, total manifold row, projection row, fibre-model row,
+trivialization $\mathsf{ProbeBundle}$ row, transition row, and source-ledger
+row displayed in
+\autoref{def:bundle-local-trivialization-obligation-surface}. There is no
+other carrier case in the $\BundleUp$ obligation surface.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{BundleLocalTrivPkg}(P)$ by
+\autoref{def:bundle-local-trivialization-obligation-surface}. The carrier
+slot is a $\mathsf{BHist}$ package whose displayed fields are the base row,
+total row, projection row, fibre-model row, trivialization
+$\mathsf{ProbeBundle}$ rows, transition rows, and source ledger.
+
+Projecting a carried bundle row therefore reads one of those listed fields.
+The base and total projections are manifold rows classified by the upstream
+$\NameCert_{\ManifoldUp}$ row, while the projection, fibre, trivialization,
+transition, and ledger projections are the componentwise $\hsame$ fields of
+the same package.
+
+No additional branch is available: the carrier predicate is the displayed
+package predicate itself, and its final readback row accepts only the listed
+fields. Thus every carried row is one of the named rows, and the carrier has no
+second case.
+\end{proof}
+
+\begin{theorem}[Bundle trivialization transition stability]
+\label{thm:bundle-trivialization-transition-stability}
+For packages satisfying $\mathsf{BundleLocalTrivPkg}$, componentwise $\hsame$
+transport preserves local trivialization rows and transition compatibility
+through the retained $\NameCert_{\ManifoldUp}$ classifier on the base and total
+manifold rows.
+\end{theorem}
+\begin{proof}
+Start with a carried package and a componentwise transport witness. The base
+and total manifold rows are transported by the classifier retained from
+$\NameCert_{\ManifoldUp}$, so their chart and overlap histories remain accepted
+manifold histories.
+
+The trivialization row is a finite $\mathsf{ProbeBundle}$ of local witnesses.
+Induct on that closed probe bundle. The empty probe row is preserved by the
+carrier-stability clause, and each bundled probe is transported by the
+componentwise $\hsame$ classifier on its trivialization history.
+
+For an overlap row, the transition congruence field of
+\autoref{def:bundle-local-trivialization-obligation-surface} compares the two
+transported trivialization rows and the displayed transition row. Projection
+compatibility supplies the same base and total rows after transport, so the
+transition still relates fibres over the transported base overlap.
+
+Ledger descent then transports the provenance row for the trivialization and
+transition witnesses. Hence local trivialization rows and transition
+compatibility are preserved by the displayed $\hsame$ transport.
+\end{proof}
+
+\begin{theorem}[Bundle NameCert exactness obligation]
+\label{thm:bundle-namecert-exactness-obligation}
+The public fields of $\NameCert_{\BundleUp}$ are exactly the carrier,
+classifier, stability, transition ledger, visible exactness readback, and
+absent bridge row specified by
+\autoref{def:bundle-local-trivialization-obligation-surface}.
+\end{theorem}
+\begin{proof}
+First project the carrier by
+\autoref{thm:bundle-carrier-projection-obligation}. This accounts for the base
+manifold row, total manifold row, projection row, fibre-model row,
+trivialization $\mathsf{ProbeBundle}$ row, transition row, and source-ledger
+row.
+
+Next read the classifier and stability fields from the definition. The
+classifier is the retained $\NameCert_{\ManifoldUp}$ classifier on base and
+total rows together with componentwise $\hsame$ on all bundle-specific
+histories. The stability fields are carrier transport, projection
+compatibility, transition congruence, and ledger descent.
+
+Finally apply the visible local-trivialization readback row. It accepts only
+the displayed carrier fields, the displayed classifier and stability fields,
+the transition ledger, and the explicit statement that the standard bridge row
+is absent. Therefore the public $\NameCert_{\BundleUp}$ surface is exhausted
+by exactly those fields.
+\end{proof}
