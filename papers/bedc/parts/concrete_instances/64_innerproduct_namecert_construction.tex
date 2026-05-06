@@ -564,3 +564,67 @@ row of the Hilbert dependency. The non-Hilbert consumers named in the statement
 therefore receive only the root surface rows for vector, scalar, form, law, and
 ledger data, with no Banach or completeness projection.
 \end{proof}
+
+\begin{theorem}[InnerProduct orthogonality symmetry row]
+\label{thm:innerproduct-orthogonality-symmetry-row}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. For carried vector endpoints
+$x,y:C_V$, the orthogonality row defined by the retained scalar-zero
+classifier is symmetric:
+$$
+x\perp_I y
+\quad\Longleftrightarrow\quad
+y\perp_I x.
+$$
+\end{theorem}
+\begin{proof}
+Assume first that $x\perp_I y$. By
+\autoref{def:innerproduct-orthogonality-row}, this is the scalar-zero
+classification
+$$
+\langle x,y\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+Apply the conjugate-symmetry row from
+\autoref{thm:innerproduct-symmetry-positivity-row} with the two endpoints
+ordered as $(y,x)$. It gives
+$$
+\langle y,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+\overline{\langle x,y\rangle_{\InnerProductUp}}.
+$$
+The scalar endpoint source retained in
+\autoref{def:innerproduct-bhist-source} supplies classifier transport for the
+displayed conjugation row. Applying that row to the scalar-zero classification
+of $\langle x,y\rangle_{\InnerProductUp}$ gives
+$$
+\overline{\langle x,y\rangle_{\InnerProductUp}}
+\sim_{\mathbb{K}}
+\overline{0_{\mathbb{K}}}.
+$$
+The same scalar source fixes the zero endpoint under conjugation, the
+scalar-side row used in \autoref{thm:innerproduct-zero-right-orthogonal-row},
+so
+$$
+\overline{0_{\mathbb{K}}}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+Composing these three scalar classifier witnesses by
+\autoref{thm:namecert-equivalence-transitivity} gives
+$$
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+By \autoref{def:innerproduct-orthogonality-row}, this is $y\perp_I x$.
+
+For the converse implication, assume $y\perp_I x$. The same definition gives
+$$
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+Apply the conjugate-symmetry row with endpoints ordered as $(x,y)$, transport
+this scalar-zero witness through the displayed conjugation row, use the
+zero-fix row for conjugation, and compose the scalar classifier witnesses by
+\autoref{thm:namecert-equivalence-transitivity}. The result is
+$$
+\langle x,y\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}},
+$$
+which is exactly $x\perp_I y$ by
+\autoref{def:innerproduct-orthogonality-row}.
+\end{proof}
