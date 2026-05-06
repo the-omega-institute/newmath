@@ -99,6 +99,19 @@ theorem PolynomialSingletonRawMul_zero_remainder
         (PolynomialSingletonRawScale_zero_remainder headEmpty zeroYs)
         (PolynomialZeroRemainder.cons (hsame_refl BHist.Empty) tailProductZero)
 
+theorem PolynomialSingletonRawMul_left_zero_classified {ys : List BHist} :
+    PolynomialSingletonClassifier
+        (PolynomialSingletonAddFold (PolynomialSingletonRawMul ([] : List BHist) ys))
+        BHist.Empty ∧
+      hsame (PolynomialSingletonAddFold (PolynomialSingletonRawMul ([] : List BHist) ys))
+        BHist.Empty := by
+  have productZero :
+      PolynomialZeroRemainder (PolynomialSingletonRawMul ([] : List BHist) ys) :=
+    PolynomialZeroRemainder.nil
+  exact And.intro
+    (PolynomialZeroRemainder_addFold_empty_classified productZero)
+    (PolynomialZeroRemainder_addFold_empty productZero)
+
 theorem PolynomialSingletonEval_rawMul_classified {alpha : BHist} {xs ys : List BHist} :
     PolynomialSingletonCarrier alpha ->
       BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs xs ->
