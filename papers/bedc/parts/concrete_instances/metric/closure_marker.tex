@@ -84,14 +84,47 @@ ball-budget conclusion.
 \(\MetricSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 \input{parts/concrete_instances/32_metric_empty_boundary_visible_context_distance_empty}
 
+\begin{theorem}[Metric distance witness standard boundary bridge]
+\label{thm:metric-distance-witness-standard-boundary-bridge}
+For the concrete $\mathsf{MetricDistanceWitness}$ interface on unary
+$\mathsf{BHist}$ endpoint witnesses, the paper-side bridge is the conservative
+boundary interpretation assembled from the semantic NameCert, visible-context
+exactness, the left and empty boundary readback rows, and the zero-depth
+identity-path row. It identifies exactly the BEDC boundary-distance witness rows
+with the corresponding standard boundary-metric reading, and back again, for the
+concrete $\mathsf{BHist}$ witness surface.
+\end{theorem}
+\begin{proof}
+The semantic carrier and classifier are the concrete
+$\mathsf{MetricDistanceWitness}$ predicate and $\hsame$ classifier supplied by
+\autoref{thm:metric-distance-witness-semantic-namecert}. Thus the bridge has no
+separate host carrier: its public objects are exactly the displayed
+$\mathsf{BHist}$ distance witnesses.
+
+The boundary readback is supplied in the two directions by
+\autoref{thm:metric-distance-witness-left-boundary-visible-context-iff} and
+\autoref{thm:metric-distance-witness-empty-boundary-visible-context-iff}. These
+rows say that the left and empty BEDC boundary surfaces read as the same
+standard boundary-distance data, and that the standard reading returns to the
+same BEDC rows.
+
+Finally,
+\autoref{thm:metric-distance-witness-prefix-independent-symmetric-zero-depth-reverse-distance-continuation-result}
+provides the zero-depth symmetric identity-path row used by the standard
+boundary metric reading. Together these rows give a conservative two-way
+boundary interpretation for the concrete witness surface only. No arbitrary
+host metric space, completeness, compactness, or topology-induced-by-metric
+bridge is being claimed.
+\end{proof}
+
 \begin{closurestatus}{\MetricUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public surface consists of the BHist metric-distance witness certificate, the $\hsame$ classifier, the displayed distance-witness readback rows, the symmetry and determinacy rows, triangle append closure, and MetricBallBudget composition.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The closed scope is the conservative standard boundary bridge for the concrete $\mathsf{BHist}$ metric-distance witness rows, including semantic NameCert carrier data, visible-context exactness, left and empty boundary readback, and zero-depth identity-path readback.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close arbitrary standard metric-space bridges, completeness, compactness, topology induced by the metric, or host real metrics.}
-  \upgradepath{Bridged closure requires a paper-level standard metric interpretation and conservative bridge rows, independent of the theoremCheckedV verification axis.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close arbitrary standard metric spaces, completeness, compactness, topology induced by a metric, host real metrics, or a Lean-checked full standard metric-space bridge.}
+  \upgradepath{A stronger grade requires a checked full standard metric-space bridge beyond the concrete $\mathsf{BHist}$ boundary witness surface.}
 \end{closurestatus}
 
 \begin{remark}[Zero-axiom encoding note]

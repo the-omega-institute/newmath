@@ -100,3 +100,58 @@ classifiers. Its witnesses are carried by the fixed singleton history source,
 and every comparison witness is a concrete assertion about the two displayed
 $\mathsf{BHist}$ endpoints.
 \end{proof}
+
+\begin{theorem}[TotalOrder singleton order-tower certificate]
+\label{thm:totalorder-singleton-order-tower-certificate}
+For the singleton history source $A_{\emp}$ at $\emp$ and classifier
+$\rho_{\emp}$, the endpoint-carrier relation
+$\le_{\bot}$ of \autoref{def:totalorder-singleton-history-instance} and the
+prefix relation of
+\autoref{def:concrete-singleton-history-totalorder-instance} agree on carried
+endpoints:
+$$
+A_{\emp}(h)\land A_{\emp}(k)\to
+(h\le_{\bot}k\Longleftrightarrow \mathsf{PreorderPrefixLE}(h,k)).
+$$
+On the same carried endpoints, the classifier is exact for the opposing
+singleton $\POSetUp$ comparisons and for the same branch of the singleton
+$\TotalOrderUp$ comparison:
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+(h\le_{\emp}k\land k\le_{\emp}h),
+$$
+and
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow \mathsf{same}_{\emp}(h,k).
+$$
+Thus the endpoint-carrier order, the singleton prefix order, the singleton
+partial-order exactness row, and the total-order same branch form one
+$\mathsf{BHist}$ order tower over the same carrier and classifier.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(h)$ and $A_{\emp}(k)$. Unfolding $h\le_{\bot}k$ gives exactly
+the two displayed carrier witnesses, so the forward endpoint-carrier side is
+immediate. Conversely, the same two carrier witnesses already reconstitute
+$h\le_{\bot}k$.
+
+The singleton carrier witnesses identify both endpoints with $\emp$: they give
+$\hsame(h,\emp)$ and $\hsame(k,\emp)$. Symmetry and transitivity of $\hsame$
+therefore give $\hsame(h,k)$, and applying
+$\mathsf{PreorderPrefixLE\_of\_hsame}$ yields
+$\mathsf{PreorderPrefixLE}(h,k)$. This proves the prefix direction needed to
+compare the two displayed relations on carried endpoints.
+
+For the partial-order row, apply
+\autoref{thm:singleton-empty-poset-laws}. Its exactness clause identifies
+$\rho_{\emp}(h,k)$ with the two opposing singleton prefix comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$.
+
+For the total-order row, unfold the comparison branches of
+\autoref{def:concrete-singleton-history-totalorder-instance}: the same branch
+is $\rho_{\emp}$, while the strict branches are empty. The law package
+\autoref{thm:singleton-history-totalorder-laws} supplies the carried
+same-branch witness, and
+\autoref{thm:concrete-singleton-history-totalorder-namecert} repackages that
+witness as the $\TotalOrderUp$ naming certificate. Hence both concrete
+presentations sit in the same singleton $\mathsf{BHist}$ order tower.
+\end{proof}
