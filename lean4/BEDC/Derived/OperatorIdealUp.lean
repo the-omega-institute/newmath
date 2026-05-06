@@ -17,6 +17,14 @@ inductive OperatorIdealTraceClassCarrier (T : BHist) : Prop where
   | mk (support : BHist) :
       UnaryHistory support -> Cont support BHist.Empty T -> OperatorIdealTraceClassCarrier T
 
+theorem OperatorIdealTraceClass_support_readback {T : BHist} :
+    OperatorIdealTraceClassCarrier T -> exists support : BHist, UnaryHistory support ∧
+      Cont support BHist.Empty T := by
+  intro carrier
+  cases carrier with
+  | mk support supportUnary supportVisible =>
+      exact ⟨support, supportUnary, supportVisible⟩
+
 theorem OperatorIdealTraceClass_finite_context_closure {T result : BHist} :
     OperatorIdealTraceClassCarrier T -> OperatorIdealBoundedContextAction T result ->
       OperatorIdealTraceClassCarrier result := by
