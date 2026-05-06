@@ -1,0 +1,54 @@
+\begin{definition}[Sheaf cover-presentation classifier]
+\label{def:sheaf-cover-presentation-classifier}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$. Let $u_a:\mathsf{Sec}(\iota(a))$ be compatible over $\mathcal{U}$ and let $v_b:\mathsf{Sec}(\kappa(b))$ be compatible over $\mathcal{V}$.
+
+The two cover presentations $(\mathcal{U},u)$ and $(\mathcal{V},v)$ are classifier-equal when there exists a displayed common refinement span
+$$
+\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)
+$$
+from $\mathcal{U}$ to $\mathcal{V}$ such that their pulled-back local families agree pointwise by the section classifiers:
+$$
+\forall c:C,\quad
+\rho_{\iota(r(c)),\lambda(c)}(u_{r(c)})
+\sim_{\lambda(c)}
+\rho_{\kappa(s(c)),\lambda(c)}(v_{s(c)}).
+$$
+This classifier is a presentation-level row: it compares indexed covers only through displayed common refinements, restriction maps, and the already exposed section classifiers $\sim_j$.
+\end{definition}
+
+\begin{theorem}[Sheaf cover-presentation classifier soundness]
+\label{thm:sheaf-cover-presentation-classifier-soundness}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$. Let $u_a:\mathsf{Sec}(\iota(a))$ be compatible over $\mathcal{U}$ and let $v_b:\mathsf{Sec}(\kappa(b))$ be compatible over $\mathcal{V}$. If $(\mathcal{U},u)$ and $(\mathcal{V},v)$ are classifier-equal in the sense of \autoref{def:sheaf-cover-presentation-classifier}, then any displayed global gluing $g:\mathsf{Sec}(i)$ of $u_a$ and any displayed global gluing $h':\mathsf{Sec}(i)$ of $v_b$ satisfy
+$$
+g\sim_i h'.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the cover-presentation classifier. It supplies a displayed common refinement span $\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)$ from $\mathcal{U}$ to $\mathcal{V}$ and a pointwise classifier equality between the two pulled-back local families over $\mathcal{W}$.
+
+Apply \autoref{thm:sheaf-cover-presentation-exactness} to the same two covers, compatible families, displayed common refinement, pullback equality, and displayed gluings. The conclusion is exactly $g\sim_i h'$.
+\end{proof}
+
+\begin{theorem}[Sheaf cover-presentation classifier symmetry]
+\label{thm:sheaf-cover-presentation-classifier-symmetric}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ and $\mathcal{V}=(B,\kappa,q,\delta)$ be indexed open covers of the same open index $i:\mathsf{OpenIx}$. Let $u_a:\mathsf{Sec}(\iota(a))$ be compatible over $\mathcal{U}$ and let $v_b:\mathsf{Sec}(\kappa(b))$ be compatible over $\mathcal{V}$. If $(\mathcal{U},u)$ is classifier-equal to $(\mathcal{V},v)$ in the sense of \autoref{def:sheaf-cover-presentation-classifier}, then $(\mathcal{V},v)$ is classifier-equal to $(\mathcal{U},u)$.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness. It consists of a displayed common refinement span $\mathcal{W}=(C,\lambda,r,s,\epsilon,\zeta,\omega)$ and, for every $c:C$, a classifier row from the $\mathcal{U}$-pullback to the $\mathcal{V}$-pullback.
+
+Build the reversed displayed common refinement by keeping the same cover index $C$, the same open family $\lambda$, and the same cover row $\omega$, while swapping the two projection maps and their inclusion witnesses. Thus the reversed span has projection $s:C\to B$ to $\mathcal{V}$ and projection $r:C\to A$ to $\mathcal{U}$.
+
+For each $c:C$, apply symmetry of the section classifier on $\mathsf{Sec}(\lambda(c))$ to the original pullback equality. The resulting pointwise classifier row is exactly the equality required for the reversed cover-presentation classifier.
+\end{proof}
+
+\begin{theorem}[Sheaf restricted-open cover-presentation classifier descent]
+\label{thm:sheaf-restricted-open-cover-presentation-classifier-descent}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$, and fix an open index $i:\mathsf{OpenIx}$. Let $\mathcal{S}|_i$ be the fixed-open restricted carrier of \autoref{thm:sheaf-restricted-open-namecert-surface}. For two compatible local-family presentations over covers of $i$, the cover-presentation classifier of \autoref{def:sheaf-cover-presentation-classifier} restricts to the same classifier on $\mathcal{S}|_i$: if the ambient presentations are classifier-equal by a displayed common refinement, then their restricted-open global gluings are identified by the restricted classifier on the fixed-open carrier.
+\end{theorem}
+\begin{proof}
+Read the restricted-open carrier through \autoref{thm:sheaf-restricted-open-namecert-surface}. Its carrier is the fixed open section surface $\mathsf{Sec}(i)$ with the inherited classifier $\sim_i$, so a restricted-open global gluing is an ambient global gluing whose target open is fixed to $i$.
+
+Use \autoref{thm:sheaf-restricted-open-locality-gluing} to read the locality and gluing rows of $\mathcal{S}|_i$ as the ambient sheaf locality and gluing rows over covers of the same fixed open. Thus the displayed restricted-open gluings provide exactly the gluing hypotheses required by the ambient cover-presentation comparison.
+
+Apply \autoref{thm:sheaf-cover-presentation-classifier-soundness}. Since the restricted classifier is inherited from $\sim_i$, the ambient conclusion $g\sim_i h'$ is the desired restricted-open classifier equality.
+\end{proof}
