@@ -341,4 +341,19 @@ theorem FinsetEnumerationClassifier_permutation_invariant
                       (Exists.intro p
                         (And.intro leftData.left relZP))
 
+theorem FinsetEnumerationPermutation_refl
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert A Rel) {xs : ProbeBundle BHist}
+    (bundleCarrier : FinsetEnumerationBundle A xs) :
+    FinsetEnumerationPermutation A Rel xs xs := by
+  constructor
+  · intro p memberXs
+    have sourceP : A p :=
+      FinsetEnumerationBundle_member_source_carried bundleCarrier memberXs
+    exact Exists.intro p (And.intro memberXs (NameCert.equiv_refl cert sourceP))
+  · intro q memberXs
+    have sourceQ : A q :=
+      FinsetEnumerationBundle_member_source_carried bundleCarrier memberXs
+    exact Exists.intro q (And.intro memberXs (NameCert.equiv_refl cert sourceQ))
+
 end BEDC.Derived.FinsetUp

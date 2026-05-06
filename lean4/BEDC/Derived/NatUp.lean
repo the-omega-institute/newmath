@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.ExternalBinary
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.NatUp
@@ -301,5 +302,63 @@ theorem NatUnaryPrefix_cont_tail_cases {h k tail : BHist} :
   | e1 tail =>
       exact Or.inr
         ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), tailCont⟩
+
+theorem NatUp_unary_standard_bridge :
+    (BEDC.FKernel.ExternalBinary.bwordLength BHist.Empty = 0) ∧
+      (forall h : BHist, UnaryHistory h ->
+        BEDC.FKernel.ExternalBinary.bwordLength (BHist.e1 h) =
+          Nat.succ (BEDC.FKernel.ExternalBinary.bwordLength h)) ∧
+      (forall h : BHist, UnaryHistory (BHist.e0 h) -> False) ∧
+      (forall {h k : BHist}, UnaryHistory h -> UnaryHistory k ->
+        (hsame h k <->
+          BEDC.FKernel.ExternalBinary.bwordLength h =
+            BEDC.FKernel.ExternalBinary.bwordLength k)) ∧
+      (forall {h t k : BHist}, UnaryHistory h -> UnaryHistory t -> Cont h t k ->
+        BEDC.FKernel.ExternalBinary.bwordLength k =
+          BEDC.FKernel.ExternalBinary.bwordLength h +
+            BEDC.FKernel.ExternalBinary.bwordLength t) := by
+  have lengthEq_hsame :
+      forall {h k : BHist}, UnaryHistory h -> UnaryHistory k ->
+        BEDC.FKernel.ExternalBinary.bwordLength h =
+          BEDC.FKernel.ExternalBinary.bwordLength k -> hsame h k := by
+    intro h k unaryH unaryK lengthEq
+    induction h generalizing k with
+    | Empty =>
+        cases k with
+        | Empty =>
+            rfl
+        | e0 k =>
+            cases unaryK
+        | e1 k =>
+            cases lengthEq
+    | e0 h =>
+        cases unaryH
+    | e1 h ih =>
+        cases k with
+        | Empty =>
+            cases lengthEq
+        | e0 k =>
+            cases unaryK
+        | e1 k =>
+            exact hsame_e1_congr (ih unaryH unaryK (Nat.succ.inj lengthEq))
+  constructor
+  · rfl
+  · constructor
+    · intro h _unaryH
+      rfl
+    · constructor
+      · intro h unaryZero
+        exact unary_no_zero_extension unaryZero
+      · constructor
+        · intro h k unaryH unaryK
+          constructor
+          · intro same
+            cases same
+            rfl
+          · intro lengthEq
+            exact lengthEq_hsame unaryH unaryK lengthEq
+        · intro h t k _unaryH _unaryT contHTK
+          exact (congrArg BEDC.FKernel.ExternalBinary.bwordLength contHTK).trans
+            (BEDC.FKernel.ExternalBinary.bwordLength_append h t)
 
 end BEDC.Derived.NatUp
