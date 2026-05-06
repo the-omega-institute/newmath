@@ -10804,3 +10804,85 @@ The complement/relative-difference row is defined at papers/bedc/parts/concrete_
 
 ---
 
+### B-413 - Matrix transpose preserves addition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Matrix transpose preserves addition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+If R is a RingUp scalar source, A and B are carried n by m matrices, and matrix addition is pointwise, then transpose(A + B) is matrix-classified with transpose(A) + transpose(B) over the swapped dimensions.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_distributivity_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+
+Rationale:
+Belongs in the MatrixUp concrete body, preferably near the existing transpose file. This is a standard first-course linear algebra law for matrices over a ring. The transpose carrier is defined at papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex:2, while existing transpose coverage proves product reversal and double-transpose involution at lines 11 and 60. Matrix addition is already treated pointwise with commutativity and associativity at papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_distributivity_transpose.tex:103 and :148, but a focused scan found no theorem label for transpose preserving addition. The proof is entrywise unfolding plus scalar classifier reflexivity, so it should close in one round.
+
+---
+
+
+### B-414 - FPS coefficientwise additive inverse
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FPS coefficientwise additive inverse |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+If R is a RingUp scalar source, F is a carried formal power series, and N is the coefficientwise scalar additive inverse of F, then F + N and N + F are FPS-classified with the zero series.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_ringup_tail.tex`
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+
+Rationale:
+Belongs in the FormalPowerSeriesUp RingUp tail body file. The theorem is standard in any algebra treatment of formal power series: additive inverses are coefficientwise. The FPS pointwise additive monoid instance is defined at papers/bedc/parts/concrete_instances/26_fps_ringup_tail.tex:38 and its monoid laws are proved at line 52; pointwise addition is defined at papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex:391. Ring additive inverse support already appears at papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex:32. A focused grep found no FPS negation or additive-inverse theorem. The proof is coefficientwise and uses only scalar inverse laws plus the FPS pointwise classifier.
+
+---
+
+
+### B-415 - FPS zero series absorbs Cauchy product
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FPS zero series absorbs Cauchy product |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If R is a RingUp scalar source, Z is the zero formal power series, and F is a carried formal power series, then Z times F and F times Z under the Cauchy product are FPS-classified with Z.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_ringup_tail.tex`
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_zero_product_and_signed_square.tex`
+
+Rationale:
+Belongs in the FormalPowerSeriesUp RingUp tail body file. This is a standard formal power series ring law: the zero series is absorbing for Cauchy multiplication. The Cauchy coefficient spine is defined at papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex:326, and existing FPS product results cover congruence, commutativity, distributivity, associativity, and the constant coefficient, but not zero absorption. The scalar zero-product theorem is available in papers/bedc/parts/concrete_instances/ring/18_ring_zero_product_and_signed_square.tex:19, and the finite zero-summand fold theorem is available in papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex:560. The proof is pointwise: every Cauchy summand is scalar-classified as zero, the finite fold is zero, and the FPS classifier packages the coefficientwise result.
+
+---
+
