@@ -1,0 +1,40 @@
+\begin{definition}[Sheaf root threshold certificate source]
+\label{def:sheaf-root-threshold-certificate-source}
+The $\SheafUp$ root threshold certificate source is the $\mathsf{BHist}$-indexed package consisting of the $\TopologyUp$ topology carrier, the $\PreSheafUp$ presheaf restriction carrier, the open-indexed section classifier family, the cover-nerve ledger, the point-germ ledger, the restricted-open ledger, the displayed base-change rows, and the refinement and common-refinement exactness rows. It is a source of threshold certificates only through indexed opens, $\mathsf{BHist}$ membership, section classifiers, restriction maps, displayed refinements, displayed base-change squares, restricted-open slices, and $\hsame$-stable transport.
+\end{definition}
+
+\begin{theorem}[Sheaf root threshold carrier and classifier obligation]
+\label{thm:sheaf-root-threshold-carrier-classifier-obligation}
+The certificate source of \autoref{def:sheaf-root-threshold-certificate-source} supplies the carrier and classifier obligations of the $\SheafUp$ root solely through indexed opens, $\mathsf{BHist}$ membership, the section classifier family, restriction maps, and $\hsame$-stable transport. In particular, the carrier side is exhausted by open indices, section carriers $\mathsf{Sec}(i)$, classifier rows $\sim_i$, restriction rows $\rho_{i,j}$, cover membership over $\mathsf{BHist}$, and point-germ rows read on displayed neighborhoods.
+\end{theorem}
+\begin{proof}
+Read the carrier row from \autoref{def:sheaf-indexed-section-presheaf-carrier}. It supplies the open-indexed section carriers, the section classifiers, the restriction maps, and the identity, composition, equivalence, and classifier-transport rows attached to them.
+
+Read the history side from \autoref{def:sheaf-bhist-cover-nerve-ledger}. Its cover-member rows are indexed by open carriers and $\mathsf{BHist}$ cells, and transport across history witnesses is only the displayed $\hsame$ transport already recorded in the ledger.
+
+For pointwise readback, use \autoref{def:sheaf-bhist-point-germ-ledger}. A point-germ row chooses an indexed neighborhood containing the history cell and compares sections by restricting to displayed common neighborhoods, so it adds no host point, stalk quotient, or external carrier beyond the classifier and restriction rows already named.
+\end{proof}
+
+\begin{theorem}[Sheaf root threshold gluing and refinement obligation]
+\label{thm:sheaf-root-threshold-gluing-refinement-obligation}
+The certificate source of \autoref{def:sheaf-root-threshold-certificate-source} assembles the exactness obligation of the $\SheafUp$ root from locality, gluing, refinement pullback, refinement gluing descent, restricted common-refinement exactness, and base-change gluing pullback. Each exactness row is expressed through indexed covers, compatible local families, displayed refinements, restricted-open slices, displayed base-change squares, section classifiers, and restriction transport.
+\end{theorem}
+\begin{proof}
+Begin with the root export exactness package of \autoref{thm:sheaf-root-export-stability-exactness-package}. It already groups locality, gluing, refinement pullback, refinement gluing descent, and common-refinement presentation exactness as the stability and exactness rows exported by $\NameCert_{\SheafUp}$.
+
+The restricted-open part is read in the same package from the restricted common-refinement rows below a fixed indexed open. These rows keep the ambient section classifiers and restriction maps, and only narrow the cover ledger to the displayed slice.
+
+For movement across a displayed source and target, apply \autoref{thm:sheaf-base-change-namecert-obligation-surface}. Its cover-pullback, gluing-pullback, and common-refinement rows reuse the same exactness package after the displayed base-change square identifies the relevant source opens and pulled-back cover members.
+\end{proof}
+
+\begin{theorem}[Sheaf root threshold downstream coverage obligation]
+\label{thm:sheaf-root-threshold-downstream-coverage-obligation}
+Every $\SheafUp$ row consumed by $\RingedSpaceUp$, $\SchemeUp$, and topology pullback consumers is covered by the threshold source of \autoref{def:sheaf-root-threshold-certificate-source}. Thus downstream chapters receive their sheaf-side data from the topology carrier, restriction carrier, section classifiers, cover-nerve ledger, point-germ ledger, restricted-open ledger, displayed base-change rows, and refinement or common-refinement exactness rows of that single source.
+\end{theorem}
+\begin{proof}
+For $\RingedSpaceUp$, apply \autoref{thm:sheaf-ringedspace-consumption-obligation}. Its sheaf-side requests are precisely the indexed section carriers, classifiers, restriction stability, cover-gluing exactness, restricted-open surface, and displayed base-change surface listed in the threshold source.
+
+For $\SchemeUp$, apply \autoref{thm:sheaf-scheme-consumption-obligation}. Each affine or ringed-space chart first consumes the ringed-space sheaf boundary, and overlap compatibility is discharged by the cover-presentation and common-refinement exactness rows already included in the source.
+
+For topology pullback consumers, apply \autoref{thm:sheaf-topology-pullback-cover-row}. The pulled-back cover rows are displayed base-change rows over the same indexed-open and $\mathsf{BHist}$ ledgers, so they are covered by the threshold source without adding a host powerset cover comparison or external sheaf model.
+\end{proof}

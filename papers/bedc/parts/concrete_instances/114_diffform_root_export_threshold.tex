@@ -1,0 +1,143 @@
+\section{DiffForm root export threshold}
+\label{sec:diffform-root-export-threshold}
+
+\begin{definition}[Differential-form root export threshold source]
+\label{def:diffform-root-export-threshold-source}
+Fix the $\NameCert_{\ManifoldUp}$ source $M$ and the
+$\NameCert_{\TensorProductUp}$ source $T$ used in
+\autoref{def:diffform-bhist-form-carrier}. The root export threshold source
+for $\DiffFormUp$ is the displayed row package consisting exactly of
+$BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, $\NameCert_{\TensorProductUp}$, the carrier and
+classifier rows of \autoref{def:diffform-bhist-form-carrier} and
+\autoref{def:diffform-bhist-form-classifier}, the wedge-ledger rows cited by
+\autoref{thm:diffform-root-wedge-ledger-obligation}, the exterior-derivative
+input boundary cited by \autoref{thm:diffform-root-exterior-boundary-obligation},
+and the downstream-consumer boundary of
+\autoref{thm:diffform-downstream-consumer-boundary}.
+
+This threshold source is an export boundary. It names the rows that a
+consumer may read from the $\DiffFormUp$ root surface, and it names no
+nilpotence, closedness, nondegeneracy, contact nonintegrability, or standard
+bridge row.
+\end{definition}
+
+\begin{theorem}[Differential-form carrier and classifier export threshold]
+\label{thm:diffform-root-export-carrier-classifier-threshold}
+At the threshold of \autoref{def:diffform-root-export-threshold-source}, the
+exported carrier is exactly the six-coordinate row
+$$
+(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)
+$$
+of \autoref{def:diffform-bhist-form-carrier}. The exported classifier is only
+the comparison of degree rows by $\hsame$, matched tensor and scalar endpoint
+comparisons through the displayed source rows, and visible ledger comparisons
+by $\hsame$ as stated in \autoref{def:diffform-bhist-form-classifier}. No
+additional carrier coordinate, classifier, operator row, or geometric law is
+exported at the root threshold.
+\end{theorem}
+\begin{proof}
+Read the source boundary through
+\autoref{thm:diffform-root-source-obligation}. That theorem restricts every
+root row to the displayed $BHist$, $\hsame$, $\Cont$,
+$\mathsf{ProbeBundle}$, $\NameCert_{\ManifoldUp}$, and
+$\NameCert_{\TensorProductUp}$ sources, with no source row outside the six
+carrier entries.
+
+Project the carrier with \autoref{def:diffform-bhist-form-carrier}. The row
+is the tuple $(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$, and each coordinate
+is respectively the degree history, probe bundle, tensor row, scalar endpoint,
+antisymmetry ledger, or source ledger. Therefore the export carrier has no
+seventh coordinate.
+
+Project the classifier with
+\autoref{def:diffform-bhist-form-classifier}. Its degree clause is $\hsame$,
+its tensor and scalar clauses compare matched displayed rows using the
+retained source classifiers, and its remaining clauses are visible ledger
+$\hsame$ comparisons. These are precisely the classifier rows permitted by the
+threshold source.
+\end{proof}
+
+\begin{theorem}[Differential-form wedge export threshold]
+\label{thm:diffform-root-export-wedge-threshold}
+At the threshold of \autoref{def:diffform-root-export-threshold-source}, the
+exported wedge surface is exactly the visible tensor concatenation row, the
+probe-append ledger, the degree-bookkeeping ledger, and the antisymmetry
+ledgers over the carried input rows. The root threshold exports no exterior
+law beyond these wedge rows.
+\end{theorem}
+\begin{proof}
+Start from the wedge boundary of
+\autoref{thm:diffform-root-wedge-ledger-obligation}. It says that an admitted
+wedge row is exhausted by wedge ledger coverage, probe concatenation,
+degree bookkeeping, and associator ledger rows over the displayed carrier and
+classifier surface.
+
+The tensor component is the visible $\TensorProductUp$ concatenation row
+joining the tensor entries of the two carried forms. The probe component is
+the displayed append of the two finite $\mathsf{ProbeBundle}$ spines, and the
+degree component is the ledger recording the two input degrees and the output
+degree row.
+
+The antisymmetry contribution is not a hidden exterior identity. It is the
+visible permutation and associator ledger attached to the carrier rows and
+transported through $\hsame$. Since each wedge row cited by the root wedge
+obligation refers back to those displayed histories, the threshold exports
+exactly the stated wedge surface.
+\end{proof}
+
+\begin{theorem}[Differential-form downstream law separation]
+\label{thm:diffform-root-export-downstream-law-separation}
+The root threshold of \autoref{def:diffform-root-export-threshold-source}
+separates the usable $\DiffFormUp$ surface from downstream exterior laws:
+$\DeRhamUp$ must supply nilpotence, $\SymplecticUp$ must supply closedness and
+nondegeneracy, and $\ContactUp$ must supply contact nonintegrability in their
+own certificate surfaces. None of those laws is exported by the
+$\DiffFormUp$ root threshold.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:diffform-root-exterior-boundary-obligation}. It permits
+exterior-derivative consumers to use only the displayed candidate ledger,
+input row, degree shift, scalar transport, wedge-input stability, and
+downstream scope rows.
+
+Next apply \autoref{thm:diffform-downstream-consumer-boundary}. That theorem
+identifies the rows consumed by $\DeRhamUp$, $\SymplecticUp$, and
+$\ContactUp$, and states that $d^2=0$, closedness, nondegeneracy, and contact
+nonintegrability must be supplied by the corresponding downstream chapters.
+
+Combining the two boundary statements gives the separation. The root
+threshold can export carried forms, classifier data, wedge ledgers, and
+exterior-input rows, but it cannot certify an operator identity or geometric
+law that is not one of those displayed rows.
+\end{proof}
+
+\begin{theorem}[Differential-form NameCert root threshold]
+\label{thm:diffform-root-export-namecert-threshold}
+The paper-side $\NameCert_{\DiffFormUp}$ root threshold is assembled by the
+rows of \autoref{def:diffform-root-export-threshold-source}: the six-coordinate
+carrier, the displayed classifier, the wedge ledger surface, the
+exterior-derivative input boundary, and the downstream-consumer separation.
+This assembly exports the usable $\DiffFormUp$ root surface and leaves
+downstream operator and geometric laws off the root table.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:diffform-root-source-obligation} for the source rows and
+\autoref{thm:diffform-root-export-carrier-classifier-threshold} for the
+carrier and classifier rows. These two statements bind the export surface to
+the six displayed carrier coordinates and the classifier clauses already
+available from the upstream manifold and tensor sources.
+
+Use \autoref{thm:diffform-root-export-wedge-threshold} for the wedge surface.
+It contributes exactly tensor concatenation, probe append, degree
+bookkeeping, and antisymmetry ledger data over the carried forms.
+
+Finally use \autoref{thm:diffform-root-export-downstream-law-separation}.
+That statement imports the exterior-input boundary of
+\autoref{thm:diffform-root-exterior-boundary-obligation} and the consumer
+boundary of \autoref{thm:diffform-downstream-consumer-boundary}. The assembled
+package is therefore a root threshold for $\NameCert_{\DiffFormUp}$ and not a
+certificate for $d^2=0$, closedness, nondegeneracy, or contact
+nonintegrability.
+\end{proof}

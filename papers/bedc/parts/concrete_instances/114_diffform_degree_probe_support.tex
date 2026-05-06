@@ -1,0 +1,129 @@
+\section{DiffForm degree-probe support}
+\label{sec:diffform-degree-probe-support}
+
+\begin{definition}[Differential-form degree-probe support row]
+\label{def:diffform-degree-probe-support-row}
+Fix a $\NameCert_{\ManifoldUp}$ source $M$ and a
+$\NameCert_{\TensorProductUp}$ source $T$ as in
+\autoref{def:diffform-bhist-form-carrier}. A differential-form degree-probe
+support row is the ten-field template whose traditional target is the finite
+degree surface of differential forms, and whose BEDC source data are
+$BHist$, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\Cont$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$.
+
+The carrier field is the six-coordinate row
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ with displayed coordinates
+$(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$ from
+\autoref{def:diffform-bhist-form-carrier}. The classifier field is
+$\sim_{\DiffFormUp}$ from \autoref{def:diffform-bhist-form-classifier}. The
+stability obligations are degree and probe transport, wedge concatenation,
+and carrier transport. The ledger fields are the unary degree witness $d$,
+the visible probe spine $\mathcal{P}$, the tensor row $\tau$, the scalar
+endpoint $\sigma$, the antisymmetry ledger $\alpha$, and the source ledger
+$\lambda$.
+
+The core theorem list consists of
+\autoref{thm:diffform-degree-probe-carrier-admissibility},
+\autoref{thm:diffform-degree-probe-transport}, and
+\autoref{thm:diffform-degree-probe-wedge-compatibility}. The support row is
+accepted if and only if the displayed carrier row supplies exactly the unary
+degree witness and the visible $\mathsf{ProbeBundle}$ spine consumed by the
+tensor, scalar, antisymmetry, and source-ledger rows above. There is no
+standard bridge field in this support row, and its verification status is a
+paper proof target.
+\end{definition}
+
+\begin{theorem}[Differential-form degree-probe carrier admissibility]
+\label{thm:diffform-degree-probe-carrier-admissibility}
+Every row carried by $\mathsf{DiffFormBHistCarrier}_{M,T}$ supplies the
+degree-probe support row of
+\autoref{def:diffform-degree-probe-support-row}. In particular, the degree
+coordinate is the visible $\mathsf{UnaryHistory}$ row $d$, the arity surface is
+the visible $\mathsf{ProbeBundle}$ spine $\mathcal{P}$, and the tensor,
+scalar-endpoint, antisymmetry, and source-ledger rows consume no hidden probe
+slot outside $\mathcal{P}$.
+\end{theorem}
+\begin{proof}
+Invert the carrier acceptance predicate displayed in
+\autoref{def:diffform-bhist-form-carrier}. A carried row is exactly the
+six-tuple $(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$, and the first two
+acceptance clauses name $d$ as a $\mathsf{UnaryHistory}$ row and
+$\mathcal{P}$ as the finite $\mathsf{ProbeBundle}$ spine.
+
+The remaining carrier clauses do not allocate another arity source. The
+tensor row $\tau$ is read over the bundled tangent probes in
+$\mathcal{P}$, the scalar endpoint $\sigma$ is produced from that tensor row,
+and the antisymmetry ledger $\alpha$ ranges over displayed adjacent swaps of
+the same bundled probe rows.
+
+Finally inspect the source ledger $\lambda$. Its accepted provenance is the
+source pair $M,T$ together with the degree row, the probe bundle, the tensor
+row, the scalar endpoint row, and the antisymmetry rows. Repacking these
+visible fields gives precisely the ten-field support row, with no additional
+probe or degree coordinate to certify.
+\end{proof}
+
+\begin{theorem}[Differential-form degree-probe transport]
+\label{thm:diffform-degree-probe-transport}
+Let $\omega$ and $\omega'$ be rows carried by
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ with
+$\omega\sim_{\DiffFormUp}\omega'$. If $\omega$ supplies the degree-probe
+support row of \autoref{def:diffform-degree-probe-support-row}, then
+$\omega'$ supplies the transported degree-probe support row with the same
+visible probe-slot arity.
+\end{theorem}
+\begin{proof}
+Project the classifier comparison through
+\autoref{def:diffform-bhist-form-classifier}. Its degree clause gives
+$\hsame$ between the two unary degree histories, and its tensor, antisymmetry,
+and source-ledger clauses give visible $\hsame$ comparisons on the rows that
+record how the probe spine is consumed.
+
+Apply \autoref{thm:diffform-probe-slot-arity-transport} to the two carried
+rows. The componentwise tangent-source transport of the two
+$\mathsf{ProbeBundle}$ spines preserves the visible number of probe slots,
+and the transported multilinear tensor row remains a $\TensorProductUp$ row
+over those transported tangent probes.
+
+It remains to move the support classifier itself. Use
+\autoref{thm:diffform-form-classifier-stability} on the carried rows after
+the componentwise transport. The degree, tensor, scalar-endpoint,
+antisymmetry, and source-ledger comparisons repack into the same ten-field
+support row for $\omega'$, and the previous paragraph supplies the preserved
+probe arity.
+\end{proof}
+
+\begin{theorem}[Differential-form degree-probe wedge compatibility]
+\label{thm:diffform-degree-probe-wedge-compatibility}
+Let $\omega$ and $\eta$ be carried $\DiffFormUp$ rows supplying
+degree-probe support rows. If the wedge row
+$\omega\wedge_{\DiffFormUp}\eta$ is admitted by
+$\mathsf{DiffFormBHistCarrier}_{M,T}$, then its support row is obtained by
+concatenating the two visible probe spines and by using the continuation row
+of \autoref{def:diffform-wedge-degree-ledger} to produce the output unary
+degree. Thus the wedge consumes exactly the arity displayed by the two input
+support rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:diffform-wedge-probe-concatenation-coverage}. The admitted wedge
+row carries the visible output bundle
+$\mathsf{bundleAppend}(\mathcal{P}_\omega,\mathcal{P}_\eta)$, its length is
+the sum of the two input bundle lengths, and membership in the output bundle
+is exactly membership in the left or right input spine.
+
+Next use \autoref{def:diffform-wedge-degree-ledger}. Its row displays the two
+input unary degree histories, the output unary degree history, and the
+continuation row
+$$
+\Cont(d_\omega,d_\eta,d_{\omega\wedge\eta})
+$$
+whose endpoint records the degree of the admitted wedge.
+
+Finally repack the admitted wedge carrier row. The tensor concatenation row is
+read over the concatenated probe bundle, the scalar endpoint is produced from
+that tensor row, and the antisymmetry and source ledgers cite only the two
+input ledgers, the output probe bundle, and the displayed degree continuation.
+Therefore the wedge support row consumes exactly the visible arity supplied by
+the two input support rows and no hidden exterior-input slot.
+\end{proof}
