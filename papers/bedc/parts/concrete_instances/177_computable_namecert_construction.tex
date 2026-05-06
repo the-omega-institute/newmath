@@ -79,6 +79,53 @@ The trace ledger is the $\SeqUp$ configuration trace named in \autoref{def:compu
 For composition, \autoref{thm:computable-composition-bounded-simulation} records the phase machine $P_{G\circ F}$ and the boundary between the $F$ trace and the $G$ trace. For identity, \autoref{def:computable-halted-unary-identity-code} fixes the displayed bound to $\beta_{\mathsf{id}}(n)=\emp$, and \autoref{thm:computable-identity-bounded-graph-certificate} reads that empty-bound ledger as the identity certificate.
 \end{proof}
 
+\begin{theorem}[Computable bounded graph source and observation carriers]
+\label{thm:computable-bounded-graph-source-carrier-obligation}
+Every bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$ for a partial graph $F\subseteq\NatUp\times\NatUp$ has the following carrier obligations. Its source carrier and output carrier are unary $\NatUp$ histories in the sense of \autoref{def:unary-history-judgment}. Its observation carrier is the $\SeqUp$ trace of configurations indexed by the unary prefixes of the displayed bound $\beta_F(n)$, as in \autoref{ch:concrete-instances-seq-namecert}. Thus any accepted row $F(n,m)$ is represented by carrier data
+$$
+  \UnaryHistory(n),\quad \UnaryHistory(\beta_F(n)),\quad
+  \mathsf{SeqTrace}_{P_F}(n,\beta_F(n)),\quad \UnaryHistory(m).
+$$
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:computable-bounded-graph-certificate}. The certificate contains a deterministic code $P_F$ and a displayed unary-bound modulus $\beta_F$. For a unary source history $n$, the modulus value $\beta_F(n)$ is a unary history, so the bound is an object of the same unary generation specified in \autoref{def:unary-history-judgment}.
+
+For an accepted row $F(n,m)$, the graph-exactness field gives the corresponding bounded simulation witness of \autoref{def:computable-bounded-simulation-witness}. That witness supplies a $\SeqUp$ trace of configurations over the unary prefixes of $\beta_F(n)$, with zero row, transition rows, and halted endpoint row. The endpoint readback is the output history $m$, so the output carrier is again unary by the same local witness and the $\NatUp$ unary classifier.
+\end{proof}
+
+\begin{theorem}[Computable bounded graph classifier stability]
+\label{thm:computable-bounded-graph-classifier-stability-obligation}
+Let $(P_F,\beta_F)$ be a bounded $\ComputableUp$ graph certificate for $F\subseteq\NatUp\times\NatUp$. If unary inputs $n$ and $n'$ are classified together by the $\NatUp$ history classifier and $F(n,m)$ holds, then transporting the accepted graph row through that classifier preserves bounded simulation output classification. In particular, whenever $F(n',m')$ also holds, the two transported outputs satisfy
+$$
+  m\hsame m'.
+$$
+Consequently graph membership transported through the $\NatUp$ history classifier preserves the bounded simulation readback class and the single-valuedness of the certified graph.
+\end{theorem}
+\begin{proof}
+Convert the accepted row $F(n,m)$ to a bounded simulation by the exactness field of \autoref{def:computable-bounded-graph-certificate}. The source transport $n\hsame n'$ is a transport along the unary history classifier of \autoref{def:unary-history-judgment}; the transported run uses the same deterministic code and the displayed modulus row assigned to the transported source.
+
+If a second accepted row $F(n',m')$ is present, exactness converts it to a bounded simulation for the same certified graph over the transported source. Apply \autoref{thm:computable-bounded-graph-single-valuedness} to the two accepted rows after classifier transport. The conclusion is $m\hsame m'$, which is exactly stability of bounded simulation output classification rather than host equality of histories.
+
+The same argument controls composition. When the transported row is used as a component of a composite run, \autoref{thm:computable-composition-bounded-simulation} composes the transported bounded trace with the next certified trace, and the output class remains governed by the same single-valuedness theorem.
+\end{proof}
+
+\begin{theorem}[Computable bounded graph ledger exactness]
+\label{thm:computable-bounded-graph-ledger-exactness-obligation}
+For every bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$ for $F\subseteq\NatUp\times\NatUp$, the ledger records the deterministic code $P_F$, the displayed bound modulus $\beta_F$, the $\SeqUp$ simulation trace, and the endpoint readback. Its exactness clause is the displayed equivalence
+$$
+  F(n,m)\Longleftrightarrow
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m)
+$$
+at that bound, with continuation data recorded by $\ContR$ whenever two certified traces are composed.
+\end{theorem}
+\begin{proof}
+The deterministic code and modulus are the two explicit fields of \autoref{def:computable-bounded-graph-certificate}. For each accepted graph row, the forward direction of the displayed equivalence gives the $\SeqUp$ trace and endpoint readback required by \autoref{def:computable-bounded-simulation-witness}.
+
+Conversely, a bounded simulation at the displayed value $\beta_F(n)$ is converted back to graph membership by the reverse direction of the same equivalence. Thus ledger exactness is an iff between graph membership and bounded simulation at the displayed certificate bound, not an existential statement over hidden running times.
+
+For composed certificates, \autoref{def:continuation-relation} supplies the continuation witness joining the two displayed bounds, and \autoref{thm:computable-composition-bounded-simulation} builds the composite trace. The endpoint readback of the composite ledger is the endpoint readback of the second trace, while single-valuedness is supplied by \autoref{thm:computable-bounded-graph-single-valuedness}.
+\end{proof}
+
 \begin{theorem}[Computable composition by bounded simulation]
 \label{thm:computable-composition-bounded-simulation}
 Let $F$ and $G$ be partial $\NatUp$ graphs carrying bounded $\ComputableUp$ graph certificates $(P_F,\beta_F)$ and $(P_G,\beta_G)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. Suppose $F(n,m)$ is witnessed by
