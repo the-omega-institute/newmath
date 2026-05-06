@@ -298,6 +298,7 @@ import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.MonoidalCatUp
+import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.ManifoldUp
