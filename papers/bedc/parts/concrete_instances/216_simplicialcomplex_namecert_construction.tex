@@ -138,3 +138,89 @@ $$
 $$
 The three displayed comparisons are exactly the claimed conjunction.
 \end{proof}
+
+\begin{definition}[Simplicial intersection carrier rows]
+\label{def:simplicialcomplex-intersection-carrier-rows}
+Let $K$ and $L$ be $\SimplicialComplexUp$ finite face carriers over the same finite vertex source $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}. Assume that both carriers use the same simplex-code source $S:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_S$, and that their face-incidence rows are read through one displayed relation
+$$
+\mathsf{Face}:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}.
+$$
+The simplicial intersection predicate is
+$$
+\mathsf{Simplex}_{K\cap L}(z):=
+\mathsf{Simplex}_K(z)\land\mathsf{Simplex}_L(z).
+$$
+For a finite spine $js:\mathsf{HistSpine}$, the finite enumeration row for the intersection is
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cap L}),
+$$
+in the sense of \autoref{def:finset-spine-enumerates-predicate}. The inherited face relation is
+$$
+\mathsf{Face}_{K\cap L}(\rho,\sigma):=\mathsf{Face}(\rho,\sigma).
+$$
+\end{definition}
+
+\begin{theorem}[Simplicial intersection carrier is face closed]
+\label{thm:simplicialcomplex-intersection-carrier-face-closed}
+Let $K$ and $L$ share the simplex-code source, classifier, and face relation as in \autoref{def:simplicialcomplex-intersection-carrier-rows}. Let $js:\mathsf{HistSpine}$ satisfy
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cap L}).
+$$
+Then the intersection rows carry the finite enumeration, face closure, and inherited face transitivity:
+$$
+\mathsf{FinSetSpineEnumerates}_{S,\sim_S}(js,\mathsf{Simplex}_{K\cap L}),
+$$
+$$
+\forall \tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Simplex}_{K\cap L}(\sigma)\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\to
+\mathsf{Simplex}_{K\cap L}(\tau),
+$$
+and
+$$
+\forall \rho\,\tau\,\sigma:\mathsf{BHist}.\;
+\mathsf{Face}_{K\cap L}(\rho,\tau)\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\to
+\mathsf{Face}_{K\cap L}(\rho,\sigma).
+$$
+Moreover, every two-step face chain in the intersection satisfies
+$$
+\mathsf{Simplex}_{K\cap L}(\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\rho,\tau)
+\to
+\mathsf{Simplex}_{K\cap L}(\tau)
+\land
+\mathsf{Simplex}_{K\cap L}(\rho)
+\land
+\mathsf{Face}_{K\cap L}(\rho,\sigma).
+$$
+\end{theorem}
+\begin{proof}
+The finite-enumeration row is exactly the displayed hypothesis, with the predicate named in \autoref{def:simplicialcomplex-intersection-carrier-rows} and the enumeration predicate supplied by \autoref{def:finset-spine-enumerates-predicate}.
+
+For face closure, fix $\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Simplex}_{K\cap L}(\sigma)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma).
+$$
+Unfolding the intersection predicate gives $\mathsf{Simplex}_K(\sigma)$ and $\mathsf{Simplex}_L(\sigma)$, and unfolding the inherited relation gives $\mathsf{Face}(\tau,\sigma)$. The simplicial closure row of $K$ from \autoref{def:simplicialcomplex-finite-face-carrier} gives $\mathsf{Simplex}_K(\tau)$. The same closure row for $L$ gives $\mathsf{Simplex}_L(\tau)$. Pairing these two conclusions folds back to
+$$
+\mathsf{Simplex}_{K\cap L}(\tau).
+$$
+
+For inherited face transitivity, fix $\rho,\tau,\sigma:\mathsf{BHist}$ and assume
+$$
+\mathsf{Face}_{K\cap L}(\rho,\tau)
+\land
+\mathsf{Face}_{K\cap L}(\tau,\sigma).
+$$
+Unfold the inherited relation to read these as $\mathsf{Face}(\rho,\tau)$ and $\mathsf{Face}(\tau,\sigma)$. The face-incidence row of $K$ is the $\PosetUp$ relation row from \autoref{def:poset-carrier} packaged by \autoref{def:simplicialcomplex-finite-face-carrier}; its transitivity field composes the two displayed face incidences and yields $\mathsf{Face}(\rho,\sigma)$. Folding the inherited relation gives $\mathsf{Face}_{K\cap L}(\rho,\sigma)$.
+
+For the two-step chain statement, start with the displayed chain hypothesis. The face-closure row just proved gives $\mathsf{Simplex}_{K\cap L}(\tau)$ from the upper face incidence. Applying the same row again to $\mathsf{Simplex}_{K\cap L}(\tau)$ and $\mathsf{Face}_{K\cap L}(\rho,\tau)$ gives $\mathsf{Simplex}_{K\cap L}(\rho)$. The inherited transitivity row gives $\mathsf{Face}_{K\cap L}(\rho,\sigma)$. Combining these three conclusions proves the final conjunction.
+\end{proof}
