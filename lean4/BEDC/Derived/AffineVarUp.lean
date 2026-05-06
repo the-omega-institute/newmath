@@ -69,6 +69,13 @@ theorem AffineFiniteFamilyZeroLocus_inclusion_reverse {AffPoint : BHist -> Prop}
       intro p memberF
       exact locusG.right (inclusion memberF))
 
+theorem AffineFiniteFamilyZeroLocus_occurred_equation_row {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {F : ProbeBundle BHist} {p x : BHist} :
+    InBundle p F -> AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x ->
+      PolyEvalZero p x := by
+  intro member locus
+  exact locus.right member
+
 theorem AffineFiniteFamilyZeroLocus_duplicate_head_insert {AffPoint : BHist -> Prop}
     {PolyEvalZero : BHist -> BHist -> Prop} {F : ProbeBundle BHist} {p x : BHist} :
     InBundle p F ->

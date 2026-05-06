@@ -26,6 +26,53 @@ arbitrary under the radius $r$, these endpoint classifiers repack as
 $\mathsf{RealStreamWindowClassifier}(x,y,n+j,r)$.
 \end{proof}
 
+\begin{theorem}[Real stream finite-window selected zero-subwindow package]
+\label{thm:real-stream-window-selected-zero-subwindow-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,j,m$,
+if
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m)
+$$
+and $j\le m$, then both
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n+j,0)
+$$
+and
+$$
+\mathsf{RatHistoryClassifier}(x(n+j),y(n+j))
+$$
+hold.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-window-subwindow-extraction} to the source
+window with shift $j$ and radius $0$. The displayed bound $j\le m$ is exactly
+the required inequality $j+0\le m$, so this gives the zero-radius shifted
+window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n+j,0).
+$$
+
+It remains to read the selected endpoint. Unfold
+Definition~\ref{def:real-stream-finite-window-classifier} for the zero-radius
+window and take offset $0\le 0$. The endpoint index is
+$(n+j)+0=n+j$, so the window row returns
+$\mathsf{RatHistoryClassifier}(x(n+j),y(n+j))$, as in the zero-window
+exactness calculation of
+\autoref{thm:real-stream-classifier-zero-window-exactness}.
+\end{proof}
+
+The ten-field fit is: traditional target selected finite RealUp observation
+normalization; BEDC source $\mathsf{RealStreamWindowClassifier}$ plus
+$\mathsf{RatHistoryClassifier}$; carrier rational-observation streams;
+classifier selected zero-radius finite-window predicate; stability by
+subwindow extraction at radius $0$ and endpoint projection; ledger finite
+anchor, selected index, source radius, zero radius, and bound witness
+$j\le m$; core theorem
+\autoref{thm:real-stream-window-selected-zero-subwindow-package}; exactness the
+selected point is read as the unique zero-radius endpoint; standard bridge
+downstream $\mathsf{RegSeqRat}$ selected finite observation normalization;
+status $\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target shifted finite RealUp observation
 windows; BEDC source $\mathsf{RealStreamWindowClassifier}$ plus
 $\mathsf{RatHistoryClassifier}$; carrier rational-observation streams;
