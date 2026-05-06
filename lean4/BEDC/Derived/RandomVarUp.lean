@@ -91,4 +91,34 @@ theorem RandomVarPreimage_relative_difference_exactness
     cont_left_cancel targetDifference sourceAtTarget
   exact hsame_trans sameDiffTarget targetDiffSourceDiff
 
+theorem RandomVarPreimage_complement_difference_exactness
+    {omegaT omegaS preOmega B BTComp BS BComp preComp : BHist} :
+    RandomVarTotalReadbackCertificate omegaT omegaS preOmega -> hsame BS B ->
+      hsame preComp BTComp -> Cont B BTComp omegaT -> Cont BS BComp omegaS ->
+        hsame preComp BComp ∧ hsame preOmega omegaS := by
+  intro cert sameBase samePreComp targetComplement sourceComplement
+  have sameTotals : hsame omegaT omegaS :=
+    cont_deterministic (cont_right_unit omegaT) cert.carried_total_bridge
+  have targetComplementAtSourceTotal : Cont B BTComp omegaS :=
+    cont_result_hsame_transport targetComplement sameTotals
+  have sourceComplementAtTargetBase : Cont B BComp omegaS :=
+    cont_hsame_transport sameBase (hsame_refl BComp) (hsame_refl omegaS) sourceComplement
+  have sameTargetSourceComp : hsame BTComp BComp :=
+    cont_left_cancel targetComplementAtSourceTotal sourceComplementAtTargetBase
+  have samePreOmegaSource : hsame preOmega omegaS :=
+    cont_deterministic cert.chosen_readback cert.carried_total_bridge
+  exact And.intro (hsame_trans samePreComp sameTargetSourceComp) samePreOmegaSource
+
+theorem RandomVarTotalReadbackCertificate_terminal_readback_uniqueness
+    {targetTotal sourceTotal chosenPreimage alternatePreimage : BHist} :
+    RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+      Cont targetTotal BHist.Empty alternatePreimage ->
+        hsame alternatePreimage sourceTotal ∧ hsame alternatePreimage chosenPreimage := by
+  intro cert alternateReadback
+  have sameAlternateSource : hsame alternatePreimage sourceTotal :=
+    cont_deterministic alternateReadback cert.carried_total_bridge
+  have sameAlternateChosen : hsame alternatePreimage chosenPreimage :=
+    cont_deterministic alternateReadback cert.chosen_readback
+  exact And.intro sameAlternateSource sameAlternateChosen
+
 end BEDC.Derived.RandomVarUp
