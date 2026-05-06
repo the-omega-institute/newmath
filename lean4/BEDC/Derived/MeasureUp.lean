@@ -107,4 +107,12 @@ theorem MeasureZeroBHist_semantic_name_certificate :
       exact source
   }
 
+theorem MeasureSelfDifference_zero_law {event diff union value sum : BHist} :
+    Cont event diff union -> hsame union event -> Cont value diff sum -> hsame sum value ->
+      hsame diff BHist.Empty := by
+  intro eventUnion unionEvent valueSum sumValue
+  have eventRightUnit : Cont event diff event :=
+    cont_result_hsame_transport eventUnion unionEvent
+  exact cont_right_unit_unique eventRightUnit
+
 end BEDC.Derived.MeasureUp
