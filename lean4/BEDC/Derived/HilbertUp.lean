@@ -113,6 +113,18 @@ theorem HilbertSingleton_constant_inner_product_transport {m m' n n' : BHist} :
     (And.intro rightConstant
       (And.intro transported normTransport))
 
+theorem HilbertSingleton_universal_orthogonality {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+        (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have classifiedM : VecSpaceSingletonClassifier m BHist.Empty :=
+    And.intro carrierM (And.intro emptyCarrier carrierM)
+  have classifiedN : VecSpaceSingletonClassifier n BHist.Empty :=
+    And.intro carrierN (And.intro emptyCarrier carrierN)
+  exact (HilbertSingleton_constant_inner_product_transport classifiedM classifiedN).left
+
 theorem HilbertSingleton_classifier_source_boundary {m n : BHist} :
     VecSpaceSingletonClassifier m n ->
       VecSpaceSingletonCarrier m ∧

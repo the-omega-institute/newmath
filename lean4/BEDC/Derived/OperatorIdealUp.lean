@@ -170,4 +170,22 @@ theorem OperatorIdealTraceClass_additive_closure_row {T S sum neg : BHist} :
             (unary_cont_closed unary_empty supportUnaryT negRel)
             (cont_right_unit neg)
 
+theorem OperatorIdealTraceClass_consumer_spine_coverage {T S sum neg A left right : BHist} :
+    OperatorIdealTraceClassCarrier T -> OperatorIdealTraceClassCarrier S -> UnaryHistory A ->
+      Cont T S sum -> Cont BHist.Empty T neg -> Cont A T left -> Cont T A right ->
+        OperatorIdealTraceClassCarrier sum ∧ OperatorIdealTraceClassCarrier neg ∧
+          OperatorIdealTraceClassCarrier left ∧ OperatorIdealTraceClassCarrier right := by
+  intro carrierT carrierS unaryA sumCont negCont leftCont rightCont
+  have additiveRows :=
+    OperatorIdealTraceClass_additive_closure_row (T := T) (S := S) (sum := sum) (neg := neg)
+  have sumCarrier : OperatorIdealTraceClassCarrier sum :=
+    additiveRows.right.left carrierT carrierS sumCont
+  have negCarrier : OperatorIdealTraceClassCarrier neg :=
+    additiveRows.right.right carrierT negCont
+  have absorptionRows :=
+    OperatorIdealTraceClass_two_sided_absorption_row unaryA carrierT leftCont rightCont
+  exact And.intro sumCarrier
+    (And.intro negCarrier
+      (And.intro absorptionRows.left absorptionRows.right))
+
 end BEDC.Derived.OperatorIdealUp
