@@ -92,4 +92,61 @@ theorem MonoidalCatSingleton_associator_unitors {x y z left right leftUnit right
           (And.intro (cont_left_unit_result leftUnitCont)
             (cont_deterministic rightUnitCont (cont_right_unit x))))))
 
+theorem MonoidalCatSingleton_tensor_preserves_composition
+    {a0 a1 a2 c0 c1 c2 f f' g g' leftComp rightComp : BHist} :
+    CategoryHomCarrier a0 a1 f -> CategoryHomCarrier a1 a2 f' ->
+      CategoryHomCarrier c0 c1 g -> CategoryHomCarrier c1 c2 g' ->
+        Cont (append f g) (append f' g') leftComp ->
+          Cont (append f f') (append g g') rightComp ->
+            CategoryHomCarrier (append a0 c0) (append a2 c2) leftComp ∧
+              CategoryHomCarrier (append a0 c0) (append a2 c2) rightComp ∧
+                hsame leftComp rightComp := by
+  intro leftF leftF' rightG rightG' leftRel rightRel
+  have tensorF :
+      CategoryHomCarrier (append a0 c0) (append a1 c1) (append f g) :=
+    (MonoidalCatSingleton_tensor_carrier leftF rightG).right
+  have tensorF' :
+      CategoryHomCarrier (append a1 c1) (append a2 c2) (append f' g') :=
+    (MonoidalCatSingleton_tensor_carrier leftF' rightG').right
+  have leftCarrier :
+      CategoryHomCarrier (append a0 c0) (append a2 c2) leftComp :=
+    CategoryHomCarrier_comp_closed tensorF tensorF' leftRel
+  have componentF :
+      CategoryHomCarrier a0 a2 (append f f') :=
+    CategoryHomCarrier_comp_closed leftF leftF' (cont_intro rfl)
+  have componentG :
+      CategoryHomCarrier c0 c2 (append g g') :=
+    CategoryHomCarrier_comp_closed rightG rightG' (cont_intro rfl)
+  have rightTensor :
+      CategoryHomCarrier (append a0 c0) (append a2 c2) (append (append f f') (append g g')) :=
+    (MonoidalCatSingleton_tensor_carrier componentF componentG).right
+  have rightCarrier :
+      CategoryHomCarrier (append a0 c0) (append a2 c2) rightComp := by
+    cases rightRel
+    exact rightTensor
+  have leftSameRaw :
+      hsame leftComp (append (append f g) (append f' g')) :=
+    leftRel
+  have componentSwap :
+      hsame (append (append f g) (append f' g')) (append (append f f') (append g g')) := by
+    calc
+      append (append f g) (append f' g')
+          = append f (append g (append f' g')) :=
+            append_assoc f g (append f' g')
+      _ = append f (append (append g f') g') :=
+            congrArg (append f) (append_assoc g f' g').symm
+      _ = append f (append (append f' g) g') :=
+            congrArg (fun x => append f (append x g'))
+              (unary_append_comm_hsame rightG.right.right.left leftF'.right.right.left)
+      _ = append f (append f' (append g g')) :=
+            congrArg (append f) (append_assoc f' g g')
+      _ = append (append f f') (append g g') :=
+            (append_assoc f f' (append g g')).symm
+  have rightSameRaw :
+      hsame (append (append f f') (append g g')) rightComp :=
+    hsame_symm rightRel
+  exact
+    And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans (hsame_trans leftSameRaw componentSwap) rightSameRaw))
+
 end BEDC.Derived.MonoidalCatUp

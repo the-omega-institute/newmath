@@ -61,4 +61,30 @@ theorem SimplicialFaceCarrier_face_chain_closure {simplices : ProbeBundle BHist}
       exact sigmaCarrier.right (faceTrans nuFaceRho rhoFaceSigma)
   exact And.intro tauCarrier (And.intro rhoCarrier rhoFaceSigma)
 
+theorem SimplicialComplexFace_chain_dimension_monotonicity (simplices : ProbeBundle BHist)
+    {Simplex : BHist -> Prop} {Face : BHist -> BHist -> Prop}
+    (listed : forall {s : BHist}, Simplex s -> InBundle s simplices)
+    (faceClosed :
+      forall {tau sigma : BHist}, Simplex sigma -> Face tau sigma -> Simplex tau)
+    (faceTrans :
+      forall {rho tau sigma : BHist}, Face rho tau -> Face tau sigma -> Face rho sigma)
+    (dim : BHist -> Nat)
+    (dimMono :
+      forall {alpha beta : BHist}, Simplex alpha -> Simplex beta -> Face alpha beta ->
+        dim alpha <= dim beta)
+    {rho tau sigma : BHist} :
+    Simplex sigma -> Face rho tau -> Face tau sigma ->
+      dim rho <= dim tau ∧ dim tau <= dim sigma ∧ dim rho <= dim sigma := by
+  intro simplexSigma faceRhoTau faceTauSigma
+  have closure :=
+    SimplicialComplexFace_chain_closure simplices listed faceClosed faceTrans
+      simplexSigma faceTauSigma faceRhoTau
+  have simplexTau : Simplex tau := closure.left
+  have simplexRho : Simplex rho := closure.right.left
+  have faceRhoSigma : Face rho sigma := closure.right.right.left
+  exact
+    And.intro (dimMono simplexRho simplexTau faceRhoTau)
+      (And.intro (dimMono simplexTau simplexSigma faceTauSigma)
+        (dimMono simplexRho simplexSigma faceRhoSigma))
+
 end BEDC.Derived.SimplicialComplexUp
