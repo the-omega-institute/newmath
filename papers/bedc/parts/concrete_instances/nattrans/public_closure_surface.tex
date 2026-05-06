@@ -1,3 +1,55 @@
+\begin{theorem}[NatTrans prefix standard bridge]
+\label{thm:nattrans-prefix-standard-bridge}
+For the concrete prefix realization, the carrier
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ is exactly the component
+row of a natural transformation from the prefix functor at $p$ to the prefix
+functor at $q$ over unary object $a$. Its source and target are the functor
+images $\mathsf{append}(p,a)$ and $\mathsf{append}(q,a)$, and its displayed
+component is the concrete morphism
+$\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(q,a),\eta)$.
+The public $\NatTransUp$ classifier is the componentwise $\hsame$ comparison
+packaged by $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$.
+
+The bridge fields are as follows. The traditional target is ordinary natural
+transformations between the two fixed-prefix functors. The BEDC source is
+$\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\mathsf{UnaryHistory}$, and
+$\Cont$. The carrier is $\mathsf{NatTransPrefixComponentCarrier}$, the
+classifier is $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$, stability
+is given by component transport and vertical composition rows, the ledger is
+the pair of functor ledgers plus the component morphism ledgers, exactness is
+the displayed carrier/classifier correspondence, the standard bridge is this
+theorem, and the status is a paper bridge target awaiting Lean formalization.
+\end{theorem}
+\begin{proof}
+The carrier row is read first. By
+\autoref{thm:nattrans-prefix-component-carrier-unary-object-suffix-iff}, the
+prefix component carrier is precisely unary membership of $a$ together with
+the target-category hom carrier from $p$ to $q$ after the shared object suffix
+is exposed. Reading that row through the source and target object maps of
+\autoref{thm:functor-prefix-standard-bridge} identifies the endpoints as
+$\mathsf{append}(p,a)$ and $\mathsf{append}(q,a)$, which are the ordinary
+component source and target for the two prefix functors at object $a$.
+
+The classifier row is then fixed componentwise. The definition
+\autoref{def:nattrans-prefix-component-classifier} says that two displayed
+components over the same prefixes and object are classified exactly when both
+component carriers are present and their component histories are related by
+$\hsame$. The semantic certificate of
+\autoref{thm:nattrans-prefix-component-classifier-semantic-namecert} packages
+that component classifier as the public NameCert classifier for the displayed
+component carrier.
+
+Finally, the public natural-transformation classifier is the componentwise row
+specified in \autoref{def:nattrans-classifier-specification}. Substituting the
+prefix carrier and classifier rows above gives ordinary natural
+transformations between the two prefix functors, with no extra source data:
+the functor ledgers come from \autoref{thm:functor-prefix-standard-bridge},
+the component morphism ledger is the displayed
+$\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(q,a),\eta)$,
+and stability is exactly the existing component transport and vertical
+composition package. These are the listed bridge fields.
+\end{proof}
+
 \begin{closurestatus}{\NatTransUp}
   \theoryclosure{\publicClosure}
   \scopeclosed{The public natural-transformation interface covers component-family data, naturality readback, identity transformations, vertical and horizontal composition, functor whiskering and prewhiskering, horizontal-vertical interchange, whiskering preservation, and the componentwise classifier rows grounded by the prefix component classifier certificate.}
