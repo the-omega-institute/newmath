@@ -115,3 +115,55 @@ These are exactly the rows consumed by
 theorem gives a concrete $\MeasureUp$ obligation package whose visible carrier
 is the zero $\mathsf{BHist}$ surface.
 \end{proof}
+
+\begin{theorem}[Zero BHist relative-difference zero row]
+\label{thm:measure-zero-bhist-relative-difference-zero-row}
+For the concrete zero $\mathsf{BHist}$ measure surface of
+\autoref{def:measure-zero-bhist-surface}, let $h$ be a carried history with
+$\mathsf{ZeroMeasureCode}(h)$. Let $A$ and $B$ be displayed measurable events
+in the $h$-fiber, and suppose the public event readback displays
+$B\subseteq A$. Then the zero surface realizes the
+complement/relative-difference row for this inclusion by the singleton
+empty-event row:
+$$
+A\setminus B\quad\text{is displayed by the event code }\emp.
+$$
+Consequently $A\setminus B$ is accepted as a displayed measurable event of the
+zero surface, the row supplies the disjointness witness for $B$ and
+$A\setminus B$ and the binary-union readback classifying
+$B\cup(A\setminus B)$ with $A$, and the visible endpoint is classified as
+zero:
+$$
+\mu_0(A\setminus B)\sim_R0_R.
+$$
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:measure-zero-bhist-surface}. The measurable-event inventory
+of the zero surface has exactly one displayed row: an event presentation is
+measurable precisely when its visible $\mathsf{BHist}$ event code is
+classified with $\emp$. Since $A$ and $B$ are displayed measurable events in
+the same zero fiber, both of their visible event codes are therefore classified
+with $\emp$.
+
+Assign the relative-difference output for the displayed inclusion
+$B\subseteq A$ to the same singleton empty-event row. This is accepted by the
+measurable-event inventory just read. The disjointness witness is the empty-row
+intersection of $B$ with that singleton output: the $B$ input is already
+classified with $\emp$, and the output is classified with $\emp$.
+
+The binary-union readback is obtained by reading the union of two displayed
+empty rows as the empty row and then composing, by symmetry and transitivity of
+the zero event classifier, with the displayed comparison classifying $A$ with
+that same row. This realizes the concrete complement/relative-difference field
+described in \autoref{def:measure-complement-difference-row} for the zero
+surface.
+
+The endpoint projection of \autoref{def:measure-zero-bhist-surface} is
+constant: for every displayed measurable event $E$, $\mu_0(E):=0_R$. Applying
+this to the accepted output $A\setminus B$ gives the visible endpoint $0_R$.
+Reflexivity of the $\RealUp$ classifier supplied by $\NameCert_{\RealUp}$
+classifies $0_R$ with itself, hence
+$$
+\mu_0(A\setminus B)\sim_R0_R.
+$$
+\end{proof}
