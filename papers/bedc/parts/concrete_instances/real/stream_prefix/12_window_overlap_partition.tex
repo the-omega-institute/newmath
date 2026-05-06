@@ -54,6 +54,60 @@ selected offset; core theorem
 equivalence; standard bridge overlapping finite RegSeqRat observation
 intervals; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream finite-window overlap boundary readback package]
+\label{thm:real-stream-window-overlap-boundary-readback-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices $n,m,r$,
+and histories $a,b,z_X,z_Y:\Hist$, assume
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+r)$,
+$\hsame(x(n+m),\Eone(a))$, and $\hsame(y(n+m),\Eone(b))$. Then the shared
+boundary endpoint at $n+m$ carries the following package:
+\begin{enumerate}
+\item $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$;
+\item $\mathsf{RealStreamWindowClassifier}(x,y,n+m,r)$;
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$;
+\item $\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$;
+\item $\mathsf{PositiveUnaryDenominator}(x(n+m))\land
+\mathsf{PositiveUnaryDenominator}(y(n+m))$;
+\item $\mathsf{UnaryHistory}(x(n+m))\land
+\mathsf{UnaryHistory}(y(n+m))\land
+(\hsame(x(n+m),\emp)\to\mathsf{False})\land
+(\hsame(y(n+m),\emp)\to\mathsf{False})$;
+\item $(\hsame(x(n+m),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y(n+m),\Ezero(z_Y))\to\mathsf{False})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply the forward direction of
+\autoref{thm:real-stream-window-overlap-partition} to the wide window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+r)$. This produces the left
+window over $(n,m)$ and the right overlapping window over $(n+m,r)$.
+
+The shared boundary is the selected offset $m$ inside the wide window. Since
+$m\le m+r$, \autoref{thm:real-stream-window-selected-full-shape-readback-package}
+applies to the wide window with $k=m$ and to the displayed one-extension
+comparisons at $x(n+m)$ and $y(n+m)$.
+
+That selected readback package gives
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$, the two unary tail
+witnesses with $\hsame(a,b)$, the positive denominator rows, the unary and
+nonempty endpoint rows, and the two zero-head exclusions. Repack these rows
+with the two windows obtained from the overlap partition.
+\end{proof}
+
+The ten-field fit is: traditional target shared boundaries of finite RegSeqRat
+observation intervals; BEDC source RealUp finite windows, RatUp endpoint
+classifier, and StreamNameUp observation schedule; carrier rational-observation
+streams; classifier $\mathsf{RealStreamWindowClassifier}$ with the selected
+boundary RatUp package; stability by overlap partition and selected endpoint
+readback; ledger anchor, left radius, right radius, shared endpoint, and
+displayed one-extension witnesses; core theorems
+\autoref{thm:real-stream-window-overlap-partition} and
+\autoref{thm:real-stream-window-selected-full-shape-readback-package};
+exactness the displayed boundary package; standard bridge RealUp finite-window
+exhaustion boundary for RegSeqRat finite observations; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream finite-window three-piece partition]
 \label{thm:real-stream-window-three-piece-partition}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices
