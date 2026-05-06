@@ -67,62 +67,71 @@ theorem PolynomialSingletonEval_rawAdd_classified {alpha : BHist} {xs ys : List 
       BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs xs ->
         BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier ys ys ->
           PolynomialSingletonClassifier
-              (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys))
-              (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha ys)) ∧
-            Cont (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys)) BHist.Empty
-              (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys)) := by
+            (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys))
+            (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha ys)) ∧
+          Cont (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys)) BHist.Empty
+            (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys)) := by
   intro carrierAlpha classifiedXs classifiedYs
-  have zeroXs : PolynomialZeroRemainder xs :=
-    PolynomialZeroRemainder_singleton_classifier_self classifiedXs
-  have zeroYs : PolynomialZeroRemainder ys :=
-    PolynomialZeroRemainder_singleton_classifier_self classifiedYs
-  have rawAddZero : PolynomialZeroRemainder (PolynomialSingletonRawAdd xs ys) := by
-    clear classifiedXs classifiedYs
-    induction zeroXs generalizing ys with
+  have rawAddClassified :
+      BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
+        (PolynomialSingletonRawAdd xs ys) (PolynomialSingletonRawAdd xs ys) := by
+    induction xs generalizing ys with
     | nil =>
-        induction zeroYs with
+        induction ys with
         | nil =>
-            exact PolynomialZeroRemainder.nil
-        | cons headEmpty _tailZero tailRaw =>
-            exact PolynomialZeroRemainder.cons
-              (append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty) headEmpty))
-              tailRaw
-    | cons headEmpty _tailZero tailRaw =>
-        cases ys with
-        | nil =>
-            exact PolynomialZeroRemainder.cons
-              (append_eq_empty_iff.mpr (And.intro headEmpty (hsame_refl BHist.Empty)))
-              (tailRaw PolynomialZeroRemainder.nil)
-        | cons y ys =>
-            cases zeroYs with
-            | cons yEmpty ysZero =>
-                exact PolynomialZeroRemainder.cons
-                  (append_eq_empty_iff.mpr (And.intro headEmpty yEmpty))
-                  (tailRaw ysZero)
+            constructor
+        | cons y ys ih =>
+            cases classifiedYs with
+            | intro headClassified tailClassified =>
+                exact And.intro
+                  (And.intro
+                    (append_eq_empty_iff.mpr
+                      (And.intro (hsame_refl BHist.Empty) headClassified.left))
+                    (And.intro
+                      (append_eq_empty_iff.mpr
+                        (And.intro (hsame_refl BHist.Empty) headClassified.left))
+                      (hsame_refl (append BHist.Empty y))))
+                  (ih tailClassified)
+    | cons x xs ih =>
+        cases classifiedXs with
+        | intro headXClassified tailXClassified =>
+            cases ys with
+            | nil =>
+                have nilClassified :
+                    BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier [] [] := by
+                  constructor
+                exact And.intro
+                  (And.intro
+                    (append_eq_empty_iff.mpr
+                      (And.intro headXClassified.left (hsame_refl BHist.Empty)))
+                    (And.intro
+                      (append_eq_empty_iff.mpr
+                        (And.intro headXClassified.left (hsame_refl BHist.Empty)))
+                      (hsame_refl (append x BHist.Empty))))
+                  (ih tailXClassified nilClassified)
+            | cons y ys =>
+                cases classifiedYs with
+                | intro headYClassified tailYClassified =>
+                    exact And.intro
+                      (And.intro
+                        (append_eq_empty_iff.mpr
+                          (And.intro headXClassified.left headYClassified.left))
+                        (And.intro
+                          (append_eq_empty_iff.mpr
+                            (And.intro headXClassified.left headYClassified.left))
+                          (hsame_refl (append x y))))
+                      (ih tailXClassified tailYClassified)
   have leftEmpty :
-      hsame (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys)) BHist.Empty := by
-    have zeroRemainderEvalEmpty :
-        forall zs : List BHist, PolynomialZeroRemainder zs ->
-          hsame (PolynomialSingletonEval alpha zs) BHist.Empty := by
-      intro zs zeroTail
-      induction zeroTail with
-      | nil =>
-          exact hsame_refl BHist.Empty
-      | cons headEmpty _tailZero tailEvalEmpty =>
-          have productEmpty :
-              hsame (PolynomialSingletonMul alpha (PolynomialSingletonEval alpha _))
-                BHist.Empty :=
-            append_eq_empty_iff.mpr (And.intro carrierAlpha tailEvalEmpty)
-          exact append_eq_empty_iff.mpr (And.intro headEmpty productEmpty)
-    exact zeroRemainderEvalEmpty (PolynomialSingletonRawAdd xs ys) rawAddZero
-  have evalXEmpty : hsame (PolynomialSingletonEval alpha xs) BHist.Empty :=
+      hsame (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys)) BHist.Empty :=
+    (PolynomialSingletonEval_list_classifier_classified carrierAlpha rawAddClassified).left.left
+  have evalXsEmpty : hsame (PolynomialSingletonEval alpha xs) BHist.Empty :=
     (PolynomialSingletonEval_list_classifier_classified carrierAlpha classifiedXs).left.left
-  have evalYEmpty : hsame (PolynomialSingletonEval alpha ys) BHist.Empty :=
+  have evalYsEmpty : hsame (PolynomialSingletonEval alpha ys) BHist.Empty :=
     (PolynomialSingletonEval_list_classifier_classified carrierAlpha classifiedYs).left.left
   have rightEmpty :
       hsame (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha ys))
         BHist.Empty :=
-    append_eq_empty_iff.mpr (And.intro evalXEmpty evalYEmpty)
+    append_eq_empty_iff.mpr (And.intro evalXsEmpty evalYsEmpty)
   exact And.intro
     (And.intro leftEmpty
       (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty))))
