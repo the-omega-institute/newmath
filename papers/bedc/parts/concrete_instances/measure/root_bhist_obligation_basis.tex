@@ -1,0 +1,135 @@
+\section{Measure BHist root obligation basis}
+\label{sec:measure-bhist-root-obligation-basis}
+
+The $\MeasureUp$ root obligation basis is read directly on displayed
+$\mathsf{BHist}$ histories. It records the BEDC carrier, classifier, endpoint,
+and public-ledger rows consumed by downstream analysis chapters before any
+host event space, analytic completion, or standard bridge is introduced.
+
+\begin{definition}[Measure BHist root obligation basis]
+\label{def:measure-bhist-root-obligation-basis}
+The $\MeasureUp$ $\mathsf{BHist}$ root obligation basis is the counted public
+surface with the following fields:
+\begin{enumerate}
+  \item BEDC source: $\mathsf{BHist}$ histories with componentwise $\hsame$
+  as the only history transport relation;
+  \item carrier rows: visible $\mathsf{MeasCode}$ event rows displayed in the
+  $\MeasureUp$ public ledger;
+  \item StreamName rows: $\StreamNameUp$ observation names for the countable
+  event families consumed by the root;
+  \item endpoint rows: $\RealUp$ value endpoints, nonnegative endpoints,
+  normalization endpoints, and countable-sum endpoints, all read through the
+  public $\NameCert_{\RealUp}$ certificate;
+  \item classifier rows: the public $\MeasureUp$ classifier $\sim_M$ factored
+  through componentwise $\hsame$, pointwise $\StreamNameUp$ transport, and
+  $\RealUp$ endpoint classifier transport;
+  \item ledger rows: event witnesses, countable-family witnesses,
+  disjointness witnesses, countable-union witnesses, endpoint witnesses, and
+  countable-sum witnesses attached to displayed rows;
+  \item consumer rows: the $\IntegralUp$, $\ProbSpaceUp$, and
+  $\FunctionalAnalysisUp$ projections that read only the displayed
+  $\mathsf{BHist}$ ledger;
+  \item exclusions: no host set equality, quotient event equality, analytic
+  completion object, or standard bridge row is exported.
+\end{enumerate}
+This basis is the common projection of the public root basis
+\autoref{def:measure-root-public-obligation-basis}, the real-stream event
+surface \autoref{sec:measure-root-real-stream-event-obligations}, and the
+root-kernel source \autoref{def:measure-root-kernel-obligation-source}.
+\end{definition}
+
+\begin{theorem}[Measure BHist root carrier obligation]
+\label{thm:measure-bhist-root-carrier-obligation}
+Every accepted $\MeasureUp$ event row in
+\autoref{def:measure-bhist-root-obligation-basis} is a displayed
+$\mathsf{BHist}$ event carrier equipped with its $\StreamNameUp$ observation
+row and its $\RealUp$ endpoint witnesses. No accepted row is read through an
+external event carrier.
+\end{theorem}
+\begin{proof}
+Begin with the BEDC source, carrier rows, StreamName rows, and endpoint rows
+of \autoref{def:measure-bhist-root-obligation-basis}. These fields place the
+event carrier in $\mathsf{BHist}$ and attach the observation name and real
+endpoint data to the same public ledger row.
+
+Apply \autoref{thm:measure-root-public-obligation-basis-carrier}. It supplies
+the public $\mathsf{MeasCode}$ carrier, visible event rows, endpoint rows,
+countable-family rows, and attached ledger witnesses.
+
+Next apply \autoref{thm:measure-root-real-stream-event-obligation}. The
+real-stream event surface identifies the accepted event row as a displayed
+$\mathsf{BHist}$ event history with a $\StreamNameUp$ observation and a
+$\RealUp$ endpoint comparison on that same row.
+
+Finally apply \autoref{thm:measure-root-kernel-carrier-classifier-obligation}.
+The kernel source confirms that componentwise $\hsame$ and the public
+$\MeasureUp$ classifier keep the carrier, event, endpoint, countable-family,
+and ledger rows attached to the displayed history. Repacking these three
+projections gives exactly the stated carrier obligation.
+\end{proof}
+
+\begin{theorem}[Measure BHist root classifier obligation]
+\label{thm:measure-bhist-root-classifier-obligation}
+Classifier transport for
+\autoref{def:measure-bhist-root-obligation-basis} consists only of
+componentwise $\hsame$ transport of displayed histories, pointwise
+$\StreamNameUp$ transport of observation names, and $\RealUp$ endpoint
+classifier transport. It does not add host set equality or quotient event
+equality.
+\end{theorem}
+\begin{proof}
+Project the classifier rows of
+\autoref{def:measure-bhist-root-obligation-basis}. They factor the public
+$\MeasureUp$ classifier through componentwise $\hsame$, StreamName
+observation movement, and $\RealUp$ endpoint comparison.
+
+Apply \autoref{thm:measure-root-event-classifier-stability}. It preserves the
+carried root event row and the visible ledger under componentwise $\hsame$,
+pointwise $\StreamNameUp$ transport, and $\RealUp$ endpoint classifier
+transport.
+
+Now apply \autoref{thm:measure-root-kernel-carrier-classifier-obligation}.
+The root-kernel source keeps the same transported event, endpoint,
+countable-family, and ledger rows attached to the $\mathsf{BHist}$ carrier.
+
+The exclusions field of
+\autoref{def:measure-bhist-root-obligation-basis} has no host set equality
+field and no quotient event equality field. Therefore the classifier
+obligation is exactly the componentwise history transport, observation-name
+transport, and endpoint classifier transport described above.
+\end{proof}
+
+\begin{theorem}[Measure BHist root ledger obligation]
+\label{thm:measure-bhist-root-ledger-obligation}
+The exported ledger of \autoref{def:measure-bhist-root-obligation-basis}
+contains event witnesses, countable-family witnesses, disjointness rows,
+countable-union rows, endpoint witnesses, and countable-sum rows for the
+displayed $\mathsf{BHist}$ root. It excludes host set equality, quotient
+event equality, analytic completion, and standard bridges.
+\end{theorem}
+\begin{proof}
+Read the ledger rows and consumer rows of
+\autoref{def:measure-bhist-root-obligation-basis}. They attach every
+downstream witness to displayed event, countable-family, disjointness, union,
+endpoint, and countable-sum rows in the public $\NameCert$ ledger.
+
+Apply \autoref{thm:measure-root-public-obligation-basis-additivity}. This
+supplies empty-zero, finite readback, relative-difference, countable
+disjoint-additivity, and countable-sum transport over the same visible
+ledger.
+
+Next apply \autoref{thm:measure-root-countable-additivity-scope}. It scopes
+the countable disjoint-additivity obligation to displayed $\mathsf{BHist}$
+event families, $\StreamNameUp$ observation names, $\RealUp$ endpoint sums,
+and the public ledger.
+
+Finally apply
+\autoref{thm:measure-root-kernel-downstream-consumer-obligation}. The
+kernel source exports only the $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$ consumer boundary over those rows.
+
+The exclusions field of the basis and the cited kernel source contain no
+host set equality, no quotient event equality, no analytic completion object,
+and no standard bridge row. Repacking the ledger projections therefore gives
+exactly the exported ledger stated in the theorem.
+\end{proof}
