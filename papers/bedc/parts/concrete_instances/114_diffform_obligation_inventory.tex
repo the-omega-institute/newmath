@@ -1,0 +1,117 @@
+\begin{definition}[Differential-form obligation inventory]
+\label{def:diffform-obligation-inventory}
+The paper-side obligation inventory for $\DiffFormUp$ is the following
+ten-field roadmap:
+\begin{enumerate}
+  \item the traditional target is the certificate surface for antisymmetric
+  multilinear forms on tangent probes;
+  \item the BEDC sources are $\NameCert_{\ManifoldUp}$ and
+  $\NameCert_{\TensorProductUp}$;
+  \item the carrier is
+  $\mathsf{DiffFormBHistCarrier}_{M,T}$ from
+  \autoref{def:diffform-bhist-form-carrier};
+  \item the classifier is $\sim_{\DiffFormUp}$ from
+  \autoref{def:diffform-bhist-form-classifier};
+  \item carrier stability is the $\hsame$ transport row of
+  \autoref{thm:diffform-carrier-hsame-transport};
+  \item classifier stability is
+  \autoref{thm:diffform-form-classifier-stability};
+  \item the ledger rows are exactly the degree, probe, tensor, scalar,
+  antisymmetry, and source-provenance rows;
+  \item the core theorem list consists of carrier exhaustion, classifier
+  reuse, ledger exactness, transport stability, wedge coverage, and the
+  exterior-input boundary theorems already displayed in this chapter;
+  \item exactness is row exhaustion: every admitted downstream use must factor
+  through one of the displayed rows;
+  \item no standard bridge is supplied here, so the inventory is the displayed
+  paper-side obligation surface and not a bridge certificate.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Differential-form carrier support obligation]
+\label{thm:diffform-carrier-support-obligation}
+The carrier support promised by the $\DiffFormUp$ obligation inventory is
+exactly the six-coordinate surface
+$$
+(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)
+$$
+of \autoref{def:diffform-bhist-form-carrier}. It is therefore exhausted by the
+degree row, probe-bundle row, tensor row, scalar endpoint row, antisymmetry
+ledger, and source-provenance ledger, as projected by
+\autoref{thm:diffform-bhist-carrier-obligation}.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:diffform-obligation-inventory}. Its carrier field points
+to $\mathsf{DiffFormBHistCarrier}_{M,T}$ and introduces no second carrier
+predicate.
+
+Apply \autoref{def:diffform-bhist-form-carrier}. A carried row is displayed as
+the tuple $(d,\mathcal{P},\tau,\sigma,\alpha,\lambda)$, with one acceptance
+clause for each of its six coordinates.
+
+Now apply \autoref{thm:diffform-bhist-carrier-obligation}. That theorem
+states that carrier acceptance adds no seventh coordinate and no hidden source
+outside the displayed histories. The support field of the inventory is
+therefore exactly the six-coordinate carrier surface.
+\end{proof}
+
+\begin{theorem}[Differential-form classifier transport obligation]
+\label{thm:diffform-classifier-transport-obligation}
+The classifier obligation recorded by
+\autoref{def:diffform-obligation-inventory} consists of reflexivity, symmetry,
+transitivity, carrier transport, and classifier stability for the displayed
+$\DiffFormUp$ rows. These obligations are projections of
+\autoref{def:diffform-bhist-form-classifier},
+\autoref{thm:diffform-bhist-classifier-obligation},
+\autoref{thm:diffform-carrier-hsame-transport}, and
+\autoref{thm:diffform-form-classifier-stability}.
+\end{theorem}
+\begin{proof}
+For reflexivity, read each classifier component in
+\autoref{def:diffform-bhist-form-classifier} against itself. The degree,
+tensor, antisymmetry, and source-ledger clauses are reflexive $\hsame$ rows,
+and the scalar endpoint clause uses the retained source classifier on the
+same endpoint row.
+
+For symmetry and transitivity, compose the same displayed clauses
+componentwise. The $\hsame$ clauses supply the ledger-side comparisons, while
+the scalar endpoint comparison stays inside the upstream scalar classifier
+named in the definition.
+
+It remains to identify the transport obligations. Carrier transport is
+exactly \autoref{thm:diffform-carrier-hsame-transport}. Once transported
+rows are accepted, classifier stability is exactly
+\autoref{thm:diffform-form-classifier-stability}. Thus the inventory records
+no classifier law beyond the existing displayed classifier and transport
+theorems.
+\end{proof}
+
+\begin{theorem}[Differential-form exterior input boundary obligation]
+\label{thm:diffform-exterior-input-boundary-obligation}
+Downstream $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ consumers of
+$\DiffFormUp$ may use only the listed $BHist$, $\hsame$, $\Cont$,
+$\mathsf{ProbeBundle}$, wedge-ledger, and exterior-input rows. In particular,
+their access is bounded by \autoref{thm:diffform-derham-input-boundary} and
+\autoref{thm:diffform-exterior-derivative-downstream-scope}.
+\end{theorem}
+\begin{proof}
+First unfold the source and carrier entries of
+\autoref{def:diffform-obligation-inventory}. They name only
+$\NameCert_{\ManifoldUp}$, $\NameCert_{\TensorProductUp}$, the carried
+$BHist$ rows, $\mathsf{ProbeBundle}$, $\hsame$, and the $\Cont$ ledgers
+attached to tensor concatenation.
+
+Next apply \autoref{thm:diffform-derham-input-boundary}. It permits
+exterior-derivative consumers to read the probe bundle, degree row, tensor
+row, scalar endpoint classifier, antisymmetry ledger, wedge coverage, wedge
+probe concatenation ledger, and wedge degree ledger, and it excludes $d^2=0$,
+closedness, nondegeneracy, and contact nonintegrability from the
+$\DiffFormUp$ source.
+
+Finally apply
+\autoref{thm:diffform-exterior-derivative-downstream-scope}. The downstream
+scope theorem adds the exterior-derivative candidate ledger and confirms that
+the three named consumer chapters must state any operator or geometric laws
+inside their own surfaces. The obligation boundary is therefore exactly the
+listed rows and no broader import surface.
+\end{proof}

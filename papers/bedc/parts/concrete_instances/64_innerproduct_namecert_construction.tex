@@ -628,3 +628,74 @@ $$
 which is exactly $x\perp_I y$ by
 \autoref{def:innerproduct-orthogonality-row}.
 \end{proof}
+
+\begin{theorem}[InnerProduct orthogonal additivity row]
+\label{thm:innerproduct-orthogonal-additivity-row}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. For carried vector endpoints
+$x,y,z:C_V$, if $x\perp_I y$ and $x\perp_I z$, then the displayed vector sum
+$y+_V z$ is carried and
+$$
+x\perp_I (y+_V z).
+$$
+\end{theorem}
+\begin{proof}
+The embedded $\VecSpaceUp$ row in
+\autoref{def:innerproduct-bhist-carrier} supplies closure of the displayed
+vector addition, so $y+_V z$ is carried. Apply
+\autoref{thm:innerproduct-orthogonality-symmetry-row} to the two hypotheses
+$x\perp_I y$ and $x\perp_I z$. This gives
+$$
+y\perp_I x
+\qquad\text{and}\qquad
+z\perp_I x.
+$$
+By \autoref{def:innerproduct-orthogonality-row}, these two facts are exactly the
+scalar-zero classifications
+$$
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}
+\qquad\text{and}\qquad
+\langle z,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+
+Use the additive part of \autoref{thm:innerproduct-vecspace-linearity-row} in
+the displayed first argument, with second endpoint $x$. It compares the
+inner-product endpoint of the vector sum with the scalar sum:
+$$
+\langle y+_V z,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathsf{scal}}
+\langle z,x\rangle_{\InnerProductUp}.
+$$
+The retained scalar source of \autoref{def:innerproduct-bhist-source} is the
+$\FieldUp$ scalar coordinate. By \autoref{def:field-source-specification},
+\autoref{prop:commring-forgets-ring-certificate}, and
+\autoref{def:ring-stability-certificate}, its unchanged scalar classifier has
+addition congruence, additive zero laws, and classifier transitivity. Therefore
+the two scalar-zero witnesses above transport through scalar addition to give
+$$
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathsf{scal}}
+\langle z,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+0_{\mathbb{K}}+_{\mathsf{scal}}0_{\mathbb{K}}
+\sim_{\mathbb{K}}
+0_{\mathbb{K}}.
+$$
+This is the scalar addition component of
+\autoref{thm:ring-zero-classifier-two-sided-ideal-package}, read in the retained
+scalar classifier.
+
+Composing the inner-product linearity comparison with this scalar-zero
+classification by \autoref{thm:namecert-equivalence-transitivity} gives
+$$
+\langle y+_V z,x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+0_{\mathbb{K}}.
+$$
+By \autoref{def:innerproduct-orthogonality-row}, this is
+$(y+_V z)\perp_I x$. A final application of
+\autoref{thm:innerproduct-orthogonality-symmetry-row}, now to the carried pair
+$(y+_V z,x)$, gives $x\perp_I (y+_V z)$.
+\end{proof}
