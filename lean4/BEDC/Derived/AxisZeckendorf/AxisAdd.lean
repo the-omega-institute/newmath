@@ -6,11 +6,13 @@ horizon for the codex formalize pipeline.
 -/
 import BEDC.Derived.AxisZeckendorf.Spine
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.AxisZeckendorf.AxisAdd
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.Derived.AxisZeckendorf.Spine
 
 def AxisAddSourceSpec (h k : BHist) : Prop :=
@@ -149,5 +151,46 @@ theorem AxisAddCont_commutative_zeroSpine {h k rHK rKH : BHist} :
   cases contHK
   cases contKH
   exact AxisAddCont_commutative_zeroSpine_append spineH spineK
+
+theorem AxisAdd_semantic_name_certificate {h k : BHist} :
+    AxisAddSourceSpec h k ->
+      SemanticNameCert (AxisAddPatternSpec h k) (AxisAddPatternSpec h k)
+        (AxisAddLedgerPolicy h k) (AxisAddClassifierSpec h k) ∧
+        exists r : BHist, AxisAddPatternSpec h k r ∧ ZeroSpine r := by
+  intro source
+  have sourceH : ZeroSpine h := source.left
+  have sourceK : ZeroSpine k := source.right
+  have canonicalPattern : AxisAddPatternSpec h k (append h k) :=
+    And.intro sourceH (And.intro sourceK (cont_intro rfl))
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro (append h k) canonicalPattern
+        equiv_refl := by
+          intro r patternR
+          exact And.intro patternR (And.intro patternR (hsame_refl r))
+        equiv_symm := by
+          intro r s classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro r s t classifiedRS classifiedST
+          exact And.intro classifiedRS.left
+            (And.intro classifiedST.right.left
+              (hsame_trans classifiedRS.right.right classifiedST.right.right))
+        carrier_respects_equiv := by
+          intro r s classified _patternR
+          exact classified.right.left
+      }
+      pattern_sound := by
+        intro r patternR
+        exact patternR
+      ledger_sound := by
+        intro r patternR
+        exact patternR
+    }
+  · exact Exists.intro (append h k)
+      (And.intro canonicalPattern
+        (AxisAddCont_result_zeroSpine sourceH sourceK (cont_intro rfl)))
 
 end BEDC.Derived.AxisZeckendorf.AxisAdd

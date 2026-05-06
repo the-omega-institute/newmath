@@ -19,6 +19,23 @@ The right-associated coefficient unfolds to $\mathsf{fold}_{+,R}\bigl(\mathsf{Ca
 By \autoref{lem:fps-threefold-cauchy-split-reassociation-ringup}, $\mathsf{fold}_{+,R}\bigl(\mathsf{TripSp}^{\ell}_n(F,G,H)\bigr)\sim_R\mathsf{fold}_{+,R}\bigl(\mathsf{TripSp}^{r}_n(F,G,H)\bigr)$. Classifier transitivity composes the left expansion, this threefold split comparison, and the symmetry of the right expansion, giving $\bigl((F\odot_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H\bigr)_n\sim_R\bigl(F\odot_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H)\bigr)_n$. Since $n$ was arbitrary, \autoref{def:fps-classifier-specification} packages these coefficientwise scalar comparisons as the displayed $\FormalPowerSeriesUp$ classifier judgment.
 \end{proof}
 
+\begin{theorem}[FPS Cauchy product multiplicative semigroup laws]
+\label{thm:fps-cauchy-product-multiplicative-semigroup-laws}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive fold $\mathsf{fold}_{+,R}$. Let the $\FormalPowerSeriesUp(R)$ carrier be the coefficientwise carrier of \autoref{def:fps-carrier}, let its classifier be the pointwise classifier $\sim_{\mathrm{fps}}$ of \autoref{def:fps-classifier-specification}, and let its Cauchy product use the coefficient rule of \autoref{def:fps-cauchy-coefficient-spine}. For carried coefficient sequences, these data form the concrete multiplicative semigroup interface consumed by the algebraic formal-power-series layer:
+\begin{enumerate}
+  \item If $F$ and $G$ are carried, then $F\odot_{\mathrm{fps}}G$ is carried.
+  \item If $F\sim_{\mathrm{fps}}F'$ and $G\sim_{\mathrm{fps}}G'$, then $F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}F'\odot_{\mathrm{fps}}G'$.
+  \item $(F\odot_{\mathrm{fps}}G)\odot_{\mathrm{fps}}H\sim_{\mathrm{fps}}F\odot_{\mathrm{fps}}(G\odot_{\mathrm{fps}}H)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier part is exactly the Cauchy-product closure row retained by \autoref{def:fps-stability-certificate}. With $F$ and $G$ carried, that row returns a carried product $F\odot_{\mathrm{fps}}G$ in the carrier of \autoref{def:fps-carrier}.
+
+For compatibility with the classifier, apply \autoref{thm:fps-cauchy-product-classifier-congruence}. Its hypotheses are precisely the carried coefficient sequences together with the two pointwise classifier comparisons supplied by \autoref{def:fps-classifier-specification}, and its conclusion is the displayed congruence of Cauchy products.
+
+The associativity law is \autoref{thm:fps-cauchy-product-associativity-over-ringup-scalars}, read over the same scalar certificate, pointwise classifier, and coefficient rule. The theorem first carries the two intermediate products by \autoref{def:fps-stability-certificate}, then identifies the two associated products under $\sim_{\mathrm{fps}}$. These three clauses are exactly the multiplicative semigroup interface required downstream.
+\end{proof}
+
 \begin{lemma}[FPS zero-index Cauchy spine]\label{lem:fps-zero-index-cauchy-spine}
 Let $R$ carry a $\RingUp(R)$ certificate with multiplication $\cdot_R$. For coefficient sequences $F,G:\NatUp\to R$, the split spine used by \autoref{def:fps-cauchy-coefficient-spine} at the zero index is the singleton split $\mathsf{Split}(0)=\mathsf{cons}((0,0),\mathsf{nil})$. Consequently, $\mathsf{CauchySp}_0(F,G)=\mathsf{cons}(F_0\cdot_R G_0,\mathsf{nil})$.
 \end{lemma}

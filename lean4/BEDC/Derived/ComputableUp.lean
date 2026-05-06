@@ -87,6 +87,22 @@ theorem ComputableUnaryIdentityGraph_empty_bound_simulation_iff {n m : BHist} :
           (And.intro graph.right.left
             (cont_result_hsame_transport (cont_right_unit n) graph.right.right))))
 
+theorem ComputableUnaryIdentityGraph_empty_bound_exactness {n m : BHist} :
+    ComputableBoundedSim BHist.Empty n BHist.Empty m ↔
+      UnaryHistory n ∧ UnaryHistory m ∧ hsame n m := by
+  constructor
+  · intro sim
+    have sameMN : hsame m n :=
+      cont_right_unit_result sim.right.right.right.right
+    exact And.intro sim.right.left
+      (And.intro sim.right.right.right.left (hsame_symm sameMN))
+  · intro graph
+    exact And.intro unary_empty
+      (And.intro graph.left
+        (And.intro unary_empty
+          (And.intro graph.right.left
+            (cont_result_hsame_transport (cont_right_unit n) graph.right.right))))
+
 theorem ComputableUnaryIdentityGraph_empty_bound_certificate :
     exists C : ComputableBoundedGraphCertificate,
       C.Graph = (fun n m : BHist => UnaryHistory n ∧ UnaryHistory m ∧ hsame n m) ∧
@@ -128,5 +144,22 @@ theorem ComputableUnaryIdentityGraph_empty_bound_certificate :
           (by
             intro n m sim
             exact C.sim_to_graph sim))))
+
+theorem ComputableUnaryIdentityGraph_empty_bound_simulation_exactness {n m : BHist} :
+    ComputableBoundedSim BHist.Empty n BHist.Empty m <->
+      (UnaryHistory n ∧ UnaryHistory m ∧ hsame n m) := by
+  constructor
+  · intro sim
+    have sameMN : hsame m n :=
+      cont_right_unit_result sim.right.right.right.right
+    exact And.intro sim.right.left
+      (And.intro sim.right.right.right.left (hsame_symm sameMN))
+  · intro graph
+    have sameNM : hsame n m := graph.right.right
+    exact And.intro unary_empty
+      (And.intro graph.left
+        (And.intro unary_empty
+          (And.intro graph.right.left
+            (cont_result_hsame_transport (cont_right_unit n) sameNM))))
 
 end BEDC.Derived.ComputableUp
