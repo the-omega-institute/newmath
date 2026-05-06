@@ -62,6 +62,42 @@ theorem IdealQuotientKernel_product_difference_membership
     (idealAbsorb carrierA' diffB).left
   exact idealTransport (idealAdd rightAbsorbed leftAbsorbed) productDifference
 
+theorem IdealZeroPredicate_semantic_name_certificate
+    {Carrier : BHist -> Prop} {Classifier : BHist -> BHist -> Prop} {zero : BHist}
+    (cert : NameCert Carrier Classifier) (zeroCarrier : Carrier zero) :
+    SemanticNameCert (fun x : BHist => Carrier x ∧ Classifier x zero)
+      (fun x : BHist => Carrier x ∧ Classifier x zero)
+      (fun x : BHist => Carrier x ∧ Classifier x zero) Classifier := by
+  have zeroRefl : Classifier zero zero :=
+    NameCert.equiv_refl cert zeroCarrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro zero (And.intro zeroCarrier zeroRefl)
+      equiv_refl := by
+        intro h zeroIdealH
+        exact NameCert.equiv_refl cert zeroIdealH.left
+      equiv_symm := by
+        intro h k sameHK
+        exact NameCert.equiv_symm cert sameHK
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact NameCert.equiv_trans cert sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK zeroIdealH
+        have carrierK : Carrier k :=
+          NameCert.carrier_respects_equiv cert sameHK zeroIdealH.left
+        have sameKH : Classifier k h :=
+          NameCert.equiv_symm cert sameHK
+        exact And.intro carrierK (NameCert.equiv_trans cert sameKH zeroIdealH.right)
+    }
+    pattern_sound := by
+      intro _h zeroIdealH
+      exact zeroIdealH
+    ledger_sound := by
+      intro _h zeroIdealH
+      exact zeroIdealH
+  }
+
 theorem IdealWholePredicate_closure_rows
     {Carrier : BHist -> Prop} {Classifier : BHist -> BHist -> Prop}
     {zero : BHist} {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}

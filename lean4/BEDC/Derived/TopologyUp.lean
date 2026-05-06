@@ -121,6 +121,22 @@ theorem BHistUnaryTopologyLedgerRow_classifier_transport (T : BHistIndexedOpenCa
   | top ledger unaryLedger carries =>
       exact BHistCarriesOpen_classifier_transport T carries
 
+theorem BHistGeneratedOpenExact_row_coverage (T : BHistIndexedOpenCarrier)
+    {U : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      exists i : T.OpenIx, exists ledger : BHist,
+        UnaryHistory ledger ∧ BHistUnaryTopologyLedgerRow T i U ∧
+          BHistCarriesOpen T i U := by
+  intro generated
+  cases generated with
+  | intro i carries =>
+      exact Exists.intro i
+        (Exists.intro BHist.Empty
+          (And.intro unary_empty
+            (And.intro
+              (BHistUnaryTopologyLedgerRow.finiteListIntersection BHist.Empty unary_empty carries)
+              carries)))
+
 theorem BHistCarriesOpen_membership_transport_route (T : BHistIndexedOpenCarrier)
     {i : T.OpenIx} {U : BHist -> Prop} {x y : BHist} :
     BHistCarriesOpen T i U -> UnaryHistory x -> UnaryHistory y -> hsame x y -> U x ->
@@ -380,6 +396,88 @@ theorem BHistIndexedOpen_neighborhood_semantic_name_certificate
       intro h sourceH
       exact sourceH.right
   }
+
+theorem TopologyScopedObligation_downstream_export_certificate
+    (T : BHistIndexedOpenCarrier) {i : T.OpenIx} {U : BHist -> Prop} {ledger : BHist}
+    (tree : BHistLedgerPublicOpenTree T i U ledger)
+    (source : exists h : BHist, UnaryHistory h ∧ U h) :
+    SemanticNameCert (fun h : BHist => UnaryHistory h ∧ U h)
+      (fun h : BHist => T.OpenAt i h)
+      (fun h : BHist => BHistLedgerPublicOpenTree T i U ledger ∧ T.OpenAt i h)
+      (fun h k : BHist => UnaryHistory h ∧ UnaryHistory k ∧ hsame h k) ∧
+      BHistCarriesOpen T i U ∧ BHistGeneratedOpenExact T U ∧
+        (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+          (U x <-> U y)) ∧
+          ((hsame ledger ledger) ∨
+            (exists leftLedger : BHist, exists rightLedger : BHist,
+              hsame ledger (BHist.e0 (append leftLedger rightLedger))) ∨
+            hsame ledger (BHist.e1 BHist.Empty) ∨ hsame ledger (BHist.e0 BHist.Empty)) := by
+  have carries : BHistCarriesOpen T i U :=
+    BHistPublicOpenTree_carries_open T tree
+  have generated : BHistGeneratedOpenExact T U :=
+    Exists.intro i carries
+  have classifierTransport :
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (U x <-> U y) :=
+    BHistCarriesOpen_classifier_transport T carries
+  have cert :
+      SemanticNameCert (fun h : BHist => UnaryHistory h ∧ U h)
+        (fun h : BHist => T.OpenAt i h)
+        (fun h : BHist => BHistLedgerPublicOpenTree T i U ledger ∧ T.OpenAt i h)
+        (fun h k : BHist => UnaryHistory h ∧ UnaryHistory k ∧ hsame h k) := {
+    core := {
+      carrier_inhabited := source
+      equiv_refl := by
+        intro h sourceH
+        exact And.intro sourceH.left (And.intro sourceH.left (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified sourceH
+        have stable : U h <-> U k :=
+          classifierTransport sourceH.left classified.right.left classified.right.right
+        exact And.intro classified.right.left (Iff.mp stable sourceH.right)
+    }
+    pattern_sound := by
+      intro h sourceH
+      have carried : U h <-> T.OpenAt i h :=
+        carries sourceH.left
+      exact Iff.mp carried sourceH.right
+    ledger_sound := by
+      intro h sourceH
+      have carried : U h <-> T.OpenAt i h :=
+        carries sourceH.left
+      exact And.intro tree (Iff.mp carried sourceH.right)
+  }
+  have ledgerCoverage :
+      (hsame ledger ledger) ∨
+        (exists leftLedger : BHist, exists rightLedger : BHist,
+          hsame ledger (BHist.e0 (append leftLedger rightLedger))) ∨
+        hsame ledger (BHist.e1 BHist.Empty) ∨ hsame ledger (BHist.e0 BHist.Empty) := by
+    cases tree with
+    | base carries =>
+        exact Or.inl (hsame_refl ledger)
+    | meet leftTree rightTree =>
+        exact Or.inr (Or.inl
+          (Exists.intro _
+            (Exists.intro _ (hsame_refl (BHist.e0 (append _ _))))))
+    | union subtrees unionLaw =>
+        exact Or.inr (Or.inr (Or.inl (hsame_refl (BHist.e1 BHist.Empty))))
+    | bottom boundary =>
+        exact Or.inr (Or.inr (Or.inr (hsame_refl (BHist.e0 BHist.Empty))))
+    | top boundary =>
+        exact Or.inr (Or.inr (Or.inl (hsame_refl (BHist.e1 BHist.Empty))))
+  exact And.intro cert
+    (And.intro carries
+      (And.intro generated
+        (And.intro classifierTransport ledgerCoverage)))
 
 
 theorem BHistFiniteBaseNeighborhood_bundleAppend_carries_intersection
