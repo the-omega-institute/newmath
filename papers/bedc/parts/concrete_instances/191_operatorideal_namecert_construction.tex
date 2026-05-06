@@ -132,3 +132,31 @@ $$
 \mathsf{TC}(H)(a\odot_H T).
 $$
 \end{proof}
+
+\begin{theorem}[Trace-class binary linear-combination closure]
+\label{thm:operatorideal-trace-class-binary-linear-combination-closure}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class carrier of \autoref{def:operatorideal-trace-class-carrier}. Write $+_{\mathsf{TC}(H)}$ for the trace-class addition inherited from the operator-ideal additive row, and use the real trace-class scalar action $\odot_H$ of \autoref{thm:operatorideal-trace-class-scalar-closure}. Let $T$ and $S$ be operator endpoints, and let $a$ and $b$ be carried $\RealUp$ scalar endpoints for the Hilbert module action. If
+$$
+\mathsf{TC}(H)(T)\land\mathsf{TC}(H)(S),
+$$
+then
+$$
+\mathsf{TC}(H)\bigl((a\odot_H T)+_{\mathsf{TC}(H)}(b\odot_H S)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume the two trace-class witnesses. Applying \autoref{thm:operatorideal-trace-class-scalar-closure} to the carried scalar $a$ and the endpoint $T$ gives
+$$
+\mathsf{TC}(H)(a\odot_H T).
+$$
+Applying the same scalar-closure row to the carried scalar $b$ and the endpoint $S$ gives
+$$
+\mathsf{TC}(H)(b\odot_H S).
+$$
+
+The operation $+_{\mathsf{TC}(H)}$ is the restriction of the bounded-operator addition row named in \autoref{def:operatorideal-hilbert-source-surface} to endpoints carrying the trace-class predicate of \autoref{def:operatorideal-trace-class-carrier}. Therefore the additive closure row of \autoref{thm:operatorideal-additive-closure-row}, applied to the two scalar-multiple witnesses displayed above, gives
+$$
+\mathsf{TC}(H)\bigl((a\odot_H T)+_{\mathsf{TC}(H)}(b\odot_H S)\bigr).
+$$
+Only the trace-class ideal membership, scalar closure, and additive closure rows are used; positivity, trace, and trace-one rows remain outside this operator-ideal claim.
+\end{proof}
