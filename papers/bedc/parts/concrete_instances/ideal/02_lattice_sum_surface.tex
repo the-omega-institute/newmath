@@ -90,6 +90,15 @@ $$
 The ambient carrier witnesses are obtained through the carrier-support rows of the two $\IdealUp$ certificates, the ring addition carrier row, and carrier transport along $\sim_R$. The hidden ledger for a sum membership contains only the two membership witnesses $I(x)$ and $J(y)$ together with the additive decomposition row $z\sim_R x+_R y$.
 \end{definition}
 
+\begin{definition}[Ideal inclusion predicate]
+\label{def:ideal-inclusion-predicate}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ carried predicates over the same $\RingUp$ certificate. The ideal-inclusion predicate $I\preceq_RJ$ is defined by
+$$
+I\preceq_RJ\Longleftrightarrow
+\forall x:\mathsf{BHist}.\; I(x)\Longrightarrow J(x).
+$$
+\end{definition}
+
 \begin{theorem}[Ideal sum closure]
 \label{thm:ideal-sum-closure}
 Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over $R$. Assume the two ideal certificates provide the rows specified in \autoref{sec:ideal-certificate}: carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and left and right absorption by every carried ring endpoint. For $K:=I+_RJ$ as in \autoref{def:ideal-sum-predicate}, $K$ is an $\IdealUp$ predicate over $R$. Explicitly, $K$ has carrier support and the rows
@@ -144,6 +153,32 @@ For internal multiplication closure, carrier support for $K(w)$ gives $C(w)$. Ri
 These rows are exactly the carrier, additive sub-rng, multiplicative sub-rng, classifier-stability, and two-sided ambient absorption rows required of an $\IdealUp$ predicate over the fixed $\RingUp$ certificate.
 \end{proof}
 \leanchecked{BEDC.Derived.IdealUp.IdealSum\_ideal\_closure\_rows}
+
+\begin{theorem}[Ideal sum least upper bound]
+\label{thm:ideal-sum-least-upper-bound}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over the same $\RingUp$ certificate, with the rows specified in \autoref{sec:ideal-certificate}. Let $K:=I+_RJ$ as in \autoref{def:ideal-sum-predicate}. Then $K$ is an $\IdealUp$ predicate by \autoref{thm:ideal-sum-closure}, and $K$ is the least upper bound of $I$ and $J$ for $\preceq_R$:
+$$
+I\preceq_RK,\qquad J\preceq_RK,
+$$
+and, for every $\IdealUp$ predicate $L$ over the same $\RingUp$ certificate,
+$$
+(I\preceq_RL)\land(J\preceq_RL)\Longrightarrow K\preceq_RL.
+$$
+\end{theorem}
+\begin{proof}
+The predicate $K$ is an $\IdealUp$ predicate by \autoref{thm:ideal-sum-closure}, because it is built from the same two ideal certificates and the same ambient $\RingUp$ rows.
+
+For the first upper-bound inclusion, assume $I(x)$. Use the sum witness pair $(x,0_R)$. The zero-membership row of $J$ gives $J(0_R)$, and the additive-unit row of the ring certificate identifies $x$ with $x+_R0_R$ up to $\sim_R$. Classifier symmetry orients this comparison as the displayed decomposition required by \autoref{def:ideal-sum-predicate}, and classifier transport supplies the corresponding $K(x)$ witness.
+
+For the second upper-bound inclusion, assume $J(x)$. Use the witness pair $(0_R,x)$. The zero-membership row of $I$ gives $I(0_R)$, the additive-unit row gives $x\sim_R0_R+_Rx$ with the needed orientation after classifier symmetry, and the same classifier-transport row gives $K(x)$.
+
+It remains to prove minimality. Assume $I\preceq_RL$ and $J\preceq_RL$, and suppose $K(z)$. Unpack the sum witness:
+$$
+\exists x,y:\mathsf{BHist}.\; I(x)\land J(y)\land z\sim_Rx+_Ry.
+$$
+
+The two inclusions into $L$ transport $I(x)$ and $J(y)$ to $L(x)$ and $L(y)$. Additive closure in the $\IdealUp$ certificate for $L$ gives $L(x+_R y)$. Finally, classifier symmetry turns the displayed decomposition into $x+_R y\sim_R z$, and classifier transport for $L$ yields $L(z)$. Thus $K\preceq_R L$.
+\end{proof}
 
 \begin{theorem}[Ideal sum quotient-ring kernel scope]
 \label{thm:ideal-sum-quotientring-kernel-scope}
