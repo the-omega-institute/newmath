@@ -1,0 +1,37 @@
+\begin{theorem}[Sheaf root cover locality and gluing obligation]
+\label{thm:sheaf-root-cover-locality-gluing-obligation}
+Let $\mathcal{T}$ be an indexed-open carrier for $\TopologyUp$, and let $\mathcal{S}$ be the indexed section presheaf carrier over $\mathcal{T}$ supplied by the $\PreSheafUp$ restriction surface. Then the indexed sheaf carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}, with classifier family $\sim_i$ and indexed covers as in \autoref{def:sheaf-indexed-cover-compatibility-locality}, supplies the carrier, classifier, locality, and gluing rows required by the root $\NameCert_{\SheafUp}$ ten-field template of \autoref{thm:sheaf-namecert-obligation-surface}.
+\end{theorem}
+\begin{proof}
+Unfold the indexed section presheaf carrier. Its carrier row is the family $\mathsf{Sec}(i)$ over open indices $i:\mathsf{OpenIx}$, and its restriction row is the stable transport $\rho_{i,j}$ along displayed inclusions $j\le_{\mathcal{T}} i$.
+
+Unfold the indexed cover compatibility and locality surface. An indexed cover records member opens, cover inclusions, and finite-intersection overlap rows, so a compatible family is already expressed entirely in the $\TopologyUp$ and $\PreSheafUp$ ledgers.
+
+The sheaf fields then provide exactly the two root rows needed by the certificate: locality detects equality of global sections from equality after restriction to every cover member, and gluing supplies a global section for every compatible local family. These are the carrier, classifier, locality, and gluing entries named in the root template row of \autoref{thm:sheaf-namecert-obligation-surface}.
+\end{proof}
+
+\begin{theorem}[Sheaf root restriction refinement obligation]
+\label{thm:sheaf-root-restriction-refinement-obligation}
+For an indexed sheaf carrier over $\mathcal{T}$, every displayed refinement of indexed covers preserves compatible families and transports gluing rows through restriction. Hence the $\NameCert_{\SheafUp}$ root surface may replace a cover by any displayed refinement without changing the local-family compatibility ledger or the global gluing classifier row.
+\end{theorem}
+\begin{proof}
+Start with a displayed refinement of indexed covers. The refinement obligation of \autoref{thm:sheaf-cover-refinement-obligation} records the member map and the inclusion rows that route each refined open into the original cover member.
+
+Apply \autoref{thm:sheaf-refinement-compatible-family-pullback}. A compatible family on the original indexed cover pulls back along the displayed refinement to a compatible family on the refined cover, because every overlap comparison is transported by the restriction composition and classifier-transport rows.
+
+Apply \autoref{thm:sheaf-refinement-gluing-descent}. If a global section glues the original compatible family, then the same global section glues the pulled-back family after the restriction transport supplied by the refinement. Thus the root certificate can consume either cover presentation with the same global classifier class.
+\end{proof}
+
+\begin{theorem}[Sheaf root common-refinement exactness obligation]
+\label{thm:sheaf-root-common-refinement-exactness-obligation}
+Let two indexed cover presentations of the same open carry compatible local families. If the families agree after pullback to a displayed common refinement span, then their displayed gluings determine the same global section classifier class. This exactness uses only indexed cover data, displayed common refinement, and restriction transport; it does not quotient cover presentations.
+\end{theorem}
+\begin{proof}
+Unfold the displayed common-refinement span of \autoref{def:sheaf-displayed-common-refinement-span}. The span consists of one indexed cover together with two displayed refinement projections into the two cover presentations being compared.
+
+By \autoref{thm:sheaf-displayed-common-refinement-span}, the span yields the two refinement maps needed to pull both local families to the common cover. The hypothesis says that these two pulled-back families are classifier-equal at every member of that common cover.
+
+Apply \autoref{thm:sheaf-common-refinement-gluing-invariance}. The two global sections, each viewed as a gluing after descent along its refinement projection, are equal in the classifier $\sim_i$ of the base open.
+
+Finally apply \autoref{thm:sheaf-cover-presentation-exactness}. The conclusion is an equality of global section classifier classes for the two cover presentations themselves, with no host open-cover equality and no quotient of cover presentations introduced into the root surface.
+\end{proof}
