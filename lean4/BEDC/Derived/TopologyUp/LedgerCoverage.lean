@@ -51,4 +51,16 @@ theorem BHistFiniteBaseNeighborhood_finiteListIntersection_ledger_coverage
       exact BHistFiniteBaseNeighborhood_classifier_transport indices ball ballStable
         unaryX unaryY sameXY
 
+theorem BHistMetricBaseOpen_singleton_ledger_coverage
+    (T : BHistIndexedOpenCarrier) {i : T.OpenIx} {U : BHist -> Prop} {ledger : BHist}
+    (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+    BHistUnaryTopologyLedgerRow T i U ∧ BHistGeneratedOpenExact T U ∧
+      (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (U x <-> U y)) := by
+  constructor
+  · exact BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries
+  · constructor
+    · exact Exists.intro i carries
+    · exact BHistCarriesOpen_classifier_transport T carries
+
 end BEDC.Derived.TopologyUp

@@ -19,7 +19,7 @@ Two parallel formalization rounds modified shared files:
 
 ## Deletion-aware rule (critical)
 
-If one conflict side DELETED a `theorem` / `def` / `lemma` declaration (or a `\begin{theorem}…\label{…}` paper block) and the other side kept it or modified it, **prefer the deletion**: drop the declaration in the resolved file. Rationale:
+If one conflict side DELETED a `theorem` / `def` / `lemma` declaration (or a paper `\begin` ... `\end` theorem-block with a `\label`) and the other side kept it or modified it, **prefer the deletion**: drop the declaration in the resolved file. Rationale:
 
 - A deletion in BASE_BRANCH (the "incoming" side during merge) is a deliberate cleanup — typically removing a duplicate-conclusion theorem caught by `phase_d_lint.py`, or a stuck dup label caught by `bedc_ci.py audit`.
 - The "ours" side (this round) is older code dispatched before the deletion landed. Its version is stale.
