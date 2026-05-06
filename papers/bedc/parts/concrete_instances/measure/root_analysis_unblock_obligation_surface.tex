@@ -1,0 +1,113 @@
+\begin{definition}[Measure root analysis-unblock obligation surface]
+\label{def:measure-root-analysis-unblock-obligation-surface}
+The $\MeasureUp$ root analysis-unblock obligation surface is the ten-row
+template obtained by reading the analysis-unblock source of
+\autoref{def:measure-analysis-unblock-source}, the root public NameCert
+surface of \autoref{def:measure-root-namecert-public-surface}, and the
+analysis-seed source of \autoref{def:measure-analysis-seed-source} as one
+public package. Its rows are:
+\begin{enumerate}
+  \item the $\MeasureUp$ carrier over $\mathsf{BHist}$;
+  \item the public $\hsame$ classifier for measurable-event rows;
+  \item the $\RealUp$ endpoint classifier supplied by $\NameCert_{\RealUp}$;
+  \item the visible event-row coverage predicate;
+  \item the countable endpoint and countable-sum stability rows;
+  \item finite disjoint-union additivity;
+  \item relative-difference additivity for displayed inclusions;
+  \item monotone inclusion and nonnegative $\RealUp$ value rows;
+  \item continuity from below for displayed increasing measurable sequences;
+  \item the ledger and downstream exactness rows consumed by $\IntegralUp$,
+  $\ProbSpaceUp$, and $\FunctionalAnalysisUp$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Measure root analysis-unblock carrier-classifier]
+\label{thm:measure-root-analysis-unblock-carrier-classifier}
+The surface of
+\autoref{def:measure-root-analysis-unblock-obligation-surface} supplies the
+$\MeasureUp$ carrier, the public measurable-event classifier, event-row
+coverage, and countable endpoint stability rows. These are precisely the
+carrier-classifier rows exposed by the root public NameCert surface and read
+by the analysis-unblock source.
+\end{theorem}
+\begin{proof}
+Project the carrier, classifier, event-row coverage, ledger, and endpoint
+rows from \autoref{def:measure-root-namecert-public-surface}. Apply
+\autoref{thm:measure-root-carrier-classifier-public-obligation} to transport
+the carrier code, every visible event row, every ledger row, and every
+$\RealUp$ endpoint row along the public classifier.
+
+Next read the same projections through
+\autoref{def:measure-analysis-unblock-source}. Apply
+\autoref{thm:measure-analysis-unblock-carrier-classifier-scope}. It
+identifies the analysis-unblock carrier, public classifier, event-row
+coverage, and countable-sum endpoint stability rows with the rows already
+projected from the root public surface.
+
+Repack these common projections in the ten-row template of
+\autoref{def:measure-root-analysis-unblock-obligation-surface}. The repacked
+surface contains no additional host equality, quotient event equality, or
+standard bridge row, so the carrier-classifier package is the stated public
+one.
+\end{proof}
+
+\begin{theorem}[Measure root analysis-unblock additivity-continuity]
+\label{thm:measure-root-analysis-unblock-additivity-continuity}
+The surface of
+\autoref{def:measure-root-analysis-unblock-obligation-surface} packages
+finite disjoint-union additivity, relative-difference additivity, monotone
+inclusion, nonnegative $\RealUp$ values, and continuity from below for
+displayed increasing measurable sequences.
+\end{theorem}
+\begin{proof}
+First project the finite rows from the public $\MeasureUp$ package. Apply
+\autoref{thm:measure-two-step-finite-additivity-package}; its two-step
+readback supplies the finite disjoint-union additive row used by the root
+analysis-unblock surface.
+
+Next project the relative and order rows through
+\autoref{thm:measure-analysis-unblock-relative-continuity-package}. This
+single package supplies relative-difference additivity, monotone inclusion,
+and nonnegative $\RealUp$ values over the same carrier and endpoint
+classifier.
+
+For countable increasing sequences, apply
+\autoref{thm:measure-continuity-from-below-package}. Its construction uses
+the same visible event rows, relative-difference rows, finite readbacks,
+countable-sum classifier stability, and $\RealUp$ endpoint classifier as the
+root surface.
+
+The rows cited above are all rows of the ten-row template in
+\autoref{def:measure-root-analysis-unblock-obligation-surface}. Repacking
+them gives one additivity-continuity package and adds no extra equality or
+standard-bridge assumption.
+\end{proof}
+
+\begin{theorem}[Measure root analysis-unblock downstream package]
+\label{thm:measure-root-analysis-unblock-downstream-package}
+The surface of
+\autoref{def:measure-root-analysis-unblock-obligation-surface} is the
+$\MeasureUp$ package consumed by $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$. The consumer boundary consists only of the carrier,
+classifier, stability, exactness, ledger, additivity, order, endpoint, and
+continuity rows named in that surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-analysis-unblock-downstream-source}. It assembles
+the integral premeasure rows, the probability normalization rows, and the
+functional-analysis endpoint and order rows from the public $\MeasureUp$
+analysis substrate.
+
+Read that assembled source through the ten-row surface of
+\autoref{def:measure-root-analysis-unblock-obligation-surface}. The
+$\IntegralUp$ consumer sees the measurable-event, endpoint, finite-readback,
+and countable-sum rows; the $\ProbSpaceUp$ consumer sees the total-event,
+unit-mass, empty-zero, and finite-additivity rows; the
+$\FunctionalAnalysisUp$ consumer sees the nonnegative, monotone,
+relative-difference, and countable-stability rows.
+
+The exactness and ledger rows of the surface keep the three downstream fronts
+inside the displayed $\MeasureUp$ package. Therefore the root
+analysis-unblock surface is the paper-side package consumed by those fronts
+and carries no additional standard bridge row.
+\end{proof}
