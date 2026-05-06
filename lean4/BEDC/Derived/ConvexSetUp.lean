@@ -43,18 +43,61 @@ def ConvexSetPointwiseIntersection (C D : BHist -> Prop) (z : BHist) : Prop :=
   C z ∧ D z
 
 theorem ConvexSetPointwiseIntersection_affine_combination_closure
-    {C D NonNeg : BHist -> Prop} {ClassifierF : BHist -> BHist -> Prop}
-    {addF scalarAct addV : BHist -> BHist -> BHist} {oneF a b x y : BHist} :
-    (forall {a b x y : BHist}, C x -> C y -> NonNeg a -> NonNeg b ->
-      ClassifierF (addF a b) oneF -> C (addV (scalarAct a x) (scalarAct b y))) ->
-      (forall {a b x y : BHist}, D x -> D y -> NonNeg a -> NonNeg b ->
-        ClassifierF (addF a b) oneF -> D (addV (scalarAct a x) (scalarAct b y))) ->
-        ConvexSetPointwiseIntersection C D x -> ConvexSetPointwiseIntersection C D y ->
-          NonNeg a -> NonNeg b -> ClassifierF (addF a b) oneF ->
-            ConvexSetPointwiseIntersection C D (addV (scalarAct a x) (scalarAct b y)) := by
-  intro cClosed dClosed xInIntersection yInIntersection nonnegA nonnegB unitSum
+    {C D NonNeg : BHist -> Prop}
+    {add scalarAdd scalarAction : BHist -> BHist -> BHist}
+    {one a b x y : BHist}
+    (closedC :
+      forall {a b x y : BHist}, C x -> C y -> NonNeg a -> NonNeg b ->
+        hsame (scalarAdd a b) one -> C (add (scalarAction a x) (scalarAction b y)))
+    (closedD :
+      forall {a b x y : BHist}, D x -> D y -> NonNeg a -> NonNeg b ->
+        hsame (scalarAdd a b) one -> D (add (scalarAction a x) (scalarAction b y))) :
+    ConvexSetPointwiseIntersection C D x -> ConvexSetPointwiseIntersection C D y ->
+      NonNeg a -> NonNeg b -> hsame (scalarAdd a b) one ->
+        ConvexSetPointwiseIntersection C D (add (scalarAction a x) (scalarAction b y)) := by
+  intro xData yData nonnegA nonnegB unitSum
   exact And.intro
-    (cClosed xInIntersection.left yInIntersection.left nonnegA nonnegB unitSum)
-    (dClosed xInIntersection.right yInIntersection.right nonnegA nonnegB unitSum)
+    (closedC xData.left yData.left nonnegA nonnegB unitSum)
+    (closedD xData.right yData.right nonnegA nonnegB unitSum)
+
+theorem ConvexSetLinearImage_affine_combination_closure
+    {C Image NonNeg : BHist -> Prop}
+    {ClassifierW : BHist -> BHist -> Prop}
+    {addV addW scalarAdd scalarActionV scalarActionW f : BHist -> BHist -> BHist}
+    {one a b u v : BHist}
+    (image_elim :
+      forall {target : BHist}, Image target ->
+        exists source : BHist, C source ∧ ClassifierW (f source source) target)
+    (image_intro :
+      forall {source target : BHist}, C source -> ClassifierW (f source source) target ->
+        Image target)
+    (closedC :
+      forall {a b x y : BHist}, C x -> C y -> NonNeg a -> NonNeg b ->
+        hsame (scalarAdd a b) one -> C (addV (scalarActionV a x) (scalarActionV b y)))
+    (mapAffine :
+      forall {a b x y u v : BHist}, C x -> C y -> ClassifierW (f x x) u ->
+        ClassifierW (f y y) v -> NonNeg a -> NonNeg b -> hsame (scalarAdd a b) one ->
+          ClassifierW
+            (f (addV (scalarActionV a x) (scalarActionV b y))
+              (addV (scalarActionV a x) (scalarActionV b y)))
+            (addW (scalarActionW a u) (scalarActionW b v))) :
+    Image u -> Image v -> NonNeg a -> NonNeg b -> hsame (scalarAdd a b) one ->
+      Image (addW (scalarActionW a u) (scalarActionW b v)) := by
+  intro imageU imageV nonnegA nonnegB unitSum
+  cases image_elim imageU with
+  | intro sourceU sourceUData =>
+      cases image_elim imageV with
+      | intro sourceV sourceVData =>
+          have sourceClosed :
+              C (addV (scalarActionV a sourceU) (scalarActionV b sourceV)) :=
+            closedC sourceUData.left sourceVData.left nonnegA nonnegB unitSum
+          have mapped :
+              ClassifierW
+                (f (addV (scalarActionV a sourceU) (scalarActionV b sourceV))
+                  (addV (scalarActionV a sourceU) (scalarActionV b sourceV)))
+                (addW (scalarActionW a u) (scalarActionW b v)) :=
+            mapAffine sourceUData.left sourceVData.left sourceUData.right sourceVData.right
+              nonnegA nonnegB unitSum
+          exact image_intro sourceClosed mapped
 
 end BEDC.Derived.ConvexSetUp

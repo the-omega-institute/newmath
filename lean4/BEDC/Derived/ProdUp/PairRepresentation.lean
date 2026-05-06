@@ -9,6 +9,9 @@ open BEDC.FKernel.NameCert
 def ProdPairRep (Left Right : BHist → Prop) (h l r : BHist) : Prop :=
   Left l ∧ Right r ∧ Cont l r h
 
+def ProdDisplayedPairLedger (Left Right : BHist -> Prop) (h : BHist) : Prop :=
+  ∃ l : BHist, ∃ r : BHist, ProdPairRep Left Right h l r
+
 def ProdPairRepCoherent (Left Right : BHist → Prop)
     (LeftEq RightEq : BHist → BHist → Prop) : Prop :=
   ∀ {h l r l' r' : BHist},
@@ -76,6 +79,34 @@ theorem ProdPairRep_hsame_transport {Left Right : BHist → Prop} {h k l r : BHi
       | intro rightCarrier contH =>
           exact And.intro leftCarrier
             (And.intro rightCarrier (cont_result_hsame_transport contH sameHK))
+
+theorem ProdDisplayedPairLedger_exact_and_transport
+    {Left Right : BHist -> Prop} {h k : BHist} :
+    (ProdDisplayedPairLedger Left Right h <-> ProdHistoryCarrier Left Right h) ∧
+      (ProdDisplayedPairLedger Left Right h -> hsame h k ->
+        ProdDisplayedPairLedger Left Right k) ∧
+        (forall {l r : BHist}, Left l -> Right r -> Cont l r h -> hsame h k ->
+          ProdDisplayedPairLedger Left Right k) := by
+  constructor
+  · constructor
+    · intro ledger
+      exact (ProdPairRep_coverage (Left := Left) (Right := Right) (h := h)).mpr ledger
+    · intro carrier
+      exact (ProdPairRep_coverage (Left := Left) (Right := Right) (h := h)).mp carrier
+  · constructor
+    · intro ledger sameHK
+      cases ledger with
+      | intro l rest =>
+          cases rest with
+          | intro r rep =>
+              exact Exists.intro l
+                (Exists.intro r (ProdPairRep_hsame_transport rep sameHK))
+    · intro l r leftCarrier rightCarrier contH sameHK
+      exact Exists.intro l
+        (Exists.intro r
+          (ProdPairRep_hsame_transport
+            (And.intro leftCarrier (And.intro rightCarrier contH))
+            sameHK))
 
 theorem ProdPairRep_fixed_endpoint_exactness {Left Right : BHist → Prop} {h k l r : BHist} :
     ProdPairRep Left Right h l r → (ProdPairRep Left Right k l r ↔ hsame h k) := by
