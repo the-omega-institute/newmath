@@ -661,6 +661,98 @@ RegSeqRat stationary observation partitions with certified refined
 segmentation; downstream use Real and Completion diagonal-limit capstone
 ledger consumption. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Stationary rational partition normal form]
+\label{thm:real-completeness-stationary-partition-normal-form}
+For RatUp seeds $d,e,d_0,e_0:\Hist$, an observation anchor $n$, a bound $w$,
+and a unary observation schedule $\eta:\mathbb{N}\to\Hist$, define the
+stationary rational RealUp observation streams
+$$
+C_d(i)=\mathsf{RatConstStream}_d(\eta(i)),
+\quad
+C_e(i)=\mathsf{RatConstStream}_e(\eta(i)).
+$$
+Let $P$ be any certified finite partition spine refining the one-segment
+window $(n,w)$. Suppose that the refinement certificate preserves the
+source-anchor, source-bound, selected-offset, and continuation rows: every
+segment of $P$ is recorded as a translated subwindow of $(n,w)$, selected
+offsets translate to selected offsets of the one-segment window, and the
+continuation rows concatenate all segments of $P$ back to $(n,w)$.
+Assume
+$$
+\mathsf{RatHistoryCarrier}(d),\quad
+\mathsf{RatHistoryCarrier}(e),\quad
+\mathsf{RatHistoryClassifier}(d,e),
+$$
+and the seed displays
+$$
+\hsame(d,\Eone(d_0)),\quad
+\hsame(e,\Eone(e_0)).
+$$
+Then the finite segment ledger named by $P$ is equivalent to the normal-form
+one-window classifier:
+$$
+\bigwedge_{(n_i,r_i)\in P}
+\mathsf{RealStreamWindowClassifier}(C_d,C_e,n_i,r_i)
+\Longleftrightarrow
+\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,w).
+$$
+Moreover, the diagonal RealUp embedding conclusions for the stationary inputs
+$X_d$ and $X_e$ are exactly the conclusions obtained from the one-segment
+ledger on $(n,w)$: the representative $L_d$ is classified by the constant
+rational embedding represented by
+$(\mathsf{RatConstStream}_d,\Eone(d))$, the representative $L_e$ is classified
+by the constant rational embedding represented by
+$(\mathsf{RatConstStream}_e,\Eone(e))$, and the relation between the two
+embeddings is the transported $\mathsf{RatHistoryClassifier}(d,e)$.
+\end{theorem}
+
+\begin{proof}[Sketch]
+First regard the one-segment window $(n,w)$ as a certified partition spine
+$S$ with a single segment. The stationary finite-window bridge identifies the
+ledger of $S$ with
+$\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,w)$, because both streams read
+constant RatUp seeds through the unary schedule $\eta$.
+
+Next apply
+\autoref{thm:real-completeness-stationary-rational-partition-fold} to the
+given spine $P$. This folds the finite segment conjunction of $P$ to the same
+total classifier and keeps each selected endpoint tied to the displayed seed
+tails $d_0,e_0$.
+
+Use
+\autoref{thm:real-completeness-stationary-partition-refinement-invariance}
+with $S$ and $P$. The preservation hypotheses are exactly the refinement rows
+required there: translated source anchors, translated source bounds,
+translated selected offsets, and continuation rows that reassemble the
+one-segment window. Hence the $P$ ledger and the one-segment ledger determine
+the same finite observation content.
+
+Finally apply
+\autoref{thm:real-completeness-stationary-partition-diagonal-embedding} to
+$S$ and to $P$. Both applications consume the same RatUp classifier, the same
+seed displays, and the same total stationary window classifier. The stationary
+finite-window bridge erases the partition choice, so the extracted diagonal
+representatives for $X_d$ and $X_e$ are the constant rational RealUp
+embeddings obtained from the one-segment ledger.
+\end{proof}
+
+The ten-field fit is: traditional target finite stationary rational
+partition normal form; BEDC source $\RatUp+\StreamNameUp+\RealUp$ plus Real
+stream finite partition spines; carrier stationary constant rational
+observation streams; classifier the normal-form window classifier
+$\mathsf{RealStreamWindowClassifier}(C_d,C_e,n,w)$ and the finite segment
+classifiers named by $P$; stability by partition fold, refinement invariance,
+diagonal embedding, and the stationary finite-window bridge; ledger hidden
+rational seed, seed e-one displays, total bound, subwindow radii, translated
+source anchors, translated source bounds, selected offsets, and continuation
+rows; core theorem
+\autoref{thm:real-completeness-stationary-partition-normal-form}; exactness
+the common one-window classifier and the common diagonal embedding
+certificate; standard bridge RegSeqRat stationary observation partitions read
+through the one-window classifier; downstream use RegSeqRat and RealUp
+diagonal-limit arguments without carrying arbitrary finite segmentation data.
+Status: $\mathsf{ProofTarget}$.
+
 \section{Constructive content and axiom purity}
 \label{sec:real-completeness-axiom-purity}
 
