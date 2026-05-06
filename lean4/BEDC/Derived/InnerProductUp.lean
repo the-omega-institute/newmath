@@ -1,0 +1,40 @@
+import BEDC.Derived.RealUp.Core
+import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.VecSpaceUp
+
+namespace BEDC.Derived.InnerProductUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
+open BEDC.Derived.RatUp
+open BEDC.Derived.RealUp
+open BEDC.Derived.VecSpaceUp
+
+def InnerProductSingletonForm (_x _y : BHist) : BHist :=
+  BHist.e1 (BHist.e1 BHist.Empty)
+
+def InnerProductSingletonOrthogonal (x y : BHist) : Prop :=
+  VecSpaceSingletonCarrier x ∧ VecSpaceSingletonCarrier y ∧
+    RealConstantHistoryClassifier (InnerProductSingletonForm x y)
+      (BHist.e1 (BHist.e1 BHist.Empty))
+
+theorem InnerProductSingletonOrthogonal_zero_left {y : BHist} :
+    VecSpaceSingletonCarrier y ->
+      InnerProductSingletonOrthogonal BHist.Empty y ∧
+        RealConstantHistoryClassifier (InnerProductSingletonForm BHist.Empty y)
+          (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierY
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have ratCarrier : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+    RatHistoryCarrier_e1_tail_unary_iff.mpr unary_empty
+  have ratClassifier :
+      RatHistoryClassifier (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+    And.intro ratCarrier (And.intro ratCarrier (hsame_refl (BHist.e1 BHist.Empty)))
+  have realClassifier :
+      RealConstantHistoryClassifier (InnerProductSingletonForm BHist.Empty y)
+        (BHist.e1 (BHist.e1 BHist.Empty)) := by
+    unfold InnerProductSingletonForm
+    exact RealConstantHistoryClassifier_e1_iff_rat.mpr ratClassifier
+  exact And.intro (And.intro emptyCarrier (And.intro carrierY realClassifier)) realClassifier
+
+end BEDC.Derived.InnerProductUp
