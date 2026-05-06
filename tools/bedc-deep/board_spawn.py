@@ -34,6 +34,7 @@ from locks import file_lock
 import codex_orchestrator
 import board_archive
 import board_context
+import paper_index
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -206,23 +207,6 @@ def _next_target_id(also_accepted: list[str]) -> str:
     return f"B-{next_num:02d}"
 
 
-def _scan_paper_labels() -> list[str]:
-    """Quick scan of papers/bedc/parts/**/*.tex for \\label{thm|lem|prop|cor|def:...}"""
-    labels: list[str] = []
-    parts = REPO_ROOT / "papers" / "bedc" / "parts"
-    if not parts.exists():
-        return labels
-    pat = re.compile(r"\\label\{(thm|lem|prop|cor|def):([^}]+)\}")
-    for path in parts.rglob("*.tex"):
-        try:
-            text = path.read_text(encoding="utf-8", errors="replace")
-        except OSError:
-            continue
-        for m in pat.finditer(text):
-            labels.append(f"{m.group(1)}:{m.group(2)}")
-    return labels
-
-
 # ---------------------------------------------------------------------------
 # Judge: claude maker/checker on combined candidate list
 # ---------------------------------------------------------------------------
@@ -248,8 +232,7 @@ def _judge_candidates(
 
     template = (PROMPTS_DIR / "board_judge.txt").read_text(encoding="utf-8")
     board_content = board_context.build_board_prompt_context()
-    paper_labels = _scan_paper_labels()
-    paper_coverage_blob = "\n".join(sorted(set(paper_labels))[:400])  # cap
+    paper_coverage_blob = paper_index.render_prompt_summary(max_chars=12000)
 
     codex_blob = json.dumps(codex_candidates, ensure_ascii=False, indent=2)
     oracle_blob = json.dumps(oracle_candidates, ensure_ascii=False, indent=2)
