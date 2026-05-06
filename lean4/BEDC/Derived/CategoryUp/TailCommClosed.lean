@@ -1,4 +1,4 @@
-import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.CompTailExact
 
 namespace BEDC.Derived.CategoryUp
 
@@ -31,5 +31,15 @@ theorem CategoryHomCarrier_tail_comm_public_readback {a b c f g fg gf : BHist} :
           exact And.intro
             (CategoryHomCarrier_morphism_deterministic closed.left displayed)
             (CategoryHomCarrier_morphism_deterministic closed.right.left displayed))))
+
+theorem CategoryHomCarrier_tail_comm_cont_readback {a b c f g fg gf z : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg -> Cont g f gf ->
+      CategoryHomCarrier a c z -> Cont f g z ∧ Cont g f z := by
+  intro left right fgRel gfRel displayed
+  have readback := CategoryHomCarrier_tail_comm_public_readback left right fgRel gfRel
+  have sameTail := readback.right.right.right displayed
+  exact And.intro
+    ((CategoryHomCarrier_comp_tail_exact_iff left right).mp displayed)
+    (cont_result_hsame_transport gfRel sameTail.right)
 
 end BEDC.Derived.CategoryUp
