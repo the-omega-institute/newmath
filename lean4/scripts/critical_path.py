@@ -856,6 +856,58 @@ def compute_root_unblocks(horizons: dict[str, dict],
     return candidates
 
 
+# `theory_closure` upgrade chain. Each entry is a `(from_grade, to_grade)`
+# transition that paper P-rounds drive via `closure_mark` targets. The
+# upgrade chain has historically stalled past `scopedClosure` because
+# critical_path retired chapters from `top` and paper never saw them again.
+# `compute_transition_candidates` re-exposes them as a SECONDARY priority
+# track: every paper round picks one transition (round-number rotation in
+# phase_review.txt) and operates on its top candidate.
+THEORY_TRANSITION_CHAIN: list[tuple[str | None, str]] = [
+    (None, "seedClosure"),
+    ("seedClosure", "obligationClosure"),
+    ("obligationClosure", "scopedClosure"),
+    ("scopedClosure", "publicClosure"),
+    ("publicClosure", "bridgedClosure"),
+    ("bridgedClosure", "matureClosure"),
+]
+
+
+def compute_transition_candidates(horizons: dict[str, dict],
+                                    downstream: dict[str, int],
+                                    from_grade: str | None,
+                                    to_grade: str,
+                                    *, max_results: int = 5) -> list[dict]:
+    """Return chapters at `theory_grade == from_grade` ranked by upgrade
+    impact (higher transitive downstream first). Used for the
+    transition-rotation upgrade chain in `phase_review.txt`."""
+    candidates: list[dict] = []
+    for n, info in horizons.items():
+        if n in SCHEMA_ONLY_HORIZONS:
+            continue
+        # Match the chapter's CURRENT theory_grade. None means no
+        # closurestatus block yet (the (none) → seedClosure step).
+        if info.get("theory_grade") != from_grade:
+            continue
+        candidates.append({
+            "name": n,
+            "from_grade": from_grade,
+            "to_grade": to_grade,
+            "downstream": downstream.get(n, 0),
+            "thms": info.get("thms", 0),
+            "labels": info.get("labels", 0),
+            "formal_grade": info.get("formal_grade"),
+            "file_paper": info.get("file_paper"),
+            "lean_target": info.get("lean_target"),
+        })
+    # Sort: higher fan-out first; tie-break by labels (more obligation
+    # surface = closer to next-grade requirements); then by name.
+    candidates.sort(
+        key=lambda r: (-r["downstream"], -r["labels"], r["name"]),
+    )
+    return candidates[:max_results]
+
+
 def main() -> int:
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
@@ -894,6 +946,22 @@ def main() -> int:
     effective_threshold = relaxed_at if relaxed_at is not None else strict
     root_unblocks = compute_root_unblocks(horizons, effective_threshold)
 
+    # Theory-closure transition chain: 6 transitions from (none) →
+    # seedClosure all the way to bridgedClosure → matureClosure. Each
+    # gets its own ranked top list so paper P-rounds can rotate
+    # attention across the chain instead of dogpiling the (none) →
+    # first-register transition (which had been ~95% of all
+    # closure_mark commits).
+    transition_keys = [
+        "to_seed", "to_obligation", "to_scoped",
+        "to_public", "to_bridged", "to_mature",
+    ]
+    top_transitions = {}
+    for key, (from_grade, to_grade) in zip(transition_keys, THEORY_TRANSITION_CHAIN):
+        top_transitions[key] = compute_transition_candidates(
+            horizons, downstream, from_grade, to_grade,
+        )
+
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "deps_ready_threshold": strict,
@@ -904,6 +972,7 @@ def main() -> int:
         "granularity": "sibling",
         "top": rolled[:25],
         "top_root_unblocks": root_unblocks[:10],
+        "top_transitions": top_transitions,
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
