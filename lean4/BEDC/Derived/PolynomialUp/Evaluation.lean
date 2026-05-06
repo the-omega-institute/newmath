@@ -68,7 +68,9 @@ theorem PolynomialSingletonEval_rawAdd_classified {alpha : BHist} {xs ys : List 
         BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier ys ys ->
           PolynomialSingletonClassifier
             (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys))
-            (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha ys)) := by
+            (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha ys)) ∧
+          Cont (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys)) BHist.Empty
+            (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys)) := by
   intro carrierAlpha classifiedXs classifiedYs
   have rawAddClassified :
       BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier
@@ -130,7 +132,9 @@ theorem PolynomialSingletonEval_rawAdd_classified {alpha : BHist} {xs ys : List 
       hsame (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha ys))
         BHist.Empty :=
     append_eq_empty_iff.mpr (And.intro evalXsEmpty evalYsEmpty)
-  exact And.intro leftEmpty
-    (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+  exact And.intro
+    (And.intro leftEmpty
+      (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty))))
+    (cont_right_unit (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs ys)))
 
 end BEDC.Derived.PolynomialUp
