@@ -1,0 +1,54 @@
+\begin{theorem}[RandomVar preimage binary-intersection exactness]
+\label{thm:randomvar-preimage-binary-intersection-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $B,C,I_T$ be target events such that $B,C,I_T\in\mathcal{A}_T$ and the displayed target binary-intersection row reads $I_T$ as $B\cap C$:
+$$
+t\in I_T\quad\Longleftrightarrow\quad t\in B\ \text{and}\ t\in C.
+$$
+Define source preimages
+$$
+A_B:=X^{-1}(B),
+\qquad
+A_C:=X^{-1}(C),
+\qquad
+A_I:=X^{-1}(I_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to its source measurable preimage with membership readback, then
+$$
+A_B,A_C,A_I\in\mathcal{A}_S.
+$$
+Moreover, if $I_S$ is the source binary intersection of $A_B$ and $A_C$ supplied by the source $\MeasureUp$ sigma-algebra row of \autoref{thm:measure-sigma-algebra-obligations}, then
+$$
+I_S\in\mathcal{A}_S,\qquad A_I\sim_{\mathcal{A}_S}I_S.
+$$
+\end{theorem}
+\begin{proof}
+The measurable-preimage row of the $\RandomVarUp$ certificate applies to $B$, $C$, and $I_T$. This gives
+$$
+A_B,A_C,A_I\in\mathcal{A}_S.
+$$
+
+Since the source probability space inherits its measurable family from the underlying $\MeasureUp$ carrier, \autoref{thm:measure-sigma-algebra-obligations} supplies the binary-intersection row for the measurable pair $A_B,A_C$. Let $I_S$ be that displayed source intersection. Its row gives $I_S\in\mathcal{A}_S$ and the membership readback
+$$
+s\in I_S\quad\Longleftrightarrow\quad s\in A_B\ \text{and}\ s\in A_C.
+$$
+
+It remains to compare $A_I$ with $I_S$ through the source event classifier. For a carried source point $s$, unfold the preimage row for $I_T$:
+$$
+s\in A_I\quad\Longleftrightarrow\quad X(s)\in I_T.
+$$
+The target binary-intersection readback gives
+$$
+X(s)\in I_T\quad\Longleftrightarrow\quad X(s)\in B\ \text{and}\ X(s)\in C.
+$$
+Unfolding the two preimage rows for $B$ and $C$ gives
+$$
+X(s)\in B\ \text{and}\ X(s)\in C
+\quad\Longleftrightarrow\quad
+s\in A_B\ \text{and}\ s\in A_C.
+$$
+
+The source binary-intersection readback identifies the right side with $s\in I_S$. Thus $A_I$ and $I_S$ have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+A_I\sim_{\mathcal{A}_S}I_S.
+$$
+\end{proof}
