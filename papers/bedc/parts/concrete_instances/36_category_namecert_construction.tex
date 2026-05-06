@@ -400,16 +400,6 @@ listed above. This is the paper-level no-host-leak argument required for the
 standard bridge.
 \end{proof}
 
-\begin{closurestatus}{\CategoryUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The public unary-continuation $\CategoryUp$ export is closed over object carrier $\mathsf{UnaryHistory}$, hom-carrier $\mathsf{CategoryHomCarrier}$, identity witnesses, the composition relation, associativity and unit normal forms, endpoint transport, the public readback and semantic certificate theorem sites cited in this chapter, and the paper-level standard bridge of \autoref{thm:category-standard-unary-continuation-bridge}.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_semanticNameCert}
-  \bridgestatus{paperBridge}
-  \notclaimed{This bridge does not close general category theory, arbitrary categories, functor categories, limits, colimits, adjunctions, equivalences, enriched categories, categorical foundations, or machine-checked bridge verification.}
-  \upgradepath{$\matureClosure$ requires the full mature category-theorem inventory for the host interface; $\bridgeCheckedV$ separately requires machine checking the no-host-leak field.}
-\end{closurestatus}
-
 \begin{theorem}[Double opposite category certificate data identity]
 \label{thm:double-opposite-category-certificate-data-identity}
 Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the certificate
@@ -654,3 +644,45 @@ $R\sim_{\mathcal H}\mathsf{id}_c$ are exactly the data required by
 split-epimorphism witness with right-inverse hom-carrier $\ell$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategorySplitEpiWitness\_composition\_closed}
+
+\begin{theorem}[CategoryUp mature host-interface inventory]
+\label{thm:categoryup-mature-host-interface-inventory}
+The unary-continuation $\CategoryUp$ mature host interface is exactly the object
+carrier $\mathsf{UnaryHistory}$, the hom carrier
+$\mathsf{CategoryHomCarrier}$, identity witnesses, the composition-result
+carrier and semantic certificate, the associativity and unit law package,
+endpoint transport, opposite-category data identity, split-epimorphism right
+cancellation, and split-epimorphism composition closure.
+\end{theorem}
+\begin{proof}
+The standard host bridge is the paper-level interface of
+\autoref{thm:category-standard-unary-continuation-bridge}: it reads objects
+through $\mathsf{UnaryHistory}$, arrows through
+$\mathsf{CategoryHomCarrier}$, and the composition-result ledger through the
+semantic certificate target named there.
+
+The law package is the unary-continuation stability package of
+\autoref{thm:category-unary-continuation-stability-law-package}. Its identity,
+composition, associativity, unit, and endpoint-transport rows are precisely the
+host-interface rows needed by the bridge.
+
+The remaining inventory rows are the category-specific closure theorems already
+displayed in this chapter. Opposite-category data identity is
+\autoref{thm:double-opposite-category-certificate-data-identity};
+split-epimorphism right cancellation is
+\autoref{thm:category-split-epimorphism-right-cancellative}; and
+split-epimorphism composition closure is
+\autoref{thm:category-split-epimorphism-composition-closed}. These theorem
+sites exhaust the stated mature host-interface inventory and introduce no
+additional host-category primitives.
+\end{proof}
+
+\begin{closurestatus}{\CategoryUp}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The unary-continuation $\CategoryUp$ host interface is closed at the mature inventory recorded by \autoref{thm:categoryup-mature-host-interface-inventory}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_semanticNameCert}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close arbitrary category theory, functor categories, limits, colimits, adjunctions, equivalences, enriched categories, categorical foundations, or machine-checked bridge verification.}
+  \upgradepath{$\bridgeCheckedV$ requires machine checking the no-host-leak field; further category constructions are separate NameCert horizons.}
+\end{closurestatus}
