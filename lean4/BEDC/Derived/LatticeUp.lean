@@ -356,6 +356,21 @@ theorem LatticeSingletonJoin_least_upper_bound_empty_iff {h k z : BHist} :
       (And.intro zCarrier
         (PreorderPrefixLE_of_hsame (hsame_trans bounds.right.right (hsame_symm zCarrier))))
 
+ theorem LatticeSingletonJoin_directed_assoc_comparison_from_bounds {x y z : BHist} :
+    LatticeSingletonCarrier x -> LatticeSingletonCarrier y -> LatticeSingletonCarrier z ->
+      LatticeSingletonLE (LatticeSingletonJoin (LatticeSingletonJoin x y) z)
+        (LatticeSingletonJoin x (LatticeSingletonJoin y z)) ∧
+        hsame (LatticeSingletonJoin (LatticeSingletonJoin x y) z) BHist.Empty ∧
+        hsame (LatticeSingletonJoin x (LatticeSingletonJoin y z)) BHist.Empty := by
+  intro _carrierX _carrierY _carrierZ
+  have leftEmpty : hsame (LatticeSingletonJoin (LatticeSingletonJoin x y) z) BHist.Empty :=
+    hsame_refl BHist.Empty
+  have rightEmpty : hsame (LatticeSingletonJoin x (LatticeSingletonJoin y z)) BHist.Empty :=
+    hsame_refl BHist.Empty
+  exact And.intro
+    (LatticeSingletonLE_empty_endpoints_iff.mpr (And.intro leftEmpty rightEmpty))
+    (And.intro leftEmpty rightEmpty)
+
 theorem LatticeSingletonLE_continuation_result_left_carriers_iff {h k r : BHist} :
     Cont h k r ->
       (LatticeSingletonLE r h ↔ LatticeSingletonCarrier h ∧ LatticeSingletonCarrier k) := by
@@ -517,5 +532,43 @@ theorem LatticeSingletonMeet_assoc_comparison_empty {h k z : BHist} :
     (And.intro emptyCarrier
       (And.intro emptyCarrier (PreorderPrefixLE_of_hsame (hsame_refl BHist.Empty))))
     emptyCarrier
+
+theorem LatticeDirectedMeet_associativity_comparison_from_bounds
+    {Carrier : BHist -> Prop}
+    {Classifier Le : BHist -> BHist -> Prop}
+    {meet : BHist -> BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (le_trans :
+      forall {a b c : BHist}, Carrier a -> Carrier b -> Carrier c ->
+        Le a b -> Le b c -> Le a c)
+    (meet_carrier : forall {a b : BHist}, Carrier a -> Carrier b -> Carrier (meet a b))
+    (meet_lower_left : forall {a b : BHist}, Carrier a -> Carrier b -> Le (meet a b) a)
+    (meet_lower_right : forall {a b : BHist}, Carrier a -> Carrier b -> Le (meet a b) b)
+    (meet_greatest :
+      forall {w a b : BHist}, Carrier w -> Carrier a -> Carrier b ->
+        Le w a -> Le w b -> Le w (meet a b))
+    {x y z : BHist} :
+    Carrier x -> Carrier y -> Carrier z -> Le (meet (meet x y) z) (meet x (meet y z)) := by
+  intro carrierX carrierY carrierZ
+  have carrierXFromCert : Carrier x :=
+    NameCert.carrier_respects_equiv cert (NameCert.equiv_refl cert carrierX) carrierX
+  have carrierXY : Carrier (meet x y) := meet_carrier carrierXFromCert carrierY
+  have carrierYZ : Carrier (meet y z) := meet_carrier carrierY carrierZ
+  have carrierW : Carrier (meet (meet x y) z) := meet_carrier carrierXY carrierZ
+  have wLeXY : Le (meet (meet x y) z) (meet x y) :=
+    meet_lower_left carrierXY carrierZ
+  have xyLeX : Le (meet x y) x :=
+    meet_lower_left carrierXFromCert carrierY
+  have xyLeY : Le (meet x y) y :=
+    meet_lower_right carrierXFromCert carrierY
+  have wLeX : Le (meet (meet x y) z) x :=
+    le_trans carrierW carrierXY carrierXFromCert wLeXY xyLeX
+  have wLeY : Le (meet (meet x y) z) y :=
+    le_trans carrierW carrierXY carrierY wLeXY xyLeY
+  have wLeZ : Le (meet (meet x y) z) z :=
+    meet_lower_right carrierXY carrierZ
+  have wLeYZ : Le (meet (meet x y) z) (meet y z) :=
+    meet_greatest carrierW carrierY carrierZ wLeY wLeZ
+  exact meet_greatest carrierW carrierXFromCert carrierYZ wLeX wLeYZ
 
 end BEDC.Derived.LatticeUp
