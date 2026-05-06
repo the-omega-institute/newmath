@@ -177,6 +177,28 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_transition_composition_target
+    {base index domain chart transition next composite direct : BHist} :
+    ManifoldAtlasPackage base index domain chart transition -> UnaryHistory next ->
+      Cont transition next composite -> Cont domain (append chart next) direct ->
+        hsame composite direct ∧ UnaryHistory composite ∧ UnaryHistory direct := by
+  intro package nextUnary transitionNext domainChartNext
+  have domainUnary : UnaryHistory domain := package.right.right.left
+  have chartUnary : UnaryHistory chart := package.right.right.right.left
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  have domainChart : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have compositeUnary : UnaryHistory composite :=
+    unary_cont_closed transitionUnary nextUnary transitionNext
+  have chartNextUnary : UnaryHistory (append chart next) :=
+    unary_cont_closed chartUnary nextUnary (cont_intro rfl)
+  have directUnary : UnaryHistory direct :=
+    unary_cont_closed domainUnary chartNextUnary domainChartNext
+  cases domainChart
+  cases transitionNext
+  cases domainChartNext
+  exact And.intro (append_assoc domain chart next) (And.intro compositeUnary directUnary)
+
 theorem ManifoldAtlasPackage_pairwise_overlap_readback
     {base index domain chart transition pair : BHist} :
     ManifoldAtlasPackage base index domain chart transition ->
@@ -300,6 +322,24 @@ theorem ManifoldAtlasPackage_transition_composition_readback
     hsame_trans sameTransitionLeft (append_assoc base index chart)
   exact And.intro sameTransitionNested (And.intro sameTransitionLeft transitionUnary)
 
+structure ManifoldAtlasObligationInventory where
+  base : BHist
+  index : BHist
+  domain : BHist
+  chart : BHist
+  transition : BHist
+  package : ManifoldAtlasPackage base index domain chart transition
+  semanticCertificate :
+    SemanticNameCert ManifoldSingletonCarrier ManifoldSingletonCarrier ManifoldSingletonCarrier
+      (fun h k : BHist =>
+        ManifoldSingletonCarrier h ∧ ManifoldSingletonCarrier k ∧ hsame h k)
+  classifierTransport :
+    forall {base' index' domain' chart' transition' : BHist},
+      ManifoldAtlasClassifier base index domain chart transition base' index' domain' chart'
+        transition' ->
+        ManifoldAtlasPackage base' index' domain' chart' transition'
+  transitionReadback : hsame transition (append base (append index chart))
+
 def ManifoldScopedBoundaryPackage (carrier i j k pair triple : BHist) : Prop :=
   UnaryHistory carrier ∧ UnaryHistory i ∧ UnaryHistory j ∧ UnaryHistory k ∧
     Cont i j pair ∧ Cont pair k triple
@@ -319,6 +359,36 @@ theorem ManifoldScopedBoundaryPackage_triple_overlap_source_determinacy
   cases pairRow
   cases tripleRow
   exact And.intro pairUnary (And.intro tripleUnary (append_assoc i j k))
+
+theorem ManifoldScopedBoundaryPackage_transition_coherence_rows
+    {carrier i j k pair triple idRow inverseRow cocycleRow : BHist} :
+    ManifoldScopedBoundaryPackage carrier i j k pair triple -> Cont BHist.Empty pair idRow ->
+      Cont pair pair inverseRow -> Cont pair triple cocycleRow ->
+        UnaryHistory pair ∧ UnaryHistory triple ∧ hsame idRow pair ∧
+          hsame inverseRow (append pair pair) ∧ hsame cocycleRow (append pair triple) ∧
+            UnaryHistory idRow ∧ UnaryHistory inverseRow ∧ UnaryHistory cocycleRow := by
+  intro package idCont inverseCont cocycleCont
+  have overlapRows := ManifoldScopedBoundaryPackage_triple_overlap_source_determinacy package
+  have pairUnary : UnaryHistory pair := overlapRows.left
+  have tripleUnary : UnaryHistory triple := overlapRows.right.left
+  have idSame : hsame idRow pair :=
+    cont_left_unit_result idCont
+  have inverseSame : hsame inverseRow (append pair pair) :=
+    inverseCont
+  have cocycleSame : hsame cocycleRow (append pair triple) :=
+    cocycleCont
+  have idUnary : UnaryHistory idRow :=
+    unary_transport pairUnary (hsame_symm idSame)
+  have inverseUnary : UnaryHistory inverseRow :=
+    unary_cont_closed pairUnary pairUnary inverseCont
+  have cocycleUnary : UnaryHistory cocycleRow :=
+    unary_cont_closed pairUnary tripleUnary cocycleCont
+  exact And.intro pairUnary
+    (And.intro tripleUnary
+      (And.intro idSame
+        (And.intro inverseSame
+          (And.intro cocycleSame
+            (And.intro idUnary (And.intro inverseUnary cocycleUnary))))))
 
 theorem ManifoldScopedBoundaryPackage_reassociated_source {carrier i j k pair triple : BHist} :
     ManifoldScopedBoundaryPackage carrier i j k pair triple ->
