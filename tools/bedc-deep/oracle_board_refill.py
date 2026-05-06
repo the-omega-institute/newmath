@@ -115,7 +115,7 @@ def _has_refill_in_server(status: dict) -> bool:
 
 
 def _board_content() -> str:
-    return board_context.build_board_prompt_context(max_chars=30000)
+    return board_context.build_board_prompt_context()
 
 
 def _scan_paper_labels(limit: int = 600) -> str:
@@ -191,7 +191,7 @@ def build_refill_prompt() -> str:
     board = _board_content()
     labels = _scan_paper_labels()
     return template.format(
-        board_content=_safe(board[:30000]),
+        board_content=_safe(board),
         paper_labels=_safe(labels),
     )
 

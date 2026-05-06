@@ -298,3 +298,68 @@ $\Omega\star(\Gamma\star\Lambda)$ as the same ordered source-middle-target
 record, so the two displayed carriers classify the same Banach bounded linear
 operator row.
 \end{proof}
+
+\begin{theorem}[Banach bounded linear operator identity units]
+\label{thm:banach-bounded-linear-operator-identity-units}
+Let $C,D$ be $\BanachUp$ candidates with vector carriers $C_V,D_V$, classifiers $\sim_C,\sim_D$, norms $\nu_C,\nu_D$, and norm-induced distances $d_C,d_D$. Let
+$$
+\operatorname{id}_C:C_V\to C_V,\qquad \operatorname{id}_C(x):=x,
+$$
+and
+$$
+\operatorname{id}_D:D_V\to D_V,\qquad \operatorname{id}_D(y):=y.
+$$
+Assume the carried operator row
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+and assume that the source and target identity maps carry the unit bound:
+$$
+\mathsf{BanachBLOp}(C,C,\operatorname{id}_C,1_{\RealUp},\mathcal{I}_C),
+\qquad
+\mathsf{BanachBLOp}(D,D,\operatorname{id}_D,1_{\RealUp},\mathcal{I}_D).
+$$
+Assume also that the identity ledgers are unit ledgers for $\Lambda$: the RealUp multiplication rows classify $K\cdot1_{\RealUp}$ and $1_{\RealUp}\cdot K$ with $K$, and the ordered ledgers $\Lambda\star\mathcal{I}_C$ and $\mathcal{I}_D\star\Lambda$ componentwise transport back to $\Lambda$ by collapsing only the displayed identity endpoint rows and these RealUp multiplication-unit rows. Then the two unit composites are carried:
+$$
+\mathsf{BanachBLOp}(C,D,T\circ\operatorname{id}_C,K\cdot1_{\RealUp},\Lambda\star\mathcal{I}_C)
+$$
+and
+$$
+\mathsf{BanachBLOp}(C,D,\operatorname{id}_D\circ T,1_{\RealUp}\cdot K,\mathcal{I}_D\star\Lambda).
+$$
+Moreover both composite operator representatives are classified with the original representative by the Banach bounded-operator classifier of \autoref{def:banach-bounded-linear-operator-carrier}:
+$$
+(T\circ\operatorname{id}_C,K\cdot1_{\RealUp},\Lambda\star\mathcal{I}_C)
+\sim_{\mathrm{op}(C,D)}(T,K,\Lambda)
+$$
+and
+$$
+(\operatorname{id}_D\circ T,1_{\RealUp}\cdot K,\mathcal{I}_D\star\Lambda)
+\sim_{\mathrm{op}(C,D)}(T,K,\Lambda).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:banach-bounded-linear-operator-composition-closure} to the carried source identity row and the carried row for $T$. With the middle object equal to $C$, the composite endpoint map is $T\circ\operatorname{id}_C$, the product bound is $K\cdot1_{\RealUp}$, and the concatenated ledger is $\Lambda\star\mathcal{I}_C$. This gives the displayed right unit carrier.
+
+Apply the same composition-closure theorem to the carried row for $T$ and the carried target identity row. With the middle object equal to $D$, the composite endpoint map is $\operatorname{id}_D\circ T$, the product bound is $1_{\RealUp}\cdot K$, and the concatenated ledger is $\mathcal{I}_D\star\Lambda$. This gives the displayed left unit carrier.
+
+It remains to identify the two composites with the original representative. Unfold the operator classifier specified in \autoref{def:banach-bounded-linear-operator-carrier}. Its comparison has three visible fields: endpoint-map comparison, RealUp bound comparison, and componentwise ledger transport.
+
+For every carried source endpoint $x:C_V$, the right unit endpoint computes as
+$$
+(T\circ\operatorname{id}_C)(x)=T(\operatorname{id}_C(x))=T(x),
+$$
+and the left unit endpoint computes as
+$$
+(\operatorname{id}_D\circ T)(x)=\operatorname{id}_D(T(x))=T(x).
+$$
+The target vector classifier reflexivity row therefore supplies the endpoint-map component of both operator-classifier comparisons.
+
+The RealUp bound component is exactly the assumed multiplication-unit transport:
+$$
+K\cdot1_{\RealUp}\sim_{\RealUp}K,
+\qquad
+1_{\RealUp}\cdot K\sim_{\RealUp}K.
+$$
+The ledger component is exactly the unit-ledger hypothesis: $\Lambda\star\mathcal{I}_C$ and $\mathcal{I}_D\star\Lambda$ transport componentwise to $\Lambda$ after the identity endpoint rows and the RealUp unit rows are collapsed. These three components are precisely the fields of the Banach bounded-operator classifier, so both unit composites are classified with $(T,K,\Lambda)$.
+\end{proof}

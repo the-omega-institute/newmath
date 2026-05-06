@@ -503,3 +503,91 @@ $$
 $$
 which is the asserted density-matrix endpoint preservation.
 \end{proof}
+
+\begin{theorem}[QuantumChannel identity composition unit laws]
+\label{thm:quantumchannel-identity-composition-unit-laws}
+Let $H$ and $K$ be $\HilbertUp$ carriers with trace-class spaces $\mathsf{TC}(H)$ and $\mathsf{TC}(K)$. Let $\operatorname{id}_{\mathsf{TC}(H)}$ and $\operatorname{id}_{\mathsf{TC}(K)}$ be the identity functions on these trace-class carriers, and write $\sim_{\mathsf{TC}(K)}$ for the target trace-class classifier inherited from the $\OperatorIdealUp$ dependency surface. If
+$$
+\mathsf{QChan}_{H,K}(\Phi),
+$$
+then both unit composites are carried by $\QuantumChannelUp(H,K)$:
+$$
+\mathsf{QChan}_{H,K}(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)})
+\qquad\text{and}\qquad
+\mathsf{QChan}_{H,K}(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi).
+$$
+Moreover both unit composites are related to $\Phi$ by the pointwise $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ classifier:
+$$
+\Phi\circ\operatorname{id}_{\mathsf{TC}(H)}
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))}
+\Phi
+\qquad\text{and}\qquad
+\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))}
+\Phi.
+$$
+Equivalently, every carried trace-class endpoint $T\in\mathsf{TC}(H)$ satisfies
+$$
+(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)})(T)
+\sim_{\mathsf{TC}(K)}
+\Phi(T)
+\qquad\text{and}\qquad
+(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi)(T)
+\sim_{\mathsf{TC}(K)}
+\Phi(T).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:quantumchannel-identity-channel-cptp} to $H$ and to $K$. This gives
+$$
+\mathsf{QChan}_{H,H}(\operatorname{id}_{\mathsf{TC}(H)})
+\qquad\text{and}\qquad
+\mathsf{QChan}_{K,K}(\operatorname{id}_{\mathsf{TC}(K)}).
+$$
+Applying \autoref{thm:quantumchannel-composition-closure} first to $\operatorname{id}_{\mathsf{TC}(H)}$ and $\Phi$ gives
+$$
+\mathsf{QChan}_{H,K}(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)}).
+$$
+Applying the same theorem to $\Phi$ and $\operatorname{id}_{\mathsf{TC}(K)}$ gives
+$$
+\mathsf{QChan}_{H,K}(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi).
+$$
+These are the two carried quantum-channel clauses.
+
+It remains to compare the underlying map-code endpoints. Unpack $\mathsf{QChan}_{H,K}(\Phi)$ by \autoref{def:quantumchannel-cptp-carrier}. Its first row carries the $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ map-code of \autoref{def:linearmap-carrier}. The trace-class carriers are module carriers over the scalar certificate inherited from the $\OperatorIdealUp$ and $\HilbertUp$ dependency surfaces cited in \autoref{ch:concrete-instances-densitymatrix-namecert}. Applying \autoref{thm:module-linearmap-identity-unit-laws} with
+$$
+M=\mathsf{TC}(H),
+\qquad
+N=\mathsf{TC}(K),
+\qquad
+f=\Phi,
+$$
+gives the two pointwise $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ classifier comparisons
+$$
+\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))}
+\Phi
+\qquad\text{and}\qquad
+\Phi\circ\operatorname{id}_{\mathsf{TC}(H)}
+\sim_{\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))}
+\Phi.
+$$
+
+For the displayed pointwise form, let $T$ be a carried trace-class endpoint of $\mathsf{TC}(H)$. The output-closure row of the carried $\LinearMapUp$ map-code for $\Phi$ gives that $\Phi(T)$ is carried in $\mathsf{TC}(K)$. The identity equations give
+$$
+(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)})(T)=\Phi(T)
+\qquad\text{and}\qquad
+(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi)(T)=\Phi(T).
+$$
+Classifier reflexivity for the target trace-class module therefore gives
+$$
+(\Phi\circ\operatorname{id}_{\mathsf{TC}(H)})(T)
+\sim_{\mathsf{TC}(K)}
+\Phi(T)
+\qquad\text{and}\qquad
+(\operatorname{id}_{\mathsf{TC}(K)}\circ\Phi)(T)
+\sim_{\mathsf{TC}(K)}
+\Phi(T).
+$$
+By \autoref{def:linearmap-classifier-specification}, these pointwise target-classifier comparisons are exactly the underlying $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ classifier relations.
+\end{proof}
