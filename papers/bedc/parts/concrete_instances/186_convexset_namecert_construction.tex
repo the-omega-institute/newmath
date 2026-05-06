@@ -191,3 +191,42 @@ The induction therefore covers every recursively bracketed finite affine-spine
 witness, so $C(z)$ holds.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvexSetUp.ConvexSetSingletonAffineSpine\_closure}
+
+\begin{definition}[ConvexSet pointwise intersection carrier]
+\label{def:convexset-pointwise-intersection-carrier}
+Let two $\ConvexSetUp$ certificates be given over the same scalar $\FieldUp(F)$ and the same vector carrier from $\VecSpaceUp(F,V)$, using the same scalar classifier $\sim_F$, scalar addition $+_F$, scalar unit $1_F$, nonnegative predicate $\mathsf{NonNeg}_F$, scalar action $\odot$, and vector addition $+_V$. Write $C,D:V\to\mathsf{Prop}$ for their convex carriers. The pointwise intersection carrier $C\cap_{\ConvexSetUp}D$ is the predicate on $V$ defined by
+$$
+(C\cap_{\ConvexSetUp}D)(z)\Longleftrightarrow C(z)\land D(z).
+$$
+\end{definition}
+
+\begin{theorem}[ConvexSet pointwise intersection affine-combination closure]
+\label{thm:convexset-pointwise-intersection-affine-combination-closure}
+Let two $\ConvexSetUp$ certificates be given as in \autoref{def:convexset-pointwise-intersection-carrier}. Assume each certificate supplies the binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row} for its own convex carrier, and write $K:=C\cap_{\ConvexSetUp}D$. For all $a,b:F$ and $x,y:V$, if
+$$
+K(x)\land K(y)\land \mathsf{NonNeg}_F(a)\land \mathsf{NonNeg}_F(b)
+\land (a+_F b)\sim_F 1_F,
+$$
+then
+$$
+K\bigl((a\odot x)+_V(b\odot y)\bigr).
+$$
+Thus the pointwise intersection satisfies the same nonnegative unit-sum binary affine-combination closure row over the common $\FieldUp$ and $\VecSpaceUp$ data.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:convexset-pointwise-intersection-carrier}. From $K(x)$ obtain $C(x)$ and $D(x)$, and from $K(y)$ obtain $C(y)$ and $D(y)$. The scalar hypotheses are shared by the two input certificates because the scalar classifier, scalar addition, scalar unit, nonnegative predicate, scalar action, and vector addition are the common data named in the definition.
+
+Apply the binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row} for the carrier $C$ to the coefficients $a,b$ and the carried points $x,y$. The projected carrier hypotheses, the two nonnegativity hypotheses, and the unit-sum classifier hypothesis give
+$$
+C\bigl((a\odot x)+_V(b\odot y)\bigr).
+$$
+Apply the same row for the carrier $D$ with the same coefficients and points. The other projected carrier hypotheses and the same scalar hypotheses give
+$$
+D\bigl((a\odot x)+_V(b\odot y)\bigr).
+$$
+Pairing these two carrier conclusions and folding \autoref{def:convexset-pointwise-intersection-carrier} gives
+$$
+K\bigl((a\odot x)+_V(b\odot y)\bigr),
+$$
+which is exactly the displayed binary affine-combination closure row for the intersection carrier.
+\end{proof}
