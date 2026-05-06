@@ -81,6 +81,26 @@ theorem SubgroupCentralizerRightQuotientClassifier_diagonal_carrier_iff
       BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizerQuotientClassifier_refl_from_empty_unit
         leftId rightId normalizes
 
+theorem SubgroupCentralizerQuotientKernel_diagonal_carrier_exactness
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x : BHist} :
+    SubgroupCentralizerQuotientKernel mul inv a x x <->
+      SubgroupCentralizerNormalizer mul inv a x := by
+  constructor
+  · intro diagonal
+    exact diagonal.left
+  · intro normalizes
+    exact
+      SubgroupCentralizerNormalizer_kernel_classifier_refl
+        assocC leftId rightId mulCongr leftInv rightInv normalizes
+
 protected theorem SubgroupCentralizerRightQuotientClassifier_symm_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

@@ -41,4 +41,21 @@ theorem DiffFormExteriorDerivative_degree_raise_ledger
   exact ⟨coordinateRows.left, targetUnary, targetRoute, coordinateRows.right.right.left,
     coordinateRows.right.right.right.left⟩
 
+def DiffFormExteriorDerivativeLedger
+    (omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source :
+      BHist) :
+    Prop :=
+  UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory d ∧ UnaryHistory dplus ∧
+    Cont d (BHist.e1 BHist.Empty) dplus ∧ hsame probe probe' ∧ hsame tensor tensor' ∧
+      hsame scalar scalar' ∧ UnaryHistory antisym ∧ UnaryHistory source
+
+theorem DiffFormExteriorDerivativeLedger_degree_raise
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar
+      scalar' antisym source ->
+      UnaryHistory d ∧ UnaryHistory dplus ∧ Cont d (BHist.e1 BHist.Empty) dplus := by
+  intro ledger
+  exact And.intro ledger.right.right.left
+    (And.intro ledger.right.right.right.left ledger.right.right.right.right.left)
+
 end BEDC.Derived.DiffFormUp
