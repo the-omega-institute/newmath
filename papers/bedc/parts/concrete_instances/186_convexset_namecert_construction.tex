@@ -230,3 +230,77 @@ K\bigl((a\odot x)+_V(b\odot y)\bigr),
 $$
 which is exactly the displayed binary affine-combination closure row for the intersection carrier.
 \end{proof}
+
+\begin{definition}[ConvexSet classifier image carrier]
+\label{def:convexset-linear-image-carrier}
+Let $F$ carry a $\FieldUp(F)$ certificate, let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates over the same scalar source, and let $C:V\to\mathsf{Prop}$ be the convex carrier of a $\ConvexSetUp$ certificate on $V$. Write $\sim_W$ for the codomain vector classifier, and let $f:V\to W$ be a carried $\LinearMapUp(V,W)$ map. The classifier image of $C$ along $f$ is the predicate $f[C]_{\sim_W}:W\to\mathsf{Prop}$ defined by
+$$
+f[C]_{\sim_W}(w)\Longleftrightarrow
+\exists x:V.\; C(x)\land f(x)\sim_W w.
+$$
+The witness records a source point carried by the convex carrier and a codomain classifier comparison from its $f$-output to the displayed codomain endpoint.
+\end{definition}
+
+\begin{theorem}[ConvexSet linear image affine-combination closure]
+\label{thm:convexset-linear-image-affine-combination-closure}
+Let the data be as in \autoref{def:convexset-linear-image-carrier}. Write $\sim_F$, $+_F$, $1_F$, and $\mathsf{NonNeg}_F$ for the scalar classifier, scalar addition, scalar unit, and nonnegative predicate. Write $+_V$ and $\odot_V$ for the source vector addition and scalar action, and write $+_W$, $\odot_W$, and $\sim_W$ for the codomain vector addition, scalar action, and classifier. Assume the source $\ConvexSetUp$ certificate supplies the binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row}. For carried scalars $a,b:F$ and codomain endpoints $u,v:W$, if
+$$
+f[C]_{\sim_W}(u)\land f[C]_{\sim_W}(v)\land
+\mathsf{NonNeg}_F(a)\land\mathsf{NonNeg}_F(b)\land
+(a+_F b)\sim_F1_F,
+$$
+then
+$$
+f[C]_{\sim_W}\bigl((a\odot_W u)+_W(b\odot_W v)\bigr).
+$$
+Thus the pointwise classifier image $f[C]_{\sim_W}$ satisfies the same binary nonnegative unit-sum affine-combination closure row in the codomain vector-space carrier.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:convexset-linear-image-carrier} for the two image hypotheses. Choose source points $x,y:V$ with
+$$
+C(x),\qquad C(y),\qquad f(x)\sim_Wu,\qquad f(y)\sim_Wv.
+$$
+Because the $\ConvexSetUp$ carrier is a subset of the source $\VecSpaceUp$ carrier, $x$ and $y$ are carried source inputs. Set
+$$
+s:=(a\odot_V x)+_V(b\odot_V y).
+$$
+The nonnegativity hypotheses and the scalar unit-sum comparison are exactly the coefficient hypotheses required by \autoref{def:convexset-binary-affine-combination-row}. Applying that row to $x,y$ and $a,b$ gives $C(s)$.
+
+It remains to compare the $f$-output of this source witness with the displayed codomain affine combination. The carried $\LinearMapUp(V,W)$ map supplies the function-with-law rows of \autoref{def:linearmap-carrier}; read through \autoref{def:vecspace-carrier} and \autoref{def:module-linearmap-certificate-package}, these include output closure, additive preservation, and scalar compatibility. Source scalar-action closure and source additive closure make the two summands of $s$ and $s$ carried source inputs. Additive preservation gives
+$$
+f(s)\sim_W f(a\odot_V x)+_W f(b\odot_V y).
+$$
+Scalar compatibility gives
+$$
+f(a\odot_V x)\sim_W a\odot_W f(x),
+\qquad
+f(b\odot_V y)\sim_W b\odot_W f(y).
+$$
+The target additive congruence row from \autoref{def:module-stability-certificate} transports these two comparisons to
+$$
+f(a\odot_V x)+_W f(b\odot_V y)
+\sim_W
+(a\odot_W f(x))+_W(b\odot_W f(y)).
+$$
+
+The image comparisons $f(x)\sim_Wu$ and $f(y)\sim_Wv$ are codomain classifier comparisons. Scalar-action congruence in the codomain vector-space module, using scalar reflexivity on the carried scalars $a$ and $b$, gives
+$$
+a\odot_W f(x)\sim_W a\odot_W u,
+\qquad
+b\odot_W f(y)\sim_W b\odot_W v.
+$$
+A second use of target additive congruence gives
+$$
+(a\odot_W f(x))+_W(b\odot_W f(y))
+\sim_W
+(a\odot_W u)+_W(b\odot_W v).
+$$
+Classifier transitivity, as packaged by \autoref{thm:namecert-equivalence-transitivity}, composes the three codomain comparisons and yields
+$$
+f(s)\sim_W(a\odot_W u)+_W(b\odot_W v).
+$$
+The source witness $s$, the convex-carrier proof $C(s)$, and this codomain classifier comparison repack by \autoref{def:convexset-linear-image-carrier} as
+$$
+f[C]_{\sim_W}\bigl((a\odot_W u)+_W(b\odot_W v)\bigr).
+$$
+\end{proof}
