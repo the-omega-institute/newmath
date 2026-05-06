@@ -1,0 +1,343 @@
+\section{The certificate}
+\label{sec:measure-certificate}
+
+\begin{theorem}[Measure carrier and classifier stability]
+\label{thm:measure-carrier-and-classifier-stability}
+Let $M$ and $N$ be $\MeasureUp$ carriers as in \autoref{def:measure-carrier-specification}, related by the classifier of \autoref{def:measure-classifier-specification}. If $E$ is a displayed event of $M$, $E'$ is a displayed event of $N$, and the event presentations satisfy $\hsame(E,E')$, then the measurable witness for $E$ in $\mathcal A_M$ transports to a measurable witness for $E'$ in $\mathcal A_N$. Moreover the visible measure endpoints satisfy
+$$
+\mu_M(E)\sim_R\mu_N(E')
+$$
+through $\mathsf{RealConstantHistoryClassifier}$ and the $\RealUp$ classifier of \autoref{def:real-classifier-specification}.
+\end{theorem}
+\begin{proof}
+The shared event-carrier component of \autoref{def:measure-classifier-specification} is exactly the transport rule for displayed event witnesses. Apply it to the $\hsame(E,E')$ comparison to move the event witness and its measurable row from $M$ to $N$.
+
+The endpoint component of the classifier reads the two ledger endpoints attached to the transported measurable event. Since the carrier specification records the event witness, measurable witness, and $\RealUp$ endpoint in the same visible ledger, the endpoint comparison is the displayed $\mathsf{RealConstantHistoryClassifier}$ row.
+
+Finally, \autoref{def:real-classifier-specification} identifies that row as a valid $\RealUp$ classifier comparison. No quotient of event codes and no host equality of subsets is introduced.
+\end{proof}
+
+\begin{theorem}[MeasureUp classifier stability obligations]
+\label{thm:measureup-classifier-stability-obligations}
+For a $\MeasureUp$ carrier with inventory
+\autoref{def:measureup-carrier-obligation-inventory}, componentwise $\hsame$
+of carrier packages transports every row named by the inventory. In particular,
+if two packages are componentwise $\hsame$, then measurable membership in
+$\mathcal{A}$, the $\RealUp$-valued measure rows for $\mu$, the
+$\sigma$-algebra closure rows, and the $\RealUp$ classifier on $\mu$-values are
+preserved across the transport.
+\end{theorem}
+\begin{proof}
+Unpack the carrier inventory. The event carrier, the measurable predicate, the
+measure map, and the empty, binary-union, countable-union, and
+complement/relative-difference rows are separate components of the same
+$\mathsf{BHist}$ package.
+
+Componentwise $\hsame$ supplies a transport witness for each component. Applying
+the measurable-set component transports membership in $\mathcal{A}$, and
+applying the closure-row components transports the empty, binary-union, and
+countable-union witnesses. The same componentwise projection transports the
+relative-difference event, its inclusion readback, its disjointness witness,
+and its binary-union readback.
+
+It remains to identify the value rows. The $\mu$-congruence component sends
+transported measurable events to transported $\RealUp$ values, and the
+$\RealUp$ classifier of \autoref{def:real-classifier-specification} composes
+those comparisons inside the codomain. Hence the classifier on $\mu$-values is
+stable under the same componentwise carrier transport.
+\end{proof}
+
+\begin{theorem}[MeasureUp sigma-additive certificate obligations]
+\label{thm:measureup-sigma-additive-certificate-obligations}
+For a $\MeasureUp$ carrier with inventory
+\autoref{def:measureup-carrier-obligation-inventory}, a $\MeasureUp$
+certificate consists of the following rows:
+\begin{enumerate}
+  \item empty-event membership $\varnothing\in\mathcal{A}$;
+  \item binary disjoint-union closure in $\mathcal{A}$;
+  \item countable disjoint-union closure in $\mathcal{A}$ for
+  StreamName-style measurable families;
+  \item complement/relative-difference closure for displayed inclusions
+  $B\subseteq A$ of measurable events in the same carried fiber;
+  \item $\sigma$-additivity into the $\RealUp$ countable-sum classifier;
+  \item classifier-stable head-tail readback for those countable sums.
+\end{enumerate}
+With these rows, \autoref{thm:measure-empty-set-zero-from-sigma-additivity} and
+\autoref{thm:measure-finite-disjoint-union-additivity} are consequences of the
+certificate package, and the displayed relative-difference row supplies the
+finite difference readback of
+\autoref{thm:measure-relative-difference-additivity}.
+\end{theorem}
+\begin{proof}
+The first row gives the all-empty measurable sequence used for the zero law.
+The countable disjoint-union row identifies its union as the empty event, and
+the $\sigma$-additivity row compares $\mu(\varnothing)$ with the associated
+$\RealUp$ countable sum.
+
+Head-tail readback splits that sum into its head and tail. The classifier
+stability theorem transports the tail back to the original all-empty sum, and
+the additive $\AbGroupUp$ row then cancels the repeated summand exactly as in
+\autoref{thm:measure-empty-set-zero-from-sigma-additivity}.
+
+For the finite disjoint-union law, use the measurable sequence whose first two
+terms are the given disjoint events and whose remaining terms are empty. Binary
+closure supplies measurability of $A\cup B$, countable closure supplies the same
+event as the countable union, and $\sigma$-additivity compares its measure with
+the corresponding countable sum.
+
+Two applications of head-tail readback expose the first two summands. The empty
+tail is classified as $0_R$ by the zero law, and the additive $\AbGroupUp$ row
+removes that unit. The resulting comparison is the statement of
+\autoref{thm:measure-finite-disjoint-union-additivity}.
+
+For displayed inclusions $B\subseteq A$, the complement/relative-difference row
+supplies the measurable event $A\setminus B$, the disjointness of $B$ and
+$A\setminus B$, and the binary-union readback to $A$. Feeding those rows into
+finite disjoint-union additivity gives the finite difference comparison.
+\end{proof}
+
+\begin{theorem}[Measure finite-support countable readback]
+\label{thm:measure-finite-support-countable-readback}
+Let $M$ be a $\MeasureUp$ carrier as in \autoref{def:measure-carrier-specification}. Let $E_\bullet$ be a pairwise-disjoint measurable sequence such that $E_n=\varnothing$ for every $n\geq2$. Write
+$$
+S:=\Sigma_\mu(E_\bullet),\qquad
+T:=\Sigma_\mu(E_{\bullet+1}),\qquad
+U:=\Sigma_\mu(E_{\bullet+2}).
+$$
+If the carrier supplies classifier-stable head-tail readback, pointwise countable-sum stability, and the additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} with zero $0_R$, then
+$$
+S\sim_R\mu(E_0)+\mu(E_1).
+$$
+\end{theorem}
+\begin{proof}
+Apply the head-tail row to the original sequence. It gives $S\sim_R\mu(E_0)+T$. Apply the same row to the shifted sequence. It gives $T\sim_R\mu(E_1)+U$.
+
+It remains to read back the empty tail. Let $F_n:=\varnothing$ for all $n$. Since $E_{n+2}=\varnothing$ by hypothesis, pointwise countable-sum stability gives $U\sim_R\Sigma_\mu(F_\bullet)$. The constant-empty $\sigma$-additivity row identifies $\mu(\varnothing)$ with $\Sigma_\mu(F_\bullet)$, and \autoref{thm:measure-empty-set-zero-from-sigma-additivity} identifies $\mu(\varnothing)$ with $0_R$.
+
+Transport this comparison through the additive congruence supplied by \autoref{def:abgroup-carrier}. The right-unit law then reads $\mu(E_1)+U$ as $\mu(E_1)$, and a final congruence step reads $\mu(E_0)+T$ as $\mu(E_0)+\mu(E_1)$.
+\end{proof}
+
+\begin{theorem}[Measure certificate obligation threshold]
+\label{thm:measure-certificate-obligation-threshold}
+A $\MeasureUp$ NameCert obligation threshold is reached by the following paper-side data: a carrier satisfying \autoref{def:measure-carrier-specification}, a classifier satisfying \autoref{def:measure-classifier-specification}, the stability row of \autoref{thm:measure-carrier-and-classifier-stability}, the finite-support countable readback row of \autoref{thm:measure-finite-support-countable-readback}, the empty-set-zero theorem \autoref{thm:measure-empty-set-zero-from-sigma-additivity}, and the finite disjoint-union additivity theorem \autoref{thm:measure-finite-disjoint-union-additivity}. These data provide the carrier transport, classifier transport, $\sigma$-additive readback, zero endpoint, binary additivity, and visible ledger rows required by the public $\MeasureUp$ certificate surface.
+\end{theorem}
+\begin{proof}
+The carrier and classifier definitions supply the public surface: event witnesses, measurable witnesses, endpoint rows, and classifier movement are all visible BHist and $\RealUp$ rows. The stability theorem is the transport field of the surface, with endpoint movement discharged by \autoref{def:real-classifier-specification}.
+
+The finite-support theorem turns the countable-sum row into the binary readback needed by finite disjoint union. The empty-set-zero theorem supplies the additive zero endpoint, and the additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} supplies the congruence and unit laws used in that readback.
+
+Finally, \autoref{thm:measure-finite-disjoint-union-additivity} packages these rows into the displayed binary additivity clause. The cancellation step used by the zero endpoint is exactly the group row cited in \autoref{thm:group-left-absorb-right-factor-unit}, so the threshold is assembled from visible certificate fields rather than from external set equality.
+\end{proof}
+
+\begin{theorem}[Measure empty set is zero]
+\label{thm:measure-empty-set-zero-from-sigma-additivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Suppose $\varnothing\in\mathcal{A}$, and suppose the $\MeasureUp$ certificate supplies $\sigma$-additivity for every pairwise-disjoint measurable sequence, together with classifier-stable head-tail readback for the resulting countable $\RealUp$ sum. If the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row with zero $0_R$, then
+$$
+\mu(\varnothing)\sim_R 0_R.
+$$
+\end{theorem}
+\begin{proof}
+Let $E_n:=\varnothing$ for every $n:\mathbb{N}$. The hypothesis $\varnothing\in\mathcal{A}$ makes every $E_n$ measurable. The sequence is pairwise disjoint, and its union is again $\varnothing$.
+
+Let $S$ be the countable $\RealUp$ sum $\sum_{n=0}^{\infty}\mu(E_n)$. The $\sigma$-additivity row gives
+$$
+\mu(\varnothing)\sim_R S.
+$$
+The head-tail row for this sum gives
+$$
+S\sim_R\mu(E_0)+\sum_{n=1}^{\infty}\mu(E_n).
+$$
+Since $E_0=\varnothing$, the first summand is $\mu(\varnothing)$. The tail sequence $(E_{n+1})_{n\geq0}$ is pointwise the same empty sequence as $(E_n)_{n\geq0}$, so countable-sum classifier stability gives
+$$
+\sum_{n=1}^{\infty}\mu(E_n)\sim_R S.
+$$
+Composing this with the $\sigma$-additivity comparison and transporting the right summand through addition yields
+$$
+S\sim_R\mu(\varnothing)+\mu(\varnothing).
+$$
+Composing once more with $\mu(\varnothing)\sim_R S$ gives
+$$
+\mu(\varnothing)\sim_R\mu(\varnothing)+\mu(\varnothing).
+$$
+By symmetry, $\mu(\varnothing)+\mu(\varnothing)\sim_R\mu(\varnothing)$.
+
+The additive $\AbGroupUp$ row described in \autoref{def:abgroup-carrier} gives the group hypotheses for $+$ and $0_R$. Applying \autoref{thm:group-left-absorb-right-factor-unit} with $a=\mu(\varnothing)$ and $b=\mu(\varnothing)$ forces the right summand to the additive unit, yielding $\mu(\varnothing)\sim_R0_R$.
+\end{proof}
+
+\begin{theorem}[Measure finite disjoint-union additivity]
+\label{thm:measure-finite-disjoint-union-additivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let $\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $A,B\in\mathcal{A}$ be disjoint, and let $A\cup B$ be the measurable binary union supplied by the $\sigma$-algebra row. Suppose $\varnothing\in\mathcal{A}$, and suppose the $\MeasureUp$ certificate supplies $\sigma$-additivity for every pairwise-disjoint measurable sequence, together with classifier-stable head-tail readback and pointwise classifier stability for the resulting countable $\RealUp$ sums. If the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row with zero $0_R$, then
+$$
+\mu(A\cup B)\sim_R\mu(A)+\mu(B).
+$$
+\end{theorem}
+\begin{proof}
+Define a measurable sequence by $E_0:=A$, $E_1:=B$, and $E_n:=\varnothing$ for every $n\geq2$. Each term is measurable because $A,B,\varnothing\in\mathcal{A}$. The sequence is pairwise disjoint: the only nonempty pair to check is $A$ against $B$, and this is the displayed disjointness hypothesis. Its countable union is exactly $A\cup B$.
+
+Let
+$$
+S:=\sum_{n=0}^{\infty}\mu(E_n),\qquad
+T:=\sum_{n=0}^{\infty}\mu(E_{n+1}),\qquad
+U:=\sum_{n=0}^{\infty}\mu(E_{n+2}).
+$$
+The $\sigma$-additivity row gives
+$$
+\mu(A\cup B)\sim_R S.
+$$
+The first head-tail readback gives
+$$
+S\sim_R\mu(E_0)+T,
+$$
+hence $S\sim_R\mu(A)+T$. The second head-tail readback gives
+$$
+T\sim_R\mu(E_1)+U,
+$$
+hence $T\sim_R\mu(B)+U$.
+
+It remains to identify the empty tail. Let $F_n:=\varnothing$ for every $n$, and let $S_{\varnothing}:=\sum_{n=0}^{\infty}\mu(F_n)$. Since $E_{n+2}=F_n$ for every $n$, pointwise classifier stability of the countable sum gives
+$$
+U\sim_R S_{\varnothing}.
+$$
+Applying $\sigma$-additivity to the all-empty sequence gives $\mu(\varnothing)\sim_R S_{\varnothing}$, while \autoref{thm:measure-empty-set-zero-from-sigma-additivity} gives $\mu(\varnothing)\sim_R0_R$. By symmetry and transitivity of the $\RealUp$ classifier, $S_{\varnothing}\sim_R0_R$, and therefore
+$$
+U\sim_R0_R.
+$$
+
+The additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} supplies addition congruence and the right-unit law. Transporting $U\sim_R0_R$ through addition gives
+$$
+\mu(B)+U\sim_R\mu(B)+0_R\sim_R\mu(B),
+$$
+so $T\sim_R\mu(B)$. Transporting this comparison through addition with the fixed left summand $\mu(A)$ gives
+$$
+\mu(A)+T\sim_R\mu(A)+\mu(B).
+$$
+Composing this with $S\sim_R\mu(A)+T$ and with $\mu(A\cup B)\sim_R S$ yields the displayed classification.
+\end{proof}
+
+\begin{theorem}[Measure complement row transport]
+\label{thm:measure-complement-row-transport}
+Let $M$ and $N$ be $\MeasureUp$ carriers as in
+\autoref{def:measure-carrier-specification}, and suppose
+$M\sim_{\MeasureUp}N$ through the public classifier of
+\autoref{def:measure-classifier-specification}. If $A$ and $B$ are displayed
+measurable events of $M$ with displayed inclusion $B\subseteq A$, then the
+complement/relative-difference row of
+\autoref{def:measure-complement-difference-row} transports the event
+$A\setminus B$, its measurable witness, its disjointness witness against $B$,
+its binary-union readback $B\cup(A\setminus B)\sim_M A$, and its $\RealUp$
+measure endpoint to the corresponding row of $N$.
+\end{theorem}
+\begin{proof}
+Project the public classifier into its componentwise $\hsame$ fields. These
+fields transport the carried fiber, the two event presentations, their
+measurable witnesses, and the displayed inclusion witness from $M$ to $N$.
+
+Apply the stability clause in
+\autoref{def:measure-complement-difference-row} to those transported inputs.
+It returns the target relative-difference event together with the measurable,
+disjointness, and binary-union readback fields.
+
+The remaining endpoint comparison is the value component of the same row. Read
+that component through $\mathsf{RealConstantHistoryClassifier}$ and then
+through the $\RealUp$ classifier supplied by
+\autoref{def:real-classifier-specification}.
+\end{proof}
+
+\begin{theorem}[Measure relative-difference disjoint decomposition]
+\label{thm:measure-relative-difference-disjoint-decomposition}
+Let $M$ be a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Let
+$A$ and $B$ be displayed measurable events in the same carried fiber, and
+suppose the public event readback displays $B\subseteq A$. Then the
+complement/relative-difference row supplies a measurable event
+$A\setminus B$ such that $B$ and $A\setminus B$ are disjoint and the binary
+union $B\cup(A\setminus B)$ is classified as $A$ in the public $\MeasureUp$
+event classifier.
+\end{theorem}
+\begin{proof}
+Read the complement/relative-difference row of
+\autoref{def:measure-complement-difference-row} at the carried fiber of $M$.
+The hypotheses give exactly the row inputs: two measurable events and a
+displayed inclusion $B\subseteq A$ in that fiber.
+
+Project the row. Its first projection is the measurable event
+$A\setminus B$. The next projections are the disjointness witness for $B$ and
+$A\setminus B$ and the binary-union readback classifying
+$B\cup(A\setminus B)$ as $A$.
+
+These projections are already ledger rows of the public carrier surface, so no
+host-level set subtraction or quotient equality is introduced.
+\end{proof}
+
+\begin{theorem}[Measure relative-difference additivity]
+\label{thm:measure-relative-difference-additivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$
+classifier of \autoref{def:real-classifier-specification}. Let
+$A,B\in\mathcal{A}$ be displayed events in the same carried fiber, and suppose
+the public event readback displays $B\subseteq A$. If the certificate supplies
+the complement/relative-difference row of
+\autoref{def:measure-complement-difference-row} and the hypotheses of
+\autoref{thm:measure-finite-disjoint-union-additivity} for the pair
+$B,A\setminus B$, then
+$$
+\mu(A)\sim_R\mu(B)+\mu(A\setminus B).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:measure-relative-difference-disjoint-decomposition} to the
+displayed inclusion $B\subseteq A$. This gives measurability of
+$A\setminus B$, disjointness of $B$ and $A\setminus B$, and the binary-union
+readback classifying $B\cup(A\setminus B)$ as $A$.
+
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to the disjoint
+pair $B$ and $A\setminus B$. The theorem gives
+$$
+\mu(B\cup(A\setminus B))\sim_R\mu(B)+\mu(A\setminus B).
+$$
+
+Use the binary-union readback from the relative-difference row to transport the
+left endpoint from $\mu(B\cup(A\setminus B))$ to $\mu(A)$ through the
+$\MeasureUp$ event classifier and then through the $\RealUp$ value classifier.
+Composing that endpoint transport with the finite disjoint-union comparison
+gives the displayed finite difference law.
+\end{proof}
+
+\begin{theorem}[MeasureUp NameCert obligation package]
+\label{thm:measure-namecert-obligation-package}
+The rows displayed in
+\autoref{def:measure-sigma-algebra-carrier-surface}, together with the
+classifier transport of
+\autoref{thm:measure-carrier-classifier-obligation}, the complement transport
+of \autoref{thm:measure-complement-row-transport}, the sigma-additivity
+classification of \autoref{thm:measure-sigma-additivity-obligation}, the
+ledger exactness of \autoref{thm:measure-ledger-exactness-obligation}, and the
+three consequence theorems
+\autoref{thm:measure-empty-set-zero-from-sigma-additivity} and
+\autoref{thm:measure-finite-disjoint-union-additivity} and
+\autoref{thm:measure-relative-difference-additivity}, form the
+$\MeasureUp$ NameCert obligation package. This package is the measure substrate
+consumed by $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$.
+\end{theorem}
+\begin{proof}
+Start with the carrier surface and project its visible event, value, stability,
+and ledger rows. Repack those projections as the carrier and classifier side of
+the $\MeasureUp$ certificate.
+
+The carrier-classifier obligation supplies componentwise transport for every
+displayed row, including the complement/relative-difference row. The
+complement-row transport theorem makes that projection available under the
+public classifier. The sigma-additivity obligation supplies the countable-union
+classification needed by the measure consequences, while the ledger exactness
+obligation identifies all hidden witnesses with their visible rows.
+
+Finally include the empty-zero, finite disjoint-union, and
+relative-difference consequence theorems as the core theorem rows of the
+package. The downstream chapters named in the statement consume only this
+package surface: $\IntegralUp$ uses the measurable event, relative-difference,
+and countable-sum rows, $\ProbSpaceUp$ uses the empty and disjoint-union rows,
+and $\FunctionalAnalysisUp$ uses the $\RealUp$ value classifier and additive
+compatibility rows.
+\end{proof}
+
