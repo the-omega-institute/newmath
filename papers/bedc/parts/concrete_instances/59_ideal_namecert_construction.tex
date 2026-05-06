@@ -151,6 +151,80 @@ ambient witness for $r$ consumed in these projections, so no extra absorber or
 classifier datum is introduced outside the surrounding $\RingUp$ scope.
 \end{proof}
 
+\begin{definition}[Ambient carrier ideal predicate]
+\label{def:ideal-ambient-carrier-predicate}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with ambient carrier
+$C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$,
+and multiplication $\cdot_R$. The ambient carrier ideal predicate is
+$$
+W_R(x)\Longleftrightarrow C(x).
+$$
+Its carried-predicate certificate rows are the following ten-field package:
+traditional target the whole ring ideal, BEDC source the surrounding $\RingUp$
+certificate over $\mathsf{BHist}$, carrier $C$, classifier $\sim_R$, stability
+from $\RingUp$ carrier transport and operation closure, ledger empty except for
+the ambient carrier witnesses consumed by the rows, exactness by exhaustion of
+the displayed row inventory, standard bridge absent, and status proof target.
+\end{definition}
+
+\begin{theorem}[Ambient carrier IdealUp closure]
+\label{thm:ideal-ambient-carrier-ideal-closure}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with notation as in
+\autoref{def:ideal-ambient-carrier-predicate}. Then $W_R$ is an $\IdealUp$
+predicate over $R$: it has carrier support, zero membership, additive closure,
+additive inverse closure, internal multiplication closure, classifier
+transport, and two-sided absorption by every carried ambient ring endpoint.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-ambient-carrier-predicate}. Carrier support is
+identity: a witness $W_R(x)$ is exactly a witness $C(x)$.
+
+Zero membership is the zero-carrier row of the surrounding $\RingUp$
+certificate. Additive closure, additive inverse closure, and internal
+multiplication closure are exactly the carrier-closure rows for $+_R$, $-_R$,
+and $\cdot_R$ after replacing $W_R$ by $C$.
+
+Classifier transport is the carrier-transport row of the same $\RingUp$
+certificate along $\sim_R$. If $W_R(x)$ and $x\sim_R y$, transport gives
+$C(y)$, hence $W_R(y)$.
+
+For absorption, assume $W_R(x)$ and $C(r)$. The multiplication-closure row of
+the ring certificate gives both $C(r\cdot_R x)$ and $C(x\cdot_R r)$. By the
+definition of $W_R$, these are $W_R(r\cdot_R x)$ and $W_R(x\cdot_R r)$.
+
+These rows are precisely the $\IdealUp$ carried-predicate inventory over the
+fixed $\RingUp$ certificate.
+\end{proof}
+
+\begin{theorem}[Ambient ideal quotient-kernel carrier exactness]
+\label{thm:ideal-ambient-quotient-kernel-carrier-exactness}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with notation as in
+\autoref{def:ideal-ambient-carrier-predicate}. Let $Q_{W_R}$ be the
+quotient-kernel source relation of
+\autoref{def:ideal-quotient-kernel-source-package} formed from the ambient
+carrier ideal predicate $W_R$. Then
+$$
+Q_{W_R}(x,y)\Longleftrightarrow C(x)\land C(y).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ideal-quotient-kernel-source-package} and
+\autoref{def:ideal-ambient-carrier-predicate}.
+
+For the forward direction, a witness $Q_{W_R}(x,y)$ consists of endpoint
+carrier witnesses $C(x)$ and $C(y)$ together with the membership witness
+$W_R(x-_R y)$. Projecting the first two components gives $C(x)\land C(y)$.
+
+For the reverse direction, assume $C(x)$ and $C(y)$. The additive
+inverse-closure row of the $\RingUp$ certificate gives $C(-_R y)$, and the
+additive closure row gives
+$$
+C(x-_R y).
+$$
+By the definition of $W_R$, this is $W_R(x-_R y)$. Pairing it with the original
+endpoint carrier witnesses gives $Q_{W_R}(x,y)$.
+\end{proof}
+
 \begin{theorem}[Ideal zero-membership obligation]
 \label{thm:ideal-zero-membership-obligation}
 Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, with $\NameCert_{\RingUp}$ carrier $C$, classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. If $I:\mathsf{BHist}\to\mathsf{Prop}$ is an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}, then the certificate contains the zero-membership row $I(0_R)$.
