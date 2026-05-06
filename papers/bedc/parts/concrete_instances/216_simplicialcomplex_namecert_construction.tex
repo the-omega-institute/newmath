@@ -76,3 +76,65 @@ $$
 $$
 Combining the carried intermediate simplex, the carried lower simplex, and the composite face-incidence witness gives the displayed conjunction.
 \end{proof}
+
+\begin{definition}[Simplicial face dimension grading row]
+\label{def:simplicialcomplex-face-dimension-grading-row}
+Let $K$ be a $\SimplicialComplexUp$ finite face carrier over $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}. A face dimension grading row for $K$ consists of a grading map
+$$
+\dim_K:\mathsf{BHist}\to\mathbb{N}
+$$
+and the carried-face monotonicity field
+$$
+\forall \alpha\,\beta:\mathsf{BHist}.\;
+\mathsf{Simplex}_K(\alpha)\land
+\mathsf{Simplex}_K(\beta)\land
+\mathsf{Face}_K(\alpha,\beta)
+\to
+\dim_K(\alpha)\le \dim_K(\beta).
+$$
+Thus the dimension comparison is asserted on the carried endpoints of the face relation supplied by the $\PosetUp$ row.
+\end{definition}
+
+\begin{theorem}[Simplicial face-chain dimension monotonicity]
+\label{thm:simplicialcomplex-face-chain-dimension-monotonicity}
+Let $K$ be a $\SimplicialComplexUp$ finite face carrier over $(V,\sim_V)$ as in \autoref{def:simplicialcomplex-finite-face-carrier}, equipped with a face dimension grading row $\dim_K$ in the sense of \autoref{def:simplicialcomplex-face-dimension-grading-row}. For histories $\rho,\tau,\sigma:\mathsf{BHist}$, if
+$$
+\mathsf{Simplex}_K(\sigma)
+\land
+\mathsf{Face}_K(\rho,\tau)
+\land
+\mathsf{Face}_K(\tau,\sigma),
+$$
+then
+$$
+\dim_K(\rho)\le\dim_K(\tau)
+\land
+\dim_K(\tau)\le\dim_K(\sigma)
+\land
+\dim_K(\rho)\le\dim_K(\sigma).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the displayed hypothesis. Apply \autoref{thm:simplicialcomplex-face-chain-closure}, whose proof uses the simplicial closure row of \autoref{def:simplicialcomplex-finite-face-carrier} and the transitive $\PosetUp$ face row of \autoref{def:poset-carrier}. This gives
+$$
+\mathsf{Simplex}_K(\tau)
+\land
+\mathsf{Simplex}_K(\rho)
+\land
+\mathsf{Face}_K(\rho,\sigma).
+$$
+
+Apply the carried-face monotonicity field of \autoref{def:simplicialcomplex-face-dimension-grading-row} to $\rho$ and $\tau$, using $\mathsf{Simplex}_K(\rho)$, $\mathsf{Simplex}_K(\tau)$, and $\mathsf{Face}_K(\rho,\tau)$. This yields
+$$
+\dim_K(\rho)\le\dim_K(\tau).
+$$
+Apply the same field to $\tau$ and $\sigma$, using $\mathsf{Simplex}_K(\tau)$, $\mathsf{Simplex}_K(\sigma)$, and $\mathsf{Face}_K(\tau,\sigma)$. This yields
+$$
+\dim_K(\tau)\le\dim_K(\sigma).
+$$
+Finally apply the same field to the composite face incidence $\mathsf{Face}_K(\rho,\sigma)$ together with the carried endpoints $\mathsf{Simplex}_K(\rho)$ and $\mathsf{Simplex}_K(\sigma)$. This yields
+$$
+\dim_K(\rho)\le\dim_K(\sigma).
+$$
+The three displayed comparisons are exactly the claimed conjunction.
+\end{proof}
