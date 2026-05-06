@@ -28,4 +28,22 @@ theorem DensityMatrixAffineMixtureSpine_finite_closure
   | mix leftSpine rightSpine route leftDensity rightDensity =>
       exact binaryClosed leftDensity rightDensity route
 
+theorem DensityMatrixAffineMixtureSpine_binary_convex_closure
+    {density : BHist -> Prop} {rho sigma out : BHist}
+    (rhoDensity : density rho) (rhoUnary : UnaryHistory rho)
+    (sigmaDensity : density sigma) (sigmaUnary : UnaryHistory sigma)
+    (route : Cont rho sigma out)
+    (binaryClosed :
+      forall {left right result : BHist},
+        density left -> density right -> Cont left right result -> density result) :
+    density out ∧ DensityMatrixAffineMixtureSpine density out := by
+  have outDensity : density out :=
+    binaryClosed rhoDensity sigmaDensity route
+  have rhoSpine : DensityMatrixAffineMixtureSpine density rho :=
+    DensityMatrixAffineMixtureSpine.atom rhoDensity rhoUnary
+  have sigmaSpine : DensityMatrixAffineMixtureSpine density sigma :=
+    DensityMatrixAffineMixtureSpine.atom sigmaDensity sigmaUnary
+  exact And.intro outDensity
+    (DensityMatrixAffineMixtureSpine.mix rhoSpine sigmaSpine route)
+
 end BEDC.Derived.DensityMatrixUp
