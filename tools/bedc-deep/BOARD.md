@@ -12333,3 +12333,268 @@ Definition evidence: the CPTP carrier is defined at papers/bedc/parts/concrete_i
 
 ---
 
+### B-471 - \label{ch:capstones-reasoning-by-contradiction-boundary}
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | \label{ch:capstones-reasoning-by-contradiction-boundary} |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+\label{ch:capstones-reasoning-by-contradiction-boundary}
+
+Local inputs:
+- `papers/bedc/parts/capstones/reasoning_by_contradiction_boundary.tex`
+
+Rationale:
+Surfaced from paper gap scan: open_prose at papers/bedc/parts/capstones/reasoning_by_contradiction_boundary.tex:4.
+
+Snippet:
+\label{ch:capstones-reasoning-by-contradiction-boundary}
+
+BEDC accepts certain forms of reasoning by contradiction and rejects others, and the boundary is not a stylistic preference but a structural one. The permitted patterns -- proving a negation by deriving falsity from the assumption, eliminating double negation on a decidable proposition, refuting a false existence claim by exhibiting a counterexample to its witness -- all operate within the closed ground loop and never touch the meta level. The forbidden patterns -- proving an existence statement by contradiction, eliminating double negation on an undecidable proposition, splitting on the law of excluded middle for a predicate over the carrier of naming certificates -- all, on inspection, reduce to a single underlying move: closing the meta-level self-reference loop that \autoref{ch:capstones-reflection-and-limits}'s two-loops theorem requires to remain open. This chapter (i) catalogues the permitted refutation patterns as they appear in \autoref{ch:core-relational-extension-and-continuation}'s extension and continuation calculus, (ii) catalogues the forbidden patterns and traces each to its meta-closure consequence via a Tarski-style fragment of the truth predicate, (iii) states the unifying theorem that every forbidden pattern implements meta-closure, and (iv) records that the boundary thus identified is the same boundary that separates the closed ground loop from the open meta loop, with the halting capstone (\autoref{ch:capstones-halting-as-form-of-distinction-limit}) as the canonical sibling instance.
+
+\section{Permitted refutation patterns}
+\label{sec:reasoning-by-contradiction-permitted}
+
+\begin{definition}[Permitted refutation pattern]
+\label{def:reasoning-permitted-pattern}
+A \emph{permitted refutation pattern} is a derivation rule of the form ``from $A \Rightarrow \bot$, conclude $\neg A$'' or one of its decidable specialisations, where the derivation of $\bot$ uses only $\Cont$, $\hsame$, $\msame$, and the closure laws of a fixed naming certificate. The conclusion $\neg A$ is read as the BEDC predicate ``every witness of $A$ produces $\bot$ inside the certificate's classifier'', not as ``$A$ holds in no possible world''.
+\end{definition}
+
+\begin{example}[Negation by derived falsity]
+\label{ex:reasoning-negation-by-falsity}
+The kernel theorem $\neg \msame(\bzero, \bone)$ of \autoref{ch:core-raw-marks-and-mark-sameness} is a permitted refutation. Assuming a witness $w$ of $\msame(\bzero, \bone)$ produces $\bot$ by inversion on the constructor pattern: $\msame$ is a closed inductive whose only constructor identifies a mark with itself, and the constructors of $\Mark$ are different. The derivation never leaves the inductive carrier of $\Mark$ and never appeals to a meta-level predicate.
+
+---
+
+
+### B-472 - \label{ch:capstones-reflection-and-limits}
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | \label{ch:capstones-reflection-and-limits} |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+\label{ch:capstones-reflection-and-limits}
+
+Local inputs:
+- `papers/bedc/parts/capstones/reflection_and_limits.tex`
+
+Rationale:
+Surfaced from paper gap scan: open_prose at papers/bedc/parts/capstones/reflection_and_limits.tex:4.
+
+Snippet:
+\label{ch:capstones-reflection-and-limits}
+
+This chapter answers one question: in what precise senses does BEDC describe itself, and where does each sense fail? The answer is two-fold and the asymmetry between the two halves is the main mathematical content. At the ground, the primitive distinction between two raw marks is \emph{self-instantiating}: stating it is already an act of it. This is a closed loop, and it must close for the rest of BEDC to begin. At the meta-level, the naming-certificate framework can internally describe the structure of any well-founded formal system, the host calculus of inductive constructions included. This second loop must remain open: closing it would, by Tarski undefinability, force inconsistency.
+
+The two loops together characterise what kind of foundation BEDC is. The chapter develops them in turn. \autoref{sec:reflection-ground-loop} isolates the ground loop. \autoref{sec:reflection-def-as-classifier} establishes the correspondence between formal definition and classifier choice. \autoref{sec:reflection-inductive-internalisation} interprets closed inductive types as classifier closures inside BEDC. \autoref{sec:reflection-self-description} extends the interpretation to a structural copy of the host calculus. \autoref{sec:reflection-limit} fixes the Tarski-M\"unchhausen boundary. \autoref{sec:reflection-two-loops} contrasts the closed ground loop with the open meta loop and locates BEDC's specific contribution to foundations.
+
+\section{The primitive distinction as generative loop}
+\label{sec:reflection-ground-loop}
+
+\begin{definition}[Form of distinction]
+\label{def:form-of-distinction}
+Let $\bzero$ and $\bone$ denote the two raw marks of \autoref{def:raw-marks}. The \emph{form of distinction} is the closed inductive judgment generating $\Mark$, given by the two formation rules of \autoref{ch:core-raw-marks-and-mark-sameness} together with the kernel-level recognition that $\bzero$ and $\bone$ are not the same constructor. The form is the data of: two formal tokens, and the capacity to tell them apart.
+\end{definition}
+
+\begin{remark}[Self-instantiation]
+
+---
+
+
+### B-473 - \begin{remark}[Structure-existence boundary]
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | \begin{remark}[Structure-existence boundary] |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+\begin{remark}[Structure-existence boundary]
+\label{rem:reflection-structure-existence-boundary}
+The internal $\mathrm{CIC}^{*}$ of \autoref{thm:internal-cic-interpretation} is a \emph{structural} reproduction of the host calculus. It is not the host calculus considered as a runtime: every Lean proof of every theorem appearing in this manuscript is checked by an external Lean kernel, which is itself implemented in a programming language whose semantics is not BEDC-internal. The isomorphism between $\mathrm{CIC}^{*}$ and the host CIC holds at the level of formal structure; it does not hold at t
+
+Local inputs:
+- `papers/bedc/parts/capstones/reflection_and_limits.tex`
+
+Rationale:
+Surfaced from paper gap scan: open_prose at papers/bedc/parts/capstones/reflection_and_limits.tex:111.
+
+Snippet:
+\begin{remark}[Structure-existence boundary]
+\label{rem:reflection-structure-existence-boundary}
+The internal $\mathrm{CIC}^{*}$ of \autoref{thm:internal-cic-interpretation} is a \emph{structural} reproduction of the host calculus. It is not the host calculus considered as a runtime: every Lean proof of every theorem appearing in this manuscript is checked by an external Lean kernel, which is itself implemented in a programming language whose semantics is not BEDC-internal. The isomorphism between $\mathrm{CIC}^{*}$ and the host CIC holds at the level of formal structure; it does not hold at the level of executing the structure. No formal system can include the runtime that interprets it. This boundary is the formal content of the M\"unchhausen impossibility: the bootstrap remains open at the runtime level even when it is closed at the structural level.
+\end{remark}
+
+\begin{remark}[Tarski undefinability]
+\label{rem:reflection-tarski-undefinability}
+The self-description of \autoref{cor:bedc-self-description} is a description of the formal structure of BEDC inside BEDC; it is not a definition of a BEDC truth predicate inside BEDC. By Tarski undefinability, every formal system rich enough to describe its own syntactic structure cannot define its own truth predicate. BEDC is no exception, and \autoref{cor:bedc-self-description} does not attempt this. Recovering truth requires a metalanguage strictly stronger than the language being described, and that metalanguage is again hosted externally.
+\end{remark}
+
+\section{The two loops of BEDC}
+\label{sec:reflection-two-loops}
+
+\begin{theorem}[Closed ground loop and open meta loop]
+\label{thm:two-loops}
+
+---
+
+### B-474 - RandomVar countable preimage union exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar countable preimage union exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a RandomVarUp map has measurable preimage readback and a target measurable sequence has a countable-union row, then the source preimage of the target countable union is classifier-equal to the source countable union of the pointwise preimages, and pairwise disjointness pulls back, under the source MeasureUp surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface.tex`
+
+Rationale:
+RandomVar has theorem rows for binary disjoint preimage exactness at papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex:12-13, relative difference at :58, complement/relative difference at :110, empty event at :181, and total-event rows later, but no countable preimage theorem. The MeasureUp surface already exposes the needed countable inputs: countable-sum endpoint, countable-union closure, sigma-additivity, and countable-sum classifier rows at papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex:44-48, with the public sigma-additivity obligation at papers/bedc/parts/concrete_instances/measure/carrier_surface.tex:205-223. Focused grep for `randomvar.*countable|preimage.*sequence|preimage.*sigma` under parts returned 0 theorem labels; the only relevant RandomVar hit in the sigma search was the existing binary theorem use at 163_randomvar_namecert_construction.tex:22. The proposed landing file has 728 lines, below the 760-line avoidance threshold.
+
+---
+
+
+### B-475 - Distribution pushforward sigma-additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Distribution pushforward sigma-additivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a DistributionUp pushforward is induced by a RandomVarUp map whose preimages preserve countable target unions and the source MeasureUp surface is sigma-additive, then the pushed-forward target measure classifies a countable disjoint union by the countable sum of the pushed-forward component measures.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface.tex`
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+
+Rationale:
+Distribution currently has pushforward total mass at papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex:12, finite binary disjoint-union additivity at :93, monotonicity at :203 and :330, and relative-difference additivity at :250. The finite additivity proof explicitly consumes the binary RandomVar preimage theorem at 164_distribution_namecert_construction.tex:105, while the MeasureUp surface already provides countable-disjoint sigma-additivity at papers/bedc/parts/concrete_instances/measure/carrier_surface.tex:205-223 and countable-sum classifier stability at :237-246. Focused grep for `distribution.*countable|pushforward.*sigma` under parts returned 0 theorem labels; hits were roadmap prose and existing finite/binary distribution material. The distribution file is 375 lines, so it is a viable body-file target.
+
+---
+
+
+### B-476 - Unitary conjugation is a QuantumChannel
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Unitary conjugation is a QuantumChannel |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If U is a UnitaryGroupUp automorphism of a Hilbert carrier H, then the conjugation map rho maps to U rho U^{-1} is carried by QuantumChannelUp(H,H), and therefore sends DensityMatrixUp(H) endpoints to DensityMatrixUp(H) endpoints.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/197_unitarygroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+
+Rationale:
+QuantumChannel already defines the CPTP carrier at papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex:23, proves density-matrix image at :36, composition closure at :59, and identity channel CPTP at :279. UnitaryGroup is present as the Hilbert-space inner-product-preserving automorphism interface at papers/bedc/parts/concrete_instances/197_unitarygroup_namecert_construction.tex:4, but focused grep for `unitary.*conjug|conjug.*density|quantumchannel.*unitary|unitary channel` under concrete_instances returned no theorem labels and only roadmap-level hits. This is not a parameter-transport echo: the proof must show linearity, complete positivity, and trace preservation for a concrete conjugation map. The natural landing file, 199_quantumchannel_namecert_construction.tex, has 418 lines.
+
+---
+
+
+### B-477 - Independence invariance under finite reindexing
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Independence invariance under finite reindexing |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a finite family of RandomVarUp variables satisfies IndependenceUp through joint-distribution factorisation and pi is a PermutationUp bijection of the finite index carrier, then the reindexed family also satisfies IndependenceUp with the product-of-marginals factorisation reindexed by pi.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/164_distribution_namecert_construction.tex`
+
+Rationale:
+The IndependenceUp chapter states the interface as joint-distribution factorisation for a finite family of random variables at papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex:4, and PermutationUp supplies bijections of a FinSetUp carrier at papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex:4. The independence file has 10 lines, 0 theorem environments, and 0 Lean markers in the inventory. Focused grep for `independence.*(perm|symm|reindex|factor|marginal)|joint.*factor|marginal.*factor|PermutationUp` returned no theorem labels for independence; the hits were roadmap prose, the permutation interface, and the independence interface line itself. The claim is a concrete finite reindexing closure property, not a generic carrier-equivalence transport.
+
+---
+
+
+### B-478 - CondExp projection idempotence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | CondExp projection idempotence |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If CondExpUp(X,G) is the conditional expectation of an integrable RandomVarUp endpoint onto a sub-sigma-algebra G, then applying the same CondExpUp projection again is classifier-equal to the first conditional expectation under the HilbertUp L2 projection surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/166_condexp_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/163_randomvar_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/69_hilbert_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/hilbert_orthogonal_projection_row.tex`
+
+Rationale:
+CondExpUp is described as the L2 projection of an integrable random variable onto the subspace measurable with respect to a sub-sigma-algebra at papers/bedc/parts/concrete_instances/166_condexp_namecert_construction.tex:4. That chapter has 10 lines, 0 theorem environments, and 0 Lean markers in the inventory. A related singleton Hilbert projection idempotence theorem exists at papers/bedc/parts/concrete_instances/hilbert_orthogonal_projection_row.tex:60-73, but focused grep for `condexp|conditional[- ]expect|tower law|tower property|conditional expectation.*idempot|condexp.*idempot` returned no CondExp theorem labels; hits were roadmap prose, dependency mentions in Bayesian/Martingale chapters, and the CondExp chapter header. The proposed result is the concrete idempotence law for the conditional-expectation object itself.
+
+---
+
