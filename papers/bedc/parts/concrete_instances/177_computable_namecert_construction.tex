@@ -147,7 +147,7 @@ $$
 $$
 \end{lemma}
 \leanchecked{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_exactness}
-\leanchecked{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_simulation\_exactness}
+\leanvariant{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_simulation\_exactness}
 \begin{proof}
 Assume first $\mathsf{Id}_{\NatUp}(n,m)$. By \autoref{def:computable-unary-classifier-identity-graph}, the histories $n$ and $m$ are unary and $n\hsame m$. Use the one-entry $\SeqUp$ trace indexed by the empty bound $\beta_{\mathsf{id}}(n)=\emp$. Its zero-prefix entry is the initial configuration of $P_{\mathsf{id}}$ on $n$, which is already halted by \autoref{def:computable-halted-unary-identity-code}. There are no nontrivial one-step extensions in the empty prefix interval. The endpoint is the same halted row, and its classifier readout accepts $m$ because $n\hsame m$. Hence the trace satisfies \autoref{def:computable-bounded-simulation-witness}.
 
@@ -177,3 +177,13 @@ $$
 $$
 be two bounded simulations for the same unary input. Applying the reverse direction of \autoref{lem:computable-identity-empty-bound-simulation-exactness} gives $\mathsf{Id}_{\NatUp}(n,m)$ and $\mathsf{Id}_{\NatUp}(n,m')$. Unfolding \autoref{def:computable-unary-classifier-identity-graph} gives $n\hsame m$ and $n\hsame m'$. Symmetry and transitivity of history-sameness from \autoref{thm:history-sameness-equivalence} yield $m\hsame m'$. These are precisely the fields required by \autoref{def:computable-bounded-graph-certificate}.
 \end{proof}
+
+\begin{closurestatus}{\ComputableUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter binds the bounded simulation witness, bounded graph certificate, composition, single-valuedness, identity graph, empty-bound identity code, and identity bounded graph certificate.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ComputableUp.ComputableUnaryIdentityGraph\_empty\_bound\_certificate}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close total computability, universal machines, halting decidability, recursion theory, or standard bridge claims.}
+  \upgradepath{Scoped closure requires the full carrier, classifier, stability, and ledger obligation set for general bounded graph certificates.}
+\end{closurestatus}

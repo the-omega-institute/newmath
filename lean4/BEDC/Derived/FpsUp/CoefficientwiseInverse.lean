@@ -42,4 +42,38 @@ theorem FpsSingletonCoeffwiseInverse_zero_laws {F N n : BHist} :
         cases rightEmpty
         exact cont_right_unit BHist.Empty))
 
+theorem FpsSingletonPointwiseAdditiveGroup_laws :
+    hsame FpsSingletonZero BHist.Empty ∧ FpsSingletonCarrier FpsSingletonZero ∧
+      (forall {F G : BHist}, FpsSingletonCarrier F -> FpsSingletonCarrier G ->
+        FpsSingletonCarrier (FpsSingletonAdd F G) ∧
+          FpsSingletonClassifier (FpsSingletonAdd F G) BHist.Empty) ∧
+      (forall {F : BHist}, FpsSingletonCarrier F ->
+        exists N : BHist,
+          FpsSingletonClassifier N FpsSingletonZero ∧
+            forall n : BHist,
+              FpsSingletonClassifier (FpsSingletonPointwiseAdditionCoeff F N n)
+                FpsSingletonZero ∧
+                FpsSingletonClassifier (FpsSingletonPointwiseAdditionCoeff N F n)
+                  FpsSingletonZero) := by
+  have monoid := FpsSingletonPointwiseAdditiveMonoid_laws
+  constructor
+  · exact monoid.left
+  · constructor
+    · exact monoid.right.left
+    · constructor
+      · intro F G carrierF carrierG
+        exact monoid.right.right.left carrierF carrierG
+      · intro F carrierF
+        refine Exists.intro FpsSingletonZero ?_
+        constructor
+        · exact And.intro monoid.right.left
+            (And.intro monoid.right.left (hsame_refl FpsSingletonZero))
+        · intro n
+          have inverseRows :=
+            FpsSingletonCoeffwiseInverse_zero_laws (F := F) (N := FpsSingletonZero)
+              (n := n) carrierF
+              (And.intro monoid.right.left
+                (And.intro monoid.right.left (hsame_refl FpsSingletonZero)))
+          exact And.intro inverseRows.left inverseRows.right.left
+
 end BEDC.Derived.FpsUp
