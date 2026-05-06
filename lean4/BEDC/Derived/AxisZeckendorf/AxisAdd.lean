@@ -49,4 +49,15 @@ def axisAdd_namecert : AxisAddNameCert :=
 
 theorem axisAdd_licensed_not_primitive : True := True.intro
 
+theorem AxisAdd_cont_result_zeroSpine {h k r : BHist} :
+    ZeroSpine h -> ZeroSpine k -> Cont h k r -> ZeroSpine r := by
+  intro spineH spineK contHK
+  induction spineK generalizing r with
+  | empty =>
+      cases contHK
+      exact spineH
+  | step spineTail tailClosed =>
+      cases contHK
+      exact ZeroSpine.step (tailClosed rfl)
+
 end BEDC.Derived.AxisZeckendorf.AxisAdd
