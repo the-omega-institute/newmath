@@ -132,3 +132,69 @@ $$
 $$
 Since $B$ was arbitrary, the reindexed family carries the stated finite $\IndependenceUp$ factorisation row.
 \end{proof}
+
+\begin{theorem}[Independence\textsuperscript{$\uparrow$} measurable-image bridge for two variables]
+\label{thm:independence-measurable-image-bridge}
+Let $S$ be a carried $\ProbSpaceUp$ source.
+Let
+$$
+X:S\to T,
+Y:S\to U
+$$
+be carried $\RandomVarUp$ maps as in \autoref{sec:randomvar-carrier}, and suppose the pair $(X,Y)$ carries the binary finite factorisation row of $\IndependenceUp$ from \autoref{def:independence-finite-factorisation-row}.
+Let
+$$
+f:T\to T',\qquad g:U\to U'$$
+be carried $\RandomVarUp$ maps satisfying the readable preimage row of \autoref{sec:randomvar-certificate}.
+Assume for every target-measurable $C_0\in\mathcal A_{T'}$ and $C_1\in\mathcal A_{U'}$ that the pullbacks
+$$
+A_0:=f^{-1}(C_0)\in\mathcal A_T,\qquad
+A_1:=g^{-1}(C_1)\in\mathcal A_U
+$$
+are readable and satisfy
+$$
+t\in A_0\Longleftrightarrow f(t)\in C_0,
+\qquad
+u\in A_1\Longleftrightarrow g(\nu)\in C_1.
+$$
+Define the compositions
+$$
+H:=f\circ X,\qquad K:=g\circ Y
+$$
+and write $\mu_H,\mu_K,\mu_{H,K}^J$ for their pushforwards.
+
+Fix measurable $C_0\in\mathcal A_{T'}$ and $C_1\in\mathcal A_{U'}$.
+For every carried source point $s$ the readable preimage clauses give
+$$
+s\in H^{-1}(C_0)\Longleftrightarrow X(s)\in A_0,
+\qquad
+s\in K^{-1}(C_1)\Longleftrightarrow Y(s)\in A_1,
+$$
+and hence
+$$
+s\in \operatorname{Cyl}_{(H,K)}(C_0,C_1)
+\Longleftrightarrow
+\operatorname{Cyl}_{(X,Y)}(A_0,A_1).
+$$
+Applying the distribution pushforward row of \autoref{sec:distribution-certificate} to the two displayed cylinder events gives
+$$
+\mu_{H,K}^J\bigl(\operatorname{Cyl}_{(H,K)}(C_0,C_1)\bigr)\sim_R
+\mu_{(X,Y)}^J\bigl(\operatorname{Cyl}_{(X,Y)}(A_0,A_1)\bigr),
+$$
+$$
+\mu_H(C_0)\sim_R\mu_X(A_0),\qquad
+\mu_K(C_1)\sim_R\mu_Y(A_1).
+$$
+The factorisation row of $(X,Y)$ from \autoref{def:independence-finite-factorisation-row} yields
+$$
+\mu_{(X,Y)}^J\bigl(\operatorname{Cyl}_{(X,Y)}(A_0,A_1)\bigr)\sim_R
+\mu_X(A_0)\cdot_R\mu_Y(A_1).
+$$
+Transitivity of $\sim_R$ then gives
+$$
+\mu_{H,K}^J\bigl(\operatorname{Cyl}_{(H,K)}(C_0,C_1)\bigr)
+\sim_R
+\mu_H(C_0)\cdot_R\mu_K(C_1).
+$$
+Since $C_0,C_1$ were arbitrary measurable events, this is exactly the binary finite factorisation equation for the pair $(H,K)$. Therefore $f\circ X$ is independent of $g\circ Y$ under $\IndependenceUp$.
+\end{theorem}
