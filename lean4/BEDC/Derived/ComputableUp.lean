@@ -113,9 +113,9 @@ theorem ComputableUnaryIdentityGraph_empty_bound_certificate :
             intro n m sim
             exact C.sim_to_graph sim))))
 
-theorem ComputableUnaryIdentityGraph_empty_bound_sim_iff {n m : BHist} :
+theorem ComputableUnaryIdentityGraph_empty_bound_simulation_exactness {n m : BHist} :
     ComputableBoundedSim BHist.Empty n BHist.Empty m <->
-      UnaryHistory n ∧ UnaryHistory m ∧ hsame n m := by
+      (UnaryHistory n ∧ UnaryHistory m ∧ hsame n m) := by
   constructor
   · intro sim
     have sameMN : hsame m n :=
