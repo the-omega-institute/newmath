@@ -51,6 +51,32 @@ def BHistFiniteBaseNeighborhoodCarrier (ball : BHist -> BHist -> Prop)
     exact BHistFiniteBaseNeighborhood_append_decomposition left right ball x
 }
 
+theorem BHistFiniteBaseNeighborhoodCarrier_scope_rows (ball : BHist -> BHist -> Prop)
+    (ballStable :
+      forall {indices : ProbeBundle BHist} {i x y : BHist}, InBundle i indices ->
+        UnaryHistory x -> UnaryHistory y -> hsame x y -> (ball i x <-> ball i y)) :
+    (forall {indices : ProbeBundle BHist} {x y : BHist}, UnaryHistory x ->
+        UnaryHistory y -> hsame x y ->
+          ((BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt indices x <->
+            (BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt indices y)) ∧
+      (forall {left right : ProbeBundle BHist} {x : BHist}, UnaryHistory x ->
+        ((BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt
+            ((BHistFiniteBaseNeighborhoodCarrier ball ballStable).meet left right) x <->
+          ((BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt left x ∧
+            (BHistFiniteBaseNeighborhoodCarrier ball ballStable).OpenAt right x))) ∧
+      (forall {left right : ProbeBundle BHist},
+        (BHistFiniteBaseNeighborhoodCarrier ball ballStable).meet left right =
+          bundleAppend left right) := by
+  constructor
+  · intro indices x y unaryX unaryY sameXY
+    exact (BHistFiniteBaseNeighborhoodCarrier ball ballStable).membership_stable
+      unaryX unaryY sameXY
+  · constructor
+    · intro left right x unaryX
+      exact (BHistFiniteBaseNeighborhoodCarrier ball ballStable).meet_law unaryX
+    · intro left right
+      rfl
+
 theorem BHistFiniteBaseNeighborhoodCarrier_singleton_row (ball : BHist -> BHist -> Prop)
     (ballStable :
       forall {indices : ProbeBundle BHist} {i x y : BHist}, InBundle i indices ->

@@ -1,0 +1,111 @@
+\begin{definition}[Measure root visible shared consumer envelope]
+\label{def:measure-root-visible-shared-consumer-envelope}
+The $\MeasureUp$ root visible shared consumer envelope is the ten-field root
+obligation envelope whose target is the shared $\MeasureUp$ source consumed by
+$\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$. Its source field is
+the BEDC package over $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\NameCert_{\RealUp}$, $\NameCert_{\StreamNameUp}$, and the
+$\mathsf{UnaryHistory}$-indexed endpoint families. Its carrier field is the
+root carrier $\mathsf{MCarrier}$, and its classifier field is the
+componentwise $\MeasureUp$ classifier.
+
+The stability fields are event-row transport, endpoint classifier transport,
+shared endpoint coverage, and one-way consumer projection. The ledger fields
+are visible membership witnesses, relative-difference witnesses, disjointness
+witnesses, measure-value witnesses, $\StreamNameUp$ endpoint-family witnesses,
+and countable-sum witnesses. The exactness field excludes host set equality,
+quotient event equality, analytic completion objects, consumer-row hypotheses,
+and standard bridges from the root source.
+\end{definition}
+
+\begin{theorem}[Measure root visible shared consumer coverage]
+\label{thm:measure-root-visible-shared-consumer-coverage}
+Every row in
+\autoref{def:measure-root-visible-shared-consumer-envelope} is either a
+visible $\mathsf{BHist}$ event ledger row, a $\RealUp$ endpoint classifier row,
+a $\StreamNameUp$ endpoint-family row indexed by $\mathsf{UnaryHistory}$, or a
+$\Cont$-preserved continuation row already present in the root $\MeasureUp$
+package.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:measure-root-source-closure-package}. It fixes the
+root carrier $\mathsf{MCarrier}$, the componentwise $\MeasureUp$ classifier,
+the visible event ledger, the $\RealUp$ endpoint rows, and the source witness
+ledger before any outgoing analysis face is read.
+
+Apply \autoref{thm:measure-root-shared-endpoint-coverage}. The rows shared by
+$\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ have already been
+classified as root event-ledger rows, $\RealUp$ endpoint classifier rows, or
+$\StreamNameUp$ endpoint-family rows.
+
+Now use \autoref{thm:measure-root-bhist-real-endpoint-threshold}. It keeps the
+measure-value, finite readback, relative-difference, and countable-sum
+endpoint rows on the $\RealUp$ classifier side rather than turning them into
+host event equalities.
+
+Finally read the transport boundary from
+\autoref{def:measure-root-dependency-orientation-surface}. The only remaining
+root movement is $\Cont$-preserved continuation through $\mathsf{BHist}$ and
+the displayed endpoint-family rows indexed by $\mathsf{UnaryHistory}$, so the
+envelope has exactly the four row classes stated above.
+\end{proof}
+
+\begin{theorem}[Measure root visible shared consumer separation]
+\label{thm:measure-root-visible-shared-consumer-separation}
+The $\IntegralUp$ premeasure rows, $\ProbSpaceUp$ normalization rows, and
+$\FunctionalAnalysisUp$ monotone and relative-difference rows visible from
+\autoref{def:measure-root-visible-shared-consumer-envelope} are outgoing
+projections only. They cannot serve as hypotheses for the $\MeasureUp$ carrier,
+classifier, additivity, continuity-from-below, or endpoint-family obligations.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:measure-root-consumer-projection-separation}. The
+three analysis faces are projections out of the assembled root package, and
+the root obligations are proved from $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\NameCert_{\RealUp}$, additive real rows, and endpoint-family
+$\NameCert_{\StreamNameUp}$ rows.
+
+Next use \autoref{thm:measure-root-consumer-face-source-separation}. Its
+source boundary keeps probability normalization, integral head-tail readback,
+and functional-analysis monotone and relative-difference rows on their
+consumer faces except where a shared endpoint classifier row has already been
+sealed at the root.
+
+Finally invoke \autoref{thm:measure-root-source-ledger-exhaustion}. The source
+ledger consumes only visible membership, relative-difference, disjointness,
+measure-value, $\StreamNameUp$ endpoint-family, and countable-sum witnesses.
+Thus no premeasure, normalization, monotone, or consumer-specific
+relative-difference row can be repurposed as a source hypothesis.
+\end{proof}
+
+\begin{theorem}[Measure root visible shared consumer deps-ready]
+\label{thm:measure-root-visible-shared-consumer-deps-ready}
+The envelope of
+\autoref{def:measure-root-visible-shared-consumer-envelope}, the coverage
+theorem of \autoref{thm:measure-root-visible-shared-consumer-coverage}, and
+the separation theorem of
+\autoref{thm:measure-root-visible-shared-consumer-separation} form the
+deps-ready $\MeasureUp$ root package consumed by $\IntegralUp$, $\ProbSpaceUp$,
+and $\FunctionalAnalysisUp$. Only the displayed root rows are exported.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:measure-root-source-deps-ready-package}. It supplies
+the root $\mathsf{BHist}$ source package, including $\mathsf{MCarrier}$, the
+componentwise classifier, visible event rows, $\RealUp$ endpoint rows,
+$\StreamNameUp$ endpoint-family rows, and the exhausted source ledger.
+
+Next apply \autoref{thm:measure-root-shared-endpoint-deps-ready-seal}. The
+seal identifies the shared endpoint rows once at the root and keeps the
+probability, integral, and functional-analysis face-specific rows from
+entering the source side.
+
+Then apply \autoref{thm:measure-root-cross-consumer-threshold-package}. The
+threshold packages the three outgoing faces over the same shared event ledger
+and endpoint classifier while preserving one-way projection into the consumer
+chapters.
+
+Repack these three sources with the envelope coverage and separation theorems.
+The resulting root package is deps-ready for the three downstream analysis
+consumers because it exports only visible event rows, endpoint classifier rows,
+endpoint-family rows, continuation rows, and the displayed ledger witnesses.
+\end{proof}
