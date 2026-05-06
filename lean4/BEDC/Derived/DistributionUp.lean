@@ -28,6 +28,10 @@ def DistributionPushforwardSourceSpec (pushed : BHist) : Prop :=
     UnaryHistory targetEvent ∧
       DistributionPushforwardCarrier sourcePreimage sourceMeasure targetEvent pushed
 
+def DistributionPushforwardClassifier (pushed pushed' : BHist) : Prop :=
+  DistributionPushforwardSourceSpec pushed ∧ DistributionPushforwardSourceSpec pushed' ∧
+    hsame pushed pushed'
+
 theorem DistributionPushforwardCarrier_row
     {sourcePreimage sourceMeasure : BHist -> BHist} {targetEvent pushed : BHist} :
     UnaryHistory targetEvent ->
@@ -46,6 +50,25 @@ theorem DistributionPushforwardCarrier_row
   have measureUnary : UnaryHistory (sourceMeasure (sourcePreimage targetEvent)) :=
     unary_transport preimageUnary (hsame_symm measurePreimage)
   exact And.intro preimageUnary (And.intro measureUnary carrier.right.right)
+
+theorem DistributionPushforwardClassifier_row
+    {sourcePreimage sourceMeasure : BHist -> BHist} {targetEvent pushed pushed' : BHist} :
+    UnaryHistory targetEvent ->
+      DistributionPushforwardCarrier sourcePreimage sourceMeasure targetEvent pushed ->
+        DistributionPushforwardCarrier sourcePreimage sourceMeasure targetEvent pushed' ->
+          DistributionPushforwardClassifier pushed pushed' := by
+  intro targetUnary carrier carrier'
+  have pushedSource : DistributionPushforwardSourceSpec pushed :=
+    Exists.intro sourcePreimage
+      (Exists.intro sourceMeasure
+        (Exists.intro targetEvent (And.intro targetUnary carrier)))
+  have pushedSource' : DistributionPushforwardSourceSpec pushed' :=
+    Exists.intro sourcePreimage
+      (Exists.intro sourceMeasure
+        (Exists.intro targetEvent (And.intro targetUnary carrier')))
+  have samePushed : hsame pushed pushed' :=
+    hsame_trans carrier.right.right (hsame_symm carrier'.right.right)
+  exact And.intro pushedSource (And.intro pushedSource' samePushed)
 
 theorem DistributionPushforwardCarrier_semantic_name_certificate :
     SemanticNameCert DistributionPushforwardSourceSpec DistributionPushforwardSourceSpec

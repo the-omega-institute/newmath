@@ -377,12 +377,48 @@ natural-number model only in these encode, decode, round-trip, and preservation
 fields, while the BEDC public surface remains the unary-history NameCert
 grounded by $\mathsf{nat\_up\_semantic\_name\_certificate}$.
 \end{proof}
+
+\begin{theorem}[NatUp mature unary recursion package]
+\label{thm:natup-mature-unary-recursion-package}
+The unary-history certificate supplies the mature paper-level $\NatUp$ package
+over BEDC $\mathsf{BHist}$ and $\hsame$. Its zero object is $\emp$, its
+successor operation is $\Eone$, no carried element is a zero-extension, unary
+generation gives induction, primitive recursion is defined by the empty and
+one-extension generation cases, and continuation length is addition of the
+unary tail length. The operation bridges consumed by this package are the
+already cited $\AddUp$, $\MulUp$, and $\OrderUp$ interfaces, not host
+arithmetic.
+\end{theorem}
+\begin{proof}
+The carrier is the closed unary-generation carrier of the semantic
+$\NatUp$ certificate. Its base constructor gives $\emp$, its step constructor
+gives $\Eone$, and \autoref{lem:unary-no-zero-extension} removes every
+$\Ezero$ branch from the carried surface.
+
+Induction is the eliminator for that unary-generation predicate. Primitive
+recursion is obtained by the same cases: assign the empty value at $\emp$, and
+in the one-extension case apply the specified successor clause to the value
+already computed for the predecessor history.
+
+The endpoint equality used by the recursion clauses is $\hsame$, not equality
+of host natural numbers. Apply
+\autoref{thm:nat-unary-prefix-trichotomy-hsame-strict}: the sameness branch is
+the transport case, and either strict-prefix branch contributes a nonempty
+unary continuation tail.
+
+Finally, \autoref{thm:natup-unary-standard-bridge} reads continuation tails as
+addition of unary lengths. Induction on the tail gives the empty-tail zero law
+and the one-headed successor step. Thus the package exposes the NatUp
+induction, recursion, and continuation-as-addition principles internally over
+$\mathsf{BHist}$, while arithmetic consumers enter only through the cited
+$\AddUp$, $\MulUp$, and $\OrderUp$ interfaces.
+\end{proof}
 \begin{closurestatus}{\NatUp}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The public $\NatUp$ surface is the unary-history semantic NameCert over BEDC histories together with the paper-side standard bridge to finite unary words and natural-number length readback.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.FKernel.Unary.nat\_up\_semantic\_name\_certificate}
   \bridgestatus{paperBridge}
-  \notclaimed{Full Peano arithmetic, recursion computation rules, arithmetic operation bridges, and mature arithmetic theorem inventories remain outside this closure.}
-  \upgradepath{The next grade requires Peano induction, primitive recursion with computation rules, and operation bridges for addition, multiplication, and order.}
+  \notclaimed{Non-unary external arithmetic theorem inventories and checked standard-model bridge targets are not claimed here.}
+  \upgradepath{Bridge-checked status requires machine-checked standard-model bridge targets.}
 \end{closurestatus}
