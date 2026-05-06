@@ -301,3 +301,23 @@ F\odot_{\mathrm{fps}}Z\sim_{\mathrm{fps}}Z.
 $$
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonAddFold\_zero\_series\_absorption}
+
+\begin{theorem}[FPS RingUp tail algebra package]
+\label{thm:fps-ringup-tail-algebra-package}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, additive inverse $-_R$, multiplication $\cdot_R$, and finite additive fold $\mathsf{fold}_{+,R}$. Assume the scalar classifier equivalence, zero self-classification, additive closure, additive congruence, additive associativity, additive zero, additive inverse closure, additive inverse laws, multiplication closure, multiplication congruence, multiplicative associativity, distributivity, and zero multiplication rows retained in \autoref{def:ring-stability-certificate}, together with the scalar right inverse law of \autoref{thm:ring-add-right-inverse}. Then the carried coefficient sequences of $\FormalPowerSeriesUp(R)$, with pointwise classifier $\sim_{\mathrm{fps}}$, pointwise addition $\oplus_{\mathrm{fps}}$, zero series $0_{\mathrm{fps}}$, coefficientwise inverse $-_{\mathrm{fps}}$, and Cauchy product $\odot_{\mathrm{fps}}$, jointly provide the RingUp-scoped tail algebra package consisting of:
+\begin{enumerate}
+\item the pointwise additive group laws on $\mathsf{FPSCarrier}_R$;
+\item Cauchy-product carrier closure, congruence, and associativity on the same carrier and classifier;
+\item both distributivity laws of $\odot_{\mathrm{fps}}$ over $\oplus_{\mathrm{fps}}$;
+\item zero-series Cauchy-product absorption on the left and on the right.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier and classifier named in every row are the common $\mathsf{FPSCarrier}_R$ of \autoref{def:fps-carrier} and the pointwise classifier specified in \autoref{def:fps-classifier-specification}. Thus the statement does not introduce a second formal-power-series surface; it assembles the already established laws over one shared interface.
+
+For the additive part, apply \autoref{thm:fps-pointwise-additive-group-laws}. It supplies the carried zero series, pointwise sum carrier closure and congruence, associativity, both zero laws, coefficientwise inverse carrier, inverse-data fit, and both inverse-zero laws.
+
+For the multiplicative spine, apply \autoref{thm:fps-cauchy-product-multiplicative-semigroup-laws}. It supplies Cauchy-product carrier closure, congruence with respect to $\sim_{\mathrm{fps}}$, and associativity over the same carried coefficient sequences.
+
+The distributive rows are exactly the two conclusions of \autoref{thm:fps-cauchy-product-distributes-over-fps-addition}, read with the same pointwise addition and Cauchy product. The zero absorption rows are exactly \autoref{thm:fps-zero-series-cauchy-product-absorption-over-ringup-scalars}. Combining these four cited theorem rows yields the displayed RingUp-scoped tail package for downstream formal-power-series algebra.
+\end{proof}
