@@ -11,6 +11,24 @@ def IndependenceProductFold : ProbeBundle BHist -> BHist
   | ProbeBundle.Bnil => BHist.Empty
   | ProbeBundle.Bcons x xs => append x (IndependenceProductFold xs)
 
+def IndependenceBinaryFactorization (joint left right product : BHist) : Prop :=
+  Cont left right product ∧ hsame joint product
+
+theorem IndependenceBinaryFactorization_measurable_image_bridge
+    {jointOriginal jointImage marginalX marginalY imageMarginalX imageMarginalY
+      productOriginal productImage : BHist} :
+    IndependenceBinaryFactorization jointOriginal marginalX marginalY productOriginal ->
+      hsame jointImage jointOriginal -> hsame imageMarginalX marginalX ->
+        hsame imageMarginalY marginalY -> Cont imageMarginalX imageMarginalY productImage ->
+          IndependenceBinaryFactorization jointImage imageMarginalX imageMarginalY productImage := by
+  intro original sameJoint sameLeft sameRight imageProduct
+  constructor
+  · exact imageProduct
+  · have sameProduct : hsame productOriginal productImage :=
+      cont_respects_hsame (hsame_symm sameLeft) (hsame_symm sameRight)
+        original.left imageProduct
+    exact hsame_trans sameJoint (hsame_trans original.right sameProduct)
+
 private theorem IndependenceFiniteProduct_reindexing_readback_entries_empty
     {xs : ProbeBundle BHist} :
     hsame (IndependenceProductFold xs) BHist.Empty ->
