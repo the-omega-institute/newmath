@@ -32,6 +32,61 @@ inductive IdealPrincipalGenerated
           Classifier x y ->
             IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg y
 
+theorem IdealPrincipalGenerated_subtractive_closure_rows
+    {Carrier : BHist -> Prop}
+    {Classifier : BHist -> BHist -> Prop}
+    {zero generator : BHist}
+    {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (zeroCarrier : Carrier zero)
+    (generatorCarrier : Carrier generator)
+    (addCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y))
+    (negCarrier : forall {x : BHist}, Carrier x -> Carrier (neg x))
+    (mulCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y)) :
+    (forall {x : BHist},
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x -> Carrier x) ∧
+      IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg zero ∧
+      (forall {x y : BHist},
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x ->
+          IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg y ->
+            IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg (add x y)) ∧
+      (forall {x : BHist},
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x ->
+          IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg (neg x)) ∧
+      (forall {x y : BHist},
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x ->
+          Classifier x y ->
+            IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg y) := by
+  let Generated :=
+    IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg
+  have support : forall {x : BHist}, Generated x -> Carrier x := by
+    intro x memberX
+    induction memberX with
+    | zero _ =>
+        exact zeroCarrier
+    | monomial carrierL carrierR =>
+        exact mulCarrier (mulCarrier carrierL generatorCarrier) carrierR
+    | add _left _right leftSupport rightSupport =>
+        exact addCarrier leftSupport rightSupport
+    | neg _member supportX =>
+        exact negCarrier supportX
+    | transport _member classified supportX =>
+        exact NameCert.carrier_respects_equiv cert classified supportX
+  constructor
+  · intro x memberX
+    exact support memberX
+  · constructor
+    · exact IdealPrincipalGenerated.zero zeroCarrier
+    · constructor
+      · intro x y memberX memberY
+        exact IdealPrincipalGenerated.add memberX memberY
+      · constructor
+        · intro x memberX
+          exact IdealPrincipalGenerated.neg memberX
+        · intro x y memberX classifiedXY
+          exact IdealPrincipalGenerated.transport memberX classifiedXY
+
 theorem IdealPrincipalGenerated_absorption_closure_rows
     {Carrier : BHist -> Prop}
     {Classifier : BHist -> BHist -> Prop}
@@ -166,5 +221,94 @@ theorem IdealPrincipalGenerated_absorption_closure_rows
     exact absorb carrierT memberX
   · intro x y memberX memberY
     exact (absorb (support memberY) memberX).right
+
+theorem IdealPrincipalGenerated_full_ideal_closure_rows
+    {Carrier : BHist -> Prop}
+    {Classifier : BHist -> BHist -> Prop}
+    {zero generator : BHist}
+    {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (zeroCarrier : Carrier zero)
+    (generatorCarrier : Carrier generator)
+    (addCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y))
+    (negCarrier : forall {x : BHist}, Carrier x -> Carrier (neg x))
+    (mulCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y))
+    (mulZeroLeft : forall {r : BHist}, Carrier r -> Classifier (mul r zero) zero)
+    (mulZeroRight : forall {r : BHist}, Carrier r -> Classifier (mul zero r) zero)
+    (mulAssocLeft :
+      forall {t l r : BHist},
+        Carrier t -> Carrier l -> Carrier r ->
+          Classifier (mul t (mul (mul l generator) r))
+            (mul (mul (mul t l) generator) r))
+    (mulAssocRight :
+      forall {t l r : BHist},
+        Carrier t -> Carrier l -> Carrier r ->
+          Classifier (mul (mul (mul l generator) r) t)
+            (mul (mul l generator) (mul r t)))
+    (mulAddLeft :
+      forall {t x y : BHist},
+        Carrier t -> Carrier x -> Carrier y ->
+          Classifier (mul t (add x y)) (add (mul t x) (mul t y)))
+    (mulAddRight :
+      forall {t x y : BHist},
+        Carrier t -> Carrier x -> Carrier y ->
+          Classifier (mul (add x y) t) (add (mul x t) (mul y t)))
+    (mulNegLeft :
+      forall {t x : BHist},
+        Carrier t -> Carrier x -> Classifier (mul t (neg x)) (neg (mul t x)))
+    (mulNegRight :
+      forall {t x : BHist},
+        Carrier t -> Carrier x -> Classifier (mul (neg x) t) (neg (mul x t)))
+    (mulCongrLeft :
+      forall {t x y : BHist},
+        Carrier t -> Classifier x y -> Classifier (mul t x) (mul t y))
+    (mulCongrRight :
+      forall {t x y : BHist},
+        Carrier t -> Classifier x y -> Classifier (mul x t) (mul y t)) :
+    (forall {x : BHist},
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x -> Carrier x) ∧
+      IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg zero ∧
+      (forall {x y : BHist},
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x ->
+          IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg y ->
+            IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg (add x y)) ∧
+      (forall {x : BHist},
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x ->
+          IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg (neg x)) ∧
+      (forall {x y : BHist},
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x ->
+          IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg y ->
+            IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg (mul x y)) ∧
+      (forall {x y : BHist},
+        IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x ->
+          Classifier x y ->
+            IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg y) ∧
+      (forall {r x : BHist},
+        Carrier r ->
+          IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg x ->
+            IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg (mul r x) ∧
+            IdealPrincipalGenerated Carrier Classifier cert zero generator add mul neg (mul x r)) := by
+  have subtractive :=
+    IdealPrincipalGenerated_subtractive_closure_rows (cert := cert)
+      (zeroCarrier := zeroCarrier) (generatorCarrier := generatorCarrier)
+      (addCarrier := addCarrier) (negCarrier := negCarrier) (mulCarrier := mulCarrier)
+  have absorption :=
+    IdealPrincipalGenerated_absorption_closure_rows (cert := cert)
+      (zeroCarrier := zeroCarrier) (generatorCarrier := generatorCarrier)
+      (addCarrier := addCarrier) (negCarrier := negCarrier) (mulCarrier := mulCarrier)
+      (mulZeroLeft := mulZeroLeft) (mulZeroRight := mulZeroRight)
+      (mulAssocLeft := mulAssocLeft) (mulAssocRight := mulAssocRight)
+      (mulAddLeft := mulAddLeft) (mulAddRight := mulAddRight)
+      (mulNegLeft := mulNegLeft) (mulNegRight := mulNegRight)
+      (mulCongrLeft := mulCongrLeft) (mulCongrRight := mulCongrRight)
+  exact
+    ⟨subtractive.left,
+      subtractive.right.left,
+      subtractive.right.right.left,
+      subtractive.right.right.right.left,
+      absorption.right,
+      subtractive.right.right.right.right,
+      absorption.left⟩
 
 end BEDC.Derived.IdealUp

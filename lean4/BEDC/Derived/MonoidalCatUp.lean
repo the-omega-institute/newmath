@@ -154,4 +154,58 @@ theorem MonoidalCatSingleton_tensor_preserves_composition
   exact And.intro tensorThenComposite
     (And.intro compositeThenTensor displayedSame)
 
+theorem MonoidalCatSingleton_coherence_laws
+    {w x y z pentagonLeft pentagonRight triangleLeft triangleRight : BHist} :
+    UnaryHistory w ->
+      UnaryHistory x ->
+        UnaryHistory y ->
+          UnaryHistory z ->
+            Cont (append (append (append w x) y) z) BHist.Empty pentagonLeft ->
+              Cont (append w (append x (append y z))) BHist.Empty pentagonRight ->
+                Cont (append (append x BHist.Empty) y) BHist.Empty triangleLeft ->
+                  Cont (append x y) BHist.Empty triangleRight ->
+                    hsame pentagonLeft pentagonRight ∧ hsame triangleLeft triangleRight ∧
+                      UnaryHistory pentagonLeft ∧ UnaryHistory pentagonRight := by
+  intro wUnary xUnary yUnary zUnary pentagonLeftCont pentagonRightCont triangleLeftCont
+    triangleRightCont
+  have pentagonLeftUnary :
+      UnaryHistory (append (append (append w x) y) z) :=
+    unary_append_closed (unary_append_closed (unary_append_closed wUnary xUnary) yUnary)
+      zUnary
+  have pentagonRightUnary :
+      UnaryHistory (append w (append x (append y z))) :=
+    unary_append_closed wUnary
+      (unary_append_closed xUnary (unary_append_closed yUnary zUnary))
+  have pentagonLeftSame :
+      hsame pentagonLeft (append (append (append w x) y) z) :=
+    cont_right_unit_iff.mp pentagonLeftCont
+  have pentagonRightSame :
+      hsame pentagonRight (append w (append x (append y z))) :=
+    cont_right_unit_iff.mp pentagonRightCont
+  have pentagonSpine :
+      hsame (append (append (append w x) y) z)
+        (append w (append x (append y z))) :=
+    hsame_trans (append_assoc (append w x) y z)
+      (append_assoc w x (append y z))
+  have pentagonSame : hsame pentagonLeft pentagonRight :=
+    hsame_trans pentagonLeftSame
+      (hsame_trans pentagonSpine (hsame_symm pentagonRightSame))
+  have triangleLeftSame :
+      hsame triangleLeft (append (append x BHist.Empty) y) :=
+    cont_right_unit_iff.mp triangleLeftCont
+  have triangleRightSame : hsame triangleRight (append x y) :=
+    cont_right_unit_iff.mp triangleRightCont
+  have triangleSpine :
+      hsame (append (append x BHist.Empty) y) (append x y) :=
+    congrArg (fun h => append h y) (append_empty_right x)
+  have triangleSame : hsame triangleLeft triangleRight :=
+    hsame_trans triangleLeftSame
+      (hsame_trans triangleSpine (hsame_symm triangleRightSame))
+  have pentagonLeftCarrier : UnaryHistory pentagonLeft :=
+    unary_transport pentagonLeftUnary (hsame_symm pentagonLeftSame)
+  have pentagonRightCarrier : UnaryHistory pentagonRight :=
+    unary_transport pentagonRightUnary (hsame_symm pentagonRightSame)
+  exact And.intro pentagonSame
+    (And.intro triangleSame (And.intro pentagonLeftCarrier pentagonRightCarrier))
+
 end BEDC.Derived.MonoidalCatUp
