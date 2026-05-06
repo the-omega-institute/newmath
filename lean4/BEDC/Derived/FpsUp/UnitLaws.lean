@@ -5,6 +5,11 @@ namespace BEDC.Derived.FpsUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+def FpsSingletonUnitSeriesCoeff : BHist -> BHist
+  | BHist.Empty => FpsSingletonOne
+  | BHist.e0 _ => FpsSingletonZero
+  | BHist.e1 _ => FpsSingletonZero
+
 theorem FpsSingletonCauchyProduct_unit_laws {F : BHist} :
     FpsSingletonCarrier F ->
       FpsSingletonCarrier FpsSingletonOne ∧
