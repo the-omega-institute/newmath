@@ -335,6 +335,7 @@ import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.ScopedBoundary
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
+import BEDC.Derived.FpsUp.LedgerPolicy
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
@@ -385,6 +386,7 @@ import BEDC.Derived.S1Up.SemanticFieldAssembly
 import BEDC.Derived.S1Up.SemanticCertificateFields
 import BEDC.Derived.S1Up.FieldAssembly
 import BEDC.Derived.S1Up.SemanticFields
+import BEDC.Derived.S1Up.SharedPointComponent
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver
