@@ -424,6 +424,13 @@ theorem BHistSubspaceOpen_finite_intersection (T : BHistIndexedOpenCarrier)
       Iff.mpr meetAt (And.intro subBoth.left.right subBoth.right.right)
     exact And.intro subBoth.left.left openMeet
 
+theorem BHistSubspaceOpen_finite_intersection_closure (T : BHistIndexedOpenCarrier)
+    {S : BHist -> Prop} {i j : T.OpenIx} {h : BHist} :
+    UnaryHistory h ->
+      ((S h ∧ T.OpenAt (T.meet i j) h) <->
+        ((S h ∧ T.OpenAt i h) ∧ (S h ∧ T.OpenAt j h))) :=
+  BHistSubspaceOpen_finite_intersection T
+
 theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 : A) :
     hsame (ι a0) BHist.Empty ->
       forall h : BHist,
