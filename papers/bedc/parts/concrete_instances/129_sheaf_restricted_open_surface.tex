@@ -1,0 +1,109 @@
+\begin{definition}[Sheaf restricted-open carrier]
+\label{def:sheaf-restricted-open-carrier}
+Let $\mathcal{T}$ be a $\mathsf{BHist}$-scoped indexed open topology carrier for $\TopologyUp$, and let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over $\mathcal{T}$. Fix an open index $i:\mathsf{OpenIx}$. The restricted-open carrier $\mathcal{S}|_i$ is the carrier indexed by pairs $(j,\eta_j)$ with
+$$
+\eta_j:j\le_{\mathcal{T}}i.
+$$
+On such an index it inherits
+$$
+\mathsf{Sec}_{|i}(j,\eta_j):=\mathsf{Sec}(j),
+\qquad
+\sim_{|i,(j,\eta_j)}:=\sim_j.
+$$
+For an inclusion $\theta:k\le_{\mathcal{T}}j$ between restricted indices, its restriction map is the ambient sheaf restriction
+$$
+\rho^{|i}_{(j,\eta_j),(k,\eta_k)}:=\rho_{j,k}.
+$$
+The target witness $\eta_k:k\le_{\mathcal{T}}i$ is the composite of $\theta$ with $\eta_j$, so every carrier, classifier, and restriction row stays inside the fixed open $i$ without adding a host subspace, powerset restriction, quotient, or sheafification primitive.
+\end{definition}
+
+\begin{theorem}[Sheaf restricted-open restriction laws]
+\label{thm:sheaf-restricted-open-restriction-laws}
+Let $\mathcal{S}|_i$ be the restricted-open carrier of \autoref{def:sheaf-restricted-open-carrier}. For every restricted index $(j,\eta_j)$ and section $s:\mathsf{Sec}_{|i}(j,\eta_j)$, the inherited identity row satisfies
+$$
+\rho^{|i}_{(j,\eta_j),(j,\eta_j)}(s)\sim_{|i,(j,\eta_j)}s.
+$$
+For every chain of restricted indices
+$$
+(k,\eta_k)\le_{\mathcal{T}}(j,\eta_j)\le_{\mathcal{T}}(l,\eta_l)
+$$
+and every $s:\mathsf{Sec}_{|i}(l,\eta_l)$, the inherited composition row satisfies
+$$
+\rho^{|i}_{(j,\eta_j),(k,\eta_k)}
+\bigl(\rho^{|i}_{(l,\eta_l),(j,\eta_j)}(s)\bigr)
+\sim_{|i,(k,\eta_k)}
+\rho^{|i}_{(l,\eta_l),(k,\eta_k)}(s).
+$$
+Moreover, for every restricted inclusion $(k,\eta_k)\le_{\mathcal{T}}(j,\eta_j)$, classifier equality transports along the inherited restriction:
+$$
+s\sim_{|i,(j,\eta_j)}t
+\Longrightarrow
+\rho^{|i}_{(j,\eta_j),(k,\eta_k)}(s)
+\sim_{|i,(k,\eta_k)}
+\rho^{|i}_{(j,\eta_j),(k,\eta_k)}(t).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:sheaf-restricted-open-carrier}. The section carrier and classifier at $(j,\eta_j)$ are exactly $\mathsf{Sec}(j)$ and $\sim_j$, and the identity restriction is the ambient row $\rho_{j,j}$.
+
+Apply the identity field of the indexed section presheaf carrier in \autoref{def:sheaf-indexed-section-presheaf-carrier}. This gives the first displayed classifier equality.
+
+For the composition row, forget only the fixed target witness to $i$. The displayed restricted chain is an ambient chain $k\le_{\mathcal{T}}j\le_{\mathcal{T}}l$, so the composition field of \autoref{def:sheaf-indexed-section-presheaf-carrier} gives the second displayed equality after replacing each restricted restriction map by the corresponding ambient $\rho$.
+
+The classifier-transport row is identical. A restricted classifier equality is an ambient equality $s\sim_j t$, and the restricted map from $(j,\eta_j)$ to $(k,\eta_k)$ is $\rho_{j,k}$. The restriction classifier-stability field of \autoref{def:sheaf-indexed-section-presheaf-carrier} therefore gives the final displayed implication.
+\end{proof}
+
+\begin{theorem}[Sheaf restricted-open locality and gluing]
+\label{thm:sheaf-restricted-open-locality-gluing}
+Let $\mathcal{S}|_i$ be the restricted-open carrier of \autoref{def:sheaf-restricted-open-carrier}. Let $(j,\eta_j)$ be a restricted index and let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of $j$ whose member inclusions satisfy $h_a:\iota(a)\le_{\mathcal{T}}j$. Regard it as a cover inside $\mathcal{S}|_i$ by assigning each member the composite witness
+$$
+\eta_{\iota(a)}:\iota(a)\le_{\mathcal{T}}i.
+$$
+Then locality and gluing hold in the restricted carrier. Thus, if $g,h':\mathsf{Sec}_{|i}(j,\eta_j)$ and
+$$
+\forall a:A,\quad
+\rho^{|i}_{(j,\eta_j),(\iota(a),\eta_{\iota(a)})}(g)
+\sim_{|i,(\iota(a),\eta_{\iota(a)})}
+\rho^{|i}_{(j,\eta_j),(\iota(a),\eta_{\iota(a)})}(h'),
+$$
+then $g\sim_{|i,(j,\eta_j)}h'$. If $s_a:\mathsf{Sec}_{|i}(\iota(a),\eta_{\iota(a)})$ is compatible on the restricted cover, then there is $g:\mathsf{Sec}_{|i}(j,\eta_j)$ with
+$$
+\forall a:A,\quad
+\rho^{|i}_{(j,\eta_j),(\iota(a),\eta_{\iota(a)})}(g)
+\sim_{|i,(\iota(a),\eta_{\iota(a)})}
+s_a.
+$$
+Compatible local families remain compatible after every further restriction inside $\mathcal{S}|_i$.
+\end{theorem}
+\begin{proof}
+View the restricted cover as the ambient indexed open cover of $j$ with the same index type $A$, the same open-index map $\iota$, the same inclusion witnesses $h_a$, and the same cover law $\gamma$. The extra witnesses $\eta_{\iota(a)}$ only record that each member also lies below the fixed open $i$.
+
+After unfolding \autoref{def:sheaf-restricted-open-carrier}, the displayed memberwise equality is exactly the ambient antecedent for the locality field of \autoref{def:sheaf-indexed-cover-compatibility-locality}. Applying that field to the ambient cover of $j$ gives $g\sim_j h'$, which is the restricted classifier equality at $(j,\eta_j)$.
+
+For gluing, a compatible family in the restricted carrier is the same family $s_a:\mathsf{Sec}(\iota(a))$ with the same overlap equalities as in the ambient sheaf. Apply the gluing field of \autoref{def:sheaf-indexed-cover-compatibility-locality} to obtain $g:\mathsf{Sec}(j)$ whose ambient restrictions classify as $s_a$. Unfolding the restricted carrier turns those rows into the displayed restricted gluing rows.
+
+It remains to check that compatibility is stable under further restriction inside the fixed open. Fix two local members and restrict them to a smaller restricted index below their overlap. The finite-intersection row of \autoref{def:topology-indexed-open-carrier} supplies the overlap inclusions, and \autoref{thm:sheaf-restricted-open-restriction-laws} supplies restriction composition along the chains through that overlap. Transporting the original compatibility row by the same theorem and composing the resulting classifier equalities proves that the further-restricted family is still compatible.
+\end{proof}
+
+\begin{theorem}[Sheaf restricted-open NameCert surface]
+\label{thm:sheaf-restricted-open-namecert-surface}
+For every $\mathsf{BHist}$-scoped indexed open topology carrier $\mathcal{T}$, indexed sheaf carrier $\mathcal{S}$ over $\mathcal{T}$, and open index $i:\mathsf{OpenIx}$, the restricted-open carrier $\mathcal{S}|_i$ supplies the paper-side $\NameCert_{\SheafUp}$ surface used by open-local consumers such as ringed-space and scheme certificates. Its rows are:
+\begin{enumerate}
+\item carrier: restricted indices $(j,\eta_j)$ with $j\le_{\mathcal{T}}i$ and inherited section carriers $\mathsf{Sec}(j)$;
+\item classifier: the inherited section classifiers $\sim_j$;
+\item stability: identity, composition, and classifier transport from \autoref{thm:sheaf-restricted-open-restriction-laws}, with classifier transport agreeing with \autoref{thm:sheaf-restriction-classifier-transport};
+\item ledger: open-cover indices below $i$, cover-member inclusions, finite-intersection overlap rows, refinement maps, and restriction paths;
+\item exactness: restricted locality and gluing from \autoref{thm:sheaf-restricted-open-locality-gluing}, stable under refinement by \autoref{thm:sheaf-refinement-compatible-family-pullback} and \autoref{thm:sheaf-refinement-gluing-descent};
+\item standard bridge: absent, as in the global obligation surface of \autoref{thm:sheaf-namecert-obligation-surface}.
+\end{enumerate}
+Thus an open-local consumer may work entirely below $i$ while reusing the global $\NameCert_{\SheafUp}$ carrier, classifier, stability, ledger, exactness, and absent-standard-bridge rows.
+\end{theorem}
+\begin{proof}
+The carrier and classifier rows are immediate from \autoref{def:sheaf-restricted-open-carrier}: every restricted index names an ambient open below $i$, and no section carrier or classifier is rebuilt.
+
+The stability row is supplied by \autoref{thm:sheaf-restricted-open-restriction-laws}. Its classifier-transport clause is the restricted form of \autoref{thm:sheaf-restriction-classifier-transport}, because both statements use the same ambient restriction map $\rho_{j,k}$ and the same classifier family $\sim$.
+
+The ledger row is inherited from the ambient cover and refinement ledgers. Covers below $i$ are ambient covers whose target open also carries a witness to $i$, while refinement pullback and gluing descent are exactly the rows of \autoref{thm:sheaf-refinement-compatible-family-pullback} and \autoref{thm:sheaf-refinement-gluing-descent} read inside the fixed-open slice.
+
+Finally, \autoref{thm:sheaf-restricted-open-locality-gluing} gives the exactness row for locality and gluing below $i$. The global obligation surface of \autoref{thm:sheaf-namecert-obligation-surface} already records that no standard bridge is attached, and restricting to a fixed open adds no such bridge. These rows are precisely the $\NameCert_{\SheafUp}$ surface required by open-local consumers.
+\end{proof}
