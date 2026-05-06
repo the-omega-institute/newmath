@@ -416,3 +416,90 @@ $$
 $$
 These are the two asserted density-output clauses.
 \end{proof}
+
+\begin{definition}[Unitary trace-class conjugation map]
+\label{def:quantumchannel-unitary-conjugation-map}
+Let $H$ be a $\HilbertUp$ carrier and let $U:H\to H$ be an endpoint carried by the $\UnitaryGroupUp(H)$ carrier of \autoref{sec:unitarygroup-carrier}. Write $U^{-1}:H\to H$ for the inverse endpoint supplied by the same unitary automorphism row. For $T\in\mathsf{TC}(H)$ define the unitary trace-class conjugation expression by
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U(T):=U\circ T\circ U^{-1}.
+$$
+The expression is read in the bounded-operator composition ring over $H$ from \autoref{def:operatorideal-hilbert-source-surface}; its trace-class output closure is the first carrier row proved in \autoref{thm:unitary-conjugation-quantumchannel}.
+\end{definition}
+
+\begin{theorem}[Unitary conjugation is a QuantumChannel]
+\label{thm:unitary-conjugation-quantumchannel}
+Let $H$ be a $\HilbertUp$ carrier. If $U:H\to H$ is carried by the $\UnitaryGroupUp(H)$ automorphism carrier and $U^{-1}$ is its carried inverse, then the conjugation map of \autoref{def:quantumchannel-unitary-conjugation-map} is carried by $\QuantumChannelUp(H,H)$:
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U).
+$$
+Consequently every carried density matrix is sent to a carried density matrix:
+$$
+\mathsf{Dens}_H(\rho)\Longrightarrow \mathsf{Dens}_H(\operatorname{Ad}^{\mathsf{TC}}_U(\rho)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the $\UnitaryGroupUp$ carrier cited in \autoref{sec:unitarygroup-carrier}. The unitary witness supplies bounded $\LinearMapUp(H,H)$ endpoints $U$ and $U^{-1}$, the two inverse equations against the Hilbert identity, and the inner-product preservation row identifying $U^{-1}$ with the adjoint-side action of $U$. Hence both endpoints are carried bounded operators in the ambient operator surface $\mathsf{Op}_H$ of \autoref{def:operatorideal-hilbert-source-surface}.
+
+First prove trace-class output closure. Let $T\in\mathsf{TC}(H)$. Apply the right absorption half of \autoref{thm:operatorideal-two-sided-absorption-row} to the carried bounded operator $U^{-1}$ and the trace-class operator $T$. This gives $T\circ U^{-1}\in\mathsf{TC}(H)$. Apply the left absorption half of the same theorem to the carried bounded operator $U$ and this trace-class operator. The result is
+$$
+U\circ T\circ U^{-1}\in\mathsf{TC}(H),
+$$
+which is output closure for $\operatorname{Ad}^{\mathsf{TC}}_U$.
+
+The same bounded-composition rows give the linear-map package. Source-classifier descent follows from the operator-ideal classifier transport row, since composing on the left by the fixed carried bounded operator $U$ and on the right by the fixed carried bounded operator $U^{-1}$ preserves the pointwise bounded-operator classifier. For carried $T,S\in\mathsf{TC}(H)$ and a carried real scalar $a$, bilinearity of bounded-operator composition over the trace-class module gives
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U(T+_{\mathsf{TC}(H)}S)
+=
+\operatorname{Ad}^{\mathsf{TC}}_U(T)+_{\mathsf{TC}(H)}\operatorname{Ad}^{\mathsf{TC}}_U(S)
+$$
+and
+$$
+\operatorname{Ad}^{\mathsf{TC}}_U(a\odot_H T)
+=
+a\odot_H\operatorname{Ad}^{\mathsf{TC}}_U(T).
+$$
+The zero row is the same calculation at the trace-class zero operator. These are the output-closure, descent, additive, scalar, and zero rows of \autoref{def:module-linearmap-certificate-package}, read through the concrete $\LinearMapUp$ carrier in \autoref{def:linearmap-carrier}. Thus $\operatorname{Ad}^{\mathsf{TC}}_U$ carries the required linear-map row in \autoref{def:quantumchannel-cptp-carrier}.
+
+For complete positivity, let $A$ be a finite ancilla Hilbert carrier and let $X$ be a positive trace-class operator on $A\otimes H$. Put
+$$
+V_A:=\operatorname{id}_A\otimes U,
+\qquad
+V_A^{-1}:=\operatorname{id}_A\otimes U^{-1}.
+$$
+The tensor row for Hilbert carriers makes $V_A$ a carried unitary automorphism of $A\otimes H$ with inverse $V_A^{-1}$. The amplified conjugation map is the corresponding bounded conjugation:
+$$
+(\operatorname{id}_A\otimes\operatorname{Ad}^{\mathsf{TC}}_U)(X)
+=
+V_A\circ X\circ V_A^{-1}.
+$$
+Trace-class membership of this amplified output follows from \autoref{thm:operatorideal-two-sided-absorption-row} on $A\otimes H$. For positivity, evaluate the quadratic-form predicate at an arbitrary carried vector $z$ of $A\otimes H$. The unitary inverse-adjoint row gives
+$$
+\langle V_A\circ X\circ V_A^{-1}z,z\rangle
+=
+\langle X(V_A^{-1}z),V_A^{-1}z\rangle.
+$$
+Since $X$ is positive and $V_A^{-1}z$ is again a carried Hilbert endpoint, the right side is nonnegative. Therefore the amplified output is positive trace-class on $A\otimes H$. As $A$ and $X$ were arbitrary, $\operatorname{Ad}^{\mathsf{TC}}_U$ is completely positive.
+
+For trace preservation, let $T\in\mathsf{TC}(H)$. The cyclic trace row for one trace-class factor and one carried bounded factor gives
+$$
+\begin{aligned}
+\operatorname{Tr}_H(\operatorname{Ad}^{\mathsf{TC}}_U(T))
+&=\operatorname{Tr}_H(U\circ (T\circ U^{-1}))\\
+&=\operatorname{Tr}_H((T\circ U^{-1})\circ U)\\
+&=\operatorname{Tr}_H(T\circ (U^{-1}\circ U))\\
+&=\operatorname{Tr}_H(T\circ \operatorname{id}_H)\\
+&=\operatorname{Tr}_H(T).
+\end{aligned}
+$$
+The last two equalities use the inverse equation supplied by the unitary automorphism row and the bounded-operator identity law.
+
+The carried linear-map row, complete-positivity row, and trace-preservation row are precisely the clauses of \autoref{def:quantumchannel-cptp-carrier}; hence
+$$
+\mathsf{QChan}_{H,H}(\operatorname{Ad}^{\mathsf{TC}}_U)
+$$
+holds. If $\mathsf{Dens}_H(\rho)$, applying \autoref{lem:quantumchannel-densitymatrix-image} to this channel gives
+$$
+\mathsf{Dens}_H(\operatorname{Ad}^{\mathsf{TC}}_U(\rho)),
+$$
+which is the asserted density-matrix endpoint preservation.
+\end{proof}

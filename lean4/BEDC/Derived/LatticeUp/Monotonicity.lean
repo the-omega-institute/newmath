@@ -75,4 +75,31 @@ theorem LatticeSingletonOperation_monotonicity_empty {a a' b b' c : BHist} :
     ⟨emptyLE, emptyLE, emptyLE, emptyLE, emptyCarrier, emptyCarrier, emptyCarrier,
       emptyCarrier⟩
 
+theorem LatticeMeet_monotone_second_argument_from_directional_bounds
+    {Carrier : BHist -> Prop}
+    {Classifier Le : BHist -> BHist -> Prop}
+    {meet : BHist -> BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (le_trans :
+      forall {a b c : BHist}, Carrier a -> Carrier b -> Carrier c ->
+        Le a b -> Le b c -> Le a c)
+    (meet_carrier : forall {a b : BHist}, Carrier a -> Carrier b -> Carrier (meet a b))
+    (meet_lower_left : forall {a b : BHist}, Carrier a -> Carrier b -> Le (meet a b) a)
+    (meet_lower_right : forall {a b : BHist}, Carrier a -> Carrier b -> Le (meet a b) b)
+    (meet_greatest :
+      forall {w a b : BHist}, Carrier w -> Carrier a -> Carrier b ->
+        Le w a -> Le w b -> Le w (meet a b))
+    {b b' c : BHist} :
+    Carrier b -> Carrier b' -> Carrier c -> Le b b' -> Le (meet c b) (meet c b') := by
+  cases NameCert.carrier_inhabited cert with
+  | intro _witness _witnessCarrier =>
+      intro carrierB carrierB' carrierC leBB'
+      have carrierCB : Carrier (meet c b) := meet_carrier carrierC carrierB
+      have carrierCB' : Carrier (meet c b') := meet_carrier carrierC carrierB'
+      have cbLeC : Le (meet c b) c := meet_lower_left carrierC carrierB
+      have cbLeB : Le (meet c b) b := meet_lower_right carrierC carrierB
+      have cbLeB' : Le (meet c b) b' :=
+        le_trans carrierCB carrierB carrierB' cbLeB leBB'
+      exact meet_greatest carrierCB carrierC carrierB' cbLeC cbLeB'
+
 end BEDC.Derived.LatticeUp
