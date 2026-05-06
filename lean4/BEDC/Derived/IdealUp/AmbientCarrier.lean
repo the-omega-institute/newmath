@@ -61,4 +61,20 @@ theorem IdealAmbientCarrier_quotient_kernel_carrier_exactness
     exact And.intro carrierX
       (And.intro endpoints.right (carrierSub carrierX endpoints.right))
 
+theorem IdealAmbientQuotientKernel_carrier_exactness
+    {Carrier : BHist -> Prop}
+    {Classifier : BHist -> BHist -> Prop}
+    {sub : BHist -> BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (subCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (sub x y))
+    {x y : BHist} :
+    (Carrier x ∧ Carrier y ∧ Carrier (sub x y)) ↔ Carrier x ∧ Carrier y := by
+  constructor
+  · intro quotientKernel
+    exact And.intro quotientKernel.left quotientKernel.right.left
+  · intro endpoints
+    have carrierX : Carrier x :=
+      NameCert.carrier_respects_equiv cert (NameCert.equiv_refl cert endpoints.left) endpoints.left
+    exact And.intro carrierX (And.intro endpoints.right (subCarrier carrierX endpoints.right))
+
 end BEDC.Derived.IdealUp
