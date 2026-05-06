@@ -88,6 +88,36 @@ def NumFieldRatReflexiveSingletonBasisRow (h coord support : BHist) : Prop :=
 def NumFieldRatReflexiveClassifier (h k : BHist) : Prop :=
   NumFieldRatReflexiveCarrier h ∧ NumFieldRatReflexiveCarrier k ∧ RatHistoryClassifier h k
 
+theorem NumFieldRatReflexiveSingletonBasisRow_coordinate_transport
+    {h k coordH coordK supportH supportK : BHist} :
+    RatHistoryClassifier h k -> NumFieldRatReflexiveSingletonBasisRow h coordH supportH ->
+      NumFieldRatReflexiveSingletonBasisRow k coordK supportK ->
+        RatHistoryClassifier coordH coordK ∧ hsame supportH supportK ∧
+          Cont h BHist.Empty coordH ∧ Cont k BHist.Empty coordK ∧
+            RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+  intro classified basisH basisK
+  have coordHClassified : RatHistoryClassifier coordH h :=
+    basisH.right.right.right.left
+  have coordKClassified : RatHistoryClassifier coordK k :=
+    basisK.right.right.right.left
+  have coordTransport : RatHistoryClassifier coordH coordK :=
+    RatHistoryClassifier_trans coordHClassified
+      (RatHistoryClassifier_trans classified (RatHistoryClassifier_symm coordKClassified))
+  have supportSame : hsame supportH supportK := by
+    cases basisH.left
+    cases basisK.left
+    rfl
+  have coordHReadback : Cont h BHist.Empty coordH :=
+    basisH.right.right.left
+  have coordKReadback : Cont k BHist.Empty coordK :=
+    basisK.right.right.left
+  have endpointClassified :
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) :=
+    (FieldExtRatReflexive_exact_endpoint_classification classified).right.right
+  exact And.intro coordTransport
+    (And.intro supportSame
+      (And.intro coordHReadback (And.intro coordKReadback endpointClassified)))
+
 theorem NumFieldReflexiveRational_fieldext_scope {h r m action : BHist} :
     NumFieldRatReflexiveCarrier h -> RatHistoryCarrier r -> RatHistoryCarrier m ->
       Cont (FieldExtSingletonEmbedding r) m action ->
@@ -156,6 +186,18 @@ theorem NumFieldReflexiveRational_finite_extension_witness {m coord : BHist} :
     unfold FieldExtSingletonEmbedding
     exact And.intro embeddedCarrier (And.intro carrierM (append_empty_left m))
   exact And.intro coordClassifier (And.intro embeddedCarrier embeddedClassifier)
+
+theorem NumFieldReflexiveRational_embedding_coordinate_classifier {m coord : BHist} :
+    RatHistoryCarrier m -> Cont m BHist.Empty coord ->
+      RatHistoryClassifier (FieldExtSingletonEmbedding m) coord ∧ RatHistoryClassifier coord m ∧
+        RatHistoryCarrier (FieldExtSingletonEmbedding m) ∧ RatHistoryCarrier coord := by
+  intro carrierM coordinateReadback
+  have witness :=
+    NumFieldReflexiveRational_finite_extension_witness carrierM coordinateReadback
+  have embeddedCoord : RatHistoryClassifier (FieldExtSingletonEmbedding m) coord :=
+    RatHistoryClassifier_trans witness.right.right (RatHistoryClassifier_symm witness.left)
+  exact And.intro embeddedCoord
+    (And.intro witness.left (And.intro witness.right.left witness.left.left))
 
 theorem NumFieldReflexiveRational_coordinate_readback_pair_determinacy {m c0 c1 : BHist} :
     RatHistoryCarrier m -> Cont m BHist.Empty c0 -> Cont m BHist.Empty c1 ->
@@ -317,6 +359,23 @@ theorem NumFieldRatReflexive_fieldext_consumption {h r m product action : BHist}
     (And.intro operationRows.left
       (And.intro operationRows.right.left operationRows.right.right.left))
 
+theorem NumFieldReflexiveRational_degree_one_row_exhaustion {h coord basis product action : BHist} :
+    NumFieldRatReflexiveCarrier h -> RatHistoryCarrier basis -> Cont h BHist.Empty coord ->
+      Cont h basis product -> Cont (FieldExtSingletonEmbedding h) basis action ->
+        RatHistoryClassifier coord h ∧ RatHistoryClassifier product action ∧
+          RatHistoryCarrier product ∧ RatHistoryCarrier action ∧
+            RatHistoryClassifier (FieldExtSingletonEmbedding h) h := by
+  intro carrierH basisCarrier coordinateReadback productCont actionCont
+  have coordinateRows :=
+    NumFieldReflexiveRational_finite_extension_witness carrierH.left coordinateReadback
+  have fieldRows :=
+    NumFieldRatReflexive_fieldext_consumption carrierH carrierH.left basisCarrier productCont
+      actionCont
+  exact And.intro coordinateRows.left
+    (And.intro fieldRows.right.left
+      (And.intro fieldRows.right.right.left
+        (And.intro fieldRows.right.right.right coordinateRows.right.right)))
+
 theorem NumFieldRatReflexive_carrier_classifier {h k : BHist} :
     RatHistoryClassifier h k ->
       NumFieldRatReflexiveCarrier h ∧ NumFieldRatReflexiveCarrier k ∧
@@ -450,6 +509,20 @@ theorem NumFieldRatReflexive_classifier_transport {h k r m out coord : BHist} :
         (And.intro fieldRows.right.right.right.left
           (And.intro fieldRows.right.right.right.right.left
             (And.intro fieldRows.right.right.right.right.right coordClassifier)))))
+
+theorem NumFieldRatReflexive_coordinate_exactness_span {h k c d : BHist} :
+    RatHistoryClassifier h k -> Cont h BHist.Empty c -> Cont k BHist.Empty d ->
+      RatHistoryClassifier c d ∧
+        RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) := by
+  intro classified readbackH readbackK
+  have sameCH : hsame c h :=
+    cont_right_unit_result readbackH
+  have sameDK : hsame d k :=
+    cont_right_unit_result readbackK
+  have coordinateClassified : RatHistoryClassifier c d :=
+    RatHistoryClassifier_hsame_transport (hsame_symm sameCH) (hsame_symm sameDK) classified
+  have locked := FieldExtRatReflexiveEmbedding_ledger_source_lock classified
+  exact And.intro coordinateClassified locked.right.right.left
 
 theorem NumFieldRatReflexive_ledger_exactness
     {h k r r' m m' product action coord : BHist} :

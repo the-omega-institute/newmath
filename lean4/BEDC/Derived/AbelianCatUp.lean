@@ -102,6 +102,41 @@ theorem AbelianCatAdditiveCarrier_classifier_transport
         (And.intro carrier.right.right.right.right.right.left
           carrier.right.right.right.right.right.right)))
 
+theorem AbelianCatAdditiveCarrier_additive_readback
+    {source target zero add kernel cokernel factor : BHist} :
+    AbelianCatAdditiveCarrier source target zero add kernel cokernel factor ->
+      hsame kernel zero ∧ CategoryHomCarrier source target zero ∧ GroupSingletonCarrier add ∧
+        Cont kernel cokernel factor ∧ UnaryHistory kernel ∧ UnaryHistory factor := by
+  intro carrier
+  have zeroCarrier : CategoryHomCarrier source target zero := carrier.left
+  have addSingleton : GroupSingletonCarrier add := carrier.right.left
+  have kernelUnary : UnaryHistory kernel := carrier.right.right.left
+  have factorUnary : UnaryHistory factor := carrier.right.right.right.right.left
+  have kernelRow : Cont zero add kernel := carrier.right.right.right.right.right.left
+  have factorRow : Cont kernel cokernel factor := carrier.right.right.right.right.right.right
+  have kernelZero : hsame kernel zero :=
+    cont_respects_hsame (hsame_refl zero) addSingleton kernelRow (cont_right_unit zero)
+  exact And.intro kernelZero
+    (And.intro zeroCarrier
+      (And.intro addSingleton
+        (And.intro factorRow (And.intro kernelUnary factorUnary))))
+
+theorem AbelianCatAdditiveCarrier_zero_biproduct_rows
+    {source target zero add kernel cokernel factor : BHist} :
+    AbelianCatAdditiveCarrier source target zero add kernel cokernel factor ->
+      CategoryHomCarrier source target zero ∧ GroupSingletonCarrier add ∧
+        Cont zero add kernel ∧ hsame kernel (append zero add) ∧ Cont kernel cokernel factor ∧
+          hsame factor (append (append zero add) cokernel) := by
+  intro carrier
+  have zeroAddRow : Cont zero add kernel := carrier.right.right.right.right.right.left
+  have factorRow : Cont kernel cokernel factor := carrier.right.right.right.right.right.right
+  exact And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro zeroAddRow
+          (And.intro zeroAddRow
+            (And.intro factorRow
+              (hsame_trans factorRow (congrArg (fun h => append h cokernel) zeroAddRow))))))
+
 theorem AbelianCatAdditiveCarrier_zero_additive_kernel_boundary
     {source target zero add kernel cokernel factor zeroAdd : BHist} :
     AbelianCatAdditiveCarrier source target zero add kernel cokernel factor ->
@@ -292,5 +327,15 @@ theorem AbelianCatZeroBiproductKernelSurface_zero_object_transport
   have kernelRow : Cont zero' S.add S.kernel :=
     cont_hsame_transport sameZero (hsame_refl S.add) (hsame_refl S.kernel) S.kernel_row
   exact And.intro zeroHom kernelRow
+
+theorem AbelianCatZeroBiproductKernelSurface_zero_object_boundary
+    (S : AbelianCatZeroBiproductKernelSurface) :
+    CategoryHomCarrier S.source S.target S.zero ∧ UnaryHistory S.zero ∧
+      GroupSingletonCarrier S.add ∧ UnaryHistory S.add ∧ Cont S.zero S.add S.kernel := by
+  have zeroUnary : UnaryHistory S.zero := S.zero_hom.right.right.left
+  have addUnary : UnaryHistory S.add :=
+    unary_transport unary_empty (hsame_symm S.add_carrier)
+  exact And.intro S.zero_hom
+    (And.intro zeroUnary (And.intro S.add_carrier (And.intro addUnary S.kernel_row)))
 
 end BEDC.Derived.AbelianCatUp
