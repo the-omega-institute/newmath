@@ -1,0 +1,124 @@
+\section{Parallelogram norm seed}
+\label{sec:innerproduct-parallelogram-norm-seed}
+
+\begin{definition}[InnerProduct parallelogram norm seed source]
+\label{def:innerproduct-parallelogram-norm-seed-source}
+The $\InnerProductUp$ parallelogram norm seed source is the $\mathsf{BHist}$
+ledger extending \autoref{def:innerproduct-norm-metric-seed-source} by the
+following carried rows. It carries vector endpoints $x,y:C_V$, the vector
+addition endpoint $x+_V y$, the vector difference endpoint $x-_V y$, and the
+four scalar diagonal endpoints
+$$
+\|x\|_{I}^{2},\qquad
+\|y\|_{I}^{2},\qquad
+\|x+_V y\|_{I}^{2},\qquad
+\|x-_V y\|_{I}^{2}.
+$$
+Here $x-_V y$ denotes $x+_V(-_V y)$ using the displayed additive inverse row
+of the embedded $\VecSpaceUp$ source, and every norm-squared endpoint is the
+diagonal scalar endpoint named by
+\autoref{def:innerproduct-norm-metric-seed-source}.
+
+The ledger also retains the scalar source rows for addition, additive inverse,
+doubling by $2_{\mathbb{K}}$, scalar multiplication, conjugation, and scalar
+classifier transport from the field and vector-space side of
+\autoref{def:innerproduct-bhist-source}. Thus the seed records exactly the
+algebraic data needed to compare the two diagonal sums appearing in the
+parallelogram identity.
+\end{definition}
+
+\begin{theorem}[InnerProduct parallelogram identity row]
+\label{thm:innerproduct-parallelogram-identity-row}
+For carried vector endpoints $x,y:C_V$ in the
+\autoref{def:innerproduct-parallelogram-norm-seed-source}, the retained scalar
+classifier classifies the parallelogram endpoints
+$$
+\|x+_V y\|_{I}^{2}+_{\mathbb{K}}\|x-_V y\|_{I}^{2}
+\sim_{\mathbb{K}}
+2_{\mathbb{K}}\cdot_{\mathbb{K}}\|x\|_{I}^{2}
++_{\mathbb{K}}
+2_{\mathbb{K}}\cdot_{\mathbb{K}}\|y\|_{I}^{2}.
+$$
+The row is a scalar-history comparison inside the same seed; it does not
+introduce an ordinary norm, a metric completion, or a host inner-product
+space.
+\end{theorem}
+\begin{proof}
+Unfold the parallelogram seed source. The vector-space rows carry
+$x+_V y$ and $x-_V y$, and the norm-metric seed identifies each displayed
+norm square with a diagonal form endpoint.
+
+Apply \autoref{thm:innerproduct-vecspace-linearity-row} to expand
+$\langle x+_V y,x+_V y\rangle_{\InnerProductUp}$. The result is classified
+with the scalar sum of the four form values
+$$
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+
+Apply the same linearity row to the diagonal value
+$\langle x-_V y,x-_V y\rangle_{\InnerProductUp}$. The additive inverse and
+scalar-action rows from the retained $\VecSpaceUp$ and scalar sources
+transport the two mixed terms to their scalar additive inverses, giving the
+classified scalar sum
+$$
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+(-_{\mathbb{K}}\langle x,y\rangle_{\InnerProductUp})
++_{\mathbb{K}}
+(-_{\mathbb{K}}\langle y,x\rangle_{\InnerProductUp})
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+
+Now add the two expanded rows in the retained scalar classifier. Scalar
+addition congruence and transitivity compose the two comparisons, while the
+additive inverse laws cancel the paired mixed terms
+$\langle x,y\rangle_{\InnerProductUp}$ and
+$\langle y,x\rangle_{\InnerProductUp}$. The conjugate-symmetry and positivity
+row of \autoref{thm:innerproduct-symmetry-positivity-row} keeps both mixed
+endpoints inside the same scalar classifier ledger during this cancellation.
+
+After the cancellations, the remaining scalar endpoint is the sum of two
+copies of $\langle x,x\rangle_{\InnerProductUp}$ and two copies of
+$\langle y,y\rangle_{\InnerProductUp}$. The scalar doubling rows identify
+those paired sums with
+$2_{\mathbb{K}}\cdot_{\mathbb{K}}\|x\|_{I}^{2}$ and
+$2_{\mathbb{K}}\cdot_{\mathbb{K}}\|y\|_{I}^{2}$. A final application of
+\autoref{thm:namecert-equivalence-transitivity} composes the expansion,
+cancellation, and doubling witnesses into the displayed classifier row.
+\end{proof}
+
+\begin{theorem}[InnerProduct norm seed Hilbert consumer boundary]
+\label{thm:innerproduct-norm-seed-hilbert-consumer-boundary}
+The $\HilbertUp$ and $\NormUp$ consumers may read
+\autoref{thm:innerproduct-parallelogram-identity-row} only through the
+norm-metric seed of \autoref{def:innerproduct-norm-metric-seed-source}
+together with the root threshold source of
+\autoref{def:innerproduct-root-threshold-source}. The consumer boundary
+contains no Banach completeness row, topology row, host Hilbert carrier, or
+Cauchy-limit selector.
+\end{theorem}
+\begin{proof}
+The parallelogram row consumes the diagonal norm-squared endpoints from
+\autoref{def:innerproduct-norm-metric-seed-source}. It consumes the vector
+addition, vector inverse, scalar addition, scalar inverse, scalar doubling,
+linearity, conjugate-symmetry, positivity, and transport rows through
+\autoref{def:innerproduct-root-threshold-source}.
+
+These two sources are the whole input boundary for the row. The norm-metric
+seed supplies norm-squared endpoints and zero exactness; the root threshold
+source supplies the inner-product algebra and the visible ledger. Neither
+source lists Banach completeness, topology, a host Hilbert carrier, or a
+Cauchy-limit selector.
+
+Therefore a $\HilbertUp$ or $\NormUp$ consumer may use the parallelogram
+identity as an algebraic scalar-history comparison, but any completion,
+topological, or host-space row must come from a separate downstream
+certificate.
+\end{proof}

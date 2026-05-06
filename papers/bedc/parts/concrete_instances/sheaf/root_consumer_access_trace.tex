@@ -1,0 +1,59 @@
+\begin{definition}[Sheaf consumer access trace source]
+\label{def:sheaf-consumer-access-trace-source}
+A finite $\SheafUp$ consumer access trace is the freely generated finite list syntax whose constructors are the following read events:
+\begin{enumerate}
+\item carrier and classifier reads of the indexed section carriers $\mathsf{Sec}(i)$ and classifiers $\sim_i$;
+\item restriction-route reads of identity, composition, classifier transport, and optional $\Cont$ route-history rows;
+\item cover-membership reads of accepted covers, member witnesses, finite-intersection overlaps, and $\hsame$ membership transport;
+\item locality and gluing reads of compatible-family predicates, local agreement, global witnesses, and uniqueness rows;
+\item refinement and common-refinement reads of displayed refinements, refinement pullbacks, gluing descent, and common-refinement comparison rows;
+\item point-germ reads of named pointwise readback rows without forming stalk quotients;
+\item base-change reads of displayed base-change squares, pulled-back cover membership, pulled-back compatible families, and gluing transport;
+\item the $\RingedSpaceUp$ local-ring consumer projection;
+\item the $\SchemeUp$ affine-chart consumer projection;
+\item the topology pullback consumer projection.
+\end{enumerate}
+Every constructor is formed over $\mathsf{BHist}$ histories, $\hsame$ transport, optional $\Cont$ route histories, the $\TopologyUp$ indexed-open carrier, the $\PreSheafUp$ section carrier, and the $\NameCert_{\SheafUp}$ rows. The trace source has no constructor for host powerset equality of opens, cover quotients, stalk quotients, external sheafification, or standard bridge rows.
+\end{definition}
+
+\begin{theorem}[Sheaf consumer access trace face coverage]
+\label{thm:sheaf-consumer-access-trace-face-coverage}
+Every constructor of \autoref{def:sheaf-consumer-access-trace-source} lands in exactly one face: either one of the root faces of \autoref{def:sheaf-root-face-exactness-source} or one of the three consumer projections sealed in \autoref{def:sheaf-root-consumer-projection-seal}.
+\end{theorem}
+\begin{proof}
+Proceed by cases on the freely generated trace constructor.
+
+The carrier, classifier, restriction-route, cover-membership, locality, gluing, refinement, common-refinement, point-germ, and base-change cases are root-facing reads. The carrier and classifier rows land in the restriction-route face, the accepted-cover and overlap rows land in the cover-membership face, and the compatibility, locality, gluing, refinement, common-refinement, point-germ, and base-change rows land in the locality, gluing, and refinement exactness face. This placement is the coverage statement of \autoref{thm:sheaf-root-face-classifier-coverage}, with exactness supplied by \autoref{thm:sheaf-root-face-gluing-exactness}.
+
+The remaining cases are the three downstream consumer constructors. The $\RingedSpaceUp$ constructor lands in \autoref{thm:sheaf-root-ringedspace-local-ring-projection-seal}, the $\SchemeUp$ constructor lands in \autoref{thm:sheaf-root-scheme-affine-chart-projection-seal}, and the topology pullback constructor lands in \autoref{thm:sheaf-root-topology-pullback-projection-seal}.
+
+These targets are disjoint by construction of \autoref{def:sheaf-root-face-exactness-source}: the first three faces contain root sheaf rows, while the downstream face contains only projections. Thus each constructor has exactly one landing face.
+\end{proof}
+
+\begin{theorem}[Sheaf consumer access trace no-feedback]
+\label{thm:sheaf-consumer-access-trace-no-feedback}
+The $\RingedSpaceUp$, $\SchemeUp$, and topology pullback constructors of \autoref{def:sheaf-consumer-access-trace-source} do not create further $\SheafUp$ carrier rows, classifier rows, exactness rows, or bridge rows.
+\end{theorem}
+\begin{proof}
+For $\RingedSpaceUp$, the local-ring constructor reads the sheaf-side carrier, classifier, restriction, point-germ, restricted-open, and base-change rows only through the sealed projection. By \autoref{thm:sheaf-root-face-downstream-separation}, the commutative-ring and local-ring data are outside the sheaf root and cannot return as root carrier, classifier, or exactness rows.
+
+For $\SchemeUp$, the affine-chart constructor first passes through the ringed-space projection and then reads cover-presentation and common-refinement rows. The same separation theorem keeps spectra data and chart-ring data outside the sheaf root, so the chart constructor contributes no root row.
+
+For topology pullback, the constructor reads displayed base-change transport, cover pullback, compatible-family transport, gluing pullback, and common-refinement transport. The pullback-open choices are consumer-side data by \autoref{thm:sheaf-root-face-downstream-separation}, not root sheaf obligations.
+
+Finally apply \autoref{thm:sheaf-downstream-consumption-exhaustion}. The downstream boundary exhausts all sheaf-side reads and excludes host powerset equality, cover quotients, external sheaf models, and bridge closure, so no consumer constructor can manufacture a further $\SheafUp$ root row.
+\end{proof}
+
+\begin{theorem}[Sheaf consumer access trace exhaustion]
+\label{thm:sheaf-consumer-access-trace-exhaustion}
+Every allowed downstream $\SheafUp$ access by $\RingedSpaceUp$, $\SchemeUp$, or topology pullback factors through a finite access trace of \autoref{def:sheaf-consumer-access-trace-source}.
+\end{theorem}
+\begin{proof}
+Inspect the downstream row lists in \autoref{def:sheaf-downstream-consumption-boundary}. Carrier and classifier access is represented by the carrier-classifier constructor; restriction stability is represented by the restriction-route constructor; cover ledgers are represented by the cover-membership constructor; locality, gluing, refinement, common-refinement, restricted-open, point-germ, and base-change access are represented by their corresponding trace constructors.
+
+Now inspect the consumer projections in \autoref{def:sheaf-root-consumer-projection-seal}. The $\RingedSpaceUp$ local-ring projection is represented by the ringed-space consumer constructor, the $\SchemeUp$ affine-chart projection by the scheme consumer constructor, and the displayed pullback projection by the topology pullback constructor.
+
+By \autoref{thm:sheaf-consumer-access-trace-face-coverage}, each selected constructor lands in the correct root face or sealed consumer projection. By \autoref{thm:sheaf-consumer-access-trace-no-feedback}, selecting a consumer constructor does not add any further sheaf row that would require another constructor outside the trace grammar.
+
+The relevant downstream proof uses only finitely many rows from the displayed boundary and projection lists. Listing those rows in their order of use gives the required finite trace, and every allowed access is therefore factored through \autoref{def:sheaf-consumer-access-trace-source}.
+\end{proof}
