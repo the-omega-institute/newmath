@@ -48,6 +48,21 @@ For composite rows, the downstream coverage theorem \autoref{thm:topology-downst
 \end{proof}
 \leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyLedgerRow\_constructor\_coverage}
 
+\begin{theorem}[Unary BHist topology public certificate]
+\label{thm:topology-unary-bhist-public-certificate}
+Let $\mathcal{U}$ be the unary $\mathsf{BHist}$ indexed topology source of \autoref{def:topology-unary-bhist-source}. Any visible $\mathsf{BHistUnaryTopologyLedgerRow}$ carrying a nonempty unary public predicate $U$ exports a $\mathsf{SemanticNameCert}$ whose carrier is $\UnaryHistory(h)\land U(h)$, whose pattern is $\mathsf{OpenAt}_{\mathsf{un}}(i,h)$, whose ledger records a unary $\mathsf{BHist}$ constructor row together with the carried index membership, and whose classifier is $\UnaryHistory(h)\land\UnaryHistory(k)\land\hsame(h,k)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopologyUp.BHistUnaryTopologyLedgerRow\_semantic\_name\_certificate}
+\begin{proof}
+Use \autoref{thm:topology-unary-constructor-ledger-coverage} to split the visible ledger row into its six possible constructors: singleton metric ball, finite-list intersection, binary generated-open meet, arbitrary union, bottom, and top. In each branch the row supplies the same carried index $i$, a pointwise carrying equation between $U$ and $\mathsf{OpenAt}_{\mathsf{un}}(i,-)$ on unary histories, and the displayed $\mathsf{BHist}$ provenance tag.
+
+The source witness for nonempty $U$ gives the inhabited carrier clause for $\UnaryHistory(h)\land U(h)$. Reflexivity, symmetry, and transitivity of the certificate classifier are the corresponding $\hsame$ rules restricted to unary histories.
+
+For carrier transport, apply \autoref{thm:topology-unary-membership-transport-obligation}. The carrying equation converts a carrier point of $U$ into indexed-open membership at $i$, the source transport moves that membership along $\hsame$, and the carried-index equation converts it back to $U$ at the target unary history.
+
+Pattern soundness is the forward direction of the same carried-index equation. Ledger soundness packages the constructor branch selected above, the recorded unary provenance tag, and the indexed membership just obtained from the carrying equation. Thus every admitted unary public row exports the stated semantic certificate without adding an unindexed open predicate.
+\end{proof}
+
 \begin{theorem}[Topology deps-ready obligation package]
 \label{thm:topology-deps-ready-obligation-package}
 The unary $\mathsf{BHist}$ source of \autoref{def:topology-unary-bhist-source}, the transport theorem \autoref{thm:topology-unary-membership-transport-obligation}, the ledger coverage theorem \autoref{thm:topology-unary-constructor-ledger-coverage}, and the finite-intersection, arbitrary-union, and boundary closure theorems
