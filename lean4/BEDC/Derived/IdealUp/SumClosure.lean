@@ -177,4 +177,59 @@ theorem IdealSum_ideal_closure_rows
                               rightDistrib carrierR carrierZ carrierX carrierY
                                 rows.right.right⟩)⟩
 
+theorem IdealSumQuotientKernel_scope
+    {Carrier I J : BHist -> Prop}
+    {Classifier : BHist -> BHist -> Prop}
+    {zero : BHist}
+    {add sub : BHist -> BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (I_zero : I zero)
+    (J_zero : J zero)
+    (zeroDecomp : Classifier zero (add zero zero))
+    (subDiagonal : forall {x : BHist}, Carrier x -> Classifier (sub x x) zero)
+    (subCongr :
+      forall {x x' y y' : BHist}, Classifier x x' -> Classifier y y' ->
+        Classifier (sub x y) (sub x' y')) :
+    (forall {x : BHist}, Carrier x ->
+      Carrier x ∧ Carrier x ∧
+        (exists i : BHist, exists j : BHist,
+          I i ∧ J j ∧ Classifier (sub x x) (add i j))) ∧
+      (forall {x y x' y' : BHist},
+        Carrier x ∧ Carrier y ∧
+          (exists i : BHist, exists j : BHist,
+            I i ∧ J j ∧ Classifier (sub x y) (add i j)) ->
+        Classifier x x' -> Classifier y y' ->
+          Carrier x' ∧ Carrier y' ∧
+            (exists i : BHist, exists j : BHist,
+              I i ∧ J j ∧ Classifier (sub x' y') (add i j))) := by
+  constructor
+  · intro x carrierX
+    have subToZero : Classifier (sub x x) zero :=
+      subDiagonal carrierX
+    have subToDecomp : Classifier (sub x x) (add zero zero) :=
+      NameCert.equiv_trans cert subToZero zeroDecomp
+    exact And.intro carrierX
+      (And.intro carrierX
+        (Exists.intro zero (Exists.intro zero
+          (And.intro I_zero (And.intro J_zero subToDecomp)))))
+  · intro x y x' y' rows sameXX' sameYY'
+    have carrierX' : Carrier x' :=
+      NameCert.carrier_respects_equiv cert sameXX' rows.left
+    have carrierY' : Carrier y' :=
+      NameCert.carrier_respects_equiv cert sameYY' rows.right.left
+    cases rows.right.right with
+    | intro i rest =>
+        cases rest with
+        | intro j decomp =>
+            have sameSub : Classifier (sub x y) (sub x' y') :=
+              subCongr sameXX' sameYY'
+            have sameSubBack : Classifier (sub x' y') (sub x y) :=
+              NameCert.equiv_symm cert sameSub
+            have transported : Classifier (sub x' y') (add i j) :=
+              NameCert.equiv_trans cert sameSubBack decomp.right.right
+            exact And.intro carrierX'
+              (And.intro carrierY'
+                (Exists.intro i (Exists.intro j
+                  (And.intro decomp.left (And.intro decomp.right.left transported)))))
+
 end BEDC.Derived.IdealUp
