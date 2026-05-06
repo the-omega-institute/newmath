@@ -196,6 +196,49 @@ and the classifier witness are exactly the displayed terminal comparison
 package.
 \end{proof}
 
+\begin{definition}[Singleton empty preorder public comparison readback]
+\label{def:preorder-singleton-empty-public-comparison-readback}
+For the concrete singleton empty preorder instance, the public readback of
+the guarded comparison $h\le_{\emp}^{\mathrm{sg}}k$ is the endpoint-carrier
+pair
+$$
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+\end{definition}
+
+\begin{theorem}[Singleton empty preorder single-comparison exactness]
+\label{thm:preorder-singleton-empty-single-comparison-exactness}
+For all histories $h,k:\mathsf{BHist}$ in the concrete singleton empty
+preorder instance, one guarded comparison is exactly endpoint carriage:
+$$
+h\le_{\emp}^{\mathrm{sg}}k
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+Its ten-field fit is the following: the traditional target is one-point
+preorder comparison readback; the BEDC source is $\mathsf{BHist}$; the carrier
+is $A_{\emp}$; the classifier is $\rho_{\emp}$; the relation is
+$\le_{\emp}^{\mathrm{sg}}$; stability is supplied by singleton transport and
+\autoref{thm:preorder-prefix-le-of-hsame}; the ledger records the two endpoint
+witnesses and the single comparison witness; the core theorem is this
+single-comparison exactness block; exactness is the displayed if-and-only-if;
+the standard bridge is the one-point preorder; and the status is
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold the guarded relation
+$h\le_{\emp}^{\mathrm{sg}}k$. Its witness is a package consisting of
+$A_{\emp}(h)$, $A_{\emp}(k)$, and
+$\mathsf{PreorderPrefixLE}(h,k)$. Project the first two fields to obtain the
+endpoint-carrier pair.
+
+For the reverse direction, assume $A_{\emp}(h)\land A_{\emp}(k)$. Apply
+\autoref{thm:preorder-singleton-empty-terminal-comparison-package} to these
+two carrier witnesses. The resulting terminal comparison package contains
+$h\le_{\emp}^{\mathrm{sg}}k$ as its first component, which is the required
+single guarded comparison.
+\end{proof}
+
 \begin{theorem}[Singleton empty $\PreorderUp$ naming certificate]
 \label{thm:singleton-empty-preorder-namecert}
 The tuple $(A_{\emp},\rho_{\emp},\le_{\emp}^{\mathrm{sg}})$ of
