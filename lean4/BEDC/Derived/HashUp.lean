@@ -26,6 +26,12 @@ def HashCollisionSuccess
     HashEval x d ∧ HashEval x' d' ∧ (MsgClassifier x x' -> False) ∧
       DigClassifier d d'
 
+def HashCollisionFree
+    (HashEval : BHist -> BHist -> Prop)
+    (MsgClassifier DigClassifier : BHist -> BHist -> Prop)
+    (x x' : BHist) : Prop :=
+  HashCollisionSuccess HashEval MsgClassifier DigClassifier x x' -> False
+
 theorem HashSecondPreimageSuccess_induces_collision
     {HashEval : BHist -> BHist -> Prop}
     {MsgCarrier DigCarrier : BHist -> Prop}
@@ -45,6 +51,19 @@ theorem HashSecondPreimageSuccess_induces_collision
                 (And.intro transcript.right.left
                   (And.intro transcript.right.right.left
                     (digestCert.core.equiv_symm transcript.right.right.right)))))
+
+theorem HashCollisionFree_excludes_second_preimage_success
+    {HashEval : BHist -> BHist -> Prop}
+    {MsgCarrier DigCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (digestCert : SemanticNameCert DigCarrier DigCarrier DigCarrier DigClassifier)
+    {x x' : BHist} :
+    HashCollisionFree HashEval MsgClassifier DigClassifier x x' ->
+      HashSecondPreimageSuccess HashEval MsgClassifier DigClassifier x x' -> False := by
+  intro collisionFree secondPreimage
+  exact collisionFree
+    (HashSecondPreimageSuccess_induces_collision (MsgCarrier := MsgCarrier)
+      digestCert secondPreimage)
 
 theorem HashCollisionSuccess_symmetric
     {HashEval : BHist -> BHist -> Prop}

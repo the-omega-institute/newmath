@@ -204,6 +204,19 @@ theorem SimplicialComplexUnion_face_chain_closure (simplices : ProbeBundle BHist
     (And.intro simplexRho
       (And.intro faceRhoSigma (And.intro tauListed rhoListed)))
 
+theorem SimplicialComplexUnion_append_enumeration
+    {SimplexK SimplexL : BHist -> Prop} {ks ls : ProbeBundle BHist} :
+    (forall {z : BHist}, SimplexK z -> InBundle z ks) ->
+      (forall {z : BHist}, SimplexL z -> InBundle z ls) ->
+        forall {z : BHist}, SimplexK z ∨ SimplexL z ->
+          InBundle z (bundleAppend ks ls) := by
+  intro listedK listedL z unionSimplex
+  cases unionSimplex with
+  | inl simplexK =>
+      exact inBundle_bundleAppend_iff.mpr (Or.inl (listedK simplexK))
+  | inr simplexL =>
+      exact inBundle_bundleAppend_iff.mpr (Or.inr (listedL simplexL))
+
 theorem SimplicialComplexUnion_face_dimension_grading (simplices : ProbeBundle BHist)
     {SimplexK SimplexL : BHist -> Prop} {Face : BHist -> BHist -> Prop}
     (listed : forall {s : BHist}, SimplexK s ∨ SimplexL s -> InBundle s simplices)
