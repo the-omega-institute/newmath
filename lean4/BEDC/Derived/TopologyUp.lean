@@ -121,6 +121,22 @@ theorem BHistUnaryTopologyLedgerRow_classifier_transport (T : BHistIndexedOpenCa
   | top ledger unaryLedger carries =>
       exact BHistCarriesOpen_classifier_transport T carries
 
+theorem BHistGeneratedOpenExact_row_coverage (T : BHistIndexedOpenCarrier)
+    {U : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      exists i : T.OpenIx, exists ledger : BHist,
+        UnaryHistory ledger ∧ BHistUnaryTopologyLedgerRow T i U ∧
+          BHistCarriesOpen T i U := by
+  intro generated
+  cases generated with
+  | intro i carries =>
+      exact Exists.intro i
+        (Exists.intro BHist.Empty
+          (And.intro unary_empty
+            (And.intro
+              (BHistUnaryTopologyLedgerRow.finiteListIntersection BHist.Empty unary_empty carries)
+              carries)))
+
 theorem BHistCarriesOpen_membership_transport_route (T : BHistIndexedOpenCarrier)
     {i : T.OpenIx} {U : BHist -> Prop} {x y : BHist} :
     BHistCarriesOpen T i U -> UnaryHistory x -> UnaryHistory y -> hsame x y -> U x ->
