@@ -1,0 +1,64 @@
+\chapter{The Unary-Direction Bridge \(\NatUp \leftrightarrow \AxisNatUp\)}
+\label{ch:concrete-instances-unary-direction-bridge}
+
+This chapter introduces a kernel-distinct comparison interface between the \(\Eone\)-spine carrier behind \(\NatUp\) (Chapter~\ref{ch:concrete-instances-nat-namecert}) and the \(\Ezero\)-spine carrier behind \(\AxisNatUp\) (Chapter~\ref{ch:concrete-instances-axisnat-namecert}). The bridge does NOT identify the two carriers inside the BEDC finite kernel; it records that the two interfaces are isomorphic in the standard model, while remaining propositionally distinct on histories.
+
+\section{Carrier intersection}
+
+\begin{theorem}[Unary and zero-spine meet only at the empty history]
+\label{thm:unary-zero-spine-meet-only-at-empty}
+For every history \(h\), if both \(\mathsf{Unary}(h)\) and \(\mathsf{ZeroSpine}(h)\) hold, then \(h = \emp\).
+\end{theorem}
+\leandef{BEDC.Derived.AxisZeckendorf.Bridge.unary\_and\_zeroSpine\_only\_meet\_at\_empty}
+\begin{proof}
+By cases on the zero-spine derivation. In the empty case the conclusion is immediate. In the \(\Ezero\)-step case the unary witness on \(\Ezero(h')\) contradicts unary no-zero-extension.
+\end{proof}
+
+\begin{lemma}[Unary at \(\Eone(\emp)\) is not zero-spine]
+\label{lem:unary-eone-not-zero-spine}
+\(\mathsf{ZeroSpine}(\Eone(\emp))\) does not hold.
+\end{lemma}
+\leandef{BEDC.Derived.AxisZeckendorf.Bridge.unary\_e1\_not\_zeroSpine\_at\_step}
+\begin{proof}
+Direct from zero-spine no-one-extension applied at \(h = \emp\).
+\end{proof}
+
+\begin{lemma}[Zero-spine at \(\Ezero(\emp)\) is not unary]
+\label{lem:zero-spine-ezero-not-unary}
+\(\mathsf{Unary}(\Ezero(\emp))\) does not hold.
+\end{lemma}
+\leandef{BEDC.Derived.AxisZeckendorf.Bridge.zeroSpine\_e0\_not\_unary\_at\_step}
+\begin{proof}
+Direct from unary no-zero-extension applied at \(h = \emp\).
+\end{proof}
+
+\section{The bridge interface}
+
+\begin{definition}[Unary-direction bridge]
+\label{def:unary-direction-bridge}
+The bridge \(\mathsf{UnaryDirectionBridge}\) records:
+\begin{enumerate}
+  \item the carrier \(\mathsf{Unary}\) of \(\NatUp\);
+  \item the carrier \(\mathsf{ZeroSpine}\) of \(\AxisNatUp\);
+  \item the kernel-distinctness witness, that the two carriers intersect only at \(\emp\).
+\end{enumerate}
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.Bridge.UnaryDirectionBridge}
+\leanvariant{BEDC.Derived.AxisZeckendorf.Bridge.unaryDirectionBridge}
+
+\begin{remark}[Bridge is kernel-distinct, not kernel-identification]
+The bridge records witnesses, not equalities. The \(\NatUp\) and \(\AxisNatUp\) carriers remain distinct as history predicates inside the finite kernel. Any attempt to identify them at the kernel level conflicts with Theorem~\ref{thm:unary-zero-spine-meet-only-at-empty}.
+\end{remark}
+
+\section{Standard-model isomorphism (horizon)}
+
+The bridge is licensed by an isomorphism in the standard model: each non-empty unary history \(\Eone^n(\emp)\) corresponds to a non-empty zero-spine history \(\Ezero^n(\emp)\), and the correspondence is bijective and continuation-preserving in the standard model. The proof of this correspondence at paper level, together with its zero-spine pattern variant, is a horizon obligation queued for the formalize pipeline.
+
+\begin{theorem}[Standard-model isomorphism, horizon]
+\label{thm:unary-zero-spine-standard-model-isomorphism}
+There is a length-preserving bijection between non-empty unary histories and non-empty zero-spine histories, and this bijection commutes with the additive interfaces \(\AddUp\) and \(\AxisAddUp\) in the standard model.
+\end{theorem}
+
+\begin{remark}[Bridge does not retire either chapter]
+The bridge does not collapse Chapters~\ref{ch:concrete-instances-nat-namecert} and~\ref{ch:concrete-instances-axisnat-namecert} into a single chapter. Both certificates remain independent inside the finite kernel; the bridge only relates them at the standard-model boundary.
+\end{remark}
