@@ -1,0 +1,143 @@
+\begin{definition}[Measure root BHist consumer threshold]
+\label{def:measure-root-bhist-consumer-threshold}
+The $\MeasureUp$ root $\mathsf{BHist}$ consumer threshold is the ten-field
+package obtained by reading the root public surface of
+\autoref{def:measure-root-namecert-public-surface} through the carrier,
+classifier, event coverage, additive, exactness, and consumer rows already
+exposed by \autoref{def:measure-event-row-coverage},
+\autoref{thm:measure-root-sigma-additive-public-obligation},
+\autoref{thm:measure-finite-disjoint-union-additivity}, and
+\autoref{thm:measure-continuity-from-below-package}. Its fields are:
+\begin{enumerate}
+  \item the $\mathsf{BHist}$ carrier surface and componentwise classifier rows
+  of the root $\NameCert_{\MeasureUp}$ package;
+  \item the $\RealUp$ endpoint classifier rows attached to every displayed
+  measure value and countable-sum endpoint;
+  \item the visible measurable-event, empty-event, binary-union,
+  countable-union, complement, relative-difference, and disjoint-sequence
+  readback rows;
+  \item the total-event endpoint row used by the probability consumer;
+  \item the empty-zero and finite disjoint-additivity rows;
+  \item the countable disjoint-additivity, countable-sum, and head-tail
+  readback rows;
+  \item the ledger exactness row saying that every consumed membership,
+  disjointness, relative-difference, value, and countable-sum witness is
+  attached to one of the displayed $\mathsf{BHist}$ rows;
+  \item the $\IntegralUp$ consumer rows from
+  \autoref{thm:measure-integral-consumer-rows};
+  \item the $\ProbSpaceUp$ consumer rows from
+  \autoref{thm:measure-probability-consumer-rows};
+  \item the $\FunctionalAnalysisUp$ consumer rows from
+  \autoref{thm:measure-functionalanalysis-consumer-rows}.
+\end{enumerate}
+The threshold exports no host set equality, quotient event equality, analytic
+completion object, or $\StdBridge$ row beyond the displayed package.
+\end{definition}
+
+\begin{theorem}[Measure root BHist real endpoint threshold]
+\label{thm:measure-root-bhist-real-endpoint-threshold}
+The threshold package of
+\autoref{def:measure-root-bhist-consumer-threshold} exposes only
+$\mathsf{BHist}$ event rows and $\RealUp$ endpoint comparisons at the root
+surface. Every row visible at the threshold is either a displayed event-row
+entry of the root carrier ledger or a $\RealUp$ comparison attached to a
+measure value, a finite readback endpoint, a relative-difference endpoint, or
+a countable-sum endpoint.
+\end{theorem}
+\begin{proof}
+Begin with the root public surface of
+\autoref{def:measure-root-namecert-public-surface}. Its carrier and classifier
+rows are the displayed $\mathsf{BHist}$ rows and componentwise classifier rows
+listed by the public surface definition.
+
+Apply \autoref{thm:measure-root-carrier-classifier-public-obligation}. This
+transports exactly the measurable-event, closure, relative-difference,
+disjoint-readback, ledger, and endpoint rows through the root classifier. The
+endpoint movement is read through the $\RealUp$ classifier and not through a
+separate equality of events.
+
+Next apply \autoref{thm:measure-root-sigma-additive-public-obligation}. The
+empty-zero, finite readback, relative-difference, and countable-additivity rows
+it exposes are all rooted in the same displayed event ledger and the same
+$\RealUp$ endpoint classifier.
+
+The exactness clause in
+\autoref{def:measure-root-bhist-consumer-threshold} repacks these projections
+as the threshold package. Since the package lists no host equality, quotient
+event equality, analytic completion object, or standard bridge, no other root
+row is exported.
+\end{proof}
+
+\begin{theorem}[Measure root BHist ProbSpace threshold]
+\label{thm:measure-root-bhist-probspace-threshold}
+The threshold package of
+\autoref{def:measure-root-bhist-consumer-threshold} supplies $\ProbSpaceUp$
+with exactly the total-event normalization, empty-zero, finite-additivity, and
+$\RealUp$ endpoint normalization rows exposed by the root $\MeasureUp$
+package. It supplies no integral countable-sum row, functional-analysis
+relative-difference package, quotient event equality, host set equality, or
+standard bridge row to $\ProbSpaceUp$.
+\end{theorem}
+\begin{proof}
+Project the root downstream package from
+\autoref{thm:measure-root-downstream-unblock-package}. Its probability-facing
+surface contains the total-event endpoint row together with the empty-zero and
+finite disjoint-union rows exposed by the root sigma-additive obligation.
+
+Use \autoref{def:measure-root-consumer-package} to read those rows as consumer
+rows. The package is built from the root public surface and the downstream
+unblock package, so the probability consumer sees the same covered
+$\mathsf{BHist}$ rows and the same $\RealUp$ endpoint comparisons.
+
+Apply \autoref{thm:measure-probability-consumer-rows}. It identifies the
+$\ProbSpaceUp$ projection as exactly the total-event normalization row,
+empty-zero row, and finite disjoint-union row carried by the root consumer
+package.
+
+Finally compare this projection with
+\autoref{def:measure-root-bhist-consumer-threshold}. The threshold contains no
+additional probability-facing field, so the listed rows exhaust the
+$\ProbSpaceUp$ consumer boundary.
+\end{proof}
+
+\begin{theorem}[Measure root BHist integral and functional threshold]
+\label{thm:measure-root-bhist-integral-functional-threshold}
+The threshold package of
+\autoref{def:measure-root-bhist-consumer-threshold} supplies $\IntegralUp$ and
+$\FunctionalAnalysisUp$ with exactly the measurable-event, nonnegative
+endpoint, monotone inclusion, relative-difference, finite-readback,
+countable-sum, and continuity-from-below rows exposed by the root
+$\MeasureUp$ package. It supplies no probability normalization row, quotient
+event equality, host set equality, analytic completion object, or standard
+bridge row to those two consumers.
+\end{theorem}
+\begin{proof}
+Start from the root consumer package of
+\autoref{def:measure-root-consumer-package}. Its consumer rows are the root
+NameCert public rows of
+\autoref{def:measure-root-namecert-public-surface} read through the downstream
+package of \autoref{thm:measure-root-downstream-unblock-package}.
+
+For $\IntegralUp$, apply \autoref{thm:measure-integral-consumer-rows}. The
+projection consumes covered measurable-event rows, $\RealUp$ endpoint rows,
+countable-sum endpoint rows, head-tail readback rows, and finite
+disjoint-union readback rows from the same root package.
+
+For $\FunctionalAnalysisUp$, apply
+\autoref{thm:measure-functionalanalysis-consumer-rows}. The projection
+consumes exactly the nonnegative endpoint, monotone inclusion,
+relative-difference, and countable-sum classifier rows exposed by
+$\MeasureUp$.
+
+The continuity-from-below row is part of the countable-sum and monotone
+consumer face of the root package, read through the same $\RealUp$ endpoint
+classifier and the same visible event ledger. Repacking the two projections
+with \autoref{def:measure-root-bhist-consumer-threshold} gives the displayed
+integral and functional-analysis threshold.
+
+The threshold has separate $\ProbSpaceUp$ fields and no standard-bridge,
+quotient, host-equality, or analytic-completion field. Therefore no row
+outside the named measurable-event, endpoint, order, relative-difference,
+finite-readback, countable-sum, and continuity-from-below families is exported
+to $\IntegralUp$ or $\FunctionalAnalysisUp$.
+\end{proof}

@@ -1,0 +1,138 @@
+\section{Boundary exhaustion for DiffFormUp}
+\label{sec:diffform-boundary-exhaustion}
+
+\begin{definition}[Differential-form boundary exhaustion source]
+\label{def:diffform-boundary-exhaustion-source}
+The boundary exhaustion source for $\DiffFormUp$ is the complete paper-side
+obligation surface displayed by the chapter. It consists of the following ten
+fields:
+\begin{enumerate}
+  \item the traditional target surface of differential forms;
+  \item the BEDC sources $BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+  $\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$;
+  \item the carrier and classifier rows of
+  \autoref{def:diffform-root-unblock-source-surface},
+  \autoref{def:diffform-root-obligation-source}, and
+  \autoref{thm:diffform-root-carrier-classifier-obligation};
+  \item the wedge ledger rows visible through
+  \autoref{thm:diffform-root-wedge-antisymmetry-obligation};
+  \item the exterior-derivative candidate row of
+  \autoref{def:diffform-exterior-derivative-candidate-row};
+  \item the input-output exactness row of
+  \autoref{thm:diffform-exterior-derivative-input-output-ledger-exactness};
+  \item the downstream boundary rows for $\DeRhamUp$, $\SymplecticUp$, and
+  $\ContactUp$;
+  \item the exactness scope asserting that every displayed row is read as one
+  of the named carrier, classifier, wedge, antisymmetry, exterior-input,
+  transport, source-ledger, or downstream rows;
+  \item the absent standard bridge slot;
+  \item the status row saying that this is a paper-side obligation surface,
+  not a standard-object bridge and not a Lean-checked theorem package.
+\end{enumerate}
+The source contains no row for $d^2=0$, closedness, nondegeneracy, contact
+nonintegrability, a de Rham quotient, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Differential-form boundary carrier coverage]
+\label{thm:diffform-boundary-exhaustion-carrier-coverage}
+The carrier and classifier rows of
+\autoref{def:diffform-boundary-exhaustion-source} are exactly the root source
+rows already displayed in
+\autoref{def:diffform-root-unblock-source-surface},
+\autoref{def:diffform-root-obligation-source}, and
+\autoref{thm:diffform-root-carrier-classifier-obligation}. No additional
+carrier over tangent spaces, alternating maps, quotient forms, or external
+classifier is part of the $\DiffFormUp$ boundary exhaustion source.
+\end{theorem}
+\begin{proof}
+Read the source surface first. The ten-field root-unblock surface lists the
+ambient $BHist$ carrier, the $\hsame$ comparisons, the $\Cont$ rows, the
+$\mathsf{ProbeBundle}$ spine, the two upstream NameCert sources, the displayed
+six-coordinate carrier, and the displayed $\DiffFormUp$ classifier.
+
+Next read the root obligation source. It selects the same carried rows from
+\autoref{def:diffform-bhist-form-carrier} and the same classifier rows from
+\autoref{def:diffform-bhist-form-classifier}, with the retained
+$\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$ sources.
+
+Finally apply
+\autoref{thm:diffform-root-carrier-classifier-obligation}. That theorem
+repackages the displayed carrier and classifier obligations without adding a
+host tangent-space carrier, an alternating-map carrier, or a quotient
+classifier. Therefore the carrier and classifier entries of
+\autoref{def:diffform-boundary-exhaustion-source} are exactly the displayed
+root source entries.
+\end{proof}
+
+\begin{theorem}[Differential-form wedge and derivative routing]
+\label{thm:diffform-boundary-exhaustion-wedge-derivative-routing}
+The wedge, antisymmetry, degree, and exterior-derivative candidate rows of
+\autoref{def:diffform-boundary-exhaustion-source} are exactly the rows
+supplied by
+\autoref{thm:diffform-root-wedge-antisymmetry-obligation},
+\autoref{thm:diffform-root-exterior-derivative-boundary-obligation},
+\autoref{def:diffform-exterior-derivative-candidate-row}, and
+\autoref{thm:diffform-exterior-derivative-input-output-ledger-exactness}.
+The boundary source routes those rows as visible ledger data and does not add
+a Leibniz rule, a nilpotence row, or a closedness row.
+\end{theorem}
+\begin{proof}
+Start with the wedge and antisymmetry side. The root wedge theorem supplies
+the admitted tensor concatenation ledger, the probe concatenation classifier
+stability row, the associator row, and the finite antisymmetry chain ledger.
+These are the only multiplicative and permutation rows named by the boundary
+source.
+
+Now read the exterior-derivative side. The root exterior-derivative boundary
+obligation keeps only the candidate derivative row, the displayed
+input-output ledger, and the wedge-side boundary row consumed by downstream
+wedge formulas.
+
+Unfold the candidate row. Its fields are the input carried form, the output
+carried form, the one-step degree-raise $\Cont$ ledger, the transported
+probe, tensor, scalar endpoint, and source ledgers, all over the same BEDC
+sources named in the boundary source.
+
+Finally apply the input-output exactness theorem. It says that the candidate
+row exposes exactly those fields and no closedness, nondegeneracy, contact
+condition, or second-derivative identity. Hence the wedge, antisymmetry,
+degree, and derivative entries of the boundary source are precisely the cited
+ledger rows.
+\end{proof}
+
+\begin{theorem}[Differential-form downstream export exhaustion]
+\label{thm:diffform-boundary-exhaustion-downstream-export}
+The downstream chapters $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$ may
+consume $\DiffFormUp$ only through the rows named by
+\autoref{def:diffform-boundary-exhaustion-source}: carrier rows, classifier
+rows, wedge rows, antisymmetry rows, the exterior-derivative candidate and
+input-output rows, transport rows, source-ledger rows, and the displayed
+downstream boundary rows. They receive no $d^2=0$, closedness,
+nondegeneracy, contact nonintegrability, quotient, or standard-bridge row
+from $\DiffFormUp$.
+\end{theorem}
+\begin{proof}
+Project the common input first. By
+\autoref{thm:diffform-boundary-exhaustion-carrier-coverage}, every downstream
+read begins with the same carried $\DiffFormUp$ rows and the same
+$\sim_{\DiffFormUp}$ classifier rows already displayed at the root boundary.
+
+Project the operation rows next. By
+\autoref{thm:diffform-boundary-exhaustion-wedge-derivative-routing}, the only
+available wedge, antisymmetry, degree, and exterior-derivative entries are the
+visible ledger rows named by the root obligation and input-output exactness
+statements.
+
+Now use the downstream boundary package. Its scope rows name $\DeRhamUp$,
+$\SymplecticUp$, and $\ContactUp$ as consumers of the same carrier,
+classifier, wedge, antisymmetry, exterior-input, transport, and source-ledger
+surface, and they exclude nilpotence and geometric laws from the exported
+DiffForm boundary.
+
+Repack these projections as
+\autoref{def:diffform-boundary-exhaustion-source}. Every downstream row is one
+of the displayed source fields, and none of the cited projections contains a
+row for $d^2=0$, closedness, nondegeneracy, contact nonintegrability, a
+quotient, or a standard bridge. Thus the displayed rows exhaust the
+paper-side $\DiffFormUp$ obligation surface available downstream.
+\end{proof}

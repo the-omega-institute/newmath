@@ -1,0 +1,135 @@
+\begin{definition}[Measure four-support sequence surface]
+\label{def:measure-four-support-sequence-surface}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, a
+four-support sequence surface consists of measurable events
+$E_0,E_1,E_2,E_3\in\mathcal{A}$, a pairwise-disjoint measurable sequence
+$E_\bullet$, and the empty event $\varnothing\in\mathcal{A}$ such that
+$$
+E_\bullet(0)=E_0,\qquad
+E_\bullet(1)=E_1,\qquad
+E_\bullet(2)=E_2,\qquad
+E_\bullet(3)=E_3
+$$
+and $E_\bullet(n)=\varnothing$ for every $n\geq4$. The surface records only
+the displayed event rows, their pairwise-disjointness witnesses, the
+countable-union row, the countable $\RealUp$ sum endpoint
+$\Sigma_\mu(E_\bullet)$, and the head-tail readback rows supplied by the
+$\MeasureUp$ certificate.
+\end{definition}
+
+\begin{theorem}[Measure four-support countable readback]
+\label{thm:measure-four-support-countable-readback}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, write $0_R$ for the additive zero in the target
+$\RealUp$ row, and write $x\sim_R y$ for the $\RealUp$ classifier of
+\autoref{def:real-classifier-specification}. Let $E_\bullet$ be a
+four-support sequence surface in the sense of
+\autoref{def:measure-four-support-sequence-surface}. Suppose the $\MeasureUp$
+certificate supplies $\sigma$-additivity for pairwise-disjoint measurable
+sequences, classifier-stable head-tail readback and pointwise classifier
+stability for the resulting countable $\RealUp$ sums, and the target
+$\RealUp$ addition is carried by its additive $\AbGroupUp$ row. Then
+$$
+\Sigma_\mu(E_\bullet)\sim_R(((\mu(E_0)+\mu(E_1))+\mu(E_2))+\mu(E_3)).
+$$
+\end{theorem}
+\begin{proof}
+Let $F_\bullet$ be the shifted sequence $F_n:=E_\bullet(n+1)$. The
+four-support surface makes $F_0=E_1$, $F_1=E_2$, $F_2=E_3$, and
+$F_n=\varnothing$ for every $n\geq3$, so $F_\bullet$ is a finite
+three-support sequence with the same measurable and pairwise-disjoint rows.
+
+Apply head-tail readback to $E_\bullet$. It classifies
+$\Sigma_\mu(E_\bullet)$ with $\mu(E_0)+\Sigma_\mu(F_\bullet)$.
+
+Apply \autoref{thm:measure-finite-three-support-countable-readback} to
+$F_\bullet$. This classifies the shifted endpoint with
+$(\mu(E_1)+\mu(E_2))+\mu(E_3)$, using countable zero-tail exactness at the
+three-shifted tail and the additive unit rows of $\RealUp$.
+
+Transport the shifted comparison through the first summand by additive
+congruence. Associativity in the additive $\AbGroupUp$ row rewrites
+$\mu(E_0)+((\mu(E_1)+\mu(E_2))+\mu(E_3))$ first as
+$(\mu(E_0)+(\mu(E_1)+\mu(E_2)))+\mu(E_3)$ and then as
+$((\mu(E_0)+\mu(E_1))+\mu(E_2))+\mu(E_3)$. Transitivity of $\sim_R$ composes
+these classifier comparisons and gives the displayed endpoint.
+\end{proof}
+
+\begin{theorem}[Measure quadruple disjoint-union additivity]
+\label{thm:measure-quadruple-disjoint-union-additivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$
+classifier of \autoref{def:real-classifier-specification}. Let
+$A,B,C,D\in\mathcal{A}$ be pairwise disjoint. Suppose the measurable
+binary-union rows display $A\cup B\in\mathcal{A}$,
+$(A\cup B)\cup C\in\mathcal{A}$, and $((A\cup B)\cup C)\cup D\in\mathcal{A}$,
+and suppose the $\MeasureUp$ certificate supplies $\sigma$-additivity for
+pairwise-disjoint measurable sequences, classifier-stable head-tail readback
+and pointwise classifier stability for the resulting countable $\RealUp$
+sums, and the target $\RealUp$ addition is carried by its additive
+$\AbGroupUp$ row. Then
+$$
+\mu(((A\cup B)\cup C)\cup D)\sim_R(((\mu(A)+\mu(B))+\mu(C))+\mu(D)).
+$$
+\end{theorem}
+\begin{proof}
+Define $E_0:=A$, $E_1:=B$, $E_2:=C$, $E_3:=D$, and
+$E_n:=\varnothing$ for every $n\geq4$. The displayed measurable rows make
+each term measurable, and pairwise disjointness of $A,B,C,D$ is the only
+nonempty disjointness check.
+
+The countable union of this sequence is the displayed event
+$((A\cup B)\cup C)\cup D$. Applying $\sigma$-additivity gives a classifier
+comparison between $\mu(((A\cup B)\cup C)\cup D)$ and
+$\Sigma_\mu(E_\bullet)$.
+
+The four-support readback theorem
+\autoref{thm:measure-four-support-countable-readback} classifies
+$\Sigma_\mu(E_\bullet)$ with
+$((\mu(E_0)+\mu(E_1))+\mu(E_2))+\mu(E_3)$. Substituting the four displayed
+heads and composing the $\RealUp$ classifier comparisons gives the claimed
+quadruple disjoint-union additivity.
+\end{proof}
+
+\begin{theorem}[Measure four-support analysis consumer package]
+\label{thm:measure-four-support-analysis-consumer-package}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, the
+four-support analysis package consumed by probability partitions,
+simple-integral rectangles, and functional-analysis positive decompositions
+has exactly these visible rows:
+\begin{enumerate}
+  \item four displayed measurable event rows $E_0,E_1,E_2,E_3$ with pairwise
+  disjointness witnesses;
+  \item the countable empty-tail sequence surface of
+  \autoref{def:measure-four-support-sequence-surface};
+  \item the four-support countable endpoint classification of
+  \autoref{thm:measure-four-support-countable-readback};
+  \item the displayed quadruple disjoint-union measure row of
+  \autoref{thm:measure-quadruple-disjoint-union-additivity}.
+\end{enumerate}
+The package exposes no host set equality, no quotient event carrier, and no
+extra $\RealUp$ operation beyond the additive $\AbGroupUp$ associativity, unit,
+congruence, and classifier-transitivity rows used in those four visible rows.
+\end{theorem}
+\begin{proof}
+Project the displayed event rows, empty-tail sequence, countable-union row,
+head-tail readback rows, and $\RealUp$ endpoint classifier from the
+$\MeasureUp$ certificate. Project additive associativity, unit, congruence,
+and classifier transitivity from the target $\RealUp$ additive $\AbGroupUp$
+surface.
+
+The countable endpoint row is
+\autoref{thm:measure-four-support-countable-readback}. The public finite
+union row is \autoref{thm:measure-quadruple-disjoint-union-additivity}. These
+two rows use only the four displayed event entries, the empty tail, and the
+listed additive $\RealUp$ structure.
+
+Probability partitions, simple-integral rectangles, and positive
+decompositions read the same rows: they need four visible measurable pieces,
+their classified measure endpoints, the bracketed finite sum, and the
+displayed disjoint-union endpoint. Since every step is phrased through
+measurable-event witnesses and $\RealUp$ classifier comparisons, no host set
+equality or quotient event carrier is introduced.
+\end{proof}

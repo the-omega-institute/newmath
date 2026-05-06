@@ -275,3 +275,46 @@ $$
 $$
 Applying \autoref{thm:densitymatrix-finite-affine-mixture-closure} to this target density affine spine gives $\mathsf{Dens}_K(\Phi(\rho_{\mathrm{mix}}))$.
 \end{proof}
+
+\begin{theorem}[QuantumChannel identity channel is CPTP]
+\label{thm:quantumchannel-identity-channel-cptp}
+Let $H$ be a $\HilbertUp$ carrier, and let $\operatorname{id}_{\mathsf{TC}(H)}:\mathsf{TC}(H)\to\mathsf{TC}(H)$ be the identity function on the trace-class carrier supplied by the $\OperatorIdealUp$ dependency of \autoref{ch:concrete-instances-densitymatrix-namecert}. Then
+$$
+\mathsf{QChan}_{H,H}(\operatorname{id}_{\mathsf{TC}(H)}).
+$$
+Moreover every carried density matrix is sent to the same carried density-matrix endpoint:
+$$
+\mathsf{Dens}_H(\rho)
+\Longrightarrow
+\operatorname{id}_{\mathsf{TC}(H)}(\rho)=\rho
+\land
+\mathsf{Dens}_H(\operatorname{id}_{\mathsf{TC}(H)}(\rho)).
+$$
+\end{theorem}
+\begin{proof}
+The trace-class carrier $\mathsf{TC}(H)$ is a module carrier over the scalar certificate used by the trace-class operator-ideal surface. Applying \autoref{thm:module-linearmap-identity-certificate} with $M=\mathsf{TC}(H)$ gives the module identity certificate for $\operatorname{id}_{\mathsf{TC}(H)}$. Read through \autoref{def:linearmap-carrier}, this is exactly the carried $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(H))$ map-code required as the first row of \autoref{def:quantumchannel-cptp-carrier}.
+
+For complete positivity, let $A$ be a finite ancilla Hilbert carrier and let $X$ be a positive trace-class operator on $A\otimes H$. The amplified identity map is the identity on the trace-class carrier over $A\otimes H$:
+$$
+(\operatorname{id}_A\otimes\operatorname{id}_{\mathsf{TC}(H)})(X)=X.
+$$
+The input $X$ is already positive trace-class on $A\otimes H$, and the target channel also has Hilbert carrier $H$. Hence the complete-positivity row of \autoref{def:quantumchannel-cptp-carrier} holds.
+
+For trace preservation, let $T\in\mathsf{TC}(H)$. Since the map is the identity on $\mathsf{TC}(H)$,
+$$
+\operatorname{Tr}_H(\operatorname{id}_{\mathsf{TC}(H)}(T))
+=
+\operatorname{Tr}_H(T).
+$$
+Thus the linear-map row, complete-positivity row, and trace-preservation row are precisely the three clauses of \autoref{def:quantumchannel-cptp-carrier}, so
+$$
+\mathsf{QChan}_{H,H}(\operatorname{id}_{\mathsf{TC}(H)})
+$$
+holds.
+
+Now assume $\mathsf{Dens}_H(\rho)$. The identity equation gives $\operatorname{id}_{\mathsf{TC}(H)}(\rho)=\rho$. Applying \autoref{lem:quantumchannel-densitymatrix-image} to the channel just constructed gives
+$$
+\mathsf{Dens}_H(\operatorname{id}_{\mathsf{TC}(H)}(\rho)),
+$$
+which is the asserted density-matrix output clause.
+\end{proof}

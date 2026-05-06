@@ -373,6 +373,16 @@ If two new declarations (case (a)) share a conclusion under different names (e.g
 
 The round commits whichever ONE new theorem is canonical.
 
+**Mechanical preview (HARD GATE)**: before staging the commit, run
+
+```bash
+python3 lean4/scripts/phase_d_lint.py --worktree . --base-branch codex-auto-dev --include-shallow
+```
+
+This is the SAME check `codex_formalize.py` runs after merge. If it exits non-zero (any of: mechanical-arity / parameter-echo / anchor-missing / SHALLOW GROWTH PATTERN duplicate-conclusion), the round is doomed — Phase D will reject the merge and the round goes into the recovery queue costing 10-15 minutes per failure cycle. SELF-HEAL NOW instead: read the violation message, identify the offending declaration, `git restore --staged <file>` for the file containing it, edit the file to drop the duplicate / re-target the conclusion, re-stage, re-run the lint. Repeat until the lint exits 0. THEN proceed to Step 6.
+
+For SHALLOW GROWTH PATTERN: the violation lists the file path and the two theorem names whose conclusions match. The standard fix is to delete the second theorem and inline its references (typically there will be 0-1 references inside the same file). The boundary_open_laws / semantic_name_certificate type pair (where one theorem's conclusion is a strict subset of another's) is the most common shape — drop the subset.
+
 ## Step 6: Single combined commit
 ```bash
 git add lean4/BEDC papers/bedc
