@@ -134,6 +134,51 @@ The additive interface \(\AddUp\) is licensed by commutative unary continuation.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Unary.add\_up\_licensed\_not\_primitive}
 
+\begin{theorem}[AddUp unary standard bridge]
+\label{thm:addup-unary-standard-bridge}
+The public $\AddUp$ NameCert surface over unary histories, $\ContR$,
+$\mathsf{AddSource}$, $\mathsf{AddPattern}$, $\mathsf{AddClassifier}$,
+$\mathsf{AddStabilityCert}$, and $\mathsf{AddLedger}$ carries a conservative
+paper-level bridge to finite unary words with concatenation and length
+addition. Carried BEDC histories read back through the $\NatUp$ unary standard
+bridge; continuation witnesses read back as concatenation witnesses;
+$\HSame$ of generated results reads back as equality of unary word lengths;
+ledger entries record only the two input histories and the continuation
+witness; and no host natural number or host function is admitted as a BEDC
+primitive.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:natup-unary-standard-bridge} as the carrier bridge for each
+unary history appearing in the public $\AddUp$ source. Thus the two input
+histories and the generated result decode as finite unary words, and the
+source field of \autoref{thm:concrete-addup-namecert} supplies no data beyond
+those two carried histories and the displayed continuation witness.
+
+The continuation witness is read by induction on the right unary tail. The
+empty tail is the unit case of \autoref{lem:unary-continuation-unit}; the
+one-extension tail is the successor step; and
+\autoref{lem:unary-continuation-associativity} transports nested tails to
+ordinary concatenation of finite unary words. The commutative-continuation
+field listed in \autoref{def:additive-stability-certificate} is therefore
+available for the public certificate, while the bridge itself reads the ordered
+continuation witness as the corresponding concatenation witness.
+
+Exactness is the result-classifier clause. By
+\autoref{thm:same-source-additive-determinacy-bridge}, two generated results
+from the same ordered source are related by $\mathsf{AddClassifier}$, and by
+\autoref{def:additive-classifier-specification} this is $\HSame$ of the result
+histories. Applying the $\NatUp$ bridge exactness to those result histories
+reads the comparison as equality of the external unary word lengths, hence as
+length addition for concatenation.
+
+Finally, the ledger field is the policy of
+\autoref{def:additive-stability-and-ledger-policy}: it records the two BEDC
+input histories and the continuation witness that produced the result. The
+external word model appears only in the bridge readback and exactness fields,
+so no host natural number, host addition function, or host concatenation
+function becomes a primitive of the BEDC kernel.
+\end{proof}
+
 \begin{theorem}[Unary continuation monoid activation]
 \label{thm:unary-continuation-monoid-activation}
 Let the typed naming-certificate template of \autoref{def:typed-naming-certificate} be instantiated on the unary carrier with classifier \(\hsame\). Assume the core carrier certificate \(\NameCert(\Unary,\hsame)\) from \autoref{def:lean-carrier-naming-certificate}; take the source, pattern, classifier, and ledger policies to be the continuation policies of \autoref{def:additive-source-specification}, \autoref{def:additive-pattern-specification}, \autoref{def:additive-classifier-specification}, and \autoref{def:additive-stability-and-ledger-policy}; assume pattern soundness and ledger soundness for those policies; and assume that \(\mathsf{AddStabilityCert}\) supplies unary closure, empty-history unit, associativity up to \(\hsame\), and same-source determinacy up to \(\hsame\). Then
@@ -290,12 +335,68 @@ The only remaining case is $h=u$ and $k=u$. Then both ordered products are the i
 
 Relative to the stability fields of \autoref{def:additive-stability-certificate}, this is an automatic two-element consequence of graph determinacy and the unit laws, not a separate swapped-source field. Together with \autoref{thm:core-additive-stability-not-swapped-commutative}, it identifies three equality classes as the first possible size for such a unital deterministic swapped-source failure.
 \end{proof}
+
+\begin{theorem}[AddUp acceptance bridge fields]
+\label{thm:addup-acceptance-bridge-fields}
+The public $\AddUp$ surface carries a paper-level $\StdBridge$ to finite unary
+words with ordinary length addition. Its BEDC side is the UnaryHistory
+NameCert equipped with $\mathsf{AddSource}$, $\mathsf{AddPattern}$,
+$\mathsf{AddClassifier}$, $\mathsf{AddStabilityCert}$, and
+$\mathsf{AddLedger}$. Its standard side is finite unary words, with empty word
+as zero and word concatenation read by natural-number length addition. The
+forward interpretation sends $\emp$ to zero and sends an $\Eone$ tail to
+successor of the tail readback. The backward interpretation sends zero to
+$\emp$ and sends successor to an $\Eone$ tail. The theorem-preservation field
+sends unary continuation to ordinary concatenation and therefore to length
+addition. The reflection field sends standard unary concatenation back to
+$\ContR$. Host $\mathsf{Nat}$ and host functions occur only in the bridge
+codomain and its readback equations, never as a BEDC carrier, classifier,
+source, stability premise, ledger premise, or proof input.
+\end{theorem}
+\begin{proof}
+The BEDC source is already fixed by the public certificate of
+\autoref{thm:concrete-addup-namecert}. Its carrier is UnaryHistory, its source
+and pattern rows are $\mathsf{AddSource}$ and $\mathsf{AddPattern}$, its
+classifier is $\mathsf{AddClassifier}$, and its stability and ledger rows are
+$\mathsf{AddStabilityCert}$ and $\mathsf{AddLedger}$.
+
+Use the readback pattern of \autoref{thm:natup-unary-standard-bridge}. The
+forward map is defined by unary generation: $\emp$ reads as zero, and
+$\Eone(h)$ reads as successor of the readback of $h$. The backward map is the
+same induction in the opposite direction, sending zero to $\emp$ and successor
+to $\Eone$ of the already encoded tail. The zero-extension branch is absent on
+the BEDC carrier because the carrier is UnaryHistory.
+
+For theorem preservation, apply
+\autoref{lem:unary-continuation-unit} for the empty word and
+\autoref{lem:unary-continuation-associativity} for the bracketing comparison.
+Induction on the right unary word turns a displayed $\ContR(h,k,r)$ witness
+into ordinary concatenation of finite unary words, hence into length addition
+after readback. The same-source comparison needed for classified results is
+\autoref{thm:same-source-additive-determinacy-bridge}.
+
+For reflection, induct on the standard finite unary word used as the right
+summand. The zero case is the empty continuation unit. The successor case
+adds one $\Eone$ tail and composes with the induction hypothesis through
+continuation associativity. Thus standard unary concatenation reflects back
+to a BEDC $\ContR$ witness, with result classification supplied by the
+additive classifier row.
+
+The no-host-leak field is syntactic at this paper site. Host $\mathsf{Nat}$,
+finite unary words, concatenation, and length addition appear only in the
+standard codomain, the forward and backward bridge maps, and their round-trip
+or preservation equations. The BEDC public inputs remain exactly the
+UnaryHistory carrier, $\hsame$-based classifier, continuation source, stability
+certificate, and ledger rows of \autoref{thm:concrete-addup-namecert}; no host
+natural number or host function is accepted as a BEDC carrier, classifier, or
+proof input.
+\end{proof}
 \begin{closurestatus}{\AddUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:concrete-addup-namecert} exposes the public $\AddUp$ NameCert surface over UnaryHistory, $\ContR/\mathsf{AddSource}$, $\mathsf{AddPattern}$, $\mathsf{AddClassifier}$, $\mathsf{AddStabilityCert}$, and $\mathsf{AddLedger}$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:addup-unary-standard-bridge} exposes the public $\AddUp$ NameCert surface over UnaryHistory, $\ContR/\mathsf{AddSource}$, $\mathsf{AddPattern}$, $\mathsf{AddClassifier}$, $\mathsf{AddStabilityCert}$, and $\mathsf{AddLedger}$ together with its paper-level bridge to finite unary words with concatenation and length addition.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.FKernel.Unary.add\_up\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{Full $\NatUp$ arithmetic, recursion equations, cancellation, order compatibility, multiplication interaction, and any standard bridge are outside this closure.}
-  \upgradepath{$\bridgedClosure$ requires a paper-level standard bridge for the public $\AddUp$ operation surface and independent bridge verification.}
+  \bridgestatus{paperBridge}
+  \notclaimed{Full $\NatUp$ arithmetic, recursion equations, cancellation, order compatibility, and multiplication interaction are outside this closure.}
+  \upgradepath{Bridge-checked status requires machine-checked standard-model bridge targets.}
 \end{closurestatus}
