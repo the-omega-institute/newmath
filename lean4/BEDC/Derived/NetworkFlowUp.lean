@@ -338,6 +338,21 @@ theorem NetworkFlow_residual_exhaustion_optimality {V B X K V' D : BHist} :
     PreorderPrefixLE_trans exhaustion.right.right valueBelowDomain
   exact And.intro competitorBelowValue cutBelowDomain
 
+protected theorem NetworkFlow_equality_implies_optimality {V K Vprime D : BHist} :
+    UnaryHistory V -> UnaryHistory K -> hsame V K -> PreorderPrefixLE Vprime K ->
+      PreorderPrefixLE V D ->
+        UnaryHistory V ∧ UnaryHistory K ∧ PreorderPrefixLE Vprime V ∧ PreorderPrefixLE K D := by
+  intro valueUnary cutUnary sameValueCut competitorBelowCut valueBelowDomain
+  have cutBelowValue : PreorderPrefixLE K V :=
+    PreorderPrefixLE_of_hsame (hsame_symm sameValueCut)
+  have competitorBelowValue : PreorderPrefixLE Vprime V :=
+    PreorderPrefixLE_trans competitorBelowCut cutBelowValue
+  have cutBelowDomain : PreorderPrefixLE K D :=
+    PreorderPrefixLE_trans cutBelowValue valueBelowDomain
+  exact And.intro valueUnary
+    (And.intro cutUnary
+      (And.intro competitorBelowValue cutBelowDomain))
+
 theorem NetworkFlowEmptyBackwardAccounting_cut_flow_below_value {V B X : BHist} :
     Cont V B X -> hsame B BHist.Empty -> PreorderPrefixLE X V := by
   intro accounting backwardEmpty
