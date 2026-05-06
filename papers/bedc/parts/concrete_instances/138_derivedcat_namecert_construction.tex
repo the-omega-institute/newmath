@@ -69,3 +69,22 @@ The stability fields are supplied by the reflexive, symmetric, and transitive zi
 It remains to identify exactness and the bridge row. Exactness is constructor inversion on the generated classifier: a public equality witness is precisely a finite ledger zigzag through the displayed category and cohomology rows, and any such zigzag repacks as a public classifier witness. The standard bridge field is the designated absent row, so the certificate exposes no unrecorded external bridge data.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivedCatUp.DerivedCatVisibleLocalizationClassifier\_name\_certificate}
+
+\begin{theorem}[DerivedCatUp roof identity unit laws]
+\label{thm:derivedcat-roof-identity-unit-laws}
+Let $r$ be a displayed $\DerivedCatUp$ roof ledger row from $X$ to $Y$ in the visible localization interface of \autoref{def:derivedcat-namecert-obligation-surface}. Let $\mathsf{id}_X$ and $\mathsf{id}_Y$ be displayed identity roof ledger rows at the two endpoints, with category components supplied by the empty identity hom-carriers of \autoref{thm:category-hom-carrier-empty-identity} and with their weak-equivalence components recorded by the displayed cohomology quasi-isomorphism rows. If $\ell$ is a ledger result for composing $\mathsf{id}_Y$ with $r$ and $\rho$ is a ledger result for composing $r$ with $\mathsf{id}_X$, then both identity composites are classified with the original roof:
+$$
+\ell\sim_{\DerivedCatUp} r
+\quad\text{and}\quad
+\rho\sim_{\DerivedCatUp} r.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the roof ledger for $r$. It exposes the source and target object histories, the roof middle object, the category morphism leg, the cohomology quasi-isomorphism leg, and the composition witnesses used by \autoref{def:derivedcat-namecert-obligation-surface}. The two displayed identity roofs expose only empty identity hom-carrier rows at $X$ and $Y$, together with the cohomology rows marking those identity legs as quasi-isomorphisms.
+
+For the composite $\mathsf{id}_Y\circ r$, the category morphism part is a displayed right-identity composite of the category leg of $r$. By \autoref{thm:category-hom-carrier-right-identity-carrier-result}, that composite carries the same hom-carrier and its morphism history is $\HSame$ to the original category leg. The weak-equivalence part is obtained by pasting the displayed cohomology identity row with the quasi-isomorphism row already present in $r$; the cohomology ledger transports this pasted witness across the same identity comparison, so no new weak-equivalence generator is introduced.
+
+Thus the ledger for $\ell$ differs from the ledger for $r$ by a finite list of displayed generator steps: one category morphism-classifier step collapsing the empty identity composite, followed by the reflexive or transported quasi-isomorphism rows on the weak-equivalence side. By \autoref{thm:derivedcat-quasi-isomorphism-classifier-obligation}, such a finite list is exactly a witness for $\ell\sim_{\DerivedCatUp} r$.
+
+The composite $r\circ\mathsf{id}_X$ is symmetric at the source endpoint. Apply \autoref{thm:category-hom-carrier-left-identity-carrier-result} to collapse the category leg containing the source identity, and use the displayed cohomology identity row to transport the quasi-isomorphism leg back to the original ledger row. These two displayed steps again form a finite zigzag made only of category morphism classifiers and quasi-isomorphism witnesses. The generated classifier therefore gives $\rho\sim_{\DerivedCatUp} r$.
+\end{proof}

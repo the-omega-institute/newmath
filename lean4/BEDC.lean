@@ -146,7 +146,6 @@ import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ProdUp.EmptySourceExclusion
-import BEDC.Derived.BundleUp
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
@@ -204,12 +203,14 @@ import BEDC.Derived.ComplexTopologyUp.VisibleRadius
 import BEDC.Derived.ComplexTopologyUp.CertifiedSubradius
 import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ComplexTopologyUp.DomainCompat
+import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
+import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
@@ -281,7 +282,6 @@ import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
-import BEDC.Derived.BundleUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
