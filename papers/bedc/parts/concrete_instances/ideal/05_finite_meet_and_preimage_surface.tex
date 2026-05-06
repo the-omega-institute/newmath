@@ -132,6 +132,61 @@ For right absorption, the same data carry $x\cdot_S r$ in the source, and the ta
 The displayed carrier support, zero, additive, inverse, multiplicative, classifier-transport, and two-sided absorption rows are exactly the $\IdealUp$ certificate rows listed in \autoref{sec:ideal-certificate} for a predicate over the source $\RingUp$ certificate.
 \end{proof}
 
+\begin{theorem}[Ring map ideal preimage quotient-kernel export surface]
+\label{thm:ideal-preimage-quotientkernel-export-surface}
+Let $S$ and $T$ carry $\RingUp$ certificates as in \autoref{ch:concrete-instances-ring-namecert}, with notation as in \autoref{def:ring-map-ideal-preimage-predicate}. Let $f:S\to T$ satisfy the carrier-preservation, classifier-preservation, zero-preservation, addition-preservation, additive-inverse-preservation, and multiplication-preservation hypotheses of \autoref{thm:ring-map-ideal-preimage-ideal-closure}. Let $J$ be an $\IdealUp$ predicate over $T$ with the carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and two-sided target absorption rows listed in \autoref{sec:ideal-certificate}. For $K:=\mathsf{Preim}^{\mathrm{ideal}}_{f,J}$, let $Q_K$ be the quotient-kernel source package of \autoref{def:ideal-quotient-kernel-source-package}. Then $Q_K$ exports the five quotient-free rows consumed by $\QuotientRingUp$:
+\begin{enumerate}
+\item diagonal exactness for every carried source endpoint $x$:
+$$
+C_S(x)\Longrightarrow Q_K(x,x);
+$$
+\item endpoint transport along the source classifier:
+$$
+Q_K(x,y)\land x\sim_S x'\land y\sim_S y'\Longrightarrow Q_K(x',y');
+$$
+\item additive representative descent:
+$$
+Q_K(a,a')\land Q_K(b,b')\Longrightarrow Q_K(a+_S b,a'+_S b');
+$$
+\item negation representative descent:
+$$
+Q_K(a,a')\Longrightarrow Q_K(-_S a,-_S a');
+$$
+\item multiplication representative descent:
+$$
+Q_K(a,a')\land Q_K(b,b')\Longrightarrow Q_K(a\cdot_S b,a'\cdot_S b').
+$$
+\end{enumerate}
+Thus a ring-map ideal preimage can be passed to the quotient-ring construction through the same quotient-kernel interface as any source-side $\IdealUp$ predicate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ring-map-ideal-preimage-ideal-closure} to the displayed hypotheses. This proves that $K$ is an $\IdealUp$ predicate over the source $\RingUp$ certificate on $S$.
+
+Instantiate \autoref{thm:ideal-quotientring-export-surface} with the source ring $S$ and the ideal predicate $K$. The quotient-kernel source package in that theorem is exactly the relation $Q_K$ obtained from \autoref{def:ideal-quotient-kernel-source-package}.
+
+Reading off the five displayed components gives diagonal exactness, endpoint transport, additive representative descent, negation representative descent, and multiplication representative descent for $Q_K$. No quotient carrier or preimage-specific quotient primitive is introduced; the consumer sees only the quotient-free kernel rows listed above.
+\end{proof}
+
+\begin{theorem}[Finite preimage meet quotient-kernel export]
+\label{thm:ideal-finite-preimage-meet-quotient-kernel-export}
+Let $S$ carry a $\RingUp$ certificate with carrier $C_S$, classifier $\sim_S$, addition $+_S$, additive inverse $-_S$, zero $0_S$, and multiplication $\cdot_S$. Let $xs:\mathsf{HistSpine}$ be finite. For every $i:\mathsf{Pos}(xs)$, let $T_i$ carry a $\RingUp$ certificate with target carrier $C_i$, classifier $\sim_i$, zero $0_i$, addition $+_i$, additive inverse $-_i$, and multiplication $\cdot_i$; let $f_i:S\to T_i$ be a carried ring map in the sense of \autoref{thm:ring-map-ideal-preimage-ideal-closure}; and let $J_i$ be an $\IdealUp$ predicate over $T_i$. Define the source preimage rows
+$$
+P_i(x)\Longleftrightarrow \mathsf{Preim}^{\mathrm{ideal}}_{f_i,J_i}(x)
+$$
+and their finite source meet
+$$
+K(x)\Longleftrightarrow \mathsf{FinIdealMeet}_{C_S,xs,P}(x).
+$$
+Then $K$ is an $\IdealUp$ predicate over $S$, and the predicate $K$ supplies the quotient-free kernel surface consumed by $\QuotientRingUp$ through \autoref{thm:ideal-quotientring-export-surface}.
+\end{theorem}
+\begin{proof}
+Fix a position $i:\mathsf{Pos}(xs)$. The hypotheses on $f_i$ are exactly the carrier, classifier, zero, addition, inverse, and multiplication preservation rows required by \autoref{thm:ring-map-ideal-preimage-ideal-closure}. Applying that theorem to $f_i$ and $J_i$ gives an $\IdealUp$ certificate for the source predicate $P_i$ over the fixed ring $S$.
+
+The preceding construction is pointwise in $i$, so every row in the finite spine is now an $\IdealUp$ predicate over the same source $\RingUp$ certificate. Apply \autoref{thm:finite-ideal-intersection-closure} to the family $P$ to obtain an $\IdealUp$ certificate for $K$.
+
+Finally instantiate \autoref{thm:ideal-quotientring-export-surface} with this resulting predicate $K$. The export theorem returns the diagonal, endpoint transport, additive descent, negation descent, and multiplication descent rows for the kernel relation generated by $K$, which is the quotient-free surface required before $\QuotientRingUp$ forms its quotient carrier.
+\end{proof}
+
 \begin{theorem}[Ideal quotient-kernel absorption closure]
 \label{thm:ideal-quotient-kernel-absorption-closure}
 Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ carried predicate over $R$, and define
@@ -208,3 +263,13 @@ Finally, \autoref{thm:ideal-quotient-kernel-absorption-closure} supplies the com
 
 The ten-field fit is: traditional target ideal-lattice surface; BEDC source $\RingUp$, $\IdealUp$, and $\QuotientRingUp$ over $\mathsf{BHist}$; carriers finite meet, sum decomposition, and preimage predicates; classifier the ambient ring classifier; stability the cited closure rows; ledger finite-position witnesses, additive decomposition witnesses, and image-membership witnesses; core theorem this block; exactness the displayed row package; standard bridge absent; status paper target.
 \end{proof}
+
+\begin{closurestatus}{\IdealUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The RingUp-scoped $BHist$ ideal predicate is closed for carrier support, zero, additive, inverse, internal multiplication, classifier transport, two-sided ambient absorption, finite meet, sum, preimage, principal generated ideal, and quotient-kernel export surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.IdealUp.IdealQuotientKernel\_export\_surface}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient carriers, standard ideal theory beyond the displayed predicate surface, or any host quotient primitive.}
+  \upgradepath{Public closure requires a public IdealUp interface theorem consumed by QuotientRingUp and IdealClassUp, together with an explicit standard bridge.}
+\end{closurestatus}

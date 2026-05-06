@@ -55,7 +55,7 @@ $\mathsf{RatStreamNameFiniteWindowClassifier}$ together with the pointwise
 carrier/classifier rows, classifier-to-window coverage, singleton-window
 exhaustion, certified reindexing and point-map coverage, finite-window
 structural laws, the selected full endpoint package, and finite-window
-stability fields.
+stability fields, together with the empty-window vacuity boundary.
 
 Equivalently, downstream $\RealUp$ and $\RegSeqRat$ boundary theorems may cite
 this interface as a single finite-window package whose exported rows are
@@ -65,9 +65,10 @@ this interface as a single finite-window package whose exported rows are
 \autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage},
 \autoref{thm:rat-stream-name-finite-window-structural-laws},
 \autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package},
-and \autoref{thm:rat-stream-name-finite-window-stability-fields}.  The export
-does not supply RealUp completion, RegSeqRat regularity, metric completeness,
-or a standard bridge.
+\autoref{thm:rat-stream-name-finite-window-stability-fields}, and
+\autoref{thm:streamname-public-empty-window-vacuity}.  The export does not
+supply RealUp completion, RegSeqRat regularity, metric completeness, or a
+standard bridge.
 \end{theorem}
 
 \begin{proof}
@@ -104,9 +105,47 @@ Finally,
 point classifier reflexivity, symmetry, transitivity, and $\hsame$ transport at
 each bundled observation.  Repacking these named rows gives precisely the
 finite-window interface consumed by downstream $\RealUp$ and $\RegSeqRat$
-boundary theorems, with completion, regularity, metric, and bridge claims left
-outside the package.
+boundary theorems.  The empty bundle boundary is supplied by
+the closed bundle-generation case for $\Bnil$: no membership constructor can
+feed an endpoint classifier row.  Completion, regularity, metric, and bridge
+claims are left outside the package.
 \end{proof}
+
+\begin{theorem}[StreamNameUp empty finite-window vacuity]
+\label{thm:streamname-public-empty-window-vacuity}
+For certified observation maps $s,t:\Hist\to\Hist$,
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\Bnil)$ holds.
+Equivalently, the public finite-window interface has a neutral empty
+observation boundary: it contributes no RatUp endpoint classifier rows and no
+finite-observation ledger token.
+\end{theorem}
+
+\begin{proof}
+Unfold
+Definition~\ref{def:rat-stream-name-finite-window-classifier}.  It remains to
+show that every certified unary observation bundled in $\Bnil$ receives a
+RatUp point classifier.
+
+Fix $n:\Hist$ together with
+$\mathsf{InBundle}(n,\Bnil)$ and $\mathsf{UnaryHistory}(n)$.  By
+Definition~\ref{def:bundle-generation}, $\Bnil$ has no membership
+constructors, and the Lean bundle inversion theorem
+$\mathsf{BEDC.FKernel.Bundle.inBundle\_nil\_elim}$ eliminates the displayed
+membership witness.
+
+The desired point classifier follows from this contradiction.  Hence the
+empty finite window is neutral: it imposes no endpoint RatUp classifier row and
+records no finite observation in the ledger.
+\end{proof}
+
+The empty-window certificate fit has ten fields: traditional target empty
+finite observation window; BEDC source $\StreamNameUp$ plus
+$\mathsf{ProbeBundle}$; carrier certified observation maps; classifier
+finite-window pointwise RatUp classification; stability vacuous; ledger empty;
+core theorem
+\autoref{thm:streamname-public-empty-window-vacuity}; exactness no bundled
+observations; standard bridge empty finite prefix; status
+$\mathsf{ProofTarget}$.
 
 The certificate template has ten fields: traditional target certified
 countable rational-observation names; BEDC source $\RatUp$ over
@@ -150,7 +189,7 @@ exported finite-window rows are
 $\mathsf{RatStreamNameFiniteWindowClassifier}$, finite-window
 coverage/exhaustion, certified reindexing and point-map coverage, finite-window
 structural laws, the selected endpoint package, and finite-window stability
-fields.
+fields, together with empty-window vacuity.
 
 No further rows are part of this public $\StreamNameUp$ package: it excludes
 RegSeqRat regularity, RealUp completion and completeness, metric completeness,
@@ -168,8 +207,9 @@ countable-name rows of the public export.
 Apply \autoref{thm:streamname-public-finite-window-interface}.  It adds
 $\mathsf{RatStreamNameFiniteWindowClassifier}$, window restriction,
 coverage/exhaustion, certified reindexing and point-map coverage, the
-finite-window structural laws, selected endpoint package, and stability rows.
-These are precisely the finite-window rows of the public export.
+finite-window structural laws, selected endpoint package, stability rows, and
+the empty finite-window boundary.  These are precisely the finite-window rows
+of the public export.
 
 The two cited public theorems list all exported rows and both leave completion,
 regularity, metric, arithmetic/order, and bridge structure outside their
