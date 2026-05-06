@@ -10672,3 +10672,135 @@ This is a concrete theorem-level gap in the existing LieAlgebraUp surface: the p
 
 ---
 
+### B-408 - Split epimorphism composition closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Split epimorphism composition closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If f:a->b and g:b->c are split epimorphisms in a CategoryUp certificate and u is the displayed composite g after f with ell the displayed reverse composite of their right-inverse witnesses, then u is a split epimorphism with right-inverse ell.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/category/carrier_and_hom_laws_associativity.tex`
+- `papers/bedc/parts/concrete_instances/functor/pipeline_composite_extras.tex`
+
+Rationale:
+Category split-epimorphism witnesses are defined at papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex:489-496, and category associative composition closure is available at papers/bedc/parts/concrete_instances/category/carrier_and_hom_laws_associativity.tex:1-8 and :21-29. The nearby dual-style result papers/bedc/parts/concrete_instances/functor/pipeline_composite_extras.tex:607-620 proves left cancellation for split monomorphisms, while papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex:499-513 proves only right cancellation for a single split epimorphism. Focused rg for split epimorphism composition, composition of split epimorphisms, and split-epimorphism composition labels under papers/bedc/parts returned 0 hits; the split-epi hits are preservation or cancellation only, e.g. papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex:486-523 and papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex:499-513.
+
+---
+
+
+### B-409 - Graph three-step path reassociation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Graph three-step path reassociation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If GraphEdge(h,k,hk), GraphEdge(k,l,kl), and GraphEdge(l,m,lm) hold under GraphUp, then the two three-step path endpoints produced by left and right association are hsame.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+GraphEdge is defined by unary endpoints plus a Cont row at papers/bedc/parts/concrete_instances/96_graph_namecert_construction.tex:9-20. The chapter advertises two-step path composition in its core theorem list at :34-36 and proves exactly that at :183-198, then packages only unit rows and two-step path composition in the surface theorem at :219-230. Continuation associativity is available as an input at papers/bedc/parts/core/03_relational_extension_and_continuation.tex:749-760. Focused rg in the graph chapter for three-step, threefold, triple, and associat returned only prose lines :32, :256, and :336, and the graph theorem-label inventory contains no thm:graph three-step or associativity theorem.
+
+---
+
+
+### B-410 - Topology pullback arbitrary-union closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Topology pullback arbitrary-union closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If u is an indexed arbitrary-union witness for target public open rows and f:Y->X respects classifiers under the TopologyUp pullback setup, then the pulled-back row carries the pointwise existential union of the pulled-back predicates.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/topology/namecert_construction_core.tex`
+- `papers/bedc/parts/concrete_instances/topology/public_and_singleton_rows.tex`
+- `papers/bedc/parts/concrete_instances/topology/pullback_open_rows.tex`
+
+Rationale:
+Indexed arbitrary-union witnesses are defined at papers/bedc/parts/concrete_instances/topology/namecert_construction_core.tex:149-160 and arbitrary-union closure is proved at :163-190. Public open rows explicitly allow arbitrary-union provenance at papers/bedc/parts/concrete_instances/topology/public_and_singleton_rows.tex:74-80. Pullback rows are defined at papers/bedc/parts/concrete_instances/topology/pullback_open_rows.tex:1-21, but that child file proves classifier transport at :24-39 and finite-meet pullback only at :41-57; its obligation surface at :59-71 names finite-meet preservation, not arbitrary unions. Focused rg for pullback arbitrary-union, arbitrary-union pullback, pullback union, and union pullback under papers/bedc/parts/concrete_instances/topology returned 0 hits.
+
+---
+
+
+### B-411 - ConvexSet intersection closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ConvexSet intersection closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If C and D are ConvexSetUp carriers over the same FieldUp and VecSpaceUp data and both satisfy the binary affine-combination row, then their pointwise intersection satisfies the same nonnegative unit-sum affine-combination closure row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+The binary affine-combination row for ConvexSetUp is defined at papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex:12-30. Existing theorem sites prove midpoint closure at :32-45, affine-combination order symmetry at :60-99, and finite affine-spine closure from :101-160 onward. The theorem-label inventory for that file has only thm:convexset-midpoint-affine-combination-closure, thm:convexset-affine-combination-row-order-symmetric, and thm:convexset-finite-affine-spine-closure. Focused rg for convex intersection and intersection convex across concrete_instances returned only the polytope prose dependency at papers/bedc/parts/concrete_instances/187_polytope_namecert_construction.tex:4 and no ConvexSet theorem label.
+
+---
+
+
+### B-412 - Measure self-difference zero law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Measure self-difference zero law |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If A is a displayed measurable event and the MeasureUp relative-difference row is applied to the reflexive inclusion A subset A, then mu(A minus A) is classified with the RealUp additive zero under the target additive AbGroupUp row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+- `papers/bedc/parts/concrete_instances/group/16_group_certificate_tail.tex`
+
+Rationale:
+The complement/relative-difference row is defined at papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex:53-63, including the event A minus B, disjointness, union readback, and a RealUp endpoint row. The measure chapter proves relative-difference decomposition at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:91-114 and relative-difference additivity at :116-130. The additive cancellation input needed to turn mu(A) sim mu(A)+mu(A minus A) into a zero conclusion is present as group left absorption at papers/bedc/parts/concrete_instances/group/16_group_certificate_tail.tex:1-10. Focused rg for self-difference, relative-difference zero, difference zero, and zero difference under the measure files returned 0 hits.
+
+---
+
