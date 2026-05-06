@@ -1,0 +1,114 @@
+\section{DiffForm root degree-classifier package}
+\label{sec:diffform-root-degree-classifier-package}
+
+\begin{definition}[DiffForm root degree-classifier package]
+\label{def:diffform-root-degree-classifier-package}
+Fix a $\NameCert_{\ManifoldUp}$ source $M$ and a
+$\NameCert_{\TensorProductUp}$ source $T$. The root degree-classifier package
+for $\DiffFormUp$ is the citable surface
+$$
+\mathsf{DiffFormRootDegreeClassifier}_{M,T}.
+$$
+Its BEDC source is the tuple consisting of $BHist$, $\hsame$, $\Cont$,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\NameCert_{\ManifoldUp}$, and $\NameCert_{\TensorProductUp}$.
+
+Its carrier is the pair of the concrete carried row
+$\mathsf{DiffFormBHistCarrier}_{M,T}$ and the alignment witness
+$\mathsf{DegreeProbeAligned}(d,\mathcal{P})$ for the displayed unary degree
+row $d$ and visible probe bundle $\mathcal{P}$. Its classifier is equality of
+the transported unary degree row and equality of the transported visible probe
+arity under $\sim_{\DiffFormUp}$; the remaining transported carrier rows are
+read only through that same $BHist$ classifier surface.
+
+Its ledger consists exactly of the displayed degree history $d$, the probe
+bundle $\mathcal{P}$, the tensor row $\tau$, the scalar endpoint $\sigma$, the
+antisymmetry row $\alpha$, the source ledger $\lambda$, and the continuation
+route that records the degree endpoint used by wedge and exterior-input
+routing. The package contains no row for nilpotence, closedness,
+nondegeneracy, contact nonintegrability, quotienting, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[DiffForm root degree-classifier coverage]
+\label{thm:diffform-root-degree-classifier-coverage}
+Every root $BHist$ surface row of
+\autoref{def:diffform-root-bhist-namecert-surface} supplies the package
+$\mathsf{DiffFormRootDegreeClassifier}_{M,T}$. In particular, the carrier
+part is the concrete $\mathsf{DiffFormBHistCarrier}_{M,T}$ row, the arity
+part is the visible $\mathsf{ProbeBundle}$ spine aligned with its unary
+degree row, and the ledger part is exhausted by the displayed degree, probe,
+tensor, scalar endpoint, antisymmetry, source, and continuation rows.
+\end{theorem}
+\begin{proof}
+First read the carrier field of the root $BHist$ surface. Apply
+\autoref{thm:diffform-root-bhist-carrier-obligation}. It supplies the
+concrete carrier row together with the manifold and tensor source rows named
+by the package.
+
+Next bind the degree and arity interface. Apply
+\autoref{thm:diffform-degree-probe-alignment-carrier-refinement}; the carried
+row exposes the unary degree history and the visible probe bundle as an
+aligned pair, with no second arity counter outside the displayed bundle.
+
+Finally read the ledger. Apply
+\autoref{thm:diffform-root-bhist-ledger-exactness-obligation}. Its exactness
+statement lists precisely the degree histories, probe bundles, tensor source
+rows, manifold source rows, wedge rows, exterior-input rows, and $\Cont$
+route histories available at the root surface. Repacking those rows gives the
+announced degree-classifier package.
+\end{proof}
+
+\begin{theorem}[DiffForm root degree-classifier transport]
+\label{thm:diffform-root-degree-classifier-transport}
+Transport along $\sim_{\DiffFormUp}$ preserves
+$\mathsf{DiffFormRootDegreeClassifier}_{M,T}$. If a carried row with degree
+$d$ and probe bundle $\mathcal{P}$ supplies the package, then every
+$\sim_{\DiffFormUp}$-equivalent carried row supplies the transported package
+with the transported unary degree row and the same visible probe arity.
+\end{theorem}
+\begin{proof}
+Begin with classifier stability for the root surface. Apply
+\autoref{thm:diffform-root-bhist-classifier-stability-obligation}. The
+transported endpoint remains in the concrete carrier surface and keeps the
+root classifier rows available.
+
+Now transport the aligned pair. Apply
+\autoref{thm:diffform-degree-probe-alignment-transport}. The degree
+comparison carried by $\hsame$ and the transported probe bundle rebuild
+$\mathsf{DegreeProbeAligned}$ at the target endpoint.
+
+It remains to identify the arity read. Apply
+\autoref{thm:diffform-probe-slot-arity-transport}. The visible number of
+probe slots is preserved by the transported bundle, so the classifier
+interface is exactly equality of transported degree rows together with
+equality of transported visible probe arity under $\sim_{\DiffFormUp}$.
+\end{proof}
+
+\begin{theorem}[DiffForm root degree-classifier downstream consumption]
+\label{thm:diffform-root-degree-classifier-downstream-consumption}
+The downstream chapters $\DeRhamUp$, $\SymplecticUp$, and $\ContactUp$
+consume the $\DiffFormUp$ degree and arity data only through
+$\mathsf{DiffFormRootDegreeClassifier}_{M,T}$. Their reads of degree rows and
+probe-slot arity factor through the root $BHist$ surface, the aligned
+degree-probe pair, and the root consumer face classifier; they do not read
+nilpotence, closedness, nondegeneracy, contact nonintegrability, quotienting,
+or a standard bridge from this package.
+\end{theorem}
+\begin{proof}
+Start from a downstream read by one of the three consumer chapters. Apply
+\autoref{thm:diffform-root-bhist-downstream-boundary}. It factors every such
+read through the root carrier row, classifier row, degree-probe alignment,
+wedge routing, exterior-input routing, source NameCert rows, and $\Cont$
+route histories.
+
+Next apply \autoref{thm:diffform-root-consumer-face-coverage}. The consumer
+face classifier assigns every exported row to the de Rham, symplectic,
+contact, or shared root face, with no row outside those faces.
+
+The shared degree and arity interface is therefore exactly the package
+surface: transported unary degree equality and transported visible
+probe-arity equality under $\sim_{\DiffFormUp}$. The consumer-specific laws
+remain in their own faces, so this package carries no nilpotence, closedness,
+nondegeneracy, contact nonintegrability, quotienting, or standard bridge
+claim.
+\end{proof}

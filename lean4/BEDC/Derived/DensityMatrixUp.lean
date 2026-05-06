@@ -67,6 +67,10 @@ theorem DensityMatrixAffineMixtureSpine_binary_constant_exactness
     classifierCont rhoDensity sigmaDensity rhoClassified sigmaClassified route
   exact And.intro closed.left (And.intro outClassified closed.right)
 
+def DensityMatrixRestrictedClassifier (density : BHist -> Prop)
+    (classifier : BHist -> BHist -> Prop) (h k : BHist) : Prop :=
+  density h ∧ density k ∧ classifier h k
+
 theorem DensityMatrixAffineMixtureSpine_unary_endpoint
     {density : BHist -> Prop} {rho : BHist} :
     DensityMatrixAffineMixtureSpine density rho -> UnaryHistory rho := by
@@ -99,5 +103,32 @@ theorem DensityMatrixAffineMixtureSpine_constant_exactness
       have outClassified : classifier _ rho0 :=
         classifierCont leftExact.left rightExact.left leftExact.right rightExact.right route
       exact And.intro outDensity outClassified
+
+theorem DensityMatrixAffineMixtureSpine_restricted_constant_exactness
+    {density : BHist -> Prop} {classifier : BHist -> BHist -> Prop} {rho rho0 : BHist}
+    (rho0Density : density rho0)
+    (binaryClosed :
+      forall {left right out : BHist},
+        density left -> density right -> Cont left right out -> density out)
+    (classifierCont :
+      forall {left right out : BHist},
+        density left -> density right -> classifier left rho0 -> classifier right rho0 ->
+          Cont left right out -> classifier out rho0) :
+    DensityMatrixAffineMixtureSpine density rho ->
+      (forall {leaf : BHist},
+        density leaf -> UnaryHistory leaf ->
+          DensityMatrixRestrictedClassifier density classifier leaf rho0) ->
+        DensityMatrixRestrictedClassifier density classifier rho rho0 := by
+  intro spine leafClassifier
+  induction spine with
+  | atom leafDensity leafUnary =>
+      exact leafClassifier leafDensity leafUnary
+  | mix leftSpine rightSpine route leftExact rightExact =>
+      have outDensity : density _ :=
+        binaryClosed leftExact.left rightExact.left route
+      have outClassified : classifier _ rho0 :=
+        classifierCont leftExact.left rightExact.left leftExact.right.right rightExact.right.right
+          route
+      exact And.intro outDensity (And.intro rho0Density outClassified)
 
 end BEDC.Derived.DensityMatrixUp
