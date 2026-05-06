@@ -6,6 +6,7 @@ namespace BEDC.Derived.TopologyUp
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def TopologySingletonIndexedOpenCarrier : BHistIndexedOpenCarrier := {
@@ -102,6 +103,41 @@ theorem BHistUnaryTopologyLedgerRow_classifier_transport (T : BHistIndexedOpenCa
       exact BHistCarriesOpen_classifier_transport T carries
   | top ledger unaryLedger carries =>
       exact BHistCarriesOpen_classifier_transport T carries
+
+theorem BHistIndexedOpen_neighborhood_semantic_name_certificate
+    (T : BHistIndexedOpenCarrier) {i : T.OpenIx}
+    (source : exists h : BHist, UnaryHistory h ∧ T.OpenAt i h) :
+    SemanticNameCert (fun h : BHist => UnaryHistory h ∧ T.OpenAt i h)
+      (fun h : BHist => T.OpenAt i h) (fun h : BHist => T.OpenAt i h)
+      (fun h k : BHist => UnaryHistory h ∧ UnaryHistory k ∧ hsame h k) := by
+  exact {
+    core := {
+      carrier_inhabited := source
+      equiv_refl := by
+        intro h sourceH
+        exact And.intro sourceH.left (And.intro sourceH.left (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified sourceH
+        have stable : T.OpenAt i h <-> T.OpenAt i k :=
+          T.membership_stable sourceH.left classified.right.left classified.right.right
+        exact And.intro classified.right.left (Iff.mp stable sourceH.right)
+    }
+    pattern_sound := by
+      intro h sourceH
+      exact sourceH.right
+    ledger_sound := by
+      intro h sourceH
+      exact sourceH.right
+  }
 
 
 theorem BHistFiniteBaseNeighborhood_bundleAppend_carries_intersection
