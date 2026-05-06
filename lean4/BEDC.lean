@@ -50,6 +50,7 @@ import BEDC.BaseReflection
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
+import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
