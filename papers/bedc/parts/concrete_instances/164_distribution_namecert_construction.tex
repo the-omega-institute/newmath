@@ -18,6 +18,7 @@ $$
 $$
 Thus the $\DistributionUp$ carrier is the target measurable family $\mathcal{A}_T$ together with the endpoint assignment $B\mapsto\mu_X(B)$ whose source is the probability measure of the carried source.
 \end{definition}
+\leandef{BEDC.Derived.DistributionUp.DistributionPushforwardSourceSpec}
 
 \begin{definition}[Distribution pushforward classifier]
 \label{def:distribution-pushforward-classifier}
@@ -78,6 +79,7 @@ The $\DistributionUp$ pushforward surface supplies the NameCert obligation packe
 \item \textbf{Status}: the packet records the carrier and certificate obligations at the paper level, with Lean formalization reserved for the $\BEDC.Derived.DistributionUp$ namespace.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.DistributionUp.DistributionPushforwardCarrier\_semantic\_name\_certificate}
 \begin{proof}
 The carrier and classifier fields are exactly \autoref{def:distribution-pushforward-carrier} and \autoref{def:distribution-pushforward-classifier}. The carrier uses the $\RandomVarUp$ measurable-preimage row to make $X^{-1}(B)$ a source measurable event, and then reads the source $\ProbSpaceUp$ measure row at that event.
 
@@ -668,6 +670,7 @@ $$
 \mu_X(B)\sim_R\lim_{n\to\infty}\mu_X(B_n).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.DistributionUp.DistributionPushforward\_continuity\_from\_below\_prefix\_readback}
 \begin{proof}
 For each $n$, apply the measurable-preimage readback to get
 $$
@@ -729,3 +732,13 @@ The order-sensitive rows are also part of the assumed component surface. Monoton
 
 For countable structure, the assumed surface includes $\autoref{thm:distribution-pushforward-countable-disjoint-sigma-additivity}$ for disjoint target families and $\autoref{thm:distribution-pushforward-continuity-from-below}$ for increasing target families. These nine rows have the same carried map $X$, the same target event family $\mathcal A_T$, and the same displayed pushforward row $\mu_X$, so collecting the assumed component rows gives the announced probability-measure package on the target event surface.
 \end{proof}
+
+\begin{closurestatus}{\DistributionUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The displayed pushforward carrier and classifier are closed for carried $\RandomVarUp$ maps from $\ProbSpaceUp$ sources to $\MeasureUp$ target events, with endpoint comparisons read through the $\RealUp$ classifier.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DistributionUp.DistributionPushforward\_countable\_disjoint\_sigma\_additivity}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close conditional expectation, independence, convergence of laws, or standard bridge closure.}
+  \upgradepath{The next grade requires a single public certificate surface together with bridge evidence for the target probability package.}
+\end{closurestatus}
