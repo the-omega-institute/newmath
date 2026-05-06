@@ -1,0 +1,70 @@
+\section{Root obligations for downstream certificates}
+\label{sec:sheaf-root-obligations}
+
+\begin{definition}[SheafUp root-unblock BEDC source]
+\label{def:sheaf-root-unblock-bedc-source}
+The root-unblock source for $\SheafUp$ is the ten-field certificate surface consumed by ringed-space, scheme, and restricted-open sheaf constructions.
+\begin{enumerate}
+\item The traditional target is sheaves of sections over indexed opens.
+\item The BEDC source chapters are $\TopologyUp$, $\PreSheafUp$, and $\NameCert$.
+\item The history ledger is the $\mathsf{BHist}$ cover-nerve ledger of \autoref{def:sheaf-bhist-cover-nerve-ledger}.
+\item The carrier is the indexed section presheaf carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}, equipped with the locality and gluing fields of \autoref{def:sheaf-indexed-cover-compatibility-locality}.
+\item The classifier family is the open-indexed relation $\sim_i$ on $\mathsf{Sec}(i)$.
+\item The cover ledger records cover indices $A$, cover-member maps $\iota:A\to\mathsf{OpenIx}$, and pointwise cover rows over $\mathsf{BHist}$.
+\item The overlap ledger records finite intersections $\iota(a)\wedge_{\TopologyUp}\iota(a')$ and their projection rows.
+\item The restriction ledger records routes from a target open to cover members and overlaps, with identity, composition, and classifier-stability rows.
+\item Optional route histories are recorded by $\Cont$ rows, and history-cell membership is transported only by $\hsame$.
+\item The surface contains no quotient of cover presentations and no equality of host powersets of opens.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sheaf root-unblock cover membership obligation]
+\label{thm:sheaf-root-unblock-cover-membership-obligation}
+Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an accepted cover row of an open index $i$ over a $\mathsf{BHist}$ topology ledger. Then every displayed history membership in the covered open has a displayed cover-member witness:
+$$
+\forall b:\mathsf{BHist},\
+\mathsf{OpenAt}(i,b)
+\Longrightarrow
+\exists a:A,\ \mathsf{OpenAt}(\iota(a),b).
+$$
+All overlap information used downstream is recorded only through finite-intersection rows and $\hsame$-stable $\mathsf{BHist}$ membership, not through host powerset equality.
+\end{theorem}
+\begin{proof}
+Unfold the accepted cover row. Its pointwise cover component is exactly the displayed implication from $\mathsf{OpenAt}(i,b)$ to a cover index $a:A$ with $\mathsf{OpenAt}(\iota(a),b)$.
+
+For overlap rows, use the finite-intersection field of the indexed topology carrier as in \autoref{thm:sheaf-bhist-cover-nerve-overlap-projections}. It supplies the overlap index and the two projection rows back to the participating cover members.
+
+History transport is then read from the $\mathsf{BHist}$ cover-nerve ledger of \autoref{def:sheaf-bhist-cover-nerve-ledger}. That ledger admits only $\hsame$-stable membership transport, so the exported cover-membership row stays internal to indexed opens and history cells.
+\end{proof}
+
+\begin{theorem}[Sheaf root-unblock restriction stability obligation]
+\label{thm:sheaf-root-unblock-restriction-stability-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Restriction identity, restriction composition, stable restriction rows, and $\Cont$ associativity for route histories preserve the target section classifier along one-step and two-step restriction routes. Concretely, for $j\le_{\mathcal{T}}i$ and $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$, the rows
+$$
+\rho_{i,i}(s)\sim_i s,
+\qquad
+s\sim_i t\Longrightarrow \rho_{i,j}(s)\sim_j\rho_{i,j}(t),
+\qquad
+\rho_{j,k}(\rho_{i,j}(s))\sim_k\rho_{i,k}(s)
+$$
+are the classifier-preserving route rows exposed to downstream certificates.
+\end{theorem}
+\begin{proof}
+The identity and composition rows are fields of the indexed section presheaf carrier in \autoref{def:sheaf-indexed-section-presheaf-carrier}. The one-step classifier preservation row is the stable restriction row of \autoref{def:sheaf-stable-restriction-row}, also cited as \autoref{thm:sheaf-restriction-classifier-transport}.
+
+For a two-step route, first use restriction classifier transport along $j\le_{\mathcal{T}}i$, then compose with the route from $j$ to $k$. The displayed composition row identifies this two-step restriction with the direct restriction from $i$ to $k$ in the classifier $\sim_k$.
+
+If the ledger also carries $\Cont$ histories for the same routes, their associativity only compares displayed route histories. It does not alter the open index $k$ or the classifier $\sim_k$, so it preserves the same target section classifier consumed by the certificate.
+\end{proof}
+
+\begin{theorem}[Sheaf root-unblock locality and gluing obligation]
+\label{thm:sheaf-root-unblock-locality-gluing-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$, and let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed cover of $i$. Compatible local families with displayed gluings have a $\NameCert$-consumable exactness row: locality gives global classifier equality for any two global readbacks whose restrictions agree on the cover, and gluing supplies existence of a global readback without quotienting cover presentations.
+\end{theorem}
+\begin{proof}
+The existence half is the gluing field in \autoref{def:sheaf-indexed-cover-compatibility-locality}. Given a compatible local family, it supplies a section $g:\mathsf{Sec}(i)$ together with displayed restriction rows to each $\iota(a)$.
+
+The uniqueness half is locality. If two global readbacks restrict to classifier-equal sections on every cover member, the locality field returns equality in the global classifier $\sim_i$; \autoref{thm:sheaf-gluing-uniqueness-from-locality} packages the same argument for two displayed gluings of one compatible family.
+
+Refinement and presentation changes are handled by the existing refinement rows \autoref{thm:sheaf-refinement-gluing-descent}, \autoref{thm:sheaf-refined-cover-exactness-obligation}, \autoref{thm:sheaf-common-refinement-gluing-invariance}, and \autoref{thm:sheaf-cover-presentation-exactness}. Each row uses displayed cover maps, common refinements, restriction stability, $\Cont$ route histories when present, and $\hsame$-stable membership; none introduces a quotient of cover presentations.
+\end{proof}
