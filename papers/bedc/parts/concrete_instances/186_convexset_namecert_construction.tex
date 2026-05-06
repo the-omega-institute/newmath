@@ -304,3 +304,36 @@ $$
 f[C]_{\sim_W}\bigl((a\odot_W u)+_W(b\odot_W v)\bigr).
 $$
 \end{proof}
+
+\begin{theorem}[ConvexSet linear image finite affine-spine closure]
+\label{thm:convexset-linear-image-finite-affine-spine-closure}
+Let the data be as in \autoref{def:convexset-linear-image-carrier}. Write $\sim_F$, $+_F$, $1_F$, and $\mathsf{NonNeg}_F$ for the scalar classifier, scalar addition, scalar unit, and nonnegative predicate. Write $+_W$, $\odot_W$, and $\sim_W$ for the codomain vector addition, scalar action, and classifier. Assume the source $\ConvexSetUp$ certificate supplies the binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row}. For every finite codomain point spine $ys:\mathsf{ListCarrier}(W)$, finite scalar-weight spine $\lambda:\mathsf{ListCarrier}(F)$, and endpoint $z:W$, if
+$$
+\mathsf{ConvAffSpine}_{f[C]_{\sim_W}}(ys,\lambda,z)
+$$
+holds in the sense of \autoref{def:convexset-finite-affine-spine-data} with carrier predicate $f[C]_{\sim_W}$, then
+$$
+f[C]_{\sim_W}(z).
+$$
+Thus the classifier image carrier is closed under every finite affine spine whose weights are nonnegative and whose finite scalar sum is classified as $1_F$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:convexset-linear-image-affine-combination-closure}, the image carrier $f[C]_{\sim_W}$ satisfies the codomain binary affine-combination row
+$$
+f[C]_{\sim_W}(u)\land f[C]_{\sim_W}(v)\land
+\mathsf{NonNeg}_F(a)\land\mathsf{NonNeg}_F(b)\land(a+_F b)\sim_F1_F
+\Longrightarrow
+f[C]_{\sim_W}\bigl((a\odot_Wu)+_W(b\odot_Wv)\bigr).
+$$
+This row is obtained from the source convex row and the carried $\LinearMapUp(V,W)$ data, whose additivity, scalar compatibility, and codomain congruence rows are read through \autoref{def:linearmap-carrier}, \autoref{def:module-linearmap-certificate-package}, and \autoref{def:module-stability-certificate}.
+
+Unpack the displayed hypothesis using \autoref{def:convexset-finite-affine-spine-data}. The finite readback gives the common finite position data, nonnegative weights, and unit-sum scalar comparison. The endpoint carrier conclusion is proved by induction on the local bracketing witness $\mathsf{Bracket}_{f[C]_{\sim_W}}(ys,\lambda,z)$.
+
+In the singleton clause, the endpoint is the displayed codomain point $u$, and the clause itself supplies $f[C]_{\sim_W}(u)$. Hence the endpoint lies in the image carrier.
+
+In the binary-extension clause, the clause supplies $f[C]_{\sim_W}(u)$, the coefficient hypotheses $\mathsf{NonNeg}_F(a)$ and $\mathsf{NonNeg}_F(b)$, the local unit-sum comparison $(a+_F b)\sim_F1_F$, and a tail bracketing witness with endpoint $v$. The induction hypothesis applied to that tail witness gives $f[C]_{\sim_W}(v)$. Applying the binary image row above to $u,v$ and $a,b$ gives
+$$
+f[C]_{\sim_W}\bigl((a\odot_Wu)+_W(b\odot_Wv)\bigr),
+$$
+which is exactly the endpoint named by the binary-extension clause. Therefore every local bracketing witness over $f[C]_{\sim_W}$ has its endpoint in the same classifier image carrier, and the original endpoint $z$ satisfies $f[C]_{\sim_W}(z)$.
+\end{proof}
