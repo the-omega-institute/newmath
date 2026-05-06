@@ -203,6 +203,7 @@ import BEDC.Derived.TopologyUp.GeneratedOpenExactness
 import BEDC.Derived.TopologyUp.LedgerCoverage
 import BEDC.Derived.TopologyUp.PullbackOpenCertificate
 import BEDC.Derived.TopologyUp.PullbackOpenTransport
+import BEDC.Derived.TopologyUp.PublicOpenCertificate
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -218,6 +219,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.BanachUp
+import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
 import BEDC.Derived.FieldExtUp.RatReflexive
@@ -542,6 +544,7 @@ import BEDC.Derived.CategoryUp.SplitEpi
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CatColimitUp
+import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
