@@ -76,6 +76,26 @@ theorem MatroidFinsetIntersection_left_subset
               exact (Iff.mp (pointwise z) memberJ).left
           exact And.intro subset finiteSpine
 
+theorem MatroidFinsetIntersection_right_subset
+    {E : BHist -> Prop} {Rel : BHist -> BHist -> Prop} {I K J : BHist -> Prop} :
+    MatroidFinsetIntersection E Rel J I K ->
+      MatroidFinsetSubset E Rel J K ∧
+        exists zs : ProbeBundle BHist, MatroidFinsetEnumerates E Rel zs J := by
+  intro intersection
+  cases intersection with
+  | intro zs data =>
+      cases data with
+      | intro enumerates pointwise =>
+          have finiteSpine :
+              exists zs : ProbeBundle BHist, MatroidFinsetEnumerates E Rel zs J :=
+            Exists.intro zs enumerates
+          have subset : MatroidFinsetSubset E Rel J K := by
+            constructor
+            · exact finiteSpine
+            · intro z memberJ
+              exact (Iff.mp (pointwise z) memberJ).right
+          exact And.intro subset finiteSpine
+
 theorem MatroidFinsetSubset_row_composition
     {E : BHist -> Prop} {Rel : BHist -> BHist -> Prop} {A B C : BHist -> Prop} :
     MatroidFinsetSubset E Rel A B -> MatroidFinsetSubset E Rel B C ->
