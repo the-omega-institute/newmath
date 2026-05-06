@@ -1,0 +1,148 @@
+\begin{definition}[Measure root source-closure package]
+\label{def:measure-root-source-closure-package}
+The $\MeasureUp$ root source-closure package is the deps-ready
+$\mathsf{BHist}$ source obtained by repacking the carrier surface of
+\autoref{def:measure-sigma-algebra-carrier-surface}, the certificate surface
+of \autoref{def:measure-certificate-surface}, the dependency orientation
+surface of \autoref{def:measure-root-dependency-orientation-surface}, and the
+root consumer threshold of \autoref{def:measure-root-bhist-consumer-threshold}.
+Its carrier is $\mathsf{MCarrier}$, its classifier is the componentwise
+$\MeasureUp$ classifier $\sim_M$, its event rows are the visible measurable
+membership, empty, binary-union, countable-union, complement, relative
+difference, and disjoint-readback rows, its endpoint rows are the displayed
+$\RealUp$ measure-value and countable-sum rows, and its ledger rows are exactly
+the source witnesses attached to those displayed event and endpoint rows. The
+package has no consumer-row hypotheses: $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$ occur only as outgoing faces of the threshold.
+\end{definition}
+
+\begin{theorem}[Measure root source event-row closure]
+\label{thm:measure-root-source-event-row-closure}
+The empty, binary-union, countable-union, complement and
+relative-difference, disjoint-readback, and continuity-from-below event rows
+of \autoref{def:measure-root-source-closure-package} are exactly the visible
+event rows exposed by the carrier surface and root threshold package. No
+downstream consumer row is an event-row hypothesis of this source package.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:measure-certificate-surface}. Its event part consists of
+the measurable-family row, the empty row, the binary-union row, the
+countable-union row, the complement and relative-difference row, and the
+disjoint readbacks attached to the same carried $\mathsf{BHist}$ fiber.
+
+Apply \autoref{thm:measure-root-input-dependency-scope}. The input scope says
+that these rows are read from the orientation surface through $\mathsf{BHist}$,
+$\hsame$, $\Cont$, the named $\RealUp$ rows, and the endpoint-family
+$\NameCert_{\StreamNameUp}$ rows where sequences are present.
+
+The continuity-from-below event layer is the same visible chain of measurable
+events and relative-difference layers named by
+\autoref{thm:measure-continuity-from-below-package}. It therefore lies inside
+the carrier and threshold event ledger rather than in a consumer face.
+
+Finally apply \autoref{thm:measure-root-consumer-projection-separation}. The
+integral, probability, and functional-analysis rows are projections out of an
+already assembled root package, so they cannot add further event-row
+hypotheses. The displayed source package therefore has exactly the event rows
+listed in the statement.
+\end{proof}
+
+\begin{theorem}[Measure root source endpoint-row closure]
+\label{thm:measure-root-source-endpoint-row-closure}
+The measure-value, countable-sum, head-tail readback, nonnegative endpoint,
+monotone-inclusion, finite-additivity, and relative-difference endpoint rows of
+\autoref{def:measure-root-source-closure-package} are all read through
+$\NameCert_{\RealUp}$ and the additive real rows named in
+\autoref{def:measure-root-dependency-orientation-surface}.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:measure-root-input-dependency-scope}. The theorem
+identifies the only endpoint inputs for the root source as
+$\NameCert_{\RealUp}$, the additive real rows named by the carrier and public
+NameCert surfaces, and $\NameCert_{\StreamNameUp}$ only at endpoint-family
+sites.
+
+Apply \autoref{thm:measure-root-bhist-real-endpoint-threshold}. Every endpoint
+visible at the threshold is either a measure value, a finite readback endpoint,
+a relative-difference endpoint, or a countable-sum endpoint, and each
+comparison is a $\RealUp$ classifier comparison rather than a host event
+equality.
+
+The finite-additivity and head-tail readback rows are the additive real
+readbacks already used by the measure certificate. The nonnegative and
+monotone-inclusion rows are endpoint comparisons over the same $\RealUp$
+classifier, so they introduce no separate endpoint carrier.
+
+Finally use \autoref{thm:measure-continuity-from-below-package}. Its endpoint
+claim is built from the countable-sum endpoint and finite-prefix readback rows
+over the visible layer sequence. Thus the source package closes its endpoint
+rows through the named real certificates and additive rows alone.
+\end{proof}
+
+\begin{theorem}[Measure root source ledger exhaustion]
+\label{thm:measure-root-source-ledger-exhaustion}
+Every source witness consumed by
+\autoref{def:measure-root-source-closure-package} is one of the visible
+measurable membership, relative-difference, disjointness, measure-value,
+$\StreamNameUp$ endpoint-family, or countable-sum ledger rows. The package
+contains no host set equality, quotient event equality, probability
+normalization, integral premeasure row, functional-analysis row, or standard
+bridge.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-ledger-exactness-obligation}. Its exactness clause
+lists the consumed membership, relative-difference, disjointness, value, and
+countable-sum witnesses as rows of the displayed carrier ledger.
+
+Next read \autoref{def:measure-root-bhist-consumer-threshold}. The threshold
+adds the endpoint-family rows and the three outgoing consumer faces while
+retaining the exclusion of host set equality, quotient event equality,
+analytic completion objects, and standard bridges.
+
+Now apply \autoref{thm:measure-root-consumer-projection-separation}. The
+consumer faces for $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$ are outputs from the root surface, so their
+premeasure, normalization, and functional-analysis rows cannot become source
+witnesses.
+
+Combining exactness with the one-way threshold boundary exhausts the source
+ledger. Every consumed witness is one of the displayed source rows, and every
+row named in the exclusion clause remains outside the package.
+\end{proof}
+
+\begin{theorem}[Measure root source deps-ready package]
+\label{thm:measure-root-source-deps-ready-package}
+The source-closure package of
+\autoref{def:measure-root-source-closure-package}, together with the event-row
+closure of \autoref{thm:measure-root-source-event-row-closure}, the
+endpoint-row closure of \autoref{thm:measure-root-source-endpoint-row-closure},
+and the ledger exhaustion of
+\autoref{thm:measure-root-source-ledger-exhaustion}, forms the deps-ready root
+source package consumed by $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$. The public package of
+\autoref{thm:measure-root-deps-ready-public-package} is used only as the
+outgoing consumer boundary.
+\end{theorem}
+\begin{proof}
+First package the source carrier and classifier from
+\autoref{def:measure-root-source-closure-package}. This fixes
+$\mathsf{MCarrier}$, $\sim_M$, the visible event ledger, the $\RealUp$
+endpoint rows, and the source witness ledger as one $\mathsf{BHist}$ package.
+
+Next insert the closure rows. Apply
+\autoref{thm:measure-root-source-event-row-closure} for the event side and
+\autoref{thm:measure-root-source-endpoint-row-closure} for the endpoint side.
+These two rows identify all event and endpoint inputs before any downstream
+consumer face is read.
+
+Then apply \autoref{thm:measure-root-source-ledger-exhaustion}. It shows that
+the package consumes only the visible source witnesses and excludes host
+equality, quotient event equality, normalization, premeasure,
+functional-analysis, and bridge rows.
+
+Finally cite \autoref{thm:measure-root-deps-ready-public-package} as the
+outgoing boundary for $\IntegralUp$, $\ProbSpaceUp$, and
+$\FunctionalAnalysisUp$. Since that boundary exports consumer projections but
+does not supply source hypotheses, the repacked source package is deps-ready
+for the three consumers.
+\end{proof}
