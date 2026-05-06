@@ -8,6 +8,82 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def TopologySingletonIndexedOpenCarrier : BHistIndexedOpenCarrier := {
+  OpenIx := BHist
+  OpenAt := TopologySingletonOpenAt
+  meet := TopologySingletonMeet
+  membership_stable := by
+    intro i x y _unaryX _unaryY sameXY
+    constructor
+    · intro openX
+      exact And.intro openX.left (hsame_trans (hsame_symm sameXY) openX.right)
+    · intro openY
+      exact And.intro openY.left (hsame_trans sameXY openY.right)
+  meet_law := by
+    intro i j x _unaryX
+    cases i with
+    | Empty =>
+        cases j with
+        | Empty =>
+            constructor
+            · intro openMeet
+              exact And.intro openMeet openMeet
+            · intro openBoth
+              exact openBoth.left
+        | e0 t =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e0_empty openBoth.right.left)
+        | e1 t =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e1_empty openBoth.right.left)
+    | e0 t =>
+        cases j with
+        | Empty =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e0_empty openBoth.left.left)
+        | e0 u =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e0_empty openBoth.left.left)
+        | e1 u =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e0_empty openBoth.left.left)
+    | e1 t =>
+        cases j with
+        | Empty =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e1_empty openBoth.left.left)
+        | e0 u =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e1_empty openBoth.left.left)
+        | e1 u =>
+            constructor
+            · intro openMeet
+              exact False.elim (not_hsame_e0_empty openMeet.left)
+            · intro openBoth
+              exact False.elim (not_hsame_e1_empty openBoth.left.left)
+}
+
 theorem BHistUnaryTopologyLedgerRow_classifier_transport (T : BHistIndexedOpenCarrier)
     {i : T.OpenIx} {U : BHist -> Prop} :
     BHistUnaryTopologyLedgerRow T i U ->
@@ -197,5 +273,53 @@ theorem BHistFiniteBaseNeighborhood_singleton_ledger_coverage
   · constructor
     · exact Exists.intro i singletonCarries
     · exact BHistFiniteBaseNeighborhood_classifier_transport singleton ball singletonStable
+
+theorem TopologySingleton_public_open_row_coverage :
+    (BHistUnaryTopologyLedgerRow TopologySingletonIndexedOpenCarrier (BHist.e0 BHist.Empty)
+        (fun _ : BHist => False) ∧
+      BHistCarriesOpen TopologySingletonIndexedOpenCarrier (BHist.e0 BHist.Empty)
+        (fun _ : BHist => False)) ∧
+    (BHistUnaryTopologyLedgerRow TopologySingletonIndexedOpenCarrier BHist.Empty
+        TopologySingletonCarrier ∧
+      BHistCarriesOpen TopologySingletonIndexedOpenCarrier BHist.Empty
+        TopologySingletonCarrier) := by
+  have boundaryRows := TopologySingleton_semantic_name_certificate.right
+  have bottomLaw :
+      forall h : BHist, TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <-> False :=
+    boundaryRows.left
+  have topLaw :
+      forall h : BHist, TopologySingletonOpenAt BHist.Empty h <-> TopologySingletonCarrier h :=
+    boundaryRows.right
+  have bottomCarries :
+      BHistCarriesOpen TopologySingletonIndexedOpenCarrier (BHist.e0 BHist.Empty)
+        (fun _ : BHist => False) := by
+    intro x _unaryX
+    have bottomAt : TopologySingletonOpenAt (BHist.e0 BHist.Empty) x <-> False :=
+      bottomLaw x
+    constructor
+    · intro impossible
+      exact False.elim impossible
+    · intro openBottom
+      exact Iff.mp bottomAt openBottom
+  have topCarries :
+      BHistCarriesOpen TopologySingletonIndexedOpenCarrier BHist.Empty
+        TopologySingletonCarrier := by
+    intro x _unaryX
+    have topAt : TopologySingletonOpenAt BHist.Empty x <-> TopologySingletonCarrier x :=
+      topLaw x
+    constructor
+    · intro carrierX
+      exact Iff.mpr topAt carrierX
+    · intro openTop
+      exact Iff.mp topAt openTop
+  have bottomRow :
+      BHistUnaryTopologyLedgerRow TopologySingletonIndexedOpenCarrier (BHist.e0 BHist.Empty)
+        (fun _ : BHist => False) :=
+    BHistUnaryTopologyLedgerRow.bottom BHist.Empty unary_empty bottomCarries
+  have topRow :
+      BHistUnaryTopologyLedgerRow TopologySingletonIndexedOpenCarrier BHist.Empty
+        TopologySingletonCarrier :=
+    BHistUnaryTopologyLedgerRow.top BHist.Empty unary_empty topCarries
+  exact And.intro (And.intro bottomRow bottomCarries) (And.intro topRow topCarries)
 
 end BEDC.Derived.TopologyUp
