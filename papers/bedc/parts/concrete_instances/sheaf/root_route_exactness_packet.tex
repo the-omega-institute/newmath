@@ -1,0 +1,56 @@
+\begin{definition}[Sheaf root route exactness packet]
+\label{def:sheaf-root-route-exactness-packet}
+The $\SheafUp$ root route exactness packet is the following ten-field $\mathsf{BHist}$-scoped surface.
+\begin{enumerate}
+\item The traditional target is the sheaf route from an accepted indexed cover cell to the section row consumed by downstream certificates.
+\item The BEDC source is the joint $\TopologyUp$, $\PreSheafUp$, and $\NameCert$ surface, read over $\mathsf{BHist}$ histories and optional $\Cont$ route histories.
+\item The carrier is the indexed-open carrier of $\TopologyUp$ together with the section carrier $\mathsf{Sec}(i)$ of \autoref{def:sheaf-indexed-section-presheaf-carrier}.
+\item The classifier is the open-indexed section relation $\sim_i$ on $\mathsf{Sec}(i)$, transported only along displayed restriction routes.
+\item The stability rows are restriction identity, restriction composition, one-step classifier transport, two-step classifier transport, and route-history associativity when $\Cont$ rows are present.
+\item The ledger rows are cover-member cells, pair-overlap cells, route witnesses, and $\hsame$ membership transport in the $\mathsf{BHist}$ cover nerve.
+\item The exactness rows are cover-cell membership exhaustion, restriction-route classifier transport, locality and gluing, displayed refinement descent, and common-refinement comparison.
+\item The downstream consumers are exactly the $\RingedSpaceUp$ local-ring face, the $\SchemeUp$ affine-chart face, and topology pullback constructions.
+\item The packet contains no host powerset equality of open covers, no quotient of cover presentations, no stalk quotient, and no external sheafification operation.
+\item The status is a root $\NameCert_{\SheafUp}$ route-exactness surface: it records the rows available for downstream use and does not assert standard bridge closure.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sheaf route exactness membership transport]
+\label{thm:sheaf-root-route-exactness-membership-transport}
+Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an accepted indexed cover of $i$ over the $\mathsf{BHist}$ topology ledger. For every displayed cell $\mathsf{OpenAt}(i,b)$ and every displayed restriction route from $i$ to a cover member or pair-overlap row, the packet of \autoref{def:sheaf-root-route-exactness-packet} transports the cover-member witness through the route and preserves the target section classifier on the reached open.
+\end{theorem}
+\begin{proof}
+First build the cover witness. Apply \autoref{thm:sheaf-root-cover-nerve-membership-exhaustion} to the accepted cover row. It sends the displayed cell $\mathsf{OpenAt}(i,b)$ to a member $a:A$ with $\mathsf{OpenAt}(\iota(a),b)$ and supplies the finite-intersection row needed for comparison with any second member.
+
+Next transport along the restriction route. Apply \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability}. Its one-step and two-step clauses keep the section comparison inside the classifier of the reached member or overlap open.
+
+The transported member witness and the transported classifier row use the same indexed open route. Since both cited rows are recorded over $\mathsf{BHist}$ and use $\hsame$ for membership transport, the result stays inside the cover nerve and introduces no host cover equality or cover quotient.
+\end{proof}
+
+\begin{theorem}[Sheaf route exactness Cont composition]
+\label{thm:sheaf-root-route-exactness-cont-composition}
+When optional $\Cont$ histories are present in the $\SheafUp$ route ledger, their composition rows compose displayed route witnesses only. They preserve the target open index and therefore preserve the target section classifier $\sim_j$ or $\sim_k$ already transported by restriction stability.
+\end{theorem}
+\begin{proof}
+Start with the one-step route. The restriction stability obligation of \autoref{thm:sheaf-root-unblock-restriction-stability-obligation} gives classifier transport from $\sim_i$ to $\sim_j$ along $j\le_{\mathcal{T}}i$.
+
+For a composite route $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$, use the composition clause of \autoref{thm:sheaf-root-unblock-restriction-stability-obligation}. The direct restriction from $i$ to $k$ and the route through $j$ are compared in the same target classifier $\sim_k$.
+
+Now read the optional $\Cont$ row. By \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability}, such a history compares route witnesses and does not change the reached open. Hence route-history composition can only rebracket the displayed path; the classifier already attached to the reached open is unchanged.
+\end{proof}
+
+\begin{theorem}[Sheaf route exactness NameCert consumption]
+\label{thm:sheaf-root-route-exactness-namecert-consumption}
+The $\RingedSpaceUp$, $\SchemeUp$, and topology pullback consumers receive exactly the route-exactness packet of \autoref{def:sheaf-root-route-exactness-packet}: cover-member cells, restriction classifier transport, optional $\Cont$ route-history composition, and the downstream projection rows sealed for those consumers. No consumer receives a larger sheaf interface from this packet.
+\end{theorem}
+\begin{proof}
+First identify the common downstream surface. Apply \autoref{thm:sheaf-root-cover-nerve-downstream-coverage}. It lists the cover-member cells, pair-overlap cells, one-step and two-step restriction stability rows, optional $\Cont$ histories, and locality and gluing exactness rows available to downstream consumers.
+
+For the ringed-space consumer, apply \autoref{thm:sheaf-root-ringedspace-local-ring-projection-seal}. The local-ring face may read the sheaf section carrier, classifier, restriction stability, cover-gluing exactness, restricted-open rows, and displayed base-change rows, while local-ring structure itself is supplied outside $\SheafUp$.
+
+For the scheme consumer, apply \autoref{thm:sheaf-root-scheme-affine-chart-projection-seal}. Its affine-chart read is routed through cover-presentation rows, displayed common-refinement rows, and the sealed ringed-space projection, so it receives the same route-exactness packet rather than a separate sheaf surface.
+
+For topology pullback consumers, apply \autoref{thm:sheaf-root-topology-pullback-projection-seal}. The pullback face reads pulled-back cover membership, restriction-route stability, compatible-family transport, gluing pullback, and common-refinement transport along displayed base change.
+
+The three projections exhaust the consumers named in \autoref{def:sheaf-root-route-exactness-packet}. Since each cited seal excludes host powerset equality, cover quotients, stalk quotients, external sheafification, and standard bridge closure, downstream $\NameCert$ use is exactly the route-exactness packet and nothing larger.
+\end{proof}
