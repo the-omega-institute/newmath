@@ -181,6 +181,7 @@ import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
+import BEDC.Derived.SeqUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.ZetaBasicUp
@@ -209,6 +210,7 @@ import BEDC.Derived.TopologyUp.PullbackOpenCertificate
 import BEDC.Derived.TopologyUp.PublicCertificate
 import BEDC.Derived.TopologyUp.PullbackOpenTransport
 import BEDC.Derived.TopologyUp.PublicOpenCertificate
+import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -252,6 +254,7 @@ import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.IdealUp
+import BEDC.Derived.IdealUp.AbsorptionClosure
 import BEDC.Derived.IdealUp.AmbientCarrier
 import BEDC.Derived.IdealUp.QuotientKernel
 import BEDC.Derived.IdealUp.SumClosure
@@ -486,6 +489,7 @@ import BEDC.Derived.CompactUp.EmptyCenter
 import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CompactUp.TwoStepFactor
+import BEDC.Derived.FunctorUp.OppositeCertificate
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
