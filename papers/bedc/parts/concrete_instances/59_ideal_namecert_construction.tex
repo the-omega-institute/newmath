@@ -334,6 +334,7 @@ $$
 K(z)\Longrightarrow K(r\cdot_R z)\land K(z\cdot_R r).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealSum\_closure\_rows}
 \begin{proof}
 For carrier support, unpack a witness for $K(z)$. The support rows of $I$ and $J$ give $C(x)$ and $C(y)$, the ring addition carrier row gives $C(x+_R y)$, and carrier transport along $z\sim_R x+_R y$ gives $C(z)$.
 
@@ -447,6 +448,16 @@ and the multiplication-closure rows give $C(r_i\cdot_R t)$. The same distributiv
 Internal multiplication is then a consequence of right absorption: from $\langle a\rangle_R(x)$ and $\langle a\rangle_R(y)$, carrier support from \autoref{thm:ideal-principal-generated-subtractive-closure} gives $C(y)$, and right absorption by $y$ gives $\langle a\rangle_R(x\cdot_R y)$.
 \end{proof}
 
+\begin{theorem}[Principal generated full IdealUp closure]
+\label{thm:ideal-principal-generated-full-ideal-closure}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$, let $a$ be a carried generator, and let $\langle a\rangle_R$ be the predicate of \autoref{def:ideal-principal-generated-predicate}. Then $\langle a\rangle_R$ supplies the full $\IdealUp$ predicate surface over $R$: carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and two-sided absorption by every carried ambient endpoint.
+\end{theorem}
+\begin{proof}
+The carrier-support, zero-membership, additive-closure, additive-inverse, and classifier-transport rows are exactly the rows supplied by \autoref{thm:ideal-principal-generated-subtractive-closure}.
+
+The two-sided ambient absorption rows are exactly the left and right absorption rows supplied by \autoref{thm:ideal-principal-generated-absorption-closure}. The internal multiplication row is obtained there from right absorption together with carrier support for the second factor. These rows are precisely the row package required of an $\IdealUp$ predicate over the ambient $\RingUp$ certificate.
+\end{proof}
+
 \begin{theorem}[Principal generated quotient-kernel scope]
 \label{thm:ideal-principal-generated-quotient-kernel-scope}
 Let $R$ carry a $\RingUp$ certificate, let $a$ be a carried generator, and let $I:=\langle a\rangle_R$ be the predicate of \autoref{def:ideal-principal-generated-predicate}. The generated predicate supplies the quotient-free kernel surface consumed by $\QuotientRingUp$:
@@ -456,7 +467,7 @@ $$
 In particular, the diagonal and endpoint-transport rows for this surface are exactly the rows obtained by applying \autoref{thm:ideal-quotient-kernel-diagonal-exactness} and \autoref{thm:ideal-quotient-kernel-transport-surface} to $I$.
 \end{theorem}
 \begin{proof}
-By \autoref{thm:ideal-principal-generated-subtractive-closure} and \autoref{thm:ideal-principal-generated-absorption-closure}, the predicate $I$ has the carrier, zero, additive, inverse, classifier-transport, internal multiplication, and two-sided absorption rows required of an $\IdealUp$ predicate over the ambient ring certificate.
+By \autoref{thm:ideal-principal-generated-full-ideal-closure}, the predicate $I$ is an $\IdealUp$ predicate over the ambient ring certificate.
 
 Unfold \autoref{def:ideal-quotient-kernel-source-package} with this $I$. The displayed relation is therefore the same concrete quotient-free $\mathsf{BHist}$ kernel package used for every IdealUp predicate.
 
@@ -584,6 +595,7 @@ It remains to show $I(x-_R x)$. By the additive inverse row in the underlying ri
 
 Classifier transport for $I$ carries zero membership across this edge. Repacking the two carrier witnesses with the transported ideal membership gives $Q_I(x,x)$.
 \end{proof}
+\leanchecked{BEDC.Derived.IdealUp.IdealQuotientKernel\_diagonal\_exactness}
 
 \begin{theorem}[Ideal quotient-kernel transport surface]
 \label{thm:ideal-quotient-kernel-transport-surface}

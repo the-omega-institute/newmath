@@ -1,10 +1,18 @@
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.TopologyUp
 
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+
+def BHistFiniteBaseNeighborhood (indices : ProbeBundle BHist)
+    (ball : BHist -> BHist -> Prop) (x : BHist) : Prop :=
+  forall i : BHist, InBundle i indices -> ball i x
 
 structure BHistIndexedOpenCarrier where
   OpenIx : Type
@@ -20,6 +28,67 @@ structure BHistIndexedOpenCarrier where
 def BHistCarriesOpen (T : BHistIndexedOpenCarrier) (i : T.OpenIx)
     (U : BHist -> Prop) : Prop :=
   forall {x : BHist}, UnaryHistory x -> (U x <-> T.OpenAt i x)
+
+inductive BHistUnaryTopologyLedgerRow (T : BHistIndexedOpenCarrier) :
+    T.OpenIx -> (BHist -> Prop) -> Prop where
+  | singletonMetricBall {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | finiteListIntersection {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | binaryGeneratedMeet {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | arbitraryUnion {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | bottom {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+  | top {i : T.OpenIx} {U : BHist -> Prop} (ledger : BHist)
+      (unaryLedger : UnaryHistory ledger) (carries : BHistCarriesOpen T i U) :
+      BHistUnaryTopologyLedgerRow T i U
+
+theorem BHistUnaryTopologyLedgerRow_constructor_coverage (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} (row : BHistUnaryTopologyLedgerRow T i U) :
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.singletonMetricBall ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.finiteListIntersection ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.binaryGeneratedMeet ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.arbitraryUnion ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.bottom ledger unaryLedger carries) ∨
+    (exists ledger : BHist, exists unaryLedger : UnaryHistory ledger,
+      exists carries : BHistCarriesOpen T i U,
+        row = BHistUnaryTopologyLedgerRow.top ledger unaryLedger carries) := by
+  cases row with
+  | singletonMetricBall ledger unaryLedger carries =>
+      exact Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))
+  | finiteListIntersection ledger unaryLedger carries =>
+      exact Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl))))
+  | binaryGeneratedMeet ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))))
+  | arbitraryUnion ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl))))))
+  | bottom ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))))))
+  | top ledger unaryLedger carries =>
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Exists.intro ledger (Exists.intro unaryLedger (Exists.intro carries rfl)))))))
 
 def BHistPullbackOpen (f : BHist -> BHist) (U : BHist -> Prop) (y : BHist) :
     Prop :=
@@ -58,6 +127,24 @@ structure BHistIndexedBoundaryOpen (T : BHistIndexedOpenCarrier) where
   bottom_law : forall {x : BHist}, UnaryHistory x -> (T.OpenAt bottom x <-> False)
   top_law : forall {x : BHist}, UnaryHistory x -> (T.OpenAt top x <-> True)
 
+inductive TopologyPublicOpenTree (T : BHistIndexedOpenCarrier) :
+    T.OpenIx -> (BHist -> Prop) -> Prop where
+  | basic {i : T.OpenIx} {U : BHist -> Prop} :
+      BHistCarriesOpen T i U -> TopologyPublicOpenTree T i U
+  | binaryMeet {i j : T.OpenIx} {U V : BHist -> Prop} :
+      TopologyPublicOpenTree T i U -> TopologyPublicOpenTree T j V ->
+        TopologyPublicOpenTree T (T.meet i j) (fun x : BHist => U x ∧ V x)
+  | arbitraryUnion {A : Type} {u : T.OpenIx} {ι : A -> T.OpenIx}
+      {U : A -> BHist -> Prop} :
+      (forall a : A, TopologyPublicOpenTree T (ι a) (U a)) ->
+        (forall {x : BHist}, UnaryHistory x ->
+          (T.OpenAt u x <-> exists a : A, T.OpenAt (ι a) x)) ->
+          TopologyPublicOpenTree T u (fun x : BHist => exists a : A, U a x)
+  | bottom (boundary : BHistIndexedBoundaryOpen T) :
+      TopologyPublicOpenTree T boundary.bottom (fun _ : BHist => False)
+  | top (boundary : BHistIndexedBoundaryOpen T) :
+      TopologyPublicOpenTree T boundary.top (fun _ : BHist => True)
+
 theorem BHistCarriesOpen_classifier_transport (T : BHistIndexedOpenCarrier)
     {i : T.OpenIx} {U : BHist -> Prop} :
     BHistCarriesOpen T i U ->
@@ -82,6 +169,64 @@ theorem BHistCarriesOpen_classifier_transport (T : BHistIndexedOpenCarrier)
     have openX : T.OpenAt i x :=
       Iff.mpr stable openY
     exact Iff.mpr carryX openX
+
+inductive BHistPublicOpenTree (T : BHistIndexedOpenCarrier) : (BHist -> Prop) -> Type 1 where
+  | carried {U : BHist -> Prop} {i : T.OpenIx} :
+      BHistCarriesOpen T i U -> BHistPublicOpenTree T U
+  | meet {U V : BHist -> Prop} :
+      BHistPublicOpenTree T U -> BHistPublicOpenTree T V ->
+        BHistPublicOpenTree T (fun x : BHist => U x ∧ V x)
+  | union {A : Type} {U : A -> BHist -> Prop} :
+      (forall a : A, BHistPublicOpenTree T (U a)) ->
+        BHistPublicOpenTree T (fun x : BHist => exists a : A, U a x)
+
+theorem BHistPublicOpenTree_classifier_transport (T : BHistIndexedOpenCarrier)
+    {U : BHist -> Prop} (tree : BHistPublicOpenTree T U) :
+    forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  induction tree with
+  | carried carries =>
+      exact BHistCarriesOpen_classifier_transport T carries
+  | meet treeU treeV transportU transportV =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro bothX
+        exact And.intro
+          (Iff.mp (transportU unaryX unaryY sameXY) bothX.left)
+          (Iff.mp (transportV unaryX unaryY sameXY) bothX.right)
+      · intro bothY
+        exact And.intro
+          (Iff.mpr (transportU unaryX unaryY sameXY) bothY.left)
+          (Iff.mpr (transportV unaryX unaryY sameXY) bothY.right)
+  | union trees transports =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro witnessX
+        cases witnessX with
+        | intro a openX =>
+            exact Exists.intro a (Iff.mp (transports a unaryX unaryY sameXY) openX)
+      · intro witnessY
+        cases witnessY with
+        | intro a openY =>
+            exact Exists.intro a (Iff.mpr (transports a unaryX unaryY sameXY) openY)
+
+theorem BHistFiniteBaseNeighborhood_classifier_transport (indices : ProbeBundle BHist)
+    (ball : BHist -> BHist -> Prop) {x y : BHist}
+    (ballStable :
+      forall {i x y : BHist}, InBundle i indices -> UnaryHistory x -> UnaryHistory y ->
+        hsame x y -> (ball i x <-> ball i y)) :
+    UnaryHistory x -> UnaryHistory y -> hsame x y ->
+      (BHistFiniteBaseNeighborhood indices ball x <->
+        BHistFiniteBaseNeighborhood indices ball y) := by
+  intro unaryX unaryY sameXY
+  constructor
+  · intro neighborhoodX i inIndices
+    have stable : ball i x <-> ball i y :=
+      ballStable inIndices unaryX unaryY sameXY
+    exact Iff.mp stable (neighborhoodX i inIndices)
+  · intro neighborhoodY i inIndices
+    have stable : ball i x <-> ball i y :=
+      ballStable inIndices unaryX unaryY sameXY
+    exact Iff.mpr stable (neighborhoodY i inIndices)
 
 theorem BHistIndexedOpen_finite_intersection_closure (T : BHistIndexedOpenCarrier)
     {i j : T.OpenIx} {U V : BHist -> Prop} :
@@ -175,6 +320,15 @@ theorem BHistPullbackOpen_finite_meet_transport (T : BHistIndexedOpenCarrier)
 def BHistGeneratedOpenExact (T : BHistIndexedOpenCarrier) (U : BHist -> Prop) :
     Prop :=
   exists i : T.OpenIx, BHistCarriesOpen T i U
+
+theorem BHistGeneratedOpen_classifier_transport (T : BHistIndexedOpenCarrier)
+    {U : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  intro generated x y unaryX unaryY sameXY
+  cases generated with
+  | intro i carries =>
+      exact BHistCarriesOpen_classifier_transport T carries unaryX unaryY sameXY
 
 theorem BHistGeneratedOpen_binary_meet_admission (T : BHistIndexedOpenCarrier)
     {U V : BHist -> Prop} :
@@ -341,6 +495,51 @@ theorem BHistIndexedOpen_boundary_closure (T : BHistIndexedOpenCarrier)
       exact Iff.mpr topX openX
   exact And.intro bottomCarries (And.intro topCarries (And.intro falseStable trueStable))
 
+theorem TopologyPublicOpenTree_classifier_transport (T : BHistIndexedOpenCarrier)
+    {i : T.OpenIx} {U : BHist -> Prop} :
+    TopologyPublicOpenTree T i U ->
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y -> (U x <-> U y) := by
+  intro tree
+  induction tree with
+  | basic carries =>
+      exact BHistCarriesOpen_classifier_transport T carries
+  | binaryMeet leftTree rightTree leftIH rightIH =>
+      intro x y unaryX unaryY sameXY
+      have leftStable := leftIH unaryX unaryY sameXY
+      have rightStable := rightIH unaryX unaryY sameXY
+      constructor
+      · intro bothX
+        exact And.intro (Iff.mp leftStable bothX.left) (Iff.mp rightStable bothX.right)
+      · intro bothY
+        exact And.intro (Iff.mpr leftStable bothY.left) (Iff.mpr rightStable bothY.right)
+  | arbitraryUnion children unionLaw childIH =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro existsX
+        cases existsX with
+        | intro a openAX =>
+            have stableA := childIH a unaryX unaryY sameXY
+            exact Exists.intro a (Iff.mp stableA openAX)
+      · intro existsY
+        cases existsY with
+        | intro a openAY =>
+            have stableA := childIH a unaryX unaryY sameXY
+            exact Exists.intro a (Iff.mpr stableA openAY)
+  | bottom boundary =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro falseX
+        cases falseX
+      · intro falseY
+        cases falseY
+  | top boundary =>
+      intro x y unaryX unaryY sameXY
+      constructor
+      · intro trueX
+        exact trueX
+      · intro trueY
+        exact trueY
+
 def TopologySingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
 
@@ -376,6 +575,41 @@ theorem TopologySingleton_boundary_open_laws :
       exact openH.right
     · intro carrierH
       exact And.intro (hsame_refl BHist.Empty) carrierH
+
+theorem TopologySingleton_semantic_name_certificate :
+    SemanticNameCert TopologySingletonCarrier TopologySingletonCarrier TopologySingletonCarrier
+      (fun h k : BHist => TopologySingletonCarrier h ∧ TopologySingletonCarrier k ∧ hsame h k) ∧
+      (forall h : BHist, TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <-> False) ∧
+      (forall h : BHist,
+        TopologySingletonOpenAt BHist.Empty h <-> TopologySingletonCarrier h) := by
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty (hsame_refl BHist.Empty)
+        equiv_refl := by
+          intro h carrierH
+          exact And.intro carrierH (And.intro carrierH (hsame_refl h))
+        equiv_symm := by
+          intro h k classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro h k r classifiedHK classifiedKR
+          exact And.intro classifiedHK.left
+            (And.intro classifiedKR.right.left
+              (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+        carrier_respects_equiv := by
+          intro h k classified _carrierH
+          exact classified.right.left
+      }
+      pattern_sound := by
+        intro h sourceH
+        exact sourceH
+      ledger_sound := by
+        intro h sourceH
+        exact sourceH
+    }
+  · exact TopologySingleton_boundary_open_laws
 
 theorem TopologySingleton_finite_intersection_laws
     {i j h : BHist}
@@ -538,5 +772,26 @@ theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 :
     cases indexedOpen with
     | intro a openA =>
         exact And.intro (hsame_refl BHist.Empty) openA.right
+
+theorem TopologySingleton_union_case_split_ledger {A : Type} {ι : A -> BHist} :
+    ((forall a : A, hsame (ι a) (BHist.e0 BHist.Empty)) ∨
+      (exists a0 : A, hsame (ι a0) BHist.Empty)) ->
+      exists accepted : BHist,
+        (hsame accepted (BHist.e0 BHist.Empty) ∨ hsame accepted BHist.Empty) ∧
+          forall h : BHist,
+            TopologySingletonOpenAt accepted h <->
+              exists a : A, TopologySingletonOpenAt (ι a) h := by
+  intro ledger
+  cases ledger with
+  | inl allBottom =>
+      exact Exists.intro (BHist.e0 BHist.Empty)
+        (And.intro (Or.inl (hsame_refl (BHist.e0 BHist.Empty)))
+          (TopologySingleton_union_bottom_exactness ι allBottom))
+  | inr topMember =>
+      cases topMember with
+      | intro a0 topAt =>
+          exact Exists.intro BHist.Empty
+            (And.intro (Or.inr (hsame_refl BHist.Empty))
+              (TopologySingleton_union_top_exactness (ι := ι) a0 topAt))
 
 end BEDC.Derived.TopologyUp
