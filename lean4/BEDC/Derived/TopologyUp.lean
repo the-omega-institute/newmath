@@ -193,6 +193,29 @@ theorem BHistGeneratedOpen_binary_meet_admission (T : BHistIndexedOpenCarrier)
               (U := U) (V := V) carryU carryV
           exact And.intro (Exists.intro (T.meet i j) closure.left) closure.right
 
+theorem BHistGeneratedOpenExact_binary_meet_row (T : BHistIndexedOpenCarrier)
+    {U V : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      BHistGeneratedOpenExact T V ->
+        exists i : T.OpenIx, exists j : T.OpenIx, exists ledger : BHist,
+          hsame ledger BHist.Empty ∧
+            BHistCarriesOpen T i U ∧
+              BHistCarriesOpen T j V ∧
+                BHistCarriesOpen T (T.meet i j) (fun x : BHist => U x ∧ V x) := by
+  intro exactU exactV
+  cases exactU with
+  | intro i carryU =>
+      cases exactV with
+      | intro j carryV =>
+          have closure :=
+            BHistIndexedOpen_finite_intersection_closure (T := T) (i := i) (j := j)
+              (U := U) (V := V) carryU carryV
+          exact Exists.intro i
+            (Exists.intro j
+              (Exists.intro BHist.Empty
+                (And.intro (hsame_refl BHist.Empty)
+                  (And.intro carryU (And.intro carryV closure.left)))))
+
 theorem BHistIndexedOpen_arbitrary_union_closure (T : BHistIndexedOpenCarrier)
     {A : Type} {u : T.OpenIx} {ι : A -> T.OpenIx} {U : A -> BHist -> Prop} :
     (forall {x : BHist}, UnaryHistory x ->
