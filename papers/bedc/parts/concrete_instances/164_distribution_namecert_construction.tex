@@ -199,3 +199,50 @@ $$
 \mathsf{NonNeg}_R(\mu_X(B)).
 $$
 \end{proof}
+
+\begin{theorem}[Distribution pushforward monotone under target inclusion]
+\label{thm:distribution-pushforward-monotone-under-target-inclusion}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a $\MeasureUp$ target as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure as in \autoref{sec:distribution-carrier}, and $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. Let $B$ and $C$ be target events in one carried target fiber with $B,C\in\mathcal{A}_T$, and suppose the public target readback displays $B\subseteq C$. Define
+$$
+A_B:=X^{-1}(B),\qquad A_C:=X^{-1}(C).
+$$
+Suppose:
+\begin{itemize}
+\item the target complement/relative-difference row of \autoref{def:measure-complement-difference-row}, the $\RandomVarUp$ measurable-preimage row, and the source complement/relative-difference row satisfy the hypotheses of \autoref{thm:randomvar-preimage-relative-difference-exactness} for the ambient target event $C$ and subevent $B$;
+\item the $\DistributionUp$ pushforward row of \autoref{sec:distribution-certificate} gives, at every target measurable event $E\in\mathcal{A}_T$,
+$$
+\mu_X(E)\sim_R\mu_S(X^{-1}(E));
+$$
+\item the source $\MeasureUp$ certificate satisfies the hypotheses of \autoref{thm:measure-monotone-under-measurable-inclusion} for the displayed source inclusion $A_B\subseteq A_C$ and its measurable relative-difference row;
+\item the RealAlgOrder order row on $\RealUp$ is stable under $\sim_R$ on both endpoints.
+\end{itemize}
+Then
+$$
+\mu_X(B)\le_R\mu_X(C).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:randomvar-preimage-relative-difference-exactness} with the ambient target event $A:=C$ and the subevent $B$. It gives
+$$
+A_B,A_C\in\mathcal{A}_S
+$$
+and reads the target inclusion $B\subseteq C$ as the source inclusion
+$$
+A_B\subseteq A_C.
+$$
+It also supplies the source relative-difference ledger: the event $A_C\setminus A_B$ is measurable, is disjoint from $A_B$, and its displayed binary union with $A_B$ is classified as $A_C$ in the source event classifier.
+
+These are exactly the inclusion-decomposition inputs for \autoref{thm:measure-monotone-under-measurable-inclusion} in the source $\MeasureUp$ carrier. Hence
+$$
+\mu_S(A_B)\le_R\mu_S(A_C).
+$$
+
+Apply the pushforward row to $B$ and $C$. Since both are target measurable,
+$$
+\mu_X(B)\sim_R\mu_S(A_B),\qquad \mu_X(C)\sim_R\mu_S(A_C).
+$$
+By symmetry of the $\RealUp$ classifier, the first comparison also reads $\mu_S(A_B)\sim_R\mu_X(B)$. Transport the left endpoint of the source order comparison across this classifier equality, and then transport the right endpoint across $\mu_S(A_C)\sim_R\mu_X(C)$ using stability of the RealAlgOrder order row. The resulting comparison is
+$$
+\mu_X(B)\le_R\mu_X(C).
+$$
+\end{proof}
