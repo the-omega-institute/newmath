@@ -46,6 +46,41 @@ theorem MatchingEdgeSet_finite_subset_closed
                   bundleRow inNE'
                 exact incidentRow (subsetRow inNE) (subsetRow inNE') vertV incVE incVE'
 
+theorem MatchingEdgeSet_compatible_union_closed
+    {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
+    {M N : BHist -> Prop} :
+    MatchingEdgeSet Vert Edge Inc EdgeRel M ->
+      MatchingEdgeSet Vert Edge Inc EdgeRel N ->
+        (forall {e e' v : BHist}, ((M e ∧ N e') ∨ (N e ∧ M e')) -> Vert v ->
+          Inc v e -> Inc v e' -> EdgeRel e e') ->
+          MatchingEdgeSet Vert Edge Inc EdgeRel (fun e : BHist => M e ∨ N e) := by
+  intro matchingM matchingN crossCompatible
+  cases matchingM with
+  | intro edgeM incidentM =>
+      cases matchingN with
+      | intro edgeN incidentN =>
+          constructor
+          · intro e selected
+            cases selected with
+            | inl inM =>
+                exact edgeM inM
+            | inr inN =>
+                exact edgeN inN
+          · intro e e' v selectedE selectedE' vertV incVE incVE'
+            cases selectedE with
+            | inl inME =>
+                cases selectedE' with
+                | inl inME' =>
+                    exact incidentM inME inME' vertV incVE incVE'
+                | inr inNE' =>
+                    exact crossCompatible (Or.inl (And.intro inME inNE')) vertV incVE incVE'
+            | inr inNE =>
+                cases selectedE' with
+                | inl inME' =>
+                    exact crossCompatible (Or.inr (And.intro inNE inME')) vertV incVE incVE'
+                | inr inNE' =>
+                    exact incidentN inNE inNE' vertV incVE incVE'
+
 theorem MatchingEdgeSet_e0_empty_absurd_predicate
     {Vert Edge : BHist -> Prop} {Inc : BHist -> BHist -> Prop}
     {EdgeRel : BHist -> BHist -> Prop} :
