@@ -18,6 +18,13 @@ def RootSystemFiniteSupportCarrier
     (h : BHist) : Prop :=
   InBundle h support ∧ Vector h ∧ Nonzero h
 
+theorem RootSystemFiniteSupportCarrier_project_rows
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop} {h : BHist} :
+    RootSystemFiniteSupportCarrier support Vector Nonzero h ->
+      InBundle h support ∧ Vector h ∧ Nonzero h := by
+  intro carrierH
+  exact And.intro carrierH.left (And.intro carrierH.right.left carrierH.right.right)
+
 def RootSystemFiniteSupportClassifier
     (support : ProbeBundle BHist)
     (VectorClassifier : BHist -> BHist -> Prop)
