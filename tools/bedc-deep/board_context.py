@@ -12,6 +12,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+import board_archive
 from dispatch_bedc_target import BOARD_PATH, SCRIPT_DIR, BedcTarget, parse_board
 
 
@@ -119,23 +120,22 @@ def build_board_prompt_context(
 ) -> str:
     """Return a compact BOARD view for discovery / refill / judge prompts."""
 
-    if not BOARD_PATH.exists():
+    active_targets = list(parse_board().values()) if BOARD_PATH.exists() else []
+    archived_targets = list(board_archive.parse_board_file(board_archive.COMPLETED_BOARD_PATH).values())
+    all_targets = active_targets + archived_targets
+    if not all_targets:
         return "(empty BOARD)"
 
-    targets = list(parse_board().values())
-    if not targets:
-        return "(empty BOARD)"
-
-    states = {t.target_id: _target_state(t) for t in targets}
-    active = [t for t in targets if states[t.target_id] != "completed"]
-    completed = [t for t in targets if states[t.target_id] == "completed"]
+    states = {t.target_id: _target_state(t) for t in active_targets}
+    active = [t for t in active_targets if states[t.target_id] != "completed"]
+    completed = [t for t in active_targets if states[t.target_id] == "completed"] + archived_targets
     recent_completed = list(reversed(completed))[:recent_completed_limit]
 
     lines: list[str] = [
         "BOARD compact context.",
         "Completion is state-file based; completed task bodies are not repeated here.",
         (
-            f"Counts: total={len(targets)} active={len(active)} "
+            f"Counts: total={len(all_targets)} active={len(active)} "
             f"completed={len(completed)} pending={sum(1 for t in active if states[t.target_id] == 'pending')} "
             f"in_progress={sum(1 for t in active if states[t.target_id] == 'in_progress')} "
             f"oracle_pending={sum(1 for t in active if states[t.target_id] == 'oracle_pending')}"
@@ -160,7 +160,13 @@ def build_board_prompt_context(
         lines.append("(none)")
 
     lines.extend(["", "## Existing BOARD title index"])
-    for target in reversed(targets):
+    def _target_num(target: BedcTarget) -> int:
+        try:
+            return int(target.target_id.split("-")[1])
+        except (IndexError, ValueError):
+            return -1
+
+    for target in sorted(all_targets, key=_target_num, reverse=True):
         lines.append(f"- {target.target_id} {target.title}")
 
     return _fit_to_limit(lines, max_chars)

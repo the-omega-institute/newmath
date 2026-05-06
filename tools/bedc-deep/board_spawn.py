@@ -32,6 +32,7 @@ from typing import Optional
 from dispatch_bedc_target import SCRIPT_DIR, REPO_ROOT, BOARD_PATH
 from locks import file_lock
 import codex_orchestrator
+import board_archive
 import board_context
 
 
@@ -191,16 +192,11 @@ def _codex_json_fallback(
 
 def _existing_board_titles() -> set[str]:
     """Lowercased existing target titles for dedup."""
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    titles: set[str] = set()
-    for m in re.finditer(r"^### (B-\d+)\s+-\s+(.+)$", text, flags=re.MULTILINE):
-        titles.add(m.group(2).strip().lower())
-    return titles
+    return board_archive.existing_target_titles(include_archive=True)
 
 
 def _existing_board_ids() -> list[str]:
-    text = BOARD_PATH.read_text(encoding="utf-8")
-    return re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+    return board_archive.existing_target_ids(include_archive=True)
 
 
 def _next_target_id(also_accepted: list[str]) -> str:

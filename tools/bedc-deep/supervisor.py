@@ -162,6 +162,12 @@ def stale_cleanup() -> int:
     return cleanup_stale_claims()
 
 
+def board_archive_completed() -> int:
+    import board_archive
+    result = board_archive.prune_completed_board()
+    return result.moved
+
+
 def crash_retry_sweep() -> int:
     from lifecycle import reset_retriable
     return reset_retriable()
@@ -631,7 +637,12 @@ def commit_and_push_if_changed() -> bool:
     # working tree.
     from locks import file_lock
     with file_lock("paper_writes"):
-        diff = _git(["status", "--porcelain", "papers/bedc/parts", "tools/bedc-deep/BOARD.md"])
+        diff = _git([
+            "status", "--porcelain",
+            "papers/bedc/parts",
+            "tools/bedc-deep/BOARD.md",
+            "tools/bedc-deep/BOARD.completed.md",
+        ])
         if not diff.stdout.strip():
             return False
         files: list[str] = []
@@ -819,6 +830,10 @@ def main() -> int:
             cleaned = stale_cleanup()
             if cleaned:
                 supervisor_log(f"cleaned {cleaned} stale claims")
+
+            archived = board_archive_completed()
+            if archived:
+                supervisor_log(f"archived {archived} completed BOARD entries")
 
             retried = crash_retry_sweep()
             if retried:
