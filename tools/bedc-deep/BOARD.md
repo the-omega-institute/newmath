@@ -188,3 +188,77 @@ This is a concrete, one-shot implication that is not marker-only and sits in exi
 
 ---
 
+### B-500 - causal dependence implies positive max-rate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | causal dependence implies positive max-rate |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If CrossHistCausal(h_a, h_b, k), then max_causal_rate(h_a, h_b, k) > 0.
+
+Local inputs:
+- `papers/bedc/parts/capstones/inter_hist_locality.tex`
+
+Rationale:
+The local capstone has schema-only definitions for CrossHistCausal and MaxCausalRate but no closed implication connecting dependence to a strictly positive rate. This is a direct closure target aligned with the multi-Hist causal chain and upgrades the roadmap into a concrete obstruction/coverage theorem rather than prose.
+
+---
+
+
+### B-501 - zero max-rate forbids causal dependence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | zero max-rate forbids causal dependence |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If max_causal_rate(h_a, h_b, k) = 0, then not CrossHistCausal(h_a, h_b, k).
+
+Local inputs:
+- `papers/bedc/parts/capstones/inter_hist_locality.tex`
+
+Rationale:
+Although nearby schema-only statements discuss degeneracy/triviality, no formal contrapositive is present as a theorem. This gives a concrete negative-direction lemma useful for contradiction/falsification surfaces and is distinct from mere observer-symmetric constancy claims.
+
+---
+
+
+### B-502 - unary seed yields finite-prefix derived interface
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | unary seed yields finite-prefix derived interface |
+| Layer | proof_sprint |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 9/10 |
+
+Problem:
+For unary history h with a nonempty unary right-tail condition, every finite prefix p of h determines a first-derived interface instance, and such instances are unique up to hsame.
+
+Local inputs:
+- `papers/bedc/parts/proof_sprint/10_first_derived_interface_seeds.tex`
+
+Rationale:
+Current proof-sprint text explicitly records only a seed-level guarantee and explicitly notes that full arithmetic reconstruction is not yet closed. This candidate turns the hinted constructive gap into a concrete existence+uniqueness closure target directly on the existing unary-prefix machinery, without duplicating known unary-tail or seed facts.
+
+---
+
