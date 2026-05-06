@@ -11014,3 +11014,27 @@ The measure surface contains general relative-difference rows and the zero BHist
 
 ---
 
+### B-421 - ConvexSet finite intersection closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | ConvexSet finite intersection closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under shared FieldUp and VecSpaceUp data, if every member of a finite family is a ConvexSetUp carrier satisfying the binary affine-combination row, then their pointwise finite intersection also satisfies the binary affine-combination row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances`
+
+Rationale:
+This is a concrete closure theorem in the existing ConvexSetUp surface, not a marker or verification-axis item. Existing labels define the intersection carrier and affine-combination row, but the proposed target is the proof that finite intersections preserve that row, which is distinct enough to deserve one BOARD slot. The two proposed titles are duplicates, so only the clearer finite-family formulation is retained.
+
+---
+
