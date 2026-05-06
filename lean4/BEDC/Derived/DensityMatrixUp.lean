@@ -46,4 +46,14 @@ theorem DensityMatrixAffineMixtureSpine_binary_convex_closure
   exact And.intro outDensity
     (DensityMatrixAffineMixtureSpine.mix rhoSpine sigmaSpine route)
 
+theorem DensityMatrixAffineMixtureSpine_unary_endpoint
+    {density : BHist -> Prop} {rho : BHist} :
+    DensityMatrixAffineMixtureSpine density rho -> UnaryHistory rho := by
+  intro spine
+  induction spine with
+  | atom _ rhoUnary =>
+      exact rhoUnary
+  | mix _ _ route leftUnary rightUnary =>
+      exact unary_cont_closed leftUnary rightUnary route
+
 end BEDC.Derived.DensityMatrixUp

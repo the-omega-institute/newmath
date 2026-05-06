@@ -90,4 +90,45 @@ theorem BHistFiniteBaseNeighborhood_bundleAppend_carries_intersection
   · intro openMeet
     exact Iff.mpr appendSplit (Iff.mpr meetCarries openMeet)
 
+theorem BHistUnaryTopologyDepsReady_obligation_package (T : BHistIndexedOpenCarrier)
+    {i j : T.OpenIx} {U V : BHist -> Prop} :
+    BHistUnaryTopologyLedgerRow T i U -> BHistUnaryTopologyLedgerRow T j V ->
+      (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (U x <-> U y)) ∧
+        BHistCarriesOpen T (T.meet i j) (fun x : BHist => U x ∧ V x) ∧
+          (exists ledger : BHist, UnaryHistory ledger) := by
+  intro rowU rowV
+  have transportU :
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (U x <-> U y) :=
+    BHistUnaryTopologyLedgerRow_classifier_transport T rowU
+  have carriesU : BHistCarriesOpen T i U := by
+    cases rowU with
+    | singletonMetricBall _ _ carries => exact carries
+    | finiteListIntersection _ _ carries => exact carries
+    | binaryGeneratedMeet _ _ carries => exact carries
+    | arbitraryUnion _ _ carries => exact carries
+    | bottom _ _ carries => exact carries
+    | top _ _ carries => exact carries
+  have carriesV : BHistCarriesOpen T j V := by
+    cases rowV with
+    | singletonMetricBall _ _ carries => exact carries
+    | finiteListIntersection _ _ carries => exact carries
+    | binaryGeneratedMeet _ _ carries => exact carries
+    | arbitraryUnion _ _ carries => exact carries
+    | bottom _ _ carries => exact carries
+    | top _ _ carries => exact carries
+  have meetClosure :
+      BHistCarriesOpen T (T.meet i j) (fun x : BHist => U x ∧ V x) :=
+    (BHistIndexedOpen_finite_intersection_closure T carriesU carriesV).left
+  have ledgerWitness : exists ledger : BHist, UnaryHistory ledger := by
+    cases rowU with
+    | singletonMetricBall ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | finiteListIntersection ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | binaryGeneratedMeet ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | arbitraryUnion ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | bottom ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+    | top ledger unaryLedger _ => exact Exists.intro ledger unaryLedger
+  exact And.intro transportU (And.intro meetClosure ledgerWitness)
+
 end BEDC.Derived.TopologyUp
