@@ -11279,3 +11279,28 @@ The claim is a concrete categorical law for the existing DerivedCatUp localizati
 
 ---
 
+### B-431 - RealAnalytic cosine addition formula row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | RealAnalytic cosine addition formula row |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If z is the RealAlgOrder endpoint for x+y and the supplied trigonometric limit witnesses, RealAlgOrder product/difference rows, product-stability rows, even-parity regular-rational Cauchy-product comparison, and limit-uniqueness classifier rows are present, then RealClassifier(c_z, c_x*c_y - s_x*s_y) for Cos(z,c_z), Cos(x,c_x), Cos(y,c_y), Sin(x,s_x), and Sin(y,s_y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/real/13_real_alg_order_interface.tex`
+
+Rationale:
+This is a concrete theorem-row target in the existing RealAnalyticUp surface. The paper already has the sine addition row and later assumes both sine and cosine addition-formula rows, but the cosine counterpart is not present as its own labeled theorem. It is not a marker, closurestatus, or abstract transport echo, and the landing file is a non-hub concrete_instances file well below the line cap. The two codex proposals are the same target, with the accepted wording using the sharper even-parity Cauchy-product comparison.
+
+---
+
