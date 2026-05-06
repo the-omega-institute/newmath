@@ -1,0 +1,85 @@
+\begin{theorem}[Sheaf NameCert carrier obligation]
+\label{thm:sheaf-namecert-carrier-obligation}
+Every indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$ determines the carrier-facing rows required by the $\NameCert_{\SheafUp}$ template. The rows are fixed as follows.
+\begin{enumerate}
+\item The traditional target is sheaf-theoretic section data over open covers.
+\item The BEDC source is the presheaf restriction source of $\PreSheafUp$ together with the indexed-open source of $\TopologyUp$.
+\item The carrier is the indexed section presheaf of \autoref{def:sheaf-indexed-section-presheaf-carrier}, equipped with the locality and gluing fields of \autoref{def:sheaf-indexed-cover-compatibility-locality}.
+\item The classifier row is the family of section classifiers $\sim_i$.
+\item The stability row is supplied by the restriction identity, restriction composition, restriction classifier-stability, and classifier-equivalence fields.
+\item The ledger is the displayed data of covers, intersections, inclusion witnesses, and restriction maps.
+\item The exactness row is visible cover-local readback: compatible local sections glue to a global section and locality identifies any two global readbacks with the same cover restrictions.
+\item The standard bridge row is absent; this certificate surface records the BEDC sheaf interface without claiming an external set-theoretic sheaf bridge.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unpack the indexed sheaf carrier. Its presheaf part is exactly the tuple $\mathcal{P}=(\mathsf{Sec},\sim,\rho,\mathsf{Eqv},\mathsf{Id},\mathsf{Comp},\mathsf{Res})$ of \autoref{def:sheaf-indexed-section-presheaf-carrier}, so the carrier, classifier, and restriction-stability rows are not extra data: they are the displayed section carriers, displayed section classifiers, and the identity, composition, equivalence, and restriction classifier-stability fields.
+
+Unpack the cover part. The topology side contributes open indices, inclusions, and finite-intersection witnesses by \autoref{def:topology-indexed-open-carrier}; the presheaf side contributes contravariant restriction scope by \autoref{ch:concrete-instances-presheaf-namecert}. The remaining sheaf fields in \autoref{def:sheaf-indexed-cover-compatibility-locality} are precisely locality and gluing over those covers, which give the visible cover-local readback row and leave no separate standard-bridge row to construct.
+\end{proof}
+
+\begin{theorem}[Sheaf restriction stability obligation]
+\label{thm:sheaf-restriction-stability-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. For inclusions $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$, restriction identity and restriction composition keep every section row inside the displayed classifier family. Explicitly, for $s:\mathsf{Sec}(i)$ one has
+$$
+\rho_{i,i}(s)\sim_i s
+$$
+and
+$$
+\rho_{j,k}(\rho_{i,j}(s))\sim_k\rho_{i,k}(s).
+$$
+When $k$ is an indexed intersection supplied by the finite-intersection field of \autoref{def:topology-indexed-open-carrier}, the same restriction-composition statement applies to the two induced inclusion chains, so cover restrictions remain stable under the topology intersection witnesses.
+\end{theorem}
+\begin{proof}
+The first displayed relation is the identity field of the indexed section presheaf carrier in \autoref{def:sheaf-indexed-section-presheaf-carrier}. The second displayed relation is the composition field for the chain $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$. Both conclusions land in the classifier specified by the target open index, namely $\sim_i$ for identity and $\sim_k$ for composition.
+
+For the intersection case, use \autoref{def:topology-indexed-open-carrier} to obtain the open-index intersection and its two projection inclusions. Combining either projection with a cover inclusion gives one of the admissible chains governed by the contravariant restriction interface of \autoref{ch:concrete-instances-presheaf-namecert}. Applying the same composition field to those chains gives stability on every displayed intersection row.
+\end{proof}
+
+\begin{theorem}[Sheaf locality and gluing NameCert obligation]
+\label{thm:sheaf-locality-gluing-namecert-obligation}
+For an indexed sheaf carrier $\mathcal{S}$ for $\SheafUp$, the locality and gluing fields supply the certificate rows consumed by \autoref{thm:sheaf-gluing-uniqueness-from-locality}, \autoref{thm:sheaf-global-restrictions-compatible-local-family}, and \autoref{cor:sheaf-gluing-global-restrictions-idempotent}. Namely, every compatible local family over an indexed open cover has a global readback section, and locality identifies any two global sections whose restrictions agree on every cover member.
+\end{theorem}
+\begin{proof}
+Fix an indexed cover $\mathcal{U}=(A,\iota,h,\gamma)$ of $i$ and a compatible family $s_a:\mathsf{Sec}(\iota(a))$. The cover and compatibility predicates are those of \autoref{def:sheaf-indexed-cover-compatibility-locality}; their intersection clauses are meaningful because \autoref{def:topology-indexed-open-carrier} supplies finite-intersection witnesses, and their restriction clauses live in the contravariant presheaf scope of \autoref{ch:concrete-instances-presheaf-namecert}.
+
+Apply the gluing field to obtain a section $g:\mathsf{Sec}(i)$ whose restrictions classify as the family $s_a$. Apply the locality field to any pair of such global sections whose memberwise restrictions agree; this is exactly the premise used by \autoref{thm:sheaf-gluing-uniqueness-from-locality}. The compatibility theorem uses the same restriction-composition row on intersections, and the idempotence corollary repacks gluing plus uniqueness for the local family obtained from one global section.
+\end{proof}
+
+\begin{theorem}[SheafUp BHist obligation surface]
+\label{thm:sheaf-bhist-obligation-surface}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ whose point carrier is $\mathsf{BHist}$, with classifier $\hsame$, membership row $\mathsf{OpenAt}$, and finite-intersection index $\wedge_{\TopologyUp}$. Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over $\mathcal{T}$ in the sense of \autoref{def:sheaf-indexed-section-presheaf-carrier} and \autoref{def:sheaf-indexed-cover-compatibility-locality}. Then $\mathcal{S}$ supplies the $\SheafUp$ carrier, section classifiers, restriction maps, restriction identity, restriction composition, indexed-cover rows, compatibility predicate, locality field, gluing field, and visible $\mathsf{BHist}$ ledger rows required by the paper-side $\NameCert_{\SheafUp}$ obligation surface. The exposed data depend only on $\NameCert_{\PreSheafUp}$, $\NameCert_{\TopologyUp}$, the row $\mathsf{OpenAt}$, the finite-intersection rows of $\mathcal{T}$, and the classifier-equivalence fields on the section carriers.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier rows from the indexed section presheaf carrier. For each open index $i$, the section carrier $\mathsf{Sec}(i)$ and classifier $\sim_i$ are visible, and the equivalence field supplies the reflexive, symmetric, and transitive classifier rules required by the certificate surface.
+
+Project the restriction rows from the same tuple. The identity and composition fields are exactly the $\PreSheafUp$ restriction identity and restriction composition obligations, with inclusions interpreted through the indexed-open preorder $j\le_{\mathcal{T}}i$ defined by $\mathsf{OpenAt}$. The finite-intersection row of $\mathcal{T}$ supplies the common target index used in compatibility checks.
+
+Finally project the cover, compatibility, locality, and gluing rows from \autoref{def:sheaf-indexed-cover-compatibility-locality}. The visible ledger is $\mathsf{BHist}$-scoped because every open membership and every inclusion witness is expressed by $\mathsf{OpenAt}$ on $\mathsf{BHist}$, and no host powerset equality is part of the exposed surface.
+\end{proof}
+
+\begin{theorem}[SheafUp restriction hsame transport obligation]
+\label{thm:sheaf-restriction-hsame-transport-obligation}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over a $\mathsf{BHist}$-scoped indexed open topology carrier $\mathcal{T}$. Suppose a second displayed carrier is obtained by componentwise $\hsame$ transport of the topology row $\mathsf{OpenAt}$, the section carriers and classifiers, the restriction maps, and the indexed-cover rows. Then restriction compatibility, locality, and gluing for $\mathcal{S}$ transport to the displayed carrier. In particular, a compatible family remains compatible after transport, a locality hypothesis on transported restrictions yields transported classifier equality of global sections, and a gluing witness transports to a gluing witness for the transported local family.
+\end{theorem}
+\begin{proof}
+Transport the topology row first. The $\TopologyUp$ membership-stability field moves each occurrence of $\mathsf{OpenAt}(i,h)$ across the displayed $\hsame$ witness, so the inclusion witnesses $j\le_{\mathcal{T}}i$ and the cover law for $\mathcal{U}=(A,\iota,\eta,\gamma)$ remain valid after transport.
+
+Next transport the section rows. The componentwise transport hypothesis identifies each section carrier, classifier, and restriction map with its transported counterpart. Compatibility is a conjunction of classifier equalities after restricting to the finite-intersection index, so it follows by applying the transported restriction rows and then reading the section classifier equivalence fields in the transported carrier.
+
+For locality, begin with transported agreement of two global sections on every cover member. Move that agreement back along the componentwise classifier transport, apply the locality field of $\mathcal{S}$, and transport the resulting global classifier equality forward. For gluing, transport the compatible family back, apply the gluing field of $\mathcal{S}$ to obtain a global section, and transport that witness and its restriction equalities forward.
+\end{proof}
+
+\begin{theorem}[SheafUp cover gluing NameCert export]
+\label{thm:sheaf-cover-gluing-namecert-export}
+The $\mathsf{BHist}$-scoped surface of \autoref{thm:sheaf-bhist-obligation-surface}, together with the transport obligation of \autoref{thm:sheaf-restriction-hsame-transport-obligation}, the uniqueness theorem \autoref{thm:sheaf-gluing-uniqueness-from-locality}, and the global-restriction compatibility theorem \autoref{thm:sheaf-global-restrictions-compatible-local-family}, assembles the paper-side $\NameCert_{\SheafUp}$ obligation surface consumed by $\RingedSpaceUp$ and $\SchemeUp$. The exported surface provides sheaf carrier data, restriction coherence, cover compatibility, locality, gluing, uniqueness up to section classifier equality, and compatibility of restrictions of global sections; it claims no standard bridge and no external powerset equality.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:sheaf-bhist-obligation-surface}. It supplies the carrier, classifier, restriction, cover, compatibility, locality, gluing, and visible ledger rows over $\mathsf{BHist}$, all routed through $\NameCert_{\PreSheafUp}$ and $\NameCert_{\TopologyUp}$.
+
+Use \autoref{thm:sheaf-restriction-hsame-transport-obligation} to make those rows stable under the componentwise $\hsame$ transports seen by downstream chapters. This gives $\RingedSpaceUp$ and $\SchemeUp$ a transport discipline for topology membership through $\mathsf{OpenAt}$ and for section equality through the displayed section classifiers.
+
+The gluing consequences are then the two local theorems already present in the chapter. Apply \autoref{thm:sheaf-gluing-uniqueness-from-locality} for uniqueness of a glued global section up to the section classifier, and apply \autoref{thm:sheaf-global-restrictions-compatible-local-family} for compatibility of the local family obtained by restricting a global section.
+
+Combining these rows gives exactly the paper-side $\NameCert_{\SheafUp}$ obligation surface needed by the dependent ringed-space and scheme certificates. Since every cited row stays inside indexed opens, $\mathsf{OpenAt}$, $\hsame$, and section classifiers, the package contains neither a standard sheaf bridge nor an equality of host powersets.
+\end{proof}
