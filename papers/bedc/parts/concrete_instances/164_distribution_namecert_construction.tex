@@ -280,6 +280,7 @@ $$
 \mathsf{NonNeg}_R(\mu_X(B)).
 $$
 \end{proof}
+\leanchecked{BEDC.Derived.DistributionUp.DistributionPushforward\_nonnegative\_value\_inheritance}
 
 \begin{theorem}[Distribution pushforward monotone under target inclusion]
 \label{thm:distribution-pushforward-monotone-under-target-inclusion}
@@ -457,6 +458,50 @@ $$
 $$
 \end{proof}
 
+\begin{theorem}[Distribution pushforward probability bounds]
+\label{thm:distribution-pushforward-probability-bounds}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a $\MeasureUp$ target as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, $\Omega_S$ and $\Omega_T$ for the source and target total events, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure as in \autoref{sec:distribution-carrier}, $1_R$ for the probability unit, $x\sim_R y$ for the $\RealUp$ classifier of \autoref{def:real-classifier-specification}, $\mathsf{NonNeg}_R$ for the nonnegative predicate exposed by the shared $\RealAlgOrder$ row, and $\le_R$ for its order relation. Let $B$ be a target event with $B\in\mathcal{A}_T$, and suppose the public target readback displays $B\subseteq\Omega_T$. Define
+$$
+B_S:=X^{-1}(B).
+$$
+Suppose:
+\begin{itemize}
+\item the hypotheses of \autoref{thm:distribution-nonnegative-value-inheritance} hold for the target event $B$, so the source preimage $B_S$ is measurable and the pushforward row compares $\mu_X(B)$ with $\mu_S(B_S)$;
+\item the hypotheses of \autoref{thm:distribution-pushforward-monotone-events} hold for the displayed inclusion $B\subseteq\Omega_T$, with $A:=\Omega_T$ as ambient target event;
+\item $\Omega_S\in\mathcal{A}_S$, $\Omega_T\in\mathcal{A}_T$, the $\RandomVarUp$ total-preimage row identifies $X^{-1}(\Omega_T)=\Omega_S$, and the $\ProbSpaceUp$ total-mass row gives $\mu_S(\Omega_S)\sim_R1_R$, so the hypotheses of \autoref{thm:distribution-pushforward-total-mass-unit} hold at $\Omega_T$;
+\item the target $\RealAlgOrder$ order row on $\RealUp$ is stable under $\sim_R$ on the right endpoint.
+\end{itemize}
+Then both probability bounds hold:
+$$
+\mathsf{NonNeg}_R(\mu_X(B))
+$$
+and
+$$
+\mu_X(B)\le_R1_R.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:distribution-nonnegative-value-inheritance} to the target measurable event $B$. Its source-preimage, pushforward-comparison, source nonnegative-measure, and $\RealAlgOrder$ stability hypotheses are exactly the first group of displayed assumptions, so it gives the lower endpoint
+$$
+\mathsf{NonNeg}_R(\mu_X(B)).
+$$
+
+Next apply \autoref{thm:distribution-pushforward-monotone-events} to the inclusion $B\subseteq\Omega_T$. With the ambient event specialized to $A:=\Omega_T$, the monotonicity row gives
+$$
+\mu_X(B)\le_R\mu_X(\Omega_T).
+$$
+
+Apply \autoref{thm:distribution-pushforward-total-mass-unit} to the same carried map and the target total event $\Omega_T$. The total-preimage and source total-mass assumptions classify the right endpoint by the probability unit:
+$$
+\mu_X(\Omega_T)\sim_R1_R.
+$$
+
+Finally transport the right endpoint of $\mu_X(B)\le_R\mu_X(\Omega_T)$ across this $\RealUp$ classifier comparison using the right-endpoint stability field of the target $\RealAlgOrder$ row. The transported comparison is
+$$
+\mu_X(B)\le_R1_R.
+$$
+\end{proof}
+
 \begin{theorem}[Distribution pushforward countable disjoint-union sigma-additivity]
 \label{thm:distribution-pushforward-countable-disjoint-sigma-additivity}
 Let $X:S\to T$ be a carried $\RandomVarUp$ map from a $\ProbSpaceUp$ source to a $\MeasureUp$ target. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, $\mu_S$ for the source measure, $\mu_X$ for the $\DistributionUp$ pushforward measure, $E\simeq_S F$ for the source event classifier, and $x\sim_R y$ for the $\RealUp$ classifier.
@@ -626,12 +671,14 @@ $$
 \begin{theorem}[Distribution pushforward probability package]\label{thm:distribution-pushforward-borel-probability-package}
 Let $X:S\to T$ be a carried $\RandomVarUp$ map as in $\autoref{sec:randomvar-carrier}$, from a $\ProbSpaceUp$ source as in $\autoref{sec:probspace-carrier}$ to a target $\MeasureUp$ carrier as in $\autoref{sec:measure-carrier}$. Write $\mathcal A_T$ for the target measurable-event family, $\mu_X$ for the $\DistributionUp$ pushforward row on target events, $0_R$ and $1_R$ for the distinguished $\RealUp$ endpoints, and $\sim_R$ for the $\RealUp$ classifier.
 
+Assume that the hypotheses of $\autoref{thm:distribution-pushforward-total-mass-unit}$, $\autoref{thm:distribution-empty-target-event-zero-mass}$, $\autoref{thm:distribution-nonnegative-value-inheritance}$, $\autoref{thm:distribution-pushforward-monotone-events}$, $\autoref{thm:distribution-pushforward-finite-disjoint-union-additivity}$, $\autoref{thm:distribution-pushforward-relative-difference-additivity}$, $\autoref{thm:distribution-pushforward-countable-disjoint-sigma-additivity}$, and $\autoref{thm:distribution-pushforward-continuity-from-below}$ are all satisfied for this same displayed pushforward surface.
+
 Then $\mu_X$ is a probability-measure package on the target event surface: $\mu_X(T)\sim_R 1_R$; $\mu_X(\varnothing_T)\sim_R 0_R$; every $B\in\mathcal A_T$ has nonnegative $\RealUp$ endpoint; target inclusion is monotone; finite disjoint binary unions are additive; relative differences decompose additively; countable disjoint unions are sigma-additive; and increasing countable unions satisfy continuity from below.
 \end{theorem}
 \begin{proof}
-The unit row is exactly $\autoref{thm:distribution-pushforward-total-mass-unit}$, and the empty-event row is $\autoref{thm:distribution-empty-target-event-zero-mass}$. Nonnegativity of every target measurable value is inherited from the source by $\autoref{thm:distribution-nonnegative-value-inheritance}$.
+Under the simultaneous hypotheses, the unit row is the row supplied by $\autoref{thm:distribution-pushforward-total-mass-unit}$, and the empty-event row is supplied by $\autoref{thm:distribution-empty-target-event-zero-mass}$. Nonnegativity of every target measurable value is the component row from $\autoref{thm:distribution-nonnegative-value-inheritance}$.
 
-The order-sensitive rows are already carried on the target surface. Monotonicity follows from $\autoref{thm:distribution-pushforward-monotone-events}$, finite disjoint binary additivity from $\autoref{thm:distribution-pushforward-finite-disjoint-union-additivity}$, and relative-difference additivity from $\autoref{thm:distribution-pushforward-relative-difference-additivity}$.
+The order-sensitive rows are also part of the assumed component surface. Monotonicity is the row of $\autoref{thm:distribution-pushforward-monotone-events}$, finite disjoint binary additivity is the row of $\autoref{thm:distribution-pushforward-finite-disjoint-union-additivity}$, and relative-difference additivity is the row of $\autoref{thm:distribution-pushforward-relative-difference-additivity}$.
 
-For countable structure, use $\autoref{thm:distribution-pushforward-countable-disjoint-sigma-additivity}$ for disjoint target families and $\autoref{thm:distribution-pushforward-continuity-from-below}$ for increasing target families. These eight rows have the same carried map $X$, the same target event family $\mathcal A_T$, and the same displayed pushforward row $\mu_X$, so collecting them gives the announced probability-measure package on the target event surface.
+For countable structure, the assumed surface includes $\autoref{thm:distribution-pushforward-countable-disjoint-sigma-additivity}$ for disjoint target families and $\autoref{thm:distribution-pushforward-continuity-from-below}$ for increasing target families. These eight rows have the same carried map $X$, the same target event family $\mathcal A_T$, and the same displayed pushforward row $\mu_X$, so collecting the assumed component rows gives the announced probability-measure package on the target event surface.
 \end{proof}
