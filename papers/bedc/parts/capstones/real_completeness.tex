@@ -191,6 +191,47 @@ ledger hidden rational seed plus anchor and bound; core theorem
 exactness the displayed equivalence; standard bridge constant rational real
 names; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Stationary rational diagonal finite-window classifier correspondence]
+\label{thm:real-completeness-stationary-diagonal-window-classifier-correspondence}
+For RatUp histories $d,e:\Hist$ with $\mathsf{RatHistoryCarrier}(d)$ and
+$\mathsf{RatHistoryCarrier}(e)$, and for unary window endpoints $a,w:\Hist$
+with $\mathsf{UnaryHistory}(a)$ and $\mathsf{UnaryHistory}(w)$, let $X_d$ and
+$X_e$ be the stationary rational regular Cauchy inputs of
+\autoref{def:real-completeness-stationary-rational-cauchy}, and let $L_d$ and
+$L_e$ be their diagonal representatives from
+\autoref{def:real-completeness-diagonal-limit}. Then the stationary diagonal
+RealUp classifier, the finite-window classifier on the constant rational
+streams, and the RatUp seed classifier are equivalent:
+$$
+\mathsf{RealClassifier}(L_d,L_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealUnaryStreamWindowClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e,a,w)
+\quad\Longleftrightarrow\quad
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+\end{theorem}
+
+\begin{proof}[Sketch]
+First apply
+\autoref{thm:real-completeness-stationary-embedding-classifier-full-correspondence}
+to the displayed stationary inputs. This identifies
+$\mathsf{RealClassifier}(L_d,L_e)$ exactly with the seed classifier
+$\mathsf{RatHistoryClassifier}(d,e)$.
+
+Next apply
+\autoref{thm:real-completeness-stationary-rational-finite-window-bridge} with
+the same seeds and unary endpoints. Its RatUp-to-StreamNameUp row and
+StreamNameUp-to-window row identify
+$\mathsf{RealUnaryStreamWindowClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e,a,w)$
+with the same seed classifier.
+
+Both displayed identifications land on
+$\mathsf{RatHistoryClassifier}(d,e)$. Composing the first identification with
+the inverse of the second gives the RealUp-to-window equivalence, while each
+classifier also remains equivalent to the common RatUp seed classifier. This
+assembles the stated three-way correspondence.
+\end{proof}
+
 \begin{theorem}[Stationary rational selected tail seed exactness]
 \label{thm:real-completeness-stationary-rational-selected-tail-seed-exactness}
 For histories $d,e,a,w,k,d_0,e_0:\Hist$, assume
