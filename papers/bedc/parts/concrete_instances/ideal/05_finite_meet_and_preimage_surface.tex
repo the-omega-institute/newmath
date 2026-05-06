@@ -170,3 +170,41 @@ $$
 
 Pair the first transported membership with $C(r\cdot_R x)$ and $C(r\cdot_R y)$ to obtain $Q_I(r\cdot_R x,r\cdot_R y)$. Pair the second transported membership with $C(x\cdot_R r)$ and $C(y\cdot_R r)$ to obtain $Q_I(x\cdot_R r,y\cdot_R r)$. These two witnesses are exactly the claimed ambient left and right multiplication closure for the ideal quotient-kernel relation.
 \end{proof}
+
+\begin{theorem}[Ideal finite meet, sum, and preimage lattice surface]
+\label{thm:ideal-finite-meet-sum-preimage-lattice-surface}
+Let $R$ carry a $\RingUp$ certificate over $\mathsf{BHist}$ with carrier $C_R$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $\mathcal{I}$ be a finite family of $\IdealUp$ predicates over $R$, and let $I$ and $J$ be $\IdealUp$ predicates over the same ambient ring. Let $S$ be another $\RingUp$ certificate over $\mathsf{BHist}$, and let $f:S\to R$ satisfy the carrier, classifier, zero, addition, inverse, and multiplication preservation rows required in \autoref{thm:ring-map-ideal-preimage-ideal-closure}. Then the predicates
+$$
+\mathsf{FinIdealMeet}_{C_R,xs,\mathcal{I}},\qquad
+I+_RJ,\qquad
+\mathsf{Preim}^{\mathrm{ideal}}_{f,J}
+$$
+are $\IdealUp$ predicates over their ambient source rings: the finite meet and sum over $R$, and the preimage over $S$. For each resulting predicate $K$ with ambient carrier $C$, classifier $\sim$, addition $+$, inverse $-$, zero $0$, and multiplication $\cdot$, write $x-y$ for $x+(-y)$ and define the quotient-kernel package
+$$
+Q_K(x,y)\Longleftrightarrow C(x)\land C(y)\land K(x-y)
+$$
+Then $Q_K$ has the quotient-free surface consumed by $\QuotientRingUp$:
+$$
+C(x)\Longrightarrow Q_K(x,x),
+$$
+$$
+Q_K(x,y)\land x\sim x'\land y\sim y'\Longrightarrow Q_K(x',y'),
+$$
+and, for every carried ambient endpoint $r$,
+$$
+C(r)\land Q_K(x,y)
+\Longrightarrow
+Q_K(r\cdot x,r\cdot y)\land Q_K(x\cdot r,y\cdot r).
+$$
+\end{theorem}
+\begin{proof}
+For the finite meet branch, \autoref{thm:finite-ideal-intersection-closure} gives the $\IdealUp$ rows for $\mathsf{FinIdealMeet}_{C_R,xs,\mathcal{I}}$. The quotient-kernel package for that predicate is then the same package used by arbitrary $\IdealUp$ predicates, so its diagonal and endpoint-transport rows are the quotient-ring scope recorded in \autoref{thm:finite-ideal-meet-quotientring-kernel-scope}.
+
+For the sum branch, \autoref{thm:ideal-sum-closure} gives the $\IdealUp$ rows for $I+_RJ$. The quotient-ring consumer reads that predicate through the kernel package described in \autoref{thm:ideal-sum-quotientring-kernel-scope}, whose relation is still the displayed carrier-and-difference predicate.
+
+For the preimage branch, \autoref{thm:ring-map-ideal-preimage-ideal-closure} gives the $\IdealUp$ rows over the source ring $S$. Since the result is an ordinary $\IdealUp$ predicate on the source carrier, the same quotient-kernel construction applies with the source carrier, classifier, subtraction, and multiplication rows.
+
+Finally, \autoref{thm:ideal-quotient-kernel-absorption-closure} supplies the common ambient absorption row for every branch after the corresponding $\IdealUp$ predicate has been built. Thus the three lattice-facing constructors expose one uniform quotient-free package: diagonal, endpoint transport, and absorption, all expressed by $Q_K(x,y)$ and the ambient ring rows.
+
+The ten-field fit is: traditional target ideal-lattice surface; BEDC source $\RingUp$, $\IdealUp$, and $\QuotientRingUp$ over $\mathsf{BHist}$; carriers finite meet, sum decomposition, and preimage predicates; classifier the ambient ring classifier; stability the cited closure rows; ledger finite-position witnesses, additive decomposition witnesses, and image-membership witnesses; core theorem this block; exactness the displayed row package; standard bridge absent; status paper target.
+\end{proof}
