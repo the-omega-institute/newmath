@@ -33,4 +33,24 @@ theorem CatColimitCoconeMor_comp_closed {D K M N kappa mu nu f g fg cKM cMN cKN 
           (And.intro compSource
             (hsame_trans (hsame_symm sameCMNCKN) right.right.right.right.right.right)))))
 
+theorem CatColimitCoconeMor_empty_identity {D K kappa : BHist} :
+    CategoryHomCarrier D K kappa ->
+      CatColimitCoconeMor D K K kappa kappa BHist.Empty kappa := by
+  intro carrier
+  exact And.intro (CategoryHomCarrier_empty_identity carrier.right.left)
+    (And.intro carrier
+      (And.intro carrier
+        (And.intro carrier
+          (And.intro (cont_right_unit kappa) (hsame_refl kappa)))))
+
+theorem CatColimitCoconeMor_composite_endomorphisms_empty
+    {D K M kappa mu f g fg cKM cMK cKK : BHist} :
+    CatColimitCoconeMor D K M kappa mu f cKM ->
+      CatColimitCoconeMor D M K mu kappa g cMK ->
+        Cont f g fg -> Cont kappa fg cKK -> hsame fg BHist.Empty := by
+  intro forward backward compFG compSource
+  have composite : CatColimitCoconeMor D K K kappa kappa fg cKK :=
+    CatColimitCoconeMor_comp_closed forward backward compFG compSource
+  exact (CategoryHomCarrier_endomorphism_empty_iff.mp composite.left).right
+
 end BEDC.Derived.CatColimitUp

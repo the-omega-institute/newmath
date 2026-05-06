@@ -34,4 +34,14 @@ theorem CatLimitConeMor_comp_closed {L M N D f g fg lambda mu nu cLM cMN cLN : B
           (And.intro compTarget
             (hsame_trans sameCLNCLM left.right.right.right.right.right)))))
 
+theorem CatLimitConeMor_empty_identity {L D lambda : BHist} :
+    CategoryHomCarrier L D lambda ->
+      CatLimitConeMor L L D BHist.Empty lambda lambda lambda := by
+  intro carrier
+  exact And.intro (CategoryHomCarrier_empty_identity carrier.left)
+    (And.intro carrier
+      (And.intro carrier
+        (And.intro carrier
+          (And.intro (cont_left_unit lambda) (hsame_refl lambda)))))
+
 end BEDC.Derived.CatLimitUp
