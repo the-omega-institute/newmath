@@ -1,0 +1,160 @@
+\begin{definition}[Differential-form zero-degree scalar boundary]
+\label{def:diffform-zero-degree-scalar-boundary}
+Fix $\NameCert_{\ManifoldUp}$ and $\NameCert_{\TensorProductUp}$ sources
+$M,T$ as in \autoref{def:diffform-bhist-form-carrier}. A differential-form
+zero-degree scalar boundary row is a carried $\DiffFormUp$ row
+$$
+\omega_0=(d_0,\mathcal{P}_0,\tau_0,\sigma,\alpha_0,\lambda_0)
+$$
+accepted by $\mathsf{DiffFormBHistCarrier}_{M,T}$ with the following visible
+coordinates:
+\begin{enumerate}
+  \item $d_0$ is the empty unary-zero history, so $\hsame(d_0,\emp)$ and
+  $\mathsf{UnaryHistory}(d_0)$.
+  \item $\mathcal{P}_0$ is the empty probe spine
+  $\mathsf{ProbeBundle.Bnil}$.
+  \item $\tau_0$ is the empty tensor-unit surface of the
+  $\TensorProductUp$ source over $\mathcal{P}_0$.
+  \item $\alpha_0$ is the empty antisymmetry ledger, with no adjacent-swap
+  row and no cross-permutation row.
+  \item $\sigma$ is the retained scalar classifier endpoint row supplied by
+  the upstream manifold and tensor sources.
+  \item $\lambda_0$ records exactly $M,T,d_0,\mathcal{P}_0,\tau_0,\sigma$,
+  and $\alpha_0$ as the source ledger for this boundary row.
+\end{enumerate}
+Thus the row is a scalar-valued $0$-form surface inside the displayed
+$\DiffFormUp$ carrier, not a host-level exception outside the carrier and
+classifier of \autoref{def:diffform-bhist-form-carrier} and
+\autoref{def:diffform-bhist-form-classifier}.
+\end{definition}
+
+\begin{theorem}[Differential-form zero-degree empty-probe exhaustion]
+\label{thm:diffform-zero-degree-empty-probe-exhaustion}
+Let $\omega_0$ be a differential-form zero-degree scalar boundary row of
+\autoref{def:diffform-zero-degree-scalar-boundary}. For every probe row $p$,
+the membership claim $\mathsf{InBundle}(p,\mathcal{P}_0)$ is impossible.
+Equivalently, every downstream use of $\omega_0$ sees an empty probe spine,
+with no hidden tangent input slot.
+\end{theorem}
+\begin{proof}
+Unpack the boundary row through
+\autoref{def:diffform-zero-degree-scalar-boundary}. Its probe coordinate is
+the closed constructor $\mathsf{ProbeBundle.Bnil}$.
+
+Invert an assumed $\mathsf{InBundle}(p,\mathcal{P}_0)$ claim. The
+$\mathsf{ProbeBundle}$ membership constructors can only expose a head probe
+from a nonempty spine or recurse into a nonempty tail. The constructor
+$\mathsf{ProbeBundle.Bnil}$ has neither, so no membership constructor can
+produce the assumed claim.
+
+The same empty-spine inversion is compatible with the carrier and classifier
+rows of \autoref{def:diffform-bhist-form-carrier} and
+\autoref{def:diffform-bhist-form-classifier}. The scalar endpoint remains
+present as $\sigma$, but no probe row can be read from the boundary.
+\end{proof}
+
+\begin{theorem}[Differential-form zero-degree scalar classifier readback]
+\label{thm:diffform-zero-degree-scalar-classifier-readback}
+Let
+$$
+\omega_0=(d_0,\mathcal{P}_0,\tau_0,\sigma,\alpha_0,\lambda_0)
+$$
+and
+$$
+\omega'_0=(d'_0,\mathcal{P}'_0,\tau'_0,\sigma',\alpha'_0,\lambda'_0)
+$$
+be two differential-form zero-degree scalar boundary rows over the same
+$M,T$ sources. Then $\omega_0\sim_{\DiffFormUp}\omega'_0$ is exactly the
+retained scalar endpoint classifier comparison $\sigma\sim_R\sigma'$,
+together with the visible source-ledger comparisons
+$$
+\hsame(d_0,d'_0),\quad
+\hsame(\tau_0,\tau'_0),\quad
+\hsame(\alpha_0,\alpha'_0),\quad
+\hsame(\lambda_0,\lambda'_0).
+$$
+No probe-indexed classifier clause remains after empty
+$\mathsf{ProbeBundle.Bnil}$ inversion.
+\end{theorem}
+\begin{proof}
+Read the two boundary rows through
+\autoref{def:diffform-zero-degree-scalar-boundary}. Both probe spines are
+$\mathsf{ProbeBundle.Bnil}$, both degree rows are the empty unary-zero
+history, both tensor rows are empty tensor-unit surfaces, and both
+antisymmetry ledgers are empty.
+
+Now unfold the differential-form classifier of
+\autoref{def:diffform-bhist-form-classifier}. The degree, tensor,
+antisymmetry, and source-ledger clauses are exactly the displayed $\hsame$
+comparisons on the boundary rows. The scalar endpoint clause is the retained
+source classifier comparison $\sigma\sim_R\sigma'$.
+
+It remains to rule out any further probe-indexed clause. By
+\autoref{thm:diffform-zero-degree-empty-probe-exhaustion}, no
+$\mathsf{InBundle}$ claim exists for either boundary spine. Hence every
+matched multilinear probe row in the classifier is exhausted by the empty
+tensor-unit endpoint, and the public readback surface is precisely the
+scalar endpoint classifier plus the visible $\hsame$ ledger comparisons.
+\end{proof}
+
+\begin{theorem}[Differential-form zero-degree wedge Cont unit boundary]
+\label{thm:diffform-zero-degree-wedge-cont-unit-boundary}
+Let $\omega_0$ be a differential-form zero-degree scalar boundary row and let
+$$
+\eta=(d_\eta,\mathcal{P}_\eta,\tau_\eta,\rho,\beta,\mu)
+$$
+be any carried $\DiffFormUp$ row over the same $M,T$ sources. Whenever the
+wedge rows $\omega_0\wedge_{\DiffFormUp}\eta$ and
+$\eta\wedge_{\DiffFormUp}\omega_0$ are admitted by
+\autoref{thm:diffform-wedge-ledger-coverage}, their probe and degree surfaces
+are the nonempty side's surfaces:
+$$
+\mathsf{bundleAppend}(\mathsf{ProbeBundle.Bnil},\mathcal{P}_\eta)
+\quad\text{and}\quad
+\mathsf{bundleAppend}(\mathcal{P}_\eta,\mathsf{ProbeBundle.Bnil})
+$$
+are classified with $\mathcal{P}_\eta$, and the degree ledgers of
+\autoref{def:diffform-wedge-degree-ledger} reduce through the $\Cont$ left
+and right unit rows to $d_\eta$. The tensor-unit component of $\omega_0$
+therefore contributes no additional probe slot and no additional degree
+history to either wedge boundary.
+\end{theorem}
+\begin{proof}
+First expose the wedge probe ledger. Apply
+\autoref{def:diffform-wedge-probe-concatenation-ledger} and
+\autoref{thm:diffform-wedge-ledger-coverage}. The output probe spine of the
+left wedge is
+$\mathsf{bundleAppend}(\mathsf{ProbeBundle.Bnil},\mathcal{P}_\eta)$, and the
+output probe spine of the right wedge is
+$\mathsf{bundleAppend}(\mathcal{P}_\eta,\mathsf{ProbeBundle.Bnil})$.
+
+For the left wedge, invert the empty left spine. The
+$\mathsf{bundleAppend}$ empty-left law identifies the output spine with
+$\mathcal{P}_\eta$, and
+\autoref{thm:diffform-zero-degree-empty-probe-exhaustion} rules out an
+additional probe contributed by $\omega_0$.
+
+For the right wedge, induct on $\mathcal{P}_\eta$. The empty case is the
+same $\mathsf{ProbeBundle.Bnil}$ endpoint. In the cons case, the head probe is
+preserved and the induction hypothesis identifies the appended tail with the
+original tail, so the empty-right law identifies the output spine with
+$\mathcal{P}_\eta$.
+
+It remains to read the degree surface. By
+\autoref{def:diffform-wedge-degree-ledger}, both admitted wedges carry
+visible continuation rows for their output degrees. Since the boundary degree
+of $\omega_0$ is $\emp$, the left wedge uses the $\Cont$ left-unit row
+$\Cont(\emp,d_\eta,d_\eta)$, and the right wedge uses the $\Cont$ right-unit
+row $\Cont(d_\eta,\emp,d_\eta)$. Thus the wedge output degree is classified
+with $d_\eta$ on both sides.
+
+Finally, the tensor component of $\omega_0$ is the empty tensor-unit surface
+from \autoref{def:diffform-zero-degree-scalar-boundary}. The tensor
+concatenation ledger named by
+\autoref{thm:diffform-wedge-ledger-coverage} therefore records only the
+unit-row concatenation with $\tau_\eta$, while the scalar endpoint comparison
+remains in the retained source classifier described by
+\autoref{def:diffform-bhist-form-classifier}. Repacking these probe, degree,
+tensor, and endpoint rows gives the claimed unit boundary for both wedge
+orders.
+\end{proof}
