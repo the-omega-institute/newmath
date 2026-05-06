@@ -50,4 +50,18 @@ theorem RootSystemReflectionClosure_result_unary
   exact unary_cont_closed (vector_unary alphaCarrier.right.left)
     (vector_unary betaCarrier.right.left) reflectionRoute
 
+theorem RootSystemCartanLedger_cont_transport
+    {IntCarrier : BHist -> Prop} {IntClassifier : BHist -> BHist -> Prop}
+    (int_transport : forall {h k : BHist}, IntCarrier h -> IntClassifier h k -> IntCarrier k)
+    (int_hsame : forall {h k : BHist}, hsame h k -> IntClassifier h k)
+    {raw transported route : BHist} :
+    IntCarrier raw -> Cont raw route transported -> hsame route BHist.Empty ->
+      IntCarrier transported ∧ IntClassifier raw transported := by
+  intro rawCarrier rawRoute routeEmpty
+  cases routeEmpty
+  cases rawRoute
+  have rawClassified : IntClassifier raw raw :=
+    int_hsame rfl
+  exact And.intro (int_transport rawCarrier rawClassified) rawClassified
+
 end BEDC.Derived.RootSystemUp
