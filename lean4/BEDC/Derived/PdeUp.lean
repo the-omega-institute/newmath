@@ -343,4 +343,19 @@ theorem PdeConservativeStandardBridge_rows [AskSetup] [PackageSetup]
         (And.intro publicRows.right.right.left
           (And.intro publicRows.right.right.right.left summarizedReadback))))
 
+theorem PdeCarriedSourceRow_source_scope [AskSetup] [PackageSetup]
+    {manifold derivative relation boundary endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PdeCarriedSourceRow manifold derivative relation boundary endpoint bundle pkg ->
+      PkgSig bundle endpoint pkg ∧ hsame relation (append manifold derivative) ∧
+        hsame endpoint (append relation boundary) ∧ UnaryHistory endpoint := by
+  intro row
+  have relationUnary : UnaryHistory relation :=
+    unary_cont_closed row.left row.right.left row.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed relationUnary row.right.right.left row.right.right.right.right.left
+  exact And.intro row.right.right.right.right.right
+    (And.intro row.right.right.right.left
+      (And.intro row.right.right.right.right.left endpointUnary))
+
 end BEDC.Derived.PdeUp
