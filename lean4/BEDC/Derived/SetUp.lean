@@ -204,4 +204,26 @@ theorem SetMembershipVisibleClassifier_carrier_rows [AskSetup] [PackageSetup]
             (Exists.intro p data.left)
             (Exists.intro q data.right.left)
 
+theorem SetMembershipVisibleTransportChain_carrier_transport [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {h k : BHist} :
+    SetMembershipVisibleCarrier bundle h ->
+      SetMembershipVisibleTransportChain bundle h k ->
+        SetMembershipVisibleCarrier bundle k := by
+  intro carrier chain
+  induction chain with
+  | single visible =>
+      exact (SetMembershipVisibleClassifier_carrier_rows visible).right
+  | cons visible _ tailCarrier =>
+      exact tailCarrier (SetMembershipVisibleClassifier_carrier_rows visible).right
+
+theorem SetPublicNameCert_transport_target_carrier [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {h k : BHist} :
+    SetMembershipVisibleTransportChain bundle h k -> SetMembershipVisibleCarrier bundle k := by
+  intro chain
+  induction chain with
+  | single visible =>
+      exact (SetMembershipVisibleClassifier_carrier_rows visible).right
+  | cons _ _ tailCarrier =>
+      exact tailCarrier
+
 end BEDC.Derived.SetUp

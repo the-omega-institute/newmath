@@ -36,6 +36,7 @@ Because the comparison is made inside $\psame$, no appeal is made to host equali
 \label{thm:set-membership-transport-obligation}
 The $\SetUp$ membership row is stable under $\hsame$ transport and under the $\psame$ classifier. If $h$ is carried by $A$, $h \hsame h'$, and the visible membership rows for $h$ and $h'$ are related by the classifier, then $h'$ is carried by $A$ with the transported membership witness and the same package provenance boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetUp.SetMembershipVisibleTransportChain\_carrier\_transport}
 \begin{proof}
 First transport the displayed $\Hist$ membership row along $\hsame$. The transport changes only the presentation of the history, while the $\Pkg$ provenance records that the read remains inside the same certificate boundary.
 
@@ -43,7 +44,6 @@ Next apply the $\psame$ classifier row to the transported membership presentatio
 
 Combining the transported witness with the classifier evidence yields a carried witness for $h'$. The dependency remains constructive and visible: the proof uses only $\NameCert$, $\psame$, $\hsame$, and $\Pkg$, so downstream $\FinSetUp$ and $\SubtypeUp$ consumers receive a stable membership row rather than an external equality principle.
 \end{proof}
-\leanchecked{BEDC.Derived.SetUp.SetMembershipVisibleTransportChain\_hsame}
 
 \begin{theorem}[Set extensionality ledger obligation]
 \label{thm:set-extensionality-ledger-obligation}
@@ -69,6 +69,7 @@ The transport clause is the $\hsame$-stable membership row supplied by \autoref{
 
 The ledger clause is \autoref{thm:set-extensionality-ledger-obligation}, supported by \texttt{BEDC.Derived.SetUp.SetExtensionalityLedger\_semantic\_name\_certificate}. That theorem states the boundary condition: visible membership rows may be consumed downstream, while host sets, host equality, quotient carriers, and hidden package witnesses remain outside the exported surface. These four clauses therefore assemble the public $\NameCert_{\SetUp}$ certificate and nothing else.
 \end{proof}
+\leanchecked{BEDC.Derived.SetUp.SetPublicNameCert\_transport\_target\_carrier}
 
 \closureat{SetUp}{publicStr}
 \begin{closurestatus}{\SetUp}
