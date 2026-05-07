@@ -149,6 +149,72 @@ theorem PermutationBijectionSourceRow_composition_action_ledger_scope [AskSetup]
     exact hsame_refl (append (append graph invGraph) (append src graph))
   exact And.intro compScope (And.intro actionScope (hsame_trans ledgerScope expandedLedger))
 
+theorem PermutationBijectionSourceRow_semantic_name_certificate [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle
+      tgtBundle srcPkg tgtPkg ->
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          PermutationBijectionSourceRow src tgt graph invGraph comp action endpoint srcBundle
+            tgtBundle srcPkg tgtPkg)
+        (fun endpoint : BHist =>
+          PermutationBijectionSourceRow src tgt graph invGraph comp action endpoint srcBundle
+            tgtBundle srcPkg tgtPkg)
+        (fun endpoint : BHist =>
+          PermutationBijectionSourceRow src tgt graph invGraph comp action endpoint srcBundle
+            tgtBundle srcPkg tgtPkg)
+        hsame ∧
+        hsame comp (append graph invGraph) ∧ hsame action (append src graph) ∧
+          hsame ledger (append (append graph invGraph) (append src graph)) := by
+  intro row
+  have scope := PermutationBijectionSourceRow_composition_action_ledger_scope row
+  have cert :
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          PermutationBijectionSourceRow src tgt graph invGraph comp action endpoint srcBundle
+            tgtBundle srcPkg tgtPkg)
+        (fun endpoint : BHist =>
+          PermutationBijectionSourceRow src tgt graph invGraph comp action endpoint srcBundle
+            tgtBundle srcPkg tgtPkg)
+        (fun endpoint : BHist =>
+          PermutationBijectionSourceRow src tgt graph invGraph comp action endpoint srcBundle
+            tgtBundle srcPkg tgtPkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro ledger row
+      equiv_refl := by
+        intro endpoint _endpointRow
+        exact hsame_refl endpoint
+      equiv_symm := by
+        intro endpoint endpoint' sameEndpoint
+        exact hsame_symm sameEndpoint
+      equiv_trans := by
+        intro endpoint endpoint' endpoint'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro endpoint endpoint' sameEndpoint endpointRow
+        exact And.intro endpointRow.left
+          (And.intro endpointRow.right.left
+            (And.intro endpointRow.right.right.left
+              (And.intro endpointRow.right.right.right.left
+                (And.intro endpointRow.right.right.right.right.left
+                  (And.intro endpointRow.right.right.right.right.right.left
+                    (And.intro
+                      (cont_result_hsame_transport
+                        endpointRow.right.right.right.right.right.right.left sameEndpoint)
+                      (And.intro endpointRow.right.right.right.right.right.right.right.left
+                        endpointRow.right.right.right.right.right.right.right.right)))))))
+    }
+    pattern_sound := by
+      intro endpoint endpointRow
+      exact endpointRow
+    ledger_sound := by
+      intro endpoint endpointRow
+      exact endpointRow
+  }
+  exact And.intro cert scope
+
 theorem PermutationBijectionSourceRow_public_name_certificate [AskSetup] [PackageSetup]
     {src tgt graph invGraph comp action ledger : BHist}
     {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
