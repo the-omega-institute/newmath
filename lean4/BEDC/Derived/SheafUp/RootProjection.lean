@@ -1,4 +1,4 @@
-import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.DownstreamProjection
 
 namespace BEDC.Derived.SheafUp
 
@@ -75,5 +75,45 @@ theorem SheafRootTopologyPullbackProjection_seal
   exact And.intro routeReadback.left
     (And.intro routeReadback.right.left
       (And.intro routeReadback.right.right sameEndpoint))
+
+theorem SheafRootRingedSpaceConsumerProjection_scope
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist} :
+    SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB restrictedOpen
+        restrictedGermA restrictedGermB chartEndpoint ->
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+                restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+                SheafRootFaceRead restrictedOpen restrictedGermA .localityGluingRefinement ∧
+                  SheafRootFaceRead restrictedOpen restrictedGermB .localityGluingRefinement ∧
+                    hsame chartEndpoint restrictedGermB := by
+  intro scope
+  have carrierRows :=
+    SheafDownstreamConsumer_carrier_scope (point := point) (openHist := openHist)
+      (sectionA := sectionA) (sectionB := sectionB) (germA := germA) (germB := germB)
+      (restrictedOpen := restrictedOpen) (restrictedGermA := restrictedGermA)
+      (restrictedGermB := restrictedGermB) (chartEndpoint := chartEndpoint) scope
+  have faceRows :=
+    SheafRootFaceRead_downstream_projection_separation (point := point)
+      (openHist := openHist) (sectionA := sectionA) (sectionB := sectionB)
+      (germA := germA) (germB := germB) (restrictedOpen := restrictedOpen)
+      (restrictedGermA := restrictedGermA) (restrictedGermB := restrictedGermB)
+      (chartEndpoint := chartEndpoint) scope
+  have comparison :
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+        restrictedOpen sectionB restrictedGermB restrictedOpen :=
+    (SheafBHistPointGermLedger_common_open_comparison carrierRows.left
+      carrierRows.right.left carrierRows.right.right.right.right.left).left
+  exact And.intro carrierRows.left
+    (And.intro carrierRows.right.left
+      (And.intro faceRows.left
+        (And.intro faceRows.right.left
+          (And.intro comparison
+            (And.intro faceRows.right.right.left
+              (And.intro faceRows.right.right.right.left
+                faceRows.right.right.right.right))))))
 
 end BEDC.Derived.SheafUp

@@ -210,14 +210,35 @@ The predicate-transport row is \autoref{thm:subtype-obligation-predicate-transpo
 Apply \autoref{thm:subtype-restricted-classifier-namecert}. The preceding rows provide exactly the carrier, classifier, endpoint, and transport data consumed by that theorem, so the exported public surface is the certificate $\NameCert(S_P,\sim_{S_P})$.
 \end{proof}
 
-\closureat{SubtypeUp}{publicStr}[BEDC.Derived.SubtypeUp.SubtypeRestrictedClassifier\_nameCert]
+\begin{theorem}[SubtypeUp standard bridge surface]
+\label{thm:subtype-standard-bridge-surface}
+Under the hypotheses of \autoref{thm:subtype-restricted-classifier-namecert}, the concrete restricted carrier $S_P$ and restricted classifier $\sim_{S_P}$ form the paper-side standard subtype bridge. Its rows are exactly:
+\begin{enumerate}
+\item carrier membership in the restricted endpoint is $S_P(h)$, equivalently $S(h)\land P(h)$;
+\item classifier comparison between carried restricted endpoints is $h\sim_{S_P}k$, equivalently the parent comparison $h\sim_S k$;
+\item the projection to the parent certificate preserves the carrier row by forgetting only the predicate component and preserves the classifier row by returning the same parent comparison;
+\item predicate stability reflects transported parent endpoints back into $S_P$, so every transported parent endpoint with the transported predicate witness is again carried by the restricted carrier.
+\end{enumerate}
+Consequently the public $\NameCert(S_P,\sim_{S_P})$ surface exported by $\SubtypeUp$ is equipped with the bridge rows needed for the standard subtype bridge, without adding host subtype equality, quotient extensionality, or an abstract source-equivalence chain.
+\end{theorem}
+\begin{proof}
+The carrier row is exactly \autoref{thm:subtype-obligation-carrier-source}. It identifies membership in the concrete restricted carrier with the pair of parent membership and predicate witness, and it records the displayed endpoint data used by the certificate.
+
+The classifier row is exactly \autoref{thm:subtype-obligation-restricted-classifier}. Its forward direction is the projection from a restricted comparison to the parent comparison, and its reverse direction is the inclusion of a parent comparison between carried restricted endpoints.
+
+The transport row is \autoref{thm:subtype-obligation-predicate-transport}. Parent carrier transport supplies the transported parent endpoint, and predicate stability supplies the transported predicate witness; pairing them gives membership back in $S_P$.
+
+Finally, \autoref{thm:subtype-public-namecert-export} repacks these rows into the public $\NameCert(S_P,\sim_{S_P})$ export. The bridge therefore uses only the concrete carrier, concrete classifier, parent projection, inclusion row, and predicate-stability transport already displayed in the $\SubtypeUp$ construction.
+\end{proof}
+
+\closureat{SubtypeUp}{bridgedStr}[BEDC.Derived.SubtypeUp.SubtypeRestrictedClassifier\_nameCert]
 
 \begin{closurestatus}{\SubtypeUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public scope is the parent $\NameCert(S,\sim_S)$, parent carrier transport, predicate-stability row, restricted carrier $S_P$, restricted classifier $\sim_{S_P}$, displayed endpoint, classifier-closure lemma, SubtypeRestrictedClassifier NameCert surface, and public $\SubtypeUp$ export.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridged scope is the parent $\NameCert(S,\sim_S)$, parent carrier transport, predicate-stability row, restricted carrier $S_P$, restricted classifier $\sim_{S_P}$, displayed endpoint, classifier-closure lemma, SubtypeRestrictedClassifier NameCert surface, public $\SubtypeUp$ export, and paper-side standard subtype bridge surface.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.SubtypeUp.SubtypeRestrictedClassifier\_nameCert}
-  \bridgestatus{none}
-  \notclaimed{This packet does not close full SetUp bridges, quotient-style subtype extensionality, or standard-model subtype bridges.}
-  \upgradepath{The next boundary is a standard subtype bridge carrying the public $\SubtypeUp$ certificate toward $\bridgedClosure$.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This packet does not close full SetUp bridges or quotient-style subtype extensionality.}
+  \upgradepath{The next boundary is Lean-side bridge verification and audit for the paper-side standard subtype bridge rows.}
 \end{closurestatus}
