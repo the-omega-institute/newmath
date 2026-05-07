@@ -204,6 +204,65 @@ theorem SymplecticCarrierClassifierSurface_closed_two_form_obligation
       (And.intro obligations.right.right.right.left
         (And.intro closedUnary surface.right.right.right.left)))
 
+theorem SymplecticCarrierClassifierSurface_semantic_name_certificate
+    {manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
+      antisym source closedWitness pairing ledger : BHist} :
+    SymplecticCarrierClassifierSurface manifold form derivative degree degreePlus probe probe'
+      tensor tensor' scalar scalar' antisym source closedWitness pairing ledger ->
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          ∃ carriedPairing : BHist,
+            SymplecticCarrierClassifierSurface manifold form derivative degree degreePlus probe
+              probe' tensor tensor' scalar scalar' antisym source closedWitness carriedPairing
+              endpoint)
+        (fun endpoint : BHist =>
+          ∃ carriedPairing : BHist,
+            SymplecticCarrierClassifierSurface manifold form derivative degree degreePlus probe
+              probe' tensor tensor' scalar scalar' antisym source closedWitness carriedPairing
+              endpoint)
+        (fun endpoint : BHist =>
+          ∃ carriedPairing : BHist,
+            SymplecticCarrierClassifierSurface manifold form derivative degree degreePlus probe
+              probe' tensor tensor' scalar scalar' antisym source closedWitness carriedPairing
+              endpoint)
+        (fun left right : BHist =>
+          (∃ carriedPairing : BHist,
+            SymplecticCarrierClassifierSurface manifold form derivative degree degreePlus probe
+              probe' tensor tensor' scalar scalar' antisym source closedWitness carriedPairing
+              left) ∧
+          (∃ carriedPairing : BHist,
+            SymplecticCarrierClassifierSurface manifold form derivative degree degreePlus probe
+              probe' tensor tensor' scalar scalar' antisym source closedWitness carriedPairing
+              right) ∧
+          hsame left right) := by
+  intro surface
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro ledger (Exists.intro pairing surface)
+      equiv_refl := by
+        intro endpoint carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl endpoint))
+      equiv_symm := by
+        intro _left _right classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro _left _middle _right classifiedLeft classifiedRight
+        exact And.intro classifiedLeft.left
+          (And.intro classifiedRight.right.left
+            (hsame_trans classifiedLeft.right.right classifiedRight.right.right))
+      carrier_respects_equiv := by
+        intro _left _right classified _carrier
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _endpoint source
+      exact source
+    ledger_sound := by
+      intro _endpoint source
+      exact source
+  }
+
 def SymplecticObligationBoundary
     (manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
       nondegWitness : BHist) : Prop :=
