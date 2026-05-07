@@ -6,6 +6,134 @@ The tree interface $\TreeUp$ packages a connected acyclic $\NameCert_{\GraphUp}$
 \section{Carrier definition}
 \label{sec:tree-carrier}
 
+\begin{definition}[TreeUp BHist carrier]\label{def:treeup-bhist-carrier}
+The carrier of $\TreeUp$ is the $\mathsf{BHist}$ endpoint row whose visible
+package consists of a $\NameCert_{\GraphUp}$ edge/vertex package, the
+$\mathsf{GraphContEdge}$ rows witnessing the graph edges, a connectedness row,
+an acyclicity row, and one branch of a root classifier. The rooted branch
+records a root witness carried by the same $\Pkg$ provenance as the displayed
+graph package; the root-free branch records a witness that the same visible
+package has no designated root.
+
+Two such rows are carrier-comparable only through the visible graph
+$\hsame$-transport, the connectedness and acyclicity rows, and the chosen
+rooted or root-free witness row. Hidden graph routes, hidden choices of root,
+and hidden proofs of connectedness or acyclicity are ledger data, not carrier
+equality.
+\end{definition}
+
+\begin{theorem}[TreeUp carrier obligation]\label{thm:treeup-carrier-obligation}
+The $\TreeUp$ carrier is obligated to expose exactly the $\mathsf{BHist}$
+endpoint of \autoref{def:treeup-bhist-carrier}, the
+$\NameCert_{\GraphUp}$ source package, the $\mathsf{GraphContEdge}$ edge rows,
+the connectedness row, the acyclicity row, and the rooted or root-free witness
+row. Its ten-field fit is: traditional target tree carrier; BEDC source
+$\mathsf{BHist}$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$; carrier the
+displayed endpoint row; classifier inherited from graph-edge transport plus
+the three tree rows; stability by transport of the visible rows; ledger the
+hidden route, root-choice, connectedness, and acyclicity witnesses; exactness
+by visible row readback; standard bridge absent; status obligation target.
+\end{theorem}
+\begin{proof}
+Use the carrier field of the roadmap ten-field template. The source row is the
+displayed $\NameCert_{\GraphUp}$ package, so every visible edge is already a
+$\mathsf{GraphContEdge}$ row over $\mathsf{BHist}$ and $\Cont$.
+
+Attach the connectedness, acyclicity, and root branch rows to that same
+$\Pkg$ provenance. The resulting endpoint is a tree row before any syntactic
+derivation chapter consumes it, because all carrier fields are visible BEDC
+rows and all non-visible choices are assigned to the ledger field.
+\end{proof}
+
+\begin{theorem}[TreeUp classifier obligation]\label{thm:treeup-classifier-obligation}
+The $\TreeUp$ classifier relates two carried endpoints precisely when their
+$\NameCert_{\GraphUp}$ graph packages are transported by graph-edge $\hsame$,
+their $\mathsf{GraphContEdge}$ rows match under that transport, and their
+connectedness, acyclicity, and root-branch rows match over the transported
+$\Pkg$ provenance. It does not identify trees by host graph isomorphism or by
+unrecorded route choice.
+\end{theorem}
+\begin{proof}
+Start with the classifier field of the roadmap ten-field template and the
+graph source certificate. Transport the visible edge and vertex package along
+the graph $\hsame$ relation, carrying each $\mathsf{GraphContEdge}$ row by its
+$\Cont$ transport surface.
+
+It remains to compare the tree-only rows. The connectedness row, the
+acyclicity row, and the rooted or root-free branch row are checked after the
+$\Pkg$ provenance has been transported, so the classifier is still a BEDC
+classifier on named histories rather than an external graph quotient.
+\end{proof}
+
+\begin{theorem}[TreeUp root witness obligation]\label{thm:treeup-root-witness-obligation}
+For each $\TreeUp$ carrier row, the root component must split constructively
+into exactly one displayed branch: either a rooted branch carrying a root
+witness compatible with the $\NameCert_{\GraphUp}$ vertex row, or a root-free
+branch carrying a witness that no vertex row in the same visible package has
+been designated as root. Both branches are transported by the same $\hsame$
+and $\Pkg$ data as the graph package.
+\end{theorem}
+\begin{proof}
+Proceed by case analysis on the root branch recorded in the carrier row.
+
+In the rooted case, read the vertex witness from the visible
+$\NameCert_{\GraphUp}$ package and check that its $\Pkg$ provenance is the one
+used by the tree endpoint. Transport along $\hsame$ carries the root witness
+with the transported vertex row.
+
+In the root-free case, keep the same graph package and read the negative root
+row as a visible witness attached to that package. Its transport uses the
+same $\hsame$ and $\Pkg$ data, so no hidden root selection can enter the
+carrier classifier.
+\end{proof}
+
+\begin{theorem}[TreeUp stability and ledger obligation]\label{thm:treeup-stability-ledger-obligation}
+The $\TreeUp$ stability ledger consists exactly of the hidden graph route data,
+the hidden root-choice data, and the hidden connectedness and acyclicity
+witnesses used to justify the visible rows. Transport stability may consume
+those ledger entries, but the public carrier and classifier expose only
+$\mathsf{BHist}$ endpoints, $\mathsf{GraphContEdge}$ rows, $\Cont$ rows,
+$\hsame$ transport, $\Pkg$ provenance, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Use the stability and ledger fields of the roadmap ten-field template. The
+visible surface is fixed by the graph package, edge rows, connectedness row,
+acyclicity row, and root branch, so the remaining data can only record how
+those rows were obtained.
+
+The hidden graph route supports connectedness, the hidden root-choice data
+supports the rooted branch when present, and the hidden acyclicity and
+connectedness witnesses justify the two graph-shape rows. Because each entry
+is consumed only to transport or justify a visible row, the ledger is exact
+and no additional hidden field is part of carrier equality.
+\end{proof}
+
+\begin{theorem}[TreeUp exactness obligation]\label{thm:treeup-exactness-obligation}
+The visible $\TreeUp$ package is exact in three senses. Coverage says every
+accepted tree endpoint exposes a $\NameCert_{\GraphUp}$ package, its
+$\mathsf{GraphContEdge}$ rows, connectedness, acyclicity, and one root branch.
+Soundness says any endpoint exposing those rows is a valid $\TreeUp$ carrier
+only under the classifier of \autoref{thm:treeup-classifier-obligation}.
+Completeness says every visible connected acyclic graph package with either a
+root witness or a root-free witness is represented by a $\TreeUp$ carrier row.
+\end{theorem}
+\begin{proof}
+For coverage, invert the carrier row of
+\autoref{def:treeup-bhist-carrier}. The inversion reads back the
+$\NameCert_{\GraphUp}$ package, each $\mathsf{GraphContEdge}$ row, the
+connectedness row, the acyclicity row, and the root branch.
+
+For soundness, apply the classifier obligation after the visible rows have
+been read back. The only admissible identifications are the transported graph
+edge rows together with matching connectedness, acyclicity, and root-branch
+rows.
+
+For completeness, begin with a visible connected acyclic graph package and a
+chosen root branch. Repack those rows through $\mathsf{BHist}$, $\Pkg$, and
+$\NameCert$, placing route and witness choices in the ledger, to obtain the
+required $\TreeUp$ carrier endpoint.
+\end{proof}
+
 \section{The certificate}
 \label{sec:tree-certificate}
 
@@ -147,9 +275,10 @@ data outside this displayed $\hsame$-classified $\NameCert$ boundary.
 
 \begin{closurestatus}{\TreeUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation surface is exactly the carrier and classifier rows of \autoref{thm:tree-obligation-carrier-classifier}, the connectedness and acyclicity rows of \autoref{thm:tree-obligation-connected-acyclic}, and the root, ledger, exactness, and dependency rows of \autoref{thm:tree-obligation-root-ledger-exactness}.}
+  \scopeclosed{The obligation surface is exactly \autoref{def:treeup-bhist-carrier}, \autoref{thm:treeup-carrier-obligation}, \autoref{thm:treeup-classifier-obligation}, \autoref{thm:treeup-root-witness-obligation}, \autoref{thm:treeup-stability-ledger-obligation}, and \autoref{thm:treeup-exactness-obligation}, read through the displayed $\mathsf{BHist}$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert_{\GraphUp}$, and $\mathsf{GraphContEdge}$ dependencies.}
   \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.GraphUp.GraphCont\_namecert\_surface}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim scoped paper proofs for the $\TreeUp$ carrier, classifier, connectedness, acyclicity, root witness, standard bridge, or Lean target.}
-  \upgradepath{Scoped closure requires paper proofs over the displayed $\GraphUp$, $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\Cont$, and $\hsame$ primitives for all three obligation rows.}
+  \notclaimed{This chapter does not close a public certificate surface, a standard bridge, checked connectedness or acyclicity rows, checked root transport, or Lean verification.}
+  \upgradepath{Scoped closure must bind these obligations to checked $\GraphUp$ and $\mathsf{FKernel}$ rows for carrier transport, connectedness, acyclicity, root choice, stability, ledger, and exactness.}
 \end{closurestatus}
