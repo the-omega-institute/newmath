@@ -269,14 +269,120 @@ $\NameCert_{\WeylGroupUp}$ boundary. No additional equality principle or
 Coxeter quotient is introduced.
 \end{proof}
 
-\closureat{WeylGroupUp}{publicStr}
+\begin{theorem}[WeylGroup finite reflection-group bridge]
+\label{thm:weylgroup-standard-reflection-group-bridge}
+The public $\NameCert_{\WeylGroupUp}$ surface of
+\autoref{thm:weylgroup-public-namecert-export} carries a paper-side bridge
+with the standard finite reflection-word presentation. In the forward
+direction, every BEDC carried Weyl word from
+\autoref{def:weylgroup-bhist-source-row} has a finite reflection-word
+interpretation obtained by reading the $\RootSystemUp$ finite root rows and
+composing the displayed simple reflections through the $\GroupUp$ singleton
+word carrier. If two BEDC words are related by the Coxeter ledger rows, then
+their interpreted reflection words induce the same action on carried roots
+under the $\RootSystemUp$ public classifier.
+
+In the reverse direction, every finite word in displayed simple reflections
+whose letters are $\RootSystemUp$ root rows has a BEDC word endpoint. The
+endpoint is obtained by the simple-reflection word closure row and by iterated
+$\Cont$ append through the singleton $\GroupUp$ carrier, so the standard word
+reads back into the same public $\NameCert_{\WeylGroupUp}$ boundary.
+\end{theorem}
+\begin{proof}
+For the forward direction, read the BEDC word through
+\autoref{thm:weylgroup-rootsystem-group-carrier-row}. This separates the
+finite $\RootSystemUp$ root-row carrier from the singleton $\GroupUp$ word
+carrier while preserving the restricted classifier on carried Weyl endpoints.
+
+Next interpret each displayed generator by
+\autoref{thm:weylgroup-simple-reflection-word-closure-row}. The resulting
+finite list of simple reflections is composed inside the singleton word
+carrier. When the input BEDC words are Coxeter-ledger-related,
+\autoref{thm:weylgroup-coxeter-word-ledger-row} supplies the recorded braid
+rows, and \autoref{thm:weylgroup-action-classifier-stability-row} transports
+the two induced actions to the same $\RootSystemUp$ public classifier class.
+
+For the reverse direction, start from a finite standard word whose letters
+are displayed root rows. Apply
+\autoref{thm:weylgroup-simple-reflection-word-closure-row} to the first
+letter, then iterate the append clause using $\Cont$ for the remaining
+letters. The root-system and group carrier rows from
+\autoref{thm:weylgroup-rootsystem-group-carrier-row} keep every intermediate
+endpoint inside the public source surface.
+
+Finally package the interpreted word and the readback endpoint by
+\autoref{thm:weylgroup-public-namecert-export}. The bridge therefore changes
+only the paper-side reading between BEDC carried words and finite
+reflection-words; it does not add a host word quotient or advance the Lean
+verification axis.
+\end{proof}
+
+\begin{theorem}[WeylGroup root-system terminal standard bridge]
+\label{thm:weylgroup-root-system-terminal-standard-bridge}
+The public $\WeylGroupUp$ surface of
+\autoref{thm:weylgroup-public-namecert-export} supplies a paper-level
+$\StdBridge(\WeylGroupUp,T_W^\ast)$, where $T_W^\ast$ is the terminal
+host-facing Weyl-word action on the displayed $\RootSystemUp$ support.
+The encode field sends the unique host Weyl word to the BEDC empty singleton
+group word over the carried root row. The decode field sends every carried
+Weyl word to the unique host word. The decode-encode round trip is terminal
+equality in $T_W^\ast$, and the encode-decode round trip is the restricted
+$\GroupUp$ singleton classifier together with the $\RootSystemUp$ public
+classifier. The theorem-preservation field is the finite list consisting of
+the root-system group carrier row, simple-reflection word closure, Coxeter word
+ledger, action classifier stability, and public NameCert export. The
+no-host-leak field confines the host terminal object to this bridge theorem.
+\end{theorem}
+\begin{proof}
+We check the six fields of \autoref{sec:acceptance-bridge-six-fields}.
+\begin{enumerate}
+\item The encode field is the constant map from the unique word of
+$T_W^\ast$ to the empty singleton $\GroupUp$ word carried over a displayed
+$\RootSystemUp$ row. The word endpoint is public by
+\autoref{thm:group-singleton-terminal-standard-bridge}, and the root row is
+public by \autoref{thm:rootsystem-namecert-obligation-surface}.
+
+\item The decode field sends any carried Weyl word of
+\autoref{def:weylgroup-bhist-source-row} to the unique host Weyl word. Since
+$T_W^\ast$ is terminal, classifier-respect on the host side is terminal
+equality.
+
+\item The decode-encode round trip starts from the unique host word, encodes
+it as the empty singleton word over the carried root row, and decodes back to
+the same host word. This is terminal equality in $T_W^\ast$.
+
+\item The encode-decode round trip starts from a carried Weyl word. The word
+component is classified by the restricted singleton $\GroupUp$ classifier as
+in \autoref{thm:group-singleton-terminal-standard-bridge}; the root component
+is classified by the public $\RootSystemUp$ classifier of
+\autoref{thm:rootsystem-namecert-obligation-surface}. Together these are
+exactly the restricted classifier of
+\autoref{thm:weylgroup-rootsystem-group-carrier-row}.
+
+\item The theorem-preservation list is finite and explicit. Its rows are
+\autoref{thm:weylgroup-rootsystem-group-carrier-row},
+\autoref{thm:weylgroup-simple-reflection-word-closure-row},
+\autoref{thm:weylgroup-coxeter-word-ledger-row},
+\autoref{thm:weylgroup-action-classifier-stability-row}, and
+\autoref{thm:weylgroup-public-namecert-export}. The checked action transport
+row records the same carrier, word, ledger, and classifier dependencies.
+
+\item The no-host-leak field follows because the host terminal object appears
+only in the encode, decode, and terminal-equality clauses above. The exported
+surface remains the BEDC $\RootSystemUp$ support, singleton $\GroupUp$ word
+carrier, Coxeter ledger rows, action classifier stability row, and public
+NameCert boundary.
+\end{enumerate}
+\end{proof}
+
+\closureat{WeylGroupUp}{matureStr}[BEDC.Derived.WeylGroupUp.WeylGroupRootSystemGroupCarrier\_action\_classifier\_transport]
 
 \begin{closurestatus}{\WeylGroupUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public BEDC-side $\NameCert_{\WeylGroupUp}$ export is witnessed by the BHist source row, RootSystemUp finite-support and classifier rows, GroupUp singleton carrier and word classifier rows, simple-reflection word closure, Coxeter word ledger, action classifier stability, and the public export theorem displayed in this chapter.}
-  \formalstatus{\unformalizedV}
-  \leantarget{}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not claim a standard bridge, Coxeter quotient exactness, non-ledger word equality, or Lean verification for $\WeylGroupUp$.}
-  \upgradepath{Bridge closure requires a standard bridge, while the verification axis requires a Lean target for the public Weyl-group certificate surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The paper-side mature surface covers the public $\NameCert_{\WeylGroupUp}$ export, the finite reflection-word interpretation/readback bridge, the root-system terminal standard bridge, and the explicit theorem-preservation list for the BHist source row, RootSystemUp finite-support and classifier rows, GroupUp singleton carrier and word classifier rows, simple-reflection word closure, Coxeter word ledger, and action classifier stability.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.WeylGroupUp.WeylGroupRootSystemGroupCarrier\_action\_classifier\_transport}
+  \bridgestatus{paperBridge}
+  \notclaimed{This paper-side maturity claim does not assert bridgeChecked verification, nonterminal Coxeter quotient exactness, non-ledger word equality, or full traditional Weyl-group classification.}
+  \upgradepath{A bridgeChecked grade requires Lean-side verification of the finite reflection-word interpretation/readback bridge and the root-system terminal standard bridge.}
 \end{closurestatus}

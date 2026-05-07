@@ -328,6 +328,34 @@ witnesses in the same order.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_four\_iff}
 
+\begin{theorem}[Bundle append three-segment membership rotation]
+\label{thm:bundle-append-three-segment-membership-rotation}
+For every probe $p$ and bundles $\Pi,\Theta,\Omega$,
+$$
+p\in\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega))
+\quad\Longleftrightarrow\quad
+p\in\mathsf{BAppend}(\Theta,\mathsf{BAppend}(\Omega,\Pi)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:bundle-append-three-membership-split} to the left-hand
+membership. The resulting cases are $p\in\Pi$, $p\in\Theta$, and
+$p\in\Omega$.
+
+Apply the same split theorem to the right-hand bundle expression. In the
+$p\in\Pi$ case use the third disjunct, in the $p\in\Theta$ case use the first
+disjunct, and in the $p\in\Omega$ case use the second disjunct.
+
+For the reverse direction, apply
+\autoref{thm:bundle-append-three-membership-split} to the right-hand
+membership. The cases are now $p\in\Theta$, $p\in\Omega$, and $p\in\Pi$.
+
+Apply the split theorem again to the left-hand bundle expression. These three
+cases return respectively the second, third, and first disjuncts of
+$p\in\Pi \ \text{or}\ p\in\Theta \ \text{or}\ p\in\Omega$.
+\end{proof}
+
 \begin{theorem}[Bundle append membership left residual]
 \label{thm:bundle-append-membership-left-of-not-right}
 For every probe \(p\) and bundles \(\Pi,\Theta\), if

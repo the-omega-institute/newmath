@@ -74,11 +74,26 @@ theorem SheafDisplayedCommonRefinementSpan_base_change_composition
               (And.intro pulledB pulledSame))))))
     (And.intro sameA sameB)
 
-theorem SheafDisplayedCommonRefinementSpan_symm
+theorem SheafDisplayedCommonRefinementSpan_symmetric
     {point common openA openB sectionA sectionB germA germB : BHist} :
     SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
       germB ->
       SheafDisplayedCommonRefinementSpan point common openB openA sectionB sectionA germB
+        germA := by
+  intro span
+  exact And.intro span.left
+    (And.intro span.right.left
+      (And.intro span.right.right.right.left
+        (And.intro span.right.right.left
+          (And.intro span.right.right.right.right.right.left
+            (And.intro span.right.right.right.right.left
+              (hsame_symm span.right.right.right.right.right.right))))))
+
+theorem SheafDisplayedCommonRefinementSpan_symm
+    {point common openA openB sectionA sectionB germA germB : BHist} :
+    SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
+      germB ->
+    SheafDisplayedCommonRefinementSpan point common openB openA sectionB sectionA germB
           germA ∧
         Cont common sectionB germB ∧ Cont common sectionA germA ∧ hsame germB germA := by
   intro span
@@ -93,5 +108,44 @@ theorem SheafDisplayedCommonRefinementSpan_symm
     (And.intro span.right.right.right.right.right.left
       (And.intro span.right.right.right.right.left
         (hsame_symm span.right.right.right.right.right.right)))
+
+theorem SheafCommonRefinementGluing_carrier_invariance
+    {point common openA openB sectionA sectionB germA germB globalA globalB : BHist} :
+    SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
+        germB ->
+      Cont common sectionA globalA -> Cont common sectionB globalB ->
+        SheafBHistPointGermLedger point common sectionA globalA ∧
+          SheafBHistPointGermLedger point common sectionB globalB ∧
+            SheafBHistPointGermComparison point openA sectionA globalA openB sectionB
+              globalB common ∧
+              hsame globalA globalB := by
+  intro span globalACont globalBCont
+  have openAUnary : UnaryHistory openA :=
+    unary_transport span.right.left span.right.right.left
+  have openBUnary : UnaryHistory openB :=
+    unary_transport span.right.left span.right.right.right.left
+  have sameA : hsame germA globalA :=
+    cont_deterministic span.right.right.right.right.left globalACont
+  have sameB : hsame germB globalB :=
+    cont_deterministic span.right.right.right.right.right.left globalBCont
+  have sameGlobal : hsame globalA globalB :=
+    hsame_trans (hsame_symm sameA)
+      (hsame_trans span.right.right.right.right.right.right sameB)
+  have ledgerA : SheafBHistPointGermLedger point common sectionA globalA :=
+    And.intro span.left (And.intro span.right.left globalACont)
+  have ledgerB : SheafBHistPointGermLedger point common sectionB globalB :=
+    And.intro span.left (And.intro span.right.left globalBCont)
+  have comparison :
+      SheafBHistPointGermComparison point openA sectionA globalA openB sectionB globalB
+        common :=
+    And.intro span.left
+      (And.intro openAUnary
+        (And.intro openBUnary
+          (And.intro span.right.left
+            (And.intro span.right.right.left
+              (And.intro span.right.right.right.left
+                (And.intro globalACont
+                  (And.intro globalBCont sameGlobal)))))))
+  exact And.intro ledgerA (And.intro ledgerB (And.intro comparison sameGlobal))
 
 end BEDC.Derived.SheafUp

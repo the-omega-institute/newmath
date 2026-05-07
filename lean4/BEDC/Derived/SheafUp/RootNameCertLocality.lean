@@ -1,12 +1,14 @@
 import BEDC.Derived.SheafUp.RootRestrictionRefinement
 import BEDC.Derived.SheafUp.LocalityGluingCertificate
 import BEDC.Derived.SheafUp.RootUnblock
+import BEDC.Derived.SheafUp.CommonRefinementSpan
 
 namespace BEDC.Derived.SheafUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 
 theorem SheafRootNameCertLocalityGluing_fields
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
@@ -163,5 +165,75 @@ theorem SheafRootCoverLocalityGluing_obligation_surface
   exact And.intro faces.right.right.left
     (And.intro faces.right.right.right.left
       (And.intro faces.right.right.right.right cert))
+
+theorem SheafRootCommonRefinement_obligation_carrier_exactness
+    {point common openA openB sectionA sectionB germA germB globalA globalB exportedA
+      exportedB : BHist} :
+    SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
+        germB ->
+      Cont common sectionA globalA -> Cont common sectionB globalB -> hsame globalA exportedA ->
+        hsame globalB exportedB ->
+          SheafBHistPointGermLedger point common sectionA exportedA ∧
+            SheafBHistPointGermLedger point common sectionB exportedB ∧
+              hsame exportedA exportedB := by
+  intro span globalACont globalBCont sameExportedA sameExportedB
+  have rows :
+      SheafBHistPointGermLedger point common sectionA globalA ∧
+        SheafBHistPointGermLedger point common sectionB globalB ∧
+          SheafBHistPointGermComparison point openA sectionA globalA openB sectionB globalB
+              common ∧
+            hsame globalA globalB :=
+    SheafCommonRefinementGluing_carrier_invariance span globalACont globalBCont
+  have exportedACont : Cont common sectionA exportedA :=
+    cont_result_hsame_transport globalACont sameExportedA
+  have exportedBCont : Cont common sectionB exportedB :=
+    cont_result_hsame_transport globalBCont sameExportedB
+  have ledgerA : SheafBHistPointGermLedger point common sectionA exportedA :=
+    And.intro span.left (And.intro span.right.left exportedACont)
+  have ledgerB : SheafBHistPointGermLedger point common sectionB exportedB :=
+    And.intro span.left (And.intro span.right.left exportedBCont)
+  have sameExported : hsame exportedA exportedB :=
+    hsame_trans (hsame_symm sameExportedA)
+      (hsame_trans rows.right.right.right sameExportedB)
+  exact And.intro ledgerA (And.intro ledgerB sameExported)
+
+theorem SheafRootCommonRefinement_route_exactness
+    {point common openA openB sectionA sectionB germA germB route routeTarget globalA
+      globalB : BHist} :
+    SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
+      germB ->
+        Cont common route routeTarget ->
+          hsame routeTarget common ->
+            Cont routeTarget sectionA globalA ->
+              Cont routeTarget sectionB globalB ->
+                SheafDisplayedCommonRefinementSpan point routeTarget openA openB sectionA
+                    sectionB globalA globalB ∧
+                  hsame route BHist.Empty ∧ hsame germA globalA ∧ hsame germB globalB := by
+  intro span routeRow sameTarget globalACont globalBCont
+  have routeEmpty : hsame route BHist.Empty :=
+    cont_right_unit_unique (cont_result_hsame_transport routeRow sameTarget)
+  have routeTargetUnary : UnaryHistory routeTarget :=
+    unary_transport span.right.left (hsame_symm sameTarget)
+  have routeOpenA : hsame routeTarget openA :=
+    hsame_trans sameTarget span.right.right.left
+  have routeOpenB : hsame routeTarget openB :=
+    hsame_trans sameTarget span.right.right.right.left
+  have sameGlobalA : hsame germA globalA :=
+    cont_respects_hsame (hsame_symm sameTarget) (hsame_refl sectionA)
+      span.right.right.right.right.left globalACont
+  have sameGlobalB : hsame germB globalB :=
+    cont_respects_hsame (hsame_symm sameTarget) (hsame_refl sectionB)
+      span.right.right.right.right.right.left globalBCont
+  have sameGlobals : hsame globalA globalB :=
+    hsame_trans (hsame_symm sameGlobalA)
+      (hsame_trans span.right.right.right.right.right.right sameGlobalB)
+  exact And.intro
+    (And.intro span.left
+      (And.intro routeTargetUnary
+        (And.intro routeOpenA
+          (And.intro routeOpenB
+            (And.intro globalACont
+               (And.intro globalBCont sameGlobals))))))
+    (And.intro routeEmpty (And.intro sameGlobalA sameGlobalB))
 
 end BEDC.Derived.SheafUp
