@@ -50,6 +50,7 @@ import BEDC.BaseReflection
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
+import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
@@ -306,6 +307,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
+import BEDC.Derived.CondExpUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
