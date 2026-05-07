@@ -490,7 +490,7 @@ Downstream consumers therefore receive the same carrier, the same classifier, an
 
 \begin{theorem}[TreeUp public certificate boundary]
 \label{thm:treeup-public-certificate-boundary}
-The public $\TreeUp$ interface is the single package consisting exactly of the $\GraphUp$ source package, the $\mathsf{GraphContEdge}$ rows, the connectedness row, the acyclicity row, the root-or-root-free branch, the syntactic-representation row, stability transports, ledger rows, and exactness clauses established by \autoref{thm:treeup-carrier-obligation}, \autoref{thm:treeup-classifier-obligation}, \autoref{thm:treeup-root-witness-obligation}, \autoref{thm:treeup-stability-ledger-obligation}, \autoref{thm:treeup-exactness-obligation}, and \autoref{thm:tree-syntactic-representation-obligation}. This boundary exports no host graph equality, no unrecorded route choice, and no standard bridge.
+The public $\TreeUp$ interface is the single package consisting exactly of the $\GraphUp$ source package, the $\mathsf{GraphContEdge}$ rows, the connectedness row, the acyclicity row, the root-or-root-free branch, the syntactic-representation row, stability transports, ledger rows, and exactness clauses established by \autoref{thm:treeup-carrier-obligation}, \autoref{thm:treeup-classifier-obligation}, \autoref{thm:treeup-root-witness-obligation}, \autoref{thm:treeup-stability-ledger-obligation}, \autoref{thm:treeup-exactness-obligation}, and \autoref{thm:tree-syntactic-representation-obligation}. This boundary exports no host graph equality and no unrecorded route choice.
 \end{theorem}
 \begin{proof}
 The visible carrier package is supplied by \autoref{thm:treeup-carrier-obligation}: it exposes the $\NameCert_{\GraphUp}$ source, the $\mathsf{GraphContEdge}$ rows, connectedness, acyclicity, and the rooted or root-free branch. The classifier boundary is the rowwise transport of \autoref{thm:treeup-classifier-obligation}, so public comparison is only through the inherited graph package and the displayed tree rows.
@@ -499,15 +499,29 @@ The stability and ledger fields are exactly those named in \autoref{thm:treeup-s
 
 Exactness comes from \autoref{thm:treeup-exactness-obligation}: every accepted endpoint reads back to the displayed package, and every displayed connected acyclic graph package with one root branch repacks as a $\TreeUp$ carrier. The syntactic-representation row of \autoref{thm:tree-syntactic-representation-obligation} adds the derivation-spine consumer surface without changing the carrier or classifier.
 
-Thus the public package is precisely the listed rows and clauses. Host graph equality is not a public component, route choices remain ledger entries rather than exported data, and no standard bridge is included in the $\TreeUp$ boundary.
+Thus the public package is precisely the listed rows and clauses. Host graph equality is not a public component, and route choices remain ledger entries rather than exported data.
 \end{proof}
 
+\begin{theorem}[TreeUp standard bridge boundary]\label{thm:treeup-standard-bridge-boundary}
+The public $\TreeUp$ package interprets as the external finite-tree and derivation-syntax reference by reading vertices as carried $\mathsf{BHist}$ nodes, reading edges through the inherited $\NameCert_{\GraphUp}$ and $\mathsf{GraphContEdge}$ rows, reading connectedness and acyclicity from the displayed $\TreeUp$ certificate rows, and reading the root or root-free branch from the displayed witness row. Conversely, any external finite-tree presentation whose vertices are BEDC histories and whose edges are supplied by the same $\mathsf{GraphContEdge}$ rows repacks into the public $\TreeUp$ boundary without host graph equality or unrecorded route choice.
+\end{theorem}
+\begin{proof}
+Start from the public package of \autoref{thm:treeup-public-certificate-boundary}. Its graph source is the inherited $\NameCert_{\GraphUp}$ surface, and its visible edge rows are exactly the $\mathsf{GraphContEdge}$ rows consumed by the graph certificate. The inherited GraphUp NameCert surface therefore supplies the finite graph interface over $\mathsf{BHist}$ endpoints.
+
+Next read the tree-specific rows. Connectedness and acyclicity are the certificate rows already exposed by the public boundary, while the rooted or root-free alternative is the displayed witness row. By \autoref{thm:tree-syntactic-representation-obligation}, the same $\mathsf{BHist}$ endpoints and graph-edge rows also provide the derivation-spine syntax expected by the external reference.
+
+For the converse direction, begin with an external finite-tree presentation whose vertices are BEDC histories and whose edges are the same $\mathsf{GraphContEdge}$ rows. The connectedness, acyclicity, and root-or-root-free witnesses are visible rows over the inherited graph source. Apply \autoref{thm:treeup-exactness-obligation} to repack those rows as a $\TreeUp$ carrier, then apply \autoref{thm:treeup-public-certificate-boundary} to read back exactly the public boundary.
+
+No host graph equality is introduced in either direction. Endpoint comparison remains the inherited GraphUp NameCert comparison over $\hsame$, and route choices stay in the ledger rows named by the public package.
+\end{proof}
+\closureat{TreeUp}{bridgedStr}[BEDC.Derived.GraphUp.GraphCont\_namecert\_surface]
+
 \begin{closurestatus}{\TreeUp}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{The public $\TreeUp$ boundary is exactly the surface of \autoref{thm:tree-namecert-obligation-surface}, \autoref{def:tree-obligation-surface}, and \autoref{thm:tree-syntactic-representation-obligation}, read over $\mathsf{BHist}$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert_{\GraphUp}$, $\mathsf{GraphContEdge}$, connectedness, acyclicity, and root-branch rows.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.GraphUp.GraphCont\_namecert\_surface}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close a standard bridge, checked connectedness or acyclicity rows, checked root transport, or $\TreeUp$ Lean verification.}
-  \upgradepath{Bridged closure requires a standard bridge from the public $\TreeUp$ boundary to the external tree and derivation-syntax reference.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close checked $\TreeUp$ Lean verification, checked connectedness or acyclicity transport, or checked root transport.}
+  \upgradepath{Mature closure requires checked transport of the $\TreeUp$ bridge rows and downstream consumers over the external finite-tree and derivation-syntax reference.}
 \end{closurestatus}
