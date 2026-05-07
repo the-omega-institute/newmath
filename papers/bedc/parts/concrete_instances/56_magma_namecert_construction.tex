@@ -535,14 +535,48 @@ definition of $R_U$, so the displayed predicate is both the public classifier
 and the certificate's endpoint criterion.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.ConcreteUnaryHistoryMagma\_semanticNameCert}
-\closureat{MagmaUp}{bridgedStr}[BEDC.Derived.MagmaUp.ConcreteUnaryHistoryMagma\_semanticNameCert]
+
+\begin{theorem}[Magma mature downstream consumption boundary]
+\label{thm:magma-mature-downstream-consumption-boundary}
+The concrete semantic certificate of
+\autoref{thm:concrete-unary-history-magma-semantic-certificate}, the
+$\SemigroupUp$ forgetful consumer
+\autoref{prop:semigroup-forgets-magma-certificate}, and the concrete
+$\MonoidUp$ history instance of \autoref{sec:monoid-concrete-history-instance}
+together witness the downstream-consumption boundary required for
+$\MagmaUp$ mature paper closure.
+\end{theorem}
+\begin{proof}
+The $\MagmaUp$ certificate names the carrier by unary histories in
+$\mathsf{BHist}$, uses the classifier $R_U(h,k)$ as the carrier-aware $\hsame$
+relation, takes append as the binary operation, and records the $\Cont$ ledger
+row for the append output.
+Its exactness clause identifies the public classifier with those same carrier
+and $\hsame$ conditions, so the exported object contains no quotient layer and
+no ambient host magma.
+
+The $\SemigroupUp$ consumer of
+\autoref{prop:semigroup-forgets-magma-certificate} reads the same carrier,
+classifier, and append operation after omitting associativity from the
+semigroup certificate. The resulting $\MagmaUp$ surface is therefore not a new
+host algebra: it is the $\MagmaUp$ part of the concrete unary-history
+semigroup surface.
+
+The $\MonoidUp$ instance of \autoref{sec:monoid-concrete-history-instance}
+extends the same append and $\Cont$ surface by the unit rows for $\emp$.
+Forgetting the unit data leaves the same unary-history append carrier and
+classifier already used by the $\MagmaUp$ certificate. Thus the downstream
+algebra ladder consumes the concrete certificate without introducing extra
+magma data or quotient identifications.
+\end{proof}
+
 \closureat{MagmaUp}{matureStr}[BEDC.Derived.MagmaUp.ConcreteUnaryHistoryMagma\_semanticNameCert]
 \begin{closurestatus}{\MagmaUp}
   \theoryclosure{\matureClosure}
-  \scopeclosed{The concrete unary-history magma surface over BHist with append as the binary operation, classifier $R_U$, continuation ledger, exact public classifier criterion, and the concrete unary-history append monoid consumer in \autoref{sec:monoid-concrete-history-instance}.}
+  \scopeclosed{The concrete unary-history magma surface over BHist with append as the binary operation, classifier $R_U$, continuation ledger, exact public classifier criterion, and downstream SemigroupUp and MonoidUp consumers over the same unary-history append and $\Cont$ surface.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.MagmaUp.ConcreteUnaryHistoryMagma\_semanticNameCert}
   \bridgestatus{paperBridge}
-  \notclaimed{Arbitrary host magmas, quotient magmas, free magma constructions, and bridgeChecked verification are outside this closure claim.}
-  \upgradepath{The next boundary is checked bridge verification and broader algebraic consumers beyond the unary-history magma surface.}
+  \notclaimed{Arbitrary host magmas, quotient magmas, free magma constructions, and checked standard-bridge verification are outside this closure claim.}
+  \upgradepath{Further strengthening belongs to Lean-side audit depth or checked bridge verification, not to additional paper-side downstream consumption for this concrete unary-history surface.}
 \end{closurestatus}
