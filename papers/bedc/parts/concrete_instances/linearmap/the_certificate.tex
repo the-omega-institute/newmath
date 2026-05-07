@@ -79,16 +79,6 @@ constructor collapse and carrier-aware classifier transport on the singleton
 surface.
 \end{proof}
 
-\begin{closurestatus}{\LinearMapUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The singleton public linear-map bridge surface: the public singleton map-code exactness theorem binds carried map codes, identity and zero map codes, composition collapse, evaluator readback, pointwise classifier exactness, ledgered function identifiers, and the terminal one-map linear hom bridge surface over the singleton vector-space carrier.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.LinearMapUp.LinearMapSingleton\_public\_empty\_code\_exactness}
-  \bridgestatus{paperBridge}
-  \notclaimed{This chapter does not close arbitrary linear maps, kernels, images, rank-nullity, dual spaces, matrices, bounded operators, non-singleton function extensionality, or bridgeChecked verification.}
-  \upgradepath{Mature closure requires reusable examples and cross-chapter consumers beyond the terminal singleton bridge.}
-\end{closurestatus}
-
 \begin{theorem}[LinearMap pointwise classifier equivalence]
 \label{thm:linearmap-pointwise-classifier-equivalence}
 Let $F$ carry a $\FieldUp(F)$ certificate, and let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates. Write $C_V$ and $C_W$ for source and codomain carrier predicates, and write $\sim_W$ for a codomain classifier supplied by $\NameCert(C_W,\sim_W)$. Let $\mathsf{Lin}_{V,W}(f)$ be the carried $\LinearMapUp(V,W)$ map-code predicate from \autoref{def:linearmap-carrier}; in particular, a witness of $\mathsf{Lin}_{V,W}(f)$ includes output closure $C_V(x)\Longrightarrow C_W(f(x))$. Define the pointwise $\LinearMapUp$ classifier by
@@ -123,3 +113,13 @@ g(x)\sim_W h(x).
 $$
 Codomain transitivity gives $f(x)\sim_W h(x)$. These pointwise composites, together with the carried endpoints $f$ and $h$, form $f\sim_{\LinearMapUp(V,W)}h$. Thus the classifier attached to \autoref{def:linearmap-classifier-specification} satisfies the reflexive, symmetric, and transitive rows required by the stability and certificate obligations in \autoref{def:linearmap-stability-certificate} and \autoref{def:linearmap-certificate-obligations}.
 \end{proof}
+
+\begin{closurestatus}{\LinearMapUp}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature singleton public linear-map package binds the terminal one-map standard bridge of \autoref{thm:linearmap-terminal-standard-bridge} and the reusable pointwise classifier equivalence of \autoref{thm:linearmap-pointwise-classifier-equivalence} over the singleton vector-space carrier, including carried map codes, identity and zero map codes, composition collapse, evaluator readback, pointwise classifier exactness, and ledgered function identifiers.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.LinearMapUp.LinearMapSingleton\_public\_empty\_code\_exactness}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close bridgeChecked verification, arbitrary non-singleton linear maps, kernels, images, rank-nullity, dual spaces, matrices, bounded operators, or richer linear-algebra theorems.}
+  \upgradepath{BridgeChecked verification and richer non-singleton linear-algebra packages require machine-checked bridge transport beyond the mature singleton package.}
+\end{closurestatus}
