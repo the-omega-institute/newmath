@@ -307,4 +307,50 @@ theorem LieAlgebraSingletonBracket_left_zero_annihilation {x left right : BHist}
         (And.intro rightClassified
           (And.intro sameLeftRight (And.intro leftUnary rightUnary)))))
 
+theorem LieAlgebraSingletonAdjoint_endomap_package
+    {x y z yz addLeft xy xz addRight r scalarLeft scalarRight zeroImage : BHist} :
+    VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y -> VecSpaceSingletonCarrier z ->
+      VecSpaceSingletonCarrier r -> Cont y z yz -> Cont x yz addLeft -> Cont x y xy ->
+        Cont x z xz -> Cont xy xz addRight -> Cont x (VecSpaceSingletonSmul r y) scalarLeft ->
+          Cont r xy scalarRight -> Cont x BHist.Empty zeroImage ->
+            VecSpaceSingletonClassifier addLeft addRight ∧
+              VecSpaceSingletonClassifier scalarLeft scalarRight ∧
+              VecSpaceSingletonClassifier zeroImage BHist.Empty ∧ UnaryHistory addLeft ∧
+                UnaryHistory addRight ∧ UnaryHistory scalarLeft ∧ UnaryHistory scalarRight ∧
+                  UnaryHistory zeroImage := by
+  intro carrierX carrierY carrierZ carrierR yzRow addLeftRow xyRow xzRow addRightRow
+  intro scalarLeftRow scalarRightRow zeroRow
+  have additiveRows :=
+    LieAlgebraSingleton_adjoint_action_additive_linearity carrierX carrierY carrierZ yzRow
+      addLeftRow xyRow xzRow addRightRow
+  have scalarRows :=
+    LieAlgebraSingletonAdjoint_scalar_linearity carrierR carrierX carrierY scalarLeftRow xyRow
+      scalarRightRow
+  have zeroEmpty : VecSpaceSingletonCarrier zeroImage :=
+    cont_respects_hsame carrierX (hsame_refl BHist.Empty) zeroRow (cont_left_unit BHist.Empty)
+  have zeroClassified : VecSpaceSingletonClassifier zeroImage BHist.Empty :=
+    And.intro zeroEmpty (And.intro (hsame_refl BHist.Empty) zeroEmpty)
+  have xUnary : UnaryHistory x := unary_transport unary_empty (hsame_symm carrierX)
+  have yUnary : UnaryHistory y := unary_transport unary_empty (hsame_symm carrierY)
+  have zUnary : UnaryHistory z := unary_transport unary_empty (hsame_symm carrierZ)
+  have rUnary : UnaryHistory r := unary_transport unary_empty (hsame_symm carrierR)
+  have yzUnary : UnaryHistory yz := unary_cont_closed yUnary zUnary yzRow
+  have xyUnary : UnaryHistory xy := unary_cont_closed xUnary yUnary xyRow
+  have xzUnary : UnaryHistory xz := unary_cont_closed xUnary zUnary xzRow
+  have addLeftUnary : UnaryHistory addLeft := unary_cont_closed xUnary yzUnary addLeftRow
+  have addRightUnary : UnaryHistory addRight := unary_cont_closed xyUnary xzUnary addRightRow
+  have scalarLeftUnary : UnaryHistory scalarLeft :=
+    unary_cont_closed xUnary unary_empty scalarLeftRow
+  have scalarRightUnary : UnaryHistory scalarRight :=
+    unary_cont_closed rUnary xyUnary scalarRightRow
+  have zeroUnary : UnaryHistory zeroImage :=
+    unary_transport unary_empty (hsame_symm zeroEmpty)
+  exact And.intro additiveRows
+    (And.intro scalarRows.left
+      (And.intro zeroClassified
+        (And.intro addLeftUnary
+          (And.intro addRightUnary
+            (And.intro scalarLeftUnary
+              (And.intro scalarRightUnary zeroUnary))))))
+
 end BEDC.Derived.LieAlgebraUp
