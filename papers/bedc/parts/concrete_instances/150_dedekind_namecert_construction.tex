@@ -6,39 +6,39 @@ The Dedekind-domain interface $\DedekindUp$ packages an integrally closed Noethe
 \section{Carrier definition}
 \label{sec:dedekind-carrier}
 
-\begin{theorem}[Dedekind commutative-ring and ideal source obligation]\label{thm:dedekind-commring-ideal-source-obligation}
-A $\DedekindUp$ packet must expose a concrete $\mathsf{BHist}$ source carrying a $\NameCert_{\CommRingUp}$, an $\IdealUp$ carrier and classifier over that same source, and transport of the ideal classifier along $\hsame$. The obligation is part of the packet interface itself: it is not satisfied by naming an external ring and then appealing to host-language ideal equality.
+\begin{theorem}[Dedekind source obligation]\label{thm:dedekind-source-obligation}
+A $\DedekindUp$ source consists of a shared $\mathsf{BHist}$ carrier and classifier equipped with the cited $\NameCert_{\CommRingUp}$ and $\NameCert_{\IdealUp}$ surfaces. The commutative-ring certificate fixes the visible ring package, and the ideal certificate is read over the same carrier and classifier rather than over a second ambient presentation.
 \end{theorem}
 \begin{proof}
-Read the ten-field template for $\DedekindUp$ with the traditional target fixed as a Dedekind domain and with the BEDC source fixed as a visible commutative-ring history. The carrier is the named $\mathsf{BHist}$ together with the $\CommRingUp$ certificate, and the classifier is the $\IdealUp$ classifier living over that carrier.
+Unpack the seed boundary for $\DedekindUp$: the seed already names the $\CommRingUp$ source and the $\IdealUp$ source as required inputs. The roadmap ten-field template then asks first for a carrier and classifier surface before any domain law can be read.
 
-The stability obligations therefore include transport from $h \hsame h'$ to the corresponding ideal-classifier witness over $h'$. The ledger records that no quotient or host ideal object is hidden behind the certificate. The core theorem list begins with compatibility of the ring source and ideal source, the exactness predicate requires the ideal classifier to be covered, sound, and complete on the visible package, the standard bridge is only a comparison with the ordinary ring-and-ideal presentation, and the status remains an obligation until these fields are supplied.
+Those two inputs must therefore share the same $\mathsf{BHist}$ carrier and the same classifier transport. The proof records only this interface shape: it does not assert that the Dedekind certificate fields have been constructed.
 \end{proof}
 
-\begin{theorem}[Dedekind structural domain obligation]\label{thm:dedekind-structural-domain-obligation}
-For the same $\DedekindUp$ packet, integrally closed, Noetherian, and domain data must be supplied as explicit carrier predicates with ledger entries over the visible $\mathsf{BHist}$ source. They may not be imported as untracked host properties of an unnamed ambient ring.
+\begin{theorem}[Dedekind domain-law obligation]\label{thm:dedekind-domain-law-obligation}
+For the shared $\DedekindUp$ classifier, the domain-specific rows are integrally closedness, Noetherianity, and the assertion that every nonzero prime ideal is maximal. Each row is a certificate field over the shared classifier, with its own witness and stability requirement.
 \end{theorem}
 \begin{proof}
-The traditional target asks for an integrally closed Noetherian domain. In BEDC form, those words become three named rows attached to the carrier chosen in the commutative-ring and ideal-source obligation. The classifier choice is the existing history and ideal classifier, so each row must be stable under the same transport rather than under a separate equality notion.
+The seed closure lists the integrally closed row, the Noetherian row, and the nonzero-prime-maximal row as the precise domain obligations. The roadmap ten-field template turns each listed row into visible data: a field, a witness, and classifier stability.
 
-The ledger records each structural row as visible data: what evidence is projected, what evidence is retained, and what evidence is available to downstream certificates. The core theorem list consists of row stability and row availability for consumers, while the exactness predicate states that these rows cover exactly the carrier histories admitted by the packet. The standard bridge compares the rows to the classical structural conditions, and the status is an obligation until the packet provides those rows directly.
+Since the carrier and ideal classifier have already been fixed by the source obligation, the three domain laws cannot be supplied as detached host properties. They must be read as certificate rows over that same BEDC classifier.
 \end{proof}
 
-\begin{theorem}[Dedekind nonzero-prime maximal exactness obligation]\label{thm:dedekind-prime-maximal-exactness-obligation}
-Every nonzero prime ideal witness in a $\DedekindUp$ packet must admit a maximal-ideal classifier witness, and the converse direction must be recorded by an exactness row whose fields state coverage, soundness, and completeness for the visible package. The row is about the supplied $\IdealUp$ carrier and classifier, not about a hidden quotient of ideals.
+\begin{theorem}[Dedekind classifier ledger obligation]\label{thm:dedekind-classifier-ledger-obligation}
+Classifier transport and the $\DedekindUp$ ledger expose exactly the commutative-ring source, the ideal source, the integrally closed witness, the Noetherian witness, and the nonzero-prime-maximal witness. The ledger exposes no quotient data, no classical-choice data, and no $\StdBridge$ data.
 \end{theorem}
 \begin{proof}
-The traditional target is the Dedekind-domain condition that nonzero prime ideals are maximal. The BEDC source is the same commutative-ring history equipped with the same ideal carrier and classifier; the carrier of the row is the visible collection of nonzero prime ideal witnesses, and the classifier is the maximal-ideal classifier witness transported by $\hsame$.
+Unpack the exact-ledger boundary in the seed closure. Its upgrade path names the commutative-ring source, ideal source, three domain-law witnesses, classifier transport, and ledger boundary as the full local inventory.
 
-The stability obligations say that nonzero-prime evidence, maximal evidence, and their comparison survive classifier transport. The ledger records the exact boundary between the visible witnesses and any classical presentation used for orientation. The core theorem list contains the forward maximality production and the reverse accounting statement, while the exactness predicate names coverage, soundness, and completeness for this row. The standard bridge is the ordinary theorem that nonzero prime ideals in a Dedekind domain are maximal, and the status remains an obligation until the visible row is supplied.
+The roadmap ten-field template then separates local certificate data from quotient, classical, and standard-bridge comparisons. The theorem therefore fixes the exposed ledger shape without claiming a completed $\NameCert_{\DedekindUp}$.
 \end{proof}
 
 \section{The certificate}
 \label{sec:dedekind-certificate}
 
 \begin{closurestatus}{\DedekindUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds the $\CommRingUp$ source, the $\IdealUp$ source, the integrally closed row, the Noetherian row, and the nonzero-prime-maximal row as obligations not yet supplied by this chapter.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The paper-side obligation set is closed by the three theorem blocks for the commutative-ring and ideal source, the structural domain rows, and the nonzero-prime/maximal exactness ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a Dedekind-domain carrier, classifier, stability field, exactness row, ledger row, standard bridge, or downstream consumer certificate.}

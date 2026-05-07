@@ -33,6 +33,22 @@ theorem SheafBHistPointGermLedger_restriction_readback
     (And.intro ledger.left (And.intro restrictedOpenUnary restrictedRow))
     sameGerm
 
+theorem SheafBHistPointGermLedger_gluing_readback
+    {point openHist sect germ memberOpen memberSect memberGerm : BHist} :
+    SheafBHistPointGermLedger point openHist sect germ ->
+      UnaryHistory memberOpen -> hsame openHist memberOpen -> hsame sect memberSect ->
+        Cont memberOpen memberSect memberGerm ->
+          SheafBHistPointGermLedger point memberOpen memberSect memberGerm ∧
+            hsame germ memberGerm := by
+  intro ledger memberOpenUnary sameOpen sameSect memberRow
+  cases sameOpen
+  cases sameSect
+  have sameGerm : hsame germ memberGerm :=
+    cont_deterministic ledger.right.right memberRow
+  exact And.intro
+    (And.intro ledger.left (And.intro memberOpenUnary memberRow))
+    sameGerm
+
 theorem SheafBHistPointGermComparison_trans
     {point openA openB openC sectA sectB sectC germA germB germC common : BHist} :
     SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
