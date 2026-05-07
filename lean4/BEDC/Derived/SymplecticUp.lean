@@ -240,6 +240,28 @@ theorem SymplecticObligationBoundary_carrier_classifier_obligations
             (And.intro degreeRows.right.left
               (And.intro closedUnary nondegUnary)))))
 
+theorem SymplecticObligationBoundary_ledger_exactness_obligation
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+      raised closedWitness nondegWitness ->
+      ManifoldSingletonCarrier manifold ∧
+        DiffFormExteriorDerivativeLedger scalar derivative degree raised probe probe tensor tensor
+          scalar scalar antisym ledger ∧
+        hsame degree (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+        Cont raised BHist.Empty closedWitness ∧
+        Cont manifold scalar nondegWitness ∧
+        UnaryHistory closedWitness ∧ UnaryHistory nondegWitness := by
+  intro boundary
+  have obligations := SymplecticObligationBoundary_carrier_classifier_obligations boundary
+  exact And.intro obligations.left
+    (And.intro obligations.right.left
+      (And.intro obligations.right.right.left
+        (And.intro boundary.right.right.right.left
+          (And.intro boundary.right.right.right.right
+            (And.intro obligations.right.right.right.right.right.left
+              obligations.right.right.right.right.right.right)))))
+
 theorem SymplecticObligationBoundary_closed_two_form_row
     {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
       nondegWitness : BHist} :

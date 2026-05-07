@@ -271,6 +271,7 @@ import BEDC.Derived.SheafUp.RootStalkFreeGermSource
 import BEDC.Derived.SetUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.TreeUp
+import BEDC.Derived.TreeUp.ObligationSurface
 import BEDC.Derived.TreeUp.SemanticNameCertificate
 import BEDC.Derived.SheafUp.RefinedCoverExactness
 import BEDC.Derived.SchemeUp
