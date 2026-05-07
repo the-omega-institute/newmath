@@ -169,4 +169,21 @@ theorem WeylGroupRootSystemGroupCarrier_row
     (And.intro carrier.right.left
       (And.intro carrier.right.right sameEndpointRoot))
 
+theorem WeylGroupCoxeterWordLedger_empty_relation_readback
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    {root word relation action : BHist} :
+    WeylGroupRootSystemGroupCarrier support Vector Nonzero root word action ->
+      Cont word BHist.Empty relation ->
+        RootSystemFiniteSupportCarrier support Vector Nonzero root ∧
+          GroupSingletonCarrier relation ∧ hsame relation word ∧ hsame action root := by
+  intro carrier relationReadback
+  have carrierRow := WeylGroupRootSystemGroupCarrier_row carrier
+  have relationWord : hsame relation word :=
+    cont_right_unit_result relationReadback
+  have relationCarrier : GroupSingletonCarrier relation :=
+    hsame_trans relationWord carrierRow.right.left
+  exact And.intro carrierRow.left
+    (And.intro relationCarrier
+      (And.intro relationWord carrierRow.right.right.right))
+
 end BEDC.Derived.WeylGroupUp
