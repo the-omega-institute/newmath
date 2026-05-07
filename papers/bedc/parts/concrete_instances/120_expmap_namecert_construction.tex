@@ -6,6 +6,15 @@ The exponential-map interface $\ExpMapUp$ packages the canonical map $\mathfrak{
 \section{Carrier definition}
 \label{sec:expmap-carrier}
 
+\begin{definition}[Certified exponential-map interface carrier]
+\label{def:expmap-certified-interface-carrier}
+A certified $\ExpMapUp$ interface carrier is a tuple
+$$
+\mathcal{E}=(\mathcal{G},\mathcal{L},\tau,\gamma,\phi,\eta_{\mathcal{G}},\eta_{\mathcal{L}})
+$$
+where $\mathcal{G}$ is a $\LieGroupUp$ source certificate, $\mathcal{L}$ is a $\LieAlgebraUp$ source certificate, $\tau:\mathsf{BHist}$ is the tangent input row, $\gamma:\mathsf{BHist}$ is the group endpoint row, $\phi$ is a local-flow witness from $\tau$ to $\gamma$, and $\eta_{\mathcal{G}}$ and $\eta_{\mathcal{L}}$ are the corresponding $\NameCert$ source witnesses. The interface classifier is the restricted $\hsame$ relation on the tangent, endpoint, and local-flow rows. The carrier is accepted exactly when these rows are scoped through the two source $\NameCert$ witnesses and the local-flow witness records the exponential endpoint determined by the tangent history.
+\end{definition}
+
 \begin{theorem}[ExpMap carrier obligation surface]
 \label{thm:expmap-carrier-obligation-surface}
 The $\ExpMapUp$ carrier is the $\mathsf{BHist}$ graph package whose source projection is licensed by the $\LieAlgebraUp$ tangent carrier and whose target projection is licensed by the $\LieGroupUp$ carrier. A carried row consists of a source tangent row $x$, a target group row $g$, and a displayed finite BEDC flow ledger connecting them through $\Cont$ and $\mathsf{hsame}$ rows. The graph row is generated only by that finite ledger; it does not assert equality of host functions, analytic exponentials, or ambient manifold maps.
@@ -45,13 +54,54 @@ For two composable flow rows, concatenate their finite $\Cont$ ledgers. The asso
 \section{The certificate}
 \label{sec:expmap-certificate}
 
-\closureat{ExpMapUp}{seedStr}
+\begin{theorem}[Exponential-map carrier source obligations]
+\label{thm:expmap-carrier-source-obligations}
+Every certified $\ExpMapUp$ interface carrier in \autoref{def:expmap-certified-interface-carrier} projects the $\LieGroupUp$ source row, the $\LieAlgebraUp$ source row, the tangent $\mathsf{BHist}$ row, and the group-endpoint $\mathsf{BHist}$ row required by the exponential-map certificate.
+\end{theorem}
+\begin{proof}
+Unpack the carrier tuple. The first two components are already the source certificates for $\LieGroupUp$ and $\LieAlgebraUp$, and the last two source witnesses are the named $\NameCert$ scopes for those components.
+
+The tangent and endpoint rows are the third and fourth components of the same tuple. Since the carrier definition accepts the tuple only when these histories are scoped through the source witnesses, projecting them gives exactly the four required rows: group source, algebra source, tangent input, and group endpoint.
+\end{proof}
+
+\begin{theorem}[Exponential-map classifier stability obligations]
+\label{thm:expmap-classifier-stability-obligations}
+For the certified $\ExpMapUp$ carrier, the restricted $\hsame$ classifier on tangent, endpoint, and local-flow rows has reflexivity, symmetry, transitivity, and carrier transport obligations supplied by $\hsame$ and by the two source $\NameCert$ certificates.
+\end{theorem}
+\begin{proof}
+Reflexivity, symmetry, and transitivity are the corresponding structural clauses of $\hsame$ restricted to the rows named in \autoref{def:expmap-certified-interface-carrier}. The restriction does not change the witnesses; it only records that their endpoints are tangent, endpoint, or local-flow rows of the same carrier.
+
+Carrier transport uses the two source certificates. Transport across the $\LieAlgebraUp$ source keeps tangent histories in the accepted algebra row, and transport across the $\LieGroupUp$ source keeps endpoint histories in the accepted group row. The local-flow component is transported by applying these two transports to its source and target histories and retaining the same $\hsame$ comparison as the interface classifier witness.
+\end{proof}
+
+\begin{theorem}[Exponential-map flow and zero obligations]
+\label{thm:expmap-flow-and-zero-obligations}
+The certified $\ExpMapUp$ carrier has two flow obligations: the zero tangent history is classified with the identity group endpoint, and $\Cont$-composition of local-flow histories is compatible with the exponential endpoint classifier.
+\end{theorem}
+\begin{proof}
+The zero tangent obligation is the local-flow row whose input is the zero row of the $\LieAlgebraUp$ source certificate. Its endpoint is the identity row of the $\LieGroupUp$ source certificate, and the accepted local-flow witness records the $\hsame$ comparison between this endpoint and the carried group endpoint.
+
+For composition, take two compatible local-flow witnesses whose middle endpoint rows are $\hsame$-classified. The $\Cont$ row composes the two histories, the $\LieGroupUp$ source certificate transports the composed endpoint through the middle comparison, and the $\LieAlgebraUp$ source certificate transports the tangent input row along the algebra classifier. The resulting composed local-flow witness has the same source and target rows required by the exponential endpoint classifier.
+\end{proof}
+
+\begin{theorem}[Exponential-map ledger and dependency obligations]
+\label{thm:expmap-ledger-and-dependency-obligations}
+The certified $\ExpMapUp$ obligation ledger contains exactly the $\LieGroupUp$ source, the $\LieAlgebraUp$ source, the tangent $\mathsf{BHist}$ row, the endpoint $\mathsf{BHist}$ row, the restricted $\hsame$ classifier rows, the $\Cont$ local-flow composition rows, and the two source $\NameCert$ witnesses.
+\end{theorem}
+\begin{proof}
+Soundness is by reading each accepted ledger row from the carrier tuple or from the source certificate named in the tuple. No further row is needed to state the exponential-map obligations: the carrier projections give the sources and histories, $\hsame$ gives the classifier witnesses, $\Cont$ gives composition of local-flow histories, and the two $\NameCert$ witnesses scope all source transport.
+
+Exactness is the reverse reading. Any row accepted by the $\ExpMapUp$ ledger must be one of the rows listed in the definition of the certified carrier or one of the structural rows named by its source certificates. Therefore the dependency surface is exactly $\LieGroupUp$, $\LieAlgebraUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$, with no additional bridge or Lean verification target claimed here.
+\end{proof}
+
+\closureat{ExpMapUp}{obligationStr}
 
 \begin{closurestatus}{\ExpMapUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the $\LieGroupUp$ and $\LieAlgebraUp$ source surfaces, the exponential-map carrier row, classifier row, flow-composition row, zero tangent row, ledger obligations, and standard-bridge obligations as the seed boundary for $\ExpMapUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the carrier source obligations of \autoref{thm:expmap-carrier-source-obligations}, classifier stability obligations of \autoref{thm:expmap-classifier-stability-obligations}, flow and zero obligations of \autoref{thm:expmap-flow-and-zero-obligations}, and ledger and dependency obligations of \autoref{thm:expmap-ledger-and-dependency-obligations}.}
   \formalstatus{\unformalizedV}
+  \leantarget{}
   \bridgestatus{none}
-  \notclaimed{It does not close a carrier, classifier laws, local flow theorem, standard bridge, or Lean verification target for $\ExpMapUp$.}
-  \upgradepath{Obligation closure requires explicit theorem blocks for the carrier, classifier stability, zero tangent, composition/local-flow compatibility, ledger, and $\LieGroupUp/\LieAlgebraUp$ dependency rows.}
+  \notclaimed{It does not close a scoped carrier theorem, public exponential-map object, standard bridge, or Lean verification target for $\ExpMapUp$.}
+  \upgradepath{Scoped closure requires concrete local-flow constructors, checked classifier transport, zero tangent endpoint proof, composition theorem, and a Lean namespace for $\ExpMapUp$.}
 \end{closurestatus}
