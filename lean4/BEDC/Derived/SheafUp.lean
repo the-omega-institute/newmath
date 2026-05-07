@@ -19,6 +19,20 @@ def SheafBHistPointGermComparison
     hsame common openA ∧ hsame common openB ∧ Cont common sectA germA ∧
       Cont common sectB germB ∧ hsame germA germB
 
+def SheafBHistCoverNerveLedger
+    (ambient member overlap route germ : BHist) : Prop :=
+  UnaryHistory ambient ∧ UnaryHistory member ∧ UnaryHistory overlap ∧ hsame overlap member ∧
+    Cont overlap route germ
+
+theorem SheafBHistCoverNerveLedger_empty_boundary
+    {ambient member overlap route germ : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      hsame germ BHist.Empty -> hsame overlap BHist.Empty ∧ hsame route BHist.Empty := by
+  intro ledger germEmpty
+  have appendEmpty : append overlap route = BHist.Empty :=
+    ledger.right.right.right.right.symm.trans germEmpty
+  exact append_eq_empty_iff.mp appendEmpty
+
 theorem SheafBHistPointGermLedger_restriction_readback
     {point openHist sectionHist germ restrictedOpen restrictedGerm : BHist} :
     SheafBHistPointGermLedger point openHist sectionHist germ ->
@@ -34,6 +48,42 @@ theorem SheafBHistPointGermLedger_restriction_readback
   exact And.intro
     (And.intro ledger.left (And.intro restrictedOpenUnary restrictedRow))
     sameGerm
+
+theorem SheafBHistPointGermLedger_identity_open_membership_cont_exactness
+    {point openHist sectionHist germ : BHist} :
+    SheafBHistPointGermLedger point openHist sectionHist germ ↔
+      ∃ memberOpen : BHist, hsame memberOpen openHist ∧
+        Cont memberOpen sectionHist germ ∧
+          SheafBHistPointGermLedger point memberOpen sectionHist germ := by
+  constructor
+  · intro ledger
+    exact Exists.intro openHist
+      (And.intro (hsame_refl openHist)
+        (And.intro ledger.right.right ledger))
+  · intro witness
+    cases witness with
+    | intro memberOpen data =>
+        cases data.left
+        exact data.right.right
+
+theorem SheafBHistPointGermLedger_refinement_composition
+    {point openA openB openC sectionHist germA germB germC : BHist} :
+    SheafBHistPointGermLedger point openA sectionHist germA ->
+      hsame openA openB ->
+        Cont openB sectionHist germB ->
+          hsame openB openC ->
+            Cont openC sectionHist germC ->
+              SheafBHistPointGermLedger point openC sectionHist germC ∧
+                hsame germA germC ∧ hsame germB germC := by
+  intro ledger sameAB rowB sameBC rowC
+  have readbackB :
+      SheafBHistPointGermLedger point openB sectionHist germB ∧ hsame germA germB :=
+    SheafBHistPointGermLedger_restriction_readback ledger sameAB rowB
+  have readbackC :
+      SheafBHistPointGermLedger point openC sectionHist germC ∧ hsame germB germC :=
+    SheafBHistPointGermLedger_restriction_readback readbackB.left sameBC rowC
+  exact And.intro readbackC.left
+    (And.intro (hsame_trans readbackB.right readbackC.right) readbackC.right)
 
 theorem SheafRestrictedOpenCarrier_semantic_name_certificate
     {point openHist sectionHist germ : BHist} :
@@ -200,6 +250,41 @@ theorem SheafRestrictedOpenCarrier_locality_gluing_descent
     (And.intro readbackB.left
       (hsame_trans sameRestrictedA (hsame_trans sameGerm sameRestrictedB)))
 
+def SheafDownstreamConsumerScope
+    (point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist) : Prop :=
+  SheafBHistPointGermLedger point openHist sectionA germA ∧
+    SheafBHistPointGermLedger point openHist sectionB germB ∧
+      hsame germA germB ∧ hsame openHist restrictedOpen ∧
+        Cont restrictedOpen sectionA restrictedGermA ∧
+          Cont restrictedOpen sectionB restrictedGermB ∧
+            hsame chartEndpoint restrictedGermB
+
+theorem SheafDownstreamConsumer_carrier_scope
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist} :
+    SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB
+        restrictedOpen restrictedGermA restrictedGermB chartEndpoint ->
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                hsame chartEndpoint restrictedGermB := by
+  intro scope
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      scope.left scope.right.left scope.right.right.left scope.right.right.right.left
+      scope.right.right.right.right.left scope.right.right.right.right.right.left
+  exact And.intro descent.left
+    (And.intro descent.right.left
+      (And.intro scope.right.right.right.right.left
+        (And.intro scope.right.right.right.right.right.left
+          (And.intro descent.right.right scope.right.right.right.right.right.right))))
+
 theorem SheafBHistPointGermComparison_restricted_open_descent
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB : BHist} :
@@ -222,31 +307,158 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
-theorem SheafRootThreshold_gluing_refinement_obligation
-    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
-      restrictedGermB globalA globalB : BHist} :
+theorem SheafBHistPointGermLedger_route_cont_composition
+    {point openA routeAB openB routeBC openC routeAC openC' sect germC germC' : BHist} :
+    SheafBHistPointGermLedger point openC sect germC ->
+      Cont openA routeAB openB -> Cont openB routeBC openC ->
+        Cont routeAB routeBC routeAC -> Cont openA routeAC openC' ->
+          Cont openC' sect germC' ->
+            SheafBHistPointGermLedger point openC' sect germC' ∧
+              hsame openC openC' ∧ hsame germC germC' := by
+  intro ledger routeA routeB routeAB routeDirect sectionDirect
+  have sameOpen : hsame openC openC' :=
+    cont_assoc_relational routeA routeB routeAB routeDirect
+  have openUnary : UnaryHistory openC' :=
+    unary_transport ledger.right.left sameOpen
+  have sameGerm : hsame germC germC' :=
+    cont_respects_hsame sameOpen (hsame_refl sect) ledger.right.right sectionDirect
+  exact And.intro
+    (And.intro ledger.left (And.intro openUnary sectionDirect))
+    (And.intro sameOpen sameGerm)
+
+theorem SheafRootCoverDescent_common_refinement_germ_exactness
+    {point openA openB sectA sectB germA germB common globalA globalB : BHist} :
+    SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
+      Cont common sectA globalA -> Cont common sectB globalB -> hsame germA globalA ->
+        hsame germB globalB ->
+          SheafBHistPointGermComparison point openA sectA globalA openB sectB globalB
+            common ∧
+            hsame globalA globalB := by
+  intro comparison globalACont globalBCont sameGlobalA sameGlobalB
+  have sameGlobal :
+      hsame globalA globalB :=
+    SheafBHistPointGermComparison_soundness
+      comparison globalACont globalBCont sameGlobalA sameGlobalB
+  exact And.intro
+    (And.intro comparison.left
+      (And.intro comparison.right.left
+        (And.intro comparison.right.right.left
+          (And.intro comparison.right.right.right.left
+            (And.intro comparison.right.right.right.right.left
+              (And.intro comparison.right.right.right.right.right.left
+                (And.intro globalACont
+                  (And.intro globalBCont sameGlobal))))))))
+    sameGlobal
+
+theorem SheafRootRingedSpaceLocalRingProjection_seal
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA restrictedGermB
+      tail : BHist} :
     SheafBHistPointGermLedger point openHist sectionA germA ->
       SheafBHistPointGermLedger point openHist sectionB germB ->
         hsame germA germB -> hsame openHist restrictedOpen ->
           Cont restrictedOpen sectionA restrictedGermA ->
             Cont restrictedOpen sectionB restrictedGermB ->
-              Cont restrictedOpen sectionA globalA ->
-                Cont restrictedOpen sectionB globalB ->
-                  hsame restrictedGermA globalA ->
-                    hsame restrictedGermB globalB ->
-                      SheafBHistPointGermComparison point restrictedOpen sectionA
-                        restrictedGermA restrictedOpen sectionB restrictedGermB
-                          restrictedOpen ∧ hsame globalA globalB := by
-  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB globalACont globalBCont
-    sameGlobalA sameGlobalB
+              SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+                SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                  SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+                    restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+                    hsame restrictedGermA restrictedGermB ∧
+                      (hsame restrictedOpen (BHist.e0 tail) -> False) := by
+  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
   have comparison :
       SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
         restrictedOpen sectionB restrictedGermB restrictedOpen :=
-    SheafBHistPointGermComparison_restricted_open_descent
-      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
-  have globalSame : hsame globalA globalB :=
-    SheafBHistPointGermComparison_soundness
-      comparison globalACont globalBCont sameGlobalA sameGlobalB
-  exact And.intro comparison globalSame
+    (SheafBHistPointGermLedger_common_open_comparison
+      descent.left descent.right.left descent.right.right).left
+  have restrictedOpenNotZero : hsame restrictedOpen (BHist.e0 tail) -> False := by
+    intro sameZero
+    exact unary_no_zero_extension (unary_transport descent.left.right.left sameZero)
+  exact And.intro descent.left
+    (And.intro descent.right.left
+      (And.intro comparison
+        (And.intro descent.right.right restrictedOpenNotZero)))
+
+theorem SheafBHistPointGermLedger_route_history_stability
+    {point openHist sectionHist germ restrictedOpen route routeTarget restrictedGerm : BHist} :
+    SheafBHistPointGermLedger point openHist sectionHist germ ->
+      hsame openHist restrictedOpen ->
+        Cont restrictedOpen route routeTarget ->
+          hsame routeTarget restrictedOpen ->
+            Cont routeTarget sectionHist restrictedGerm ->
+              hsame route BHist.Empty ∧
+                SheafBHistPointGermLedger point routeTarget sectionHist restrictedGerm ∧
+                  hsame germ restrictedGerm := by
+  intro ledger sameOpen routeRow sameTarget restrictedRow
+  have routeEmpty : hsame route BHist.Empty :=
+    cont_right_unit_unique (cont_result_hsame_transport routeRow sameTarget)
+  have routeTargetUnary : UnaryHistory routeTarget := by
+    cases sameOpen
+    exact unary_transport ledger.right.left (hsame_symm sameTarget)
+  have sameOpenRouteTarget : hsame openHist routeTarget :=
+    hsame_trans sameOpen (hsame_symm sameTarget)
+  have sameGerm : hsame germ restrictedGerm :=
+    cont_respects_hsame sameOpenRouteTarget (hsame_refl sectionHist)
+      ledger.right.right restrictedRow
+  exact And.intro routeEmpty
+    (And.intro
+      (And.intro ledger.left (And.intro routeTargetUnary restrictedRow))
+      sameGerm)
+
+theorem SheafBHistPointGermLedger_cover_descent_exhaustion
+    {point openHist sectA sectB germA germB memberOpen memberSectA memberSectB
+      memberGermA memberGermB common commonGermA commonGermB : BHist} :
+    SheafBHistPointGermLedger point openHist sectA germA ->
+      SheafBHistPointGermLedger point openHist sectB germB ->
+        hsame germA germB -> hsame openHist memberOpen -> hsame sectA memberSectA ->
+          hsame sectB memberSectB -> Cont memberOpen memberSectA memberGermA ->
+            Cont memberOpen memberSectB memberGermB -> hsame memberOpen common ->
+              Cont common memberSectA commonGermA ->
+                Cont common memberSectB commonGermB ->
+                  SheafBHistPointGermComparison point common memberSectA commonGermA
+                      common memberSectB commonGermB common ∧
+                    hsame germA commonGermA ∧ hsame germB commonGermB := by
+  intro ledgerA ledgerB sameGerm sameMemberOpen sameSectA sameSectB memberRowA memberRowB
+    sameCommon commonRowA commonRowB
+  have memberOpenUnary : UnaryHistory memberOpen := by
+    cases sameMemberOpen
+    exact ledgerA.right.left
+  have memberReadbackA :
+      SheafBHistPointGermLedger point memberOpen memberSectA memberGermA ∧
+        hsame germA memberGermA :=
+    SheafBHistPointGermLedger_gluing_readback ledgerA memberOpenUnary sameMemberOpen
+      sameSectA memberRowA
+  have memberReadbackB :
+      SheafBHistPointGermLedger point memberOpen memberSectB memberGermB ∧
+        hsame germB memberGermB :=
+    SheafBHistPointGermLedger_gluing_readback ledgerB memberOpenUnary sameMemberOpen
+      sameSectB memberRowB
+  have commonReadbackA :
+      SheafBHistPointGermLedger point common memberSectA commonGermA ∧
+        hsame memberGermA commonGermA :=
+    SheafBHistPointGermLedger_restriction_readback memberReadbackA.left sameCommon commonRowA
+  have commonReadbackB :
+      SheafBHistPointGermLedger point common memberSectB commonGermB ∧
+        hsame memberGermB commonGermB :=
+    SheafBHistPointGermLedger_restriction_readback memberReadbackB.left sameCommon commonRowB
+  have sameCommonGerms : hsame commonGermA commonGermB :=
+    hsame_trans (hsame_symm commonReadbackA.right)
+      (hsame_trans (hsame_symm memberReadbackA.right)
+        (hsame_trans sameGerm
+          (hsame_trans memberReadbackB.right commonReadbackB.right)))
+  have comparison :
+      SheafBHistPointGermComparison point common memberSectA commonGermA common memberSectB
+        commonGermB common :=
+    (SheafBHistPointGermLedger_common_open_comparison
+      commonReadbackA.left commonReadbackB.left sameCommonGerms).left
+  exact And.intro comparison
+    (And.intro
+      (hsame_trans memberReadbackA.right commonReadbackA.right)
+      (hsame_trans memberReadbackB.right commonReadbackB.right))
 
 end BEDC.Derived.SheafUp
