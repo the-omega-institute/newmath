@@ -1,6 +1,7 @@
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ManifoldUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.SymplecticUp
@@ -9,6 +10,7 @@ open BEDC.Derived.DiffFormUp
 open BEDC.Derived.ManifoldUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def SymplecticCarrierClassifierSurface
@@ -132,5 +134,51 @@ theorem SymplecticObligationBoundary_carrier_classifier_obligations
         (And.intro manifoldRows.right.left
           (And.intro degreeRows.right.left
             (And.intro closedUnary nondegUnary)))))
+
+theorem SymplecticObligationBoundary_semantic_name_certificate
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger
+            derivative raised closedWitness endpoint)
+        (fun endpoint : BHist =>
+          SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger
+            derivative raised closedWitness endpoint)
+        (fun endpoint : BHist =>
+          SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger
+            derivative raised closedWitness endpoint)
+        hsame := by
+  intro boundary
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro nondegWitness boundary
+      equiv_refl := by
+        intro endpoint _source
+        exact hsame_refl endpoint
+      equiv_symm := by
+        intro _endpoint _endpoint' sameEndpoint
+        exact hsame_symm sameEndpoint
+      equiv_trans := by
+        intro _endpoint _endpoint' _endpoint'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro endpoint endpoint' sameEndpoint source
+        exact And.intro source.left
+          (And.intro source.right.left
+            (And.intro source.right.right.left
+              (And.intro source.right.right.right.left
+                (cont_hsame_transport (hsame_refl manifold) (hsame_refl scalar) sameEndpoint
+                  source.right.right.right.right))))
+    }
+    pattern_sound := by
+      intro _endpoint source
+      exact source
+    ledger_sound := by
+      intro _endpoint source
+      exact source
+  }
 
 end BEDC.Derived.SymplecticUp
