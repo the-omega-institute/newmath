@@ -54,11 +54,13 @@ The exact ledger boundary is the accompanying $\Pkg$ provenance for those member
 Thus the ledger gives an extensionality obligation without exporting a host set, a host equality, or any hidden construction witness. The only downstream dependency made available is the membership-visible carrier, classifier, transport, and exact boundary described above.
 \end{proof}
 
+\closureat{SetUp}{scopedStr}
 \begin{closurestatus}{\SetUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter names the $\Hist$ set-carrier predicate, $\psame$-style membership classifier, membership transport, extensionality row, finite-substrate consumers $\FinSetUp$ and $\SubtypeUp$, exact ledger boundary, and standard-bridge row as the binding scope for the certificate obligations.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The $\SetUp$ carrier, classifier, membership transport, and extensionality ledger are scoped precisely to $\mathsf{BHist}$, $\NameCert$, $\psame$, $\hsame$, and $\Pkg$ as witnessed by \autoref{thm:set-carrier-obligation}, \autoref{thm:set-classifier-obligation}, \autoref{thm:set-membership-transport-obligation}, and \autoref{thm:set-extensionality-ledger-obligation}.}
   \formalstatus{\unformalizedV}
+  \leantarget{BEDC.FKernel.NameCert.NameCert}
   \bridgestatus{none}
-  \notclaimed{This seed does not close carrier construction, classifier laws, extensionality, exactness, standard bridge data, or Lean verification for $\SetUp$.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, membership-transport, extensionality, exact-ledger, and dependency theorem blocks for $\SetUp$.}
+  \notclaimed{This chapter does not close exactness, standard bridge data, downstream $\FinSetUp$ or $\SubtypeUp$ certificates, or Lean verification for $\SetUp$.}
+  \upgradepath{The next grade requires a public-facing $\SetUp$ certificate theorem and Lean verification targets for the same scoped rows.}
 \end{closurestatus}
