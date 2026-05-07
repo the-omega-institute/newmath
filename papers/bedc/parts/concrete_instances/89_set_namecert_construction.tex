@@ -40,11 +40,13 @@ Next apply the $\psame$ classifier row to the transported membership presentatio
 
 Combining the transported witness with the classifier evidence yields a carried witness for $h'$. The dependency remains constructive and visible: the proof uses only $\NameCert$, $\psame$, $\hsame$, and $\Pkg$, so downstream $\FinSetUp$ and $\SubtypeUp$ consumers receive a stable membership row rather than an external equality principle.
 \end{proof}
+\leanchecked{BEDC.Derived.SetUp.SetMembershipVisibleTransportChain\_hsame}
 
 \begin{theorem}[Set extensionality ledger obligation]
 \label{thm:set-extensionality-ledger-obligation}
 The $\SetUp$ extensionality ledger records exactly the visible membership rows and their exact package boundary. Finite consumers such as $\FinSetUp$ and restricted consumers such as $\SubtypeUp$ may consume the carrier $A$, the $\psame$ classifier, and the $\hsame$-stable membership transport row, but they may not inspect hidden package data outside the ledger boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetUp.SetExtensionalityLedger\_semantic\_name\_certificate}
 \begin{proof}
 The extensionality row compares two $\SetUp$ presentations by their visible membership classifications. If the same $\mathsf{BHist}$ histories are carried and their visible membership rows agree by $\psame$, the public set presentation agrees at the certificate boundary.
 
@@ -53,13 +55,13 @@ The exact ledger boundary is the accompanying $\Pkg$ provenance for those member
 Thus the ledger gives an extensionality obligation without exporting a host set, a host equality, or any hidden construction witness. The only downstream dependency made available is the membership-visible carrier, classifier, transport, and exact boundary described above.
 \end{proof}
 
-\closureat{SetUp}{obligationStr}
+\closureat{SetUp}{scopedStr}
 \begin{closurestatus}{\SetUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:set-carrier-obligation}, \autoref{thm:set-classifier-obligation}, \autoref{thm:set-membership-transport-obligation}, and \autoref{thm:set-extensionality-ledger-obligation} close the carrier, classifier, membership-transport, and extensionality-ledger obligation surface for $\SetUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The $\SetUp$ carrier, classifier, membership transport, and extensionality ledger are scoped precisely to $\mathsf{BHist}$, $\NameCert$, $\psame$, $\hsame$, and $\Pkg$ as witnessed by \autoref{thm:set-carrier-obligation}, \autoref{thm:set-classifier-obligation}, \autoref{thm:set-membership-transport-obligation}, and \autoref{thm:set-extensionality-ledger-obligation}.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.FKernel.NameCert.NameCert}
   \bridgestatus{none}
   \notclaimed{This chapter does not close exactness, standard bridge data, downstream $\FinSetUp$ or $\SubtypeUp$ certificates, or Lean verification for $\SetUp$.}
-  \upgradepath{The next closure grade requires checked dependence on the precise BEDC primitives behind the carrier predicate, classifier transport, membership row, extensionality ledger, and downstream consumer boundary.}
+  \upgradepath{The next grade requires a public-facing $\SetUp$ certificate theorem and Lean verification targets for the same scoped rows.}
 \end{closurestatus}
