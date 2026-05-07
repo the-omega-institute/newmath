@@ -1,4 +1,5 @@
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.CoverDescent
 
 namespace BEDC.Derived.SheafUp
 
@@ -54,5 +55,75 @@ theorem SheafBHistTripleOverlapRoute_coherence
   have sameGerm : hsame tripleGerm directGerm :=
     cont_respects_hsame sameTripleMember sameRoute tripleRow directRow
   exact And.intro tripleLedger (And.intro directLedger sameGerm)
+
+theorem SheafBHistTripleOverlapRoute_downstream_exactness
+    {ambient member pair triple pairRoute pairGerm tripleRoute tripleGerm directRoute
+      directGerm restrictedOpen restrictedGermA restrictedGermB finalOpen finalGermA
+      finalGermB : BHist} :
+    SheafBHistCoverNerveLedger ambient member pair pairRoute pairGerm ->
+      hsame pair triple ->
+        Cont triple tripleRoute tripleGerm ->
+          Cont member directRoute directGerm ->
+            hsame tripleRoute directRoute ->
+              hsame triple restrictedOpen ->
+                Cont restrictedOpen tripleRoute restrictedGermA ->
+                  Cont restrictedOpen directRoute restrictedGermB ->
+                    hsame restrictedOpen finalOpen ->
+                      Cont finalOpen tripleRoute finalGermA ->
+                        Cont finalOpen directRoute finalGermB ->
+                          SheafRootFaceRead member pair .coverMembership ∧
+                            SheafRootFaceRead pair pairGerm .restrictionRoute ∧
+                              SheafBHistPointGermComparison ambient restrictedOpen
+                                  tripleRoute restrictedGermA restrictedOpen directRoute
+                                  restrictedGermB restrictedOpen ∧
+                                SheafBHistPointGermComparison ambient finalOpen tripleRoute
+                                    finalGermA finalOpen directRoute finalGermB finalOpen ∧
+                                  hsame tripleGerm directGerm ∧
+                                    hsame restrictedGermA restrictedGermB ∧
+                                      hsame finalGermA finalGermB := by
+  intro ledger samePairTriple tripleRow directRow sameRoute sameTripleRestricted
+    restrictedA restrictedB sameRestrictedFinal finalA finalB
+  have coverRows :=
+    SheafRootCoverDescent_carrier_exactness ledger
+  have coherence :=
+    SheafBHistTripleOverlapRoute_coherence ledger samePairTriple tripleRow directRow sameRoute
+  have samePairRestricted : hsame pair restrictedOpen :=
+    hsame_trans samePairTriple sameTripleRestricted
+  have restrictedUnary : UnaryHistory restrictedOpen :=
+    unary_transport ledger.right.right.left samePairRestricted
+  have sameRestrictedGerms : hsame restrictedGermA restrictedGermB :=
+    cont_respects_hsame (hsame_refl restrictedOpen) sameRoute restrictedA restrictedB
+  have restrictedComparison :
+      SheafBHistPointGermComparison ambient restrictedOpen tripleRoute restrictedGermA
+        restrictedOpen directRoute restrictedGermB restrictedOpen :=
+    And.intro ledger.left
+      (And.intro restrictedUnary
+        (And.intro restrictedUnary
+          (And.intro restrictedUnary
+            (And.intro (hsame_refl restrictedOpen)
+              (And.intro (hsame_refl restrictedOpen)
+                (And.intro restrictedA
+                  (And.intro restrictedB sameRestrictedGerms)))))))
+  have finalUnary : UnaryHistory finalOpen :=
+    unary_transport restrictedUnary sameRestrictedFinal
+  have sameFinalGerms : hsame finalGermA finalGermB :=
+    cont_respects_hsame (hsame_refl finalOpen) sameRoute finalA finalB
+  have finalComparison :
+      SheafBHistPointGermComparison ambient finalOpen tripleRoute finalGermA finalOpen
+        directRoute finalGermB finalOpen :=
+    And.intro ledger.left
+      (And.intro finalUnary
+        (And.intro finalUnary
+          (And.intro finalUnary
+            (And.intro (hsame_refl finalOpen)
+              (And.intro (hsame_refl finalOpen)
+                (And.intro finalA
+                  (And.intro finalB sameFinalGerms)))))))
+  exact And.intro coverRows.left
+    (And.intro coverRows.right.left
+      (And.intro restrictedComparison
+        (And.intro finalComparison
+          (And.intro coherence.right.right
+            (And.intro sameRestrictedGerms sameFinalGerms)))))
 
 end BEDC.Derived.SheafUp
