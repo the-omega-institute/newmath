@@ -68,9 +68,9 @@ theorem SymGroupPermutationCarrier_carrier_obligation [AskSetup] [PackageSetup]
         (And.intro surface.right.left
           (And.intro surface.right.right.left
             (And.intro surface.right.right.right.left
-              (And.intro surface.right.right.right.right.right.right.left
-                (And.intro surface.right.right.right.right.right.right.right.left
-                  (And.intro surface.right.right.right.right.right.right.right.right.left
-                    surface.right.right.right.right.right.right.right.right.right))))))))
+                (And.intro surface.right.right.right.right.right.right.left
+                  (And.intro surface.right.right.right.right.right.right.right.left
+                    (And.intro surface.right.right.right.right.right.right.right.right.left
+                      surface.right.right.right.right.right.right.right.right.right))))))))
 
 end BEDC.Derived.SymGroupUp
