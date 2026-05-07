@@ -81,9 +81,30 @@ theorem PdeCarriedSourceRow_carrier_obligation [AskSetup] [PackageSetup]
   have endpointUnary : UnaryHistory endpoint :=
     unary_cont_closed relationUnary row.right.right.left row.right.right.right.right.left
   exact And.intro relationUnary
-    (And.intro endpointUnary
-      (And.intro row.right.right.right.left
-        (And.intro row.right.right.right.right.left row.right.right.right.right.right)))
+      (And.intro endpointUnary
+        (And.intro row.right.right.right.left
+          (And.intro row.right.right.right.right.left row.right.right.right.right.right)))
+
+theorem PdeBoundaryData_relation_transport_surface [AskSetup] [PackageSetup]
+    {manifold derivative relation boundary endpoint boundary' boundaryEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PdeCarriedSourceRow manifold derivative relation boundary endpoint bundle pkg ->
+      hsame boundary boundary' -> Cont relation boundary' boundaryEndpoint ->
+        UnaryHistory boundaryEndpoint ∧ hsame endpoint boundaryEndpoint ∧
+          PkgSig bundle endpoint pkg ∧ Cont relation boundary' boundaryEndpoint := by
+  intro row sameBoundary boundaryCont'
+  have relationUnary : UnaryHistory relation :=
+    unary_cont_closed row.left row.right.left row.right.right.right.left
+  have boundaryUnary' : UnaryHistory boundary' :=
+    unary_transport row.right.right.left sameBoundary
+  have boundaryEndpointUnary : UnaryHistory boundaryEndpoint :=
+    unary_cont_closed relationUnary boundaryUnary' boundaryCont'
+  have sameEndpoint : hsame endpoint boundaryEndpoint :=
+    cont_respects_hsame (hsame_refl relation) sameBoundary
+      row.right.right.right.right.left boundaryCont'
+  exact And.intro boundaryEndpointUnary
+    (And.intro sameEndpoint
+      (And.intro row.right.right.right.right.right boundaryCont'))
 
 theorem PdeCarriedSourceRow_classifier_obligation [AskSetup] [PackageSetup]
     {manifold manifold' derivative derivative' relation relation' boundary boundary'

@@ -1,10 +1,12 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.SheafUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def SheafBHistPointGermLedger
@@ -32,6 +34,33 @@ theorem SheafBHistPointGermLedger_restriction_readback
   exact And.intro
     (And.intro ledger.left (And.intro restrictedOpenUnary restrictedRow))
     sameGerm
+
+theorem SheafRestrictedOpenCarrier_semantic_name_certificate
+    {point openHist sectionHist germ : BHist} :
+    SheafBHistPointGermLedger point openHist sectionHist germ ->
+      SemanticNameCert
+        (fun endpoint : BHist => SheafBHistPointGermLedger point openHist sectionHist endpoint)
+        (fun endpoint : BHist => SheafBHistPointGermLedger point openHist sectionHist endpoint)
+        (fun endpoint : BHist => SheafBHistPointGermLedger point openHist sectionHist endpoint)
+        hsame := by
+  intro ledger
+  constructor
+  · constructor
+    · exact Exists.intro germ ledger
+    · intro endpoint _carrier
+      exact hsame_refl endpoint
+    · intro endpoint endpoint' same
+      exact hsame_symm same
+    · intro endpoint endpoint' endpoint'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro endpoint endpoint' same carrier
+      exact And.intro carrier.left
+        (And.intro carrier.right.left
+          (cont_result_hsame_transport carrier.right.right same))
+  · intro _endpoint source
+    exact source
+  · intro _endpoint source
+    exact source
 
 theorem SheafRestrictedOpenCarrier_restriction_laws
     {point openHist sectionHist germ restrictedOpen restrictedGerm : BHist} :
