@@ -166,6 +166,37 @@ theorem SheafRootCoverLocalityGluing_obligation_surface
     (And.intro faces.right.right.right.left
       (And.intro faces.right.right.right.right cert))
 
+theorem SheafRootCommonRefinement_obligation_carrier_exactness
+    {point common openA openB sectionA sectionB germA germB globalA globalB exportedA
+      exportedB : BHist} :
+    SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
+        germB ->
+      Cont common sectionA globalA -> Cont common sectionB globalB -> hsame globalA exportedA ->
+        hsame globalB exportedB ->
+          SheafBHistPointGermLedger point common sectionA exportedA ∧
+            SheafBHistPointGermLedger point common sectionB exportedB ∧
+              hsame exportedA exportedB := by
+  intro span globalACont globalBCont sameExportedA sameExportedB
+  have rows :
+      SheafBHistPointGermLedger point common sectionA globalA ∧
+        SheafBHistPointGermLedger point common sectionB globalB ∧
+          SheafBHistPointGermComparison point openA sectionA globalA openB sectionB globalB
+              common ∧
+            hsame globalA globalB :=
+    SheafCommonRefinementGluing_carrier_invariance span globalACont globalBCont
+  have exportedACont : Cont common sectionA exportedA :=
+    cont_result_hsame_transport globalACont sameExportedA
+  have exportedBCont : Cont common sectionB exportedB :=
+    cont_result_hsame_transport globalBCont sameExportedB
+  have ledgerA : SheafBHistPointGermLedger point common sectionA exportedA :=
+    And.intro span.left (And.intro span.right.left exportedACont)
+  have ledgerB : SheafBHistPointGermLedger point common sectionB exportedB :=
+    And.intro span.left (And.intro span.right.left exportedBCont)
+  have sameExported : hsame exportedA exportedB :=
+    hsame_trans (hsame_symm sameExportedA)
+      (hsame_trans rows.right.right.right sameExportedB)
+  exact And.intro ledgerA (And.intro ledgerB sameExported)
+
 theorem SheafRootCommonRefinement_route_exactness
     {point common openA openB sectionA sectionB germA germB route routeTarget globalA
       globalB : BHist} :
@@ -202,7 +233,7 @@ theorem SheafRootCommonRefinement_route_exactness
         (And.intro routeOpenA
           (And.intro routeOpenB
             (And.intro globalACont
-              (And.intro globalBCont sameGlobals))))))
+               (And.intro globalBCont sameGlobals))))))
     (And.intro routeEmpty (And.intro sameGlobalA sameGlobalB))
 
 end BEDC.Derived.SheafUp
