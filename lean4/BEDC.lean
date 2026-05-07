@@ -167,6 +167,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.SymplecticUp
+import BEDC.Derived.SymGroupUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.ConditionalUnique
 import BEDC.Derived.ComplexLimitUp.ComponentAssembly
