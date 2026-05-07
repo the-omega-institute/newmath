@@ -270,6 +270,7 @@ import BEDC.Derived.SheafUp.ObligationSurface
 import BEDC.Derived.SheafUp.RootExport
 import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SheafUp.RootExportSurface
+import BEDC.Derived.SheafUp.RootCoverNerveExportSurface
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
@@ -661,6 +662,7 @@ import BEDC.Derived.FunctorUp.OppositeCertificate
 import BEDC.Derived.FunctorUp.StdBridge
 import BEDC.Derived.NatTransUp.NaturalIso
 import BEDC.Derived.CategoryUp.StdBridge
+import BEDC.Derived.CategoryUp.MatureHostInterfaceInventory
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
