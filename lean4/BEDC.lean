@@ -270,6 +270,7 @@ import BEDC.Derived.NumFieldUp.EmbeddingCoordinateProductCompatibility
 import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.QuadratureUp
+import BEDC.Derived.PdeUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp

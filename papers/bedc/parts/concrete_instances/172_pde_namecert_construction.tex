@@ -39,6 +39,7 @@ Exactness is readback from the same package. Any accepted carrier row must be
 one of the displayed $\mathsf{BHist}$ rows, and any hidden chart, derivative
 order, or boundary presentation is recoverable only as ledger evidence.
 \end{proof}
+\leanchecked{BEDC.Derived.PdeUp.PdeCarriedSourceRow\_carrier\_obligation}
 
 \begin{theorem}[PdeUp classifier obligation]
 \label{thm:pde-classifier-obligation}
@@ -125,17 +126,19 @@ Therefore the boundary row uses the same two classifier families as the relation
 \begin{theorem}[PdeUp ledger exactness obligation]\label{thm:pde-ledger-exactness-obligation}
 The exactness data of a $\PdeUp$ carried source row is precisely the pair consisting of the carried PDE relation classifier and the carried boundary-data classifier. Host functions, host real equality, analytic existence of solutions, regularity theorems, numerical solvers, and solver data are ledger-external to this exactness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.PdeUp.PdeCarriedSourceRow\_ledger\_exactness\_surface}
 \begin{proof}
 The only classifier rows displayed in \autoref{def:pde-carried-source-row} are the finite PDE relation classifier and the boundary-data classifier. Exactness is therefore the assertion that these two rows account for all BEDC-facing relation and boundary comparisons in the certificate.
 
 Every analytic or solver-side object named in the statement is listed in the ledger component of the carried source row. Because ledger entries record presentation choices without adding classifier rows, they remain outside the exactness pair.
 \end{proof}
 
+\closureat{PdeUp}{scopedStr}
 \begin{closurestatus}{\PdeUp}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope is exactly the carrier, classifier, and stability-ledger-exactness surface of \autoref{thm:pde-carrier-obligation}, \autoref{thm:pde-classifier-obligation}, and \autoref{thm:pde-stability-ledger-exactness-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not prove the scoped PDE carrier, classifier, stability, ledger, exactness, dependency, standard-bridge, or Lean verification targets.}
-  \upgradepath{$\scopedClosure$ requires paper proofs discharging the three displayed obligations, including transport stability for derivative relations and boundary data, exactness rows, and dependency rows over the named sources.}
+  \notclaimed{This chapter does not close the public PDE interface, standard bridge, Lean verification, or host-function equality.}
+  \upgradepath{$\publicClosure$ requires an exported PDE public surface assembling the three scoped obligations into a reusable $\NameCert_{\PdeUp}$ interface.}
 \end{closurestatus}
