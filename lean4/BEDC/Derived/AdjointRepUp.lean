@@ -1,6 +1,8 @@
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.AdjointRepUp
 
@@ -9,6 +11,111 @@ open BEDC.Derived.LieGroupUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
+
+theorem AdjointRepClassifier_stability_obligation
+    {s s' x x' tangent tangent' sx sx' conj conj' ad ad' : BHist} :
+    LieGroupSingletonCarrier s -> LieGroupSingletonCarrier s' ->
+      LieGroupSingletonClassifier s s' -> LieAlgebraSingletonCarrier x ->
+        LieAlgebraSingletonCarrier x' -> hsame x x' ->
+          LieAlgebraSingletonCarrier tangent -> LieAlgebraSingletonCarrier tangent' ->
+            hsame tangent tangent' -> Cont s x sx ->
+              Cont sx (LieGroupSingletonInv s) conj -> Cont s' x' sx' ->
+                Cont sx' (LieGroupSingletonInv s') conj' -> Cont s tangent ad ->
+                  Cont s' tangent' ad' ->
+                    LieGroupSingletonClassifier conj conj' ∧ LieAlgebraSingletonCarrier ad ∧
+                      LieAlgebraSingletonCarrier ad' ∧ hsame ad ad' := by
+  intro carrierS carrierS' classifiedS carrierX carrierX' sameX carrierTangent
+    carrierTangent' sameTangent sxRow conjRow sxRow' conjRow' adRow adRow'
+  have sameSX : hsame sx sx' :=
+    cont_respects_hsame classifiedS.right.right sameX sxRow sxRow'
+  have invSame : hsame (LieGroupSingletonInv s) (LieGroupSingletonInv s') := by
+    rfl
+  have conjSame : hsame conj conj' :=
+    cont_respects_hsame sameSX invSame conjRow conjRow'
+  have sxCarrier : LieGroupSingletonCarrier sx :=
+    cont_respects_hsame carrierS carrierX sxRow (cont_left_unit BHist.Empty)
+  have invCarrier : LieGroupSingletonCarrier (LieGroupSingletonInv s) := by
+    rfl
+  have conjCarrier : LieGroupSingletonCarrier conj :=
+    cont_respects_hsame sxCarrier invCarrier conjRow (cont_left_unit BHist.Empty)
+  have conjCarrier' : LieGroupSingletonCarrier conj' :=
+    hsame_trans (hsame_symm conjSame) conjCarrier
+  have conjClassified : LieGroupSingletonClassifier conj conj' :=
+    And.intro conjCarrier (And.intro conjCarrier' conjSame)
+  have adCarrier : LieAlgebraSingletonCarrier ad :=
+    cont_respects_hsame carrierS carrierTangent adRow (cont_left_unit BHist.Empty)
+  have adCarrier' : LieAlgebraSingletonCarrier ad' :=
+    cont_respects_hsame carrierS' carrierTangent' adRow' (cont_left_unit BHist.Empty)
+  have adSame : hsame ad ad' :=
+    cont_respects_hsame classifiedS.right.right sameTangent adRow adRow'
+  exact And.intro conjClassified (And.intro adCarrier (And.intro adCarrier' adSame))
+
+theorem AdjointRepSingleton_classifier_stability_obligation
+    {s s' tangent tangent' sx sx' conj conj' adj adj' : BHist} :
+    LieGroupSingletonCarrier s ->
+      LieGroupSingletonCarrier s' ->
+        LieAlgebraSingletonCarrier tangent ->
+          LieAlgebraSingletonCarrier tangent' ->
+            hsame s s' ->
+              hsame tangent tangent' ->
+                Cont s tangent sx ->
+                  Cont s' tangent' sx' ->
+                    Cont sx (LieGroupSingletonInv s) conj ->
+                      Cont sx' (LieGroupSingletonInv s') conj' ->
+                        Cont BHist.Empty tangent adj ->
+                          Cont BHist.Empty tangent' adj' ->
+                            hsame sx sx' ∧ hsame conj conj' ∧ hsame adj adj' ∧
+                              LieGroupSingletonClassifier conj conj' ∧
+                                LieAlgebraSingletonCarrier adj ∧
+                                  LieAlgebraSingletonCarrier adj' ∧
+                                    UnaryHistory conj ∧ UnaryHistory conj' ∧
+                                      UnaryHistory adj ∧ UnaryHistory adj' := by
+  intro carrierS carrierS' carrierTangent carrierTangent' sameS sameTangent sxRow sxRow'
+  intro conjRow conjRow' adjRow adjRow'
+  have sxSame : hsame sx sx' :=
+    cont_respects_hsame sameS sameTangent sxRow sxRow'
+  have sxCarrier : LieGroupSingletonCarrier sx :=
+    cont_respects_hsame carrierS carrierTangent sxRow (cont_left_unit BHist.Empty)
+  have sxCarrier' : LieGroupSingletonCarrier sx' :=
+    cont_respects_hsame carrierS' carrierTangent' sxRow' (cont_left_unit BHist.Empty)
+  have invCarrier : LieGroupSingletonCarrier (LieGroupSingletonInv s) := by
+    rfl
+  have invCarrier' : LieGroupSingletonCarrier (LieGroupSingletonInv s') := by
+    rfl
+  have invSame : hsame (LieGroupSingletonInv s) (LieGroupSingletonInv s') := by
+    rfl
+  have conjSame : hsame conj conj' :=
+    cont_respects_hsame sxSame invSame conjRow conjRow'
+  have conjCarrier : LieGroupSingletonCarrier conj :=
+    cont_respects_hsame sxCarrier invCarrier conjRow (cont_left_unit BHist.Empty)
+  have conjCarrier' : LieGroupSingletonCarrier conj' :=
+    cont_respects_hsame sxCarrier' invCarrier' conjRow' (cont_left_unit BHist.Empty)
+  have adjCarrier : LieAlgebraSingletonCarrier adj :=
+    cont_respects_hsame (hsame_refl BHist.Empty) carrierTangent adjRow
+      (cont_left_unit BHist.Empty)
+  have adjCarrier' : LieAlgebraSingletonCarrier adj' :=
+    cont_respects_hsame (hsame_refl BHist.Empty) carrierTangent' adjRow'
+      (cont_left_unit BHist.Empty)
+  have adjSame : hsame adj adj' :=
+    cont_respects_hsame (hsame_refl BHist.Empty) sameTangent adjRow adjRow'
+  have conjClassified : LieGroupSingletonClassifier conj conj' :=
+    And.intro conjCarrier (And.intro conjCarrier' conjSame)
+  have conjUnary : UnaryHistory conj :=
+    unary_transport unary_empty (hsame_symm conjCarrier)
+  have conjUnary' : UnaryHistory conj' :=
+    unary_transport unary_empty (hsame_symm conjCarrier')
+  have adjUnary : UnaryHistory adj :=
+    unary_transport unary_empty (hsame_symm adjCarrier)
+  have adjUnary' : UnaryHistory adj' :=
+    unary_transport unary_empty (hsame_symm adjCarrier')
+  exact And.intro sxSame
+    (And.intro conjSame
+      (And.intro adjSame
+        (And.intro conjClassified
+          (And.intro adjCarrier
+            (And.intro adjCarrier'
+              (And.intro conjUnary
+                (And.intro conjUnary' (And.intro adjUnary adjUnary'))))))))
 
 theorem AdjointRepDifferentialAction_obligation {acting endpoint result chart : BHist} :
     LieGroupSingletonCarrier acting -> LieAlgebraSingletonCarrier endpoint ->
@@ -56,32 +163,26 @@ theorem AdjointRepSingleton_action_differential_endpoint
     (And.intro differentialSame
       (And.intro bracketEmpty (And.intro actionUnary differentialUnary)))
 
-theorem AdjointRepClassifier_stability_obligation
-    {acting acting' endpoint endpoint' action action' differential differential' chart chart' :
-      BHist} :
-    LieGroupSingletonClassifier acting acting' ->
-      hsame endpoint endpoint' ->
-        LieAlgebraAdjointAction acting endpoint action ->
-          LieAlgebraAdjointAction acting' endpoint' action' ->
-            Cont BHist.Empty endpoint differential ->
-              Cont BHist.Empty endpoint' differential' ->
-                Cont BHist.Empty action chart ->
-                  Cont BHist.Empty action' chart' ->
-                    hsame action action' ∧ hsame differential differential' ∧
-                      hsame chart chart' ∧ UnaryHistory action' ∧ UnaryHistory chart' := by
-  intro actingClassified sameEndpoint actionRow actionRow' differentialRow differentialRow'
-    chartRow chartRow'
-  have sameAction : hsame action action' :=
-    cont_respects_hsame actingClassified.right.right sameEndpoint actionRow.right.right.left
-      actionRow'.right.right.left
-  have sameDifferential : hsame differential differential' :=
-    cont_respects_hsame (hsame_refl BHist.Empty) sameEndpoint differentialRow differentialRow'
-  have sameChart : hsame chart chart' :=
-    cont_respects_hsame (hsame_refl BHist.Empty) sameAction chartRow chartRow'
-  have chartUnary : UnaryHistory chart' :=
-    unary_transport actionRow'.right.right.right (hsame_symm (cont_left_unit_result chartRow'))
-  exact And.intro sameAction
-    (And.intro sameDifferential
-      (And.intro sameChart (And.intro actionRow'.right.right.right chartUnary)))
+def AdjointRepActionEndpoint (group algebra endpoint : BHist) : Prop :=
+  LieGroupSingletonCarrier group ∧ LieAlgebraSingletonCarrier algebra ∧
+    ∃ action : BHist, Cont group algebra action ∧ hsame action endpoint
+
+theorem AdjointRepConjugationCarrier_obligation
+    {group algebra action endpoint : BHist} :
+    LieGroupSingletonCarrier group -> LieAlgebraSingletonCarrier algebra ->
+      Cont group algebra action -> hsame action endpoint ->
+        AdjointRepActionEndpoint group algebra endpoint ∧ UnaryHistory endpoint := by
+  intro groupCarrier algebraCarrier actionRow actionEndpoint
+  have actionEmpty : hsame action BHist.Empty :=
+    cont_respects_hsame groupCarrier algebraCarrier actionRow (cont_left_unit BHist.Empty)
+  have endpointEmpty : hsame endpoint BHist.Empty :=
+    hsame_trans (hsame_symm actionEndpoint) actionEmpty
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport unary_empty (hsame_symm endpointEmpty)
+  exact And.intro
+    (And.intro groupCarrier
+      (And.intro algebraCarrier
+        (Exists.intro action (And.intro actionRow actionEndpoint))))
+    endpointUnary
 
 end BEDC.Derived.AdjointRepUp
