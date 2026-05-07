@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.ExternalBinary
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.AddUp
@@ -158,5 +159,25 @@ theorem AddUnaryContinuationMonoid_activation_package :
           intro a b c ab bc abc abc2 unaryA unaryB unaryC contAB contBC contABC contABC2
           exact unary_continuation_associativity
             unaryA unaryB unaryC contAB contBC contABC contABC2)))
+
+theorem AddUp_acceptance_bridge_fields :
+    NameCert UnaryHistory AddClassifierSpec ∧ AddLedgerPolicy ∧
+      (BEDC.FKernel.ExternalBinary.bwordLength BHist.Empty = 0) ∧
+        (forall {h k r : BHist}, AddSourceSpec h k r ->
+          BEDC.FKernel.ExternalBinary.bwordLength r =
+            BEDC.FKernel.ExternalBinary.bwordLength h +
+              BEDC.FKernel.ExternalBinary.bwordLength k) ∧
+          (forall {h k r : BHist}, AddSourceSpec h k r -> Cont h k r) := by
+  exact And.intro add_up_name_certificate
+    (And.intro addLedgerPolicy_from_unary_cont_closed
+      (And.intro rfl
+        (And.intro
+          (by
+            intro h k r source
+            cases source.right.right
+            exact BEDC.FKernel.ExternalBinary.bwordLength_append h k)
+          (by
+            intro h k r source
+            exact source.right.right))))
 
 end BEDC.Derived.AddUp
