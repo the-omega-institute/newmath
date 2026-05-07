@@ -59,6 +59,20 @@ theorem MeasureZeroBHist_event_row_coverage {event union value sum : BHist} :
     And.intro valueZero (And.intro sumZero valueSumSame)
   exact And.intro eventClassified (And.intro unionClassified valueSumClassified)
 
+theorem MeasureRootBHist_real_endpoint_threshold {event union value sum endpoint : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty -> hsame value BHist.Empty ->
+      hsame sum BHist.Empty -> hsame union BHist.Empty -> Cont value sum endpoint ->
+        MeasureZeroBHistClassifier event BHist.Empty ∧
+          MeasureZeroBHistClassifier union BHist.Empty ∧
+            MeasureZeroBHistClassifier value sum ∧ MeasureZeroBHistCarrier endpoint := by
+  intro eventClassified valueZero sumZero unionZero endpointRow
+  have coverageRows :=
+    MeasureZeroBHist_event_row_coverage eventClassified valueZero sumZero unionZero
+  have endpointZero : MeasureZeroBHistCarrier endpoint :=
+    cont_respects_hsame valueZero sumZero endpointRow (cont_left_unit BHist.Empty)
+  exact And.intro coverageRows.left
+    (And.intro coverageRows.right.left (And.intro coverageRows.right.right endpointZero))
+
 theorem MeasureZeroBHist_continuation_endpoint_stability
     {h k event event' endpoint endpoint' : BHist} :
     hsame h BHist.Empty -> hsame h k -> hsame event BHist.Empty ->
