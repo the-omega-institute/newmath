@@ -1,4 +1,4 @@
-import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.DensityMatrixUp
@@ -147,5 +147,31 @@ theorem DensityMatrixTraceLedgerCarrier_rows {traceClass positive traceOne rho :
       (And.intro carrier.right.right.left
         (And.intro rhoUnary
           (And.intro carrier.right.right.right.left carrier.right.right.right.right))))
+
+theorem DensityMatrixTraceLedgerCarrier_restricted_classifier_transport
+    {traceClass positive traceOne rho rho' : BHist} :
+    DensityMatrixTraceLedgerCarrier traceClass positive traceOne rho -> hsame rho rho' ->
+      DensityMatrixRestrictedClassifier
+          (fun endpoint : BHist =>
+            DensityMatrixTraceLedgerCarrier traceClass positive traceOne endpoint)
+          hsame rho rho' ∧ UnaryHistory rho' ∧ Cont traceClass positive rho' ∧
+        Cont rho' traceOne rho' := by
+  intro carrier sameRho
+  have rows := DensityMatrixTraceLedgerCarrier_rows carrier
+  have tracePositiveRho' : Cont traceClass positive rho' :=
+    cont_result_hsame_transport rows.right.right.right.right.left sameRho
+  have rho'TraceOneRho' : Cont rho' traceOne rho' :=
+    cont_hsame_transport sameRho (hsame_refl traceOne) sameRho
+      rows.right.right.right.right.right
+  have carrierRho' : DensityMatrixTraceLedgerCarrier traceClass positive traceOne rho' :=
+    And.intro rows.left
+      (And.intro rows.right.left
+        (And.intro rows.right.right.left
+          (And.intro tracePositiveRho' rho'TraceOneRho')))
+  have rhoUnary' : UnaryHistory rho' :=
+    unary_transport rows.right.right.right.left sameRho
+  exact And.intro
+    (And.intro carrier (And.intro carrierRho' sameRho))
+    (And.intro rhoUnary' (And.intro tracePositiveRho' rho'TraceOneRho'))
 
 end BEDC.Derived.DensityMatrixUp
