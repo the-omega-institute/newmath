@@ -10,6 +10,7 @@ The integral interface $\IntegralUp$ packages a measure-respecting integration o
 An $\IntegralUp$ carried endpoint is a $\mathsf{BHist}$ row whose visible source data are the cited $\NameCert_{\MeasureUp}$ row, the function-carrier row of admissible integrands over that measure source, and the $\NameCert_{\ContourUp}$ comparison boundary. The endpoint carrier records only those named histories, their $\Pkg$ provenance, and their probe bundles; hidden partition, approximation, and convergence choices are not carrier equality.
 \end{theorem}
 \leanchecked{BEDC.Derived.IntegralUp.IntegralVisibleCarrierRow\_readback}
+\leanvariant{BEDC.Derived.IntegralUp.IntegralFunctionCarrier\_obligation}
 \begin{proof}
 Use the carrier field of the roadmap ten-field template. The traditional target is integration, the BEDC source row is the displayed $\NameCert_{\MeasureUp}$ history, and the comparison source is the displayed $\NameCert_{\ContourUp}$ boundary.
 
@@ -19,7 +20,8 @@ The carrier field is then the function-carrier row over that measure source, tog
 \begin{theorem}[Integral measure-respecting classifier obligation]\label{thm:integral-measure-respecting-classifier-obligation}
 The $\IntegralUp$ classifier relates carried integrands exactly when the $\MeasureUp$-visible domain row and the $\ContourUp$ comparison row agree under the same $\hsame$ and $\Pkg$ provenance. The comparison is therefore a BEDC classifier on displayed histories and packages, not a host quotient of integrands and not host function equality.
 \end{theorem}
-\leanchecked{BEDC.Derived.IntegralUp.IntegralVisibleCarrierRow\_classifier\_boundary\_transport}
+\leanchecked{BEDC.Derived.IntegralUp.IntegralMeasureRespectingClassifier\_obligation}
+\leanvariant{BEDC.Derived.IntegralUp.IntegralVisibleCarrierRow\_classifier\_boundary\_transport}
 \begin{proof}
 Apply the classifier field of the roadmap ten-field template to \autoref{thm:integral-function-carrier-obligation}. The source classifier is the visible $\MeasureUp$ comparison on domain rows, while the boundary classifier is the visible $\ContourUp$ comparison on the contour-shaped row.
 
@@ -29,6 +31,7 @@ The integrand rows are compared only after those two source comparisons share th
 \begin{theorem}[Integral operation stability and ledger obligation]\label{thm:integral-operation-stability-ledger-obligation}
 The $\IntegralUp$ integration operation is admitted only with a measure-respecting stability row, ledger entries for hidden partition and approximation data, exactness rows for the displayed carrier and classifier, and dependency rows citing the $\MeasureUp$ source and the $\ContourUp$ comparison boundary. No operation row is admitted without these stability, ledger, exactness, and dependency entries.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntegralUp.IntegralOperationStabilityLedger\_obligation}
 \begin{proof}
 Use the operation and stability fields of the roadmap ten-field template after the carrier and classifier fields have been fixed. Measure-respecting stability says that transporting the $\MeasureUp$ row and the admissible integrand row along the displayed classifier transports the operation endpoint as a BEDC history.
 
@@ -38,11 +41,14 @@ The ledger field records the hidden partition choices, approximation rows, and c
 \section{The certificate}
 \label{sec:integral-certificate}
 
+\closureat{IntegralUp}{scopedStr}
+
 \begin{closurestatus}{\IntegralUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The paper-side obligation frontier is exactly \autoref{thm:integral-function-carrier-obligation}, \autoref{thm:integral-measure-respecting-classifier-obligation}, and \autoref{thm:integral-operation-stability-ledger-obligation}.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped paper surface is exactly \autoref{thm:integral-function-carrier-obligation}, \autoref{thm:integral-measure-respecting-classifier-obligation}, and \autoref{thm:integral-operation-stability-ledger-obligation}, read through the displayed $\mathsf{BHist}$, $\Pkg$, $\hsame$, $\NameCert_{\MeasureUp}$, and $\NameCert_{\ContourUp}$ dependencies.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.IntegralUp.IntegralFunctionCarrier\_obligation}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close scoped proofs, a standard bridge, a convergence theorem, or Lean verification.}
+  \notclaimed{This chapter does not close a public certificate surface, a standard bridge, a convergence theorem, or full Lean verification.}
   \upgradepath{Scoped closure requires paper proofs for the carrier, classifier, measure-respecting operation, stability, ledger, exactness, and dependency rows displayed by the three obligation sites.}
 \end{closurestatus}
