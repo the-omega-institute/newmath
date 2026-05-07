@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v3.4 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v3.5 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -144,16 +144,17 @@ For each target in the list above:
      \begin{closurestatus}{\<X>Up}
        \theoryclosure{\scopedClosure}
        \scopeclosed{<one-sentence binding scope>}
-       \formalstatus{\theoremCheckedV}
+       \formalstatus{\<objective_formal_grade>}
        \leantarget{BEDC.Derived.<X>Up.<theorem>}
        \bridgestatus{none}
        \notclaimed{<one-sentence list of what the chapter does NOT close>}
        \upgradepath{<one-sentence next-grade obligation>}
      \end{closurestatus}
      ```
-     The two axis tokens are independent: a paper proof closes the theory axis at scopedClosure (or whatever grade the chapter actually witnesses), while the Lean target closes the verification axis at theoremCheckedV. Picking the wrong combination — e.g.\ scopedClosure with formalstatus=unformalizedV when the cited target exists, or publicClosure when the chapter only exhibits a singleton certificate — is a closure-discipline violation; the audit catches the obvious cases via the axis-confusion gate.
+     The two axis tokens are independent: a paper proof closes the theory axis at scopedClosure (or whatever grade the chapter actually witnesses), while the Lean target closes the verification axis at the OBJECTIVE grade — read it directly from the horizon JSON's `objective_formal_grade` field for this chapter, do NOT hardcode `\theoremCheckedV`. The objective grade is computed from the build (`axiom-purity --strict` pure → `\axiomCleanV`; declared theorem/lemma → `\auditCleanV`; declared def/inductive → `\encodedDefV`). Since `axiom-purity --strict` is part of ship gates, most newly checked theorems will have objective `\axiomCleanV`; defaulting to `\theoremCheckedV` would understate the state and cause a `formalstatus_sync` drift in the next round. Picking the wrong combination — e.g.\ scopedClosure with formalstatus=unformalizedV when the cited target exists, or publicClosure when the chapter only exhibits a singleton certificate — is a closure-discipline violation; the audit catches the obvious cases via the axis-confusion gate.
      The grounding theorem MUST be a real Lean target — `bedc_ci.py audit` enforces this and fails the round if the grounding doesn't resolve. `_` in the target must be `\_`-escaped (same as `\leanchecked`).
      Use `\publicClosure` only when the chapter exhibits a public-object surface; use `\bridgedClosure` only if the chapter exhibits a complete `\StdBridge` per `\autoref{ch:acceptance-bridge}`.
+   - **`formalstatus_sync` round (`kind=closure_mark` with `next_axis=formalstatus_sync` and `formalstatus_drift=true`)**: the chapter ALREADY has a closurestatus block, but its `\formalstatus{...}` token is stale relative to the objective grade computed by the build. Mechanical fix: open the chapter (`paper_files[0]`), find the existing `\begin{closurestatus}{\<X>Up}` block, and replace **only** the `\formalstatus{...}` line with `\formalstatus{\<objective_formal_grade>}` (read from the horizon JSON). Do NOT touch `\theoryclosure`, `\scopeclosed`, `\leantarget`, `\bridgestatus`, `\notclaimed`, or `\upgradepath`. The grounding-target invariant is unaffected because the leantarget already exists. After commit, the chapter retires from `top`. If multiple chapters carry the drift in the same horizon, each is one independent target — handle them sequentially in the same round.
    - **Removing or downgrading** a closurestatus block is a deliberate downgrade and reopens the chapter to lean rounds. Don't do this lightly — it should be a separate target, justified by a found defect.
    - The block is the manuscript's binding commitment that the theory has reached the named closure grade and the cited Lean target has been verified at the named verification grade. Adding it without coverage or with a fake grounding is a discipline violation that the audit catches.
 
