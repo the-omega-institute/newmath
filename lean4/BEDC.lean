@@ -203,6 +203,7 @@ import BEDC.Derived.SheafUp.RouteExactnessPacket
 import BEDC.Derived.SheafUp.CoverNerveRestrictionTransport
 import BEDC.Derived.SheafUp.CoverNerveRouteTransport
 import BEDC.Derived.SheafUp.TripleOverlapRoute
+import BEDC.Derived.SheafUp.RootFace
 import BEDC.Derived.SheafUp.RootFaceReadback
 import BEDC.Derived.SheafUp.JointConsumerFace
 import BEDC.Derived.SheafUp.RootCoverDescent

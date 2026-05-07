@@ -90,6 +90,23 @@ theorem ComputableBoundedSim_composition {PF PG n bF m bG k : BHist} :
           (And.intro boundUnary
             (And.intro rightRun.right.right.right.left composedCont)))))
 
+theorem ComputableBoundedSim_output_hsame_transport {P n B m P' n' B' m' : BHist} :
+    ComputableBoundedSim P n B m -> hsame P P' -> hsame n n' -> hsame B B' ->
+      hsame m m' -> ComputableBoundedSim P' n' B' m' ∧ Cont n' B' m' := by
+  intro run sameProgram sameInput sameBound sameOutput
+  have programUnary : UnaryHistory P' := unary_transport run.left sameProgram
+  have inputUnary : UnaryHistory n' := unary_transport run.right.left sameInput
+  have boundUnary : UnaryHistory B' := unary_transport run.right.right.left sameBound
+  have outputUnary : UnaryHistory m' := unary_transport run.right.right.right.left sameOutput
+  have transportedCont : Cont n' B' m' :=
+    cont_hsame_transport sameInput sameBound sameOutput run.right.right.right.right
+  exact And.intro
+    (And.intro programUnary
+      (And.intro inputUnary
+        (And.intro boundUnary
+          (And.intro outputUnary transportedCont))))
+    transportedCont
+
 theorem ComputableBoundedSim_composition_associativity
     {PF PG PH n bF m bG k bH l : BHist} :
     ComputableBoundedSim PF n bF m -> ComputableBoundedSim PG m bG k ->
