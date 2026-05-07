@@ -171,6 +171,41 @@ theorem ExpMapClassifier_stability_obligation_surface
   exact And.intro sameLedger
     (And.intro sameEndpoint (And.intro endpointUnary endpointUnary'))
 
+theorem ExpMapClassifier_stability_obligations
+    {source source' target target' ledger ledger' endpoint endpoint' : BHist} :
+    ExpMapGraphCarrier source target ledger ->
+      ExpMapGraphCarrier source' target' ledger' ->
+        hsame source source' ->
+          hsame target target' ->
+            Cont ledger BHist.Empty endpoint ->
+              Cont ledger' BHist.Empty endpoint' ->
+                hsame ledger ledger' ∧ hsame endpoint endpoint' ∧
+                  UnaryHistory endpoint ∧ UnaryHistory endpoint' := by
+  intro graph graph' sameSource sameTarget endpointRow endpointRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameSource (hsame_refl BHist.Empty)
+      graph.right.right.left graph'.right.right.left
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger (hsame_refl BHist.Empty) endpointRow endpointRow'
+  have ledgerEmpty : hsame ledger BHist.Empty :=
+    hsame_trans graph.right.right.right graph.right.left
+  have targetCarrier' : LieGroupSingletonCarrier target' :=
+    hsame_trans (hsame_symm sameTarget) graph.right.left
+  have ledgerEmpty' : hsame ledger' BHist.Empty :=
+    hsame_trans graph'.right.right.right targetCarrier'
+  have endpointEmpty : hsame endpoint BHist.Empty :=
+    cont_respects_hsame ledgerEmpty (hsame_refl BHist.Empty) endpointRow
+      (cont_left_unit BHist.Empty)
+  have endpointEmpty' : hsame endpoint' BHist.Empty :=
+    cont_respects_hsame ledgerEmpty' (hsame_refl BHist.Empty) endpointRow'
+      (cont_left_unit BHist.Empty)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport unary_empty (hsame_symm endpointEmpty)
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport unary_empty (hsame_symm endpointEmpty')
+  exact And.intro sameLedger
+    (And.intro sameEndpoint (And.intro endpointUnary endpointUnary'))
+
 theorem ExpMapCarrier_obligation_surface {tangent endpoint flow : BHist} :
     LieAlgebraSingletonCarrier tangent ->
       LieGroupSingletonCarrier endpoint ->

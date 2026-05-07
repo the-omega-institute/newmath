@@ -223,6 +223,7 @@ import BEDC.Derived.SheafUp.CoverNerveCertificate
 import BEDC.Derived.SheafUp.CoverGluingNameCertExport
 import BEDC.Derived.SheafUp.GluingClassifier
 import BEDC.Derived.SheafUp.CommonRefinementSpan
+import BEDC.Derived.SheafUp.IndexedCoverCompatibilityLocality
 import BEDC.Derived.SheafUp.LocalityGluingCertificate
 import BEDC.Derived.SheafUp.IdentityCover
 import BEDC.Derived.SheafUp.RootFaceDownstream
