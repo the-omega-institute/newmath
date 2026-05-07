@@ -3,6 +3,7 @@ import BEDC.Derived.RandomVarUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.CondExpUp
 
@@ -11,6 +12,7 @@ open BEDC.Derived.RandomVarUp
 open BEDC.Derived.VecSpaceUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
 
 theorem CondExpCarrier_obligation {targetTotal sourceTotal preX x p residual : BHist} :
     RandomVarTotalReadbackCertificate targetTotal sourceTotal preX ->
@@ -30,5 +32,25 @@ theorem CondExpCarrier_obligation {targetTotal sourceTotal preX x p residual : B
     (And.intro xCarrier
       (And.intro pCarrier
         (And.intro residualEmpty (And.intro residualEmpty residualRow))))
+
+def CondExpCarrierPacket
+    (targetTotal sourceTotal chosenPreimage integrable projected residual : BHist) : Prop :=
+  RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ∧
+    HilbertSingletonProjectionWitness integrable projected ∧
+      Cont projected residual integrable
+
+theorem CondExpCarrier_packet
+    {targetTotal sourceTotal chosenPreimage integrable projected residual : BHist} :
+    UnaryHistory sourceTotal ->
+      CondExpCarrierPacket targetTotal sourceTotal chosenPreimage integrable projected residual ->
+        UnaryHistory chosenPreimage ∧ VecSpaceSingletonCarrier projected ∧
+          VecSpaceSingletonClassifier projected BHist.Empty ∧
+            Cont projected residual integrable := by
+  intro sourceUnary packet
+  have preimageRows :=
+    RandomVarTotalReadbackCertificate_total_event_preimage_exactness sourceUnary packet.left
+  exact And.intro preimageRows.left
+    (And.intro packet.right.left.right.left
+      (And.intro packet.right.left.right.right.left packet.right.right))
 
 end BEDC.Derived.CondExpUp
