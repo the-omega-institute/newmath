@@ -195,4 +195,73 @@ theorem SymGroupPermutationCarrier_classifier_obligation [AskSetup] [PackageSetu
       (And.intro invGraphClassified
         (And.intro compClassified (And.intro actionClassified ledgerClassified))))
 
+theorem SymGroupPermutationClassifier_stability [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger src' tgt' graph' invGraph' comp' action'
+      ledger' : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    SymGroupPermutationCarrier src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      hsame src src' -> hsame tgt tgt' -> PkgSig srcBundle src' srcPkg ->
+        PkgSig tgtBundle tgt' tgtPkg -> Cont src' tgt' graph' ->
+          Cont tgt' src' invGraph' -> Cont graph' invGraph' comp' ->
+            Cont src' graph' action' -> Cont comp' action' ledger' ->
+              SymGroupPermutationCarrier src' tgt' graph' invGraph' comp' action' ledger'
+                  srcBundle tgtBundle srcPkg tgtPkg ∧
+                hsame graph graph' ∧ hsame invGraph invGraph' ∧ hsame comp comp' ∧
+                  hsame action action' ∧ hsame ledger ledger' := by
+  intro carrier sameSrc sameTgt srcPkg' tgtPkg' graphCont' invGraphCont' compCont'
+    actionCont' ledgerCont'
+  have transported :=
+    PermutationBijectionSourceRow_endpoint_package_hsame_transport carrier.left sameSrc sameTgt
+      srcPkg' tgtPkg' graphCont' invGraphCont' compCont' actionCont' ledgerCont'
+  have groupCarrier' : GroupSingletonCarrier comp' :=
+    hsame_trans (hsame_symm transported.right.right.right.left) carrier.right.left
+  have actionCarrier' : GroupSingletonCarrier action' :=
+    hsame_trans (hsame_symm transported.right.right.right.right.left) carrier.right.right
+  exact And.intro
+    (And.intro transported.left (And.intro groupCarrier' actionCarrier'))
+    transported.right
+
+theorem SymGroupPermutationCarrier_composition_inverse_action_obligations [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    SymGroupPermutationCarrier src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      GroupSingletonCarrier comp ∧
+        GroupSingletonCarrier (GroupSingletonInv comp) ∧
+          GroupSingletonClassifier (GroupSingletonMul GroupSingletonUnit comp) comp ∧
+            GroupSingletonClassifier (GroupSingletonMul comp GroupSingletonUnit) comp ∧
+              GroupSingletonClassifier
+                (GroupSingletonMul (GroupSingletonInv comp) comp) GroupSingletonUnit ∧
+                GroupSingletonClassifier
+                  (GroupSingletonMul comp (GroupSingletonInv comp)) GroupSingletonUnit ∧
+                  Cont graph invGraph comp ∧ Cont src graph action ∧ Cont comp action ledger := by
+  intro carrier
+  have obligation := SymGroupPermutationCarrier_carrier_obligation carrier
+  have laws := GroupSingletonHistory_laws
+  have compCarrier : GroupSingletonCarrier comp := obligation.right.left
+  have invCarrier : GroupSingletonCarrier (GroupSingletonInv comp) :=
+    laws.right.right.left compCarrier
+  have leftUnit : GroupSingletonClassifier (GroupSingletonMul GroupSingletonUnit comp) comp :=
+    laws.right.right.right.left compCarrier
+  have rightUnit : GroupSingletonClassifier (GroupSingletonMul comp GroupSingletonUnit) comp :=
+    laws.right.right.right.right.left compCarrier
+  have leftInv :
+      GroupSingletonClassifier (GroupSingletonMul (GroupSingletonInv comp) comp)
+        GroupSingletonUnit :=
+    laws.right.right.right.right.right.left compCarrier
+  have rightInv :
+      GroupSingletonClassifier (GroupSingletonMul comp (GroupSingletonInv comp))
+        GroupSingletonUnit :=
+    laws.right.right.right.right.right.right compCarrier
+  exact And.intro compCarrier
+    (And.intro invCarrier
+      (And.intro leftUnit
+        (And.intro rightUnit
+          (And.intro leftInv
+            (And.intro rightInv
+              (And.intro obligation.right.right.right.right.right.right.right.left
+                (And.intro obligation.right.right.right.right.right.right.right.right.left
+                  obligation.right.right.right.right.right.right.right.right.right.left)))))))
+
 end BEDC.Derived.SymGroupUp
