@@ -228,6 +228,7 @@ import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.DiffFormUp
+import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.DiffFormUp.RootConsumerFace
@@ -281,6 +282,7 @@ import BEDC.Derived.IdealUp.PrincipalGenerated
 import BEDC.Derived.IdealUp.PredicateRows
 import BEDC.Derived.IdealUp.RingMapZeroFiber
 import BEDC.Derived.DedekindUp
+import BEDC.Derived.IdealClassUp
 import BEDC.Derived.FourierUp
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
@@ -478,6 +480,7 @@ import BEDC.Derived.QuotientGroupUp.Continuation
 import BEDC.Derived.QuotientGroupUp.CentralizerCosetProduct
 import BEDC.Derived.QuotientGroupUp.EmptyRepresentativeVisible
 import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
+import BEDC.Derived.QuotientGroupUp.IdentityFiberSaturation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
