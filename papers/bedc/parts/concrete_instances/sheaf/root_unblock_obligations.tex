@@ -138,3 +138,19 @@ The exactness part is the union of the three root obligations. Cover membership 
 
 Those cited rows are precisely the rows listed in \autoref{def:sheaf-root-cover-nerve-export-surface}. Since none of them introduces host cover equality, a cover quotient, a stalk quotient, or an external sheafification operation, no downstream consumer obtains such a row from this export surface.
 \end{proof}
+
+\begin{theorem}[Sheaf root cover-nerve exact globalization package]
+\label{thm:sheaf-root-cover-nerve-exact-globalize-package}
+The root cover-nerve export surface of \autoref{def:sheaf-root-cover-nerve-export-surface} forms an $\ExactGlobalizeBase$-style package over the indexed-open $\mathsf{BHist}$ cover nerve. Its coverage face is \autoref{thm:sheaf-root-cover-nerve-membership-exhaustion}; its base soundness face is \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability}; its base completeness and exactness face is the locality-gluing row of \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}. Hence $\RingedSpaceUp$ and $\SchemeUp$ may consume one classifier-exact cover-nerve package, with no host cover equality, cover quotient, stalk quotient, or external sheafification operation.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:sheaf-root-cover-nerve-export-surface}. The carrier is the indexed family $\mathsf{Sec}(i)$ over $\mathsf{BHist}$ opens, the classifier is the displayed relation $\sim_i$, and the ledger is the cover nerve of \autoref{def:sheaf-bhist-cover-nerve-ledger}.
+
+The coverage face is exactly \autoref{thm:sheaf-root-cover-nerve-membership-exhaustion}. It sends each displayed $\mathsf{OpenAt}(i,b)$ cell to a cover member and records the pair-overlap rows needed by downstream restriction routes.
+
+The base soundness face is \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability}. One-step restriction, two-step restriction, classifier transport, and optional $\Cont$ route histories preserve the section classifier on the target indexed open.
+
+The base completeness and exactness face is \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}. Gluing constructs the global readback from compatible local rows, and locality identifies any two global readbacks whose restrictions agree on the accepted cover.
+
+These are precisely the coverage, soundness, and completeness fields required by the exact-globalization constructor of \autoref{thm:exact-globalize-base-target}, with the relation field constrained as in \autoref{def:exact-globalize-base}. Repacking the three displayed faces therefore gives the single classifier-exact cover-nerve package consumed by the downstream chapters, and \autoref{thm:sheaf-root-cover-nerve-downstream-coverage} fixes that no quotient or external sheafification row is exported.
+\end{proof}
