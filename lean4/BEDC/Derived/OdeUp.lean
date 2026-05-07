@@ -120,4 +120,26 @@ theorem OdeLocalFlowSource_picard_continuation_scope
                                                                               x1Unary,
                                                                               x2Unary⟩
 
+theorem OdeLocalFlowSource_concatenation_route_scope
+    {t0 x0 p v ell t1 x1 t2 x2 p2 v2 ell2 route final : BHist} :
+    OdeLocalFlowSource t0 x0 p v ell t1 x1 ->
+      OdeLocalFlowSource t1 x1 p2 v2 ell2 t2 x2 ->
+        Cont ell ell2 route ->
+          Cont t2 route final ->
+            UnaryHistory route ∧ UnaryHistory final ∧ hsame route (append ell ell2) ∧
+              Cont t2 (append ell ell2) final := by
+  intro first second routeRow finalRow
+  have ellUnary : UnaryHistory ell := first.right.right.right.right.left
+  have ell2Unary : UnaryHistory ell2 := second.right.right.right.right.left
+  have t2Unary : UnaryHistory t2 := second.right.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed ellUnary ell2Unary routeRow
+  have finalUnary : UnaryHistory final :=
+    unary_cont_closed t2Unary routeUnary finalRow
+  have finalAppend : Cont t2 (append ell ell2) final := by
+    cases routeRow
+    exact finalRow
+  exact And.intro routeUnary
+    (And.intro finalUnary (And.intro routeRow finalAppend))
+
 end BEDC.Derived.OdeUp

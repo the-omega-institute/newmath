@@ -78,6 +78,7 @@ The tangent and endpoint rows are the third and fourth components of the same tu
 \label{thm:expmap-classifier-stability-obligations}
 For the certified $\ExpMapUp$ carrier, the restricted $\hsame$ classifier on tangent, endpoint, and local-flow rows has reflexivity, symmetry, transitivity, and carrier transport obligations supplied by $\hsame$ and by the two source $\NameCert$ certificates.
 \end{theorem}
+\leanchecked{BEDC.Derived.ExpMapUp.ExpMapClassifier\_stability\_obligations}
 \leanchecked{BEDC.Derived.ExpMapUp.ExpMapGraphCarrier\_hsame\_transport}
 \leanvariant{BEDC.Derived.ExpMapUp.ExpMapGraphCarrier\_classifier\_transport}
 \begin{proof}
@@ -101,6 +102,8 @@ For composition, take two compatible local-flow witnesses whose middle endpoint 
 \label{thm:expmap-ledger-and-dependency-obligations}
 The certified $\ExpMapUp$ obligation ledger contains exactly the $\LieGroupUp$ source, the $\LieAlgebraUp$ source, the tangent $\mathsf{BHist}$ row, the endpoint $\mathsf{BHist}$ row, the restricted $\hsame$ classifier rows, the $\Cont$ local-flow composition rows, and the two source $\NameCert$ witnesses.
 \end{theorem}
+\leanchecked{BEDC.Derived.ExpMapUp.ExpMapLedger\_dependency\_obligations}
+\leanchecked{BEDC.Derived.ExpMapUp.ExpMapFlowLedger\_dependency\_exactness}
 \begin{proof}
 Soundness is by reading each accepted ledger row from the carrier tuple or from the source certificate named in the tuple. No further row is needed to state the exponential-map obligations: the carrier projections give the sources and histories, $\hsame$ gives the classifier witnesses, $\Cont$ gives composition of local-flow histories, and the two $\NameCert$ witnesses scope all source transport.
 
