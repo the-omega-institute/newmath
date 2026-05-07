@@ -163,6 +163,21 @@ theorem AdjointRepSingleton_action_differential_endpoint
     (And.intro differentialSame
       (And.intro bracketEmpty (And.intro actionUnary differentialUnary)))
 
+theorem AdjointRepConjugation_carrier_obligation {g x gx conj : BHist} :
+    LieGroupSingletonCarrier g -> LieAlgebraSingletonCarrier x -> Cont g x gx ->
+      Cont gx (LieGroupSingletonInv g) conj ->
+        LieGroupSingletonCarrier conj ∧ hsame conj BHist.Empty ∧ UnaryHistory conj := by
+  intro groupCarrier algebraCarrier gxRow conjRow
+  have gxCarrier : LieGroupSingletonCarrier gx :=
+    cont_respects_hsame groupCarrier algebraCarrier gxRow (cont_left_unit BHist.Empty)
+  have inverseCarrier : LieGroupSingletonCarrier (LieGroupSingletonInv g) := by
+    rfl
+  have conjCarrier : LieGroupSingletonCarrier conj :=
+    cont_respects_hsame gxCarrier inverseCarrier conjRow (cont_left_unit BHist.Empty)
+  have conjUnary : UnaryHistory conj :=
+    unary_transport unary_empty (hsame_symm conjCarrier)
+  exact And.intro conjCarrier (And.intro conjCarrier conjUnary)
+
 def AdjointRepActionEndpoint (group algebra endpoint : BHist) : Prop :=
   LieGroupSingletonCarrier group ∧ LieAlgebraSingletonCarrier algebra ∧
     ∃ action : BHist, Cont group algebra action ∧ hsame action endpoint
@@ -181,8 +196,8 @@ theorem AdjointRepConjugationCarrier_obligation
     unary_transport unary_empty (hsame_symm endpointEmpty)
   exact And.intro
     (And.intro groupCarrier
-      (And.intro algebraCarrier
-        (Exists.intro action (And.intro actionRow actionEndpoint))))
+        (And.intro algebraCarrier
+          (Exists.intro action (And.intro actionRow actionEndpoint))))
     endpointUnary
 
 end BEDC.Derived.AdjointRepUp
