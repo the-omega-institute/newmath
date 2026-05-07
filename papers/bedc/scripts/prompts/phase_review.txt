@@ -1,7 +1,25 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v3.9 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.0 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## TOP-LEVEL HARD GATE — formalstatus token sync (drift_chapters)
+
+`critical_path.py` JSON now exposes a top-level `drift_chapters` array (sorted by objective rank then thms) AND a `drift_chapters_total` count. A drift chapter has a `closurestatus` block whose `\formalstatus{X}` token is strictly LOWER than the **objective** grade derivable from build artifacts:
+
+- `axiom-purity --strict` pure set member → objective = `axiomCleanV`
+- declared theorem / lemma → objective = `auditCleanV`
+- declared def / inductive / structure / class / abbrev → objective = `encodedDefV`
+
+Most chapters today write `\formalstatus{\theoremCheckedV}` while their `\leantarget` is in fact in the axiom-purity pure set (objective = `axiomCleanV`). The chapter is mathematically fine — Lean has done strictly more work than the paper claims — but the paper-side label undersells it. Sync'ing the token to the objective converts existing Lean strength into the corresponding paper claim and unlocks the `axiomCleanV → bridgeCheckedV` upgrade arc. This is the single highest-leverage paper-side work right now.
+
+**HARD GATE — drift sync priority**: If the JSON's `drift_chapters_total >= 5`, AT LEAST 1 of the proposed N targets MUST be `kind = "closure_mark"` drawn from `drift_chapters[0..4]` (top 5). The target's `paper_files[0]` is the entry's `file_paper`. The `proposed_change` is a SINGLE-LINE replacement: change the chapter's existing `\formalstatus{\<token>}` line to `\formalstatus{\<objective_formal_grade>}` (read both fields directly from the entry). Leave `\theoryclosure{...}`, `\leantarget{...}`, `\bridgestatus{...}`, `\notclaimed{...}`, `\upgradepath{...}` UNCHANGED. The diff is exactly 1 line.
+
+Special note on the `\upgradepath{...}` line: when the new objective is `axiomCleanV`, that line should reflect the next real upgrade target (`axiomCleanV → bridgeCheckedV`). Update it ONLY if its current text references the old token (e.g. mentions `theoremCheckedV → axiomCleanV` as the next step). Otherwise leave it alone — pure sync is preferred.
+
+This gate composes with all other gates. A 3-target round can satisfy: 1 drift-sync + 1 critical_path top + 1 root_unblock or transition. Drift-sync targets are NOT subject to the "matureClosure already at top" exclusion below — drift sync IS the next valid step on a matureClosure chapter (it advances the formal axis, not the theory axis).
+
+Drift-sync targets do NOT need to be drawn from `top` / `top_root_unblocks` / `top_transitions`; `drift_chapters` is its own independent source. The "closure_mark candidates come from critical_path ONLY" rule below is satisfied because `drift_chapters` IS a critical_path output.
 
 ## TOP-LEVEL HARD GATE — closure_mark candidates come from critical_path ONLY
 
