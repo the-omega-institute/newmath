@@ -228,6 +228,7 @@ import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.DiffFormUp
+import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.ResidueUp
@@ -278,6 +279,7 @@ import BEDC.Derived.IdealUp.PrincipalGenerated
 import BEDC.Derived.IdealUp.PredicateRows
 import BEDC.Derived.IdealUp.RingMapZeroFiber
 import BEDC.Derived.DedekindUp
+import BEDC.Derived.IdealClassUp
 import BEDC.Derived.FourierUp
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
