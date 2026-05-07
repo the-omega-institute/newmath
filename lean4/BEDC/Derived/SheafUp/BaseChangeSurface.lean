@@ -6,6 +6,14 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 
+def SheafDisplayedBaseChangeSquare (targetOpen representedOpen pulledOpen ambient member overlap
+    route germ sourceMember sourceOverlap sourceCoverGerm : BHist) : Prop :=
+  hsame targetOpen representedOpen ∧
+    hsame representedOpen pulledOpen ∧
+      SheafBHistCoverNerveLedger ambient member overlap route germ ∧
+        hsame member sourceMember ∧
+          hsame overlap sourceOverlap ∧ Cont sourceOverlap route sourceCoverGerm
+
 theorem SheafBHistPointGermLedger_base_change_gluing_pullback
     {point targetOpen representedOpen pulledOpen sectionHist germ pulledGerm : BHist} :
     SheafBHistPointGermLedger point targetOpen sectionHist germ ->
@@ -255,5 +263,27 @@ theorem SheafBaseChange_obligation_surface
     · intro _endpoint source
       exact source
   exact And.intro cert projection
+
+theorem SheafDisplayedBaseChangeSquare_common_refinement_projection
+    {ambient member overlap route germ sourceMember sourceOverlap sourceCoverGerm point targetOpen
+      representedOpen pulledOpen sectionA sectionB germA germB pulledGermA pulledGermB :
+        BHist} :
+    SheafDisplayedBaseChangeSquare targetOpen representedOpen pulledOpen ambient member overlap
+      route germ sourceMember sourceOverlap sourceCoverGerm ->
+      SheafBHistPointGermLedger point targetOpen sectionA germA ->
+        SheafBHistPointGermLedger point targetOpen sectionB germB ->
+          hsame germA germB -> Cont pulledOpen sectionA pulledGermA ->
+            Cont pulledOpen sectionB pulledGermB ->
+              SheafBHistCoverNerveLedger ambient sourceMember sourceOverlap route
+                  sourceCoverGerm ∧
+                SheafBHistPointGermComparison point pulledOpen sectionA pulledGermA pulledOpen
+                    sectionB pulledGermB pulledOpen ∧
+                  hsame germ sourceCoverGerm ∧ hsame pulledGermA pulledGermB ∧
+                    hsame targetOpen pulledOpen := by
+  intro square ledgerA ledgerB sameGerm pulledRowA pulledRowB
+  exact SheafBaseChange_common_refinement_projection square.right.right.left
+    square.right.right.right.left square.right.right.right.right.left
+    square.right.right.right.right.right ledgerA ledgerB sameGerm square.left square.right.left
+    pulledRowA pulledRowB
 
 end BEDC.Derived.SheafUp
