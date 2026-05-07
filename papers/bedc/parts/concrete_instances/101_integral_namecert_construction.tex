@@ -10,6 +10,7 @@ The integral interface $\IntegralUp$ packages a measure-respecting integration o
 An $\IntegralUp$ carried endpoint is a $\mathsf{BHist}$ row whose visible source data are the cited $\NameCert_{\MeasureUp}$ row, the function-carrier row of admissible integrands over that measure source, and the $\NameCert_{\ContourUp}$ comparison boundary. The endpoint carrier records only those named histories, their $\Pkg$ provenance, and their probe bundles; hidden partition, approximation, and convergence choices are not carrier equality.
 \end{theorem}
 \leanchecked{BEDC.Derived.IntegralUp.IntegralVisibleCarrierRow\_readback}
+\leanvariant{BEDC.Derived.IntegralUp.IntegralFunctionCarrier\_obligation}
 \begin{proof}
 Use the carrier field of the roadmap ten-field template. The traditional target is integration, the BEDC source row is the displayed $\NameCert_{\MeasureUp}$ history, and the comparison source is the displayed $\NameCert_{\ContourUp}$ boundary.
 
@@ -42,8 +43,9 @@ The ledger field records the hidden partition choices, approximation rows, and c
 \begin{closurestatus}{\IntegralUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The scoped paper surface is exactly \autoref{thm:integral-function-carrier-obligation}, \autoref{thm:integral-measure-respecting-classifier-obligation}, and \autoref{thm:integral-operation-stability-ledger-obligation}, read through the displayed $\mathsf{BHist}$, $\Pkg$, $\hsame$, $\NameCert_{\MeasureUp}$, and $\NameCert_{\ContourUp}$ dependencies.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.IntegralUp.IntegralFunctionCarrier\_obligation}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a public certificate surface, a standard bridge, a convergence theorem, or Lean verification.}
+  \notclaimed{This chapter does not close a public certificate surface, a standard bridge, a convergence theorem, or full Lean verification.}
   \upgradepath{Scoped closure requires paper proofs for the carrier, classifier, measure-respecting operation, stability, ledger, exactness, and dependency rows displayed by the three obligation sites.}
 \end{closurestatus}
