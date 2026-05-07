@@ -176,4 +176,17 @@ theorem SetMembershipVisibleTransportChain_hsame [AskSetup] [PackageSetup]
                 policy.reflection data.left data.right.left data.right.right
               exact hsame_trans headSame tailSame
 
+theorem SetMembershipVisibleClassifier_carrier_rows [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {h k : BHist} :
+    SetMembershipVisibleClassifier bundle h k ->
+      SetMembershipVisibleCarrier bundle h ∧ SetMembershipVisibleCarrier bundle k := by
+  intro visible
+  cases visible with
+  | intro p rest =>
+      cases rest with
+      | intro q data =>
+          exact And.intro
+            (Exists.intro p data.left)
+            (Exists.intro q data.right.left)
+
 end BEDC.Derived.SetUp
