@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.Derived.FieldUp
+import BEDC.Derived.GroupUp
 import BEDC.Derived.ModuleUp
 
 namespace BEDC.Derived.VecSpaceUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.VecSpaceUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.Derived.FieldUp
+open BEDC.Derived.GroupUp
 open BEDC.Derived.ModuleUp
 
 theorem singleton_empty_history_vecspace_laws :
@@ -356,5 +358,30 @@ theorem VecSpaceSingleton_module_fragment_projection :
         exact emptyModuleClassified
       · intro r r' m m' _sameR _sameM
         exact emptyModuleClassified
+
+theorem VecSpaceSingleton_additive_carrier_projection :
+    SemanticNameCert BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonClassifier ∧
+      (forall {h k : BHist}, VecSpaceSingletonClassifier h k ->
+        BEDC.Derived.GroupUp.GroupSingletonClassifier h k) ∧
+      (forall {h : BHist}, VecSpaceSingletonCarrier h ->
+        BEDC.Derived.GroupUp.GroupSingletonClassifier
+          (BEDC.Derived.GroupUp.GroupSingletonInv h) BHist.Empty) := by
+  have groupRows := BEDC.Derived.GroupUp.GroupSingletonHistory_laws
+  constructor
+  · exact groupRows.left
+  · constructor
+    · intro h k classified
+      exact And.intro classified.left
+        (And.intro classified.right.left classified.right.right)
+    · intro h _carrier
+      have inverseCarrier :
+          BEDC.Derived.GroupUp.GroupSingletonCarrier
+            (BEDC.Derived.GroupUp.GroupSingletonInv h) :=
+        hsame_refl BHist.Empty
+      exact And.intro inverseCarrier
+        (And.intro (hsame_refl BHist.Empty) inverseCarrier)
 
 end BEDC.Derived.VecSpaceUp
