@@ -21,4 +21,22 @@ theorem LPDualityComplementarySlackness_objective_hsame {primal bridge dual : BH
       (PreorderPrefixLE_of_hsame samePrimalDual)
       (PreorderPrefixLE_of_hsame (hsame_symm samePrimalDual)))
 
+theorem LPDualityFeasibleWeakDuality_prefix_order
+    {primal left bridge right dual leftTail rightTail : BHist} :
+    UnaryHistory leftTail -> Cont primal leftTail left -> hsame left bridge ->
+      UnaryHistory rightTail -> Cont bridge rightTail right -> hsame right dual ->
+        PreorderPrefixLE primal dual := by
+  intro leftTailUnary primalLeft leftBridge rightTailUnary bridgeRight rightDual
+  have primalLeftLE : PreorderPrefixLE primal left :=
+    Exists.intro leftTail (And.intro leftTailUnary primalLeft)
+  have leftBridgeLE : PreorderPrefixLE left bridge :=
+    PreorderPrefixLE_of_hsame leftBridge
+  have bridgeRightLE : PreorderPrefixLE bridge right :=
+    Exists.intro rightTail (And.intro rightTailUnary bridgeRight)
+  have rightDualLE : PreorderPrefixLE right dual :=
+    PreorderPrefixLE_of_hsame rightDual
+  exact PreorderPrefixLE_trans
+    (PreorderPrefixLE_trans primalLeftLE leftBridgeLE)
+    (PreorderPrefixLE_trans bridgeRightLE rightDualLE)
+
 end BEDC.Derived.LPDualityUp
