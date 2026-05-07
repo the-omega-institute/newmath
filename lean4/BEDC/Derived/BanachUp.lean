@@ -468,6 +468,24 @@ theorem BanachSingletonBoundedLinearOperator_composition_cauchy_transport
   exact BanachSingletonBoundedLinearOperator_limit_witness_transport boundedS sourceCarrierT
     alignedT
 
+theorem BanachSingletonBoundedLinearOperator_limit_commutation
+    {T : BHist -> BHist} {K Lambda : BHist} {s M M' : BHist -> BHist}
+    {targetLimit : BHist} :
+    BanachSingletonBoundedLinearOperator T K Lambda ->
+      (forall {n : BHist}, UnaryHistory n -> BanachSingletonCarrier (s n)) ->
+        CompleteMetricLimitWitness BanachSingletonCarrier s M BHist.Empty ->
+          CompleteMetricLimitWitness BanachSingletonCarrier (fun n : BHist => T (s n)) M'
+              targetLimit ->
+            BanachSingletonClassifier targetLimit (T BHist.Empty) := by
+  intro boundedT sourceCarrier sourceWitness targetWitness
+  have transported :
+      CompleteMetricLimitWitness BanachSingletonCarrier (fun n : BHist => T (s n)) M
+          (T BHist.Empty) ∧
+        BanachSingletonClassifier (T BHist.Empty) BHist.Empty :=
+    BanachSingletonBoundedLinearOperator_limit_witness_transport boundedT sourceCarrier
+      sourceWitness
+  exact (BanachSingleton_limit_classifier_unique targetWitness transported.left).left
+
 theorem BanachSingletonZeroBoundedLinearOperator_carrier :
     BanachSingletonBoundedLinearOperator (fun _x : BHist => BHist.Empty) BHist.Empty
       (BHist.e0 BHist.Empty) ∧
