@@ -166,6 +166,7 @@ CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
 THEORYCLOSURE_RE = re.compile(r"\\theoryclosure\{\\(\w+)\}")
 FORMALSTATUS_RE = re.compile(r"\\formalstatus\{\\(\w+)\}")
 LEANTARGET_RE = re.compile(r"\\leantarget\{([^}]+)\}")
+BRIDGESTATUS_RE = re.compile(r"\\bridgestatus\{(\w+)\}")
 INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
 PAPER_ROOT_DIR = ROOT / "papers" / "bedc"
 
@@ -343,7 +344,8 @@ def is_chapter_retired_from_horizon(
     chapter_text: str, name: str
 ) -> tuple[bool, str | None, str | None, str | None, str | None, bool]:
     """Returns (retired, theory_token, formal_token, lean_target,
-                  objective_formal_grade, formalstatus_drift).
+                  objective_formal_grade, formalstatus_drift,
+                  bridge_token).
 
     `formal_token` is what the closurestatus block literally writes;
     `objective_formal_grade` is what the lean_target deserves under the
@@ -363,12 +365,14 @@ def is_chapter_retired_from_horizon(
         tc_match = THEORYCLOSURE_RE.search(body)
         fs_match = FORMALSTATUS_RE.search(body)
         lt_match = LEANTARGET_RE.search(body)
+        br_match = BRIDGESTATUS_RE.search(body)
         tc = tc_match.group(1) if tc_match else None
         fs = fs_match.group(1) if fs_match else None
         lt = (
             lt_match.group(1).replace("\\_", "_").strip()
             if lt_match else None
         )
+        br = br_match.group(1).strip() if br_match else None
         objective_fs = objective_grades.get(lt) if lt else None
         token_idx = (FORMAL_GRADE_ORDER.index(fs)
                      if fs in FORMAL_GRADE_ORDER else -1)
@@ -391,8 +395,8 @@ def is_chapter_retired_from_horizon(
                                     RETIREMENT_FORMAL_THRESHOLD,
                                     FORMAL_GRADE_ORDER)
         )
-        return (retired, tc, fs, lt, objective_fs, drift)
-    return (False, None, None, None, None, False)
+        return (retired, tc, fs, lt, objective_fs, drift, br)
+    return (False, None, None, None, None, False, None)
 
 
 def extract_horizons() -> dict[str, dict]:
@@ -425,7 +429,8 @@ def extract_horizons() -> dict[str, dict]:
         labels = len({f"{m.group(1)}:{m.group(2)}"
                       for m in PAPER_LABEL_FULL_RE.finditer(full_text)})
         (retired, theory_grade, formal_grade, lean_target,
-         objective_formal_grade, formalstatus_drift) = (
+         objective_formal_grade, formalstatus_drift,
+         bridge_token) = (
             is_chapter_retired_from_horizon(full_text, name)
         )
         closed_at = [theory_grade, formal_grade] if retired else None
@@ -455,6 +460,7 @@ def extract_horizons() -> dict[str, dict]:
             "formal_grade_next": formal_next,
             "objective_formal_grade": objective_formal_grade,
             "formalstatus_drift": formalstatus_drift,
+            "bridge_token": bridge_token,
             "next_axis": next_axis,
             "next_grade_transition": _format_transition(
                 theory_grade, formal_grade, theory_next, formal_next, next_axis,
@@ -863,6 +869,45 @@ def _inflight_paper_attack_chapters() -> set[str]:
     return chapters
 
 
+def _inflight_lean_attack_chapters() -> set[str]:
+    """Same as _inflight_paper_attack_chapters but scans
+    `.worktrees/round_R*/` for lean-side worktree edits to lean4/BEDC/
+    or to paper closurestatus blocks. Used by bridge_candidates +
+    formal_axis_top to avoid dispatching multiple lean rounds at the
+    same chapter.
+    """
+    chapters: set[str] = set()
+    worktrees_dir = ROOT / ".worktrees"
+    if not worktrees_dir.is_dir():
+        return chapters
+    # Lean target name like BEDC.Derived.SheafUp or BEDC.Derived.SheafUp.X
+    lean_pat = re.compile(r"lean4/BEDC/(?:[\w/]*?)/?(\w+)Up")
+    paper_pat = re.compile(
+        r"concrete_instances/(?:\d+_)?([a-z][a-z0-9_]*?)(?:_namecert|/|\.tex)"
+    )
+    for wt in worktrees_dir.glob("round_R*"):
+        try:
+            out = subprocess.run(
+                ["git", "status", "--porcelain"],
+                cwd=str(wt), capture_output=True, text=True,
+                check=False, timeout=5,
+            ).stdout
+        except Exception:
+            continue
+        for line in out.splitlines():
+            parts = line.strip().split(None, 1)
+            if len(parts) != 2:
+                continue
+            path = parts[1]
+            m = lean_pat.search(path)
+            if m:
+                chapters.add(m.group(1).lower())
+            m2 = paper_pat.search(path)
+            if m2:
+                chapters.add(m2.group(1))
+    return chapters
+
+
 def _recent_paper_attack_chapter_counts(window_minutes: int = 30) -> dict[str, int]:
     """Count, per chapter, how many DISTINCT recent commits modified
     files under that chapter's paper paths.
@@ -1174,6 +1219,90 @@ def main() -> int:
     )
     drift_chapters = drift_chapters_full[:25]
 
+    # bridge_candidates: chapters that have reached the top of the
+    # theory axis (matureClosure) AND whose Lean target is already at
+    # axiomCleanV objective, but whose `closurestatus.\bridgestatus`
+    # field is still `none` (or absent). These chapters are ready for
+    # the final lean upgrade — write a `StdBridge` Lean theorem
+    # connecting the chapter's concrete BHist instance to its abstract
+    # `<X>Up` schema, then paper P-rounds flip `\bridgestatus{none}` to
+    # `\bridgestatus{bridgeChecked}` and update `\formalstatus` to
+    # `\bridgeCheckedV`. Lean R-rounds should preferentially pick
+    # bridge_candidates[0..2] when no urgent formal-axis work in `top`
+    # is left.
+    bridge_candidates_full = []
+    for info in horizons.values():
+        tg = info.get("theory_grade")
+        obj = info.get("objective_formal_grade")
+        br = info.get("bridge_token")
+        if tg != "matureClosure":
+            continue
+        if obj != "axiomCleanV":
+            continue
+        # bridgeChecked already done if bridge_token is "bridgeChecked"
+        # or "paperBridge" (intermediate). Surface only chapters where
+        # bridge work is genuinely missing.
+        if br in ("bridgeChecked", "bridgeCheckedV"):
+            continue
+        bridge_candidates_full.append({
+            "name": info["name"],
+            "file_paper": info["file_paper"],
+            "file_lean": info["file_lean"],
+            "lean_target": info.get("lean_target"),
+            "bridge_token": br,
+            "thms": info.get("thms", 0),
+        })
+    # Filter in-flight + recent (lean side: scan .worktrees/round_R*/)
+    inflight_lean = _inflight_lean_attack_chapters()
+    bridge_candidates_full = [
+        c for c in bridge_candidates_full
+        if c["name"] not in inflight_lean
+    ]
+    bridge_candidates_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
+    bridge_candidates = bridge_candidates_full[:10]
+
+    # formal_axis_top: chapters whose theory axis is mature OR whose
+    # paper closurestatus block records a non-trivial theory_grade,
+    # but whose formal_grade token is < theoremCheckedV (i.e. lean
+    # really hasn't done the work yet — distinct from drift_chapters
+    # where lean HAS done it but paper undersells). Lean rounds should
+    # advance these chapters' formal axis. Currently mostly chapters
+    # where paper wrote `\formalstatus{\unformalizedV}` while having a
+    # mature theory body (sheaf, projectivespace, etc.).
+    formal_axis_top_full = []
+    _BELOW_TC = {"unformalizedV", "formalTargetV",
+                 "encodedDefV", "scaffoldCheckedV"}
+    for info in horizons.values():
+        tg = info.get("theory_grade")
+        fg = info.get("formal_grade")
+        if not tg:
+            continue  # no closurestatus block — covered by main `top`
+        if fg not in _BELOW_TC:
+            continue
+        formal_axis_top_full.append({
+            "name": info["name"],
+            "file_paper": info["file_paper"],
+            "file_lean": info["file_lean"],
+            "theory_grade": tg,
+            "formal_grade_token": fg,
+            "thms": info.get("thms", 0),
+            "labels": info.get("labels", 0),
+        })
+    formal_axis_top_full = [
+        c for c in formal_axis_top_full
+        if c["name"] not in inflight_lean
+    ]
+    # Rank: chapters with high theory grade + many labels first
+    _TG_RANK = {"matureClosure": 6, "bridgedClosure": 5,
+                "publicClosure": 4, "scopedClosure": 3,
+                "obligationClosure": 2, "seedClosure": 1}
+    formal_axis_top_full.sort(
+        key=lambda c: (_TG_RANK.get(c.get("theory_grade") or "", 0),
+                       c.get("labels", 0)),
+        reverse=True,
+    )
+    formal_axis_top = formal_axis_top_full[:10]
+
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "deps_ready_threshold": strict,
@@ -1182,11 +1311,15 @@ def main() -> int:
         "closed_horizons": closed_count,
         "open_horizons": open_count,
         "drift_chapters_total": len(drift_chapters_full),
+        "bridge_candidates_total": len(bridge_candidates_full),
+        "formal_axis_top_total": len(formal_axis_top_full),
         "granularity": "sibling",
         "top": rolled[:25],
         "top_root_unblocks": root_unblocks[:10],
         "top_transitions": top_transitions,
         "drift_chapters": drift_chapters,
+        "bridge_candidates": bridge_candidates,
+        "formal_axis_top": formal_axis_top,
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
