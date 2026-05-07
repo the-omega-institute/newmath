@@ -58,13 +58,25 @@ The exact ledger boundary is the accompanying $\Pkg$ provenance for those member
 Thus the ledger gives an extensionality obligation without exporting a host set, a host equality, or any hidden construction witness. The only downstream dependency made available is the membership-visible carrier, classifier, transport, and exact boundary described above.
 \end{proof}
 
-\closureat{SetUp}{scopedStr}
+\begin{theorem}[Set public NameCert export]
+\label{thm:set-public-namecert-export}
+The public $\NameCert_{\SetUp}$ surface exported by the set construction is exactly the membership-visible $\mathsf{BHist}$ carrier row of \autoref{thm:set-carrier-obligation}, the $\psame$-style classifier row of \autoref{thm:set-classifier-obligation}, the $\hsame$ membership-transport row of \autoref{thm:set-membership-transport-obligation}, and the extensionality ledger boundary of \autoref{thm:set-extensionality-ledger-obligation}. As a public certificate it exposes those four rows as the whole downstream surface for $\FinSetUp$ and $\SubtypeUp$, and it exports no host set, no host equality, no quotient carrier, and no hidden package witness.
+\end{theorem}
+\begin{proof}
+The carrier clause is the membership-visible row supplied by \autoref{thm:set-carrier-obligation}. The classifier clause is the $\psame$ boundary supplied by \autoref{thm:set-classifier-obligation}, with the checked row \texttt{BEDC.Derived.SetUp.SetMembershipVisibleClassifier\_carrier\_rows} recording that the carrier and classifier rows are the visible rows of the certificate.
+
+The transport clause is the $\hsame$-stable membership row supplied by \autoref{thm:set-membership-transport-obligation}, supported by the checked row \texttt{BEDC.Derived.SetUp.SetMembershipVisibleTransportChain\_hsame}. The membership row itself is the semantic package row recorded by \texttt{BEDC.Derived.SetUp.SetPkgMembership\_semantic\_name\_certificate}.
+
+The ledger clause is \autoref{thm:set-extensionality-ledger-obligation}, supported by \texttt{BEDC.Derived.SetUp.SetExtensionalityLedger\_semantic\_name\_certificate}. That theorem states the boundary condition: visible membership rows may be consumed downstream, while host sets, host equality, quotient carriers, and hidden package witnesses remain outside the exported surface. These four clauses therefore assemble the public $\NameCert_{\SetUp}$ certificate and nothing else.
+\end{proof}
+
+\closureat{SetUp}{publicStr}
 \begin{closurestatus}{\SetUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The $\SetUp$ carrier, classifier, membership transport, and extensionality ledger are scoped precisely to $\mathsf{BHist}$, $\NameCert$, $\psame$, $\hsame$, and $\Pkg$ as witnessed by \autoref{thm:set-carrier-obligation}, \autoref{thm:set-classifier-obligation}, \autoref{thm:set-membership-transport-obligation}, and \autoref{thm:set-extensionality-ledger-obligation}.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The $\SetUp$ public certificate surface is exactly the $\mathsf{BHist}$ membership carrier, $\psame$ classifier, $\hsame$ membership transport, and extensionality ledger boundary assembled by \autoref{thm:set-public-namecert-export}.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.FKernel.NameCert.NameCert}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close exactness, standard bridge data, downstream $\FinSetUp$ or $\SubtypeUp$ certificates, or Lean verification for $\SetUp$.}
-  \upgradepath{The next grade requires a public-facing $\SetUp$ certificate theorem and Lean verification targets for the same scoped rows.}
+  \notclaimed{This chapter does not close exactness beyond the exported set certificate surface, standard bridge data, downstream $\FinSetUp$ or $\SubtypeUp$ certificates, or Lean verification of the paper-level public export theorem.}
+  \upgradepath{The next grade requires a standard bridge for the exported $\SetUp$ surface and a Lean target for \autoref{thm:set-public-namecert-export} if the public theorem is to move on the verification axis.}
 \end{closurestatus}
