@@ -12,6 +12,72 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def ExpMapFlowLedger (tangent endpoint flow : BHist) : Prop :=
+  LieAlgebraSingletonCarrier tangent ∧ LieGroupSingletonCarrier endpoint ∧
+    Cont tangent BHist.Empty endpoint ∧ Cont endpoint BHist.Empty flow
+
+theorem ExpMapFlowLedger_carrier_obligation_surface {tangent endpoint flow : BHist} :
+    ExpMapFlowLedger tangent endpoint flow ->
+      LieAlgebraSingletonCarrier tangent ∧ LieGroupSingletonCarrier endpoint ∧
+        hsame endpoint tangent ∧ hsame flow endpoint ∧ UnaryHistory tangent ∧
+          UnaryHistory endpoint ∧ UnaryHistory flow := by
+  intro ledger
+  have tangentCarrier : LieAlgebraSingletonCarrier tangent := ledger.left
+  have endpointCarrier : LieGroupSingletonCarrier endpoint := ledger.right.left
+  have sameEndpointTangent : hsame endpoint tangent :=
+    cont_right_unit_result ledger.right.right.left
+  have sameFlowEndpoint : hsame flow endpoint :=
+    cont_right_unit_result ledger.right.right.right
+  have tangentUnary : UnaryHistory tangent :=
+    unary_transport unary_empty (hsame_symm tangentCarrier)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport tangentUnary (hsame_symm sameEndpointTangent)
+  have flowUnary : UnaryHistory flow :=
+    unary_transport endpointUnary (hsame_symm sameFlowEndpoint)
+  exact And.intro tangentCarrier
+    (And.intro endpointCarrier
+      (And.intro sameEndpointTangent
+        (And.intro sameFlowEndpoint
+          (And.intro tangentUnary (And.intro endpointUnary flowUnary)))))
+
+theorem ExpMapClassifier_stability_obligation_surface
+    {source source' target target' ledger ledger' endpoint endpoint' : BHist} :
+    LieAlgebraSingletonCarrier source ->
+      LieAlgebraSingletonCarrier source' ->
+        LieGroupSingletonCarrier target ->
+          LieGroupSingletonCarrier target' ->
+            hsame source source' ->
+              hsame target target' ->
+                Cont source target ledger ->
+                  Cont source' target' ledger' ->
+                    Cont ledger BHist.Empty endpoint ->
+                      Cont ledger' BHist.Empty endpoint' ->
+                        hsame ledger ledger' ∧ hsame endpoint endpoint' ∧
+                          UnaryHistory endpoint ∧ UnaryHistory endpoint' := by
+  intro sourceCarrier sourceCarrier' targetCarrier targetCarrier'
+    sameSource sameTarget ledgerRow ledgerRow' endpointRow endpointRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameSource sameTarget ledgerRow ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger (hsame_refl BHist.Empty) endpointRow endpointRow'
+  have ledgerEmpty : hsame ledger BHist.Empty :=
+    cont_respects_hsame sourceCarrier targetCarrier ledgerRow (cont_left_unit BHist.Empty)
+  have ledgerEmpty' : hsame ledger' BHist.Empty :=
+    cont_respects_hsame sourceCarrier' targetCarrier' ledgerRow'
+      (cont_left_unit BHist.Empty)
+  have endpointEmpty : hsame endpoint BHist.Empty :=
+    cont_respects_hsame ledgerEmpty (hsame_refl BHist.Empty) endpointRow
+      (cont_left_unit BHist.Empty)
+  have endpointEmpty' : hsame endpoint' BHist.Empty :=
+    cont_respects_hsame ledgerEmpty' (hsame_refl BHist.Empty) endpointRow'
+      (cont_left_unit BHist.Empty)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport unary_empty (hsame_symm endpointEmpty)
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport unary_empty (hsame_symm endpointEmpty')
+  exact And.intro sameLedger
+    (And.intro sameEndpoint (And.intro endpointUnary endpointUnary'))
+
 theorem ExpMapCarrier_obligation_surface {tangent endpoint flow : BHist} :
     LieAlgebraSingletonCarrier tangent ->
       LieGroupSingletonCarrier endpoint ->
