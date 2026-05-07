@@ -222,4 +222,30 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
+theorem SheafBHistPointGermLedger_route_history_stability
+    {point openHist sectionHist germ restrictedOpen route routeTarget restrictedGerm : BHist} :
+    SheafBHistPointGermLedger point openHist sectionHist germ ->
+      hsame openHist restrictedOpen ->
+        Cont restrictedOpen route routeTarget ->
+          hsame routeTarget restrictedOpen ->
+            Cont routeTarget sectionHist restrictedGerm ->
+              hsame route BHist.Empty ∧
+                SheafBHistPointGermLedger point routeTarget sectionHist restrictedGerm ∧
+                  hsame germ restrictedGerm := by
+  intro ledger sameOpen routeRow sameTarget restrictedRow
+  have routeEmpty : hsame route BHist.Empty :=
+    cont_right_unit_unique (cont_result_hsame_transport routeRow sameTarget)
+  have routeTargetUnary : UnaryHistory routeTarget := by
+    cases sameOpen
+    exact unary_transport ledger.right.left (hsame_symm sameTarget)
+  have sameOpenRouteTarget : hsame openHist routeTarget :=
+    hsame_trans sameOpen (hsame_symm sameTarget)
+  have sameGerm : hsame germ restrictedGerm :=
+    cont_respects_hsame sameOpenRouteTarget (hsame_refl sectionHist)
+      ledger.right.right restrictedRow
+  exact And.intro routeEmpty
+    (And.intro
+      (And.intro ledger.left (And.intro routeTargetUnary restrictedRow))
+      sameGerm)
+
 end BEDC.Derived.SheafUp
