@@ -298,13 +298,53 @@ exactly these rows as the source, carrier, classifier, stability, ledger, and
 exactness entries, with no standard bridge field asserted.
 \end{proof}
 
-\closureat{NormUp}{publicStr}[BEDC.Derived.NormUp.NormSingletonEmptyHistory\_semantic\_name\_certificate]
+\begin{theorem}[Singleton empty-history NormUp standard bridge]
+\label{thm:singleton-empty-history-norm-standard-bridge}
+The singleton $\NormUp$ certificate of
+\autoref{thm:singleton-empty-history-norm-semantic-namecert-surface} admits a
+paper-side standard bridge to the one-point standard normed space. Its carrier
+readback sends exactly the carried endpoints of $A_{\emp}$ to the unique
+standard point and sends that point back to $\emp$ under $\rho_{\emp}$. Its norm
+readback sends every displayed norm endpoint $\nu_{\emp}(m)$ to the standard
+real number $0$. The zero-exactness field is
+\autoref{thm:singleton-empty-history-norm-zero-exactness}, and the
+no-hidden-leakage field is discharged by the ledger of
+\autoref{def:singleton-empty-history-norm-instance}.
+\end{theorem}
+\begin{proof}
+For carrier readback, use the singleton vector-space source. A carried endpoint
+of $A_{\emp}$ collapses to $\emp$ by
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse}, so decoding
+to the one-point standard carrier has exactly one possible value. Encoding that
+standard point back gives $\emp$, and the same collapse theorem gives the
+required $\rho_{\emp}$ round trip for every carried BEDC endpoint.
+
+For norm readback, unfold $\nu_{\emp}$. Every displayed norm endpoint is the
+e-one seal $0_{\mathsf{Real}}^{c}$ of the RatUp zero witness, so the standard
+norm readback sends it to $0$ in the one-point normed space. The standard norm
+of the unique point is also $0$, and the RealUp constant classifier is the
+displayed return witness.
+
+Exactness is precisely
+\autoref{thm:singleton-empty-history-norm-zero-exactness}: the real
+constant-zero classifier for $\nu_{\emp}(m)$ is equivalent to
+$\rho_{\emp}(m,\emp)$ on carried singleton vectors.
+
+The bridge introduces no hidden source. The ledger named in
+\autoref{def:singleton-empty-history-norm-instance} contains only the singleton
+$\VecSpaceUp$ source, the RatUp zero witness, and the e-one $\RealUp$ seal.
+Hence the standard one-point carrier and the standard zero norm appear only as
+bridge readbacks, while the BEDC public surface remains the certificate of
+\autoref{thm:singleton-empty-history-norm-semantic-namecert-surface}.
+\end{proof}
+
+\closureat{NormUp}{bridgedStr}[BEDC.Derived.NormUp.NormSingletonEmptyHistory\_semantic\_name\_certificate]
 \begin{closurestatus}{\NormUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public singleton $\NormUp$ NameCert surface of Theorem~\ref{thm:singleton-empty-history-norm-semantic-namecert-surface} is bound over the $\VecSpaceUp$ singleton carrier $A_{\emp}$ with classifier $\rho_{\emp}$, norm map $\nu_{\emp}$, and the $\RealUp$ constant-zero endpoint classifier $\mathsf{RealConstantHistoryClassifier}$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public singleton $\NormUp$ NameCert surface of Theorem~\ref{thm:singleton-empty-history-norm-semantic-namecert-surface} and the standard bridge of Theorem~\ref{thm:singleton-empty-history-norm-standard-bridge} bind the $\VecSpaceUp$ singleton carrier $A_{\emp}$ with classifier $\rho_{\emp}$, norm map $\nu_{\emp}$, and the one-point standard normed-space readback.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.NormUp.NormSingletonEmptyHistory\_semantic\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{General normed spaces, Banach completeness, nontrivial positive norms, and standard host-space bridges are not claimed.}
-  \upgradepath{$\bridgedClosure$ requires standard-bridge rows and bridge verification for carrier readback, norm readback, exactness, and no-hidden-leakage.}
+  \bridgestatus{paperBridge}
+  \notclaimed{General normed spaces, Banach completeness, nontrivial positive norms, and bridgeChecked verification are not claimed.}
+  \upgradepath{$\bridgeCheckedV$ requires machine verification of the standard-bridge no-hidden-leakage field; non-singleton normed spaces require separate carrier, norm, and exactness certificates.}
 \end{closurestatus}
