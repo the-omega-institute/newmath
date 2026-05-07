@@ -74,4 +74,27 @@ theorem DiffFormAntisymmetryBoundary_derham_consumption_separation
       (And.intro degreeRows.right.right
         chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right))
 
+theorem DiffFormAntisymmetryChainLedger_coverage
+    {probes : ProbeBundle BHist}
+    {chain degree probe tensor scalar antisym ledger degreeR probeR tensorR scalarR antisymR ledgerR :
+      BHist} :
+    DiffFormAntisymmetryChainLedger probes chain degree probe tensor scalar antisym ledger degreeR
+        probeR tensorR scalarR antisymR ledgerR ->
+      UnaryHistory chain ∧ Cont degree probe tensor ∧ Cont tensor antisym scalar ∧
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ∧
+          hsame ledgerR
+            (append degreeR (append probeR (append tensorR (append scalarR antisymR)))) ∧
+            DiffFormBHistClassifier hsame probes degree probe tensor scalar antisym ledger degreeR
+              probeR tensorR scalarR antisymR ledgerR := by
+  intro chainLedger
+  exact And.intro chainLedger.left
+    (And.intro chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+      (And.intro
+        chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+        (And.intro
+          chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+          (And.intro
+            chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+            chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right))))
+
 end BEDC.Derived.DiffFormUp

@@ -11,6 +11,31 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def WeylGroupSourceRow
+    (support : ProbeBundle BHist)
+    (Vector Nonzero : BHist -> Prop)
+    (root word endpoint : BHist) : Prop :=
+  RootSystemFiniteSupportCarrier support Vector Nonzero root ∧
+    GroupSingletonCarrier word ∧ Cont root word endpoint
+
+theorem WeylGroupSourceRow_append_closure
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    {root word endpoint next product : BHist} :
+    WeylGroupSourceRow support Vector Nonzero root word endpoint ->
+      GroupSingletonCarrier next -> Cont endpoint next product ->
+        WeylGroupSourceRow support Vector Nonzero root (append word next) product ∧
+          GroupSingletonCarrier (append word next) := by
+  intro row nextCarrier endpointNext
+  have wordNextCarrier : GroupSingletonCarrier (append word next) :=
+    append_eq_empty_iff.mpr (And.intro row.right.left nextCarrier)
+  have rootWordNext : Cont root (append word next) product := by
+    cases row.right.right
+    cases endpointNext
+    exact append_assoc root word next
+  exact And.intro
+    (And.intro row.left (And.intro wordNextCarrier rootWordNext))
+    wordNextCarrier
+
 theorem WeylGroupSimpleReflection_word_closure {support : ProbeBundle BHist}
     {Vector Nonzero : BHist -> Prop}
     (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
@@ -101,6 +126,44 @@ theorem WeylGroupActionClassifier_stability_transport
   exact And.intro closure.left
     (And.intro transportedUnary sameTransported)
 
+theorem WeylGroupActionClassifier_append_stability_row
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root root' wordA wordA' wordB wordB' actionA actionA' actionAB actionAB' :
+      BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root wordA actionA ->
+      WeylGroupBHistSourceRow support Vector Nonzero root' wordA' actionA' ->
+        hsame root root' -> hsame wordA wordA' -> hsame wordB wordB' ->
+          GroupSingletonCarrier wordB -> GroupSingletonCarrier wordB' ->
+            Cont actionA wordB actionAB -> Cont actionA' wordB' actionAB' ->
+              WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB)
+                  actionAB ∧
+                WeylGroupBHistSourceRow support Vector Nonzero root' (append wordA' wordB')
+                  actionAB' ∧
+                  hsame (append wordA wordB) (append wordA' wordB') ∧
+                    hsame actionAB actionAB' := by
+  intro source source' sameRoot sameWordA sameWordB wordBCarrier wordB'Carrier
+    actionStep actionStep'
+  have closed :
+      WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB) actionAB ∧
+        hsame actionAB root ∧ GroupSingletonCarrier (append wordA wordB) :=
+    WeylGroupBHistSourceRow_simple_reflection_word_closure
+      vector_unary source wordBCarrier actionStep
+  have closed' :
+      WeylGroupBHistSourceRow support Vector Nonzero root' (append wordA' wordB') actionAB' ∧
+        hsame actionAB' root' ∧ GroupSingletonCarrier (append wordA' wordB') :=
+    WeylGroupBHistSourceRow_simple_reflection_word_closure
+      vector_unary source' wordB'Carrier actionStep'
+  have sameWordAppend : hsame (append wordA wordB) (append wordA' wordB') := by
+    cases sameWordA
+    cases sameWordB
+    exact hsame_refl (append wordA wordB)
+  have sameAction : hsame actionAB actionAB' :=
+    hsame_trans closed.right.left
+      (hsame_trans sameRoot (hsame_symm closed'.right.left))
+  exact And.intro closed.left
+    (And.intro closed'.left (And.intro sameWordAppend sameAction))
+
 theorem WeylGroupSimpleReflectionWord_closure_row
     {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
     {alpha beta reflected word product : BHist}
@@ -122,6 +185,26 @@ theorem WeylGroupSimpleReflectionWord_closure_row
   exact And.intro reflectedUnary
     (And.intro productUnary
       (And.intro alphaCarrier (And.intro wordCarrier productRoute)))
+
+theorem WeylGroupSimpleReflection_word_closure_row
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    {alpha beta reflected word product : BHist}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h) :
+    RootSystemFiniteSupportCarrier support Vector Nonzero alpha ->
+      RootSystemFiniteSupportCarrier support Vector Nonzero beta ->
+        Cont alpha beta reflected -> GroupSingletonCarrier word ->
+          Cont word BHist.Empty product ->
+            UnaryHistory reflected ∧ GroupSingletonCarrier product ∧ hsame product word ∧
+              Cont alpha beta reflected := by
+  intro alphaCarrier betaCarrier reflectionRoute wordCarrier wordProduct
+  have reflectedUnary : UnaryHistory reflected :=
+    RootSystemReflectionClosure_result_unary vector_unary alphaCarrier betaCarrier reflectionRoute
+  have productWord : hsame product word :=
+    cont_right_unit_result wordProduct
+  have productCarrier : GroupSingletonCarrier product :=
+    hsame_trans productWord wordCarrier
+  exact And.intro reflectedUnary
+    (And.intro productCarrier (And.intro productWord reflectionRoute))
 
 def WeylGroupRootSystemGroupCarrier
     (support : ProbeBundle BHist)
