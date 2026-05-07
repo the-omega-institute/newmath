@@ -459,12 +459,71 @@ object is exactly the $\ManifoldUp$ $\NameCert$ obligation threshold listed in
 the theorem statement.
 \end{proof}
 
+\begin{theorem}[ManifoldUp singleton standard bridge]
+\label{thm:manifoldup-singleton-standard-bridge}
+The singleton empty-chart $\ManifoldUp$ interface determined by
+\autoref{thm:manifold-singleton-namecert-obligation-package} interprets as the
+standard one-point smooth manifold. Under this interpretation, the standard
+singleton chart data re-encodes to the BEDC carrier, classifier, chart-domain,
+transition, and ledger rows displayed by the public singleton certificate.
+\end{theorem}
+\begin{proof}
+The one-point carrier is the BEDC carrier $C_{\emp}$ of the singleton package.
+\autoref{thm:manifold-singleton-namecert-obligation-package} supplies the
+certificate boundary, so the host description has only one visible point and
+one visible chart row to interpret.
+
+The chart field is standard because
+\autoref{thm:manifold-singleton-chart-coverage} identifies the chart domain
+with the carried histories, while
+\autoref{thm:manifold-singleton-domain-exactness} identifies the overlap
+domain with the same carrier row. The standard singleton chart therefore
+returns exactly the displayed zero endpoint of $\RealUp$.
+
+The atlas and transition fields re-encode without extra choices.
+\autoref{thm:manifold-singleton-atlas-index-exhaustion} leaves only the
+displayed chart index, and
+\autoref{thm:manifold-singleton-transition-ledger-exhaustion} leaves only the
+self-transition row. Finally,
+\autoref{thm:manifold-singleton-chart-value-transport} transports the chart
+value along the public classifier, so the host singleton interpretation and the
+BEDC rows name the same chart-value ledger.
+\end{proof}
+
+\begin{theorem}[ManifoldUp bridge no-host leakage]
+\label{thm:manifoldup-bridge-no-host-leakage}
+The bridge of
+\autoref{thm:manifoldup-singleton-standard-bridge} consumes only the public
+BEDC rows over $\mathsf{BHist}$, $\TopologyUp$, $\RealUp$,
+$\RealAnalyticUp$, and the visible atlas ledger. It does not add host equality,
+host naturals, host functions, $\Quot$, $\mathsf{Classical}$, or
+$\mathsf{propext}$ to the BEDC public surface.
+\end{theorem}
+\begin{proof}
+The carrier and classifier are read from the singleton certificate over
+$\mathsf{BHist}$. No host equality is imported: equality of visible points is
+read only through the displayed $\hsame$ classifier and the transported carrier
+row.
+
+The chart-domain and chart-value fields are read from the public
+$\TopologyUp$, $\RealUp$, and $\RealAnalyticUp$ rows cited in
+\autoref{thm:manifoldup-singleton-standard-bridge}. The singleton atlas
+exhaustion theorem supplies the only index, so no host natural numbers or host
+function space is used to enumerate charts.
+
+The transition and ledger fields are the visible self-transition rows. Since
+the bridge merely recognizes those rows as the standard singleton smooth
+manifold, it introduces no quotient construction, classical choice principle,
+or proposition-extensionality principle into the BEDC public surface.
+\end{proof}
+
+\closureat{ManifoldUp}{bridgedStr}[BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert]
 \begin{closurestatus}{\ManifoldUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public singleton empty-chart $\ManifoldUp$ certificate package and finite-atlas obligation threshold over $\mathsf{BHist}$, $\TopologyUp$, $\RealUp$, and $\RealAnalyticUp$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public singleton empty-chart $\ManifoldUp$ certificate package, finite-atlas obligation threshold, standard bridge of \autoref{thm:manifoldup-singleton-standard-bridge}, and no-host-leakage witness of \autoref{thm:manifoldup-bridge-no-host-leakage} over $\mathsf{BHist}$, $\TopologyUp$, $\RealUp$, and $\RealAnalyticUp$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{Full manifold theory, arbitrary atlases, standard smooth-manifold equivalence, and checked standard bridges.}
-  \upgradepath{Bridged closure requires an explicit standard bridge for the exported singleton and finite-atlas $\ManifoldUp$ interface.}
+  \upgradepath{Mature closure requires broader manifold constructions, arbitrary atlas packages, and a checked bridge target for the standard-bridge no-host-leakage field.}
 \end{closurestatus}
