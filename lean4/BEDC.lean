@@ -231,6 +231,7 @@ import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.DiffFormUp.RootConsumerFace
+import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
