@@ -79,4 +79,45 @@ theorem SheafGluingCompatibleFamily_stability_semantic_certificate
     SheafRestrictedOpenCarrier_semantic_name_certificate memberReadbackA.left
   exact And.intro comparison (And.intro cert sameMemberGerms)
 
+theorem SheafBHistPointGermComparison_restriction_classifier_transport
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB : BHist} :
+    SheafBHistPointGermComparison point openHist sectionA germA openHist sectionB germB
+        openHist ->
+      hsame openHist restrictedOpen ->
+        Cont restrictedOpen sectionA restrictedGermA ->
+          Cont restrictedOpen sectionB restrictedGermB ->
+            SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+                restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+              hsame germA restrictedGermA ∧ hsame germB restrictedGermB := by
+  intro comparison sameOpen restrictedA restrictedB
+  have ledgerA : SheafBHistPointGermLedger point openHist sectionA germA :=
+    And.intro comparison.left
+      (And.intro comparison.right.left comparison.right.right.right.right.right.right.left)
+  have ledgerB : SheafBHistPointGermLedger point openHist sectionB germB :=
+    And.intro comparison.left
+      (And.intro comparison.right.right.left
+        comparison.right.right.right.right.right.right.right.left)
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      ledgerA ledgerB comparison.right.right.right.right.right.right.right.right sameOpen
+      restrictedA restrictedB
+  have readbackA :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        hsame germA restrictedGermA :=
+    SheafBHistPointGermLedger_restriction_readback ledgerA sameOpen restrictedA
+  have readbackB :
+      SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+        hsame germB restrictedGermB :=
+    SheafBHistPointGermLedger_restriction_readback ledgerB sameOpen restrictedB
+  have restrictedComparison :
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+        restrictedOpen sectionB restrictedGermB restrictedOpen :=
+    (SheafBHistPointGermLedger_common_open_comparison
+      descent.left descent.right.left descent.right.right).left
+  exact And.intro restrictedComparison (And.intro readbackA.right readbackB.right)
+
 end BEDC.Derived.SheafUp

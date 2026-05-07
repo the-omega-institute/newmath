@@ -87,4 +87,47 @@ theorem TreeVisibleCarrier_root_witness_obligation {root vertex edge : BHist} :
   · intro _rootNonempty
     exact And.intro edgeRow.left edgeRow
 
+theorem TreeBHistObligationCarrier_classifier_transport
+    {root source target edge connected acyclic repr package root' source' target' edge'
+      connected' acyclic' repr' package' : BHist} :
+    TreeBHistObligationCarrier root source target edge connected acyclic repr package ->
+      hsame root root' -> hsame source source' -> hsame target target' -> hsame edge edge' ->
+        hsame connected connected' -> hsame acyclic acyclic' -> hsame repr repr' ->
+          hsame package package' ->
+            TreeBHistObligationCarrier root' source' target' edge' connected' acyclic' repr'
+                package' ∧
+              GraphContEdge source' target' edge' ∧ Cont root' connected' source' ∧
+                Cont edge' repr' target' ∧ hsame package' (append source' target') := by
+  intro carrier sameRoot sameSource sameTarget sameEdge sameConnected sameAcyclic sameRepr
+    samePackage
+  have edgeTransport :
+      GraphContEdge source' target' edge' ∧ Cont source' target' edge' ∧
+        (hsame source source' ∧ hsame target target' ∧ hsame edge edge') :=
+    GraphContEdge_classifier_transport carrier.left sameSource sameTarget sameEdge
+  have rootUnary : UnaryHistory root' :=
+    unary_transport carrier.right.left sameRoot
+  have connectedRoute : Cont root' connected' source' :=
+    cont_hsame_transport sameRoot sameConnected sameSource carrier.right.right.left
+  have acyclicEmpty : hsame acyclic' BHist.Empty :=
+    hsame_trans (hsame_symm sameAcyclic) carrier.right.right.right.left
+  have reprRoute : Cont edge' repr' target' :=
+    cont_hsame_transport sameEdge sameRepr sameTarget carrier.right.right.right.right.left
+  have packageSame : hsame package' (append source' target') := by
+    cases samePackage
+    cases sameSource
+    cases sameTarget
+    exact carrier.right.right.right.right.right
+  have transportedCarrier :
+      TreeBHistObligationCarrier root' source' target' edge' connected' acyclic' repr'
+        package' :=
+    And.intro edgeTransport.left
+      (And.intro rootUnary
+        (And.intro connectedRoute
+          (And.intro acyclicEmpty
+            (And.intro reprRoute packageSame))))
+  exact And.intro transportedCarrier
+    (And.intro edgeTransport.left
+      (And.intro connectedRoute
+        (And.intro reprRoute packageSame)))
+
 end BEDC.Derived.TreeUp
