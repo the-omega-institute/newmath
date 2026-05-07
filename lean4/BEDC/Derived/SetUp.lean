@@ -9,6 +9,76 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 
+def SetPkgMembershipSource [AskSetup] [PackageSetup]
+    (bundle : ProbeBundle ProbeName) (h : BHist) : Prop :=
+  exists p : Pkg, TokIntro bundle h p
+
+theorem SetPkgMembership_semantic_name_certificate [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName}
+    (witness : exists h : BHist, SetPkgMembershipSource bundle h)
+    (tok : TokUnique bundle) :
+    SemanticNameCert (SetPkgMembershipSource bundle) (SetPkgMembershipSource bundle)
+      (SetPkgMembershipSource bundle)
+      (fun h k : BHist =>
+        exists p : Pkg, exists q : Pkg,
+          TokIntro bundle h p ∧ TokIntro bundle k q ∧ psame bundle p q) := by
+  constructor
+  · constructor
+    · exact witness
+    · intro h source
+      cases source with
+      | intro p token =>
+          exact Exists.intro p
+            (Exists.intro p
+              (And.intro token
+                (And.intro token (psame.intro token token (hsame_refl h)))))
+    · intro h k classified
+      cases classified with
+      | intro p classifiedTail =>
+          cases classifiedTail with
+          | intro q rows =>
+              exact Exists.intro q
+                (Exists.intro p
+                  (And.intro rows.right.left
+                    (And.intro rows.left
+                      (packageTokenPolicy_psame_symm_on_introduced
+                        (packageTokenPolicy_from_tokUnique tok) rows.left rows.right.left
+                        rows.right.right))))
+    · intro h k r leftClass rightClass
+      cases leftClass with
+      | intro p leftTail =>
+          cases leftTail with
+          | intro q leftRows =>
+              cases rightClass with
+              | intro q' rightTail =>
+                  cases rightTail with
+                  | intro s rightRows =>
+                      have sameHK : hsame h k :=
+                        package_reflection_token_unique tok leftRows.left leftRows.right.left
+                          leftRows.right.right
+                      have sameKR : hsame k r :=
+                        package_reflection_token_unique tok rightRows.left rightRows.right.left
+                          rightRows.right.right
+                      have link : psame bundle q s :=
+                        psame.intro leftRows.right.left rightRows.right.left sameKR
+                      have whole : psame bundle p s :=
+                        psame.intro leftRows.left rightRows.right.left
+                          (hsame_trans sameHK sameKR)
+                      exact Exists.intro p
+                        (Exists.intro s
+                          (And.intro leftRows.left
+                            (And.intro rightRows.right.left whole)))
+    · intro h k classified source
+      cases classified with
+      | intro p classifiedTail =>
+          cases classifiedTail with
+          | intro q rows =>
+              exact Exists.intro q rows.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem SetExtensionalityLedger_semantic_name_certificate [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} {s : BHist} {p : Pkg}
     (token : TokIntro bundle s p) :
@@ -76,6 +146,21 @@ def SetMembershipVisibleClassifier [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) (h k : BHist) : Prop :=
   ∃ p : Pkg, ∃ q : Pkg, TokIntro bundle h p ∧ TokIntro bundle k q ∧ psame bundle p q
 
+theorem SetMembershipVisibleClassifier_carrier_hsame_boundary [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle) {h k : BHist} :
+    SetMembershipVisibleClassifier bundle h k ->
+      SetMembershipVisibleCarrier bundle h ∧ SetMembershipVisibleCarrier bundle k ∧ hsame h k := by
+  intro visible
+  cases visible with
+  | intro p rest =>
+      cases rest with
+      | intro q data =>
+          exact And.intro
+            (Exists.intro p data.left)
+            (And.intro
+              (Exists.intro q data.right.left)
+              (policy.reflection data.left data.right.left data.right.right))
+
 inductive SetMembershipVisibleTransportChain [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) : BHist -> BHist -> Prop where
   | single {h k : BHist} :
@@ -105,5 +190,18 @@ theorem SetMembershipVisibleTransportChain_hsame [AskSetup] [PackageSetup]
               have headSame :=
                 policy.reflection data.left data.right.left data.right.right
               exact hsame_trans headSame tailSame
+
+theorem SetMembershipVisibleClassifier_carrier_rows [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {h k : BHist} :
+    SetMembershipVisibleClassifier bundle h k ->
+      SetMembershipVisibleCarrier bundle h ∧ SetMembershipVisibleCarrier bundle k := by
+  intro visible
+  cases visible with
+  | intro p rest =>
+      cases rest with
+      | intro q data =>
+          exact And.intro
+            (Exists.intro p data.left)
+            (Exists.intro q data.right.left)
 
 end BEDC.Derived.SetUp
