@@ -82,6 +82,23 @@ theorem QuantumChannelAffineMixtureSpine_composition_assoc
       (binaryClosed phiChannel psiThetaChannel rightCont)
       (cont_assoc_up_to_hsame_spine phiPsiCont leftCont psiThetaCont rightCont))
 
+theorem QuantumChannelAffineMixtureSpine_composition_closure
+    {channel : BHist -> Prop} {phi psi out : BHist}
+    (binaryClosed :
+      forall {left right result : BHist},
+        channel left -> channel right -> Cont left right result -> channel result) :
+    QuantumChannelAffineMixtureSpine channel phi ->
+      QuantumChannelAffineMixtureSpine channel psi ->
+        Cont phi psi out -> channel out ∧ QuantumChannelAffineMixtureSpine channel out := by
+  intro phiSpine psiSpine composition
+  have phiChannel : channel phi :=
+    QuantumChannelAffineMixtureSpine_finite_closure binaryClosed phiSpine
+  have psiChannel : channel psi :=
+    QuantumChannelAffineMixtureSpine_finite_closure binaryClosed psiSpine
+  exact And.intro
+    (binaryClosed phiChannel psiChannel composition)
+    (QuantumChannelAffineMixtureSpine.mix phiSpine psiSpine composition)
+
 theorem QuantumChannelAffineMixtureSpine_unit_laws
     {channel : BHist -> Prop} {phi left right : BHist}
     (binaryClosed :
