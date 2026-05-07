@@ -60,4 +60,17 @@ theorem PreSheafIndexedRestrictionSurface_section_restriction_transport
     (And.intro sameIdentity
       (And.intro sameComposite (And.intro identityUnary' compositeUnary')))
 
+theorem PreSheafIndexedRestrictionSurface_composition_restriction_row
+    {sec rho identity composite : BHist} :
+    PreSheafIndexedRestrictionSurface sec rho identity composite ->
+      Cont sec rho identity ∧ Cont rho identity composite ∧
+        UnaryHistory identity ∧ UnaryHistory composite := by
+  intro surface
+  have identityUnary : UnaryHistory identity :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.left
+  have compositeUnary : UnaryHistory composite :=
+    unary_cont_closed surface.right.left identityUnary surface.right.right.right
+  exact And.intro surface.right.right.left
+    (And.intro surface.right.right.right (And.intro identityUnary compositeUnary))
+
 end BEDC.Derived.PreSheafUp
