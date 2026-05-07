@@ -1217,7 +1217,17 @@ def main() -> int:
                        c.get("thms", 0)),
         reverse=True,
     )
-    drift_chapters = drift_chapters_full[:25]
+    # Anti-dogpile via per-call shuffle of the surfaced top-25. With
+    # 10 paper workers all calling critical_path within a few seconds,
+    # the deterministic top-N collapses every round to picking the
+    # same 1-2 chapters; the dedup machinery then drops 9/10 rounds.
+    # Seeded by os.urandom so different paper-round dispatches see
+    # different orderings, while a single round's call sees a stable
+    # ordering inside its own JSON.
+    import random as _rand
+    surfaced = drift_chapters_full[:25]
+    _rand.Random().shuffle(surfaced)
+    drift_chapters = surfaced
 
     # bridge_candidates: chapters that have reached the top of the
     # theory axis (matureClosure) AND whose Lean target is already at
