@@ -392,4 +392,29 @@ theorem BundleLocalTrivPkg_trivialization_scope {base total projection fibre led
         (Or.inr
           (Iff.mpr inBundle_bundleAppend_iff (Or.inl memberTriv)))))
 
+theorem BundleLocalTrivPkg_projection_fibre_source_scope
+    {base total projection fiber ledger : BHist} {trivs transitions : ProbeBundle BHist} :
+    BundleLocalTrivPackage base total projection fiber trivs transitions ledger ->
+      InBundle projection (BundleLocalTrivPkgRows base total projection fiber ledger trivs
+        transitions) ∧
+        InBundle fiber (BundleLocalTrivPkgRows base total projection fiber ledger trivs
+          transitions) ∧
+          InBundle ledger (BundleLocalTrivPkgRows base total projection fiber ledger trivs
+            transitions) ∧
+            UnaryHistory projection ∧ UnaryHistory fiber ∧ UnaryHistory ledger := by
+  intro package
+  exact And.intro
+    (Or.inr (Or.inr (Or.inl rfl)))
+    (And.intro
+      (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
+      (And.intro
+        (Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Iff.mpr inBundle_bundleAppend_iff
+                  (Or.inr (Or.inl rfl)))))))
+        (And.intro package.right.right.left
+          (And.intro package.right.right.right.left package.right.right.right.right.left))))
+
 end BEDC.Derived.BundleUp

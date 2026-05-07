@@ -265,12 +265,48 @@ compact-operator witness is classifier-stable while remaining a finite ledger,
 not an open-cover or choice principle.
 \end{proof}
 
+\begin{theorem}[FunctionalAnalysis public export certificate]
+\label{thm:functionalanalysis-public-export-certificate}
+The public $\FunctionalAnalysisUp$ export over the displayed $\BanachUp$,
+$\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ sources is the
+single $\NameCert_{\FunctionalAnalysisUp}$ surface whose fields are exactly
+the bounded-operator row, the dual-space classifier, the operator-norm
+stability row, the adjoint stability row, the compact finite-net witness row,
+and the exact ledger boundary proved in this chapter. The surface exports
+only these rows for downstream public consumers, and it exports no spectral
+theorem, semigroup evolution theorem, PDE well-posedness theorem, standard
+bridge, or host-level operator equality.
+\end{theorem}
+\begin{proof}
+The carrier and classifier part is the bounded-operator row of
+\autoref{thm:functionalanalysis-bounded-linear-operator-obligation} together
+with the dual-space classifier of
+\autoref{thm:functionalanalysis-dual-space-classifier-obligation}. These two
+rows determine the public operator and scalar-valued functional faces over the
+displayed $\BanachUp$, $\HilbertUp$, $\LinearMapUp$, and $\RealUp$ sources.
+
+The stability fields are precisely the operator-norm and adjoint rows of
+\autoref{thm:functionalanalysis-operator-norm-stability-obligation} and
+\autoref{thm:functionalanalysis-adjoint-stability-obligation}. The compact
+field is the finite-net witness ledger of
+\autoref{thm:functionalanalysis-compact-operator-ledger-obligation}, read over
+the displayed $\CompactMetricUp$ surface rather than through an open-cover
+compactness assertion.
+
+The boundary of the public surface is the exact ledger boundary of
+\autoref{thm:functionalanalysis-exact-ledger-boundary-obligation}. Therefore
+the exported $\NameCert_{\FunctionalAnalysisUp}$ surface consists exactly of
+the named rows and explicitly omits spectral theorem, semigroup evolution,
+PDE well-posedness, standard-bridge, and host-level operator-equality claims.
+\end{proof}
+
+\closureat{FunctionalAnalysisUp}{publicStr}
 \begin{closurestatus}{\FunctionalAnalysisUp}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{The scoped package binds the bounded-linear-operator carrier and classifier, the dual-space classifier, norm-bound stability, adjoint stability, the compact finite-net ledger, and the exact ledger boundary over the named $\BanachUp$, $\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ surfaces.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.LinearMapUp.LinearMapSingleton\_laws}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim Lean verification, a public $\FunctionalAnalysisUp$ export theorem, spectral theorem rows, PDE or semigroup certificates, or a standard bridge.}
-  \upgradepath{The next paper-side step is publicClosure: a single public-facing $\FunctionalAnalysisUp$ export theorem packaging the scoped rows for downstream $\SpectralTheoremUp$, $\SemigroupUp$, and $\PdeUp$ consumers.}
+  \notclaimed{This chapter does not claim Lean verification, spectral theorem rows, PDE or semigroup certificates, or a standard bridge.}
+  \upgradepath{The next paper-side step is bridgedClosure: a standard bridge and downstream bridge rows for the exported public surface.}
 \end{closurestatus}
