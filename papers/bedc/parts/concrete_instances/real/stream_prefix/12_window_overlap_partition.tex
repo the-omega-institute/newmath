@@ -291,3 +291,59 @@ and exclude quotient, completion, metric-completeness, arithmetic, order,
 Classical, and standard-bridge data, so the partitioned and total presentations
 have the same scoped $\RealUp$ read surface.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window partition stability package]
+\label{thm:realup-window-partition-stability-package}
+For rational-observation streams $x,x',y,y',z:\mathbb{N}\to\Hist$, an anchor
+$n$, a total bound $w$, and a certified finite partition spine $P$ over
+$(n,w)$ with segments $(n_i,r_i)$, the four stability rows of
+$\mathsf{RealStreamWindowClassifier}$ commute with the correspondence between
+the total window at $(n,w)$ and the segment windows named by $P$.
+
+Concretely, both the total presentation
+$\mathsf{RealStreamWindowClassifier}(-,-,n,w)$ and the segment presentation
+$$
+\bigwedge_{(n_i,r_i)\in P}
+\mathsf{RealStreamWindowClassifier}(-,-,n_i,r_i)
+$$
+expose the same scoped stability package:
+\begin{enumerate}
+  \item reflexivity from endpoint carrier rows for each displayed observation;
+  \item symmetry of the window classifier;
+  \item transitivity through the middle stream $y$;
+  \item pointwise $\hsame$ transport from $(x,y)$ to $(x',y')$ over the
+  displayed observations.
+\end{enumerate}
+The exposed certificate boundary in either presentation is exactly the scoped
+read surface of \autoref{thm:realup-window-partition-read-surface}: endpoint
+$\RatUp$ rows, $\mathsf{DyadicRatCore}$ observation rows, $\RegSeqRat$ spine
+rows, $\StreamNameUp$ request names, $\mathsf{UnaryHistory}$ witnesses,
+$\hsame$ transport rows, and the finite ledger rows named by the certified
+partition spine.
+\end{theorem}
+\begin{proof}
+First identify the two window presentations. Apply
+\autoref{thm:real-stream-window-finite-partition-fold} to the certified spine
+$P$. It gives the equivalence between the total classifier at $(n,w)$ and the
+finite conjunction of segment classifiers at the anchors and radii listed by
+$P$.
+
+Next apply \autoref{thm:real-stream-window-classifier-stability-package} to the
+total window. Its four rows give reflexivity from the carrier observations,
+symmetry, transitivity through $y$, and pointwise $\hsame$ transport from
+$(x,y)$ to $(x',y')$ on every offset $k\le w$.
+
+For the segment presentation, apply the same stability package to each segment
+window $\mathsf{RealStreamWindowClassifier}(-,-,n_i,r_i)$. The spine ledger
+records that every displayed segment offset is one of the observations in the
+total window, and the finite fold records the reverse containment by collecting
+the segment windows back into the total classifier.
+
+Finally apply \autoref{thm:realup-window-partition-read-surface}. It identifies
+the public rows exposed by the total presentation and by the partitioned
+presentation as the same endpoint $\RatUp$, $\mathsf{DyadicRatCore}$,
+$\RegSeqRat$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$, and ledger
+rows. Therefore transporting any of the four stability rows across the fold
+does not expose additional data and does not lose any scoped row from the
+listed $\RealUp$ boundary.
+\end{proof}
