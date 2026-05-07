@@ -311,6 +311,7 @@ import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
 import BEDC.Derived.DiffFormUp.ExteriorDerivativeBoundary
 import BEDC.Derived.DiffFormUp.RootConsumerFace
+import BEDC.Derived.DiffFormUp.RootConsumerEntry
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
@@ -411,6 +412,7 @@ import BEDC.Derived.ListUp.BorderedSingletonPayload
 import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
+import BEDC.Derived.ListUp.ConstructorDecomposition
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
@@ -581,6 +583,7 @@ import BEDC.Derived.RingUp.Cancellation
 import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
+import BEDC.Derived.MatrixUp.ZeroMatrixMultiplication
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.NegEndpoint
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
@@ -614,6 +617,8 @@ import BEDC.Derived.CompactUp.EmptyCenter
 import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CompactUp.TwoStepFactor
+import BEDC.Derived.FunctorUp.CompositionIdentityRespect
+import BEDC.Derived.FunctorUp.IdentityFunctor
 import BEDC.Derived.FunctorUp.OppositeCertificate
 import BEDC.Derived.NatTransUp.NaturalIso
 import BEDC.Derived.CategoryFunctorIndex
