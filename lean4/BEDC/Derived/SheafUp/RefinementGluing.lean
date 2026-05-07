@@ -1,4 +1,5 @@
 import BEDC.Derived.SheafUp
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.SheafUp
 
@@ -25,6 +26,47 @@ theorem SheafRefinementGluing_descent_cont
       (hsame_trans readback.right sameRefinedGlobalRefined)
   exact And.intro readback.left
     (And.intro sameRefinedGlobalRefined sameGlobalAGlobalRefined)
+
+theorem SheafBHistPointGermLedger_hsame_transport_readback
+    {point point' openHist openHist' sect sect' germ germ' : BHist} :
+    SheafBHistPointGermLedger point openHist sect germ ->
+      hsame point point' -> hsame openHist openHist' -> hsame sect sect' ->
+        hsame germ germ' ->
+          SheafBHistPointGermLedger point' openHist' sect' germ' ∧ UnaryHistory point' ∧
+            UnaryHistory openHist' ∧ Cont openHist' sect' germ' := by
+  intro ledger samePoint sameOpen sameSect sameGerm
+  have pointUnary : UnaryHistory point' :=
+    unary_transport ledger.left samePoint
+  have openUnary : UnaryHistory openHist' :=
+    unary_transport ledger.right.left sameOpen
+  have transportedCont : Cont openHist' sect' germ' :=
+    cont_hsame_transport sameOpen sameSect sameGerm ledger.right.right
+  exact And.intro
+    (And.intro pointUnary (And.intro openUnary transportedCont))
+    (And.intro pointUnary (And.intro openUnary transportedCont))
+
+theorem SheafBHistPointGermLedger_refinement_pullback_composition
+    {point openU openV openW sect germU germV germW directGerm : BHist} :
+    SheafBHistPointGermLedger point openU sect germU ->
+      hsame openU openV -> Cont openV sect germV -> hsame openV openW ->
+        Cont openW sect germW -> Cont openW sect directGerm ->
+          SheafBHistPointGermLedger point openW sect directGerm ∧
+            hsame germU directGerm ∧ hsame germV germW := by
+  intro ledger sameUV rowV sameVW rowW directRow
+  have readbackV :
+      SheafBHistPointGermLedger point openV sect germV ∧ hsame germU germV :=
+    SheafBHistPointGermLedger_restriction_readback ledger sameUV rowV
+  have readbackW :
+      SheafBHistPointGermLedger point openW sect germW ∧ hsame germV germW :=
+    SheafBHistPointGermLedger_restriction_readback readbackV.left sameVW rowW
+  have directLedger : SheafBHistPointGermLedger point openW sect directGerm :=
+    And.intro readbackW.left.left (And.intro readbackW.left.right.left directRow)
+  have sameWDirect : hsame germW directGerm :=
+    cont_deterministic rowW directRow
+  exact And.intro directLedger
+    (And.intro
+      (hsame_trans readbackV.right (hsame_trans readbackW.right sameWDirect))
+      readbackW.right)
 
 theorem SheafRefinedCover_gluing_uniqueness
     {point openHist sectionA sectionB localGerm globalA globalB : BHist} :
