@@ -1,0 +1,55 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.PermutationUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def PermutationBijectionSourceRow [AskSetup] [PackageSetup]
+    (src tgt graph invGraph comp action ledger : BHist)
+    (srcBundle tgtBundle : ProbeBundle ProbeName) (srcPkg tgtPkg : Pkg) : Prop :=
+  UnaryHistory src ∧ UnaryHistory tgt ∧ Cont src tgt graph ∧ Cont tgt src invGraph ∧
+    Cont graph invGraph comp ∧ Cont src graph action ∧ Cont comp action ledger ∧
+      PkgSig srcBundle src srcPkg ∧ PkgSig tgtBundle tgt tgtPkg
+
+theorem PermutationBijectionSourceRow_carrier_surface [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle
+        tgtBundle srcPkg tgtPkg ->
+      UnaryHistory graph ∧ UnaryHistory invGraph ∧ UnaryHistory action ∧
+        UnaryHistory ledger ∧ Cont src tgt graph ∧ Cont tgt src invGraph ∧
+          Cont graph invGraph comp ∧ Cont src graph action ∧ Cont comp action ledger ∧
+            PkgSig srcBundle src srcPkg ∧ PkgSig tgtBundle tgt tgtPkg := by
+  intro row
+  have graphUnary : UnaryHistory graph :=
+    unary_cont_closed row.left row.right.left row.right.right.left
+  have invGraphUnary : UnaryHistory invGraph :=
+    unary_cont_closed row.right.left row.left row.right.right.right.left
+  have compUnary : UnaryHistory comp :=
+    unary_cont_closed graphUnary invGraphUnary row.right.right.right.right.left
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed row.left graphUnary row.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed compUnary actionUnary row.right.right.right.right.right.right.left
+  exact And.intro graphUnary
+    (And.intro invGraphUnary
+      (And.intro actionUnary
+        (And.intro ledgerUnary
+          (And.intro row.right.right.left
+            (And.intro row.right.right.right.left
+              (And.intro row.right.right.right.right.left
+                (And.intro row.right.right.right.right.right.left
+                  (And.intro row.right.right.right.right.right.right.left
+                    row.right.right.right.right.right.right.right))))))))
+
+end BEDC.Derived.PermutationUp
