@@ -196,6 +196,7 @@ import BEDC.Derived.SheafUp.BaseChangeSurface
 import BEDC.Derived.SheafUp.GluingClassifierRows
 import BEDC.Derived.SheafUp.RouteExactnessPacket
 import BEDC.Derived.SheafUp.CoverNerveRouteTransport
+import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafUp.RootFaceReadback
 import BEDC.Derived.SheafUp.JointConsumerFace
 import BEDC.Derived.SheafUp.RootCoverDescent
@@ -211,6 +212,7 @@ import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootThreshold
 import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SetUp
+import BEDC.Derived.TreeUp
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
