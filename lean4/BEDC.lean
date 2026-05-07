@@ -198,6 +198,7 @@ import BEDC.Derived.SheafUp.GlobalRestrictions
 import BEDC.Derived.SheafUp.AccessTrace
 import BEDC.Derived.SheafUp.DownstreamConsumption
 import BEDC.Derived.SheafUp.DownstreamProjection
+import BEDC.Derived.SheafUp.DownstreamRoot
 import BEDC.Derived.SheafUp.BaseChangeSurface
 import BEDC.Derived.SheafUp.GluingClassifierRows
 import BEDC.Derived.SheafUp.RouteExactnessPacket
