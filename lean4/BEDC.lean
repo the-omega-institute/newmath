@@ -174,6 +174,7 @@ import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.MeasureUp
+import BEDC.Derived.IntegralUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
@@ -233,6 +234,7 @@ import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.DiffFormUp.RootConsumerFace
+import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
