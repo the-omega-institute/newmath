@@ -419,6 +419,7 @@ import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
+import BEDC.Derived.ExpMapUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.SemanticNameCert

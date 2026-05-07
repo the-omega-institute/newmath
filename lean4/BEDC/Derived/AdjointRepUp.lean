@@ -56,4 +56,32 @@ theorem AdjointRepSingleton_action_differential_endpoint
     (And.intro differentialSame
       (And.intro bracketEmpty (And.intro actionUnary differentialUnary)))
 
+theorem AdjointRepClassifier_stability_obligation
+    {acting acting' endpoint endpoint' action action' differential differential' chart chart' :
+      BHist} :
+    LieGroupSingletonClassifier acting acting' ->
+      hsame endpoint endpoint' ->
+        LieAlgebraAdjointAction acting endpoint action ->
+          LieAlgebraAdjointAction acting' endpoint' action' ->
+            Cont BHist.Empty endpoint differential ->
+              Cont BHist.Empty endpoint' differential' ->
+                Cont BHist.Empty action chart ->
+                  Cont BHist.Empty action' chart' ->
+                    hsame action action' ∧ hsame differential differential' ∧
+                      hsame chart chart' ∧ UnaryHistory action' ∧ UnaryHistory chart' := by
+  intro actingClassified sameEndpoint actionRow actionRow' differentialRow differentialRow'
+    chartRow chartRow'
+  have sameAction : hsame action action' :=
+    cont_respects_hsame actingClassified.right.right sameEndpoint actionRow.right.right.left
+      actionRow'.right.right.left
+  have sameDifferential : hsame differential differential' :=
+    cont_respects_hsame (hsame_refl BHist.Empty) sameEndpoint differentialRow differentialRow'
+  have sameChart : hsame chart chart' :=
+    cont_respects_hsame (hsame_refl BHist.Empty) sameAction chartRow chartRow'
+  have chartUnary : UnaryHistory chart' :=
+    unary_transport actionRow'.right.right.right (hsame_symm (cont_left_unit_result chartRow'))
+  exact And.intro sameAction
+    (And.intro sameDifferential
+      (And.intro sameChart (And.intro actionRow'.right.right.right chartUnary)))
+
 end BEDC.Derived.AdjointRepUp
