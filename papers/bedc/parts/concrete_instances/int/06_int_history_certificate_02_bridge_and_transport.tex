@@ -363,3 +363,65 @@ are obtained by the preceding transport to $\emp$, and the resulting canonical
 classifier is exactly
 $\mathsf{IntPairClassifier}((\mathsf{append}(a,m),\emp),(\emp,\mathsf{append}(n,a)))$.
 \end{proof}
+
+\begin{theorem}[Integer signed-unary standard bridge]
+\label{thm:int-signed-unary-standard-bridge}
+The ordinary signed-unary integer presentation admits a conservative
+$\StdBridge(\IntUp,T_{\mathbb{Z}})$ to the BEDC public history surface with the
+following six fields.
+\begin{enumerate}
+  \item The encode field sends a positive signed-unary magnitude $m$ to
+  $\Ezero(m)$ and a negative signed-unary magnitude $m$ to $\Eone(m)$.
+  \item The decode field reads the visible tag and unary payload from
+  $\mathsf{IntHistoryCarrier}$.
+  \item Carrier reflection is supplied by
+  \autoref{thm:concrete-int-history-semantic-namecert}.
+  \item Classifier reflection is supplied by
+  \autoref{thm:int-history-classifier-same-tag-readback} together with
+  \autoref{thm:int-history-classifier-mixed-visible-tag-exclusion}.
+  \item The theorem-preservation field is supplied by the canonical and
+  contextual difference-pair/history bridge rows
+  \autoref{thm:int-canonical-difference-pair-history-bridge},
+  \autoref{thm:int-contextual-canonical-pair-history-bridge},
+  \autoref{thm:int-canonical-same-sign-pair-readback},
+  \autoref{thm:int-canonical-opposite-sign-zero-collapse},
+  \autoref{thm:int-balanced-contextual-opposite-sign-zero-collapse}, and
+  \autoref{thm:int-contextual-opposite-sign-zero-collapse}.
+  \item The no-host-leak field records that no host equality, quotient, host
+  $\mathsf{Nat}$, ordered-ring package, division, or normalization theorem enters
+  the BEDC public surface; all public comparisons remain
+  $\mathsf{IntHistoryClassifier}$, $\mathsf{IntPairClassifier}$, and $\hsame$
+  statements over BEDC histories.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The encode field is just the public constructor choice for signed unary
+histories: zero-tag histories carry the positive branch and one-tag histories
+carry the negative branch. The decode field is the inverse reading of
+$\mathsf{IntHistoryCarrier}$, whose public witnesses expose exactly a visible
+tag and a unary payload.
+
+Carrier reflection comes from
+\autoref{thm:concrete-int-history-semantic-namecert}. It gives the semantic
+certificate for the carrier and classifier, so the bridge reads and writes only
+through the public BEDC history surface.
+
+Classifier reflection is the same-tag readback of
+\autoref{thm:int-history-classifier-same-tag-readback}. The mixed visible-tag
+exclusion of \autoref{thm:int-history-classifier-mixed-visible-tag-exclusion}
+rules out the two cross-tag round trips, leaving exactly the signed-unary
+payload comparison in each visible branch.
+
+The theorem-preservation field is obtained by composing the canonical bridge
+row, the contextual bridge row, the canonical same-sign readback row, and the
+opposite-sign zero-collapse rows already proved in this file. These rows cover
+the canonical same-sign, contextual same-sign, canonical opposite-sign, balanced
+contextual opposite-sign, and visible-context opposite-sign cases used by the
+ordinary signed-unary presentation.
+
+No host structure is imported into the public BEDC object during this
+composition. The ordinary presentation is used only as the reader-facing source
+of the encode and decode descriptions; the exported carrier, classifier,
+transport, preservation, and exclusion statements remain the BEDC history and
+difference-pair statements cited above.
+\end{proof}
