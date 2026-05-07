@@ -19,6 +19,20 @@ def SheafBHistPointGermComparison
     hsame common openA ∧ hsame common openB ∧ Cont common sectA germA ∧
       Cont common sectB germB ∧ hsame germA germB
 
+def SheafBHistCoverNerveLedger
+    (ambient member overlap route germ : BHist) : Prop :=
+  UnaryHistory ambient ∧ UnaryHistory member ∧ UnaryHistory overlap ∧ hsame overlap member ∧
+    Cont overlap route germ
+
+theorem SheafBHistCoverNerveLedger_empty_boundary
+    {ambient member overlap route germ : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      hsame germ BHist.Empty -> hsame overlap BHist.Empty ∧ hsame route BHist.Empty := by
+  intro ledger germEmpty
+  have appendEmpty : append overlap route = BHist.Empty :=
+    ledger.right.right.right.right.symm.trans germEmpty
+  exact append_eq_empty_iff.mp appendEmpty
+
 theorem SheafBHistPointGermLedger_restriction_readback
     {point openHist sectionHist germ restrictedOpen restrictedGerm : BHist} :
     SheafBHistPointGermLedger point openHist sectionHist germ ->
