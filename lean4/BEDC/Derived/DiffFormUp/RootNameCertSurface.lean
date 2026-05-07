@@ -86,4 +86,46 @@ theorem DiffFormRootNameCert_surface {ScalarCarrier : BHist -> Prop}
     }
   exact And.intro cert (And.intro routed.right.right routed.left)
 
+theorem DiffFormRootSource_transport_obligation {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
+      ledger' : BHist} :
+    hsame degree degree' -> hsame probe probe' -> hsame tensor tensor' ->
+      hsame scalar scalar' -> hsame antisym antisym' -> hsame ledger ledger' ->
+        UnaryHistory degree -> UnaryHistory probe -> Cont degree probe tensor ->
+          UnaryHistory antisym -> Cont tensor antisym scalar ->
+            hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+              InBundle probe probes -> InBundle probe' probes -> ScalarCarrier scalar ->
+                ScalarClassifier scalar scalar' ->
+                  UnaryHistory degree' ∧ UnaryHistory probe' ∧ UnaryHistory tensor' ∧
+                    UnaryHistory scalar' ∧
+                      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar
+                        antisym ledger degree' probe' tensor' scalar' antisym' ledger' := by
+  intro sameDegree sameProbe sameTensor sameScalar sameAntisym sameLedger degreeUnary
+    probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute probeIn probeIn' scalarCarrier
+    scalarClassified
+  have transported :
+      UnaryHistory degree' ∧ UnaryHistory probe' ∧ UnaryHistory tensor' ∧
+        UnaryHistory scalar' ∧
+          hsame ledger'
+            (append degree' (append probe' (append tensor' (append scalar' antisym')))) :=
+    DiffFormBHistCarrier_hsame_transport sameDegree sameProbe sameTensor sameScalar sameAntisym
+      sameLedger degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have classifierBase :
+      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger
+        degree probe tensor scalar antisym ledger :=
+    DiffFormBHistClassifier_reflexivity_obligation scalarCert probeIn scalarCarrier
+  have classifierRows :
+      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger
+        degree' probe' tensor' scalar' antisym' ledger' :=
+    DiffFormBHistClassifier_hsame_component_stability scalarCert probeIn probeIn'
+      (hsame_refl degree) (hsame_refl probe) (hsame_refl tensor)
+      (NameCert.equiv_refl scalarCert scalarCarrier) (hsame_refl antisym) (hsame_refl ledger)
+      classifierBase sameDegree sameProbe sameTensor scalarClassified sameAntisym sameLedger
+  exact And.intro transported.left
+    (And.intro transported.right.left
+      (And.intro transported.right.right.left
+        (And.intro transported.right.right.right.left classifierRows)))
+
 end BEDC.Derived.DiffFormUp
