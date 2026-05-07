@@ -265,6 +265,40 @@ theorem DistributionPushforward_probability_bounds
   exact And.intro pushedEventUnary
     (Exists.intro gap (And.intro gapUnary pushedSumUnitCont))
 
+theorem DistributionPushforward_probability_package
+    {sourceTotal targetTotal sourceMass pushedMass unitMass targetEmpty sourceEmpty sourceValue
+      pushEmpty event gap probabilityUnit pushedEvent pushedTotal pushedSum : BHist} :
+    UnaryHistory sourceTotal -> UnaryHistory sourceMass ->
+      Cont sourceTotal BHist.Empty targetTotal -> hsame sourceMass sourceTotal ->
+        hsame pushedMass targetTotal -> hsame sourceMass unitMass ->
+          hsame targetEmpty BHist.Empty -> hsame sourceEmpty BHist.Empty ->
+            Cont sourceEmpty BHist.Empty sourceValue ->
+              Cont targetEmpty sourceValue pushEmpty -> UnaryHistory event ->
+                UnaryHistory gap -> Cont event gap sourceTotal ->
+                  Cont sourceTotal BHist.Empty sourceMass -> hsame pushedEvent event ->
+                    hsame pushedTotal sourceMass -> hsame sourceMass probabilityUnit ->
+                      Cont pushedEvent gap pushedSum -> hsame pushedTotal pushedSum ->
+                        (UnaryHistory pushedMass ∧ hsame pushedMass unitMass) ∧
+                          hsame pushEmpty BHist.Empty ∧
+                            UnaryHistory pushedEvent ∧
+                              PreorderPrefixLE pushedEvent probabilityUnit := by
+  intro sourceTotalUnary sourceMassUnary totalReadback sourceMassTotal pushedMassTarget
+  intro sourceMassUnit targetEmptyZero sourceEmptyZero sourceEmptyReadback pushEmptyReadback
+  intro eventUnary gapUnary eventGap sourceMassReadback pushedEventEvent pushedTotalMass
+  intro sourceMassProbabilityUnit pushedSumCont pushedTotalSum
+  have totalMassUnit :
+      UnaryHistory pushedMass ∧ hsame pushedMass unitMass :=
+    DistributionPushforward_total_mass_unit sourceTotalUnary sourceMassUnary totalReadback
+      sourceMassTotal pushedMassTarget sourceMassUnit
+  have emptyMassZero : hsame pushEmpty BHist.Empty :=
+    DistributionPushforward_empty_target_event_zero_mass targetEmptyZero sourceEmptyZero
+      sourceEmptyReadback pushEmptyReadback
+  have probabilityBounds :
+      UnaryHistory pushedEvent ∧ PreorderPrefixLE pushedEvent probabilityUnit :=
+    DistributionPushforward_probability_bounds eventUnary gapUnary eventGap sourceMassReadback
+      pushedEventEvent pushedTotalMass sourceMassProbabilityUnit pushedSumCont pushedTotalSum
+  exact And.intro totalMassUnit (And.intro emptyMassZero probabilityBounds)
+
 theorem DistributionPushforward_nonnegative_value_inheritance
     {sourceValue pushedValue witness : BHist} :
     UnaryHistory sourceValue -> Cont sourceValue BHist.Empty witness ->
