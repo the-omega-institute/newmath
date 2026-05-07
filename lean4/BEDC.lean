@@ -274,6 +274,7 @@ import BEDC.Derived.IdealUp.QuotientKernelScope
 import BEDC.Derived.IdealUp.PrincipalGenerated
 import BEDC.Derived.IdealUp.PredicateRows
 import BEDC.Derived.IdealUp.RingMapZeroFiber
+import BEDC.Derived.DedekindUp
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
