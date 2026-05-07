@@ -6,14 +6,50 @@ The contact-structure interface $\ContactUp$ packages a maximally nonintegrable 
 \section{Carrier definition}
 \label{sec:contact-carrier}
 
+\begin{theorem}[ContactUp carrier and classifier obligations]
+\label{thm:contact-carrier-classifier-obligation}
+A $\ContactUp$ candidate must expose four carrier rows. The first row is a $\ManifoldUp$ carrier. The second row is an odd-dimensional hyperplane-field carrier over the same manifold row. The third row is a contact one-form row over $\DiffFormUp$. The fourth row is a classifier whose $\hsame$ transport preserves both the manifold carrier and the hyperplane-field row.
+
+Equivalently, the carrier part of the $\NameCert_{\ContactUp}$ obligation surface is not a free ambient smooth object: it is the displayed BEDC package consisting of the $\ManifoldUp$ source row, the hyperplane-field row, the $\DiffFormUp$ one-form row, and the restricted classifier relating those rows.
+\end{theorem}
+\begin{proof}
+Unpack the seed scope for $\ContactUp$. Its named dependencies are the $\NameCert_{\ManifoldUp}$ and $\NameCert_{\DiffFormUp}$ sources, so the candidate carrier can only project manifold and differential-form rows licensed by those two sources.
+
+The roadmap ten-field template then fixes the public carrier and classifier slots. The carrier slot records the odd-dimensional manifold, the hyperplane-field row, and the one-form row. The classifier slot is the restriction of $\hsame$ to these rows, so carrier transport keeps the manifold and hyperplane-field entries in the same displayed package.
+\end{proof}
+
 \section{The certificate}
 \label{sec:contact-certificate}
 
-\closureat{ContactUp}{seedStr}
+\begin{theorem}[ContactUp contact-form and nondegeneracy obligations]
+\label{thm:contact-form-nondegeneracy-obligation}
+For a $\ContactUp$ candidate, the $\DiffFormUp$ one-form row must supply the top-degree wedge witness on the same $\ManifoldUp$ carrier. If the manifold has contact dimension $2n+1$, the ledger records the row for $\alpha\wedge(d\alpha)^n$ and a nondegeneracy witness for that top-degree row on the displayed manifold carrier.
+
+This witness cannot be replaced by an external smooth-structure primitive. The obligation is exact only when the one-form row, its exterior-differential row, the wedge exponent, and the top-degree nondegeneracy row all appear inside the $\ContactUp$ certificate ledger.
+\end{theorem}
+\begin{proof}
+Read the seed description as a maximally nonintegrable hyperplane field recorded by a $1$-form. The same seed names the manifold carrier and the $\DiffFormUp$ source, so the wedge expression must be built from rows already visible in those two sources.
+
+The roadmap ten-field template places nondegeneracy in the core theorem and exactness slots. Therefore the top-degree wedge row and its witness are ledger data for the displayed one-form, not an imported analytic primitive. Exactness follows by allowing only those rows to certify the contact-form condition.
+\end{proof}
+
+\begin{theorem}[ContactUp stability ledger and exactness obligations]
+\label{thm:contact-stability-ledger-exactness-obligation}
+The stability surface of $\ContactUp$ consists of four transport obligations: $\DiffFormUp$ transport for the contact one-form and exterior-differential rows, $\ManifoldUp$ transport for the underlying manifold carrier, wedge-nondegeneracy transport for the top-degree row, and classifier transport for the hyperplane field under $\hsame$.
+
+The exact ledger records exactly the one-form row, the hyperplane-field row, the wedge exponent, and the nondegeneracy witness. A certified $\ContactUp$ object may expose no additional hidden smooth-structure row as part of its contact obligation.
+\end{theorem}
+\begin{proof}
+Unpack the stability row in the roadmap ten-field template. Dependency transport comes from $\NameCert_{\DiffFormUp}$ for differential-form rows and from $\NameCert_{\ManifoldUp}$ for the manifold row, while $\hsame$ carries the classifier comparison for the hyperplane-field entry.
+
+It remains to identify the ledger. The seed scope already lists the one-form, hyperplane field, top-degree wedge, nondegeneracy row, stability obligations, and ledger obligations. Repacking those rows gives the exact ledger stated in the theorem, and excluding any further smooth-structure primitive is precisely the exactness clause.
+\end{proof}
+
+\closureat{ContactUp}{obligationStr}
 
 \begin{closurestatus}{\ContactUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds exactly the $\NameCert_{\DiffFormUp}$ source, the $\NameCert_{\ManifoldUp}$ source, the odd-dimensional manifold carrier row, the contact one-form row, the top-degree wedge nondegeneracy row, stability obligations, and ledger obligations as unsupplied seed obligations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation inventory binds exactly the $\NameCert_{\DiffFormUp}$ source, the $\NameCert_{\ManifoldUp}$ source, the odd-dimensional manifold carrier row, the hyperplane-field classifier row, the contact one-form row, the top-degree wedge nondegeneracy row, stability obligations, and ledger exactness obligations in \autoref{thm:contact-carrier-classifier-obligation}, \autoref{thm:contact-form-nondegeneracy-obligation}, and \autoref{thm:contact-stability-ledger-exactness-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a closed carrier, classifier, nonintegrability proof, standard bridge, or Lean verification target.}
