@@ -39,6 +39,19 @@ theorem ConvexSetSingletonAffineSpine_midpoint_closure {x y endpoint : BHist} :
     And.intro xEmpty (Exists.intro y (And.intro tailSpine endpointRow))
   exact And.intro spine (ConvexSetSingletonAffineSpine_closure spine)
 
+theorem ConvexSetSingletonAffineSpine_order_symmetric {x y endpoint endpoint' : BHist} :
+    hsame x BHist.Empty -> hsame y BHist.Empty -> Cont x y endpoint ->
+      Cont y x endpoint' ->
+        ConvexSetSingletonAffineSpine [x, y] endpoint ∧
+          ConvexSetSingletonAffineSpine [y, x] endpoint' ∧ hsame endpoint endpoint' := by
+  intro xEmpty yEmpty endpointRow endpointRow'
+  have forwardRows :=
+    ConvexSetSingletonAffineSpine_midpoint_closure xEmpty yEmpty endpointRow
+  have reverseRows :=
+    ConvexSetSingletonAffineSpine_midpoint_closure yEmpty xEmpty endpointRow'
+  exact And.intro forwardRows.left
+    (And.intro reverseRows.left (hsame_trans forwardRows.right (hsame_symm reverseRows.right)))
+
 def ConvexSetPointwiseIntersection (C D : BHist -> Prop) (z : BHist) : Prop :=
   C z ∧ D z
 
@@ -99,5 +112,24 @@ theorem ConvexSetLinearImage_affine_combination_closure
             mapAffine sourceUData.left sourceVData.left sourceUData.right sourceVData.right
               nonnegA nonnegB unitSum
           exact image_intro sourceClosed mapped
+
+theorem ConvexSetLinearImage_finite_affine_spine_closure
+    {Image : BHist -> Prop} {xs : List BHist} {z : BHist}
+    (leafImage : forall {x : BHist}, hsame x BHist.Empty -> Image x)
+    (binaryImageClosed :
+      forall {x y out : BHist}, Image x -> Image y -> Cont x y out -> Image out) :
+    ConvexSetSingletonAffineSpine xs z -> Image z := by
+  intro spine
+  induction xs generalizing z with
+  | nil =>
+      exact leafImage spine
+  | cons x xs ih =>
+      cases spine with
+      | intro xEmpty tailData =>
+          cases tailData with
+          | intro tail tailPack =>
+              cases tailPack with
+              | intro tailSpine continuation =>
+                  exact binaryImageClosed (leafImage xEmpty) (ih tailSpine) continuation
 
 end BEDC.Derived.ConvexSetUp

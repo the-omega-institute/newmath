@@ -46,6 +46,18 @@ theorem ComputableBoundedGraphCertificate_single_valuedness
   have readback := ComputableBoundedSim_same_bound_output_hsame leftRun rightRun
   exact And.intro leftRun (And.intro rightRun readback)
 
+theorem ComputableBoundedGraphCertificate_carrier_obligation
+    (C : ComputableBoundedGraphCertificate) {n m : BHist} :
+    C.Graph n m ->
+      UnaryHistory n ∧ UnaryHistory (C.bound n) ∧ UnaryHistory m ∧
+        ComputableBoundedSim C.program n (C.bound n) m := by
+  intro graphRow
+  have sim : ComputableBoundedSim C.program n (C.bound n) m :=
+    C.graph_to_sim graphRow
+  exact And.intro sim.right.left
+    (And.intro sim.right.right.left
+      (And.intro sim.right.right.right.left sim))
+
 theorem ComputableBoundedSim_same_bound_output_deterministic {P n B m m' : BHist} :
     ComputableBoundedSim P n B m -> ComputableBoundedSim P n B m' ->
       hsame m m' ∧ UnaryHistory m ∧ UnaryHistory m' := by
