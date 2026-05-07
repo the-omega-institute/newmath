@@ -190,6 +190,8 @@ import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.DownstreamProjection
+import BEDC.Derived.SheafUp.BaseChangeSurface
 import BEDC.Derived.SheafUp.GluingClassifierRows
 import BEDC.Derived.SheafUp.RouteExactnessPacket
 import BEDC.Derived.SheafUp.CoverNerveRouteTransport
@@ -201,6 +203,7 @@ import BEDC.Derived.SheafUp.RefinementGluing
 import BEDC.Derived.SheafUp.CoverPullback
 import BEDC.Derived.SheafUp.CoverDescent
 import BEDC.Derived.SheafUp.CoverNerveCertificate
+import BEDC.Derived.SheafUp.GluingClassifier
 import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootThreshold
