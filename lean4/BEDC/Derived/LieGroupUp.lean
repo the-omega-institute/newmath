@@ -539,4 +539,36 @@ theorem LieGroupSingleton_adjoint_readback {s tangent chart : BHist} :
   exact And.intro chartEmpty
     (And.intro chartEmpty (unary_transport unary_empty (hsame_symm chartEmpty)))
 
+theorem LieGroupSingleton_shared_source_scope {h k product chart transition : BHist} :
+    LieGroupSingletonCarrier h -> LieGroupSingletonCarrier k -> Cont h k product ->
+      Cont BHist.Empty product chart -> Cont chart chart transition ->
+        GroupSingletonCarrier h ∧ ManifoldSingletonCarrier h ∧
+          GroupSingletonCarrier k ∧ ManifoldSingletonCarrier k ∧
+            LieGroupSingletonClassifier product BHist.Empty ∧ hsame chart BHist.Empty ∧
+              hsame transition BHist.Empty ∧ UnaryHistory chart ∧ UnaryHistory transition := by
+  intro carrierH carrierK productRow chartRow transitionRow
+  have productEmpty : hsame product BHist.Empty :=
+    cont_respects_hsame carrierH carrierK productRow (cont_left_unit BHist.Empty)
+  have emptyCarrier : LieGroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have productClassified : LieGroupSingletonClassifier product BHist.Empty :=
+    And.intro productEmpty (And.intro emptyCarrier productEmpty)
+  have chartProduct : hsame chart product :=
+    cont_left_unit_result chartRow
+  have chartEmpty : hsame chart BHist.Empty :=
+    hsame_trans chartProduct productEmpty
+  have transitionEmpty : hsame transition BHist.Empty :=
+    cont_respects_hsame chartEmpty chartEmpty transitionRow (cont_left_unit BHist.Empty)
+  have chartUnary : UnaryHistory chart :=
+    unary_transport unary_empty (hsame_symm chartEmpty)
+  have transitionUnary : UnaryHistory transition :=
+    unary_transport unary_empty (hsame_symm transitionEmpty)
+  exact And.intro carrierH
+    (And.intro carrierH
+      (And.intro carrierK
+        (And.intro carrierK
+          (And.intro productClassified
+            (And.intro chartEmpty
+              (And.intro transitionEmpty (And.intro chartUnary transitionUnary)))))))
+
 end BEDC.Derived.LieGroupUp
