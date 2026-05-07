@@ -120,4 +120,31 @@ theorem QuantumChannelAffineMixtureSpine_density_mixture_preservation {phi rho i
   have imageUnary : UnaryHistory image := unary_transport unary_empty (hsame_symm imageEmpty)
   exact And.intro imageEmpty (QuantumChannelAffineMixtureSpine.atom imageEmpty imageUnary)
 
+theorem QuantumChannelSingleton_identity_composition_unit_laws {phi left right : BHist} :
+    QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) phi ->
+      Cont BHist.Empty phi left -> Cont phi BHist.Empty right ->
+        hsame left phi ∧ hsame right phi ∧
+          QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) left ∧
+            QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) right := by
+  intro spine leftCont rightCont
+  have phiEmpty : hsame phi BHist.Empty :=
+    QuantumChannelAffineMixtureSpine_finite_closure
+      (channel := fun h : BHist => hsame h BHist.Empty)
+      (fun {left right out} leftEmpty rightEmpty mixtureCont => by
+        cases leftEmpty
+        exact hsame_trans (cont_left_unit_result mixtureCont) rightEmpty)
+      spine
+  have leftPhi : hsame left phi := cont_left_unit_result leftCont
+  have rightPhi : hsame right phi :=
+    Iff.mp cont_right_unit_iff rightCont
+  have leftEmpty : hsame left BHist.Empty := hsame_trans leftPhi phiEmpty
+  have rightEmpty : hsame right BHist.Empty := hsame_trans rightPhi phiEmpty
+  have leftUnary : UnaryHistory left := unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right := unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro leftPhi
+    (And.intro rightPhi
+      (And.intro
+        (QuantumChannelAffineMixtureSpine.atom leftEmpty leftUnary)
+        (QuantumChannelAffineMixtureSpine.atom rightEmpty rightUnary)))
+
 end BEDC.Derived.QuantumChannelUp
