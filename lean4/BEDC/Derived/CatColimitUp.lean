@@ -169,4 +169,19 @@ theorem CatColimitCoconeMor_nattrans_prewhiskering_descent
         (And.intro sourceCarrier
           (And.intro sourceRel sameSMuBeta))))
 
+theorem CatColimitLimCocone_transport_pointwise_equiv {K D E kappa kappaE alpha beta : BHist} :
+    CatColimitLimCocone D K kappa -> CategoryHomCarrier E D beta ->
+      CategoryHomCarrier D E alpha -> Cont beta kappa kappaE ->
+        hsame (append alpha beta) BHist.Empty -> hsame (append beta alpha) BHist.Empty ->
+          CatColimitLimCocone E K kappaE := by
+  intro colimit betaCarrier _alphaCarrier betaKappa _alphaBetaEmpty betaAlphaEmpty
+  have betaEmpty : beta = BHist.Empty := (append_eq_empty_iff.mp betaAlphaEmpty).left
+  cases betaEmpty
+  have sameDE : hsame D E :=
+    cont_deterministic betaCarrier.right.right.right (cont_right_unit E)
+  cases sameDE
+  have sameKappa : hsame kappaE kappa := cont_left_unit_result betaKappa
+  cases sameKappa
+  exact colimit
+
 end BEDC.Derived.CatColimitUp
