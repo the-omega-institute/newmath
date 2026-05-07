@@ -230,4 +230,38 @@ theorem AdjointRepAutomorphism_target_obligation {g x gx conj invAction composit
         (And.intro compositeCarrier
           (And.intro conjUnary (And.intro invActionUnary compositeUnary)))))
 
+theorem AdjointRepAutomorphismTarget_obligation
+    {group algebra endpoint inverse composite : BHist} :
+    AdjointRepActionEndpoint group algebra endpoint -> Cont endpoint inverse BHist.Empty ->
+      Cont endpoint endpoint composite ->
+        AdjointRepActionEndpoint group algebra endpoint ∧ LieGroupSingletonCarrier inverse ∧
+          LieAlgebraSingletonCarrier composite ∧ hsame (append endpoint inverse) BHist.Empty ∧
+            hsame (append endpoint endpoint) composite ∧ UnaryHistory composite := by
+  intro endpointWitness inverseRow compositeRow
+  cases endpointWitness.right.right with
+  | intro action actionData =>
+      have actionEmpty : hsame action BHist.Empty :=
+        cont_respects_hsame endpointWitness.left endpointWitness.right.left actionData.left
+          (cont_left_unit BHist.Empty)
+      have endpointEmpty : hsame endpoint BHist.Empty :=
+        hsame_trans (hsame_symm actionData.right) actionEmpty
+      have inverseEmpty : hsame inverse BHist.Empty :=
+        (cont_empty_result_iff.mp inverseRow).right
+      have compositeEmpty : hsame composite BHist.Empty :=
+        cont_respects_hsame endpointEmpty endpointEmpty compositeRow (cont_left_unit BHist.Empty)
+      have appendInverseEmpty : hsame (append endpoint inverse) BHist.Empty :=
+        inverseRow.symm
+      have appendCompositeSame : hsame (append endpoint endpoint) composite :=
+        compositeRow.symm
+      have compositeUnary : UnaryHistory composite :=
+        unary_transport unary_empty (hsame_symm compositeEmpty)
+      exact And.intro
+        (And.intro endpointWitness.left
+          (And.intro endpointWitness.right.left
+            (Exists.intro action actionData)))
+        (And.intro inverseEmpty
+          (And.intro compositeEmpty
+            (And.intro appendInverseEmpty
+              (And.intro appendCompositeSame compositeUnary))))
+
 end BEDC.Derived.AdjointRepUp

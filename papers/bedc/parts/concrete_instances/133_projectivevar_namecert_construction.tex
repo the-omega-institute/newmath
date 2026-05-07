@@ -146,13 +146,14 @@ The classifier and stability fields come from \autoref{thm:projectivevar-classif
 Finally, the ledger field is \autoref{thm:projectivevar-scaling-ledger-obligation}. It hides only chart choice, homogeneous-family presentation, scale witnesses, and zero-evaluation routing, and it exposes only the carrier, classifier, stability, and exactness fields named above. The theorem-list and boundary fields are therefore public: downstream consumers may use the assembled $\NameCert_{\ProjectiveVarUp}$ surface, but they cannot inspect any presentation witness beyond the advertised ledger.
 \end{proof}
 
-\closureat{ProjectiveVarUp}{scopedStr}
+\closureat{ProjectiveVarUp}{publicStr}
 
 \begin{closurestatus}{\ProjectiveVarUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:projectivevar-carrier-obligation}, \autoref{thm:projectivevar-classifier-stability-obligation}, \autoref{thm:projectivevar-homogeneous-zero-locus-exactness-obligation}, and \autoref{thm:projectivevar-scaling-ledger-obligation} scope the certificate surface over the displayed $\AffineVarUp$ chart zero-locus source, $\PolynomialUp$ homogeneous-family rows, projective-space carrier row, BHist endpoints, Pkg provenance, $\hsame$/chart transport, scale witnesses, zero-evaluation package, and ledger routing.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:projectivevar-public-namecert-export} binds the public $\NameCert_{\ProjectiveVarUp}$ export to the carrier, classifier, zero-locus exactness, and scaling-ledger rows, with their displayed $\AffineVarUp$ chart zero-locus and $\PolynomialUp$ homogeneous-family dependencies.}
   \formalstatus{\unformalizedV}
+  \leantarget{}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a standard bridge or Lean verification for $\ProjectiveVarUp$.}
-  \upgradepath{Public closure status requires Lean grounding for the public $\NameCert_{\ProjectiveVarUp}$ export theorem and an explicit downstream consumer boundary.}
+  \upgradepath{Bridged closure requires a standard bridge and an explicit downstream consumer boundary for the public $\NameCert_{\ProjectiveVarUp}$ surface.}
 \end{closurestatus}
