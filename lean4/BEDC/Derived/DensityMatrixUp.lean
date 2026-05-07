@@ -131,6 +131,23 @@ theorem DensityMatrixAffineMixtureSpine_restricted_constant_exactness
           route
       exact And.intro outDensity (And.intro rho0Density outClassified)
 
+def DensityMatrixCarrier (traceClass positive traceOne endpoint : BHist) : Prop :=
+  UnaryHistory traceClass ∧ UnaryHistory positive ∧ hsame traceOne BHist.Empty ∧
+    Cont traceClass positive endpoint
+
+theorem DensityMatrixCarrier_carrier_obligation_rows
+    {traceClass positive traceOne endpoint : BHist} :
+    DensityMatrixCarrier traceClass positive traceOne endpoint ->
+      UnaryHistory traceClass ∧ UnaryHistory positive ∧ UnaryHistory endpoint ∧
+        hsame traceOne BHist.Empty ∧ Cont traceClass positive endpoint := by
+  intro carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro endpointUnary
+        (And.intro carrier.right.right.left carrier.right.right.right)))
+
 def DensityMatrixTraceLedgerCarrier (traceClass positive traceOne rho : BHist) : Prop :=
   UnaryHistory traceClass ∧ UnaryHistory positive ∧ UnaryHistory traceOne ∧
     Cont traceClass positive rho ∧ Cont rho traceOne rho
