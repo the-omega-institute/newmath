@@ -6,6 +6,47 @@ The ringed-space interface $\RingedSpaceUp$ packages a topological carrier with 
 \section{Carrier definition}
 \label{sec:ringedspace-carrier}
 
+\begin{theorem}[RingedSpace carrier and stalk obligations]\label{thm:ringedspace-carrier-and-stalk-obligation}
+A $\RingedSpaceUp$ certificate must expose a $\TopologyUp$ carrier over $\mathsf{BHist}$, a $\SheafUp$ row of section carriers on that topology, a $\CommRingUp$ fibre row on every displayed open, and a $\mathsf{LocalRingUp}$ stalk row at every displayed point history. The carrier ledger consists exactly of the base-open index, the membership row, the section carrier, the restriction route, the commutative-ring operation tuple on each fibre, and the local-ring witness obtained from the sheaf germ classifier at the stalk.
+\end{theorem}
+\begin{proof}
+The named carrier is the displayed topological carrier supplied by $\TopologyUp$ together with the open-membership row that decides which histories lie in each displayed open. Over that carrier, the $\SheafUp$ row supplies section carriers and restriction routes for displayed inclusions of opens.
+
+For each displayed open, the fibre is the corresponding section carrier equipped with the $\CommRingUp$ operation row. The zero, one, addition, multiplication, negation, and unit rows are therefore indexed by the same open ledger as the sheaf restriction maps.
+
+At a displayed point history, the stalk row is read from the $\SheafUp$ germ classifier over displayed neighbourhoods. The local-ring witness is then a $\mathsf{LocalRingUp}$ row on that germ carrier, with its operations induced from the $\CommRingUp$ fibre rows through restriction.
+
+Thus the ringed-space carrier obligation is not a separate host object. It is the joint BEDC row formed by $\TopologyUp$, $\SheafUp$, $\CommRingUp$, and $\mathsf{LocalRingUp}$ stalk data, all indexed by $\mathsf{BHist}$ and by the displayed open ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.RingedSpaceUp.RingedSpaceSingletonSurface\_carrier\_classifier\_rows}
+
+\begin{theorem}[RingedSpace classifier transport obligations]\label{thm:ringedspace-classifier-transport-obligation}
+For a $\RingedSpaceUp$ certificate, $\hsame$ transport, the $\TopologyUp$ base-open classifier, and the $\SheafUp$ section classifier must transport section rows, restriction witnesses, $\CommRingUp$ operation endpoints, germ rows, and $\mathsf{LocalRingUp}$ stalk-locality witnesses. In particular, if two base presentations are related by $\hsame$ and their opens are matched by the topology classifier, then section comparison and stalk-locality are decided only by the transported sheaf and ring classifiers.
+\end{theorem}
+\leanchecked{BEDC.Derived.RingedSpaceUp.RingedSpaceSingleton\_sheaf\_commring\_stalk\_locality\_obligation}
+\begin{proof}
+Begin with a displayed $\hsame$ witness between base histories. The $\TopologyUp$ classifier transports open names, membership rows, and inclusion rows across that witness, so the source and target presentations have the same displayed neighbourhood ledger.
+
+The $\SheafUp$ classifier then transports sections along the matched open rows. Because restriction witnesses are part of the sheaf ledger, the transported section row has the same restriction comparison as the source row after reindexing by the topology classifier.
+
+Next transport the $\CommRingUp$ endpoints on fibres. Operation compatibility says that zero, one, addition, multiplication, negation, and unit detection commute with the transported section comparison, so fibre operations remain section rows after the same classifier pass.
+
+Finally, stalk-locality is transported through the sheaf germ classifier. A local-ring witness at a point history is accepted on the target side only when it is represented by a common displayed neighbourhood, transported restrictions, and the transported $\CommRingUp$ endpoint classifier.
+\end{proof}
+
+\begin{theorem}[RingedSpace exact ledger obligations]\label{thm:ringedspace-exact-ledger-obligation}
+A $\RingedSpaceUp$ certificate must state coverage, soundness, completeness, and exact ledger rows for base opens, restriction maps, commutative-ring operations, and local-stalk witnesses. Coverage says every named ringed-space read is represented by those rows. Soundness says every accepted row is stable under the displayed classifiers. Completeness says every classifier-stable base-open, section, operation, and stalk-locality witness appears in the ledger. Exactness says no host open equality, section quotient, stalk quotient, or standard bridge witness is silently added.
+\end{theorem}
+\begin{proof}
+Coverage is obtained by projecting a displayed ringed-space read to its four named rows: the $\TopologyUp$ base-open row, the $\SheafUp$ restriction row, the $\CommRingUp$ operation row, and the $\mathsf{LocalRingUp}$ stalk-locality row. Each projection is part of the certificate surface described in \autoref{thm:ringedspace-carrier-and-stalk-obligation}.
+
+Soundness follows by applying the transport obligations of \autoref{thm:ringedspace-classifier-transport-obligation}. A row accepted by the ledger remains accepted after base-open transport, section transport, operation-endpoint transport, and germ transport.
+
+Completeness is the converse reading of the same rows. If the base-open, restriction, operation, and stalk-locality witnesses are all stable under the displayed classifiers, the certificate repacks them as a $\RingedSpaceUp$ row without asking for any additional carrier.
+
+Exactness is the boundary condition. The ledger contains precisely the base-open, restriction-map, commutative-ring operation, and local-stalk rows, so any later $\SchemeUp$ or variety certificate citing $\RingedSpaceUp$ as a source receives only those obligations and not a hidden standard bridge.
+\end{proof}
+
 \begin{theorem}[RingedSpaceUp carrier and sheaf obligation]\label{thm:ringedspace-carrier-sheaf-obligation}
 A $\RingedSpaceUp$ $\NameCert$ is sourced by a $\mathsf{BHist}$ topological carrier together with a $\SheafUp$ row assigning to each carried open witness a $\CommRingUp$ section carrier. Its classifier is inherited only from $\hsame$, the $\TopologyUp$ open classifier, the $\SheafUp$ restriction classifier, and the $\CommRingUp$ classifier. The carrier ledger records the open witness, membership row, section carrier, restriction row, and commutative-ring endpoint surface for each displayed open.
 \end{theorem}
@@ -45,7 +86,7 @@ Exactness is therefore the conjunction of those three transport surfaces as seen
 
 \begin{closurestatus}{\RingedSpaceUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The paper-side obligation scope is bound by the carrier and sheaf surface of \autoref{thm:ringedspace-carrier-sheaf-obligation}, the stalk-locality row of \autoref{thm:ringedspace-stalk-locality-obligation}, and the stability and ledger row of \autoref{thm:ringedspace-stability-ledger-obligation}.}
+  \scopeclosed{The paper-side obligation scope is the explicit $\RingedSpaceUp$ obligation set for carrier, sheaf, stalk-locality, classifier transport, stability, and exact ledger coverage in \autoref{thm:ringedspace-carrier-and-stalk-obligation}, \autoref{thm:ringedspace-classifier-transport-obligation}, \autoref{thm:ringedspace-exact-ledger-obligation}, \autoref{thm:ringedspace-carrier-sheaf-obligation}, \autoref{thm:ringedspace-stalk-locality-obligation}, and \autoref{thm:ringedspace-stability-ledger-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close public $\NameCert_{\RingedSpaceUp}$ construction, standard bridge, $\SchemeUp$ or affine-cover consumers, or Lean verification.}

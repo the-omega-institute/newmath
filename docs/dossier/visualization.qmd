@@ -405,6 +405,7 @@ format:
     <span class="meta"><span data-i18n="footer_activity">Monthly commits</span></span>
     <svg id="spark" preserveAspectRatio="none"></svg>
     <span class="meta" id="footer-range"></span>
+    <span class="meta" id="footer-updated"></span>
   </div>
 </div>
 
@@ -445,6 +446,7 @@ const I18N = {
     dyn_none: "(none yet)",
     tier_none: "(none)",
     footer_activity: "Monthly commits",
+    footer_updated: "Updated",
     sum_theorems: "theorems",
     sum_regions: "regions",
     sum_edges: "edges",
@@ -518,6 +520,7 @@ const I18N = {
     dyn_none: "(暂无)",
     tier_none: "(无)",
     footer_activity: "每月提交数",
+    footer_updated: "数据更新",
     sum_theorems: "定理",
     sum_regions: "领域",
     sum_edges: "依赖边",
@@ -1363,6 +1366,14 @@ function renderSpark() {
   const last = months[months.length - 1]?.month || "";
   const total = months.reduce((s, m) => s + m.commits, 0);
   document.getElementById("footer-range").textContent = `${first} – ${last} · ${total} total`;
+
+  const updated = STATUS.generated_at;
+  if (updated) {
+    const d = new Date(updated);
+    const ymd = d.toISOString().slice(0, 10);
+    const hm = d.toISOString().slice(11, 16);
+    document.getElementById("footer-updated").textContent = `${t("footer_updated")} · ${ymd} ${hm} UTC`;
+  }
 }
 
 function renderAll() {
