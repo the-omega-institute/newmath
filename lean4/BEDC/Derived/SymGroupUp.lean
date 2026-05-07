@@ -181,8 +181,8 @@ theorem SymGroupPermutationCarrier_composition_inverse_action_obligations [AskSe
         (And.intro rightUnit
           (And.intro leftInv
             (And.intro rightInv
-              (And.intro obligation.right.right.right.right.right.right.left
-                (And.intro obligation.right.right.right.right.right.right.right.left
-                  obligation.right.right.right.right.right.right.right.right.left)))))))
+              (And.intro obligation.right.right.right.right.right.right.right.left
+                (And.intro obligation.right.right.right.right.right.right.right.right.left
+                  obligation.right.right.right.right.right.right.right.right.right.left)))))))
 
 end BEDC.Derived.SymGroupUp
