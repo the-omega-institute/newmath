@@ -50,4 +50,18 @@ theorem ExpMapClassifier_stability_obligation_surface
   exact And.intro sameLedger
     (And.intro sameEndpoint (And.intro endpointUnary endpointUnary'))
 
+theorem ExpMapCarrier_obligation_surface {tangent endpoint flow : BHist} :
+    LieAlgebraSingletonCarrier tangent ->
+      LieGroupSingletonCarrier endpoint ->
+        Cont tangent endpoint flow ->
+          LieAlgebraSingletonCarrier tangent ∧ LieGroupSingletonCarrier endpoint ∧
+            LieGroupSingletonCarrier flow ∧ hsame flow BHist.Empty ∧ UnaryHistory flow := by
+  intro tangentCarrier endpointCarrier flowRow
+  have flowEmpty : hsame flow BHist.Empty :=
+    cont_respects_hsame tangentCarrier endpointCarrier flowRow (cont_left_unit BHist.Empty)
+  have flowUnary : UnaryHistory flow :=
+    unary_transport unary_empty (hsame_symm flowEmpty)
+  exact And.intro tangentCarrier
+    (And.intro endpointCarrier (And.intro flowEmpty (And.intro flowEmpty flowUnary)))
+
 end BEDC.Derived.ExpMapUp
