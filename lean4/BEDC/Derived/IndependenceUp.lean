@@ -25,6 +25,11 @@ theorem IndependenceProductFold_bundleAppend (left right : ProbeBundle BHist) :
 def IndependenceBinaryFactorization (joint left right product : BHist) : Prop :=
   Cont left right product ∧ hsame joint product
 
+def IndependenceFiniteFactorizationRow
+    (joint product : BHist) (marginals : ProbeBundle BHist) : Prop :=
+  hsame (IndependenceProductFold marginals) BHist.Empty ∧
+    Cont (IndependenceProductFold marginals) BHist.Empty product ∧ hsame joint product
+
 theorem IndependenceBinaryFactorization_measurable_image_bridge
     {jointOriginal jointImage marginalX marginalY imageMarginalX imageMarginalY
       productOriginal productImage : BHist} :
@@ -121,5 +126,30 @@ theorem IndependenceFiniteReindexing_invariance
     have reindexedProductEmpty : hsame productReindexed BHist.Empty :=
       hsame_trans (cont_right_unit_result reindexedProduct) reindexedFoldEmpty
     exact hsame_trans reindexedJointEmpty (hsame_symm reindexedProductEmpty)
+
+theorem IndependenceFiniteFactorizationRow_reindexing_closure
+    {jointOriginal jointReindexed productOriginal productReindexed : BHist}
+    {originalMarginals reindexedMarginals : ProbeBundle BHist} :
+    (forall z : BHist, InBundle z originalMarginals <-> InBundle z reindexedMarginals) ->
+      IndependenceFiniteFactorizationRow jointOriginal productOriginal originalMarginals ->
+        hsame jointReindexed jointOriginal ->
+          Cont (IndependenceProductFold reindexedMarginals) BHist.Empty productReindexed ->
+            IndependenceFiniteFactorizationRow
+              jointReindexed productReindexed reindexedMarginals := by
+  intro sameMembers originalRow sameJoint reindexedProduct
+  have reindexedFoldEmpty :
+      hsame (IndependenceProductFold reindexedMarginals) BHist.Empty :=
+    IndependenceFiniteProduct_reindexing_readback sameMembers originalRow.left
+  have originalProductEmpty : hsame productOriginal BHist.Empty :=
+    hsame_trans (cont_right_unit_result originalRow.right.left) originalRow.left
+  have originalJointEmpty : hsame jointOriginal BHist.Empty :=
+    hsame_trans originalRow.right.right originalProductEmpty
+  have reindexedJointEmpty : hsame jointReindexed BHist.Empty :=
+    hsame_trans sameJoint originalJointEmpty
+  have reindexedProductEmpty : hsame productReindexed BHist.Empty :=
+    hsame_trans (cont_right_unit_result reindexedProduct) reindexedFoldEmpty
+  exact And.intro reindexedFoldEmpty
+    (And.intro reindexedProduct
+      (hsame_trans reindexedJointEmpty (hsame_symm reindexedProductEmpty)))
 
 end BEDC.Derived.IndependenceUp
