@@ -1,0 +1,46 @@
+\section{The seed fields}
+
+\begin{definition}[Holomorphic source seed field]
+\label{def:holo-source-spec}
+The source seed field on $(f, z_0, r)$ records the intended constraint $\mathsf{HoloOnDisk}(f, z_0, r)$ together with its open-disk gap data.
+\end{definition}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicSourceSpec\_semantic\_name\_certificate}
+
+\begin{definition}[Holomorphic pattern seed field]
+\label{def:holo-pattern-spec}
+The pattern seed field is the uniform-modulus complex-differentiability predicate over the open disk.
+\end{definition}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicPatternSpec\_semantic\_name\_certificate}
+
+\begin{definition}[Holomorphic classifier seed field]
+\label{def:holo-classifier-spec}
+The classifier seed field groups two holomorphic-on-disk witnesses when they restrict to $\hsame$-equivalent pointwise functions on the disk's interior and carry compatible disk data.
+\end{definition}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicClassifierSpec\_semantic\_name\_certificate}
+
+\begin{definition}[Holomorphic stability seed field]
+\label{def:holo-stability-cert}
+The stability seed field lists the required $\hsame$-respect of $\mathsf{HoloOnDisk}$ on the input function and on the disk parameters, transport of moduli under $\hsame$, and compatibility with the iterated-derivative recursion.
+\end{definition}
+
+\begin{definition}[Holomorphic ledger seed field]
+\label{def:holo-ledger-policy}
+The ledger seed field records the originating function history, center, radius, disk-gap witnesses, modulus witnesses, closure witnesses, Taylor-data witnesses, Cauchy-bound witnesses, and identity-theorem density witnesses.
+\end{definition}
+
+\begin{definition}[\texorpdfstring{$\HolomorphicUp$}{Holomorphic-up} certificate seed]
+\label{def:holo-certificate-seed}
+The public status of this chapter is $\text{Seed}$. The fields in this chapter specify the intended carrier, classifier, stability, and ledger data for $\HolomorphicUp$, while \autoref{def:holo-core-theorem-obligations} records the theorem obligations that must be supplied before the object can be treated as a paper certificate or a machine-checked certificate.
+\end{definition}
+
+\closureat{HolomorphicUp}{seedStr}
+
+\begin{closurestatus}{\HolomorphicUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope binds the open-disk carrier, the HolomorphicSourceSpec, HolomorphicPatternSpec, and HolomorphicClassifierSpec rows, the strict-iteration obligations, and the ledger seed fields displayed in this chapter.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.HolomorphicUp.HolomorphicSourceSpec\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close full holomorphic analysis, Cauchy integral or Taylor closure, the standard bridge, or audit-clean verification.}
+  \upgradepath{The next grade requires explicit carrier, classifier, stability, and ledger obligation blocks.}
+\end{closurestatus}

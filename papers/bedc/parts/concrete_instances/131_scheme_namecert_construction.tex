@@ -9,6 +9,7 @@ The scheme interface $\SchemeUp$ packages a locally ringed space that admits an 
 \begin{theorem}[Scheme carrier obligation]\label{thm:scheme-carrier-obligation}
 Every $\NameCert_{\SchemeUp}$ certificate must supply a carrier $C_{\SchemeUp}:\mathsf{BHist}\to\mathsf{Prop}$ whose witnesses consist only of a $\RingedSpaceUp$ source row, certified $\CommRingUp$ affine-chart rows, and the affine-cover ledger. The carrier has no host-level scheme object, host spectrum object, host topological-space primitive, host open-set equality, or external sheafification row.
 \end{theorem}
+\leanchecked{BEDC.Derived.SchemeUp.SchemeAffineCoverRow\_semantic\_name\_certificate}
 \begin{proof}
 Unpack the ten-field $\NameCert$ template. Its source field supplies the locally ringed-space row already named by \autoref{ch:concrete-instances-ringedspace-namecert}, so the base carrier is read as a BEDC history predicate over $\mathsf{BHist}$.
 
@@ -21,6 +22,7 @@ Since the ten-field template has no extra carrier slot after source, classifier,
 \begin{theorem}[Scheme classifier obligation]\label{thm:scheme-classifier-obligation}
 The $\SchemeUp$ classifier must be a BEDC classifier over $C_{\SchemeUp}$, stable under $\hsame$, and determined by the $\RingedSpaceUp$ classifier together with affine-chart classifier agreement from the certified $\CommRingUp$ chart rows. Two scheme carrier witnesses are identified only when their ringed-space rows match and their affine chart rows agree after the displayed cover-refinement and restriction transports.
 \end{theorem}
+\leanchecked{BEDC.Derived.SchemeUp.SchemeAffineCoverLedger\_classifier\_refinement\_transport}
 \leanchecked{BEDC.Derived.SchemeUp.SchemeAffineCoverClassifier\_overlap\_locality}
 \leanchecked{BEDC.Derived.SchemeUp.SchemeSingleton\_affine\_cover\_classifier\_locality\_obligation}
 \begin{proof}
@@ -30,6 +32,7 @@ For each affine chart, read the endpoint comparison from the $\CommRingUp$ certi
 
 The stability-obligation field of the same template requires this relation to respect $\hsame$. That stability follows by composing the $\RingedSpaceUp$ transport with the chart-level $\CommRingUp$ transports, so the scheme classifier is determined by those two classifier surfaces and no additional equality.
 \end{proof}
+\leanchecked{BEDC.Derived.SchemeUp.SchemeAffineChartLedger\_overlap\_locality\_obligation}
 \leanchecked{BEDC.Derived.SchemeUp.SchemeAffineCoverLedger\_overlap\_classifier\_locality}
 
 \begin{theorem}[Scheme affine-cover obligation]\label{thm:scheme-affine-cover-obligation}
@@ -44,6 +47,7 @@ Restriction compatibility and locality are the overlap clauses of the same ledge
 
 Gluing is then a ledger exactness statement: compatible local chart rows repack into the same $\SchemeUp$ carrier witness, and every consumer readback for $\AffineVarUp$ or $\ProjectiveVarUp$ must pass through those listed packages. Thus the cover, exactness, ledger, and consumer rows named in the chapter are the whole affine-cover obligation surface.
 \end{proof}
+\leanchecked{BEDC.Derived.SchemeUp.SchemeSingleton\_affine\_cover\_ledger\_exactness}
 \leanchecked{BEDC.Derived.SchemeUp.SchemeSingleton\_affine\_cover\_nerve\_empty\_boundary}
 \leanchecked{BEDC.Derived.SchemeUp.SchemeAffineCoverLedger\_restriction\_exactness}
 
