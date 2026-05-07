@@ -1,9 +1,27 @@
 import BEDC.Derived.SheafUp
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.SheafUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
+
+theorem SheafRootUnblock_cover_membership_obligation
+    {ambient member overlap route germ nextRoute nextGerm : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      UnaryHistory nextRoute ->
+        Cont member nextRoute nextGerm ->
+          SheafBHistCoverNerveLedger ambient member member nextRoute nextGerm ∧
+            SheafRootFaceRead member member SheafRootFaceLanding.coverMembership ∧
+              SheafRootFaceRead member nextGerm SheafRootFaceLanding.restrictionRoute ∧
+                UnaryHistory nextGerm := by
+  intro ledger nextRouteUnary nextRow
+  have exhaustion :=
+    SheafRootCoverNerve_membership_exhaustion ledger nextRouteUnary nextRow
+  exact And.intro exhaustion.left
+    (And.intro (SheafRootFaceRead.coverMembership (hsame_refl member))
+      (And.intro (SheafRootFaceRead.restrictionRoute nextRow) exhaustion.right))
 
 theorem SheafRootUnblock_locality_gluing_faces
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
