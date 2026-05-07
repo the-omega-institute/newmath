@@ -1,3 +1,4 @@
+import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ManifoldUp
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
@@ -5,10 +6,48 @@ import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.ContactUp
 
+open BEDC.Derived.DiffFormUp
 open BEDC.Derived.ManifoldUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
+
+def ContactCarrierDiffFormLedgerSurface
+    (manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
+      antisym source wedge top hyperplane ledger : BHist) : Prop :=
+  ManifoldSingletonCarrier manifold ∧
+    DiffFormExteriorDerivativeLedger form derivative degree degreePlus probe probe' tensor
+      tensor' scalar scalar' antisym source ∧
+      DiffFormWedgeDegreeLedger degree degreePlus wedge form derivative tensor ∧
+        Cont wedge hyperplane top ∧ hsame ledger top
+
+theorem ContactUpLedgerExactness_obligation
+    {manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
+      antisym source wedge top hyperplane ledger transportedTop : BHist} :
+    ContactCarrierDiffFormLedgerSurface manifold form derivative degree degreePlus probe probe'
+        tensor tensor' scalar scalar' antisym source wedge top hyperplane ledger ->
+      hsame top transportedTop ->
+        ContactCarrierDiffFormLedgerSurface manifold form derivative degree degreePlus probe probe'
+            tensor tensor' scalar scalar' antisym source wedge transportedTop hyperplane
+            transportedTop ∧
+          hsame ledger transportedTop ∧ UnaryHistory wedge := by
+  intro surface sameTop
+  have transportedCont : Cont wedge hyperplane transportedTop :=
+    cont_result_hsame_transport surface.right.right.right.left sameTop
+  have transportedSurface :
+      ContactCarrierDiffFormLedgerSurface manifold form derivative degree degreePlus probe probe'
+        tensor tensor' scalar scalar' antisym source wedge transportedTop hyperplane
+        transportedTop :=
+    And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro transportedCont (hsame_refl transportedTop))))
+  have sameLedger : hsame ledger transportedTop :=
+    hsame_trans surface.right.right.right.right sameTop
+  have wedgeUnary : UnaryHistory wedge :=
+    surface.right.right.left.right.right.right.left
+  exact And.intro transportedSurface
+    (And.intro sameLedger wedgeUnary)
 
 def ContactCarrierClassifierSurface (manifold form derivative wedge top : BHist) : Prop :=
   ManifoldSingletonCarrier manifold ∧ UnaryHistory form ∧ UnaryHistory derivative ∧

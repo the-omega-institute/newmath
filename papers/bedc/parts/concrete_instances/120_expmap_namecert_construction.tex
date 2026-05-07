@@ -49,13 +49,15 @@ The zero-tangent row of the $\LieAlgebraUp$ source maps to the identity row of t
 
 Its ten-field fit is: traditional target zero-to-identity and exponential-flow composition; BEDC source the $\LieAlgebraUp$ zero row, the $\LieGroupUp$ identity row, and finite $\Cont$ ledgers; carrier the graph package of \autoref{thm:expmap-carrier-obligation-surface}; classifier the stability surface of \autoref{thm:expmap-classifier-stability-obligation-surface}; stability $\mathsf{hsame}$ transport for zero, identity, and composed ledgers; ledger the empty ledger and the two composable finite ledgers; core theorem list zero, unit, and associativity rows; exactness every composed public row has precisely that provenance; standard bridge none; status proof target for zero and local-flow compatibility in $\NameCert_{\ExpMapUp}$.
 \end{theorem}
-\leanchecked{BEDC.Derived.ExpMapUp.ExpMapFlowLedger\_zero\_flow\_composition\_obligations}
-\leanchecked{BEDC.Derived.ExpMapUp.ExpMapZeroFlow\_obligation\_surface}
+\leanchecked{BEDC.Derived.ExpMapUp.ExpMapGraphCarrier\_zero\_flow\_composition\_obligation}
+\leanvariant{BEDC.Derived.ExpMapUp.ExpMapFlowLedger\_zero\_flow\_composition\_obligations}
+\leanvariant{BEDC.Derived.ExpMapUp.ExpMapZeroFlow\_obligation\_surface}
 \begin{proof}
 Represent the zero tangent by the empty finite flow ledger. Reading this ledger through $\mathsf{cont\_left\_unit}$ and $\mathsf{cont\_right\_unit}$ identifies its target endpoint with the $\LieGroupUp$ identity row up to $\mathsf{hsame}$.
 
 For two composable flow rows, concatenate their finite $\Cont$ ledgers. The associativity witness $\mathsf{cont\_assoc\_hsame}$ transports the concatenated display to the carried graph row, and the classifier stability surface transports the source and target endpoints along with it. Thus the composed row has exactly the displayed ledger provenance.
 \end{proof}
+\leanchecked{BEDC.Derived.ExpMapUp.ExpMapZeroFlow\_composition\_obligation}
 \leanchecked{BEDC.Derived.ExpMapUp.ExpMapFlowLedger\_zero\_composition\_obligation}
 
 \section{The certificate}
@@ -82,6 +84,7 @@ Reflexivity, symmetry, and transitivity are the corresponding structural clauses
 
 Carrier transport uses the two source certificates. Transport across the $\LieAlgebraUp$ source keeps tangent histories in the accepted algebra row, and transport across the $\LieGroupUp$ source keeps endpoint histories in the accepted group row. The local-flow component is transported by applying these two transports to its source and target histories and retaining the same $\hsame$ comparison as the interface classifier witness.
 \end{proof}
+\leanchecked{BEDC.Derived.ExpMapUp.ExpMapGraphClassifier\_stability\_obligations}
 
 \begin{theorem}[Exponential-map flow and zero obligations]
 \label{thm:expmap-flow-and-zero-obligations}
