@@ -18,6 +18,11 @@ def ExpMapGraphCarrier (tangent endpoint flow : BHist) : Prop :=
   LieAlgebraSingletonCarrier tangent ∧ LieGroupSingletonCarrier endpoint ∧
     Cont tangent BHist.Empty flow ∧ hsame flow endpoint
 
+def ExpMapCertifiedInterfaceCarrier
+    (tangent endpoint flow sourceCert targetCert : BHist) : Prop :=
+  ExpMapGraphCarrier tangent endpoint flow ∧ hsame sourceCert tangent ∧
+    hsame targetCert endpoint ∧ Cont tangent BHist.Empty flow
+
 theorem ExpMapCarrier_source_obligations {tangent endpoint flow : BHist} :
     ExpMapGraphCarrier tangent endpoint flow ->
       LieAlgebraSingletonCarrier tangent ∧ LieGroupSingletonCarrier endpoint ∧
