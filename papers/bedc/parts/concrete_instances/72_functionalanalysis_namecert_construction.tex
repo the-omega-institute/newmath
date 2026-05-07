@@ -300,13 +300,48 @@ the named rows and explicitly omits spectral theorem, semigroup evolution,
 PDE well-posedness, standard-bridge, and host-level operator-equality claims.
 \end{proof}
 
-\closureat{FunctionalAnalysisUp}{publicStr}
+\begin{theorem}[FunctionalAnalysis public bridge boundary]
+\label{thm:functionalanalysis-public-bridge-boundary}
+The public $\FunctionalAnalysisUp$ surface over the displayed $\BanachUp$,
+$\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ rows exports
+exactly the bounded-operator row, dual pointwise classifier, norm-bound
+stability, adjoint stability, compact finite-net witness, and exact ledger
+boundary as the bridge payload available to downstream $\SpectralTheoremUp$,
+$\SemigroupUp$, and $\PdeUp$ consumers. This boundary does not assert spectral
+theorem rows, semigroup evolution, PDE well-posedness, $\bridgeCheckedV$, or
+host-level operator equality.
+\end{theorem}
+\begin{proof}
+The exported operator face is the bounded-operator row of
+\autoref{thm:functionalanalysis-bounded-linear-operator-obligation}. The
+exported dual face is the pointwise scalar-valued classifier of
+\autoref{thm:functionalanalysis-dual-space-classifier-obligation}. Together
+these two rows give the public carrier and classifier entries consumed by the
+operator chapters.
+
+The stability payload is exactly the norm-bound stability row of
+\autoref{thm:functionalanalysis-operator-norm-stability-obligation} and the
+adjoint stability row of
+\autoref{thm:functionalanalysis-adjoint-stability-obligation}. These rows
+transport the exported operator data without adding any spectral, evolution, or
+PDE conclusion.
+
+The compact payload is the finite-net witness of
+\autoref{thm:functionalanalysis-compact-operator-ledger-obligation}, and the
+outer boundary is the exact ledger boundary of
+\autoref{thm:functionalanalysis-exact-ledger-boundary-obligation}. Repacking
+these six named rows gives precisely the public bridge payload for
+$\SpectralTheoremUp$, $\SemigroupUp$, and $\PdeUp$, while the omitted claims
+remain outside this $\FunctionalAnalysisUp$ certificate.
+\end{proof}
+
+\closureat{FunctionalAnalysisUp}{bridgedStr}[BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_visible\_ledger]
 \begin{closurestatus}{\FunctionalAnalysisUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The scoped package binds the bounded-linear-operator carrier and classifier, the dual-space classifier, norm-bound stability, adjoint stability, the compact finite-net ledger, and the exact ledger boundary over the named $\BanachUp$, $\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ surfaces.}
-  \formalstatus{\unformalizedV}
-  \leantarget{BEDC.Derived.LinearMapUp.LinearMapSingleton\_laws}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not claim Lean verification, spectral theorem rows, PDE or semigroup certificates, or a standard bridge.}
-  \upgradepath{The next paper-side step is bridgedClosure: a standard bridge and downstream bridge rows for the exported public surface.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridge payload is exactly the six rows of \autoref{thm:functionalanalysis-public-bridge-boundary}: the bounded-operator row, dual pointwise classifier, norm-bound stability, adjoint stability, compact finite-net witness, and exact ledger boundary over the named $\BanachUp$, $\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ surfaces.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_visible\_ledger}
+  \bridgestatus{paperBridge}
+  \notclaimed{Spectral theorem rows, PDE well-posedness, semigroup evolution, host equality, and $\bridgeCheckedV$ remain outside this chapter.}
+  \upgradepath{$\bridgeCheckedV$ requires checked standard-bridge packaging for the six displayed rows and downstream certificates beyond the paper bridge recorded here.}
 \end{closurestatus}
