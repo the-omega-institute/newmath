@@ -161,11 +161,11 @@ theorem SymGroupPermutationCarrier_classifier_obligation [AskSetup] [PackageSetu
         GroupSingletonClassifier := laws.left
   have graphCarrier : GroupSingletonCarrier graph := by
     have compEmpty : hsame (append graph invGraph) BHist.Empty :=
-      rows.right.right.right.right.right.right.left.symm.trans rows.right.left
+      rows.right.right.right.right.right.right.right.left.symm.trans rows.right.left
     exact (append_eq_empty_iff.mp compEmpty).left
   have invGraphCarrier : GroupSingletonCarrier invGraph := by
     have compEmpty : hsame (append graph invGraph) BHist.Empty :=
-      rows.right.right.right.right.right.right.left.symm.trans rows.right.left
+      rows.right.right.right.right.right.right.right.left.symm.trans rows.right.left
     exact (append_eq_empty_iff.mp compEmpty).right
   have compCarrier : GroupSingletonCarrier comp := rows.right.left
   have srcCarrier : GroupSingletonCarrier src := by
@@ -175,11 +175,11 @@ theorem SymGroupPermutationCarrier_classifier_obligation [AskSetup] [PackageSetu
   have actionCarrier : GroupSingletonCarrier action := by
     have actionEmpty : hsame (append src graph) BHist.Empty :=
       append_eq_empty_iff.mpr (And.intro srcCarrier graphCarrier)
-    exact rows.right.right.right.right.right.right.right.left.trans actionEmpty
+    exact rows.right.right.right.right.right.right.right.right.left.trans actionEmpty
   have ledgerCarrier : GroupSingletonCarrier ledger := by
     have compActionEmpty : hsame (append comp action) BHist.Empty :=
       append_eq_empty_iff.mpr (And.intro compCarrier actionCarrier)
-    exact rows.right.right.right.right.right.right.right.right.left.trans compActionEmpty
+    exact rows.right.right.right.right.right.right.right.right.right.left.trans compActionEmpty
   have graphClassified : GroupSingletonClassifier graph graph :=
     cert.core.equiv_refl graphCarrier
   have invGraphClassified : GroupSingletonClassifier invGraph invGraph :=
