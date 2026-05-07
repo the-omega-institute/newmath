@@ -96,6 +96,84 @@ theorem SheafBaseChange_common_refinement_projection
       (And.intro coverPullback.right
         (And.intro samePulledGerms pulledA.right.right)))
 
+theorem SheafBaseChange_name_certificate
+    {ambient member overlap route germ sourceMember sourceOverlap sourceCoverGerm point targetOpen
+      representedOpen pulledOpen sectionA sectionB germA germB pulledGermA pulledGermB :
+        BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      hsame member sourceMember -> hsame overlap sourceOverlap ->
+        Cont sourceOverlap route sourceCoverGerm ->
+          SheafBHistPointGermLedger point targetOpen sectionA germA ->
+            SheafBHistPointGermLedger point targetOpen sectionB germB ->
+              hsame germA germB -> hsame targetOpen representedOpen ->
+                hsame representedOpen pulledOpen -> Cont pulledOpen sectionA pulledGermA ->
+                  Cont pulledOpen sectionB pulledGermB ->
+                    SemanticNameCert
+                      (fun endpoint : BHist =>
+                        SheafBHistPointGermLedger point pulledOpen sectionA endpoint)
+                      (fun endpoint : BHist =>
+                        SheafBHistPointGermLedger point pulledOpen sectionA endpoint)
+                      (fun endpoint : BHist =>
+                        SheafBHistPointGermLedger point pulledOpen sectionA endpoint ∧
+                          (exists paired : BHist,
+                            SheafBHistPointGermLedger point pulledOpen sectionB paired ∧
+                              hsame endpoint paired) ∧
+                            SheafBHistCoverNerveLedger ambient sourceMember sourceOverlap route
+                              sourceCoverGerm)
+                      hsame := by
+  intro coverLedger sameMember sameOverlap sourceRow ledgerA ledgerB sameGerm sameRepresented
+    samePulled pulledRowA pulledRowB
+  have projection :
+      SheafBHistCoverNerveLedger ambient sourceMember sourceOverlap route sourceCoverGerm ∧
+        SheafBHistPointGermComparison point pulledOpen sectionA pulledGermA pulledOpen sectionB
+          pulledGermB pulledOpen ∧
+          hsame germ sourceCoverGerm ∧ hsame pulledGermA pulledGermB ∧
+            hsame targetOpen pulledOpen :=
+    SheafBaseChange_common_refinement_projection coverLedger sameMember sameOverlap sourceRow
+      ledgerA ledgerB sameGerm sameRepresented samePulled pulledRowA pulledRowB
+  have pulledA :
+      SheafBHistPointGermLedger point pulledOpen sectionA pulledGermA ∧
+        hsame germA pulledGermA ∧ hsame targetOpen pulledOpen :=
+    SheafBHistPointGermLedger_base_change_gluing_pullback ledgerA sameRepresented samePulled
+      pulledRowA
+  have pulledB :
+      SheafBHistPointGermLedger point pulledOpen sectionB pulledGermB ∧
+        hsame germB pulledGermB ∧ hsame targetOpen pulledOpen :=
+    SheafBHistPointGermLedger_base_change_gluing_pullback ledgerB sameRepresented samePulled
+      pulledRowB
+  have pulledLedgerA :
+      SheafBHistPointGermLedger point pulledOpen sectionA pulledGermA :=
+    pulledA.left
+  have pulledLedgerB :
+      SheafBHistPointGermLedger point pulledOpen sectionB pulledGermB :=
+    pulledB.left
+  have samePulledGerms : hsame pulledGermA pulledGermB :=
+    projection.right.right.right.left
+  constructor
+  · constructor
+    · exact Exists.intro pulledGermA pulledLedgerA
+    · intro endpoint _carrier
+      exact hsame_refl endpoint
+    · intro endpoint endpoint' same
+      exact hsame_symm same
+    · intro endpoint endpoint' endpoint'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro endpoint endpoint' same carrier
+      exact And.intro carrier.left
+        (And.intro carrier.right.left
+          (cont_result_hsame_transport carrier.right.right same))
+  · intro _endpoint source
+    exact source
+  · intro endpoint source
+    have sameEndpointPulledA : hsame endpoint pulledGermA :=
+      cont_deterministic source.right.right pulledRowA
+    exact And.intro source
+      (And.intro
+        (Exists.intro pulledGermB
+          (And.intro pulledLedgerB
+            (hsame_trans sameEndpointPulledA samePulledGerms)))
+        projection.left)
+
 theorem SheafBaseChange_obligation_surface
     {ambient member overlap route germ sourceMember sourceOverlap sourceCoverGerm point targetOpen
       representedOpen pulledOpen sectionA sectionB germA germB pulledGermA pulledGermB :
