@@ -190,6 +190,8 @@ import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.CoverNerveRouteTransport
+import BEDC.Derived.SheafUp.RootFaceReadback
 import BEDC.Derived.SheafUp.JointConsumerFace
 import BEDC.Derived.SheafUp.RootCoverDescent
 import BEDC.Derived.SheafUp.RootRouteExactness
@@ -209,6 +211,7 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
+import BEDC.Derived.HolomorphicUp.LedgerPolicy
 import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
 import BEDC.Derived.HolomorphicUp.IteratedTransport
 import BEDC.Derived.HolomorphicUp.IteratedComposition
