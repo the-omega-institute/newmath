@@ -1,6 +1,7 @@
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ManifoldUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.SymplecticUp
@@ -9,6 +10,7 @@ open BEDC.Derived.DiffFormUp
 open BEDC.Derived.ManifoldUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def SymplecticCarrierClassifierSurface
@@ -104,6 +106,75 @@ theorem SymplecticCarrierClassifierEndpointSurface_closed_two_form_transport
         (And.intro surface.right.right.left
           (And.intro transportedClosed surface.right.right.right.right))))
     (And.intro sameClosed closedUnary)
+
+theorem SymplecticCarrierClassifierEndpointSurface_nondegeneracy_transport
+    {manifold form derivative closed pairing form' pairing' : BHist} :
+    SymplecticCarrierClassifierEndpointSurface manifold form derivative closed pairing ->
+      hsame form form' -> Cont manifold form' pairing' ->
+        SymplecticCarrierClassifierEndpointSurface manifold form' derivative closed pairing' ∧
+          hsame pairing pairing' ∧ UnaryHistory pairing' := by
+  intro surface sameForm pairingRow'
+  have closedRow' : Cont form' derivative closed :=
+    cont_hsame_transport sameForm (hsame_refl derivative) (hsame_refl closed)
+      surface.right.right.right.left
+  have pairingSame : hsame pairing pairing' :=
+    cont_respects_hsame (hsame_refl manifold) sameForm surface.right.right.right.right
+      pairingRow'
+  have formUnary' : UnaryHistory form' :=
+    unary_transport surface.right.left sameForm
+  have manifoldRows := ManifoldSingletonCarrier_topology_scope surface.left
+  have pairingUnary' : UnaryHistory pairing' :=
+    unary_cont_closed manifoldRows.right.left formUnary' pairingRow'
+  exact And.intro
+    (And.intro surface.left
+      (And.intro formUnary'
+        (And.intro surface.right.right.left
+          (And.intro closedRow' pairingRow'))))
+    (And.intro pairingSame pairingUnary')
+
+theorem SymplecticCarrierClassifierEndpointSurface_semantic_name_certificate
+    {manifold form derivative closed pairing : BHist} :
+    SymplecticCarrierClassifierEndpointSurface manifold form derivative closed pairing ->
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          ∃ carriedForm carriedClosed : BHist,
+            SymplecticCarrierClassifierEndpointSurface manifold carriedForm derivative
+              carriedClosed endpoint)
+        (fun endpoint : BHist =>
+          ∃ carriedForm carriedClosed : BHist,
+            SymplecticCarrierClassifierEndpointSurface manifold carriedForm derivative
+              carriedClosed endpoint)
+        (fun endpoint : BHist =>
+          ∃ carriedForm carriedClosed : BHist,
+            SymplecticCarrierClassifierEndpointSurface manifold carriedForm derivative
+              carriedClosed endpoint)
+        (fun left right : BHist =>
+          (∃ carriedForm carriedClosed : BHist,
+            SymplecticCarrierClassifierEndpointSurface manifold carriedForm derivative
+              carriedClosed left) ∧
+          (∃ carriedForm carriedClosed : BHist,
+            SymplecticCarrierClassifierEndpointSurface manifold carriedForm derivative
+              carriedClosed right) ∧
+          hsame left right) := by
+  intro surface
+  constructor
+  · constructor
+    · exact Exists.intro pairing (Exists.intro form (Exists.intro closed surface))
+    · intro endpoint carrier
+      exact And.intro carrier (And.intro carrier (hsame_refl endpoint))
+    · intro endpoint endpoint' classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    · intro endpoint endpoint' endpoint'' classifiedLeft classifiedRight
+      exact And.intro classifiedLeft.left
+        (And.intro classifiedRight.right.left
+          (hsame_trans classifiedLeft.right.right classifiedRight.right.right))
+    · intro endpoint endpoint' classified _carrier
+      exact classified.right.left
+  · intro _endpoint source
+    exact source
+  · intro _endpoint source
+    exact source
 
 theorem SymplecticCarrierClassifierSurface_obligations
     {manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
