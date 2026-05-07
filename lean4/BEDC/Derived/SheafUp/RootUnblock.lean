@@ -7,6 +7,29 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def SheafRootUnblockBEDCSource
+    (ambient member overlap route germ restrictedOpen restrictedGerm : BHist) : Prop :=
+  SheafBHistCoverNerveLedger ambient member overlap route germ ∧
+    Cont member route restrictedGerm ∧
+      SheafRootFaceRead member restrictedGerm SheafRootFaceLanding.coverMembership ∧
+        hsame restrictedOpen BHist.Empty
+
+theorem SheafRootUnblockBEDCSource_member_point_germ
+    {ambient member overlap route germ restrictedOpen restrictedGerm : BHist} :
+    SheafRootUnblockBEDCSource ambient member overlap route germ restrictedOpen restrictedGerm ->
+      UnaryHistory route ->
+        SheafBHistPointGermLedger ambient member route restrictedGerm ∧
+          UnaryHistory restrictedGerm := by
+  intro source routeUnary
+  have ledger : SheafBHistCoverNerveLedger ambient member overlap route germ := source.left
+  have memberUnary : UnaryHistory member := ledger.right.left
+  have routeRow : Cont member route restrictedGerm := source.right.left
+  have pointGerm : SheafBHistPointGermLedger ambient member route restrictedGerm :=
+    And.intro ledger.left (And.intro memberUnary routeRow)
+  have restrictedUnary : UnaryHistory restrictedGerm :=
+    unary_cont_closed memberUnary routeUnary routeRow
+  exact And.intro pointGerm restrictedUnary
+
 theorem SheafRootUnblock_locality_gluing_faces
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB globalA globalB : BHist} :
