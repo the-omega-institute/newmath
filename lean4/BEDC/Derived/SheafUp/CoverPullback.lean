@@ -57,4 +57,45 @@ theorem SheafBHistCoverNerveLedger_refinement_pullback
           (And.intro sameOverlap refinedRow))))
     sameGerm
 
+theorem SheafBHistCoverNerveLedger_base_change_cover_pullback_composition
+    {ambient member overlap route germ memberMid overlapMid routeMid germMid memberOut
+      overlapOut routeOut germOut directGerm : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      hsame member memberMid -> hsame overlap overlapMid -> hsame route routeMid ->
+        Cont overlapMid routeMid germMid ->
+          hsame memberMid memberOut -> hsame overlapMid overlapOut ->
+            hsame routeMid routeOut -> Cont overlapOut routeOut germOut ->
+              Cont overlapOut routeOut directGerm ->
+                SheafBHistCoverNerveLedger ambient memberOut overlapOut routeOut directGerm ∧
+                  hsame germOut directGerm ∧ hsame germ directGerm := by
+  intro ledger sameMemberMid sameOverlapMid sameRouteMid midRow sameMemberOut
+    sameOverlapOut sameRouteOut outRow directRow
+  have overlapMidMemberMid : hsame overlapMid memberMid :=
+    hsame_trans (hsame_symm sameOverlapMid)
+      (hsame_trans ledger.right.right.right.left sameMemberMid)
+  have midPullback :
+      SheafBHistCoverNerveLedger ambient memberMid overlapMid routeMid germMid ∧
+        hsame germ germMid :=
+    SheafBHistCoverNerveLedger_refinement_pullback ledger (hsame_symm sameMemberMid)
+      overlapMidMemberMid (hsame_symm sameRouteMid) midRow
+  have overlapOutMemberOut : hsame overlapOut memberOut :=
+    hsame_trans (hsame_symm sameOverlapOut)
+      (hsame_trans midPullback.left.right.right.right.left sameMemberOut)
+  have outPullback :
+      SheafBHistCoverNerveLedger ambient memberOut overlapOut routeOut germOut ∧
+        hsame germMid germOut :=
+    SheafBHistCoverNerveLedger_refinement_pullback midPullback.left
+      (hsame_symm sameMemberOut) overlapOutMemberOut (hsame_symm sameRouteOut) outRow
+  have sameDirect : hsame germOut directGerm :=
+    cont_deterministic outRow directRow
+  have directLedger :
+      SheafBHistCoverNerveLedger ambient memberOut overlapOut routeOut directGerm :=
+    And.intro outPullback.left.left
+      (And.intro outPullback.left.right.left
+        (And.intro outPullback.left.right.right.left
+          (And.intro outPullback.left.right.right.right.left directRow)))
+  exact And.intro directLedger
+    (And.intro sameDirect
+      (hsame_trans midPullback.right (hsame_trans outPullback.right sameDirect)))
+
 end BEDC.Derived.SheafUp
