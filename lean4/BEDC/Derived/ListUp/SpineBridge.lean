@@ -220,6 +220,22 @@ theorem ListSpineBridgeClassifier_represented_spine_alignment {A : BHist -> Prop
                       classifiedBridge)
                     classifiedRight
 
+theorem ListSpineBridgeClassifier_displayed_spine_exactness
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert A Rel)
+    (coherent : forall {h : BHist} {xs ys : ListCarrier BHist},
+      ListSpineRep A h xs -> ListSpineRep A h ys -> ListClassifierSpec Rel xs ys)
+    {h k : BHist} {xs0 ys0 : ListCarrier BHist} :
+    ListSpineRep A h xs0 -> ListSpineRep A k ys0 ->
+      (ListSpineBridgeClassifier A Rel h k ↔ ListClassifierSpec Rel xs0 ys0) := by
+  intro repH repK
+  constructor
+  · intro bridge
+    exact ListSpineBridgeClassifier_represented_spine_alignment cert coherent repH repK bridge
+  · intro classified
+    exact Exists.intro xs0
+      (Exists.intro ys0 (And.intro repH (And.intro repK classified)))
+
 theorem ListSpineBridgeClassifier_nil_classifier_inversion {A : BHist -> Prop}
     {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
     (coherent :
