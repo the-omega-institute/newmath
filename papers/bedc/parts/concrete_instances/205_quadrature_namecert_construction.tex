@@ -99,6 +99,29 @@ $$
 which is the required exactness row for $p$ under the degree-$e$ predicate. Since $p$ was arbitrary, $\mathsf{QuadratureExactUpTo}_R(Q,e)$ holds. The finite node spine, the weights, and the integral endpoint map are the original components of $Q$ throughout.
 \end{proof}
 
+\begin{theorem}[Quadrature exactness degree equivalence stability]
+\label{thm:quadrature-exactness-degree-equivalence-stability}
+Let $Q$ be a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of \autoref{def:quadrature-finite-weighted-exactness-degree}. For unary degree bounds $e,d:\NatUp$, if
+$$
+\mathsf{DegBoundLe}(e,d)
+\qquad\text{and}\qquad
+\mathsf{DegBoundLe}(d,e)
+$$
+hold, then the exactness classifiers at $d$ and $e$ determine the same row:
+$$
+\mathsf{QuadratureExactUpTo}_R(Q,d)
+\Longleftrightarrow
+\mathsf{QuadratureExactUpTo}_R(Q,e).
+$$
+\end{theorem}
+\begin{proof}
+We prove the two directions separately.
+
+For the forward direction, assume $\mathsf{QuadratureExactUpTo}_R(Q,d)$. Apply \autoref{thm:quadrature-exactness-degree-weakening} to this degree-$d$ exactness row and to the comparison $\mathsf{DegBoundLe}(e,d)$. The result is $\mathsf{QuadratureExactUpTo}_R(Q,e)$.
+
+For the reverse direction, assume $\mathsf{QuadratureExactUpTo}_R(Q,e)$. Apply \autoref{thm:quadrature-exactness-degree-weakening} to this degree-$e$ exactness row and to the comparison $\mathsf{DegBoundLe}(d,e)$. The result is $\mathsf{QuadratureExactUpTo}_R(Q,d)$.
+\end{proof}
+
 \begin{theorem}[Quadrature degree-bound comparison is transitive]
 \label{thm:quadrature-degree-bound-comparison-transitive}
 With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, the unary degree-bound comparison used by the $\QuadratureUp$ exactness-degree classifier is transitive. For unary degree bounds $e,d,c:\NatUp$, if
