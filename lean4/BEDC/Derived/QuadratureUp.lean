@@ -21,6 +21,21 @@ theorem QuadratureDegBoundLe_trans {e d c : BHist} :
     · intro k unaryK strictCK
       exact left.right.right unaryK (right.right.right unaryK strictCK)
 
+theorem QuadratureDegBoundLe_preorder_rows :
+    (forall {d : BHist}, UnaryHistory d -> QuadratureDegBoundLe d d) ∧
+      (forall {e d c : BHist}, QuadratureDegBoundLe e d -> QuadratureDegBoundLe d c ->
+        QuadratureDegBoundLe e c) := by
+  constructor
+  · intro d unaryD
+    constructor
+    · exact unaryD
+    · constructor
+      · exact unaryD
+      · intro k _unaryK strictDK
+        exact strictDK
+  · intro e d c left right
+    exact QuadratureDegBoundLe_trans left right
+
 theorem QuadraturePolynomialDegreeWindow_inclusion {coeff : BHist -> BHist} {zero e d : BHist} :
     QuadratureDegBoundLe e d ->
       (UnaryHistory zero ∧ UnaryHistory e ∧
