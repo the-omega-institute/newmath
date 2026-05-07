@@ -420,4 +420,41 @@ theorem WeylGroupCoxeterLedger_append_spine_rows
     (And.intro carrier.left (And.intro braidCarrier rootBraidEndpoint))
     (And.intro braidClassified endpointABRoot)
 
+theorem WeylGroupPublicNameCert_export {support : ProbeBundle BHist}
+    {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root word action next actionNext braid : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root word action ->
+      GroupSingletonCarrier next -> Cont action next actionNext -> Cont word next braid ->
+        WeylGroupBHistSourceRow support Vector Nonzero root braid actionNext ∧
+          hsame actionNext root ∧ GroupSingletonClassifier braid BHist.Empty := by
+  intro source nextCarrier actionStep braidStep
+  have rootUnary : UnaryHistory root :=
+    vector_unary source.left.right.left
+  have wordEmpty : hsame word BHist.Empty := source.right.left
+  have actionSameRoot : hsame action root := by
+    cases wordEmpty
+    exact cont_right_unit_result source.right.right.left
+  have actionNextSameAction : hsame actionNext action := by
+    cases nextCarrier
+    exact cont_right_unit_result actionStep
+  have actionNextSameRoot : hsame actionNext root :=
+    hsame_trans actionNextSameAction actionSameRoot
+  have braidCarrier : GroupSingletonCarrier braid := by
+    cases wordEmpty
+    cases nextCarrier
+    exact cont_deterministic braidStep (cont_right_unit BHist.Empty)
+  have rootBraidActionNext : Cont root braid actionNext := by
+    cases braidCarrier
+    cases actionNextSameRoot
+    exact cont_right_unit root
+  have actionNextUnary : UnaryHistory actionNext :=
+    unary_transport rootUnary (hsame_symm actionNextSameRoot)
+  have braidClassified : GroupSingletonClassifier braid BHist.Empty :=
+    And.intro braidCarrier (And.intro (hsame_refl BHist.Empty) braidCarrier)
+  exact And.intro
+    (And.intro source.left
+      (And.intro braidCarrier (And.intro rootBraidActionNext actionNextUnary)))
+    (And.intro actionNextSameRoot braidClassified)
+
 end BEDC.Derived.WeylGroupUp
