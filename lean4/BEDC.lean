@@ -177,6 +177,7 @@ import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.MeasureUp
+import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
@@ -190,6 +191,7 @@ import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.GlobalRestrictions
 import BEDC.Derived.SheafUp.AccessTrace
 import BEDC.Derived.SheafUp.DownstreamProjection
 import BEDC.Derived.SheafUp.BaseChangeSurface
