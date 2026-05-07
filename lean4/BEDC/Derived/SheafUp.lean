@@ -123,9 +123,18 @@ theorem SheafBHistPointGermComparison_symmetric_fields
         (And.intro comparison.right.right.right.left
           (And.intro comparison.right.right.right.right.right.left
             (And.intro comparison.right.right.right.right.left
-              (And.intro comparison.right.right.right.right.right.right.right.left
-                (And.intro comparison.right.right.right.right.right.right.left
-                  (hsame_symm comparison.right.right.right.right.right.right.right.right))))))))
+                (And.intro comparison.right.right.right.right.right.right.right.left
+                  (And.intro comparison.right.right.right.right.right.right.left
+                    (hsame_symm comparison.right.right.right.right.right.right.right.right))))))))
+
+theorem SheafBHistPointGermComparison_soundness
+    {point openA openB sectA sectB germA germB common globalA globalB : BHist} :
+    SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
+      Cont common sectA globalA -> Cont common sectB globalB ->
+        hsame germA globalA -> hsame germB globalB -> hsame globalA globalB := by
+  intro comparison _globalACont _globalBCont sameGlobalA sameGlobalB
+  exact hsame_trans (hsame_symm sameGlobalA)
+    (hsame_trans comparison.right.right.right.right.right.right.right.right sameGlobalB)
 
 theorem SheafBHistPointGermLedger_common_open_comparison
     {point openHist sectA sectB germA germB : BHist} :

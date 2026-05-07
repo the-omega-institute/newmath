@@ -151,6 +151,18 @@ theorem QuantumChannelAffineMixtureSpine_density_mixture_preservation {phi rho i
   have imageUnary : UnaryHistory image := unary_transport unary_empty (hsame_symm imageEmpty)
   exact And.intro imageEmpty (QuantumChannelAffineMixtureSpine.atom imageEmpty imageUnary)
 
+theorem QuantumChannelSingleton_binary_convex_mixture_closure {phi psi out : BHist} :
+    hsame phi BHist.Empty -> hsame psi BHist.Empty -> Cont phi psi out ->
+      hsame out BHist.Empty ∧
+        QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) out := by
+  intro phiEmpty psiEmpty mixtureCont
+  have outPsi : hsame out psi := by
+    cases phiEmpty
+    exact cont_left_unit_result mixtureCont
+  have outEmpty : hsame out BHist.Empty := hsame_trans outPsi psiEmpty
+  have outUnary : UnaryHistory out := unary_transport unary_empty (hsame_symm outEmpty)
+  exact And.intro outEmpty (QuantumChannelAffineMixtureSpine.atom outEmpty outUnary)
+
 theorem QuantumChannelSingleton_identity_composition_unit_laws {phi left right : BHist} :
     QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) phi ->
       Cont BHist.Empty phi left -> Cont phi BHist.Empty right ->
