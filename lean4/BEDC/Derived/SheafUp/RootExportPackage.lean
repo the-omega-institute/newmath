@@ -57,4 +57,27 @@ theorem SheafRootExport_stability_exactness_package
         (And.intro descent.right.left
           (And.intro comparison descent.right.right))))
 
+theorem SheafConsumerAccessTrace_composite_exhaustion {root : BHist}
+    (rootUnary : UnaryHistory root) {traces : List (List BHist)} :
+    (forall trace : List BHist, List.Mem trace traces -> SheafConsumerAccessTrace root trace) ->
+      SheafConsumerAccessTrace root (traces.foldr List.append []) := by
+  intro traceRows
+  induction traces with
+  | nil =>
+      exact And.intro rootUnary
+        (by
+          intro row rowMem
+          cases rowMem)
+  | cons trace rest ih =>
+      have headTrace : SheafConsumerAccessTrace root trace :=
+        traceRows trace (List.Mem.head rest)
+      have restRows :
+          forall restTrace : List BHist, List.Mem restTrace rest ->
+            SheafConsumerAccessTrace root restTrace := by
+        intro restTrace restMem
+        exact traceRows restTrace (List.Mem.tail trace restMem)
+      have restTrace : SheafConsumerAccessTrace root (rest.foldr List.append []) :=
+        ih restRows
+      exact (SheafConsumerAccessTrace_append_closed headTrace restTrace).right
+
 end BEDC.Derived.SheafUp
