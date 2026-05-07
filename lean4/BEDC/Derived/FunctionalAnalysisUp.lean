@@ -143,6 +143,30 @@ theorem FunctionalAnalysisCompactOperatorWitness_probe_ledger
       (And.intro sameNet (inBundle_cons_self image'
         (ProbeBundle.Bcons net' (ProbeBundle.Bnil : ProbeBundle BHist)))))
 
+theorem FunctionalAnalysisPublic_export_certificate
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    {f dual source target bound ledger probe image tolerance net : BHist} :
+    FunctionalAnalysisBoundedOperatorRow f source target bound ledger ->
+      FunctionalAnalysisDualPointwiseClassifier ScalarClassifier dual dual ->
+        FunctionalAnalysisCompactOperatorWitness f source target bound ledger probe image
+          tolerance net ->
+          FunctionalAnalysisBoundedOperatorRow f source target bound ledger ∧
+            FunctionalAnalysisDualPointwiseClassifier ScalarClassifier dual dual ∧
+              RealConstantHistoryClassifier bound (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+                UnaryHistory ledger ∧ Cont f probe image ∧ Cont image tolerance net := by
+  intro bounded dualPointwise compact
+  have visible :
+      LinearMapSingletonCarrier f ∧ BanachSingletonCarrier source ∧
+        BanachSingletonCarrier target ∧
+          RealConstantHistoryClassifier bound (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            Cont source target ledger ∧ UnaryHistory ledger :=
+    FunctionalAnalysisBoundedOperatorRow_visible_ledger bounded
+  exact And.intro bounded
+    (And.intro dualPointwise
+      (And.intro visible.right.right.right.left
+        (And.intro visible.right.right.right.right.right
+          (And.intro compact.right.left compact.right.right))))
+
 theorem FunctionalAnalysisBoundedLinearOperator_norm_bound_stable
     {T : BHist -> BHist} {K K' ledger ledger' : BHist} :
     BanachSingletonBoundedLinearOperator T K ledger -> hsame K K' -> hsame ledger ledger' ->
