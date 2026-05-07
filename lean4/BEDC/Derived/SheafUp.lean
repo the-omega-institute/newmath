@@ -222,4 +222,55 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
+theorem SheafBHistPointGermLedger_cover_descent_exhaustion
+    {point openHist sectA sectB germA germB memberOpen memberSectA memberSectB
+      memberGermA memberGermB common commonGermA commonGermB : BHist} :
+    SheafBHistPointGermLedger point openHist sectA germA ->
+      SheafBHistPointGermLedger point openHist sectB germB ->
+        hsame germA germB -> hsame openHist memberOpen -> hsame sectA memberSectA ->
+          hsame sectB memberSectB -> Cont memberOpen memberSectA memberGermA ->
+            Cont memberOpen memberSectB memberGermB -> hsame memberOpen common ->
+              Cont common memberSectA commonGermA ->
+                Cont common memberSectB commonGermB ->
+                  SheafBHistPointGermComparison point common memberSectA commonGermA
+                      common memberSectB commonGermB common ∧
+                    hsame germA commonGermA ∧ hsame germB commonGermB := by
+  intro ledgerA ledgerB sameGerm sameMemberOpen sameSectA sameSectB memberRowA memberRowB
+    sameCommon commonRowA commonRowB
+  have memberOpenUnary : UnaryHistory memberOpen := by
+    cases sameMemberOpen
+    exact ledgerA.right.left
+  have memberReadbackA :
+      SheafBHistPointGermLedger point memberOpen memberSectA memberGermA ∧
+        hsame germA memberGermA :=
+    SheafBHistPointGermLedger_gluing_readback ledgerA memberOpenUnary sameMemberOpen
+      sameSectA memberRowA
+  have memberReadbackB :
+      SheafBHistPointGermLedger point memberOpen memberSectB memberGermB ∧
+        hsame germB memberGermB :=
+    SheafBHistPointGermLedger_gluing_readback ledgerB memberOpenUnary sameMemberOpen
+      sameSectB memberRowB
+  have commonReadbackA :
+      SheafBHistPointGermLedger point common memberSectA commonGermA ∧
+        hsame memberGermA commonGermA :=
+    SheafBHistPointGermLedger_restriction_readback memberReadbackA.left sameCommon commonRowA
+  have commonReadbackB :
+      SheafBHistPointGermLedger point common memberSectB commonGermB ∧
+        hsame memberGermB commonGermB :=
+    SheafBHistPointGermLedger_restriction_readback memberReadbackB.left sameCommon commonRowB
+  have sameCommonGerms : hsame commonGermA commonGermB :=
+    hsame_trans (hsame_symm commonReadbackA.right)
+      (hsame_trans (hsame_symm memberReadbackA.right)
+        (hsame_trans sameGerm
+          (hsame_trans memberReadbackB.right commonReadbackB.right)))
+  have comparison :
+      SheafBHistPointGermComparison point common memberSectA commonGermA common memberSectB
+        commonGermB common :=
+    (SheafBHistPointGermLedger_common_open_comparison
+      commonReadbackA.left commonReadbackB.left sameCommonGerms).left
+  exact And.intro comparison
+    (And.intro
+      (hsame_trans memberReadbackA.right commonReadbackA.right)
+      (hsame_trans memberReadbackB.right commonReadbackB.right))
+
 end BEDC.Derived.SheafUp
