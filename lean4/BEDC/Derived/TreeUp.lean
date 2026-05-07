@@ -460,6 +460,58 @@ theorem TreeBHistObligationCarrier_acyclic_unit_loop_exactness
     (And.intro loopExact.right
       (And.intro carrier.right.right.right.left carrier.right.right.right.right.left))
 
+inductive TreeDerivationSpineLedger :
+    BHist -> List BHist -> BHist -> Prop where
+  | nil :
+      UnaryHistory endpoint ->
+        TreeDerivationSpineLedger endpoint [] endpoint
+  | cons {step tail out edge : BHist} {steps : List BHist} :
+      GraphContEdge endpoint step edge ->
+        TreeDerivationSpineLedger edge steps tail -> Cont edge tail out ->
+          TreeDerivationSpineLedger endpoint (step :: steps) out
+
+theorem TreeDerivationSpineLedger_exactness_rows
+    {endpoint : BHist} {steps : List BHist} {out : BHist} :
+    TreeDerivationSpineLedger endpoint steps out ->
+      UnaryHistory endpoint ∧ UnaryHistory out := by
+  intro ledger
+  induction ledger with
+  | nil endpointUnary =>
+      exact And.intro endpointUnary endpointUnary
+  | cons edgeRow _tailLedger tailRoute tailRows =>
+      have edgeUnary : UnaryHistory _ :=
+        unary_cont_closed edgeRow.left edgeRow.right.left edgeRow.right.right
+      have outUnary : UnaryHistory _ :=
+        unary_cont_closed edgeUnary tailRows.right tailRoute
+      exact And.intro edgeRow.left outUnary
+
+theorem TreePublicDerivationSyntaxBridge_visible_spine_package
+    {graph edge connected acyclic root endpoint spine extendedRoot extendedConnected syntaxTarget :
+      BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint -> UnaryHistory spine ->
+      Cont root spine extendedRoot -> Cont connected spine extendedConnected ->
+        hsame extendedConnected syntaxTarget ->
+          TreeRootBranch endpoint extendedRoot extendedConnected ∧
+            GraphContEdge endpoint extendedRoot syntaxTarget ∧ UnaryHistory syntaxTarget ∧
+              Cont endpoint extendedRoot syntaxTarget := by
+  intro carrier spineUnary rootSpine connectedSpine sameSyntax
+  have rootExtension :
+      TreeRootBranch endpoint extendedRoot extendedConnected ∧ UnaryHistory extendedRoot ∧
+        Cont endpoint extendedRoot extendedConnected :=
+    TreeRootWitness_spine_extension_exactness carrier spineUnary rootSpine connectedSpine
+  have syntaxUnary : UnaryHistory syntaxTarget :=
+    unary_transport
+      (unary_cont_closed rootExtension.left.left.left rootExtension.right.left
+        rootExtension.right.right)
+      sameSyntax
+  have syntaxCont : Cont endpoint extendedRoot syntaxTarget :=
+    cont_result_hsame_transport rootExtension.right.right sameSyntax
+  have syntaxEdge : GraphContEdge endpoint extendedRoot syntaxTarget :=
+    (GraphContEdge_classifier_transport rootExtension.left.left (hsame_refl endpoint)
+      (hsame_refl extendedRoot) sameSyntax).left
+  exact And.intro rootExtension.left
+    (And.intro syntaxEdge (And.intro syntaxUnary syntaxCont))
+
 theorem TreeRootWitness_spine_closed_boundary
     {graph edge connected acyclic root endpoint spine extendedRoot extendedConnected : BHist} :
     TreeBHistCarrier graph edge connected acyclic root endpoint ->
