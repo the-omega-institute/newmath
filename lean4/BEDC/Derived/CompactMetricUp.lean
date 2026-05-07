@@ -31,6 +31,25 @@ theorem CompactMetricCertificate_hsame_transport {X : BHist -> Prop} {eps eps' :
   · exact CompleteMetricLimitWitness_hsame_transport carrierTransport streamTransport
       modulusTransport sameLimit certificate.right
 
+theorem CompactMetricCertificate_component_stability {X : BHist -> Prop} {eps eps' : BHist}
+    {bundle : ProbeBundle BHist} {s s' M M' : BHist -> BHist} {limit limit' : BHist} :
+    (forall {h k : BHist}, hsame h k -> X h -> X k) ->
+      hsame eps eps' ->
+        (forall {n : BHist}, UnaryHistory n -> hsame (s n) (s' n)) ->
+          (forall {n : BHist}, UnaryHistory n -> hsame (M n) (M' n)) ->
+            hsame limit limit' -> CompactMetricCertificate X eps bundle s M limit ->
+              TotallyBoundedProbeBundleNet X eps' bundle ∧
+                CompleteMetricLimitWitness X s' M' limit' ∧
+                  CompactMetricCertificate X eps' bundle s' M' limit' := by
+  intro carrierTransport sameEps streamTransport modulusTransport sameLimit certificate
+  have transportedNet : TotallyBoundedProbeBundleNet X eps' bundle :=
+    TotallyBoundedProbeBundleNet_coverage_hsame_transport sameEps certificate.left
+  have transportedLimit : CompleteMetricLimitWitness X s' M' limit' :=
+    CompleteMetricLimitWitness_hsame_transport carrierTransport streamTransport
+      modulusTransport sameLimit certificate.right
+  exact And.intro transportedNet
+    (And.intro transportedLimit (And.intro transportedNet transportedLimit))
+
 theorem CompactMetricSingleton_certificate_package :
     InBundle BHist.Empty (ProbeBundle.Bcons BHist.Empty ProbeBundle.Bnil) ∧
       MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty ∧ hsame BHist.Empty BHist.Empty := by
