@@ -1,6 +1,7 @@
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.TopologyUp.Singleton
 
 namespace BEDC.Derived.SchemeUp
 
@@ -155,8 +156,8 @@ theorem SchemeAffineCoverLedger_overlap_classifier_locality
   exact And.intro
     (And.intro chartAClassified.right.left
       (And.intro chartBClassified.right.left sameCharts))
-    (And.intro comparison.right.right.right.right.right.right.left
-      (And.intro comparison.right.right.right.right.right.right.right.left
-        comparison.right.right.right.right.right.right.right.right))
+      (And.intro comparison.right.right.right.right.right.right.left
+        (And.intro comparison.right.right.right.right.right.right.right.left
+          comparison.right.right.right.right.right.right.right.right))
 
 end BEDC.Derived.SchemeUp
