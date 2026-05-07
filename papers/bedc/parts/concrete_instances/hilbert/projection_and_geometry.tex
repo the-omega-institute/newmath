@@ -1,0 +1,312 @@
+\begin{definition}[Hilbert singleton projection witness]
+\label{def:hilbert-singleton-projection-witness}
+For the carrier of
+\autoref{def:hilbert-singleton-empty-history-carrier}, a Hilbert singleton
+projection witness from a carried endpoint $m$ to a projected endpoint $p$ is
+the concrete tuple
+$$
+\bigl(A_{\emp}(m),A_{\emp}(p),\rho_{\emp}(p,\emp),
+  \mathsf{RealConstantHistoryClassifier}
+    (\|\!m-p\!\|_{\langle,\rangle_{\emp}},0_{\mathsf{Real}}^{c}),
+  \mathsf{RealConstantHistoryClassifier}
+    (\langle m-p,p\rangle_{\emp},0_{\mathsf{Real}}^{c})\bigr).
+$$
+The first two entries record that both endpoints are carried by the
+singleton empty-history carrier, the third entry fixes the concrete projected
+endpoint ledger, the fourth entry is the constant RealUp zero readback for
+the induced norm, and the fifth entry is the constant inner-product row
+against the projected endpoint.
+\end{definition}
+\leandef{BEDC.Derived.HilbertUp.HilbertSingletonProjectionWitness}
+
+\begin{theorem}[Hilbert singleton projection existence]
+\label{thm:hilbert-singleton-projection-existence}
+Every carried endpoint $m$ of
+\autoref{def:hilbert-singleton-empty-history-carrier} admits a Hilbert
+singleton projection witness with projected endpoint $\emp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_existence}
+\begin{proof}
+First read the Hilbert carrier through
+\autoref{thm:hilbert-singleton-source-compatibility}. The endpoint $m$ is
+carried by $A_{\emp}$, and the projected endpoint $\emp$ is carried by the
+same singleton source and classified with itself by $\rho_{\emp}$.
+
+Next use \autoref{thm:hilbert-singleton-endpoint-readback}. It identifies
+the induced norm endpoint exposed by the Hilbert singleton package with the
+constant RealUp zero endpoint under
+$\mathsf{RealConstantHistoryClassifier}$.
+
+Finally apply
+\autoref{thm:hilbert-singleton-constant-inner-product-transport}. The
+inner-product row is constant at $0_{\mathsf{Real}}^{c}$, so
+$\langle m-\emp,\emp\rangle_{\emp}$ is classified with the same constant
+RealUp zero endpoint. These rows are exactly the tuple required by
+\autoref{def:hilbert-singleton-projection-witness}.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton projection idempotence]
+\label{thm:hilbert-singleton-projection-idempotent}
+If $p$ is the projected endpoint in a Hilbert singleton projection witness
+for $m$, then the Hilbert singleton projection witness for $p$ has projected
+endpoint $\emp$, and this endpoint is classified with $p$ by $\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+Unpack the witness of
+\autoref{def:hilbert-singleton-projection-witness}. One of its displayed
+rows is $\rho_{\emp}(p,\emp)$, so the projected endpoint is already fixed at
+the singleton empty-history representative.
+
+Apply
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse} to the
+carried endpoint $p$. The singleton carrier has no second vector endpoint, so
+the endpoint used by the projection witness of $p$ is again $\emp$.
+
+Combining the displayed row $\rho_{\emp}(p,\emp)$ with this singleton
+collapse gives the idempotence claim: projecting the projected endpoint does
+not leave the $\rho_{\emp}$-class of $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_witness\_idempotent}
+
+\begin{theorem}[Hilbert singleton projection orthogonal zero]
+\label{thm:hilbert-singleton-projection-orthogonal-zero}
+Let $p$ be the projected endpoint in a Hilbert singleton projection witness
+for $m$. For every carried endpoint $n$ of
+\autoref{def:hilbert-singleton-empty-history-carrier}, the residual
+inner-product row is classified with $0_{\mathsf{Real}}^{c}$:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle m-p,n\rangle_{\emp},0_{\mathsf{Real}}^{c}).
+$$
+\end{theorem}
+\begin{proof}
+The inner-product operation in
+\autoref{def:hilbert-singleton-empty-history-carrier} is constant at
+$0_{\mathsf{Real}}^{c}$ for every displayed pair of carried histories. Thus
+the residual row $\langle m-p,n\rangle_{\emp}$ does not depend on the
+representatives $m$, $p$, or $n$.
+
+Use \autoref{thm:hilbert-singleton-endpoint-readback} to read this displayed
+inner-product endpoint through the Hilbert singleton package. The scalar
+classifier is $\mathsf{RealConstantHistoryClassifier}$, and its endpoint is
+the constant RealUp zero endpoint.
+
+The witness assumption supplies the carried projected endpoint and the
+$\rho_{\emp}(p,\emp)$ row from
+\autoref{def:hilbert-singleton-projection-witness}. Hence the residual
+inner-product row is the same constant-zero row after the projection ledger is
+unpacked.
+\end{proof}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_orthogonal\_zero}
+
+\begin{theorem}[Hilbert singleton projection uniqueness]
+\label{thm:hilbert-singleton-projection-uniqueness}
+Let $s$ be an accepted regular Cauchy stream in the Hilbert singleton carrier.
+Any two Hilbert singleton limit or projection witnesses for $s$ are identified
+by $\rho_{\emp}$. Consequently they project to the same Banach limit, the same
+singleton $\NormUp$ zero endpoint, and the same inner-product zero row.
+\end{theorem}
+\begin{proof}
+First read each Hilbert limit witness through the complete normed field of
+\autoref{thm:hilbert-singleton-complete-normed-certificate}. This places the
+limit witnesses on the Banach singleton surface for the same accepted regular
+Cauchy stream.
+
+Apply \autoref{thm:banach-singleton-limit-namecert-uniqueness} to the two
+Banach-surface rows. It identifies their displayed limits first by $\hsame$
+and then by the singleton vector classifier $\rho_{\emp}$.
+
+For a projection witness, use
+\autoref{def:hilbert-singleton-projection-witness} to read the projected
+endpoint as a carried singleton endpoint with displayed row
+$\rho_{\emp}(p,\emp)$. Then apply
+\autoref{thm:hilbert-singleton-projection-idempotent}. It says that the
+projection branch remains in the same $\rho_{\emp}$-class after projecting
+again.
+
+Finally use \autoref{thm:hilbert-singleton-source-compatibility}. The
+Hilbert carrier, the normed carrier, and the Banach carrier all expose the
+same classifier surface, so the $\rho_{\emp}$ comparison just obtained is
+simultaneously the Banach limit comparison, the NormUp zero-endpoint
+comparison, and the inner-product row comparison. The endpoint readback is the
+constant RealUp zero row supplied by
+\autoref{thm:hilbert-singleton-endpoint-readback}.
+\end{proof}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_uniqueness}
+
+\begin{theorem}[Hilbert singleton limit inner-product carrier]
+\label{thm:hilbert-singleton-limit-inner-product-carrier}
+Let $s$ be an accepted regular Cauchy stream in the Hilbert singleton carrier,
+and let $\ell:\mathsf{BHist}$ be the selected complete-limit witness exposed by
+the Hilbert singleton package. Then $\ell$ is carried by $A_{\emp}$, the
+classifier $\rho_{\emp}$ classifies $\ell$ with $\emp$, and the inner-product
+row of the limit is the constant RealUp zero endpoint:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle \ell,\ell\rangle_{\emp},0_{\mathsf{Real}}^{c}).
+$$
+\end{theorem}
+\begin{proof}
+First use the complete normed field of
+\autoref{thm:hilbert-singleton-complete-normed-certificate}. It reads the
+accepted Hilbert Cauchy stream as the Banach singleton completion problem and
+places its selected limit witness on the Banach limit row.
+
+Apply \autoref{thm:banach-singleton-limit-namecert-uniqueness} to the selected
+Banach limit row. Since the Banach singleton carrier and classifier are
+$A_{\emp}$ and $\rho_{\emp}$, the selected witness is classified with $\emp$
+by $\rho_{\emp}$.
+
+Finally transport the same witness back through
+\autoref{thm:hilbert-singleton-source-compatibility}. The Hilbert and Banach
+surfaces share the carrier and classifier, while
+\autoref{thm:hilbert-singleton-endpoint-readback} reads the diagonal
+inner-product value as the constant RealUp zero endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingleton\_limit\_inner\_product\_carrier}
+
+\begin{theorem}[Hilbert singleton norm-induced metric classifier]
+\label{thm:hilbert-singleton-norm-induced-metric-classifier}
+For carried histories $m,n:\mathsf{BHist}$ on the Hilbert singleton carrier,
+the Banach metric endpoint $d_{\emp}(m,n)$, the induced-norm endpoint
+$\|m-n\|_{\langle,\rangle_{\emp}}$, and the constant endpoint
+$0_{\mathsf{Real}}^{c}$ are classified by
+$\mathsf{RealConstantHistoryClassifier}$. Consequently the metric classifier
+on the singleton Hilbert carrier is exactly the norm-induced classifier
+obtained from the constant inner product.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingleton\_norm\_induced\_metric\_classifier}
+\begin{proof}
+Begin with
+\autoref{thm:hilbert-singleton-inner-product-norm-compatibility}. It identifies
+the norm induced by the constant inner product with the singleton norm
+$\nu_{\emp}$ on every carried history.
+
+Next apply
+\autoref{thm:hilbert-induced-norm-banach-compatibility}. The Banach distance
+row attached to the singleton Hilbert package is the distance induced by that
+same norm, so $d_{\emp}(m,n)$ and
+$\|m-n\|_{\langle,\rangle_{\emp}}$ name the same endpoint surface for the
+classifier.
+
+It remains to read the endpoint. By
+\autoref{thm:hilbert-singleton-endpoint-readback}, the norm endpoint, the
+inner-product endpoint, and the Banach metric endpoint are all classified by
+$\mathsf{RealConstantHistoryClassifier}$ at $0_{\mathsf{Real}}^{c}$.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton semantic NameCert surface]
+\label{thm:hilbert-singleton-semantic-namecert-surface}
+The singleton carrier $A_{\emp}$, classifier $\rho_{\emp}$, constant
+inner-product row, induced norm row, complete-limit row, norm-induced metric
+classifier, projection uniqueness row, and ledger exhaustion row together form
+the concrete paper-side SemanticNameCert surface for $\HilbertUp$. This surface
+does not assert a standard bridge; it records the singleton Hilbert certificate
+inside the BEDC BHist and NameCert interfaces.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_semantic\_name\_certificate}
+\begin{proof}
+Start from \autoref{thm:hilbert-namecert-obligation-package}. It assembles the
+carrier, classifier, vector source, scalar source, norm source, Banach source,
+and Hilbert inner-product source into the Hilbert singleton obligation package.
+
+The complete-limit carrier row is supplied by
+\autoref{thm:hilbert-singleton-limit-inner-product-carrier}. The metric row is
+the norm-induced classifier of
+\autoref{thm:hilbert-singleton-norm-induced-metric-classifier}.
+
+Projection determinacy is exactly
+\autoref{thm:hilbert-singleton-projection-uniqueness}, and the remaining
+certificate ledger is exhausted by
+\autoref{thm:hilbert-singleton-ledger-exhaustion}. These rows give the
+paper-side SemanticNameCert surface for $\HilbertUp$ while leaving any
+standard bridge claim outside the singleton certificate.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton universal orthogonality]
+\label{thm:hilbert-singleton-universal-orthogonality}
+For any carried histories $m,n:\mathsf{BHist}$ in the singleton Hilbert
+carrier, the inner-product endpoint is the constant RealUp zero row:
+$$
+\mathsf{RealConstantHistoryClassifier}
+  (\langle m,n\rangle_{\emp},0_{\mathsf{Real}}^{c}).
+$$
+Thus every carried pair is orthogonal under the singleton Hilbert classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingleton\_universal\_orthogonality}
+\begin{proof}
+By \autoref{def:hilbert-singleton-empty-history-carrier}, every carried
+history is the public singleton endpoint. Hence the displayed pair has no
+separate source data beyond the unique $\emp$ endpoint.
+
+Apply
+\autoref{thm:hilbert-singleton-constant-inner-product-transport}. The
+constant inner-product row transports every accepted pair to the same
+$\mathsf{RealConstantHistoryClassifier}$ value at $0_{\mathsf{Real}}^{c}$.
+
+Finally,
+\autoref{thm:hilbert-singleton-endpoint-readback} identifies that endpoint
+with the public Hilbert readback row. This is precisely the singleton
+orthogonality classifier for the carried pair.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton parallelogram collapse]
+\label{thm:hilbert-singleton-parallelogram-collapse}
+For carried histories $m,n:\mathsf{BHist}$ in the singleton Hilbert carrier,
+the parallelogram law surface over the singleton vector-space operations
+collapses to the constant RealUp zero endpoint. The four norm rows
+$$
+\nu_{\emp}(m+n),\quad
+\nu_{\emp}(m-n),\quad
+\nu_{\emp}(m),\quad
+\nu_{\emp}(n)
+$$
+are all classified with $0_{\mathsf{Real}}^{c}$ by
+$\mathsf{RealConstantHistoryClassifier}$, so both sides of the Hilbert
+parallelogram identity are read through the same constant-real row.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingleton\_parallelogram\_collapse}
+\begin{proof}
+First use \autoref{thm:hilbert-singleton-source-compatibility}. It places the
+Hilbert carrier, the singleton vector carrier, and the singleton norm carrier
+on one shared $\rho_{\emp}$ source surface.
+
+The vector operations are collapsed by
+\autoref{thm:singleton-empty-history-vecspace-endpoint-collapse}. Therefore
+$m+n$, $m-n$, $m$, and $n$ all expose the unique carried endpoint of the
+singleton vector space.
+
+Apply \autoref{thm:singleton-empty-history-norm-laws} to those four carried
+endpoints. Each displayed norm is classified with the constant RealUp zero
+endpoint, and \autoref{thm:hilbert-singleton-endpoint-readback} reads these
+norm rows inside the Hilbert package. The two parallelogram sides therefore
+have the same classifier row.
+\end{proof}
+
+\begin{theorem}[Hilbert singleton projection boundary]
+\label{thm:hilbert-singleton-projection-boundary}
+The public projection boundary of the singleton Hilbert package selects
+$\emp$ for every carried input pair. The selected endpoint is classified by
+$\rho_{\emp}$, and the projection readback agrees simultaneously with the
+Banach limit row, the singleton $\NormUp$ row, and the constant
+inner-product zero row.
+\end{theorem}
+\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_boundary}
+\begin{proof}
+Apply \autoref{thm:hilbert-singleton-projection-uniqueness} to the public
+projection witnesses for the carried inputs. Since the Hilbert carrier has
+only the singleton endpoint, uniqueness identifies every selected endpoint by
+$\rho_{\emp}$.
+
+The complete normed certificate in
+\autoref{thm:hilbert-singleton-complete-normed-certificate} places that
+selection on the Banach singleton surface. Through
+\autoref{thm:hilbert-singleton-source-compatibility}, the same source
+comparison is also the singleton $\NormUp$ comparison.
+
+It remains to read the Hilbert geometry row. By
+\autoref{thm:hilbert-singleton-universal-orthogonality}, the inner-product
+component of the selected pair is the constant RealUp zero row. Hence the
+projection boundary agrees with the Banach limit row, the NormUp zero row,
+and the orthogonality row at the same selected endpoint.
+\end{proof}
