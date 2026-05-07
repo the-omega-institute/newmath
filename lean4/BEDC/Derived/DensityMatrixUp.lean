@@ -145,7 +145,25 @@ theorem DensityMatrixTraceLedgerCarrier_rows {traceClass positive traceOne rho :
   exact And.intro carrier.left
     (And.intro carrier.right.left
       (And.intro carrier.right.right.left
-        (And.intro rhoUnary
-          (And.intro carrier.right.right.right.left carrier.right.right.right.right))))
+          (And.intro rhoUnary
+            (And.intro carrier.right.right.right.left carrier.right.right.right.right))))
+
+theorem DensityMatrixTraceLedgerCarrier_positivity_trace_ledger_obligation
+    {traceClass positive traceOne rho ledger : BHist} :
+    DensityMatrixTraceLedgerCarrier traceClass positive traceOne rho ->
+      Cont positive traceOne ledger ->
+        UnaryHistory ledger ∧ UnaryHistory positive ∧ UnaryHistory traceOne ∧
+          Cont positive traceOne ledger ∧
+            DensityMatrixRestrictedClassifier
+              (DensityMatrixTraceLedgerCarrier traceClass positive traceOne) hsame rho rho := by
+  intro carrier ledgerRow
+  have rows := DensityMatrixTraceLedgerCarrier_rows carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed rows.right.left rows.right.right.left ledgerRow
+  exact And.intro ledgerUnary
+    (And.intro rows.right.left
+      (And.intro rows.right.right.left
+        (And.intro ledgerRow
+          (And.intro carrier (And.intro carrier (hsame_refl rho))))))
 
 end BEDC.Derived.DensityMatrixUp
