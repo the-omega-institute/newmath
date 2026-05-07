@@ -1,6 +1,7 @@
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.TopologyUp.Singleton
 
 namespace BEDC.Derived.SchemeUp
 
@@ -11,6 +12,27 @@ open BEDC.Derived.CommRingUp
 open BEDC.Derived.RingedSpaceUp
 open BEDC.Derived.SheafUp
 open BEDC.Derived.TopologyUp
+
+theorem SchemeSingleton_affine_cover_nerve_empty_boundary
+    {point ambient member overlap route germ operationA operationB operationC : BHist} :
+    TopologySingletonOpenAt BHist.Empty point ->
+      SheafBHistCoverNerveLedger ambient member overlap route germ ->
+        hsame germ BHist.Empty ->
+          CommRingSingletonClassifier operationA operationB ->
+            CommRingSingletonClassifier operationB operationC ->
+              hsame overlap BHist.Empty ∧ hsame route BHist.Empty ∧
+                CommRingSingletonClassifier operationA operationC ∧
+                  TopologySingletonOpenAt BHist.Empty point := by
+  intro openPoint ledger germEmpty commAB commBC
+  have ringedBoundary :=
+    RingedSpaceSingleton_cover_nerve_empty_boundary openPoint ledger germEmpty commAB
+  have commAC : CommRingSingletonClassifier operationA operationC :=
+    And.intro commAB.left
+      (And.intro commBC.right.left
+        (hsame_trans commAB.right.right commBC.right.right))
+  exact And.intro ringedBoundary.left
+    (And.intro ringedBoundary.right.left
+      (And.intro commAC ringedBoundary.right.right.right))
 
 def SchemeSingletonPackage
     (point openHist sectionHist germ ringEndpoint chartA chartB overlap : BHist) : Prop :=
@@ -134,8 +156,8 @@ theorem SchemeAffineCoverLedger_overlap_classifier_locality
   exact And.intro
     (And.intro chartAClassified.right.left
       (And.intro chartBClassified.right.left sameCharts))
-    (And.intro comparison.right.right.right.right.right.right.left
-      (And.intro comparison.right.right.right.right.right.right.right.left
-        comparison.right.right.right.right.right.right.right.right))
+      (And.intro comparison.right.right.right.right.right.right.left
+        (And.intro comparison.right.right.right.right.right.right.right.left
+          comparison.right.right.right.right.right.right.right.right))
 
 end BEDC.Derived.SchemeUp

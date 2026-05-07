@@ -11,6 +11,21 @@ open BEDC.Derived.CommRingUp
 open BEDC.Derived.SheafUp
 open BEDC.Derived.TopologyUp
 
+theorem RingedSpaceSingleton_cover_nerve_empty_boundary
+    {point ambient member overlap route germ operationA operationB : BHist} :
+    TopologySingletonOpenAt BHist.Empty point ->
+      SheafBHistCoverNerveLedger ambient member overlap route germ ->
+        hsame germ BHist.Empty ->
+          CommRingSingletonClassifier operationA operationB ->
+            hsame overlap BHist.Empty ∧ hsame route BHist.Empty ∧
+              CommRingSingletonClassifier operationA operationB ∧
+                TopologySingletonOpenAt BHist.Empty point := by
+  intro openPoint ledger germEmpty commOps
+  have boundary := SheafBHistCoverNerveLedger_empty_boundary ledger germEmpty
+  exact And.intro boundary.left
+    (And.intro boundary.right
+      (And.intro commOps openPoint))
+
 def RingedSpaceSingletonPackage
     (point openHist sectionHist germ ringEndpoint : BHist) : Prop :=
   SheafBHistPointGermLedger point openHist sectionHist germ ∧
@@ -219,5 +234,75 @@ theorem RingedSpaceSingletonSurface_stalk_locality_common_neighborhood
     (And.intro descent.left
       (And.intro descent.right.left
         (And.intro descent.right.right ringClassified)))
+
+def RingedSpaceRestrictionLedger
+    (point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB operationA operationB : BHist) : Prop :=
+  TopologySingletonOpenAt restrictedOpen point ∧
+    SheafBHistPointGermLedger point openHist sectionA germA ∧
+      SheafBHistPointGermLedger point openHist sectionB germB ∧
+        hsame germA germB ∧ hsame openHist restrictedOpen ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              CommRingSingletonClassifier operationA operationB
+
+theorem RingedSpaceSingletonSurface_stability_ledger_obligation
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB operationA operationB : BHist} :
+    RingedSpaceRestrictionLedger point openHist sectionA sectionB germA germB
+        restrictedOpen restrictedGermA restrictedGermB operationA operationB ->
+      RingedSpaceSingletonSurface point restrictedOpen sectionA restrictedGermA operationA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                CommRingSingletonClassifier operationA operationB ∧
+                  TopologySingletonOpenAt restrictedOpen point := by
+  intro ledger
+  have localized :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB ∧
+            CommRingSingletonClassifier operationA operationB ∧
+              TopologySingletonOpenAt BHist.Empty point :=
+    RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
+      (And.intro (hsame_refl BHist.Empty) ledger.left.right)
+      ledger.right.left ledger.right.right.left ledger.right.right.right.left
+      ledger.right.right.right.right.left ledger.right.right.right.right.right.left
+      ledger.right.right.right.right.right.right.left
+      ledger.right.right.right.right.right.right.right
+  have operationEmpty : CommRingSingletonClassifier operationA BHist.Empty :=
+    And.intro localized.right.right.right.left.left
+      (And.intro (hsame_refl BHist.Empty) localized.right.right.right.left.left)
+  exact And.intro
+    (And.intro ledger.left (And.intro localized.left operationEmpty))
+    (And.intro localized.right.left
+      (And.intro ledger.right.right.right.right.right.left
+        (And.intro ledger.right.right.right.right.right.right.left
+          (And.intro localized.right.right.left
+            (And.intro localized.right.right.right.left ledger.left)))))
+
+theorem RingedSpaceSingletonPackage_stalk_locality_transport
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB ringEndpoint : BHist} :
+    RingedSpaceSingletonPackage point openHist sectionA germA ringEndpoint ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              RingedSpaceSingletonPackage point restrictedOpen sectionA restrictedGermA
+                ringEndpoint ∧
+                SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                  hsame restrictedGermA restrictedGermB := by
+  intro package ledgerB sameGerm sameOpen restrictedA restrictedB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      package.left ledgerB sameGerm sameOpen restrictedA restrictedB
+  exact And.intro
+    (And.intro descent.left (And.intro package.right.left package.right.right))
+    (And.intro descent.right.left descent.right.right)
 
 end BEDC.Derived.RingedSpaceUp
