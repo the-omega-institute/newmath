@@ -145,6 +145,7 @@ import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
+import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
@@ -202,6 +203,7 @@ import BEDC.Derived.SheafUp
 import BEDC.Derived.SheafUp.ConsumerAccessTraceSource
 import BEDC.Derived.SheafUp.ConsumerAccessTrace
 import BEDC.Derived.SheafUp.ConsumerTrace
+import BEDC.Derived.SheafUp.ConsumerTraceComposition
 import BEDC.Derived.SheafUp.GlobalRestrictions
 import BEDC.Derived.SheafUp.IndexedSectionPresheafCarrier
 import BEDC.Derived.SheafUp.AccessTrace
@@ -256,6 +258,7 @@ import BEDC.Derived.SheafUp.PointGermClassifier
 import BEDC.Derived.SheafUp.RootAccessNormalForm
 import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.ObligationSurface
+import BEDC.Derived.SheafUp.RootExport
 import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SheafUp.RootExportSurface
 import BEDC.Derived.SheafUp.StableRestrictionRow
@@ -326,12 +329,14 @@ import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe
 import BEDC.Derived.DiffFormUp.ExteriorInputRootClosure
+import BEDC.Derived.DiffFormUp.SemanticCertificate
 import BEDC.Derived.DiffFormUp.ZeroDegreeConsumerNeutrality
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
+import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.IndependenceUp
