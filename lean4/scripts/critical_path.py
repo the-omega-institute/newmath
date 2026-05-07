@@ -1305,7 +1305,12 @@ def main() -> int:
         if c["name"] not in inflight_paper
     ]
     bridge_sync_pending_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
-    bridge_sync_pending = bridge_sync_pending_full[:10]
+    # Per-call shuffle for the same reason as drift_chapters: 5
+    # candidates × 10 paper workers all-deterministic-sort = dogpile.
+    _surface_bsp = bridge_sync_pending_full[:10]
+    import random as _rand2
+    _rand2.Random().shuffle(_surface_bsp)
+    bridge_sync_pending = _surface_bsp
 
     # formal_axis_top: chapters whose theory axis is mature OR whose
     # paper closurestatus block records a non-trivial theory_grade,
