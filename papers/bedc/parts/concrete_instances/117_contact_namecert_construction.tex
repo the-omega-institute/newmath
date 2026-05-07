@@ -6,16 +6,69 @@ The contact-structure interface $\ContactUp$ packages a maximally nonintegrable 
 \section{Carrier definition}
 \label{sec:contact-carrier}
 
+\begin{definition}[ContactUp carrier-classifier surface]
+\label{def:contactup-carrier-classifier-surface}
+Fix a $\NameCert_{\ManifoldUp}$ source $M$ and a $\NameCert_{\DiffFormUp}$ source $\Omega$. A $\ContactUp$ carrier-classifier surface over $BHist$ is the displayed BEDC package
+$$
+\mathsf{ContactCarrierClassifier}_{M,\Omega}.
+$$
+Its source rows are the $BHist$ carrier rows inherited from $M$ and $\Omega$, the odd-dimensional manifold witness on the shared manifold endpoint, a carried $\DiffFormUp$ degree-one form row $\alpha$, a contact hyperplane row $\ker(\alpha)$ on the same manifold carrier, an exterior-derivative input row $d\alpha$, the wedge ladder rows for $\alpha\wedge(d\alpha)^k$, and the top wedge row $\alpha\wedge(d\alpha)^n$ when the displayed dimension row is $2n+1$.
+
+Its classifier is the restriction of $\hsame$ to rows that preserve the shared $\ManifoldUp$ carrier, the $\DiffFormUp$ one-form row, the hyperplane row, the exterior-derivative input row, and every displayed wedge-ladder row. The surface contains no nonintegrability primitive and no standard bridge row.
+\end{definition}
+
+\begin{theorem}[ContactUp form-row obligation surface]
+\label{thm:contactup-form-row-obligation}
+Every $\ContactUp$ carrier-classifier surface of \autoref{def:contactup-carrier-classifier-surface} exposes exactly the $\ManifoldUp$ source, the $\DiffFormUp$ contact consumer face, the degree-one form row $\alpha$, the exterior-derivative input row $d\alpha$, and the wedge ladder rows $\alpha\wedge(d\alpha)^k$ routed by the $\DiffFormUp$ root threshold. It exposes no nilpotence row, no symplectic closedness row, no contact nonintegrability witness, and no standard bridge as part of the $\DiffFormUp$ root face.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:contactup-carrier-classifier-surface}. The source fields are the shared $\ManifoldUp$ carrier and the $\DiffFormUp$ carried rows for the one-form, exterior-input, and wedge ladder.
+
+Apply \autoref{thm:diffform-root-consumer-face-coverage} and \autoref{thm:diffform-root-consumer-face-disjointness}. They place the contact reads in the $\ContactUp$ consumer face and separate them from the de Rham, symplectic, and shared root laws.
+
+Finally apply \autoref{thm:diffform-root-export-wedge-threshold}. The threshold exports carried forms, classifier data, wedge ledgers, and exterior-input routing, so the $\ContactUp$ surface receives exactly the form row, derivative input row, and wedge ladder rows stated above.
+\end{proof}
+
 \section{The certificate}
 \label{sec:contact-certificate}
 
-\closureat{ContactUp}{seedStr}
+\begin{theorem}[ContactUp nondegeneracy obligation]
+\label{thm:contactup-nondegeneracy-obligation}
+For a $\ContactUp$ carrier-classifier surface over a displayed dimension row $2n+1$, top-degree wedge nondegeneracy is a $\ContactUp$-local obligation transported by the $\ContactUp$ classifier:
+$$
+\mathsf{Nondegenerate}_{M}(\alpha\wedge(d\alpha)^n).
+$$
+The $\DiffFormUp$ root supplies the carried form row, exterior-derivative input row, and wedge routing needed to form the top row, but it does not supply this nondegeneracy predicate as a primitive.
+\end{theorem}
+\begin{proof}
+Begin with the top wedge row named in \autoref{def:contactup-carrier-classifier-surface}. It is assembled from the degree-one row, the exterior-derivative input row, and the wedge ladder exported by \autoref{thm:diffform-root-export-wedge-threshold}.
+
+Now use the classifier clause of the same definition. It transports the shared manifold carrier, the one-form row, the derivative input row, and the wedge ladder rows, so the nondegeneracy predicate is stated on the transported $\ContactUp$ surface.
+
+The exclusion clause follows from \autoref{thm:diffform-root-consumer-face-disjointness}: $\DiffFormUp$ exports routing rows to the contact consumer face, while contact nonintegrability remains outside the shared root primitive surface.
+\end{proof}
+
+\begin{theorem}[ContactUp ledger exactness obligation]
+\label{thm:contactup-ledger-exactness-obligation}
+The $\ContactUp$ ledger and exactness obligation records exactly the hidden manifold chart rows supplied by the $\ManifoldUp$ source, the one-form source row $\alpha$, the exterior-derivative input row $d\alpha$, the wedge ladder rows $\alpha\wedge(d\alpha)^k$, the top wedge row $\alpha\wedge(d\alpha)^n$, the nonintegrability witness of \autoref{thm:contactup-nondegeneracy-obligation}, and a coverage, soundness, and completeness predicate for the carrier-classifier surface of \autoref{def:contactup-carrier-classifier-surface}.
+
+The obligation is exact only when every certified contact read factors through that carrier-classifier surface and every listed ledger row is classified by the restricted $\hsame$ transport named there.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:contactup-carrier-classifier-surface}. Its source and classifier clauses list the $\ManifoldUp$ chart carrier, the $\DiffFormUp$ one-form row, the exterior-input row, the wedge ladder, the top wedge row, and the hyperplane row.
+
+Apply \autoref{thm:contactup-form-row-obligation} to identify the contact consumer face and the routed form rows, then apply \autoref{thm:contactup-nondegeneracy-obligation} for the local nonintegrability witness.
+
+The coverage predicate says every certified contact read lands in this displayed package. Soundness says each such read is one of the listed rows. Completeness says each listed row is available to the carrier-classifier. These three clauses are precisely the ledger exactness obligation.
+\end{proof}
+
+\closureat{ContactUp}{obligationStr}
 
 \begin{closurestatus}{\ContactUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds exactly the $\NameCert_{\DiffFormUp}$ source, the $\NameCert_{\ManifoldUp}$ source, the odd-dimensional manifold carrier row, the contact one-form row, the top-degree wedge nondegeneracy row, stability obligations, and ledger obligations as unsupplied seed obligations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation inventory binds exactly the $\NameCert_{\DiffFormUp}$ source, the $\NameCert_{\ManifoldUp}$ source, the ContactUp carrier-classifier surface, the degree-one contact form row, the derivative input row, the wedge ladder rows, the top wedge nondegeneracy obligation, and ledger coverage, soundness, and completeness in \autoref{def:contactup-carrier-classifier-surface}, \autoref{thm:contactup-form-row-obligation}, \autoref{thm:contactup-nondegeneracy-obligation}, and \autoref{thm:contactup-ledger-exactness-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim a closed carrier, classifier, nonintegrability proof, standard bridge, or Lean verification target.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, contact-form, wedge-nondegeneracy, stability, ledger, exactness, and dependency rows for the certified contact-structure interface.}
+  \notclaimed{This chapter does not claim a closed ContactUp carrier implementation, a proved nonintegrability theorem, a standard bridge, or a Lean verification target.}
+  \upgradepath{The next closure grade requires concrete carrier and classifier data plus proved coverage, soundness, completeness, and transported nonintegrability for the displayed contact ledger.}
 \end{closurestatus}
