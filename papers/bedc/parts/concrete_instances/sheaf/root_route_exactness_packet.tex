@@ -14,11 +14,13 @@ The $\SheafUp$ root route exactness packet is the following ten-field $\mathsf{B
 \item The status is a root $\NameCert_{\SheafUp}$ route-exactness surface: it records the rows available for downstream use and does not assert standard bridge closure.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.SheafUp.SheafRootRouteExactnessPacket}
 
 \begin{theorem}[Sheaf route exactness membership transport]
 \label{thm:sheaf-root-route-exactness-membership-transport}
 Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an accepted indexed cover of $i$ over the $\mathsf{BHist}$ topology ledger. For every displayed cell $\mathsf{OpenAt}(i,b)$ and every displayed restriction route from $i$ to a cover member or pair-overlap row, the packet of \autoref{def:sheaf-root-route-exactness-packet} transports the cover-member witness through the route and preserves the target section classifier on the reached open.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootRouteExactness\_membership\_transport}
 \begin{proof}
 First build the cover witness. Apply \autoref{thm:sheaf-root-cover-nerve-membership-exhaustion} to the accepted cover row. It sends the displayed cell $\mathsf{OpenAt}(i,b)$ to a member $a:A$ with $\mathsf{OpenAt}(\iota(a),b)$ and supplies the finite-intersection row needed for comparison with any second member.
 
