@@ -210,6 +210,8 @@ import BEDC.Derived.SheafUp.CoverPullback
 import BEDC.Derived.SheafUp.CoverDescent
 import BEDC.Derived.SheafUp.CoverNerveCertificate
 import BEDC.Derived.SheafUp.GluingClassifier
+import BEDC.Derived.SheafUp.CommonRefinementSpan
+import BEDC.Derived.SheafUp.LocalityGluingCertificate
 import BEDC.Derived.SheafUp.IdentityCover
 import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RootExportPackage
