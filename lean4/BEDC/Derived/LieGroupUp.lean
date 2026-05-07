@@ -56,6 +56,9 @@ def LieGroupSingletonInv (_h : BHist) : BHist :=
 def LieGroupSingletonConjugationAction (s x : BHist) : BHist :=
   append (append s x) (LieGroupSingletonInv s)
 
+def LieGroupSingletonTranslationRows (s x : BHist) : BHist × BHist × BHist :=
+  (append s x, append x s, append (append s x) BHist.Empty)
+
 theorem LieGroupSingleton_operation_smoothness {h k mulChart invChart : BHist} :
     LieGroupSingletonCarrier h -> LieGroupSingletonCarrier k ->
       Cont BHist.Empty (LieGroupSingletonMul h k) mulChart ->
