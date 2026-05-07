@@ -28,6 +28,20 @@ theorem QuantumChannelAffineMixtureSpine_finite_closure
   | mix leftSpine rightSpine route leftChannel rightChannel =>
       exact binaryClosed leftChannel rightChannel route
 
+theorem QuantumChannelAffineMixtureSpine_density_preservation
+    {channel density : BHist -> Prop} {phi : BHist}
+    (atomDensity : forall {h : BHist}, channel h -> UnaryHistory h -> density h)
+    (densityBinaryClosed :
+      forall {left right out : BHist},
+        density left -> density right -> Cont left right out -> density out) :
+    QuantumChannelAffineMixtureSpine channel phi -> density phi := by
+  intro spine
+  induction spine with
+  | atom channelPhi unaryPhi =>
+      exact atomDensity channelPhi unaryPhi
+  | mix leftSpine rightSpine route leftDensity rightDensity =>
+      exact densityBinaryClosed leftDensity rightDensity route
+
 theorem QuantumChannelSingleton_identity_channel_cptp {rho image : BHist} :
     UnaryHistory rho -> hsame rho BHist.Empty -> Cont BHist.Empty rho image ->
       QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) image ∧
