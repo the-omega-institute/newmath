@@ -321,6 +321,34 @@ theorem LieGroupSingleton_downstream_export {h k product chart : BHist} :
       (And.intro productManifold
         (And.intro chartEmpty (And.intro chartUnary productNotSuccessor))))
 
+theorem LieGroupSingleton_exact_ledger {h k product chart : BHist} :
+    LieGroupSingletonCarrier h -> LieGroupSingletonCarrier k -> Cont h k product ->
+      Cont BHist.Empty product chart ->
+        GroupSingletonCarrier h ∧ GroupSingletonCarrier k ∧ ManifoldSingletonCarrier product ∧
+          LieGroupSingletonClassifier product BHist.Empty ∧ hsame chart BHist.Empty ∧
+            UnaryHistory chart := by
+  intro carrierH carrierK productRow chartRow
+  have groupH : GroupSingletonCarrier h := carrierH
+  have groupK : GroupSingletonCarrier k := carrierK
+  have productEmpty : hsame product BHist.Empty :=
+    cont_respects_hsame carrierH carrierK productRow (cont_left_unit BHist.Empty)
+  have productManifold : ManifoldSingletonCarrier product :=
+    productEmpty
+  have emptyCarrier : LieGroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have productClassified : LieGroupSingletonClassifier product BHist.Empty :=
+    And.intro productEmpty (And.intro emptyCarrier productEmpty)
+  have chartProduct : hsame chart product :=
+    cont_left_unit_result chartRow
+  have chartEmpty : hsame chart BHist.Empty :=
+    hsame_trans chartProduct productEmpty
+  have chartUnary : UnaryHistory chart :=
+    unary_transport unary_empty (hsame_symm chartEmpty)
+  exact And.intro groupH
+    (And.intro groupK
+      (And.intro productManifold
+        (And.intro productClassified (And.intro chartEmpty chartUnary))))
+
 theorem LieGroupSingleton_inverse_smooth_endomap {h invChart : BHist} :
     LieGroupSingletonCarrier h -> Cont BHist.Empty (LieGroupSingletonInv h) invChart ->
       LieGroupSingletonCarrier (LieGroupSingletonInv h) ∧
