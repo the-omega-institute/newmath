@@ -54,4 +54,22 @@ theorem LPDualityWeakDualityEquality_optimality
       (PreorderPrefixLE_trans dualPrimal dualBound)
       (PreorderPrefixLE_trans dualPrimal domainBound))
 
+theorem LPDualityComplementarySlackness_objective_equality
+    {primal bridge dual primalCompetitor dualCompetitor domain : BHist} :
+    Cont primal BHist.Empty bridge -> Cont bridge BHist.Empty dual ->
+      PreorderPrefixLE primalCompetitor dual -> PreorderPrefixLE primal dualCompetitor ->
+        PreorderPrefixLE primal domain ->
+          hsame primal dual ∧ PreorderPrefixLE primalCompetitor primal ∧
+            PreorderPrefixLE dual dualCompetitor ∧ PreorderPrefixLE dual domain := by
+  intro primalBridge bridgeDual competitorBound dualBound domainBound
+  have objective :
+      hsame primal dual ∧ PreorderPrefixLE primal dual ∧ PreorderPrefixLE dual primal :=
+    LPDualityComplementarySlackness_objective_hsame primalBridge bridgeDual
+  have optimality :
+      PreorderPrefixLE primalCompetitor primal ∧ PreorderPrefixLE dual dualCompetitor ∧
+        PreorderPrefixLE dual domain :=
+    LPDualityWeakDualityEquality_optimality
+      objective.left competitorBound dualBound domainBound
+  exact And.intro objective.left optimality
+
 end BEDC.Derived.LPDualityUp
