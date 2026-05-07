@@ -185,6 +185,25 @@ theorem ExpMapCarrier_obligation_surface {tangent endpoint flow : BHist} :
   exact And.intro tangentCarrier
     (And.intro endpointCarrier (And.intro flowEmpty (And.intro flowEmpty flowUnary)))
 
+theorem ExpMapFlowLedger_zero_flow_composition_obligations
+    {zero identity zeroFlow tangent endpoint flow composed : BHist} :
+    ExpMapFlowLedger zero identity zeroFlow -> ExpMapFlowLedger tangent endpoint flow ->
+      Cont zeroFlow flow composed ->
+        hsame zeroFlow identity ∧ hsame flow endpoint ∧ UnaryHistory zeroFlow ∧
+          UnaryHistory flow ∧ UnaryHistory composed := by
+  intro zeroLedger flowLedger composedRow
+  have zeroObligations :=
+    ExpMapFlowLedger_carrier_obligation_surface zeroLedger
+  have flowObligations :=
+    ExpMapFlowLedger_carrier_obligation_surface flowLedger
+  have composedUnary : UnaryHistory composed :=
+    unary_cont_closed zeroObligations.right.right.right.right.right.right
+      flowObligations.right.right.right.right.right.right composedRow
+  exact And.intro zeroObligations.right.right.right.left
+    (And.intro flowObligations.right.right.right.left
+      (And.intro zeroObligations.right.right.right.right.right.right
+        (And.intro flowObligations.right.right.right.right.right.right composedUnary)))
+
 theorem ExpMapFlowLedger_zero_composition_obligation {tangent endpoint flow composite : BHist} :
     ExpMapFlowLedger tangent endpoint flow -> hsame tangent BHist.Empty ->
       Cont endpoint flow composite ->
