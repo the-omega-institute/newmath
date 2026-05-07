@@ -50,6 +50,7 @@ $\Eone$. The readback criterion is unchanged on payloads, so append congruence
 proves the reverse implication, and left append cancellation proves the
 forward implication before repacking the public classifier.
 \end{proof}
+
 \leanchecked{BEDC.Derived.IntUp.IntHistoryClassifier\_positive\_append\_context\_iff}
 
 \begin{theorem}[Integer history classifier hsame transport]
@@ -97,4 +98,37 @@ For the transported exclusion, any zero-tag witness at $h'$ and $k'$ composes
 back to a zero-tag witness at $h$ and $k$. The stored one-branch exclusion
 rules it out, and the one-tag classifier branch repacks with the original
 payload witnesses.
+\end{proof}
+
+\begin{theorem}[IntUp mature signed-unary downstream package]
+\label{thm:intup-mature-signed-unary-downstream-package}
+The carrier $\mathsf{IntHistoryCarrier}$, the classifier
+$\mathsf{IntHistoryClassifier}$, the same-tag readback iff, the positive
+append-context iff, $\hsame$ transport, the canonical pair/history bridge, the
+zero-sign refined boundary, and the integer signed-unary standard bridge
+together form the mature signed-unary $\IntUp$ package consumed by $\RatUp$
+numerator readback and by later ordered-ring or divisibility consumers. This
+package imports no host $\mathsf{Nat}$, host equality,
+quotient-normalization primitive, Euclidean division, or full ordered-ring API.
+\end{theorem}
+\begin{proof}
+The public carrier and classifier are supplied by
+\autoref{thm:concrete-int-history-semantic-namecert}. Their same-tag semantic
+readback is \autoref{thm:int-history-classifier-same-tag-readback}, and the
+common positive context law is
+\autoref{thm:int-history-classifier-positive-append-context-iff}.
+
+Representative stability is exactly
+\autoref{thm:int-history-classifier-hsame-transport}. The external
+pair/history interface is supplied by
+\autoref{thm:int-canonical-difference-pair-history-bridge}, while
+\autoref{thm:int-zero-sign-refined-boundary} isolates the refined zero-sign
+boundary used by consumers that inspect signs.
+
+Finally, \autoref{thm:int-signed-unary-standard-bridge} binds these classifier
+and transport facts to the signed-unary standard bridge. The listed ingredients
+therefore provide the public $\IntUp$ package used by $\RatUp$ numerator
+readback and by later algebraic consumers. None of the cited facts introduces
+a host $\mathsf{Nat}$ equality principle, quotient normalization, Euclidean
+division, divisibility theory, or a full ordered-ring API.
 \end{proof}
