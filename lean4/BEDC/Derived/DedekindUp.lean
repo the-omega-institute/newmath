@@ -141,6 +141,26 @@ theorem DedekindSingleton_classifier_ledger_obligation :
       · intro h carrier
         exact carrier
 
+theorem DedekindSingleton_certificate_stability_rows :
+    (forall {h k : BHist}, CommRingSingletonCarrier h -> CommRingSingletonClassifier h k ->
+      CommRingSingletonCarrier k ∧ CommRingSingletonClassifier k BHist.Empty ∧ hsame h k) ∧
+    (forall {x y : BHist}, CommRingSingletonCarrier x -> CommRingSingletonCarrier y ->
+      CommRingSingletonClassifier (CommRingSingletonAdd x y) BHist.Empty ∧
+        CommRingSingletonClassifier (CommRingSingletonNeg x) BHist.Empty ∧
+        CommRingSingletonClassifier (CommRingSingletonMul x y) BHist.Empty) := by
+  have commRingRows := singleton_empty_history_commring_laws
+  have emptyCarrier : CommRingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  constructor
+  · intro h k _carrierH classifiedHK
+    have carrierK : CommRingSingletonCarrier k := classifiedHK.right.left
+    have classifiedKEmpty : CommRingSingletonClassifier k BHist.Empty :=
+      And.intro carrierK (And.intro emptyCarrier carrierK)
+    exact And.intro carrierK (And.intro classifiedKEmpty classifiedHK.right.right)
+  · intro x y carrierX carrierY
+    exact And.intro (commRingRows.right.left carrierX carrierY)
+      (And.intro (commRingRows.right.right.left carrierX)
+        (commRingRows.right.right.right.left carrierX carrierY))
+
 theorem DedekindSingleton_scoped_certificate_packet :
     (SemanticNameCert CommRingSingletonCarrier CommRingSingletonCarrier CommRingSingletonCarrier
       CommRingSingletonClassifier) ∧
