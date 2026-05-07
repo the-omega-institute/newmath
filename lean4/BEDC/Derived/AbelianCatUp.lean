@@ -340,6 +340,36 @@ theorem AbelianCatZeroBiproductKernelSurface_zero_object_boundary
   exact And.intro S.zero_hom
     (And.intro zeroUnary (And.intro S.add_carrier (And.intro addUnary S.kernel_row)))
 
+theorem AbelianCatZeroBiproductKernelSurface_additive_hom_boundary
+    (S : AbelianCatZeroBiproductKernelSurface) {zeroAdd addFactor : BHist} :
+    Cont S.zero S.add zeroAdd ->
+      Cont zeroAdd S.cokernel addFactor ->
+        CategoryHomCarrier S.source S.target S.zero ∧ GroupSingletonCarrier S.add ∧
+          UnaryHistory S.zero ∧ UnaryHistory S.add ∧ UnaryHistory zeroAdd ∧
+            Cont S.zero S.add zeroAdd ∧ hsame zeroAdd S.kernel ∧
+              Cont zeroAdd S.cokernel S.factor ∧ hsame addFactor S.factor := by
+  intro zeroAddRow addFactorRow
+  have boundary := AbelianCatZeroBiproductKernelSurface_zero_object_boundary S
+  have zeroUnary : UnaryHistory S.zero := boundary.right.left
+  have addUnary : UnaryHistory S.add := boundary.right.right.right.left
+  have zeroAddUnary : UnaryHistory zeroAdd :=
+    unary_cont_closed zeroUnary addUnary zeroAddRow
+  have zeroAddKernel : hsame zeroAdd S.kernel :=
+    cont_deterministic zeroAddRow S.kernel_row
+  have transportedFactor : Cont zeroAdd S.cokernel S.factor := by
+    cases zeroAddKernel
+    exact S.factor_row
+  have addFactorSame : hsame addFactor S.factor :=
+    cont_deterministic addFactorRow transportedFactor
+  exact And.intro S.zero_hom
+    (And.intro S.add_carrier
+      (And.intro zeroUnary
+        (And.intro addUnary
+          (And.intro zeroAddUnary
+            (And.intro zeroAddRow
+              (And.intro zeroAddKernel
+                (And.intro transportedFactor addFactorSame)))))))
+
 theorem AbelianCatZeroBiproductKernelSurface_semantic_name_certificate :
     SemanticNameCert
       (fun h : BHist =>
