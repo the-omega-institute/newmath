@@ -190,6 +190,9 @@ import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.BaseChangeSurface
+import BEDC.Derived.SheafUp.GluingClassifierRows
+import BEDC.Derived.SheafUp.RouteExactnessPacket
 import BEDC.Derived.SheafUp.CoverNerveRouteTransport
 import BEDC.Derived.SheafUp.RootFaceReadback
 import BEDC.Derived.SheafUp.JointConsumerFace
@@ -254,6 +257,7 @@ import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
+import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
 import BEDC.Derived.DiffFormUp.ExteriorDerivativeBoundary
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootRowBoundary
