@@ -200,6 +200,41 @@ theorem SheafRestrictedOpenCarrier_locality_gluing_descent
     (And.intro readbackB.left
       (hsame_trans sameRestrictedA (hsame_trans sameGerm sameRestrictedB)))
 
+def SheafDownstreamConsumerScope
+    (point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist) : Prop :=
+  SheafBHistPointGermLedger point openHist sectionA germA ∧
+    SheafBHistPointGermLedger point openHist sectionB germB ∧
+      hsame germA germB ∧ hsame openHist restrictedOpen ∧
+        Cont restrictedOpen sectionA restrictedGermA ∧
+          Cont restrictedOpen sectionB restrictedGermB ∧
+            hsame chartEndpoint restrictedGermB
+
+theorem SheafDownstreamConsumer_carrier_scope
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist} :
+    SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB
+        restrictedOpen restrictedGermA restrictedGermB chartEndpoint ->
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                hsame chartEndpoint restrictedGermB := by
+  intro scope
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      scope.left scope.right.left scope.right.right.left scope.right.right.right.left
+      scope.right.right.right.right.left scope.right.right.right.right.right.left
+  exact And.intro descent.left
+    (And.intro descent.right.left
+      (And.intro scope.right.right.right.right.left
+        (And.intro scope.right.right.right.right.right.left
+          (And.intro descent.right.right scope.right.right.right.right.right.right))))
+
 theorem SheafBHistPointGermComparison_restricted_open_descent
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB : BHist} :
