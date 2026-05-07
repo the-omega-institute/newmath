@@ -188,6 +188,106 @@ def _grade_at_or_above(grade: str | None, threshold: str, order: list[str]) -> b
     return order.index(grade) >= order.index(threshold)
 
 
+def _grade_max(a: str | None, b: str | None, order: list[str]) -> str | None:
+    """Pick the higher of two grade tokens by order index. None counts as below."""
+    def idx(g):
+        if g is None or g not in order:
+            return -1
+        return order.index(g)
+    return a if idx(a) >= idx(b) else b
+
+
+def _git_head_short() -> str:
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--short=12", "HEAD"],
+            cwd=str(ROOT), capture_output=True, text=True, check=False,
+        )
+        return out.stdout.strip() or "nohead"
+    except Exception:
+        return "nohead"
+
+
+_objective_grades_cache: dict[str, str] | None = None
+
+
+def load_objective_formal_grades() -> dict[str, str]:
+    """Map each Lean qualified name to its OBJECTIVE formal grade derived
+    from build artifacts (axiom-purity --strict + declaration inventory),
+    NOT from closurestatus tokens written into the paper.
+
+    Returns: {qualified_name: grade_token}. Grades reflect:
+      - axiomCleanV  : in `pure` set of axiom-purity --strict --json
+      - auditCleanV  : declared as theorem/lemma but not in pure set
+      - encodedDefV  : declared as def / inductive / structure / class
+      - formalTargetV: declared but kind unknown
+      - (absent) -> caller treats as unformalizedV / no objective
+
+    Cached per git HEAD under /tmp/bedc_objective_grades_<HEAD>.json so
+    repeated codex rounds don't re-pay the cost of `lake env lean
+    #print axioms` for 6000+ targets.
+    """
+    global _objective_grades_cache
+    if _objective_grades_cache is not None:
+        return _objective_grades_cache
+
+    import tempfile
+    head = _git_head_short()
+    cache_path = Path(tempfile.gettempdir()) / f"bedc_objective_grades_{head}.json"
+    if cache_path.exists():
+        try:
+            data = json.loads(cache_path.read_text(encoding="utf-8"))
+            if isinstance(data, dict):
+                _objective_grades_cache = data
+                return data
+        except Exception:
+            pass
+
+    try:
+        result = subprocess.run(
+            ["python3", "lean4/scripts/bedc_ci.py",
+             "axiom-purity", "--strict", "--json"],
+            cwd=str(ROOT), capture_output=True, text=True, check=False,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            payload = json.loads(result.stdout)
+            pure_set = set(payload.get("pure", []))
+        else:
+            pure_set = set()
+    except Exception:
+        pure_set = set()
+
+    # Reuse bedc_ci's declaration inventory to know each target's kind.
+    try:
+        sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
+        import sys as _sys
+        if sys_path_addition not in _sys.path:
+            _sys.path.insert(0, sys_path_addition)
+        from bedc_ci import build_declaration_inventory  # type: ignore
+        declarations, _fields = build_declaration_inventory()
+    except Exception:
+        declarations = []
+
+    grades: dict[str, str] = {}
+    for d in declarations:
+        qn = d.qualified_name
+        if qn in pure_set:
+            grades[qn] = "axiomCleanV"
+        elif d.kind in ("theorem", "lemma"):
+            grades[qn] = "auditCleanV"
+        elif d.kind in ("def", "inductive", "structure", "class", "abbrev"):
+            grades[qn] = "encodedDefV"
+        else:
+            grades[qn] = "formalTargetV"
+
+    _objective_grades_cache = grades
+    try:
+        cache_path.write_text(json.dumps(grades), encoding="utf-8")
+    except Exception:
+        pass
+    return grades
+
+
 def normalize_name(stem: str) -> str:
     """Map paper file basename to canonical horizon key (lowercase)."""
     m = NAME_RE.match(stem)
@@ -241,7 +341,19 @@ def _read_chapter_recursive(chapter_path: Path,
 
 def is_chapter_retired_from_horizon(
     chapter_text: str, name: str
-) -> tuple[bool, str | None, str | None, str | None]:
+) -> tuple[bool, str | None, str | None, str | None, str | None, bool]:
+    """Returns (retired, theory_token, formal_token, lean_target,
+                  objective_formal_grade, formalstatus_drift).
+
+    `formal_token` is what the closurestatus block literally writes;
+    `objective_formal_grade` is what the lean_target deserves under the
+    current build (axiom-purity --strict pure -> axiomCleanV; declared
+    theorem -> auditCleanV; def -> encodedDefV; etc.). When the token is
+    strictly below the objective, the chapter is in `formalstatus_drift`
+    and is NOT retired — codex needs to write the token up to match the
+    objective so the paper labels reflect reality.
+    """
+    objective_grades = load_objective_formal_grades()
     for m in CLOSURESTATUS_BEGIN_RE.finditer(chapter_text):
         if m.group(1).lower() != name.lower():
             continue
@@ -257,12 +369,23 @@ def is_chapter_retired_from_horizon(
             lt_match.group(1).replace("\\_", "_").strip()
             if lt_match else None
         )
+        objective_fs = objective_grades.get(lt) if lt else None
+        token_idx = (FORMAL_GRADE_ORDER.index(fs)
+                     if fs in FORMAL_GRADE_ORDER else -1)
+        obj_idx = (FORMAL_GRADE_ORDER.index(objective_fs)
+                   if objective_fs in FORMAL_GRADE_ORDER else -1)
+        drift = obj_idx > token_idx
+        effective_fs = _grade_max(fs, objective_fs, FORMAL_GRADE_ORDER)
         retired = (
-            _grade_at_or_above(tc, RETIREMENT_CLOSURE_THRESHOLD, CLOSURE_GRADE_ORDER)
-            and _grade_at_or_above(fs, RETIREMENT_FORMAL_THRESHOLD, FORMAL_GRADE_ORDER)
+            _grade_at_or_above(tc, RETIREMENT_CLOSURE_THRESHOLD,
+                                CLOSURE_GRADE_ORDER)
+            and _grade_at_or_above(effective_fs,
+                                    RETIREMENT_FORMAL_THRESHOLD,
+                                    FORMAL_GRADE_ORDER)
+            and not drift
         )
-        return (retired, tc, fs, lt)
-    return (False, None, None, None)
+        return (retired, tc, fs, lt, objective_fs, drift)
+    return (False, None, None, None, None, False)
 
 
 def extract_horizons() -> dict[str, dict]:
@@ -294,7 +417,8 @@ def extract_horizons() -> dict[str, dict]:
         # in dep-blocked limbo.
         labels = len({f"{m.group(1)}:{m.group(2)}"
                       for m in PAPER_LABEL_FULL_RE.finditer(full_text)})
-        retired, theory_grade, formal_grade, lean_target = (
+        (retired, theory_grade, formal_grade, lean_target,
+         objective_formal_grade, formalstatus_drift) = (
             is_chapter_retired_from_horizon(full_text, name)
         )
         closed_at = [theory_grade, formal_grade] if retired else None
@@ -302,7 +426,10 @@ def extract_horizons() -> dict[str, dict]:
         # pick the right "level transition" target shape for the round.
         theory_next = _next_grade(theory_grade, CLOSURE_GRADE_ORDER)
         formal_next = _next_grade(formal_grade, FORMAL_GRADE_ORDER)
-        next_axis = _select_next_axis(theory_grade, formal_grade)
+        if formalstatus_drift:
+            next_axis = "formalstatus_sync"
+        else:
+            next_axis = _select_next_axis(theory_grade, formal_grade)
         camel = derive_lean_camel_case(name, text)
         lean_file = DERIVED_DIR / f"{camel}Up.lean"
         siblings = _collect_siblings(tex, name, camel, lean_file)
@@ -319,9 +446,12 @@ def extract_horizons() -> dict[str, dict]:
             "formal_grade": formal_grade,
             "theory_grade_next": theory_next,
             "formal_grade_next": formal_next,
+            "objective_formal_grade": objective_formal_grade,
+            "formalstatus_drift": formalstatus_drift,
             "next_axis": next_axis,
             "next_grade_transition": _format_transition(
-                theory_grade, formal_grade, theory_next, formal_next, next_axis
+                theory_grade, formal_grade, theory_next, formal_next, next_axis,
+                objective_formal_grade, formalstatus_drift
             ),
             "file_paper": str(tex.relative_to(ROOT)),
             "file_lean": str(lean_file.relative_to(ROOT)),
@@ -365,8 +495,12 @@ def _select_next_axis(theory: str | None, formal: str | None) -> str:
     return "theory_closure" if t_lag > f_lag else "formal_status"
 
 
-def _format_transition(theory_cur, formal_cur, theory_next, formal_next, axis) -> str:
+def _format_transition(theory_cur, formal_cur, theory_next, formal_next, axis,
+                          objective_formal_grade=None, formalstatus_drift=False) -> str:
     """Human-readable string codex can plan against."""
+    if axis == "formalstatus_sync":
+        return (f"formalstatus_sync: token={formal_cur or '(none)'}"
+                f" -> objective={objective_formal_grade or '(none)'}")
     if axis == "theory_closure":
         return f"theory: {theory_cur or '(none)'} -> {theory_next or '(top)'}"
     return f"formal: {formal_cur or '(none)'} -> {formal_next or '(top)'}"
@@ -627,6 +761,8 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
                 "formal_grade": info.get("formal_grade"),
                 "theory_grade_next": info.get("theory_grade_next"),
                 "formal_grade_next": info.get("formal_grade_next"),
+                "objective_formal_grade": info.get("objective_formal_grade"),
+                "formalstatus_drift": info.get("formalstatus_drift", False),
                 "next_axis": info.get("next_axis"),
                 "next_grade_transition": info.get("next_grade_transition"),
                 "chapter_grade_lag": chapter_lag,
