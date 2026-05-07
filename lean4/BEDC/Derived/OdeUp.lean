@@ -31,6 +31,22 @@ theorem OdeLocalFlow_endpoint_classifier_deterministic
     cont_respects_hsame picardSame vectorSame step step'
   exact cont_respects_hsame (hsame_refl t1) localSame endpoint endpoint'
 
+theorem OdeLocalFlowRow_concatenation_endpoint_determinacy
+    {t0 x0 t2 x2 y vComp pComp ellComp vDirect pDirect ellDirect : BHist} :
+    OdeLocalFlowRow t0 x0 t2 x2 vComp pComp ellComp ->
+      OdeLocalFlowRow t0 x0 t2 y vDirect pDirect ellDirect ->
+        hsame vComp vDirect -> hsame x2 y := by
+  intro compRow directRow vectorSame
+  exact
+    OdeLocalFlow_endpoint_classifier_deterministic
+      compRow.left
+      directRow.left
+      vectorSame
+      compRow.right.left
+      directRow.right.left
+      compRow.right.right
+      directRow.right.right
+
 def OdeLocalFlowSource (t0 x0 p v ell t1 x1 : BHist) : Prop :=
   UnaryHistory t0 ∧ UnaryHistory x0 ∧ UnaryHistory p ∧ UnaryHistory v ∧
     UnaryHistory ell ∧ UnaryHistory t1 ∧ UnaryHistory x1 ∧

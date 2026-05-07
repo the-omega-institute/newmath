@@ -219,6 +219,23 @@ theorem HilbertSingleton_endpoint_readback {m n : BHist} :
     Iff.mpr innerRows.right normRows.right.right.right.left
   exact And.intro normRows.right.left (And.intro innerConstant distanceWitness)
 
+theorem HilbertSingleton_norm_induced_metric_classifier {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      MetricDistanceWitness m n BHist.Empty ∧
+        RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          RealConstantHistoryClassifier (NormSingletonNorm n) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier (HilbertSingletonInnerProduct m m)
+              (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+              RealConstantHistoryClassifier (HilbertSingletonInnerProduct n n)
+                (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have readMN := HilbertSingleton_endpoint_readback carrierM carrierN
+  have readNM := HilbertSingleton_endpoint_readback carrierN carrierM
+  exact And.intro readMN.right.right
+    (And.intro readMN.left
+      (And.intro readNM.left
+        (And.intro readMN.right.left readNM.right.left)))
+
 theorem HilbertSingleton_parallelogram_collapse {m n : BHist} :
     VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
       RealConstantHistoryClassifier (NormSingletonNorm (ModuleSingletonAdd m n))
