@@ -110,10 +110,38 @@ theorem SymplecticObligationBoundary_carrier_classifier_obligations
     unary_cont_closed manifoldRows.right.left boundary.right.left.left
       boundary.right.right.right.right
   exact And.intro boundary.left
-    (And.intro boundary.right.left
-      (And.intro boundary.right.right.left
-        (And.intro manifoldRows.right.left
-          (And.intro degreeRows.right.left
-            (And.intro closedUnary nondegUnary)))))
+      (And.intro boundary.right.left
+        (And.intro boundary.right.right.left
+          (And.intro manifoldRows.right.left
+            (And.intro degreeRows.right.left
+              (And.intro closedUnary nondegUnary)))))
+
+theorem SymplecticObligationBoundary_closed_two_form_row
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      Cont raised BHist.Empty closedWitness ∧ hsame closedWitness raised ∧
+        UnaryHistory closedWitness := by
+  intro boundary
+  have obligations := SymplecticObligationBoundary_carrier_classifier_obligations boundary
+  have closedRow : Cont raised BHist.Empty closedWitness := boundary.right.right.right.left
+  exact And.intro closedRow
+    (And.intro (cont_right_unit_result closedRow)
+      obligations.right.right.right.right.right.left)
+
+theorem SymplecticObligationBoundary_nondegeneracy_row
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      Cont manifold scalar nondegWitness ∧ ManifoldSingletonCarrier manifold ∧
+        UnaryHistory manifold ∧ UnaryHistory nondegWitness := by
+  intro boundary
+  have obligations := SymplecticObligationBoundary_carrier_classifier_obligations boundary
+  exact And.intro boundary.right.right.right.right
+    (And.intro obligations.left
+      (And.intro obligations.right.right.right.left
+        obligations.right.right.right.right.right.right))
 
 end BEDC.Derived.SymplecticUp
