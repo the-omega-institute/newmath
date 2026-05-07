@@ -385,9 +385,27 @@ theorem ExpMapFlowLedger_zero_flow_composition_obligations
     unary_cont_closed zeroObligations.right.right.right.right.right.right
       flowObligations.right.right.right.right.right.right composedRow
   exact And.intro zeroObligations.right.right.right.left
-    (And.intro flowObligations.right.right.right.left
-      (And.intro zeroObligations.right.right.right.right.right.right
-        (And.intro flowObligations.right.right.right.right.right.right composedUnary)))
+      (And.intro flowObligations.right.right.right.left
+        (And.intro zeroObligations.right.right.right.right.right.right
+          (And.intro flowObligations.right.right.right.right.right.right composedUnary)))
+
+theorem ExpMapFlowAndZero_obligations {zero identity zeroFlow tangent endpoint flow composed :
+    BHist} :
+    LieAlgebraSingletonCarrier zero -> LieGroupSingletonCarrier identity ->
+      Cont zero BHist.Empty zeroFlow -> ExpMapFlowLedger zero identity zeroFlow ->
+        ExpMapFlowLedger tangent endpoint flow -> Cont zeroFlow flow composed ->
+          ExpMapGraphCarrier zero identity zeroFlow ∧ hsame zeroFlow identity ∧
+            hsame flow endpoint ∧ UnaryHistory zeroFlow ∧ UnaryHistory flow ∧
+              UnaryHistory composed := by
+  intro zeroCarrier identityCarrier zeroRoute zeroLedger flowLedger composedRow
+  have obligations :
+      hsame zeroFlow identity ∧ hsame flow endpoint ∧ UnaryHistory zeroFlow ∧
+        UnaryHistory flow ∧ UnaryHistory composed :=
+    ExpMapFlowLedger_zero_flow_composition_obligations zeroLedger flowLedger composedRow
+  have graph : ExpMapGraphCarrier zero identity zeroFlow :=
+    And.intro zeroCarrier
+      (And.intro identityCarrier (And.intro zeroRoute obligations.left))
+  exact And.intro graph obligations
 
 theorem ExpMapFlowLedger_zero_composition_obligation {tangent endpoint flow composite : BHist} :
     ExpMapFlowLedger tangent endpoint flow -> hsame tangent BHist.Empty ->
