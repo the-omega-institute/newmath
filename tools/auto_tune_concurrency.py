@@ -47,11 +47,11 @@ CONFIG = REPO_ROOT / ".pipeline_parallel.json"
 # lean grows to match.
 LEAN_BUFFER = 0
 LEAN_MIN = 3
-LEAN_MAX = 10
+LEAN_MAX = 16
 
 PAPER_BUFFER = 4
 PAPER_MIN = 3
-PAPER_MAX = 8
+PAPER_MAX = 16
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 1
