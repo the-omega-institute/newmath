@@ -533,4 +533,31 @@ theorem WeylGroupStandardReflectionGroup_bridge {support : ProbeBundle BHist}
   · intro _endpoint sourceEndpoint
     exact sourceEndpoint
 
+theorem WeylGroupCoxeterWordLedger_relation_transport
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    {root wordL wordR actionL actionR relationL relationR : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root wordL actionL ->
+      WeylGroupBHistSourceRow support Vector Nonzero root wordR actionR ->
+        GroupSingletonClassifier wordL wordR ->
+          Cont wordL BHist.Empty relationL ->
+            Cont wordR BHist.Empty relationR ->
+              GroupSingletonClassifier relationL relationR ∧ hsame actionL actionR ∧
+                hsame relationL wordL ∧ hsame relationR wordR := by
+  intro rowL rowR classifier relationLRow relationRRow
+  have ledger := WeylGroupCoxeterWordLedger_row rowL rowR classifier
+  have sameRelationL : hsame relationL wordL :=
+    cont_right_unit_result relationLRow
+  have sameRelationR : hsame relationR wordR :=
+    cont_right_unit_result relationRRow
+  have relationLCarrier : GroupSingletonCarrier relationL :=
+    hsame_trans sameRelationL classifier.left
+  have relationRCarrier : GroupSingletonCarrier relationR :=
+    hsame_trans sameRelationR classifier.right.left
+  have sameRelations : hsame relationL relationR :=
+    hsame_trans sameRelationL
+      (hsame_trans classifier.right.right (hsame_symm sameRelationR))
+  exact And.intro
+    (And.intro relationLCarrier (And.intro relationRCarrier sameRelations))
+    (And.intro ledger.left (And.intro sameRelationL sameRelationR))
+
 end BEDC.Derived.WeylGroupUp
