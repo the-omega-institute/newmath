@@ -40,4 +40,31 @@ theorem SheafConsumerAccessTrace_append_exhaustion {root : BHist} {left right : 
                   exact splitTail.right.left.right row tailMem))
           splitTail.right.right)
 
+theorem SheafConsumerAccessTrace_append_membership_coverage
+    {root row : BHist} {left right : List BHist} :
+    SheafConsumerAccessTrace root left -> SheafConsumerAccessTrace root right ->
+      List.Mem row (left ++ right) ->
+        (List.Mem row left ∨ List.Mem row right) ∧ UnaryHistory row := by
+  intro leftTrace rightTrace rowMem
+  induction left with
+  | nil =>
+      exact And.intro (Or.inr rowMem) (rightTrace.right row rowMem)
+  | cons head tail ih =>
+      cases rowMem with
+      | head =>
+          exact And.intro (Or.inl (List.Mem.head tail))
+            (leftTrace.right row (List.Mem.head tail))
+      | tail _ tailMem =>
+          have tailTrace : SheafConsumerAccessTrace root tail :=
+            And.intro leftTrace.left
+              (by
+                intro tailRow tailRowMem
+                exact leftTrace.right tailRow (List.Mem.tail head tailRowMem))
+          have tailCoverage := ih tailTrace tailMem
+          cases tailCoverage.left with
+          | inl tailLeft =>
+              exact And.intro (Or.inl (List.Mem.tail head tailLeft)) tailCoverage.right
+          | inr rightMem =>
+              exact And.intro (Or.inr rightMem) tailCoverage.right
+
 end BEDC.Derived.SheafUp
