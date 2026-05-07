@@ -6,14 +6,41 @@ The integral interface $\IntegralUp$ packages a measure-respecting integration o
 \section{Carrier definition}
 \label{sec:integral-carrier}
 
+\begin{theorem}[Integral carrier obligation]\label{thm:integral-carrier-obligation}
+An $\IntegralUp$ certificate fixes its carrier as $\mathsf{BHist}$ rows over four visible sources: the cited $\NameCert_{\MeasureUp}$ source, the $\NameCert_{\ContourUp}$ comparison source, the function-carrier row for admissible integrands, and the integration-operation endpoint. The carrier row exposes only those named histories and their packaged probes, so hidden partition, simple-function, and convergence choices are ledger data rather than carrier equality.
+\end{theorem}
+\begin{proof}
+Unpack the $\NameCert_{\MeasureUp}$ and $\NameCert_{\ContourUp}$ sources named by the chapter introduction. Their certified histories provide the measure row and the contour comparison row, while $\mathsf{BHist}$ supplies the common history spine on which the function-carrier and integration-operation endpoints are read.
+
+The per-object template then places each observable endpoint in a $\Pkg$ row and compares histories only through $\hsame$. This fixes the carrier boundary before any analytic completion claim is made.
+\end{proof}
+
+\begin{theorem}[Integral classifier obligation]\label{thm:integral-classifier-obligation}
+Two $\IntegralUp$ endpoints are classified together only when their source measure rows, function-carrier rows, and integral endpoints are related by the visible $\MeasureUp$ and $\RealUp$ classifiers. The classifier is therefore the displayed BEDC comparison of measure source, integrand source, and value endpoint, not a host quotient on functions or measures.
+\end{theorem}
+\begin{proof}
+Separate the comparison into the three visible rows named in \autoref{thm:integral-carrier-obligation}. Source equality is read from the $\MeasureUp$ classifier, function equality is read from the admissible integrand carrier over that source, and value equality is read from the $\RealUp$ endpoint classifier.
+
+The packaging step records these comparisons as internal $\Pkg$ evidence. Since every row is obtained from the displayed certificates, no external quotient relation can identify two integral endpoints.
+\end{proof}
+
+\begin{theorem}[Integral measure-respecting stability obligation]\label{thm:integral-operation-stability-obligation}
+The $\IntegralUp$ integration operation is stable under classifier transport of both the measure source and the integrand endpoint. Under this transport it preserves the ledger rows for hidden partition data, simple-function approximants, and convergence witnesses attached to the certified operation.
+\end{theorem}
+\begin{proof}
+Start with the $\MeasureUp$ stability row and transport the source history through the visible classifier. The $\ContourUp$ comparison row supplies the endpoint-compatible comparison source for contour-shaped instances, while $\Cont$ records that the operation continues to read the transported rows.
+
+It remains to carry the integrand endpoint and the hidden operation data. Use $\hsame$ for the integrand history comparison and NameCert carrier transport for the packaged endpoint; the attached partition, simple-function, and convergence witnesses remain in the ledger rows rather than becoming unrecorded equalities.
+\end{proof}
+
 \section{The certificate}
 \label{sec:integral-certificate}
 
 \begin{closurestatus}{\IntegralUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds the $\MeasureUp$ source, the $\ContourUp$ comparison source, the function-carrier row, the integration-operation row, and the measure-respecting stability row as obligations not yet supplied by this chapter.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The paper-side obligation frontier is the carrier site \autoref{thm:integral-carrier-obligation}, the classifier site \autoref{thm:integral-classifier-obligation}, and the measure-respecting stability site \autoref{thm:integral-operation-stability-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close an IntegralUp carrier, classifier, stability field, exactness row, ledger row, standard bridge, convergence theorem, or Lean verification target.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, measure-respecting operation, stability, ledger, exactness, and dependency rows for the certified integration interface.}
+  \notclaimed{This chapter does not close an IntegralUp exactness row, a public ledger theorem, a standard bridge, a convergence theorem, or a Lean verification target.}
+  \upgradepath{Scoped closure requires grounding each obligation in the displayed $\MeasureUp$, $\ContourUp$, function-carrier, and integration-operation source rows.}
 \end{closurestatus}
