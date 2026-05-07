@@ -116,4 +116,22 @@ theorem SymplecticObligationBoundary_carrier_classifier_obligations
           (And.intro degreeRows.right.left
             (And.intro closedUnary nondegUnary)))))
 
+theorem SymplecticClosedTwoForm_obligation
+    {manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
+      antisym source closedWitness pairing ledger derivative' closedWitness' : BHist} :
+    SymplecticCarrierClassifierSurface manifold form derivative degree degreePlus probe probe'
+      tensor tensor' scalar scalar' antisym source closedWitness pairing ledger ->
+      hsame derivative derivative' -> hsame closedWitness closedWitness' ->
+        UnaryHistory derivative' ∧ hsame derivative' BHist.Empty ∧
+          hsame closedWitness' BHist.Empty := by
+  intro surface sameDerivative sameClosed
+  have derivativeUnary : UnaryHistory derivative' :=
+    unary_transport surface.right.left.right.left sameDerivative
+  have derivativeEmpty : hsame derivative' BHist.Empty :=
+    hsame_trans (hsame_symm sameDerivative) surface.right.right.left
+  have closedEmpty : hsame closedWitness' BHist.Empty :=
+    hsame_trans (hsame_symm sameClosed)
+      (hsame_trans surface.right.right.right.right surface.right.right.left)
+  exact And.intro derivativeUnary (And.intro derivativeEmpty closedEmpty)
+
 end BEDC.Derived.SymplecticUp
