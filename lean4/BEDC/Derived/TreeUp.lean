@@ -242,4 +242,19 @@ theorem TreeBHistCarrier_visible_spine_extension_ledger
         (And.intro endpointUnary (And.intro extendedRootUnary endpointExtendedK))
         (And.intro extendedRootUnary (And.intro endpointExtendedK sameExtended))
 
+theorem TreeBHistCarrier_closed_walk_tail_empty
+    {graph edge connected acyclic root endpoint tail closed : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint ->
+      Cont endpoint tail closed -> hsame closed endpoint ->
+        hsame tail BHist.Empty ∧ UnaryHistory endpoint ∧
+          TreeRootBranch endpoint root connected := by
+  intro carrier closedWalk sameClosed
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  have endpointUnary : UnaryHistory endpoint := branch.left.left
+  have closedEndpoint : Cont endpoint tail endpoint :=
+    cont_result_hsame_transport closedWalk sameClosed
+  have tailEmpty : hsame tail BHist.Empty :=
+    cont_right_unit_unique closedEndpoint
+  exact And.intro tailEmpty (And.intro endpointUnary branch)
+
 end BEDC.Derived.TreeUp
