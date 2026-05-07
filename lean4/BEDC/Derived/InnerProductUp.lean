@@ -1,9 +1,11 @@
 import BEDC.Derived.RealUp.Core
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.InnerProductUp
 
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
@@ -95,5 +97,40 @@ theorem InnerProductSingletonDiagonal_zero_exactness {x : BHist} :
       And.intro ratCarrier (And.intro ratCarrier (hsame_refl (BHist.e1 BHist.Empty)))
     unfold InnerProductSingletonForm
     exact RealConstantHistoryClassifier_e1_iff_rat.mpr ratClassifier
+
+theorem InnerProductSingleton_semanticNameCert :
+    SemanticNameCert VecSpaceSingletonCarrier
+      (fun h : BHist => InnerProductSingletonOrthogonal h BHist.Empty)
+      (fun h : BHist =>
+        RealConstantHistoryClassifier (InnerProductSingletonForm h h)
+          (BHist.e1 (BHist.e1 BHist.Empty)))
+      VecSpaceSingletonClassifier := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty (hsame_refl BHist.Empty)
+      equiv_refl := by
+        intro h carrierH
+        exact And.intro carrierH (And.intro carrierH (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k l classifiedHK classifiedKL
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKL.right.left
+            (hsame_trans classifiedHK.right.right classifiedKL.right.right))
+      carrier_respects_equiv := by
+        intro _h _k classified _carrierH
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro h carrierH
+      exact (InnerProductSingletonOrthogonal_zero_right (x := h) carrierH).left
+    ledger_sound := by
+      intro h carrierH
+      exact (InnerProductSingletonDiagonal_zero_exactness (x := h) carrierH).mpr
+        (And.intro carrierH (And.intro (hsame_refl BHist.Empty) carrierH))
+  }
 
 end BEDC.Derived.InnerProductUp

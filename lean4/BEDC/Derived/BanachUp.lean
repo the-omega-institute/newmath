@@ -288,6 +288,45 @@ theorem BanachSingleton_regular_cauchy_stream_transport {s s' M M' : BHist -> BH
     And.intro witness.left (And.intro transported.left sameLimit)
   exact And.intro transported classified
 
+theorem BanachSingleton_hsame_transport_package {h k : BHist} {s s' M M' : BHist -> BHist}
+    {limit limit' : BHist} :
+    hsame h k ->
+      (forall {n : BHist}, UnaryHistory n -> hsame (s n) (s' n)) ->
+        (forall {n : BHist}, UnaryHistory n -> hsame (M n) (M' n)) ->
+          hsame limit limit' -> BanachSingletonCarrier h ->
+            CompleteMetricLimitWitness BanachSingletonCarrier s M limit ->
+              MetricDistanceWitness k BHist.Empty BHist.Empty /\
+                BanachSingletonCarrier k /\
+                  CompleteMetricLimitWitness BanachSingletonCarrier s' M' limit' /\
+                    BanachSingletonClassifier h k /\
+                      BanachSingletonClassifier limit limit' := by
+  intro sameHK streamTransport modulusTransport sameLimit carrierH witness
+  have carrierTransport :
+      forall {a b : BHist}, hsame a b -> BanachSingletonCarrier a ->
+        BanachSingletonCarrier b := by
+    intro a b sameAB carrierA
+    have sameBEmpty : hsame b BHist.Empty :=
+      hsame_trans (hsame_symm sameAB) carrierA.left
+    have metricB :
+        MetricDistanceWitness b BHist.Empty BHist.Empty :=
+      MetricDistanceWitness_empty_distance_iff.mpr
+        (And.intro sameBEmpty (hsame_refl BHist.Empty))
+    exact And.intro sameBEmpty metricB
+  have carrierK : BanachSingletonCarrier k :=
+    carrierTransport sameHK carrierH
+  have transported :
+      CompleteMetricLimitWitness BanachSingletonCarrier s' M' limit' :=
+    CompleteMetricLimitWitness_hsame_transport carrierTransport streamTransport
+      modulusTransport sameLimit witness
+  have classifiedHK : BanachSingletonClassifier h k :=
+    And.intro carrierH (And.intro carrierK sameHK)
+  have classifiedLimits : BanachSingletonClassifier limit limit' :=
+    And.intro witness.left (And.intro transported.left sameLimit)
+  exact And.intro carrierK.right
+    (And.intro carrierK
+      (And.intro transported
+        (And.intro classifiedHK classifiedLimits)))
+
 theorem BanachSingleton_regular_cauchy_stream_input {s M : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> BanachSingletonCarrier (s n)) ->
       (forall {n : BHist}, UnaryHistory n -> RatHistoryClassifier BHist.Empty (M n)) ->
