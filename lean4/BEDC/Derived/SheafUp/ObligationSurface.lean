@@ -5,6 +5,7 @@ namespace BEDC.Derived.SheafUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 
 theorem SheafBHistObligationSurface_cover_restriction_classifier
     {ambient member overlap route germ localRoute localGerm point openHist sectionA germA
@@ -87,5 +88,29 @@ theorem SheafNameCert_obligation_surface
   exact And.intro cert
     (And.intro package.right.right.left
       (And.intro package.right.right.right.left package.left))
+
+theorem SheafBHistCoverNerveLedger_exactness_obligation
+    {ambient member overlap route germ localRoute localGerm nextRoute nextGerm : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      Cont member localRoute localGerm ->
+        hsame route localRoute ->
+          UnaryHistory nextRoute ->
+            Cont member nextRoute nextGerm ->
+              SheafBHistPointGermLedger ambient member localRoute localGerm ∧
+                hsame germ localGerm ∧
+                  SheafBHistCoverNerveLedger ambient member member nextRoute nextGerm ∧
+                    UnaryHistory nextGerm := by
+  intro coverLedger localRow sameRoute nextRouteUnary nextRow
+  have readback :
+      SheafBHistPointGermLedger ambient member localRoute localGerm ∧
+        hsame germ localGerm :=
+    SheafBHistCoverNerveLedger_gluing_readback coverLedger localRow sameRoute
+  have membership :
+      SheafBHistCoverNerveLedger ambient member member nextRoute nextGerm ∧
+        UnaryHistory nextGerm :=
+    SheafRootCoverNerve_membership_exhaustion coverLedger nextRouteUnary nextRow
+  exact And.intro readback.left
+    (And.intro readback.right
+      (And.intro membership.left membership.right))
 
 end BEDC.Derived.SheafUp
