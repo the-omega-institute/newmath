@@ -146,6 +146,21 @@ def SetMembershipVisibleClassifier [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) (h k : BHist) : Prop :=
   ∃ p : Pkg, ∃ q : Pkg, TokIntro bundle h p ∧ TokIntro bundle k q ∧ psame bundle p q
 
+theorem SetMembershipVisibleClassifier_carrier_hsame_boundary [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle) {h k : BHist} :
+    SetMembershipVisibleClassifier bundle h k ->
+      SetMembershipVisibleCarrier bundle h ∧ SetMembershipVisibleCarrier bundle k ∧ hsame h k := by
+  intro visible
+  cases visible with
+  | intro p rest =>
+      cases rest with
+      | intro q data =>
+          exact And.intro
+            (Exists.intro p data.left)
+            (And.intro
+              (Exists.intro q data.right.left)
+              (policy.reflection data.left data.right.left data.right.right))
+
 inductive SetMembershipVisibleTransportChain [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) : BHist -> BHist -> Prop where
   | single {h k : BHist} :
