@@ -321,4 +321,78 @@ theorem DedekindSingleton_exact_ledger_public_surface :
     (And.intro (Exists.intro BHist.Empty (And.intro emptyCarrier emptyClassified))
       (And.intro meetRows (And.intro ledgerRows.right.right.left ledgerRows.right.right.right)))
 
+theorem DedekindSingleton_restricted_public_namecert_surface :
+    SemanticNameCert
+      (fun h : BHist => CommRingSingletonCarrier h ∧
+        CommRingSingletonClassifier h BHist.Empty)
+      (fun h : BHist => CommRingSingletonCarrier h ∧
+        CommRingSingletonClassifier h BHist.Empty)
+      (fun h : BHist => CommRingSingletonCarrier h ∧
+        CommRingSingletonClassifier h BHist.Empty)
+      CommRingSingletonClassifier ∧
+      (forall {h k : BHist}, CommRingSingletonClassifier h k -> hsame h k) ∧
+      (forall {h : BHist}, CommRingSingletonCarrier h ->
+        CommRingSingletonClassifier h BHist.Empty) := by
+  have emptyCarrier : CommRingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : CommRingSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro BHist.Empty (And.intro emptyCarrier emptyClassified)
+        equiv_refl := by
+          intro h source
+          exact And.intro source.left (And.intro source.left (hsame_refl h))
+        equiv_symm := by
+          intro h k classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro h k r classifiedHK classifiedKR
+          exact And.intro classifiedHK.left
+            (And.intro classifiedKR.right.left
+              (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+        carrier_respects_equiv := by
+          intro h k classified _source
+          have carrierK : CommRingSingletonCarrier k := classified.right.left
+          exact And.intro carrierK (And.intro carrierK (And.intro emptyCarrier carrierK))
+      }
+      pattern_sound := by
+        intro h source
+        exact source
+      ledger_sound := by
+        intro h source
+        exact source
+    }
+  · constructor
+    · intro h k classified
+      exact classified.right.right
+    · intro h carrier
+      exact And.intro carrier (And.intro emptyCarrier carrier)
+
+theorem DedekindSingleton_public_namecert_surface :
+    SemanticNameCert CommRingSingletonCarrier CommRingSingletonCarrier
+      CommRingSingletonCarrier CommRingSingletonClassifier ∧
+      (forall {h : BHist}, CommRingSingletonCarrier h ->
+        CommRingSingletonClassifier h BHist.Empty) ∧
+      (forall {h k : BHist}, CommRingSingletonClassifier h k ->
+        hsame h BHist.Empty ∧ hsame k BHist.Empty ∧ hsame h k) ∧
+      (forall {h : BHist}, CommRingSingletonCarrier h ->
+        hsame (CommRingSingletonMul h BHist.Empty) BHist.Empty ∧
+          hsame (CommRingSingletonMul BHist.Empty h) BHist.Empty) := by
+  have singletonLaws := singleton_empty_history_commring_laws
+  have emptyCarrier : CommRingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  constructor
+  · exact singletonLaws.left
+  · constructor
+    · intro h carrier
+      exact And.intro carrier (And.intro emptyCarrier carrier)
+    · constructor
+      · intro h k classified
+        exact And.intro classified.left
+          (And.intro classified.right.left classified.right.right)
+      · intro h _carrier
+        exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+
 end BEDC.Derived.DedekindUp
