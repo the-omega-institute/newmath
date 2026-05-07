@@ -36,6 +36,27 @@ theorem QuadratureCarriedRuleSourceRow_scope
             (And.intro rowData.right.right.right.right.right.left
               (And.intro endpointUnary endpointCont))))))
 
+theorem QuadratureLedgerExactness_surface
+    {xs alpha omega integral poly degree row qsum integralValue : BHist} :
+    QuadratureCarriedRuleSourceRow xs alpha omega integral poly degree row ->
+      Cont row poly qsum -> Cont integral poly integralValue -> hsame qsum integralValue ->
+        UnaryHistory qsum ∧ UnaryHistory integralValue ∧ hsame qsum integralValue ∧
+          Cont row poly qsum ∧ Cont integral poly integralValue := by
+  intro rowData qsumCont integralCont exactSame
+  have tailUnary : UnaryHistory (append alpha (append omega integral)) :=
+    unary_append_closed rowData.right.left
+      (unary_append_closed rowData.right.right.left rowData.right.right.right.left)
+  have rowUnary : UnaryHistory row :=
+    unary_cont_closed rowData.left tailUnary rowData.right.right.right.right.right.right
+  have qsumUnary : UnaryHistory qsum :=
+    unary_cont_closed rowUnary rowData.right.right.right.right.left qsumCont
+  have integralValueUnary : UnaryHistory integralValue :=
+    unary_cont_closed rowData.right.right.right.left rowData.right.right.right.right.left
+      integralCont
+  exact And.intro qsumUnary
+    (And.intro integralValueUnary
+      (And.intro exactSame (And.intro qsumCont integralCont)))
+
 def QuadratureDegBoundLe (e d : BHist) : Prop :=
   UnaryHistory e ∧ UnaryHistory d ∧
     forall {k : BHist}, UnaryHistory k -> NatUnaryStrictPrefix d k ->
