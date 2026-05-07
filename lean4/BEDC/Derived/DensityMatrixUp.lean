@@ -180,8 +180,21 @@ theorem DensityMatrixTraceLedgerCarrier_positivity_trace_ledger_obligation
   exact And.intro ledgerUnary
     (And.intro rows.right.left
       (And.intro rows.right.right.left
-        (And.intro ledgerRow
-          (And.intro carrier (And.intro carrier (hsame_refl rho))))))
+          (And.intro ledgerRow
+            (And.intro carrier (And.intro carrier (hsame_refl rho))))))
+
+theorem DensityMatrixTraceLedgerCarrier_trace_one_unit_readback
+    {traceClass positive traceOne rho : BHist} :
+    DensityMatrixTraceLedgerCarrier traceClass positive traceOne rho ->
+      hsame traceOne BHist.Empty ∧ UnaryHistory traceOne ∧ UnaryHistory rho ∧
+        Cont rho traceOne rho := by
+  intro carrier
+  have rows := DensityMatrixTraceLedgerCarrier_rows carrier
+  have traceOneEmpty : hsame traceOne BHist.Empty :=
+    cont_left_cancel rows.right.right.right.right.right (cont_intro rfl)
+  exact And.intro traceOneEmpty
+    (And.intro rows.right.right.left
+      (And.intro rows.right.right.right.left rows.right.right.right.right.right))
 
 theorem DensityMatrixTraceLedgerCarrier_restricted_classifier_transport
     {traceClass positive traceOne rho rho' : BHist} :
