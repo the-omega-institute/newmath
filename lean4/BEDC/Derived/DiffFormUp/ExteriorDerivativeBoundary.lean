@@ -32,6 +32,48 @@ theorem DiffFormExteriorDerivativeInputRow_degree_shift_boundary
           cases degreeRows.right.right
           exact not_hsame_e1_empty (append_eq_empty_iff.mp raisedEmpty).right)))
 
+theorem DiffFormExteriorDerivativeInputRow_classifier_transport
+    {omega eta d dplus probe tensor scalar antisym source omega' eta' d' dplus' probe'
+      tensor' scalar' antisym' source' : BHist} :
+    DiffFormExteriorDerivativeInputRow omega eta d dplus probe tensor scalar antisym source ->
+      hsame omega omega' -> hsame eta eta' -> hsame d d' -> hsame dplus dplus' ->
+        hsame probe probe' -> hsame tensor tensor' -> hsame scalar scalar' ->
+          hsame antisym antisym' -> hsame source source' ->
+            DiffFormExteriorDerivativeInputRow omega' eta' d' dplus' probe' tensor' scalar'
+                antisym' source' ∧
+              Cont d' (BHist.e1 BHist.Empty) dplus' := by
+  intro row sameOmega sameEta sameD sameDplus sameProbe sameTensor sameScalar sameAntisym
+    sameSource
+  have shifted : Cont d' (BHist.e1 BHist.Empty) dplus' :=
+    cont_hsame_transport sameD (hsame_refl (BHist.e1 BHist.Empty)) sameDplus
+      row.right.right.right.right.left
+  have transported :
+      DiffFormExteriorDerivativeInputRow omega' eta' d' dplus' probe' tensor' scalar'
+        antisym' source' := by
+    constructor
+    · exact unary_transport row.left sameOmega
+    · constructor
+      · exact unary_transport row.right.left sameEta
+      · constructor
+        · exact unary_transport row.right.right.left sameD
+        · constructor
+          · exact unary_transport row.right.right.right.left sameDplus
+          · constructor
+            · exact shifted
+            · constructor
+              · exact unary_transport row.right.right.right.right.right.left sameProbe
+              · constructor
+                · exact unary_transport row.right.right.right.right.right.right.left sameTensor
+                · constructor
+                  · exact unary_transport row.right.right.right.right.right.right.right.left
+                      sameScalar
+                  · constructor
+                    · exact unary_transport row.right.right.right.right.right.right.right.right.left
+                        sameAntisym
+                    · exact unary_transport row.right.right.right.right.right.right.right.right.right
+                        sameSource
+  exact And.intro transported shifted
+
 theorem DiffFormExteriorDerivativeLedger_classifier_transport_nonempty_boundary
     {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source omega2 domega2
       d2 dplus2 probe2 probe2' tensor2 tensor2' scalar2 scalar2' antisym2 source2 : BHist}
