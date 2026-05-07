@@ -64,6 +64,9 @@ Closedness is then recorded as its own ledger row. Transport along the $\DiffFor
 
 The last clause is the consumer-boundary separation. $\DiffFormUp$ exposes the rows needed by $\SymplecticUp$ to ask for $d\omega=0$, while the truth of that row belongs to the $\SymplecticUp$ certificate boundary itself.
 \end{proof}
+\leanchecked{BEDC.Derived.SymplecticUp.SymplecticObligationBoundary\_closed\_two\_form\_row}
+\leanchecked{BEDC.Derived.SymplecticUp.SymplecticObligationBoundary\_closed\_two\_form\_transport}
+\leanchecked{BEDC.Derived.SymplecticUp.SymplecticCarrierClassifierSurface\_closed\_two\_form\_obligation}
 
 \begin{theorem}[Symplectic nondegeneracy stability obligation]
 \label{thm:symplectic-nondegeneracy-stability-obligation}
@@ -76,11 +79,15 @@ Transport is again componentwise. The $\ManifoldUp$ classifier transports the ca
 
 This separates the three obligations consumed downstream: admissibility of the two-form, closedness of that two-form, and nondegeneracy on the paired manifold/form carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.SymplecticUp.SymplecticObligationBoundary\_nondegeneracy\_row}
+\leanchecked{BEDC.Derived.SymplecticUp.SymplecticObligationBoundary\_nondegeneracy\_transport}
 
 \begin{theorem}[SymplecticUp closed two-form obligation]
 \label{thm:symplecticup-closed-two-form-obligation}
 For a $\SymplecticUp$ carrier-classifier surface of \autoref{def:symplecticup-carrier-classifier-surface}, the closedness obligation is local to the displayed $\DiffFormUp$ degree-two form row $\omega$ and its exterior-derivative input row $d\omega$. If two accepted surface reads are related by the restricted classifier of the same definition, then the closedness row $d\omega=0$ transports with the degree-two form row.
 \end{theorem}
+\leanchecked{BEDC.Derived.SymplecticUp.SymplecticCarrierClassifierEndpointSurface\_closed\_two\_form\_transport}
+\leanchecked{BEDC.Derived.SymplecticUp.SymplecticCarrierClassifierSurface\_closed\_two\_form\_transport}
 \begin{proof}
 Unpack \autoref{def:symplecticup-carrier-classifier-surface}. The closedness row is listed only after the carried degree-two form row $\omega$ and the exterior-derivative input row $d\omega$ have been fixed.
 
@@ -113,14 +120,50 @@ The law cases are the degree-two form row, the exterior-derivative input row, th
 The remaining cases are the restricted $\hsame$ classifier, the stability carried by that restriction, the chart, degree, derivative-input, wedge and pairing ledger rows, and the hidden source projections. These cases are exactly the coverage, soundness, and completeness clauses stated in the theorem.
 \end{proof}
 
+\begin{theorem}[SymplecticUp public NameCert export]
+\label{thm:symplecticup-public-namecert-export}
+The carrier-classifier surface of \autoref{def:symplecticup-carrier-classifier-surface}, the obligation boundary of \autoref{def:symplectic-obligation-boundary}, the carrier and classifier obligations of \autoref{thm:symplectic-carrier-classifier-obligations}, the closed two-form obligation of \autoref{thm:symplecticup-closed-two-form-obligation}, the nondegeneracy obligation of \autoref{thm:symplecticup-nondegeneracy-obligation}, and the ledger exactness obligation of \autoref{thm:symplecticup-ledger-exactness-obligation} assemble the public $\NameCert_{\SymplecticUp}$ surface over $\mathsf{BHist}$. The exported surface contains the shared $\ManifoldUp+\DiffFormUp$ carrier, the restricted $\hsame$ classifier, closedness, nondegeneracy, and exact ledger rows, and it contains no $\StdBridge$ row.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:symplecticup-carrier-classifier-surface}. Its rows name the two dependency certificates over $\mathsf{BHist}$, the shared manifold endpoint, the degree-two form row, the exterior-derivative input row, closedness, nondegeneracy, the restricted classifier, and the ledger projections.
+
+The boundary in \autoref{def:symplectic-obligation-boundary} supplies the same data as a BEDC obligation package. Apply \autoref{thm:symplectic-carrier-classifier-obligations} to read the carrier and classifier fields, then apply \autoref{thm:symplecticup-closed-two-form-obligation} and \autoref{thm:symplecticup-nondegeneracy-obligation} to attach the two public form laws on the paired carrier.
+
+Finally apply \autoref{thm:symplecticup-ledger-exactness-obligation}. Coverage, soundness, and completeness repack all listed rows as the public $\NameCert_{\SymplecticUp}$ surface, while the defining surface explicitly excludes any $\StdBridge$ row.
+\end{proof}
+
+\begin{theorem}[SymplecticUp closed nondegenerate public stability]
+\label{thm:symplecticup-closed-nondegenerate-public-stability}
+For the public $\NameCert_{\SymplecticUp}$ surface of \autoref{thm:symplecticup-public-namecert-export}, the restricted $\hsame$ classifier transports closedness and nondegeneracy together on the same paired $\ManifoldUp+\DiffFormUp$ carrier. Thus an accepted surface read cannot transport $d\omega=0$ without transporting the manifold endpoint, the degree-two form row $\omega$, and the nondegeneracy row for that same pair.
+\end{theorem}
+\begin{proof}
+Start from the classifier clause in \autoref{def:symplecticup-carrier-classifier-surface}. It is not the ambient classifier on arbitrary rows; it is $\hsame$ restricted to preservation of the shared endpoint, the even-dimensional witness, $\omega$, $d\omega$, closedness, and nondegeneracy.
+
+Apply \autoref{thm:symplecticup-closed-two-form-obligation}. Closedness transports only with the displayed degree-two form row and its exterior-derivative input.
+
+Apply \autoref{thm:symplecticup-nondegeneracy-obligation}. Nondegeneracy transports only on the same shared manifold carrier and displayed form row. The public export theorem then repacks these two transported laws into one $\NameCert_{\SymplecticUp}$ surface, so no accepted read separates closedness from nondegeneracy or from the carrier on which both are stated.
+\end{proof}
+
+\begin{theorem}[SymplecticUp Hamiltonian and Poisson consumer frontier]
+\label{thm:symplecticup-hamiltonian-poisson-consumer-frontier}
+Downstream Hamiltonian dynamics and Poisson-bracket certificates may read from $\SymplecticUp$ only the shared manifold carrier, the degree-two form row, exterior-derivative routing, closedness, nondegeneracy, the pairing ledger, and classifier transport supplied by \autoref{thm:symplecticup-public-namecert-export}. From $\SymplecticUp$ alone they may not infer a Poisson bracket, a Hamiltonian flow, a Jacobi identity, or a standard model.
+\end{theorem}
+\begin{proof}
+Inspect the exactness rows of \autoref{def:symplecticup-carrier-classifier-surface}. The permitted consumer reads are precisely the rows named in the theorem: carrier, degree-two form, derivative input, closedness, nondegeneracy, pairing ledger, and classifier transport.
+
+Use \autoref{thm:symplecticup-ledger-exactness-obligation} to convert that list into a coverage, soundness, and completeness boundary. Soundness rules out any additional consumer row not displayed by the surface.
+
+The excluded objects require structure not present in the displayed rows. A Poisson bracket needs its own bracket operation and Jacobi witness, a Hamiltonian flow needs a flow construction, and a standard model needs a $\StdBridge$ row. Since the public export in \autoref{thm:symplecticup-public-namecert-export} carries none of those rows, the consumer frontier is exactly the stated boundary.
+\end{proof}
+
 \closureat{SymplecticUp}{scopedStr}
 
 \begin{closurestatus}{\SymplecticUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped closure binds the displayed $\NameCert_{\DiffFormUp}$ and $\NameCert_{\ManifoldUp}$ witnesses, the $\hsame$-restricted classifier, exterior-derivative routing, manifold carrier transport, and the ledger exactness rows cited in \autoref{def:symplecticup-carrier-classifier-surface}, \autoref{def:symplectic-obligation-boundary}, \autoref{thm:symplectic-carrier-classifier-obligations}, \autoref{thm:symplecticup-closed-two-form-obligation}, \autoref{thm:symplecticup-nondegeneracy-obligation}, and \autoref{thm:symplecticup-ledger-exactness-obligation}.}
+  \scopeclosed{The scoped closure binds the displayed $\NameCert_{\DiffFormUp}$ and $\NameCert_{\ManifoldUp}$ witnesses, the $\hsame$-restricted classifier, exterior-derivative routing, manifold carrier transport, the ledger exactness rows, and the public consumer frontier cited in \autoref{def:symplecticup-carrier-classifier-surface}, \autoref{def:symplectic-obligation-boundary}, \autoref{thm:symplectic-carrier-classifier-obligations}, \autoref{thm:symplecticup-public-namecert-export}, and \autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier}.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim a concrete $\SymplecticUp$ carrier implementation, a closedness proof, a nondegeneracy proof, a standard bridge, or Lean verification for $\SymplecticUp$.}
-  \upgradepath{Public closure requires a single exported public $\NameCert_{\SymplecticUp}$ surface theorem assembled from the scoped rows.}
+  \notclaimed{This chapter does not claim a concrete $\SymplecticUp$ carrier implementation, a closedness proof, a nondegeneracy proof, a Hamiltonian or Poisson structure, a standard bridge, or Lean verification for $\SymplecticUp$.}
+  \upgradepath{Bridge closure requires a concrete $\StdBridge$ witness or a Lean-checked consumer theorem over the exported public $\NameCert_{\SymplecticUp}$ surface.}
 \end{closurestatus}
