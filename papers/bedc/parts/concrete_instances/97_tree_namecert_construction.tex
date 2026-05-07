@@ -220,6 +220,8 @@ $\hsame$ and through the inherited $\GraphUp$ classifier. The acyclicity
 witness reads the transported closed walk and again returns the stationary
 endpoint row at the transported endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistObligationCarrier\_acyclic\_unit\_loop\_exactness}
+\leanchecked{BEDC.Derived.TreeUp.TreeGraphContEdge\_closed\_walk\_unit\_collapse}
 
 \begin{theorem}[TreeUp root-or-root-free witness obligation]
 \label{thm:tree-root-or-root-free-witness-obligation}
@@ -491,7 +493,7 @@ Downstream consumers therefore receive the same carrier, the same classifier, an
 
 \begin{theorem}[TreeUp public certificate boundary]
 \label{thm:treeup-public-certificate-boundary}
-The public $\TreeUp$ interface is the single package consisting exactly of the $\GraphUp$ source package, the $\mathsf{GraphContEdge}$ rows, the connectedness row, the acyclicity row, the root-or-root-free branch, the syntactic-representation row, stability transports, ledger rows, and exactness clauses established by \autoref{thm:treeup-carrier-obligation}, \autoref{thm:treeup-classifier-obligation}, \autoref{thm:treeup-root-witness-obligation}, \autoref{thm:treeup-stability-ledger-obligation}, \autoref{thm:treeup-exactness-obligation}, and \autoref{thm:tree-syntactic-representation-obligation}. This boundary exports no host graph equality, no unrecorded route choice, and no standard bridge.
+The public $\TreeUp$ interface is the single package consisting exactly of the $\GraphUp$ source package, the $\mathsf{GraphContEdge}$ rows, the connectedness row, the acyclicity row, the root-or-root-free branch, the syntactic-representation row, stability transports, ledger rows, and exactness clauses established by \autoref{thm:treeup-carrier-obligation}, \autoref{thm:treeup-classifier-obligation}, \autoref{thm:treeup-root-witness-obligation}, \autoref{thm:treeup-stability-ledger-obligation}, \autoref{thm:treeup-exactness-obligation}, and \autoref{thm:tree-syntactic-representation-obligation}. This boundary exports no host graph equality and no unrecorded route choice.
 \end{theorem}
 \begin{proof}
 The visible carrier package is supplied by \autoref{thm:treeup-carrier-obligation}: it exposes the $\NameCert_{\GraphUp}$ source, the $\mathsf{GraphContEdge}$ rows, connectedness, acyclicity, and the rooted or root-free branch. The classifier boundary is the rowwise transport of \autoref{thm:treeup-classifier-obligation}, so public comparison is only through the inherited graph package and the displayed tree rows.
