@@ -164,7 +164,6 @@ the Banach singleton completion row. This surface asserts only the singleton
 projection obligation and does not claim a general projection theorem or a
 standard bridge.
 \end{theorem}
-\leanchecked{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_semantic\_name\_certificate}
 \begin{proof}
 The carrier and classifier fields are fixed by
 \autoref{thm:hilbert-singleton-source-compatibility}. They identify the
@@ -193,13 +192,36 @@ classification used by all these rows is
 \autoref{def:banach-singleton-empty-history-instance}.
 \end{proof}
 
-\closureat{HilbertUp}{publicStr}[BEDC.Derived.HilbertUp.HilbertSingletonProjection\_semantic\_name\_certificate]
-\begin{closurestatus}{\HilbertUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public Hilbert surface is exactly the singleton carrier $A_{\emp}$, classifier $\rho_{\emp}$, projection endpoint $\pi_{\emp}$, Banach singleton completion row, NormUp zero row, and constant inner-product zero row.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.HilbertUp.HilbertSingletonProjection\_semantic\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{It does not close arbitrary Hilbert spaces, arbitrary closed-subspace projections, spectral theory, or standard bridges.}
-  \upgradepath{The next grade is $\bridgedClosure$ via a standard bridge and no-host-leakage package for the public singleton projection surface.}
-\end{closurestatus}
+\begin{theorem}[Hilbert singleton projection standard bridge]
+\label{thm:hilbert-singleton-projection-standard-bridge}
+The public singleton projection surface of
+\autoref{thm:hilbert-singleton-orthogonal-projection-namecert-surface}
+bridges conservatively to the one-point Hilbert space. Under this bridge, the
+carrier $A_{\emp}$ maps to the unique point, the classifier $\rho_{\emp}$ maps
+to equality on that point, the projection $\pi_{\emp}$ maps to the identity
+projection, and the Banach distance, NormUp norm, and inner-product rows map
+to the zero metric, zero norm, and zero inner product.
+\end{theorem}
+\begin{proof}
+The source side is the public singleton surface. Its carrier and classifier
+are fixed by \autoref{thm:hilbert-singleton-source-compatibility}, so the
+only standard carrier compatible with the displayed row is the one-point
+Hilbert space, and $\rho_{\emp}$ reads as equality on its unique point.
+
+The projection row is fixed by
+\autoref{thm:hilbert-singleton-projection-carried-endpoint}. Since the carried
+endpoint is the unique endpoint, \autoref{thm:hilbert-singleton-projection-idempotence}
+identifies applying $\pi_{\emp}$ again with the same endpoint, and
+\autoref{thm:hilbert-singleton-projection-uniqueness} prevents a second
+projection value. Thus the standard interpretation of $\pi_{\emp}$ is the
+identity projection on the one-point Hilbert space.
+
+It remains to read the scalar rows. The endpoint readback theorem
+\autoref{thm:hilbert-singleton-endpoint-readback} identifies every displayed
+norm endpoint with $0_{\mathsf{Real}}^{c}$, while
+\autoref{thm:hilbert-singleton-orthogonal-projection-namecert-surface}
+packages the Banach singleton distance, NormUp norm, and inner-product rows
+as the zero metric, zero norm, and zero inner product. These identifications
+give a conservative paper-side standard bridge for the singleton projection
+surface only.
+\end{proof}
