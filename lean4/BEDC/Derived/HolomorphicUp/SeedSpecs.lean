@@ -91,4 +91,30 @@ theorem HolomorphicPatternSpec_semantic_name_certificate {seed iterate : BHist} 
   · intro _h source
     exact source
 
+def HolomorphicStabilityCert (seed iterate : BHist) : Prop :=
+  UnaryHistory seed ∧ IteratedStrictCplxDiff seed 1 iterate
+
+theorem HolomorphicStabilityCert_semantic_name_certificate {seed iterate : BHist} :
+    HolomorphicStabilityCert seed iterate ->
+      SemanticNameCert (HolomorphicStabilityCert seed) (HolomorphicStabilityCert seed)
+        (HolomorphicStabilityCert seed) hsame := by
+  intro stability
+  constructor
+  · constructor
+    · exact Exists.intro iterate stability
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      exact And.intro carrier.left
+        (IteratedStrictCplxDiff_hsame_transport_unary_readback (hsame_refl seed) same
+          carrier.right).left
+  · intro _h source
+    exact source
+  · intro _h source
+    exact source
+
 end BEDC.Derived.HolomorphicUp

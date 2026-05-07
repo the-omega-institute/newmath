@@ -191,6 +191,8 @@ import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.CoverNerveCertificate
+import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SetUp
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
