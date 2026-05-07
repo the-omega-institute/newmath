@@ -20,6 +20,14 @@ def NetworkFlowUProbeBundleSumSpineUnary (a : BHist -> BHist) : ProbeBundle BHis
   | ProbeBundle.Bnil => UnaryHistory BHist.Empty
   | ProbeBundle.Bcons e xs => UnaryHistory (a e) ∧ NetworkFlowUProbeBundleSumSpineUnary a xs
 
+def NetworkFlowFiniteFlowCutData
+    (source sink value backward forward capacity : BHist)
+    (_edges forwardCut backwardCut : ProbeBundle BHist) : Prop :=
+  UnaryHistory source ∧ UnaryHistory sink ∧ UnaryHistory value ∧
+    NetworkFlowUProbeBundleSumSpineUnary (fun _edge => capacity) forwardCut ∧
+      NetworkFlowUProbeBundleSumSpineUnary (fun _edge => capacity) backwardCut ∧
+        Cont value backward forward
+
 theorem NetworkFlow_unary_finite_fold_monotonicity {a b : BHist -> BHist}
     {xs : ProbeBundle BHist} :
     NetworkFlowUProbeBundleSumSpineUnary a xs ->
