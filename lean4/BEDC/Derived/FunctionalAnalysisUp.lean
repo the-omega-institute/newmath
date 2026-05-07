@@ -93,6 +93,25 @@ theorem FunctionalAnalysisBoundedOperatorRow_ledger_hsame_transport
         (And.intro targetBanach' (And.intro row.right.right.right.left ledgerCont'))))
     sameLedger
 
+theorem FunctionalAnalysisBoundedOperatorRow_adjoint_stability
+    {f source target bound ledger source' target' ledger' adj adjLedger adjLedger' : BHist} :
+    FunctionalAnalysisBoundedOperatorRow f source target bound ledger ->
+      hsame source source' -> hsame target target' -> Cont source' target' ledger' ->
+        LinearMapSingletonCarrier adj -> Cont ledger adj adjLedger ->
+          Cont ledger' adj adjLedger' ->
+            FunctionalAnalysisBoundedOperatorRow f source' target' bound ledger' ∧
+              hsame ledger ledger' ∧ hsame adjLedger adjLedger' ∧
+                LinearMapSingletonCarrier adj := by
+  intro row sameSource sameTarget ledgerCont' adjCarrier adjRow adjRow'
+  have transported :=
+    FunctionalAnalysisBoundedOperatorRow_ledger_hsame_transport
+      row sameSource sameTarget ledgerCont'
+  have sameAdjLedger : hsame adjLedger adjLedger' :=
+    cont_respects_hsame transported.right (hsame_refl adj) adjRow adjRow'
+  exact And.intro transported.left
+    (And.intro transported.right
+      (And.intro sameAdjLedger adjCarrier))
+
 def FunctionalAnalysisCompactOperatorWitness
     (f source target bound ledger probe image tolerance net : BHist) : Prop :=
   FunctionalAnalysisBoundedOperatorRow f source target bound ledger ∧

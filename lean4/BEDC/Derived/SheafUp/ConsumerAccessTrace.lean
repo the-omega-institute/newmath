@@ -77,4 +77,25 @@ theorem SheafConsumerAccessTrace_no_feedback
   have rootZero : hsame root (BHist.e0 (append feedback tail)) := feedbackRow
   exact unary_no_zero_extension (unary_transport rootUnary rootZero)
 
+theorem SheafConsumerAccessTrace_root_access_factorization
+    {root row endpoint : BHist} {trace : List BHist}
+    {landing : SheafRootFaceLanding} :
+    SheafConsumerAccessTrace root (row :: trace) ->
+      SheafRootFaceRead row endpoint landing ->
+        UnaryHistory root ∧ UnaryHistory row ∧ SheafConsumerAccessTrace root trace ∧
+          (landing = SheafRootFaceLanding.coverMembership ∨
+            landing = SheafRootFaceLanding.restrictionRoute ∨
+              landing = SheafRootFaceLanding.localityGluingRefinement) := by
+  intro consumerTrace rootRead
+  have rowUnary : UnaryHistory row :=
+    consumerTrace.right row (List.Mem.head trace)
+  have tailTrace : SheafConsumerAccessTrace root trace :=
+    And.intro consumerTrace.left
+      (by
+        intro tailRow tailMem
+        exact consumerTrace.right tailRow (List.Mem.tail row tailMem))
+  exact And.intro consumerTrace.left
+    (And.intro rowUnary
+      (And.intro tailTrace (SheafRootFaceRead_coverage rootRead)))
+
 end BEDC.Derived.SheafUp
