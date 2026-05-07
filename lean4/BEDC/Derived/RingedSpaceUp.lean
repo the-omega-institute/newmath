@@ -220,4 +220,51 @@ theorem RingedSpaceSingletonSurface_stalk_locality_common_neighborhood
       (And.intro descent.right.left
         (And.intro descent.right.right ringClassified)))
 
+def RingedSpaceRestrictionLedger
+    (point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB operationA operationB : BHist) : Prop :=
+  TopologySingletonOpenAt restrictedOpen point ∧
+    SheafBHistPointGermLedger point openHist sectionA germA ∧
+      SheafBHistPointGermLedger point openHist sectionB germB ∧
+        hsame germA germB ∧ hsame openHist restrictedOpen ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              CommRingSingletonClassifier operationA operationB
+
+theorem RingedSpaceSingletonSurface_stability_ledger_obligation
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB operationA operationB : BHist} :
+    RingedSpaceRestrictionLedger point openHist sectionA sectionB germA germB
+        restrictedOpen restrictedGermA restrictedGermB operationA operationB ->
+      RingedSpaceSingletonSurface point restrictedOpen sectionA restrictedGermA operationA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                CommRingSingletonClassifier operationA operationB ∧
+                  TopologySingletonOpenAt restrictedOpen point := by
+  intro ledger
+  have localized :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB ∧
+            CommRingSingletonClassifier operationA operationB ∧
+              TopologySingletonOpenAt BHist.Empty point :=
+    RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
+      (And.intro (hsame_refl BHist.Empty) ledger.left.right)
+      ledger.right.left ledger.right.right.left ledger.right.right.right.left
+      ledger.right.right.right.right.left ledger.right.right.right.right.right.left
+      ledger.right.right.right.right.right.right.left
+      ledger.right.right.right.right.right.right.right
+  have operationEmpty : CommRingSingletonClassifier operationA BHist.Empty :=
+    And.intro localized.right.right.right.left.left
+      (And.intro (hsame_refl BHist.Empty) localized.right.right.right.left.left)
+  exact And.intro
+    (And.intro ledger.left (And.intro localized.left operationEmpty))
+    (And.intro localized.right.left
+      (And.intro ledger.right.right.right.right.right.left
+        (And.intro ledger.right.right.right.right.right.right.left
+          (And.intro localized.right.right.left
+            (And.intro localized.right.right.right.left ledger.left)))))
+
 end BEDC.Derived.RingedSpaceUp
