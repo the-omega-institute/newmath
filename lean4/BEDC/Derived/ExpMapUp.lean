@@ -206,4 +206,28 @@ theorem ExpMapFlowLedger_zero_composition_obligation {tangent endpoint flow comp
     (And.intro compositeUnary
       (And.intro tangentCarrier (And.intro endpointCarrier flowEndpoint)))
 
+def ExpMapGraphClassifier
+    (source endpoint flow source' endpoint' flow' : BHist) : Prop :=
+  hsame source source' ∧ hsame endpoint endpoint' ∧ hsame flow flow'
+
+theorem ExpMapGraphClassifier_stability_obligations
+    {source source' endpoint endpoint' flow flow' ledger ledger' : BHist} :
+    ExpMapGraphCarrier source endpoint flow -> ExpMapGraphCarrier source' endpoint' flow' ->
+      hsame source source' -> hsame endpoint endpoint' -> Cont source endpoint ledger ->
+        Cont source' endpoint' ledger' -> hsame flow ledger -> hsame flow' ledger' ->
+          ExpMapGraphClassifier source endpoint flow source' endpoint' flow' ∧
+            hsame ledger ledger' ∧ UnaryHistory flow ∧ UnaryHistory flow' := by
+  intro graph graph' sameSource sameEndpoint ledgerRow ledgerRow' sameFlowLedger
+    sameFlowLedger'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameSource sameEndpoint ledgerRow ledgerRow'
+  have sameFlow : hsame flow flow' :=
+    hsame_trans sameFlowLedger (hsame_trans sameLedger (hsame_symm sameFlowLedger'))
+  have graphRows := ExpMapCarrier_source_obligations graph
+  have graphRows' := ExpMapCarrier_source_obligations graph'
+  exact And.intro
+    (And.intro sameSource (And.intro sameEndpoint sameFlow))
+    (And.intro sameLedger
+      (And.intro graphRows.right.right.right.right.right graphRows'.right.right.right.right.right))
+
 end BEDC.Derived.ExpMapUp
