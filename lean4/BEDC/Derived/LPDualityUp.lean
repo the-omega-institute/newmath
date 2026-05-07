@@ -39,4 +39,19 @@ theorem LPDualityFeasibleWeakDuality_prefix_order
     (PreorderPrefixLE_trans primalLeftLE leftBridgeLE)
     (PreorderPrefixLE_trans bridgeRightLE rightDualLE)
 
+theorem LPDualityWeakDualityEquality_optimality
+    {primal dual primalCompetitor dualCompetitor domain : BHist} :
+    hsame primal dual -> PreorderPrefixLE primalCompetitor dual ->
+      PreorderPrefixLE primal dualCompetitor -> PreorderPrefixLE primal domain ->
+        PreorderPrefixLE primalCompetitor primal ∧ PreorderPrefixLE dual dualCompetitor ∧
+          PreorderPrefixLE dual domain := by
+  intro objectiveEquality competitorBound dualBound domainBound
+  have dualPrimal : PreorderPrefixLE dual primal :=
+    PreorderPrefixLE_of_hsame (hsame_symm objectiveEquality)
+  exact And.intro
+    (PreorderPrefixLE_trans competitorBound dualPrimal)
+    (And.intro
+      (PreorderPrefixLE_trans dualPrimal dualBound)
+      (PreorderPrefixLE_trans dualPrimal domainBound))
+
 end BEDC.Derived.LPDualityUp
