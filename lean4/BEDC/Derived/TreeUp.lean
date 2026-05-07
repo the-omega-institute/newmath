@@ -485,6 +485,49 @@ theorem TreeDerivationSpineLedger_exactness_rows
         unary_cont_closed edgeUnary tailRows.right tailRoute
       exact And.intro edgeRow.left outUnary
 
+theorem TreeDerivationSpineLedger_steps_unary
+    {endpoint : BHist} {steps : List BHist} {out : BHist} :
+    TreeDerivationSpineLedger endpoint steps out ->
+      UnaryHistory endpoint ∧ UnaryHistory out ∧
+        (forall step : BHist, List.Mem step steps -> UnaryHistory step) := by
+  intro ledger
+  induction ledger with
+  | nil endpointUnary =>
+      exact And.intro endpointUnary
+        (And.intro endpointUnary
+          (by
+            intro step stepMem
+            cases stepMem))
+  | cons edgeRow _tailLedger tailRoute tailRows =>
+      have edgeUnary : UnaryHistory _ :=
+        unary_cont_closed edgeRow.left edgeRow.right.left edgeRow.right.right
+      have outUnary : UnaryHistory _ :=
+        unary_cont_closed edgeUnary tailRows.right.left tailRoute
+      exact And.intro edgeRow.left
+        (And.intro outUnary
+          (by
+            intro row rowMem
+            cases rowMem with
+            | head =>
+                exact edgeRow.right.left
+            | tail _ tailMem =>
+                exact tailRows.right.right row tailMem))
+
+theorem TreeRootLedger_derivation_spine_boundary
+    {graph edge connected acyclic root endpoint : BHist} {steps : List BHist} {out : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint ->
+      TreeDerivationSpineLedger endpoint steps out ->
+        TreeRootBranch endpoint root connected ∧ UnaryHistory endpoint ∧ UnaryHistory out ∧
+          UnaryHistory acyclic ∧ Cont endpoint root connected := by
+  intro carrier ledger
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  have ledgerRows : UnaryHistory endpoint ∧ UnaryHistory out :=
+    TreeDerivationSpineLedger_exactness_rows ledger
+  exact And.intro branch
+    (And.intro ledgerRows.left
+      (And.intro ledgerRows.right
+        (And.intro carrier.right.left branch.right.right)))
+
 theorem TreePublicDerivationSyntaxBridge_visible_spine_package
     {graph edge connected acyclic root endpoint spine extendedRoot extendedConnected syntaxTarget :
       BHist} :
