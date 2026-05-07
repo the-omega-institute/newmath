@@ -103,6 +103,23 @@ theorem TreeBHistCarrier_obligation_rows
               (And.intro carrier.right.right.right.right.left
             (And.intro carrier.right.right.right.right.right cert)))))
 
+theorem TreeBHistObligationCarrier_acyclic_empty_transport
+    {root source target edge connected acyclic repr package acyclic' : BHist} :
+    TreeBHistObligationCarrier root source target edge connected acyclic repr package ->
+      hsame acyclic acyclic' ->
+        hsame acyclic' BHist.Empty ∧
+          TreeBHistObligationCarrier root source target edge connected acyclic' repr package := by
+  intro carrier sameAcyclic
+  have acyclicEmpty : hsame acyclic' BHist.Empty :=
+    hsame_trans (hsame_symm sameAcyclic) carrier.right.right.right.left
+  exact And.intro acyclicEmpty
+    (And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro carrier.right.right.left
+          (And.intro acyclicEmpty
+            (And.intro carrier.right.right.right.right.left
+              carrier.right.right.right.right.right)))))
+
 theorem TreeGraphSource_connected_root_path_readback
     {root endpoint step pathOut rootOut : BHist} :
     UnaryHistory root -> GraphContEdge endpoint step pathOut ->
