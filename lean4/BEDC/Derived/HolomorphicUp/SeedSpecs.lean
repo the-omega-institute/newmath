@@ -91,4 +91,31 @@ theorem HolomorphicPatternSpec_semantic_name_certificate {seed iterate : BHist} 
   · intro _h source
     exact source
 
+theorem HolomorphicPatternSpec_hsame_iterate_transport {seed seed' iterate iterate' : BHist} :
+    HolomorphicPatternSpec seed iterate -> hsame seed seed' -> hsame iterate iterate' ->
+      HolomorphicPatternSpec seed' iterate' ∧ UnaryHistory seed' ∧
+        IteratedCplxDiff seed' 1 iterate' := by
+  intro pattern sameSeed sameIterate
+  have seedUnary : UnaryHistory seed' :=
+    unary_transport pattern.left sameSeed
+  have iterateTransport :=
+    IteratedCplxDiff_hsame_transport_unary_readback sameSeed sameIterate pattern.right
+  exact And.intro
+    (And.intro seedUnary iterateTransport.left)
+    (And.intro seedUnary iterateTransport.left)
+
+theorem HolomorphicStabilityCert_radius_extension_hsame_transport
+    {center center' radius radius' point point' extra extendedRadius : BHist} :
+    HolomorphicOpenDiskWitnessed center radius point -> hsame center center' ->
+      hsame point point' -> UnaryHistory extra -> Cont radius extra extendedRadius ->
+        hsame extendedRadius radius' ->
+          HolomorphicOpenDiskWitnessed center' radius' point' ∧
+            ∃ gap : BHist, UnaryHistory gap ∧ Cont point' gap radius' := by
+  intro disk sameCenter samePoint extraUnary radiusExtension sameExtendedRadius
+  have extendedDisk : HolomorphicOpenDiskWitnessed center extendedRadius point :=
+    HolomorphicOpenDisk_radius_continuation_extend disk extraUnary radiusExtension
+  exact
+    HolomorphicOpenDiskWitnessed_boundary_hsame_transport extendedDisk sameCenter
+      sameExtendedRadius samePoint
+
 end BEDC.Derived.HolomorphicUp
