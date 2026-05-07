@@ -237,6 +237,7 @@ import BEDC.Derived.SheafUp.RestrictedCommonRefinement
 import BEDC.Derived.SheafUp.RootRestrictionRefinement
 import BEDC.Derived.SheafUp.ExactnessExport
 import BEDC.Derived.SheafUp.CommonTransport
+import BEDC.Derived.SheafUp.RootCommonRefinementExactness
 import BEDC.Derived.SheafUp.RootNameCertLocality
 import BEDC.Derived.SheafUp.CoverPresentationExactness
 import BEDC.Derived.SheafUp.CoverPresentation
