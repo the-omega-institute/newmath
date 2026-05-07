@@ -222,4 +222,103 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
+def SheafTripleOverlapCarrier (point tripleOpen endpoint : BHist) : Prop :=
+  exists sectionHist : BHist, SheafBHistPointGermLedger point tripleOpen sectionHist endpoint
+
+def SheafTripleOverlapClassifier (point tripleOpen left right : BHist) : Prop :=
+  SheafTripleOverlapCarrier point tripleOpen left ∧
+    SheafTripleOverlapCarrier point tripleOpen right ∧
+      hsame left right ∧
+        exists leftSection : BHist, exists rightSection : BHist,
+          SheafBHistPointGermComparison point tripleOpen leftSection left tripleOpen
+            rightSection right tripleOpen
+
+theorem SheafTripleOverlap_semantic_name_certificate
+    {point tripleOpen seedSection seedGerm : BHist} :
+    SheafBHistPointGermLedger point tripleOpen seedSection seedGerm ->
+      SemanticNameCert (SheafTripleOverlapCarrier point tripleOpen)
+        (SheafTripleOverlapCarrier point tripleOpen)
+        (SheafTripleOverlapCarrier point tripleOpen)
+        (SheafTripleOverlapClassifier point tripleOpen) := by
+  intro ledger
+  have seedCarrier : SheafTripleOverlapCarrier point tripleOpen seedGerm :=
+    Exists.intro seedSection ledger
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro seedGerm seedCarrier
+      equiv_refl := by
+        intro endpoint carrier
+        cases carrier with
+        | intro sectionHist row =>
+            have comparison :
+                SheafBHistPointGermComparison point tripleOpen sectionHist endpoint
+                  tripleOpen sectionHist endpoint tripleOpen :=
+              And.intro row.left
+                (And.intro row.right.left
+                  (And.intro row.right.left
+                    (And.intro row.right.left
+                      (And.intro (hsame_refl tripleOpen)
+                        (And.intro (hsame_refl tripleOpen)
+                          (And.intro row.right.right
+                            (And.intro row.right.right (hsame_refl endpoint))))))))
+            exact And.intro (Exists.intro sectionHist row)
+              (And.intro (Exists.intro sectionHist row)
+                (And.intro (hsame_refl endpoint)
+                  (Exists.intro sectionHist (Exists.intro sectionHist comparison))))
+      equiv_symm := by
+        intro left right classified
+        cases classified.right.right.right with
+        | intro leftSection rest =>
+            cases rest with
+            | intro rightSection comparison =>
+                have reversed :
+                    SheafBHistPointGermComparison point tripleOpen rightSection right
+                      tripleOpen leftSection left tripleOpen :=
+                  SheafBHistPointGermComparison_symmetric_fields comparison
+                exact And.intro classified.right.left
+                  (And.intro classified.left
+                    (And.intro (hsame_symm classified.right.right.left)
+                      (Exists.intro rightSection (Exists.intro leftSection reversed))))
+      equiv_trans := by
+        intro left mid right classifiedLM classifiedMR
+        cases classifiedLM.right.right.right with
+        | intro leftSection firstRest =>
+            cases firstRest with
+            | intro _midSection firstComparison =>
+                cases classifiedMR.right.right.right with
+                | intro _midSection' secondRest =>
+                    cases secondRest with
+                    | intro rightSection secondComparison =>
+                        have comparison :
+                            SheafBHistPointGermComparison point tripleOpen leftSection left
+                              tripleOpen rightSection right tripleOpen :=
+                          And.intro firstComparison.left
+                            (And.intro firstComparison.right.left
+                              (And.intro secondComparison.right.right.left
+                                (And.intro firstComparison.right.right.right.left
+                                  (And.intro firstComparison.right.right.right.right.left
+                                    (And.intro secondComparison.right.right.right.right.right.left
+                                      (And.intro firstComparison.right.right.right.right.right.right.left
+                                        (And.intro
+                                          secondComparison.right.right.right.right.right.right.right.left
+                                          (hsame_trans classifiedLM.right.right.left
+                                            classifiedMR.right.right.left))))))))
+                        exact And.intro classifiedLM.left
+                          (And.intro classifiedMR.right.left
+                            (And.intro
+                              (hsame_trans classifiedLM.right.right.left
+                                classifiedMR.right.right.left)
+                              (Exists.intro leftSection (Exists.intro rightSection comparison))))
+      carrier_respects_equiv := by
+        intro left right classified _carrier
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro endpoint source
+      exact source
+    ledger_sound := by
+      intro endpoint source
+      exact source
+  }
+
 end BEDC.Derived.SheafUp

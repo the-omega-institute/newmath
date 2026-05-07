@@ -6,6 +6,7 @@ namespace BEDC.Derived.RingedSpaceUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.CommRingUp
 open BEDC.Derived.SheafUp
@@ -75,5 +76,49 @@ theorem RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
     (And.intro descent.right.left
       (And.intro descent.right.right
         (And.intro commOps openPoint)))
+
+def RingedSpaceSingletonStalkCarrier (endpoint : BHist) : Prop :=
+  RingedSpaceSingletonPackage BHist.Empty BHist.Empty endpoint BHist.Empty BHist.Empty
+
+def RingedSpaceSingletonStalkClassifier (left right : BHist) : Prop :=
+  RingedSpaceSingletonStalkCarrier left ∧ RingedSpaceSingletonStalkCarrier right ∧
+    CommRingSingletonClassifier left right
+
+theorem RingedSpaceSingletonStalk_semantic_name_certificate :
+    SemanticNameCert RingedSpaceSingletonStalkCarrier RingedSpaceSingletonStalkCarrier
+      RingedSpaceSingletonStalkCarrier RingedSpaceSingletonStalkClassifier := by
+  have emptyLedger : SheafBHistPointGermLedger BHist.Empty BHist.Empty BHist.Empty BHist.Empty :=
+    And.intro unary_empty (And.intro unary_empty (cont_intro rfl))
+  have emptyCommCarrier : CommRingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyCommClassifier : CommRingSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCommCarrier (And.intro emptyCommCarrier (hsame_refl BHist.Empty))
+  have emptyCarrier : RingedSpaceSingletonStalkCarrier BHist.Empty :=
+    And.intro emptyLedger (And.intro emptyCommCarrier emptyCommClassifier)
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty emptyCarrier
+    · intro endpoint carrier
+      exact And.intro carrier
+        (And.intro carrier
+          (And.intro carrier.right.left
+            (And.intro carrier.right.left (hsame_refl endpoint))))
+    · intro left right classified
+      exact And.intro classified.right.left
+        (And.intro classified.left
+          (And.intro classified.right.right.right.left
+            (And.intro classified.right.right.left (hsame_symm classified.right.right.right.right))))
+    · intro left mid right classifiedLM classifiedMR
+      exact And.intro classifiedLM.left
+        (And.intro classifiedMR.right.left
+          (And.intro classifiedLM.right.right.left
+            (And.intro classifiedMR.right.right.right.left
+              (hsame_trans classifiedLM.right.right.right.right
+                classifiedMR.right.right.right.right))))
+    · intro left right classified _carrier
+      exact classified.right.left
+  · intro endpoint source
+    exact source
+  · intro endpoint source
+    exact source
 
 end BEDC.Derived.RingedSpaceUp
