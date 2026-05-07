@@ -156,4 +156,35 @@ theorem ExpMapCarrier_obligation_surface {tangent endpoint flow : BHist} :
   exact And.intro tangentCarrier
     (And.intro endpointCarrier (And.intro flowEmpty (And.intro flowEmpty flowUnary)))
 
+theorem ExpMapZeroFlow_composition_obligation {tangent endpoint flow composite : BHist} :
+    LieAlgebraSingletonCarrier tangent ->
+      LieGroupSingletonCarrier endpoint ->
+        Cont tangent BHist.Empty endpoint ->
+          Cont endpoint BHist.Empty flow ->
+            Cont tangent flow composite ->
+              hsame endpoint tangent ∧ hsame flow endpoint ∧ hsame composite tangent ∧
+                UnaryHistory tangent ∧ UnaryHistory endpoint ∧ UnaryHistory flow ∧
+                  UnaryHistory composite := by
+  intro tangentCarrier endpointCarrier endpointRow flowRow compositeRow
+  have sameEndpointTangent : hsame endpoint tangent :=
+    cont_right_unit_result endpointRow
+  have sameFlowEndpoint : hsame flow endpoint :=
+    cont_right_unit_result flowRow
+  have tangentUnary : UnaryHistory tangent :=
+    unary_transport unary_empty (hsame_symm tangentCarrier)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport tangentUnary (hsame_symm sameEndpointTangent)
+  have flowUnary : UnaryHistory flow :=
+    unary_transport endpointUnary (hsame_symm sameFlowEndpoint)
+  have flowEmpty : hsame flow BHist.Empty :=
+    hsame_trans sameFlowEndpoint endpointCarrier
+  have sameComposite : hsame composite tangent :=
+    cont_respects_hsame (hsame_refl tangent) flowEmpty compositeRow (cont_right_unit tangent)
+  have compositeUnary : UnaryHistory composite :=
+    unary_transport tangentUnary (hsame_symm sameComposite)
+  exact And.intro sameEndpointTangent
+    (And.intro sameFlowEndpoint
+      (And.intro sameComposite
+        (And.intro tangentUnary (And.intro endpointUnary (And.intro flowUnary compositeUnary)))))
+
 end BEDC.Derived.ExpMapUp
