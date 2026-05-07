@@ -50,6 +50,7 @@ import BEDC.BaseReflection
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
+import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
@@ -62,6 +63,7 @@ import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.ErrorCodeUp
+import BEDC.Derived.ExpMapUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
@@ -189,6 +191,7 @@ import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
+import BEDC.Derived.CondExpUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SheafUp
@@ -240,6 +243,7 @@ import BEDC.Derived.SheafUp.ChartGluingTrace
 import BEDC.Derived.SheafUp.RootAccessNormalForm
 import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.ObligationSurface
+import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SetUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.SemanticNameCertificate
@@ -308,6 +312,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
+import BEDC.Derived.CondExpUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
@@ -417,10 +422,12 @@ import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
+import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
+import BEDC.Derived.ExpMapUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.SemanticNameCert

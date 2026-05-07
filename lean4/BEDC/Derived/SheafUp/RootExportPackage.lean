@@ -166,4 +166,36 @@ theorem SheafRootUnblockRestrictionStability_semantic_name_certificate
     (And.intro stable.left
       (And.intro stable.right.left stable.right.right))
 
+theorem SheafRootExport_downstream_threshold
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist} :
+    SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB
+        restrictedOpen restrictedGermA restrictedGermB chartEndpoint ->
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+                restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+                hsame chartEndpoint restrictedGermB := by
+  intro scope
+  have carrierScope :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                hsame chartEndpoint restrictedGermB :=
+    SheafDownstreamConsumer_carrier_scope scope
+  have comparison :
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+        restrictedOpen sectionB restrictedGermB restrictedOpen :=
+    (SheafBHistPointGermLedger_common_open_comparison carrierScope.left
+      carrierScope.right.left carrierScope.right.right.right.right.left).left
+  exact And.intro carrierScope.left
+    (And.intro carrierScope.right.left
+      (And.intro carrierScope.right.right.left
+        (And.intro carrierScope.right.right.right.left
+          (And.intro comparison carrierScope.right.right.right.right.right))))
+
 end BEDC.Derived.SheafUp
