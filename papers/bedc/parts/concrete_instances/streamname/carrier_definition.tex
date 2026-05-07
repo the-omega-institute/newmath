@@ -73,6 +73,51 @@ $\hsame$; ledger the observation index and transport witness; core theorem
 preservation of the carrier predicate; standard bridge RegSeqRat/RealUp stream
 transport; status proof target.
 
+\begin{theorem}[Rational stream-name successor reindexing stability]
+\label{thm:rat-stream-name-successor-reindexing-stability}
+For certified observation maps $s,t:\Hist\to\Hist$, define the successor
+observation schedules $s^+,t^+:\Hist\to\Hist$ by
+$$
+s^+(n)=s(\mathsf{BHist.e1}(n))
+\quad\hbox{and}\quad
+t^+(n)=t(\mathsf{BHist.e1}(n)).
+$$
+If $\mathsf{RatStreamNameCarrier}(s)$, then
+$\mathsf{RatStreamNameCarrier}(s^+)$. If
+$\mathsf{RatStreamNameClassifier}(s,t)$, then
+$\mathsf{RatStreamNameClassifier}(s^+,t^+)$ and, for every probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$,
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s^+,t^+,\mathcal{P})$.
+\end{theorem}
+\begin{proof}
+Let $r(n)=\mathsf{BHist.e1}(n)$. Unary successor closure sends every witness
+$\mathsf{UnaryHistory}(n)$ to a witness
+$\mathsf{UnaryHistory}(r(n))$.
+
+Apply \autoref{thm:rat-stream-name-reindexing-and-map-stability} with this
+concrete reindexer $r$ and the identity RatUp-preserving point map. The
+reindexing clauses turn $\mathsf{RatStreamNameCarrier}(s)$ into the carrier row
+for $s^+=s\circ r$, and turn $\mathsf{RatStreamNameClassifier}(s,t)$ into the
+classifier row for $s^+,t^+$.
+
+Finally fix a probe bundle $\mathcal{P}$. Applying
+\autoref{thm:rat-stream-name-finite-window-from-classifier} to the successor
+classifier projects every bundled certified unary observation to the RatUp
+point classifier
+$\mathsf{RatHistoryClassifier}(s^+(n),t^+(n))$, which is exactly the
+finite-window classifier row for $s^+,t^+$ on $\mathcal{P}$.
+\end{proof}
+
+Ten-field fit: traditional target tail/successor rational stream observations;
+BEDC source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, RatUp, and
+StreamNameUp; carrier $\mathsf{RatStreamNameCarrier}$ after successor
+reindexing; classifier $\mathsf{RatStreamNameClassifier}$ after successor
+reindexing; stability successor reindexing plus finite-window restriction;
+ledger successor observation token and bundled probe membership; core theorem
+\autoref{thm:rat-stream-name-successor-reindexing-stability}; exactness
+preservation of pointwise RatUp classification; standard bridge rational
+sequence tail observation; status proof target.
+
 \begin{theorem}[Rational stream-name classifier unary context one-tail pair readback]
 \label{thm:rat-streamname-classifier-unary-context-e1-pair-readback}
 If $\mathsf{RatStreamNameClassifier}(s,t)$ holds at a unary observation $n$,
