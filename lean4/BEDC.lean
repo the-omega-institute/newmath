@@ -196,7 +196,9 @@ import BEDC.Derived.SheafUp.ConsumerAccessTrace
 import BEDC.Derived.SheafUp.ConsumerTrace
 import BEDC.Derived.SheafUp.GlobalRestrictions
 import BEDC.Derived.SheafUp.AccessTrace
+import BEDC.Derived.SheafUp.DownstreamConsumption
 import BEDC.Derived.SheafUp.DownstreamProjection
+import BEDC.Derived.SheafUp.DownstreamRoot
 import BEDC.Derived.SheafUp.BaseChangeSurface
 import BEDC.Derived.SheafUp.GluingClassifierRows
 import BEDC.Derived.SheafUp.RouteExactnessPacket
@@ -236,7 +238,9 @@ import BEDC.Derived.SheafUp.ChartGluingTrace
 import BEDC.Derived.SetUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.SemanticNameCertificate
+import BEDC.Derived.SheafUp.RefinedCoverExactness
 import BEDC.Derived.SchemeUp
+import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.ZetaBasicUp
