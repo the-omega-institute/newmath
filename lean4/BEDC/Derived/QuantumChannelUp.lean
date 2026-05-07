@@ -164,4 +164,34 @@ theorem QuantumChannelSingleton_identity_composition_unit_laws {phi left right :
         (QuantumChannelAffineMixtureSpine.atom leftEmpty leftUnary)
         (QuantumChannelAffineMixtureSpine.atom rightEmpty rightUnary)))
 
+theorem QuantumChannelUnitaryConjugation_composition_law {U V T vT left right : BHist} :
+    hsame U BHist.Empty -> hsame V BHist.Empty -> hsame T BHist.Empty ->
+      Cont V T vT -> Cont U vT left -> Cont (append U V) T right ->
+        hsame left right ∧
+          QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) left ∧
+            QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) right := by
+  intro uEmpty vEmpty tEmpty vTCont leftCont rightCont
+  have vTEmpty : hsame vT BHist.Empty := by
+    cases vEmpty
+    exact hsame_trans (cont_left_unit_result vTCont) tEmpty
+  have leftEmpty : hsame left BHist.Empty := by
+    cases uEmpty
+    exact hsame_trans (cont_left_unit_result leftCont) vTEmpty
+  have appendUVEmpty : hsame (append U V) BHist.Empty := by
+    exact Iff.mpr append_eq_empty_iff (And.intro uEmpty vEmpty)
+  have rightEmpty : hsame right BHist.Empty := by
+    exact
+      cont_respects_hsame
+        appendUVEmpty
+        tEmpty
+        rightCont
+        (cont_right_unit BHist.Empty)
+  have sameEndpoints : hsame left right := hsame_trans leftEmpty (hsame_symm rightEmpty)
+  have leftUnary : UnaryHistory left := unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right := unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro sameEndpoints
+    (And.intro
+      (QuantumChannelAffineMixtureSpine.atom leftEmpty leftUnary)
+      (QuantumChannelAffineMixtureSpine.atom rightEmpty rightUnary))
+
 end BEDC.Derived.QuantumChannelUp
