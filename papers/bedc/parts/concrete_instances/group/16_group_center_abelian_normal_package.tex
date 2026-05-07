@@ -105,12 +105,62 @@ append or constant-inverse provenance. Any admitted public endpoint therefore
 carries a witness to $A_{\emp}$, so no endpoint outside the singleton carrier
 is admitted by this operation surface.
 \end{proof}
+\begin{theorem}[Group singleton acceptance bridge]
+\label{thm:group-singleton-acceptance-bridge}
+The public singleton surface of
+\autoref{thm:group-singleton-public-operation-surface} supplies a paper-level
+$\StdBridge(\GroupUp,T_{\mathbf{1}})$ to the terminal one-element group. The
+encode map sends the unique host element to the carried BEDC endpoint $\emp$,
+and the decode map sends every carried endpoint to the unique host element.
+The two round trips are witnessed by $R_{\emp}$ and singleton carrier readback.
+The theorem-preservation list is the finite list of terminal group rows:
+unit, associativity, inverse, and cancellation, with BEDC counterparts collected
+by $\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$. The no-host-leak
+field holds because the public surface exposes only $\mathsf{BHist}$,
+$A_{\emp}$, $R_{\emp}$, $\mathsf{append}$, $\emp$, and the constant inverse.
+\end{theorem}
+\begin{proof}
+We check the six fields of \autoref{sec:acceptance-bridge-six-fields}. The
+encode field is the constant map from the terminal host carrier to $\emp$.
+The endpoint $\emp$ is public by
+\autoref{thm:group-singleton-public-operation-surface}, so the map lands in
+$A_{\emp}$ and respects the public classifier.
+
+The decode field sends every carried BEDC endpoint to the unique element of
+$T_{\mathbf{1}}$. Since the host carrier has one element, classifier-respect is
+immediate on the host side: any two decoded carried endpoints are the same host
+element.
+
+For the decode-encode round trip, start with the unique host element, encode it
+as $\emp$, and decode back to the unique host element. This is the terminal
+group identity judgment.
+
+For the encode-decode round trip, start with a carried endpoint $h:A_{\emp}$.
+Decoding gives the unique host element, and encoding returns $\emp$. The
+singleton carrier readback clause of
+\autoref{thm:group-singleton-public-operation-surface} supplies
+$R_{\emp}(h,\emp)$, which is exactly the BEDC classifier witness required for
+this round trip.
+
+The theorem-preservation field is finite. Its entries are the unit,
+associativity, inverse, and cancellation rows of the terminal group, translated
+to the BEDC singleton operation surface by the checked law package
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$. No other host
+group theorem is claimed by this list.
+
+Finally, the no-host-leak field follows from the public-object inventory in
+\autoref{thm:group-singleton-public-operation-surface}. The bridge uses the
+host terminal group only to name the unique decode value and the terminal
+round-trip judgment. The BEDC-facing surface remains $\mathsf{BHist}$,
+$A_{\emp}$, $R_{\emp}$, $\mathsf{append}$, $\emp$, and the constant inverse, so
+no host primitive enters the exported $\GroupUp$ object.
+\end{proof}
 \begin{closurestatus}{\GroupUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public surface of \autoref{thm:group-singleton-public-operation-surface} is closed for the singleton carrier $A_{\emp}$, multiplication $\mathsf{append}$, unit $\emp$, constant inverse, classifier $R_{\emp}$, expression readback, and no-hidden-leakage.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:group-singleton-public-operation-surface} and \autoref{thm:group-singleton-acceptance-bridge} close the singleton carrier $A_{\emp}$, multiplication $\mathsf{append}$, unit $\emp$, constant inverse, classifier $R_{\emp}$, expression readback, no-hidden-leakage, and the paper-level bridge to $T_{\mathbf{1}}$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
-  \bridgestatus{none}
-  \notclaimed{General group theory: arbitrary groups, group homomorphisms, subgroup lattice, quotient groups, group actions, conjugacy theory, Sylow theory, or representation theory.}
-  \upgradepath{A standard bridge or concrete bridge to $\bridgedClosure$ requires a complete $\StdBridge$ connecting this public singleton surface to the acceptance-bridge interface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{Arbitrary groups, homomorphisms, subgroup lattices, quotient groups, non-singleton classifiers, and machine-checked bridge verification are not closed here.}
+  \upgradepath{Mature closure requires broader examples or completeness statements beyond the terminal singleton bridge.}
 \end{closurestatus}
