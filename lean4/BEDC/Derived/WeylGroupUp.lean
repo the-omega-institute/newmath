@@ -169,4 +169,33 @@ theorem WeylGroupRootSystemGroupCarrier_row
     (And.intro carrier.right.left
       (And.intro carrier.right.right sameEndpointRoot))
 
+theorem WeylGroupActionClassifier_stability_row
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    {VectorClassifier : BHist -> BHist -> Prop}
+    (vector_transport :
+      forall {h k : BHist}, Vector h -> VectorClassifier h k -> Vector k)
+    (nonzero_transport : forall {h k : BHist}, Nonzero h -> hsame h k -> Nonzero k)
+    {root root' word word' action action' : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root word action ->
+      RootSystemFiniteSupportClassifier support VectorClassifier root root' ->
+        hsame word word' -> Cont root' word' action' ->
+          WeylGroupBHistSourceRow support Vector Nonzero root' word' action' ∧
+            hsame action action' := by
+  intro row rootClassified sameWord actionRoute'
+  have rootCarrier' :
+      RootSystemFiniteSupportCarrier support Vector Nonzero root' :=
+    @RootSystemFiniteSupportCarrier_classifier_transport support Vector Nonzero
+      VectorClassifier vector_transport nonzero_transport root root' row.left rootClassified
+  have wordCarrier' : GroupSingletonCarrier word' :=
+    hsame_trans (hsame_symm sameWord) row.right.left
+  have actionSame : hsame action action' :=
+    cont_respects_hsame rootClassified.right.right.left sameWord row.right.right.left
+      actionRoute'
+  have actionUnary' : UnaryHistory action' :=
+    unary_transport row.right.right.right actionSame
+  exact And.intro
+    (And.intro rootCarrier'
+      (And.intro wordCarrier' (And.intro actionRoute' actionUnary')))
+    actionSame
+
 end BEDC.Derived.WeylGroupUp
