@@ -412,6 +412,7 @@ import BEDC.Derived.ListUp.BorderedSingletonPayload
 import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
+import BEDC.Derived.ListUp.ConstructorDecomposition
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
@@ -504,6 +505,7 @@ import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.RealUp.Index
+import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.InnerProductUp
 import BEDC.Derived.RiemannianMetricUp
@@ -615,6 +617,8 @@ import BEDC.Derived.CompactUp.EmptyCenter
 import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CompactUp.TwoStepFactor
+import BEDC.Derived.FunctorUp.CompositionIdentityRespect
+import BEDC.Derived.FunctorUp.IdentityFunctor
 import BEDC.Derived.FunctorUp.OppositeCertificate
 import BEDC.Derived.NatTransUp.NaturalIso
 import BEDC.Derived.CategoryFunctorIndex
@@ -622,4 +626,5 @@ import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
 import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
+import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Reflection

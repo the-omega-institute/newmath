@@ -434,6 +434,49 @@ theorem ratup_fieldup_transported_exit_row_singleton_classifier_noncollapse
         sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL'
         classifiedR' leftStrict⟩
 
+theorem ratup_fieldup_canonical_exit_contextual_action_row_coverage
+    {p q p' q' h l r l' r' s t s' t' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitClassifier l s ->
+        RatDenomUnitClassifier r t -> RatDenomUnitClassifier l' s' ->
+          RatDenomUnitClassifier r' t' ->
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' l' r'
+                (RatDenomUnitContextualAction p q l r h)) ->
+            RatDenomUnitCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            RatHistoryClassifier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h))
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            (forall L R : BHist,
+              fieldSingletonEmptyClassifier
+                (append L
+                  (RatDenomUnitContextualAction p' q' s' t'
+                    (RatDenomUnitContextualAction p q s t h)))
+                (append R
+                  (RatDenomUnitContextualAction p' q' s' t'
+                    (RatDenomUnitContextualAction p q s t h))) -> False) := by
+  intro sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+    leftStrict
+  have noncollapse :=
+    ratup_fieldup_transported_exit_row_singleton_classifier_noncollapse
+      sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+      leftStrict
+  have selfClassifier :
+      RatHistoryClassifier
+        (RatDenomUnitContextualAction p' q' s' t'
+          (RatDenomUnitContextualAction p q s t h))
+        (RatDenomUnitContextualAction p' q' s' t'
+          (RatDenomUnitContextualAction p q s t h)) :=
+    ⟨noncollapse.right.left, noncollapse.right.left, hsame_refl _⟩
+  exact ⟨noncollapse.left, noncollapse.right.left, selfClassifier, noncollapse.right.right⟩
+
 theorem RatDenomUnitContextualAction_nested_pair_action_coherence
     {h l0 r0 l1 r1 l2 r2 : BHist} :
     RatDenomUnitCarrier h -> RatDenomUnitCarrier l0 -> RatDenomUnitCarrier r0 ->
