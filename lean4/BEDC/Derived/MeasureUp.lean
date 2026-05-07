@@ -101,6 +101,43 @@ theorem MeasureZeroBHist_relative_difference_zero_row {h event diff union endpoi
     hsame_trans endpointDiff diffZero.left
   exact And.intro diffZero.left (And.intro unionClassified endpointZero)
 
+theorem MeasureBHistRootCarrier_obligation {event stream endpoint total : BHist} :
+    MeasureZeroBHistCarrier event -> MeasureZeroBHistCarrier stream -> Cont event stream endpoint ->
+      Cont endpoint BHist.Empty total ->
+        MeasureZeroBHistCarrier event ∧ MeasureZeroBHistCarrier endpoint ∧
+          MeasureZeroBHistCarrier total ∧ UnaryHistory total ∧ hsame total endpoint := by
+  intro eventZero streamZero eventStreamRow endpointTotalRow
+  have endpointZero : MeasureZeroBHistCarrier endpoint :=
+    cont_respects_hsame eventZero streamZero eventStreamRow (cont_left_unit BHist.Empty)
+  have totalEndpoint : hsame total endpoint :=
+    cont_right_unit_result endpointTotalRow
+  have totalZero : MeasureZeroBHistCarrier total :=
+    hsame_trans totalEndpoint endpointZero
+  have totalUnary : UnaryHistory total :=
+    unary_transport unary_empty totalZero.symm
+  exact And.intro eventZero
+    (And.intro endpointZero (And.intro totalZero (And.intro totalUnary totalEndpoint)))
+
+theorem MeasureRelativeDifference_disjoint_decomposition {event diff union endpoint : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty ->
+      MeasureZeroBHistClassifier diff BHist.Empty -> Cont event diff union ->
+        Cont union BHist.Empty endpoint ->
+          MeasureZeroBHistCarrier diff ∧ MeasureZeroBHistClassifier union BHist.Empty ∧
+            MeasureZeroBHistClassifier endpoint BHist.Empty ∧ hsame endpoint union := by
+  intro eventZero diffZero unionRow endpointRow
+  have unionZero : MeasureZeroBHistCarrier union :=
+    cont_respects_hsame eventZero.left diffZero.left unionRow (cont_left_unit BHist.Empty)
+  have unionClassified : MeasureZeroBHistClassifier union BHist.Empty :=
+    And.intro unionZero (And.intro (hsame_refl BHist.Empty) unionZero)
+  have endpointUnion : hsame endpoint union :=
+    cont_right_unit_result endpointRow
+  have endpointZero : MeasureZeroBHistCarrier endpoint :=
+    hsame_trans endpointUnion unionZero
+  have endpointClassified : MeasureZeroBHistClassifier endpoint BHist.Empty :=
+    And.intro endpointZero (And.intro (hsame_refl BHist.Empty) endpointZero)
+  exact And.intro diffZero.left
+    (And.intro unionClassified (And.intro endpointClassified endpointUnion))
+
 theorem MeasureZeroBHist_semantic_name_certificate :
     SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
       MeasureZeroBHistCarrier MeasureZeroBHistClassifier := by
