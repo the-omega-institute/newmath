@@ -340,12 +340,28 @@ Combining these clauses gives the advertised export surface for dependent chapte
 \end{proof}
 \leanchecked{BEDC.Derived.TopologyUp.BHistLedgerPublicOpenTree\_downstream\_export\_surface}
 
+\begin{theorem}[Topology public carried-open standard bridge]
+\label{thm:topology-public-carried-open-standard-bridge}
+The public carried-open surface exported by \autoref{thm:topology-downstream-namecert-export-surface} admits a paper bridge to the standard indexed-topological-space interface. The carrier readback is the displayed carrier. The open-row readback sends each $\TopologyUp$ carried-open index to its carried predicate. The finite-intersection and arbitrary-union laws read back from the existing indexed-open laws, and classifier transport is the only equality transport used for membership invariance.
+
+This bridge does not assert surjectivity onto all host opens, quotient or powerset equality, $\RealUp$ completeness, metric completeness, or bridgeChecked verification.
+\end{theorem}
+\begin{proof}
+First assemble the public carried-open surface. Apply \autoref{thm:topology-namecert-obligation-package}, \autoref{thm:topology-metric-generated-namecert-surface}, and \autoref{thm:topology-singleton-namecert-obligation-surface} to obtain the carrier, classifier, indexed open rows, boundary rows, finite-intersection rows, arbitrary-union rows, and ledger provenance.
+
+Next identify the rows that a downstream standard indexed-topological-space interface reads. By \autoref{thm:topology-downstream-open-constructor-coverage}, every exported public open is one of the displayed carried-open constructor rows. Interpret each such row as a standard open row indexed by the same public carried-open index, with the carried predicate as its readback predicate.
+
+The topology laws are then read rather than rebuilt. Finite intersections use the finite-intersection clauses already present in the indexed-open carrier, and arbitrary unions use the arbitrary-union clauses already present in the same carrier. The bottom and top rows are the displayed boundary rows.
+
+Finally apply \autoref{thm:topology-downstream-carrier-classifier-scope}. Membership invariance is transported only through the carrier classifier and the carried-open equation, so the bridge does not introduce host powerset equality, quotient identification, completeness content, or a Lean-side bridgeChecked correspondence.
+\end{proof}
+
 \begin{closurestatus}{\TopologyUp}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{The public surface closed by \autoref{thm:topology-downstream-namecert-export-surface} is exactly the carrier, carrier classifier, carried-open index, finite-intersection constructor, binary generated-open meet constructor, arbitrary-union constructor, boundary rows, and visible ledger provenance for the displayed $\TopologyUp$ public rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.TopologyUp.BHistLedgerPublicOpenTree\_downstream\_export\_surface}
-  \bridgestatus{none}
-  \notclaimed{It does not close standard topological-space bridges, quotient or powerset equality, RealUp completeness, metric completeness, or compactness.}
-  \upgradepath{The next grade requires a bridge theorem connecting this public carried-open surface to the standard topological-space interface with carrier readback, open-row readback, topology-law readback, and no host-space leakage.}
+  \bridgestatus{paperBridge}
+  \notclaimed{It does not close surjectivity onto all host opens, quotient or powerset equality, full standard-space equivalence, RealUp completeness, metric completeness, compactness, or bridgeChecked verification.}
+  \upgradepath{The next grade requires a Lean bridgeChecked correspondence for the carrier readback, open-row readback, topology-law readback, and classifier-transport clauses of \autoref{thm:topology-public-carried-open-standard-bridge}.}
 \end{closurestatus}
