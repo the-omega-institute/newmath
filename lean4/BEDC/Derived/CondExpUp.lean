@@ -9,6 +9,7 @@ namespace BEDC.Derived.CondExpUp
 
 open BEDC.Derived.HilbertUp
 open BEDC.Derived.RandomVarUp
+open BEDC.Derived.RealUp
 open BEDC.Derived.VecSpaceUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
@@ -52,6 +53,32 @@ theorem CondExpCarrier_packet
   exact And.intro preimageRows.left
     (And.intro packet.right.left.right.left
       (And.intro packet.right.left.right.right.left packet.right.right))
+
+theorem CondExpProjection_obligation
+    {targetTotal sourceTotal chosenPreimage x p residual n : BHist} :
+    UnaryHistory sourceTotal ->
+      RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+        HilbertSingletonProjectionWitness x p ->
+          VecSpaceSingletonCarrier n ->
+            Cont p residual x ->
+              VecSpaceSingletonClassifier (HilbertSingletonProjection p) p ∧
+                VecSpaceSingletonClassifier (HilbertSingletonProjection x) BHist.Empty ∧
+                  RealConstantHistoryClassifier
+                    (HilbertSingletonInnerProduct (VecSpaceSingletonSmul x p) n)
+                    (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+                    UnaryHistory chosenPreimage ∧ hsame chosenPreimage sourceTotal ∧
+                      Cont p residual x := by
+  intro sourceUnary readback projection carrierN residualRow
+  have preimageRows :=
+    RandomVarTotalReadbackCertificate_total_event_preimage_exactness sourceUnary readback
+  have boundaryRows := HilbertSingletonProjection_boundary projection
+  have orthogonalRow :=
+    HilbertSingletonProjection_orthogonal_zero projection carrierN
+  exact And.intro boundaryRows.left
+    (And.intro boundaryRows.right.left
+      (And.intro orthogonalRow
+        (And.intro preimageRows.left
+          (And.intro preimageRows.right residualRow))))
 
 theorem CondExpClassifier_obligation
     {targetTotal sourceTotal chosenPreimage integrable projected residual targetTotal' sourceTotal'
