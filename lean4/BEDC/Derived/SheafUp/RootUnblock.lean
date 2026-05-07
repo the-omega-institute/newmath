@@ -75,4 +75,16 @@ theorem SheafRootUnblockCoverMembership_obligation
     (And.intro pointGerm
       (And.intro nextGermUnary ledger.right.right.right.left))
 
+theorem SheafRootUnblockBEDCSource_cover_membership
+    {ambient member overlap route germ : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      SheafRootFaceRead member overlap SheafRootFaceLanding.coverMembership ∧
+        UnaryHistory member ∧ hsame overlap member := by
+  intro ledger
+  have overlapMember : hsame overlap member := ledger.right.right.right.left
+  have memberOverlap : hsame member overlap := hsame_symm overlapMember
+  exact And.intro
+    (SheafRootFaceRead.coverMembership memberOverlap)
+    (And.intro ledger.right.left overlapMember)
+
 end BEDC.Derived.SheafUp
