@@ -64,4 +64,24 @@ theorem IntegralVisibleCarrierRow_readback
         (And.intro carrier.right.right.right.left
           (And.intro carrier.right.right.right.right.right.right rowUnary))))
 
+theorem IntegralVisibleCarrierRow_classifier_boundary_transport
+    {measure contour integrand value measureContour integrandValue row measure' contour'
+      integrand' value' measureContour' integrandValue' row' : BHist} :
+    IntegralVisibleCarrierRow measure contour integrand value measureContour integrandValue row ->
+      IntegralVisibleCarrierRow measure' contour' integrand' value' measureContour'
+        integrandValue' row' ->
+        hsame measureContour measureContour' ->
+          hsame integrandValue integrandValue' ->
+            hsame row row' ∧ UnaryHistory row ∧ UnaryHistory row' := by
+  intro leftRow rightRow sameMeasureContour sameIntegrandValue
+  have leftReadback := IntegralVisibleCarrierRow_readback leftRow
+  have rightReadback := IntegralVisibleCarrierRow_readback rightRow
+  have sameRow : hsame row row' :=
+    cont_respects_hsame sameMeasureContour sameIntegrandValue
+      leftReadback.right.right.right.right.left
+      rightReadback.right.right.right.right.left
+  exact And.intro sameRow
+    (And.intro leftReadback.right.right.right.right.right
+      rightReadback.right.right.right.right.right)
+
 end BEDC.Derived.IntegralUp
