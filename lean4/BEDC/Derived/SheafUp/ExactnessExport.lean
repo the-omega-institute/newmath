@@ -57,7 +57,64 @@ theorem SheafRestrictedOpenRefinement_exactness_export
         (cont_deterministic source.right.right descent.left.right.right)
         descent.right.right
     exact And.intro source
-      (Exists.intro restrictedGermB (And.intro pairedLedger sameEndpointPaired))
+        (Exists.intro restrictedGermB (And.intro pairedLedger sameEndpointPaired))
+
+theorem SheafRefinementExactness_namecert_export
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB globalA globalB : BHist} :
+    SheafBHistPointGermLedger point openHist sectionA germA ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              Cont openHist sectionA globalA ->
+                Cont openHist sectionB globalB ->
+                  SheafBHistPointGermComparison point restrictedOpen sectionA
+                    restrictedGermA restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+                    hsame globalA globalB ∧
+                      SemanticNameCert
+                        (fun endpoint : BHist =>
+                          SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+                        (fun endpoint : BHist =>
+                          SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+                        (fun endpoint : BHist =>
+                          SheafBHistPointGermLedger point restrictedOpen sectionA endpoint ∧
+                            exists paired : BHist,
+                              SheafBHistPointGermLedger point restrictedOpen sectionB paired ∧
+                                hsame endpoint paired)
+                        hsame := by
+  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB globalACont globalBCont
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have exactRows :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+            restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+            hsame globalA globalB :=
+    SheafRefinedCover_exactness_obligation
+      ledgerA ledgerB sameOpen restrictedA restrictedB descent.right.right globalACont
+      globalBCont
+  have cert :
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+        (fun endpoint : BHist =>
+          SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+        (fun endpoint : BHist =>
+          SheafBHistPointGermLedger point restrictedOpen sectionA endpoint ∧
+            exists paired : BHist,
+              SheafBHistPointGermLedger point restrictedOpen sectionB paired ∧
+                hsame endpoint paired)
+        hsame :=
+    SheafRestrictedOpenRefinement_exactness_export
+      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  exact And.intro exactRows.right.right.left
+    (And.intro exactRows.right.right.right cert)
 
 theorem SheafNameCertRefinementExactness_export
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA restrictedGermB
@@ -134,6 +191,73 @@ theorem SheafNameCertRefinementExactness_export
     (And.intro exactRows.right.left
       (And.intro exactRows.right.right.left
         (And.intro exactRows.right.right.right cert)))
+
+theorem SheafNameCertRefinement_exactness_export
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB globalA globalB : BHist} :
+    SheafBHistPointGermLedger point openHist sectionA germA ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              Cont openHist sectionA globalA ->
+                Cont openHist sectionB globalB ->
+                  SemanticNameCert
+                    (fun endpoint : BHist =>
+                      SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+                    (fun endpoint : BHist =>
+                      SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+                    (fun endpoint : BHist =>
+                      SheafBHistPointGermLedger point restrictedOpen sectionA endpoint ∧
+                        hsame endpoint globalB ∧
+                          exists paired : BHist,
+                            SheafBHistPointGermLedger point restrictedOpen sectionB paired ∧
+                              hsame endpoint paired)
+                    hsame := by
+  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB globalRowA globalRowB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have sameGermGlobalA : hsame germA globalA :=
+    cont_deterministic ledgerA.right.right globalRowA
+  have sameGermGlobalB : hsame germB globalB :=
+    cont_deterministic ledgerB.right.right globalRowB
+  have sameGlobalA_GlobalB : hsame globalA globalB :=
+    hsame_trans (hsame_symm sameGermGlobalA)
+      (hsame_trans sameGerm sameGermGlobalB)
+  constructor
+  · constructor
+    · exact Exists.intro restrictedGermA descent.left
+    · intro endpoint _carrier
+      exact hsame_refl endpoint
+    · intro _endpoint _endpoint' same
+      exact hsame_symm same
+    · intro _endpoint _endpoint' _endpoint'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro endpoint endpoint' same carrier
+      exact And.intro carrier.left
+        (And.intro carrier.right.left
+          (cont_result_hsame_transport carrier.right.right same))
+  · intro _endpoint source
+    exact source
+  · intro endpoint source
+    have sameEndpointGlobalA : hsame endpoint globalA :=
+      cont_respects_hsame (hsame_symm sameOpen) (hsame_refl sectionA)
+        source.right.right globalRowA
+    have sameEndpointGlobalB : hsame endpoint globalB :=
+      hsame_trans sameEndpointGlobalA sameGlobalA_GlobalB
+    have pairedLedger : SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB :=
+      descent.right.left
+    have sameEndpointPaired : hsame endpoint restrictedGermB :=
+      hsame_trans
+        (cont_deterministic source.right.right descent.left.right.right)
+        descent.right.right
+    exact And.intro source
+      (And.intro sameEndpointGlobalB
+        (Exists.intro restrictedGermB (And.intro pairedLedger sameEndpointPaired)))
 
 theorem SheafBaseChange_common_refinement_composition
     {point common openA openB sectA sectB germA germB midCommon finalCommon midGermA
