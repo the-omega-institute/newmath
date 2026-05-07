@@ -164,6 +164,7 @@ import BEDC.Derived.ComplexUp.RawLedgerE0
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
+import BEDC.Derived.ContactUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.ConditionalUnique
@@ -315,7 +316,6 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
-import BEDC.Derived.CondExpUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
