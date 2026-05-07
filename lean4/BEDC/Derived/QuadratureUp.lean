@@ -21,4 +21,20 @@ theorem QuadratureDegBoundLe_trans {e d c : BHist} :
     · intro k unaryK strictCK
       exact left.right.right unaryK (right.right.right unaryK strictCK)
 
+theorem QuadraturePolynomialDegreeWindow_inclusion {coeff : BHist -> BHist} {zero e d : BHist} :
+    QuadratureDegBoundLe e d ->
+      (UnaryHistory zero ∧ UnaryHistory e ∧
+        (forall {k : BHist}, UnaryHistory k -> NatUnaryStrictPrefix e k ->
+          hsame (coeff k) zero)) ->
+        UnaryHistory zero ∧ UnaryHistory d ∧
+          (forall {k : BHist}, UnaryHistory k -> NatUnaryStrictPrefix d k ->
+            hsame (coeff k) zero) := by
+  intro bound window
+  constructor
+  · exact window.left
+  · constructor
+    · exact bound.right.left
+    · intro k unaryK strictDK
+      exact window.right.right unaryK (bound.right.right unaryK strictDK)
+
 end BEDC.Derived.QuadratureUp
