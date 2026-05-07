@@ -129,6 +129,7 @@ those ledger entries, but the public carrier and classifier expose only
 $\mathsf{BHist}$ endpoints, $\mathsf{GraphContEdge}$ rows, $\Cont$ rows,
 $\hsame$ transport, $\Pkg$ provenance, and $\NameCert$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistObligationCarrier\_stability\_ledger\_obligation}
 \begin{proof}
 Use the stability and ledger fields of the roadmap ten-field template. The
 visible surface is fixed by the graph package, edge rows, connectedness row,
@@ -462,6 +463,7 @@ Now unpack $\mathsf{TreeClassifier}(h,k)$. The classifier contains $\hsame(h,k)$
 On carried histories, $\mathsf{TreeClassifier}$ is reflexive, symmetric, and transitive, and it transports $\mathsf{TreeCarrier}$: if $\mathsf{TreeCarrier}(h)$ and $\mathsf{TreeClassifier}(h,k)$ hold, then $\mathsf{TreeCarrier}(k)$ holds with the graph-source, connectedness, acyclicity, root-or-root-free, and syntactic-representation rows transported along $\hsame(h,k)$.
 \end{theorem}
 \leanchecked{BEDC.Derived.TreeUp.TreeObligationSurface\_classifier\_transport}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistCarrier\_classifier\_transport\_obligation}
 \begin{proof}
 Reflexivity uses reflexivity of $\hsame$ on $\mathsf{BHist}$ and the identity transport of each row in \autoref{def:tree-obligation-surface}. The graph source comes from $\NameCert_{\GraphUp}$; the connectedness, acyclicity, root-or-root-free, and syntactic-representation rows are carried unchanged at the same endpoint.
 
@@ -469,6 +471,7 @@ Symmetry uses symmetry of $\hsame$. Each row transport stored in $\mathsf{TreeCl
 
 Transitivity composes the two $\hsame$ witnesses and then composes the corresponding row transports. The composed transport carries exactly the graph-source, connectedness, acyclicity, root-or-root-free, and syntactic-representation rows named by the surface, so carrier transport follows by repacking those transported rows as $\mathsf{TreeCarrier}(k)$.
 \end{proof}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistCarrier\_classifier\_obligation}
 
 \begin{theorem}[Tree root-witness obligation]\label{thm:tree-root-witness-obligation}
 Every $\mathsf{TreeCarrier}(h)$ supplies exactly one admissible root row: either a designated root witness compatible with the carried $\NameCert_{\GraphUp}$ source or an explicit root-free witness row. This witness row is stable under $\mathsf{TreeClassifier}$, so $\mathsf{TreeClassifier}(h,k)$ transports the same root-or-root-free alternative from $h$ to $k$ along $\hsame$.
