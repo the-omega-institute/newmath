@@ -34,6 +34,7 @@ Thus the carrier predicate is exactly the punctured vector-space row together
 with the field and scalar-action certificate rows. No host quotient carrier or
 external projective-point object is introduced.
 \end{proof}
+\leanchecked{BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonPuncturedCarrier\_obligation}
 
 \begin{theorem}[ProjectiveSpaceUp scaling-orbit classifier obligation]
 \label{thm:projectivespace-scaling-orbit-classifier-obligation}
@@ -59,6 +60,7 @@ multiplication. The scalar-action associativity row in the vector-space
 certificate identifies the double action with action by the product scalar,
 so the resulting witness transports the first representative to the third.
 \end{proof}
+\leanchecked{BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonScalingOrbitClassifier\_obligation}
 
 \begin{theorem}[ProjectiveSpaceUp ledger and exactness obligation]
 \label{thm:projectivespace-ledger-and-exactness-obligation}
@@ -92,13 +94,14 @@ ledger provenance.
 \label{sec:projectivespace-certificate}
 
 \closureat{ProjectiveSpaceUp}{seedStr}
+\closureat{ProjectiveSpaceUp}{obligationStr}
 
 \begin{closurestatus}{\ProjectiveSpaceUp}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed scope binds the existing $\NameCert_{\VecSpaceUp}$ and $\NameCert_{\FieldUp}$ dependencies together with the punctured-vector carrier, scaling-action classifier, stability, ledger, exactness, and dependency rows as projective-space seed obligations.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
   \notclaimed{This chapter does not close the projective-space carrier, classifier, scaling quotient, standard bridge, or Lean verification target.}
-  \upgradepath{Obligation closure is grounded by Theorems~\ref{thm:projectivespace-punctured-carrier-obligation}, \ref{thm:projectivespace-scaling-orbit-classifier-obligation}, and \ref{thm:projectivespace-ledger-and-exactness-obligation}.}
+  \upgradepath{Scoped closure requires binding Theorems~\ref{thm:projectivespace-punctured-carrier-obligation}, \ref{thm:projectivespace-scaling-orbit-classifier-obligation}, and \ref{thm:projectivespace-ledger-and-exactness-obligation} to the concrete $\NameCert_{\VecSpaceUp}$ and $\NameCert_{\FieldUp}$ primitives: punctured vector carrier, nonzero field guard, scalar-action rows, scaling-orbit classifier, ledger provenance, and exactness boundary.}
 \end{closurestatus}

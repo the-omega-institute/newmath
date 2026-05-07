@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v3.9 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.1 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -155,6 +155,8 @@ For each target in the list above:
      The grounding theorem MUST be a real Lean target — `bedc_ci.py audit` enforces this and fails the round if the grounding doesn't resolve. `_` in the target must be `\_`-escaped (same as `\leanchecked`).
      Use `\publicClosure` only when the chapter exhibits a public-object surface; use `\bridgedClosure` only if the chapter exhibits a complete `\StdBridge` per `\autoref{ch:acceptance-bridge}`.
    - **Removing or downgrading** a closurestatus block is a deliberate downgrade and reopens the chapter to lean rounds. Don't do this lightly — it should be a separate target, justified by a found defect.
+   - **Drift sync (formalstatus token upgrade)**: a `closure_mark` target may instead be drawn from `critical_path.py` JSON's top-level `drift_chapters[*]` array. In that case the chapter ALREADY has a `closurestatus` block; the round's job is a SINGLE-LINE replacement: change the existing `\formalstatus{\<token>}` line to `\formalstatus{\<objective_formal_grade>}` (read both fields directly from the drift_chapters entry). Do NOT touch `\theoryclosure{...}`, `\leantarget{...}`, `\bridgestatus{...}`, `\scopeclosed{...}`, or `\notclaimed{...}`. Only update `\upgradepath{...}` if its current text references the OLD token (e.g. mentions `theoremCheckedV → axiomCleanV`); rewrite it to point at the new next step (e.g. `axiomCleanV → bridgeCheckedV`). Otherwise leave it. The total diff for a drift-sync round is 1-2 lines. After editing, run `make` (full two-pass) to confirm the token rendered correctly, then commit with subject `P<ROUND_NUM>: sync <X>Up formalstatus to <objective>`.
+   - **Bridge sync (after a lean bridge commit)**: when Phase Review's bridge_candidates HARD GATE fires (lean R-round committed `<X>Up_StdBridge` with subject `R\d+: bridge <X>Up to schema (axiomClean->bridgeCheck)`), this paper round records the upgrade by editing the chapter's `closurestatus` block: change `\bridgestatus{none}` (or `\bridgestatus{paperBridge}`) to `\bridgestatus{bridgeChecked}` AND change `\formalstatus{\axiomCleanV}` (or `\formalstatus{\theoremCheckedV}` if drift sync hadn't run yet) to `\formalstatus{\bridgeCheckedV}`. Update `\upgradepath{...}` to record there is no further upgrade. Do NOT modify `\theoryclosure{...}` (already at `\matureClosure`) or `\leantarget{...}` (still points at the canonical chapter theorem; the bridge is an additional named theorem, not a replacement of leantarget). The total diff is 2-3 lines. Verify the bridge theorem actually exists in `lean4/BEDC/Derived/<X>Up.lean` (or sibling) before recording the upgrade — `bedc_ci.py audit` will reject if not. Commit subject: `P<ROUND_NUM>: record <X>Up bridgeChecked closure`.
    - The block is the manuscript's binding commitment that the theory has reached the named closure grade and the cited Lean target has been verified at the named verification grade. Adding it without coverage or with a fake grounding is a discipline violation that the audit catches.
 
 10. If the target's `paper_files[0]` matches `papers/bedc/parts/capstones/...` (capstone bridge theorem with `cross_chapter_unification = 2`):
@@ -237,12 +239,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "P<ROUND_NUM>: [brief description of what was revised]
 
-prompts: v3.5
+prompts: v3.9
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v3.5` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v3.9` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 
