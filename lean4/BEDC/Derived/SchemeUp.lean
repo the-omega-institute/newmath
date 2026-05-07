@@ -9,6 +9,19 @@ open BEDC.Derived.RingedSpaceUp
 open BEDC.Derived.SheafUp
 open BEDC.Derived.TopologyUp
 
+theorem SchemeAffineCoverClassifier_overlap_locality
+    {point openA openB sectionA sectionB germA germB ringA ringB chartA chartB common : BHist} :
+    RingedSpaceSingletonSurface point openA sectionA germA ringA ->
+      RingedSpaceSingletonSurface point openB sectionB germB ringB ->
+        SheafBHistPointGermComparison point openA sectionA germA openB sectionB germB common ->
+          CommRingSingletonClassifier chartA ringA ->
+            CommRingSingletonClassifier chartB ringB ->
+              hsame germA germB ∧ CommRingSingletonCarrier ringA ∧
+                CommRingSingletonCarrier ringB := by
+  intro _surfaceA _surfaceB comparison chartAClassified chartBClassified
+  exact And.intro comparison.right.right.right.right.right.right.right.right
+    (And.intro chartAClassified.right.left chartBClassified.right.left)
+
 theorem SchemeSingleton_affine_cover_classifier_locality_obligation
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB ringEndpoint chartA chartB : BHist} :
