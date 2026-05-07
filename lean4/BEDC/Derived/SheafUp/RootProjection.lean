@@ -1,3 +1,4 @@
+import BEDC.Derived.SheafUp.BaseChangeSurface
 import BEDC.Derived.SheafUp.DownstreamProjection
 
 namespace BEDC.Derived.SheafUp
@@ -115,5 +116,49 @@ theorem SheafRootRingedSpaceConsumerProjection_scope
             (And.intro faceRows.right.right.left
               (And.intro faceRows.right.right.right.left
                 faceRows.right.right.right.right))))))
+
+theorem SheafRootConsumerPullbackProjection_base_change_face
+    {ambient member overlap route germ sourceMember sourceOverlap sourceCoverGerm point targetOpen
+      representedOpen pulledOpen sectionA sectionB germA germB pulledGermA pulledGermB :
+        BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      hsame member sourceMember -> hsame overlap sourceOverlap ->
+        Cont sourceOverlap route sourceCoverGerm ->
+          SheafBHistPointGermLedger point targetOpen sectionA germA ->
+            SheafBHistPointGermLedger point targetOpen sectionB germB ->
+              hsame germA germB -> hsame targetOpen representedOpen ->
+                hsame representedOpen pulledOpen -> Cont pulledOpen sectionA pulledGermA ->
+                  Cont pulledOpen sectionB pulledGermB ->
+                    SheafBHistCoverNerveLedger ambient sourceMember sourceOverlap route
+                        sourceCoverGerm ∧
+                      SheafBHistPointGermComparison point pulledOpen sectionA pulledGermA
+                        pulledOpen sectionB pulledGermB pulledOpen ∧
+                        SheafRootFaceRead pulledOpen pulledGermA
+                          .localityGluingRefinement ∧
+                          SheafRootFaceRead pulledOpen pulledGermB
+                            .localityGluingRefinement ∧
+                            hsame targetOpen pulledOpen := by
+  intro coverLedger sameMember sameOverlap sourceRow ledgerA ledgerB sameGerm sameRepresented
+    samePulled pulledRowA pulledRowB
+  have projection :
+      SheafBHistCoverNerveLedger ambient sourceMember sourceOverlap route sourceCoverGerm ∧
+        SheafBHistPointGermComparison point pulledOpen sectionA pulledGermA pulledOpen sectionB
+          pulledGermB pulledOpen ∧
+          hsame germ sourceCoverGerm ∧ hsame pulledGermA pulledGermB ∧
+            hsame targetOpen pulledOpen :=
+    SheafBaseChange_common_refinement_projection coverLedger sameMember sameOverlap sourceRow
+      ledgerA ledgerB sameGerm sameRepresented samePulled pulledRowA pulledRowB
+  have readA :
+      SheafRootFaceRead pulledOpen pulledGermA .localityGluingRefinement :=
+    SheafRootFaceRead.localityGluingRefinement pulledRowA pulledRowB
+      projection.right.right.right.left
+  have readB :
+      SheafRootFaceRead pulledOpen pulledGermB .localityGluingRefinement :=
+    SheafRootFaceRead.localityGluingRefinement pulledRowB pulledRowA
+      (hsame_symm projection.right.right.right.left)
+  exact And.intro projection.left
+    (And.intro projection.right.left
+      (And.intro readA
+        (And.intro readB projection.right.right.right.right)))
 
 end BEDC.Derived.SheafUp
