@@ -188,4 +188,23 @@ theorem OperatorIdealTraceClass_consumer_spine_coverage {T S sum neg A left righ
     (And.intro negCarrier
       (And.intro absorptionRows.left absorptionRows.right))
 
+theorem OperatorIdealTraceClass_consumer_exhaustion
+    {T S sum neg A left right result : BHist} :
+    OperatorIdealTraceClassCarrier T -> OperatorIdealTraceClassCarrier S -> UnaryHistory A ->
+      Cont T S sum -> Cont BHist.Empty T neg -> Cont A T left -> Cont T A right ->
+        OperatorIdealBoundedContextAction T result ->
+          OperatorIdealTraceClassCarrier sum ∧ OperatorIdealTraceClassCarrier neg ∧
+            OperatorIdealTraceClassCarrier left ∧ OperatorIdealTraceClassCarrier right ∧
+              OperatorIdealTraceClassCarrier result := by
+  intro carrierT carrierS unaryA sumCont negCont leftCont rightCont action
+  have consumerRows :=
+    OperatorIdealTraceClass_consumer_spine_coverage carrierT carrierS unaryA sumCont
+      negCont leftCont rightCont
+  have resultCarrier : OperatorIdealTraceClassCarrier result :=
+    OperatorIdealTraceClass_finite_context_closure carrierT action
+  exact And.intro consumerRows.left
+    (And.intro consumerRows.right.left
+      (And.intro consumerRows.right.right.left
+        (And.intro consumerRows.right.right.right resultCarrier)))
+
 end BEDC.Derived.OperatorIdealUp
