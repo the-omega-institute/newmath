@@ -378,4 +378,31 @@ theorem TreeBHistObligationCarrier_acyclic_unit_loop_exactness
     (And.intro loopExact.right
       (And.intro carrier.right.right.right.left carrier.right.right.right.right.left))
 
+theorem TreePublicDerivationSyntaxBridge_visible_spine_package
+    {graph edge connected acyclic root endpoint spine extendedRoot extendedConnected syntaxTarget :
+      BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint -> UnaryHistory spine ->
+      Cont root spine extendedRoot -> Cont connected spine extendedConnected ->
+        hsame extendedConnected syntaxTarget ->
+          TreeRootBranch endpoint extendedRoot extendedConnected ∧
+            GraphContEdge endpoint extendedRoot syntaxTarget ∧ UnaryHistory syntaxTarget ∧
+              Cont endpoint extendedRoot syntaxTarget := by
+  intro carrier spineUnary rootSpine connectedSpine sameSyntax
+  have rootExtension :
+      TreeRootBranch endpoint extendedRoot extendedConnected ∧ UnaryHistory extendedRoot ∧
+        Cont endpoint extendedRoot extendedConnected :=
+    TreeRootWitness_spine_extension_exactness carrier spineUnary rootSpine connectedSpine
+  have syntaxUnary : UnaryHistory syntaxTarget :=
+    unary_transport
+      (unary_cont_closed rootExtension.left.left.left rootExtension.right.left
+        rootExtension.right.right)
+      sameSyntax
+  have syntaxCont : Cont endpoint extendedRoot syntaxTarget :=
+    cont_result_hsame_transport rootExtension.right.right sameSyntax
+  have syntaxEdge : GraphContEdge endpoint extendedRoot syntaxTarget :=
+    (GraphContEdge_classifier_transport rootExtension.left.left (hsame_refl endpoint)
+      (hsame_refl extendedRoot) sameSyntax).left
+  exact And.intro rootExtension.left
+    (And.intro syntaxEdge (And.intro syntaxUnary syntaxCont))
+
 end BEDC.Derived.TreeUp
