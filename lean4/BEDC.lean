@@ -234,6 +234,7 @@ import BEDC.Derived.SheafUp.CoverPresentationClassifier
 import BEDC.Derived.SheafUp.IndexedCoverCompatibilityLocality
 import BEDC.Derived.SheafUp.LocalityGluingCertificate
 import BEDC.Derived.SheafUp.IdentityCover
+import BEDC.Derived.SheafUp.IdentityCoverRootPackage
 import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RefinementPullbackComposition
 import BEDC.Derived.SheafUp.RootExportPackage
