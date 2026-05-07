@@ -191,6 +191,7 @@ import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SetUp
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
@@ -304,6 +305,7 @@ import BEDC.Derived.FilterUp
 import BEDC.Derived.FourierUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
+import BEDC.Derived.SetUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.CarrierExactness
 import BEDC.Derived.SumUp.Classifier
@@ -508,6 +510,7 @@ import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
 import BEDC.Derived.RingedSpaceUp
+import BEDC.Derived.SchemeUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.NegEndpoint
 import BEDC.Derived.CommRingUp.EmptyLinearFactor

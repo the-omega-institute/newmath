@@ -323,6 +323,45 @@ quotient, completion object, Classical datum, external metric primitive,
 $\RealUp$ completeness claim, or standard bridge.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-shift regularity stability]
+\label{thm:regseqrat-tail-shift-regularity-stability}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+and indices $j,r$ with $j+r\le m$, define the tail-shifted streams by
+$$
+x_j(k)=x(n+j+k),\qquad y_j(k)=y(n+j+k).
+$$
+Then the finite $\RegSeqRat$ regularity surface for the shifted window
+$(x_j,y_j,0,r)$ inherits the same endpoint
+$\mathsf{DyadicRatCoreObservationRow}$ carrier, classifier, stability, and
+finite dyadic ledger rows as the source window. These inherited rows are
+exactly the rows fed to
+\autoref{thm:realup-finite-window-exhaustion-obligation}, and the
+tail-shifted surface adds no quotient, completion object, Classical datum,
+external metric primitive, $\RealUp$ completeness claim, or standard bridge.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-window-subwindow-extraction} to the certified
+window with shift $j$ and radius $r$. The bound $j+r\le m$ gives the shifted
+finite certificate at anchor $n+j$ and radius $r$, which is the zero-based
+certificate for the tail-shifted streams $x_j$ and $y_j$ at window $(0,r)$.
+
+Next apply
+\autoref{thm:dyadicratcore-public-observation-subwindow-stability}. The
+subwindow keeps the public DyadicRatCore observation-row carrier, classifier,
+stability, and finite dyadic ledger rows fixed while changing only the finite
+anchor read by the stream certificate.
+
+Finally read the shifted certificate through
+\autoref{thm:streamname-public-finite-window-interface} and close with
+\autoref{thm:realup-finite-window-exhaustion-obligation}. The RealUp
+finite-window consumer therefore receives the same DyadicRatCore endpoint rows
+from the tail-shifted $\RegSeqRat$ surface that it receives from the original
+finite window, with no additional primitive or bridge.
+\end{proof}
+
 \begin{closurestatus}{\DyadicRatCore}
   \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:dyadicratcore-public-observation-package} witnesses the public DyadicRatCore observation package over $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp request names, the DyadicRatCore observation row, and the finite dyadic ledger consumed by $\RegSeqRat$ and $\RealUp$.}
