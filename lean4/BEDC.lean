@@ -191,6 +191,8 @@ import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.CoverNerveRouteTransport
+import BEDC.Derived.SheafUp.RootFaceReadback
 import BEDC.Derived.SetUp
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
@@ -199,6 +201,7 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
+import BEDC.Derived.HolomorphicUp.LedgerPolicy
 import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
 import BEDC.Derived.HolomorphicUp.IteratedTransport
 import BEDC.Derived.HolomorphicUp.IteratedComposition
