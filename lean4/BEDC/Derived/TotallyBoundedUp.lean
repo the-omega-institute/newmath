@@ -20,6 +20,14 @@ def TotallyBoundedProbeBundleNet (X : BHist -> Prop) (eps : BHist)
         exists p : BHist, InBundle p bundle ∧
           exists d : BHist, MetricDistanceWitness x p d ∧ RatHistoryClassifier d eps)
 
+def TotallyBoundedProbeBundleNetSubcarrierRestriction (X Y : BHist -> Prop) (eps : BHist)
+    (bundle : ProbeBundle BHist) : Prop :=
+  RatHistoryCarrier eps ∧
+    (forall {p : BHist}, InBundle p bundle -> X p) ∧
+      (forall {y : BHist}, Y y ->
+        exists p : BHist, InBundle p bundle ∧
+          exists d : BHist, MetricDistanceWitness y p d ∧ RatHistoryClassifier d eps)
+
 theorem TotallyBoundedProbeBundleNet_coverage_hsame_transport {X : BHist -> Prop}
     {eps eps' : BHist} {bundle : ProbeBundle BHist} :
     hsame eps eps' -> TotallyBoundedProbeBundleNet X eps bundle ->
@@ -175,6 +183,21 @@ theorem TotallyBoundedProbeBundleNet_subcarrier_restriction {X Y : BHist -> Prop
               cases pData.right with
               | intro d distanceData =>
                   exact ⟨p, pData.left, d, distanceData.left, distanceData.right⟩
+
+theorem TotallyBoundedProbeBundleNetSubcarrierRestriction_net_restricts {X Y : BHist -> Prop}
+    {eps : BHist} {bundle : ProbeBundle BHist}
+    (inclusion : forall {y : BHist}, Y y -> X y) :
+    TotallyBoundedProbeBundleNet X eps bundle ->
+      TotallyBoundedProbeBundleNetSubcarrierRestriction X Y eps bundle := by
+  intro net
+  cases net with
+  | intro epsCarrier rest =>
+      constructor
+      · exact epsCarrier
+      · constructor
+        · exact rest.left
+        · intro y sourceY
+          exact rest.right (inclusion sourceY)
 
 theorem SingletonMetricTotallyBounded_laws :
     hsame BHist.Empty BHist.Empty ∧
