@@ -687,60 +687,12 @@ Again symmetry and transitivity give $b\sim_M b+_M b$, and \autoref{thm:module-a
 \input{parts/concrete_instances/21_module_parity_action_boundary}
 \input{parts/concrete_instances/21_module_linearmap_kernel_and_inverse_action}
 
-\begin{theorem}[Module public singleton standard bridge]
-\label{thm:module-public-singleton-standard-bridge}
-The public singleton $\ModuleUp$ surface exported by
-\autoref{thm:module-singleton-smul-image-semantic-name-cert} and the kernel
-surface of
-\autoref{thm:module-singleton-smul-kernel-semantic-name-cert} admit the
-standard one-object module bridge. The carrier is the singleton empty-history
-module carrier $A_{\emp}$, the scalar source is the singleton scalar
-$\RingUp$ surface, the action is the displayed singleton scalar action
-$\mathsf{ModuleSingletonSmul}$, the classifier is $\rho_{\emp}$, and every
-exported carrier, classifier, action, kernel, source, and linear-map row is
-read through BEDC $\mathsf{BHist}$, $\hsame$, $\Cont$, $\NameCert$,
-$\RingUp$, $\AbGroupUp$, and $\mathsf{LinearMapCert}_R$ rows. No row of the
-bridge is read through host equality, host functions, quotients, or external
-module primitives.
-\end{theorem}
-\begin{proof}
-The public carrier and classifier side is supplied by
-\autoref{thm:module-singleton-smul-image-semantic-name-cert}. Its source,
-pattern, ledger, and classifier rows identify the scalar-action image with the
-singleton empty-history carrier by $\mathsf{BHist}$ endpoints and the
-$\rho_{\emp}$ classifier.
-
-The action row has no separate host interpretation. The zero-action
-annihilation theorem \autoref{thm:module-zero-action-annihilation} identifies
-the terminal scalar and terminal vector actions with the module zero through
-the module classifier, while
-\autoref{prop:module-forgets-abgroup-certificate} and
-\autoref{prop:module-forgets-ring-certificate} read the additive module side
-and scalar-ring side through their $\AbGroupUp$ and $\RingUp$ projections.
-Thus the one-object action is displayed entirely by the existing carrier,
-classifier, source, and ledger rows.
-
-The kernel side is the singleton scalar-action kernel exactness and semantic
-certificate of \autoref{thm:module-singleton-smul-kernel-exactness} and
-\autoref{thm:module-singleton-smul-kernel-semantic-name-cert}. These rows
-identify the kernel predicate with the same singleton carrier, restrict the
-classifier without replacing it, and package the source, pattern, and ledger as
-the same BEDC predicate.
-
-Finally, the downstream linear-map boundary reads this kernel through the
-$\mathsf{LinearMapCert}_R$ rows displayed in
-\autoref{thm:module-linearmap-kernel-certificate-package}. Composing the image
-certificate, zero-action annihilation, AbGroup and Ring projection rows, and
-the scalar-action kernel exactness and semantic certificate gives the standard
-one-object module bridge. Every endpoint, comparison, action, and kernel
-witness used in that composition is a BEDC row, so the bridge is constructive
-and has no host leak.
-\end{proof}
+\input{parts/concrete_instances/module/standard_bridge_and_host_boundary}
 
 \closureat{ModuleUp}{bridgedStr}[BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_semanticNameCert]
 \begin{closurestatus}{\ModuleUp}
   \theoryclosure{\bridgedClosure}
-  \scopeclosed{The paper-side bridge scope is exactly the singleton scalar carrier, singleton module carrier, $\rho_{\emp}$ classifier, constant scalar-action image $\mathsf{SemanticNameCert}$, graph exactness, zero-action row, $\RingUp$ and $\AbGroupUp$ projections, terminal-module standard bridge row, and visible-scalar nonfaithfulness no-host-leak row.}
+  \scopeclosed{The bridged singleton module surface binds the singleton scalar carrier, singleton module carrier, scalar-action image $\mathsf{SemanticNameCert}$, graph exactness, the zero-action row, $\AbGroupUp$ and $\RingUp$ projection rows, the LinearMap kernel surfaces, the standard bridge of \autoref{thm:module-singleton-standard-bridge}, and the public boundary of \autoref{thm:module-singleton-no-host-leak}.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_semanticNameCert}
   \bridgestatus{paperBridge}
