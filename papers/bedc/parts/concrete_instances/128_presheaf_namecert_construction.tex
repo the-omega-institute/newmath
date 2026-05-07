@@ -30,6 +30,7 @@ $$
 \end{enumerate}
 No row in this surface exports host open equality, cover quotients, stalk quotients, or external sheafification data.
 \end{definition}
+\leandef{BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface}
 
 \section{The certificate}
 \label{sec:presheaf-certificate}
@@ -56,6 +57,7 @@ $$
 $$
 for every chain $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$ and every $s:\mathsf{Sec}(i)$. The classifier-stability row also transports every comparison $s\sim_i t$ to $\rho_{i,j}(s)\sim_j\rho_{i,j}(t)$ along the same displayed inclusion witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.PreSheafUp.PreSheafRestrictionFunctoriality\_obligations}
 \begin{proof}
 Read the identity obligation from field seven of \autoref{def:presheaf-indexed-restriction-surface}. It is already stated over the section classifier $\sim_i$, so no host equality of sections is needed.
 
@@ -78,8 +80,9 @@ The negative boundary is part of the same definition: host open equality, cover 
 \begin{closurestatus}{\PreSheafUp}
   \theoryclosure{\obligationClosure}
   \scopeclosed{The paper-side scope is the $\PreSheafUp$ indexed restriction surface of \autoref{def:presheaf-indexed-restriction-surface}, with carrier, classifier, identity, composition, classifier-stability, and exact ledger obligations stated in \autoref{thm:presheaf-carrier-classifier-obligations}, \autoref{thm:presheaf-restriction-functoriality-obligations}, and \autoref{thm:presheaf-ledger-exactness-obligations}.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.PreSheafUp.PreSheafRestrictionFunctoriality\_obligations}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a public $\NameCert_{\PreSheafUp}$ surface, sheaf locality or gluing, a standard bridge, host open equality, cover quotients, stalk quotients, external sheafification, or Lean verification target.}
+  \notclaimed{This chapter does not close a public $\NameCert_{\PreSheafUp}$ surface, sheaf locality or gluing, a standard bridge, host open equality, cover quotients, stalk quotients, external sheafification, or the remaining carrier and ledger Lean targets.}
   \upgradepath{Scoped closure requires paper proofs assembling the displayed carrier, classifier, restriction functoriality, classifier-stability, and exact ledger rows into a complete $\NameCert_{\PreSheafUp}$ certificate surface.}
 \end{closurestatus}
