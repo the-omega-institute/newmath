@@ -170,4 +170,39 @@ theorem SheafRingedSpaceConsumption_obligation
       (And.intro routeB
         (And.intro carrierRows.right.right.right.right.right carrierRows.left.right.left)))
 
+theorem SheafRingedSpaceLocalRing_row
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist} :
+    SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB restrictedOpen
+        restrictedGermA restrictedGermB chartEndpoint ->
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          SheafRootFaceRead restrictedOpen restrictedGermA SheafRootFaceLanding.restrictionRoute ∧
+            SheafRootFaceRead restrictedOpen restrictedGermB
+              SheafRootFaceLanding.restrictionRoute ∧
+              hsame chartEndpoint restrictedGermB ∧ UnaryHistory restrictedOpen := by
+  intro scope
+  have carrierRows :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                hsame chartEndpoint restrictedGermB :=
+    SheafDownstreamConsumer_carrier_scope (point := point) (openHist := openHist)
+      (sectionA := sectionA) (sectionB := sectionB) (germA := germA) (germB := germB)
+      (restrictedOpen := restrictedOpen) (restrictedGermA := restrictedGermA)
+      (restrictedGermB := restrictedGermB) (chartEndpoint := chartEndpoint) scope
+  have routeA :
+      SheafRootFaceRead restrictedOpen restrictedGermA SheafRootFaceLanding.restrictionRoute :=
+    SheafRootFaceRead.restrictionRoute carrierRows.right.right.left
+  have routeB :
+      SheafRootFaceRead restrictedOpen restrictedGermB SheafRootFaceLanding.restrictionRoute :=
+    SheafRootFaceRead.restrictionRoute carrierRows.right.right.right.left
+  exact And.intro carrierRows.left
+    (And.intro carrierRows.right.left
+      (And.intro routeA
+        (And.intro routeB
+          (And.intro carrierRows.right.right.right.right.right carrierRows.left.right.left))))
+
 end BEDC.Derived.SheafUp
