@@ -39,6 +39,19 @@ theorem ConvexSetSingletonAffineSpine_midpoint_closure {x y endpoint : BHist} :
     And.intro xEmpty (Exists.intro y (And.intro tailSpine endpointRow))
   exact And.intro spine (ConvexSetSingletonAffineSpine_closure spine)
 
+theorem ConvexSetSingletonAffineSpine_order_symmetric {x y endpoint endpoint' : BHist} :
+    hsame x BHist.Empty -> hsame y BHist.Empty -> Cont x y endpoint ->
+      Cont y x endpoint' ->
+        ConvexSetSingletonAffineSpine [x, y] endpoint ∧
+          ConvexSetSingletonAffineSpine [y, x] endpoint' ∧ hsame endpoint endpoint' := by
+  intro xEmpty yEmpty endpointRow endpointRow'
+  have forwardRows :=
+    ConvexSetSingletonAffineSpine_midpoint_closure xEmpty yEmpty endpointRow
+  have reverseRows :=
+    ConvexSetSingletonAffineSpine_midpoint_closure yEmpty xEmpty endpointRow'
+  exact And.intro forwardRows.left
+    (And.intro reverseRows.left (hsame_trans forwardRows.right (hsame_symm reverseRows.right)))
+
 def ConvexSetPointwiseIntersection (C D : BHist -> Prop) (z : BHist) : Prop :=
   C z ∧ D z
 
