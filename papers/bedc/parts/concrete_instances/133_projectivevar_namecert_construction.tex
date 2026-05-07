@@ -147,6 +147,20 @@ Finally, the ledger field is \autoref{thm:projectivevar-scaling-ledger-obligatio
 \end{proof}
 \leanchecked{BEDC.Derived.ProjectiveVarUp.ProjectiveVarVisibleCarrier\_public\_namecert\_export}
 
+\begin{theorem}[ProjectiveVarUp public zero-locus downstream bridge]
+\label{thm:projectivevar-public-zero-locus-downstream-bridge}
+The public $\NameCert_{\ProjectiveVarUp}$ surface of \autoref{thm:projectivevar-public-namecert-export} is consumed by downstream zero-locus interfaces exactly through the visible projective carrier, the scaling-and-chart classifier, the homogeneous zero-locus exactness package, and the scaling ledger. Any $\AffineVarUp$ chart read, $\PolynomialUp$ homogeneous-family read, or $\ProjectiveSpaceUp$ representative read used by a downstream consumer factors through those four rows; conversely those four rows supply the consumer boundary without exposing chart choice, homogeneous presentation, scale witness, or zero-evaluation routing as public carrier data.
+\end{theorem}
+\begin{proof}
+Project the public certificate of \autoref{thm:projectivevar-public-namecert-export}. Its carrier projection is the visible $\mathsf{BHist}$ predicate supplied by \autoref{thm:projectivevar-carrier-obligation}, so every downstream zero-locus read begins with the same projective endpoint boundary rather than with a chart-local carrier.
+
+The classifier projection is the scaling-and-chart row of \autoref{thm:projectivevar-classifier-stability-obligation}. It is the only public route by which an $\AffineVarUp$ chart read or a $\ProjectiveSpaceUp$ representative read may be transported, and the transport keeps the carried endpoint inside the visible projective carrier.
+
+The exactness projection is \autoref{thm:projectivevar-homogeneous-zero-locus-exactness-obligation}. It supplies coverage, soundness, and completeness for each $\PolynomialUp$ homogeneous-family read used by the consumer, so zero-evaluation is consumed through the visible package rather than through a separate presentation of the family.
+
+Finally, the ledger projection is \autoref{thm:projectivevar-scaling-ledger-obligation}. It records chart choice, homogeneous presentation, scale witness, and zero-evaluation routing as hidden provenance, while the public boundary retains only the carrier, classifier, exactness package, and ledger rows. Repacking those four projections gives the downstream consumer boundary, and projecting that boundary back recovers exactly the same four rows without exposing any hidden witness as public carrier data.
+\end{proof}
+
 \closureat{ProjectiveVarUp}{publicStr}
 
 \begin{closurestatus}{\ProjectiveVarUp}
