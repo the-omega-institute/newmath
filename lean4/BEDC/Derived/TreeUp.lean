@@ -368,6 +368,28 @@ theorem TreeBHistCarrier_closed_path_unit_loop
     cont_right_unit_unique closedEndpoint
   exact And.intro unitLoop loopEmpty
 
+theorem TreeRootOrRootFreeWitness_closed_walk_boundary
+    {graph edge connected acyclic root endpoint loop closed : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint ->
+      GraphContEdge endpoint loop closed -> hsame closed endpoint ->
+        hsame loop BHist.Empty ∧ GraphContEdge endpoint BHist.Empty endpoint ∧
+          TreeRootBranch endpoint root connected ∧
+            ((hsame root BHist.Empty -> False) ->
+              UnaryHistory root ∧ GraphContEdge endpoint root connected) := by
+  intro carrier closedPath sameClosed
+  have collapsed :
+      GraphContEdge endpoint BHist.Empty endpoint ∧ hsame loop BHist.Empty :=
+    TreeBHistCarrier_closed_path_unit_loop carrier closedPath sameClosed
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  have rootedBoundary :
+      (hsame root BHist.Empty -> False) ->
+        UnaryHistory root ∧ GraphContEdge endpoint root connected := by
+    intro _rootNonempty
+    exact And.intro branch.right.left branch.left
+  exact And.intro collapsed.right
+    (And.intro collapsed.left
+      (And.intro branch rootedBoundary))
+
 theorem TreeBHistCarrier_syntactic_representation
     {graph edge connected acyclic root endpoint «syntax» syntaxTarget : BHist} :
     TreeBHistCarrier graph edge connected acyclic root endpoint ->
