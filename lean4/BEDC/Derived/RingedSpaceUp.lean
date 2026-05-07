@@ -76,4 +76,27 @@ theorem RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
       (And.intro descent.right.right
         (And.intro commOps openPoint)))
 
+theorem RingedSpaceSingletonPackage_stalk_locality_transport
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB ringEndpoint : BHist} :
+    RingedSpaceSingletonPackage point openHist sectionA germA ringEndpoint ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              RingedSpaceSingletonPackage point restrictedOpen sectionA restrictedGermA
+                ringEndpoint ∧
+                SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                  hsame restrictedGermA restrictedGermB := by
+  intro package ledgerB sameGerm sameOpen restrictedA restrictedB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      package.left ledgerB sameGerm sameOpen restrictedA restrictedB
+  exact And.intro
+    (And.intro descent.left (And.intro package.right.left package.right.right))
+    (And.intro descent.right.left descent.right.right)
+
 end BEDC.Derived.RingedSpaceUp
