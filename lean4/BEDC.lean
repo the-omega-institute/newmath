@@ -310,6 +310,7 @@ import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
+import BEDC.Derived.TreeUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp

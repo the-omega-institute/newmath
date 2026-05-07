@@ -4,6 +4,7 @@ namespace BEDC.Derived.SheafUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 inductive SheafRootJointConsumerFace (root endpoint : BHist) : Prop where
@@ -27,5 +28,27 @@ theorem SheafRootJointConsumerFace_exhaustion {root endpoint : BHist} :
       exact Or.inl ⟨_, read, SheafRootFaceRead_coverage read⟩
   | chartTrace trace =>
       exact Or.inr ⟨_, _, trace, SheafSchemeChartGluingTrace_unary_result trace⟩
+
+theorem SheafRootJointConsumerFace_semantic_name_certificate {root endpoint : BHist} :
+    SheafRootJointConsumerFace root endpoint ->
+      SemanticNameCert (SheafRootJointConsumerFace root) (SheafRootJointConsumerFace root)
+        (SheafRootJointConsumerFace root) hsame := by
+  intro face
+  constructor
+  · constructor
+    · exact Exists.intro endpoint face
+    · intro candidate _carrier
+      exact hsame_refl candidate
+    · intro left right same
+      exact hsame_symm same
+    · intro left middle right sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro left right same carrier
+      cases same
+      exact carrier
+  · intro _candidate source
+    exact source
+  · intro _candidate source
+    exact source
 
 end BEDC.Derived.SheafUp
