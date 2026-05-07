@@ -49,6 +49,30 @@ theorem RingedSpaceSingletonSurface_carrier_classifier_rows
           (And.intro surface.right.left.right.right
             (And.intro surface.right.right.left surface.right.right))))
 
+theorem RingedSpaceSingletonSurface_restriction_exact_ledger
+    {point openHist restrictedOpen sectionHist germ restrictedGerm ringEndpoint
+      ringEndpoint' : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionHist germ ringEndpoint ->
+      hsame openHist restrictedOpen ->
+        Cont restrictedOpen sectionHist restrictedGerm ->
+          CommRingSingletonClassifier ringEndpoint ringEndpoint' ->
+            RingedSpaceSingletonSurface point restrictedOpen sectionHist restrictedGerm
+              ringEndpoint' ∧ hsame germ restrictedGerm ∧
+                CommRingSingletonClassifier ringEndpoint' BHist.Empty := by
+  intro surface sameOpen restrictedRow commAligned
+  have sheafReadback :
+      SheafBHistPointGermLedger point restrictedOpen sectionHist restrictedGerm ∧
+        hsame germ restrictedGerm :=
+    SheafBHistPointGermLedger_restriction_readback surface.right.left sameOpen restrictedRow
+  cases sameOpen
+  have restrictedTopology : TopologySingletonOpenAt openHist point := surface.left
+  have endpointEmpty : CommRingSingletonClassifier ringEndpoint' BHist.Empty :=
+    And.intro commAligned.right.left
+      (And.intro (hsame_refl BHist.Empty) commAligned.right.left)
+  exact And.intro
+    (And.intro restrictedTopology (And.intro sheafReadback.left endpointEmpty))
+    (And.intro sheafReadback.right endpointEmpty)
+
 theorem RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB operationA operationB : BHist} :
