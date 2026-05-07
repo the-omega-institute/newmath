@@ -165,4 +165,35 @@ theorem IdealClassQuotientOperation_empty_product_exactness {h k : BHist} :
       (And.intro (hsame_refl BHist.Empty) productQuotient)
   exact And.intro principalRow quotientRow
 
+theorem IdealClassScoped_source_certificate :
+    (exists h : BHist,
+      IdealClassFractionalCarrier h ∧ IdealClassPrincipalClassifier h BHist.Empty ∧
+        CommRingSingletonClassifier h BHist.Empty ∧
+          QuotientGroupSingletonClassifier h BHist.Empty) ∧
+      SemanticNameCert IdealClassFractionalCarrier IdealClassFractionalCarrier
+        IdealClassFractionalCarrier IdealClassPrincipalClassifier ∧
+        (forall {h k : BHist}, IdealClassFractionalCarrier h -> IdealClassFractionalCarrier k ->
+          IdealClassPrincipalClassifier (CommRingSingletonMul h k) BHist.Empty ∧
+            QuotientGroupSingletonClassifier (CommRingSingletonMul h k) BHist.Empty) := by
+  have emptyFractional : IdealClassFractionalCarrier BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  have sourceAtEmpty :=
+    IdealClassFractionalCarrier_source_obligation emptyFractional (hsame_refl BHist.Empty)
+  have emptyPrincipal : IdealClassPrincipalClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyFractional (And.intro emptyFractional (hsame_refl BHist.Empty))
+  have sourceWitness :
+      exists h : BHist,
+        IdealClassFractionalCarrier h ∧ IdealClassPrincipalClassifier h BHist.Empty ∧
+          CommRingSingletonClassifier h BHist.Empty ∧
+            QuotientGroupSingletonClassifier h BHist.Empty :=
+    Exists.intro BHist.Empty
+      (And.intro emptyFractional
+        (And.intro emptyPrincipal
+          (And.intro sourceAtEmpty.right.left sourceAtEmpty.right.right)))
+  exact And.intro sourceWitness
+    (And.intro IdealClassPrincipalClassifier_semanticNameCert
+      (by
+        intro h k carrierH carrierK
+        exact IdealClassQuotientOperation_empty_product_exactness carrierH carrierK))
+
 end BEDC.Derived.IdealClassUp
