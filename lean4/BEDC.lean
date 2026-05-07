@@ -166,6 +166,7 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.DerivativeUp
+import BEDC.Derived.SymplecticUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.ConditionalUnique
 import BEDC.Derived.ComplexLimitUp.ComponentAssembly
@@ -249,6 +250,7 @@ import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.ObligationSurface
 import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SheafUp.StableRestrictionRow
+import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SetUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.SemanticNameCertificate
