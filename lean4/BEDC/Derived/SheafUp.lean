@@ -139,4 +139,27 @@ theorem SheafBHistPointGermLedger_shared_open_classifier_transitivity
     (And.intro rowA.left (And.intro rowA.right.left directAC))
     (And.intro sameAB germCUnary)
 
+theorem SheafRestrictedOpenCarrier_locality_gluing_descent
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB : BHist} :
+    SheafBHistPointGermLedger point openHist sectionA germA ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB ->
+          hsame openHist restrictedOpen ->
+            Cont restrictedOpen sectionA restrictedGermA ->
+              Cont restrictedOpen sectionB restrictedGermB ->
+                SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+                  SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                    hsame restrictedGermA restrictedGermB := by
+  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have readbackA :=
+    SheafBHistPointGermLedger_restriction_readback ledgerA sameOpen restrictedA
+  have readbackB :=
+    SheafBHistPointGermLedger_restriction_readback ledgerB sameOpen restrictedB
+  have sameRestrictedA : hsame restrictedGermA germA := hsame_symm readbackA.right
+  have sameRestrictedB : hsame germB restrictedGermB := readbackB.right
+  exact And.intro readbackA.left
+    (And.intro readbackB.left
+      (hsame_trans sameRestrictedA (hsame_trans sameGerm sameRestrictedB)))
+
 end BEDC.Derived.SheafUp
