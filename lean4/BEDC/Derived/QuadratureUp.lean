@@ -64,4 +64,22 @@ theorem QuadratureExactUpTo_weakening {qExact : BHist -> Prop} {coeff : BHist ->
       exact exactD.right.right
         (QuadraturePolynomialDegreeWindow_inclusion bound windowE)
 
+theorem QuadratureExactUpTo_degree_equivalence_stability {qExact : BHist -> Prop}
+    {coeff : BHist -> BHist} {zero e d : BHist} :
+    QuadratureDegBoundLe e d -> QuadratureDegBoundLe d e ->
+      (QuadratureExactUpTo qExact coeff zero d ↔ QuadratureExactUpTo qExact coeff zero e) ∧
+        UnaryHistory d ∧ UnaryHistory e := by
+  intro ed de
+  have forward :
+      QuadratureExactUpTo qExact coeff zero d ->
+        QuadratureExactUpTo qExact coeff zero e := by
+    intro exactD
+    exact QuadratureExactUpTo_weakening ed exactD
+  have backward :
+      QuadratureExactUpTo qExact coeff zero e ->
+        QuadratureExactUpTo qExact coeff zero d := by
+    intro exactE
+    exact QuadratureExactUpTo_weakening de exactE
+  exact And.intro (Iff.intro forward backward) (And.intro ed.right.left ed.left)
+
 end BEDC.Derived.QuadratureUp
