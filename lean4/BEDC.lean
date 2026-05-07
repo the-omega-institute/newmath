@@ -142,6 +142,7 @@ import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PreSheafUp
+import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
@@ -274,6 +275,7 @@ import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
 import BEDC.Derived.SimplicialComplexUp
+import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
 import BEDC.Derived.FieldExtUp.RatReflexive
