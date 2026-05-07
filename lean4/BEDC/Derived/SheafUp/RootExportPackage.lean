@@ -4,6 +4,7 @@ namespace BEDC.Derived.SheafUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem SheafConsumerAccessTrace_refinement_obligation {root : BHist}
@@ -79,5 +80,57 @@ theorem SheafConsumerAccessTrace_composite_exhaustion {root : BHist}
       have restTrace : SheafConsumerAccessTrace root (rest.foldr List.append []) :=
         ih restRows
       exact (SheafConsumerAccessTrace_append_closed headTrace restTrace).right
+
+theorem SheafRootUnblockRestrictionStability_semantic_name_certificate
+    {point openHist sectionHist germ restrictedOpen route routeTarget restrictedGerm : BHist} :
+    SheafBHistPointGermLedger point openHist sectionHist germ ->
+      hsame openHist restrictedOpen ->
+        Cont restrictedOpen route routeTarget ->
+          hsame routeTarget restrictedOpen ->
+            Cont routeTarget sectionHist restrictedGerm ->
+              SemanticNameCert
+                  (fun endpoint : BHist =>
+                    SheafBHistPointGermLedger point routeTarget sectionHist endpoint)
+                  (fun endpoint : BHist =>
+                    SheafBHistPointGermLedger point routeTarget sectionHist endpoint)
+                  (fun endpoint : BHist =>
+                    SheafBHistPointGermLedger point routeTarget sectionHist endpoint)
+                  hsame ∧
+                hsame route BHist.Empty ∧
+                  SheafBHistPointGermLedger point routeTarget sectionHist restrictedGerm ∧
+                    hsame germ restrictedGerm := by
+  intro ledger sameOpen routeRow sameTarget restrictedRow
+  have stable :
+      hsame route BHist.Empty ∧
+        SheafBHistPointGermLedger point routeTarget sectionHist restrictedGerm ∧
+          hsame germ restrictedGerm :=
+    SheafBHistPointGermLedger_route_history_stability
+      ledger sameOpen routeRow sameTarget restrictedRow
+  have cert :
+      SemanticNameCert
+        (fun endpoint : BHist => SheafBHistPointGermLedger point routeTarget sectionHist endpoint)
+        (fun endpoint : BHist => SheafBHistPointGermLedger point routeTarget sectionHist endpoint)
+        (fun endpoint : BHist => SheafBHistPointGermLedger point routeTarget sectionHist endpoint)
+        hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro restrictedGerm stable.right.left
+      · intro endpoint _carrier
+        exact hsame_refl endpoint
+      · intro endpoint endpoint' same
+        exact hsame_symm same
+      · intro endpoint endpoint' endpoint'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro endpoint endpoint' same carrier
+        exact And.intro carrier.left
+          (And.intro carrier.right.left
+            (cont_result_hsame_transport carrier.right.right same))
+    · intro _endpoint source
+      exact source
+    · intro _endpoint source
+      exact source
+  exact And.intro cert
+    (And.intro stable.left
+      (And.intro stable.right.left stable.right.right))
 
 end BEDC.Derived.SheafUp
