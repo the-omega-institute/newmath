@@ -96,13 +96,28 @@ It remains to compare the composite rows. Continuation respect for $\hsame$ appl
 \section{The certificate}
 \label{sec:presheaf-certificate}
 
+\begin{theorem}[PreSheaf indexed restriction standard bridge]\label{thm:presheaf-indexed-restriction-standard-bridge}
+Let $\mathcal{T}$ be an indexed open topology carrier over $\mathsf{BHist}$ in the sense of \autoref{def:topology-indexed-open-carrier}. Any $\mathsf{PreSheafIndexedRestrictionSurface}(sec,\rho,identity,composite)$ over $\mathcal{T}$ determines a standard contravariant presheaf from the certified open-index category of $\mathcal{T}$ to the target certificate category: an open index $i$ is sent to the section object $sec(i)$, a certified inclusion $j\le_{\mathcal{T}} i$ is sent to the restriction row $\rho_{i,j}:sec(i)\to sec(j)$, identities are witnessed by $identity$, composites are witnessed by $composite$, and classifier transport is exactly the restriction classifier-stability row carried by the surface.
+
+Conversely, any standard contravariant presentation whose opens, inclusions, section objects, restriction maps, identity law, composition law, classifier transport, and exact provenance ledger are carried by the displayed BEDC rows over $\mathsf{BHist}$ induces the same indexed restriction surface. This correspondence preserves identity, composition, classifier transport, and the exact ledger. It does not assert sheaf locality, gluing, stalk quotient formation, or equality of host opens outside the certified open-index category.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack \autoref{def:presheaf-indexed-restriction-surface}. The open-index objects and certified inclusion rows give the source category, while the section carrier and target-hom classifier give the target certificate category. The identity and composition rows are exactly the presheaf functoriality laws on certified inclusions.
+
+Apply \autoref{thm:presheaf-restriction-identity-row} for the identity comparison and \autoref{thm:presheaf-restriction-composition-row} for the contravariant composite comparison. Apply \autoref{thm:presheaf-classifier-transport-ledger} to transport restriction rows through the displayed classifiers and to identify the exported provenance ledger. The remaining stability of the surface under the displayed continuation data is \autoref{thm:presheaf-indexed-restriction-functoriality-surface}.
+
+For the reverse direction, start with a standard contravariant presentation whose rows are already carried by the BEDC data. Package its open-index source, naming source, section carrier, classifiers, restriction maps, identity law, composition law, classifier-stability law, and exact ledger into the ten fields of \autoref{def:presheaf-indexed-restriction-surface}.
+
+No additional quotient or host equality is used in this packaging. The data exported in both directions are the same indexed opens, displayed inclusion witnesses, section rows, restriction provenance, identity row, composition row, classifier transport row, and ledger boundary, so the bridge closes only the standard presheaf presentation of the indexed restriction surface.
+\end{proof}
+
 \closureat{PreSheafUp}{publicStr}[BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface\_functoriality\_surface]
 \begin{closurestatus}{\PreSheafUp}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{The public surface is exactly the indexed restriction carrier, identity row, composition row, classifier-transport ledger, and functoriality theorem in \autoref{def:presheaf-indexed-restriction-surface} and \autoref{thm:presheaf-indexed-restriction-functoriality-surface}, backed by the carrier, identity, composition, and transport rows above.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface\_functoriality\_surface}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close sheaf locality, gluing, stalk quotient formation, or any standard bridge row.}
-  \upgradepath{A higher-grade certificate requires locality and gluing witnesses, the stalk quotient surface, and a standard bridge for the indexed restriction construction.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close sheaf locality, gluing, stalk quotient formation, or bridgeChecked verification.}
+  \upgradepath{A higher-grade certificate requires locality and gluing witnesses, the stalk quotient surface, and Lean-side bridgeChecked verification for the indexed restriction construction.}
 \end{closurestatus}

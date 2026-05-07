@@ -97,6 +97,43 @@ theorem DiffFormRootConsumerPackage_carrier_projection {ScalarCarrier : BHist ->
   exact ⟨carrierRows.left, carrierRows.right.left, carrierRows.right.right.left,
     carrierRows.right.right.right.left, coverageRows.left, coverageRows.right.right⟩
 
+theorem DiffFormRootConsumerPackage_operation_routing {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus outDegree rightLedger tensorLedger :
+      BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory degree -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          Cont degree (BHist.e1 BHist.Empty) dplus -> Cont degree dplus outDegree ->
+            UnaryHistory rightLedger -> hsame ledger rightLedger -> UnaryHistory tensorLedger ->
+              DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym
+                  ledger degree probe tensor scalar antisym ledger ∧
+                DiffFormExteriorDerivativeLedger scalar dplus degree dplus probe probe tensor
+                  tensor scalar scalar antisym ledger ∧
+                  DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger
+                    tensorLedger := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+    ledgerRoute degreeSuccessor wedgeRoute rightLedgerUnary sameRightLedger tensorLedgerUnary
+  have coverage :
+      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger
+          degree probe tensor scalar antisym ledger ∧
+        UnaryHistory dplus ∧
+          DiffFormExteriorDerivativeLedger scalar dplus degree dplus probe probe tensor tensor
+            scalar scalar antisym ledger :=
+    DiffFormRootConsumerFace_coverage scalarCert probeIn scalarCarrier degreeUnary probeUnary
+      tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor
+  have outDegreeUnary : UnaryHistory outDegree :=
+    unary_cont_closed degreeUnary coverage.right.left wedgeRoute
+  have wedgeLedger :
+      DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger tensorLedger :=
+    And.intro degreeUnary
+      (And.intro coverage.right.left
+        (And.intro wedgeRoute
+          (And.intro outDegreeUnary
+            (And.intro tensorLedgerUnary sameRightLedger))))
+  exact And.intro coverage.left (And.intro coverage.right.right wedgeLedger)
+
 theorem DiffFormRootConsumerFace_disjointness {ScalarCarrier : BHist -> Prop}
     {ScalarClassifier : BHist -> BHist -> Prop}
     (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
