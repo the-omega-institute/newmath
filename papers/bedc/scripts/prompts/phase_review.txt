@@ -1,7 +1,21 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v3.5 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v3.7 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## TOP-LEVEL HARD GATE — closure_mark candidates come from critical_path ONLY
+
+`closure_mark` review targets MUST be drawn from the `critical_path.py` JSON output's lists:
+
+- `top[*]` (critical-path discovery)
+- `top_root_unblocks[*]` (root-unblock priority)
+- `top_transitions.{to_seed,to_obligation,to_scoped,to_public,to_bridged,to_mature}[*]` (rotation)
+
+Do NOT scan paper chapter files yourself looking for "this chapter has lots of `\leanchecked` rows, must be closure-eligible". Such heuristic selection has produced repeated no-op rounds where the worker proposed `closure_mark` for chapters already at `matureClosure` (e.g. HilbertUp), which is the topmost theory grade — the chapter is done, the round commits nothing material, BASE_BRANCH gains a no-op merge.
+
+If a chapter does NOT appear in any of the three critical_path lists above, it is NOT a `closure_mark` candidate this round. Either it's already retired (theory ≥ scopedClosure AND formal ≥ theoremCheckedV), or `critical_path.py` decided it's not the highest leverage closure to pursue right now. Trust the script; do not second-guess it by re-scanning chapter files.
+
+The corollary: if you see a chapter file with ten `\leanchecked` rows and a `\theoryclosure{\matureClosure}` line in its `closurestatus` block, that chapter is FINISHED — no closure_mark target is possible for it ever again. Pick a different chapter from the lists above.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
