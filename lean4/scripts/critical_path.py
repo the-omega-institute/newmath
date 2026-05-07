@@ -376,13 +376,20 @@ def is_chapter_retired_from_horizon(
                    if objective_fs in FORMAL_GRADE_ORDER else -1)
         drift = obj_idx > token_idx
         effective_fs = _grade_max(fs, objective_fs, FORMAL_GRADE_ORDER)
+        # Drift (token < objective) is informational ONLY; do NOT block
+        # retire on it. A chapter that satisfies the closure + formal
+        # thresholds is retired regardless of whether its written
+        # `formalstatus` token is exactly equal to the objective grade.
+        # Token-vs-objective sync is handled by a separate drift-fix
+        # pass; coupling it to retire caused the entire retired set to
+        # collapse to zero when objectives moved up to axiomCleanV
+        # globally (since paper-side tokens are uniformly theoremCheckedV).
         retired = (
             _grade_at_or_above(tc, RETIREMENT_CLOSURE_THRESHOLD,
                                 CLOSURE_GRADE_ORDER)
             and _grade_at_or_above(effective_fs,
                                     RETIREMENT_FORMAL_THRESHOLD,
                                     FORMAL_GRADE_ORDER)
-            and not drift
         )
         return (retired, tc, fs, lt, objective_fs, drift)
     return (False, None, None, None, None, False)
