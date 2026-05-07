@@ -106,6 +106,44 @@ theorem WeylGroupBHistSourceRow_simple_reflection_word_closure
       (And.intro wordAppendCarrier (And.intro composedRow actionABUnary)))
     (And.intro actionABSameRoot wordAppendCarrier)
 
+theorem WeylGroupActionClassifier_append_stability_row
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root root' wordA wordA' wordB wordB' actionA actionA' actionAB actionAB' :
+      BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root wordA actionA ->
+      WeylGroupBHistSourceRow support Vector Nonzero root' wordA' actionA' ->
+        hsame root root' -> hsame wordA wordA' -> hsame wordB wordB' ->
+          GroupSingletonCarrier wordB -> GroupSingletonCarrier wordB' ->
+            Cont actionA wordB actionAB -> Cont actionA' wordB' actionAB' ->
+              WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB)
+                  actionAB ∧
+                WeylGroupBHistSourceRow support Vector Nonzero root' (append wordA' wordB')
+                  actionAB' ∧
+                  hsame (append wordA wordB) (append wordA' wordB') ∧
+                    hsame actionAB actionAB' := by
+  intro source source' sameRoot sameWordA sameWordB wordBCarrier wordB'Carrier
+    actionStep actionStep'
+  have closed :
+      WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB) actionAB ∧
+        hsame actionAB root ∧ GroupSingletonCarrier (append wordA wordB) :=
+    WeylGroupBHistSourceRow_simple_reflection_word_closure
+      vector_unary source wordBCarrier actionStep
+  have closed' :
+      WeylGroupBHistSourceRow support Vector Nonzero root' (append wordA' wordB') actionAB' ∧
+        hsame actionAB' root' ∧ GroupSingletonCarrier (append wordA' wordB') :=
+    WeylGroupBHistSourceRow_simple_reflection_word_closure
+      vector_unary source' wordB'Carrier actionStep'
+  have sameWordAppend : hsame (append wordA wordB) (append wordA' wordB') := by
+    cases sameWordA
+    cases sameWordB
+    exact hsame_refl (append wordA wordB)
+  have sameAction : hsame actionAB actionAB' :=
+    hsame_trans closed.right.left
+      (hsame_trans sameRoot (hsame_symm closed'.right.left))
+  exact And.intro closed.left
+    (And.intro closed'.left (And.intro sameWordAppend sameAction))
+
 theorem WeylGroupSimpleReflectionWord_closure_row
     {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
     {alpha beta reflected word product : BHist}
