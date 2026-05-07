@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -146,5 +148,65 @@ theorem PermutationBijectionSourceRow_composition_action_ledger_scope [AskSetup]
     cases actionScope
     exact hsame_refl (append (append graph invGraph) (append src graph))
   exact And.intro compScope (And.intro actionScope (hsame_trans ledgerScope expandedLedger))
+
+theorem PermutationBijectionSourceRow_public_name_certificate [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle
+        tgtBundle srcPkg tgtPkg ->
+      SemanticNameCert
+          (fun endpoint : BHist =>
+            ∃ actionRow ledgerRow : BHist,
+              PermutationBijectionSourceRow src tgt graph invGraph comp actionRow ledgerRow
+                srcBundle tgtBundle srcPkg tgtPkg ∧ hsame endpoint ledgerRow)
+          (fun endpoint : BHist =>
+            ∃ actionRow ledgerRow : BHist,
+              PermutationBijectionSourceRow src tgt graph invGraph comp actionRow ledgerRow
+                srcBundle tgtBundle srcPkg tgtPkg ∧ hsame endpoint ledgerRow)
+          (fun endpoint : BHist =>
+            ∃ actionRow ledgerRow : BHist,
+              PermutationBijectionSourceRow src tgt graph invGraph comp actionRow ledgerRow
+                srcBundle tgtBundle srcPkg tgtPkg ∧ hsame endpoint ledgerRow)
+          hsame ∧
+        (∀ {tail : BHist}, hsame ledger (BHist.e0 tail) -> False) := by
+  intro row
+  have surface := PermutationBijectionSourceRow_carrier_surface row
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro ledger
+            (Exists.intro action
+              (Exists.intro ledger (And.intro row (hsame_refl ledger))))
+        equiv_refl := by
+          intro endpoint _endpointCarrier
+          exact hsame_refl endpoint
+        equiv_symm := by
+          intro _endpoint leftEndpoint same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _endpoint _middle rightEndpoint sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro endpoint endpoint' sameEndpoint endpointCarrier
+          cases endpointCarrier with
+          | intro actionRow ledgerWitness =>
+              cases ledgerWitness with
+              | intro ledgerRow data =>
+                  exact Exists.intro actionRow
+                    (Exists.intro ledgerRow
+                      (And.intro data.left (hsame_trans (hsame_symm sameEndpoint) data.right)))
+      }
+      pattern_sound := by
+        intro _endpoint source
+        exact source
+      ledger_sound := by
+        intro _endpoint source
+        exact source
+    }
+  · intro tail sameLedger
+    have zeroUnary : UnaryHistory (BHist.e0 tail) :=
+      unary_transport surface.right.right.right.left sameLedger
+    exact unary_no_zero_extension zeroUnary
 
 end BEDC.Derived.PermutationUp
