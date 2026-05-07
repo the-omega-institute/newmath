@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
+import BEDC.Derived.TopologyUp.Singleton
 
 namespace BEDC.Derived.SheafUp
 
@@ -8,6 +9,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.TopologyUp
 
 def SheafBHistPointGermLedger
     (point openHist sectionHist germ : BHist) : Prop :=
@@ -221,5 +223,29 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
     SheafBHistPointGermLedger_common_open_comparison
       descent.left descent.right.left descent.right.right
   exact comparison.left
+
+theorem SheafIdentityCover_gluing_collapse
+    {point openHist sectionA sectionB globalA globalB localGerm : BHist} :
+    TopologySingletonOpenAt BHist.Empty point ->
+      SheafBHistPointGermLedger point openHist sectionA globalA ->
+        SheafBHistPointGermLedger point openHist sectionB globalB ->
+          Cont openHist sectionA localGerm ->
+            Cont openHist sectionB localGerm ->
+              hsame globalA globalB ∧
+                SheafBHistPointGermLedger point openHist sectionA localGerm ∧
+                  SheafBHistPointGermLedger point openHist sectionB localGerm := by
+  intro openPoint ledgerA ledgerB localA localB
+  have sameGlobalLocalA : hsame globalA localGerm :=
+    cont_deterministic ledgerA.right.right localA
+  have sameGlobalLocalB : hsame globalB localGerm :=
+    cont_deterministic ledgerB.right.right localB
+  have sameGlobal : hsame globalA globalB :=
+    hsame_trans sameGlobalLocalA (hsame_symm sameGlobalLocalB)
+  have pointUnary : UnaryHistory point :=
+    unary_transport unary_empty (hsame_symm openPoint.right)
+  exact And.intro sameGlobal
+    (And.intro
+      (And.intro pointUnary (And.intro ledgerA.right.left localA))
+      (And.intro pointUnary (And.intro ledgerB.right.left localB)))
 
 end BEDC.Derived.SheafUp
