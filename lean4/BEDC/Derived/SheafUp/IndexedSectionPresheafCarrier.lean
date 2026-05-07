@@ -39,6 +39,25 @@ theorem SheafIndexedSectionPresheafCarrier_endpoint_unary
   intro carrier
   exact (SheafIndexedSectionPresheafCarrier_carrier_rows carrier).right.right.left
 
+theorem SheafCarrierSupport_obligation
+    {point openHist sectionHist restriction identity composite germ : BHist} :
+    SheafIndexedSectionPresheafCarrier point openHist sectionHist restriction identity
+        composite germ ->
+      SheafBHistPointGermLedger point openHist sectionHist germ ∧
+        SheafRootFaceRead openHist germ SheafRootFaceLanding.restrictionRoute ∧
+          UnaryHistory sectionHist ∧ UnaryHistory restriction ∧ UnaryHistory identity ∧
+            UnaryHistory composite ∧ Cont sectionHist restriction identity ∧
+              Cont restriction identity composite := by
+  intro carrier
+  have rows := SheafIndexedSectionPresheafCarrier_carrier_rows carrier
+  exact And.intro rows.left
+    (And.intro (SheafRootFaceRead.restrictionRoute rows.left.right.right)
+      (And.intro carrier.right.left
+        (And.intro carrier.right.right.left
+          (And.intro rows.right.left
+            (And.intro rows.right.right.left
+              (And.intro rows.right.right.right.left rows.right.right.right.right))))))
+
 def SheafIndexedSectionPresheafEndpointCarrier
     (openHist sectionHist restrictedHist : BHist) : Prop :=
   UnaryHistory openHist ∧ UnaryHistory sectionHist ∧ Cont openHist sectionHist restrictedHist
