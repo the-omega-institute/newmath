@@ -249,6 +249,7 @@ import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.ObligationSurface
 import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SheafUp.StableRestrictionRow
+import BEDC.Derived.SheafUp.IndexedSectionPresheafCarrier
 import BEDC.Derived.SetUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.SemanticNameCertificate
@@ -300,6 +301,7 @@ import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ContactUp
+import BEDC.Derived.SymplecticUp
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
