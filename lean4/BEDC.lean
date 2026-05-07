@@ -222,6 +222,7 @@ import BEDC.Derived.SheafUp.RootFaceReadback
 import BEDC.Derived.SheafUp.JointConsumerFace
 import BEDC.Derived.SheafUp.RootCoverDescent
 import BEDC.Derived.SheafUp.RootRouteExactness
+import BEDC.Derived.SheafUp.RootStalkFreeGermSource
 import BEDC.Derived.SheafUp.RefinementGluing
 import BEDC.Derived.SheafUp.RefinementTowerGluing
 import BEDC.Derived.SheafUp.CoverPullback
