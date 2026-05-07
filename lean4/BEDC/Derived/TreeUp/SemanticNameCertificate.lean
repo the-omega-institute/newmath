@@ -65,4 +65,41 @@ theorem TreeBHistCarrier_derivation_syntax_roundtrip
       (And.intro endpointUnary' (And.intro syntaxUnary syntaxRoute'))
       (And.intro branch.left syntaxTargetUnary'))
 
+theorem TreePublicCertificateBoundary_semantic_name_certificate
+    {graph edge connected acyclic root endpoint syntaxHist syntaxTarget : BHist} :
+    TreeObligationSurface graph edge connected acyclic root endpoint syntaxHist syntaxTarget ->
+      SemanticNameCert
+        (fun h : BHist =>
+          TreeObligationSurface graph edge connected acyclic root h syntaxHist syntaxTarget)
+        (fun h : BHist =>
+          TreeObligationSurface graph edge connected acyclic root h syntaxHist syntaxTarget)
+        (fun h : BHist =>
+          TreeObligationSurface graph edge connected acyclic root h syntaxHist syntaxTarget)
+        hsame := by
+  intro surface
+  constructor
+  · constructor
+    · exact Exists.intro endpoint surface
+    · intro h _surfaceH
+      exact hsame_refl h
+    · intro _h _k same
+      exact hsame_symm same
+    · intro _h _k _r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same surfaceH
+      have transportedCarrier :
+          TreeBHistCarrier graph edge connected acyclic root k :=
+        (TreeBHistCarrier_classifier_transport surfaceH.left (hsame_refl graph)
+          (hsame_refl edge) (hsame_refl connected) (hsame_refl acyclic)
+          (hsame_refl root) same).left
+      have transportedSyntax : Cont k syntaxHist syntaxTarget :=
+        cont_hsame_transport same (hsame_refl syntaxHist) (hsame_refl syntaxTarget)
+          surfaceH.right.right
+      exact And.intro transportedCarrier
+        (And.intro surfaceH.right.left transportedSyntax)
+  · intro _h source
+    exact source
+  · intro _h source
+    exact source
+
 end BEDC.Derived.TreeUp

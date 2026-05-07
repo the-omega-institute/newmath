@@ -161,6 +161,31 @@ theorem SetMembershipVisibleClassifier_carrier_hsame_boundary [AskSetup] [Packag
               (Exists.intro q data.right.left)
               (policy.reflection data.left data.right.left data.right.right))
 
+theorem SetCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle) {h k : BHist} :
+    SetMembershipVisibleClassifier bundle h k ->
+      SetMembershipVisibleCarrier bundle h ∧ SetMembershipVisibleCarrier bundle k ∧
+        hsame h k ∧ SetMembershipVisibleClassifier bundle k h := by
+  intro visible
+  cases visible with
+  | intro p rest =>
+      cases rest with
+      | intro q data =>
+          have sameHist : hsame h k :=
+            policy.reflection data.left data.right.left data.right.right
+          have reversedSame : psame bundle q p :=
+            packageTokenPolicy_psame_symm_on_introduced policy data.left data.right.left
+              data.right.right
+          exact And.intro
+            (Exists.intro p data.left)
+            (And.intro
+              (Exists.intro q data.right.left)
+              (And.intro sameHist
+                (Exists.intro q
+                  (Exists.intro p
+                    (And.intro data.right.left
+                      (And.intro data.left reversedSame))))))
+
 inductive SetMembershipVisibleTransportChain [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) : BHist -> BHist -> Prop where
   | single {h k : BHist} :
