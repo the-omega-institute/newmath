@@ -61,6 +61,7 @@ import BEDC.Derived.IntUp.BalancedContext
 import BEDC.Derived.IntUp.OneSidedContext
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.PositiveAppendContext
+import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
@@ -212,6 +213,7 @@ import BEDC.Derived.SheafUp.DownstreamConsumption
 import BEDC.Derived.SheafUp.DownstreamConsumptionBoundary
 import BEDC.Derived.SheafUp.DownstreamProjection
 import BEDC.Derived.SheafUp.DownstreamRoot
+import BEDC.Derived.SheafUp.DownstreamRootSource
 import BEDC.Derived.SheafUp.BaseChangeIdentitySquare
 import BEDC.Derived.SheafUp.BaseChangeSurface
 import BEDC.Derived.SheafUp.GluingClassifierRows
@@ -446,6 +448,7 @@ import BEDC.Derived.ListUp.BorderedSingletonPayload
 import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
+import BEDC.Derived.ListUp.ConstructorExactness
 import BEDC.Derived.ListUp.ConstructorDecomposition
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
