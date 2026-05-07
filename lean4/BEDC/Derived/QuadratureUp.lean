@@ -37,4 +37,31 @@ theorem QuadraturePolynomialDegreeWindow_inclusion {coeff : BHist -> BHist} {zer
     · intro k unaryK strictDK
       exact window.right.right unaryK (bound.right.right unaryK strictDK)
 
+def QuadratureExactUpTo (qExact : BHist -> Prop) (coeff : BHist -> BHist)
+    (zero d : BHist) : Prop :=
+  UnaryHistory zero ∧ UnaryHistory d ∧
+    forall {p : BHist},
+      (UnaryHistory zero ∧ UnaryHistory d ∧
+        (forall {k : BHist}, UnaryHistory k -> NatUnaryStrictPrefix d k ->
+          hsame (coeff k) zero)) ->
+        qExact p
+
+theorem QuadratureExactUpTo_weakening {qExact : BHist -> Prop} {coeff : BHist -> BHist}
+    {zero e d : BHist} :
+    QuadratureDegBoundLe e d -> QuadratureExactUpTo qExact coeff zero d ->
+      UnaryHistory zero ∧ UnaryHistory e ∧
+        forall {p : BHist},
+          (UnaryHistory zero ∧ UnaryHistory e ∧
+            (forall {k : BHist}, UnaryHistory k -> NatUnaryStrictPrefix e k ->
+              hsame (coeff k) zero)) ->
+            qExact p := by
+  intro bound exactD
+  constructor
+  · exact exactD.left
+  · constructor
+    · exact bound.left
+    · intro p windowE
+      exact exactD.right.right
+        (QuadraturePolynomialDegreeWindow_inclusion bound windowE)
+
 end BEDC.Derived.QuadratureUp
