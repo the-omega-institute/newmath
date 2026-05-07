@@ -124,4 +124,43 @@ theorem RealSelectedTransportFit_appended_tail_certificate
               (PositiveUnaryDenominator_hsame_transport sameTail
                 package.right.right.right.right.right.right.right.right.right.right.right.left)))))
 
+theorem RealSelectedTransport_fit_from_stream_classifier
+    {x x' y y' pX pY tX tY mX mY oX oY : Nat -> BHist} {m n : Nat}
+    {a a' b b' zX zY : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y ->
+          UnaryHistory (pX n) ->
+            UnaryHistory (tX n) ->
+              hsame (pX n) (pY n) ->
+                hsame (tX n) (tY n) ->
+                  Cont (pX n) (x' n) (mX n) ->
+                    Cont (mX n) (tX n) (oX n) ->
+                      Cont (pY n) (y' n) (mY n) ->
+                        Cont (mY n) (tY n) (oY n) ->
+                          hsame (oX n) (BHist.e1 a) ->
+                            hsame (oX n) (BHist.e1 a') ->
+                              hsame (oY n) (BHist.e1 b) ->
+                                hsame (oY n) (BHist.e1 b') ->
+                                  hsame (x' n) (BHist.e1 a) ->
+                                    hsame (y' n) (BHist.e1 b) ->
+                                      RatHistoryClassifier (oX n) (oY n) ∧
+                                        RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) ∧
+                                          UnaryHistory a ∧ UnaryHistory a' ∧
+                                            UnaryHistory b ∧ UnaryHistory b' ∧
+                                              hsame a a' ∧ hsame b b' ∧
+                                                hsame a b ∧ hsame a' b' ∧
+                                                  PositiveUnaryDenominator (x' n) ∧
+                                                    PositiveUnaryDenominator (y' n) ∧
+                                                      Cont (pX n) (x' n) (mX n) := by
+  intro sameX sameY streamClassified prefUnary tailUnary prefSame tailSame prefXCont
+    outXCont prefYCont outYCont outXOne outXOne' outYOne outYOne' selectedXOne
+    selectedYOne
+  have prefixClassified : RealStreamPrefixClassifier x y (m + n) :=
+    RealStreamClassifier_prefix streamClassified (m + n)
+  exact RealSelectedTransportFit_certificate (zX := zX) (zY := zY) sameX sameY
+    streamClassified prefixClassified prefUnary tailUnary prefSame tailSame prefXCont
+    outXCont prefYCont outYCont outXOne outXOne' outYOne outYOne' selectedXOne
+    selectedYOne
+
 end BEDC.Derived.RealUp
