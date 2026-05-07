@@ -55,6 +55,49 @@ theorem ConvexSetSingletonAffineSpine_order_symmetric {x y endpoint endpoint' : 
 def ConvexSetPointwiseIntersection (C D : BHist -> Prop) (z : BHist) : Prop :=
   C z ∧ D z
 
+def ConvexSetLinearImageCarrier (C : BHist -> Prop)
+    (ClassifierW : BHist -> BHist -> Prop) (f : BHist -> BHist -> BHist)
+    (target : BHist) : Prop :=
+  exists source : BHist, C source ∧ ClassifierW (f source source) target
+
+theorem ConvexSetLinearImageCarrier_affine_combination_closure
+    {C NonNeg : BHist -> Prop}
+    {ClassifierW : BHist -> BHist -> Prop}
+    {addV addW scalarAdd scalarActionV scalarActionW f : BHist -> BHist -> BHist}
+    {one a b u v : BHist}
+    (closedC :
+      forall {a b x y : BHist}, C x -> C y -> NonNeg a -> NonNeg b ->
+        hsame (scalarAdd a b) one -> C (addV (scalarActionV a x) (scalarActionV b y)))
+    (mapAffine :
+      forall {a b x y u v : BHist}, C x -> C y -> ClassifierW (f x x) u ->
+        ClassifierW (f y y) v -> NonNeg a -> NonNeg b -> hsame (scalarAdd a b) one ->
+          ClassifierW
+            (f (addV (scalarActionV a x) (scalarActionV b y))
+              (addV (scalarActionV a x) (scalarActionV b y)))
+            (addW (scalarActionW a u) (scalarActionW b v))) :
+    ConvexSetLinearImageCarrier C ClassifierW f u ->
+      ConvexSetLinearImageCarrier C ClassifierW f v ->
+        NonNeg a -> NonNeg b -> hsame (scalarAdd a b) one ->
+          ConvexSetLinearImageCarrier C ClassifierW f
+            (addW (scalarActionW a u) (scalarActionW b v)) := by
+  intro imageU imageV nonnegA nonnegB unitSum
+  cases imageU with
+  | intro sourceU sourceUData =>
+      cases imageV with
+      | intro sourceV sourceVData =>
+          have sourceClosed :
+              C (addV (scalarActionV a sourceU) (scalarActionV b sourceV)) :=
+            closedC sourceUData.left sourceVData.left nonnegA nonnegB unitSum
+          have mapped :
+              ClassifierW
+                (f (addV (scalarActionV a sourceU) (scalarActionV b sourceV))
+                  (addV (scalarActionV a sourceU) (scalarActionV b sourceV)))
+                (addW (scalarActionW a u) (scalarActionW b v)) :=
+            mapAffine sourceUData.left sourceVData.left sourceUData.right sourceVData.right
+              nonnegA nonnegB unitSum
+          exact Exists.intro (addV (scalarActionV a sourceU) (scalarActionV b sourceV))
+            (And.intro sourceClosed mapped)
+
 theorem ConvexSetPointwiseIntersection_affine_combination_closure
     {C D NonNeg : BHist -> Prop}
     {add scalarAdd scalarAction : BHist -> BHist -> BHist}
