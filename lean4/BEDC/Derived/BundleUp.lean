@@ -460,4 +460,70 @@ theorem BundleLocalTrivPkg_transition_ledger_scope
       | inr emptyMember =>
           exact False.elim emptyMember
 
+theorem BundleLocalTrivPkgRows_scoped_unary_coverage_member_unary
+    {row : BHist} {rows : ProbeBundle BHist} :
+    BundleRowsUnary rows -> InBundle row rows -> UnaryHistory row := by
+  intro unaryRows member
+  induction rows with
+  | Bnil =>
+      exact False.elim member
+  | Bcons head tail ih =>
+      cases member with
+      | inl sameHead =>
+          cases sameHead
+          exact unaryRows.left
+      | inr tailMember =>
+          exact ih unaryRows.right tailMember
+
+theorem BundleLocalTrivPkgRows_scoped_unary_coverage
+    {base total projection fiber ledger row : BHist} {trivs transitions : ProbeBundle BHist} :
+    BundleLocalTrivPackage base total projection fiber trivs transitions ledger ->
+      InBundle row (BundleLocalTrivPkgRows base total projection fiber ledger trivs transitions) ->
+        UnaryHistory row ∧
+          (row = base ∨ row = total ∨ row = projection ∨ row = fiber ∨ InBundle row trivs ∨
+            row = ledger ∨ InBundle row transitions) := by
+  intro package member
+  have rows :
+      row = base ∨ row = total ∨ row = projection ∨ row = fiber ∨ InBundle row trivs ∨
+        row = ledger ∨ InBundle row transitions :=
+    BundleLocalTrivPkg_projection_rows member
+  have projection :
+      UnaryHistory base ∧ UnaryHistory total ∧ UnaryHistory projection ∧ UnaryHistory fiber ∧
+        UnaryHistory ledger ∧ BundleRowsUnary trivs ∧ BundleRowsUnary transitions :=
+    BundleLocalTrivPackage_carrier_projection package
+  have rowUnary : UnaryHistory row := by
+    cases rows with
+    | inl sameBase =>
+        cases sameBase
+        exact projection.left
+    | inr rest =>
+        cases rest with
+        | inl sameTotal =>
+            cases sameTotal
+            exact projection.right.left
+        | inr rest =>
+            cases rest with
+            | inl sameProjection =>
+                cases sameProjection
+                exact projection.right.right.left
+            | inr rest =>
+                cases rest with
+                | inl sameFiber =>
+                    cases sameFiber
+                    exact projection.right.right.right.left
+                | inr rest =>
+                    cases rest with
+                    | inl memberTrivs =>
+                        exact BundleLocalTrivPkgRows_scoped_unary_coverage_member_unary
+                          projection.right.right.right.right.right.left memberTrivs
+                    | inr rest =>
+                        cases rest with
+                        | inl sameLedger =>
+                            cases sameLedger
+                            exact projection.right.right.right.right.left
+                        | inr memberTransitions =>
+                            exact BundleLocalTrivPkgRows_scoped_unary_coverage_member_unary
+                              projection.right.right.right.right.right.right memberTransitions
+  exact And.intro rowUnary rows
+
 end BEDC.Derived.BundleUp
