@@ -13,6 +13,54 @@ open BEDC.Derived.RingedSpaceUp
 open BEDC.Derived.SheafUp
 open BEDC.Derived.TopologyUp
 
+theorem SchemeAffineChartLedger_overlap_locality_obligation
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartA chartB ringEndpointA ringEndpointB : BHist} :
+    RingedSpaceSingletonPackage point openHist sectionA germA ringEndpointA ->
+      RingedSpaceSingletonPackage point openHist sectionB germB ringEndpointB ->
+        CommRingSingletonClassifier chartA ringEndpointA ->
+          CommRingSingletonClassifier chartB ringEndpointB ->
+            hsame germA germB ->
+              hsame openHist restrictedOpen ->
+                Cont restrictedOpen sectionA restrictedGermA ->
+                  Cont restrictedOpen sectionB restrictedGermB ->
+                    SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+                      SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                        hsame restrictedGermA restrictedGermB ∧
+                          CommRingSingletonClassifier chartA chartB := by
+  intro packageA packageB chartClassA chartClassB sameGerm sameOpen restrictedA restrictedB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      packageA.left packageB.left sameGerm sameOpen restrictedA restrictedB
+  have sameChart : hsame chartA chartB :=
+    hsame_trans chartClassA.left (hsame_symm chartClassB.left)
+  have chartClassifier : CommRingSingletonClassifier chartA chartB :=
+    And.intro chartClassA.left
+      (And.intro chartClassB.left sameChart)
+  exact And.intro descent.left
+    (And.intro descent.right.left (And.intro descent.right.right chartClassifier))
+
+theorem SchemeSingleton_affine_cover_ledger_exactness
+    {point openHist sectionHist germ ringEndpoint chartEndpoint restrictedOpen
+      restrictedGerm : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionHist germ ringEndpoint ->
+      CommRingSingletonClassifier chartEndpoint BHist.Empty ->
+        hsame openHist restrictedOpen -> Cont restrictedOpen sectionHist restrictedGerm ->
+          RingedSpaceSingletonSurface point restrictedOpen sectionHist restrictedGerm
+              chartEndpoint ∧
+            CommRingSingletonClassifier chartEndpoint BHist.Empty ∧ hsame germ restrictedGerm := by
+  intro surface chartClass sameOpen restrictedRow
+  have readback :=
+    SheafBHistPointGermLedger_restriction_readback surface.right.left sameOpen restrictedRow
+  have restrictedOpenAt : TopologySingletonOpenAt restrictedOpen point :=
+    And.intro (hsame_trans (hsame_symm sameOpen) surface.left.left) surface.left.right
+  exact And.intro
+    (And.intro restrictedOpenAt (And.intro readback.left chartClass))
+    (And.intro chartClass readback.right)
+
 theorem SchemeSingleton_affine_cover_nerve_empty_boundary
     {point ambient member overlap route germ operationA operationB operationC : BHist} :
     TopologySingletonOpenAt BHist.Empty point ->
@@ -159,5 +207,29 @@ theorem SchemeAffineCoverLedger_overlap_classifier_locality
       (And.intro comparison.right.right.right.right.right.right.left
         (And.intro comparison.right.right.right.right.right.right.right.left
           comparison.right.right.right.right.right.right.right.right))
+
+theorem SchemeAffineCoverLedger_restricted_global_soundness
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB globalA globalB ringEndpoint operationA operationB : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionA germA ringEndpoint ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              Cont restrictedOpen sectionA globalA ->
+                Cont restrictedOpen sectionB globalB ->
+                  CommRingSingletonClassifier operationA operationB ->
+                    hsame globalA globalB ∧
+                      CommRingSingletonClassifier operationA operationB ∧
+                        RingedSpaceSingletonSurface point openHist sectionA germA
+                          ringEndpoint := by
+  intro surface ledgerB sameGerm sameOpen restrictedA restrictedB globalACont globalBCont
+    commOps
+  have sameGlobal :
+      hsame globalA globalB :=
+    SheafBHistPointGermComparison_restricted_global_soundness
+      surface.right.left ledgerB sameGerm sameOpen restrictedA restrictedB globalACont globalBCont
+      (cont_deterministic restrictedA globalACont) (cont_deterministic restrictedB globalBCont)
+  exact And.intro sameGlobal (And.intro commOps surface)
 
 end BEDC.Derived.SchemeUp
