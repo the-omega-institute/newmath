@@ -173,4 +173,24 @@ theorem FunctionalAnalysisDualPointwiseClassifier_equivalence_rows
             exact NameCert.equiv_trans scalarCert
               (classifiedFG.right.right carrierX) (classifiedGH.right.right carrierX)))
 
+theorem FunctionalAnalysisCompactOperatorWitness_transport
+    {f source target bound ledger source' target' ledger' compact compact' : BHist} :
+    FunctionalAnalysisBoundedOperatorRow f source target bound ledger ->
+      hsame source source' -> hsame target target' -> Cont source' target' ledger' ->
+        Cont ledger bound compact -> Cont ledger' bound compact' ->
+          FunctionalAnalysisBoundedOperatorRow f source' target' bound ledger' ∧
+            hsame ledger ledger' ∧ hsame compact compact' ∧ UnaryHistory ledger' := by
+  intro row sameSource sameTarget ledgerCont' compactCont compactCont'
+  have transported :
+      FunctionalAnalysisBoundedOperatorRow f source' target' bound ledger' ∧
+        hsame ledger ledger' :=
+    FunctionalAnalysisBoundedOperatorRow_ledger_hsame_transport
+      row sameSource sameTarget ledgerCont'
+  have compactSame : hsame compact compact' :=
+    cont_respects_hsame transported.right (hsame_refl bound) compactCont compactCont'
+  have visible := FunctionalAnalysisBoundedOperatorRow_visible_ledger transported.left
+  exact And.intro transported.left
+    (And.intro transported.right
+      (And.intro compactSame visible.right.right.right.right.right))
+
 end BEDC.Derived.FunctionalAnalysisUp
