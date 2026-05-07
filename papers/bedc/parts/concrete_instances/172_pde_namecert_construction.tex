@@ -12,6 +12,85 @@ A carried source row for $\PdeUp$ consists of the following BEDC-facing data: a 
 The carried source row does not identify host functions, host real values, analytic solution spaces, or coordinate representatives. Those objects remain ledger entries unless they are re-expressed through the displayed $\ManifoldUp$, $\DerivativeUp$, relation, and boundary rows.
 \end{definition}
 
+\begin{theorem}[PdeUp carrier obligation]
+\label{thm:pde-carrier-obligation}
+A carried $\PdeUp$ endpoint is a $\mathsf{BHist}$ row whose visible source
+data are exactly the $\NameCert_{\ManifoldUp}$ source, the
+$\NameCert_{\DerivativeUp}$ source, the PDE relation row, the boundary-data
+classifier row, $\Pkg$ provenance, and the probe bundles used to read the
+relation. Chart coordinates, derivative witnesses, and boundary presentations
+are ledger data for the certificate rather than additional carrier-equality
+coordinates.
+\end{theorem}
+\begin{proof}
+Read the endpoint through the ten-field certificate template. The
+traditional target is a partial-differential-equation endpoint on a certified
+manifold, while the BEDC source is the displayed $\mathsf{BHist}$ package
+assembled from the manifold certificate, derivative certificate, relation
+row, boundary classifier row, provenance, and probe bundles.
+
+The carrier field therefore projects only those visible histories. The
+coordinate charts and derivative witnesses enter through the stability and
+ledger fields: they justify that the displayed relation and boundary rows can
+be transported across the selected presentations, but they are not compared
+as carrier coordinates.
+
+Exactness is readback from the same package. Any accepted carrier row must be
+one of the displayed $\mathsf{BHist}$ rows, and any hidden chart, derivative
+order, or boundary presentation is recoverable only as ledger evidence.
+\end{proof}
+
+\begin{theorem}[PdeUp classifier obligation]
+\label{thm:pde-classifier-obligation}
+The $\PdeUp$ classifier compares two carried endpoints exactly when the
+manifold source row, derivative-tuple row, PDE relation row, and
+boundary-data classifier row agree under the same $\hsame$ discipline and the
+same $\Pkg$ provenance. It does not compare endpoints by host function
+equality.
+\end{theorem}
+\begin{proof}
+Project the classifier slot from the ten-field template. Its source rows are
+the same source, carrier, classifier, stability, ledger, theorem-list,
+exactness, bridge, and boundary fields used by the carrier obligation.
+
+The source field fixes the manifold row and the derivative tuple row. The
+carrier and classifier fields then compare the PDE relation and boundary
+classifier rows by $\hsame$ and by the provenance equality recorded in
+$\Pkg$. Since each comparison is a comparison of displayed $\mathsf{BHist}$
+rows, no host-level function equality is available as an extra rule.
+
+Conversely, if these four rows and the provenance agree under the displayed
+$\hsame$ witnesses, the classifier field has exactly the data it requires.
+Repacking those witnesses gives the carried-endpoint comparison.
+\end{proof}
+
+\begin{theorem}[PdeUp stability ledger exactness obligation]
+\label{thm:pde-stability-ledger-exactness-obligation}
+The $\PdeUp$ certificate is admitted only with transport stability for the
+derivative relation and boundary data, ledger entries for hidden
+chart/order/boundary choices, exactness rows for coverage, soundness, and
+completeness, and dependency rows citing the $\ManifoldUp$ and
+$\DerivativeUp$ sources.
+\end{theorem}
+\begin{proof}
+Separate the remaining certificate fields after the carrier and classifier
+rows have been fixed. Stability requires transport of the derivative-relation
+row and the boundary-data row along the displayed $\hsame$ comparisons of the
+manifold and derivative sources.
+
+The ledger field records every chart, derivative-order, and boundary
+presentation choice used to witness that transport. These entries are
+evidence rows over $\mathsf{BHist}$; they do not enlarge the carrier and do
+not create a second classifier.
+
+The exactness field splits into coverage, soundness, and completeness rows:
+every admitted endpoint has displayed source and probe data, every accepted
+relation or boundary row is supported by the ledger, and every required
+source dependency cites $\NameCert_{\ManifoldUp}$ and
+$\NameCert_{\DerivativeUp}$. With the standard bridge absent, these rows are
+precisely the certificate surface claimed here.
+\end{proof}
+
 \section{The certificate}
 \label{sec:pde-certificate}
 
@@ -53,9 +132,9 @@ Every analytic or solver-side object named in the statement is listed in the led
 
 \begin{closurestatus}{\PdeUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation inventory binds the $\ManifoldUp$ carrier row, the $\DerivativeUp$ partial-derivative endpoint rows, the finite PDE relation row, the boundary-data classifier row, and the ledger-exactness boundary for $\PdeUp$.}
+  \scopeclosed{The obligation scope is exactly the carrier, classifier, and stability-ledger-exactness surface of \autoref{thm:pde-carrier-obligation}, \autoref{thm:pde-classifier-obligation}, and \autoref{thm:pde-stability-ledger-exactness-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim host analytic existence, host real equality, solver correctness, standard bridge data, scoped closure, or Lean verification for $\PdeUp$.}
-  \upgradepath{Scoped closure requires replacing the obligation inventory with a dependency-scoped certificate tying each carrier, relation, boundary, and exactness row to the named BEDC primitives.}
+  \notclaimed{This chapter does not prove the scoped PDE carrier, classifier, stability, ledger, exactness, dependency, standard-bridge, or Lean verification targets.}
+  \upgradepath{$\scopedClosure$ requires paper proofs discharging the three displayed obligations, including transport stability for derivative relations and boundary data, exactness rows, and dependency rows over the named sources.}
 \end{closurestatus}
