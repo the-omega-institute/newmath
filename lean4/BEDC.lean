@@ -243,6 +243,7 @@ import BEDC.Derived.SheafUp.RefinementPullbackComposition
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootUnblockRestriction
 import BEDC.Derived.SheafUp.RootThreshold
+import BEDC.Derived.SheafUp.RootThresholdCertificateSource
 import BEDC.Derived.SheafUp.RootUnblock
 import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
@@ -444,6 +445,7 @@ import BEDC.Derived.ListUp.BorderedSingletonPayload
 import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.ListUp.SingletonLength
+import BEDC.Derived.ListUp.ConstructorExactness
 import BEDC.Derived.ListUp.ConstructorDecomposition
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
