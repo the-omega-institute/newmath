@@ -109,6 +109,20 @@ theorem QuadratureExactUpTo_weakening {qExact : BHist -> Prop} {coeff : BHist ->
       exact exactD.right.right
         (QuadraturePolynomialDegreeWindow_inclusion bound windowE)
 
+theorem QuadratureExactUpTo_classifier_scope {qExact : BHist -> Prop}
+    {coeff : BHist -> BHist} {zero e d c : BHist} :
+    QuadratureDegBoundLe e d -> QuadratureDegBoundLe d c ->
+      QuadratureExactUpTo qExact coeff zero c ->
+        QuadratureDegBoundLe e c ∧ QuadratureExactUpTo qExact coeff zero e ∧
+          UnaryHistory e ∧ UnaryHistory c := by
+  intro boundED boundDC exactC
+  have boundEC : QuadratureDegBoundLe e c :=
+    QuadratureDegBoundLe_trans boundED boundDC
+  have exactE : QuadratureExactUpTo qExact coeff zero e :=
+    QuadratureExactUpTo_weakening boundEC exactC
+  exact And.intro boundEC
+    (And.intro exactE (And.intro boundED.left boundDC.right.left))
+
 theorem QuadratureExactUpTo_degree_equivalence_stability {qExact : BHist -> Prop}
     {coeff : BHist -> BHist} {zero e d : BHist} :
     QuadratureDegBoundLe e d -> QuadratureDegBoundLe d e ->
