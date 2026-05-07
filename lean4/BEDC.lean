@@ -360,6 +360,7 @@ import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.ManifoldUp
+import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.ManifoldUp.SemanticNameCert
 import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.ManifoldUp.ChartDomainCarrierTransport
@@ -426,6 +427,7 @@ import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.InnerProductUp
+import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
