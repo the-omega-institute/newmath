@@ -46,6 +46,39 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 Avoids funext by using pointwise classifier sameness instead of equality of functions.
 \end{remark}
 
+\begin{theorem}[LinearMap terminal standard bridge]
+\label{thm:linearmap-terminal-standard-bridge}
+The singleton empty-history public map-code surface of
+\autoref{def:singleton-empty-history-linearmap-instance} and
+\autoref{thm:singleton-empty-history-linearmap-public-code-exactness}
+interprets in the terminal one-object, one-arrow linear-hom space. Every
+carried public code maps to the unique hom, evaluation sends the unique
+carried vector to itself, composition sends the unique composable hom pair to
+the unique hom, and the return interpretation is classified by
+$\lambda_{\emp}$ and $\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+The public-code exactness theorem identifies every carried public map code
+with the empty-history identity code under $\lambda_{\emp}$, and it gives the
+same collapse for the zero code, the composed code, and the evaluation
+readback. Thus the identity, zero, composition, and evaluation rows all land in
+the same singleton code class.
+
+The terminal standard object has one object endpoint and one hom endpoint.
+After the public surface has collapsed to the empty-history code class, both
+directions of the bridge are forced: a carried public code can only interpret
+as the unique terminal hom, and the unique terminal hom can only be represented
+by the carried empty-history public code.
+
+For vectors, the singleton carrier supplies only the empty endpoint, so
+evaluation of the unique hom at the unique carried vector returns that vector.
+The map-code comparison is the $\lambda_{\emp}$ classification already supplied
+by exactness, and the vector readback is the singleton $\rho_{\emp}$
+classification. No host function extensionality is used; the argument is only
+constructor collapse and carrier-aware classifier transport on the singleton
+surface.
+\end{proof}
+
 \begin{closurestatus}{\LinearMapUp}
   \theoryclosure{\bridgedClosure}
   \scopeclosed{The singleton public linear-map bridge surface: the public singleton map-code exactness theorem binds carried map codes, identity and zero map codes, composition collapse, evaluator readback, pointwise classifier exactness, ledgered function identifiers, and the terminal one-map linear hom bridge surface over the singleton vector-space carrier.}
@@ -53,7 +86,7 @@ Avoids funext by using pointwise classifier sameness instead of equality of func
   \leantarget{BEDC.Derived.LinearMapUp.LinearMapSingleton\_public\_empty\_code\_exactness}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not close arbitrary linear maps, kernels, images, rank-nullity, dual spaces, matrices, bounded operators, non-singleton function extensionality, or bridgeChecked verification.}
-  \upgradepath{The next step is a checked bridge interpretation for this singleton bridge surface or non-singleton linear-map families.}
+  \upgradepath{Mature closure requires reusable examples and cross-chapter consumers beyond the terminal singleton bridge.}
 \end{closurestatus}
 
 \begin{theorem}[LinearMap pointwise classifier equivalence]
