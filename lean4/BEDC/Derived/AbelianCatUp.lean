@@ -469,4 +469,23 @@ theorem AbelianCatZeroBiproductKernelSurface_factor_tail_transport
       (And.intro boundary.right.right.right.right.right.right.right.left
         boundary.right.right.right.right.right.right.left))
 
+theorem AbelianCatHomZeroMorphism_uniqueness
+    (S : AbelianCatZeroBiproductKernelSurface) {u left right : BHist} :
+    CategoryHomCarrier S.source S.target u ->
+      Cont u S.add left ->
+        Cont S.zero S.add right ->
+          hsame left S.add ->
+            hsame right S.add ->
+              hsame u S.zero ∧ UnaryHistory u ∧ UnaryHistory S.zero := by
+  intro uCarrier leftRow rightRow leftAdd rightAdd
+  have zeroUnary : UnaryHistory S.zero := S.zero_hom.right.right.left
+  have uUnary : UnaryHistory u := uCarrier.right.right.left
+  have addEmptyFromLeft : hsame u BHist.Empty :=
+    append_left_unit_iff.mp (leftRow.symm.trans leftAdd)
+  have addEmptyFromRight : hsame S.zero BHist.Empty :=
+    append_left_unit_iff.mp (rightRow.symm.trans rightAdd)
+  have sameUZero : hsame u S.zero :=
+    hsame_trans addEmptyFromLeft (hsame_symm addEmptyFromRight)
+  exact And.intro sameUZero (And.intro uUnary zeroUnary)
+
 end BEDC.Derived.AbelianCatUp

@@ -1240,28 +1240,55 @@ def main() -> int:
     # `\bridgeCheckedV`. Lean R-rounds should preferentially pick
     # bridge_candidates[0..2] when no urgent formal-axis work in `top`
     # is left.
+    # Detect existing <X>Up_StdBridge theorems already written under
+    # lean4/BEDC/Derived/. A chapter whose StdBridge exists in the
+    # build is "lean-side bridged"; the only remaining work is the
+    # paper-side closurestatus sync.
+    stdbridge_lean_chapters: set[str] = set()
+    for d in (ROOT / "lean4" / "BEDC" / "Derived").rglob("*.lean"):
+        try:
+            text = d.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        for m in re.finditer(
+            r"^\s*(?:theorem|lemma)\s+(\w+)Up_StdBridge\b",
+            text, flags=re.MULTILINE,
+        ):
+            stdbridge_lean_chapters.add(m.group(1).lower())
+
     bridge_candidates_full = []
+    bridge_sync_pending_full = []
     for info in horizons.values():
         tg = info.get("theory_grade")
         obj = info.get("objective_formal_grade")
         br = info.get("bridge_token")
+        n = info["name"]
         if tg != "matureClosure":
             continue
-        if obj != "axiomCleanV":
-            continue
-        # bridgeChecked already done if bridge_token is "bridgeChecked"
-        # or "paperBridge" (intermediate). Surface only chapters where
-        # bridge work is genuinely missing.
+        # Already fully done on both sides.
         if br in ("bridgeChecked", "bridgeCheckedV"):
             continue
-        bridge_candidates_full.append({
-            "name": info["name"],
+        entry = {
+            "name": n,
             "file_paper": info["file_paper"],
             "file_lean": info["file_lean"],
             "lean_target": info.get("lean_target"),
             "bridge_token": br,
             "thms": info.get("thms", 0),
-        })
+        }
+        if n in stdbridge_lean_chapters:
+            # Lean side already has <X>Up_StdBridge. Paper just needs to
+            # update bridgestatus + formalstatus to bridgeCheckedV.
+            # No objective gate here — the StdBridge theorem itself is
+            # the verification that work is done.
+            entry["lean_stdbridge_present"] = True
+            bridge_sync_pending_full.append(entry)
+        elif obj == "axiomCleanV":
+            # Lean target is already axiomCleanV but no StdBridge yet —
+            # this is real lean work to do (write the StdBridge theorem).
+            bridge_candidates_full.append(entry)
+        # else: lean target below axiomCleanV AND no StdBridge — not a
+        # bridge candidate yet (drift sync / formal_axis_top first).
     # Filter in-flight + recent (lean side: scan .worktrees/round_R*/)
     inflight_lean = _inflight_lean_attack_chapters()
     bridge_candidates_full = [
@@ -1270,6 +1297,15 @@ def main() -> int:
     ]
     bridge_candidates_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
     bridge_candidates = bridge_candidates_full[:10]
+
+    # bridge_sync_pending uses paper-side in-flight filter (it's a
+    # paper P-round task: edit the chapter's closurestatus block).
+    bridge_sync_pending_full = [
+        c for c in bridge_sync_pending_full
+        if c["name"] not in inflight_paper
+    ]
+    bridge_sync_pending_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
+    bridge_sync_pending = bridge_sync_pending_full[:10]
 
     # formal_axis_top: chapters whose theory axis is mature OR whose
     # paper closurestatus block records a non-trivial theory_grade,
@@ -1322,6 +1358,8 @@ def main() -> int:
         "open_horizons": open_count,
         "drift_chapters_total": len(drift_chapters_full),
         "bridge_candidates_total": len(bridge_candidates_full),
+        "bridge_sync_pending_total": len(bridge_sync_pending_full),
+        "bridge_sync_pending": bridge_sync_pending,
         "formal_axis_top_total": len(formal_axis_top_full),
         "granularity": "sibling",
         "top": rolled[:25],
