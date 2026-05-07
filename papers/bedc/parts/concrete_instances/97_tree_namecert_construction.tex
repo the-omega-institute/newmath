@@ -220,6 +220,7 @@ $\hsame$ and through the inherited $\GraphUp$ classifier. The acyclicity
 witness reads the transported closed walk and again returns the stationary
 endpoint row at the transported endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistObligationCarrier\_acyclic\_empty\_transport}
 \leanchecked{BEDC.Derived.TreeUp.TreeBHistObligationCarrier\_acyclic\_unit\_loop\_exactness}
 \leanchecked{BEDC.Derived.TreeUp.TreeGraphContEdge\_closed\_walk\_unit\_collapse}
 
@@ -425,6 +426,7 @@ data outside this displayed $\hsame$-classified $\NameCert$ boundary.
 \closureat{TreeUp}{scopedStr}
 \closureat{TreeUp}{publicStr}[BEDC.Derived.GraphUp.GraphCont\_namecert\_surface]
 \closureat{TreeUp}{bridgedStr}
+\closureat{TreeUp}{matureStr}[BEDC.Derived.GraphUp.GraphCont\_namecert\_surface]
 
 \begin{definition}[Tree obligation surface]\label{def:tree-obligation-surface}
 Fix a BEDC source history sort $\mathsf{BHist}$ and a graph certificate source $\NameCert_{\GraphUp}$ as in \autoref{ch:concrete-instances-graph-namecert}. A concrete $\TreeUp$ obligation record consists of the following rows on histories:
@@ -492,6 +494,7 @@ The edge relation is not an additional primitive. It is read from the $\NameCert
 
 Downstream consumers therefore receive the same carrier, the same classifier, and the same visible derivation-spine syntax. Inductive-carrier arguments may use $\UnaryHistory$ and $\Cont$ for spine extension, while derivation-syntax arguments read edges from the graph source fixed by the existing seed scope.
 \end{proof}
+\leanchecked{BEDC.Derived.TreeUp.TreeSyntacticRepresentation\_carrier\_readback}
 
 \begin{theorem}[TreeUp public certificate boundary]
 \label{thm:treeup-public-certificate-boundary}
@@ -522,11 +525,11 @@ The second round trip compares the re-encoded external presentation with the dis
 \end{proof}
 
 \begin{closurestatus}{\TreeUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The public $\TreeUp$ boundary and the paper bridge of \autoref{thm:treeup-public-derivation-syntax-bridge} identify the external finite rooted-or-root-free tree presentation over $\mathsf{BHist}$ nodes, $\mathsf{GraphContEdge}$ edge rows, $\Cont$, $\hsame$, $\Pkg$, $\NameCert_{\GraphUp}$, connectedness, acyclicity, root-branch rows, and derivation syntax.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public $\TreeUp$ boundary, the derivation-syntax bridge of \autoref{thm:treeup-public-derivation-syntax-bridge}, and the visible-spine extension ledger rows identify the external finite rooted-or-root-free tree presentation over $\mathsf{BHist}$ nodes, $\mathsf{GraphContEdge}$ edge rows, $\Cont$, $\hsame$, $\Pkg$, $\NameCert_{\GraphUp}$, connectedness, acyclicity, root-branch rows, and derivation syntax.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.GraphUp.GraphCont\_namecert\_surface}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not claim checked bridge verification, checked connectedness or acyclicity rows, checked root transport, or full $\TreeUp$ Lean verification.}
-  \upgradepath{Mature closure requires worked external tree examples together with bridgeChecked verification for the $\TreeUp$ bridge.}
+  \upgradepath{Lean-side audit or bridgeChecked verification for the $\TreeUp$ bridge remains a separate formal-axis obligation.}
 \end{closurestatus}

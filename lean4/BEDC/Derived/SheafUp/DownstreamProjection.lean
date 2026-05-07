@@ -91,6 +91,33 @@ theorem SheafRootConsumerRingedSpaceProjection_semantic_name_certificate
     (And.intro readA
       (And.intro readB rows.right.right.right.right.left))
 
+theorem SheafDownstreamConsumer_chart_endpoint_classifier
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist} :
+    SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB restrictedOpen
+        restrictedGermA restrictedGermB chartEndpoint ->
+      hsame restrictedGermA chartEndpoint ∧ hsame chartEndpoint restrictedGermB ∧
+        Cont restrictedOpen sectionA restrictedGermA ∧
+          Cont restrictedOpen sectionB restrictedGermB := by
+  intro scope
+  have rows :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                hsame chartEndpoint restrictedGermB :=
+    SheafDownstreamConsumer_carrier_scope (point := point) (openHist := openHist)
+      (sectionA := sectionA) (sectionB := sectionB) (germA := germA) (germB := germB)
+      (restrictedOpen := restrictedOpen) (restrictedGermA := restrictedGermA)
+      (restrictedGermB := restrictedGermB) (chartEndpoint := chartEndpoint) scope
+  have sameRestrictedChart : hsame restrictedGermA chartEndpoint :=
+    hsame_trans rows.right.right.right.right.left
+      (hsame_symm rows.right.right.right.right.right)
+  exact And.intro sameRestrictedChart
+    (And.intro rows.right.right.right.right.right
+      (And.intro rows.right.right.left rows.right.right.right.left))
+
 theorem SheafDownstreamConsumer_RingedSpace_boundary_rows
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB chartEndpoint : BHist} :
