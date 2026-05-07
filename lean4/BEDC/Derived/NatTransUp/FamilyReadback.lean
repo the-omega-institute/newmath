@@ -19,6 +19,23 @@ theorem NatTransPrefixComponentFamilyCarrier_vert_comp_closed
   exact NatTransPrefixComponentCarrier_vert_comp_closed
     (leftFamily objectUnary) (rightFamily objectUnary) comp
 
+theorem NatTransPrefixFunctorCategory_identity_and_composition
+    {p q r eta theta composite : BHist} :
+    UnaryHistory p -> NatTransPrefixComponentFamilyCarrier p q eta ->
+      NatTransPrefixComponentFamilyCarrier q r theta -> Cont eta theta composite ->
+        NatTransPrefixComponentFamilyCarrier p p BHist.Empty ∧
+          NatTransPrefixComponentFamilyCarrier p r composite := by
+  intro pCarrier leftFamily rightFamily comp
+  constructor
+  · intro a objectUnary
+    exact
+      (NatTransPrefixComponentCarrier_empty_identity_iff
+        (p := p) (q := p) (a := a)).mpr
+        (And.intro pCarrier
+          (And.intro pCarrier
+            (And.intro objectUnary (hsame_refl p))))
+  · exact NatTransPrefixComponentFamilyCarrier_vert_comp_closed leftFamily rightFamily comp
+
 theorem NatTransPrefixComponentCarrier_vert_comp_family_public_readback
     {p q r eta theta composite displayed : BHist} :
     (forall {a : BHist}, UnaryHistory a -> NatTransPrefixComponentCarrier p q a eta) ->

@@ -96,4 +96,22 @@ theorem InnerProductSingletonDiagonal_zero_exactness {x : BHist} :
     unfold InnerProductSingletonForm
     exact RealConstantHistoryClassifier_e1_iff_rat.mpr ratClassifier
 
+theorem InnerProductRoot_vecspace_scalar_exposure {x y : BHist} :
+    VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y ->
+      VecSpaceSingletonCarrier x ∧ VecSpaceSingletonCarrier y ∧
+        RealConstantHistoryClassifier (InnerProductSingletonForm x y)
+          (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierX carrierY
+  have ratCarrier : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+    RatHistoryCarrier_e1_tail_unary_iff.mpr unary_empty
+  have ratClassifier :
+      RatHistoryClassifier (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+    And.intro ratCarrier (And.intro ratCarrier (hsame_refl (BHist.e1 BHist.Empty)))
+  have realClassifier :
+      RealConstantHistoryClassifier (InnerProductSingletonForm x y)
+        (BHist.e1 (BHist.e1 BHist.Empty)) := by
+    unfold InnerProductSingletonForm
+    exact RealConstantHistoryClassifier_e1_iff_rat.mpr ratClassifier
+  exact And.intro carrierX (And.intro carrierY realClassifier)
+
 end BEDC.Derived.InnerProductUp
