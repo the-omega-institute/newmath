@@ -11,6 +11,12 @@ def SheafBHistPointGermLedger
     (point openHist sectionHist germ : BHist) : Prop :=
   UnaryHistory point ∧ UnaryHistory openHist ∧ Cont openHist sectionHist germ
 
+def SheafBHistPointGermComparison
+    (point openA sectA germA openB sectB germB common : BHist) : Prop :=
+  UnaryHistory point ∧ UnaryHistory openA ∧ UnaryHistory openB ∧ UnaryHistory common ∧
+    hsame common openA ∧ hsame common openB ∧ Cont common sectA germA ∧
+      Cont common sectB germB ∧ hsame germA germB
+
 theorem SheafBHistPointGermLedger_restriction_readback
     {point openHist sectionHist germ restrictedOpen restrictedGerm : BHist} :
     SheafBHistPointGermLedger point openHist sectionHist germ ->
@@ -26,6 +32,39 @@ theorem SheafBHistPointGermLedger_restriction_readback
   exact And.intro
     (And.intro ledger.left (And.intro restrictedOpenUnary restrictedRow))
     sameGerm
+
+theorem SheafBHistPointGermLedger_gluing_readback
+    {point openHist sect germ memberOpen memberSect memberGerm : BHist} :
+    SheafBHistPointGermLedger point openHist sect germ ->
+      UnaryHistory memberOpen -> hsame openHist memberOpen -> hsame sect memberSect ->
+        Cont memberOpen memberSect memberGerm ->
+          SheafBHistPointGermLedger point memberOpen memberSect memberGerm ∧
+            hsame germ memberGerm := by
+  intro ledger memberOpenUnary sameOpen sameSect memberRow
+  cases sameOpen
+  cases sameSect
+  have sameGerm : hsame germ memberGerm :=
+    cont_deterministic ledger.right.right memberRow
+  exact And.intro
+    (And.intro ledger.left (And.intro memberOpenUnary memberRow))
+    sameGerm
+
+theorem SheafBHistPointGermComparison_trans
+    {point openA openB openC sectA sectB sectC germA germB germC common : BHist} :
+    SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
+      SheafBHistPointGermComparison point openB sectB germB openC sectC germC common ->
+        SheafBHistPointGermComparison point openA sectA germA openC sectC germC common := by
+  intro first second
+  exact And.intro first.left
+    (And.intro first.right.left
+      (And.intro second.right.right.left
+        (And.intro first.right.right.right.left
+          (And.intro first.right.right.right.right.left
+            (And.intro second.right.right.right.right.right.left
+              (And.intro first.right.right.right.right.right.right.left
+                (And.intro second.right.right.right.right.right.right.right.left
+                  (hsame_trans first.right.right.right.right.right.right.right.right
+                    second.right.right.right.right.right.right.right.right))))))))
 
 theorem SheafBHistPointGermLedger_shared_open_classifier_transitivity
     {point openA openB openC sectionA sectionB sectionC germA germB germC : BHist} :
