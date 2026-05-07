@@ -402,6 +402,7 @@ import BEDC.Derived.LatticeUp.ModularComparison
 import BEDC.Derived.LatticeUp.Monotonicity
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.RootSystemUp
+import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp

@@ -17,4 +17,33 @@ theorem SheafConsumerAccessTrace_append_no_zero_extension
     appended.right.right row rowMem
   exact unary_no_zero_extension (unary_transport rowUnary sameRow)
 
+theorem SheafConsumerAccessTraceCompositionSource_membership_split
+    {root row : BHist} {left right : List BHist} :
+    SheafConsumerAccessTrace root left -> SheafConsumerAccessTrace root right ->
+      List.Mem row (left ++ right) ->
+        (List.Mem row left ∧ UnaryHistory row) ∨
+          (List.Mem row right ∧ UnaryHistory row) := by
+  intro leftTrace rightTrace rowMem
+  induction left with
+  | nil =>
+      exact Or.inr (And.intro rowMem (rightTrace.right row rowMem))
+  | cons head tail ih =>
+      cases rowMem with
+      | head =>
+          exact Or.inl
+            (And.intro (List.Mem.head tail) (leftTrace.right row (List.Mem.head tail)))
+      | tail head tailMem =>
+          have tailTrace : SheafConsumerAccessTrace root tail :=
+            And.intro leftTrace.left
+              (by
+                intro row rowMem
+                exact leftTrace.right row (List.Mem.tail head rowMem))
+          have splitTail := ih tailTrace tailMem
+          cases splitTail with
+          | inl leftRow =>
+              exact Or.inl
+                (And.intro (List.Mem.tail head leftRow.left) leftRow.right)
+          | inr rightRow =>
+              exact Or.inr rightRow
+
 end BEDC.Derived.SheafUp

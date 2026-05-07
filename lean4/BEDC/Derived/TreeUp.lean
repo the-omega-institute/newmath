@@ -242,4 +242,20 @@ theorem TreeBHistCarrier_visible_spine_extension_ledger
         (And.intro endpointUnary (And.intro extendedRootUnary endpointExtendedK))
         (And.intro extendedRootUnary (And.intro endpointExtendedK sameExtended))
 
+theorem TreeBHistCarrier_syntactic_representation
+    {graph edge connected acyclic root endpoint «syntax» syntaxTarget : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint ->
+      UnaryHistory «syntax» -> Cont endpoint «syntax» syntaxTarget ->
+        TreeRootBranch endpoint root connected ∧ GraphContEdge endpoint «syntax» syntaxTarget ∧
+          UnaryHistory syntaxTarget := by
+  intro carrier syntaxUnary syntaxRow
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  have endpointUnary : UnaryHistory endpoint := branch.left.left
+  have targetUnary : UnaryHistory syntaxTarget :=
+    unary_cont_closed endpointUnary syntaxUnary syntaxRow
+  exact And.intro branch
+    (And.intro
+      (And.intro endpointUnary (And.intro syntaxUnary syntaxRow))
+      targetUnary)
+
 end BEDC.Derived.TreeUp
