@@ -69,6 +69,22 @@ theorem SymplecticCarrierClassifierEndpointSurface_obligations
             (And.intro pairingUnary
               (And.intro closedRow pairingRow))))))
 
+theorem SymplecticCarrierClassifierEndpointSurface_closed_two_form_transport
+    {manifold form derivative closed pairing closed' : BHist} :
+    SymplecticCarrierClassifierEndpointSurface manifold form derivative closed pairing ->
+      hsame closed closed' -> Cont form derivative closed' ->
+        SymplecticCarrierClassifierEndpointSurface manifold form derivative closed' pairing ∧
+          hsame closed closed' ∧ UnaryHistory closed' := by
+  intro surface sameClosed transportedClosed
+  have closedUnary : UnaryHistory closed' :=
+    unary_cont_closed surface.right.left surface.right.right.left transportedClosed
+  exact And.intro
+    (And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro transportedClosed surface.right.right.right.right))))
+    (And.intro sameClosed closedUnary)
+
 theorem SymplecticCarrierClassifierSurface_obligations
     {manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
       antisym source closedWitness pairing ledger : BHist} :
