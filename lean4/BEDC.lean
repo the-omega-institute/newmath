@@ -243,6 +243,7 @@ import BEDC.Derived.SheafUp.RefinementPullbackComposition
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootUnblockRestriction
 import BEDC.Derived.SheafUp.RootThreshold
+import BEDC.Derived.SheafUp.RootThresholdCertificateSource
 import BEDC.Derived.SheafUp.RootUnblock
 import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
@@ -322,6 +323,10 @@ import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.MetricUp.StdBridge
+import BEDC.Derived.TotallyBoundedUp
+import BEDC.Derived.CompleteMetricUp
+import BEDC.Derived.CompactMetricUp
+import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
@@ -574,6 +579,7 @@ import BEDC.Derived.GroupUp.SingletonNormalizer
 import BEDC.Derived.GroupUp.ContextualContinuationProductUnit
 import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
+import BEDC.Derived.GroupUp.StdBridge
 import BEDC.Derived.GroupUp.SingletonNormalizerAction
 import BEDC.Derived.GroupUp.UnaryAppendInverseObstruction
 import BEDC.Derived.GroupUp.NormalizerAction
