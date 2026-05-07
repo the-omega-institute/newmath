@@ -167,6 +167,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.SymplecticUp
+import BEDC.Derived.SymGroupUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.ConditionalUnique
 import BEDC.Derived.ComplexLimitUp.ComponentAssembly
@@ -239,6 +240,7 @@ import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SheafUp.ClassifierStability
 import BEDC.Derived.SheafUp.RestrictedCommonRefinement
 import BEDC.Derived.SheafUp.RestrictedCommonRefinementLedger
+import BEDC.Derived.SheafUp.RestrictedOpenCarrier
 import BEDC.Derived.SheafUp.RootRestrictionRefinement
 import BEDC.Derived.SheafUp.ExactnessExport
 import BEDC.Derived.SheafUp.CommonTransport
