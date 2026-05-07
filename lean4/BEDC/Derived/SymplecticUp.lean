@@ -163,11 +163,39 @@ theorem SymplecticObligationBoundary_carrier_classifier_obligations
     unary_cont_closed manifoldRows.right.left boundary.right.left.left
       boundary.right.right.right.right
   exact And.intro boundary.left
-    (And.intro boundary.right.left
-      (And.intro boundary.right.right.left
-        (And.intro manifoldRows.right.left
-          (And.intro degreeRows.right.left
-            (And.intro closedUnary nondegUnary)))))
+      (And.intro boundary.right.left
+        (And.intro boundary.right.right.left
+          (And.intro manifoldRows.right.left
+            (And.intro degreeRows.right.left
+              (And.intro closedUnary nondegUnary)))))
+
+theorem SymplecticObligationBoundary_closed_two_form_row
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      Cont raised BHist.Empty closedWitness ∧ hsame closedWitness raised ∧
+        UnaryHistory closedWitness := by
+  intro boundary
+  have obligations := SymplecticObligationBoundary_carrier_classifier_obligations boundary
+  have closedRow : Cont raised BHist.Empty closedWitness := boundary.right.right.right.left
+  exact And.intro closedRow
+    (And.intro (cont_right_unit_result closedRow)
+      obligations.right.right.right.right.right.left)
+
+theorem SymplecticObligationBoundary_nondegeneracy_row
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      Cont manifold scalar nondegWitness ∧ ManifoldSingletonCarrier manifold ∧
+        UnaryHistory manifold ∧ UnaryHistory nondegWitness := by
+  intro boundary
+  have obligations := SymplecticObligationBoundary_carrier_classifier_obligations boundary
+  exact And.intro boundary.right.right.right.right
+    (And.intro obligations.left
+      (And.intro obligations.right.right.right.left
+        obligations.right.right.right.right.right.right))
 
 theorem SymplecticObligationBoundary_closed_two_form_transport
     {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
@@ -230,5 +258,39 @@ theorem SymplecticObligationBoundary_nondegeneracy_transport
         (And.intro boundary.right.right.left
           (And.intro boundary.right.right.right.left nondegRow'))))
     sameNondeg
+
+theorem SymplecticObligationBoundary_nondegeneracy_endpoint_split
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+      raised closedWitness nondegWitness ->
+      hsame nondegWitness BHist.Empty ->
+        hsame manifold BHist.Empty ∧ hsame scalar BHist.Empty ∧ UnaryHistory scalar ∧
+          UnaryHistory nondegWitness := by
+  intro boundary nondegEmpty
+  have manifoldRows := ManifoldSingletonCarrier_topology_scope boundary.left
+  have endpointToEmpty : Cont manifold scalar BHist.Empty :=
+    cont_result_hsame_transport boundary.right.right.right.right nondegEmpty
+  have endpointParts := cont_empty_result_inversion endpointToEmpty
+  have scalarUnary : UnaryHistory scalar := boundary.right.left.left
+  have nondegUnary : UnaryHistory nondegWitness :=
+    unary_cont_closed manifoldRows.right.left scalarUnary boundary.right.right.right.right
+  exact And.intro manifoldRows.left
+    (And.intro endpointParts.right (And.intro scalarUnary nondegUnary))
+
+theorem SymplecticObligationBoundary_closed_successor_not_empty
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+      raised closedWitness nondegWitness ->
+      hsame closedWitness BHist.Empty -> False := by
+  intro boundary closedEmpty
+  have successorRows :=
+    DiffFormExteriorDerivativeLedger_degree_successor_nonempty boundary.right.left
+  have closedRaised : hsame closedWitness raised :=
+    cont_right_unit_result boundary.right.right.right.left
+  have raisedEmpty : hsame raised BHist.Empty :=
+    hsame_trans (hsame_symm closedRaised) closedEmpty
+  exact successorRows.right.right.right raisedEmpty
 
 end BEDC.Derived.SymplecticUp
