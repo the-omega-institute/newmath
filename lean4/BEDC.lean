@@ -254,6 +254,7 @@ import BEDC.Derived.SheafUp.PointGermClassifier
 import BEDC.Derived.SheafUp.RootAccessNormalForm
 import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.ObligationSurface
+import BEDC.Derived.SheafUp.RootExport
 import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality

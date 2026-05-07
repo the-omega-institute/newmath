@@ -195,4 +195,26 @@ theorem SymplecticObligationBoundary_nondegeneracy_transport
           (And.intro boundary.right.right.right.left nondegRow'))))
     sameNondeg
 
+theorem SymplecticObligationBoundary_closed_nondegenerate_public_stability
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness scalar' derivative' raised' closedWitness' nondegWitness' : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      hsame scalar scalar' -> hsame derivative derivative' -> hsame raised raised' ->
+        Cont raised' BHist.Empty closedWitness' ->
+          Cont manifold scalar' nondegWitness' ->
+            SymplecticObligationBoundary manifold degree probe tensor scalar' antisym ledger
+                derivative' raised' closedWitness' nondegWitness' ∧
+              hsame closedWitness closedWitness' ∧
+                hsame nondegWitness nondegWitness' := by
+  intro boundary sameScalar sameDerivative sameRaised closedRow' nondegRow'
+  have closedTransport :=
+    SymplecticObligationBoundary_closed_two_form_transport boundary sameScalar sameDerivative
+      sameRaised closedRow'
+  have nondegTransport :=
+    SymplecticObligationBoundary_nondegeneracy_transport closedTransport.left
+      (hsame_refl scalar') nondegRow'
+  exact And.intro nondegTransport.left
+    (And.intro closedTransport.right nondegTransport.right)
+
 end BEDC.Derived.SymplecticUp
