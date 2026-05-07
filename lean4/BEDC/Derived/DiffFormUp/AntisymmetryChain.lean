@@ -56,4 +56,22 @@ theorem DiffFormAntisymmetryChainLedger_classifier_stability
   cases sameChain
   exact ⟨chainRows, chainRows.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem DiffFormAntisymmetryBoundary_derham_consumption_separation
+    {probes : ProbeBundle BHist}
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source chain degreeR
+      probeR tensorR scalarR antisymR ledgerR : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar
+        scalar' antisym source ->
+      DiffFormAntisymmetryChainLedger probes chain d probe tensor scalar antisym source degreeR
+        probeR tensorR scalarR antisymR ledgerR ->
+        UnaryHistory d ∧ UnaryHistory dplus ∧ Cont d (BHist.e1 BHist.Empty) dplus ∧
+          DiffFormBHistClassifier hsame probes d probe tensor scalar antisym source degreeR probeR
+            tensorR scalarR antisymR ledgerR := by
+  intro derivativeLedger chainLedger
+  have degreeRows := DiffFormExteriorDerivativeLedger_degree_raise derivativeLedger
+  exact And.intro degreeRows.left
+    (And.intro degreeRows.right.left
+      (And.intro degreeRows.right.right
+        chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right))
+
 end BEDC.Derived.DiffFormUp
