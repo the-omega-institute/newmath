@@ -62,6 +62,7 @@ the three tree rows; stability by transport of the visible rows; ledger the
 hidden route, root-choice, connectedness, and acyclicity witnesses; exactness
 by visible row readback; standard bridge absent; status obligation target.
 \end{theorem}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistCarrier\_obligation\_rows}
 \begin{proof}
 Use the carrier field of the roadmap ten-field template. The source row is the
 displayed $\NameCert_{\GraphUp}$ package, so every visible edge is already a
@@ -191,6 +192,7 @@ the inherited $\GraphUp$ classifier to the edge rows. The transported ledger
 has the same finite shape, so it remains a path from the transported endpoint
 to the transported root component.
 \end{proof}
+\leanchecked{BEDC.Derived.TreeUp.TreeGraphSource\_connected\_root\_path\_readback}
 
 \begin{theorem}[TreeUp acyclicity obligation]
 \label{thm:tree-acyclicity-obligation}
@@ -477,12 +479,14 @@ The edge relation is not an additional primitive. It is read from the $\NameCert
 Downstream consumers therefore receive the same carrier, the same classifier, and the same visible derivation-spine syntax. Inductive-carrier arguments may use $\UnaryHistory$ and $\Cont$ for spine extension, while derivation-syntax arguments read edges from the graph source fixed by the existing seed scope.
 \end{proof}
 
+\closureat{TreeUp}{publicStr}[BEDC.Derived.GraphUp.GraphCont\_namecert\_surface]
+
 \begin{closurestatus}{\TreeUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The obligation surface is exactly \autoref{def:treeup-bhist-carrier}, \autoref{thm:treeup-carrier-obligation}, \autoref{thm:treeup-classifier-obligation}, \autoref{thm:treeup-root-witness-obligation}, \autoref{thm:treeup-stability-ledger-obligation}, and \autoref{thm:treeup-exactness-obligation}, read through the displayed $\mathsf{BHist}$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert_{\GraphUp}$, and $\mathsf{GraphContEdge}$ dependencies.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public $\TreeUp$ boundary is exactly the surface of \autoref{thm:tree-namecert-obligation-surface}, \autoref{def:tree-obligation-surface}, and \autoref{thm:tree-syntactic-representation-obligation}, read over $\mathsf{BHist}$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert_{\GraphUp}$, $\mathsf{GraphContEdge}$, connectedness, acyclicity, and root-branch rows.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.GraphUp.GraphCont\_namecert\_surface}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a public certificate surface, a standard bridge, checked connectedness or acyclicity rows, checked root transport, or Lean verification.}
-  \upgradepath{Public closure requires a single exported TreeUp certificate boundary packaging the graph package, edge rows, connectedness, acyclicity, root branch, stability, ledger, and exactness rows as the public interface.}
+  \notclaimed{This chapter does not close a standard bridge, checked connectedness or acyclicity rows, checked root transport, or $\TreeUp$ Lean verification.}
+  \upgradepath{Bridged closure requires a standard bridge from the public $\TreeUp$ boundary to the external tree and derivation-syntax reference.}
 \end{closurestatus}
