@@ -19,6 +19,20 @@ def SheafBHistPointGermComparison
     hsame common openA ∧ hsame common openB ∧ Cont common sectA germA ∧
       Cont common sectB germB ∧ hsame germA germB
 
+def SheafBHistCoverNerveLedger
+    (ambient member overlap route germ : BHist) : Prop :=
+  UnaryHistory ambient ∧ UnaryHistory member ∧ UnaryHistory overlap ∧ hsame overlap member ∧
+    Cont overlap route germ
+
+theorem SheafBHistCoverNerveLedger_empty_boundary
+    {ambient member overlap route germ : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      hsame germ BHist.Empty -> hsame overlap BHist.Empty ∧ hsame route BHist.Empty := by
+  intro ledger germEmpty
+  have appendEmpty : append overlap route = BHist.Empty :=
+    ledger.right.right.right.right.symm.trans germEmpty
+  exact append_eq_empty_iff.mp appendEmpty
+
 theorem SheafBHistPointGermLedger_restriction_readback
     {point openHist sectionHist germ restrictedOpen restrictedGerm : BHist} :
     SheafBHistPointGermLedger point openHist sectionHist germ ->
@@ -292,6 +306,25 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
     SheafBHistPointGermLedger_common_open_comparison
       descent.left descent.right.left descent.right.right
   exact comparison.left
+
+theorem SheafBHistPointGermLedger_route_cont_composition
+    {point openA routeAB openB routeBC openC routeAC openC' sect germC germC' : BHist} :
+    SheafBHistPointGermLedger point openC sect germC ->
+      Cont openA routeAB openB -> Cont openB routeBC openC ->
+        Cont routeAB routeBC routeAC -> Cont openA routeAC openC' ->
+          Cont openC' sect germC' ->
+            SheafBHistPointGermLedger point openC' sect germC' ∧
+              hsame openC openC' ∧ hsame germC germC' := by
+  intro ledger routeA routeB routeAB routeDirect sectionDirect
+  have sameOpen : hsame openC openC' :=
+    cont_assoc_relational routeA routeB routeAB routeDirect
+  have openUnary : UnaryHistory openC' :=
+    unary_transport ledger.right.left sameOpen
+  have sameGerm : hsame germC germC' :=
+    cont_respects_hsame sameOpen (hsame_refl sect) ledger.right.right sectionDirect
+  exact And.intro
+    (And.intro ledger.left (And.intro openUnary sectionDirect))
+    (And.intro sameOpen sameGerm)
 
 theorem SheafRootCoverDescent_common_refinement_germ_exactness
     {point openA openB sectA sectB germA germB common globalA globalB : BHist} :
