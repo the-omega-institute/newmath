@@ -225,6 +225,7 @@ import BEDC.Derived.ComplexTopologyUp.Density
 import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.IntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.DiffFormUp
@@ -232,6 +233,7 @@ import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.DiffFormUp.RootConsumerFace
+import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
