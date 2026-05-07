@@ -104,4 +104,18 @@ theorem HolomorphicPatternSpec_hsame_iterate_transport {seed seed' iterate itera
     (And.intro seedUnary iterateTransport.left)
     (And.intro seedUnary iterateTransport.left)
 
+theorem HolomorphicStabilityCert_radius_extension_hsame_transport
+    {center center' radius radius' point point' extra extendedRadius : BHist} :
+    HolomorphicOpenDiskWitnessed center radius point -> hsame center center' ->
+      hsame point point' -> UnaryHistory extra -> Cont radius extra extendedRadius ->
+        hsame extendedRadius radius' ->
+          HolomorphicOpenDiskWitnessed center' radius' point' ∧
+            ∃ gap : BHist, UnaryHistory gap ∧ Cont point' gap radius' := by
+  intro disk sameCenter samePoint extraUnary radiusExtension sameExtendedRadius
+  have extendedDisk : HolomorphicOpenDiskWitnessed center extendedRadius point :=
+    HolomorphicOpenDisk_radius_continuation_extend disk extraUnary radiusExtension
+  exact
+    HolomorphicOpenDiskWitnessed_boundary_hsame_transport extendedDisk sameCenter
+      sameExtendedRadius samePoint
+
 end BEDC.Derived.HolomorphicUp
