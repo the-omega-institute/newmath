@@ -199,6 +199,7 @@ import BEDC.Derived.SheafUp.AccessTrace
 import BEDC.Derived.SheafUp.DownstreamConsumption
 import BEDC.Derived.SheafUp.DownstreamProjection
 import BEDC.Derived.SheafUp.DownstreamRoot
+import BEDC.Derived.SheafUp.BaseChangeIdentitySquare
 import BEDC.Derived.SheafUp.BaseChangeSurface
 import BEDC.Derived.SheafUp.GluingClassifierRows
 import BEDC.Derived.SheafUp.RouteExactnessPacket
@@ -237,6 +238,7 @@ import BEDC.Derived.SheafUp.RootNameCertLocality
 import BEDC.Derived.SheafUp.CoverPresentationExactness
 import BEDC.Derived.SheafUp.ChartGluingTrace
 import BEDC.Derived.SheafUp.RootAccessNormalForm
+import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.ObligationSurface
 import BEDC.Derived.SetUp
 import BEDC.Derived.TreeUp
