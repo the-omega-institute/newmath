@@ -67,6 +67,8 @@ RECENT_CYCLES_PATH = SCRIPT_DIR / "state" / "pi_recent_cycles.jsonl"
 
 CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
+DEFAULT_CODEX_MODELS = "gpt-5.4,gpt-5.5,gpt-5.2,gpt-5.4-mini"
+DEFAULT_CODEX_REASONING_EFFORT = "high"
 
 # Hard redlines
 ALLOWED_BRANCH = "bedc-claim-packet-pipeline"
@@ -193,6 +195,23 @@ def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str,
     return (rc == 0, stdout, rc)
 
 
+def _codex_models() -> list[str]:
+    raw = os.environ.get("BEDC_CODEX_MODELS") or os.environ.get("BEDC_CODEX_MODEL") or DEFAULT_CODEX_MODELS
+    models: list[str] = []
+    seen: set[str] = set()
+    for item in raw.split(","):
+        model = item.strip()
+        if model and model not in seen:
+            models.append(model)
+            seen.add(model)
+    return models or [DEFAULT_CODEX_MODELS.split(",", 1)[0]]
+
+
+def _is_model_limit_error(text: str) -> bool:
+    low = (text or "").lower()
+    return "usage limit" in low or "switch to another model" in low
+
+
 def _codex_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
     """Mirrors codex_orchestrator.codex_exec but lives here to avoid a circular
     dependency. Same hard-kill watchdog."""
@@ -203,35 +222,60 @@ def _codex_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, 
     prompt_file = LOG_DIR / f"{log_tag}_{ts}.prompt.txt"
     output_file = LOG_DIR / f"{log_tag}_{ts}.out.txt"
     prompt_file.write_text(prompt, encoding="utf-8")
-    cmd = [CODEX_PATH, "exec", "--sandbox", "read-only", "--json",
-           "-C", str(REPO_ROOT), "-o", str(output_file), "-"]
     env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
-    proc = subprocess.Popen(
-        cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-        text=True, cwd=str(REPO_ROOT), env=env, encoding="utf-8", errors="replace",
-        start_new_session=True,
-    )
+    effort = os.environ.get("BEDC_CODEX_REASONING_EFFORT", DEFAULT_CODEX_REASONING_EFFORT).strip()
     stdout = ""; stderr = ""; rc = -1
-    hard_killed = {"flag": False}
-    def _hard_kill() -> None:
-        hard_killed["flag"] = True
-        try: os.killpg(proc.pid, 9)
-        except (ProcessLookupError, PermissionError): pass
-    watchdog = threading.Timer(timeout + 60, _hard_kill); watchdog.daemon = True; watchdog.start()
-    try:
-        stdout, stderr = proc.communicate(input=prompt, timeout=timeout + 30)
-        rc = proc.returncode
-    except subprocess.TimeoutExpired:
-        try: os.killpg(proc.pid, 9)
-        except ProcessLookupError: pass
-        try: stdout, stderr = proc.communicate(timeout=10)
+    attempts: list[tuple[str, str, str, int]] = []
+    for model in _codex_models():
+        cmd = [CODEX_PATH, "exec", "--model", model]
+        if effort:
+            cmd += ["-c", f"model_reasoning_effort={json.dumps(effort)}"]
+        cmd += ["--sandbox", "read-only", "--json",
+                "-C", str(REPO_ROOT), "-o", str(output_file), "-"]
+        proc = subprocess.Popen(
+            cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            text=True, cwd=str(REPO_ROOT), env=env, encoding="utf-8", errors="replace",
+            start_new_session=True,
+        )
+        model_stdout = ""; model_stderr = ""; model_rc = -1
+        hard_killed = {"flag": False}
+
+        def _hard_kill() -> None:
+            hard_killed["flag"] = True
+            try: os.killpg(proc.pid, 9)
+            except (ProcessLookupError, PermissionError): pass
+
+        watchdog = threading.Timer(timeout + 60, _hard_kill); watchdog.daemon = True; watchdog.start()
+        try:
+            model_stdout, model_stderr = proc.communicate(input=prompt, timeout=timeout + 30)
+            model_rc = proc.returncode
         except subprocess.TimeoutExpired:
-            stdout = stdout or ""; stderr = stderr or ""
-        rc = -9
-    finally:
-        watchdog.cancel()
-    if hard_killed["flag"] and rc == 0:
-        rc = -9
+            try: os.killpg(proc.pid, 9)
+            except ProcessLookupError: pass
+            try: model_stdout, model_stderr = proc.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                model_stdout = model_stdout or ""; model_stderr = model_stderr or ""
+            model_rc = -9
+        finally:
+            watchdog.cancel()
+        if hard_killed["flag"] and model_rc == 0:
+            model_rc = -9
+        attempts.append((model, model_stdout or "", model_stderr or "", model_rc))
+        stdout = model_stdout or ""
+        stderr = model_stderr or ""
+        rc = model_rc
+        if model_rc == 0:
+            break
+        if not _is_model_limit_error((model_stdout or "") + "\n" + (model_stderr or "")):
+            break
+    (LOG_DIR / f"{log_tag}_{ts}.stdout.txt").write_text(
+        "\n".join(f"### model={model} rc={model_rc}\n{out}" for model, out, _err, model_rc in attempts),
+        encoding="utf-8",
+    )
+    (LOG_DIR / f"{log_tag}_{ts}.stderr.txt").write_text(
+        "\n".join(f"### model={model} rc={model_rc}\n{err}" for model, _out, err, model_rc in attempts),
+        encoding="utf-8",
+    )
     raw = ""
     if output_file.exists() and output_file.stat().st_size > 0:
         raw = output_file.read_text(encoding="utf-8", errors="replace")

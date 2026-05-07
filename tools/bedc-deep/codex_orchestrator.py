@@ -38,6 +38,8 @@ CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 DEFAULT_TIMEOUT = 600
 HISTORY_EXCERPT_LIMIT = 320
 PAPER_CONTEXT_TAIL_LINES = 80
+DEFAULT_CODEX_MODELS = "gpt-5.4,gpt-5.5,gpt-5.2,gpt-5.4-mini"
+DEFAULT_CODEX_REASONING_EFFORT = "high"
 
 
 @dataclass(frozen=True)
@@ -132,6 +134,23 @@ def _extract_json_object(text: str) -> Optional[dict]:
     return None
 
 
+def _codex_models() -> list[str]:
+    raw = os.environ.get("BEDC_CODEX_MODELS") or os.environ.get("BEDC_CODEX_MODEL") or DEFAULT_CODEX_MODELS
+    models: list[str] = []
+    seen: set[str] = set()
+    for item in raw.split(","):
+        model = item.strip()
+        if model and model not in seen:
+            models.append(model)
+            seen.add(model)
+    return models or [DEFAULT_CODEX_MODELS.split(",", 1)[0]]
+
+
+def _is_model_limit_error(text: str) -> bool:
+    low = (text or "").lower()
+    return "usage limit" in low or "switch to another model" in low
+
+
 def codex_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = "") -> CodexResult:
     """Run `codex exec --json` with stdin prompt; return raw output + rc."""
     if not CODEX_PATH or not Path(CODEX_PATH).exists():
@@ -146,71 +165,102 @@ def codex_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = ""
     stderr_file = LOG_DIR / f"{tag}_{ts}.stderr.txt"
     prompt_file.write_text(prompt, encoding="utf-8")
 
-    cmd = [
-        CODEX_PATH,
-        "exec",
-        "--sandbox",
-        "read-only",
-        "--json",
-        "-C",
-        str(REPO_ROOT),
-        "-o",
-        str(output_file),
-        "-",
-    ]
     env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
-    proc = subprocess.Popen(
-        cmd,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        cwd=str(REPO_ROOT),
-        env=env,
-        encoding="utf-8",
-        errors="replace",
-        start_new_session=True,
-    )
+    effort = os.environ.get("BEDC_CODEX_REASONING_EFFORT", DEFAULT_CODEX_REASONING_EFFORT).strip()
+    attempts: list[tuple[str, str, str, int]] = []
     stdout = ""
     stderr = ""
     rc: int = -1
-    # Hard-kill watchdog: subprocess.communicate's own timeout has been
-    # observed to not fire on long codex runs (B-18/B-19 took 38 min with
-    # timeout=600). A separate threading.Timer schedules an explicit
-    # SIGKILL on the process group at timeout + 60s so even if communicate
-    # misbehaves, the worker is bounded.
-    hard_killed = {"flag": False}
-    def _hard_kill() -> None:
-        hard_killed["flag"] = True
+
+    for model in _codex_models():
+        cmd = [
+            CODEX_PATH,
+            "exec",
+            "--model",
+            model,
+        ]
+        if effort:
+            cmd += ["-c", f"model_reasoning_effort={json.dumps(effort)}"]
+        cmd += [
+            "--sandbox",
+            "read-only",
+            "--json",
+            "-C",
+            str(REPO_ROOT),
+            "-o",
+            str(output_file),
+            "-",
+        ]
+        proc = subprocess.Popen(
+            cmd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            cwd=str(REPO_ROOT),
+            env=env,
+            encoding="utf-8",
+            errors="replace",
+            start_new_session=True,
+        )
+        model_stdout = ""
+        model_stderr = ""
+        model_rc: int = -1
+        # Hard-kill watchdog: subprocess.communicate's own timeout has been
+        # observed to not fire on long codex runs (B-18/B-19 took 38 min with
+        # timeout=600). A separate threading.Timer schedules an explicit
+        # SIGKILL on the process group at timeout + 60s so even if communicate
+        # misbehaves, the worker is bounded.
+        hard_killed = {"flag": False}
+
+        def _hard_kill() -> None:
+            hard_killed["flag"] = True
+            try:
+                os.killpg(proc.pid, 9)
+            except (ProcessLookupError, PermissionError):
+                pass
+
+        watchdog = threading.Timer(timeout + 60, _hard_kill)
+        watchdog.daemon = True
+        watchdog.start()
         try:
-            os.killpg(proc.pid, 9)
-        except (ProcessLookupError, PermissionError):
-            pass
-    watchdog = threading.Timer(timeout + 60, _hard_kill)
-    watchdog.daemon = True
-    watchdog.start()
-    try:
-        stdout, stderr = proc.communicate(input=prompt, timeout=timeout + 30)
-        rc = proc.returncode
-    except subprocess.TimeoutExpired:
-        try:
-            os.killpg(proc.pid, 9)
-        except ProcessLookupError:
-            pass
-        try:
-            stdout, stderr = proc.communicate(timeout=10)
+            model_stdout, model_stderr = proc.communicate(input=prompt, timeout=timeout + 30)
+            model_rc = proc.returncode
         except subprocess.TimeoutExpired:
-            stdout = stdout or ""
-            stderr = stderr or ""
-        rc = -9
-    finally:
-        watchdog.cancel()
-    if hard_killed["flag"] and rc == 0:
-        # communicate returned 0 because the watchdog kill caused EOF on
-        # the pipes, but the run exceeded its budget — demote to timeout.
-        rc = -9
-    stdout_file.write_text(stdout or "", encoding="utf-8")
-    stderr_file.write_text(stderr or "", encoding="utf-8")
+            try:
+                os.killpg(proc.pid, 9)
+            except ProcessLookupError:
+                pass
+            try:
+                model_stdout, model_stderr = proc.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                model_stdout = model_stdout or ""
+                model_stderr = model_stderr or ""
+            model_rc = -9
+        finally:
+            watchdog.cancel()
+        if hard_killed["flag"] and model_rc == 0:
+            # communicate returned 0 because the watchdog kill caused EOF on
+            # the pipes, but the run exceeded its budget; demote to timeout.
+            model_rc = -9
+
+        attempts.append((model, model_stdout or "", model_stderr or "", model_rc))
+        stdout = model_stdout or ""
+        stderr = model_stderr or ""
+        rc = model_rc
+        if model_rc == 0:
+            break
+        if not _is_model_limit_error((model_stdout or "") + "\n" + (model_stderr or "")):
+            break
+
+    stdout_file.write_text(
+        "\n".join(f"### model={model} rc={model_rc}\n{out}" for model, out, _err, model_rc in attempts),
+        encoding="utf-8",
+    )
+    stderr_file.write_text(
+        "\n".join(f"### model={model} rc={model_rc}\n{err}" for model, _out, err, model_rc in attempts),
+        encoding="utf-8",
+    )
 
     if rc != 0:
         return CodexResult(False, {}, stdout, rc, error=f"codex exec rc={rc}")
