@@ -180,4 +180,19 @@ theorem AddUp_acceptance_bridge_fields :
             intro h k r source
             exact source.right.right))))
 
+theorem AddUnaryContinuation_activation_without_commutativity {h k r swapped : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h swapped ->
+      UnaryHistory r ∧ UnaryHistory swapped ∧ (hsame r swapped -> hsame (append h k) (append k h)) ∧
+        AddSourceSpec h k r ∧ AddSourceSpec k h swapped := by
+  intro unaryH unaryK row rowSwapped
+  exact And.intro (unary_cont_closed unaryH unaryK row)
+    (And.intro (unary_cont_closed unaryK unaryH rowSwapped)
+      (And.intro
+        (by
+          intro sameResults
+          exact row.symm.trans (sameResults.trans rowSwapped))
+        (And.intro
+          (AddSourceSpec_from_unary_cont unaryH unaryK row)
+          (AddSourceSpec_from_unary_cont unaryK unaryH rowSwapped))))
+
 end BEDC.Derived.AddUp

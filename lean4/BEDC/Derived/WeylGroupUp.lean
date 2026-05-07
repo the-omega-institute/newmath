@@ -106,6 +106,30 @@ theorem WeylGroupBHistSourceRow_simple_reflection_word_closure
       (And.intro wordAppendCarrier (And.intro composedRow actionABUnary)))
     (And.intro actionABSameRoot wordAppendCarrier)
 
+theorem WeylGroupCoxeterWordLedger_row
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    {root wordL wordR actionL actionR : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root wordL actionL ->
+      WeylGroupBHistSourceRow support Vector Nonzero root wordR actionR ->
+        GroupSingletonClassifier wordL wordR ->
+          hsame actionL actionR ∧ GroupSingletonCarrier wordL ∧ GroupSingletonCarrier wordR ∧
+            Cont root wordL actionL ∧ Cont root wordR actionR := by
+  intro rowL rowR classifier
+  have sameActionRootL : hsame actionL root :=
+    cont_right_unit_result (by
+      cases classifier.left
+      exact rowL.right.right.left)
+  have sameActionRootR : hsame actionR root :=
+    cont_right_unit_result (by
+      cases classifier.right.left
+      exact rowR.right.right.left)
+  have sameAction : hsame actionL actionR :=
+    hsame_trans sameActionRootL (hsame_symm sameActionRootR)
+  exact And.intro sameAction
+    (And.intro classifier.left
+      (And.intro classifier.right.left
+        (And.intro rowL.right.right.left rowR.right.right.left)))
+
 theorem WeylGroupBHistSourceRow_action_classifier_stability
     {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
     (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
@@ -243,6 +267,23 @@ theorem WeylGroupRootSystemGroupCarrier_row
   exact And.intro carrier.left
     (And.intro carrier.right.left
       (And.intro carrier.right.right sameEndpointRoot))
+
+theorem WeylGroupCoxeterWordLedger_empty_relation_readback
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    {root word relation action : BHist} :
+    WeylGroupRootSystemGroupCarrier support Vector Nonzero root word action ->
+      Cont word BHist.Empty relation ->
+        RootSystemFiniteSupportCarrier support Vector Nonzero root ∧
+          GroupSingletonCarrier relation ∧ hsame relation word ∧ hsame action root := by
+  intro carrier relationReadback
+  have carrierRow := WeylGroupRootSystemGroupCarrier_row carrier
+  have relationWord : hsame relation word :=
+    cont_right_unit_result relationReadback
+  have relationCarrier : GroupSingletonCarrier relation :=
+    hsame_trans relationWord carrierRow.right.left
+  exact And.intro carrierRow.left
+    (And.intro relationCarrier
+      (And.intro relationWord carrierRow.right.right.right))
 
 theorem WeylGroupCoxeterWordLedger_append_spine_classifier
     {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
