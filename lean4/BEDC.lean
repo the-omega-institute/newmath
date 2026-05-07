@@ -252,6 +252,7 @@ import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
+import BEDC.Derived.SchemeUp
 import BEDC.Derived.LinearMapUp.Image
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.FieldExtUp
@@ -363,6 +364,7 @@ import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.RingedSpaceUp
+import BEDC.Derived.SchemeUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.ManifoldUp.SemanticNameCert
 import BEDC.Derived.DerivedCatUp

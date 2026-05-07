@@ -689,13 +689,25 @@ Again symmetry and transitivity give $b\sim_M b+_M b$, and \autoref{thm:module-a
 
 \input{parts/concrete_instances/module/standard_bridge_and_host_boundary}
 
-\closureat{ModuleUp}{bridgedStr}[BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_semanticNameCert]
+\begin{theorem}[ModuleUp mature package boundary]
+\label{thm:module-mature-package-boundary}
+The concrete $\ModuleUp$ package for the singleton empty-history instance consists of the singleton scalar carrier, the singleton module carrier, the scalar-action image $\mathsf{SemanticNameCert}$, the output-fiber $\mathsf{SemanticNameCert}$, the zero-action annihilation row, the $\RingUp$ scalar projection, the $\LinearMapUp$ kernel package, the classifier-faithful action and annihilator $\IdealUp$ predicate, the singleton standard bridge, and the no-host-leak public boundary.
+\end{theorem}
+\begin{proof}
+The singleton scalar and module carriers, scalar action, scalar projection, semantic image certificate, and output-fiber certificate are the concrete rows of \autoref{def:singleton-empty-history-module-instance}, \autoref{thm:module-singleton-scalar-action-laws}, \autoref{thm:module-singleton-smul-image-semantic-name-cert}, and \autoref{thm:module-singleton-smul-output-fiber-semantic-name-cert}. The zero-action endpoint row is supplied by \autoref{thm:module-zero-action-annihilation}.
+
+The kernel-facing part of the package is the $\LinearMapUp$ semantic certificate of \autoref{thm:module-linearmap-kernel-semantic-name-cert}. The action-faithfulness and annihilator closure rows are packaged by \autoref{thm:module-action-annihilator-ideal-predicate}.
+
+Finally, \autoref{thm:module-singleton-standard-bridge} identifies the public singleton surface with the standard terminal module bridge, and \autoref{thm:module-singleton-no-host-leak} records that this public surface exports no host equality, host $\mathsf{Nat}$, quotient carrier, or host function. These rows are exactly the advertised mature package boundary.
+\end{proof}
+
+\closureat{ModuleUp}{matureStr}[BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_semanticNameCert]
 \begin{closurestatus}{\ModuleUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The bridged singleton module surface binds the singleton scalar carrier, singleton module carrier, scalar-action image $\mathsf{SemanticNameCert}$, graph exactness, the zero-action row, $\AbGroupUp$ and $\RingUp$ projection rows, the LinearMap kernel surfaces, the standard bridge of \autoref{thm:module-singleton-standard-bridge}, and the public boundary of \autoref{thm:module-singleton-no-host-leak}.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature singleton $\ModuleUp$ paper package binds the singleton scalar carrier, singleton module carrier, scalar-action image $\mathsf{SemanticNameCert}$, graph exactness, zero-action annihilation, action-faithfulness if and only if zero-annihilator, the annihilator $\IdealUp$ predicate, the singleton standard bridge of \autoref{thm:module-singleton-standard-bridge}, and the no-host-leak theorem of \autoref{thm:module-singleton-no-host-leak}.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_semanticNameCert}
   \bridgestatus{paperBridge}
-  \notclaimed{The chapter does not claim $\bridgeCheckedV$, arbitrary modules, quotient modules, bases, free modules, tensor products, or structure theorem results.}
-  \upgradepath{A higher bridge grade requires a checked bridge target beyond the paper-side singleton bridge, and mature package closure requires broader module constructions beyond the singleton terminal-module surface.}
+  \notclaimed{The chapter does not claim $\bridgeCheckedV$, arbitrary non-singleton modules, quotient modules, bases, free modules, tensor products, or structure theorem results.}
+  \upgradepath{A $\bridgeCheckedV$ grade requires a checked bridge target; arbitrary non-singleton modules, quotient modules, bases, free modules, tensor products, and structure theorem packages require separate certificates.}
 \end{closurestatus}
