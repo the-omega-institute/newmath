@@ -485,6 +485,34 @@ theorem TreeDerivationSpineLedger_exactness_rows
         unary_cont_closed edgeUnary tailRows.right tailRoute
       exact And.intro edgeRow.left outUnary
 
+theorem TreeDerivationSpineLedger_steps_unary
+    {endpoint : BHist} {steps : List BHist} {out : BHist} :
+    TreeDerivationSpineLedger endpoint steps out ->
+      UnaryHistory endpoint ∧ UnaryHistory out ∧
+        (forall step : BHist, List.Mem step steps -> UnaryHistory step) := by
+  intro ledger
+  induction ledger with
+  | nil endpointUnary =>
+      exact And.intro endpointUnary
+        (And.intro endpointUnary
+          (by
+            intro step stepMem
+            cases stepMem))
+  | cons edgeRow _tailLedger tailRoute tailRows =>
+      have edgeUnary : UnaryHistory _ :=
+        unary_cont_closed edgeRow.left edgeRow.right.left edgeRow.right.right
+      have outUnary : UnaryHistory _ :=
+        unary_cont_closed edgeUnary tailRows.right.left tailRoute
+      exact And.intro edgeRow.left
+        (And.intro outUnary
+          (by
+            intro row rowMem
+            cases rowMem with
+            | head =>
+                exact edgeRow.right.left
+            | tail _ tailMem =>
+                exact tailRows.right.right row tailMem))
+
 theorem TreeRootLedger_derivation_spine_boundary
     {graph edge connected acyclic root endpoint : BHist} {steps : List BHist} {out : BHist} :
     TreeBHistCarrier graph edge connected acyclic root endpoint ->
@@ -575,5 +603,19 @@ theorem TreeObligationSurface_rows
       (And.intro surface.right.right
         (And.intro representation.left
           (And.intro representation.right.left representation.right.right))))
+
+theorem TreeObligationSurface_public_certificate_boundary
+    {graph edge connected acyclic root endpoint «syntax» syntaxTarget : BHist} :
+    TreeObligationSurface graph edge connected acyclic root endpoint «syntax» syntaxTarget ->
+      TreeBHistCarrier graph edge connected acyclic root endpoint ∧
+        TreeRootBranch endpoint root connected ∧
+          GraphContEdge endpoint «syntax» syntaxTarget ∧ UnaryHistory syntaxTarget ∧
+            Cont endpoint «syntax» syntaxTarget := by
+  intro surface
+  have rows := TreeObligationSurface_rows surface
+  exact And.intro rows.left
+    (And.intro rows.right.right.right.left
+      (And.intro rows.right.right.right.right.left
+        (And.intro rows.right.right.right.right.right rows.right.right.left)))
 
 end BEDC.Derived.TreeUp
