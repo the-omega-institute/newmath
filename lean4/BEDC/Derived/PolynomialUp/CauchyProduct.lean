@@ -172,6 +172,56 @@ theorem PolynomialSingletonEval_rawMul_classified {alpha : BHist} {xs ys : List 
           exact And.intro leftEmpty
             (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
+theorem PolynomialSingletonEval_semiring_morphism {alpha : BHist} {xs ys zs : List BHist} :
+    PolynomialSingletonCarrier alpha ->
+      BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs ys ->
+        BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier zs zs ->
+          PolynomialSingletonClassifier (PolynomialSingletonEval alpha xs)
+              (PolynomialSingletonEval alpha ys) ∧
+            PolynomialSingletonClassifier
+              (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs zs))
+              (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha zs)) ∧
+            PolynomialSingletonClassifier
+              (PolynomialSingletonEval alpha (PolynomialSingletonRawMul xs zs))
+              (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha zs)) := by
+  intro carrierAlpha classifiedXY classifiedZs
+  have classifiedXs :
+      BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs xs := by
+    induction xs generalizing ys with
+    | nil =>
+        cases ys with
+        | nil =>
+            constructor
+        | cons y ys =>
+            cases classifiedXY
+    | cons x xs ih =>
+        cases ys with
+        | nil =>
+            cases classifiedXY
+        | cons y ys =>
+            cases classifiedXY with
+            | intro headClassified tailClassified =>
+                exact And.intro
+                  (And.intro headClassified.left
+                    (And.intro headClassified.left (hsame_refl x)))
+                  (ih tailClassified)
+  have evalClassified :
+      PolynomialSingletonClassifier (PolynomialSingletonEval alpha xs)
+        (PolynomialSingletonEval alpha ys) :=
+    (PolynomialSingletonEval_list_classifier_classified carrierAlpha classifiedXY).left
+  have rawAddClassified :
+      PolynomialSingletonClassifier
+        (PolynomialSingletonEval alpha (PolynomialSingletonRawAdd xs zs))
+        (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha zs)) :=
+    (PolynomialSingletonEval_rawAdd_classified carrierAlpha classifiedXs classifiedZs).left
+  have rawMulClassified :
+      PolynomialSingletonClassifier
+        (PolynomialSingletonEval alpha (PolynomialSingletonRawMul xs zs))
+        (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha zs)) :=
+    PolynomialSingletonEval_rawMul_classified carrierAlpha classifiedXs classifiedZs
+  exact And.intro evalClassified
+    (And.intro rawAddClassified rawMulClassified)
+
 theorem PolynomialSingletonRawMul_commutative_classified {xs ys : List BHist} :
     BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs xs ->
       BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier ys ys ->
