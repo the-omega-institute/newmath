@@ -281,6 +281,7 @@ import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
+import BEDC.Derived.FourierUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch

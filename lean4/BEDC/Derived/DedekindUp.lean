@@ -189,4 +189,54 @@ theorem DedekindSingleton_scoped_certificate_packet :
         · intro h k classified
           exact singletonLaws.right.left classified.left classified.right.left
 
+theorem DedekindSingleton_public_namecert_surface :
+    SemanticNameCert
+      (fun h : BHist => CommRingSingletonCarrier h ∧
+        CommRingSingletonClassifier h BHist.Empty)
+      (fun h : BHist => CommRingSingletonCarrier h ∧
+        CommRingSingletonClassifier h BHist.Empty)
+      (fun h : BHist => CommRingSingletonCarrier h ∧
+        CommRingSingletonClassifier h BHist.Empty)
+      CommRingSingletonClassifier ∧
+      (forall {h k : BHist}, CommRingSingletonClassifier h k -> hsame h k) ∧
+      (forall {h : BHist}, CommRingSingletonCarrier h ->
+        CommRingSingletonClassifier h BHist.Empty) := by
+  have emptyCarrier : CommRingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : CommRingSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro BHist.Empty (And.intro emptyCarrier emptyClassified)
+        equiv_refl := by
+          intro h source
+          exact And.intro source.left (And.intro source.left (hsame_refl h))
+        equiv_symm := by
+          intro h k classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro h k r classifiedHK classifiedKR
+          exact And.intro classifiedHK.left
+            (And.intro classifiedKR.right.left
+              (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+        carrier_respects_equiv := by
+          intro h k classified _source
+          have carrierK : CommRingSingletonCarrier k := classified.right.left
+          exact And.intro carrierK (And.intro carrierK (And.intro emptyCarrier carrierK))
+      }
+      pattern_sound := by
+        intro h source
+        exact source
+      ledger_sound := by
+        intro h source
+        exact source
+    }
+  · constructor
+    · intro h k classified
+      exact classified.right.right
+    · intro h carrier
+      exact And.intro carrier (And.intro emptyCarrier carrier)
+
 end BEDC.Derived.DedekindUp
