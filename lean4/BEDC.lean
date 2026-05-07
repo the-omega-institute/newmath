@@ -191,6 +191,9 @@ import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.RootCoverDescent
+import BEDC.Derived.SheafUp.RootRouteExactness
+import BEDC.Derived.SheafUp.RefinementGluing
 import BEDC.Derived.SheafUp.CoverPullback
 import BEDC.Derived.SheafUp.CoverDescent
 import BEDC.Derived.SheafUp.CoverNerveCertificate
@@ -218,6 +221,8 @@ import BEDC.Derived.HolomorphicUp.OpenDiskZeroHeaded
 import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.HolomorphicUp.SeedSpecs
+import BEDC.Derived.HolomorphicUp.SeedStability
+import BEDC.Derived.HolomorphicUp.StabilityCertificate
 import BEDC.Derived.HolomorphicUp.StabilityCert
 import BEDC.Derived.TopologyUp.Core
 import BEDC.Derived.TopologyUp.FiniteBaseNeighborhood
