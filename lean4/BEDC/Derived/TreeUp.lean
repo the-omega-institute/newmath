@@ -4,8 +4,46 @@ namespace BEDC.Derived.TreeUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.GraphUp
+
+def TreeBHistObligationCarrier
+    (root source target edge connected acyclic repr package : BHist) : Prop :=
+  GraphContEdge source target edge ∧ UnaryHistory root ∧ Cont root connected source ∧
+    hsame acyclic BHist.Empty ∧ Cont edge repr target ∧ hsame package (append source target)
+
+theorem TreeBHistCarrier_obligation_rows
+    {root source target edge connected acyclic repr package : BHist} :
+    TreeBHistObligationCarrier root source target edge connected acyclic repr package ->
+      GraphContEdge source target edge ∧ UnaryHistory root ∧ Cont root connected source ∧
+        hsame acyclic BHist.Empty ∧ Cont edge repr target ∧
+          hsame package (append source target) ∧
+            SemanticNameCert UnaryHistory UnaryHistory UnaryHistory hsame := by
+  intro carrier
+  have cert : SemanticNameCert UnaryHistory UnaryHistory UnaryHistory hsame :=
+    GraphCont_namecert_surface.left
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+          (And.intro carrier.right.right.left
+            (And.intro carrier.right.right.right.left
+              (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right cert)))))
+
+theorem TreeGraphSource_connected_root_path_readback
+    {root endpoint step pathOut rootOut : BHist} :
+    UnaryHistory root -> GraphContEdge endpoint step pathOut ->
+      Cont pathOut BHist.Empty rootOut -> hsame rootOut root ->
+        UnaryHistory endpoint ∧ UnaryHistory step ∧ Cont endpoint step pathOut ∧
+          hsame pathOut root := by
+  intro _rootUnary edge rootPath sameRoot
+  have sameRootOutPath : hsame rootOut pathOut :=
+    Iff.mp cont_right_unit_iff rootPath
+  have samePathRoot : hsame pathOut root :=
+    hsame_trans (hsame_symm sameRootOutPath) sameRoot
+  exact And.intro edge.left
+    (And.intro edge.right.left
+      (And.intro edge.right.right samePathRoot))
 
 def TreeRootBranch (endpoint root connected : BHist) : Prop :=
   GraphContEdge endpoint root connected ∧ UnaryHistory root ∧ Cont endpoint root connected
