@@ -227,6 +227,7 @@ import BEDC.Derived.SheafUp.RootFaceExactness
 import BEDC.Derived.SheafUp.RootFaceReadback
 import BEDC.Derived.SheafUp.JointConsumerFace
 import BEDC.Derived.SheafUp.RootCoverDescent
+import BEDC.Derived.SheafUp.RootCoverDescentSource
 import BEDC.Derived.SheafUp.RootRouteExactness
 import BEDC.Derived.SheafUp.RootStalkFreeGermSource
 import BEDC.Derived.SheafUp.RefinementGluing
@@ -248,6 +249,7 @@ import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootUnblockRestriction
 import BEDC.Derived.SheafUp.RootThreshold
 import BEDC.Derived.SheafUp.RootThresholdCertificateSource
+import BEDC.Derived.SheafUp.RootConsumerThresholdProjectionSource
 import BEDC.Derived.SheafUp.RootUnblock
 import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
@@ -342,10 +344,12 @@ import BEDC.Derived.DiffFormUp.ConsumerBoundary
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
+import BEDC.Derived.DiffFormUp.RootRowCarrierScope
 import BEDC.Derived.DiffFormUp.ExteriorDerivativeBoundary
 import BEDC.Derived.DiffFormUp.RootBoundaryConsumer
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootConsumerEntry
+import BEDC.Derived.DiffFormUp.RootNameCertSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
