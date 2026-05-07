@@ -515,4 +515,25 @@ theorem SymplecticObligationBoundary_closed_successor_not_empty
     hsame_trans (hsame_symm closedRaised) closedEmpty
   exact successorRows.right.right.right raisedEmpty
 
+theorem SymplecticObligationBoundary_dependency_nonempty
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+      raised closedWitness nondegWitness ->
+      hsame degree (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+        (hsame raised BHist.Empty -> False) ∧
+          (hsame closedWitness BHist.Empty -> False) := by
+  intro boundary
+  have successorRows :=
+    DiffFormExteriorDerivativeLedger_degree_successor_nonempty boundary.right.left
+  have closedRaised : hsame closedWitness raised :=
+    cont_right_unit_result boundary.right.right.right.left
+  exact And.intro boundary.right.right.left
+    (And.intro successorRows.right.right.right
+      (by
+        intro closedEmpty
+        have raisedEmpty : hsame raised BHist.Empty :=
+          hsame_trans (hsame_symm closedRaised) closedEmpty
+        exact successorRows.right.right.right raisedEmpty))
+
 end BEDC.Derived.SymplecticUp
