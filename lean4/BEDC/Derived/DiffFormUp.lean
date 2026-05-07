@@ -28,6 +28,23 @@ theorem DiffFormBHistCarrier_coordinate_ledger
     exact unary_append_closed tensorUnary antisymUnary
   exact ⟨degreeUnary, probeUnary, tensorUnary, scalarUnary, ledgerRoute⟩
 
+theorem DiffFormBHistLedger_exactness_obligation
+    {degree probe tensor scalar antisym ledger : BHist} :
+    UnaryHistory degree -> UnaryHistory probe -> Cont degree probe tensor ->
+      UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          UnaryHistory tensor ∧ UnaryHistory scalar ∧
+            hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ∧
+              Cont degree probe tensor ∧ Cont tensor antisym scalar := by
+  intro degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have coordinateRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  exact And.intro coordinateRows.right.right.left
+    (And.intro coordinateRows.right.right.right.left
+      (And.intro coordinateRows.right.right.right.right
+        (And.intro tensorRoute scalarRoute)))
+
 theorem DiffFormBHistCarrier_hsame_transport
     {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
       ledger' : BHist} :
