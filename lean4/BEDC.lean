@@ -415,7 +415,9 @@ import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
+import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.MonoidalCatUp
+import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.AdjointRepUp
