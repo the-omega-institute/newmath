@@ -198,6 +198,7 @@ import BEDC.Derived.SheafUp
 import BEDC.Derived.SheafUp.ConsumerAccessTrace
 import BEDC.Derived.SheafUp.ConsumerTrace
 import BEDC.Derived.SheafUp.GlobalRestrictions
+import BEDC.Derived.SheafUp.IndexedSectionPresheafCarrier
 import BEDC.Derived.SheafUp.AccessTrace
 import BEDC.Derived.SheafUp.DownstreamConsumption
 import BEDC.Derived.SheafUp.DownstreamProjection
