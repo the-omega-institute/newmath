@@ -81,6 +81,23 @@ theorem SheafBHistPointGermComparison_trans
                   (hsame_trans first.right.right.right.right.right.right.right.right
                     second.right.right.right.right.right.right.right.right))))))))
 
+theorem SheafBHistPointGermComparison_symmetric_fields
+    {point openA openB sectA sectB germA germB common : BHist} :
+    SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
+      UnaryHistory point ∧ UnaryHistory openB ∧ UnaryHistory openA ∧ UnaryHistory common ∧
+        hsame common openB ∧ hsame common openA ∧ Cont common sectB germB ∧
+          Cont common sectA germA ∧ hsame germB germA := by
+  intro comparison
+  exact And.intro comparison.left
+    (And.intro comparison.right.right.left
+      (And.intro comparison.right.left
+        (And.intro comparison.right.right.right.left
+          (And.intro comparison.right.right.right.right.right.left
+            (And.intro comparison.right.right.right.right.left
+              (And.intro comparison.right.right.right.right.right.right.right.left
+                (And.intro comparison.right.right.right.right.right.right.left
+                  (hsame_symm comparison.right.right.right.right.right.right.right.right))))))))
+
 theorem SheafBHistPointGermLedger_shared_open_classifier_transitivity
     {point openA openB openC sectionA sectionB sectionC germA germB germC : BHist} :
     SheafBHistPointGermLedger point openA sectionA germA ->
