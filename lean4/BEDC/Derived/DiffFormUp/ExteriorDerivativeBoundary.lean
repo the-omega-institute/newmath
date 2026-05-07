@@ -5,6 +5,7 @@ namespace BEDC.Derived.DiffFormUp
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem DiffFormExteriorDerivativeLedger_classifier_transport_nonempty_boundary
@@ -32,5 +33,36 @@ theorem DiffFormExteriorDerivativeLedger_classifier_transport_nonempty_boundary
   exact And.intro transported
     (And.intro boundaryRows.right.right.right
       (And.intro boundaryRows.left transported.right.right.right.right.right.right.right.right.left))
+
+theorem DiffFormExteriorDerivative_downstream_scope {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger targetDegree : BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory degree -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          Cont degree (BHist.e1 BHist.Empty) targetDegree ->
+            (UnaryHistory degree ∧ InBundle probe probes ∧ UnaryHistory tensor ∧
+              UnaryHistory scalar ∧
+                hsame ledger (append degree (append probe (append tensor (append scalar antisym))))) ∧
+              DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym
+                ledger degree probe tensor scalar antisym ledger ∧
+                UnaryHistory targetDegree ∧
+                  Cont degree (BHist.e1 BHist.Empty) targetDegree := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+    ledgerRoute targetRoute
+  have coverage :=
+    DiffFormRootDegreeClassifier_coverage scalarCert probeIn scalarCarrier degreeUnary
+      probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have raised :=
+    DiffFormExteriorDerivative_degree_raise_ledger degreeUnary probeUnary tensorRoute
+      antisymUnary scalarRoute ledgerRoute targetRoute
+  exact And.intro
+    (And.intro coverage.left.left
+      (And.intro probeIn
+        (And.intro coverage.left.right.right.left
+          (And.intro coverage.left.right.right.right.left
+            coverage.left.right.right.right.right))))
+    (And.intro coverage.right (And.intro raised.right.left raised.right.right.left))
 
 end BEDC.Derived.DiffFormUp
