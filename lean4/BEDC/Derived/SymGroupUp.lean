@@ -163,9 +163,11 @@ theorem SymGroupPermutationClassifier_stability [AskSetup] [PackageSetup]
     PermutationBijectionSourceRow_endpoint_package_hsame_transport carrier.left sameSrc sameTgt
       srcPkg' tgtPkg' graphCont' invGraphCont' compCont' actionCont' ledgerCont'
   have groupCarrier' : GroupSingletonCarrier comp' :=
-    hsame_trans (hsame_symm transported.right.right.right.left) carrier.right
+    hsame_trans (hsame_symm transported.right.right.right.left) carrier.right.left
+  have actionCarrier' : GroupSingletonCarrier action' :=
+    hsame_trans (hsame_symm transported.right.right.right.right.left) carrier.right.right
   exact And.intro
-    (And.intro transported.left groupCarrier')
+    (And.intro transported.left (And.intro groupCarrier' actionCarrier'))
     transported.right
 
 end BEDC.Derived.SymGroupUp
