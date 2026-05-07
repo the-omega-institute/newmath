@@ -412,4 +412,28 @@ theorem BanachSingletonBoundedLinearOperator_composition_cauchy_transport
   exact BanachSingletonBoundedLinearOperator_limit_witness_transport boundedS sourceCarrierT
     alignedT
 
+theorem BanachSingletonZeroBoundedLinearOperator_carrier :
+    BanachSingletonBoundedLinearOperator (fun _x : BHist => BHist.Empty) BHist.Empty
+      (BHist.e0 BHist.Empty) ∧
+      (forall {x : BHist}, BanachSingletonCarrier x ->
+        BanachSingletonCarrier ((fun _x : BHist => BHist.Empty) x)) ∧
+      (hsame (BHist.e0 BHist.Empty) BHist.Empty -> False) := by
+  have emptyMetric : MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have emptyCarrier : BanachSingletonCarrier BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty) emptyMetric
+  constructor
+  · exact And.intro (hsame_refl BHist.Empty)
+      (And.intro
+        (fun ledgerEmpty => not_hsame_e0_empty ledgerEmpty)
+        (by
+          intro x _carrierX
+          exact emptyCarrier))
+  · constructor
+    · intro x _carrierX
+      exact emptyCarrier
+    · intro ledgerEmpty
+      exact not_hsame_e0_empty ledgerEmpty
+
 end BEDC.Derived.BanachUp
