@@ -4,6 +4,7 @@ namespace BEDC.Derived.SheafUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 theorem SheafRootFaceRead_downstream_projection_separation
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
@@ -30,5 +31,63 @@ theorem SheafRootFaceRead_downstream_projection_separation
           (SheafRootFaceRead.localityGluingRefinement rows.right.right.right.left
             rows.right.right.left (hsame_symm rows.right.right.right.right.left))
           rows.right.right.right.right.right)))
+
+theorem SheafRootConsumerRingedSpaceProjection_semantic_name_certificate
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist} :
+    SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB restrictedOpen
+        restrictedGermA restrictedGermB chartEndpoint ->
+      SemanticNameCert
+          (fun endpoint : BHist =>
+            SheafRootFaceRead restrictedOpen endpoint .restrictionRoute)
+          (fun endpoint : BHist =>
+            SheafRootFaceRead restrictedOpen endpoint .restrictionRoute)
+          (fun endpoint : BHist =>
+            SheafRootFaceRead restrictedOpen endpoint .restrictionRoute)
+          hsame ∧
+        SheafRootFaceRead restrictedOpen restrictedGermA .restrictionRoute ∧
+          SheafRootFaceRead restrictedOpen restrictedGermB .restrictionRoute ∧
+            hsame restrictedGermA restrictedGermB := by
+  intro scope
+  have rows :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                hsame chartEndpoint restrictedGermB :=
+    SheafDownstreamConsumer_carrier_scope (point := point) (openHist := openHist)
+      (sectionA := sectionA) (sectionB := sectionB) (germA := germA) (germB := germB)
+      (restrictedOpen := restrictedOpen) (restrictedGermA := restrictedGermA)
+      (restrictedGermB := restrictedGermB) (chartEndpoint := chartEndpoint) scope
+  have readA : SheafRootFaceRead restrictedOpen restrictedGermA .restrictionRoute :=
+    SheafRootFaceRead.restrictionRoute rows.right.right.left
+  have readB : SheafRootFaceRead restrictedOpen restrictedGermB .restrictionRoute :=
+    SheafRootFaceRead.restrictionRoute rows.right.right.right.left
+  have cert :
+      SemanticNameCert
+        (fun endpoint : BHist => SheafRootFaceRead restrictedOpen endpoint .restrictionRoute)
+        (fun endpoint : BHist => SheafRootFaceRead restrictedOpen endpoint .restrictionRoute)
+        (fun endpoint : BHist => SheafRootFaceRead restrictedOpen endpoint .restrictionRoute)
+        hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro restrictedGermA readA
+      · intro endpoint _carrier
+        exact hsame_refl endpoint
+      · intro endpoint endpoint' same
+        exact hsame_symm same
+      · intro endpoint endpoint' endpoint'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro endpoint endpoint' same carrier
+        cases same
+        exact carrier
+    · intro _endpoint source
+      exact source
+    · intro _endpoint source
+      exact source
+  exact And.intro cert
+    (And.intro readA
+      (And.intro readB rows.right.right.right.right.left))
 
 end BEDC.Derived.SheafUp
