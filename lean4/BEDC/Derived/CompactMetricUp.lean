@@ -101,4 +101,35 @@ theorem CompactMetricHeineCantor_consumer_bridge {X : BHist -> Prop} {eps n : BH
                 (And.intro (net.right.left centerData.left) centerData.right))
       · exact complete.right nUnary source
 
+theorem CompactMetricCertificate_scope {X : BHist -> Prop} {eps : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit ->
+      TotallyBoundedProbeBundleNet X eps bundle ∧
+        CompleteMetricLimitWitness X s M limit ∧
+          (forall {x : BHist}, X x ->
+            exists center : BHist, InBundle center bundle ∧ X center ∧
+              exists d : BHist,
+                MetricDistanceWitness x center d ∧ RatHistoryClassifier d eps) ∧
+            (forall {n : BHist}, UnaryHistory n -> X (s n) ->
+              exists d : BHist,
+                MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+                  RatHistoryClassifier d (M n)) := by
+  intro certificate
+  cases certificate with
+  | intro net complete =>
+      constructor
+      · exact net
+      · constructor
+        · exact complete
+        · constructor
+          · intro x source
+            cases net.right.right source with
+            | intro center centerData =>
+                cases centerData.right with
+                | intro d distanceData =>
+                    exact ⟨center, centerData.left, net.right.left centerData.left, d,
+                      distanceData.left, distanceData.right⟩
+          · intro n nUnary source
+            exact complete.right nUnary source
+
 end BEDC.Derived.CompactMetricUp
