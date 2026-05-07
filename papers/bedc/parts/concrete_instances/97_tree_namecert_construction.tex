@@ -101,6 +101,7 @@ branch carrying a witness that no vertex row in the same visible package has
 been designated as root. Both branches are transported by the same $\hsame$
 and $\Pkg$ data as the graph package.
 \end{theorem}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistCarrier\_root\_branch\_transport}
 \begin{proof}
 Proceed by case analysis on the root branch recorded in the carrier row.
 
@@ -413,7 +414,7 @@ $\TreeUp$ ledger, and exactness says that the certificate contains no hidden
 data outside this displayed $\hsame$-classified $\NameCert$ boundary.
 \end{proof}
 
-\closureat{TreeUp}{scopedStr}[BEDC.Derived.GraphUp.GraphCont\_namecert\_surface]
+\closureat{TreeUp}{scopedStr}
 
 \begin{definition}[Tree obligation surface]\label{def:tree-obligation-surface}
 Fix a BEDC source history sort $\mathsf{BHist}$ and a graph certificate source $\NameCert_{\GraphUp}$ as in \autoref{ch:concrete-instances-graph-namecert}. A concrete $\TreeUp$ obligation record consists of the following rows on histories:
@@ -483,5 +484,5 @@ Downstream consumers therefore receive the same carrier, the same classifier, an
   \leantarget{BEDC.Derived.GraphUp.GraphCont\_namecert\_surface}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a public certificate surface, a standard bridge, checked connectedness or acyclicity rows, checked root transport, or Lean verification.}
-  \upgradepath{Public closure requires packaging the $\TreeUp$ carrier, classifier, graph-source, root-or-root-free, stability, ledger, and syntactic-representation rows into a public certificate surface.}
+  \upgradepath{Public closure requires a single exported TreeUp certificate boundary packaging the graph package, edge rows, connectedness, acyclicity, root branch, stability, ledger, and exactness rows as the public interface.}
 \end{closurestatus}
