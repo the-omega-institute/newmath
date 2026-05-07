@@ -425,6 +425,7 @@ import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.InnerProductUp
+import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
