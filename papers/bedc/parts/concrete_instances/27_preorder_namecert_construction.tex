@@ -718,6 +718,56 @@ The pattern row of \autoref{def:preorder-pattern-specification} remains binary c
 These source, pattern, classifier, stability, and ledger rows are exactly the five fields of the paper naming-certificate template in \autoref{def:typed-naming-certificate}, specialized to the preorder obligations of \autoref{def:preorder-certificate-obligations}. Therefore $C^{\mathrm{op}}$ carries a $\PreorderUp$ certificate.
 \end{proof}
 
+\begin{theorem}[Singleton empty $\PreorderUp$ public certificate boundary]
+\label{thm:preorder-singleton-empty-public-certificate-boundary}
+For the concrete singleton package
+$(A_{\emp},\rho_{\emp},\le_{\emp}^{\mathrm{sg}})$ of
+\autoref{def:concrete-singleton-empty-preorder-instance}, the public
+comparison readback of
+\autoref{def:preorder-singleton-empty-public-comparison-readback}, the
+single-comparison exactness theorem
+\autoref{thm:preorder-singleton-empty-single-comparison-exactness}, and the
+certificate rows of \autoref{thm:singleton-empty-preorder-namecert} determine
+a concrete $\mathsf{BHist}$-anchored $\PreorderUp$ public surface.
+
+The public surface has carrier $A_{\emp}$, classifier $\rho_{\emp}$, and
+relation $\le_{\emp}^{\mathrm{sg}}$. For every pair of histories $h,k$,
+public comparison witnesses read back exactly as
+$$
+h\le_{\emp}^{\mathrm{sg}}k
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+The surface introduces no abstract carrier, abstract classifier, order
+parameter, quotient, host equality, or standard bridge.
+\end{theorem}
+\begin{proof}
+Unfold the singleton package of
+\autoref{def:concrete-singleton-empty-preorder-instance}. Its source is the
+closed $\mathsf{BHist}$ carrier $A_{\emp}$, its classifier is
+$\rho_{\emp}$, and its guarded comparison relation is
+$\le_{\emp}^{\mathrm{sg}}$.
+
+The public readback row is
+\autoref{def:preorder-singleton-empty-public-comparison-readback}. Apply
+\autoref{thm:preorder-singleton-empty-single-comparison-exactness} to obtain
+the displayed equivalence between one guarded public comparison and the two
+endpoint-carrier witnesses.
+
+The preorder laws needed for the surface are the singleton empty preorder
+laws: reflexivity on carried histories, transitivity of guarded comparisons,
+and endpoint congruence for $\rho_{\emp}$. The guarded prefix exactness theorem
+\autoref{thm:singleton-preorder-guarded-prefix-exactness} supplies the
+classifier equivalence relating $\rho_{\emp}(h,k)$ to the two guarded
+comparison directions.
+
+Finally, repack the source, pattern, classifier, stability, and ledger rows
+through \autoref{thm:singleton-empty-preorder-namecert}. These rows are all
+anchored in $\mathsf{BHist}$ and the singleton endpoint carrier, so the
+resulting boundary is the concrete public surface described in the statement
+and contains none of the excluded abstract parameters.
+\end{proof}
+
 \begin{closurestatus}{\PreorderUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The concrete unary-prefix preorder certificate over $\mathsf{UnaryHistory}$, classifier $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$, relation $\mathsf{PreorderPrefixLE}$, reflexivity, transitivity, endpoint congruence, and ledger rows.}
