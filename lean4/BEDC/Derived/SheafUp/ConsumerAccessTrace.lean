@@ -2,6 +2,7 @@ import BEDC.Derived.SheafUp
 
 namespace BEDC.Derived.SheafUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
@@ -66,5 +67,14 @@ theorem SheafConsumerAccessTrace_append_membership_coverage
               exact And.intro (Or.inl (List.Mem.tail head tailLeft)) tailCoverage.right
           | inr rightMem =>
               exact And.intro (Or.inr rightMem) tailCoverage.right
+
+theorem SheafConsumerAccessTrace_no_feedback
+    {root feedback tail : BHist} {trace : List BHist} :
+    SheafConsumerAccessTrace root trace -> List.Mem feedback trace ->
+      Cont feedback (BHist.e0 tail) root -> False := by
+  intro trace _feedbackMem feedbackRow
+  have rootUnary : UnaryHistory root := trace.left
+  have rootZero : hsame root (BHist.e0 (append feedback tail)) := feedbackRow
+  exact unary_no_zero_extension (unary_transport rootUnary rootZero)
 
 end BEDC.Derived.SheafUp
