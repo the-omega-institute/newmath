@@ -5,6 +5,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -16,6 +17,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -436,5 +438,54 @@ theorem ProjectiveVarVisibleCarrier_classifier_stability [AskSetup] [PackageSetu
             (And.intro carrier.right.right.right.right.right.left
               (cont_result_hsame_transport
                 carrier.right.right.right.right.right.right sameEndpoint))))))
+
+theorem ProjectiveVarVisibleCarrier_public_namecert_export [AskSetup] [PackageSetup]
+    {chart homogeneous projective evaluation endpoint : BHist} {polyBundle : ProbeBundle BHist}
+    {tokenBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint polyBundle
+        tokenBundle pkg ->
+      SemanticNameCert
+        (fun out : BHist =>
+          ProjectiveVarVisibleCarrier chart homogeneous projective evaluation out polyBundle
+            tokenBundle pkg)
+        (fun out : BHist =>
+          ProjectiveVarVisibleCarrier chart homogeneous projective evaluation out polyBundle
+            tokenBundle pkg)
+        (fun out : BHist =>
+          ProjectiveVarVisibleCarrier chart homogeneous projective evaluation out polyBundle
+            tokenBundle pkg)
+        (fun out out' : BHist =>
+          ProjectiveVarVisibleCarrier chart homogeneous projective evaluation out polyBundle
+            tokenBundle pkg ∧
+          ProjectiveVarVisibleCarrier chart homogeneous projective evaluation out' polyBundle
+            tokenBundle pkg ∧ hsame out out') := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint carrier
+      equiv_refl := by
+        intro out outCarrier
+        exact And.intro outCarrier (And.intro outCarrier (hsame_refl out))
+      equiv_symm := by
+        intro out out' classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro out out' out'' classified classified'
+        exact And.intro classified.left
+          (And.intro classified'.right.left
+            (hsame_trans classified.right.right classified'.right.right))
+      carrier_respects_equiv := by
+        intro _out out' classified _outCarrier
+        exact ProjectiveVarVisibleCarrier_classifier_stability classified.left
+          classified.right.right
+    }
+    pattern_sound := by
+      intro _out outCarrier
+      exact outCarrier
+    ledger_sound := by
+      intro _out outCarrier
+      exact outCarrier
+  }
 
 end BEDC.Derived.ProjectiveVarUp
