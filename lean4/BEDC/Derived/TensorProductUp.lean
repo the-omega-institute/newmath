@@ -241,4 +241,19 @@ theorem TensorProductSingletonFactor_tensor_semanticNameCert {left right tensor 
   · intro h source
     exact source
 
+theorem TensorProductSingletonFactor_classifier_stability_obligation
+    {left left' right right' tensor tensor' : BHist} :
+    TensorProductSingletonFactor left right tensor ->
+      hsame left left' -> hsame right right' -> hsame tensor tensor' ->
+        TensorProductSingletonFactor left' right' tensor' ∧ Cont left' right' tensor' ∧
+          SemanticNameCert (fun t : BHist => TensorProductSingletonFactor left' right' t)
+            (fun t : BHist => TensorProductSingletonFactor left' right' t)
+            (fun t : BHist => TensorProductSingletonFactor left' right' t) hsame := by
+  intro factor sameLeft sameRight sameTensor
+  have transported :=
+    TensorProductSingletonFactor_hsame_transport factor sameLeft sameRight sameTensor
+  exact And.intro transported.left
+    (And.intro transported.right
+      (TensorProductSingletonFactor_tensor_semanticNameCert transported.left))
+
 end BEDC.Derived.TensorProductUp

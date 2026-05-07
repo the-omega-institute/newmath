@@ -77,6 +77,21 @@ theorem SheafRootTopologyPullbackProjection_seal
     (And.intro routeReadback.right.left
       (And.intro routeReadback.right.right sameEndpoint))
 
+def SheafRootConsumerProjectionSeal
+    (point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint openA routeAB openB routeBC openC routeAC openC' sect
+      germC germC' pullbackEndpoint : BHist) (sections : List BHist) : Prop :=
+  SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB restrictedOpen
+      restrictedGermA restrictedGermB chartEndpoint ∧
+    SheafBHistPointGermLedger point openC sect germC ∧
+      Cont openA routeAB openB ∧
+        Cont openB routeBC openC ∧
+          Cont routeAB routeBC routeAC ∧
+            Cont openA routeAC openC' ∧
+              Cont openC' sect germC' ∧
+                hsame pullbackEndpoint germC' ∧
+                  SheafSchemeChartGluingTrace point restrictedOpen sections chartEndpoint
+
 theorem SheafRootRingedSpaceConsumerProjection_scope
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB chartEndpoint : BHist} :
@@ -116,6 +131,56 @@ theorem SheafRootRingedSpaceConsumerProjection_scope
             (And.intro faceRows.right.right.left
               (And.intro faceRows.right.right.right.left
                 faceRows.right.right.right.right))))))
+
+theorem SheafRootConsumerProjectionSeal_projection_rows
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint openA routeAB openB routeBC openC routeAC openC' sect
+      germC germC' pullbackEndpoint : BHist} {sections : List BHist} :
+    SheafRootConsumerProjectionSeal point openHist sectionA sectionB germA germB
+        restrictedOpen restrictedGermA restrictedGermB chartEndpoint openA routeAB openB
+        routeBC openC routeAC openC' sect germC germC' pullbackEndpoint sections ->
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+          restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+        SheafRootFaceRead restrictedOpen restrictedGermA .localityGluingRefinement ∧
+          SheafRootFaceRead restrictedOpen restrictedGermB .localityGluingRefinement ∧
+            SheafBHistPointGermLedger point openC' sect germC' ∧
+              hsame openC openC' ∧ hsame germC germC' ∧
+                hsame pullbackEndpoint germC' ∧ UnaryHistory chartEndpoint := by
+  intro hseal
+  have ringed :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+                restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+                SheafRootFaceRead restrictedOpen restrictedGermA .localityGluingRefinement ∧
+                  SheafRootFaceRead restrictedOpen restrictedGermB .localityGluingRefinement ∧
+                    hsame chartEndpoint restrictedGermB :=
+    SheafRootRingedSpaceConsumerProjection_scope
+      (point := point) (openHist := openHist) (sectionA := sectionA)
+      (sectionB := sectionB) (germA := germA) (germB := germB)
+      (restrictedOpen := restrictedOpen) (restrictedGermA := restrictedGermA)
+      (restrictedGermB := restrictedGermB) (chartEndpoint := chartEndpoint) hseal.left
+  have scheme :
+      SheafBHistPointGermLedger point openC' sect germC' ∧ hsame openC openC' ∧
+        hsame germC germC' ∧ UnaryHistory chartEndpoint :=
+    SheafRootSchemeAffineChartProjection_seal
+      (point := point) (openA := openA) (routeAB := routeAB) (openB := openB)
+      (routeBC := routeBC) (openC := openC) (routeAC := routeAC) (openC' := openC')
+      (sect := sect) (germC := germC) (germC' := germC') (common := restrictedOpen)
+      (chartOut := chartEndpoint) (sections := sections) hseal.right.left
+      hseal.right.right.left hseal.right.right.right.left hseal.right.right.right.right.left
+      hseal.right.right.right.right.right.left hseal.right.right.right.right.right.right.left
+      hseal.right.right.right.right.right.right.right.right
+  exact And.intro ringed.right.right.right.right.left
+    (And.intro ringed.right.right.right.right.right.left
+      (And.intro ringed.right.right.right.right.right.right.left
+        (And.intro scheme.left
+          (And.intro scheme.right.left
+            (And.intro scheme.right.right.left
+              (And.intro hseal.right.right.right.right.right.right.right.left
+                scheme.right.right.right))))))
 
 theorem SheafRootConsumerPullbackProjection_base_change_face
     {ambient member overlap route germ sourceMember sourceOverlap sourceCoverGerm point targetOpen
