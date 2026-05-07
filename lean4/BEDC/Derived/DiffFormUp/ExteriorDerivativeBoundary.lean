@@ -14,6 +14,14 @@ def DiffFormExteriorDerivativeInputRow
     Cont d (BHist.e1 BHist.Empty) dplus ∧ UnaryHistory probe ∧ UnaryHistory tensor ∧
       UnaryHistory scalar ∧ UnaryHistory antisym ∧ UnaryHistory source
 
+def DiffFormExteriorDerivativeCandidateLedger
+    (input output degree degreeSucc probe tensor scalar : BHist)
+    (bundle : ProbeBundle BHist) : Prop :=
+  UnaryHistory degree ∧ UnaryHistory degreeSucc ∧
+    Cont degree (BHist.e1 BHist.Empty) degreeSucc ∧
+      (∃ witness : BHist, InBundle witness bundle) ∧ hsame input output ∧
+        hsame probe tensor ∧ hsame tensor scalar
+
 theorem DiffFormExteriorDerivativeInputRow_degree_shift_boundary
     {omega eta d dplus probe tensor scalar antisym source : BHist} :
     DiffFormExteriorDerivativeInputRow omega eta d dplus probe tensor scalar antisym source ->

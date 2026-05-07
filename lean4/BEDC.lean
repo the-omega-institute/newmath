@@ -61,6 +61,7 @@ import BEDC.Derived.IntUp.BalancedContext
 import BEDC.Derived.IntUp.OneSidedContext
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.PositiveAppendContext
+import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
@@ -212,6 +213,7 @@ import BEDC.Derived.SheafUp.DownstreamConsumption
 import BEDC.Derived.SheafUp.DownstreamConsumptionBoundary
 import BEDC.Derived.SheafUp.DownstreamProjection
 import BEDC.Derived.SheafUp.DownstreamRoot
+import BEDC.Derived.SheafUp.DownstreamRootSource
 import BEDC.Derived.SheafUp.BaseChangeIdentitySquare
 import BEDC.Derived.SheafUp.BaseChangeFunctoriality
 import BEDC.Derived.SheafUp.BaseChangeSurface
@@ -270,6 +272,7 @@ import BEDC.Derived.SheafUp.ObligationSurface
 import BEDC.Derived.SheafUp.RootExport
 import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SheafUp.RootExportSurface
+import BEDC.Derived.SheafUp.RootCoverNerveExportSurface
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
@@ -661,6 +664,7 @@ import BEDC.Derived.FunctorUp.OppositeCertificate
 import BEDC.Derived.FunctorUp.StdBridge
 import BEDC.Derived.NatTransUp.NaturalIso
 import BEDC.Derived.CategoryUp.StdBridge
+import BEDC.Derived.CategoryUp.MatureHostInterfaceInventory
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
