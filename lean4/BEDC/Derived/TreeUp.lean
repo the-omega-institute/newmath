@@ -378,4 +378,29 @@ theorem TreeBHistObligationCarrier_acyclic_unit_loop_exactness
     (And.intro loopExact.right
       (And.intro carrier.right.right.right.left carrier.right.right.right.right.left))
 
+inductive TreeDerivationSpineLedger :
+    BHist -> List BHist -> BHist -> Prop where
+  | nil :
+      UnaryHistory endpoint ->
+        TreeDerivationSpineLedger endpoint [] endpoint
+  | cons {step tail out edge : BHist} {steps : List BHist} :
+      GraphContEdge endpoint step edge ->
+        TreeDerivationSpineLedger edge steps tail -> Cont edge tail out ->
+          TreeDerivationSpineLedger endpoint (step :: steps) out
+
+theorem TreeDerivationSpineLedger_exactness_rows
+    {endpoint : BHist} {steps : List BHist} {out : BHist} :
+    TreeDerivationSpineLedger endpoint steps out ->
+      UnaryHistory endpoint ∧ UnaryHistory out := by
+  intro ledger
+  induction ledger with
+  | nil endpointUnary =>
+      exact And.intro endpointUnary endpointUnary
+  | cons edgeRow _tailLedger tailRoute tailRows =>
+      have edgeUnary : UnaryHistory _ :=
+        unary_cont_closed edgeRow.left edgeRow.right.left edgeRow.right.right
+      have outUnary : UnaryHistory _ :=
+        unary_cont_closed edgeUnary tailRows.right tailRoute
+      exact And.intro edgeRow.left outUnary
+
 end BEDC.Derived.TreeUp

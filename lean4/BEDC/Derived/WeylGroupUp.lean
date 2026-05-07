@@ -169,4 +169,35 @@ theorem WeylGroupRootSystemGroupCarrier_row
     (And.intro carrier.right.left
       (And.intro carrier.right.right sameEndpointRoot))
 
+inductive WeylGroupActionTrace
+    (support : ProbeBundle BHist) (Vector Nonzero : BHist -> Prop) (root : BHist) :
+    List BHist -> BHist -> Prop where
+  | nil :
+      RootSystemFiniteSupportCarrier support Vector Nonzero root ->
+        WeylGroupActionTrace support Vector Nonzero root [] root
+  | cons {word endpoint product : BHist} {words : List BHist} :
+      WeylGroupActionTrace support Vector Nonzero root words endpoint ->
+        GroupSingletonCarrier word -> Cont endpoint word product ->
+          WeylGroupActionTrace support Vector Nonzero root (word :: words) product
+
+theorem WeylGroupActionTrace_classifier_stability_row
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root endpoint : BHist} {words : List BHist} :
+    WeylGroupActionTrace support Vector Nonzero root words endpoint ->
+      hsame endpoint root ∧ UnaryHistory endpoint := by
+  intro trace
+  induction trace with
+  | nil rootCarrier =>
+      exact And.intro (hsame_refl root) (vector_unary rootCarrier.right.left)
+  | cons tailTrace wordCarrier step tailRows =>
+      have sameProductEndpoint := by
+        cases wordCarrier
+        exact cont_right_unit_result step
+      have sameProductRoot :=
+        hsame_trans sameProductEndpoint tailRows.left
+      have productUnary :=
+        unary_transport tailRows.right (hsame_symm sameProductEndpoint)
+      exact And.intro sameProductRoot productUnary
+
 end BEDC.Derived.WeylGroupUp
