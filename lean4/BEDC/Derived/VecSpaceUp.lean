@@ -331,4 +331,30 @@ theorem VecSpaceSingletonSmul_inverse_readback_classifier_iff {r m n : BHist}
       exact And.intro actionCarrier
         (And.intro classified.right.left (hsame_symm classified.right.left))
 
+theorem VecSpaceSingleton_module_fragment_projection :
+    SemanticNameCert ModuleSingletonCarrier ModuleSingletonCarrier ModuleSingletonCarrier
+        ModuleSingletonClassifier ∧
+      (forall {h k : BHist}, VecSpaceSingletonClassifier h k ->
+        ModuleSingletonClassifier h k) ∧
+      (forall {r m : BHist}, VecSpaceSingletonCarrier r -> VecSpaceSingletonCarrier m ->
+        ModuleSingletonClassifier (ModuleSingletonSmul r m) (VecSpaceSingletonSmul r m)) ∧
+      (forall {r r' m m' : BHist}, VecSpaceSingletonClassifier r r' ->
+        VecSpaceSingletonClassifier m m' ->
+          ModuleSingletonClassifier (ModuleSingletonSmul r m) (ModuleSingletonSmul r' m')) := by
+  have emptyModuleCarrier : ModuleSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyModuleClassified : ModuleSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyModuleCarrier
+      (And.intro emptyModuleCarrier (hsame_refl BHist.Empty))
+  constructor
+  · exact singleton_empty_history_module_laws.left
+  · constructor
+    · intro h k classified
+      exact And.intro classified.left
+        (And.intro classified.right.left classified.right.right)
+    · constructor
+      · intro r m _carrierR _carrierM
+        exact emptyModuleClassified
+      · intro r r' m m' _sameR _sameM
+        exact emptyModuleClassified
+
 end BEDC.Derived.VecSpaceUp
