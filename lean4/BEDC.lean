@@ -254,7 +254,9 @@ import BEDC.Derived.SheafUp.ObligationSurface
 import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
+import BEDC.Derived.SheafUp.RootNameCertFieldInventory
 import BEDC.Derived.SetUp
+import BEDC.Derived.SymGroupUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.SemanticNameCertificate
 import BEDC.Derived.SheafUp.RefinedCoverExactness
