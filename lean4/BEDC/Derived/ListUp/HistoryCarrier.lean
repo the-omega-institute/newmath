@@ -1,9 +1,11 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.ListUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 inductive ListHistoryCarrier (S : BHist -> Prop) : BHist -> Prop where
   | nil {h : BHist} :
@@ -69,5 +71,31 @@ theorem ListHistoryClassifierRec_carrier_endpoints {S : BHist -> Prop}
       exact And.intro
         (ListHistoryCarrier.cons sourceA tailEndpoints.left contA endH)
         (ListHistoryCarrier.cons sourceB tailEndpoints.right contB endK)
+
+theorem ListHistoryClassifierRec_equivalence_fields {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert S Rel) :
+    (forall {h : BHist}, ListHistoryCarrier S h -> ListHistoryClassifierRec S Rel h h) ∧
+      (forall {h k : BHist}, ListHistoryClassifierRec S Rel h k ->
+        ListHistoryClassifierRec S Rel k h) ∧
+      (forall {h k : BHist}, ListHistoryClassifierRec S Rel h k ->
+        ListHistoryCarrier S h ∧ ListHistoryCarrier S k) := by
+  constructor
+  · intro h carrier
+    induction carrier with
+    | nil empty =>
+        exact ListHistoryClassifierRec.nil_nil empty empty
+    | cons source tail continuation endpoint tailRefl =>
+        exact ListHistoryClassifierRec.cons_cons source source
+          (NameCert.equiv_refl cert source) tailRefl continuation continuation endpoint endpoint
+  · constructor
+    · intro h k classifier
+      induction classifier with
+      | nil_nil emptyH emptyK =>
+          exact ListHistoryClassifierRec.nil_nil emptyK emptyH
+      | cons_cons sourceA sourceB sameAB tailClassifier contA contB endH endK tailSymm =>
+          exact ListHistoryClassifierRec.cons_cons sourceB sourceA
+            (NameCert.equiv_symm cert sameAB) tailSymm contB contA endK endH
+    · intro h k classifier
+      exact ListHistoryClassifierRec_carrier_endpoints classifier
 
 end BEDC.Derived.ListUp
