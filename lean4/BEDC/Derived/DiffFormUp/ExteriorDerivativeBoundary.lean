@@ -8,6 +8,30 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
+def DiffFormExteriorDerivativeInputRow
+    (omega eta d dplus probe tensor scalar antisym source : BHist) : Prop :=
+  UnaryHistory omega ∧ UnaryHistory eta ∧ UnaryHistory d ∧ UnaryHistory dplus ∧
+    Cont d (BHist.e1 BHist.Empty) dplus ∧ UnaryHistory probe ∧ UnaryHistory tensor ∧
+      UnaryHistory scalar ∧ UnaryHistory antisym ∧ UnaryHistory source
+
+theorem DiffFormExteriorDerivativeInputRow_degree_shift_boundary
+    {omega eta d dplus probe tensor scalar antisym source : BHist} :
+    DiffFormExteriorDerivativeInputRow omega eta d dplus probe tensor scalar antisym source ->
+      UnaryHistory d ∧ UnaryHistory dplus ∧ Cont d (BHist.e1 BHist.Empty) dplus ∧
+        (hsame dplus BHist.Empty -> False) := by
+  intro row
+  have degreeRows :
+      UnaryHistory d ∧ UnaryHistory dplus ∧ Cont d (BHist.e1 BHist.Empty) dplus :=
+    And.intro row.right.right.left
+      (And.intro row.right.right.right.left row.right.right.right.right.left)
+  exact And.intro degreeRows.left
+    (And.intro degreeRows.right.left
+      (And.intro degreeRows.right.right
+        (by
+          intro raisedEmpty
+          cases degreeRows.right.right
+          exact not_hsame_e1_empty (append_eq_empty_iff.mp raisedEmpty).right)))
+
 theorem DiffFormExteriorDerivativeLedger_classifier_transport_nonempty_boundary
     {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source omega2 domega2
       d2 dplus2 probe2 probe2' tensor2 tensor2' scalar2 scalar2' antisym2 source2 : BHist}
