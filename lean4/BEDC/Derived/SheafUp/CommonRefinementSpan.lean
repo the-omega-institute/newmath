@@ -74,4 +74,19 @@ theorem SheafDisplayedCommonRefinementSpan_base_change_composition
               (And.intro pulledB pulledSame))))))
     (And.intro sameA sameB)
 
+theorem SheafDisplayedCommonRefinementSpan_symmetric
+    {point common openA openB sectionA sectionB germA germB : BHist} :
+    SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
+      germB ->
+      SheafDisplayedCommonRefinementSpan point common openB openA sectionB sectionA germB
+        germA := by
+  intro span
+  exact And.intro span.left
+    (And.intro span.right.left
+      (And.intro span.right.right.right.left
+        (And.intro span.right.right.left
+          (And.intro span.right.right.right.right.right.left
+            (And.intro span.right.right.right.right.left
+              (hsame_symm span.right.right.right.right.right.right))))))
+
 end BEDC.Derived.SheafUp
