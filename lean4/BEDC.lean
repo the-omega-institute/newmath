@@ -191,6 +191,7 @@ import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.CoverDescent
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
