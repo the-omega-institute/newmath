@@ -39,6 +39,7 @@ import BEDC.Derived.CategoryUp.TargetDescent
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CategoryUp.HomContinuationTail
 import BEDC.Derived.CategoryUp.ContinuationBridge
+import BEDC.Derived.CategoryUp.StdBridge
 import BEDC.Derived.CategoryUp.EndomorphismTail
 import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.RightVisibleTailEmpty
