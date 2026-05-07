@@ -3,6 +3,7 @@ import BEDC.Derived.LinearMapUp
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.RealUp.Core
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.FunctionalAnalysisUp
@@ -10,6 +11,7 @@ namespace BEDC.Derived.FunctionalAnalysisUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Unary
 open BEDC.Derived.BanachUp
 open BEDC.Derived.LinearMapUp
@@ -90,6 +92,37 @@ theorem FunctionalAnalysisBoundedOperatorRow_ledger_hsame_transport
       (And.intro sourceBanach'
         (And.intro targetBanach' (And.intro row.right.right.right.left ledgerCont'))))
     sameLedger
+
+def FunctionalAnalysisCompactOperatorWitness
+    (f source target bound ledger probe image tolerance net : BHist) : Prop :=
+  FunctionalAnalysisBoundedOperatorRow f source target bound ledger ∧
+    Cont f probe image ∧ Cont image tolerance net
+
+theorem FunctionalAnalysisCompactOperatorWitness_probe_ledger
+    {f source target bound ledger probe image tolerance net source' target' ledger' image' net' :
+      BHist} :
+    FunctionalAnalysisCompactOperatorWitness f source target bound ledger probe image tolerance net ->
+      hsame source source' -> hsame target target' -> Cont source' target' ledger' ->
+        hsame image image' -> Cont image' tolerance net' ->
+          FunctionalAnalysisCompactOperatorWitness f source' target' bound ledger' probe image'
+              tolerance net' ∧
+            hsame ledger ledger' ∧ hsame net net' ∧
+              InBundle image'
+                (ProbeBundle.Bcons image'
+                  (ProbeBundle.Bcons net' (ProbeBundle.Bnil : ProbeBundle BHist))) := by
+  intro witness sameSource sameTarget ledgerCont' sameImage imageNetCont'
+  have boundedTransport :=
+    FunctionalAnalysisBoundedOperatorRow_ledger_hsame_transport witness.left sameSource
+      sameTarget ledgerCont'
+  have imageCont' : Cont f probe image' :=
+    cont_result_hsame_transport witness.right.left sameImage
+  have sameNet : hsame net net' :=
+    cont_respects_hsame sameImage (hsame_refl tolerance) witness.right.right imageNetCont'
+  exact And.intro
+    (And.intro boundedTransport.left (And.intro imageCont' imageNetCont'))
+    (And.intro boundedTransport.right
+      (And.intro sameNet (inBundle_cons_self image'
+        (ProbeBundle.Bcons net' (ProbeBundle.Bnil : ProbeBundle BHist)))))
 
 theorem FunctionalAnalysisBoundedLinearOperator_norm_bound_stable
     {T : BHist -> BHist} {K K' ledger ledger' : BHist} :
