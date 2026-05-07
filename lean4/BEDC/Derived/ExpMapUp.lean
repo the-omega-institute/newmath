@@ -390,6 +390,35 @@ def ExpMapGraphClassifier
     (source endpoint flow source' endpoint' flow' : BHist) : Prop :=
   hsame source source' ∧ hsame endpoint endpoint' ∧ hsame flow flow'
 
+theorem ExpMapLedger_dependency_obligations {tangent endpoint flow ledger : BHist} :
+    ExpMapGraphCarrier tangent endpoint flow ->
+      Cont tangent endpoint ledger ->
+        ExpMapGraphClassifier tangent endpoint flow tangent endpoint ledger ∧
+          LieAlgebraSingletonCarrier tangent ∧ LieGroupSingletonCarrier endpoint ∧
+            Cont tangent BHist.Empty flow ∧ Cont tangent endpoint ledger ∧
+              UnaryHistory tangent ∧ UnaryHistory endpoint ∧ UnaryHistory flow ∧
+                UnaryHistory ledger ∧ hsame flow endpoint ∧ hsame ledger BHist.Empty := by
+  intro graph ledgerRow
+  have rows := ExpMapCarrier_source_obligations graph
+  have ledgerEmpty : hsame ledger BHist.Empty :=
+    cont_respects_hsame rows.left rows.right.left ledgerRow (cont_left_unit BHist.Empty)
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_transport unary_empty (hsame_symm ledgerEmpty)
+  have flowLedger : hsame flow ledger :=
+    hsame_trans (hsame_trans rows.right.right.left rows.right.left) (hsame_symm ledgerEmpty)
+  have classified : ExpMapGraphClassifier tangent endpoint flow tangent endpoint ledger :=
+    And.intro (hsame_refl tangent) (And.intro (hsame_refl endpoint) flowLedger)
+  exact And.intro classified
+    (And.intro rows.left
+      (And.intro rows.right.left
+        (And.intro graph.right.right.left
+          (And.intro ledgerRow
+            (And.intro rows.right.right.right.left
+              (And.intro rows.right.right.right.right.left
+                (And.intro rows.right.right.right.right.right
+                  (And.intro ledgerUnary
+                    (And.intro rows.right.right.left ledgerEmpty)))))))))
+
 theorem ExpMapGraphClassifier_stability_obligations
     {source source' endpoint endpoint' flow flow' ledger ledger' : BHist} :
     ExpMapGraphCarrier source endpoint flow -> ExpMapGraphCarrier source' endpoint' flow' ->
