@@ -492,6 +492,7 @@ import BEDC.Derived.CommRingUp.SingletonStrictZeroDivisor
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
+import BEDC.Derived.DedekindUp
 import BEDC.DerivedIndexAnalysis
 import BEDC.Derived.CompactUp.ImageLedger
 import BEDC.Derived.CompactUp.Suffix
