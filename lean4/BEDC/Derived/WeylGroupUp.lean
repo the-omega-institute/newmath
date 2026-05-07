@@ -106,6 +106,23 @@ theorem WeylGroupBHistSourceRow_simple_reflection_word_closure
       (And.intro wordAppendCarrier (And.intro composedRow actionABUnary)))
     (And.intro actionABSameRoot wordAppendCarrier)
 
+theorem WeylGroupBHistSourceRow_action_classifier_stability
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root word action wordNext actionNext : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root word action ->
+      GroupSingletonCarrier wordNext -> Cont action wordNext actionNext ->
+        WeylGroupBHistSourceRow support Vector Nonzero root (append word wordNext) actionNext ∧
+          hsame actionNext action ∧ hsame actionNext root := by
+  intro source wordNextCarrier actionStep
+  have closed :=
+    WeylGroupBHistSourceRow_simple_reflection_word_closure vector_unary source wordNextCarrier
+      actionStep
+  have actionNextSameAction : hsame actionNext action := by
+    cases wordNextCarrier
+    exact cont_right_unit_result actionStep
+  exact And.intro closed.left (And.intro actionNextSameAction closed.right.left)
+
 theorem WeylGroupSimpleReflectionWord_closure_row
     {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
     {alpha beta reflected word product : BHist}
