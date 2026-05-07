@@ -144,6 +144,7 @@ import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PreSheafUp
+import BEDC.Derived.ExpMapUp
 import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
@@ -239,6 +240,7 @@ import BEDC.Derived.SheafUp.ExactnessExport
 import BEDC.Derived.SheafUp.CommonTransport
 import BEDC.Derived.SheafUp.RootNameCertLocality
 import BEDC.Derived.SheafUp.CoverPresentationExactness
+import BEDC.Derived.SheafUp.CoverPresentation
 import BEDC.Derived.SheafUp.ChartGluingTrace
 import BEDC.Derived.SheafUp.RootAccessNormalForm
 import BEDC.Derived.SheafUp.SchemeConsumption
@@ -464,6 +466,7 @@ import BEDC.Derived.RatUp.RepresentativeStabilityPackage
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.StreamNameUp.CertifiedObservationDeterminacy
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
+import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.EmptyRight
