@@ -125,6 +125,24 @@ theorem HilbertSingleton_universal_orthogonality {m n : BHist} :
     And.intro carrierN (And.intro emptyCarrier carrierN)
   exact (HilbertSingleton_constant_inner_product_transport classifiedM classifiedN).left
 
+theorem HilbertSingleton_orthogonal_complement_collapse {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      VecSpaceSingletonClassifier m BHist.Empty ∧
+        VecSpaceSingletonClassifier n BHist.Empty ∧
+          RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+            (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have classifiedM : VecSpaceSingletonClassifier m BHist.Empty :=
+    And.intro carrierM (And.intro emptyCarrier carrierM)
+  have classifiedN : VecSpaceSingletonClassifier n BHist.Empty :=
+    And.intro carrierN (And.intro emptyCarrier carrierN)
+  have innerConstant :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    (HilbertSingleton_constant_inner_product_transport classifiedM classifiedN).left
+  exact And.intro classifiedM (And.intro classifiedN innerConstant)
+
 theorem HilbertSingleton_classifier_source_boundary {m n : BHist} :
     VecSpaceSingletonClassifier m n ->
       VecSpaceSingletonCarrier m ∧
