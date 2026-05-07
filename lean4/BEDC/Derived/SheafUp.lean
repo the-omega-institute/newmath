@@ -222,4 +222,23 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
+theorem SheafBHistPointGermLedger_trace_factorization_composes
+    {point openA sectionA germA openB sectionB germB composedOpen composedGerm : BHist} :
+    SheafBHistPointGermLedger point openA sectionA germA ->
+      SheafBHistPointGermLedger point openB sectionB germB ->
+        Cont openA openB composedOpen ->
+          Cont composedOpen sectionB composedGerm ->
+            exists boundary : BHist,
+              Cont openA openB boundary ∧
+                SheafBHistPointGermLedger point boundary sectionB composedGerm ∧
+                  hsame boundary composedOpen ∧ UnaryHistory boundary := by
+  intro ledgerA ledgerB composedOpenRow composedGermRow
+  have boundaryUnary : UnaryHistory composedOpen :=
+    unary_cont_closed ledgerA.right.left ledgerB.right.left composedOpenRow
+  exact Exists.intro composedOpen
+    (And.intro composedOpenRow
+      (And.intro
+        (And.intro ledgerA.left (And.intro boundaryUnary composedGermRow))
+        (And.intro (hsame_refl composedOpen) boundaryUnary)))
+
 end BEDC.Derived.SheafUp
