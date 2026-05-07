@@ -3,129 +3,132 @@
 
 The adjoint-representation interface $\AdjointRepUp$ packages the conjugation action $\mathrm{Ad}\colon G \to \mathrm{Aut}(\mathfrak{g})$ together with its differential $\mathrm{ad}$. It depends on $\NameCert_{\LieGroupUp}$ (\autoref{ch:concrete-instances-liegroup-namecert}) and $\NameCert_{\LieAlgebraUp}$ (\autoref{ch:concrete-instances-liealgebra-namecert}).
 
-\section{Carrier definition}
-\label{sec:adjointrep-carrier}
-
-\begin{definition}[AdjointRep source packet]
-\label{def:adjointrep-source-packet}
-An $\AdjointRepUp$ source packet is a BEDC package whose visible source is the
-licensed $\LieGroupUp$ public surface of
-\autoref{ch:concrete-instances-liegroup-namecert} together with the
-$\LieAlgebraUp$ bracket and endomap surface of
-\autoref{ch:concrete-instances-liealgebra-namecert}. The packet contains
-$\mathsf{BHist}$-indexed rows
-$\mathrm{Ad}(g,x)$ and $\mathrm{ad}(u,x)$, where the first row reads carried
-group inputs as classifier-respecting endomaps of the carried Lie-algebra
-carrier and the second row is the differential row at the identity group
-endpoint.
-
-Classifier transport is performed only through the source classifiers and
-$\hsame$: carried group histories are classified by the $\LieGroupUp$ source,
-carried algebra histories are classified by the $\LieAlgebraUp$ source, and the
-endomap rows are stable under those classifiers. The public ledger exposes the
-source packages, the action row, the differential row, the automorphism-target
-row, the classifier-stability rows, and exactness rows; it hides only the
-chosen conjugator representative and the tangent-source representative used to
-construct the displayed rows.
-\end{definition}
-
-\begin{theorem}[AdjointRep carrier obligation]
-\label{thm:adjointrep-carrier-obligation}
-The $\AdjointRepUp$ carrier is admitted only when the following data are
-packaged as BEDC $\Pkg$ or $\NameCert$ rows: the $\LieGroupUp$ source package,
-the $\LieAlgebraUp$ source package, the conjugation-action row
-$\mathrm{Ad}$, the differential row $\mathrm{ad}$, and the automorphism-target
-row identifying each carried action endpoint as a classifier-respecting
-endomap of the Lie-algebra carrier.
-\end{theorem}
-\begin{proof}
-Use the two source certificates named in the chapter introduction. The
-$\NameCert_{\LieGroupUp}$ dependency supplies the carried group histories,
-their classifier, the identity endpoint, multiplication, inverse, and the
-conjugation-action source row. The $\NameCert_{\LieAlgebraUp}$ dependency
-supplies the carried algebra histories, bracket classifier, and endomap
-surface.
-
-Package these rows with the BEDC $\Pkg$ constructor discipline. Carrier
-transport is then allowed only along the displayed source classifiers and
-$\hsame$, so a group input can act on an algebra input only after both sources
-have accepted their histories.
-
-The automorphism-target row is the final admission check. It repacks the
-transported endpoint as a classifier-respecting endomap of the
-$\LieAlgebraUp$ carrier. Without this row the action is merely a hidden
-construction over representatives, not a visible $\AdjointRepUp$ carrier row.
-\end{proof}
-
-\begin{theorem}[AdjointRep action and differential obligation]
-\label{thm:adjointrep-action-differential-obligation}
-For carried inputs admitted by the source packet of
-\autoref{def:adjointrep-source-packet}, $\mathrm{Ad}$ sends each carried group
-endpoint to a classifier-respecting Lie-algebra endomap. The identity group
-endpoint acts as the identity endomap, group multiplication composes the action
-rows, and $\mathrm{ad}$ is the differential row compatible with the
-$\LieAlgebraUp$ bracket classifier.
-\end{theorem}
-\begin{proof}
-Start from the $\LieGroupUp$ action surface. Its carried identity and
-multiplication rows, supplied by $\NameCert_{\LieGroupUp}$, determine the two
-action laws: the identity endpoint leaves every accepted algebra endpoint in
-the same $\hsame$ classifier class, and multiplication of carried group
-endpoints transports to composition of the corresponding action rows.
-
-Next apply the $\LieAlgebraUp$ bracket and endomap surface. The action endpoint
-is admitted as an endomap only after classifier stability shows that
-$\hsame$-equivalent algebra representatives have $\mathrm{Ad}$-images in the
-same algebra classifier class.
-
-Finally read the tangent row at the identity endpoint. The differential row
-$\mathrm{ad}$ is accepted precisely when it is transported from the same source
-classifiers and its bracket interaction is checked against the
-$\LieAlgebraUp$ classifier, so no separate host derivative or host equality is
-introduced into the public action law. These rows are then repacked as the
-$\Pkg$ action and differential clauses named by the $\AdjointRepUp$
-$\NameCert$ surface.
-\end{proof}
-
-\begin{theorem}[AdjointRep ledger exactness obligation]
-\label{thm:adjointrep-ledger-exactness-obligation}
-Exactness for the $\AdjointRepUp$ source packet is the conjunction of the
-$\LieGroupUp$ source classifier exactness, the $\LieAlgebraUp$ source
-classifier exactness, the action-row exactness, the differential-row exactness,
-and the named ledger of \autoref{def:adjointrep-source-packet}. The public
-surface contains no host functions and no host equality.
-\end{theorem}
-\begin{proof}
-Project exactness from the two dependencies named in the introduction. The
-$\NameCert_{\LieGroupUp}$ projection accounts for every visible group source
-row, and the $\NameCert_{\LieAlgebraUp}$ projection accounts for every visible
-algebra source row. Both projections speak through their BEDC classifiers and
-$\hsame$.
-
-The action-row and differential-row clauses then add exactly the rows that
-make $\AdjointRepUp$ distinct from its sources. Carrier transport and
-classifier stability ensure that changing a representative changes neither the
-accepted action endpoint nor the accepted differential endpoint.
-
-It remains to compare the ledger. The ledger in
-\autoref{def:adjointrep-source-packet} lists the source packages, action row,
-differential row, automorphism target, stability rows, and exactness rows, and
-it hides only the conjugator representative and tangent-source representative.
-Repacking this list as a $\Pkg$ under the $\AdjointRepUp$ $\NameCert$ surface
-therefore makes exactness exactly the displayed conjunction, with no public row
-left for host functions or host equality.
-\end{proof}
-
 \section{The certificate}
 \label{sec:adjointrep-certificate}
+
+\begin{theorem}[AdjointRep dependency source obligation]
+\label{thm:adjointrep-dependency-source-obligation}
+The dependency source for $\AdjointRepUp$ is exactly the displayed
+$\LieGroupUp$ surface of
+\autoref{ch:concrete-instances-liegroup-namecert} together with the displayed
+$\LieAlgebraUp$ surface of
+\autoref{ch:concrete-instances-liealgebra-namecert}. Every
+$\AdjointRepUp$ row is read from these two $\NameCert$ sources: the group
+source supplies the carrier, classifier, identity, multiplication, inverse,
+and conjugation surface, while the algebra source supplies the carrier,
+classifier, bracket, and adjoint endomap surface.
+\end{theorem}
+\begin{proof}
+Unpack the $\AdjointRepUp$ interface as a dependent certificate over the two
+cited public surfaces. No third ambient carrier is named in the chapter, and
+no host equality is used to identify the two dependency rows.
+
+The BEDC package discipline therefore fixes the source boundary before the
+action rows are interpreted. The group side contributes only
+$\LieGroupUp$-classified histories, and the algebra side contributes only
+$\LieAlgebraUp$-classified histories.
+
+Thus every subsequent $\mathrm{Ad}$, $\mathrm{ad}$, transport, stability, and
+target row has these two sources as its complete input surface.
+\end{proof}
+
+\begin{theorem}[AdjointRep conjugation carrier obligation]
+\label{thm:adjointrep-conjugation-carrier-obligation}
+The $\mathrm{Ad}$ row is carried by the $\LieGroupUp$ singleton conjugation
+carrier. For each accepted group history and accepted algebra history, the
+conjugation endpoint remains a $\mathsf{BHist}$ action endpoint rather than a
+host function outside the BEDC ledger.
+\end{theorem}
+\begin{proof}
+Start with the $\LieGroupUp$ source surface fixed by
+\autoref{thm:adjointrep-dependency-source-obligation}. Its singleton carrier
+already contains the conjugation source row and the classifier that licenses
+group histories.
+
+Feed an accepted algebra history from the $\LieAlgebraUp$ source into that
+row. The result is recorded as a BEDC history endpoint, so the visible action
+does not leave the $\mathsf{BHist}$ carrier.
+
+The obligation is exactly this carrier check: $\mathrm{Ad}$ must be displayed
+as an action endpoint in the ledger, with all representative choices hidden
+behind $\hsame$ transport.
+\end{proof}
+
+\begin{theorem}[AdjointRep differential action obligation]
+\label{thm:adjointrep-differential-action-obligation}
+The $\mathrm{ad}$ row is the $\LieAlgebraUp$ adjoint endomap package generated
+by the bracket. Its input and output endpoints are classified by the
+$\LieAlgebraUp$ surface, and the row is not a separate derivative object over
+an unlicensed tangent carrier.
+\end{theorem}
+\begin{proof}
+Use the $\LieAlgebraUp$ dependency named in
+\autoref{thm:adjointrep-dependency-source-obligation}. That source already
+exposes the bracket classifier and the adjoint endomap package used by the
+algebra carrier.
+
+Reading the differential at the identity group endpoint can therefore only
+select the displayed adjoint endomap row. It does not create a second tangent
+carrier, because the source package has no public row for one.
+
+The certificate obligation is to keep $\mathrm{ad}$ attached to this bracket
+endomap package and to record its endpoints through the same $\mathsf{BHist}$
+and $\hsame$ classifier discipline as the algebra source.
+\end{proof}
+
+\begin{theorem}[AdjointRep automorphism target obligation]
+\label{thm:adjointrep-automorphism-target-obligation}
+The target row for $\mathrm{Ad}$ is an automorphism-style carrier over the
+$\LieAlgebraUp$ classifier. Its inverse and composition data are read from
+the $\LieGroupUp$ inverse and multiplication rows together with the
+$\LieAlgebraUp$ endomap rows.
+\end{theorem}
+\begin{proof}
+Apply the conjugation carrier obligation to obtain the visible
+$\mathrm{Ad}$ endpoint. Apply the group inverse and multiplication rows from
+$\LieGroupUp$ to read inverse and composite group histories inside the same
+classifier boundary.
+
+Next use the $\LieAlgebraUp$ endomap package. It supplies the target
+classifier over which composition of algebra endpoints is interpreted.
+
+The automorphism-style row is then a repacking of these two source surfaces:
+group inverse gives the inverse action endpoint, group multiplication gives
+composition of action endpoints, and algebra endomaps keep the target over
+the Lie-algebra classifier.
+\end{proof}
+
+\begin{theorem}[AdjointRep classifier stability obligation]
+\label{thm:adjointrep-classifier-stability-obligation}
+Transported $\LieGroupUp$ and $\LieAlgebraUp$ inputs preserve the displayed
+$\mathrm{Ad}$ and $\mathrm{ad}$ endpoints through $\hsame$, $\Cont$, and
+NameCert classifier transport. Consequently the action row, differential row,
+and automorphism-target row are stable under the two source classifiers.
+\end{theorem}
+\begin{proof}
+First transport the group input along the $\LieGroupUp$ classifier and
+$\hsame$. The conjugation carrier obligation reads the resulting
+$\mathrm{Ad}$ endpoint from the same singleton action row, so the endpoint is
+unchanged up to the displayed BEDC classifier.
+
+Next transport the algebra input along the $\LieAlgebraUp$ classifier,
+$\hsame$, and the continuation ledger $\Cont$. The differential action
+obligation keeps $\mathrm{ad}$ inside the bracket endomap package, and the
+automorphism target obligation keeps $\mathrm{Ad}$ inside the algebra endomap
+target.
+
+These two transports are the whole stability check. No row is stabilized by
+host equality; every preserved endpoint is read through the two NameCert
+classifiers and the BEDC continuation relation.
+\end{proof}
 
 \closureat{AdjointRepUp}{obligationStr}
 
 \begin{closurestatus}{\AdjointRepUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter enumerates the $\LieGroupUp$ and $\LieAlgebraUp$ source surfaces, conjugation-action carrier, differential-action row, automorphism-target row, classifier, stability, ledger, exactness, and standard-bridge obligation boundary for $\AdjointRepUp$, but it does not close scoped carrier proofs or Lean verification.}
+  \scopeclosed{This chapter enumerates the $\AdjointRepUp$ obligation surface, but it does not yet bind every row down to primitive scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{It does not close the scoped carrier construction, classifier laws, action laws, differential compatibility, exactness proof, bridge data, or Lean verification for $\AdjointRepUp$.}
-  \upgradepath{Scoped closure requires carrier proofs for the listed source, action, differential, automorphism-target, stability, ledger, exactness, and standard-bridge rows.}
+  \notclaimed{It does not close exactness, the standard bridge, public NameCert export, or Lean verification for $\AdjointRepUp$.}
+  \upgradepath{Scoped closure requires binding each obligation to the concrete $\mathsf{BHist}$, $\hsame$, $\Cont$, $\LieGroupUp$, and $\LieAlgebraUp$ rows.}
 \end{closurestatus}
