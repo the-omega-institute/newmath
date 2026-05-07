@@ -217,6 +217,31 @@ theorem OperatorIdealTraceClass_root_ideal_absorption_threshold
         (And.intro scalarRows.left
           (And.intro absorptionRows.left absorptionRows.right))))
 
+theorem OperatorIdealTraceClass_root_downstream_face_boundary
+    {a A T S sum neg scalar left right : BHist} :
+    UnaryHistory a -> UnaryHistory A -> OperatorIdealTraceClassCarrier T ->
+      OperatorIdealTraceClassCarrier S -> Cont T S sum -> Cont BHist.Empty T neg ->
+        Cont a T scalar -> Cont A T left -> Cont T A right ->
+          UnaryHistory T ∧ OperatorIdealTraceClassCarrier BHist.Empty ∧
+            OperatorIdealTraceClassCarrier sum ∧ OperatorIdealTraceClassCarrier neg ∧
+              OperatorIdealTraceClassCarrier scalar ∧ OperatorIdealTraceClassCarrier left ∧
+                OperatorIdealTraceClassCarrier right ∧
+                  (exists support : BHist, UnaryHistory support ∧
+                    Cont support BHist.Empty T ∧ hsame T support) := by
+  intro unaryScalar unaryAmbient carrierT carrierS sumCont negCont scalarCont leftCont rightCont
+  have downstreamRows :=
+    OperatorIdealTraceClass_downstream_boundary_readback carrierT
+  have rootRows :=
+    OperatorIdealTraceClass_root_ideal_absorption_threshold unaryScalar unaryAmbient
+      carrierT carrierS sumCont negCont scalarCont leftCont rightCont
+  exact And.intro downstreamRows.left
+    (And.intro rootRows.left
+      (And.intro rootRows.right.left
+        (And.intro rootRows.right.right.left
+          (And.intro rootRows.right.right.right.left
+            (And.intro rootRows.right.right.right.right.left
+              (And.intro rootRows.right.right.right.right.right downstreamRows.right))))))
+
 theorem OperatorIdealTraceClass_consumer_spine_coverage {T S sum neg A left right : BHist} :
     OperatorIdealTraceClassCarrier T -> OperatorIdealTraceClassCarrier S -> UnaryHistory A ->
       Cont T S sum -> Cont BHist.Empty T neg -> Cont A T left -> Cont T A right ->

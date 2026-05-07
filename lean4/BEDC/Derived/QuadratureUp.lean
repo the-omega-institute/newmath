@@ -36,6 +36,27 @@ theorem QuadratureCarriedRuleSourceRow_scope
             (And.intro rowData.right.right.right.right.right.left
               (And.intro endpointUnary endpointCont))))))
 
+theorem QuadratureLedgerExactness_surface
+    {xs alpha omega integral poly degree row qsum integralValue : BHist} :
+    QuadratureCarriedRuleSourceRow xs alpha omega integral poly degree row ->
+      Cont row poly qsum -> Cont integral poly integralValue -> hsame qsum integralValue ->
+        UnaryHistory qsum ∧ UnaryHistory integralValue ∧ hsame qsum integralValue ∧
+          Cont row poly qsum ∧ Cont integral poly integralValue := by
+  intro rowData qsumCont integralCont exactSame
+  have tailUnary : UnaryHistory (append alpha (append omega integral)) :=
+    unary_append_closed rowData.right.left
+      (unary_append_closed rowData.right.right.left rowData.right.right.right.left)
+  have rowUnary : UnaryHistory row :=
+    unary_cont_closed rowData.left tailUnary rowData.right.right.right.right.right.right
+  have qsumUnary : UnaryHistory qsum :=
+    unary_cont_closed rowUnary rowData.right.right.right.right.left qsumCont
+  have integralValueUnary : UnaryHistory integralValue :=
+    unary_cont_closed rowData.right.right.right.left rowData.right.right.right.right.left
+      integralCont
+  exact And.intro qsumUnary
+    (And.intro integralValueUnary
+      (And.intro exactSame (And.intro qsumCont integralCont)))
+
 def QuadratureDegBoundLe (e d : BHist) : Prop :=
   UnaryHistory e ∧ UnaryHistory d ∧
     forall {k : BHist}, UnaryHistory k -> NatUnaryStrictPrefix d k ->
@@ -108,6 +129,20 @@ theorem QuadratureExactUpTo_weakening {qExact : BHist -> Prop} {coeff : BHist ->
     · intro p windowE
       exact exactD.right.right
         (QuadraturePolynomialDegreeWindow_inclusion bound windowE)
+
+theorem QuadratureExactUpTo_classifier_scope {qExact : BHist -> Prop}
+    {coeff : BHist -> BHist} {zero e d c : BHist} :
+    QuadratureDegBoundLe e d -> QuadratureDegBoundLe d c ->
+      QuadratureExactUpTo qExact coeff zero c ->
+        QuadratureDegBoundLe e c ∧ QuadratureExactUpTo qExact coeff zero e ∧
+          UnaryHistory e ∧ UnaryHistory c := by
+  intro boundED boundDC exactC
+  have boundEC : QuadratureDegBoundLe e c :=
+    QuadratureDegBoundLe_trans boundED boundDC
+  have exactE : QuadratureExactUpTo qExact coeff zero e :=
+    QuadratureExactUpTo_weakening boundEC exactC
+  exact And.intro boundEC
+    (And.intro exactE (And.intro boundED.left boundDC.right.left))
 
 theorem QuadratureExactUpTo_degree_equivalence_stability {qExact : BHist -> Prop}
     {coeff : BHist -> BHist} {zero e d : BHist} :
