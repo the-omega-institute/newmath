@@ -113,4 +113,23 @@ theorem ConvexSetLinearImage_affine_combination_closure
               nonnegA nonnegB unitSum
           exact image_intro sourceClosed mapped
 
+theorem ConvexSetLinearImage_finite_affine_spine_closure
+    {Image : BHist -> Prop} {xs : List BHist} {z : BHist}
+    (leafImage : forall {x : BHist}, hsame x BHist.Empty -> Image x)
+    (binaryImageClosed :
+      forall {x y out : BHist}, Image x -> Image y -> Cont x y out -> Image out) :
+    ConvexSetSingletonAffineSpine xs z -> Image z := by
+  intro spine
+  induction xs generalizing z with
+  | nil =>
+      exact leafImage spine
+  | cons x xs ih =>
+      cases spine with
+      | intro xEmpty tailData =>
+          cases tailData with
+          | intro tail tailPack =>
+              cases tailPack with
+              | intro tailSpine continuation =>
+                  exact binaryImageClosed (leafImage xEmpty) (ih tailSpine) continuation
+
 end BEDC.Derived.ConvexSetUp
