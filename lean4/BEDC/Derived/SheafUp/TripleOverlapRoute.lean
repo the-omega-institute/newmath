@@ -7,6 +7,14 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def SheafBHistTripleOverlapRouteLedger
+    (ambient memberA memberB memberC pairAB triple routeA routeB routeC germA germB germC :
+      BHist) : Prop :=
+  SheafBHistCoverNerveLedger ambient memberA pairAB routeA germA ∧
+    SheafBHistCoverNerveLedger ambient memberB pairAB routeB germB ∧
+      Cont pairAB memberC triple ∧ SheafBHistPointGermLedger ambient triple routeC germC ∧
+        hsame routeA routeB
+
 theorem SheafBHistCoverNerveLedger_triple_overlap_route_coherence
     {ambient member pairOverlap pairRoute pairGerm tripleOverlap tripleRoute
       tripleGerm : BHist} :
