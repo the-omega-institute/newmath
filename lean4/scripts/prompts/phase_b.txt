@@ -1,7 +1,26 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.10 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.11 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+
+## TOP-LEVEL HARD GATE — formal axis advancement (1 of N targets)
+
+`critical_path.py` now exposes two top-level lean-relevant lists:
+
+- `bridge_candidates[*]`: chapters at theory `matureClosure` whose Lean target is already `axiomCleanV` (in axiom-purity --strict pure set), but whose `closurestatus.\bridgestatus` is `none` or `paperBridge` — bridge work not yet done. Lean R-rounds advance these from `axiomCleanV → bridgeCheckedV` by writing a `StdBridge` theorem connecting the chapter's concrete BHist instance to its abstract `<X>Up` schema.
+- `formal_axis_top[*]`: chapters whose paper closurestatus block records a non-trivial `theory_grade` but whose `formal_grade` token is below `theoremCheckedV` (i.e. paper is ahead, lean needs to catch up). Surface in priority order: `matureClosure` first, then `bridgedClosure`, etc.
+
+**HARD GATE — formal axis rotation**: AT LEAST 1 of your N proposed targets MUST advance the formal axis. Pick from the following sources, in priority order:
+
+1. **`bridge_candidates[0..2]`**: highest leverage. The chapter has done all the lower-grade work; the bridge theorem is the last upgrade. The target's `target_file` is the entry's `file_lean`; the new declaration name should be `<X>Up_StdBridge` or `<X>Up_concrete_to_schema` (verify via grep + LSP that the name is unused). The theorem's statement should be `<existing concrete proposition> ↔ <abstract schema predicate applied to the witness>` or a constructive `<concrete> → <abstract>` map. Use existing kernel theorems (`NameCert.transport`, `BHist`, `hsame`) — no Classical.choice / Quot.sound / propext. After commit, paper P-round will detect the bridge and advance `\bridgestatus{none}` to `\bridgestatus{bridgeChecked}` + `\formalstatus{\bridgeCheckedV}`.
+
+2. **`formal_axis_top[0..2]`**: chapters where lean is behind paper. Use the formal-axis transition table below to pick the right marker shape (typically `\leandef{X}` for `(unformalizedV → formalTargetV → encodedDefV)` or `\leanchecked{X}` for `(encodedDefV → scaffoldChecked → theoremChecked)`).
+
+3. If both lists are empty (rare), the gate is satisfied by ANY target whose `grade_transition` field corresponds to a real formal-grade advance.
+
+This gate composes with the existing critical_path top[0..2] HARD GATE: a 3-target round can satisfy both with 1 formal-axis target + 1 top[0..2] target + 1 free slot.
+
+A bridge_candidates round commit message subject MUST be: `R<ROUND_NUM>: bridge <X>Up to schema (axiomClean->bridgeCheck)`. A formal_axis_top round MUST quote the actual transition (e.g. `unformalizedV->formalTargetV`) in its commit subject. These subjects let downstream paper P-rounds detect the bridge work and sync the paper-side closurestatus.
 
 ## Environment
 
