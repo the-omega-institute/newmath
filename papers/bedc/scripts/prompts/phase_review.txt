@@ -1,7 +1,21 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v3.4 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v3.6 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## TOP-LEVEL HARD GATE — closure_mark candidates come from critical_path ONLY
+
+`closure_mark` review targets MUST be drawn from the `critical_path.py` JSON output's lists:
+
+- `top[*]` (critical-path discovery)
+- `top_root_unblocks[*]` (root-unblock priority)
+- `top_transitions.{to_seed,to_obligation,to_scoped,to_public,to_bridged,to_mature}[*]` (rotation)
+
+Do NOT scan paper chapter files yourself looking for "this chapter has lots of `\leanchecked` rows, must be closure-eligible". Such heuristic selection has produced repeated no-op rounds where the worker proposed `closure_mark` for chapters already at `matureClosure` (e.g. HilbertUp), which is the topmost theory grade — the chapter is done, the round commits nothing material, BASE_BRANCH gains a no-op merge.
+
+If a chapter does NOT appear in any of the three critical_path lists above, it is NOT a `closure_mark` candidate this round. Either it's already retired (theory ≥ scopedClosure AND formal ≥ theoremCheckedV), or `critical_path.py` decided it's not the highest leverage closure to pursue right now. Trust the script; do not second-guess it by re-scanning chapter files.
+
+The corollary: if you see a chapter file with ten `\leanchecked` rows and a `\theoryclosure{\matureClosure}` line in its `closurestatus` block, that chapter is FINISHED — no closure_mark target is possible for it ever again. Pick a different chapter from the lists above.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -173,6 +187,8 @@ A chapter retires from the critical path only when it reaches `(scopedClosure, t
 ### closure_mark target kind (already supported in v2.6+)
 
 A `closure_mark` review target proposes adding a `\closureat{<X>Up}{<strength>Str}[BEDC.<...>.<theorem>]` line to the chapter — that's the binary closure marker the audit reads. closure_mark targets register the transition, but the underlying content (obligation/scope/public/bridge work) must already exist. Do NOT propose closure_mark for a chapter that hasn't done the prior-grade content work.
+
+**HARD GATE — never re-mark a matureClosure chapter**: If the chapter ALREADY has a `closurestatus` block whose `\theoryclosure` is `\matureClosure`, the theory axis is at its topmost grade — there is no further grade to raise. NEVER propose `kind = "closure_mark"` for such a chapter, even if the chapter body contains lots of new `\leanchecked` rows. The chapter is done. Pick a different chapter from the rotation list / critical_path top / root_unblocks. A round whose target is closure_mark on an already-matureClosure chapter is a no-op round (Phase REVISE will produce a zero-meaningful-diff commit) and is worse than skipping the target. To detect: grep for `\theoryclosure{\matureClosure}` in the candidate chapter file before emitting the target.
 
 ### Transition rotation (HARD GATE — drives upgrade-chain balance)
 
