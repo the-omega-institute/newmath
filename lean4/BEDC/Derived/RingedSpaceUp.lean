@@ -49,6 +49,30 @@ theorem RingedSpaceSingletonSurface_carrier_classifier_rows
           (And.intro surface.right.left.right.right
             (And.intro surface.right.right.left surface.right.right))))
 
+theorem RingedSpaceSingletonSurface_restriction_exact_ledger
+    {point openHist restrictedOpen sectionHist germ restrictedGerm ringEndpoint
+      ringEndpoint' : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionHist germ ringEndpoint ->
+      hsame openHist restrictedOpen ->
+        Cont restrictedOpen sectionHist restrictedGerm ->
+          CommRingSingletonClassifier ringEndpoint ringEndpoint' ->
+            RingedSpaceSingletonSurface point restrictedOpen sectionHist restrictedGerm
+              ringEndpoint' ∧ hsame germ restrictedGerm ∧
+                CommRingSingletonClassifier ringEndpoint' BHist.Empty := by
+  intro surface sameOpen restrictedRow commAligned
+  have sheafReadback :
+      SheafBHistPointGermLedger point restrictedOpen sectionHist restrictedGerm ∧
+        hsame germ restrictedGerm :=
+    SheafBHistPointGermLedger_restriction_readback surface.right.left sameOpen restrictedRow
+  cases sameOpen
+  have restrictedTopology : TopologySingletonOpenAt openHist point := surface.left
+  have endpointEmpty : CommRingSingletonClassifier ringEndpoint' BHist.Empty :=
+    And.intro commAligned.right.left
+      (And.intro (hsame_refl BHist.Empty) commAligned.right.left)
+  exact And.intro
+    (And.intro restrictedTopology (And.intro sheafReadback.left endpointEmpty))
+    (And.intro sheafReadback.right endpointEmpty)
+
 theorem RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB operationA operationB : BHist} :
@@ -103,5 +127,34 @@ theorem RingedSpaceSingleton_stability_ledger_obligation
       (And.intro descent.right.right
         (And.intro commOps
           (And.intro surfaceA.left surfaceA.right.right.left))))
+
+theorem RingedSpaceSingleton_stalk_restriction_commring_stability
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB ringEndpoint : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionA germA ringEndpoint ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB ->
+          hsame openHist restrictedOpen ->
+            Cont restrictedOpen sectionA restrictedGermA ->
+              Cont restrictedOpen sectionB restrictedGermB ->
+                CommRingSingletonClassifier ringEndpoint BHist.Empty ->
+                  SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+                    SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                      hsame restrictedGermA restrictedGermB ∧
+                        CommRingSingletonClassifier ringEndpoint BHist.Empty ∧
+                          TopologySingletonOpenAt BHist.Empty point := by
+  intro surface ledgerB sameGerm sameOpen restrictedA restrictedB commRing
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      surface.right.left ledgerB sameGerm sameOpen restrictedA restrictedB
+  have openPoint : TopologySingletonOpenAt BHist.Empty point :=
+    And.intro (hsame_refl BHist.Empty) surface.left.right
+  exact And.intro descent.left
+    (And.intro descent.right.left
+      (And.intro descent.right.right
+        (And.intro commRing openPoint)))
 
 end BEDC.Derived.RingedSpaceUp

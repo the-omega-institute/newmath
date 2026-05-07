@@ -35,6 +35,42 @@ theorem SheafBHistPointGermLedger_restriction_readback
     (And.intro ledger.left (And.intro restrictedOpenUnary restrictedRow))
     sameGerm
 
+theorem SheafBHistPointGermLedger_identity_open_membership_cont_exactness
+    {point openHist sectionHist germ : BHist} :
+    SheafBHistPointGermLedger point openHist sectionHist germ ↔
+      ∃ memberOpen : BHist, hsame memberOpen openHist ∧
+        Cont memberOpen sectionHist germ ∧
+          SheafBHistPointGermLedger point memberOpen sectionHist germ := by
+  constructor
+  · intro ledger
+    exact Exists.intro openHist
+      (And.intro (hsame_refl openHist)
+        (And.intro ledger.right.right ledger))
+  · intro witness
+    cases witness with
+    | intro memberOpen data =>
+        cases data.left
+        exact data.right.right
+
+theorem SheafBHistPointGermLedger_refinement_composition
+    {point openA openB openC sectionHist germA germB germC : BHist} :
+    SheafBHistPointGermLedger point openA sectionHist germA ->
+      hsame openA openB ->
+        Cont openB sectionHist germB ->
+          hsame openB openC ->
+            Cont openC sectionHist germC ->
+              SheafBHistPointGermLedger point openC sectionHist germC ∧
+                hsame germA germC ∧ hsame germB germC := by
+  intro ledger sameAB rowB sameBC rowC
+  have readbackB :
+      SheafBHistPointGermLedger point openB sectionHist germB ∧ hsame germA germB :=
+    SheafBHistPointGermLedger_restriction_readback ledger sameAB rowB
+  have readbackC :
+      SheafBHistPointGermLedger point openC sectionHist germC ∧ hsame germB germC :=
+    SheafBHistPointGermLedger_restriction_readback readbackB.left sameBC rowC
+  exact And.intro readbackC.left
+    (And.intro (hsame_trans readbackB.right readbackC.right) readbackC.right)
+
 theorem SheafRestrictedOpenCarrier_semantic_name_certificate
     {point openHist sectionHist germ : BHist} :
     SheafBHistPointGermLedger point openHist sectionHist germ ->
