@@ -49,6 +49,7 @@ boundary-data classifier row agree under the same $\hsame$ discipline and the
 same $\Pkg$ provenance. It does not compare endpoints by host function
 equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.PdeUp.PdeRelationClassifier\_visible\_append\_surface}
 \begin{proof}
 Project the classifier slot from the ten-field template. Its source rows are
 the same source, carrier, classifier, stability, ledger, theorem-list,
@@ -73,6 +74,7 @@ chart/order/boundary choices, exactness rows for coverage, soundness, and
 completeness, and dependency rows citing the $\ManifoldUp$ and
 $\DerivativeUp$ sources.
 \end{theorem}
+\leanchecked{BEDC.Derived.PdeUp.PdeStabilityLedger\_relation\_boundary\_append\_surface}
 \begin{proof}
 Separate the remaining certificate fields after the carrier and classifier
 rows have been fixed. Stability requires transport of the derivative-relation
@@ -131,6 +133,29 @@ The exactness data of a $\PdeUp$ carried source row is precisely the pair consis
 The only classifier rows displayed in \autoref{def:pde-carried-source-row} are the finite PDE relation classifier and the boundary-data classifier. Exactness is therefore the assertion that these two rows account for all BEDC-facing relation and boundary comparisons in the certificate.
 
 Every analytic or solver-side object named in the statement is listed in the ledger component of the carried source row. Because ledger entries record presentation choices without adding classifier rows, they remain outside the exactness pair.
+\end{proof}
+
+\begin{theorem}[PdeUp public interface export]\label{thm:pde-public-interface-export}
+The public $\NameCert_{\PdeUp}$ surface is exactly the $\mathsf{BHist}$ carried source row of \autoref{def:pde-carried-source-row} together with the $\ManifoldUp$ carrier row, the $\DerivativeUp$ partial-derivative observation rows, the $\Pkg$ provenance row, the $\mathsf{ProbeBundle}$ rows used to read the finite PDE relation, and the following obligation surface:
+\begin{enumerate}
+  \item the carrier obligation of \autoref{thm:pde-carrier-obligation};
+  \item the classifier obligation of \autoref{thm:pde-classifier-obligation};
+  \item the stability-ledger-exactness obligation of \autoref{thm:pde-stability-ledger-exactness-obligation};
+  \item the carrier-source obligation of \autoref{thm:pde-carrier-source-obligation};
+  \item the relation classifier obligation of \autoref{thm:pde-relation-classifier-obligation};
+  \item the boundary-data obligation of \autoref{thm:pde-boundary-data-obligation};
+  \item the ledger exactness obligation of \autoref{thm:pde-ledger-exactness-obligation}.
+\end{enumerate}
+No host function equality, host coordinate equality, analytic existence theorem, solution space, solver object, host real equality, regularity theorem, or numerical solver datum is part of this public interface.
+\end{theorem}
+\begin{proof}
+Start with the carried source row of \autoref{def:pde-carried-source-row}. Its visible $\mathsf{BHist}$ entries bind the $\ManifoldUp$ carrier row, the $\DerivativeUp$ derivative-observation rows, the finite PDE relation row, the boundary-data classifier row, $\Pkg$ provenance, and the $\mathsf{ProbeBundle}$ rows used to read the relation.
+
+Repack those entries through the ten-field certificate template. The carrier, classifier, stability, ledger, theorem-list, exactness, bridge, and boundary slots are supplied by the seven cited obligation theorems, with the standard bridge slot absent and the dependency rows pointing back to the $\ManifoldUp$ and $\DerivativeUp$ source certificates.
+
+Conversely, any public $\NameCert_{\PdeUp}$ endpoint must project through the same ten fields. The carrier and classifier projections recover the named source rows, the stability and ledger projections recover only transport and presentation evidence, and the exactness projection recovers the carried relation and boundary classifiers. Therefore the displayed surface is exact.
+
+The excluded host objects occur only as ledger-side presentation data or analytic objects outside the BEDC-facing relation and boundary rows. Since no cited obligation introduces a classifier for them, they cannot enter the public $\NameCert_{\PdeUp}$ interface.
 \end{proof}
 
 \closureat{PdeUp}{scopedStr}

@@ -43,6 +43,25 @@ theorem PdeRelationClassifier_endpoint_transport
           (And.intro transportedRelation transportedProvenance)))
   exact And.intro transportedRows (And.intro relationSame provenanceSame)
 
+theorem PdeRelationClassifier_visible_append_surface
+    {manifold derivative relation boundary provenance : BHist} :
+    PdeRelationClassifier manifold derivative relation boundary provenance ->
+      hsame provenance (append relation boundary) ∧
+        hsame provenance (append (append manifold derivative) boundary) ∧
+          hsame provenance (append manifold (append derivative boundary)) := by
+  intro rows
+  have relationReadback : hsame relation (append manifold derivative) :=
+    rows.right.right.right.left
+  have provenanceReadback : hsame provenance (append relation boundary) :=
+    rows.right.right.right.right
+  have endpointReadback :
+      hsame provenance (append (append manifold derivative) boundary) :=
+    provenanceReadback.trans
+      (congrArg (fun source => append source boundary) relationReadback)
+  exact And.intro provenanceReadback
+    (And.intro endpointReadback
+      (endpointReadback.trans (append_assoc manifold derivative boundary)))
+
 def PdeCarriedSourceRow [AskSetup] [PackageSetup]
     (manifold derivative relation boundary endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -83,5 +102,27 @@ theorem PdeCarriedSourceRow_ledger_exactness_surface
     unary_cont_closed manifoldDerivativeUnary relationBoundaryUnary endpointCont
   exact And.intro relationBoundaryUnary
     (And.intro endpointUnary (And.intro relationBoundaryCont endpointCont))
+
+theorem PdeStabilityLedger_relation_boundary_append_surface
+    {manifold derivative relation boundary relationBoundary endpoint : BHist} :
+    UnaryHistory manifold -> UnaryHistory derivative -> UnaryHistory relation ->
+      UnaryHistory boundary -> Cont relation boundary relationBoundary ->
+        Cont (append manifold derivative) relationBoundary endpoint ->
+          hsame relationBoundary (append relation boundary) ∧
+            hsame endpoint (append (append manifold derivative) (append relation boundary)) ∧
+              UnaryHistory endpoint := by
+  intro manifoldUnary derivativeUnary relationUnary boundaryUnary relationBoundaryCont endpointCont
+  have relationBoundaryUnary : UnaryHistory relationBoundary :=
+    unary_cont_closed relationUnary boundaryUnary relationBoundaryCont
+  have manifoldDerivativeUnary : UnaryHistory (append manifold derivative) :=
+    unary_append_closed manifoldUnary derivativeUnary
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed manifoldDerivativeUnary relationBoundaryUnary endpointCont
+  have endpointReadback :
+      hsame endpoint (append (append manifold derivative) (append relation boundary)) :=
+    endpointCont.trans
+      (congrArg (fun surface => append (append manifold derivative) surface)
+        relationBoundaryCont)
+  exact And.intro relationBoundaryCont (And.intro endpointReadback endpointUnary)
 
 end BEDC.Derived.PdeUp
