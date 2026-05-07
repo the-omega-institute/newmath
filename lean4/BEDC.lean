@@ -193,6 +193,7 @@ import BEDC.Derived.PreSheafUp
 import BEDC.Derived.SheafUp
 import BEDC.Derived.SheafUp.CoverDescent
 import BEDC.Derived.SheafUp.CoverNerveCertificate
+import BEDC.Derived.SheafUp.GluingClassifier
 import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootThreshold
