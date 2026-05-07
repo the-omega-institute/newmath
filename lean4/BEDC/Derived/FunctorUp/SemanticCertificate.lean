@@ -66,4 +66,39 @@ theorem PrefixFunctorCarrier_semanticNameCert {p : BHist} (prefixCarrier : Unary
   · intro q source
     exact source
 
+theorem FunctorPrefixIdentityCarrier_semanticNameCert {a b f : BHist}
+    (homCarrier : CategoryHomCarrier a b f) :
+    SemanticNameCert
+      (fun h : BHist =>
+        CategoryHomCarrier (append BHist.Empty a) (append BHist.Empty b) h ∧ hsame h f)
+      (fun h : BHist =>
+        CategoryHomCarrier (append BHist.Empty a) (append BHist.Empty b) h ∧ hsame h f)
+      (fun h : BHist =>
+        CategoryHomCarrier (append BHist.Empty a) (append BHist.Empty b) h ∧ hsame h f)
+      hsame := by
+  have identityPreserves :
+      CategoryHomCarrier (append BHist.Empty a) (append BHist.Empty b) f :=
+    FunctorPrefixHomCarrier_preserves unary_empty homCarrier
+  constructor
+  · constructor
+    · exact Exists.intro f (And.intro identityPreserves (hsame_refl f))
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      exact And.intro
+        (CategoryHomCarrier_hsame_transport
+          (hsame_refl (append BHist.Empty a))
+          (hsame_refl (append BHist.Empty b))
+          same
+          carrier.left)
+        (hsame_trans (hsame_symm same) carrier.right)
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 end BEDC.Derived.FunctorUp
