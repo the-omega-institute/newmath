@@ -57,6 +57,39 @@ theorem SheafRootExport_stability_exactness_package
         (And.intro descent.right.left
           (And.intro comparison descent.right.right))))
 
+theorem SheafRootUnblock_restriction_stability_rows
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB route routeTarget routeGerm : BHist} :
+    SheafBHistPointGermLedger point openHist sectionA germA ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              Cont restrictedOpen route routeTarget -> hsame routeTarget restrictedOpen ->
+                Cont routeTarget sectionA routeGerm ->
+                  SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+                    SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                      hsame restrictedGermA restrictedGermB ∧ hsame route BHist.Empty ∧
+                        SheafBHistPointGermLedger point routeTarget sectionA routeGerm ∧
+                          hsame germA routeGerm := by
+  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB routeRow sameTarget routeGermRow
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have routeStable :
+      hsame route BHist.Empty ∧
+        SheafBHistPointGermLedger point routeTarget sectionA routeGerm ∧
+          hsame germA routeGerm :=
+    SheafBHistPointGermLedger_route_history_stability
+      ledgerA sameOpen routeRow sameTarget routeGermRow
+  exact And.intro descent.left
+    (And.intro descent.right.left
+      (And.intro descent.right.right
+        (And.intro routeStable.left routeStable.right)))
+
 theorem SheafConsumerAccessTrace_composite_exhaustion {root : BHist}
     (rootUnary : UnaryHistory root) {traces : List (List BHist)} :
     (forall trace : List BHist, List.Mem trace traces -> SheafConsumerAccessTrace root trace) ->
