@@ -35,6 +35,21 @@ theorem OperatorIdealTraceClass_root_carrier_classifier_threshold {T : BHist} :
         cont_deterministic supportVisible (cont_right_unit support)
       exact ⟨support, supportUnary, supportVisible, endpointSame⟩
 
+theorem OperatorIdealTraceClass_downstream_boundary_readback {T : BHist} :
+    OperatorIdealTraceClassCarrier T ->
+      UnaryHistory T ∧
+        (exists support : BHist, UnaryHistory support ∧
+          Cont support BHist.Empty T ∧ hsame T support) := by
+  intro carrier
+  cases carrier with
+  | mk support supportUnary supportVisible =>
+      have endpointSame : hsame T support :=
+        cont_deterministic supportVisible (cont_right_unit support)
+      exact And.intro
+        (unary_transport supportUnary (hsame_symm endpointSame))
+        (Exists.intro support
+          (And.intro supportUnary (And.intro supportVisible endpointSame)))
+
 theorem OperatorIdealTraceClass_finite_context_closure {T result : BHist} :
     OperatorIdealTraceClassCarrier T -> OperatorIdealBoundedContextAction T result ->
       OperatorIdealTraceClassCarrier result := by
@@ -177,6 +192,30 @@ theorem OperatorIdealTraceClass_additive_closure_row {T S sum neg : BHist} :
           exact OperatorIdealTraceClassCarrier.mk neg
             (unary_cont_closed unary_empty supportUnaryT negRel)
             (cont_right_unit neg)
+
+theorem OperatorIdealTraceClass_root_ideal_absorption_threshold
+    {a A T S sum neg scalar left right : BHist} :
+    UnaryHistory a -> UnaryHistory A -> OperatorIdealTraceClassCarrier T ->
+      OperatorIdealTraceClassCarrier S -> Cont T S sum -> Cont BHist.Empty T neg ->
+        Cont a T scalar -> Cont A T left -> Cont T A right ->
+          OperatorIdealTraceClassCarrier BHist.Empty ∧
+            OperatorIdealTraceClassCarrier sum ∧
+              OperatorIdealTraceClassCarrier neg ∧
+                OperatorIdealTraceClassCarrier scalar ∧
+                  OperatorIdealTraceClassCarrier left ∧
+                    OperatorIdealTraceClassCarrier right := by
+  intro unaryA0 unaryA carrierT carrierS sumCont negCont scalarCont leftCont rightCont
+  have additiveRows :=
+    OperatorIdealTraceClass_additive_closure_row (T := T) (S := S) (sum := sum) (neg := neg)
+  have scalarRows :=
+    OperatorIdealTraceClass_scalar_closure unaryA0 carrierT scalarCont
+  have absorptionRows :=
+    OperatorIdealTraceClass_two_sided_absorption_row unaryA carrierT leftCont rightCont
+  exact And.intro additiveRows.left
+    (And.intro (additiveRows.right.left carrierT carrierS sumCont)
+      (And.intro (additiveRows.right.right carrierT negCont)
+        (And.intro scalarRows.left
+          (And.intro absorptionRows.left absorptionRows.right))))
 
 theorem OperatorIdealTraceClass_consumer_spine_coverage {T S sum neg A left right : BHist} :
     OperatorIdealTraceClassCarrier T -> OperatorIdealTraceClassCarrier S -> UnaryHistory A ->

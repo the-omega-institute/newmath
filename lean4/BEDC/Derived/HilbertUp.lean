@@ -4,6 +4,7 @@ import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
 import BEDC.FKernel.Cont
 import BEDC.Derived.MetricUp
+import BEDC.Derived.CompleteMetricUp
 
 namespace BEDC.Derived.HilbertUp
 
@@ -17,6 +18,7 @@ open BEDC.Derived.MetricUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.CompleteMetricUp
 
 def HilbertSingletonInnerProduct (_m _n : BHist) : BHist :=
   BHist.e1 (BHist.e1 BHist.Empty)
@@ -124,6 +126,23 @@ theorem HilbertSingleton_universal_orthogonality {m n : BHist} :
   have classifiedN : VecSpaceSingletonClassifier n BHist.Empty :=
     And.intro carrierN (And.intro emptyCarrier carrierN)
   exact (HilbertSingleton_constant_inner_product_transport classifiedM classifiedN).left
+
+theorem HilbertSingleton_limit_inner_product_carrier {s M : BHist -> BHist} {limit : BHist} :
+    CompleteMetricLimitWitness VecSpaceSingletonCarrier s M limit ->
+      VecSpaceSingletonCarrier limit ∧ VecSpaceSingletonClassifier limit BHist.Empty ∧
+        RealConstantHistoryClassifier (HilbertSingletonInnerProduct limit limit)
+          (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro witness
+  have limitCarrier : VecSpaceSingletonCarrier limit := witness.left
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have limitClassified : VecSpaceSingletonClassifier limit BHist.Empty :=
+    And.intro limitCarrier (And.intro emptyCarrier limitCarrier)
+  have compatibility := HilbertSingleton_inner_product_norm_compatibility limitCarrier
+  have diagonalConstant :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct limit limit)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    Iff.mpr compatibility.right limitClassified
+  exact And.intro limitCarrier (And.intro limitClassified diagonalConstant)
 
 theorem HilbertSingleton_orthogonal_complement_collapse {m n : BHist} :
     VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
