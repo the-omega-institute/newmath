@@ -107,6 +107,21 @@ theorem ComputableBoundedSim_output_hsame_transport {P n B m P' n' B' m' : BHist
           (And.intro outputUnary transportedCont))))
     transportedCont
 
+theorem ComputableBoundedGraphCertificate_graph_output_transport
+    (C : ComputableBoundedGraphCertificate) {n m m' : BHist} :
+    C.Graph n m -> hsame m m' ->
+      ComputableBoundedSim C.program n (C.bound n) m' ∧ C.Graph n m' ∧
+        UnaryHistory m' := by
+  intro graphRow sameOutput
+  have run : ComputableBoundedSim C.program n (C.bound n) m :=
+    C.graph_to_sim graphRow
+  have transported :=
+    ComputableBoundedSim_output_hsame_transport run (hsame_refl C.program) (hsame_refl n)
+      (hsame_refl (C.bound n)) sameOutput
+  exact And.intro transported.left
+    (And.intro (C.sim_to_graph transported.left)
+      transported.left.right.right.right.left)
+
 theorem ComputableBoundedSim_composition_associativity
     {PF PG PH n bF m bG k bH l : BHist} :
     ComputableBoundedSim PF n bF m -> ComputableBoundedSim PG m bG k ->
