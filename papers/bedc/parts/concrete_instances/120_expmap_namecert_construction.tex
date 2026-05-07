@@ -21,6 +21,9 @@ The $\ExpMapUp$ carrier is the $\mathsf{BHist}$ graph package whose source proje
 
 Its ten-field fit is: traditional target the exponential graph $\mathfrak{g}\to G$; BEDC source the paired $\LieAlgebraUp/\LieGroupUp$ certificates; carrier the $\mathsf{BHist}$ graph package; classifier the componentwise source-target classifier with ledger transport; stability the transport fields supplied by the two dependencies together with $\mathsf{hsame}$ on the ledger; ledger the finite $\Cont$ flow display; core theorem list this carrier surface, classifier stability, and zero-flow composition; exactness the assertion that every public row is one such graph package; standard bridge none; status proof target for the $\NameCert_{\ExpMapUp}$ obligation surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.ExpMapUp.ExpMapGraphCarrier\_obligation\_surface}
+\leanvariant{BEDC.Derived.ExpMapUp.ExpMapFlowLedger\_carrier\_obligation\_surface}
+\leanvariant{BEDC.Derived.ExpMapUp.ExpMapCarrier\_obligation\_surface}
 \begin{proof}
 Project the $\LieAlgebraUp$ NameCert surface to obtain the admissible tangent-source rows, and project the $\LieGroupUp$ NameCert surface to obtain the admissible target group rows. These two projections give the endpoints of the graph package without mentioning a host-level function.
 
@@ -38,6 +41,7 @@ Apply the classifier fields from the $\LieAlgebraUp$ and $\LieGroupUp$ dependenc
 
 For the ledger component, use $\mathsf{hsame}$ reflexivity for the unchanged ledger, $\mathsf{hsame}$ symmetry to reverse a displayed transport, and $\mathsf{hsame}$ transitivity to concatenate transports. Repacking the three transported components gives exactly the graph-row classifier and its carrier-transport clause.
 \end{proof}
+\leanchecked{BEDC.Derived.ExpMapUp.ExpMapClassifier\_stability\_obligation\_surface}
 
 \begin{theorem}[ExpMap zero and flow-composition obligation surface]
 \label{thm:expmap-zero-flow-obligation-surface}
@@ -95,14 +99,14 @@ Soundness is by reading each accepted ledger row from the carrier tuple or from 
 Exactness is the reverse reading. Any row accepted by the $\ExpMapUp$ ledger must be one of the rows listed in the definition of the certified carrier or one of the structural rows named by its source certificates. Therefore the dependency surface is exactly $\LieGroupUp$, $\LieAlgebraUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$, with no additional bridge or Lean verification target claimed here.
 \end{proof}
 
-\closureat{ExpMapUp}{obligationStr}
+\closureat{ExpMapUp}{scopedStr}
 
 \begin{closurestatus}{\ExpMapUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the carrier source obligations of \autoref{thm:expmap-carrier-source-obligations}, classifier stability obligations of \autoref{thm:expmap-classifier-stability-obligations}, flow and zero obligations of \autoref{thm:expmap-flow-and-zero-obligations}, and ledger and dependency obligations of \autoref{thm:expmap-ledger-and-dependency-obligations}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped paper boundary is exactly the carrier graph package, componentwise classifier, zero/flow composition row, and ledger/dependency surface over $\LieGroupUp$, $\LieAlgebraUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$ in \autoref{thm:expmap-carrier-obligation-surface}, \autoref{thm:expmap-classifier-stability-obligation-surface}, \autoref{thm:expmap-zero-flow-obligation-surface}, and \autoref{thm:expmap-ledger-and-dependency-obligations}.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
-  \notclaimed{It does not close a scoped carrier theorem, public exponential-map object, standard bridge, or Lean verification target for $\ExpMapUp$.}
-  \upgradepath{Scoped closure requires concrete local-flow constructors, checked classifier transport, zero tangent endpoint proof, composition theorem, and a Lean namespace for $\ExpMapUp$.}
+  \notclaimed{This chapter does not claim a public exponential-map object, analytic exponential uniqueness, a standard bridge, or Lean verification for $\ExpMapUp$.}
+  \upgradepath{Public closure requires a named public $\ExpMapUp$ certificate surface and a dedicated Lean namespace for the same scoped rows.}
 \end{closurestatus}
