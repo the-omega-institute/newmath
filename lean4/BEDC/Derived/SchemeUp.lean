@@ -7,11 +7,74 @@ namespace BEDC.Derived.SchemeUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.CommRingUp
 open BEDC.Derived.RingedSpaceUp
 open BEDC.Derived.SheafUp
 open BEDC.Derived.TopologyUp
+
+theorem SchemeAffineCoverRow_semantic_name_certificate
+    {point openHist sectionHist germ ringEndpoint chartEndpoint : BHist}
+    (package : RingedSpaceSingletonPackage point openHist sectionHist germ ringEndpoint)
+    (chart : CommRingSingletonClassifier chartEndpoint BHist.Empty) :
+    SemanticNameCert
+      (fun endpoint : BHist =>
+        RingedSpaceSingletonPackage point openHist sectionHist germ endpoint ∧
+          CommRingSingletonClassifier chartEndpoint BHist.Empty)
+      (fun endpoint : BHist =>
+        RingedSpaceSingletonPackage point openHist sectionHist germ endpoint ∧
+          CommRingSingletonClassifier chartEndpoint BHist.Empty)
+      (fun endpoint : BHist =>
+        RingedSpaceSingletonPackage point openHist sectionHist germ endpoint ∧
+          CommRingSingletonClassifier chartEndpoint BHist.Empty)
+      hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro ringEndpoint (And.intro package chart)
+    · intro endpoint _carrier
+      exact hsame_refl endpoint
+    · intro endpoint endpoint' same
+      exact hsame_symm same
+    · intro endpoint endpoint' endpoint'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro endpoint endpoint' same carrier
+      cases same
+      exact carrier
+  · intro _endpoint source
+    exact source
+  · intro _endpoint source
+    exact source
+
+theorem SchemeAffineChartLedger_overlap_locality_obligation
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartA chartB ringEndpointA ringEndpointB : BHist} :
+    RingedSpaceSingletonPackage point openHist sectionA germA ringEndpointA ->
+      RingedSpaceSingletonPackage point openHist sectionB germB ringEndpointB ->
+        CommRingSingletonClassifier chartA ringEndpointA ->
+          CommRingSingletonClassifier chartB ringEndpointB ->
+            hsame germA germB ->
+              hsame openHist restrictedOpen ->
+                Cont restrictedOpen sectionA restrictedGermA ->
+                  Cont restrictedOpen sectionB restrictedGermB ->
+                    SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+                      SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                        hsame restrictedGermA restrictedGermB ∧
+                          CommRingSingletonClassifier chartA chartB := by
+  intro packageA packageB chartClassA chartClassB sameGerm sameOpen restrictedA restrictedB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      packageA.left packageB.left sameGerm sameOpen restrictedA restrictedB
+  have sameChart : hsame chartA chartB :=
+    hsame_trans chartClassA.left (hsame_symm chartClassB.left)
+  have chartClassifier : CommRingSingletonClassifier chartA chartB :=
+    And.intro chartClassA.left
+      (And.intro chartClassB.left sameChart)
+  exact And.intro descent.left
+    (And.intro descent.right.left (And.intro descent.right.right chartClassifier))
 
 theorem SchemeSingleton_affine_cover_ledger_exactness
     {point openHist sectionHist germ ringEndpoint chartEndpoint restrictedOpen
@@ -152,6 +215,36 @@ theorem SchemeAffineCoverLedger_restriction_exactness
     RingedSpaceSingletonSurface_restriction_exact_ledger
       surface sameOpen restrictedRow ringClassifier
   exact And.intro restricted.left (And.intro restricted.right.left ringClassifier)
+
+theorem SchemeAffineCoverLedger_classifier_refinement_transport
+    {point openHist midOpen restrictedOpen sectionHist germ midGerm restrictedGerm
+      ringEndpoint chartEndpoint : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionHist germ ringEndpoint ->
+      hsame openHist midOpen ->
+        Cont midOpen sectionHist midGerm ->
+          hsame midOpen restrictedOpen ->
+            Cont restrictedOpen sectionHist restrictedGerm ->
+              CommRingSingletonClassifier chartEndpoint BHist.Empty ->
+                RingedSpaceSingletonSurface point restrictedOpen sectionHist restrictedGerm
+                    chartEndpoint ∧
+                  hsame germ restrictedGerm ∧ hsame midGerm restrictedGerm ∧
+                    CommRingSingletonClassifier ringEndpoint chartEndpoint := by
+  intro surface sameMid midRow sameRestricted restrictedRow chartClassifier
+  have midExact :
+      RingedSpaceSingletonSurface point midOpen sectionHist midGerm chartEndpoint ∧
+        hsame germ midGerm ∧ CommRingSingletonClassifier ringEndpoint chartEndpoint :=
+    SchemeAffineCoverLedger_restriction_exactness
+      surface sameMid midRow chartClassifier
+  have restrictedExact :
+      RingedSpaceSingletonSurface point restrictedOpen sectionHist restrictedGerm
+          chartEndpoint ∧
+        hsame midGerm restrictedGerm ∧
+          CommRingSingletonClassifier chartEndpoint chartEndpoint :=
+    SchemeAffineCoverLedger_restriction_exactness
+      midExact.left sameRestricted restrictedRow chartClassifier
+  exact And.intro restrictedExact.left
+    (And.intro (hsame_trans midExact.right.left restrictedExact.right.left)
+      (And.intro restrictedExact.right.left midExact.right.right))
 
 theorem SchemeAffineCoverLedger_overlap_classifier_locality
     {point openA openB sectionA sectionB germA germB ringA ringB chartA chartB common :
