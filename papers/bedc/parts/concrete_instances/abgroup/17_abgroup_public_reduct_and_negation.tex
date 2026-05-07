@@ -15,7 +15,6 @@ By \autoref{def:abgroup-stability-certificate}, the stability certificate contai
 
 The retained carrier, source, pattern, classifier, stability, and ledger data are exactly the obligations named in \autoref{def:group-certificate-obligations}. Since each retained operation and the classifier are copied from the original $\AbGroupUp(M)$ certificate, the resulting $\GroupUp(M)$ source package has the same carrier operation, identity, inverse, and classifier.
 \end{proof}
-\input{parts/concrete_instances/abgroup/17_abgroup_torsion_subgroup_closure}
 \begin{theorem}[AbGroup additive negation involutivity]
 \label{thm:abgroup-additive-negation-involutive}
 Let $M$ carry an $\AbGroupUp(M)$ certificate. Write its carrier predicate as
@@ -102,13 +101,15 @@ surface remains $\mathsf{BHist}$, $A_{\emp}$, $\rho_{\emp}$, $\emp$, and the
 displayed constant operations.
 \end{proof}
 
-\closureat{AbGroupUp}{bridgedStr}[BEDC.Derived.AbGroupUp.singleton\_empty\_history\_abgroup\_laws]
+\input{parts/concrete_instances/abgroup/17_abgroup_public_operation_surface}
+
+\closureat{AbGroupUp}{publicStr}[BEDC.Derived.AbGroupUp.singleton\_empty\_history\_abgroup\_laws]
 \begin{closurestatus}{\AbGroupUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The public AbGroup surface consists of the singleton empty-history carrier and classifier laws, the AbGroup-to-Group reduct, additive negation involutivity, torsion-subgroup closure, the centralizer and normalizer operation consequences, and the terminal paper bridge of \autoref{thm:abgroup-singleton-terminal-standard-bridge}.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public AbGroup surface exports the singleton empty-history carrier, classifier, operation tuple, checked laws, Group reduct, normalizer-orbit collapse package, and middle-four cancellation rows cited by \autoref{thm:abgroup-public-operation-surface}.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.AbGroupUp.singleton\_empty\_history\_abgroup\_laws}
-  \bridgestatus{paperBridge}
-  \notclaimed{bridgeChecked verification, non-singleton abelian groups, arbitrary homomorphisms, quotient-group classification, and module equivalence are outside this claim.}
-  \upgradepath{The next verification step is machine checking the bridge fields or broadening beyond the terminal singleton surface.}
+  \bridgestatus{none}
+  \notclaimed{Arbitrary abelian groups, homomorphisms, subgroups, quotients, classification, module equivalence, and bridge-checked standard models are outside this claim.}
+  \upgradepath{$\bridgedClosure$ requires a standard bridge for the exported singleton $\AbGroupUp$ surface.}
 \end{closurestatus}
