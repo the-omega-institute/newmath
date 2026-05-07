@@ -49,4 +49,32 @@ theorem TreeGraphSource_carrier_obligation {graph edge connected root endpoint :
   exact And.intro carrier
     (And.intro graphRow.left (And.intro graphRow.right.left connectedCarrier))
 
+theorem TreeObligationSurface_classifier_transport
+    {graph edge connected acyclic root endpoint syntaxHist syntaxTarget graphNext edgeNext
+      connectedNext acyclicNext rootNext endpointNext syntaxNext syntaxTargetNext : BHist} :
+    TreeObligationSurface graph edge connected acyclic root endpoint syntaxHist syntaxTarget ->
+      hsame graph graphNext -> hsame edge edgeNext -> hsame connected connectedNext ->
+        hsame acyclic acyclicNext -> hsame root rootNext -> hsame endpoint endpointNext ->
+          hsame syntaxHist syntaxNext -> hsame syntaxTarget syntaxTargetNext ->
+            Cont endpointNext syntaxNext syntaxTargetNext ->
+              TreeObligationSurface graphNext edgeNext connectedNext acyclicNext rootNext
+                  endpointNext syntaxNext syntaxTargetNext ∧
+                GraphContEdge graphNext edgeNext connectedNext ∧
+                  TreeRootBranch endpointNext rootNext connectedNext ∧
+                    Cont endpointNext syntaxNext syntaxTargetNext := by
+  intro surface sameGraph sameEdge sameConnected sameAcyclic sameRoot sameEndpoint sameSyntax
+    _sameSyntaxTarget syntaxRow
+  have carrierRows :=
+    TreeBHistCarrier_classifier_transport surface.left sameGraph sameEdge sameConnected
+      sameAcyclic sameRoot sameEndpoint
+  have syntaxUnary : UnaryHistory syntaxNext :=
+    unary_transport surface.right.left sameSyntax
+  have nextSurface :
+      TreeObligationSurface graphNext edgeNext connectedNext acyclicNext rootNext endpointNext
+        syntaxNext syntaxTargetNext :=
+    And.intro carrierRows.left (And.intro syntaxUnary syntaxRow)
+  exact And.intro nextSurface
+    (And.intro carrierRows.right.left
+      (And.intro carrierRows.left.right.right syntaxRow))
+
 end BEDC.Derived.TreeUp
