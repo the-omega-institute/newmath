@@ -46,14 +46,47 @@ Apply \autoref{thm:dedekind-source-obligation} to fix the shared $\mathsf{BHist}
 
 Apply \autoref{thm:dedekind-classifier-ledger-obligation} to identify the classifier transport and exact ledger boundary. Unpacking the roadmap ten-field template then packages these rows as the scoped local certificate inventory.
 
-The construction stops at scoped packet closure. It does not supply the exported public certificate surface for $\NameCert_{\DedekindUp}$ and does not pass through quotient representatives or classical choice.
+The scoped packet itself is not yet the exported public certificate surface for $\NameCert_{\DedekindUp}$. It is the local inventory from which that surface is assembled, and it does not pass through quotient representatives or classical choice.
+\end{proof}
+
+\begin{theorem}[Dedekind certificate stability rows]\label{thm:dedekind-certificate-stability-rows}
+Over the shared $\mathsf{BHist}$ carrier and classifier fixed by \autoref{thm:dedekind-source-obligation}, the integrally closed row, the Noetherian row, and the nonzero-prime-maximal row of \autoref{thm:dedekind-domain-law-obligation} are classifier-stable $\DedekindUp$ certificate rows. Each row is transported only along the same classifier used by the $\NameCert_{\CommRingUp}$ and $\NameCert_{\IdealUp}$ source surfaces, so no row is read over a detached carrier or a second classifier.
+\end{theorem}
+\begin{proof}
+Begin with the shared carrier and classifier supplied by \autoref{thm:dedekind-source-obligation}. That theorem fixes the $\mathsf{BHist}$ presentation before any domain-law row is interpreted.
+
+Apply \autoref{thm:dedekind-domain-law-obligation} to identify the three domain rows as certificate fields over that same classifier. Their witnesses are therefore stability data for the displayed $\DedekindUp$ packet, not external predicates attached after the carrier has been chosen.
+
+The conclusion is classifier stability row by row: integrally closedness, Noetherianity, and nonzero-prime-maximality all move only through the classifier already shared by the commutative-ring and ideal source surfaces.
+\end{proof}
+
+\begin{theorem}[Dedekind exact ledger public surface]\label{thm:dedekind-exact-ledger-public-surface}
+The public $\DedekindUp$ ledger exposes exactly the $\CommRingUp$ source, the $\IdealUp$ source, the integrally closed witness, the Noetherian witness, the nonzero-prime-maximal witness, classifier transport, and the exact $\DedekindUp$ ledger boundary. It exposes no quotient data, no classical-choice data, and no $\StdBridge$ data.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dedekind-classifier-ledger-obligation}. Its ledger boundary names the commutative-ring source, the ideal source, the three domain witnesses, and classifier transport as the visible inventory.
+
+Exactness is read negatively as well as positively. The same ledger theorem excludes quotient representatives, classical-choice witnesses, and $\StdBridge$ fields from the $\DedekindUp$ certificate surface.
+
+Thus the public ledger has exactly the displayed rows: every named row is exposed, and every excluded kind of host or bridge data remains outside the surface.
+\end{proof}
+
+\begin{theorem}[Dedekind public NameCert surface]\label{thm:dedekind-public-namecert-surface}
+The public $\NameCert_{\DedekindUp}$ surface over the concrete $\mathsf{BHist}$ carrier and the same classifier is assembled from \autoref{thm:dedekind-source-obligation}, \autoref{thm:dedekind-domain-law-obligation}, \autoref{thm:dedekind-classifier-ledger-obligation}, \autoref{thm:dedekind-certificate-stability-rows}, and \autoref{thm:dedekind-exact-ledger-public-surface}. Its exported rows are exactly the shared $\CommRingUp$ and $\IdealUp$ source surfaces, the three classifier-stable domain witnesses, classifier transport, and the exact ledger boundary.
+\end{theorem}
+\begin{proof}
+First fix the public carrier data. Apply \autoref{thm:dedekind-source-obligation} to obtain the concrete $\mathsf{BHist}$ carrier, the common classifier, and the two source surfaces.
+
+Next fix the domain content. Apply \autoref{thm:dedekind-domain-law-obligation} and \autoref{thm:dedekind-certificate-stability-rows} to read integrally closedness, Noetherianity, and nonzero-prime-maximality as classifier-stable certificate rows over that same carrier.
+
+Finally apply \autoref{thm:dedekind-classifier-ledger-obligation} and \autoref{thm:dedekind-exact-ledger-public-surface}. These identify the transport and exact ledger rows, exclude quotient, classical-choice, and $\StdBridge$ data, and repack the displayed inventory as the public $\NameCert_{\DedekindUp}$ surface.
 \end{proof}
 
 \begin{closurestatus}{\DedekindUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The paper-side scope is exactly the packet in \autoref{thm:dedekind-scoped-certificate-packet}, grounded by the shared-source row \autoref{thm:dedekind-source-obligation}, the domain-law row \autoref{thm:dedekind-domain-law-obligation}, and the classifier-ledger row \autoref{thm:dedekind-classifier-ledger-obligation}.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The paper-side scope is the public $\NameCert_{\DedekindUp}$ surface in \autoref{thm:dedekind-public-namecert-surface}, grounded by the shared-source row, the three domain-law rows, classifier stability, classifier transport, and the exact ledger boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a Dedekind-domain $\NameCert$, Lean verification target, standard bridge, quotient construction, or classical-choice presentation.}
-  \upgradepath{Public closure requires a single exported $\NameCert_{\DedekindUp}$ theorem assembling the carrier, classifier, stability, exactness, and ledger rows into a public certificate surface.}
+  \notclaimed{This chapter does not close a Lean verification target, standard bridge, quotient construction, or classical-choice presentation.}
+  \upgradepath{Verification closure requires a checked Lean theorem for the displayed public $\NameCert_{\DedekindUp}$ surface over the same concrete carrier and classifier.}
 \end{closurestatus}
