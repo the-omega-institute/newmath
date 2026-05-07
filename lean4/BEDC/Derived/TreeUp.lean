@@ -103,6 +103,23 @@ theorem TreeBHistCarrier_obligation_rows
               (And.intro carrier.right.right.right.right.left
             (And.intro carrier.right.right.right.right.right cert)))))
 
+theorem TreeBHistObligationCarrier_acyclic_empty_transport
+    {root source target edge connected acyclic repr package acyclic' : BHist} :
+    TreeBHistObligationCarrier root source target edge connected acyclic repr package ->
+      hsame acyclic acyclic' ->
+        hsame acyclic' BHist.Empty ∧
+          TreeBHistObligationCarrier root source target edge connected acyclic' repr package := by
+  intro carrier sameAcyclic
+  have acyclicEmpty : hsame acyclic' BHist.Empty :=
+    hsame_trans (hsame_symm sameAcyclic) carrier.right.right.right.left
+  exact And.intro acyclicEmpty
+    (And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro carrier.right.right.left
+          (And.intro acyclicEmpty
+            (And.intro carrier.right.right.right.right.left
+              carrier.right.right.right.right.right)))))
+
 theorem TreeGraphSource_connected_root_path_readback
     {root endpoint step pathOut rootOut : BHist} :
     UnaryHistory root -> GraphContEdge endpoint step pathOut ->
@@ -267,6 +284,29 @@ theorem TreeBHistCarrier_closed_walk_tail_empty
   have tailEmpty : hsame tail BHist.Empty :=
     cont_right_unit_unique closedEndpoint
   exact And.intro tailEmpty (And.intro endpointUnary branch)
+
+theorem TreeRootWitness_spine_extension_exactness
+    {graph edge connected acyclic root endpoint spine extendedRoot extendedConnected : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint -> UnaryHistory spine ->
+      Cont root spine extendedRoot -> Cont connected spine extendedConnected ->
+        TreeRootBranch endpoint extendedRoot extendedConnected ∧ UnaryHistory extendedRoot ∧
+          Cont endpoint extendedRoot extendedConnected := by
+  intro carrier spineUnary rootSpine connectedSpine
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  have endpointUnary : UnaryHistory endpoint := branch.left.left
+  have extendedRootUnary : UnaryHistory extendedRoot :=
+    unary_cont_closed branch.right.left spineUnary rootSpine
+  cases cont_assoc_exists branch.right.right rootSpine with
+  | intro assocResult assocRows =>
+      have sameAssocExtended : hsame assocResult extendedConnected :=
+        cont_deterministic assocRows.left connectedSpine
+      have endpointExtendedConnected : Cont endpoint extendedRoot extendedConnected :=
+        cont_result_hsame_transport assocRows.right sameAssocExtended
+      exact And.intro
+        (And.intro
+          (And.intro endpointUnary (And.intro extendedRootUnary endpointExtendedConnected))
+          (And.intro extendedRootUnary endpointExtendedConnected))
+        (And.intro extendedRootUnary endpointExtendedConnected)
 
 theorem TreeSyntacticRepresentation_carrier_readback
     {graph edge connected acyclic root endpoint spine extendedRoot extendedConnected : BHist} :
