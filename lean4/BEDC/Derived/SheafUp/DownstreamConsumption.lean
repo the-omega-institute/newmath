@@ -130,4 +130,44 @@ theorem SheafDownstreamConsumer_exactness_coverage
     (And.intro carrierRows.right.right.right.right.left
       (And.intro carrierRows.right.right.right.right.right faceExhaustion))
 
+theorem SheafRingedSpaceConsumption_obligation
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB chartEndpoint : BHist} :
+    SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB restrictedOpen
+        restrictedGermA restrictedGermB chartEndpoint ->
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+          restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+        SheafRootFaceRead restrictedOpen restrictedGermA SheafRootFaceLanding.restrictionRoute ∧
+          SheafRootFaceRead restrictedOpen restrictedGermB SheafRootFaceLanding.restrictionRoute ∧
+            hsame chartEndpoint restrictedGermB ∧ UnaryHistory restrictedOpen := by
+  intro scope
+  have carrierRows :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                hsame chartEndpoint restrictedGermB :=
+    SheafDownstreamConsumer_carrier_scope (point := point) (openHist := openHist)
+      (sectionA := sectionA) (sectionB := sectionB) (germA := germA) (germB := germB)
+      (restrictedOpen := restrictedOpen) (restrictedGermA := restrictedGermA)
+      (restrictedGermB := restrictedGermB) (chartEndpoint := chartEndpoint) scope
+  have comparisonRows :
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+          restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+        Cont restrictedOpen sectionA restrictedGermA ∧
+          Cont restrictedOpen sectionB restrictedGermB :=
+    SheafBHistPointGermLedger_common_open_comparison carrierRows.left
+      carrierRows.right.left carrierRows.right.right.right.right.left
+  have routeA :
+      SheafRootFaceRead restrictedOpen restrictedGermA SheafRootFaceLanding.restrictionRoute :=
+    SheafRootFaceRead.restrictionRoute comparisonRows.right.left
+  have routeB :
+      SheafRootFaceRead restrictedOpen restrictedGermB SheafRootFaceLanding.restrictionRoute :=
+    SheafRootFaceRead.restrictionRoute comparisonRows.right.right
+  exact And.intro comparisonRows.left
+    (And.intro routeA
+      (And.intro routeB
+        (And.intro carrierRows.right.right.right.right.right carrierRows.left.right.left)))
+
 end BEDC.Derived.SheafUp
