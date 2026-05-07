@@ -251,6 +251,7 @@ import BEDC.Derived.SheafUp.RootThreshold
 import BEDC.Derived.SheafUp.RootThresholdCertificateSource
 import BEDC.Derived.SheafUp.RootConsumerThresholdProjectionSource
 import BEDC.Derived.SheafUp.RootUnblock
+import BEDC.Derived.SheafUp.RootUnblockBEDCSource
 import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SheafUp.ClassifierStability
