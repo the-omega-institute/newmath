@@ -199,6 +199,7 @@ import BEDC.Derived.SheafUp
 import BEDC.Derived.SheafUp.ConsumerAccessTrace
 import BEDC.Derived.SheafUp.ConsumerTrace
 import BEDC.Derived.SheafUp.GlobalRestrictions
+import BEDC.Derived.SheafUp.IndexedSectionPresheafCarrier
 import BEDC.Derived.SheafUp.AccessTrace
 import BEDC.Derived.SheafUp.DownstreamConsumption
 import BEDC.Derived.SheafUp.DownstreamProjection
@@ -236,9 +237,11 @@ import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SheafUp.ClassifierStability
 import BEDC.Derived.SheafUp.RestrictedCommonRefinement
+import BEDC.Derived.SheafUp.RestrictedCommonRefinementLedger
 import BEDC.Derived.SheafUp.RootRestrictionRefinement
 import BEDC.Derived.SheafUp.ExactnessExport
 import BEDC.Derived.SheafUp.CommonTransport
+import BEDC.Derived.SheafUp.RootCommonRefinementExactness
 import BEDC.Derived.SheafUp.RootNameCertLocality
 import BEDC.Derived.SheafUp.CoverPresentationExactness
 import BEDC.Derived.SheafUp.CoverPresentation
@@ -299,6 +302,7 @@ import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
+import BEDC.Derived.ContactUp
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
@@ -317,7 +321,6 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
-import BEDC.Derived.CondExpUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
@@ -443,6 +446,7 @@ import BEDC.Derived.ManifoldUp.IdentityTransition
 import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.ScopedBoundary
+import BEDC.Derived.SymplecticUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.HilbertUp
