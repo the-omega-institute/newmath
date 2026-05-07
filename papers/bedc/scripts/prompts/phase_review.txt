@@ -1,7 +1,25 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.1 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.2 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## TOP-LEVEL HARD GATE — bridge_sync_pending (paper records lean StdBridge upgrade)
+
+`critical_path.py` JSON exposes `bridge_sync_pending[*]` (with `bridge_sync_pending_total`). Each entry is a chapter where:
+- `theory_grade == matureClosure`
+- a `<X>Up_StdBridge` theorem exists in `lean4/BEDC/Derived/<X>Up.lean` (or `<X>Up/StdBridge.lean`)
+- the chapter's `closurestatus.\bridgestatus` is still `none` or `paperBridge` (not `bridgeChecked`)
+
+The lean side is already done; this round records the upgrade on the paper side. The diff is 1-3 lines:
+- `\bridgestatus{paperBridge}` (or `none`) → `\bridgestatus{bridgeChecked}`
+- `\formalstatus{\<old>}` → `\formalstatus{\bridgeCheckedV}` (where old is whatever lower grade the chapter currently records — `\theoremCheckedV`, `\auditCleanV`, `\axiomCleanV` — all uplift to `\bridgeCheckedV`)
+- `\upgradepath{...}` rewritten to "no further upgrade — chapter at top of formal axis"
+
+**HARD GATE — bridge sync priority**: If `bridge_sync_pending_total >= 1`, AT LEAST 1 of the proposed N targets MUST be `kind = "closure_mark"` drawn from `bridge_sync_pending[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff is exactly the 2-3 lines above. Verify the `<X>Up_StdBridge` theorem exists in the lean tree before committing — `bedc_ci.py audit` rejects if not.
+
+This gate composes with all other gates. A 3-target round can satisfy: 1 bridge_sync + 1 drift_sync + 1 critical_path top-3 / root_unblock / transition.
+
+bridge_sync_pending targets do NOT need to be drawn from `top` / `top_root_unblocks` / `top_transitions`; bridge_sync_pending is its own independent source.
 
 ## TOP-LEVEL HARD GATE — bridge_candidates sync (paper detects lean bridge work)
 

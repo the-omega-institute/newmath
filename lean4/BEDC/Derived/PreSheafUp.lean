@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Unary
 
@@ -7,6 +8,7 @@ namespace BEDC.Derived.PreSheafUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def PreSheafIndexedRestrictionSurface
@@ -127,5 +129,32 @@ theorem PreSheafIndexedRestrictionSurface_ledger_extension_surface
       (And.intro rows.right.right.right.left
         (And.intro transportCont ledgerCont)))
     (And.intro transportUnary ledgerUnary)
+
+theorem PreSheafIndexedRestrictionSurface_StdBridge {sec rho identity composite : BHist} :
+    PreSheafIndexedRestrictionSurface sec rho identity composite ->
+      SemanticNameCert
+        (fun h : BHist => PreSheafIndexedRestrictionSurface sec rho identity h)
+        (fun h : BHist => PreSheafIndexedRestrictionSurface sec rho identity h)
+        (fun h : BHist => PreSheafIndexedRestrictionSurface sec rho identity h)
+        hsame := by
+  intro surface
+  constructor
+  · constructor
+    · exact Exists.intro composite surface
+    · intro h _source
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same source
+      exact And.intro source.left
+        (And.intro source.right.left
+          (And.intro source.right.right.left
+            (cont_result_hsame_transport source.right.right.right same)))
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 end BEDC.Derived.PreSheafUp
