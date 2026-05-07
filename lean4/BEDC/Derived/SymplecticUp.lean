@@ -116,4 +116,66 @@ theorem SymplecticObligationBoundary_carrier_classifier_obligations
           (And.intro degreeRows.right.left
             (And.intro closedUnary nondegUnary)))))
 
+theorem SymplecticObligationBoundary_closed_two_form_transport
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness scalar' derivative' raised' closedWitness' : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      hsame scalar scalar' -> hsame derivative derivative' -> hsame raised raised' ->
+        Cont raised' BHist.Empty closedWitness' ->
+          SymplecticObligationBoundary manifold degree probe tensor scalar' antisym ledger
+              derivative' raised' closedWitness' nondegWitness ∧
+            hsame closedWitness closedWitness' := by
+  intro boundary sameScalar sameDerivative sameRaised closedRow'
+  have ledger' :
+      DiffFormExteriorDerivativeLedger scalar' derivative' degree raised' probe probe tensor tensor
+        scalar' scalar' antisym ledger ∧
+        UnaryHistory degree ∧ UnaryHistory raised' ∧
+          Cont degree (BHist.e1 BHist.Empty) raised' :=
+    DiffFormExteriorDerivativeLedger_hsame_transport_degree_raise
+      sameScalar sameDerivative (hsame_refl degree) sameRaised (hsame_refl probe)
+      (hsame_refl probe) (hsame_refl tensor) (hsame_refl tensor) sameScalar sameScalar
+      (hsame_refl antisym) (hsame_refl ledger) boundary.right.left
+  have sameClosed : hsame closedWitness closedWitness' :=
+    cont_respects_hsame sameRaised (hsame_refl BHist.Empty) boundary.right.right.right.left
+      closedRow'
+  have nondegRow' : Cont manifold scalar' nondegWitness :=
+    cont_hsame_transport (hsame_refl manifold) sameScalar (hsame_refl nondegWitness)
+      boundary.right.right.right.right
+  exact And.intro
+    (And.intro boundary.left
+      (And.intro ledger'.left
+        (And.intro boundary.right.right.left
+          (And.intro closedRow' nondegRow'))))
+    sameClosed
+
+theorem SymplecticObligationBoundary_nondegeneracy_transport
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness scalar' nondegWitness' : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      hsame scalar scalar' -> Cont manifold scalar' nondegWitness' ->
+        SymplecticObligationBoundary manifold degree probe tensor scalar' antisym ledger
+            derivative raised closedWitness nondegWitness' ∧
+          hsame nondegWitness nondegWitness' := by
+  intro boundary sameScalar nondegRow'
+  have ledger' :
+      DiffFormExteriorDerivativeLedger scalar' derivative degree raised probe probe tensor tensor
+        scalar' scalar' antisym ledger ∧
+        UnaryHistory degree ∧ UnaryHistory raised ∧
+          Cont degree (BHist.e1 BHist.Empty) raised :=
+    DiffFormExteriorDerivativeLedger_hsame_transport_degree_raise
+      sameScalar (hsame_refl derivative) (hsame_refl degree) (hsame_refl raised)
+      (hsame_refl probe) (hsame_refl probe) (hsame_refl tensor) (hsame_refl tensor)
+      sameScalar sameScalar (hsame_refl antisym) (hsame_refl ledger) boundary.right.left
+  have sameNondeg : hsame nondegWitness nondegWitness' :=
+    cont_respects_hsame (hsame_refl manifold) sameScalar boundary.right.right.right.right
+      nondegRow'
+  exact And.intro
+    (And.intro boundary.left
+      (And.intro ledger'.left
+        (And.intro boundary.right.right.left
+          (And.intro boundary.right.right.right.left nondegRow'))))
+    sameNondeg
+
 end BEDC.Derived.SymplecticUp
