@@ -6,8 +6,110 @@ The symmetric-group interface $\SymGroupUp$ packages the group structure on $\Na
 \section{Carrier definition}
 \label{sec:symgroup-carrier}
 
+\begin{theorem}[SymGroupUp carrier obligation]
+\label{thm:symgroup-carrier-obligation}
+The $\SymGroupUp$ carrier is the certified permutation carrier over
+$\NameCert_{\PermutationUp}$ together with the $\GroupUp$ source boundary of
+\autoref{ch:concrete-instances-group-namecert}. A carried row is therefore a
+$\PermutationUp$ source row whose visible operation is certified composition,
+whose displayed unit is the certified identity permutation, and whose displayed
+inverse is the certified inverse permutation. The carrier boundary records only
+the $\mathsf{BHist}$ graph rows, inverse rows, action row, $\Pkg$ provenance,
+and ledger entries already exposed by \autoref{ch:concrete-instances-permutation-namecert};
+it does not expose a host enumeration or a host function as the group object.
+\end{theorem}
+\begin{proof}
+Read the permutation source row from \autoref{def:permutation-bijection-source-row}.
+Its carrier consists of graph, inverse graph, inverse-witness, classifier,
+action, and ledger rows over the fixed $\NameCert_{\FinSetUp}$ source.
+
+The $\GroupUp$ boundary from \autoref{ch:concrete-instances-group-namecert}
+asks for a carried operation, unit, inverse, classifier, and ledger. Use
+\autoref{thm:permutation-composition-inverse-action-obligation} to supply
+composition, identity, inverse, and action compatibility from the same certified
+finite-position rows.
+
+Thus the $\SymGroupUp$ carrier is obtained by repacking the already certified
+$\PermutationUp$ carrier as a group-facing source row. All comparisons remain
+$\hsame$ and classifier transport through $\Pkg$ provenance, so no host
+function equality or quotient is introduced.
+\end{proof}
+
 \section{The certificate}
 \label{sec:symgroup-certificate}
+
+\begin{theorem}[SymGroupUp classifier obligation]
+\label{thm:symgroup-classifier-obligation}
+The $\SymGroupUp$ classifier is the permutation classifier transported through
+the group carrier of \autoref{thm:symgroup-carrier-obligation}. For carried
+permutation rows $G,H,K$, it must satisfy reflexivity on $G$, symmetry from
+$G\sim H$ to $H\sim G$, transitivity from $G\sim H$ and $H\sim K$ to
+$G\sim K$, and carrier transport across the $\GroupUp$ source rows for
+composition, identity, and inverse. These fields are exactly the
+$\PermutationUp$ classifier rows of \autoref{thm:permutation-classifier-obligation}
+read through the group-facing carrier boundary.
+\end{theorem}
+\begin{proof}
+Start with the pointwise action classifier of
+\autoref{thm:permutation-classifier-obligation}. It compares two certified
+self-bijection rows by reading their action outputs through the fixed
+$\FinSetUp$ classifier.
+
+Reflexivity, symmetry, and transitivity are inherited from the finite-set
+classifier rows named in \autoref{ch:concrete-instances-permutation-namecert}.
+Carrier transport is the same $\hsame$ and $\Pkg$ transport used to move graph
+and endpoint rows in \autoref{thm:permutation-classifier-obligation}.
+
+Repack those rows under the $\GroupUp$ boundary named in
+\autoref{ch:concrete-instances-group-namecert}. Since the classifier observes
+only certified action outputs and package provenance, the construction never
+identifies host functions and never forms a quotient of presentations.
+\end{proof}
+
+\begin{theorem}[SymGroupUp composition, inverse, and action obligations]
+\label{thm:symgroup-composition-inverse-action-obligations}
+For the carrier and classifier of \autoref{thm:symgroup-carrier-obligation}
+and \autoref{thm:symgroup-classifier-obligation}, the certificate rows required
+for $\SymGroupUp$ are the following.
+\begin{enumerate}
+\item Composition closure: if $G$ and $H$ are carried permutations, then the
+composite $H\circ G$ is a carried permutation.
+\item Inverse closure: if $G$ is carried, then $G^{-1}$ is carried.
+\item Unit laws: the certified identity permutation is carried and classifies
+as the left and right unit for composition.
+\item Associativity: the two certified composites $(K\circ H)\circ G$ and
+$K\circ(H\circ G)$ classify together.
+\item Action compatibility: the action row of a composite classifies with the
+successive action rows, and the action row of the inverse is the inverse graph
+readback.
+\item Exactness: graph coverage, inverse-witness coverage, and classifier
+transport are exactly the visible rows of the permutation source package.
+\item Ledger boundary: enumeration choices, position names, order witnesses,
+probe reads, and package provenance remain in the ledger and are not promoted
+to public carrier data.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Composition closure, inverse closure, unit rows, and action compatibility are
+the four group-facing readings of
+\autoref{thm:permutation-composition-inverse-action-obligation}. The theorem
+already states these rows as finite-position bijection facts whose graph
+readings are carried by the $\PermutationUp$ ledger.
+
+Associativity is read constructively from the same certified composition row:
+both parenthesized composites have the same sequence of finite-position graph
+reads, and the comparison is recorded as classifier transport over the
+$\mathsf{BHist}$ graph rows. The proof uses the $\GroupUp$ source boundary of
+\autoref{ch:concrete-instances-group-namecert} only to name the operation row,
+not to add a host-level equality of functions.
+
+Exactness and the ledger boundary are inherited from
+\autoref{def:permutation-bijection-source-row}. Graph coverage, inverse
+coverage, and action readback stay visible; enumeration choices, order choices,
+position names, probe logs, and $\Pkg$ provenance stay in the ledger. Hence the
+certificate surface is constructive and introduces no quotient of permutation
+presentations.
+\end{proof}
 
 \begin{closurestatus}{\SymGroupUp}
   \theoryclosure{\seedClosure}
