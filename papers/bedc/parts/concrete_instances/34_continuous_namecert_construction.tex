@@ -717,74 +717,12 @@ the continuation ledger and repack the remaining fields as the tail witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_left\_e1\_result\_cases}
 
-\begin{theorem}[Continuous modulus witness right e1 result exactness]
-\label{thm:continuous-modulus-witness-right-e1-result-exactness}
-For histories $source,modulus,target$, a modulus witness whose modulus and
-target histories are both visibly tagged has an exact untagged tail:
-$$
-\mathsf{ContinuousModulusWitness}(source,\Eone(modulus),\Eone(target))
-\Longrightarrow
-\mathsf{ContinuousModulusWitness}(source,modulus,target).
-$$
-\end{theorem}
-\begin{proof}
-Unpack the source, modulus, target unary witnesses and the continuation
-ledger. Unary inversion removes the visible constructor from the modulus and
-target carriers. The right $\Eone$ continuation inversion removes the same
-constructor from the continuation ledger, yielding the exact untagged modulus
-witness.
-\end{proof}
-\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_right\_e1\_result\_exactness}
-
-\begin{theorem}[Continuous modulus witness right e1 visible source exactness]
-\label{thm:continuous-modulus-witness-right-e1-visible-source-exactness}
-For histories $source,modulus,target,sourceTail$, a modulus witness whose
-modulus and target histories are both visibly tagged descends to the tail while
-respecting a visible presentation of the source endpoint:
-$$
-\mathsf{ContinuousModulusWitness}(source,\Eone(modulus),\Eone(target))
-\Longrightarrow
-\hsame(source,\Eone(sourceTail))
-\Longrightarrow
-\mathsf{ContinuousModulusWitness}(\Eone(sourceTail),modulus,target).
-$$
-\end{theorem}
-\begin{proof}
-Apply right one-headed result exactness to strip the visible constructor from
-the modulus and target components of the witness. The displayed $\hsame$
-presentation of the source endpoint then transports the descended witness to
-the concrete visible source $\Eone(sourceTail)$.
-\end{proof}
-\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_right\_e1\_visible\_source\_exactness}
-
-\begin{theorem}[Continuous modulus witness right e1 source cases]
-\label{thm:continuous-modulus-witness-right-e1-source-cases}
-For histories $source,modulus,target$, a modulus witness whose modulus and
-target histories are both visibly tagged has only the empty source case or a
-visible source tail:
-$$
-\mathsf{ContinuousModulusWitness}(source,\Eone(modulus),\Eone(target))
-\Longrightarrow
-\bigl(source=\emp\land\mathsf{UnaryHistory}(modulus)\land
-\hsame(target,modulus)\bigr)
-\lor
-\bigl(\exists sourceTail:\mathsf{BHist}.\;
-source=\Eone(sourceTail)\land
-\mathsf{ContinuousModulusWitness}(\Eone(sourceTail),modulus,target)\bigr).
-$$
-\end{theorem}
-\begin{proof}
-First descend the witness by stripping the common visible constructor from the
-modulus and target histories. The descended source carrier is unary, so it is
-either empty or visibly tagged. In the empty case, the continuation ledger is a
-left-unit ledger and gives $\hsame(target,modulus)$. In the visible case,
-constructor equality identifies the source with $\Eone(sourceTail)$ and the
-descended witness is repacked with that source presentation.
-\end{proof}
-\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_right\_e1\_source\_cases}
+\input{parts/concrete_instances/continuous/right_e1_source_cases}
 
 \input{parts/concrete_instances/continuous/terminal_modulus_extension}
 
 \input{parts/concrete_instances/34_continuous_namecert_function_carrier}
 
 \input{parts/concrete_instances/34_continuous_modulus_subset_restriction}
+
+\input{parts/concrete_instances/continuous/closure_marker}
