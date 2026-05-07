@@ -235,6 +235,7 @@ import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
+import BEDC.Derived.SetUp
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
