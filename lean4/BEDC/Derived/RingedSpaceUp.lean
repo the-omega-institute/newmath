@@ -76,4 +76,33 @@ theorem RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
       (And.intro descent.right.right
         (And.intro commOps openPoint)))
 
+theorem RingedSpaceSingletonSurface_restriction_stability_ledger
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB ringEndpoint : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionA germA ringEndpoint ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              RingedSpaceSingletonSurface point restrictedOpen sectionA restrictedGermA
+                  ringEndpoint ∧
+                SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                  hsame restrictedGermA restrictedGermB ∧
+                    CommRingSingletonCarrier ringEndpoint := by
+  intro surface ledgerB sameGerm sameOpen restrictedA restrictedB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      surface.right.left ledgerB sameGerm sameOpen restrictedA restrictedB
+  have restrictedTopology : TopologySingletonOpenAt restrictedOpen point :=
+    And.intro (hsame_trans (hsame_symm sameOpen) surface.left.left) surface.left.right
+  have restrictedSurface :
+      RingedSpaceSingletonSurface point restrictedOpen sectionA restrictedGermA ringEndpoint :=
+    And.intro restrictedTopology (And.intro descent.left surface.right.right)
+  exact And.intro restrictedSurface
+    (And.intro descent.right.left
+      (And.intro descent.right.right surface.right.right.left))
+
 end BEDC.Derived.RingedSpaceUp
