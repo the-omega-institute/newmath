@@ -142,6 +142,7 @@ import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PreSheafUp
+import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
@@ -191,6 +192,12 @@ import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.ConsumerTrace
+import BEDC.Derived.SheafUp.GlobalRestrictions
+import BEDC.Derived.SheafUp.AccessTrace
+import BEDC.Derived.SheafUp.DownstreamProjection
+import BEDC.Derived.SheafUp.BaseChangeSurface
+import BEDC.Derived.SheafUp.GluingClassifierRows
 import BEDC.Derived.SheafUp.RouteExactnessPacket
 import BEDC.Derived.SheafUp.CoverNerveRouteTransport
 import BEDC.Derived.SheafUp.RootFaceReadback
@@ -201,10 +208,15 @@ import BEDC.Derived.SheafUp.RefinementGluing
 import BEDC.Derived.SheafUp.CoverPullback
 import BEDC.Derived.SheafUp.CoverDescent
 import BEDC.Derived.SheafUp.CoverNerveCertificate
+import BEDC.Derived.SheafUp.GluingClassifier
+import BEDC.Derived.SheafUp.IdentityCover
 import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootThreshold
 import BEDC.Derived.SheafUp.RootProjection
+import BEDC.Derived.SheafUp.RefinementLocality
+import BEDC.Derived.SheafUp.ClassifierStability
+import BEDC.Derived.SheafUp.RestrictedCommonRefinement
 import BEDC.Derived.SetUp
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
@@ -393,7 +405,9 @@ import BEDC.Derived.ManifoldUp.IdentityTransition
 import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.ScopedBoundary
+import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
+import BEDC.Derived.HilbertUp
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy

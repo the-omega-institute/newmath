@@ -13,6 +13,8 @@ The projective-variety interface $\ProjectiveVarUp$ packages the zero-locus of a
 \label{thm:projectivevar-carrier-obligation}
 The $\ProjectiveVarUp$ carrier is a $\mathsf{BHist}$ predicate assembled from the visible $\AffineVarUp$ chart zero-locus source, the $\PolynomialUp$ homogeneous-family rows, the projective-space carrier row, and the zero-evaluation package. A carried endpoint is accepted exactly when those four rows are present with their $\Pkg$ provenance and probe reads; no host quotient, host orbit set, or external projective point equality is part of the carrier predicate.
 \end{theorem}
+\leanchecked{BEDC.Derived.ProjectiveVarUp.ProjectiveVarVisibleCarrier\_endpoint\_exactness}
+\leanchecked{BEDC.Derived.ProjectiveVarUp.ProjectiveVarVisibleCarrier\_carrier\_obligation}
 \begin{proof}
 Read the carrier row through the roadmap ten-field template:
 \begin{enumerate}
@@ -31,11 +33,15 @@ Read the carrier row through the roadmap ten-field template:
 The carrier projection is therefore just the third entry of the template. If an endpoint supplies the four displayed rows, it repacks as a carried $\ProjectiveVarUp$ history; if a carried endpoint is projected back out, the same rows are recovered. Host quotients and orbit representatives occur only as ledger readings and cannot enlarge the predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.ProjectiveVarUp.ProjectiveVarFiniteChartCarrier\_endpoint\_transport}
+\leanchecked{BEDC.Derived.ProjectiveVarUp.ProjectiveVarCarrier\_obligation\_rows}
+\leanchecked{BEDC.Derived.ProjectiveVarUp.ProjectiveVarCarrier\_obligation}
 
 \begin{theorem}[ProjectiveVarUp classifier stability obligation]
 \label{thm:projectivevar-classifier-stability-obligation}
 The $\ProjectiveVarUp$ classifier is projective scaling together with chart-compatible $\hsame$ transport. Whenever two carried endpoints are related by a scale witness and their chart zero-locus rows transport through the corresponding $\AffineVarUp$ chart classifiers, the projective carrier is preserved and each homogeneous $\PolynomialUp$ row is transported to a row with the same zero-evaluation outcome.
 \end{theorem}
+\leanchecked{BEDC.Derived.ProjectiveVarUp.ProjectiveVarCarrier\_scale\_chart\_transport}
+\leanchecked{BEDC.Derived.ProjectiveVarUp.ProjectiveVarCarrier\_chart\_homogeneous\_transport}
 \begin{proof}
 Read the classifier row through the roadmap ten-field template:
 \begin{enumerate}
@@ -60,6 +66,7 @@ Thus the classifier preserves the carrier predicate. Conversely, any classifier 
 \label{thm:projectivevar-homogeneous-zero-locus-exactness-obligation}
 The visible zero-locus package for $\ProjectiveVarUp$ is exact relative to the homogeneous $\PolynomialUp$ family and the $\AffineVarUp$ chart exactness rows: coverage says every carried projective endpoint has a chart read and homogeneous zero-evaluation read; soundness says every accepted read satisfies all displayed homogeneous rows on every compatible chart; completeness says every compatible chart-family zero-locus read repacks as a carried projective endpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.ProjectiveVarUp.ProjectiveVarHomogeneousZeroLocus\_visible\_package}
 \begin{proof}
 Read the exactness row through the roadmap ten-field template:
 \begin{enumerate}
@@ -104,6 +111,20 @@ Read the ledger row through the roadmap ten-field template:
 Projecting the ledger reveals only the entries listed in the eighth template field. Chart choices are justified by the affine source certificate, homogeneous-family presentations by the polynomial source certificate, scale witnesses by the classifier row, and evaluation routing by the zero-locus package.
 
 Since each hidden entry is consumed by one of those visible rows, exposing it would duplicate a presentation witness rather than add a BEDC carrier field. The public boundary is therefore exactly the carrier and classifier named in the statement.
+\end{proof}
+
+\begin{theorem}[ProjectiveVarUp scoped primitive binding]
+\label{thm:projectivevar-scoped-primitive-binding}
+The four rows in \autoref{thm:projectivevar-carrier-obligation}, \autoref{thm:projectivevar-classifier-stability-obligation}, \autoref{thm:projectivevar-homogeneous-zero-locus-exactness-obligation}, and \autoref{thm:projectivevar-scaling-ledger-obligation} are scoped exactly by the BEDC primitives $\mathsf{BHist}$, $\Pkg$, probe reads, $\hsame$ transport, the projective scaling witness, $\NameCert_{\AffineVarUp}$, and $\NameCert_{\PolynomialUp}$. Chart choice, homogeneous-family presentation, scale witness, and zero-evaluation routing remain ledger data, and no host quotient or external projective-point equality enters the public carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier row first. Its roadmap dependency fields expose only the $\mathsf{BHist}$ predicate, the visible $\Pkg$ provenance, the relevant probe reads, and the upstream $\AffineVarUp$ and $\PolynomialUp$ certificates named in the statement.
+
+Project the classifier row next. Its dependency and classifier fields bind the projective scaling witness to chart-compatible $\hsame$ transport, while the carrier field remains the predicate supplied by \autoref{thm:projectivevar-carrier-obligation}.
+
+Project the exactness row. Coverage, soundness, and completeness consume the same chart reads, homogeneous-family rows, zero-evaluation package, and upstream certificate exactness already present in \autoref{thm:projectivevar-homogeneous-zero-locus-exactness-obligation}; they do not add a host quotient or an external equality relation.
+
+Finally project the ledger row. The ledger field names exactly chart choice, homogeneous-family presentation, scale witness, and zero-evaluation routing as hidden provenance, so those witnesses can be transported and consumed but not promoted into the public carrier. Combining the four projections gives the reusable scoped boundary for $\ProjectiveVarUp$.
 \end{proof}
 
 \closureat{ProjectiveVarUp}{scopedStr}
