@@ -80,6 +80,23 @@ theorem SymplecticCarrierClassifierSurface_obligations
   intro surface
   exact SymplecticCarrierClassifierSurface_carrier_classifier_obligations surface
 
+theorem SymplecticCarrierClassifierSurface_closed_two_form_obligation
+    {manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
+      antisym source closedWitness pairing ledger : BHist} :
+    SymplecticCarrierClassifierSurface manifold form derivative degree degreePlus probe probe'
+      tensor tensor' scalar scalar' antisym source closedWitness pairing ledger ->
+      hsame derivative BHist.Empty ∧ hsame closedWitness BHist.Empty ∧
+        UnaryHistory derivative ∧ UnaryHistory closedWitness ∧ Cont form pairing ledger := by
+  intro surface
+  have obligations :=
+    SymplecticCarrierClassifierSurface_carrier_classifier_obligations surface
+  have closedUnary : UnaryHistory closedWitness :=
+    unary_transport_symm obligations.right.right.right.left surface.right.right.right.right
+  exact And.intro surface.right.right.left
+    (And.intro obligations.right.right.right.right.right.right.right
+      (And.intro obligations.right.right.right.left
+        (And.intro closedUnary surface.right.right.right.left)))
+
 def SymplecticObligationBoundary
     (manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
       nondegWitness : BHist) : Prop :=
