@@ -259,4 +259,38 @@ theorem SymplecticObligationBoundary_nondegeneracy_transport
           (And.intro boundary.right.right.right.left nondegRow'))))
     sameNondeg
 
+theorem SymplecticObligationBoundary_nondegeneracy_endpoint_split
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+      raised closedWitness nondegWitness ->
+      hsame nondegWitness BHist.Empty ->
+        hsame manifold BHist.Empty ∧ hsame scalar BHist.Empty ∧ UnaryHistory scalar ∧
+          UnaryHistory nondegWitness := by
+  intro boundary nondegEmpty
+  have manifoldRows := ManifoldSingletonCarrier_topology_scope boundary.left
+  have endpointToEmpty : Cont manifold scalar BHist.Empty :=
+    cont_result_hsame_transport boundary.right.right.right.right nondegEmpty
+  have endpointParts := cont_empty_result_inversion endpointToEmpty
+  have scalarUnary : UnaryHistory scalar := boundary.right.left.left
+  have nondegUnary : UnaryHistory nondegWitness :=
+    unary_cont_closed manifoldRows.right.left scalarUnary boundary.right.right.right.right
+  exact And.intro manifoldRows.left
+    (And.intro endpointParts.right (And.intro scalarUnary nondegUnary))
+
+theorem SymplecticObligationBoundary_closed_successor_not_empty
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+      raised closedWitness nondegWitness ->
+      hsame closedWitness BHist.Empty -> False := by
+  intro boundary closedEmpty
+  have successorRows :=
+    DiffFormExteriorDerivativeLedger_degree_successor_nonempty boundary.right.left
+  have closedRaised : hsame closedWitness raised :=
+    cont_right_unit_result boundary.right.right.right.left
+  have raisedEmpty : hsame raised BHist.Empty :=
+    hsame_trans (hsame_symm closedRaised) closedEmpty
+  exact successorRows.right.right.right raisedEmpty
+
 end BEDC.Derived.SymplecticUp
