@@ -293,14 +293,88 @@ Unpack \autoref{def:tensorproduct-singleton-factor} for both factor witnesses. T
 \leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_classifier\_uniqueness}
 \leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_classifier\_uniqueness\_readback}
 
-\closureat{TensorProductUp}{seedStr}[BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_tensor\_semanticNameCert]
+\begin{theorem}[TensorProductUp source and pattern obligation]
+\label{thm:tensorproduct-source-pattern-obligation}
+In the singleton-factor tensor certificate, the source object is a pair of
+$\ModuleUp$ factor carriers over $\mathsf{BHist}$. The pattern object is the
+concrete factor tuple $(l,r,t)$ together with the continuation witness
+$\mathsf{Cont}(l,r,t)$. The carrier committed to the tensor endpoint is the
+existing specialization
+$\mathsf{TensorProductSingletonFactor}(l,r,t)$ for singleton module factors.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:tensorproduct-singleton-factor} as the source-pattern
+unpacking. Its four fields are exactly the left singleton module carrier, the
+right singleton module carrier, the tensor endpoint singleton carrier, and the
+continuation witness $\mathsf{Cont}(l,r,t)$.
+
+The forward coverage direction is the witness theorem
+\autoref{thm:tensorproduct-singleton-carrier-factor-witness}: a tensor endpoint
+in the singleton carrier exposes two module-singleton endpoints and retains the
+continuation ledger. The displayed source and pattern data therefore repack
+into the same $\mathsf{TensorProductSingletonFactor}$ carrier.
+\end{proof}
+
+\begin{theorem}[TensorProductUp classifier and stability obligation]
+\label{thm:tensorproduct-classifier-stability-obligation}
+For the singleton-factor tensor certificate, the endpoint classifier is
+$\hsame$ on tensor outputs. This classifier is stable under transport of the
+two factor carriers, transport of the continuation witness
+$\mathsf{Cont}(l,r,t)$, and the factor transport theorem for $\hsame$.
+\end{theorem}
+\begin{proof}
+The certificate
+\autoref{thm:tensorproduct-singleton-factor-tensor-semantic-namecert} chooses
+$\hsame$ as the classifier on the tensor endpoint carrier. Transporting the
+left endpoint, right endpoint, and tensor output along $\hsame$ comparisons is
+therefore the only stability obligation.
+
+Apply
+\autoref{thm:tensorproduct-singleton-factor-hsame-transport}. It transports
+the two factor-carrier witnesses and the tensor endpoint witness at the same
+time, and it retains the transported $\mathsf{Cont}$ ledger. Hence the
+classifier remains endpoint $\hsame$ after every admissible factor transport.
+\end{proof}
+
+\begin{theorem}[TensorProductUp ledger and exactness obligation]
+\label{thm:tensorproduct-ledger-exactness-obligation}
+For the singleton-factor tensor certificate, the ledger records exactly the
+two factor endpoints $l$ and $r$ and the continuation witness
+$\mathsf{Cont}(l,r,t)$. Coverage is supplied by the factor-witness theorem,
+soundness is supplied by the factor definition, and endpoint uniqueness is
+supplied by
+\autoref{thm:tensorproduct-singleton-factor-classifier-uniqueness}.
+\end{theorem}
+\begin{proof}
+Coverage comes from
+\autoref{thm:tensorproduct-singleton-carrier-factor-witness}: every tensor
+singleton endpoint exposes the two module-singleton endpoints and the retained
+continuation witness. Thus the ledger has no additional source component
+beyond $l$, $r$, and $\mathsf{Cont}(l,r,t)$.
+
+Soundness is the direct reading of
+\autoref{def:tensorproduct-singleton-factor}. A valid factor consists of the
+two singleton module endpoints, the singleton tensor endpoint, and the
+continuation witness, so any recorded ledger entry rebuilds the public factor
+carrier.
+
+Endpoint exactness uses
+\autoref{thm:tensorproduct-singleton-factor-classifier-uniqueness}. Two
+ledger entries with the same factor endpoints have tensor outputs related by
+$\hsame$. The associator theorem
+\autoref{thm:tensorproduct-singleton-factor-associator} supplies the compatible
+rebracketing witness, so the ledger remains exact under the tensor factor
+shape used by the certificate.
+\end{proof}
+
+\closureat{TensorProductUp}{scopedStr}[BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_tensor\_semanticNameCert]
 
 \begin{closurestatus}{\TensorProductUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds exactly the singleton module-factor carrier, tensor endpoint carrier, $\mathsf{TensorProductSingletonFactor}$, $\Cont$ ledger, $\hsame$ classifier, factor transport, associator, and endpoint uniqueness rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The closed scope is the singleton $\ModuleUp$ factor carrier, $\mathsf{TensorProductSingletonFactor}$, the concrete $\Cont$ ledger, the endpoint $\hsame$ classifier, factor transport, associator, source-target swap, and classifier-uniqueness rows stated in this chapter.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_tensor\_semanticNameCert}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim arbitrary tensor products, bilinear universal properties, exterior powers, non-singleton modules, or standard bridges.}
-  \upgradepath{Obligation closure requires the full tensor-product source, pattern, classifier, stability, and ledger inventory over ModuleUp factors.}
+  \upgradepath{Public closure requires a public tensor-product interface boundary beyond the singleton-factor certificate.}
 \end{closurestatus}
