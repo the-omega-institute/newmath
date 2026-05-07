@@ -91,4 +91,17 @@ theorem HolomorphicPatternSpec_semantic_name_certificate {seed iterate : BHist} 
   · intro _h source
     exact source
 
+theorem HolomorphicPatternSpec_hsame_iterate_transport {seed seed' iterate iterate' : BHist} :
+    HolomorphicPatternSpec seed iterate -> hsame seed seed' -> hsame iterate iterate' ->
+      HolomorphicPatternSpec seed' iterate' ∧ UnaryHistory seed' ∧
+        IteratedCplxDiff seed' 1 iterate' := by
+  intro pattern sameSeed sameIterate
+  have seedUnary : UnaryHistory seed' :=
+    unary_transport pattern.left sameSeed
+  have iterateTransport :=
+    IteratedCplxDiff_hsame_transport_unary_readback sameSeed sameIterate pattern.right
+  exact And.intro
+    (And.intro seedUnary iterateTransport.left)
+    (And.intro seedUnary iterateTransport.left)
+
 end BEDC.Derived.HolomorphicUp

@@ -191,6 +191,7 @@ import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.RouteExactnessPacket
 import BEDC.Derived.SetUp
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
@@ -239,6 +240,7 @@ import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
+import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
