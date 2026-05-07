@@ -239,6 +239,7 @@ import BEDC.Derived.RandomVarUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
+import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
