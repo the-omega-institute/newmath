@@ -33,6 +33,7 @@ by $\GraphUp$. Transporting the finite incidence ledger along those rows gives
 the same accepted tree carrier predicate at the target history, with no
 appeal to equality of host graphs.
 \end{proof}
+
 \begin{definition}[TreeUp BHist carrier]\label{def:treeup-bhist-carrier}
 The carrier of $\TreeUp$ is the $\mathsf{BHist}$ endpoint row whose visible
 package consists of a $\NameCert_{\GraphUp}$ edge/vertex package, the
@@ -100,6 +101,7 @@ branch carrying a witness that no vertex row in the same visible package has
 been designated as root. Both branches are transported by the same $\hsame$
 and $\Pkg$ data as the graph package.
 \end{theorem}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistCarrier\_root\_branch\_transport}
 \begin{proof}
 Proceed by case analysis on the root branch recorded in the carrier row.
 
@@ -113,6 +115,7 @@ row as a visible witness attached to that package. Its transport uses the
 same $\hsame$ and $\Pkg$ data, so no hidden root selection can enter the
 carrier classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.TreeUp.TreeVisibleCarrier\_root\_witness\_obligation}
 
 \begin{theorem}[TreeUp stability and ledger obligation]\label{thm:treeup-stability-ledger-obligation}
 The $\TreeUp$ stability ledger consists exactly of the hidden graph route data,
@@ -276,6 +279,7 @@ $\mathsf{BHist}$, $\hsame$, and the $\GraphUp$ source certificate, the
 assembled surface does not require host graph equality or any additional
 bridge field.
 \end{proof}
+
 \begin{theorem}[TreeUp carrier and classifier obligations]
 \label{thm:tree-obligation-carrier-classifier}
 The $\TreeUp$ carrier data refine the $\GraphUp$ $\Cont$-adjacency carrier of
@@ -410,7 +414,7 @@ $\TreeUp$ ledger, and exactness says that the certificate contains no hidden
 data outside this displayed $\hsame$-classified $\NameCert$ boundary.
 \end{proof}
 
-\closureat{TreeUp}{obligationStr}
+\closureat{TreeUp}{scopedStr}
 
 \begin{definition}[Tree obligation surface]\label{def:tree-obligation-surface}
 Fix a BEDC source history sort $\mathsf{BHist}$ and a graph certificate source $\NameCert_{\GraphUp}$ as in \autoref{ch:concrete-instances-graph-namecert}. A concrete $\TreeUp$ obligation record consists of the following rows on histories:
@@ -474,11 +478,11 @@ Downstream consumers therefore receive the same carrier, the same classifier, an
 \end{proof}
 
 \begin{closurestatus}{\TreeUp}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation surface is exactly \autoref{def:treeup-bhist-carrier}, \autoref{thm:treeup-carrier-obligation}, \autoref{thm:treeup-classifier-obligation}, \autoref{thm:treeup-root-witness-obligation}, \autoref{thm:treeup-stability-ledger-obligation}, and \autoref{thm:treeup-exactness-obligation}, read through the displayed $\mathsf{BHist}$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert_{\GraphUp}$, and $\mathsf{GraphContEdge}$ dependencies.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.GraphUp.GraphCont\_namecert\_surface}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a public certificate surface, a standard bridge, checked connectedness or acyclicity rows, checked root transport, or Lean verification.}
-  \upgradepath{Scoped closure must bind these obligations to checked $\GraphUp$ and $\mathsf{FKernel}$ rows for carrier transport, connectedness, acyclicity, root choice, stability, ledger, and exactness.}
+  \upgradepath{Public closure requires a single exported TreeUp certificate boundary packaging the graph package, edge rows, connectedness, acyclicity, root branch, stability, ledger, and exactness rows as the public interface.}
 \end{closurestatus}

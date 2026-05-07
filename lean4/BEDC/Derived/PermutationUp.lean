@@ -126,4 +126,25 @@ theorem PermutationBijectionSourceRow_endpoint_package_hsame_transport [AskSetup
       (And.intro sameInvGraph
         (And.intro sameComp (And.intro sameAction sameLedger))))
 
+theorem PermutationBijectionSourceRow_composition_action_ledger_scope [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      hsame comp (append graph invGraph) ∧ hsame action (append src graph) ∧
+        hsame ledger (append (append graph invGraph) (append src graph)) := by
+  intro row
+  have compScope : hsame comp (append graph invGraph) :=
+    row.right.right.right.right.left
+  have actionScope : hsame action (append src graph) :=
+    row.right.right.right.right.right.left
+  have ledgerScope : hsame ledger (append comp action) :=
+    row.right.right.right.right.right.right.left
+  have expandedLedger :
+      hsame (append comp action) (append (append graph invGraph) (append src graph)) := by
+    cases compScope
+    cases actionScope
+    exact hsame_refl (append (append graph invGraph) (append src graph))
+  exact And.intro compScope (And.intro actionScope (hsame_trans ledgerScope expandedLedger))
+
 end BEDC.Derived.PermutationUp
