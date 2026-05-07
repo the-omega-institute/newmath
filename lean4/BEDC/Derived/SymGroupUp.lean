@@ -12,6 +12,27 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+theorem SymGroupPermutationCarrier_group_surface [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      GroupSingletonCarrier BHist.Empty ∧ UnaryHistory graph ∧ UnaryHistory invGraph ∧
+        UnaryHistory action ∧ UnaryHistory ledger ∧ Cont graph invGraph comp ∧
+          Cont src graph action ∧ Cont comp action ledger ∧
+            PkgSig srcBundle src srcPkg ∧ PkgSig tgtBundle tgt tgtPkg := by
+  intro row
+  have surface := PermutationBijectionSourceRow_carrier_surface row
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro surface.right.right.right.left
+            (And.intro surface.right.right.right.right.right.right.left
+              (And.intro surface.right.right.right.right.right.right.right.left
+                (And.intro surface.right.right.right.right.right.right.right.right.left
+                  surface.right.right.right.right.right.right.right.right.right)))))))
+
 theorem SymGroupCarrier_obligation [AskSetup] [PackageSetup]
     {src tgt graph invGraph comp action ledger : BHist}
     {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
@@ -47,7 +68,7 @@ def SymGroupPermutationCarrier [AskSetup] [PackageSetup]
     (srcBundle tgtBundle : ProbeBundle ProbeName) (srcPkg tgtPkg : Pkg) : Prop :=
   PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle tgtBundle
       srcPkg tgtPkg ∧
-    GroupSingletonCarrier comp
+    GroupSingletonCarrier comp ∧ GroupSingletonCarrier action
 
 theorem SymGroupPermutationCarrier_carrier_obligation [AskSetup] [PackageSetup]
     {src tgt graph invGraph comp action ledger : BHist}
@@ -56,21 +77,17 @@ theorem SymGroupPermutationCarrier_carrier_obligation [AskSetup] [PackageSetup]
         srcPkg tgtPkg ->
       PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle
           tgtBundle srcPkg tgtPkg ∧
-        GroupSingletonCarrier comp ∧ UnaryHistory graph ∧ UnaryHistory invGraph ∧
-          UnaryHistory action ∧ UnaryHistory ledger ∧
+        GroupSingletonCarrier comp ∧ GroupSingletonCarrier action ∧
+          UnaryHistory graph ∧ UnaryHistory invGraph ∧ UnaryHistory action ∧ UnaryHistory ledger ∧
             Cont graph invGraph comp ∧ Cont src graph action ∧ Cont comp action ledger ∧
               PkgSig srcBundle src srcPkg ∧ PkgSig tgtBundle tgt tgtPkg := by
   intro carrier
   have surface := PermutationBijectionSourceRow_carrier_surface carrier.left
-  exact And.intro carrier.left
-    (And.intro carrier.right
-      (And.intro surface.left
-        (And.intro surface.right.left
-          (And.intro surface.right.right.left
-            (And.intro surface.right.right.right.left
-                (And.intro surface.right.right.right.right.right.right.left
-                  (And.intro surface.right.right.right.right.right.right.right.left
-                    (And.intro surface.right.right.right.right.right.right.right.right.left
-                      surface.right.right.right.right.right.right.right.right.right))))))))
+  exact ⟨carrier.left, carrier.right.left, carrier.right.right, surface.left, surface.right.left,
+    surface.right.right.left, surface.right.right.right.left,
+    surface.right.right.right.right.right.right.left,
+    surface.right.right.right.right.right.right.right.left,
+    surface.right.right.right.right.right.right.right.right.left,
+    surface.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.SymGroupUp
