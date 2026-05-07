@@ -362,6 +362,50 @@ from the tail-shifted $\RegSeqRat$ surface that it receives from the original
 finite window, with no additional primitive or bridge.
 \end{proof}
 
+\begin{theorem}[RegSeqRat seal finite-window source coverage]
+\label{thm:regseqrat-seal-finite-window-source-coverage}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified source
+window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+and indices $j,r$ with $j+r\le m$, the selected bounded subwindow
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n+j,r)
+$$
+feeds the $\RegSeqRat$ seal with the same finite-window source package as the
+source window. More precisely, the seal receives the same
+DyadicRatCore observation-row carrier, classifier, stability rows, finite
+dyadic ledger, $\StreamNameUp$ finite-window interface rows, and $\RealUp$
+finite-window exhaustion rows already exposed at the source window. This
+coverage uses no quotient, completion object, Classical datum, external metric
+primitive, $\RealUp$ completeness claim, or standard bridge.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-finite-window-dyadic-source-exhaustion} to the source
+window. This identifies the bounded $\RegSeqRat$ observation data with the
+scoped DyadicRatCore carrier, classifier, stability, and finite dyadic ledger
+faces at the selected finite window.
+
+Next apply
+\autoref{thm:dyadicratcore-public-observation-subwindow-stability} with the
+bound $j+r\le m$. The subwindow certificate keeps the same DyadicRatCore
+observation-row carrier, classifier, stability rows, and finite dyadic ledger
+while changing only the finite anchor. Read that shifted anchor through
+\autoref{thm:streamname-public-finite-window-interface} to obtain the matching
+$\StreamNameUp$ finite-window interface rows.
+
+Finally apply
+\autoref{thm:dyadicratcore-public-observation-realup-window-feed}. The
+subwindow package is therefore exactly the finite-window source input consumed
+by \autoref{thm:realup-finite-window-exhaustion-obligation}. Since every row is
+obtained from the source exhaustion theorem, the public subwindow stability
+theorem, the $\StreamNameUp$ interface, and the RealUp feed theorem, the seal
+receives no quotient, completion object, Classical datum, external metric
+primitive, $\RealUp$ completeness claim, or standard bridge.
+\end{proof}
+
 \begin{closurestatus}{\DyadicRatCore}
   \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:dyadicratcore-public-observation-package} witnesses the public DyadicRatCore observation package over $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp request names, the DyadicRatCore observation row, and the finite dyadic ledger consumed by $\RegSeqRat$ and $\RealUp$.}
