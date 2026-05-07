@@ -604,4 +604,18 @@ theorem TreeObligationSurface_rows
         (And.intro representation.left
           (And.intro representation.right.left representation.right.right))))
 
+theorem TreeObligationSurface_public_certificate_boundary
+    {graph edge connected acyclic root endpoint «syntax» syntaxTarget : BHist} :
+    TreeObligationSurface graph edge connected acyclic root endpoint «syntax» syntaxTarget ->
+      TreeBHistCarrier graph edge connected acyclic root endpoint ∧
+        TreeRootBranch endpoint root connected ∧
+          GraphContEdge endpoint «syntax» syntaxTarget ∧ UnaryHistory syntaxTarget ∧
+            Cont endpoint «syntax» syntaxTarget := by
+  intro surface
+  have rows := TreeObligationSurface_rows surface
+  exact And.intro rows.left
+    (And.intro rows.right.right.right.left
+      (And.intro rows.right.right.right.right.left
+        (And.intro rows.right.right.right.right.right rows.right.right.left)))
+
 end BEDC.Derived.TreeUp
