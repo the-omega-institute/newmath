@@ -361,4 +361,29 @@ theorem NatUp_unary_standard_bridge :
           exact (congrArg BEDC.FKernel.ExternalBinary.bwordLength contHTK).trans
             (BEDC.FKernel.ExternalBinary.bwordLength_append h t)
 
+theorem NatUp_mature_unary_recursion_package {h : BHist} :
+    UnaryHistory h ->
+      (hsame h BHist.Empty ∨ ∃ pred : BHist, UnaryHistory pred ∧ hsame h (BHist.e1 pred)) ∧
+        (UnaryHistory (BHist.e0 h) -> False) ∧
+          (forall {tail result : BHist}, UnaryHistory tail -> Cont h tail result ->
+            UnaryHistory result ∧
+              BEDC.FKernel.ExternalBinary.bwordLength result =
+                BEDC.FKernel.ExternalBinary.bwordLength h +
+                  BEDC.FKernel.ExternalBinary.bwordLength tail) := by
+  intro unaryH
+  constructor
+  · cases h with
+    | Empty =>
+        exact Or.inl rfl
+    | e0 h =>
+        exact False.elim (unary_no_zero_extension unaryH)
+    | e1 pred =>
+        exact Or.inr (Exists.intro pred (And.intro (unary_e1_inversion unaryH) rfl))
+  · constructor
+    · intro zeroUnary
+      exact unary_no_zero_extension zeroUnary
+    · intro tail result unaryTail continuation
+      exact And.intro (unary_cont_closed unaryH unaryTail continuation)
+        (NatUp_unary_standard_bridge.right.right.right.right unaryH unaryTail continuation)
+
 end BEDC.Derived.NatUp
