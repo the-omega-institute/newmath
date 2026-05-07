@@ -33,4 +33,32 @@ theorem SheafBHistPointGermLedger_global_restrictions_compatible
     SheafBHistPointGermLedger_common_open_comparison localLedgerA localLedgerB sameLocals
   exact And.intro comparison.left sameLocals
 
+theorem SheafGluingGlobalRestrictions_idempotent
+    {point openHist sectionG sectionH globalG globalH localG localH : BHist} :
+    SheafBHistPointGermLedger point openHist sectionG globalG ->
+      SheafBHistPointGermLedger point openHist sectionH globalH ->
+        Cont openHist sectionG localG ->
+          Cont openHist sectionH localH ->
+            hsame localH localG ->
+              hsame globalH globalG ∧
+                SheafBHistPointGermComparison point openHist sectionH localH openHist
+                  sectionG localG openHist := by
+  intro ledgerG ledgerH localRowG localRowH sameLocals
+  have sameGlobalLocalG : hsame globalG localG :=
+    cont_deterministic ledgerG.right.right localRowG
+  have sameGlobalLocalH : hsame globalH localH :=
+    cont_deterministic ledgerH.right.right localRowH
+  have sameGlobals : hsame globalH globalG :=
+    hsame_trans sameGlobalLocalH
+      (hsame_trans sameLocals (hsame_symm sameGlobalLocalG))
+  have localLedgerG :
+      SheafBHistPointGermLedger point openHist sectionG localG :=
+    And.intro ledgerG.left (And.intro ledgerG.right.left localRowG)
+  have localLedgerH :
+      SheafBHistPointGermLedger point openHist sectionH localH :=
+    And.intro ledgerH.left (And.intro ledgerH.right.left localRowH)
+  have comparison :=
+    SheafBHistPointGermLedger_common_open_comparison localLedgerH localLedgerG sameLocals
+  exact And.intro sameGlobals comparison.left
+
 end BEDC.Derived.SheafUp
