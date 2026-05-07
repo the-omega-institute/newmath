@@ -1,5 +1,8 @@
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ManifoldUp
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.ContactUp
 
@@ -9,7 +12,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
-def ContactCarrierClassifierSurface
+def ContactCarrierDiffFormLedgerSurface
     (manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
       antisym source wedge top hyperplane ledger : BHist) : Prop :=
   ManifoldSingletonCarrier manifold ∧
@@ -21,10 +24,10 @@ def ContactCarrierClassifierSurface
 theorem ContactUpLedgerExactness_obligation
     {manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
       antisym source wedge top hyperplane ledger transportedTop : BHist} :
-    ContactCarrierClassifierSurface manifold form derivative degree degreePlus probe probe'
+    ContactCarrierDiffFormLedgerSurface manifold form derivative degree degreePlus probe probe'
         tensor tensor' scalar scalar' antisym source wedge top hyperplane ledger ->
       hsame top transportedTop ->
-        ContactCarrierClassifierSurface manifold form derivative degree degreePlus probe probe'
+        ContactCarrierDiffFormLedgerSurface manifold form derivative degree degreePlus probe probe'
             tensor tensor' scalar scalar' antisym source wedge transportedTop hyperplane
             transportedTop ∧
           hsame ledger transportedTop ∧ UnaryHistory wedge := by
@@ -32,7 +35,7 @@ theorem ContactUpLedgerExactness_obligation
   have transportedCont : Cont wedge hyperplane transportedTop :=
     cont_result_hsame_transport surface.right.right.right.left sameTop
   have transportedSurface :
-      ContactCarrierClassifierSurface manifold form derivative degree degreePlus probe probe'
+      ContactCarrierDiffFormLedgerSurface manifold form derivative degree degreePlus probe probe'
         tensor tensor' scalar scalar' antisym source wedge transportedTop hyperplane
         transportedTop :=
     And.intro surface.left
@@ -45,5 +48,29 @@ theorem ContactUpLedgerExactness_obligation
     surface.right.right.left.right.right.right.left
   exact And.intro transportedSurface
     (And.intro sameLedger wedgeUnary)
+
+def ContactCarrierClassifierSurface (manifold form derivative wedge top : BHist) : Prop :=
+  ManifoldSingletonCarrier manifold ∧ UnaryHistory form ∧ UnaryHistory derivative ∧
+    Cont form derivative wedge ∧ Cont wedge BHist.Empty top
+
+theorem ContactCarrierClassifierSurface_form_row_obligation
+    {manifold form derivative wedge top : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      ManifoldSingletonCarrier manifold ∧ UnaryHistory manifold ∧ UnaryHistory form ∧
+        UnaryHistory derivative ∧ UnaryHistory wedge ∧ UnaryHistory top ∧
+          Cont form derivative wedge ∧ Cont wedge BHist.Empty top := by
+  intro surface
+  have manifoldRows := ManifoldSingletonCarrier_topology_scope surface.left
+  have wedgeUnary : UnaryHistory wedge :=
+    unary_cont_closed surface.right.left surface.right.right.left surface.right.right.right.left
+  have topUnary : UnaryHistory top :=
+    unary_cont_closed wedgeUnary unary_empty surface.right.right.right.right
+  exact And.intro surface.left
+    (And.intro manifoldRows.right.left
+      (And.intro surface.right.left
+          (And.intro surface.right.right.left
+            (And.intro wedgeUnary
+              (And.intro topUnary
+                (And.intro surface.right.right.right.left surface.right.right.right.right))))))
 
 end BEDC.Derived.ContactUp
