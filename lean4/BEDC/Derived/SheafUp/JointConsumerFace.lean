@@ -28,4 +28,17 @@ theorem SheafRootJointConsumerFace_exhaustion {root endpoint : BHist} :
   | chartTrace trace =>
       exact Or.inr ⟨_, _, trace, SheafSchemeChartGluingTrace_unary_result trace⟩
 
+theorem SheafRootJointConsumerFace_no_feedback_unary_boundary {root endpoint tail : BHist} :
+    SheafRootJointConsumerFace root endpoint ->
+      (forall landing : SheafRootFaceLanding,
+        SheafRootFaceRead root endpoint landing -> False) ->
+        hsame endpoint (BHist.e0 tail) -> False := by
+  intro face noRootRead sameEndpoint
+  cases face with
+  | faceRead read =>
+      exact noRootRead _ read
+  | chartTrace trace =>
+      exact unary_no_zero_extension
+        (unary_transport (SheafSchemeChartGluingTrace_unary_result trace) sameEndpoint)
+
 end BEDC.Derived.SheafUp
