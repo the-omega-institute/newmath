@@ -274,6 +274,55 @@ finite-ledger rows used at the RealUp finite-window boundary, with no extra
 object or bridge added.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore public observation subwindow stability]
+\label{thm:dyadicratcore-public-observation-subwindow-stability}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices
+$n,j,r,m$, suppose
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m)
+$$
+and $j+r\le m$. If the public DyadicRatCore package supplies the carrier,
+classifier, stability, and finite-ledger rows consumed by the RealUp
+finite-window exhaustion obligation in
+\autoref{thm:dyadicratcore-public-observation-realup-window-feed}, then the
+certified subwindow
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n+j,r)
+$$
+produced by
+\autoref{thm:real-stream-window-subwindow-extraction} inherits the same
+DyadicRatCore observation-row carrier, classifier, stability, and finite dyadic
+ledger source rows through the $\StreamNameUp$ finite-window public interface of
+\autoref{thm:streamname-public-finite-window-interface}. The inherited rows
+still feed \autoref{thm:realup-finite-window-exhaustion-obligation} and add no
+quotient, completion object, Classical datum, external metric primitive,
+$\RealUp$ completeness claim, or standard bridge.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-window-subwindow-extraction} to the certified
+source window with shift $j$ and radius $r$. The bound $j+r\le m$ gives the
+shifted finite-window classifier
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n+j,r).
+$$
+
+Next read the shifted window through the public finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}. The interface changes
+only the selected finite anchor and radius; the $\StreamNameUp$ request names,
+endpoint $\RatUp$ classifiers, and bounded finite-ledger rows remain the same
+rows already exposed by the public DyadicRatCore package.
+
+Finally apply
+\autoref{thm:dyadicratcore-public-observation-realup-window-feed} to identify
+the inherited carrier, classifier, stability, and finite-ledger source rows as
+the rows consumed by
+\autoref{thm:realup-finite-window-exhaustion-obligation}. Since the construction
+uses only subwindow extraction, the public $\StreamNameUp$ finite-window
+surface, and the DyadicRatCore public observation feed, it introduces no
+quotient, completion object, Classical datum, external metric primitive,
+$\RealUp$ completeness claim, or standard bridge.
+\end{proof}
+
 \begin{closurestatus}{\DyadicRatCore}
   \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:dyadicratcore-public-observation-package} witnesses the public DyadicRatCore observation package over $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp request names, the DyadicRatCore observation row, and the finite dyadic ledger consumed by $\RegSeqRat$ and $\RealUp$.}
