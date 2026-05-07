@@ -1,7 +1,20 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.0 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.1 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## TOP-LEVEL HARD GATE — bridge_candidates sync (paper detects lean bridge work)
+
+`critical_path.py` JSON now exposes `bridge_candidates[*]` (with `bridge_candidates_total`). Each entry is a chapter where:
+- `theory_grade == matureClosure` (paper is fully mature)
+- objective formal grade == `axiomCleanV` (lean target is in axiom-purity --strict pure set)
+- chapter's `closurestatus.\bridgestatus` is still `none` or `paperBridge` (no machine-checked bridge yet)
+
+When a lean R-round commits a `<X>Up_StdBridge` theorem (commit subject contains `axiomClean->bridgeCheck`), paper P-rounds should sync the chapter's closurestatus block: change `\bridgestatus{none}` (or `\bridgestatus{paperBridge}`) to `\bridgestatus{bridgeChecked}`, and change `\formalstatus{\axiomCleanV}` (or `\formalstatus{\theoremCheckedV}` if drift hadn't synced yet) to `\formalstatus{\bridgeCheckedV}`. This is the paper-side recording of the lean upgrade `axiomCleanV → bridgeCheckedV`.
+
+**HARD GATE — bridge sync priority**: After applying the drift_chapters gate, if `bridge_candidates_total >= 1` AND a lean commit since the last paper round contains the subject pattern `R\d+: bridge \w+Up to schema`, AT LEAST 1 of the proposed targets MUST be `kind = "closure_mark"` rewriting that chapter's `\bridgestatus{...}` and `\formalstatus{...}` lines to record the bridge transition. The diff is 1-2 lines; do not touch other fields. The chapter is identified by parsing `\w+Up` from the commit subject.
+
+If no recent lean bridge commit exists, this gate is a no-op (gate is satisfied vacuously). The gate is informational signal: paper P-rounds need not write bridge_candidates without lean having written the bridge first.
 
 ## TOP-LEVEL HARD GATE — formalstatus token sync (drift_chapters)
 

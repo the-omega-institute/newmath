@@ -6,6 +6,12 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def SheafConsumerAccessTraceCompositionSource
+    (root : BHist) (left right : List BHist) : Prop :=
+  SheafConsumerAccessTrace root left ∧
+    SheafConsumerAccessTrace root right ∧
+      SheafConsumerAccessTrace root (List.append left right)
+
 theorem SheafConsumerAccessTrace_append_no_zero_extension
     {root row tail : BHist} {left right : List BHist} :
     SheafConsumerAccessTrace root left -> SheafConsumerAccessTrace root right ->
