@@ -63,6 +63,7 @@ import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.ErrorCodeUp
+import BEDC.Derived.ExpMapUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
@@ -240,6 +241,7 @@ import BEDC.Derived.SheafUp.CoverPresentationExactness
 import BEDC.Derived.SheafUp.ChartGluingTrace
 import BEDC.Derived.SheafUp.RootAccessNormalForm
 import BEDC.Derived.SheafUp.ObligationSurface
+import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SetUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.SemanticNameCertificate
