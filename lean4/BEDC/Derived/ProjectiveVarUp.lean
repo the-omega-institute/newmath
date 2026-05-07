@@ -51,4 +51,22 @@ theorem ProjectiveVarVisibleCarrier_carrier_obligation [AskSetup] [PackageSetup]
               (And.intro carrier.right.right.right.right.right.right
                 (And.intro evaluationUnary endpointUnary)))))))
 
+theorem ProjectiveVarVisibleCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {chart homogeneous projective evaluation endpoint endpoint' : BHist}
+    {polyBundle : ProbeBundle BHist} {tokenBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint polyBundle
+        tokenBundle pkg ->
+      hsame endpoint endpoint' ->
+        ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint' polyBundle
+          tokenBundle pkg := by
+  intro carrier sameEndpoint
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.left
+              (cont_result_hsame_transport
+                carrier.right.right.right.right.right.right sameEndpoint))))))
+
 end BEDC.Derived.ProjectiveVarUp
