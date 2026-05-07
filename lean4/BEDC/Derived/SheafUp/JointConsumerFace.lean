@@ -81,4 +81,12 @@ theorem SheafRootJointConsumerFace_no_feedback_unary_boundary {root endpoint tai
       exact unary_no_zero_extension
         (unary_transport (SheafSchemeChartGluingTrace_unary_result trace) sameEndpoint)
 
+theorem SheafRootJointConsumerFace_chart_trace_e0_endpoint_absurd
+    {root endpoint common tail : BHist} {sections : List BHist} :
+    SheafSchemeChartGluingTrace root common sections endpoint ->
+      hsame endpoint (BHist.e0 tail) -> False := by
+  intro trace sameEndpoint
+  exact unary_no_zero_extension
+    (unary_transport (SheafSchemeChartGluingTrace_unary_result trace) sameEndpoint)
+
 end BEDC.Derived.SheafUp
