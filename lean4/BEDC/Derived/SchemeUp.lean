@@ -29,4 +29,34 @@ theorem SchemeAffineCoverLedger_restriction_exactness
       surface sameOpen restrictedRow ringClassifier
   exact And.intro restricted.left (And.intro restricted.right.left ringClassifier)
 
+theorem SchemeAffineCoverLedger_classifier_refinement_transport
+    {point openHist midOpen restrictedOpen sectionHist germ midGerm restrictedGerm
+      ringEndpoint chartEndpoint : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionHist germ ringEndpoint ->
+      hsame openHist midOpen ->
+        Cont midOpen sectionHist midGerm ->
+          hsame midOpen restrictedOpen ->
+            Cont restrictedOpen sectionHist restrictedGerm ->
+              CommRingSingletonClassifier chartEndpoint BHist.Empty ->
+                RingedSpaceSingletonSurface point restrictedOpen sectionHist restrictedGerm
+                    chartEndpoint ∧
+                  hsame germ restrictedGerm ∧ hsame midGerm restrictedGerm ∧
+                    CommRingSingletonClassifier ringEndpoint chartEndpoint := by
+  intro surface sameMid midRow sameRestricted restrictedRow chartClassifier
+  have midExact :
+      RingedSpaceSingletonSurface point midOpen sectionHist midGerm chartEndpoint ∧
+        hsame germ midGerm ∧ CommRingSingletonClassifier ringEndpoint chartEndpoint :=
+    SchemeAffineCoverLedger_restriction_exactness
+      surface sameMid midRow chartClassifier
+  have restrictedExact :
+      RingedSpaceSingletonSurface point restrictedOpen sectionHist restrictedGerm
+          chartEndpoint ∧
+        hsame midGerm restrictedGerm ∧
+          CommRingSingletonClassifier chartEndpoint chartEndpoint :=
+    SchemeAffineCoverLedger_restriction_exactness
+      midExact.left sameRestricted restrictedRow chartClassifier
+  exact And.intro restrictedExact.left
+    (And.intro (hsame_trans midExact.right.left restrictedExact.right.left)
+      (And.intro restrictedExact.right.left midExact.right.right))
+
 end BEDC.Derived.SchemeUp

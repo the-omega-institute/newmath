@@ -100,4 +100,36 @@ theorem RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
       (And.intro descent.right.right
         (And.intro commOps openPoint)))
 
+theorem RingedSpaceSingletonSurface_stability_ledger_rows
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB ringEndpoint chartEndpoint : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionA germA ringEndpoint ->
+      RingedSpaceSingletonSurface point openHist sectionB germB chartEndpoint ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              CommRingSingletonClassifier ringEndpoint chartEndpoint ->
+                RingedSpaceSingletonSurface point restrictedOpen sectionA restrictedGermA
+                    ringEndpoint ∧
+                  RingedSpaceSingletonSurface point restrictedOpen sectionB restrictedGermB
+                    chartEndpoint ∧
+                    hsame restrictedGermA restrictedGermB ∧
+                      CommRingSingletonClassifier ringEndpoint chartEndpoint ∧
+                        TopologySingletonOpenAt restrictedOpen point := by
+  intro surfaceA surfaceB sameGerm sameOpen restrictedA restrictedB commRows
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      surfaceA.right.left surfaceB.right.left sameGerm sameOpen restrictedA restrictedB
+  cases sameOpen
+  have restrictedTopology : TopologySingletonOpenAt openHist point := surfaceA.left
+  exact And.intro
+    (And.intro restrictedTopology (And.intro descent.left surfaceA.right.right))
+    (And.intro
+      (And.intro restrictedTopology (And.intro descent.right.left surfaceB.right.right))
+      (And.intro descent.right.right
+        (And.intro commRows restrictedTopology)))
+
 end BEDC.Derived.RingedSpaceUp
