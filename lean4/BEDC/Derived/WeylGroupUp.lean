@@ -247,6 +247,25 @@ theorem WeylGroupSimpleReflection_word_closure_row
   exact And.intro reflectedUnary
     (And.intro productCarrier (And.intro productWord reflectionRoute))
 
+theorem WeylGroupSimpleReflection_carrier_obligation
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {alpha beta reflected word endpoint : BHist} :
+    RootSystemFiniteSupportCarrier support Vector Nonzero alpha ->
+      RootSystemFiniteSupportCarrier support Vector Nonzero beta ->
+        Cont alpha beta reflected -> GroupSingletonCarrier word ->
+          Cont reflected word endpoint ->
+            UnaryHistory reflected ∧ UnaryHistory endpoint ∧ hsame endpoint reflected := by
+  intro alphaCarrier betaCarrier reflectionRoute wordCarrier endpointRoute
+  have reflectedUnary : UnaryHistory reflected :=
+    RootSystemReflectionClosure_result_unary vector_unary alphaCarrier betaCarrier reflectionRoute
+  have endpointReflected : hsame endpoint reflected := by
+    cases wordCarrier
+    exact cont_right_unit_result endpointRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport reflectedUnary (hsame_symm endpointReflected)
+  exact And.intro reflectedUnary (And.intro endpointUnary endpointReflected)
+
 def WeylGroupRootSystemGroupCarrier
     (support : ProbeBundle BHist)
     (Vector Nonzero : BHist -> Prop)
@@ -400,5 +419,42 @@ theorem WeylGroupCoxeterLedger_append_spine_rows
   exact And.intro
     (And.intro carrier.left (And.intro braidCarrier rootBraidEndpoint))
     (And.intro braidClassified endpointABRoot)
+
+theorem WeylGroupPublicNameCert_export {support : ProbeBundle BHist}
+    {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root word action next actionNext braid : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root word action ->
+      GroupSingletonCarrier next -> Cont action next actionNext -> Cont word next braid ->
+        WeylGroupBHistSourceRow support Vector Nonzero root braid actionNext ∧
+          hsame actionNext root ∧ GroupSingletonClassifier braid BHist.Empty := by
+  intro source nextCarrier actionStep braidStep
+  have rootUnary : UnaryHistory root :=
+    vector_unary source.left.right.left
+  have wordEmpty : hsame word BHist.Empty := source.right.left
+  have actionSameRoot : hsame action root := by
+    cases wordEmpty
+    exact cont_right_unit_result source.right.right.left
+  have actionNextSameAction : hsame actionNext action := by
+    cases nextCarrier
+    exact cont_right_unit_result actionStep
+  have actionNextSameRoot : hsame actionNext root :=
+    hsame_trans actionNextSameAction actionSameRoot
+  have braidCarrier : GroupSingletonCarrier braid := by
+    cases wordEmpty
+    cases nextCarrier
+    exact cont_deterministic braidStep (cont_right_unit BHist.Empty)
+  have rootBraidActionNext : Cont root braid actionNext := by
+    cases braidCarrier
+    cases actionNextSameRoot
+    exact cont_right_unit root
+  have actionNextUnary : UnaryHistory actionNext :=
+    unary_transport rootUnary (hsame_symm actionNextSameRoot)
+  have braidClassified : GroupSingletonClassifier braid BHist.Empty :=
+    And.intro braidCarrier (And.intro (hsame_refl BHist.Empty) braidCarrier)
+  exact And.intro
+    (And.intro source.left
+      (And.intro braidCarrier (And.intro rootBraidActionNext actionNextUnary)))
+    (And.intro actionNextSameRoot braidClassified)
 
 end BEDC.Derived.WeylGroupUp

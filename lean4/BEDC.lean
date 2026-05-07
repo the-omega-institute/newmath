@@ -209,6 +209,7 @@ import BEDC.Derived.SheafUp.IndexedSectionPresheafCarrier
 import BEDC.Derived.SheafUp.CarrierSupportObligation
 import BEDC.Derived.SheafUp.AccessTrace
 import BEDC.Derived.SheafUp.DownstreamConsumption
+import BEDC.Derived.SheafUp.DownstreamConsumptionBoundary
 import BEDC.Derived.SheafUp.DownstreamProjection
 import BEDC.Derived.SheafUp.DownstreamRoot
 import BEDC.Derived.SheafUp.BaseChangeIdentitySquare
