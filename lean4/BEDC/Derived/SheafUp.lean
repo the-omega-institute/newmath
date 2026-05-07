@@ -222,4 +222,26 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
+theorem SheafBHistPointGermComparison_restricted_global_soundness
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB globalA globalB : BHist} :
+    SheafBHistPointGermLedger point openHist sectionA germA ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              Cont restrictedOpen sectionA globalA ->
+                Cont restrictedOpen sectionB globalB ->
+                  hsame restrictedGermA globalA ->
+                    hsame restrictedGermB globalB -> hsame globalA globalB := by
+  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB globalACont globalBCont
+    sameGlobalA sameGlobalB
+  have comparison :
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+        restrictedOpen sectionB restrictedGermB restrictedOpen :=
+    SheafBHistPointGermComparison_restricted_open_descent
+      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  exact SheafBHistPointGermComparison_soundness
+    comparison globalACont globalBCont sameGlobalA sameGlobalB
+
 end BEDC.Derived.SheafUp
