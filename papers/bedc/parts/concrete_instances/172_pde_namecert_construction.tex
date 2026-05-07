@@ -93,8 +93,8 @@ The exactness field splits into coverage, soundness, and completeness rows:
 every admitted endpoint has displayed source and probe data, every accepted
 relation or boundary row is supported by the ledger, and every required
 source dependency cites $\NameCert_{\ManifoldUp}$ and
-$\NameCert_{\DerivativeUp}$. With the standard bridge absent, these rows are
-precisely the certificate surface claimed here.
+$\NameCert_{\DerivativeUp}$. These rows are precisely the non-bridge
+obligation surface claimed here.
 \end{proof}
 \leanchecked{BEDC.Derived.PdeUp.PdeCarriedSourceRow\_stability\_ledger\_exactness\_obligation}
 
@@ -166,13 +166,29 @@ Conversely, any public $\NameCert_{\PdeUp}$ endpoint must project through the sa
 The excluded host objects occur only as ledger-side presentation data or analytic objects outside the BEDC-facing relation and boundary rows. Since no cited obligation introduces a classifier for them, they cannot enter the public $\NameCert_{\PdeUp}$ interface.
 \end{proof}
 
-\closureat{PdeUp}{publicStr}
+\begin{theorem}[PdeUp conservative standard bridge]
+\label{thm:pde-conservative-standard-bridge}
+The public $\NameCert_{\PdeUp}$ surface of \autoref{thm:pde-public-interface-export} has a conservative standard interpretation whose source is exactly the displayed $\mathsf{BHist}$ carried source row, the $\NameCert_{\ManifoldUp}$ carrier row, the $\NameCert_{\DerivativeUp}$ partial-derivative observation rows, the finite PDE relation row, the boundary-data classifier row, the $\Pkg$ provenance row, and the $\mathsf{ProbeBundle}$ read rows. Conversely, any standard PDE presentation admitted through precisely those displayed manifold, derivative, relation, boundary, package, and probe rows repacks to the same public BEDC surface.
+
+This bridge adds no analytic existence theorem, solution space, solver semantics, host function equality, host coordinate equality, host real equality, or regularity theory.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:pde-public-interface-export}. It exposes the carried source row and the seven obligation rows: carrier, classifier, stability-ledger-exactness, carrier-source, relation-classifier, boundary-data, and ledger exactness. The standard reading is allowed to inspect only the displayed $\ManifoldUp$ carrier row, $\DerivativeUp$ partial-derivative rows, finite PDE relation row, boundary-data classifier row, $\Pkg$ provenance, and $\mathsf{ProbeBundle}$ read rows.
+
+The ledger exactness theorem \autoref{thm:pde-ledger-exactness-obligation} keeps chart selections, derivative-order witnesses, boundary presentations, representative functions, and solver-side presentation choices as provenance. Thus the standard interpretation is conservative: it reads the ordinary PDE presentation through the visible rows and does not turn hidden ledger choices into BEDC carrier coordinates or classifier clauses.
+
+For the converse direction, start with a standard PDE presentation admitted through exactly those displayed rows. Repack its manifold carrier, derivative observations, relation entries, boundary classifier, package provenance, and probe reads into the carried source row of \autoref{def:pde-carried-source-row}. The seven obligations cited by \autoref{thm:pde-public-interface-export} then reconstruct the same public $\NameCert_{\PdeUp}$ surface.
+
+The excluded analytic and host-level objects remain outside the bridge because no row in the exported surface supplies classifiers for them. Hence the bridge certifies only conservative readback and repacking for the displayed PDE certificate surface.
+\end{proof}
+
+\closureat{PdeUp}{bridgedStr}
 \begin{closurestatus}{\PdeUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public paper-side surface is \autoref{thm:pde-public-interface-export}: the carried source row, the $\NameCert_{\ManifoldUp}$ carrier row, the $\NameCert_{\DerivativeUp}$ partial-derivative observation rows, the $\Pkg$ provenance row, the $\mathsf{ProbeBundle}$ rows used to read the finite PDE relation, and the carrier, classifier, stability-ledger-exactness, carrier-source, relation-classifier, boundary-data, and ledger-exactness obligation rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public paper-side surface is \autoref{thm:pde-public-interface-export}, and the conservative standard bridge is \autoref{thm:pde-conservative-standard-bridge}: the carried source row, the $\NameCert_{\ManifoldUp}$ carrier row, the $\NameCert_{\DerivativeUp}$ partial-derivative observation rows, the finite PDE relation row, the boundary-data classifier row, the $\Pkg$ provenance row, the $\mathsf{ProbeBundle}$ rows used to read the relation, and the seven public obligation rows.}
   \formalstatus{\unformalizedV}
   \leantarget{}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not claim a standard bridge, analytic existence, solution spaces, solver semantics, regularity theory, host function equality, or Lean verification.}
-  \upgradepath{The next paper grade is $\bridgedClosure$, requiring a paper-level standard bridge for the public PDE surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not claim analytic existence, solution spaces, solver semantics, regularity theory, host function equality, host coordinate equality, host real equality, or Lean verification.}
+  \upgradepath{The next verification grade requires Lean-side bridge and audit verification for the conservative PDE standard interpretation.}
 \end{closurestatus}
