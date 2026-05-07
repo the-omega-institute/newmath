@@ -369,4 +369,57 @@ theorem SheafBHistPointGermLedger_cover_descent_exhaustion
       (hsame_trans memberReadbackA.right commonReadbackA.right)
       (hsame_trans memberReadbackB.right commonReadbackB.right))
 
+inductive SheafRootFaceLanding : Type where
+  | coverMembership
+  | restrictionRoute
+  | localityGluingRefinement
+
+inductive SheafRootFaceRead : BHist -> BHist -> SheafRootFaceLanding -> Prop where
+  | carrierClassifier {h k : BHist} :
+      hsame h k -> SheafRootFaceRead h k .restrictionRoute
+  | restrictionRoute {openHist sectionHist result : BHist} :
+      Cont openHist sectionHist result -> SheafRootFaceRead openHist result .restrictionRoute
+  | coverMembership {member cover : BHist} :
+      hsame member cover -> SheafRootFaceRead member cover .coverMembership
+  | localityGluingRefinement {common sectA sectB germA germB : BHist} :
+      Cont common sectA germA -> Cont common sectB germB -> hsame germA germB ->
+        SheafRootFaceRead common germA .localityGluingRefinement
+
+theorem SheafRootFaceRead_coverage {h k : BHist} {landing : SheafRootFaceLanding} :
+    SheafRootFaceRead h k landing ->
+      landing = .coverMembership ∨ landing = .restrictionRoute ∨
+        landing = .localityGluingRefinement := by
+  intro read
+  cases read with
+  | carrierClassifier _ =>
+      exact Or.inr (Or.inl rfl)
+  | restrictionRoute _ =>
+      exact Or.inr (Or.inl rfl)
+  | coverMembership _ =>
+      exact Or.inl rfl
+  | localityGluingRefinement _ _ _ =>
+      exact Or.inr (Or.inr rfl)
+
+inductive SheafSchemeChartGluingTrace (point common : BHist) :
+    List BHist -> BHist -> Prop where
+  | nil :
+      UnaryHistory point -> UnaryHistory common ->
+        SheafSchemeChartGluingTrace point common [] BHist.Empty
+  | cons {sectionHist germ tail out : BHist} {sections : List BHist} :
+      UnaryHistory common -> UnaryHistory sectionHist -> Cont common sectionHist germ ->
+        SheafSchemeChartGluingTrace point common sections tail -> Cont germ tail out ->
+          SheafSchemeChartGluingTrace point common (sectionHist :: sections) out
+
+theorem SheafSchemeChartGluingTrace_unary_result
+    {point common : BHist} {sections : List BHist} {out : BHist} :
+    SheafSchemeChartGluingTrace point common sections out -> UnaryHistory out := by
+  intro trace
+  induction trace with
+  | nil _ _ =>
+      exact unary_empty
+  | cons commonUnary sectionUnary commonSection tailTrace germTail tailUnary =>
+      have germUnary :=
+        unary_cont_closed commonUnary sectionUnary commonSection
+      exact unary_cont_closed germUnary tailUnary germTail
+
 end BEDC.Derived.SheafUp

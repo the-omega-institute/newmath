@@ -303,6 +303,7 @@ import BEDC.Derived.FilterUp
 import BEDC.Derived.FourierUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
+import BEDC.Derived.SetUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.CarrierExactness
 import BEDC.Derived.SumUp.Classifier
