@@ -37,6 +37,30 @@ theorem ExpMapCarrier_source_obligations {tangent endpoint flow : BHist} :
       (And.intro graph.right.right.right
         (And.intro tangentUnary (And.intro endpointUnary flowUnary))))
 
+theorem ExpMapGraphCarrier_hsame_transport {tangent endpoint flow tangent' endpoint'
+    flow' : BHist} :
+    ExpMapGraphCarrier tangent endpoint flow -> hsame tangent tangent' -> hsame endpoint endpoint' ->
+      hsame flow flow' ->
+        ExpMapGraphCarrier tangent' endpoint' flow' ∧ UnaryHistory tangent' ∧
+          UnaryHistory endpoint' ∧ UnaryHistory flow' := by
+  intro graph sameTangent sameEndpoint sameFlow
+  have tangentCarrier' : LieAlgebraSingletonCarrier tangent' :=
+    hsame_trans (hsame_symm sameTangent) graph.left
+  have endpointCarrier' : LieGroupSingletonCarrier endpoint' :=
+    hsame_trans (hsame_symm sameEndpoint) graph.right.left
+  have flowRow' : Cont tangent' BHist.Empty flow' := by
+    cases sameTangent
+    exact cont_result_hsame_transport graph.right.right.left sameFlow
+  have flowEndpoint' : hsame flow' endpoint' :=
+    hsame_trans (hsame_symm sameFlow) (hsame_trans graph.right.right.right sameEndpoint)
+  have graph' : ExpMapGraphCarrier tangent' endpoint' flow' :=
+    And.intro tangentCarrier'
+      (And.intro endpointCarrier' (And.intro flowRow' flowEndpoint'))
+  have rows := ExpMapCarrier_source_obligations graph'
+  exact And.intro graph'
+    (And.intro rows.right.right.right.left
+      (And.intro rows.right.right.right.right.left rows.right.right.right.right.right))
+
 theorem ExpMapGraphCarrier_obligation_surface {tangent flow endpoint : BHist} :
     LieAlgebraSingletonCarrier tangent ->
       LieGroupSingletonCarrier endpoint ->
@@ -184,6 +208,50 @@ theorem ExpMapCarrier_obligation_surface {tangent endpoint flow : BHist} :
     unary_transport unary_empty (hsame_symm flowEmpty)
   exact And.intro tangentCarrier
     (And.intro endpointCarrier (And.intro flowEmpty (And.intro flowEmpty flowUnary)))
+
+theorem ExpMapGraphCarrier_zero_flow_composition_obligation
+    {tangent endpoint zeroFlow firstFlow secondFlow directFlow : BHist} :
+    LieAlgebraSingletonCarrier tangent ->
+      LieGroupSingletonCarrier endpoint ->
+        Cont tangent BHist.Empty zeroFlow ->
+          Cont tangent endpoint firstFlow ->
+            Cont firstFlow BHist.Empty secondFlow ->
+              Cont tangent endpoint directFlow ->
+                ExpMapGraphCarrier tangent endpoint zeroFlow ∧ hsame zeroFlow endpoint ∧
+                  hsame secondFlow directFlow ∧ LieGroupSingletonCarrier firstFlow ∧
+                    LieGroupSingletonCarrier secondFlow ∧ UnaryHistory zeroFlow ∧
+                      UnaryHistory secondFlow := by
+  intro tangentCarrier endpointCarrier zeroRow firstRow secondRow directRow
+  have zeroSameTangent : hsame zeroFlow tangent :=
+    cont_right_unit_result zeroRow
+  have zeroSameEndpoint : hsame zeroFlow endpoint :=
+    hsame_trans zeroSameTangent
+      (hsame_trans tangentCarrier (hsame_symm endpointCarrier))
+  have zeroEmpty : hsame zeroFlow BHist.Empty :=
+    hsame_trans zeroSameTangent tangentCarrier
+  have firstEmpty : hsame firstFlow BHist.Empty :=
+    cont_respects_hsame tangentCarrier endpointCarrier firstRow
+      (cont_left_unit BHist.Empty)
+  have secondSameFirst : hsame secondFlow firstFlow :=
+    cont_right_unit_result secondRow
+  have secondEmpty : hsame secondFlow BHist.Empty :=
+    hsame_trans secondSameFirst firstEmpty
+  have directEmpty : hsame directFlow BHist.Empty :=
+    cont_respects_hsame tangentCarrier endpointCarrier directRow
+      (cont_left_unit BHist.Empty)
+  have sameSecondDirect : hsame secondFlow directFlow :=
+    hsame_trans secondEmpty (hsame_symm directEmpty)
+  have zeroUnary : UnaryHistory zeroFlow :=
+    unary_transport unary_empty (hsame_symm zeroEmpty)
+  have secondUnary : UnaryHistory secondFlow :=
+    unary_transport unary_empty (hsame_symm secondEmpty)
+  exact And.intro
+    (And.intro tangentCarrier
+      (And.intro endpointCarrier (And.intro zeroRow zeroSameEndpoint)))
+    (And.intro zeroSameEndpoint
+      (And.intro sameSecondDirect
+        (And.intro firstEmpty
+          (And.intro secondEmpty (And.intro zeroUnary secondUnary)))))
 
 theorem ExpMapFlowLedger_zero_flow_composition_obligations
     {zero identity zeroFlow tangent endpoint flow composed : BHist} :
