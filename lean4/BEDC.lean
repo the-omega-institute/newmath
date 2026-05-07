@@ -223,6 +223,7 @@ import BEDC.Derived.SheafUp.RefinementPullbackComposition
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootUnblockRestriction
 import BEDC.Derived.SheafUp.RootThreshold
+import BEDC.Derived.SheafUp.RootUnblock
 import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SheafUp.ClassifierStability
@@ -288,6 +289,7 @@ import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
 import BEDC.Derived.DiffFormUp.ExteriorDerivativeBoundary
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootRowBoundary
+import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe
 import BEDC.Derived.DiffFormUp.ExteriorInputRootClosure
