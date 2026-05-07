@@ -31,4 +31,23 @@ theorem SheafIndexedSectionPresheafCarrier_carrier_rows
       (And.intro compositeUnary
         (And.intro carrier.right.right.right.left carrier.right.right.right.right)))
 
+theorem SheafIndexedSectionPresheafCarrier_endpoint_unary
+    {point openHist sectionHist restriction identity composite germ : BHist} :
+    SheafIndexedSectionPresheafCarrier point openHist sectionHist restriction identity
+        composite germ ->
+      UnaryHistory composite := by
+  intro carrier
+  exact (SheafIndexedSectionPresheafCarrier_carrier_rows carrier).right.right.left
+
+def SheafIndexedSectionPresheafEndpointCarrier
+    (openHist sectionHist restrictedHist : BHist) : Prop :=
+  UnaryHistory openHist ∧ UnaryHistory sectionHist ∧ Cont openHist sectionHist restrictedHist
+
+theorem SheafIndexedSectionPresheafEndpointCarrier_endpoint_unary
+    {openHist sectionHist restrictedHist : BHist} :
+    SheafIndexedSectionPresheafEndpointCarrier openHist sectionHist restrictedHist ->
+      UnaryHistory restrictedHist := by
+  intro carrier
+  exact unary_cont_closed carrier.left carrier.right.left carrier.right.right
+
 end BEDC.Derived.SheafUp
