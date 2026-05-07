@@ -6,12 +6,46 @@ The scheme interface $\SchemeUp$ packages a locally ringed space that admits an 
 \section{Carrier definition}
 \label{sec:scheme-carrier}
 
+\begin{theorem}[Scheme carrier source obligation]\label{thm:scheme-carrier-source-obligation}
+A $\NameCert_{\SchemeUp}$ carrier row is generated from the following BEDC-visible source data: a $\NameCert_{\RingedSpaceUp}$ locally-ringed-space row, a finite affine-spectrum cover whose chart rows are supplied by $\NameCert_{\CommRingUp}$, and displayed restriction data over $\mathsf{BHist}$ and $\hsame$. No host spectrum object, host topological-space primitive, host open-set equality, or external sheafification row is part of the carrier source.
+\end{theorem}
+\begin{proof}
+Use the locally ringed-space row of \autoref{ch:concrete-instances-ringedspace-namecert} as the base carrier. Its public coordinates already expose the $\SheafUp$ restriction routes and the $\CommRingUp$ section endpoints needed on displayed opens.
+
+Choose the finite affine cover as a finite ledger of chart indices. Each chart imports its commutative-ring code from \autoref{ch:concrete-instances-commring-namecert}; the chart is recorded as an affine-spectrum cover row, not as a host spectrum primitive.
+
+Finally read the restriction and overlap routes through the $\SheafUp$ locality and germ surface of \autoref{ch:concrete-instances-sheaf-namecert}. Because every route is indexed by $\mathsf{BHist}$ and transported only by $\hsame$, the carrier row is generated entirely inside the displayed BEDC certificate surface.
+\end{proof}
+
+\begin{theorem}[Scheme classifier locality obligation]\label{thm:scheme-classifier-locality-obligation}
+The $\SchemeUp$ classifier is the combined $\RingedSpaceUp$ classifier, cover-refinement classifier, $\SheafUp$ restriction and germ classifier on overlaps, and $\CommRingUp$ endpoint classifier on affine charts. Locality is checked by transporting every overlap row through the displayed restriction routes and comparing only the carried classifier rows reached by those transports.
+\end{theorem}
+\begin{proof}
+Start with the $\RingedSpaceUp$ classifier from \autoref{ch:concrete-instances-ringedspace-namecert}. It supplies the point, open, section, restriction, and local-ring comparisons already visible in the locally-ringed-space row.
+
+Refine the affine cover by finite chart-index comparison. On each chart endpoint, use the $\CommRingUp$ classifier of \autoref{ch:concrete-instances-commring-namecert}; on chart overlaps, use the $\SheafUp$ restriction and germ rows of \autoref{ch:concrete-instances-sheaf-namecert}.
+
+The locality check is then a route-by-route transport statement. For every accepted overlap witness, move the two chart rows along the displayed restrictions, compare the transported section and germ rows, and repack the result as the single $\SchemeUp$ classifier branch.
+\end{proof}
+
+\begin{theorem}[Scheme affine-cover ledger exactness obligation]\label{thm:scheme-affine-cover-ledger-exactness-obligation}
+The exact $\SchemeUp$ ledger records precisely the cover index, ringed-space row, commutative-ring chart code, restriction route, overlap witness, and affine/projective consumer boundary. Coverage, soundness, and completeness are read only from those rows, with no additional host spectrum, host topology, quotient-cover, or external variety row.
+\end{theorem}
+\begin{proof}
+The cover index and ringed-space row are read from the $\RingedSpaceUp$ certificate surface of \autoref{ch:concrete-instances-ringedspace-namecert}. For each cover index, the chart code is the corresponding $\CommRingUp$ endpoint row supplied by \autoref{ch:concrete-instances-commring-namecert}.
+
+The restriction route and overlap witness are supplied by the $\SheafUp$ locality and germ material in \autoref{ch:concrete-instances-sheaf-namecert}. These rows are enough to decide whether chart data agree after transport to a displayed overlap.
+
+Coverage says that every accepted scheme point or open row is witnessed by one of the finite cover indices. Soundness says that every accepted chart and overlap row is backed by the named ringed-space, sheaf, and commutative-ring rows. Completeness says that the affine and projective consumers may read exactly the listed boundary rows and no hidden host-level structure.
+\end{proof}
+
 \section{The certificate}
 \label{sec:scheme-certificate}
 
+\closureat{SchemeUp}{obligationStr}
 \begin{closurestatus}{\SchemeUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This seed records the $\RingedSpaceUp$ and $\CommRingUp$ sources and binds the locally ringed-space carrier, affine-spectrum cover row, locality and gluing rows, scheme classifier, ledger, exactness, and affine/projective consumer boundaries as obligations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:scheme-carrier-source-obligation}, \autoref{thm:scheme-classifier-locality-obligation}, and \autoref{thm:scheme-affine-cover-ledger-exactness-obligation} close the carrier source, classifier locality, and affine-cover ledger obligation surface for $\SchemeUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close the carrier, classifier, stability fields, exactness, ledger, standard bridge, affine and projective variety certificates, or Lean verification.}
