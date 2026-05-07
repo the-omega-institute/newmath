@@ -25,6 +25,11 @@ theorem ProjectiveSpacePuncturedCarrier_obligation {v scalar action : BHist} :
   · intro scalarEmpty
     exact not_hsame_emp_e0 (hsame_trans (hsame_symm scalarEmpty) scalarNonzero.right)
 
+theorem ProjectiveSpacePuncturedCarrier_empty_boundary {v scalar action : BHist} :
+    ProjectiveSpacePuncturedCarrier v scalar action -> False := by
+  intro carrier
+  exact FieldSingletonNonZero_absurd carrier.right.left
+
 def ProjectiveSpaceSingletonPuncturedCarrier
     (rep scalar action : BHist) : Prop :=
   VecSpaceSingletonCarrier rep ∧ FieldSingletonCarrier scalar ∧
