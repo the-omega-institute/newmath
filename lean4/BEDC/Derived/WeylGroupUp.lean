@@ -106,6 +106,26 @@ theorem WeylGroupBHistSourceRow_simple_reflection_word_closure
       (And.intro wordAppendCarrier (And.intro composedRow actionABUnary)))
     (And.intro actionABSameRoot wordAppendCarrier)
 
+theorem WeylGroupActionClassifier_stability_transport
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root wordA wordB actionA actionB transportedAction : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root wordA actionA ->
+      GroupSingletonCarrier wordB -> Cont actionA wordB actionB ->
+        hsame actionB transportedAction ->
+          WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB) actionB ∧
+            UnaryHistory transportedAction ∧ hsame actionB transportedAction := by
+  intro source wordBCarrier actionStep sameTransported
+  have closure :
+      WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB) actionB ∧
+        hsame actionB root ∧ GroupSingletonCarrier (append wordA wordB) :=
+    WeylGroupBHistSourceRow_simple_reflection_word_closure
+      vector_unary source wordBCarrier actionStep
+  have transportedUnary : UnaryHistory transportedAction :=
+    unary_transport closure.left.right.right.right sameTransported
+  exact And.intro closure.left
+    (And.intro transportedUnary sameTransported)
+
 theorem WeylGroupActionClassifier_append_stability_row
     {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
     (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
@@ -206,5 +226,66 @@ theorem WeylGroupRootSystemGroupCarrier_row
   exact And.intro carrier.left
     (And.intro carrier.right.left
       (And.intro carrier.right.right sameEndpointRoot))
+
+theorem WeylGroupRootSystemGroupCarrier_action_classifier_transport
+    {support : ProbeBundle BHist}
+    {Vector Nonzero : BHist -> Prop}
+    {VectorClassifier : BHist -> BHist -> Prop}
+    (vector_transport :
+      forall {h k : BHist}, Vector h -> VectorClassifier h k -> Vector k)
+    (nonzero_transport : forall {h k : BHist}, Nonzero h -> hsame h k -> Nonzero k)
+    {root root' word word' endpoint endpoint' : BHist} :
+    WeylGroupRootSystemGroupCarrier support Vector Nonzero root word endpoint ->
+      RootSystemFiniteSupportClassifier support VectorClassifier root root' ->
+        GroupSingletonClassifier word word' ->
+          Cont root' word' endpoint' ->
+            WeylGroupRootSystemGroupCarrier support Vector Nonzero root' word' endpoint' ∧
+              hsame endpoint endpoint' := by
+  intro carrier classifiedRoot classifiedWord transportedRow
+  have rootCarrier :
+      RootSystemFiniteSupportCarrier support Vector Nonzero root' :=
+    RootSystemFiniteSupportCarrier_classifier_transport
+      (support := support) (Vector := Vector) (Nonzero := Nonzero)
+      (VectorClassifier := VectorClassifier) vector_transport nonzero_transport
+      carrier.left classifiedRoot
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame classifiedRoot.right.right.left classifiedWord.right.right
+      carrier.right.right transportedRow
+  exact And.intro
+    (And.intro rootCarrier (And.intro classifiedWord.right.left transportedRow))
+    endpointSame
+
+theorem WeylGroupCoxeterLedger_append_spine_rows
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    {root wordA wordB endpointA endpointAB braid : BHist} :
+    WeylGroupRootSystemGroupCarrier support Vector Nonzero root wordA endpointA ->
+      GroupSingletonCarrier wordB ->
+        Cont endpointA wordB endpointAB ->
+          Cont wordA wordB braid ->
+            WeylGroupRootSystemGroupCarrier support Vector Nonzero root braid endpointAB ∧
+              GroupSingletonClassifier braid BHist.Empty ∧ hsame endpointAB root := by
+  intro carrier wordBCarrier endpointStep braidStep
+  have endpointARoot : hsame endpointA root := by
+    cases carrier.right.left
+    exact cont_right_unit_result carrier.right.right
+  have endpointABEndpointA : hsame endpointAB endpointA := by
+    cases wordBCarrier
+    exact cont_right_unit_result endpointStep
+  have endpointABRoot : hsame endpointAB root :=
+    hsame_trans endpointABEndpointA endpointARoot
+  have braidCarrier : GroupSingletonCarrier braid := by
+    cases carrier.right.left
+    cases wordBCarrier
+    exact cont_deterministic braidStep (cont_right_unit BHist.Empty)
+  have rootBraidEndpoint : Cont root braid endpointAB := by
+    cases braidCarrier
+    cases endpointABRoot
+    exact cont_right_unit root
+  have braidClassified : GroupSingletonClassifier braid BHist.Empty :=
+    And.intro braidCarrier
+      (And.intro (hsame_refl BHist.Empty) braidCarrier)
+  exact And.intro
+    (And.intro carrier.left (And.intro braidCarrier rootBraidEndpoint))
+    (And.intro braidClassified endpointABRoot)
 
 end BEDC.Derived.WeylGroupUp

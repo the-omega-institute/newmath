@@ -250,6 +250,28 @@ $$
 The ideal classifier-transport row carries $I(a)$ across this edge, so $I(d_0)$, equivalently $I(a-_R 0_R)$. Repacking $C(a)$, $C(0_R)$, and this membership through \autoref{def:quotientring-ideal-coset-relation} yields $a\equiv_I 0_R$.
 \end{proof}
 
+\begin{theorem}[QuotientRingUp public coset certificate]
+\label{thm:quotientring-public-coset-certificate}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ object over $R$, written as a carried predicate $I(x)$, and let $\equiv_I$ be the ideal-coset relation of \autoref{def:quotientring-ideal-coset-relation}. Then the public $\NameCert_{\QuotientRingUp}$ coset surface is assembled from \autoref{def:quotientring-ideal-coset-relation}, \autoref{thm:quotientring-multiplication-descends-to-cosets}, \autoref{thm:quotientring-additive-descent}, \autoref{thm:quotientring-ideal-coset-equivalence}, and \autoref{thm:quotientring-zero-coset-classification}.
+
+Its carrier is the relation $a\equiv_I b$. Its classifier is stable under the ideal-coset relation. Its additive and multiplicative operations are independent of representatives. Its zero coset is exact:
+$$
+a\equiv_I 0_R\Longleftrightarrow C(a)\land I(a).
+$$
+Its ledger is limited to $\RingUp$ operations, $\IdealUp$ closure and transport rows, and $\QuotientGroupUp$ coset inheritance.
+\end{theorem}
+\begin{proof}
+The carrier component is \autoref{def:quotientring-ideal-coset-relation}: a quotient-ring endpoint is represented by the relation $a\equiv_I b$, namely carrier evidence for both endpoints together with ideal membership of the difference $a-_R b$.
+
+The classifier rows are supplied by \autoref{thm:quotientring-ideal-coset-equivalence}. Reflexivity gives the carried self-coset, symmetry reverses representatives, and transitivity composes two representative changes. These rows make classifier stability a property of the ideal-coset relation itself.
+
+The operation rows come from the two descent results. Apply \autoref{thm:quotientring-additive-descent} for addition and additive inverse, and apply \autoref{thm:quotientring-multiplication-descends-to-cosets} for multiplication. The hypotheses of those theorems are exactly the $\RingUp$ operation rows and the $\IdealUp$ closure, absorption, and classifier-transport rows already recorded in the chapter ledger.
+
+The zero row is \autoref{thm:quotientring-zero-coset-classification}. It identifies the zero coset with carried ideal membership, so the certificate exposes no extra zero classifier beyond $C(a)\land I(a)$.
+
+Repacking these rows gives the public $\NameCert_{\QuotientRingUp}$ coset surface. No further ring, ideal, or quotient-group clauses are added: the ledger remains bounded by the listed $\RingUp$ operations, $\IdealUp$ closure and transport data, and the inherited coset infrastructure from $\QuotientGroupUp$.
+\end{proof}
+
 \begin{closurestatus}{\QuotientRingUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The scoped quotient-ring packet binds the ideal-coset carrier relation, additive descent, multiplicative descent, coset-equivalence rows, and zero-coset classification to RingUp operations, IdealUp closure and transport rows, QuotientGroupUp coset inheritance, and the BEDC carrier classifier.}
