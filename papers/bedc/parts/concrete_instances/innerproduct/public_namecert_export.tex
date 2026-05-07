@@ -40,3 +40,59 @@ inner-product rows while excluding completeness, topology, Banach metric,
 Cauchy-limit selectors, and standard bridge data. Thus the displayed rows
 form the public export and its negative boundary.
 \end{proof}
+
+\begin{theorem}[InnerProduct singleton terminal standard bridge]
+\label{thm:innerproduct-singleton-terminal-standard-bridge}
+The public singleton $\InnerProductUp$ export of
+\autoref{thm:innerproduct-public-namecert-export} supplies a paper-level
+$\StdBridge(\InnerProductUp,T_{IP}^\ast)$ to the one-point inner-product host
+theory. The encode field sends the unique host vector of $T_{IP}^\ast$ to
+$\emp$. The decode field sends every carried
+$\mathsf{VecSpaceSingletonCarrier}$ endpoint to the host point. The
+decode-encode round trip is terminal equality, and the encode-decode round
+trip is the singleton classifier witness for the carried endpoint. The
+theorem-preservation field covers the carrier row, scalar endpoint row, form
+row, zero-left orthogonality row, and public export rows. The no-host-leak
+field keeps the BEDC public surface to $\mathsf{BHist}$,
+$\mathsf{VecSpaceSingletonCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{InnerProductSingletonForm}$, and the displayed public rows.
+\end{theorem}
+\begin{proof}
+We check the six fields of \autoref{sec:acceptance-bridge-six-fields}. The
+encode field is the constant map from the unique host vector of
+$T_{IP}^\ast$ to the empty BEDC endpoint $\emp$. The carrier and classifier
+rows in \autoref{thm:innerproduct-public-namecert-export} place $\emp$ inside
+the public singleton vector carrier.
+
+The decode field sends every carried
+$\mathsf{VecSpaceSingletonCarrier}$ endpoint to the unique host point. Since
+the host theory has one vector, decoded endpoints are identified by terminal
+equality.
+
+For the decode-encode round trip, start with the unique host vector, encode it
+as $\emp$, and decode back to the host point. This is terminal equality in
+$T_{IP}^\ast$.
+
+For encode-decode, start with a carried singleton endpoint. Decoding gives the
+unique host vector and encoding returns $\emp$. The singleton classifier row
+of the public export supplies the classifier witness identifying the original
+carried endpoint with $\emp$.
+
+The theorem-preservation field is finite and explicit. The carrier, scalar
+endpoint, form, law, orthogonality, and ledger rows are those exposed by
+\autoref{thm:innerproduct-public-namecert-export}. The zero-left
+orthogonality row is \autoref{thm:innerproduct-zero-left-orthogonal-row},
+backed by
+$\mathsf{BEDC.Derived.InnerProductUp.InnerProductSingletonOrthogonal\_zero\_left}$.
+No completeness, Banach, Hilbert, spectral, or non-terminal host theorem is
+included in this list.
+
+Finally, the no-host-leak field follows from the same public-object inventory.
+The bridge mentions the one-point host theory only inside encode, decode, and
+the finite preservation list. The BEDC public surface remains exactly
+$\mathsf{BHist}$, $\mathsf{VecSpaceSingletonCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{InnerProductSingletonForm}$, and the displayed rows of
+\autoref{thm:innerproduct-public-namecert-export}.
+\end{proof}
