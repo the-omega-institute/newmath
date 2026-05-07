@@ -76,4 +76,34 @@ theorem RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
       (And.intro descent.right.right
         (And.intro commOps openPoint)))
 
+theorem RingedSpaceSingletonSurface_restricted_stalk_locality
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB ringEndpoint operationA operationB : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionA germA ringEndpoint ->
+      RingedSpaceSingletonSurface point openHist sectionB germB ringEndpoint ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              CommRingSingletonClassifier operationA operationB ->
+                RingedSpaceSingletonSurface point restrictedOpen sectionA restrictedGermA operationA ∧
+                  RingedSpaceSingletonSurface point restrictedOpen sectionB restrictedGermB operationB ∧
+                    hsame restrictedGermA restrictedGermB := by
+  intro surfaceA surfaceB sameGerm sameOpen restrictedA restrictedB commOps
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      surfaceA.right.left surfaceB.right.left sameGerm sameOpen restrictedA restrictedB
+  have restrictedOpenAt : TopologySingletonOpenAt restrictedOpen point :=
+    And.intro (hsame_trans (hsame_symm sameOpen) surfaceA.left.left) surfaceA.left.right
+  exact And.intro
+    (And.intro restrictedOpenAt (And.intro descent.left
+      (And.intro commOps.left (And.intro (hsame_refl BHist.Empty) commOps.left))))
+    (And.intro
+      (And.intro restrictedOpenAt (And.intro descent.right.left
+        (And.intro commOps.right.left
+          (And.intro (hsame_refl BHist.Empty) commOps.right.left))))
+      descent.right.right)
+
 end BEDC.Derived.RingedSpaceUp
