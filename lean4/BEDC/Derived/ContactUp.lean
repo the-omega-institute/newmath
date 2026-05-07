@@ -73,4 +73,46 @@ theorem ContactCarrierClassifierSurface_form_row_obligation
               (And.intro topUnary
                 (And.intro surface.right.right.right.left surface.right.right.right.right))))))
 
+theorem ContactCarrierClassifierSurface_nondegeneracy_obligation
+    {manifold form derivative wedge top top' : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame top top' ->
+        ContactCarrierClassifierSurface manifold form derivative wedge top' ∧
+          UnaryHistory top' ∧ hsame top' wedge := by
+  intro surface sameTop
+  have rows :=
+    ContactCarrierClassifierSurface_form_row_obligation surface
+  have topRow : Cont wedge BHist.Empty top' :=
+    cont_result_hsame_transport rows.right.right.right.right.right.right.right sameTop
+  have topUnary : UnaryHistory top' :=
+    unary_transport rows.right.right.right.right.right.left sameTop
+  have topWedge : hsame top' wedge :=
+    hsame_trans (hsame_symm sameTop)
+      (cont_right_unit_result rows.right.right.right.right.right.right.right)
+  exact And.intro
+    (And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro surface.right.right.right.left topRow))))
+    (And.intro topUnary topWedge)
+
+theorem ContactCarrierClassifierSurface_top_wedge_transport
+    {manifold form derivative wedge top top' : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame top top' ->
+        ContactCarrierClassifierSurface manifold form derivative wedge top' ∧
+          UnaryHistory top' := by
+  intro surface sameTop
+  have topRow' : Cont wedge BHist.Empty top' :=
+    cont_result_hsame_transport surface.right.right.right.right sameTop
+  have transportedSurface :
+      ContactCarrierClassifierSurface manifold form derivative wedge top' :=
+    And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro surface.right.right.right.left topRow')))
+  have transportedRows :=
+    ContactCarrierClassifierSurface_form_row_obligation transportedSurface
+  exact And.intro transportedSurface transportedRows.right.right.right.right.right.left
+
 end BEDC.Derived.ContactUp
