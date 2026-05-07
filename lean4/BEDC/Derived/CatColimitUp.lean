@@ -80,6 +80,14 @@ def CatColimitLimCocone (D K kappa : BHist) : Prop :=
       (∀ {X chi m n cm cn : BHist}, CatColimitCoconeMor D K X kappa chi m cm ->
         CatColimitCoconeMor D K X kappa chi n cn -> hsame m n)
 
+theorem CatColimitLimCocone_endomorphism_rigidity {D K kappa a composite : BHist} :
+    CatColimitLimCocone D K kappa ->
+      CatColimitCoconeMor D K K kappa kappa a composite -> hsame a BHist.Empty := by
+  intro colimit endomorphism
+  have identity : CatColimitCoconeMor D K K kappa kappa BHist.Empty kappa :=
+    CatColimitCoconeMor_identity colimit.left
+  exact colimit.right.right endomorphism identity
+
 theorem CatColimitLimCocone_comparison_identities {D K K' kappa kappa' : BHist} :
     CatColimitLimCocone D K kappa -> CatColimitLimCocone D K' kappa' ->
       ∃ u v cK cK' cu cv : BHist,
