@@ -1138,9 +1138,23 @@ def main() -> int:
     # line. Currently the bulk are `theoremCheckedV` tokens whose
     # Lean targets are in fact `axiomCleanV` (no Classical.choice /
     # Quot.sound / propext anywhere in the dependency closure).
-    drift_chapters_full = [
-        {
-            "name": info["name"],
+    # Anti-dogpile: a 1-line drift sync target on the same chapter
+    # cannot be safely run by 5 concurrent paper workers — every later
+    # round produces an identical merge conflict. Reuse the existing
+    # in-flight + recent-attack filters used for top_root_unblocks.
+    inflight_paper = _inflight_paper_attack_chapters()
+    recent_paper = _recent_paper_attack_chapter_counts(window_minutes=15)
+    drift_chapters_full = []
+    for info in horizons.values():
+        if not info.get("formalstatus_drift"):
+            continue
+        n = info["name"]
+        if n in inflight_paper:
+            continue
+        if recent_paper.get(n, 0) >= 1:
+            continue
+        drift_chapters_full.append({
+            "name": n,
             "file_paper": info["file_paper"],
             "file_lean": info["file_lean"],
             "lean_target": info.get("lean_target"),
@@ -1148,10 +1162,7 @@ def main() -> int:
             "formal_grade_token": info.get("formal_grade"),
             "objective_formal_grade": info.get("objective_formal_grade"),
             "thms": info.get("thms", 0),
-        }
-        for info in horizons.values()
-        if info.get("formalstatus_drift")
-    ]
+        })
     # Rank: prefer chapters with higher objective grade (axiomCleanV
     # over auditCleanV), then by thms (richer chapters first).
     _OBJ_RANK = {"axiomCleanV": 4, "auditCleanV": 3,
