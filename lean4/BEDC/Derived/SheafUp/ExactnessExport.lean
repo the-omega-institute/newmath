@@ -148,4 +148,42 @@ theorem SheafCoverPresentation_exactness
     exact And.intro source
       (Exists.intro germB (And.intro ledgerB sameEndpointGermB))
 
+theorem SheafBHistObligationSurface_restriction_cover_package
+    {ambient member overlap route germ point openHist sectionA sectionB germA germB
+      restrictedOpen restrictedGermA restrictedGermB localRoute localGerm tail : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB restrictedOpen
+        restrictedGermA restrictedGermB localGerm ->
+        Cont member localRoute localGerm -> hsame route localRoute ->
+          (hsame restrictedOpen (BHist.e0 tail) -> False) ∧
+            SheafBHistPointGermLedger ambient member localRoute localGerm ∧
+              SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+                restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+                hsame germ localGerm ∧ hsame restrictedGermA restrictedGermB := by
+  intro cover scope localRow sameRoute
+  have downstreamRows :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧ hsame localGerm restrictedGermB :=
+    SheafDownstreamConsumer_carrier_scope scope
+  have restrictedOpenNotE0 : hsame restrictedOpen (BHist.e0 tail) -> False := by
+    intro sameRestrictedOpen
+    exact unary_history_hsame_zero_absurd downstreamRows.left.right.left sameRestrictedOpen
+  have coverReadback :
+      SheafBHistPointGermLedger ambient member localRoute localGerm ∧
+        hsame germ localGerm :=
+    SheafBHistCoverNerveLedger_gluing_readback cover localRow sameRoute
+  have comparison :
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+        restrictedOpen sectionB restrictedGermB restrictedOpen :=
+    SheafBHistPointGermComparison_restricted_open_descent
+      scope.left scope.right.left scope.right.right.left scope.right.right.right.left
+      scope.right.right.right.right.left scope.right.right.right.right.right.left
+  exact And.intro restrictedOpenNotE0
+    (And.intro coverReadback.left
+      (And.intro comparison
+        (And.intro coverReadback.right downstreamRows.right.right.right.right.left)))
+
 end BEDC.Derived.SheafUp
