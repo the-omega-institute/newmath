@@ -229,4 +229,21 @@ theorem ComputableBoundedSim_identity_composition_interface {P n B m : BHist} :
                 (And.intro run.right.right.right.left transportedCont))))
           sameBound))
 
+theorem ComputableBoundedGraphCertificate_scoped_certificate
+    (C : ComputableBoundedGraphCertificate) {n m : BHist} :
+    C.Graph n m -> ComputableBoundedSim C.program n (C.bound n) m ∧ UnaryHistory n ∧
+      UnaryHistory (C.bound n) ∧ UnaryHistory m ∧ Cont n (C.bound n) m ∧
+        (forall {mPrime : BHist}, C.Graph n mPrime -> hsame m mPrime) := by
+  intro graphNM
+  have run := C.graph_to_sim graphNM
+  exact And.intro run
+    (And.intro run.right.left
+      (And.intro run.right.right.left
+        (And.intro run.right.right.right.left
+          (And.intro run.right.right.right.right
+            (by
+              intro mPrime graphNMPrime
+              exact (ComputableBoundedGraphCertificate_single_valuedness C graphNM
+                graphNMPrime).right.right.left)))))
+
 end BEDC.Derived.ComputableUp
