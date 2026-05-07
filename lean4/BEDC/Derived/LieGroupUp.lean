@@ -371,6 +371,35 @@ theorem LieGroupSingleton_conjugation_smooth {s x sx conj chart : BHist} :
     (And.intro conjClassified
       (And.intro chartEmpty (unary_transport unary_empty (hsame_symm chartEmpty))))
 
+theorem LieGroupSingleton_conjugation_carrier_and_smoothness {s x chart : BHist} :
+    LieGroupSingletonCarrier s -> LieGroupSingletonCarrier x ->
+      Cont BHist.Empty (append (append s x) BHist.Empty) chart ->
+        LieGroupSingletonCarrier (append (append s x) BHist.Empty) ∧
+          LieGroupSingletonClassifier (append (append s x) BHist.Empty) BHist.Empty ∧
+            ManifoldSingletonCarrier (append (append s x) BHist.Empty) ∧
+              hsame chart BHist.Empty ∧ UnaryHistory chart := by
+  intro carrierS carrierX chartRow
+  have productEmpty : hsame (append s x) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro carrierS carrierX)
+  have conjugationEmpty : hsame (append (append s x) BHist.Empty) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro productEmpty (hsame_refl BHist.Empty))
+  have emptyCarrier : LieGroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have conjugationClassified :
+      LieGroupSingletonClassifier (append (append s x) BHist.Empty) BHist.Empty :=
+    And.intro conjugationEmpty (And.intro emptyCarrier conjugationEmpty)
+  have conjugationManifold :
+      ManifoldSingletonCarrier (append (append s x) BHist.Empty) :=
+    conjugationEmpty
+  have chartConjugation : hsame chart (append (append s x) BHist.Empty) :=
+    cont_left_unit_result chartRow
+  have chartEmpty : hsame chart BHist.Empty :=
+    hsame_trans chartConjugation conjugationEmpty
+  exact And.intro conjugationEmpty
+    (And.intro conjugationClassified
+      (And.intro conjugationManifold
+        (And.intro chartEmpty (unary_transport unary_empty (hsame_symm chartEmpty)))))
+
 theorem LieGroupSingleton_conjugation_action_law {s t x : BHist} :
     LieGroupSingletonCarrier s -> LieGroupSingletonCarrier t -> LieGroupSingletonCarrier x ->
       LieGroupSingletonClassifier

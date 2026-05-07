@@ -98,6 +98,29 @@ theorem SheafBHistPointGermComparison_symmetric_fields
                 (And.intro comparison.right.right.right.right.right.right.left
                   (hsame_symm comparison.right.right.right.right.right.right.right.right))))))))
 
+theorem SheafBHistPointGermLedger_common_open_comparison
+    {point openHist sectA sectB germA germB : BHist} :
+    SheafBHistPointGermLedger point openHist sectA germA ->
+      SheafBHistPointGermLedger point openHist sectB germB ->
+        hsame germA germB ->
+          SheafBHistPointGermComparison point openHist sectA germA openHist sectB germB
+              openHist ∧
+            Cont openHist sectA germA ∧ Cont openHist sectB germB := by
+  intro ledgerA ledgerB sameGerm
+  have openCommon : UnaryHistory openHist := ledgerA.right.left
+  have comparison :
+      SheafBHistPointGermComparison point openHist sectA germA openHist sectB germB
+        openHist :=
+    And.intro ledgerA.left
+      (And.intro ledgerA.right.left
+        (And.intro ledgerB.right.left
+          (And.intro openCommon
+            (And.intro (hsame_refl openHist)
+              (And.intro (hsame_refl openHist)
+                (And.intro ledgerA.right.right
+                  (And.intro ledgerB.right.right sameGerm)))))))
+  exact And.intro comparison (And.intro ledgerA.right.right ledgerB.right.right)
+
 theorem SheafBHistPointGermLedger_shared_open_classifier_transitivity
     {point openA openB openC sectionA sectionB sectionC germA germB germC : BHist} :
     SheafBHistPointGermLedger point openA sectionA germA ->
