@@ -485,6 +485,21 @@ theorem TreeDerivationSpineLedger_exactness_rows
         unary_cont_closed edgeUnary tailRows.right tailRoute
       exact And.intro edgeRow.left outUnary
 
+theorem TreeRootLedger_derivation_spine_boundary
+    {graph edge connected acyclic root endpoint : BHist} {steps : List BHist} {out : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint ->
+      TreeDerivationSpineLedger endpoint steps out ->
+        TreeRootBranch endpoint root connected ∧ UnaryHistory endpoint ∧ UnaryHistory out ∧
+          UnaryHistory acyclic ∧ Cont endpoint root connected := by
+  intro carrier ledger
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  have ledgerRows : UnaryHistory endpoint ∧ UnaryHistory out :=
+    TreeDerivationSpineLedger_exactness_rows ledger
+  exact And.intro branch
+    (And.intro ledgerRows.left
+      (And.intro ledgerRows.right
+        (And.intro carrier.right.left branch.right.right)))
+
 theorem TreePublicDerivationSyntaxBridge_visible_spine_package
     {graph edge connected acyclic root endpoint spine extendedRoot extendedConnected syntaxTarget :
       BHist} :
