@@ -253,4 +253,18 @@ theorem TreeBHistCarrier_visible_spine_extension_ledger
         (And.intro endpointUnary (And.intro extendedRootUnary endpointExtendedK))
         (And.intro extendedRootUnary (And.intro endpointExtendedK sameExtended))
 
+theorem TreeBHistObligationCarrier_acyclic_unit_loop_exactness
+    {root source target edge connected acyclic repr package loop : BHist} :
+    TreeBHistObligationCarrier root source target edge connected acyclic repr package ->
+      GraphContEdge target BHist.Empty loop ->
+        GraphContEdge target BHist.Empty target ∧ hsame loop target ∧
+          hsame acyclic BHist.Empty ∧ Cont edge repr target := by
+  intro carrier loopEdge
+  have loopExact :
+      GraphContEdge target BHist.Empty target ∧ hsame loop target :=
+    GraphContEdge_empty_tail_identity carrier.left.right.left loopEdge
+  exact And.intro loopExact.left
+    (And.intro loopExact.right
+      (And.intro carrier.right.right.right.left carrier.right.right.right.right.left))
+
 end BEDC.Derived.TreeUp
