@@ -257,6 +257,7 @@ import BEDC.Derived.SheafUp.RootCommonRefinementExactness
 import BEDC.Derived.SheafUp.RootNameCertLocality
 import BEDC.Derived.SheafUp.CoverPresentationExactness
 import BEDC.Derived.SheafUp.CoverPresentation
+import BEDC.Derived.SheafUp.ExactnessRows
 import BEDC.Derived.SheafUp.ChartGluingTrace
 import BEDC.Derived.SheafUp.PointGermClassifier
 import BEDC.Derived.SheafUp.RootAccessNormalForm
@@ -273,6 +274,7 @@ import BEDC.Derived.SetUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.GraphSourceObligationRows
+import BEDC.Derived.TreeUp.ClassifierTransportObligation
 import BEDC.Derived.TreeUp.SemanticNameCertificate
 import BEDC.Derived.SheafUp.RefinedCoverExactness
 import BEDC.Derived.SchemeUp
