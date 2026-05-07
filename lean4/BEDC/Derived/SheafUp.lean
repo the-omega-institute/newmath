@@ -162,4 +162,26 @@ theorem SheafRestrictedOpenCarrier_locality_gluing_descent
     (And.intro readbackB.left
       (hsame_trans sameRestrictedA (hsame_trans sameGerm sameRestrictedB)))
 
+theorem SheafBHistPointGermComparison_restricted_open_descent
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB : BHist} :
+    SheafBHistPointGermLedger point openHist sectionA germA ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+                restrictedOpen sectionB restrictedGermB restrictedOpen := by
+  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have comparison :=
+    SheafBHistPointGermLedger_common_open_comparison
+      descent.left descent.right.left descent.right.right
+  exact comparison.left
+
 end BEDC.Derived.SheafUp

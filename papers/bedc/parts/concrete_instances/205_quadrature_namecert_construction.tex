@@ -80,6 +80,7 @@ Each displayed row is built from the listed source objects: folding over $\maths
 \label{thm:quadrature-classifier-scope-obligation}
 The exactness-degree classifier for the carried $\QuadratureUp$ rule is the preorder row $\mathsf{DegBoundLe}$ on $\NatUp$ bounds together with the weakening action on $\mathsf{QuadratureExactUpTo}_R$. Its source predicates are precisely $\mathsf{NatUnaryStrictPrefix}$ and $\mathsf{PolyDegLe}_R$ as displayed in \autoref{def:quadrature-finite-weighted-exactness-degree}.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureExactUpTo\_classifier\_scope}
 \begin{proof}
 The classifier comparison is the displayed predicate $\mathsf{DegBoundLe}(e,d)$. By \autoref{lem:quadrature-polynomial-degree-window-inclusion}, this comparison transports a polynomial degree window from the smaller bound $e$ to the larger bound $d$ using only $\mathsf{NatUnaryStrictPrefix}$ and the coefficient condition in $\mathsf{PolyDegLe}_R$.
 
@@ -235,3 +236,16 @@ $$
 \begin{proof}
 The reflexive row is \autoref{thm:quadrature-degree-bound-comparison-reflexive}. The transitive row is \autoref{thm:quadrature-degree-bound-comparison-transitive}. Both rows use the same concrete predicate $\mathsf{DegBoundLe}$ from \autoref{def:quadrature-finite-weighted-exactness-degree}, so together they give the stated preorder data for the $\QuadratureUp$ degree-bound classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureDegBoundLe\_preorder\_rows}
+
+\closureat{QuadratureUp}{scopedStr}[BEDC.Derived.QuadratureUp.QuadratureExactUpTo\_degree\_equivalence\_stability]
+
+\begin{closurestatus}{\QuadratureUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The closed paper scope is the finite weighted rule source row, FinSetUp node spine, scalar endpoint rows, IntegralUp endpoint map, ListCarrier polynomial codes, NatUp degree bounds, DegBoundLe classifier, exactness weakening, degree-equivalence stability, and ledger exactness surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.QuadratureUp.QuadratureExactUpTo\_degree\_equivalence\_stability}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close convergence of numerical schemes, analytic error estimates, host real equality, host function equality, or a standard bridge for quadrature rules.}
+  \upgradepath{Public closure requires a single exported QuadratureUp certificate theorem packaging the finite-rule carrier, classifier, stability, ledger, and exactness-degree preorder rows for downstream numerical-analysis chapters.}
+\end{closurestatus}
