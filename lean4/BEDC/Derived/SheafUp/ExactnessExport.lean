@@ -104,4 +104,48 @@ theorem SheafBaseChange_common_refinement_composition
       (And.intro sameGermBFinal
         (And.intro sameMidA sameMidB)))
 
+theorem SheafCoverPresentation_exactness
+    {point common openA openB sectionA sectionB germA germB : BHist} :
+    SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA germB ->
+      SemanticNameCert
+        (fun endpoint : BHist => SheafBHistPointGermLedger point common sectionA endpoint)
+        (fun endpoint : BHist => SheafBHistPointGermLedger point common sectionA endpoint)
+        (fun endpoint : BHist =>
+          SheafBHistPointGermLedger point common sectionA endpoint ∧
+            exists paired : BHist,
+              SheafBHistPointGermLedger point common sectionB paired ∧ hsame endpoint paired)
+        hsame := by
+  intro span
+  have paired := SheafDisplayedCommonRefinementSpan_paired_refinements span
+  have ledgerA :
+      SheafBHistPointGermLedger point common sectionA germA :=
+    paired.right.left
+  have ledgerB :
+      SheafBHistPointGermLedger point common sectionB germB :=
+    paired.right.right
+  have sameGerms : hsame germA germB :=
+    span.right.right.right.right.right.right
+  constructor
+  · constructor
+    · exact Exists.intro germA ledgerA
+    · intro endpoint _carrier
+      exact hsame_refl endpoint
+    · intro _endpoint _endpoint' same
+      exact hsame_symm same
+    · intro _endpoint _endpoint' _endpoint'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro endpoint endpoint' same carrier
+      exact And.intro carrier.left
+        (And.intro carrier.right.left
+          (cont_result_hsame_transport carrier.right.right same))
+  · intro _endpoint source
+    exact source
+  · intro endpoint source
+    have sameEndpointGermA : hsame endpoint germA :=
+      cont_deterministic source.right.right ledgerA.right.right
+    have sameEndpointGermB : hsame endpoint germB :=
+      hsame_trans sameEndpointGermA sameGerms
+    exact And.intro source
+      (Exists.intro germB (And.intro ledgerB sameEndpointGermB))
+
 end BEDC.Derived.SheafUp
