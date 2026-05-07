@@ -388,6 +388,52 @@ results.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_result\_deterministic}
 
+\begin{theorem}[MulUp unary product order lower-bound package]
+\label{thm:mulup-unary-product-order-lower-bound-package}
+Let $d$, $q$, and $n$ be unary histories. If
+$\mathsf{NatMul}(d,\Eone(q),n)$, then the $\mathsf{MulUp}$ product row exports
+the following $\OrderUp$ boundary package over the unary-prefix order of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}:
+\begin{enumerate}
+\item the carrier rows $\mathsf{UnaryHistory}(d)$,
+$\mathsf{UnaryHistory}(\Eone(q))$, and $\mathsf{UnaryHistory}(n)$;
+\item the unary-prefix comparison $d\le_{\mathsf{u}}n$;
+\item the endpoint classifier boundary $\rho_{\mathsf{u}}$ used by
+$\OrderUp$ to read equality of endpoints under two-sided
+$\le_{\mathsf{u}}$ comparison.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First expose the multiplication package by
+\autoref{thm:unary-multiplication-mulup-semantic-exit-package}. Its carrier row
+gives the displayed unary histories for $d$ and $\Eone(q)$, and its result
+closure gives $\mathsf{UnaryHistory}(n)$ from the supplied
+$\mathsf{NatMul}(d,\Eone(q),n)$ witness.
+
+The empty-tail boundary $q=\emp$ is the right-unit product. The unit law in the
+same $\mathsf{MulUp}$ package reads the product result back as $n\hsame d$; the
+$\OrderUp$ package of \autoref{thm:unary-prefix-orderup-phase-exit-package} then
+uses reflexivity and endpoint classifier transport to obtain
+$d\le_{\mathsf{u}}n$.
+
+For a successor tail, apply
+\autoref{thm:natmul-succ-multiplicand-append-multiplier-total} to the
+predecessor multiplication row. The appended-multiplier factor lemmas
+\autoref{lem:nat-mul-append-multiplier-left-factor} and
+\autoref{lem:nat-mul-append-multiplier-right-factor} recover the left product
+and right product from the displayed continuation product. Then
+\autoref{thm:natmul-append-multiplier-result-deterministic} identifies the
+displayed result with the append of the predecessor product and the extra
+multiplicand copy.
+
+This append display is exactly the unary-prefix witness that the original
+multiplicand lies below the product. Project the relation row and classifier
+row from \autoref{thm:unary-prefix-orderup-phase-exit-package}: the relation
+row records $d\le_{\mathsf{u}}n$, and the classifier row records
+$\rho_{\mathsf{u}}$ as the endpoint boundary used whenever two-sided
+$\le_{\mathsf{u}}$ comparison collapses the endpoints.
+\end{proof}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
