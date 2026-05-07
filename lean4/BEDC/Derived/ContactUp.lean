@@ -96,4 +96,23 @@ theorem ContactCarrierClassifierSurface_nondegeneracy_obligation
           (And.intro surface.right.right.right.left topRow))))
     (And.intro topUnary topWedge)
 
+theorem ContactCarrierClassifierSurface_top_wedge_transport
+    {manifold form derivative wedge top top' : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame top top' ->
+        ContactCarrierClassifierSurface manifold form derivative wedge top' ∧
+          UnaryHistory top' := by
+  intro surface sameTop
+  have topRow' : Cont wedge BHist.Empty top' :=
+    cont_result_hsame_transport surface.right.right.right.right sameTop
+  have transportedSurface :
+      ContactCarrierClassifierSurface manifold form derivative wedge top' :=
+    And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro surface.right.right.right.left topRow')))
+  have transportedRows :=
+    ContactCarrierClassifierSurface_form_row_obligation transportedSurface
+  exact And.intro transportedSurface transportedRows.right.right.right.right.right.left
+
 end BEDC.Derived.ContactUp

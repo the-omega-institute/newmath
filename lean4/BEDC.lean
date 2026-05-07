@@ -224,6 +224,7 @@ import BEDC.Derived.SheafUp.CoverNerveCertificate
 import BEDC.Derived.SheafUp.CoverGluingNameCertExport
 import BEDC.Derived.SheafUp.GluingClassifier
 import BEDC.Derived.SheafUp.CommonRefinementSpan
+import BEDC.Derived.SheafUp.IndexedCoverCompatibilityLocality
 import BEDC.Derived.SheafUp.LocalityGluingCertificate
 import BEDC.Derived.SheafUp.IdentityCover
 import BEDC.Derived.SheafUp.RootFaceDownstream
@@ -301,7 +302,6 @@ import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
-import BEDC.Derived.ContactUp
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
