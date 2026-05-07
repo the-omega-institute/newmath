@@ -10,6 +10,21 @@ open BEDC.Derived.CommRingUp
 open BEDC.Derived.SheafUp
 open BEDC.Derived.TopologyUp
 
+theorem RingedSpaceSingleton_cover_nerve_empty_boundary
+    {point ambient member overlap route germ operationA operationB : BHist} :
+    TopologySingletonOpenAt BHist.Empty point ->
+      SheafBHistCoverNerveLedger ambient member overlap route germ ->
+        hsame germ BHist.Empty ->
+          CommRingSingletonClassifier operationA operationB ->
+            hsame overlap BHist.Empty ∧ hsame route BHist.Empty ∧
+              CommRingSingletonClassifier operationA operationB ∧
+                TopologySingletonOpenAt BHist.Empty point := by
+  intro openPoint ledger germEmpty commOps
+  have boundary := SheafBHistCoverNerveLedger_empty_boundary ledger germEmpty
+  exact And.intro boundary.left
+    (And.intro boundary.right
+      (And.intro commOps openPoint))
+
 theorem RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB operationA operationB : BHist} :
