@@ -45,12 +45,13 @@ Gluing is then a ledger exactness statement: compatible local chart rows repack 
 \section{The certificate}
 \label{sec:scheme-certificate}
 
-\closureat{SchemeUp}{obligationStr}
+\closureat{SchemeUp}{scopedStr}[BEDC.Derived.SchemeUp.SchemeAffineCoverLedger\_restriction\_exactness]
 \begin{closurestatus}{\SchemeUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:scheme-carrier-obligation}, \autoref{thm:scheme-classifier-obligation}, and \autoref{thm:scheme-affine-cover-obligation} close the carrier, classifier, and affine-cover obligation surface for $\SchemeUp$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped SchemeUp surface binds the BHist carrier predicate, RingedSpaceUp source row, CommRingUp affine-chart rows, hsame chart transport, Cont restriction row, Pkg-indexed affine-cover ledger, restriction exactness row, and AffineVarUp/ProjectiveVarUp consumer boundary named by the three obligation theorems.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.SchemeUp.SchemeAffineCoverLedger\_restriction\_exactness}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close the carrier, classifier, stability fields, exactness, ledger, standard bridge, affine and projective variety certificates, or Lean verification.}
-  \upgradepath{The next closure grade requires scoped dependence on the precise BEDC primitives behind the carrier predicate, classifier transport, affine-cover package ledger, exactness rows, and affine/projective consumer boundary.}
+  \notclaimed{This chapter does not close public SchemeUp constructors, affine or projective variety certificates, a standard bridge, or full scheme theory.}
+  \upgradepath{Public closure requires a single exported SchemeUp public certificate theorem consuming the scoped carrier, classifier, affine-cover exactness, ledger, and downstream consumer rows.}
 \end{closurestatus}
