@@ -8,6 +8,47 @@ The spectral-theorem interface $\SpectralTheoremUp$ packages the diagonalisation
 
 \section{The certificate}
 \label{sec:spectraltheorem-certificate}
+
+\begin{theorem}[Spectral theorem operator carrier obligation]
+\label{thm:spectraltheorem-operator-carrier-obligation}
+A $\SpectralTheoremUp$ carrier must consist of a $\HilbertUp$-certified source, a $\MeasureUp$-certified source, a $\mathsf{BHist}$ row naming a self-adjoint-or-normal operator over the Hilbert source, and $\mathsf{BHist}$ rows naming its spectrum, projection-valued-measure observations, and functional-calculus observations over the measure-facing source. The carrier surface is therefore the tuple of named history rows
+$$
+(\mathsf{Src}_{\HilbertUp},\mathsf{Src}_{\MeasureUp},
+\mathsf{Op},\mathsf{Spec},\mathsf{PVM},\mathsf{FC})
+$$
+with each component supplied through the relevant $\NameCert$ source row.
+\end{theorem}
+\begin{proof}
+Unpack the $\NameCert_{\HilbertUp}$ and $\NameCert_{\MeasureUp}$ source rows cited by the spectral-theorem interface. These rows provide the two certified ambient sources without requiring a host Hilbert space or host measurable space as primitive public data.
+
+Record the operator datum as a $\mathsf{BHist}$-indexed carrier row whose visible predicate says self-adjoint-or-normal over the Hilbert source. Record the spectrum, projection-valued-measure, and functional-calculus data as separate $\mathsf{BHist}$-indexed rows connected to the measure-facing source. The resulting carrier is a list of certified rows, so every public datum is exposed through BEDC history indexing rather than through an external operator primitive.
+\end{proof}
+
+\begin{theorem}[Spectral theorem classifier obligation]
+\label{thm:spectraltheorem-classifier-obligation}
+The $\SpectralTheoremUp$ classifier compares two spectral packages exactly when their operator rows are classified over the $\HilbertUp$ source and their spectrum, projection-valued-measure, and functional-calculus observation rows match under the $\MeasureUp$-facing classifier. In particular, the classifier is the conjunction of the four named row comparisons
+$$
+\mathsf{Op}\sim_{\HilbertUp}\mathsf{Op}'\quad
+\mathsf{Spec}\sim_{\MeasureUp}\mathsf{Spec}'\quad
+\mathsf{PVM}\sim_{\MeasureUp}\mathsf{PVM}'\quad
+\mathsf{FC}\sim_{\MeasureUp}\mathsf{FC}' .
+$$
+\end{theorem}
+\begin{proof}
+Use the per-object certificate template fields for source, carrier, classifier, and exactness. The operator component is read through the Hilbert-certified source, while the spectrum, projection-valued-measure, and functional-calculus components are read through the measure-certified source.
+
+The comparison is obtained by conjoining the four named $\mathsf{BHist}$ observation-row comparisons. No quotient is formed, and no host equality of operators, spectra, projection-valued measures, or functional calculi is introduced. Exactness records that the public classifier is exhausted by these named row comparisons.
+\end{proof}
+
+\begin{theorem}[Spectral theorem stability and ledger obligation]
+\label{thm:spectraltheorem-stability-ledger-obligation}
+The $\SpectralTheoremUp$ stability obligations are classifier reflexivity, symmetry, and transitivity; carrier transport along the classifier; operation and observation congruence for the projection-valued-measure and functional-calculus rows; and a ledger row recording hidden basis and diagonalisation choices without exposing those choices as public data.
+\end{theorem}
+\begin{proof}
+Inherit the classifier laws from the $\HilbertUp$ and $\MeasureUp$ certificates and apply them componentwise to the operator, spectrum, projection-valued-measure, and functional-calculus rows. Carrier transport follows by transporting each named row along its certified source classifier.
+
+For operation and observation congruence, use the projection-valued-measure and functional-calculus rows as the public observation interface. Any basis choice or diagonalising representation used to present those observations is written only into the ledger. The exported surface contains the classified observation rows, so stability can mention hidden choices only through their ledger entry and not as public spectral data.
+\end{proof}
 \closureat{SpectralTheoremUp}{seedStr}
 
 \begin{closurestatus}{\SpectralTheoremUp}
