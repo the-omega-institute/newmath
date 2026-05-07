@@ -361,6 +361,7 @@ import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.ManifoldUp
+import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.ManifoldUp.SemanticNameCert
 import BEDC.Derived.DerivedCatUp
@@ -503,6 +504,7 @@ import BEDC.Derived.RingUp.Cancellation
 import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
+import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.NegEndpoint
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
