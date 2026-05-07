@@ -9,6 +9,7 @@ The presheaf interface $\PreSheafUp$ packages a contravariant functor from the o
 \begin{theorem}[Presheaf source and target carrier obligations]\label{thm:presheaf-source-target-carriers}
 Every $\PreSheafUp$ certificate must expose the following carrier obligations. Its source carrier is the BEDC open-object category whose objects are $\mathsf{BHist}$-indexed open rows and whose arrows are certified inclusion witnesses. Its target carrier is a $\CategoryUp$ certificate carrying section objects and target hom rows. For each certified inclusion $U\le V$, the certificate must carry a restriction-hom row from the section object over $V$ to the section object over $U$. The classifier ledger must also contain the source-open, source-inclusion, target-object, and target-hom rows over $\mathsf{BHist}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface\_carrier\_rows}
 \begin{proof}
 Unpack the ten-field roadmap. The traditional target is the ordinary contravariant presheaf assignment from opens to a target category, so the BEDC source must be a $\CategoryUp$ surface of open objects and inclusion rows, and the target must be a $\CategoryUp$ surface of section objects and target homs.
 
@@ -38,17 +39,19 @@ The carrier rows give the three target section objects and the three restriction
 
 The ledger boundary records the two source inclusion witnesses, their composite witness, the two-step target hom witnesses, and the direct composite restriction witness. Identity and transport remain separate rows, the standard bridge is not claimed, and the status is $\obligationClosure$ with $\unformalizedV$.
 \end{proof}
+\leanchecked{BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface\_restriction\_composition\_row}
 
 \begin{theorem}[Presheaf classifier transport and ledger obligation]\label{thm:presheaf-classifier-transport-ledger}
 Classified source opens, classified source inclusions, and classified target homs must transport every restriction row of a $\PreSheafUp$ certificate. The exact ledger records precisely the source inclusion witness, the target hom witness, and the composite restriction witness needed for the transported restriction row, and it records no host open equality, cover quotient, stalk quotient, external sheafification, or standard bridge witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface\_ledger\_extension\_surface}
 \leanchecked{BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface\_section\_restriction\_transport}
 \begin{proof}
 The traditional target presheaf supplies restriction rows stable under change of certified presentation. BEDC names this as transport along the source-open classifier, the source-inclusion classifier, and the target hom classifier, all indexed over $\mathsf{BHist}$.
 
 The carrier choice fixes the open-object and target-object rows, and the classifier choice fixes the target hom classifier. Transport therefore moves restriction witnesses only through named classifier rows; it does not appeal to an ambient equality of host opens or to an external quotient of sections.
 
-The ledger exactness row is the boundary of the certificate. It records the source inclusion witness, the target hom witness, and the composite restriction witness used by identity, composition, and transport obligations. The standard bridge remains pending, and the status row is exactly paper-side $\obligationClosure$ with Lean-side $\unformalizedV$.
+The ledger exactness row is the boundary of the certificate. It records the source inclusion witness, the target hom witness, and the composite restriction witness used by identity, composition, and transport obligations. Sheaf locality, gluing, stalk quotients, and the standard bridge remain outside this certificate boundary.
 \end{proof}
 
 \begin{definition}[PreSheaf indexed restriction surface]\label{def:presheaf-indexed-restriction-surface}
@@ -92,11 +95,13 @@ It remains to compare the composite rows. Continuation respect for $\hsame$ appl
 \section{The certificate}
 \label{sec:presheaf-certificate}
 
+\closureat{PreSheafUp}{scopedStr}[BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface\_functoriality\_surface]
 \begin{closurestatus}{\PreSheafUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The paper-side scope is the explicit $\PreSheafUp$ obligation set for source and target carriers, restriction identity, restriction composition, classifier transport, and exact ledger boundary in \autoref{thm:presheaf-source-target-carriers}, \autoref{thm:presheaf-restriction-identity-row}, \autoref{thm:presheaf-restriction-composition-row}, and \autoref{thm:presheaf-classifier-transport-ledger}.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The paper-side scope is the four obligation rows in \autoref{thm:presheaf-source-target-carriers}, \autoref{thm:presheaf-restriction-identity-row}, \autoref{thm:presheaf-restriction-composition-row}, and \autoref{thm:presheaf-classifier-transport-ledger}, together with the indexed restriction surface in \autoref{def:presheaf-indexed-restriction-surface} and \autoref{thm:presheaf-indexed-restriction-functoriality-surface}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface\_functoriality\_surface}
   \bridgestatus{none}
-  \notclaimed{This chapter does not construct the full carrier implementation, prove Lean verification, close sheaf locality or gluing, or provide a standard bridge.}
-  \upgradepath{Scoped closure requires assembling the explicit carrier, restriction, transport, and ledger obligations into a complete $\NameCert_{\PreSheafUp}$ certificate surface and then checking the corresponding Lean target.}
+  \notclaimed{This chapter does not close sheaf locality, gluing, stalk quotient formation, or the standard bridge.}
+  \upgradepath{A higher-grade certificate requires adding locality and gluing witnesses, the stalk quotient surface, and a standard bridge for the indexed restriction construction.}
 \end{closurestatus}
