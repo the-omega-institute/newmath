@@ -80,6 +80,45 @@ ball-budget conclusion.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricBallBudget\_composition}
 
+\begin{theorem}[Metric distance witness standard bridge]
+\label{thm:metric-distance-witness-standard-bridge}
+For the public $\MetricUp$ distance-witness surface over unary
+$\mathsf{BHist}$ endpoints $x,y$, there is a conservative standard
+interpretation whose BEDC carrier is
+$$
+\{\,d\mid \mathsf{MetricDistanceWitness}(x,y,d)\,\},
+$$
+whose classifier is $\hsame$, whose forward row reads such a witness as the
+finite append-distance presentation between the two unary endpoints, and whose
+reverse row reconstructs the BEDC witness from that finite append presentation.
+The bridge is only for this generated distance-witness surface; it does not
+assert arbitrary host real metrics.
+\end{theorem}
+\begin{proof}
+The carrier and classifier come from
+\autoref{thm:metric-distance-witness-semantic-namecert}: the public BEDC
+objects are exactly the $d$ satisfying
+$\mathsf{MetricDistanceWitness}(x,y,d)$, and the classifier is $\hsame$.
+
+For the forward row, apply
+\autoref{thm:metric-distance-witness-visible-context-iff} to read the visible
+unary context as the finite append-distance presentation between the endpoints.
+\autoref{thm:metric-distance-witness-visible-context-determinacy} ensures that
+this presentation is determined by the visible context, while
+\autoref{thm:metric-distance-witness-symmetric-classifier} transports the same
+presentation across the symmetric endpoint order.
+
+For the reverse row, read the finite append-distance presentation back through
+\autoref{thm:metric-distance-witness-visible-context-iff}. The resulting BEDC
+witness is classified by the same $\hsame$ row, and
+\autoref{thm:metric-ball-budget-composition} supplies the budget-compatible
+composition law needed by the public distance-witness surface.
+
+Thus the two rows form a conservative paper-side standard bridge for the
+generated $\mathsf{MetricDistanceWitness}$ surface only. No completeness,
+compactness, topology, or arbitrary host-real metric structure is introduced.
+\end{proof}
+
 \paragraph{Primitive boundary.}
 \(\MetricSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 \input{parts/concrete_instances/32_metric_empty_boundary_visible_context_distance_empty}
@@ -119,12 +158,12 @@ bridge is being claimed.
 
 \begin{closurestatus}{\MetricUp}
   \theoryclosure{\bridgedClosure}
-  \scopeclosed{The closed scope is the conservative standard boundary bridge for the concrete $\mathsf{BHist}$ metric-distance witness rows, including semantic NameCert carrier data, visible-context exactness, left and empty boundary readback, and zero-depth identity-path readback.}
+  \scopeclosed{The closed scope is the public $\mathsf{MetricDistanceWitness}$ surface on unary $\mathsf{BHist}$ endpoints together with the conservative standard-interpretation bridge row between BEDC witnesses and finite append-distance presentations.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not close arbitrary standard metric spaces, completeness, compactness, topology induced by a metric, host real metrics, or a Lean-checked full standard metric-space bridge.}
-  \upgradepath{A stronger grade requires a checked full standard metric-space bridge beyond the concrete $\mathsf{BHist}$ boundary witness surface.}
+  \upgradepath{$\matureClosure$ requires worked examples and cross-chapter consumers of the conservative distance-witness bridge.}
 \end{closurestatus}
 
 \begin{remark}[Zero-axiom encoding note]
