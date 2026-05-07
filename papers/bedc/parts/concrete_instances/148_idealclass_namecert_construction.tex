@@ -10,6 +10,7 @@ The ideal-class interface $\IdealClassUp$ packages the quotient group of fractio
 An $\IdealClassUp$ carrier endpoint is a $\mathsf{BHist}$ row carrying the $\DedekindUp$ fractional-ideal source, the nonzero and invertible fractional-ideal ledger, and the $\QuotientGroupUp$ source boundary. The endpoint is admitted only when its $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ rows identify the same Dedekind carrier and the same quotient-group boundary.
 \end{theorem}
 \leanchecked{BEDC.Derived.IdealClassUp.IdealClassFractionalIdealCarrier\_obligation}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassFractionalCarrier\_source\_obligation}
 \begin{proof}
 Start from the opening dependencies on $\NameCert_{\DedekindUp}$ and $\NameCert_{\QuotientGroupUp}$. The carrier obligation reads the Dedekind fractional-ideal source as the BEDC source field, chooses $\mathsf{BHist}$ rows as the carrier, and records nonzero and invertible fractional-ideal evidence in the ledger before any quotient is formed.
 
@@ -19,6 +20,7 @@ The ten-field fit is: traditional target ideal classes of a Dedekind domain; BED
 \begin{theorem}[IdealClass principal classifier obligation]\label{thm:idealclass-principal-classifier-obligation}
 The $\IdealClassUp$ classifier relates two carried fractional-ideal endpoints exactly when their quotient product is principal. Reflexivity, symmetry, transitivity, and carrier transport are inherited from the $\DedekindUp$ fractional-ideal rows and the $\QuotientGroupUp$ classifier boundary, so the classifier is a carried BEDC relation rather than a host quotient relation.
 \end{theorem}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassPrincipalClassifier\_semanticNameCert}
 \begin{proof}
 Use the fractional-ideal carrier fixed by \autoref{thm:idealclass-fractional-ideal-carrier-obligation}. The classifier row is the principal quotient-product witness relation over the same Dedekind source, so equality of endpoints is certified by a visible principal ideal and not by eliminating a quotient type.
 
@@ -29,6 +31,7 @@ The ten-field fit is: traditional target ideal-class equality; BEDC source $\Nam
 Fractional-ideal multiplication descends through the principal-class classifier of \autoref{thm:idealclass-principal-classifier-obligation}. The $\IdealClassUp$ ledger hides only the principal witness while preserving the $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ provenance rows for the Dedekind source, the carried representatives, and the $\QuotientGroupUp$ operation boundary.
 \end{theorem}
 \leanchecked{BEDC.Derived.IdealClassUp.IdealClassQuotientOperation\_exactness\_obligation}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassQuotientOperation\_empty\_product\_exactness}
 \begin{proof}
 First apply \autoref{thm:idealclass-fractional-ideal-carrier-obligation} and \autoref{thm:idealclass-principal-classifier-obligation} to fix the carried representatives and the principal classifier. Multiplication is then read as a $\QuotientGroupUp$ operation row over that classifier, with identity and inverse data transported through the same source boundary.
 

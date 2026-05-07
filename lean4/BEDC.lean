@@ -231,6 +231,7 @@ import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.AntisymmetryChain
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
+import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
@@ -270,6 +271,7 @@ import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.IdealUp
+import BEDC.Derived.IdealClassUp
 import BEDC.Derived.IdealUp.AbsorptionClosure
 import BEDC.Derived.IdealUp.AmbientCarrier
 import BEDC.Derived.IdealUp.QuotientKernel
