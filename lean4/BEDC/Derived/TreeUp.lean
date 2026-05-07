@@ -553,4 +553,27 @@ theorem TreeRootWitness_spine_closed_boundary
         cont_empty_result_inversion rootSpineEmpty
       exact And.intro extendedRootEmpty emptySplit.right
 
+def TreeObligationSurface
+    (graph edge connected acyclic root endpoint «syntax» syntaxTarget : BHist) : Prop :=
+  TreeBHistCarrier graph edge connected acyclic root endpoint ∧
+    UnaryHistory «syntax» ∧ Cont endpoint «syntax» syntaxTarget
+
+theorem TreeObligationSurface_rows
+    {graph edge connected acyclic root endpoint «syntax» syntaxTarget : BHist} :
+    TreeObligationSurface graph edge connected acyclic root endpoint «syntax» syntaxTarget ->
+      TreeBHistCarrier graph edge connected acyclic root endpoint ∧ UnaryHistory «syntax» ∧
+        Cont endpoint «syntax» syntaxTarget ∧ TreeRootBranch endpoint root connected ∧
+          GraphContEdge endpoint «syntax» syntaxTarget ∧ UnaryHistory syntaxTarget := by
+  intro surface
+  have representation :
+      TreeRootBranch endpoint root connected ∧
+        GraphContEdge endpoint «syntax» syntaxTarget ∧ UnaryHistory syntaxTarget :=
+    TreeBHistCarrier_syntactic_representation surface.left surface.right.left
+      surface.right.right
+  exact And.intro surface.left
+    (And.intro surface.right.left
+      (And.intro surface.right.right
+        (And.intro representation.left
+          (And.intro representation.right.left representation.right.right))))
+
 end BEDC.Derived.TreeUp
