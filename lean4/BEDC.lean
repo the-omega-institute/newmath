@@ -217,6 +217,7 @@ import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SheafUp.ClassifierStability
 import BEDC.Derived.SheafUp.RestrictedCommonRefinement
+import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SetUp
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
@@ -310,6 +311,7 @@ import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
+import BEDC.Derived.TreeUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
