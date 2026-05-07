@@ -12,6 +12,27 @@ open BEDC.Derived.RingedSpaceUp
 open BEDC.Derived.SheafUp
 open BEDC.Derived.TopologyUp
 
+theorem SchemeSingleton_affine_cover_nerve_empty_boundary
+    {point ambient member overlap route germ operationA operationB operationC : BHist} :
+    TopologySingletonOpenAt BHist.Empty point ->
+      SheafBHistCoverNerveLedger ambient member overlap route germ ->
+        hsame germ BHist.Empty ->
+          CommRingSingletonClassifier operationA operationB ->
+            CommRingSingletonClassifier operationB operationC ->
+              hsame overlap BHist.Empty ∧ hsame route BHist.Empty ∧
+                CommRingSingletonClassifier operationA operationC ∧
+                  TopologySingletonOpenAt BHist.Empty point := by
+  intro openPoint ledger germEmpty commAB commBC
+  have ringedBoundary :=
+    RingedSpaceSingleton_cover_nerve_empty_boundary openPoint ledger germEmpty commAB
+  have commAC : CommRingSingletonClassifier operationA operationC :=
+    And.intro commAB.left
+      (And.intro commBC.right.left
+        (hsame_trans commAB.right.right commBC.right.right))
+  exact And.intro ringedBoundary.left
+    (And.intro ringedBoundary.right.left
+      (And.intro commAC ringedBoundary.right.right.right))
+
 def SchemeSingletonPackage
     (point openHist sectionHist germ ringEndpoint chartA chartB overlap : BHist) : Prop :=
   RingedSpaceSingletonSurface point openHist sectionHist germ ringEndpoint ∧
@@ -112,5 +133,30 @@ theorem SchemeAffineCoverLedger_restriction_exactness
     RingedSpaceSingletonSurface_restriction_exact_ledger
       surface sameOpen restrictedRow ringClassifier
   exact And.intro restricted.left (And.intro restricted.right.left ringClassifier)
+
+theorem SchemeAffineCoverLedger_overlap_classifier_locality
+    {point openA openB sectionA sectionB germA germB ringA ringB chartA chartB common :
+      BHist} :
+    RingedSpaceSingletonSurface point openA sectionA germA ringA ->
+      RingedSpaceSingletonSurface point openB sectionB germB ringB ->
+        SheafBHistPointGermComparison point openA sectionA germA openB sectionB germB
+          common ->
+          CommRingSingletonClassifier ringA chartA ->
+            CommRingSingletonClassifier ringB chartB ->
+              CommRingSingletonClassifier chartA chartB ∧ Cont common sectionA germA ∧
+                Cont common sectionB germB ∧ hsame germA germB := by
+  intro surfaceA surfaceB comparison chartAClassified chartBClassified
+  have ringAEmpty : hsame ringA BHist.Empty := surfaceA.right.right.right.right
+  have ringBEmpty : hsame ringB BHist.Empty := surfaceB.right.right.right.right
+  have sameCharts : hsame chartA chartB :=
+    hsame_trans (hsame_symm chartAClassified.right.right)
+      (hsame_trans ringAEmpty
+        (hsame_trans (hsame_symm ringBEmpty) chartBClassified.right.right))
+  exact And.intro
+    (And.intro chartAClassified.right.left
+      (And.intro chartBClassified.right.left sameCharts))
+    (And.intro comparison.right.right.right.right.right.right.left
+      (And.intro comparison.right.right.right.right.right.right.right.left
+        comparison.right.right.right.right.right.right.right.right))
 
 end BEDC.Derived.SchemeUp
