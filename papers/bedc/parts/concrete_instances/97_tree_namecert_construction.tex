@@ -150,6 +150,7 @@ only under the classifier of \autoref{thm:treeup-classifier-obligation}.
 Completeness says every visible connected acyclic graph package with either a
 root witness or a root-free witness is represented by a $\TreeUp$ carrier row.
 \end{theorem}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistCarrier\_exactness\_rows}
 \begin{proof}
 For coverage, invert the carrier row of
 \autoref{def:treeup-bhist-carrier}. The inversion reads back the
@@ -235,6 +236,8 @@ witness records that connectedness is read componentwise without selecting a
 distinguished endpoint, and this record transports along the same
 $\TreeUp$ classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.TreeUp.TreeRootWitness\_spine\_closed\_boundary}
+\leanchecked{BEDC.Derived.TreeUp.TreeRootBranch\_empty\_root\_witness\_readback}
 \begin{proof}
 Inspect the root row of the certificate. If the row is rooted, it displays a
 $\mathsf{BHist}$ endpoint and a proof that this endpoint is carried by the
@@ -251,6 +254,7 @@ and the inherited graph classifier, while the root-free witness moves by the
 stability field attached to the $\TreeUp$ classifier. Thus the certificate
 retains the same rooted or root-free form after transport.
 \end{proof}
+\leanchecked{BEDC.Derived.TreeUp.TreeRootOrRootFreeWitness\_closed\_walk\_boundary}
 
 \begin{theorem}[TreeUp NameCert obligation surface]
 \label{thm:tree-namecert-obligation-surface}
@@ -516,6 +520,7 @@ Thus the public package is precisely the listed rows and clauses. Host graph equ
 \label{thm:treeup-public-derivation-syntax-bridge}
 The public $\TreeUp$ package of \autoref{thm:treeup-public-certificate-boundary}, together with \autoref{def:tree-obligation-surface} and \autoref{thm:tree-syntactic-representation-obligation}, determines a paper bridge to the external finite rooted-or-root-free tree presentation whose nodes are $\mathsf{BHist}$ histories and whose edges are the displayed $\mathsf{GraphContEdge}$ rows. Interpretation from $\TreeUp$ to the external presentation and re-encoding from any externally presented tree whose rows are already displayed $\GraphUp/\TreeUp$ rows are exact up to the inherited $\hsame$ classifier. Neither direction exports host graph equality or hidden route choice.
 \end{theorem}
+\leanchecked{BEDC.Derived.TreeUp.TreePublicDerivationSyntaxBridge\_round\_trip}
 \begin{proof}
 For interpretation, read the public boundary of \autoref{thm:treeup-public-certificate-boundary}. Its visible rows give the $\NameCert_{\GraphUp}$ source, the displayed $\mathsf{GraphContEdge}$ edges, connectedness, acyclicity, the root-or-root-free branch, and the syntactic-representation row. By \autoref{def:tree-obligation-surface} and \autoref{thm:tree-syntactic-representation-obligation}, the nodes of that presentation are precisely $\mathsf{BHist}$ histories, and the edge table is precisely the displayed graph-continuation edge table.
 
