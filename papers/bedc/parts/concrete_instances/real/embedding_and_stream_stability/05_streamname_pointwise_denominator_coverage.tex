@@ -177,6 +177,59 @@ faces. Thus the bounded RegSeqRat spine and the DyadicRatCore observation row
 exhaust the scoped source package at both endpoints.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window dyadic classifier symmetry coverage]
+\label{thm:regseqrat-finite-window-dyadic-classifier-symmetry-coverage}
+For observation maps $s,t:\Hist\to\Hist$, histories $a,w,k:\Hist$, and
+RegSeqRat stream certificate spines for $s$ and $t$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{UnaryHistory}(a),\quad
+\mathsf{UnaryHistory}(w),\quad
+\mathsf{UnaryOffsetLe}(k,w).
+$$
+Let $n=\mathsf{append}(a,k)$. Then the reversed selected bounded observation
+supplies
+$$
+\begin{array}{l}
+\mathsf{RealUnaryStreamWindowClassifier}(t,s,a,w)\land
+\mathsf{RatHistoryClassifier}(t(n),s(n))\land\\
+\mathsf{DyadicRatCoreObservationRow}(t(n))\land
+\mathsf{DyadicRatCoreObservationRow}(s(n)).
+\end{array}
+$$
+Moreover, the carrier, classifier, stability, and finite ledger faces read at
+$t(n)$ and $s(n)$ are exactly the faces named by
+\autoref{thm:dyadic-rat-core-scoped-source-package}.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage} to the pair
+$(s,t)$. It supplies the forward
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$, the selected classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$, and the two endpoint dyadic rows at
+$s(n)$ and $t(n)$.
+
+Reverse the StreamNameUp classifier by the symmetry clause of
+\autoref{thm:rat-stream-name-certificate-fields}. Apply
+\autoref{thm:real-unary-streamname-finite-window-coverage} to this reversed
+classifier, the carrier rows for $t$ and $s$, and the same unary anchor and
+bound. This gives
+$\mathsf{RealUnaryStreamWindowClassifier}(t,s,a,w)$.
+
+For the selected point, apply
+\autoref{thm:rat-history-classifier-symmetry} to the pointwise classifier
+obtained from the forward package. The result is exactly
+$\mathsf{RatHistoryClassifier}(t(n),s(n))$.
+
+The two $\mathsf{DyadicRatCoreObservationRow}$ witnesses are reused in swapped
+order. Applying \autoref{thm:dyadic-rat-core-scoped-source-package} to those
+two rows identifies the carrier, classifier, stability, and finite ledger
+faces with the same scoped source package, now read at the reversed endpoints
+$t(n)$ and $s(n)$.
+\end{proof}
+
 \begin{theorem}[RegSeqRat finite-window dyadic classifier transitivity coverage]
 \label{thm:regseqrat-finite-window-dyadic-classifier-transitivity-coverage}
 For observation maps $s,t,u:\Hist\to\Hist$, histories $a,w,k:\Hist$, and
