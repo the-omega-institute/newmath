@@ -128,4 +128,24 @@ theorem CondExpClassifier_obligation
     (And.intro projectedClassifier
       (And.intro sameIntegrable (And.intro packet.right.right packet'.right.right)))
 
+theorem CondExpLedgerExactness_obligation
+    {targetTotal sourceTotal chosenPreimage integrable projected residual n : BHist} :
+    UnaryHistory sourceTotal ->
+      CondExpCarrierPacket targetTotal sourceTotal chosenPreimage integrable projected residual ->
+        VecSpaceSingletonCarrier n ->
+          UnaryHistory chosenPreimage ∧ hsame chosenPreimage sourceTotal ∧
+            VecSpaceSingletonCarrier projected ∧
+              VecSpaceSingletonClassifier projected BHist.Empty ∧
+                Cont projected residual integrable ∧
+                  RealConstantHistoryClassifier
+                    (HilbertSingletonInnerProduct (VecSpaceSingletonSmul integrable projected) n)
+                    (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro sourceUnary packet carrierN
+  have preimageRows :=
+    RandomVarTotalReadbackCertificate_total_event_preimage_exactness sourceUnary packet.left
+  have carrierRows := CondExpCarrier_packet sourceUnary packet
+  have orthogonalRow := HilbertSingletonProjection_orthogonal_zero packet.right.left carrierN
+  exact ⟨preimageRows.left, preimageRows.right, carrierRows.right.left,
+    carrierRows.right.right.left, carrierRows.right.right.right, orthogonalRow⟩
+
 end BEDC.Derived.CondExpUp
