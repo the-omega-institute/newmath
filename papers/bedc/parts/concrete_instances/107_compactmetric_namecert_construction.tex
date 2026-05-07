@@ -77,6 +77,193 @@ metric one, the assembled fields satisfy the paper-level $\NameCert$ target
 for $\CompactMetricUp$.
 \end{proof}
 
+\begin{theorem}[Compact metric carrier-field projection]
+\label{thm:compactmetric-metric-field-projection}
+Let $X$ be a certified metric carrier equipped with
+$\mathsf{CompactMetricCertificate}(X)$. Then the compact-metric certificate
+exposes the same $\MetricSpaceUp$ point carrier, the same
+$\mathsf{MetricDistanceWitness}$ distance rows, and the same point-classifier
+transport consumed by \autoref{thm:compactmetric-certificate-package}.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:compactmetric-certificate-carrier}. Its first field is the
+metric carrier interface for $X$, including the accepted point histories, the
+distance package, and the classifier transport on point histories.
+
+Repack exactly this field as the metric face of the compact-metric certificate.
+No total-bounded net row or complete-limit row is used in this projection, so
+the exported carrier, distance ledger, and classifier data are the same rows
+used by the bundled package theorem.
+\end{proof}
+
+\begin{theorem}[Compact metric total-bounded-field projection]
+\label{thm:compactmetric-total-bounded-field-projection}
+Let $X$ be a certified metric carrier equipped with
+$\mathsf{CompactMetricCertificate}(X)$. For every positive $\RatUp$ tolerance
+history $\varepsilon$, the certificate exposes a face
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon})
+$$
+stable under $\RatUp$ tolerance transport and metric classifier transport, with
+coverage stability supplied by
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}.
+\end{theorem}
+\begin{proof}
+Unpack the second field of \autoref{def:compactmetric-certificate-carrier} at
+the chosen positive tolerance history $\varepsilon$. It provides the closed
+$\mathsf{ProbeBundle}$ spine $\mathcal{P}_{\varepsilon}$, the net ledger
+$net_{\varepsilon}$, and the BEDC rows recording centers, membership, distance
+witnesses, and rational bounds against $\varepsilon$.
+
+To transport this face, move the tolerance through the $\RatUp$ classifier and
+move the point, center, and distance histories through the metric classifier.
+Apply \autoref{thm:totallybounded-probebundle-net-coverage-stability} to repack
+the transported coverage row, while the closed $\mathsf{ProbeBundle}$ carrier
+and its $\mathsf{InBundle}$ membership constructors remain the displayed finite
+spine.
+\end{proof}
+
+\begin{theorem}[Compact metric complete-field projection]
+\label{thm:compactmetric-complete-field-projection}
+Let $X$ be a certified metric carrier equipped with
+$\mathsf{CompactMetricCertificate}(X)$. Every regular Cauchy $\StreamNameUp$
+stream $s$ carried by $X$ exposes a face
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s),
+$$
+and this face is stable under $\hsame$ transport of the stream, modulus, and
+limit, with stability supplied by
+\autoref{thm:completemetric-limit-witness-stability}.
+\end{theorem}
+\begin{proof}
+Unpack the third field of \autoref{def:compactmetric-certificate-carrier} at the
+regular Cauchy stream name $s$. It provides the modulus history $\mu_s$, the
+limit history $\ell_s$, and the late-observation ledger family $L_s$ recording
+the displayed $\mathsf{MetricDistanceWitness}$ rows and $\RatUp$ bounds.
+
+Under $\hsame$ transport of the stream observations, the modulus, and the
+limit, the component rows are carried pointwise. Apply
+\autoref{thm:completemetric-limit-witness-stability} to repack the transported
+threshold ledgers, distance witnesses, and comparison rows as the same
+complete-limit face for the transported stream data.
+\end{proof}
+
+\begin{theorem}[CompactMetric metric source obligation]
+\label{thm:compactmetric-metric-source-obligation}
+Let $X$ be a compact-metric certificate carrier in the sense of
+\autoref{def:compactmetric-certificate-carrier}. Its metric source projection is
+exactly the displayed $\MetricSpaceUp$ carrier on $X$: the point classifier, the
+$\mathsf{MetricDistanceWitness}$ distance rows, and classifier transport are the
+ones supplied by the metric carrier field. The source projection contains no
+open-cover predicate, ambient compact subset predicate, finite-subcover
+principle, or host compactness assertion.
+\end{theorem}
+\begin{proof}
+Read the first field of \autoref{def:compactmetric-certificate-carrier}. It is
+already the certified $\MetricSpaceUp$ source for $X$, with the point
+classifier, the distance rows, and the transport rule for those rows displayed
+before the totally-bounded and complete-metric fields are considered.
+
+Now apply \autoref{thm:compactmetric-certificate-package}. The package theorem
+uses that metric source as the public classifier for $\CompactMetricUp$, so the
+source field of the ten-field $\NameCert$ template is filled by the same carrier
+and the same $\mathsf{MetricDistanceWitness}$ ledger. Since the carrier
+definition lists only metric data, ProbeBundle nets, and limit witnesses, no
+open-cover or host compact-set row can be projected from this source.
+\end{proof}
+
+\begin{theorem}[CompactMetric ProbeBundle net-family obligation]
+\label{thm:compactmetric-probe-net-family-obligation}
+Let $X$ be a compact-metric certificate carrier. For every carried positive
+$\RatUp$ tolerance history $\varepsilon$, the totally-bounded component supplies
+the existing package
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon}).
+$$
+Transport of this family is exactly the componentwise transport provided by
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}.
+\end{theorem}
+\begin{proof}
+Unpack the second field of \autoref{def:compactmetric-certificate-carrier}. For
+each positive tolerance history it gives a closed $\mathsf{ProbeBundle}$ spine
+$\mathcal{P}_{\varepsilon}$, center histories, membership rows, distance
+witnesses, and $\RatUp$ comparison ledgers in the package named in the
+statement.
+
+The transport clause is then read through
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}. That theorem
+keeps the same metric carrier interface and transports the tolerance,
+membership, center, distance, and rational-bound rows along the source
+classifiers.
+
+Finally repack these rows into the $\CompactMetricUp$ ten-field $\NameCert$
+template by \autoref{thm:compactmetric-certificate-package}. The resulting
+obligation is only the tolerance-indexed finite-net family; it does not add a
+finite-subcover choice principle or any open-cover surface.
+\end{proof}
+
+\begin{theorem}[CompactMetric limit-witness family obligation]
+\label{thm:compactmetric-limit-witness-family-obligation}
+Let $X$ be a compact-metric certificate carrier. Every carried regular Cauchy
+$\StreamNameUp$ stream $s$ has the complete-metric witness
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)
+$$
+of \autoref{def:completemetric-limit-witness}. Transport of these witnesses is
+the pointwise transport supplied by
+\autoref{thm:completemetric-limit-witness-stability}.
+\end{theorem}
+\begin{proof}
+Unpack the third field of \autoref{def:compactmetric-certificate-carrier}. For a
+carried regular Cauchy stream it supplies the modulus history $\mu_s$, the
+carried limit history $\ell_s$, the threshold rows, the late-observation
+distance rows, and the $\RatUp$ budget comparisons required by
+\autoref{def:completemetric-limit-witness}.
+
+Apply \autoref{thm:completemetric-limit-witness-stability} to the displayed
+stream, modulus, limit, threshold, distance, and rational comparison rows. The
+transport remains internal to the same metric carrier classifier and does not
+use a host completion or a choice of subsequence.
+
+Repack the transported witness through
+\autoref{thm:compactmetric-certificate-package}. This fills the complete-metric
+part of the ten-field $\NameCert$ template for $\CompactMetricUp$ while leaving
+all convergence data visible as the limit-witness ledger.
+\end{proof}
+
+\begin{theorem}[CompactMetric ledger exactness obligation]
+\label{thm:compactmetric-ledger-exactness-obligation}
+For a compact-metric certificate carrier $X$, the $\CompactMetricUp$ ledger is
+exactly the union of the metric-distance rows of $\MetricSpaceUp$, the
+tolerance-indexed finite-net rows of $\TotallyBoundedUp$, and the regular-stream
+limit-witness rows of $\CompleteMetricUp$. Coverage, soundness, and completeness
+for the exported certificate are read componentwise over these three sources.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory in
+\autoref{def:compactmetric-certificate-carrier}. It lists one metric source
+field, one ProbeBundle-net family indexed by positive $\RatUp$ tolerances, and
+one limit-witness family indexed by carried regular Cauchy streams. These are
+the only rows available to the compact-metric package.
+
+Coverage is componentwise. The metric source covers point classification and
+distance witnessing; the totally-bounded component covers each carried point by
+a bundled center at a displayed tolerance; and the complete-metric component
+covers each carried regular Cauchy stream by its displayed limit witness.
+
+Soundness is also componentwise. Metric rows are compared by the
+$\MetricSpaceUp$ classifier, finite-net rows by
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}, and limit rows
+by \autoref{thm:completemetric-limit-witness-stability}. Each comparison stays
+inside the classifier and ledger named by its source component.
+
+Completeness follows by repacking all three inventories through
+\autoref{thm:compactmetric-certificate-package}. Any exported compact-metric row
+therefore comes from one of the displayed metric, finite-net, or limit-witness
+rows, and every such row is accepted by the ten-field $\NameCert$ template for
+$\CompactMetricUp$.
+\end{proof}
+
 \begin{closurestatus}{\CompactMetricUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The compact-metric certificate is closed over the displayed MetricSpaceUp carrier, the TotallyBoundedUp ProbeBundle-net family, and the CompleteMetricUp limit-witness family, with classifier transport inherited componentwise from those certificates.}
