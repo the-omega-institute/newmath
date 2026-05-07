@@ -283,6 +283,7 @@ $\mathsf{BHist}$, $\hsame$, and the $\GraphUp$ source certificate, the
 assembled surface does not require host graph equality or any additional
 bridge field.
 \end{proof}
+\leanchecked{BEDC.Derived.TreeUp.TreeBHistCarrier\_semantic\_name\_certificate}
 
 \begin{theorem}[TreeUp carrier and classifier obligations]
 \label{thm:tree-obligation-carrier-classifier}
@@ -463,6 +464,7 @@ For stability, unpack $\mathsf{TreeClassifier}(h,k)$. Its row-transport componen
 \begin{theorem}[Tree stability-ledger obligation]\label{thm:tree-stability-ledger-obligation}
 Let $u$ be a visible derivation-spine extension with $\UnaryHistory(u)$, and suppose $\Cont(h,u,r)$ is compatible with the carried graph source. If $\mathsf{TreeCarrier}(h)$ holds and the endpoints $r$ and $k$ are related by $\hsame(r,k)$, then the tree ledger rows transported to $k$ are exactly the graph presentation, root witness, and derivation-spine syntax rows obtained by extending the visible spine by $u$.
 \end{theorem}
+\leanchecked{BEDC.Derived.TreeUp.TreeGraphContEdge\_visible\_spine\_extension\_transport}
 \leanchecked{BEDC.Derived.TreeUp.TreeBHistCarrier\_stability\_ledger\_transport}
 \leanchecked{BEDC.Derived.TreeUp.TreeBHistCarrier\_visible\_spine\_extension\_ledger}
 \begin{proof}
@@ -472,6 +474,7 @@ The endpoint comparison $\hsame(r,k)$ supplies the classifier transport target. 
 
 It remains to identify the ledger boundary. The ledger of the surface contains only those three hidden rows, so after $\Cont$ extension and $\hsame$ transport there is no extra presentation row to account for. The transported ledger is therefore exactly the extended visible-spine ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.TreeUp.TreeVisibleSpine\_extension\_ledger}
 
 \begin{theorem}[Tree syntactic-representation obligation]\label{thm:tree-syntactic-representation-obligation}
 Every $\mathsf{TreeCarrier}(h)$ provides a syntactic derivation carrier row whose visible nodes are $\mathsf{BHist}$ histories and whose edge relation is read from the carried $\NameCert_{\GraphUp}$ source. Consequently the $\TreeUp$ certificate surface can be consumed by downstream inductive-carrier and derivation-syntax chapters without replacing the BEDC history carrier or the $\hsame$ classifier.

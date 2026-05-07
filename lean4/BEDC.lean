@@ -227,9 +227,12 @@ import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SheafUp.ClassifierStability
 import BEDC.Derived.SheafUp.RestrictedCommonRefinement
+import BEDC.Derived.SheafUp.ExactnessExport
+import BEDC.Derived.SheafUp.CommonTransport
 import BEDC.Derived.SheafUp.RootNameCertLocality
 import BEDC.Derived.SetUp
 import BEDC.Derived.TreeUp
+import BEDC.Derived.TreeUp.SemanticNameCertificate
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
