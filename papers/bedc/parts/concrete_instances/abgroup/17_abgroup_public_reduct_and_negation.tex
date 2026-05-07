@@ -53,6 +53,54 @@ the displayed internal comparison through the unchanged carrier classifier
 $\sim_M$. The result is exactly $-(-x)\sim_M x$.
 \end{proof}
 
+\begin{theorem}[AbGroup singleton terminal standard bridge]
+\label{thm:abgroup-singleton-terminal-standard-bridge}
+The public singleton empty-history $\AbGroupUp$ surface supplies a paper-level
+$\StdBridge(\AbGroupUp,T_A^\ast)$ to the ordinary one-element abelian group.
+The encode field sends the unique host point of $T_A^\ast$ to $\emp$. The
+decode field sends every carried endpoint in $A_{\emp}$ to the host point. The
+decode-encode round trip is terminal equality, and the encode-decode round trip
+is the classifier witness $\rho_{\emp}(h,\emp)$ for each carried endpoint
+$h:A_{\emp}$. Operation translation reads the abelian operation as both
+addition and multiplication notation, sends zero and unit to $\emp$, and reads
+inverse and additive negation as the constant operation. The theorem-preservation
+field covers the carrier, closure, unit, inverse, associativity, commutativity,
+and double-negation rows. The no-host-leak field states that the exported BEDC
+surface remains $\mathsf{BHist}$, $A_{\emp}$, $\rho_{\emp}$, $\emp$, and the
+displayed operations.
+\end{theorem}
+\begin{proof}
+We check the six fields of \autoref{sec:acceptance-bridge-six-fields}. The
+encode field is the constant map from the unique point of $T_A^\ast$ to the
+empty BEDC endpoint $\emp$. The carrier and classifier laws of
+\autoref{thm:singleton-empty-history-abgroup-namecert} make this endpoint a
+public carried point of $A_{\emp}$ and place it in the classifier fiber
+$\rho_{\emp}$.
+
+The decode field sends every carried endpoint of $A_{\emp}$ to the unique host
+point. Hence classifier-respect on decoded values and the decode-encode round
+trip are both terminal equality in the ordinary one-element abelian group.
+
+For encode-decode, begin with a carried endpoint $h:A_{\emp}$. Decoding gives
+the unique host point, and encoding returns $\emp$. The singleton classifier row
+of \autoref{thm:singleton-empty-history-abgroup-namecert} supplies exactly the
+witness $\rho_{\emp}(h,\emp)$ required by the BEDC side of the round trip.
+
+The operation translation keeps the BEDC public data fixed. The same singleton
+operation is read as addition and as multiplication notation, the zero and unit
+are both $\emp$, and inverse and additive negation are the constant operation.
+The group-shaped rows are inherited through
+\autoref{prop:abgroup-forgets-group-certificate}; the abelian commutativity row
+comes from \autoref{thm:singleton-empty-history-abgroup-namecert}; and the
+double-negation row is \autoref{thm:abgroup-additive-negation-involutive} read on
+the singleton surface.
+
+Finally, no host primitive is exported. The host model supplies only the unique
+decode value and terminal equality used by the bridge argument. The BEDC-facing
+surface remains $\mathsf{BHist}$, $A_{\emp}$, $\rho_{\emp}$, $\emp$, and the
+displayed constant operations.
+\end{proof}
+
 \input{parts/concrete_instances/abgroup/17_abgroup_public_operation_surface}
 
 \closureat{AbGroupUp}{publicStr}[BEDC.Derived.AbGroupUp.singleton\_empty\_history\_abgroup\_laws]
