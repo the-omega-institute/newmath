@@ -1,9 +1,10 @@
-import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.ExactnessExport
 
 namespace BEDC.Derived.SheafUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 theorem SheafBHistObligationSurface_cover_restriction_classifier
     {ambient member overlap route germ localRoute localGerm point openHist sectionA germA
@@ -34,5 +35,57 @@ theorem SheafBHistObligationSurface_cover_restriction_classifier
     SheafBHistPointGermLedger_restriction_readback pointLedger sameOpen restrictedRow
   exact And.intro localRestricted
     (And.intro restrictedReadback.left coverReadback.right)
+
+theorem SheafNameCert_obligation_surface
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB ambient member overlap route coverGerm localRoute localGerm tail :
+        BHist} :
+    SheafDownstreamConsumerScope point openHist sectionA sectionB germA germB restrictedOpen
+        restrictedGermA restrictedGermB localGerm ->
+      SheafBHistCoverNerveLedger ambient member overlap route coverGerm ->
+        Cont member localRoute localGerm ->
+          hsame route localRoute ->
+            SemanticNameCert
+                (fun endpoint : BHist =>
+                  SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+                (fun endpoint : BHist =>
+                  SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+                (fun endpoint : BHist =>
+                  SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+                hsame ∧
+              SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+                restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+                hsame coverGerm localGerm ∧
+                  (hsame restrictedOpen (BHist.e0 tail) -> False) := by
+  intro scope cover localRow sameRoute
+  have package :
+      (hsame restrictedOpen (BHist.e0 tail) -> False) ∧
+        SheafBHistPointGermLedger ambient member localRoute localGerm ∧
+          SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+            restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+            hsame coverGerm localGerm ∧ hsame restrictedGermA restrictedGermB :=
+    SheafBHistObligationSurface_restriction_cover_package
+      cover scope localRow sameRoute
+  have downstream :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          Cont restrictedOpen sectionA restrictedGermA ∧
+            Cont restrictedOpen sectionB restrictedGermB ∧
+              hsame restrictedGermA restrictedGermB ∧
+                hsame localGerm restrictedGermB :=
+    SheafDownstreamConsumer_carrier_scope scope
+  have cert :
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+        (fun endpoint : BHist =>
+          SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+        (fun endpoint : BHist =>
+          SheafBHistPointGermLedger point restrictedOpen sectionA endpoint)
+        hsame :=
+    SheafRestrictedOpenCarrier_semantic_name_certificate downstream.left
+  exact And.intro cert
+    (And.intro package.right.right.left
+      (And.intro package.right.right.right.left package.left))
 
 end BEDC.Derived.SheafUp
