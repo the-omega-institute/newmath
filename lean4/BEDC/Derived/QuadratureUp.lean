@@ -3,8 +3,38 @@ import BEDC.Derived.NatUp
 namespace BEDC.Derived.QuadratureUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
+
+def QuadratureCarriedRuleSourceRow
+    (xs alpha omega integral poly degree row : BHist) : Prop :=
+  UnaryHistory xs ∧ UnaryHistory alpha ∧ UnaryHistory omega ∧ UnaryHistory integral ∧
+    UnaryHistory poly ∧ UnaryHistory degree ∧
+      Cont xs (append alpha (append omega integral)) row
+
+theorem QuadratureCarriedRuleSourceRow_scope
+    {xs alpha omega integral poly degree row endpoint : BHist} :
+    QuadratureCarriedRuleSourceRow xs alpha omega integral poly degree row ->
+      Cont row poly endpoint ->
+        UnaryHistory xs ∧ UnaryHistory alpha ∧ UnaryHistory omega ∧ UnaryHistory integral ∧
+          UnaryHistory poly ∧ UnaryHistory degree ∧ UnaryHistory endpoint ∧
+            Cont row poly endpoint := by
+  intro rowData endpointCont
+  have tailUnary : UnaryHistory (append alpha (append omega integral)) :=
+    unary_append_closed rowData.right.left
+      (unary_append_closed rowData.right.right.left rowData.right.right.right.left)
+  have rowUnary : UnaryHistory row :=
+    unary_cont_closed rowData.left tailUnary rowData.right.right.right.right.right.right
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed rowUnary rowData.right.right.right.right.left endpointCont
+  exact And.intro rowData.left
+    (And.intro rowData.right.left
+      (And.intro rowData.right.right.left
+        (And.intro rowData.right.right.right.left
+          (And.intro rowData.right.right.right.right.left
+            (And.intro rowData.right.right.right.right.right.left
+              (And.intro endpointUnary endpointCont))))))
 
 def QuadratureDegBoundLe (e d : BHist) : Prop :=
   UnaryHistory e ∧ UnaryHistory d ∧
