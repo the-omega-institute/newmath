@@ -1,8 +1,10 @@
 import BEDC.Derived.AffineVarUp
 import BEDC.Derived.PolynomialUp
+import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -16,6 +18,89 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+
+def ProjectiveVarZeroLocusPackage [AskSetup] [PackageSetup]
+    (chart homogeneous projective zeroEval endpoint : BHist)
+    (chartBundle homogeneousBundle projectiveBundle zeroBundle : ProbeBundle ProbeName)
+    (chartPkg homogeneousPkg projectivePkg zeroPkg : Pkg) : Prop :=
+  UnaryHistory chart ∧ UnaryHistory homogeneous ∧ UnaryHistory projective ∧
+    Cont chart homogeneous projective ∧ Cont projective zeroEval endpoint ∧
+      PkgSig chartBundle chart chartPkg ∧ PkgSig homogeneousBundle homogeneous homogeneousPkg ∧
+        PkgSig projectiveBundle projective projectivePkg ∧
+          PkgSig zeroBundle zeroEval zeroPkg
+
+theorem ProjectiveVarZeroLocusPackage_hsame_transport [AskSetup] [PackageSetup]
+    {chart homogeneous projective zeroEval endpoint chart' homogeneous' projective' zeroEval'
+      endpoint' : BHist}
+    {chartBundle homogeneousBundle projectiveBundle zeroBundle : ProbeBundle ProbeName}
+    {chartPkg homogeneousPkg projectivePkg zeroPkg : Pkg} :
+    ProjectiveVarZeroLocusPackage chart homogeneous projective zeroEval endpoint chartBundle
+        homogeneousBundle projectiveBundle zeroBundle chartPkg homogeneousPkg projectivePkg
+        zeroPkg ->
+      hsame chart chart' -> hsame homogeneous homogeneous' -> hsame zeroEval zeroEval' ->
+        PkgSig chartBundle chart' chartPkg ->
+          PkgSig homogeneousBundle homogeneous' homogeneousPkg ->
+            PkgSig projectiveBundle projective' projectivePkg ->
+              PkgSig zeroBundle zeroEval' zeroPkg ->
+                Cont chart' homogeneous' projective' ->
+                  Cont projective' zeroEval' endpoint' ->
+                    ProjectiveVarZeroLocusPackage chart' homogeneous' projective' zeroEval'
+                        endpoint' chartBundle homogeneousBundle projectiveBundle zeroBundle
+                        chartPkg homogeneousPkg projectivePkg zeroPkg ∧
+                      hsame endpoint endpoint' := by
+  intro pkg sameChart sameHomogeneous sameZeroEval chartPkg' homogeneousPkg' projectivePkg'
+    zeroPkg' projectiveCont' endpointCont'
+  have chartUnary' : UnaryHistory chart' :=
+    unary_transport pkg.left sameChart
+  have homogeneousUnary' : UnaryHistory homogeneous' :=
+    unary_transport pkg.right.left sameHomogeneous
+  have sameProjective : hsame projective projective' :=
+    cont_respects_hsame sameChart sameHomogeneous pkg.right.right.right.left projectiveCont'
+  have projectiveUnary' : UnaryHistory projective' :=
+    unary_transport pkg.right.right.left sameProjective
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProjective sameZeroEval pkg.right.right.right.right.left endpointCont'
+  exact And.intro
+    (And.intro chartUnary'
+      (And.intro homogeneousUnary'
+        (And.intro projectiveUnary'
+          (And.intro projectiveCont'
+            (And.intro endpointCont'
+              (And.intro chartPkg'
+                (And.intro homogeneousPkg' (And.intro projectivePkg' zeroPkg'))))))))
+    sameEndpoint
+
+def ProjectiveVarHomogeneousZeroLocusCarrier
+    (ChartCarrier : BHist -> Prop) (PolyEvalZero : BHist -> BHist -> Prop)
+    (family : ProbeBundle BHist) (projectiveSpace endpoint package : BHist) : Prop :=
+  AffineFiniteFamilyZeroLocus ChartCarrier PolyEvalZero family endpoint ∧
+    UnaryHistory projectiveSpace ∧ Cont endpoint projectiveSpace package
+
+theorem ProjectiveVarHomogeneousZeroLocusCarrier_bundle_append_exactness
+    {ChartCarrier : BHist -> Prop} {PolyEvalZero : BHist -> BHist -> Prop}
+    {F G : ProbeBundle BHist} {projectiveSpace endpoint package : BHist} :
+    ProjectiveVarHomogeneousZeroLocusCarrier ChartCarrier PolyEvalZero (bundleAppend F G)
+        projectiveSpace endpoint package <->
+      ProjectiveVarHomogeneousZeroLocusCarrier ChartCarrier PolyEvalZero F projectiveSpace
+          endpoint package ∧
+        ProjectiveVarHomogeneousZeroLocusCarrier ChartCarrier PolyEvalZero G projectiveSpace
+          endpoint package := by
+  constructor
+  · intro carrier
+    have affineParts :
+        AffineFiniteFamilyZeroLocus ChartCarrier PolyEvalZero F endpoint ∧
+          AffineFiniteFamilyZeroLocus ChartCarrier PolyEvalZero G endpoint :=
+      Iff.mp AffineFiniteFamilyZeroLocus_intersection_concat carrier.left
+    exact And.intro
+      (And.intro affineParts.left (And.intro carrier.right.left carrier.right.right))
+      (And.intro affineParts.right (And.intro carrier.right.left carrier.right.right))
+  · intro carriers
+    have affineAppend :
+        AffineFiniteFamilyZeroLocus ChartCarrier PolyEvalZero (bundleAppend F G) endpoint :=
+      Iff.mpr AffineFiniteFamilyZeroLocus_intersection_concat
+        (And.intro carriers.left.left carriers.right.left)
+    exact And.intro affineAppend
+      (And.intro carriers.left.right.left carriers.left.right.right)
 
 theorem ProjectiveVarFiniteChartCarrier_endpoint_transport
     {F : ProbeBundle BHist} {x endpoint : BHist} :
@@ -298,5 +383,58 @@ theorem ProjectiveVarVisibleCarrier_carrier_obligation [AskSetup] [PackageSetup]
             (And.intro carrier.right.right.right.right.right.left
               (And.intro carrier.right.right.right.right.right.right
                 (And.intro evaluationUnary endpointUnary)))))))
+
+theorem ProjectiveVarVisibleCarrier_zero_locus_exactness [AskSetup] [PackageSetup]
+    {chart homogeneous projective evaluation endpoint p : BHist} {polyBundle : ProbeBundle BHist}
+    {tokenBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint polyBundle
+        tokenBundle pkg ->
+      InBundle p polyBundle ->
+        hsame (append p chart) BHist.Empty ∧ Cont chart homogeneous evaluation ∧
+          TokIntro tokenBundle evaluation pkg ∧ Cont evaluation projective endpoint := by
+  intro carrier member
+  have zeroRow : hsame (append p chart) BHist.Empty :=
+    AffineFiniteFamilyZeroLocus_occurred_equation_row
+      (AffPoint := UnaryHistory)
+      (PolyEvalZero := fun q x => hsame (append q x) BHist.Empty)
+      (F := polyBundle) (p := p) (x := chart) member carrier.right.right.right.left
+  exact And.intro zeroRow
+    (And.intro carrier.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right))
+
+theorem ProjectiveVarVisibleCarrier_scaling_ledger [AskSetup] [PackageSetup]
+    {chart homogeneous projective evaluation endpoint hiddenScale hiddenChart hiddenRoute : BHist}
+    {polyBundle : ProbeBundle BHist} {tokenBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint polyBundle
+        tokenBundle pkg ->
+      Cont hiddenScale hiddenChart hiddenRoute ->
+        hsame hiddenRoute BHist.Empty ->
+          hsame hiddenScale BHist.Empty ∧ hsame hiddenChart BHist.Empty ∧
+            ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint polyBundle
+              tokenBundle pkg := by
+  intro carrier hiddenCont hiddenEmpty
+  have emptyCont : Cont hiddenScale hiddenChart BHist.Empty :=
+    cont_result_hsame_transport hiddenCont hiddenEmpty
+  have endpoints := cont_empty_result_inversion emptyCont
+  exact And.intro endpoints.left (And.intro endpoints.right carrier)
+
+theorem ProjectiveVarVisibleCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {chart homogeneous projective evaluation endpoint endpoint' : BHist}
+    {polyBundle : ProbeBundle BHist} {tokenBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint polyBundle
+        tokenBundle pkg ->
+      hsame endpoint endpoint' ->
+        ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint' polyBundle
+          tokenBundle pkg := by
+  intro carrier sameEndpoint
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.left
+              (cont_result_hsame_transport
+                carrier.right.right.right.right.right.right sameEndpoint))))))
 
 end BEDC.Derived.ProjectiveVarUp
