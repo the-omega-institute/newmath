@@ -78,6 +78,33 @@ theorem InnerProductSingletonOrthogonal_transport {x y x' y' : BHist} :
   exact And.intro (And.intro carrierX' (And.intro carrierY' realClassifier))
     realClassifier
 
+theorem InnerProductSingletonOrthogonal_symm_constant_endpoint {x y : BHist} :
+    InnerProductSingletonOrthogonal x y ->
+      InnerProductSingletonOrthogonal y x ∧
+        RealConstantHistoryClassifier (InnerProductSingletonForm y x)
+          (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          hsame (InnerProductSingletonForm y x) (InnerProductSingletonForm x y) := by
+  intro orthogonal
+  have sameY : VecSpaceSingletonClassifier y y :=
+    And.intro orthogonal.right.left
+      (And.intro orthogonal.right.left (hsame_refl y))
+  have sameX : VecSpaceSingletonClassifier x x :=
+    And.intro orthogonal.left
+      (And.intro orthogonal.left (hsame_refl x))
+  have symmOrthogonal : InnerProductSingletonOrthogonal y x := by
+    have realClassifier :
+        RealConstantHistoryClassifier (InnerProductSingletonForm y x)
+          (BHist.e1 (BHist.e1 BHist.Empty)) := by
+      unfold InnerProductSingletonForm
+      exact orthogonal.right.right
+    exact And.intro orthogonal.right.left (And.intro orthogonal.left realClassifier)
+  have transported := InnerProductSingletonOrthogonal_transport sameY sameX symmOrthogonal
+  have sameForms :
+      hsame (InnerProductSingletonForm y x) (InnerProductSingletonForm x y) := by
+    unfold InnerProductSingletonForm
+    exact hsame_refl (BHist.e1 (BHist.e1 BHist.Empty))
+  exact And.intro transported.left (And.intro transported.right sameForms)
+
 theorem InnerProductSingletonDiagonal_zero_exactness {x : BHist} :
     VecSpaceSingletonCarrier x ->
       (RealConstantHistoryClassifier (InnerProductSingletonForm x x)
