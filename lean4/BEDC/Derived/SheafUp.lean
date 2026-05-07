@@ -19,6 +19,40 @@ def SheafBHistPointGermComparison
     hsame common openA ∧ hsame common openB ∧ Cont common sectA germA ∧
       Cont common sectB germB ∧ hsame germA germB
 
+def SheafConsumerAccessTrace (root : BHist) (trace : List BHist) : Prop :=
+  UnaryHistory root ∧ ∀ row : BHist, List.Mem row trace -> UnaryHistory row
+
+theorem SheafConsumerAccessTrace_append_closed {root : BHist} {left right : List BHist} :
+    SheafConsumerAccessTrace root left -> SheafConsumerAccessTrace root right ->
+      UnaryHistory root ∧ SheafConsumerAccessTrace root (left ++ right) := by
+  induction left with
+  | nil =>
+      intro leftTrace rightTrace
+      exact And.intro leftTrace.left
+        (And.intro leftTrace.left
+          (by
+            intro row rowMem
+            exact rightTrace.right row rowMem))
+  | cons head tail ih =>
+      intro leftTrace rightTrace
+      have tailTrace : SheafConsumerAccessTrace root tail :=
+        And.intro leftTrace.left
+          (by
+            intro row rowMem
+            exact leftTrace.right row (List.Mem.tail head rowMem))
+      have appendedTail :
+          UnaryHistory root ∧ SheafConsumerAccessTrace root (tail ++ right) :=
+        ih tailTrace rightTrace
+      exact And.intro leftTrace.left
+        (And.intro leftTrace.left
+          (by
+            intro row rowMem
+            cases rowMem with
+            | head =>
+                exact leftTrace.right head (List.Mem.head tail)
+            | tail _ tailMem =>
+                exact appendedTail.right.right row tailMem))
+
 def SheafBHistCoverNerveLedger
     (ambient member overlap route germ : BHist) : Prop :=
   UnaryHistory ambient ∧ UnaryHistory member ∧ UnaryHistory overlap ∧ hsame overlap member ∧
