@@ -48,8 +48,39 @@ theorem PermutationBijectionSourceRow_carrier_surface [AskSetup] [PackageSetup]
           (And.intro row.right.right.left
             (And.intro row.right.right.right.left
               (And.intro row.right.right.right.right.left
-                (And.intro row.right.right.right.right.right.left
-                  (And.intro row.right.right.right.right.right.right.left
-                    row.right.right.right.right.right.right.right))))))))
+                  (And.intro row.right.right.right.right.right.left
+                    (And.intro row.right.right.right.right.right.right.left
+                      row.right.right.right.right.right.right.right))))))))
+
+theorem PermutationBijectionSourceRow_action_ledger_transport [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger action' ledger' : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle
+        tgtBundle srcPkg tgtPkg ->
+      hsame action action' -> Cont src graph action' -> Cont comp action' ledger' ->
+        PermutationBijectionSourceRow src tgt graph invGraph comp action' ledger' srcBundle
+            tgtBundle srcPkg tgtPkg ∧
+          hsame ledger ledger' ∧ UnaryHistory action' ∧ UnaryHistory ledger' := by
+  intro row sameAction actionCont' ledgerCont'
+  have surface := PermutationBijectionSourceRow_carrier_surface row
+  have compUnary : UnaryHistory comp :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.right.right.right.right.left
+  have actionUnary' : UnaryHistory action' :=
+    unary_cont_closed row.left surface.left actionCont'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed compUnary actionUnary' ledgerCont'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame (hsame_refl comp) sameAction
+      row.right.right.right.right.right.right.left ledgerCont'
+  exact And.intro
+    (And.intro row.left
+      (And.intro row.right.left
+        (And.intro row.right.right.left
+          (And.intro row.right.right.right.left
+            (And.intro row.right.right.right.right.left
+              (And.intro actionCont'
+                (And.intro ledgerCont'
+                  row.right.right.right.right.right.right.right)))))))
+    (And.intro sameLedger (And.intro actionUnary' ledgerUnary'))
 
 end BEDC.Derived.PermutationUp
