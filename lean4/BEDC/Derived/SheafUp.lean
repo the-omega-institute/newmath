@@ -35,6 +35,23 @@ theorem SheafBHistPointGermLedger_restriction_readback
     (And.intro ledger.left (And.intro restrictedOpenUnary restrictedRow))
     sameGerm
 
+theorem SheafBHistPointGermLedger_identity_open_membership_cont_exactness
+    {point openHist sectionHist germ : BHist} :
+    SheafBHistPointGermLedger point openHist sectionHist germ ↔
+      ∃ memberOpen : BHist, hsame memberOpen openHist ∧
+        Cont memberOpen sectionHist germ ∧
+          SheafBHistPointGermLedger point memberOpen sectionHist germ := by
+  constructor
+  · intro ledger
+    exact Exists.intro openHist
+      (And.intro (hsame_refl openHist)
+        (And.intro ledger.right.right ledger))
+  · intro witness
+    cases witness with
+    | intro memberOpen data =>
+        cases data.left
+        exact data.right.right
+
 theorem SheafRestrictedOpenCarrier_semantic_name_certificate
     {point openHist sectionHist germ : BHist} :
     SheafBHistPointGermLedger point openHist sectionHist germ ->
