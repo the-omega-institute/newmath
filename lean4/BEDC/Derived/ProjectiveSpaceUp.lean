@@ -89,6 +89,22 @@ theorem ProjectiveSpaceSingletonScalingOrbitClassifier_obligation
           · exact And.intro carrierB (And.intro carrierA sameBA)
           · exact And.intro carrierA (And.intro carrierC sameAC)
 
+theorem ProjectiveSpaceSingletonScalingOrbitClassifier_ledger_exactness_obligation
+    {repA scalarA actionA repB scalarB actionB : BHist} :
+    ProjectiveSpaceSingletonScalingOrbitClassifier repA scalarA actionA repB scalarB actionB ->
+      ProjectiveSpaceSingletonPuncturedCarrier repA scalarA actionA ∧
+        ProjectiveSpaceSingletonPuncturedCarrier repB scalarB actionB ∧
+          hsame repA repB ∧ hsame actionA BHist.Empty ∧ hsame actionB BHist.Empty ∧
+            Cont scalarA repA actionA ∧ Cont scalarB repB actionB := by
+  intro classifier
+  exact And.intro classifier.left
+    (And.intro classifier.right.left
+      (And.intro classifier.right.right
+        (And.intro classifier.left.right.right.right
+          (And.intro classifier.right.left.right.right.right
+            (And.intro classifier.left.right.right.left
+              classifier.right.left.right.right.left)))))
+
 theorem ProjectiveSpaceSingletonPuncturedCarrier_action_determinacy {rep scalar action action' : BHist} :
     ProjectiveSpaceSingletonPuncturedCarrier rep scalar action -> Cont scalar rep action' ->
       ProjectiveSpaceSingletonPuncturedCarrier rep scalar action' ∧ hsame action action' ∧
