@@ -9,14 +9,57 @@ The symplectic-structure interface $\SymplecticUp$ packages a closed nondegenera
 \section{The certificate}
 \label{sec:symplectic-certificate}
 
-\closureat{SymplecticUp}{seedStr}
+\begin{definition}[Symplectic obligation boundary]
+\label{def:symplectic-obligation-boundary}
+Fix a $\NameCert_{\ManifoldUp}$ source $M$ and a $\NameCert_{\DiffFormUp}$ source $\Omega$ over $\mathsf{BHist}$. The $\SymplecticUp$ obligation boundary is the BEDC package whose source is the paired $\DiffFormUp$ and $\ManifoldUp$ certificate boundary, whose carrier is a manifold carrier equipped with a degree-two admissible differential form row $\omega$, and whose classifier is the paired manifold classifier together with the $\DiffFormUp$ form classifier restricted to that row.
+
+The stability rows are carrier transport for the shared manifold carrier, closedness transport for the displayed two-form row, nondegeneracy transport for the same paired manifold/form carrier, and endpoint transport through $\hsame$ and $\Cont$ wherever the downstream consumer boundary rows expose continuation data. The ledger records exactly the hidden atlas witnesses supplied by $M$, the hidden form witnesses supplied by $\Omega$, the degree-two row, the closedness witness for $\omega$, the nondegeneracy witness for $\omega$, and the coverage, soundness, and completeness rows saying that every certified $\SymplecticUp$ read factors through this boundary.
+\end{definition}
+
+\begin{theorem}[Symplectic carrier and classifier obligations]
+\label{thm:symplectic-carrier-classifier-obligations}
+The source displayed in \autoref{def:symplectic-obligation-boundary} supplies the carrier and classifier rows required by $\NameCert_{\SymplecticUp}$: the $\ManifoldUp$ carrier row, the $\DiffFormUp$ degree-two admissible form row, the paired classifier on manifold and form components, and the carrier-transport row for the paired boundary over $\mathsf{BHist}$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:symplectic-obligation-boundary}. The first source component is the $\NameCert_{\ManifoldUp}$ boundary and the second is the $\NameCert_{\DiffFormUp}$ boundary, both read over the same $\mathsf{BHist}$ substrate.
+
+The carrier row is the shared manifold endpoint together with the degree-two admissible form row. The classifier is therefore the paired classifier obtained by taking the manifold classifier from $M$ and the form classifier from $\Omega$ on the displayed row $\omega$.
+
+Carrier transport is componentwise. The $\ManifoldUp$ certificate transports the manifold carrier, the $\DiffFormUp$ certificate transports the admissible form row, and the paired boundary repacks these transported rows as the carrier and classifier data required by $\NameCert_{\SymplecticUp}$.
+\end{proof}
+
+\begin{theorem}[Symplectic closed two-form obligation]
+\label{thm:symplectic-closed-two-form-obligation}
+Closedness of the selected two-form $\omega$ is an explicit $\SymplecticUp$ obligation transported along the $\DiffFormUp$ classifier. The $\DiffFormUp$ source supplies the admissible degree-two form row and the exterior-input boundary needed to state closedness, but it does not make $d\omega=0$ automatic for every downstream consumer read.
+\end{theorem}
+\begin{proof}
+Begin with the degree-two row $\omega$ from \autoref{def:symplectic-obligation-boundary}. The $\DiffFormUp$ boundary supplies the form classifier, exterior-input routing, and downstream consumer boundary rows needed to express the closedness predicate on that row.
+
+Closedness is then recorded as its own ledger row. Transport along the $\DiffFormUp$ classifier moves the admissible form row and the exterior-input boundary to the classified endpoint, so the closedness row remains a $\SymplecticUp$ obligation on the transported form.
+
+The last clause is the consumer-boundary separation. $\DiffFormUp$ exposes the rows needed by $\SymplecticUp$ to ask for $d\omega=0$, while the truth of that row belongs to the $\SymplecticUp$ certificate boundary itself.
+\end{proof}
+
+\begin{theorem}[Symplectic nondegeneracy stability obligation]
+\label{thm:symplectic-nondegeneracy-stability-obligation}
+Nondegeneracy of $\omega$ is a separate classifier-stable row over the paired manifold/form carrier of \autoref{def:symplectic-obligation-boundary}. It is transported by the paired $\ManifoldUp$ and $\DiffFormUp$ classifiers and is not identified with the admissible-form carrier row or with the closedness row.
+\end{theorem}
+\begin{proof}
+Use the paired carrier from \autoref{def:symplectic-obligation-boundary}. Nondegeneracy is stated only after the manifold carrier and the degree-two form row have both been selected, so it is a row over the paired surface rather than a row of either dependency alone.
+
+Transport is again componentwise. The $\ManifoldUp$ classifier transports the carrier on which nondegeneracy is evaluated, the $\DiffFormUp$ classifier transports the form row, and the paired classifier records the transported nondegeneracy witness as a $\SymplecticUp$ ledger row.
+
+This separates the three obligations consumed downstream: admissibility of the two-form, closedness of that two-form, and nondegeneracy on the paired manifold/form carrier.
+\end{proof}
+
+\closureat{SymplecticUp}{obligationStr}
 
 \begin{closurestatus}{\SymplecticUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds exactly the $\DiffFormUp$ and $\ManifoldUp$ dependencies named in the introduction, the even-dimensional manifold carrier row, the closed $2$-form row, the nondegeneracy row, and the stability, ledger, exactness, and dependency obligations as seed obligations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation boundary binds exactly the carrier and classifier rows of \autoref{thm:symplectic-carrier-classifier-obligations}, the closedness row of \autoref{thm:symplectic-closed-two-form-obligation}, and the nondegeneracy stability row of \autoref{thm:symplectic-nondegeneracy-stability-obligation}.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a symplectic carrier, classifier, closedness proof, nondegeneracy proof, standard bridge, or Lean verification target.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, closedness, nondegeneracy, stability, ledger, exactness, and dependency rows for the certified symplectic-structure interface.}
+  \notclaimed{This chapter does not claim a closedness proof, a nondegeneracy proof, a standard bridge, or Lean verification for $\SymplecticUp$.}
+  \upgradepath{Scoped closure requires binding the displayed carrier, classifier, closedness, nondegeneracy, stability, and ledger rows to concrete $\DiffFormUp$ and $\ManifoldUp$ witnesses.}
 \end{closurestatus}
