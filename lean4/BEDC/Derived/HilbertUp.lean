@@ -535,4 +535,25 @@ theorem HilbertSingletonProjection_uniqueness {m p q : BHist} :
   have innerRows := HilbertSingleton_constant_inner_product_transport pQClassified pQClassified
   exact And.intro pQClassified innerRows.left
 
+theorem HilbertSingletonProjection_boundary {m p : BHist} :
+    HilbertSingletonProjectionWitness m p ->
+      VecSpaceSingletonClassifier (HilbertSingletonProjection p) p ∧
+        VecSpaceSingletonClassifier (HilbertSingletonProjection m) BHist.Empty ∧
+          RealConstantHistoryClassifier (NormSingletonNorm (HilbertSingletonProjection p))
+            (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier
+              (HilbertSingletonInnerProduct p (HilbertSingletonProjection p))
+              (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro witness
+  have idempotentRows := HilbertSingletonProjection_witness_idempotent witness
+  have existenceRows := HilbertSingletonProjection_existence witness.left
+  have projectionCarrier : VecSpaceSingletonCarrier (HilbertSingletonProjection p) :=
+    idempotentRows.right.left
+  have pCarrier : VecSpaceSingletonCarrier p := witness.right.left
+  have normRows := NormSingletonEmptyHistory_laws projectionCarrier pCarrier
+  have innerRows := HilbertSingleton_universal_orthogonality pCarrier projectionCarrier
+  exact And.intro idempotentRows.right
+    (And.intro existenceRows.right
+      (And.intro normRows.right.left innerRows))
+
 end BEDC.Derived.HilbertUp
