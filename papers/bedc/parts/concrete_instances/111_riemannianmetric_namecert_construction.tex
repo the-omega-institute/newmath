@@ -6,14 +6,111 @@ The Riemannian-metric interface $\RiemannianMetricUp$ packages a smooth field of
 \section{Carrier definition}
 \label{sec:riemannianmetric-carrier}
 
+\begin{theorem}[RiemannianMetricUp source fibre carrier row]
+\label{thm:riemannianmetric-source-fibre-carrier-row}
+A $\NameCert_{\RiemannianMetricUp}$ certificate carries the following
+source-fibre rows. Its base carrier is a $\ManifoldUp$ point carrier over
+$\mathsf{BHist}$. For each carried point history $x$, it displays a tangent
+fibre row $T_x$ over $x$. For each displayed fibre $T_x$, it displays an
+$\InnerProductUp$ row
+$$
+g_x:T_x\times T_x\to \mathsf{BHist}
+$$
+on that fibre. The visible ledger records only the manifold point provenance,
+the tangent-witness provenance over the point, and the fibre inner-product
+provenance; it contains no length, geodesic, curvature, or bridge row.
+\end{theorem}
+\begin{proof}
+Read the certificate through the ten-field $\NameCert$ template. The only
+outer carrier named by the template is the $\ManifoldUp$ carrier, so every
+base point is a $\mathsf{BHist}$ point accepted by that source.
+
+For a displayed point $x$, the fibre entry is a dependent row over the same
+$\mathsf{BHist}$ witness. The row has no independent endpoint: its source is
+the carried $\ManifoldUp$ point and its classifier is inherited through the
+point row.
+
+On each such fibre, the metric entry is exactly an $\InnerProductUp$ row. The
+ledger projection of the ten-field template therefore has three visible
+provenance classes: the $\ManifoldUp$ point row, the tangent row over that
+point, and the $\InnerProductUp$ row on the displayed fibre.
+\end{proof}
+
+\begin{theorem}[RiemannianMetricUp classifier stability obligation]
+\label{thm:riemannianmetric-classifier-stability-obligation}
+For a $\NameCert_{\RiemannianMetricUp}$ certificate, classifier stability has
+the following obligation shape. If point histories $x$ and $y$ are related by
+$\hsame$ and by the $\ManifoldUp$ point classifier, then every tangent row over
+$x$ transports to a tangent row over $y$. If tangent witnesses $u,v$ over $x$
+transport to tangent witnesses $u',v'$ over $y$, then the $\InnerProductUp$
+classifier transports the fibrewise metric endpoint
+$$
+g_x(u,v)
+$$
+to
+$$
+g_y(u',v').
+$$
+\end{theorem}
+\begin{proof}
+Start with the ten-field $\NameCert$ classifier field. Its base comparison is
+the $\hsame$ comparison on $\mathsf{BHist}$ histories together with the
+$\ManifoldUp$ point classifier, so the transported endpoint remains inside the
+same carried point surface.
+
+The tangent row is dependent on that transported point. Applying the
+$\NameCert$ stability field moves the displayed tangent witness from the
+source point to the target point without adding any classifier beyond
+$\hsame$ and the $\ManifoldUp$ point classifier.
+
+It remains to compare metric endpoints. The metric row on each fibre is an
+$\InnerProductUp$ row, so its own classifier transports the endpoint through
+the transported tangent witnesses and yields the displayed target endpoint.
+\end{proof}
+
+\begin{theorem}[RiemannianMetricUp fibrewise positivity and chart compatibility obligation]
+\label{thm:riemannianmetric-fibrewise-positive-compatibility-obligation}
+A $\NameCert_{\RiemannianMetricUp}$ certificate carries the following
+fibrewise metric obligations. For every displayed point $x$ and nonzero
+tangent witness $u:T_x$, the fibre row has a positive-definite entry
+$$
+g_x(u,u)>0.
+$$
+For every displayed fibre, symmetry and bilinearity are inherited from the
+$\InnerProductUp$ row on that fibre. For every overlap in the $\ManifoldUp$
+atlas, chart-change transport carries tangent witnesses through the atlas
+classifier and preserves the displayed fibre metric endpoint under the
+$\InnerProductUp$ classifier. These obligations do not assert length,
+geodesic, curvature, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Unpack the ten-field $\NameCert$ template at a displayed $\mathsf{BHist}$
+point. The point is supplied only by $\ManifoldUp$, and the tangent witness is
+supplied only as a fibre row over that point.
+
+The metric row on the fibre is an $\InnerProductUp$ row. Its positive,
+symmetric, and bilinear entries give the positive-definite, symmetry, and
+bilinearity obligations after restricting all arguments to the displayed
+tangent fibre.
+
+For a chart overlap, use the $\ManifoldUp$ atlas classifier to transport the
+point and tangent witnesses across the overlap. Then apply the
+$\InnerProductUp$ classifier on the target fibre to identify the metric
+endpoint after transport.
+
+The template has no row whose endpoint is a length functional, geodesic
+equation, curvature tensor, or standard bridge. Hence those interfaces are
+outside the stated obligation scope.
+\end{proof}
+
 \section{The certificate}
 \label{sec:riemannianmetric-certificate}
 
 \begin{closurestatus}{\RiemannianMetricUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds the $\ManifoldUp$ and $\InnerProductUp$ sources named in the chapter introduction as dependencies whose smooth fibrewise carrier, classifier, positivity, compatibility, ledger, and exactness rows are not yet supplied.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The paper-side obligation scope is the source-fibre carrier row of \autoref{thm:riemannianmetric-source-fibre-carrier-row}, the classifier-stability row of \autoref{thm:riemannianmetric-classifier-stability-obligation}, and the positivity and chart-compatibility row of \autoref{thm:riemannianmetric-fibrewise-positive-compatibility-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a Riemannian-metric carrier, fibrewise inner-product field, positive-definiteness, smoothness, compatibility with manifold charts, length/geodesic/curvature interfaces, standard bridge, or Lean verification target.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, fibrewise inner-product, positive-definiteness, chart-compatibility, stability, ledger, exactness, and dependency rows for the certified Riemannian-metric interface.}
+  \notclaimed{This chapter does not close a complete $\NameCert_{\RiemannianMetricUp}$ surface, exactness theorem, length/geodesic/curvature interface, standard bridge, or Lean verification target.}
+  \upgradepath{Scoped closure requires assembling the displayed carrier, classifier-stability, positivity, compatibility, and ledger obligations into a complete $\NameCert_{\RiemannianMetricUp}$ surface with exactness.}
 \end{closurestatus}

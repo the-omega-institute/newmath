@@ -1,5 +1,6 @@
 import BEDC.Derived.BanachUp
 import BEDC.Derived.LinearMapUp
+import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.RealUp.Core
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Unary.History
@@ -12,7 +13,9 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.BanachUp
 open BEDC.Derived.LinearMapUp
+open BEDC.Derived.MetricUp
 open BEDC.Derived.RealUp
+open BEDC.Derived.VecSpaceUp
 
 def FunctionalAnalysisDualPointwiseClassifier
     (ScalarClassifier : BHist -> BHist -> Prop) (f g : BHist) : Prop :=
@@ -46,6 +49,47 @@ theorem FunctionalAnalysisBoundedOperatorRow_visible_ledger
       (And.intro row.right.right.left
         (And.intro row.right.right.right.left
           (And.intro row.right.right.right.right ledgerUnary))))
+
+theorem FunctionalAnalysisBoundedOperatorRow_ledger_hsame_transport
+    {f source target bound ledger source' target' ledger' : BHist} :
+    FunctionalAnalysisBoundedOperatorRow f source target bound ledger ->
+      hsame source source' -> hsame target target' -> Cont source' target' ledger' ->
+        FunctionalAnalysisBoundedOperatorRow f source' target' bound ledger' ∧
+          hsame ledger ledger' := by
+  intro row sameSource sameTarget ledgerCont'
+  have sourceVec' : VecSpaceSingletonCarrier source' :=
+    hsame_trans (hsame_symm sameSource) row.right.left.left
+  have sourceMetricFields' :
+      UnaryHistory source' ∧ UnaryHistory BHist.Empty ∧ UnaryHistory BHist.Empty ∧
+        Cont source' BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_hsame_fields_transport sameSource (hsame_refl BHist.Empty)
+      (hsame_refl BHist.Empty) row.right.left.right
+  have sourceBanach' : BanachSingletonCarrier source' :=
+    And.intro sourceVec'
+      (And.intro sourceMetricFields'.left
+        (And.intro sourceMetricFields'.right.left
+          (And.intro sourceMetricFields'.right.right.left
+            sourceMetricFields'.right.right.right)))
+  have targetVec' : VecSpaceSingletonCarrier target' :=
+    hsame_trans (hsame_symm sameTarget) row.right.right.left.left
+  have targetMetricFields' :
+      UnaryHistory target' ∧ UnaryHistory BHist.Empty ∧ UnaryHistory BHist.Empty ∧
+        Cont target' BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_hsame_fields_transport sameTarget (hsame_refl BHist.Empty)
+      (hsame_refl BHist.Empty) row.right.right.left.right
+  have targetBanach' : BanachSingletonCarrier target' :=
+    And.intro targetVec'
+      (And.intro targetMetricFields'.left
+        (And.intro targetMetricFields'.right.left
+          (And.intro targetMetricFields'.right.right.left
+            targetMetricFields'.right.right.right)))
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameSource sameTarget row.right.right.right.right ledgerCont'
+  exact And.intro
+    (And.intro row.left
+      (And.intro sourceBanach'
+        (And.intro targetBanach' (And.intro row.right.right.right.left ledgerCont'))))
+    sameLedger
 
 theorem FunctionalAnalysisBoundedLinearOperator_norm_bound_stable
     {T : BHist -> BHist} {K K' ledger ledger' : BHist} :

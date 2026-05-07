@@ -73,6 +73,7 @@ for every such measurable event family $B$, where $\sim_R$ is the $\RealUp$ clas
 \end{enumerate}
 This is the concrete paper-side factorisation surface carried by $\IndependenceUp$ in \autoref{sec:independence-carrier} and \autoref{sec:independence-certificate}.
 \end{definition}
+\leandef{BEDC.Derived.IndependenceUp.IndependenceFiniteFactorizationRow}
 
 \begin{theorem}[Independence obligation stability under certified transport]
 \label{thm:independence-obligation-stability-transport}
@@ -112,6 +113,20 @@ The carrier supplies the source, finite index, random-variable spine, marginal e
 The stability theorem records that the factorisation judgment is preserved by the named classifiers. The ledger exactness theorem records that no field outside the cylinder readback, marginal spine, product fold, and joint endpoint is used by the judgment.
 
 Together these rows are the required carrier, classifier, stability, ledger, and exactness faces of the finite-family naming certificate. Therefore they assemble into the $\IndependenceUp$ obligation packet for the stated finite scope.
+\end{proof}
+
+\begin{theorem}[Independence scoped primitive boundary]
+\label{thm:independence-scoped-primitive-boundary}
+The finite-family $\IndependenceUp$ certificate surface is scoped by exactly the displayed $\NameCert$ rows for $\ProbSpaceUp$, $\FinSetUp$, $\RandomVarUp$, $\DistributionUp$, $\PermutationUp$, and $\RealUp$, together with the BEDC kernel carriers and classifiers $BHist$, $hsame$, and $Cont$, the product-cylinder readback, finite product fold, joint endpoint, and marginal spine of \autoref{def:independence-finite-factorisation-row}. It consumes no conditional-expectation row, martingale row, sigma-completion row, host equality row, host function equality row, or standard probability-space bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:independence-obligation-certificate-packet}. The packet assembles the finite-family carrier, classifier, stability, ledger, and exactness faces from the displayed source, index, random-variable, distribution, permutation, and real rows.
+
+The generated transport scope is the one stated in \autoref{thm:independence-classifier-stability-obligation}. Its generators are certified finite reindexing, readable-preimage transport, distribution endpoint transport, and finite-product classifier transport; each is supplied by the displayed $\NameCert$ rows and the kernel classifiers $BHist$, $hsame$, and $Cont$.
+
+The exact ledger boundary is the one stated in \autoref{thm:independence-ledger-exactness-obligation}. It reads only the product-cylinder readback, marginal distribution spine, finite $\RealUp$ product fold, and joint distribution endpoint of \autoref{def:independence-finite-factorisation-row}.
+
+The nontrivial finite-family stability faces are exactly the checked rows \autoref{lem:realup-finite-product-permutation-readback}, \autoref{thm:independence-finite-reindexing-invariance}, and \autoref{thm:independence-measurable-image-bridge}. Those rows cover permutation readback, finite reindexing, and measurable-image transport, so no conditional-expectation, martingale, sigma-completion, host equality, host function equality, or standard bridge row remains in the scoped boundary.
 \end{proof}
 
 \begin{theorem}[Independence carrier obligation]
@@ -317,14 +332,14 @@ Since $C_0,C_1$ were arbitrary measurable events, this is exactly the binary fin
 \end{theorem}
 \leanchecked{BEDC.Derived.IndependenceUp.IndependenceBinaryFactorization\_measurable\_image\_bridge}
 
-\closureat{IndependenceUp}{obligationStr}[BEDC.Derived.IndependenceUp.IndependenceBinaryFactorization\_measurable\_image\_bridge]
+\closureat{IndependenceUp}{scopedStr}[BEDC.Derived.IndependenceUp.IndependenceBinaryFactorization\_measurable\_image\_bridge]
 
 \begin{closurestatus}{\IndependenceUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope is exactly the finite-family carrier, classifier, stability, ledger, exactness, finite reindexing row, measurable-image bridge, and the $\RandomVarUp$, $\DistributionUp$, $\FinSetUp$, $\PermutationUp$, and $\RealUp$ input rows displayed in this chapter.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped finite-family carrier, factorisation classifier, stability transport, ledger exactness, finite reindexing, and measurable-image bridge are bound over the displayed $\RandomVarUp$, $\DistributionUp$, $\FinSetUp$, $\PermutationUp$, $\RealUp$, BHist-readable cylinder, and product-fold rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.IndependenceUp.IndependenceBinaryFactorization\_measurable\_image\_bridge}
   \bridgestatus{none}
   \notclaimed{Full probability theory, sigma-algebra completion, conditional expectation, martingales, and standard bridge data are not claimed here.}
-  \upgradepath{Scoped closure requires binding each obligation to the primitive BEDC rows it depends on and proving the finite-family certificate from those rows.}
+  \upgradepath{Public closure requires a public NameCert export theorem for $\IndependenceUp$ with the finite-family carrier, classifier, stability, ledger, and measurable-image bridge exposed as reusable certificate rows.}
 \end{closurestatus}
