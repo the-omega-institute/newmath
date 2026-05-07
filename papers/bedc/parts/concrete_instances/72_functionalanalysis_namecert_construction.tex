@@ -79,6 +79,7 @@ uses the same Hilbert carrier, the same classifier, and the same
 inner-product rows before and after transport, so the adjoint ledger row is
 preserved componentwise.
 \end{theorem}
+\leanchecked{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_adjoint\_stability}
 \begin{proof}
 Begin with the Hilbert source. By
 \autoref{thm:hilbert-namecert-obligation-surface}, every accepted Hilbert row
@@ -335,13 +336,13 @@ $\SpectralTheoremUp$, $\SemigroupUp$, and $\PdeUp$, while the omitted claims
 remain outside this $\FunctionalAnalysisUp$ certificate.
 \end{proof}
 
-\closureat{FunctionalAnalysisUp}{publicStr}
+\closureat{FunctionalAnalysisUp}{bridgedStr}[BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_visible\_ledger]
 \begin{closurestatus}{\FunctionalAnalysisUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The scoped package binds the bounded-linear-operator carrier and classifier, the dual-space classifier, norm-bound stability, adjoint stability, the compact finite-net ledger, and the exact ledger boundary over the named $\BanachUp$, $\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ surfaces.}
-  \formalstatus{\unformalizedV}
-  \leantarget{BEDC.Derived.LinearMapUp.LinearMapSingleton\_laws}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not claim Lean verification, spectral theorem rows, PDE or semigroup certificates, or a standard bridge.}
-  \upgradepath{The next paper-side step is bridgedClosure: a standard bridge and downstream bridge rows for the exported public surface.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridge payload is exactly the six rows of \autoref{thm:functionalanalysis-public-bridge-boundary}: the bounded-operator row, dual pointwise classifier, norm-bound stability, adjoint stability, compact finite-net witness, and exact ledger boundary over the named $\BanachUp$, $\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ surfaces.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_visible\_ledger}
+  \bridgestatus{paperBridge}
+  \notclaimed{Spectral theorem rows, PDE well-posedness, semigroup evolution, host equality, and $\bridgeCheckedV$ remain outside this chapter.}
+  \upgradepath{$\bridgeCheckedV$ requires checked standard-bridge packaging for the six displayed rows and downstream certificates beyond the paper bridge recorded here.}
 \end{closurestatus}
