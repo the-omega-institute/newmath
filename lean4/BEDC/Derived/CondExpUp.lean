@@ -80,4 +80,33 @@ theorem CondExpProjection_obligation
         (And.intro preimageRows.left
           (And.intro preimageRows.right residualRow))))
 
+theorem CondExpClassifier_obligation
+    {targetTotal sourceTotal chosenPreimage integrable projected residual targetTotal' sourceTotal'
+      chosenPreimage' integrable' projected' residual' : BHist} :
+    UnaryHistory sourceTotal -> UnaryHistory sourceTotal' ->
+      CondExpCarrierPacket targetTotal sourceTotal chosenPreimage integrable projected residual ->
+        CondExpCarrierPacket targetTotal' sourceTotal' chosenPreimage' integrable' projected'
+          residual' ->
+          hsame sourceTotal sourceTotal' -> hsame projected projected' ->
+            hsame residual residual' ->
+              hsame chosenPreimage chosenPreimage' ∧
+                VecSpaceSingletonClassifier projected projected' ∧
+                  hsame integrable integrable' ∧ Cont projected residual integrable ∧
+                    Cont projected' residual' integrable' := by
+  intro sourceUnary sourceUnary' packet packet' sameSource sameProjected sameResidual
+  have preimageRows :=
+    RandomVarTotalReadbackCertificate_total_event_preimage_exactness sourceUnary packet.left
+  have preimageRows' :=
+    RandomVarTotalReadbackCertificate_total_event_preimage_exactness sourceUnary' packet'.left
+  have samePreimage : hsame chosenPreimage chosenPreimage' :=
+    hsame_trans preimageRows.right (hsame_trans sameSource (hsame_symm preimageRows'.right))
+  have projectedClassifier : VecSpaceSingletonClassifier projected projected' :=
+    And.intro packet.right.left.right.left
+      (And.intro packet'.right.left.right.left sameProjected)
+  have sameIntegrable : hsame integrable integrable' :=
+    cont_respects_hsame sameProjected sameResidual packet.right.right packet'.right.right
+  exact And.intro samePreimage
+    (And.intro projectedClassifier
+      (And.intro sameIntegrable (And.intro packet.right.right packet'.right.right)))
+
 end BEDC.Derived.CondExpUp
