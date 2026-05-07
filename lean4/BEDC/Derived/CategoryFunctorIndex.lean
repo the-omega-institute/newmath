@@ -121,6 +121,7 @@ import BEDC.Derived.NatTransUp.UnaryObjectSuffix
 import BEDC.Derived.NatTransUp.VertCompNonemptyResultTargetVisible
 import BEDC.Derived.NatTransUp.VertCompCycleBoundary
 import BEDC.Derived.NatTransUp.VerticalWhisker
+import BEDC.Derived.NatTransUp.NaturalIso
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.AdjunctionUp.CarrierSwap
 import BEDC.Derived.AdjunctionUp.TriangleComponents

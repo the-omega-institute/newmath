@@ -231,6 +231,7 @@ import BEDC.Derived.SheafUp.RootRestrictionRefinement
 import BEDC.Derived.SheafUp.ExactnessExport
 import BEDC.Derived.SheafUp.CommonTransport
 import BEDC.Derived.SheafUp.RootNameCertLocality
+import BEDC.Derived.SheafUp.CoverPresentationExactness
 import BEDC.Derived.SetUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.SemanticNameCertificate
@@ -588,6 +589,7 @@ import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CompactUp.TwoStepFactor
 import BEDC.Derived.FunctorUp.OppositeCertificate
+import BEDC.Derived.NatTransUp.NaturalIso
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
