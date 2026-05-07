@@ -321,6 +321,33 @@ theorem LieGroupSingleton_downstream_export {h k product chart : BHist} :
       (And.intro productManifold
         (And.intro chartEmpty (And.intro chartUnary productNotSuccessor))))
 
+theorem LieGroupSingleton_source_lock {h chart transition : BHist} :
+    LieGroupSingletonCarrier h -> Cont BHist.Empty h chart -> Cont chart chart transition ->
+      GroupSingletonCarrier h ∧ ManifoldSingletonCarrier h ∧ LieGroupSingletonCarrier h ∧
+        LieGroupSingletonClassifier h BHist.Empty ∧ hsame chart BHist.Empty ∧
+          hsame transition BHist.Empty ∧ UnaryHistory chart ∧ UnaryHistory transition := by
+  intro carrier chartRow transitionRow
+  have emptyCarrier : LieGroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have classified : LieGroupSingletonClassifier h BHist.Empty :=
+    And.intro carrier (And.intro emptyCarrier carrier)
+  have chartH : hsame chart h :=
+    cont_left_unit_result chartRow
+  have chartEmpty : hsame chart BHist.Empty :=
+    hsame_trans chartH carrier
+  have transitionEmpty : hsame transition BHist.Empty :=
+    cont_respects_hsame chartEmpty chartEmpty transitionRow (cont_left_unit BHist.Empty)
+  have chartUnary : UnaryHistory chart :=
+    unary_transport unary_empty (hsame_symm chartEmpty)
+  have transitionUnary : UnaryHistory transition :=
+    unary_transport unary_empty (hsame_symm transitionEmpty)
+  exact And.intro carrier
+    (And.intro carrier
+      (And.intro carrier
+        (And.intro classified
+          (And.intro chartEmpty
+            (And.intro transitionEmpty (And.intro chartUnary transitionUnary))))))
+
 theorem LieGroupSingleton_exact_ledger {h k product chart : BHist} :
     LieGroupSingletonCarrier h -> LieGroupSingletonCarrier k -> Cont h k product ->
       Cont BHist.Empty product chart ->
