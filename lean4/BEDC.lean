@@ -215,6 +215,7 @@ import BEDC.Derived.SheafUp.DownstreamProjection
 import BEDC.Derived.SheafUp.DownstreamRoot
 import BEDC.Derived.SheafUp.DownstreamRootSource
 import BEDC.Derived.SheafUp.BaseChangeIdentitySquare
+import BEDC.Derived.SheafUp.BaseChangeFunctoriality
 import BEDC.Derived.SheafUp.BaseChangeSurface
 import BEDC.Derived.SheafUp.GluingClassifierRows
 import BEDC.Derived.SheafUp.RouteExactnessPacket
@@ -222,6 +223,7 @@ import BEDC.Derived.SheafUp.CoverNerveRestrictionTransport
 import BEDC.Derived.SheafUp.CoverNerveRouteTransport
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafUp.RootFace
+import BEDC.Derived.SheafUp.RootFaceExactness
 import BEDC.Derived.SheafUp.RootFaceReadback
 import BEDC.Derived.SheafUp.JointConsumerFace
 import BEDC.Derived.SheafUp.RootCoverDescent
@@ -272,6 +274,7 @@ import BEDC.Derived.SheafUp.ObligationSurface
 import BEDC.Derived.SheafUp.RootExport
 import BEDC.Derived.SheafUp.RootExportCarrierScope
 import BEDC.Derived.SheafUp.RootExportSurface
+import BEDC.Derived.SheafUp.RootCoverNerveExportSurface
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
@@ -664,6 +667,7 @@ import BEDC.Derived.FunctorUp.OppositeCertificate
 import BEDC.Derived.FunctorUp.StdBridge
 import BEDC.Derived.NatTransUp.NaturalIso
 import BEDC.Derived.CategoryUp.StdBridge
+import BEDC.Derived.CategoryUp.MatureHostInterfaceInventory
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.InterHist
 import BEDC.Derived.Observer

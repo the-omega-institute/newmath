@@ -257,4 +257,27 @@ theorem GraphContEdge_visible_tail_step_closure {h k g : BHist} :
     (And.intro edge.left (And.intro unaryKZero zeroStep))
     (And.intro edge.left (And.intro unaryKOne oneStep))
 
+theorem GraphContPublicInterface_bridge :
+    SemanticNameCert UnaryHistory UnaryHistory UnaryHistory hsame ∧
+      (forall {h k g : BHist}, GraphContEdge h k g ->
+        UnaryHistory h ∧ UnaryHistory k ∧ Cont h k g) ∧
+        (forall {h k g h' k' g' : BHist}, GraphContEdge h k g -> hsame h h' ->
+          hsame k k' -> hsame g g' -> GraphContEdge h' k' g') ∧
+          (forall {h k g g' : BHist}, GraphContEdge h k g -> GraphContEdge h k g' ->
+            hsame g g') ∧
+            (forall {h gL gR : BHist}, UnaryHistory h ->
+              GraphContEdge BHist.Empty h h ∧ GraphContEdge h BHist.Empty h ∧
+                (GraphContEdge BHist.Empty h gL -> hsame gL h) ∧
+                  (GraphContEdge h BHist.Empty gR -> hsame gR h)) := by
+  exact And.intro GraphCont_namecert_surface.left
+    (And.intro GraphCont_namecert_surface.right.left
+      (And.intro GraphCont_namecert_surface.right.right
+        (And.intro
+          (by
+            intro h k g g' left right
+            exact (GraphContEdge_result_determinacy left right).right.right)
+          (by
+            intro h gL gR unaryH
+            exact GraphContEdge_unit_loop unaryH))))
+
 end BEDC.Derived.GraphUp
