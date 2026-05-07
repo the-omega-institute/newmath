@@ -29,9 +29,9 @@ theorem ContactCarrierClassifierSurface_form_row_obligation
   exact And.intro surface.left
     (And.intro manifoldRows.right.left
       (And.intro surface.right.left
-        (And.intro surface.right.right.left
-          (And.intro wedgeUnary
-            (And.intro topUnary
-              (And.intro surface.right.right.right.left surface.right.right.right.right))))))
+          (And.intro surface.right.right.left
+            (And.intro wedgeUnary
+              (And.intro topUnary
+                (And.intro surface.right.right.right.left surface.right.right.right.right))))))
 
 end BEDC.Derived.ContactUp
