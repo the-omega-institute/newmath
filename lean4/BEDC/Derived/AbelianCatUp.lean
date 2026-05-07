@@ -2,12 +2,14 @@ import BEDC.Derived.CategoryUp
 import BEDC.Derived.GroupUp
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.AbelianCatUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.CategoryUp
 open BEDC.Derived.GroupUp
@@ -337,5 +339,77 @@ theorem AbelianCatZeroBiproductKernelSurface_zero_object_boundary
     unary_transport unary_empty (hsame_symm S.add_carrier)
   exact And.intro S.zero_hom
     (And.intro zeroUnary (And.intro S.add_carrier (And.intro addUnary S.kernel_row)))
+
+theorem AbelianCatZeroBiproductKernelSurface_semantic_name_certificate :
+    SemanticNameCert
+      (fun h : BHist =>
+        exists S : AbelianCatZeroBiproductKernelSurface, hsame h S.zero)
+      (fun h : BHist =>
+        exists S : AbelianCatZeroBiproductKernelSurface, hsame h S.kernel ∧
+          Cont S.zero S.add S.kernel)
+      (fun h : BHist =>
+        exists S : AbelianCatZeroBiproductKernelSurface, hsame h S.zero ∧
+          Cont S.kernel S.cokernel S.factor)
+      (fun h k : BHist => hsame h k) := by
+  have zeroHom : CategoryHomCarrier BHist.Empty BHist.Empty BHist.Empty :=
+    CategoryHomCarrier_empty_identity unary_empty
+  have emptyMetricCarrier : GroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have emptyKernelRow : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  have emptyFactorRow : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  let S : AbelianCatZeroBiproductKernelSurface := {
+    source := BHist.Empty
+    target := BHist.Empty
+    zero := BHist.Empty
+    add := BHist.Empty
+    kernel := BHist.Empty
+    cokernel := BHist.Empty
+    factor := BHist.Empty
+    carrier := And.intro zeroHom
+      (And.intro emptyMetricCarrier
+        (And.intro unary_empty
+          (And.intro unary_empty
+            (And.intro unary_empty (And.intro emptyKernelRow emptyFactorRow)))))
+    zero_hom := zeroHom
+    add_carrier := emptyMetricCarrier
+    kernel_row := emptyKernelRow
+    factor_row := emptyFactorRow
+  }
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty
+        (Exists.intro S (hsame_refl BHist.Empty))
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK sourceH
+        cases sourceH with
+        | intro T sameHZero =>
+            exact Exists.intro T (hsame_trans (hsame_symm sameHK) sameHZero)
+    }
+    pattern_sound := by
+      intro h sourceH
+      cases sourceH with
+      | intro T sameHZero =>
+          have kernelZero : hsame T.kernel T.zero :=
+            cont_respects_hsame (hsame_refl T.zero) T.add_carrier T.kernel_row
+              (cont_right_unit T.zero)
+          exact Exists.intro T
+            (And.intro (hsame_trans sameHZero (hsame_symm kernelZero)) T.kernel_row)
+    ledger_sound := by
+      intro h sourceH
+      cases sourceH with
+      | intro T sameHZero =>
+          exact Exists.intro T (And.intro sameHZero T.factor_row)
+  }
 
 end BEDC.Derived.AbelianCatUp
