@@ -32,6 +32,29 @@ theorem TreeBHistCarrier_root_branch_transport
     (And.intro transportedEdge (And.intro rootUnary transportedCont))
     (And.intro rootUnary transportedCont)
 
+theorem TreeBHistCarrier_hsame_transport
+    {graph edge connected acyclic root endpoint graph' edge' connected' acyclic' root'
+      endpoint' : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint -> hsame graph graph' ->
+      hsame edge edge' -> hsame connected connected' -> hsame acyclic acyclic' ->
+        hsame root root' -> hsame endpoint endpoint' ->
+          TreeBHistCarrier graph' edge' connected' acyclic' root' endpoint' ∧
+            GraphContEdge graph' edge' connected' ∧ UnaryHistory acyclic' ∧
+              TreeRootBranch endpoint' root' connected' := by
+  intro carrier sameGraph sameEdge sameConnected sameAcyclic sameRoot sameEndpoint
+  have graphRow : GraphContEdge graph' edge' connected' :=
+    (GraphContEdge_classifier_transport carrier.left sameGraph sameEdge sameConnected).left
+  have acyclicUnary : UnaryHistory acyclic' :=
+    unary_transport carrier.right.left sameAcyclic
+  have branch :
+      TreeRootBranch endpoint' root' connected' ∧ UnaryHistory root' ∧
+        Cont endpoint' root' connected' :=
+    TreeBHistCarrier_root_branch_transport carrier sameEndpoint sameRoot sameConnected
+  have carrier' : TreeBHistCarrier graph' edge' connected' acyclic' root' endpoint' :=
+    And.intro graphRow (And.intro acyclicUnary branch.left)
+  exact And.intro carrier'
+    (And.intro graphRow (And.intro acyclicUnary branch.left))
+
 theorem TreeVisibleCarrier_root_witness_obligation {root vertex edge : BHist} :
     GraphContEdge root vertex edge ->
       (hsame root BHist.Empty -> GraphContEdge BHist.Empty vertex vertex ∧ hsame edge vertex) ∧

@@ -221,6 +221,7 @@ import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RefinementPullbackComposition
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootThreshold
+import BEDC.Derived.SheafUp.RootUnblock
 import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SheafUp.ClassifierStability
