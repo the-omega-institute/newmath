@@ -420,4 +420,29 @@ theorem FilterPrincipalSuffix_continuousMap_image_point_determinacy
     (hsame_trans sameTarget0Point (hsame_symm sameTarget1Point))
     (And.intro (hsame_symm sameTarget0Point) (hsame_symm sameTarget1Point))
 
+theorem FilterPrincipalSuffix_upward_closed
+    {base suffix point extra extended : BHist} :
+    UnaryHistory base -> UnaryHistory suffix -> UnaryHistory extra ->
+      Cont base suffix point -> Cont point extra extended ->
+        UnaryHistory point ∧ UnaryHistory extended ∧
+          exists combined : BHist,
+            UnaryHistory combined ∧ Cont suffix extra combined ∧ Cont base combined extended := by
+  intro baseCarrier suffixCarrier extraCarrier baseSuffix pointExtra
+  have pointCarrier : UnaryHistory point :=
+    unary_cont_closed baseCarrier suffixCarrier baseSuffix
+  have extendedCarrier : UnaryHistory extended :=
+    unary_cont_closed pointCarrier extraCarrier pointExtra
+  have combinedCarrier : UnaryHistory (append suffix extra) :=
+    unary_append_closed suffixCarrier extraCarrier
+  have suffixExtra : Cont suffix extra (append suffix extra) :=
+    cont_intro rfl
+  have baseCombined : Cont base (append suffix extra) extended := by
+    cases baseSuffix
+    cases pointExtra
+    exact cont_intro (append_assoc base suffix extra)
+  exact And.intro pointCarrier
+    (And.intro extendedCarrier
+      (Exists.intro (append suffix extra)
+        (And.intro combinedCarrier (And.intro suffixExtra baseCombined))))
+
 end BEDC.Derived.FilterUp
