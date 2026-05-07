@@ -384,6 +384,23 @@ theorem TreeBHistCarrier_syntactic_representation
       (And.intro endpointUnary (And.intro syntaxUnary syntaxRow))
       targetUnary)
 
+theorem TreePublicDerivationSyntaxBridge_round_trip
+    {graph edge connected acyclic root endpoint syn external encoded : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint -> UnaryHistory syn ->
+      Cont endpoint syn external -> hsame external encoded ->
+        TreeBHistCarrier graph edge connected acyclic root endpoint ∧
+          TreeRootBranch endpoint root connected ∧ GraphContEdge endpoint syn encoded ∧
+            hsame external encoded := by
+  intro carrier synUnary syntaxRow sameEncoded
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  have endpointUnary : UnaryHistory endpoint := branch.left.left
+  have encodedRow : Cont endpoint syn encoded :=
+    cont_result_hsame_transport syntaxRow sameEncoded
+  have encodedEdge : GraphContEdge endpoint syn encoded :=
+    And.intro endpointUnary (And.intro synUnary encodedRow)
+  exact And.intro carrier
+    (And.intro branch (And.intro encodedEdge sameEncoded))
+
 theorem TreeBHistObligationCarrier_acyclic_unit_loop_exactness
     {root source target edge connected acyclic repr package loop : BHist} :
     TreeBHistObligationCarrier root source target edge connected acyclic repr package ->
