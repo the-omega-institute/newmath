@@ -4,6 +4,7 @@ namespace BEDC.Derived.SheafUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 theorem SheafBHistPointGermLedger_base_change_gluing_pullback
     {point targetOpen representedOpen pulledOpen sectionHist germ pulledGerm : BHist} :
@@ -94,5 +95,87 @@ theorem SheafBaseChange_common_refinement_projection
     (And.intro comparison
       (And.intro coverPullback.right
         (And.intro samePulledGerms pulledA.right.right)))
+
+theorem SheafBaseChange_obligation_surface
+    {ambient member overlap route germ sourceMember sourceOverlap sourceCoverGerm point targetOpen
+      representedOpen pulledOpen sectionA sectionB germA germB pulledGermA pulledGermB :
+        BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      hsame member sourceMember -> hsame overlap sourceOverlap ->
+        Cont sourceOverlap route sourceCoverGerm ->
+          SheafBHistPointGermLedger point targetOpen sectionA germA ->
+            SheafBHistPointGermLedger point targetOpen sectionB germB ->
+              hsame germA germB -> hsame targetOpen representedOpen ->
+                hsame representedOpen pulledOpen -> Cont pulledOpen sectionA pulledGermA ->
+                  Cont pulledOpen sectionB pulledGermB ->
+                    SemanticNameCert
+                        (fun endpoint : BHist =>
+                          SheafBHistPointGermComparison point pulledOpen sectionA endpoint
+                            pulledOpen sectionB pulledGermB pulledOpen)
+                        (fun endpoint : BHist =>
+                          SheafBHistPointGermComparison point pulledOpen sectionA endpoint
+                            pulledOpen sectionB pulledGermB pulledOpen)
+                        (fun endpoint : BHist =>
+                          SheafBHistPointGermComparison point pulledOpen sectionA endpoint
+                            pulledOpen sectionB pulledGermB pulledOpen)
+                        hsame ∧
+                      SheafBHistCoverNerveLedger ambient sourceMember sourceOverlap route
+                          sourceCoverGerm ∧
+                        SheafBHistPointGermComparison point pulledOpen sectionA pulledGermA
+                          pulledOpen sectionB pulledGermB pulledOpen ∧
+                          hsame germ sourceCoverGerm ∧ hsame pulledGermA pulledGermB ∧
+                            hsame targetOpen pulledOpen := by
+  intro coverLedger sameMember sameOverlap sourceRow ledgerA ledgerB sameGerm sameRepresented
+    samePulled pulledRowA pulledRowB
+  have projection :
+      SheafBHistCoverNerveLedger ambient sourceMember sourceOverlap route sourceCoverGerm ∧
+        SheafBHistPointGermComparison point pulledOpen sectionA pulledGermA pulledOpen sectionB
+          pulledGermB pulledOpen ∧
+          hsame germ sourceCoverGerm ∧ hsame pulledGermA pulledGermB ∧
+            hsame targetOpen pulledOpen :=
+    SheafBaseChange_common_refinement_projection coverLedger sameMember sameOverlap sourceRow
+      ledgerA ledgerB sameGerm sameRepresented samePulled pulledRowA pulledRowB
+  have cert :
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          SheafBHistPointGermComparison point pulledOpen sectionA endpoint pulledOpen sectionB
+            pulledGermB pulledOpen)
+        (fun endpoint : BHist =>
+          SheafBHistPointGermComparison point pulledOpen sectionA endpoint pulledOpen sectionB
+            pulledGermB pulledOpen)
+        (fun endpoint : BHist =>
+          SheafBHistPointGermComparison point pulledOpen sectionA endpoint pulledOpen sectionB
+            pulledGermB pulledOpen)
+        hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro pulledGermA projection.right.left
+      · intro endpoint _carrier
+        exact hsame_refl endpoint
+      · intro endpoint endpoint' same
+        exact hsame_symm same
+      · intro endpoint endpoint' endpoint'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro endpoint endpoint' same carrier
+        have transportedA : Cont pulledOpen sectionA endpoint' :=
+          cont_result_hsame_transport
+            carrier.right.right.right.right.right.right.left same
+        have transportedGerm : hsame endpoint' pulledGermB :=
+          hsame_trans (hsame_symm same)
+            carrier.right.right.right.right.right.right.right.right
+        exact And.intro carrier.left
+          (And.intro carrier.right.left
+            (And.intro carrier.right.right.left
+              (And.intro carrier.right.right.right.left
+                (And.intro carrier.right.right.right.right.left
+                  (And.intro carrier.right.right.right.right.right.left
+                    (And.intro transportedA
+                      (And.intro carrier.right.right.right.right.right.right.right.left
+                        transportedGerm)))))))
+    · intro _endpoint source
+      exact source
+    · intro _endpoint source
+      exact source
+  exact And.intro cert projection
 
 end BEDC.Derived.SheafUp
