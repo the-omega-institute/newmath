@@ -264,6 +264,7 @@ import BEDC.Derived.SheafUp.RootExportSurface
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
+import BEDC.Derived.SheafUp.RootStalkFreeGermSource
 import BEDC.Derived.SetUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.TreeUp
