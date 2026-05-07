@@ -8,6 +8,24 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.GraphUp
 
+theorem TreeGraphContEdge_visible_spine_extension_transport
+    {root spine endpoint extension out out' : BHist} :
+    GraphContEdge root spine endpoint -> UnaryHistory extension -> Cont endpoint extension out ->
+      hsame out out' -> GraphContEdge endpoint extension out' ∧ UnaryHistory out' ∧ hsame out out' := by
+  intro edge extensionUnary extensionRoute sameOut
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed edge.left edge.right.left edge.right.right
+  have outUnary : UnaryHistory out :=
+    unary_cont_closed endpointUnary extensionUnary extensionRoute
+  have outUnary' : UnaryHistory out' :=
+    unary_transport outUnary sameOut
+  have extensionRoute' : Cont endpoint extension out' :=
+    cont_result_hsame_transport extensionRoute sameOut
+  exact And.intro
+    (And.intro endpointUnary (And.intro extensionUnary extensionRoute'))
+    (And.intro outUnary' sameOut)
+
+
 def TreeBHistObligationCarrier
     (root source target edge connected acyclic repr package : BHist) : Prop :=
   GraphContEdge source target edge ∧ UnaryHistory root ∧ Cont root connected source ∧
@@ -69,6 +87,29 @@ theorem TreeBHistCarrier_root_branch_transport
   exact And.intro
     (And.intro transportedEdge (And.intro rootUnary transportedCont))
     (And.intro rootUnary transportedCont)
+
+theorem TreeBHistCarrier_stability_ledger_transport
+    {graph edge connected acyclic root endpoint endpoint' root' connected' acyclic' : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint ->
+      hsame endpoint endpoint' -> hsame root root' -> hsame connected connected' ->
+        hsame acyclic acyclic' ->
+          TreeBHistCarrier graph edge connected' acyclic' root' endpoint' ∧
+            GraphContEdge endpoint' root' connected' ∧ UnaryHistory acyclic' ∧
+              Cont endpoint' root' connected' := by
+  intro carrier sameEndpoint sameRoot sameConnected sameAcyclic
+  have graphSource : GraphContEdge graph edge connected' :=
+    (GraphContEdge_classifier_transport carrier.left (hsame_refl graph) (hsame_refl edge)
+      sameConnected).left
+  have branch :
+      TreeRootBranch endpoint' root' connected' ∧ UnaryHistory root' ∧
+        Cont endpoint' root' connected' :=
+    TreeBHistCarrier_root_branch_transport carrier sameEndpoint sameRoot sameConnected
+  have acyclicUnary : UnaryHistory acyclic' :=
+    unary_transport carrier.right.left sameAcyclic
+  exact And.intro
+    (And.intro graphSource (And.intro acyclicUnary branch.left))
+    (And.intro branch.left.left
+      (And.intro acyclicUnary branch.right.right))
 
 theorem TreeBHistCarrier_classifier_transport
     {graph edge connected acyclic root endpoint graphNext edgeNext connectedNext acyclicNext

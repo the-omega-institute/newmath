@@ -57,6 +57,29 @@ theorem SheafBHistCoverNerveLedger_refinement_pullback
           (And.intro sameOverlap refinedRow))))
     sameGerm
 
+theorem SheafBHistCoverNerveLedger_base_change_composition
+    {ambient member overlap route germ midMember midOverlap midGerm finalMember finalOverlap
+      finalGerm : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      hsame member midMember -> hsame overlap midOverlap -> Cont midOverlap route midGerm ->
+        hsame midMember finalMember -> hsame midOverlap finalOverlap ->
+          Cont finalOverlap route finalGerm ->
+            SheafBHistCoverNerveLedger ambient finalMember finalOverlap route finalGerm ∧
+              hsame germ finalGerm ∧ hsame midGerm finalGerm := by
+  intro ledger sameMemberMid sameOverlapMid midRow sameMemberFinal sameOverlapFinal finalRow
+  have midPullback :
+      SheafBHistCoverNerveLedger ambient midMember midOverlap route midGerm ∧
+        hsame germ midGerm :=
+    SheafBHistCoverNerveLedger_base_change_cover_pullback
+      ledger sameMemberMid sameOverlapMid midRow
+  have finalPullback :
+      SheafBHistCoverNerveLedger ambient finalMember finalOverlap route finalGerm ∧
+        hsame midGerm finalGerm :=
+    SheafBHistCoverNerveLedger_base_change_cover_pullback
+      midPullback.left sameMemberFinal sameOverlapFinal finalRow
+  exact And.intro finalPullback.left
+    (And.intro (hsame_trans midPullback.right finalPullback.right) finalPullback.right)
+
 theorem SheafBHistCoverNerveLedger_base_change_cover_pullback_composition
     {ambient member overlap route germ memberMid overlapMid routeMid germMid memberOut
       overlapOut routeOut germOut directGerm : BHist} :
