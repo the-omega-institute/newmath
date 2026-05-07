@@ -53,11 +53,12 @@ The exact ledger boundary is the accompanying $\Pkg$ provenance for those member
 Thus the ledger gives an extensionality obligation without exporting a host set, a host equality, or any hidden construction witness. The only downstream dependency made available is the membership-visible carrier, classifier, transport, and exact boundary described above.
 \end{proof}
 
+\closureat{SetUp}{obligationStr}
 \begin{closurestatus}{\SetUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter names the $\Hist$ set-carrier predicate, $\psame$-style membership classifier, membership transport, extensionality row, finite-substrate consumers $\FinSetUp$ and $\SubtypeUp$, exact ledger boundary, and standard-bridge row as the binding scope for the certificate obligations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:set-carrier-obligation}, \autoref{thm:set-classifier-obligation}, \autoref{thm:set-membership-transport-obligation}, and \autoref{thm:set-extensionality-ledger-obligation} give the complete obligation surface over $\mathsf{BHist}$, $\psame$, $\hsame$, $\Pkg$, $\NameCert$, $\FinSetUp$, and $\SubtypeUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This seed does not close carrier construction, classifier laws, extensionality, exactness, standard bridge data, or Lean verification for $\SetUp$.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, membership-transport, extensionality, exact-ledger, and dependency theorem blocks for $\SetUp$.}
+  \notclaimed{This obligation surface does not close exactness, standard bridge data, public certificate export, or Lean verification for $\SetUp$.}
+  \upgradepath{Scoped closure requires binding each obligation to the precise BEDC primitives and consumer boundary rows for $\SetUp$.}
 \end{closurestatus}
