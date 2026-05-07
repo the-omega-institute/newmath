@@ -7,22 +7,6 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
-theorem SheafRootUnblock_cover_membership_obligation
-    {ambient member overlap route germ nextRoute nextGerm : BHist} :
-    SheafBHistCoverNerveLedger ambient member overlap route germ ->
-      UnaryHistory nextRoute ->
-        Cont member nextRoute nextGerm ->
-          SheafBHistCoverNerveLedger ambient member member nextRoute nextGerm ∧
-            SheafRootFaceRead member member SheafRootFaceLanding.coverMembership ∧
-              SheafRootFaceRead member nextGerm SheafRootFaceLanding.restrictionRoute ∧
-                UnaryHistory nextGerm := by
-  intro ledger nextRouteUnary nextRow
-  have exhaustion :=
-    SheafRootCoverNerve_membership_exhaustion ledger nextRouteUnary nextRow
-  exact And.intro exhaustion.left
-    (And.intro (SheafRootFaceRead.coverMembership (hsame_refl member))
-      (And.intro (SheafRootFaceRead.restrictionRoute nextRow) exhaustion.right))
-
 theorem SheafRootUnblock_locality_gluing_faces
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
       restrictedGermB globalA globalB : BHist} :
@@ -66,5 +50,29 @@ theorem SheafRootUnblock_locality_gluing_faces
     (And.intro descent.right.left
       (And.intro comparison
         (And.intro face sameGlobal)))
+
+theorem SheafRootUnblockCoverMembership_obligation
+    {ambient member overlap route germ nextRoute nextGerm : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      UnaryHistory nextRoute ->
+        Cont member nextRoute nextGerm ->
+          SheafBHistCoverNerveLedger ambient member member nextRoute nextGerm ∧
+            SheafBHistPointGermLedger ambient member nextRoute nextGerm ∧
+              UnaryHistory nextGerm ∧ hsame overlap member := by
+  intro ledger nextRouteUnary nextRow
+  have memberUnary : UnaryHistory member := ledger.right.left
+  have nextGermUnary : UnaryHistory nextGerm :=
+    unary_cont_closed memberUnary nextRouteUnary nextRow
+  have memberCover :
+      SheafBHistCoverNerveLedger ambient member member nextRoute nextGerm :=
+    And.intro ledger.left
+      (And.intro memberUnary
+        (And.intro memberUnary
+          (And.intro (hsame_refl member) nextRow)))
+  have pointGerm : SheafBHistPointGermLedger ambient member nextRoute nextGerm :=
+    And.intro ledger.left (And.intro memberUnary nextRow)
+  exact And.intro memberCover
+    (And.intro pointGerm
+      (And.intro nextGermUnary ledger.right.right.right.left))
 
 end BEDC.Derived.SheafUp
