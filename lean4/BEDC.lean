@@ -169,6 +169,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.SymplecticUp
+import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.ConditionalUnique
@@ -270,6 +271,7 @@ import BEDC.Derived.SheafUp.RootStalkFreeGermSource
 import BEDC.Derived.SetUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.TreeUp
+import BEDC.Derived.TreeUp.GraphSourceObligationRows
 import BEDC.Derived.TreeUp.SemanticNameCertificate
 import BEDC.Derived.SheafUp.RefinedCoverExactness
 import BEDC.Derived.SchemeUp
