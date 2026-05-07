@@ -1,0 +1,57 @@
+\begin{theorem}[RingUp public singleton operation surface]
+\label{thm:ringup-public-singleton-operation-surface}
+For the concrete singleton history ring instance of
+Definition~\ref{def:concrete-singleton-history-ring-instance}, the public
+surface consists of the singleton carrier $A_{\emp}$, the classifier
+$R_{\emp}$, and the five displayed operations
+$$
+\mathsf{add}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{neg}(h):=\emp,\qquad
+0:=\emp,
+$$
+together with
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+1:=\emp.
+$$
+On carried endpoints this surface is closed under addition, negation,
+multiplication, zero, and one; append endpoints have exact singleton
+classifier readback; multiplication continuations classify exactly through the
+singleton continuation row; multiplication by zero is absorbed; and the exposed
+ledger contains only the operation tree plus singleton endpoint witnesses, so
+the zero-classifier ideal package contributes no hidden endpoint channel.
+\end{theorem}
+\begin{proof}
+The carrier, classifier, and operation rows are those displayed in
+Definition~\ref{def:concrete-singleton-history-ring-instance}. The
+RingUp laws of Theorem~\ref{thm:concrete-singleton-history-ring-laws} supply
+the additive group rows, multiplicative monoid rows, congruence rows, and both
+distributivity rows for this same tuple.
+
+Endpoint exactness is read from the singleton classifier lemmas. The append
+commutation row of
+Theorem~\ref{thm:ring-singleton-classifier-append-comm} exposes no data beyond
+the two singleton endpoint witnesses, while
+Theorem~\ref{thm:ring-singleton-classifier-mul-continuation-classifier}
+records that continuation readback after multiplication is again exactly the
+singleton carrier condition on the continuation input and output.
+
+The zero boundary is public for the same reason. The
+zero-factor absorption of Theorem~\ref{thm:ring-mul-zero-absorption} prevents a
+zero multiplication branch from producing a visible endpoint, and
+Theorem~\ref{thm:ring-zero-classifier-two-sided-ideal-package} packages
+addition, negation, and two-sided multiplication closure for zero-classified
+inputs. Thus the public ledger exposes precisely the operation tree and the
+singleton endpoint certificates already named above, with no additional
+history data available behind the classifier.
+\end{proof}
+
+\begin{closurestatus}{\RingUp}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{This chapter closes exactly the public singleton RingUp carrier $A_{\emp}$, classifier $R_{\emp}$, operation surface of \autoref{thm:ringup-public-singleton-operation-surface}, and its no-hidden-leakage boundary through the zero-classifier ideal package.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RingUp.RingSingletonEmptyHistory\_laws}
+  \bridgestatus{none}
+  \notclaimed{It does not close full ring theory, polynomial rings, fields, modules, quotient-ring theory, or standard bridges.}
+  \upgradepath{Bridged closure requires a paper-level standard bridge for the public singleton ring surface.}
+\end{closurestatus}
