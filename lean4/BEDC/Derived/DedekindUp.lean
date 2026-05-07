@@ -169,4 +169,28 @@ theorem DedekindSingleton_scoped_certificate_packet :
         · intro h k classified
           exact singletonLaws.right.left classified.left classified.right.left
 
+theorem DedekindSingleton_public_namecert_surface :
+    SemanticNameCert CommRingSingletonCarrier CommRingSingletonCarrier
+      CommRingSingletonCarrier CommRingSingletonClassifier ∧
+      (forall {h : BHist}, CommRingSingletonCarrier h ->
+        CommRingSingletonClassifier h BHist.Empty) ∧
+      (forall {h k : BHist}, CommRingSingletonClassifier h k ->
+        hsame h BHist.Empty ∧ hsame k BHist.Empty ∧ hsame h k) ∧
+      (forall {h : BHist}, CommRingSingletonCarrier h ->
+        hsame (CommRingSingletonMul h BHist.Empty) BHist.Empty ∧
+          hsame (CommRingSingletonMul BHist.Empty h) BHist.Empty) := by
+  have singletonLaws := singleton_empty_history_commring_laws
+  have emptyCarrier : CommRingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  constructor
+  · exact singletonLaws.left
+  · constructor
+    · intro h carrier
+      exact And.intro carrier (And.intro emptyCarrier carrier)
+    · constructor
+      · intro h k classified
+        exact And.intro classified.left
+          (And.intro classified.right.left classified.right.right)
+      · intro h _carrier
+        exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+
 end BEDC.Derived.DedekindUp
