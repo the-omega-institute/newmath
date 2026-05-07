@@ -309,6 +309,7 @@ import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
 import BEDC.Derived.DiffFormUp.ExteriorDerivativeBoundary
 import BEDC.Derived.DiffFormUp.RootConsumerFace
+import BEDC.Derived.DiffFormUp.RootConsumerEntry
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
@@ -578,6 +579,7 @@ import BEDC.Derived.RingUp.Cancellation
 import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
+import BEDC.Derived.MatrixUp.ZeroMatrixMultiplication
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.NegEndpoint
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
