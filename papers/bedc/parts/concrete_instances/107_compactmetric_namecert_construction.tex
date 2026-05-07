@@ -182,6 +182,89 @@ metric one, the assembled fields satisfy the paper-level $\NameCert$ target
 for $\CompactMetricUp$.
 \end{proof}
 
+\paragraph{Public export and downstream consumption}
+
+\begin{definition}[Compact metric public interface]
+\label{def:compactmetric-public-interface}
+For a certified metric carrier $X$, the public compact-metric interface
+$$
+\mathsf{CompactMetricPublic}(X)
+$$
+is the exported package consisting exactly of the three visible fields of
+\autoref{def:compactmetric-certificate-carrier}: the $\MetricSpaceUp$
+carrier, classifier, and distance rows; the $\TotallyBoundedUp$
+positive-tolerance $\mathsf{ProbeBundle}$-net selector
+$\varepsilon \mapsto (\mathcal{P}_{\varepsilon},net_{\varepsilon})$; and the
+$\CompleteMetricUp$ regular-Cauchy limit-witness selector
+$s \mapsto (\mu_s,\ell_s,L_s)$. No open-cover compactness witness, subsequence
+selector, or host-level compact-object predicate is part of
+$\mathsf{CompactMetricPublic}(X)$.
+\end{definition}
+
+\begin{theorem}[Compact metric public interface stability]
+\label{thm:compactmetric-public-interface-stability}
+For a certified metric carrier $X$, the package
+$\mathsf{CompactMetricPublic}(X)$ is transported by the inherited metric
+classifier. The metric carrier and distance rows are carried by the
+$\MetricSpaceUp$ classifier data; each positive-tolerance finite-net row is
+transported by
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}; and each
+regular-Cauchy limit-witness row is transported by
+\autoref{thm:completemetric-limit-witness-stability}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:compactmetric-certificate-package} to view
+$\mathsf{CompactMetricPublic}(X)$ as the visible export of
+$\mathsf{CompactMetricCertificate}(X)$. The inherited metric classifier
+transports the carrier histories and distance rows, so the public metric field
+has the same source classifier as the certificate package.
+
+For the totally-bounded selector, fix a transported positive $\RatUp$
+tolerance history. The certificate supplies the matching closed
+$\mathsf{ProbeBundle}$ net and its distance and comparison ledgers, and
+\autoref{thm:totallybounded-probebundle-net-coverage-stability} transports
+that whole row.
+
+For the complete-metric selector, fix a transported regular Cauchy stream name.
+The certificate supplies the modulus, limit history, threshold rows, and
+late-observation distance bounds, and
+\autoref{thm:completemetric-limit-witness-stability} transports the displayed
+limit witness. These three transported fields are precisely
+$\mathsf{CompactMetricPublic}(X)$.
+\end{proof}
+
+\begin{theorem}[Compact metric downstream consumption bridge]
+\label{thm:compactmetric-downstream-consumption-bridge}
+Any downstream $\ContinuousMapUp$ or Heine--Cantor argument whose compact input
+requirements are a metric carrier, explicit finite nets at positive rational
+tolerances, and regular-Cauchy limit witnesses may consume exactly the three
+fields of $\mathsf{CompactMetricPublic}(X)$. Such an argument gains no
+additional open-cover compactness principle and no subsequence principle from
+the compact-metric input.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:compactmetric-public-interface}. A request for the carrier,
+classifier, or distance rows is routed to the $\MetricSpaceUp$ field. This is
+the same metric source used by the total-boundedness and completeness clauses,
+so no extra carrier equivalence is introduced.
+
+A request for a finite net at a positive rational tolerance is routed to the
+$\TotallyBoundedUp$ selector
+$\varepsilon \mapsto (\mathcal{P}_{\varepsilon},net_{\varepsilon})$. Its
+centers, membership rows, distance witnesses, and rational comparison ledgers
+are the rows supplied by the certificate carrier.
+
+A request for a limit witness for a regular Cauchy stream is routed to the
+$\CompleteMetricUp$ selector $s \mapsto (\mu_s,\ell_s,L_s)$. The modulus,
+limit history, threshold ledger, and late-distance bounds are exactly the rows
+available to the downstream proof.
+
+The public interface has no fourth field. Therefore a downstream
+$\ContinuousMapUp$ or Heine--Cantor proof that uses
+$\mathsf{CompactMetricPublic}(X)$ consumes only metric rows, positive-tolerance
+ProbeBundle nets, and regular-Cauchy limit witnesses.
+\end{proof}
+
 \begin{theorem}[CompactMetricUp metric source scope]
 \label{thm:compactmetric-metric-source-scope}
 For every certified metric carrier $X$ equipped with
