@@ -240,6 +240,29 @@ theorem HilbertSingleton_endpoint_readback {m n : BHist} :
     Iff.mpr innerRows.right normRows.right.right.right.left
   exact And.intro normRows.right.left (And.intro innerConstant distanceWitness)
 
+theorem HilbertSingleton_source_compatibility {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      VecSpaceSingletonClassifier m BHist.Empty ∧ VecSpaceSingletonClassifier n BHist.Empty ∧
+        MetricDistanceWitness m n BHist.Empty ∧
+          RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+              (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have classifiedM : VecSpaceSingletonClassifier m BHist.Empty :=
+    And.intro carrierM (And.intro emptyCarrier carrierM)
+  have classifiedN : VecSpaceSingletonClassifier n BHist.Empty :=
+    And.intro carrierN (And.intro emptyCarrier carrierN)
+  have endpointRows := HilbertSingleton_endpoint_readback carrierM carrierN
+  have innerConstant :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    HilbertSingleton_universal_orthogonality carrierM carrierN
+  exact And.intro classifiedM
+    (And.intro classifiedN
+      (And.intro endpointRows.right.right
+        (And.intro endpointRows.left innerConstant)))
+
 theorem HilbertSingleton_norm_induced_metric_classifier {m n : BHist} :
     VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
       MetricDistanceWitness m n BHist.Empty ∧
