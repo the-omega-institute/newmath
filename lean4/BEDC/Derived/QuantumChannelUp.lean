@@ -194,4 +194,18 @@ theorem QuantumChannelUnitaryConjugation_composition_law {U V T vT left right : 
       (QuantumChannelAffineMixtureSpine.atom leftEmpty leftUnary)
       (QuantumChannelAffineMixtureSpine.atom rightEmpty rightUnary))
 
+theorem QuantumChannelUnitaryConjugation_channel {U Uinv T right left : BHist} :
+    hsame U BHist.Empty -> hsame Uinv BHist.Empty -> hsame T BHist.Empty ->
+      Cont T Uinv right -> Cont U right left -> hsame left BHist.Empty ∧
+        QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) left := by
+  intro uEmpty uinvEmpty tEmpty rightCont leftCont
+  have rightEmpty : hsame right BHist.Empty := by
+    cases tEmpty
+    exact hsame_trans (cont_left_unit_result rightCont) uinvEmpty
+  have leftEmpty : hsame left BHist.Empty := by
+    cases uEmpty
+    exact hsame_trans (cont_left_unit_result leftCont) rightEmpty
+  have leftUnary : UnaryHistory left := unary_transport unary_empty (hsame_symm leftEmpty)
+  exact And.intro leftEmpty (QuantumChannelAffineMixtureSpine.atom leftEmpty leftUnary)
+
 end BEDC.Derived.QuantumChannelUp
