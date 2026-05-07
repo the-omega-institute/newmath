@@ -39,4 +39,39 @@ theorem SheafDisplayedCommonRefinementSpan_paired_refinements
       (And.intro span.left
         (And.intro span.right.left span.right.right.right.right.right.left)))
 
+theorem SheafDisplayedCommonRefinementSpan_base_change_composition
+    {point common openA openB sectionA sectionB germA germB pulledCommon pulledGermA
+      pulledGermB : BHist} :
+    SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
+      germB ->
+      hsame common pulledCommon -> Cont pulledCommon sectionA pulledGermA ->
+        Cont pulledCommon sectionB pulledGermB ->
+          SheafDisplayedCommonRefinementSpan point pulledCommon openA openB sectionA sectionB
+              pulledGermA pulledGermB ∧
+            hsame germA pulledGermA ∧ hsame germB pulledGermB := by
+  intro span sameCommon pulledA pulledB
+  have pulledCommonUnary : UnaryHistory pulledCommon :=
+    unary_transport span.right.left sameCommon
+  have pulledOpenA : hsame pulledCommon openA :=
+    hsame_trans (hsame_symm sameCommon) span.right.right.left
+  have pulledOpenB : hsame pulledCommon openB :=
+    hsame_trans (hsame_symm sameCommon) span.right.right.right.left
+  have sameA : hsame germA pulledGermA :=
+    cont_respects_hsame sameCommon (hsame_refl sectionA)
+      span.right.right.right.right.left pulledA
+  have sameB : hsame germB pulledGermB :=
+    cont_respects_hsame sameCommon (hsame_refl sectionB)
+      span.right.right.right.right.right.left pulledB
+  have pulledSame : hsame pulledGermA pulledGermB :=
+    hsame_trans (hsame_symm sameA)
+      (hsame_trans span.right.right.right.right.right.right sameB)
+  exact And.intro
+    (And.intro span.left
+      (And.intro pulledCommonUnary
+        (And.intro pulledOpenA
+          (And.intro pulledOpenB
+            (And.intro pulledA
+              (And.intro pulledB pulledSame))))))
+    (And.intro sameA sameB)
+
 end BEDC.Derived.SheafUp
