@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
+import BEDC.Derived.TopologyUp.Singleton
 
 namespace BEDC.Derived.SheafUp
 
@@ -8,6 +9,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.TopologyUp
 
 def SheafBHistPointGermLedger
     (point openHist sectionHist germ : BHist) : Prop :=
@@ -340,6 +342,49 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
     SheafBHistPointGermLedger_common_open_comparison
       descent.left descent.right.left descent.right.right
   exact comparison.left
+
+theorem SheafBHistPointGermLedger_trace_factorization_composes
+    {point openA sectionA germA openB sectionB germB composedOpen composedGerm : BHist} :
+    SheafBHistPointGermLedger point openA sectionA germA ->
+      SheafBHistPointGermLedger point openB sectionB germB ->
+        Cont openA openB composedOpen ->
+          Cont composedOpen sectionB composedGerm ->
+            exists boundary : BHist,
+              Cont openA openB boundary ∧
+                SheafBHistPointGermLedger point boundary sectionB composedGerm ∧
+                  hsame boundary composedOpen ∧ UnaryHistory boundary := by
+  intro ledgerA ledgerB composedOpenRow composedGermRow
+  have boundaryUnary : UnaryHistory composedOpen :=
+    unary_cont_closed ledgerA.right.left ledgerB.right.left composedOpenRow
+  exact Exists.intro composedOpen
+    (And.intro composedOpenRow
+      (And.intro
+        (And.intro ledgerA.left (And.intro boundaryUnary composedGermRow))
+        (And.intro (hsame_refl composedOpen) boundaryUnary)))
+
+theorem SheafIdentityCover_gluing_collapse
+    {point openHist sectionA sectionB globalA globalB localGerm : BHist} :
+    TopologySingletonOpenAt BHist.Empty point ->
+      SheafBHistPointGermLedger point openHist sectionA globalA ->
+        SheafBHistPointGermLedger point openHist sectionB globalB ->
+          Cont openHist sectionA localGerm ->
+            Cont openHist sectionB localGerm ->
+              hsame globalA globalB ∧
+                SheafBHistPointGermLedger point openHist sectionA localGerm ∧
+                  SheafBHistPointGermLedger point openHist sectionB localGerm := by
+  intro openPoint ledgerA ledgerB localA localB
+  have sameGlobalLocalA : hsame globalA localGerm :=
+    cont_deterministic ledgerA.right.right localA
+  have sameGlobalLocalB : hsame globalB localGerm :=
+    cont_deterministic ledgerB.right.right localB
+  have sameGlobal : hsame globalA globalB :=
+    hsame_trans sameGlobalLocalA (hsame_symm sameGlobalLocalB)
+  have pointUnary : UnaryHistory point :=
+    unary_transport unary_empty (hsame_symm openPoint.right)
+  exact And.intro sameGlobal
+    (And.intro
+      (And.intro pointUnary (And.intro ledgerA.right.left localA))
+      (And.intro pointUnary (And.intro ledgerB.right.left localB)))
 
 theorem SheafBHistPointGermLedger_restricted_global_soundness
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
