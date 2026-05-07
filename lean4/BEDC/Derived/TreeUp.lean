@@ -142,6 +142,29 @@ def TreeBHistCarrier (graph edge connected acyclic root endpoint : BHist) : Prop
   GraphContEdge graph edge connected ∧ UnaryHistory acyclic ∧
     TreeRootBranch endpoint root connected
 
+theorem TreeBHistCarrier_exactness_rows
+    {graph edge connected acyclic root endpoint : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint ->
+      GraphContEdge graph edge connected ∧ TreeRootBranch endpoint root connected ∧
+        UnaryHistory graph ∧ UnaryHistory edge ∧ UnaryHistory connected ∧ UnaryHistory acyclic ∧
+          UnaryHistory root ∧ UnaryHistory endpoint ∧ Cont graph edge connected ∧
+            Cont endpoint root connected := by
+  intro carrier
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  have connectedUnary : UnaryHistory connected :=
+    unary_cont_closed carrier.left.left carrier.left.right.left carrier.left.right.right
+  have endpointUnary : UnaryHistory endpoint :=
+    branch.left.left
+  exact And.intro carrier.left
+    (And.intro branch
+      (And.intro carrier.left.left
+        (And.intro carrier.left.right.left
+          (And.intro connectedUnary
+            (And.intro carrier.right.left
+              (And.intro branch.right.left
+                (And.intro endpointUnary
+                  (And.intro carrier.left.right.right branch.right.right))))))))
+
 theorem TreeBHistCarrier_root_branch_transport
     {graph edge connected acyclic root endpoint endpoint' root' connected' : BHist} :
     TreeBHistCarrier graph edge connected acyclic root endpoint ->
