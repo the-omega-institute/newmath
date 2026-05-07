@@ -10,11 +10,72 @@ The tree interface $\TreeUp$ packages a connected acyclic $\NameCert_{\GraphUp}$
 \label{sec:tree-certificate}
 \closureat{TreeUp}{seedStr}
 
+\begin{definition}[Tree obligation surface]\label{def:tree-obligation-surface}
+Fix a BEDC source history sort $\mathsf{BHist}$ and a graph certificate source $\NameCert_{\GraphUp}$ as in \autoref{ch:concrete-instances-graph-namecert}. A concrete $\TreeUp$ obligation record consists of the following rows on histories:
+\begin{enumerate}
+  \item $\mathsf{TreeCarrier}(h)$ is the $\mathsf{BHist}$ predicate saying that $h$ carries a $\NameCert_{\GraphUp}$ graph row, a connectedness row, an acyclicity row, a root-or-root-free witness row, and a syntactic-representation row whose visible nodes are histories.
+  \item $\mathsf{TreeClassifier}(h,k)$ is $\hsame(h,k)$ together with transport of the graph-source, connectedness, acyclicity, root-or-root-free, and syntactic-representation rows from $h$ to $k$ and back along $\hsame$.
+  \item The ledger records exactly three hidden rows: the graph presentation supplied by $\NameCert_{\GraphUp}$, the root witness or explicit root-free witness, and the derivation-spine syntax read over $\mathsf{BHist}$ nodes.
+\end{enumerate}
+The obligation surface is scoped over the existing seed row $\closureat{TreeUp}{seedStr}$, so it introduces no new kernel primitive and no independent object equality beyond $\hsame$.
+\end{definition}
+
+\begin{theorem}[Tree graph-source obligation]\label{thm:tree-graph-source-obligation}
+For every history $h$, $\mathsf{TreeCarrier}(h)$ exposes the underlying $\NameCert_{\GraphUp}$ source row. If $\mathsf{TreeClassifier}(h,k)$ holds, then this graph-source row is transported from $h$ to $k$ along $\hsame(h,k)$, and the reverse transport is supplied by the symmetric $\hsame$ witness contained in the same classifier row.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{TreeCarrier}(h)$ from \autoref{def:tree-obligation-surface}. Its first component is the graph certificate source row, so the carrier projection directly exposes the $\NameCert_{\GraphUp}$ datum.
+
+Now unpack $\mathsf{TreeClassifier}(h,k)$. The classifier contains $\hsame(h,k)$ and the declared row transport for the graph source. Symmetry of $\hsame$ supplies the reverse endpoint comparison, and the seed scope $\closureat{TreeUp}{seedStr}$ fixes that the transported source is the same graph-source row rather than a second graph presentation.
+\end{proof}
+
+\begin{theorem}[Tree carrier-classifier obligation]\label{thm:tree-carrier-classifier-obligation}
+On carried histories, $\mathsf{TreeClassifier}$ is reflexive, symmetric, and transitive, and it transports $\mathsf{TreeCarrier}$: if $\mathsf{TreeCarrier}(h)$ and $\mathsf{TreeClassifier}(h,k)$ hold, then $\mathsf{TreeCarrier}(k)$ holds with the graph-source, connectedness, acyclicity, root-or-root-free, and syntactic-representation rows transported along $\hsame(h,k)$.
+\end{theorem}
+\begin{proof}
+Reflexivity uses reflexivity of $\hsame$ on $\mathsf{BHist}$ and the identity transport of each row in \autoref{def:tree-obligation-surface}. The graph source comes from $\NameCert_{\GraphUp}$; the connectedness, acyclicity, root-or-root-free, and syntactic-representation rows are carried unchanged at the same endpoint.
+
+Symmetry uses symmetry of $\hsame$. Each row transport stored in $\mathsf{TreeClassifier}(h,k)$ is part of a two-sided transport package, so reversing the endpoint comparison reverses the carrier rows without changing the visible ledger.
+
+Transitivity composes the two $\hsame$ witnesses and then composes the corresponding row transports. The composed transport carries exactly the graph-source, connectedness, acyclicity, root-or-root-free, and syntactic-representation rows named by the surface, so carrier transport follows by repacking those transported rows as $\mathsf{TreeCarrier}(k)$.
+\end{proof}
+
+\begin{theorem}[Tree root-witness obligation]\label{thm:tree-root-witness-obligation}
+Every $\mathsf{TreeCarrier}(h)$ supplies exactly one admissible root row: either a designated root witness compatible with the carried $\NameCert_{\GraphUp}$ source or an explicit root-free witness row. This witness row is stable under $\mathsf{TreeClassifier}$, so $\mathsf{TreeClassifier}(h,k)$ transports the same root-or-root-free alternative from $h$ to $k$ along $\hsame$.
+\end{theorem}
+\begin{proof}
+The carrier row in \autoref{def:tree-obligation-surface} includes the root-or-root-free witness as a named component of the tree certificate. The alternative is admissible because it is read against the same $\NameCert_{\GraphUp}$ source row exposed by \autoref{thm:tree-graph-source-obligation}.
+
+For stability, unpack $\mathsf{TreeClassifier}(h,k)$. Its row-transport component explicitly includes the root-or-root-free row, and the endpoint relation is $\hsame(h,k)$. Transport therefore preserves the chosen alternative, while the ledger component records that no additional root presentation is introduced.
+\end{proof}
+
+\begin{theorem}[Tree stability-ledger obligation]\label{thm:tree-stability-ledger-obligation}
+Let $u$ be a visible derivation-spine extension with $\UnaryHistory(u)$, and suppose $\Cont(h,u,r)$ is compatible with the carried graph source. If $\mathsf{TreeCarrier}(h)$ holds and the endpoints $r$ and $k$ are related by $\hsame(r,k)$, then the tree ledger rows transported to $k$ are exactly the graph presentation, root witness, and derivation-spine syntax rows obtained by extending the visible spine by $u$.
+\end{theorem}
+\begin{proof}
+Start with $\mathsf{TreeCarrier}(h)$ and the $\Cont(h,u,r)$ extension. Compatibility with the graph source says that the visible extension reads edges through the same $\NameCert_{\GraphUp}$ row, and $\UnaryHistory(u)$ keeps the appended spine inside the unary derivation shape allowed by the seed scope.
+
+The endpoint comparison $\hsame(r,k)$ supplies the classifier transport target. Applying the row transports in \autoref{def:tree-obligation-surface} moves the graph presentation, root witness, and derivation-spine syntax rows to $k$.
+
+It remains to identify the ledger boundary. The ledger of the surface contains only those three hidden rows, so after $\Cont$ extension and $\hsame$ transport there is no extra presentation row to account for. The transported ledger is therefore exactly the extended visible-spine ledger.
+\end{proof}
+
+\begin{theorem}[Tree syntactic-representation obligation]\label{thm:tree-syntactic-representation-obligation}
+Every $\mathsf{TreeCarrier}(h)$ provides a syntactic derivation carrier row whose visible nodes are $\mathsf{BHist}$ histories and whose edge relation is read from the carried $\NameCert_{\GraphUp}$ source. Consequently the $\TreeUp$ certificate surface can be consumed by downstream inductive-carrier and derivation-syntax chapters without replacing the BEDC history carrier or the $\hsame$ classifier.
+\end{theorem}
+\begin{proof}
+Unpack the syntactic-representation row in \autoref{def:tree-obligation-surface}. Its node carrier is explicitly $\mathsf{BHist}$, so every visible derivation node is already a BEDC history rather than an external graph vertex.
+
+The edge relation is not an additional primitive. It is read from the $\NameCert_{\GraphUp}$ source exposed by \autoref{thm:tree-graph-source-obligation}, and classifier movement is handled by $\hsame$ through \autoref{thm:tree-carrier-classifier-obligation}.
+
+Downstream consumers therefore receive the same carrier, the same classifier, and the same visible derivation-spine syntax. Inductive-carrier arguments may use $\UnaryHistory$ and $\Cont$ for spine extension, while derivation-syntax arguments read edges from the graph source fixed by the existing seed scope.
+\end{proof}
+
 \begin{closurestatus}{\TreeUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds exactly the $\GraphUp$ source, the connectedness row, the acyclicity row, the root-or-root-free witness row, the syntactic-representation carrier row, and the stability and ledger obligations as unsupplied seed obligations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation surface fixes the $\mathsf{BHist}$ carrier predicate, the $\hsame$ classifier, the $\NameCert_{\GraphUp}$ source row, the root-or-root-free witness row, the $\Cont$ and $\UnaryHistory$ stability ledger, and the syntactic-representation row within the existing seed scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a tree carrier, classifier, connectedness proof, acyclicity proof, root witness, standard bridge, or Lean verification target.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, connectedness, acyclicity, root-witness, stability, ledger, exactness, and dependency rows for the certified tree interface.}
+  \notclaimed{This chapter does not prove connectedness, acyclicity, public $\NameCert_{\TreeUp}$ exactness, a standard bridge, or a Lean verification target.}
+  \upgradepath{Scoped closure requires paper proofs of connectedness, acyclicity, public exactness, and classifier-stable row transport for the displayed obligation surface.}
 \end{closurestatus}
