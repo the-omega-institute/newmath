@@ -343,6 +343,21 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
+theorem SheafBHistPointGermComparison_overlap_projection_rows
+    {point openA openB sectA sectB germA germB common globalA globalB : BHist} :
+    SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
+      Cont common sectA globalA -> Cont common sectB globalB ->
+        hsame globalA globalB ∧ hsame germA globalA ∧ hsame germB globalB := by
+  intro comparison globalACont globalBCont
+  have sameGermA : hsame germA globalA :=
+    cont_deterministic comparison.right.right.right.right.right.right.left globalACont
+  have sameGermB : hsame germB globalB :=
+    cont_deterministic comparison.right.right.right.right.right.right.right.left globalBCont
+  exact And.intro
+    (hsame_trans (hsame_symm sameGermA)
+      (hsame_trans comparison.right.right.right.right.right.right.right.right sameGermB))
+    (And.intro sameGermA sameGermB)
+
 theorem SheafBHistPointGermLedger_trace_factorization_composes
     {point openA sectionA germA openB sectionB germB composedOpen composedGerm : BHist} :
     SheafBHistPointGermLedger point openA sectionA germA ->
@@ -588,5 +603,58 @@ theorem SheafBHistPointGermLedger_cover_descent_exhaustion
     (And.intro
       (hsame_trans memberReadbackA.right commonReadbackA.right)
       (hsame_trans memberReadbackB.right commonReadbackB.right))
+
+inductive SheafRootFaceLanding : Type where
+  | coverMembership
+  | restrictionRoute
+  | localityGluingRefinement
+
+inductive SheafRootFaceRead : BHist -> BHist -> SheafRootFaceLanding -> Prop where
+  | carrierClassifier {h k : BHist} :
+      hsame h k -> SheafRootFaceRead h k .restrictionRoute
+  | restrictionRoute {openHist sectionHist result : BHist} :
+      Cont openHist sectionHist result -> SheafRootFaceRead openHist result .restrictionRoute
+  | coverMembership {member cover : BHist} :
+      hsame member cover -> SheafRootFaceRead member cover .coverMembership
+  | localityGluingRefinement {common sectA sectB germA germB : BHist} :
+      Cont common sectA germA -> Cont common sectB germB -> hsame germA germB ->
+        SheafRootFaceRead common germA .localityGluingRefinement
+
+theorem SheafRootFaceRead_coverage {h k : BHist} {landing : SheafRootFaceLanding} :
+    SheafRootFaceRead h k landing ->
+      landing = .coverMembership ∨ landing = .restrictionRoute ∨
+        landing = .localityGluingRefinement := by
+  intro read
+  cases read with
+  | carrierClassifier _ =>
+      exact Or.inr (Or.inl rfl)
+  | restrictionRoute _ =>
+      exact Or.inr (Or.inl rfl)
+  | coverMembership _ =>
+      exact Or.inl rfl
+  | localityGluingRefinement _ _ _ =>
+      exact Or.inr (Or.inr rfl)
+
+inductive SheafSchemeChartGluingTrace (point common : BHist) :
+    List BHist -> BHist -> Prop where
+  | nil :
+      UnaryHistory point -> UnaryHistory common ->
+        SheafSchemeChartGluingTrace point common [] BHist.Empty
+  | cons {sectionHist germ tail out : BHist} {sections : List BHist} :
+      UnaryHistory common -> UnaryHistory sectionHist -> Cont common sectionHist germ ->
+        SheafSchemeChartGluingTrace point common sections tail -> Cont germ tail out ->
+          SheafSchemeChartGluingTrace point common (sectionHist :: sections) out
+
+theorem SheafSchemeChartGluingTrace_unary_result
+    {point common : BHist} {sections : List BHist} {out : BHist} :
+    SheafSchemeChartGluingTrace point common sections out -> UnaryHistory out := by
+  intro trace
+  induction trace with
+  | nil _ _ =>
+      exact unary_empty
+  | cons commonUnary sectionUnary commonSection tailTrace germTail tailUnary =>
+      have germUnary :=
+        unary_cont_closed commonUnary sectionUnary commonSection
+      exact unary_cont_closed germUnary tailUnary germTail
 
 end BEDC.Derived.SheafUp
