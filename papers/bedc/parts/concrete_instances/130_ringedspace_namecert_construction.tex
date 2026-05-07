@@ -45,14 +45,47 @@ Completeness is the converse reading of the same rows. If the base-open, restric
 Exactness is the boundary condition. The ledger contains precisely the base-open, restriction-map, commutative-ring operation, and local-stalk rows, so any later $\SchemeUp$ or variety certificate citing $\RingedSpaceUp$ as a source receives only those obligations and not a hidden standard bridge.
 \end{proof}
 
+\begin{theorem}[RingedSpaceUp carrier and sheaf obligation]\label{thm:ringedspace-carrier-sheaf-obligation}
+A $\RingedSpaceUp$ $\NameCert$ is sourced by a $\mathsf{BHist}$ topological carrier together with a $\SheafUp$ row assigning to each carried open witness a $\CommRingUp$ section carrier. Its classifier is inherited only from $\hsame$, the $\TopologyUp$ open classifier, the $\SheafUp$ restriction classifier, and the $\CommRingUp$ classifier. The carrier ledger records the open witness, membership row, section carrier, restriction row, and commutative-ring endpoint surface for each displayed open.
+\end{theorem}
+\begin{proof}
+Unpack the ten-field $\NameCert$ template. The source row supplies the $\mathsf{BHist}$ topological carrier, so every open witness is read through the carried $\TopologyUp$ classifier and transported only by $\hsame$.
+
+Read the $\SheafUp$ $\NameCert$ over the indexed opens. For each displayed open, its section row gives the section carrier and the restriction classifier visible along displayed inclusions.
+
+Finally restrict each section value to the $\CommRingUp$ certificate surface. The result is the displayed carrier and classifier row needed by $\RingedSpaceUp$, with no extra host algebra or standard bridge data.
+\end{proof}
+
+\begin{theorem}[RingedSpaceUp stalk-locality obligation]\label{thm:ringedspace-stalk-locality-obligation}
+For every carried point history and every admissible neighbourhood-filter row of a $\RingedSpaceUp$ certificate, the stalk projection is a local $\CommRingUp$ row. Restriction-compatible germs have a unique maximal non-unit classifier branch, and germ comparison is stable under $\hsame$ transport of the point and under $\SheafUp$ refinement. Local-ring status is recorded as an obligation row of the displayed certificate rather than as an external model.
+\end{theorem}
+\begin{proof}
+Use the $\SheafUp$ restriction and refinement exactness rows to compare two representatives of a germ on a common displayed neighbourhood. The common row supplies the section classifier needed to identify the restricted section endpoints.
+
+Apply the $\CommRingUp$ carrier and classifier rows to those section endpoints. Unit detection, non-unit comparison, and maximal-branch uniqueness are then read from the displayed commutative-ring row attached to the germ endpoint.
+
+Transport stability follows because the point history is moved by $\hsame$ and the neighbourhood row is refined through $\SheafUp$. Repacking these witnesses gives the stalk-local $\CommRingUp$ obligation row without introducing a host stalk quotient.
+\end{proof}
+
+\begin{theorem}[RingedSpaceUp stability, exactness, and ledger obligation]\label{thm:ringedspace-stability-ledger-obligation}
+Carrier transport, restriction compatibility, stalk transport, and exactness for visible $\RingedSpaceUp$ packages are exactly the conjunction of $\TopologyUp$ carrier transport, $\SheafUp$ restriction and gluing classifier transport, and $\CommRingUp$ algebraic classifier transport. The ledger records the open witness, restriction route, section endpoint, and stalk-germ provenance, and it records no $\SchemeUp$, affine-cover, spectrum, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Compose the three named certificate surfaces through the $\NameCert$ stability field. The $\TopologyUp$ surface transports open witnesses, the $\SheafUp$ surface transports restrictions and gluing classifiers, and the $\CommRingUp$ surface transports algebraic endpoints.
+
+Project the ledger coordinates after this composition. The open witness comes from the topology row, the restriction route and section endpoint come from the sheaf row, and the stalk-germ provenance is obtained by the stalk-locality row of \autoref{thm:ringedspace-stalk-locality-obligation}.
+
+Exactness is therefore the conjunction of those three transport surfaces as seen by the visible package. Since every ledger coordinate has already been projected, no scheme, affine-cover, spectrum, or standard bridge row is present in the $\RingedSpaceUp$ certificate.
+\end{proof}
+
 \section{The certificate}
 \label{sec:ringedspace-certificate}
 
 \begin{closurestatus}{\RingedSpaceUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The paper-side scope is the explicit $\RingedSpaceUp$ obligation set for carrier and stalk rows, classifier transport, and exact ledger coverage in \autoref{thm:ringedspace-carrier-and-stalk-obligation}, \autoref{thm:ringedspace-classifier-transport-obligation}, and \autoref{thm:ringedspace-exact-ledger-obligation}.}
+  \scopeclosed{The paper-side obligation scope is the explicit $\RingedSpaceUp$ obligation set for carrier, sheaf, stalk-locality, classifier transport, stability, and exact ledger coverage in \autoref{thm:ringedspace-carrier-and-stalk-obligation}, \autoref{thm:ringedspace-classifier-transport-obligation}, \autoref{thm:ringedspace-exact-ledger-obligation}, \autoref{thm:ringedspace-carrier-sheaf-obligation}, \autoref{thm:ringedspace-stalk-locality-obligation}, and \autoref{thm:ringedspace-stability-ledger-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not construct the full carrier implementation, public $\NameCert_{\RingedSpaceUp}$ surface, standard bridge, or Lean target.}
-  \upgradepath{Scoped closure requires assembling the displayed obligations into a complete $\NameCert_{\RingedSpaceUp}$ surface.}
+  \notclaimed{This chapter does not close public $\NameCert_{\RingedSpaceUp}$ construction, standard bridge, $\SchemeUp$ or affine-cover consumers, or Lean verification.}
+  \upgradepath{Scoped closure requires tying these obligation rows to the concrete $\SheafUp$ and $\CommRingUp$ certificate surfaces with exact references.}
 \end{closurestatus}

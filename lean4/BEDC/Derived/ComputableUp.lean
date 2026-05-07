@@ -15,6 +15,9 @@ def ComputableBoundedSim (P n B m : BHist) : Prop :=
 def ComputableUnaryIdentityGraph (n m : BHist) : Prop :=
   UnaryHistory n ∧ UnaryHistory m ∧ hsame n m
 
+def ComputableHaltedUnaryIdentityCode (n : BHist) : BHist :=
+  append BHist.Empty n
+
 structure ComputableBoundedGraphCertificate where
   Graph : BHist -> BHist -> Prop
   program : BHist
