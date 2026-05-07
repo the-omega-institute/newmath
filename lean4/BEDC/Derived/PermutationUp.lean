@@ -52,4 +52,47 @@ theorem PermutationBijectionSourceRow_carrier_surface [AskSetup] [PackageSetup]
                   (And.intro row.right.right.right.right.right.right.left
                     row.right.right.right.right.right.right.right))))))))
 
+theorem PermutationBijectionSourceRow_endpoint_package_hsame_transport [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger src' tgt' graph' invGraph' comp' action'
+      ledger' : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle
+        tgtBundle srcPkg tgtPkg ->
+      hsame src src' -> hsame tgt tgt' -> PkgSig srcBundle src' srcPkg ->
+        PkgSig tgtBundle tgt' tgtPkg -> Cont src' tgt' graph' ->
+          Cont tgt' src' invGraph' -> Cont graph' invGraph' comp' ->
+            Cont src' graph' action' -> Cont comp' action' ledger' ->
+              PermutationBijectionSourceRow src' tgt' graph' invGraph' comp' action'
+                  ledger' srcBundle tgtBundle srcPkg tgtPkg ∧
+                hsame graph graph' ∧ hsame invGraph invGraph' ∧ hsame comp comp' ∧
+                  hsame action action' ∧ hsame ledger ledger' := by
+  intro row sameSrc sameTgt srcPkg' tgtPkg' graphCont' invGraphCont' compCont'
+    actionCont' ledgerCont'
+  have srcUnary' : UnaryHistory src' :=
+    unary_transport row.left sameSrc
+  have tgtUnary' : UnaryHistory tgt' :=
+    unary_transport row.right.left sameTgt
+  have sameGraph : hsame graph graph' :=
+    cont_respects_hsame sameSrc sameTgt row.right.right.left graphCont'
+  have sameInvGraph : hsame invGraph invGraph' :=
+    cont_respects_hsame sameTgt sameSrc row.right.right.right.left invGraphCont'
+  have sameComp : hsame comp comp' :=
+    cont_respects_hsame sameGraph sameInvGraph row.right.right.right.right.left compCont'
+  have sameAction : hsame action action' :=
+    cont_respects_hsame sameSrc sameGraph row.right.right.right.right.right.left actionCont'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameComp sameAction row.right.right.right.right.right.right.left
+      ledgerCont'
+  exact And.intro
+    (And.intro srcUnary'
+      (And.intro tgtUnary'
+        (And.intro graphCont'
+          (And.intro invGraphCont'
+            (And.intro compCont'
+              (And.intro actionCont'
+                (And.intro ledgerCont' (And.intro srcPkg' tgtPkg'))))))))
+    (And.intro sameGraph
+      (And.intro sameInvGraph
+        (And.intro sameComp (And.intro sameAction sameLedger))))
+
 end BEDC.Derived.PermutationUp
