@@ -378,4 +378,30 @@ theorem TreeBHistObligationCarrier_acyclic_unit_loop_exactness
     (And.intro loopExact.right
       (And.intro carrier.right.right.right.left carrier.right.right.right.right.left))
 
+theorem TreeRootWitness_spine_closed_boundary
+    {graph edge connected acyclic root endpoint spine extendedRoot extendedConnected : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint ->
+      UnaryHistory spine ->
+        Cont root spine extendedRoot ->
+          Cont connected spine extendedConnected ->
+            hsame extendedConnected endpoint ->
+              hsame extendedRoot BHist.Empty ∧ hsame spine BHist.Empty := by
+  intro carrier _spineUnary rootSpine connectedSpine sameExtendedEndpoint
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  cases cont_assoc_exists branch.right.right rootSpine with
+  | intro assocResult assocRows =>
+      have assocExtended : hsame assocResult extendedConnected :=
+        cont_deterministic assocRows.left connectedSpine
+      have assocEndpoint : hsame assocResult endpoint :=
+        hsame_trans assocExtended sameExtendedEndpoint
+      have endpointExtendedEndpoint : Cont endpoint extendedRoot endpoint :=
+        cont_result_hsame_transport assocRows.right assocEndpoint
+      have extendedRootEmpty : hsame extendedRoot BHist.Empty :=
+        cont_right_unit_unique endpointExtendedEndpoint
+      have rootSpineEmpty : Cont root spine BHist.Empty :=
+        cont_result_hsame_transport rootSpine extendedRootEmpty
+      have emptySplit : root = BHist.Empty ∧ spine = BHist.Empty :=
+        cont_empty_result_inversion rootSpineEmpty
+      exact And.intro extendedRootEmpty emptySplit.right
+
 end BEDC.Derived.TreeUp

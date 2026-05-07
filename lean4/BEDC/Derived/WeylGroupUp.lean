@@ -169,4 +169,28 @@ theorem WeylGroupRootSystemGroupCarrier_row
     (And.intro carrier.right.left
       (And.intro carrier.right.right sameEndpointRoot))
 
+theorem WeylGroupCoxeterWordLedger_append_spine_classifier
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root wordA wordB actionA actionAB relationTail relationEndpoint : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root wordA actionA ->
+      GroupSingletonCarrier wordB ->
+        Cont actionA wordB actionAB ->
+          Cont actionAB relationTail relationEndpoint ->
+            hsame relationTail BHist.Empty ->
+              WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB)
+                  actionAB ∧
+                hsame relationEndpoint root ∧ GroupSingletonCarrier relationTail := by
+  intro source wordBCarrier actionStep relationStep relationTailEmpty
+  have closure :
+      WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB) actionAB ∧
+        hsame actionAB root ∧ GroupSingletonCarrier (append wordA wordB) :=
+    WeylGroupBHistSourceRow_simple_reflection_word_closure
+      vector_unary source wordBCarrier actionStep
+  have endpointAction : hsame relationEndpoint actionAB := by
+    cases relationTailEmpty
+    exact cont_right_unit_result relationStep
+  exact And.intro closure.left
+    (And.intro (hsame_trans endpointAction closure.right.left) relationTailEmpty)
+
 end BEDC.Derived.WeylGroupUp
