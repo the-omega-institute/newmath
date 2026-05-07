@@ -247,6 +247,25 @@ theorem WeylGroupSimpleReflection_word_closure_row
   exact And.intro reflectedUnary
     (And.intro productCarrier (And.intro productWord reflectionRoute))
 
+theorem WeylGroupSimpleReflection_carrier_obligation
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {alpha beta reflected word endpoint : BHist} :
+    RootSystemFiniteSupportCarrier support Vector Nonzero alpha ->
+      RootSystemFiniteSupportCarrier support Vector Nonzero beta ->
+        Cont alpha beta reflected -> GroupSingletonCarrier word ->
+          Cont reflected word endpoint ->
+            UnaryHistory reflected ∧ UnaryHistory endpoint ∧ hsame endpoint reflected := by
+  intro alphaCarrier betaCarrier reflectionRoute wordCarrier endpointRoute
+  have reflectedUnary : UnaryHistory reflected :=
+    RootSystemReflectionClosure_result_unary vector_unary alphaCarrier betaCarrier reflectionRoute
+  have endpointReflected : hsame endpoint reflected := by
+    cases wordCarrier
+    exact cont_right_unit_result endpointRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport reflectedUnary (hsame_symm endpointReflected)
+  exact And.intro reflectedUnary (And.intro endpointUnary endpointReflected)
+
 def WeylGroupRootSystemGroupCarrier
     (support : ProbeBundle BHist)
     (Vector Nonzero : BHist -> Prop)
