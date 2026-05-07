@@ -10,6 +10,13 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.PreorderUp
 
+def ProbSpacePublicEventPacket (omega one event complement sum : BHist) : Prop :=
+  UnaryHistory event ∧
+    UnaryHistory complement ∧
+      Cont event complement sum ∧
+        hsame omega one ∧
+          hsame omega sum
+
 theorem ProbSpaceComplementMass_additive_readback {omega one event complement sum : BHist} :
     UnaryHistory event -> UnaryHistory complement -> Cont event complement sum ->
       hsame omega sum -> hsame omega one -> hsame sum one ∧ UnaryHistory sum := by
