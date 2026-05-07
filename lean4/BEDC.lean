@@ -205,6 +205,7 @@ import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootThreshold
 import BEDC.Derived.SheafUp.RootProjection
+import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SetUp
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
@@ -360,6 +361,7 @@ import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
+import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.LatticeUp.BoundUniqueness
@@ -392,7 +394,10 @@ import BEDC.Derived.ManifoldUp.IdentityTransition
 import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.ScopedBoundary
+import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
+import BEDC.Derived.HilbertUp
+import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
