@@ -76,4 +76,37 @@ theorem RingedSpaceSingleton_sheaf_commring_stalk_locality_obligation
       (And.intro descent.right.right
         (And.intro commOps openPoint)))
 
+theorem RingedSpaceSingletonSurface_stalk_locality_common_neighborhood
+    {point openHist sectionA sectionB germA germB ringEndpointA ringEndpointB restrictedOpen
+      restrictedGermA restrictedGermB : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionA germA ringEndpointA ->
+      RingedSpaceSingletonSurface point openHist sectionB germB ringEndpointB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              TopologySingletonOpenAt BHist.Empty point ∧
+                SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+                  SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+                    hsame restrictedGermA restrictedGermB ∧
+                      CommRingSingletonClassifier ringEndpointA ringEndpointB := by
+  intro surfaceA surfaceB sameGerm sameOpen restrictedA restrictedB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      surfaceA.right.left surfaceB.right.left sameGerm sameOpen restrictedA restrictedB
+  have openPoint : TopologySingletonOpenAt BHist.Empty point :=
+    And.intro (hsame_refl BHist.Empty) surfaceA.left.right
+  have sameRingEndpoints : hsame ringEndpointA ringEndpointB :=
+    hsame_trans surfaceA.right.right.right.right
+      (hsame_symm surfaceB.right.right.right.right)
+  have ringClassified : CommRingSingletonClassifier ringEndpointA ringEndpointB :=
+    And.intro surfaceA.right.right.left
+      (And.intro surfaceB.right.right.left sameRingEndpoints)
+  exact And.intro openPoint
+    (And.intro descent.left
+      (And.intro descent.right.left
+        (And.intro descent.right.right ringClassified)))
+
 end BEDC.Derived.RingedSpaceUp

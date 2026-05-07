@@ -222,4 +222,28 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
+theorem SheafRootCoverDescent_common_refinement_germ_exactness
+    {point openA openB sectA sectB germA germB common globalA globalB : BHist} :
+    SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
+      Cont common sectA globalA -> Cont common sectB globalB -> hsame germA globalA ->
+        hsame germB globalB ->
+          SheafBHistPointGermComparison point openA sectA globalA openB sectB globalB
+            common ∧
+            hsame globalA globalB := by
+  intro comparison globalACont globalBCont sameGlobalA sameGlobalB
+  have sameGlobal :
+      hsame globalA globalB :=
+    SheafBHistPointGermComparison_soundness
+      comparison globalACont globalBCont sameGlobalA sameGlobalB
+  exact And.intro
+    (And.intro comparison.left
+      (And.intro comparison.right.left
+        (And.intro comparison.right.right.left
+          (And.intro comparison.right.right.right.left
+            (And.intro comparison.right.right.right.right.left
+              (And.intro comparison.right.right.right.right.right.left
+                (And.intro globalACont
+                  (And.intro globalBCont sameGlobal))))))))
+    sameGlobal
+
 end BEDC.Derived.SheafUp
