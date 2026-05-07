@@ -396,6 +396,29 @@ $$
 $$
 \end{proof}
 \leanchecked{BEDC.Derived.TotallyBoundedUp.TotallyBoundedProbeBundleNet\_finite\_union}
+
+\begin{theorem}[TotallyBoundedUp compact-metric component bridge]
+\label{thm:totallybounded-compactmetric-component-bridge}
+Let $X$ be a certified metric carrier, and suppose that each positive
+$\RatUp$ tolerance history $\varepsilon$ is assigned a row
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon})
+$$
+as in \autoref{def:totallybounded-probebundle-net-carrier}. This family supplies exactly the totally-bounded component required by
+$$
+\mathsf{CompactMetricCertificate}(X)
+$$
+in \autoref{def:compactmetric-certificate-carrier}: the exported carrier is the same carrier $X$; the finite carrier at tolerance $\varepsilon$ is the closed $\mathsf{ProbeBundle}$ spine $\mathcal{P}_{\varepsilon}$; membership is read only through rows of $\mathsf{InBundle}$; coverage is witnessed by the displayed $\mathsf{MetricDistanceWitness}$ rows in $net_{\varepsilon}$; and every bound is one of the displayed $\RatUp$ comparison ledgers against $\varepsilon$.
+\end{theorem}
+\begin{proof}
+The carrier component is fixed before the net is read. By \autoref{def:compactmetric-certificate-carrier}, the compact-metric certificate asks for a totally-bounded field over the same certified metric carrier $X$. By \autoref{thm:totallybounded-probebundle-net-namecert-target}, each accepted $\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon})$ row exports the same target carrier $X$, so no carrier translation or quotienting step is present.
+
+The finite component is the closed probe spine already carried by the totally-bounded row. The unpacking specified in \autoref{def:totallybounded-probebundle-net-carrier} exposes $\mathcal{P}_{\varepsilon}$ as a closed $\mathsf{ProbeBundle}$, and every center or probe lookup is keyed by a visible $\mathsf{InBundle}$ row. Thus the compact-metric field consumes the bundle ledger rather than an ambient finite set or an untracked list of representatives.
+
+The coverage and bound components are also copied without changing their meaning. For each point history carried by $X$, \autoref{thm:totallybounded-probebundle-net-coverage-stability} keeps the coverage witness stable under the stated metric carrier interface: the same center row, the same $\mathsf{MetricDistanceWitness}$ distance row, and the same $\RatUp$ comparison ledger against $\varepsilon$ are the rows consumed by the totally-bounded clause of $\mathsf{CompactMetricCertificate}(X)$.
+
+Therefore the bridge row contributes only the totally-bounded component named in \autoref{def:compactmetric-certificate-carrier}. It does not assert open-cover compactness, does not select a finite subcover, and does not introduce any host-level choice principle.
+\end{proof}
 \closureat{TotallyBoundedUp}{publicStr}[BEDC.Derived.TotallyBoundedUp.TotallyBoundedProbeBundleNet\_name\_certificate]
 \begin{closurestatus}{\TotallyBoundedUp}
   \theoryclosure{\publicClosure}

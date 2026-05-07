@@ -120,4 +120,85 @@ theorem SheafBHistPointGermComparison_restriction_classifier_transport
       descent.left descent.right.left descent.right.right).left
   exact And.intro restrictedComparison (And.intro readbackA.right readbackB.right)
 
+theorem SheafBHistPointGermLedger_classifier_transport_obligation
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB : BHist} :
+    SheafBHistPointGermLedger point openHist sectionA germA ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB ->
+          hsame openHist restrictedOpen ->
+            Cont restrictedOpen sectionA restrictedGermA ->
+              Cont restrictedOpen sectionB restrictedGermB ->
+                SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+                    restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+                  hsame germA restrictedGermA ∧ hsame germB restrictedGermB ∧
+                    hsame restrictedGermA restrictedGermB := by
+  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have readbackA :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        hsame germA restrictedGermA :=
+    SheafBHistPointGermLedger_restriction_readback ledgerA sameOpen restrictedA
+  have readbackB :
+      SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+        hsame germB restrictedGermB :=
+    SheafBHistPointGermLedger_restriction_readback ledgerB sameOpen restrictedB
+  have restrictedComparison :
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+        restrictedOpen sectionB restrictedGermB restrictedOpen :=
+    (SheafBHistPointGermLedger_common_open_comparison
+      descent.left descent.right.left descent.right.right).left
+  exact And.intro restrictedComparison
+    (And.intro readbackA.right (And.intro readbackB.right descent.right.right))
+
+theorem SheafBHistPointGermComparison_restricted_global_transport_closure
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB globalA globalB : BHist} :
+    SheafBHistPointGermComparison point openHist sectionA germA openHist sectionB germB
+        openHist ->
+      hsame openHist restrictedOpen ->
+        Cont restrictedOpen sectionA restrictedGermA ->
+          Cont restrictedOpen sectionB restrictedGermB ->
+            Cont restrictedOpen sectionA globalA ->
+              Cont restrictedOpen sectionB globalB ->
+                SheafBHistPointGermComparison point restrictedOpen sectionA globalA
+                    restrictedOpen sectionB globalB restrictedOpen ∧
+                  hsame restrictedGermA globalA ∧ hsame restrictedGermB globalB ∧
+                    hsame globalA globalB := by
+  intro comparison sameOpen restrictedA restrictedB globalACont globalBCont
+  have restricted :
+      SheafBHistPointGermComparison point restrictedOpen sectionA restrictedGermA
+          restrictedOpen sectionB restrictedGermB restrictedOpen ∧
+        hsame germA restrictedGermA ∧ hsame germB restrictedGermB :=
+    SheafBHistPointGermComparison_restriction_classifier_transport
+      comparison sameOpen restrictedA restrictedB
+  have sameRestrictedA : hsame restrictedGermA globalA :=
+    cont_deterministic restrictedA globalACont
+  have sameRestrictedB : hsame restrictedGermB globalB :=
+    cont_deterministic restrictedB globalBCont
+  have sameGlobal : hsame globalA globalB :=
+    hsame_trans (hsame_symm sameRestrictedA)
+      (hsame_trans restricted.left.right.right.right.right.right.right.right.right
+        sameRestrictedB)
+  have globalLedgerA :
+      SheafBHistPointGermLedger point restrictedOpen sectionA globalA :=
+    And.intro restricted.left.left
+      (And.intro restricted.left.right.left globalACont)
+  have globalLedgerB :
+      SheafBHistPointGermLedger point restrictedOpen sectionB globalB :=
+    And.intro restricted.left.left
+      (And.intro restricted.left.right.right.left globalBCont)
+  have globalComparison :
+      SheafBHistPointGermComparison point restrictedOpen sectionA globalA restrictedOpen
+        sectionB globalB restrictedOpen :=
+    (SheafBHistPointGermLedger_common_open_comparison
+      globalLedgerA globalLedgerB sameGlobal).left
+  exact And.intro globalComparison
+    (And.intro sameRestrictedA (And.intro sameRestrictedB sameGlobal))
+
 end BEDC.Derived.SheafUp

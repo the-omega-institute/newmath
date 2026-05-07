@@ -179,6 +179,8 @@ integer relation data that licenses the corresponding braid row, and the
 $\GroupUp$ singleton word source records the two append spines being compared
 under the restricted $\hsame$ classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.WeylGroupUp.WeylGroupCoxeterWordLedger\_row}
+\leanchecked{BEDC.Derived.WeylGroupUp.WeylGroupCoxeterWordLedger\_append\_spine\_classifier}
 \begin{proof}
 Read the relation parameter from
 \autoref{thm:rootsystem-cartan-ledger-obligation}. The Cartan endpoint is an
@@ -196,6 +198,8 @@ spines. It names the Coxeter relation as BEDC provenance data from the Cartan
 ledger and the two word ledgers; it does not quotient the Weyl-word carrier by
 an external equality relation.
 \end{proof}
+\leanchecked{BEDC.Derived.WeylGroupUp.WeylGroupCoxeterWordLedger\_empty\_relation\_readback}
+\leanchecked{BEDC.Derived.WeylGroupUp.WeylGroupCoxeterLedger\_append\_spine\_rows}
 
 \begin{theorem}[WeylGroup action classifier stability row]
 \label{thm:weylgroup-action-classifier-stability-row}
@@ -206,7 +210,9 @@ are transported by the restricted $\GroupUp$ word classifier of
 on carried roots are transported by the same $\RootSystemUp$ classifier, with
 all generator, append, Coxeter-ledger, and dependency rows preserved.
 \end{theorem}
-\leanchecked{BEDC.Derived.WeylGroupUp.WeylGroupActionClassifier\_stability\_row}
+\leanchecked{BEDC.Derived.WeylGroupUp.WeylGroupBHistSourceRow\_action\_classifier\_stability}
+\leanchecked{BEDC.Derived.WeylGroupUp.WeylGroupActionClassifier\_stability\_transport}
+\leanchecked{BEDC.Derived.WeylGroupUp.WeylGroupActionClassifier\_append\_stability\_row}
 \begin{proof}
 Transport the root input through
 \autoref{thm:rootsystem-carrier-classifier-obligation}. This preserves the
@@ -226,15 +232,50 @@ comparisons through \autoref{thm:weylgroup-coxeter-word-ledger-row}. The final
 root endpoint is therefore classified by the $\RootSystemUp$ public classifier
 with the same dependency ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.WeylGroupUp.WeylGroupRootSystemGroupCarrier\_action\_classifier\_transport}
 
-\closureat{WeylGroupUp}{scopedStr}
+\begin{theorem}[WeylGroup public NameCert export]
+\label{thm:weylgroup-public-namecert-export}
+The rows of \autoref{def:weylgroup-bhist-source-row},
+\autoref{thm:weylgroup-rootsystem-group-carrier-row},
+\autoref{thm:weylgroup-simple-reflection-word-closure-row},
+\autoref{thm:weylgroup-coxeter-word-ledger-row}, and
+\autoref{thm:weylgroup-action-classifier-stability-row} package the public
+paper-side $\NameCert_{\WeylGroupUp}$ over the $\RootSystemUp$
+finite-support classifier and the $\GroupUp$ singleton word classifier. The
+export exposes the carried root input, the singleton word input, the action
+endpoint, the Coxeter ledger rows, and the action-stability row as the public
+Weyl-group certificate boundary, with no host word equality and no Coxeter
+quotient.
+\end{theorem}
+\begin{proof}
+Project the root-system component from
+\autoref{def:weylgroup-bhist-source-row} and
+\autoref{thm:weylgroup-rootsystem-group-carrier-row}. This supplies the
+finite-support root carrier, its public classifier, and the endpoint
+transport row inherited from $\RootSystemUp$.
+
+Project the word component from the same source row and the singleton
+$\GroupUp$ carrier. The simple-reflection word closure theorem supplies the
+generator action rows, and the Coxeter word ledger theorem records braid data
+as carried ledger entries rather than as an equality quotient on host words.
+
+Finally apply the action classifier stability row. It transports carried
+roots and carried words through the public classifiers already projected, so
+the root-system carrier, group carrier, word closure, Coxeter ledger, and
+action-stability rows repack exactly as the public
+$\NameCert_{\WeylGroupUp}$ boundary. No additional equality principle or
+Coxeter quotient is introduced.
+\end{proof}
+
+\closureat{WeylGroupUp}{publicStr}
 
 \begin{closurestatus}{\WeylGroupUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped boundary is witnessed by the BHist source row, RootSystemUp finite-support and classifier rows, GroupUp singleton carrier and word classifier rows, simple-reflection word closure, Coxeter word ledger, and action classifier stability rows displayed in this chapter.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public BEDC-side $\NameCert_{\WeylGroupUp}$ export is witnessed by the BHist source row, RootSystemUp finite-support and classifier rows, GroupUp singleton carrier and word classifier rows, simple-reflection word closure, Coxeter word ledger, action classifier stability, and the public export theorem displayed in this chapter.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim a public $\NameCert_{\WeylGroupUp}$ export, a standard bridge, Coxeter quotient exactness, non-ledger word equality, or Lean verification for $\WeylGroupUp$.}
-  \upgradepath{Public closure requires a public $\NameCert_{\WeylGroupUp}$ export theorem and a Lean target for the scoped Weyl-group surface.}
+  \notclaimed{This chapter does not claim a standard bridge, Coxeter quotient exactness, non-ledger word equality, or Lean verification for $\WeylGroupUp$.}
+  \upgradepath{Bridge closure requires a standard bridge, while the verification axis requires a Lean target for the public Weyl-group certificate surface.}
 \end{closurestatus}
