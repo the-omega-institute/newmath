@@ -12,30 +12,65 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem SymGroupPermutationCarrier_obligation [AskSetup] [PackageSetup]
+theorem SymGroupCarrier_obligation [AskSetup] [PackageSetup]
     {src tgt graph invGraph comp action ledger : BHist}
     {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
     PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle tgtBundle
         srcPkg tgtPkg ->
-      GroupSingletonCarrier BHist.Empty ∧ UnaryHistory graph ∧ UnaryHistory invGraph ∧
-        UnaryHistory action ∧ UnaryHistory ledger ∧ hsame comp (append graph invGraph) ∧
-          hsame action (append src graph) := by
-  intro row
-  have carrierRows :
-      UnaryHistory graph ∧ UnaryHistory invGraph ∧ UnaryHistory action ∧
-        UnaryHistory ledger ∧ Cont src tgt graph ∧ Cont tgt src invGraph ∧
-          Cont graph invGraph comp ∧ Cont src graph action ∧ Cont comp action ledger ∧
-            PkgSig srcBundle src srcPkg ∧ PkgSig tgtBundle tgt tgtPkg :=
-    PermutationBijectionSourceRow_carrier_surface row
-  have scopeRows :
-      hsame comp (append graph invGraph) ∧ hsame action (append src graph) ∧
-        hsame ledger (append (append graph invGraph) (append src graph)) :=
-    PermutationBijectionSourceRow_composition_action_ledger_scope row
-  exact And.intro (hsame_refl BHist.Empty)
-    (And.intro carrierRows.left
-      (And.intro carrierRows.right.left
-        (And.intro carrierRows.right.right.left
-          (And.intro carrierRows.right.right.right.left
-            (And.intro scopeRows.left scopeRows.right.left)))))
+      hsame src BHist.Empty ->
+        hsame tgt BHist.Empty ->
+          GroupSingletonCarrier graph ∧ GroupSingletonCarrier invGraph ∧
+            GroupSingletonCarrier comp ∧ GroupSingletonCarrier action ∧
+              GroupSingletonCarrier ledger := by
+  intro row srcEmpty tgtEmpty
+  cases srcEmpty
+  cases tgtEmpty
+  have graphCarrier : GroupSingletonCarrier graph :=
+    row.right.right.left
+  have invGraphCarrier : GroupSingletonCarrier invGraph :=
+    row.right.right.right.left
+  have compCarrier : GroupSingletonCarrier comp := by
+    cases graphCarrier
+    cases invGraphCarrier
+    exact row.right.right.right.right.left
+  have actionCarrier : GroupSingletonCarrier action := by
+    cases graphCarrier
+    exact row.right.right.right.right.right.left
+  have ledgerCarrier : GroupSingletonCarrier ledger := by
+    cases compCarrier
+    cases actionCarrier
+    exact row.right.right.right.right.right.right.left
+  exact ⟨graphCarrier, invGraphCarrier, compCarrier, actionCarrier, ledgerCarrier⟩
+
+def SymGroupPermutationCarrier [AskSetup] [PackageSetup]
+    (src tgt graph invGraph comp action ledger : BHist)
+    (srcBundle tgtBundle : ProbeBundle ProbeName) (srcPkg tgtPkg : Pkg) : Prop :=
+  PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle tgtBundle
+      srcPkg tgtPkg ∧
+    GroupSingletonCarrier comp
+
+theorem SymGroupPermutationCarrier_carrier_obligation [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    SymGroupPermutationCarrier src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle
+          tgtBundle srcPkg tgtPkg ∧
+        GroupSingletonCarrier comp ∧ UnaryHistory graph ∧ UnaryHistory invGraph ∧
+          UnaryHistory action ∧ UnaryHistory ledger ∧
+            Cont graph invGraph comp ∧ Cont src graph action ∧ Cont comp action ledger ∧
+              PkgSig srcBundle src srcPkg ∧ PkgSig tgtBundle tgt tgtPkg := by
+  intro carrier
+  have surface := PermutationBijectionSourceRow_carrier_surface carrier.left
+  exact And.intro carrier.left
+    (And.intro carrier.right
+      (And.intro surface.left
+        (And.intro surface.right.left
+          (And.intro surface.right.right.left
+            (And.intro surface.right.right.right.left
+                (And.intro surface.right.right.right.right.right.right.left
+                  (And.intro surface.right.right.right.right.right.right.right.left
+                    (And.intro surface.right.right.right.right.right.right.right.right.left
+                      surface.right.right.right.right.right.right.right.right.right))))))))
 
 end BEDC.Derived.SymGroupUp

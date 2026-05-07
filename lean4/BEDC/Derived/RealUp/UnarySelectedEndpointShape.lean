@@ -91,7 +91,32 @@ theorem RatStreamNameClassifier_selected_endpoint_tail_pairwise_coherence
           (And.intro sameAA'
             (And.intro tailsAB.right.right
               (And.intro sameAB'
-                (And.intro sameA'B
-                  (And.intro tailsA'B'.right.right sameBB'))))))))
+                  (And.intro sameA'B
+                    (And.intro tailsA'B'.right.right sameBB'))))))))
+
+theorem RatStreamNameClassifier_selected_endpoint_denominator_package
+    {s t : BHist -> BHist} {n zS zT : BHist} :
+    RatStreamNameClassifier s t -> UnaryHistory n ->
+      RatHistoryClassifier (s n) (t n) ∧ PositiveUnaryDenominator (s n) ∧
+        PositiveUnaryDenominator (t n) ∧ UnaryHistory (s n) ∧ UnaryHistory (t n) ∧
+          (hsame (s n) BHist.Empty -> False) ∧
+            (hsame (t n) BHist.Empty -> False) ∧
+              (hsame (s n) (BHist.e0 zS) -> False) ∧
+                (hsame (t n) (BHist.e0 zT) -> False) := by
+  intro classified nUnary
+  have pointClassified : RatHistoryClassifier (s n) (t n) :=
+    classified.right.right n nUnary
+  have shape :=
+    RatStreamNameClassifier_observation_shape_exclusions (s := s) (t := t) (n := n)
+      classified nUnary
+  exact And.intro pointClassified
+    (And.intro shape.left
+      (And.intro shape.right.left
+        (And.intro shape.right.right.left
+          (And.intro shape.right.right.right.left
+            (And.intro shape.right.right.right.right.left
+              (And.intro shape.right.right.right.right.right.left
+                (And.intro (shape.right.right.right.right.right.right.left zS)
+                  (shape.right.right.right.right.right.right.right zT))))))))
 
 end BEDC.Derived.RealUp
