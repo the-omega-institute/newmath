@@ -36,9 +36,20 @@ The roadmap ten-field template then separates local certificate data from quotie
 \section{The certificate}
 \label{sec:dedekind-certificate}
 
+\begin{theorem}[Dedekind scoped certificate packet]\label{thm:dedekind-scoped-certificate-packet}
+The scoped $\DedekindUp$ certificate packet consists exactly of the shared $\mathsf{BHist}$ carrier and classifier, the cited $\NameCert_{\CommRingUp}$ and $\NameCert_{\IdealUp}$ surfaces, the integrally closed row, the Noetherian row, the nonzero-prime-maximal row, classifier transport, and the exact $\DedekindUp$ ledger boundary. This packet is scoped over the existing NameCert, CommRing, and Ideal primitives, and it contains no quotient presentation, no classical-choice datum, and no completed public $\NameCert_{\DedekindUp}$ surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dedekind-source-obligation} to fix the shared $\mathsf{BHist}$ carrier, the classifier, and the two cited source surfaces. Apply \autoref{thm:dedekind-domain-law-obligation} to read integrally closedness, Noetherianity, and nonzero-prime-maximality as rows over that same classifier.
+
+Apply \autoref{thm:dedekind-classifier-ledger-obligation} to identify the classifier transport and exact ledger boundary. Unpacking the roadmap ten-field template then packages these rows as the scoped local certificate inventory.
+
+The construction stops at scoped packet closure. It does not supply the exported public certificate surface for $\NameCert_{\DedekindUp}$ and does not pass through quotient representatives or classical choice.
+\end{proof}
+
 \begin{closurestatus}{\DedekindUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The paper-side scope is exactly the shared $\mathsf{BHist}$ carrier and classifier over $\NameCert_{\CommRingUp}$ and $\NameCert_{\IdealUp}$, the integrally closed row, the Noetherian row, the nonzero-prime-maximal row, classifier transport, and the quotient-free exact ledger boundary named by \autoref{thm:dedekind-source-obligation}, \autoref{thm:dedekind-domain-law-obligation}, and \autoref{thm:dedekind-classifier-ledger-obligation}.}
+  \scopeclosed{The paper-side scope is exactly the packet in \autoref{thm:dedekind-scoped-certificate-packet}, grounded by the shared-source row \autoref{thm:dedekind-source-obligation}, the domain-law row \autoref{thm:dedekind-domain-law-obligation}, and the classifier-ledger row \autoref{thm:dedekind-classifier-ledger-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a Dedekind-domain $\NameCert$, Lean verification target, standard bridge, quotient construction, or classical-choice presentation.}
