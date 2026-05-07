@@ -234,14 +234,26 @@ The two implications together give the displayed equivalence for the fixed $x$, 
 \end{proof}
 \leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_mutual\_inclusion\_iff}
 
-\closureat{AffineVarUp}{scopedStr}[BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_mutual\_inclusion\_iff]
+\begin{theorem}[AffineVarUp public zero-locus certificate]
+\label{thm:affinevar-public-zero-locus-namecert}
+The public $\NameCert_{\AffineVarUp}$ export is the finite-family zero-locus interface of \autoref{def:affine-finite-family-zero-locus} together with equation inclusion, row restriction, concatenation as intersection, empty-family ambient-space exactness, duplicate insertion invariance, and mutual-inclusion classification. Its exact exported rows are the carrier predicate $\mathsf{V}_{R,n}(F)$, the finite equation-ledger positions of $F$, the inclusion relation $\mathsf{EqFamIncl}$ from \autoref{def:affine-finite-family-equation-inclusion}, and the zero-locus transport and classifier rows proved in this chapter.
+\end{theorem}
+\begin{proof}
+The carrier row is \autoref{def:affine-finite-family-zero-locus}. It exposes exactly the ambient affine-point witness and the finite equation-row ledger indexed by positions of the polynomial-family spine.
+
+The stability rows are supplied by the checked zero-locus clauses in this chapter. Apply \autoref{thm:affine-zero-locus-intersection-equation-concatenation} for concatenation as intersection, \autoref{thm:affine-empty-family-zero-locus-full-space} for empty-family ambient-space exactness, \autoref{lem:affine-equation-rows-restrict-along-family-inclusion} for row restriction along equation inclusion, and \autoref{thm:affine-duplicate-equation-insertion-invariance} for duplicate insertion invariance.
+
+The public classifier row is the mutual-inclusion exactness theorem \autoref{thm:affine-mutual-family-inclusion-equal-zero-loci}. Together with the equation-inclusion definition, it identifies precisely when two finite affine equation presentations export the same zero-locus predicate. These rows repack the finite-family interface as the public $\NameCert_{\AffineVarUp}$ certificate surface, with no standard bridge, projective consumer, or scheme consumer field included.
+\end{proof}
+
+\closureat{AffineVarUp}{publicStr}[BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_mutual\_inclusion\_iff]
 
 \begin{closurestatus}{\AffineVarUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The chapter closes the obligation inventory for the affine finite-family zero-locus interface: BEDC sources $\CommRingUp$ and $\PolynomialUp$, carrier $\mathsf{V}_{R,n}(F)$, classifier and equation inclusion $\mathsf{EqFamIncl}$, stability by row restriction and duplicate insertion, exactness by mutual inclusion iff, and ledger by finite polynomial spine positions.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The chapter publicly exports the finite-family zero-locus $\NameCert_{\AffineVarUp}$ surface of \autoref{thm:affinevar-public-zero-locus-namecert}: carrier $\mathsf{V}_{R,n}(F)$, finite equation ledger, equation inclusion, row restriction, concatenation/intersection, empty-family exactness, duplicate insertion invariance, and mutual-inclusion classification.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_mutual\_inclusion\_iff}
   \bridgestatus{none}
-  \notclaimed{This chapter does not yet close the full standard bridge, public-object closure, a projective-variety consumer certificate, or the full $\AffineVarUp$ $\NameCert$.}
-  \upgradepath{Public closure requires a single exported $\NameCert_{\AffineVarUp}$ theorem, after which the standard bridge can be stated against that public certificate surface.}
+  \notclaimed{This chapter does not close the standard bridge, full projective-variety consumer closure, or full scheme consumer closure.}
+  \upgradepath{The next grade is $\bridgedClosure$ via a standard bridge stated against the finite zero-locus $\NameCert_{\AffineVarUp}$ surface and its no-host-leakage package.}
 \end{closurestatus}
