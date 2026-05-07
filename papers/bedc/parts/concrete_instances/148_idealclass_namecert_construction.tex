@@ -37,11 +37,24 @@ The ten-field fit is: traditional target the ideal-class group operation; BEDC s
 \section{The certificate}
 \label{sec:idealclass-certificate}
 
+\begin{theorem}[IdealClass scoped source certificate]\label{thm:idealclass-scoped-source-certificate}
+The carrier obligation of \autoref{thm:idealclass-fractional-ideal-carrier-obligation}, the principal classifier obligation of \autoref{thm:idealclass-principal-classifier-obligation}, and the quotient operation exactness obligation of \autoref{thm:idealclass-quotient-operation-exactness-obligation} jointly determine the scoped $\IdealClassUp$ source certificate over the cited $\DedekindUp$ and $\QuotientGroupUp$ sources. Its carrier endpoints are $\mathsf{BHist}$ rows with Dedekind fractional-ideal provenance and quotient boundary provenance; its classifier equality is the principal quotient-product witness relation; its multiplication, identity, and inverse descent are read through the $\QuotientGroupUp$ operation boundary; and its ledger hides only the principal witness while preserving $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Repack the carrier site as the carrier and ledger source of the certificate. The admitted endpoints are the $\mathsf{BHist}$ rows already tied to the $\DedekindUp$ fractional-ideal source and the $\QuotientGroupUp$ boundary, with $\NameCert$, $\hsame$, and $\Pkg$ rows kept in the same source scope.
+
+Repack the classifier site as the equality field. The relation is not a host quotient equality: it is the principal quotient-product witness relation on the carried endpoints, and its equivalence behavior is the one transported through the named Dedekind and quotient-group sources.
+
+Repack the operation site as the stability and exactness fields. Multiplication, identity, and inverse descent are read through the $\QuotientGroupUp$ operation boundary, and the exactness ledger hides only the principal witness while retaining the visible $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ provenance rows.
+
+These three repackings fill the roadmap ten-field template for $\IdealClassUp$: traditional target, BEDC source, carrier, classifier, stability, ledger, core theorem surface, exactness exclusion, standard bridge status, and verification status. Thus the scoped source certificate is determined within exactly the $\DedekindUp$, $\QuotientGroupUp$, $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ scope recorded above.
+\end{proof}
+
 \begin{closurestatus}{\IdealClassUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The paper-side obligation scope is the three displayed IdealClassUp theorem sites: fractional-ideal carrier, principal classifier, and quotient operation exactness over the cited DedekindUp and QuotientGroupUp sources.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The paper-side scoped source certificate is the repacking of the three displayed IdealClassUp theorem sites over the cited DedekindUp and QuotientGroupUp sources.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close scoped paper proofs, a public NameCert surface, a standard bridge, or any Lean theorem for IdealClassUp.}
-  \upgradepath{Scoped closure requires paper proofs that discharge the three obligation sites within the recorded DedekindUp and QuotientGroupUp source scope.}
+  \notclaimed{This chapter does not close a public NameCert surface, a standard bridge, or any Lean theorem for IdealClassUp.}
+  \upgradepath{The next verification step is a Lean theorem for the IdealClass scoped source certificate over the same DedekindUp and QuotientGroupUp source scope.}
 \end{closurestatus}
