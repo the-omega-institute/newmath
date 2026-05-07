@@ -37,6 +37,33 @@ theorem ExpMapCarrier_source_obligations {tangent endpoint flow : BHist} :
       (And.intro graph.right.right.right
         (And.intro tangentUnary (And.intro endpointUnary flowUnary))))
 
+theorem ExpMapGraphCarrier_classifier_transport
+    {tangent endpoint flow tangent' endpoint' flow' : BHist} :
+    ExpMapGraphCarrier tangent endpoint flow ->
+      hsame tangent tangent' ->
+        hsame endpoint endpoint' ->
+          hsame flow flow' ->
+            Cont tangent' BHist.Empty flow' ->
+              hsame flow' endpoint' ->
+                ExpMapGraphCarrier tangent' endpoint' flow' ∧ UnaryHistory tangent' ∧
+                  UnaryHistory endpoint' ∧ UnaryHistory flow' := by
+  intro graph sameTangent sameEndpoint sameFlow flowRow' sameFlowEndpoint'
+  have sourceRows := ExpMapCarrier_source_obligations graph
+  have tangentCarrier' : LieAlgebraSingletonCarrier tangent' :=
+    hsame_trans (hsame_symm sameTangent) graph.left
+  have endpointCarrier' : LieGroupSingletonCarrier endpoint' :=
+    hsame_trans (hsame_symm sameEndpoint) graph.right.left
+  have tangentUnary' : UnaryHistory tangent' :=
+    unary_transport sourceRows.right.right.right.left sameTangent
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport sourceRows.right.right.right.right.left sameEndpoint
+  have flowUnary' : UnaryHistory flow' :=
+    unary_transport sourceRows.right.right.right.right.right sameFlow
+  exact And.intro
+    (And.intro tangentCarrier'
+      (And.intro endpointCarrier' (And.intro flowRow' sameFlowEndpoint')))
+    (And.intro tangentUnary' (And.intro endpointUnary' flowUnary'))
+
 theorem ExpMapGraphCarrier_obligation_surface {tangent flow endpoint : BHist} :
     LieAlgebraSingletonCarrier tangent ->
       LieGroupSingletonCarrier endpoint ->
