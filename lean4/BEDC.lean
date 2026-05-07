@@ -274,6 +274,7 @@ import BEDC.Derived.IdealUp.QuotientKernelScope
 import BEDC.Derived.IdealUp.PrincipalGenerated
 import BEDC.Derived.IdealUp.PredicateRows
 import BEDC.Derived.IdealUp.RingMapZeroFiber
+import BEDC.Derived.DedekindUp
 import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
@@ -492,7 +493,6 @@ import BEDC.Derived.CommRingUp.SingletonStrictZeroDivisor
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
-import BEDC.Derived.DedekindUp
 import BEDC.DerivedIndexAnalysis
 import BEDC.Derived.CompactUp.ImageLedger
 import BEDC.Derived.CompactUp.Suffix

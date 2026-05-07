@@ -10,6 +10,7 @@ The Dedekind-domain interface $\DedekindUp$ packages an integrally closed Noethe
 A $\DedekindUp$ source consists of a shared $\mathsf{BHist}$ carrier and classifier equipped with the cited $\NameCert_{\CommRingUp}$ and $\NameCert_{\IdealUp}$ surfaces. The commutative-ring certificate fixes the visible ring package, and the ideal certificate is read over the same carrier and classifier rather than over a second ambient presentation.
 \end{theorem}
 \leanchecked{BEDC.Derived.DedekindUp.DedekindSingleton\_shared\_source\_obligation}
+\leanchecked{BEDC.Derived.DedekindUp.DedekindSingleton\_source\_obligation}
 \begin{proof}
 Unpack the seed boundary for $\DedekindUp$: the seed already names the $\CommRingUp$ source and the $\IdealUp$ source as required inputs. The roadmap ten-field template then asks first for a carrier and classifier surface before any domain law can be read.
 
@@ -29,6 +30,7 @@ Since the carrier and ideal classifier have already been fixed by the source obl
 \begin{theorem}[Dedekind classifier ledger obligation]\label{thm:dedekind-classifier-ledger-obligation}
 Classifier transport and the $\DedekindUp$ ledger expose exactly the commutative-ring source, the ideal source, the integrally closed witness, the Noetherian witness, and the nonzero-prime-maximal witness. The ledger exposes no quotient data, no classical-choice data, and no $\StdBridge$ data.
 \end{theorem}
+\leanchecked{BEDC.Derived.DedekindUp.DedekindSingleton\_classifier\_ledger\_obligation}
 \begin{proof}
 Unpack the exact-ledger boundary in the seed closure. Its upgrade path names the commutative-ring source, ideal source, three domain-law witnesses, classifier transport, and ledger boundary as the full local inventory.
 
@@ -38,11 +40,22 @@ The roadmap ten-field template then separates local certificate data from quotie
 \section{The certificate}
 \label{sec:dedekind-certificate}
 
+\begin{theorem}[Dedekind scoped certificate packet]\label{thm:dedekind-scoped-certificate-packet}
+The scoped $\DedekindUp$ certificate packet consists exactly of the shared $\mathsf{BHist}$ carrier and classifier, the cited $\NameCert_{\CommRingUp}$ and $\NameCert_{\IdealUp}$ surfaces, the integrally closed row, the Noetherian row, the nonzero-prime-maximal row, classifier transport, and the exact $\DedekindUp$ ledger boundary. This packet is scoped over the existing NameCert, CommRing, and Ideal primitives, and it contains no quotient presentation, no classical-choice datum, and no completed public $\NameCert_{\DedekindUp}$ surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dedekind-source-obligation} to fix the shared $\mathsf{BHist}$ carrier, the classifier, and the two cited source surfaces. Apply \autoref{thm:dedekind-domain-law-obligation} to read integrally closedness, Noetherianity, and nonzero-prime-maximality as rows over that same classifier.
+
+Apply \autoref{thm:dedekind-classifier-ledger-obligation} to identify the classifier transport and exact ledger boundary. Unpacking the roadmap ten-field template then packages these rows as the scoped local certificate inventory.
+
+The construction stops at scoped packet closure. It does not supply the exported public certificate surface for $\NameCert_{\DedekindUp}$ and does not pass through quotient representatives or classical choice.
+\end{proof}
+
 \begin{closurestatus}{\DedekindUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The paper-side obligation set is closed by the three theorem blocks for the commutative-ring and ideal source, the structural domain rows, and the nonzero-prime/maximal exactness ledger.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The paper-side scope is exactly the packet in \autoref{thm:dedekind-scoped-certificate-packet}, grounded by the shared-source row \autoref{thm:dedekind-source-obligation}, the domain-law row \autoref{thm:dedekind-domain-law-obligation}, and the classifier-ledger row \autoref{thm:dedekind-classifier-ledger-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a Dedekind-domain carrier, classifier, stability field, exactness row, ledger row, standard bridge, or downstream consumer certificate.}
-  \upgradepath{Obligation closure requires a concrete packet supplying the commutative-ring source, ideal source, integrally closed row, Noetherian row, nonzero-prime-maximal row, classifier transport, and exact ledger boundary.}
+  \notclaimed{This chapter does not close a Dedekind-domain $\NameCert$, Lean verification target, standard bridge, quotient construction, or classical-choice presentation.}
+  \upgradepath{Public closure requires a single exported $\NameCert_{\DedekindUp}$ theorem assembling the carrier, classifier, stability, exactness, and ledger rows into a public certificate surface.}
 \end{closurestatus}
