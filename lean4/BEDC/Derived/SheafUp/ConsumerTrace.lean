@@ -1,10 +1,24 @@
-import BEDC.Derived.SheafUp
+import BEDC.FKernel.Cont.Units
+import BEDC.Derived.SheafUp.ConsumerTraceComposition
 
 namespace BEDC.Derived.SheafUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
+
+theorem SheafConsumerTraceCompositionSource_closed
+    {root : BHist} {left right : List BHist} :
+    SheafConsumerAccessTrace root left -> SheafConsumerAccessTrace root right ->
+      SheafConsumerTraceCompositionSource root left right (left ++ right) := by
+  intro leftTrace rightTrace
+  have appended :
+      UnaryHistory root ∧ SheafConsumerAccessTrace root (left ++ right) :=
+    SheafConsumerAccessTrace_append_closed leftTrace rightTrace
+  exact And.intro appended.left
+    (And.intro (BEDC.FKernel.Cont.cont_left_unit_induction_spine root)
+      (And.intro leftTrace
+        (And.intro rightTrace (And.intro rfl appended.right))))
 
 def SheafConsumerAccessTraceCompositionSource
     (root : BHist) (left right : List BHist) : Prop :=
