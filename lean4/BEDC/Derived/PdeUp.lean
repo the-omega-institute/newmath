@@ -298,4 +298,27 @@ theorem PdeRelationClassifier_boundary_transport_surface
     (And.intro transportedReadback
       (And.intro transported.left transported.right.right))
 
+theorem PdePublicInterface_export [AskSetup] [PackageSetup]
+    {manifold derivative relation boundary endpoint relationBoundary summarizedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PdeCarriedSourceRow manifold derivative relation boundary endpoint bundle pkg ->
+      Cont relation boundary relationBoundary ->
+        Cont (append manifold derivative) relationBoundary summarizedEndpoint ->
+          PdeRelationClassifier manifold derivative relation boundary endpoint ∧
+            UnaryHistory relationBoundary ∧ UnaryHistory summarizedEndpoint ∧
+              hsame relationBoundary endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro row relationBoundaryCont summarizedEndpointCont
+  have relationClassifier : PdeRelationClassifier manifold derivative relation boundary endpoint :=
+    And.intro row.left
+      (And.intro row.right.left
+        (And.intro row.right.right.left
+          (And.intro row.right.right.right.left row.right.right.right.right.left)))
+  have ledgerRows :=
+    PdeCarriedSourceRow_stability_ledger_exactness_obligation row relationBoundaryCont
+      summarizedEndpointCont
+  exact And.intro relationClassifier
+    (And.intro ledgerRows.left
+      (And.intro ledgerRows.right.left
+        (And.intro ledgerRows.right.right.left ledgerRows.right.right.right.right.right)))
+
 end BEDC.Derived.PdeUp

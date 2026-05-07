@@ -1,3 +1,4 @@
+import BEDC.Derived.SheafUp.RootRestrictionRefinement
 import BEDC.Derived.SheafUp.LocalityGluingCertificate
 import BEDC.Derived.SheafUp.RootUnblock
 
@@ -50,6 +51,38 @@ theorem SheafRootNameCertLocalityGluing_fields
         hsame :=
     SheafRestrictedOpenCarrier_semantic_name_certificate descent.left
   exact And.intro comparison (And.intro descent.right.right cert)
+
+theorem SheafRootNameCertRefinementExactness_fields
+    {point openA openB openC sectionHist germA germB germC route routeTarget : BHist} :
+    SheafBHistPointGermLedger point openA sectionHist germA -> hsame openA openB ->
+      Cont openB sectionHist germB -> hsame openB openC ->
+        Cont openC sectionHist germC -> Cont openB route routeTarget ->
+          hsame routeTarget openB ->
+            SheafBHistPointGermLedger point openC sectionHist germC ∧
+              hsame germA germC ∧ hsame route BHist.Empty ∧
+                SemanticNameCert
+                  (fun endpoint : BHist =>
+                    SheafBHistPointGermLedger point openC sectionHist endpoint)
+                  (fun endpoint : BHist =>
+                    SheafBHistPointGermLedger point openC sectionHist endpoint)
+                  (fun endpoint : BHist =>
+                    SheafBHistPointGermLedger point openC sectionHist endpoint)
+                  hsame := by
+  intro ledger sameAB rowB sameBC rowC routeRow routeBoundary
+  have fields :
+      SheafBHistPointGermLedger point openC sectionHist germC ∧
+        hsame germA germC ∧ hsame route BHist.Empty :=
+    SheafRootRestrictionRefinement_obligation
+      ledger sameAB rowB sameBC rowC routeRow routeBoundary
+  have cert :
+      SemanticNameCert
+        (fun endpoint : BHist => SheafBHistPointGermLedger point openC sectionHist endpoint)
+        (fun endpoint : BHist => SheafBHistPointGermLedger point openC sectionHist endpoint)
+        (fun endpoint : BHist => SheafBHistPointGermLedger point openC sectionHist endpoint)
+        hsame :=
+    SheafRestrictedOpenCarrier_semantic_name_certificate fields.left
+  exact And.intro fields.left
+    (And.intro fields.right.left (And.intro fields.right.right cert))
 
 theorem SheafRootCoverLocalityGluing_obligation_surface
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
