@@ -1,40 +1,37 @@
-import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ManifoldUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.ContactUp
 
-open BEDC.Derived.DiffFormUp
 open BEDC.Derived.ManifoldUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
-theorem ContactUpFormRow_obligation {degree probe tensor scalar antisym ledger contactForm
-    derivative wedgeTop : BHist} :
-    UnaryHistory degree -> UnaryHistory probe -> Cont degree probe tensor ->
-      UnaryHistory antisym -> Cont tensor antisym scalar ->
-        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
-          UnaryHistory contactForm -> Cont scalar contactForm derivative ->
-            Cont derivative antisym wedgeTop ->
-              UnaryHistory tensor ∧ UnaryHistory scalar ∧ UnaryHistory derivative ∧
-                UnaryHistory wedgeTop ∧ Cont scalar contactForm derivative ∧
-                  Cont derivative antisym wedgeTop := by
-  intro degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute contactUnary
-  intro derivativeRoute wedgeRoute
-  have diffRows :=
-    DiffFormBHistLedger_exactness_obligation degreeUnary probeUnary tensorRoute antisymUnary
-      scalarRoute ledgerRoute
-  have tensorUnary : UnaryHistory tensor := diffRows.left
-  have scalarUnary : UnaryHistory scalar := diffRows.right.left
-  have derivativeUnary : UnaryHistory derivative :=
-    unary_cont_closed scalarUnary contactUnary derivativeRoute
-  have wedgeTopUnary : UnaryHistory wedgeTop :=
-    unary_cont_closed derivativeUnary antisymUnary wedgeRoute
-  exact And.intro tensorUnary
-    (And.intro scalarUnary
-      (And.intro derivativeUnary
-        (And.intro wedgeTopUnary (And.intro derivativeRoute wedgeRoute))))
+def ContactCarrierClassifierSurface (manifold form derivative wedge top : BHist) : Prop :=
+  ManifoldSingletonCarrier manifold ∧ UnaryHistory form ∧ UnaryHistory derivative ∧
+    Cont form derivative wedge ∧ Cont wedge BHist.Empty top
+
+theorem ContactCarrierClassifierSurface_form_row_obligation
+    {manifold form derivative wedge top : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      ManifoldSingletonCarrier manifold ∧ UnaryHistory manifold ∧ UnaryHistory form ∧
+        UnaryHistory derivative ∧ UnaryHistory wedge ∧ UnaryHistory top ∧
+          Cont form derivative wedge ∧ Cont wedge BHist.Empty top := by
+  intro surface
+  have manifoldRows := ManifoldSingletonCarrier_topology_scope surface.left
+  have wedgeUnary : UnaryHistory wedge :=
+    unary_cont_closed surface.right.left surface.right.right.left surface.right.right.right.left
+  have topUnary : UnaryHistory top :=
+    unary_cont_closed wedgeUnary unary_empty surface.right.right.right.right
+  exact And.intro surface.left
+    (And.intro manifoldRows.right.left
+      (And.intro surface.right.left
+          (And.intro surface.right.right.left
+            (And.intro wedgeUnary
+              (And.intro topUnary
+                (And.intro surface.right.right.right.left surface.right.right.right.right))))))
 
 end BEDC.Derived.ContactUp
