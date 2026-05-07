@@ -332,6 +332,7 @@ import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.RootSystemUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
+import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.MonoidalCatUp

@@ -40,4 +40,24 @@ theorem QuantumChannelSingleton_identity_channel_cptp {rho image : BHist} :
     (QuantumChannelAffineMixtureSpine.atom imageEmpty unaryImage)
     (And.intro imageRho imageEmpty)
 
+theorem QuantumChannelAffineMixtureSpine_density_mixture_preservation {phi rho image : BHist} :
+    QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) phi ->
+      hsame rho BHist.Empty -> Cont phi rho image ->
+        hsame image BHist.Empty ∧
+          QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) image := by
+  intro spine rhoEmpty densityCont
+  have phiEmpty : hsame phi BHist.Empty :=
+    QuantumChannelAffineMixtureSpine_finite_closure
+      (channel := fun h : BHist => hsame h BHist.Empty)
+      (fun {left right out} leftEmpty rightEmpty mixtureCont => by
+        cases leftEmpty
+        exact cont_left_unit_result mixtureCont |>.trans rightEmpty)
+      spine
+  have imageRho : hsame image rho := cont_left_unit_result (by
+    cases phiEmpty
+    exact densityCont)
+  have imageEmpty : hsame image BHist.Empty := hsame_trans imageRho rhoEmpty
+  have imageUnary : UnaryHistory image := unary_transport unary_empty (hsame_symm imageEmpty)
+  exact And.intro imageEmpty (QuantumChannelAffineMixtureSpine.atom imageEmpty imageUnary)
+
 end BEDC.Derived.QuantumChannelUp
