@@ -6,6 +6,15 @@ The numerical-quadrature interface $\QuadratureUp$ packages a finite weighted su
 \section{Carrier definition}
 \label{sec:quadrature-carrier}
 
+\begin{definition}[Quadrature carried rule source row]
+\label{def:quadrature-carried-rule-source-row}
+A carried $\QuadratureUp$ rule source row is the $\mathsf{BHist}$-visible tuple
+$$
+(xs,\alpha,\omega,\mathcal I_Q)
+$$
+where $xs$ is the $\FinSetUp$ node spine, each node endpoint $\alpha_i$ and weight endpoint $\omega_i$ is carried by the scalar endpoint rows, and $\mathcal I_Q$ is the endpoint map supplied by the $\IntegralUp$ polynomial row on the fixed compact interval. The polynomial inputs to the row are finite $\mathsf{ListCarrier}$ coefficient codes. Ordering choices for the node spine, numerical approximation choices, and convergence data are not carrier fields of the rule; when they are used, they are recorded only by ledger rows attached to the source tuple.
+\end{definition}
+
 \section{The certificate}
 \label{sec:quadrature-certificate}
 
@@ -56,6 +65,40 @@ $$
 This is the unary BEDC reading of the ordinary inequality $e\leq d$: every coefficient index above $d$ is also above $e$.
 \end{definition}
 
+\begin{theorem}[Quadrature carrier scope obligation]
+\label{thm:quadrature-carrier-scope-obligation}
+For the $\QuadratureUp$ certificate described by \autoref{def:quadrature-carried-rule-source-row} and \autoref{def:quadrature-finite-weighted-exactness-degree}, the carrier scope is exactly the $\FinSetUp$ node spine $xs$, the scalar endpoint rows carrying $\alpha_i$ and $\omega_i$, the $\IntegralUp$ endpoint map $\mathcal I_Q$, the $\mathsf{ListCarrier}$ polynomial code $p$, and the $\NatUp$ degree bound $n$. No host ordering of nodes, host analytic function, host real equality, convergence assumption, or approximation scheme is part of the carried source row.
+\end{theorem}
+\begin{proof}
+The carrier row of \autoref{def:quadrature-carried-rule-source-row} names only the tuple $(xs,\alpha,\omega,\mathcal I_Q)$, with polynomial inputs supplied as finite $\mathsf{ListCarrier}$ codes. The exactness-degree definition then adds only the unary bound $n:\NatUp$ and the derived rows $\mathsf{QSum}_Q$, $\mathsf{QExact}_Q$, $\mathsf{PolyDegLe}_R$, and $\mathsf{QuadratureExactUpTo}_R$.
+
+Each displayed row is built from the listed source objects: folding over $\mathsf{Pos}(xs)$, scalar multiplication and addition, Horner evaluation on a list code, the integral endpoint map, trimming, and strict-prefix comparison on unary naturals. Therefore any datum outside these rows can enter only as a ledger entry and not as carrier scope.
+\end{proof}
+
+\begin{theorem}[Quadrature classifier scope obligation]
+\label{thm:quadrature-classifier-scope-obligation}
+The exactness-degree classifier for the carried $\QuadratureUp$ rule is the preorder row $\mathsf{DegBoundLe}$ on $\NatUp$ bounds together with the weakening action on $\mathsf{QuadratureExactUpTo}_R$. Its source predicates are precisely $\mathsf{NatUnaryStrictPrefix}$ and $\mathsf{PolyDegLe}_R$ as displayed in \autoref{def:quadrature-finite-weighted-exactness-degree}.
+\end{theorem}
+\begin{proof}
+The classifier comparison is the displayed predicate $\mathsf{DegBoundLe}(e,d)$. By \autoref{lem:quadrature-polynomial-degree-window-inclusion}, this comparison transports a polynomial degree window from the smaller bound $e$ to the larger bound $d$ using only $\mathsf{NatUnaryStrictPrefix}$ and the coefficient condition in $\mathsf{PolyDegLe}_R$.
+
+Applying \autoref{thm:quadrature-exactness-degree-weakening} to that transported window gives the classifier action on $\mathsf{QuadratureExactUpTo}_R$. The reflexive and transitive rows recorded in \autoref{prop:quadrature-degree-bound-comparison-preorder-rows} identify the comparison surface as a preorder on the same unary bounds, so the classifier has no additional source objects.
+\end{proof}
+
+\begin{theorem}[Quadrature ledger exactness obligation]
+\label{thm:quadrature-ledger-exactness-obligation}
+For a carried $\QuadratureUp$ rule, the ledger exactness surface records the node spine, weights, integral endpoint provenance, polynomial trim and evaluation rows, and the pointwise predicate $\mathsf{QExact}_Q$. The ledger does not assert host real equality or host function equality; exactness is the carried scalar endpoint relation
+$$
+\mathsf{QSum}_Q(p)\sim_R\mathcal I_Q(p)
+$$
+on finite polynomial codes.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:quadrature-finite-weighted-exactness-degree}. The quadrature sum is a finite fold over $\mathsf{Pos}(xs)$ using the carried weights $\omega_i$ and Horner evaluation at the carried node endpoints $\alpha_i$. The integral side is the carried endpoint $\mathcal I_Q(p)$ supplied by the $\IntegralUp$ polynomial row.
+
+The polynomial side is controlled by $\mathsf{trim}_R$ and $\mathsf{PolyDegLe}_R$, while exactness itself is exactly the predicate $\mathsf{QExact}_Q(p)$. The window inclusion lemma, the weakening theorem, and the preorder rows cited above transport this same predicate between unary degree bounds without replacing it by host equality of real numbers or functions.
+\end{proof}
+
 \begin{lemma}[Polynomial degree windows are nested]
 \label{lem:quadrature-polynomial-degree-window-inclusion}
 With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, if $\mathsf{DegBoundLe}(e,d)$ holds, then every polynomial code with degree at most $e$ also has degree at most $d$:
@@ -87,6 +130,7 @@ $$
 \mathsf{QuadratureExactUpTo}_R(Q,e).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureExactUpTo\_weakening}
 \begin{proof}
 Unfold the target exactness predicate. Fix a finite coefficient spine $p:\mathsf{ListCarrier}(R)$ and assume $\mathsf{PolyDegLe}_R(p,e)$. By \autoref{lem:quadrature-polynomial-degree-window-inclusion}, the degree-bound comparison gives $\mathsf{PolyDegLe}_R(p,d)$. The exactness hypothesis at degree $d$ applies to this same polynomial code and returns
 $$
