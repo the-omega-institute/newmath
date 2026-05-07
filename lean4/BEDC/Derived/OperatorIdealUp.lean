@@ -88,6 +88,26 @@ theorem OperatorIdealTraceClass_scalar_closure {a T result : BHist} :
     (OperatorIdealTraceClass_finite_context_closure carrierT scalarAction)
     scalarAction
 
+theorem OperatorIdealBoundedContextAction_row_separation {T result : BHist} :
+    OperatorIdealBoundedContextAction T result -> hsame result T ∨
+      exists A : BHist, exists U : BHist,
+        UnaryHistory A ∧ OperatorIdealBoundedContextAction T U ∧
+          (Cont A U result ∨ Cont U A result) := by
+  intro action
+  induction action with
+  | id =>
+      exact Or.inl (hsame_refl _)
+  | left unaryA step rel _ =>
+      exact Or.inr
+        (Exists.intro _
+          (Exists.intro _
+            (And.intro unaryA (And.intro step (Or.inl rel)))))
+  | right unaryA step rel _ =>
+      exact Or.inr
+        (Exists.intro _
+          (Exists.intro _
+            (And.intro unaryA (And.intro step (Or.inr rel)))))
+
 theorem OperatorIdealTraceClass_binary_linear_combination_closure
     {a b T S aT bS result : BHist} :
     UnaryHistory a -> UnaryHistory b -> OperatorIdealTraceClassCarrier T ->
@@ -123,19 +143,7 @@ theorem OperatorIdealBoundedContextAction_consumer_context_exhaustion {T result 
   intro carrier action
   constructor
   · exact OperatorIdealTraceClass_finite_context_closure carrier action
-  · induction action with
-    | id =>
-        exact Or.inl (hsame_refl _)
-    | left unaryA step rel _ =>
-        exact Or.inr
-          (Exists.intro _
-            (Exists.intro _
-              (And.intro unaryA (And.intro step (Or.inl rel)))))
-    | right unaryA step rel _ =>
-        exact Or.inr
-          (Exists.intro _
-            (Exists.intro _
-              (And.intro unaryA (And.intro step (Or.inr rel)))))
+  · exact OperatorIdealBoundedContextAction_row_separation action
 
 theorem OperatorIdealTraceClass_additive_closure_row {T S sum neg : BHist} :
     OperatorIdealTraceClassCarrier BHist.Empty ∧
