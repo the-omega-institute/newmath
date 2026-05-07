@@ -258,4 +258,29 @@ theorem ComputableBoundedGraphCertificate_scoped_certificate
               exact (ComputableBoundedGraphCertificate_single_valuedness C graphNM
                 graphNMPrime).right.right.left)))))
 
+theorem ComputableBoundedGraphCertificate_classifier_stability_obligation
+    (C : ComputableBoundedGraphCertificate) {n nPrime m mPrime : BHist} :
+    C.Graph n m -> C.Graph nPrime mPrime -> hsame n nPrime ->
+      hsame (C.bound n) (C.bound nPrime) ->
+        hsame m mPrime ∧ Cont n (C.bound n) m ∧ Cont nPrime (C.bound nPrime) mPrime ∧
+          UnaryHistory n ∧ UnaryHistory nPrime ∧ UnaryHistory m ∧ UnaryHistory mPrime := by
+  intro graphNM graphNPrimeMPrime sameN sameBound
+  have runNM : ComputableBoundedSim C.program n (C.bound n) m :=
+    C.graph_to_sim graphNM
+  have runNPrimeMPrime :
+      ComputableBoundedSim C.program nPrime (C.bound nPrime) mPrime :=
+    C.graph_to_sim graphNPrimeMPrime
+  have transportedCont : Cont n (C.bound n) mPrime :=
+    cont_hsame_transport (hsame_symm sameN) (hsame_symm sameBound) (hsame_refl mPrime)
+      runNPrimeMPrime.right.right.right.right
+  have sameOutput : hsame m mPrime :=
+    cont_deterministic runNM.right.right.right.right transportedCont
+  exact And.intro sameOutput
+    (And.intro runNM.right.right.right.right
+      (And.intro runNPrimeMPrime.right.right.right.right
+        (And.intro runNM.right.left
+          (And.intro runNPrimeMPrime.right.left
+            (And.intro runNM.right.right.right.left
+              runNPrimeMPrime.right.right.right.left)))))
+
 end BEDC.Derived.ComputableUp
