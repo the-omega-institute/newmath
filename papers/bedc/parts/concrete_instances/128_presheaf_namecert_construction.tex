@@ -74,6 +74,19 @@ $$
 \end{enumerate}
 No row in this surface exports host open equality, cover quotients, stalk quotients, or external sheafification data.
 \end{definition}
+\leandef{BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface}
+
+\begin{theorem}[PreSheaf indexed restriction functoriality surface]\label{thm:presheaf-indexed-restriction-functoriality-surface}
+If $\mathsf{PreSheafIndexedRestrictionSurface}(sec,\rho,identity,composite)$ holds, $identity\hsame identity'$, and $\Cont(\rho,identity',composite')$, then $\mathsf{PreSheafIndexedRestrictionSurface}(sec,\rho,identity',composite')$, $composite\hsame composite'$, and $\mathsf{UnaryHistory}(composite')$ all hold.
+\end{theorem}
+\leanchecked{BEDC.Derived.PreSheafUp.PreSheafIndexedRestrictionSurface\_functoriality\_surface}
+\begin{proof}
+Unpack \autoref{def:presheaf-indexed-restriction-surface}. The old surface supplies $\mathsf{UnaryHistory}(sec)$, $\mathsf{UnaryHistory}(\rho)$, $\Cont(sec,\rho,identity)$, and $\Cont(\rho,identity,composite)$.
+
+Transport the first continuation result along $identity\hsame identity'$ to obtain $\Cont(sec,\rho,identity')$. Unary closure under $\Cont$ then gives $\mathsf{UnaryHistory}(identity')$, and the displayed continuation $\Cont(\rho,identity',composite')$ gives $\mathsf{UnaryHistory}(composite')$. These four rows repack as $\mathsf{PreSheafIndexedRestrictionSurface}(sec,\rho,identity',composite')$.
+
+It remains to compare the composite rows. Continuation respect for $\hsame$ applies to the reflexive comparison on $\rho$, the displayed comparison $identity\hsame identity'$, and the two continuation ledgers from $\rho$ to $identity$ and from $\rho$ to $identity'$. The result is $composite\hsame composite'$, completing the displayed functoriality surface.
+\end{proof}
 
 \section{The certificate}
 \label{sec:presheaf-certificate}

@@ -6,6 +6,43 @@ The independence interface $\IndependenceUp$ packages the property that the join
 \section{Carrier definition}
 \label{sec:independence-carrier}
 
+\begin{definition}[Finite-family carrier for IndependenceUp]
+\label{def:independence-finite-family-carrier}
+A finite-family carrier for $\IndependenceUp$ consists of a carried $\ProbSpaceUp$ source $S$, a finite $\FinSetUp$ index carrier $I$, and for every $i\in I$ a carried $\RandomVarUp$ map
+$$
+X_i:S\to T_i.
+$$
+For each $i$, the carrier includes the displayed $\DistributionUp$ marginal endpoint $\mu_i$ obtained as the pushforward of $X_i$, together with a displayed joint $\DistributionUp$ endpoint $\mu_X^J$ for the tuple map into the finite product target $\prod_{i\in I}T_i$.
+
+The readback ledger assigns to every finite family of measurable target events $B=(B_i)_{i\in I}$ a product-cylinder event $\operatorname{Cyl}_X(B)$ in the joint target and records the source-event readback
+$$
+s\in X^{-1}(\operatorname{Cyl}_X(B))
+\Longleftrightarrow
+\forall i\in I.\;X_i(s)\in B_i.
+$$
+Thus the carrier exposes exactly the source, finite index spine, random-variable spine, marginal distribution spine, joint distribution endpoint, and product-cylinder readback needed for the finite factorisation row.
+\end{definition}
+
+\begin{definition}[Finite factorisation classifier for IndependenceUp]
+\label{def:independence-factorisation-classifier}
+Let $R_X$ and $R_Y$ be two finite-family rows of \autoref{def:independence-finite-family-carrier}. An $\IndependenceUp$ factorisation classifier from $R_X$ to $R_Y$ consists of the following compatible comparisons:
+\begin{enumerate}
+\item a $\ProbSpaceUp$ classifier identifying the carried sources;
+\item a $\FinSetUp$ classifier identifying the finite index carriers and transporting the finite-position spine;
+\item for every matched index, a $\RandomVarUp$ classifier between the corresponding carried random-variable maps;
+\item for every matched index and measurable target event, a $\DistributionUp$ classifier between the corresponding marginal endpoints;
+\item compatibility of the two product-cylinder readbacks under the source, index, and random-variable classifiers;
+\item $\RealUp$ classifier agreement between the two marginal product folds and between the two joint-cylinder endpoints for every transported measurable event family.
+\end{enumerate}
+The classifier holds when these comparisons compose to the displayed endpoint condition
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B))
+\Longleftrightarrow
+\mu_Y^J(\operatorname{Cyl}_Y(B'))\sim_R\Pi_R(\mathsf{MargSp}_Y(B'))
+$$
+for each event family $B$ and its transported family $B'$.
+\end{definition}
+
 \section{The certificate}
 \label{sec:independence-certificate}
 
@@ -36,6 +73,85 @@ for every such measurable event family $B$, where $\sim_R$ is the $\RealUp$ clas
 \end{enumerate}
 This is the concrete paper-side factorisation surface carried by $\IndependenceUp$ in \autoref{sec:independence-carrier} and \autoref{sec:independence-certificate}.
 \end{definition}
+\leandef{BEDC.Derived.IndependenceUp.IndependenceFiniteFactorizationRow}
+
+\begin{theorem}[Independence obligation stability under certified transport]
+\label{thm:independence-obligation-stability-transport}
+Let $R_X$ and $R_Y$ be finite-family carriers for $\IndependenceUp$ as in \autoref{def:independence-finite-family-carrier}. Suppose they are related by the classifier of \autoref{def:independence-factorisation-classifier}, using the $\RandomVarUp$, $\DistributionUp$, $\FinSetUp$, $\PermutationUp$, and $\RealUp$ classifier rows named there. If $R_X$ carries the finite factorisation row of \autoref{def:independence-finite-factorisation-row}, then $R_Y$ carries the corresponding finite factorisation row for every transported measurable event family.
+\end{theorem}
+\begin{proof}
+Fix a measurable event family $B'$ for $R_Y$ and choose its transported source family $B$ along the $\FinSetUp$ and $\RandomVarUp$ classifier data. The product-cylinder compatibility in \autoref{def:independence-factorisation-classifier} identifies the two source-event readbacks, so the $\DistributionUp$ rows compare the two joint-cylinder endpoints.
+
+The marginal clauses of the same classifier compare each marginal endpoint in the transported spine. The finite-position comparison and, when the presentation order changes, the $\PermutationUp$ row reduce the product comparison to \autoref{lem:realup-finite-product-permutation-readback}.
+
+Apply the factorisation row for $R_X$ to $B$. The joint-endpoint comparison, the transported marginal-product comparison, and transitivity of the $\RealUp$ classifier give the factorisation row for $R_Y$ at $B'$. Since $B'$ was arbitrary, stability holds for the whole finite family.
+\end{proof}
+
+\begin{theorem}[Independence obligation ledger exactness]
+\label{thm:independence-obligation-ledger-exactness}
+For a finite-family carrier $R_X$ of \autoref{def:independence-finite-family-carrier}, the $\IndependenceUp$ ledger exposes exactly four rows: the product-cylinder readback, the marginal distribution spine, the finite $\RealUp$ product fold, and the joint distribution endpoint. The ledger is exact precisely when, for every finite measurable event family $B$, the displayed factorisation row
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B))
+$$
+holds with the cylinder, spine, fold, and endpoint supplied by those four rows.
+\end{theorem}
+\begin{proof}
+The carrier definition lists the only data read by the factorisation judgment: source membership in the cylinder, the marginal endpoint attached to each index, the finite product of those endpoints, and the joint endpoint of the tuple map. No additional event, source witness, or hidden distribution endpoint is read by \autoref{def:independence-finite-factorisation-row}.
+
+If the ledger is exact, evaluating it at $B$ returns those four entries, and the final entry is classified with the product fold by the recorded factorisation row. This gives the displayed equation for every measurable event family.
+
+Conversely, assume the displayed equation holds for every $B$ using the four ledger rows. Then every value consumed by the independence judgment is one of the exposed rows, and the judgment is true exactly when the displayed equation is true. Hence the ledger is exact for the finite-family factorisation surface.
+\end{proof}
+
+\begin{theorem}[Independence obligation certificate packet]
+\label{thm:independence-obligation-certificate-packet}
+The data consisting of the carrier of \autoref{def:independence-finite-family-carrier}, the classifier of \autoref{def:independence-factorisation-classifier}, the stability theorem of \autoref{thm:independence-obligation-stability-transport}, and the ledger exactness theorem of \autoref{thm:independence-obligation-ledger-exactness} form the finite-family $\IndependenceUp$ obligation packet. This packet fixes the paper-side obligations for closing $\NameCert_{\IndependenceUp}$ on finite families of carried random variables over a carried $\ProbSpaceUp$ source.
+\end{theorem}
+\begin{proof}
+The carrier supplies the source, finite index, random-variable spine, marginal endpoints, joint endpoint, and cylinder readback. The classifier states exactly when two such rows have the same finite-family independence content after certified transport.
+
+The stability theorem records that the factorisation judgment is preserved by the named classifiers. The ledger exactness theorem records that no field outside the cylinder readback, marginal spine, product fold, and joint endpoint is used by the judgment.
+
+Together these rows are the required carrier, classifier, stability, ledger, and exactness faces of the finite-family naming certificate. Therefore they assemble into the $\IndependenceUp$ obligation packet for the stated finite scope.
+\end{proof}
+
+\begin{theorem}[Independence carrier obligation]
+\label{thm:independence-carrier-obligation}
+The carrier for $\IndependenceUp$ is exactly the finite-family package consisting of one carried $\ProbSpaceUp$ source $S$, a certified $\FinSetUp$ index carrier $I$, carried $\RandomVarUp$ maps $X_i:S\to T_i$ for $i\in I$, their $\DistributionUp$ marginal endpoints $\mu_i$, the displayed joint $\DistributionUp$ endpoint $\mu_X^J$, and the finite factorisation row of \autoref{def:independence-finite-factorisation-row}. No further carrier datum is part of the $\IndependenceUp$ surface.
+\end{theorem}
+\begin{proof}
+Unpack the finite factorisation row. Its inputs name one source probability-space carrier, one finite index carrier, and one carried random-variable map at each finite index. The row then records exactly the marginal pushforward endpoint for each map and the joint pushforward endpoint for the tuple family.
+
+The remaining fields of \autoref{def:independence-finite-factorisation-row} are certificate rows over those endpoints: product-cylinder readback, finite $\RealUp$ product fold, and the joint-distribution factorisation comparison. Each field is typed over the same displayed source, index, random-variable, marginal, and joint endpoints. Thus the carrier is closed by these finite data, and there is no separate conditional, completed, or standard-space carrier to add.
+\end{proof}
+
+\begin{theorem}[Independence classifier and stability obligation]
+\label{thm:independence-classifier-stability-obligation}
+The classifier comparison for $\IndependenceUp$ is generated by certified index reindexing, readable-preimage transport for carried $\RandomVarUp$ maps, $\DistributionUp$ endpoint transport along the displayed pushforward rows, and finite-product classifier transport over $\RealUp$. Under these generators, the finite factorisation row is stable under certified finite reindexing and under measurable-image transport of a binary pair.
+\end{theorem}
+\begin{proof}
+The classifier generators are the comparison rows already present in the input certificates. A certified reindexing compares index positions by the $\FinSetUp$ and $\PermutationUp$ rows. A readable-preimage transport compares target events through the $\RandomVarUp$ readback clauses. The $\DistributionUp$ pushforward row transports the resulting event comparison to marginal and joint endpoints, and the $\RealUp$ classifier transports the finite product fold.
+
+For the finite-family face, apply \autoref{thm:independence-finite-reindexing-invariance}. It uses the certified inverse position map, product-cylinder readback, the original factorisation row, and \autoref{lem:realup-finite-product-permutation-readback} to rebuild the same factorisation comparison after reindexing.
+
+For the binary measurable-image face, apply \autoref{thm:independence-measurable-image-bridge}. It reads preimages through the displayed maps, transports the marginal and joint distribution endpoints, and then composes the original binary factorisation comparison with $\RealUp$ classifier transitivity. These two stability faces exhibit the generated classifier comparison for the independence certificate.
+\end{proof}
+
+\begin{theorem}[Independence ledger and exactness obligation]
+\label{thm:independence-ledger-exactness-obligation}
+The exact ledger exported by $\IndependenceUp$ consists only of the source probability-space row, finite index evidence, random-variable preimage rows, distribution pushforward rows, product-cylinder readback, and finite $\RealUp$ product-fold provenance. It exports no conditional expectation, martingale, sigma-algebra completion, or standard probability-space bridge.
+\end{theorem}
+\begin{proof}
+Read the ledger entries from \autoref{def:independence-finite-factorisation-row}. The source row supplies the carried probability space, the finite index evidence supplies the allowed family positions, and the random-variable rows supply readable preimages for the events used in each product cylinder.
+
+The distribution rows supply only the marginal and joint pushforward endpoints attached to those same readable events. The product-cylinder readback records the equivalence between membership in the tuple cylinder and membership in every displayed component event. The $\RealUp$ product-fold provenance records how marginal values are multiplied and compared by the real classifier.
+
+Exactness follows because the factorisation equation mentions only these exported rows:
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+Neither the statement nor the construction calls for conditional expectation, martingale filtrations, sigma-algebra completion, or a standard probability-space bridge. The ledger is therefore exact for the finite-family independence surface and silent about those additional probability-theoretic structures.
+\end{proof}
 
 \begin{lemma}[Finite RealUp product fold is invariant under certified reindexing]
 \label{lem:realup-finite-product-permutation-readback}
@@ -202,14 +318,14 @@ Since $C_0,C_1$ were arbitrary measurable events, this is exactly the binary fin
 \end{theorem}
 \leanchecked{BEDC.Derived.IndependenceUp.IndependenceBinaryFactorization\_measurable\_image\_bridge}
 
-\closureat{IndependenceUp}{seedStr}[BEDC.Derived.IndependenceUp.IndependenceBinaryFactorization\_measurable\_image\_bridge]
+\closureat{IndependenceUp}{obligationStr}[BEDC.Derived.IndependenceUp.IndependenceBinaryFactorization\_measurable\_image\_bridge]
 
 \begin{closurestatus}{\IndependenceUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope is exactly the finite factorisation row, finite reindexing row, measurable-image bridge, and the $\RandomVarUp$, $\DistributionUp$, $\FinSetUp$, $\PermutationUp$, and $\RealUp$ input rows displayed in this chapter.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope is exactly the finite-family carrier, classifier, stability, ledger, exactness, finite reindexing row, measurable-image bridge, and the $\RandomVarUp$, $\DistributionUp$, $\FinSetUp$, $\PermutationUp$, and $\RealUp$ input rows displayed in this chapter.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.IndependenceUp.IndependenceBinaryFactorization\_measurable\_image\_bridge}
   \bridgestatus{none}
   \notclaimed{Full probability theory, sigma-algebra completion, conditional expectation, martingales, and standard bridge data are not claimed here.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, stability, ledger, exactness, and certificate rows for finite-family independence.}
+  \upgradepath{Scoped closure requires binding each obligation to the primitive BEDC rows it depends on and proving the finite-family certificate from those rows.}
 \end{closurestatus}

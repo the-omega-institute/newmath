@@ -295,6 +295,42 @@ theorem LieGroupSingleton_chart_operation_readback {h k product mulChart invChar
     (And.intro productManifold
       (And.intro mulEmpty (And.intro invEmpty (And.intro mulUnary invUnary))))
 
+theorem LieGroupSingleton_smooth_operation_readback
+    {h k product mulChart invChart transition : BHist} :
+    LieGroupSingletonCarrier h -> LieGroupSingletonCarrier k -> Cont h k product ->
+      Cont BHist.Empty product mulChart -> Cont BHist.Empty (LieGroupSingletonInv h) invChart ->
+        Cont mulChart invChart transition ->
+          LieGroupSingletonClassifier product BHist.Empty ∧
+            LieGroupSingletonClassifier (LieGroupSingletonInv h) BHist.Empty ∧
+              hsame mulChart BHist.Empty ∧ hsame invChart BHist.Empty ∧
+                hsame transition BHist.Empty ∧ UnaryHistory transition := by
+  intro carrierH carrierK productRow mulChartRow invChartRow transitionRow
+  have productEmpty : hsame product BHist.Empty :=
+    cont_respects_hsame carrierH carrierK productRow (cont_left_unit BHist.Empty)
+  have emptyCarrier : LieGroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have productClassified : LieGroupSingletonClassifier product BHist.Empty :=
+    And.intro productEmpty (And.intro emptyCarrier productEmpty)
+  have invCarrier : LieGroupSingletonCarrier (LieGroupSingletonInv h) := by
+    rfl
+  have invClassified : LieGroupSingletonClassifier (LieGroupSingletonInv h) BHist.Empty :=
+    And.intro invCarrier (And.intro emptyCarrier invCarrier)
+  have mulProduct : hsame mulChart product :=
+    cont_left_unit_result mulChartRow
+  have mulEmpty : hsame mulChart BHist.Empty :=
+    hsame_trans mulProduct productEmpty
+  have invEndpoint : hsame invChart (LieGroupSingletonInv h) :=
+    cont_left_unit_result invChartRow
+  have invEmpty : hsame invChart BHist.Empty :=
+    hsame_trans invEndpoint invCarrier
+  have transitionEmpty : hsame transition BHist.Empty :=
+    cont_respects_hsame mulEmpty invEmpty transitionRow (cont_left_unit BHist.Empty)
+  have transitionUnary : UnaryHistory transition :=
+    unary_transport unary_empty (hsame_symm transitionEmpty)
+  exact And.intro productClassified
+    (And.intro invClassified
+      (And.intro mulEmpty (And.intro invEmpty (And.intro transitionEmpty transitionUnary))))
+
 theorem LieGroupSingleton_downstream_export {h k product chart : BHist} :
     LieGroupSingletonCarrier h -> LieGroupSingletonCarrier k -> Cont h k product ->
       Cont BHist.Empty product chart ->
