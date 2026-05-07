@@ -13,6 +13,37 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+theorem SpectralTheoremSingleton_carrier_classifier_obligation
+    {operator spectral measured projection calculus : BHist} :
+    VecSpaceSingletonCarrier operator ->
+      MeasureZeroBHistCarrier measured ->
+        hsame spectral BHist.Empty ->
+          Cont operator measured projection ->
+            Cont projection spectral calculus ->
+              VecSpaceSingletonCarrier operator ∧
+                MeasureZeroBHistClassifier measured BHist.Empty ∧
+                  UnaryHistory projection ∧ UnaryHistory calculus ∧
+                    Cont operator measured projection ∧
+                      Cont projection spectral calculus := by
+  intro operatorCarrier measuredCarrier spectralEmpty operatorMeasured projectionSpectral
+  have operatorUnary : UnaryHistory operator :=
+    unary_transport unary_empty (hsame_symm operatorCarrier)
+  have measuredUnary : UnaryHistory measured :=
+    unary_transport unary_empty (hsame_symm measuredCarrier)
+  have projectionUnary : UnaryHistory projection :=
+    unary_cont_closed operatorUnary measuredUnary operatorMeasured
+  have spectralUnary : UnaryHistory spectral :=
+    unary_transport unary_empty (hsame_symm spectralEmpty)
+  have calculusUnary : UnaryHistory calculus :=
+    unary_cont_closed projectionUnary spectralUnary projectionSpectral
+  have measuredClassified : MeasureZeroBHistClassifier measured BHist.Empty :=
+    And.intro measuredCarrier (And.intro (hsame_refl BHist.Empty) measuredCarrier)
+  exact And.intro operatorCarrier
+    (And.intro measuredClassified
+      (And.intro projectionUnary
+        (And.intro calculusUnary
+          (And.intro operatorMeasured projectionSpectral))))
+
 theorem SpectralTheoremCarrierClassifier_obligation
     {operator spectrum projection calculus endpoint : BHist} :
     VecSpaceSingletonCarrier operator ->
@@ -63,6 +94,29 @@ theorem SpectralTheoremEmptySpectrum_calculus_endpoint
     And.intro spectrumEmpty (And.intro (hsame_refl BHist.Empty) spectrumEmpty)
   exact And.intro projectionWitness.right.right.left
     (And.intro spectrumClassified endpointEmpty)
+
+theorem SpectralTheoremProjectionMeasure_functional_calculus_empty
+    {op projection spectrum pvm calculus endpoint : BHist} :
+    HilbertSingletonProjectionWitness op projection ->
+      MeasureZeroBHistClassifier spectrum BHist.Empty ->
+        MeasureZeroBHistClassifier pvm BHist.Empty ->
+          MeasureZeroBHistClassifier calculus BHist.Empty ->
+            Cont spectrum pvm endpoint ->
+              VecSpaceSingletonClassifier projection BHist.Empty ∧
+                MeasureZeroBHistClassifier endpoint BHist.Empty ∧
+                  MeasureZeroBHistClassifier calculus endpoint := by
+  intro projectionWitness spectrumZero pvmZero calculusZero spectrumPvm
+  have endpointZero : MeasureZeroBHistCarrier endpoint :=
+    cont_respects_hsame spectrumZero.left pvmZero.left spectrumPvm
+      (cont_left_unit BHist.Empty)
+  have endpointClassified : MeasureZeroBHistClassifier endpoint BHist.Empty :=
+    And.intro endpointZero (And.intro (hsame_refl BHist.Empty) endpointZero)
+  have calculusEndpointSame : hsame calculus endpoint :=
+    hsame_trans calculusZero.left (hsame_symm endpointZero)
+  have calculusEndpoint : MeasureZeroBHistClassifier calculus endpoint :=
+    And.intro calculusZero.left (And.intro endpointZero calculusEndpointSame)
+  exact And.intro projectionWitness.right.right.left
+    (And.intro endpointClassified calculusEndpoint)
 
 theorem SpectralTheoremOperatorSpectralData_carrier_classifier
     {operator operator' spectrum pvm calculus calculus' : BHist} :
