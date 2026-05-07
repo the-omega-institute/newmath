@@ -231,6 +231,7 @@ import BEDC.Derived.SheafUp.RootRestrictionRefinement
 import BEDC.Derived.SheafUp.ExactnessExport
 import BEDC.Derived.SheafUp.CommonTransport
 import BEDC.Derived.SheafUp.RootNameCertLocality
+import BEDC.Derived.SheafUp.ChartGluingTrace
 import BEDC.Derived.SetUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.SemanticNameCertificate
@@ -402,6 +403,7 @@ import BEDC.Derived.LatticeUp.ModularComparison
 import BEDC.Derived.LatticeUp.Monotonicity
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.RootSystemUp
+import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
