@@ -1,0 +1,283 @@
+---
+title: "形式化路线"
+subtitle: "把 mathlib、MathComp、Isabelle、Mizar、Metamath、HOL Light、Cubical Agda、UniMath、NuPRL、CoRN、Bishop 摆在同一张地图上, 看 BEDC 占的格子是不是空的"
+author: "The Omega Institute"
+date: 2026-05-07
+lang: zh-Hans
+description: "一张含 11+ 条路线的形式化生态地图. 按 (经典/构造) × (wholesale/minimalist) × (kernel 改不改) 三轴分家族. BEDC 占 (构造 × minimalist × 不改 kernel × 主动剔除 + AI 并行) 这个格子, 现在仍是空的."
+---
+
+```{=html}
+<div class="lang-switch"><a href="formalization-routes.qmd">English</a></div>
+```
+
+## 这张地图要回答的问题
+
+"BEDC 跟其他形式化项目比怎么样?" 这句话隐含一个错误前提 —— 仿佛全部形式化项目处于同一坐标系下, 拿一把尺子能比出胜负. 它们不在同一个坐标系. 它们在不同的**foundational 立场**下做不同的事. 比较的第一步是把每条路线**摆回它自己的格子**, 让格子之间的空白也露出来.
+
+下面把 11 条路线按三轴分家族铺开. 三轴是:
+
+1. **经典 vs 构造**: 接受 LEM / AC / 双重否定消除 vs 拒绝.
+2. **Wholesale vs minimalist**: 把 host 教科书整本搬进系统 vs 从最小 kernel 重建一片.
+3. **改不改 kernel**: 继续用 stdlib kernel vs 添加新 primitives (interval / Glue / extensional eq / 其他).
+
+排完之后会看到 BEDC 所在的那个格子 —— **构造 × minimalist × 不改 kernel × 用 AI 并行解产能瓶颈** —— 现在仍**只有它一家**.
+
+## 三个家族
+
+```
+                  classical              constructive
+                  ─────────              ────────────
+
+wholesale     │ A 家族                  │ — (rare)
+              │ ─────                    │
+              │ Mathlib (Lean 4)         │
+              │ MathComp / SSReflect     │
+              │ Isabelle/HOL + AFP       │
+              │ Mizar                    │
+              │ Metamath / set.mm        │
+              │ HOL Light                │
+              ├──────────────────────────┼─────────────
+minimalist    │ B 家族 (扩 kernel)       │ C 家族 (留 kernel)
+foundational  │ ─────                    │ ─────
+              │ Cubical Agda             │ Bishop *Foundations* (informal)
+              │ RedPRL / redtt / cooltt  │ CoRN (Coq)
+              │ UniMath                  │ ★ BEDC
+              │                          │
+              │ ─ 旁支 ─                 │
+              │ NuPRL (extensional)      │
+```
+
+A 家族占据 1990–2025 形式化数学的主流. B 家族是 1990 年代以来"重建基础"的少数派, 但选择了**扩 kernel** 的路 (加 univalence 或加 extensional eq). C 家族是**留 kernel + 减公理**的少数派的少数派, 现役只有 CoRN 跟 BEDC, BEDC 是其中**唯一同时拒三公理 + 拒 host primitives + 主动 cannot-claim** 的.
+
+## A 家族: 经典 + wholesale, 主流形式化的 1.0 形态
+
+A 家族的共同立场是: 数学已经存在, 我们的任务是**把它搬进机器**. 选择经典逻辑、选择尽可能利用 host stdlib、选择 wholesale, 都为了让搬运过程**人月效率高**.
+
+### Mathlib (Lean 4) — 经典 wholesale 的现役旗舰
+
+- **Kernel**: Lean 4 CIC + Lean stdlib (`Classical.choice` / `Quot.sound` / `propext` 全用)
+- **数学覆盖**: 集合论 / 范畴论 / 代数 / 拓扑 / 分析 / 概率 / 微分几何 / 数论 / 群表示, ~150K 定理, 9 年 (2017–2026)
+- **代表成果**: Liquid Tensor Experiment、PFR conjecture (Tao 主导)、sphere eversion
+- **风格**: 定义直接调用 host (`Nat`/`Int`/`Rat`/`Real`/`List`/`Set`), 战术 `linarith`/`polyrith`/`field_simp`/`norm_num` 等大量自动化
+- **审计姿态**: 无. `#print axioms` 跑完会列一长串, 没人当问题.
+- **每条定理的成本**: 极低, 配套自动化齐全, 借现成定义和 lemma 多
+- **跟 BEDC 的关系**: 完全相反. mathlib 把"把数学搬进 Lean 而不在意公理代价"当方法, BEDC 把"任何 Lean stdlib axiom 都是债"当 invariant.
+
+### MathComp / SSReflect (Coq) — 结构主义 + 经典的另一支
+
+- **Kernel**: Coq CIC + `Classical` / `ChoiceFacts` 等模块按需加
+- **数学覆盖**: 群表示 / 有限群论 / 数论 / 一些代数几何, 历史代表覆盖 4 色定理 (2005)、Feit-Thompson 定理 (2012, ~170K 行 Coq)
+- **风格**: 强调**正则结构 + small reflection**: 用 `Structure`/`canonical instances` 链接 carrier 跟 morphism, 让 `simp`/`rewrite` 自动找路径; 战术 `move=>`/`apply:`/`case:` 等紧凑组合子
+- **审计姿态**: 接受 `Classical` import. Feit-Thompson 是经典定理, 走不通构造路.
+- **跟 BEDC 的关系**: 工程结构上 (`canonical instance` 链 vs BEDC 的 `class`/`Setup` + `Minimal*Setup`) 有相似性, 数学 ambition 不同. MathComp 押在"把经典群论搬进机器", BEDC 押在"用 first-principles 重证".
+
+### Isabelle/HOL + AFP — 经典 HOL 的最大归档
+
+- **Kernel**: Higher-Order Logic, simple type theory, 比 CIC 弱 (没有 dependent types)
+- **数学覆盖**: AFP (Archive of Formal Proofs) 1500+ 条目, 包含 König 引理 / Gödel 不完备性 / Bertrand 假设 / 一些 PDE / TLA+ verification / 量子算法 / 分布式系统证明
+- **代表成果**: Hales 主导的 Flyspeck 项目早期 (Kepler 猜想), Cambridge 的 seL4 microkernel verification
+- **风格**: classical 高阶逻辑 + Isar 证明语言, 接近教科书证明文本
+- **审计姿态**: 经典逻辑当 substrate, 不在意.
+- **跟 BEDC 的关系**: kernel 简洁性方向相同 (HOL 比 CIC 还小), 但 classical/HOL 跟 constructive/CIC 两个轴上都不同. AFP 是经典数学的工程奇迹, 跟 BEDC 不同游戏.
+
+### Mizar — 集合论 wholesale 的元老
+
+- **Kernel**: Tarski-Grothendieck 集合论 (扩展 ZFC, 加 universe)
+- **数学覆盖**: ~58000 定理, 1973 年起, 由波兰团队主导维护
+- **风格**: Mizar 自家证明语法, 非常接近教科书写法; 自动化薄, 主要靠手写
+- **审计姿态**: ZFC + Tarski-Grothendieck 当 substrate
+- **跟 BEDC 的关系**: 完全不同的 foundational 立场. Mizar 直接拥抱 ZFC, BEDC 连 host 的 `Nat` 都不让进 BEDC public surface.
+
+### Metamath / set.mm — 极小 kernel + 经典 ZFC 的字符串重写
+
+- **Kernel**: Metamath inference rules ~6 条, 基于字符串变量替换
+- **数学覆盖**: set.mm 大约 38000 定理, 全部直接在 ZFC 上
+- **风格**: 每个推理步骤极其简单 (字符串替换), 因此每个定理被分解到极细颗粒度; 一条 mathlib 一行的事在 Metamath 可能要十几步
+- **审计姿态**: kernel 自身极小, 但 ZFC 公理 schema 当原料用, 不审
+- **跟 BEDC 的关系**: kernel 极小这一点跟 BEDC 同向 (二者都珍视 trust 总账), 但 Metamath 用 ZFC, BEDC 用 plain CIC + 拒三公理. trust 总账小但**形状不同**.
+
+### HOL Light — Harrison 的极小 OCaml kernel
+
+- **Kernel**: 经典 HOL, ~400 行 OCaml 实现, kernel 是社群里最小的之一
+- **数学覆盖**: Hales 的 Flyspeck (Kepler 猜想完整证明), Harrison 的 multivariate analysis library
+- **风格**: 极简自动化, 接近"手写 ML 代码生成证明"
+- **审计姿态**: classical, 选择 / LEM 任意用
+- **跟 BEDC 的关系**: kernel 极小是同方向, 但经典 / HOL / wholesale 这三轴上都不同.
+
+### A 家族小结
+
+A 家族的共同 trust 姿态: **公理债不当债, host 原语不当负担**. 它们押"人月效率 × 工程文化"赢得**搬运速度**. mathlib 在 2026 是这一支的最高峰, 9 年 ~150K 定理, 时间均摊 ~45 / 天.
+
+A 家族的成本: 任何"无三公理"或"无 host 原语"或"first-principles" 的形态化 ambition, 在 A 家族里**结构性做不出来**, 因为 substrate 已经预设了那些原语.
+
+## B 家族: 经典 + minimalist + 扩 kernel, 重建 foundations 的少数派
+
+B 家族选择**重建 foundations**, 但走的是**扩 kernel** 的路: 不接受默认 CIC kernel, 加新原语让 univalence 或 extensional eq 等具有计算性. trust 总账加大, 换 kernel 更"丰富".
+
+### Cubical Agda — 现役主力, 让 univalence 计算
+
+- **Kernel**: Agda CIC base + interval $\mathbb{I}$ + Path / PathP + Glue + `hcomp` / `transp` / `fill` + partial elements + face lattice. **比 plain CIC 大约一倍**.
+- **数学覆盖**: agda/cubical 库有 ~千个文件, 涵盖 foundations / algebra / topology / homotopy / category. 标准做法是"用 univalence 把 isomorphic 结构等同起来".
+- **代表成果**: Brunerie 数 ($\pi_4(S^3) = \mathbb{Z}/2\mathbb{Z}$ 的 mechanization, 8 年, 2022 终于在 Mörtberg-Ljungström 优化下 reduce 出 $n=2$); 整套 synthetic homotopy theory.
+- **风格**: 数学家可以直接 `data S¹ where base : S¹; loop : base ≡ base` 写空间, 用 HIT 写商, 用 `ua` 写等同
+- **审计姿态**: 不再是 "axiom UA 是债", 而是 "cubical kernel 是 commitment". 由 CCHM 论文给的 cubical sets 模型 + canonicity / normalization 元定理兜底.
+- **跟 BEDC 的关系**: 同样 minimalist + 想"重建", 但**方向相反**. Cubical 加 ~10 条几何原语换 univalence 计算性; BEDC 减 3 个 stdlib axiom 换更小 trust 总账. 两条都诚实, 哲学相反.
+
+### RedPRL / redtt / cooltt — 类型论家用的 cubical 实验台
+
+- **Kernel**: Carnegie Mellon 系列 OCaml 实现, 用 "computational higher type theory" (CHTT) 路线而非 CCHM, 强调 operational semantics
+- **数学覆盖**: 不在 library 量, 在 meta-theory 研究
+- **代表成果**: Sterling 的博士论文 *Higher Type Theory* (2021), normalization-by-evaluation for cubical
+- **跟 BEDC 的关系**: 同样追求 kernel 诚实 (不靠 axiom 凑事), 但走的方向是**扩 kernel + 加 modal types + 加 sorts**, 跟 BEDC 留 plain CIC 完全相反.
+
+### UniMath — Voevodsky 的 univalent foundations
+
+- **Kernel**: Coq + 加一条 univalence axiom (跟 cubical 不同, UniMath 没让 UA 计算, 而是当 axiom 接受)
+- **数学覆盖**: 范畴论基础 + h-levels (contractible/prop/set/groupoid 塔) + 一些代数. 量级远小于 mathlib.
+- **代表成果**: Voevodsky 主导的同伦类型论的 Coq 化
+- **审计姿态**: 接受 univalence 当 axiom. trust 总账上 = vanilla Coq + 一条 axiom.
+- **跟 BEDC 的关系**: 都拒 `Quot.sound`, 都拒 `propext`. 但 UniMath **接受** univalence axiom, BEDC 0 axiom. UniMath 选择"加一条 axiom 换概念上的 monism", BEDC 选择"不加任何 axiom 换 trust 最小".
+
+### B 家族小结
+
+B 家族 共同立场: **stdlib 默认配置不够干净, 要从 kernel 层动手**. 它们跟 A 家族的 wholesale 立场对立, 跟 C 家族的留-kernel 立场也对立. trust 总账上 B 家族**比 A 家族干净**, 但**比 C 家族大**.
+
+B 家族的押注是 *univalence / extensional eq 是数学的真实结构, 应该进 kernel*. C 家族不同意.
+
+## C 家族: 构造 + minimalist + 留 kernel, RISC-foundations 路线
+
+C 家族最稀少. 全部加起来现役只有三家: Bishop 学派 (informal)、CoRN (Coq)、BEDC (Lean 4).
+
+### Bishop *Foundations of Constructive Analysis* (1967, informal) — 方法学祖先
+
+- **Kernel**: 没有形式化系统; 用 informal 的"严格构造" 写黑板数学
+- **数学覆盖**: 实数 / Cauchy 完备化 / 度量空间 / 解析函数 / 一些初等代数, 一本书一辈子
+- **代表成果**: Bishop 1967, 后续 Bishop-Bridges *Constructive Analysis* (1985)
+- **审计姿态**: 拒 LEM, 拒任意选择 (countable choice 算 borderline), 每条存在性证明给算法
+- **跟 BEDC 的关系**: 直系祖先. BEDC 的 "0 三公理" + "scope-bound mature" + "cannot-claim registry" 的精神都从 Bishop 来. 区别: Bishop 没 formal system, 没 closure-axis × verification-axis 两轴记账, 没生成性 kernel (`b₀,b₁ → Hist → ...`). BEDC 是 Bishop 哲学**形式化 + 加纪律层**的版本.
+
+### CoRN — Coq 上的 Bishop-style 构造主义实分析
+
+- **Kernel**: Coq CIC + Coq stdlib (用 setoid 替 `Quot.sound`, 但**接受 `propext`**)
+- **数学覆盖**: Bishop 实数 / Cauchy 序列 / 度量空间 / 一些初等代数 / 一些超越函数. 量级两到三个数量级小于 mathlib.
+- **代表成果**: Krebbers / Spitters 等的 metric space 形式化, ~20 年项目寿命 (2003+)
+- **审计姿态**: 拒 LEM, 拒 AC. setoid machinery 取代 `Quot.sound`. 但 `propext` 在 Coq stdlib 里不主动审, 所以 **CoRN 实际接受 propext**.
+- **跟 BEDC 的关系**: **最近的亲戚, 但纪律比 BEDC 薄一层**.
+  - 同: 拒 LEM, 拒 AC, 用 setoid
+  - 不同: CoRN 接受 propext; BEDC 拒.
+  - 不同: CoRN 没有生成性 kernel (`Mark → Hist → ... → NameCert`); 它直接从 Coq 的 `Set`/`Prop`/Cauchy 序列起步.
+  - 不同: CoRN 没 closure-axis × verification-axis 两轴记账.
+  - 不同: CoRN 没 cannot-claim registry.
+
+CoRN 是 RISC-foundations 在过去 20 年的代表作, 验证了 "Bishop + Coq" 这条路在 informal 之外可走, 但**它就是 RISC-foundations 产能瓶颈的 case**: 20 年覆盖到 metric space + 一些初等代数, 离 mathlib 量级两到三个数量级.
+
+### BEDC — RISC 纪律 + 生成性 kernel + 两轴记账 + AI 并行
+
+- **Kernel**: Lean 4 CIC, 0 mathlib, 0 三公理 (`Classical.choice` / `Quot.sound` / `propext` 全拒), 0 `axiom` 关键字, 0 `sorry`. Carrier 全部 BEDC 自己的 inductive 起步 (`BMark` / `BHist` / ...)
+- **数学覆盖**: 7 天 5,909 theorems / 25 mature chapters (2026-04-29 至 2026-05-07). 详见 [`derivation-is-graded`](derivation-is-graded.zh-CN.qmd) 的速度数据.
+- **代表成果**: 在路上 (项目第一周)
+- **审计姿态**: `axiom-purity --strict` 跑 `#print axioms` 强制每条定理 0 stdlib 公理依赖. `cannot-claim registry` 主动剔除外部 host 教科书内容. 两轴 `closurestatus` 块强制每章并存 paper 闭合 + Lean 验证 grade.
+- **生产方式**: codex worker 并行在 `codex-auto-dev` 分支, 人 + claude pair 在 `auto-dev` 做架构提交, ralph-loop 跑细颗粒任务. **AI 并行解 RISC-foundations 历史产能瓶颈**.
+
+### C 家族小结
+
+C 家族共同立场: **构造 + 留 plain kernel + 减公理**. 共同问题: 历史上**产能不够**.
+
+| 项目 | 时间跨度 | 量级 | 产能瓶颈状态 |
+|---|---|---|---|
+| Bishop *Foundations* | 1967 (informal) | 一本书一辈子 | 永远受限于一个人 |
+| CoRN | 2003+ (~20 年) | 实分析中段 | 受限于学术贡献量 |
+| BEDC | 2026-04-29+ (~7 天) | 5,909 定理 / 25 mature | **AI 并行解了** |
+
+BEDC 的不同**不在哲学**(它跟 Bishop / CoRN 是亲戚), 而**在生产方式**: 第一次让 RISC-foundations 跑出**比 mathlib 高峰还快**的速度.
+
+## 旁支: NuPRL — 扩 kernel 的另一种走法
+
+- **Kernel**: Martin-Löf extensional type theory + subset types + computational equality. **比 CIC 强**, 让 typecheck undecidable, 但换"等同"在 kernel 直接成立.
+- **数学覆盖**: 主要在 type theory 实验, 不在数学库
+- **代表成果**: Constable 系列论文, Computational Type Theory
+- **跟 BEDC 的关系**: 想用 BEDC 的 setoid classifier 路线**深下一层** (kernel 直接给 extensional eq), 就是 NuPRL 方向. BEDC 选了相反: 留 CIC, 用 inductive 模拟 setoid, 让 trust 总账小但写起来啰嗦.
+
+NuPRL 跟 cubical 一样属于"扩 kernel 派", 只不过扩的方向不是 univalence 而是 extensional eq. 主流形式化生态里 NuPRL 现役活跃度低, 但作为路线参照仍重要.
+
+## 全图: 14 维矩阵
+
+把 11 条路线按 14 个维度排开. 每行一条路线, 每列一项审计 / 配置 / 风格.
+
+| 路线 | Kernel base | mathlib-free | LEM | AC | propext | host Nat 当 carrier | `axiom` keyword | `sorry` | 生成性 kernel | 两轴记账 | cannot-claim | scope-bound mature | 自动化 | 量级 (定理) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Mathlib (Lean 4) | CIC | 否 | ✓ | ✓ | ✓ | ✓ | 看用法 | 看用法 | — | — | — | — | 高 | ~150K |
+| MathComp (Coq) | CIC | n/a (Coq) | ✓ | ✓ | ✓ | ✓ | 看用法 | 看用法 | — | — | — | — | 高 | ~50K |
+| Isabelle/HOL | HOL | n/a | ✓ | ✓ | n/a | ✓ | n/a | 看用法 | — | — | — | — | 高 | ~25K (AFP) |
+| Mizar | TG-Set | n/a | ✓ | ✓ | n/a | n/a | n/a | n/a | — | — | — | — | 低 | ~58K |
+| Metamath | ZFC schemas | n/a | ✓ | ✓ | n/a | n/a | n/a | n/a | — | — | — | — | 低 | ~38K |
+| HOL Light | HOL | n/a | ✓ | ✓ | n/a | ✓ | n/a | 看用法 | — | — | — | — | 中 | ~15K |
+| Cubical Agda | CIC + Cubical | 是 | 默认无 | 默认无 | 由 UA 蕴含 | ✓ | 不用 | 不用 | — | — | — | — | 中 | ~10K (cubical lib) |
+| RedPRL/redtt/cooltt | CHTT | 是 | — | — | — | — | 不用 | 不用 | — | — | — | — | 低 | meta-theory 研究 |
+| UniMath | CIC + UA axiom | 是 | 默认无 | 默认无 | 由 UA 蕴含 | 看模块 | 1 (UA) | 不用 | — | — | — | — | 低 | ~5K |
+| NuPRL | extensional TT | 是 | 默认无 | 默认无 | n/a | n/a | n/a | n/a | — | — | — | — | 低 | 研究台 |
+| Bishop *Foundations* | informal | n/a | 拒 | 拒 | n/a | n/a | n/a | n/a | — | — | — | — | n/a | 一本书 |
+| CoRN | CIC + Coq stdlib | 否 | 拒 | 拒 | ✓ | 看用法 | 不用 | 看用法 | — | — | — | — | 中 | ~5K |
+| **BEDC** | plain CIC | **是** | **拒** | **拒** | **拒** | **拒** (no host leak) | **0** | **0** | **是** | **是** | **是** | **是** | 中 | 5,909 (7 天) |
+
+`✓` = 接受 / 用. `拒` = 项目纪律拒绝. `—` = 不适用 (项目没这个概念). `看用法` = 项目允许但实际 usage 看作者. `n/a` = 维度不映射到该项目.
+
+读法: BEDC 那一行 (最后) 在**生成性 kernel** / **两轴记账** / **cannot-claim** / **scope-bound mature** 这 4 列上都是 ✓, **整张表唯一**. 在 LEM / AC / propext / host Nat / `axiom` / `sorry` 6 列上都是拒 / 0, 跟 CoRN 几乎并列但 CoRN 在 propext + host carrier 两列上没拒到底.
+
+## BEDC 占的格子: 一个十字交叉的空白点
+
+把上面 14 维投影到三个最关键的轴 (constructive / minimalist / no-kernel-extension), 加一轴 (cannot-claim + 生成性 kernel + AI 并行):
+
+| 路线 | constructive | minimalist | no-kernel-extension | 生成性 kernel + cannot-claim + AI 并行 |
+|---|---|---|---|---|
+| Mathlib | ✗ | ✗ | ✓ | ✗ |
+| MathComp | ✗ | ✗ | ✓ | ✗ |
+| Isabelle/HOL | ✗ | ✗ | ✓ | ✗ |
+| Mizar | ✗ | ✗ | ✓ | ✗ |
+| Metamath | ✗ | ✓ (Metamath kernel 极小) | ✓ | ✗ |
+| HOL Light | ✗ | ✓ (kernel 极小) | ✓ | ✗ |
+| Cubical Agda | ✓ | ✓ | ✗ (扩 kernel) | ✗ |
+| RedPRL/cooltt | ✓ | ✓ | ✗ (扩 kernel) | ✗ |
+| UniMath | ✓ | ✓ | ✓ (但加 UA axiom) | ✗ |
+| NuPRL | ✓ | ✓ | ✗ (extensional kernel) | ✗ |
+| Bishop *Foundations* | ✓ | ✓ | n/a (informal) | ✗ |
+| CoRN | ✓ | ✓ | ✓ | ✗ |
+| **BEDC** | **✓** | **✓** | **✓** | **✓** |
+
+Metamath / HOL Light 在 minimalist 上 ✓ 但在 constructive 上 ✗. CoRN 在前三列上 ✓ 但 cannot-claim / 生成性 kernel / AI 并行三件都没.
+
+**只有 BEDC 在四列都 ✓**. 这不是巧合, 是项目的纪律设计目标: 在过去 60 年 RISC-foundations 都失败的位置, 用 AI 并行把产能瓶颈解掉, 同时纪律比 CoRN 还严 (拒 propext + 拒 host primitives + 0 axiom keyword + cannot-claim registry).
+
+## 这张地图的 3 个收尾观察
+
+### 观察 1: A 家族跟 C 家族不是"哪个更好", 是"做不同的事"
+
+Mathlib 适合"我已经有定理需要形式化, 不在意公理代价". BEDC 适合"我要用最少 trust 重证传统数学, 同时把每一步暴露在审计视野里". 拿一个去做另一个的事都会很痛苦.
+
+陶哲轩 PFR / Maynard 用 mathlib 是对的; BEDC 拿来形式化 PFR 会立刻撞到三公理 + host `Nat` + propext 的红线. 反过来, 用 mathlib 做"无三公理的 first-principles 数学重证" 是 categorical 不可能, 因为 substrate 已经预设了三公理.
+
+### 观察 2: B 家族 vs C 家族是真正的哲学对决
+
+A 家族跟 minimalist 家族的对比是"我搬运 vs 我重建"的工程差. B 家族 vs C 家族是 *同样的"重建" ambition, 不同的"用什么 substrate"立场*: 加 univalence (B) vs 减三公理 (C).
+
+这两边谁对? 现在没答案. 历史上 CISC vs RISC 在 ISA 层面用了 30 年才出胜负. Foundations 这一层估计要更久, 因为软件迭代慢于硬件迭代. 但 *RISC 在工程史上最终赢得话语权*, 这是 BEDC 押的牌.
+
+### 观察 3: BEDC 的格子在 2026-04-29 之前是空的
+
+这张 14 维表格里, BEDC 那一行的精确组合 —— 拒三公理 + 拒 host Nat + 0 axiom + 0 sorry + 生成性 kernel + 两轴记账 + cannot-claim + scope-bound mature + AI 并行 —— 在 2026-04-29 之前**不存在于任何项目**. 同时具备这九件事的项目, 历史上没有一个.
+
+CoRN 缺 propext / host carrier / 生成性 kernel / 两轴 / cannot-claim / AI 并行. UniMath 缺 axiom-clean / 生成性 kernel / cannot-claim / AI 并行. Cubical 缺 axiom-clean / 留-kernel / cannot-claim / AI 并行. mathlib 缺**几乎全部**.
+
+BEDC 是 2026-04-29 这一天**第一次**把九件事拼在一起的项目. 看完地图就知道, 这不是"BEDC 跟其他比谁强"的问题, 是"BEDC 占的格子之前没人占"的问题.
+
+```{=html}
+<hr>
+```
+
+## 相关页面
+
+- [导出是有刻度的](derivation-is-graded.zh-CN.qmd) — 闭合两轴 + mature scope-bound + RISC vs CISC + 速度证据
+- [区分作为根基](distinction-as-foundation.zh-CN.qmd) — BEDC 把"区分"当原始, 跟 set / type / category 都不一样的起点
+- [零信息债](zero-information-debt.zh-CN.qmd) — 三层审计: paper-gap / meta-closure / observer 一等公民
+- [发现回路](discovery-loop.zh-CN.qmd) — kernel-from-scratch 的工作流

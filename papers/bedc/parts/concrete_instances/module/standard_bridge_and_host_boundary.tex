@@ -1,0 +1,71 @@
+\begin{theorem}[Module singleton standard bridge]
+\label{thm:module-singleton-standard-bridge}
+The concrete singleton BEDC module instance of
+\autoref{def:singleton-empty-history-module-instance}, with carrier
+$A_{\emp}$, classifier $\rho_{\emp}$, constant scalar action
+$\mathsf{ModuleSingletonSmul}$, and law package
+\autoref{thm:module-singleton-scalar-action-laws}, interprets as the ordinary
+terminal one-element module over the terminal one-element ring. Its public
+interpretation is the standard one-object module bridge: carrier membership,
+classifier comparison, scalar action, source rows, graph exactness, and ledger
+rows are all read through the singleton $\RingUp$ laws, the singleton
+$\AbGroupUp$ laws, the scalar-action image
+$\mathsf{SemanticNameCert}$ of
+\autoref{thm:module-singleton-smul-image-semantic-name-cert}, and the graph
+exactness theorem \autoref{thm:module-singleton-smul-graph-exact}.
+\end{theorem}
+\begin{proof}
+The scalar carrier is the singleton empty-history ring supplied by
+\autoref{thm:singleton-empty-history-ring-laws}. The additive module carrier is
+the singleton empty-history abelian group supplied by
+\autoref{thm:singleton-empty-history-abgroup-laws}. Both use the same
+$A_{\emp}$ endpoint predicate and the same $\rho_{\emp}$ classifier on
+$\mathsf{BHist}$.
+
+The scalar-action law package
+\autoref{thm:module-singleton-scalar-action-laws} identifies the displayed
+constant action $\mathsf{ModuleSingletonSmul}$ with the unique action possible
+on those singleton carriers. The image certificate
+\autoref{thm:module-singleton-smul-image-semantic-name-cert} records the
+carrier, classifier, source, pattern, and ledger rows as a BEDC
+$\mathsf{SemanticNameCert}$.
+
+Finally, graph exactness
+\autoref{thm:module-singleton-smul-graph-exact} says that the action graph has
+exactly the singleton endpoint output. Composing these rows gives the usual
+terminal module over the usual terminal ring, with no extra quotient or host
+representative added to the public interpretation.
+\end{proof}
+
+\begin{theorem}[Module singleton public surface has no host leak]
+\label{thm:module-singleton-no-host-leak}
+Every exported public row of the singleton $\ModuleUp$ surface is expressed
+only in $\mathsf{BHist}$, $A_{\emp}$, $\rho_{\emp}$, $\hsame$,
+$\mathsf{ModuleSingletonSmul}$, the singleton $\RingUp$ rows, the singleton
+$\AbGroupUp$ rows, and the fields of the displayed
+$\mathsf{SemanticNameCert}$ packages. The public surface exports no host
+equality, host $\mathsf{Nat}$, quotient carrier, or host function as part of
+the BEDC module interface.
+\end{theorem}
+\begin{proof}
+The carrier and classifier rows are the empty-history endpoint predicate
+$A_{\emp}$ and the classifier $\rho_{\emp}$ from
+\autoref{def:singleton-empty-history-module-instance}. Endpoint transport is
+the $\hsame$ transport used in the singleton classifier and image-certificate
+rows.
+
+The operation row is the displayed BEDC scalar action
+$\mathsf{ModuleSingletonSmul}$. Its semantic certificate is
+\autoref{thm:module-singleton-smul-image-semantic-name-cert}, and its graph
+boundary is \autoref{thm:module-singleton-smul-graph-exact}; neither row
+requires a host equality test or a host function in the exported surface.
+
+The scalar and additive source rows are exactly the singleton $\RingUp$ and
+$\AbGroupUp$ rows, and the kernel-facing public rows are the BEDC
+$\mathsf{SemanticNameCert}$ and exactness rows of
+\autoref{thm:module-singleton-smul-kernel-exactness} and
+\autoref{thm:module-singleton-smul-kernel-semantic-name-cert}. Thus every
+public endpoint, comparison, operation, and ledger field is named inside the
+BEDC vocabulary, while host $\mathsf{Nat}$, quotient carriers, host equality,
+and host functions remain outside the exported interface.
+\end{proof}
