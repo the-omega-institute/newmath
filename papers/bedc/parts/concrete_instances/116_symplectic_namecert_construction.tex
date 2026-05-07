@@ -49,6 +49,7 @@ The carrier row is the shared manifold endpoint together with the degree-two adm
 
 Carrier transport is componentwise. The $\ManifoldUp$ certificate transports the manifold carrier, the $\DiffFormUp$ certificate transports the admissible form row, and the paired boundary repacks these transported rows as the carrier and classifier data required by $\NameCert_{\SymplecticUp}$.
 \end{proof}
+\leanchecked{BEDC.Derived.SymplecticUp.SymplecticObligationBoundary\_carrier\_classifier\_obligations}
 
 \begin{theorem}[Symplectic closed two-form obligation]
 \label{thm:symplectic-closed-two-form-obligation}
@@ -110,14 +111,14 @@ The law cases are the degree-two form row, the exterior-derivative input row, th
 The remaining cases are the restricted $\hsame$ classifier, the stability carried by that restriction, the chart, degree, derivative-input, wedge and pairing ledger rows, and the hidden source projections. These cases are exactly the coverage, soundness, and completeness clauses stated in the theorem.
 \end{proof}
 
-\closureat{SymplecticUp}{obligationStr}
+\closureat{SymplecticUp}{scopedStr}
 
 \begin{closurestatus}{\SymplecticUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation inventory binds exactly the $\NameCert_{\DiffFormUp}$ source, the $\NameCert_{\ManifoldUp}$ source, the $\SymplecticUp$ carrier-classifier surface of \autoref{def:symplecticup-carrier-classifier-surface}, the obligation boundary of \autoref{def:symplectic-obligation-boundary}, the carrier and classifier rows of \autoref{thm:symplectic-carrier-classifier-obligations}, the closed two-form rows of \autoref{thm:symplectic-closed-two-form-obligation} and \autoref{thm:symplecticup-closed-two-form-obligation}, the nondegeneracy rows of \autoref{thm:symplectic-nondegeneracy-stability-obligation} and \autoref{thm:symplecticup-nondegeneracy-obligation}, and ledger coverage, soundness, and completeness in \autoref{thm:symplecticup-ledger-exactness-obligation}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped closure binds the displayed $\NameCert_{\DiffFormUp}$ and $\NameCert_{\ManifoldUp}$ witnesses, the $\hsame$-restricted classifier, exterior-derivative routing, manifold carrier transport, and the ledger exactness rows cited in \autoref{def:symplecticup-carrier-classifier-surface}, \autoref{def:symplectic-obligation-boundary}, \autoref{thm:symplectic-carrier-classifier-obligations}, \autoref{thm:symplecticup-closed-two-form-obligation}, \autoref{thm:symplecticup-nondegeneracy-obligation}, and \autoref{thm:symplecticup-ledger-exactness-obligation}.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a concrete $\SymplecticUp$ carrier implementation, a closedness proof, a nondegeneracy proof, a standard bridge, or Lean verification for $\SymplecticUp$.}
-  \upgradepath{Scoped closure requires binding the displayed carrier, classifier, closedness, nondegeneracy, stability, ledger, exterior-derivative routing, manifold carrier transport, and $\hsame$ classifier dependencies to concrete $\DiffFormUp$ and $\ManifoldUp$ witnesses.}
+  \upgradepath{Public closure requires a public $\NameCert_{\SymplecticUp}$ export or a standard bridge consumer for the scoped certificate surface.}
 \end{closurestatus}

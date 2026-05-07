@@ -61,6 +61,33 @@ theorem ExpMapGraphCarrier_hsame_transport {tangent endpoint flow tangent' endpo
     (And.intro rows.right.right.right.left
       (And.intro rows.right.right.right.right.left rows.right.right.right.right.right))
 
+theorem ExpMapGraphCarrier_classifier_transport
+    {tangent endpoint flow tangent' endpoint' flow' : BHist} :
+    ExpMapGraphCarrier tangent endpoint flow ->
+      hsame tangent tangent' ->
+        hsame endpoint endpoint' ->
+          hsame flow flow' ->
+            Cont tangent' BHist.Empty flow' ->
+              hsame flow' endpoint' ->
+                ExpMapGraphCarrier tangent' endpoint' flow' ∧ UnaryHistory tangent' ∧
+                  UnaryHistory endpoint' ∧ UnaryHistory flow' := by
+  intro graph sameTangent sameEndpoint sameFlow flowRow' sameFlowEndpoint'
+  have sourceRows := ExpMapCarrier_source_obligations graph
+  have tangentCarrier' : LieAlgebraSingletonCarrier tangent' :=
+    hsame_trans (hsame_symm sameTangent) graph.left
+  have endpointCarrier' : LieGroupSingletonCarrier endpoint' :=
+    hsame_trans (hsame_symm sameEndpoint) graph.right.left
+  have tangentUnary' : UnaryHistory tangent' :=
+    unary_transport sourceRows.right.right.right.left sameTangent
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport sourceRows.right.right.right.right.left sameEndpoint
+  have flowUnary' : UnaryHistory flow' :=
+    unary_transport sourceRows.right.right.right.right.right sameFlow
+  exact And.intro
+    (And.intro tangentCarrier'
+      (And.intro endpointCarrier' (And.intro flowRow' sameFlowEndpoint')))
+    (And.intro tangentUnary' (And.intro endpointUnary' flowUnary'))
+
 theorem ExpMapGraphCarrier_obligation_surface {tangent flow endpoint : BHist} :
     LieAlgebraSingletonCarrier tangent ->
       LieGroupSingletonCarrier endpoint ->
@@ -323,5 +350,29 @@ theorem ExpMapFlowLedger_zero_composition_obligation {tangent endpoint flow comp
   exact And.intro compositeEmpty
     (And.intro compositeUnary
       (And.intro tangentCarrier (And.intro endpointCarrier flowEndpoint)))
+
+def ExpMapGraphClassifier
+    (source endpoint flow source' endpoint' flow' : BHist) : Prop :=
+  hsame source source' ∧ hsame endpoint endpoint' ∧ hsame flow flow'
+
+theorem ExpMapGraphClassifier_stability_obligations
+    {source source' endpoint endpoint' flow flow' ledger ledger' : BHist} :
+    ExpMapGraphCarrier source endpoint flow -> ExpMapGraphCarrier source' endpoint' flow' ->
+      hsame source source' -> hsame endpoint endpoint' -> Cont source endpoint ledger ->
+        Cont source' endpoint' ledger' -> hsame flow ledger -> hsame flow' ledger' ->
+          ExpMapGraphClassifier source endpoint flow source' endpoint' flow' ∧
+            hsame ledger ledger' ∧ UnaryHistory flow ∧ UnaryHistory flow' := by
+  intro graph graph' sameSource sameEndpoint ledgerRow ledgerRow' sameFlowLedger
+    sameFlowLedger'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameSource sameEndpoint ledgerRow ledgerRow'
+  have sameFlow : hsame flow flow' :=
+    hsame_trans sameFlowLedger (hsame_trans sameLedger (hsame_symm sameFlowLedger'))
+  have graphRows := ExpMapCarrier_source_obligations graph
+  have graphRows' := ExpMapCarrier_source_obligations graph'
+  exact And.intro
+    (And.intro sameSource (And.intro sameEndpoint sameFlow))
+    (And.intro sameLedger
+      (And.intro graphRows.right.right.right.right.right graphRows'.right.right.right.right.right))
 
 end BEDC.Derived.ExpMapUp
