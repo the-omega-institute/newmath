@@ -300,6 +300,41 @@ the named rows and explicitly omits spectral theorem, semigroup evolution,
 PDE well-posedness, standard-bridge, and host-level operator-equality claims.
 \end{proof}
 
+\begin{theorem}[FunctionalAnalysis public bridge boundary]
+\label{thm:functionalanalysis-public-bridge-boundary}
+The public $\FunctionalAnalysisUp$ surface over the displayed $\BanachUp$,
+$\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ rows exports
+exactly the bounded-operator row, dual pointwise classifier, norm-bound
+stability, adjoint stability, compact finite-net witness, and exact ledger
+boundary as the bridge payload available to downstream $\SpectralTheoremUp$,
+$\SemigroupUp$, and $\PdeUp$ consumers. This boundary does not assert spectral
+theorem rows, semigroup evolution, PDE well-posedness, $\bridgeCheckedV$, or
+host-level operator equality.
+\end{theorem}
+\begin{proof}
+The exported operator face is the bounded-operator row of
+\autoref{thm:functionalanalysis-bounded-linear-operator-obligation}. The
+exported dual face is the pointwise scalar-valued classifier of
+\autoref{thm:functionalanalysis-dual-space-classifier-obligation}. Together
+these two rows give the public carrier and classifier entries consumed by the
+operator chapters.
+
+The stability payload is exactly the norm-bound stability row of
+\autoref{thm:functionalanalysis-operator-norm-stability-obligation} and the
+adjoint stability row of
+\autoref{thm:functionalanalysis-adjoint-stability-obligation}. These rows
+transport the exported operator data without adding any spectral, evolution, or
+PDE conclusion.
+
+The compact payload is the finite-net witness of
+\autoref{thm:functionalanalysis-compact-operator-ledger-obligation}, and the
+outer boundary is the exact ledger boundary of
+\autoref{thm:functionalanalysis-exact-ledger-boundary-obligation}. Repacking
+these six named rows gives precisely the public bridge payload for
+$\SpectralTheoremUp$, $\SemigroupUp$, and $\PdeUp$, while the omitted claims
+remain outside this $\FunctionalAnalysisUp$ certificate.
+\end{proof}
+
 \closureat{FunctionalAnalysisUp}{publicStr}
 \begin{closurestatus}{\FunctionalAnalysisUp}
   \theoryclosure{\publicClosure}
