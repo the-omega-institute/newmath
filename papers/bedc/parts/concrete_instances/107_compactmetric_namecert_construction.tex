@@ -36,6 +36,111 @@ or host-level subsequence principle is part of the carrier.
 \section{The certificate}
 \label{sec:compactmetric-certificate}
 
+\begin{theorem}[Compact metric carrier obligation]
+\label{thm:compactmetric-metric-carrier-obligation}
+Let $X$ carry the compact metric certificate relation of
+\autoref{def:compactmetric-certificate-carrier}. Then the public carrier row
+for $\CompactMetricUp$ is exactly the underlying $\MetricSpaceUp$ carrier:
+the same $\mathsf{BHist}$ point histories are accepted, the same point
+classifier is used, the displayed distance rows are the inherited
+$\mathsf{MetricDistanceWitness}$ rows, and distance-transport is the
+$\hsame$-stable transport row supplied by the metric certificate. In the
+ten-field $\NameCert$ roadmap template this fixes the source, carrier,
+classifier, stability, and metric ledger entries before the
+$\TotallyBoundedUp$ and $\CompleteMetricUp$ fields are read.
+\end{theorem}
+\begin{proof}
+Unpack the first field of
+\autoref{def:compactmetric-certificate-carrier}. It is a
+$\MetricSpaceUp$ package over $\mathsf{BHist}$, so it already names the
+accepted point histories, their point classifier, and the distance witness
+relation used for every metric comparison.
+
+No compact-specific carrier is introduced at this stage. The
+$\CompactMetricUp$ carrier copies those point histories and copies the point
+classifier, so classifier transport is the same $\hsame$ row that the metric
+certificate uses on endpoints.
+
+It remains to record the ledger surface. Each distance claim exposed by the
+compact certificate is a $\mathsf{MetricDistanceWitness}$ row inherited from
+$\MetricSpaceUp$, and distance transport is precisely the inherited
+$\hsame$-stable metric transport. These rows give the carrier, classifier,
+distance witness, and distance-transport obligations required by the
+$\NameCert$ template.
+\end{proof}
+
+\begin{theorem}[Compact metric finite-net obligation]
+\label{thm:compactmetric-totallybounded-net-obligation}
+Let $X$ carry the compact metric certificate relation of
+\autoref{def:compactmetric-certificate-carrier}. For every positive
+$\RatUp$ tolerance history $\varepsilon$, the $\TotallyBoundedUp$ field
+supplies a closed $\mathsf{ProbeBundle}$ net with center histories,
+positive radius histories, bundle-membership rows, metric coverage rows, and
+rational comparison ledgers. These center, radius, coverage, and ledger rows
+are stable under $\hsame$ and the $\RatUp$ classifier by
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}, and they
+form the finite-net carrier, classifier-stability, and ledger obligations for
+$\CompactMetricUp$.
+\end{theorem}
+\begin{proof}
+Fix a positive $\RatUp$ tolerance history $\varepsilon$. The second field of
+\autoref{def:compactmetric-certificate-carrier} gives a
+$\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon})$
+row, where $\mathcal{P}_{\varepsilon}$ is a closed
+$\mathsf{ProbeBundle}$ and membership is witnessed internally by
+$\mathsf{InBundle}$ constructors.
+
+Unpacking that row gives the finite-net carrier: each bundled probe has a
+center history carried by the metric source, a positive radius history, and a
+coverage ledger saying that every carried point has a bundled center within
+the displayed tolerance. The ledger rows are exactly the tolerance history,
+center histories, radius histories, membership constructors,
+$\mathsf{MetricDistanceWitness}$ rows, and $\RatUp$ bound comparisons.
+
+Apply
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}. It transports
+the positive tolerance, bundled centers, radii, metric distances, and bound
+comparisons along $\hsame$ and the $\RatUp$ classifier while keeping the same
+closed $\mathsf{ProbeBundle}$ carrier. Therefore the finite-net family
+supplies the required classifier-stability and ledger obligations for the
+compact metric certificate.
+\end{proof}
+
+\begin{theorem}[Compact metric complete-limit obligation]
+\label{thm:compactmetric-complete-limit-obligation}
+Let $X$ carry the compact metric certificate relation of
+\autoref{def:compactmetric-certificate-carrier}. For every regular
+$\StreamNameUp$ Cauchy stream name $s$ whose observations are carried by
+$X$, the $\CompleteMetricUp$ field supplies a
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)$ row. This row
+records the stream, modulus, limit classifier, threshold histories,
+late-observation distance rows, and $\RatUp$ comparison ledgers, and it is
+stable under stream transport, modulus transport, and limit-classifier
+transport by \autoref{thm:completemetric-limit-witness-stability}. These rows
+form the complete-limit carrier, classifier-stability, and ledger obligations
+for $\CompactMetricUp$.
+\end{theorem}
+\begin{proof}
+Fix a regular $\StreamNameUp$ Cauchy stream name $s$ whose observations lie in
+the inherited $\MetricSpaceUp$ carrier. The third field of
+\autoref{def:compactmetric-certificate-carrier} provides a complete metric
+limit witness for $s$, with explicit modulus history $\mu_s$, carried limit
+history $\ell_s$, and late-observation ledger family $L_s$.
+
+Unpack the witness. Its carrier data are the observed stream histories, the
+modulus, the limit history, and the displayed threshold histories. Its ledger
+data are the $\mathsf{MetricDistanceWitness}$ rows from late observations to
+the limit and the corresponding $\RatUp$ comparisons against each positive
+tolerance.
+
+Apply \autoref{thm:completemetric-limit-witness-stability}. Stream transport
+moves the observed histories, modulus transport moves the Cauchy threshold
+rows, and limit classifier transport moves $\ell_s$ while preserving the
+late-distance witnesses and rational bounds. Thus every regular Cauchy
+stream receives a transported limit-witness package, giving the complete
+metric part of the $\CompactMetricUp$ $\NameCert$ surface.
+\end{proof}
+
 \begin{theorem}[Compact metric package from total boundedness and completeness]
 \label{thm:compactmetric-certificate-package}
 For a certified metric carrier $X$, the three fields of
