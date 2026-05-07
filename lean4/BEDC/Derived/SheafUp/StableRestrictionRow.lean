@@ -53,4 +53,30 @@ theorem SheafStableRestrictionRow_restricted_comparison_readback
     hsame_trans readbackA.right (hsame_trans sameRestricted (hsame_symm readbackB.right))
   exact And.intro comparison sameOriginal
 
+theorem SheafBHistPointGermLedger_restriction_stability_obligation
+    {point openHist sectionHist germ midOpen midGerm restrictedOpen restrictedGerm : BHist} :
+    SheafBHistPointGermLedger point openHist sectionHist germ ->
+      hsame openHist midOpen ->
+        Cont midOpen sectionHist midGerm ->
+          hsame midOpen restrictedOpen ->
+            Cont restrictedOpen sectionHist restrictedGerm ->
+              SheafBHistPointGermLedger point midOpen sectionHist midGerm ∧
+                SheafBHistPointGermLedger point restrictedOpen sectionHist restrictedGerm ∧
+                  hsame germ midGerm ∧ hsame midGerm restrictedGerm ∧
+                    hsame germ restrictedGerm := by
+  intro ledger sameMid midRow sameRestricted restrictedRow
+  have midReadback :
+      SheafBHistPointGermLedger point midOpen sectionHist midGerm ∧ hsame germ midGerm :=
+    SheafBHistPointGermLedger_restriction_readback ledger sameMid midRow
+  have restrictedReadback :
+      SheafBHistPointGermLedger point restrictedOpen sectionHist restrictedGerm ∧
+        hsame midGerm restrictedGerm :=
+    SheafBHistPointGermLedger_restriction_readback midReadback.left sameRestricted restrictedRow
+  have sameOriginalRestricted : hsame germ restrictedGerm :=
+    hsame_trans midReadback.right restrictedReadback.right
+  exact And.intro midReadback.left
+    (And.intro restrictedReadback.left
+      (And.intro midReadback.right
+        (And.intro restrictedReadback.right sameOriginalRestricted)))
+
 end BEDC.Derived.SheafUp

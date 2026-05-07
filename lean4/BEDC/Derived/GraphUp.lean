@@ -127,6 +127,13 @@ theorem GraphContEdge_row_inversion :
     exact And.intro left.right.right
       (And.intro right.right.right (cont_deterministic left.right.right right.right.right))
 
+theorem GraphContEdge_result_determinacy {h k g g' : BHist} :
+    GraphContEdge h k g -> GraphContEdge h k g' ->
+      Cont h k g ∧ Cont h k g' ∧ hsame g g' := by
+  intro left right
+  exact And.intro left.right.right
+    (And.intro right.right.right (cont_deterministic left.right.right right.right.right))
+
 theorem GraphContEdge_unit_loop {h gL gR : BHist} :
     UnaryHistory h -> GraphContEdge BHist.Empty h h ∧ GraphContEdge h BHist.Empty h ∧
       (GraphContEdge BHist.Empty h gL -> hsame gL h) ∧
