@@ -6,14 +6,56 @@ The partial-differential-equation interface $\PdeUp$ packages a relation among p
 \section{Carrier definition}
 \label{sec:pde-carrier}
 
+\begin{definition}[PdeUp carried source row]\label{def:pde-carried-source-row}
+A carried source row for $\PdeUp$ consists of the following BEDC-facing data: a $\ManifoldUp$ carrier row naming the underlying charted carrier; the $\DerivativeUp$ partial-derivative observation rows whose endpoints are the named derivative observations used by the equation; a finite PDE relation row whose entries refer only to those derivative endpoints together with their order and type tags; a boundary-data classifier row over the same carrier and endpoint names; and a ledger recording hidden chart choices, coordinate choices, representative functions, and solver-side presentation data.
+
+The carried source row does not identify host functions, host real values, analytic solution spaces, or coordinate representatives. Those objects remain ledger entries unless they are re-expressed through the displayed $\ManifoldUp$, $\DerivativeUp$, relation, and boundary rows.
+\end{definition}
+
 \section{The certificate}
 \label{sec:pde-certificate}
 
+\begin{theorem}[PdeUp carrier source obligation]\label{thm:pde-carrier-source-obligation}
+For any carried source row of $\PdeUp$, the carrier obligation is discharged exactly by the named $\ManifoldUp$ row, the named $\DerivativeUp$ partial-derivative observation rows, the finite PDE relation row on those derivative endpoints, and the boundary-data classifier row. No host function carrier, host coordinate equality, analytic existence predicate, or solver object is part of the carrier source.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:pde-carried-source-row}. Its source entries are the $\ManifoldUp$ carrier row, the $\DerivativeUp$ observation rows, the relation row, and the boundary row.
+
+The remaining listed host objects occur only in the ledger component of the same definition. Hence they can be recorded for provenance, but they cannot act as carrier-source dependencies for the $\PdeUp$ certificate.
+\end{proof}
+
+\begin{theorem}[PdeUp relation classifier obligation]\label{thm:pde-relation-classifier-obligation}
+Let two $\PdeUp$ carried source rows have $\ManifoldUp$ carrier rows related by the supplied $\ManifoldUp$ classifier, and let each partial-derivative endpoint appearing in their PDE relation rows be related by the supplied $\DerivativeUp$ classifier. Then the PDE relation rows are transported by replacing each relation entry with its transported derivative endpoint, order tag, and type tag; no further host equation equality is required.
+\end{theorem}
+\begin{proof}
+The relation row in \autoref{def:pde-carried-source-row} is finite and refers only to displayed derivative endpoints with their order and type tags. Transport the carrier name by the $\ManifoldUp$ classifier and transport every endpoint name by the corresponding $\DerivativeUp$ classifier.
+
+After these transports, each relation entry has the same BEDC-facing shape as before: a finite relation entry over named derivative endpoints. Since host equations and coordinate representatives are ledger entries rather than relation entries, no host equation equality is introduced.
+\end{proof}
+
+\begin{theorem}[PdeUp boundary-data obligation]\label{thm:pde-boundary-data-obligation}
+For any $\PdeUp$ carried source row, boundary-data rows are transported by the same $\ManifoldUp$ carrier classifier and $\DerivativeUp$ endpoint classifiers used for the PDE relation row. The boundary-data obligation adds no host boundary equality and no host trace-space equality beyond those carried classifier rows.
+\end{theorem}
+\begin{proof}
+Unpack the boundary-data classifier row from \autoref{def:pde-carried-source-row}. Its carrier reference is the same $\ManifoldUp$ carrier row, and its derivative references are among the displayed $\DerivativeUp$ endpoint rows.
+
+Therefore the boundary row uses the same two classifier families as the relation row: carrier transport from $\ManifoldUp$ and endpoint transport from $\DerivativeUp$. Host boundary representatives and trace-space presentations remain ledger data, so they do not become additional equality obligations.
+\end{proof}
+
+\begin{theorem}[PdeUp ledger exactness obligation]\label{thm:pde-ledger-exactness-obligation}
+The exactness data of a $\PdeUp$ carried source row is precisely the pair consisting of the carried PDE relation classifier and the carried boundary-data classifier. Host functions, host real equality, analytic existence of solutions, regularity theorems, numerical solvers, and solver data are ledger-external to this exactness claim.
+\end{theorem}
+\begin{proof}
+The only classifier rows displayed in \autoref{def:pde-carried-source-row} are the finite PDE relation classifier and the boundary-data classifier. Exactness is therefore the assertion that these two rows account for all BEDC-facing relation and boundary comparisons in the certificate.
+
+Every analytic or solver-side object named in the statement is listed in the ledger component of the carried source row. Because ledger entries record presentation choices without adding classifier rows, they remain outside the exactness pair.
+\end{proof}
+
 \begin{closurestatus}{\PdeUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds exactly the $\ManifoldUp$ source, the $\DerivativeUp$ source, the PDE relation row, the boundary-data classifier row, and the stability obligations as seed obligations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation inventory binds the $\ManifoldUp$ carrier row, the $\DerivativeUp$ partial-derivative endpoint rows, the finite PDE relation row, the boundary-data classifier row, and the ledger-exactness boundary for $\PdeUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a PDE carrier, classifier, stability field, exactness row, ledger row, standard bridge, or Lean verification target.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, derivative-relation, boundary-data, stability, ledger, exactness, and dependency rows for the certified partial-differential-equation interface.}
+  \notclaimed{This chapter does not claim host analytic existence, host real equality, solver correctness, standard bridge data, scoped closure, or Lean verification for $\PdeUp$.}
+  \upgradepath{Scoped closure requires replacing the obligation inventory with a dependency-scoped certificate tying each carrier, relation, boundary, and exactness row to the named BEDC primitives.}
 \end{closurestatus}
