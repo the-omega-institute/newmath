@@ -189,4 +189,136 @@ theorem DedekindSingleton_scoped_certificate_packet :
         · intro h k classified
           exact singletonLaws.right.left classified.left classified.right.left
 
+theorem DedekindSingleton_exact_ledger_public_surface :
+    SemanticNameCert CommRingSingletonCarrier CommRingSingletonCarrier CommRingSingletonCarrier
+      CommRingSingletonClassifier ∧
+      (exists h : BHist, CommRingSingletonCarrier h ∧
+        CommRingSingletonClassifier h BHist.Empty) ∧
+      ((forall {x : BHist},
+        CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+          CommRingSingletonCarrier x) ∧
+        (CommRingSingletonCarrier BHist.Empty ∧ CommRingSingletonCarrier BHist.Empty) ∧
+        (forall {x y : BHist},
+          CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+            CommRingSingletonCarrier y ∧ CommRingSingletonCarrier y ->
+              CommRingSingletonCarrier (CommRingSingletonAdd x y) ∧
+                CommRingSingletonCarrier (CommRingSingletonAdd x y)) ∧
+        (forall {x : BHist},
+          CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+            CommRingSingletonCarrier (CommRingSingletonNeg x) ∧
+              CommRingSingletonCarrier (CommRingSingletonNeg x)) ∧
+        (forall {x y : BHist},
+          CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+            CommRingSingletonCarrier y ∧ CommRingSingletonCarrier y ->
+              CommRingSingletonCarrier (CommRingSingletonMul x y) ∧
+                CommRingSingletonCarrier (CommRingSingletonMul x y)) ∧
+        (forall {x y : BHist},
+          CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+            CommRingSingletonClassifier x y ->
+              CommRingSingletonCarrier y ∧ CommRingSingletonCarrier y) ∧
+        (forall {r x : BHist},
+          CommRingSingletonCarrier r ->
+            CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+              (CommRingSingletonCarrier (CommRingSingletonMul r x) ∧
+                  CommRingSingletonCarrier (CommRingSingletonMul r x)) ∧
+                (CommRingSingletonCarrier (CommRingSingletonMul x r) ∧
+                  CommRingSingletonCarrier (CommRingSingletonMul x r)))) ∧
+      (forall {h k : BHist}, CommRingSingletonClassifier h k -> hsame h k) ∧
+      (forall {h : BHist}, CommRingSingletonCarrier h -> hsame h BHist.Empty) := by
+  have ledgerRows := DedekindSingleton_classifier_ledger_obligation
+  have emptyCarrier : CommRingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : CommRingSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  have meetRows :
+      (forall {x : BHist},
+        CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+          CommRingSingletonCarrier x) ∧
+        (CommRingSingletonCarrier BHist.Empty ∧ CommRingSingletonCarrier BHist.Empty) ∧
+        (forall {x y : BHist},
+          CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+            CommRingSingletonCarrier y ∧ CommRingSingletonCarrier y ->
+              CommRingSingletonCarrier (CommRingSingletonAdd x y) ∧
+                CommRingSingletonCarrier (CommRingSingletonAdd x y)) ∧
+        (forall {x : BHist},
+          CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+            CommRingSingletonCarrier (CommRingSingletonNeg x) ∧
+              CommRingSingletonCarrier (CommRingSingletonNeg x)) ∧
+        (forall {x y : BHist},
+          CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+            CommRingSingletonCarrier y ∧ CommRingSingletonCarrier y ->
+              CommRingSingletonCarrier (CommRingSingletonMul x y) ∧
+                CommRingSingletonCarrier (CommRingSingletonMul x y)) ∧
+        (forall {x y : BHist},
+          CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+            CommRingSingletonClassifier x y ->
+              CommRingSingletonCarrier y ∧ CommRingSingletonCarrier y) ∧
+        (forall {r x : BHist},
+          CommRingSingletonCarrier r ->
+            CommRingSingletonCarrier x ∧ CommRingSingletonCarrier x ->
+              (CommRingSingletonCarrier (CommRingSingletonMul r x) ∧
+                  CommRingSingletonCarrier (CommRingSingletonMul r x)) ∧
+                (CommRingSingletonCarrier (CommRingSingletonMul x r) ∧
+                  CommRingSingletonCarrier (CommRingSingletonMul x r))) :=
+    BEDC.Derived.IdealUp.IdealIntersection_closure_rows
+      (Carrier := CommRingSingletonCarrier)
+      (I := CommRingSingletonCarrier)
+      (J := CommRingSingletonCarrier)
+      (Classifier := CommRingSingletonClassifier)
+      (zero := BHist.Empty)
+      (add := CommRingSingletonAdd)
+      (mul := CommRingSingletonMul)
+      (neg := CommRingSingletonNeg)
+      ledgerRows.left.core
+      emptyCarrier
+      (by
+        intro x y _carrierX _carrierY
+        exact emptyCarrier)
+      (by
+        intro x _carrierX
+        exact emptyCarrier)
+      (by
+        intro x y _carrierX _carrierY
+        exact emptyCarrier)
+      (by
+        intro x carrierX
+        exact carrierX)
+      emptyCarrier
+      (by
+        intro x y _carrierX _carrierY
+        exact emptyCarrier)
+      (by
+        intro x _carrierX
+        exact emptyCarrier)
+      (by
+        intro x y _carrierX _carrierY
+        exact emptyCarrier)
+      (by
+        intro x y _carrierX classified
+        exact classified.right.left)
+      (by
+        intro r x _carrierR _carrierX
+        exact And.intro emptyCarrier emptyCarrier)
+      (by
+        intro x carrierX
+        exact carrierX)
+      emptyCarrier
+      (by
+        intro x y _carrierX _carrierY
+        exact emptyCarrier)
+      (by
+        intro x _carrierX
+        exact emptyCarrier)
+      (by
+        intro x y _carrierX _carrierY
+        exact emptyCarrier)
+      (by
+        intro x y _carrierX classified
+        exact classified.right.left)
+      (by
+        intro r x _carrierR _carrierX
+        exact And.intro emptyCarrier emptyCarrier)
+  exact And.intro ledgerRows.left
+    (And.intro (Exists.intro BHist.Empty (And.intro emptyCarrier emptyClassified))
+      (And.intro meetRows (And.intro ledgerRows.right.right.left ledgerRows.right.right.right)))
+
 end BEDC.Derived.DedekindUp

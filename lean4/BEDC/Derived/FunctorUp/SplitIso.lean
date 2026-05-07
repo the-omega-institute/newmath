@@ -44,4 +44,44 @@ theorem PrefixFunctorCarrier_split_iso_witness_pair_preserves
                                 (prefixCarrier.comp_preserves rightInverse left rightComp)
                                 sameRight)))))))))))))
 
+theorem PrefixFunctorCarrier_split_iso_witness_pair_public_readback
+    {p a b f gLeft idA compA gRight idB compB displayedLeft displayedRight : BHist} :
+    PrefixFunctorCarrier p -> CategoryHomCarrier a b f -> CategoryHomCarrier b a gLeft ->
+      CategoryHomCarrier a a idA -> Cont f gLeft compA -> CategoryHomCarrier a a compA ->
+        hsame compA idA -> CategoryHomCarrier b a gRight -> CategoryHomCarrier b b idB ->
+          Cont gRight f compB -> CategoryHomCarrier b b compB -> hsame compB idB ->
+            CategoryHomCarrier (append p a) (append p a) displayedLeft ->
+              CategoryHomCarrier (append p b) (append p b) displayedRight ->
+                (∃ prefLeftId prefLeftComp prefRightId prefRightComp : BHist,
+                  CategoryHomCarrier (append p a) (append p b) f ∧
+                    CategoryHomCarrier (append p b) (append p a) gLeft ∧
+                      CategoryHomCarrier (append p a) (append p a) prefLeftId ∧
+                        Cont f gLeft prefLeftComp ∧
+                          CategoryHomCarrier (append p a) (append p a) prefLeftComp ∧
+                            hsame prefLeftComp prefLeftId ∧
+                              CategoryHomCarrier (append p b) (append p a) gRight ∧
+                                CategoryHomCarrier (append p b) (append p b) prefRightId ∧
+                                  Cont gRight f prefRightComp ∧
+                                    CategoryHomCarrier (append p b) (append p b)
+                                      prefRightComp ∧
+                                      hsame prefRightComp prefRightId) ∧
+                  hsame compA displayedLeft ∧ hsame compB displayedRight := by
+  intro prefixCarrier left leftInverse leftIdentity leftComp leftComposite sameLeft
+    rightInverse rightIdentity rightComp rightComposite sameRight displayedLeftCarrier
+    displayedRightCarrier
+  have witnessPair :=
+    PrefixFunctorCarrier_split_iso_witness_pair_preserves prefixCarrier left leftInverse
+      leftIdentity leftComp leftComposite sameLeft rightInverse rightIdentity rightComp
+      rightComposite sameRight
+  have prefLeftComposite :
+      CategoryHomCarrier (append p a) (append p a) compA :=
+    prefixCarrier.comp_preserves left leftInverse leftComp
+  have prefRightComposite :
+      CategoryHomCarrier (append p b) (append p b) compB :=
+    prefixCarrier.comp_preserves rightInverse left rightComp
+  exact And.intro witnessPair
+    (And.intro
+      (CategoryHomCarrier_morphism_deterministic prefLeftComposite displayedLeftCarrier)
+      (CategoryHomCarrier_morphism_deterministic prefRightComposite displayedRightCarrier))
+
 end BEDC.Derived.FunctorUp
