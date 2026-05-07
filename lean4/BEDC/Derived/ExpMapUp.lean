@@ -185,4 +185,25 @@ theorem ExpMapCarrier_obligation_surface {tangent endpoint flow : BHist} :
   exact And.intro tangentCarrier
     (And.intro endpointCarrier (And.intro flowEmpty (And.intro flowEmpty flowUnary)))
 
+theorem ExpMapFlowLedger_zero_composition_obligation {tangent endpoint flow composite : BHist} :
+    ExpMapFlowLedger tangent endpoint flow -> hsame tangent BHist.Empty ->
+      Cont endpoint flow composite ->
+        hsame composite BHist.Empty ∧ UnaryHistory composite ∧
+          LieAlgebraSingletonCarrier tangent ∧ LieGroupSingletonCarrier endpoint ∧
+            hsame flow endpoint := by
+  intro ledger _tangentEmpty compositeRow
+  have tangentCarrier : LieAlgebraSingletonCarrier tangent := ledger.left
+  have endpointCarrier : LieGroupSingletonCarrier endpoint := ledger.right.left
+  have flowEndpoint : hsame flow endpoint :=
+    cont_right_unit_result ledger.right.right.right
+  have flowEmpty : hsame flow BHist.Empty :=
+    hsame_trans flowEndpoint endpointCarrier
+  have compositeEmpty : hsame composite BHist.Empty :=
+    cont_respects_hsame endpointCarrier flowEmpty compositeRow (cont_left_unit BHist.Empty)
+  have compositeUnary : UnaryHistory composite :=
+    unary_transport unary_empty (hsame_symm compositeEmpty)
+  exact And.intro compositeEmpty
+    (And.intro compositeUnary
+      (And.intro tangentCarrier (And.intro endpointCarrier flowEndpoint)))
+
 end BEDC.Derived.ExpMapUp
