@@ -272,14 +272,32 @@ The zero row is \autoref{thm:quotientring-zero-coset-classification}. It identif
 Repacking these rows gives the public $\NameCert_{\QuotientRingUp}$ coset surface. No further ring, ideal, or quotient-group clauses are added: the ledger remains bounded by the listed $\RingUp$ operations, $\IdealUp$ closure and transport data, and the inherited coset infrastructure from $\QuotientGroupUp$.
 \end{proof}
 
-\closureat{QuotientRingUp}{publicStr}[BEDC.Derived.QuotientRingUp.QuotientRingIdealCoset\_multiplication\_descends]
+\begin{theorem}[QuotientRingUp public coset downstream bridge]
+\label{thm:quotientring-public-coset-downstream-bridge}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ be an $\IdealUp$ object over $R$, written as a carried predicate $I(x)$, and let $\equiv_I$ be the ideal-coset relation of \autoref{def:quotientring-ideal-coset-relation}. Downstream algebra consumers of the public $\NameCert_{\QuotientRingUp}$ coset surface may access quotient-ring data only through \autoref{def:quotientring-ideal-coset-relation}, \autoref{thm:quotientring-additive-descent}, \autoref{thm:quotientring-multiplication-descends-to-cosets}, \autoref{thm:quotientring-ideal-coset-equivalence}, and \autoref{thm:quotientring-zero-coset-classification}.
+
+Conversely, these rows supply the carrier, classifier, additive descent, multiplicative descent, zero row, and bounded ledger required by the downstream quotient-ring interface. The bridge boundary exposes neither representative choice, ideal witnesses beyond membership of differences, the universal property, localization, nor any standard bridge datum.
+\end{theorem}
+\begin{proof}
+Start with the public certificate of \autoref{thm:quotientring-public-coset-certificate}. Its carrier projection is exactly \autoref{def:quotientring-ideal-coset-relation}: a visible quotient endpoint is accessed by the relation $a\equiv_I b$, and the only ideal witness retained at the boundary is membership of the difference $a-_R b$.
+
+The classifier projection is \autoref{thm:quotientring-ideal-coset-equivalence}. Its reflexive, symmetric, and transitive rows give the consumer all representative-change data needed to treat $\equiv_I$ as the public classifier, without choosing a representative or exporting an ideal witness other than the displayed difference membership.
+
+The operation projections are \autoref{thm:quotientring-additive-descent} and \autoref{thm:quotientring-multiplication-descends-to-cosets}. They state that addition, additive inverse, and multiplication descend across $\equiv_I$, so the downstream interface receives operation stability directly from the public rows rather than from hidden representative choices.
+
+The zero projection is \autoref{thm:quotientring-zero-coset-classification}. It identifies the zero coset by $C(a)\land I(a)$, which is the zero row required by the consumer surface and does not add a separate zero classifier.
+
+Repacking these five projections yields the downstream bridge boundary: carrier, classifier, operation descent, zero row, and bounded ledger are all supplied by the public coset certificate. Since the repacking uses only the listed rows, no universal property, localization theorem, ideal correspondence, full quotient-ring API, or standard bridge datum is closed here.
+\end{proof}
+
+\closureat{QuotientRingUp}{bridgedStr}[BEDC.Derived.QuotientRingUp.QuotientRingIdealCoset\_multiplication\_descends]
 
 \begin{closurestatus}{\QuotientRingUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:quotientring-public-coset-certificate} is the exported public coset certificate assembled from the ideal-coset relation, additive descent, multiplicative descent, coset-equivalence rows, and zero-coset classification.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:quotientring-public-coset-certificate} exports the public coset certificate, and \autoref{thm:quotientring-public-coset-downstream-bridge} repacks that certificate as the downstream bridge boundary.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.QuotientRingUp.QuotientRingIdealCoset\_multiplication\_descends}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close the full quotient-ring API, ideal correspondence, universal property, localization, or standard bridge.}
-  \upgradepath{Bridged closure requires a standard or downstream algebra bridge from the public coset surface to the external quotient-ring interface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close external standard bridge data, the universal property, localization, ideal correspondence, or the full quotient-ring API.}
+  \upgradepath{A stronger closure requires external standard bridge data together with the universal property, localization behavior, ideal correspondence, and the full quotient-ring API.}
 \end{closurestatus}
