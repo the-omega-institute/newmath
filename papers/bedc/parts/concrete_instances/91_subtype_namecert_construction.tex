@@ -192,13 +192,32 @@ Use \autoref{thm:subtype-obligation-carrier-source} for the carrier and endpoint
 These are exactly the rows consumed by \autoref{thm:subtype-restricted-classifier-namecert}. Applying that theorem repacks the rows into the public $\NameCert(S_P,\sim_{S_P})$ surface, with the ten displayed entries recording the source data and the exactness maps used by the construction.
 \end{proof}
 
+\begin{theorem}[SubtypeUp public NameCert export]
+\label{thm:subtype-public-namecert-export}
+Under the hypotheses of \autoref{thm:subtype-restricted-classifier-namecert}, the public interface exported by $\SubtypeUp$ is the certificate
+$$
+\NameCert(S_P,\sim_{S_P}).
+$$
+Its public rows are the restricted carrier $S_P$, the restricted classifier $\sim_{S_P}$, the displayed endpoint, the parent-projection and inclusion rows, the predicate-stability transport row, and the assembled carrier-transport row.
+\end{theorem}
+\begin{proof}
+The carrier row is \autoref{thm:subtype-obligation-carrier-source}: public membership in $S_P$ is exactly parent membership in $S$ together with the predicate witness $P$.
+
+The restricted-classifier rows are \autoref{thm:subtype-obligation-restricted-classifier}. They identify a public comparison in $\sim_{S_P}$ with the parent classifier comparison in $\sim_S$, with the forward parent-projection row and reverse inclusion row both displayed on carried subtype endpoints.
+
+The predicate-transport row is \autoref{thm:subtype-obligation-predicate-transport}. It combines parent carrier transport with stability of $P$ and produces the transported public carrier witness for $S_P$.
+
+Apply \autoref{thm:subtype-restricted-classifier-namecert}. The preceding rows provide exactly the carrier, classifier, endpoint, and transport data consumed by that theorem, so the exported public surface is the certificate $\NameCert(S_P,\sim_{S_P})$.
+\end{proof}
+
 \closureat{SubtypeUp}{publicStr}[BEDC.Derived.SubtypeUp.SubtypeRestrictedClassifier\_nameCert]
+
 \begin{closurestatus}{\SubtypeUp}
   \theoryclosure{\publicClosure}
-  \scopeclosed{The closed public restricted subtype surface consists of the parent $\NameCert(S,\sim_S)$, predicate-stability row, restricted carrier $S_P$, restricted classifier $\sim_{S_P}$, displayed endpoint, classifier-closure lemma, and \texttt{SubtypeRestrictedClassifier\_nameCert}.}
+  \scopeclosed{The public scope is the parent $\NameCert(S,\sim_S)$, parent carrier transport, predicate-stability row, restricted carrier $S_P$, restricted classifier $\sim_{S_P}$, displayed endpoint, classifier-closure lemma, SubtypeRestrictedClassifier NameCert surface, and public $\SubtypeUp$ export.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.SubtypeUp.SubtypeRestrictedClassifier\_nameCert}
   \bridgestatus{none}
   \notclaimed{This packet does not close full SetUp bridges, quotient-style subtype extensionality, or standard-model subtype bridges.}
-  \upgradepath{The next grade requires a standard subtype bridge together with a no-host-leakage package for the restricted subtype surface.}
+  \upgradepath{The next boundary is a standard subtype bridge carrying the public $\SubtypeUp$ certificate toward $\bridgedClosure$.}
 \end{closurestatus}
