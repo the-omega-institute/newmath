@@ -229,6 +229,7 @@ import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
+import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
