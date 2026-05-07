@@ -143,6 +143,85 @@ theorem SymGroupPermutationCarrier_carrier_obligation [AskSetup] [PackageSetup]
     surface.right.right.right.right.right.right.right.right.left,
     surface.right.right.right.right.right.right.right.right.right⟩
 
+theorem SymGroupPermutationCarrier_classifier_obligation [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    SymGroupPermutationCarrier src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      SemanticNameCert GroupSingletonCarrier GroupSingletonCarrier GroupSingletonCarrier
+          GroupSingletonClassifier ∧
+        GroupSingletonClassifier graph graph ∧ GroupSingletonClassifier invGraph invGraph ∧
+          GroupSingletonClassifier comp comp ∧ GroupSingletonClassifier action action ∧
+            GroupSingletonClassifier ledger ledger := by
+  intro carrier
+  have rows := SymGroupPermutationCarrier_carrier_obligation carrier
+  have laws := GroupSingletonHistory_laws
+  have cert :
+      SemanticNameCert GroupSingletonCarrier GroupSingletonCarrier GroupSingletonCarrier
+        GroupSingletonClassifier := laws.left
+  have graphCarrier : GroupSingletonCarrier graph := by
+    have compEmpty : hsame (append graph invGraph) BHist.Empty :=
+      rows.right.right.right.right.right.right.right.left.symm.trans rows.right.left
+    exact (append_eq_empty_iff.mp compEmpty).left
+  have invGraphCarrier : GroupSingletonCarrier invGraph := by
+    have compEmpty : hsame (append graph invGraph) BHist.Empty :=
+      rows.right.right.right.right.right.right.right.left.symm.trans rows.right.left
+    exact (append_eq_empty_iff.mp compEmpty).right
+  have compCarrier : GroupSingletonCarrier comp := rows.right.left
+  have srcCarrier : GroupSingletonCarrier src := by
+    have graphEmpty : hsame (append src tgt) BHist.Empty :=
+      rows.left.right.right.left.symm.trans graphCarrier
+    exact (append_eq_empty_iff.mp graphEmpty).left
+  have actionCarrier : GroupSingletonCarrier action := by
+    have actionEmpty : hsame (append src graph) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro srcCarrier graphCarrier)
+    exact rows.right.right.right.right.right.right.right.right.left.trans actionEmpty
+  have ledgerCarrier : GroupSingletonCarrier ledger := by
+    have compActionEmpty : hsame (append comp action) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro compCarrier actionCarrier)
+    exact rows.right.right.right.right.right.right.right.right.right.left.trans compActionEmpty
+  have graphClassified : GroupSingletonClassifier graph graph :=
+    cert.core.equiv_refl graphCarrier
+  have invGraphClassified : GroupSingletonClassifier invGraph invGraph :=
+    cert.core.equiv_refl invGraphCarrier
+  have compClassified : GroupSingletonClassifier comp comp :=
+    cert.core.equiv_refl compCarrier
+  have actionClassified : GroupSingletonClassifier action action :=
+    cert.core.equiv_refl actionCarrier
+  have ledgerClassified : GroupSingletonClassifier ledger ledger :=
+    cert.core.equiv_refl ledgerCarrier
+  exact And.intro cert
+    (And.intro graphClassified
+      (And.intro invGraphClassified
+        (And.intro compClassified (And.intro actionClassified ledgerClassified))))
+
+theorem SymGroupPermutationClassifier_stability [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger src' tgt' graph' invGraph' comp' action'
+      ledger' : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    SymGroupPermutationCarrier src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      hsame src src' -> hsame tgt tgt' -> PkgSig srcBundle src' srcPkg ->
+        PkgSig tgtBundle tgt' tgtPkg -> Cont src' tgt' graph' ->
+          Cont tgt' src' invGraph' -> Cont graph' invGraph' comp' ->
+            Cont src' graph' action' -> Cont comp' action' ledger' ->
+              SymGroupPermutationCarrier src' tgt' graph' invGraph' comp' action' ledger'
+                  srcBundle tgtBundle srcPkg tgtPkg ∧
+                hsame graph graph' ∧ hsame invGraph invGraph' ∧ hsame comp comp' ∧
+                  hsame action action' ∧ hsame ledger ledger' := by
+  intro carrier sameSrc sameTgt srcPkg' tgtPkg' graphCont' invGraphCont' compCont'
+    actionCont' ledgerCont'
+  have transported :=
+    PermutationBijectionSourceRow_endpoint_package_hsame_transport carrier.left sameSrc sameTgt
+      srcPkg' tgtPkg' graphCont' invGraphCont' compCont' actionCont' ledgerCont'
+  have groupCarrier' : GroupSingletonCarrier comp' :=
+    hsame_trans (hsame_symm transported.right.right.right.left) carrier.right.left
+  have actionCarrier' : GroupSingletonCarrier action' :=
+    hsame_trans (hsame_symm transported.right.right.right.right.left) carrier.right.right
+  exact And.intro
+    (And.intro transported.left (And.intro groupCarrier' actionCarrier'))
+    transported.right
+
 theorem SymGroupPermutationCarrier_composition_inverse_action_obligations [AskSetup] [PackageSetup]
     {src tgt graph invGraph comp action ledger : BHist}
     {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :

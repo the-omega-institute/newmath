@@ -9,6 +9,52 @@ The density-matrix interface $\DensityMatrixUp$ packages a positive trace-class 
 \section{The certificate}
 \label{sec:densitymatrix-certificate}
 
+\begin{theorem}[DensityMatrix carrier obligation]
+\label{thm:densitymatrix-carrier-obligation}
+Let $H$ be a $\HilbertUp$ carrier supplied by $\NameCert_{\HilbertUp}$. The carrier row of $\DensityMatrixUp(H)$ is exactly the positive trace-class trace-one subcarrier
+$$
+\mathsf{Dens}_H(\rho)
+:\Longleftrightarrow
+\rho\in\mathsf{TC}(H)\land \mathsf{Pos}_H(\rho)\land \operatorname{Tr}_H(\rho)=1.
+$$
+The trace-class membership row $\rho\in\mathsf{TC}(H)$ is read from the $\OperatorIdealUp$ trace-class surface of \autoref{def:densitymatrix-trace-class-carrier}, while the Hilbert carrier, positivity predicate, and trace functional are read over the $\HilbertUp$ endpoint named in \autoref{ch:concrete-instances-hilbert-namecert}. No object is carried by $\DensityMatrixUp(H)$ unless all three displayed rows are present, and any endpoint with all three rows is a carried density matrix.
+\end{theorem}
+\begin{proof}
+Unpack the density carrier named in \autoref{def:densitymatrix-trace-class-carrier}. Its carrier field is the intersection of the trace-class carrier with the positivity row and the trace-one equation, so the forward direction projects the three displayed witnesses.
+
+For the reverse direction, repack the same three witnesses in the order required by the carrier field. The trace-class witness is supplied by the $\OperatorIdealUp$ dependency surface, while positivity and trace are rows over the underlying $\HilbertUp$ carrier.
+\end{proof}
+
+\begin{theorem}[DensityMatrix restricted classifier obligation]
+\label{thm:densitymatrix-restricted-classifier-obligation}
+Let $H$ be a $\HilbertUp$ carrier, and write $\sim_{\mathsf{TC}(H)}$ for the trace-class classifier consumed from the $\OperatorIdealUp$ boundary. The classifier row of $\DensityMatrixUp(H)$ is the restricted classifier of \autoref{def:densitymatrix-restricted-classifier}:
+$$
+T\sim_{\mathsf{Dens}(H)}S
+:\Longleftrightarrow
+\mathsf{Dens}_H(T)\land\mathsf{Dens}_H(S)\land T\sim_{\mathsf{TC}(H)}S.
+$$
+Thus every density classifier comparison carries both density endpoints and the inherited trace-class comparison. Its reflexivity, symmetry, transitivity, and transport rows are inherited from the trace-class classifier together with transport of the carrier rows of \autoref{thm:densitymatrix-carrier-obligation}.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:densitymatrix-restricted-classifier}. The comparison is a restricted trace-class comparison, so projection gives the two density endpoints and the underlying trace-class classifier witness.
+
+Reflexivity uses density-carrier reflexivity together with trace-class classifier reflexivity. Symmetry and transitivity keep the endpoint carrier witnesses and apply the corresponding inherited trace-class classifier rows.
+
+For transport, use the carrier description of \autoref{thm:densitymatrix-carrier-obligation}. Trace-class membership is transported by the $\OperatorIdealUp$ classifier row, while positivity and trace-one evidence are transported over the Hilbert endpoint; repacking gives the transported density-carrier endpoint required by the restricted classifier.
+\end{proof}
+
+\begin{theorem}[DensityMatrix positivity and trace ledger obligation]
+\label{thm:densitymatrix-positivity-trace-ledger-obligation}
+For a $\HilbertUp$ carrier $H$, the ledger hidden by the $\DensityMatrixUp(H)$ seal consists exactly of the trace-class membership witness $\rho\in\mathsf{TC}(H)$, positivity evidence $\mathsf{Pos}_H(\rho)$, trace-one evidence $\operatorname{Tr}_H(\rho)=1$, the restricted trace-class classifier comparison of \autoref{def:densitymatrix-restricted-classifier}, and the finite affine-mixture weight and bracketing data of \autoref{def:densitymatrix-affine-mixture-spine} when that operation is invoked. The seal contains no spectral decomposition, purification, channel action, dilation, or measurement-interface data.
+\end{theorem}
+\begin{proof}
+The carrier ledger is fixed by \autoref{thm:densitymatrix-carrier-obligation}: one trace-class witness, one positivity witness, and one trace-one witness. The classifier ledger is fixed by \autoref{thm:densitymatrix-restricted-classifier-obligation}: two carried density endpoints together with the inherited trace-class comparison.
+
+When an affine mixture is used, \autoref{def:densitymatrix-affine-mixture-spine} adds only the finite list of density entries, the finite real-weight list, nonnegative unit-sum evidence, and the local bracketing endpoint. These data are read over the trace-class vector surface supplied by $\OperatorIdealUp$ and the scalar rows supplied through the $\HilbertUp$ dependency.
+
+The named dependency surfaces do not expose spectral decompositions, purifications, channel actions, dilations, or measurement rows at this paper site. Therefore none of those structures can be part of the hidden ledger of the $\DensityMatrixUp(H)$ seal.
+\end{proof}
+
 \begin{definition}[DensityMatrix affine mixture spine]
 \label{def:densitymatrix-affine-mixture-spine}
 Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$, $\mathsf{Pos}_H$, $\operatorname{Tr}_H$, and $\mathsf{Dens}_H$ be as in \autoref{def:densitymatrix-trace-class-carrier}. Use the real trace-class scalar action $\odot_H$ and trace-class addition $+_{\mathsf{TC}(H)}$ inherited from the $\OperatorIdealUp$ and $\HilbertUp$ dependency surfaces of \autoref{ch:concrete-instances-densitymatrix-namecert}. For a finite trace-class spine $xs:\mathsf{ListCarrier}(\mathsf{TC}(H))$, a finite real-weight spine $\lambda:\mathsf{ListCarrier}(\RealUp)$, and an endpoint $\rho_{\mathrm{mix}}\in\mathsf{TC}(H)$, define

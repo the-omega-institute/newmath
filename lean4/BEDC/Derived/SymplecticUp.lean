@@ -1,6 +1,7 @@
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ManifoldUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.SymplecticUp
@@ -9,6 +10,7 @@ open BEDC.Derived.DiffFormUp
 open BEDC.Derived.ManifoldUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def SymplecticCarrierClassifierSurface
@@ -258,6 +260,74 @@ theorem SymplecticObligationBoundary_nondegeneracy_transport
         (And.intro boundary.right.right.left
           (And.intro boundary.right.right.right.left nondegRow'))))
     sameNondeg
+
+theorem SymplecticObligationBoundary_closed_nondegenerate_public_stability
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness scalar' derivative' raised' closedWitness' nondegWitness' : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      hsame scalar scalar' -> hsame derivative derivative' -> hsame raised raised' ->
+        Cont raised' BHist.Empty closedWitness' ->
+          Cont manifold scalar' nondegWitness' ->
+            SymplecticObligationBoundary manifold degree probe tensor scalar' antisym ledger
+                derivative' raised' closedWitness' nondegWitness' ∧
+              hsame closedWitness closedWitness' ∧
+                hsame nondegWitness nondegWitness' := by
+  intro boundary sameScalar sameDerivative sameRaised closedRow' nondegRow'
+  have closedTransport :=
+    SymplecticObligationBoundary_closed_two_form_transport boundary sameScalar sameDerivative
+      sameRaised closedRow'
+  have nondegTransport :=
+    SymplecticObligationBoundary_nondegeneracy_transport closedTransport.left
+      (hsame_refl scalar') nondegRow'
+  exact And.intro nondegTransport.left
+    (And.intro closedTransport.right nondegTransport.right)
+
+theorem SymplecticObligationBoundary_semantic_name_certificate
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger
+            derivative raised closedWitness endpoint)
+        (fun endpoint : BHist =>
+          SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger
+            derivative raised closedWitness endpoint)
+        (fun endpoint : BHist =>
+          SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger
+            derivative raised closedWitness endpoint)
+        hsame := by
+  intro boundary
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro nondegWitness boundary
+      equiv_refl := by
+        intro endpoint _source
+        exact hsame_refl endpoint
+      equiv_symm := by
+        intro _endpoint _endpoint' sameEndpoint
+        exact hsame_symm sameEndpoint
+      equiv_trans := by
+        intro _endpoint _endpoint' _endpoint'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro endpoint endpoint' sameEndpoint source
+        exact And.intro source.left
+          (And.intro source.right.left
+            (And.intro source.right.right.left
+              (And.intro source.right.right.right.left
+                (cont_hsame_transport (hsame_refl manifold) (hsame_refl scalar) sameEndpoint
+                  source.right.right.right.right))))
+    }
+    pattern_sound := by
+      intro _endpoint source
+      exact source
+    ledger_sound := by
+      intro _endpoint source
+      exact source
+  }
 
 theorem SymplecticObligationBoundary_nondegeneracy_endpoint_split
     {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
