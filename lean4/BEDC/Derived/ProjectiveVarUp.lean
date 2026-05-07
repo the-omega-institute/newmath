@@ -14,7 +14,7 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.AffineVarUp
 open BEDC.Derived.PolynomialUp
 
-def ProjectiveVarVisibleCarrier [AskSetup] [PackageSetup] (AffPoint : BHist -> Prop)
+def ProjectiveVarTransportCarrier [AskSetup] [PackageSetup] (AffPoint : BHist -> Prop)
     (PolyEvalZero : BHist -> BHist -> Prop) (family : ProbeBundle BHist)
     (tokenBundle : ProbeBundle ProbeName) (chart homogeneous projective zeroEval endpoint : BHist)
     (pkg : Pkg) : Prop :=
@@ -28,7 +28,7 @@ theorem ProjectiveVarCarrier_obligation [AskSetup] [PackageSetup]
     {AffPoint : BHist -> Prop} {PolyEvalZero : BHist -> BHist -> Prop}
     {family : ProbeBundle BHist} {tokenBundle : ProbeBundle ProbeName}
     {chart homogeneous projective zeroEval endpoint endpoint' : BHist} {pkg : Pkg} :
-    ProjectiveVarVisibleCarrier AffPoint PolyEvalZero family tokenBundle chart homogeneous
+    ProjectiveVarTransportCarrier AffPoint PolyEvalZero family tokenBundle chart homogeneous
         projective zeroEval endpoint pkg ->
       hsame endpoint endpoint' ->
         AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero family chart ∧
@@ -45,5 +45,42 @@ theorem ProjectiveVarCarrier_obligation [AskSetup] [PackageSetup]
           (And.intro
             (hsame_trans (hsame_symm sameEndpoint) carrier.right.right.right.right.left)
             carrier.right.right.right.right.right))))
+
+def ProjectiveVarVisibleCarrier [AskSetup] [PackageSetup]
+    (chart homogeneous projective evaluation endpoint : BHist) (polyBundle : ProbeBundle BHist)
+    (tokenBundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory chart ∧ PolynomialSingletonCarrier homogeneous ∧ UnaryHistory projective ∧
+    AffineFiniteFamilyZeroLocus UnaryHistory
+      (fun p x => hsame (append p x) BHist.Empty) polyBundle chart ∧
+      Cont chart homogeneous evaluation ∧ TokIntro tokenBundle evaluation pkg ∧
+        Cont evaluation projective endpoint
+
+theorem ProjectiveVarVisibleCarrier_carrier_obligation [AskSetup] [PackageSetup]
+    {chart homogeneous projective evaluation endpoint : BHist} {polyBundle : ProbeBundle BHist}
+    {tokenBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint polyBundle
+        tokenBundle pkg ->
+      UnaryHistory chart ∧ PolynomialSingletonCarrier homogeneous ∧ UnaryHistory projective ∧
+        AffineFiniteFamilyZeroLocus UnaryHistory
+          (fun p x => hsame (append p x) BHist.Empty) polyBundle chart ∧
+          Cont chart homogeneous evaluation ∧ TokIntro tokenBundle evaluation pkg ∧
+            Cont evaluation projective endpoint ∧ UnaryHistory evaluation ∧
+              UnaryHistory endpoint := by
+  intro carrier
+  have homogeneousUnary : UnaryHistory homogeneous :=
+    unary_transport unary_empty (hsame_symm carrier.right.left)
+  have evaluationUnary : UnaryHistory evaluation :=
+    unary_cont_closed carrier.left homogeneousUnary carrier.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed evaluationUnary carrier.right.right.left
+      carrier.right.right.right.right.right.right
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.left
+              (And.intro carrier.right.right.right.right.right.right
+                (And.intro evaluationUnary endpointUnary)))))))
 
 end BEDC.Derived.ProjectiveVarUp

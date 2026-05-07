@@ -72,4 +72,29 @@ theorem DiffFormZeroDegree_shared_consumer_face {ScalarCarrier : BHist -> Prop}
       tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor
   exact And.intro face.left (And.intro face.right.right degreeSuccessor)
 
+theorem DiffFormRootConsumerPackage_carrier_projection {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus : BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory degree -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          Cont degree (BHist.e1 BHist.Empty) dplus ->
+            UnaryHistory degree ∧ UnaryHistory probe ∧ UnaryHistory tensor ∧
+              UnaryHistory scalar ∧
+                DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym
+                  ledger degree probe tensor scalar antisym ledger ∧
+                  DiffFormExteriorDerivativeLedger scalar dplus degree dplus probe probe tensor
+                    tensor scalar scalar antisym ledger := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+    ledgerRoute degreeSuccessor
+  have carrierRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have coverageRows :=
+    DiffFormRootConsumerFace_coverage scalarCert probeIn scalarCarrier degreeUnary probeUnary
+      tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor
+  exact ⟨carrierRows.left, carrierRows.right.left, carrierRows.right.right.left,
+    carrierRows.right.right.right.left, coverageRows.left, coverageRows.right.right⟩
+
 end BEDC.Derived.DiffFormUp
