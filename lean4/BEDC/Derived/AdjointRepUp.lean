@@ -200,4 +200,34 @@ theorem AdjointRepConjugationCarrier_obligation
           (Exists.intro action (And.intro actionRow actionEndpoint))))
     endpointUnary
 
+theorem AdjointRepAutomorphism_target_obligation {g x gx conj invAction composite : BHist} :
+    LieGroupSingletonCarrier g -> LieAlgebraSingletonCarrier x -> Cont g x gx ->
+      Cont gx (LieGroupSingletonInv g) conj -> Cont (LieGroupSingletonInv g) x invAction ->
+        Cont conj invAction composite ->
+          LieGroupSingletonCarrier conj ∧ LieGroupSingletonCarrier invAction ∧
+            LieAlgebraSingletonCarrier composite ∧ hsame composite BHist.Empty ∧
+              UnaryHistory conj ∧ UnaryHistory invAction ∧ UnaryHistory composite := by
+  intro groupCarrier algebraCarrier gxRow conjRow invActionRow compositeRow
+  have gxCarrier : LieGroupSingletonCarrier gx :=
+    cont_respects_hsame groupCarrier algebraCarrier gxRow (cont_left_unit BHist.Empty)
+  have inverseCarrier : LieGroupSingletonCarrier (LieGroupSingletonInv g) := by
+    rfl
+  have conjCarrier : LieGroupSingletonCarrier conj :=
+    cont_respects_hsame gxCarrier inverseCarrier conjRow (cont_left_unit BHist.Empty)
+  have invActionCarrier : LieGroupSingletonCarrier invAction :=
+    cont_respects_hsame inverseCarrier algebraCarrier invActionRow (cont_left_unit BHist.Empty)
+  have compositeCarrier : LieAlgebraSingletonCarrier composite :=
+    cont_respects_hsame conjCarrier invActionCarrier compositeRow (cont_left_unit BHist.Empty)
+  have conjUnary : UnaryHistory conj :=
+    unary_transport unary_empty (hsame_symm conjCarrier)
+  have invActionUnary : UnaryHistory invAction :=
+    unary_transport unary_empty (hsame_symm invActionCarrier)
+  have compositeUnary : UnaryHistory composite :=
+    unary_transport unary_empty (hsame_symm compositeCarrier)
+  exact And.intro conjCarrier
+    (And.intro invActionCarrier
+      (And.intro compositeCarrier
+        (And.intro compositeCarrier
+          (And.intro conjUnary (And.intro invActionUnary compositeUnary)))))
+
 end BEDC.Derived.AdjointRepUp
