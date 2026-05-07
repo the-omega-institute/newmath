@@ -312,9 +312,10 @@ $\RealUp$ completion and completeness, metric completeness, arithmetic/order
 closure, and extra bridge structure, the interpretation is conservative.
 \end{proof}
 
-\begin{theorem}[StreamNameUp mature interface package]
-\label{thm:streamname-mature-interface-package}
-The mature paper package for $\StreamNameUp$ is the union of
+\begin{theorem}[StreamNameUp scoped interface package]
+\label{thm:streamname-scoped-interface-package}
+The scoped public package for $\StreamNameUp$ consumed by $\RegSeqRat$ and
+$\RealUp$ is the union of
 \autoref{thm:streamname-public-countable-name-interface},
 \autoref{thm:streamname-public-finite-window-interface},
 \autoref{thm:streamname-public-interface-export-package}, and
@@ -353,15 +354,16 @@ unary observations.
 The same four sites state the negative boundary: no RegSeqRat regularity,
 no $\RealUp$ completion or completeness, no metric completeness, no arithmetic
 or order closure, and no machine-checked bridge data.  Repacking exactly those
-rows gives the mature $\StreamNameUp$ paper package and no stronger claim.
+rows establishes the scoped $\StreamNameUp$ interface and no stronger bridge
+or completion claim.
 \end{proof}
 
 \begin{closurestatus}{\StreamNameUp}
-  \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{thm:streamname-mature-interface-package} closes the public $\StreamNameUp$ export, finite-window surface, standard paper bridge, constant and reindexing rows, empty-window boundary, and conservative ordinary rational-sequence reading.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:streamname-scoped-interface-package} closes the scoped $\StreamNameUp$ export, finite-window surface, constant and reindexing rows, empty-window boundary, and conservative ordinary rational-sequence reading.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields}
-  \bridgestatus{paperBridge}
+  \bridgestatus{none}
   \notclaimed{Dyadic regular Cauchy completion, full RealUp arithmetic/order, metric completeness, machine-checked standard-bridge data, or general compact/continuous-map theory.}
-  \upgradepath{$\bridgeCheckedV$ status requires machine-checked standard-bridge data and downstream RegSeqRat/RealUp consumers.}
+  \upgradepath{Public or bridge advancement requires a public bridge package with machine-checked bridge data and downstream RegSeqRat/RealUp consumers.}
 \end{closurestatus}
