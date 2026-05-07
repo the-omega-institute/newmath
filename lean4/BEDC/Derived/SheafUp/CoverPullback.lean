@@ -121,4 +121,28 @@ theorem SheafBHistCoverNerveLedger_base_change_cover_pullback_composition
     (And.intro sameDirect
       (hsame_trans midPullback.right (hsame_trans outPullback.right sameDirect)))
 
+theorem SheafTopologyPullbackCover_membership_restriction_compatibility
+    {ambient member overlap route germ pulledMember pulledOverlap pulledGerm localRoute
+      localGerm : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      hsame member pulledMember -> hsame overlap pulledOverlap ->
+        Cont pulledOverlap route pulledGerm ->
+          Cont pulledMember localRoute localGerm -> hsame route localRoute ->
+            SheafBHistCoverNerveLedger ambient pulledMember pulledOverlap route pulledGerm ∧
+              SheafBHistPointGermLedger ambient pulledMember localRoute localGerm ∧
+                hsame germ pulledGerm ∧ hsame pulledGerm localGerm := by
+  intro ledger sameMember sameOverlap pulledRow localRow sameRoute
+  have pullback :
+      SheafBHistCoverNerveLedger ambient pulledMember pulledOverlap route pulledGerm ∧
+        hsame germ pulledGerm :=
+    SheafBHistCoverNerveLedger_base_change_cover_pullback
+      ledger sameMember sameOverlap pulledRow
+  have readback :
+      SheafBHistPointGermLedger ambient pulledMember localRoute localGerm ∧
+        hsame pulledGerm localGerm :=
+    SheafBHistCoverNerveLedger_gluing_readback pullback.left localRow sameRoute
+  exact And.intro pullback.left
+    (And.intro readback.left
+      (And.intro pullback.right readback.right))
+
 end BEDC.Derived.SheafUp
