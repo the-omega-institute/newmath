@@ -1128,6 +1128,52 @@ def main() -> int:
             horizons, downstream, from_grade, to_grade,
         )
 
+    # drift_chapters: chapters where the closurestatus block writes
+    # a `\formalstatus{X}` token that is strictly LOWER than the
+    # objective grade derivable from build artifacts (axiom-purity
+    # --strict / declaration kind). The chapter is functionally fine
+    # but its paper-side label undersells what Lean has actually
+    # achieved. Paper P-rounds should sync the token to the objective
+    # via a `closure_mark` target that rewrites the `\formalstatus{...}`
+    # line. Currently the bulk are `theoremCheckedV` tokens whose
+    # Lean targets are in fact `axiomCleanV` (no Classical.choice /
+    # Quot.sound / propext anywhere in the dependency closure).
+    # Anti-dogpile: a 1-line drift sync target on the same chapter
+    # cannot be safely run by 5 concurrent paper workers — every later
+    # round produces an identical merge conflict. Reuse the existing
+    # in-flight + recent-attack filters used for top_root_unblocks.
+    inflight_paper = _inflight_paper_attack_chapters()
+    recent_paper = _recent_paper_attack_chapter_counts(window_minutes=15)
+    drift_chapters_full = []
+    for info in horizons.values():
+        if not info.get("formalstatus_drift"):
+            continue
+        n = info["name"]
+        if n in inflight_paper:
+            continue
+        if recent_paper.get(n, 0) >= 1:
+            continue
+        drift_chapters_full.append({
+            "name": n,
+            "file_paper": info["file_paper"],
+            "file_lean": info["file_lean"],
+            "lean_target": info.get("lean_target"),
+            "theory_grade": info.get("theory_grade"),
+            "formal_grade_token": info.get("formal_grade"),
+            "objective_formal_grade": info.get("objective_formal_grade"),
+            "thms": info.get("thms", 0),
+        })
+    # Rank: prefer chapters with higher objective grade (axiomCleanV
+    # over auditCleanV), then by thms (richer chapters first).
+    _OBJ_RANK = {"axiomCleanV": 4, "auditCleanV": 3,
+                 "encodedDefV": 2, "formalTargetV": 1}
+    drift_chapters_full.sort(
+        key=lambda c: (_OBJ_RANK.get(c.get("objective_formal_grade") or "", 0),
+                       c.get("thms", 0)),
+        reverse=True,
+    )
+    drift_chapters = drift_chapters_full[:25]
+
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "deps_ready_threshold": strict,
@@ -1135,10 +1181,12 @@ def main() -> int:
         "deps_ready_relaxed": relaxed_at is not None,
         "closed_horizons": closed_count,
         "open_horizons": open_count,
+        "drift_chapters_total": len(drift_chapters_full),
         "granularity": "sibling",
         "top": rolled[:25],
         "top_root_unblocks": root_unblocks[:10],
         "top_transitions": top_transitions,
+        "drift_chapters": drift_chapters,
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
