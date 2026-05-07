@@ -60,6 +60,33 @@ def ContinuousMapMetricLedgerPolicy (source map target modulus cert distance : B
   ContinuousMapMetricSourceSpec source map target modulus cert distance ∧
     hsame distance (append source target)
 
+def ContinuousMapMetricStabilityCertificate
+    (source map target modulus cert distance : BHist) : Prop :=
+  ContinuousMapCarrier source map target modulus cert distance ∧
+    hsame distance (append source target) ∧ Cont source map target ∧ Cont target modulus cert
+
+theorem ContinuousMapMetricStabilityCertificate_field_transport
+    {source source' map map' target target' modulus modulus' cert cert' distance distance' :
+      BHist} :
+    ContinuousMapMetricStabilityCertificate source map target modulus cert distance ->
+      ContinuousMapMetricClassifierSpec source map target modulus cert distance source' map'
+        target' modulus' cert' distance' ->
+        ContinuousMapMetricStabilityCertificate source' map' target' modulus' cert' distance' := by
+  intro certificate classified
+  have transported :=
+    ContinuousMapMetricClassifierSpec_field_transport classified certificate.left
+  have exactTarget :
+      hsame distance' (append source' target') :=
+    (ContinuousMapCarrier_canonical_distance_exactness.mp transported.left).right
+  have graphRow : Cont source' map' target' :=
+    cont_hsame_transport classified.left classified.right.left classified.right.right.left
+      certificate.right.right.left
+  have modulusRow : Cont target' modulus' cert' :=
+    cont_hsame_transport classified.right.right.left classified.right.right.right.left
+      classified.right.right.right.right.left certificate.right.right.right
+  exact And.intro transported.left
+    (And.intro exactTarget (And.intro graphRow modulusRow))
+
 theorem ContinuousMapMetricLedgerPolicy_carrier_exact
     {source map target modulus cert distance : BHist} :
     ContinuousMapMetricLedgerPolicy source map target modulus cert distance ->
