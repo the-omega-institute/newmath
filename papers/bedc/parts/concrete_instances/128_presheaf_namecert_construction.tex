@@ -6,14 +6,80 @@ The presheaf interface $\PreSheafUp$ packages a contravariant functor from the o
 \section{Carrier definition}
 \label{sec:presheaf-carrier}
 
+\begin{definition}[PreSheaf indexed restriction surface]\label{def:presheaf-indexed-restriction-surface}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ in the sense of \autoref{def:topology-indexed-open-carrier}, with point carrier $\mathsf{BHist}$, visible membership row $\mathsf{OpenAt}(i,b)$, and membership transport along $\hsame$. Write $j\le_{\mathcal{T}} i$ for the displayed inclusion row saying that every $\mathsf{BHist}$ point of $j$ is a $\mathsf{BHist}$ point of $i$. A $\PreSheafUp$ indexed restriction surface over $\mathcal{T}$ is the following ten-field template.
+\begin{enumerate}
+\item Traditional target: a contravariant presheaf surface from the open-index category of $\mathcal{T}$ to a target certificate category.
+\item BEDC source: the open-index, inclusion-witness, and composition rows supplied by $\CategoryUp$, $\FunctorUp$, and $\TopologyUp$.
+\item Naming source: a $\NameCert$ row whose visible carrier is built from $\mathsf{BHist}$ and whose membership rows are stable under $\hsame$.
+\item Section carrier: for every open index $i$, a carrier $\mathsf{Sec}(i)$.
+\item Section classifier: for every open index $i$, a classifier $\sim_i$ on $\mathsf{Sec}(i)$, with reflexive, symmetric, and transitive rows.
+\item Restriction maps: for every inclusion witness $j\le_{\mathcal{T}} i$, a map $\rho_{i,j}:\mathsf{Sec}(i)\to\mathsf{Sec}(j)$.
+\item Identity row: for every $s:\mathsf{Sec}(i)$, the self-restriction satisfies $\rho_{i,i}(s)\sim_i s$.
+\item Composition row: for every chain $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$ and every $s:\mathsf{Sec}(i)$,
+$$
+\rho_{j,k}(\rho_{i,j}(s))\sim_k\rho_{i,k}(s).
+$$
+\item Restriction classifier-stability row: every classifier comparison $s\sim_i t$ transports along every displayed restriction:
+$$
+s\sim_i t
+\Longrightarrow
+\rho_{i,j}(s)\sim_j\rho_{i,j}(t).
+$$
+\item Exact ledger: the exported ledger consists only of indexed opens, displayed inclusion witnesses, section rows, and restriction provenance, all over $\mathsf{BHist}$ membership and $\hsame$-stable transport.
+\end{enumerate}
+No row in this surface exports host open equality, cover quotients, stalk quotients, or external sheafification data.
+\end{definition}
+
 \section{The certificate}
 \label{sec:presheaf-certificate}
 
+\begin{theorem}[PreSheaf carrier classifier obligations]\label{thm:presheaf-carrier-classifier-obligations}
+For a $\PreSheafUp$ indexed restriction surface as in \autoref{def:presheaf-indexed-restriction-surface}, the carrier, classifier, equivalence, and transport obligations are exactly the following rows: the indexed section carriers $\mathsf{Sec}(i)$, the classifiers $\sim_i$, the reflexive, symmetric, and transitive classifier fields, the $\NameCert$ carrier projection to visible $\mathsf{BHist}$ rows, and $\hsame$ transport of open-membership evidence. These rows provide the section-level classifier interface consumed by \autoref{def:sheaf-indexed-section-presheaf-carrier}; the SheafUp references are consumers of the surface, not proofs of the $\PreSheafUp$ obligations.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:presheaf-indexed-restriction-surface}. The section carrier and classifier rows are fields four and five, and the classifier equivalence rows are part of field five.
+
+The visible source boundary is fixed by fields two and three. The $\NameCert$ projection supplies the $\mathsf{BHist}$ carrier row, while $\hsame$ transport preserves the displayed open-membership rows used to index sections.
+
+Finally compare this source with the downstream usage in \autoref{def:sheaf-indexed-section-presheaf-carrier}. SheafUp reads only the indexed section carriers and classifiers already displayed here, so its later use records consumption of the presheaf surface rather than a separate proof of it.
+\end{proof}
+
+\begin{theorem}[PreSheaf restriction functoriality obligations]\label{thm:presheaf-restriction-functoriality-obligations}
+For a $\PreSheafUp$ indexed restriction surface as in \autoref{def:presheaf-indexed-restriction-surface}, restriction functoriality consists exactly of the identity and composition obligations
+$$
+\rho_{i,i}(s)\sim_i s
+$$
+for every $s:\mathsf{Sec}(i)$, and
+$$
+\rho_{j,k}(\rho_{i,j}(s))\sim_k\rho_{i,k}(s)
+$$
+for every chain $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$ and every $s:\mathsf{Sec}(i)$. The classifier-stability row also transports every comparison $s\sim_i t$ to $\rho_{i,j}(s)\sim_j\rho_{i,j}(t)$ along the same displayed inclusion witness.
+\end{theorem}
+\begin{proof}
+Read the identity obligation from field seven of \autoref{def:presheaf-indexed-restriction-surface}. It is already stated over the section classifier $\sim_i$, so no host equality of sections is needed.
+
+Read the composition obligation from field eight. The two-step route $\rho_{j,k}(\rho_{i,j}(s))$ and the direct route $\rho_{i,k}(s)$ are compared only in the target classifier $\sim_k$ attached to the final indexed open.
+
+The remaining transport statement is field nine. It moves classifier equality through the same restriction map fixed by the inclusion witness, which is precisely the functoriality surface used downstream by SheafUp restriction, refinement, and point-germ arguments.
+\end{proof}
+
+\begin{theorem}[PreSheaf ledger exactness obligations]\label{thm:presheaf-ledger-exactness-obligations}
+The exact $\PreSheafUp$ ledger boundary of \autoref{def:presheaf-indexed-restriction-surface} exports exactly indexed opens, displayed inclusion witnesses, section-carrier rows, classifier rows, restriction maps, restriction identity provenance, restriction composition provenance, classifier-stability provenance, $\mathsf{BHist}$ membership evidence, and $\hsame$ membership transport. It exports no host open equality, no cover quotient, no stalk quotient, and no external sheafification row.
+\end{theorem}
+\begin{proof}
+The positive ledger content is field ten of \autoref{def:presheaf-indexed-restriction-surface}. Its source rows are the indexed opens and displayed inclusions from $\TopologyUp$, the section rows from $\mathsf{Sec}(i)$ and $\sim_i$, and the restriction provenance from $\rho$, identity, composition, and classifier stability.
+
+The visible carrier discipline comes from the $\NameCert$ projection in field three together with $\hsame$ transport of open-membership rows. Thus every exported row is attached to $\mathsf{BHist}$ membership evidence or to section data indexed by such an open.
+
+The negative boundary is part of the same definition: host open equality, cover quotients, stalk quotients, and external sheafification are not fields of the surface. Downstream SheafUp constructions may cite the restriction rows as inputs, but they do not enlarge the $\PreSheafUp$ ledger.
+\end{proof}
+
 \begin{closurestatus}{\PreSheafUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds the $\CategoryUp$ source interface, target-category carrier, open-set category source, restriction-map classifier, identity row, composition row, and functoriality obligations as data not yet supplied by this chapter.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The paper-side scope is the $\PreSheafUp$ indexed restriction surface of \autoref{def:presheaf-indexed-restriction-surface}, with carrier, classifier, identity, composition, classifier-stability, and exact ledger obligations stated in \autoref{thm:presheaf-carrier-classifier-obligations}, \autoref{thm:presheaf-restriction-functoriality-obligations}, and \autoref{thm:presheaf-ledger-exactness-obligations}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a presheaf carrier, classifier, restriction stability, functoriality laws, sheaf bridge, or Lean verification target.}
-  \upgradepath{Obligation closure requires explicit theorem blocks for source and target carriers, restriction maps, identity law, composition law, classifier transport, and exact ledger boundary.}
+  \notclaimed{This chapter does not close a public $\NameCert_{\PreSheafUp}$ surface, sheaf locality or gluing, a standard bridge, host open equality, cover quotients, stalk quotients, external sheafification, or Lean verification target.}
+  \upgradepath{Scoped closure requires paper proofs assembling the displayed carrier, classifier, restriction functoriality, classifier-stability, and exact ledger rows into a complete $\NameCert_{\PreSheafUp}$ certificate surface.}
 \end{closurestatus}
