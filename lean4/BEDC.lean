@@ -212,6 +212,8 @@ import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootThreshold
 import BEDC.Derived.SheafUp.RootProjection
+import BEDC.Derived.SheafUp.RefinementLocality
+import BEDC.Derived.SheafUp.ClassifierStability
 import BEDC.Derived.SheafUp.RestrictedCommonRefinement
 import BEDC.Derived.SetUp
 import BEDC.Derived.SchemeUp
@@ -278,6 +280,7 @@ import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.IndependenceUp
+import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
@@ -401,7 +404,10 @@ import BEDC.Derived.ManifoldUp.IdentityTransition
 import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.ScopedBoundary
+import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
+import BEDC.Derived.HilbertUp
+import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
@@ -466,6 +472,7 @@ import BEDC.Derived.S1Up.FieldAssembly
 import BEDC.Derived.S1Up.SemanticFields
 import BEDC.Derived.S1Up.SharedPointComponent
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
+import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver
 import BEDC.Derived.GroupUp.ConjugationParameter

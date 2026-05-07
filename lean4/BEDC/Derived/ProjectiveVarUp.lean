@@ -1,18 +1,115 @@
 import BEDC.Derived.AffineVarUp
 import BEDC.Derived.PolynomialUp
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ProjectiveVarUp
 
+open BEDC.Derived.AffineVarUp
+open BEDC.Derived.PolynomialUp
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
-open BEDC.Derived.AffineVarUp
-open BEDC.Derived.PolynomialUp
+
+theorem ProjectiveVarVisibleCarrier_endpoint_exactness
+    {family : ProbeBundle BHist} {chart homogeneous projectiveSpace zeroEval endpoint : BHist} :
+    AffineFiniteFamilyZeroLocus (fun h : BHist => hsame h BHist.Empty)
+        (fun poly point : BHist => PolynomialSingletonClassifier poly point) family chart ->
+      PolynomialSingletonClassifier homogeneous BHist.Empty ->
+        hsame projectiveSpace chart ->
+          Cont projectiveSpace zeroEval endpoint ->
+            hsame zeroEval BHist.Empty ->
+              hsame endpoint chart ∧
+                AffineFiniteFamilyZeroLocus (fun h : BHist => hsame h BHist.Empty)
+                  (fun poly point : BHist => PolynomialSingletonClassifier poly point)
+                  family endpoint := by
+  intro chartLocus _homogeneousZero sameProjectiveSpace endpointRow zeroEvalEmpty
+  have endpointProjective : hsame endpoint projectiveSpace :=
+    cont_right_unit_result (by
+      cases zeroEvalEmpty
+      exact endpointRow)
+  have endpointChart : hsame endpoint chart :=
+    hsame_trans endpointProjective sameProjectiveSpace
+  have endpointEmpty : hsame endpoint BHist.Empty :=
+    hsame_trans endpointChart chartLocus.left
+  have endpointLocus :
+      AffineFiniteFamilyZeroLocus (fun h : BHist => hsame h BHist.Empty)
+        (fun poly point : BHist => PolynomialSingletonClassifier poly point) family endpoint :=
+    And.intro endpointEmpty
+      (by
+        intro p member
+        have chartClassified : PolynomialSingletonClassifier p chart :=
+          chartLocus.right member
+        have endpointClassified : PolynomialSingletonClassifier p endpoint :=
+          And.intro chartClassified.left
+            (And.intro endpointEmpty
+              (hsame_trans chartClassified.right.right (hsame_symm endpointChart)))
+        exact endpointClassified)
+  exact And.intro endpointChart endpointLocus
+
+theorem ProjectiveVarHomogeneousZeroLocus_visible_package
+    {F : ProbeBundle BHist} {x scale projectiveEndpoint : BHist} :
+    AffineFiniteFamilyZeroLocus PolynomialSingletonCarrier PolynomialSingletonClassifier F x ->
+      PolynomialSingletonCarrier scale ->
+        Cont x scale projectiveEndpoint ->
+          PolynomialSingletonCarrier projectiveEndpoint ∧
+            AffineFiniteFamilyZeroLocus PolynomialSingletonCarrier PolynomialSingletonClassifier F
+              projectiveEndpoint := by
+  intro locus scaleCarrier projectiveRow
+  have xCarrier : PolynomialSingletonCarrier x := locus.left
+  have endpointCarrier : PolynomialSingletonCarrier projectiveEndpoint :=
+    cont_respects_hsame xCarrier scaleCarrier projectiveRow (cont_right_unit BHist.Empty)
+  have xEndpointClassified : PolynomialSingletonClassifier x projectiveEndpoint :=
+    And.intro xCarrier
+      (And.intro endpointCarrier (hsame_trans xCarrier (hsame_symm endpointCarrier)))
+  have endpointRows :
+      forall {p : BHist}, InBundle p F ->
+        PolynomialSingletonClassifier p projectiveEndpoint := by
+    intro p member
+    exact And.intro (locus.right member).left
+      (And.intro endpointCarrier
+        (hsame_trans (locus.right member).left (hsame_symm endpointCarrier)))
+  exact And.intro endpointCarrier (And.intro endpointCarrier endpointRows)
+
+def ProjectiveVarCarrier
+    (endpoint chart homogeneous projective zeroEval provenance : BHist) : Prop :=
+  UnaryHistory endpoint ∧ UnaryHistory chart ∧ UnaryHistory homogeneous ∧
+    Cont chart homogeneous projective ∧ Cont projective zeroEval endpoint ∧
+      hsame provenance endpoint
+
+theorem ProjectiveVarCarrier_chart_homogeneous_transport
+    {endpoint endpoint' chart chart' homogeneous homogeneous' projective projective' zeroEval
+      provenance : BHist} :
+    ProjectiveVarCarrier endpoint chart homogeneous projective zeroEval provenance ->
+      hsame chart chart' -> hsame homogeneous homogeneous' ->
+        Cont chart' homogeneous' projective' -> Cont projective' zeroEval endpoint' ->
+          ProjectiveVarCarrier endpoint' chart' homogeneous' projective' zeroEval endpoint' ∧
+            hsame projective projective' ∧ hsame endpoint endpoint' := by
+  intro carrier sameChart sameHomogeneous transportedProjective transportedEndpoint
+  have chartUnary : UnaryHistory chart' :=
+    unary_transport carrier.right.left sameChart
+  have homogeneousUnary : UnaryHistory homogeneous' :=
+    unary_transport carrier.right.right.left sameHomogeneous
+  have projectiveSame : hsame projective projective' :=
+    cont_respects_hsame sameChart sameHomogeneous carrier.right.right.right.left
+      transportedProjective
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame projectiveSame (hsame_refl zeroEval)
+      carrier.right.right.right.right.left transportedEndpoint
+  have endpointUnary : UnaryHistory endpoint' :=
+    unary_transport carrier.left endpointSame
+  exact And.intro
+    (And.intro endpointUnary
+      (And.intro chartUnary
+        (And.intro homogeneousUnary
+          (And.intro transportedProjective
+            (And.intro transportedEndpoint (hsame_refl endpoint'))))))
+    (And.intro projectiveSame endpointSame)
 
 def ProjectiveVarTransportCarrier [AskSetup] [PackageSetup] (AffPoint : BHist -> Prop)
     (PolyEvalZero : BHist -> BHist -> Prop) (family : ProbeBundle BHist)
