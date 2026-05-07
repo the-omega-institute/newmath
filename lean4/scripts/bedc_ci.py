@@ -1046,7 +1046,17 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         print("[bedc-ci] axiom-purity: no BEDC theorems found", file=sys.stderr)
         return 0
 
-    lean_lines = ["import BEDC", ""]
+    # Walk every .lean file under BEDC/ so that every theorem in `theorems`
+    # is in scope. Root `BEDC.lean` cannot re-export all sub-files because
+    # the project uses a parent-hub + namespace-extension pattern: sub-files
+    # import the parent hub, so the parent hub re-exporting them would
+    # cycle.
+    all_modules = sorted(
+        ".".join(p.relative_to(LEAN_ROOT).with_suffix("").parts)
+        for p in BEDC_ROOT.rglob("*.lean")
+    )
+    lean_lines = [f"import {m}" for m in all_modules]
+    lean_lines.append("")
     lean_lines.extend(f"#print axioms {name}" for name in theorems)
     lean_source = "\n".join(lean_lines) + "\n"
 
@@ -1100,6 +1110,7 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             "theorems_total": len(theorems),
             "pure_count": len(pure),
             "impure_count": len(impure),
+            "pure": sorted(pure),
             "violations": [
                 {"declaration": decl, "axiom": ax} for decl, ax in violations
             ],
