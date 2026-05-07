@@ -1,0 +1,72 @@
+\begin{theorem}[Rational stream-name finite-window transported selected full endpoint package]
+\label{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}
+For certified observation maps $s,t,s',t':\Hist\to\Hist$, a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, a selected bundled unary observation $n$,
+and histories $a,b,z_s,z_t:\Hist$, suppose
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}),
+\quad
+\mathsf{InBundle}(n,\mathcal{P}),
+\quad
+\mathsf{UnaryHistory}(n),
+$$
+and suppose the bundled pointwise transport rows
+$$
+\forall m,\ \mathsf{InBundle}(m,\mathcal{P})\to
+\mathsf{UnaryHistory}(m)\to\hsame(s(m),s'(m))
+$$
+and
+$$
+\forall m,\ \mathsf{InBundle}(m,\mathcal{P})\to
+\mathsf{UnaryHistory}(m)\to\hsame(t(m),t'(m))
+$$
+hold. If the transported selected observations are displayed as one-extension
+endpoints
+$$
+\hsame(s'(n),\Eone(a))\quad\text{and}\quad \hsame(t'(n),\Eone(b)),
+$$
+then the transported selected finite-window endpoints carry the full endpoint
+package:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s'(n),t'(n))$.
+  \item $\mathsf{PositiveUnaryDenominator}(s'(n))\land
+  \mathsf{PositiveUnaryDenominator}(t'(n))$.
+  \item $\mathsf{UnaryHistory}(s'(n))\land\mathsf{UnaryHistory}(t'(n))$.
+  \item $(\hsame(s'(n),\emp)\to\mathsf{False})\land
+  (\hsame(t'(n),\emp)\to\mathsf{False})$.
+  \item $(\hsame(s'(n),\Ezero(z_s))\to\mathsf{False})\land
+  (\hsame(t'(n),\Ezero(z_t))\to\mathsf{False})$.
+  \item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land
+  \hsame(a,b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First transport the finite-window classifier. For every bundled unary
+observation $m$, use the given transport row at $m$ for the left endpoint and
+the corresponding row at $m$ for the right endpoint. The endpoint-transport
+field of \autoref{thm:rat-stream-name-finite-window-stability-fields} then
+gives
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s',t',\mathcal{P}).
+$$
+
+Now apply
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package} to
+this transported classifier, the selected bundle membership of $n$, the unary
+witness for $n$, and the displayed one-extension endpoints of $s'(n)$ and
+$t'(n)$. Its six conclusions are exactly the transported selected endpoint
+package listed above.
+\end{proof}
+
+The compact ten-field fit is: traditional target transported finite rational
+observation endpoint package; BEDC source
+$\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$; carrier certified observation
+maps; classifier finite-window restriction; stability bundled $\hsame$
+transport; ledger selected bundled unary probe observation and displayed
+transported endpoints; core theorems
+\autoref{thm:rat-stream-name-finite-window-stability-fields} and
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package};
+exactness transported selected RatUp point classification with positive
+denominators, shape exclusions, and one-tail agreement; standard bridge
+ordinary finite rational stream endpoint transport; status
+$\mathsf{ProofTarget}$.
