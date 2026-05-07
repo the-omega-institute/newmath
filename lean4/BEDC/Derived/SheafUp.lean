@@ -343,6 +343,40 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
+theorem SheafBHistPointGermComparison_overlap_projection_rows
+    {point openA openB sectA sectB germA germB common globalA globalB : BHist} :
+    SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
+      Cont common sectA globalA -> Cont common sectB globalB ->
+        hsame globalA globalB ∧ hsame germA globalA ∧ hsame germB globalB := by
+  intro comparison globalACont globalBCont
+  have sameGermA : hsame germA globalA :=
+    cont_deterministic comparison.right.right.right.right.right.right.left globalACont
+  have sameGermB : hsame germB globalB :=
+    cont_deterministic comparison.right.right.right.right.right.right.right.left globalBCont
+  exact And.intro
+    (hsame_trans (hsame_symm sameGermA)
+      (hsame_trans comparison.right.right.right.right.right.right.right.right sameGermB))
+    (And.intro sameGermA sameGermB)
+
+theorem SheafBHistPointGermLedger_trace_factorization_composes
+    {point openA sectionA germA openB sectionB germB composedOpen composedGerm : BHist} :
+    SheafBHistPointGermLedger point openA sectionA germA ->
+      SheafBHistPointGermLedger point openB sectionB germB ->
+        Cont openA openB composedOpen ->
+          Cont composedOpen sectionB composedGerm ->
+            exists boundary : BHist,
+              Cont openA openB boundary ∧
+                SheafBHistPointGermLedger point boundary sectionB composedGerm ∧
+                  hsame boundary composedOpen ∧ UnaryHistory boundary := by
+  intro ledgerA ledgerB composedOpenRow composedGermRow
+  have boundaryUnary : UnaryHistory composedOpen :=
+    unary_cont_closed ledgerA.right.left ledgerB.right.left composedOpenRow
+  exact Exists.intro composedOpen
+    (And.intro composedOpenRow
+      (And.intro
+        (And.intro ledgerA.left (And.intro boundaryUnary composedGermRow))
+        (And.intro (hsame_refl composedOpen) boundaryUnary)))
+
 theorem SheafIdentityCover_gluing_collapse
     {point openHist sectionA sectionB globalA globalB localGerm : BHist} :
     TopologySingletonOpenAt BHist.Empty point ->
