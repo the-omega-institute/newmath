@@ -104,6 +104,35 @@ theorem ExpMapFlowLedger_carrier_obligation_surface {tangent endpoint flow : BHi
         (And.intro sameFlowEndpoint
           (And.intro tangentUnary (And.intro endpointUnary flowUnary)))))
 
+theorem ExpMapZeroFlow_obligation_surface {tangent endpoint flow composed : BHist} :
+    ExpMapFlowLedger tangent endpoint flow ->
+      Cont flow BHist.Empty composed ->
+        hsame tangent endpoint ∧ hsame flow endpoint ∧ hsame composed endpoint ∧
+          LieAlgebraSingletonCarrier tangent ∧ LieGroupSingletonCarrier endpoint ∧
+            LieGroupSingletonCarrier composed ∧ UnaryHistory composed := by
+  intro ledger composedRow
+  have surface :
+      LieAlgebraSingletonCarrier tangent ∧ LieGroupSingletonCarrier endpoint ∧
+        hsame endpoint tangent ∧ hsame flow endpoint ∧ UnaryHistory tangent ∧
+          UnaryHistory endpoint ∧ UnaryHistory flow :=
+    ExpMapFlowLedger_carrier_obligation_surface ledger
+  have sameTangentEndpoint : hsame tangent endpoint :=
+    hsame_symm surface.right.right.left
+  have sameComposedFlow : hsame composed flow :=
+    cont_right_unit_result composedRow
+  have sameComposedEndpoint : hsame composed endpoint :=
+    hsame_trans sameComposedFlow surface.right.right.right.left
+  have composedCarrier : LieGroupSingletonCarrier composed :=
+    hsame_trans sameComposedEndpoint surface.right.left
+  have composedUnary : UnaryHistory composed :=
+    unary_transport surface.right.right.right.right.right.right (hsame_symm sameComposedFlow)
+  exact And.intro sameTangentEndpoint
+    (And.intro surface.right.right.right.left
+      (And.intro sameComposedEndpoint
+        (And.intro surface.left
+          (And.intro surface.right.left
+            (And.intro composedCarrier composedUnary)))))
+
 theorem ExpMapClassifier_stability_obligation_surface
     {source source' target target' ledger ledger' endpoint endpoint' : BHist} :
     LieAlgebraSingletonCarrier source ->
