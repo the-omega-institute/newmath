@@ -421,13 +421,61 @@ $$
 The retained graph rows are exactly the displayed left-associated and right-associated path rows.
 \end{proof}
 
+\begin{theorem}[GraphUp Cont public interface bridge]
+\label{thm:graph-cont-public-interface-bridge}
+The public graph-interface bridge for
+\autoref{def:graph-cont-adjacency-carrier} interprets every row
+$\mathsf{GraphEdge}(h,k,g)$ as a directed edge of the exported $\GraphUp$
+interface from source vertex $h$ to target vertex $k$ with visible edge result
+$g$. Public equality of exported graph edges reflects back to the componentwise
+BEDC classifier
+$$
+\hsame(h,h')\land \hsame(k,k')\land \hsame(g,g')
+$$
+on source, target, and result.
+
+The bridge fields are exactly the $\GraphUp$ NameCert surface of
+\autoref{thm:graph-cont-namecert-surface}, endpoint coverage from
+\autoref{thm:graph-cont-edge-endpoint-coverage}, classifier transport from
+\autoref{thm:graph-cont-edge-classifier-transport}, row inversion from
+\autoref{thm:graph-cont-edge-row-inversion}, the unit loop laws from
+\autoref{thm:graph-cont-unit-loop}, two-step composition from
+\autoref{thm:graph-cont-two-step-composition}, and three-step reassociation
+from \autoref{thm:graph-cont-three-step-path-reassociation}.
+\end{theorem}
+\begin{proof}
+Project the carrier, classifier, edge predicate, visible ledger, and declared
+surface fields from \autoref{thm:graph-cont-namecert-surface}. The carrier
+definition reads a public graph row as precisely the displayed
+$\mathsf{GraphEdge}(h,k,g)$ datum, so interpretation into the exported
+$\GraphUp$ interface is direct projection from the row.
+
+For endpoint soundness, apply
+\autoref{thm:graph-cont-edge-endpoint-coverage}. It exposes the source unary
+witness, target unary witness, and continuation row carried by every public
+edge, so the interface endpoints are exactly the two displayed histories.
+
+For equality reflection, use the componentwise edge classifier from
+\autoref{def:graph-cont-adjacency-carrier}. Classifier transport is supplied by
+\autoref{thm:graph-cont-edge-classifier-transport}; row inversion is supplied by
+\autoref{thm:graph-cont-edge-row-inversion}, which reads shared public rows back
+to $\hsame$ on the source, target, or result component as appropriate.
+
+For the graph operations, \autoref{thm:graph-cont-unit-loop} supplies the public
+empty-endpoint unit rows, \autoref{thm:graph-cont-two-step-composition} supplies
+public path composition, and
+\autoref{thm:graph-cont-three-step-path-reassociation} supplies reassociation of
+three displayed paths up to $\hsame$. These projections are the advertised
+public graph-interface bridge fields.
+\end{proof}
+
 \begin{closurestatus}{\GraphUp}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{The $\GraphUp$ obligation packet is bound to its primitive scope by UnaryHistory for vertices, hsame for vertex and result classification, GraphEdge as the Cont row, cont\_hsame\_transport for classifier transport, cont\_right\_cancel, cont\_left\_cancel, and cont\_deterministic for row inversion, cont\_left\_unit and cont\_right\_unit for unit rows, cont\_assoc\_exists\_hsame for two-step composition, visible-tail Cont step rules, and hsame transitivity for three-step reassociation.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.GraphUp.GraphContNameCert\_surface}
-  \bridgestatus{none}
-  \notclaimed{Full graph theory: finite graph APIs, path algebra beyond the displayed Cont rows, acyclicity, connectivity, graph homomorphisms, or a standard graph bridge.}
-  \upgradepath{$\bridgedClosure$ requires a standard graph bridge, or a public graph-interface bridge, that consumes the exported GraphCont NameCert surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{Finite graph APIs, connectivity, acyclicity, graph homomorphisms, path algebra beyond the displayed Cont rows, standard graph APIs, or machine-checked bridge closure.}
+  \upgradepath{The remaining step is Lean-side bridge and audit verification, independently of the paper bridge recorded here.}
 \end{closurestatus}
-\closureat{GraphUp}{publicStr}[BEDC.Derived.GraphUp.GraphContNameCert\_surface]
+\closureat{GraphUp}{bridgedStr}[BEDC.Derived.GraphUp.GraphContNameCert\_surface]
