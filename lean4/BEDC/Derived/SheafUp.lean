@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
+import BEDC.Derived.TopologyUp.Singleton
 
 namespace BEDC.Derived.SheafUp
 
@@ -8,6 +9,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.TopologyUp
 
 def SheafBHistPointGermLedger
     (point openHist sectionHist germ : BHist) : Prop :=
@@ -18,6 +20,40 @@ def SheafBHistPointGermComparison
   UnaryHistory point ∧ UnaryHistory openA ∧ UnaryHistory openB ∧ UnaryHistory common ∧
     hsame common openA ∧ hsame common openB ∧ Cont common sectA germA ∧
       Cont common sectB germB ∧ hsame germA germB
+
+def SheafConsumerAccessTrace (root : BHist) (trace : List BHist) : Prop :=
+  UnaryHistory root ∧ ∀ row : BHist, List.Mem row trace -> UnaryHistory row
+
+theorem SheafConsumerAccessTrace_append_closed {root : BHist} {left right : List BHist} :
+    SheafConsumerAccessTrace root left -> SheafConsumerAccessTrace root right ->
+      UnaryHistory root ∧ SheafConsumerAccessTrace root (left ++ right) := by
+  induction left with
+  | nil =>
+      intro leftTrace rightTrace
+      exact And.intro leftTrace.left
+        (And.intro leftTrace.left
+          (by
+            intro row rowMem
+            exact rightTrace.right row rowMem))
+  | cons head tail ih =>
+      intro leftTrace rightTrace
+      have tailTrace : SheafConsumerAccessTrace root tail :=
+        And.intro leftTrace.left
+          (by
+            intro row rowMem
+            exact leftTrace.right row (List.Mem.tail head rowMem))
+      have appendedTail :
+          UnaryHistory root ∧ SheafConsumerAccessTrace root (tail ++ right) :=
+        ih tailTrace rightTrace
+      exact And.intro leftTrace.left
+        (And.intro leftTrace.left
+          (by
+            intro row rowMem
+            cases rowMem with
+            | head =>
+                exact leftTrace.right head (List.Mem.head tail)
+            | tail _ tailMem =>
+                exact appendedTail.right.right row tailMem))
 
 def SheafBHistCoverNerveLedger
     (ambient member overlap route germ : BHist) : Prop :=
@@ -306,6 +342,57 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
     SheafBHistPointGermLedger_common_open_comparison
       descent.left descent.right.left descent.right.right
   exact comparison.left
+
+theorem SheafIdentityCover_gluing_collapse
+    {point openHist sectionA sectionB globalA globalB localGerm : BHist} :
+    TopologySingletonOpenAt BHist.Empty point ->
+      SheafBHistPointGermLedger point openHist sectionA globalA ->
+        SheafBHistPointGermLedger point openHist sectionB globalB ->
+          Cont openHist sectionA localGerm ->
+            Cont openHist sectionB localGerm ->
+              hsame globalA globalB ∧
+                SheafBHistPointGermLedger point openHist sectionA localGerm ∧
+                  SheafBHistPointGermLedger point openHist sectionB localGerm := by
+  intro openPoint ledgerA ledgerB localA localB
+  have sameGlobalLocalA : hsame globalA localGerm :=
+    cont_deterministic ledgerA.right.right localA
+  have sameGlobalLocalB : hsame globalB localGerm :=
+    cont_deterministic ledgerB.right.right localB
+  have sameGlobal : hsame globalA globalB :=
+    hsame_trans sameGlobalLocalA (hsame_symm sameGlobalLocalB)
+  have pointUnary : UnaryHistory point :=
+    unary_transport unary_empty (hsame_symm openPoint.right)
+  exact And.intro sameGlobal
+    (And.intro
+      (And.intro pointUnary (And.intro ledgerA.right.left localA))
+      (And.intro pointUnary (And.intro ledgerB.right.left localB)))
+
+theorem SheafBHistPointGermLedger_restricted_global_soundness
+    {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
+      restrictedGermB globalA globalB : BHist} :
+    SheafBHistPointGermLedger point openHist sectionA germA ->
+      SheafBHistPointGermLedger point openHist sectionB germB ->
+        hsame germA germB -> hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionA restrictedGermA ->
+            Cont restrictedOpen sectionB restrictedGermB ->
+              Cont restrictedOpen sectionA globalA -> Cont restrictedOpen sectionB globalB ->
+                hsame restrictedGermA globalA ∧ hsame restrictedGermB globalB ∧
+                  hsame globalA globalB := by
+  intro ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB globalRowA globalRowB
+  have descent :
+      SheafBHistPointGermLedger point restrictedOpen sectionA restrictedGermA ∧
+        SheafBHistPointGermLedger point restrictedOpen sectionB restrictedGermB ∧
+          hsame restrictedGermA restrictedGermB :=
+    SheafRestrictedOpenCarrier_locality_gluing_descent
+      ledgerA ledgerB sameGerm sameOpen restrictedA restrictedB
+  have sameGlobalA : hsame restrictedGermA globalA :=
+    cont_deterministic restrictedA globalRowA
+  have sameGlobalB : hsame restrictedGermB globalB :=
+    cont_deterministic restrictedB globalRowB
+  exact And.intro sameGlobalA
+    (And.intro sameGlobalB
+      (hsame_trans (hsame_symm sameGlobalA)
+        (hsame_trans descent.right.right sameGlobalB)))
 
 theorem SheafBHistPointGermComparison_restricted_global_soundness
     {point openHist sectionA sectionB germA germB restrictedOpen restrictedGermA
