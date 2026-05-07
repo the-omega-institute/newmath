@@ -392,4 +392,72 @@ theorem BundleLocalTrivPkg_trivialization_scope {base total projection fibre led
         (Or.inr
           (Iff.mpr inBundle_bundleAppend_iff (Or.inl memberTriv)))))
 
+theorem BundleLocalTrivPkg_projection_fibre_source_scope
+    {base total projection fiber ledger : BHist} {trivs transitions : ProbeBundle BHist} :
+    BundleLocalTrivPackage base total projection fiber trivs transitions ledger ->
+      InBundle projection (BundleLocalTrivPkgRows base total projection fiber ledger trivs
+        transitions) ∧
+        InBundle fiber (BundleLocalTrivPkgRows base total projection fiber ledger trivs
+          transitions) ∧
+          InBundle ledger (BundleLocalTrivPkgRows base total projection fiber ledger trivs
+            transitions) ∧
+            UnaryHistory projection ∧ UnaryHistory fiber ∧ UnaryHistory ledger := by
+  intro package
+  exact And.intro
+    (Or.inr (Or.inr (Or.inl rfl)))
+    (And.intro
+      (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
+      (And.intro
+        (Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Iff.mpr inBundle_bundleAppend_iff
+                  (Or.inr (Or.inl rfl)))))))
+        (And.intro package.right.right.left
+          (And.intro package.right.right.right.left package.right.right.right.right.left))))
+
+theorem BundleLocalTrivPkg_transition_ledger_scope
+    {base total projection fibre ledger transition row : BHist}
+    {triv transitions : ProbeBundle BHist} :
+    BundleLocalTrivPackage base total projection fibre triv transitions ledger ->
+      InBundle transition transitions ->
+      InBundle row (ProbeBundle.Bcons transition (ProbeBundle.Bcons ledger ProbeBundle.Bnil)) ->
+        InBundle row (BundleLocalTrivPkgRows base total projection fibre ledger triv transitions) ∧
+          (row = transition ∨ row = ledger) ∧ UnaryHistory ledger := by
+  intro package transitionMember rowMember
+  have ledgerUnary : UnaryHistory ledger :=
+    package.right.right.right.right.left
+  have transitionInRows :
+      InBundle transition (BundleLocalTrivPkgRows base total projection fibre ledger triv
+        transitions) :=
+    Or.inr
+      (Or.inr
+        (Or.inr
+          (Or.inr
+            (Iff.mpr inBundle_bundleAppend_iff
+              (Or.inr (Or.inr transitionMember))))))
+  have ledgerInRows :
+      InBundle ledger (BundleLocalTrivPkgRows base total projection fibre ledger triv
+        transitions) :=
+    Or.inr
+      (Or.inr
+        (Or.inr
+          (Or.inr
+            (Iff.mpr inBundle_bundleAppend_iff
+              (Or.inr (Or.inl rfl))))))
+  cases rowMember with
+  | inl sameTransition =>
+      cases sameTransition
+      exact And.intro transitionInRows
+        (And.intro (Or.inl rfl) ledgerUnary)
+  | inr ledgerTail =>
+      cases ledgerTail with
+      | inl sameLedger =>
+          cases sameLedger
+          exact And.intro ledgerInRows
+            (And.intro (Or.inr rfl) ledgerUnary)
+      | inr emptyMember =>
+          exact False.elim emptyMember
+
 end BEDC.Derived.BundleUp
