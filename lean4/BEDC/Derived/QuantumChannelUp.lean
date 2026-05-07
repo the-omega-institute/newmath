@@ -1,4 +1,6 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Assoc
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.QuantumChannelUp
@@ -54,6 +56,50 @@ theorem QuantumChannelSingleton_identity_channel_cptp {rho image : BHist} :
     (QuantumChannelAffineMixtureSpine.atom imageEmpty unaryImage)
     (And.intro imageRho imageEmpty)
 
+theorem QuantumChannelAffineMixtureSpine_composition_assoc
+    {channel : BHist -> Prop} {phi psi theta phiPsi psiTheta left right : BHist}
+    (binaryClosed :
+      forall {a b out : BHist}, channel a -> channel b -> Cont a b out -> channel out) :
+    QuantumChannelAffineMixtureSpine channel phi ->
+      QuantumChannelAffineMixtureSpine channel psi ->
+        QuantumChannelAffineMixtureSpine channel theta ->
+          Cont phi psi phiPsi ->
+            Cont psi theta psiTheta ->
+              Cont phiPsi theta left ->
+                Cont phi psiTheta right -> channel left ∧ channel right ∧ hsame left right := by
+  intro phiSpine psiSpine thetaSpine phiPsiCont psiThetaCont leftCont rightCont
+  have phiChannel : channel phi :=
+    QuantumChannelAffineMixtureSpine_finite_closure binaryClosed phiSpine
+  have psiChannel : channel psi :=
+    QuantumChannelAffineMixtureSpine_finite_closure binaryClosed psiSpine
+  have thetaChannel : channel theta :=
+    QuantumChannelAffineMixtureSpine_finite_closure binaryClosed thetaSpine
+  have phiPsiChannel : channel phiPsi := binaryClosed phiChannel psiChannel phiPsiCont
+  have psiThetaChannel : channel psiTheta := binaryClosed psiChannel thetaChannel psiThetaCont
+  exact And.intro
+    (binaryClosed phiPsiChannel thetaChannel leftCont)
+    (And.intro
+      (binaryClosed phiChannel psiThetaChannel rightCont)
+      (cont_assoc_up_to_hsame_spine phiPsiCont leftCont psiThetaCont rightCont))
+
+theorem QuantumChannelAffineMixtureSpine_unit_laws
+    {channel : BHist -> Prop} {phi left right : BHist}
+    (binaryClosed :
+      forall {a b out : BHist}, channel a -> channel b -> Cont a b out -> channel out)
+    (emptyChannel : channel BHist.Empty) :
+    QuantumChannelAffineMixtureSpine channel phi ->
+      Cont BHist.Empty phi left ->
+        Cont phi BHist.Empty right ->
+          channel left ∧ channel right ∧ hsame left phi ∧ hsame right phi := by
+  intro phiSpine leftCont rightCont
+  have phiChannel : channel phi :=
+    QuantumChannelAffineMixtureSpine_finite_closure binaryClosed phiSpine
+  exact And.intro
+    (binaryClosed emptyChannel phiChannel leftCont)
+    (And.intro
+      (binaryClosed phiChannel emptyChannel rightCont)
+      (And.intro (cont_left_unit_result leftCont) (cont_right_unit_result rightCont)))
+
 theorem QuantumChannelAffineMixtureSpine_density_mixture_preservation {phi rho image : BHist} :
     QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) phi ->
       hsame rho BHist.Empty -> Cont phi rho image ->
@@ -73,5 +119,32 @@ theorem QuantumChannelAffineMixtureSpine_density_mixture_preservation {phi rho i
   have imageEmpty : hsame image BHist.Empty := hsame_trans imageRho rhoEmpty
   have imageUnary : UnaryHistory image := unary_transport unary_empty (hsame_symm imageEmpty)
   exact And.intro imageEmpty (QuantumChannelAffineMixtureSpine.atom imageEmpty imageUnary)
+
+theorem QuantumChannelSingleton_identity_composition_unit_laws {phi left right : BHist} :
+    QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) phi ->
+      Cont BHist.Empty phi left -> Cont phi BHist.Empty right ->
+        hsame left phi ∧ hsame right phi ∧
+          QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) left ∧
+            QuantumChannelAffineMixtureSpine (fun h : BHist => hsame h BHist.Empty) right := by
+  intro spine leftCont rightCont
+  have phiEmpty : hsame phi BHist.Empty :=
+    QuantumChannelAffineMixtureSpine_finite_closure
+      (channel := fun h : BHist => hsame h BHist.Empty)
+      (fun {left right out} leftEmpty rightEmpty mixtureCont => by
+        cases leftEmpty
+        exact hsame_trans (cont_left_unit_result mixtureCont) rightEmpty)
+      spine
+  have leftPhi : hsame left phi := cont_left_unit_result leftCont
+  have rightPhi : hsame right phi :=
+    Iff.mp cont_right_unit_iff rightCont
+  have leftEmpty : hsame left BHist.Empty := hsame_trans leftPhi phiEmpty
+  have rightEmpty : hsame right BHist.Empty := hsame_trans rightPhi phiEmpty
+  have leftUnary : UnaryHistory left := unary_transport unary_empty (hsame_symm leftEmpty)
+  have rightUnary : UnaryHistory right := unary_transport unary_empty (hsame_symm rightEmpty)
+  exact And.intro leftPhi
+    (And.intro rightPhi
+      (And.intro
+        (QuantumChannelAffineMixtureSpine.atom leftEmpty leftUnary)
+        (QuantumChannelAffineMixtureSpine.atom rightEmpty rightUnary)))
 
 end BEDC.Derived.QuantumChannelUp

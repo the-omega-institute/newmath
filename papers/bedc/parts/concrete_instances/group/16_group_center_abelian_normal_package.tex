@@ -105,62 +105,80 @@ append or constant-inverse provenance. Any admitted public endpoint therefore
 carries a witness to $A_{\emp}$, so no endpoint outside the singleton carrier
 is admitted by this operation surface.
 \end{proof}
-\begin{theorem}[Group singleton acceptance bridge]
-\label{thm:group-singleton-acceptance-bridge}
-The public singleton surface of
+\begin{definition}[Group singleton terminal standard reference]
+\label{def:group-terminal-standard-reference}
+Let $T_G^\ast$ denote the host-facing terminal group reference with one element
+$\star_G$. Its equality relation is terminal equality, so every pair of
+host-facing elements is identified. Its multiplication row is
+$\star_G\cdot\star_G=\star_G$, its unit row names $\star_G$ as the unit, and its
+inverse row sends $\star_G$ to $\star_G$.
+
+The finite theorem-preservation list for $T_G^\ast$ contains exactly the
+terminal rows matched to the public singleton surface: multiplication closure,
+left and right unit, associativity, two-sided inverse, and append-context
+cancellation. The BEDC counterparts are the clauses of
+\autoref{thm:group-singleton-public-operation-surface} backed by
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$.
+\end{definition}
+
+\begin{theorem}[Group singleton terminal standard bridge]
+\label{thm:group-singleton-terminal-standard-bridge}
+The public singleton $\GroupUp$ surface of
 \autoref{thm:group-singleton-public-operation-surface} supplies a paper-level
-$\StdBridge(\GroupUp,T_{\mathbf{1}})$ to the terminal one-element group. The
-encode map sends the unique host element to the carried BEDC endpoint $\emp$,
-and the decode map sends every carried endpoint to the unique host element.
-The two round trips are witnessed by $R_{\emp}$ and singleton carrier readback.
-The theorem-preservation list is the finite list of terminal group rows:
-unit, associativity, inverse, and cancellation, with BEDC counterparts collected
-by $\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$. The no-host-leak
-field holds because the public surface exposes only $\mathsf{BHist}$,
-$A_{\emp}$, $R_{\emp}$, $\mathsf{append}$, $\emp$, and the constant inverse.
+$\StdBridge(\GroupUp,T_G^\ast)$. The encode field sends the unique point
+$\star_G$ of $T_G^\ast$ to the BEDC endpoint $\emp$. The decode field sends
+every endpoint carried by $A_{\emp}$ to $\star_G$. The decode-encode round trip
+is terminal equality in $T_G^\ast$, and the encode-decode round trip is the
+classifier witness $R_{\emp}(h,\emp)$ for each carried endpoint $h:A_{\emp}$.
+The operation translation is the same carrier $A_{\emp}$, classifier
+$R_{\emp}$, multiplication $\mathsf{append}$, unit $\emp$, and constant inverse
+from the public surface. The theorem-preservation and no-host-leak fields are
+the finite list and public-object restriction of
+\autoref{def:group-terminal-standard-reference}.
 \end{theorem}
 \begin{proof}
 We check the six fields of \autoref{sec:acceptance-bridge-six-fields}. The
-encode field is the constant map from the terminal host carrier to $\emp$.
-The endpoint $\emp$ is public by
-\autoref{thm:group-singleton-public-operation-surface}, so the map lands in
-$A_{\emp}$ and respects the public classifier.
+encode field is the constant map from $T_G^\ast$ to the empty BEDC endpoint
+$\emp$. The endpoint $\emp$ is public by
+\autoref{thm:group-singleton-public-operation-surface}, so the map lands in the
+carrier $A_{\emp}$ and respects the classifier $R_{\emp}$.
 
 The decode field sends every carried BEDC endpoint to the unique element of
-$T_{\mathbf{1}}$. Since the host carrier has one element, classifier-respect is
-immediate on the host side: any two decoded carried endpoints are the same host
-element.
+$T_G^\ast$. Since the host carrier has one element, classifier-respect is
+terminal equality: any two decoded carried endpoints are the same host point
+$\star_G$.
 
 For the decode-encode round trip, start with the unique host element, encode it
-as $\emp$, and decode back to the unique host element. This is the terminal
-group identity judgment.
+as $\emp$, and decode back to $\star_G$. This is exactly terminal equality in
+$T_G^\ast$.
 
 For the encode-decode round trip, start with a carried endpoint $h:A_{\emp}$.
-Decoding gives the unique host element, and encoding returns $\emp$. The
-singleton carrier readback clause of
-\autoref{thm:group-singleton-public-operation-surface} supplies
-$R_{\emp}(h,\emp)$, which is exactly the BEDC classifier witness required for
-this round trip.
+Decoding gives $\star_G$, and encoding returns $\emp$. The singleton carrier
+readback clause of \autoref{thm:group-singleton-public-operation-surface}
+supplies $R_{\emp}(h,\emp)$, which is exactly the BEDC classifier witness
+required for this round trip.
 
-The theorem-preservation field is finite. Its entries are the unit,
-associativity, inverse, and cancellation rows of the terminal group, translated
-to the BEDC singleton operation surface by the checked law package
-$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$. No other host
-group theorem is claimed by this list.
+The operation translation keeps the BEDC public data fixed: carrier
+$A_{\emp}$, classifier $R_{\emp}$, multiplication $\mathsf{append}$, unit
+$\emp$, and constant inverse. The finite theorem-preservation field is the list
+in \autoref{def:group-terminal-standard-reference}. Each row is read through
+\autoref{thm:group-singleton-public-operation-surface} and the checked law
+package $\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$. No other
+host group theorem is claimed by this list.
 
 Finally, the no-host-leak field follows from the public-object inventory in
 \autoref{thm:group-singleton-public-operation-surface}. The bridge uses the
-host terminal group only to name the unique decode value and the terminal
-round-trip judgment. The BEDC-facing surface remains $\mathsf{BHist}$,
-$A_{\emp}$, $R_{\emp}$, $\mathsf{append}$, $\emp$, and the constant inverse, so
-no host primitive enters the exported $\GroupUp$ object.
+host terminal reference only to name the unique decode value and terminal
+equality. The BEDC-facing surface remains $\mathsf{BHist}$, $A_{\emp}$,
+$R_{\emp}$, $\mathsf{append}$, $\emp$, and the constant inverse, so no host
+primitive enters the exported $\GroupUp$ object.
 \end{proof}
 \begin{closurestatus}{\GroupUp}
   \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:group-singleton-public-operation-surface} and \autoref{thm:group-singleton-acceptance-bridge} close the singleton carrier $A_{\emp}$, multiplication $\mathsf{append}$, unit $\emp$, constant inverse, classifier $R_{\emp}$, expression readback, no-hidden-leakage, and the paper-level bridge to $T_{\mathbf{1}}$.}
+  \scopeclosed{\autoref{thm:group-singleton-public-operation-surface} and \autoref{thm:group-singleton-terminal-standard-bridge} close the public singleton surface $A_{\emp}$, $R_{\emp}$, $\mathsf{append}$, $\emp$, the constant inverse, expression readback, no-hidden-leakage, and the paper-level bridge to $T_G^\ast$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
   \bridgestatus{paperBridge}
-  \notclaimed{Arbitrary groups, homomorphisms, subgroup lattices, quotient groups, non-singleton classifiers, and machine-checked bridge verification are not closed here.}
-  \upgradepath{Mature closure requires broader examples or completeness statements beyond the terminal singleton bridge.}
+  \notclaimed{$\bridgeCheckedV$, non-singleton groups, arbitrary homomorphisms, subgroup lattices, quotient groups, and general group theory are not closed here.}
+  \upgradepath{A stronger grade requires machine verification of the bridge fields or broader group interfaces beyond the terminal singleton surface.}
 \end{closurestatus}
