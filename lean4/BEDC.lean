@@ -204,6 +204,8 @@ import BEDC.Derived.SheafUp.CoverPullback
 import BEDC.Derived.SheafUp.CoverDescent
 import BEDC.Derived.SheafUp.CoverNerveCertificate
 import BEDC.Derived.SheafUp.GluingClassifier
+import BEDC.Derived.SheafUp.CommonRefinementSpan
+import BEDC.Derived.SheafUp.LocalityGluingCertificate
 import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RootExportPackage
 import BEDC.Derived.SheafUp.RootThreshold
@@ -363,6 +365,7 @@ import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
+import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.LatticeUp.BoundUniqueness
