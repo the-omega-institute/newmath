@@ -242,4 +242,27 @@ theorem TreeBHistCarrier_visible_spine_extension_ledger
         (And.intro endpointUnary (And.intro extendedRootUnary endpointExtendedK))
         (And.intro extendedRootUnary (And.intro endpointExtendedK sameExtended))
 
+theorem TreeRootWitness_spine_extension_exactness
+    {graph edge connected acyclic root endpoint spine extendedRoot extendedConnected : BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint -> UnaryHistory spine ->
+      Cont root spine extendedRoot -> Cont connected spine extendedConnected ->
+        TreeRootBranch endpoint extendedRoot extendedConnected ∧ UnaryHistory extendedRoot ∧
+          Cont endpoint extendedRoot extendedConnected := by
+  intro carrier spineUnary rootSpine connectedSpine
+  have branch : TreeRootBranch endpoint root connected := carrier.right.right
+  have endpointUnary : UnaryHistory endpoint := branch.left.left
+  have extendedRootUnary : UnaryHistory extendedRoot :=
+    unary_cont_closed branch.right.left spineUnary rootSpine
+  cases cont_assoc_exists branch.right.right rootSpine with
+  | intro assocResult assocRows =>
+      have sameAssocExtended : hsame assocResult extendedConnected :=
+        cont_deterministic assocRows.left connectedSpine
+      have endpointExtendedConnected : Cont endpoint extendedRoot extendedConnected :=
+        cont_result_hsame_transport assocRows.right sameAssocExtended
+      exact And.intro
+        (And.intro
+          (And.intro endpointUnary (And.intro extendedRootUnary endpointExtendedConnected))
+          (And.intro extendedRootUnary endpointExtendedConnected))
+        (And.intro extendedRootUnary endpointExtendedConnected)
+
 end BEDC.Derived.TreeUp
