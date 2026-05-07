@@ -60,4 +60,37 @@ theorem PreSheafIndexedRestrictionSurface_section_restriction_transport
     (And.intro sameIdentity
       (And.intro sameComposite (And.intro identityUnary' compositeUnary')))
 
+theorem PreSheafIndexedRestrictionSurface_carrier_rows {sec rho identity composite : BHist} :
+    PreSheafIndexedRestrictionSurface sec rho identity composite ->
+      UnaryHistory sec ∧ UnaryHistory rho ∧ UnaryHistory identity ∧
+        UnaryHistory composite ∧ Cont sec rho identity ∧ Cont rho identity composite := by
+  intro surface
+  have identityUnary : UnaryHistory identity :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.left
+  have compositeUnary : UnaryHistory composite :=
+    unary_cont_closed surface.right.left identityUnary surface.right.right.right
+  exact And.intro surface.left
+    (And.intro surface.right.left
+      (And.intro identityUnary
+        (And.intro compositeUnary
+          (And.intro surface.right.right.left surface.right.right.right))))
+
+theorem PreSheafIndexedRestrictionSurface_ledger_extension_surface
+    {sec rho identity composite transport ledger : BHist} :
+    PreSheafIndexedRestrictionSurface sec rho identity composite ->
+      Cont identity composite transport -> Cont composite transport ledger ->
+        PreSheafIndexedRestrictionSurface identity composite transport ledger ∧
+          UnaryHistory transport ∧ UnaryHistory ledger := by
+  intro surface transportCont ledgerCont
+  have rows := PreSheafIndexedRestrictionSurface_carrier_rows surface
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed rows.right.right.left rows.right.right.right.left transportCont
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed rows.right.right.right.left transportUnary ledgerCont
+  exact And.intro
+    (And.intro rows.right.right.left
+      (And.intro rows.right.right.right.left
+        (And.intro transportCont ledgerCont)))
+    (And.intro transportUnary ledgerUnary)
+
 end BEDC.Derived.PreSheafUp

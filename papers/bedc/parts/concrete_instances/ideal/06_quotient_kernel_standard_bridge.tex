@@ -1,0 +1,27 @@
+\section{Standard bridge}
+\label{sec:ideal-quotient-kernel-standard-bridge}
+
+\begin{theorem}[IdealUp quotient-kernel standard bridge]
+\label{thm:idealup-quotient-kernel-standard-bridge}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, multiplication $\cdot_R$, and subtraction $x-_R y:=x+_R(-_R y)$. Let $I$ be an $\IdealUp$ carried predicate over $R$, and let $Q_I$ be the quotient-kernel source package of \autoref{def:ideal-quotient-kernel-source-package}. Then $Q_I$ interprets as the standard quotient-kernel comparison consumed by $\QuotientRingUp$ and $\IdealClassUp$: two carried representatives are compared exactly by the ambient carrier rows together with membership of the displayed difference in $I$. Conversely, every standard kernel comparison used by those consumers is represented by the BEDC rows exported in \autoref{thm:ideal-quotientring-export-surface}. This bridge adds no host quotient carrier, host quotient primitive, or classifier-changing host equality to the BEDC surface.
+\end{theorem}
+\begin{proof}
+Unfold the source package of \autoref{def:ideal-quotient-kernel-source-package}. Its comparison data are precisely the two carrier witnesses $C(x)$ and $C(y)$ and the ideal membership row $I(x-_R y)$. The diagonal comparison is supplied by \autoref{thm:ideal-quotient-kernel-diagonal-exactness}, so each carried representative compares with itself through the BEDC difference row rather than through a host quotient object.
+
+Endpoint invariance is exactly \autoref{thm:ideal-quotient-kernel-transport-surface}. Thus changing representatives along the ambient classifier preserves the same kernel package, and no additional equality relation is inserted between the BEDC carrier and the consumer.
+
+For the multiplicative consumer row, apply \autoref{thm:ideal-quotient-kernel-multiplication-descent}. The product comparison is again expressed by membership of the product difference in $I$, using only the ambient ring rows and the two-sided absorption rows of the ideal predicate.
+
+Finally, \autoref{thm:ideal-quotientring-export-surface} repacks the diagonal, endpoint-transport, additive-descent, negation-descent, and multiplication-descent rows into the full quotient-free surface read by $\QuotientRingUp$. The same exported rows are the standard kernel comparison boundary available to $\IdealClassUp$ through its quotient consumer. Since the package exports only carried endpoints, classifier transport, and difference-membership rows, the bridge has no host quotient carrier or host quotient primitive to leak into the BEDC surface.
+\end{proof}
+
+\closureat{IdealUp}{bridgedStr}[BEDC.Derived.IdealUp.IdealQuotientKernel\_export\_surface]
+\begin{closurestatus}{\IdealUp}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridged IdealUp surface covers the public predicate constructors, the principal generated ideal, the ring-map zero fiber, the quotient-kernel export surface, and the paper-level standard quotient-kernel bridge of \autoref{thm:idealup-quotient-kernel-standard-bridge}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.IdealUp.IdealQuotientKernel\_export\_surface}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close $\bridgeCheckedV$ verification, broader standard ideal theory, host quotient carriers, or host quotient primitives.}
+  \upgradepath{A stronger verification grade requires Lean-side bridge coverage for the standard quotient-kernel comparison and broader standard ideal theory remains outside this claim.}
+\end{closurestatus}
