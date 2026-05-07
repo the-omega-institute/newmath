@@ -217,6 +217,7 @@ import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SheafUp.ClassifierStability
 import BEDC.Derived.SheafUp.RestrictedCommonRefinement
+import BEDC.Derived.SheafUp.RootRestrictionRefinement
 import BEDC.Derived.SetUp
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
@@ -274,6 +275,7 @@ import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe
+import BEDC.Derived.DiffFormUp.ExteriorInputRootClosure
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
@@ -310,6 +312,7 @@ import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
+import BEDC.Derived.TreeUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
