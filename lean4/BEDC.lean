@@ -234,6 +234,7 @@ import BEDC.Derived.SheafUp.RootProjection
 import BEDC.Derived.SheafUp.RefinementLocality
 import BEDC.Derived.SheafUp.ClassifierStability
 import BEDC.Derived.SheafUp.RestrictedCommonRefinement
+import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.RootRestrictionRefinement
 import BEDC.Derived.SheafUp.ExactnessExport
 import BEDC.Derived.SheafUp.CommonTransport
