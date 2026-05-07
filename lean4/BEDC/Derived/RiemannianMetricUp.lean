@@ -73,4 +73,25 @@ theorem RiemannianMetricSingletonFibreSurface_carrier_rows {point tangent metric
           (And.intro pointRows.right.left
             (And.intro tangentUnary pointRows.right.right)))))
 
+theorem RiemannianMetricSingletonFibreSurface_classifier_stability
+    {point point' tangent tangent' metric metric' : BHist} :
+    RiemannianMetricSingletonFibreSurface point tangent metric ->
+      hsame point point' -> hsame tangent tangent' -> hsame metric metric' ->
+        RiemannianMetricSingletonFibreSurface point' tangent' metric' ∧
+          ManifoldSingletonCarrier point' ∧ VecSpaceSingletonCarrier tangent' ∧
+            RealConstantHistoryClassifier metric' (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro surface samePoint sameTangent sameMetric
+  cases samePoint
+  cases sameTangent
+  cases sameMetric
+  have rows :
+      ManifoldSingletonCarrier point ∧ VecSpaceSingletonCarrier tangent ∧
+        VecSpaceSingletonCarrier tangent ∧
+          RealConstantHistoryClassifier metric (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            UnaryHistory point ∧ UnaryHistory tangent ∧ UnaryHistory tangent :=
+    RiemannianMetricSingleton_source_fibre_carrier_row surface.left surface.right.left
+      surface.right.left surface.right.right.right
+  exact And.intro surface
+    (And.intro rows.left (And.intro rows.right.left rows.right.right.right.left))
+
 end BEDC.Derived.RiemannianMetricUp
