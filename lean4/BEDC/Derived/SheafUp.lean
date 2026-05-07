@@ -343,6 +343,21 @@ theorem SheafBHistPointGermComparison_restricted_open_descent
       descent.left descent.right.left descent.right.right
   exact comparison.left
 
+theorem SheafBHistPointGermComparison_overlap_projection_rows
+    {point openA openB sectA sectB germA germB common globalA globalB : BHist} :
+    SheafBHistPointGermComparison point openA sectA germA openB sectB germB common ->
+      Cont common sectA globalA -> Cont common sectB globalB ->
+        hsame globalA globalB ∧ hsame germA globalA ∧ hsame germB globalB := by
+  intro comparison globalACont globalBCont
+  have sameGermA : hsame germA globalA :=
+    cont_deterministic comparison.right.right.right.right.right.right.left globalACont
+  have sameGermB : hsame germB globalB :=
+    cont_deterministic comparison.right.right.right.right.right.right.right.left globalBCont
+  exact And.intro
+    (hsame_trans (hsame_symm sameGermA)
+      (hsame_trans comparison.right.right.right.right.right.right.right.right sameGermB))
+    (And.intro sameGermA sameGermB)
+
 theorem SheafBHistPointGermLedger_trace_factorization_composes
     {point openA sectionA germA openB sectionB germB composedOpen composedGerm : BHist} :
     SheafBHistPointGermLedger point openA sectionA germA ->
