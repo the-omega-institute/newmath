@@ -329,6 +329,7 @@ import BEDC.Derived.BanachUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
+import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
