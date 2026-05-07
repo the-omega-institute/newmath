@@ -171,6 +171,23 @@ theorem BanachSingleton_standard_bridge_soundness {h : BHist} {s M : BHist -> BH
         (And.intro distanceWitness (And.intro continuation (modulusClassified nUnary)))
   exact And.intro classified (And.intro carrierH.right limitWitness)
 
+theorem BanachSingleton_zero_sequence_limit_obligation {s M : BHist -> BHist} :
+    (forall {n : BHist}, UnaryHistory n -> hsame (s n) BHist.Empty) ->
+      (forall {n : BHist}, UnaryHistory n ->
+        RatHistoryClassifier BHist.Empty (M n)) ->
+        CompleteMetricLimitWitness BanachSingletonCarrier s M BHist.Empty ∧
+          BanachSingletonClassifier BHist.Empty BHist.Empty ∧
+            MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty := by
+  intro streamEmpty modulusClassified
+  have emptyMetric : MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have emptyCarrier : BanachSingletonCarrier BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty) emptyMetric
+  have bridge :=
+    BanachSingleton_standard_bridge_soundness emptyCarrier streamEmpty modulusClassified
+  exact And.intro bridge.right.right (And.intro bridge.left bridge.right.left)
+
 theorem BanachSingleton_norm_distance_zero_exactness {x y : BHist} :
     BanachSingletonCarrier x -> BanachSingletonCarrier y ->
       MetricDistanceWitness x y BHist.Empty ->
