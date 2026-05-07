@@ -143,6 +143,7 @@ import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
+import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.ProdUp
@@ -198,6 +199,7 @@ import BEDC.Derived.CondExpUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.ConsumerAccessTraceSource
 import BEDC.Derived.SheafUp.ConsumerAccessTrace
 import BEDC.Derived.SheafUp.ConsumerTrace
 import BEDC.Derived.SheafUp.GlobalRestrictions
@@ -256,6 +258,7 @@ import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.ObligationSurface
 import BEDC.Derived.SheafUp.RootExport
 import BEDC.Derived.SheafUp.RootExportCarrierScope
+import BEDC.Derived.SheafUp.RootExportSurface
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
@@ -312,6 +315,7 @@ import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.AntisymmetryChain
+import BEDC.Derived.DiffFormUp.ConsumerBoundary
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
@@ -323,6 +327,7 @@ import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe
 import BEDC.Derived.DiffFormUp.ExteriorInputRootClosure
+import BEDC.Derived.DiffFormUp.ZeroDegreeConsumerNeutrality
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
@@ -435,6 +440,7 @@ import BEDC.Derived.LatticeUp.ModularComparison
 import BEDC.Derived.LatticeUp.Monotonicity
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.RootSystemUp
+import BEDC.Derived.SymGroupUp
 import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
