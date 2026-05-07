@@ -117,6 +117,44 @@ theorem FinsetEnumerationClassifier_symm
   · intro carriedLeft
     exact Iff.mp (classified z) carriedLeft
 
+theorem FinsetEnumeration_semantic_name_certificate
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    {bundle : ProbeBundle BHist} {seed : BHist} :
+    FinsetEnumerationCarrier A Rel bundle seed ->
+      SemanticNameCert (FinsetEnumerationCarrier A Rel bundle)
+        (FinsetEnumerationCarrier A Rel bundle) (FinsetEnumerationCarrier A Rel bundle)
+        Rel := by
+  intro seedCarrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro seed seedCarrier
+      equiv_refl := by
+        intro h carrierH
+        exact NameCert.equiv_refl cert carrierH.left
+      equiv_symm := by
+        intro h k sameHK
+        exact NameCert.equiv_symm cert sameHK
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact NameCert.equiv_trans cert sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        have sourceK : A k :=
+          NameCert.carrier_respects_equiv cert sameHK carrierH.left
+        cases carrierH.right with
+        | intro x witness =>
+            have sameKX : Rel k x :=
+              NameCert.equiv_trans cert (NameCert.equiv_symm cert sameHK) witness.right
+            exact And.intro sourceK (Exists.intro x (And.intro witness.left sameKX))
+    }
+    pattern_sound := by
+      intro _h carrier
+      exact carrier
+    ledger_sound := by
+      intro _h carrier
+      exact carrier
+  }
+
 theorem FinsetEnumerationCarrier_bundleAppend_split
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
     {left right : ProbeBundle BHist} {a : BHist} :
