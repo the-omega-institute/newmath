@@ -5,6 +5,7 @@ import BEDC.Derived.VecSpaceUp
 import BEDC.FKernel.Cont
 import BEDC.Derived.MetricUp
 import BEDC.Derived.CompleteMetricUp
+import BEDC.Derived.BanachUp
 
 namespace BEDC.Derived.HilbertUp
 
@@ -19,6 +20,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.CompleteMetricUp
+open BEDC.Derived.BanachUp
 
 def HilbertSingletonInnerProduct (_m _n : BHist) : BHist :=
   BHist.e1 (BHist.e1 BHist.Empty)
@@ -435,6 +437,34 @@ theorem HilbertSingletonProjection_witness_idempotent {m p : BHist} :
     exact And.intro endpointP.right.left
       (And.intro carrierP (hsame_symm endpointP.right.right))
   exact And.intro emptyProjectionWitness projectionClassified
+
+theorem HilbertSingleton_complete_normed_certificate {s M0 M1 : BHist -> BHist}
+    {limit : BHist} :
+    (forall {n : BHist}, UnaryHistory n -> BanachSingletonCarrier (s n)) ->
+      (forall {n : BHist}, UnaryHistory n -> RatHistoryClassifier BHist.Empty (M0 n)) ->
+        CompleteMetricLimitWitness BanachSingletonCarrier s M1 limit ->
+          CompleteMetricLimitWitness BanachSingletonCarrier s M0 BHist.Empty ∧
+            BanachSingletonClassifier limit BHist.Empty ∧
+              VecSpaceSingletonClassifier limit BHist.Empty ∧
+                RealConstantHistoryClassifier (HilbertSingletonInnerProduct limit limit)
+                  (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro streamCarrier modulusClassified suppliedLimit
+  have emptyLimit :
+      CompleteMetricLimitWitness BanachSingletonCarrier s M0 BHist.Empty :=
+    (BanachSingleton_regular_cauchy_stream_input streamCarrier modulusClassified).left
+  have limitRows := BanachSingleton_limit_classifier_unique suppliedLimit emptyLimit
+  have limitVecClassifier : VecSpaceSingletonClassifier limit BHist.Empty :=
+    And.intro limitRows.left.left.left
+      (And.intro limitRows.left.right.left.left limitRows.left.right.right)
+  have hilbertRows :=
+    HilbertSingleton_inner_product_norm_compatibility limitRows.left.left.left
+  have innerZero :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct limit limit)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    Iff.mpr hilbertRows.right limitVecClassifier
+  exact And.intro emptyLimit
+    (And.intro limitRows.left
+      (And.intro limitVecClassifier innerZero))
 
 theorem HilbertSingletonProjection_semantic_name_certificate :
     SemanticNameCert VecSpaceSingletonCarrier
