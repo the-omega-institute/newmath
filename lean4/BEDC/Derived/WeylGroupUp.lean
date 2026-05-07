@@ -1,5 +1,6 @@
 import BEDC.Derived.GroupUp
 import BEDC.Derived.RootSystemUp
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Cont.Units
 
 namespace BEDC.Derived.WeylGroupUp
@@ -9,6 +10,7 @@ open BEDC.Derived.RootSystemUp
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def WeylGroupSourceRow
@@ -456,5 +458,79 @@ theorem WeylGroupPublicNameCert_export {support : ProbeBundle BHist}
     (And.intro source.left
       (And.intro braidCarrier (And.intro rootBraidActionNext actionNextUnary)))
     (And.intro actionNextSameRoot braidClassified)
+
+theorem WeylGroupRootSystem_source_obligation
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root word endpoint next product : BHist} :
+    WeylGroupRootSystemGroupCarrier support Vector Nonzero root word endpoint ->
+      GroupSingletonCarrier next -> Cont endpoint next product ->
+        RootSystemFiniteSupportCarrier support Vector Nonzero root ∧
+          GroupSingletonCarrier word ∧ Cont root word endpoint ∧
+            WeylGroupBHistSourceRow support Vector Nonzero root (append word next) product ∧
+              hsame product root := by
+  intro carrier nextCarrier endpointStep
+  have carrierRow := WeylGroupRootSystemGroupCarrier_row carrier
+  have rootUnary : UnaryHistory root :=
+    vector_unary carrierRow.left.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport rootUnary (hsame_symm carrierRow.right.right.right)
+  have source :
+      WeylGroupBHistSourceRow support Vector Nonzero root word endpoint :=
+    And.intro carrierRow.left
+      (And.intro carrierRow.right.left
+        (And.intro carrierRow.right.right.left endpointUnary))
+  have appended :
+      WeylGroupBHistSourceRow support Vector Nonzero root (append word next) product ∧
+        hsame product root ∧ GroupSingletonCarrier (append word next) :=
+    WeylGroupBHistSourceRow_simple_reflection_word_closure
+      vector_unary source nextCarrier endpointStep
+  exact And.intro carrierRow.left
+    (And.intro carrierRow.right.left
+      (And.intro carrierRow.right.right.left
+        (And.intro appended.left appended.right.left)))
+
+theorem WeylGroupStandardReflectionGroup_bridge {support : ProbeBundle BHist}
+    {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root word action next actionNext braid : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root word action ->
+      GroupSingletonCarrier next -> Cont action next actionNext -> Cont word next braid ->
+        SemanticNameCert
+          (fun endpoint : BHist =>
+            WeylGroupBHistSourceRow support Vector Nonzero root braid endpoint ∧
+              hsame endpoint actionNext)
+          (fun endpoint : BHist =>
+            WeylGroupBHistSourceRow support Vector Nonzero root braid endpoint ∧
+              hsame endpoint actionNext)
+          (fun endpoint : BHist =>
+            WeylGroupBHistSourceRow support Vector Nonzero root braid endpoint ∧
+              hsame endpoint actionNext)
+          hsame := by
+  intro source nextCarrier actionStep braidStep
+  have exported :
+      WeylGroupBHistSourceRow support Vector Nonzero root braid actionNext ∧
+        hsame actionNext root ∧ GroupSingletonClassifier braid BHist.Empty :=
+    WeylGroupPublicNameCert_export vector_unary source nextCarrier actionStep braidStep
+  constructor
+  · constructor
+    · exact Exists.intro actionNext (And.intro exported.left (hsame_refl actionNext))
+    · intro endpoint _carrier
+      exact hsame_refl endpoint
+    · intro endpoint endpoint' same
+      exact hsame_symm same
+    · intro endpoint endpoint' endpoint'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro endpoint endpoint' same carrier
+      exact And.intro
+        (And.intro carrier.left.left
+          (And.intro carrier.left.right.left
+            (And.intro (cont_result_hsame_transport carrier.left.right.right.left same)
+              (unary_transport carrier.left.right.right.right same))))
+        (hsame_trans (hsame_symm same) carrier.right)
+  · intro _endpoint sourceEndpoint
+    exact sourceEndpoint
+  · intro _endpoint sourceEndpoint
+    exact sourceEndpoint
 
 end BEDC.Derived.WeylGroupUp
