@@ -461,4 +461,40 @@ theorem SheafBHistPointGermLedger_cover_descent_exhaustion
       (hsame_trans memberReadbackA.right commonReadbackA.right)
       (hsame_trans memberReadbackB.right commonReadbackB.right))
 
+theorem SheafBHistCoverNerveLedger_gluing_readback
+    {ambient member overlap route germ localRoute localGerm : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      Cont member localRoute localGerm ->
+        hsame route localRoute ->
+          SheafBHistPointGermLedger ambient member localRoute localGerm ∧
+            hsame germ localGerm := by
+  intro ledger localRow sameRoute
+  have memberUnary : UnaryHistory member := ledger.right.left
+  have sameOverlapMember : hsame overlap member := ledger.right.right.right.left
+  have overlapRow : Cont overlap route germ := ledger.right.right.right.right
+  cases sameOverlapMember
+  cases sameRoute
+  have sameGerm : hsame germ localGerm := cont_deterministic overlapRow localRow
+  exact And.intro
+    (And.intro ledger.left (And.intro memberUnary localRow))
+    sameGerm
+
+theorem SheafRootCoverNerve_membership_exhaustion
+    {ambient member overlap route germ nextRoute nextGerm : BHist} :
+    SheafBHistCoverNerveLedger ambient member overlap route germ ->
+      UnaryHistory nextRoute ->
+        Cont member nextRoute nextGerm ->
+          SheafBHistCoverNerveLedger ambient member member nextRoute nextGerm ∧
+            UnaryHistory nextGerm := by
+  intro ledger nextRouteUnary nextRow
+  have memberUnary : UnaryHistory member := ledger.right.left
+  have nextGermUnary : UnaryHistory nextGerm :=
+    unary_cont_closed memberUnary nextRouteUnary nextRow
+  exact And.intro
+    (And.intro ledger.left
+      (And.intro memberUnary
+        (And.intro memberUnary
+          (And.intro (hsame_refl member) nextRow))))
+    nextGermUnary
+
 end BEDC.Derived.SheafUp
