@@ -1,3 +1,4 @@
+import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.PublicLength
 
 namespace BEDC.Derived.ListUp
@@ -9,6 +10,28 @@ def FramedListPublicAppend (A : BHist -> Prop) (h k r : BHist) : Prop :=
   ∃ xs ys : ListCarrier BHist,
     FramedListSpineRep A h xs ∧ FramedListSpineRep A k ys ∧
       FramedListSpineRep A r (xs ++ ys)
+
+theorem ListCarrier_append_entries {A : BHist -> Prop} :
+    forall {xs ys : ListCarrier BHist},
+      (forall z : BHist, z ∈ xs -> A z) ->
+        (forall z : BHist, z ∈ ys -> A z) ->
+          forall z : BHist, z ∈ xs ++ ys -> A z := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys _leftEntries rightEntries z memZ
+      exact rightEntries z memZ
+  | cons x xs ih =>
+      intro ys leftEntries rightEntries z memZ
+      cases memZ with
+      | head =>
+          exact leftEntries x (List.Mem.head xs)
+      | tail _ tailMem =>
+          exact ih
+            (by
+              intro w memW
+              exact leftEntries w (List.Mem.tail x memW))
+            rightEntries z tailMem
 
 theorem FramedListPublicAppend_public_length_classifier_transport {A : BHist -> Prop}
     {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
@@ -77,26 +100,8 @@ theorem FramedListPublicAppend_total_and_classifier_congruent {A : BHist -> Prop
       forall {xs ys zs ws : ListCarrier BHist},
         ListClassifierSpec Rel xs ys -> ListClassifierSpec Rel zs ws ->
           ListClassifierSpec Rel (xs ++ zs) (ys ++ ws) := by
-    intro xs
-    induction xs with
-    | nil =>
-        intro ys zs ws sameXY sameZW
-        cases ys with
-        | nil =>
-            exact sameZW
-        | cons _ _ =>
-            cases sameXY
-    | cons _ xs ih =>
-        intro ys zs ws sameXY sameZW
-        cases ys with
-        | nil =>
-            cases sameXY
-        | cons _ ys =>
-            cases sameXY with
-            | intro sameHead sameTail =>
-                constructor
-                · exact sameHead
-                · exact ih sameTail sameZW
+    intro xs ys zs ws sameXY sameZW
+    exact ListClassifierSpec_BHist_append sameXY sameZW
   constructor
   · intro h k carrierH carrierK
     cases carrierH with
@@ -106,13 +111,7 @@ theorem FramedListPublicAppend_total_and_classifier_congruent {A : BHist -> Prop
             let r := FramedListEndpoint (xs ++ ys)
             have repR : FramedListSpineRep A r (xs ++ ys) := by
               constructor
-              · intro z memZ
-                have split := List.mem_append.mp memZ
-                cases split with
-                | inl memX =>
-                    exact repH.left z memX
-                | inr memY =>
-                    exact repK.left z memY
+              · exact ListCarrier_append_entries repH.left repK.left
               · exact hsame_refl r
             exact Exists.intro r
               (And.intro
