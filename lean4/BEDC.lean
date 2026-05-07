@@ -141,6 +141,7 @@ import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
+import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
@@ -188,6 +189,7 @@ import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
+import BEDC.Derived.PreSheafUp
 import BEDC.Derived.SheafUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
