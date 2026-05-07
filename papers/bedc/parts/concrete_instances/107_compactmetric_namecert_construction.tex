@@ -182,6 +182,96 @@ metric one, the assembled fields satisfy the paper-level $\NameCert$ target
 for $\CompactMetricUp$.
 \end{proof}
 
+\begin{theorem}[Public compact-metric export surface]
+\label{thm:compactmetric-public-export-surface}
+For a certified metric carrier $X$ equipped with
+$\mathsf{CompactMetricCertificate}(X)$, the public $\CompactMetricUp$ surface
+exports exactly the metric carrier and distance rows of $X$, every finite-net
+row
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon}),
+$$
+and every complete-limit row
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s).
+$$
+It does not export an open-cover compactness principle, a subsequence
+selection principle, or any host-level compact set predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier definition of
+\autoref{def:compactmetric-certificate-carrier}. The first component is the
+same $\MetricSpaceUp$ carrier, classifier, and distance witness family, so the
+public metric rows are copied without changing their histories or classifier
+ledgers.
+
+For each positive tolerance history $\varepsilon$, the second component gives
+the displayed $\mathsf{TotallyBoundedProbeBundleNet}$ row. Its classifier
+transport and coverage stability are exactly the rows supplied by
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}.
+
+For each regular Cauchy stream name $s$, the third component gives the
+displayed $\mathsf{CompleteMetricLimitWitness}$ row. Its stability is the
+componentwise transport supplied by
+\autoref{thm:completemetric-limit-witness-stability}. Since the definition
+has no further compactness field, the public surface consists precisely of
+these metric, total-bounded, and complete subcertificates.
+\end{proof}
+
+\begin{theorem}[Continuous-map consumption boundary]
+\label{thm:compactmetric-continuousmap-consumption-boundary}
+Any $\ContinuousMapUp$ construction consuming a public
+$\CompactMetricUp$ certificate may use only the exported metric classifier,
+the exported distance witnesses, and the finite
+$\mathsf{TotallyBoundedProbeBundleNet}$ rows. It receives no open-cover row,
+no subsequence compactness row, and no unlisted compact-set eliminator from
+$\mathsf{CompactMetricCertificate}(X)$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:compactmetric-public-export-surface}, the visible public
+rows are exactly the metric carrier rows, the finite ProbeBundle-net family,
+and the complete-limit family. The continuous-map interface can therefore
+read the point classifier, distance witnesses, and finite-net center and
+coverage ledgers directly from the exported certificate.
+
+The same projection also proves the boundary. The certificate carrier in
+\autoref{def:compactmetric-certificate-carrier} contains no open-cover
+predicate, no subsequence selector, and no compact-set eliminator. Hence a
+$\ContinuousMapUp$ argument consuming this public surface must factor through
+the displayed metric and total-bounded rows rather than through any classical
+compactness principle.
+\end{proof}
+
+\begin{theorem}[Heine--Cantor input boundary]
+\label{thm:compactmetric-heine-cantor-input-boundary}
+The compact-uniform-continuity capstone may consume a public
+$\CompactMetricUp$ certificate by using the finite
+$\mathsf{ProbeBundle}$-net family together with continuous pointwise modulus
+ledgers to assemble a uniform-modulus ledger. Completeness enters only through
+the named $\CompleteMetricUp$ limit-witness field
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)$.
+\end{theorem}
+\begin{proof}
+Start from the public export theorem. For each positive tolerance, the
+$\CompactMetricUp$ surface supplies the finite
+$\mathsf{TotallyBoundedProbeBundleNet}$ row, including bundled centers,
+membership rows, distance witnesses, and rational comparison ledgers. Apply
+\autoref{thm:totallybounded-probebundle-net-coverage-stability} to transport
+these rows along the metric classifier data used by the capstone.
+
+The continuous input contributes pointwise modulus ledgers at the exported
+centers. The finite net supplies only finitely many such center rows, so the
+capstone can combine their visible tolerance ledgers into one
+uniform-modulus ledger without invoking open covers or subsequences.
+
+Completeness is used only at the point where a regular Cauchy stream requires
+a named limit witness. That row is exactly the
+$\mathsf{CompleteMetricLimitWitness}$ exported from the certificate, with
+transport governed by
+\autoref{thm:completemetric-limit-witness-stability}. No additional
+compactness principle is consumed.
+\end{proof}
+
 \begin{theorem}[Compact metric carrier-field projection]
 \label{thm:compactmetric-metric-field-projection}
 Let $X$ be a certified metric carrier equipped with
