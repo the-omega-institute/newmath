@@ -182,6 +182,196 @@ metric one, the assembled fields satisfy the paper-level $\NameCert$ target
 for $\CompactMetricUp$.
 \end{proof}
 
+\begin{definition}[Public CompactMetricUp export source]
+\label{def:compactmetric-public-export-source}
+For a certified metric carrier $X$, the public $\CompactMetricUp$ export
+source is the same shared carrier used in
+\autoref{def:compactmetric-certificate-carrier}: the $\MetricSpaceUp$ point
+carrier and distance package for $X$, together with the
+$\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon})$
+family for every positive $\RatUp$ tolerance history $\varepsilon$, and the
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)$ family for every
+regular Cauchy $\StreamNameUp$ stream name $s$ carried by $X$.
+
+The public surface exposes exactly these three component families as the
+compact-metric constructor source. It does not add an open-cover selector,
+subsequence extractor, or external compact set; downstream consumers receive
+the finite-net and complete-limit rows already certified by the component
+NameCerts.
+\end{definition}
+
+\begin{theorem}[Public compact-metric constructor package]
+\label{thm:compactmetric-public-constructor-package}
+The export source of \autoref{def:compactmetric-public-export-source}
+produces the public compact-metric constructor package for $\CompactMetricUp$.
+The package has the same metric carrier, the same positive-tolerance
+$\mathsf{ProbeBundle}$ net family, and the same regular-Cauchy limit-witness
+family as \autoref{thm:compactmetric-certificate-package}; classifier
+transport is inherited componentwise from the metric, totally-bounded, and
+complete-metric certificates. The natural formal target name for this
+constructor package is
+\texttt{BEDC.Derived.CompactMetricUp.CompactMetricPublicConstructor\_package}.
+\end{theorem}
+
+\begin{proof}
+Project the metric field from
+\autoref{thm:compactmetric-certificate-package}. This gives the public source
+carrier, the point classifier, the distance rows, and the
+$\mathsf{MetricDistanceWitness}$ ledgers used by the constructor package.
+
+For each positive $\RatUp$ tolerance history $\varepsilon$, project the
+totally-bounded field. The projected row is already the closed
+$\mathsf{ProbeBundle}$ net
+$\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon})$,
+and its stability is the componentwise transport supplied by
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}.
+
+For each regular Cauchy $\StreamNameUp$ stream name $s$, project the
+complete-metric field. The projected row is the limit witness
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)$, transported by
+\autoref{thm:completemetric-limit-witness-stability}.
+
+Repack these three projected component families under the shared metric
+classifier. Since the public export source contains no additional fields, the
+componentwise transports assemble directly into the public
+$\CompactMetricUp$ constructor package.
+\end{proof}
+
+\begin{theorem}[Heine--Cantor consumer bridge for CompactMetricUp]
+\label{thm:compactmetric-heine-cantor-consumer-bridge}
+Let
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+$$
+be a metric $\ContinuousMapUp$ consumer whose source metric carrier is the
+same BEDC carrier $X$ as the export source of
+\autoref{def:compactmetric-public-export-source}. Then the public
+$\CompactMetricUp$ export supplies the compact finite-net input and
+complete-limit input required by the Heine--Cantor capstone
+\autoref{thm:compact-uniform-continuity}. The finite-net input is the
+positive-tolerance
+$\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon})$
+family, and the complete-limit input is the regular-Cauchy
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)$ family; both are
+consumed over the same metric distance rows as the continuous-map source
+certificate. The natural formal target name for this consumer bridge is
+\texttt{BEDC.Derived.CompactMetricUp.CompactMetricHeineCantor\_consumer\_bridge}.
+\end{theorem}
+
+\begin{proof}
+Read the continuous-map source through
+\autoref{def:continuousmapup-metric-source-specification}. The consumer
+therefore uses a categorical graph row, a modulus witness, and a
+$\mathsf{MetricDistanceWitness}$ row over the displayed source carrier.
+
+Identify this source carrier with the metric carrier in the public
+$\CompactMetricUp$ export. The metric classifier then transports the
+continuous-map distance row and the compact-metric distance row to the same
+BEDC history relation.
+
+For a positive tolerance history $\varepsilon$, pass the exported
+$\mathsf{ProbeBundle}$ net family to the finite-cover input of the
+Heine--Cantor construction. This is exactly the located finite-net datum used
+by \autoref{def:compact-uniform-finite-net} and
+\autoref{lem:compact-uniform-subordinate-modulus-cover}.
+
+For a regular Cauchy stream name $s$, pass the exported complete-limit witness
+to the complete metric input. The capstone proof may then consume finite-net
+coverage and complete-limit convergence over the same source metric, so the
+uniform-modulus ledger is obtained from the public $\CompactMetricUp$ export
+rather than from a private component package.
+\end{proof}
+
+\begin{theorem}[Public compact-metric export surface]
+\label{thm:compactmetric-public-export-surface}
+For a certified metric carrier $X$ equipped with
+$\mathsf{CompactMetricCertificate}(X)$, the public $\CompactMetricUp$ surface
+exports exactly the metric carrier and distance rows of $X$, every finite-net
+row
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon}),
+$$
+and every complete-limit row
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s).
+$$
+It does not export an open-cover compactness principle, a subsequence
+selection principle, or any host-level compact set predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier definition of
+\autoref{def:compactmetric-certificate-carrier}. The first component is the
+same $\MetricSpaceUp$ carrier, classifier, and distance witness family, so the
+public metric rows are copied without changing their histories or classifier
+ledgers.
+
+For each positive tolerance history $\varepsilon$, the second component gives
+the displayed $\mathsf{TotallyBoundedProbeBundleNet}$ row. Its classifier
+transport and coverage stability are exactly the rows supplied by
+\autoref{thm:totallybounded-probebundle-net-coverage-stability}.
+
+For each regular Cauchy stream name $s$, the third component gives the
+displayed $\mathsf{CompleteMetricLimitWitness}$ row. Its stability is the
+componentwise transport supplied by
+\autoref{thm:completemetric-limit-witness-stability}. Since the definition
+has no further compactness field, the public surface consists precisely of
+these metric, total-bounded, and complete subcertificates.
+\end{proof}
+
+\begin{theorem}[Continuous-map consumption boundary]
+\label{thm:compactmetric-continuousmap-consumption-boundary}
+Any $\ContinuousMapUp$ construction consuming a public
+$\CompactMetricUp$ certificate may use only the exported metric classifier,
+the exported distance witnesses, and the finite
+$\mathsf{TotallyBoundedProbeBundleNet}$ rows. It receives no open-cover row,
+no subsequence compactness row, and no unlisted compact-set eliminator from
+$\mathsf{CompactMetricCertificate}(X)$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:compactmetric-public-export-surface}, the visible public
+rows are exactly the metric carrier rows, the finite ProbeBundle-net family,
+and the complete-limit family. The continuous-map interface can therefore
+read the point classifier, distance witnesses, and finite-net center and
+coverage ledgers directly from the exported certificate.
+
+The same projection also proves the boundary. The certificate carrier in
+\autoref{def:compactmetric-certificate-carrier} contains no open-cover
+predicate, no subsequence selector, and no compact-set eliminator. Hence a
+$\ContinuousMapUp$ argument consuming this public surface must factor through
+the displayed metric and total-bounded rows rather than through any classical
+compactness principle.
+\end{proof}
+
+\begin{theorem}[Heine--Cantor input boundary]
+\label{thm:compactmetric-heine-cantor-input-boundary}
+The compact-uniform-continuity capstone may consume a public
+$\CompactMetricUp$ certificate by using the finite
+$\mathsf{ProbeBundle}$-net family together with continuous pointwise modulus
+ledgers to assemble a uniform-modulus ledger. Completeness enters only through
+the named $\CompleteMetricUp$ limit-witness field
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)$.
+\end{theorem}
+\begin{proof}
+Start from the public export theorem. For each positive tolerance, the
+$\CompactMetricUp$ surface supplies the finite
+$\mathsf{TotallyBoundedProbeBundleNet}$ row, including bundled centers,
+membership rows, distance witnesses, and rational comparison ledgers. Apply
+\autoref{thm:totallybounded-probebundle-net-coverage-stability} to transport
+these rows along the metric classifier data used by the capstone.
+
+The continuous input contributes pointwise modulus ledgers at the exported
+centers. The finite net supplies only finitely many such center rows, so the
+capstone can combine their visible tolerance ledgers into one
+uniform-modulus ledger without invoking open covers or subsequences.
+
+Completeness is used only at the point where a regular Cauchy stream requires
+a named limit witness. That row is exactly the
+$\mathsf{CompleteMetricLimitWitness}$ exported from the certificate, with
+transport governed by
+\autoref{thm:completemetric-limit-witness-stability}. No additional
+compactness principle is consumed.
+\end{proof}
+
 \begin{theorem}[Compact metric carrier-field projection]
 \label{thm:compactmetric-metric-field-projection}
 Let $X$ be a certified metric carrier equipped with
@@ -371,10 +561,10 @@ $\CompactMetricUp$.
 
 \begin{closurestatus}{\CompactMetricUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The compact-metric certificate is closed over the displayed MetricSpaceUp carrier, the TotallyBoundedUp ProbeBundle-net family, and the CompleteMetricUp limit-witness family, with classifier transport inherited componentwise from those certificates.}
+  \scopeclosed{The compact-metric certificate is closed over the displayed MetricSpaceUp carrier, the TotallyBoundedUp ProbeBundle-net family, the CompleteMetricUp limit-witness family, the public compact-metric constructor export, and the ContinuousMapUp Heine--Cantor consumer row over the same source metric.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.CompactMetricUp.CompactMetricSingleton\_certificate\_package}
   \bridgestatus{none}
   \notclaimed{Open-cover compactness, sequential compactness without explicit data, Tychonoff-style products, or compactness of function spaces.}
-  \upgradepath{publicClosed requires public compact-metric constructors beyond the singleton package and bridge rows showing how downstream continuous-map and Heine--Cantor arguments consume the exported certificate.}
+  \upgradepath{publicClosed requires Lean-realized public compact-metric constructors and a complete accounting of every downstream compact-metric consumer surface.}
 \end{closurestatus}
