@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Unary
 
@@ -74,6 +75,25 @@ theorem PreSheafIndexedRestrictionSurface_carrier_rows {sec rho identity composi
       (And.intro identityUnary
         (And.intro compositeUnary
           (And.intro surface.right.right.left surface.right.right.right))))
+
+theorem PreSheafIndexedRestrictionSurface_empty_restriction_identity_row
+    {sec identity composite : BHist} :
+    PreSheafIndexedRestrictionSurface sec BHist.Empty identity composite ->
+      hsame identity sec ∧ hsame composite identity ∧ UnaryHistory identity ∧
+        UnaryHistory composite ∧ Cont BHist.Empty identity composite := by
+  intro surface
+  have sameIdentity : hsame identity sec :=
+    cont_right_unit_result surface.right.right.left
+  have sameComposite : hsame composite identity :=
+    cont_left_unit_result surface.right.right.right
+  have identityUnary : UnaryHistory identity :=
+    unary_transport surface.left (hsame_symm sameIdentity)
+  have compositeUnary : UnaryHistory composite :=
+    unary_transport identityUnary (hsame_symm sameComposite)
+  exact And.intro sameIdentity
+    (And.intro sameComposite
+      (And.intro identityUnary
+        (And.intro compositeUnary surface.right.right.right)))
 
 theorem PreSheafIndexedRestrictionSurface_ledger_extension_surface
     {sec rho identity composite transport ledger : BHist} :
