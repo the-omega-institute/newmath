@@ -227,6 +227,25 @@ def DiffFormExteriorDerivativeLedger
     Cont d (BHist.e1 BHist.Empty) dplus ∧ hsame probe probe' ∧ hsame tensor tensor' ∧
       hsame scalar scalar' ∧ UnaryHistory antisym ∧ UnaryHistory source
 
+def DiffFormWedgeDegreeLedger
+    (leftDegree rightDegree outDegree leftLedger rightLedger tensorLedger : BHist) : Prop :=
+  UnaryHistory leftDegree ∧ UnaryHistory rightDegree ∧ Cont leftDegree rightDegree outDegree ∧
+    UnaryHistory outDegree ∧ UnaryHistory tensorLedger ∧ hsame leftLedger rightLedger
+
+theorem DiffFormWedgeDegreeLedger_classifier_stability
+    {degree degreePrime partner partnerPrime out outPrime leftLedger rightLedger tensorLedger :
+      BHist} :
+    DiffFormWedgeDegreeLedger degree partner out leftLedger rightLedger tensorLedger ->
+      hsame degree degreePrime -> hsame partner partnerPrime -> hsame out outPrime ->
+        DiffFormWedgeDegreeLedger degreePrime partnerPrime outPrime leftLedger rightLedger
+            tensorLedger ∧
+          hsame leftLedger rightLedger := by
+  intro ledger sameDegree samePartner sameOut
+  cases sameDegree
+  cases samePartner
+  cases sameOut
+  exact And.intro ledger ledger.right.right.right.right.right
+
 theorem DiffFormExteriorDerivativeLedger_degree_raise
     {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source : BHist} :
     DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar

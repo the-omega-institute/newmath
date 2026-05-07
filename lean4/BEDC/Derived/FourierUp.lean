@@ -55,6 +55,38 @@ theorem FourierFiniteObservation_policy_singleton_observation [AskSetup] {D : BH
                      (SigRel.cons pi ProbeBundle.Bnil h BHist.Empty (BHist.e1 BHist.Empty)
                        BMark.b1 delta askRow (SigRel.empty h) (Ext.e1 BHist.Empty))))
 
+theorem FourierFiniteObservation_ledger_obligation [AskSetup]
+    {D : BHist -> Prop} (policy : AskPolicy D) {pi : ProbeName} {h : BHist} :
+    D h -> exists bundle : ProbeBundle ProbeName, exists r : BHist, exists m : BMark,
+      exists delta : Evidence,
+        InBundle pi bundle ∧ Ask pi h m delta ∧ SigRel bundle h r := by
+  intro carrierH
+  cases policy.total (π := pi) (h := h) carrierH with
+  | intro mark markData =>
+      cases markData with
+      | intro delta askRow =>
+          cases mark with
+          | b0 =>
+              exact Exists.intro (ProbeBundle.Bcons pi ProbeBundle.Bnil)
+                (Exists.intro (BHist.e0 BHist.Empty)
+                  (Exists.intro BMark.b0
+                    (Exists.intro delta
+                      (And.intro (Or.inl rfl)
+                        (And.intro askRow
+                          (SigRel.cons pi ProbeBundle.Bnil h BHist.Empty
+                            (BHist.e0 BHist.Empty) BMark.b0 delta askRow
+                            (SigRel.empty h) (Ext.e0 BHist.Empty)))))))
+          | b1 =>
+              exact Exists.intro (ProbeBundle.Bcons pi ProbeBundle.Bnil)
+                (Exists.intro (BHist.e1 BHist.Empty)
+                  (Exists.intro BMark.b1
+                    (Exists.intro delta
+                      (And.intro (Or.inl rfl)
+                        (And.intro askRow
+                          (SigRel.cons pi ProbeBundle.Bnil h BHist.Empty
+                            (BHist.e1 BHist.Empty) BMark.b1 delta askRow
+                            (SigRel.empty h) (Ext.e1 BHist.Empty)))))))
+
 theorem FourierFiniteObservation_classifier_obligation [AskSetup]
     {D : BHist -> Prop} (policy : AskPolicy D) {bundle : ProbeBundle ProbeName}
     {h k s t : BHist} :
@@ -74,6 +106,44 @@ theorem FourierFiniteObservation_classifier_obligation [AskSetup]
       sigH
       sigK
   exact And.intro (sameSig_intro_from_witnesses sigH sigK sameST) sameST
+
+theorem FourierFiniteObservation_exactness_obligation [AskSetup]
+    {D : BHist -> Prop} (policy : AskPolicy D) {bundle : ProbeBundle ProbeName}
+    {h k s t : BHist} :
+    D h -> D k -> SigRel bundle h s -> SigRel bundle k t -> SameSig bundle h k ->
+      hsame s t := by
+  intro carrierH carrierK sigH sigK sameSigHK
+  cases sameSigHK with
+  | intro s0 sameSigTail =>
+      cases sameSigTail with
+      | intro t0 sameSigData =>
+          cases sameSigData with
+          | intro sigH0 sameSigRest =>
+              cases sameSigRest with
+              | intro sigK0 sameS0T0 =>
+                  have sameSS0 : hsame s s0 :=
+                    sig_deterministic
+                      (bundle := bundle)
+                      (D := D)
+                      (h := h)
+                      (s := s)
+                      (t := s0)
+                      policy
+                      carrierH
+                      sigH
+                      sigH0
+                  have sameT0T : hsame t0 t :=
+                    sig_deterministic
+                      (bundle := bundle)
+                      (D := D)
+                      (h := k)
+                      (s := t0)
+                      (t := t)
+                      policy
+                      carrierK
+                      sigK0
+                      sigK
+                  exact hsame_trans sameSS0 (hsame_trans sameS0T0 sameT0T)
 
 theorem FourierFiniteObservation_stability_obligation [AskSetup]
     {D : BHist -> Prop} (policy : AskPolicy D) {bundle : ProbeBundle ProbeName}
