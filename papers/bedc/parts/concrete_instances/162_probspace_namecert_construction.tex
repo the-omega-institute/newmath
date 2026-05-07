@@ -117,6 +117,53 @@ $$
 $$
 \end{proof}
 
+\begin{definition}[ProbSpace public event packet]
+\label{def:probspace-public-event-packet}
+For a $\ProbSpaceUp$ carrier obtained from the probability substrate of \autoref{thm:measure-probability-substrate-obligations}, the public event packet is the tuple whose carrier entries are the $\MeasureUp$ measurable-event family $\mathcal{A}$, the total event $\Omega$, the $\RealUp$-valued measure map $\mu$, and the selected endpoint $1_R$. Its classifier entries are the displayed measurable-event readback classifier inherited from $\MeasureUp$, the $\RealUp$ classifier $\sim_R$, the RealAlgOrder comparison row $\le_R$, and the classifier-stability fields for addition, order, complement, and relative difference. Its ledger entries are the underlying $\mathsf{BHist}$ histories, the carried package row $\mathsf{Pkg}$, the $\NameCert_{\MeasureUp}$ and $\NameCert_{\RealUp}$ rows read by the probability substrate, and the $\NameCert_{\ProbSpaceUp}$ row that records the total-mass comparison
+$$
+\mu(\Omega)\sim_R1_R.
+$$
+The packet is public when these entries are exposed as named BEDC rows, with no appeal to a host probability-space axiom outside the displayed $\mathsf{BHist}$, $\mathsf{Pkg}$, and $\NameCert$ ledger.
+\end{definition}
+
+\begin{theorem}[ProbSpace total event normalization row]
+\label{thm:probspace-total-event-normalization-row}
+For the public event packet of \autoref{def:probspace-public-event-packet}, the displayed total-mass comparison
+$$
+\mu(\Omega)\sim_R1_R
+$$
+is exported as a $\ProbSpaceUp$ BEDC row. It is a row of the carried certificate surface, not an assertion that the ambient host theory supplies probability normalization for arbitrary outside measures.
+\end{theorem}
+\begin{proof}
+Project the total-mass entry from the $\NameCert_{\ProbSpaceUp}$ ledger in \autoref{def:probspace-public-event-packet}. The projected row has left endpoint $\mu(\Omega)$, right endpoint $1_R$, and classifier $\sim_R$.
+
+The classifier is the same $\RealUp$ classifier used in \autoref{def:real-classifier-specification}. Hence the row is read as the BEDC comparison $\mu(\Omega)\sim_R1_R$ inside the carried package, and no host normalization principle is introduced.
+\end{proof}
+
+\begin{theorem}[ProbSpace event classifier transport row]
+\label{thm:probspace-event-classifier-transport-row}
+For the public event packet of \autoref{def:probspace-public-event-packet}, measurable-event readback transport together with $\RealUp$ classifier transport preserves the measure endpoint, the complement packet, and the relative-difference rows used by \autoref{thm:probspace-monotone-event-bounds}. In particular, if displayed events $A$ and $B$ are transported along the inherited event readback classifier and their measured endpoints are transported along $\sim_R$, then the rows presenting $A^\complement$, $B\setminus A$, $\mu(A)$, $\mu(B)$, $\mu(A^\complement)$, and $\mu(B\setminus A)$ remain rows of the same public packet.
+\end{theorem}
+\begin{proof}
+Start with the MeasureUp complement and relative-difference row of \autoref{def:measure-complement-difference-row}. It is one of the inherited entries of the public event packet, so event readback transport keeps the displayed complement and relative-difference events in the same measurable-event family $\mathcal{A}$.
+
+The measured endpoints are carried by the $\RealUp$-valued measure map $\mu$. Apply the same $\RealUp$ classifier transport used in \autoref{thm:probspace-monotone-event-bounds}; it transports endpoint comparisons without changing the named packet entries.
+
+Combining these two transports preserves the complement packet, the relative-difference packet, and the RealAlgOrder rows used for monotonicity. Thus the transported rows remain available on the public $\ProbSpaceUp$ surface.
+\end{proof}
+
+\begin{theorem}[ProbSpace public certificate export]
+\label{thm:probspace-public-certificate-export}
+The public event packet of \autoref{def:probspace-public-event-packet} exports the probability-space certificate surface $\NameCert_{\ProbSpaceUp}$. The exported surface contains the complement-mass additivity row of \autoref{thm:probspace-complement-mass-additivity}, the one-minus complement row of \autoref{thm:probspace-complement-mass-one-minus}, the monotone event-bounds row of \autoref{thm:probspace-monotone-event-bounds}, the total event normalization row of \autoref{thm:probspace-total-event-normalization-row}, and the event classifier transport row of \autoref{thm:probspace-event-classifier-transport-row}. Consequently, downstream $\RandomVarUp$, $\DistributionUp$, $\IndependenceUp$, and $\CondExpUp$ objects may cite this single $\NameCert_{\ProbSpaceUp}$ surface for probability-space rows rather than reconstructing those rows from separate consequences.
+\end{theorem}
+\begin{proof}
+The packet already carries the $\MeasureUp$ measurable-event family, complement and relative-difference rows, the $\RealUp$ classifier and order rows, the total event, the measure map, and the unit endpoint. By \autoref{thm:probspace-total-event-normalization-row}, its total-mass comparison is a named certificate row.
+
+Add the three scoped consequences already proved in this section. The complement-mass additivity row comes from \autoref{thm:probspace-complement-mass-additivity}; the one-minus row comes from \autoref{thm:probspace-complement-mass-one-minus}; and the monotone event-bounds row comes from \autoref{thm:probspace-monotone-event-bounds}.
+
+It remains to make these rows stable under the event and endpoint classifiers read by downstream objects. This is exactly \autoref{thm:probspace-event-classifier-transport-row}, so the rows assemble into one public $\NameCert_{\ProbSpaceUp}$ surface.
+\end{proof}
+
 \begin{closurestatus}{\ProbSpaceUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The scoped packet binds $\MeasureUp$ sigma-algebra and event rows, complement and relative-difference rows, finite-additivity and monotonicity rows, $\RealUp$ classifier and order transport, $\AbGroupUp$ additive inverse rows, $\mathsf{BHist}$ histories, hsame transport, and $\NameCert$ ledger rows.}

@@ -321,4 +321,26 @@ theorem PdePublicInterface_export [AskSetup] [PackageSetup]
       (And.intro ledgerRows.right.left
         (And.intro ledgerRows.right.right.left ledgerRows.right.right.right.right.right)))
 
+theorem PdeConservativeStandardBridge_rows [AskSetup] [PackageSetup]
+    {manifold derivative relation boundary endpoint relationBoundary summarizedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PdeCarriedSourceRow manifold derivative relation boundary endpoint bundle pkg ->
+      Cont relation boundary relationBoundary ->
+        Cont (append manifold derivative) relationBoundary summarizedEndpoint ->
+          PdeRelationClassifier manifold derivative relation boundary endpoint ∧
+            PkgSig bundle endpoint pkg ∧ UnaryHistory relationBoundary ∧
+              UnaryHistory summarizedEndpoint ∧ hsame relationBoundary endpoint ∧
+                hsame summarizedEndpoint (append (append manifold derivative) relationBoundary) := by
+  intro row relationBoundaryCont summarizedEndpointCont
+  have publicRows :=
+    PdePublicInterface_export row relationBoundaryCont summarizedEndpointCont
+  have summarizedReadback :
+      hsame summarizedEndpoint (append (append manifold derivative) relationBoundary) :=
+    summarizedEndpointCont
+  exact And.intro publicRows.left
+    (And.intro publicRows.right.right.right.right
+      (And.intro publicRows.right.left
+        (And.intro publicRows.right.right.left
+          (And.intro publicRows.right.right.right.left summarizedReadback))))
+
 end BEDC.Derived.PdeUp
