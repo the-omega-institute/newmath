@@ -198,4 +198,28 @@ theorem InnerProductSingletonOrthogonal_symm_package {x y : BHist} :
     exact RealConstantHistoryClassifier_e1_iff_rat.mpr ratClassifier
   exact And.intro (And.intro carrierY (And.intro carrierX realClassifier)) realClassifier
 
+theorem InnerProductRootHilbert_consumption_surface {x y : BHist} :
+    VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y ->
+      InnerProductSingletonOrthogonal BHist.Empty x ∧
+        InnerProductSingletonOrthogonal y BHist.Empty ∧
+          InnerProductSingletonOrthogonal x y ∧
+            RealConstantHistoryClassifier (InnerProductSingletonForm x y)
+              (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+              SemanticNameCert VecSpaceSingletonCarrier
+                (fun h : BHist => InnerProductSingletonOrthogonal h BHist.Empty)
+                (fun h : BHist =>
+                  RealConstantHistoryClassifier (InnerProductSingletonForm h h)
+                    (BHist.e1 (BHist.e1 BHist.Empty)))
+                VecSpaceSingletonClassifier := by
+  intro carrierX carrierY
+  have zeroLeft := InnerProductSingletonOrthogonal_zero_left (y := x) carrierX
+  have zeroRight := InnerProductSingletonOrthogonal_zero_right (x := y) carrierY
+  have exposure := InnerProductRoot_vecspace_scalar_exposure carrierX carrierY
+  have orthogonalXY : InnerProductSingletonOrthogonal x y :=
+    And.intro exposure.left (And.intro exposure.right.left exposure.right.right)
+  exact And.intro zeroLeft.left
+    (And.intro zeroRight.left
+      (And.intro orthogonalXY
+        (And.intro exposure.right.right InnerProductSingleton_semanticNameCert)))
+
 end BEDC.Derived.InnerProductUp
