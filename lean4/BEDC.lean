@@ -234,6 +234,7 @@ import BEDC.Derived.SheafUp.CoverPresentationClassifier
 import BEDC.Derived.SheafUp.IndexedCoverCompatibilityLocality
 import BEDC.Derived.SheafUp.LocalityGluingCertificate
 import BEDC.Derived.SheafUp.IdentityCover
+import BEDC.Derived.SheafUp.IdentityCoverRootPackage
 import BEDC.Derived.SheafUp.RootFaceDownstream
 import BEDC.Derived.SheafUp.RefinementPullbackComposition
 import BEDC.Derived.SheafUp.RootExportPackage
@@ -264,6 +265,7 @@ import BEDC.Derived.SheafUp.RootExportSurface
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
+import BEDC.Derived.SheafUp.RootStalkFreeGermSource
 import BEDC.Derived.SetUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.TreeUp
