@@ -57,4 +57,23 @@ theorem SheafRootSchemeAffineChartProjection_seal
     (And.intro routeReadback.right.left
       (And.intro routeReadback.right.right chartUnary))
 
+theorem SheafRootTopologyPullbackProjection_seal
+    {point openA routeAB openB routeBC openC routeAC openC' sect germC germC'
+      pullbackEndpoint : BHist} :
+    SheafBHistPointGermLedger point openC sect germC ->
+      Cont openA routeAB openB -> Cont openB routeBC openC -> Cont routeAB routeBC routeAC ->
+        Cont openA routeAC openC' -> Cont openC' sect germC' ->
+          hsame pullbackEndpoint germC' ->
+            SheafBHistPointGermLedger point openC' sect germC' ∧ hsame openC openC' ∧
+              hsame germC germC' ∧ hsame pullbackEndpoint germC' := by
+  intro ledger routeA routeB routeAB routeDirect sectionDirect sameEndpoint
+  have routeReadback :
+      SheafBHistPointGermLedger point openC' sect germC' ∧
+        hsame openC openC' ∧ hsame germC germC' :=
+    SheafBHistPointGermLedger_route_cont_composition
+      ledger routeA routeB routeAB routeDirect sectionDirect
+  exact And.intro routeReadback.left
+    (And.intro routeReadback.right.left
+      (And.intro routeReadback.right.right sameEndpoint))
+
 end BEDC.Derived.SheafUp
