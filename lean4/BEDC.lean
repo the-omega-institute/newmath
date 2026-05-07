@@ -198,6 +198,7 @@ import BEDC.Derived.CondExpUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SheafUp
+import BEDC.Derived.SheafUp.ConsumerAccessTraceSource
 import BEDC.Derived.SheafUp.ConsumerAccessTrace
 import BEDC.Derived.SheafUp.ConsumerTrace
 import BEDC.Derived.SheafUp.GlobalRestrictions
@@ -255,9 +256,12 @@ import BEDC.Derived.SheafUp.RootAccessNormalForm
 import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.ObligationSurface
 import BEDC.Derived.SheafUp.RootExportCarrierScope
+import BEDC.Derived.SheafUp.RootExportSurface
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
+import BEDC.Derived.SheafUp.RootNameCertFieldInventory
 import BEDC.Derived.SetUp
+import BEDC.Derived.SymGroupUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.SemanticNameCertificate
 import BEDC.Derived.SheafUp.RefinedCoverExactness
@@ -410,6 +414,7 @@ import BEDC.Derived.ListUp.ReverseAppendAntimorphism
 import BEDC.Derived.ListUp.NameCertTransport
 import BEDC.Derived.ListUp.SourceEquivalence
 import BEDC.Derived.ListUp.SourceRefinement
+import BEDC.Derived.ListUp.SourceWeakening
 import BEDC.Derived.ListUp.DescentCertificate
 import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.ListUp.BorderedSingletonPayload
@@ -431,6 +436,7 @@ import BEDC.Derived.LatticeUp.ModularComparison
 import BEDC.Derived.LatticeUp.Monotonicity
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.RootSystemUp
+import BEDC.Derived.SymGroupUp
 import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
@@ -457,6 +463,7 @@ import BEDC.Derived.SymplecticUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.HilbertUp
+import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
