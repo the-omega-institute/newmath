@@ -9,11 +9,56 @@ The Fourier interface $\FourierUp$ packages the constructive Fourier series and 
 \section{The certificate}
 \label{sec:fourier-certificate}
 
+\begin{theorem}[Fourier carrier obligation]\label{thm:fourier-carrier-obligation}
+A $\FourierUp$ certificate supplies a $\mathsf{BHist}$-indexed carrier of certified Fourier data over the named $\NameCert_{\SOneUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\InnerProductUp}$, and $\NameCert_{\IntegralUp}$ sources. Every finite observation of a coefficient, transform sample, inner-product probe, or integral witness is exposed through $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ packages rather than through host-level functions.
+\end{theorem}
+\begin{proof}
+Unpack the four source certificates named by the chapter introduction. The roadmap ten-field template first asks for the carrier over which the later classifier, stability, ledger, and exactness rows are read.
+
+For Fourier data this carrier can only be observed through finite coefficient and transform probes. Therefore the obligation surface records those probes as $\mathsf{ProbeBundle}$ entries with $\mathsf{SigRel}$ evidence, leaving analytic completion statements outside the carrier row.
+\end{proof}
+
+\begin{theorem}[Fourier classifier obligation]\label{thm:fourier-classifier-obligation}
+The $\FourierUp$ classifier identifies two Fourier data histories exactly when every certified finite coefficient observation and every certified finite transform observation are related by the source classifiers and are packaged through $\sameSig$ and $\Pkg$. The classifier is therefore determined by the visible finite Fourier packages and not by an external equality of functions.
+\end{theorem}
+\begin{proof}
+Apply the classifier field of the roadmap ten-field template to the carrier row in \autoref{thm:fourier-carrier-obligation}. Each observable Fourier datum has already been forced into a finite signature package, so classifier comparison is read at the level of source-certified signatures.
+
+The $\SOneUp$, $\RealUp$, $\InnerProductUp$, and $\IntegralUp$ classifiers provide the component comparisons. Packaging through $\sameSig$ and $\Pkg$ records that the Fourier classifier is an internal BEDC classifier, not a host equality on functions or transforms.
+\end{proof}
+
+\begin{theorem}[Fourier stability obligation]\label{thm:fourier-stability-obligation}
+The $\FourierUp$ stability row requires reflexivity, symmetry, transitivity, carrier transport, and stability under certified reindexing and integration rows inherited from $\NameCert_{\SOneUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\InnerProductUp}$, and $\NameCert_{\IntegralUp}$. These stability clauses must act on the finite Fourier packages of the classifier row.
+\end{theorem}
+\begin{proof}
+Start from the classifier obligation in \autoref{thm:fourier-classifier-obligation}. Reflexivity, symmetry, and transitivity are the equivalence duties for the displayed classifier, while carrier transport states that the same certified observations remain readable after classifier-related history transport.
+
+The reindexing and integration clauses are not independent analytic principles. They are inherited stability rows from the four named source certificates and are applied only to the finite packages exposed by the Fourier carrier.
+\end{proof}
+
+\begin{theorem}[Fourier ledger obligation]\label{thm:fourier-ledger-obligation}
+The $\FourierUp$ ledger records hidden truncation bounds, coefficient windows, orthogonality probes, integration witnesses, and convergence-modulus data. Each ledger item is attached to the finite package that uses it, and no item may be replaced by an unrecorded analytic convention.
+\end{theorem}
+\begin{proof}
+The ledger field of the roadmap ten-field template lists the data that can affect a certified observation without being the observation itself. Fourier coefficients and transforms carry truncation, window, orthogonality, integration, and modulus choices of exactly this kind.
+
+Recording these choices beside the finite packages makes the later exactness row inspectable. It also fixes the boundary between certified Fourier data and analytic claims that have not been closed in this chapter.
+\end{proof}
+
+\begin{theorem}[Fourier exactness obligation]\label{thm:fourier-exactness-obligation}
+The $\FourierUp$ exactness row requires coverage, soundness, and completeness for the finite observation packages of \autoref{thm:fourier-carrier-obligation} through \autoref{thm:fourier-ledger-obligation}. It does not claim Plancherel, inversion, or convergence closure.
+\end{theorem}
+\begin{proof}
+Unpack the exactness field of the roadmap ten-field template after the carrier, classifier, stability, and ledger rows have been fixed. Coverage says that each certified finite Fourier observation has a package, soundness says that package equality respects the displayed source classifiers, and completeness says that classifier-related finite observations are represented by internally same packages.
+
+These are finite-observation obligations only. Plancherel, inversion, and convergence require additional analytic closure rows and are therefore named as outside the exactness surface recorded here.
+\end{proof}
+
 \begin{closurestatus}{\FourierUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds the $\SOneUp$, $\RealUp$, $\InnerProductUp$, and $\IntegralUp$ sources named in the chapter introduction as dependencies whose Fourier carrier, classifier, stability, ledger, and exactness rows are not yet supplied.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The chapter binds the five displayed Fourier obligation rows for carrier, classifier, stability, ledger, and exactness, while leaving their scoped proofs open.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Fourier-series carriers, transform classifiers, convergence rows, orthogonality, Plancherel, inversion, standard bridges, or Lean verification targets.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, stability, ledger, exactness, and dependency rows for the certified Fourier series and transform interface.}
+  \upgradepath{Scoped closure requires paper proofs discharging the five displayed rows and assembling them into a certified Fourier series and transform interface.}
 \end{closurestatus}
