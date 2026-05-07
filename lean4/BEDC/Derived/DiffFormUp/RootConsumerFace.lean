@@ -97,4 +97,30 @@ theorem DiffFormRootConsumerPackage_carrier_projection {ScalarCarrier : BHist ->
   exact ⟨carrierRows.left, carrierRows.right.left, carrierRows.right.right.left,
     carrierRows.right.right.right.left, coverageRows.left, coverageRows.right.right⟩
 
+theorem DiffFormRootConsumerFace_disjointness {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
+      ledger' scalarLeft scalarRight : BHist} :
+    DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger degree'
+        probe' tensor' scalar' antisym' ledger' ->
+      ScalarClassifier scalarLeft scalar -> ScalarClassifier scalar' scalarRight ->
+        DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalarLeft antisym ledger
+            degree' probe' tensor' scalarRight antisym' ledger' ∧
+          hsame ledger ledger' := by
+  intro classified leftScalar rightScalar
+  have scalarBridge : ScalarClassifier scalarLeft scalarRight :=
+    NameCert.equiv_trans scalarCert leftScalar
+      (NameCert.equiv_trans scalarCert classified.right.right.right.right.right.left rightScalar)
+  exact And.intro
+    (And.intro classified.left
+      (And.intro classified.right.left
+        (And.intro classified.right.right.left
+          (And.intro classified.right.right.right.left
+            (And.intro classified.right.right.right.right.left
+              (And.intro scalarBridge
+                (And.intro classified.right.right.right.right.right.right.left
+                  classified.right.right.right.right.right.right.right)))))))
+    classified.right.right.right.right.right.right.right
+
 end BEDC.Derived.DiffFormUp
