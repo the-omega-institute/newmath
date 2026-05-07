@@ -6,42 +6,54 @@ The permutation interface $\PermutationUp$ packages the carrier of bijections of
 \section{Carrier definition}
 \label{sec:permutation-carrier}
 
-\begin{definition}[Permutation bijection source row]
-\label{def:permutation-bijection-source-row}
-Fix a finite-set source certificate $\NameCert_{\FinSetUp}$ with carrier row $F$, classifier $\sim_F$, finite-spine endpoint row $xs$, and enumeration ledger as in \autoref{ch:concrete-instances-finset-namecert}. A BEDC-facing $\PermutationUp$ source row over $F$ is the $\mathsf{BHist}$-visible package
+\begin{definition}[Permutation finite-set bijection carrier]
+\label{def:permutation-finset-bijection-carrier}
+Fix a finite-set source certificate $\NameCert_{\FinSetUp}$ with carrier row $F$, classifier $\sim_F$, finite-spine endpoint row $xs$, and enumeration ledger as in \autoref{ch:concrete-instances-finset-namecert}. A BEDC-facing $\PermutationUp$ carrier row over $F$ is the $\mathsf{BHist}$-visible package
 $$
-(\mathsf{src},\mathsf{tgt},G,G^{-1},C,A,L)
+(\mathsf{src},\mathsf{tgt},G,G^{-1},W,C,A,L)
 $$
 with the following rows.
 \begin{enumerate}
-\item $\mathsf{src}$ and $\mathsf{tgt}$ are the two displayed endpoint rows for the source and target copies of the same carried $\FinSetUp$ object.
-\item $G$ is a bijection graph/probe row: for every source endpoint read by the $\mathsf{ProbeBundle}$, the graph supplies exactly one target endpoint, and both endpoints are classified by the fixed $\FinSetUp$ carrier.
-\item $G^{-1}$ is the inverse graph row with the same readback discipline in the opposite direction.
-\item $C$ is the composition row witnessing that $G^{-1}\circ G$ and $G\circ G^{-1}$ transport to the corresponding identity graph rows by $\hsame$ and by the package provenance attached to the two endpoint rows.
+\item $\mathsf{src}$ and $\mathsf{tgt}$ are the source and codomain rows for the same carried $\FinSetUp$ object, so the displayed domain and codomain are the same certificate row rather than two unrelated carriers.
+\item $G$ and $G^{-1}$ are the forward and backward graph rows, represented by $\Pkg$ provenance and $\mathsf{ProbeBundle}$ reads over $\mathsf{BHist}$.
+\item $W$ is the pair of inverse-witness rows saying that every forward read is met by a backward read and every backward read is met by a forward read at the corresponding endpoint.
+\item $C$ is the classifier row: two graph presentations classify together exactly when their source and target endpoint reads agree by the $\FinSetUp$ classifier and the graph rows are transported by $\hsame$-compatible package evidence.
 \item $A$ is the action row sending a carried source endpoint through $G$ to its carried target endpoint.
 \item $L$ is the ledger containing the hidden enumeration witness for the chosen finite spine, the hidden order witness used to name positions, the $\Pkg$ provenance for the two endpoint copies, and the probe-read entries that justify graph coverage.
 \end{enumerate}
-The only visible carrier fields are the two $\FinSetUp$ endpoint rows, the graph, inverse graph, composition row, action row, and ledger boundary. Enumeration and order witnesses are not exposed as host data; they are consumed through $L$.
+The only visible carrier fields are the two $\FinSetUp$ endpoint rows, the two graph rows, the inverse-witness rows, the classifier row, the action row, and the ledger boundary. Enumeration and order witnesses are not exposed as host data; they are consumed through $L$.
 \end{definition}
 
 \section{The certificate}
 \label{sec:permutation-certificate}
 
-\begin{theorem}[Permutation carrier obligation]
-\label{thm:permutation-carrier-obligation}
-A $\PermutationUp$ endpoint over the finite-set source row of \autoref{def:permutation-bijection-source-row} is exactly a $\mathsf{BHist}$ row exposing the $\FinSetUp$ carrier, the bijection graph $G$, the inverse graph $G^{-1}$, the action row $A$, the $\Pkg$ provenance for the source and target copies, and the $\mathsf{ProbeBundle}$ reads used to certify graph coverage. No endpoint may expose a host enumeration, a host order, or a bare host function outside these rows.
+\begin{theorem}[Permutation finite-set carrier source obligation]
+\label{thm:permutation-finset-carrier-source-obligation}
+The carrier source for $\PermutationUp$ over \autoref{def:permutation-finset-bijection-carrier} is exactly the displayed $\FinSetUp$ row together with the two graph rows $G$ and $G^{-1}$ and the inverse-witness rows $W$. The carrier has no additional host function row, host order row, or external enumeration row.
 \end{theorem}
 \begin{proof}
-Unpack the source row. The two endpoint copies are carried by the displayed $\FinSetUp$ rows, and every graph edge is read through the $\mathsf{ProbeBundle}$ against those carriers.
+Read the roadmap ten-field template at the carrier-source slot. The $\NameCert_{\FinSetUp}$ input supplies the BEDC carrier, its $\mathsf{BHist}$ endpoint reads, and the $\mathsf{ProbeBundle}$ spine used by the finite-set row.
 
-The forward reading of a $\PermutationUp$ endpoint therefore projects the finite-set carrier, the graph, the inverse graph, the action row, and the package provenance recorded in the ledger. The hidden enumeration and order witnesses occur only as ledger entries, so projecting an endpoint cannot reveal them as carrier fields.
+The forward and backward graph rows are then ordinary $\Pkg$-tracked rows over the same endpoint data. The inverse-witness rows are the BEDC-visible part that says those two graph rows face one another on the carried endpoints.
 
-Conversely, the listed rows repack into a $\mathsf{BHist}$ endpoint because the graph and inverse graph provide the probe-read coverage in both directions, while the action row gives the endpoint-level readback of the graph. Thus the displayed inventory is exact.
+Conversely, any row with precisely this data repacks into the carrier slot of the template, while hidden enumeration and order choices remain in the ledger. The existing $\FinSetUp$ permutation relation $\mathsf{FinsetEnumerationPermutation}$ is the later Lean source for the probe-spine comparison used by this repacking.
 \end{proof}
 
-\begin{theorem}[Permutation classifier, composition, and inverse obligation]
-\label{thm:permutation-classifier-composition-inverse-obligation}
-Classifier transport for $\PermutationUp$ is componentwise $\FinSetUp$ transport of the source and target endpoint rows together with $\hsame$ and $\Pkg$ transport of the graph row, inverse graph row, and composition row. The obligation is to prove that these transports preserve the two identity-composition witnesses
+\begin{theorem}[Permutation bijection classifier obligation]
+\label{thm:permutation-bijection-classifier-obligation}
+Classifier agreement for two $\PermutationUp$ carrier rows is graph agreement transported by $\hsame$ and by the $\FinSetUp$ classifier on endpoint reads. It is not equality of host functions, equality of hidden enumerations, or equality of host order choices.
+\end{theorem}
+\begin{proof}
+The classifier slot in the roadmap ten-field template receives the $\NameCert$ classifier from the finite-set endpoint row. Source reads and target reads are therefore compared through the $\FinSetUp$ classifier, with no appeal to host-level equality.
+
+The graph comparison is carried by $\Pkg$ provenance and $\mathsf{ProbeBundle}$ reads over $\mathsf{BHist}$. Applying $\hsame$ transport to those package rows preserves the visible graph agreement while leaving enumeration and order witnesses inside the ledger.
+
+The later Lean source is the $\FinSetUp$ permutation relation: $\mathsf{FinsetEnumerationPermutation}$ supplies the constructive spine relation whose reads can be transported through the finite-set classifier. This is exactly graph agreement in BEDC form.
+\end{proof}
+
+\begin{theorem}[Permutation composition and inverse obligation]
+\label{thm:permutation-composition-inverse-obligation}
+Composition and inverse for $\PermutationUp$ are obligations over the same graph classifier as \autoref{thm:permutation-bijection-classifier-obligation}. If two carrier rows satisfy the displayed graph and inverse-witness data, then the composition rows are required to close under the same carrier by the two identity classifications
 $$
 G^{-1}\circ G \sim_{\mathsf{Graph}} \mathsf{id}_{\mathsf{src}}
 $$
@@ -49,33 +61,33 @@ and
 $$
 G\circ G^{-1} \sim_{\mathsf{Graph}} \mathsf{id}_{\mathsf{tgt}},
 $$
-without asserting equality of host functions or equality of hidden enumerations.
+again read through $\hsame$, $\Pkg$, and $\mathsf{ProbeBundle}$ data over $\mathsf{BHist}$.
 \end{theorem}
 \begin{proof}
-Transport starts with the two finite-set endpoint rows. Applying the $\FinSetUp$ classifier moves source endpoints to source endpoints and target endpoints to target endpoints while preserving the carried finite-set membership relation.
+The roadmap ten-field template treats composition and inverse as rows attached to the same public carrier, not as external host operations. Thus the source and target endpoints remain the two copies of the $\NameCert_{\FinSetUp}$ row fixed in \autoref{def:permutation-finset-bijection-carrier}.
 
-The graph, inverse graph, and composition rows are then transported by the $\hsame$ evidence recorded in the package ledger. This keeps the graph-read and inverse-read rows attached to the same $\Pkg$ provenance rather than replacing them by a host-level function comparison.
+Use the graph classifier from \autoref{thm:permutation-bijection-classifier-obligation}. The forward graph, backward graph, and inverse-witness rows give the two displayed identity classifications after transport by $\hsame$ and by the $\Pkg$ provenance recorded for the graph reads.
 
-It remains to read the two composition witnesses after transport. Since composition is itself a displayed row in \autoref{def:permutation-bijection-source-row}, the transported graph followed by the transported inverse graph is classified by the transported identity row on the corresponding finite-set endpoint copy. The same argument in the opposite direction gives the target identity row.
+Closure under the displayed carrier follows because every composed endpoint is still a $\mathsf{ProbeBundle}$ read of a $\mathsf{BHist}$ endpoint classified by the fixed finite-set row. The later Lean source remains $\mathsf{FinsetEnumerationPermutation}$, whose reflexive, symmetric, and transitive behavior supplies the spine discipline needed for these identity rows.
 \end{proof}
 
-\begin{theorem}[Permutation action and ledger exactness obligation]
-\label{thm:permutation-action-ledger-exactness-obligation}
-The action row $A$ and the ledger $L$ of \autoref{def:permutation-bijection-source-row} supply the exact downstream surface consumed by $\SymGroupUp$: coverage says every carried source endpoint has a graph image and every carried target endpoint has an inverse-graph preimage; soundness says every action output is carried by the target $\FinSetUp$ endpoint row and classified by the graph read; completeness says any graph read with the same source endpoint is classified by the action output. These three clauses, together with the composition and inverse rows, are the full $\PermutationUp$ ledger boundary available to $\SymGroupUp$.
+\begin{theorem}[Permutation action and ledger obligation]
+\label{thm:permutation-action-ledger-obligation}
+The action row consumed by $\SymGroupUp$ is read from applying the graph row $G$ to carried $\FinSetUp$ elements. Coverage, soundness, and completeness of that action are obligations over the graph reads, while enumeration choices, order choices, and position names remain ledger data in $L$.
 \end{theorem}
 \begin{proof}
-Coverage is the graph and inverse-graph exactness recorded in the ledger: each source probe read produces a target graph read, and each target probe read produces an inverse-graph read. The hidden enumeration and order witnesses justify the finite search but remain inside $L$.
+Apply the action slot of the roadmap ten-field template. A $\SymGroupUp$ action reads a source endpoint from the $\NameCert_{\FinSetUp}$ carrier and then follows the graph row $G$ through its $\mathsf{ProbeBundle}$ read.
 
-Soundness follows by projecting the action row. When $A$ sends a source endpoint through $G$, the graph row supplies the same target endpoint as a carried $\FinSetUp$ target row, and the classifier witness is read from the probe entry.
+Coverage says every carried source endpoint has such a graph read. Soundness says the returned target endpoint is carried by the same finite-set certificate. Completeness says any second graph read with the same source endpoint is classified with the action output by the graph classifier and $\hsame$ transport.
 
-Completeness uses the uniqueness field of the graph/probe row. Any second graph read with the same carried source endpoint is classified by the target endpoint returned by $A$. Pairing this with the two identity-composition witnesses gives exactly the permutation face needed by $\SymGroupUp$, with no additional carrier, classifier, or host-function field.
+The ledger $L$ stores the hidden enumeration, order witness, position naming, and $\Pkg$ provenance that justify those reads. The later Lean source is again $\mathsf{FinsetEnumerationPermutation}$, because it records the finite-spine permutation relation without exposing the hidden enumeration as a public carrier field.
 \end{proof}
 
 \begin{closurestatus}{\PermutationUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation surface is the $\mathsf{BHist}$ permutation source row of \autoref{def:permutation-bijection-source-row} together with the carrier, classifier-composition-inverse, and action-ledger obligations of \autoref{thm:permutation-carrier-obligation}, \autoref{thm:permutation-classifier-composition-inverse-obligation}, and \autoref{thm:permutation-action-ledger-exactness-obligation}.}
+  \scopeclosed{The obligation surface is the $\mathsf{BHist}$ permutation carrier row of \autoref{def:permutation-finset-bijection-carrier} together with the carrier-source, classifier, composition-inverse, and action-ledger obligations of \autoref{thm:permutation-finset-carrier-source-obligation}, \autoref{thm:permutation-bijection-classifier-obligation}, \autoref{thm:permutation-composition-inverse-obligation}, and \autoref{thm:permutation-action-ledger-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not prove the carrier, classifier, composition, inverse, action, exactness, public $\NameCert_{\PermutationUp}$ surface, standard bridge, or Lean verification target.}
-  \upgradepath{Scoped closure requires proofs of the three displayed obligations: exact carrier readback, classifier transport preserving composition and inverse rows, and action-ledger coverage, soundness, and completeness for $\SymGroupUp$.}
+  \notclaimed{This chapter does not provide scoped proofs of the four obligation blocks, a public $\NameCert_{\PermutationUp}$ surface, a standard bridge, or a Lean verification target.}
+  \upgradepath{Scoped closure requires proofs that the four displayed obligations close the carrier source, classifier, composition-inverse, and action-ledger rows against $\mathsf{FinsetEnumerationPermutation}$.}
 \end{closurestatus}
