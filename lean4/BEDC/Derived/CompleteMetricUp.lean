@@ -215,6 +215,18 @@ theorem CompleteMetricLimitWitness_observation_distance_package
       exact ⟨d, distanceData.left, distanceData.right.left, distanceData.right.right.left,
         distanceData.right.right.right.left, positives.left, positives.right⟩
 
+theorem CompleteMetricLimitWitness_standard_bridge_row_package
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      exists d : BHist,
+        MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+          RatHistoryClassifier d (M n) ∧ RatHistoryCarrier d ∧ RatHistoryCarrier (M n) := by
+  intro witness nUnary source
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      exact ⟨d, distanceData.left, distanceData.right.left, distanceData.right.right,
+        distanceData.right.right.left, distanceData.right.right.right.left⟩
+
 theorem CompleteMetricLimitWitness_observation_distance_deterministic
     {X : BHist -> Prop} {s M : BHist -> BHist} {limit n d' : BHist} :
     CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
