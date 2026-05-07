@@ -144,7 +144,6 @@ import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PreSheafUp
-import BEDC.Derived.ExpMapUp
 import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
@@ -424,13 +423,9 @@ import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
-import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.MonoidalCatUp
-import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
-import BEDC.Derived.ExpMapUp
-import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.SemanticNameCert
 import BEDC.Derived.DerivedCatUp
