@@ -97,4 +97,59 @@ theorem DiffFormAntisymmetryChainLedger_coverage
             chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
             chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right))))
 
+theorem DiffFormAdjacentSwapInvolutionLedger_reverse_closure {probes : ProbeBundle BHist}
+    {chain degree probe tensor scalar antisym ledger degreeR probeR tensorR scalarR antisymR
+      ledgerR doubleChain : BHist} :
+    DiffFormAntisymmetryChainLedger probes chain degree probe tensor scalar antisym ledger degreeR
+        probeR tensorR scalarR antisymR ledgerR ->
+      hsame degreeR degree -> hsame probeR probe -> hsame tensorR tensor ->
+        hsame scalarR scalar -> hsame antisymR antisym -> hsame ledgerR ledger ->
+          Cont chain chain doubleChain ->
+            DiffFormAntisymmetryChainLedger probes doubleChain degree probe tensor scalar antisym
+                ledger degree probe tensor scalar antisym ledger ∧
+              hsame doubleChain (append chain chain) ∧
+                DiffFormBHistClassifier hsame probes degree probe tensor scalar antisym ledger degree
+                  probe tensor scalar antisym ledger := by
+  intro chainRows sameDegree sameProbe sameTensor sameScalar sameAntisym sameLedger doubleRoute
+  cases sameDegree
+  cases sameProbe
+  cases sameTensor
+  cases sameScalar
+  cases sameAntisym
+  cases sameLedger
+  cases doubleRoute
+  have doubleUnary : UnaryHistory (append chain chain) :=
+    unary_append_closed chainRows.left chainRows.left
+  have sameDouble : hsame (append chain chain) (append chain chain) :=
+    hsame_refl (append chain chain)
+  have classifierRows :
+      DiffFormBHistClassifier hsame probes degree probe tensor scalar antisym ledger degree probe
+        tensor scalar antisym ledger :=
+    ⟨chainRows.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      chainRows.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      hsame_refl degree, hsame_refl probe, hsame_refl tensor, hsame_refl scalar,
+      hsame_refl antisym, hsame_refl ledger⟩
+  have closedLedger :
+      DiffFormAntisymmetryChainLedger probes (append chain chain) degree probe tensor scalar antisym
+        ledger degree probe tensor scalar antisym ledger :=
+    ⟨doubleUnary,
+      chainRows.right.left,
+      chainRows.right.right.left,
+      chainRows.right.right.right.left,
+      chainRows.right.right.right.right.left,
+      chainRows.right.right.right.right.right.left,
+      chainRows.right.right.right.right.right.right.left,
+      chainRows.right.left,
+      chainRows.right.right.left,
+      chainRows.right.right.right.left,
+      chainRows.right.right.right.right.left,
+      chainRows.right.right.right.right.right.left,
+      chainRows.right.right.right.right.right.right.left,
+      chainRows.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      chainRows.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      chainRows.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      chainRows.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      classifierRows⟩
+  exact ⟨closedLedger, sameDouble, classifierRows⟩
+
 end BEDC.Derived.DiffFormUp
