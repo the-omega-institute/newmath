@@ -54,6 +54,25 @@ theorem CondExpCarrier_packet
     (And.intro packet.right.left.right.left
       (And.intro packet.right.left.right.right.left packet.right.right))
 
+theorem CondExpCarrierPacket_ledger_exactness
+    {targetTotal sourceTotal chosenPreimage integrable projected residual n : BHist} :
+    UnaryHistory sourceTotal ->
+      CondExpCarrierPacket targetTotal sourceTotal chosenPreimage integrable projected residual ->
+        VecSpaceSingletonCarrier n ->
+          hsame chosenPreimage sourceTotal ∧ VecSpaceSingletonClassifier projected BHist.Empty ∧
+            RealConstantHistoryClassifier
+              (HilbertSingletonInnerProduct (VecSpaceSingletonSmul integrable projected) n)
+              (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+              Cont projected residual integrable := by
+  intro sourceUnary packet carrierN
+  have preimageRows :=
+    RandomVarTotalReadbackCertificate_total_event_preimage_exactness sourceUnary packet.left
+  have residualLedger :=
+    HilbertSingletonProjection_orthogonal_zero packet.right.left carrierN
+  exact And.intro preimageRows.right
+    (And.intro packet.right.left.right.right.left
+      (And.intro residualLedger packet.right.right))
+
 theorem CondExpProjection_obligation
     {targetTotal sourceTotal chosenPreimage x p residual n : BHist} :
     UnaryHistory sourceTotal ->
@@ -108,5 +127,25 @@ theorem CondExpClassifier_obligation
   exact And.intro samePreimage
     (And.intro projectedClassifier
       (And.intro sameIntegrable (And.intro packet.right.right packet'.right.right)))
+
+theorem CondExpLedgerExactness_obligation
+    {targetTotal sourceTotal chosenPreimage integrable projected residual n : BHist} :
+    UnaryHistory sourceTotal ->
+      CondExpCarrierPacket targetTotal sourceTotal chosenPreimage integrable projected residual ->
+        VecSpaceSingletonCarrier n ->
+          UnaryHistory chosenPreimage ∧ hsame chosenPreimage sourceTotal ∧
+            VecSpaceSingletonCarrier projected ∧
+              VecSpaceSingletonClassifier projected BHist.Empty ∧
+                Cont projected residual integrable ∧
+                  RealConstantHistoryClassifier
+                    (HilbertSingletonInnerProduct (VecSpaceSingletonSmul integrable projected) n)
+                    (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro sourceUnary packet carrierN
+  have preimageRows :=
+    RandomVarTotalReadbackCertificate_total_event_preimage_exactness sourceUnary packet.left
+  have carrierRows := CondExpCarrier_packet sourceUnary packet
+  have orthogonalRow := HilbertSingletonProjection_orthogonal_zero packet.right.left carrierN
+  exact ⟨preimageRows.left, preimageRows.right, carrierRows.right.left,
+    carrierRows.right.right.left, carrierRows.right.right.right, orthogonalRow⟩
 
 end BEDC.Derived.CondExpUp

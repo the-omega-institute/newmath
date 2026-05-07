@@ -331,6 +331,7 @@ import BEDC.Derived.BanachUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
+import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
@@ -507,6 +508,7 @@ import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.RealUp.Index
+import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.InnerProductUp
 import BEDC.Derived.RiemannianMetricUp
@@ -627,4 +629,5 @@ import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
 import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
+import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Reflection
