@@ -6,6 +6,32 @@ The tree interface $\TreeUp$ packages a connected acyclic $\NameCert_{\GraphUp}$
 \section{Carrier definition}
 \label{sec:tree-carrier}
 
+\begin{theorem}[TreeUp graph-source carrier obligation]
+\label{thm:tree-graph-source-carrier-obligation}
+The carrier for $\TreeUp$ is a $\mathsf{BHist}$ predicate read through the
+existing $\GraphUp$ source. An accepted tree history exposes a carried
+$\GraphUp$ source row, a finite vertex-and-edge incidence ledger over
+$\mathsf{BHist}$ endpoints, and a classifier comparison inherited from
+$\hsame$ and the $\GraphUp$ classifier rows. The carrier does not identify
+host graphs by equality; every comparison is recorded as a displayed
+classifier row over the accepted histories and their incidence ledger.
+\end{theorem}
+\begin{proof}
+Unpack an accepted tree history as a graph-source presentation. The first
+projection is the $\GraphUp$ carrier row, so each visible vertex and edge is
+read as a carried $\mathsf{BHist}$ endpoint rather than as a host-level graph
+object.
+
+The second projection is the finite incidence ledger. It lists the displayed
+vertex endpoints, displayed edge endpoints, and the source-target incidence
+rows that attach each edge to carried vertices. Finiteness belongs to this
+ledger, so no quotient over ambient graphs is introduced.
+
+The classifier projection is inherited rowwise. Endpoint movement is
+componentwise $\hsame$, and graph-source movement is the comparison supplied
+by $\GraphUp$. Transporting the finite incidence ledger along those rows gives
+the same accepted tree carrier predicate at the target history, with no
+appeal to equality of host graphs.
 \begin{definition}[TreeUp BHist carrier]\label{def:treeup-bhist-carrier}
 The carrier of $\TreeUp$ is the $\mathsf{BHist}$ endpoint row whose visible
 package consists of a $\NameCert_{\GraphUp}$ edge/vertex package, the
@@ -137,6 +163,117 @@ required $\TreeUp$ carrier endpoint.
 \section{The certificate}
 \label{sec:tree-certificate}
 
+\begin{theorem}[TreeUp connectedness obligation]
+\label{thm:tree-connectedness-obligation}
+For every accepted $\TreeUp$ history and every carried endpoint displayed by
+its $\GraphUp$ source, the certificate supplies a finite $\mathsf{BHist}$ path
+row through the $\GraphUp$ edge ledger from that endpoint to the selected root
+component. The path row records each intermediate endpoint, each traversed
+edge incidence, and the classifier comparison that carries the path under
+$\hsame$ transport.
+\end{theorem}
+\begin{proof}
+Read the endpoint from the graph-source carrier row supplied by
+\autoref{thm:tree-graph-source-carrier-obligation}. The finite incidence
+ledger gives the only admissible edges and their source-target endpoint rows.
+
+The connectedness witness is a finite path ledger indexed by those admissible
+edges. Its first endpoint is the displayed carried endpoint, its last endpoint
+lies in the selected root component, and every adjacent step is justified by
+one incidence row from the $\GraphUp$ ledger.
+
+Transport the path by applying componentwise $\hsame$ to the endpoint rows and
+the inherited $\GraphUp$ classifier to the edge rows. The transported ledger
+has the same finite shape, so it remains a path from the transported endpoint
+to the transported root component.
+\end{proof}
+
+\begin{theorem}[TreeUp acyclicity obligation]
+\label{thm:tree-acyclicity-obligation}
+For an accepted $\TreeUp$ history, every closed finite edge walk in the
+$\GraphUp$ edge ledger collapses under the $\TreeUp$ classifier to the
+trivial endpoint row. Equivalently, the certificate records that the only
+closed walk recognized by the tree classifier is the displayed stationary
+walk at its endpoint, and this recognition is stable under $\hsame$ transport.
+\end{theorem}
+\begin{proof}
+Start with a closed finite edge walk in the incidence ledger of
+\autoref{thm:tree-graph-source-carrier-obligation}. Each step is a
+$\GraphUp$ edge row whose endpoints are carried $\mathsf{BHist}$ histories,
+and the closing condition is itself a displayed classifier row.
+
+Apply the acyclicity witness carried by the $\TreeUp$ certificate. It reduces
+the closed walk ledger to the stationary endpoint row in the $\TreeUp$
+classifier, so the edge sequence contributes no nontrivial cycle to the
+accepted carrier.
+
+Stability follows by transporting the whole walk ledger componentwise through
+$\hsame$ and through the inherited $\GraphUp$ classifier. The acyclicity
+witness reads the transported closed walk and again returns the stationary
+endpoint row at the transported endpoint.
+\end{proof}
+
+\begin{theorem}[TreeUp root-or-root-free witness obligation]
+\label{thm:tree-root-or-root-free-witness-obligation}
+The $\TreeUp$ certificate supplies either a displayed root endpoint carried by
+the $\GraphUp$ source or a root-free witness whose classifier is stable under
+$\hsame$. In the rooted case the root endpoint is one of the carried
+vertices used by the connectedness path rows. In the root-free case the
+witness records that connectedness is read componentwise without selecting a
+distinguished endpoint, and this record transports along the same
+$\TreeUp$ classifier.
+\end{theorem}
+\begin{proof}
+Inspect the root row of the certificate. If the row is rooted, it displays a
+$\mathsf{BHist}$ endpoint and a proof that this endpoint is carried by the
+$\GraphUp$ source ledger. The connectedness paths then target the component
+containing that displayed root.
+
+If the row is root-free, the certificate instead displays a witness that no
+distinguished endpoint is part of the public tree data. Connectedness is then
+read by component rows, and the witness itself is attached to the
+$\TreeUp$ classifier rather than to a host graph equality.
+
+In both cases, transport is rowwise. The rooted endpoint moves by $\hsame$
+and the inherited graph classifier, while the root-free witness moves by the
+stability field attached to the $\TreeUp$ classifier. Thus the certificate
+retains the same rooted or root-free form after transport.
+\end{proof}
+
+\begin{theorem}[TreeUp NameCert obligation surface]
+\label{thm:tree-namecert-obligation-surface}
+The carrier row of
+\autoref{thm:tree-graph-source-carrier-obligation}, the connectedness row of
+\autoref{thm:tree-connectedness-obligation}, the acyclicity row of
+\autoref{thm:tree-acyclicity-obligation}, and the root-or-root-free row of
+\autoref{thm:tree-root-or-root-free-witness-obligation} assemble the
+paper-side $\NameCert_{\TreeUp}$ obligation surface. The surface names the
+stability, ledger, exactness, and dependency fields required for the certified
+tree interface: stability is $\hsame$ and inherited $\GraphUp$ transport;
+ledger data are finite vertex, edge, incidence, path, closed-walk, and root
+rows; exactness says every public tree row is read from those ledgers; and
+dependencies are only the $\mathsf{BHist}$ substrate, $\hsame$, and the
+$\GraphUp$ source certificate.
+\end{theorem}
+\begin{proof}
+Begin with the graph-source carrier obligation. It supplies the accepted
+$\mathsf{BHist}$ predicate, the inherited $\GraphUp$ classifier, and the
+finite incidence ledger for visible vertices and edges.
+
+Add the connectedness obligation. Its finite path rows show that every
+carried endpoint reaches the selected root component through the same edge
+ledger, and its transport clause supplies the corresponding stability row.
+
+Add the acyclicity and root-or-root-free obligations. Acyclicity gives the
+closed-walk exactness clause, while the final witness records whether the
+certificate is rooted or root-free and how that row transports under
+$\hsame$.
+
+These projections cover the named carrier, classifier, stability, ledger,
+exactness, and dependency rows. Since every row is read from
+$\mathsf{BHist}$, $\hsame$, and the $\GraphUp$ source certificate, the
+assembled surface does not require host graph equality or any additional
+bridge field.
 \begin{theorem}[TreeUp carrier and classifier obligations]
 \label{thm:tree-obligation-carrier-classifier}
 The $\TreeUp$ carrier data refine the $\GraphUp$ $\Cont$-adjacency carrier of
