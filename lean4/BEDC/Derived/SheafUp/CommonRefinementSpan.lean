@@ -74,6 +74,42 @@ theorem SheafDisplayedCommonRefinementSpan_base_change_composition
               (And.intro pulledB pulledSame))))))
     (And.intro sameA sameB)
 
+theorem SheafDisplayedCommonRefinementSpan_base_change_gluing_package
+    {point common openA openB sectionA sectionB germA germB pulledCommon pulledGermA
+      pulledGermB globalA globalB : BHist} :
+    SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
+        germB ->
+      hsame common pulledCommon -> Cont pulledCommon sectionA pulledGermA ->
+        Cont pulledCommon sectionB pulledGermB ->
+          Cont pulledCommon sectionA globalA -> Cont pulledCommon sectionB globalB ->
+            SheafDisplayedCommonRefinementSpan point pulledCommon openA openB sectionA
+                sectionB pulledGermA pulledGermB ∧
+              SheafBHistPointGermLedger point pulledCommon sectionA globalA ∧
+                SheafBHistPointGermLedger point pulledCommon sectionB globalB ∧
+                  hsame globalA globalB := by
+  intro span sameCommon pulledA pulledB globalACont globalBCont
+  have transported :
+      SheafDisplayedCommonRefinementSpan point pulledCommon openA openB sectionA sectionB
+          pulledGermA pulledGermB ∧
+        hsame germA pulledGermA ∧ hsame germB pulledGermB :=
+    SheafDisplayedCommonRefinementSpan_base_change_composition span sameCommon pulledA
+      pulledB
+  have samePulledA : hsame pulledGermA globalA :=
+    cont_deterministic pulledA globalACont
+  have samePulledB : hsame pulledGermB globalB :=
+    cont_deterministic pulledB globalBCont
+  have sameGlobal : hsame globalA globalB :=
+    hsame_trans (hsame_symm samePulledA)
+      (hsame_trans transported.left.right.right.right.right.right.right samePulledB)
+  have ledgerA : SheafBHistPointGermLedger point pulledCommon sectionA globalA :=
+    And.intro transported.left.left
+      (And.intro transported.left.right.left globalACont)
+  have ledgerB : SheafBHistPointGermLedger point pulledCommon sectionB globalB :=
+    And.intro transported.left.left
+      (And.intro transported.left.right.left globalBCont)
+  exact And.intro transported.left
+    (And.intro ledgerA (And.intro ledgerB sameGlobal))
+
 theorem SheafDisplayedCommonRefinementSpan_symmetric
     {point common openA openB sectionA sectionB germA germB : BHist} :
     SheafDisplayedCommonRefinementSpan point common openA openB sectionA sectionB germA
