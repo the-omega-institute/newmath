@@ -69,6 +69,17 @@ theorem TreeGraphContEdge_visible_spine_extension_transport
     (And.intro endpointUnary (And.intro extensionUnary extensionRoute'))
     (And.intro outUnary' sameOut)
 
+theorem TreeGraphContEdge_closed_walk_unit_collapse {start tail closed : BHist} :
+    GraphContEdge start tail closed -> hsame closed start ->
+      hsame tail BHist.Empty ∧ GraphContEdge start BHist.Empty start := by
+  intro edge sameClosed
+  have unitLoop : Cont start tail start :=
+    cont_result_hsame_transport edge.right.right sameClosed
+  have tailEmpty : hsame tail BHist.Empty :=
+    cont_right_unit_unique unitLoop
+  exact And.intro tailEmpty
+    (And.intro edge.left (And.intro unary_empty (cont_right_unit start)))
+
 
 def TreeBHistObligationCarrier
     (root source target edge connected acyclic repr package : BHist) : Prop :=
@@ -241,5 +252,19 @@ theorem TreeBHistCarrier_visible_spine_extension_ledger
       exact And.intro
         (And.intro endpointUnary (And.intro extendedRootUnary endpointExtendedK))
         (And.intro extendedRootUnary (And.intro endpointExtendedK sameExtended))
+
+theorem TreeBHistObligationCarrier_acyclic_unit_loop_exactness
+    {root source target edge connected acyclic repr package loop : BHist} :
+    TreeBHistObligationCarrier root source target edge connected acyclic repr package ->
+      GraphContEdge target BHist.Empty loop ->
+        GraphContEdge target BHist.Empty target ∧ hsame loop target ∧
+          hsame acyclic BHist.Empty ∧ Cont edge repr target := by
+  intro carrier loopEdge
+  have loopExact :
+      GraphContEdge target BHist.Empty target ∧ hsame loop target :=
+    GraphContEdge_empty_tail_identity carrier.left.right.left loopEdge
+  exact And.intro loopExact.left
+    (And.intro loopExact.right
+      (And.intro carrier.right.right.right.left carrier.right.right.right.right.left))
 
 end BEDC.Derived.TreeUp
