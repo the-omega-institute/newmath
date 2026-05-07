@@ -915,18 +915,41 @@ def main() -> int:
     # Read the strict threshold from .pipeline_parallel.json (default 5).
     strict = read_deps_ready_threshold()
 
-    # Adaptive: try strict first; if empty, drop the threshold by 1 each
-    # iteration down to 1. Avoids the "wedged at empty top" failure mode
-    # where every pending horizon needs deps_ready=False because its single
-    # dep is just shy of the cap (e.g. field needed commring=5 but had 4).
+    # Adaptive two-stage relax:
+    #   Stage 1 — supply-aware: walk strict → THRESHOLD_FLOOR (default 3),
+    #     pick the highest threshold whose ranked output is >= MIN_TOP_SIZE.
+    #     This keeps quality high (dep >= 3 thms still required) but
+    #     ensures lean has at least MIN_TOP_SIZE sibling fronts to claim,
+    #     avoiding the supply-starved state where lean=top_size is forced
+    #     down to 1-2 workers.
+    #   Stage 2 — emergency: if even THRESHOLD_FLOOR yields empty, descend
+    #     to 1 (the legacy "wedged at empty top" rescue).
+    MIN_TOP_SIZE = 5
+    THRESHOLD_FLOOR = 3
+
     relaxed_at = None
     ranked: list[dict] = []
-    for t in range(strict, 0, -1):
-        ranked = _rank_at_threshold(horizons, downstream, t)
-        if ranked:
+    for t in range(strict, THRESHOLD_FLOOR - 1, -1):
+        candidate = _rank_at_threshold(horizons, downstream, t)
+        if len(candidate) >= MIN_TOP_SIZE:
+            ranked = candidate
             if t < strict:
                 relaxed_at = t
             break
+        # Keep the best non-empty seen so far (largest top), to use if no
+        # threshold reaches MIN_TOP_SIZE.
+        if len(candidate) > len(ranked):
+            ranked = candidate
+            relaxed_at = t if t < strict else None
+
+    # Stage 2: if nothing at all from THRESHOLD_FLOOR..strict, fall through.
+    if not ranked:
+        for t in range(THRESHOLD_FLOOR - 1, 0, -1):
+            candidate = _rank_at_threshold(horizons, downstream, t)
+            if candidate:
+                ranked = candidate
+                relaxed_at = t
+                break
 
     rolled = _claim_top_with_cooldown(ranked)
 
