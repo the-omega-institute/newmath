@@ -351,6 +351,28 @@ theorem SymplecticObligationBoundary_nondegeneracy_row
       (And.intro obligations.right.right.right.left
         obligations.right.right.right.right.right.right))
 
+theorem SymplecticObligationBoundary_readback_rows
+    {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
+      nondegWitness : BHist} :
+    SymplecticObligationBoundary manifold degree probe tensor scalar antisym ledger derivative
+        raised closedWitness nondegWitness ->
+      hsame closedWitness raised ∧ hsame nondegWitness (append manifold scalar) ∧
+        hsame degree (BHist.e1 (BHist.e1 BHist.Empty)) ∧ UnaryHistory scalar ∧
+          UnaryHistory raised ∧ UnaryHistory closedWitness ∧ UnaryHistory nondegWitness := by
+  intro boundary
+  have obligations := SymplecticObligationBoundary_carrier_classifier_obligations boundary
+  have closedSame : hsame closedWitness raised :=
+    cont_right_unit_result boundary.right.right.right.left
+  have nondegSame : hsame nondegWitness (append manifold scalar) :=
+    boundary.right.right.right.right
+  exact And.intro closedSame
+    (And.intro nondegSame
+      (And.intro obligations.right.right.left
+        (And.intro boundary.right.left.left
+          (And.intro obligations.right.right.right.right.left
+            (And.intro obligations.right.right.right.right.right.left
+              obligations.right.right.right.right.right.right)))))
+
 theorem SymplecticObligationBoundary_closed_two_form_transport
     {manifold degree probe tensor scalar antisym ledger derivative raised closedWitness
       nondegWitness scalar' derivative' raised' closedWitness' : BHist} :
