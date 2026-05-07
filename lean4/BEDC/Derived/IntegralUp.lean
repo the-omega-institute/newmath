@@ -127,6 +127,77 @@ theorem IntegralVisibleCarrierRow_readback
         (And.intro carrier.right.right.right.left
           (And.intro carrier.right.right.right.right.right.right rowUnary))))
 
+theorem IntegralVisibleCarrierRow_measure_respecting_classifier
+    {measure contour integrand value measureContour integrandValue row measure' contour'
+      integrand' value' measureContour' integrandValue' row' : BHist} :
+    IntegralVisibleCarrierRow measure contour integrand value measureContour integrandValue row ->
+      IntegralVisibleCarrierRow measure' contour' integrand' value' measureContour'
+          integrandValue' row' ->
+        hsame measure measure' -> hsame contour contour' -> hsame integrand integrand' ->
+          hsame value value' ->
+            MeasureZeroBHistClassifier measure measure' ∧
+              Cont measureContour integrandValue row ∧
+                Cont measureContour' integrandValue' row' ∧
+                  hsame measureContour measureContour' ∧
+                    hsame integrandValue integrandValue' ∧ hsame row row' := by
+  intro leftCarrier rightCarrier sameMeasure sameContour sameIntegrand sameValue
+  have measureClassified : MeasureZeroBHistClassifier measure measure' :=
+    And.intro leftCarrier.left (And.intro rightCarrier.left sameMeasure)
+  have leftMeasureContour : Cont measure contour measureContour :=
+    leftCarrier.right.right.right.right.left
+  have rightMeasureContour : Cont measure' contour' measureContour' :=
+    rightCarrier.right.right.right.right.left
+  have sameMeasureContour : hsame measureContour measureContour' :=
+    cont_respects_hsame sameMeasure sameContour leftMeasureContour rightMeasureContour
+  have leftIntegrandValue : Cont integrand value integrandValue :=
+    leftCarrier.right.right.right.right.right.left
+  have rightIntegrandValue : Cont integrand' value' integrandValue' :=
+    rightCarrier.right.right.right.right.right.left
+  have sameIntegrandValue : hsame integrandValue integrandValue' :=
+    cont_respects_hsame sameIntegrand sameValue leftIntegrandValue rightIntegrandValue
+  have leftRow : Cont measureContour integrandValue row :=
+    leftCarrier.right.right.right.right.right.right
+  have rightRow : Cont measureContour' integrandValue' row' :=
+    rightCarrier.right.right.right.right.right.right
+  have sameRow : hsame row row' :=
+    cont_respects_hsame sameMeasureContour sameIntegrandValue leftRow rightRow
+  exact And.intro measureClassified
+    (And.intro leftRow
+      (And.intro rightRow
+        (And.intro sameMeasureContour (And.intro sameIntegrandValue sameRow))))
+
+theorem IntegralVisibleCarrierRow_measure_prefix_scope (events values : Nat -> BHist)
+    {measure contour integrand value measureContour integrandValue row : BHist} :
+    (forall n : Nat, MeasureZeroBHistClassifier (events n) (values n)) ->
+      IntegralVisibleCarrierRow measure contour integrand value measureContour integrandValue row ->
+        forall n : Nat,
+          MeasureZeroBHistClassifier (MeasureZeroBHistPrefix events n)
+              (MeasureZeroBHistPrefix values n) ∧
+            Cont (MeasureZeroBHistPrefix events n) (events n)
+              (MeasureZeroBHistPrefix events (Nat.succ n)) ∧
+              Cont (MeasureZeroBHistPrefix values n) (values n)
+                (MeasureZeroBHistPrefix values (Nat.succ n)) ∧
+                MeasureZeroBHistCarrier measure ∧ PLContour contour ∧ UnaryHistory row := by
+  intro pointwise carrier n
+  have eventsZero : forall m : Nat, MeasureZeroBHistCarrier (events m) := by
+    intro m
+    exact (pointwise m).left
+  have valuesZero : forall m : Nat, MeasureZeroBHistCarrier (values m) := by
+    intro m
+    exact (pointwise m).right.left
+  have eventStep :=
+    (MeasureZeroBHist_sigma_additivity events eventsZero n).left
+  have valueStep :=
+    (MeasureZeroBHist_sigma_additivity values valuesZero n).left
+  have prefixClassified :=
+    MeasureZeroBHistPrefix_classifier_stability events values pointwise n
+  have readback := IntegralVisibleCarrierRow_readback carrier
+  exact And.intro prefixClassified
+    (And.intro eventStep
+      (And.intro valueStep
+        (And.intro readback.left
+          (And.intro readback.right.left readback.right.right.right.right.right))))
+
 theorem IntegralVisibleCarrierRow_classifier_boundary_transport
     {measure contour integrand value measureContour integrandValue row measure' contour'
       integrand' value' measureContour' integrandValue' row' : BHist} :
