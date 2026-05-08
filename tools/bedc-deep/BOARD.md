@@ -18,50 +18,26 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-518 - AbelianCat zero morphism left-absorbing under composition
+### B-542 - Quadrature degree-zero exactness iff weight sum
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | AbelianCat zero morphism left-absorbing under composition |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-For carried hom $f \in \mathcal{H}(X,A)$ in an $\AbelianCatUp$ additive kernel-cokernel carrier, the displayed composite $0_{A,B}\circ f$ is classified by $\sim_{X,B}$ with the displayed zero morphism $0_{X,B}$.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
-
-Rationale:
-AbelianCat is a 433-line chapter with 10 theorems but only B-423 (`AbelianCat hom zero morphism uniqueness`, line 380) and B-437 (kernel/cokernel factor uniqueness) completed. The zero-morphism API in 154_abeliancat_namecert_construction.tex:380-421 establishes that $0_{A,B}$ is the unique left/right additive identity but never asserts the corresponding composition-annihilation row that makes zero morphisms `compose to zero'. This is the foundational fact that turns the existing zero-biproduct surface (\autoref{thm:abeliancat-additive-zero-biproduct-obligation} at line 79) into a usable abelian-category obligation. Single implication, concrete, in chapter scope. No abstract carrier transport — this is content over the displayed hom carriers. No collision with BOARD index B-407..B-516 or completed list.
-
----
-
-### B-538 - Quadrature empty-node sum is zero
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Quadrature empty-node sum is zero |
-| Layer | adjacent |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Quadrature degree-zero exactness iff weight sum |
+| Layer | concrete_instances |
 | Route | proof |
 | Risk | unknown |
 | Fit | 8/10 |
 | Novelty | 7/10 |
 
 Problem:
-For a finite weighted QuadratureUp rule Q=(xs,alpha,omega,I_Q), if the FinSetUp node spine xs is empty, then for every finite polynomial-code spine p the quadrature fold QSum_Q(p) is scalar-classifier-equal to 0_R.
+In a finite weighted QuadratureUp rule Q, if one_Q is the constant-one polynomial code and W_Q is the finite fold of the node weights, then QExact_Q(one_Q) holds iff W_Q is scalar-classifier-equal to the integral endpoint I_Q(one_Q).
 
 Local inputs:
 - `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
 
 Rationale:
-QuadratureUp has completed coverage for the exactness-degree classifier, but that coverage is concentrated on degree weakening, reflexivity, transitivity, and preorder rows: see the definitions of QSum_Q and DegBoundLe at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:21-66 and the completed theorem suite at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:105-240. The concrete rule-level fold itself is defined as a finite additive fold over Pos(xs) at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:27-31, while the existing ledger theorem only states that this is the carried exactness surface at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:90-103. The empty-node boundary is not one of B-428, B-451, or B-465 and is a small concrete implication about the actual quadrature sum rather than another degree-classifier law.
+The Quadrature surface has exactness-degree weakening, degree-bound preorder rows, and an active empty-node sum target, but no base readback for degree-zero exactness. This candidate is a small concrete readback theorem connecting the constant polynomial row to the node-weight budget, and it lands safely in the existing finite weighted QuadratureUp chapter without duplicating current BOARD titles or paper labels.
 
 ---
