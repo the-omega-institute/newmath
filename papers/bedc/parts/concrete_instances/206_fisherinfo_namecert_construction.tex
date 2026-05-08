@@ -26,6 +26,87 @@ $\mathsf{Pkg}$ provenance, and the only dependency rows used by the carrier
 are the displayed $\DistributionUp$ and $\RiemannianMetricUp$ rows.
 \end{definition}
 
+\begin{theorem}[FisherInfoUp distribution source obligation]
+\label{thm:fisherinfo-distribution-source-obligation}
+Every accepted packet of \autoref{def:fisherinfo-bhist-score-carrier}
+projects a $\DistributionUp$ source row whose pushforward endpoint is the only
+probability-distribution data available to the score and expectation ledger.
+In particular, the packet consumes the pushforward carrier of
+\autoref{def:distribution-pushforward-carrier}, the classifier of
+\autoref{def:distribution-pushforward-classifier}, and the pushforward row of
+\autoref{thm:distribution-pushforward-row}; it does not import an ambient
+probability space outside the displayed $\NameCert_{\DistributionUp}$ surface.
+\end{theorem}
+\begin{proof}
+Unpack the accepted tuple. Its first field is the displayed source certificate
+$\mathcal{D}$, and the provenance row $\rho$ binds every later score,
+expectation, and metric-component row to that same source.
+
+Project $\mathcal{D}$ through the $\DistributionUp$ pushforward carrier and
+classifier. The target measurable-event rows and RealUp endpoint rows are
+therefore read from \autoref{def:distribution-pushforward-carrier} and
+\autoref{def:distribution-pushforward-classifier}.
+
+The score and expectation ledger $\lambda$ has no independent probability
+carrier. It may use the pushforward row of
+\autoref{thm:distribution-pushforward-row} as source data, but any
+probability-space, measurable-preimage, or measure-row information is accessed
+only through the displayed $\NameCert_{\DistributionUp}$ packet.
+\end{proof}
+
+\begin{theorem}[FisherInfoUp score row carrier obligation]
+\label{thm:fisherinfo-score-row-carrier-obligation}
+For an accepted $\FisherInfoUp$ score packet, the parameter row $\theta$, score
+row $s$, and squared-score expectation row $\eta$ form a finite
+$\mathsf{BHist}$ score-expectation spine over the same $\DistributionUp$
+source. The score row is accepted only as a history over the displayed
+parameter and distribution rows, while the expectation row is accepted only as
+the $\mathsf{Cont}$ readback of the squared score through the source
+distribution ledger.
+\end{theorem}
+\begin{proof}
+Project the parameter, score, expectation, and ledger fields from
+\autoref{def:fisherinfo-bhist-score-carrier}. The parameter row $\theta$
+supplies the displayed family index, and the score row $s$ is carried over
+that index rather than over an external coordinate object.
+
+Next read the finite continuation ledger $\lambda$. It records the passage
+from the displayed distribution endpoint and parameter row to the score row,
+and then from the score row to the squared-score expectation row $\eta$.
+
+Thus the carrier admits the score and expectation rows only as a connected
+$\mathsf{BHist}$ spine. Different score representatives or numerical
+expectation displays may appear as ledger witnesses, but the public row is the
+carried endpoint $\eta$ together with its source and provenance.
+\end{proof}
+
+\begin{theorem}[FisherInfoUp RiemannianMetric comparison obligation]
+\label{thm:fisherinfo-riemannianmetric-comparison-obligation}
+The metric-component row $g$ of an accepted $\FisherInfoUp$ score packet is
+consumable by the public $\RiemannianMetricUp$ source-fibre surface. Under this
+consumption, the squared-score expectation row $\eta$ supplies the displayed
+metric endpoint on the parameter fibre, while the fibre carrier, classifier
+stability, and positivity or chart-compatibility obligations are read from
+\autoref{thm:riemannianmetric-public-source-fibre-namecert-surface}.
+\end{theorem}
+\begin{proof}
+Project the metric-component row $g$ from the Fisher-information packet. By
+construction it is the row presented through
+$\NameCert_{\RiemannianMetricUp}$, so its base point is the parameter row and
+its fibre endpoint is the squared-score expectation row.
+
+Apply the public $\RiemannianMetricUp$ source-fibre surface of
+\autoref{thm:riemannianmetric-public-source-fibre-namecert-surface}. That
+surface provides the manifold point row, tangent-fibre row, fibrewise
+inner-product row, and classifier transport needed to read $g$ as a metric
+endpoint.
+
+The comparison is therefore between the Fisher-information expectation
+endpoint and the displayed Riemannian-metric fibre endpoint. It is not a claim
+that a host coordinate formula, a differentiability structure, or an external
+metric tensor has been exported by the $\FisherInfoUp$ carrier.
+\end{proof}
+
 \begin{theorem}[FisherInfoUp distribution score row coverage]
 \label{thm:fisherinfo-distribution-score-row-coverage}
 Every accepted packet of
@@ -108,6 +189,34 @@ host density, or external probability object, those objects are not part of
 the public carrier.
 \end{proof}
 
+\begin{theorem}[FisherInfoUp classifier transport obligation]
+\label{thm:fisherinfo-classifier-transport-obligation}
+Let $\mathcal{I}$ and $\mathcal{I}'$ be accepted $\FisherInfoUp$ score packets
+whose source distribution, parameter, score, squared-score expectation, and
+metric-component rows are related by the componentwise $\hsame$ witnesses
+available to their finite ledgers. Then the $\FisherInfoUp$ classifier
+transports the score-expectation spine of $\mathcal{I}$ to the
+score-expectation spine of $\mathcal{I}'$ and preserves the target
+$\RiemannianMetricUp$ fibre comparison.
+\end{theorem}
+\begin{proof}
+Start with the two accepted carrier tuples and project their componentwise
+classifier witnesses. The source distribution rows are transported by the
+$\DistributionUp$ classifier, while the parameter, score, expectation, and
+metric-component rows are transported by the listed $\hsame$ comparisons.
+
+Transport the finite continuation ledger component by component. The
+source-to-score step moves along the transported distribution and parameter
+rows; the score-to-expectation step moves along the transported score row; the
+expectation-to-metric-component step moves along the transported metric row.
+
+Finally apply the $\RiemannianMetricUp$ classifier stability supplied by
+\autoref{thm:riemannianmetric-public-source-fibre-namecert-surface}. The
+transported expectation endpoint is still the metric endpoint of the
+transported metric-component row, so the public $\FisherInfoUp$ classifier is
+preserved.
+\end{proof}
+
 \section{The certificate}
 \label{sec:fisherinfo-certificate}
 
@@ -146,4 +255,35 @@ under the ten-field $\NameCert$ pattern yields the stated
 $\NameCert_{\FisherInfoUp}$ surface, and the same projections exclude every
 host density, analytic integration primitive, external probability law, and
 host metric object from the public certificate.
+\end{proof}
+
+\begin{theorem}[FisherInfoUp ledger exactness boundary]
+\label{thm:fisherinfo-ledger-exactness-boundary}
+The public $\NameCert_{\FisherInfoUp}$ obligation surface consists exactly of
+the $\DistributionUp$ source row, the $\RiemannianMetricUp$ metric packet, the
+parameter row, the score row, the squared-score expectation row, the
+metric-component row, the $\mathsf{Pkg}$ provenance row, the componentwise
+$\hsame$ classifier witnesses used by the finite ledger, and the finite
+$\Cont$ ledger of \autoref{def:fisherinfo-bhist-score-carrier}. It exports no
+additional row for score choice, expectation approximation, coordinate chart,
+host differentiability, ambient statistical model equality, or standard
+bridge.
+\end{theorem}
+\begin{proof}
+Soundness is by projection from the accepted packet. Each accepted public row
+is one of the named fields of \autoref{def:fisherinfo-bhist-score-carrier}:
+distribution source, metric packet, parameter, score, expectation,
+metric-component, provenance, or ledger, together with the $\hsame$
+comparisons admitted by that ledger.
+
+Completeness is the reverse packaging. Given exactly those rows, the
+eight-coordinate packet is reconstructed as a finite $\mathsf{BHist}$ packet
+whose score and expectation endpoints are connected by the displayed $\Cont$
+ledger and whose metric endpoint is presented to
+$\NameCert_{\RiemannianMetricUp}$.
+
+The exclusions follow from the same exactness reading. Score representatives,
+expectation approximations, coordinate choices, and differentiability evidence
+can justify ledger steps, but no such datum is a separate public carrier
+equality or a row available to downstream consumers outside the listed packet.
 \end{proof}
