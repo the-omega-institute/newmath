@@ -142,6 +142,37 @@ theorem CurvatureBracketCarrier_boundary_source_obligation
     (And.intro boundaryProjection.right.left
       (And.intro boundaryProjection.right.right.left boundaryProjection.right.right.right.left))
 
+theorem CurvatureBracketCarrier_boundary_row_determinacy
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      boundaryPrime curvatureLedger curvatureLedgerPrime : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA
+        ledgerB boundary curvatureLedger ->
+      CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA
+          ledgerB boundaryPrime curvatureLedgerPrime ->
+        Cont derivativeA derivativeB boundary ∧
+          Cont derivativeA derivativeB boundaryPrime ∧
+            Cont boundary provenance curvatureLedger ∧
+              Cont boundaryPrime provenance curvatureLedgerPrime ∧
+                hsame boundary boundaryPrime ∧ hsame curvatureLedger curvatureLedgerPrime := by
+  intro carrier carrierPrime
+  have boundaryCont : Cont derivativeA derivativeB boundary :=
+    carrier.right.right.left
+  have boundaryContPrime : Cont derivativeA derivativeB boundaryPrime :=
+    carrierPrime.right.right.left
+  have curvatureCont : Cont boundary provenance curvatureLedger :=
+    carrier.right.right.right
+  have curvatureContPrime : Cont boundaryPrime provenance curvatureLedgerPrime :=
+    carrierPrime.right.right.right
+  have sameBoundary : hsame boundary boundaryPrime :=
+    cont_deterministic boundaryCont boundaryContPrime
+  have sameCurvatureLedger : hsame curvatureLedger curvatureLedgerPrime :=
+    cont_respects_hsame sameBoundary (hsame_refl provenance) curvatureCont curvatureContPrime
+  exact And.intro boundaryCont
+    (And.intro boundaryContPrime
+      (And.intro curvatureCont
+        (And.intro curvatureContPrime
+          (And.intro sameBoundary sameCurvatureLedger))))
+
 theorem CurvatureBracketCarrier_antisymmetric_bracket_obligation
     {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
       swappedBoundary curvatureLedger swappedCurvatureLedger : BHist} :
