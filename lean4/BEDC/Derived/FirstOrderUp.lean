@@ -93,8 +93,56 @@ theorem FirstOrderBHistSyntaxCarrier_formula_carrier_obligation [AskSetup] [Pack
       (And.intro carrier.right.left
         (And.intro carrier.right.right.right.left
           (And.intro carrier.right.right.right.right.left
-             (And.intro endpointUnary.right
-               (And.intro carrier.right.right.right.right.right.right.right.left
-                 carrier.right.right.right.right.right.right.right.right)))))
+               (And.intro endpointUnary.right
+                 (And.intro carrier.right.right.right.right.right.right.right.left
+                   carrier.right.right.right.right.right.right.right.right)))))
+
+theorem FirstOrderBHistSyntaxCarrier_deduction_endpoint_exactness [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance deductionStep conclusion conclusionProvenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol functionSymbol
+        treeEndpoint formulaEndpoint provenance bundle pkg ->
+      UnaryHistory deductionStep ->
+        Cont formulaEndpoint deductionStep conclusion ->
+          SigRel bundle conclusion conclusionProvenance ->
+            PkgSig bundle conclusionProvenance pkg ->
+              UnaryHistory formulaEndpoint ∧ UnaryHistory conclusion ∧
+                hsame conclusion (append formulaEndpoint deductionStep) ∧
+                  SigRel bundle conclusion conclusionProvenance ∧
+                    PkgSig bundle conclusionProvenance pkg := by
+  intro carrier deductionStepUnary conclusionRow conclusionSig conclusionPkg
+  have endpointUnary :=
+    FirstOrderBHistSyntaxCarrier_endpoint_unary
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (provenance := provenance)
+      (bundle := bundle) (pkg := pkg) carrier
+  have conclusionUnary : UnaryHistory conclusion :=
+    unary_cont_closed endpointUnary.right deductionStepUnary conclusionRow
+  exact And.intro endpointUnary.right
+    (And.intro conclusionUnary
+      (And.intro conclusionRow
+        (And.intro conclusionSig conclusionPkg)))
+
+theorem FirstOrderDeductionLedgerConcatenation_closure [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance d1 d2 joined : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol
+        functionSymbol treeEndpoint formulaEndpoint provenance bundle pkg ->
+      UnaryHistory d1 ->
+        UnaryHistory d2 ->
+          Cont d1 d2 joined ->
+            SigRel bundle formulaEndpoint provenance ->
+              UnaryHistory joined ∧ Cont d1 d2 joined ∧
+                SigRel bundle formulaEndpoint provenance ∧ PkgSig bundle provenance pkg := by
+  intro carrier d1Unary d2Unary joinedRow formulaSig
+  have joinedUnary : UnaryHistory joined :=
+    unary_cont_closed d1Unary d2Unary joinedRow
+  exact And.intro joinedUnary
+    (And.intro joinedRow
+      (And.intro formulaSig carrier.right.right.right.right.right.right.right.right))
 
 end BEDC.Derived.FirstOrderUp
