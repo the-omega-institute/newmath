@@ -42,4 +42,26 @@ theorem UnitaryGroupOperation_stability_obligation
     cont_respects_hsame sameLeft sameRight productRow productRow'
   exact And.intro sameLeft sameProduct
 
+theorem UnitaryGroupInnerProduct_preservation_obligation
+    {hilbert hilbert' automorphism automorphism' inner inner' transported transported' :
+      BHist} :
+    UnaryHistory hilbert -> UnaryHistory automorphism -> hsame hilbert hilbert' ->
+      hsame automorphism automorphism' -> Cont hilbert automorphism inner ->
+        Cont hilbert' automorphism' inner' -> Cont automorphism inner transported ->
+          Cont automorphism' inner' transported' ->
+            UnaryHistory hilbert' ∧ UnaryHistory automorphism' ∧
+              hsame inner inner' ∧ hsame transported transported' := by
+  intro unaryHilbert unaryAutomorphism sameHilbert sameAutomorphism innerRow innerRow'
+    transportedRow transportedRow'
+  have unaryHilbert' : UnaryHistory hilbert' :=
+    unary_transport unaryHilbert sameHilbert
+  have unaryAutomorphism' : UnaryHistory automorphism' :=
+    unary_transport unaryAutomorphism sameAutomorphism
+  have sameInner : hsame inner inner' :=
+    cont_respects_hsame sameHilbert sameAutomorphism innerRow innerRow'
+  have sameTransported : hsame transported transported' :=
+    cont_respects_hsame sameAutomorphism sameInner transportedRow transportedRow'
+  exact And.intro unaryHilbert'
+    (And.intro unaryAutomorphism' (And.intro sameInner sameTransported))
+
 end BEDC.Derived.UnitaryGroupUp
