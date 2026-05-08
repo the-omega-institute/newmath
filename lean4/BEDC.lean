@@ -93,6 +93,7 @@ import BEDC.Derived.CurvatureUp.Handoff
 import BEDC.Derived.CurvatureUp.HandoffConsumerCoverage
 import BEDC.Derived.CurvatureUp.ConnectionCarrierScope
 import BEDC.Derived.CurvatureUp.ChernWeilSourceEnvelope
+import BEDC.Derived.CurvatureUp.ConsumerExactness
 import BEDC.Derived.CurvatureUp.PublicObligation
 import BEDC.Derived.CurvatureUp.TensorialSectionTransport
 import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback
@@ -231,6 +232,7 @@ import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.MeasureUp
+import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.IntegralUp
