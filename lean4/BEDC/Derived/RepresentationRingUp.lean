@@ -23,6 +23,15 @@ def RepresentationRingBHistRepresentationPacket [AskSetup] [PackageSetup]
         Cont provenance classifier ledger ∧ Cont ledger tensor endpoint ∧
           PkgSig bundle endpoint pkg
 
+def RepresentationRingGrothendieckClassifier
+    (group0 ring0 reps0 directSum0 tensor0 provenance0 classifier0 ledger0 endpoint0
+      group1 ring1 reps1 directSum1 tensor1 provenance1 classifier1 ledger1 endpoint1 : BHist) :
+    Prop :=
+  hsame group0 group1 ∧ hsame ring0 ring1 ∧ hsame reps0 reps1 ∧
+    hsame directSum0 directSum1 ∧ hsame tensor0 tensor1 ∧
+      hsame provenance0 provenance1 ∧ hsame classifier0 classifier1 ∧
+        hsame ledger0 ledger1 ∧ hsame endpoint0 endpoint1
+
 theorem RepresentationRingBHistRepresentationPacket_carrier_boundary [AskSetup] [PackageSetup]
     {group ring reps directSum tensor provenance classifier ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -62,5 +71,45 @@ theorem RepresentationRingBHistRepresentationPacket_carrier_boundary [AskSetup] 
                     (And.intro ledgerCont
                       (And.intro endpointCont
                         packet.right.right.right.right.right.right.right.right.right.right.right))))))))))
+
+theorem RepresentationRingGrothendieckClassifier_transitive
+    {group0 ring0 reps0 directSum0 tensor0 provenance0 classifier0 ledger0 endpoint0
+      group1 ring1 reps1 directSum1 tensor1 provenance1 classifier1 ledger1 endpoint1
+      group2 ring2 reps2 directSum2 tensor2 provenance2 classifier2 ledger2 endpoint2
+      ledgerBridge01 ledgerBridge12 : BHist} :
+    RepresentationRingGrothendieckClassifier group0 ring0 reps0 directSum0 tensor0
+        provenance0 classifier0 ledger0 endpoint0 group1 ring1 reps1 directSum1 tensor1
+        provenance1 classifier1 ledger1 endpoint1 ->
+      RepresentationRingGrothendieckClassifier group1 ring1 reps1 directSum1 tensor1
+          provenance1 classifier1 ledger1 endpoint1 group2 ring2 reps2 directSum2 tensor2
+          provenance2 classifier2 ledger2 endpoint2 ->
+        Cont ledger0 ledger1 ledgerBridge01 ->
+          Cont ledger1 ledger2 ledgerBridge12 ->
+            RepresentationRingGrothendieckClassifier group0 ring0 reps0 directSum0 tensor0
+                provenance0 classifier0 ledger0 endpoint0 group2 ring2 reps2 directSum2 tensor2
+                provenance2 classifier2 ledger2 endpoint2 ∧
+              hsame ledgerBridge01 (append ledger0 ledger1) ∧
+                hsame ledgerBridge12 (append ledger1 ledger2) := by
+  intro left right bridge01 bridge12
+  exact And.intro
+    (And.intro (hsame_trans left.left right.left)
+      (And.intro (hsame_trans left.right.left right.right.left)
+        (And.intro (hsame_trans left.right.right.left right.right.right.left)
+          (And.intro (hsame_trans left.right.right.right.left right.right.right.right.left)
+            (And.intro
+              (hsame_trans left.right.right.right.right.left
+                right.right.right.right.right.left)
+              (And.intro
+                (hsame_trans left.right.right.right.right.right.left
+                  right.right.right.right.right.right.left)
+                (And.intro
+                  (hsame_trans left.right.right.right.right.right.right.left
+                    right.right.right.right.right.right.right.left)
+                  (And.intro
+                    (hsame_trans left.right.right.right.right.right.right.right.left
+                      right.right.right.right.right.right.right.right.left)
+                    (hsame_trans left.right.right.right.right.right.right.right.right
+                      right.right.right.right.right.right.right.right.right)))))))))
+    (And.intro bridge01 bridge12)
 
 end BEDC.Derived.RepresentationRingUp
