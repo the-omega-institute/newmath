@@ -130,23 +130,14 @@ theorem AffineSpaceTranslationClassifier_witnesses_identified
 theorem AffineSpaceTranslationClassifier_free_action_obligation
     {point left right leftAction rightAction : BHist} :
     AffineSpaceHistoryTorsorCarrier point left ->
-      AffineSpaceHistoryTorsorCarrier point right ->
-        Cont point left leftAction ->
-          Cont point right rightAction ->
-            hsame leftAction rightAction ->
-              hsame left right ∧
-                AffineSpaceTranslationClassifier point leftAction left right leftAction rightAction := by
-  intro leftCarrier rightCarrier leftCont rightCont sameActions
+        AffineSpaceHistoryTorsorCarrier point right ->
+          Cont point left leftAction ->
+            Cont point right rightAction ->
+            hsame leftAction rightAction -> hsame left right := by
+  intro _leftCarrier _rightCarrier leftCont rightCont sameActions
   have rightContAtLeftAction : Cont point right leftAction :=
     cont_result_hsame_transport rightCont (hsame_symm sameActions)
-  have sameTranslations : hsame left right :=
-    cont_left_cancel leftCont rightContAtLeftAction
-  exact And.intro sameTranslations
-    (And.intro leftCarrier
-      (And.intro rightCarrier
-        (And.intro leftCont
-          (And.intro rightCont
-            (And.intro (hsame_refl leftAction) (hsame_symm sameActions))))))
+  exact cont_left_cancel leftCont rightContAtLeftAction
 
 theorem AffineSpaceTranslationClassifier_classifier_transport
     {point target left right leftAction rightAction point' target' left' right' leftAction'
