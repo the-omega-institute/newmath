@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
@@ -7,6 +8,7 @@ namespace BEDC.Derived.AffineSpaceUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def AffineSpaceHistoryTorsorCarrier (point translation : BHist) : Prop :=
@@ -221,6 +223,43 @@ theorem AffineSpaceHistoryTorsorCarrier_action_coverage_obligation
                     (And.intro actionCont
                       (And.intro sameActionTarget sameActionTarget)))))))))
 
+theorem AffineSpaceHistoryTorsorCarrier_semantic_name_certificate {point translation : BHist} :
+    AffineSpaceHistoryTorsorCarrier point translation ->
+      SemanticNameCert
+        (fun p : BHist => AffineSpaceHistoryTorsorCarrier p translation)
+        (fun p : BHist => AffineSpaceHistoryTorsorCarrier p translation)
+        (fun p : BHist => AffineSpaceHistoryTorsorCarrier p translation)
+        (fun p q : BHist =>
+          AffineSpaceHistoryTorsorCarrier p translation ∧
+            AffineSpaceHistoryTorsorCarrier q translation ∧ hsame p q) := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro point carrier
+      equiv_refl := by
+        intro p pCarrier
+        exact And.intro pCarrier (And.intro pCarrier (hsame_refl p))
+      equiv_symm := by
+        intro _p _q classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro _p _q _r classifiedPQ classifiedQR
+        exact And.intro classifiedPQ.left
+          (And.intro classifiedQR.right.left
+            (hsame_trans classifiedPQ.right.right classifiedQR.right.right))
+      carrier_respects_equiv := by
+        intro _p _q classified _pCarrier
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _p pCarrier
+      exact pCarrier
+    ledger_sound := by
+      intro _p pCarrier
+      exact pCarrier
+  }
+
 theorem AffineSpaceTranslationClassifier_ledger_exactness
     {point target left right leftAction rightAction : BHist} :
     AffineSpaceTranslationClassifier point target left right leftAction rightAction ->
@@ -235,9 +274,9 @@ theorem AffineSpaceTranslationClassifier_ledger_exactness
   exact And.intro classifier.left
     (And.intro classifier.right.left
       (And.intro classifier.right.right.left
-        (And.intro classifier.right.right.right.left
-          (And.intro classifier.right.right.right.right.left
-            (And.intro classifier.right.right.right.right.right
-              (And.intro witnesses.left witnesses.right.right.right.right.right))))))
+          (And.intro classifier.right.right.right.left
+            (And.intro classifier.right.right.right.right.left
+              (And.intro classifier.right.right.right.right.right
+                (And.intro witnesses.left witnesses.right.right.right.right.right))))))
 
 end BEDC.Derived.AffineSpaceUp

@@ -97,3 +97,39 @@ Combine this projection with \autoref{thm:cyclotomic-namecert-obligation-surface
 
 The excluded rows are not components of \autoref{def:cyclotomic-root-carrier} and are not produced by the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier}. Thus $p$-adic, class-group, Galois, quotient-root, and host-field equality data must come from separate certificates, not from $\NameCert_{\CyclotomicUp}$ itself.
 \end{proof}
+
+\begin{theorem}[Cyclotomic primitive-root endpoint determinacy]
+\label{thm:cyclotomic-primitive-root-endpoint-determinacy}
+For any two $\CyclotomicUp$ carriers related by the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier}, the displayed primitive-root endpoints are the same up to the carried $\hsame$ row. The determining data are exactly the positive exponent row, the rational polynomial ledger for $X^n-1$, the $\NameCert_{\SplittingFieldUp}$ source row over that ledger, and the finite $\Cont$ acceptance row that records the endpoint as a primitive root inside the splitting-field factorization surface.
+\end{theorem}
+\begin{proof}
+Project the classifier to the exponent component and the rational polynomial component. These two $\hsame$ rows identify the displayed $X^n-1$ ledger as a carried history row, so the endpoint is not read from an ambient field but from the same polynomial surface.
+
+Project next to the $\NameCert_{\SplittingFieldUp}$ source comparison. By \autoref{thm:cyclotomic-splittingfield-stability}, transport along this source comparison preserves the root row and the factorization rows attached to the displayed polynomial ledger.
+
+Finally read the primitive-root endpoint through the finite $\Cont$ acceptance row. Since the acceptance row is part of the classifier-related carrier data, the endpoint comparison is precisely the carried $\hsame$ comparison supplied for the endpoint, with no additional quotient of primitive roots or host-field equality.
+\end{proof}
+
+\begin{theorem}[Cyclotomic factorization ledger exactness]
+\label{thm:cyclotomic-factorization-ledger-exactness}
+For a $\CyclotomicUp$ carrier, the accepted factorization rows are exactly the rows projected from the $\NameCert_{\SplittingFieldUp}$ source for the displayed rational polynomial ledger $X^n-1$. A classifier-related carrier has the same accepted factorization ledger up to the carried $\hsame$ rows on the NumFieldUp source, the positive exponent, the rational polynomial classifier, and the splitting-field source.
+\end{theorem}
+\begin{proof}
+Start with the displayed polynomial row in the carrier. The rational polynomial classifier fixes this row as the $X^n-1$ ledger determined by the NumFieldUp source and the positive exponent, so any accepted factorization row must be read against that ledger.
+
+Apply \autoref{thm:cyclotomic-splittingfield-stability} to the $\NameCert_{\SplittingFieldUp}$ source row. It preserves the root row and the factorization rows for the polynomial ledger classified with $X^n-1$.
+
+The reverse containment is just the carrier acceptance condition: the finite $\Cont$ row records exactly the factorization rows projected from the SplittingFieldUp source and lists no independent cyclotomic factorization surface. Combining the two projections gives exactness of the accepted ledger.
+\end{proof}
+
+\begin{theorem}[Cyclotomic Iwasawa source boundary]
+\label{thm:cyclotomic-iwasawa-source-boundary}
+An $\IwasawaUp$ consumer of $\NameCert_{\CyclotomicUp}$ may read only the $\NameCert_{\NumFieldUp}$ source row, the positive exponent row, the primitive-root endpoint, the factorization ledger for $X^n-1$, and the shared $\mathsf{Pkg}$ provenance package. In particular, the consumer receives no quotient of primitive roots, no host equality of fields, and no factorization row not already present in the displayed $\mathsf{BHist}$ ledger.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cyclotomic-namecert-obligation-surface} to enumerate the public rows exposed by $\NameCert_{\CyclotomicUp}$. The carrier contributes the NumFieldUp source, the positive exponent, the polynomial ledger, the SplittingFieldUp source, the primitive-root endpoint, the $\Cont$ acceptance row, and the provenance package.
+
+Use \autoref{thm:cyclotomic-primitive-root-endpoint-determinacy} to restrict endpoint readback to the carried $\hsame$ endpoint comparison. Use \autoref{thm:cyclotomic-factorization-ledger-exactness} to restrict the factorization readback to the SplittingFieldUp ledger for the displayed $X^n-1$ polynomial.
+
+After these projections, the remaining rows visible to an IwasawaUp packet are exactly the NumFieldUp source row, the positive exponent row, the primitive-root endpoint, the accepted factorization ledger, and the shared $\mathsf{Pkg}$ provenance package. The negative clauses follow because none of the projected rows contains a quotient principle, a host-field equality, or an additional factorization oracle.
+\end{proof}
