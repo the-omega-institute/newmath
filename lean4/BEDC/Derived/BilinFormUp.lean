@@ -1,12 +1,18 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.BilinFormUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def BilinFormBHistObligationSurface
@@ -193,5 +199,32 @@ theorem BilinFormRootPairingSurface_input_transport
             (And.intro scalarUnary
               (And.intro endpointCont ledgerCont)))
   · exact And.intro sameEndpoint sameLedger
+
+def BilinFormModulePairingSourceRow [AskSetup] [PackageSetup]
+    (moduleSource vectorSource left right scalar endpoint ledger : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory moduleSource ∧ UnaryHistory vectorSource ∧ UnaryHistory left ∧
+    UnaryHistory right ∧ UnaryHistory scalar ∧ Cont left right endpoint ∧
+      Cont endpoint scalar ledger ∧ PkgSig bundle ledger pkg
+
+theorem BilinFormModulePairingSourceRow_carrier_obligation [AskSetup] [PackageSetup]
+    {moduleSource vectorSource left right scalar endpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BilinFormModulePairingSourceRow moduleSource vectorSource left right scalar endpoint ledger
+        bundle pkg ->
+      UnaryHistory endpoint ∧ UnaryHistory ledger ∧ Cont left right endpoint ∧
+        Cont endpoint scalar ledger ∧ PkgSig bundle ledger pkg := by
+  intro row
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed row.right.right.left row.right.right.right.left
+      row.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed endpointUnary row.right.right.right.right.left
+      row.right.right.right.right.right.right.left
+  exact And.intro endpointUnary
+    (And.intro ledgerUnary
+      (And.intro row.right.right.right.right.right.left
+        (And.intro row.right.right.right.right.right.right.left
+          row.right.right.right.right.right.right.right)))
 
 end BEDC.Derived.BilinFormUp
