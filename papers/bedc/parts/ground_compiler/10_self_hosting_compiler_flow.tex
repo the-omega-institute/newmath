@@ -1,0 +1,461 @@
+\chapter{Self-Hosting Compiler Flow}
+\label{ch:ground-compiler-self-hosting-compiler-flow}
+
+\autoref{ch:ground-compiler-recognizer-flows} records the no-hidden-input reading of recognizers: a recognizer is not an external parser, but an event flow. This raises the next question. If package, $\NameCert$, derivation-certificate, theorem, and chapter recognizers are themselves generated event flows, who recognizes those recognizers?
+
+The answer is layered bootstrapping, with an explicit boundary until a self-hosting compiler flow is available. The governing rule is
+$$
+  \boxed{\text{the compiler is not an external program; ultimately it must be a recognizable, compilable, reproducible event flow}.}
+$$
+The intended ladder is
+$$
+\begin{gathered}
+  \text{channel compiler}
+  \longrightarrow
+  \text{event-flow recognizer}
+  \longrightarrow
+  \text{package recognizer}
+  \longrightarrow
+  \text{certificate recognizers}\\
+  \longrightarrow
+  \text{theorem and chapter recognizers}
+  \longrightarrow
+  \text{compiler recognizer}
+  \longrightarrow
+  \text{self-hosting compiler flow}.
+\end{gathered}
+$$
+This chapter does not claim that the base is already fully self-hosted. It distinguishes a visible bootstrap boundary from self-hosting discharge. Any compiler component not yet discharged by event-flow self-hosting must be recorded as a bootstrap obligation, not hidden in the implementation layer.
+
+\section{Compiler candidates and behavior}
+\label{sec:self-hosting-compiler-candidates-behavior}
+
+\begin{definition}[Compiler candidate flow]
+\label{def:self-hosting-compiler-candidate-flow}
+A \emph{compiler candidate flow} is an event flow
+$$
+  C\in\mathsf{EventFlow}.
+$$
+It has not yet been accepted as a compiler. Thus $C\in\mathsf{EventFlow}$ does not imply that $C$ compiles event flows, recognizes packages, recognizes theorems, or recognizes itself. Such capabilities must be supported by compiler recognizer and compiler certificate flows.
+\end{definition}
+
+\begin{definition}[Compiler recognition relation]
+\label{def:self-hosting-compiler-recognition-relation}
+The compiler recognition relation is written
+$$
+  \mathsf{RecognizesCompiler}(R_C,C),
+  \qquad
+  R_C,C\in\mathsf{EventFlow}.
+$$
+It is read as: the generated compiler recognizer flow $R_C$ recognizes the event flow $C$ as a compiler flow. If some $R_C$ satisfies this relation, then $C$ is a recognized compiler flow.
+\end{definition}
+
+\begin{definition}[Compiler behavior relation]
+\label{def:self-hosting-compiler-behavior-relation}
+The compiler behavior relation is written
+$$
+  \mathsf{Compiles}_C(S,T),
+  \qquad
+  C,S,T\in\mathsf{EventFlow}.
+$$
+It is read as: compiler flow $C$ compiles input event flow $S$ into output event flow $T$. The compiler, input, and output are all event flows, not host programs, ASTs, or package objects.
+\end{definition}
+
+\begin{remark}[Compiler behavior is a source-level relation]
+\label{rem:self-hosting-compiler-behavior-source-level}
+The judgment $\mathsf{Compiles}_C(S,T)$ is a source-level relation over event flows. It is not a channel-level bit rewrite and not a host-level function call. To obtain channel presentations of $S$ and $T$, one applies $\mathsf{Compile}(S)$ and $\mathsf{Compile}(T)$ separately.
+\end{remark}
+
+\begin{definition}[Compiler task domain]
+\label{def:self-hosting-compiler-task-domain}
+The \emph{task domain} of a compiler flow $C$ is a recognized event-flow class
+$$
+  \mathsf{TaskDom}(C,D),
+$$
+where $D\in\mathsf{EventFlow}$ represents the input-flow range that $C$ is licensed to handle. A channel compiler has only the event-flow and channel-flow task domain; it does not thereby handle theorem recognition or $\NameCert$ recognition.
+\end{definition}
+
+\begin{definition}[Compiler target domain]
+\label{def:self-hosting-compiler-target-domain}
+The \emph{target domain} of a compiler flow $C$ is a recognized event-flow class
+$$
+  \mathsf{TargetDom}(C,T),
+$$
+recording the kind of output flow $C$ is meant to produce, such as channel-code flow, package-recognizer flow, $\NameCert$-recognizer flow, theorem-recognizer flow, or compiler flow.
+\end{definition}
+
+\section{Compiler certificates}
+\label{sec:self-hosting-compiler-certificates}
+
+\begin{definition}[Compiler certificate candidate flow]
+\label{def:self-hosting-compiler-cert-candidate}
+A \emph{compiler certificate candidate flow} is an event flow
+$$
+  K_C\in\mathsf{EventFlow}.
+$$
+It claims to supply compilation-capability evidence for a compiler candidate $C$, but has not yet been recognized as a sound compiler certificate.
+\end{definition}
+
+\begin{definition}[Compiler certificate recognition]
+\label{def:self-hosting-compiler-cert-recognition}
+The compiler-certificate recognition relation is written
+$$
+  \mathsf{RecognizesCompilerCert}(R_K,K_C,C),
+  \qquad
+  R_K,K_C,C\in\mathsf{EventFlow}.
+$$
+It is read as: the generated recognizer flow $R_K$ recognizes the event flow $K_C$ as a compiler certificate for compiler flow $C$.
+\end{definition}
+
+\begin{definition}[Compiler certificate fields]
+\label{def:self-hosting-compiler-certificate-fields}
+If
+$$
+  \mathsf{RecognizesCompilerCert}(R_K,K_C,C),
+$$
+then $R_K$ may recognize subflows of $K_C$ as compiler-certificate roles:
+$$
+\begin{array}{ll}
+  \mathsf{CompInputDom}_{R_K}(K_C,D_{\mathrm{in}}),&
+  \mathsf{CompOutputDom}_{R_K}(K_C,D_{\mathrm{out}}),\\
+  \mathsf{CompEncodingRule}_{R_K}(K_C,E),&
+  \mathsf{CompDecodingRule}_{R_K}(K_C,D),\\
+  \mathsf{CompRoundTrip}_{R_K}(K_C,P),&
+  \mathsf{CompRecognizerHierarchy}_{R_K}(K_C,H),\\
+  \mathsf{CompLedger}_{R_K}(K_C,L),&
+  \mathsf{CompFailure}_{R_K}(K_C,F),\\
+  \mathsf{CompKernelConservativity}_{R_K}(K_C,K),&
+  \mathsf{CompSelfDescription}_{R_K}(K_C,\mathrm{SD}),\\
+  \mathsf{CompSeal}_{R_K}(K_C,\sigma_C).
+\end{array}
+$$
+These are not external field labels. They are subflow roles recognized by $R_K$ inside $K_C$.
+\end{definition}
+
+\begin{definition}[Certified compiler flow]
+\label{def:self-hosting-compiler-certified-compiler}
+A compiler candidate $C$ is a \emph{certified compiler flow}, written
+$$
+  \mathsf{CertifiedCompiler}(C),
+$$
+when there exist a compiler certificate flow $K_C$ and recognizer $R_K$ such that
+$$
+  \mathsf{RecognizesCompilerCert}(R_K,K_C,C)
+$$
+and the recognized certificate flow is sound.
+\end{definition}
+
+\begin{principle}[No compiler without compiler certificate]
+\label{prin:self-hosting-compiler-no-compiler-without-cert}
+A compiler flow may be used as a formal compiler only when it is certified. Before the judgment
+$$
+  \mathsf{Compiles}_C(S,T)
+$$
+is used formally, the system must have
+$$
+  \mathsf{CertifiedCompiler}(C).
+$$
+Otherwise $C$ remains only a compiler candidate flow.
+\end{principle}
+
+\begin{theorem}[Uncertified compiler cannot be used as compiler]
+\label{thm:self-hosting-compiler-uncertified-cannot-compile}
+If $\neg\mathsf{CertifiedCompiler}(C)$, then the system cannot use
+$$
+  \mathsf{Compiles}_C(S,T)
+$$
+as formal evidence that $C$ compiles $S$ into $T$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{prin:self-hosting-compiler-no-compiler-without-cert}, formal compiler behavior requires a certified compiler flow. If $C$ is not certified, its encoding rule, decoding rule, round-trip theorem, failure behavior, ledger behavior, and kernel conservativity are not supported by a recognized compiler certificate. Hence $\mathsf{Compiles}_C(S,T)$ cannot be used as a formal compilation judgment.
+\end{proof}
+
+\begin{corollary}[Host compiler output is inadmissible without event-flow certificate]
+\label{cor:self-hosting-compiler-host-output-inadmissible}
+If a compilation result comes only from a host compiler, script, external parser, build tool, YAML manifest, or meta-level program, and has no certified compiler flow, then it is not admissible as a formal BEDC compiler judgment.
+\end{corollary}
+
+\section{Bootstrap boundary}
+\label{sec:self-hosting-compiler-bootstrap-boundary}
+
+\begin{definition}[Bootstrap compiler]
+\label{def:self-hosting-compiler-bootstrap-compiler}
+A \emph{bootstrap compiler} is a compiler component explicitly recorded as part of the bootstrap boundary before self-hosting is discharged. It is written
+$$
+  \mathsf{Bootstrap}(C,\rho),
+$$
+where $\rho$ records the bootstrap role, such as channel encoder and decoder, first event-flow recognizer, or first recognizer-certificate checker.
+\end{definition}
+
+\begin{definition}[Bootstrap obligation]
+\label{def:self-hosting-compiler-bootstrap-obligation}
+A \emph{bootstrap obligation} is an event flow $B$ whose recognized content records the bootstrap component, its role, why it is assumed, which part is not yet self-hosted, the required discharge condition, status, and ledger. It is written
+$$
+  \mathsf{BootstrapObligation}(B,C,\rho).
+$$
+\end{definition}
+
+\begin{principle}[Bootstrap must be explicit]
+\label{prin:self-hosting-compiler-bootstrap-explicit}
+Before full self-hosting is established, every compiler component that depends on external implementation must be recorded by a bootstrap obligation. The component cannot be hidden in host functions, YAML, Lean meta code, proof scripts, or implementation details.
+\end{principle}
+
+\begin{theorem}[Hidden bootstrap violates no-hidden-input discipline]
+\label{thm:self-hosting-compiler-hidden-bootstrap-violates}
+If a compiler component $C$ is used in a formal compilation judgment, but is neither a certified compiler flow nor recorded by a bootstrap obligation, then the system violates the no-hidden-input discipline.
+\end{theorem}
+
+\begin{proof}
+Formal compilation judgments are supported by certified compiler flows, except at an explicit bootstrap boundary. If $C$ is neither certified nor recorded as a bootstrap obligation, then the source of its behavior is outside the event-flow system and has no ledger. It is therefore a hidden input.
+\end{proof}
+
+\section{Self-compilation and self-hosting}
+\label{sec:self-hosting-compiler-self-compilation}
+
+\begin{definition}[Compiler behavior classifier]
+\label{def:self-hosting-compiler-behavior-classifier}
+The compiler behavior classifier is written
+$$
+  C\equiv_{\mathrm{comp}} C'
+$$
+when $C$ and $C'$ have the same recognized behavior on the same recognized task domain and preserve the same ledger and failure-flow behavior. The classifier records input-domain agreement, output-domain agreement, encoding behavior, decoding behavior, round-trip theorem behavior, failure-flow behavior, ledger behavior, and kernel-conservativity behavior. It is not raw event-flow equality, kernel equality, or $\hsame$.
+\end{definition}
+
+\begin{definition}[Self-compilation]
+\label{def:self-hosting-compiler-self-compilation}
+A compiler flow $C$ \emph{self-compiles} when there exists an event flow $C'$ such that
+$$
+  \mathsf{Compiles}_C(C,C')
+  \qquad\text{and}\qquad
+  C'\equiv_{\mathrm{comp}}C.
+$$
+This is written $\mathsf{SelfCompiles}(C)$.
+\end{definition}
+
+\begin{definition}[Self-hosting compiler flow]
+\label{def:self-hosting-compiler-flow}
+A compiler flow $C$ is \emph{self-hosting}, written $\mathsf{SelfHosting}(C)$, when:
+\begin{enumerate}
+\item $\mathsf{CertifiedCompiler}(C)$;
+\item $\mathsf{RecognizesCompiler}(R_C,C)$ for some generated compiler recognizer $R_C$;
+\item $\mathsf{SelfCompiles}(C)$;
+\item the self-compilation ledger records raw $C$, compiled code, decoded output $C'$, and the behavior-classifier witness $C'\equiv_{\mathrm{comp}}C$.
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}[Self-hosting is not raw equality]
+\label{prop:self-hosting-compiler-not-raw-equality}
+If $\mathsf{SelfHosting}(C)$, then for some $C'$ one obtains
+$$
+  C'\equiv_{\mathrm{comp}}C,
+$$
+but not necessarily $C'=C$ as raw event flows.
+\end{proposition}
+
+\begin{proof}
+\autoref{def:self-hosting-compiler-flow} requires behavior-classifier equivalence $C'\equiv_{\mathrm{comp}}C$. By \autoref{def:self-hosting-compiler-behavior-classifier}, this classifier is not raw event-flow equality. Hence self-hosting does not imply $C'=C$.
+\end{proof}
+
+\begin{corollary}[Self-hosting does not imply kernel equality]
+\label{cor:self-hosting-compiler-not-kernel-equality}
+Since $C'\equiv_{\mathrm{comp}}C$ is a compiler-behavior classifier, self-hosting asserts no new kernel-level equality, $\hsame$, or $\msame$ judgment.
+\end{corollary}
+
+\begin{definition}[Self-hosting ledger]
+\label{def:self-hosting-compiler-ledger}
+A \emph{self-hosting ledger} for $C$ is an event flow $L_C$ recording raw compiler flow $C$, compiled channel code $\mathsf{Compile}(C)$, decoded output flow $C'$, the compiler-behavior classifier witness $C'\equiv_{\mathrm{comp}}C$, failure branches, discharged or remaining bootstrap obligations, and kernel-conservativity witness. This is written
+$$
+  \mathsf{SelfHostingLedger}(C,L_C).
+$$
+\end{definition}
+
+\begin{principle}[No self-hosting without ledger]
+\label{prin:self-hosting-compiler-no-self-hosting-without-ledger}
+A self-hosting claim requires a self-hosting ledger:
+$$
+  \mathsf{SelfHosting}(C)
+  \Longrightarrow
+  \exists L_C,\ \mathsf{SelfHostingLedger}(C,L_C).
+$$
+This is the compiler-level form of the BEDC ledger discipline: recognition, compression, and behavior equivalence must retain provenance.
+\end{principle}
+
+\begin{theorem}[Self-hosting removes compiler-as-hidden-input]
+\label{thm:self-hosting-compiler-removes-hidden-input}
+If $\mathsf{SelfHosting}(C)$ and the recognizer hierarchy of $C$ recognizes package, $\NameCert$, derivation-certificate, theorem, chapter, and compiler flows, then the compiler is no longer a host-level hidden input.
+\end{theorem}
+
+\begin{proof}
+Self-hosting gives a certified compiler flow $C$ and a self-compilation output $C'$ with $C'\equiv_{\mathrm{comp}}C$. The self-hosting ledger records the raw flow, compiled code, decoded output, behavior equivalence, and failure behavior. The recognizer hierarchy recognizes package, certificate, theorem, chapter, and compiler structures by generated recognizer flows. The system therefore no longer needs a host compiler, parser, AST, or manifest as formal input; compiler behavior is supported by event-flow certificate and self-compilation ledger.
+\end{proof}
+
+\begin{corollary}[Full no-hidden-input claim requires self-hosting or declared bootstrap]
+\label{cor:self-hosting-compiler-full-claim-requires-boundary}
+If $\mathsf{SelfHosting}(C)$ has not been established, then the system cannot claim a full no-hidden-input compiler unless every non-self-hosted component is recorded as a bootstrap obligation.
+\end{corollary}
+
+\section{Bootstrap ladder}
+\label{sec:self-hosting-compiler-bootstrap-ladder}
+
+\begin{definition}[Channel compiler $C_0$]
+\label{def:self-hosting-compiler-channel-compiler}
+The lowest channel compiler $C_0$ has behavior
+$$
+  \text{raw }0\mapsto 0,\qquad
+  \text{raw }1\mapsto 10,\qquad
+  \text{event end}\mapsto 11,
+$$
+and supports the bijection
+$$
+  \mathsf{EventFlow}\cong\mathsf{LegalZStream}.
+$$
+It recognizes legal event codes, event boundaries, raw event reconstruction, and flow round trips. It does not recognize packages, $\NameCert$ flows, derivation-certificate flows, theorem flows, chapter flows, or compiler flows.
+\end{definition}
+
+\begin{proposition}[$C_0$ is not a full compiler]
+\label{prop:self-hosting-compiler-c0-not-full}
+The channel compiler $C_0$ is not a package compiler, theorem compiler, or self-hosting compiler.
+\end{proposition}
+
+\begin{proof}
+The behavior of $C_0$ is limited to event-channel encoding and decoding. It supplies no recognition relation for package, $\NameCert$, derivation-certificate, theorem, chapter, or compiler flows. Hence it is not a full compiler.
+\end{proof}
+
+\begin{definition}[Compiler bootstrap ladder]
+\label{def:self-hosting-compiler-bootstrap-ladder}
+A \emph{compiler bootstrap ladder} is a sequence
+$$
+  C_0,C_1,C_2,C_3,C_4,C_5
+$$
+with roles:
+$$
+\begin{array}{ll}
+  C_0:& \text{channel compiler},\\
+  C_1:& \text{event-flow and basic recognizer compiler},\\
+  C_2:& \text{package recognizer compiler},\\
+  C_3:& \text{$\NameCert$ and derivation-certificate recognizer compiler},\\
+  C_4:& \text{theorem and chapter recognizer compiler},\\
+  C_5:& \text{compiler recognizer and self-hosting compiler}.
+\end{array}
+$$
+Each transition to $C_{i+1}$ must be compiled or recognized using prior stages and must carry a certificate flow documenting the transition.
+\end{definition}
+
+\begin{definition}[Ladder soundness]
+\label{def:self-hosting-compiler-ladder-soundness}
+A compiler bootstrap ladder is \emph{sound} when every transition
+$$
+  C_i\to C_{i+1}
+$$
+has an event-flow certificate containing input domain, output domain, compiler behavior, round-trip or recognition soundness, ledger, failure-flow, kernel-conservativity, status, and seal.
+\end{definition}
+
+\begin{theorem}[Sound ladder discharges staged hidden inputs]
+\label{thm:self-hosting-compiler-sound-ladder-discharges}
+If $C_0,\ldots,C_5$ is a sound compiler bootstrap ladder and $C_5$ is a self-hosting compiler flow, then the lower recognizer and compiler structures are generated, recognized, compiled, or self-hosted by event-flow structure rather than supplied as external hidden inputs.
+\end{theorem}
+
+\begin{proof}
+By ladder soundness, each stage $C_{i+1}$ is supported by prior stages and a transition certificate flow. By self-hosting of $C_5$, the final compiler compiles and behaviorally reproduces itself. Thus the recognizer hierarchy and compiler behavior are supported by event flows and ledgers rather than by an external parser, AST, manifest, or host compiler as formal input.
+\end{proof}
+
+\begin{definition}[Remaining bootstrap boundary]
+\label{def:self-hosting-compiler-remaining-boundary}
+Before $C_5$ is self-hosting, the \emph{remaining bootstrap boundary} is the collection of components not yet discharged by the sound ladder:
+$$
+  \mathsf{BootBoundary}
+  =
+  \{\,C_i\mid C_i\text{ is not yet certified or not yet self-hosted}\,\}.
+$$
+\end{definition}
+
+\begin{principle}[Bootstrap boundary must be visible]
+\label{prin:self-hosting-compiler-boundary-visible}
+Every element of $\mathsf{BootBoundary}$ must have a bootstrap-obligation event flow. Hidden bootstrap is not allowed.
+\end{principle}
+
+\begin{theorem}[Invisible bootstrap blocks compiler certification]
+\label{thm:self-hosting-compiler-invisible-bootstrap-blocks}
+If some $C_i\in\mathsf{BootBoundary}$ lacks a bootstrap-obligation flow, then the compiler part cannot be certified as no-hidden-input.
+\end{theorem}
+
+\begin{proof}
+A component in the bootstrap boundary depends on external implementation or unproven recognition behavior. If it lacks a bootstrap-obligation flow, that dependence is not recorded in the event-flow ledger. Hidden input remains, so no-hidden-input certification fails.
+\end{proof}
+
+\section{Compiler theorem packages}
+\label{sec:self-hosting-compiler-theorem-packages}
+
+\begin{definition}[Compiler theorem package]
+\label{def:self-hosting-compiler-theorem-package}
+A \emph{compiler theorem package} is a theorem flow whose statement concerns compiler behavior. Examples include channel round-trip theorems, decode-encode theorems, recognizer soundness theorems, recognizer completeness theorems, compiler self-hosting theorems, and bootstrap discharge theorems. Each such package must be a recognized theorem flow in the sense of \autoref{ch:ground-compiler-theorem-flow-recognition}.
+\end{definition}
+
+\begin{proposition}[Compiler theorem code is theorem-flow code]
+\label{prop:self-hosting-compiler-theorem-code}
+The code of a compiler theorem is
+$$
+  \mathsf{Compile}(T),
+$$
+where $T$ is the recognized compiler theorem flow. It is not a host theorem name, Lean theorem identifier, or theorem label.
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:theorem-generated-theorem-code}, theorem code is the channel compilation of theorem flow. Compiler theorems are theorem flows whose statements concern compiler behavior. Therefore their code is $\mathsf{Compile}(T)$.
+\end{proof}
+
+\begin{example}[Channel round-trip compiler theorem]
+\label{ex:self-hosting-compiler-channel-roundtrip-theorem}
+A channel round-trip theorem flow may contain statement flow $\mathsf{Decode}(\mathsf{Compile}(S))=S$, dependency flows for $\zeta$, event encoding, $\mathsf{Compile}$, and $\mathsf{Decode}$, a proof flow by induction on event flow, a ledger containing raw $S$, compiled stream, and decoded stream, a status flow, a canonical-site flow in the channel compiler chapter, and a theorem-seal flow. Its code is $\mathsf{Compile}(T_{\mathrm{roundtrip}})$.
+\end{example}
+
+\begin{example}[Recognizer soundness compiler theorem]
+\label{ex:self-hosting-compiler-recognizer-soundness-theorem}
+A recognizer soundness theorem flow may state that if $R$ recognizes $S$ under role $\rho$, then $S$ satisfies $\mathsf{RoleOK}(\rho)$. Its dependencies include recognizer-certificate definitions, the role definition, and the ledger definition. Its proof flow projects the soundness subflow from the recognizer certificate, and its ledger records $R$, $S$, and the certificate flow.
+\end{example}
+
+\begin{example}[Self-hosting theorem flow]
+\label{ex:self-hosting-compiler-self-hosting-theorem}
+A self-hosting theorem flow may state $\mathsf{SelfHosting}(C)$. Its dependencies include $\mathsf{CertifiedCompiler}(C)$, $\mathsf{RecognizesCompiler}(R_C,C)$, $\mathsf{Compiles}_C(C,C')$, $C'\equiv_{\mathrm{comp}}C$, and $\mathsf{SelfHostingLedger}(C,L_C)$. Its ledger records raw $C$, $\mathsf{Compile}(C)$, decoded $C'$, the behavior-classifier witness, and remaining bootstrap obligations.
+\end{example}
+
+\begin{theorem}[Self-hosting theorem is not required for channel bijection]
+\label{thm:self-hosting-compiler-channel-bijection-independent}
+The channel bijection
+$$
+  \mathsf{EventFlow}\cong\mathsf{LegalZStream}
+$$
+does not require a self-hosting compiler theorem. It requires only the channel encoder and decoder definitions and their round-trip proofs.
+\end{theorem}
+
+\begin{proof}
+The channel bijection is established at the $C_0$ layer by the definitions of $\zeta$, event encoding, $\mathsf{Compile}$, and $\mathsf{Decode}$, plus round-trip proofs. Self-hosting concerns the compiler flow itself as a generated object capable of reproducing its behavior. These are logically distinct.
+\end{proof}
+
+\begin{corollary}[Channel correctness and no-hidden-input completeness are separate]
+\label{cor:self-hosting-compiler-channel-correctness-separate}
+The system may have a correct channel compiler while still carrying bootstrap obligations for higher recognizers. Full no-hidden-input status requires both channel correctness and discharge of recognizer and compiler bootstrap obligations.
+\end{corollary}
+
+\section{Conservativity}
+\label{sec:self-hosting-compiler-conservativity}
+
+\begin{theorem}[Compiler-flow recognition is conservative over the finite kernel]
+\label{thm:self-hosting-compiler-conservativity}
+Adding compiler candidate flows, compiler certificate flows, compiler behavior relations, self-hosting relations, and bootstrap obligations does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
+\end{theorem}
+
+\begin{proof}
+All compiler-related objects in this chapter are event flows or relations over event flows. They do not generate new $\bzero$ or $\bone$, do not add $\msame$, $\hsame$, or $\psame$ rules, do not change $\ExtR$ or $\ContR$, and do not license derived interfaces by themselves. Compiler behavior equivalence is a classifier over compiler flows, not kernel equality. Therefore compiler-flow recognition is conservative over the finite kernel.
+\end{proof}
+
+\begin{corollary}[Self-hosting compiler is not a BEDC primitive]
+\label{cor:self-hosting-compiler-not-primitive}
+Even if $\mathsf{SelfHosting}(C)$ holds, $C$ is not a new primitive. It is a certified event flow with behavior classifier and ledger.
+\end{corollary}
+
+\begin{remark}[Outlook]
+\label{rem:self-hosting-compiler-outlook}
+This chapter establishes that the compiler is not an external program; ultimately it must be an event flow. The core relations are $\mathsf{CertifiedCompiler}(C)$, $\mathsf{Compiles}_C(S,T)$, $C'\equiv_{\mathrm{comp}}C$, and $\mathsf{SelfHosting}(C)$. A compiler candidate flow is not automatically a compiler; formal use requires a compiler certificate. Hidden bootstrap violates the no-hidden-input discipline. Self-hosting is behavior classification, not raw equality or kernel equality, and it requires a self-hosting ledger. Self-hosting removes compiler-as-hidden-input, while $C_0$ channel correctness remains separate from full no-hidden-input completeness. A sound bootstrap ladder discharges staged hidden inputs; invisible bootstrap blocks certification. Compiler theorem packages are theorem flows, and compiler-flow recognition is conservative over the finite kernel. The next chapter turns from compiler foundations to semantic motif analysis of event flows and channel codes.
+\end{remark}
