@@ -30,6 +30,24 @@ theorem AffineSpaceHistoryTorsorCarrier_append_translation
     unary_cont_closed carrier.left carrier.right actionCont
   exact And.intro (And.intro actionUnary carrier.right) actionCont
 
+theorem AffineSpaceHistoryTorsorCarrier_vector_action_stability
+    {point point' translation translation' action action' : BHist} :
+    AffineSpaceHistoryTorsorCarrier point translation ->
+      AffineSpaceHistoryTorsorCarrier point' translation' ->
+        hsame point point' -> hsame translation translation' ->
+          Cont point translation action -> Cont point' translation' action' ->
+            AffineSpaceHistoryTorsorCarrier action translation ∧
+              AffineSpaceHistoryTorsorCarrier action' translation' ∧ hsame action action' := by
+  intro carrier carrier' samePoint sameTranslation actionCont actionCont'
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed carrier.left carrier.right actionCont
+  have actionUnary' : UnaryHistory action' :=
+    unary_cont_closed carrier'.left carrier'.right actionCont'
+  have sameAction : hsame action action' :=
+    cont_respects_hsame samePoint sameTranslation actionCont actionCont'
+  exact And.intro (And.intro actionUnary carrier.right)
+    (And.intro (And.intro actionUnary' carrier'.right) sameAction)
+
 theorem AffineSpaceTranslationClassifier_witnesses_identified
     {point target left right leftAction rightAction : BHist} :
     AffineSpaceTranslationClassifier point target left right leftAction rightAction ->
