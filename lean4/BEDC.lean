@@ -93,6 +93,7 @@ import BEDC.Derived.CurvatureUp.Handoff
 import BEDC.Derived.CurvatureUp.HandoffConsumerCoverage
 import BEDC.Derived.CurvatureUp.ConnectionCarrierScope
 import BEDC.Derived.CurvatureUp.ChernWeilSourceEnvelope
+import BEDC.Derived.CurvatureUp.ConsumerExactness
 import BEDC.Derived.CurvatureUp.PublicObligation
 import BEDC.Derived.CurvatureUp.TensorialSectionTransport
 import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback

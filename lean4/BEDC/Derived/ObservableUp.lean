@@ -24,6 +24,18 @@ def ObservableBHistOperatorCarrier [AskSetup] [PackageSetup]
       Cont operator spectrum expectation ∧ Cont hilbert witness ledger ∧
         Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
 
+def ObservableSpectralExpectationClassifier [AskSetup] [PackageSetup]
+    (hilbert operator spectrum expectation witness provenance ledger endpoint hilbert' operator'
+      spectrum' expectation' witness' provenance' ledger' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+      endpoint bundle pkg ∧
+    ObservableBHistOperatorCarrier hilbert' operator' spectrum' expectation' witness'
+      provenance' ledger' endpoint' bundle pkg ∧
+      hsame hilbert hilbert' ∧ hsame operator operator' ∧ hsame spectrum spectrum' ∧
+        hsame expectation expectation' ∧ hsame witness witness' ∧
+          hsame provenance provenance' ∧ hsame ledger ledger' ∧ hsame endpoint endpoint'
+
 theorem ObservableBHistOperatorCarrier_quantumstate_expectation_boundary [AskSetup]
     [PackageSetup]
     {hilbert operator spectrum expectation witness provenance ledger endpoint stateHilbert
