@@ -1,5 +1,6 @@
 import BEDC.Derived.FieldUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -10,6 +11,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldUp
@@ -155,5 +157,53 @@ theorem EllipticCurveCarrierPacket_classifier_transport_obligation
               (And.intro projectiveLedgerCont' provenanceCont')))))
   · exact And.intro sameFieldLedger
       (And.intro sameProjectiveLedger sameProvenance)
+
+theorem EllipticCurveCarrierPacket_semantic_name_certificate
+    {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance :
+      BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          exists carriedBase : BHist, exists carriedProvenance : BHist,
+            EllipticCurveCarrierPacket field projective coeffs cubic smooth carriedBase
+              fieldLedger projectiveLedger carriedProvenance ∧ hsame endpoint carriedBase)
+        (fun endpoint : BHist =>
+          exists carriedBase : BHist, exists carriedProvenance : BHist,
+            EllipticCurveCarrierPacket field projective coeffs cubic smooth carriedBase
+              fieldLedger projectiveLedger carriedProvenance ∧ hsame endpoint carriedBase)
+        (fun endpoint : BHist =>
+          exists carriedBase : BHist, exists carriedProvenance : BHist,
+            EllipticCurveCarrierPacket field projective coeffs cubic smooth carriedBase
+              fieldLedger projectiveLedger carriedProvenance ∧ hsame endpoint carriedBase)
+        (fun left right : BHist =>
+          (exists lb : BHist, exists lp : BHist,
+            EllipticCurveCarrierPacket field projective coeffs cubic smooth lb
+              fieldLedger projectiveLedger lp ∧ hsame left lb) ∧
+          (exists rb : BHist, exists rp : BHist,
+            EllipticCurveCarrierPacket field projective coeffs cubic smooth rb
+              fieldLedger projectiveLedger rp ∧ hsame right rb) ∧ hsame left right) := by
+  intro packet
+  constructor
+  · constructor
+    · refine Exists.intro basePoint ?_
+      refine Exists.intro basePoint ?_
+      refine Exists.intro provenance ?_
+      exact And.intro packet (hsame_refl basePoint)
+    · intro endpoint source
+      exact And.intro source (And.intro source (hsame_refl endpoint))
+    · intro left right same
+      exact And.intro same.right.left
+        (And.intro same.left (hsame_symm same.right.right))
+    · intro left middle right sameLeftMiddle sameMiddleRight
+      exact And.intro sameLeftMiddle.left
+        (And.intro sameMiddleRight.right.left
+          (hsame_trans sameLeftMiddle.right.right sameMiddleRight.right.right))
+    · intro left right same _source
+      exact same.right.left
+  · intro endpoint source
+    exact source
+  · intro endpoint source
+    exact source
 
 end BEDC.Derived.EllipticCurveUp

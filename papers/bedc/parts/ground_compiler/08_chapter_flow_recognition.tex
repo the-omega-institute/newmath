@@ -1,0 +1,527 @@
+\chapter{Chapter Flow Recognition}
+\label{ch:ground-compiler-chapter-flow-recognition}
+
+\autoref{ch:ground-compiler-theorem-flow-recognition} records the no-hidden-input reading of theoremhood: a theorem is not an external theorem label or proof object, but a recognized statement, dependency, proof, certificate, ledger, status, canonical-site, and seal structure inside an event flow. This chapter lifts the same rule to chapter structure.
+
+The governing rule is
+$$
+  \boxed{\text{a chapter is recognized event-flow structure, not a manifest, outline, or external package}.}
+$$
+The formal compiler therefore does not accept a chapter package, manifest, YAML file, Markdown heading tree, \LaTeX{} section tree, external chapter identifier, chapter title string, definition list, theorem list, proof-tree list, certificate table, cannot-claim table, or status table. A chapter enters this layer only as an event flow recognized by a generated chapter recognizer.
+
+\section{Chapter recognition}
+\label{sec:chapter-generated-recognition}
+
+\begin{definition}[Chapter candidate flow]
+\label{def:chapter-generated-candidate-flow}
+A \emph{chapter candidate flow} is an event flow
+$$
+  C \in \mathsf{EventFlow}.
+$$
+It has not yet been recognized as a chapter. Thus $C\in\mathsf{EventFlow}$ does not imply that $C$ is a chapter, contains definitions, lemmas, theorems, proofs, certificates, ledgers, status data, or carries a chapter seal.
+\end{definition}
+
+\begin{definition}[Generated chapter recognizer]
+\label{def:chapter-generated-recognizer}
+A \emph{generated chapter recognizer} is an event flow
+$$
+  R_C\in\mathsf{EventFlow}.
+$$
+It is not a YAML parser, Markdown parser, \LaTeX{} section parser, host-level AST constructor, or external chapter manifest. Its public formal carrier is itself generated from the two raw marks and acts on decoded event flows.
+\end{definition}
+
+\begin{definition}[Chapter recognition relation]
+\label{def:chapter-generated-recognition-relation}
+The chapter recognition relation is written
+$$
+  \mathsf{RecognizesChapter}(R_C,C),
+  \qquad
+  R_C,C\in\mathsf{EventFlow}.
+$$
+It is read as: the generated chapter recognizer flow $R_C$ recognizes the event flow $C$ as a chapter flow.
+\end{definition}
+
+\begin{remark}[Recognition is not chapter input]
+\label{rem:chapter-generated-recognition-not-input}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ does not say that an external chapter object has been supplied. It says that, in the decoded source event layer, $R_C$ recognizes $C$ as having chapter-flow structure. The direction is
+$$
+  \mathsf{EventFlow}
+  \longrightarrow
+  \mathsf{RecognizedChapterFlow},
+$$
+not
+$$
+  \mathsf{ChapterPkg}
+  \longrightarrow
+  \mathsf{EventFlow}.
+$$
+\end{remark}
+
+\begin{definition}[Recognized chapter flow]
+\label{def:chapter-generated-recognized-chapter-flow}
+Define
+$$
+  \mathsf{ChapterFlow}(C)
+  \;:\Longleftrightarrow\;
+  \exists R_C,\ \mathsf{RecognizesChapter}(R_C,C).
+$$
+Thus $C$ is a recognized chapter flow exactly when some generated chapter recognizer recognizes it in that role.
+\end{definition}
+
+\begin{principle}[No external chapter input]
+\label{prin:chapter-generated-no-external-input}
+There is no formal compiler entry point
+$$
+  \mathsf{CompileChapter}:\mathsf{ChapterPkg}\to\mathsf{LegalZStream}.
+$$
+The only formal compiler entry point remains
+$$
+  \mathsf{Compile}:\mathsf{EventFlow}\to\mathsf{LegalZStream}.
+$$
+If $C$ is recognized as a chapter flow, its chapter code is just $\mathsf{Compile}(C)$.
+\end{principle}
+
+\begin{proposition}[Recognition preserves channel code]
+\label{prop:chapter-generated-recognition-preserves-code}
+If $\mathsf{RecognizesChapter}(R_C,C)$, then the channel encoding of $C$ is still
+$$
+  \mathsf{Compile}(C).
+$$
+Chapter recognition does not add, delete, or rewrite channel bits.
+\end{proposition}
+
+\begin{proof}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is a source-level recognition relation. It says only that $C$ is recognized by $R_C$ as a chapter flow. The channel encoding is supplied by $\mathsf{Compile}$ and depends only on the event flow $C$. Since recognition does not alter $C$, it does not alter $\mathsf{Compile}(C)$.
+\end{proof}
+
+\begin{corollary}[Recognized chapter code is not a new code]
+\label{cor:chapter-generated-code-not-new-code}
+If $C$ is a recognized chapter flow, then
+$$
+  \mathsf{ChapterCode}(C):=\mathsf{Compile}(C)
+$$
+is the channel code of the same event flow $C$, not the output of a separate chapter compiler.
+\end{corollary}
+
+\section{Chapter roles}
+\label{sec:chapter-generated-roles}
+
+\begin{definition}[Recognized chapter subflows]
+\label{def:chapter-generated-subflows}
+If $\mathsf{RecognizesChapter}(R_C,C)$, then $R_C$ may recognize subflows of $C$ as chapter roles:
+$$
+\begin{array}{ll}
+  \mathsf{ChapStart}_{R_C}(C,C_0),&
+  \mathsf{ChapDependencies}_{R_C}(C,C_1),\\
+  \mathsf{ChapDefinitions}_{R_C}(C,C_2),&
+  \mathsf{ChapLemmas}_{R_C}(C,C_3),\\
+  \mathsf{ChapTheorems}_{R_C}(C,C_4),&
+  \mathsf{ChapProofs}_{R_C}(C,C_5),\\
+  \mathsf{ChapCertificates}_{R_C}(C,C_6),&
+  \mathsf{ChapLedger}_{R_C}(C,C_7),\\
+  \mathsf{ChapCannotClaims}_{R_C}(C,C_8),&
+  \mathsf{ChapStatus}_{R_C}(C,C_9),\\
+  \mathsf{ChapSeal}_{R_C}(C,\sigma_C).
+\end{array}
+$$
+These are not external field labels. They are source-level subflow roles recognized inside $C$ by $R_C$.
+\end{definition}
+
+\begin{remark}[Chapter field names are explanatory metalanguage]
+\label{rem:chapter-generated-field-names-metalanguage}
+The words chapter-start, dependencies, definitions, lemmas, theorems, proofs, certificates, ledger, cannot-claims, status, and chapter-seal are explanatory metalanguage. Formally, the roles must be recognized in event flows by the corresponding $\mathsf{Chap\cdots}_{R_C}$ relations. This preserves the no-hidden-input rule: chapter fields are not first-layer inputs, and chapter structure is not an external record supplied to the compiler.
+\end{remark}
+
+\begin{definition}[Complete chapter-flow recognition]
+\label{def:chapter-generated-complete-recognition}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ has \emph{complete chapter-flow recognition} when there exist subflows
+$$
+  C_0,C_1,\ldots,C_9,\sigma_C
+$$
+such that
+$$
+\begin{gathered}
+  \mathsf{ChapStart}_{R_C}(C,C_0),\qquad
+  \mathsf{ChapDependencies}_{R_C}(C,C_1),\qquad
+  \mathsf{ChapDefinitions}_{R_C}(C,C_2),\\
+  \mathsf{ChapLemmas}_{R_C}(C,C_3),\qquad
+  \mathsf{ChapTheorems}_{R_C}(C,C_4),\qquad
+  \mathsf{ChapProofs}_{R_C}(C,C_5),\\
+  \mathsf{ChapCertificates}_{R_C}(C,C_6),\qquad
+  \mathsf{ChapLedger}_{R_C}(C,C_7),\qquad
+  \mathsf{ChapCannotClaims}_{R_C}(C,C_8),\\
+  \mathsf{ChapStatus}_{R_C}(C,C_9),\qquad
+  \mathsf{ChapSeal}_{R_C}(C,\sigma_C).
+\end{gathered}
+$$
+Intuitively, $C_0$ is the chapter-start flow, $C_1$ the dependency flow, $C_2$ the definition flow, $C_3$ the lemma flow, $C_4$ the theorem flow, $C_5$ the proof flow, $C_6$ the certificate flow, $C_7$ the ledger flow, $C_8$ the cannot-claim flow, $C_9$ the status flow, and $\sigma_C$ the chapter-seal flow. These roles are recognized by $R_C$, not supplied by an external chapter package.
+\end{definition}
+
+\begin{principle}[No chapter without complete recognized flow]
+\label{prin:chapter-generated-no-incomplete-chapter}
+A recognized chapter flow must have complete chapter-flow recognition. Thus
+$$
+  \mathsf{ChapterFlow}(C)
+  \Longrightarrow
+  \exists R_C,\ \mathsf{RecognizesChapter}(R_C,C),
+$$
+with recognized chapter-start, dependency, definition, lemma, theorem, proof, certificate, ledger, cannot-claim, status, and seal subflows.
+\end{principle}
+
+\begin{theorem}[Incomplete chapter flow is not a chapter flow]
+\label{thm:chapter-generated-incomplete-not-chapter}
+If an event flow $C$ lacks any one of the recognized chapter-start, dependency, definition, lemma, theorem, proof, certificate, ledger, cannot-claim, status, or chapter-seal subflows, then $C$ cannot be used as a recognized chapter flow.
+\end{theorem}
+
+\begin{proof}
+By \autoref{prin:chapter-generated-no-incomplete-chapter}, a recognized chapter flow must have complete chapter-flow recognition. If any required subflow is absent, complete recognition fails. Therefore $\mathsf{ChapterFlow}(C)$ cannot be used for that incomplete flow.
+\end{proof}
+
+\begin{corollary}[Title alone is not a chapter]
+\label{cor:chapter-generated-title-alone-not-chapter}
+A chapter-start flow or title-like event does not by itself constitute a chapter flow. It still needs dependencies, definitions, lemmas, theorems, proofs, certificates, ledger, cannot-claims, status, and chapter seal.
+\end{corollary}
+
+\begin{corollary}[Theorem list alone is not a chapter]
+\label{cor:chapter-generated-theorem-list-alone-not-chapter}
+Even if an event flow contains recognized theorem flows, that alone does not constitute a chapter flow. The chapter still needs dependency, definition, proof, certificate, ledger, cannot-claim, status, and chapter-seal structure.
+\end{corollary}
+
+\section{Soundness of chapter structure}
+\label{sec:chapter-generated-soundness}
+
+\begin{definition}[Dependency soundness]
+\label{def:chapter-generated-dependency-sound}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{dependency-sound} when
+$$
+  \mathsf{ChapDependencies}_{R_C}(C,C_1)
+$$
+and every dependency flow recognized inside $C_1$ has already been generated before $C$ or appears in the same chapter flow in a well-founded order. A chapter may refer to a later object only when that reference is explicitly marked as a deferred claim, cannot-claim item, or open obligation.
+\end{definition}
+
+\begin{definition}[Definition soundness]
+\label{def:chapter-generated-definition-sound}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{definition-sound} when
+$$
+  \mathsf{ChapDefinitions}_{R_C}(C,C_2)
+$$
+and each definition flow inside $C_2$ is generated from prior dependencies, raw events, recognized package flows, recognized $\NameCert$ flows, or earlier definitions. If a definition introduces a derived name, the corresponding $\NameCert$ flow must be recognized, unless the definition is explicitly marked as candidate-only.
+\end{definition}
+
+\begin{definition}[Theorem soundness]
+\label{def:chapter-generated-theorem-sound}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{theorem-sound} when
+$$
+  \mathsf{ChapTheorems}_{R_C}(C,C_4)
+$$
+and each theorem subflow inside $C_4$ is recognized by a generated theorem recognizer as a sound theorem flow in the sense of \autoref{def:theorem-generated-sound-recognized-flow}.
+\end{definition}
+
+\begin{definition}[Proof soundness]
+\label{def:chapter-generated-proof-sound}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{proof-sound} when
+$$
+  \mathsf{ChapProofs}_{R_C}(C,C_5)
+$$
+and each proof subflow inside $C_5$ is checked by a generated proof checker flow, or else is explicitly marked as a proof obligation, paper-level proof, or unchecked proof status.
+\end{definition}
+
+\begin{definition}[Certificate soundness]
+\label{def:chapter-generated-certificate-sound}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{certificate-sound} when
+$$
+  \mathsf{ChapCertificates}_{R_C}(C,C_6)
+$$
+and each certificate subflow inside $C_6$ is recognized by its appropriate recognizer, for example as a $\NameCert$ flow, derivation-certificate flow, acceptance-gate flow, seal-certificate flow, reuse-certificate flow, or bridge-certificate flow, or else is explicitly marked as an open certificate obligation.
+\end{definition}
+
+\begin{definition}[Ledger soundness]
+\label{def:chapter-generated-ledger-sound}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{ledger-sound} when
+$$
+  \mathsf{ChapLedger}_{R_C}(C,C_7)
+$$
+and $C_7$ records the source material hidden or cited by the chapter's definitions, theorems, proofs, certificates, cannot-claims, status flow, and dependency flow. If the chapter uses nontrivial packaging, compression, classifier quotients, normalization, completion, or bridge structure, the ledger flow records the corresponding provenance.
+\end{definition}
+
+\begin{definition}[Cannot-claim soundness]
+\label{def:chapter-generated-cannot-claim-sound}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{cannot-claim-sound} when
+$$
+  \mathsf{ChapCannotClaims}_{R_C}(C,C_8)
+$$
+and $C_8$ records the claims the chapter is not allowed to make. Typical examples are bare code equals theorem, bare event equals mature object, source-level carry equals $\hsame$, channel-level $11$ participates in source-level carry, derived interface without certificate, completion without ledger, and export without acceptance gate. These cannot-claim items must be consistent with the chapter's definitions, theorems, certificates, and status flow.
+\end{definition}
+
+\begin{definition}[Status soundness]
+\label{def:chapter-generated-status-sound}
+The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{status-sound} when
+$$
+  \mathsf{ChapStatus}_{R_C}(C,C_9)
+$$
+and $C_9$ records the status of each main definition, theorem, certificate, bridge, and implementation target in the chapter. Explanatory status readings include $\mathrm{seed}$, $\mathrm{paperCert}$, $\mathrm{checkedCert}$, $\mathrm{bridgeCert}$, open obligation, and cannot-claim. These status readings are not automatically upgraded by channel code; they must be supplied by recognized status flows.
+\end{definition}
+
+\begin{definition}[Sound recognized chapter flow]
+\label{def:chapter-generated-sound-recognized-flow}
+A recognized chapter judgment
+$$
+  \mathsf{RecognizesChapter}(R_C,C)
+$$
+is \emph{sound} when it has complete chapter-flow recognition and is dependency-sound, definition-sound, theorem-sound, proof-sound, certificate-sound, ledger-sound, cannot-claim-sound, and status-sound.
+\end{definition}
+
+\begin{theorem}[Sound flow establishes chapterhood]
+\label{thm:chapter-generated-sound-establishes-chapterhood}
+If $\mathsf{RecognizesChapter}(R_C,C)$ and this recognition is sound, then
+$$
+  \mathsf{ChapterFlow}(C),
+$$
+and $C$ is available as a source-level event flow for chapter code.
+\end{theorem}
+
+\begin{proof}
+Complete chapter-flow recognition supplies chapter-start, dependency, definition, lemma, theorem, proof, certificate, ledger, cannot-claim, status, and chapter-seal subflows. Dependency-soundness records the well-founded dependency order. Definition-soundness prevents definitions from adding unlicensed external primitives. Theorem-soundness and proof-soundness recognize theorem and proof subflows in the required sense. Certificate-soundness recognizes the supporting certificate structure. Ledger-soundness tracks hidden and cited material. Cannot-claim-soundness records the claims not licensed by the chapter. Status-soundness records the chapter's strength and implementation status. Hence $C$ satisfies the flow-level conditions for chapterhood, and its chapter code is obtained from the ordinary channel compiler.
+\end{proof}
+
+\section{Chapter code and quotients}
+\label{sec:chapter-generated-code-and-quotients}
+
+\begin{definition}[Chapter code]
+\label{def:chapter-generated-chapter-code}
+If $C$ is a sound recognized chapter flow, define
+$$
+  \mathsf{ChapterCode}(C):=\mathsf{Compile}(C).
+$$
+This code is the channel compilation of $C$. It is not a chapter object, YAML file, manifest, or human-readable chapter tree.
+\end{definition}
+
+\begin{proposition}[Chapter code is injective on raw chapter flows]
+\label{prop:chapter-generated-code-injective}
+If $C$ and $D$ are sound recognized chapter flows and
+$$
+  \mathsf{ChapterCode}(C)=\mathsf{ChapterCode}(D),
+$$
+then $C=D$.
+\end{proposition}
+
+\begin{proof}
+By definition, $\mathsf{ChapterCode}(C)=\mathsf{Compile}(C)$ and $\mathsf{ChapterCode}(D)=\mathsf{Compile}(D)$. Equality of chapter codes gives
+$$
+  \mathsf{Compile}(C)=\mathsf{Compile}(D).
+$$
+By the channel bijection of \autoref{cor:channel-encoding-bijection}, $\mathsf{Compile}$ is injective on event flows. Hence $C=D$.
+\end{proof}
+
+\begin{corollary}[Raw chapter flows and chapter codes are bijective]
+\label{cor:chapter-generated-flow-code-bijective}
+Sound recognized chapter flows, considered as raw event flows, are in bijection with their chapter codes:
+$$
+  \mathsf{SoundChapterFlow}
+  \cong
+  \mathsf{LegalChapterCode}_{01}.
+$$
+\end{corollary}
+
+\begin{remark}[Chapter topic is not chapter flow]
+\label{rem:chapter-generated-topic-not-flow}
+An abstract chapter topic is not the same thing as a chapter flow. A chapter about $\NameCert$ may have multiple proof orders, lemma organizations, cannot-claim presentations, ledger unfoldings, status reports, and bridge readings. Thus
+$$
+  \text{chapter topic}
+  \not\cong
+  \text{raw chapter code}.
+$$
+The bijection is between canonical raw chapter flows and their chapter codes.
+\end{remark}
+
+\begin{definition}[Chapter classifier quotient]
+\label{def:chapter-generated-classifier-quotient}
+If a chapter classifier $\sim_{\mathrm{chap}}$ identifies chapter flows, the classified chapter object is an equivalence class
+$$
+  [C]_{\sim_{\mathrm{chap}}}.
+$$
+The projection
+$$
+  C \longmapsto [C]_{\sim_{\mathrm{chap}}}
+$$
+need not be injective.
+\end{definition}
+
+\begin{proposition}[Classified chapter objects need not be code-bijective]
+\label{prop:chapter-generated-classified-not-code-bijective}
+If there are sound chapter flows $C\neq D$ with
+$$
+  C\sim_{\mathrm{chap}} D,
+$$
+then the map from chapter codes to classified chapter objects is not injective.
+\end{proposition}
+
+\begin{proof}
+By \autoref{prop:chapter-generated-code-injective}, $C\neq D$ implies
+$$
+  \mathsf{ChapterCode}(C)\neq\mathsf{ChapterCode}(D).
+$$
+But $C\sim_{\mathrm{chap}}D$ implies
+$$
+  [C]_{\sim_{\mathrm{chap}}}=[D]_{\sim_{\mathrm{chap}}}.
+$$
+Thus two distinct chapter codes map to one classified chapter object.
+\end{proof}
+
+\begin{corollary}[The chapter-flow layer and chapter-object layer differ]
+\label{cor:chapter-generated-flow-object-layer-differ}
+The raw-flow layer and classified-object layer have different maps:
+$$
+  \text{chapter flow}
+  \leftrightarrow
+  \text{chapter code},
+  \qquad
+  \text{chapter flow}
+  \longrightarrow
+  \text{classified chapter object}.
+$$
+The first is bijective; the second is generally a quotient.
+\end{corollary}
+
+\section{Recognition from code and readable views}
+\label{sec:chapter-generated-code-and-views}
+
+\begin{definition}[Chapter recognition from channel code]
+\label{def:chapter-generated-recognition-from-code}
+For a legal channel stream $c\in\mathsf{LegalZStream}$, define
+$$
+  \mathsf{RecognizesChapterCode}(R_C,c)
+  \;:\Longleftrightarrow\;
+  \mathsf{RecognizesChapter}(R_C,\mathsf{Decode}(c)).
+$$
+Recognition from channel code therefore proceeds through decoding.
+\end{definition}
+
+\begin{proposition}[No chapter recognition by channel substring]
+\label{prop:chapter-generated-no-channel-substring-recognition}
+There is no valid rule that recognizes a chapter by inspecting arbitrary channel substrings without first decoding the channel stream into an event flow.
+\end{proposition}
+
+\begin{proof}
+\autoref{thm:source-channel-layer-separation} proves that channel substrings are not source events. Chapter recognition is a source-level relation over event flows. Any chapter recognition rule acting directly on channel substrings would therefore operate on the wrong layer. Valid recognition must first apply $\mathsf{Decode}$.
+\end{proof}
+
+\begin{theorem}[Compile-decode preserves chapter recognition]
+\label{thm:chapter-generated-compile-decode-preserves-recognition}
+If $\mathsf{RecognizesChapter}(R_C,C)$, then
+$$
+  \mathsf{RecognizesChapter}(R_C,\mathsf{Decode}(\mathsf{Compile}(C))).
+$$
+\end{theorem}
+
+\begin{proof}
+By the flow-level round trip \autoref{thm:channel-encoding-flow-round-trip},
+$$
+  \mathsf{Decode}(\mathsf{Compile}(C))=C.
+$$
+Substituting this equality into $\mathsf{RecognizesChapter}(R_C,C)$ gives the claim.
+\end{proof}
+
+\begin{corollary}[Chapter recognition is invariant under compile-decode]
+\label{cor:chapter-generated-recognition-invariant}
+For every recognized chapter flow, compiling to a channel stream and decoding back to an event flow preserves its chapter-recognition status.
+\end{corollary}
+
+\begin{definition}[Human-readable chapter view]
+\label{def:chapter-generated-human-readable-view}
+A \emph{human-readable chapter view} is a display generated from a decoded and recognized chapter flow, such as Markdown, \LaTeX{}, YAML, JSON, an outline, a theorem-status table, or a dependency graph. These views are output presentations, not input structure.
+\end{definition}
+
+\begin{principle}[YAML is output, not input]
+\label{prin:chapter-generated-yaml-output-not-input}
+YAML, manifests, and outlines may be generated from a decoded and recognized chapter flow, but they cannot serve as formal compiler input.
+\end{principle}
+
+\begin{proposition}[YAML input would be hidden structure]
+\label{prop:chapter-generated-yaml-hidden-structure}
+If YAML were accepted as formal input, then chapter boundaries, field names, theorem order, certificate slots, ledger slots, and status labels would be supplied externally. Such input is structural hidden input.
+\end{proposition}
+
+\begin{proof}
+YAML explicitly supplies chapter structure: field names, nesting, lists, order, labels, and status readings. These are not recognized from a generated event flow over $\bzero$ and $\bone$; they are passed in as external structure. This violates the no-hidden-input rule.
+\end{proof}
+
+\begin{corollary}[YAML may be a report]
+\label{cor:chapter-generated-yaml-may-report}
+If a decoded and recognized chapter flow $C$ is already available, the system may output YAML as a human-readable report
+$$
+  C\longrightarrow \mathrm{YAMLView}(C).
+$$
+The reverse direction is not a formal compiler input.
+\end{corollary}
+
+\section{Dependencies and seals}
+\label{sec:chapter-generated-dependencies-seals}
+
+\begin{definition}[Chapter-level dependency order]
+\label{def:chapter-generated-dependency-order}
+The dependency order of a chapter flow is the order recognized by
+$$
+  \mathsf{ChapDependencies}_{R_C}(C,C_1).
+$$
+It must make every referenced flow earlier generated, earlier recognized, or explicitly marked as deferred, cannot-claim, or open-obligation structure.
+\end{definition}
+
+\begin{theorem}[No forward dependency without marker]
+\label{thm:chapter-generated-no-forward-dependency-without-marker}
+If a chapter flow $C$ refers to a flow $X$ that has not yet been generated or recognized, and if $X$ is not marked as a deferred obligation, cannot-claim item, or future bridge, then $C$ is not dependency-sound.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:chapter-generated-dependency-sound}, dependency-soundness requires dependencies to have been generated before $C$ or to appear in the same chapter flow in a well-founded order, except where an explicit deferred or cannot-claim marker records the obligation. If $X$ is neither generated nor recognized and has no such marker, that requirement fails.
+\end{proof}
+
+\begin{corollary}[Chapter flow must record open obligations]
+\label{cor:chapter-generated-open-obligations-recorded}
+If a chapter depends on an unfinished certificate, proof, bridge, or recognizer, that obligation must be recorded in the cannot-claim flow, status flow, or ledger flow.
+\end{corollary}
+
+\begin{definition}[Chapter seal subflow]
+\label{def:chapter-generated-seal-subflow}
+If $\mathsf{RecognizesChapter}(R_C,C)$ and $R_C$ recognizes a terminal subflow $\sigma_C$ of $C$ as expressing chapter completion, then $\sigma_C$ is a \emph{chapter-seal subflow}, written
+$$
+  \mathsf{ChapSeal}_{R_C}(C,\sigma_C).
+$$
+The chapter seal is a source-level subflow, not the channel-level terminator $11$.
+\end{definition}
+
+\begin{proposition}[Chapter seal is not the channel terminator]
+\label{prop:chapter-generated-seal-not-channel-terminator}
+If $\mathsf{ChapSeal}_{R_C}(C,\sigma_C)$, then $\sigma_C$ is a source-level subflow, not the channel-level terminator $11$.
+\end{proposition}
+
+\begin{proof}
+The channel-level $11$ is the event terminator of \autoref{def:channel-encoding-event-terminator}; it belongs to the $\mathsf{LegalZStream}$ encoding mechanism. A chapter seal is recognized inside a decoded event flow. By the layer-separation theorem \autoref{thm:source-channel-layer-separation}, a channel substring cannot be used directly as a source subflow. Hence the chapter seal is not the channel terminator.
+\end{proof}
+
+\section{Conservativity and examples}
+\label{sec:chapter-generated-conservativity-examples}
+
+\begin{theorem}[Chapter-flow recognition is conservative over the finite kernel]
+\label{thm:chapter-generated-conservativity}
+Adding $\mathsf{RecognizesChapter}$, $\mathsf{ChapterFlow}$, $\mathsf{SoundChapterFlow}$, and the associated role-recognition relations does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
+\end{theorem}
+
+\begin{proof}
+These relations assert chapter recognition, theorem inclusion, certificate recognition, ledger tracking, cannot-claim tracking, and status bookkeeping over event flows. They do not generate new $\bzero$ or $\bone$ marks, add $\msame$, $\hsame$, or $\psame$ rules, change $\ExtR$ or $\ContR$, or turn chapter objects into kernel primitives. Hence the recognition layer is conservative over the finite kernel.
+\end{proof}
+
+\begin{example}[$\NameCert$ chapter as chapter flow]
+\label{ex:chapter-generated-namecert-chapter-flow}
+A $\NameCert$ chapter flow may contain a chapter-start flow for the chapter opening, dependency flows for raw events, package and gap flows, classifier flows, and ledger flows, definition flows for candidate certificates and five-field recognition, lemma flows saying that incomplete certificates do not license names and that ledgers are required, theorem flows saying that sound $\NameCert$ flows license candidate names and that recognition is conservative, certificate flows for supporting recognizers, ledger flows for field provenance and hidden source material, cannot-claim flows excluding code-alone licensing and channel-substring recognition, status flows for theorem targets, and a chapter-seal flow. Its channel code is $\mathsf{Compile}(C_{\mathrm{NameCertChapter}})$, not a YAML outline or chapter manifest.
+\end{example}
+
+\begin{example}[Channel compiler chapter as chapter flow]
+\label{ex:chapter-generated-compiler-chapter-flow}
+A channel compiler chapter flow may contain a chapter-start flow, dependency flows for event-flow definitions, definition flows for $\zeta$, event encoding, $\mathsf{Compile}$, $\mathsf{LegalZStream}$, and $\mathsf{Decode}$, lemma flows for no internal $11$, first-$11$ termination, and illegality of $0111$, theorem flows for event-level and flow-level round trips and the bijection $\mathsf{EventFlow}\cong\mathsf{LegalZStream}$, proof flows by induction on raw events and event flows, certificate flows for conservativity and source-channel separation, ledgers retaining both raw event and compiled stream, cannot-claim flows excluding code-as-theorem and channel-substring-as-source, status flows for proof and Lean target status, and a chapter seal.
+\end{example}
+
+\begin{remark}[Outlook]
+\label{rem:chapter-generated-outlook}
+This chapter establishes that a chapter is not YAML, a manifest, or a chapter package, but a recognized chapter flow. The core judgment is $\mathsf{RecognizesChapter}(R_C,C)$. Chapter recognition preserves channel code, chapter code is just $\mathsf{Compile}(C)$, complete chapter flow requires chapter-start, dependencies, definitions, lemmas, theorems, proofs, certificates, ledger, cannot-claims, status, and seal, title alone and theorem list alone are insufficient, sound chapter flow establishes chapterhood at the flow level, chapter code is injective only on raw chapter flows, chapter topics and classified chapter objects are quotients, recognition from code must pass through $\mathsf{Decode}$, YAML is an output view rather than formal input, forward dependencies require explicit markers, chapter seals are not channel terminators, and chapter-flow recognition is conservative over the finite kernel. The next ground-compiler chapter applies the same rule to recognizer flows themselves.
+\end{remark}
