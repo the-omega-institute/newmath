@@ -348,6 +348,7 @@ import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
 import BEDC.Derived.DiffFormUp.RootRowCarrierScope
 import BEDC.Derived.DiffFormUp.ExteriorDerivativeBoundary
 import BEDC.Derived.DiffFormUp.RootBoundaryConsumer
+import BEDC.Derived.DiffFormUp.RootConsumerExport
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootConsumerEntry
 import BEDC.Derived.DiffFormUp.RootNameCertSurface
@@ -554,6 +555,7 @@ import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.RealUp.Index
+import BEDC.Derived.RealUp.StdBridge
 import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.InnerProductUp
