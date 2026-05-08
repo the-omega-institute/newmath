@@ -161,4 +161,31 @@ theorem CliffordClassifierPackage_quadratic_relation_obligation
                   (And.intro carrier.right.right.right.right
                     (And.intro classifier.right.right.left classifier.right.right.right))))))))
 
+theorem CliffordCarrierPackage_universal_factorization_obligation
+    {unit vector product boundary endpoint scalar scalarEndpoint target targetProduct
+      targetEndpoint : BHist} :
+    CliffordClassifierPackage unit vector product boundary endpoint scalar scalarEndpoint ->
+      UnaryHistory target ->
+        Cont target target targetProduct ->
+          Cont targetProduct boundary targetEndpoint ->
+            hsame targetEndpoint scalarEndpoint ->
+              CliffordCarrierPackage unit target targetProduct boundary targetEndpoint ∧
+                hsame endpoint targetEndpoint ∧ UnaryHistory targetEndpoint := by
+  intro classifier targetUnary targetSquare targetBoundary sameTargetEndpoint
+  have carrier : CliffordCarrierPackage unit vector product boundary endpoint :=
+    classifier.left
+  have targetProductUnary : UnaryHistory targetProduct :=
+    unary_cont_closed targetUnary targetUnary targetSquare
+  have targetEndpointUnary : UnaryHistory targetEndpoint :=
+    unary_cont_closed targetProductUnary carrier.right.right.left targetBoundary
+  have sameEndpointTarget : hsame endpoint targetEndpoint :=
+    hsame_trans classifier.right.right.right (hsame_symm sameTargetEndpoint)
+  exact
+    And.intro
+      (And.intro carrier.left
+        (And.intro targetUnary
+          (And.intro carrier.right.right.left
+            (And.intro targetSquare targetBoundary))))
+      (And.intro sameEndpointTarget targetEndpointUnary)
+
 end BEDC.Derived.CliffordUp

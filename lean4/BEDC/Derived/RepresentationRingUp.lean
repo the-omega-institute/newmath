@@ -221,6 +221,84 @@ theorem RepresentationRingBHistRepresentationPacket_direct_sum_tensor_ledger_sta
                         (And.intro endpointRow' pkgSig'))))))))))
   exact And.intro packet' (And.intro sameLedger sameEndpoint)
 
+theorem RepresentationRingBHistRepresentationPacket_tensor_product_descent
+    [AskSetup] [PackageSetup]
+    {group ring reps directSum directSum' tensor tensor' provenance classifier classifier' ledger
+      ledger' endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RepresentationRingBHistRepresentationPacket group ring reps directSum tensor provenance
+        classifier ledger endpoint bundle pkg ->
+      hsame directSum directSum' ->
+        hsame tensor tensor' ->
+          hsame classifier classifier' ->
+            Cont reps directSum' tensor' ->
+              Cont provenance classifier' ledger' ->
+                Cont ledger' tensor' endpoint' ->
+                  PkgSig bundle endpoint' pkg ->
+                    RepresentationRingBHistRepresentationPacket group ring reps directSum' tensor'
+                        provenance classifier' ledger' endpoint' bundle pkg ∧
+                      hsame tensor tensor' ∧ hsame ledger ledger' ∧
+                        hsame endpoint endpoint' := by
+  intro packet sameDirectSum sameTensor sameClassifier repsRow' ledgerRow' endpointRow'
+    pkgSig'
+  have directSumUnary' : UnaryHistory directSum' :=
+    unary_transport packet.right.right.right.left sameDirectSum
+  have tensorUnary' : UnaryHistory tensor' :=
+    unary_transport packet.right.right.right.right.left sameTensor
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_transport packet.right.right.right.right.right.right.left sameClassifier
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed packet.right.right.right.right.right.left classifierUnary' ledgerRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed ledgerUnary' tensorUnary' endpointRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame (hsame_refl provenance) sameClassifier
+      packet.right.right.right.right.right.right.right.right.right.left ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameTensor
+      packet.right.right.right.right.right.right.right.right.right.right.left endpointRow'
+  have packet' :
+      RepresentationRingBHistRepresentationPacket group ring reps directSum' tensor'
+        provenance classifier' ledger' endpoint' bundle pkg :=
+    And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro directSumUnary'
+            (And.intro tensorUnary'
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro classifierUnary'
+                  (And.intro repsRow'
+                    (And.intro packet.right.right.right.right.right.right.right.right.left
+                      (And.intro ledgerRow'
+                        (And.intro endpointRow' pkgSig'))))))))))
+  exact And.intro packet' (And.intro sameTensor (And.intro sameLedger sameEndpoint))
+
+theorem RepresentationRingBHistRepresentationPacket_grothendieck_classifier_symmetric
+    [AskSetup] [PackageSetup]
+    {group ring reps directSum tensor provenance classifier ledger endpoint group' ring' reps'
+      directSum' tensor' provenance' classifier' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RepresentationRingBHistRepresentationPacket group ring reps directSum tensor provenance
+        classifier ledger endpoint bundle pkg ->
+      RepresentationRingBHistRepresentationPacket group' ring' reps' directSum' tensor'
+        provenance' classifier' ledger' endpoint' bundle pkg ->
+        RepresentationRingGrothendieckClassifier group ring reps directSum tensor provenance
+          classifier ledger endpoint group' ring' reps' directSum' tensor' provenance'
+          classifier' ledger' endpoint' ->
+          RepresentationRingGrothendieckClassifier group' ring' reps' directSum' tensor'
+            provenance' classifier' ledger' endpoint' group ring reps directSum tensor
+            provenance classifier ledger endpoint := by
+  intro _packet _packet' classified
+  exact And.intro (hsame_symm classified.left)
+    (And.intro (hsame_symm classified.right.left)
+      (And.intro (hsame_symm classified.right.right.left)
+        (And.intro (hsame_symm classified.right.right.right.left)
+          (And.intro (hsame_symm classified.right.right.right.right.left)
+            (And.intro (hsame_symm classified.right.right.right.right.right.left)
+              (And.intro (hsame_symm classified.right.right.right.right.right.right.left)
+                (And.intro (hsame_symm classified.right.right.right.right.right.right.right.left)
+                  (hsame_symm classified.right.right.right.right.right.right.right.right))))))))
+
 theorem RepresentationRingBHistRepresentationPacket_semantic_name_certificate [AskSetup]
     [PackageSetup]
     {group ring reps directSum tensor provenance classifier ledger endpoint : BHist}
