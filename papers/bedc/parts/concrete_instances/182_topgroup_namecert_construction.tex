@@ -511,3 +511,94 @@ $\mathsf{BHist}$ provenance, $\hsame$ endpoint rows, $\Cont$ rows, and source
 $\NameCert$ rows. Thus the public consumer receives exactly the listed data and
 no ambient topological-group object.
 \end{proof}
+
+\begin{theorem}[TopGroupUp shared source-fiber product carrier]
+\label{thm:topgroup-source-fiber-product-carrier}
+For every accepted $\TopGroupUp$ source-coupled continuity packet, the displayed
+$\NameCert_{\GroupUp}$ row and the displayed $\NameCert_{\TopologyUp}$ row share
+one $\mathsf{BHist}$ carrier packet through
+\autoref{def:topgroup-bhist-carrier}. The product graph, inverse graph,
+neighbourhood row, finite $\Cont$ ledger, and $\mathsf{Pkg}$ provenance are
+projections of that same packet, so neither source row supplies an independent
+carrier outside the $\TopGroupUp$ boundary.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet by \autoref{def:topgroup-bhist-carrier}. Its
+coordinates are the shared group row $G$, topology row $T$, product graph $m$,
+inverse graph $i$, neighbourhood row $n$, finite ledger $\lambda$, and
+provenance row $\rho$.
+
+Apply \autoref{thm:topgroup-root-source-compatibility}. It identifies the two
+source certificates as projections over the same carried endpoints, with
+classifier transport supplied by the componentwise $\hsame$ rows and the finite
+$\Cont$ ledger.
+
+Finally apply \autoref{thm:topgroup-public-consumer-minimality}. A downstream
+consumer receives only those displayed source, operation, ledger, and provenance
+rows. Hence the shared packet is the whole source fiber for product readback and
+no external carrier can be read.
+\end{proof}
+
+\begin{theorem}[TopGroupUp product Cont ledger soundness]
+\label{thm:topgroup-product-cont-ledger-soundness}
+For an accepted $\TopGroupUp$ packet, the product-neighbourhood continuity row
+is sound exactly when its two input endpoints, product endpoint, target
+neighbourhood row, componentwise $\hsame$ transports, and finite $\Cont$ ledger
+entry are all projected from the shared packet of
+\autoref{def:topgroup-bhist-carrier}. The row has no additional topological-group
+source and no external continuity predicate.
+\end{theorem}
+\begin{proof}
+For soundness, start with the projected shared packet. Theorem
+\autoref{thm:topgroup-source-fiber-product-carrier} supplies the common
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ source rows, together with
+the product graph, neighbourhood row, $\hsame$ transports, and finite
+$\Cont$ ledger.
+
+Apply \autoref{thm:topgroup-product-neighbourhood-transport}. The product row
+transports the two input endpoints and the product endpoint through exactly
+those componentwise $\hsame$ rows, while the neighbourhood row is carried by the
+displayed topology source and the continuity step is recorded in the finite
+ledger.
+
+For the converse direction, assume a public product-continuity row is accepted.
+Apply \autoref{thm:topgroup-continuity-ledger-coverage}; every product row in
+the public surface is one of the entries covered by the finite $\Cont$ ledger of
+the same packet.
+
+The public consumer theorem
+\autoref{thm:topgroup-public-consumer-minimality} then removes any remaining
+ambient reading. The accepted product row is therefore sound precisely as the
+projection of the shared packet's endpoints, neighbourhood row, $\hsame$
+transports, and finite ledger entry.
+\end{proof}
+
+\begin{theorem}[TopGroupUp inverse Cont ledger soundness]
+\label{thm:topgroup-inverse-cont-ledger-soundness}
+For an accepted $\TopGroupUp$ packet, the inverse-neighbourhood continuity row
+is sound exactly when its input endpoint, inverse endpoint, target
+neighbourhood row, componentwise $\hsame$ transports, and finite $\Cont$ ledger
+entry are all projected from the shared packet of
+\autoref{def:topgroup-bhist-carrier}. The row has no additional topology carrier,
+group inverse source, or external continuity predicate.
+\end{theorem}
+\begin{proof}
+For soundness, unpack the shared packet using
+\autoref{thm:topgroup-source-fiber-product-carrier}. The projected rows include
+the group source, topology source, inverse graph, target neighbourhood row,
+endpoint $\hsame$ transports, and the finite $\Cont$ ledger.
+
+Apply \autoref{thm:topgroup-inverse-neighbourhood-transport}. The input endpoint
+and inverse endpoint move componentwise along the displayed $\hsame$ rows, while
+the topology source carries the target neighbourhood and the ledger records the
+continuity step.
+
+For the converse direction, start from an accepted public inverse-continuity
+row. By \autoref{thm:topgroup-continuity-ledger-coverage}, every such row is one
+of the inverse-neighbourhood entries in the same finite $\Cont$ ledger.
+
+Apply \autoref{thm:topgroup-public-consumer-minimality}. Since the consumer
+surface exposes only the displayed source certificates, inverse graph, endpoint
+transports, finite ledger, and provenance row, the inverse-continuity row is
+sound exactly through those packet projections and no outside datum is present.
+\end{proof}
