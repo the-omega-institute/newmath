@@ -107,4 +107,53 @@ theorem EllipticCurveCarrierPacket_projective_genus_one_obligation
         (And.intro packet.right.right.right.right.right.left
           packet.right.right.right.right.right.right)))
 
+theorem EllipticCurveCarrierPacket_classifier_transport_obligation
+    {field field' projective projective' coeffs coeffs' cubic cubic' smooth smooth'
+      basePoint basePoint' fieldLedger fieldLedger' projectiveLedger projectiveLedger'
+      provenance provenance' : BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      hsame field field' ->
+        hsame projective projective' ->
+          hsame coeffs coeffs' ->
+            hsame cubic cubic' ->
+              hsame smooth smooth' ->
+                hsame basePoint basePoint' ->
+                  Cont field' projective' fieldLedger' ->
+                    Cont coeffs' cubic' projectiveLedger' ->
+                      Cont smooth' basePoint' provenance' ->
+                        EllipticCurveCarrierPacket field' projective' coeffs' cubic' smooth'
+                            basePoint' fieldLedger' projectiveLedger' provenance' ∧
+                          hsame fieldLedger fieldLedger' ∧
+                            hsame projectiveLedger projectiveLedger' ∧
+                              hsame provenance provenance' := by
+  intro packet sameField sameProjective sameCoeffs sameCubic sameSmooth sameBasePoint
+    fieldLedgerCont' projectiveLedgerCont' provenanceCont'
+  have fieldUnary' : UnaryHistory field' :=
+    unary_transport packet.left sameField
+  have projectiveUnary' : UnaryHistory projective' :=
+    unary_transport packet.right.left sameProjective
+  have coeffsUnary' : UnaryHistory coeffs' :=
+    unary_transport packet.right.right.left sameCoeffs
+  have basePointUnary' : UnaryHistory basePoint' :=
+    unary_transport packet.right.right.right.left sameBasePoint
+  have sameFieldLedger : hsame fieldLedger fieldLedger' :=
+    cont_respects_hsame sameField sameProjective packet.right.right.right.right.left
+      fieldLedgerCont'
+  have sameProjectiveLedger : hsame projectiveLedger projectiveLedger' :=
+    cont_respects_hsame sameCoeffs sameCubic packet.right.right.right.right.right.left
+      projectiveLedgerCont'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameSmooth sameBasePoint packet.right.right.right.right.right.right
+      provenanceCont'
+  constructor
+  · exact And.intro fieldUnary'
+      (And.intro projectiveUnary'
+        (And.intro coeffsUnary'
+          (And.intro basePointUnary'
+            (And.intro fieldLedgerCont'
+              (And.intro projectiveLedgerCont' provenanceCont')))))
+  · exact And.intro sameFieldLedger
+      (And.intro sameProjectiveLedger sameProvenance)
+
 end BEDC.Derived.EllipticCurveUp
