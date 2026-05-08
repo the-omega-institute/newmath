@@ -41,14 +41,48 @@ Separate visible classifier data from hidden representative data. The visible si
 Identify the three ExactGlobalize-style rows that must be supplied: coverage of the classifier, soundness of accepted Artin-Frobenius rows, and completeness for the visible rows that the classifier is meant to cover. These rows state the obligation surface and do not assert reciprocity.
 \end{proof}
 
-\closureat{ClassFieldUp}{obligationStr}
+\begin{theorem}[ClassField scoped dependency binding]\label{thm:classfield-scoped-dependency-binding}
+The carrier and classifier obligations of $\ClassFieldUp$ are scoped by exactly the $\NumFieldUp$ and $\AdeleUp$ $\NameCert$ carrier and classifier rows, the displayed abelian-extension $\mathsf{BHist}$ row, $\hsame$, and stability transport from the two dependency certificates.
+\end{theorem}
+
+\begin{proof}
+Unfold the carrier obligation from \autoref{thm:classfield-obligation-carrier-classifier}. The visible $\mathsf{BHist}$ carrier has only three source components: the $\NumFieldUp$ base row, the $\AdeleUp$ idele-class row, and the abelian-extension row.
+
+Project the two dependency certificates. Their carrier rows identify the two imported sources, and their classifier rows supply the allowed source replacements.
+
+It remains to account for the class-field row itself. The only additional comparison used by the obligation is $\hsame$ on the displayed abelian-extension history, so the classifier obligation is bound by the two dependency transports together with that $\mathsf{BHist}$ replacement.
+\end{proof}
+
+\begin{theorem}[ClassField Artin-Frobenius scoped exactness]\label{thm:classfield-artin-frobenius-scoped-exactness}
+The Artin and Frobenius rows of $\ClassFieldUp$ are scoped by $\AdeleUp$ classifier transport, $\NumFieldUp$ base transport, $\mathsf{BHist}$ endpoint replacement, and the chosen extension classifier.
+\end{theorem}
+
+\begin{proof}
+Start with the stability surface in \autoref{thm:classfield-obligation-artin-frobenius-stability}. The $\AdeleUp$ classifier transports idele-class inputs, while the $\NumFieldUp$ classifier transports the base-field row.
+
+Next replace the Frobenius endpoint through $\mathsf{BHist}$ $\hsame$. This is the only endpoint move not already supplied by the dependency certificates.
+
+Finally compose the transported Artin row with the extension classifier. Frobenius endpoint compatibility is therefore an exactness row for the chosen classifier, not an independent global reciprocity assertion.
+\end{proof}
+
+\begin{theorem}[ClassField reciprocity boundary]\label{thm:classfield-reciprocity-boundary}
+Coverage, soundness, and completeness for the Artin-Frobenius classifier do not assert class-field reciprocity, uniqueness of the maximal abelian extension, or a standard bridge for $\ClassFieldUp$.
+\end{theorem}
+
+\begin{proof}
+Read the ledger exactness statement in \autoref{thm:classfield-obligation-ledger-exactness} as an ExactGlobalize-style certificate. It names the visible rows covered by the classifier and the hidden representatives used to witness those rows.
+
+Coverage, soundness, and completeness only relate accepted classifier rows to the recorded representatives. They do not identify the classifier with the classical reciprocity map, prove uniqueness of the maximal abelian extension, or supply the bridge object required for a standard bridge.
+\end{proof}
+
+\closureat{ClassFieldUp}{scopedStr}[BEDC.Derived.ClassFieldUp.ClassFieldSourceCarrier\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\ClassFieldUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The paper scope consists exactly of the three displayed obligation blocks over the $\NumFieldUp$ and $\AdeleUp$ dependency certificates.}
-  \formalstatus{\unformalizedV}
-  \leantarget{}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The paper scope consists exactly of the displayed obligation blocks and their dependency binding over the $\NumFieldUp$ and $\AdeleUp$ certificates, $\mathsf{BHist}$ $\hsame$, and the chosen extension classifier.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ClassFieldUp.ClassFieldSourceCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{This chapter does not close the Artin map laws, maximal abelian extension exactness, reciprocity, or a standard bridge.}
-  \upgradepath{Scoped closure requires proofs binding these obligations to the named BEDC primitives and dependency certificates.}
+  \upgradepath{Public closure requires a single exported $\ClassFieldUp$ public interface theorem.}
 \end{closurestatus}
