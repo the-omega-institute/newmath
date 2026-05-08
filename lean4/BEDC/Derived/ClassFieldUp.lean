@@ -55,6 +55,33 @@ theorem ClassFieldArtinFrobenius_stability_obligation
     cont_respects_hsame sameExtension baseClassified.right.right leftFrob rightFrob
   exact And.intro sameExtension (And.intro sameArtin sameFrob)
 
+theorem ClassFieldArtinFrobenius_scope
+    {base base' idele idele' extension extension' artin artin' frob frob' : BHist} :
+    NumFieldReflexiveRationalCarrier base -> RatHistoryClassifier base base' ->
+      AdeleHistoryCarrier idele -> hsame idele idele' -> Cont base idele extension ->
+        Cont base' idele' extension' -> Cont idele extension artin ->
+          Cont idele' extension' artin' -> Cont extension base frob ->
+            Cont extension' base' frob' ->
+              NumFieldReflexiveRationalCarrier base' ∧ AdeleHistoryCarrier idele' ∧
+                hsame extension extension' ∧ hsame artin artin' ∧ hsame frob frob' := by
+  intro baseCarrier baseClassified ideleCarrier sameIdele leftExtension rightExtension
+    leftArtin rightArtin leftFrob rightFrob
+  have carrierRows :
+      NumFieldReflexiveRationalCarrier base' ∧ AdeleHistoryCarrier idele' ∧
+        hsame extension extension' :=
+    ClassFieldCarrierClassifier_obligation baseCarrier baseClassified ideleCarrier sameIdele
+      leftExtension rightExtension
+  have stabilityRows :
+      hsame extension extension' ∧ hsame artin artin' ∧ hsame frob frob' :=
+    ClassFieldArtinFrobenius_stability_obligation baseCarrier baseClassified ideleCarrier
+      sameIdele leftExtension rightExtension leftArtin rightArtin leftFrob rightFrob
+  exact
+    ⟨carrierRows.left,
+      carrierRows.right.left,
+      stabilityRows.left,
+      stabilityRows.right.left,
+      stabilityRows.right.right⟩
+
 def ClassFieldSourceCarrier
     (numField adele extension classifier ledger : BHist) : Prop :=
   UnaryHistory numField ∧ UnaryHistory adele ∧ Cont numField adele extension ∧

@@ -354,7 +354,9 @@ import BEDC.Derived.DiffFormUp.RootConsumerExport
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootConsumerEntry
 import BEDC.Derived.DiffFormUp.RootNameCertSurface
+import BEDC.Derived.DiffFormUp.RootObligationSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
+import BEDC.Derived.DiffFormUp.RootUnblockObligations
 import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe
