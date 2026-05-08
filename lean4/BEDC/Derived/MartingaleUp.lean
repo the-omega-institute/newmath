@@ -162,7 +162,66 @@ theorem MartingaleAdaptedSequencePacket_public_certificate_row_family
     ledger_sound := by
       intro h source
       exact source
-  }
+    }
+
+theorem MartingaleAdaptedSequencePacket_namecert_obligation_surface
+    {targetTotal sourceTotal chosenPreimage integrable projected residual previous filtration
+      stepEndpoint ledger : BHist} :
+    MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable projected
+        residual previous filtration stepEndpoint ledger ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists step : BHist,
+              MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable
+                projected residual previous filtration step row)
+          (fun row : BHist =>
+            exists step : BHist,
+              MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable
+                projected residual previous filtration step row)
+          (fun row : BHist =>
+            exists step : BHist,
+              MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable
+                projected residual previous filtration step row)
+          (fun left right : BHist =>
+            (exists sl : BHist,
+              MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable
+                projected residual previous filtration sl left) ∧
+              (exists sr : BHist,
+                MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable
+                  projected residual previous filtration sr right) ∧
+                hsame left right) ∧
+        Cont integrable filtration stepEndpoint ∧ Cont stepEndpoint previous ledger := by
+  intro packet
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := by
+          refine Exists.intro ledger ?_
+          exact Exists.intro stepEndpoint packet
+        equiv_refl := by
+          intro ledger source
+          exact And.intro source (And.intro source (hsame_refl ledger))
+        equiv_symm := by
+          intro left right classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro left middle right classifiedLM classifiedMR
+          exact And.intro classifiedLM.left
+            (And.intro classifiedMR.right.left
+              (hsame_trans classifiedLM.right.right classifiedMR.right.right))
+        carrier_respects_equiv := by
+          intro left right classified _source
+          exact classified.right.left
+      }
+      pattern_sound := by
+        intro ledger source
+        exact source
+      ledger_sound := by
+        intro ledger source
+        exact source
+    }
+  · exact And.intro packet.right.right.right.left packet.right.right.right.right
 
 theorem MartingaleAdaptedSequencePacket_tower_law_ledger_surface
     {targetTotal sourceTotal chosenPreimage integrable projected residual previous filtration

@@ -1314,6 +1314,415 @@ def compute_capstone_overlap_map() -> dict:
     }
 
 
+# === Theorem-level discovery (D-1, additive — does not affect existing surfaces) ===
+#
+# Scans main.tex reverse-traversal closure for every \begin{theorem|lemma|...}
+# environment, extracts (kind, label, file, line, nearby lean marker), classifies
+# its zone by path prefix, and assigns an anchor_status. Used to build a
+# `theorem_inventory` summary so workers can eventually consume a paper-wide
+# unformalized theorem stream regardless of which zone (horizon / capstones /
+# core / ground_compiler / proof_obligations / ...) the theorem lives in.
+
+THEOREM_ENV_RE = re.compile(
+    r"\\begin\{(theorem|lemma|definition|proposition|corollary)\}",
+    re.MULTILINE,
+)
+LABEL_INSIDE_RE = re.compile(r"\\label\{((?:thm|def|lem|prop|cor):[^}]+)\}")
+ALL_MARKERS_RE = re.compile(
+    r"\\(leanchecked|leanvariant|leandef|leanstmt|leansorryd|leantarget)\{([^}]+)\}"
+)
+# Kernel objects already implemented in BEDC.FKernel.* — appearance in a
+# theorem body marks it as "directly formalisable now", no new namespace needed.
+KERNEL_OBJECT_RE = re.compile(
+    r"\\(?:BHist|BMark|Cont|Ext|Mark|hsame|msame|Hist|Pkg|NameCert|Sig|Bundle|"
+    r"Gap|Ask|InGap|InBundle|sameSig|psame|Settled|Unary|"
+    r"DerivCert|ClosureCert|TheoryGate|FormalStatus)\b"
+)
+# Paper-wide cross-reference patterns. Both \autoref and \ref count toward
+# downstream_refs (a label cited by N other places is N times more impactful
+# to formalise — its anchor will be re-used).
+AUTOREF_OR_REF_RE = re.compile(
+    r"\\(?:autoref|ref|cref|Cref)\{((?:thm|def|lem|prop|cor):[^}]+)\}"
+)
+
+# Per-zone weight in unformalized_top score. Capstones get a >1 boost because
+# each capstone bridge unifies ≥3 horizons, so its formalisation has supra-
+# linear leverage; ground_compiler is < 1 to prevent its 995 unwritten from
+# crowding the top 50 out, but kernel-grounded entries inside ground_compiler
+# get their weight ×2 (handled in score formula). Zones not listed default to
+# 0.4 (neither boosted nor crushed).
+ZONE_WEIGHTS: dict[str, float] = {
+    "horizon":                       1.0,
+    "narrative.capstones":           1.2,
+    "narrative.core":                0.8,
+    "narrative.proof_obligations":   0.7,
+    "narrative.proof_sprint":        0.6,
+    "narrative.proof_standing":      0.6,
+    "narrative.ground_compiler":     0.5,
+    "narrative.formalization":       0.5,
+    "narrative.hardening":           0.5,
+    "narrative.concrete_hardening":  0.5,
+    "narrative.acceptance":          0.3,
+}
+
+# Per-zone default Lean namespace prefix. None means the zone is intentionally
+# never formalised (governance / frontmatter / appendices). Suggestions are a
+# starting point for workers; workers may override.
+ZONE_LEAN_PREFIX: dict[str, str | None] = {
+    "horizon":                       "BEDC.Derived",
+    "narrative.core":                "BEDC.FKernel",
+    "narrative.ground_compiler":     "BEDC.Compiler",
+    "narrative.capstones":           "BEDC.Capstones",
+    "narrative.proof_obligations":   "BEDC.ProofObligation",
+    "narrative.proof_sprint":        "BEDC.ProofSprint",
+    "narrative.proof_standing":      "BEDC.ProofStanding",
+    "narrative.formalization":       "BEDC.Formalization",
+    "narrative.acceptance":          "BEDC.Acceptance",
+    "narrative.hardening":           "BEDC.Hardening",
+    "narrative.concrete_hardening":  "BEDC.ConcreteHardening",
+    "narrative.project_governance":  None,
+    "narrative.frontmatter":         None,
+    "narrative.appendices":          None,
+    "meta":                          None,
+}
+
+
+def _discover_paper_files() -> list[Path]:
+    """main.tex \\input{} closure, recursively."""
+    in_pdf: set[Path] = set()
+    main = PAPER_ROOT_DIR / "main.tex"
+
+    def follow(p: Path) -> None:
+        p = p.resolve()
+        if p in in_pdf or not p.exists():
+            return
+        in_pdf.add(p)
+        try:
+            text = p.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            return
+        for m in INPUT_RE.finditer(text):
+            rel = m.group(1).strip()
+            if not rel.endswith(".tex"):
+                rel = rel + ".tex"
+            child = (PAPER_ROOT_DIR / rel).resolve()
+            follow(child)
+
+    follow(main)
+    return sorted(in_pdf)
+
+
+def _classify_zone(file_path: Path) -> str:
+    """Path-prefix based zone. Returns 'horizon' / 'narrative.<dir>' / 'meta' / 'unknown'."""
+    try:
+        rel = file_path.relative_to(PAPER_ROOT_DIR.resolve())
+    except ValueError:
+        return "unknown"
+    parts = rel.parts
+    if parts and parts[0] in ("main.tex", "preamble.tex"):
+        return "meta"
+    if len(parts) >= 2 and parts[0] == "parts":
+        zone_dir = parts[1]
+        if zone_dir == "concrete_instances":
+            return "horizon"
+        return f"narrative.{zone_dir}"
+    if len(parts) == 1 and parts[0].endswith(".tex"):
+        # parts/<zone>.tex hub files (e.g. parts/core.tex)
+        zone_dir = parts[0][:-4]
+        if zone_dir == "concrete_instances":
+            return "horizon"
+        return f"narrative.{zone_dir}"
+    return "unknown"
+
+
+def _slug_to_camel(slug: str) -> str:
+    """thm:nat-zero-classifier-uniqueness → NatZeroClassifierUniqueness."""
+    if ":" in slug:
+        slug = slug.split(":", 1)[1]
+    parts = re.split(r"[-_]+", slug)
+    return "".join(p[:1].upper() + p[1:] for p in parts if p)
+
+
+def _infer_lean_anchor(file_path: Path, label: str | None,
+                        zone: str) -> str | None:
+    """Suggest a default BEDC namespace + identifier for a paper label.
+
+    Returns None for zones not eligible for formalisation, or when label is
+    missing. Result is a SUGGESTION — workers may override. Used so downstream
+    surfaces can hint a Lean target name when paper writes \\begin{theorem}
+    without a \\leanchecked / \\leandef marker.
+    """
+    prefix = ZONE_LEAN_PREFIX.get(zone)
+    if prefix is None or not label:
+        return None
+    try:
+        rel = file_path.relative_to(PAPER_ROOT_DIR.resolve())
+    except ValueError:
+        return None
+    parts = rel.parts
+    suffix = _slug_to_camel(label)
+
+    if zone == "horizon":
+        m = re.match(r"\d+_([a-z][a-z0-9_]*?)_namecert", parts[-1])
+        if m:
+            chapter = m.group(1)
+            return f"{prefix}.{chapter[:1].upper()}{chapter[1:]}Up.{suffix}"
+        # sub-dir sibling: parts/concrete_instances/<theme>/<sib>.tex
+        if len(parts) >= 4 and parts[1] == "concrete_instances":
+            chapter = parts[2]
+            return f"{prefix}.{chapter[:1].upper()}{chapter[1:]}Up.{suffix}"
+        return f"{prefix}.{suffix}"
+
+    if zone.startswith("narrative."):
+        chapter_stem = parts[-1].replace(".tex", "")
+        # Strip leading numeric prefix (00_ / 14_ / 256_ etc.)
+        chapter_stem = re.sub(r"^\d+[a-z]?_", "", chapter_stem)
+        sub = _slug_to_camel(chapter_stem)
+        if sub:
+            return f"{prefix}.{sub}.{suffix}"
+        return f"{prefix}.{suffix}"
+
+    return None
+
+
+def _build_declared_set() -> set[str]:
+    """Set of qualified Lean names actually declared in lean4/BEDC/.
+    Reuses bedc_ci's inventory via dynamic import."""
+    try:
+        sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
+        import sys as _sys
+        if sys_path_addition not in _sys.path:
+            _sys.path.insert(0, sys_path_addition)
+        from bedc_ci import build_declaration_inventory  # type: ignore
+        declarations, _ = build_declaration_inventory()
+        return {d.qualified_name for d in declarations}
+    except Exception:
+        return set()
+
+
+def _count_paper_wide_autorefs(files: list[Path]) -> dict[str, int]:
+    """Count how many times each \\label is cited via \\autoref / \\ref / \\cref
+    across all .tex files reachable from main.tex. Returns {label: count}.
+    Used to compute downstream_refs for the unformalized_top score: a theorem
+    cited by N other places is N× more impactful to formalise."""
+    counts: dict[str, int] = {}
+    for f in files:
+        try:
+            text = f.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        for m in AUTOREF_OR_REF_RE.finditer(text):
+            label = m.group(1)
+            counts[label] = counts.get(label, 0) + 1
+    return counts
+
+
+def discover_all_theorems() -> list[dict]:
+    """Scan paper-wide tree (from main.tex) for every theorem environment.
+
+    For each \\begin{theorem|lemma|definition|proposition|corollary} env, look
+    forward up to 4000 chars for a \\label{} and any \\leanchecked/\\leandef/
+    etc. marker. Classify zone by file path prefix. Compute anchor_status:
+      - one of objective FORMAL_GRADE_ORDER tokens if marker target exists
+      - 'stale'      if marker target exists in source but not declared in build
+      - 'unwritten'  if no marker present
+
+    Each row also carries:
+      - statement_preview (first 200 chars of body, newlines collapsed)
+      - has_kernel_object (body mentions \\BHist / \\NameCert / etc — already
+                           formalised, can attack now without new namespace)
+      - downstream_refs   (paper-wide \\autoref / \\ref / \\cref count)
+      - zone_weight       (per-zone multiplier in score)
+      - score             (downstream_refs * zone_weight; ground_compiler
+                           kernel-grounded gets weight ×2)
+    """
+    files = _discover_paper_files()
+    objective_grades = load_objective_formal_grades()
+    declared_set = _build_declared_set()
+    autoref_counts = _count_paper_wide_autorefs(files)
+
+    rows: list[dict] = []
+    for f in files:
+        zone = _classify_zone(f)
+        if zone in ("unknown", "meta"):
+            continue
+        try:
+            text = f.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        try:
+            file_rel = str(f.relative_to(ROOT))
+        except ValueError:
+            file_rel = str(f)
+        # Chapter inference for grouping: the namecert hub name when in horizon,
+        # otherwise the file stem stripped of leading numeric prefix.
+        try:
+            rel = f.relative_to(PAPER_ROOT_DIR.resolve())
+            parts = rel.parts
+        except ValueError:
+            parts = ()
+        if zone == "horizon" and parts:
+            m_chap = re.match(r"\d+_([a-z][a-z0-9_]*?)_namecert", parts[-1])
+            if m_chap:
+                chapter = m_chap.group(1)
+            elif len(parts) >= 4 and parts[1] == "concrete_instances":
+                chapter = parts[2]
+            else:
+                chapter = parts[-1].replace(".tex", "")
+        elif parts:
+            stem = parts[-1].replace(".tex", "")
+            chapter = re.sub(r"^\d+[a-z]?_", "", stem)
+        else:
+            chapter = None
+
+        for m in THEOREM_ENV_RE.finditer(text):
+            kind = m.group(1)
+            start = m.start()
+            line_start = text.count("\n", 0, start) + 1
+            window = text[start:start + 4000]
+            label_m = LABEL_INSIDE_RE.search(window)
+            label = label_m.group(1) if label_m else None
+            marker_m = ALL_MARKERS_RE.search(window)
+            actual_anchor = (
+                marker_m.group(2).replace("\\_", "_").strip()
+                if marker_m else None
+            )
+            marker_kind = marker_m.group(1) if marker_m else None
+
+            if actual_anchor:
+                # Skip placeholder targets like `BEDC.<...>.<theorem>` —
+                # paper uses `<...>` as template syntax in didactic
+                # examples (e.g. acceptance/01_derivation_acceptance_gate),
+                # not as a real Lean target. They're not drift.
+                if "<" in actual_anchor and ">" in actual_anchor:
+                    anchor_status = "placeholder"
+                elif actual_anchor in declared_set:
+                    grade = objective_grades.get(actual_anchor, "encodedDefV")
+                    anchor_status = grade
+                else:
+                    anchor_status = "stale"
+                suggested = None
+            else:
+                anchor_status = "unwritten"
+                suggested = _infer_lean_anchor(f, label, zone)
+
+            # statement_preview: first 200 chars of the env body, newlines
+            # collapsed. Used by workers to decide if the statement is
+            # actually formalisable without opening the file.
+            body_window = window[:1200]
+            statement_preview = re.sub(r"\s+", " ", body_window).strip()[:200]
+            has_kernel = bool(KERNEL_OBJECT_RE.search(body_window))
+
+            # Score formula: paper-wide cross-reference count, weighted by
+            # zone. ground_compiler kernel-grounded entries get a ×2 boost so
+            # the ~101 "attackable now" theorems can rise above the ~894
+            # "needs new namespace" peers within the same zone.
+            base_weight = ZONE_WEIGHTS.get(zone, 0.4)
+            if zone == "narrative.ground_compiler" and has_kernel:
+                weight = base_weight * 2.0
+            else:
+                weight = base_weight
+            downstream = autoref_counts.get(label or "", 0)
+            score = downstream * weight
+
+            rows.append({
+                "id": label or f"unlabeled:{f.name}:{line_start}",
+                "kind": kind,
+                "file": file_rel,
+                "line": line_start,
+                "zone": zone,
+                "chapter": chapter,
+                "label": label,
+                "anchor_actual": actual_anchor,
+                "anchor_suggested": suggested,
+                "marker_kind": marker_kind,
+                "anchor_status": anchor_status,
+                "statement_preview": statement_preview,
+                "has_kernel_object": has_kernel,
+                "downstream_refs": downstream,
+                "zone_weight": round(weight, 2),
+                "score": round(score, 2),
+            })
+    return rows
+
+
+def compute_unformalized_top(rows: list[dict], max_n: int = 50) -> list[dict]:
+    """Rank unwritten theorems paper-wide by score desc, return top max_n.
+    Strips per-row fields not useful at the top level (chapter / id stay)."""
+    candidates = [r for r in rows if r["anchor_status"] == "unwritten"]
+    candidates.sort(key=lambda r: (
+        -r["score"], -r["downstream_refs"], r["zone"], r["file"], r["line"]
+    ))
+    out = []
+    for r in candidates[:max_n]:
+        out.append({
+            "id": r["id"],
+            "kind": r["kind"],
+            "file": r["file"],
+            "line": r["line"],
+            "zone": r["zone"],
+            "chapter": r["chapter"],
+            "label": r["label"],
+            "anchor_suggested": r["anchor_suggested"],
+            "statement_preview": r["statement_preview"],
+            "has_kernel_object": r["has_kernel_object"],
+            "downstream_refs": r["downstream_refs"],
+            "zone_weight": r["zone_weight"],
+            "score": r["score"],
+        })
+    return out
+
+
+def compute_drift_top(rows: list[dict], max_n: int = 50) -> list[dict]:
+    """Theorems whose paper-side \\leanchecked/\\leandef target does not
+    resolve to a declared Lean identifier (rename / move / typo). Each is a
+    1-line fix: edit the marker to point at the current canonical name. Sort
+    by downstream_refs desc — fix the most-cited drift first."""
+    candidates = [r for r in rows if r["anchor_status"] == "stale"]
+    candidates.sort(key=lambda r: (-r["downstream_refs"], r["file"], r["line"]))
+    out = []
+    for r in candidates[:max_n]:
+        out.append({
+            "id": r["id"],
+            "kind": r["kind"],
+            "file": r["file"],
+            "line": r["line"],
+            "zone": r["zone"],
+            "chapter": r["chapter"],
+            "label": r["label"],
+            "anchor_actual": r["anchor_actual"],   # what paper currently writes
+            "marker_kind": r["marker_kind"],
+            "statement_preview": r["statement_preview"],
+            "downstream_refs": r["downstream_refs"],
+        })
+    return out
+
+
+def summarize_theorem_inventory(rows: list[dict]) -> dict:
+    """Aggregate a theorem-list into headline counters for baseline reporting."""
+    from collections import Counter
+    by_zone = Counter(r["zone"] for r in rows)
+    by_anchor = Counter(r["anchor_status"] for r in rows)
+    by_kind = Counter(r["kind"] for r in rows)
+    by_chapter = Counter((r["zone"], r["chapter"]) for r in rows if r["chapter"])
+    # Per-zone unwritten count (the ground-truth "what's left to formalise"
+    # surface, broken down by zone — D-1 baseline metric).
+    by_zone_unwritten = Counter(
+        r["zone"] for r in rows if r["anchor_status"] == "unwritten"
+    )
+    return {
+        "total": len(rows),
+        "by_kind": dict(by_kind.most_common()),
+        "by_zone": dict(by_zone.most_common()),
+        "by_anchor_status": dict(by_anchor.most_common()),
+        "by_zone_unwritten": dict(by_zone_unwritten.most_common()),
+        "top_chapters_by_density": [
+            {"zone": z, "chapter": c, "count": n}
+            for (z, c), n in by_chapter.most_common(20)
+        ],
+    }
+
+
 def main() -> int:
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
@@ -1606,6 +2015,13 @@ def main() -> int:
         "formal_axis_top": formal_axis_top,
         "capstone_overlap_map": compute_capstone_overlap_map(),
     }
+    # Theorem-level surfaces (D-1 inventory + D-2 unformalized_top / drift_top).
+    # Compute discover_all_theorems() once and reuse — the scan is the heaviest
+    # call in the whole script (touches ~1100 .tex files paper-wide).
+    theorem_rows = discover_all_theorems()
+    payload["theorem_inventory"] = summarize_theorem_inventory(theorem_rows)
+    payload["unformalized_top"] = compute_unformalized_top(theorem_rows, max_n=50)
+    payload["drift_top"] = compute_drift_top(theorem_rows, max_n=50)
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
 
