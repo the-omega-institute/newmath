@@ -452,6 +452,48 @@ row is the repackaging of those two witnesses with the carried endpoints, so
 no additional order-theoretic or quotient field is exported.
 \end{proof}
 
+\begin{theorem}[POSet prefix ledger row exhaustion]
+\label{thm:poset-prefix-ledger-row-exhaustion}
+For the concrete singleton $\POSetUp$ certificate of
+\autoref{thm:concrete-singleton-empty-poset-namecert}, every public ledger row
+is exhausted by a tuple
+$(h,k,A_{\emp}(h),A_{\emp}(k),h\le_{\emp}k,k\le_{\emp}h,\rho_{\emp}(h,k))$.
+Conversely, any tuple of this form repacks as a public ledger row of that
+certificate. The ten-field fit is: target ledger exhaustion for the one-point
+$\POSetUp$ ledger; BEDC source the singleton $\mathsf{BHist}$ carrier; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; relation $\le_{\emp}$; stability from
+singleton transport and exactness; ledger the two guarded comparisons; core
+theorem this row-exhaustion statement; exactness the bidirectional repacking;
+standard bridge the one-point poset; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-singleton-empty-poset-instance}. Its public
+source rows have histories in the singleton $\mathsf{BHist}$ carrier
+$A_{\emp}$, the guarded relation $\le_{\emp}$, and the classifier
+$\rho_{\emp}$ on those carried endpoints.
+
+For the forward direction, start with an arbitrary public ledger row of the
+certificate. Apply \autoref{thm:poset-ledger-obligation}: the row contains only
+the carried endpoints and the two guarded comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. Its singleton transport keeps
+the endpoints inside $A_{\emp}$, and its exactness row identifies
+$\rho_{\emp}(h,k)$ with the opposing comparison pair. Thus the row has the
+displayed tuple form.
+
+For the reverse direction, begin with such a tuple. The endpoint entries give
+the carried singleton histories, the comparison entries give the two ledger
+witnesses, and the classifier entry is exact for the same pair by
+\autoref{thm:singleton-empty-poset-laws}.
+
+Finally apply \autoref{thm:concrete-singleton-empty-poset-namecert}. It
+packages precisely these endpoint, comparison, transport, and exactness rows
+as the concrete singleton $\POSetUp$ certificate, while
+\autoref{thm:poset-ledger-obligation} rules out any totality, lattice,
+host-order, quotient, or non-singleton carrier row.
+\end{proof}
+
 \begin{theorem}[POSet singleton comparison endpoint determinacy]
 \label{thm:poset-singleton-comparison-endpoint-determinacy}
 For the concrete singleton $\POSetUp$ package of
