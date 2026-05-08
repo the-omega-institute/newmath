@@ -435,6 +435,49 @@ operations.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsRingup\_public\_algebra\_interface}
 
+\begin{theorem}[FPS concrete RingUp instance certificate]
+\label{thm:fps-ringup-concrete-instance-certificate}
+Let $R$ carry a $\RingUp(R)$ scalar certificate with scalar classifier
+$\sim_R$, zero endpoint $0_R$, addition $+_R$, additive inverse $-_R$,
+multiplication $\cdot_R$, unit endpoint $1_R$, and finite additive fold
+$\mathsf{fold}_{+,R}$ as in
+\autoref{thm:fps-ringup-public-algebra-interface}. Then the concrete
+formal-power-series surface
+$$
+(\mathsf{FPSCarrier}_R,\ \sim_{\mathrm{fps}},\
+\oplus_{\mathrm{fps}},\ 0_{\mathrm{fps}},\ -_{\mathrm{fps}},\
+\odot_{\mathrm{fps}},\ 1_{\mathrm{fps}})
+$$
+forms the corresponding $\RingUp$ instance surface: the additive part is a
+pointwise group over $\mathsf{FPSCarrier}_R$, the multiplicative part is a
+Cauchy-product monoid on the same carrier and classifier, Cauchy product
+distributes over pointwise addition on both sides, the zero series absorbs
+Cauchy product on both sides, and the singleton empty-history naming certificate
+records the semantic carrier used by the terminal concrete instance.
+\end{theorem}
+\begin{proof}
+The carrier, classifier, and displayed operation names are exactly the public
+interface exported in \autoref{thm:fps-ringup-public-algebra-interface}; hence
+the certificate only has to assemble the algebra rows already stated there.
+
+Apply \autoref{thm:fps-pointwise-additive-group-laws} for the pointwise
+additive group rows on $\mathsf{FPSCarrier}_R$. Apply
+\autoref{thm:fps-cauchy-product-multiplicative-monoid-laws} for Cauchy-product
+closure, congruence, associativity, and the unit series on the same pointwise
+classifier.
+
+The interaction rows are supplied by
+\autoref{thm:fps-cauchy-product-distributes-over-pointwise-addition} and
+\autoref{thm:fps-zero-series-cauchy-product-absorption-over-ringup-scalars}.
+They identify the two distributivity laws and the two zero-product absorption
+laws without changing the carrier or classifier.
+
+Finally, \autoref{thm:fps-singleton-empty-history-semantic-certificate} records
+the singleton semantic naming surface used when the concrete instance is read at
+the terminal empty-history object. Together these rows are the concrete
+$\RingUp$ instance certificate for the displayed FPS carrier and operations.
+\end{proof}
+
 \begin{closurestatus}{\FpsUp}
   \theoryclosure{\publicClosure}
   \scopeclosed{The public FPS RingUp algebra interface is closed over $\RingUp$, $\NatUp$, the coefficientwise carrier, pointwise classifier, pointwise addition, zero series, coefficientwise inverse, Cauchy product, unit series, and finite-fold zero absorption rows displayed in this chapter.}

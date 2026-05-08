@@ -42,14 +42,26 @@ The ledger field records the hidden partition choices, approximation rows, and c
 \section{The certificate}
 \label{sec:integral-certificate}
 
+\begin{theorem}[IntegralUp public NameCert surface]\label{thm:integral-public-namecert-surface}
+The carrier row of \autoref{thm:integral-function-carrier-obligation}, the classifier row of \autoref{thm:integral-measure-respecting-classifier-obligation}, and the operation, stability, and ledger row of \autoref{thm:integral-operation-stability-ledger-obligation} assemble the exported public $\NameCert_{\IntegralUp}$ surface over the displayed $\mathsf{BHist}$, $\Pkg$, $\hsame$, $\NameCert_{\MeasureUp}$, and $\NameCert_{\ContourUp}$ dependencies. Its public rows are exactly the visible carrier, classifier, measure-respecting stability, operation ledger, exactness, and dependency rows; partitions, approximations, convergence witnesses, standard bridges, and host function equality remain ledger data or outside this surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:integral-function-carrier-obligation}. It fixes the visible $\mathsf{BHist}$ carrier, the $\Pkg$ provenance, and the named $\NameCert_{\MeasureUp}$ and $\NameCert_{\ContourUp}$ dependencies read by the public $\IntegralUp$ endpoint.
+
+Apply \autoref{thm:integral-measure-respecting-classifier-obligation}. It supplies the classifier row over the same $\hsame$ and $\Pkg$ provenance, so the public surface compares displayed histories rather than host-level functions.
+
+Apply \autoref{thm:integral-operation-stability-ledger-obligation}. The roadmap ten-field template then reads the operation, measure-respecting stability, ledger, exactness, and dependency rows as visible public certificate fields. The same template keeps partitions, approximations, convergence witnesses, standard bridges, and host function equality as ledger or out-of-scope data, so the three obligation rows repack as the exported public $\NameCert_{\IntegralUp}$ surface.
+\end{proof}
+
 \closureat{IntegralUp}{scopedStr}
+\closureat{IntegralUp}{publicStr}[BEDC.Derived.IntegralUp.IntegralFunctionCarrier\_obligation]
 
 \begin{closurestatus}{\IntegralUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped paper surface is exactly \autoref{thm:integral-function-carrier-obligation}, \autoref{thm:integral-measure-respecting-classifier-obligation}, and \autoref{thm:integral-operation-stability-ledger-obligation}, read through the displayed $\mathsf{BHist}$, $\Pkg$, $\hsame$, $\NameCert_{\MeasureUp}$, and $\NameCert_{\ContourUp}$ dependencies.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public paper surface is exactly \autoref{thm:integral-public-namecert-surface}, grounded by \autoref{thm:integral-function-carrier-obligation}, \autoref{thm:integral-measure-respecting-classifier-obligation}, and \autoref{thm:integral-operation-stability-ledger-obligation}, read through the displayed $\mathsf{BHist}$, $\Pkg$, $\hsame$, $\NameCert_{\MeasureUp}$, and $\NameCert_{\ContourUp}$ dependencies.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.IntegralUp.IntegralFunctionCarrier\_obligation}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a public certificate surface, a standard bridge, a convergence theorem, or full Lean verification.}
-  \upgradepath{Scoped closure requires paper proofs for the carrier, classifier, measure-respecting operation, stability, ledger, exactness, and dependency rows displayed by the three obligation sites.}
+  \notclaimed{This chapter does not close a standard bridge, a convergence theorem, or host function equality for integrands.}
+  \upgradepath{Bridged closure requires a standard bridge for the public $\NameCert_{\IntegralUp}$ surface.}
 \end{closurestatus}
