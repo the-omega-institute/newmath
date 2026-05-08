@@ -106,13 +106,20 @@ theorem ObservableBHistOperatorCarrier_hilbert_source_readback [AskSetup] [Packa
           hsame ledger (append hilbert witness) ∧
             hsame expectation (append operator spectrum) ∧ PkgSig bundle endpoint pkg := by
   intro operatorCarrier
+  have witnessUnary : UnaryHistory witness :=
+    operatorCarrier.right.right.right.right.left
+  have expectationRow : Cont operator spectrum expectation :=
+    operatorCarrier.right.right.right.right.right.right.left
+  have ledgerRow : Cont hilbert witness ledger :=
+    operatorCarrier.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    operatorCarrier.right.right.right.right.right.right.right.right.right
   exact And.intro operatorCarrier.left
     (And.intro operatorCarrier.right.left
-      (And.intro operatorCarrier.right.right.right.right.left
-        (And.intro operatorCarrier.right.right.right.right.right.right.left
-          (And.intro operatorCarrier.right.right.right.right.right.left
-            (And.intro operatorCarrier.right.right.right.right.right.right.left
-              (And.intro operatorCarrier.right.right.right.right.right.left
-                operatorCarrier.right.right.right.right.right.right.right.right))))))
+      (And.intro witnessUnary
+        (And.intro ledgerRow
+          (And.intro expectationRow
+            (And.intro ledgerRow
+              (And.intro expectationRow pkgSig))))))
 
 end BEDC.Derived.ObservableUp
