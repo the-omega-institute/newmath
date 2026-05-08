@@ -82,6 +82,18 @@ theorem SeparableExtJointSource_fieldext_polynomial_source
               (And.intro source.right.right.right.right.right.right
                 (And.intro endpointUnary endpointReadback)))))))
 
+theorem SeparableExtSourceRow_fieldext_polynomial_source
+    {field polynomial generator minpoly derivative provenance endpoint : BHist} :
+    SeparableExtJointSource field polynomial generator minpoly derivative provenance endpoint ->
+      FieldExtSingletonCarrier field ∧ PolynomialSingletonCarrier polynomial ∧
+        PolynomialSingletonClassifier minpoly polynomial ∧
+          Cont polynomial derivative provenance := by
+  intro source
+  exact And.intro source.left
+    (And.intro source.right.left
+      (And.intro source.right.right.right.right.left
+        source.right.right.right.right.right.left))
+
 def SeparableExtSourceSurface [AskSetup] [PackageSetup]
     (fieldExt polynomial generator minimal simpleRoot provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

@@ -1,0 +1,46 @@
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary.History
+
+namespace BEDC.Derived.ModelTheoryUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def ModelTheoryBHistStructurePacket [AskSetup] [PackageSetup]
+    (firstOrder structureRow valuation satisfaction elementary provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory firstOrder ∧
+    UnaryHistory structureRow ∧
+      UnaryHistory satisfaction ∧
+        UnaryHistory elementary ∧
+          Cont firstOrder structureRow valuation ∧
+            Cont valuation satisfaction provenance ∧
+              Cont provenance elementary endpoint ∧
+                PkgSig bundle endpoint pkg
+
+theorem ModelTheoryBHistStructurePacket_firstorder_dependency_surface [AskSetup]
+    [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+      provenance endpoint bundle pkg ->
+        UnaryHistory firstOrder ∧
+          UnaryHistory structureRow ∧
+            hsame valuation (append firstOrder structureRow) ∧
+              hsame provenance (append valuation satisfaction) ∧
+                hsame endpoint (append provenance elementary) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  exact
+    And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.left
+              packet.right.right.right.right.right.right.right))))
+
+end BEDC.Derived.ModelTheoryUp
