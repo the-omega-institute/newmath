@@ -132,4 +132,20 @@ theorem CompactMetricCertificate_scope {X : BHist -> Prop} {eps : BHist}
           · intro n nUnary source
             exact complete.right nUnary source
 
+theorem CompactMetricCertificate_metric_distance_transport {X : BHist -> Prop}
+    {eps x x' y y' d d' : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit ->
+      (forall {h k : BHist}, hsame h k -> X h -> X k) -> X x -> X y ->
+        hsame x x' -> hsame y y' -> MetricDistanceWitness x y d ->
+          MetricDistanceWitness x' y' d' ->
+            X x' ∧ X y' ∧ hsame d d' ∧ MetricDistanceWitness x' y' d' := by
+  intro certificate carrierTransport source target sameX sameY leftDistance rightDistance
+  have transportedX : X x' := carrierTransport sameX source
+  have transportedY : X y' := carrierTransport sameY target
+  have sameDistance : hsame d d' :=
+    MetricDistanceWitness_hsame_result_deterministic sameX sameY leftDistance rightDistance
+  exact And.intro transportedX
+    (And.intro transportedY (And.intro sameDistance rightDistance))
+
 end BEDC.Derived.CompactMetricUp

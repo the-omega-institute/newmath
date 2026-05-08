@@ -72,13 +72,27 @@ The ledger clause is \autoref{thm:set-extensionality-ledger-obligation}, support
 \end{proof}
 \leanchecked{BEDC.Derived.SetUp.SetPublicNameCert\_transport\_target\_carrier}
 
-\closureat{SetUp}{publicStr}
+\begin{theorem}[Set public NameCert standard bridge]
+\label{thm:set-public-namecert-standard-bridge}
+The public $\NameCert_{\SetUp}$ surface of \autoref{thm:set-public-namecert-export} gives a paper-level conservative standard bridge to the ordinary membership presentation of visible BEDC membership rows. Forward readback is the carried $\mathsf{BHist}$ membership row, reverse admission accepts only displayed membership rows, classifier preservation is the $\psame$ row of \autoref{thm:set-classifier-obligation}, and no host data is exposed beyond the extensionality ledger of \autoref{thm:set-extensionality-ledger-obligation}.
+\end{theorem}
+\begin{proof}
+Start with the public certificate assembled in \autoref{thm:set-public-namecert-export}. Its carrier component is exactly the membership-visible $\mathsf{BHist}$ row supplied by \autoref{thm:set-carrier-obligation}, so reading from the standard side back into BEDC returns the carried membership row and no hidden host set.
+
+For admission in the other direction, require the ordinary-side row to be displayed as a visible BEDC membership row. The membership-transport obligation of \autoref{thm:set-membership-transport-obligation} keeps that row stable under $\hsame$ transport, so the admitted row remains inside the same public certificate boundary.
+
+Classifier preservation is then the $\psame$ classifier supplied by \autoref{thm:set-classifier-obligation}. The bridge compares only visible membership rows, hence it preserves the certificate classifier without replacing it by host equality or a quotient relation.
+
+Finally, \autoref{thm:set-extensionality-ledger-obligation} supplies the no-host-leak clause. Its ledger records exactly which membership rows and package provenance are public, so composing these four obligations with the export theorem gives a conservative paper-level standard bridge for the visible $\SetUp$ membership presentation.
+\end{proof}
+
+\closureat{SetUp}{bridgedStr}[BEDC.FKernel.NameCert.NameCert]
 \begin{closurestatus}{\SetUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The $\SetUp$ public certificate surface is exactly the $\mathsf{BHist}$ membership carrier, $\psame$ classifier, $\hsame$ membership transport, and extensionality ledger boundary assembled by \autoref{thm:set-public-namecert-export}.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridge scope is the membership-visible carrier, $\psame$ classifier, $\hsame$ transport, extensionality ledger, and public $\NameCert$ export of \autoref{thm:set-public-namecert-export}.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.FKernel.NameCert.NameCert}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close exactness beyond the exported set certificate surface, standard bridge data, downstream $\FinSetUp$ or $\SubtypeUp$ certificates, or Lean verification of the paper-level public export theorem.}
-  \upgradepath{The next grade requires a standard bridge for the exported $\SetUp$ surface and a Lean target for \autoref{thm:set-public-namecert-export} if the public theorem is to move on the verification axis.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close bridgeChecked verification, downstream $\FinSetUp$ or $\SubtypeUp$ certificates, or Lean verification of the paper-level bridge theorem.}
+  \upgradepath{Mature closure requires downstream examples or a completeness statement for the bridged membership-visible SetUp surface.}
 \end{closurestatus}
