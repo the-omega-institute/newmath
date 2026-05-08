@@ -644,6 +644,81 @@ package instead of separately collecting the carrier, source, ledger,
 transport, and exclusion rows.
 \end{proof}
 
+\begin{theorem}[PinGroup full-orthogonal action exactness]
+\label{thm:pingroup-full-orthogonal-action-exactness}
+The public full-orthogonal action row of $\PinGroupUp$ is exactly the
+classifier boundary assembled from the inherited $\SpinGroupUp$ source, the
+Clifford reflection generator, the Clifford product ledger, $\hsame$,
+$\Cont$, and $\Pkg$ rows of the displayed $\NameCert_{\PinGroupUp}$. It
+admits no additional host orthogonal action row outside that boundary.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:pingroup-source-ledger-coverage} to locate the inherited
+$\SpinGroupUp$ source and the Clifford source inside the finite source ledger.
+Apply \autoref{thm:pingroup-reflection-parity-exactness} to identify the
+classifier boundary with the parity carrier induced by those two source
+branches.
+
+Apply \autoref{thm:pingroup-source-exhaustion}. The only public projections
+remaining after the carrier read are the listed $\SpinGroupUp$ and
+$\CliffordUp$ rows, their $\Cont$ transports, their $\hsame$ comparisons, and
+their $\Pkg$ provenance.
+
+Finally apply \autoref{thm:pingroup-downstream-unblock-package}. Its consumer
+package records the reflection ledger, Clifford action row, Spin boundary row,
+source exhaustion, transport, witnesses, and provenance as one exported
+surface, so the full-orthogonal action row is exactly that classifier boundary.
+\end{proof}
+
+\begin{theorem}[PinGroup reflection-parity boundary]
+\label{thm:pingroup-reflection-parity-boundary}
+Every public $\PinGroupUp$ row factors through exactly one branch of
+\autoref{def:pingroup-reflection-parity-carrier}: either the inherited
+$\SpinGroupUp$ branch or the Clifford reflection branch. No public row factors
+through both branches except by the inherited Spin classification already
+recorded in the carrier.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:pingroup-source-ledger-coverage} to read the public source
+ledger as the two displayed sources and their transported histories. Apply
+\autoref{thm:pingroup-reflection-parity-exactness} to classify each public row
+by the reflection-parity carrier.
+
+For a row classified by the inherited Spin branch, the carrier records exactly
+the $\SpinGroupUp$ inclusion and its $\hsame$, $\Cont$, and $\Pkg$ rows. For a
+row classified by the Clifford reflection branch, the carrier records the
+reflection generator and Clifford product ledger.
+
+Apply \autoref{thm:pingroup-source-exhaustion} to rule out a third branch.
+Then apply \autoref{thm:pingroup-downstream-unblock-package} to see that the
+consumer-visible package exports precisely these two branches and the Spin
+overlap already classified by the inherited branch.
+\end{proof}
+
+\begin{theorem}[PinGroup source projection separation]
+\label{thm:pingroup-source-projection-no-confusion}
+The public source projections of $\PinGroupUp$ to $\SpinGroupUp$ and
+$\CliffordUp$ are disjoint except for rows classified by the inherited Spin
+branch of \autoref{def:pingroup-reflection-parity-carrier}. Consequently the
+public certificate has no third source projection.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:pingroup-source-ledger-coverage}. It places every public
+source read in the displayed $\SpinGroupUp$ or $\CliffordUp$ source row, with
+the advertised $\mathsf{BHist}$ histories and no additional projection field.
+
+Apply \autoref{thm:pingroup-reflection-parity-exactness}. The classifier
+separates inherited Spin rows from Clifford reflection rows, and it identifies
+the only common public classification as the inherited Spin branch already
+present in the reflection-parity carrier.
+
+Apply \autoref{thm:pingroup-source-exhaustion} to exclude any remaining public
+source projection. The downstream package of
+\autoref{thm:pingroup-downstream-unblock-package} then repacks exactly the two
+source projections, their transports, witnesses, and provenance for later
+consumers.
+\end{proof}
+
 \begin{closurestatus}{\PinGroupUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{The seed scope is limited to the displayed reflection-parity carrier, SpinGroup inclusion, Clifford reflection product, $\hsame$, $\Cont$, and $\Pkg$ rows in this chapter.}
