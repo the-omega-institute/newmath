@@ -315,3 +315,40 @@ the same common finite refinement, hence determine the same visible rows up
 to the recorded $\hsame$ transports. This gives the announced readback packet
 and shows that every public finite-window classifier read factors through it.
 \end{proof}
+
+\begin{theorem}[RealUp empty-window StreamName boundary]
+\label{thm:realup-empty-window-streamname-boundary}
+Let $W$ be a selected finite $\RealUp$ observation window whose
+$\mathsf{ProbeBundle}$ boundary is empty. Then the $\StreamNameUp$ component of
+the $\RealUp$ finite-window readback package is exactly the public empty-window
+vacuity row of \autoref{thm:streamname-public-empty-window-vacuity}. After this
+identification, the remaining visible $\RealUp$ rows are only the scoped ledger,
+dyadic source, $\mathsf{UnaryHistory}$, $\hsame$, and
+$\mathsf{RealLedgerPolicy}$ rows already listed by
+\autoref{thm:realup-scoped-finite-window-read-surface}.
+
+The empty-window read contains no quotient row, completion row,
+metric-completeness certificate, Classical datum, arithmetic or order row, or
+standard-bridge datum.
+\end{theorem}
+\begin{proof}
+Project the selected finite readback through
+\autoref{thm:realup-finite-window-streamname-readback-package}. The projected
+$\StreamNameUp$ row is a displayed finite-window classifier row inside the same
+$\mathsf{BHist}$ packet as the unary schedule, endpoint rows, $\Cont$ and
+$\hsame$ transport ledger, and $\Pkg$ provenance.
+
+Apply \autoref{thm:realup-finite-window-export-through-streamname-interface} to
+factor that stream-name row through the public finite-window interface. Since
+the $\mathsf{ProbeBundle}$ boundary of $W$ is empty, the corresponding public
+stream-name row is the empty-window vacuity row of
+\autoref{thm:streamname-public-empty-window-vacuity}.
+
+It remains to identify what the $\RealUp$ packet still exposes. The scoped read
+surface theorem \autoref{thm:realup-scoped-finite-window-read-surface} lists
+exactly the surviving finite rows: the scoped ledger, dyadic source,
+$\mathsf{UnaryHistory}$, $\hsame$, and $\mathsf{RealLedgerPolicy}$ entries. The
+same theorem excludes quotient, completion, metric-completeness, Classical,
+arithmetic, order, and standard-bridge data, and the empty-window projection
+does not add any of them.
+\end{proof}
