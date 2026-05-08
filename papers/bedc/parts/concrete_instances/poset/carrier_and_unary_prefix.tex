@@ -654,3 +654,54 @@ Thus the whole finite chain is covered by the concrete singleton endpoint
 classifier package that downstream $\TotalOrderUp$ and $\OrderUp$ consumers
 cite.
 \end{proof}
+
+\begin{theorem}[POSet prefix chain OrderUp interval coverage]
+\label{thm:poset-prefix-chain-orderup-interval-coverage}
+Every finite guarded $\POSetUp$ chain over carried $\mathsf{BHist}$ endpoints
+supplies the $\OrderUp$ finite-interval carrier, endpoint classifier, and
+adjacent comparison ledger rows needed by the unary-prefix order phase. The
+carrier rows are the carried endpoint rows, the endpoint classifier rows are
+those of
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}, and the
+interval ledger is exhausted by adjacent guarded comparisons together with
+the collapse rows of \autoref{thm:poset-prefix-chain-collapse}.
+\end{theorem}
+\begin{proof}
+Start with a finite guarded chain. Apply
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage} to obtain
+classifier coverage for every endpoint pair of the chain.
+
+Next apply \autoref{thm:poset-prefix-chain-collapse}. It reads the adjacent
+guarded comparisons as the transitive finite-chain comparison rows, so the
+endpoint pairs form the finite interval consumed by $\OrderUp$.
+
+Finally use \autoref{thm:poset-singleton-ledger-exhaustion}. The ledger has no
+entry beyond carried endpoints, adjacent comparisons, transitive endpoint
+witnesses, and classifier rows. These are exactly the finite-interval carrier,
+endpoint classifier, and adjacent comparison rows asserted above.
+\end{proof}
+
+\begin{theorem}[POSet prefix chain TotalOrder selector consumer boundary]
+\label{thm:poset-prefix-chain-totalorder-selector-consumer-boundary}
+A $\TotalOrderUp$ selector consuming a finite guarded $\POSetUp$ chain may use
+only the carried endpoints, the branch comparison rows obtained from the
+chain, the endpoint classifier rows, and the finite-chain ledger supplied by
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}. It may
+not consume host order, quotient representatives, lattice operations, or any
+comparison datum outside the carried $\mathsf{BHist}$ chain.
+\end{theorem}
+\begin{proof}
+Read the consumer rows from
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}. They are
+carried $\mathsf{BHist}$ endpoints, adjacent guarded comparisons, transitive
+prefix witnesses, and endpoint classifier rows.
+
+Apply \autoref{thm:poset-prefix-chain-collapse} to turn the adjacent rows into
+the branch comparison data visible to a selector. The result still lives over
+the same carried endpoints and does not introduce a host comparison.
+
+Apply \autoref{thm:poset-singleton-ledger-exhaustion} at the boundary. It
+rules out total-order data, quotient representatives, lattice operations, and
+host-order rows. Therefore the selector boundary is exactly the carried chain
+data listed in the statement.
+\end{proof}
