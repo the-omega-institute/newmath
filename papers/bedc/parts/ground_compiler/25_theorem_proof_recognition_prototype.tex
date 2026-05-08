@@ -1,0 +1,552 @@
+\chapter{Theorem and Proof Recognition Prototype}
+\label{ch:ground-compiler-theorem-proof-recognition-prototype}
+
+\autoref{ch:ground-compiler-derivcert-acceptgate-recognition-prototype} defines $P_6$, the derivation-certificate and acceptance-gate recognition prototype. It can report accepted object code, but it is still not a theorem recognizer. An accepted object does not automatically provide arbitrary theorems about that object.
+
+This chapter defines the next prototype level:
+$$
+  \boxed{P_7=P_6+\text{statement-flow recognition}+\text{proof-flow recognition}+\text{theorem-flow recognition}.}
+$$
+This is the first layer where theorem code may be reported. The distinctions among theorem code, proof-flow, accepted theorem, and abstract proposition are strict:
+$$
+  \boxed{\text{a theorem is not an external label; it is a recognized statement/proof/dependency/certificate/ledger/status/site structure}.}
+$$
+Thus $P_7$ does not accept theorem objects, theorem labels, Lean theorem names, host proof objects, proof ASTs, external proposition strings, or manual theorem tables. It accepts channel streams or decoded event flows and recognizes theorem and proof flows by generated recognizers and generated proof checkers.
+
+\section{$P_7$ prototype interface}
+\label{sec:theorem-proof-p7-interface}
+
+\begin{definition}[Theorem and proof recognition prototype]
+\label{def:theorem-proof-p7-prototype}
+A \emph{theorem and proof recognition prototype} is an executable prototype $P_7$ satisfying:
+\begin{enumerate}
+\item $P_7$ includes all $P_6$ functions;
+\item $P_7$ recognizes statement flows;
+\item $P_7$ recognizes dependency flows;
+\item $P_7$ recognizes proof flows;
+\item $P_7$ recognizes theorem certificate flows;
+\item $P_7$ recognizes theorem ledger flows;
+\item $P_7$ recognizes theorem status flows;
+\item $P_7$ recognizes canonical-site flows;
+\item $P_7$ recognizes theorem-seal flows;
+\item when proof-flow is validated by generated proof checker, $P_7$ can report theorem code;
+\item $P_7$ does not treat theorem code as mature-object export;
+\item $P_7$ does not treat theorem code as abstract-proposition identity;
+\item $P_7$ does not treat theorem code as bridge certificate.
+\end{enumerate}
+Write
+$$
+  \mathsf{TheoremProofPrototype}(P_7).
+$$
+\end{definition}
+
+\begin{principle}[Theorem is not input]
+\label{prin:theorem-proof-theorem-not-input}
+There is no formal input
+$$
+  \mathsf{TheoremObject}\to\mathsf{Code}
+  \qquad\text{or}\qquad
+  \mathsf{ProofObject}\to\mathsf{Code}.
+$$
+The only formal input remains $\mathsf{EventFlow}$ or $\mathsf{LegalZStream}$. If the input is channel stream $c$, then $P_7$ first checks $c\in\mathsf{LegalZStream}$ and forms $S=\mathsf{Decode}(c)$.
+\end{principle}
+
+\begin{definition}[$P_7$ input]
+\label{def:theorem-proof-p7-input}
+The input to $P_7$ is displayed as channel stream $c$ or event flow $S$. If $c\notin\mathsf{LegalZStream}$, $P_7$ rejects and produces no theorem report.
+\end{definition}
+
+\begin{definition}[$P_7$ output]
+\label{def:theorem-proof-p7-output}
+The output of $P_7$ is a report flow or human-readable report containing decoded event flow, statement candidates, recognized statement flows, dependency candidates, recognized dependency flows, proof candidates, recognized proof flows, proof-checking results, theorem candidates, recognized theorem flows, theorem code, theorem field status, missing fields, proof failures, certificate failures, ledger failures, status failures, canonical-site failures, warnings, and cannot-claim annotations.
+\end{definition}
+
+\section{Statement and dependency recognition}
+\label{sec:theorem-proof-statement-dependencies}
+
+\begin{definition}[Statement candidate]
+\label{def:theorem-proof-statement-candidate}
+A \emph{statement candidate} is an event subflow
+$$
+  \Phi\subseteq S
+$$
+not yet recognized as a statement flow. Write
+$$
+  \mathsf{StmtCand}(S,\Phi).
+$$
+\end{definition}
+
+\begin{definition}[Generated statement recognizer]
+\label{def:theorem-proof-generated-statement-recognizer}
+A \emph{generated statement recognizer} is an event flow
+$$
+  R_{\Phi}\in\mathsf{EventFlow}
+$$
+supporting
+$$
+  \mathsf{RecognizesStatement}(R_{\Phi},S,\Phi).
+$$
+\end{definition}
+
+\begin{definition}[Recognized statement flow]
+\label{def:theorem-proof-recognized-statement-flow}
+If
+$$
+  \mathsf{RecognizesStatement}(R_{\Phi},S,\Phi),
+$$
+then $\Phi$ is a recognized statement flow in $S$. Write
+$$
+  \mathsf{StatementFlow}_{R_{\Phi}}(S,\Phi).
+$$
+\end{definition}
+
+\begin{remark}[Statement flow is not abstract proposition]
+\label{rem:theorem-proof-statement-not-proposition}
+A statement flow is a statement structure inside an event flow. It is not an external proposition, host-level formula, Lean theorem statement, or LaTeX string. One abstract proposition may have multiple statement flows with different presentations, unfoldings, dependency exposure, notation, bridge expression, or canonical site.
+\end{remark}
+
+\begin{definition}[Dependency candidate and recognizer]
+\label{def:theorem-proof-dependency-candidate-recognizer}
+A \emph{dependency candidate} is an event subflow
+$$
+  D_{\mathrm{dep}}\subseteq S
+$$
+claiming to record theorem dependencies. A \emph{generated dependency recognizer} is an event flow $R_{\mathrm{dep}}$ supporting
+$$
+  \mathsf{RecognizesDependencies}(R_{\mathrm{dep}},S,D_{\mathrm{dep}}).
+$$
+If this holds, $D_{\mathrm{dep}}$ is a recognized dependency flow.
+\end{definition}
+
+\begin{definition}[Dependency soundness]
+\label{def:theorem-proof-dependency-soundness}
+A dependency flow $D_{\mathrm{dep}}$ is \emph{sound} when every dependency it records is one of: generated in an earlier event flow, proved in an earlier theorem flow, recognized in an earlier certificate flow, local to the same theorem flow, explicitly marked as deferred obligation, or explicitly listed as cannot-claim or open obligation. A reference to a future ungenerated object with no deferred marker is unsound.
+\end{definition}
+
+\begin{theorem}[Unsound dependency blocks theorem recognition]
+\label{thm:theorem-proof-unsound-dependency-blocks}
+If a theorem candidate has unsound dependency flow, it cannot become a sound theorem flow.
+\end{theorem}
+
+\begin{proof}
+The proof flow of a theorem must establish the statement under the recorded dependencies. If the dependency flow invokes material that has not been generated, recognized, proved, or marked deferred, the proof environment is not established. Hence theorem recognition cannot be sound.
+\end{proof}
+
+\section{Proof-flow recognition and checking}
+\label{sec:theorem-proof-proof-flow}
+
+\begin{definition}[Proof candidate]
+\label{def:theorem-proof-proof-candidate}
+A \emph{proof candidate} is an event subflow
+$$
+  \Pi\subseteq S
+$$
+not yet recognized as a proof flow. Write
+$$
+  \mathsf{ProofCand}(S,\Pi).
+$$
+\end{definition}
+
+\begin{definition}[Generated proof-flow recognizer]
+\label{def:theorem-proof-generated-proof-recognizer}
+A \emph{generated proof-flow recognizer} is an event flow
+$$
+  R_{\Pi}\in\mathsf{EventFlow}
+$$
+supporting
+$$
+  \mathsf{RecognizesProofFlow}(R_{\Pi},S,\Pi).
+$$
+\end{definition}
+
+\begin{definition}[Recognized proof flow]
+\label{def:theorem-proof-recognized-proof-flow}
+If
+$$
+  \mathsf{RecognizesProofFlow}(R_{\Pi},S,\Pi),
+$$
+then $\Pi$ is a recognized proof flow in $S$. Write
+$$
+  \mathsf{ProofFlow}_{R_{\Pi}}(S,\Pi).
+$$
+\end{definition}
+
+\begin{definition}[Generated proof checker]
+\label{def:theorem-proof-generated-checker}
+A \emph{generated proof checker} is an event flow
+$$
+  R_{\mathrm{chk}}\in\mathsf{EventFlow}
+$$
+supporting
+$$
+  \mathsf{ChecksProof}(R_{\mathrm{chk}},\Phi,D_{\mathrm{dep}},\Pi).
+$$
+This says that $R_{\mathrm{chk}}$ checks proof-flow $\Pi$ as a proof of statement-flow $\Phi$ using dependency-flow $D_{\mathrm{dep}}$. It is not host proof checker output or external proof-engine result. Host proof checkers must be recorded by bootstrap obligation or bridge/certificate flow.
+\end{definition}
+
+\begin{definition}[Proof soundness]
+\label{def:theorem-proof-proof-soundness}
+A proof flow $\Pi$ is \emph{sound} for statement flow $\Phi$ and dependency flow $D_{\mathrm{dep}}$ when there exists a generated proof checker $R_{\mathrm{chk}}$ such that
+$$
+  \mathsf{ChecksProof}(R_{\mathrm{chk}},\Phi,D_{\mathrm{dep}},\Pi).
+$$
+\end{definition}
+
+\begin{theorem}[Proof candidate alone is insufficient]
+\label{thm:theorem-proof-candidate-insufficient}
+If $\Pi$ is only a proof candidate, and no proof-flow recognition and proof-checking judgment are supplied, then $\Pi$ cannot be used as a theorem proof.
+\end{theorem}
+
+\begin{proof}
+A proof candidate is just an event subflow. To serve as theorem proof, it must first be recognized as proof flow and then checked by generated proof checker against the statement and dependencies. Without both, the proof role is not established.
+\end{proof}
+
+\begin{corollary}[Code is not proof flow]
+\label{cor:theorem-proof-code-not-proof-flow}
+A channel code may decode to an event flow, but it does not thereby become proof flow. Proof-flow recognition is required.
+\end{corollary}
+
+\begin{corollary}[Proof flow is not proof checking]
+\label{cor:theorem-proof-proof-flow-not-checking}
+Recognized proof flow does not by itself prove a statement. A $\mathsf{ChecksProof}$ judgment is required.
+\end{corollary}
+
+\section{Theorem-flow recognition}
+\label{sec:theorem-proof-theorem-flow}
+
+\begin{definition}[Theorem candidate]
+\label{def:theorem-proof-theorem-candidate}
+A \emph{theorem candidate} is an event subflow
+$$
+  T\subseteq S
+$$
+not yet recognized as theorem flow. Write
+$$
+  \mathsf{TheoremCand}(S,T).
+$$
+\end{definition}
+
+\begin{definition}[Generated theorem recognizer]
+\label{def:theorem-proof-generated-theorem-recognizer}
+A \emph{generated theorem recognizer} is an event flow
+$$
+  R_T\in\mathsf{EventFlow}
+$$
+supporting
+$$
+  \mathsf{RecognizesTheorem}(R_T,S,T).
+$$
+\end{definition}
+
+\begin{definition}[Theorem subflows]
+\label{def:theorem-proof-theorem-subflows}
+If
+$$
+  \mathsf{RecognizesTheorem}(R_T,S,T),
+$$
+then $R_T$ may identify:
+$$
+  \mathsf{ThmStatement}_{R_T}(T,\Phi),
+  \qquad
+  \mathsf{ThmDependencies}_{R_T}(T,D_{\mathrm{dep}}),
+$$
+$$
+  \mathsf{ThmProof}_{R_T}(T,\Pi),
+  \qquad
+  \mathsf{ThmCertificates}_{R_T}(T,C_{\mathrm{thm}}),
+$$
+$$
+  \mathsf{ThmLedger}_{R_T}(T,L_{\mathrm{thm}}),
+  \qquad
+  \mathsf{ThmStatus}_{R_T}(T,s_{\mathrm{thm}}),
+$$
+$$
+  \mathsf{ThmCanonicalSite}_{R_T}(T,\kappa),
+  \qquad
+  \mathsf{ThmSeal}_{R_T}(T,\sigma_T).
+$$
+\end{definition}
+
+\begin{definition}[Complete theorem recognition]
+\label{def:theorem-proof-complete-theorem-recognition}
+The judgment
+$$
+  \mathsf{RecognizesTheorem}(R_T,S,T)
+$$
+is \emph{complete theorem recognition} when statement, dependency, proof, certificate, ledger, status, canonical-site, and seal subflows are all recognized.
+\end{definition}
+
+\begin{principle}[No theorem without eight subflows]
+\label{prin:theorem-proof-no-theorem-without-eight}
+A theorem flow must have recognized statement, dependencies, proof, certificates, ledger, status, canonical site, and seal. If any is missing, the flow remains a theorem candidate.
+\end{principle}
+
+\begin{theorem}[Incomplete theorem candidate cannot be theorem flow]
+\label{thm:theorem-proof-incomplete-not-theorem}
+If a theorem candidate $T$ lacks any required recognized subflow, then $T$ cannot be used as recognized theorem flow.
+\end{theorem}
+
+\begin{proof}
+Theorem-flow recognition requires complete theorem recognition. Missing any of the eight required subflows blocks completeness.
+\end{proof}
+
+\section{Theorem-flow soundness and code}
+\label{sec:theorem-proof-soundness-code}
+
+\begin{definition}[Theorem-flow soundness components]
+\label{def:theorem-proof-soundness-components}
+The soundness components for a theorem flow are:
+\begin{enumerate}
+\item statement soundness: the statement is recognized and every symbol, dependency, and object reference has a source in the dependency or certificate flow;
+\item dependency soundness: the dependency flow satisfies \autoref{def:theorem-proof-dependency-soundness};
+\item proof soundness: a generated proof checker validates $\mathsf{ChecksProof}(R_{\mathrm{chk}},\Phi,D_{\mathrm{dep}},\Pi)$;
+\item certificate soundness: required certificate flows are recognized or explicitly marked as open obligations;
+\item ledger soundness: the ledger records statement, dependency, proof, certificate, hidden abbreviation, classifier quotient, normal-address, bridge-obligation, and failure-branch material;
+\item status soundness: status is recognized and matches proof, certificate, checked-flow, or bridge-flow status;
+\item canonical-site soundness: the site records the theorem's canonical position, with competing sites marked as variant, wrapper, or projection.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Sound theorem flow]
+\label{def:theorem-proof-sound-theorem-flow}
+A recognized theorem flow $T$ is \emph{sound} when complete theorem recognition holds and all soundness components of \autoref{def:theorem-proof-soundness-components} hold.
+\end{definition}
+
+\begin{theorem}[Sound theorem flow establishes theorem code]
+\label{thm:theorem-proof-sound-flow-theorem-code}
+If $T$ is a sound theorem flow, define
+$$
+  \mathsf{TheoremCode}(T):=\mathsf{Compile}(T).
+$$
+This code is the lossless channel encoding of $T$.
+\end{theorem}
+
+\begin{proof}
+The theorem flow $T$ is an event-flow subflow, so $\mathsf{Compile}(T)$ is defined. By the channel bijection, compilation is lossless. By soundness, $T$ has the statement, dependencies, proof, certificates, ledger, status, site, and seal required for theoremhood.
+\end{proof}
+
+\begin{theorem}[Theorem code is injective on raw theorem flows]
+\label{thm:theorem-proof-code-injective}
+If $T$ and $U$ are sound theorem flows and
+$$
+  \mathsf{TheoremCode}(T)=\mathsf{TheoremCode}(U),
+$$
+then $T=U$.
+\end{theorem}
+
+\begin{proof}
+Both theorem codes are compiled event-flow codes. Equality gives $\mathsf{Compile}(T)=\mathsf{Compile}(U)$, hence $T=U$ by injectivity of the channel compiler.
+\end{proof}
+
+\begin{corollary}[Theorem code equality is stronger than statement equivalence]
+\label{cor:theorem-proof-code-stronger-than-statement}
+Equal theorem codes imply equal complete theorem flows, including statement, dependencies, proof, certificates, ledger, status, and canonical site. Statement-flow equivalence alone does not imply theorem-code equality.
+\end{corollary}
+
+\section{Abstract propositions and accepted theorem flows}
+\label{sec:theorem-proof-abstract-accepted}
+
+\begin{definition}[Statement classifier and abstract proposition class]
+\label{def:theorem-proof-statement-classifier}
+A \emph{statement classifier} is a source-level classifier $\sim_{\mathrm{stmt}}$ on statement flows. If $\Phi\sim_{\mathrm{stmt}}\Psi$, then $\Phi$ and $\Psi$ may be read as statement-flow presentations of the same abstract proposition. The abstract proposition class is
+$$
+  [\Phi]_{\sim_{\mathrm{stmt}}}.
+$$
+\end{definition}
+
+\begin{proposition}[Abstract proposition may have many theorem flows]
+\label{prop:theorem-proof-proposition-many-flows}
+There may be distinct theorem flows $T$ and $U$ whose statement flows lie in the same abstract proposition class.
+\end{proposition}
+
+\begin{proof}
+Let the statement flows of $T$ and $U$ be $\Phi$ and $\Psi$, with $\Phi\sim_{\mathrm{stmt}}\Psi$. If proof flow, dependency flow, ledger flow, or canonical-site flow differs, then the complete event flows $T$ and $U$ differ.
+\end{proof}
+
+\begin{corollary}[Abstract proposition is not theorem code]
+\label{cor:theorem-proof-proposition-not-code}
+Theorem code is bijective with theorem flow. Abstract proposition classes are quotients of statement flows and are generally not in bijection with theorem codes.
+\end{corollary}
+
+\begin{definition}[Accepted theorem flow]
+\label{def:theorem-proof-accepted-theorem-flow}
+A sound theorem flow $T$ is an \emph{accepted theorem flow} when its proof flow is checked by generated proof checker, all required certificates in its certificate flow are recognized, any claimed mature-object export has the relevant acceptance-gate flow, status matches proof and certificate state, and ledger is complete. Write
+$$
+  \mathsf{AcceptedTheoremFlow}(T).
+$$
+\end{definition}
+
+\begin{definition}[Accepted theorem code]
+\label{def:theorem-proof-accepted-theorem-code}
+If
+$$
+  \mathsf{AcceptedTheoremFlow}(T),
+$$
+define
+$$
+  \mathsf{AcceptedTheoremCode}(T):=\mathsf{Compile}(T).
+$$
+\end{definition}
+
+\begin{proposition}[Accepted theorem code is theorem-flow code with acceptance status]
+\label{prop:theorem-proof-accepted-code-same-code}
+Accepted theorem code is not a new encoding function. It is theorem-flow code for a theorem flow satisfying accepted-theorem conditions.
+\end{proposition}
+
+\begin{proof}
+By definition, $\mathsf{AcceptedTheoremCode}(T)=\mathsf{Compile}(T)$.
+\end{proof}
+
+\begin{theorem}[Accepted theorem code does not imply accepted object]
+\label{thm:theorem-proof-accepted-theorem-not-object}
+If $T$ is an accepted theorem flow, it does not follow that every object mentioned in its statement is an accepted object unless the statement or certificate flow contains the relevant acceptance-gate flows.
+\end{theorem}
+
+\begin{proof}
+Accepted theorem status concerns the theorem package: proof, certificates, ledger, status, and site. Object acceptance is separately mediated by acceptance-gate flows for the objects. The former does not automatically supply the latter.
+\end{proof}
+
+\begin{corollary}[Theorem acceptance and object acceptance are distinct]
+\label{cor:theorem-proof-theorem-object-acceptance-distinct}
+Theorem-flow acceptance and object acceptance are different statuses requiring different recognized flows.
+\end{corollary}
+
+\section{Reports and soundness}
+\label{sec:theorem-proof-reports-soundness}
+
+\begin{definition}[$P_7$ report]
+\label{def:theorem-proof-p7-report}
+A \emph{$P_7$ report} is an output view containing decoded event flow, statement candidates, recognized statement flows, dependency candidates, recognized dependency flows, proof candidates, recognized proof flows, proof-checking status, theorem candidates, recognized theorem flows, theorem field status, accepted theorem flows, theorem codes, missing fields, proof failures, dependency failures, certificate failures, ledger failures, status failures, canonical-site failures, and cannot-claim annotations.
+\end{definition}
+
+\begin{definition}[Theorem field and proof status]
+\label{def:theorem-proof-field-proof-status}
+For each theorem candidate $T$, the report records statement, dependencies, proof, certificates, ledger, status, canonical site, and seal as present, missing, or candidate-only. For each proof candidate $\Pi$, it records whether proof-flow is recognized, statement and dependencies match, proof checker is supplied, proof check passes, failure reason, and ledger status.
+\end{definition}
+
+\begin{definition}[$P_7$ cannot-claim annotations]
+\label{def:theorem-proof-p7-cannot-claims}
+A $P_7$ report must state that statement flow alone is not theorem, proof flow alone is not theorem, recognized proof flow is not checked proof unless proof checker validates it, theorem code is not abstract-proposition identity, accepted theorem does not imply all mentioned objects are accepted, theorem code is not bridge certificate, same statement classifier does not imply same theorem code, missing proof checker blocks accepted theorem, and missing canonical site blocks canonical theorem code.
+\end{definition}
+
+\begin{definition}[Sound $P_7$ report]
+\label{def:theorem-proof-sound-p7-report}
+A $P_7$ report is \emph{sound} when:
+\begin{enumerate}
+\item every recognized statement flow is backed by generated statement recognizer;
+\item every recognized dependency flow is backed by generated dependency recognizer;
+\item every recognized proof flow is backed by generated proof-flow recognizer;
+\item every successful proof-checking claim is backed by generated proof checker;
+\item every recognized theorem flow has eight subflows;
+\item every accepted theorem flow satisfies accepted-theorem conditions;
+\item every theorem code is $\mathsf{Compile}(T)$;
+\item candidate-only entries are not reported as recognized;
+\item missing fields and failure cases are explicit;
+\item cannot-claim annotations are complete.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sound $P_7$ report theorem]
+\label{thm:theorem-proof-sound-p7-report}
+If $P_7$ outputs a sound report, then every theorem code in the report corresponds to a sound theorem flow, and every accepted theorem code corresponds to an accepted theorem flow.
+\end{theorem}
+
+\begin{proof}
+By soundness, theorem code comes only from recognized theorem flow with all required subflows and soundness data. Accepted theorem code further requires accepted-theorem conditions.
+\end{proof}
+
+\begin{corollary}[Sound theorem code is flow-mediated]
+\label{cor:theorem-proof-code-flow-mediated}
+$P_7$ theorem code is not an external theorem label; it is the channel compilation of theorem flow.
+\end{corollary}
+
+\begin{theorem}[$P_7$ code existence still does not imply bridge]
+\label{thm:theorem-proof-code-not-bridge}
+Even if $P_7$ reports accepted theorem code, bridge-certificate status does not follow unless the theorem certificate flow contains a recognized bridge flow.
+\end{theorem}
+
+\begin{proof}
+Accepted theorem flow may have non-bridge status. Bridge certification requires additional bridge-certificate flow. Without that flow, bridge status is not established.
+\end{proof}
+
+\section{Adequacy and examples}
+\label{sec:theorem-proof-adequacy-examples}
+
+\begin{definition}[$P_7$ audit checklist]
+\label{def:theorem-proof-p7-audit}
+A $P_7$ prototype must satisfy:
+\begin{enumerate}
+\item all $P_6$ audit requirements;
+\item statement candidates are distinguished from recognized statement flows;
+\item proof candidates are distinguished from recognized proof flows;
+\item proof-checking claims require generated proof checker;
+\item theorem candidates are distinguished from recognized theorem flows;
+\item eight theorem subflows are required;
+\item dependency soundness is required;
+\item proof soundness is required;
+\item certificate soundness is required;
+\item ledger soundness is required;
+\item status soundness is required;
+\item canonical-site soundness is required;
+\item theorem code is distinguished from abstract proposition;
+\item theorem acceptance is distinguished from object acceptance;
+\item missing fields and proof failures are recorded;
+\item cannot-claim annotations are included.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[$P_7$ adequacy theorem]
+\label{thm:theorem-proof-p7-adequacy}
+If a prototype satisfies the $P_7$ audit checklist, uses sound $P_6$ reports, and every theorem or proof recognition claim is backed by generated recognizers and proof-checker flows, then it is adequate as a theorem and proof recognition prototype.
+\end{theorem}
+
+\begin{proof}
+The audit checklist separates candidates from recognized flows, requires proof checking, enforces the eight theorem subflows, and prevents theorem code from being read as proposition identity, object acceptance, or bridge certificate. Sound $P_6$ reports provide reliable certificate and object-acceptance data when referenced. Generated recognizers and proof checkers provide the required evidence.
+\end{proof}
+
+\begin{corollary}[$P_7$ adequacy does not imply higher adequacy]
+\label{cor:theorem-proof-p7-not-higher}
+$P_7$ recognizes theorem and proof flows, but does not yet recognize chapter flows, compiler self-hosting, full bridge protocols, or global manuscript status.
+\end{corollary}
+
+\begin{example}[Channel round-trip theorem flow]
+\label{ex:theorem-proof-channel-roundtrip}
+A theorem flow for channel round trip may contain a statement flow $\mathsf{Decode}(\mathsf{Compile}(S))=S$, dependency flows for $\zeta$, event encoding, compilation, and decoding, proof flow by induction on event flow, certificate flow for channel compiler definitions and decoder correctness, ledger retaining raw event flow, compiled stream, and decoded stream, status flow, canonical site in the channel compiler chapter, and theorem seal. Its theorem code is $\mathsf{Compile}(T_{\mathrm{roundtrip}})$.
+\end{example}
+
+\begin{example}[Carry theorem flow]
+\label{ex:theorem-proof-carry-theorem}
+A theorem flow for source-level carry may state that $011$ and $100$ are related by a carry classifier. It contains dependencies for source events, normalizer recognizer, carry classifier, and ledger-preservation theorem; proof flow from recognizer soundness; certificates for normalizer recognition and classifier exactness; ledger retaining pre-normal $011$ and normal-address $100$; status, canonical site, and seal. Cannot-claims state that this does not prove $011=100$ as $\hsame$, does not imply dimension-lift without its own \NameCert\ flow, and does not imply geometric dimension.
+\end{example}
+
+\begin{example}[Accepted object theorem flow]
+\label{ex:theorem-proof-accepted-object-theorem}
+A theorem flow may state $\mathsf{AcceptGateFlow}(N,s)$. It contains dependencies on the \NameCert\ flow for $N$, derivation-certificate flow for $N$ at $s$, and strength flow $s$; proof flow constructing the acceptance gate; certificate flow with $P_6$ accepted-object data; ledger referencing certificate ledgers; status, canonical site, and seal. This theorem code proves the acceptance-flow statement, but not arbitrary properties of $N$.
+\end{example}
+
+\begin{example}[Incomplete theorem candidate]
+\label{ex:theorem-proof-incomplete-theorem}
+If a theorem candidate has statement, dependencies, certificates, ledger, status, canonical site, and seal, but proof is missing, the report says recognized theorem flow is absent and theorem code is not produced. The cannot-claim annotation says that statement alone is not theorem.
+\end{example}
+
+\section{Conservativity}
+\label{sec:theorem-proof-conservativity}
+
+\begin{theorem}[$P_7$ is conservative over the finite kernel]
+\label{thm:theorem-proof-p7-conservative}
+Adding statement-flow recognition, proof-flow recognition, proof-checking relations, theorem-flow recognition, theorem-code reports, and accepted-theorem reports adds no raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, object-equality rules, or bridge rules.
+\end{theorem}
+
+\begin{proof}
+$P_7$ operates on decoded event flows and generated recognition relations. It generates no new $\bzero,\bone$, adds no $\msame$, $\hsame$, or $\psame$, does not alter $\ExtR$ or $\ContR$, and does not license mature objects except through existing certificate-mediated acceptance flows. Theorem recognition records statement and proof structure; it does not change the finite kernel.
+\end{proof}
+
+\begin{corollary}[$P_7$ is theorem-reporting layer]
+\label{cor:theorem-proof-p7-theorem-reporting-layer}
+$P_7$ can recognize theorem and proof flows, but without chapter-flow recognition and compiler self-hosting it is not a full manuscript compiler.
+\end{corollary}
+
+\begin{remark}[Summary]
+\label{rem:theorem-proof-summary}
+This chapter defines $P_7$, the theorem and proof recognition prototype. It adds statement candidates, generated statement recognizers, recognized statement flows, dependency candidates and flows, proof candidates, generated proof-flow recognizers, recognized proof flows, generated proof checkers, theorem candidates, generated theorem recognizers, recognized theorem flows, eight theorem subflows, proof, certificate, ledger, status, and canonical-site soundness, theorem code, abstract proposition classes, accepted theorem flows, $P_7$ reports, and the $P_7$ audit checklist. It proves that theorem is not input, statement flow is not abstract proposition, unsound dependencies block theorem recognition, proof candidates and proof flows are insufficient without checking, incomplete theorem candidates are not theorem flows, sound theorem flows establish theorem code, theorem code is injective on raw theorem flows, abstract proposition classes are quotients, accepted theorem code does not imply object acceptance or bridge status, $P_7$ adequacy requires generated recognizers and proof checkers, and $P_7$ is conservative over the finite kernel.
+\end{remark}
