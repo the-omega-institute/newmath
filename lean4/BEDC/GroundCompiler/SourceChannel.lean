@@ -81,6 +81,30 @@ theorem normalize_channel_preserves_legality
           · simp [NormalizeChannel, hDecode]
           · exact flow_encoding_legal_zstream (N S)
 
+theorem normalizer_output_factors_through_decoding
+    (N : EventFlow -> EventFlow) {c out : List DisplayAlphabet} :
+    NormalizeChannel N c = some out ->
+      exists S : EventFlow,
+        Decode c = some S /\ out = FlowEncoding (N S) := by
+  intro h
+  unfold NormalizeChannel at h
+  cases hDecode : Decode c with
+  | none =>
+      rw [hDecode] at h
+      cases h
+  | some S =>
+      rw [hDecode] at h
+      refine ⟨S, rfl, ?_⟩
+      cases h
+      rfl
+
+theorem source_normalization_conservative_over_decoding
+    (N : EventFlow -> EventFlow) {c : List DisplayAlphabet} :
+    LegalZStream c ->
+      exists out : List DisplayAlphabet,
+        NormalizeChannel N c = some out /\ LegalZStream out := by
+  exact normalize_channel_preserves_legality N
+
 theorem channel_level_source_rewrite_may_destroy_legality :
     LegalZStream (EventEncoding [BMark.b0, BMark.b1, BMark.b1]) /\
       Not (LegalZStream
@@ -149,5 +173,21 @@ theorem bijection_only_at_raw_layer :
   constructor
   · exact flow_level_round_trip
   · exact classified_object_map_not_injective
+
+theorem layer_separation :
+    (forall S : EventFlow, LegalZStream (FlowEncoding S)) /\
+      (forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+      Not (EventTerminator = EventEncoding [BMark.b1, BMark.b1]) /\
+      exists c u : List DisplayAlphabet,
+        LegalZStream c /\
+          ContiguousSubstring u c /\
+          Not (OccursAsDecodedEvent u c) := by
+  constructor
+  · exact flow_encoding_legal_zstream
+  · constructor
+    · exact flow_level_round_trip
+    · constructor
+      · exact channel_terminator_not_source_event_11
+      · exact channel_substring_not_source_event
 
 end BEDC.GroundCompiler.SourceChannel

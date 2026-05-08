@@ -113,11 +113,12 @@ Take $c = \mathsf{Ev}(011) = 0101011$, which lies in $\mathsf{LegalZStream}$ by 
 
 \begin{corollary}[A source normalizer is not a channel transducer]
 \label{cor:source-channel-normalizer-not-channel-transducer}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.normalizer\_output\_factors\_through\_decoding}
 A source-level normalizer
 $$
   N \colon \mathsf{EventFlow} \longrightarrow \mathsf{EventFlow}
 $$
-does not lift to a glyph-level transducer $\Sigma^{*} \to \Sigma^{*}$ obtained by rewriting displayed substrings of channel streams. To apply $N$ to an already-compiled channel stream, the only admissible procedure is to decode first, normalize on the resulting event flow, and recompile.
+does not lift to a glyph-level transducer $\Sigma^{*} \to \Sigma^{*}$ obtained by rewriting displayed substrings of channel streams. To apply $N$ to an already-compiled channel stream, the admissible procedure is to decode first, normalize on the resulting event flow, and recompile: whenever the channel normalizer returns an output $o$ on a channel string $c$, there is an event flow $S$ such that $\mathsf{Decode}(c)=\mathsf{some}(S)$ and $o=\mathsf{Compile}(N(S))$.
 \end{corollary}
 
 \section{Decode-normalize-compile pipeline}
@@ -270,6 +271,7 @@ which is in $\mathsf{LegalZStream}$ by \autoref{cor:channel-encoding-bijection}.
 
 \begin{theorem}[Source-level normalization is conservative over channel decoding]
 \label{thm:source-channel-conservative-over-decoding}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.source\_normalization\_conservative\_over\_decoding}
 For every source-level normalizer $N \colon \mathsf{EventFlow} \to \mathsf{EventFlow}$, the diagram
 $$
   \mathsf{LegalZStream}
@@ -338,6 +340,7 @@ Any source-level analysis---finite repetition, completion witness, Zeckendorf ca
 
 \begin{theorem}[Layer separation theorem]
 \label{thm:source-channel-layer-separation}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.layer\_separation}
 The source layer and the channel layer satisfy the following seven separation conditions:
 \begin{enumerate}
   \item source events are elements of $\mathsf{RawEvent}$;
