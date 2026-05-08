@@ -70,6 +70,7 @@ import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.HopfAlgUp
+import BEDC.Derived.InducedRepUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -159,6 +160,7 @@ import BEDC.Derived.OptionUp.EndpointSemanticFields
 import BEDC.Derived.OptionUp.Pattern
 import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
+import BEDC.Derived.ObservableUp
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
@@ -166,6 +168,7 @@ import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveVarUp
+import BEDC.Derived.QuantumStateUp
 import BEDC.Derived.AffineSpaceUp
 import BEDC.Derived.ModelTheoryUp
 import BEDC.Derived.ProdUp
@@ -429,6 +432,7 @@ import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisGroupUp
+import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
 import BEDC.Derived.NumFieldUp.DegreeOneBasis

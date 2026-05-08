@@ -1,0 +1,386 @@
+\begin{theorem}[QuantumStateUp density-matrix consumer exclusion]
+\label{thm:quantumstate-densitymatrix-consumer-exclusion}
+A $\DensityMatrixUp$ consumer of $\NameCert_{\QuantumStateUp}$ may read only the
+Hilbert source row $\mathcal{H}$, the projective endpoint row $p$, the
+global-phase classifier $\phi$, the norm ledger $n$, and the package provenance
+$\rho$ from the pure-state certificate. The trace-class row, positivity row, and
+trace-one row required for a density matrix must be supplied by
+$\DensityMatrixUp$ itself. They are not fields of the finite $\mathsf{BHist}$
+packet $\mathcal{Q}$ and are not consequences of the pure-state package
+provenance alone.
+\end{theorem}
+\begin{proof}
+Unpack the carrier packet of \autoref{def:quantumstate-bhist-carrier}. Its
+public rows are $\mathcal{H}$, $\mathcal{P}$, $v$, $n$, $\phi$, $p$,
+$\lambda_H$, $\lambda_P$, and $\rho$, with the consumer-readable boundary
+restricted by \autoref{thm:quantumstate-projective-consumer-boundary}.
+
+Compare this finite list with the public obligation surface of
+\autoref{thm:quantumstate-namecert-obligation-surface}. The only rows exported
+to a downstream construction are the Hilbert source, projective endpoint, phase
+classifier, norm ledger, and provenance rows. None of the displayed fields is a
+trace-class carrier, a positivity witness, or a trace-one ledger.
+
+Thus a $\DensityMatrixUp$ construction may use the pure-state certificate as its
+input boundary, but its density rows must enter through its own $\mathsf{BHist}$
+packet and $\mathsf{Pkg}$ provenance. Reading those rows from
+$\NameCert_{\QuantumStateUp}$ would require a field absent from the carrier and
+from the obligation surface.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp observable measurement readback boundary]
+\label{thm:quantumstate-observable-measurement-readback-boundary}
+An $\ObservableUp$ measurement readback over a $\QuantumStateUp$ input factors
+through the Hilbert classifier row $\lambda_H$ and the projective phase
+classifier formed by $\phi$ and $\lambda_P$. The outcome row, spectral row, and
+observable package provenance are supplied by $\ObservableUp$ rather than by the
+state certificate, and cannot be read as hidden rows of
+$\NameCert_{\QuantumStateUp}$.
+\end{theorem}
+\begin{proof}
+Project the consumer-readable rows described in
+\autoref{thm:quantumstate-projective-consumer-boundary}. The state input gives a
+Hilbert source row, a projective endpoint row, a phase classifier, a norm ledger,
+and the package provenance for the pure-state packet.
+
+Measurement readback uses these rows only to classify the input state. The
+Hilbert part is read through $\lambda_H$, while the projective part is read
+through $\phi$ and $\lambda_P$ as in
+\autoref{thm:quantumstate-projective-phase-classifier}.
+
+The observable rows have different provenance. Outcome and spectral data are
+introduced by the observable packet and its own $\mathsf{Pkg}$ row, so they are
+separate from the $\mathsf{BHist}$ fields listed in
+\autoref{def:quantumstate-bhist-carrier}. Therefore the readback boundary
+factors through the state classifiers and leaves observable output rows to
+$\ObservableUp$.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp channel phase-classifier preservation]
+\label{thm:quantumstate-channel-phase-classifier-preservation}
+A $\QuantumChannelUp$ consumer transporting a pure-state input by $\hsame$ and
+$\Cont$ ledgers must preserve the displayed projective phase classifier of
+$\NameCert_{\QuantumStateUp}$. It may repack the Hilbert source, projective
+endpoint, phase classifier, norm ledger, and provenance rows as its channel
+input boundary, but it may not replace the phase classifier by host vector
+equality or by equality in an ambient quotient object.
+\end{theorem}
+\begin{proof}
+Start with the $\hsame$ transport row of
+\autoref{thm:quantumstate-global-phase-stability}. It preserves the Hilbert
+source rows, the projective endpoint rows, the norm-one ledger, and the
+global-phase classifier through the displayed carrier fields.
+
+The classifier being preserved is the one characterized by
+\autoref{thm:quantumstate-projective-phase-classifier}. That theorem identifies
+the public comparison with the projective endpoint row and the phase classifier,
+not with host Hilbert-vector equality and not with an ambient quotient equality.
+
+Finally, repack the allowed rows using
+\autoref{thm:quantumstate-projective-consumer-boundary}. The channel side may
+attach its own $\Cont$ ledger to transport the input boundary, but the incoming
+phase row remains the displayed $\QuantumStateUp$ classifier. Any replacement by
+host equality would add a row absent from the carrier packet and from the public
+obligation surface.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp observable expectation input exactness]
+\label{thm:quantumstate-observable-expectation-input-exactness}
+An $\ObservableUp$ expectation consumer that receives
+$\NameCert_{\QuantumStateUp}$ may read exactly the state rows
+$\mathcal{H}$, $v$, $n$, $p$, $\phi$, $\lambda_H$, $\lambda_P$, and $\rho$
+from the carrier packet of \autoref{def:quantumstate-bhist-carrier}. The
+expectation input is the $\mathsf{BHist}$ endpoint $v$ scoped by the
+Hilbert row $\mathcal{H}$, the norm-one ledger $n$, the projective endpoint
+$p$, the global-phase row $\phi$, the inherited classifier rows
+$\lambda_H$ and $\lambda_P$, and the $\mathsf{Pkg}$ provenance row $\rho$.
+It may not read an observable spectrum row, measurement-result row,
+host-level vector equality, or state data outside the displayed
+$\NameCert_{\QuantumStateUp}$ classifier.
+\end{theorem}
+\begin{proof}
+Unpack the carrier packet of \autoref{def:quantumstate-bhist-carrier}. The
+rows available to any consumer are the two source certificates, the Hilbert
+endpoint, the norm-one ledger, the phase and projective endpoint data, the
+two inherited classifiers, and the finite provenance package. The observable
+expectation site uses the state side of this packet, so its state input is
+the listed eight rows
+$$
+\mathcal{H},v,n,p,\phi,\lambda_H,\lambda_P,\rho.
+$$
+
+The classifier is fixed by
+\autoref{thm:quantumstate-projective-phase-classifier}. Thus $v$ is not read
+as a raw host vector: it is read as a Hilbert $\mathsf{BHist}$ endpoint
+whose admissible comparisons pass through $\lambda_H$, $\phi$, and
+$\lambda_P$. The stability available to the expectation consumer is exactly
+\autoref{thm:quantumstate-global-phase-stability}, so changing certified
+presentations transports the same input rows by $\hsame$ rather than by a
+host quotient.
+
+Exactness follows from
+\autoref{thm:quantumstate-namecert-obligation-surface} together with
+\autoref{thm:quantumstate-projective-consumer-boundary}. The public surface
+contains no spectral, measurement, density-matrix, or channel row, and the
+consumer boundary forbids equality outside the Hilbert and projective
+classifiers. Therefore the observable expectation input is precisely the
+displayed $\mathsf{BHist}$ and $\mathsf{Pkg}$ row family.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp density-matrix pure ray readback]
+\label{thm:quantumstate-densitymatrix-pure-ray-readback}
+A $\DensityMatrixUp$ pure-state consumer reading
+$\NameCert_{\QuantumStateUp}$ may recover only the projective ray endpoint
+$p$ together with the Hilbert source row $\mathcal{H}$, the endpoint row
+$v$, the norm-one ledger $n$, the global-phase row $\phi$, the inherited
+classifiers $\lambda_H,\lambda_P$, and the provenance row $\rho$. Its
+readback is a certified pure ray in $\mathsf{BHist}/\hsame$ terms, not a
+host vector quotient and not an already supplied density-matrix row.
+\end{theorem}
+\begin{proof}
+Start with the carrier packet
+$$
+\mathcal{Q}=(\mathcal{H},\mathcal{P},v,n,\phi,p,\lambda_H,\lambda_P,\rho).
+$$
+The pure-density consumer needs a ray source and a unit ledger. These are
+already the projective endpoint $p$ and the norm-one Hilbert ledger $n$,
+with $v$ serving only as the certified Hilbert endpoint from which the ray
+row is projected.
+
+Apply \autoref{thm:quantumstate-projective-phase-classifier} to identify the
+ray comparison used by the consumer. The global-phase row $\phi$ and the
+projective classifier $\lambda_P$ determine sameness of pure rays, while
+$\lambda_H$ scopes the Hilbert endpoint and norm ledger. Apply
+\autoref{thm:quantumstate-global-phase-stability} to transport this
+readback along $\hsame$ without changing the rows that the consumer may
+inspect.
+
+The exclusion is the constructive content. By
+\autoref{thm:quantumstate-namecert-obligation-surface}, no density-matrix row
+is exported by $\NameCert_{\QuantumStateUp}$. By
+\autoref{thm:quantumstate-projective-consumer-boundary}, no host vector
+quotient or equality outside the displayed classifiers is available. Thus a
+pure-state density-matrix consumer can build its downstream row only from
+the certified ray endpoint, the norm-one Hilbert ledger, and the same
+$\mathsf{Pkg}$ provenance record.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp channel consumer input boundary]
+\label{thm:quantumstate-channel-consumer-input-boundary}
+A $\QuantumChannelUp$ state-input consumer of
+$\NameCert_{\QuantumStateUp}$ is stable under the same
+global-phase/projective classifier as $\QuantumStateUp$. Its input rows are
+limited to $\mathcal{H}$, $v$, $n$, $p$, $\phi$, $\lambda_H$, $\lambda_P$,
+and $\rho$ from the carrier packet; it carries no independent channel row,
+no density-matrix row, and no classifier other than the inherited
+$\mathsf{BHist}$, $\hsame$, $\mathsf{Pkg}$, and $\NameCert$ data already
+exported by the state certificate.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:quantumstate-bhist-carrier} and read the state input as
+a finite $\mathsf{BHist}$ package. The endpoint supplied to a channel is
+$v$ together with its norm-one ledger $n$, its projective endpoint $p$, the
+phase row $\phi$, the inherited classifiers $\lambda_H,\lambda_P$, and the
+provenance row $\rho$ tying these rows to the consumed source certificates.
+
+The classifier for this input is not chosen by the channel consumer. It is
+the classifier of \autoref{thm:quantumstate-projective-phase-classifier}:
+Hilbert endpoint transport is scoped by $\lambda_H$, and ray transport is
+scoped by $\phi$ and $\lambda_P$. The stability required by the channel
+input is exactly \autoref{thm:quantumstate-global-phase-stability}, which
+keeps the same finite row family under componentwise $\hsame$ transport.
+
+Finally apply \autoref{thm:quantumstate-namecert-obligation-surface} and
+\autoref{thm:quantumstate-projective-consumer-boundary}. The public surface
+exports no channel datum and no density-matrix datum, while the consumer
+boundary forbids a separate quotient or host equality. Repacking the
+displayed rows therefore gives the whole channel state-input boundary in
+$\mathsf{BHist}/\hsame/\mathsf{Pkg}/\NameCert$ terms.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp observable state boundary]
+\label{thm:quantumstate-observable-state-boundary}
+An $\ObservableUp$ expectation row may read a $\QuantumStateUp$ $\mathsf{BHist}$
+packet only through the Hilbert source row $\mathcal{H}$, the projective
+endpoint row $p$, the global-phase classifier $\phi$, the norm ledger $n$, and
+the package provenance $\rho$ exposed by
+\autoref{thm:quantumstate-projective-consumer-boundary}, together with the
+observable endpoint, self-adjoint witness, spectral-data row, and expectation
+row displayed by $\ObservableUp$. It may not replace the certified state input
+by host vector equality, a raw quotient representative, or an expectation row
+whose Hilbert source is not the shared $\mathcal{H}$ endpoint.
+\end{theorem}
+\begin{proof}
+Project the accepted quantum-state packet through
+\autoref{thm:quantumstate-projective-consumer-boundary}. The only state-side
+rows visible to a downstream consumer are $\mathcal{H}$, $p$, $\phi$, $n$, and
+$\rho$.
+
+Now apply the expectation boundary of
+\autoref{thm:observable-quantumstate-expectation-boundary}. The observable
+packet contributes its operator endpoint, self-adjoint witness, spectral-data
+row, and expectation row, and that theorem requires the expectation input to be
+compatible with the same Hilbert source.
+
+Combining the two projections gives the displayed boundary. Any host vector
+equality, quotient representative, or Hilbert-mismatched expectation row would
+have to enter through a field not present in one of the two cited packet
+surfaces, so it is not readable by the consumer.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp density-matrix boundary]
+\label{thm:quantumstate-densitymatrix-boundary}
+A $\QuantumStateUp$ $\mathsf{BHist}$ packet does not itself supply a
+$\DensityMatrixUp$ row. A density-matrix consumer of a pure projective state
+must add, as separate displayed rows, trace-class membership, positivity,
+trace-one evidence, and any rank-one projection bridge that turns the
+projective endpoint into a positive trace-class trace-one operator. These rows
+are not part of the Hilbert source, projective endpoint, phase classifier, norm
+ledger, or provenance exposed by
+\autoref{thm:quantumstate-projective-consumer-boundary}.
+\end{theorem}
+\begin{proof}
+Read the quantum-state packet fields from
+\autoref{thm:quantumstate-projective-consumer-boundary}. They certify the
+Hilbert source, projective endpoint, phase classifier, norm ledger, and package
+provenance, but no field has the form of a trace-class operator on the Hilbert
+carrier.
+
+Compare this with the density carrier obligation of
+\autoref{thm:densitymatrix-carrier-obligation}. A $\DensityMatrixUp$ endpoint is
+accepted only when trace-class membership, positivity, and trace-one evidence
+are all displayed over the Hilbert carrier.
+
+Therefore a pure-state-to-density-matrix use must introduce the trace-class,
+positivity, trace-one, and rank-one projection bridge rows at the consumer site.
+The quantum-state packet can supply the named source and projective endpoint
+for such a bridge, but it does not supply the density row itself.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp quantum-channel input boundary]
+\label{thm:quantumstate-channel-input-boundary}
+A $\QuantumChannelUp$ consumer may use a $\QuantumStateUp$ packet as an input
+only after a displayed $\DensityMatrixUp$-compatible input row has been supplied
+for the same Hilbert source. Channel image closure can then read the
+$\DensityMatrixUp$ row and the CPTP carrier of the channel, but it cannot read
+host vector equality, a raw pure-state quotient, or a direct channel action on
+the projective endpoint.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:quantumstate-densitymatrix-boundary}. The
+quantum-state packet alone has no density-matrix row, so a channel input must
+pass through a separately displayed trace-class, positivity, trace-one, and
+rank-one projection bridge package.
+
+Next use the CPTP carrier of \autoref{def:quantumchannel-cptp-carrier}. Its
+source type is the trace-class carrier over the input Hilbert space, and its
+density-state action is stated over $\DensityMatrixUp$ inputs rather than over
+projective representatives.
+
+Finally apply the density-matrix image lemma
+\autoref{lem:quantumchannel-densitymatrix-image}. Once the compatible density
+row is present, the channel image closure reads exactly that row and the CPTP
+channel rows. The excluded host equality, quotient representative, and direct
+projective action are outside the displayed density and channel carrier
+surfaces.
+\end{proof}
+
+\begin{theorem}[ObservableUp expectation-row boundary]
+\label{thm:quantumstate-observable-expectation-row-boundary}
+When $\ObservableUp$ forms expectation or eigenvalue rows from a
+$\QuantumStateUp$ source, it may read only the Hilbert source row
+$\mathcal{H}$, the projective endpoint row $p$, the global-phase classifier
+$\phi$, the norm ledger $n$, and the provenance row $\rho$ of
+\autoref{def:quantumstate-bhist-carrier}. The observable consumer may combine
+those rows with its own observable certificate, but it receives no
+density-matrix row, measurement row, channel row, spectral row, quotient
+object, or host Hilbert-vector equality from $\QuantumStateUp$ itself.
+\end{theorem}
+\begin{proof}
+Unpack the carrier packet
+$\mathcal{Q}=(\mathcal{H},\mathcal{P},v,n,\phi,p,\lambda_H,\lambda_P,\rho)$
+of \autoref{def:quantumstate-bhist-carrier}. The rows available to an
+observable construction are the Hilbert source row, the projected endpoint, the
+phase classifier, the norm ledger, and the provenance row.
+
+Apply the Hilbert source boundary of
+\autoref{thm:quantumstate-hilbert-source-boundary} to locate all vector,
+norm, and inner-product inputs inside $\mathcal{H}$ and $\lambda_H$. Apply
+\autoref{thm:quantumstate-projective-phase-classifier} and
+\autoref{thm:quantumstate-global-phase-stability} to replace any phase choice
+by the projective endpoint classifier.
+
+The public surface theorem,
+\autoref{thm:quantumstate-namecert-obligation-surface}, identifies the
+complete exported row list. Expectation and eigenvalue rows therefore require a
+separate $\ObservableUp$ certificate for observable, measurement, or spectral
+data. Since none of those rows occurs in $\mathcal{Q}$, and since quotient and
+host-vector equalities are excluded by the classifier boundary, the displayed
+rows are the whole $\QuantumStateUp$ input boundary for this consumer.
+\end{proof}
+
+\begin{theorem}[DensityMatrixUp rank-one row boundary]
+\label{thm:quantumstate-density-matrix-row-boundary}
+When $\DensityMatrixUp$ forms a rank-one projector row from a
+$\QuantumStateUp$ source, it may read only the projective endpoint row $p$ and
+the norm-one ledger $n$, together with the provenance row $\rho$ that records
+their common packet. The density-matrix consumer may not read a host quotient,
+an ambient vector equality, a measurement row, a channel row, a spectral row,
+or any density-matrix row unless that row is supplied by its own downstream
+certificate.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:quantumstate-bhist-carrier}. The rank-one projector input
+is not a new field of $\mathcal{Q}$; the packet exposes only the projective
+endpoint $p$, the norm-one ledger $n$, the inherited classifiers, and the
+provenance row $\rho$.
+
+Use \autoref{thm:quantumstate-hilbert-source-boundary} to read $n$ through the
+Hilbert source row rather than through an ambient vector equality. Use
+\autoref{thm:quantumstate-projective-phase-classifier} to read $p$ through the
+projective endpoint classifier, and use
+\autoref{thm:quantumstate-global-phase-stability} to ensure that replacing a
+unit-vector representative by a certified phase-equivalent representative does
+not change the exposed projector input.
+
+Finally apply
+\autoref{thm:quantumstate-namecert-obligation-surface}. Its exactness clause
+contains no density-matrix, measurement, channel, or spectral row, and it
+contains no quotient object or host-vector equality. Thus any matrix row,
+operator row, or spectral decomposition must come from the
+$\DensityMatrixUp$ certificate itself, while $\QuantumStateUp$ contributes
+only the projective endpoint, norm ledger, and provenance needed to form the
+rank-one boundary.
+\end{proof}
+
+\begin{theorem}[QuantumChannelUp pure-state input boundary]
+\label{thm:quantumstate-channel-pure-state-input-boundary}
+When $\QuantumChannelUp$ consumes pure-state input or output rows from a
+$\QuantumStateUp$ source, it may use the exported $\QuantumStateUp$ classifier
+and provenance only: the Hilbert source row $\mathcal{H}$, the projective
+endpoint row $p$, the global-phase classifier $\phi$, the norm ledger $n$, and
+the provenance row $\rho$. Channel action, density-matrix data, measurement
+data, spectral data, quotient objects, and host Hilbert-vector equalities must
+be supplied by the channel-side certificate rather than by
+$\QuantumStateUp$.
+\end{theorem}
+\begin{proof}
+Unpack the packet of \autoref{def:quantumstate-bhist-carrier}. A pure-state
+input or output row can name the state only through the Hilbert source row,
+the projective endpoint, the phase classifier, the norm ledger, and the
+provenance row.
+
+Apply \autoref{thm:quantumstate-hilbert-source-boundary} to keep vector and
+norm data inside the consumed Hilbert certificate. Apply
+\autoref{thm:quantumstate-projective-phase-classifier} to expose equality of
+pure states only through the projective/global-phase classifier, and apply
+\autoref{thm:quantumstate-global-phase-stability} to transport that classifier
+across certified presentations.
+
+The public obligation surface of
+\autoref{thm:quantumstate-namecert-obligation-surface} is exact. It exports no
+channel map, no density-matrix row, no measurement row, no spectral row, and
+no quotient or host-vector equality. Therefore $\QuantumChannelUp$ may attach
+its channel certificate to the exported classifier and provenance, but all
+channel action and output certification remains a downstream obligation.
+\end{proof}

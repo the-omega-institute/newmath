@@ -38,8 +38,8 @@ CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 DEFAULT_TIMEOUT = 600
 HISTORY_EXCERPT_LIMIT = 320
 PAPER_CONTEXT_TAIL_LINES = 80
-DEFAULT_CODEX_MODELS = "gpt-5.4,gpt-5.5,gpt-5.2,gpt-5.4-mini"
-DEFAULT_CODEX_REASONING_EFFORT = "high"
+DEFAULT_CODEX_MODELS = "gpt-5.5,gpt-5.4,gpt-5.2,gpt-5.4-mini"
+DEFAULT_CODEX_REASONING_EFFORT = "xhigh"
 
 
 @dataclass(frozen=True)
