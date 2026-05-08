@@ -133,6 +133,43 @@ theorem GaloisGroupAutomorphismActionPacket_fixed_base_classifier
     (And.intro actionUnary'
       (And.intro classifierUnary' sameClassifier))
 
+theorem GaloisGroupAutomorphismActionPacket_composition_inverse_obligation
+    [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger endpoint
+      composition' inverse' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      hsame composition composition' ->
+        hsame inverse inverse' ->
+          Cont composition' inverse' ledger' ->
+            Cont provenance ledger' endpoint' ->
+              UnaryHistory ledger' ∧ UnaryHistory endpoint' ∧ hsame ledger ledger' ∧
+                hsame endpoint endpoint' ∧ PkgSig bundle endpoint pkg := by
+  intro packet sameComposition sameInverse ledgerCont endpointCont
+  have compositionUnary' : UnaryHistory composition' :=
+    unary_transport packet.right.right.right.right.left sameComposition
+  have inverseUnary' : UnaryHistory inverse' :=
+    unary_transport packet.right.right.right.right.right.left sameInverse
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed compositionUnary' inverseUnary' ledgerCont
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed packet.left packet.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed provenanceUnary ledgerUnary' endpointCont
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameComposition sameInverse
+      packet.right.right.right.right.right.right.right.right.left ledgerCont
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameLedger
+      packet.right.right.right.right.right.right.right.right.right.left endpointCont
+  exact And.intro ledgerUnary'
+    (And.intro endpointUnary'
+      (And.intro sameLedger
+        (And.intro sameEndpoint
+          packet.right.right.right.right.right.right.right.right.right.right)))
+
 def GaloisGroupAutomorphismActionCompositionPacket
     (extension group fixed action composition inverse classifier provenance ledger : BHist) : Prop :=
   UnaryHistory extension ∧ UnaryHistory group ∧ UnaryHistory fixed ∧ UnaryHistory action ∧
@@ -173,6 +210,49 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
               (And.intro packet.right.right.right.right.right.left
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
+
+theorem GaloisGroupAutomorphismActionPacket_composition_classifier_congruence
+    {extension group fixed action action' action'' composition composition' composition''
+      inverse classifier classifier' classifier'' provenance ledger ledger' ledger'' : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+        inverse classifier provenance ledger ->
+      hsame action action' ->
+        hsame action action'' ->
+          Cont fixed action' composition' ->
+            Cont composition' inverse classifier' ->
+              Cont classifier' provenance ledger' ->
+                Cont fixed action'' composition'' ->
+                  Cont composition'' inverse classifier'' ->
+                    Cont classifier'' provenance ledger'' ->
+                      hsame composition' composition'' ∧ hsame classifier' classifier'' ∧
+                        hsame ledger' ledger'' := by
+  intro packet sameAction' sameAction'' actionRow' classifierRow' ledgerRow' actionRow''
+    classifierRow'' ledgerRow''
+  have sameCompositionBase' : hsame composition composition' :=
+    cont_respects_hsame (hsame_refl fixed) sameAction'
+      packet.right.right.right.right.right.right.left actionRow'
+  have sameCompositionBase'' : hsame composition composition'' :=
+    cont_respects_hsame (hsame_refl fixed) sameAction''
+      packet.right.right.right.right.right.right.left actionRow''
+  have sameComposition : hsame composition' composition'' :=
+    hsame_trans (hsame_symm sameCompositionBase') sameCompositionBase''
+  have sameClassifierBase' : hsame classifier classifier' :=
+    cont_respects_hsame sameCompositionBase' (hsame_refl inverse)
+      packet.right.right.right.right.right.right.right.left classifierRow'
+  have sameClassifierBase'' : hsame classifier classifier'' :=
+    cont_respects_hsame sameCompositionBase'' (hsame_refl inverse)
+      packet.right.right.right.right.right.right.right.left classifierRow''
+  have sameClassifier : hsame classifier' classifier'' :=
+    hsame_trans (hsame_symm sameClassifierBase') sameClassifierBase''
+  have sameLedgerBase' : hsame ledger ledger' :=
+    cont_respects_hsame sameClassifierBase' (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.right ledgerRow'
+  have sameLedgerBase'' : hsame ledger ledger'' :=
+    cont_respects_hsame sameClassifierBase'' (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.right ledgerRow''
+  have sameLedger : hsame ledger' ledger'' :=
+    hsame_trans (hsame_symm sameLedgerBase') sameLedgerBase''
+  exact And.intro sameComposition (And.intro sameClassifier sameLedger)
 
 theorem GaloisGroupAutomorphismActionCompositionPacket_classifier_congruence
     {extension group fixed action action' composition composition' inverse inverse' classifier
