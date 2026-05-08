@@ -1,0 +1,508 @@
+\chapter{Package and NameCert Recognition Prototype}
+\label{ch:ground-compiler-package-namecert-recognition-prototype}
+
+\autoref{ch:ground-compiler-metric-report-prototype} defines $P_4$, the metric-report prototype. It can produce motif reports, metric reports, prefix overlap, seal depth, carry index, ledger depth, classifier compression ratio, reuse depth, and cannot-claim audits. It remains an analysis layer. It does not recognize packages, name certificates, derivation certificates, theorems, chapters, or accepted objects.
+
+This chapter defines the next prototype level:
+$$
+  \boxed{P_5=P_4+\text{package-flow recognition}+\NameCert\text{-flow recognition}.}
+$$
+This is the first layer that moves from analysis reports to certificate-structure recognition. The governing rule remains:
+$$
+  \boxed{\text{packages and name certificates are not inputs; they are structures recognized inside decoded event flows}.}
+$$
+Thus $P_5$ does not accept host package structures, host name-certificate records, YAML packages, JSON certificates, external field tables, host ASTs, or manually supplied source, pattern, classifier, stability, or ledger records. The only formal input is a channel stream or decoded event flow.
+
+\section{$P_5$ prototype interface}
+\label{sec:pkg-namecert-p5-interface}
+
+\begin{definition}[Package and NameCert recognition prototype]
+\label{def:pkg-namecert-p5-prototype}
+A \emph{package and \NameCert\ recognition prototype} is an executable prototype $P_5$ satisfying:
+\begin{enumerate}
+\item $P_5$ includes all $P_4$ functions;
+\item $P_5$ can run generated package recognizers on decoded event flows;
+\item $P_5$ can recognize package flows;
+\item $P_5$ can run generated \NameCert\ recognizers inside recognized package flows or decoded event flows;
+\item $P_5$ can recognize \NameCert\ flows;
+\item $P_5$ can generate package and \NameCert\ recognition reports;
+\item $P_5$ does not recognize derivation certificates, acceptance gates, theorems, chapters, or accepted objects unless later prototype levels supply those recognizers.
+\end{enumerate}
+Write
+$$
+  \mathsf{PkgNameCertPrototype}(P_5).
+$$
+\end{definition}
+
+\begin{principle}[$P_5$ does not accept package objects]
+\label{prin:pkg-namecert-no-package-object-input}
+There is no formal input of the form
+$$
+  \mathsf{PackageStruct}\to\mathsf{Code}
+$$
+or
+$$
+  \mathsf{NameCertStruct}\to\mathsf{Code}.
+$$
+The formal input remains $\mathsf{EventFlow}$ or its channel code in $\mathsf{LegalZStream}$. If the input is channel code $c$, $P_5$ first forms
+$$
+  S=\mathsf{Decode}(c)
+$$
+and then recognizes package flows and \NameCert\ flows in $S$.
+\end{principle}
+
+\begin{definition}[$P_5$ input]
+\label{def:pkg-namecert-p5-input}
+The input to $P_5$ may be displayed as a channel stream $c$ or as an event flow $S$. If the input is $c$, then decoding is performed first:
+$$
+  S=\mathsf{Decode}(c).
+$$
+If $c\notin\mathsf{LegalZStream}$, then $P_5$ rejects and produces neither package report nor \NameCert\ report.
+\end{definition}
+
+\begin{definition}[$P_5$ output]
+\label{def:pkg-namecert-p5-output}
+The output of $P_5$ is a report flow or human-readable report containing decoded event flow, package candidates, recognized package flows, package ledgers, \NameCert\ candidates, recognized \NameCert\ flows, recognized source-specification, pattern-specification, classifier-specification, stability-certificate, and ledger-policy flows, missing fields, failure cases, warnings, and cannot-claim annotations.
+
+This output is report data. It is not input, proof, or accepted object.
+\end{definition}
+
+\section{Package-flow recognition}
+\label{sec:pkg-namecert-package-recognition}
+
+\begin{definition}[Package candidate]
+\label{def:pkg-namecert-package-candidate}
+Given a decoded event flow $S$, a \emph{package candidate} is a source-level subflow
+$$
+  P\subseteq S.
+$$
+It has not yet been recognized as a package flow. Write
+$$
+  \mathsf{PkgCand}(S,P).
+$$
+\end{definition}
+
+\begin{definition}[Generated package recognizer]
+\label{def:pkg-namecert-generated-package-recognizer}
+A \emph{generated package recognizer} is an event flow
+$$
+  R_P\in\mathsf{EventFlow}
+$$
+supporting
+$$
+  \mathsf{RecognizesPkg}(R_P,S,P).
+$$
+This says that $R_P$ recognizes subflow $P$ of ambient event flow $S$ as a package flow. The recognizer is not a host parser, YAML schema, or external package grammar.
+\end{definition}
+
+\begin{definition}[Recognized package flow]
+\label{def:pkg-namecert-recognized-package-flow}
+If
+$$
+  \mathsf{RecognizesPkg}(R_P,S,P),
+$$
+then $P$ is a \emph{recognized package flow} in $S$. Write
+$$
+  \mathsf{PkgFlow}_{R_P}(S,P).
+$$
+\end{definition}
+
+\begin{definition}[Package role subflows]
+\label{def:pkg-namecert-package-role-subflows}
+If
+$$
+  \mathsf{RecognizesPkg}(R_P,S,P),
+$$
+then $R_P$ may recognize subflows of $P$ as package roles:
+$$
+  \mathsf{PkgSource}_{R_P}(P,P_0),
+  \quad
+  \mathsf{PkgVisible}_{R_P}(P,P_1),
+  \quad
+  \mathsf{PkgPattern}_{R_P}(P,P_2),
+$$
+$$
+  \mathsf{PkgClassifier}_{R_P}(P,P_3),
+  \quad
+  \mathsf{PkgLedger}_{R_P}(P,P_4),
+  \quad
+  \mathsf{PkgSeal}_{R_P}(P,\sigma_P).
+$$
+These roles are not external field labels; they are source-level subflow roles recognized by $R_P$.
+\end{definition}
+
+\begin{definition}[Complete package recognition]
+\label{def:pkg-namecert-complete-package-recognition}
+The judgment
+$$
+  \mathsf{RecognizesPkg}(R_P,S,P)
+$$
+is \emph{complete package recognition} when there exist $P_0,P_1,P_2,P_3,P_4,\sigma_P$ satisfying the source, visible, pattern, classifier, ledger, and seal role judgments of \autoref{def:pkg-namecert-package-role-subflows}. Intuitively, these are the source material, visible package interface, package pattern, package classifier, package ledger, and package seal.
+\end{definition}
+
+\begin{principle}[No nontrivial package without ledger]
+\label{prin:pkg-namecert-no-package-without-ledger}
+Every nontrivial package flow must have package-ledger subflow
+$$
+  \mathsf{PkgLedger}_{R_P}(P,P_4).
+$$
+Without ledger, it may be reported only as a package candidate, not as a recognized nontrivial package flow.
+\end{principle}
+
+\begin{theorem}[Incomplete package cannot be used as package flow]
+\label{thm:pkg-namecert-incomplete-package-not-package}
+If $P$ lacks any recognized source, visible, pattern, classifier, ledger, or seal subflow, then $P$ cannot be used as a complete recognized package flow.
+\end{theorem}
+
+\begin{proof}
+Complete package recognition requires all six recognized role subflows. If any is missing, complete recognition fails. In the nontrivial case, missing ledger also violates \autoref{prin:pkg-namecert-no-package-without-ledger}.
+\end{proof}
+
+\begin{corollary}[Visible token alone is not a package]
+\label{cor:pkg-namecert-visible-token-not-package}
+A visible token or short event such as $01$, $011$, $100$, or $001$ is not by itself a package flow. Source, pattern, classifier, ledger, and seal data are required.
+\end{corollary}
+
+\begin{definition}[Package report]
+\label{def:pkg-namecert-package-report}
+A \emph{package report} is a $P_5$ output view containing package candidates, recognized package flows, package source subflows, visible subflows, pattern subflows, classifier subflows, ledger subflows, seal subflows, missing package fields, package failure cases, and package cannot-claim annotations.
+\end{definition}
+
+\begin{principle}[Package report is output]
+\label{prin:pkg-namecert-package-report-output}
+A package report is an output view, not an input structure. Later stages must continue from decoded event flows and recognizer judgments, not from a report treated as a package object.
+\end{principle}
+
+\section{NameCert-flow recognition}
+\label{sec:pkg-namecert-namecert-recognition}
+
+\begin{definition}[Name candidate flow]
+\label{def:pkg-namecert-name-candidate}
+A \emph{name candidate flow} is an event subflow
+$$
+  N\subseteq S
+$$
+representing a proposed source-level visible name candidate. It is not an external object name, string label, or theorem identifier. Write
+$$
+  \mathsf{NameCand}(S,N).
+$$
+\end{definition}
+
+\begin{definition}[NameCert candidate]
+\label{def:pkg-namecert-namecert-candidate}
+A \emph{\NameCert\ candidate} is an event subflow
+$$
+  C_N\subseteq S
+$$
+not yet recognized as a \NameCert\ flow. Write
+$$
+  \mathsf{NameCertCand}(S,C_N,N).
+$$
+\end{definition}
+
+\begin{definition}[Generated NameCert recognizer]
+\label{def:pkg-namecert-generated-namecert-recognizer}
+A \emph{generated \NameCert\ recognizer} is an event flow
+$$
+  R_N\in\mathsf{EventFlow}
+$$
+supporting
+$$
+  \mathsf{RecognizesNameCert}(R_N,S,C_N,N).
+$$
+It recognizes subflow $C_N$ of ambient event flow $S$ as a \NameCert\ flow for name candidate $N$.
+\end{definition}
+
+\begin{definition}[Recognized NameCert flow]
+\label{def:pkg-namecert-recognized-namecert-flow}
+If
+$$
+  \mathsf{RecognizesNameCert}(R_N,S,C_N,N),
+$$
+then $C_N$ is a recognized \NameCert\ flow for $N$ in $S$. Write
+$$
+  \mathsf{NameCertFlow}_{R_N}(S,C_N,N).
+$$
+\end{definition}
+
+\begin{definition}[NameCert field subflows]
+\label{def:pkg-namecert-field-subflows}
+If
+$$
+  \mathsf{RecognizesNameCert}(R_N,S,C_N,N),
+$$
+then $R_N$ may identify five field subflows and a seal:
+$$
+  \mathsf{NCSource}_{R_N}(C_N,C_0),
+  \quad
+  \mathsf{NCPattern}_{R_N}(C_N,C_1),
+  \quad
+  \mathsf{NCClassifier}_{R_N}(C_N,C_2),
+$$
+$$
+  \mathsf{NCStability}_{R_N}(C_N,C_3),
+  \quad
+  \mathsf{NCLedger}_{R_N}(C_N,C_4),
+  \quad
+  \mathsf{NCSeal}_{R_N}(C_N,\sigma_N).
+$$
+\end{definition}
+
+\begin{definition}[Complete NameCert recognition]
+\label{def:pkg-namecert-complete-namecert-recognition}
+The judgment
+$$
+  \mathsf{RecognizesNameCert}(R_N,S,C_N,N)
+$$
+is \emph{complete \NameCert\ recognition} when there exist $C_0,C_1,C_2,C_3,C_4,\sigma_N$ satisfying all six judgments in \autoref{def:pkg-namecert-field-subflows}.
+\end{definition}
+
+\begin{principle}[No NameCert without five fields]
+\label{prin:pkg-namecert-no-namecert-without-five-fields}
+A \NameCert\ flow must have recognized source, pattern, classifier, stability, ledger, and seal. If any is missing, the flow remains a \NameCert\ candidate, not a recognized \NameCert\ flow.
+\end{principle}
+
+\begin{theorem}[Incomplete NameCert candidate cannot license name]
+\label{thm:pkg-namecert-incomplete-namecert-cannot-license}
+If $C_N$ lacks any recognized source, pattern, classifier, stability, ledger, or seal subflow, then $C_N$ cannot license the name candidate $N$.
+\end{theorem}
+
+\begin{proof}
+Name licensing requires complete recognized \NameCert\ flow. If any required field or seal is missing, complete recognition fails, so $N$ is not licensed.
+\end{proof}
+
+\begin{corollary}[Name event alone does not license interface]
+\label{cor:pkg-namecert-name-event-not-license}
+A name candidate event $N$ cannot by itself license a derived interface. A recognized \NameCert\ flow is required.
+\end{corollary}
+
+\begin{definition}[Licensed name at $P_5$]
+\label{def:pkg-namecert-licensed-name-p5}
+At the $P_5$ layer, define
+$$
+  \mathsf{LicensedName}_{P_5}(S,N)
+$$
+to hold when there exist $C_N$ and $R_N$ such that
+$$
+  \mathsf{RecognizesNameCert}(R_N,S,C_N,N)
+$$
+and that recognition is complete and sound. This licenses a name, not an accepted mature object.
+\end{definition}
+
+\begin{theorem}[$P_5$ licensing is weaker than accepted export]
+\label{thm:pkg-namecert-p5-license-weaker-than-export}
+If
+$$
+  \mathsf{LicensedName}_{P_5}(S,N),
+$$
+one cannot infer $\mathsf{AcceptedExport}(N,s)$ for any strength $s$.
+\end{theorem}
+
+\begin{proof}
+$P_5$ recognizes \NameCert\ flows. Accepted export requires derivation-certificate flow and acceptance-gate flow as well. These are not supplied at $P_5$.
+\end{proof}
+
+\section{Package-sourced NameCert flows}
+\label{sec:pkg-namecert-over-package}
+
+\begin{definition}[NameCert over package]
+\label{def:pkg-namecert-over-package}
+A \NameCert\ flow $C_N$ is \emph{over package flow $P$} when:
+\begin{enumerate}
+\item $P$ is a recognized package flow;
+\item the source field of $C_N$ references or contains the source, visible, or ledger subflows of $P$;
+\item the ledger field of $C_N$ retains the package ledger of $P$.
+\end{enumerate}
+Write
+$$
+  \mathsf{NameCertOverPkg}(C_N,N,P).
+$$
+\end{definition}
+
+\begin{proposition}[NameCert over package requires package ledger]
+\label{prop:pkg-namecert-over-package-requires-ledger}
+If
+$$
+  \mathsf{NameCertOverPkg}(C_N,N,P),
+$$
+then $P$ has a recognized package-ledger subflow.
+\end{proposition}
+
+\begin{proof}
+A \NameCert\ over a package requires the \NameCert\ ledger to retain package provenance. Without package ledger, that source material cannot be traced.
+\end{proof}
+
+\begin{corollary}[Package without ledger cannot support NameCert]
+\label{cor:pkg-namecert-package-without-ledger-no-namecert}
+A nontrivial package flow without recognized ledger cannot support a derived name through \NameCert\ recognition.
+\end{corollary}
+
+\begin{definition}[Package-sourced NameCert report]
+\label{def:pkg-namecert-package-sourced-report}
+A \emph{package-sourced \NameCert\ report} contains recognized package flow $P$, recognized \NameCert\ flow $C_N$, name candidate $N$, the source-field relation between $C_N$ and $P$, the ledger-pullback relation, missing-field report, and cannot-claim annotations.
+\end{definition}
+
+\begin{principle}[Package-sourced NameCert is still not accepted export]
+\label{prin:pkg-namecert-over-package-not-export}
+Even a complete \NameCert\ over a recognized package licenses only a name. Mature export still requires derivation-certificate and acceptance-gate flows.
+\end{principle}
+
+\section{$P_5$ reports and soundness}
+\label{sec:pkg-namecert-reports-soundness}
+
+\begin{definition}[$P_5$ report]
+\label{def:pkg-namecert-p5-report}
+A \emph{$P_5$ report} is an output view containing input channel stream, decoded event flow, $P_4$ motif and metric summaries if available, package candidates, recognized package flows, package field status, \NameCert\ candidates, recognized \NameCert\ flows, \NameCert\ field status, licensed names at $P_5$, missing fields, ledger audit, warnings, and cannot-claim annotations.
+\end{definition}
+
+\begin{definition}[Package field status]
+\label{def:pkg-namecert-package-field-status}
+For each package candidate $P$, the report records source, visible, pattern, classifier, ledger, and seal status as present, missing, or candidate-only.
+\end{definition}
+
+\begin{definition}[NameCert field status]
+\label{def:pkg-namecert-namecert-field-status}
+For each \NameCert\ candidate $C_N$, the report records source, pattern, classifier, stability, ledger, and seal status as present, missing, or candidate-only.
+\end{definition}
+
+\begin{principle}[Missing field is not negative theorem]
+\label{prin:pkg-namecert-missing-field-not-negative-theorem}
+If a field is reported missing, the report only says that the field is missing from the recognized flow. It does not assert that the theory contains no such field, unless recognizer completeness and domain coverage have been established.
+\end{principle}
+
+\begin{definition}[$P_5$ cannot-claim annotations]
+\label{def:pkg-namecert-p5-cannot-claims}
+A $P_5$ report must include cannot-claim annotations saying that recognized package flow does not imply \NameCert\ flow, recognized \NameCert\ flow does not imply derivation-certificate flow, licensed name does not imply accepted object, package token alone is insufficient, name event alone is insufficient, missing fields block recognition, channel code is not proof, and report is not certificate.
+\end{definition}
+
+\begin{definition}[Sound $P_5$ report]
+\label{def:pkg-namecert-sound-p5-report}
+A $P_5$ report is \emph{sound} when:
+\begin{enumerate}
+\item every recognized package flow is backed by generated package recognizer;
+\item every nontrivial recognized package flow has required ledger;
+\item every recognized \NameCert\ flow is backed by generated \NameCert\ recognizer;
+\item every recognized \NameCert\ flow has five fields and seal;
+\item every licensed name is backed by sound recognized \NameCert\ flow;
+\item all missing fields are explicitly reported;
+\item candidate-only entries are not reported as recognized;
+\item cannot-claim annotations are complete.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sound $P_5$ report theorem]
+\label{thm:pkg-namecert-sound-p5-report}
+If $P_5$ outputs a sound report, then every recognized package flow and recognized \NameCert\ flow in the report has the corresponding recognition judgment and ledger support.
+\end{theorem}
+
+\begin{proof}
+Soundness requires each recognized package flow to be supported by generated package recognition and required ledger, and each recognized \NameCert\ flow to be supported by generated \NameCert\ recognition with five fields and seal. Hence every recognized item has recognition and ledger support.
+\end{proof}
+
+\begin{theorem}[Sound $P_5$ licensed name theorem]
+\label{thm:pkg-namecert-sound-licensed-name}
+If a sound $P_5$ report asserts
+$$
+  \mathsf{LicensedName}_{P_5}(S,N),
+$$
+then there exists a complete and sound recognized \NameCert\ flow $C_N$ for $N$.
+\end{theorem}
+
+\begin{proof}
+By definition, a licensed name at $P_5$ requires complete and sound recognized \NameCert\ flow. Sound reporting ensures that licensed-name entries are not supported by candidate-only flows.
+\end{proof}
+
+\begin{corollary}[$P_5$ licensed name is not accepted export]
+\label{cor:pkg-namecert-licensed-not-export}
+Even when $P_5$ soundly licenses $N$, it does not follow that $N$ is accepted at any strength. Accepted export requires recognized derivation-certificate and acceptance-gate flows.
+\end{corollary}
+
+\section{Adequacy}
+\label{sec:pkg-namecert-adequacy}
+
+\begin{definition}[$P_5$ audit checklist]
+\label{def:pkg-namecert-p5-audit}
+A $P_5$ prototype must satisfy:
+\begin{enumerate}
+\item all $P_4$ audit requirements;
+\item package candidates are distinguished from recognized package flows;
+\item recognized package flows require generated package recognizers;
+\item nontrivial packages require package ledger;
+\item \NameCert\ candidates are distinguished from recognized \NameCert\ flows;
+\item recognized \NameCert\ flows require generated \NameCert\ recognizers;
+\item recognized \NameCert\ flows require five fields and seal;
+\item missing fields are reported explicitly;
+\item licensed names are distinguished from accepted objects;
+\item derivation-certificate and acceptance-gate recognition is not claimed unless later recognizers are supplied;
+\item host package and \NameCert\ structures are not formal inputs;
+\item cannot-claim annotations cover package and \NameCert\ overinterpretation risks.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[$P_5$ adequacy theorem]
+\label{thm:pkg-namecert-p5-adequacy}
+If a prototype satisfies the $P_5$ audit checklist, uses sound $P_4$ reports, and every recognized package flow and \NameCert\ flow is backed by generated recognizers and required ledger, then it is adequate as a package and \NameCert\ recognition prototype.
+\end{theorem}
+
+\begin{proof}
+The checklist enforces separation between candidates and recognized package or \NameCert\ structures, requires generated recognizers, requires ledgers and the five \NameCert\ fields, and prevents overinterpretation as derivation certificate or acceptance gate. Sound $P_4$ reports ensure that lower-level event, motif, and metric data are reliable.
+\end{proof}
+
+\begin{corollary}[$P_5$ adequacy does not imply higher adequacy]
+\label{cor:pkg-namecert-p5-not-higher}
+A $P_5$ prototype does not yet support derivation-certificate flow, acceptance-gate flow, theorem flow, chapter flow, accepted-object export, or self-hosting compiler recognition.
+\end{corollary}
+
+\section{Examples}
+\label{sec:pkg-namecert-examples}
+
+\begin{example}[Package candidate without ledger]
+\label{ex:pkg-namecert-package-candidate-no-ledger}
+Suppose a decoded event flow contains subflow $011$. A report may list it as a visible package candidate. If there is no package source, pattern, classifier, ledger, or seal, the status is candidate-only with missing source, pattern, classifier, ledger, and seal. Cannot-claims say that $011$ is not a package, not $\FullAxisUp$, and not completion.
+\end{example}
+
+\begin{example}[Recognized package flow over completion skeleton]
+\label{ex:pkg-namecert-package-over-completion}
+Suppose the decoded flow is
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100
+$$
+and a generated package recognizer identifies source flow $0\mid 00\mid 000$, visible flow $011\mid 100$, repeat-boundary or seal-like pattern flow, source-level normal-address classifier candidate, ledger retaining finite prefixes and both $011$ and $100$, and a package seal. The report may state that a package flow is recognized. It still cannot claim that a \NameCert\ exists, that $\FullAxisUp$ is licensed, or that completion is accepted.
+\end{example}
+
+\begin{example}[NameCert candidate with missing ledger]
+\label{ex:pkg-namecert-namecert-missing-ledger}
+Suppose a \NameCert\ candidate contains source, pattern, classifier, and stability flows, plus seal, but no ledger. The report lists those fields as present and ledger as missing, with status incomplete. Cannot-claims say that the candidate does not license a name and that missing ledger blocks \NameCert\ recognition.
+\end{example}
+
+\begin{example}[Complete Axis-like NameCert flow]
+\label{ex:pkg-namecert-axis-like-namecert}
+A complete Axis-like \NameCert\ flow may recognize a name candidate Axis, source given by a $\bzero$-emission flow, pattern given by repeated $\bzero$ extension, classifier given by $\hsame$ restricted to the $\bzero$ spine, stability given by closure under extension or continuation, ledger recording source history for each visible axis token, and a \NameCert\ seal. If all fields are recognized and sound, $P_5$ may report $\mathsf{LicensedName}_{P_5}(S,\mathrm{Axis})$. It must also report that accepted Axis export still requires derivation-certificate and acceptance-gate flows.
+\end{example}
+
+\begin{example}[Package-sourced NameCert]
+\label{ex:pkg-namecert-package-sourced}
+A report may contain recognized package flow $P$ with source finite-prefix flow, visible token flow, and ledger flow, and recognized \NameCert\ flow $C_N$ whose source references $P$, whose pattern and classifier extend those of $P$, whose stability is recognized, and whose ledger pulls back the package ledger. The report may state $\mathsf{NameCertOverPkg}(C_N,N,P)$. It still cannot infer $\mathsf{AcceptedExport}(N,s)$.
+\end{example}
+
+\section{Conservativity}
+\label{sec:pkg-namecert-conservativity}
+
+\begin{theorem}[$P_5$ is conservative over the finite kernel]
+\label{thm:pkg-namecert-p5-conservative}
+Adding package-flow recognition, \NameCert-flow recognition, package reports, \NameCert\ reports, $P_5$ licensed-name reports, and package-sourced \NameCert\ reports adds no raw marks, history constructors, sameness rules, continuation rules, theorem rules, derivation-certificate rules, acceptance-gate rules, or mature-object export rules.
+\end{theorem}
+
+\begin{proof}
+$P_5$ operates on decoded event flows and generated recognizer relations. It generates no new $\bzero,\bone$, adds no $\msame$, $\hsame$, or $\psame$, does not alter $\ExtR$ or $\ContR$, and does not create derivation certificates or acceptance gates. It can license names only at the \NameCert-flow level; mature export still requires higher certificate flows.
+\end{proof}
+
+\begin{corollary}[$P_5$ remains below accepted-object compiler]
+\label{cor:pkg-namecert-p5-below-accepted-object}
+$P_5$ can recognize package flows and \NameCert\ flows, and can license names at the $P_5$ layer, but it cannot export mature objects.
+\end{corollary}
+
+\begin{remark}[Summary]
+\label{rem:pkg-namecert-summary}
+This chapter defines $P_5$, the package and \NameCert\ recognition prototype. It adds package candidates, generated package recognizers, recognized package flows, package source, visible, pattern, classifier, ledger, and seal subflows, package reports, name candidate flows, \NameCert\ candidates, generated \NameCert\ recognizers, recognized \NameCert\ flows, source, pattern, classifier, stability, ledger, and seal subflows, complete \NameCert\ recognition, $P_5$ licensed names, \NameCert\ over package, field-status reports, and the $P_5$ audit checklist. It proves that incomplete packages and incomplete \NameCert\ candidates cannot license their intended structures, visible tokens and name events alone are insufficient, $P_5$ licensing is weaker than accepted export, \NameCert\ over package requires package ledger, sound reports provide recognition and ledger support, $P_5$ adequacy requires generated recognizers and cannot-claims, and $P_5$ is conservative over the finite kernel.
+\end{remark}

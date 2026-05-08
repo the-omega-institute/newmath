@@ -58,4 +58,25 @@ theorem BrownianStepContinuityClassifier_step_ledger_transport
               (And.intro stepRow (And.intro provenanceRow ledgerRow)))))))
     (And.intro sameProvenance sameLedger)
 
+theorem BrownianStepContinuityClassifier_dependency_surface
+    {martingale continuous time path step normal provenance ledger : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      UnaryHistory martingale ∧ UnaryHistory continuous ∧ UnaryHistory time ∧
+        UnaryHistory path ∧ UnaryHistory normal ∧ Cont continuous path step ∧
+          Cont martingale step provenance ∧ Cont provenance normal ledger ∧
+            hsame step (append continuous path) ∧ hsame provenance (append martingale step) ∧
+              hsame ledger (append provenance normal) := by
+  intro classified
+  exact And.intro classified.left
+    (And.intro classified.right.left
+      (And.intro classified.right.right.left
+        (And.intro classified.right.right.right.left
+          (And.intro classified.right.right.right.right.left
+            (And.intro classified.right.right.right.right.right.left
+              (And.intro classified.right.right.right.right.right.right.left
+                (And.intro classified.right.right.right.right.right.right.right
+                  (And.intro classified.right.right.right.right.right.left
+                    (And.intro classified.right.right.right.right.right.right.left
+                      classified.right.right.right.right.right.right.right)))))))))
+
 end BEDC.Derived.BrownianUp

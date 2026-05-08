@@ -140,18 +140,16 @@ DEPS_READY_THRESHOLD = DEFAULT_DEPS_READY_THRESHOLD
 # guaranteed to fail. Keep them out of `top` until the paper side adds a
 # concrete `mul := λ h k => ...` definition.
 SCHEMA_ONLY_HORIZONS: set[str] = {
-    # abgroup / group / monoid / ring / commring / field / module / vecspace /
-    # linearmap / matrix / polynomial / fps / lattice were originally banned
-    # because their paper schema wrote laws as parametric operators. Paper
-    # rounds P699-P811 (prompt v2.1 schema-only unlock HARD GATE) added
-    # concrete singleton-history instances (Carrier := UnaryHistory, mul :=
-    # Cont, e := BHist.Empty, smul := emp, etc.) that pin every abstract symbol
-    # to a specific BHist function. Lean rounds can now produce BHist-anchored
-    # proofs about these concrete instances rather than parameter-echo schema,
-    # so they are out of the ban list. The remaining 3 order-theoretic
-    # chapters still need the same paper-side unlock — they currently lack the
-    # concrete singleton pinning of meet/join/le on a specific BHist value.
-    "totalorder", "preorder", "poset",
+    # All previously banned chapters (abgroup / group / monoid / ring /
+    # commring / field / module / vecspace / linearmap / matrix /
+    # polynomial / fps / lattice / totalorder / preorder / poset)
+    # have been verified to carry concrete singleton-history pinning
+    # (Carrier := UnaryHistory, mul := Cont, le := PreorderPrefixLE,
+    # etc.) so the pipeline can produce BHist-anchored proofs without
+    # reverting to parametric-operator schema. phase_d_lint.py +
+    # parameter-echo gates catch regressions, so re-banning is
+    # unnecessary. The set stays empty until a NEW chapter is added
+    # that genuinely lacks concrete pinning.
 }
 
 NAME_RE = re.compile(r"^\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$")
