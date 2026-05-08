@@ -64,4 +64,53 @@ theorem CyclotomicRootCarrier_source_triad_obligation [AskSetup] [PackageSetup]
                   (And.intro ledgerCont
                     carrier.right.right.right.right.right.right.right.right.right))))))))
 
+def CyclotomicRootClassifier [AskSetup] [PackageSetup]
+    (numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0
+      provenance0 ledger0 numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+      acceptance1 comparison1 provenance1 ledger1 : BHist)
+    (bundle0 bundle1 : ProbeBundle ProbeName) (pkg0 pkg1 : Pkg) : Prop :=
+  CyclotomicRootCarrier numField0 exponent0 polynomial0 splittingField0 primitiveRoot0
+      acceptance0 comparison0 provenance0 ledger0 bundle0 pkg0 ∧
+    CyclotomicRootCarrier numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+      acceptance1 comparison1 provenance1 ledger1 bundle1 pkg1 ∧
+      hsame numField0 numField1 ∧ hsame exponent0 exponent1 ∧
+        hsame polynomial0 polynomial1 ∧ hsame splittingField0 splittingField1 ∧
+          hsame primitiveRoot0 primitiveRoot1
+
+theorem CyclotomicRootClassifier_trans [AskSetup] [PackageSetup]
+    {numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0
+      provenance0 ledger0 numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+      acceptance1 comparison1 provenance1 ledger1 numField2 exponent2 polynomial2 splittingField2
+      primitiveRoot2 acceptance2 comparison2 provenance2 ledger2 : BHist}
+    {bundle0 bundle1 bundle2 : ProbeBundle ProbeName} {pkg0 pkg1 pkg2 : Pkg} :
+    CyclotomicRootClassifier numField0 exponent0 polynomial0 splittingField0 primitiveRoot0
+        acceptance0 comparison0 provenance0 ledger0 numField1 exponent1 polynomial1
+        splittingField1 primitiveRoot1 acceptance1 comparison1 provenance1 ledger1 bundle0 bundle1
+        pkg0 pkg1 ->
+      CyclotomicRootClassifier numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+          acceptance1 comparison1 provenance1 ledger1 numField2 exponent2 polynomial2
+          splittingField2 primitiveRoot2 acceptance2 comparison2 provenance2 ledger2 bundle1
+          bundle2 pkg1 pkg2 ->
+        CyclotomicRootClassifier numField0 exponent0 polynomial0 splittingField0 primitiveRoot0
+          acceptance0 comparison0 provenance0 ledger0 numField2 exponent2 polynomial2
+          splittingField2 primitiveRoot2 acceptance2 comparison2 provenance2 ledger2 bundle0 bundle2
+          pkg0 pkg2 := by
+  intro classified01 classified12
+  constructor
+  · exact classified01.left
+  · constructor
+    · exact classified12.right.left
+    · constructor
+      · exact hsame_trans classified01.right.right.left classified12.right.right.left
+      · constructor
+        · exact hsame_trans classified01.right.right.right.left classified12.right.right.right.left
+        · constructor
+          · exact hsame_trans classified01.right.right.right.right.left
+              classified12.right.right.right.right.left
+          · constructor
+            · exact hsame_trans classified01.right.right.right.right.right.left
+                classified12.right.right.right.right.right.left
+            · exact hsame_trans classified01.right.right.right.right.right.right
+                classified12.right.right.right.right.right.right
+
 end BEDC.Derived.CyclotomicUp
