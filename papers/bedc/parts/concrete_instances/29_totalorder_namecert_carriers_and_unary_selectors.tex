@@ -97,6 +97,42 @@ $\mathsf{same}_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k)$ gives the stated
 equivalence with $h\le_{\emp}k$ and $k\le_{\emp}h$.
 \end{proof}
 
+\begin{theorem}[TotalOrder singleton branch transport determinacy]
+\label{thm:totalorder-singleton-branch-transport-determinacy}
+For histories $h,k,h',k':\mathsf{BHist}$, assume $A_{\emp}(h)$,
+$A_{\emp}(k)$, $\hsame(h,h')$, and $\hsame(k,k')$. Then endpoint
+replacement along $\hsame$ determines the singleton comparison data:
+\begin{enumerate}
+  \item $A_{\emp}(h')\land A_{\emp}(k')$.
+  \item $\mathsf{lt}_{\emp}(h',k')\to\mathsf{False}$ and
+  $\mathsf{gt}_{\emp}(h',k')\to\mathsf{False}$.
+  \item $\mathsf{same}_{\emp}(h',k')\Longleftrightarrow
+  \rho_{\emp}(h',k')$.
+  \item $\rho_{\emp}(h',k')\Longleftrightarrow\rho_{\emp}(h,k)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Transport the two carrier facts through the endpoint replacements. Since
+$A_{\emp}(h)$ means $\hsame(h,\emp)$, symmetry of $\hsame(h,h')$ and
+transitivity with $\hsame(h,\emp)$ give $\hsame(h',\emp)$, hence
+$A_{\emp}(h')$. The same argument using $\hsame(k,k')$ gives
+$A_{\emp}(k')$.
+
+Apply \autoref{thm:singleton-totalorder-comparison-exactness} to the carried
+histories $h'$ and $k'$. Its strict-branch clause gives both eliminations to
+$\mathsf{False}$, and its same-branch clause gives
+$\mathsf{same}_{\emp}(h',k')\Longleftrightarrow\rho_{\emp}(h',k')$.
+
+It remains to compare the singleton classifiers before and after transport.
+The carrier coordinates have already been transported. For the history
+coordinate, compose symmetry of $\hsame(h,h')$, the original singleton
+collapse $\hsame(h,k)$ obtained from $A_{\emp}(h)$ and $A_{\emp}(k)$, and
+$\hsame(k,k')$ to obtain $\hsame(h',k')$; conversely compose
+$\hsame(h,h')$, $\hsame(h',k')$, and symmetry of $\hsame(k,k')$ to obtain
+$\hsame(h,k)$. Repackaging these witnesses with the corresponding carrier
+facts proves $\rho_{\emp}(h',k')\Longleftrightarrow\rho_{\emp}(h,k)$.
+\end{proof}
+
 \section{Concrete unary prefix total order instance}
 \label{sec:totalorder-concrete-unary-prefix-instance}
 
