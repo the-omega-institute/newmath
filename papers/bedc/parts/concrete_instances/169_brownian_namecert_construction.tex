@@ -343,3 +343,101 @@ stability, and ledger exactness over $(M,C,T,I,N,P,\rho,\lambda)$. Combining
 these four surfaces gives the stated factorisation and rules out host
 probability-space, stochastic-process, and path-equality comparisons.
 \end{proof}
+
+\begin{theorem}[Brownian time-step path interface]
+\label{thm:brownian-time-step-path-interface}
+For every admitted $\BrownianUp$ process packet
+$$
+\mathcal{B}=(M,C,T,I,N,P,\rho,\lambda),
+$$
+the displayed $\mathsf{BHist}$ tuple binds one public interface containing the
+martingale row $M$, the continuous-path row $C$, the unary time row $T$, the
+adjacent-step ledger $I$, the Gaussian display $N$, the path-continuity display
+$P$, the shared $\Pkg$ provenance $\rho$, and the finite $\Cont/\hsame$ ledger
+$\lambda$. Every public row read by a time-step, path-continuity, or Brownian
+NameCert consumer factors through this interface.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:brownian-bhist-process-packet}. Its displayed
+coordinates are exactly $(M,C,T,I,N,P,\rho,\lambda)$, with $M$ and $C$ assigned
+to the martingale and continuous-map dependency rows.
+
+Apply \autoref{thm:brownian-martingale-continuousmap-dependency-surface}. It
+keeps adaptedness and martingale data inside $M$, keeps path-continuity data
+inside $C$, and exposes only the displayed time, step, Gaussian, continuity,
+provenance, and transport rows beside those dependencies.
+
+Use \autoref{thm:brownian-classifier-stability} and
+\autoref{thm:brownian-step-ledger-transport} to transport the same interface
+across $\hsame$ comparisons. The classifier moves $T,I,N,P,\rho,\lambda$
+rowwise, so a time-step consumer and a path consumer read the same public
+packet boundary.
+
+Finally apply \autoref{thm:brownian-namecert-obligation-surface}. Its exact
+surface is the carrier, classifier, dependency surface, step transport,
+continuity transport, classifier stability, and ledger exactness over the same
+tuple, which is precisely the asserted interface.
+\end{proof}
+
+\begin{theorem}[Brownian Gaussian step ledger coverage]
+\label{thm:brownian-gaussian-step-ledger-coverage}
+Every public $\BrownianUp$ consumer row mentioning an adjacent Gaussian step is
+exhausted by the unary time row $T$, the adjacent-step ledger $I$, the
+normal-step display $N$, the provenance row $\rho$, the transport ledger
+$\lambda$, the relevant $\mathsf{UnaryHistory}$ witnesses, and the public
+$\Cont/\hsame$ transports. No Gaussian adjacent-step consumer obtains an
+additional host probability-space row, stochastic-process equality row, or
+path-equality row.
+\end{theorem}
+\begin{proof}
+Start with the step row in the carrier. By
+\autoref{def:brownian-bhist-process-packet}, the only Gaussian-step coordinates
+are the time row $T$, the adjacent-step ledger $I$, the normal display $N$, the
+provenance $\rho$, and the transport ledger $\lambda$.
+
+Apply \autoref{thm:brownian-step-ledger-transport}. It states that transport of
+Gaussian-step information uses the common $\UnaryHistory$ time boundary, the
+adjacent-step and normal-step displays, the provenance row, and the finite
+$\Cont/\hsame$ ledger.
+
+Use \autoref{thm:brownian-gaussian-step-classifier-stability} to identify the
+same rows after classifier transport. The step classifier has no coordinate for
+ambient probability spaces, host stochastic-process equality, or host
+path-equality comparison.
+
+Finish with \autoref{thm:brownian-path-step-boundary-exhaustion}. It exhausts
+every step consumer by the displayed Brownian packet boundary, so the listed
+rows cover every Gaussian adjacent-step read.
+\end{proof}
+
+\begin{theorem}[Brownian continuity martingale compatibility]
+\label{thm:brownian-continuity-martingale-compatibility}
+If two public rows are read from an admitted Brownian packet through
+$\NameCert_{\MartingaleUp}$ and $\NameCert_{\ContinuousMapUp}$, then transport
+by the same Brownian classifier keeps the martingale row and the continuous-path
+row compatible over the shared tuple $(M,C,T,I,N,P,\rho,\lambda)$. The common
+$\Pkg$ provenance and finite $\Cont/\hsame$ ledger are the only public rows used
+to join the two dependency certificates.
+\end{theorem}
+\begin{proof}
+Project the two dependency rows with
+\autoref{thm:brownian-martingale-continuousmap-dependency-surface}. The
+martingale information is read through $M$, and the continuous-path information
+is read through $C$, while the shared time, step, continuity, provenance, and
+transport rows remain displayed coordinates of the Brownian packet.
+
+Apply \autoref{thm:brownian-continuity-martingale-joint-classifier}. It reads
+the classifier rowwise over $M,C,T,I,N,P,\rho,\lambda$, so the martingale and
+continuous-map dependency comparisons move under one Brownian classifier rather
+than under two unrelated transports.
+
+Use \autoref{thm:brownian-path-continuity-ledger-exactness} for the continuous
+path face and \autoref{thm:brownian-step-ledger-transport} for the time-step
+ledger. These two rows share the same $\Pkg$ provenance and $\Cont/\hsame$
+ledger, so the transported dependency surfaces remain compatible.
+
+Finally apply \autoref{thm:brownian-namecert-obligation-surface}. Since the
+public Brownian surface contains no host path equality, probability-space
+equality, or stochastic-process equality, compatibility is exactly the shared
+classifier transport of the displayed packet rows.
+\end{proof}
