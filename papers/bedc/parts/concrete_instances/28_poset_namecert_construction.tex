@@ -17,6 +17,77 @@ certificate fields are specified below.
 Use a preorder setup extended with antisymmetry under the carrier classifier.
 \end{definition}
 
+\begin{theorem}[POSet root carrier obligation]
+\label{thm:poset-root-carrier-obligation}
+The root $\POSetUp$ carrier obligation is a $\PreorderUp$ carrier over
+$\mathsf{BHist}$, equipped with the same prefix relation and with an
+antisymmetry row under the carrier classifier. No quotient carrier is added:
+the carried endpoints remain displayed $\mathsf{BHist}$ histories, and the
+only collapse allowed by the partial-order field is the classifier conclusion
+$\hsame(h,k)$.
+\end{theorem}
+\begin{proof}
+The carrier clause is exactly \autoref{def:poset-carrier}: start with the
+preorder carrier and add the antisymmetry field as an extra row, not as a new
+endpoint space.
+
+For the concrete root instance, \autoref{thm:preorder-prefix-order-laws-hsame}
+supplies the $\mathsf{BHist}$ carrier, the prefix preorder relation, and the
+$\hsame$ classifier boundary. The partial-order coordinate is supplied by
+\autoref{thm:poset-prefix-antisymmetry}, which turns opposing prefix
+comparisons into $\hsame(h,k)$.
+
+Thus the carrier remains the inherited preorder carrier, while the
+antisymmetry data is an obligation row attached to that carrier.
+\end{proof}
+
+\begin{theorem}[POSet root classifier obligation]
+\label{thm:poset-root-classifier-obligation}
+The root $\POSetUp$ classifier is the inherited $\hsame$-based classifier on
+carried $\mathsf{BHist}$ endpoints, and it is stable under the preorder
+relation: classifier-equivalent endpoints may be read through the same prefix
+comparison rows without changing the carried $\POSetUp$ object.
+\end{theorem}
+\begin{proof}
+By \autoref{def:poset-carrier}, a $\POSetUp$ object does not replace the
+preorder classifier. It extends the preorder package by demanding
+antisymmetry under that classifier.
+
+Apply \autoref{thm:preorder-prefix-order-laws-hsame} to obtain the inherited
+$\hsame$ classifier together with the prefix-order stability rows. Those rows
+are the classifier transport surface for comparison endpoints.
+
+The additional $\POSetUp$ row from \autoref{thm:poset-prefix-antisymmetry} is
+compatible with the same classifier, because its conclusion is again
+$\hsame(h,k)$. Hence classifier transport remains the inherited preorder
+transport.
+\end{proof}
+
+\begin{theorem}[POSet root exactness obligation]
+\label{thm:poset-root-exactness-obligation}
+For carried unary prefix endpoints $h$ and $k$, the opposing comparison rows
+$h\le_{\mathsf{pref}}k$ and $k\le_{\mathsf{pref}}h$ are exactly the
+$\POSetUp$ classifier row on those endpoints: the forward direction is
+antisymmetry, and the reverse direction is the inherited reflexive prefix row
+transported along $\hsame$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the two comparison rows. The concrete
+antisymmetry theorem \autoref{thm:poset-prefix-antisymmetry} collapses the
+opposing prefix witnesses to $\hsame(h,k)$, which is the classifier row
+specified by \autoref{def:poset-carrier}.
+
+For the reverse direction, assume the classifier row $\hsame(h,k)$. The
+preorder law package of \autoref{thm:preorder-prefix-order-laws-hsame}
+provides reflexive prefix comparisons on carried endpoints and transports
+comparison endpoints along $\hsame$.
+
+Transporting the reflexive comparison on $h$ gives $h\le_{\mathsf{pref}}k$,
+and transporting the reflexive comparison on $k$ gives
+$k\le_{\mathsf{pref}}h$. The two directions identify the exact comparison
+boundary of the root $\POSetUp$ row.
+\end{proof}
+
 \section{Concrete unary prefix POSet instance}
 \label{sec:poset-concrete-unary-prefix-instance}
 
@@ -207,6 +278,70 @@ the same source, pattern, classifier, stability, ledger, and exactness fields
 as a concrete $\NameCert$ licensing $\POSetUp$ over $\mathsf{BHist}$. Therefore
 the schema instance is pinned to the concrete history carrier and not obtained
 by transporting an abstract parameter schema.
+\end{proof}
+
+\begin{theorem}[POSet singleton carrier-classifier obligation]
+\label{thm:poset-carrier-classifier-obligation}
+The concrete singleton $\POSetUp$ package of
+\autoref{def:concrete-singleton-empty-poset-instance} has carrier
+$A_{\emp}$ and classifier $\rho_{\emp}$ over the fixed BEDC carrier
+$\mathsf{BHist}$. Carrier transport is exactly transport by $\hsame$ inside the
+singleton source, and the package exports no quotient carrier, host equality,
+or abstract replacement carrier.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-singleton-empty-poset-instance}. Its displayed
+carrier coordinate is the singleton history source $A_{\emp}$, and its
+classifier coordinate is the restricted classifier $\rho_{\emp}$ on histories
+of $\mathsf{BHist}$.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. The law package gives carrier
+inhabitance at $\emp$ and carrier transport along $\hsame$, with no change of
+carrier. The certificate theorem
+\autoref{thm:concrete-singleton-empty-poset-namecert} then repacks those rows
+as the concrete $\POSetUp$ naming certificate.
+\end{proof}
+
+\begin{theorem}[POSet singleton antisymmetry exactness obligation]
+\label{thm:poset-antisymmetry-exactness-obligation}
+For the concrete singleton $\POSetUp$ package of
+\autoref{def:concrete-singleton-empty-poset-instance}, opposing guarded
+comparisons $h\le_{\emp}k$ and $k\le_{\emp}h$ are exactly the classifier row
+$\rho_{\emp}(h,k)$. Thus antisymmetry is exposed as an exactness predicate on
+the concrete $\mathsf{BHist}$ rows, not as an external host-order law.
+\end{theorem}
+\begin{proof}
+Unfold the guarded relation and classifier of
+\autoref{def:concrete-singleton-empty-poset-instance}. The relation
+$\le_{\emp}$ is the carrier-guarded prefix comparison, and $\rho_{\emp}$
+records the two singleton carrier endpoints together with $\hsame(h,k)$.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. Its antisymmetry row collapses
+the two guarded comparisons to the classifier, and its exactness row reads the
+classifier back as the same opposing comparison pair. The certificate theorem
+\autoref{thm:concrete-singleton-empty-poset-namecert} exposes this row as the
+singleton $\POSetUp$ exactness obligation.
+\end{proof}
+
+\begin{theorem}[POSet singleton ledger obligation]
+\label{thm:poset-ledger-obligation}
+The ledger for the concrete singleton $\POSetUp$ certificate of
+\autoref{thm:concrete-singleton-empty-poset-namecert} consists exactly of the
+two guarded comparison witnesses $h\le_{\emp}k$ and $k\le_{\emp}h$, together
+with the carried endpoints in $A_{\emp}$. It exports no totality, lattice,
+host-order, quotient, or non-singleton carrier data.
+\end{theorem}
+\begin{proof}
+Read the source tuple from
+\autoref{def:concrete-singleton-empty-poset-instance}: the only visible
+endpoints are histories carried by $A_{\emp}$, and the only relation witnesses
+are guarded comparisons for $\le_{\emp}$.
+
+Apply \autoref{thm:singleton-empty-poset-laws} to identify the two opposing
+comparison witnesses as precisely the data used by antisymmetry and exactness.
+Then apply \autoref{thm:concrete-singleton-empty-poset-namecert}. Its ledger
+row is the repackaging of those two witnesses with the carried endpoints, so
+no additional order-theoretic or quotient field is exported.
 \end{proof}
 
 \section{The certificate}

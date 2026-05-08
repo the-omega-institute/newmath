@@ -59,4 +59,45 @@ theorem KnotDiagramPacket_sone_source_boundary [AskSetup] [PackageSetup]
             (And.intro endpointCont
               packet.right.right.right.right.right.right.right.right.right.right)))))
 
+theorem KnotDiagramPacket_homotopy_ledger_boundary [AskSetup] [PackageSetup]
+    {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KnotDiagramPacket sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger
+        endpoint bundle pkg ->
+      UnaryHistory diagram ∧ UnaryHistory trace ∧ UnaryHistory homotopy ∧ UnaryHistory ledger ∧
+        UnaryHistory endpoint ∧ Cont endpoint0 endpoint1 ledger ∧
+          hsame ledger (append endpoint0 endpoint1) ∧ hsame endpoint (append provenance ledger) ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet
+  have diagramUnary : UnaryHistory diagram := packet.right.right.left
+  have traceUnary : UnaryHistory trace := packet.right.right.right.left
+  have homotopyUnary : UnaryHistory homotopy := packet.right.right.right.right.left
+  have soneUnary : UnaryHistory sone := packet.left
+  have ambientUnary : UnaryHistory ambient := packet.right.left
+  have endpoint0Unary : UnaryHistory endpoint0 :=
+    packet.right.right.right.right.right.left
+  have endpoint1Unary : UnaryHistory endpoint1 :=
+    packet.right.right.right.right.right.right.left
+  have provenanceCont : Cont sone ambient provenance :=
+    packet.right.right.right.right.right.right.right.left
+  have ledgerCont : Cont endpoint0 endpoint1 ledger :=
+    packet.right.right.right.right.right.right.right.right.left
+  have endpointCont : Cont provenance ledger endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed soneUnary ambientUnary provenanceCont
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed endpoint0Unary endpoint1Unary ledgerCont
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary ledgerUnary endpointCont
+  exact And.intro diagramUnary
+    (And.intro traceUnary
+      (And.intro homotopyUnary
+        (And.intro ledgerUnary
+          (And.intro endpointUnary
+            (And.intro ledgerCont
+              (And.intro ledgerCont
+                (And.intro endpointCont
+                  packet.right.right.right.right.right.right.right.right.right.right)))))))
+
 end BEDC.Derived.KnotUp
