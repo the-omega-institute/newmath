@@ -141,6 +141,53 @@ The $\mathsf{Pkg}$ rows of the dependency certificates are copied through the tr
 \label{sec:curvature-certificate}
 \closureat{CurvatureUp}{seedStr}
 
+\begin{definition}[Curvature Chern-Weil source envelope]
+\label{def:curvature-chernweil-source-envelope}
+The $\CurvatureUp$ export to $\ChernWeilUp$ is the finite source envelope
+$$
+\mathsf{CurvatureChernWeilSourceEnvelope}(\kappa,\delta,\rho,\lambda,\chi)
+$$
+where $\kappa:\mathsf{BHist}$ is the curvature commutator-boundary row, $\delta:\mathsf{BHist}$ is the displayed de~Rham target row supplied by the consumer, $\rho:\mathsf{BHist}$ is the shared $\mathsf{Pkg}$ provenance row, $\lambda:\mathsf{BHist}$ is the connection ledger row, and $\chi:\mathsf{BHist}$ is the classifier row read by the Chern-Weil packet.
+
+The envelope is admitted only when $\UnaryHistory(\kappa)$, $\UnaryHistory(\delta)$, $\UnaryHistory(\rho)$, $\UnaryHistory(\lambda)$, and $\UnaryHistory(\chi)$ hold, when finite $\Cont$ ledgers read $\rho$ from $\kappa$ and $\delta$ and read $\chi$ from $\rho$ and $\lambda$, and when the carried $\hsame$ readback identifies $\chi$ with the finite appended history obtained by first pairing the curvature boundary with the de~Rham row and then appending the connection ledger. The $\mathsf{Pkg}$ provenance binds all five rows to the same accepted curvature source and consumer-facing de~Rham display.
+\end{definition}
+
+\begin{theorem}[Curvature Chern-Weil source envelope coverage]
+\label{thm:curvature-chernweil-source-envelope-coverage}
+Every accepted $\CurvatureUp$ carrier of \autoref{def:curvature-bhist-bracket-carrier}, together with a displayed de~Rham consumer row $\delta:\mathsf{BHist}$ whose provenance is tied to the same finite $\mathsf{Pkg}$ ledger, repacks as a $\mathsf{CurvatureChernWeilSourceEnvelope}(\kappa,\delta,\rho,\lambda,\chi)$. The row $\kappa$ is the exported commutator boundary, $\rho$ is the shared provenance row, $\lambda$ is the chosen connection ledger row, and $\chi$ is the classifier row obtained by the finite $\Cont$ readback from those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted curvature carrier through \autoref{def:curvature-bhist-bracket-carrier}. This gives the boundary row $\kappa$, the source connection packet, the derivative ledgers, and the $\mathsf{Pkg}$ provenance row already tied to the same finite history surface.
+
+Apply \autoref{thm:curvature-visible-ledger-coverage}. Its forward direction lists every exported curvature witness and its reverse direction repacks exactly those rows as the visible curvature ledger.
+
+Add the displayed consumer row $\delta$ with the assumed provenance tie. The finite $\Cont$ rows first bind $\kappa$ and $\delta$ into $\rho$ and then bind $\rho$ and the connection ledger $\lambda$ into $\chi$, while the carried $\hsame$ readback supplies the displayed appended history required by \autoref{def:curvature-chernweil-source-envelope}.
+\end{proof}
+
+\begin{theorem}[Curvature Chern-Weil source envelope readback]
+\label{thm:curvature-chernweil-source-envelope-readback}
+An admitted $\mathsf{CurvatureChernWeilSourceEnvelope}(\kappa,\delta,\rho,\lambda,\chi)$ projects exactly the five rows consumed by $\ChernWeilUp$: the curvature boundary row $\kappa$, the de~Rham target row $\delta$, the shared provenance row $\rho$, the connection ledger row $\lambda$, and the classifier row $\chi$. These projections are the same row positions as the existing Chern-Weil source envelope consumes, with $\kappa$ occupying the curvature input and $\delta$ occupying the de~Rham input.
+\end{theorem}
+\begin{proof}
+Unpack the envelope definition. The tuple has five displayed $\mathsf{BHist}$ coordinates, and each coordinate is constrained by $\UnaryHistory$ inside the same finite source packet.
+
+Read the two finite $\Cont$ rows. The first identifies $\rho$ as the provenance row produced from the curvature and de~Rham coordinates; the second identifies $\chi$ as the classifier endpoint produced from that provenance row and the connection ledger.
+
+Finally use the $\hsame$ readback clause. It states that the classifier row is precisely the appended history over $\kappa$, $\delta$, and $\lambda$, so projection returns no hidden coordinate besides the five displayed rows.
+\end{proof}
+
+\begin{theorem}[Curvature Chern-Weil source envelope exactness]
+\label{thm:curvature-chernweil-source-envelope-exactness}
+The envelope of \autoref{def:curvature-chernweil-source-envelope} exports no coordinate curvature form, no de~Rham cohomology class, no characteristic-class equality, and no standard bridge. Its public content is exactly the curvature boundary row, the displayed de~Rham target row, the shared $\mathsf{Pkg}$ provenance row, the connection ledger row, the classifier row, and the finite $\Cont$ and $\hsame$ witnesses tying those rows together.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:curvature-chernweil-consumer-boundary} to identify the curvature side exported to the invariant-polynomial consumer. That theorem supplies the source connection certificate, boundary row, transported endpoint ledger, visible classifier rows, and provenance row, while excluding de~Rham classes, characteristic-class equalities, and standard bridges from $\CurvatureUp$ itself.
+
+The source envelope adds only the displayed row $\delta$ and the two finite readback ledgers required to match the Chern-Weil input shape. By \autoref{thm:curvature-visible-ledger-coverage}, every curvature contribution is already one of the listed $\mathsf{BHist}$, $\Cont$, $\hsame$, or $\mathsf{Pkg}$ rows.
+
+Therefore any attempted coordinate curvature form, cohomology class, characteristic-class equality, or standard bridge would have to be a sixth public coordinate. No such coordinate appears in \autoref{def:curvature-chernweil-source-envelope}, so the export is exact.
+\end{proof}
+
 \begin{theorem}[Curvature tensorial endpoint transport]
 \label{thm:curvature-tensorial-endpoint-transport}
 Bundle, manifold, and section classifier transport of the section, fibre, base, and tangent rows preserves the curvature endpoint row. After transporting the two derivative orderings by the source $\ConnectionUp$ section-linearity and stability-ledger exactness obligations, the transported commutator boundary is $\hsame$ to the boundary row of the transported $\CurvatureUp$ packet.
